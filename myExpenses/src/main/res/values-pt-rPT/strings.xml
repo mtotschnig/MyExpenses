@@ -114,7 +114,6 @@
   <string name="dialog_title_contrib_feature">Funcionalidade premium</string>
   <string name="dialog_title_extended_feature">Funcionalidade extended</string>
   <string name="dialog_title_planner_setup_info">Requer a configuração do calendário</string>
-  <string name="dialog_title_select_grouping">Escolha um agrupamento</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">Defina o número de dígitos de fração</string>
@@ -138,6 +137,7 @@
   <string name="ftp_uri_malformed">URI inválido %1$s</string>
   <string name="grisbi_import_categories_loading">A carregar categorias de %1$s</string>
   <string name="grisbi_import_default_source">Categoria padrão em inglês</string>
+  <string name="grisbi_import_parties_loading">A carregar partes de %1$s</string>
   <string name="grouping_day">Dia</string>
   <string name="grouping_last_week">Última semana</string>
   <string name="grouping_month">Mês</string>
@@ -147,6 +147,7 @@
   <string name="grouping_week">Semana</string>
   <string name="grouping_year">Ano</string>
   <string name="grouping_yesterday">Ontem</string>
+  <string name="help_button_rate">Avaliar ou criticar</string>
   <string name="help_heading_credits">Créditos</string>
   <string name="help_heading_license">Licença</string>
   <string name="help_heading_whats_new">Novidades</string>
@@ -184,6 +185,7 @@
   <string name="menu_create_instance_save">Aplicar e guardar</string>
   <string name="menu_create_main_cat">Nova categoria principal</string>
   <string name="menu_create_method">Novo método de pagamento</string>
+  <string name="menu_create_party">Nova parte</string>
   <string name="menu_create_sub_cat">Nova subcategoria</string>
   <string name="menu_create_template">Novo modelo</string>
   <string name="menu_create_template_from_transaction">Guardar como modelo</string>
@@ -197,6 +199,7 @@
   <string name="menu_edit_account">Editar conta</string>
   <string name="menu_edit_cat">Editar categoria</string>
   <string name="menu_edit_method">Editar método de pagamento</string>
+  <string name="menu_edit_party">Editar parte</string>
   <string name="menu_edit_template">Editar modelo</string>
   <string name="menu_edit_transaction">Editar transação</string>
   <string name="menu_edit_transfer">Editar transferência</string>
@@ -235,6 +238,7 @@
   <string name="no_filemanager_installed">Não possui um gestor de ficheiros.</string>
   <string name="no_calendar_app_installed">Não possui uma aplicação para editar eventos de calendário.</string>
   <string name="no_methods">Não existem métodos de pagamento.</string>
+  <string name="no_parties">Sem partes.</string>
   <string name="no_plans">Não existem planos.</string>
   <string name="no_templates">Não existem modelos.</string>
   <string name="no_title_given">Não introduziu qualquer título.</string>
@@ -268,8 +272,13 @@
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">Planificador Minhas despesas</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
+  <string name="plan_execution_canceled">Execução do plano cancelada.</string>
   <string name="plan_manual">manual</string>
+  <string name="planner_create_calendar_failure">Não foi possível criar o calendário local</string>
+  <string name="planner_create_calendar_success">O calendário local foi criado com sucesso</string>
   <!--On Jelly Bean and above, we offer the option of creating a local calendar-->
+  <string name="planner_setup_info_jb">Pode criar um calendário local dedicado ou selecionar um calendário já existente.</string>
+  <string name="planner_setup_info_create_new_warning">Atenção: foi reportado que os calendários locais não funcionam corretamente em alguns dispositivos. Se os seus planos não funcionarem com o calendário local dedicado, selecione um calendário configurado no calendário do sistema.</string>
   <string name="planner_setup_info">Nas definições, selecione um calendário para guardar os planos.</string>
   <!--payment methods-->
   <string name="pm_cheque">Cheque</string>
@@ -279,14 +288,11 @@
   <string name="pm_type_credit">Crédito</string>
   <string name="pm_type_debit">Débito</string>
   <string name="pm_type_neutral">Neutro</string>
-  <string name="pref_account_grouping_title">Agrupamento de contas</string>
   <string name="pref_app_dir_title">Pasta para backups e exportações</string>
   <string name="pref_auto_fill_title">Preencher transações automaticamente</string>
   <string name="pref_auto_fill_summary">Preencher valor, categoria e comentário da última transação para o mesmo pagador/beneficiário</string>
   <string name="pref_backup_summary">Criar um backup da base de dados e das definições.</string>
-  <string name="pref_sort_order_title">Organização de categorias, modelos e contas</string>
   <string name="pref_sort_order_usages">Número de utilizações</string>
-  <string name="pref_sort_order_alphabetic">Alfabética</string>
   <string name="pref_category_title_advanced">Avançado</string>
   <string name="pref_category_title_export">Exportar</string>
   <string name="pref_category_title_import">Importar</string>
@@ -296,13 +302,19 @@
   <string name="pref_category_title_ui">Interface</string>
   <string name="pref_checkbox_enabled">Ativa</string>
   <string name="pref_checkbox_disabled">Inativa</string>
+  <string name="pref_contrib_purchase_summary">Obter acesso às funcionalidades premium e extended.</string>
+  <string name="pref_contrib_purchase_title">Chave de compra</string>
+  <string name="pref_contrib_purchase_title_upgrade">Chave de atualização</string>
+  <string name="pref_contrib_purchase_title_in_app">Compra na aplicação</string>
   <string name="pref_custom_currency_title">Personalizar moedas</string>
   <string name="pref_enter_licence_summary">Se recebeu uma chave, obtenha acesso a funcionalidades premium/extended.</string>
   <string name="pref_enter_licence_title">Introduza a chave</string>
   <string name="pref_export_format_title">Formato de data</string>
   <string name="pref_follow_gplus_title">Siga o Minhas despesas no Google+</string>
+  <string name="pref_import_from_grisbi_summary">Importar categorias e partes de ficheiros XML do Grisbi</string>
   <string name="pref_import_from_grisbi_title">Importar do Grisbi</string>
   <!--%s is replaced with QIF or CSV-->
+  <string name="pref_import_summary">Importar transações, categorias e partes de ficheiros %s</string>
   <!--%s is replaced with QIF or CSV-->
   <string name="pref_import_title">Importar %s</string>
   <string name="pref_like_facebook_title">Gosto no Facebook</string>
@@ -311,6 +323,8 @@
   <string name="pref_manage_categories_title">Categorias</string>
   <string name="pref_manage_methods_summary">Criar e editar métodos de pagamento e associar aos tipos de conta.</string>
   <string name="pref_manage_methods_title">Métodos de pagamento</string>
+  <string name="pref_manage_parties_summary">Adicionar, editar e apagar partes (beneficiários e ordenantes)</string>
+  <string name="pref_manage_parties_title">Partes</string>
   <string name="pref_more_info_dialog_summary">
 
 Sérgio Marques</string>
@@ -344,6 +358,7 @@ Sérgio Marques</string>
   <string name="progress_dialog_loading">A carregar objetos da base de dados...</string>
   <string name="progress_dialog_printing">A gerar ficheiro PDF...</string>
   <string name="progress_dialog_saving">A guardar objeto na base de dados...</string>
+  <string name="qif_parse_result">Processado: %1$s contas; %2$s categorias e %3$s partes</string>
   <string name="select_category">Selecionar categoria</string>
   <string name="menu_select_category">Selecionar esta categoria</string>
   <string name="menu_select_folder">Selecionar esta pasta</string>
@@ -375,7 +390,11 @@ Sérgio Marques</string>
   <string name="warning_reset_account">Se continuar, todas as transações desta conta serão eliminadas da base de dados e não poderão ser recuperadas.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Se continuar, as transações de todas as contas %1$s serão eliminadas e não poderão ser recuperadas.</string>
+  <string name="import_parties_none">Nenhuma parte importada</string>
   <string name="menu_create_folder">Nova pasta</string>
+  <!--This string is used for navigating up in the folder browser-->
+  <!--Move an account up in the account list-->
+  <!--Move an account down in the account list-->
   <string name="create_new_folder_fail">Falha ao criar a pasta</string>
   <string name="widget_title_accounts">Minhas contas</string>
   <string name="widget_title_templates">Meus modelos</string>
