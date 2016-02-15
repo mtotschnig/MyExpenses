@@ -1175,7 +1175,7 @@ public class MyExpenses extends LaunchActivity implements
             getCursor().moveToPosition(position-1);
             if (c.getLong(columnIndexRowId) > 0) upVisible = true; //ignore if previous is aggregate
           }
-          if(position < getCount() && getHeaderId(position+1) == getHeaderId(position)) {
+          if(position + 1 < getCount() && getHeaderId(position+1) == getHeaderId(position)) {
             getCursor().moveToPosition(position+1);
             if (c.getLong(columnIndexRowId) > 0) downVisible = true;
           }
