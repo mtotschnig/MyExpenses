@@ -107,7 +107,6 @@
   <string name="dialog_title_contrib_feature">Premiumfunktion</string>
   <string name="dialog_title_extended_feature">Udvidet funktion</string>
   <string name="dialog_title_planner_setup_info">Der kræves opsætning kalenderen</string>
-  <string name="dialog_title_select_grouping">Vælg en gruppering</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">Vælg antal decimaler</string>
@@ -294,7 +293,6 @@
   <string name="pm_type_credit">Indtægter</string>
   <string name="pm_type_debit">Udgifter</string>
   <string name="pm_type_neutral">Neutral</string>
-  <string name="pref_account_grouping_title">Gruppering af konti</string>
   <string name="pref_app_dir_title">Mappen til sikkerhedskopier og eksport</string>
   <string name="pref_auto_fill_title">AutoFyld</string>
   <string name="pref_auto_fill_summary">Overtager beløb, kategori og kommentar fra sidste postering for den samme betalingsmodtager/betaler</string>
@@ -470,8 +468,6 @@
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Den aktuelt valgte mappe til sikkerhedskopier og eksport slettes automatisk af Android, hvis du fjerner Mine Udgifter. Du kan forhindre dette i at ske ved at vælge en anden mappe i skærmbilledet indstillinger.</string>
   <string name="warning_splitpartcategory_context">Overførsler, der er del af en splittet postering kan kun redigeres i forbindelse med opsplitningen.</string>
   <string name="warning_fraction_digits_out_of_range">Angiv et tal mellem 0 og 8</string>
-  <string name="warning_change_fraction_digits">Du er ved at reducere antallet af decimaler for valuta %1$s.
-Dette vil føre til tab af oplysninger for posteringer, du allerede har indtastet, og det kan ikke fortrydes. Vil du fortsætte?</string>
   <string name="import_categories_success">%1$s kategorier importeret</string>
   <string name="import_parties_success">%1$s parter importeret</string>
   <string name="import_accounts_success">%1$s regnskaber importeret</string>
@@ -483,7 +479,11 @@ Dette vil føre til tab af oplysninger for posteringer, du allerede har indtaste
   <string name="import_source_select_error">Angiv en fil af typen %1$s</string>
   <string name="menu_categories_setup_default">Opret standardkategorier</string>
   <string name="menu_create_folder">Ny mappe</string>
+  <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">Op</string>
+  <!--Move an account up in the account list-->
+  <string name="menu_sort_up">Op</string>
+  <!--Move an account down in the account list-->
   <string name="create_new_folder_fail">Kunne ikke oprette mappen</string>
   <string name="widget_title_accounts">Mine konti</string>
   <string name="widget_title_templates">Mine skabeloner</string>

@@ -116,7 +116,6 @@
   <string name="dialog_title_contrib_feature">Функция от Премиум вариант</string>
   <string name="dialog_title_extended_feature">Функция от Разширен вариант</string>
   <string name="dialog_title_planner_setup_info">Изисква да е зададен календар</string>
-  <string name="dialog_title_select_grouping">Изберете групиране</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">Задайте броя цифри след десетичния знак</string>
@@ -304,14 +303,11 @@
   <string name="pm_type_credit">Кредит</string>
   <string name="pm_type_debit">Дебит</string>
   <string name="pm_type_neutral">Неутрално</string>
-  <string name="pref_account_grouping_title">Групиране на сметки</string>
   <string name="pref_app_dir_title">Папка за бекъп и експорт</string>
   <string name="pref_auto_fill_title">Автоматично попълване</string>
   <string name="pref_auto_fill_summary">Ще се попълни количество, категория и бележка от последната транзакция за същия получател/платец</string>
   <string name="pref_backup_summary">Запиши сега резервно копие на базата данни и предпочитания.</string>
-  <string name="pref_sort_order_title">Ред на сортиране на категории, шаблони и сметки</string>
   <string name="pref_sort_order_usages">по брой използвания</string>
-  <string name="pref_sort_order_alphabetic">в азбучен ред</string>
   <string name="pref_category_title_advanced">Допълнителни</string>
   <string name="pref_category_title_export">Експортиране</string>
   <string name="pref_category_title_import">Импортиране</string>
@@ -492,7 +488,11 @@
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Текущо избраната папка за бекъп и експорт ще се изтрие автоматично от Андроид, ако деинсталирате Моите разходи. Може да избегнете това, като изберете различна папка от Настройки.</string>
   <string name="warning_splitpartcategory_context">Трансферите, които са част от разпределяне, могат да се редактират само в контекста на разпределянето.</string>
   <string name="warning_fraction_digits_out_of_range">Моля задайте число между 0 и 8</string>
-  <string name="warning_change_fraction_digits">Вие намалявате броя на дробните цифри за валута %1$s. Това ще доведе до загуба на информация за плащания, които вече са въведени и не може да бъде отменено. Искате ли да продължите?</string>
+  <string name="warning_change_fraction_digits_1">Сумите в базата данни трябва да бъдат обновени, за да отговарят на новия брой дробни цифри.</string>
+  <string name="warning_change_fraction_digits_2_multiplied">Ако сумите не бъдат обновени, след промяната ще бъдат показвани като умножени по %d.</string>
+  <string name="warning_change_fraction_digits_2_divided">Ако сумите не бъдат обновени, след промяната ще бъдат показвани като разделени на %d.</string>
+  <string name="warning_change_fraction_digits_3">Ако сумите бъдат обновени ще загубите информацията от тяхната дробна част.</string>
+  <string name="warning_change_fraction_digits_checkbox_label">Обнови сумите в базата данни</string>
   <string name="import_categories_success">Успешно импортирани %1$s категории</string>
   <string name="import_parties_success">Успешно импортирани %1$s страни</string>
   <string name="import_accounts_success">Успешно импортирани %1$s сметки</string>
@@ -504,7 +504,12 @@
   <string name="import_source_select_error">Моля, изберете файл от тип %1$s</string>
   <string name="menu_categories_setup_default">Въведи готови категории</string>
   <string name="menu_create_folder">Нова папка</string>
+  <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">Нагоре</string>
+  <!--Move an account up in the account list-->
+  <string name="menu_sort_up">Нагоре</string>
+  <!--Move an account down in the account list-->
+  <string name="menu_sort_down">Надолу</string>
   <string name="create_new_folder_fail">Неуспешно създаване на папка</string>
   <string name="widget_title_accounts">Моите сметки</string>
   <string name="widget_title_templates">Моите шаблони</string>
@@ -598,4 +603,8 @@
   <string name="date_format_hour">Час</string>
   <string name="date_format_minute">Минута</string>
   <string name="copied_to_clipboard">Копирано в клипборда</string>
+  <string name="menu_sort">Подреди по</string>
+  <string name="pref_sort_order_last_used">Последно използван</string>
+  <string name="pref_sort_order_custom">Ръчно</string>
+  <string name="dialog_info_custom_sort">Използвайте командите Нагоре и Надолу от контекстното меню, за да промените позицията на обекта.</string>
 </resources>

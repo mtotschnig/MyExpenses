@@ -114,7 +114,6 @@
   <string name="dialog_title_contrib_feature">Fitur premium</string>
   <string name="dialog_title_extended_feature">Fitur lanjutan</string>
   <string name="dialog_title_planner_setup_info">Persediaan kalendar diperlukan</string>
-  <string name="dialog_title_select_grouping">Ambil satu kumpulan</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">Tetapkan bilangan digit pecahan</string>
@@ -300,14 +299,11 @@
   <string name="pm_type_credit">Kredit</string>
   <string name="pm_type_debit">Debit</string>
   <string name="pm_type_neutral">Neutral</string>
-  <string name="pref_account_grouping_title">Pengelompokan akaun</string>
   <string name="pref_app_dir_title">Folder untuk sandar dan eksport</string>
   <string name="pref_auto_fill_title">Transaksi autoisi</string>
   <string name="pref_auto_fill_summary">Isi amaun, kategori dan ulasan dari transaksi terakhir bagi penerima/pembayar yang sama</string>
   <string name="pref_backup_summary">Cipta sandar pangkalan data dan keutamaan.</string>
-  <string name="pref_sort_order_title">Isih tertib untuk kategori, templat dan akaun</string>
   <string name="pref_sort_order_usages">Kiraan penggunaan</string>
-  <string name="pref_sort_order_alphabetic">Abjad</string>
   <string name="pref_category_title_advanced">Lanjutan</string>
   <string name="pref_category_title_export">Eksport</string>
   <string name="pref_category_title_import">Import</string>
@@ -481,8 +477,6 @@
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Folder terpilih semasa untuk sandar dan eksport akan dipadam secara automatik oleh Android jika anda menyahpasang Perbelanjaan Saya. Anda boleh hindari ia dari berlaku dengan memilih folder yang berlainan dari skrin tetapan.</string>
   <string name="warning_splitpartcategory_context">Pemindahan adalah sebahagian dari pisah yang boleh disunting dalam konteks pisah.</string>
   <string name="warning_fraction_digits_out_of_range">Sila tetapkan nombor diantara 0 hingga 8</string>
-  <string name="warning_change_fraction_digits">Anda telah mengurangkan bilangan digit pecahan untuk matawang %1$s.
-Ia akan menyebabkan kehilangan maklumat transaksi yang anda telah masukkan, dan tidak dapat diundur kembali. Anda mahu teruskan?</string>
   <string name="import_categories_success">%1$s kategori berjaya diimport</string>
   <string name="import_parties_success">%1$s pihak berjaya diimport</string>
   <string name="import_accounts_success">%1$s akaun berjaya diimport</string>
@@ -494,7 +488,11 @@ Ia akan menyebabkan kehilangan maklumat transaksi yang anda telah masukkan, dan 
   <string name="import_source_select_error">Sila sediakan fail jenis %1$s</string>
   <string name="menu_categories_setup_default">Persediaan kategori lalai</string>
   <string name="menu_create_folder">Folder baharu</string>
+  <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">Naik</string>
+  <!--Move an account up in the account list-->
+  <string name="menu_sort_up">Naik</string>
+  <!--Move an account down in the account list-->
   <string name="create_new_folder_fail">Gagal mencipta folder</string>
   <string name="widget_title_accounts">Akaun saya</string>
   <string name="widget_title_templates">Templat saya</string>

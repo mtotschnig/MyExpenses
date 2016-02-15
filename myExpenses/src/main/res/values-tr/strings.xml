@@ -116,7 +116,6 @@
   <string name="dialog_title_contrib_feature">Ücretli işlev</string>
   <string name="dialog_title_extended_feature">Genişletilmiş işlev</string>
   <string name="dialog_title_planner_setup_info">Takvim kurulumu gereklidir</string>
-  <string name="dialog_title_select_grouping">Bir grup seçin</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">Kesir basamak sayısını ayarla</string>
@@ -304,14 +303,11 @@
   <string name="pm_type_credit">Gelir</string>
   <string name="pm_type_debit">Gider</string>
   <string name="pm_type_neutral">Nötr</string>
-  <string name="pref_account_grouping_title">Hesap gruplaması</string>
   <string name="pref_app_dir_title">Yedekleme ve dışa aktarmalar için klasör</string>
   <string name="pref_auto_fill_title">Muameleleri otomatik doldur</string>
   <string name="pref_auto_fill_summary">Son muameleden aynı alacaklı/ödeyici için meblağ, kategori ve yorum alanlarını doldur</string>
   <string name="pref_backup_summary">SD kartına veritabanı ve tercihlerin bir yedeklemesini yap.</string>
-  <string name="pref_sort_order_title">Kategoriler, şablonlar ve hesaplar için sıralama düzeni</string>
   <string name="pref_sort_order_usages">Kullanım sayacı</string>
-  <string name="pref_sort_order_alphabetic">Alfabetik</string>
   <string name="pref_category_title_advanced">Gelişmiş</string>
   <string name="pref_category_title_export">Dışa aktar</string>
   <string name="pref_category_title_import">İçe aktar</string>
@@ -492,8 +488,11 @@
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Eğer Harcamalarımı kaldırırsanız şu anda seçili olan dışa aktarmalar ve yedeklemeler klasörü Android tarafından otomatik olarak silinecektir. Buna mani olmak için Ayarlar ekranından başka bir klasör seçebilirsiniz.</string>
   <string name="warning_splitpartcategory_context">Bölünmüş muamelelerin bir parçası olan transferler sadece bu bölünmüş muamele bağlamında düzenlenebilirler.</string>
   <string name="warning_fraction_digits_out_of_range">0 ilâ 8 arası bir sayı ayarlayınız</string>
-  <string name="warning_change_fraction_digits">%1$s para birimi için kesir basamak sayısını azaltıyorsunuz.
-Bu zaten girmiş olduğunuz muameleler için bilgi kaybına yol açacaktır ve geri alınamaz. Devam etmek istiyor musunuz?</string>
+  <string name="warning_change_fraction_digits_1">Yeni kesir basamak sayısıyla eşleşmesi için veritabanındaki meblağların güncellenmesi gerekmektedir.</string>
+  <string name="warning_change_fraction_digits_2_multiplied">Eğer meblağlar güncellenmezse, değişiklikten sonra %d ile çarpılmış olarak gösterileceklerdir.</string>
+  <string name="warning_change_fraction_digits_2_divided">Eğer meblağlar güncellenmezse, değişiklikten sonra %d ile bölünmüş olarak gösterileceklerdir.</string>
+  <string name="warning_change_fraction_digits_3">Eğer meblağlar güncellenirse, onların kesirli bölümü hakkında bilgi kaybedersiniz.</string>
+  <string name="warning_change_fraction_digits_checkbox_label">Veritabanındaki meblağları güncelle</string>
   <string name="import_categories_success">%1$s kategori başarıyla içe aktarıldı</string>
   <string name="import_parties_success">%1$s bölüm başarıyla içe aktarıldı</string>
   <string name="import_accounts_success">%1$s hesap başarılı bir şekilde içe aktarıldı</string>
@@ -505,7 +504,12 @@ Bu zaten girmiş olduğunuz muameleler için bilgi kaybına yol açacaktır ve g
   <string name="import_source_select_error">Lütfen %1$s tipinde bir dosya verin</string>
   <string name="menu_categories_setup_default">Varsayılan kategorileri kur</string>
   <string name="menu_create_folder">Yeni klasör</string>
+  <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">Yukarı</string>
+  <!--Move an account up in the account list-->
+  <string name="menu_sort_up">Yukarı</string>
+  <!--Move an account down in the account list-->
+  <string name="menu_sort_down">Aşağı</string>
   <string name="create_new_folder_fail">Klasör oluşturulamadı</string>
   <string name="widget_title_accounts">Hesaplarım</string>
   <string name="widget_title_templates">Şablonlarım</string>
@@ -599,4 +603,8 @@ Bu zaten girmiş olduğunuz muameleler için bilgi kaybına yol açacaktır ve g
   <string name="date_format_hour">Saat</string>
   <string name="date_format_minute">Dakika</string>
   <string name="copied_to_clipboard">Panoya kopyalandı</string>
+  <string name="menu_sort">Şuna göre sırala</string>
+  <string name="pref_sort_order_last_used">Son kullanıldığı</string>
+  <string name="pref_sort_order_custom">Özel</string>
+  <string name="dialog_info_custom_sort">Sırlama konumunu değiştirmek için her unsurun bağlam menüsündeki Aşağı ve Yukarı komutlarını kullanın.</string>
 </resources>

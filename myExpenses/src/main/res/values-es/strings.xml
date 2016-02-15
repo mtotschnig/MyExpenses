@@ -116,7 +116,6 @@
   <string name="dialog_title_contrib_feature">Característica Contrib</string>
   <string name="dialog_title_extended_feature">Característica extendida</string>
   <string name="dialog_title_planner_setup_info">Configuración de calendario requerido</string>
-  <string name="dialog_title_select_grouping">Escoger un agrupamiento</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">Defina la cantidad de dígitos de fracción</string>
@@ -304,14 +303,11 @@
   <string name="pm_type_credit">Crédito</string>
   <string name="pm_type_debit">Débito</string>
   <string name="pm_type_neutral">Neutral</string>
-  <string name="pref_account_grouping_title">Agrupamiento de cuentas</string>
   <string name="pref_app_dir_title">Carpeta para copias de seguridad y exportaciones</string>
   <string name="pref_auto_fill_title"> Autorrelleno de asientos</string>
   <string name="pref_auto_fill_summary">Rellenar cantidad, categoría y comentario del último asiento para el mismo beneficiario/pagador</string>
   <string name="pref_backup_summary">Crear una copia de seguridad de la base de datos y de las configuraciones.</string>
-  <string name="pref_sort_order_title">Orden de categorías, plantillas y cuentas</string>
   <string name="pref_sort_order_usages">Frecuencia de utilización</string>
-  <string name="pref_sort_order_alphabetic">Alfabético</string>
   <string name="pref_category_title_advanced">Avanzado</string>
   <string name="pref_category_title_export">Exportación</string>
   <string name="pref_category_title_import">Importación</string>
@@ -492,8 +488,6 @@
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">La carpeta seleccionada para copias de seguridad y las exportaciones se eliminará automáticamente por Android si desinstalas Mis Gastos. Puede evitar que esto suceda al seleccionar una carpeta diferente desde la pantalla de configuración.</string>
   <string name="warning_splitpartcategory_context">Transferencias que forman parte de un asiento dividido sólo pueden ser editadas en el contexto del asiento dividido.</string>
   <string name="warning_fraction_digits_out_of_range">Por favor, defina un número entre 0 y 8</string>
-  <string name="warning_change_fraction_digits">Está reduciendo el número de dígitos de fracciones de moneda %1$s.
-      Esto dará lugar a la pérdida de la información para las transacciones que ya ha introducido, y no se puede deshacer. ¿Desea continuar?</string>
   <string name="import_categories_success">%1$s categorías han sido importadas con éxito.</string>
   <string name="import_parties_success">%1$s partidos han sido importados con éxito.</string>
   <string name="import_accounts_success">%1$s cuentas han sido importadas con éxito</string>
@@ -505,7 +499,11 @@
   <string name="import_source_select_error">Por favor proporcionar un archivo de tipo %1$s</string>
   <string name="menu_categories_setup_default">Instalar categorías estándar</string>
   <string name="menu_create_folder">Nueva carpeta</string>
+  <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">Arriba</string>
+  <!--Move an account up in the account list-->
+  <string name="menu_sort_up">Arriba</string>
+  <!--Move an account down in the account list-->
   <string name="create_new_folder_fail">No se pudo crear la carpeta</string>
   <string name="widget_title_accounts">Mis cuentas</string>
   <string name="widget_title_templates">Mis plantillas</string>

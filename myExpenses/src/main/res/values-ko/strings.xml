@@ -113,7 +113,6 @@
   <string name="dialog_title_contrib_feature">프리미엄 기능</string>
   <string name="dialog_title_extended_feature">확장된 기능</string>
   <string name="dialog_title_planner_setup_info">캘린더 설치가 필요함</string>
-  <string name="dialog_title_select_grouping">그룹 고르기</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">구분 자릿수 숫자 설정</string>
@@ -299,14 +298,11 @@
   <string name="pm_type_credit">신용 결제</string>
   <string name="pm_type_debit">직불 결제</string>
   <string name="pm_type_neutral">중립</string>
-  <string name="pref_account_grouping_title">계좌 그룹화</string>
   <string name="pref_app_dir_title">백업 및 내보내기에 사용할 폴더</string>
   <string name="pref_auto_fill_title">거래 내역 자동으로 채우기</string>
   <string name="pref_auto_fill_summary">동일한 수취인/납부인의 마지막 거래 내역으로부터 금액, 카테고리, 코멘트를 입력</string>
   <string name="pref_backup_summary">데이터베이스와 설정값의 백업을 만들기</string>
-  <string name="pref_sort_order_title">카테고리, 템플릿, 계좌의 순서 정렬</string>
   <string name="pref_sort_order_usages">사용 빈도</string>
-  <string name="pref_sort_order_alphabetic">알파벳 순서</string>
   <string name="pref_category_title_advanced">고급</string>
   <string name="pref_category_title_export">내보내기</string>
   <string name="pref_category_title_import">가져오기</string>
@@ -481,7 +477,6 @@
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">My Expenses 앱을 제거하게 되면 백업과 내보내기를 위해 선택된 현재의 폴더는 자동적으로 삭제됩니다. 설정 화면에서 다른 폴더를 선택하여 이것을 예방할 수 있습니다.</string>
   <string name="warning_splitpartcategory_context">분할 거래의 일부분인 이체 내역은 분할 거래의 맥락에서만 편집될 수 있습니다.</string>
   <string name="warning_fraction_digits_out_of_range">0과 8 사이의 숫자를 설정하세요</string>
-  <string name="warning_change_fraction_digits">%1$s 화폐 단위의 구분 자릿수 숫자를 감소시키려고 하고 있습니다. 이것은 이미 입력한 거래 내역 정보를 손실시킬 수 있으며 되돌릴 수 없습니다. 계속 진행할까요?</string>
   <string name="import_categories_success">%1$s 카테고리를 성공적으로 가져왔습니다</string>
   <string name="import_parties_success">%1$s 구성원을 성공적으로 가져왔습니다</string>
   <string name="import_accounts_success">%1$s 계좌를 성공적으로 가져왔습니다</string>
@@ -493,7 +488,11 @@
   <string name="import_source_select_error">%1$s 형식의 파일을 제공해주세요</string>
   <string name="menu_categories_setup_default">기본 카테고리 설정</string>
   <string name="menu_create_folder">새 폴더</string>
+  <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">위</string>
+  <!--Move an account up in the account list-->
+  <string name="menu_sort_up">위</string>
+  <!--Move an account down in the account list-->
   <string name="create_new_folder_fail">폴더를 생성하지 못했습니다</string>
   <string name="widget_title_accounts">내 계좌</string>
   <string name="widget_title_templates">내 템플릿</string>

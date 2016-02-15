@@ -7,7 +7,7 @@
   <string name="cab_edit_help_text">Seçilen unsuru düzenle.</string>
   <!--My Expenses Transaction list-->
   <string name="help_MyExpenses_title">Muamele listesi</string>
-  <string name="help_MyExpenses_info">Bu ekran güncel hesabın tüm muamelelerini listeler. Yeni bir muamele oluşturacak formu açmak için kayan eylem düğmesini kullanın. Hesaplar arası geçiş yapmak için hesap listesini (tabletlerde sol köşe panosunu, telefonlarda hamburger ikonuna dokunulduğunda açılan çekmeceyi) kullanın. Her hesabın bir taşma menüsü vardır ve bu hesabı düzenlemeye ya da silmeye imkan verir. Yeni hesap oluşturmak için listenin sonundaki düğmeyi kullanın.</string>
+  <string name="help_MyExpenses_info">Bu ekran güncel hesap için tüm muameleleri gösterir. Yeni muamele oluşturacak formu açmak için kayan eylem düğmesini kullanın.</string>
   <string name="help_MyExpenses_crStatus_info">Muamelenin durumu renkli bir dikdörtgen ile gösterilir: uzlaşmamış için gri, temiz için mavi, uzlaşmış için yeşil. Dikdörtgene tıklamak durumu değiştirir.</string>
   <string name="menu_reset_help_text">Bu komut güncel hesabın tüm muamelelerini QIF ya da CSV biçiminde SD kartında bir dosyaya aktarır. Dışa aktarılan muameleleri silmeyi seçebilirsiniz, bu durumda açılış bakiyesi otomatik olarak ayarlanır. Alternatif olarak, eğer muameleler silinmediyse, dışa aktarılmış olarak işaretleneceklerdir. Ayarlarda yapılmasını ayarlarsanız Harcamalarım dışa aktarmanın ardından dosyayı derhal FTP, e-posta ya da herhangi diğer bir dosya paylaşımı uygulamasıyla paylaşabilir. Eğer bir arama filtresi etkinse sadece bu filtreyle eşleşen muameleler dikkate alınacaktır.</string>
   <string name="menu_grouping_help_text">Muameleleri gün, hafta, ay, ya da yıla dayanarak gruplandırabilirsiniz. Her grup için gelir, gider ve transferlerin toplamı hesaplanır ve görüntülenir. Bir grup başlığına tıkladığınız zaman muamele grubu küçültülür ve sadece başlık görüntülenir. Genişletmek için tekrar tıklamak yeterlidir.</string>
@@ -35,6 +35,7 @@
   <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Seçilen olay örneklemelerinde hiçbir muamele oluşturulmayacağını göster.</string>
   <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Eğer seçilen olay örneklemeleri için muamele oluşturulduysa, bu muameleler silinecek, eğer iptal edilmiş olarak işaretlendiler ise bu işaretler kaldırılacaktır.</string>
   <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Seçilen planlama örneklemesi için oluşturulan muameleyi düzenle.</string>
+  <string name="menu_ManageTemplates_templates_sort_help_text">Şablon listesi başlıklara göre (alfabetik olarak), meblağa göre, kullanma sıklığına göre ya da son muamele örneklendirme tarihine göre sıralanabilir.</string>
   <!--ManageCategories_* titles are in keys-->
   <string name="help_ManageCategories_distribution_info">Bu ekran harcamalarınızın ve gelirlerinizin ya bir hesaptaki tüm muameleler için ya da özel bir grup için kategorilere göre dağılımını gösterir. Eğer listedki bir ana kategoriyi genişletirseniz, yuvarlak diyagram alt kategorilerin dağılımını gösterir. Listedeki bir kategoriyi seçerseniz yuvarlak diyagramda vurgulanacaktır ve bunun tersi de geçerlidir. Kendisine eşlenen işlemlerin toplu bir listesini görüntülemek için bir kategoriye uzun süre dokunun.</string>
   <string name="help_ManageCategories_select_mapping_info">Kategorileri yönetirken tercihler ekranında yapabileceğiniz işlemlere (oluşturma, düzenleme, silme) ek olarak bu ekranda herhangi bir muameleyi belli bir kategoriyle ilişkilendirebilirsiniz. Güncel muameleyi bir alt kategoriyle ilişkilendirmek için tıklamanız yeterlidir. Bir ana kategoriyle ilişkilendirmek için bağlam menüsünü kullanmanız gerekir.</string>
@@ -51,6 +52,8 @@
   <string name="menu_distribution_show_pie_char_help_text">Yuvarlak diyagramın görüntülenmesini aç ya da kapat.</string>
   <string name="menu_distribution_aggreate_help_text">Varsayılan değer olarak, hesaplanan toplamlar hem harcamalar hem de gelirleri içerir. Bunların ayrı olarak gösterilmesini seçebilirsiniz, eylem çubuğundaki bir düğme harcamalar ve gelirler arasında geçiş yapmaya imkan verir.</string>
   <string name="cab_ManageCategories_select_filter_select_category_help_text">Seçilen kategori muamele listesini süzmek içi kullanılacaktır.</string>
+  <string name="menu_ManageCategories_search_help_text">Sorgunuzla eşleşen sadece ana ve alt kategoriler gösterilecektir.</string>
+  <string name="menu_ManageCategories_sort_help_text">Kategori listesi başlıklara göre (alfabetik olarak), kullanma sıklığına göre ya da son muamele ilişkilendirme tarihine göre sıralanabilir.</string>
   <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">Muamele formu</string>
   <string name="help_ExpenseEdit_transfer_title">Transfer formu</string>
@@ -110,4 +113,10 @@
   <!--CSV Import-->
   <string name="help_CsvImportActivity_info"><![CDATA[İçe aktaracağınız dosyayı seçtikten sonra dosyanın nasıl kodladığını (UTF-8 ya da ISO-8859-1), alanları hangi karakterin ayırdığını (virgül, noktalı virgül ya da sekme (⇆)) ve tarihlerin nasıl biçimlendirildiğini yapılandırmanız gerekir. Veriler ya zaten mevcut bir hesaba ya da yeni bir hesaba aktarılabilir ki bu durumda para birimini ve hesap türünü ayarlayabilirsiniz.<br><br>Etkinlik çubuğundan Ayrıştırma düğmesine dokunduğunuzda veriler bir tabloda size sunulacaktır. Etkinlik çubuğundaki düğme ile içe aktarımı başlatmadan önce hangi sıraları atmak istediğinizi seçebilirsiniz ve sütunları ilgili veri alanlarına haritalamanız ya da eşleştirmeniz gerekir.<br><br>İlk sırayı attığınızda onun bir başlık satırı olarak kullanılmasını isteyip istemediğiniz sorulur, istiyorsanız <i>Harcamalarım</i> başlık hücrelerinin içeriğine dayanarak otomatik olarak sütunları eşleştirmeye çalışacaktır. Ayrıca başlık sırasına göre eşleştirmenizi hatırlayacak ve gelecek sefer aynı başlık biçimi ile bir dosya içe aktardığınızda bunu kullanacaktır.]]></string>
   <string name="help_ExportDialog_date_format"><![CDATA[Yorumlamayı engellemek için metin alıntılarında tekli tırnak (\') kullanılabilir. \'\' (iki tekli tırnak) tek bir tırnağı temsil eder. Daha fazla ayrıntı için <a href=\"http://developer.android.com/reference/java/text/SimpleDateFormat.html\">tanımlamaya</a> bakın ya da destek için support@myexpenses.mobi adresi ile irtibata geçin.]]></string>
+  <string name="help_NavigationDrawer_info">Hesap listesi, bir unsura tıklayarak kolayca hesaplar arası geçiş yapmanıza izin verir.</string>
+  <string name="menu_create_account_help_text">Yeni hesap oluştur. Ücretsiz sürüm beş hesapla sınırlıdır.</string>
+  <string name="menu_NavigationDrawer_sort_help_text">Hesap listesi başlıklara göre (alfabetik olarak), kullanma sıklığına göre, ya da son muamele oluşturma tarihine göre sıralanabilir. Eğer özel sıralamayı seçerseniz, her hesabın bağlam menüsünde listede aşağı ya da yukarı taşımak için komutlar gösterilecektir.</string>
+  <string name="menu_NavigationDrawer_grouping_help_text">Hesap listesi hesap türüne veya  para birimine göre gruplandırılmış şekilde ya da gruplandırılmamış şekilde görüntülenebilir.</string>
+  <string name="cab_sort_up_help_text">Unsuru listede bir kez yukarı taşı.</string>
+  <string name="cab_sort_down_help_text">Unsuru listede bir kez aşağı taşı.</string>
 </resources>

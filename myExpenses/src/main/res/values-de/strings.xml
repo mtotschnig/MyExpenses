@@ -116,7 +116,6 @@
   <string name="dialog_title_contrib_feature">Premium-Funktion</string>
   <string name="dialog_title_extended_feature">Erweiterte Funktion</string>
   <string name="dialog_title_planner_setup_info">Einrichtung des Kalenders erforderlich</string>
-  <string name="dialog_title_select_grouping">Gruppierung auswählen</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">Anzahl der Nachkommastellen</string>
@@ -304,14 +303,11 @@
   <string name="pm_type_credit">Einnahmen</string>
   <string name="pm_type_debit">Ausgaben</string>
   <string name="pm_type_neutral">Neutral</string>
-  <string name="pref_account_grouping_title">Kontengruppierung</string>
   <string name="pref_app_dir_title">Ordner für Backups und Exports</string>
   <string name="pref_auto_fill_title">Automatisches Ausfüllen</string>
   <string name="pref_auto_fill_summary">Betrag, Kategorie und Kommentar von der letzten Buchung für denselben Empfänger/Zahler ausfüllen</string>
   <string name="pref_backup_summary">Erzeugt ein Backup der Datenbank und der Einstellungen</string>
-  <string name="pref_sort_order_title">Sortierreihenfolge für Kategorien, Vorlagen und Konten</string>
   <string name="pref_sort_order_usages">Häufigkeit der Benutzung</string>
-  <string name="pref_sort_order_alphabetic">Alphabetisch</string>
   <string name="pref_category_title_advanced">Erweitert</string>
   <string name="pref_category_title_export">Export</string>
   <string name="pref_category_title_import">Import</string>
@@ -492,7 +488,6 @@
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Der aktuell ausgewählte Ordner für Sicherungskopien und Exporte wird von Android automatisch gelöscht wenn Sie meine Ausgaben deinstallieren. Sie können dies verhindern, indem Sie einen anderen Ordner in den Einstellungen auswählen.</string>
   <string name="warning_splitpartcategory_context">Umbuchungen, die Teil einer Splitbuchung sind, können nur im Kontext der Splitbuchunung geändert werden.</string>
   <string name="warning_fraction_digits_out_of_range">Bitte eine Zahl zwischen 0 und 8 angeben</string>
-  <string name="warning_change_fraction_digits">Sie verringern die Anzahl der Nachkommastellen für Währung %1$s. Dies führt zu Verlust von Informationen für Buchungen, die Sie bereits eingegeben haben, und kann nicht rückgängig gemacht werden. Möchten Sie fortfahren?</string>
   <string name="import_categories_success">%1$s Kategorien erfolgreich importiert</string>
   <string name="import_parties_success">%1$s Parteien erfolgreich importiert</string>
   <string name="import_accounts_success">%1$s Konten erfolgreich importiert</string>
@@ -504,7 +499,11 @@
   <string name="import_source_select_error">Bitte wählen Sie eine Datei des Typs %1$s</string>
   <string name="menu_categories_setup_default">Standard Kategorien einrichten</string>
   <string name="menu_create_folder">Neuer Ordner</string>
+  <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">Nach oben</string>
+  <!--Move an account up in the account list-->
+  <string name="menu_sort_up">Nach oben</string>
+  <!--Move an account down in the account list-->
   <string name="create_new_folder_fail">Erstellen des Ordners fehlgeschlagen</string>
   <string name="widget_title_accounts">Meine Konten</string>
   <string name="widget_title_templates">Meine Vorlagen</string>

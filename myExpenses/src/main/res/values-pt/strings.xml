@@ -115,7 +115,6 @@
   <string name="dialog_title_contrib_feature">Característica Premium</string>
   <string name="dialog_title_extended_feature">Característica estendida</string>
   <string name="dialog_title_planner_setup_info">Configuração de calendário necessária</string>
-  <string name="dialog_title_select_grouping">Escolher um agrupamento</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">Definir o número de dígitos de fração</string>
@@ -303,14 +302,11 @@
   <string name="pm_type_credit">Crédito</string>
   <string name="pm_type_debit">Débito</string>
   <string name="pm_type_neutral">Neutro/indefinido</string>
-  <string name="pref_account_grouping_title">Agrupamento de contas</string>
   <string name="pref_app_dir_title">Pasta para backups e exportações</string>
   <string name="pref_auto_fill_title">Preenchimento automático</string>
   <string name="pref_auto_fill_summary">Preenchimento em quantidade, categoria e comentário da última transação para o mesmo beneficiário/pagador</string>
   <string name="pref_backup_summary">Crie um backup do banco de dados e preferências.</string>
-  <string name="pref_sort_order_title">Ordem de classificação para categorias, modelos e contas</string>
   <string name="pref_sort_order_usages">Contagem de usos</string>
-  <string name="pref_sort_order_alphabetic">Alfabético</string>
   <string name="pref_category_title_advanced">Avançado</string>
   <string name="pref_category_title_export">Exportar</string>
   <string name="pref_category_title_import">Importar</string>
@@ -491,7 +487,6 @@
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Pasta atualmente selecionada para backups e as exportações serão automaticamente excluída pelo Android se você desinstalar Minhas Despesas. Você pode impedir que isto aconteça selecionando uma pasta diferente na tela de configurações.</string>
   <string name="warning_splitpartcategory_context">Transferências que fazem parte de uma transação de divisão apenas podem ser editadas no contexto da divisão.</string>
   <string name="warning_fraction_digits_out_of_range">Por favor, defina um número entre 0 e 8</string>
-  <string name="warning_change_fraction_digits">Você está reduzindo o número de dígitos de fração para moeda %1$s. Isto levará a perda de informações de transações você já digitou e não pode ser desfeita. Você quer continuar?</string>
   <string name="import_categories_success">%1$s categorias importadas com sucesso</string>
   <string name="import_parties_success">%1$s participantes importados com sucesso</string>
   <string name="import_accounts_success">%1$s contas importadas com êxito</string>
@@ -503,7 +498,11 @@
   <string name="import_source_select_error">Por favor, forneça um arquivo do tipo %1$s</string>
   <string name="menu_categories_setup_default">Configurar categorias padrão</string>
   <string name="menu_create_folder">Nova pasta</string>
+  <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">Para cima</string>
+  <!--Move an account up in the account list-->
+  <string name="menu_sort_up">Para cima</string>
+  <!--Move an account down in the account list-->
   <string name="create_new_folder_fail">Falha ao criar a pasta</string>
   <string name="widget_title_accounts">Minhas contas</string>
   <string name="widget_title_templates">Meus modelos</string>

@@ -111,7 +111,6 @@
   <string name="dialog_title_contrib_feature">Αναβαθμισμένο χαρακτηριστικό</string>
   <string name="dialog_title_extended_feature">Εκτεταμένη λειτουργία</string>
   <string name="dialog_title_planner_setup_info">απαιτείται οργάνωση ημερολογίου</string>
-  <string name="dialog_title_select_grouping">Επιλέξετε μια ομαδοποίηση</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">Ορίστε τον αριθμό των κλασματικών ψηφίων</string>
@@ -299,14 +298,11 @@
   <string name="pm_type_credit">Πίστωση, πιστωτική</string>
   <string name="pm_type_debit">Χρεωστική εγγραφή, χρέωση</string>
   <string name="pm_type_neutral">Ουδέτερο</string>
-  <string name="pref_account_grouping_title">Ομαδοποίηση λογαριασμών</string>
   <string name="pref_app_dir_title">Φάκελος για την δημιουργία αντιγράφων ασφαλείας και εξαγωγές</string>
   <string name="pref_auto_fill_title">Αυτόματη συμπλήρωση συναλλαγών</string>
   <string name="pref_auto_fill_summary">Συμπλήρωση του ποσού, της κατηγορίας και του σχολίου από την τελευταία συναλλαγή για τον ίδιο δικαιούχο/πληρωτή</string>
   <string name="pref_backup_summary">Δημιουργήστε ένα αντίγραφο ασφαλείας της βάσης δεδομένων και προτιμήσεις για την sdcard.</string>
-  <string name="pref_sort_order_title">Σειρά ταξινόμησης για τις κατηγορίες, τα πρότυπα και τους λογαριασμούς</string>
   <string name="pref_sort_order_usages">Άθροισμα χρήσεων</string>
-  <string name="pref_sort_order_alphabetic">Αλφαβητικά</string>
   <string name="pref_category_title_advanced">Προχωρημένα</string>
   <string name="pref_category_title_export">Εξαγωγή</string>
   <string name="pref_category_title_import">Εισαγωγή</string>
@@ -487,8 +483,6 @@
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Ο τρέχων επιλεγμένος φάκελος για αντίγραφα ασφαλείας και εξαγωγές θα διαγραφεί αυτόματα από το Android αν απεγκαταστήσετε το «Τα έξοδά μου». Μπορείτε να αποτρέψετε ένα τέτοιο ενδεχόμενο, επιλέγοντας ένα διαφορετικό φάκελο από την οθόνη Ρυθμίσεις.</string>
   <string name="warning_splitpartcategory_context">Μεταφορές που αποτελούν μέρος διαχωρισμού μπορούν να τύχουν επεξεργασίας μόνο στο πλαίσιο της διαίρεσης.</string>
   <string name="warning_fraction_digits_out_of_range">Παρακαλώ να ορίσετε έναν αριθμό μεταξύ 0 και 8</string>
-  <string name="warning_change_fraction_digits">Μειώνεται τον αριθμό κλασματικών ψηφίων για το νόμισμα %1$s.
-        Αυτό θα οδηγήσει σε απώλεια πληροφοριών για τις συναλλαγές που έχετε ήδη εγγράψει, και δεν μπορεί να αναιρεθεί. Θέλετε να συνεχίσετε;</string>
   <string name="import_categories_success">%1$s κατηγορίες που εισάγονται με επιτυχία</string>
   <string name="import_parties_success">%1$s μέρη που εισάγονται με επιτυχία</string>
   <string name="import_accounts_success">%1$s λογαριασμοί εισάχθηκαν με επιτυχία</string>
@@ -500,7 +494,11 @@
   <string name="import_source_select_error">Παρακαλείσθε να παράσχετε ένα αρχείο τύπου %1$s</string>
   <string name="menu_categories_setup_default">Εργοστασιακές ρυθμίσεις κατηγοριών</string>
   <string name="menu_create_folder">Νέος φάκελος</string>
+  <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">Πάνω</string>
+  <!--Move an account up in the account list-->
+  <string name="menu_sort_up">Πάνω</string>
+  <!--Move an account down in the account list-->
   <string name="create_new_folder_fail">Αποτυχία δημιουργίας του φακέλου</string>
   <string name="widget_title_accounts">Οι λογαριασμοί μου</string>
   <string name="widget_title_templates">Τα πρότυπά μου</string>

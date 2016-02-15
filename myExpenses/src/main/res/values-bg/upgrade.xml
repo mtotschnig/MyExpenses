@@ -1,10 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_265">
+    <item>Подреждането на шаблони, категории и сметки вече става по-лесно</item>
+  </string-array>
   <string-array name="whats_new_264">
     <item>Може да направите Търсене на екрана с категории</item>
     <item>Баланса на сметка може да бъде копиран в клипборда</item>
     <item>Вмъкване от клипборда в калкулатора</item>
-    <item>Помощ за формат на датата в диалига за експорт</item>
+    <item>Помощ за формат на датата в диалога за експорт</item>
   </string-array>
   <string-array name="whats_new_263">
     <item>Трансфер между сметки с различни валути.</item>

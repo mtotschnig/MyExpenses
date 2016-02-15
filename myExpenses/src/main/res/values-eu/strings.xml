@@ -116,7 +116,6 @@
   <string name="dialog_title_contrib_feature">Premium ezaugarria</string>
   <string name="dialog_title_extended_feature">Bertsio hedatuaren ezaugarria</string>
   <string name="dialog_title_planner_setup_info">Egutegia ezartzea ezinbestekoa</string>
-  <string name="dialog_title_select_grouping">Hautatu taldekatze bat</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">Ezarri frakzio zenbaki kopurua</string>
@@ -304,14 +303,11 @@
   <string name="pm_type_credit">Kreditua</string>
   <string name="pm_type_debit">Zordunketa</string>
   <string name="pm_type_neutral">Neutrala</string>
-  <string name="pref_account_grouping_title">Kontuen taldekatzea</string>
   <string name="pref_app_dir_title">Babeskopia eta esportazioetarako karpeta</string>
   <string name="pref_auto_fill_title">Automatikoki bete transakzioak</string>
   <string name="pref_auto_fill_summary">Bete kopurua, kategoria eta iruzkina onuradun/ordaintzaile berdinaren aurreko transakziotik</string>
   <string name="pref_backup_summary">Sortu datu-base eta hobespenen babeskopia bat.</string>
-  <string name="pref_sort_order_title">Ordenatzeko irizpidea kategoria, txantiloi eta kontuentzat</string>
   <string name="pref_sort_order_usages">Erabilera kontaketa</string>
-  <string name="pref_sort_order_alphabetic">Alfabetikoa</string>
   <string name="pref_category_title_advanced">Aurreratua</string>
   <string name="pref_category_title_export">Esportatu</string>
   <string name="pref_category_title_import">Inportatu</string>
@@ -493,8 +489,6 @@ Librezale.eus</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Babeskopiak eta esportazioak gordetzeko aukeratuta dagoen karpeta Androidek ezabatuko du Nire Gastuak desinstalatzen baduzu. Hau saihesteko aukeratu beste karpeta bat Ezarpenak pantailan.</string>
   <string name="warning_splitpartcategory_context">Banaketa baten zati diren transferentziak banaketaren testuinguruan besterik ezin dira editatu.</string>
   <string name="warning_fraction_digits_out_of_range">Ezarri 0 eta 8 bitarteko zenbaki bat</string>
-  <string name="warning_change_fraction_digits">%1$s monetaren frakzio zenbakiak gutxiagotzera zoaz.
-Honek jada sartutako transakzioetan informazio galera ekarriko du, eta ezin da desegin. Jarraitu nahi duzu?</string>
   <string name="import_categories_success">%1$s kategoria ondo inportatu dira</string>
   <string name="import_parties_success">%1$s onuradun/ordaintzaile ondo inportatu dira</string>
   <string name="import_accounts_success">%1$s kontu ondo inportatu dira</string>
@@ -506,7 +500,11 @@ Honek jada sartutako transakzioetan informazio galera ekarriko du, eta ezin da d
   <string name="import_source_select_error">Aukeratu %1$s motako fitxategi bat</string>
   <string name="menu_categories_setup_default">Ezarri lehenetsitako kategoriak</string>
   <string name="menu_create_folder">Karpeta berria</string>
+  <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">Gora</string>
+  <!--Move an account up in the account list-->
+  <string name="menu_sort_up">Gora</string>
+  <!--Move an account down in the account list-->
   <string name="create_new_folder_fail">Huts egin du karpeta sortzean</string>
   <string name="widget_title_accounts">Nire kontuak</string>
   <string name="widget_title_templates">Nire txantiloiak</string>

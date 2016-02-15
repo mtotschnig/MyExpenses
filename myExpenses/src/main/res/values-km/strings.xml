@@ -82,7 +82,6 @@
   <string name="dialog_title_balance_account">សមតុល្យ %1$s</string>
   <string name="dialog_title_contrib_feature">លក្ខណៈពិសេសល្អជាងគេ</string>
   <string name="dialog_title_planner_setup_info">ត្រូវមានការ​រៀបចំ​​ប្រតិទិន</string>
-  <string name="dialog_title_select_grouping">ជ្រើសយក​ក្រុមមួយ</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">កំណត់ចំណងជើង</string>
@@ -398,7 +397,11 @@
   <string name="import_source_select_error">សូមផ្តល់​ឯកសារមួយ​ក្នុងប្រភេទ %1$s</string>
   <string name="menu_categories_setup_default">ដាក់ប្រភេទលំនាំដើម</string>
   <string name="menu_create_folder">ថត​ថ្មី</string>
+  <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">ទៅលើ</string>
+  <!--Move an account up in the account list-->
+  <string name="menu_sort_up">ទៅលើ</string>
+  <!--Move an account down in the account list-->
   <string name="create_new_folder_fail">បរាជ័យ​ក្នុង​ការបង្កើតថតនេះ</string>
   <string name="widget_title_accounts">គណនីរបស់ខ្ញុំ</string>
   <string name="widget_title_templates">ពុម្ព​របស់ខ្ញុំ</string>

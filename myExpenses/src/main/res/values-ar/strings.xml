@@ -75,7 +75,6 @@
   <string name="dialog_title_balance_account">رصيد %1$s</string>
   <string name="dialog_title_contrib_feature">المميزات الكاملة</string>
   <string name="dialog_title_planner_setup_info">يتطلب إعداد التقويم</string>
-  <string name="dialog_title_select_grouping">اختر تجميع</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">اكتب العنوان</string>
@@ -359,7 +358,11 @@
   <string name="warning_splitpartcategory_context">لا يمكن تعديل أو حذف التحويلات التي تكون جزء من تقسيم إلا إذا كانت في سياق التقسيم.</string>
   <string name="import_accounts_none">لا يوجد حسابات مستوردة</string>
   <string name="menu_create_folder">مجلد جديد</string>
+  <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">أعلى</string>
+  <!--Move an account up in the account list-->
+  <string name="menu_sort_up">أعلى</string>
+  <!--Move an account down in the account list-->
   <string name="create_new_folder_fail">فشل في انشاء المجلد</string>
   <string name="widget_title_accounts">حساباتي</string>
   <string name="widget_title_templates">نماذجي</string>

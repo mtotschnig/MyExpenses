@@ -1,5 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_264">
+    <item>Kategorien pantailan bilatzea dago</item>
+    <item>Kontuaren saldoa arbelera kopiatu daiteke</item>
+    <item>Itsatsi kalkulagailuan arbeletik</item>
+    <item>Data formaturako laguntza esportazio elkarrizketa koadroan</item>
+  </string-array>
   <string-array name="whats_new_262">
     <item>Astea eta hilabetearen hasierako eguna konfiguratu daiteke</item>
   </string-array>

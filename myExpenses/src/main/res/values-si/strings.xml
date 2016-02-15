@@ -75,7 +75,6 @@
   <!--%1$s is replace with account label-->
   <string name="dialog_title_contrib_feature">පාරිතෝෂික අංග </string>
   <string name="dialog_title_planner_setup_info">දින දර්ශනය පිහිටුවීම අවශයි </string>
-  <string name="dialog_title_select_grouping">කණ්ඩායම් කිරීමක් තෝරන්න </string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">මාතෘකාවක් යොදන්න </string>
@@ -415,7 +414,11 @@
   <string name="import_source_select_error">කරුණකර  %1$s ලිපිගොනු වර්ගයක් යොදන්න </string>
   <string name="menu_categories_setup_default">මුල් ප්‍රබේධ පිහිටුවන්න </string>
   <string name="menu_create_folder">නව ගොනුව </string>
+  <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">ඉහල </string>
+  <!--Move an account up in the account list-->
+  <string name="menu_sort_up">ඉහල </string>
+  <!--Move an account down in the account list-->
   <string name="create_new_folder_fail">ගොනුව නිර්මාණය  කිරීම අසාර්ථකයි </string>
   <string name="widget_title_accounts">මගේ ගිණුම් </string>
   <string name="widget_title_templates">මගේ අච්චු </string>

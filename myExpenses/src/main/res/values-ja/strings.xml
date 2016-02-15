@@ -114,7 +114,6 @@
   <string name="dialog_title_contrib_feature">プレミアム機能</string>
   <string name="dialog_title_extended_feature">拡張機能</string>
   <string name="dialog_title_planner_setup_info">カレンダーのセットアップが必要です</string>
-  <string name="dialog_title_select_grouping">グループを選ぶ</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">小数の桁数を設定</string>
@@ -300,14 +299,11 @@
   <string name="pm_type_credit">貸方</string>
   <string name="pm_type_debit">借方</string>
   <string name="pm_type_neutral">中性</string>
-  <string name="pref_account_grouping_title">勘定のグループ化</string>
   <string name="pref_app_dir_title">バックアップとエクスポート先のフォルダー</string>
   <string name="pref_auto_fill_title">取引の自動入力</string>
   <string name="pref_auto_fill_summary">同じ受取人/支払人の最後の取引から、金額、分類、およびコメントを入力します</string>
   <string name="pref_backup_summary">データベースとプリファレンスのバックアップを作成します。</string>
-  <string name="pref_sort_order_title">分類、テンプレート、勘定のソート順</string>
   <string name="pref_sort_order_usages">使用件数</string>
-  <string name="pref_sort_order_alphabetic">アルファベット順</string>
   <string name="pref_category_title_advanced">高度な設定</string>
   <string name="pref_category_title_export">エクスポート</string>
   <string name="pref_category_title_import">インポート</string>
@@ -481,8 +477,6 @@
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">マイ エクスペンス をアンインストールした場合、バックアップとエクスポート用に現在選択されているフォルダは自動的に Android によって削除されます。 設定画面から別のフォルダを選択することで、これを防止することができます。</string>
   <string name="warning_splitpartcategory_context">振替は分割の一部で、分割のコンテキストでのみ編集することができます。</string>
   <string name="warning_fraction_digits_out_of_range">0 から 8 の間で数を設定してください。</string>
-  <string name="warning_change_fraction_digits">通貨 %1$s の小数点以下の桁数を減らしています。
-これは、すでに入力された取引の情報の損失につながります。元に戻すことはできません。続行しますか?</string>
   <string name="import_categories_success">%1$s 分類は正常にインポートされました</string>
   <string name="import_parties_success">%1$s 取引先は正常にインポートされました</string>
   <string name="import_accounts_success">%1$s 勘定は正常にインポートされました</string>
@@ -494,7 +488,11 @@
   <string name="import_source_select_error">種類 %1$s のファイルを入力してください</string>
   <string name="menu_categories_setup_default">デフォルトの分類をセットアップ</string>
   <string name="menu_create_folder">新しいフォルダー</string>
+  <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">上へ</string>
+  <!--Move an account up in the account list-->
+  <string name="menu_sort_up">上へ</string>
+  <!--Move an account down in the account list-->
   <string name="create_new_folder_fail">フォルダーの作成に失敗しました</string>
   <string name="widget_title_accounts">マイ勘定</string>
   <string name="widget_title_templates">マイ テンプレート</string>

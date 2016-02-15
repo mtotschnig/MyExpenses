@@ -101,7 +101,6 @@
   <string name="dialog_title_balance_account">Sold  %1$s</string>
   <string name="dialog_title_contrib_feature">Funcţionaliate premium</string>
   <string name="dialog_title_planner_setup_info">Configurarea calendarului necesar</string>
-  <string name="dialog_title_select_grouping">Selectează o grupare</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">Setează numărul de zecimale</string>
@@ -289,7 +288,6 @@
   <string name="pm_type_credit">Credit</string>
   <string name="pm_type_debit">Debit</string>
   <string name="pm_type_neutral">Neutru</string>
-  <string name="pref_account_grouping_title">Regrupare conturi</string>
   <string name="pref_app_dir_title">Folder pentru backup-uri si exporturi</string>
   <string name="pref_auto_fill_title">Tranzacţii completate automat</string>
   <string name="pref_auto_fill_summary">Completatea valorii, categoriei şi comentariului de la tranzacţia de la acelaşi terţ</string>
@@ -469,8 +467,6 @@ Tradus de DD</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Folderul selectat pentru backup-uri şi exporturile vor fi şterse automat de Android dacă dezinstalați Cheltuielile Mele.  Puteţi preveni acest lucru selectând un alt folder din ecranul Setări.</string>
   <string name="warning_splitpartcategory_context">Transferurile care fac parte dintr-o repartizare pot fi editate numai în contextul repartizării.</string>
   <string name="warning_fraction_digits_out_of_range">Setează un număr între 0 şi 8, te rog</string>
-  <string name="warning_change_fraction_digits">Reduceţi numărul de zecimale pentru moneda  %1$s.
- Acest lucru va duce la pierdere de informaţii pentru tranzacţiile,  deja introduse, şi nu poate fi refăcute. Doriţi să continuaţi?</string>
   <string name="import_categories_success">%1$s categorii importate</string>
   <string name="import_parties_success">%1$s  terţi importaţi</string>
   <string name="import_accounts_success">%1$s conturi importate</string>
@@ -482,7 +478,11 @@ Tradus de DD</string>
   <string name="import_source_select_error">Furnizaţi vă rog un fişier de tip %1$s</string>
   <string name="menu_categories_setup_default">Setare categorii implicite</string>
   <string name="menu_create_folder">Folder nou</string>
+  <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">Sus</string>
+  <!--Move an account up in the account list-->
+  <string name="menu_sort_up">Sus</string>
+  <!--Move an account down in the account list-->
   <string name="create_new_folder_fail">Eşec la crearea folderului</string>
   <string name="widget_title_accounts">Conturile mele</string>
   <string name="widget_title_templates">Şabloanele mele</string>

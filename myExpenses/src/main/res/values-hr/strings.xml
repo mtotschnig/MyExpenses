@@ -91,7 +91,6 @@
   <string name="dialog_title_balance_account">Saldo %1$s</string>
   <string name="dialog_title_contrib_feature">Premium opcija</string>
   <string name="dialog_title_planner_setup_info">Potrebno podešavanje kalendara</string>
-  <string name="dialog_title_select_grouping">Odaberi grupiranje</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">Odredi broj razlomačkih znamenki</string>
@@ -277,7 +276,6 @@
   <string name="pm_type_credit">Potraživanje</string>
   <string name="pm_type_debit">Dugovanje</string>
   <string name="pm_type_neutral">Neutralno</string>
-  <string name="pref_account_grouping_title">Grupirani računi</string>
   <string name="pref_app_dir_title">Mapa za sigurnosne kopije i eksporte</string>
   <string name="pref_auto_fill_title">Automatski popuni transacije</string>
   <string name="pref_auto_fill_summary">Unesi količinu, kategoriju i komentar od zadnje transakcije za istog platitelja / primaoca</string>
@@ -452,8 +450,6 @@
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Odabrana mapa za sigurnosne kopije i eksporte će biti izbrisana od strane Androida prilikom deinstalacije My Expenses-a. Ovo možete izbjeći odabirom druge mape unutar zaslona s postavkama.</string>
   <string name="warning_splitpartcategory_context">Doznake koje su dio odvojene transakciju mogu biti uređene samo u kontekstu odvojene transakcije.</string>
   <string name="warning_fraction_digits_out_of_range">Molimo odaberite broj između 0 i 8</string>
-  <string name="warning_change_fraction_digits">Smanjujete broj razlomačkih znamenki za valutu %1$s.
-Ovo će rezultirati gubitkom informacija za već unesene transakcije, te se ne može poništiti. Želite li nastaviti?</string>
   <string name="import_categories_success">%1$s kategorije uspješno unesene</string>
   <string name="import_parties_success">%1$s stranke uspješno unesene</string>
   <string name="import_accounts_success">%1$s računi uspješno uneseni</string>
@@ -465,7 +461,11 @@ Ovo će rezultirati gubitkom informacija za već unesene transakcije, te se ne m
   <string name="import_source_select_error">Dokument mora biti u %1$s obliku</string>
   <string name="menu_categories_setup_default">Zadane setup kategorije</string>
   <string name="menu_create_folder">Nova mapa</string>
+  <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">Gore</string>
+  <!--Move an account up in the account list-->
+  <string name="menu_sort_up">Gore</string>
+  <!--Move an account down in the account list-->
   <string name="create_new_folder_fail">Kreiranje mape nije uspjelo</string>
   <string name="widget_title_accounts">Moji računi</string>
   <string name="widget_title_templates">Moji predlošci.</string>

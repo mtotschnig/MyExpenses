@@ -70,7 +70,6 @@
   <!--%1$s is replace with account label-->
   <string name="dialog_title_contrib_feature">Prémium szolgáltatás</string>
   <string name="dialog_title_planner_setup_info">Naptár beállítás szükséges</string>
-  <string name="dialog_title_select_grouping">Csoportosítás kiválasztása</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">Elnevezés megadása</string>
@@ -337,6 +336,9 @@
   <string name="warning_splitpartcategory_context">Azon tranzakciók, melyek felosztott tételek között szerepelnek, csak a felosztásoknál szerkeszthetők, vagy törölhetők.</string>
   <string name="import_categories_success">%1$s kategóriák sikeresen beolvasva</string>
   <string name="import_parties_success">%1$s résztvevők sikeresen beolvasva</string>
+  <!--This string is used for navigating up in the folder browser-->
+  <!--Move an account up in the account list-->
+  <!--Move an account down in the account list-->
   <string name="create_new_folder_fail">A mappa létrehozása sikertelen</string>
   <!--Label for column where user can check rows to be discarded from import-->
   <string name="pref_auto_backup_time_title">Automatikus biztonsági mentés ideje</string>

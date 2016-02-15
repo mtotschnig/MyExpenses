@@ -91,7 +91,6 @@
   <!--%1$s is replace with account label-->
   <string name="dialog_title_contrib_feature">Funkcja premium</string>
   <string name="dialog_title_planner_setup_info">Wymagana konfiguracja kalendarza</string>
-  <string name="dialog_title_select_grouping">Wybierz grupowanie</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">Określ nazwę</string>
@@ -276,7 +275,6 @@
   <string name="pm_type_credit">Kredyt</string>
   <string name="pm_type_debit">Debet</string>
   <string name="pm_type_neutral">Neutralnie</string>
-  <string name="pref_account_grouping_title">Grupowanie kont</string>
   <string name="pref_app_dir_title">Folder do kopii zapasowych i eksportów</string>
   <string name="pref_auto_fill_title">Automatyczne uzupełnianie transakcji</string>
   <string name="pref_backup_summary">Utwórz kopię zapasową bazy danych i preferencji na karcie pamięci.</string>
@@ -460,7 +458,11 @@
   <string name="import_source_select_error">Proszę wskazać plik w formacie %1$s</string>
   <string name="menu_categories_setup_default">Ustaw domyślne kategorie</string>
   <string name="menu_create_folder">Nowy folder</string>
+  <!--This string is used for navigating up in the folder browser-->
   <string name="menu_up">Do góry</string>
+  <!--Move an account up in the account list-->
+  <string name="menu_sort_up">Do góry</string>
+  <!--Move an account down in the account list-->
   <string name="create_new_folder_fail">Nie udało się utworzyć folderu</string>
   <string name="widget_title_accounts">Moje konta</string>
   <string name="widget_title_templates">Moje szablony</string>

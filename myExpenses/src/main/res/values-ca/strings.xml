@@ -89,7 +89,6 @@
   <string name="dialog_title_balance_account">Balanç %1$s</string>
   <string name="dialog_title_contrib_feature">Característica premium</string>
   <string name="dialog_title_planner_setup_info">Cal configurar l\'agenda</string>
-  <string name="dialog_title_select_grouping">Trieu una agrupació</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">Trieu el títol</string>
@@ -374,6 +373,9 @@
   <string name="import_categories_success">%1$s categories s\'han importat correctament.</string>
   <string name="import_parties_success">%1$s tercers s\'han importat correctament.</string>
   <string name="import_accounts_none">No s\'ha importat cap compte!</string>
+  <!--This string is used for navigating up in the folder browser-->
+  <!--Move an account up in the account list-->
+  <!--Move an account down in the account list-->
   <string name="create_new_folder_fail">No s\'ha pogut crear la carpeta</string>
   <string name="learn_more">Més informació</string>
   <!--Label for column where user can check rows to be discarded from import-->

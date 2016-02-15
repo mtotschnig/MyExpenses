@@ -63,7 +63,6 @@
   <!--Label for button that opens preferences for selecting an existing calendar-->
   <!--%1$s is replace with account label-->
   <string name="dialog_title_contrib_feature">Tính năng nâng cao</string>
-  <string name="dialog_title_select_grouping">Chọn một nhóm</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">Đặt tiêu đề</string>
@@ -288,6 +287,9 @@
   <string name="warning_splitpartcategory_context">Các thao tác truyền đổi là một phần của việc phân tách có thể được chỉnh sửa và xóa trong phần ngữ cảnh của phân tách.</string>
   <string name="import_categories_success">%1$s phân loại đã được nhập dữ liệu thành công</string>
   <string name="import_parties_success">%1$s nhóm đã được nhập dữ liệu thành công</string>
+  <!--This string is used for navigating up in the folder browser-->
+  <!--Move an account up in the account list-->
+  <!--Move an account down in the account list-->
   <!--Label for column where user can check rows to be discarded from import-->
   <string name="switch_on_text">Bật</string>
   <string name="switch_off_text">Tắt</string>
