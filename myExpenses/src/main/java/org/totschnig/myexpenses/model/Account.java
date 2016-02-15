@@ -18,11 +18,14 @@ package org.totschnig.myexpenses.model;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.math.BigDecimal;
+import java.text.Collator;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Currency;
 import java.util.Date;
 import java.util.HashMap;
@@ -44,6 +47,7 @@ import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.Result;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.primitives.Ints;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -58,6 +62,7 @@ import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.net.Uri;
 import android.net.Uri.Builder;
+import android.os.Build;
 import android.os.RemoteException;
 import android.support.v4.provider.DocumentFile;
 import android.util.Log;
@@ -530,7 +535,40 @@ public class Account extends Model {
     }
 
     public String toString() {
+      if (Utils.hasApiLevel(Build.VERSION_CODES.KITKAT)) {
+        return Currency.getInstance(name()).getDisplayName(Locale.getDefault());
+      }
       return description;
+    }
+
+    public static CurrencyEnum[] sortedValues() {
+      CurrencyEnum[] result = values();
+      final Collator collator = Collator.getInstance();
+      if (Utils.hasApiLevel(Build.VERSION_CODES.KITKAT)) {
+        Arrays.sort(result, new Comparator<CurrencyEnum>() {
+          @Override
+          public int compare(CurrencyEnum lhs, CurrencyEnum rhs) {
+            int classCompare = Ints.compare(lhs.sortClass(), rhs.sortClass());
+            return classCompare == 0 ?
+                collator.compare(lhs.toString(), rhs.toString()) : classCompare;
+          }
+        });
+      }
+      return result;
+    }
+
+    private int sortClass() {
+      switch (this) {
+        case XXX:
+          return 3;
+        case XAU:
+        case XPD:
+        case XPT:
+        case XAG:
+          return 2;
+        default:
+          return 1;
+      }
     }
   }
 

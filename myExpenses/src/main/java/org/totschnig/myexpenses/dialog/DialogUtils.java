@@ -403,7 +403,8 @@ public class DialogUtils {
       View view, Context context, AdapterView.OnItemSelectedListener listener) {
     Spinner spinner = (Spinner) view.findViewById(R.id.Currency);
     ArrayAdapter<Account.CurrencyEnum> curAdapter = new ArrayAdapter<Account.CurrencyEnum>(
-        context, android.R.layout.simple_spinner_item, android.R.id.text1,Account.CurrencyEnum.values());
+        context, android.R.layout.simple_spinner_item, android.R.id.text1,
+        Account.CurrencyEnum.sortedValues());
     curAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     spinner.setAdapter(curAdapter);
     spinner.setOnItemSelectedListener(listener);

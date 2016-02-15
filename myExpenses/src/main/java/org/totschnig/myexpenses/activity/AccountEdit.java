@@ -129,7 +129,8 @@ public class AccountEdit extends AmountActivity implements
 
     mCurrencySpinner = new SpinnerHelper(findViewById(R.id.Currency));
     ArrayAdapter<Account.CurrencyEnum> curAdapter = new ArrayAdapter<Account.CurrencyEnum>(
-        this, android.R.layout.simple_spinner_item, android.R.id.text1,Account.CurrencyEnum.values());
+        this, android.R.layout.simple_spinner_item,
+        android.R.id.text1,Account.CurrencyEnum.sortedValues());
     curAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
     mCurrencySpinner.setAdapter(curAdapter);
     
