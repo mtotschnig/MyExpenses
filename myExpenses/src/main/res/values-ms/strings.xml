@@ -2,6 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Akaun</string>
   <!--Label in form for payment method, where user checks for which account types the method is applicable-->
+  <string name="account_types">Jenis akaun</string>
   <string name="account_type_asset">Akaun aset</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">Akaun aset</string>
@@ -60,7 +61,13 @@
   <string name="dialog_balance_delete">Padam transaksi tersesuai</string>
   <!--User confirms that he wants to discard changes-->
   <string name="dialog_confirm_button_discard">Singkir</string>
+  <string name="dialog_confirm_discard_changes">Singkir perubahan?</string>
+  <string name="dialog_confirm_discard_new_transaction">Singkir transaksi baharu?</string>
+  <string name="dialog_confirm_discard_new_template">Singkir templat baharu?</string>
+  <string name="dialog_confirm_discard_new_account">Singkir akaun baharu?</string>
+  <string name="dialog_confirm_discard_new_method">Singkir kaedah pembayaran baharu?</string>
   <string name="dialog_command_disabled_balance">Tiada transaksi selesai yang disesuaikan.</string>
+  <string name="dialog_command_disabled_insert_transfer">Transaksi pemindahan memerlukan akaun kedua.</string>
   <string name="dialog_command_disabled_reset_account">Tiada transaksi dieksport.</string>
   <string name="dialog_command_disabled_distribution">Tiada transaksi telah dipetakan pada kategori dalam akaun ini.</string>
   <string name="dialog_contrib_no">Belum lagi</string>
@@ -298,7 +305,9 @@
   <string name="pref_auto_fill_title">Transaksi autoisi</string>
   <string name="pref_auto_fill_summary">Isi amaun, kategori dan ulasan dari transaksi terakhir bagi penerima/pembayar yang sama</string>
   <string name="pref_backup_summary">Cipta sandar pangkalan data dan keutamaan.</string>
+  <string name="pref_sort_order_title">Isih tertib untuk kategori, templat dan akaun</string>
   <string name="pref_sort_order_usages">Kiraan penggunaan</string>
+  <string name="pref_sort_order_alphabetic">Abjad</string>
   <string name="pref_category_title_advanced">Lanjutan</string>
   <string name="pref_category_title_export">Eksport</string>
   <string name="pref_category_title_import">Import</string>
@@ -451,6 +460,12 @@
   <plurals name="warning_delete_transaction">
     <item quantity="other">%1$d transaksi terpilih akan dipadam.</item>
   </plurals>
+  <plurals name="move_category_success">
+    <item quantity="other">%d kategori berjaya dialihkan.</item>
+  </plurals>
+  <plurals name="move_category_failure">
+    <item quantity="other">%d kategori tidak dialihkan, kerana label yang sama sudah wujud pada sasaran.</item>
+  </plurals>
   <string name="warning_delete_reconciled">Memadam transaksi tersesuai akan menyebabkan rekod anda berlainan dengan penyata bank.</string>
   <string name="warning_balance_account">Sila bandingkan jumlah selesai dengan baki akhir dalam penyata bank anda. Jika anda teruskan, transaksi selesai akan ditanda sebagai telah disesuai semula.</string>
   <string name="warning_password_protected">Apl dilindungi kata laluan.</string>
@@ -483,6 +498,7 @@ Ia akan menyebabkan kehilangan maklumat transaksi yang anda telah masukkan, dan 
   <string name="create_new_folder_fail">Gagal mencipta folder</string>
   <string name="widget_title_accounts">Akaun saya</string>
   <string name="widget_title_templates">Templat saya</string>
+  <string name="app_dir_not_accessible">Folder terpilih semasa untuk sandar dan eksport (%1$s) tidak boleh dicapai. Sila pilih yang lain.</string>
   <string name="search_amount">Gelintar amaun</string>
   <string name="search_category">Gelintar kategori</string>
   <string name="search_comment">Gelintar nota</string>
@@ -557,8 +573,19 @@ Ia akan menyebabkan kehilangan maklumat transaksi yang anda telah masukkan, dan 
   <string name="pref_auto_backup_time_title">Auto-sandar masa</string>
   <string name="warning_auto_backup_limited_trial">Selepas %d kali sandar automatik berjaya, auto-sandar akan dinyahaktifkan.</string>
   <string name="warning_auto_backup_limit_reached">Had untuk sandar automatik berjaya secara percuma telah dicapai.</string>
+  <string name="calendar_permission_required"><i>My Expenses</i> memerlukan keizinan untuk mencapai kalendar anda, supaya dapat mencipta pelan untuk transaksi akan datang dan yang berulangan.</string>
+  <string name="button_request_calendar_access">Beri capaian</string>
   <string name="switch_on_text">Dihidupkan</string>
   <string name="switch_off_text">Dimatikan</string>
+  <string name="menu_move">Alih</string>
+  <string name="dialog_title_select_target">Pilih sasaran</string>
+  <string name="transform_subcategory_to_main">Ubah ke kategori utama</string>
   <string name="preferences_week_start_day_title">Minggu bermula pada</string>
+  <string name="preferences_month_start_date_title">Bulah bermula pada</string>
   <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
+  <string name="pref_grouping_periods">Tempoh pengumpulan</string>
+  <string name="exchange_rate">Kadar pertukaran</string>
+  <string name="date_format_hour">Jam</string>
+  <string name="date_format_minute">Minit</string>
+  <string name="copied_to_clipboard">Disalin ke papan keratan</string>
 </resources>

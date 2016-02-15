@@ -1,5 +1,25 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_264">
+    <item>Skrin kategori boleh digelintar</item>
+    <item>Imbangan akaun boleh disalin ke dalam papan keratan</item>
+    <item>Tampal ke dalam kalculator dari papan keratan</item>
+    <item>Bantuan untuk format tarikh dalam dialog eksport</item>
+  </string-array>
+  <string-array name="whats_new_263">
+    <item>Pemindahan diantara akaun dengan matawang yang berlainan</item>
+  </string-array>
+  <string-array name="whats_new_262">
+    <item>Hari permulaan minggu dan bulan boleh dikonfigurkan</item>
+  </string-array>
+  <string-array name="whats_new_261">
+    <item>Kategori boleh dialih</item>
+  </string-array>
+  <string-array name="whats_new_260">
+    <item>Rekabentuk bahan</item>
+    <item>Bentangan tablet ditambahbaik</item>
+    <item>Sokongan untuk Samsung Knox</item>
+  </string-array>
   <string-array name="whats_new_251">
     <item>Format nombor boleh dikonfigur</item>
     <item>Terjemahan bahasa Belanda</item>
