@@ -14,8 +14,8 @@
      limitations under the License.
  -->
 
-<resources xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources
+    xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="endByDate" msgid="7654221304929538201">"; até <xliff:g id="DATE">%s</xliff:g>"</string>
   <plurals name="endByCount">
     <item quantity="one" msgid="3727754565990691816">"; uma vez"</item>
@@ -42,7 +42,7 @@
   </string-array>
   <string-array name="repeat_by_nth_mon">
     <item msgid="7539974918997689048">"primeira segunda-feira do mês"</item>
-    <item msgid="4484275849072423978">"segunda segunda-feira do mês"</item>
+    <item msgid="4484275849072423978" tools:ignore="Typos">"segunda segunda-feira do mês"</item>
     <item msgid="8956169860824371383">"terceira segunda-feira do mês"</item>
     <item msgid="6924403357659569326">"quarta segunda-feira do mês"</item>
     <item msgid="1379608815263472161">"última segunda-feira do mês"</item>
@@ -58,7 +58,7 @@
     <item msgid="3233850232075584386">"primeira quarta-feira do mês"</item>
     <item msgid="5059722045367799217">"segunda quarta-feira do mês"</item>
     <item msgid="7986246648229272275">"terceira quarta-feira do mês"</item>
-    <item msgid="9068566169348980801">"quarta quarta-feira do mês"</item>
+    <item msgid="9068566169348980801" tools:ignore="Typos">"quarta quarta-feira do mês"</item>
     <item msgid="7976866743069062134">"última quarta-feira do mês"</item>
   </string-array>
   <string-array name="repeat_by_nth_thurs">
