@@ -22,7 +22,6 @@
     <attr name="drawerWidth" format="dimension" />
     <attr name="pageMargin" format="reference" />
     <attr name="drawerShadow" format="reference" />
-    <attr name="drawerImage" format="reference" />
     <attr name="calcIcon" format="integer" />
     <attr name="browseIcon" format="integer" />
     <attr name="groupIcon" format="integer" />
