@@ -351,7 +351,7 @@
   <string name="pref_security_question_summary">Giver dig mulighed for at oplåse app\'en, hvis du har glemt din adgangskode.</string>
   <string name="pref_security_question_title">Sikkerhedsspørgsmål</string>
   <string name="pref_send_feedback_title">Send feedback</string>
-  <string name="pref_share_target_summary">Den skal være tomt, hvis du vil vælge mellem passende apps (E-mail, Dropbox, Google Docs,...), eller du kan indsæt URL i en af de understøttede skemaer</string>
+  <string name="pref_share_target_summary">Den skal være tomt, hvis du vil vælge mellem passende apps (E-mail, Dropbox, Google Docs, …), eller du kan indsæt URL i en af de understøttede skemaer</string>
   <string name="pref_share_target_title">Upload URL</string>
   <string name="pref_shortcut_added">Genvej til startskærmen blev tilføjet </string>
   <string name="pref_shortcut_not_added">Ingen Startskærm tilgængelig der accepterer genveje.</string>
@@ -367,12 +367,12 @@
   <string name="pref_ui_theme_title">Stil</string>
   <string name="pref_visit_website_summary">Ændringer og FAQ</string>
   <string name="pref_visit_website_title">Besøg hjemmeside</string>
-  <string name="progress_dialog_create_calendar">Opretter lokal kalender...</string>
-  <string name="progress_dialog_create_plan">Opretter ny plan...</string>
-  <string name="progress_dialog_deleting">Objekter slettes...</string>
-  <string name="progress_dialog_loading">Lastning objekt fra database...</string>
-  <string name="progress_dialog_printing">Generating PDF...</string>
-  <string name="progress_dialog_saving">Gemmer objektet til database...</string>
+  <string name="progress_dialog_create_calendar">Opretter lokal kalender</string>
+  <string name="progress_dialog_create_plan">Opretter ny plan</string>
+  <string name="progress_dialog_deleting">Objekter slettes</string>
+  <string name="progress_dialog_loading">Lastning objekt fra database</string>
+  <string name="progress_dialog_printing">Generating PDF</string>
+  <string name="progress_dialog_saving">Gemmer objektet til database</string>
   <string name="qif_parse_result">Fundet: %1$s regnskaber; %2$s kategorier og %3$s parter</string>
   <string name="qif_parse_failure_found_multiple_accounts">Der findes flere konti i QIF filen.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Matcher ikke eksisterende konto.</string>

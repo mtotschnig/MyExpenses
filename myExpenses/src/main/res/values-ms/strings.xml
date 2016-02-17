@@ -359,7 +359,7 @@
   <string name="pref_security_question_summary">Membolehkan anda buka apl, jika anda terlupa kata laluan anda.</string>
   <string name="pref_security_question_title">Soalan keselamatan</string>
   <string name="pref_send_feedback_title">Hantar maklumbalas</string>
-  <string name="pref_share_target_summary">Biarkan kosong jika anda mahu pilih diantara apl berkenaan (Emel, Dropbox, Google Docs, ...) atau sediakan URL dalam salah satu skema yang disokong</string>
+  <string name="pref_share_target_summary">Biarkan kosong jika anda mahu pilih diantara apl berkenaan (Emel, Dropbox, Google Docs, …) atau sediakan URL dalam salah satu skema yang disokong</string>
   <string name="pref_share_target_title">Muat Naik URL</string>
   <string name="pref_shortcut_added">Pintasan telah ditambah ke Skrin Rumah</string>
   <string name="pref_shortcut_not_added">Tiada Skrin Rumah tersedia yang menerima pintasan.</string>
@@ -375,12 +375,12 @@
   <string name="pref_ui_theme_title">Tema</string>
   <string name="pref_visit_website_summary">Log Perubahan dan FAQ</string>
   <string name="pref_visit_website_title">Lawati Laman Sesawang</string>
-  <string name="progress_dialog_create_calendar">Mencipta kalendar setempat ...</string>
-  <string name="progress_dialog_create_plan">Mencipta pelan baharu ...</string>
-  <string name="progress_dialog_deleting">Memadam objek ...</string>
-  <string name="progress_dialog_loading">Memuatkan objek dari pangkalan data ...</string>
-  <string name="progress_dialog_printing">Menjana PDF ...</string>
-  <string name="progress_dialog_saving">Menyimpan objek ke pangkalan data ...</string>
+  <string name="progress_dialog_create_calendar">Mencipta kalendar setempat</string>
+  <string name="progress_dialog_create_plan">Mencipta pelan baharu</string>
+  <string name="progress_dialog_deleting">Memadam objek</string>
+  <string name="progress_dialog_loading">Memuatkan objek dari pangkalan data</string>
+  <string name="progress_dialog_printing">Menjana PDF</string>
+  <string name="progress_dialog_saving">Menyimpan objek ke pangkalan data</string>
   <string name="qif_parse_result">Dihurai: %1$s akaun; %2$s kategori dan %3$s pihak</string>
   <string name="qif_parse_failure_found_multiple_accounts">Akaun berbilang ditemui dalam fail QIF.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Tidak dapat gabung ia ke dalam akaun sedia ada.</string>

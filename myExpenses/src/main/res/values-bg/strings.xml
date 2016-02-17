@@ -363,7 +363,7 @@
   <string name="pref_security_question_summary">Позволява Ви да отключите приложението, ако сте забравили паролата си.</string>
   <string name="pref_security_question_title">Въпрос за сигурност</string>
   <string name="pref_send_feedback_title">Изпрати обратна връзка</string>
-  <string name="pref_share_target_summary">Оставете празно, ако искате да изберете между съответните приложения (електронна поща, Dropbox, Google документи,...), или да предоставите URL адрес в една от поддържаните схеми</string>
+  <string name="pref_share_target_summary">Оставете празно, ако искате да изберете между съответните приложения (електронна поща, Dropbox, Google документи, …), или да предоставите URL адрес в една от поддържаните схеми</string>
   <string name="pref_share_target_title">Качване на URL адрес</string>
   <string name="pref_shortcut_added">Добавен е шорткът на начален екран</string>
   <string name="pref_shortcut_not_added">Няма свободно място на начален екран, където да поставя шорткът.</string>
@@ -379,12 +379,12 @@
   <string name="pref_ui_theme_title">Тема</string>
   <string name="pref_visit_website_summary">Често задавани въпроси (FAQ)</string>
   <string name="pref_visit_website_title">Посетете сайта ни</string>
-  <string name="progress_dialog_create_calendar">Създаване на локален календар...</string>
-  <string name="progress_dialog_create_plan">Създаване на нов план...</string>
-  <string name="progress_dialog_deleting">Изтриване на обекти...</string>
-  <string name="progress_dialog_loading">Зареждане обекти от база данни...</string>
-  <string name="progress_dialog_printing">Генериране на PDF...</string>
-  <string name="progress_dialog_saving">Записване на обект в база данни...</string>
+  <string name="progress_dialog_create_calendar">Създаване на локален календар</string>
+  <string name="progress_dialog_create_plan">Създаване на нов план</string>
+  <string name="progress_dialog_deleting">Изтриване на обекти</string>
+  <string name="progress_dialog_loading">Зареждане обекти от база данни</string>
+  <string name="progress_dialog_printing">Генериране на PDF</string>
+  <string name="progress_dialog_saving">Записване на обект в база данни</string>
   <string name="qif_parse_result">Анализирани: %1$s сметки; %2$s категории и %3$s страни</string>
   <string name="qif_parse_failure_found_multiple_accounts">Открити са множество сметки в QIF файла.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Не могат да бъдат обединени в съществуваща сметка.</string>

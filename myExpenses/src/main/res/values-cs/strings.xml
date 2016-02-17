@@ -275,7 +275,7 @@
   <string name="pref_security_question_summary">Umožňuje odemknout aplikaci, pokud jste zapomněli vaše heslo.</string>
   <string name="pref_security_question_title">Bezpečnostní otázka</string>
   <string name="pref_send_feedback_title">Odeslat názor</string>
-  <string name="pref_share_target_summary">Ponechte prázdné, pokud si chcete vybrat mezi vhodnými aplikacemi (E-mail, Dropbox, Google Docs,...), nebo poskytněte URL v jednom z podporovaných schémat</string>
+  <string name="pref_share_target_summary">Ponechte prázdné, pokud si chcete vybrat mezi vhodnými aplikacemi (E-mail, Dropbox, Google Docs, …), nebo poskytněte URL v jednom z podporovaných schémat</string>
   <string name="pref_share_target_title">Odeslat URL</string>
   <string name="pref_shortcut_added">Zástupce byl přidán do výchozí obrazovky</string>
   <string name="pref_shortcut_summary">Přidání zástupce do výchozí obrazovky.</string>
@@ -288,9 +288,9 @@
   <string name="pref_ui_theme_title">Motiv</string>
   <string name="pref_visit_website_summary">Seznam změn a FAQ</string>
   <string name="pref_visit_website_title">Navštivte webové stránky</string>
-  <string name="progress_dialog_create_calendar">Vytváření místního kalendáře...</string>
-  <string name="progress_dialog_create_plan">Vytváření nového plánu...</string>
-  <string name="progress_dialog_loading">Načítání objektů z databáze...</string>
+  <string name="progress_dialog_create_calendar">Vytváření místního kalendáře</string>
+  <string name="progress_dialog_create_plan">Vytváření nového plánu</string>
+  <string name="progress_dialog_loading">Načítání objektů z databáze</string>
   <string name="reference_number">Referenční číslo</string>
   <string name="request_licence_mail_description">Popište prosím váš příspěvek pro Moje výdaje (V angličtině, němčině nebo francouzštině)  (např.: dar přes Paypal, hlášení o chybě, testování, překlad).</string>
   <string name="request_licence_mail_head">Pošlete mi prosím klíč pro Android-Id %1$s.</string>

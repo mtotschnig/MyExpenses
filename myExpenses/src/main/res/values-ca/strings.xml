@@ -282,7 +282,7 @@
   <string name="pref_perform_protection_title">Protecció amb contrasenya</string>
   <string name="pref_perform_share_title">Envia l\'exportació</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
-  <string name="pref_planning_calendar_create_local">Nova agenda de planificació local...</string>
+  <string name="pref_planning_calendar_create_local">Nova agenda de planificació local</string>
   <string name="pref_planning_calendar_summary">Trieu el calendari per desar les planificacions d\'operacions futures i recurrents</string>
   <string name="pref_planning_calendar_title">Agenda</string>
   <string name="pref_protection_delay_seconds_summary">Els segons d\'inactivitat que hauran de transcorre abans que l\'aplicació sigui blocada amb la contrasenya.</string>
@@ -309,10 +309,10 @@
   <string name="pref_ui_theme_title">Tema</string>
   <string name="pref_visit_website_summary">Registre de canvis i preguntes més freqüents</string>
   <string name="pref_visit_website_title">Visiteu el lloc web</string>
-  <string name="progress_dialog_create_calendar">S\'està generant una agenda local...</string>
-  <string name="progress_dialog_create_plan">S\'està generant una nova planificació...</string>
-  <string name="progress_dialog_deleting">S\'estàn suprimint els objectes...</string>
-  <string name="progress_dialog_loading">S\'està carregant l\'objecte de la base de dades …</string>
+  <string name="progress_dialog_create_calendar">S\'està generant una agenda local</string>
+  <string name="progress_dialog_create_plan">S\'està generant una nova planificació</string>
+  <string name="progress_dialog_deleting">S\'estàn suprimint els objectes</string>
+  <string name="progress_dialog_loading">S\'està carregant l\'objecte de la base de dades</string>
   <string name="reference_number">Número de referència</string>
   <string name="request_licence_mail_description">Si us plau expliqueu (en anglès, alemany o francès) la vostra contribució a Les meves despeses (per exemple, donació mitjançant Paypal, informe d\'errors, proves, traducció).</string>
   <string name="request_licence_mail_head">Si us plau, envieu-me una clau per Android-ID %1$s.</string>

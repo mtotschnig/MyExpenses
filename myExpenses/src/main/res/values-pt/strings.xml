@@ -362,7 +362,7 @@
   <string name="pref_security_question_summary">Permite que você desbloquea o app, se você esqueceu sua senha.</string>
   <string name="pref_security_question_title">Pergunta de segurança</string>
   <string name="pref_send_feedback_title">Enviar feedback</string>
-  <string name="pref_share_target_summary">Deixe vazio se você quiser escolher entre apps apropriados (E-mail, Dropbox, Google Docs,...), ou fornecer a URL num dos esquemas suportados</string>
+  <string name="pref_share_target_summary">Deixe vazio se você quiser escolher entre apps apropriados (E-mail, Dropbox, Google Docs, …), ou fornecer a URL num dos esquemas suportados</string>
   <string name="pref_share_target_title">Enviar URL</string>
   <string name="pref_shortcut_added">Atalho foi adicionado à tela inicial</string>
   <string name="pref_shortcut_not_added">Nenhuma tela inicial disponível que aceita atalhos.</string>
@@ -378,12 +378,12 @@
   <string name="pref_ui_theme_title">Tema</string>
   <string name="pref_visit_website_summary">Changelog e FAQ</string>
   <string name="pref_visit_website_title">Visite o site</string>
-  <string name="progress_dialog_create_calendar">Criação de calendário local...</string>
-  <string name="progress_dialog_create_plan">Criação de novo plano...</string>
-  <string name="progress_dialog_deleting">Exclusão de objetos...</string>
-  <string name="progress_dialog_loading">Objeto de carregamento de banco de dados...</string>
-  <string name="progress_dialog_printing">Gerando PDF...</string>
-  <string name="progress_dialog_saving">Salvando o objeto de banco de dados...</string>
+  <string name="progress_dialog_create_calendar">Criação de calendário local</string>
+  <string name="progress_dialog_create_plan">Criação de novo plano</string>
+  <string name="progress_dialog_deleting">Exclusão de objetos</string>
+  <string name="progress_dialog_loading">Objeto de carregamento de banco de dados</string>
+  <string name="progress_dialog_printing">Gerando PDF</string>
+  <string name="progress_dialog_saving">Salvando o objeto de banco de dados</string>
   <string name="qif_parse_result">Analisada: %1$s contas, %2$s categorias e %3$s partidos</string>
   <string name="qif_parse_failure_found_multiple_accounts">Várias contas encontradas no arquivo QIF.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Não pode mesclá-las em conta existente.</string>

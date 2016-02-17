@@ -346,7 +346,7 @@ Tradus de DD</string>
   <string name="pref_security_question_summary">Vă permite să deblocaţi app, dacă aţi uitat parola.</string>
   <string name="pref_security_question_title">Întrebare securitate</string>
   <string name="pref_send_feedback_title">Trimiteţi feedback</string>
-  <string name="pref_share_target_summary">Lăsaţi necompletat dacă doriţi să alegeţi dintre aplicaţiile adecvate (E-mail, Dropbox, Google Docs,...) sau furnizaţi URL într-una din schemele acceptate</string>
+  <string name="pref_share_target_summary">Lăsaţi necompletat dacă doriţi să alegeţi dintre aplicaţiile adecvate (E-mail, Dropbox, Google Docs, …) sau furnizaţi URL într-una din schemele acceptate</string>
   <string name="pref_share_target_title">Upload URL</string>
   <string name="pref_shortcut_added">Shortcut-ul a fost adăugată la Ecranul Home </string>
   <string name="pref_shortcut_not_added">Niciun Ecran Home disponibil care acceptă shortcut-uri.</string>
@@ -362,12 +362,12 @@ Tradus de DD</string>
   <string name="pref_ui_theme_title">Temă</string>
   <string name="pref_visit_website_summary">Jurnal modificări şi FAQ</string>
   <string name="pref_visit_website_title">Vizitează site web</string>
-  <string name="progress_dialog_create_calendar">Creare calendar local...</string>
-  <string name="progress_dialog_create_plan">Creare scadenţă nouă ...</string>
-  <string name="progress_dialog_deleting">Ştergere obiecte ...</string>
+  <string name="progress_dialog_create_calendar">Creare calendar local</string>
+  <string name="progress_dialog_create_plan">Creare scadenţă nouă</string>
+  <string name="progress_dialog_deleting">Ştergere obiecte</string>
   <string name="progress_dialog_loading">Încărcare obiect din baza de date</string>
-  <string name="progress_dialog_printing">Generare PDF ...</string>
-  <string name="progress_dialog_saving">Salvare obiect  în baza de date ...</string>
+  <string name="progress_dialog_printing">Generare PDF</string>
+  <string name="progress_dialog_saving">Salvare obiect în baza de date</string>
   <string name="qif_parse_result">Analizat: %1$s conturi; %2$s categorii şi %3$s terţi</string>
   <string name="qif_parse_failure_found_multiple_accounts">Multiple conturi găsite în  fişierul QIF .</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Nu se pot imbina în contul existent.</string>

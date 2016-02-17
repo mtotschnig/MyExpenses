@@ -329,7 +329,7 @@
   <string name="pref_security_question_summary">Pozwala na odblokowanie aplikacji, jeżeli zapomniałeś swojego hasła.</string>
   <string name="pref_security_question_title">Pytanie bezpieczeństwa</string>
   <string name="pref_send_feedback_title">Wyślij opinie</string>
-  <string name="pref_share_target_summary">Pozostaw puste pole jeżeli chcesz wybierać pomiędzy stosownymi aplikacjami (E-mail, Dropbox, Dokumenty Google, ...), lub podaj URL w jednym z obsługiwanym schemacie</string>
+  <string name="pref_share_target_summary">Pozostaw puste pole jeżeli chcesz wybierać pomiędzy stosownymi aplikacjami (E-mail, Dropbox, Dokumenty Google, …), lub podaj URL w jednym z obsługiwanym schemacie</string>
   <string name="pref_share_target_title">Wyślij URL</string>
   <string name="pref_shortcut_added">Skrót został dodany na Ekran Główny</string>
   <string name="pref_shortcut_not_added">Brak dostępnego Ekranu Startowego który akceptuje skróty.</string>
@@ -344,12 +344,12 @@
   <string name="pref_ui_theme_title">Motyw</string>
   <string name="pref_visit_website_summary">Dziennik zmian i Często zadawane pytania</string>
   <string name="pref_visit_website_title">Odwiedź stronę internetową</string>
-  <string name="progress_dialog_create_calendar">Utwórz lokalny kalendarz...</string>
-  <string name="progress_dialog_create_plan">Utwórz nowy plan...</string>
-  <string name="progress_dialog_deleting">Usuwanie obiektów...</string>
-  <string name="progress_dialog_loading">Wczytywanie obiektu z bazy danych...</string>
-  <string name="progress_dialog_printing">Generowanie pliku PDF...</string>
-  <string name="progress_dialog_saving">Zapisywanie obiektu do bazy danych ...</string>
+  <string name="progress_dialog_create_calendar">Utwórz lokalny kalendarz</string>
+  <string name="progress_dialog_create_plan">Utwórz nowy plan</string>
+  <string name="progress_dialog_deleting">Usuwanie obiektów</string>
+  <string name="progress_dialog_loading">Wczytywanie obiektu z bazy danych</string>
+  <string name="progress_dialog_printing">Generowanie pliku PDF</string>
+  <string name="progress_dialog_saving">Zapisywanie obiektu do bazy danych</string>
   <string name="qif_parse_result">Zanalizowano: %1$s kont; %2$s kategorii oraz %3$s partii</string>
   <string name="qif_parse_failure_found_multiple_accounts">Znaleziono wiele kont w pliku QIF.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Nie można importu do istniejącego konta.</string>

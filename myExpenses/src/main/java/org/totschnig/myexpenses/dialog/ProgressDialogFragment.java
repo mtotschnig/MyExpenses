@@ -126,7 +126,7 @@ public class ProgressDialogFragment extends CommitSafeDialogFragment {
     if (messageFromArguments != null) {
       //message might have been set through setmessage
       if (message == null) {
-        message = messageFromArguments;
+        message = messageFromArguments  + " …";
         mDialog.setMessage(message);
       }
     } else {

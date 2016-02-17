@@ -281,7 +281,7 @@
   <string name="pref_security_question_summary">تسمح لك بفتح قفل التطبيق، إذا كنت قد نسيت كلمة المرور.</string>
   <string name="pref_security_question_title">السؤال السري</string>
   <string name="pref_send_feedback_title">ارسال ملاحظة أو تقييم</string>
-  <string name="pref_share_target_summary">اتركه فارغا إذا أردت الاختيار بين التطبيقات المناسبة (البريد الالكتروني، دروب بوكس، مستندات قوقل، ...) أو قم بإدخل رابط كأحد الطرق المدعومة</string>
+  <string name="pref_share_target_summary">اتركه فارغا إذا أردت الاختيار بين التطبيقات المناسبة (البريد الالكتروني، دروب بوكس، مستندات قوقل، …) أو قم بإدخل رابط كأحد الطرق المدعومة</string>
   <string name="pref_share_target_title">رابط الرفع</string>
   <string name="pref_shortcut_added">تمت إضافة اختصار للشاشة الرئيسية.</string>
   <string name="pref_shortcut_not_added">لا يوجد مكان للاختصار في الشاشة الرئيسية.</string>
@@ -296,14 +296,14 @@
   <string name="pref_ui_theme_title">المظهر</string>
   <string name="pref_visit_website_summary">التغييرات والاسئلة المتكررة</string>
   <string name="pref_visit_website_title">زيارة الموقع</string>
-  <string name="progress_dialog_create_calendar">جاري انشاء تقويم محلي ...</string>
-  <string name="progress_dialog_create_plan">جاري انشاء خطة جديدة ...</string>
-  <string name="progress_dialog_loading">جاري التحميل من قاعدة البيانات ...</string>
+  <string name="progress_dialog_create_calendar">جاري انشاء تقويم محلي</string>
+  <string name="progress_dialog_create_plan">جاري انشاء خطة جديدة</string>
+  <string name="progress_dialog_loading">جاري التحميل من قاعدة البيانات</string>
   <string name="qif_parse_result">تم إيجاد: %1$s حسابات; %2$s تصنيفات و %3$s أطراف</string>
   <string name="qif_parse_failure_found_multiple_accounts">تم العثور على أكثر من حساب في ملف QIF.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">لا يمكن دمجهم لحساب موجود. </string>
   <string name="reference_number">رقم المرجع</string>
-  <string name="request_licence_mail_description">فضلا قم بكتابة مساهمتك ( باللغة العربية ، الانجليزية، الألمانية أو الفرنسية) في مصروفاتي(على سبيل المثال: تبرع عن طريق PayPal، تقرير عن عطل، اختبار التطبيق، ترجمة، ...)</string>
+  <string name="request_licence_mail_description">فضلا قم بكتابة مساهمتك ( باللغة العربية ، الانجليزية، الألمانية أو الفرنسية) في مصروفاتي(على سبيل المثال: تبرع عن طريق PayPal، تقرير عن عطل، اختبار التطبيق، ترجمة، …)</string>
   <string name="restore_db_failure">فشلت عملية استعادة قاعدة البيانات.</string>
   <string name="restore_db_success">تم استعادة قاعدة البيانات من النسخة الاحتياطية.</string>
   <string name="restore_no_backup_found">لا يوجد نسخة احتياطية.</string>

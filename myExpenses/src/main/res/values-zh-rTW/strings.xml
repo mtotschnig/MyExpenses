@@ -260,7 +260,7 @@
   <string name="pref_security_question_summary">如果你忘記了你的密碼，貢獻 開支助手 可助你解鎖你的應用程式。</string>
   <string name="pref_security_question_title">安全問題</string>
   <string name="pref_send_feedback_title">反饋意見</string>
-  <string name="pref_share_target_summary">必需留空，若果你想選擇合適應用程式 (電郵、Dropbox、Google Docs......)，或者提供一個支援上載的URL地址。</string>
+  <string name="pref_share_target_summary">必需留空，若果你想選擇合適應用程式 (電郵、Dropbox、Google Docs …)，或者提供一個支援上載的URL地址。</string>
   <string name="pref_share_target_title">上載 URL</string>
   <string name="pref_shortcut_added">捷徑已被添加到主畫面</string>
   <string name="pref_shortcut_summary">新增捷徑到主畫面。</string>
@@ -273,9 +273,9 @@
   <string name="pref_ui_theme_title">界面主題</string>
   <string name="pref_visit_website_summary">活動日誌和常見問題</string>
   <string name="pref_visit_website_title">瀏覽官方網站</string>
-  <string name="progress_dialog_create_calendar">建立本機日歷...</string>
-  <string name="progress_dialog_create_plan">建立新的計劃...</string>
-  <string name="progress_dialog_loading">從數據庫載入物件...</string>
+  <string name="progress_dialog_create_calendar">建立本機日歷</string>
+  <string name="progress_dialog_create_plan">建立新的計劃</string>
+  <string name="progress_dialog_loading">從數據庫載入物件</string>
   <string name="reference_number">參考編號</string>
   <string name="request_licence_mail_description">透過英語，德語或法語請描述你的貢獻，例如透過Paypal捐款、錯誤報告、測試和翻譯等。</string>
   <string name="restore_db_failure">數據庫恢復失敗。</string>
