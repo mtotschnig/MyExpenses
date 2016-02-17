@@ -9,55 +9,97 @@
 	a copy of the GNU General Public License along with My Expenses. If not, 
 	see <http://www.gnu.org/licenses/>. -->
 <!-- inspired by Financisto -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent" android:layout_height="fill_parent"
-	android:layout_weight="1" android:background="@drawable/widget_background_gray"
-	android:id="@+id/layout" android:orientation="horizontal">
+<LinearLayout android:id="@+id/layout"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:layout_weight="1"
+              android:background="@drawable/widget_background_gray"
+              android:orientation="horizontal">
 
-	<LinearLayout android:layout_marginLeft="5dp"
-		android:layout_width="wrap_content" android:layout_height="fill_parent"
-		android:orientation="vertical" android:id="@+id/navigation">
-		<ImageView android:id="@+id/up_icon" android:layout_weight="1"
-			android:padding="8dp" android:layout_width="wrap_content"
-			android:layout_height="0dp" android:src="@android:drawable/arrow_up_float" />
-		<ImageView android:id="@+id/down_icon"
-			android:layout_weight="1" android:padding="8dp" android:layout_width="wrap_content"
-			android:layout_height="0dp" android:src="@android:drawable/arrow_down_float"
-			android:layout_marginRight="3dp" />
-	</LinearLayout>
+    <LinearLayout
+        android:id="@+id/navigation"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="5dp"
+        android:orientation="vertical">
 
-	<ImageView android:id="@+id/divider3" android:layout_width="4dp"
-		android:layout_height="match_parent" />
+        <ImageView
+            android:id="@+id/up_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:src="@android:drawable/arrow_up_float"/>
 
-	<LinearLayout android:id="@+id/object_info"
-		android:paddingRight="8dp" android:paddingLeft="8dp"
-		android:layout_weight="1" android:layout_gravity="center_vertical"
-		android:layout_width="0dp" android:layout_height="wrap_content"
-		android:orientation="vertical">
-		<TextView android:id="@+id/line1" android:layout_width="fill_parent"
-			android:layout_height="wrap_content" android:singleLine="true"
-			android:textColor="#ffffff" android:textStyle="bold"
-			android:ellipsize="end" android:textSize="14sp"
-			android:layout_marginTop="3dp" />
-		<TextView android:layout_width="fill_parent" android:textColor="#ffffff"
-			android:layout_height="wrap_content" android:id="@+id/note"
-			android:textSize="12sp" />
-	</LinearLayout>
+        <ImageView
+            android:id="@+id/down_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginRight="3dp"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:src="@android:drawable/arrow_down_float"/>
+    </LinearLayout>
 
-	<ImageView android:id="@+id/divider2" android:layout_width="1dp"
-		android:layout_height="match_parent" android:background="@drawable/widget_divider"
-		android:contentDescription="@null" />
+    <ImageView
+        android:id="@+id/divider3"
+        android:layout_width="4dp"
+        android:layout_height="match_parent"/>
 
-	<ImageView android:id="@+id/command1"
-		android:layout_width="48dp" android:layout_height="match_parent"
-		android:padding="8dp" />
+    <LinearLayout
+        android:id="@+id/object_info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp">
 
-	<ImageView android:id="@+id/divider1" android:layout_width="1dp"
-		android:layout_height="match_parent" android:background="@drawable/widget_divider"
-		android:contentDescription="@null" />
+        <TextView
+            android:id="@+id/line1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="#ffffff"
+            android:textSize="14sp"
+            android:textStyle="bold"/>
 
-	<ImageView android:id="@+id/command2"
-		android:layout_width="48dp" android:layout_height="match_parent"
-		android:padding="8dp" />
+        <TextView
+            android:id="@+id/note"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:textSize="12sp"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/divider2"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/widget_divider"
+        android:contentDescription="@null"/>
+
+    <ImageView
+        android:id="@+id/command1"
+        android:layout_width="48dp"
+        android:layout_height="match_parent"
+        android:padding="8dp"/>
+
+    <ImageView
+        android:id="@+id/divider1"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/widget_divider"
+        android:contentDescription="@null"/>
+
+    <ImageView
+        android:id="@+id/command2"
+        android:layout_width="48dp"
+        android:layout_height="match_parent"
+        android:padding="8dp"/>
 
 </LinearLayout>
