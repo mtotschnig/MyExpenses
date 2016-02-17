@@ -483,8 +483,8 @@
         <item quantity="other">%1$d selected transactions will be deleted.</item>
     </plurals>
     <plurals name="move_category_success">
-        <item quantity="one">One category was succesfully moved.</item>
-        <item quantity="other">%d categories were succesfully moved.</item>
+        <item quantity="one">One category was successfully moved.</item>
+        <item quantity="other">%d categories were successfully moved.</item>
     </plurals>
     <plurals name="move_category_failure">
         <item quantity="one">One category was not moved, because the same label already exists at the target.</item>
