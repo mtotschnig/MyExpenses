@@ -123,6 +123,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
     }
 
     LayoutInflater li = LayoutInflater.from(ctx);
+    //noinspection InflateParams
     View view = li.inflate(R.layout.export_dialog, null);
 
 
@@ -274,6 +275,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
       @Override
       public void onClick(View v) {
         LayoutInflater inflater = LayoutInflater.from(getActivity());
+        //noinspection InflateParams
         final TextView infoTextView = (TextView) inflater.inflate(
             R.layout.textview_info, null);
         final CharSequence infoText = buildDateFormatHelpText();

@@ -9,15 +9,11 @@
 package org.totschnig.myexpenses.preference;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.v7.preference.DialogPreference;
-import android.text.format.DateFormat;
 import android.util.AttributeSet;
-import android.view.View;
-import android.widget.TimePicker;
 
 import org.totschnig.myexpenses.R;
+
+import java.util.Locale;
 
 
 /**
@@ -52,7 +48,7 @@ public class TimePreference extends IntegerDialogPreference {
 
     @Override
     public CharSequence getSummary() {
-        return String.format("%1$02d:%2$02d",getHour(), getMinute());
+        return String.format(Locale.getDefault(),"%1$02d:%2$02d",getHour(), getMinute());
     }
 
 }

@@ -74,6 +74,7 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
       }
       versions.add(new VersionInfo(code, versionNames[i]));
     }
+    //noinspection InflateParams
     View view = li.inflate(R.layout.versiondialog, null);
     final ListView lv = (ListView) view.findViewById(R.id.list);
     ArrayAdapter<VersionInfo> adapter = new ArrayAdapter<VersionInfo>(ctx,

@@ -137,6 +137,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     context = args.getString(KEY_CONTEXT);
     variant = args.getString(KEY_VARIANT);
     layoutInflater = LayoutInflater.from(ctx);
+    //noinspection InflateParams
     View view = layoutInflater.inflate(R.layout.help_dialog, null);
     linearLayout = (LinearLayout) view.findViewById(R.id.help);
 
@@ -256,7 +257,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     String resIdString;
     int resId;
     for (String item : menuItems) {
-      View row = layoutInflater.inflate(R.layout.help_dialog_action_row, null);
+      View row = layoutInflater.inflate(R.layout.help_dialog_action_row, linearLayout,false);
       if (prefix.equals("form")) {
         row.findViewById(R.id.list_image_container).setVisibility(View.GONE);
       } else if (iconMap.containsKey(item)) {

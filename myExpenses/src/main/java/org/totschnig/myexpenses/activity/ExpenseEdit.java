@@ -949,6 +949,7 @@ public class ExpenseEdit extends AmountActivity implements
   protected Dialog onCreateDialog(int id) {
     switch (id) {
     case DATE_DIALOG_ID:
+      @SuppressLint("InlinedApi")
       Context context = isBrokenSamsungDevice() ?
           new ContextThemeWrapper(this,
               MyApplication.getThemeType( ) == MyApplication.ThemeType.dark ?

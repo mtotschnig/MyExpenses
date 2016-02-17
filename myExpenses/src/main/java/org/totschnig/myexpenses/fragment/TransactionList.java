@@ -221,7 +221,7 @@ public class TransactionList extends ContextualActionBarFragment implements
     } else {
       restoreFilterFromPreferences();
     }
-    View v = inflater.inflate(R.layout.expenses_list, null, false);
+    View v = inflater.inflate(R.layout.expenses_list, container, false);
     //TODO check if still needed with Appcompat
     //work around the problem that the view pager does not display its background correctly with Sherlock
     if (Build.VERSION.SDK_INT < 11) {

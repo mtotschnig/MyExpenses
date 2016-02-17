@@ -59,8 +59,7 @@ public class DbUtils {
         String sharedPrefPath =  "/shared_prefs/" + application.getPackageName() + "_preferences.xml";
         sharedPrefFile = new File("/dbdata/databases/" + application.getPackageName() + sharedPrefPath);
         if (!sharedPrefFile.exists()) {
-          File internalAppDir = application.getFilesDir().getParentFile();
-          sharedPrefFile = new File(internalAppDir.getPath() + sharedPrefPath);
+          sharedPrefFile = new File(getInternalAppDir().getPath() + sharedPrefPath);
           Log.d("DbUtils",sharedPrefFile.getPath());
           if (!sharedPrefFile.exists()) {
             final String message = "Unable to find shared preference file at " +
@@ -79,6 +78,10 @@ public class DbUtils {
     } finally {
       db.endTransaction();
     }
+  }
+
+  private static File getInternalAppDir() {
+    return MyApplication.getInstance().getFilesDir().getParentFile();
   }
 
   public static Result backupDb(File dir) {
@@ -101,7 +104,7 @@ public class DbUtils {
       if (Utils.IS_ANDROID) PlanExecutor.cancelPlans(app);
       Account.clear();
       PaymentMethod.clear();
-      File dataDir = new File("/data/data/"+ app.getPackageName()+ "/databases/");
+      File dataDir = new File(getInternalAppDir(), "databases");
       dataDir.mkdir();
 
       //line below gives app_databases instead of databases ???

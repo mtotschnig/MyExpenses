@@ -215,7 +215,7 @@ public class MyExpenses extends LaunchActivity implements
     // set a custom shadow that overlays the main content when the drawer opens
     theme.resolveAttribute(R.attr.drawerShadow, value, true);
     mToolbar = setupToolbar(false);
-    mToolbar.addView(getLayoutInflater().inflate(R.layout.custom_title, null));
+    mToolbar.addView(getLayoutInflater().inflate(R.layout.custom_title, mToolbar,false));
     if (mDrawerLayout != null) {
       mDrawerLayout.setDrawerShadow(value.resourceId, GravityCompat.START);
       mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
@@ -282,7 +282,7 @@ public class MyExpenses extends LaunchActivity implements
     //Sort submenu
     MenuItem menuItem = accountsMenu.getMenu().findItem(R.id.SORT_COMMAND);
     MenuItemCompat.setShowAsAction(
-        menuItem, MenuItem.SHOW_AS_ACTION_NEVER);
+        menuItem, MenuItemCompat.SHOW_AS_ACTION_NEVER);
     SubMenu sortMenu = menuItem.getSubMenu();
     sortMenu.findItem(R.id.SORT_CUSTOM_COMMAND).setVisible(true);
     Utils.configureSortMenu(sortMenu, PrefKey.SORT_ORDER_ACCOUNTS.getString("USAGES"));
@@ -844,10 +844,13 @@ public class MyExpenses extends LaunchActivity implements
     final boolean isBrightColor = Utils.isBrightColor(color);
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       Window window = getWindow();
+      //noinspection InlinedApi
       window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+      //noinspection InlinedApi
       window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
       window.setStatusBarColor(color);
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        //noinspection InlinedApi
         getWindow().getDecorView().setSystemUiVisibility(
             isBrightColor ? View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR : 0);
       }

@@ -23,6 +23,7 @@ import android.util.TimeFormatException;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 
 /**
  * Event recurrence utility functions.
@@ -593,7 +594,7 @@ public class EventRecurrence {
         int parseFlags = 0;
         String[] parts;
         if (ALLOW_LOWER_CASE) {
-            parts = recur.toUpperCase().split(";");
+            parts = recur.toUpperCase(Locale.US).split(";");
         } else {
             parts = recur.split(";");
         }

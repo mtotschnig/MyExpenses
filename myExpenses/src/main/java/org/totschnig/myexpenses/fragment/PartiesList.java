@@ -114,7 +114,7 @@ public class PartiesList extends ContextualActionBarFragment implements LoaderMa
   @Override
   @SuppressLint("InlinedApi")
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    View v = inflater.inflate(R.layout.parties_list, null, false);
+    View v = inflater.inflate(R.layout.parties_list, container, false);
     
     final ListView lv = (ListView) v.findViewById(R.id.list);
     lv.setItemsCanFocus(false);

@@ -45,6 +45,7 @@ public class AmountFilterDialog extends CommitSafeDialogFragment implements OnCl
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     MyExpenses ctx  = (MyExpenses) getActivity();
     LayoutInflater li = ctx.getLayoutInflater();
+    //noinspection InflateParams
     View view = li.inflate(R.layout.filter_amount, null);
     mOperatorSpinner = (Spinner) view.findViewById(R.id.Operator);
     final View amount2Row = view.findViewById(R.id.Amount2Row);

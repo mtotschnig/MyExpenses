@@ -202,7 +202,7 @@ public class CategoryList extends SortableListFragment implements
       getActivity().supportInvalidateOptionsMenu();
       mManager.initLoader(SUM_CURSOR, null, this);
       mManager.initLoader(DATEINFO_CURSOR, null, this);
-      v = inflater.inflate(R.layout.distribution_list, null, false);
+      v = inflater.inflate(R.layout.distribution_list, container, false);
       mChart = (PieChart) v.findViewById(R.id.chart1);
       mChart.setVisibility(showChart ? View.VISIBLE : View.GONE);
       mChart.setDescription("");
@@ -249,7 +249,7 @@ public class CategoryList extends SortableListFragment implements
         }
       });
     } else {
-      v = inflater.inflate(R.layout.categories_list, null, false);
+      v = inflater.inflate(R.layout.categories_list, container, false);
       if (savedInstanceState!=null) {
         mFilter = savedInstanceState.getString("filter");
       }

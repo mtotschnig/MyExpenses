@@ -26,6 +26,7 @@ public class BackupListDialogFragment extends CommitSafeDialogFragment
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     final String[] backupFiles = (String[]) getArguments().getSerializable("backupFiles");
     LayoutInflater li = LayoutInflater.from(getActivity());
+    //noinspection InflateParams
     View view = li.inflate(R.layout.backup_restore_fallback_dialog, null);
     ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
         android.R.layout.simple_spinner_item, backupFiles);

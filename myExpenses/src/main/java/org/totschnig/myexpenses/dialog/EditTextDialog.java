@@ -64,6 +64,7 @@ public class EditTextDialog extends CommitSafeDialogFragment implements OnEditor
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
     LayoutInflater li = LayoutInflater.from(getActivity());
+    //noinspection InflateParams
     View view = li.inflate(R.layout.edit_text_dialog, null);
     mEditText = ((EditText) view.findViewById(R.id.EditTextDialogInput));
     Bundle args = getArguments();

@@ -69,7 +69,7 @@ public class BitmapWorkerTask extends AsyncTask<Uri, Void, Bitmap> {
         if (bitmap!=null)
           imageView.setImageBitmap(bitmap);
         else
-          Toast.makeText(imageView.getContext(),"Error extracting bitmap",Toast.LENGTH_LONG);
+          Toast.makeText(imageView.getContext(),"Error extracting bitmap",Toast.LENGTH_LONG).show();
       }
     } else if (dialogWeekReference !=null) {
       final AlertDialog dialog = dialogWeekReference.get();
@@ -81,7 +81,7 @@ public class BitmapWorkerTask extends AsyncTask<Uri, Void, Bitmap> {
               bitmap));
         }
         else
-          Toast.makeText(dialog.getContext(),"Error extracting bitmap",Toast.LENGTH_LONG);
+          Toast.makeText(dialog.getContext(),"Error extracting bitmap",Toast.LENGTH_LONG).show();
       }
     }
   }

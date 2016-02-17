@@ -43,6 +43,7 @@ public class RemindRateDialogFragment  extends CommitSafeDialogFragment implemen
     MyExpenses ctx  = (MyExpenses) getActivity();
     //Context wrappedCtx = DialogUtils.wrapContext1(ctx);
     LayoutInflater li = LayoutInflater.from(ctx);
+    //noinspection InflateParams
     View view = li.inflate(R.layout.remind_rate, null);
     mRating = (RatingBar) view.findViewById(R.id.rating);
     mRating.setOnRatingBarChangeListener(this);

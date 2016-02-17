@@ -54,6 +54,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.draw.LineSeparator;
 
+import android.annotation.TargetApi;
 import android.content.ContentProviderOperation;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -316,6 +317,7 @@ public class Account extends Model {
           cal = Calendar.getInstance();
           if (monthStarts == 1) {
             cal.set(groupYear, groupSecond - 1, 1);
+            //noinspection SimpleDateFormat
             return new SimpleDateFormat("MMMM y").format(cal.getTime());
           } else {
             dateformat = android.text.format.DateFormat.getLongDateFormat(ctx);
@@ -534,9 +536,12 @@ public class Account extends Model {
       this.description = description;
     }
 
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     public String toString() {
       if (Utils.hasApiLevel(Build.VERSION_CODES.KITKAT)) {
-        return Currency.getInstance(name()).getDisplayName(Locale.getDefault());
+        try {
+          return Currency.getInstance(name()).getDisplayName();
+        } catch (IllegalArgumentException e) {}
       }
       return description;
     }
@@ -1445,9 +1450,11 @@ public class Account extends Model {
         itemDateFormat = android.text.format.DateFormat.getTimeFormat(ctx);
         break;
       case MONTH:
+        //noinspection SimpleDateFormat
         itemDateFormat = new SimpleDateFormat("dd");
         break;
       case WEEK:
+        //noinspection SimpleDateFormat
         itemDateFormat = new SimpleDateFormat("EEE");
         break;
       default:

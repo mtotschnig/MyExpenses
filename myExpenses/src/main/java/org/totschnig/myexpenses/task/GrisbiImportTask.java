@@ -1,10 +1,11 @@
 package org.totschnig.myexpenses.task;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Locale;
+import android.content.Context;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -14,13 +15,11 @@ import org.totschnig.myexpenses.util.CategoryTree;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
-import android.content.Context;
-import android.content.res.Resources.NotFoundException;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.text.TextUtils;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Locale;
 
 public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
 
@@ -80,8 +79,8 @@ public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
 
         int defaultSourceResId = 0;
         Locale locale = Locale.getDefault();
-        String language = locale.getLanguage().toLowerCase();
-        String country = locale.getCountry().toLowerCase();
+        String language = locale.getLanguage().toLowerCase(Locale.US);
+        String country = locale.getCountry().toLowerCase(Locale.US);
         if (!TextUtils.isEmpty(language)) {
           if (!TextUtils.isEmpty(country)) {
             defaultSourceResId = app.getResources().getIdentifier(

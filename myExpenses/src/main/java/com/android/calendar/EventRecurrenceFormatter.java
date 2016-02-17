@@ -164,6 +164,7 @@ public class EventRecurrenceFormatter
         }
         Calendar c = Calendar.getInstance();
         c.set(Calendar.DAY_OF_WEEK, dayToUtilDay(day));
+        //noinspection SimpleDateFormat
         return new SimpleDateFormat(format).format(c.getTime());
         //return DateUtils.getDayOfWeekString(dayToUtilDay(day), dayOfWeekLength);
     }

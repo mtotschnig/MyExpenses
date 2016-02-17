@@ -106,7 +106,7 @@ public class PlanList extends ContextualActionBarFragment implements LoaderManag
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    View v = inflater.inflate(R.layout.plans_list, null, false);
+    View v = inflater.inflate(R.layout.plans_list, container, false);
     mListView = (ExpandableListView) v.findViewById(R.id.list);
     final View emptyView = v.findViewById(R.id.empty);
     mListView.setEmptyView(emptyView);

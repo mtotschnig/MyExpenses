@@ -44,6 +44,7 @@ public class BalanceDialogFragment extends CommitSafeDialogFragment implements O
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     final LayoutInflater li = LayoutInflater.from(getActivity());
+    //noinspection InflateParams
     View view = li.inflate(R.layout.balance, null);
     ((TextView) view.findViewById(R.id.TotalReconciled)).setText(getArguments().getString(KEY_RECONCILED_TOTAL));
     ((TextView) view.findViewById(R.id.TotalCleared)).setText(getArguments().getString(KEY_CLEARED_TOTAL));

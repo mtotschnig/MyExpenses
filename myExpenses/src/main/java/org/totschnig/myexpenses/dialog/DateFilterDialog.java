@@ -33,6 +33,7 @@ public class DateFilterDialog extends CommitSafeDialogFragment implements OnClic
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     MyExpenses ctx  = (MyExpenses) getActivity();
     LayoutInflater li = LayoutInflater.from(ctx);
+    //noinspection InflateParams
     View view = li.inflate(R.layout.filter_date, null);
     mOperatorSpinner = (Spinner) view.findViewById(R.id.Operator);
     final View date2Row = view.findViewById(R.id.Date2Row);

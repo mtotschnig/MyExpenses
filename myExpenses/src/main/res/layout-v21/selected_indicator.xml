@@ -10,4 +10,5 @@
     android:translationX="@dimen/selected_indicator_translation_x"
     android:elevation="100dp"
     android:background="@drawable/triangle"
+    tools:ignore="InconsistentLayout"
     tools:showIn="@layout/account_row"/>

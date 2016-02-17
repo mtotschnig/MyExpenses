@@ -84,7 +84,7 @@ public class TemplatesList extends SortableListFragment  {
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    View v = inflater.inflate(R.layout.templates_list, null, false);
+    View v = inflater.inflate(R.layout.templates_list, container, false);
     mListView = (ListView) v.findViewById(R.id.list);
 
     mManager = getLoaderManager();

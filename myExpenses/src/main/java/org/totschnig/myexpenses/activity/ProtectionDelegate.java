@@ -102,6 +102,7 @@ public class ProtectionDelegate {
           Toast.LENGTH_LONG)
           .show();
     } else {
+      //noinspection AndroidLintCommitTransaction
       FragmentTransaction ft = m.beginTransaction()
         .add(TaskExecutionFragment.newInstance(
             taskId,
