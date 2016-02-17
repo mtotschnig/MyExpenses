@@ -15,39 +15,41 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="?listChoiceBackgroundIndicator" >
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?listChoiceBackgroundIndicator">
 
-    <include layout="@layout/header_line" />
+    <include layout="@layout/header_line"/>
 
     <LinearLayout
         android:id="@+id/sum_line"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/header_line"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        tools:ignore="UnknownIdInLayout">
 
         <TextView
             android:id="@+id/sum_income"
             android:layout_width="1dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:gravity="center"/>
 
         <TextView
             android:id="@+id/sum_expense"
             android:layout_width="1dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:gravity="center"/>
 
         <TextView
             android:id="@+id/sum_transfer"
             android:layout_width="1dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:gravity="center"/>
     </LinearLayout>
 
     <View
@@ -55,6 +57,6 @@
         android:layout_height="1dip"
         android:layout_below="@+id/sum_line"
         android:layout_margin="2dip"
-        android:background="@color/emphasis" />
+        android:background="@color/emphasis"/>
 
 </RelativeLayout>
