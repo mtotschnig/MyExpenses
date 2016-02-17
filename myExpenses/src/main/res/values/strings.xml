@@ -250,7 +250,6 @@
     <string name="menu_search">Search</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_share">Tell a friend</string>
-    <string name="menu_set_sort_key">Set sort key</string>
     <string name="menu_split_transaction">Transform to split</string>
     <string name="method">Method</string>
     <string name="no_amount_given">You did not enter any amount.</string>
@@ -258,8 +257,6 @@
     <string name="no_app_handling_ftp_available">No app handling ftp available. Install <i>Send With FTP</i>?</string>
     <string name="no_app_handling_pdf_available">No app handling PDF files available.</string>
     <string name="no_categories">No categories.</string>
-    <string name="no_category_assigned">No category assigned</string>
-    <string name="no_details">No details.</string>
     <string name="no_expenses">No Expenses Yet!</string>
     <string name="no_exportable_expenses">There are no transactions that have not yet been exported.</string>
     <string name="no_filemanager_installed">No filemanager installed</string>
@@ -280,7 +277,6 @@
         <item quantity="other">%1$d objects are mapped to templates and cannot be deleted.</item>
     </plurals>
     <string name="numbered">numbered</string>
-    <string name="oi_pick_colors_info">Install OI Color Picker for more choices</string>
     <string name="opening_balance">Opening balance</string>
     <string name="parse_error_file_not_found">Could not find file %1$s</string>
     <string name="parse_error_grisbi_version_not_supported">Unsupported Grisbi File Version: %1$s</string>
@@ -364,8 +360,6 @@
     <string name="pref_perform_protection_summary">Should app launches and resumes be protected?</string>
     <string name="pref_perform_protection_title">Password protection</string>
     <string name="pref_perform_share_title">Share exports and backups</string>
-    <string name="pref_perform_share_summaryOff">The files will not be shared.</string>
-    <string name="pref_perform_share_summaryOn">The files will be shared.</string>
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">Create new local planning calendar</string>
     <string name="pref_planning_calendar_summary">Select the calendar where plans for future and recurring transactions are stored</string>
@@ -392,8 +386,6 @@
     <string name="pref_shortcut_not_added">No Home Screen available that accepts shortcuts.</string>
     <string name="pref_shortcut_summary">Add the shortcut to Home Screen.</string>
     <string name="pref_template_click_default_summary">Upon short tap on entry in template list</string>
-    <!-- This preference presents a slider where the user selects a value from 0 to 4 -->
-    <string name="pref_ui_fontsize_summary">Each step increases base font size by 2sp</string>
     <string name="pref_ui_fontsize_title">Font size</string>
     <string name="pref_ui_home_screen_shortcuts">Home Screen Shortcuts</string>
     <string name="pref_ui_language_default">System default</string>
@@ -599,7 +591,7 @@
     <string name="menu_show_transactions">Show transactions</string>
     <string name="pref_custom_decimal_format_title">Number format</string>
     <string name="pref_custom_decimal_format_summary">If you are not satisfied with the default format for your locale, adapt it to your needs. Leave empty to restore the default format.</string>
-    <string name="licence_validation_upgrade_needed">Please upgrade My Expenses Contrib to version 1.5.</string>
+    <string name="licence_validation_upgrade_needed" tools:ignore="UnusedResources">Please upgrade My Expenses Contrib to version 1.5.</string>
     <string name="pref_auto_backup_title">Auto-backup</string>
     <string name="pref_auto_backup_summary">Backup database daily at the specified time (only if data has changed).</string>
     <string name="pref_auto_backup_time_title">Auto-backup time</string>

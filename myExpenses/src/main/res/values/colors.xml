@@ -16,7 +16,6 @@
  -->
 <resources>
     <color name="appDefault">#ffc107</color>
-    <color name="fabRipple">#004D40</color>
     <color name="emphasis">#31b6e7</color>
     <color name="colorExpenseDark">#FF5E5E</color>
     <color name="colorExpenseLight">#800000</color>

@@ -92,14 +92,6 @@
         <item>zh-TW</item>
     </string-array>
 
-    <string-array name="grouping_entries">
-        <item>@string/grouping_none</item>
-        <item>@string/grouping_day</item>
-        <item>@string/grouping_week</item>
-        <item>@string/grouping_month</item>
-        <item>@string/grouping_year</item>
-    </string-array>
-
     <string-array name="pref_template_click_default_entries">
         <item>@string/menu_create_instance_save</item>
         <item>@string/menu_create_instance_edit</item>
@@ -307,7 +299,7 @@
         <item>set_sort_key</item>
         <item>exclude_from_totals</item>
     </string-array>
-    <string-array name="AccountEdit_formfields">
+    <string-array name="AccountEdit_formfields" tools:ignore="UnusedResources">
         <item>label</item>
         <item>description</item>
         <item>opening_balance</item>
