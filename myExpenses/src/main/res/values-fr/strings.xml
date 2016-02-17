@@ -488,6 +488,11 @@
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Le dossier actuellement sélectionné pour les sauvegardes et les exportations est automatiquement supprimé par Android si vous désinstallez Mes dépenses. Vous pouvez l\'empêcher en sélectionnant un dossier différent dans l\'écran Paramètres.</string>
   <string name="warning_splitpartcategory_context">Les transferts qui font partie d\'une opération ventilée ne peuvent être modifiés que dans celle-ci.</string>
   <string name="warning_fraction_digits_out_of_range">Définissez une décimale entre 0 et 8</string>
+  <string name="warning_change_fraction_digits_1">Les montants dans la base de données doivent être mis à jour afin de correspondre au nouveau nombre de chiffres de fraction.</string>
+  <string name="warning_change_fraction_digits_2_multiplied">Si les montants ne sont pas mis à jour, ils seront affichés comme multipliés par %d après le changement.</string>
+  <string name="warning_change_fraction_digits_2_divided">Si les montants ne sont pas mis à jour, ils seront affichés comme divisés par %d après le changement.</string>
+  <string name="warning_change_fraction_digits_3">Si les montants sont mis à jour, vous perdrez les informations sur leur partie fractionnaire.</string>
+  <string name="warning_change_fraction_digits_checkbox_label">Mise à jour des montants de la base de données</string>
   <string name="import_categories_success">%1$s catégories ont été importés</string>
   <string name="import_parties_success">%1$s tiers ont été importés</string>
   <string name="import_accounts_success">%1$s comptes importés avec succès</string>
@@ -504,6 +509,7 @@
   <!--Move an account up in the account list-->
   <string name="menu_sort_up">Plus haut</string>
   <!--Move an account down in the account list-->
+  <string name="menu_sort_down">Vers le bas</string>
   <string name="create_new_folder_fail">Échec pour créer le dossier</string>
   <string name="widget_title_accounts">Mes comptes</string>
   <string name="widget_title_templates">Mes modèles</string>
@@ -597,4 +603,8 @@
   <string name="date_format_hour">Heure</string>
   <string name="date_format_minute">Minute</string>
   <string name="copied_to_clipboard">Copié vers le presse-papier</string>
+  <string name="menu_sort">Trier par</string>
+  <string name="pref_sort_order_last_used">Dernier utilisé</string>
+  <string name="pref_sort_order_custom">Personnalisé</string>
+  <string name="dialog_info_custom_sort">Utilisez les commandes vers le haut et vers le bas dans le menu contextuel de l\'élément pour modifier sa position de tri.</string>
 </resources>

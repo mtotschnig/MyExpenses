@@ -477,6 +477,11 @@
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">マイ エクスペンス をアンインストールした場合、バックアップとエクスポート用に現在選択されているフォルダは自動的に Android によって削除されます。 設定画面から別のフォルダを選択することで、これを防止することができます。</string>
   <string name="warning_splitpartcategory_context">振替は分割の一部で、分割のコンテキストでのみ編集することができます。</string>
   <string name="warning_fraction_digits_out_of_range">0 から 8 の間で数を設定してください。</string>
+  <string name="warning_change_fraction_digits_1">新しい小数桁の数に一致させるため、データベース内の金額を更新する必要があります。</string>
+  <string name="warning_change_fraction_digits_2_multiplied">金額が更新されていない場合は、変更後 %d を掛けたように表示されます。</string>
+  <string name="warning_change_fraction_digits_2_divided">金額が更新されていない場合は、変更後 %d で割ったように表示されます。</string>
+  <string name="warning_change_fraction_digits_3">アカウントが更新された場合は、端数部分に関する情報を失います。</string>
+  <string name="warning_change_fraction_digits_checkbox_label">データベースの金額を更新</string>
   <string name="import_categories_success">%1$s 分類は正常にインポートされました</string>
   <string name="import_parties_success">%1$s 取引先は正常にインポートされました</string>
   <string name="import_accounts_success">%1$s 勘定は正常にインポートされました</string>
@@ -493,6 +498,7 @@
   <!--Move an account up in the account list-->
   <string name="menu_sort_up">上へ</string>
   <!--Move an account down in the account list-->
+  <string name="menu_sort_down">下へ</string>
   <string name="create_new_folder_fail">フォルダーの作成に失敗しました</string>
   <string name="widget_title_accounts">マイ勘定</string>
   <string name="widget_title_templates">マイ テンプレート</string>
@@ -586,4 +592,8 @@
   <string name="date_format_hour">時間</string>
   <string name="date_format_minute">分</string>
   <string name="copied_to_clipboard">クリップボードにコピーしました</string>
+  <string name="menu_sort">ソート順</string>
+  <string name="pref_sort_order_last_used">最後に使用した</string>
+  <string name="pref_sort_order_custom">カスタム</string>
+  <string name="dialog_info_custom_sort">ソート位置を変更するには、各項目のコンテキストメニューで、上下のコマンドを使用します。</string>
 </resources>

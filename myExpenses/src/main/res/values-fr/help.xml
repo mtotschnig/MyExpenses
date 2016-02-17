@@ -35,6 +35,7 @@
   <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Indique que pour l\'échéance sélectionnée, aucune opération ne devra être créée.</string>
   <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Si une opération a été créée pour l\'événement sélectionné, elle sera supprimée, si elle a été signalée comme annulée, l\'indicateur sera enlevé.</string>
   <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Modifier l\'opération qui a été créée pour l\'échéance choisie.</string>
+  <string name="menu_ManageTemplates_templates_sort_help_text">La liste des modèles peut être triée par titre (ordre alphabétique), par montant, par la fréquence des utilisations ou de la dernière fois qu\'une opération a été créée.</string>
   <!--ManageCategories_* titles are in keys-->
   <string name="help_ManageCategories_distribution_info">Cet écran indique la répartition des dépenses et des revenus par catégories, pour toutes les opérations sur un compte ou un groupe spécifique. Si vous développez une catégorie principale dans la liste, le graphique à secteurs affiche la distribution de ses sous-catégories. Si vous sélectionnez une catégorie dans la liste, il sera mis en évidence dans le diagramme circulaire et vice versa. Appui long sur une catégorie pour afficher une liste agrégée des transactions mappées.</string>
   <string name="help_ManageCategories_select_mapping_info">En plus des actions que vous pouvez effectuer dans la gestion de catégories de l\'écran Préférences (créer, modifier, supprimer), sur cet écran, vous pouvez lier une opération à une catégorie sélectionnée. Vous sélectionnez une sous-catégorie pour la liaison de la transaction en cours en cliquant simplement dessus. Afin de lier une catégorie principale, vous devez appeler son menu contextuel.</string>
@@ -51,6 +52,7 @@
   <string name="menu_distribution_show_pie_char_help_text">Activer/désactiver la visibilité du graphique à secteurs.</string>
   <string name="menu_distribution_aggreate_help_text">Par défaut, les sommes calculées incluent les dépenses et les revenus. Vous pouvez décider de les montrer séparément : un bouton dans la barre d\'action permet de basculer entre les dépenses et revenus.</string>
   <string name="cab_ManageCategories_select_filter_select_category_help_text">La catégorie sélectionnée sera utilisée pour filtrer la liste des transactions.</string>
+  <string name="menu_ManageCategories_search_help_text">Seulement la catégorie principal et les sous catégories qui correspondent à votre requête seront affichées.</string>
   <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">Formulaire pour opérations</string>
   <string name="help_ExpenseEdit_transfer_title">Formulaire pour transferts</string>

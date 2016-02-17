@@ -35,6 +35,7 @@
   <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">選択されたイベントがインスタンス化する時に、取引が作成されないことを示しています。</string>
   <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">選択されたイベントのインスタンスに対して取引が作成されている場合、それらは削除されます。キャンセル済としてフラグが設定されている場合、フラグは削除されます。</string>
   <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">選択された計画のインスタンスに対して作成された取引を編集します。</string>
+  <string name="menu_ManageTemplates_templates_sort_help_text">テンプレートリストは、タイトル (アルファベット順)、金額、使用頻度、または取引がインスタンス化された最後の時間によってソートすることができます。</string>
   <!--ManageCategories_* titles are in keys-->
   <string name="help_ManageCategories_distribution_info">この画面では、勘定内のすべての取引に対して、または特定のグループに対して、分類ごとに支出と収入の分布を表示します。リスト内の主分類を展開すると、その副分類の分布が円グラフで表示されます。リストで分類を選択した場合は、円グラフで強調表示されます。分類を長押しすると、それにマッピングされた取引の集計リストを表示します。</string>
   <string name="help_ManageCategories_select_mapping_info">環境設定画面から分類を管理する時に実行できるアクション (作成、編集、削除) に加えて、この画面では、選択した分類に取引を配置します。副分類をクリックすることで、現在の取引に割り当てる副分類を選択します。主分類を配置するには、そのコンテキストメニューを呼び出す必要があります。</string>
@@ -51,6 +52,8 @@
   <string name="menu_distribution_show_pie_char_help_text">円グラフの表示を切り替えます。</string>
   <string name="menu_distribution_aggreate_help_text">デフォルトでは、計算された合計に支出と収入の両方が含まれます。それらを個別に表示することもできます。アクションバーにあるボタンを使用すると、支出と収入の間で切り替えできます。</string>
   <string name="cab_ManageCategories_select_filter_select_category_help_text">選択された分類は、取引リストをフィルタリングするために使用されます。</string>
+  <string name="menu_ManageCategories_search_help_text">クエリに一致するメインとサブカテゴリーのみ表示されます。</string>
+  <string name="menu_ManageCategories_sort_help_text">分類リストは、タイトル (アルファベット順)、使用頻度、または取引がマップされた最後の時間によってソートすることができます。</string>
   <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">取引用のフォーム</string>
   <string name="help_ExpenseEdit_transfer_title">振替用のフォーム</string>
@@ -110,4 +113,10 @@
   <!--CSV Import-->
   <string name="help_CsvImportActivity_info"><![CDATA[インポートしたいファイルを選択した後、ファイルのエンコード (UTF-8 または ISO-8859-1)、フィールドの区切り文字 (カンマ、セミコロン、またはタブ) 、そして日付の書式を設定する必要があります。データは、既存または新しい勘定にインポートすることができ、通貨と勘定の種類を設定することができます。<br><br>アクションバーから解析ボタンを押した後、テーブルにデータが表示されます。アクションバーにあるボタンからインポートを実行する前に、破棄したい行を選択することができ、対応するデータフィールドに列をマップする必要があります。<br><br>最初の行を破棄するとき、ヘッダー行として扱うべきかを訊ねられます。この場合、<i>マイ エクスペンス</i> は自動的にヘッダーセルの内容に基づいて列をマップしようとします。また、ヘッダー行に基づいたマッピングを記憶し、次回同じヘッダー形式でファイルをインポートするときに、それを復元します。]]></string>
   <string name="help_ExportDialog_date_format"><![CDATA[テキストが解釈されるのを避けるために単一引用符 (\') で囲むことができます。 \'\' (2 つの単一引用符) は、単一引用符を表します。 さらに詳細は、すべての <a href=\"http://developer.android.com/reference/java/text/SimpleDateFormat.html\">仕様</a> を参照するか、 support@myexpenses.mobi にご連絡ください。]]></string>
+  <string name="help_NavigationDrawer_info">勘定リストは、エントリをクリックするだけで、簡単に勘定間を移動することができます。</string>
+  <string name="menu_create_account_help_text">新しい勘定を作成します。無料版は5つの勘定に制限されています。</string>
+  <string name="menu_NavigationDrawer_sort_help_text">勘定のリストは、タイトル (アルファベット順)、使用頻度、または取引が作成された最後の時間によってソートすることができます。カスタムのソートを選択した場合、リスト内の各勘定のコンテキストメニューに移動するための上下コマンドが表示されます。</string>
+  <string name="menu_NavigationDrawer_grouping_help_text">勘定リストは、勘定の種類別、通貨別にグループ化して、またはグループ化しないで表示することができます。</string>
+  <string name="cab_sort_up_help_text">リスト内の項目の位置を 1 つ上に移動します。</string>
+  <string name="cab_sort_down_help_text">リスト内の項目の位置を 1 つ下に移動します。</string>
 </resources>
