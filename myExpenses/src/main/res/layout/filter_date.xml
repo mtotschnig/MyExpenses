@@ -11,6 +11,7 @@
 	see <http://www.gnu.org/licenses/>.
 -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
@@ -35,7 +36,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:calendarViewShown="false"
-            android:datePickerMode="spinner"/>
+            android:datePickerMode="spinner"
+            tools:ignore="UnusedAttribute"/>
 
 
         <LinearLayout
@@ -57,7 +59,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:calendarViewShown="false"
-                android:datePickerMode="spinner"/>
+                android:datePickerMode="spinner"
+                tools:ignore="UnusedAttribute"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

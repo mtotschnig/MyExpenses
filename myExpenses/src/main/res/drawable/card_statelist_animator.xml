@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_pressed="true" android:state_activated="false">
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          tools:targetApi="LOLLIPOP">
+    <item android:state_activated="false" android:state_pressed="true">
         <set>
-            <objectAnimator android:propertyName="translationZ"
-                            android:duration="@android:integer/config_shortAnimTime"
+            <objectAnimator android:duration="@android:integer/config_shortAnimTime"
+                            android:propertyName="translationZ"
                             android:valueTo="20dp"
                             android:valueType="floatType"/>
             <!-- you could have other objectAnimator elements
                  here for "x" and "y", or other properties -->
         </set>
     </item>
-    <item android:state_pressed="false" android:state_activated="false">
+    <item android:state_activated="false" android:state_pressed="false">
         <set>
-            <objectAnimator android:propertyName="translationZ"
-                            android:duration="100"
+            <objectAnimator android:duration="100"
+                            android:propertyName="translationZ"
                             android:valueTo="0"
                             android:valueType="floatType"/>
         </set>

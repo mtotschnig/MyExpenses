@@ -15,6 +15,7 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="fill_parent"
               android:layout_height="1px"
               android:layout_weight="1"
@@ -36,5 +37,6 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="@string/no_templates"
-        android:translationY="-28dp"/>
+        android:translationY="-28dp"
+        tools:ignore="UnusedAttribute"/>
 </LinearLayout>

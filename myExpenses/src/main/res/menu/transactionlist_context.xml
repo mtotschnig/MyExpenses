@@ -16,7 +16,7 @@
  -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:tools="http://schemas.android.com/tools"
-      tools:ignore="AppCompatResource">
+      tools:ignore="AppCompatResource,UnusedAttribute">
     <group android:id="@+id/MenuSingle">
         <item
             android:id="@id/CREATE_TEMPLATE_COMMAND"

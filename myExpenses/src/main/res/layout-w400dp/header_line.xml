@@ -7,7 +7,8 @@
     android:layout_height="wrap_content"
     android:paddingRight="@dimen/general_padding"
     android:paddingLeft="@dimen/general_padding"
-    android:layoutDirection="locale">
+    android:layoutDirection="locale"
+    tools:ignore="UnusedAttribute">
 
     <TextView
         android:id="@+id/text"

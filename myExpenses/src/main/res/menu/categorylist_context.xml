@@ -16,7 +16,7 @@
  -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:tools="http://schemas.android.com/tools"
-      tools:ignore="AppCompatResource">
+      tools:ignore="AppCompatResource,UnusedAttribute">
     <item
         android:id="@id/MOVE_COMMAND"
         android:icon="@drawable/ic_menu_forward"

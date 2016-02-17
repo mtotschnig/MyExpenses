@@ -13,25 +13,10 @@
 
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>
-        if (transactionId == null) {
-        //state open
-        menu.add(0,R.id.CREATE_INSTANCE_SAVE_COMMAND,0,R.string.menu_apply_template_and_save);
-        menu.add(0,R.id.CREATE_INSTANCE_EDIT_COMMAND,0,R.string.menu_apply_template_and_edit);
-        menu.add(0,R.id.CANCEL_PLAN_INSTANCE_COMMAND,0,R.string.menu_cancel_plan_instance);
-      }
-      else if (transactionId == 0L) {
-        //state cancelled
-        menu.add(0,R.id.RESET_PLAN_INSTANCE_COMMAND,0,R.string.menu_reset_plan_instance);
-      }
-      else {
-        //state applied
-        menu.add(0,R.id.EDIT_COMMAND,0,R.string.menu_edit);
-        menu.add(0,R.id.CANCEL_PLAN_INSTANCE_COMMAND,0,R.string.menu_cancel_plan_instance);
-        menu.add(0,R.id.RESET_PLAN_INSTANCE_COMMAND,0,R.string.menu_reset_plan_instance);
  -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:tools="http://schemas.android.com/tools"
-      tools:ignore="AppCompatResource">
+      tools:ignore="AppCompatResource,UnusedAttribute">
     <group android:id="@+id/MenuBulkChild">
         <item
             android:id="@id/CREATE_PLAN_INSTANCE_SAVE_COMMAND"
