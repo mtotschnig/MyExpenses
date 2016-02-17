@@ -11,4 +11,5 @@
         <ignore path="src/main/res/values-ja/eventrecurrence.xml" />
         <ignore path="src/main/res/values-zh-rTW/eventrecurrence.xml" />
     </issue>
+    <issue id="TypographyDashes" severity="ignore" />
 </lint>
