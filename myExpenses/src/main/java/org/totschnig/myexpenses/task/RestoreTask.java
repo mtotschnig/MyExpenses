@@ -188,8 +188,11 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
                 MyApplication.CALENDAR_FULL_PATH_PROJECTION  + " = ?",
                 new String[] {calendarPath},
                 null);
-        if (c!=null && c.moveToFirst()) {
-          found = true;
+        if (c != null) {
+          if (c.moveToFirst()) {
+            found = true;
+          }
+          c.close();
         }
       }
       if (!found) {
