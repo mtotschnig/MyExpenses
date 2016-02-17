@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -265,6 +266,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
       }
       return;
     }
+    //account selection
     if (mAccountsCursor != null) {
       accountId = id;
       mAccountsCursor.moveToPosition(position);
@@ -278,7 +280,9 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
           this.type :
           Account.Type.valueOf(
                   mAccountsCursor.getString(3));//3=KEY_TYPE
-      mCurrencySpinner.setSelection(currency.ordinal());
+      mCurrencySpinner.setSelection(
+          ((ArrayAdapter<Account.CurrencyEnum>) mCurrencySpinner.getAdapter())
+              .getPosition(currency));
       mTypeSpinner.setSelection(type.ordinal());
       mCurrencySpinner.setEnabled(position == 0);
       mTypeSpinner.setEnabled(position==0);

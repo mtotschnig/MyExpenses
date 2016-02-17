@@ -408,10 +408,8 @@ public class DialogUtils {
     curAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     spinner.setAdapter(curAdapter);
     spinner.setOnItemSelectedListener(listener);
-    spinner.setSelection(
-        Account.CurrencyEnum
-            .valueOf(Account.getLocaleCurrency().getCurrencyCode())
-            .ordinal());
+    spinner.setSelection(curAdapter.getPosition(Account.CurrencyEnum.valueOf(
+        Account.getLocaleCurrency().getCurrencyCode())));
     return spinner;
   }
 

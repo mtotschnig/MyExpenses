@@ -68,6 +68,7 @@ public class AccountEdit extends AmountActivity implements
   Account mAccount;
   private ArrayList<Integer> mColors;
   private ArrayAdapter<Integer> mColAdapter;
+  private ArrayAdapter<Account.CurrencyEnum> currencyAdapter;
 
   private void requireAccount() {
     if (mAccount==null) {
@@ -128,11 +129,11 @@ public class AccountEdit extends AmountActivity implements
     mAmountText.setFractionDigits(Money.fractionDigits(mAccount.currency));
 
     mCurrencySpinner = new SpinnerHelper(findViewById(R.id.Currency));
-    ArrayAdapter<Account.CurrencyEnum> curAdapter = new ArrayAdapter<Account.CurrencyEnum>(
+    currencyAdapter = new ArrayAdapter<>(
         this, android.R.layout.simple_spinner_item,
-        android.R.id.text1,Account.CurrencyEnum.sortedValues());
-    curAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-    mCurrencySpinner.setAdapter(curAdapter);
+        android.R.id.text1, Account.CurrencyEnum.sortedValues());
+    currencyAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+    mCurrencySpinner.setAdapter(currencyAdapter);
     
     mAccountTypeSpinner = new SpinnerHelper(findViewById(R.id.AccountType));
     ArrayAdapter<Account.Type> typAdapter = new ArrayAdapter<Account.Type>(
@@ -229,7 +230,8 @@ public class AccountEdit extends AmountActivity implements
       configureType();
     }
     mAmountText.setAmount(amount);
-    mCurrencySpinner.setSelection(Account.CurrencyEnum.valueOf(mAccount.currency.getCurrencyCode()).ordinal());
+    mCurrencySpinner.setSelection(currencyAdapter.getPosition(
+        Account.CurrencyEnum.valueOf(mAccount.currency.getCurrencyCode())));
     mAccountTypeSpinner.setSelection(mAccount.type.ordinal());
     int selected = mColors.indexOf(mAccount.color);
     mColorSpinner.setSelection(selected);

@@ -192,7 +192,8 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
           .valueOf(
               mAccountsCursor.getString(2));//2=KEY_CURRENCY
       mCurrencySpinner.setSelection(
-          currency.ordinal());
+          ((ArrayAdapter<Account.CurrencyEnum>) mCurrencySpinner.getAdapter())
+              .getPosition(currency));
       mCurrencySpinner.setEnabled(position==0);
     }
   }
