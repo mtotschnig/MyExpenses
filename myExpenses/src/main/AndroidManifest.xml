@@ -36,6 +36,7 @@
         android:icon="@drawable/myexpenses"
         android:label="@string/app_name"
         android:theme="@style/Launch"
+        android:allowBackup="true"
         android:supportsRtl="true">
         <activity
             android:name=".activity.MyExpenses"
@@ -203,7 +204,7 @@
         <service android:name=".service.PlanExecutor" />
         <service android:name=".service.PlanNotificationClickHandler" />
 
-        <service android:name=".service.AutoBackupService">
+        <service android:name=".service.AutoBackupService" android:exported="false">
             <intent-filter>
                 <action android:name="org.totschnig.myexpenses.ACTION_SCHEDULE_AUTO_BACKUP" />
                 <action android:name="org.totschnig.myexpenses.ACTION_AUTO_BACKUP" />
