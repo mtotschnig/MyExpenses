@@ -15,7 +15,7 @@
 
 package org.totschnig.myexpenses.util;
 
-import java.util.HashMap;
+import android.util.SparseArray;
 
 /**
  * simple two level category tree, used for storing categories extracted from Grisbi XML
@@ -23,7 +23,7 @@ import java.util.HashMap;
  *
  */
 public class CategoryTree {
-  private HashMap<Integer,CategoryTree> children;
+  private SparseArray<CategoryTree> children;
   private String label;
   private int total;
   private boolean rootP;
@@ -32,7 +32,7 @@ public class CategoryTree {
     this(label,true);
   }
   public CategoryTree(String label, boolean rootP) {
-    children = new HashMap<Integer,CategoryTree>();
+    children = new SparseArray<>();
     this.setLabel(label);
     total = 0;
     this.rootP = rootP;
@@ -68,7 +68,7 @@ public class CategoryTree {
     children.put(id,new CategoryTree(label,false));
   }
   
-  public HashMap<Integer,CategoryTree> children() {
+  public SparseArray<CategoryTree> children() {
     return children;
   }
 
