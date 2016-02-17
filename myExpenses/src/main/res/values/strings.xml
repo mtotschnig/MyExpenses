@@ -423,7 +423,7 @@
     <string name="restore_backup_archive_not_valid">Archive %1$s is not valid</string>
     <string name="restore_backup_file_not_found">No file %1$s found in archive \"%2$s\"</string>
     <string name="restore_preferences_success">Preferences have been restored from backup.</string>
-    <string name="restore_calendar_success">%d plans have been restored from backup</string>
+    <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d plans have been restored from backup</string>
     <string name="save_transaction_and_new_success">Successfully saved</string>
     <string name="save_transaction_error">Could not save new transaction from template.</string>
     <plurals name="save_transaction_from_template_success">
@@ -506,14 +506,14 @@
     <string name="warning_splitpartcategory_context">Transfers that are part of a split can only be edited in the context of the split.</string>
     <string name="warning_fraction_digits_out_of_range">Please set a number between 0 and 8</string>
     <string name="warning_change_fraction_digits_1">Amounts in the database need to be updated in order to match the new number of fraction digits.</string>
-    <string name="warning_change_fraction_digits_2_multiplied">If amounts are not updated, they will be displayed as multiplied by %d after the change.</string>
-    <string name="warning_change_fraction_digits_2_divided">If amounts are not updated, they will be displayed as divided by %d after the change.</string>
+    <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">If amounts are not updated, they will be displayed as multiplied by %d after the change.</string>
+    <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">If amounts are not updated, they will be displayed as divided by %d after the change.</string>
     <string name="warning_change_fraction_digits_3">If amounts are updated, you will lose the information about their fractional part.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Update amounts in database</string>
     <string name="import_categories_success">%1$s categories successfully imported</string>
     <string name="import_parties_success">%1$s parties successfully imported</string>
     <string name="import_accounts_success">%1$s accounts successfully imported</string>
-    <string name="import_transactions_success">%1$d transactions successfully imported into account %2$s</string>
+    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transactions successfully imported into account %2$s</string>
     <string name="import_accounts_none">No accounts imported</string>
     <string name="import_categories_none">No categories imported</string>
     <string name="import_parties_none">No parties imported</string>
@@ -554,7 +554,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="hint_template_click">A short tap on an entry in this list will instantiate the template and either save it immediately or enter its editing form where you can modify it before saving. You can always access both actions through a long tap, and change the default in the settings.</string>
-    <string name="change_fraction_digits_result">%1$d accounts with currency %2$s have been updated.</string>
+    <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d accounts with currency %2$s have been updated.</string>
     <string name="learn_more">Learn more</string>
     <string name="import_source_file">File</string>
     <string name="restore_calendar_handling">Calendar data handling</string>
@@ -588,8 +588,8 @@
     <!-- Label for column where user can check rows to be discarded from import -->
     <string name="cvs_import_discard">Discard</string>
     <string name="csv_import_field_mapped_more_than_once">%s is mapped more than once.</string>
-    <string name="csv_import_records_failed">%d records could not be imported.</string>
-    <string name="csv_import_records_discarded">%d records were discarded.</string>
+    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d records could not be imported.</string>
+    <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d records were discarded.</string>
     <string name="csv_import_subcategory_requires_category">If you map subcategory, you must also map category.</string>
     <string name="cvs_import_set_first_line_as_header">Should the first line be treated as a header line?</string>
     <string name="csv_import_delimiter_comma">Comma</string>
@@ -603,7 +603,7 @@
     <string name="pref_auto_backup_title">Auto-backup</string>
     <string name="pref_auto_backup_summary">Backup database daily at the specified time (only if data has changed).</string>
     <string name="pref_auto_backup_time_title">Auto-backup time</string>
-    <string name="warning_auto_backup_limited_trial">After %d successful automatic backups, auto-backup will be deactivated.</string>
+    <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">After %d successful automatic backups, auto-backup will be deactivated.</string>
     <string name="warning_auto_backup_limit_reached">The limit for free successful automatic backups has been reached.</string>
     <string name="calendar_permission_required"><i>My Expenses</i> needs permission to access your calendar, in order to create plans for future and recurring transactions.</string>
     <string name="button_request_calendar_access">Grant access</string>
