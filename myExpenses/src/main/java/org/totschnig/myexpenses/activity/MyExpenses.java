@@ -212,12 +212,9 @@ public class MyExpenses extends LaunchActivity implements
 
     mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
     mDrawerList = (StickyListHeadersListView) findViewById(R.id.left_drawer);
-    // set a custom shadow that overlays the main content when the drawer opens
-    theme.resolveAttribute(R.attr.drawerShadow, value, true);
     mToolbar = setupToolbar(false);
     mToolbar.addView(getLayoutInflater().inflate(R.layout.custom_title, mToolbar,false));
     if (mDrawerLayout != null) {
-      mDrawerLayout.setDrawerShadow(value.resourceId, GravityCompat.START);
       mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
           mToolbar, R.string.drawer_open, R.string.drawer_close) {
 
