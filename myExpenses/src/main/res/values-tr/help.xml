@@ -20,7 +20,7 @@
   <string name="cab_clone_transaction_help_text">Seçilen muameleler güncel tarih ve zamanla klonlanacaktır. Kopyayı kaydetmeden değişiklik yapabilirsiniz.</string>
   <string name="cab_split_transaction_help_text">Seçilen muameleler bir bölünmüş parçası bulunan bölünmüş muamelelere dönüştürülecektir. Parçaları istediğiniz gibi oluşturmak için muameleyi düzenleyebilirsiniz.</string>
   <!--ManageMethods title is in keys-->
-  <string name="help_ManageMethods_info">Bu ekran önceden tanımlanmış ödeme metotlarını (Çek, kredi kartı, mevduat, doğrudan ödeme) listeler ve yenilerini tanımlamanıza imkan verir. Yeni metot oluşturacak formu açmak için kayan eylem düğmesini kullanın.</string>
+  <string name="help_ManageMethods_info">Bu ekran önceden tanımlanmış ödeme metotlarını (Çek, kredi kartı, mevduat, doğrudan ödeme) listeler ve yenilerini tanımlamanıza imkân verir. Yeni metot oluşturacak formu açmak için kayan eylem düğmesini kullanın.</string>
   <!--ManageParties title is in keys-->
   <string name="help_ManageParties_info">Bu ekran borçlu/alacaklı alanlarının otomatik tamamlanmasında kullanılan unsurları listeler. Yeni bir unsur eklemek için kayan eylem düğmesini kullanın.</string>
   <!--ManageTemplates title is in keys-->
@@ -50,7 +50,7 @@
   <string name="menu_categories_setup_default_help_text">Bir seri varsayılan kategori içe aktarılacaktır.</string>
   <string name="menu_categories_export_help_text">Kategoriler QIF dosyasına dışa aktarılacaktır.</string>
   <string name="menu_distribution_show_pie_char_help_text">Yuvarlak diyagramın görüntülenmesini aç ya da kapat.</string>
-  <string name="menu_distribution_aggreate_help_text">Varsayılan değer olarak, hesaplanan toplamlar hem harcamalar hem de gelirleri içerir. Bunların ayrı olarak gösterilmesini seçebilirsiniz, eylem çubuğundaki bir düğme harcamalar ve gelirler arasında geçiş yapmaya imkan verir.</string>
+  <string name="menu_distribution_aggreate_help_text">Varsayılan değer olarak, hesaplanan toplamlar hem harcamalar hem de gelirleri içerir. Bunların ayrı olarak gösterilmesini seçebilirsiniz, eylem çubuğundaki bir düğme harcamalar ve gelirler arasında geçiş yapmaya imkân verir.</string>
   <string name="cab_ManageCategories_select_filter_select_category_help_text">Seçilen kategori muamele listesini süzmek içi kullanılacaktır.</string>
   <string name="menu_ManageCategories_search_help_text">Sorgunuzla eşleşen sadece ana ve alt kategoriler gösterilecektir.</string>
   <string name="menu_ManageCategories_sort_help_text">Kategori listesi başlıklara göre (alfabetik olarak), kullanma sıklığına göre ya da son muamele ilişkilendirme tarihine göre sıralanabilir.</string>
@@ -73,7 +73,7 @@
   <string name="form_crstatus_help_text">Banka hesaplarına ait muameleler için muamelenin durumunu çözümlenmiş olarak değiştirebilirsiniz. Uzlaşmış olarak değiştirmek için muamele listesinden \"Hesabı uzlaştır\" komutunu kullanmanız gerekir. Eğer durum boş olarak ayarlıysa, muamele dikkate alınmayacaktır.</string>
   <string name="form_comment_help_text">Unsurla ilgili herhangi bir not girin.</string>
   <string name="form_method_help_text">Bu alan sadece güncel hesap herhangi bir ödeme metoduna bağlı ise mevcuttur. Varsayılan değer olarak sadece banka hesapları ödeme metotlarına bağlıdır (çek, kredi kartı, mevduat, doğrudan ödeme). Hesap türleri ve ödeme metotları arasındaki bağlantıyı yapılandırmak için Ayarlar -&gt; Yönet -&gt; Ödeme Metotları\'na gidin. Sayılı olarak tanımlanmış bir metot seçtiğinizde referans numarasını girebileceğiniz ek bir alan belirir.</string>
-  <string name="form_attach_image_help_text"><![CDATA[The <img src=\"android:ic_menu_camera\"> düğme, unsura bir resim eklemenize (mesela galeriden ya da fotoğraf makinesinden) imkan verir.]]></string>
+  <string name="form_attach_image_help_text"><![CDATA[The <img src=\"android:ic_menu_camera\"> düğme, unsura bir resim eklemenize (mesela galeriden ya da fotoğraf makinesinden) imkân verir.]]></string>
   <string name="form_category_help_text">Bu düğme kategorilerin listesini açar ve burada muameleyi ilişkilendireceğiniz kategoriyi seçebilirsiniz.</string>
   <string name="form_split_parts_heading_help_text">Kayan eylem düğmesini ne kadar gerekiyorsa o kadar bölünmüş parça girmek için kullanın. Muamele ile parçaların toplamı arasındaki fark ekranın altında gösterilir. Bölünmüş muameleyi sadece muamele miktarı tam olarak atanmışsa kaydedebilirsiniz.</string>
   <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Bu bölünmüş kısım için bir kategori seç.</string>
