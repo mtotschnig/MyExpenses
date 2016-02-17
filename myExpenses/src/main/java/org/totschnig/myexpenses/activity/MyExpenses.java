@@ -1319,7 +1319,7 @@ public class MyExpenses extends LaunchActivity implements
         startTaskExecution(
             TaskExecutionFragment.TASK_DELETE_TRANSACTION,
             ArrayUtils.toObject(args.getLongArray(TaskExecutionFragment.KEY_OBJECT_IDS)),
-            new Boolean(checked),
+            Boolean.valueOf(checked),
             R.string.progress_dialog_deleting);
     }
   }

@@ -130,7 +130,7 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
       ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
           TaskExecutionFragment.TASK_DELETE_TRANSACTION,
           new Long[] {info.id},
-          new Boolean(false),
+          Boolean.valueOf(false),
           0);
       return true;
     }
