@@ -185,8 +185,6 @@
   <string name="no_app_handling_email_available">Žádná aplikace pro zpracování e-mailu k dispozici.</string>
   <string name="no_app_handling_ftp_available">Žádná aplikace umožňující zpracovat ftp není dostupná. Instalace <i>Odeslat přes FTP</i>?</string>
   <string name="no_categories">Žádné kategorie.</string>
-  <string name="no_category_assigned">Žádná kategorie nebyla přiřazena</string>
-  <string name="no_details">Žádné podrobnosti.</string>
   <string name="no_expenses">Doposud žádné výdaje!</string>
   <string name="no_exportable_expenses">Neexistují žádné transakce, které ještě nebyly exportovány.</string>
   <string name="no_filemanager_installed">Není nainstalován žádný souborový manažer</string>
@@ -197,7 +195,6 @@
   <string name="no_templates">Nebyly nalezeny žádné šablony.</string>
   <string name="no_title_given">Nezadali jste název.</string>
   <string name="numbered">číslování</string>
-  <string name="oi_pick_colors_info">Instalujte OI Color Picker pro více možností výběru barvy.</string>
   <string name="opening_balance">Počáteční zůstatek</string>
   <string name="parse_error_file_not_found">Nelze najít soubor %1$s</string>
   <string name="parse_error_grisbi_version_not_supported">Nepodporovaná verze Grisbi souboru: %1$s</string>
@@ -264,8 +261,6 @@
   <string name="pref_perform_protection_summary">Mají být start a obnovení aplikace chráněny?</string>
   <string name="pref_perform_protection_title">Ochrana heslem</string>
   <string name="pref_perform_share_title">Sdílet soubor pro export</string>
-  <string name="pref_perform_share_summaryOff">Tento soubor nebude sdílet po každém exportu.</string>
-  <string name="pref_perform_share_summaryOn">Soubor bude sdílen po každém exportu.</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Vytvoření nového místního plánovacího kalendáře</string>
   <string name="pref_planning_calendar_summary">Vyberte kalendář, kde jsou uloženy plány pro budoucí a opakované transakce</string>
@@ -284,8 +279,6 @@
   <string name="pref_share_target_title">Odeslat URL</string>
   <string name="pref_shortcut_added">Zástupce byl přidán do výchozí obrazovky</string>
   <string name="pref_shortcut_summary">Přidání zástupce do výchozí obrazovky.</string>
-  <!--This preference presents a slider where the user selects a value from 0 to 4-->
-  <string name="pref_ui_fontsize_summary">Každý krok zvyšuje základní velikost písma o 2 body</string>
   <string name="pref_ui_fontsize_title">Zvětšit velikost písma</string>
   <string name="pref_ui_language_default">Výchozí systémové nastavení</string>
   <!--Title of the preference for selecting the UI language-->

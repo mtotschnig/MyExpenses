@@ -229,7 +229,6 @@
   <string name="menu_search">Αναζήτηση</string>
   <string name="menu_settings">Ρυθμίσεις</string>
   <string name="menu_share">Πες το σε ένα φίλο</string>
-  <string name="menu_set_sort_key">Ρύθμιση κλειδιού ταξινόμησης</string>
   <string name="menu_split_transaction">Μετασχηματισμός για να διαιρεθεί</string>
   <string name="method">Μέθοδος</string>
   <string name="no_amount_given">Δεν έγινε καμία εισαγωγή οποιουδήποτε ποσού.</string>
@@ -237,8 +236,6 @@
   <string name="no_app_handling_ftp_available">Δεν είναι διαθέσιμο app για χειρισμό ftp. Εγκαταστήσετε <i>Αποστολή με FTP</i>;</string>
   <string name="no_app_handling_pdf_available">Δεν υπάρχει διαθέσιμη εφαρμογή για το χειρισμό αρχείων PDF.</string>
   <string name="no_categories">Καμία κατηγορία.</string>
-  <string name="no_category_assigned">Καμία κατηγορία δεν εκχωρείται</string>
-  <string name="no_details">Δεν υπάρχουν στοιχεία.</string>
   <string name="no_expenses">Δεν υπαρχουν έξοδα ακόμη!</string>
   <string name="no_exportable_expenses">Δεν υπάρχουν συναλλαγές που δεν έχουν ακόμα εξαχθεί.</string>
   <string name="no_filemanager_installed">Δεν υπάρχει εγκατεστημένος διαχειριστής αρχείων</string>
@@ -259,7 +256,6 @@
     <item quantity="other">%1$d αντικείμενα αντιστοιχίζονται σε πρότυπα και δεν μπορoύν να διαγραφούν.</item>
   </plurals>
   <string name="numbered">αριθμημένος, -η</string>
-  <string name="oi_pick_colors_info">Εγκαταστήσετε OI επιλογέα χρωμάτων για περισσότερες επιλογές</string>
   <string name="opening_balance">Απογραφή Υπολοίπου </string>
   <string name="parse_error_file_not_found">Δεν μπορούσε να βρει το αρχείο %1$s</string>
   <string name="parse_error_grisbi_version_not_supported">Μη ΥΠΟΣΤΗΡΙΖΟΜΕΝΟΣ Grisbi File έκδοση: %1$s</string>
@@ -342,8 +338,6 @@
   <string name="pref_perform_protection_summary">Θα πρέπει app προϊόντα και resumes να προστατεύονται;</string>
   <string name="pref_perform_protection_title">Προστασία με κωδικό πρόσβασης</string>
   <string name="pref_perform_share_title">Μοιραστείτε αρχείο  εξαγωγής</string>
-  <string name="pref_perform_share_summaryOff">Το αρχείο δεν θα κοινοποιηθεί μετά από κάθε εξαγωγή.</string>
-  <string name="pref_perform_share_summaryOn">Το αρχείο θα κοινοποιηθεί  μετά από κάθε εξαγωγή.</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Δημιουργήσετε νέο τοπικό ημερολόγιο προγραμματισμού</string>
   <string name="pref_planning_calendar_summary">Επιλέξτε το ημερολόγιο όπου αποθηκεύονται τα σχέδια για το μέλλον και επαναλαμβανόμενες συναλλαγές</string>
@@ -370,8 +364,6 @@
   <string name="pref_shortcut_not_added">Δεν υπάρχει διαθέσιμη αρχική οθόνη που να δέχεται συντομεύσεις.</string>
   <string name="pref_shortcut_summary">Προσθήκη της συντόμευσης στην αρχική οθόνη.</string>
   <string name="pref_template_click_default_summary">Μετά από σύντομο πάτημα σε εγγραφή στην λίστα προτύπων</string>
-  <!--This preference presents a slider where the user selects a value from 0 to 4-->
-  <string name="pref_ui_fontsize_summary">Κάθε βήμα αυξάνει το μέγεθος της βασικής γραμματοσειράς κατά 2sp</string>
   <string name="pref_ui_fontsize_title">Αύξηση μεγέθους γραμματοσειράς</string>
   <string name="pref_ui_home_screen_shortcuts">Συντομεύσεις αρχικής οθόνης</string>
   <string name="pref_ui_language_default">Προεπιλογή συστήματος</string>
@@ -401,7 +393,7 @@
   <string name="restore_backup_archive_not_valid">Το αρχείο %1$s δεν είναι έγκυρο</string>
   <string name="restore_backup_file_not_found">Κανένα αρχείο %1$s δεν βρέθηκε στο αρχείο \"%2$s\"</string>
   <string name="restore_preferences_success">Προτιμήσεις έχουν αποκατασταθεί από τη δημιουργία αντιγράφων.</string>
-  <string name="restore_calendar_success">%d σχέδια έχουν αποκατασταθεί από το αντίγραφο ασφαλείας</string>
+  <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d σχέδια έχουν αποκατασταθεί από το αντίγραφο ασφαλείας</string>
   <string name="save_transaction_and_new_success">Αποθήκευση με επιτυχία</string>
   <string name="save_transaction_error">Δεν μπορούσε να αποθηκεύσει νέα συναλλαγή από πρότυπο.</string>
   <plurals name="save_transaction_from_template_success">
@@ -486,7 +478,7 @@
   <string name="import_categories_success">%1$s κατηγορίες που εισάγονται με επιτυχία</string>
   <string name="import_parties_success">%1$s μέρη που εισάγονται με επιτυχία</string>
   <string name="import_accounts_success">%1$s λογαριασμοί εισάχθηκαν με επιτυχία</string>
-  <string name="import_transactions_success">%1$d συναλλαγές εισήχθηκαν με επιτυχία στον λογαριασμό %2$s</string>
+  <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d συναλλαγές εισήχθηκαν με επιτυχία στον λογαριασμό %2$s</string>
   <string name="import_accounts_none">Δεν έχουν εισαχθεί λογαριασμοί</string>
   <string name="import_categories_none">Δεν έχουν εισαχθεί κατηγορίες</string>
   <string name="import_parties_none">Δεν έχουν εισαχθεί μέρη</string>
@@ -526,7 +518,7 @@
   <string name="yes">Ναι</string>
   <string name="no">Όχι</string>
   <string name="hint_template_click">Ένα σύντομο πάτημα σε μια καταχώρηση στον κατάλογο αυτό θα επισημάνει το πρότυπο και είτε αποθηκεύστε το αμέσως ή εισέλθετε στην φόρμα επεξεργασίας, όπου μπορείτε να το τροποποιήσετε πριν από την αποθήκευση. Μπορείτε πάντα να έχετε πρόσβαση και τις δύο δράσεις με ένα παρατεταμένο πάτημα, και να αλλάξετε το προεπιλεγμένο στις ρυθμίσεις.</string>
-  <string name="change_fraction_digits_result">%1$d λογαριασμοί με νόμισμα %2$s έχουν ενημερωθεί.</string>
+  <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d λογαριασμοί με νόμισμα %2$s έχουν ενημερωθεί.</string>
   <string name="learn_more">Μάθετε περισσότερα</string>
   <string name="import_source_file">Αρχείο</string>
   <string name="restore_calendar_handling">Χειρισμός δεδομένων ημερολογίου</string>
@@ -560,8 +552,8 @@
   <!--Label for column where user can check rows to be discarded from import-->
   <string name="cvs_import_discard">Απόρριψη</string>
   <string name="csv_import_field_mapped_more_than_once">%s έχει αντιστοιχιστεί πάνω από μία φορά.</string>
-  <string name="csv_import_records_failed">%d εγγραφές δεν μπορούν να εισαχθούν.</string>
-  <string name="csv_import_records_discarded">%d εγγραφές απορρίφθηκαν.</string>
+  <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d εγγραφές δεν μπορούν να εισαχθούν.</string>
+  <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d εγγραφές απορρίφθηκαν.</string>
   <string name="csv_import_subcategory_requires_category">If you map subcategory, you must also map category.</string>
   <string name="cvs_import_set_first_line_as_header">Θα έπρεπε η πρώτη γραμμή να αντιμετωπίζεται ως επικεφαλίδα;</string>
   <string name="csv_import_delimiter_comma">Κόμμα</string>
@@ -571,11 +563,11 @@
   <string name="menu_show_transactions">Εμφάνιση συναλλαγών</string>
   <string name="pref_custom_decimal_format_title">Μορφή αριθμού</string>
   <string name="pref_custom_decimal_format_summary">Εάν δεν είστε ικανοποιημένοι με την προεπιλεγμένη μορφή για την τοποθεσία σας, προσαρμόστε τη στις ανάγκες σας. Αφήστε το κενό για να επαναφέρετε την προεπιλεγμένη μορφή.</string>
-  <string name="licence_validation_upgrade_needed">Παρακαλώ αναβαθμίστε το My Expenses Contrib στην έκδοση 1,5.</string>
+  <string name="licence_validation_upgrade_needed" tools:ignore="UnusedResources">Παρακαλώ αναβαθμίστε το My Expenses Contrib στην έκδοση 1,5.</string>
   <string name="pref_auto_backup_title">Ενεργοποίηση της αυτόματης δημιουργίας αντιγράφων ασφαλείας</string>
   <string name="pref_auto_backup_summary">Δημιουργία αντιγράφων ασφαλείας της βάσης δεδομένων καθημερινά την καθορισμένη ώρα (μόνο αν τα δεδομένα έχουν αλλάξει).</string>
   <string name="pref_auto_backup_time_title">Χρόνος αυτόματης δημιουργίας του αντιγράφου ασφαλείας</string>
-  <string name="warning_auto_backup_limited_trial">Μετά από %d επιτυχημένα αυτόματα αντίγραφα ασφαλείας, η λειτουργία αυτόματου αντίγραφου ασφαλείας θα απενεργοποιηθεί.</string>
+  <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Μετά από %d επιτυχημένα αυτόματα αντίγραφα ασφαλείας, η λειτουργία αυτόματου αντίγραφου ασφαλείας θα απενεργοποιηθεί.</string>
   <string name="warning_auto_backup_limit_reached">Το όριο για δωρεάν επιτυχή δημιουργία αυτόματων αντιγράφων ασφαλείας έχει επιτευχθεί.</string>
   <string name="calendar_permission_required"><i>Τα έξοδά μου</i> χρειάζεται άδεια για πρόσβαση στο ημερολόγιό σας, προκειμένου να δημιουργήσει σχέδια για μελλοντικές και επαναλαμβανόμενες συναλλαγές.</string>
   <string name="button_request_calendar_access">Παραχώρηση πρόσβασης</string>

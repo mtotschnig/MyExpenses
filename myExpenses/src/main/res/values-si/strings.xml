@@ -192,8 +192,6 @@
   <string name="no_app_handling_email_available"> නියැලුම් පරිහරණය කිරීමේ විද්‍යුත් ලිපිනයක් නොමැත.</string>
   <string name="no_app_handling_ftp_available"> ඇප් පාලනය කල නොහැකි ftp තිබේ.පිහිටුවන්න <i>ftp සමග යවන්න</i>?</string>
   <string name="no_categories">වර්ග නැත </string>
-  <string name="no_category_assigned">ප්‍රබේධ නියම කොට නැත </string>
-  <string name="no_details">විස්තර නැත </string>
   <string name="no_expenses">තවම වියදම් නැත </string>
   <string name="no_exportable_expenses">අපනයන නොකළ ගනුදෙනු නොමැත </string>
   <string name="no_filemanager_installed">ලිපිගොනු කළමනාකරණයක් පිහිටුවා නොමැත </string>
@@ -213,7 +211,6 @@
     <item quantity="other">%1$d  අවයව  අච්චු  තුලට වෙන් කොට ඇති අතර මකා දැමිය නොහැක</item>
   </plurals>
   <string name="numbered">අංකනය </string>
-  <string name="oi_pick_colors_info">තවත් තෝරාගැනීම් සඳහා OL පාට ඇහුළුම් කූර පිහිටුවන්න </string>
   <string name="opening_balance">ආරම්භක ශේෂය </string>
   <string name="parse_error_file_not_found">ලිපිගොනුව සොයගත නොහැක %1$s</string>
   <string name="parse_error_grisbi_version_not_supported">සහාය නොමැති ග්රිස්බි ලිපිගොනු වර්ගයක් %1$s</string>
@@ -285,8 +282,6 @@
   <string name="pref_perform_protection_summary">සාරාංශ සහ ඇප් දියත් කිරීම් ආරක්ෂා යල යුතුද?</string>
   <string name="pref_perform_protection_title">මුරපද ආරක්ෂාව</string>
   <string name="pref_perform_share_title">අපනයන සහ උපස්ථා බෙදා හරින්න </string>
-  <string name="pref_perform_share_summaryOff">ලිපිගොනු සියල්ල බෙදානොහැරේ </string>
-  <string name="pref_perform_share_summaryOn">ලිපිගොනු සියල්ල බෙදාහැරේ </string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">නව පරිස්ථානීය සැලසුම්  දින දර්ශනයක් නිර්මාණය කරන්න  </string>
   <string name="pref_planning_calendar_summary">අනාගත සැලසුම් සහ නැවත ඇතිවන ගනුදෙනු තැන්පත් කිරීම සදහා දින දර්ශනයක් තෝරාගන්න </string>
@@ -310,8 +305,6 @@
   <string name="pref_shortcut_added">ප්‍රධාන තිරයට කෙටිමරගයක් ඇතුලත් කරන ලදී </string>
   <string name="pref_shortcut_not_added">කෙටිමාර්ග භාවිතා කළහැකි  ප්‍රධාන තිර නොමැත </string>
   <string name="pref_shortcut_summary">ප්‍රධාන තිරයට කෙටිමරගයක් ඇතුලත් කරන්න </string>
-  <!--This preference presents a slider where the user selects a value from 0 to 4-->
-  <string name="pref_ui_fontsize_summary">සම පියවරක්ම මුල් මුද්‍රණ අකුරුවර්ගයේ ප්‍රමාණය මෙන් 2sp වලින් වැඩිවේ </string>
   <string name="pref_ui_fontsize_title">මුද්‍රණ අකුරුවර්ගයේ ප්‍රමාණය වැඩි කරන්න </string>
   <string name="pref_ui_home_screen_shortcuts">ප්‍රධාන තිර කෙටිමාර්ග </string>
   <string name="pref_ui_language_default">මුල් පද්ධතිය </string>
@@ -406,7 +399,7 @@
   <string name="import_categories_success">ප්‍රබේධ %1$s සාර්ථකල ලෙස ආනයනය කරන ලදී </string>
   <string name="import_parties_success">පක්ෂ %1$s සාර්ථකල ලෙස ආනයනය කරන ලදී </string>
   <string name="import_accounts_success">ගිණුම් %1$s  සාර්ථකල ලෙස ආනයනය කරන ලදී </string>
-  <string name="import_transactions_success">ගනුදෙනු %1$d සාර්ථකල ලෙස %2$s ගිණුමට ආනයනය කරන ලදී </string>
+  <string name="import_transactions_success" tools:ignore="PluralsCandidate">ගනුදෙනු %1$d සාර්ථකල ලෙස %2$s ගිණුමට ආනයනය කරන ලදී </string>
   <string name="import_accounts_none">ගිණුම් ආනයන කරේ නැත </string>
   <string name="import_categories_none">ප්‍රබේධ  ආනයන කරේ නැත </string>
   <string name="import_parties_none">පක්ෂ ආනයන කරේ නැත </string>

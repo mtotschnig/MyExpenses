@@ -233,7 +233,6 @@
   <string name="menu_search">Pesquisar</string>
   <string name="menu_settings">Configurações</string>
   <string name="menu_share">Indique a um amigo</string>
-  <string name="menu_set_sort_key">Definir a chave de classificação</string>
   <string name="menu_split_transaction">Dividir</string>
   <string name="method">Método</string>
   <string name="no_amount_given">Você não entra qualquer quantidade.</string>
@@ -241,8 +240,6 @@
   <string name="no_app_handling_ftp_available">Nenhum app manipulação de ftp disponível. Instalar <i>enviar com FTP</i>?</string>
   <string name="no_app_handling_pdf_available">Nenhum app PDF disponível.</string>
   <string name="no_categories">Sem categorias.</string>
-  <string name="no_category_assigned">Sem categoria atribuída</string>
-  <string name="no_details">Sem detalhes.</string>
   <string name="no_expenses">Sem despesas ainda!</string>
   <string name="no_exportable_expenses">Ainda não foi exportada nenhuma transação.</string>
   <string name="no_filemanager_installed">Nenhum gerenciador de arquivos instalado</string>
@@ -263,7 +260,6 @@
     <item quantity="other">%1$d objetos são mapeados para os modelos e não podem ser excluídos.</item>
   </plurals>
   <string name="numbered">numeradas</string>
-  <string name="oi_pick_colors_info">Instale OI Color Picker para mais opções</string>
   <string name="opening_balance">Saldo inicial</string>
   <string name="parse_error_file_not_found">Não foi possível localizar o arquivo %1$s</string>
   <string name="parse_error_grisbi_version_not_supported">Versão de arquivo Grisbi não suportado: %1$s</string>
@@ -346,8 +342,6 @@
   <string name="pref_perform_protection_summary">App lançamentos e resumos devem ser protegidos?</string>
   <string name="pref_perform_protection_title">Proteção de senha</string>
   <string name="pref_perform_share_title">Compartilhar las exportações e backups</string>
-  <string name="pref_perform_share_summaryOff">Os arquivos não serão compartilhados.</string>
-  <string name="pref_perform_share_summaryOn">Os arquivos serão compartilhados.</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Criar novo calendário de planejamento local</string>
   <string name="pref_planning_calendar_summary">Selecione o calendário onde planos futuros e recorrentes de transações são armazenados</string>
@@ -374,8 +368,6 @@
   <string name="pref_shortcut_not_added">Nenhuma tela inicial disponível que aceita atalhos.</string>
   <string name="pref_shortcut_summary">Adicionar o atalho à tela inicial.</string>
   <string name="pref_template_click_default_summary">Em cima da torneira curta na entrada na lista de modelo</string>
-  <!--This preference presents a slider where the user selects a value from 0 to 4-->
-  <string name="pref_ui_fontsize_summary">Cada passo aumenta o tamanho da fonte básica em 2sp</string>
   <string name="pref_ui_fontsize_title">Aumentar tamanho da fonte</string>
   <string name="pref_ui_home_screen_shortcuts">Atalhos da tela inicial</string>
   <string name="pref_ui_language_default">Padrão do sistema</string>
@@ -405,7 +397,7 @@
   <string name="restore_backup_archive_not_valid">Arquivo %1$s não é válido</string>
   <string name="restore_backup_file_not_found">Nenhum arquivo %1$s encontrado no arquivo \"%2$s\"</string>
   <string name="restore_preferences_success">As preferências foram restauradas a partir do backup.</string>
-  <string name="restore_calendar_success">%d planos foram restaurados do backup</string>
+  <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d planos foram restaurados do backup</string>
   <string name="save_transaction_and_new_success">Salvo com sucesso</string>
   <string name="save_transaction_error">Não foi possível salvar nova transação do modelo.</string>
   <plurals name="save_transaction_from_template_success">
@@ -490,7 +482,7 @@
   <string name="import_categories_success">%1$s categorias importadas com sucesso</string>
   <string name="import_parties_success">%1$s participantes importados com sucesso</string>
   <string name="import_accounts_success">%1$s contas importadas com êxito</string>
-  <string name="import_transactions_success">%1$d transações importadas com êxito para conta %2$s</string>
+  <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transações importadas com êxito para conta %2$s</string>
   <string name="import_accounts_none">Contas não importadas</string>
   <string name="import_categories_none">Não há categorias importadas</string>
   <string name="import_parties_none">Não há partidos importadas</string>
@@ -530,7 +522,7 @@
   <string name="yes">Sim</string>
   <string name="no">Não</string>
   <string name="hint_template_click">Um toque curto em uma entrada nesta lista será instanciar o modelo e quer salvá-lo imediatamente ou insira a sua forma de edição onde você pode modificá-la antes de salvar. Você sempre pode acessar ambas as ações através de um toque longo e alterar o padrão nas configurações.</string>
-  <string name="change_fraction_digits_result">%1$d contas com moeda %2$s foram atualizadas.</string>
+  <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d contas com moeda %2$s foram atualizadas.</string>
   <string name="learn_more">Saiba Mais</string>
   <string name="import_source_file">Arquivo</string>
   <string name="restore_calendar_handling">Manipulação de dados de calendário</string>
@@ -564,8 +556,8 @@
   <!--Label for column where user can check rows to be discarded from import-->
   <string name="cvs_import_discard">Descarte</string>
   <string name="csv_import_field_mapped_more_than_once">%s é mapeado para mais de uma vez.</string>
-  <string name="csv_import_records_failed">%d registros não podem ser importados.</string>
-  <string name="csv_import_records_discarded">%d registros foram descartados.</string>
+  <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d registros não podem ser importados.</string>
+  <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d registros foram descartados.</string>
   <string name="csv_import_subcategory_requires_category">Se você mapear uma subcategoria, você também deve mapear categoria.</string>
   <string name="cvs_import_set_first_line_as_header">A primeira linha deve ser tratada como uma linha de cabeçalho?</string>
   <string name="csv_import_delimiter_comma">Vírgula</string>
@@ -575,11 +567,11 @@
   <string name="menu_show_transactions">Mostrar as transações</string>
   <string name="pref_custom_decimal_format_title">Formato de número</string>
   <string name="pref_custom_decimal_format_summary">Se você não estiver satisfeito com o formato padrão para sua localidade, adaptá-lo às suas necessidades. Deixe em branco para restaurar o formato padrão.</string>
-  <string name="licence_validation_upgrade_needed">Por favor, atualize Minhas Despesas Contrib à versão 1.5.</string>
+  <string name="licence_validation_upgrade_needed" tools:ignore="UnusedResources">Por favor, atualize Minhas Despesas Contrib à versão 1.5.</string>
   <string name="pref_auto_backup_title">Habilitar backup automático</string>
   <string name="pref_auto_backup_summary">Backup do banco de dados diariamente no horário especificado (somente se os dados foram alterados)</string>
   <string name="pref_auto_backup_time_title">Horário de backup automático</string>
-  <string name="warning_auto_backup_limited_trial">Depois de %d bem sucedido backups automáticos, backup automático será desativado.</string>
+  <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Depois de %d bem sucedido backups automáticos, backup automático será desativado.</string>
   <string name="warning_auto_backup_limit_reached">O limite de graça backups automáticos de sucesso foi alcançado.</string>
   <string name="calendar_permission_required"><i>Minhas despesas</i> precisa de permissão para acessar seu calendário, a fim de criar planos para transações futuras e recorrentes.</string>
   <string name="button_request_calendar_access">Conceder acesso</string>

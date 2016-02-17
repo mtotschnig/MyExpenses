@@ -20,6 +20,7 @@
   <string name="account_type_liability_plural">Contas de passivos</string>
   <string name="already_defined">%1$s já definido</string>
   <string name="amount">Valor</string>
+  <string name="app_name">My Expenses</string>
   <string name="backup_failure">Erro ao criar o backup em \"%1$s\".</string>
   <string name="backup_success">Base de dados e preferências guardadas em \"%1$s\".</string>
   <string name="category">Categoria</string>
@@ -32,11 +33,11 @@
   <string name="comment">Notas</string>
   <string name="confirmation_dialog_dont_show_again">Não mostrar novamente</string>
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Sem anúncios</string>
-  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources">Apenas pode criar 5 contas na versão gratuita do <i>Minhas despesas</i>.</string>
+  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources">Apenas pode criar 5 contas na versão gratuita do <i>My Expenses</i>.</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Número ilimitado de contas</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Possibilidade de anexar imagens</string>
   <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Distribuição de transações por categoria</string>
-  <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">Apenas pode criar 3 planos na versão gratuita do <i>Minhas despesas</i>.</string>
+  <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">Apenas pode criar 3 planos na versão gratuita do <i>My Expenses</i>.</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Número ilimitado de planos</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Exportação de transações para PDF</string>
   <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">Questão de segurança</string>
@@ -46,7 +47,7 @@
   <string name="contrib_feature_auto_backup_label" tools:ignore="UnusedResources">Backup automático</string>
   <string name="contrib_key">Chave de contribuição</string>
   <string name="extended_key">Chave expandida</string>
-  <!--Placeholder: 1 will be replace with either Minhas despesas Contrib Key or Minhas despesas Extended Key-->
+  <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">Requer %1$s.</string>
   <string name="currency">Moeda</string>
   <string name="current_balance">Saldo atual</string>
@@ -75,11 +76,11 @@
   <string name="dialog_contrib_premium_feature">%1$s é uma funcionalidade premium.</string>
   <!--Placeholder: 1 is name of the feature-->
   <string name="dialog_contrib_extended_feature">%1$s é uma funcionalidade extended.</string>
-  <!--Placeholder is either "Minhas despesas Contrib Key" or "Minhas despesas Extended Key"-->
+  <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
   <string name="dialog_contrib_reminder_remove_limitation">Remova esta limitação comprando %s.</string>
   <string name="dialog_contrib_reminder_gain_access">Você obtém também acesso sem restrições às seguintes funcionalidades:</string>
   <string name="dialog_contrib_extended_gain_access">Adicionalmente, as seguintes funcionalidades são desbloqueadas se comprar a chave Extended:</string>
-  <string name="dialog_contrib_text_1"><i>Minhas despesas</i> é disponibilizado sem anúncios e em código aberto.</string>
+  <string name="dialog_contrib_text_1"><i>My Expenses</i> é disponibilizado sem anúncios e em código aberto.</string>
   <string name="dialog_contrib_text_2">Por favor contribua ao comprar %s.</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Você tem um uso gratuito restante.</item>
@@ -96,8 +97,8 @@
   <string name="dialog_password_new_password_confirmation">Nova palavra-passe (confirmação)</string>
   <string name="dialog_remind_later">Mais tarde</string>
   <string name="dialog_remind_no">Não</string>
-  <string name="dialog_remind_rate_how_many_stars">Quantas estrelas você daria ao Minhas despesas?</string>
-  <string name="dialog_remind_rate_1">Por favor conceda-nos um momento para avaliar o Minhas despesas.</string>
+  <string name="dialog_remind_rate_how_many_stars">Quantas estrelas você daria ao My Expenses?</string>
+  <string name="dialog_remind_rate_1">Por favor conceda-nos um momento para avaliar o My Expenses.</string>
   <string name="dialog_remind_rate_2">Os seus comentários ajudam-nos a melhorar a aplicação.</string>
   <string name="dialog_remind_rate_1_suggest_improvement">Por favor conceda-nos um momento e envie as suas sugestões e comentários.</string>
   <string name="dialog_remind_rate_yes">Avaliar agora</string>
@@ -156,9 +157,9 @@
     <item>Gestão direta no seu smartphone.</item>
     <item>Exportação para um programa de finanças como o Grisbi, GnuCash, Quicken ou MS Money.</item>
   </string-array>
-  <string name="help_leading">Obrigado por instalar o <i>Minhas despesas</i> para Android.</string>
+  <string name="help_leading">Obrigado por instalar o <i>My Expenses</i> para Android.</string>
   <string name="important_upgrade_information_heading">Informação importante</string>
-  <string name="important_upgrade_information_1">Os backups e exportações são agora guardados Android/data/org.totschnig.myexpenses . ATENÇÃO: este diretório será apagado se desinstalar o Minhas despesas.</string>
+  <string name="important_upgrade_information_1">Os backups e exportações são agora guardados Android/data/org.totschnig.myexpenses . ATENÇÃO: este diretório será apagado se desinstalar o My Expenses.</string>
   <string name="import_select_transactions">Transações</string>
   <string name="income">Receitas</string>
   <string name="invalid_number_format">Formato decimal não reconhecido pela sua configuração regional. Por favor utilize %1$s.</string>
@@ -224,15 +225,12 @@
   <string name="menu_search">Pesquisa</string>
   <string name="menu_settings">Definições</string>
   <string name="menu_share">Recomendar a um amigo</string>
-  <string name="menu_set_sort_key">Definir chave de ordenação</string>
   <string name="method">Método</string>
   <string name="no_amount_given">Não introduziu qualquer valor.</string>
   <string name="no_app_handling_email_available">Não existem aplicações de e-mail.</string>
   <string name="no_app_handling_ftp_available">Não existem aplicações para ligações ftp. Instalar <i>Send With FTP</i>?</string>
   <string name="no_app_handling_pdf_available">Não existem aplicações para gerir PDF.</string>
   <string name="no_categories">Sem categorias.</string>
-  <string name="no_category_assigned">Categoria não atribuída</string>
-  <string name="no_details">Sem detalhes.</string>
   <string name="no_expenses">Sem despesas ainda!</string>
   <string name="no_exportable_expenses">Não existem transações que ainda não tenham sido exportadas.</string>
   <string name="no_filemanager_installed">Não possui um gestor de ficheiros.</string>
@@ -251,7 +249,6 @@
     <item quantity="other">%1$d objetos estão mapeados a modelos e não podem ser apagados.</item>
   </plurals>
   <string name="numbered">numerada</string>
-  <string name="oi_pick_colors_info">Instalar OI Color Picker para mais opções</string>
   <string name="opening_balance">Saldo de abertura</string>
   <string name="parse_error_file_not_found">Ficheiro %1$s não encontrado</string>
   <string name="parse_error_grisbi_version_not_supported">Versão de ficheiro Grisbi não suportada: %1$s</string>
@@ -270,7 +267,7 @@
   <string name="plan">Plano</string>
   <string name="plan_automatic">automático</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">Planificador Minhas despesas</string>
+  <string name="plan_calendar_name">Planificador My Expenses</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Execução do plano cancelada.</string>
   <string name="plan_manual">manual</string>
@@ -310,7 +307,7 @@
   <string name="pref_enter_licence_summary">Se recebeu uma chave, obtenha acesso a funcionalidades premium/extended.</string>
   <string name="pref_enter_licence_title">Introduza a chave</string>
   <string name="pref_export_format_title">Formato de data</string>
-  <string name="pref_follow_gplus_title">Siga o Minhas despesas no Google+</string>
+  <string name="pref_follow_gplus_title">Siga o My Expenses no Google+</string>
   <string name="pref_import_from_grisbi_summary">Importar categorias e partes de ficheiros XML do Grisbi</string>
   <string name="pref_import_from_grisbi_title">Importar do Grisbi</string>
   <!--%s is replaced with QIF or CSV-->
@@ -333,8 +330,6 @@ Sérgio Marques</string>
   <string name="pref_password_not_equal">As palavras-passe não coincidem</string>
   <string name="pref_perform_protection_title">Proteção por palavra-passe</string>
   <string name="pref_perform_share_title">Partilhar exportações e cópias de segurança</string>
-  <string name="pref_perform_share_summaryOff">Os ficheiros não serão partilhados.</string>
-  <string name="pref_perform_share_summaryOn">Os ficheiros serão partilhados.</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Criar calendário local de planeamento</string>
   <string name="pref_planning_calendar_title">Calendário de planeamento</string>
@@ -345,7 +340,6 @@ Sérgio Marques</string>
   <string name="pref_qif_export_file_encoding_title">Codificação de caracteres</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_security_question_title">Questão de segurança</string>
-  <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_language_default">Definições do sistema</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Idioma</string>

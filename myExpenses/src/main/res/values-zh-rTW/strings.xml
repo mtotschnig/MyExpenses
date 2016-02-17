@@ -174,8 +174,6 @@
   <string name="no_app_handling_email_available">沒有可用的應用程序電子郵件。</string>
   <string name="no_app_handling_ftp_available">沒有被應用程序處理的ftp可用。安裝 <i>使用FTP發送</i> ？</string>
   <string name="no_categories">沒有分類。</string>
-  <string name="no_category_assigned">未分配類別</string>
-  <string name="no_details">沒有詳細說明。</string>
   <string name="no_expenses">未有開支!</string>
   <string name="no_exportable_expenses">沒有交易未被匯出</string>
   <string name="no_filemanager_installed">未安裝檔案管理程式</string>
@@ -185,7 +183,6 @@
   <string name="no_templates">沒有範本</string>
   <string name="no_title_given">你未輸入任何文字。</string>
   <string name="numbered">編號</string>
-  <string name="oi_pick_colors_info">安裝「OI顏色選擇器」來得到更多選擇</string>
   <string name="opening_balance">金額</string>
   <string name="parse_error_file_not_found">未能找到檔案 %1$s</string>
   <string name="parse_error_grisbi_version_not_supported">不支援 Grisbi 文檔版本： %1$s</string>
@@ -251,8 +248,6 @@
   <string name="pref_perform_protection_summary">應用程式在每次啟動和恢復過來時被密碼保護</string>
   <string name="pref_perform_protection_title">密碼保護</string>
   <string name="pref_perform_share_title">分享匯出檔案</string>
-  <string name="pref_perform_share_summaryOff">文件將不會在每次匯出後分享。</string>
-  <string name="pref_perform_share_summaryOn">文件將在每次匯出後分享。</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">建立新的本機計劃日曆</string>
   <string name="pref_planning_calendar_summary">選取一個日曆用於計劃將來和記錄經常性交易</string>
@@ -269,8 +264,6 @@
   <string name="pref_share_target_title">上載 URL</string>
   <string name="pref_shortcut_added">捷徑已被添加到主畫面</string>
   <string name="pref_shortcut_summary">新增捷徑到主畫面。</string>
-  <!--This preference presents a slider where the user selects a value from 0 to 4-->
-  <string name="pref_ui_fontsize_summary">每次增減字體大小 2sp</string>
   <string name="pref_ui_fontsize_title">介面字體大小</string>
   <string name="pref_ui_language_default">系統默認</string>
   <!--Title of the preference for selecting the UI language-->

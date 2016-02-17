@@ -232,7 +232,6 @@
   <string name="menu_search">Gelintar</string>
   <string name="menu_settings">Tetapan</string>
   <string name="menu_share">Beritahu rakan</string>
-  <string name="menu_set_sort_key">Tetapkan kekunci isih</string>
   <string name="menu_split_transaction">Ubah untuk pisah</string>
   <string name="method">Kaedah</string>
   <string name="no_amount_given">Anda tidak masukkan apa-apa amaun.</string>
@@ -240,8 +239,6 @@
   <string name="no_app_handling_ftp_available">Tiada apl pengendalian ftp tersedia. Pasang <i>Hantar Dengan FTP</i>?</string>
   <string name="no_app_handling_pdf_available">Tiada apl pengendalian fail PDF tersedia.</string>
   <string name="no_categories">Tiada kategori.</string>
-  <string name="no_category_assigned">Tiada kategori diumpuk</string>
-  <string name="no_details">Tiada perincian.</string>
   <string name="no_expenses">Tiada Perbelanjaan Lagi!</string>
   <string name="no_exportable_expenses">Tiada transaksi yang belum lagi dieksport.</string>
   <string name="no_filemanager_installed">Tiada pengurus fail dipasang</string>
@@ -260,7 +257,6 @@
     <item quantity="other">%1$d objek telah dipetakan ke templat dan tidak boleh dipadam.</item>
   </plurals>
   <string name="numbered">bernombor</string>
-  <string name="oi_pick_colors_info">Pasang OI Color Picker untuk lebih pilihan</string>
   <string name="opening_balance">Baki mula</string>
   <string name="parse_error_file_not_found">Tidak dapat cari fail %1$s</string>
   <string name="parse_error_grisbi_version_not_supported">Veris Fail Grisbi Tidak Disokong: %1$s</string>
@@ -343,8 +339,6 @@
   <string name="pref_perform_protection_summary">Patutkah apl yang dilancar dan disambung semula dilindungi?</string>
   <string name="pref_perform_protection_title">Perlindungan kata laluan</string>
   <string name="pref_perform_share_title">Kongsi eksport dan sandar</string>
-  <string name="pref_perform_share_summaryOff">Fail tidak akan dikongsi.</string>
-  <string name="pref_perform_share_summaryOn">Fail akan dikongsi.</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Cipta kalendar perancangan setempat baharu</string>
   <string name="pref_planning_calendar_summary">Pilih kalendar yang mana pelan untuk transaksi akan datang dan berulang disimpan</string>
@@ -371,8 +365,6 @@
   <string name="pref_shortcut_not_added">Tiada Skrin Rumah tersedia yang menerima pintasan.</string>
   <string name="pref_shortcut_summary">Tambah pintasan ke Skrin Rumah.</string>
   <string name="pref_template_click_default_summary">Bila mengetuk pantas pada masukan dalam senarai templat</string>
-  <!--This preference presents a slider where the user selects a value from 0 to 4-->
-  <string name="pref_ui_fontsize_summary">Setiap langkah tingkatkan saiz fon dasar sebanyak 2sp</string>
   <string name="pref_ui_fontsize_title">Tingkatkan saiz fon</string>
   <string name="pref_ui_home_screen_shortcuts">Pintasan Skrin Rumah</string>
   <string name="pref_ui_language_default">Lalai sistem</string>
@@ -402,7 +394,7 @@
   <string name="restore_backup_archive_not_valid">Arkib %1$s tidak sah</string>
   <string name="restore_backup_file_not_found">Tiada fail %1$s ditemui dalam arkib \"%2$s\"</string>
   <string name="restore_preferences_success">Keutamaan telah dipulihkan dari sandar.</string>
-  <string name="restore_calendar_success">%d plan telah dipulihkan dari sandar</string>
+  <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d plan telah dipulihkan dari sandar</string>
   <string name="save_transaction_and_new_success">Berjaya disimpan</string>
   <string name="save_transaction_error">Tidak dapat simpan transaksi baharu dari templat.</string>
   <plurals name="save_transaction_from_template_success">
@@ -480,7 +472,7 @@
   <string name="import_categories_success">%1$s kategori berjaya diimport</string>
   <string name="import_parties_success">%1$s pihak berjaya diimport</string>
   <string name="import_accounts_success">%1$s akaun berjaya diimport</string>
-  <string name="import_transactions_success">%1$d transaksi berjaya diimport ke dalam akaun %2$s</string>
+  <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transaksi berjaya diimport ke dalam akaun %2$s</string>
   <string name="import_accounts_none">Tiada akaun diimport</string>
   <string name="import_categories_none">Tiada kategori diimport</string>
   <string name="import_parties_none">Tiada pihak diimport</string>
@@ -520,7 +512,7 @@
   <string name="yes">Ya</string>
   <string name="no">Tidak</string>
   <string name="hint_template_click">Satu ketukan pantas pada masukan dalam senarai ini akan segerakan templat dan sama ada simpan ia serta-merta atau pergi ke bentuk suntingan yang mana anda boleh ubahsuai ia sebelum menyimpan. Anda boleh mengubah kedua-dua tindakan melalui ketukan panjang, dan ubah lalai di dalam tetapan.</string>
-  <string name="change_fraction_digits_result">%1$d akaun dengan matawang %2$s telah dikemaskini.</string>
+  <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d akaun dengan matawang %2$s telah dikemaskini.</string>
   <string name="learn_more">Ketahui lagi</string>
   <string name="import_source_file">Fail</string>
   <string name="restore_calendar_handling">Pengendalian data kalendar</string>
@@ -554,8 +546,8 @@
   <!--Label for column where user can check rows to be discarded from import-->
   <string name="cvs_import_discard">Singkir</string>
   <string name="csv_import_field_mapped_more_than_once">%s telah dipetakan lebih dari sekali.</string>
-  <string name="csv_import_records_failed">%d rekod tidak dapat diimport.</string>
-  <string name="csv_import_records_discarded">%d rekod telah disingkirkan.</string>
+  <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d rekod tidak dapat diimport.</string>
+  <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d rekod telah disingkirkan.</string>
   <string name="csv_import_subcategory_requires_category">Jika anda petakan subkategori, anda juga petakan kategori.</string>
   <string name="cvs_import_set_first_line_as_header">Patutkah baris pertama dianggap sebagai tajuk?</string>
   <string name="csv_import_delimiter_comma">Koma</string>
@@ -565,11 +557,11 @@
   <string name="menu_show_transactions">Tunjuk transaksi</string>
   <string name="pref_custom_decimal_format_title">Format nombor</string>
   <string name="pref_custom_decimal_format_summary">Jika anda tidak puas hati dengan format lalai untuk lokal anda, suaikannya mengikut keperluan anda. Biarkan kosong untuk pulihkan format lalai.</string>
-  <string name="licence_validation_upgrade_needed">Sila tatar My Expenses Contrib Saya ke versi 1.5.</string>
+  <string name="licence_validation_upgrade_needed" tools:ignore="UnusedResources">Sila tatar My Expenses Contrib Saya ke versi 1.5.</string>
   <string name="pref_auto_backup_title">Benarkan auto-sandar</string>
   <string name="pref_auto_backup_summary">Sandar pangkalan data harian pada masa yang ditetapkan (hanya jika data telah berubah).</string>
   <string name="pref_auto_backup_time_title">Auto-sandar masa</string>
-  <string name="warning_auto_backup_limited_trial">Selepas %d kali sandar automatik berjaya, auto-sandar akan dinyahaktifkan.</string>
+  <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Selepas %d kali sandar automatik berjaya, auto-sandar akan dinyahaktifkan.</string>
   <string name="warning_auto_backup_limit_reached">Had untuk sandar automatik berjaya secara percuma telah dicapai.</string>
   <string name="calendar_permission_required"><i>My Expenses</i> memerlukan keizinan untuk mencapai kalendar anda, supaya dapat mencipta pelan untuk transaksi akan datang dan yang berulangan.</string>
   <string name="button_request_calendar_access">Beri capaian</string>

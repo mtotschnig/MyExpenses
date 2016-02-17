@@ -234,7 +234,6 @@
   <string name="menu_search">Ara</string>
   <string name="menu_settings">Ayarlar</string>
   <string name="menu_share">Bir arkadaşa bahset</string>
-  <string name="menu_set_sort_key">Sırlama anahtarını belirle</string>
   <string name="menu_split_transaction">Bölünmüşe dönüştür</string>
   <string name="method">Metot</string>
   <string name="no_amount_given">Hiçbir meblağ girmediniz.</string>
@@ -242,8 +241,6 @@
   <string name="no_app_handling_ftp_available">FTP yöneten bir uygulama yok. <i>Send With FTP</i> indirilsin mi?</string>
   <string name="no_app_handling_pdf_available">PDF dosyalarını yönetecek hiçbir uygulama yok.</string>
   <string name="no_categories">Kategori yok.</string>
-  <string name="no_category_assigned">Hiçbir kategori atanmamış</string>
-  <string name="no_details">Ayrıntı yok.</string>
   <string name="no_expenses">Henüz hiçbir harcama yok!</string>
   <string name="no_exportable_expenses">Henüz dışa aktarılmamış hiçbir muamele yok.</string>
   <string name="no_filemanager_installed">Hiçbir dosya yöneticisi kurulu değil</string>
@@ -264,7 +261,6 @@
     <item quantity="other">%1$d unsur şablonlarla ilişkilidir ve silinemez.</item>
   </plurals>
   <string name="numbered">sayılı</string>
-  <string name="oi_pick_colors_info">Daha fazla seçenek için OI Color Picker uygulamasını kurunuz</string>
   <string name="opening_balance">Açılış bakiyesi</string>
   <string name="parse_error_file_not_found">%1$s dosyası bulunamadı</string>
   <string name="parse_error_grisbi_version_not_supported">Desteklenmeyen Grisbi dosya sürümü: %1$s</string>
@@ -347,8 +343,6 @@
   <string name="pref_perform_protection_summary">Uygulama başlatılmaları ve sürdürmeleri korunsun mu?</string>
   <string name="pref_perform_protection_title">Parola ile güvenlik</string>
   <string name="pref_perform_share_title">Dışa aktarmaları ve yedeklemeleri paylaş</string>
-  <string name="pref_perform_share_summaryOff">Dosyalar paylaşılmayacak.</string>
-  <string name="pref_perform_share_summaryOn">Dosyalar paylaşılacak.</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Yeni yerel planlama takvimi oluştur</string>
   <string name="pref_planning_calendar_summary">Gelecekteki ve tekrar eden muamelelerin saklanacağı takvimi seç</string>
@@ -375,8 +369,6 @@
   <string name="pref_shortcut_not_added">Kısayolları kabul edecek ana ekran mevcut değil.</string>
   <string name="pref_shortcut_summary">Ana ekrana kısayol ekle.</string>
   <string name="pref_template_click_default_summary">Şablon listesinde unsura kısa dokunulduğunda</string>
-  <!--This preference presents a slider where the user selects a value from 0 to 4-->
-  <string name="pref_ui_fontsize_summary">Her adım yazı boyutunu 2sp arttırır</string>
   <string name="pref_ui_fontsize_title">Yazı boyutu arttır</string>
   <string name="pref_ui_home_screen_shortcuts">Ana Ekran Kısayolları</string>
   <string name="pref_ui_language_default">Sistem varsayılanı</string>
@@ -406,7 +398,7 @@
   <string name="restore_backup_archive_not_valid">%1$s arşivi geçerli bir arşiv değildir</string>
   <string name="restore_backup_file_not_found">\"%2$s\" arşivinde %1$s dosyası bulunamadı</string>
   <string name="restore_preferences_success">Tercihler yedeklemeden restore edilmiştir.</string>
-  <string name="restore_calendar_success">Yedeklemeden %d planlama geri alınmıştır</string>
+  <string name="restore_calendar_success" tools:ignore="PluralsCandidate">Yedeklemeden %d planlama geri alınmıştır</string>
   <string name="save_transaction_and_new_success">Başarıyla kaydedildi</string>
   <string name="save_transaction_error">Şablondan muamele kaydedilemedi.</string>
   <plurals name="save_transaction_from_template_success">
@@ -489,14 +481,14 @@
   <string name="warning_splitpartcategory_context">Bölünmüş muamelelerin bir parçası olan transferler sadece bu bölünmüş muamele bağlamında düzenlenebilirler.</string>
   <string name="warning_fraction_digits_out_of_range">0 ilâ 8 arası bir sayı ayarlayınız</string>
   <string name="warning_change_fraction_digits_1">Yeni kesir basamak sayısıyla eşleşmesi için veritabanındaki meblağların güncellenmesi gerekmektedir.</string>
-  <string name="warning_change_fraction_digits_2_multiplied">Eğer meblağlar güncellenmezse, değişiklikten sonra %d ile çarpılmış olarak gösterileceklerdir.</string>
-  <string name="warning_change_fraction_digits_2_divided">Eğer meblağlar güncellenmezse, değişiklikten sonra %d ile bölünmüş olarak gösterileceklerdir.</string>
+  <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Eğer meblağlar güncellenmezse, değişiklikten sonra %d ile çarpılmış olarak gösterileceklerdir.</string>
+  <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Eğer meblağlar güncellenmezse, değişiklikten sonra %d ile bölünmüş olarak gösterileceklerdir.</string>
   <string name="warning_change_fraction_digits_3">Eğer meblağlar güncellenirse, onların kesirli bölümü hakkında bilgi kaybedersiniz.</string>
   <string name="warning_change_fraction_digits_checkbox_label">Veritabanındaki meblağları güncelle</string>
   <string name="import_categories_success">%1$s kategori başarıyla içe aktarıldı</string>
   <string name="import_parties_success">%1$s bölüm başarıyla içe aktarıldı</string>
   <string name="import_accounts_success">%1$s hesap başarılı bir şekilde içe aktarıldı</string>
-  <string name="import_transactions_success">%1$d muamele başarılı bir şekilde %2$s hesabına aktarıldı</string>
+  <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d muamele başarılı bir şekilde %2$s hesabına aktarıldı</string>
   <string name="import_accounts_none">İçe aktarılan hesap yok</string>
   <string name="import_categories_none">İçe aktarılan kategori yok</string>
   <string name="import_parties_none">İçe aktarılan bölüm yok</string>
@@ -537,7 +529,7 @@
   <string name="yes">Evet</string>
   <string name="no">Hayır</string>
   <string name="hint_template_click">Bu listedeki bir unsura kısa bir dokunuş şablonu örneklendirecek ve onu ya derhal kaydedecek ya da kaydetmeden önce değiştirmenize izin verecek düzenleme formuna girecektir. Her iki etkinliği de uzun bir dokunuş ile elde edebilir ve varsayılan değeri ayarlarda değiştirebilirsiniz.</string>
-  <string name="change_fraction_digits_result">%2$s para birimini kullanan %1$d hesap güncellendi.</string>
+  <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%2$s para birimini kullanan %1$d hesap güncellendi.</string>
   <string name="learn_more">Dahasını öğrenin</string>
   <string name="import_source_file">Dosya</string>
   <string name="restore_calendar_handling">Takvim veri yönetimi</string>
@@ -571,8 +563,8 @@
   <!--Label for column where user can check rows to be discarded from import-->
   <string name="cvs_import_discard">At</string>
   <string name="csv_import_field_mapped_more_than_once">%s bir kereden fazla haritalanmıştır.</string>
-  <string name="csv_import_records_failed">%d kayıt içe aktarılamadı.</string>
-  <string name="csv_import_records_discarded">%d kayıt atılmıştır.</string>
+  <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d kayıt içe aktarılamadı.</string>
+  <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d kayıt atılmıştır.</string>
   <string name="csv_import_subcategory_requires_category">Alt kategoriyi haritalarsanız, kategoriyi de haritalamanız gerekir.</string>
   <string name="cvs_import_set_first_line_as_header">İlk satır başlık satırı olarak kabul edilmeli mi?</string>
   <string name="csv_import_delimiter_comma">Virgül</string>
@@ -582,11 +574,11 @@
   <string name="menu_show_transactions">Muameleleri göster</string>
   <string name="pref_custom_decimal_format_title">Sayı biçimi</string>
   <string name="pref_custom_decimal_format_summary">Eğer tercümenin varsayılan biçiminden memnun değilseniz, ihtiyacınıza göre uyarlayın. Varsayılan biçimi geri getirmek için boş bırakın.</string>
-  <string name="licence_validation_upgrade_needed">Lütfen Harcamalarım Katkı sürümünü 1.5\'e güncelleyiniz.</string>
+  <string name="licence_validation_upgrade_needed" tools:ignore="UnusedResources">Lütfen Harcamalarım Katkı sürümünü 1.5\'e güncelleyiniz.</string>
   <string name="pref_auto_backup_title">Otomatik yedekleme</string>
   <string name="pref_auto_backup_summary">Veritabanını belirtilen zamanda (sadece verilerde değişiklik varsa) her gün yedekle.</string>
   <string name="pref_auto_backup_time_title">Otomatik yedekleme zamanı</string>
-  <string name="warning_auto_backup_limited_trial">%d başarılı otomatik yedekleme ardından otomatik yedekleme devre dışı bırakılacaktır.</string>
+  <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">%d başarılı otomatik yedekleme ardından otomatik yedekleme devre dışı bırakılacaktır.</string>
   <string name="warning_auto_backup_limit_reached">Başarılı otomatik yedeklemeler için sınıra erişildi.</string>
   <string name="calendar_permission_required">Gelecek ve tekrar eden muameleler oluşturabilmek amacıyla <i>Harcamalarımın</i> takviminize erişmek için müsaadeye ihtiyacı vardır. </string>
   <string name="button_request_calendar_access">İzin ver</string>

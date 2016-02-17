@@ -234,7 +234,6 @@
   <string name="menu_search">Recherche</string>
   <string name="menu_settings">Paramètres</string>
   <string name="menu_share">Recommander</string>
-  <string name="menu_set_sort_key">Fixer l\'ordre de tri</string>
   <string name="menu_split_transaction">Ventiler</string>
   <string name="method">Méthode</string>
   <string name="no_amount_given">Vous n\'avez pas saisi de montant.</string>
@@ -242,8 +241,6 @@
   <string name="no_app_handling_ftp_available">Aucune application disponible pour ftp. Installer <i>Envoi par FTP</i>?</string>
   <string name="no_app_handling_pdf_available">Aucune application pour les fichiers PDF disponible.</string>
   <string name="no_categories">Aucune catégorie.</string>
-  <string name="no_category_assigned">Sans catégorie</string>
-  <string name="no_details">Aucun détail.</string>
   <string name="no_expenses">Aucune dépense !</string>
   <string name="no_exportable_expenses">Aucune opération exportable.</string>
   <string name="no_filemanager_installed">Aucun gestionnaire de fichiers installé</string>
@@ -264,7 +261,6 @@
     <item quantity="other">%1$d objets sélectionnés sont attribués à plusieurs modèles et ne peuvent pas être supprimés.</item>
   </plurals>
   <string name="numbered">numérotation</string>
-  <string name="oi_pick_colors_info">Installer OI Pick Color pour plus de choix</string>
   <string name="opening_balance">Solde initial</string>
   <string name="parse_error_file_not_found">Le fichier %1$s n\'existe pas</string>
   <string name="parse_error_grisbi_version_not_supported">La version du fichier Grisbi n\'est pas supportée: %1$s</string>
@@ -347,8 +343,6 @@
   <string name="pref_perform_protection_summary">Protéger le lancement et la reprise de l\'app</string>
   <string name="pref_perform_protection_title">Protection par mot de passe</string>
   <string name="pref_perform_share_title">Partage des exportations et des sauvegardes</string>
-  <string name="pref_perform_share_summaryOff">Les fichiers ne seront pas partagés.</string>
-  <string name="pref_perform_share_summaryOn">Les fichiers seront partagés.</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Créer un nouveau calendrier local</string>
   <string name="pref_planning_calendar_summary">Sélectionnez le calendrier dans lequel les échéances futures et périodiques seront stockées</string>
@@ -375,8 +369,6 @@
   <string name="pref_shortcut_not_added">Aucun écran d\'accueil disponible qui accepte les raccourcis.</string>
   <string name="pref_shortcut_summary">Ajouter le raccourci à l\'écran d\'accueil.</string>
   <string name="pref_template_click_default_summary">Sur clic court dans la liste des modèles</string>
-  <!--This preference presents a slider where the user selects a value from 0 to 4-->
-  <string name="pref_ui_fontsize_summary">Chaque pas augmente la taille de la police de base de 2sp</string>
   <string name="pref_ui_fontsize_title">Taille de police</string>
   <string name="pref_ui_home_screen_shortcuts">Raccourcis de l\'écran d\'accueil</string>
   <string name="pref_ui_language_default">Défaut du système</string>
@@ -406,7 +398,7 @@
   <string name="restore_backup_archive_not_valid">Archive %1$s invalide</string>
   <string name="restore_backup_file_not_found">Aucun fichier %1$s trouvé dans l\'archive \"%2$s\"</string>
   <string name="restore_preferences_success">Les paramètres ont été rétablis à partir de la sauvegarde.</string>
-  <string name="restore_calendar_success">%d échéances ont été restaurées à partir de la sauvegarde</string>
+  <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d échéances ont été restaurées à partir de la sauvegarde</string>
   <string name="save_transaction_and_new_success">Sauvegardée</string>
   <string name="save_transaction_error">La transaction à partir du modèle n\'a pas été enregistrée.</string>
   <plurals name="save_transaction_from_template_success">
@@ -489,14 +481,14 @@
   <string name="warning_splitpartcategory_context">Les transferts qui font partie d\'une opération ventilée ne peuvent être modifiés que dans celle-ci.</string>
   <string name="warning_fraction_digits_out_of_range">Définissez une décimale entre 0 et 8</string>
   <string name="warning_change_fraction_digits_1">Les montants dans la base de données doivent être mis à jour afin de correspondre au nouveau nombre de chiffres de fraction.</string>
-  <string name="warning_change_fraction_digits_2_multiplied">Si les montants ne sont pas mis à jour, ils seront affichés comme multipliés par %d après le changement.</string>
-  <string name="warning_change_fraction_digits_2_divided">Si les montants ne sont pas mis à jour, ils seront affichés comme divisés par %d après le changement.</string>
+  <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Si les montants ne sont pas mis à jour, ils seront affichés comme multipliés par %d après le changement.</string>
+  <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Si les montants ne sont pas mis à jour, ils seront affichés comme divisés par %d après le changement.</string>
   <string name="warning_change_fraction_digits_3">Si les montants sont mis à jour, vous perdrez les informations sur leur partie fractionnaire.</string>
   <string name="warning_change_fraction_digits_checkbox_label">Mise à jour des montants de la base de données</string>
   <string name="import_categories_success">%1$s catégories ont été importés</string>
   <string name="import_parties_success">%1$s tiers ont été importés</string>
   <string name="import_accounts_success">%1$s comptes importés avec succès</string>
-  <string name="import_transactions_success">%1$d opérations importées avec succès dans le compte %2$s</string>
+  <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d opérations importées avec succès dans le compte %2$s</string>
   <string name="import_accounts_none">Aucun compte importé</string>
   <string name="import_categories_none">Aucune catégorie importée</string>
   <string name="import_parties_none">Aucun tiers importé</string>
@@ -537,7 +529,7 @@
   <string name="yes">Oui</string>
   <string name="no">Non</string>
   <string name="hint_template_click">Un clic court sur une entrée de cette liste appliquera ce modèle et soit vous l\'enregistrerez immédiatement, soit vous l\'éditerez et le modifierez avant  enregistrement. Vous pourrez toujours accéder à ces deux actions par un clic long et modifier la valeur par défaut de ses paramètres.</string>
-  <string name="change_fraction_digits_result">%1$d comptes en devise %2$s ont été mis à jour.</string>
+  <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d comptes en devise %2$s ont été mis à jour.</string>
   <string name="learn_more">En apprendre plus</string>
   <string name="import_source_file">Fichier</string>
   <string name="restore_calendar_handling">Manipulation des données du calendrier</string>
@@ -571,8 +563,8 @@
   <!--Label for column where user can check rows to be discarded from import-->
   <string name="cvs_import_discard">Rejeter</string>
   <string name="csv_import_field_mapped_more_than_once">%s est attribué plus d\'une fois.</string>
-  <string name="csv_import_records_failed">%d enregistrements n\'ont pas pu être importés.</string>
-  <string name="csv_import_records_discarded">%d enregistrements ont été rejetés.</string>
+  <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d enregistrements n\'ont pas pu être importés.</string>
+  <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d enregistrements ont été rejetés.</string>
   <string name="csv_import_subcategory_requires_category">Si vous attribuez une sous-catégorie, vous devez également attribuez une catégorie.</string>
   <string name="cvs_import_set_first_line_as_header">La première ligne devrait-elle être traitée comme une ligne d\'en-tête ?</string>
   <string name="csv_import_delimiter_comma">Virgule</string>
@@ -582,11 +574,11 @@
   <string name="menu_show_transactions">Voir les opérations</string>
   <string name="pref_custom_decimal_format_title">Format de nombre</string>
   <string name="pref_custom_decimal_format_summary">Si vous n\'êtes pas satisfait du format par défaut de votre langue, vous pouvez l\'adapter selon vos besoins. Laissez vide pour rétablir le format par défaut.</string>
-  <string name="licence_validation_upgrade_needed">Veuillez mettre à jour Mes Dépenses Contrib à la version 1.5.</string>
+  <string name="licence_validation_upgrade_needed" tools:ignore="UnusedResources">Veuillez mettre à jour Mes Dépenses Contrib à la version 1.5.</string>
   <string name="pref_auto_backup_title">Activer auto-backup</string>
   <string name="pref_auto_backup_summary">Sauvegarde de la base de données quotidiennement à l\'heure spécifiée (seulement si les données ont changé)</string>
   <string name="pref_auto_backup_time_title">Heure d\'auto-sauvegarde</string>
-  <string name="warning_auto_backup_limited_trial">Après %d sauvegardes automatiques réussies, la sauvegarde automatique sera désactivée.</string>
+  <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Après %d sauvegardes automatiques réussies, la sauvegarde automatique sera désactivée.</string>
   <string name="warning_auto_backup_limit_reached">La limite des sauvegardes automatiques réussies gratuites a été atteinte.</string>
   <string name="calendar_permission_required"><i>Mes dépenses </i> requiert votre permission d\'accéder à votre calendrier , dans le but de créer des échéances pour des opérations futures et répétitives </string>
   <string name="button_request_calendar_access">Autoriser l\'accès</string>

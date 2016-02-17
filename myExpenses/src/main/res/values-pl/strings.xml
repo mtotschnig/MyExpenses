@@ -206,7 +206,6 @@
   <string name="menu_search">Szukaj</string>
   <string name="menu_settings">Ustawienia</string>
   <string name="menu_share">Poleć znajomemu</string>
-  <string name="menu_set_sort_key">Ustaw klucz sortowania</string>
   <string name="menu_split_transaction">Zamień w podział</string>
   <string name="method">Metoda</string>
   <string name="no_amount_given">Nie wprowadziłeś żadnej kwoty.</string>
@@ -214,8 +213,6 @@
   <string name="no_app_handling_ftp_available">Brak obsługi aplikacji dla FTP. Zainstalować <i>Send With FTP</i>?</string>
   <string name="no_app_handling_pdf_available">Brak aplikacji do obsługi PDF.</string>
   <string name="no_categories">Brak kategorii.</string>
-  <string name="no_category_assigned">Brak przydzielonej kategorii</string>
-  <string name="no_details">Brak detali.</string>
   <string name="no_expenses">Brak wydatków!</string>
   <string name="no_exportable_expenses">Nie ma transakcji które nie zostały jeszcze wyeksportowane.</string>
   <string name="no_filemanager_installed">Nie zainstalowano menedżera plików</string>
@@ -237,7 +234,6 @@
     <item quantity="other">%1$d obiektów jest zmapowanych do szablonu i nie mogą być usunięte.</item>
   </plurals>
   <string name="numbered">ponumerowane</string>
-  <string name="oi_pick_colors_info">Zainstaluj Ol Color Picker dla większego wyboru</string>
   <string name="opening_balance">Bilans otwarcia</string>
   <string name="parse_error_file_not_found">Nie można znaleźć pliku %1$s</string>
   <string name="parse_error_grisbi_version_not_supported">Niewspierana wersja pliku Grisbi: %1$s</string>
@@ -316,8 +312,6 @@
   <string name="pref_perform_protection_summary">Czy uruchamianie i wznawianie pracy aplikacji powinno być zabezpieczone?</string>
   <string name="pref_perform_protection_title">Zabezpieczenie hasłem</string>
   <string name="pref_perform_share_title">Udostępnij eksporty i kopie zapasowe</string>
-  <string name="pref_perform_share_summaryOff">Pliki nie zostaną udostępnione.</string>
-  <string name="pref_perform_share_summaryOn">Pliki zostaną udostępnione.</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Utwórz nowy lokalny kalendarz planowania</string>
   <string name="pref_planning_calendar_summary">Wybierz kalendarz gdzie będą przechowywane przyszłe plany oraz cykliczne transakcje</string>
@@ -340,8 +334,6 @@
   <string name="pref_shortcut_added">Skrót został dodany na Ekran Główny</string>
   <string name="pref_shortcut_not_added">Brak dostępnego Ekranu Startowego który akceptuje skróty.</string>
   <string name="pref_shortcut_summary">Dodaj skrót na Ekran Główny.</string>
-  <!--This preference presents a slider where the user selects a value from 0 to 4-->
-  <string name="pref_ui_fontsize_summary">Każdy stopień powiększa rozmiar czcionki bazowanej o 2sp</string>
   <string name="pref_ui_fontsize_title">Powiększ rozmiar czcionki</string>
   <string name="pref_ui_home_screen_shortcuts">Skróty</string>
   <string name="pref_ui_language_default">Domyślne systemowe</string>
@@ -450,7 +442,7 @@
   <string name="import_categories_success">Kategorie %1$s zostały zaimportowane pomyślnie</string>
   <string name="import_parties_success">Partie %1$s zostały zaimportowane pomyślnie</string>
   <string name="import_accounts_success">%1$s kont pomyślnie zaimportowano</string>
-  <string name="import_transactions_success">%1$d transakcji pomyślnie zaimportowano do konta %2$s</string>
+  <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transakcji pomyślnie zaimportowano do konta %2$s</string>
   <string name="import_accounts_none">Nie zaimportowano żadnych kont</string>
   <string name="import_categories_none">Nie zaimportowano żadnych kategorii</string>
   <string name="import_parties_none">Brak zaimportowanych partii</string>

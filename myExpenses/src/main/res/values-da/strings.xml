@@ -225,7 +225,6 @@
   <string name="menu_search">Søg</string>
   <string name="menu_settings">Indstillinger</string>
   <string name="menu_share">Fortæl en ven</string>
-  <string name="menu_set_sort_key">Definér sorteringsnøgle</string>
   <string name="menu_split_transaction">Opsplit</string>
   <string name="method">Metode</string>
   <string name="no_amount_given">Du har ikke angivet noget beløb.</string>
@@ -233,8 +232,6 @@
   <string name="no_app_handling_ftp_available">Der findes ingen app til håndtering af ftp. Installer <i>Send via FTP</i>?</string>
   <string name="no_app_handling_pdf_available">Der findes Ingen app til håndtering af PDF-filer.</string>
   <string name="no_categories">Ingen kategorier.</string>
-  <string name="no_category_assigned">Ingen kategori tildelt</string>
-  <string name="no_details">Ingen detaljer.</string>
   <string name="no_expenses">Der findes endnu ingen udgifter!</string>
   <string name="no_exportable_expenses">Der findes ingen posteringer, der ikke allerede blev eksporteret.</string>
   <string name="no_filemanager_installed">Ingen filemanager installeret</string>
@@ -254,7 +251,6 @@
     <item quantity="other">%1$d valgte objekter er knyttet til skabeloner og kan ikke slettes.</item>
   </plurals>
   <string name="numbered">nummereret</string>
-  <string name="oi_pick_colors_info">Installer OI Color Picker for flere valgmuligheder</string>
   <string name="opening_balance">Åbningsbalancen</string>
   <string name="parse_error_file_not_found">Kunne ikke finde filen %1$s</string>
   <string name="parse_error_grisbi_version_not_supported">Ikke understøttet Grisbi filversion: %1$s</string>
@@ -335,8 +331,6 @@
   <string name="pref_perform_protection_summary">Skal app launches og resumes beskyttes?</string>
   <string name="pref_perform_protection_title">Password-beskyttelse</string>
   <string name="pref_perform_share_title">Del eksport og backup</string>
-  <string name="pref_perform_share_summaryOff">Filerne vil ikke blive delt.</string>
-  <string name="pref_perform_share_summaryOn">Filerne vil blive delt.</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Opret ny lokal kalender</string>
   <string name="pref_planning_calendar_summary">Vælg den kalender, hvor der skal gemmes planer for tilbagevendende posteringer der skal bruges i fremtiden</string>
@@ -363,8 +357,6 @@
   <string name="pref_shortcut_not_added">Ingen Startskærm tilgængelig der accepterer genveje.</string>
   <string name="pref_shortcut_summary">Tilføj genvej til startskærm.</string>
   <string name="pref_template_click_default_summary">Ved at klikke på et navn i listen af skabeloner</string>
-  <!--This preference presents a slider where the user selects a value from 0 to 4-->
-  <string name="pref_ui_fontsize_summary">Hvert trin forøger skriftstørrelsen med 2sp</string>
   <string name="pref_ui_fontsize_title">Forøg skriftstørrelsen</string>
   <string name="pref_ui_home_screen_shortcuts">Genvej til Startskærm</string>
   <string name="pref_ui_language_default">Systemstandard</string>
@@ -394,7 +386,7 @@
   <string name="restore_backup_archive_not_valid">Arkiv %1$s er ikke gyldigt</string>
   <string name="restore_backup_file_not_found">Der findes ingen fil %1$s i arkivet \"%2$s\"</string>
   <string name="restore_preferences_success">Indstillingerne blev gendannet fra backup.</string>
-  <string name="restore_calendar_success">%d planer blev gendannet fra backup</string>
+  <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d planer blev gendannet fra backup</string>
   <string name="save_transaction_and_new_success">Gemt</string>
   <string name="save_transaction_error">Kunne ikke gemme nye postering fra skabelonen.</string>
   <plurals name="save_transaction_from_template_success">
@@ -471,7 +463,7 @@
   <string name="import_categories_success">%1$s kategorier importeret</string>
   <string name="import_parties_success">%1$s parter importeret</string>
   <string name="import_accounts_success">%1$s regnskaber importeret</string>
-  <string name="import_transactions_success">%1$d posteringer importeret i konto %2$s</string>
+  <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d posteringer importeret i konto %2$s</string>
   <string name="import_accounts_none">Ingen konti importeret</string>
   <string name="import_categories_none">Ingen kategorier importeret</string>
   <string name="import_parties_none">Ingen parter importeret</string>
@@ -510,7 +502,7 @@
   <string name="yes">Ja</string>
   <string name="no">Nej</string>
   <string name="hint_template_click">Anvend en skabelon ved at vælge en ud af listen ved at trykke på den. Den gemmes med det samme eller du kan rediger den før den gemmes. Du kan altid få adgang til begge aktioner og ændre standard indstillingerne ved at trykke på den og holder trykt.</string>
-  <string name="change_fraction_digits_result">%1$d konti med valuta %2$s opdateret.</string>
+  <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d konti med valuta %2$s opdateret.</string>
   <string name="learn_more">Læs mere</string>
   <string name="import_source_file">Fil</string>
   <string name="restore_calendar_handling">Kalender datahåndtering</string>
@@ -544,8 +536,8 @@
   <!--Label for column where user can check rows to be discarded from import-->
   <string name="cvs_import_discard">Forkast</string>
   <string name="csv_import_field_mapped_more_than_once">%s er tilknyttet til flere.</string>
-  <string name="csv_import_records_failed">%d dataposter kunne ikke importeres</string>
-  <string name="csv_import_records_discarded">%d dataposter ignoreret</string>
+  <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d dataposter kunne ikke importeres</string>
+  <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d dataposter ignoreret</string>
   <string name="csv_import_subcategory_requires_category">Hvis du tilknytter en underkategori skal du også  tilknytte kategorien.</string>
   <string name="cvs_import_set_first_line_as_header">Skal den første linje bruges som kolonneoverskrift?</string>
   <string name="csv_import_delimiter_comma">Komma</string>

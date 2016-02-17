@@ -234,7 +234,6 @@
   <string name="menu_search">Bilatu</string>
   <string name="menu_settings">Ezarpenak</string>
   <string name="menu_share">Esan lagun bati</string>
-  <string name="menu_set_sort_key">Ezarri ordenatzeko gakoa</string>
   <string name="menu_split_transaction">Bihurtu banaketara</string>
   <string name="method">Metodoa</string>
   <string name="no_amount_given">Ez duzu kopururik idatzi</string>
@@ -242,8 +241,6 @@
   <string name="no_app_handling_ftp_available">Ez dago FTP kudeatzeko gai den aplikaziorik erabilgarri. Instalatu <i>Send With FTP</i>?</string>
   <string name="no_app_handling_pdf_available">Ez dago PDF fitxategiak kudeatzeko aplikaziorik</string>
   <string name="no_categories">Kategoriarik ez</string>
-  <string name="no_category_assigned">Ez zaio kategoriarik eman</string>
-  <string name="no_details">Xehetasunik ez.</string>
   <string name="no_expenses">Ez dago gasturik oraindik!</string>
   <string name="no_exportable_expenses">Ez dago jada esportatu ez den transakziorik.</string>
   <string name="no_filemanager_installed">Ez dago fitxategi kudeatzailerik instalatuta</string>
@@ -264,7 +261,6 @@
     <item quantity="other">%1$d objektu txantiloietara lotuta daude eta ezin dira ezabatu</item>
   </plurals>
   <string name="numbered">zenbakitua</string>
-  <string name="oi_pick_colors_info">Instalatu OI Color Picker aukera gehiago izateko</string>
   <string name="opening_balance">Irekiera saldoa</string>
   <string name="parse_error_file_not_found">Ezin izan da %1$s fitxategia aurkitu</string>
   <string name="parse_error_grisbi_version_not_supported">Euskarririk gabeko Grisbi fitxategi bertsioa:  %1$s</string>
@@ -348,8 +344,6 @@ Librezale.eus</string>
   <string name="pref_perform_protection_summary">Aplikazioa abiatzea eta berrekitea babestu?</string>
   <string name="pref_perform_protection_title">Pasahitz bidezko babesa</string>
   <string name="pref_perform_share_title">Elkarbanatu esportazioak eta babeskopiak</string>
-  <string name="pref_perform_share_summaryOff">Fitxategiak ez dira elkarbanatuko.</string>
-  <string name="pref_perform_share_summaryOn">Fitxategiak elkarbanatuko dira.</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Sortu tokiko planifikazio egutegi berria</string>
   <string name="pref_planning_calendar_summary">Aukeratu etorkizuneko gastuak eta gastu errepikakorrak gordetzeko egutegia</string>
@@ -376,8 +370,6 @@ Librezale.eus</string>
   <string name="pref_shortcut_not_added">Ez dago laster-bideak onartzen dituen hasiera pantailarik erabilgarri.</string>
   <string name="pref_shortcut_summary">Gehitu laster-bidea hasierako pantailan</string>
   <string name="pref_template_click_default_summary">Sakatu labur txantiloi zerrendako sarrera batean</string>
-  <!--This preference presents a slider where the user selects a value from 0 to 4-->
-  <string name="pref_ui_fontsize_summary">Urrats bakoitzak testua 2sp handitzen ditu</string>
   <string name="pref_ui_fontsize_title">Testuaren tamaina</string>
   <string name="pref_ui_home_screen_shortcuts">Hasiera pantailako laster-bideak</string>
   <string name="pref_ui_language_default">Sistemako lehenetsia</string>
@@ -407,7 +399,7 @@ Librezale.eus</string>
   <string name="restore_backup_archive_not_valid">%1$s artxiboa baliogabea da</string>
   <string name="restore_backup_file_not_found">Ez da %1$s fitxategia aurkitu \"%2$s\" artxiboan</string>
   <string name="restore_preferences_success">Hobespenak berreskuratu dira babeskopiatik.</string>
-  <string name="restore_calendar_success">%d plan berreskuratu dira babeskopiatik</string>
+  <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d plan berreskuratu dira babeskopiatik</string>
   <string name="save_transaction_and_new_success">Ondo gorde da</string>
   <string name="save_transaction_error">Ezin izan da transakzio berria gorde txantiloitik</string>
   <plurals name="save_transaction_from_template_success">
@@ -492,7 +484,7 @@ Librezale.eus</string>
   <string name="import_categories_success">%1$s kategoria ondo inportatu dira</string>
   <string name="import_parties_success">%1$s onuradun/ordaintzaile ondo inportatu dira</string>
   <string name="import_accounts_success">%1$s kontu ondo inportatu dira</string>
-  <string name="import_transactions_success">%1$d transakzio ondo inportatu dira %2$s kontura</string>
+  <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transakzio ondo inportatu dira %2$s kontura</string>
   <string name="import_accounts_none">Ez da konturik inportatu</string>
   <string name="import_categories_none">Ez da kategoriarik inportatu</string>
   <string name="import_parties_none">Ez da onuradun/ordaintzailerik inportatu</string>
@@ -532,7 +524,7 @@ Librezale.eus</string>
   <string name="yes">Bai</string>
   <string name="no">Ez</string>
   <string name="hint_template_click">Sarrera honetan labur sakatuz txantiloia abiatuko da eta berehala gorde ala ediziora sartu gorde aurretik aldatu dezazun. Ekintza bietara sarbidea duzu luze sakatuz, eta lehenetsitako ekintza ezarpenetan aldatu dezakezu.</string>
-  <string name="change_fraction_digits_result">%2$s monetako %1$d kontu eguneratu dira.</string>
+  <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%2$s monetako %1$d kontu eguneratu dira.</string>
   <string name="learn_more">Ikasi gehiago</string>
   <string name="import_source_file">Fitxategia</string>
   <string name="restore_calendar_handling">Egutegiko datuen kudeaketa</string>
@@ -566,8 +558,8 @@ Librezale.eus</string>
   <!--Label for column where user can check rows to be discarded from import-->
   <string name="cvs_import_discard">Baztertu</string>
   <string name="csv_import_field_mapped_more_than_once">%s behin baino gehiagotan mapeatu da.</string>
-  <string name="csv_import_records_failed">%d sarrera ezin izan dira inportatu.</string>
-  <string name="csv_import_records_discarded">%d sarrera baztertu dira.</string>
+  <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d sarrera ezin izan dira inportatu.</string>
+  <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d sarrera baztertu dira.</string>
   <string name="csv_import_subcategory_requires_category">Azpikategoria mapeatzen baduzu kategoria ere mapeatu behar duzu.</string>
   <string name="cvs_import_set_first_line_as_header">Lehen lerroa izenburutzat hartu?</string>
   <string name="csv_import_delimiter_comma">Koma</string>
@@ -577,11 +569,11 @@ Librezale.eus</string>
   <string name="menu_show_transactions">Bistaratu transakzioak</string>
   <string name="pref_custom_decimal_format_title">Zenbaki formatua</string>
   <string name="pref_custom_decimal_format_summary">Ez baduzu zure hizkuntzaren lehenetsitako formatua gustuko, aldatu zure beharretara. Laga hutsik lehenetsitako data formatua erabiltzeko.</string>
-  <string name="licence_validation_upgrade_needed">Eguneratu Nire Gastuak Kontrib 1.5 bertsiora</string>
+  <string name="licence_validation_upgrade_needed" tools:ignore="UnusedResources">Eguneratu Nire Gastuak Kontrib 1.5 bertsiora</string>
   <string name="pref_auto_backup_title">Babeskopia automatikoa</string>
   <string name="pref_auto_backup_summary">Egin egunero datu-basearen babeskopia zehaztutako orduan (soilik datuak aldatu badira)</string>
   <string name="pref_auto_backup_time_title">Babeskopia automatikoaren ordua</string>
-  <string name="warning_auto_backup_limited_trial">%d babeskopia automatikoen ondoren, babeskopia automatikoa desgaituko da.</string>
+  <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">%d babeskopia automatikoen ondoren, babeskopia automatikoa desgaituko da.</string>
   <string name="warning_auto_backup_limit_reached">Doako babeskopia automatikoen gehieneko kopurua gainditu da</string>
   <string name="calendar_permission_required"><i>Nire Gastuak</i> zure egutegia atzitzeko baimena behar du, etorkizunerako planak eta transakzio errepikakorrak sortu ahal izateko.</string>
   <string name="button_request_calendar_access">Baimena eman</string>

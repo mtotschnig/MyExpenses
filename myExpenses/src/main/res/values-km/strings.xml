@@ -193,14 +193,11 @@
   <string name="menu_search">ស្វែងរក</string>
   <string name="menu_settings">ការកំណត់</string>
   <string name="menu_share">ប្រាប់​មិត្តម្នាក់</string>
-  <string name="menu_set_sort_key">ដាក់សោមេ​​ដើម្បីតម្រៀប</string>
   <string name="method">វិធីសាស្ត្រ</string>
   <string name="no_amount_given">អ្នកមិនបានបញ្ចូលចំនួនទឹកប្រាក់ណាមួយឡើយ។</string>
   <string name="no_app_handling_email_available">គ្មាន​កម្មវិធី​ដំណើការ​អ៊ីម៉ែល​ទេ</string>
   <string name="no_app_handling_ftp_available">គ្មាន​កម្មវិធី​សម្រាប់ ftp ទេ។ សូម​បញ្ចូល​កម្មវិធី <i>Send With FTP</i>?</string>
   <string name="no_categories">គ្មាន​ចំណាត់ថ្នាក់​កំណត់។</string>
-  <string name="no_category_assigned">គ្មាន​ចំណាត់ថ្នាក់​ណាភ្ជាប់ទេ</string>
-  <string name="no_details">គ្មាន​សេចក្តីលម្អិត។</string>
   <string name="no_expenses">គ្មាន​ទិន្នន័យចំណាយ​នៅឡើយទេ។</string>
   <string name="no_exportable_expenses">មិនមានប្រតិបត្តិការដែលមិនទាន់ត្រូវបាននាំចេញទេ។</string>
   <string name="no_filemanager_installed">គ្មាន​កម្មវិធី​គ្រប់គ្រងឯកសារបញ្ចូលទេ</string>
@@ -218,7 +215,6 @@
     <item quantity="other">%1$d ធាតុ​ត្រូវ​បាន​ផ្គូផ្គងទៅ​ពុម្ព និង​មិន​អាច​លុប​បានទេ។</item>
   </plurals>
   <string name="numbered">ជាលេខ</string>
-  <string name="oi_pick_colors_info">បញ្ចូល កម្មវិធី រើសពណ៌ OI </string>
   <string name="opening_balance">បើក​សមតុល្យ</string>
   <string name="parse_error_file_not_found">មិនអាច​រកឯកសារ %1$s ឃើញទេ</string>
   <string name="parse_error_grisbi_version_not_supported">មិនគាំទ្រ ឯកសារ Grisbi កំណែ៖ %1$s</string>
@@ -288,8 +284,6 @@
   <string name="pref_perform_protection_summary">តើគួរតែចាប់ផ្តើមកម្មវិធី​ និងបន្តទៅទៀតដោយការការពារ ? </string>
   <string name="pref_perform_protection_title">ការការពារពាក្យសម្ងាត់</string>
   <string name="pref_perform_share_title">ការចែករំលែកឯកសារនាំចេញ</string>
-  <string name="pref_perform_share_summaryOff">ឯកសារនឹងមិនត្រូវបានចែករំលែកបន្ទាប់ពីឯកសារនីមួយៗនាំចេញ។</string>
-  <string name="pref_perform_share_summaryOn">ឯកសារនឹងត្រូវបានចែករំលែកបន្ទាប់ពីឯកសារនីមួយៗនាំចេញ។</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">បង្កើតប្រតិទិន​ផែន​ការ​​មូលដ្ឋាន​ថ្មី</string>
   <string name="pref_planning_calendar_summary">ជ្រើស​រើស​ប្រតិទិន​ ដែល​មាន​ផែនការអនាគត និង​មាន​ប្រតិបត្តិការវិលជុំ ត្រូវបាន​ផ្ទុក</string>
@@ -308,8 +302,6 @@
   <string name="pref_share_target_title">URL ផ្ទុកឡើង</string>
   <string name="pref_shortcut_added">Shortcut បាន​ដាក់​នៅផ្ទាំងខាងមុខ​ហើយ</string>
   <string name="pref_shortcut_summary">ដាក់ shortcut ទៅ​ផ្ទាំងខាងមុខ</string>
-  <!--This preference presents a slider where the user selects a value from 0 to 4-->
-  <string name="pref_ui_fontsize_summary">រាល់​ជំហាន​និមួយៗ បន្ថែម​ទំហំ​ពុម្ពអក្សរ​ដោយ 2sp</string>
   <string name="pref_ui_fontsize_title"> បន្ថែម​ទំហំ​ពុម្ពអក្សរ​</string>
   <string name="pref_ui_home_screen_shortcuts">ផ្លូវកាត់​លើទំព័រ​ដើម</string>
   <string name="pref_ui_language_default">លំនាំដើមរបស់ប្រព័ន្ធ</string>

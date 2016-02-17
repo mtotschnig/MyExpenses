@@ -234,7 +234,6 @@
   <string name="menu_search">Buscar</string>
   <string name="menu_settings">Configuraciones</string>
   <string name="menu_share">Contarle a un amigo</string>
-  <string name="menu_set_sort_key">Establecer la clave de ordenación</string>
   <string name="menu_split_transaction">Dividir</string>
   <string name="method">Método</string>
   <string name="no_amount_given">No ha insertado ningún importe.</string>
@@ -242,8 +241,6 @@
   <string name="no_app_handling_ftp_available">No se ha encontrado una aplicación para ftp. ¿Desea instalar <i>Enviar con FTP</i>?</string>
   <string name="no_app_handling_pdf_available">No se ha encontrado una aplicación para abrir archivos PDF disponibles.</string>
   <string name="no_categories">Todavía no hay categorías.</string>
-  <string name="no_category_assigned">Ninguna categoría asignada</string>
-  <string name="no_details">No hay detalles.</string>
   <string name="no_expenses">¡Todavía no hay gastos!</string>
   <string name="no_exportable_expenses">Existen transacciones que aún no han sido exportadas.</string>
   <string name="no_filemanager_installed">No hay instalado ningún administrador de archivos</string>
@@ -264,7 +261,6 @@
     <item quantity="other">%1$d objetos seleccionados están asigandos a plantillas y no se pueden borrar.</item>
   </plurals>
   <string name="numbered">numeración</string>
-  <string name="oi_pick_colors_info">Instalar OI Color Picker para ver más opciones</string>
   <string name="opening_balance">Saldo inicial</string>
   <string name="parse_error_file_not_found">No se ha podido encontrar el archivo %1$s</string>
   <string name="parse_error_grisbi_version_not_supported">La versión del archivo Grisbi no está apoyada.</string>
@@ -347,8 +343,6 @@
   <string name="pref_perform_protection_summary">¿Se debe proteger el inicio y la reanudación de la aplicación?</string>
   <string name="pref_perform_protection_title">Protección por contraseña</string>
   <string name="pref_perform_share_title">Enviar las exportaciónes y las copias de seguridad</string>
-  <string name="pref_perform_share_summaryOff">Los archivos no serán compartidos.</string>
-  <string name="pref_perform_share_summaryOn">Los archivos serán compartidos.</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Crear nuevo calendario de planificación local</string>
   <string name="pref_planning_calendar_summary">Seleccione el calendario que almacena los planes para las transacciones futuras y recurrentes</string>
@@ -375,8 +369,6 @@
   <string name="pref_shortcut_not_added">No hay pantalla de inicio disponible que acepta atajos.</string>
   <string name="pref_shortcut_summary">Añadir el acceso directo a pantalla de inicio.</string>
   <string name="pref_template_click_default_summary">Al toque corto en la entrada en la lista de plantillas</string>
-  <!--This preference presents a slider where the user selects a value from 0 to 4-->
-  <string name="pref_ui_fontsize_summary">Cada paso aumenta el tamaño de fuente por 2sp</string>
   <string name="pref_ui_fontsize_title">Aumentar el tamaño de la fuente</string>
   <string name="pref_ui_home_screen_shortcuts">Atajos de la pantalla de inicio</string>
   <string name="pref_ui_language_default">Estándar del sistema</string>
@@ -406,7 +398,7 @@
   <string name="restore_backup_archive_not_valid">Archivo %1$s no es válido</string>
   <string name="restore_backup_file_not_found">El archivo %1$s no se encuentra en el archivo \"%2$s\"</string>
   <string name="restore_preferences_success">Las configuraciones han sido restauradas desde la copia de seguridad.</string>
-  <string name="restore_calendar_success">%d planes han sido restaurados de copia de seguridad</string>
+  <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d planes han sido restaurados de copia de seguridad</string>
   <string name="save_transaction_and_new_success">Guardada con éxito</string>
   <string name="save_transaction_error">No se pueden guardar la nueva transacción de la plantilla.</string>
   <plurals name="save_transaction_from_template_success">
@@ -491,7 +483,7 @@
   <string name="import_categories_success">%1$s categorías han sido importadas con éxito.</string>
   <string name="import_parties_success">%1$s partidos han sido importados con éxito.</string>
   <string name="import_accounts_success">%1$s cuentas han sido importadas con éxito</string>
-  <string name="import_transactions_success">%1$d asientos importados con éxito en cuenta %2$s</string>
+  <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d asientos importados con éxito en cuenta %2$s</string>
   <string name="import_accounts_none">No hay cuentas importadas</string>
   <string name="import_categories_none">No hay categorías importadas</string>
   <string name="import_parties_none">No hay partidos importados</string>
@@ -531,7 +523,7 @@
   <string name="yes">Sí</string>
   <string name="no">No</string>
   <string name="hint_template_click">Un toque corto en una entrada en esta lista creará una instancia de la plantilla, o guardelo inmediatamente o acceda a su formulario de edición donde puedes modificarla antes de guardarlo. Siempre puede acceder a ambas acciones a través de un toque largo y cambiar la opción predeterminada en la configuración.</string>
-  <string name="change_fraction_digits_result">%1$d cuentas con moneda %2$s han sido actualizadas.</string>
+  <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d cuentas con moneda %2$s han sido actualizadas.</string>
   <string name="learn_more">Más información</string>
   <string name="import_source_file">Archivo</string>
   <string name="restore_calendar_handling">Manejo de datos de calendario</string>
@@ -565,8 +557,8 @@
   <!--Label for column where user can check rows to be discarded from import-->
   <string name="cvs_import_discard">Deseche</string>
   <string name="csv_import_field_mapped_more_than_once">%s se asigna más de una vez.</string>
-  <string name="csv_import_records_failed">%d registros no podrían ser importados.</string>
-  <string name="csv_import_records_discarded">%d registros fueron desechados.</string>
+  <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d registros no podrían ser importados.</string>
+  <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d registros fueron desechados.</string>
   <string name="csv_import_subcategory_requires_category">Si asigna subcategoría, también debe asignar categoría.</string>
   <string name="cvs_import_set_first_line_as_header">¿La primera línea debería ser tratada como una línea de cabecera?</string>
   <string name="csv_import_delimiter_comma">coma</string>
@@ -576,11 +568,11 @@
   <string name="menu_show_transactions">Ver operaciones</string>
   <string name="pref_custom_decimal_format_title">Formato de número</string>
   <string name="pref_custom_decimal_format_summary">Si no estás satisfecho con el formato predeterminado para su idioma, adaptarlo a sus necesidades. Deje en blanco para restaurar el formato predeterminado.</string>
-  <string name="licence_validation_upgrade_needed">Por favor actualizar Mis Gastos Contrib a la versión 1.5.</string>
+  <string name="licence_validation_upgrade_needed" tools:ignore="UnusedResources">Por favor actualizar Mis Gastos Contrib a la versión 1.5.</string>
   <string name="pref_auto_backup_title">Permitir backup automática</string>
   <string name="pref_auto_backup_summary">Backup de base de datos diaria a la hora especificada (sólo si los datos han cambiado)</string>
   <string name="pref_auto_backup_time_title">Hora de backup automática</string>
-  <string name="warning_auto_backup_limited_trial">Después de %d copias de seguridad automáticas exitosa, copia de seguridad automática se desactiva.</string>
+  <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Después de %d copias de seguridad automáticas exitosa, copia de seguridad automática se desactiva.</string>
   <string name="warning_auto_backup_limit_reached">Il limite per i backup automatici di successo libero è stato raggiunto.</string>
   <string name="calendar_permission_required"><i>Mis gastos</i> necesita permiso para acceder a su calendario, con el fin de crear planes para transacciones futuras y recurrentes.</string>
   <string name="button_request_calendar_access">Otorgar acceso</string>

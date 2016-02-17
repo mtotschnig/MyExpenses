@@ -234,7 +234,6 @@
   <string name="menu_search">Търсене</string>
   <string name="menu_settings">Настройки</string>
   <string name="menu_share">Кажи на приятел</string>
-  <string name="menu_set_sort_key">Задай ключ за сортиране</string>
   <string name="menu_split_transaction">Преобразувай в разпределена</string>
   <string name="method">Плащане с</string>
   <string name="no_amount_given">Не сте въвели сума.</string>
@@ -242,8 +241,6 @@
   <string name="no_app_handling_ftp_available">Няма приложение за работа с ftp. Ще инсталирате ли <i>Send With FTP</i>?</string>
   <string name="no_app_handling_pdf_available">Няма приложение за PDF файлове.</string>
   <string name="no_categories">Няма категории.</string>
-  <string name="no_category_assigned">Не е зададена категория.</string>
-  <string name="no_details">Без подробни данни.</string>
   <string name="no_expenses">Все още без разходи!</string>
   <string name="no_exportable_expenses">Няма транзакции, които да не са експортирани.</string>
   <string name="no_filemanager_installed">Няма инсталиран файлов менажер</string>
@@ -264,7 +261,6 @@
     <item quantity="other">%1$d обекта са свързани с шаблони и не могат да бъдат изтрити.</item>
   </plurals>
   <string name="numbered">Номерирани</string>
-  <string name="oi_pick_colors_info">Инсталирайте Оl Color Picker за по-голям избор</string>
   <string name="opening_balance">Начално салдо</string>
   <string name="parse_error_file_not_found">Не е намерен файл %1$s</string>
   <string name="parse_error_grisbi_version_not_supported">Неподдържана версия на Grisbi файл: %1$s</string>
@@ -347,8 +343,6 @@
   <string name="pref_perform_protection_summary">Да бъде ли защитено отварянето на приложението?</string>
   <string name="pref_perform_protection_title">Защита с парола</string>
   <string name="pref_perform_share_title">Споделяне на експорт и бекъп</string>
-  <string name="pref_perform_share_summaryOff">Файловете няма да бъдат споделени.</string>
-  <string name="pref_perform_share_summaryOn">Файловете ще бъдат споделени.</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Създай нов локален план-календар </string>
   <string name="pref_planning_calendar_summary">Изберете календар, където да се съхраняват планове за бъдещи и повтарящи се транзакции</string>
@@ -375,8 +369,6 @@
   <string name="pref_shortcut_not_added">Няма свободно място на начален екран, където да поставя шорткът.</string>
   <string name="pref_shortcut_summary">Добавяне шорткът на начален екран.</string>
   <string name="pref_template_click_default_summary">При кратко докосване на запис в списък на шаблони</string>
-  <!--This preference presents a slider where the user selects a value from 0 to 4-->
-  <string name="pref_ui_fontsize_summary">Всяка стъпка увеличава размера на шрифта с 2p</string>
   <string name="pref_ui_fontsize_title">Размер на шрифта</string>
   <string name="pref_ui_home_screen_shortcuts">Шорткъти на начален екран</string>
   <string name="pref_ui_language_default">от системата</string>
@@ -406,7 +398,7 @@
   <string name="restore_backup_archive_not_valid">Архива %1$s не е валиден</string>
   <string name="restore_backup_file_not_found">Няма файл %1$s в архива \"%2$s\"</string>
   <string name="restore_preferences_success">Предпочитанията са възстановени успешно.</string>
-  <string name="restore_calendar_success">Успешно възстановени %d плана.</string>
+  <string name="restore_calendar_success" tools:ignore="PluralsCandidate">Успешно възстановени %d плана.</string>
   <string name="save_transaction_and_new_success">Успешно запаметено.</string>
   <string name="save_transaction_error">Неуспешен запис на транзакция от шаблон.</string>
   <plurals name="save_transaction_from_template_success">
@@ -489,14 +481,14 @@
   <string name="warning_splitpartcategory_context">Трансферите, които са част от разпределяне, могат да се редактират само в контекста на разпределянето.</string>
   <string name="warning_fraction_digits_out_of_range">Моля задайте число между 0 и 8</string>
   <string name="warning_change_fraction_digits_1">Сумите в базата данни трябва да бъдат обновени, за да отговарят на новия брой дробни цифри.</string>
-  <string name="warning_change_fraction_digits_2_multiplied">Ако сумите не бъдат обновени, след промяната ще бъдат показвани като умножени по %d.</string>
-  <string name="warning_change_fraction_digits_2_divided">Ако сумите не бъдат обновени, след промяната ще бъдат показвани като разделени на %d.</string>
+  <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Ако сумите не бъдат обновени, след промяната ще бъдат показвани като умножени по %d.</string>
+  <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Ако сумите не бъдат обновени, след промяната ще бъдат показвани като разделени на %d.</string>
   <string name="warning_change_fraction_digits_3">Ако сумите бъдат обновени ще загубите информацията от тяхната дробна част.</string>
   <string name="warning_change_fraction_digits_checkbox_label">Обнови сумите в базата данни</string>
   <string name="import_categories_success">Успешно импортирани %1$s категории</string>
   <string name="import_parties_success">Успешно импортирани %1$s страни</string>
   <string name="import_accounts_success">Успешно импортирани %1$s сметки</string>
-  <string name="import_transactions_success">Успешно импортирани  %1$d транзакции в сметка %2$s</string>
+  <string name="import_transactions_success" tools:ignore="PluralsCandidate">Успешно импортирани  %1$d транзакции в сметка %2$s</string>
   <string name="import_accounts_none">Не са импортирани сметки</string>
   <string name="import_categories_none">Не са импортирани категории</string>
   <string name="import_parties_none">Не са импортирани страни</string>
@@ -537,7 +529,7 @@
   <string name="yes">Да</string>
   <string name="no">Не</string>
   <string name="hint_template_click">Кратко натискане на запис в този списък ще активира шаблона и ще го запамети веднага или ще изведе страница за редактиране, където може да направите промени преди запаметяване. Имате достъп до алтернативното действие чрез продължително натискане, а може да смените по подразбиране в Настройки.</string>
-  <string name="change_fraction_digits_result">Актуализирани са %1$d сметки с валута %2$s .</string>
+  <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">Актуализирани са %1$d сметки с валута %2$s .</string>
   <string name="learn_more">Научете повече</string>
   <string name="import_source_file">Файл</string>
   <string name="restore_calendar_handling">Възтановяване на данни в календара</string>
@@ -571,8 +563,8 @@
   <!--Label for column where user can check rows to be discarded from import-->
   <string name="cvs_import_discard">Отхвърли</string>
   <string name="csv_import_field_mapped_more_than_once">%s е свързан повече от веднъж.</string>
-  <string name="csv_import_records_failed">Не могат да бъдат импортирани %d записа.</string>
-  <string name="csv_import_records_discarded">Отхвърлени са %d записа.</string>
+  <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">Не могат да бъдат импортирани %d записа.</string>
+  <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">Отхвърлени са %d записа.</string>
   <string name="csv_import_subcategory_requires_category">Ако свържете подкатегория, ще трябва да свържете и главната категория.</string>
   <string name="cvs_import_set_first_line_as_header">Да се анализира ли първия ред като заглавен?</string>
   <string name="csv_import_delimiter_comma">Запетая</string>
@@ -582,11 +574,11 @@
   <string name="menu_show_transactions">Покажи транзакциите</string>
   <string name="pref_custom_decimal_format_title">Формат на числата</string>
   <string name="pref_custom_decimal_format_summary">Ако не сте удовлетворени от формата по подразбиране, може да го пригодите към вашите нужди. Оставете празно, за да се върне първоначалния.</string>
-  <string name="licence_validation_upgrade_needed">Моля, надстройте моя принос за Моите разходи до версия 1.5.</string>
+  <string name="licence_validation_upgrade_needed" tools:ignore="UnusedResources">Моля, надстройте моя принос за Моите разходи до версия 1.5.</string>
   <string name="pref_auto_backup_title">Автоматичен бекъп</string>
   <string name="pref_auto_backup_summary">Ежедневен бекъп на базата данни в определено време (само ако има промяна в данните).</string>
   <string name="pref_auto_backup_time_title">Време за автоматичен бекъп</string>
-  <string name="warning_auto_backup_limited_trial">След  %d успешни бекъпа, автоматичното запазване ще се деактивира.</string>
+  <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">След  %d успешни бекъпа, автоматичното запазване ще се деактивира.</string>
   <string name="warning_auto_backup_limit_reached">Достигнат е лимита на успешни безплатни бекъпи.</string>
   <string name="calendar_permission_required"><i>Моите разходи</i> се нуждае от право на достъп до вашия календар за да създаде план за бъдещи и повтарящи се транзакции.</string>
   <string name="button_request_calendar_access">Предоставен достъп</string>

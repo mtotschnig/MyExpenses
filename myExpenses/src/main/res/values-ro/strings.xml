@@ -218,7 +218,6 @@
   <string name="menu_search">Căutare</string>
   <string name="menu_settings">Setări</string>
   <string name="menu_share">Recomandă</string>
-  <string name="menu_set_sort_key">Setează cheia de sortare</string>
   <string name="menu_split_transaction">Transformă in repartizare</string>
   <string name="method">Metoda</string>
   <string name="no_amount_given">Nu aţi introdus nici o valoare.</string>
@@ -226,8 +225,6 @@
   <string name="no_app_handling_ftp_available">Nici o aplicaţie disponibilă pentru ftp.Instalez <i>Trimit prinFTP</i>?</string>
   <string name="no_app_handling_pdf_available">Nici o aplicaţie disponibilă pentru fişiere PDF</string>
   <string name="no_categories">Nici o categorie.</string>
-  <string name="no_category_assigned">Nici o categorie atribuită</string>
-  <string name="no_details">Nici un detaliu.</string>
   <string name="no_expenses">Nici o cheltuială încă!</string>
   <string name="no_exportable_expenses">Nici o tranzacţie ce nu a fost exportată.</string>
   <string name="no_filemanager_installed">Nici un manager de fişiere instalat</string>
@@ -249,7 +246,6 @@
     <item quantity="other">%1$d obiecte sunt mapate la şabloane şi nu pot fi şterse.</item>
   </plurals>
   <string name="numbered">numerotate</string>
-  <string name="oi_pick_colors_info">Instalează OI Color Picker pentru mai multe opţiuni</string>
   <string name="opening_balance">Sold deschidere</string>
   <string name="parse_error_file_not_found">Fişierul %1$s nu există</string>
   <string name="parse_error_grisbi_version_not_supported">Versiunea de fișier Grisbi neacceptat : %1$s</string>
@@ -331,8 +327,6 @@ Tradus de DD</string>
   <string name="pref_perform_protection_summary">Protejaţi lansarea si reluarea aplicaţiei?</string>
   <string name="pref_perform_protection_title">Protecţie parolă</string>
   <string name="pref_perform_share_title">Partajaţi exporturile şi backup-urile</string>
-  <string name="pref_perform_share_summaryOff">Fişierele nu vor fi partajate.</string>
-  <string name="pref_perform_share_summaryOn">Fişierele vor fi partajate.</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Creare calendar scadenţar local nou</string>
   <string name="pref_planning_calendar_summary">Selectaţi calendarul unde scadenţele pentru tranzacţiile viitoare si periodice sunt memorate</string>
@@ -358,8 +352,6 @@ Tradus de DD</string>
   <string name="pref_shortcut_not_added">Niciun Ecran Home disponibil care acceptă shortcut-uri.</string>
   <string name="pref_shortcut_summary">Adăugă shortcut la Ecranul Home .</string>
   <string name="pref_template_click_default_summary">La click scurt pe intrarea din lista şabloanelor</string>
-  <!--This preference presents a slider where the user selects a value from 0 to 4-->
-  <string name="pref_ui_fontsize_summary">Fiecare pas mărește dimensiunea fontului de bază cu 2sp</string>
   <string name="pref_ui_fontsize_title">Măriți dimensiunea fontului</string>
   <string name="pref_ui_home_screen_shortcuts">Shortcut-uri ecran Home</string>
   <string name="pref_ui_language_default">Sistem implicit</string>
@@ -389,7 +381,7 @@ Tradus de DD</string>
   <string name="restore_backup_archive_not_valid">Arhiva %1$s nu este validă</string>
   <string name="restore_backup_file_not_found">Nici un fişier %1$s  găsit în arhiva \"%2$s\"</string>
   <string name="restore_preferences_success">Preferinţele au fost restaurate din backup.</string>
-  <string name="restore_calendar_success">%d  scadenţe au fost restaurate din backup</string>
+  <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d  scadenţe au fost restaurate din backup</string>
   <string name="save_transaction_and_new_success">Salvată</string>
   <string name="save_transaction_error">Noua tranzacţia din şablon nu afost salvată</string>
   <plurals name="save_transaction_from_template_success">
@@ -470,7 +462,7 @@ Tradus de DD</string>
   <string name="import_categories_success">%1$s categorii importate</string>
   <string name="import_parties_success">%1$s  terţi importaţi</string>
   <string name="import_accounts_success">%1$s conturi importate</string>
-  <string name="import_transactions_success">%1$d tranzacţii importate în contul %2$s</string>
+  <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d tranzacţii importate în contul %2$s</string>
   <string name="import_accounts_none">Nici un cont importat</string>
   <string name="import_categories_none">Nici o categorie importată</string>
   <string name="import_parties_none">Nici un terţ importat</string>
@@ -508,7 +500,7 @@ Tradus de DD</string>
   <string name="yes">Da</string>
   <string name="no">Nu</string>
   <string name="hint_template_click">Un click scurt pe o intrare în această listă va instanţia şablonul şi  fie salvaţi-l imediat sau introduceţi-l  în forma de editare unde se poate modifica înainte de salvare. Întotdeauna puteţi accesa ambele acţiuni printr-un click lung, şi schimba setările implicite.</string>
-  <string name="change_fraction_digits_result">%1$d  conturi cu moneda %2$s au fost actualizate.</string>
+  <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d  conturi cu moneda %2$s au fost actualizate.</string>
   <string name="learn_more">Învaţă mai mult</string>
   <string name="import_source_file">Fişier</string>
   <string name="restore_calendar_handling">Manipulare date calendar</string>

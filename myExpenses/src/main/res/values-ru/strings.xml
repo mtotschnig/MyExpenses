@@ -195,8 +195,6 @@
   <string name="no_app_handling_email_available">Не доступно приложение для обработки e-mail</string>
   <string name="no_app_handling_ftp_available">Нет приложения, связанного с ftp. Установить, <i>Send With FTP</i>?</string>
   <string name="no_categories">Нет категорий.</string>
-  <string name="no_category_assigned">Нет назначенной категории</string>
-  <string name="no_details">Нет деталей.</string>
   <string name="no_expenses">Ещё нет расходов!</string>
   <string name="no_exportable_expenses">Нет операций, которые еще не были экспортированы.</string>
   <string name="no_filemanager_installed">Нет установленного файл-менеджера</string>
@@ -220,7 +218,6 @@
     <item quantity="other">%1$d объекты связаны с шаблонами и не могут быть удалены.</item>
   </plurals>
   <string name="numbered">пронумерованный</string>
-  <string name="oi_pick_colors_info">Установите OI Color Picker для большего выбора</string>
   <string name="opening_balance">Открытый баланс</string>
   <string name="parse_error_file_not_found">Не найден файл %1$s</string>
   <string name="parse_error_grisbi_version_not_supported">Не поддерживаемая версия файла Grisbi: %1$s</string>
@@ -292,8 +289,6 @@
   <string name="pref_perform_protection_summary">Защищать запуск и восстановление приложения?</string>
   <string name="pref_perform_protection_title">Защита паролем</string>
   <string name="pref_perform_share_title">Поделиться экспортируемым файлом</string>
-  <string name="pref_perform_share_summaryOff">У файла не будет совместного доступу после каждого экспорта.</string>
-  <string name="pref_perform_share_summaryOn">У файла будет совместный доступ после каждого экспорта.</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Создать новый локальный календарь планов</string>
   <string name="pref_planning_calendar_summary">Выберите календарь где хранятся планы на будущее и повторяющиеся операции</string>
@@ -313,8 +308,6 @@
   <string name="pref_share_target_title">URL для загрузки</string>
   <string name="pref_shortcut_added">Ярлык добавлен на домашний экран</string>
   <string name="pref_shortcut_summary">Добавить ярлык на домашний экран.</string>
-  <!--This preference presents a slider where the user selects a value from 0 to 4-->
-  <string name="pref_ui_fontsize_summary">Каждый шаг увеличивает базовый размер шрифта на 2sp</string>
   <string name="pref_ui_fontsize_title">Увеличить размера шрифта</string>
   <string name="pref_ui_language_default">По умолчанию</string>
   <!--Title of the preference for selecting the UI language-->
@@ -414,7 +407,7 @@
   <string name="import_categories_success">%1$s категорий успешно импортированы</string>
   <string name="import_parties_success">%1$s участников успешно импортированы</string>
   <string name="import_accounts_success">%1$s счета успешно импортированы</string>
-  <string name="import_transactions_success">%1$d операций успешно импортированы в счёт %2$s</string>
+  <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d операций успешно импортированы в счёт %2$s</string>
   <string name="import_accounts_none">Нет импортированных счетов</string>
   <string name="import_categories_none">Категории не импортированы</string>
   <string name="import_parties_none">Ни один участник не импортирован</string>

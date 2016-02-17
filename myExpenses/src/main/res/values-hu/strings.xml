@@ -177,8 +177,6 @@
   <string name="no_app_handling_email_available">Nincs elérhető email kezelő alkalmazás.</string>
   <string name="no_app_handling_ftp_available">Nincs elérhető FTP kliens alkalmazás. Telepíti a <i>Send With FTP</i> programot áruházból?</string>
   <string name="no_categories">Nincsenek kategóriák.</string>
-  <string name="no_category_assigned">Nincs kategória hozzárendelve</string>
-  <string name="no_details">Nincsenek részletek.</string>
   <string name="no_expenses">Még nincsenek kiadások!</string>
   <string name="no_exportable_expenses">Nincs olyan tranzakció, amely ne került volna exportálásra.</string>
   <string name="no_filemanager_installed">Nincs fájlkezelő telepítve</string>
@@ -188,7 +186,6 @@
   <string name="no_templates">Nincsenek sablonok.</string>
   <string name="no_title_given">Nem adott meg címet.</string>
   <string name="numbered">számozott</string>
-  <string name="oi_pick_colors_info">OI Color Picker telepítése további választási lehetőségekhez</string>
   <string name="opening_balance">Nyitó egyenleg</string>
   <string name="parse_error_file_not_found">%1$s állomány nem található</string>
   <string name="parse_error_grisbi_version_not_supported">Nem támogatott Grisbi fájl verzió: %1$s</string>
@@ -253,8 +250,6 @@
   <string name="pref_perform_protection_summary">Legyen az app indítása jelszóval védett? </string>
   <string name="pref_perform_protection_title">Jelszavas védelem</string>
   <string name="pref_perform_share_title">Az exportált állomány megosztása</string>
-  <string name="pref_perform_share_summaryOff">Ez az állomány nem kerül megosztásra az exportálások során.</string>
-  <string name="pref_perform_share_summaryOn">Ez az állomány megosztásra kerül minden exportálás után.</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Helyi terv-naptár létrehozása</string>
   <string name="pref_planning_calendar_summary">Válassza ki azt a naptárt, amelyben az ismétlődő tranzakciókat kívánja tárolni</string>
@@ -272,8 +267,6 @@
   <string name="pref_share_target_title">URL feltöltés</string>
   <string name="pref_shortcut_added">Parancsikon hozzáadva a Kezdőképernyőhöz</string>
   <string name="pref_shortcut_summary">Parancsikon hozzáadása a Kezdőképernyőhöz.</string>
-  <!--This preference presents a slider where the user selects a value from 0 to 4-->
-  <string name="pref_ui_fontsize_summary">Lépésenként 2 ponttal növeli a betűméretet</string>
   <string name="pref_ui_fontsize_title">Betűméret nagyítása</string>
   <string name="pref_ui_language_default">Rendszer alapbeállítás0</string>
   <!--Title of the preference for selecting the UI language-->

@@ -189,8 +189,6 @@
   <string name="no_app_handling_email_available">لا يوجد تطبيق للبريد الالكتروني.</string>
   <string name="no_app_handling_ftp_available">لا يوجد تطبيق لـ ftp. تثبيت <i>Send With FTP</i>؟</string>
   <string name="no_categories">لا يوجد تصنيفات.</string>
-  <string name="no_category_assigned">لم يتم تعيين تصنيف</string>
-  <string name="no_details">لا يوجد تفاصيل.</string>
   <string name="no_expenses">لا يوجد مصروفات حتى الأن!</string>
   <string name="no_exportable_expenses">لا يوجد عمليات لم يتم تصديرها بعد.</string>
   <string name="no_filemanager_installed">لم يتم تثبيت مدير ملفات</string>
@@ -202,7 +200,6 @@
   <string name="no_templates">لا يوجد نماذج.</string>
   <string name="no_title_given">لم تقم بإدخال عنوان.</string>
   <string name="numbered">مرقم</string>
-  <string name="oi_pick_colors_info">قم بتثبيت OI Color Picker لمزيد من الاختيارات</string>
   <string name="opening_balance">الرصيد الافتتاحي</string>
   <string name="parse_error_file_not_found">لم يتم العثور على الملف %1$s</string>
   <string name="parse_error_grisbi_version_not_supported">نسخة ملف Grisbi غير مدعومة: %1$s</string>
@@ -270,8 +267,6 @@
   <string name="pref_perform_protection_summary">هل التطبيق يجب أن يكون محمي عند التشغيل أو الاستعادة؟</string>
   <string name="pref_perform_protection_title">حماية كلمة المرور</string>
   <string name="pref_perform_share_title">مشاركة النسخ الاحتياطية والملفات المصدّرة</string>
-  <string name="pref_perform_share_summaryOff">لن يتم مشاركة الملفات.</string>
-  <string name="pref_perform_share_summaryOn">سيتم مشاركة الملفات.</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">انشاء مخطِط تقويم محلي جديد</string>
   <string name="pref_planning_calendar_summary">حدد التقويم الذي تم تخزين الخطط المستقبلية والمعاملات المتكررة فيه</string>
@@ -291,7 +286,6 @@
   <string name="pref_shortcut_added">تمت إضافة اختصار للشاشة الرئيسية.</string>
   <string name="pref_shortcut_not_added">لا يوجد مكان للاختصار في الشاشة الرئيسية.</string>
   <string name="pref_shortcut_summary">إضافة اختصار للشاشة الرئيسية.</string>
-  <!--This preference presents a slider where the user selects a value from 0 to 4-->
   <string name="pref_ui_fontsize_title">زيادة حجم الخط</string>
   <string name="pref_ui_home_screen_shortcuts">اختصارات الشاشة الرئيسية</string>
   <string name="pref_ui_language_default">افتراضي</string>

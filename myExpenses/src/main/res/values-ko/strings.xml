@@ -231,7 +231,6 @@
   <string name="menu_search">찾기</string>
   <string name="menu_settings">설정</string>
   <string name="menu_share">친구에게 알려주기</string>
-  <string name="menu_set_sort_key">정렬 키 설정</string>
   <string name="menu_split_transaction">분할 거래로 바꾸기</string>
   <string name="method">방식</string>
   <string name="no_amount_given">금액을 입력하지 않으셨습니다.</string>
@@ -239,8 +238,6 @@
   <string name="no_app_handling_ftp_available">FTP를 다룰 수 있는 앱이 없습니다. <i>Send With FTP</i>를 설치할까요?</string>
   <string name="no_app_handling_pdf_available">PDF 파일을 다룰 수 있는 앱이 없습니다.</string>
   <string name="no_categories">카테고리가 없습니다.</string>
-  <string name="no_category_assigned">카테고리 미지정</string>
-  <string name="no_details">상세 정보가 없습니다.</string>
   <string name="no_expenses">지출이 아직 없습니다.</string>
   <string name="no_exportable_expenses">아직 내보내지 않은 거래 내역이 없습니다.</string>
   <string name="no_filemanager_installed">설치된 파일 탐색기가 없습니다</string>
@@ -259,7 +256,6 @@
     <item quantity="other">%1$d 항목이 템플릿에 배치되었으며 삭제할 수 없습니다.</item>
   </plurals>
   <string name="numbered">번호 계좌</string>
-  <string name="oi_pick_colors_info">다양한 색상을 사용하려면 OI Color Picker 설치</string>
   <string name="opening_balance">개시 잔고</string>
   <string name="parse_error_file_not_found">%1$s 파일을 찾을 수 없습니다</string>
   <string name="parse_error_grisbi_version_not_supported">지원하지 않는 Grisbi 파일 버전: %1$s</string>
@@ -343,8 +339,6 @@
   <string name="pref_perform_protection_summary">앱 실행 및 재시작이 보호되어야 합니까?</string>
   <string name="pref_perform_protection_title">암호 보안</string>
   <string name="pref_perform_share_title">내보낸 파일과 백업을 공유</string>
-  <string name="pref_perform_share_summaryOff">파일이 공유되지 않습니다.</string>
-  <string name="pref_perform_share_summaryOn">파일이 공유됩니다.</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">새 로컬 플래닝 캘린더 만들기</string>
   <string name="pref_planning_calendar_summary">향후의 재무 계획과 반복 거래가 저장될 캘린더 선택</string>
@@ -371,8 +365,6 @@
   <string name="pref_shortcut_not_added">바로가기를 추가할 수 있는 홈 스크린이 없습니다.</string>
   <string name="pref_shortcut_summary">홈 스크린에 바로가기를 추가합니다.</string>
   <string name="pref_template_click_default_summary">템플릿 목록의 항목 짧게 누르기</string>
-  <!--This preference presents a slider where the user selects a value from 0 to 4-->
-  <string name="pref_ui_fontsize_summary">각 단계는 기본 글자 크기를 2sp씩 증가시킵니다.</string>
   <string name="pref_ui_fontsize_title">글자 크기 증가</string>
   <string name="pref_ui_home_screen_shortcuts">홈 스크린 바로가기</string>
   <string name="pref_ui_language_default">시스템 기본값</string>
@@ -402,7 +394,7 @@
   <string name="restore_backup_archive_not_valid">%1$s 압축 파일은 올바르지 않습니다.</string>
   <string name="restore_backup_file_not_found">%1$s 파일을 압축 파일 \"%2$s\"에서 찾을 수 없습니다</string>
   <string name="restore_preferences_success">설정값이 백업 파일으로부터 복원되었습니다.</string>
-  <string name="restore_calendar_success">%d 재무 계획이 백업 파일으로부터 복원되었습니다.</string>
+  <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d 재무 계획이 백업 파일으로부터 복원되었습니다.</string>
   <string name="save_transaction_and_new_success">성공적으로 저장됨</string>
   <string name="save_transaction_error">템플릿으로부터 새 거래 내역을 저장할 수 없습니다.</string>
   <plurals name="save_transaction_from_template_success">
@@ -480,7 +472,7 @@
   <string name="import_categories_success">%1$s 카테고리를 성공적으로 가져왔습니다</string>
   <string name="import_parties_success">%1$s 구성원을 성공적으로 가져왔습니다</string>
   <string name="import_accounts_success">%1$s 계좌를 성공적으로 가져왔습니다</string>
-  <string name="import_transactions_success">%1$d 거래 내역을 %2$s 계좌로 성공적으로 가져왔습니다</string>
+  <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d 거래 내역을 %2$s 계좌로 성공적으로 가져왔습니다</string>
   <string name="import_accounts_none">가져온 계좌가 없습니다</string>
   <string name="import_categories_none">가져온 카테고리가 없습니다</string>
   <string name="import_parties_none">가져온 구성원이 없습니다</string>
@@ -520,7 +512,7 @@
   <string name="yes">예</string>
   <string name="no">아니오</string>
   <string name="hint_template_click">템플릿 목록의 항목을 짧게 누르면 템플릿을 예시로 보여주고, 그것을 곧바로 저장하거나, 아니면 저장하기 전에 수정할 수 있는 입력 양식으로 진입할 수 있습니다. 두가지 동작은 길게 누르기를 통해 사용할 수도 있으며, 기본값을 설정 화면에서 바꿀 수 있습니다.</string>
-  <string name="change_fraction_digits_result">%2$s 화폐의 %1$d 계좌가 업데이트 되었습니다.</string>
+  <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%2$s 화폐의 %1$d 계좌가 업데이트 되었습니다.</string>
   <string name="learn_more">자세히 알아보기</string>
   <string name="import_source_file">파일</string>
   <string name="restore_calendar_handling">캘린더 자료 다루기</string>
@@ -554,8 +546,8 @@
   <!--Label for column where user can check rows to be discarded from import-->
   <string name="cvs_import_discard">버리기</string>
   <string name="csv_import_field_mapped_more_than_once">%s 항목은 한번 이상 배치되었습니다.</string>
-  <string name="csv_import_records_failed">%d 기록을 가져올 수 없습니다.</string>
-  <string name="csv_import_records_discarded">%d 기록이 버려졌습니다.</string>
+  <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d 기록을 가져올 수 없습니다.</string>
+  <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d 기록이 버려졌습니다.</string>
   <string name="csv_import_subcategory_requires_category">만약 하위 카테고리를 배치했다면 카테고리도 배치해야 합니다.</string>
   <string name="cvs_import_set_first_line_as_header">첫번째 줄을 헤더 줄로 간주할까요?</string>
   <string name="csv_import_delimiter_comma">콤마</string>
@@ -565,11 +557,11 @@
   <string name="menu_show_transactions">거래 내역 표시</string>
   <string name="pref_custom_decimal_format_title">숫자 형식</string>
   <string name="pref_custom_decimal_format_summary">만약 로케일의 기본 형식이 마음에 들지 않으시다면, 필요에 맞게 조정하세요. 빈 칸으로 놔두면 기본 형식으로 되돌립니다.</string>
-  <string name="licence_validation_upgrade_needed">My Expenses 기부 확인 키를 버전 1.5로 업그레이드 하세요.</string>
+  <string name="licence_validation_upgrade_needed" tools:ignore="UnusedResources">My Expenses 기부 확인 키를 버전 1.5로 업그레이드 하세요.</string>
   <string name="pref_auto_backup_title">자동 백업 활성화</string>
   <string name="pref_auto_backup_summary">데이터베이스를 매일 정해진 시간에 백업합니다(데이터가 변경된 경우에만).</string>
   <string name="pref_auto_backup_time_title">자동 백업 시간</string>
-  <string name="warning_auto_backup_limited_trial">%d 번의 성공적인 자동 백업 이후에, 자동 백업은 비활성화됩니다.</string>
+  <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">%d 번의 성공적인 자동 백업 이후에, 자동 백업은 비활성화됩니다.</string>
   <string name="warning_auto_backup_limit_reached">무료 자동 백업 횟수 제한에 도달했습니다.</string>
   <string name="calendar_permission_required"><i>My Expenses</i>는 향후의 재무 계획과 반복 거래를 만들기 위해서 캘린더에 접근할 수 있는 권한이 필요합니다.</string>
   <string name="button_request_calendar_access">접근 허용</string>

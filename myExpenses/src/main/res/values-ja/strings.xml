@@ -232,7 +232,6 @@
   <string name="menu_search">検索</string>
   <string name="menu_settings">設定</string>
   <string name="menu_share">友達に教える</string>
-  <string name="menu_set_sort_key">ソートキーを設定</string>
   <string name="menu_split_transaction">変換して分割</string>
   <string name="method">方法</string>
   <string name="no_amount_given">金額が入力されていません。</string>
@@ -240,8 +239,6 @@
   <string name="no_app_handling_ftp_available">利用可能な ftp アプリがありません。<i>Send With FTP</i> をインストールしますか?</string>
   <string name="no_app_handling_pdf_available">PDF を利用可能なアプリがありません。</string>
   <string name="no_categories">分類がありません。</string>
-  <string name="no_category_assigned">分類が割り当てられていません</string>
-  <string name="no_details">詳細がありません。</string>
   <string name="no_expenses">まだ支出がありません!</string>
   <string name="no_exportable_expenses">まだエクスポートしていない取引はありません。</string>
   <string name="no_filemanager_installed">ファイルマネージャーがインストールされていません</string>
@@ -260,7 +257,6 @@
     <item quantity="other">%1$d オブジェクトがテンプレートに配置されています。削除できません。</item>
   </plurals>
   <string name="numbered">付番されました</string>
-  <string name="oi_pick_colors_info">さらに詳細に選択するには OI Color Picker をインストールしてください</string>
   <string name="opening_balance">期首残高</string>
   <string name="parse_error_file_not_found">ファイル %1$s が見つかりません</string>
   <string name="parse_error_grisbi_version_not_supported">サポートされない Grisbi ファイル バージョン: %1$s</string>
@@ -343,8 +339,6 @@
   <string name="pref_perform_protection_summary">アプリの起動と再開を保護しますか?</string>
   <string name="pref_perform_protection_title">パスワード保護</string>
   <string name="pref_perform_share_title">エクスポートとバックアップを共有</string>
-  <string name="pref_perform_share_summaryOff">ファイルは共有されません。</string>
-  <string name="pref_perform_share_summaryOn">ファイルは共有されます。</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">新しいローカル プランニング カレンダーを作成</string>
   <string name="pref_planning_calendar_summary">将来の計画および繰り返しの取引が保存されるカレンダーを選択します。</string>
@@ -371,8 +365,6 @@
   <string name="pref_shortcut_not_added">ショートカットを受け付けることができるホーム画面がありません。</string>
   <string name="pref_shortcut_summary">ホーム画面にショートカットを追加します</string>
   <string name="pref_template_click_default_summary">テンプレートリストのエントリーをタップした時</string>
-  <!--This preference presents a slider where the user selects a value from 0 to 4-->
-  <string name="pref_ui_fontsize_summary">ステップごとに、ベースフォントサイズを 2sp 拡大します</string>
   <string name="pref_ui_fontsize_title">フォントサイズの拡大</string>
   <string name="pref_ui_home_screen_shortcuts">ホーム画面のショートカット</string>
   <string name="pref_ui_language_default">システム デフォルト</string>
@@ -402,7 +394,7 @@
   <string name="restore_backup_archive_not_valid">アーカイブ %1$s が正しくありません</string>
   <string name="restore_backup_file_not_found">アーカイブ \"%2$s\" に、ファイル %1$s が見つかりません</string>
   <string name="restore_preferences_success">バックアップからプリファレンスが復元されました。</string>
-  <string name="restore_calendar_success">%d の計画がバックアップから復元されました</string>
+  <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d の計画がバックアップから復元されました</string>
   <string name="save_transaction_and_new_success">正常に保存されました。</string>
   <string name="save_transaction_error">テンプレートから新しい取引を保存することができません。</string>
   <plurals name="save_transaction_from_template_success">
@@ -478,14 +470,14 @@
   <string name="warning_splitpartcategory_context">振替は分割の一部で、分割のコンテキストでのみ編集することができます。</string>
   <string name="warning_fraction_digits_out_of_range">0 から 8 の間で数を設定してください。</string>
   <string name="warning_change_fraction_digits_1">新しい小数桁の数に一致させるため、データベース内の金額を更新する必要があります。</string>
-  <string name="warning_change_fraction_digits_2_multiplied">金額が更新されていない場合は、変更後 %d を掛けたように表示されます。</string>
-  <string name="warning_change_fraction_digits_2_divided">金額が更新されていない場合は、変更後 %d で割ったように表示されます。</string>
+  <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">金額が更新されていない場合は、変更後 %d を掛けたように表示されます。</string>
+  <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">金額が更新されていない場合は、変更後 %d で割ったように表示されます。</string>
   <string name="warning_change_fraction_digits_3">アカウントが更新された場合は、端数部分に関する情報を失います。</string>
   <string name="warning_change_fraction_digits_checkbox_label">データベースの金額を更新</string>
   <string name="import_categories_success">%1$s 分類は正常にインポートされました</string>
   <string name="import_parties_success">%1$s 取引先は正常にインポートされました</string>
   <string name="import_accounts_success">%1$s 勘定は正常にインポートされました</string>
-  <string name="import_transactions_success">%1$d 取引は勘定 %2$s に正常にインポートされました</string>
+  <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d 取引は勘定 %2$s に正常にインポートされました</string>
   <string name="import_accounts_none">インポートされた勘定はありません</string>
   <string name="import_categories_none">インポートされた分類はありません</string>
   <string name="import_parties_none">インポートされた取引先はありません</string>
@@ -526,7 +518,7 @@
   <string name="yes">はい</string>
   <string name="no">いいえ</string>
   <string name="hint_template_click">このリストのエントリで短くタップすると、テンプレートをインスタンス化して、それをすぐに保存したり、あるいは保存する前にその編集フォームの入力項目に入力することができます。長くタップして、いつでも両方のアクションにアクセスすることができます。設定でデフォルトを変更することができます。</string>
-  <string name="change_fraction_digits_result">通貨 %2$s の %1$d 勘定が更新されました。</string>
+  <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">通貨 %2$s の %1$d 勘定が更新されました。</string>
   <string name="learn_more">さらに詳しく</string>
   <string name="import_source_file">ファイル</string>
   <string name="restore_calendar_handling">カレンダーデータの利用</string>
@@ -560,8 +552,8 @@
   <!--Label for column where user can check rows to be discarded from import-->
   <string name="cvs_import_discard">破棄</string>
   <string name="csv_import_field_mapped_more_than_once">%s は複数にマップされます。</string>
-  <string name="csv_import_records_failed">%d レコードインポートできませんでした。</string>
-  <string name="csv_import_records_discarded">%d レコード破棄されました。</string>
+  <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d レコードインポートできませんでした。</string>
+  <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d レコード破棄されました。</string>
   <string name="csv_import_subcategory_requires_category">副分類をマップする場合は、分類もマップする必要があります。</string>
   <string name="cvs_import_set_first_line_as_header">最初の行をヘッダー行として扱いますか?</string>
   <string name="csv_import_delimiter_comma">カンマ</string>
@@ -571,11 +563,11 @@
   <string name="menu_show_transactions">取引を表示</string>
   <string name="pref_custom_decimal_format_title">数値書式</string>
   <string name="pref_custom_decimal_format_summary">ロケールのデフォルト形式で充足しない場合、ニーズに適合します。デフォルト形式を復元する場合は、空白のままにします。</string>
-  <string name="licence_validation_upgrade_needed">マイ エクスペンス 貢献をバージョン 1.5 にアップグレードしてください。</string>
+  <string name="licence_validation_upgrade_needed" tools:ignore="UnusedResources">マイ エクスペンス 貢献をバージョン 1.5 にアップグレードしてください。</string>
   <string name="pref_auto_backup_title">自動バックアップを有効にする</string>
   <string name="pref_auto_backup_summary">毎日指定した時間にデータベースをバックアップします (データが変更された場合のみ)。</string>
   <string name="pref_auto_backup_time_title">自動バックアップ時間</string>
-  <string name="warning_auto_backup_limited_trial">%d 回正常に自動バックアップを行った後、自動バックアップは無効になります。</string>
+  <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">%d 回正常に自動バックアップを行った後、自動バックアップは無効になります。</string>
   <string name="warning_auto_backup_limit_reached">無料自動バックアップ回数の制限に達しました。</string>
   <string name="calendar_permission_required"><i>マイエクスペンス</i> は、将来の計画および繰り返しの取引を作成するために、自分のカレンダーにアクセスするアクセス許可が必要です。</string>
   <string name="button_request_calendar_access">アクセスを許可</string>

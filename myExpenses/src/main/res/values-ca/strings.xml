@@ -199,14 +199,11 @@
   <string name="menu_save_and_new">Desa i nova</string>
   <string name="menu_settings">Preferències</string>
   <string name="menu_share">Digueu-ho a un amic</string>
-  <string name="menu_set_sort_key">Configura la clau d\'ordenació</string>
   <string name="method">Mètode</string>
   <string name="no_amount_given">No heu indicat cap import.</string>
   <string name="no_app_handling_email_available">No s\'ha trobat l\'aplicació del correu electrónic.</string>
   <string name="no_app_handling_ftp_available">No s\'ha trobat cap aplicació de ftp. Voleu instal·lar <i>Envia amb FTP</i>?</string>
   <string name="no_categories">Encara no hi ha categories.</string>
-  <string name="no_category_assigned">No hi ha cap categoria assignada</string>
-  <string name="no_details">No hi ha cap detall.</string>
   <string name="no_expenses">Encara no hi ha cap despesa!</string>
   <string name="no_exportable_expenses">No hi ha operacions que encara no hagin estat exportades.</string>
   <string name="no_filemanager_installed">No hi ha instal·lat cap administrador d\'arxius</string>
@@ -218,7 +215,6 @@
   <string name="no_templates">No hi ha cap plantilla</string>
   <string name="no_title_given">No heu afegit cap títol.</string>
   <string name="numbered">numerat</string>
-  <string name="oi_pick_colors_info">Podeu disposar de més opcions si instal·leu OI Color Picker</string>
   <string name="opening_balance">Saldo inicial</string>
   <string name="parse_error_file_not_found">No ha estat possible trobar el fitxer %1$s</string>
   <string name="parse_error_grisbi_version_not_supported">La versió  %1$s del fitxer Grisbi no està permesa</string>
@@ -285,8 +281,6 @@
   <string name="pref_perform_protection_summary">Voleu protegir l\'execució de l\'aplicació i el seu restabliment?</string>
   <string name="pref_perform_protection_title">Protecció amb contrasenya</string>
   <string name="pref_perform_share_title">Envia l\'exportació</string>
-  <string name="pref_perform_share_summaryOff">El fitxer no es compartirà després de cada exportació.</string>
-  <string name="pref_perform_share_summaryOn">Es compartirà el fitxer després de cada exportació.</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Nova agenda de planificació local...</string>
   <string name="pref_planning_calendar_summary">Trieu el calendari per desar les planificacions d\'operacions futures i recurrents</string>
@@ -306,8 +300,6 @@
   <string name="pref_share_target_title">Puja el fitxer (a una URL)</string>
   <string name="pref_shortcut_added">S\'ha afegit la drecera a la pantalla Inicial</string>
   <string name="pref_shortcut_summary">Afegiu la drecera a la pantalla Inicial.</string>
-  <!--This preference presents a slider where the user selects a value from 0 to 4-->
-  <string name="pref_ui_fontsize_summary">Cada pas augmenta 2sp la mida de la lletra</string>
   <string name="pref_ui_fontsize_title">Augmenta la mida de la lletra</string>
   <string name="pref_ui_language_default">Per omissió del sistema</string>
   <!--Title of the preference for selecting the UI language-->
