@@ -37,6 +37,8 @@
             <EditText
                 android:focusable="false"
                 android:id="@+id/Filename"
+                android:inputType="none"
+                android:enabled="false"
                 android:layout_width="0dip"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"

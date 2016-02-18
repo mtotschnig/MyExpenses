@@ -55,7 +55,8 @@
                 <EditText
                     android:id="@+id/file_name"
                     android:layout_width="0dip"
-                    android:layout_weight="5"/>
+                    android:layout_weight="5"
+                    android:inputType="text"/>
             </TableRow>
             <TableRow android:gravity="center_vertical">
 
@@ -105,7 +106,9 @@
                         android:id="@+id/date_format"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:layout_width="0dp"/>
+                        android:layout_width="0dp"
+                        android:inputType="text"
+                        tools:ignore="TextFields"/>
                     <ImageView
                         android:id="@+id/date_format_help"
                         style="?actionButtonStyle"

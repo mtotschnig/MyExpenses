@@ -394,9 +394,7 @@ public class DialogUtils {
   }
 
   public static EditText configureFilename(View view) {
-    EditText filename = (EditText) view.findViewById(R.id.Filename);
-    filename.setEnabled(false);
-    return filename;
+    return (EditText) view.findViewById(R.id.Filename);
   }
 
   public static Spinner configureCurrencySpinner(

@@ -53,7 +53,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:singleLine="true"/>
+                    android:singleLine="true"
+                    android:inputType="text"/>
             </TableRow>
 
             <TableRow android:id="@+id/AccountRow">
@@ -214,7 +215,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1"
+                        android:inputType="text"/>
 
                     <Spinner
                         android:id="@+id/Status"
@@ -264,7 +266,9 @@
                         android:layout_weight="1"
                         android:hint="@string/reference_number"
                         android:singleLine="true"
-                        android:visibility="invisible"/>
+                        android:visibility="invisible"
+                        android:inputType="text"
+                        tools:ignore="TextFields"/>
                 </LinearLayout>
             </TableRow>
 

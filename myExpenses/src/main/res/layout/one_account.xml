@@ -47,7 +47,8 @@
                     android:id="@+id/Label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical" />
+                    android:layout_gravity="center_vertical"
+                    android:inputType="text"/>
             </TableRow>
 
             <TableRow>
@@ -61,7 +62,8 @@
                     android:id="@+id/Description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical" />
+                    android:layout_gravity="center_vertical"
+                    android:inputType="text"/>
             </TableRow>
 
             <TableRow
