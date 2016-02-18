@@ -37,7 +37,8 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:visibility="gone"
-            tools:src="@android:drawable/ic_menu_my_calendar"/>
+            tools:src="@android:drawable/ic_menu_my_calendar"
+            tools:ignore="ContentDescription"/>
         <CheckBox
             android:id="@+id/list_checkbox"
             android:checked="true"

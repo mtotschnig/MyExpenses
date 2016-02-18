@@ -258,17 +258,6 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     int resId;
     for (String item : menuItems) {
       View row = layoutInflater.inflate(R.layout.help_dialog_action_row, linearLayout,false);
-      if (prefix.equals("form")) {
-        row.findViewById(R.id.list_image_container).setVisibility(View.GONE);
-      } else if (iconMap.containsKey(item)) {
-        resId = iconMap.get(item);
-        final ImageView icon = (ImageView) row.findViewById(R.id.list_image);
-        icon.setVisibility(View.VISIBLE);
-        icon.setImageDrawable(res.getDrawable(resId));
-      } else {
-        //for the moment we assume that menu entries without icon are checkable
-        row.findViewById(R.id.list_checkbox).setVisibility(View.VISIBLE);
-      }
 
       String title = "";
       if (prefix.equals("form")) {
@@ -283,6 +272,19 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
       }
 
       ((TextView) row.findViewById(R.id.title)).setText(title);
+
+      if (prefix.equals("form")) {
+        row.findViewById(R.id.list_image_container).setVisibility(View.GONE);
+      } else if (iconMap.containsKey(item)) {
+        resId = iconMap.get(item);
+        final ImageView icon = (ImageView) row.findViewById(R.id.list_image);
+        icon.setVisibility(View.VISIBLE);
+        icon.setImageDrawable(res.getDrawable(resId));
+        icon.setContentDescription(title);
+      } else {
+        //for the moment we assume that menu entries without icon are checkable
+        row.findViewById(R.id.list_checkbox).setVisibility(View.VISIBLE);
+      }
 
       //we look for a help text specific to the variant first, then to the activity
       //and last a generic one
