@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:tools="http://schemas.android.com/tools"
+      xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@id/CREATE_ACCOUNT_COMMAND"
         android:icon="@android:drawable/ic_menu_add"
         android:title="@string/menu_create_account"
-        app:showAsAction="always"/>
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction"/>
     <item
         android:id="@id/GROUPING_ACCOUNTS_COMMAND"
         android:icon="@android:drawable/ic_menu_sort_by_size"
