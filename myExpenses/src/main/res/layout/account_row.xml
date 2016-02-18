@@ -17,14 +17,13 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@null"
     android:padding="4dp">
 
     <android.support.v7.widget.CardView
-        tools:ignore="UnusedAttribute"
         android:id="@+id/card"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,7 +32,8 @@
         app:cardBackgroundColor="?android:colorBackground"
         app:cardCornerRadius="3dp"
         app:cardElevation="0dp"
-        app:cardUseCompatPadding="true">
+        app:cardUseCompatPadding="true"
+        tools:ignore="UnusedAttribute">
 
         <FrameLayout
             android:layout_width="wrap_content"
@@ -53,19 +53,19 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:paddingBottom="10dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
                     android:shrinkColumns="1"
                     android:stretchColumns="0">
 
                     <TableRow>
                         <!-- room for overflow menu -->
                         <TextView
-                            android:layout_marginRight="20dp"
                             android:id="@+id/label"
                             style="@style/headingStyle"
+                            android:layout_marginRight="20dp"
                             android:layout_span="2"
                             android:text="LABEL"/>
                     </TableRow>
@@ -199,14 +199,14 @@
             </LinearLayout>
 
             <ImageView
-                android:translationX="9dp"
-                android:translationY="-6dp"
                 android:id="@+id/account_menu"
                 style="?actionOverflowButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|right"
-                android:clickable="true"/>
+                android:clickable="true"
+                android:translationX="9dp"
+                android:translationY="-6dp"/>
         </FrameLayout>
     </android.support.v7.widget.CardView>
 
