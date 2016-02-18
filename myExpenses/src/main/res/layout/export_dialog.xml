@@ -116,7 +116,8 @@
                         android:layout_gravity="center"
                         android:src="@android:drawable/ic_menu_help"
                         android:layout_height="24dp"
-                        android:layout_width="24dp"/>
+                        android:layout_width="24dp"
+                        android:contentDescription="@string/menu_help"/>
                 </LinearLayout>
             </TableRow>
 

@@ -129,6 +129,7 @@ public class StaleImagesList extends ContextualActionBarFragment implements Load
           v.setImageDrawable(asyncDrawable);
           task.execute(Uri.parse(value));
           v.setTag(value);
+          v.setContentDescription(value);
         }
       }
     };

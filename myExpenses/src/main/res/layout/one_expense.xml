@@ -233,7 +233,8 @@
                         android:layout_gravity="center"
                         android:onClick="startMediaChooser"
                         android:focusable="true"
-                        android:src="@android:drawable/ic_menu_camera"/>
+                        android:src="@android:drawable/ic_menu_camera"
+                        android:contentDescription="@string/content_description_attach_image"/>
 
                     <include layout="@layout/picture_view"/>
                 </LinearLayout>

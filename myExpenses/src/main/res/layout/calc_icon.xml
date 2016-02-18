@@ -10,4 +10,5 @@
     android:onClick="showCalculator"
     android:focusable="true"
     android:src="?attr/calcIcon"
-    tools:showIn="@layout/amount_input"/>
+    tools:showIn="@layout/amount_input"
+    android:contentDescription="@string/content_description_calculator"/>
