@@ -480,6 +480,11 @@
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">La cartella correntemente selezionata per i backup e le esportazioni verrà automaticamente eliminata da Android se si disinstalla My spese. È possibile impedire questo accadere selezionando una cartella diversa dalla schermata impostazioni.</string>
   <string name="warning_splitpartcategory_context">I trasferimenti che sono parte di un\'operazione frazionata possono essere modificati solamente nell\'ambito del frazionamento.</string>
   <string name="warning_fraction_digits_out_of_range">Si prega di impostare un numero compreso tra 0 e 8</string>
+  <string name="warning_change_fraction_digits_1">Gli importi nel database devono essere aggiornati al fine di corrispondere il nuovo numero di cifre frazionarie.</string>
+  <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Se gli importi non vengono aggiornati, verranno visualizzati come moltiplicata per %d dopo la modifica.</string>
+  <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Se gli importi non vengono aggiornati, verranno visualizzati come divisa da %d dopo la modifica.</string>
+  <string name="warning_change_fraction_digits_3">Se gli importi sono aggiornati, si perderanno le informazioni sulla loro parte frazionaria.</string>
+  <string name="warning_change_fraction_digits_checkbox_label">Aggiornamento degli importi in database</string>
   <string name="import_categories_success">%1$s categorie state importati</string>
   <string name="import_parties_success">%1$s beneficiari state importati</string>
   <string name="import_accounts_success">%1$s conti importati correttamente</string>
@@ -496,6 +501,7 @@
   <!--Move an account up in the account list-->
   <string name="menu_sort_up">In alto</string>
   <!--Move an account down in the account list-->
+  <string name="menu_sort_down">Verso il basso</string>
   <string name="create_new_folder_fail">Impossibile creare la cartella</string>
   <string name="widget_title_accounts">I miei conti</string>
   <string name="widget_title_templates">I miei modelli</string>
@@ -589,4 +595,8 @@
   <string name="date_format_hour">Ora</string>
   <string name="date_format_minute">Minuto</string>
   <string name="copied_to_clipboard">Copiato negli Appunti</string>
+  <string name="menu_sort">Ordina per</string>
+  <string name="pref_sort_order_last_used">Usato l\'ultima volta</string>
+  <string name="pref_sort_order_custom">Su ordinazione</string>
+  <string name="dialog_info_custom_sort">Usare le frecce su e giù i comandi nel menu contestuale di ogni elemento per modificarne la posizione di sorta.</string>
 </resources>
