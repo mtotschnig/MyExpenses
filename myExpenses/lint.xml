@@ -12,4 +12,9 @@
         <ignore path="src/main/res/values-zh-rTW/eventrecurrence.xml" />
     </issue>
     <issue id="TypographyDashes" severity="ignore" />
+    <issue id="HardcodedText">
+        <ignore path="src/main/res/layout/calculator.xml" />
+        <ignore path="src/main/res/layout-h400dp/calculator.xml" />
+        <ignore path="src/main/res/layout/more_info.xml" />
+    </issue>
 </lint>

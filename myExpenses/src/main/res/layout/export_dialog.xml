@@ -79,14 +79,16 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:checked="true"
-                        android:text="QIF"/>
+                        android:text="QIF"
+                        tools:ignore="HardcodedText"/>
 
                     <RadioButton
                         android:id="@+id/csv"
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="CSV"/>
+                        android:text="CSV"
+                        tools:ignore="HardcodedText"/>
                 </RadioGroup>
             </TableRow>
 
@@ -142,14 +144,16 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:checked="true"
-                        android:text="."/>
+                        android:text="."
+                        tools:ignore="HardcodedText"/>
 
                     <RadioButton
                         android:id="@+id/comma"
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text=","/>
+                        android:text=","
+                        tools:ignore="HardcodedText"/>
                 </RadioGroup>
             </TableRow>
 

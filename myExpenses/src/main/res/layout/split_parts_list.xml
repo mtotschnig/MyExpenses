@@ -14,13 +14,15 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="0px"
-              android:layout_weight="1"
-              android:paddingLeft="@dimen/padding_form"
-              android:paddingRight="@dimen/padding_form"
-              android:orientation="vertical">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="0px"
+    android:layout_weight="1"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/padding_form"
+    android:paddingRight="@dimen/padding_form">
 
     <TextView
         style="@style/headingStyle.WithMargin"
@@ -33,10 +35,10 @@
 
         <ListView
             android:id="@+id/list"
-            android:paddingBottom="55dp"
-            android:clipToPadding="false"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:paddingBottom="55dp"/>
 
         <TextView
             android:id="@+id/empty"
@@ -46,6 +48,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="@string/no_split_parts"/>
+
         <include layout="@layout/floating_action_button_mini"/>
     </FrameLayout>
 
@@ -75,7 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="END"/>
+            tools:text="END"/>
     </RelativeLayout>
 
     <View

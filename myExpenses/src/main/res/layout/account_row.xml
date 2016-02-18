@@ -67,7 +67,7 @@
                             style="@style/headingStyle"
                             android:layout_marginRight="20dp"
                             android:layout_span="2"
-                            android:text="LABEL"/>
+                            tools:text="LABEL"/>
                     </TableRow>
 
                     <TableRow>
@@ -77,7 +77,7 @@
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:layout_span="2"
-                            android:text="DESCRIPTION"/>
+                            tools:text="DESCRIPTION"/>
                     </TableRow>
 
                     <TableRow
@@ -91,7 +91,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="right"
-                            android:text="OPENING_BALANCE"/>
+                            tools:text="OPENING_BALANCE"/>
                     </TableRow>
 
                     <TableRow>
@@ -104,7 +104,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="right"
-                            android:text="SUM_INCOME"/>
+                            tools:text="SUM_INCOME"/>
                     </TableRow>
 
                     <TableRow>
@@ -117,7 +117,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="right"
-                            android:text="SUM_EXPENSES"/>
+                            tools:text="SUM_EXPENSES"/>
                     </TableRow>
 
                     <TableRow android:id="@+id/TransferRow">
@@ -130,7 +130,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="right"
-                            android:text="SUM_TRANSFER"/>
+                            tools:text="SUM_TRANSFER"/>
                     </TableRow>
 
                     <TableRow>
@@ -153,7 +153,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="right"
-                            android:text="CURRENT_BALANCE"/>
+                            tools:text="CURRENT_BALANCE"/>
                     </TableRow>
 
                     <TableRow android:id="@+id/TotalRow">
@@ -166,7 +166,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="right"
-                            android:text="TOTAL"/>
+                            tools:text="TOTAL"/>
                     </TableRow>
 
                     <TableRow android:id="@+id/ClearedRow">
@@ -179,7 +179,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="right"
-                            android:text="CLEARED_TOTAL"/>
+                            tools:text="CLEARED_TOTAL"/>
                     </TableRow>
 
                     <TableRow
@@ -193,7 +193,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="right"
-                            android:text="RECONCILED_TOTAL"/>
+                            tools:text="RECONCILED_TOTAL"/>
                     </TableRow>
                 </TableLayout>
             </LinearLayout>

@@ -16,7 +16,8 @@
         android:text="1"
         android:inputType="numberDecimal"
         android:digits="1234567890,.٫"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        tools:ignore="HardcodedText"/>
 
     <TextView
         android:id="@+id/ExchangeRateLabel_1_2"
