@@ -14,25 +14,29 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	  android:paddingRight="@dimen/general_padding"
-    android:paddingLeft="@dimen/general_padding"
+<RelativeLayout
     android:id="@+id/RelativeLayout01"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="?android:attr/activatedBackgroundIndicator">
-<TextView
-    android:layout_centerVertical="true"
-    android:text="DATE"
-    android:id="@+id/date" 
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" />
-  <ImageView
-    android:id="@+id/planInstanceStatus"
-    android:src="@drawable/ic_stat_open"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentRight="true"
-    android:layout_centerInParent="true"
-    />
+    android:background="?android:attr/activatedBackgroundIndicator"
+    android:paddingLeft="@dimen/general_padding"
+    android:paddingRight="@dimen/general_padding">
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text="DATE"/>
+
+    <ImageView
+        android:id="@+id/planInstanceStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_stat_open"
+        tools:ignore="ContentDescription"/>
 </RelativeLayout>
