@@ -66,8 +66,9 @@
                             android:id="@+id/label"
                             style="@style/headingStyle"
                             android:layout_marginRight="20dp"
+                            android:layout_marginEnd="20dp"
                             android:layout_span="2"
-                            tools:text="LABEL"/>
+                            tools:text="@string/label"/>
                     </TableRow>
 
                     <TableRow>
@@ -90,7 +91,7 @@
                             android:id="@+id/opening_balance"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="right"
+                            android:gravity="end"
                             tools:text="OPENING_BALANCE"/>
                     </TableRow>
 
@@ -103,7 +104,7 @@
                             android:id="@+id/sum_income"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="right"
+                            android:gravity="end"
                             tools:text="SUM_INCOME"/>
                     </TableRow>
 
@@ -116,7 +117,7 @@
                             android:id="@+id/sum_expenses"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="right"
+                            android:gravity="end"
                             tools:text="SUM_EXPENSES"/>
                     </TableRow>
 
@@ -129,7 +130,7 @@
                             android:id="@+id/sum_transfer"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="right"
+                            android:gravity="end"
                             tools:text="SUM_TRANSFER"/>
                     </TableRow>
 
@@ -152,7 +153,7 @@
                             android:id="@+id/current_balance"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="right"
+                            android:gravity="end"
                             tools:text="CURRENT_BALANCE"/>
                     </TableRow>
 
@@ -165,7 +166,7 @@
                             android:id="@+id/total"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="right"
+                            android:gravity="end"
                             tools:text="TOTAL"/>
                     </TableRow>
 
@@ -178,7 +179,7 @@
                             android:id="@+id/cleared_total"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="right"
+                            android:gravity="end"
                             tools:text="CLEARED_TOTAL"/>
                     </TableRow>
 
@@ -192,7 +193,7 @@
                             android:id="@+id/reconciled_total"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="right"
+                            android:gravity="end"
                             tools:text="RECONCILED_TOTAL"/>
                     </TableRow>
                 </TableLayout>
@@ -203,9 +204,9 @@
                 style="?actionOverflowButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="top|right"
+                android:layout_gravity="top|end"
                 android:clickable="true"
-                android:translationX="9dp"
+                android:translationX="@dimen/overflow_menu_translation_x"
                 android:translationY="-6dp"
                 tools:ignore="ContentDescription"/>
         </FrameLayout>

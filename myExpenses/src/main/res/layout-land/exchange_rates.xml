@@ -7,7 +7,8 @@
     android:orientation="horizontal"
     android:paddingEnd="12dp"
     android:paddingRight="12dp"
-    tools:showIn="@layout/one_expense">
+    tools:showIn="@layout/one_expense"
+    tools:ignore="RtlSymmetry">
 
     <include layout="@layout/exchange_rate_1"/>
 

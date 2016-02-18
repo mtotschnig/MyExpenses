@@ -179,7 +179,7 @@ public class TransactionAdapter extends SimpleCursorAdapter {
         catText = "―――";
         tv2.setGravity(Gravity.CENTER);
       } else {
-        tv2.setGravity(Gravity.LEFT);
+        tv2.setGravity(Gravity.START);
       }
     }
     tv2.setText(catText);

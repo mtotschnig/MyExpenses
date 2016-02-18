@@ -180,8 +180,7 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right">
+        android:layout_height="wrap_content">
 
         <include layout="@layout/ok_cancel_buttons"/>
 

@@ -7,7 +7,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    tools:showIn="@layout/calculator">
+    tools:showIn="@layout/calculator"
+    tools:ignore="RtlHardcoded">
 
     <TextView
         android:id="@+id/result"
@@ -20,7 +21,8 @@
         android:singleLine="true"
         tools:text="123.45"
         android:textColor="#000000"
-        android:textSize="36sp"/>
+        android:textSize="36sp"
+        tools:ignore="RtlSymmetry"/>
 
     <TextView
         android:id="@+id/op"

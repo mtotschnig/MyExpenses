@@ -7,7 +7,8 @@
     android:orientation="vertical"
     android:paddingEnd="12dp"
     android:paddingRight="12dp"
-    tools:showIn="@layout/one_expense">
+    tools:showIn="@layout/one_expense"
+    tools:ignore="RtlSymmetry">
 
     <TableRow
         android:layout_width="match_parent"
