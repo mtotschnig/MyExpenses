@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@android:drawable/list_selector_background"
     android:clickable="true"
-    android:contentDescription="@string/content_description_attach_image"
+    android:contentDescription="@string/contrib_feature_attach_picture_label"
     android:focusable="true"
     android:onClick="showPicturePopupMenu"
     android:padding="2dp"
