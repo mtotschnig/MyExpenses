@@ -23,6 +23,7 @@ import android.appwidget.AppWidgetProviderInfo;
 import android.content.*;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
@@ -122,6 +123,10 @@ public class AccountWidget extends AbstractWidget<Account> {
         PendingIntent.FLAG_UPDATE_CURRENT);
     updateViews.setOnClickPendingIntent(R.id.command1, pendingIntent);
     updateViews.setImageViewResource(R.id.command1, android.R.drawable.ic_menu_add);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+      updateViews.setContentDescription(R.id.command1,
+          context.getString(R.string.menu_create_transaction));
+    }
     intent = buildButtonIntent(context,account);
     intent.putExtra(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_TRANSFER);
     pendingIntent = PendingIntent.getActivity(
@@ -131,6 +136,10 @@ public class AccountWidget extends AbstractWidget<Account> {
         PendingIntent.FLAG_UPDATE_CURRENT);
     updateViews.setOnClickPendingIntent(R.id.command2, pendingIntent);
     updateViews.setImageViewResource(R.id.command2, R.drawable.ic_menu_forward);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+      updateViews.setContentDescription(R.id.command2,
+          context.getString(R.string.menu_create_transfer));
+    }
   }
 
   @Override
