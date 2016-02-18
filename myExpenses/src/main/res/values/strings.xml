@@ -617,8 +617,11 @@
     <string name="pref_sort_order_custom">Custom</string>
     <string name="dialog_info_custom_sort">Use the Up and Down commands in each item\'s context menu to change its sort position.</string>
     <string name="content_description_calculator">Calculator</string>
+    <!-- describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_open">open</string>
+    <!-- describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list. -->
     <string name="plan_instance_state_cancelled">cancelled</string>
+    <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">applied</string>
 </resources>
 
