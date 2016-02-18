@@ -493,4 +493,5 @@
   <string name="switch_off_text">Isključeno</string>
   <string name="preferences_week_start_day_title">Tjedan počinje u</string>
   <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
+  <string name="content_description_calculator">Kalkulator</string>
 </resources>

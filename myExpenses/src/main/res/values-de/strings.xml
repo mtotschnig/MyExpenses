@@ -589,4 +589,5 @@
   <string name="date_format_hour">Stunde</string>
   <string name="date_format_minute">Minute</string>
   <string name="copied_to_clipboard">In Zwischenablage kopiert</string>
+  <string name="content_description_calculator">Taschenrechner</string>
 </resources>

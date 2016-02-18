@@ -434,4 +434,5 @@ Sérgio Marques</string>
   <string name="pref_auto_backup_title">Backup automático</string>
   <string name="menu_move">Mover</string>
   <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
+  <string name="content_description_calculator">Calculadora</string>
 </resources>

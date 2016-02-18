@@ -590,4 +590,5 @@ Librezale.eus</string>
   <string name="date_format_hour">Ordu</string>
   <string name="date_format_minute">Minutu</string>
   <string name="copied_to_clipboard">Arbelera kopiatu da</string>
+  <string name="content_description_calculator">Kalkulagailua</string>
 </resources>

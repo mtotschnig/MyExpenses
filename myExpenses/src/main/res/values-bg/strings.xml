@@ -599,4 +599,5 @@
   <string name="pref_sort_order_last_used">Последно използван</string>
   <string name="pref_sort_order_custom">Ръчно</string>
   <string name="dialog_info_custom_sort">Използвайте командите Нагоре и Надолу от контекстното меню, за да промените позицията на обекта.</string>
+  <string name="content_description_calculator">Калкулатор</string>
 </resources>

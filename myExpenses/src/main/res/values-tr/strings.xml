@@ -599,4 +599,5 @@
   <string name="pref_sort_order_last_used">Son kullanıldığı</string>
   <string name="pref_sort_order_custom">Özel</string>
   <string name="dialog_info_custom_sort">Sırlama konumunu değiştirmek için her unsurun bağlam menüsündeki Aşağı ve Yukarı komutlarını kullanın.</string>
+  <string name="content_description_calculator">Hesap makinesi</string>
 </resources>

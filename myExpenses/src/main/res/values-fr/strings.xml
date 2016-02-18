@@ -599,4 +599,5 @@
   <string name="pref_sort_order_last_used">Dernier utilisé</string>
   <string name="pref_sort_order_custom">Personnalisé</string>
   <string name="dialog_info_custom_sort">Utilisez les commandes vers le haut et vers le bas dans le menu contextuel de l\'élément pour modifier sa position de tri.</string>
+  <string name="content_description_calculator">Calculatrice</string>
 </resources>

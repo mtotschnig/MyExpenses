@@ -572,4 +572,5 @@
   <string name="transform_subcategory_to_main">주 카테고리로 바꾸기</string>
   <string name="preferences_week_start_day_title">한 주의 시작</string>
   <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
+  <string name="content_description_calculator">계산기</string>
 </resources>

@@ -599,4 +599,5 @@
   <string name="pref_sort_order_last_used">Usato l\'ultima volta</string>
   <string name="pref_sort_order_custom">Su ordinazione</string>
   <string name="dialog_info_custom_sort">Usare le frecce su e giù i comandi nel menu contestuale di ogni elemento per modificarne la posizione di sorta.</string>
+  <string name="content_description_calculator">Calcolatrice</string>
 </resources>

@@ -519,4 +519,5 @@ Tradus de DD</string>
   <string name="switch_off_text">Dezactivat</string>
   <string name="preferences_week_start_day_title">Săptămâna începe</string>
   <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
+  <string name="content_description_calculator">Calculator</string>
 </resources>

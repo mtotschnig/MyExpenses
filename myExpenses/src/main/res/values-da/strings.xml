@@ -549,4 +549,5 @@
   <string name="switch_off_text">Fra</string>
   <string name="preferences_week_start_day_title">Ugen starter</string>
   <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
+  <string name="content_description_calculator">Lommeregner</string>
 </resources>

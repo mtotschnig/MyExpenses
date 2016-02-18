@@ -290,4 +290,5 @@
   <string name="menu_move">Di chuyển</string>
   <string name="preferences_week_start_day_title">Tuần bắt đầu vào</string>
   <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
+  <string name="content_description_calculator">Máy tính hỗ trợ</string>
 </resources>
