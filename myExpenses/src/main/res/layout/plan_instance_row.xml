@@ -23,19 +23,5 @@
     android:paddingLeft="@dimen/general_padding"
     android:paddingRight="@dimen/general_padding">
 
-    <TextView
-        android:id="@+id/date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        tools:text="DATE"/>
-
-    <ImageView
-        android:id="@+id/planInstanceStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerInParent="true"
-        android:src="@drawable/ic_stat_open"
-        tools:ignore="ContentDescription"/>
+    <include layout="@layout/plan_instance_row_inner"/>
 </RelativeLayout>

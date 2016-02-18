@@ -31,5 +31,6 @@
         android:layout_marginTop="-2dp"
         android:textColor="#000000"
         tools:text="+"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        tools:ignore="RelativeOverlap"/>
 </RelativeLayout>
