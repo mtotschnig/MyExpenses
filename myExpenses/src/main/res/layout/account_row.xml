@@ -206,7 +206,8 @@
                 android:layout_gravity="top|right"
                 android:clickable="true"
                 android:translationX="9dp"
-                android:translationY="-6dp"/>
+                android:translationY="-6dp"
+                tools:ignore="ContentDescription"/>
         </FrameLayout>
     </android.support.v7.widget.CardView>
 
