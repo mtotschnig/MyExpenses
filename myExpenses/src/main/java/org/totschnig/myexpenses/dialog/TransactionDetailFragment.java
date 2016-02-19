@@ -200,6 +200,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     boolean type = mTransaction.getAmount().getAmountMinor() > 0 ? ExpenseEdit.INCOME : ExpenseEdit.EXPENSE;
 
     if (mTransaction instanceof SplitTransaction) {
+      mLayout.findViewById(R.id.SplitContainer).setVisibility(View.VISIBLE);
       //TODO: refactor duplicated code with SplitPartList
       title = R.string.split_transaction;
       View emptyView = mLayout.findViewById(R.id.empty);
@@ -226,7 +227,6 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       }
 
     } else {
-      mLayout.findViewById(R.id.SplitContainer).setVisibility(View.GONE);
       if (mTransaction instanceof Transfer) {
         title = R.string.transfer;
         ((TextView) mLayout.findViewById(R.id.AccountLabel)).setText(R.string.transfer_from_account);
