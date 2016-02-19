@@ -422,7 +422,8 @@ public class MyExpenses extends LaunchActivity implements
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
     boolean showBalanceCommand = false;
-    if (mAccountId > 0 && mAccountsCursor != null && mAccountsCursor.moveToPosition(mCurrentPosition)) {
+    if (mAccountId > 0 && mAccountsCursor != null && !mAccountsCursor.isClosed() &&
+        mAccountsCursor.moveToPosition(mCurrentPosition)) {
       try {
         if (Type.valueOf(mAccountsCursor.getString(mAccountsCursor.getColumnIndexOrThrow(KEY_TYPE)))
             != Type.CASH) {
