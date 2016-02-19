@@ -62,19 +62,18 @@ import java.io.Serializable;
 
 /**
  * @author Michael Totschnig
- *
  */
 public class ProtectedFragmentActivity extends AppCompatActivity
     implements MessageDialogListener, OnSharedPreferenceChangeListener,
-    TaskExecutionFragment.TaskCallbacks,DbWriteFragment.TaskCallbacks {
+    TaskExecutionFragment.TaskCallbacks, DbWriteFragment.TaskCallbacks {
   public static final int CALCULATOR_REQUEST = 0;
-  public static final int EDIT_TRANSACTION_REQUEST=1;
-  public static final int EDIT_ACCOUNT_REQUEST=2;
-  public static final int PREFERENCES_REQUEST=3;
-  public static final int CREATE_ACCOUNT_REQUEST=4;
-  public static final int FILTER_CATEGORY_REQUEST=5;
-  public static final int FILTER_COMMENT_REQUEST=6;
-  public static final int TEMPLATE_TITLE_REQUEST=7;
+  public static final int EDIT_TRANSACTION_REQUEST = 1;
+  public static final int EDIT_ACCOUNT_REQUEST = 2;
+  public static final int PREFERENCES_REQUEST = 3;
+  public static final int CREATE_ACCOUNT_REQUEST = 4;
+  public static final int FILTER_CATEGORY_REQUEST = 5;
+  public static final int FILTER_COMMENT_REQUEST = 6;
+  public static final int TEMPLATE_TITLE_REQUEST = 7;
   public static final int EDIT_SPLIT_REQUEST = 8;
   public static final int SELECT_CATEGORY_REQUEST = 9;
   public static final int EDIT_EVENT_REQUEST = 10;
@@ -92,19 +91,21 @@ public class ProtectedFragmentActivity extends AppCompatActivity
   private boolean scheduledRestart = false;
   public Enum<?> helpVariant = null;
   protected int colorExpense;
+
   public int getColorExpense() {
     return colorExpense;
   }
 
   protected int colorIncome;
+
   public int getColorIncome() {
     return colorIncome;
   }
-  
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     if (BuildConfig.DEBUG) {
-        enableStrictMode();
+      enableStrictMode();
     }
     super.onCreate(savedInstanceState);
     if (PrefKey.PERFORM_PROTECTION.getBoolean(false)) {
@@ -131,47 +132,50 @@ public class ProtectedFragmentActivity extends AppCompatActivity
     return toolbar;
   }
 
-    @TargetApi(9)
-    private void enableStrictMode() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-                    .detectDiskReads()
-                    .detectDiskWrites()
-                    .detectNetwork()   // or .detectAll() for all detectable problems
-                    .penaltyLog()
-                    .build());
-            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-                .detectLeakedSqlLiteObjects()
-                    //.detectLeakedClosableObjects()
-                .penaltyLog()
-                .penaltyDeath()
-                .build());
-        }
+  @TargetApi(9)
+  private void enableStrictMode() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+      StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+          .detectDiskReads()
+          .detectDiskWrites()
+          .detectNetwork()   // or .detectAll() for all detectable problems
+          .penaltyLog()
+          .build());
+      StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+          .detectLeakedSqlLiteObjects()
+              //.detectLeakedClosableObjects()
+          .penaltyLog()
+          .penaltyDeath()
+          .build());
     }
+  }
 
-    private ProtectionDelegate getProtection() {
+  private ProtectionDelegate getProtection() {
     if (protection == null) {
       protection = new ProtectionDelegate(this);
     }
     return protection;
   }
+
   @Override
   protected void onPause() {
     super.onPause();
     getProtection().handleOnPause(pwDialog);
   }
+
   @Override
   protected void onDestroy() {
     super.onDestroy();
     MyApplication.getInstance().getSettings().unregisterOnSharedPreferenceChangeListener(this);
   }
+
   @Override
   @TargetApi(11)
   protected void onResume() {
     super.onResume();
-    if(scheduledRestart) {
+    if (scheduledRestart) {
       scheduledRestart = false;
-      if (android.os.Build.VERSION.SDK_INT>=11)
+      if (android.os.Build.VERSION.SDK_INT >= 11)
         recreate();
       else {
         Intent intent = getIntent();
@@ -182,9 +186,10 @@ public class ProtectedFragmentActivity extends AppCompatActivity
       pwDialog = getProtection().hanldeOnResume(pwDialog);
     }
   }
+
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
-      String key) {
+                                        String key) {
     if (key.equals(PrefKey.UI_THEME_KEY.getKey()) ||
         key.equals(PrefKey.UI_LANGUAGE.getKey()) ||
         key.equals(PrefKey.UI_FONTSIZE.getKey()) ||
@@ -194,14 +199,17 @@ public class ProtectedFragmentActivity extends AppCompatActivity
       scheduledRestart = true;
     }
   }
+
   public void onMessageDialogDismissOrCancel() {
   }
+
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.menu.help, menu);
     return true;
   }
+
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     if (dispatchCommand(item.getItemId(), null)) {
@@ -209,6 +217,7 @@ public class ProtectedFragmentActivity extends AppCompatActivity
     }
     return super.onOptionsItemSelected(item);
   }
+
   @Override
   public boolean dispatchCommand(int command, Object tag) {
     if (CommonCommands.dispatchCommand(this, command, tag)) {
@@ -218,20 +227,23 @@ public class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   public void dispatchCommand(View v) {
-    dispatchCommand(v.getId(),v.getTag());
+    dispatchCommand(v.getId(), v.getTag());
   }
 
   @Override
   public void onPreExecute() {
   }
+
   @Override
   public void onProgressUpdate(Object progress) {
     getProtection().updateProgressDialog(progress);
   }
+
   @Override
   public void onCancelled() {
     getProtection().removeAsyncTaskFragment(false);
   }
+
   @Override
   public void onPostExecute(int taskId, Object o) {
     getProtection().removeAsyncTaskFragment(taskId);
@@ -256,10 +268,12 @@ public class ProtectedFragmentActivity extends AppCompatActivity
   protected void setLanguage() {
     MyApplication.getInstance().setLanguage();
   }
+
   @Override
   public Model getObject() {
     return null;
   }
+
   @Override
   public void onPostExecute(Object result) {
     FragmentManager m = getSupportFragmentManager();
@@ -268,17 +282,18 @@ public class ProtectedFragmentActivity extends AppCompatActivity
     t.remove(m.findFragmentByTag(ProtectionDelegate.PROGRESS_TAG));
     t.commitAllowingStateLoss();
   }
-  
+
   /**
    * starts the given task, only if no task is currently executed,
    * informs user through toast in that case
+   *
    * @param taskId
    * @param objectIds
    * @param extra
    * @param progressMessage if 0 no progress dialog will be shown
    */
   public <T> void startTaskExecution(int taskId, T[] objectIds, Serializable extra,
-      int progressMessage) {
+                                     int progressMessage) {
     getProtection().startTaskExecution(taskId, objectIds, extra, progressMessage);
   }
 
@@ -293,17 +308,19 @@ public class ProtectedFragmentActivity extends AppCompatActivity
   public void recordUsage(ContribFeature f) {
     f.recordUsage();
   }
-  
+
   /**
    * Workaround for broken {@link NavUtils#shouldUpRecreateTask(android.app.Activity, Intent)}
-   * @see <a href="http://stackoverflow.com/a/20643984/1199911">http://stackoverflow.com/a/20643984/1199911</a>
+   *
    * @param from
    * @return
+   * @see <a href="http://stackoverflow.com/a/20643984/1199911">http://stackoverflow.com/a/20643984/1199911</a>
    */
-  protected final boolean shouldUpRecreateTask(Activity from){
+  protected final boolean shouldUpRecreateTask(Activity from) {
     return from.getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, false);
   }
-  /* 
+
+  /*
    * @see android.support.v7.app.ActionBarActivity#onBackPressed()
    * https://code.google.com/p/android/issues/detail?id=25517
    */
@@ -322,14 +339,15 @@ public class ProtectedFragmentActivity extends AppCompatActivity
     if (id != -1) {
       startTaskExecution(
           TaskExecutionFragment.TASK_TOGGLE_CRSTATUS,
-          new Long[] {id},
+          new Long[]{id},
           null,
           0);
     }
   }
+
   @Override
-  protected void onActivityResult(int requestCode, int resultCode, 
-      Intent intent) {
+  protected void onActivityResult(int requestCode, int resultCode,
+                                  Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
     if (requestCode == ProtectionDelegate.CONTRIB_REQUEST && intent != null) {
       if (resultCode == RESULT_OK) {
@@ -346,8 +364,7 @@ public class ProtectedFragmentActivity extends AppCompatActivity
   public void contribFeatureRequested(ContribFeature feature, Serializable tag) {
     if (feature.hasAccess()) {
       ((ContribIFace) this).contribFeatureCalled(feature, tag);
-    }
-    else {
+    } else {
       CommonCommands.showContribDialog(this, feature, tag);
     }
   }
@@ -355,7 +372,7 @@ public class ProtectedFragmentActivity extends AppCompatActivity
   @Override
   public void setTitle(CharSequence title) {
     super.setTitle(title);
-    if (Build.VERSION.SDK_INT <Build.VERSION_CODES.HONEYCOMB) {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
       getSupportActionBar().setTitle(title);
     }
   }
@@ -375,7 +392,7 @@ public class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   protected boolean calendarPermissionPermanentlyDeclined() {
-    String permission= Manifest.permission.WRITE_CALENDAR;
+    String permission = Manifest.permission.WRITE_CALENDAR;
     return PrefKey.CALENDAR_PERMISSION_REQUESTED.getBoolean(false) &&
         (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_DENIED) &&
         !ActivityCompat.shouldShowRequestPermissionRationale(this, permission);
