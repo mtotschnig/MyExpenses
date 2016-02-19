@@ -93,7 +93,6 @@
   <string name="form_currency_help_text">Selezionare una valuta dall\'elenco fornito di tutte le valute correnti.</string>
   <string name="form_AccountEdit_type_help_text">È possibile definire il tipo d\'un conto come uno dei contanti, carta di credito, banca, asset, passività. Il tipo determina i metodi di pagamento disponibili che è possibile configurare in Impostazioni -&gt; Gestisci -&gt; Metodi di pagamento.</string>
   <string name="form_color_help_text">L\'elenco dell\'operazione per un conto, il suo colore utilizzeranno come colore dell\'interfaccia utente principale.</string>
-  <string name="menu_set_sort_key_help_text">Impostare una chiave numerica, determinazione della posizione dell\'account nell\'elenco account nel cassetto navigazione (sorta di ascendente).</string>
   <string name="menu_exclude_from_totals_help_text">Se si seleziona questa opzione, questo conto non sarà incluso in aggregati per ogni moneta.</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Modulo per i metodi di pagamento</string>

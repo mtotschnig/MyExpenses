@@ -93,7 +93,6 @@
   <string name="form_currency_help_text">提供される現在のすべての通貨のリストから、通貨を選択します。</string>
   <string name="form_AccountEdit_type_help_text">現金、銀行、資産、負債、クレジットカードの一つから、勘定の種類を定義することができます。種類は、設定 -&gt; 管理 -&gt; 支払方法、で設定することができる支払方法を決定します。</string>
   <string name="form_color_help_text">勘定の取引リストでは、色は、プライマリ ユーザーインターフェースの色として使用されます。</string>
-  <string name="menu_set_sort_key_help_text">ナビゲーション ドロワーにある勘定リスト内の勘定の位置を決める数字キーを設定します (昇順ソート)。</string>
   <string name="menu_exclude_from_totals_help_text">このオプションをチェックすると、この勘定は、通貨ごとの集計に含まれません。</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">支払方法用のフォーム</string>

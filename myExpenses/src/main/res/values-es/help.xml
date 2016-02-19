@@ -93,7 +93,6 @@
   <string name="form_currency_help_text">Seleccione una moneda de la lista de todas las monedas actuales.</string>
   <string name="form_AccountEdit_type_help_text">Puede definir el tipo de cuenta como uno de dinero en efectivo, Banco, activos, pasivos, tarjeta de crédito. El tipo determina los métodos de pago disponibles que puede configurar en Settings -&gt; Administrar -&gt; métodos de pago.</string>
   <string name="form_color_help_text">En la lista de transacciones para una cuenta, se utilizará su color como color de la interfaz de usuario principal.</string>
-  <string name="menu_set_sort_key_help_text">Establecer una clave numérica de determinar la posición de la cuenta en la lista de cuentas en el cajón de navegación (tipo ascendente).</string>
   <string name="menu_exclude_from_totals_help_text">Si selecciona esta opción, esta cuenta no será incluida dentro de los agregados por moneda.</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Formulario para los métodos de pago</string>

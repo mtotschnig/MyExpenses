@@ -51,7 +51,6 @@
   <string name="menu_invert_transfer_help_text">Inversează direcţia transferului schimbând contul \'De la\' şi \'Către\'.</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Formular pentru conturi</string>
-  <string name="menu_set_sort_key_help_text">Setaţi o cheie numerică  ce determină poziția contului în lista de conturi într-o bară de navigare (sortare ascendentă).</string>
   <string name="menu_exclude_from_totals_help_text">Dacă bifaţi această opţiune, acest cont nu va fi inclus în agregatele pe moneda.</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Formular pentru metode de plată</string>

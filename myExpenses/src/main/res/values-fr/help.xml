@@ -93,7 +93,6 @@
   <string name="form_currency_help_text">Sélectionnez une devise dans la liste de toutes les monnaies actuelles.</string>
   <string name="form_AccountEdit_type_help_text">Vous pouvez définir le type d\'un compte comme étant espèces, banque, actifs, passifs, ou carte de crédit. Le type détermine les modes de paiement disponibles que vous pouvez configurer sous Paramètres -&gt; Gérer -&gt; modes de paiement.</string>
   <string name="form_color_help_text">Sur la liste des transactions d\'un compte, sa couleur servira comme couleur d\'interface utilisateur principal.</string>
-  <string name="menu_set_sort_key_help_text">Définit une clé numérique déterminant la position du compte dans cette liste des comptes pour le volet de navigation (ordre croissant).</string>
   <string name="menu_exclude_from_totals_help_text">Si vous cochez cette option, ce compte ne sera pas inclus dans les totaux par devise.</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Formulaire pour méthodes de paiement</string>

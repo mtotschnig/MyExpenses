@@ -66,7 +66,6 @@
   <string name="form_AccountEdit_label_help_text">Etiketak kontua identifikatzen du kontuen zerrendan.</string>
   <string name="form_description_help_text">Deskripzioa informaziorako da besterik ez.</string>
   <string name="form_currency_help_text">Hautatu moneta bat gaurkotutako moneten zerrendatik.</string>
-  <string name="menu_set_sort_key_help_text">Ezarri zenbakizko gako bat kontuaren posizioa zehazteko nabigazio ataleko kontuen zerrendan  (goranzko ordena)</string>
   <string name="menu_exclude_from_totals_help_text">Aukera hau markatzen baduzu, kontu hau ez da monetako guztirakoetan agregatuko.</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Ordainketa metodoen formularioa</string>

@@ -52,7 +52,6 @@
   <string name="menu_invert_transfer_help_text">Inverta a direção da transferência, trocando o \'De\' e \'Para\' conta.</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Formulário para contas</string>
-  <string name="menu_set_sort_key_help_text">Defina uma chave numérica que determinam a posição da conta na lista de contas na gaveta de navegação (tipo de ascendente).</string>
   <string name="menu_exclude_from_totals_help_text">Se você marcar esta opção, esta conta não será incluída nos agregados por moeda.</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Formulário para métodos de pagamento</string>

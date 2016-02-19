@@ -93,7 +93,6 @@
   <string name="form_currency_help_text">Sunulan tüm güncel para birimleri listesinden bir para birimi seçin.</string>
   <string name="form_AccountEdit_type_help_text">Hesabın türünü Nakit, Banka Hesabı, Aktif, Borç ya da Kredi Kartı olarak belirtebilirsiniz. Tür, Ayarlar -&gt; Yönet -&gt; Ödeme Metotları kısmında yapılandırabileceğiniz mevcut ödeme metotlarını belirler.</string>
   <string name="form_color_help_text">Bir hesabın muamele listesindeki renk, birincil kullanıcı arayüzü rengi olarak kullanılacaktır.</string>
-  <string name="menu_set_sort_key_help_text">Tarama çekmecesindeki hesap listesinde hesabın konumunu belirleyecek bir sayısal anahtar ayarların (yukarıya doğru sıralama). </string>
   <string name="menu_exclude_from_totals_help_text">Bu şıkkı seçerseniz, bu hesap para birimine dayalı gruplara dahil edilmeyecektir.</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Ödeme metotları için form</string>

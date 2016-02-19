@@ -79,7 +79,6 @@
   <string name="form_AccountEdit_amount_switch_help_text">Guna suis untuk mulakan dengan imbangan pembukaan negatif.</string>
   <string name="form_currency_help_text">Pilih satu matawang dari senarai disediakan bagi semua matawang semasa.</string>
   <string name="form_color_help_text">Pada senarai transaksi untuk sesebuah akaun, warnanya akan digunakan sebagai warna antaramuka pengguna utama.</string>
-  <string name="menu_set_sort_key_help_text">Tetapkan kekunci numerik yang menentukan kedudukan akaun dalam senarai akaun di dalam laci navigasi (isih menaik).</string>
   <string name="menu_exclude_from_totals_help_text">Jika anda tanda pilihan ini, akaun ini tidak akan disertakan dalam aggregat per matawang.</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Borang untuk kaedah pembayaran</string>
