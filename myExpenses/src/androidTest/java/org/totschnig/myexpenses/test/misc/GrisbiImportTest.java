@@ -24,6 +24,7 @@ import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.test.InstrumentationTestCase;
+import android.util.SparseArray;
 
 import junit.framework.Assert;
 
@@ -47,7 +48,7 @@ public class GrisbiImportTest extends InstrumentationTestCase {
     Result result = analyze(R.raw.grisbi);
     Assert.assertEquals(true, result.success);
     CategoryTree catTree = (CategoryTree) result.extra[0];
-    HashMap<Integer,CategoryTree> main = catTree.children();
+    SparseArray<CategoryTree> main = catTree.children();
     Assert.assertEquals(22, main.size());
     Assert.assertEquals(10, main.get(1).children().size());
     ArrayList<String> partiesList = (ArrayList<String>) result.extra[1];
@@ -57,7 +58,7 @@ public class GrisbiImportTest extends InstrumentationTestCase {
     Result result = analyze(R.raw.grisbi_050);
     Assert.assertEquals(true, result.success);
     CategoryTree catTree = (CategoryTree) result.extra[0];
-    HashMap<Integer,CategoryTree> main = catTree.children();
+    SparseArray<CategoryTree> main = catTree.children();
     Assert.assertEquals(22, main.size());
     Assert.assertEquals(9, main.get(1).children().size());
     ArrayList<String> partiesList = (ArrayList<String>) result.extra[1];

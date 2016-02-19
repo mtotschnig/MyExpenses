@@ -15,6 +15,8 @@
 
 package org.totschnig.myexpenses.test.misc;
 
+import android.util.SparseArray;
+
 import java.util.HashMap;
 
 import org.totschnig.myexpenses.util.CategoryTree;
@@ -32,7 +34,7 @@ public class CategoryTreeTest extends TestCase {
     //adding to a parent that does not exist returns false
     Assert.assertEquals(false,catTree.add("Sub3", 1, 3));
     Assert.assertEquals(4, catTree.getTotal());
-    HashMap<Integer,CategoryTree> mainCats = catTree.children();
+    SparseArray<CategoryTree> mainCats = catTree.children();
     CategoryTree main1 = mainCats.get(1);
     Assert.assertEquals("Main1",main1.getLabel());
     Assert.assertEquals("Sub1",main1.children().get(1).getLabel());
