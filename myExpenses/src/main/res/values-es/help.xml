@@ -35,6 +35,7 @@
   <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Indican que en el caso del evento seleccionado, no debe crearse ninguna operación.</string>
   <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Si una transacción se ha creado para esta instancia del evento, será eliminado, si ha sido marcado como cancelado, se retira la bandera.</string>
   <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Edite la transacción que ha sido creada para la instancia del plan seleccionado.</string>
+  <string name="menu_ManageTemplates_templates_sort_help_text">La lista de plantillas se puede ordenada por título (alfabéticamente), cantidad, frecuencia de usos o la última vez que una transacción se crea una instancia de ella.</string>
   <!--ManageCategories_* titles are in keys-->
   <string name="help_ManageCategories_distribution_info">Esta pantalla muestra la distribución de sus gastos y los ingresos por categorías, para todas las transacciones en una cuenta o para un grupo específico. Si expande una categoría principal en la lista, el gráfico muestra la distribución de sus subcategorías. Si selecciona una categoría en la lista, se resaltará en el gráfico y viceversa. Pulsación larga sobre una categoría para mostrar una lista agregada de las transacciones asignados a él.</string>
   <string name="help_ManageCategories_select_mapping_info">Además de las acciones que se pueden realizar en la gestión de categorías en la pantalla de Preferencias (crear, editar, borrar), en esta pantalla se asigna una operación a una categoría seleccionada.  La asignación de una subcategoría al asiento actual se realiza a través de un breve clic. La asignación de una categoría principal es posible a través del menú contextual.</string>
@@ -51,6 +52,8 @@
   <string name="menu_distribution_show_pie_char_help_text">Alternar la visibilidad de los gráficos de sectores.</string>
   <string name="menu_distribution_aggreate_help_text">De forma predeterminada, las sumas calculadas incluyen gastos e ingresos. Usted puede decidir mostrar por separado, que un botón en la barra de acción le permite alternar entre gastos e ingresos.</string>
   <string name="cab_ManageCategories_select_filter_select_category_help_text">La categoría seleccionada se utilizará para filtrar la lista de transacciones.</string>
+  <string name="menu_ManageCategories_search_help_text">Sólo mostrarán las categorías principales y las sub-categoría que coinciden con tu consulta.</string>
+  <string name="menu_ManageCategories_sort_help_text">La lista de categorías puede ordenarse por título (alfabéticamente), por la frecuencia de usos, o por la última vez que una transacción fue asignada a él.</string>
   <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">Formulario para los asientos</string>
   <string name="help_ExpenseEdit_transfer_title">Formulario para las transferencias</string>
@@ -110,4 +113,10 @@
   <!--CSV Import-->
   <string name="help_CsvImportActivity_info"><![CDATA[Después de seleccionar el archivo que desea importar, es necesario configurar cómo está codificado el archivo (UTF-8 o ISO-8859-1), que carácter separa campos (coma, punto y coma o tab), y cómo fechas de formateada. Datos pueden importarse ya sea en una cuenta existente o uno nuevo, donde puede configurar la moneda y el tipo de cuenta.<br><br>después de que usted pulse el botón analizar de la barra de acción, los datos se presentarán le en una tabla. Antes de accionar la importación a través del botón en la barra de acción, puede seleccionar filas que desea descartar, y tienes que asignar las columnas a los campos de datos respectivos. <br><br>Cuando se deseche la primera fila, se le pedirá si desea ser tratado como una línea de cabecera, en cuyo caso <i>Los mis gastos</i> intentará asignar automáticamente las columnas basadas en el contenido de las celdas de encabezado. También recuerda su asignación basada en la línea del encabezado y restaurarlo, al importar un archivo con el mismo formato de encabezado la próxima vez.]]></string>
   <string name="help_ExportDialog_date_format"><![CDATA[Texto puede citarse con comillas simples (\') para evitar la interpretación. \'\' (dos comillas simples) representan una comilla simple. Consulte la completa <a href=\"http://developer.android.com/reference/java/text/SimpleDateFormat.html\"> especificación</a> para más información o contacte a support@myexpenses.mobi para obtener ayuda.]]></string>
+  <string name="help_NavigationDrawer_info">La lista de cuenta le permite navegar fácilmente entre cuentas simplemente haciendo clic en una entrada.</string>
+  <string name="menu_create_account_help_text">Crear una nueva cuenta. La versión gratuita está limitada a cinco cuentas.</string>
+  <string name="menu_NavigationDrawer_sort_help_text">La lista de cuenta puede ordenarse por título (alfabéticamente), por la frecuencia de usos, o por la última vez que una transacción fue creada para él. Si selecciona clasificación personalizada, verás los comandos de menú de contexto de cada cuenta para moverse hacia arriba y hacia abajo en la lista.</string>
+  <string name="menu_NavigationDrawer_grouping_help_text">La lista de cuenta puede mostrarse agrupadas por el tipo de cuenta, por la moneda, o desagrupada.</string>
+  <string name="cab_sort_up_help_text">Mover el elemento una posición hacia arriba en la lista.</string>
+  <string name="cab_sort_down_help_text">Mover el elemento una posición hacia abajo en la lista.</string>
 </resources>

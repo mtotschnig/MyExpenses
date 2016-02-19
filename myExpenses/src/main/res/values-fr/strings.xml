@@ -600,4 +600,10 @@
   <string name="pref_sort_order_custom">Personnalisé</string>
   <string name="dialog_info_custom_sort">Utilisez les commandes vers le haut et vers le bas dans le menu contextuel de l\'élément pour modifier sa position de tri.</string>
   <string name="content_description_calculator">Calculatrice</string>
+  <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <string name="plan_instance_state_open">ouvert</string>
+  <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
+  <string name="plan_instance_state_cancelled">annulé</string>
+  <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <string name="plan_instance_state_applied">appliqué</string>
 </resources>

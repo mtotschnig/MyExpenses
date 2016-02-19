@@ -68,6 +68,7 @@
   <string name="dialog_confirm_discard_new_account">Descartar a nova conta?</string>
   <string name="dialog_confirm_discard_new_method">Descartar o novo método de pagamento?</string>
   <string name="dialog_command_disabled_balance">Nenhuma transação apuradas para se reconciliar.</string>
+  <string name="dialog_command_disabled_insert_transfer">As transações de transferência exigem uma segunda conta.</string>
   <string name="dialog_command_disabled_reset_account">Nenhuma transação para exportar.</string>
   <string name="dialog_command_disabled_distribution">Nenhuma transação foi mapeada para categorias nesta conta.</string>
   <string name="dialog_contrib_no">Ainda não.</string>
@@ -479,6 +480,11 @@
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Pasta atualmente selecionada para backups e as exportações serão automaticamente excluída pelo Android se você desinstalar Minhas Despesas. Você pode impedir que isto aconteça selecionando uma pasta diferente na tela de configurações.</string>
   <string name="warning_splitpartcategory_context">Transferências que fazem parte de uma transação de divisão apenas podem ser editadas no contexto da divisão.</string>
   <string name="warning_fraction_digits_out_of_range">Por favor, defina um número entre 0 e 8</string>
+  <string name="warning_change_fraction_digits_1">Quantidade no banco de dados precisa ser atualizado para coincidir com o novo número de dígitos de fração.</string>
+  <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Se os valores não estão atualizados, eles serão exibidos como multiplicado por %d após a mudança.</string>
+  <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Se os valores não estão atualizados, eles serão exibidos como dividido por %d após a mudança.</string>
+  <string name="warning_change_fraction_digits_3">Se quantidades forem atualizadas, você perderá as informações sobre sua parte fracionária.</string>
+  <string name="warning_change_fraction_digits_checkbox_label">Atualizaçãr quantidades no banco de dados</string>
   <string name="import_categories_success">%1$s categorias importadas com sucesso</string>
   <string name="import_parties_success">%1$s participantes importados com sucesso</string>
   <string name="import_accounts_success">%1$s contas importadas com êxito</string>
@@ -495,6 +501,7 @@
   <!--Move an account up in the account list-->
   <string name="menu_sort_up">Para cima</string>
   <!--Move an account down in the account list-->
+  <string name="menu_sort_down">Para baixo</string>
   <string name="create_new_folder_fail">Falha ao criar a pasta</string>
   <string name="widget_title_accounts">Minhas contas</string>
   <string name="widget_title_templates">Meus modelos</string>
@@ -581,6 +588,22 @@
   <string name="dialog_title_select_target">Selecione o destino</string>
   <string name="transform_subcategory_to_main">Transformar a categoria principal</string>
   <string name="preferences_week_start_day_title">A semana começa</string>
+  <string name="preferences_month_start_date_title">Mês começa na</string>
   <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
+  <string name="pref_grouping_periods">Períodos de agrupamento</string>
+  <string name="exchange_rate">Taxa de câmbio</string>
+  <string name="date_format_hour">Hora</string>
+  <string name="date_format_minute">Minuto</string>
+  <string name="copied_to_clipboard">Copiado para a área de transferência</string>
+  <string name="menu_sort">Ordenar por</string>
+  <string name="pref_sort_order_last_used">Usado pela última vez</string>
+  <string name="pref_sort_order_custom">Personalizado</string>
+  <string name="dialog_info_custom_sort">Use o para cima e para baixo os comandos no menu de contexto de cada item para alterar a sua posição de classificação.</string>
   <string name="content_description_calculator">Calculadora</string>
+  <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <string name="plan_instance_state_open">Abra</string>
+  <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
+  <string name="plan_instance_state_cancelled">cancelado</string>
+  <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <string name="plan_instance_state_applied">aplicada</string>
 </resources>

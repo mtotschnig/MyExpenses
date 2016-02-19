@@ -579,4 +579,7 @@
   <string name="date_format_minute">Minit</string>
   <string name="copied_to_clipboard">Disalin ke papan keratan</string>
   <string name="content_description_calculator">Kalkulator</string>
+  <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
+  <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
 </resources>

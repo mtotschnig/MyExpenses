@@ -550,4 +550,7 @@
   <string name="preferences_week_start_day_title">Ugen starter</string>
   <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
   <string name="content_description_calculator">Lommeregner</string>
+  <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
+  <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
 </resources>

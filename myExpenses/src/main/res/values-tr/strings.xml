@@ -600,4 +600,10 @@
   <string name="pref_sort_order_custom">Özel</string>
   <string name="dialog_info_custom_sort">Sırlama konumunu değiştirmek için her unsurun bağlam menüsündeki Aşağı ve Yukarı komutlarını kullanın.</string>
   <string name="content_description_calculator">Hesap makinesi</string>
+  <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <string name="plan_instance_state_open">açık</string>
+  <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
+  <string name="plan_instance_state_cancelled">iptal edildi</string>
+  <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <string name="plan_instance_state_applied">uygulandı</string>
 </resources>

@@ -480,6 +480,11 @@
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">La carpeta seleccionada para copias de seguridad y las exportaciones se eliminará automáticamente por Android si desinstalas Mis Gastos. Puede evitar que esto suceda al seleccionar una carpeta diferente desde la pantalla de configuración.</string>
   <string name="warning_splitpartcategory_context">Transferencias que forman parte de un asiento dividido sólo pueden ser editadas en el contexto del asiento dividido.</string>
   <string name="warning_fraction_digits_out_of_range">Por favor, defina un número entre 0 y 8</string>
+  <string name="warning_change_fraction_digits_1">Cantidades en la base de datos necesitan ser actualizadas con el fin de coincidir con el nuevo número de dígitos de fracción.</string>
+  <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Si no se actualizan los importes, se mostrarán como multiplicada por %d después del cambio.</string>
+  <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Si no se actualizan los importes, se mostrarán como dividido por %d después del cambio.</string>
+  <string name="warning_change_fraction_digits_3">Si se actualizan los importes, se perderá la información de su parte fraccionaria.</string>
+  <string name="warning_change_fraction_digits_checkbox_label">Actualizar las cantidades en la base de datos</string>
   <string name="import_categories_success">%1$s categorías han sido importadas con éxito.</string>
   <string name="import_parties_success">%1$s partidos han sido importados con éxito.</string>
   <string name="import_accounts_success">%1$s cuentas han sido importadas con éxito</string>
@@ -496,6 +501,7 @@
   <!--Move an account up in the account list-->
   <string name="menu_sort_up">Arriba</string>
   <!--Move an account down in the account list-->
+  <string name="menu_sort_down">Abajo</string>
   <string name="create_new_folder_fail">No se pudo crear la carpeta</string>
   <string name="widget_title_accounts">Mis cuentas</string>
   <string name="widget_title_templates">Mis plantillas</string>
@@ -589,5 +595,15 @@
   <string name="date_format_hour">Hora</string>
   <string name="date_format_minute">Minuto</string>
   <string name="copied_to_clipboard">Copiado en el portapapeles</string>
+  <string name="menu_sort">Ordenar por</string>
+  <string name="pref_sort_order_last_used">Último utilizado</string>
+  <string name="pref_sort_order_custom">personalizado</string>
+  <string name="dialog_info_custom_sort">Utilice el arriba y abajo comandos en el menú contextual de cada elemento para cambiar su posición de clase.</string>
   <string name="content_description_calculator">Calculadora</string>
+  <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <string name="plan_instance_state_open">abierto</string>
+  <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
+  <string name="plan_instance_state_cancelled">cancelado</string>
+  <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <string name="plan_instance_state_applied">aplicado</string>
 </resources>

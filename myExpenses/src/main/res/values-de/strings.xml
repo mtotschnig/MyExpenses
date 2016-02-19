@@ -480,6 +480,11 @@
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Der aktuell ausgewählte Ordner für Sicherungskopien und Exporte wird von Android automatisch gelöscht wenn Sie meine Ausgaben deinstallieren. Sie können dies verhindern, indem Sie einen anderen Ordner in den Einstellungen auswählen.</string>
   <string name="warning_splitpartcategory_context">Umbuchungen, die Teil einer Splitbuchung sind, können nur im Kontext der Splitbuchunung geändert werden.</string>
   <string name="warning_fraction_digits_out_of_range">Bitte eine Zahl zwischen 0 und 8 angeben</string>
+  <string name="warning_change_fraction_digits_1">Beträge in der Datenbank müssen aktualisiert werden, um mit der neuen Anzahl der Nachkommastellen übereinzustimmen.</string>
+  <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Wenn Beträge nicht aktualisiert werden, erscheinen diese nach der Änderung als multipliziert mit %d.</string>
+  <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Wenn Beträge nicht aktualisiert werden, erscheinen diese nach der Änderung als dividiert durch %d.</string>
+  <string name="warning_change_fraction_digits_3">Wenn Beträge aktualisiert werden, verlieren Sie die Information über deren Bruchteil.</string>
+  <string name="warning_change_fraction_digits_checkbox_label">Beträge in der Datenbank aktualisieren</string>
   <string name="import_categories_success">%1$s Kategorien erfolgreich importiert</string>
   <string name="import_parties_success">%1$s Parteien erfolgreich importiert</string>
   <string name="import_accounts_success">%1$s Konten erfolgreich importiert</string>
@@ -496,6 +501,7 @@
   <!--Move an account up in the account list-->
   <string name="menu_sort_up">Nach oben</string>
   <!--Move an account down in the account list-->
+  <string name="menu_sort_down">Nach unten</string>
   <string name="create_new_folder_fail">Erstellen des Ordners fehlgeschlagen</string>
   <string name="widget_title_accounts">Meine Konten</string>
   <string name="widget_title_templates">Meine Vorlagen</string>
@@ -589,5 +595,15 @@
   <string name="date_format_hour">Stunde</string>
   <string name="date_format_minute">Minute</string>
   <string name="copied_to_clipboard">In Zwischenablage kopiert</string>
+  <string name="menu_sort">Sortieren nach</string>
+  <string name="pref_sort_order_last_used">Zuletzt verwendet</string>
+  <string name="pref_sort_order_custom">Benutzerdefiniert</string>
+  <string name="dialog_info_custom_sort">Durch die Befehle \"Nach oben\" und \"Nach unten\" im Kontextmenü des Elements ändern Sie seine Sortierposition.</string>
   <string name="content_description_calculator">Taschenrechner</string>
+  <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <string name="plan_instance_state_open">offen</string>
+  <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
+  <string name="plan_instance_state_cancelled">annulliert</string>
+  <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <string name="plan_instance_state_applied">angewendet</string>
 </resources>

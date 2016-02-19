@@ -1,5 +1,20 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_265">
+    <item>Classificação de modelos, categorias e contas facilitada</item>
+  </string-array>
+  <string-array name="whats_new_264">
+    <item>Tela de categorias pode ser pesquisada</item>
+    <item>O saldo da conta pode ser copiado para a área de transferência</item>
+    <item>Colar em calculadora de área de transferência</item>
+    <item>Ajuda para o formato de data na caixa de diálogo de exportação</item>
+  </string-array>
+  <string-array name="whats_new_263">
+    <item>Transferências entre contas com diferentes moedas</item>
+  </string-array>
+  <string-array name="whats_new_262">
+    <item>Dias onde começam a semana e mês podem ser configurados</item>
+  </string-array>
   <string-array name="whats_new_261">
     <item>Categorias podem ser movidas</item>
   </string-array>
