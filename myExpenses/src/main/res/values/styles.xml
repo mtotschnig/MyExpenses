@@ -100,4 +100,9 @@
         <item name="android:textColor">?android:textColorPrimaryInverse</item>
         <item name="android:textSize">?textSizeSmall</item>
     </style>
+
+    <style name="ExpandableListRow">
+        <item name="android:paddingRight">@dimen/general_padding</item>
+        <item name="android:paddingLeft">?android:attr/expandableListPreferredItemPaddingLeft</item>
+    </style>
 </resources>

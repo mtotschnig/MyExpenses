@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
+    style="@style/ExpandableListRow"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
-    android:paddingStart="?android:attr/expandableListPreferredItemPaddingLeft"
-    android:paddingEnd="@dimen/general_padding"
-    android:paddingRight="@dimen/general_padding">
+    android:layout_height="match_parent">
 
     <include layout="@layout/category_row_inner"/>
 

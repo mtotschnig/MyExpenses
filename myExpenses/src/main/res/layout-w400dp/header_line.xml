@@ -23,7 +23,7 @@
         style="@style/headingStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="right"
+        android:gravity="end"
         android:layout_weight="1"
         tools:text="INTERIM_BALANCE EVERYTHING YOU NEED TO KNOW"/>
 

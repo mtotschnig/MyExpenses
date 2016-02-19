@@ -52,7 +52,8 @@
             android:layout_toEndOf="@+id/colorContainer"
             android:paddingLeft="5dp"
             android:paddingRight="5dip"
-            tools:text="CATEGORY"/>
+            tools:text="CATEGORY"
+            tools:ignore="RtlHardcoded"/>
 
         <TextView
             android:id="@+id/amount"

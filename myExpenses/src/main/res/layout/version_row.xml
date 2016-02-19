@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
-        android:gravity="right"
+        android:gravity="end"
         android:textColorLink="@drawable/linkcolor"
         android:textStyle="bold|italic"/>
 </LinearLayout>

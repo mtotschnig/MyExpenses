@@ -58,7 +58,7 @@
             android:layout_width="1dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="right"
+            android:gravity="end"
             tools:text="SUM_INCOME"/>
 
         <TextView
@@ -67,7 +67,7 @@
             android:layout_width="1dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="right"
+            android:gravity="end"
             tools:text="SUM_EXPENSE"/>
     </LinearLayout>
 

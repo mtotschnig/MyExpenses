@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ExpandableListRow">
+        <item name="android:paddingEnd">@dimen/general_padding</item>
+        <item name="android:paddingStart">?android:attr/expandableListPreferredItemPaddingLeft</item>
+    </style>
+</resources>

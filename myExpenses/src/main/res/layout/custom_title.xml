@@ -27,9 +27,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="@dimen/general_padding"
+        android:layout_marginEnd="@dimen/general_padding"
         android:layout_toLeftOf="@id/end"
+        android:layout_toStartOf="@+id/end"
         android:ellipsize="marquee"/>
 
     <TextView
@@ -37,6 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:onClick="copyToClipBoard"
         android:textStyle="bold"/>
