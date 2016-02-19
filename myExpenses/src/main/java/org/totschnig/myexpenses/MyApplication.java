@@ -267,7 +267,6 @@ public class MyApplication extends Application implements
     mSelf = this;
     // sets up mSettings
     getSettings().registerOnSharedPreferenceChangeListener(this);
-    DatabaseConstants.buildLocalized(Locale.getDefault());
     initPlanner();
     registerWidgetObservers();
     Log.d(TAG, "Memory class " + getMemoryClass());

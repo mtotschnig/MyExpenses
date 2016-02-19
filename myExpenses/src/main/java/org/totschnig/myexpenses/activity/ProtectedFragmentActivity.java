@@ -54,6 +54,7 @@ import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Model;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
@@ -108,6 +109,7 @@ public class ProtectedFragmentActivity extends AppCompatActivity
       enableStrictMode();
     }
     super.onCreate(savedInstanceState);
+    DatabaseConstants.ensureLocalized();
     if (PrefKey.PERFORM_PROTECTION.getBoolean(false)) {
       getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
           WindowManager.LayoutParams.FLAG_SECURE);
