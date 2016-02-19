@@ -886,6 +886,8 @@ public class CategoryList extends SortableListFragment implements
   @Override
   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
     ManageCategories ctx = (ManageCategories) getActivity();
+    if (ctx == null) return;
+    
     if (!ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
       inflater.inflate(R.menu.search, menu);
       SearchManager searchManager =
