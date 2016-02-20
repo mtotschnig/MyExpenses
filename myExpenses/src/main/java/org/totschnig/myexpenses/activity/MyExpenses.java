@@ -161,6 +161,7 @@ public class MyExpenses extends LaunchActivity implements
   int mAccountCount = 0;
   private Toolbar mToolbar;
   private String mCurrentBalance;
+  private SubMenu sortMenu;
 
   public enum HelpVariant {
     crStatus
@@ -280,9 +281,8 @@ public class MyExpenses extends LaunchActivity implements
     MenuItem menuItem = accountsMenu.getMenu().findItem(R.id.SORT_COMMAND);
     MenuItemCompat.setShowAsAction(
         menuItem, MenuItemCompat.SHOW_AS_ACTION_NEVER);
-    SubMenu sortMenu = menuItem.getSubMenu();
+    sortMenu = menuItem.getSubMenu();
     sortMenu.findItem(R.id.SORT_CUSTOM_COMMAND).setVisible(true);
-    Utils.configureSortMenu(sortMenu, PrefKey.SORT_ORDER_ACCOUNTS.getString("USAGES"));
 
     //Grouping submenu
     SubMenu groupingMenu = accountsMenu.getMenu().findItem(R.id.GROUPING_ACCOUNTS_COMMAND)
@@ -866,6 +866,8 @@ public class MyExpenses extends LaunchActivity implements
   public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
     switch (loader.getId()) {
       case ACCOUNTS_CURSOR:
+        //we postpone this until cursor is loaded, because prefkey is updated in migration to db schema 56
+        Utils.configureSortMenu(sortMenu, PrefKey.SORT_ORDER_ACCOUNTS.getString("USAGES"));
         mAccountCount = 0;
         mAccountsCursor = cursor;
         if (mAccountsCursor == null) {
