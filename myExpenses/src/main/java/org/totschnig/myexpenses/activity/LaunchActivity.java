@@ -102,8 +102,10 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
             MyApplication.PrefKey.CATEGORIES_SORT_BY_USAGES_LEGACY.getBoolean(true) ?
                 "USAGES" : "ALPHABETIC");
       }
-      VersionDialogFragment.newInstance(prev_version)
-        .show(getSupportFragmentManager(), "VERSION_INFO");
+      if (prev_version <= 240 || (int) prev_version / 10 < (int) current_version / 10) {
+        VersionDialogFragment.newInstance(prev_version)
+            .show(getSupportFragmentManager(), "VERSION_INFO");
+      }
     }
     checkCalendarPermission();
   }
