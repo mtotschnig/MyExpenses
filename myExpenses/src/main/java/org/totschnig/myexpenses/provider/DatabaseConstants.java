@@ -76,7 +76,7 @@ public class DatabaseConstants {
   }
 
   public static void ensureLocalized() {
-    if (isLocalized) {
+    if (!isLocalized) {
       buildLocalized(Locale.getDefault());
     }
   }
