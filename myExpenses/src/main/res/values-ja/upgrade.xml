@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_265">
+    <item>テンプレート、カテゴリ、アカウントのソートが簡単になります</item>
+  </string-array>
   <string-array name="whats_new_264">
     <item>分類画面が検索できるようになりました</item>
     <item>勘定の残高がクリップボードにコピーできるようになりました</item>
