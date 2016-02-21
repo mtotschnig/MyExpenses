@@ -1070,10 +1070,13 @@ public class MyExpenses extends LaunchActivity implements
   }
 
   private void setBalance() {
+    long balance = mAccountsCursor.getLong(mAccountsCursor.getColumnIndex
+        (KEY_CURRENT_BALANCE));
     mCurrentBalance = Utils.formatCurrency(new Money(Utils.getSaveInstance(mAccountsCursor
-        .getString(columnIndexCurrency)), mAccountsCursor.getLong(mAccountsCursor.getColumnIndex
-        (KEY_CURRENT_BALANCE))));
-    ((TextView) mToolbar.findViewById(R.id.end)).setText(mCurrentBalance);
+        .getString(columnIndexCurrency)), balance));
+    TextView balanceTextView = (TextView) mToolbar.findViewById(R.id.end);
+    balanceTextView.setTextColor(balance < 0 ? colorExpense : colorIncome);
+    balanceTextView.setText(mCurrentBalance);
   }
 
   public void setTitle(String title) {
