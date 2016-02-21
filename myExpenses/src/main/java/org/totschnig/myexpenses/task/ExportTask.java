@@ -125,7 +125,9 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
       Cursor c = MyApplication.getInstance().getContentResolver().query(TransactionProvider.ACCOUNTS_URI,
           new String[] {KEY_ROWID}, selection, selectionArgs, null);
       accountIds = DbUtils.getLongArrayFromCursor(c, KEY_ROWID);
-      c.close();
+      if (c != null) {
+        c.close();
+      }
     }
     Account account;
     DocumentFile destDir;
@@ -142,6 +144,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
     ArrayList<Account> successfullyExported = new ArrayList<Account>();
     for (Long id : accountIds) {
       account = Account.getInstanceFromDb(id);
+      if (account == null) continue;
       publishProgress(account.label + " ...");
       try {
         String fileNameForAccount = accountIds.length > 1 ?
