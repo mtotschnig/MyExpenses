@@ -21,6 +21,7 @@ import android.app.Application;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Configuration;
@@ -36,7 +37,6 @@ import android.util.Log;
 import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Calendars;
 import com.android.calendar.CalendarContractCompat.Events;
-import com.google.common.annotations.VisibleForTesting;
 
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
@@ -56,10 +56,12 @@ import java.util.Locale;
 
 public class MyApplication extends Application implements
     OnSharedPreferenceChangeListener {
+  static boolean instrumentationTest = false;
+  public static final String TEST_ID = "test";
   public static final String PLANNER_CALENDAR_NAME = "MyExpensesPlanner";
   public static final String PLANNER_ACCOUNT_NAME = "Local Calendar";
   public static final String INVALID_CALENDAR_ID = "-1";
-  private SharedPreferences mSettings;
+  SharedPreferences mSettings;
   private static MyApplication mSelf;
 
   public static final String BACKUP_DB_FILE_NAME = "BACKUP";
@@ -245,6 +247,10 @@ public class MyApplication extends Application implements
     this.isLocked = isLocked;
   }
 
+  public static boolean isInstrumentationTest() {
+    return instrumentationTest;
+  }
+
   public static final String FEEDBACK_EMAIL = "support@myexpenses.mobi";
   // public static int BACKDOOR_KEY = KeyEvent.KEYCODE_CAMERA;
 
@@ -290,14 +296,10 @@ public class MyApplication extends Application implements
 
   public SharedPreferences getSettings() {
     if (mSettings == null) {
-      mSettings = PreferenceManager.getDefaultSharedPreferences(this);
+      mSettings = instrumentationTest ? getSharedPreferences(TEST_ID, Context.MODE_PRIVATE) :
+          PreferenceManager.getDefaultSharedPreferences(this);
     }
     return mSettings;
-  }
-
-  @VisibleForTesting
-  public void setSettings(SharedPreferences s) {
-    mSettings = s;
   }
 
   public static int getThemeId() {
