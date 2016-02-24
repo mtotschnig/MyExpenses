@@ -16,8 +16,6 @@ import android.util.Log;
 
 public class LocaleTest extends android.test.InstrumentationTestCase {
   private Account mAccount;
-  private SharedPreferences settings;
-  private static final String TEST_ID = "functest";
   
   @Override
   protected void setUp() throws Exception {

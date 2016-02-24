@@ -45,7 +45,6 @@ import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.PreferenceFragmentCompat;
-import android.support.v7.preference.PreferenceManager;
 import android.support.v7.preference.PreferenceScreen;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
@@ -88,7 +87,6 @@ import java.net.URI;
 import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -341,7 +339,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       if (MyApplication.getInstance().isInstrumentationTest()) {
-        getPreferenceManager().setSharedPreferencesName(MyApplication.TEST_ID);
+        getPreferenceManager().setSharedPreferencesName(MyApplication.getTestId());
       }
     }
 

@@ -53,11 +53,12 @@ import org.totschnig.myexpenses.widget.TemplateWidget;
 
 import java.io.File;
 import java.util.Locale;
+import java.util.UUID;
 
 public class MyApplication extends Application implements
     OnSharedPreferenceChangeListener {
   static boolean instrumentationTest = false;
-  public static final String TEST_ID = "test";
+  private static String testId;
   public static final String PLANNER_CALENDAR_NAME = "MyExpensesPlanner";
   public static final String PLANNER_ACCOUNT_NAME = "Local Calendar";
   public static final String INVALID_CALENDAR_ID = "-1";
@@ -296,10 +297,22 @@ public class MyApplication extends Application implements
 
   public SharedPreferences getSettings() {
     if (mSettings == null) {
-      mSettings = instrumentationTest ? getSharedPreferences(TEST_ID, Context.MODE_PRIVATE) :
+      mSettings = instrumentationTest ? getSharedPreferences(getTestId(), Context.MODE_PRIVATE) :
           PreferenceManager.getDefaultSharedPreferences(this);
     }
     return mSettings;
+  }
+
+  public static String getTestId() {
+    if (testId == null) {
+      testId = UUID.randomUUID().toString();
+    }
+    return testId;
+  }
+
+  public static void cleanUpAfterTest() {
+    mSelf.deleteDatabase(testId);
+    mSelf.getSettings().edit().clear().commit();
   }
 
   public static int getThemeId() {
