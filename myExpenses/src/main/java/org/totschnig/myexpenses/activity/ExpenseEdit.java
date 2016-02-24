@@ -51,6 +51,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
+import org.totschnig.myexpenses.dialog.ContribInfoDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
 import org.totschnig.myexpenses.fragment.SplitPartList;
@@ -1740,7 +1741,7 @@ public class ExpenseEdit extends AmountActivity implements
         InputMethodManager im = (InputMethodManager) this.getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         im.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         Intent intent=new Intent();
-        intent.putExtra("sequence_count", sequenceCount);
+        intent.putExtra(ContribInfoDialogFragment.KEY_SEQUENCE_COUNT, sequenceCount);
         setResult(RESULT_OK,intent);
         finish();
         //no need to call super after finish

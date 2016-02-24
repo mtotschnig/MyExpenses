@@ -68,6 +68,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.BalanceDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
+import org.totschnig.myexpenses.dialog.ContribInfoDialogFragment;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.dialog.ExportDialogFragment;
@@ -468,7 +469,7 @@ public class MyExpenses extends LaunchActivity implements
     super.onActivityResult(requestCode, resultCode, intent);
     if (requestCode == EDIT_TRANSACTION_REQUEST && resultCode == RESULT_OK) {
       long nextReminder;
-      sequenceCount = intent.getLongExtra("sequence_count", 0);
+      sequenceCount = intent.getLongExtra(ContribInfoDialogFragment.KEY_SEQUENCE_COUNT, 0);
       if (Utils.IS_FLAVOURED) {
         nextReminder =
             MyApplication.PrefKey.NEXT_REMINDER_RATE.getLong(TRESHOLD_REMIND_RATE);
