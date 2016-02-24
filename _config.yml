@@ -91,11 +91,105 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
-    - 2.6.1.1
-    - "2015-12-10"
+    - 2.6.5
+    - "2016-02-19"
     -
       en: |
-        Repaired cloning of split transactions. Repaired date filter dialog. Honour user configured date and time formats from system preferences.
+        Sorting of templates, categories and accounts made easier.
+      fr: |
+        Tri des modèles, des catégories et des comptes rendu plus facile.
+      de: |
+        Sortierung der Vorlagen, Kategorien und Konten leichter gemacht.
+      it: |
+        Ordinamento dei modelli, categorie e dei conti ha reso più facile.
+      es: |
+        Clasificación de las plantillas, categorías y cuentas más fácil.
+      pt: |
+        Classificação de modelos, categorias e contas facilitada.
+      tr: |
+        Hesaplar, kategoriler ve şablonların sıralaması artık daha kolay.
+      eu: |
+        Txantiloiak, kategoriak eta kontuak ordenatzea errezagoa da orain.
+      bg: |
+        Подреждането на шаблони, категории и сметки вече става по-лесно.
+      ja: |
+        テンプレート、カテゴリ、アカウントのソートが簡単になります.
+  -
+    - 2.6.4
+    - "2016-01-25"
+    -
+      en: |
+        Categories screen can be searched. Account balance can be copied to clipboard. Paste into calculator from clipboard. Help for date format in export dialog.
+      fr: |
+        Recherches dans l'écran de catégories. Le solde du compte peut être copié dans le presse-papiers. Coller dans la calculatrice depuis le presse-papiers. Aide pour le format de date dans la boîte de dialogue Exporter.
+      de: |
+        Der Kategorien-Bildschirm kann durchsucht werden. Der Kontostand kann in die Zwischenablage kopiert werden. In den Taschenrechner kann aus der Zwischenablage eingefügt werden. Hilfe für Datumsformat im Export-Dialog.
+      it: |
+        Schermo di categorie possa essere ricercato. Saldo del conto può essere copiato negli appunti. Incolla nella calcolatrice dagli appunti. Aiuto per il formato di data nella finestra di dialogo Esporta.
+      es: |
+        Pantalla de categorías puede ser buscada. Saldo de la cuenta puede copiarse al portapapeles. Pegar en la calculadora desde el portapapeles. Ayuda para formato de fecha en cuadro de diálogo de exportación.
+      pt: |
+        Tela de categorias pode ser pesquisada. O saldo da conta pode ser copiado para a área de transferência. Colar em calculadora de área de transferência. Ajuda para o formato de data na caixa de diálogo de exportação.
+      tr: |
+        Kategoriler ekranında arama yapılabilir. Hesap bakiyesi panoya kopyalanabilir. Panodan hesap makinesine yapıştırma yapılabilir. Dışa aktarma diyaloğunda tarih biçimi için yardım.
+      eu: |
+        Kategorien pantailan bilatzea dago. Kontuaren saldoa arbelera kopiatu daiteke. Itsatsi kalkulagailuan arbeletik. Data formaturako laguntza esportazio elkarrizketa koadroan.
+      bg: |
+        Може да направите Търсене на екрана с категории. Баланса на сметка може да бъде копиран в клипборда. Вмъкване от клипборда в калкулатора. Помощ за формат на датата в диалога за експорт.
+      ms: |
+        Skrin kategori boleh digelintar. Imbangan akaun boleh disalin ke dalam papan keratan. Tampal ke dalam kalculator dari papan keratan. Bantuan untuk format tarikh dalam dialog eksport.
+      ja: |
+        分類画面が検索できるようになりました. 勘定の残高がクリップボードにコピーできるようになりました. クリップボードから電卓への貼り付け. エクスポート ダイアログで日付形式のヘルプ.
+  -
+    - 2.6.3
+    - "2016-01-07"
+    -
+      en: |
+        Transfers between accounts with different currencies.
+      fr: |
+        Transferts entre comptes de devises différentes.
+      de: |
+        Umbuchungen zwischen Konten mit verschiedenen Währungen.
+      it: |
+        Trasferimenti tra conti con valute diverse.
+      es: |
+        Transferencias entre cuentas con distintas divisas.
+      pt: |
+        Transferências entre contas com diferentes moedas.
+      tr: |
+        Değişik para birimleri kullanan hesaplar arası virmanlar.
+      bg: |
+        Трансфер между сметки с различни валути..
+      ms: |
+        Pemindahan diantara akaun dengan matawang yang berlainan.
+      ja: |
+        異なる通貨で口座間の振替.
+  -
+    - 2.6.2
+    - "2015-12-22"
+    -
+      en: |
+        Days where week and month start can be configured.
+      fr: |
+        Les jours de démarrage de la semaine et du mois peuvent être configurés.
+      de: |
+        Die Tage, an denen Woche und Monat beginnen, können konfiguriert werden.
+      it: |
+        Giorni dove può essere configurato inizio settimana e mese.
+      es: |
+        Días donde se puede configurar inicio de semana y mes.
+      pt: |
+        Dias onde começam a semana e mês podem ser configurados.
+      tr: |
+        Ay ve haftaların başladığı günler yapılandırılabilir.
+      eu: |
+        Astea eta hilabetearen hasierako eguna konfiguratu daiteke.
+      bg: |
+        Възможност да настроите ден от седмицата и дата от месеца за период на групирне на транзакциите..
+      ms: |
+        Hari permulaan minggu dan bulan boleh dikonfigurkan.
+      ja: |
+        週と月の開始日を設定できます.
   -
     - 2.6.1
     - "2015-12-05"
