@@ -44,13 +44,13 @@ import static org.junit.Assert.assertTrue;
 @RunWith(AndroidJUnit4.class)
 public final class MyExpensesTest {
   private static boolean welcomeScreenHasBeenDismissed = false;
-  @Rule public final IntentsTestRule<MyExpenses> main =
+  @Rule public final IntentsTestRule<MyExpenses> mActivityRule =
       new IntentsTestRule<>(MyExpenses.class);
 
   @Before
   public void dismissWelcomeScreen() {
     if (!welcomeScreenHasBeenDismissed) {
-      onView(withText(containsString(main.getActivity().getString(R.string.dialog_title_welcome))))
+      onView(withText(containsString(mActivityRule.getActivity().getString(R.string.dialog_title_welcome))))
           .check(matches(isDisplayed()));
       onView(withText(android.R.string.ok)).perform(click());
       welcomeScreenHasBeenDismissed = true;
@@ -64,7 +64,7 @@ public final class MyExpensesTest {
 
   @Test
   public void viewPagerIsSetup() {
-    MyExpenses activity = main.getActivity();
+    MyExpenses activity = mActivityRule.getActivity();
     onView(withText(containsString(activity.getString(R.string.no_expenses))))
         .check(matches(isDisplayed()));
 
@@ -84,7 +84,7 @@ public final class MyExpensesTest {
   public void contribDialogIsShown() {
     stubExpenseEditIntentWithSequenceCount(MyExpenses.TRESHOLD_REMIND_CONTRIB + 1);
     onView(withId(R.id.CREATE_COMMAND)).perform(click());
-    onView(withText(containsString(main.getActivity().getString(R.string.menu_contrib))))
+    onView(withText(containsString(mActivityRule.getActivity().getString(R.string.menu_contrib))))
         .check(matches(isDisplayed()));
   }
 
@@ -93,7 +93,7 @@ public final class MyExpensesTest {
     if (!Utils.IS_FLAVOURED) return;
     stubExpenseEditIntentWithSequenceCount(MyExpenses.TRESHOLD_REMIND_RATE + 1);
     onView(withId(R.id.CREATE_COMMAND)).perform(click());
-    onView(withText(containsString(main.getActivity().getString(R.string.dialog_remind_rate_1))))
+    onView(withText(containsString(mActivityRule.getActivity().getString(R.string.dialog_remind_rate_1))))
         .check(matches(isDisplayed()));
   }
 
@@ -101,11 +101,11 @@ public final class MyExpensesTest {
   public void helpDialogIsOpened() {
     openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
     onView(withText(R.string.menu_help)).perform(click());
-    onView(withText(containsString(main.getActivity().getString(R.string.help_MyExpenses_title))))
+    onView(withText(containsString(mActivityRule.getActivity().getString(R.string.help_MyExpenses_title))))
         .check(matches(isDisplayed()));
     onView(allOf(
         isAssignableFrom(Button.class),
-        withText(is(main.getActivity().getString(android.R.string.ok)))))
+        withText(is(mActivityRule.getActivity().getString(android.R.string.ok)))))
         .check(matches(isDisplayed()));
   }
 
@@ -136,7 +136,7 @@ public final class MyExpensesTest {
       onView(withText(messages[i])).check(matches(isDisplayed()));
       onView(allOf(
           isAssignableFrom(Button.class),
-          withText(is(main.getActivity().getString(android.R.string.ok))))).perform(click());
+          withText(is(mActivityRule.getActivity().getString(android.R.string.ok))))).perform(click());
     }
   }
 
