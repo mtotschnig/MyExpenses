@@ -206,8 +206,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|end"
                 android:clickable="true"
-                android:translationX="@dimen/overflow_menu_translation_x"
-                android:translationY="-6dp"
                 tools:ignore="ContentDescription"/>
         </FrameLayout>
     </android.support.v7.widget.CardView>
