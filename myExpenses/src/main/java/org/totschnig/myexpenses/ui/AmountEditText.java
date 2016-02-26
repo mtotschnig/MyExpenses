@@ -1,8 +1,8 @@
 package org.totschnig.myexpenses.ui;
 
 import android.content.Context;
+import android.support.v7.widget.AppCompatEditText;
 import android.util.AttributeSet;
-import android.widget.EditText;
 
 import org.totschnig.myexpenses.util.Utils;
 
@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
-public class AmountEditText extends EditText {
+public class AmountEditText extends AppCompatEditText {
 
   int fractionDigits = -1;
 
