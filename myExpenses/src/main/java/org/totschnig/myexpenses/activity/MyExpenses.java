@@ -249,7 +249,7 @@ public class MyExpenses extends LaunchActivity implements
       };
 
       // Set the drawer toggle as the DrawerListener
-      mDrawerLayout.setDrawerListener(mDrawerToggle);
+      mDrawerLayout.addDrawerListener(mDrawerToggle);
     }
     String[] from = new String[]{
         KEY_DESCRIPTION,
