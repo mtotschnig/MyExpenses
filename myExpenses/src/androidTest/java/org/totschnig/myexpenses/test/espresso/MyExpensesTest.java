@@ -9,6 +9,7 @@ import android.os.RemoteException;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.contrib.DrawerActions;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
+import android.support.test.espresso.matcher.CursorMatchers;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v4.view.ViewPager;
 import android.widget.AdapterView;
@@ -61,7 +62,8 @@ import static org.junit.Assert.assertTrue;
 public final class MyExpensesTest {
   private static boolean welcomeScreenHasBeenDismissed = false;
 
-  @Rule public final IntentsTestRule<MyExpenses> mActivityRule =
+  @Rule
+  public final IntentsTestRule<MyExpenses> mActivityRule =
       new IntentsTestRule<>(MyExpenses.class);
 
   @Before
@@ -137,12 +139,12 @@ public final class MyExpensesTest {
   public void inActiveItemsOpenDialog() {
     //only when we send this key event, onPrepareOptionsMenu is called before the test
     //mInstrumentation.sendKeyDownUpSync(KeyEvent.KEYCODE_MENU);
-    int [] commands = new int[] {
+    int[] commands = new int[]{
         R.string.menu_reset,
         R.string.menu_distribution,
         R.string.menu_print
     };
-    int[] messages = new int[] {
+    int[] messages = new int[]{
         R.string.dialog_command_disabled_reset_account,
         R.string.dialog_command_disabled_distribution,
         R.string.dialog_command_disabled_reset_account
@@ -158,8 +160,7 @@ public final class MyExpensesTest {
   }
 
   @Test
-  public void newAccountFormIsOpened()
-  {
+  public void newAccountFormIsOpened() {
     onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
     onView(withId(R.id.CREATE_ACCOUNT_COMMAND)).check(matches(isDisplayed()));
     onView(withId(R.id.CREATE_ACCOUNT_COMMAND)).perform(click());
@@ -168,8 +169,7 @@ public final class MyExpensesTest {
   }
 
   @Test
-  public void editAccountFormIsOpened()
-  {
+  public void editAccountFormIsOpened() {
     onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
     onData(anything()).inAdapterView(allOf(
         isAssignableFrom(AdapterView.class),
@@ -182,8 +182,7 @@ public final class MyExpensesTest {
   }
 
   @Test
-  public void lastAccountDoesNotHaveDeleteAction()
-  {
+  public void lastAccountDoesNotHaveDeleteAction() {
     onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
     onData(anything()).inAdapterView(allOf(
         isAssignableFrom(AdapterView.class),
@@ -199,18 +198,17 @@ public final class MyExpensesTest {
     Account account1 = new Account("Test account", 0, "");
     account1.save();
     onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
-    onData(anything()).inAdapterView(allOf(
-        isAssignableFrom(AdapterView.class),
-        isDescendantOfA(withId(R.id.left_drawer)),
-        isDisplayed()))
-        .atPosition(0)
+    onData(CursorMatchers.withRowLong(DatabaseConstants.KEY_ROWID, account1.getId()))
+        .inAdapterView(allOf(isAssignableFrom(AdapterView.class),
+            isDescendantOfA(withId(R.id.left_drawer)),
+            isDisplayed()))
         .onChildView(withId(R.id.account_menu)).perform(click());
     onView(withText(R.string.menu_delete)).perform(click());
     onView(withText(R.string.dialog_title_warning_delete_account)).check(matches(isDisplayed()));
     onView(allOf(
         isAssignableFrom(Button.class),
         withText(is(mActivityRule.getActivity().getString(R.string.menu_delete))))).perform(click());
-    InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+    onView(withId(android.R.id.content));
     assertNull(Account.getInstanceFromDb(account1.getId()));
   }
 
@@ -219,25 +217,23 @@ public final class MyExpensesTest {
     Account account1 = new Account("Test account", 0, "");
     account1.save();
     onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
-    onData(anything()).inAdapterView(allOf(
-        isAssignableFrom(AdapterView.class),
-        isDescendantOfA(withId(R.id.left_drawer)),
-        isDisplayed()))
-        .atPosition(0)
+    onData(CursorMatchers.withRowLong(DatabaseConstants.KEY_ROWID, account1.getId()))
+        .inAdapterView(allOf(isAssignableFrom(AdapterView.class),
+            isDescendantOfA(withId(R.id.left_drawer)),
+            isDisplayed()))
         .onChildView(withId(R.id.account_menu)).perform(click());
     onView(withText(R.string.menu_delete)).perform(click());
     onView(withText(R.string.dialog_title_warning_delete_account)).check(matches(isDisplayed()));
     onView(allOf(
         isAssignableFrom(Button.class),
         withText(is(mActivityRule.getActivity().getString(android.R.string.cancel))))).perform(click());
-    InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+    onView(withId(android.R.id.content));
     assertNotNull(Account.getInstanceFromDb(account1.getId()));
     Account.delete(account1.getId());
   }
 
   @Test
-  public void templateScreenIsOpened()
-  {
+  public void templateScreenIsOpened() {
     onView(withId(R.id.MANAGE_PLANS_COMMAND)).check(matches(isDisplayed()));
     onView(withId(R.id.MANAGE_PLANS_COMMAND)).perform(click());
     intended(hasComponent(ManageTemplates.class.getName()));
