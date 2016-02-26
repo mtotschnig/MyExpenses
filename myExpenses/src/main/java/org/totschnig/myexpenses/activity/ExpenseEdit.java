@@ -161,7 +161,8 @@ public class ExpenseEdit extends AmountActivity implements
   private EditText mCommentText, mTitleText, mReferenceNumberText;
   private AmountEditText mTransferAmountText, mExchangeRate1Text, mExchangeRate2Text;
   private Button mCategoryButton, mPlanButton;
-  private SpinnerHelper mMethodSpinner, mAccountSpinner, mTransferAccountSpinner, mStatusSpinner, mOperationTypeSpinner;
+  private Spinner mMethodSpinner;
+  private SpinnerHelper mAccountSpinner, mTransferAccountSpinner, mStatusSpinner, mOperationTypeSpinner;
   private SimpleCursorAdapter mMethodsAdapter, mAccountsAdapter, mTransferAccountsAdapter, mPayeeAdapter;
   private ArrayAdapter<Integer> mOperationTypeAdapter;
   private FilterCursorWrapper mTransferAccountCursor;
@@ -329,7 +330,7 @@ public class ExpenseEdit extends AmountActivity implements
 
     mCategoryButton = (Button) findViewById(R.id.Category);
     mPlanButton = (Button) findViewById(R.id.Plan);
-    mMethodSpinner = new SpinnerHelper(findViewById(R.id.Method));
+    mMethodSpinner = (Spinner) findViewById(R.id.Method);
     mAccountSpinner = new SpinnerHelper(findViewById(R.id.Account));
     mTransferAccountSpinner = new SpinnerHelper(findViewById(R.id.TransferAccount));
     mTransferAccountSpinner.setOnItemSelectedListener(this);
@@ -771,7 +772,7 @@ public class ExpenseEdit extends AmountActivity implements
     linkInputWithLabel(mCommentText, commentLabel);
     linkInputWithLabel(mCategoryButton, findViewById(R.id.CategoryLabel));
     View methodLabel = findViewById(R.id.MethodLabel);
-    linkInputWithLabel(mMethodSpinner.getSpinner(), methodLabel);
+    linkInputWithLabel(mMethodSpinner, methodLabel);
     linkInputWithLabel(mReferenceNumberText, methodLabel);
     linkInputWithLabel(mPlanButton, findViewById(R.id.PlanLabel));
     final View transferAmountLabel = findViewById(R.id.TransferAmountLabel);
