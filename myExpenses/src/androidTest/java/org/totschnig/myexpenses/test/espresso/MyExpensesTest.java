@@ -5,6 +5,7 @@ import android.app.Instrumentation;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.contrib.DrawerActions;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v4.view.ViewPager;
@@ -17,7 +18,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.AccountEdit;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
+import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
 import org.totschnig.myexpenses.dialog.ContribInfoDialogFragment;
@@ -44,6 +47,7 @@ import static org.junit.Assert.assertTrue;
 @RunWith(AndroidJUnit4.class)
 public final class MyExpensesTest {
   private static boolean welcomeScreenHasBeenDismissed = false;
+
   @Rule public final IntentsTestRule<MyExpenses> mActivityRule =
       new IntentsTestRule<>(MyExpenses.class);
 
@@ -138,6 +142,23 @@ public final class MyExpensesTest {
           isAssignableFrom(Button.class),
           withText(is(mActivityRule.getActivity().getString(android.R.string.ok))))).perform(click());
     }
+  }
+
+  @Test
+  public void newAccountFormIsOpened()
+  {
+    onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
+    onView(withId(R.id.CREATE_ACCOUNT_COMMAND)).check(matches(isDisplayed()));
+    onView(withId(R.id.CREATE_ACCOUNT_COMMAND)).perform(click());
+    intended(hasComponent(AccountEdit.class.getName()));
+  }
+
+  @Test
+  public void templateScreenIsOpened()
+  {
+    onView(withId(R.id.MANAGE_PLANS_COMMAND)).check(matches(isDisplayed()));
+    onView(withId(R.id.MANAGE_PLANS_COMMAND)).perform(click());
+    intended(hasComponent(ManageTemplates.class.getName()));
   }
 
   private void stubExpenseEditIntentWithSequenceCount(long count) {
