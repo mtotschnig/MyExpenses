@@ -16,15 +16,14 @@
 package org.totschnig.myexpenses.activity;
 
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatCheckBox;
+import android.support.v7.widget.GridLayout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.support.v7.widget.GridLayout;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
@@ -99,11 +98,11 @@ public class MethodEdit extends EditActivity implements CompoundButton.OnChecked
     }
     mPaymentTypeSpinner.setSelection(paymentType +1);
     //add one checkbox for each account type
-    CheckBox cb;
+    AppCompatCheckBox cb;
     int cbId = 1;
     TextView accountTypesLabel = (TextView) findViewById(R.id.AccountTypesLabel);
     for (Account.Type accountType : Account.Type.values()) {
-      cb = new CheckBox(this);
+      cb = new AppCompatCheckBox(this);
       cb.setText(accountType.toString());
       cb.setTag(accountType);
       cb.setChecked(mMethod.isValidForAccountType(accountType));
