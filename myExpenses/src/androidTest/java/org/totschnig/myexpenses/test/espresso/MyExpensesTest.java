@@ -3,12 +3,15 @@ package org.totschnig.myexpenses.test.espresso;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
+import android.content.OperationApplicationException;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.contrib.DrawerActions;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v4.view.ViewPager;
+import android.widget.AdapterView;
 import android.widget.Button;
 
 import org.junit.AfterClass;
@@ -24,24 +27,34 @@ import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
 import org.totschnig.myexpenses.dialog.ContribInfoDialogFragment;
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
 import org.totschnig.myexpenses.util.Utils;
 
+import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.Intents.intending;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasExtraWithKey;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
@@ -150,7 +163,76 @@ public final class MyExpensesTest {
     onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
     onView(withId(R.id.CREATE_ACCOUNT_COMMAND)).check(matches(isDisplayed()));
     onView(withId(R.id.CREATE_ACCOUNT_COMMAND)).perform(click());
-    intended(hasComponent(AccountEdit.class.getName()));
+    intended(allOf(hasComponent(AccountEdit.class.getName()),
+        not(hasExtraWithKey(DatabaseConstants.KEY_ROWID))));
+  }
+
+  @Test
+  public void editAccountFormIsOpened()
+  {
+    onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
+    onData(anything()).inAdapterView(allOf(
+        isAssignableFrom(AdapterView.class),
+        isDescendantOfA(withId(R.id.left_drawer)),
+        isDisplayed()))
+        .atPosition(0)
+        .onChildView(withId(R.id.account_menu)).perform(click());
+    onView(withText(R.string.menu_edit)).perform(click());
+    intended(allOf(hasComponent(AccountEdit.class.getName()), hasExtraWithKey(DatabaseConstants.KEY_ROWID)));
+  }
+
+  @Test
+  public void lastAccountDoesNotHaveDeleteAction()
+  {
+    onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
+    onData(anything()).inAdapterView(allOf(
+        isAssignableFrom(AdapterView.class),
+        isDescendantOfA(withId(R.id.left_drawer)),
+        isDisplayed()))
+        .atPosition(0)
+        .onChildView(withId(R.id.account_menu)).perform(click());
+    onView(withText(R.string.menu_delete)).check(doesNotExist());
+  }
+
+  @Test
+  public void deleteConfirmationDialogDeleteButtonDeletes() {
+    Account account1 = new Account("Test account", 0, "");
+    account1.save();
+    onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
+    onData(anything()).inAdapterView(allOf(
+        isAssignableFrom(AdapterView.class),
+        isDescendantOfA(withId(R.id.left_drawer)),
+        isDisplayed()))
+        .atPosition(0)
+        .onChildView(withId(R.id.account_menu)).perform(click());
+    onView(withText(R.string.menu_delete)).perform(click());
+    onView(withText(R.string.dialog_title_warning_delete_account)).check(matches(isDisplayed()));
+    onView(allOf(
+        isAssignableFrom(Button.class),
+        withText(is(mActivityRule.getActivity().getString(R.string.menu_delete))))).perform(click());
+    InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+    assertNull(Account.getInstanceFromDb(account1.getId()));
+  }
+
+  @Test
+  public void deleteConfirmationDialogCancelButtonCancels() throws RemoteException, OperationApplicationException {
+    Account account1 = new Account("Test account", 0, "");
+    account1.save();
+    onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
+    onData(anything()).inAdapterView(allOf(
+        isAssignableFrom(AdapterView.class),
+        isDescendantOfA(withId(R.id.left_drawer)),
+        isDisplayed()))
+        .atPosition(0)
+        .onChildView(withId(R.id.account_menu)).perform(click());
+    onView(withText(R.string.menu_delete)).perform(click());
+    onView(withText(R.string.dialog_title_warning_delete_account)).check(matches(isDisplayed()));
+    onView(allOf(
+        isAssignableFrom(Button.class),
+        withText(is(mActivityRule.getActivity().getString(android.R.string.cancel))))).perform(click());
+    InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+    assertNotNull(Account.getInstanceFromDb(account1.getId()));
+    Account.delete(account1.getId());
   }
 
   @Test
