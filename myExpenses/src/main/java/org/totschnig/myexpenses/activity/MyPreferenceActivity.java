@@ -441,6 +441,10 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
           }
         }.execute();
 
+        if (!Utils.IS_ANDROID) {
+          categoryManage.removePreference(findPreference(PrefKey.PLANNER_CALENDAR_ID.getKey()));
+        }
+
       }
       //SHORTCUTS screen
       else if (rootKey.equals(getString(R.string.pref_ui_home_screen_shortcuts_key))) {
@@ -530,9 +534,12 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       if (screen.getKey().equals(getString(R.string.pref_root_screen))) {
         setOnOffSummary(getString(R.string.pref_screen_protection),
             PrefKey.PERFORM_PROTECTION.getBoolean(false));
-        findPreference(PrefKey.PLANNER_CALENDAR_ID.getKey()).setSummary(
-            ((MyPreferenceActivity) getActivity()).calendarPermissionPermanentlyDeclined() ?
-                R.string.calendar_permission_required : R.string.pref_planning_calendar_summary);
+        Preference preference = findPreference(PrefKey.PLANNER_CALENDAR_ID.getKey());
+        if (preference != null) {
+          preference.setSummary(
+              ((MyPreferenceActivity) getActivity()).calendarPermissionPermanentlyDeclined() ?
+                  R.string.calendar_permission_required : R.string.pref_planning_calendar_summary);
+        }
       }
       activity.setFragment(this);
     }
