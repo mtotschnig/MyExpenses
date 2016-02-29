@@ -199,7 +199,7 @@
                     android:text="@string/select"/>
             </TableRow>
 
-            <TableRow>
+            <TableRow android:id="@+id/CommentRow">
 
                 <TextView
                     android:id="@+id/CommentLabel"
