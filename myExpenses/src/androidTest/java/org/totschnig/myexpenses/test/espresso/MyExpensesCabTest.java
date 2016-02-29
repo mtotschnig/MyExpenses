@@ -1,39 +1,30 @@
 package org.totschnig.myexpenses.test.espresso;
 
+import android.content.OperationApplicationException;
 import android.database.Cursor;
-import android.provider.ContactsContract;
-import android.support.test.espresso.ViewInteraction;
-import android.support.test.espresso.matcher.CursorMatchers;
+import android.os.RemoteException;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
-import com.robotium.solo.Solo;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
 
 import java.util.Currency;
 
@@ -56,20 +47,19 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
 
 
 @RunWith(AndroidJUnit4.class)
-public final class MyExpensesCabTest {
-  private static boolean welcomeScreenHasBeenDismissed = false;
+public final class MyExpensesCabTest extends MyExpensesTestBase {
 
   @Rule
   public ActivityTestRule<MyExpenses> mActivityRule =
       new ActivityTestRule<>(MyExpenses.class);
+  private static Account account;
 
   @BeforeClass
   public static void fixture() {
-    Account account = Account.getInstanceFromDb(0);
+    account = Account.getInstanceFromDb(0);
     Transaction op0 = Transaction.getNewInstance(account.getId());
     op0.setAmount(new Money(Currency.getInstance("USD"),-1200L));
     op0.save();
@@ -79,19 +69,9 @@ public final class MyExpensesCabTest {
     }
   }
 
-  @Before
-  public void dismissWelcomeScreen() {
-    if (!welcomeScreenHasBeenDismissed) {
-      onView(withText(containsString(mActivityRule.getActivity().getString(R.string.dialog_title_welcome))))
-          .check(matches(isDisplayed()));
-      onView(withText(android.R.string.ok)).perform(click());
-      welcomeScreenHasBeenDismissed = true;
-    }
-  }
-
   @AfterClass
-  public static void removeData() {
-    MyApplication.cleanUpAfterTest();
+  public static void tearDown() throws RemoteException, OperationApplicationException {
+    account.reset(null,Account.EXPORT_HANDLE_DELETED_DO_NOTHING,null);
   }
 
   @Test
@@ -144,8 +124,20 @@ public final class MyExpensesCabTest {
         .atPosition(1) // position 0 is header
         .perform(longClick());
     onView(withId(R.id.DELETE_COMMAND)).perform(click());
-    onView(withId(android.R.id.button1)).perform(click());
+    onView(withText(R.string.menu_delete)).perform(click());
     onView(getWrappedList()).check(matches(withListSize(origListSize - 1)));
+  }
+
+  @Test
+  public void deleteCommandCancelKeepsListSize() {
+    int origListSize = getList().getAdapter().getCount();
+    onData(is(instanceOf(Cursor.class)))
+        .inAdapterView(getWrappedList())
+        .atPosition(1) // position 0 is header
+        .perform(longClick());
+    onView(withId(R.id.DELETE_COMMAND)).perform(click());
+    onView(withText(android.R.string.cancel)).perform(click());
+    onView(getWrappedList()).check(matches(withListSize(origListSize)));
   }
 
   @Test

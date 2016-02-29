@@ -1,11 +1,14 @@
 package org.totschnig.myexpenses.test.espresso;
 
 import android.content.Intent;
+import android.content.OperationApplicationException;
+import android.os.RemoteException;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,36 +29,34 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 
 @RunWith(AndroidJUnit4.class)
-public final class MyExpensesIntentTest {
-  private static boolean welcomeScreenHasBeenDismissed = false;
+public final class MyExpensesIntentTest extends MyExpensesTestBase {
 
   @Rule
   public ActivityTestRule<MyExpenses> mActivityRule =
       new ActivityTestRule<>(MyExpenses.class);
+  private static String accountLabel1;
+  private static String accountLabel2;
+  private static Account account1;
+  private static Account account2;
 
-  @Before
-  public void dismissWelcomeScreen() {
-    if (!welcomeScreenHasBeenDismissed) {
-      onView(withText(containsString(mActivityRule.getActivity().getString(R.string.dialog_title_welcome))))
-          .check(matches(isDisplayed()));
-      onView(withText(android.R.string.ok)).perform(click());
-      welcomeScreenHasBeenDismissed = true;
-    }
+  @BeforeClass
+  public static void fixture() {
+    accountLabel1 = "Test label 1";
+    accountLabel2 = "Test label 2";
+    account1 = new Account(accountLabel1, 0, "");
+    account1.save();
+    account2 = new Account(accountLabel2, 0, "");
+    account2.save();
   }
 
   @AfterClass
-  public static void removeData() {
-    MyApplication.cleanUpAfterTest();
+  public static void tearDown() throws RemoteException, OperationApplicationException {
+    Account.delete(account1.getId());
+    Account.delete(account2.getId());
   }
 
   @Test
   public void shouldNavigateToAccountReceivedThroughIntent() {
-    String accountLabel1 = "Test label 1",
-      accountLabel2 = "Test label 2";
-    Account account1 = new Account(accountLabel1, 0, "");
-    account1.save();
-    Account account2 = new Account(accountLabel2, 0, "");
-    account2.save();
     mActivityRule.getActivity().finish();
     Intent i = new Intent()
         .putExtra(KEY_ROWID, account1.getId())

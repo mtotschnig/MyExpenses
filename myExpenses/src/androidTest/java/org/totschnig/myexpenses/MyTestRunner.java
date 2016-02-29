@@ -11,4 +11,10 @@ public final class MyTestRunner extends AndroidJUnitRunner {
     Log.d("instrumentationTest", "now setting instrumentationTest to true");
     MyApplication.instrumentationTest = true;
   }
+
+  @Override
+  public void finish(int resultCode, Bundle results) {
+    MyApplication.cleanUpAfterTest();
+    super.finish(resultCode, results);
+  }
 }

@@ -59,27 +59,11 @@ import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
-public final class MyExpensesTest {
-  private static boolean welcomeScreenHasBeenDismissed = false;
+public final class MyExpensesTest extends MyExpensesTestBase {
 
   @Rule
   public final IntentsTestRule<MyExpenses> mActivityRule =
       new IntentsTestRule<>(MyExpenses.class);
-
-  @Before
-  public void dismissWelcomeScreen() {
-    if (!welcomeScreenHasBeenDismissed) {
-      onView(withText(containsString(mActivityRule.getActivity().getString(R.string.dialog_title_welcome))))
-          .check(matches(isDisplayed()));
-      onView(withText(android.R.string.ok)).perform(click());
-      welcomeScreenHasBeenDismissed = true;
-    }
-  }
-
-  @AfterClass
-  public static void removeData() {
-    MyApplication.cleanUpAfterTest();
-  }
 
   @Test
   public void viewPagerIsSetup() {
