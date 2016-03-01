@@ -567,7 +567,7 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   private void setup() {
-    mAmountText.setFractionDigits(Money.fractionDigits(mTransaction.getAmount().getCurrency()));
+    mAmountText.setFractionDigits(Money.getFractionDigits(mTransaction.getAmount().getCurrency()));
     linkInputsWithLabels();
     if (mTransaction instanceof SplitTransaction) {
       mAmountText.addTextChangedListener(new MyTextWatcher() {
@@ -1600,7 +1600,7 @@ public class ExpenseEdit extends AmountActivity implements
         }
       }
       configureStatusSpinner();
-      mAmountText.setFractionDigits(Money.fractionDigits(account.currency));
+      mAmountText.setFractionDigits(Money.getFractionDigits(account.currency));
       //once user has selected account, we no longer want
       //the passed in KEY_CURRENCY to override it in onLoadFinished
       getIntent().removeExtra(KEY_CURRENCY);
@@ -1638,7 +1638,7 @@ public class ExpenseEdit extends AmountActivity implements
     final String symbol2 = transferAccount.currency.getSymbol();
     ((TextView) findViewById(R.id.TransferAmountLabel)).setText(getString(R.string.amount) + " ("
         + symbol2 + ")");
-    mTransferAmountText.setFractionDigits(Money.fractionDigits(transferAccount.currency));
+    mTransferAmountText.setFractionDigits(Money.getFractionDigits(transferAccount.currency));
     final String symbol1 = currency.getSymbol();
     ((TextView) findViewById(R.id.ExchangeRateLabel_1_1)).setText(String.format("1 %s =", symbol1));
     ((TextView) findViewById(R.id.ExchangeRateLabel_1_2)).setText(symbol2);

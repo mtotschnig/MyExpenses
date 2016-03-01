@@ -21,9 +21,7 @@ import java.math.RoundingMode;
 import java.util.Currency;
 
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.util.Utils;
-
-import android.util.Log;
+import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 
 public class Money implements Serializable {
   public static final String KEY_CUSTOM_FRACTION_DIGITS = "CustomFractionDigits";
@@ -38,7 +36,7 @@ public class Money implements Serializable {
   public Money(Currency currency, Long amountMinor) {
     this.currency = currency;
     this.amountMinor = amountMinor;
-    this.fractionDigits = fractionDigits(currency);
+    this.fractionDigits = getFractionDigits(currency);
   }
   public Money(Currency currency, BigDecimal amountMajor) {
     setCurrency(currency);
@@ -49,7 +47,7 @@ public class Money implements Serializable {
   }
   public void setCurrency(Currency currency) {
     this.currency = currency;
-    this.fractionDigits = fractionDigits(currency);
+    this.fractionDigits = getFractionDigits(currency);
   }
   public Long getAmountMinor() {
     return amountMinor;
@@ -92,7 +90,7 @@ public class Money implements Serializable {
    * @return getDefaultFractionDigits for a currency, unless it is -1,
    * then we return {@link Money#DEFAULTFRACTIONDIGITS} in order to allow fractions with currencies like XXX
    */
-  public static int fractionDigits(Currency c) {
+  public static int getFractionDigits(Currency c) {
     MyApplication context = MyApplication.getInstance();
     //in testing environment context might be null
     if (context!=null) {
@@ -107,5 +105,11 @@ public class Money implements Serializable {
       return digits;
     }
     return DEFAULTFRACTIONDIGITS;
+  }
+
+  public static void putFractionDigits(String currencyCode, int newValue) {
+    SharedPreferencesCompat.apply(
+        MyApplication.getInstance().getSettings().edit()
+            .putInt(currencyCode + KEY_CUSTOM_FRACTION_DIGITS, newValue));
   }
 }

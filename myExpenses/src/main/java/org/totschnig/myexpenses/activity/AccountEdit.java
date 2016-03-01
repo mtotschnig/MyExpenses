@@ -19,10 +19,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Currency;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.EditTextDialog;
-import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.model.Model;
@@ -36,12 +33,9 @@ import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
-import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,7 +44,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -126,7 +119,7 @@ public class AccountEdit extends AmountActivity implements
         }
     }
     configTypeButton();
-    mAmountText.setFractionDigits(Money.fractionDigits(mAccount.currency));
+    mAmountText.setFractionDigits(Money.getFractionDigits(mAccount.currency));
 
     mCurrencySpinner = new SpinnerHelper(findViewById(R.id.Currency));
     currencyAdapter = new ArrayAdapter<>(
@@ -286,7 +279,7 @@ public class AccountEdit extends AmountActivity implements
         break;
       case R.id.Currency:
         try {
-          mAmountText.setFractionDigits(Money.fractionDigits(
+          mAmountText.setFractionDigits(Money.getFractionDigits(
               Currency.getInstance(Account.CurrencyEnum.values()[position].name())));
         } catch (IllegalArgumentException e) {
           //will be reported to user when he tries so safe

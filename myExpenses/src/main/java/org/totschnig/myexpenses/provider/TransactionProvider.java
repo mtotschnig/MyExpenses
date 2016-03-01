@@ -1099,7 +1099,7 @@ public class TransactionProvider extends ContentProvider {
           List<String> segments = uri.getPathSegments();
           segment = segments.get(2);
           String[] bindArgs = new String[] {segment};
-          int oldValue = Money.fractionDigits(Currency.getInstance(segment));
+          int oldValue = Money.getFractionDigits(Currency.getInstance(segment));
           int newValue = Integer.parseInt(segments.get(3));
           if (oldValue==newValue) {
             return 0;
@@ -1133,9 +1133,7 @@ public class TransactionProvider extends ContentProvider {
                 bindArgs);
           }
           Log.i("DEBUG","now storing "+newValue);
-          SharedPreferencesCompat.apply(
-              MyApplication.getInstance().getSettings().edit()
-              .putInt(segment+Money.KEY_CUSTOM_FRACTION_DIGITS,newValue));
+          Money.putFractionDigits(segment, newValue);
           db.setTransactionSuccessful();
           //force accounts to be refetched,since amountMinor of their opening balance has changed
           Account.clear();

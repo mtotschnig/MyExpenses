@@ -50,7 +50,7 @@ public class ManageCurrencies extends ProtectedFragmentActivity implements
       if (mResult < 0 || mResult > 8) {
         throw new IllegalArgumentException();
       }
-      int oldValue = Money.fractionDigits(Currency.getInstance(mCurrency));
+      int oldValue = Money.getFractionDigits(Currency.getInstance(mCurrency));
       if (oldValue != mResult) {
         if (Account.count(KEY_CURRENCY + "=?", new String[]{mCurrency}) > 0) {
           String message = getString(R.string.warning_change_fraction_digits_1);
@@ -77,8 +77,6 @@ public class ManageCurrencies extends ProtectedFragmentActivity implements
     } catch (IllegalArgumentException e) {
       Toast.makeText(this, R.string.warning_fraction_digits_out_of_range, Toast.LENGTH_LONG).show();
     }
-    //((FolderList) getSupportFragmentManager().findFragmentById(R.id.folder_list))
-    //  .createNewFolder(args.getString(EditTextDialog.KEY_RESULT));
   }
 
   protected void changeFractionDigitsDo() {
@@ -122,9 +120,7 @@ public class ManageCurrencies extends ProtectedFragmentActivity implements
   }
 
   private void apply() {
-    SharedPreferencesCompat.apply(
-        MyApplication.getInstance().getSettings().edit()
-            .putInt(mCurrency + Money.KEY_CUSTOM_FRACTION_DIGITS, mResult));
+    Money.putFractionDigits(mCurrency, mResult);
     getContentResolver().notifyChange(TransactionProvider.TEMPLATES_URI, null);
     getContentResolver().notifyChange(TransactionProvider.TRANSACTIONS_URI, null);
     getContentResolver().notifyChange(TransactionProvider.ACCOUNTS_URI, null);
