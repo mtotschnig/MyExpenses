@@ -45,7 +45,6 @@ import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.PreferenceFragmentCompat;
-import android.support.v7.preference.PreferenceManager;
 import android.support.v7.preference.PreferenceScreen;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
@@ -88,7 +87,6 @@ import java.net.URI;
 import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -163,13 +161,13 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
   @Override
   protected void onResume() {
     super.onResume();
-    PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
+    MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
   }
 
   @Override
   protected void onPause() {
     super.onPause();
-    PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
+    MyApplication.getInstance().getSettings().unregisterOnSharedPreferenceChangeListener(this);
   }
 
   private void restart() {
@@ -336,6 +334,14 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
   public static class SettingsFragment extends PreferenceFragmentCompat implements
       Preference.OnPreferenceChangeListener,
       Preference.OnPreferenceClickListener {
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      if (MyApplication.getInstance().isInstrumentationTest()) {
+        getPreferenceManager().setSharedPreferencesName(MyApplication.getTestId());
+      }
+    }
 
     Preference.OnPreferenceClickListener homeScreenShortcutPrefClickHandler =
         new Preference.OnPreferenceClickListener() {

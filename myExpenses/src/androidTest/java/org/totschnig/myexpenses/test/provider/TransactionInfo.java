@@ -23,7 +23,8 @@ class TransactionInfo {
       this.comment = comment;
       this.date = date;
       this.amount = amount;
-      this.payeeId = Payee.require(payeeName);
+      Long payee = Payee.require(payeeName);
+      this.payeeId = payee == null ? 0 : payee;
       this.accountId = accountId;
     }
 

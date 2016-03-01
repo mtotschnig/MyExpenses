@@ -15,11 +15,9 @@ android {
         versionCode 240
         versionName '2.6.5.1'
 
-        testApplicationId "org.totschnig.myexpenses.test"
-        testInstrumentationRunner "android.test.InstrumentationTestRunner"
-
         buildConfigField "String", "PLATTFORM", "\"Android\""
         buildConfigField "String", "BUILD_DATE", "\"" + getDate() + "\""
+        testInstrumentationRunner "org.totschnig.myexpenses.MyTestRunner"
     }
 
     /*signingConfigs {
@@ -73,7 +71,16 @@ dependencies {
     compile 'org.apache.commons:commons-csv:1.1'
     //noinspection GradleDynamicVersion
     compile 'com.commonsware.cwac:wakeful:1.0.+'
-    androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:' + project.espressoVersion
+    androidTestCompile 'junit:junit:4.12'
+    androidTestCompile 'com.android.support:support-annotations:'  + project.androidSupportLibraryVersion
+    androidTestCompile 'com.android.support.test:runner:' + project.androidSupportTestVersion
+    androidTestCompile 'com.android.support.test:rules:' + project.androidSupportTestVersion
+    androidTestCompile 'com.android.support.test.espresso:espresso-intents:' + project.espressoVersion
+    androidTestCompile('com.android.support.test.espresso:espresso-contrib:' + project.espressoVersion) {
+        exclude module: 'accessibility-test-framework'
+    }
+
     testCompile 'junit:junit:4.12'
 }
 def getDate() {
@@ -81,3 +88,13 @@ def getDate() {
     def formattedDate = date.format('yyyyMMdd-HHmm')
     return formattedDate
 }
+
+//https://code.google.com/p/android/issues/detail?id=187730
+//can be removed after migration to Android Gradle Plugin 2
+configurations.compile.dependencies.each { compileDependency ->
+    println "Excluding compile dependency: ${compileDependency.getName()}"
+    configurations.androidTestCompile.dependencies.each { androidTestCompileDependency ->
+        configurations.androidTestCompile.exclude module: "${compileDependency.getName()}"
+    }
+}
+

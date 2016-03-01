@@ -15,7 +15,6 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
@@ -72,8 +71,8 @@ public class AmountFilterDialog extends CommitSafeDialogFragment implements OnCl
     nfDLocal.setGroupingUsed(false);
     mAmount1Text = (EditText) view.findViewById(R.id.amount1);
     mAmount2Text = (EditText) view.findViewById(R.id.amount2);
-    int fractionDigits = Money.fractionDigits(
-        (Currency)getArguments().getSerializable(KEY_CURRENCY));
+    int fractionDigits = Money.getFractionDigits(
+        (Currency) getArguments().getSerializable(KEY_CURRENCY));
     Utils.configDecimalSeparator(mAmount1Text, decimalSeparator, fractionDigits);
     Utils.configDecimalSeparator(mAmount2Text, decimalSeparator, fractionDigits);
 

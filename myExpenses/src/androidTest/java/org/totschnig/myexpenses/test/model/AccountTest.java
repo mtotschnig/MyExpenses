@@ -52,6 +52,7 @@ public class AccountTest extends ModelTest  {
     account2.save();
     catId = Category.write(0, TEST_CAT, null);
     op = Transaction.getNewInstance(account1.getId());
+    assert op != null;
     op.setAmount(new Money(account1.currency,-expense1));
     op.crStatus = CrStatus.CLEARED;
     op.save();
@@ -63,6 +64,7 @@ public class AccountTest extends ModelTest  {
     op.setCatId(catId);
     op.saveAsNew();
     Transfer op1 = Transfer.getNewInstance(account1.getId(),account2.getId());
+    assert op1 != null;
     op1.setAmount(new Money(account1.currency,transferP));
     op1.save();
     op1.setAmount(new Money(account1.currency,-transferN));
@@ -71,7 +73,7 @@ public class AccountTest extends ModelTest  {
   }
   
   public void testAccount() throws RemoteException, OperationApplicationException {
-    Account account,restored = null;
+    Account account,restored;
     Long openingBalance = (long) 100;
     account = new Account("TestAccount",openingBalance,"Testing with Junit");
     account.setCurrency("EUR");
@@ -82,6 +84,7 @@ public class AccountTest extends ModelTest  {
     assertEquals(account, restored);
     Long trAmount = (long) 100;
     Transaction op1 = Transaction.getNewInstance(account.getId());
+    assert op1 != null;
     op1.setAmount(new Money(account.currency,trAmount));
     op1.comment = "test transaction";
     op1.save();
@@ -103,9 +106,13 @@ public class AccountTest extends ModelTest  {
         null,                       // no selection criteria
         null                        // use default the sort order
     );
+
     //the database setup creates the default account
+    assert cursor != null;
     assertEquals(1, cursor.getCount());
     insertData();
+    cursor.close();
+
     cursor = getMockContentResolver().query(
         TransactionProvider.ACCOUNTS_URI,  // the URI for the main data table
         Account.PROJECTION_FULL,            // get all the columns
@@ -114,7 +121,9 @@ public class AccountTest extends ModelTest  {
         null                        // use default the sort order
     );
 
+    assert cursor != null;
     assertEquals(3, cursor.getCount());
+    cursor.close();
 
     cursor = getMockContentResolver().query(
         TransactionProvider.ACCOUNTS_URI,  // the URI for the main data table
@@ -123,7 +132,7 @@ public class AccountTest extends ModelTest  {
         null,                       // no selection criteria
         null                        // use default the sort order
     );
-
+    assert cursor != null;
     assertTrue(cursor.moveToFirst());
 
     // Since no projection was used, get the column indexes of the returned columns
@@ -134,7 +143,9 @@ public class AccountTest extends ModelTest  {
     assertEquals(income1+income2, cursor.getLong(incomeIndex));
     assertEquals(-expense1-expense2, cursor.getLong(expensesIndex));
     assertEquals(transferP-transferN, cursor.getLong(transferIndex));
-    assertEquals(openingBalance+income1+income2-expense1-expense2+transferP-transferN, cursor.getLong(balanceIndex));
+    assertEquals(openingBalance+income1+income2-expense1-expense2+transferP -transferN, cursor.getLong(balanceIndex));
+    cursor.close();
+
     cursor = getMockContentResolver().query(
         TransactionProvider.ACCOUNTS_URI,  // the URI for the main data table
         Account.PROJECTION_FULL,            // get all the columns
@@ -143,11 +154,13 @@ public class AccountTest extends ModelTest  {
         null                        // use default the sort order
     );
 
+    assert cursor != null;
     assertTrue(cursor.moveToFirst());
     assertEquals(0L, cursor.getLong(incomeIndex));
     assertEquals(0L, cursor.getLong(expensesIndex));
     assertEquals(transferN - transferP, cursor.getLong(transferIndex));
     assertEquals(openingBalance + transferN - transferP, cursor.getLong(balanceIndex));
+    cursor.close();
   }
   public void testGetInstanceZeroReturnsAccount () {
     //even without inserting, there should be always an account in the database
@@ -164,12 +177,14 @@ public class AccountTest extends ModelTest  {
         KEY_CODE + " = ?",
         new String[]{currency},
         null);
+    assert c != null;
     c.moveToFirst();
     long id = 0 - c.getLong(0);
     c.close();
     AggregateAccount aa =  (AggregateAccount) Account.getInstanceFromDb(id);
+    assert aa != null;
     assertEquals(currency,aa.currency.getCurrencyCode());
-    assertEquals(openingBalance.longValue() * 2, aa.openingBalance.getAmountMinor().longValue());
+    assertEquals(openingBalance * 2, aa.openingBalance.getAmountMinor().longValue());
   }
   public void testBalanceWithoutReset() {
     insertData();
@@ -203,6 +218,7 @@ public class AccountTest extends ModelTest  {
     Account.clear();
     assertEquals(0,count(account1.getId(),null));
     Account resetAccount = Account.getInstanceFromDb(account1.getId());
+    assert resetAccount != null;
     assertEquals(initialtotalBalance,resetAccount.getTotalBalance());
   }
 
@@ -216,6 +232,7 @@ public class AccountTest extends ModelTest  {
     Account.clear();
     assertEquals(5,count(account1.getId(),null));//1 Transaction deleted
     Account resetAccount = Account.getInstanceFromDb(account1.getId());
+    assert resetAccount != null;
     assertEquals(initialtotalBalance,resetAccount.getTotalBalance());
   }
 
@@ -234,14 +251,16 @@ public class AccountTest extends ModelTest  {
     assertEquals(0,count(account1.getId(),KEY_CATID + "=" + catId));
     assertEquals(1,count(account1.getId(),KEY_STATUS + "=" + STATUS_HELPER));
     Account resetAccount = Account.getInstanceFromDb(account1.getId());
+    assert resetAccount != null;
     assertEquals(initialtotalBalance,resetAccount.getTotalBalance());
   }
   /**
-   * @param accountId
+   * @param accountId id of account to be counted
    * @param condition if not null interpreted as a where clause for filtering the transactions
    * @return the number of transactions in an account
    */
   private int count(long accountId, String condition) {
+    int result = 0;
     String selection = KEY_ACCOUNTID + " = ?";
     if (condition != null) {
       selection += " AND " + condition;
@@ -253,8 +272,10 @@ public class AccountTest extends ModelTest  {
         new String[]{String.valueOf(accountId)},
         null
     );
-    c.moveToFirst();
-    int result = c.getInt(0);
+    if (c == null) {
+      return result;
+    }
+    if (c.moveToFirst()) result = c.getInt(0);
     c.close();
     return result;
   }

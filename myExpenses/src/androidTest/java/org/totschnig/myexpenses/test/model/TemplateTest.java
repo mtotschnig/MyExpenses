@@ -23,20 +23,20 @@ import org.totschnig.myexpenses.model.Transaction;
 
 public class TemplateTest extends ModelTest  {
   private Account mAccount1;
-  private Account mAccount2;
-  
+
   @Override
   protected void setUp() throws Exception {
       super.setUp();
       mAccount1 = new Account("TestAccount 1",100,"Main account");
       mAccount1.save();
-      mAccount2 = new Account("TestAccount 2",100,"Secondary account");
+    Account mAccount2 = new Account("TestAccount 2", 100, "Secondary account");
       mAccount2.save();
   }
   public void testTemplateCreatedFromTransaction() {
     Long start = mAccount1.getTotalBalance().getAmountMinor();
     Long amount = (long) 100;
     Transaction op1 = Transaction.getNewInstance(mAccount1.getId());
+    assert op1 != null;
     op1.setAmount(new Money(mAccount1.currency,amount));
     op1.comment = "test transaction";
     op1.save();
@@ -66,6 +66,7 @@ public class TemplateTest extends ModelTest  {
   protected void newInstanceTestHelper(int type) {
     Template t,restored;
     t = Template.getTypedNewInstance(type, mAccount1.getId());
+    assert t != null;
     t.title = "Template";
     t.save();
     restored = Template.getInstanceFromDb(t.getId());

@@ -10,6 +10,7 @@ import android.content.res.Configuration;
 import android.provider.Settings.Secure;
 import android.test.ActivityInstrumentationTestCase2;
 
+import org.junit.Ignore;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.CommonCommands;
 import org.totschnig.myexpenses.test.util.Fixture;
@@ -23,6 +24,7 @@ import org.totschnig.myexpenses.activity.MyExpenses;
  * @author Michael Totschnig
  *
  */
+@Ignore
 public class TestMain extends ActivityInstrumentationTestCase2<MyExpenses> {
 	private MyApplication app;
 	private Context instCtx;

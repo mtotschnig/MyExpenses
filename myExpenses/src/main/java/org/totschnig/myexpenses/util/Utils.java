@@ -235,7 +235,7 @@ public class Utils {
 
   public static String formatCurrency(BigDecimal amount, Currency currency) {
     NumberFormat nf = getNumberFormat();
-    int fractionDigits = Money.fractionDigits(currency);
+    int fractionDigits = Money.getFractionDigits(currency);
     nf.setCurrency(currency);
     if (fractionDigits <= 3) {
       nf.setMinimumFractionDigits(fractionDigits);

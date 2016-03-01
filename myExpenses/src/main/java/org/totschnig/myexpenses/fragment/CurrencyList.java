@@ -17,6 +17,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 
 public class CurrencyList extends ListFragment {
 
+  private Account.CurrencyEnum[] sortedValues;
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -24,20 +26,21 @@ public class CurrencyList extends ListFragment {
   @Override
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
+    sortedValues = Account.CurrencyEnum.sortedValues();
     setAdapter();
   }
 
   private void setAdapter() {
     ArrayAdapter<Account.CurrencyEnum> curAdapter = new ArrayAdapter<Account.CurrencyEnum>(
-        getActivity(), android.R.layout.simple_list_item_1,Account.CurrencyEnum.sortedValues()) {
+        getActivity(), android.R.layout.simple_list_item_1, sortedValues) {
       @Override
       public View getView(int position, View convertView, ViewGroup parent) {
         String text;
         TextView v = (TextView) super.getView(position, convertView, parent);
-        Account.CurrencyEnum item = Account.CurrencyEnum.values()[position];
+        Account.CurrencyEnum item = sortedValues[position];
         try {
           Currency c = Currency.getInstance(item.name());
-          text = String.valueOf(Money.fractionDigits(c));
+          text = String.valueOf(Money.getFractionDigits(c));
         } catch (IllegalArgumentException e) {
           text = "not supported by your OS";
         }
@@ -52,13 +55,13 @@ public class CurrencyList extends ListFragment {
   @Override
   public void onListItemClick(ListView l, View v, int position, long id) {
     super.onListItemClick(l, v, position, id);
-    Account.CurrencyEnum item = Account.CurrencyEnum.values()[position];
+    Account.CurrencyEnum item = sortedValues[position];
     try {
       Currency c = Currency.getInstance(item.name());
       Bundle args = new Bundle();
       args.putString(EditTextDialog.KEY_DIALOG_TITLE, getString(R.string.dialog_title_set_fraction_digits));
       args.putString(DatabaseConstants.KEY_CURRENCY, item.name());
-      args.putString(EditTextDialog.KEY_VALUE, String.valueOf(String.valueOf(Money.fractionDigits(c))));
+      args.putString(EditTextDialog.KEY_VALUE, String.valueOf(String.valueOf(Money.getFractionDigits(c))));
       args.putInt(EditTextDialog.KEY_INPUT_TYPE, InputType.TYPE_CLASS_NUMBER);
       EditTextDialog.newInstance(args).show(getFragmentManager(), "SET_FRACTION_DIGITS");
     } catch (IllegalArgumentException e) {

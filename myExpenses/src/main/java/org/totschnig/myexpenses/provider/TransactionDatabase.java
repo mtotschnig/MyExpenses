@@ -238,7 +238,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   public static final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.US);
 
   TransactionDatabase(Context context) {
-    super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    super(context, MyApplication.isInstrumentationTest() ? MyApplication.getTestId() : DATABASE_NAME,
+        null, DATABASE_VERSION);
     mCtx = context;
   }
   @Override
