@@ -4,9 +4,6 @@ import android.content.ContentUris;
 
 import org.totschnig.myexpenses.model.Category;
 
-/**
- * Created by privat on 06.09.15.
- */
 public class CategoryTest extends ModelTest {
 
     public void testShouldNotAllowMoreThanTwoLevels() {

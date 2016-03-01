@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.util.Utils;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.test.ProviderTestCase2;
 import android.util.Log;
 
@@ -64,6 +65,7 @@ public class DateCalculationTest extends ProviderTestCase2<TransactionProvider> 
   }
   
   public void testDateCalculationsForWeekGroupsWeekStartsOnSaturday() {
+    if ("goldfish".equals(Build.HARDWARE)) return; //on emulator locale is not configured correctly
     DatabaseConstants.buildLocalized(new Locale("ar","SA"));
     assertEquals(Calendar.SATURDAY,DatabaseConstants.weekStartsOn);
     doTheTest();
@@ -98,7 +100,7 @@ public class DateCalculationTest extends ProviderTestCase2<TransactionProvider> 
         null, null, null, null, null);
     assertEquals(12*12,c.getCount());
     c.moveToFirst();
-    while (c.isAfterLast() == false) {
+    while (!c.isAfterLast()) {
       int year = c.getInt(0);
       int week = c.getInt(1);
       Cursor check = mDb.query(

@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.test.espresso;
 import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.os.RemoteException;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 
 import org.junit.AfterClass;
@@ -20,9 +21,8 @@ import java.util.Currency;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static junit.framework.Assert.assertEquals;
 
 /**
@@ -64,7 +64,7 @@ public class ExpenseEditTest {
         R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
         R.id.PayeeRow, R.id.AccountRow}
         ) {
-      onView(withId(resId)).check(matches(isDisplayed()));
+      onView(withId(resId)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
     }
   }
 
@@ -77,7 +77,7 @@ public class ExpenseEditTest {
     for (int resId : new int[]{
         R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.AccountRow, R.id.TransferAccountRow}
         ) {
-      onView(withId(resId)).check(matches(isDisplayed()));
+      onView(withId(resId)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
     }
   }
 
@@ -91,7 +91,7 @@ public class ExpenseEditTest {
         R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.SplitContainer,
         R.id.PayeeRow, R.id.AccountRow}
         ) {
-      onView(withId(resId)).check(matches(isDisplayed()));
+      onView(withId(resId)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
     }
   }
 

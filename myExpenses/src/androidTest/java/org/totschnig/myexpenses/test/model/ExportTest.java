@@ -72,6 +72,10 @@ public class ExportTest extends ModelTest  {
     cat1Id = Category.write(0,"Main",null);
     cat2Id = Category.write(0,"Sub", cat1Id);
     op = Transaction.getNewInstance(account1.getId());
+    if (op == null) {
+      fail();
+      return;
+    }
     op.setAmount(new Money(account1.currency,-expense1));
     op.methodId = PaymentMethod.find("CHEQUE");
     op.crStatus = Transaction.CrStatus.CLEARED;
@@ -93,6 +97,10 @@ public class ExportTest extends ModelTest  {
     op.comment = "Note for myself with \"quote\"";
     op.saveAsNew();
     op = Transfer.getNewInstance(account1.getId(),account2.getId());
+    if (op == null) {
+      fail();
+      return;
+    }
     op.setAmount(new Money(account1.currency,transferP));
     op.crStatus = Transaction.CrStatus.RECONCILED;
     op.save();
@@ -100,8 +108,16 @@ public class ExportTest extends ModelTest  {
     op.setAmount(new Money(account1.currency,-transferN));
     op.saveAsNew();
     SplitTransaction split = SplitTransaction.getNewInstance(account1.getId());
+    if (split == null) {
+      fail();
+      return;
+    }
     split.setAmount(new Money(account1.currency,split1));
     Transaction part = SplitPartCategory.getNewInstance(account1.getId(),split.getId());
+    if (part == null) {
+      fail();
+      return;
+    }
     part.setAmount(new Money(account1.currency,part1));
     part.setCatId(cat1Id);
     part.status = org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
@@ -114,6 +130,10 @@ public class ExportTest extends ModelTest  {
   private void insertData2() {
     Transaction op;
     op = Transaction.getNewInstance(account1.getId());
+    if (op == null) {
+      fail();
+      return;
+    }
     op.setAmount(new Money(account1.currency,-expense3));
     op.methodId = PaymentMethod.find("CHEQUE");
     op.comment = "Expense inserted after first export";
@@ -252,6 +272,7 @@ public class ExportTest extends ModelTest  {
       assertTrue("Export failed with message: " + getContext().getString(result.getMessage()),result.success);
       account1.markAsExported(null);
       export = (Uri) result.extra[0];
+      //noinspection ResultOfMethodCallIgnored
       new File(export.getPath()).delete();
       insertData2();
       result = exportAll(account1,Account.ExportFormat.CSV, true);
@@ -303,6 +324,7 @@ public class ExportTest extends ModelTest  {
   protected void tearDown() throws Exception {
     super.tearDown();
     if (export!=null) {
+      //noinspection ResultOfMethodCallIgnored
       new File(export.getPath()).delete();
     }
   }
