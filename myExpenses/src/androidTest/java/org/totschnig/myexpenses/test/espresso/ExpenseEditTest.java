@@ -2,16 +2,9 @@ package org.totschnig.myexpenses.test.espresso;
 
 import android.content.Intent;
 import android.content.OperationApplicationException;
-import android.database.Cursor;
 import android.os.RemoteException;
-import android.support.test.espresso.matcher.BoundedMatcher;
-import android.support.test.espresso.matcher.CursorMatchers;
 import android.support.test.rule.ActivityTestRule;
-import android.view.View;
-import android.widget.Spinner;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -21,6 +14,7 @@ import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.test.util.Matchers;
 
 import java.util.Currency;
 
@@ -110,7 +104,7 @@ public class ExpenseEditTest {
       i.putExtra("operationType", MyExpenses.TYPE_TRANSACTION);
       i.putExtra(DatabaseConstants.KEY_ACCOUNTID, a.getId());
       mActivityRule.launchActivity(i);
-      onView(withId(R.id.Account)).check(matches(withSpinnerText(a.label)));
+      onView(withId(R.id.Account)).check(matches(Matchers.withSpinnerText(a.label)));
       mActivityRule.getActivity().finish();
     }
   }
@@ -130,21 +124,4 @@ public class ExpenseEditTest {
     }
   }
 
-  public static Matcher<View> withSpinnerText(final String string) {
-    checkNotNull(string);
-    final CursorMatchers.CursorMatcher cursorMatcher =
-        CursorMatchers.withRowString(DatabaseConstants.KEY_LABEL,string);
-    return new BoundedMatcher<View, Spinner>(Spinner.class) {
-      @Override
-      public void describeTo(Description description) {
-        description.appendText("with text: " + string);
-        cursorMatcher.describeTo(description);
-      }
-
-      @Override
-      public boolean matchesSafely(Spinner spinner) {
-        return cursorMatcher.matchesSafely(((Cursor) spinner.getSelectedItem()));
-      }
-    };
-  }
 }

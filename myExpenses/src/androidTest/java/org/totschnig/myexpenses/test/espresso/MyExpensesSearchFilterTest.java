@@ -5,13 +5,8 @@ import android.os.RemoteException;
 import android.support.test.espresso.matcher.CursorMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -24,6 +19,7 @@ import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.test.util.Matchers;
 
 import java.util.Currency;
 
@@ -100,32 +96,7 @@ public final class MyExpensesSearchFilterTest extends MyExpensesTestBase {
         isAssignableFrom(AdapterView.class),
         isDescendantOfA(withId(R.id.list)),
         isDisplayed()))
-        .check(matches(not(withAdaptedData(
+        .check(matches(not(Matchers.withAdaptedData(
             CursorMatchers.withRowString(DatabaseConstants.KEY_LABEL_MAIN, label)))));
-  }
-  private static Matcher<View> withAdaptedData(final Matcher<Object> dataMatcher) {
-    return new TypeSafeMatcher<View>() {
-
-      @Override
-      public void describeTo(Description description) {
-        description.appendText("with class name: ");
-        dataMatcher.describeTo(description);
-      }
-
-      @Override
-      public boolean matchesSafely(View view) {
-        if (!(view instanceof AdapterView)) {
-          return false;
-        }
-        @SuppressWarnings("rawtypes")
-        Adapter adapter = ((AdapterView) view).getAdapter();
-        for (int i = 0; i < adapter.getCount(); i++) {
-          if (dataMatcher.matches(adapter.getItem(i))) {
-            return true;
-          }
-        }
-        return false;
-      }
-    };
   }
 }

@@ -47,6 +47,7 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
+import static org.totschnig.myexpenses.test.util.Matchers.withListSize;
 
 
 @RunWith(AndroidJUnit4.class)
@@ -71,7 +72,7 @@ public final class MyExpensesCabTest extends MyExpensesTestBase {
 
   @AfterClass
   public static void tearDown() throws RemoteException, OperationApplicationException {
-    account.reset(null,Account.EXPORT_HANDLE_DELETED_DO_NOTHING,null);
+    account.reset(null, Account.EXPORT_HANDLE_DELETED_DO_NOTHING, null);
   }
 
   @Test
@@ -171,18 +172,5 @@ public final class MyExpensesCabTest extends MyExpensesTestBase {
         isAssignableFrom(AdapterView.class),
         isDescendantOfA(withId(R.id.list)),
         isDisplayed());
-  }
-
-  // Credits: http://stackoverflow.com/a/30361345/1199911
-  public static Matcher<View> withListSize (final int size) {
-    return new TypeSafeMatcher<View> () {
-      @Override public boolean matchesSafely (final View view) {
-        return ((ListView) view).getChildCount () == size;
-      }
-
-      @Override public void describeTo (final Description description) {
-        description.appendText ("ListView should have " + size + " items");
-      }
-    };
   }
 }
