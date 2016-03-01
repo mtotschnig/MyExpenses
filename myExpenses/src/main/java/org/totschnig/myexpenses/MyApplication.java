@@ -313,6 +313,8 @@ public class MyApplication extends Application implements
   public static void cleanUpAfterTest() {
     mSelf.deleteDatabase(testId);
     mSelf.getSettings().edit().clear().commit();
+    new File(new File(mSelf.getFilesDir().getParentFile().getPath() + "/shared_prefs/"),
+        testId + ".xml").delete();
   }
 
   public static int getThemeId() {
