@@ -19,7 +19,7 @@
       tools:ignore="AppCompatResource,UnusedAttribute,AlwaysShowAction">
     <item
         android:id="@id/CREATE_INSTANCE_SAVE_COMMAND"
-        android:icon="@drawable/create_instance_save_icon"
+        android:icon="@drawable/ic_action_apply_save"
         android:orderInCategory="0"
         android:showAsAction="always"
         android:title="@string/menu_create_instance_save">
@@ -27,7 +27,7 @@
     <group android:id="@+id/MenuSingle">
         <item
             android:id="@id/CREATE_INSTANCE_EDIT_COMMAND"
-            android:icon="@drawable/create_instance_edit_icon"
+            android:icon="@drawable/ic_action_apply_edit"
             android:orderInCategory="1"
             android:showAsAction="always"
             android:title="@string/menu_create_instance_edit">

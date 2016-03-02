@@ -220,7 +220,7 @@ public class MyExpenses extends LaunchActivity implements
     mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
     mDrawerList = (StickyListHeadersListView) findViewById(R.id.left_drawer);
     mToolbar = setupToolbar(false);
-    mToolbar.addView(getLayoutInflater().inflate(R.layout.custom_title, mToolbar,false));
+    mToolbar.addView(getLayoutInflater().inflate(R.layout.custom_title, mToolbar, false));
     if (mDrawerLayout != null) {
       mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
           mToolbar, R.string.drawer_open, R.string.drawer_close) {

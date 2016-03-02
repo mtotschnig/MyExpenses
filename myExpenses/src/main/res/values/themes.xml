@@ -57,7 +57,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="drawerBackground">@color/drawerBackgroundLight</item>
         <item name="pageMargin">@drawable/pagermargin_black</item>
         <item name="browseIcon">@drawable/ic_action_browse_dark</item>
-        <item name="groupIcon">@drawable/ic_action_group_dark</item>
+        <item name="groupIcon">@drawable/ic_action_group</item>
         <item name="drawerWidth">260sp</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="colorContainerOuter">25sp</item>
@@ -71,6 +71,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge</item>
         <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium</item>
         <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall</item>
+        <item name="colorControlNormal">@android:color/black</item>
     </style>
     <style name="ThemeLight" parent="@style/ThemeLightBase">
     </style>
@@ -171,6 +172,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge</item>
         <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium</item>
         <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall</item>
+        <item name="colorControlNormal">@android:color/black</item>
     </style>
 
     <style name="ThemeLight.EditDialog" parent="ThemeLight.EditDialogBase" />

@@ -7,7 +7,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom|end"
-    android:src="@drawable/ic_add_white"
+    android:src="@drawable/ic_menu_add"
     android:layout_marginBottom="@dimen/fab_margin_bottom"
     android:layout_marginRight="@dimen/fab_margin_right"
     android:layout_marginEnd="@dimen/fab_margin_right"

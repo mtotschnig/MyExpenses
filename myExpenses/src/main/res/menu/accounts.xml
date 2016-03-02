@@ -4,13 +4,12 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@id/CREATE_ACCOUNT_COMMAND"
-        android:icon="@android:drawable/ic_menu_add"
+        android:icon="@drawable/ic_menu_add"
         android:title="@string/menu_create_account"
         app:showAsAction="always"
         tools:ignore="AlwaysShowAction"/>
     <item
         android:id="@id/GROUPING_ACCOUNTS_COMMAND"
-        android:icon="@android:drawable/ic_menu_sort_by_size"
         android:title="@string/menu_grouping"
         app:showAsAction="never">
         <menu>
@@ -30,7 +29,6 @@
     <item
         android:id="@id/HELP_COMMAND_DRAWER"
         android:orderInCategory="40"
-        android:icon="@android:drawable/ic_menu_help"
         android:title="@string/menu_help"
         app:showAsAction="never">
     </item>
