@@ -32,20 +32,15 @@ import org.totschnig.myexpenses.util.Utils;
 public class DatabaseConstants {
   private static boolean isLocalized = false;
   public static int weekStartsOn, monthStartsOn;
-  public static String YEAR_OF_WEEK_START, YEAR_OF_MONTH_START;
-  //public static String YEAR_OF_MONTH_START;
-  public static String WEEK, MONTH;
-  public static String THIS_YEAR_OF_WEEK_START;
-  public static String THIS_WEEK;
-  public static String WEEK_START;
-  public static String WEEK_END;
-  /**
-   * we want to find out the week range when we are given a week number
-   * we find out the first day in the year, that is the firstdayofweek of the locale and is
-   * one week behind the first day with week number 1
-   * add (weekNumber-1)*7 days to get at the beginning of the week
-   */
-  public static String COUNT_FROM_WEEK_START_ZERO;
+  private static String YEAR_OF_WEEK_START;
+  private static String YEAR_OF_MONTH_START;
+  private static String WEEK;
+  private static String MONTH;
+  private static String THIS_YEAR_OF_WEEK_START;
+  private static String THIS_WEEK;
+  private static String WEEK_START;
+  private static String WEEK_END;
+  private static String COUNT_FROM_WEEK_START_ZERO;
 
   public static void buildLocalized(Locale locale) {
     weekStartsOn = Integer.parseInt(MyApplication.PrefKey.GROUP_WEEK_STARTS.getString("-1"));
@@ -75,7 +70,7 @@ public class DatabaseConstants {
     isLocalized = true;
   }
 
-  public static void ensureLocalized() {
+  private static void ensureLocalized() {
     if (!isLocalized) {
       buildLocalized(Locale.getDefault());
     }
@@ -335,4 +330,55 @@ public class DatabaseConstants {
       KEY_ROWID + " = ? OR " + KEY_TRANSFER_PEER + " = ? OR "
           + KEY_PARENTID + " = ? OR " + KEY_ROWID + " IN "
           + "(SELECT " + KEY_TRANSFER_PEER + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_PARENTID + "= ?)";
+
+  public static String getYearOfWeekStart() {
+    ensureLocalized();
+    return YEAR_OF_WEEK_START;
+  }
+
+  public static String getYearOfMonthStart() {
+    ensureLocalized();
+    return YEAR_OF_MONTH_START;
+  }
+
+  public static String getWeek() {
+    ensureLocalized();
+    return WEEK;
+  }
+
+  public static String getMonth() {
+    ensureLocalized();
+    return MONTH;
+  }
+
+  public static String getThisYearOfWeekStart() {
+    ensureLocalized();
+    return THIS_YEAR_OF_WEEK_START;
+  }
+
+  public static String getThisWeek() {
+    ensureLocalized();
+    return THIS_WEEK;
+  }
+
+  public static String getWeekStart() {
+    ensureLocalized();
+    return WEEK_START;
+  }
+
+  public static String getWeekEnd() {
+    ensureLocalized();
+    return WEEK_END;
+  }
+
+  /**
+   * we want to find out the week range when we are given a week number
+   * we find out the first day in the year, that is the firstdayofweek of the locale and is
+   * one week behind the first day with week number 1
+   * add (weekNumber-1)*7 days to get at the beginning of the week
+   */
+  public static String getCountFromWeekStartZero() {
+    ensureLocalized();
+    return COUNT_FROM_WEEK_START_ZERO;
+  }
 }

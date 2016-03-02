@@ -25,7 +25,6 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.Account.Grouping;
-import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.content.ContentProvider;
@@ -253,10 +252,10 @@ public class TransactionProvider extends ContentProvider {
       String yearExpression;
       switch (group) {
         case WEEK:
-          yearExpression = YEAR_OF_WEEK_START;
+          yearExpression = getYearOfWeekStart();
           break;
         case MONTH:
-          yearExpression = YEAR_OF_MONTH_START;
+          yearExpression = getYearOfMonthStart();
           break;
         default:
           yearExpression = YEAR;
@@ -290,10 +289,10 @@ public class TransactionProvider extends ContentProvider {
           secondDef = DAY;
           break;
         case WEEK:
-          secondDef = WEEK;
+          secondDef = getWeek();
           break;
         case MONTH:
-          secondDef = MONTH;
+          secondDef = getMonth();
           break;
         case YEAR:
           secondDef = "1";
@@ -1132,7 +1131,6 @@ public class TransactionProvider extends ContentProvider {
                 + " IN (SELECT " + DatabaseConstants.KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + "=?)",
                 bindArgs);
           }
-          Log.i("DEBUG","now storing "+newValue);
           Money.putFractionDigits(segment, newValue);
           db.setTransactionSuccessful();
           //force accounts to be refetched,since amountMinor of their opening balance has changed

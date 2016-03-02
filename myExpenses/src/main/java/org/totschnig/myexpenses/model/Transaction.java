@@ -95,18 +95,18 @@ public class Transaction extends Model {
         KEY_CR_STATUS,
         KEY_REFERENCE_NUMBER,
         KEY_PICTURE_URI,
-        YEAR_OF_WEEK_START + " AS " + KEY_YEAR_OF_WEEK_START,
-        YEAR_OF_MONTH_START + " AS " + KEY_YEAR_OF_MONTH_START,
+        getYearOfWeekStart() + " AS " + KEY_YEAR_OF_WEEK_START,
+        getYearOfMonthStart() + " AS " + KEY_YEAR_OF_MONTH_START,
         YEAR + " AS " + KEY_YEAR,
-        MONTH + " AS " + KEY_MONTH,
-        WEEK + " AS " + KEY_WEEK,
+        getMonth() + " AS " + KEY_MONTH,
+        getWeek() + " AS " + KEY_WEEK,
         DAY + " AS " + KEY_DAY,
-        THIS_YEAR_OF_WEEK_START + " AS " + KEY_THIS_YEAR_OF_WEEK_START,
+        getThisYearOfWeekStart() + " AS " + KEY_THIS_YEAR_OF_WEEK_START,
         THIS_YEAR + " AS " + KEY_THIS_YEAR,
-        THIS_WEEK + " AS " + KEY_THIS_WEEK,
+        getThisWeek() + " AS " + KEY_THIS_WEEK,
         THIS_DAY + " AS " + KEY_THIS_DAY,
-        WEEK_START + " AS " + KEY_WEEK_START,
-        WEEK_END + " AS " + KEY_WEEK_END
+        getWeekStart() + " AS " + KEY_WEEK_START,
+        getWeekEnd() + " AS " + KEY_WEEK_END
     };
     int baseLength = PROJECTION_BASE.length;
     PROJECTION_EXTENDED = new String[baseLength + 3];
@@ -362,6 +362,7 @@ public class Transaction extends Model {
   /**
    * updates the payee string to a new value
    * it will me mapped to an existing or new row in payee table during save
+   *
    * @param payee
    */
   public void setPayee(String payee) {
@@ -373,6 +374,7 @@ public class Transaction extends Model {
 
   /**
    * updates the payee to a row that already exists in the DB
+   *
    * @param payee
    * @param payeeId
    */
@@ -516,7 +518,7 @@ public class Transaction extends Model {
             copyPictureHelper(isInTempFolder, homeUri);
           }
         } catch (IOException e) {
-          throw new UnknownPictureSaveException(pictureUri,homeUri,e);
+          throw new UnknownPictureSaveException(pictureUri, homeUri, e);
         }
       }
       initialValues.put(KEY_PICTURE_URI, pictureUri.toString());
@@ -713,7 +715,8 @@ public class Transaction extends Model {
   }
 
   public static class UnknownPictureSaveException extends IllegalStateException {
-    public Uri pictureUri,homeUri;
+    public Uri pictureUri, homeUri;
+
     public UnknownPictureSaveException(Uri pictureUri, Uri homeUri, IOException e) {
       super(e);
       this.pictureUri = pictureUri;

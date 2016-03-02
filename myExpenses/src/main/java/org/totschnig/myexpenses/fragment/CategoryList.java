@@ -103,22 +103,22 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_WEEK;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_YEAR_OF_WEEK_START;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.MONTH;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.THIS_DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.THIS_MONTH;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.THIS_WEEK;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.THIS_YEAR;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.THIS_YEAR_OF_WEEK_START;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.WEEK;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.YEAR;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.YEAR_OF_MONTH_START;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.YEAR_OF_WEEK_START;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.getMonth;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.getThisWeek;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.getThisYearOfWeekStart;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.getWeek;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart;
 
 public class CategoryList extends SortableListFragment implements
     OnChildClickListener, OnGroupClickListener, LoaderManager.LoaderCallbacks<Cursor> {
@@ -623,9 +623,9 @@ public class CategoryList extends SortableListFragment implements
       case DAY:
         return year + " AND " + DAY + " = " + mGroupingSecond;
       case WEEK:
-        return YEAR_OF_WEEK_START + " = " + mGroupingYear + " AND " + WEEK + " = " + mGroupingSecond;
+        return getYearOfWeekStart() + " = " + mGroupingYear + " AND " + getWeek() + " = " + mGroupingSecond;
       case MONTH:
-        return YEAR_OF_MONTH_START + " = " + mGroupingYear + " AND " + MONTH + " = " + mGroupingSecond;
+        return getYearOfMonthStart() + " = " + mGroupingYear + " AND " + getMonth() + " = " + mGroupingSecond;
       default:
         return null;
     }
@@ -653,10 +653,10 @@ public class CategoryList extends SortableListFragment implements
     if (id == DATEINFO_CURSOR) {
       ArrayList<String> projectionList = new ArrayList<String>(Arrays.asList(
           new String[]{
-              THIS_YEAR_OF_WEEK_START + " AS " + KEY_THIS_YEAR_OF_WEEK_START,
+              getThisYearOfWeekStart() + " AS " + KEY_THIS_YEAR_OF_WEEK_START,
               THIS_YEAR + " AS " + KEY_THIS_YEAR,
               THIS_MONTH + " AS " + KEY_THIS_MONTH,
-              THIS_WEEK + " AS " + KEY_THIS_WEEK,
+              getThisWeek() + " AS " + KEY_THIS_WEEK,
               THIS_DAY + " AS " + KEY_THIS_DAY
           }
       ));

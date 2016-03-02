@@ -109,7 +109,6 @@ public class ProtectedFragmentActivity extends AppCompatActivity
       enableStrictMode();
     }
     super.onCreate(savedInstanceState);
-    DatabaseConstants.ensureLocalized();
     if (PrefKey.PERFORM_PROTECTION.getBoolean(false)) {
       getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
           WindowManager.LayoutParams.FLAG_SECURE);

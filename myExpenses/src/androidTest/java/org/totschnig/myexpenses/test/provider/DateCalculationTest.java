@@ -73,7 +73,7 @@ public class DateCalculationTest extends ProviderTestCase2<TransactionProvider> 
   
   private void doTheTest() {
     DateFormat dateformat = Utils.localizedYearlessDateFormat();
-    Log.i("DEBUG",DatabaseConstants.WEEK_END);
+    Log.i("DEBUG", DatabaseConstants.getWeekEnd());
     ContentValues v = new ContentValues();
     for (int year = 2010; year < 2022; year++) {
       int month = 12, day = 26;
@@ -93,10 +93,10 @@ public class DateCalculationTest extends ProviderTestCase2<TransactionProvider> 
     Cursor c = mDb.query(
         TABLE,
         new String[] {
-            DatabaseConstants.YEAR_OF_WEEK_START + " AS year",
-            DatabaseConstants.WEEK + " AS week",
-            DatabaseConstants.WEEK_START + " AS week_start",
-            DatabaseConstants.WEEK_END + " AS week_end",},
+            DatabaseConstants.getYearOfWeekStart() + " AS year",
+            DatabaseConstants.getWeek() + " AS week",
+            DatabaseConstants.getWeekStart() + " AS week_start",
+            DatabaseConstants.getWeekEnd() + " AS week_end",},
         null, null, null, null, null);
     assertEquals(12*12,c.getCount());
     c.moveToFirst();
