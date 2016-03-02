@@ -830,15 +830,16 @@ public class MyExpenses extends LaunchActivity implements
       window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
       //noinspection InlinedApi
       window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-      window.setStatusBarColor(color);
+      int color700 = Utils.get700Tint(color);
+      window.setStatusBarColor(color700);
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         //noinspection InlinedApi
         getWindow().getDecorView().setSystemUiVisibility(
-            isBrightColor ? View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR : 0);
+            Utils.isBrightColor(color700) ? View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR : 0);
       }
     }
     Utils.setBackgroundTintListOnFab(mFab,color);
-    mFab.setImageResource(isBrightColor ? R.drawable.ic_add_gray : R.drawable.ic_add_white);
+    mFab.setImageResource(Utils.isBrightColor(color) ? R.drawable.ic_add_gray : R.drawable.ic_add_white);
     mAccountId = newAccountId;
     setBalance();
     mDrawerList.setItemChecked(position, true);
