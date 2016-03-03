@@ -4,8 +4,8 @@
            android:id="@+id/image"
            android:padding="2dp"
            android:background="?android:attr/activatedBackgroundIndicator"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
+           android:layout_width="@dimen/thumbnail_size_grid"
+           android:layout_height="@dimen/thumbnail_size_grid"
            tools:ignore="ContentDescription">
 
 </ImageView>

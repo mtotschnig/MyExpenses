@@ -31,9 +31,12 @@ import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
@@ -48,7 +51,6 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.task.BitmapWorkerTask;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.Utils;
@@ -302,9 +304,9 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
 
     dlg.setTitle(title);
     if (doShowPicture) {
-      int thumbsize = (int) getResources().getDimension(R.dimen.thumbnail_size);
-      BitmapWorkerTask task = new BitmapWorkerTask(dlg, thumbsize);
-      task.execute(mTransaction.getPictureUri());
+      ImageView image = ((ImageView) dlg.getWindow().findViewById(android.R.id.icon));
+      image.setVisibility(View.VISIBLE);
+      Picasso.with(ctx).load(mTransaction.getPictureUri()).fit().into(image);
     }
   }
 

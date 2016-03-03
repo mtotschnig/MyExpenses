@@ -70,7 +70,6 @@ import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.task.BitmapWorkerTask;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.AmountEditText;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
@@ -137,6 +136,7 @@ import android.widget.ToggleButton;
 
 import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Events;
+import com.squareup.picasso.Picasso;
 
 /**
  * Activity for editing a transaction
@@ -201,7 +201,6 @@ public class ExpenseEdit extends AmountActivity implements
   public static final int TRANSACTION_CURSOR = 5;
   public static final int SUM_CURSOR = 6;
   public static final int LAST_EXCHANGE_CURSOR = 7;
-  public static final int THUMBSIZE = 96;
   private static final String KEY_PICTURE_URI = "picture_uri";
   private static final String KEY_PICTURE_URI_TMP = "picture_uri_tmp";
 
@@ -1238,10 +1237,8 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   protected void setPicture() {
-    int thumbsize = (int) getResources().getDimension(R.dimen.thumbnail_size);
-    BitmapWorkerTask task = new BitmapWorkerTask(mPictureView, thumbsize);
-    task.execute(mPictureUri);
     mPictureView.setVisibility(View.VISIBLE);
+    Picasso.with(this).load(mPictureUri).fit().into(mPictureView);
     mAttachPictureButton.setVisibility(View.GONE);
   }
   @Override
