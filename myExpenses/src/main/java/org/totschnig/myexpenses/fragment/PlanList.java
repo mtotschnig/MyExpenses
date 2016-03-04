@@ -121,8 +121,7 @@ public class PlanList extends ContextualActionBarFragment implements LoaderManag
     super.onResume();
     if (ContextCompat.checkSelfPermission(getActivity(),
         Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
-      if (mManager.getLoader(TEMPLATES_CURSOR) == null)
-        setupList();
+      setupList();
     } else {
       emptyButton.setVisibility(View.VISIBLE);
       emptyText.setText(R.string.calendar_permission_required);
@@ -132,17 +131,23 @@ public class PlanList extends ContextualActionBarFragment implements LoaderManag
   public void setupList() {
     emptyButton.setVisibility(View.GONE);
     emptyText.setText(R.string.no_plans);
-    mManager.initLoader(TEMPLATES_CURSOR, null, this);
-    mAdapter = new MyExpandableListAdapter(
-        getActivity(),
-        null,
-        R.layout.plan_row,
-        R.layout.plan_instance_row,
-        new String[]{KEY_TITLE, KEY_LABEL_MAIN, KEY_AMOUNT},
-        new int[]{R.id.title, R.id.category, R.id.amount},
-        new String[]{Instances.BEGIN},
-        new int[]{R.id.date}
-    );
+    if (mManager.getLoader(TEMPLATES_CURSOR) != null && !mManager.getLoader(TEMPLATES_CURSOR).isReset()) {
+      mManager.restartLoader(TEMPLATES_CURSOR, null, this);
+    } else {
+      mManager.initLoader(TEMPLATES_CURSOR, null, this);
+    }
+    if (mAdapter == null) {
+      mAdapter = new MyExpandableListAdapter(
+          getActivity(),
+          null,
+          R.layout.plan_row,
+          R.layout.plan_instance_row,
+          new String[]{KEY_TITLE, KEY_LABEL_MAIN, KEY_AMOUNT},
+          new int[]{R.id.title, R.id.category, R.id.amount},
+          new String[]{Instances.BEGIN},
+          new int[]{R.id.date}
+      );
+    }
     mListView.setAdapter(mAdapter);
     registerForContextualActionBar(mListView);
   }
