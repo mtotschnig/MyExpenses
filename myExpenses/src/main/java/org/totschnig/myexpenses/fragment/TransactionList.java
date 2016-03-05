@@ -456,7 +456,7 @@ public class TransactionList extends ContextualActionBarFragment implements
         columnIndexCrStatus = c.getColumnIndex(KEY_CR_STATUS);
         indexesCalculated = true;
       }
-      ((SimpleCursorAdapter) mAdapter).swapCursor(c);
+      mAdapter.swapCursor(c);
       invalidateCAB();
       break;
     case SUM_CURSOR:
@@ -481,7 +481,7 @@ public class TransactionList extends ContextualActionBarFragment implements
         indexesGroupingCalculated = true;
       }
       if (mTransactionsCursor != null)
-        ((BaseAdapter) mAdapter).notifyDataSetChanged();
+        mAdapter.notifyDataSetChanged();
     }
   }
 
