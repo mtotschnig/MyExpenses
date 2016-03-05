@@ -113,7 +113,6 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
 
   public void updateFabColor(int color) {
     Utils.setBackgroundTintListOnFab(fab,color);
-    fab.setImageResource(Utils.isBrightColor(color) ? R.drawable.ic_add_gray : R.drawable.ic_add_white);
   }
 
   @Override

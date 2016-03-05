@@ -823,7 +823,6 @@ public class MyExpenses extends LaunchActivity implements
       MyApplication.PrefKey.CURRENT_ACCOUNT.putLong(newAccountId);
     }
     int color = newAccountId < 0 ? colorAggregate : mAccountsCursor.getInt(columnIndexColor);
-    final boolean isBrightColor = Utils.isBrightColor(color);
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       Window window = getWindow();
       //noinspection InlinedApi
@@ -839,12 +838,10 @@ public class MyExpenses extends LaunchActivity implements
       }
     }
     Utils.setBackgroundTintListOnFab(mFab,color);
-    mFab.setImageResource(Utils.isBrightColor(color) ? R.drawable.ic_add_gray : R.drawable.ic_add_white);
     mAccountId = newAccountId;
     setBalance();
     mDrawerList.setItemChecked(position, true);
     supportInvalidateOptionsMenu();
-
   }
 
   @Override

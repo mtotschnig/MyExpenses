@@ -1349,6 +1349,7 @@ public class Utils {
   @SuppressLint("NewApi")
   public static void setBackgroundTintListOnFab(FloatingActionButton fab, int color) {
     fab.setBackgroundTintList(ColorStateList.valueOf(color));
+    fab.invalidate();
   }
 
   public static int getFirstDayOfWeek(Locale locale) {

@@ -30,7 +30,6 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="drawerBackground">@color/drawerBackgroundDark</item>
         <item name="pageMargin">@drawable/pagermargin_white</item>
         <item name="browseIcon">@drawable/ic_action_browse_light</item>
-        <item name="groupIcon">@drawable/ic_action_group_light</item>
         <item name="drawerWidth">260sp</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="colorContainerOuter">25sp</item>
@@ -58,7 +57,6 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="drawerBackground">@color/drawerBackgroundLight</item>
         <item name="pageMargin">@drawable/pagermargin_black</item>
         <item name="browseIcon">@drawable/ic_action_browse_dark</item>
-        <item name="groupIcon">@drawable/ic_action_group</item>
         <item name="drawerWidth">260sp</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="colorContainerOuter">25sp</item>

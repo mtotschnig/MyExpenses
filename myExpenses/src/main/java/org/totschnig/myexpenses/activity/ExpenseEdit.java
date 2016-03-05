@@ -812,18 +812,10 @@ public class ExpenseEdit extends AmountActivity implements
       return true;
     } else if (!(mTransaction instanceof SplitPartCategory ||
         mTransaction instanceof SplitPartTransfer)) {
-      int iconRes,actionEnum;
-      if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
-        iconRes = android.R.drawable.ic_menu_save;
-        actionEnum = MenuItemCompat.SHOW_AS_ACTION_NEVER;
-      } else {
-        iconRes = R.drawable.save_and_new_icon;
-        actionEnum = MenuItemCompat.SHOW_AS_ACTION_ALWAYS;
-      }
       MenuItemCompat.setShowAsAction(
           menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)
-            .setIcon(iconRes),
-          actionEnum);
+            .setIcon(R.drawable.ic_action_save_new),
+          MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
     }
     if (mOperationType == MyExpenses.TYPE_TRANSFER) {
       MenuItemCompat.setShowAsAction(
