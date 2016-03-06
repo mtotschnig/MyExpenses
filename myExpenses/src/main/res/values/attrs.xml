@@ -26,6 +26,7 @@
     <attr name="colorContainerOuter" format="dimension" />
     <attr name="colorContainerInner" format="dimension" />
     <attr name="cardHighlightForeground" format="reference" />
+    <attr name="colorControlInverse" />
     <attr name="preferenceCategoryTextAppearance" format="reference" />
     <attr name="textSizeSmall" format="dimension" />
     <attr name="textSizeMedium" format="dimension" />
