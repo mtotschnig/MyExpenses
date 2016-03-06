@@ -32,7 +32,7 @@
 
     <item
         android:id="@id/UP_COMMAND"
-        android:icon="@drawable/ic_action_up"
+        android:icon="@drawable/ic_menu_up"
         android:title="@string/menu_up"
         app:showAsAction="always"/>
 
