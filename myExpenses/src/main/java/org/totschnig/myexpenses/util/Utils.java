@@ -25,8 +25,10 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -34,8 +36,10 @@ import android.os.Environment;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v4.provider.DocumentFile;
+import android.support.v7.widget.TintContextWrapper;
 import android.text.Html;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -43,6 +47,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseIntArray;
 import android.util.Xml;
+import android.view.ContextThemeWrapper;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
@@ -1428,5 +1433,18 @@ public class Utils {
         return Account.Grouping.YEAR;
     }
     return null;
+  }
+
+  public static Bitmap getTintedBitmap(int resId) {
+    Context wrappedContext = TintContextWrapper.wrap(
+        new ContextThemeWrapper(MyApplication.getInstance(), R.style.ThemeDark));
+    Drawable d = ContextCompat.getDrawable(wrappedContext, resId);
+    Bitmap b = Bitmap.createBitmap(d.getIntrinsicWidth(),
+        d.getIntrinsicHeight(),
+        Bitmap.Config.ARGB_8888);
+    Canvas c = new Canvas(b);
+    d.setBounds(0, 0, c.getWidth(), c.getHeight());
+    d.draw(c);
+    return b;
   }
 }

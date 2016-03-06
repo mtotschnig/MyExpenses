@@ -1,13 +1,5 @@
 package org.totschnig.myexpenses.widget;
 
-import static android.appwidget.AppWidgetManager.INVALID_APPWIDGET_ID;
-
-import java.util.Arrays;
-
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.model.Model;
-
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -18,18 +10,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.TintContextWrapper;
 import android.util.Log;
 import android.widget.RemoteViews;
+
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.model.Model;
+import org.totschnig.myexpenses.util.Utils;
+
+import java.util.Arrays;
+
+import static android.appwidget.AppWidgetManager.INVALID_APPWIDGET_ID;
 
 public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider {
 
@@ -58,9 +52,6 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
   protected static final String PREF_PREFIX_KEY = "prefix_";
 
   protected static final String TAG = AbstractWidget.class.getSimpleName();
-
-  protected static HandlerThread sWorkerThread;
-  protected static Handler sWorkerQueue;
 
   public static void updateWidgets(Context context, Class<? extends AbstractWidget<?>> provider) {
     Intent i = new Intent(context, provider);
@@ -231,20 +222,12 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
   }
 
   //http://stackoverflow.com/a/35633411/1199911
-  protected void setImageViewVectorDrawable(Context context, RemoteViews remoteViews,
+  protected void setImageViewVectorDrawable(RemoteViews remoteViews,
                                             int viewId, int resId) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       remoteViews.setImageViewResource(viewId, resId);
     } else {
-      Context wrappedContext = TintContextWrapper.wrap(context);
-      Drawable d = ContextCompat.getDrawable(wrappedContext, resId);
-      Bitmap b = Bitmap.createBitmap(d.getIntrinsicWidth(),
-          d.getIntrinsicHeight(),
-          Bitmap.Config.ARGB_8888);
-      Canvas c = new Canvas(b);
-      d.setBounds(0, 0, c.getWidth(), c.getHeight());
-      d.draw(c);
-      remoteViews.setImageViewBitmap(viewId, b);
+      remoteViews.setImageViewBitmap(viewId, Utils.getTintedBitmap(resId));
     }
   }
 }
