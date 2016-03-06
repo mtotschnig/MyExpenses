@@ -18,6 +18,8 @@ android {
         buildConfigField "String", "PLATTFORM", "\"Android\""
         buildConfigField "String", "BUILD_DATE", "\"" + getDate() + "\""
         testInstrumentationRunner "org.totschnig.myexpenses.MyTestRunner"
+
+        generatedDensities = []
     }
 
     /*signingConfigs {
@@ -51,7 +53,9 @@ android {
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
     }
-    //testBuildType "release"
+    aaptOptions {
+        additionalParameters "--no-version-vectors"
+    }
 }
 
 dependencies {

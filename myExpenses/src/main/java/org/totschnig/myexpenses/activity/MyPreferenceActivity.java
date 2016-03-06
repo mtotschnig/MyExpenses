@@ -180,7 +180,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
   protected Dialog onCreateDialog(int id) {
     switch (id) {
       case R.id.FTP_DIALOG:
-        return DialogUtils.sendWithFTPDialog((Activity) this);
+        return DialogUtils.sendWithFTPDialog(this);
       case R.id.MORE_INFO_DIALOG:
         LayoutInflater li = LayoutInflater.from(this);
         //noinspection InflateParams
@@ -829,7 +829,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       Intent intent = new Intent();
       intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
       intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(nameId));
-      intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(getActivity(), iconId));
+      intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, Utils.getTintedBitmap(iconId));
       intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
 
       if (Utils.isIntentReceiverAvailable(getActivity(), intent)) {

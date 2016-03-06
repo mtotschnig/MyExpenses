@@ -1201,7 +1201,7 @@ public class CategoryList extends SortableListFragment implements
   }
 
   private boolean hasChildren(int position) {
-    if (mGroupCursor != null) {
+    if (position != -1 && mGroupCursor != null) {
       mGroupCursor.moveToPosition(position);
       return mGroupCursor.getInt(mGroupCursor.getColumnIndex(KEY_CHILD_COUNT)) > 0;
     }

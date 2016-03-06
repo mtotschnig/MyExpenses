@@ -19,7 +19,7 @@
     <item
         android:id="@id/SEARCH_COMMAND"
         android:checkable="true"
-        android:icon="@android:drawable/ic_menu_search"
+        android:icon="@drawable/ic_menu_search"
         android:orderInCategory="10"
         android:title="@string/menu_search"
         app:showAsAction="always">
@@ -54,21 +54,21 @@
     </item>
     <item
         android:id="@id/MANAGE_PLANS_COMMAND"
-        android:icon="@android:drawable/ic_menu_set_as"
+        android:icon="@drawable/ic_menu_template"
         android:orderInCategory="10"
         android:title="@string/menu_manage_plans"
         app:showAsAction="ifRoom">
     </item>
     <item
         android:id="@id/DISTRIBUTION_COMMAND"
-        android:icon="@android:drawable/ic_menu_today"
+        android:icon="@drawable/ic_menu_chart"
         android:orderInCategory="10"
         android:title="@string/menu_distribution"
         app:showAsAction="ifRoom">
     </item>
     <item
         android:id="@id/RESET_COMMAND"
-        android:icon="@android:drawable/ic_menu_revert"
+        android:icon="@drawable/ic_menu_download"
         android:orderInCategory="10"
         android:title="@string/menu_reset"
         app:showAsAction="ifRoom">
@@ -82,7 +82,7 @@
     </item>
     <item
         android:id="@id/PRINT_COMMAND"
-        android:icon="@drawable/print_icon"
+        android:icon="@drawable/ic_menu_print"
         android:orderInCategory="30"
         android:title="@string/menu_print"
         app:showAsAction="never"/>
@@ -95,7 +95,7 @@
     <item
         android:id="@id/SETTINGS_COMMAND"
         android:orderInCategory="30"
-        android:icon="@android:drawable/ic_menu_preferences"
+        app:showAsAction="never"
         android:title="@string/menu_settings">
     </item>
 </menu>

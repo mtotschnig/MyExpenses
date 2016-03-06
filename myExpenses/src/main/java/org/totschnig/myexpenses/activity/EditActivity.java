@@ -82,7 +82,7 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements
 
   protected Toolbar setupToolbar() {
     Toolbar toolbar = super.setupToolbar(true);
-    getSupportActionBar().setHomeAsUpIndicator(android.R.drawable.ic_menu_close_clear_cancel);
+    getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_close_clear_cancel);
     return toolbar;
   }
 

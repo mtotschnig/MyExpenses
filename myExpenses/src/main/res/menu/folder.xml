@@ -20,19 +20,19 @@
       tools:ignore="AlwaysShowAction">
     <item
         android:id="@id/CREATE_COMMAND"
-        android:icon="@android:drawable/ic_menu_add"
+        android:icon="@drawable/ic_menu_add"
         android:title="@string/menu_create_folder"
         app:showAsAction="always"/>
 
     <item
         android:id="@id/SELECT_COMMAND"
-        android:icon="@drawable/ic_menu_goto"
+        android:icon="@drawable/ic_menu_done"
         android:title="@string/menu_select_folder"
         app:showAsAction="always"/>
 
     <item
         android:id="@id/UP_COMMAND"
-        android:icon="@drawable/ic_action_up"
+        android:icon="@drawable/ic_menu_up"
         android:title="@string/menu_up"
         app:showAsAction="always"/>
 

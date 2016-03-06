@@ -20,7 +20,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <include layout="@layout/toolbar_expense_edit"/>
 
@@ -233,7 +234,7 @@
                         android:layout_gravity="center"
                         android:onClick="startMediaChooser"
                         android:focusable="true"
-                        android:src="@android:drawable/ic_menu_camera"
+                        app:srcCompat="@drawable/ic_menu_camera"
                         android:contentDescription="@string/contrib_feature_attach_picture_label"/>
 
                     <include layout="@layout/picture_view"/>

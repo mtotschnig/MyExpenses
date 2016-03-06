@@ -15,35 +15,36 @@
 
 package org.totschnig.myexpenses.dialog;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ExpenseEdit;
-import org.totschnig.myexpenses.util.Utils;
-
-import android.support.v7.app.AlertDialog;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.content.res.Resources.NotFoundException;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.text.Html.ImageGetter;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.ImageView;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
+
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ExpenseEdit;
+import org.totschnig.myexpenses.util.Utils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * A Dialog Fragment that displays help information. The content is constructed from resources
@@ -55,56 +56,48 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
 
   public static final String KEY_VARIANT = "variant";
   public static final String KEY_CONTEXT = "context";
-  public static final HashMap<String, Integer> iconMap = new HashMap<String, Integer>();
+  public static final HashMap<String, Integer> iconMap = new HashMap<>();
 
   static {
-    iconMap.put("create_transaction", android.R.drawable.ic_menu_add);
-    iconMap.put("edit", android.R.drawable.ic_menu_edit);
+    iconMap.put("edit", R.drawable.ic_menu_edit);
     iconMap.put("back", R.drawable.ic_menu_back);
     iconMap.put("balance", R.drawable.ic_action_balance);
-    iconMap.put("cancel_plan_instance", android.R.drawable.ic_menu_close_clear_cancel);
-    iconMap.put("categories_setup_default", android.R.drawable.ic_menu_upload);
+    iconMap.put("cancel_plan_instance", R.drawable.ic_menu_close_clear_cancel);
+    iconMap.put("categories_setup_default", R.drawable.ic_menu_add_list);
     iconMap.put("clone_transaction", R.drawable.ic_menu_copy);
-    iconMap.put("create_instance_edit", R.drawable.create_instance_edit_icon);
-    iconMap.put("create_instance_save", R.drawable.create_instance_save_icon);
-    iconMap.put("create_account", android.R.drawable.ic_menu_add);
-    iconMap.put("create_main_cat", android.R.drawable.ic_menu_add);
-    iconMap.put("create_method", android.R.drawable.ic_menu_add);
-    iconMap.put("create_party", android.R.drawable.ic_menu_add);
+    iconMap.put("create_instance_edit", R.drawable.ic_action_apply_edit);
+    iconMap.put("create_instance_save", R.drawable.ic_action_apply_save);
+    iconMap.put("create_account", R.drawable.ic_menu_add);
+    iconMap.put("create_main_cat", R.drawable.ic_menu_add);
+    iconMap.put("create_method", R.drawable.ic_menu_add);
+    iconMap.put("create_party", R.drawable.ic_menu_add);
     iconMap.put("create_split", R.drawable.ic_menu_split);
-    iconMap.put("create_split_part_category", android.R.drawable.ic_menu_add);
-    iconMap.put("create_split_part_transfer", R.drawable.ic_menu_forward);
-    iconMap.put("create_sub_cat", android.R.drawable.ic_menu_add);
-    iconMap.put("create_template_for_transfer", R.drawable.ic_menu_forward);
-    iconMap.put("create_template_for_transaction", android.R.drawable.ic_menu_add);
-    iconMap.put("create_transaction", android.R.drawable.ic_menu_add);
-    iconMap.put("create_transfer", R.drawable.ic_menu_forward);
-    iconMap.put("delete", android.R.drawable.ic_menu_delete);
-    iconMap.put("edit", android.R.drawable.ic_menu_edit);
-    iconMap.put("distribution", android.R.drawable.ic_menu_today);
-    iconMap.put("edit_plan_instance", android.R.drawable.ic_menu_edit);
+    iconMap.put("create_sub_cat", R.drawable.ic_menu_add);
+    iconMap.put("delete", R.drawable.ic_menu_delete);
+    iconMap.put("edit", R.drawable.ic_menu_edit);
+    iconMap.put("distribution", R.drawable.ic_menu_chart);
+    iconMap.put("edit_plan_instance", R.drawable.ic_menu_edit);
     iconMap.put("forward", R.drawable.ic_menu_forward);
-    iconMap.put("invert_transfer", R.drawable.ic_menu_refresh);
-    iconMap.put("manage_plans", android.R.drawable.ic_menu_set_as);
-    iconMap.put("reset", android.R.drawable.ic_menu_revert);
-    iconMap.put("reset_plan_instance", android.R.drawable.ic_menu_revert);
-    iconMap.put("save_and_new", Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1 ?
-        android.R.drawable.ic_menu_save : R.drawable.save_and_new_icon);
-    iconMap.put("save", android.R.drawable.ic_menu_save);
-    iconMap.put("search", android.R.drawable.ic_menu_search);
-    iconMap.put("select_category", R.drawable.ic_menu_goto);
-    iconMap.put("set_sort_key", android.R.drawable.ic_menu_sort_by_size);
-    iconMap.put("print", R.drawable.print_icon);
-    iconMap.put("create_template_from_transaction", R.drawable.create_template_from_transaction_icon);
-    iconMap.put("create_folder", android.R.drawable.ic_menu_add);
-    iconMap.put("select_folder", R.drawable.ic_menu_goto);
-    iconMap.put("up", R.drawable.ic_action_up);
+    iconMap.put("invert_transfer", R.drawable.ic_menu_move);
+    iconMap.put("manage_plans", R.drawable.ic_menu_template);
+    iconMap.put("reset", R.drawable.ic_menu_download);
+    iconMap.put("reset_plan_instance", R.drawable.ic_menu_revert);
+    iconMap.put("save_and_new", R.drawable.ic_action_save_new);
+    iconMap.put("save", R.drawable.ic_menu_save);
+    iconMap.put("search", R.drawable.ic_menu_search);
+    iconMap.put("select_category", R.drawable.ic_menu_done);
+    iconMap.put("print", R.drawable.ic_menu_print);
+    iconMap.put("create_template_from_transaction", R.drawable.ic_action_template_add);
+    iconMap.put("create_folder", R.drawable.ic_menu_add);
+    iconMap.put("select_folder", R.drawable.ic_menu_done);
+    iconMap.put("up", R.drawable.ic_menu_up);
     iconMap.put("categories_export", R.drawable.ic_menu_download);
     iconMap.put("split_transaction", R.drawable.ic_menu_split);
-    iconMap.put("move",R.drawable.ic_menu_forward);
-    iconMap.put("sort",android.R.drawable.ic_menu_sort_by_size);
+    iconMap.put("move",R.drawable.ic_menu_move);
+    iconMap.put("sort",R.drawable.ic_menu_sort);
     iconMap.put("sort_up",R.drawable.ic_menu_up);
     iconMap.put("sort_down",R.drawable.ic_menu_down);
+    iconMap.put("grouping",R.drawable.ic_action_group);
   }
 
   private LayoutInflater layoutInflater;
@@ -112,7 +105,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
   private String variant;
   private LinearLayout linearLayout;
 
-  public static final HelpDialogFragment newInstance(String context, Enum<?> variant) {
+  public static HelpDialogFragment newInstance(String context, Enum<?> variant) {
     HelpDialogFragment dialogFragment = new HelpDialogFragment();
     Bundle args = new Bundle();
     args.putString(KEY_CONTEXT, context);
@@ -122,13 +115,9 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     return dialogFragment;
   }
 
+  @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    Resources.Theme theme = getActivity().getTheme();
-    TypedValue value = new TypedValue();
-    theme.resolveAttribute(R.attr.groupIcon, value, true);
-    iconMap.put("grouping",value.resourceId);
-
     FragmentActivity ctx = getActivity();
     final Resources res = getResources();
     String title;
@@ -137,7 +126,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     context = args.getString(KEY_CONTEXT);
     variant = args.getString(KEY_VARIANT);
     layoutInflater = LayoutInflater.from(ctx);
-    //noinspection InflateParams
+    @SuppressLint("InflateParams")
     View view = layoutInflater.inflate(R.layout.help_dialog, null);
     linearLayout = (LinearLayout) view.findViewById(R.id.help);
 
@@ -170,7 +159,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
       // Form entries
       resId = variant != null ? resolveArray(context + "_" + variant + "_formfields") :
           resolveArray(context + "_formfields");
-      ArrayList<String> menuItems = new ArrayList<String>();
+      ArrayList<String> menuItems = new ArrayList<>();
       if (resId != 0) {
         menuItems.addAll(Collections2.filter(
             Arrays.asList(res.getStringArray(resId)),
@@ -247,13 +236,13 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
   }
 
   /**
-   * @param menuItems
+   * @param menuItems list of menuitems to be displayed
+   * @param prefix "form", "menu" or "cab"
+   * @param offset items will be added with this offset at the bottom
    * @throws NotFoundException
    */
-
   protected void handleMenuItems(ArrayList<String> menuItems, String prefix, int offset)
       throws NotFoundException {
-    final Resources res = getResources();
     String resIdString;
     int resId;
     for (String item : menuItems) {
@@ -279,7 +268,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
         resId = iconMap.get(item);
         final ImageView icon = (ImageView) row.findViewById(R.id.list_image);
         icon.setVisibility(View.VISIBLE);
-        icon.setImageDrawable(res.getDrawable(resId));
+        icon.setImageResource(resId);
         icon.setContentDescription(title);
       } else {
         //for the moment we assume that menu entries without icon are checkable
@@ -335,11 +324,9 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
   }
 
   /**
-   * @param resIdString
-   * @return
    * @throws NotFoundException if there is no ressource for the given String. On the contrary, if the
-   *                           String does exist in an alternate locale, but not in the default one, the resulting exception is caught
-   *                           and empty String is returned.
+   *                           String does exist in an alternate locale, but not in the default one,
+   *                           the resulting exception is caught and empty String is returned.
    */
   private String resolveStringOrThrowIf0(String resIdString) throws NotFoundException {
     int resId = resolveString(resIdString);
@@ -366,7 +353,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
   }
 
   private int resolveSystem(String resIdString, String defType) {
-    return resolve(getResources().getSystem(), resIdString, defType, "android");
+    return resolve(Resources.getSystem(), resIdString, defType, "android");
   }
 
   private int resolve(Resources resources, String resIdString, String defType, String packageName) {
@@ -379,7 +366,6 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
 
   @Override
   public Drawable getDrawable(String name) {
-    Drawable d = null;
     int resId;
     Resources.Theme theme = getActivity().getTheme();
     try {
@@ -396,12 +382,16 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
           resId = resolve(name, "drawable");
         }
       }
-      d = getResources().getDrawable(resId);
+      @SuppressWarnings("deprecation")
+      Drawable d = getResources().getDrawable(resId);
+      if (d != null) {
+        d.setBounds(0, 0, d.getIntrinsicWidth() / 2,
+            d.getIntrinsicHeight() / 2);
+      }
+      return d;
     } catch (NotFoundException e) {
       return null;
     }
-    d.setBounds(0, 0, d.getIntrinsicWidth() / 2,
-        d.getIntrinsicHeight() / 2);
-    return d;
+
   }
 }

@@ -19,7 +19,7 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@id/SETUP_CATEGORIES_DEFAULT_COMMAND"
-        android:icon="@android:drawable/ic_menu_upload"
+        android:icon="@drawable/ic_menu_add_list"
         android:title="@string/menu_categories_setup_default"
         app:showAsAction="never"/>
     <item

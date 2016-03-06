@@ -20,7 +20,7 @@
     <group android:id="@+id/MenuSingle">
         <item
             android:id="@id/CREATE_TEMPLATE_COMMAND"
-            android:icon="@drawable/create_template_from_transaction_icon"
+            android:icon="@drawable/ic_action_template_add"
             android:showAsAction="always"
             android:title="@string/menu_create_template_from_transaction">
         </item>

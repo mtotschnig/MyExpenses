@@ -14,11 +14,12 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
   <item
     android:id="@id/HELP_COMMAND"
     android:orderInCategory="40"
-    android:icon="@android:drawable/ic_menu_help"
+    app:showAsAction="never"
     android:title="@string/menu_help">
   </item>
 </menu>

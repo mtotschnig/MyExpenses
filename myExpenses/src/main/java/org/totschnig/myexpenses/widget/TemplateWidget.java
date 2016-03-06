@@ -50,7 +50,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 
 public class TemplateWidget extends AbstractWidget<Template> {
-  
+
   private static final String WIDGET_INSTANCE_SAVE_ACTION = "org.totschnig.myexpenses.INSTANCE_SAVE";
 
   @Override
@@ -69,13 +69,13 @@ public class TemplateWidget extends AbstractWidget<Template> {
     return MyApplication.PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET;
   }
 
-  public static final Uri[] OBSERVED_URIS = new Uri[] {
-        TransactionProvider.TEMPLATES_URI,
-        TransactionProvider.ACCOUNTS_URI //if color changes
+  public static final Uri[] OBSERVED_URIS = new Uri[]{
+      TransactionProvider.TEMPLATES_URI,
+      TransactionProvider.ACCOUNTS_URI //if color changes
   };
 
   private void addButtonsClick(Context context, RemoteViews updateViews,
-      int widgetId, long templateId) {
+                               int widgetId, long templateId) {
     Uri widgetUri = ContentUris.withAppendedId(getContentUri(), widgetId);
     Intent intent = new Intent(WIDGET_INSTANCE_SAVE_ACTION, widgetUri, context,
         TemplateWidget.class);
@@ -84,7 +84,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
     PendingIntent pendingIntent = PendingIntent.getBroadcast(
         context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     updateViews.setOnClickPendingIntent(R.id.command1, pendingIntent);
-    updateViews.setImageViewResource(R.id.command1, R.drawable.create_instance_save_icon);
+    setImageViewVectorDrawable(updateViews, R.id.command1, R.drawable.ic_action_apply_save);
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
       updateViews.setContentDescription(R.id.command1,
           context.getString(R.string.menu_create_instance_save));
@@ -101,7 +101,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
         intent,
         PendingIntent.FLAG_UPDATE_CURRENT);
     updateViews.setOnClickPendingIntent(R.id.command2, pendingIntent);
-    updateViews.setImageViewResource(R.id.command2, R.drawable.create_instance_edit_icon);
+    setImageViewVectorDrawable(updateViews, R.id.command2, R.drawable.ic_action_apply_edit);
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
       updateViews.setContentDescription(R.id.command2,
           context.getString(R.string.menu_create_instance_edit));
@@ -129,16 +129,16 @@ public class TemplateWidget extends AbstractWidget<Template> {
 
   @Override
   RemoteViews updateWidgetFrom(Context context, int widgetId, int layoutId,
-      Template t) {
+                               Template t) {
     Log.d("MyExpensesWidget", "updating template " + t.getId());
     RemoteViews updateViews = new RemoteViews(context.getPackageName(),
         layoutId);
     updateViews.setTextViewText(R.id.line1,
-        t.title + " : "+Utils.formatCurrency(t.getAmount()));
+        t.title + " : " + Utils.formatCurrency(t.getAmount()));
     String commentSeparator = " / ";
     SpannableStringBuilder description = new SpannableStringBuilder(t.isTransfer ?
         ((t.getAmount().getAmountMinor() < 0) ? "=> " : "<= ") + t.label :
-         t.label);
+        t.label);
     if (!TextUtils.isEmpty(t.comment)) {
       if (description.length() != 0) {
         description.append(commentSeparator);
@@ -164,16 +164,17 @@ public class TemplateWidget extends AbstractWidget<Template> {
     addTapOnClick(context, updateViews);
     addButtonsClick(context, updateViews, widgetId, t.getId());
     saveForWidget(context, widgetId, t.getId());
-    int multipleTemplatesVisible = 
+    int multipleTemplatesVisible =
         Transaction.count(Template.CONTENT_URI, KEY_PLANID + " is null", null) < 2 ?
-            View.GONE : 
+            View.GONE :
             View.VISIBLE;
     updateViews.setViewVisibility(R.id.navigation, multipleTemplatesVisible);
     return updateViews;
   }
+
   @Override
   public void onReceive(Context context, Intent intent) {
-    Log.d("TemplateWidget", "onReceive intent "+intent);
+    Log.d("TemplateWidget", "onReceive intent " + intent);
     String action = intent.getAction();
     if (WIDGET_INSTANCE_SAVE_ACTION.equals(action)) {
       if (MyApplication.getInstance().shouldLock(null)) {
@@ -202,6 +203,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
       super.onReceive(context, intent);
     }
   }
+
   @Override
   protected RemoteViews noDataUpdate(Context context) {
     RemoteViews updateViews = super.noDataUpdate(context);
@@ -209,6 +211,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
     addTapOnClick(context, updateViews);
     return updateViews;
   }
+
   @Override
   public void onEnabled(Context context) {
     Log.d("TemplateWidget", "onEnabled");
@@ -218,20 +221,22 @@ public class TemplateWidget extends AbstractWidget<Template> {
     }
     super.onEnabled(context);
   }
+
   public static void showContribMessage(Context context) {
     int usagesLeft = ContribFeature.TEMPLATE_WIDGET.usagesLeft();
     String message = context.getString(
         R.string.dialog_contrib_premium_feature,
         context.getString(R.string.contrib_feature_template_widget_label)) +
-        ContribFeature.TEMPLATE_WIDGET.buildUsagesString(context,usagesLeft);
-    Toast.makeText(context, message,Toast.LENGTH_LONG).show();
+        ContribFeature.TEMPLATE_WIDGET.buildUsagesString(context, usagesLeft);
+    Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     if (usagesLeft == 0) {
       updateWidgets(context, TemplateWidget.class);
     }
   }
+
   @Override
   protected void updateWidgets(Context context, AppWidgetManager manager,
-      int[] appWidgetIds, String action) {
+                               int[] appWidgetIds, String action) {
     Log.d("DEBUG", "updating TemplateWidget");
     if (!isProtected() && !ContribFeature.TEMPLATE_WIDGET.hasAccess()) {
       Log.d("TemplateWidget", "not contrib enabled");
@@ -245,7 +250,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
                 R.string.dialog_contrib_premium_feature,
                 context.getString(R.string.contrib_feature_template_widget_label)) +
                 context.getString(R.string.dialog_contrib_no_usages_left);
-            RemoteViews updateViews = errorUpdate(context,message);
+            RemoteViews updateViews = errorUpdate(context, message);
             Intent intent = new Intent(context, ContribInfoDialogActivity.class);
             updateViews.setOnClickPendingIntent(R.id.object_info,
                 PendingIntent.getActivity(context, 0, intent, 0));
