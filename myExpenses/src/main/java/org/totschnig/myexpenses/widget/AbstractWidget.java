@@ -18,10 +18,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.TintContextWrapper;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -30,112 +36,120 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
   public AbstractWidget() {
     super();
   }
-  
+
   abstract String getPrefName();
+
   abstract MyApplication.PrefKey getProtectionKey();
+
   abstract Uri getContentUri();
+
   abstract T getObject(Cursor c);
+
   abstract Cursor getCursor(Context c);
+
   abstract RemoteViews updateWidgetFrom(Context context,
-      int widgetId, int layoutId, T o);
-  
+                                        int widgetId, int layoutId, T o);
+
   protected static final String WIDGET_NEXT_ACTION = "org.totschnig.myexpenses.UPDATE_WIDGET_NEXT";
   protected static final String WIDGET_PREVIOUS_ACTION = "org.totschnig.myexpenses.UPDATE_WIDGET_PREVIOUS";
   public static final String EXTRA_START_FROM_WIDGET = "startFromWidget";
-  public static final String EXTRA_START_FROM_WIDGET_DATA_ENTRY = "startFromWidgetDataEntry"; 
+  public static final String EXTRA_START_FROM_WIDGET_DATA_ENTRY = "startFromWidgetDataEntry";
   protected static final String WIDGET_ID = "widgetId";
   protected static final String PREF_PREFIX_KEY = "prefix_";
-  
+
   protected static final String TAG = AbstractWidget.class.getSimpleName();
-  
+
   protected static HandlerThread sWorkerThread;
   protected static Handler sWorkerQueue;
 
-  public static void updateWidgets(Context context,Class<? extends AbstractWidget<?>> provider) {
+  public static void updateWidgets(Context context, Class<? extends AbstractWidget<?>> provider) {
     Intent i = new Intent(context, provider);
     i.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
     int[] widgetIds = AppWidgetManager.getInstance(context).getAppWidgetIds(new ComponentName(context, provider));
     i.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, widgetIds);
     context.sendBroadcast(i);
   }
+
   protected long loadForWidget(Context context, int widgetId) {
     SharedPreferences prefs = context.getSharedPreferences(getPrefName(), 0);
     return prefs.getLong(PREF_PREFIX_KEY + widgetId, -1);
   }
+
   protected void saveForWidget(Context context, int widgetId,
-      long objectId) {
+                               long objectId) {
     SharedPreferences.Editor prefs = context
         .getSharedPreferences(getPrefName(), 0).edit();
     prefs.putLong(PREF_PREFIX_KEY + widgetId, objectId);
     prefs.commit();
   }
+
   protected boolean isProtected() {
     return MyApplication.getInstance().isProtected() &&
         !getProtectionKey().getBoolean(false);
   }
 
   protected void updateWidgets(Context context, AppWidgetManager manager, int[] appWidgetIds,
-      String action) {
+                               String action) {
     Log.d(TAG, "updateWidgets " + Arrays.toString(appWidgetIds) + " -> " + (action != null ? action : ""));
     boolean isProtected = isProtected();
     for (int id : appWidgetIds) {
-        AppWidgetProviderInfo appWidgetInfo = manager.getAppWidgetInfo(id);
-        if (appWidgetInfo != null) {
-          RemoteViews remoteViews;
-          if (isProtected) {
-            remoteViews = protectedUpdate(context);
-          } else {
-            int layoutId = appWidgetInfo.initialLayout;
-            long objectId = loadForWidget(context, id);
-            Log.d(TAG, "loaded object id " + objectId);
-            remoteViews = buildUpdate(context, id, layoutId, objectId, action);
-          }
-          manager.updateAppWidget(id, remoteViews);
+      AppWidgetProviderInfo appWidgetInfo = manager.getAppWidgetInfo(id);
+      if (appWidgetInfo != null) {
+        RemoteViews remoteViews;
+        if (isProtected) {
+          remoteViews = protectedUpdate(context);
+        } else {
+          int layoutId = appWidgetInfo.initialLayout;
+          long objectId = loadForWidget(context, id);
+          Log.d(TAG, "loaded object id " + objectId);
+          remoteViews = buildUpdate(context, id, layoutId, objectId, action);
+        }
+        manager.updateAppWidget(id, remoteViews);
       }
     }
   }
 
   @Override
   public void onReceive(Context context, Intent intent) {
-      Log.d(TAG, "onReceive intent "+intent);
-      String action = intent.getAction();
-      if (WIDGET_NEXT_ACTION.equals(action) || WIDGET_PREVIOUS_ACTION.equals(action)) {
-          int widgetId = intent.getIntExtra(WIDGET_ID, INVALID_APPWIDGET_ID);
-          if (widgetId != INVALID_APPWIDGET_ID) {
-              AppWidgetManager manager = AppWidgetManager.getInstance(context);
-              updateWidgets(context, manager, new int[]{widgetId}, action);
-          }
-      } else {
-          super.onReceive(context, intent);
+    Log.d(TAG, "onReceive intent " + intent);
+    String action = intent.getAction();
+    if (WIDGET_NEXT_ACTION.equals(action) || WIDGET_PREVIOUS_ACTION.equals(action)) {
+      int widgetId = intent.getIntExtra(WIDGET_ID, INVALID_APPWIDGET_ID);
+      if (widgetId != INVALID_APPWIDGET_ID) {
+        AppWidgetManager manager = AppWidgetManager.getInstance(context);
+        updateWidgets(context, manager, new int[]{widgetId}, action);
       }
+    } else {
+      super.onReceive(context, intent);
+    }
   }
 
   @Override
   public void onUpdate(Context context, AppWidgetManager manager, int[] appWidgetIds) {
-      updateWidgets(context, manager, appWidgetIds, AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+    updateWidgets(context, manager, appWidgetIds, AppWidgetManager.ACTION_APPWIDGET_UPDATE);
   }
 
 
   protected RemoteViews errorUpdate(Context context, String message) {
-      RemoteViews updateViews = new RemoteViews(context.getPackageName(), R.layout.widget_no_data);
-      updateViews.setTextViewText(R.id.object_info, message);
-      updateViews.setTextColor(R.id.object_info, Color.RED);
-      return updateViews;
+    RemoteViews updateViews = new RemoteViews(context.getPackageName(), R.layout.widget_no_data);
+    updateViews.setTextViewText(R.id.object_info, message);
+    updateViews.setTextColor(R.id.object_info, Color.RED);
+    return updateViews;
   }
-  
+
   protected RemoteViews protectedUpdate(Context context) {
     String message = context.getString(R.string.warning_password_protected) + " " +
         context.getString(R.string.warning_widget_disabled);
-    return errorUpdate(context,message);
+    return errorUpdate(context, message);
   }
 
-  protected  RemoteViews noDataUpdate(Context context) {
-      return new RemoteViews(context.getPackageName(), R.layout.widget_no_data);
+  protected RemoteViews noDataUpdate(Context context) {
+    return new RemoteViews(context.getPackageName(), R.layout.widget_no_data);
   }
 
   RemoteViews buildUpdate(Context context,
-      int widgetId, int layoutId, long objectId, String action) {
-    Log.d(TAG,action);
+                          int widgetId, int layoutId, long objectId, String action) {
+    Log.d(TAG, action);
     Cursor c = getCursor(context);
     T o;
     try {
@@ -190,8 +204,9 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
       c.close();
     }
   }
+
   protected void addScrollOnClick(Context context,
-      RemoteViews updateViews, int widgetId) {
+                                  RemoteViews updateViews, int widgetId) {
     Uri widgetUri = ContentUris.withAppendedId(getContentUri(), widgetId);
     Intent intent = new Intent(WIDGET_NEXT_ACTION, widgetUri, context,
         getClass());
@@ -211,7 +226,25 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
 
   protected void setBackgroundColorSave(RemoteViews updateViews, int res, int color) {
 //    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
-      updateViews.setInt(res,"setBackgroundColor",color);
+    updateViews.setInt(res, "setBackgroundColor", color);
 //    }
+  }
+
+  //http://stackoverflow.com/a/35633411/1199911
+  protected void setImageViewVectorDrawable(Context context, RemoteViews remoteViews,
+                                            int viewId, int resId) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      remoteViews.setImageViewResource(viewId, resId);
+    } else {
+      Context wrappedContext = TintContextWrapper.wrap(context);
+      Drawable d = ContextCompat.getDrawable(wrappedContext, resId);
+      Bitmap b = Bitmap.createBitmap(d.getIntrinsicWidth(),
+          d.getIntrinsicHeight(),
+          Bitmap.Config.ARGB_8888);
+      Canvas c = new Canvas(b);
+      d.setBounds(0, 0, c.getWidth(), c.getHeight());
+      d.draw(c);
+      remoteViews.setImageViewBitmap(viewId, b);
+    }
   }
 }
