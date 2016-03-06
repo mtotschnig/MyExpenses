@@ -64,7 +64,7 @@ dependencies {
     compile 'com.android.support:cardview-v7:' + project.androidSupportLibraryVersion
     compile 'com.android.support:design:' + project.androidSupportLibraryVersion
     compile 'com.android.support:gridlayout-v7:' + project.androidSupportLibraryVersion
-    compile 'com.android.support:preference-v14:' + project.androidSupportLibraryVersion
+    compile 'com.android.support:preference-v14:' + "23.1.1"
     compile 'com.itextpdf:itextpdf:5.5.8'
     compile group: 'com.google.guava', name: 'guava', version: '18.0'
     compile 'org.apache.commons:commons-lang3:3.4'
