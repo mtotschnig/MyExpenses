@@ -297,10 +297,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
         .setView(view)
         .setPositiveButton(android.R.string.ok, this)
         .setNegativeButton(android.R.string.cancel, null);
-    if (Build.VERSION.SDK_INT < 11)
-      builder.setIcon(android.R.drawable.ic_dialog_alert);
-    else
-      builder.setIconAttribute(android.R.attr.alertDialogIcon);
+    builder.setIcon(R.drawable.ic_warning);
 
     mDialog = builder.create();
     return mDialog;

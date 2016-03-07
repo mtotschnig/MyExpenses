@@ -45,6 +45,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall</item>
         <item name="colorControlNormal">@android:color/white</item>
         <item name="colorControlInverse">@android:color/black</item>
+        <item name="alertDialogTheme">@style/MyAlertDialogThemeDark</item>
     </style>
 
     <style name="ThemeDark" parent="@style/ThemeDarkBase">
@@ -73,6 +74,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall</item>
         <item name="colorControlNormal">@android:color/black</item>
         <item name="colorControlInverse">@android:color/white</item>
+        <item name="alertDialogTheme">@style/MyAlertDialogThemeLight</item>
     </style>
     <style name="ThemeLight" parent="@style/ThemeLightBase">
     </style>
@@ -158,6 +160,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall</item>
         <item name="colorControlNormal">@android:color/white</item>
         <item name="colorControlInverse">@android:color/black</item>
+        <item name="alertDialogTheme">@style/MyAlertDialogThemeDark</item>
     </style>
 
     <style name="ThemeDark.EditDialog" parent="ThemeDark.EditDialogBase" />
@@ -177,6 +180,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall</item>
         <item name="colorControlNormal">@android:color/black</item>
         <item name="colorControlInverse">@android:color/white</item>
+        <item name="alertDialogTheme">@style/MyAlertDialogThemeLight</item>
     </style>
 
     <style name="ThemeLight.EditDialog" parent="ThemeLight.EditDialogBase" />
@@ -230,6 +234,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge</item>
         <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium</item>
         <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall</item>
+        <item name="alertDialogTheme">@style/MyAlertDialogThemeLight</item>
     </style>
     <style name="ThemeDark.Translucent">
         <item name="android:windowNoTitle">true</item>
@@ -244,6 +249,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge</item>
         <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium</item>
         <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall</item>
+        <item name="alertDialogTheme">@style/MyAlertDialogThemeDark</item>
     </style>
 
     <style name="ThemeLight.Translucent.s1">

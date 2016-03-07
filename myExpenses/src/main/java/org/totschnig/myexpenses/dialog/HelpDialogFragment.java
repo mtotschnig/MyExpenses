@@ -221,7 +221,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     }
     return new AlertDialog.Builder(ctx)
         .setTitle(title)
-        .setIcon(android.R.drawable.ic_menu_help)
+        .setIcon(R.drawable.ic_menu_help)
         .setView(view)
         .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
           @Override

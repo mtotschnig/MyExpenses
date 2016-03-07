@@ -15,11 +15,12 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            tools:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            tools:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -35,18 +36,18 @@
             android:stretchColumns="*">
 
             <TextView
-                android:visibility="gone"
-                tools:visibility="visible"
                 android:id="@+id/with_filter"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/dialog_export_applied_to_filter"/>
+                android:text="@string/dialog_export_applied_to_filter"
+                android:visibility="gone"
+                tools:visibility="visible"/>
 
             <TableRow android:gravity="center_vertical">
 
                 <TextView
-                    style="@style/dialog_text"
                     android:id="@+id/file_name_label"
+                    style="@style/dialog_text"
                     android:layout_width="0dip"
                     android:layout_weight="3"
                     android:gravity="center_vertical"
@@ -58,6 +59,7 @@
                     android:layout_weight="5"
                     android:inputType="text"/>
             </TableRow>
+
             <TableRow android:gravity="center_vertical">
 
                 <TextView
@@ -75,18 +77,18 @@
 
                     <RadioButton
                         android:id="@+id/qif"
-                        android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:checked="true"
                         android:text="QIF"
                         tools:ignore="HardcodedText"/>
 
                     <RadioButton
                         android:id="@+id/csv"
-                        android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:text="CSV"
                         tools:ignore="HardcodedText"/>
                 </RadioGroup>
@@ -104,22 +106,24 @@
                 <LinearLayout
                     android:layout_width="0dip"
                     android:layout_weight="5">
+
                     <EditText
                         android:id="@+id/date_format"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
                         android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:inputType="text"
                         tools:ignore="TextFields"/>
+
                     <ImageView
                         android:id="@+id/date_format_help"
                         style="?actionButtonStyle"
-                        android:scaleType="centerCrop"
-                        android:layout_gravity="center"
-                        android:src="@android:drawable/ic_menu_help"
-                        android:layout_height="24dp"
                         android:layout_width="24dp"
-                        android:contentDescription="@string/menu_help"/>
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/menu_help"
+                        android:scaleType="centerCrop"
+                        app:srcCompat="@drawable/ic_menu_help"/>
                 </LinearLayout>
             </TableRow>
 
@@ -140,18 +144,18 @@
 
                     <RadioButton
                         android:id="@+id/dot"
-                        android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:checked="true"
                         android:text="."
                         tools:ignore="HardcodedText"/>
 
                     <RadioButton
                         android:id="@+id/comma"
-                        android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:text=","
                         tools:ignore="HardcodedText"/>
                 </RadioGroup>
@@ -192,15 +196,15 @@
             tools:visibility="visible">
 
             <RadioButton
+                android:id="@+id/create_helper"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/create_helper"
                 android:text="@string/export_handle_deleted_create_helper"/>
 
             <RadioButton
+                android:id="@+id/update_balance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/update_balance"
                 android:text="@string/export_handle_deleted_update_balance"/>
         </RadioGroup>
 
@@ -210,8 +214,8 @@
             android:layout_height="wrap_content"
             android:checked="false"
             android:text="@string/dialog_export_not_yet_exported"
-            tools:visibility="visible"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            tools:visibility="visible"/>
 
         <TextView
             android:id="@+id/warning_reset"
@@ -219,8 +223,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/warning_reset_account"
-            tools:visibility="visible"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            tools:visibility="visible"/>
     </LinearLayout>
 
 </ScrollView>
