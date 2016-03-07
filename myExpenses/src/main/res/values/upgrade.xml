@@ -18,8 +18,8 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
-  <string-array name="whats_new_2651">
-    <item>@string/bug_fixes</item>
+  <string-array name="whats_new_266">
+    <item>New menu icons</item>
   </string-array>
   <string-array name="whats_new_265">
     <item>Sorting of templates, categories and accounts made easier</item>

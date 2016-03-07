@@ -328,7 +328,7 @@
     </string-array>
 
     <integer-array name="version_codes">
-        <item>240</item>
+        <item>241</item>
         <item>239</item>
         <item>236</item>
         <item>234</item>
@@ -350,7 +350,7 @@
         <item>191</item>
     </integer-array>
     <string-array name="version_names">
-        <item>2.6.5.1</item>
+        <item>2.6.6</item>
         <item>2.6.5</item>
         <item>2.6.4</item>
         <item>2.6.3</item>
