@@ -24,3 +24,6 @@
 -keep enum org.totschnig.myexpenses.activity.*$HelpVariant
 
 -keep class android.support.v7.widget.SearchView { *; }
+
+#Picasso
+-dontwarn com.squareup.okhttp.**
