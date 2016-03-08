@@ -236,7 +236,6 @@ public class ExpenseEdit extends AmountActivity implements
 
     setupToolbar();
     mManager= getSupportLoaderManager();
-    changeEditTextBackground((ViewGroup) findViewById(android.R.id.content));
     //we enable it only after accountcursor has been loaded, preventing NPE when user clicks on it early
     configTypeButton();
     mTypeButton.setEnabled(false);

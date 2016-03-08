@@ -146,23 +146,6 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements
     startDbWriteTask(false);
   }
 
-  protected void changeEditTextBackground(ViewGroup root) {
-    //not needed in HOLO
-    if (Build.VERSION.SDK_INT > 10) {
-      return;
-    }
-    if (MyApplication.PrefKey.UI_THEME_KEY.getString("dark").equals("dark")) {
-      int c = getResources().getColor(R.color.theme_dark_button_color);
-      for(int i = 0; i <root.getChildCount(); i++) {
-        View v = root.getChildAt(i);
-        if(v instanceof EditText) {
-          Utils.setBackgroundFilter(v, c);
-        } else if(v instanceof ViewGroup) {
-          changeEditTextBackground((ViewGroup)v);
-        }
-      }
-    }
-  }
   @Override
   public void onPostExecute(Object result) {
     mIsSaving = false;

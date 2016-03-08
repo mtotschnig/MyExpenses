@@ -88,7 +88,6 @@ public class AccountEdit extends AmountActivity implements
     
     setContentView(R.layout.one_account);
     setupToolbar();
-    changeEditTextBackground((ViewGroup)findViewById(android.R.id.content));
 
     mLabelText = (EditText) findViewById(R.id.Label);
     mDescriptionText = (EditText) findViewById(R.id.Description);

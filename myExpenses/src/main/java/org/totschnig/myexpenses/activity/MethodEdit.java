@@ -57,7 +57,6 @@ public class MethodEdit extends EditActivity implements CompoundButton.OnChecked
         
     setContentView(R.layout.one_method);
     setupToolbar();
-    changeEditTextBackground((ViewGroup) findViewById(android.R.id.content));
 
     mLabelText = (EditText) findViewById(R.id.Label);
     mAccountTypesGrid = (GridLayout)findViewById(R.id.AccountTypeGrid);
