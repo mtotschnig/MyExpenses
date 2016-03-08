@@ -38,6 +38,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.provider.DocumentFile;
 import android.support.v7.widget.TintContextWrapper;
 import android.text.Html;
@@ -1354,6 +1355,7 @@ public class Utils {
   @SuppressLint("NewApi")
   public static void setBackgroundTintListOnFab(FloatingActionButton fab, int color) {
     fab.setBackgroundTintList(ColorStateList.valueOf(color));
+    DrawableCompat.setTint(fab.getDrawable(), isBrightColor(color) ? Color.BLACK : Color.WHITE);
     fab.invalidate();
   }
 
