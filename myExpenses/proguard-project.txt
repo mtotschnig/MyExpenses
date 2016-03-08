@@ -25,6 +25,8 @@
 
 -keep class android.support.v7.widget.SearchView { *; }
 
+-keep class se.emilsjolander.stickylistheaders.StickyListHeadersListView { *; }
+
 #Picasso
 -dontwarn com.squareup.okhttp.**
 

@@ -8,11 +8,8 @@ import android.support.test.runner.AndroidJUnit4;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListView;
 
-import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -162,7 +159,7 @@ public final class MyExpensesCabTest extends MyExpensesTestBase {
   }
 
   private StickyListHeadersListView getList() {
-      TransactionList currentFragment = ((MyExpenses) mActivityRule.getActivity()).getCurrentFragment();
+      TransactionList currentFragment = mActivityRule.getActivity().getCurrentFragment();
       return (StickyListHeadersListView) currentFragment.getView().findViewById(R.id.list);
   }
 
