@@ -27,7 +27,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
-public class IdCriteria extends Criteria {
+public abstract class IdCriteria extends Criteria {
 
   protected final String label;
 

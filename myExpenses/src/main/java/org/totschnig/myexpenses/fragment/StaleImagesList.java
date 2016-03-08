@@ -104,7 +104,7 @@ public class StaleImagesList extends ContextualActionBarFragment implements Load
           //already dealing with value; nothing to do
           return;
         }
-        Picasso.with(getActivity()).load(value).fit().into(v);
+        Picasso.with(getActivity()).load(value).placeholder(R.drawable.empty_photo).fit().into(v);
         v.setTag(value);
         v.setContentDescription(value);
       }

@@ -19,24 +19,34 @@
 package org.totschnig.myexpenses.provider.filter;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.text.TextUtils;
+
+import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.filter.WhereFilter.Operation;
+
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
 
-import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.filter.WhereFilter.Operation;
-
-import android.annotation.SuppressLint;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.text.TextUtils;
-
-@SuppressLint("ParcelCreator")
 public class Criteria implements Parcelable {
 
   protected static final String EXTRA_SEPARATOR = ";";
   protected static final String EXTRA_SEPARATOR_ESCAPE_SAVE_REGEXP = "(?<!\\\\)\\;";
+  public static final Creator<Criteria> CREATOR = new Creator<Criteria>() {
+    @Override
+    public Criteria createFromParcel(Parcel in) {
+      return new Criteria(in);
+    }
+
+    @Override
+    public Criteria[] newArray(int size) {
+      return new Criteria[size];
+    }
+  };
+
   public static String escapeSeparator(String in) {
     return in.replace(";","\\;");
   }

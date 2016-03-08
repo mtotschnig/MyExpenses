@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="selected_indicator_translation_x">-23dp</dimen>
-    <dimen name="overflow_menu_translation_x">-9dp</dimen>
     <item name="selected_indicator_translation_rotation" type="integer">90</item>
 </resources>

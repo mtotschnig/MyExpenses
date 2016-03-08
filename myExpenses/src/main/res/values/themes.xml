@@ -149,7 +149,6 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="windowActionModeOverlay">true</item>
         <item name="colorIncome">@color/colorIncomeDark</item>
         <item name="colorExpense">@color/colorExpenseDark</item>
-        <item name="calcIcon">@drawable/ic_action_calc_light</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="textSizeSmall">@dimen/textSizeSmallBase</item>
@@ -169,7 +168,6 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="windowActionModeOverlay">true</item>
         <item name="colorIncome">@color/colorIncomeLight</item>
         <item name="colorExpense">@color/colorExpenseLight</item>
-        <item name="calcIcon">@drawable/ic_action_calc_dark</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="textSizeSmall">@dimen/textSizeSmallBase</item>
@@ -227,7 +225,6 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowAnimationStyle">@android:style/Animation</item>
-        <item name="calcIcon">@drawable/ic_action_calc_dark</item>
         <item name="textSizeSmall">@dimen/textSizeSmallBase</item>
         <item name="textSizeMedium">@dimen/textSizeMediumBase</item>
         <item name="textSizeLarge">@dimen/textSizeLargeBase</item>
@@ -242,7 +239,6 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowAnimationStyle">@android:style/Animation</item>
-        <item name="calcIcon">@drawable/ic_action_calc_light</item>
         <item name="textSizeSmall">@dimen/textSizeSmallBase</item>
         <item name="textSizeMedium">@dimen/textSizeMediumBase</item>
         <item name="textSizeLarge">@dimen/textSizeLargeBase</item>

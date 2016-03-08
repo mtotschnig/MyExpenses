@@ -22,7 +22,7 @@ import org.totschnig.myexpenses.util.Utils;
 
 import android.os.Parcel;
 
-public class TextCriteria extends Criteria {
+public abstract class TextCriteria extends Criteria {
   private String searchString;
   public TextCriteria(String title, String columnName, String searchString) {
     super(columnName, WhereFilter.Operation.LIKE,

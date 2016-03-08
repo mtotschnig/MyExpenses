@@ -368,9 +368,15 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     try {
       if (name.startsWith("?")) {
         name = name.substring(1);
-        TypedValue value = new TypedValue();
-        theme.resolveAttribute(resolve(name, "attr"), value, true);
-        resId = value.resourceId;
+        switch(name) {
+          case "calcIcon":
+            resId = R.drawable.ic_action_equal;
+            break;
+          default:
+            TypedValue value = new TypedValue();
+            theme.resolveAttribute(resolve(name, "attr"), value, true);
+            resId = value.resourceId;
+        }
       } else {
         if (name.startsWith("android:")) {
           name = name.substring(8);
@@ -380,7 +386,9 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
         }
       }
       @SuppressWarnings("deprecation")
-      Drawable d = getResources().getDrawable(resId);
+      Drawable d = android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP ?
+          getResources().getDrawable(resId,getActivity().getTheme()):
+          getResources().getDrawable(resId);
       if (d != null) {
         d.setBounds(0, 0, d.getIntrinsicWidth() / 2,
             d.getIntrinsicHeight() / 2);
