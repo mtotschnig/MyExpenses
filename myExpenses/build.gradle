@@ -18,6 +18,7 @@ android {
         buildConfigField "String", "PLATTFORM", "\"Android\""
         buildConfigField "String", "BUILD_DATE", "\"" + getDate() + "\""
         testInstrumentationRunner "org.totschnig.myexpenses.MyTestRunner"
+        testProguardFile "proguard-test.txt"
 
         generatedDensities = []
     }
@@ -56,6 +57,7 @@ android {
     aaptOptions {
         additionalParameters "--no-version-vectors"
     }
+    testBuildType "release"
 }
 
 dependencies {

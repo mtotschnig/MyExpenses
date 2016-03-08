@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses;
 
-import android.app.Application;
 import android.os.Bundle;
 import android.support.test.runner.AndroidJUnitRunner;
 import android.util.Log;

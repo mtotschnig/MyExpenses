@@ -57,7 +57,7 @@ import java.util.UUID;
 
 public class MyApplication extends Application implements
     OnSharedPreferenceChangeListener {
-  static boolean instrumentationTest = false;
+  protected static boolean instrumentationTest = false;
   private static String testId;
   public static final String PLANNER_CALENDAR_NAME = "MyExpensesPlanner";
   public static final String PLANNER_ACCOUNT_NAME = "Local Calendar";

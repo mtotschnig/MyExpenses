@@ -1,0 +1,7 @@
+-dontwarn com.squareup.javawriter.JavaWriter
+-dontwarn sun.misc.Unsafe
+-dontwarn org.hamcrest.**
+-dontwarn junit.**
+-dontwarn android.support.test.espresso.contrib.**
+-dontwarn org.junit.**
+-dontwarn android.support.test.runner.MonitoringInstrumentation

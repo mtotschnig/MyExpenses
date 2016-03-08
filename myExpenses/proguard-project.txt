@@ -27,3 +27,7 @@
 
 #Picasso
 -dontwarn com.squareup.okhttp.**
+
+-keepclassmembers class org.totschnig.myexpenses.MyApplication {
+    protected static boolean instrumentationTest;
+}
