@@ -68,9 +68,6 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     iconMap.put("create_instance_edit", R.drawable.ic_action_apply_edit);
     iconMap.put("create_instance_save", R.drawable.ic_action_apply_save);
     iconMap.put("create_account", R.drawable.ic_menu_add);
-    iconMap.put("create_main_cat", R.drawable.ic_menu_add);
-    iconMap.put("create_method", R.drawable.ic_menu_add);
-    iconMap.put("create_party", R.drawable.ic_menu_add);
     iconMap.put("create_split", R.drawable.ic_menu_split);
     iconMap.put("create_sub_cat", R.drawable.ic_menu_add);
     iconMap.put("delete", R.drawable.ic_menu_delete);
