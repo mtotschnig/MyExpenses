@@ -6,6 +6,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.VersionDialogFragment;
 import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.Criteria;
 
@@ -42,9 +43,9 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
       SharedPreferences settings = MyApplication.getInstance().getSettings();
       Editor edit = settings.edit();
       if (prev_version < 19) {
-        edit.putString(MyApplication.PrefKey.SHARE_TARGET.getKey(),settings.getString("ftp_target",""));
+        edit.putString(MyApplication.PrefKey.SHARE_TARGET.getKey(), settings.getString("ftp_target", ""));
         edit.remove("ftp_target");
-        edit.commit();
+        SharedPreferencesCompat.apply(edit);
       }
       if (prev_version < 28) {
         Log.i("MyExpenses", String.format("Upgrading to version 28: Purging %d transactions from datbase",
@@ -52,8 +53,9 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
                 KEY_ACCOUNTID + " not in (SELECT _id FROM accounts)", null)));
       }
       if (prev_version < 30) {
-        if (MyApplication.PrefKey.SHARE_TARGET.getString("") != "") {
-          edit.putBoolean(MyApplication.PrefKey.SHARE_TARGET.getKey(),true).commit();
+        if (!"".equals(MyApplication.PrefKey.SHARE_TARGET.getString(""))) {
+          edit.putBoolean(MyApplication.PrefKey.SHARE_TARGET.getKey(), true);
+          SharedPreferencesCompat.apply(edit);
         }
       }
       if (prev_version < 40) {
@@ -61,13 +63,15 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
         //  DbUtils.fixDateValues(getContentResolver());
         //we do not want to show both reminder dialogs too quickly one after the other for upgrading users
         //if they are already above both tresholds, so we set some delay
-        edit.putLong("nextReminderContrib", Transaction.getSequenceCount() + 23).commit();
+        edit.putLong("nextReminderContrib", Transaction.getSequenceCount() + 23);
+        SharedPreferencesCompat.apply(edit);
       }
       if (prev_version < 132) {
         MyApplication.getInstance().showImportantUpgradeInfo = true;
       }
       if (prev_version < 163) {
-       edit.remove("qif_export_file_encoding").commit();
+       edit.remove("qif_export_file_encoding");
+       SharedPreferencesCompat.apply(edit);
       }
       if (prev_version < 199) {
         //filter serialization format has changed
@@ -89,7 +93,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
             }
           }
         }
-        edit.commit();
+        SharedPreferencesCompat.apply(edit);
       }
       if (prev_version < 202) {
         String appDir = MyApplication.PrefKey.APP_DIR.getString(null);

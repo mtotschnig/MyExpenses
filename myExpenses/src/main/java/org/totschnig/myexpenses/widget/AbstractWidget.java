@@ -12,13 +12,13 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.util.Log;
 import android.widget.RemoteViews;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Model;
+import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.util.Arrays;
@@ -71,7 +71,7 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
     SharedPreferences.Editor prefs = context
         .getSharedPreferences(getPrefName(), 0).edit();
     prefs.putLong(PREF_PREFIX_KEY + widgetId, objectId);
-    prefs.commit();
+    SharedPreferencesCompat.apply(prefs);
   }
 
   protected boolean isProtected() {
