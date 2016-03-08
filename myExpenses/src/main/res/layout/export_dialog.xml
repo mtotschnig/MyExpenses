@@ -123,7 +123,8 @@
                         android:layout_gravity="center"
                         android:contentDescription="@string/menu_help"
                         android:scaleType="centerCrop"
-                        app:srcCompat="@drawable/ic_menu_help"/>
+                        app:srcCompat="@drawable/ic_menu_help"
+                        tools:ignore="MissingPrefix"/>
                 </LinearLayout>
             </TableRow>
 

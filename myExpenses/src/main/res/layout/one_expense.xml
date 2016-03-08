@@ -235,7 +235,8 @@
                         android:onClick="startMediaChooser"
                         android:focusable="true"
                         app:srcCompat="@drawable/ic_menu_camera"
-                        android:contentDescription="@string/contrib_feature_attach_picture_label"/>
+                        android:contentDescription="@string/contrib_feature_attach_picture_label"
+                        tools:ignore="MissingPrefix"/>
 
                     <include layout="@layout/picture_view"/>
                 </LinearLayout>
