@@ -85,6 +85,8 @@ public final class MyExpensesTest extends MyExpensesTestBase {
 
   @Test
   public void contribDialogIsShown() {
+    MyApplication.PrefKey.NEXT_REMINDER_RATE.putLong(-1);//assumption rating dialog is no longer showable
+    MyApplication.PrefKey.NEXT_REMINDER_CONTRIB.remove();
     stubExpenseEditIntentWithSequenceCount(MyExpenses.TRESHOLD_REMIND_CONTRIB + 1);
     onView(withId(R.id.CREATE_COMMAND)).perform(click());
     onView(withText(containsString(mActivityRule.getActivity().getString(R.string.menu_contrib))))
@@ -94,6 +96,7 @@ public final class MyExpensesTest extends MyExpensesTestBase {
   @Test
   public void ratingDialogIsShown() {
     if (!Utils.IS_FLAVOURED) return;
+    MyApplication.PrefKey.NEXT_REMINDER_RATE.remove();
     stubExpenseEditIntentWithSequenceCount(MyExpenses.TRESHOLD_REMIND_RATE + 1);
     onView(withId(R.id.CREATE_COMMAND)).perform(click());
     onView(withText(containsString(mActivityRule.getActivity().getString(R.string.dialog_remind_rate_1))))
