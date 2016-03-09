@@ -328,7 +328,7 @@
     </string-array>
 
     <integer-array name="version_codes">
-        <item>241</item>
+        <item>242</item>
         <item>239</item>
         <item>236</item>
         <item>234</item>
@@ -444,6 +444,10 @@
     <string-array name="version_more_info_265" tools:ignore="UnusedResources">
         <item>photos/a.1450395311888609.1073741827.1450391968555610/1703256933269111</item>
         <item>2jimBYUsmPh</item>
+    </string-array>
+    <string-array name="version_more_info_266" tools:ignore="UnusedResources">
+        <item>videos/vb.1450391968555610/1709832859278185</item>
+        <item>jZnn6NpEg1F</item>
     </string-array>
 
     <string-array name="comparison_operator_entries">
