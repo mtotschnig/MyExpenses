@@ -2,6 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="help_menu_commands">Meniu Comenzi</string>
   <string name="help_contextual_actions">Acţiuni contextuale</string>
+  <string name="help_form_fields">Campuri Formular</string>
   <string name="cab_delete_help_text">Şterge elementele selectate</string>
   <string name="cab_edit_help_text">Editează elementul selectat</string>
   <!--My Expenses Transaction list-->
@@ -62,4 +63,5 @@
   <string name="menu_up_help_text">Navigheaza in folderul parinte al folderului curent.</string>
   <!--StaleImages-->
   <!--CSV Import-->
+  <string name="menu_create_account_help_text">Creaza un cont nou. Versiunea gratuită este limitată la cinci conturi.</string>
 </resources>

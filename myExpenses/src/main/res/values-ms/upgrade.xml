@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_265">
+    <item>Pengisihan templat, kategori dan akaun menjadi lebih mudah</item>
+  </string-array>
   <string-array name="whats_new_264">
     <item>Skrin kategori boleh digelintar</item>
     <item>Imbangan akaun boleh disalin ke dalam papan keratan</item>

@@ -1,5 +1,28 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_265">
+    <item>Sortare de template-uri, categorii şi conturi cu uşurintă</item>
+  </string-array>
+  <string-array name="whats_new_264">
+    <item>Categorii ecrane pot fi căutate</item>
+    <item>Soldul contului poate fi copiat în clipboard</item>
+    <item>Lipire în calculatorul din clipboard</item>
+    <item>Ajutor pentru formatul datei în caseta de dialog export</item>
+  </string-array>
+  <string-array name="whats_new_263">
+    <item>Transferuri între conturile cu diferite valute</item>
+  </string-array>
+  <string-array name="whats_new_262">
+    <item>Zilele în cazul în care pe săptămâna şi luna pot fi configurate</item>
+  </string-array>
+  <string-array name="whats_new_261">
+    <item>Categorii pot fi mutate</item>
+  </string-array>
+  <string-array name="whats_new_260">
+    <item>Material design</item>
+    <item>Aspect de tableta îmbunătăţit</item>
+    <item>Suport pentru Samsung Knox</item>
+  </string-array>
   <string-array name="whats_new_251">
     <item>Formatul numărului configurabil</item>
     <item>Traducere Daneză</item>

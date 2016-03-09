@@ -7,6 +7,7 @@
   <string name="cab_edit_help_text">Sunting item terpilih.</string>
   <!--My Expenses Transaction list-->
   <string name="help_MyExpenses_title">Senarai transaksi</string>
+  <string name="help_MyExpenses_info">Skrin ini menyenaraikan semua transaksi untuk akaun semasa. Guna butang tindakan apung  buka borang untuk mencipta transaksi baharu.</string>
   <string name="help_MyExpenses_crStatus_info">Status transaksi ditunjukkan dengan bentuk segiempat berwarna: kelabu untuk tidak selesai, biru untuk dikosongkan, hijau untuk selesai. Mengklik pada segiempat akan mengubah status.</string>
   <string name="menu_grouping_help_text">Anda boleh kumpulkan transaksi mengikut hari, minggu, bulan atau tahun. Bagi setiap kumpulan, jumlah pendapatan, perbelanjaan dan pemindahan dikira dan dipaparkan. Bila anda mengklik tajuk kumpulan, kumpulan transaksi dikuncupkan dan hanya tajuk dipaparkan. Klik sekali lagi untuk dikembangkannya.</string>
   <string name="menu_distribution_help_text">Papar agihan perbelanjaan per kategori anda. Anda juga boleh mengklik-lama pada tajuk kumpulan untuk memeriksa agihan untuk tempoh masa tertentu.</string>
@@ -44,6 +45,8 @@
   <string name="menu_distribution_show_pie_char_help_text">Togol ketampakan carta pai.</string>
   <string name="menu_distribution_aggreate_help_text">Secara lalai, hasil tambah yang dikira termasuklah kedua-dua perbelanjaan dan pendapatan. Anda boleh tentukan sama ada ditunjukkan secara berasingan, butang pada palang tindakan membolehkan anda togol diantara perbelanjaan dengan pendapatan.</string>
   <string name="cab_ManageCategories_select_filter_select_category_help_text">Kategori terpilih akan digunakan untuk menapis senarai transaksi.</string>
+  <string name="menu_ManageCategories_search_help_text">Hanya kategori utama dan sub-kategori yang sepadan dengan pertanyaan anda akan dipaparkan.</string>
+  <string name="menu_ManageCategories_sort_help_text">Senarai kategori boleh diisih mengikut tajuk (secara berabjad), mengikut kekerapan penggunaan, atau mengikut kali terakhir transaksi dipetakan.</string>
   <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">Borang  untuk transaksi</string>
   <string name="help_ExpenseEdit_transfer_title">Borang untuk pemindahan</string>
@@ -96,4 +99,9 @@
   <!--CSV Import-->
   <string name="help_CsvImportActivity_info"><![CDATA[Selepas anda memilih fail yang mahu diimport, anda perlu konfigur bagaimana fail dienkodkan (UTF-8 atau ISO-8859-1), dengan aksara medan pisah (koma, titik bertindih atau tab), dan bagaimana tarikh diformatkan. Data boleh jadi sama ada diimport ke dalam akaun sedia ada, atau yang baharu, yang mana anda boleh konfigur matawang dan jenis akaun.<br><br>Selepas anda menekan butang Hurai dari palang tindakan, data akan disediakan dalam bentuk jadual. Sebelum meneruskan pengimportan menerusi butang dalam palang tindakan, nda boleh pilih baris yang mahu disingkirkan, dan anda perlu petakan lajur ke medan data berkenaan<br><br>Bila anda singkir baris pertama, anda akan dimaklumkan sama ada mahu anggap ia sebagai tajuk, dalam kes ini, <i>My Expenses</i> akan cuba petakan secara automatik lajur berdasarkan kandungan sel pengepala. Ia juga akan mengingati pemetaan anda berdasarkan tajuk, dan pulih ia, bila anda mengimport fail dengan format pengepala yang sama dilain masa.]]></string>
   <string name="help_ExportDialog_date_format"><![CDATA[Text can be quoted using single quotes (\') to avoid interpretation. \'\' (two single quotes) represent a single quote. Consult the full <a href=\"http://developer.android.com/reference/java/text/SimpleDateFormat.html\">spesifikasi</a> untuk maklumat lanjut, atau hubungi support@myexpenses.mobi untuk dapatkan bantuan.]]></string>
+  <string name="help_NavigationDrawer_info">Senarai akaun memudahkan anda menavigasi diantara akaun dengan hanya mengklik pada masukan tersebut.</string>
+  <string name="menu_create_account_help_text">Cipta satu akaun baharu. Versi percuma terhad kepada lima akaun.</string>
+  <string name="menu_NavigationDrawer_grouping_help_text">Senarai akaun boleh dipapar berkempulan mengikut jenis akaun, mengikut matawang, atau tidak dikelompokkan.</string>
+  <string name="cab_sort_up_help_text">Alih item satu kedudukan naik di dalam senarai.</string>
+  <string name="cab_sort_down_help_text">Alih item satu kedudukan turun di dalam senarai.</string>
 </resources>

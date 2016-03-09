@@ -77,7 +77,7 @@
   <!--Placeholder: 1 is name of the feature-->
   <string name="dialog_contrib_extended_feature">%1$s é uma funcionalidade extended.</string>
   <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
-  <string name="dialog_contrib_reminder_remove_limitation">Remova esta limitação comprando %s.</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Remova esta limitação ao comprar %s.</string>
   <string name="dialog_contrib_reminder_gain_access">Você obtém também acesso sem restrições às seguintes funcionalidades:</string>
   <string name="dialog_contrib_extended_gain_access">Adicionalmente, as seguintes funcionalidades são desbloqueadas se comprar a chave Extended:</string>
   <string name="dialog_contrib_text_1"><i>My Expenses</i> é disponibilizado sem anúncios e em código aberto.</string>
@@ -137,7 +137,7 @@
   <string name="feedback_email_message">Envie os seus comentários em inglês, francês ou alemão!</string>
   <string name="ftp_uri_malformed">URI inválido %1$s</string>
   <string name="grisbi_import_categories_loading">A carregar categorias de %1$s</string>
-  <string name="grisbi_import_default_source">Categoria padrão em inglês</string>
+  <string name="grisbi_import_default_source">Categorias padrão em inglês</string>
   <string name="grisbi_import_parties_loading">A carregar partes de %1$s</string>
   <string name="grouping_day">Dia</string>
   <string name="grouping_last_week">Última semana</string>
@@ -153,13 +153,13 @@
   <string name="help_heading_license">Licença</string>
   <string name="help_heading_whats_new">Novidades</string>
   <string-array name="help_intro">
-    <item>Manter o controle de suas despesas e rendimentos.</item>
+    <item>Mantenha o controlo das suas despesas e rendimentos.</item>
     <item>Gestão direta no seu smartphone.</item>
     <item>Exportação para um programa de finanças como o Grisbi, GnuCash, Quicken ou MS Money.</item>
   </string-array>
   <string name="help_leading">Obrigado por instalar o <i>My Expenses</i> para Android.</string>
   <string name="important_upgrade_information_heading">Informação importante</string>
-  <string name="important_upgrade_information_1">Os backups e exportações são agora guardados Android/data/org.totschnig.myexpenses . ATENÇÃO: este diretório será apagado se desinstalar o My Expenses.</string>
+  <string name="important_upgrade_information_1">Os backups e exportações são agora guardados em Android/data/org.totschnig.myexpenses . ATENÇÃO: este diretório será eliminado se desinstalar o My Expenses.</string>
   <string name="import_select_transactions">Transações</string>
   <string name="income">Receitas</string>
   <string name="invalid_number_format">Formato decimal não reconhecido pela sua configuração regional. Por favor utilize %1$s.</string>
@@ -227,14 +227,14 @@
   <string name="menu_share">Recomendar a um amigo</string>
   <string name="method">Método</string>
   <string name="no_amount_given">Não introduziu qualquer valor.</string>
-  <string name="no_app_handling_email_available">Não existem aplicações de e-mail.</string>
-  <string name="no_app_handling_ftp_available">Não existem aplicações para ligações ftp. Instalar <i>Send With FTP</i>?</string>
-  <string name="no_app_handling_pdf_available">Não existem aplicações para gerir PDF.</string>
+  <string name="no_app_handling_email_available">Não existem aplicações de email.</string>
+  <string name="no_app_handling_ftp_available">Não existem aplicações para ligações FTP. Instalar <i>Send With FTP</i>?</string>
+  <string name="no_app_handling_pdf_available">Não existem aplicações para gerir ficheiros PDF.</string>
   <string name="no_categories">Sem categorias.</string>
   <string name="no_expenses">Sem despesas ainda!</string>
   <string name="no_exportable_expenses">Não existem transações que ainda não tenham sido exportadas.</string>
   <string name="no_filemanager_installed">Não possui um gestor de ficheiros.</string>
-  <string name="no_calendar_app_installed">Não possui uma aplicação para editar eventos de calendário.</string>
+  <string name="no_calendar_app_installed">Não possui uma aplicação para editar eventos do calendário.</string>
   <string name="no_methods">Não existem métodos de pagamento.</string>
   <string name="no_parties">Sem partes.</string>
   <string name="no_plans">Não existem planos.</string>
@@ -251,14 +251,14 @@
   <string name="numbered">numerada</string>
   <string name="opening_balance">Saldo de abertura</string>
   <string name="parse_error_file_not_found">Ficheiro %1$s não encontrado</string>
-  <string name="parse_error_grisbi_version_not_supported">Versão de ficheiro Grisbi não suportada: %1$s</string>
+  <string name="parse_error_grisbi_version_not_supported">Versão do ficheiro Grisbi não suportada: %1$s</string>
   <string name="parse_error_no_data_found">Não foram encontrados dados para importar.</string>
   <string name="parse_error_other_exception">Ocorreu um erro: %1$s</string>
   <string name="parse_error_parse_exception">Não foi possível processar o ficheiro</string>
   <string name="password_disabled_reenable">A proteção por palavra-passe foi desativada. Pode reativar a proteção nas definições.</string>
   <string name="password_lost">Palavra-passe perdida</string>
   <string name="password_not_valid">Palavra-passe inválida. Tente novamente!</string>
-  <string name="password_prompt">Digite a sua palavra-passe</string>
+  <string name="password_prompt">Introduza a sua palavra-passe</string>
   <string name="password_security_answer_not_valid">Resposta errada. Tente novamente!</string>
   <string name="payee">Beneficiário</string>
   <string name="payer">Pagador</string>
@@ -285,10 +285,10 @@
   <string name="pm_type_credit">Crédito</string>
   <string name="pm_type_debit">Débito</string>
   <string name="pm_type_neutral">Neutro</string>
-  <string name="pref_app_dir_title">Pasta para backups e exportações</string>
+  <string name="pref_app_dir_title">Pasta para cópias de segurança e exportações</string>
   <string name="pref_auto_fill_title">Preencher transações automaticamente</string>
   <string name="pref_auto_fill_summary">Preencher valor, categoria e comentário da última transação para o mesmo pagador/beneficiário</string>
-  <string name="pref_backup_summary">Criar um backup da base de dados e das definições.</string>
+  <string name="pref_backup_summary">Criar uma cópia de segurança da base de dados e das definições.</string>
   <string name="pref_sort_order_usages">Número de utilizações</string>
   <string name="pref_category_title_advanced">Avançado</string>
   <string name="pref_category_title_export">Exportar</string>
@@ -296,7 +296,7 @@
   <string name="pref_category_title_manage">Gerir</string>
   <string name="pref_category_title_more_information">Mais informações</string>
   <string name="pref_category_title_security">Segurança</string>
-  <string name="pref_category_title_ui">Interface</string>
+  <string name="pref_category_title_ui">Interface do utilizador</string>
   <string name="pref_checkbox_enabled">Ativa</string>
   <string name="pref_checkbox_disabled">Inativa</string>
   <string name="pref_contrib_purchase_summary">Obter acesso às funcionalidades premium e extended.</string>
@@ -311,7 +311,7 @@
   <string name="pref_import_from_grisbi_summary">Importar categorias e partes de ficheiros XML do Grisbi</string>
   <string name="pref_import_from_grisbi_title">Importar do Grisbi</string>
   <!--%s is replaced with QIF or CSV-->
-  <string name="pref_import_summary">Importar transações, categorias e partes de ficheiros %s</string>
+  <string name="pref_import_summary">Importar transações, categorias e partes do ficheiro %s</string>
   <!--%s is replaced with QIF or CSV-->
   <string name="pref_import_title">Importar %s</string>
   <string name="pref_like_facebook_title">Gosto no Facebook</string>
@@ -368,7 +368,7 @@ Sérgio Marques</string>
   <!--%s is replaced with Android or Blackberry-->
   <string name="template_create_success">Modelo \"%1$s\" criado com sucesso</string>
   <string name="template_title_exists">Já existe um modelo com o título \"%1$s\"</string>
-  <string name="thank_you">Obrigado pelo sua ajuda!</string>
+  <string name="thank_you">Obrigado pela sua ajuda!</string>
   <string name="time">Hora</string>
   <string name="title">Título</string>
   <string name="transaction">Transação</string>
@@ -431,7 +431,7 @@ Sérgio Marques</string>
   <string name="csv_import_delimiter_tab">Tabulação</string>
   <string name="menu_show_transactions">Mostrar transações</string>
   <string name="pref_custom_decimal_format_title">Formato numérico</string>
-  <string name="pref_auto_backup_title">Backup automático</string>
+  <string name="pref_auto_backup_title">Cópia de segurança automática</string>
   <string name="menu_move">Mover</string>
   <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
   <string name="content_description_calculator">Calculadora</string>

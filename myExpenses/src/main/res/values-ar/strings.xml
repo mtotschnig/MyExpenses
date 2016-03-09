@@ -26,6 +26,7 @@
   <string name="color">اللون</string>
   <string name="comment">ملاحظات</string>
   <string name="confirmation_dialog_dont_show_again">لا تظهر مرة أخرى</string>
+  <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">بدون إعلانات</string>
   <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources">يمكنك انشاء فقط 5 حسابات لـ <i>مصروفاتي</i></string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">عدد حسابات غير محدود</string>
   <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">توزيع العمليات لكل تصنيف</string>
@@ -33,6 +34,8 @@
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">عدد غير محدود من الخطط</string>
   <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">السؤال السري</string>
   <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">تقسيم العمليات</string>
+  <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">إستيراد ملف CSV</string>
+  <string name="contrib_feature_auto_backup_label" tools:ignore="UnusedResources">نسخ احتياطي آلي</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="currency">العملة</string>
   <string name="current_balance">الرصيد الحالي</string>
@@ -43,6 +46,8 @@
   <string name="default_account_description">هذا الحساب تم انشاؤه تلقائيا خلال التثبيت</string>
   <string name="description">الوصف</string>
   <!--User confirms that he wants to discard changes-->
+  <string name="dialog_confirm_button_discard">تجاهل</string>
+  <string name="dialog_confirm_discard_changes">تجاهل التغييرات؟</string>
   <string name="dialog_command_disabled_reset_account">لا يوجد عمليات لتصديرها.</string>
   <string name="dialog_command_disabled_distribution">لا يوجد عمليات معينة للتصنيفات لهذا الحساب.</string>
   <string name="dialog_contrib_no">ليس بعد</string>
@@ -247,12 +252,18 @@
   <string name="pref_category_title_ui">واجهة المستخدم</string>
   <string name="pref_checkbox_enabled">مفعل</string>
   <string name="pref_checkbox_disabled">معطل</string>
+  <string name="pref_contrib_purchase_title_in_app">الشراء داخل التطبيق</string>
+  <string name="pref_custom_currency_title">تخصيص العملات</string>
+  <string name="pref_enter_licence_title">أدخل المفتاح</string>
   <string name="pref_export_format_title">تنسيق البيانات</string>
   <string name="pref_follow_gplus_title">متابعة مصروفاتي على قوقل بلس</string>
   <string name="pref_import_from_grisbi_summary">استيراد التصنيفات والأطراف  Grisbi XML </string>
   <string name="pref_import_from_grisbi_title">استيراد من Grisbi</string>
   <!--%s is replaced with QIF or CSV-->
+  <string name="pref_import_summary">استيراد العمليات والتصنيفات والحفلات من الملف %s</string>
   <!--%s is replaced with QIF or CSV-->
+  <string name="pref_import_title">استيراد %s</string>
+  <string name="pref_like_facebook_title">الإعجاب بصفحتنا في الفيسبوك</string>
   <string name="pref_manage_accounts_title">الحسابات</string>
   <string name="pref_manage_categories_summary">إضافة، تعديل، حذف التصنيفات.</string>
   <string name="pref_manage_categories_title">التصنيفات</string>
@@ -270,12 +281,16 @@
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">انشاء مخطِط تقويم محلي جديد</string>
   <string name="pref_planning_calendar_summary">حدد التقويم الذي تم تخزين الخطط المستقبلية والمعاملات المتكررة فيه</string>
+  <string name="pref_planning_calendar_title">تخطيط تقويم</string>
   <string name="pref_protection_delay_seconds_summary">عند الخمول، عدد الثواني قبل طلب الباسوورد</string>
   <string name="pref_protection_delay_seconds_title">مهلة الحماية</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">بدون باسوورد.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">يتطلب كلمة مرور.</string>
   <string name="pref_qif_export_file_encoding_title">ترميز الحروف</string>
+  <string name="pref_request_licence_title">اطلب مفتاح</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
+  <string name="pref_restore_alternative">بديل</string>
+  <string name="pref_restore_alternative_summary">استخدم هذه الطريقة البديلة إذا لم يكن مدير ملفات مثبتا على الجهاز أو إذا أردت استعادة نسخة إحتياطية على التنسيق القديم.</string>
   <string name="pref_restore_summary">اختر نسخة احتياطية لاسترجاع قاعدة البيانات والتفضيلات</string>
   <string name="pref_restore_title">استعادة</string>
   <string name="pref_security_question_summary">تسمح لك بفتح قفل التطبيق، إذا كنت قد نسيت كلمة المرور.</string>
@@ -299,11 +314,13 @@
   <string name="progress_dialog_create_calendar">جاري انشاء تقويم محلي</string>
   <string name="progress_dialog_create_plan">جاري انشاء خطة جديدة</string>
   <string name="progress_dialog_loading">جاري التحميل من قاعدة البيانات</string>
+  <string name="progress_dialog_printing">انشاء ملف PDF</string>
   <string name="qif_parse_result">تم إيجاد: %1$s حسابات; %2$s تصنيفات و %3$s أطراف</string>
   <string name="qif_parse_failure_found_multiple_accounts">تم العثور على أكثر من حساب في ملف QIF.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">لا يمكن دمجهم لحساب موجود. </string>
   <string name="reference_number">رقم المرجع</string>
   <string name="request_licence_mail_description">فضلا قم بكتابة مساهمتك ( باللغة العربية ، الانجليزية، الألمانية أو الفرنسية) في مصروفاتي(على سبيل المثال: تبرع عن طريق PayPal، تقرير عن عطل، اختبار التطبيق، ترجمة، …)</string>
+  <string name="request_licence_mail_head">الرجاء إرسال لي مفتاح لمعرف الأندرويد %1$s.</string>
   <string name="restore_db_failure">فشلت عملية استعادة قاعدة البيانات.</string>
   <string name="restore_db_success">تم استعادة قاعدة البيانات من النسخة الاحتياطية.</string>
   <string name="restore_no_backup_found">لا يوجد نسخة احتياطية.</string>
@@ -311,12 +328,14 @@
   <string name="restore_backup_archive_not_valid">الأرشيف %1$s غير صالح</string>
   <string name="restore_backup_file_not_found">لم يتم إيجاد الملف %1$s في أرشيف \"%2$s\"</string>
   <string name="restore_preferences_success">تم استعادة التفضيلات من النسخة الاحتياطية.</string>
+  <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d خطط تم استعادتها من النسخة الإحتياطية</string>
   <string name="save_transaction_and_new_success">تم حفظ العملية بنجاح</string>
   <string name="save_transaction_error">لا يمكن حفظ عملية جديدة من نموذج</string>
   <string name="save_transaction_template_deleted">تم حذف النموذج</string>
   <string name="select">اختر</string>
   <string name="select_category">اختر تصنيف</string>
   <string name="menu_select_category">اختر هذا التصنيف</string>
+  <string name="menu_select_folder">اختر هذا المجلد</string>
   <string name="share_scheme_not_supported">الطريقة %1$s غير مدعومة</string>
   <string name="share_sending">ارسال الملف المصدّر</string>
   <string name="split_parts_heading">تقسيم</string>
@@ -361,6 +380,7 @@
   <string name="widget_title_accounts">حساباتي</string>
   <string name="widget_title_templates">نماذجي</string>
   <!--Label for column where user can check rows to be discarded from import-->
+  <string name="cvs_import_discard">تجاهل</string>
   <string name="switch_on_text">تشغيل</string>
   <string name="switch_off_text">إيقاف</string>
   <string name="menu_move">تحريك</string>

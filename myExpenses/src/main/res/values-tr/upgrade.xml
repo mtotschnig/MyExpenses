@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_266">
+    <item>Yeni menü ikonları</item>
+  </string-array>
   <string-array name="whats_new_265">
     <item>Hesaplar, kategoriler ve şablonların sıralaması artık daha kolay</item>
   </string-array>

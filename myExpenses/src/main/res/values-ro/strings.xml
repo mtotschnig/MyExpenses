@@ -2,6 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Cont</string>
   <!--Label in form for payment method, where user checks for which account types the method is applicable-->
+  <string name="account_types">Tipuri cont</string>
   <string name="account_type_asset">Cont activ</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">Conturi activ</string>
@@ -43,6 +44,7 @@
   <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">Întrebare securitate</string>
   <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">Tranzacţie  repartizată</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Şablon widget</string>
+  <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV import</string>
   <string name="contrib_feature_auto_backup_label" tools:ignore="UnusedResources">Auto-backup</string>
   <string name="contrib_key">Cheie Contrib</string>
   <string name="extended_key">Cheie Extinse</string>
@@ -53,12 +55,14 @@
   <string name="date">Data</string>
   <string name="date_format">Format date</string>
   <string name="date_format_illegal">Format date incorect</string>
+  <string name="number_format_illegal">Format numar incorect</string>
   <string name="decimal_separator">Separator zecimal</string>
   <string name="default_account_description">Acest cont a fost creat automat în timpul instalării</string>
   <string name="default_account_name">Carte Buget</string>
   <string name="description">Descriere</string>
   <string name="dialog_balance_delete">Şterge tranzacţiile decontate</string>
   <!--User confirms that he wants to discard changes-->
+  <string name="dialog_confirm_button_discard">Inlatura</string>
   <string name="dialog_command_disabled_balance">Nici o tranzacţie procesată de decontat</string>
   <string name="dialog_command_disabled_reset_account">Nici o tranzacţie de exportat</string>
   <string name="dialog_command_disabled_distribution">Nici o tranzacţie nu a fost atribuită în categoriile acestui cont</string>
@@ -76,6 +80,9 @@
     <item quantity="few">Aveţi %1$d utilizari gratuite rămase.</item>
     <item quantity="other">Aveţi %1$d utilizari gratuite rămase.</item>
   </plurals>
+  <string name="dialog_contrib_buy_premium">Cumpara PREMIUM</string>
+  <string name="dialog_contrib_buy_extended">Cumpara EXTINS</string>
+  <string name="dialog_contrib_upgrade_extended">Actualizeaza la EXTINS</string>
   <string name="dialog_export_delete">Şterge tranzacţiile exportate</string>
   <string name="dialog_export_not_yet_exported">Exportă numai tranzacţiile neexportate </string>
   <string name="dialog_password_activate_protection">Activare protecţie prin parolă</string>
@@ -100,6 +107,7 @@
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">Sold  %1$s</string>
   <string name="dialog_title_contrib_feature">Funcţionaliate premium</string>
+  <string name="dialog_title_extended_feature">Functionalitati Extinse</string>
   <string name="dialog_title_planner_setup_info">Configurarea calendarului necesar</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
@@ -154,6 +162,7 @@
   <string name="licence_validation_failure">Validare imposibilă a Chei licenţei.</string>
   <string name="licence_validation_success">Cheie Licenţă validată:</string>
   <string name="licence_validation_premium">Funcţionalităţile Premium au fost deblocate.</string>
+  <string name="licence_validation_extended">Funcţionalităţile Extinse au fost deblocate.</string>
   <string name="menu_aggregates">Total</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Aplică</string>
@@ -288,6 +297,7 @@
   <string name="pref_auto_fill_title">Tranzacţii completate automat</string>
   <string name="pref_auto_fill_summary">Completatea valorii, categoriei şi comentariului de la tranzacţia de la acelaşi terţ</string>
   <string name="pref_backup_summary">Creaţi un backup al bazei de date si preferinţelor.</string>
+  <string name="pref_sort_order_usages">Numarul utilizarilor</string>
   <string name="pref_category_title_advanced">Avansat</string>
   <string name="pref_category_title_export">Export</string>
   <string name="pref_category_title_import">Import</string>
@@ -509,18 +519,45 @@ Tradus de DD</string>
   <string name="restore_calendar_handling_ignore">Nu restaura scadenţe</string>
   <string name="restore_not_possible_target_calendar_missing">Calendarul  %s setat în arhiva de backup nu există la nivel local. Restaurare a fost abandonată.</string>
   <string name="restore_not_possible_local_calendar_missing">Calendarul curent de scadenţe nu este disponibil.</string>
+  <string name="menu_view_picture">Vezi imagine</string>
+  <string name="menu_delete_picture">Şterge imagine</string>
   <string name="file_name">Nume fişier</string>
   <string name="folder_name">Numele folder</string>
+  <string name="menu_categories_export">Export ca QIF</string>
+  <string name="pref_csv_import_delimiter">Delimitator</string>
+  <string name="csv_import_preview">Preview</string>
   <!--Label for column where user can check rows to be discarded from import-->
+  <string name="cvs_import_discard">Inlatura</string>
+  <string name="csv_import_delimiter_comma">Virgula</string>
+  <string name="csv_import_delimiter_semicolon">Punct si virgula</string>
+  <string name="csv_import_delimiter_tab">Tab</string>
+  <string name="menu_show_transactions">Arata Tranzacţia</string>
+  <string name="pref_custom_decimal_format_title">Format numar</string>
   <string name="pref_auto_backup_title">Activează auto-backup</string>
   <string name="pref_auto_backup_summary">Backup bază de date zilnic la timpul specificat</string>
   <string name="pref_auto_backup_time_title">Timp auto-backup</string>
+  <string name="button_request_calendar_access">Acordare acces</string>
   <string name="switch_on_text">Activat</string>
   <string name="switch_off_text">Dezactivat</string>
+  <string name="menu_move">Muta</string>
+  <string name="dialog_title_select_target">Selectează  targhet</string>
   <string name="preferences_week_start_day_title">Săptămâna începe</string>
+  <string name="preferences_month_start_date_title">Luna începe pe</string>
   <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
+  <string name="pref_grouping_periods">Perioadele de grupare</string>
+  <string name="exchange_rate">Rata de schimb</string>
+  <string name="date_format_hour">Ora</string>
+  <string name="date_format_minute">Minutul</string>
+  <string name="copied_to_clipboard">Copiat în clipboard</string>
+  <string name="menu_sort">Setează dupa</string>
+  <string name="pref_sort_order_last_used">Ultima utilizate</string>
+  <string name="pref_sort_order_custom">Custom</string>
+  <string name="dialog_info_custom_sort">Utilizeaza tastele În sus şi În jos  din  fiecare meniu contextual  pentru a schimba poziţia de sortare. a elementului</string>
   <string name="content_description_calculator">Calculator</string>
   <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <string name="plan_instance_state_open">deschis</string>
   <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
+  <string name="plan_instance_state_cancelled">Anulat</string>
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <string name="plan_instance_state_applied">aplicat</string>
 </resources>

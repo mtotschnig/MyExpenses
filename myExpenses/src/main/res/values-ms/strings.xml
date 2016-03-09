@@ -469,6 +469,11 @@
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Folder terpilih semasa untuk sandar dan eksport akan dipadam secara automatik oleh Android jika anda menyahpasang Perbelanjaan Saya. Anda boleh hindari ia dari berlaku dengan memilih folder yang berlainan dari skrin tetapan.</string>
   <string name="warning_splitpartcategory_context">Pemindahan adalah sebahagian dari pisah yang boleh disunting dalam konteks pisah.</string>
   <string name="warning_fraction_digits_out_of_range">Sila tetapkan nombor diantara 0 hingga 8</string>
+  <string name="warning_change_fraction_digits_1">Amaun dalam pangkalan data perlu dikemaskini untuk dipadanakn dengan bilangan baharu digit pecahan.</string>
+  <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Jika amaun tidak dikemaskinikan, ia akan dipapar sebagai gandaan %d selepas perubahan.</string>
+  <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Jika amaun tidak dikemaskinikan, ia akan dipapar sebagai per %d selepas perubahan.</string>
+  <string name="warning_change_fraction_digits_3">Jika amaun dikemakinikan, anda akan kehilangan maklumat berkenaan bahagian pecahannya.</string>
+  <string name="warning_change_fraction_digits_checkbox_label">Kemaskini amaun dalam pangkalan data</string>
   <string name="import_categories_success">%1$s kategori berjaya diimport</string>
   <string name="import_parties_success">%1$s pihak berjaya diimport</string>
   <string name="import_accounts_success">%1$s akaun berjaya diimport</string>
@@ -485,6 +490,7 @@
   <!--Move an account up in the account list-->
   <string name="menu_sort_up">Naik</string>
   <!--Move an account down in the account list-->
+  <string name="menu_sort_down">Turun</string>
   <string name="create_new_folder_fail">Gagal mencipta folder</string>
   <string name="widget_title_accounts">Akaun saya</string>
   <string name="widget_title_templates">Templat saya</string>
@@ -578,8 +584,15 @@
   <string name="date_format_hour">Jam</string>
   <string name="date_format_minute">Minit</string>
   <string name="copied_to_clipboard">Disalin ke papan keratan</string>
+  <string name="menu_sort">Isih mengikut</string>
+  <string name="pref_sort_order_last_used">Terakhir digunakan</string>
+  <string name="pref_sort_order_custom">Suai</string>
+  <string name="dialog_info_custom_sort">Guna perintah Naik dan Turun dalam setiap menu konteks item untuk mengubah kedudukan isihnya.</string>
   <string name="content_description_calculator">Kalkulator</string>
   <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <string name="plan_instance_state_open">buka</string>
   <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
+  <string name="plan_instance_state_cancelled">dibatalkan</string>
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <string name="plan_instance_state_applied">dilaksanakan</string>
 </resources>
