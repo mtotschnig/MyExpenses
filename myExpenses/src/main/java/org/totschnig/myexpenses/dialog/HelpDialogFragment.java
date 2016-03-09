@@ -124,7 +124,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     variant = args.getString(KEY_VARIANT);
     layoutInflater = LayoutInflater.from(ctx);
     @SuppressLint("InflateParams")
-    View view = layoutInflater.inflate(R.layout.help_dialog, null);
+    final View view = layoutInflater.inflate(R.layout.help_dialog, null);
     linearLayout = (LinearLayout) view.findViewById(R.id.help);
 
     try {
@@ -216,6 +216,15 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
           .setMessage("Error generating Help dialog")
           .create();
     }
+/*    view.setOnTouchListener(new View.OnTouchListener() {
+      @Override
+      public boolean onTouch(View v, MotionEvent event) {
+        final ObjectAnimator animScrollToTop = ObjectAnimator.ofInt(view, "scrollY", 4000);
+        animScrollToTop.setDuration(4000);
+        animScrollToTop.start();
+        return true;
+      }
+    });*/
     return new AlertDialog.Builder(ctx)
         .setTitle(title)
         .setIcon(R.drawable.ic_menu_help)
