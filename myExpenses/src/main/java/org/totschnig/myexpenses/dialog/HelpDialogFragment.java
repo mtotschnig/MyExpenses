@@ -80,7 +80,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     iconMap.put("reset", R.drawable.ic_menu_download);
     iconMap.put("reset_plan_instance", R.drawable.ic_menu_revert);
     iconMap.put("save_and_new", R.drawable.ic_action_save_new);
-    iconMap.put("save", R.drawable.ic_menu_save);
+    iconMap.put("save", R.drawable.ic_menu_done);
     iconMap.put("search", R.drawable.ic_menu_search);
     iconMap.put("select_category", R.drawable.ic_menu_done);
     iconMap.put("print", R.drawable.ic_menu_print);
