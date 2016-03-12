@@ -941,18 +941,23 @@ public class ExpenseEdit extends AmountActivity implements
   protected Dialog onCreateDialog(int id) {
     switch (id) {
     case DATE_DIALOG_ID:
+      boolean brokenSamsungDevice = isBrokenSamsungDevice();
       @SuppressLint("InlinedApi")
-      Context context = isBrokenSamsungDevice() ?
+      Context context = brokenSamsungDevice ?
           new ContextThemeWrapper(this,
               MyApplication.getThemeType( ) == MyApplication.ThemeType.dark ?
                   android.R.style.Theme_Holo_Dialog : android.R.style.Theme_Holo_Light_Dialog) :
           this;
-      return new DatePickerDialog(context,
-          mDateSetListener,
-          mCalendar.get(Calendar.YEAR),
-          mCalendar.get(Calendar.MONTH),
-          mCalendar.get(Calendar.DAY_OF_MONTH)
-      );
+      int year = mCalendar.get(Calendar.YEAR);
+      int month = mCalendar.get(Calendar.MONTH);
+      int day = mCalendar.get(Calendar.DAY_OF_MONTH);
+      DatePickerDialog datePickerDialog = new DatePickerDialog(context, mDateSetListener,
+          year, month, day);
+      if (brokenSamsungDevice) {
+        datePickerDialog.setTitle("");
+        datePickerDialog.updateDate(year, month, day);
+      }
+      return datePickerDialog;
     case TIME_DIALOG_ID:
       return new TimePickerDialog(this,
           mTimeSetListener,
