@@ -44,10 +44,10 @@ import com.android.calendar.CalendarContractCompat;
 public class DbUtils {
 
   public static Result backup(File backupDir) {
+    cacheEventData();
     SQLiteDatabase db = TransactionProvider.mOpenHelper.getReadableDatabase();
     db.beginTransaction();
     try {
-      cacheEventData();
       File backupPrefFile, sharedPrefFile;
       Result result = DbUtils.backupDb(backupDir);
       if (result.success) {
@@ -153,7 +153,7 @@ public class DbUtils {
    * @return Long that is null if field is null in db
    */
   public static Long getLongOrNull(Cursor c, String field) {
-    return getLongOrNull(c,c.getColumnIndexOrThrow(field));
+    return getLongOrNull(c, c.getColumnIndexOrThrow(field));
   }
   public static Long getLongOrNull(Cursor c, int columnIndex) {
     if (c.isNull(columnIndex))
