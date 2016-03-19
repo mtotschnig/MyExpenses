@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ImageView
-    android:id="@+id/picture"
+<FrameLayout
+    android:id="@+id/picture_container"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/thumbnail_size"
     android:layout_height="@dimen/thumbnail_size"
-    android:background="@android:drawable/list_selector_background"
     android:clickable="true"
-    android:contentDescription="@string/contrib_feature_attach_picture_label"
     android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
     android:onClick="showPicturePopupMenu"
-    android:padding="2dp"
-    android:visibility="gone"/>
+    android:visibility="gone">
+
+    <ImageView
+        android:id="@+id/picture"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/contrib_feature_attach_picture_label"
+        android:padding="2dp"
+        android:scaleType="centerCrop"/>
+</FrameLayout>

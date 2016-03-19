@@ -126,6 +126,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FilterQueryProvider;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TableLayout;
@@ -171,7 +172,7 @@ public class ExpenseEdit extends AmountActivity implements
   protected TextView mPayeeLabel;
   private ToggleButton mPlanToggleButton;
   private ImageView mAttachPictureButton;
-  private ImageView mPictureView;
+  private FrameLayout mPictureViewContainer;
   public Long mRowId = 0L;
   private Long mTemplateId;
   private Account[] mAccounts;
@@ -244,7 +245,7 @@ public class ExpenseEdit extends AmountActivity implements
     mReferenceNumberText = (EditText) findViewById(R.id.Number);
     mDateButton = (Button) findViewById(R.id.DateButton);
     mAttachPictureButton = (ImageView) findViewById(R.id.AttachImage);
-    mPictureView = (ImageView) findViewById(R.id.picture);
+    mPictureViewContainer = (FrameLayout) findViewById(R.id.picture_container);
     mTimeButton = (Button) findViewById(R.id.TimeButton);
     mPayeeLabel = (TextView) findViewById(R.id.PayeeLabel);
     mPayeeText = (AutoCompleteTextView) findViewById(R.id.Payee);
@@ -767,7 +768,7 @@ public class ExpenseEdit extends AmountActivity implements
     View commentLabel = findViewById(R.id.CommentLabel);
     linkInputWithLabel(mStatusSpinner.getSpinner(), commentLabel);
     linkInputWithLabel(mAttachPictureButton, commentLabel);
-    linkInputWithLabel(mPictureView, commentLabel);
+    linkInputWithLabel(mPictureViewContainer, commentLabel);
     linkInputWithLabel(mCommentText, commentLabel);
     linkInputWithLabel(mCategoryButton, findViewById(R.id.CategoryLabel));
     View methodLabel = findViewById(R.id.MethodLabel);
@@ -1233,8 +1234,8 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   protected void setPicture() {
-    mPictureView.setVisibility(View.VISIBLE);
-    Picasso.with(this).load(mPictureUri).fit().into(mPictureView);
+    mPictureViewContainer.setVisibility(View.VISIBLE);
+    Picasso.with(this).load(mPictureUri).fit().into((ImageView) mPictureViewContainer.findViewById(R.id.picture));
     mAttachPictureButton.setVisibility(View.GONE);
   }
   @Override
@@ -2070,7 +2071,7 @@ public class ExpenseEdit extends AmountActivity implements
     case R.id.DELETE_COMMAND:
       mPictureUri = null;
       mAttachPictureButton.setVisibility(View.VISIBLE);
-      mPictureView.setVisibility(View.GONE);
+      mPictureViewContainer.setVisibility(View.GONE);
       break;
     case R.id.VIEW_COMMAND:
       startActivity(Transaction.getViewIntent(mPictureUri));
