@@ -184,6 +184,7 @@ public class CsvImportDataFragment extends Fragment  {
   }
 
   public void setData(ArrayList<CSVRecord> data) {
+    if (data == null || data.size() == 0) return;
     mDataset = data;
     int nrOfColumns = mDataset.get(0).size();
     discardedRows = new SparseBooleanArrayParcelable();

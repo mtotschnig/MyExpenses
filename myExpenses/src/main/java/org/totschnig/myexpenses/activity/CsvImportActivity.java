@@ -95,20 +95,22 @@ public class CsvImportActivity extends TabbedActivity implements
     switch (taskId) {
       case TaskExecutionFragment.TASK_CSV_PARSE:
         if (result != null) {
-          if (!mDataReady) {
-            addTab(1);
-            setmDataReady(true);
-            // TabLayout does not seem to be designed for handling changes in the adapter autmoatically
-            // https://code.google.com/p/android/issues/detail?id=182033
-            mTabLayout.addTab(mTabLayout.newTab().setText(mSectionsPagerAdapter.getPageTitle(1)));
+          ArrayList<CSVRecord> data = (ArrayList<CSVRecord>) result;
+          if (data.size() > 0) {
+            if (!mDataReady) {
+              addTab(1);
+              setmDataReady(true);
+            }
+            CsvImportDataFragment df = (CsvImportDataFragment) getSupportFragmentManager().findFragmentByTag(
+                mSectionsPagerAdapter.getFragmentName(1));
+            if (df != null) {
+              df.setData(data);
+              mViewPager.setCurrentItem(1);
+            }
+            break;
           }
-          CsvImportDataFragment df = (CsvImportDataFragment) getSupportFragmentManager().findFragmentByTag(
-              mSectionsPagerAdapter.getFragmentName(1));
-          if (df != null) df.setData((ArrayList<CSVRecord>) result);
-          mViewPager.setCurrentItem(1);
-        } else {
-          Toast.makeText(this, R.string.parse_error_no_data_found, Toast.LENGTH_LONG).show();
         }
+        Toast.makeText(this, R.string.parse_error_no_data_found, Toast.LENGTH_LONG).show();
         break;
       case TaskExecutionFragment.TASK_CSV_IMPORT:
         Result r = (Result) result;
