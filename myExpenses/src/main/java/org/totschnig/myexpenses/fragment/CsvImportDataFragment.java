@@ -49,7 +49,7 @@ import java.util.Iterator;
 /**
  * Created by privat on 30.06.15.
  */
-public class CsvImportDataFragment extends Fragment  {
+public class CsvImportDataFragment extends Fragment {
   public static final String KEY_DATASET = "DATASET";
   public static final String KEY_DISCARDED_ROWS = "DISCARDED_ROWS";
   public static final String KEY_COLUMN_TO_FIELD = "COLUMN_TO_FIELD";

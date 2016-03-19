@@ -29,7 +29,7 @@ DialogInterface.OnClickListener {
     return "Grisbi XML";
   }
   @Override
-  String getPrefKey() {
+  public String getPrefKey() {
     return "import_grisbi_file_uri";
   }
 

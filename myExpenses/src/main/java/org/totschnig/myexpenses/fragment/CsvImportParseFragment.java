@@ -36,6 +36,7 @@ import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
+import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Utils;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
@@ -44,21 +45,35 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 
-
-/**
- * Created by privat on 30.06.15.
- */
 public class CsvImportParseFragment extends Fragment implements View.OnClickListener,
     DialogUtils.UriTypePartChecker, LoaderManager.LoaderCallbacks<Cursor>,
-    AdapterView.OnItemSelectedListener {
+    AdapterView.OnItemSelectedListener, FileUtils.FileNameHost {
   static final String PREFKEY_IMPORT_CSV_DATE_FORMAT = "import_csv_date_format";
   static final String PREFKEY_IMPORT_CSV_ENCODING = "import_csv_encoding";
   static final String PREFKEY_IMPORT_CSV_DELIMITER = "import_csv_delimiter";
   private Uri mUri;
-  public void setmUri(Uri mUri) {
+
+  @Override
+  public String getPrefKey() {
+    return "import_csv_file_uri";
+  }
+
+  @Override
+  public Uri getUri() {
+    return mUri;
+  }
+  
+  @Override
+  public void setUri(Uri mUri) {
     this.mUri = mUri;
     getActivity().supportInvalidateOptionsMenu();
   }
+
+  @Override
+  public void setFilename(String filename) {
+    mFilename.setText(filename);
+  }
+
   private EditText mFilename;
   private Spinner mDateFormatSpinner, mEncodingSpinner, mDelimiterSpinner, mAccountSpinner,
       mCurrencySpinner, mTypeSpinner;
@@ -107,28 +122,15 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
     if (requestCode == ProtectedFragmentActivity.IMPORT_FILENAME_REQUESTCODE) {
       if (resultCode == Activity.RESULT_OK && data != null) {
-        setmUri(DialogUtils.handleFilenameRequestResult(data, mFilename, "CSV", this));
+        setUri(DialogUtils.handleFilenameRequestResult(data, mFilename, "CSV", this));
       }
     }
   }
-  String getPrefKey() {
-    return "import_csv_file_uri";
-  }
+
   @Override
   public void onResume() {
     super.onResume();
-    if (mUri==null) {
-      String restoredUriString = MyApplication.getInstance().getSettings()
-          .getString(getPrefKey(), "");
-      if (!restoredUriString.equals("")) {
-        Uri restoredUri = Uri.parse(restoredUriString);
-        String displayName = DialogUtils.getDisplayName(restoredUri);
-        if (displayName != null) {
-          setmUri(restoredUri);
-          mFilename.setText(displayName);
-        }
-      }
-    }
+    FileUtils.handleFileNameHostOnResume(this);
   }
 
   @Override
@@ -149,7 +151,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
         Uri restoredUri = Uri.parse(restoredUriString);
         String displayName = DialogUtils.getDisplayName(restoredUri);
         if (displayName != null) {
-          setmUri(restoredUri);
+          setUri(restoredUri);
           mFilename.setText(displayName);
         }
       }
@@ -189,10 +191,10 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
             [mDelimiterSpinner.getSelectedItemPosition()];
         SharedPreferencesCompat.apply(
             MyApplication.getInstance().getSettings().edit()
-                .putString(getPrefKey(), mUri.toString())
                 .putString(PREFKEY_IMPORT_CSV_DELIMITER, delimiter)
                 .putString(PREFKEY_IMPORT_CSV_ENCODING, encoding)
                 .putString(PREFKEY_IMPORT_CSV_DATE_FORMAT, format.name()));
+        FileUtils.maybePersistUri(this);
         TaskExecutionFragment taskExecutionFragment =
             TaskExecutionFragment.newInstanceCSVParse(
                 mUri, delimiter.charAt(0), encoding);

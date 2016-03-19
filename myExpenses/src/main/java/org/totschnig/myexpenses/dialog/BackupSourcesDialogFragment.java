@@ -44,7 +44,7 @@ public class BackupSourcesDialogFragment extends ImportSourceDialogFragment
     return "Zip";
   }
   @Override
-  String getPrefKey() {
+  public String getPrefKey() {
     return "backup_restore_file_uri";
   }
 

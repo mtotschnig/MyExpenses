@@ -16,13 +16,28 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
-import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.util.FileUtils;
 
 public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragment
-    implements OnClickListener, DialogInterface.OnClickListener, DialogUtils.UriTypePartChecker  {
+    implements OnClickListener, DialogInterface.OnClickListener, DialogUtils.UriTypePartChecker,
+    FileUtils.FileNameHost {
 
   protected EditText mFilename;
+
+  public Uri getUri() {
+    return mUri;
+  }
+
+  @Override
+  public void setUri(Uri uri) {
+    mUri = uri;
+  }
+
+  @Override
+  public void setFilename(String filename) {
+    mFilename.setText(filename);
+  }
+
   protected Uri mUri;
 
   public ImportSourceDialogFragment() {
@@ -31,7 +46,6 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
   abstract int getLayoutId();
   abstract String getLayoutTitle();
   abstract String getTypeName();
-  abstract String getPrefKey();
   public boolean checkTypeParts(String[] typeParts) {
    return DialogUtils.checkTypePartsDefault(typeParts);
   }
@@ -87,30 +101,13 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
   @Override
   public void onResume() {
     super.onResume();
-    if (mUri==null) {
-      String restoredUriString = MyApplication.getInstance().getSettings()
-          .getString(getPrefKey(), "");
-      if (!restoredUriString.equals("")) {
-        Uri restoredUri = Uri.parse(restoredUriString);
-        if (!FileUtils.isDocumentUri(getActivity(),restoredUri)) {
-          String displayName = DialogUtils.getDisplayName(restoredUri);
-          if (displayName != null) {
-            mUri = restoredUri;
-            mFilename.setText(displayName);
-          }
-        }
-      }
-    }
+    FileUtils.handleFileNameHostOnResume(this);
     setButtonState();
   }
 
   //we cannot persist document Uris because we use ACTION_GET_CONTENT instead of ACTION_OPEN_DOCUMENT
   protected void maybePersistUri() {
-    if (!FileUtils.isDocumentUri(getActivity(),mUri)) {
-      SharedPreferencesCompat.apply(
-          MyApplication.getInstance().getSettings().edit()
-              .putString(getPrefKey(), mUri.toString()));
-    }
+    FileUtils.maybePersistUri(this);
   }
 
   @Override

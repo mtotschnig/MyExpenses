@@ -21,7 +21,6 @@ import android.annotation.TargetApi;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.graphics.Bitmap;
@@ -30,15 +29,17 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 
 import org.totschnig.myexpenses.BuildConfig;
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.dialog.DialogUtils;
+import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.text.DecimalFormat;
-import java.util.Comparator;
 
 /**
  * @version 2009-07-03
@@ -335,6 +336,31 @@ public class FileUtils {
     return isKitKat && DocumentsContract.isDocumentUri(context, uri);
   }
 
+  public static <T extends Fragment & FileNameHost> void  maybePersistUri(T context) {
+    if (!isDocumentUri(context.getActivity(), context.getUri())) {
+      SharedPreferencesCompat.apply(
+          MyApplication.getInstance().getSettings().edit()
+              .putString(context.getPrefKey(), context.getUri().toString()));
+    }
+  }
+
+  public static <T extends Fragment & FileNameHost> void handleFileNameHostOnResume(T context) {
+    if (context.getUri()==null) {
+      String restoredUriString = MyApplication.getInstance().getSettings()
+          .getString(context.getPrefKey(), "");
+      if (!restoredUriString.equals("")) {
+        Uri restoredUri = Uri.parse(restoredUriString);
+        if (!FileUtils.isDocumentUri(context.getActivity(),restoredUri)) {
+          String displayName = DialogUtils.getDisplayName(restoredUri);
+          if (displayName != null) {
+            context.setUri(restoredUri);
+            context.setFilename(displayName);
+          }
+        }
+      }
+    }
+  }
+
   /**
    * Convert Uri into File, if possible.
    *
@@ -523,4 +549,12 @@ public class FileUtils {
 //    intent.addCategory(Intent.CATEGORY_OPENABLE);
 //    return intent;
 //  }
+
+  public interface FileNameHost {
+    String getPrefKey();
+
+    Uri getUri();
+    void setUri(Uri uri);
+    void setFilename(String filename);
+  }
 }

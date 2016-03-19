@@ -81,7 +81,7 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
   }
 
   @Override
-  String getPrefKey() {
+  public String getPrefKey() {
     return "import_" + getFormat().getExtension() + "_file_uri";
   }
   @Override
