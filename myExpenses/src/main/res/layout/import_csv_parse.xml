@@ -14,10 +14,11 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1" >
+    android:layout_height="fill_parent"
+    android:layout_weight="1">
 
     <TableLayout
         android:layout_width="fill_parent"
@@ -25,31 +26,31 @@
         android:paddingLeft="@dimen/padding_form"
         android:paddingRight="@dimen/padding_form"
         android:shrinkColumns="*"
-        android:stretchColumns="*" >
+        android:stretchColumns="*">
 
-        <include layout="@layout/filename" />
+        <include layout="@layout/filename"/>
 
         <include layout="@layout/encoding"/>
 
         <TableRow>
 
             <TextView
+                style="@style/form_label.compat"
                 android:layout_width="0dip"
                 android:layout_weight="1"
-                style="@style/form_label.compat"
                 android:text="@string/pref_csv_import_delimiter"/>
 
             <Spinner
-                android:layout_width="0dip"
                 android:id="@+id/Delimiter"
-                android:layout_weight="@dimen/form_table_ratio"
+                android:layout_width="0dip"
                 android:layout_gravity="center_vertical"
-                android:entries="@array/pref_csv_import_delimiter_entries" />
+                android:layout_weight="@dimen/form_table_ratio"
+                android:entries="@array/pref_csv_import_delimiter_entries"/>
         </TableRow>
 
         <include layout="@layout/date_format"/>
 
         <include layout="@layout/import_account"/>
-    </TableLayout>
 
-</ScrollView>
+    </TableLayout>
+</android.support.v4.widget.NestedScrollView>
