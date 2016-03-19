@@ -212,6 +212,7 @@ public class CsvImportDataFragment extends Fragment  {
     mAdapter = new MyAdapter();
     mRecyclerView.setAdapter(mAdapter);
     //set up header
+    mHeaderLine.removeViews(1,mHeaderLine.getChildCount()-1);
     for (int i = 0; i < nrOfColumns; i++) {
       Spinner cell = new Spinner(getActivity());
       cell.setId(i);
