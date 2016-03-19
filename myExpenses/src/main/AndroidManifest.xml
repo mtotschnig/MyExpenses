@@ -34,14 +34,14 @@
         tools:ignore="UnusedAttribute"
         android:name="org.totschnig.myexpenses.MyApplication"
         android:icon="@drawable/myexpenses"
-        android:label="@string/app_name"
+        android:label="${appName}"
         android:theme="@style/Launch"
         android:allowBackup="true"
         android:supportsRtl="true">
         <activity
             android:name=".activity.MyExpenses"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:label="@string/app_name">
+            android:label="${appName}">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -189,11 +189,11 @@
 
         <provider
             android:name=".provider.TransactionProvider"
-            android:authorities="org.totschnig.myexpenses"
+            android:authorities="${applicationId}"
             android:exported="false" />
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="org.totschnig.myexpenses.fileprovider"
+            android:authorities="${applicationId}.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true" >
             <meta-data

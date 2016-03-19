@@ -49,7 +49,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 public class TransactionProvider extends ContentProvider {
 
   protected static TransactionDatabase mOpenHelper;
-  public static final String AUTHORITY = "org.totschnig.myexpenses";
+  public static final String AUTHORITY = BuildConfig.APPLICATION_ID;
   public static final Uri ACCOUNTS_URI =
       Uri.parse("content://" + AUTHORITY + "/accounts");
   //when we need the accounts cursor without the current balance
