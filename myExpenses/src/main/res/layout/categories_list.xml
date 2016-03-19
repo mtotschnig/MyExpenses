@@ -45,7 +45,7 @@
           android:onClick="importCats"
           android:layout_marginTop="15dp"
           android:layout_below="@id/emptyText"
-          android:drawableTop="@android:drawable/ic_menu_upload"
+          android:drawableTop="@drawable/ic_menu_add_list_indirection"
           android:text="@string/menu_categories_setup_default" />
     </RelativeLayout>
 </LinearLayout>
