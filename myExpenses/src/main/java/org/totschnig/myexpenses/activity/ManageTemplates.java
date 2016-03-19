@@ -105,6 +105,7 @@ public class ManageTemplates extends TabbedActivity implements
       }
     }
     helpVariant = HelpVariant.templates;
+    setFabColor();
   }
 
   @Override

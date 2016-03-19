@@ -43,6 +43,7 @@ public class ManageParties extends ProtectedFragmentActivity implements
     setContentView(R.layout.manage_parties);
     setupToolbar(true);
     setTitle(R.string.pref_manage_parties_title);
+    setFabColor();
   }
 
   @Override

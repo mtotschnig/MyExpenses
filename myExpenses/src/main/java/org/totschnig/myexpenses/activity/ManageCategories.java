@@ -140,9 +140,11 @@ public class ManageCategories extends ProtectedFragmentActivity implements
     if (title!=0) getSupportActionBar().setTitle(title);
     FragmentManager fm = getSupportFragmentManager();
     mListFragment = ((CategoryList) fm.findFragmentById(R.id.category_list));
-    findViewById(R.id.CREATE_COMMAND).setVisibility(
-        (helpVariant.equals(HelpVariant.select_mapping) || helpVariant.equals(HelpVariant.manage)) ?
-            View.VISIBLE : View.GONE);
+    if (helpVariant.equals(HelpVariant.select_mapping) || helpVariant.equals(HelpVariant.manage)) {
+     setFabColor();
+    } else {
+      findViewById(R.id.CREATE_COMMAND).setVisibility(View.GONE);
+    }
   }
 
   @Override

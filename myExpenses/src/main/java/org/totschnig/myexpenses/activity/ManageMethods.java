@@ -32,6 +32,7 @@ public class ManageMethods extends ProtectedFragmentActivity {
     setContentView(R.layout.manage_methods);
     setupToolbar(true);
     setTitle(R.string.pref_manage_methods_title);
+    setFabColor();
   }
 
   @Override
