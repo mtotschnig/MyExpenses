@@ -8,10 +8,6 @@ android {
         applicationId "org.totschnig.myexpenses"
         minSdkVersion project.minSdkVersion
         targetSdkVersion project.targetSdkVersion
-        compileOptions {
-            sourceCompatibility JavaVersion.VERSION_1_7
-            targetCompatibility JavaVersion.VERSION_1_7
-        }
         versionCode 242
         versionName '2.6.6'
 
@@ -21,6 +17,11 @@ android {
         testProguardFile "proguard-test.txt"
 
         generatedDensities = []
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
     }
 
     /*signingConfigs {
