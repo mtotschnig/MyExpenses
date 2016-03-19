@@ -1495,15 +1495,18 @@ public class ExpenseEdit extends AmountActivity implements
         }
       } else {
         mOperationType = mTransaction instanceof Transfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
-        mPictureUri = mTransaction.getPictureUri();
-        if (mPictureUri!=null) {
-          boolean doShowPicture = true;
-          if (isFileAndNotExists(mTransaction.getPictureUri())) {
-            Toast.makeText(this, R.string.image_deleted, Toast.LENGTH_SHORT).show();
-            doShowPicture = false;
-          }
-          if (doShowPicture) {
-            setPicture();
+        if (mPictureUri == null) { // we might have received a picture in onActivityResult before
+                                   // arriving here, in this case it takes precedence
+          mPictureUri = mTransaction.getPictureUri();
+          if (mPictureUri != null) {
+            boolean doShowPicture = true;
+            if (isFileAndNotExists(mTransaction.getPictureUri())) {
+              Toast.makeText(this, R.string.image_deleted, Toast.LENGTH_SHORT).show();
+              doShowPicture = false;
+            }
+            if (doShowPicture) {
+              setPicture();
+            }
           }
         }
       }
