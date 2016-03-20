@@ -1629,7 +1629,6 @@ public class ExpenseEdit extends AmountActivity implements
         mTransferAccountSpinner.getSelectedItemId());
     final Currency currency = getCurrentAccount().currency;
     final boolean isSame = currency.equals(transferAccount.currency);
-    int visibility = isSame ? View.GONE : View.VISIBLE;
     findViewById(R.id.TransferAmountRow).setVisibility(isSame ? View.GONE : View.VISIBLE);
     findViewById(R.id.ExchangeRateRow).setVisibility(
         isSame || (mTransaction instanceof Template) ? View.GONE : View.VISIBLE);
