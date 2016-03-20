@@ -1315,7 +1315,7 @@ public class ExpenseEdit extends AmountActivity implements
     }
     outState.putString(KEY_LABEL, mLabel);
     if (mPlan != null) {
-      outState.putSerializable(KEY_PLAN,mPlan);
+      outState.putSerializable(KEY_PLAN, mPlan);
     }
     if (mPictureUri != null) {
       outState.putParcelable(KEY_PICTURE_URI, mPictureUri);
@@ -1324,10 +1324,16 @@ public class ExpenseEdit extends AmountActivity implements
       outState.putParcelable(KEY_PICTURE_URI_TMP, mPictureUriTemp);
     }
     long methodId = mMethodSpinner.getSelectedItemId();
+    if (methodId == android.widget.AdapterView.INVALID_ROW_ID && mMethodId != null) {
+      methodId = mMethodId;
+    }
     if (methodId != android.widget.AdapterView.INVALID_ROW_ID) {
       outState.putLong(KEY_METHODID, methodId);
     }
     long accountId = mAccountSpinner.getSelectedItemId();
+    if (accountId == android.widget.AdapterView.INVALID_ROW_ID && mAccountId != null) {
+      accountId = mAccountId;
+    }
     if (accountId != android.widget.AdapterView.INVALID_ROW_ID) {
       outState.putLong(KEY_ACCOUNTID, accountId);
     }
