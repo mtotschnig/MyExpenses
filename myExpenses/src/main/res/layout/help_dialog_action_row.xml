@@ -17,6 +17,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:orientation="horizontal">
 
@@ -27,16 +28,16 @@
         android:orientation="vertical"
         android:layout_marginRight="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_centerVertical="true"
+        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
     <!--  Menu icon -->
         <ImageView
             android:id="@+id/list_image"
-            android:layout_gravity="center_horizontal"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:visibility="gone"
+            tools:visibility="visible"
             tools:src="@android:drawable/ic_menu_my_calendar"
             tools:ignore="ContentDescription"/>
         <CheckBox
@@ -55,7 +56,6 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/list_image_container"
         android:layout_toEndOf="@+id/list_image_container"
-        android:layout_marginTop="3dp"
         android:typeface="sans"
         android:textSize="15sp"
         android:textStyle="bold"
