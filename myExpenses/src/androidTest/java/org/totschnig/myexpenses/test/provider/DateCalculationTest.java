@@ -15,6 +15,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.test.ProviderTestCase2;
+import android.test.suitebuilder.annotation.Suppress;
 import android.util.Log;
 
 public class DateCalculationTest extends ProviderTestCase2<TransactionProvider> {
@@ -63,7 +64,9 @@ public class DateCalculationTest extends ProviderTestCase2<TransactionProvider> 
     assertEquals(Calendar.SUNDAY,DatabaseConstants.weekStartsOn);
     doTheTest();
   }
-  
+
+  //this test would only work on devices where Arab is configured to start weeks on Saturdays.
+  @Suppress
   public void testDateCalculationsForWeekGroupsWeekStartsOnSaturday() {
     if ("goldfish".equals(Build.HARDWARE)) return; //on emulator locale is not configured correctly
     DatabaseConstants.buildLocalized(new Locale("ar","SA"));
