@@ -271,6 +271,9 @@ public class MyApplication extends Application implements
   @Override
   public void onCreate() {
     super.onCreate();
+    //Maybe prevents occasional crashes on Gingerbread
+    //https://code.google.com/p/android/issues/detail?id=81083
+    try {Class.forName("android.os.AsyncTask");} catch(Throwable ignore) {}
     mSelf = this;
     // sets up mSettings
     getSettings().registerOnSharedPreferenceChangeListener(this);
