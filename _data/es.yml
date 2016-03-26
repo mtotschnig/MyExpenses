@@ -69,7 +69,7 @@ es:
         y luego solicitar la clave de licencia en la pantalla Configuración.
         Una vez que usted lo recibe por correo electrónico, entra también en la pantalla Configuración.
       price: |
-        El monto mínimo es de 2,50 € (0,01 bitcoins) para la clave de Contrib y 5,00 € (0,02 bitcoins) para la clave extendida. Enviar € 2,50 (0,01 bitcoins) para la actualización de Contrib a extendida.
+        El monto mínimo es de %1$s para la clave de Contrib y %2$s para la clave extendida. Enviar € %1$s para la actualización de Contrib a extendida.
   permissions-heading: |
     Mis gastos requiere los siguientes permisos
   permissions-calendar: |

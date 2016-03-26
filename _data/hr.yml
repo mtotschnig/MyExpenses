@@ -33,8 +33,6 @@ hr:
   contrib:
     thank_you: |
       Vaš doprinos omogućava daljnji razvoj My Expensesa. Hvala Vam!
-    feature-list-title: |
-      Sljedeće Premium mogućnosti su otključane kupnjom Contrib Ključa:
     feature:
       accounts_unlimited: Neograničeni broj računa
       plans_unlimited: Neograničeni broj planova
@@ -44,11 +42,8 @@ hr:
       template_widget: Widget za predložak
       print: Eksportiraj listu transakcija u PDF
     licence-howto-buy:
-      deprecated: "__NOT_NEEDED__"
-      intro: |
-        Moguće opcije za kupnju Contrib Ključa:
-      in-app: |
-        Ako ste instalirali My Expenses sa Google Play-a ili Amazonovog App Store-a, kupnja je moguća unutar aplikacije.
+      deprecated: |-
+        __NOT_NEEDED__
       blackberry: |
         Ako ste instalirali My Expenses sa Blackberry World-a, instalirajte
         <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">My Expenses Contrib</a>.

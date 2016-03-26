@@ -30,14 +30,12 @@ vi:
     backup: Sao lưu và phục hồi dữ liệu
     light_theme: "hai giao diện: sáng màu và tối màu"
   contrib:
-    licence-howto-buy:
-      deprecated: "__NOT_NEEDED__"
-    feature-list-title: |
-      Xin vui lòng đóng góp cho chương trình bằng cách cài đặt phiên bản Contrib. Bạn sẽ được phép sử dụng các
-      tính năng của phiên bản nâng cao:
     feature:
       accounts_unlimited: Không giới hạn số lượng các tài khoản
       plans_unlimited: Unlimited number of plans
       distribution: Tác động phân phối các giao dịch cho mỗi phân loại
       split_transaction: Phân tích giao dịch
       security_question: Câu hỏi an ninh
+    licence-howto-buy:
+      deprecated: |-
+        __NOT_NEEDED__

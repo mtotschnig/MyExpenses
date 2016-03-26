@@ -10,8 +10,8 @@
  </target>
  <target name="localize" depends="copy">
  <replaceregexp
-               match="\{\{t\.(.*?)\}\}"
-               replace="{% if msg.\1 %}{{msg.\1}}{% else %}{{site.data.en.en.\1}}{% endif %}"
+               match="\{\{t\.(.*?)( .*)?\}\}"
+               replace="{% if msg.\1 %}{{msg.\1\2}}{% else %}{{site.data.en.en.\1\2}}{% endif %}"
                byline="true">
    <fileset dir=".">
     <include name="_includes/misc_info.html"/>

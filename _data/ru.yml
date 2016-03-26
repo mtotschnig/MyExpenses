@@ -32,8 +32,6 @@ ru:
   contrib:
     thank_you: |
       Ваш вклад поддерживает дальнейшее развитие Мои расходы. Спасибо!
-    feature-list-title: |
-      Следующие премиум функции могут быть разблокированы путем приобретения Contrib лицензии:
     feature:
       accounts_unlimited: Неограниченное количество счетов
       plans_unlimited: Неограниченное количество планов
@@ -41,10 +39,8 @@ ru:
       split_transaction: Разделённая операция
       security_question: Секретный вопрос
       template_widget: Шаблон виджет
-      auto_backup: Авто-бэкап
+      auto_backup: Включить авто-бэкап
     licence-howto-buy:
-      intro: |
-        У вас есть следующие варианты для покупки Contrib-лицензии:
       blackberry: |
         Если у вас установлено Мои расходы из Blackberry World, установите <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">Мои расходы Contrib</a>.
       other: |

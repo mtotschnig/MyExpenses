@@ -285,7 +285,7 @@
         </li>
       </ul>
       {{t.contrib.licence-howto-buy.key}}<br />
-      {{t.contrib.licence-howto-buy.price}}
+      {{t.contrib.licence-howto-buy.price | replace:"%1$s","2.50 € (<a href='http://www.xe.com/currencyconverter/convert/?Amount=2.5&From=EUR&To=XBT'>Bitcoin</a>)" | replace:"%2$s","5.00 € (<a href='http://www.xe.com/currencyconverter/convert/?Amount=5&From=EUR&To=XBT'>Bitcoin</a>)"}}
     </li>
   </ul>
 </div>

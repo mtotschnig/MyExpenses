@@ -30,11 +30,12 @@ ro:
     help: Ajutor integrat
     backup: Date de backup şi restaurare
     light_theme: "Doua teme: deschis şi întunecat"
+    attach_picture: Ataseaza imagine la tranzactie
   contrib:
     thank_you: |
       Contribuţia dumneavoastră sprijină dezvoltarea ulterioară a  Cheltuielile Mele. Vă mulţumesc!
     feature-list-title: |
-      Următoarele funcţionalităţi Premium pot fi deblocate prin achiziţionarea une Licenţe Contrib:
+      Următoarele functionalitati Premium pot fi deblocate prin achiziţionarea unei Contrib sau o licență de extinsă:
     feature:
       accounts_unlimited: Număr nelimitat de conturi
       plans_unlimited: Număr nelimitat de planuri
@@ -43,16 +44,22 @@ ro:
       security_question: Întrebări securitate
       template_widget: Şablon widget
       print: Export listă tranzacţii în PDF
+      attach_picture: Ataseaza imagine la tranzactie
       ad_free: Fără reclame
-      auto_backup: Auto-backup
+      csv_import: CSV import
+      auto_backup: Activează auto-backup
+    extended-label: Extins
     licence-howto-buy:
-      deprecated: "__NOT_NEEDED__"
+      deprecated: |-
+        __NOT_NEEDED__
       intro: |
-        Aveţi următoarele opţiuni pentru achiziţionarea licenţei Contrib:
+        Aveţi următoarele opţiuni pentru achiziţionarea  unei Contrib şi licenţe extinse:
       in-app: |
-        Dacă aţi instalat Cheltuielile Mele de pe Google Play sau Amazon App Store, acesta este disponibil  in-app cumparare.
-      blackberry: "Dacă aţi instalat My Expenses de pe Blackberry World, instalaţi \n<a class=\"track\" id=\"blackberry-contrib\" href=\"http://appworld.blackberry.com/webstore/content/57168887\">My\
-        \ Expenses Contrib</a>.\n"
+        Dacă aţi instalat Cheltuielile mele de pe Google Play sau Amazon App Store, acestea sunt disponibile ca achiziţii de in-app.
+      blackberry: "Dacă aţi instalat My Expenses de pe Blackberry World, instalaţi \n<a class=\"track\" id=\"blackberry-contrib\" href=\"http://appworld.blackberry.com/webstore/content/57168887\">My Expenses\
+        \ Contrib</a>.\n"
+      blackberry-extra: |
+        Pe Blackberry nu există o cheie de extinsă, cheia Contrib oferă, de asemenea, acces la functionalitati extinse.
       other: "Dacă aţi descărcat Cheltuielile Mele de la F-Droid, Yandex sau SlideMe, \ntrimiteţi o donaţie prin una din următoarele:\n"
       transfer: |
         Alternativ, transfer bancar în următorul contul :
@@ -60,6 +67,8 @@ ro:
         şi apoi cereţi cheia licenţei din ecranul setări.
         Odată ce-l primiţi prin e-mail, introduceţi-l, de asemenea, din ecranul Setări.
 
+      price: |
+        Suma minimă este de %1$s pentru cheia Contrib şi %2$s pentru cheia extinsa. Trimite %1$s pentru actualizarea la Contrib extinsa
   permissions-heading: |
     Cheltuielile Mele necesită următoarele permisiuni
   permissions-calendar: |

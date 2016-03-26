@@ -18,7 +18,7 @@ ja:
     sourcecode: ソースコード
     links: リンク
   features:
-    manage_accounts: 転記できる最大5つの勘定
+    manage_accounts: 振替できる最大5つの勘定
     plans: 将来の繰り返し取引用のテンプレートと計画を定義
     grouped_list: 日、週、月、年ごとの取引をグループ化、グループごとの合計を表示
     distribution: 2つのレベルの分類 (Grisbi XML からインポート)
@@ -30,11 +30,12 @@ ja:
     help: 統合されたヘルプ
     backup: データバックアップおよび復元
     light_theme: "2つのテーマ: ライトおよびダーク"
+    attach_picture: 取引に画像を添付
   contrib:
     thank_you: |
       あなたの貢献は、マイ エクスペンス のさらなる開発を支援します。ありがとうございます!
     feature-list-title: |
-      次のプレミアム機能は、貢献ライセンスを取得するとロック解除できます:
+      次のプレミアム機能は、貢献または拡張ライセンスを取得するとロック解除することができます:
     feature:
       accounts_unlimited: 無制限の勘定数
       plans_unlimited: 無制限の計画数
@@ -45,14 +46,20 @@ ja:
       print: 取引リストを PDF にエクスポート
       attach_picture: 取引に画像を添付
       ad_free: 広告なし
+      csv_import: CSV インポート
+      auto_backup: 自動バックアップを有効にする
+    extended-label: 拡張
     licence-howto-buy:
-      deprecated: "__NOT_NEEDED__"
+      deprecated: |-
+        __NOT_NEEDED__
       intro: |
-        貢献ライセンスを購入するには、次のオプションがあります:
+        貢献または拡張ライセンスの購入は、次のオプションがあります:
       in-app: |
-        Google Play や Amazon App Store からマイ エクスペンスをインストールしている場合、アプリ内購入が利用できます。
+        Google Play や Amazon App Store からマイ エクスペンスをインストールしている場合、アプリ内購入がご利用できます:
       blackberry: |
         Blackberry World からマイ エクスペンスをインストールしている場合、 <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">マイ エクスペンス貢献</a> をインストールしてください。
+      blackberry-extra: |
+        Brackberry では拡張キーはありません。貢献キーで拡張機能にアクセスできます。
       other: |
         F-Droid、Yandex、またはSlideMe からマイ エクスペンスをダウンロードしている場合は、次の方法で寄付を送ってください:
       transfer: |
@@ -60,6 +67,8 @@ ja:
       key: |
         その後、設定画面からライセンスキーをリクエストしてください。
         Eメールでライセンスキーを受け取ったら、設定画面から入力してください。
+      price: |
+        寄贈キーの最低額は、2.50 € (0.01 ビットコイン) 拡張キーは 5.00 € (0.02 ビットコイン) です。 貢献キーから拡張キーへのアップグレードは 2.50 € (0.01 ビットコイン) を送ってください。
   permissions-heading: |
     マイ エクスペンスは次のアクセス許可が必要です
   permissions-calendar: |

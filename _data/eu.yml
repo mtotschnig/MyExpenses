@@ -35,7 +35,7 @@ eu:
     thank_you: |
       Zure kontribuzioak Nire Gastuak garatzen jarraitzea babesten du. Eskerrik Asko!
     feature-list-title: |
-      Honako Premium ezaugarri hauek desblokeatu daitezke Kontribuzio lizentzia bat erosita:
+      Honako Premium ezaugarri hauek kontribuzio edo hedatutako lizentzia bat eskuratuz lortu daitezke:
     feature:
       accounts_unlimited: Kontu kopuru mugagabea
       plans_unlimited: Plan kopuru mugagabea
@@ -46,17 +46,21 @@ eu:
       print: Esportatu transakzio zerrenda PDFra
       attach_picture: Erantsi irudia transakzioari
       ad_free: Iragarkirik gabe
+      csv_import: CSV inportazioa
       auto_backup: Babeskopia automatikoa
+    extended-label: Hedatua
     licence-howto-buy:
       deprecated: |
         OHARRA: 2.3.9 bertsiotik Nire Gastuak aplikazioko premium funtzionalitatea desblokeatzeko kontribuzio gakoa errazago lortu daiteke aplikazio barneko ordainketaren bidez, ez duzu "My Expenses Contrib Key" aplikazioa instalatzeko beharrik.
       intro: |
-        Honako aukera hauek dituzu Kontribuzio lizentzia erosteko:
+        Honako aukera hauek dituzu Kontribuzio eta Hedatutako lizentziak erosteko:
       in-app: |
-        Nire gastuak Google Play edo Amazon bitartez instalatu baduzu, aplikazio barneko erosketa gisa dago eskuragarri:
+        Nire Gastuak Google Play edo Amazon App Storetik instalatu baduzu, aplikazio barneko erosketa gisa daude eskuragarri.
       blackberry: |
         Nire Gastuak Blakberry World bidez instalatu baduzu, instalatu
         <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">My Expenses Contrib</a>.
+      blackberry-extra: |
+        Blackberryn ez dago hedatutako gakorik, Kontribuzio gakoak hedatutako ezaugarrietara sarbidea ematen dizu ere.
       other: |
         Nire Gastuak F-Droid, Yandex edo SlideMe bidez deskargatu baduzu, egin dohaintza bat hauetakoren baten bidez:
       transfer: |
@@ -64,6 +68,8 @@ eu:
       key: |
         eta lizentziaren gakoa eskatu ezarpenak pantailatik.
         Behin e-posta bidez jaso duzula, aplikazioan sartu ezarpen pantailatik ere.
+      price: |
+        Gutxieneko kopurua %1$s Kontribuzio gakorako eta %2$s Hedatutako gakorako. Bidali %1$s kontribuzio gakotik gako hedatura eguneratzeko.
   permissions-heading: |
     Nire Gastuak honako baimen hauek behar ditu:
   permissions-calendar: |

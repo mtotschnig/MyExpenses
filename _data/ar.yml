@@ -9,6 +9,7 @@ ar:
   sections:
     credits: الشكر
   features:
+    calculator: الحاسبة
     password: حماية كلمة المرور
   contrib:
     feature:
@@ -17,5 +18,9 @@ ar:
       distribution: توزيع العمليات لكل تصنيف
       split_transaction: تقسيم العمليات
       security_question: السؤال السري
+      ad_free: بدون إعلانات
+      csv_import: إستيراد ملف CSV
+      auto_backup: نسخ احتياطي آلي
     licence-howto-buy:
-      deprecated: "__NOT_NEEDED__"
+      deprecated: |-
+        __NOT_NEEDED__

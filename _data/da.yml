@@ -32,8 +32,6 @@ da:
     light_theme: "To temaer: lys og mørk"
     attach_picture: Tillægge transaktionen afbildning
   contrib:
-    feature-list-title: |
-      Mine udgifter Contrib licensen giver dig adgang til følgende funktioner:
     feature:
       accounts_unlimited: Ubegrænset antal konti
       plans_unlimited: Ubegrænset antal planer
@@ -44,13 +42,10 @@ da:
       print: Eksporter listen med posteringer til PDF
       attach_picture: Vedhæft billed til posteringen
       ad_free: Ingen annoncer
+      csv_import: CSV import
     licence-howto-buy:
       deprecated: |
         BEMÆRK: Siden version 2.3.9 kan Contrib nøglen du kan låse op Premium funktionerne med nemer købes via in-app-betaling, så du behøver ikke længer at installere app'en "Mine udgifter Contrib nøgle"
-      intro: |
-        Contrib licensen kan købes på flere måder:
-      in-app: |
-        Hvis du har installeret Mine udgifter fra Google Play eller Amazon App Store kan den købes via in-app-betaling.
       blackberry: |
         Hvis du har installeret Mine udgifter fra Blackberry World, skal du installer
         <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">My Expenses Contrib</a>.

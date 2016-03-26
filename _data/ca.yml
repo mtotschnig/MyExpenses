@@ -33,8 +33,6 @@ ca_ES:
   contrib:
     thank_you: |
       La vostra contribució ens permet seguir desenvolupant Les meves despeses. Gràcies!
-    feature-list-title: |
-      Les meves despeses Contrib us dona accés sense restriccions a les següents característiques Premium:
     feature:
       accounts_unlimited: Nombre de comptes il·limitat
       plans_unlimited: Nombre de planificacions il·limitat
@@ -43,10 +41,8 @@ ca_ES:
       security_question: Pregunta de seguretat
       template_widget: Widget de plantilla
       print: Exporta la llista de transaccions en PDF
-      auto_backup: Còpia de seguretat automàtica
+      auto_backup: Permetre còpia de seguretat automàtica
     licence-howto-buy:
-      intro: |
-        Teniu les següents opcions per adquirir una llicència Contrib:
       other: |
         Si heu baixat Les meves despeses de F-Droid, Yandex o SlideMe,
         envieu una donació amb alguna de les següents opcions:

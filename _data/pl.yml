@@ -25,15 +25,15 @@ pl:
     split: Podziela transakcje (wersja Contrib)
     calculator: Kalkulator
     export: Eksport do QIF i CSV (Microsoft Excel), może być automatycznie udostępniany (przez E-mail, FTP, Dropbox, ...)
+    import: Import danych QIF
     password: Zabezpieczenie hasłem
     help: Zintegrowana Pomoc
     backup: Kopia zapasowa oraz przywracanie danych
     light_theme: "Dwa motywy: jasny i ciemny"
+    attach_picture: Dopinanie obrazów do transakcji
   contrib:
     thank_you: |
       Twój udział wspiera późniejszy rozwój Moich Wydatków. Dziękujemy!
-    feature-list-title: |
-      Następujące funkcje Premium zostaną odblokowane poprzez nabycie licencji Contrib:
     feature:
       accounts_unlimited: Nieograniczona ilość kont
       plans_unlimited: Nieograniczona ilość planów
@@ -45,10 +45,10 @@ pl:
       attach_picture: Dopinanie obrazów do transakcji
       ad_free: Brak reklam
       csv_import: Import CSV
-      auto_backup: Automatyczna kopia zapasowa
+      auto_backup: Włącz automatyczną kopię zapasową
     licence-howto-buy:
-      intro: |
-        Masz następujące opcje dla nabycia licencji Contrib:
+      deprecated: |
+        INFORMACJA: Od wersji 2.3.9 Klucz Contrib, który odblokowuje funkcje premium Moich Wydatków może być łatwiej nabyty z wnętrza aplikacji; nie musisz już instalować aplikacji "My Expenses Contrib Key".
       blackberry: |+
         Jeżeli zainstalowałeś Moje Wydatki z Blackberry World, Zainstaluj
         <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">My Expenses Contrib</a>.

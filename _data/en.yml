@@ -70,7 +70,7 @@ en:
         and then request the licence key from the settings screen.
         Once you receive it by email, enter it also from the settings screen.
       price: |
-        The minimum amount is 2.50 € (0.01 bitcoins) for the Contrib key and 5.00 € (0.02 bitcoins) for the Extended key. Send 2.50 € (0.01 bitcoins) for upgrading from Contrib to Extended.
+        The minimum amount is %1$s for the Contrib key and %2$s for the Extended key. Send %1$s for upgrading from Contrib to Extended.
   permissions-heading: |
     My Expenses requires the following permissions
   permissions-calendar: |

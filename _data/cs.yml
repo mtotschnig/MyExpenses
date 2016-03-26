@@ -32,8 +32,6 @@ cs:
   contrib:
     thank_you: |
       Váš příspěvek podporuje další rozvoj Moje výdaje. Děkuji!
-    feature-list-title: |
-      Následující prémiové funkce, mohou být odemknuty získáním Contrib licence:
     feature:
       accounts_unlimited: Neomezený počet účtů
       plans_unlimited: Neomezený počet plánů
@@ -41,11 +39,8 @@ cs:
       split_transaction: Rozdělení transakcí
       security_question: Bezpečnostní otázka
       template_widget: Šablona widget
-      auto_backup: Automatická záloha
+      auto_backup: Povolit automatickou zálohu
     licence-howto-buy:
-      intro: |+
-        Máte následující možnosti pro nákup Contrib licence:
-
       blackberry: |
         Pokud jste nainstalovali Moje výdaje ze služby Blackberry World, nainstalujte si <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887"> My Expenses Contrib </a>.
       other: |

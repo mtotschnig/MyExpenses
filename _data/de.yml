@@ -67,7 +67,7 @@ de:
       key: |
         und forden Sie dann über die Einstellungen den Lizenz-Schlüssel an. Sobald Sie diesen erhalten haben, geben Sie diesen ebenfalls über die Einstellungen ein.
       price: |
-        Der Mindestbetrag beträgt € 2.50 (0.01 bitcoins) für den Contrib Schlüssel und € 5.00 (0.02 bitcoins) für den Erweiterten Schlüssel. Für den Upgrade von Contrib auf Erweitert senden Sie € 2.50 (0.01 bitcoins).
+        Der Mindestbetrag beträgt %1$s für den Contrib Schlüssel und %2$s für den Erweiterten Schlüssel. Für den Upgrade von Contrib auf Erweitert senden Sie %1$s.
   permissions-heading: |
     Meine Ausgaben verwendet folgende Berechtigungen
   permissions-calendar: |
