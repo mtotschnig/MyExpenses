@@ -1,4 +1,4 @@
-pt_PT:
+pt:
   imprint: Impressão
   hero_main: "Gestor de finanças para o Android"
   hero_sub:
@@ -52,9 +52,8 @@ pt_PT:
     licence-howto-buy:
       deprecated: |
         Nota: a partir da versão 2.3.9, a chave Contrib utilizada para desbloquear as funcionalidades Premium pode ser obtida a partir de um pagamento através da aplicação, não sendo assim necessário instalara a aplicação "My Expenses Contrib Key".
-      intro: |+
+      intro: |
         Dispõe das seguintes opções para adquirir as licenças Contrib e Extended:
-
       in-app: |
         Se instalou o My Expenses a partir da Google Play ou Amazon App Store, pode adquiri estas versões na aplicação.
       blackberry: |
@@ -72,9 +71,8 @@ pt_PT:
         Assim que a receber por e-mail, introduza-a no ecrã de definições.
       price: |
         O montante mínimo é de %1$s para a versão Contrib e 5,00 € %2$s para a versão Extended. Envie %1$s para atualizar da versão Contrib para a versão Extended.
-  permissions-heading: |+
+  permissions-heading: |
     O My Expenses requer as seguintes permissões:
-
   permissions-calendar: |
     Leitura e escrita do calendário: os planos para as transações recorrentes e futuras são guardados calendário local ou em qualquer outra aplicação de calendário especificada.
   permissions-external-storage: |
