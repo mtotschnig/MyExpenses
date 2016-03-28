@@ -1390,6 +1390,7 @@ public class ExpenseEdit extends AmountActivity implements
   @Override
   public void onPostExecute(int taskId, Object o) {
     super.onPostExecute(taskId, o);
+    boolean success;
     switch(taskId) {
     case TaskExecutionFragment.TASK_NEW_PLAN:
       mPlanId = (Long) o;
@@ -1443,7 +1444,7 @@ public class ExpenseEdit extends AmountActivity implements
       }
       break;
     case TaskExecutionFragment.TASK_NEW_CALENDAR:
-      boolean success= (Boolean) o;
+      success= (Boolean) o;
       Toast.makeText(
           this,
           success ? R.string.planner_create_calendar_success : R.string.planner_create_calendar_failure,
@@ -1537,6 +1538,24 @@ public class ExpenseEdit extends AmountActivity implements
       setup();
       supportInvalidateOptionsMenu();
       break;
+    case TaskExecutionFragment.TASK_MOVE_UNCOMMITED_SPLIT_PARTS:
+      success= (Boolean) o;
+      Account account = mAccounts[mAccountSpinner.getSelectedItemPosition()];
+      if (success) {
+        updateAccount(account);
+      } else {
+        for (int i = 0; i < mAccounts.length; i++) {
+          if (mAccounts[i].getId() == mTransaction.accountId) {
+            mAccountSpinner.setSelection(i);
+            break;
+          }
+        }
+        Toast.makeText(
+            this,
+            getString(R.string.warning_cannot_move_split_transaction,account.label),
+            Toast.LENGTH_LONG).show();
+      }
+      break;
     }
   }
 
@@ -1583,31 +1602,16 @@ public class ExpenseEdit extends AmountActivity implements
       break;
     case R.id.Account:
       final Account account = mAccounts[position];
-      mTransaction.accountId = account.getId();
-      setAccountLabel(account);
-      if (mOperationType == MyExpenses.TYPE_TRANSFER) {
-        mTransferAccountSpinner.setSelection(setTransferAccountFilterMap());
-        mTransaction.transfer_account = mTransferAccountSpinner.getSelectedItemId();
-        configureTransferInput();
+      if (mTransaction instanceof  SplitTransaction && findSplitPartList().getSplitCount() > 0) {
+        //call background task for moving parts to new account
+        startTaskExecution(
+            TaskExecutionFragment.TASK_MOVE_UNCOMMITED_SPLIT_PARTS,
+            new Long[]{mTransaction.getId()},
+            account.getId(),
+            R.string.progress_dialog_updating_split_parts);
       } else {
-        if (!(mTransaction instanceof SplitPartCategory)) {
-          if (mManager.getLoader(METHODS_CURSOR) != null && !mManager.getLoader(METHODS_CURSOR).isReset()) {
-            mManager.restartLoader(METHODS_CURSOR, null, this);
-          } else {
-            mManager.initLoader(METHODS_CURSOR, null, this);
-          }
-        }
-        if (mTransaction instanceof SplitTransaction) {
-          final SplitPartList splitPartList = findSplitPartList();
-          splitPartList.updateBalance();
-          splitPartList.updateFabColor(account.color);
-        }
+        updateAccount(account);
       }
-      configureStatusSpinner();
-      mAmountText.setFractionDigits(Money.getFractionDigits(account.currency));
-      //once user has selected account, we no longer want
-      //the passed in KEY_CURRENCY to override it in onLoadFinished
-      getIntent().removeExtra(KEY_CURRENCY);
       break;
     case R.id.OperationType:
       int newType = ((Integer) mOperationTypeSpinner.getItemAtPosition(position));
@@ -1628,6 +1632,34 @@ public class ExpenseEdit extends AmountActivity implements
       configureTransferInput();
       break;
     }
+  }
+
+  private void updateAccount(Account account) {
+    mTransaction.accountId = account.getId();
+    setAccountLabel(account);
+    if (mOperationType == MyExpenses.TYPE_TRANSFER) {
+      mTransferAccountSpinner.setSelection(setTransferAccountFilterMap());
+      mTransaction.transfer_account = mTransferAccountSpinner.getSelectedItemId();
+      configureTransferInput();
+    } else {
+      if (!(mTransaction instanceof SplitPartCategory)) {
+        if (mManager.getLoader(METHODS_CURSOR) != null && !mManager.getLoader(METHODS_CURSOR).isReset()) {
+          mManager.restartLoader(METHODS_CURSOR, null, this);
+        } else {
+          mManager.initLoader(METHODS_CURSOR, null, this);
+        }
+      }
+      if (mTransaction instanceof SplitTransaction) {
+        final SplitPartList splitPartList = findSplitPartList();
+        splitPartList.updateBalance();
+        splitPartList.updateFabColor(account.color);
+      }
+    }
+    configureStatusSpinner();
+    mAmountText.setFractionDigits(Money.getFractionDigits(account.currency));
+    //once user has selected account, we no longer want
+    //the passed in KEY_CURRENCY to override it in onLoadFinished
+    getIntent().removeExtra(KEY_CURRENCY);
   }
 
   private void configureTransferInput() {

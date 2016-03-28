@@ -158,8 +158,6 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
     switch(arg0.getId()) {
     case ExpenseEdit.TRANSACTION_CURSOR:
       mAdapter.swapCursor(c);
-      if (c.getCount()>0)
-        ((ExpenseEdit) getActivity()).disableAccountSpinner();
       break;
     case ExpenseEdit.SUM_CURSOR:
       c.moveToFirst();
@@ -191,5 +189,8 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
 
   public boolean splitComplete() {
     return unsplitAmount != null && unsplitAmount.getAmountMinor() == 0L;
+  }
+  public int getSplitCount() {
+    return mAdapter.getCount();
   }
 }

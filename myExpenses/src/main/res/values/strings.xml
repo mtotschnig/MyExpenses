@@ -623,5 +623,7 @@
     <string name="plan_instance_state_cancelled">cancelled</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">applied</string>
+    <string name="progress_dialog_updating_split_parts">Updating split parts</string>
+    <string name="warning_cannot_move_split_transaction">This split transaction cannot be moved to account %1$s because there are transfer parts that refer to this account.</string>
 </resources>
 
