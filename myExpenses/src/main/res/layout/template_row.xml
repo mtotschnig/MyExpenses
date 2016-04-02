@@ -14,14 +14,16 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:paddingRight="@dimen/general_padding"
-    android:paddingLeft="@dimen/general_padding"
-    android:paddingTop="3dp"
-    android:paddingBottom="3dp"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="horizontal"
+    android:paddingBottom="3dp"
+    android:paddingEnd="@dimen/general_padding"
+    android:paddingRight="@dimen/general_padding"
+    android:paddingTop="3dp"
     >
- <include layout="@layout/template_row_inner"/>
+
+    <include layout="@layout/template_row_inner"/>
 </LinearLayout>

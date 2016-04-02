@@ -73,7 +73,7 @@ public class TemplatesList extends SortableListFragment  {
 
   private int columnIndexAmount, columnIndexLabelSub, columnIndexComment,
       columnIndexPayee, columnIndexColor, columnIndexTransferPeer,
-      columnIndexCurrency, columnIndexTransferAccount;
+      columnIndexCurrency, columnIndexTransferAccount, columnIndexPlanId;
   boolean indexesCalculated = false;
 
   @Override
@@ -106,7 +106,10 @@ public class TemplatesList extends SortableListFragment  {
 
       @Override
       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (isForeignExchangeTransfer(position)) {
+        if (mTemplatesCursor == null || !mTemplatesCursor.moveToPosition(position)) return;
+        if (!mTemplatesCursor.isNull(columnIndexPlanId)) {
+          //TODO show calendar
+        } else if (isForeignExchangeTransfer(position)) {
           ((ManageTemplates) getActivity()).dispatchCommand(R.id.CREATE_INSTANCE_EDIT_COMMAND,
               id);
         } else if (MyApplication.PrefKey.TEMPLATE_CLICK_HINT_SHOWN.getBoolean(false)) {
@@ -182,7 +185,7 @@ public class TemplatesList extends SortableListFragment  {
         return new CursorLoader(getActivity(),
             TransactionProvider.TEMPLATES_URI,
             null,
-            KEY_PLANID + " is null",
+            null,
             null,
             null);
     }
@@ -203,6 +206,7 @@ public class TemplatesList extends SortableListFragment  {
           columnIndexTransferPeer = c.getColumnIndex(KEY_TRANSFER_PEER);
           columnIndexCurrency = c.getColumnIndex(KEY_CURRENCY);
           columnIndexTransferAccount = c.getColumnIndex(KEY_TRANSFER_ACCOUNT);
+          columnIndexPlanId = c.getColumnIndex(KEY_PLANID);
           indexesCalculated = true;
         }
         mAdapter.swapCursor(mTemplatesCursor);
@@ -275,6 +279,9 @@ public class TemplatesList extends SortableListFragment  {
         catText = TextUtils.concat(catText, commentSeparator, ssb);
       }
       tv2.setText(catText);
+      if (c.isNull(columnIndexPlanId)) {
+        convertView.findViewById(R.id.Plan).setVisibility(View.INVISIBLE);
+      }
       return convertView;
     }
   }

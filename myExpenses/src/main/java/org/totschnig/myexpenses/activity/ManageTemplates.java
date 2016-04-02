@@ -46,18 +46,15 @@ import java.util.List;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 
-public class ManageTemplates extends TabbedActivity implements
+public class ManageTemplates extends ProtectedFragmentActivity implements
     ConfirmationDialogListener {
-  public enum HelpVariant {
-    templates,plans
-  }
 
   public long calledFromCalendarWithId = 0;
   int mCurrentPosition = 0;
   
   private int monkey_state = 0;
 
-  @Override
+/*  @Override
   public boolean onKeyUp (int keyCode, KeyEvent event) {
     if (keyCode == KeyEvent.KEYCODE_CAMERA && BuildConfig.DEBUG) {
       switch (monkey_state) {
@@ -69,50 +66,29 @@ public class ManageTemplates extends TabbedActivity implements
       }
     }
     return super.onKeyUp(keyCode, event);
-  }
-
-  @Override
-  protected int getLayoutRessourceId() {
-    return R.layout.activity_with_tabs_legacy;
-  }
+  }*/
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeIdEditDialog());
     super.onCreate(savedInstanceState);
-
-    final ActionBar actionBar = getSupportActionBar();
-    actionBar.setTitle(getString(Utils.IS_ANDROID ?
+    setContentView(R.layout.manage_templates);
+    setupToolbar(true);
+    setTitle(getString(Utils.IS_ANDROID ?
         R.string.menu_manage_plans : R.string.menu_manage_plans_tab_templates));
 
-    mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-      @Override
-      public void onPageSelected(int position) {
-        finishActionMode();
-        mCurrentPosition = position;
-        helpVariant = position == 0 ? HelpVariant.templates : HelpVariant.plans;
-      }
-    });
 
     String uriString = getIntent().getStringExtra(Events.CUSTOM_APP_URI);
     if (uriString != null) {
       List <String> uriPath = Uri.parse(uriString).getPathSegments();
       try {
+        //TODO migrate handling of custom_app_uri in new templates list
         calledFromCalendarWithId = Long.parseLong(uriPath.get(2));
-        mViewPager.setCurrentItem(1);
       } catch (Exception e) {
         Utils.reportToAcra(e);
       }
     }
-    helpVariant = HelpVariant.templates;
     setFabColor();
-  }
-
-  @Override
-  protected void setupTabs(Bundle savedInstanceState) {
-    mSectionsPagerAdapter.addFragment(new TemplatesList(), getString(R.string.menu_manage_plans_tab_templates));
-    if (Utils.IS_ANDROID)
-      mSectionsPagerAdapter.addFragment(new PlanList(), getString(R.string.menu_manage_plans_tab_plans));
   }
 
   @Override
@@ -186,20 +162,20 @@ public class ManageTemplates extends TabbedActivity implements
         getResources().getQuantityString(R.plurals.save_transaction_from_template_success, successCount, successCount);
       Toast.makeText(this,msg, Toast.LENGTH_LONG).show();
     }
-    PlanList pl = (PlanList) getSupportFragmentManager().findFragmentByTag(
+/*    PlanList pl = (PlanList) getSupportFragmentManager().findFragmentByTag(
         mSectionsPagerAdapter.getFragmentName(1));
     if (pl != null) {
       pl.refresh();
-    }
+    }*/
   }
 
   public void finishActionMode() {
-    ContextualActionBarFragment f =
+/*    ContextualActionBarFragment f =
     ((ContextualActionBarFragment) getSupportFragmentManager().findFragmentByTag(
         mSectionsPagerAdapter.getFragmentName(mCurrentPosition)));
     if (f != null) {
       f.finishActionMode();
-    }
+    }*/
   }
   @Override
   public void onPositive(Bundle args) {
@@ -235,7 +211,7 @@ public class ManageTemplates extends TabbedActivity implements
     requestCalendarPermission();
   }
 
-  @Override
+/*  @Override
   public void onRequestPermissionsResult(int requestCode,
                                          String permissions[], int[] grantResults) {
     super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -250,5 +226,5 @@ public class ManageTemplates extends TabbedActivity implements
         }
       }
     }
-  }
+  }*/
 }
