@@ -33,7 +33,6 @@ import org.totschnig.myexpenses.util.Utils;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -47,7 +46,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -55,6 +53,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+
+import com.roomorama.caldroid.CaldroidFragment;
 
 public class TemplatesList extends SortableListFragment  {
 
@@ -73,7 +73,8 @@ public class TemplatesList extends SortableListFragment  {
 
   private int columnIndexAmount, columnIndexLabelSub, columnIndexComment,
       columnIndexPayee, columnIndexColor, columnIndexTransferPeer,
-      columnIndexCurrency, columnIndexTransferAccount, columnIndexPlanId;
+      columnIndexCurrency, columnIndexTransferAccount, columnIndexPlanId,
+      columnIndexTitle;
   boolean indexesCalculated = false;
 
   @Override
@@ -108,7 +109,16 @@ public class TemplatesList extends SortableListFragment  {
       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (mTemplatesCursor == null || !mTemplatesCursor.moveToPosition(position)) return;
         if (!mTemplatesCursor.isNull(columnIndexPlanId)) {
-          //TODO show calendar
+          final String dialogTag = "CALDROID_DIALOG_FRAGMENT";
+          CaldroidFragment caldroidFragment = new CaldroidFragment();
+          Bundle args = new Bundle();
+          args.putInt(CaldroidFragment.DIALOG_TITLE_CUSTOM_VIEW, R.layout.calendar_title);
+          args.putString(CaldroidFragment.DIALOG_TITLE, mTemplatesCursor.getString(columnIndexTitle));
+          if(MyApplication.getThemeType().equals(MyApplication.ThemeType.dark)) {
+            args.putInt(CaldroidFragment.THEME_RESOURCE, com.caldroid.R.style.CaldroidDefaultDark);
+          }
+          caldroidFragment.setArguments(args);
+          caldroidFragment.show(getFragmentManager(), dialogTag);
         } else if (isForeignExchangeTransfer(position)) {
           ((ManageTemplates) getActivity()).dispatchCommand(R.id.CREATE_INSTANCE_EDIT_COMMAND,
               id);
@@ -207,6 +217,7 @@ public class TemplatesList extends SortableListFragment  {
           columnIndexCurrency = c.getColumnIndex(KEY_CURRENCY);
           columnIndexTransferAccount = c.getColumnIndex(KEY_TRANSFER_ACCOUNT);
           columnIndexPlanId = c.getColumnIndex(KEY_PLANID);
+          columnIndexTitle = c.getColumnIndex(KEY_TITLE);
           indexesCalculated = true;
         }
         mAdapter.swapCursor(mTemplatesCursor);
