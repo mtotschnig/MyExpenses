@@ -118,9 +118,9 @@ public class TemplatesList extends SortableListFragment  {
           Bundle args = new Bundle();
           args.putInt(CaldroidFragment.DIALOG_TITLE_CUSTOM_VIEW, R.layout.calendar_title);
           args.putString(CaldroidFragment.DIALOG_TITLE, mTemplatesCursor.getString(columnIndexTitle));
-          if(MyApplication.getThemeType().equals(MyApplication.ThemeType.dark)) {
-            args.putInt(CaldroidFragment.THEME_RESOURCE, com.caldroid.R.style.CaldroidDefaultDark);
-          }
+          args.putInt(CaldroidFragment.THEME_RESOURCE,
+              MyApplication.getThemeType().equals(MyApplication.ThemeType.dark) ?
+                  R.style.CaldroidCustomDark : R.style.CaldroidCustom);
           caldroidFragment.setArguments(args);
           // Max date is next 7 days
           Calendar cal = Calendar.getInstance();
