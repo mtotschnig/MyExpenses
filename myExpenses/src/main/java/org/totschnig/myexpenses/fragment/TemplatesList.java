@@ -32,6 +32,7 @@ import org.totschnig.myexpenses.util.Utils;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -55,6 +56,9 @@ import android.widget.TextView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
 import com.roomorama.caldroid.CaldroidFragment;
+
+import java.util.Calendar;
+import java.util.Date;
 
 public class TemplatesList extends SortableListFragment  {
 
@@ -110,7 +114,7 @@ public class TemplatesList extends SortableListFragment  {
         if (mTemplatesCursor == null || !mTemplatesCursor.moveToPosition(position)) return;
         if (!mTemplatesCursor.isNull(columnIndexPlanId)) {
           final String dialogTag = "CALDROID_DIALOG_FRAGMENT";
-          CaldroidFragment caldroidFragment = new CaldroidFragment();
+          CaldroidFragment caldroidFragment = new CaldroidCustomFragment();
           Bundle args = new Bundle();
           args.putInt(CaldroidFragment.DIALOG_TITLE_CUSTOM_VIEW, R.layout.calendar_title);
           args.putString(CaldroidFragment.DIALOG_TITLE, mTemplatesCursor.getString(columnIndexTitle));
@@ -118,6 +122,13 @@ public class TemplatesList extends SortableListFragment  {
             args.putInt(CaldroidFragment.THEME_RESOURCE, com.caldroid.R.style.CaldroidDefaultDark);
           }
           caldroidFragment.setArguments(args);
+          // Max date is next 7 days
+          Calendar cal = Calendar.getInstance();
+          cal.add(Calendar.DATE, 7);
+          Date testdate = cal.getTime();
+          caldroidFragment.setBackgroundDrawableForDate(
+              new ColorDrawable(mTemplatesCursor.getInt(columnIndexColor)),
+              testdate);
           caldroidFragment.show(getFragmentManager(), dialogTag);
         } else if (isForeignExchangeTransfer(position)) {
           ((ManageTemplates) getActivity()).dispatchCommand(R.id.CREATE_INSTANCE_EDIT_COMMAND,
@@ -345,5 +356,4 @@ public class TemplatesList extends SortableListFragment  {
   public boolean onOptionsItemSelected(MenuItem item) {
     return handleSortOption(item);
   }
-
 }
