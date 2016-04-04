@@ -15,24 +15,8 @@
 
 package org.totschnig.myexpenses.fragment;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
-
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ManageTemplates;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
-import org.totschnig.myexpenses.dialog.MessageDialogFragment;
-import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.Category;
-import org.totschnig.myexpenses.provider.DbUtils;
-import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
-import org.totschnig.myexpenses.util.Utils;
-
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -50,18 +34,43 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 
 import com.roomorama.caldroid.CaldroidFragment;
 
-import java.util.Calendar;
-import java.util.Date;
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ManageTemplates;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment;
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.provider.DbUtils;
+import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
+import org.totschnig.myexpenses.util.Utils;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_MAIN;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_SUB;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
 
 public class TemplatesList extends SortableListFragment  {
 
+  public static final String CALDROID_DIALOG_FRAGMENT_TAG = "CALDROID_DIALOG_FRAGMENT";
   private ListView mListView;
 
   protected int getMenuResource() {
@@ -70,9 +79,6 @@ public class TemplatesList extends SortableListFragment  {
 
   Cursor mTemplatesCursor;
   private SimpleCursorAdapter mAdapter;
-  //private SimpleCursorAdapter mAdapter;
-  //private StickyListHeadersListView mListView;
-  int mGroupIdColumnIndex;
   private LoaderManager mManager;
 
   private int columnIndexAmount, columnIndexLabelSub, columnIndexComment,
@@ -113,23 +119,11 @@ public class TemplatesList extends SortableListFragment  {
       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (mTemplatesCursor == null || !mTemplatesCursor.moveToPosition(position)) return;
         if (!mTemplatesCursor.isNull(columnIndexPlanId)) {
-          final String dialogTag = "CALDROID_DIALOG_FRAGMENT";
-          CaldroidFragment caldroidFragment = new CaldroidCustomFragment();
-          Bundle args = new Bundle();
-          args.putInt(CaldroidFragment.DIALOG_TITLE_CUSTOM_VIEW, R.layout.calendar_title);
-          args.putString(CaldroidFragment.DIALOG_TITLE, mTemplatesCursor.getString(columnIndexTitle));
-          args.putInt(CaldroidFragment.THEME_RESOURCE,
-              MyApplication.getThemeType().equals(MyApplication.ThemeType.dark) ?
-                  R.style.CaldroidCustomDark : R.style.CaldroidCustom);
-          caldroidFragment.setArguments(args);
-          // Max date is next 7 days
-          Calendar cal = Calendar.getInstance();
-          cal.add(Calendar.DATE, 7);
-          Date testdate = cal.getTime();
-          caldroidFragment.setBackgroundDrawableForDate(
-              new ColorDrawable(mTemplatesCursor.getInt(columnIndexColor)),
-              testdate);
-          caldroidFragment.show(getFragmentManager(), dialogTag);
+          CaldroidFragment caldroidFragment = PlanMonthFragment.newInstance(
+              mTemplatesCursor.getString(columnIndexTitle),
+              mTemplatesCursor.getLong(columnIndexPlanId),
+              mTemplatesCursor.getInt(columnIndexColor));
+          caldroidFragment.show(getFragmentManager(), CALDROID_DIALOG_FRAGMENT_TAG);
         } else if (isForeignExchangeTransfer(position)) {
           ((ManageTemplates) getActivity()).dispatchCommand(R.id.CREATE_INSTANCE_EDIT_COMMAND,
               id);
