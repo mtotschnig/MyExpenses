@@ -1,9 +1,6 @@
 [submodule "StickyListHeaders"]
 	path = StickyListHeaders
 	url = git://github.com/mtotschnig/StickyListHeaders.git
-[submodule "MPAndroidChart"]
-	path = MPAndroidChart
-	url = https://github.com/PhilJay/MPAndroidChart.git
 [submodule "MaterialSeekBarPreference"]
 	path = MaterialSeekBarPreference
 	url = git://github.com/mtotschnig/MaterialSeekBarPreference.git
