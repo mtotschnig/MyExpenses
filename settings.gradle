@@ -1,4 +1,3 @@
-include ':MPAndroidChart:MPChartLib'
 include ':StickyListHeaders:library'
 include ':MaterialSeekBarPreference:library'
 include ':myExpenses'
