@@ -105,7 +105,7 @@ public class ManageTemplates extends TabbedActivity implements
       }
     }
     helpVariant = HelpVariant.templates;
-    setFabColor();
+    configureFloatingActionButton(R.string.menu_create_template);
   }
 
   @Override

@@ -16,7 +16,6 @@
 package org.totschnig.myexpenses.activity;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
@@ -529,7 +528,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       final ActionBar actionBar = activity.getSupportActionBar();
       PreferenceScreen screen = getPreferenceScreen();
       CharSequence title = screen.getKey().equals(getString(R.string.pref_root_screen)) ?
-          Utils.concatResStrings(activity, R.string.app_name, R.string.menu_settings) :
+          Utils.concatResStrings(activity, " ", R.string.app_name, R.string.menu_settings) :
           screen.getTitle();
       actionBar.setTitle(title);
       boolean hasMasterSwitch = handleScreenWithMasterSwitch(PrefKey.PERFORM_SHARE);
@@ -683,7 +682,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         Utils.LicenceStatus licenceStatus = Utils.verifyLicenceKey((String) value);
         if (licenceStatus != null) {
           Toast.makeText(getActivity(),
-              Utils.concatResStrings(getActivity(),
+              Utils.concatResStrings(getActivity(), " ",
                   R.string.licence_validation_success,
                   (licenceStatus == Utils.LicenceStatus.EXTENDED ?
                       R.string.licence_validation_extended : R.string.licence_validation_premium)),

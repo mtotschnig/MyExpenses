@@ -31,7 +31,6 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.MyApplication;
@@ -42,7 +41,6 @@ import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectMainCategoryDialogFragment;
 import org.totschnig.myexpenses.fragment.CategoryList;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
-import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Grouping;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Model;
@@ -141,7 +139,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
     FragmentManager fm = getSupportFragmentManager();
     mListFragment = ((CategoryList) fm.findFragmentById(R.id.category_list));
     if (helpVariant.equals(HelpVariant.select_mapping) || helpVariant.equals(HelpVariant.manage)) {
-     setFabColor();
+     configureFloatingActionButton(R.string.menu_create_main_cat);
     } else {
       findViewById(R.id.CREATE_COMMAND).setVisibility(View.GONE);
     }
