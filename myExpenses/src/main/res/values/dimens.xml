@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="calculator_button_large">50dp</dimen>
-    <dimen name="calculator_button_small">40dp</dimen>
+    <dimen name="calculator_button_min">47dp</dimen>
+    <dimen name="calculator_button_text_size">18sp</dimen>
+    <dimen name="calculator_button_layout_margin">0dp</dimen>
     <dimen name="general_padding">12dp</dimen>
     <dimen name="padding_form">16dp</dimen>
     <dimen name="margin_list">52dp</dimen>
