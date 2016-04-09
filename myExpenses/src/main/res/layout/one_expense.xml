@@ -110,8 +110,6 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <include layout="@layout/type_switch"/>
-
                     <org.totschnig.myexpenses.ui.AmountEditText
                         android:id="@+id/TranferAmount"
                         android:layout_width="0dp"
