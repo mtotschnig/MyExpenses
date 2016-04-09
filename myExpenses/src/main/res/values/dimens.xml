@@ -35,4 +35,6 @@
 
     <dimen name="selected_indicator_translation_x">23dp</dimen>
     <item name="selected_indicator_translation_rotation" type="integer">270</item>
+
+    <dimen name="accessibility_clickable_minimum">48dp</dimen>
 </resources>

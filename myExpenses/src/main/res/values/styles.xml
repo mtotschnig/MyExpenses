@@ -112,4 +112,9 @@
     <style name="MyAlertDialogThemeDark" parent="@style/Theme.AppCompat.Dialog.Alert">
         <item name="colorControlNormal">@android:color/white</item>
     </style>
+
+    <style name="MySpinnerItemStyle" parent="@style/Widget.AppCompat.TextView.SpinnerItem">
+        <item name="android:minHeight">@dimen/accessibility_clickable_minimum</item>
+        <item name="android:gravity">center</item>
+    </style>
 </resources>

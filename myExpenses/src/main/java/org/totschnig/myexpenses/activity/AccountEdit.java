@@ -129,7 +129,7 @@ public class AccountEdit extends AmountActivity implements
     
     mAccountTypeSpinner = new SpinnerHelper(findViewById(R.id.AccountType));
     ArrayAdapter<Account.Type> typAdapter = new ArrayAdapter<Account.Type>(
-        this, android.R.layout.simple_spinner_item, android.R.id.text1,Account.Type.values());
+        this, android.R.layout.simple_spinner_item, android.R.id.text1, Account.Type.values());
     typAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
     mAccountTypeSpinner.setAdapter(typAdapter);
     
@@ -177,9 +177,10 @@ public class AccountEdit extends AmountActivity implements
           setColor(tv,mColors.get(position));
         return tv;
       }
-      public void setColor(TextView tv,int color) {
+      public void setColor(TextView tv, int color) {
         tv.setBackgroundColor(color);
         tv.setText("");
+        tv.setContentDescription(getString(R.string.color));
       }
     };
     mColAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

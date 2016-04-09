@@ -40,6 +40,7 @@
             <TableRow>
 
                 <TextView
+                    android:labelFor="@+id/Label"
                     android:id="@+id/LabelLabel"
                     style="@style/form_label.compat"
                     android:text="@string/label"/>
@@ -56,6 +57,7 @@
             <TableRow>
 
                 <TextView
+                    android:labelFor="@+id/TaType"
                     android:id="@+id/TypeLabel"
                     style="@style/form_label.compat"
                     android:text="@string/type"/>
@@ -72,6 +74,7 @@
             <TableRow>
 
                 <TextView
+                    android:labelFor="@+id/IsNumbered"
                     android:id="@+id/IsNumberedLabel"
                     style="@style/form_label.compat"
                     android:text="@string/numbered"/>

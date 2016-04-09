@@ -94,11 +94,14 @@ public class WelcomeDialogFragment extends CommitSafeDialogFragment
     ((TextView) view.findViewById(R.id.help_intro))
       .setText("- " + TextUtils.join("\n- ", getResources().getStringArray(R.array.help_intro)));
     SwitchCompat themeSwitch = (SwitchCompat) view.findViewById(R.id.TaType);
-    themeSwitch.setChecked(MyApplication.getThemeType().equals(MyApplication.ThemeType.light));
+    boolean isLight = MyApplication.getThemeType().equals(MyApplication.ThemeType.light);
+    themeSwitch.setChecked(isLight);
+    setContentDescriptonToThemeSwitch(themeSwitch, isLight);
     themeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
       @Override
       public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        setContentDescriptonToThemeSwitch(buttonView, isChecked);
         MyApplication.PrefKey.UI_THEME_KEY.putString(
             (isChecked ? MyApplication.ThemeType.light : MyApplication.ThemeType.dark).name());
         Intent intent = getActivity().getIntent();
@@ -114,6 +117,12 @@ public class WelcomeDialogFragment extends CommitSafeDialogFragment
       .create();
     return mDialog;
   }
+
+  private void setContentDescriptonToThemeSwitch(View themeSwitch, boolean isLight) {
+    themeSwitch.setContentDescription(getString(
+        isLight ? R.string.pref_ui_theme_light : R.string.pref_ui_theme_dark));
+  }
+
   public void setSetupComplete() {
     mSetupCompleted = true;
     Button b =  mDialog.getButton(DialogInterface.BUTTON_POSITIVE);
