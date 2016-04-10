@@ -8,7 +8,7 @@ android {
         applicationId "org.totschnig.myexpenses"
         minSdkVersion project.minSdkVersion
         targetSdkVersion project.targetSdkVersion
-        versionCode 243
+        versionCode 244
         versionName '2.6.6.1'
 
         buildConfigField "String", "PLATTFORM", "\"Android\""
@@ -67,7 +67,6 @@ android {
 
 dependencies {
     compile project(':StickyListHeaders:library')
-    compile project(':MPAndroidChart:MPChartLib')
     compile project(':MaterialSeekBarPreference:library')
     compile project(':Caldroid:caldroid')
     compile 'com.android.support:appcompat-v7:' + project.androidSupportLibraryVersion
@@ -82,6 +81,7 @@ dependencies {
     compile 'org.apache.commons:commons-lang3:3.4'
     compile 'org.apache.commons:commons-csv:1.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.github.PhilJay:MPAndroidChart:bd75e6c'
     //noinspection GradleDynamicVersion
     compile 'com.commonsware.cwac:wakeful:1.0.+'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:' + project.espressoVersion

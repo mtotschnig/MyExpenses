@@ -79,6 +79,8 @@ public abstract class AmountActivity extends EditActivity {
 
   protected void configureType() {
     mTypeButton.setChecked(mType);
+    mTypeButton.setContentDescription(getString(
+        mType ? R.string.pm_type_credit : R.string.pm_type_debit));
   }
 
   protected BigDecimal validateAmountInput(boolean showToUser) {

@@ -107,6 +107,8 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
     });
     registerForContextMenu(lv);
     fab = ((FloatingActionButton) v.findViewById(R.id.CREATE_COMMAND));
+    fab.setContentDescription(Utils.concatResStrings(getActivity(), ". ",
+        R.string.menu_create_split_part_category, R.string.menu_create_split_part_transfer));
     updateFabColor(account.color);
     return v;
   }

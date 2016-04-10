@@ -110,7 +110,7 @@ public enum ContribFeature {
   }
 
   public static String buildKeyFullName(Context ctx, boolean extended) {
-    return Utils.concatResStrings(ctx, R.string.app_name,
+    return Utils.concatResStrings(ctx, " ", R.string.app_name,
         extended ? R.string.extended_key : R.string.contrib_key);
   }
 

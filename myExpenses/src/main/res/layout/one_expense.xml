@@ -45,6 +45,7 @@
                 android:visibility="gone">
 
                 <TextView
+                    android:labelFor="@+id/Title"
                     android:id="@+id/TitleLabel"
                     style="@style/form_label.compat"
                     android:text="@string/title"/>
@@ -61,6 +62,7 @@
             <TableRow android:id="@+id/AccountRow">
 
                 <TextView
+                    android:labelFor="@+id/Account"
                     android:id="@+id/AccountLabel"
                     style="@style/form_label.compat"
                     android:text="@string/account"/>
@@ -76,6 +78,7 @@
                 android:id="@+id/AmountRow">
 
                 <TextView
+                    android:labelFor="@id/Amount"
                     android:id="@+id/AmountLabel"
                     style="@style/form_label.compat"
                     android:textColor="?attr/colorAccent"/>
@@ -101,6 +104,7 @@
                 android:visibility="gone">
 
                 <TextView
+                    android:labelFor="@+id/TranferAmount"
                     android:id="@+id/TransferAmountLabel"
                     style="@style/form_label.compat"/>
 
@@ -109,8 +113,6 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
-
-                    <include layout="@layout/type_switch"/>
 
                     <org.totschnig.myexpenses.ui.AmountEditText
                         android:id="@+id/TranferAmount"
@@ -130,6 +132,7 @@
                 android:visibility="gone">
 
                 <TextView
+                    android:labelFor="@+id/TransferAccount"
                     android:id="@+id/TransferAccountLabel"
                     style="@style/form_label.compat"
                     android:text="@string/transfer_to_account"/>
@@ -157,7 +160,7 @@
                         android:layout_width="0dp"
                         android:layout_height="fill_parent"
                         android:layout_gravity="center_vertical"
-                        android:text="@string/select"/>
+                        android:contentDescription="@string/date"/>
 
                     <Button
                         android:id="@+id/TimeButton"
@@ -166,13 +169,14 @@
                         android:layout_width="0dp"
                         android:layout_height="fill_parent"
                         android:layout_gravity="center_vertical"
-                        android:text="@string/select"/>
+                        android:contentDescription="@string/time"/>
                 </LinearLayout>
             </TableRow>
 
             <TableRow android:id="@+id/PayeeRow">
 
                 <TextView
+                    android:labelFor="@+id/Payee"
                     android:id="@+id/PayeeLabel"
                     style="@style/form_label.compat"
                     android:text="@string/payee"/>
@@ -189,6 +193,7 @@
             <TableRow android:id="@+id/CategoryRow">
 
                 <TextView
+                    android:labelFor="@+id/Category"
                     android:id="@+id/CategoryLabel"
                     style="@style/form_label.compat"
                     android:text="@string/category"/>
@@ -203,6 +208,7 @@
             <TableRow android:id="@+id/CommentRow">
 
                 <TextView
+                    android:labelFor="@+id/Comment"
                     android:id="@+id/CommentLabel"
                     style="@style/form_label.compat"
                     android:text="@string/comment"/>
@@ -245,6 +251,7 @@
             <TableRow android:id="@+id/MethodRow">
 
                 <TextView
+                    android:labelFor="@+id/Method"
                     android:id="@+id/MethodLabel"
                     style="@style/form_label.compat"
                     android:text="@string/method"/>
@@ -280,6 +287,7 @@
                 android:visibility="gone">
 
                 <TextView
+                    android:labelFor="@+id/Plan"
                     android:id="@+id/PlanLabel"
                     style="@style/form_label.compat"
                     android:text="@string/plan"/>

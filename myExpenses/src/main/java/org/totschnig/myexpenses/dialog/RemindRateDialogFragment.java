@@ -62,7 +62,7 @@ public class RemindRateDialogFragment  extends CommitSafeDialogFragment implemen
   }
   private void setRatingRemindText(boolean isPositive) {
     mRatingRemind.setText(Utils.concatResStrings(
-        getActivity(),
+        getActivity(), " ",
         isPositive ? R.string.dialog_remind_rate_1 : R.string.dialog_remind_rate_1_suggest_improvement,
         R.string.dialog_remind_rate_2));
   }

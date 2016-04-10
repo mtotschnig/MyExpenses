@@ -88,7 +88,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
         Utils.reportToAcra(e);
       }
     }
-    setFabColor();
+    configureFloatingActionButton(R.string.menu_create_template);
   }
 
   @Override

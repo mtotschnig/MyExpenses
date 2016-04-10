@@ -39,6 +39,7 @@
             <TableRow>
 
                 <TextView
+                    android:labelFor="@+id/Label"
                     android:id="@+id/LabelLabel"
                     style="@style/form_label.compat"
                     android:text="@string/label"/>
@@ -54,6 +55,7 @@
             <TableRow>
 
                 <TextView
+                    android:labelFor="@+id/Description"
                     android:id="@+id/DescriptionLabel"
                     style="@style/form_label.compat"
                     android:text="@string/description"/>
@@ -70,6 +72,7 @@
                 android:id="@+id/AmountRow">
 
                 <TextView
+                    android:labelFor="@+id/Amount"
                     android:id="@+id/AmountLabel"
                     style="@style/form_label.compat"
                     android:textColor="?attr/colorAccent"
@@ -81,6 +84,7 @@
             <TableRow>
 
                 <TextView
+                    android:labelFor="@+id/Currency"
                     android:id="@+id/CurrencyLabel"
                     style="@style/form_label.compat"
                     android:text="@string/currency"/>
@@ -94,6 +98,7 @@
             <TableRow>
 
                 <TextView
+                    android:labelFor="@+id/AccountType"
                     android:id="@+id/AccountTypeLabel"
                     style="@style/form_label.compat"
                     android:text="@string/type"/>
@@ -107,6 +112,7 @@
             <TableRow>
 
                 <TextView
+                    android:labelFor="@+id/Color"
                     android:id="@+id/ColorLabel"
                     style="@style/form_label.compat"
                     android:text="@string/color"/>

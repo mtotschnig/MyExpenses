@@ -1087,13 +1087,13 @@ public class Utils {
     /* org.acra.ACRA.getErrorReporter().handleSilentException(e); */
   }
 
-  public static String concatResStrings(Context ctx, Integer... resIds) {
+  public static String concatResStrings(Context ctx, String separator, Integer... resIds) {
     String result = "";
     Iterator<Integer> itemIterator = Arrays.asList(resIds).iterator();
     if (itemIterator.hasNext()) {
       result += ctx.getString(itemIterator.next());
       while (itemIterator.hasNext()) {
-        result += " " + ctx.getString(itemIterator.next());
+        result += separator + ctx.getString(itemIterator.next());
       }
     }
     return result;

@@ -20,8 +20,6 @@ import org.totschnig.myexpenses.R;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 
 public class ManageMethods extends ProtectedFragmentActivity {
 
@@ -32,7 +30,7 @@ public class ManageMethods extends ProtectedFragmentActivity {
     setContentView(R.layout.manage_methods);
     setupToolbar(true);
     setTitle(R.string.pref_manage_methods_title);
-    setFabColor();
+    configureFloatingActionButton(R.string.menu_create_method);
   }
 
   @Override

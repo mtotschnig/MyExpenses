@@ -13,14 +13,8 @@ package org.totschnig.myexpenses.service;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.ContentProviderClient;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.os.IBinder;
-import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.util.Log;
@@ -32,12 +26,9 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
 import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.GenericTask;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
-
-import java.util.Date;
 
 public class AutoBackupService extends WakefulIntentService {
 
@@ -61,7 +52,7 @@ public class AutoBackupService extends WakefulIntentService {
         if (ACTION_AUTO_BACKUP.equals(action)) {
             Log.i("DEBUG","now doing backup");
             Result result = GenericTask.doBackup();
-            String notifTitle = Utils.concatResStrings(this, R.string.app_name, R.string.contrib_feature_auto_backup_label);
+            String notifTitle = Utils.concatResStrings(this, " ", R.string.app_name, R.string.contrib_feature_auto_backup_label);
             if (result.success) {
                 int remaining = ContribFeature.AUTO_BACKUP.recordUsage();
                 if (remaining < 1) {

@@ -134,4 +134,58 @@
     <style name="CaldroidCustomDarkGridView" parent="CaldroidCustomtGridView">
         <item name="android:background">@color/caldroid_middle_gray</item>
     </style>
+    <style name="MySpinnerItemStyle" parent="@style/Widget.AppCompat.TextView.SpinnerItem">
+        <item name="android:minHeight">@dimen/accessibility_clickable_minimum</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="CalculatorButton">
+        <item name="android:minHeight">@dimen/calculator_button_min</item>
+        <item name="android:minWidth">@dimen/calculator_button_min</item>
+        <item name="android:textSize">@dimen/calculator_button_text_size</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/calculator_button_layout_margin</item>
+    </style>
+
+    <style name="CalculatorButton.Dot">
+        <item name="android:contentDescription">@string/decimal_separator</item>
+    </style>
+
+    <style name="CalculatorButton.Add">
+        <item name="android:text">@string/calculator_operator_plus</item>
+    </style>
+
+    <style name="CalculatorButton.Subtract">
+        <item name="android:text">@string/calculator_operator_minus</item>
+    </style>
+
+    <style name="CalculatorButton.Multiply">
+        <item name="android:text">@string/calculator_operator_multiply</item>
+    </style>
+
+    <style name="CalculatorButton.Divide">
+        <item name="android:text">@string/calculator_operator_divide</item>
+    </style>
+
+    <style name="CalculatorButton.PlusMinus">
+        <item name="android:text">±</item>
+    </style>
+
+    <style name="CalculatorButton.Clear">
+        <item name="android:textColor">#f26522</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:text">C</item>
+        <item name="android:contentDescription">@string/content_description_calculator_clear_button</item>
+    </style>
+
+    <style name="CalculatorButton.Delete">
+        <item name="android:text">&lt;</item>
+        <item name="android:contentDescription">@string/content_description_calculator_delete_button</item>
+    </style>
+
+    <style name="CalculatorButton.Result">
+        <item name="android:textColor">#39b54a</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:text">=</item>
+    </style>
 </resources>

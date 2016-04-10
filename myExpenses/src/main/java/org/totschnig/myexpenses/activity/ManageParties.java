@@ -25,11 +25,7 @@ import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 
-import android.database.Cursor;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.widget.Button;
 import android.widget.Toast;
 
 public class ManageParties extends ProtectedFragmentActivity implements
@@ -43,7 +39,7 @@ public class ManageParties extends ProtectedFragmentActivity implements
     setContentView(R.layout.manage_parties);
     setupToolbar(true);
     setTitle(R.string.pref_manage_parties_title);
-    setFabColor();
+    configureFloatingActionButton(R.string.menu_create_party);
   }
 
   @Override

@@ -89,8 +89,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:minHeight="@dimen/accessibility_clickable_minimum"
+                android:minWidth="@dimen/accessibility_clickable_minimum"
                 android:switchMinWidth="0dp"
                 app:switchTextAppearance="@style/SwitchTextAppearance"
+                android:contentDescription="@string/pref_ui_theme_title"
                 tools:ignore="UnusedAttribute"/>
 
             <TextView

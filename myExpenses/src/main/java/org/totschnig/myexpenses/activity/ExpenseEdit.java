@@ -611,7 +611,6 @@ public class ExpenseEdit extends AmountActivity implements
     TextView accountLabelTv = (TextView) findViewById(R.id.AccountLabel);
     if (mOperationType == MyExpenses.TYPE_TRANSFER) {
       mTypeButton.setVisibility(View.GONE);
-      findViewById(R.id.TransferAmountRow).findViewById(R.id.TaType).setVisibility(View.GONE);
       categoryContainer.setVisibility(View.GONE);
       View accountContainer = findViewById(R.id.TransferAccountRow);
       if (accountContainer == null)
@@ -1406,7 +1405,7 @@ public class ExpenseEdit extends AmountActivity implements
                     R.string.dialog_setup_planner_button_create_new,
                     R.id.CREATE_PLAN_COMMAND,
                     null);
-          message = Utils.concatResStrings(this, R.string.planner_setup_info_jb,R.string.planner_setup_info_create_new_warning);
+          message = Utils.concatResStrings(this, " ", R.string.planner_setup_info_jb,R.string.planner_setup_info_create_new_warning);
           selectButtonLabel = R.string.dialog_setup_planner_button_select_existing;
         } else {
           createNewButton = null;
