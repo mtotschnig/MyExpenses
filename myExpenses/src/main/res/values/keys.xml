@@ -118,4 +118,10 @@
     <string-array name="whats_new_252" tools:ignore="UnusedResources">
         <item>@string/contrib_feature_auto_backup_label</item>
     </string-array>
+
+    <string name="calculator_operator_plus">+</string>
+    <string name="calculator_operator_minus">−</string>
+    <string name="calculator_operator_multiply">×</string>
+    <string name="calculator_operator_divide">÷</string>
+
 </resources>

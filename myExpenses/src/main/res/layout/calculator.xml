@@ -4,6 +4,7 @@
 	at http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
 	Contributors: Denis Solonenko - initial API and implementation
+	Michael Totschnig - refactorings, fixes, UI improvements, accessibility
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="fill_parent"
@@ -21,35 +22,27 @@
 
         <Button
             android:id="@+id/b7"
-            style="@style/CalculatorButton"
-            android:tag="7"/>
+            style="@style/CalculatorButton"/>
 
         <Button
             android:id="@+id/b8"
-            style="@style/CalculatorButton"
-            android:tag="8"/>
+            style="@style/CalculatorButton"/>
 
         <Button
             android:id="@+id/b9"
-            style="@style/CalculatorButton"
-            android:tag="9"/>
+            style="@style/CalculatorButton"/>
 
         <Button
             android:id="@+id/b0"
-            style="@style/CalculatorButton"
-            android:tag="0"/>
+            style="@style/CalculatorButton"/>
 
         <Button
             android:id="@+id/bAdd"
-            style="@style/CalculatorButton"
-            android:text="+"/>
+            style="@style/CalculatorButton.Add"/>
 
         <Button
             android:id="@+id/bClear"
-            style="@style/CalculatorButton"
-            android:text="C"
-            android:textColor="#f26522"
-            android:textStyle="bold"/>
+            style="@style/CalculatorButton.Clear" />
     </LinearLayout>
 
     <LinearLayout
@@ -59,33 +52,27 @@
 
         <Button
             android:id="@+id/b4"
-            style="@style/CalculatorButton"
-            android:tag="4"/>
+            style="@style/CalculatorButton"/>
 
         <Button
             android:id="@+id/b5"
-            style="@style/CalculatorButton"
-            android:tag="5"/>
+            style="@style/CalculatorButton"/>
 
         <Button
             android:id="@+id/b6"
-            style="@style/CalculatorButton"
-            android:tag="6"/>
+            style="@style/CalculatorButton"/>
 
         <Button
             android:id="@+id/bPlusMinus"
-            style="@style/CalculatorButton"
-            android:text="±"/>
+            style="@style/CalculatorButton.PlusMinus"/>
 
         <Button
             android:id="@+id/bSubtract"
-            style="@style/CalculatorButton"
-            android:text="-"/>
+            style="@style/CalculatorButton.Subtract"/>
 
         <Button
             android:id="@+id/bDelete"
-            style="@style/CalculatorButton"
-            android:text="&lt;"/>
+            style="@style/CalculatorButton.Delete"/>
     </LinearLayout>
 
     <LinearLayout
@@ -95,28 +82,23 @@
 
         <Button
             android:id="@+id/b1"
-            style="@style/CalculatorButton"
-            android:tag="1"/>
+            style="@style/CalculatorButton"/>
 
         <Button
             android:id="@+id/b2"
-            style="@style/CalculatorButton"
-            android:tag="2"/>
+            style="@style/CalculatorButton"/>
 
         <Button
             android:id="@+id/b3"
-            style="@style/CalculatorButton"
-            android:tag="3"/>
+            style="@style/CalculatorButton"/>
 
         <Button
             android:id="@+id/bDot"
-            style="@style/CalculatorButton"
-            android:tag="."/>
+            style="@style/CalculatorButton.Dot"/>
 
         <Button
             android:id="@+id/bMultiply"
-            style="@style/CalculatorButton"
-            android:text="*"/>
+            style="@style/CalculatorButton.Multiply"/>
 
         <Button
             android:id="@+id/bPercent"
@@ -132,14 +114,10 @@
 
         <Button
             android:id="@+id/bDivide"
-            style="@style/CalculatorButton"
-            android:text="/"/>
+            style="@style/CalculatorButton.Divide"/>
 
         <Button
             android:id="@+id/bResult"
-            style="@style/CalculatorButton"
-            android:text="="
-            android:textColor="#39b54a"
-            android:textStyle="bold"/>
+            style="@style/CalculatorButton.Result"/>
     </LinearLayout>
 </LinearLayout>
