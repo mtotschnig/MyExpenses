@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import com.android.calendar.CalendarContractCompat;
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidGridAdapter;
+import com.roomorama.caldroid.CaldroidListener;
 import com.roomorama.caldroid.CellView;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -24,6 +25,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -37,7 +39,6 @@ public class PlanMonthFragment extends CaldroidFragment
 
   private LoaderManager mManager;
   public static final int EVENTS_CURSOR = 1;
-
 
   public static PlanMonthFragment newInstance(String title, long planId, int color) {
     PlanMonthFragment f = new PlanMonthFragment();
@@ -54,10 +55,25 @@ public class PlanMonthFragment extends CaldroidFragment
   }
 
   @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setCaldroidListener(new CaldroidListener() {
+      @Override
+      public void onSelectDate(Date date, View view) {
+          //not our concern
+      }
+
+      @Override
+      public void onChangeMonth(int month, int year) {
+        mManager.restartLoader(EVENTS_CURSOR, null, PlanMonthFragment.this);
+      }
+    });
+  }
+
+  @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    View view = super.onCreateView(inflater, container, savedInstanceState);
     mManager = getLoaderManager();
-    mManager.initLoader(EVENTS_CURSOR, null, this);
+    View view = super.onCreateView(inflater, container, savedInstanceState);
     return view;
   }
 
@@ -70,9 +86,10 @@ public class PlanMonthFragment extends CaldroidFragment
   public Loader<Cursor> onCreateLoader(int id, Bundle args) {
     // Construct the query with the desired date range.
     Uri.Builder builder = CalendarContractCompat.Instances.CONTENT_URI.buildUpon();
-    long start = DateTime.now(TimeZone.getDefault()).getStartOfMonth()
+    DateTime startOfMonth = new DateTime(year, month, 1, 0, 0, 0, 0);
+    long start = startOfMonth.minusDays(7)
         .getMilliseconds(TimeZone.getDefault());
-    long end = DateTime.now(TimeZone.getDefault()).getEndOfMonth()
+    long end =startOfMonth.getEndOfMonth().plusDays(7)
         .getMilliseconds(TimeZone.getDefault());
     ContentUris.appendId(builder, start);
     ContentUris.appendId(builder, end);
