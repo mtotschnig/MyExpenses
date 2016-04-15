@@ -68,7 +68,6 @@ public class PlanMonthFragment extends CaldroidFragment
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    mManager = getLoaderManager();
     setCaldroidListener(new CaldroidListener() {
       @Override
       public void onSelectDate(Date date, View view) {
@@ -77,11 +76,27 @@ public class PlanMonthFragment extends CaldroidFragment
 
       @Override
       public void onChangeMonth(int month, int year) {
-        mManager.restartLoader(INSTANCES_CURSOR, null, PlanMonthFragment.this);
+        requireLoader(INSTANCES_CURSOR);
       }
     });
-    mManager.initLoader(INSTANCE_STATUS_CURSOR,null,this);
   }
+
+  private void requireLoader(int loaderId) {
+    if (mManager.getLoader(loaderId) != null && !mManager.getLoader(loaderId).isReset()) {
+      mManager.restartLoader(loaderId, new Bundle(), this);
+    } else {
+      mManager.initLoader(loaderId, new Bundle(), this);
+    }
+  }
+
+  @Override
+  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    mManager = getLoaderManager();
+    View view = super.onCreateView(inflater, container, savedInstanceState);
+    requireLoader(INSTANCE_STATUS_CURSOR);
+    return view;
+  }
+
 
   @Override
   public CaldroidGridAdapter getNewDatesGridAdapter(int month, int year) {
