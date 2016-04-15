@@ -108,8 +108,9 @@ public class PlanMonthFragment extends CaldroidFragment
                 CalendarContractCompat.Instances._ID,
                 CalendarContractCompat.Instances.BEGIN
             },
-            CalendarContractCompat.Instances.EVENT_ID + " = ?",
-            new String[]{String.valueOf(getArguments().getLong(DatabaseConstants.KEY_PLANID))},
+            String.format(CalendarContractCompat.Instances.EVENT_ID + " = %d",
+                getArguments().getLong(DatabaseConstants.KEY_PLANID)),
+            null,
             null);
       case INSTANCE_STATUS_CURSOR:
         return new CursorLoader(
