@@ -482,13 +482,13 @@ public class PlanList extends ContextualActionBarFragment implements LoaderManag
       Log.i(MyApplication.TAG, "looking up instance2transactionamp for instance " + instanceId);
       Long transactionId = mInstance2TransactionMap.get(instanceId);
       if (transactionId == null) {
-        iv.setImageResource(R.drawable.ic_stat_open);
+        //iv.setImageResource(R.drawable.ic_stat_open);
         iv.setContentDescription(getString(R.string.plan_instance_state_open));
       } else if (transactionId == 0L) {
-        iv.setImageResource(R.drawable.ic_stat_cancelled);
+        //iv.setImageResource(R.drawable.ic_stat_cancelled);
         iv.setContentDescription(getString(R.string.plan_instance_state_cancelled));
       } else {
-        iv.setImageResource(R.drawable.ic_stat_applied);
+        //iv.setImageResource(R.drawable.ic_stat_applied);
         iv.setContentDescription(getString(R.string.plan_instance_state_applied));
       }
       return convertView;
