@@ -121,6 +121,7 @@ public class TemplatesList extends SortableListFragment  {
         if (!mTemplatesCursor.isNull(columnIndexPlanId)) {
           CaldroidFragment caldroidFragment = PlanMonthFragment.newInstance(
               mTemplatesCursor.getString(columnIndexTitle),
+              id,
               mTemplatesCursor.getLong(columnIndexPlanId),
               mTemplatesCursor.getInt(columnIndexColor));
           caldroidFragment.show(getFragmentManager(), CALDROID_DIALOG_FRAGMENT_TAG);
