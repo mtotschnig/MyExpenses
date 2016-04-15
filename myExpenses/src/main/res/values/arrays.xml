@@ -59,6 +59,7 @@
         <item>සිංහල (Sinhala)</item>
         <item>Türkçe</item>
         <item>Tiếng Việt</item>
+        <item>中文 (简体)</item>
         <item>中文 (繁體)</item>
     </string-array>
     <string-array name="pref_ui_language_values">
@@ -89,6 +90,7 @@
         <item>si-LK</item>
         <item>tr-TR</item>
         <item>vi-VN</item>
+        <item>zh-CN</item>
         <item>zh-TW</item>
     </string-array>
 
