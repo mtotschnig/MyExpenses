@@ -2,14 +2,18 @@ package org.totschnig.myexpenses.fragment;
 
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.util.LongSparseArray;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +47,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIO
 public class PlanMonthFragment extends CaldroidFragment
     implements LoaderManager.LoaderCallbacks<Cursor> {
 
+  private static boolean darkThemeSelected;
   private LoaderManager mManager;
   public static final int INSTANCES_CURSOR = 1;
   public static final int INSTANCE_STATUS_CURSOR = 2;
@@ -55,8 +60,9 @@ public class PlanMonthFragment extends CaldroidFragment
     Bundle args = new Bundle();
     args.putInt(CaldroidFragment.DIALOG_TITLE_CUSTOM_VIEW, R.layout.calendar_title);
     args.putString(CaldroidFragment.DIALOG_TITLE, title);
+    darkThemeSelected = MyApplication.getThemeType().equals(MyApplication.ThemeType.dark);
     args.putInt(CaldroidFragment.THEME_RESOURCE,
-        MyApplication.getThemeType().equals(MyApplication.ThemeType.dark) ?
+        darkThemeSelected ?
             R.style.CaldroidCustomDark : R.style.CaldroidCustom);
     args.putLong(DatabaseConstants.KEY_PLANID, planId);
     args.putInt(DatabaseConstants.KEY_COLOR, color);
@@ -149,8 +155,6 @@ public class PlanMonthFragment extends CaldroidFragment
       case INSTANCES_CURSOR:
         Calendar calendar = Calendar.getInstance();
         data.moveToFirst();
-        ColorDrawable colorDrawable = new ColorDrawable(
-            getArguments().getInt(DatabaseConstants.KEY_COLOR));
         while (!data.isAfterLast()) {
           calendar.setTimeInMillis(data.getLong(1));
           DateTime dateTime = CalendarHelper.convertDateToDateTime(calendar.getTime());
@@ -223,6 +227,39 @@ public class PlanMonthFragment extends CaldroidFragment
       }
 
       return framelayout;
+    }
+
+    @Override
+    protected void resetCustomResources(CellView cellView) {
+      Context wrapped = new ContextThemeWrapper(context, themeResource);
+
+      Resources.Theme theme = wrapped.getTheme();
+
+      int accountColor = getArguments().getInt(DatabaseConstants.KEY_COLOR);
+      StateListDrawable stateListDrawable= new StateListDrawable();
+      int todayDrawable = darkThemeSelected ? R.drawable.red_border_dark : R.drawable.red_border;
+      GradientDrawable todaySelected =
+          (GradientDrawable) getResources().getDrawable(todayDrawable, theme).mutate();
+      todaySelected.setColor(accountColor);
+      stateListDrawable.addState(
+          new int[] {R.attr.state_date_selected, R.attr.state_date_today},
+          todaySelected);
+      stateListDrawable.addState(
+          new int[] {R.attr.state_date_selected},
+          new ColorDrawable(accountColor));
+      stateListDrawable.addState(
+          new int[] {R.attr.state_date_today},
+          getResources().getDrawable(todayDrawable, theme));
+      stateListDrawable.addState(
+          new int[] {R.attr.state_date_prev_next_month},
+          new ColorDrawable(getContext().getResources().getColor(
+              darkThemeSelected ? R.color.caldroid_333 : R.color.caldroid_white)));
+      stateListDrawable.addState(
+          new int[] {},
+          new ColorDrawable(getContext().getResources().getColor(
+              darkThemeSelected ? R.color.caldroid_black : R.color.caldroid_white)));
+      cellView.setBackground(stateListDrawable);
+      cellView.setTextColor(defaultTextColorRes);
     }
   }
 }
