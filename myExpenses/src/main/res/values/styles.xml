@@ -121,7 +121,7 @@
         <item name="styleCaldroidGridView">@style/CaldroidCustomDarkGridView</item>
     </style>
 
-    <style name="CaldroidCustomtGridView" parent="@style/CaldroidDefaultGridView">
+    <style name="CaldroidCustomtGridView">
         <item name="android:drawSelectorOnTop">true</item>
         <item name="android:adjustViewBounds">true</item>
         <item name="android:gravity">center_horizontal</item>
