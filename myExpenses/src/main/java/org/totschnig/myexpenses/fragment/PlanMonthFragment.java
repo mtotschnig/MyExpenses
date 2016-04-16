@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.fragment;
 
 import android.content.ContentUris;
 import android.content.Context;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
@@ -13,7 +12,6 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.util.LongSparseArray;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -231,15 +229,11 @@ public class PlanMonthFragment extends CaldroidFragment
 
     @Override
     protected void resetCustomResources(CellView cellView) {
-      Context wrapped = new ContextThemeWrapper(context, themeResource);
-
-      Resources.Theme theme = wrapped.getTheme();
-
       int accountColor = getArguments().getInt(DatabaseConstants.KEY_COLOR);
       StateListDrawable stateListDrawable= new StateListDrawable();
       int todayDrawable = darkThemeSelected ? R.drawable.red_border_dark : R.drawable.red_border;
       GradientDrawable todaySelected =
-          (GradientDrawable) getResources().getDrawable(todayDrawable, theme).mutate();
+          (GradientDrawable) getResources().getDrawable(todayDrawable).mutate();
       todaySelected.setColor(accountColor);
       stateListDrawable.addState(
           new int[] {R.attr.state_date_selected, R.attr.state_date_today},
@@ -249,7 +243,7 @@ public class PlanMonthFragment extends CaldroidFragment
           new ColorDrawable(accountColor));
       stateListDrawable.addState(
           new int[] {R.attr.state_date_today},
-          getResources().getDrawable(todayDrawable, theme));
+          getResources().getDrawable(todayDrawable));
       stateListDrawable.addState(
           new int[] {R.attr.state_date_prev_next_month},
           new ColorDrawable(getContext().getResources().getColor(
@@ -258,7 +252,7 @@ public class PlanMonthFragment extends CaldroidFragment
           new int[] {},
           new ColorDrawable(getContext().getResources().getColor(
               darkThemeSelected ? R.color.caldroid_black : R.color.caldroid_white)));
-      cellView.setBackground(stateListDrawable);
+      cellView.setBackgroundDrawable(stateListDrawable);
       cellView.setTextColor(defaultTextColorRes);
     }
   }
