@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.fragment;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.util.LongSparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +30,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.Utils;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -220,6 +223,10 @@ public class PlanMonthFragment extends CaldroidFragment
           state.setImageResource(R.drawable.ic_stat_applied_24dp);
           framelayout.setContentDescription(getString(R.string.plan_instance_state_applied));
         }
+        boolean brightColor = Utils.isBrightColor(getArguments().getInt(DatabaseConstants.KEY_COLOR));
+        cell.setTextColor(getContext().getResources().getColor(
+            brightColor ? R.color.cell_text_color : R.color.cell_text_color_dark));
+        DrawableCompat.setTint(state.getDrawable(), brightColor ? Color.BLACK : Color.WHITE);
       } else {
         state.setVisibility(View.GONE);
       }
@@ -230,29 +237,30 @@ public class PlanMonthFragment extends CaldroidFragment
     @Override
     protected void resetCustomResources(CellView cellView) {
       int accountColor = getArguments().getInt(DatabaseConstants.KEY_COLOR);
-      StateListDrawable stateListDrawable= new StateListDrawable();
+      StateListDrawable stateListDrawable = new StateListDrawable();
       int todayDrawable = darkThemeSelected ? R.drawable.red_border_dark : R.drawable.red_border;
       GradientDrawable todaySelected =
           (GradientDrawable) getResources().getDrawable(todayDrawable).mutate();
       todaySelected.setColor(accountColor);
       stateListDrawable.addState(
-          new int[] {R.attr.state_date_selected, R.attr.state_date_today},
+          new int[]{R.attr.state_date_selected, R.attr.state_date_today},
           todaySelected);
       stateListDrawable.addState(
-          new int[] {R.attr.state_date_selected},
+          new int[]{R.attr.state_date_selected},
           new ColorDrawable(accountColor));
       stateListDrawable.addState(
-          new int[] {R.attr.state_date_today},
+          new int[]{R.attr.state_date_today},
           getResources().getDrawable(todayDrawable));
       stateListDrawable.addState(
-          new int[] {R.attr.state_date_prev_next_month},
+          new int[]{R.attr.state_date_prev_next_month},
           new ColorDrawable(getContext().getResources().getColor(
               darkThemeSelected ? R.color.caldroid_333 : R.color.caldroid_white)));
       stateListDrawable.addState(
-          new int[] {},
+          new int[]{},
           new ColorDrawable(getContext().getResources().getColor(
               darkThemeSelected ? R.color.caldroid_black : R.color.caldroid_white)));
       cellView.setBackgroundDrawable(stateListDrawable);
+
       cellView.setTextColor(defaultTextColorRes);
     }
   }
