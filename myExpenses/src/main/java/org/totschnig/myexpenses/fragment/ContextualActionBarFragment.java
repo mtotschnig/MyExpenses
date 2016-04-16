@@ -86,22 +86,22 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
   protected int getMenuResource() {
     return 0;
   }
-  protected void inflateHelper(Menu menu) {
+  protected void inflateHelper(Menu menu, AbsListView lv) {
     MenuInflater inflater = getActivity().getMenuInflater();
-    inflater.inflate(R.menu.common_context,menu);
+    inflater.inflate(R.menu.common_context, menu);
     int menuResource = getMenuResource();
-    if (menuResource!=0)
+    if (menuResource != 0)
       inflater.inflate(menuResource, menu);
   }
   @Override
   public void onCreateContextMenu(ContextMenu menu, View v,
       ContextMenuInfo menuInfo) {
-    inflateHelper(menu);
+    inflateHelper(menu, ((AbsListView) v.getParent()));
     super.onCreateContextMenu(menu, v, menuInfo);
     expandableListSelectionType = (menuInfo instanceof ExpandableListContextMenuInfo) ?
       ExpandableListView.getPackedPositionType(((ExpandableListContextMenuInfo) menuInfo).packedPosition) :
         ExpandableListView.PACKED_POSITION_TYPE_NULL;
-    configureMenuLegacy(menu,menuInfo);
+    configureMenuLegacy(menu, menuInfo, ((AbsListView) v.getParent()));
   }
   @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   public void registerForContextualActionBar(final AbsListView lv) {
@@ -118,7 +118,7 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
                 ((ExpandableListView) lv).getExpandableListPosition(position));
           }
           mode.setTitle(String.valueOf(count));
-          configureMenu11(mode.getMenu(), count);
+          configureMenu11(mode.getMenu(), count, lv);
         }
 
         @Override
@@ -133,7 +133,7 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
           expandableListSelectionType = (lv instanceof ExpandableListView) ?
               ExpandableListView.PACKED_POSITION_TYPE_GROUP :
               ExpandableListView.PACKED_POSITION_TYPE_NULL;
-          inflateHelper(menu);
+          inflateHelper(menu, lv);
           mode.setTitle(String.valueOf(lv.getCheckedItemCount()));
           mActionMode = mode;
           return true;
@@ -141,7 +141,7 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
 
         @Override
         public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-          configureMenu11(menu, lv.getCheckedItemCount());
+          configureMenu11(menu, lv.getCheckedItemCount(), lv);
           return false;
         }
 
@@ -256,13 +256,13 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
     }
     return false;
   }
-  protected void configureMenuLegacy(Menu menu, ContextMenuInfo menuInfo) {
-    configureMenu(menu,1);
+  protected void configureMenuLegacy(Menu menu, ContextMenuInfo menuInfo, AbsListView lv) {
+    configureMenu(menu, 1, lv);
   }
-  protected void configureMenu11(Menu menu, int count) {
-    configureMenu(menu,count);
+  protected void configureMenu11(Menu menu, int count, AbsListView lv) {
+    configureMenu(menu, count, lv);
   }
-  protected void configureMenu(Menu menu, int count) {
+  protected void configureMenu(Menu menu, int count, AbsListView lv) {
     if (expandableListSelectionType != ExpandableListView.PACKED_POSITION_TYPE_NULL) {
       boolean inGroup = expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP;
       menu.setGroupVisible(R.id.MenuBulk, inGroup);

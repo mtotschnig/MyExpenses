@@ -9,6 +9,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -17,6 +18,7 @@ import android.support.v4.util.LongSparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.android.calendar.CalendarContractCompat;
@@ -25,6 +27,7 @@ import com.roomorama.caldroid.CaldroidGridAdapter;
 import com.roomorama.caldroid.CaldroidListener;
 import com.roomorama.caldroid.CalendarHelper;
 import com.roomorama.caldroid.CellView;
+import com.roomorama.caldroid.DateGridFragment;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -75,6 +78,7 @@ public class PlanMonthFragment extends CaldroidFragment
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    FragmentManager.enableDebugLogging(true);
     setCaldroidListener(new CaldroidListener() {
       @Override
       public void onSelectDate(Date date, View view) {
@@ -84,6 +88,11 @@ public class PlanMonthFragment extends CaldroidFragment
       @Override
       public void onChangeMonth(int month, int year) {
         requireLoader(INSTANCES_CURSOR);
+      }
+
+      @Override
+      public void onGridCreated(GridView gridView) {
+        ((TemplatesList) getParentFragment()).registerForContextualActionBar(gridView);
       }
     });
   }
@@ -242,6 +251,8 @@ public class PlanMonthFragment extends CaldroidFragment
       GradientDrawable todaySelected =
           (GradientDrawable) getResources().getDrawable(todayDrawable).mutate();
       todaySelected.setColor(accountColor);
+      stateListDrawable.addState(new int[] {android.R.attr.state_activated},
+          new ColorDrawable(getContext().getResources().getColor(R.color.appDefault)));
       stateListDrawable.addState(
           new int[]{R.attr.state_date_selected, R.attr.state_date_today},
           todaySelected);
@@ -262,6 +273,11 @@ public class PlanMonthFragment extends CaldroidFragment
       cellView.setBackgroundDrawable(stateListDrawable);
 
       cellView.setTextColor(defaultTextColorRes);
+    }
+
+    @Override
+    public boolean isEnabled(int position) {
+      return dateTime2InstanceMap.get(this.datetimeList.get(position)) != null;
     }
   }
 }

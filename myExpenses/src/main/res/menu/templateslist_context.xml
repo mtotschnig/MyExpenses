@@ -24,7 +24,7 @@
         android:showAsAction="always"
         android:title="@string/menu_create_instance_save">
     </item>
-    <group android:id="@+id/MenuSingle">
+    <group android:id="@id/MenuSingle">
         <item
             android:id="@id/CREATE_INSTANCE_EDIT_COMMAND"
             android:icon="@drawable/ic_action_apply_edit"

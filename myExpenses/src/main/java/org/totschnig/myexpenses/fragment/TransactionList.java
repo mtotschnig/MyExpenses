@@ -87,8 +87,8 @@ import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
@@ -719,14 +719,14 @@ public class TransactionList extends ContextualActionBarFragment implements
   }
 
   @Override
-  protected void configureMenuLegacy(Menu menu, ContextMenuInfo menuInfo) {
-    super.configureMenuLegacy(menu, menuInfo);
+  protected void configureMenuLegacy(Menu menu, ContextMenuInfo menuInfo, AbsListView lv) {
+    super.configureMenuLegacy(menu, menuInfo, lv);
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
     configureMenuInternal(menu,isSplitAtPosition(info.position),isVoidAtPosition(info.position),1);
   }
   @Override
-  protected void configureMenu11(Menu menu, int count) {
-    super.configureMenu11(menu, count);
+  protected void configureMenu11(Menu menu, int count, AbsListView lv) {
+    super.configureMenu11(menu, count, lv);
     SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
     boolean hasSplit = false, hasNotVoid = false;
     for (int i=0; i<checkedItemPositions.size(); i++) {

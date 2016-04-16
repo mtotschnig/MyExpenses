@@ -20,7 +20,7 @@
               android:orientation="vertical">
     <include layout="@layout/toolbar"/>
     <fragment android:name="org.totschnig.myexpenses.fragment.StaleImagesList"
-              android:id="@+id/parties_list"
+              android:id="@+id/stale_images_list"
               android:layout_width="fill_parent"
               android:layout_height="0dp"
               android:layout_weight="1" />

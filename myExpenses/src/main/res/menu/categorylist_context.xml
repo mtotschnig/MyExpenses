@@ -24,7 +24,7 @@
         android:showAsAction="always"
         android:title="@string/menu_move">
     </item>
-    <group android:id="@+id/MenuSingle">
+    <group android:id="@id/MenuSingle">
         <item
             android:id="@id/CREATE_COMMAND"
             android:icon="@drawable/ic_menu_add"
@@ -40,7 +40,7 @@
             android:title="@string/menu_select_category">
         </item>
     </group>
-    <group android:id="@+id/MenuBulk">
+    <group android:id="@id/MenuBulk">
         <item
             android:id="@id/SELECT_COMMAND_MULTIPLE"
             android:icon="@drawable/ic_menu_done"

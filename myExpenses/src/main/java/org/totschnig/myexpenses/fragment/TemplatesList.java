@@ -33,6 +33,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
@@ -124,7 +125,7 @@ public class TemplatesList extends SortableListFragment  {
               id,
               mTemplatesCursor.getLong(columnIndexPlanId),
               mTemplatesCursor.getInt(columnIndexColor));
-          caldroidFragment.show(getFragmentManager(), CALDROID_DIALOG_FRAGMENT_TAG);
+          caldroidFragment.show(getChildFragmentManager(), CALDROID_DIALOG_FRAGMENT_TAG);
         } else if (isForeignExchangeTransfer(position)) {
           ((ManageTemplates) getActivity()).dispatchCommand(R.id.CREATE_INSTANCE_EDIT_COMMAND,
               id);
@@ -304,29 +305,41 @@ public class TemplatesList extends SortableListFragment  {
   }
 
   @Override
-  protected void configureMenuLegacy(Menu menu, ContextMenu.ContextMenuInfo menuInfo) {
-    super.configureMenuLegacy(menu, menuInfo);
-    AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
-    configureMenuInternal(menu, isForeignExchangeTransfer(info.position));
+  protected void configureMenuLegacy(Menu menu, ContextMenu.ContextMenuInfo menuInfo, AbsListView lv) {
+    super.configureMenuLegacy(menu, menuInfo, lv);
+    if (lv == mListView) {
+      AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
+      configureMenuInternal(menu, isForeignExchangeTransfer(info.position), isPlan(info.position));
+    }
   }
 
   @Override
-  protected void configureMenu11(Menu menu, int count) {
-    super.configureMenu11(menu, count);
-    SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
-    boolean hasForeignExchangeTransfer = false;
-    for (int i = 0; i < checkedItemPositions.size(); i++) {
-      if (checkedItemPositions.valueAt(i) && isForeignExchangeTransfer(checkedItemPositions.keyAt
-          (i))) {
-        hasForeignExchangeTransfer = true;
-        break;
+  protected void configureMenu11(Menu menu, int count, AbsListView lv) {
+    super.configureMenu11(menu, count, lv);
+    if (lv == mListView) {
+      SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
+      boolean hasForeignExchangeTransfer = false, hasPlan = false;
+      for (int i = 0; i < checkedItemPositions.size(); i++) {
+        if (checkedItemPositions.valueAt(i) && isForeignExchangeTransfer(checkedItemPositions.keyAt
+            (i))) {
+          hasForeignExchangeTransfer = true;
+          break;
+        }
       }
+      for (int i = 0; i < checkedItemPositions.size(); i++) {
+        if (checkedItemPositions.valueAt(i) && isPlan(checkedItemPositions.keyAt
+            (i))) {
+          hasPlan = true;
+          break;
+        }
+      }
+      configureMenuInternal(menu, hasForeignExchangeTransfer, hasPlan);
     }
-    configureMenuInternal(menu, hasForeignExchangeTransfer);
   }
 
-  private void configureMenuInternal(Menu menu, boolean foreignExchangeTransfer) {
-    menu.findItem(R.id.CREATE_INSTANCE_SAVE_COMMAND).setVisible(!foreignExchangeTransfer);
+  private void configureMenuInternal(Menu menu, boolean foreignExchangeTransfer, boolean hasPlan) {
+    menu.findItem(R.id.CREATE_INSTANCE_SAVE_COMMAND).setVisible(!foreignExchangeTransfer && !hasPlan);
+    menu.findItem(R.id.CREATE_INSTANCE_EDIT_COMMAND).setVisible(!hasPlan);
   }
 
   private boolean isForeignExchangeTransfer(int position) {
@@ -341,6 +354,13 @@ public class TemplatesList extends SortableListFragment  {
     return false;
   }
 
+  private boolean isPlan(int position) {
+    if (mTemplatesCursor != null && mTemplatesCursor.moveToPosition(position)) {
+      return !mTemplatesCursor.isNull(columnIndexPlanId);
+    }
+    return false;
+  }
+
   @Override
   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
     inflater.inflate(R.menu.sort, menu);
@@ -350,5 +370,15 @@ public class TemplatesList extends SortableListFragment  {
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     return handleSortOption(item);
+  }
+
+  @Override
+  protected void inflateHelper(Menu menu, AbsListView lv) {
+    if (lv == mListView) {
+      super.inflateHelper(menu, lv);
+    }
+    else {
+      getActivity().getMenuInflater().inflate(R.menu.planlist_context, menu);
+    }
   }
 }

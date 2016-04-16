@@ -17,7 +17,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:tools="http://schemas.android.com/tools"
       tools:ignore="AppCompatResource,UnusedAttribute,AlwaysShowAction">
-    <group android:id="@+id/MenuSingle">
+    <group android:id="@id/MenuSingle">
         <item
             android:id="@id/CREATE_TEMPLATE_COMMAND"
             android:icon="@drawable/ic_action_template_add"

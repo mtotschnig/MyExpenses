@@ -60,6 +60,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.AbsListView;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.ImageView;
@@ -614,8 +615,8 @@ public class PlanList extends ContextualActionBarFragment implements LoaderManag
   }
 
   @Override
-  protected void configureMenuLegacy(Menu menu, ContextMenuInfo menuInfo) {
-    super.configureMenuLegacy(menu, menuInfo);
+  protected void configureMenuLegacy(Menu menu, ContextMenuInfo menuInfo, AbsListView parent) {
+    super.configureMenuLegacy(menu, menuInfo, parent);
     ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) menuInfo;
     int type = ExpandableListView.getPackedPositionType(info.packedPosition);
     if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
@@ -636,8 +637,8 @@ public class PlanList extends ContextualActionBarFragment implements LoaderManag
   }
 
   @Override
-  protected void configureMenu11(Menu menu, int count) {
-    super.configureMenu11(menu, count);
+  protected void configureMenu11(Menu menu, int count, AbsListView lv) {
+    super.configureMenu11(menu, count, lv);
     if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_CHILD && mAdapter != null) {
       //find out the checked ids and check their states
       boolean withOpen = false, withApplied = false, withCancelled = false;

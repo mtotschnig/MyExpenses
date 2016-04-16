@@ -40,6 +40,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ExpandableListView;
@@ -1148,7 +1149,7 @@ public class CategoryList extends SortableListFragment implements
   }
 
   @Override
-  protected void configureMenu(Menu menu, int count) {
+  protected void configureMenu(Menu menu, int count, AbsListView lv) {
     ManageCategories ctx = (ManageCategories) getActivity();
     if (ctx == null) {
       return;
@@ -1170,8 +1171,8 @@ public class CategoryList extends SortableListFragment implements
   }
 
   @Override
-  protected void configureMenuLegacy(Menu menu, ContextMenu.ContextMenuInfo menuInfo) {
-    super.configureMenuLegacy(menu, menuInfo);
+  protected void configureMenuLegacy(Menu menu, ContextMenu.ContextMenuInfo menuInfo, AbsListView lv) {
+    super.configureMenuLegacy(menu, menuInfo, lv);
     if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
       ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) menuInfo;
       int groupPos = ExpandableListView.getPackedPositionGroup(info.packedPosition);
@@ -1180,8 +1181,8 @@ public class CategoryList extends SortableListFragment implements
   }
 
   @Override
-  protected void configureMenu11(Menu menu, int count) {
-    super.configureMenu11(menu, count);
+  protected void configureMenu11(Menu menu, int count, AbsListView lv) {
+    super.configureMenu11(menu, count, lv);
     if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
       SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
       boolean hasChildren = false;
