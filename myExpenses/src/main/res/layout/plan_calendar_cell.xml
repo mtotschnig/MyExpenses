@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:orientation="vertical">
@@ -12,7 +13,8 @@
 
     <ImageView
         android:id="@+id/state"
-        android:layout_width="19dp"
-        android:layout_height="19dp"
-        android:layout_gravity="bottom|end"/>
+        android:layout_width="17dp"
+        android:layout_height="17dp"
+        android:layout_gravity="bottom|end"
+        tools:ignore="ContentDescription"/>
 </FrameLayout>

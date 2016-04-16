@@ -210,13 +210,13 @@ public class PlanMonthFragment extends CaldroidFragment
         Long transactionId = instance2TransactionMap.get(dateTime2InstanceMap.get(dateTime));
         if (transactionId == null) {
           state.setImageResource(R.drawable.ic_stat_open_24dp);
-          state.setContentDescription(getString(R.string.plan_instance_state_open));
+          framelayout.setContentDescription(getString(R.string.plan_instance_state_open));
         } else if (transactionId == 0L) {
           state.setImageResource(R.drawable.ic_stat_cancelled_24dp);
-          state.setContentDescription(getString(R.string.plan_instance_state_cancelled));
+          framelayout.setContentDescription(getString(R.string.plan_instance_state_cancelled));
         } else {
           state.setImageResource(R.drawable.ic_stat_applied_24dp);
-          state.setContentDescription(getString(R.string.plan_instance_state_applied));
+          framelayout.setContentDescription(getString(R.string.plan_instance_state_applied));
         }
       } else {
         state.setVisibility(View.GONE);
