@@ -1440,7 +1440,7 @@ public class Utils {
     return null;
   }
 
-  public static Bitmap getTintedBitmap(int resId) {
+  public static Bitmap getTintedBitmapThemeDark(int resId) {
     Context wrappedContext = TintContextWrapper.wrap(
         new ContextThemeWrapper(MyApplication.getInstance(), R.style.ThemeDark));
     Drawable d = ContextCompat.getDrawable(wrappedContext, resId);
