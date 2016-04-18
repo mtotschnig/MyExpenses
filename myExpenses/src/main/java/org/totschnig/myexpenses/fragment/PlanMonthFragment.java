@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.fragment;
 
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -15,9 +16,14 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.util.LongSparseArray;
+import android.util.SparseBooleanArray;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 
@@ -27,14 +33,17 @@ import com.roomorama.caldroid.CaldroidGridAdapter;
 import com.roomorama.caldroid.CaldroidListener;
 import com.roomorama.caldroid.CalendarHelper;
 import com.roomorama.caldroid.CellView;
-import com.roomorama.caldroid.DateGridFragment;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ExpenseEdit;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Utils;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -43,6 +52,7 @@ import java.util.TimeZone;
 
 import hirondelle.date4j.DateTime;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
@@ -56,7 +66,16 @@ public class PlanMonthFragment extends CaldroidFragment
   public static final int INSTANCES_CURSOR = 1;
   public static final int INSTANCE_STATUS_CURSOR = 2;
 
+  private enum PlanInstanceState {
+    OPEN, APPLIED, CANCELLED
+  }
+
   private Map<DateTime, Long> dateTime2InstanceMap = new HashMap<>();
+
+  public LongSparseArray<Long> getInstance2TransactionMap() {
+    return instance2TransactionMap;
+  }
+
   private LongSparseArray<Long> instance2TransactionMap = new LongSparseArray<>();
 
   public static PlanMonthFragment newInstance(String title, long templateId, long planId, int color) {
@@ -190,6 +209,157 @@ public class PlanMonthFragment extends CaldroidFragment
 
   }
 
+  public void dispatchCommandSingle(int command, int position) {
+    Intent i;
+    long instanceId = getPlanInstanceForPosition(position);
+    switch (command) {
+      case R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND:
+        i = new Intent(getActivity(), ExpenseEdit.class);
+        i.putExtra(KEY_TEMPLATEID, getArguments().getLong(KEY_ROWID));
+        i.putExtra(KEY_INSTANCEID, instanceId);
+        i.putExtra(KEY_DATE, getDateForPosition(position));
+        startActivityForResult(i, 0);
+        break;
+      case R.id.EDIT_PLAN_INSTANCE_COMMAND:
+        i = new Intent(getActivity(), ExpenseEdit.class);
+        i.putExtra(KEY_ROWID, instance2TransactionMap.get(instanceId));
+        startActivity(i);
+        break;
+    }
+  }
+
+  public void dispatchCommandMultiple(int command, SparseBooleanArray positions) {
+    ArrayList<Long[]> extra2dAL = new ArrayList<Long[]>();
+    ArrayList<Long> objectIdsAL = new ArrayList<Long>();
+    switch (command) {
+      case R.id.CREATE_PLAN_INSTANCE_SAVE_COMMAND:
+        for (int i = 0; i < positions.size(); i++) {
+          if (positions.valueAt(i)) {
+            int position = positions.keyAt(i);
+            long instanceId = getPlanInstanceForPosition(position);
+            //ignore instances that are not open
+            if (getInstance2TransactionMap().get(instanceId) != null)
+              continue;
+            //pass event instance id and date as extra
+            extra2dAL.add(new Long[]{instanceId, getDateForPosition(position)});
+            objectIdsAL.add(getArguments().getLong(KEY_ROWID));
+          }
+        }
+        ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
+            TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE,
+            objectIdsAL.toArray(new Long[objectIdsAL.size()]),
+            extra2dAL.toArray(new Long[extra2dAL.size()][2]),
+            0);
+        break;
+      case R.id.CANCEL_PLAN_INSTANCE_COMMAND:
+        for (int i = 0; i < positions.size(); i++) {
+          if (positions.valueAt(i)) {
+            int position = positions.keyAt(i);
+            long instanceId = getPlanInstanceForPosition(position);
+            objectIdsAL.add(instanceId);
+            extra2dAL.add(new Long[]{getArguments().getLong(KEY_ROWID),
+                getInstance2TransactionMap().get(instanceId)});
+          }
+        }
+        ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
+            TaskExecutionFragment.TASK_CANCEL_PLAN_INSTANCE,
+            objectIdsAL.toArray(new Long[objectIdsAL.size()]),
+            extra2dAL.toArray(new Long[extra2dAL.size()][2]),
+            0);
+        break;
+      case R.id.RESET_PLAN_INSTANCE_COMMAND:
+        ArrayList<Long> extraAL = new ArrayList<Long>();
+        for (int i = 0; i < positions.size(); i++) {
+          if (positions.valueAt(i)) {
+            int position = positions.keyAt(i);
+            long instanceId = getPlanInstanceForPosition(position);
+            objectIdsAL.add(instanceId);
+            //pass transactionId in extra
+            extraAL.add(getInstance2TransactionMap().get(instanceId));
+            getInstance2TransactionMap().remove(instanceId);
+          }
+        }
+        ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
+            TaskExecutionFragment.TASK_RESET_PLAN_INSTANCE,
+            objectIdsAL.toArray(new Long[objectIdsAL.size()]),
+            extraAL.toArray(new Long[extraAL.size()]),
+            0);
+        break;
+    }
+  }
+
+  private long getPlanInstanceForPosition(int position) {
+    DateTime dateTime = dateInMonthsList.get(position);
+    return dateTime2InstanceMap.get(dateTime);
+  }
+
+  private long getDateForPosition(int position) {
+    return CalendarHelper.convertDateTimeToDate(dateInMonthsList.get(position)).getTime();
+  }
+
+  public void configureMenu11(Menu menu, int count, AbsListView lv) {
+    boolean withOpen = false, withApplied = false, withCancelled = false;
+    SparseBooleanArray checkedItemPositions = lv.getCheckedItemPositions();
+    for (int i = 0; i < checkedItemPositions.size(); i++) {
+      if (checkedItemPositions.valueAt(i)) {
+        long instanceId = getPlanInstanceForPosition(checkedItemPositions.keyAt(i));
+        switch (getState(instanceId)) {
+          case APPLIED:
+            withApplied = true;
+            break;
+          case CANCELLED:
+            withCancelled = true;
+            break;
+          case OPEN:
+            withOpen = true;
+            break;
+        }
+        configureMenuInternalPlanInstances(menu, count, withOpen, withApplied, withCancelled);
+      }
+    }
+  }
+
+  public void configureMenuLegacy(Menu menu, ContextMenu.ContextMenuInfo menuInfo, AbsListView lv) {
+    boolean withOpen = false, withApplied = false, withCancelled = false;
+    long instanceId = getPlanInstanceForPosition(((AdapterView.AdapterContextMenuInfo) menuInfo).position);
+    switch (getState(instanceId)) {
+      case APPLIED:
+        withApplied = true;
+        break;
+      case CANCELLED:
+        withCancelled = true;
+        break;
+      case OPEN:
+        withOpen = true;
+        break;
+    }
+    configureMenuInternalPlanInstances(menu, 1, withOpen, withApplied, withCancelled);
+  }
+
+  private PlanInstanceState getState(Long id) {
+    Long transactionId = getInstance2TransactionMap().get(id);
+    if (transactionId == null) {
+      return PlanInstanceState.OPEN;
+    } else if (transactionId != 0L) {
+      return PlanInstanceState.APPLIED;
+    } else {
+      return PlanInstanceState.CANCELLED;
+    }
+  }
+
+  private void configureMenuInternalPlanInstances(Menu menu, int count, boolean withOpen,
+                                                  boolean withApplied, boolean withCancelled) {
+    //state open
+    menu.findItem(R.id.CREATE_PLAN_INSTANCE_SAVE_COMMAND).setVisible(withOpen);
+    menu.findItem(R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND).setVisible(count == 1 && withOpen);
+    //state open or applied
+    menu.findItem(R.id.CANCEL_PLAN_INSTANCE_COMMAND).setVisible(withOpen || withApplied);
+    //state cancelled or applied
+    menu.findItem(R.id.RESET_PLAN_INSTANCE_COMMAND).setVisible(withApplied || withCancelled);
+    //state applied
+    menu.findItem(R.id.EDIT_PLAN_INSTANCE_COMMAND).setVisible(count == 1 && withApplied);
+  }
+
   private class CaldroidCustomAdapter extends CaldroidGridAdapter {
 
     public CaldroidCustomAdapter(Context context, int month, int year,
@@ -251,7 +421,7 @@ public class PlanMonthFragment extends CaldroidFragment
       GradientDrawable todaySelected =
           (GradientDrawable) getResources().getDrawable(todayDrawable).mutate();
       todaySelected.setColor(accountColor);
-      stateListDrawable.addState(new int[] {android.R.attr.state_activated},
+      stateListDrawable.addState(new int[]{android.R.attr.state_activated},
           new ColorDrawable(getContext().getResources().getColor(R.color.appDefault)));
       stateListDrawable.addState(
           new int[]{R.attr.state_date_selected, R.attr.state_date_today},

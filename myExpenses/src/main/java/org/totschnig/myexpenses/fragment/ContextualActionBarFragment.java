@@ -75,7 +75,7 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
    * @return
    */
   @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-  public boolean dispatchCommandMultiple(int command, SparseBooleanArray positions,Long[]itemIds) {
+  public boolean dispatchCommandMultiple(int command, SparseBooleanArray positions, Long[]itemIds) {
     ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
     //we send only the positions to the default dispatch command mechanism,
     //but subclasses can provide a method that handles the itemIds

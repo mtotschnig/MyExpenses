@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
@@ -40,10 +41,9 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.roomorama.caldroid.CaldroidFragment;
-
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
@@ -60,19 +60,22 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_MAIN;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_SUB;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
 
-public class TemplatesList extends SortableListFragment  {
+public class TemplatesList extends SortableListFragment {
 
   public static final String CALDROID_DIALOG_FRAGMENT_TAG = "CALDROID_DIALOG_FRAGMENT";
   private ListView mListView;
+  private PlanMonthFragment caldroidFragment;
 
   protected int getMenuResource() {
     return R.menu.templateslist_context;
@@ -120,7 +123,7 @@ public class TemplatesList extends SortableListFragment  {
       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (mTemplatesCursor == null || !mTemplatesCursor.moveToPosition(position)) return;
         if (!mTemplatesCursor.isNull(columnIndexPlanId)) {
-          CaldroidFragment caldroidFragment = PlanMonthFragment.newInstance(
+          caldroidFragment = PlanMonthFragment.newInstance(
               mTemplatesCursor.getString(columnIndexTitle),
               id,
               mTemplatesCursor.getLong(columnIndexPlanId),
@@ -168,7 +171,7 @@ public class TemplatesList extends SortableListFragment  {
     switch (command) {
       case R.id.DELETE_COMMAND:
         MessageDialogFragment.newInstance(
-            R.string.dialog_title_warning_delete_template,
+            R.string.dialog_title_warning_delete_template,//TODO check if template
             getResources().getQuantityString(R.plurals.warning_delete_template, itemIds.length, itemIds.length),
             new MessageDialogFragment.Button(
                 R.string.menu_delete,
@@ -180,6 +183,11 @@ public class TemplatesList extends SortableListFragment  {
         return true;
       case R.id.CREATE_INSTANCE_SAVE_COMMAND:
         return ((ManageTemplates) getActivity()).dispatchCommand(command, itemIds);
+      case R.id.CREATE_PLAN_INSTANCE_SAVE_COMMAND:
+      case R.id.CANCEL_PLAN_INSTANCE_COMMAND:
+      case R.id.RESET_PLAN_INSTANCE_COMMAND:
+        caldroidFragment.dispatchCommandMultiple(command,positions);
+        return true;
     }
     return super.dispatchCommandMultiple(command, positions, itemIds);
   }
@@ -187,10 +195,15 @@ public class TemplatesList extends SortableListFragment  {
   @Override
   public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
     AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) info;
+    Intent i;
     switch (command) {
       case R.id.CREATE_INSTANCE_EDIT_COMMAND:
       case R.id.EDIT_COMMAND:
         return ((ManageTemplates) getActivity()).dispatchCommand(command, menuInfo.id);
+      case R.id.EDIT_PLAN_INSTANCE_COMMAND:
+      case R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND:
+        caldroidFragment.dispatchCommandSingle(command, menuInfo.position);
+        return true;
     }
     return super.dispatchCommandSingle(command, info);
   }
@@ -310,6 +323,8 @@ public class TemplatesList extends SortableListFragment  {
     if (lv == mListView) {
       AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
       configureMenuInternal(menu, isForeignExchangeTransfer(info.position), isPlan(info.position));
+    } else {
+      caldroidFragment.configureMenuLegacy(menu, menuInfo, lv);
     }
   }
 
@@ -334,6 +349,8 @@ public class TemplatesList extends SortableListFragment  {
         }
       }
       configureMenuInternal(menu, hasForeignExchangeTransfer, hasPlan);
+    } else {
+      caldroidFragment.configureMenu11(menu, count, lv);
     }
   }
 
@@ -376,8 +393,7 @@ public class TemplatesList extends SortableListFragment  {
   protected void inflateHelper(Menu menu, AbsListView lv) {
     if (lv == mListView) {
       super.inflateHelper(menu, lv);
-    }
-    else {
+    } else {
       getActivity().getMenuInflater().inflate(R.menu.planlist_context, menu);
     }
   }
