@@ -177,7 +177,7 @@ public class PaymentMethod extends Model {
     this.label = label;
   }
 
-  static HashMap<Long,PaymentMethod> methods = new HashMap<Long,PaymentMethod>();
+  static final HashMap<Long,PaymentMethod> methods = new HashMap<Long,PaymentMethod>();
   
   public Uri save() {
     Uri uri;

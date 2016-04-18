@@ -71,7 +71,7 @@ public final class CalendarContractCompat {
     private CalendarContractCompat() {}
 
     public static final class Calendars implements BaseColumns {
-      public static String ACCOUNT_NAME,
+      public static final String ACCOUNT_NAME,
           ACCOUNT_TYPE,
           CALENDAR_COLOR,
           CALENDAR_DISPLAY_NAME,
@@ -81,7 +81,7 @@ public final class CalendarContractCompat {
           CALENDAR_ACCESS_LEVEL,
           VISIBLE;
       public static Uri CONTENT_URI;
-      public static int CAL_ACCESS_NONE ,
+      public static final int CAL_ACCESS_NONE ,
           CAL_ACCESS_FREEBUSY ,
           CAL_ACCESS_READ ,
           CAL_ACCESS_RESPOND ,
@@ -140,7 +140,7 @@ public final class CalendarContractCompat {
     }
 
     public static final class Events implements BaseColumns {
-      public static String CALENDAR_ID,
+      public static final String CALENDAR_ID,
           TITLE,
           DESCRIPTION,
           EVENT_LOCATION,
@@ -153,7 +153,7 @@ public final class CalendarContractCompat {
           CUSTOM_APP_PACKAGE,
           CUSTOM_APP_URI,
           ALL_DAY;
-      public static Uri CONTENT_URI;
+      public static final Uri CONTENT_URI;
       static {
         if (legacyApi) {
           CALENDAR_ID = "calendar_id";
@@ -200,7 +200,7 @@ public final class CalendarContractCompat {
      */
     public static final class Instances implements BaseColumns {
       public static String BEGIN, END, EVENT_ID, TITLE;
-      public static Uri CONTENT_URI;
+      public static final Uri CONTENT_URI;
       static {
         if (legacyApi) {
           CONTENT_URI = Uri.parse("content://" + AUTHORITY +

@@ -198,9 +198,9 @@ public class MyApplication extends Application implements
   public static final String KEY_NOTIFICATION_ID = "notification_id";
   public static final String KEY_OPERATION_TYPE = "operationType";
 
-  public static String CONTRIB_SECRET = "RANDOM_SECRET";
-  public static String MARKET_PREFIX = "market://details?id=";
-  public static String CALENDAR_FULL_PATH_PROJECTION = "ifnull("
+  public static final String CONTRIB_SECRET = "RANDOM_SECRET";
+  public static final String MARKET_PREFIX = "market://details?id=";
+  public static final String CALENDAR_FULL_PATH_PROJECTION = "ifnull("
       + Calendars.ACCOUNT_NAME + ",'') || '/' ||" + "ifnull("
       + Calendars.ACCOUNT_TYPE + ",'') || '/' ||" + "ifnull(" + Calendars.NAME
       + ",'')";

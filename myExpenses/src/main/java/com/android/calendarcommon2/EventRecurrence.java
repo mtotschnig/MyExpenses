@@ -29,7 +29,7 @@ import java.util.Locale;
  * Event recurrence utility functions.
  */
 public class EventRecurrence {
-    private static String TAG = "EventRecur";
+    private static final String TAG = "EventRecur";
 
     public static final int SECONDLY = 1;
     public static final int MINUTELY = 2;
@@ -77,7 +77,7 @@ public class EventRecurrence {
     public int       bysetposCount;
 
     /** maps a part string to a parser object */
-    private static HashMap<String,PartParser> sParsePartMap;
+    private static final HashMap<String,PartParser> sParsePartMap;
     static {
         sParsePartMap = new HashMap<String,PartParser>();
         sParsePartMap.put("FREQ", new ParseFreq());

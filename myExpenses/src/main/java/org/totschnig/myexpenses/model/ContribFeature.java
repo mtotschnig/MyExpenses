@@ -62,7 +62,7 @@ public enum ContribFeature {
   /**
    * how many times contrib features can be used for free
    */
-  public static int USAGES_LIMIT = 5;
+  public static final int USAGES_LIMIT = 5;
 
   public String toString() {
     return name().toLowerCase(Locale.US);
