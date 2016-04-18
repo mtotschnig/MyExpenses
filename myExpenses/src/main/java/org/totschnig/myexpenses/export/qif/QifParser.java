@@ -95,25 +95,23 @@ public class QifParser {
     private void parseTransactions(QifAccount account) throws IOException {
       accounts.add(account);
       String peek = r.peekLine();
-      if (peek != null) {
-          if (peek.startsWith("!Type:")) {
-              applyAccountType(account, peek);
-              r.readLine();
-              while (true) {
-                  QifTransaction t = new QifTransaction();
-                  t.readFrom(r, dateFormat);
-                  if (t.isOpeningBalance()) {
-                   account.openinBalance = t.amount;
-                    if (!TextUtils.isEmpty(t.toAccount))
-                      account.memo = t.toAccount;
-                  } else {
-                    addPayeeFromTransaction(t);
-                    addCategoryFromTransaction(t);
-                    account.transactions.add(t);
-                  }
-                  if (shouldBreakCurrentBlock()) {
-                      break;
-                  }
+      if (peek != null && peek.startsWith("!Type:")) {
+          applyAccountType(account, peek);
+          r.readLine();
+          while (true) {
+              QifTransaction t = new QifTransaction();
+              t.readFrom(r, dateFormat);
+              if (t.isOpeningBalance()) {
+               account.openinBalance = t.amount;
+                if (!TextUtils.isEmpty(t.toAccount))
+                  account.memo = t.toAccount;
+              } else {
+                addPayeeFromTransaction(t);
+                addCategoryFromTransaction(t);
+                account.transactions.add(t);
+              }
+              if (shouldBreakCurrentBlock()) {
+                  break;
               }
           }
       }

@@ -167,10 +167,8 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
               if (action.equals(WIDGET_NEXT_ACTION)) {
                 continue;
               }
-              if (action.equals(WIDGET_PREVIOUS_ACTION)) {
-                if (!c.moveToPrevious()) {
-                  c.moveToLast();
-                }
+              if (action.equals(WIDGET_PREVIOUS_ACTION) && !c.moveToPrevious()) {
+                c.moveToLast();
               }
               o = getObject(c);
               return updateWidgetFrom(context, widgetId, layoutId, o);

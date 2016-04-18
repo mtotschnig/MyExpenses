@@ -400,11 +400,9 @@ public class Transaction extends Model {
             new String[]{KEY_CATID},
             null, null, null);
         if (c != null) {
-          if (c.moveToFirst()) {
-            if (c.getLong(0) != catId) {
-              //category has been changed
-              needIncreaseUsage = true;
-            }
+          if (c.moveToFirst() && c.getLong(0) != catId) {
+            //category has been changed
+            needIncreaseUsage = true;
           }
           c.close();
         }
