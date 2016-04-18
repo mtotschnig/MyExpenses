@@ -151,64 +151,62 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
           SparseBooleanArray checkedItemPositions = lv.getCheckedItemPositions();
           int checkedItemCount = checkedItemPositions.size();
           boolean result = false;
-          if (checkedItemPositions != null) {
-            if (item.getGroupId()==R.id.MenuSingle || item.getGroupId()==R.id.MenuSingleChild) {
-              for (int i=0; i<checkedItemCount; i++) {
+          if (item.getGroupId()==R.id.MenuSingle || item.getGroupId()==R.id.MenuSingleChild) {
+            for (int i=0; i<checkedItemCount; i++) {
+              if (checkedItemPositions.valueAt(i)) {
+                int position = checkedItemPositions.keyAt(i);
+                ContextMenuInfo info;
+                long id;
+                if (lv instanceof ExpandableListView) {
+                  long pos = ((ExpandableListView) lv).getExpandableListPosition(position);
+                  int groupPos = ExpandableListView.getPackedPositionGroup(pos);
+                  if (ExpandableListView.getPackedPositionType(pos) == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+                    id = ((ExpandableListView) lv).getExpandableListAdapter().getGroupId(groupPos);
+                  } else {
+                    int childPos = ExpandableListView.getPackedPositionChild(pos);
+                    id = ((ExpandableListView) lv).getExpandableListAdapter().getChildId(groupPos,childPos);
+                  }
+                  //getChildAt returned null in some cases
+                  //thus we decide to not rely on it
+                  info = new ExpandableListContextMenuInfo(null, pos, id);
+                } else {
+                  View v = lv.getChildAt(position);
+                  id = lv.getItemIdAtPosition(position);
+                  info = new AdapterContextMenuInfo(v,position,id);
+                }
+                result = dispatchCommandSingle(itemId,info);
+                break;
+              }
+            }
+          } else {
+            Long[] itemIdsObj;
+            if (lv instanceof ExpandableListView) {
+              itemIdsObj = new Long[checkedItemCount];
+              for(int i = 0; i < checkedItemCount; ++i) {
                 if (checkedItemPositions.valueAt(i)) {
                   int position = checkedItemPositions.keyAt(i);
-                  ContextMenu.ContextMenuInfo info;
-                  long id;
-                  if (lv instanceof ExpandableListView) {
-                    long pos = ((ExpandableListView) lv).getExpandableListPosition(position);
-                    int groupPos = ExpandableListView.getPackedPositionGroup(pos);
-                    if (ExpandableListView.getPackedPositionType(pos) == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-                      id = ((ExpandableListView) lv).getExpandableListAdapter().getGroupId(groupPos);
-                    } else {
-                      int childPos = ExpandableListView.getPackedPositionChild(pos);
-                      id = ((ExpandableListView) lv).getExpandableListAdapter().getChildId(groupPos,childPos);
-                    }
-                    //getChildAt returned null in some cases
-                    //thus we decide to not rely on it 
-                    info = new ExpandableListContextMenuInfo(null, pos, id);
+                  long pos = ((ExpandableListView) lv).getExpandableListPosition(position);
+                  int groupPos = ExpandableListView.getPackedPositionGroup(pos);
+                  if (ExpandableListView.getPackedPositionType(pos) == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+                    itemIdsObj[i] = ((ExpandableListView) lv).getExpandableListAdapter().getGroupId(groupPos);
                   } else {
-                    View v = lv.getChildAt(position);
-                    id = lv.getItemIdAtPosition(position);
-                    info = new AdapterContextMenuInfo(v,position,id);
+                    int childPos = ExpandableListView.getPackedPositionChild(pos);
+                    itemIdsObj[i] = ((ExpandableListView) lv).getExpandableListAdapter().getChildId(groupPos,childPos);
                   }
-                  result = dispatchCommandSingle(itemId,info);
-                  break;
                 }
               }
             } else {
-              Long[] itemIdsObj;
-              if (lv instanceof ExpandableListView) {
-                itemIdsObj = new Long[checkedItemCount];
-                for(int i = 0; i < checkedItemCount; ++i) {
-                  if (checkedItemPositions.valueAt(i)) {
-                    int position = checkedItemPositions.keyAt(i);
-                    long pos = ((ExpandableListView) lv).getExpandableListPosition(position);
-                    int groupPos = ExpandableListView.getPackedPositionGroup(pos);
-                    if (ExpandableListView.getPackedPositionType(pos) == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-                      itemIdsObj[i] = ((ExpandableListView) lv).getExpandableListAdapter().getGroupId(groupPos);
-                    } else {
-                      int childPos = ExpandableListView.getPackedPositionChild(pos);
-                      itemIdsObj[i] = ((ExpandableListView) lv).getExpandableListAdapter().getChildId(groupPos,childPos);
-                    }
-                  }
-                }
-              } else {
-                long[] itemIdsPrim = lv.getCheckedItemIds();
-                itemIdsObj = new Long[itemIdsPrim.length];
-                for(int i = 0; i < itemIdsPrim.length; i++){
-                  itemIdsObj[i] = itemIdsPrim[i];
-                }
+              long[] itemIdsPrim = lv.getCheckedItemIds();
+              itemIdsObj = new Long[itemIdsPrim.length];
+              for(int i = 0; i < itemIdsPrim.length; i++){
+                itemIdsObj[i] = itemIdsPrim[i];
               }
-              //TODO:should we convert the flat positions here?
-              result = dispatchCommandMultiple(
-                  itemId,
-                  checkedItemPositions,
-                  itemIdsObj);
             }
+            //TODO:should we convert the flat positions here?
+            result = dispatchCommandMultiple(
+                itemId,
+                checkedItemPositions,
+                itemIdsObj);
           }
           //mode.finish();
           return result;
