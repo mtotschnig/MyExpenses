@@ -50,8 +50,10 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -75,7 +77,7 @@ public class TemplatesList extends SortableListFragment {
 
   public static final String CALDROID_DIALOG_FRAGMENT_TAG = "CALDROID_DIALOG_FRAGMENT";
   private ListView mListView;
-  private PlanMonthFragment caldroidFragment;
+  private PlanMonthFragment planMonthFragment;
 
   protected int getMenuResource() {
     return R.menu.templateslist_context;
@@ -123,12 +125,12 @@ public class TemplatesList extends SortableListFragment {
       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (mTemplatesCursor == null || !mTemplatesCursor.moveToPosition(position)) return;
         if (!mTemplatesCursor.isNull(columnIndexPlanId)) {
-          caldroidFragment = PlanMonthFragment.newInstance(
+          planMonthFragment = PlanMonthFragment.newInstance(
               mTemplatesCursor.getString(columnIndexTitle),
               id,
               mTemplatesCursor.getLong(columnIndexPlanId),
               mTemplatesCursor.getInt(columnIndexColor));
-          caldroidFragment.show(getChildFragmentManager(), CALDROID_DIALOG_FRAGMENT_TAG);
+          planMonthFragment.show(getChildFragmentManager(), CALDROID_DIALOG_FRAGMENT_TAG);
         } else if (isForeignExchangeTransfer(position)) {
           ((ManageTemplates) getActivity()).dispatchCommand(R.id.CREATE_INSTANCE_EDIT_COMMAND,
               id);
@@ -182,11 +184,18 @@ public class TemplatesList extends SortableListFragment {
             .show(getActivity().getSupportFragmentManager(), "DELETE_TEMPLATE");
         return true;
       case R.id.CREATE_INSTANCE_SAVE_COMMAND:
-        return ((ManageTemplates) getActivity()).dispatchCommand(command, itemIds);
+        finishActionMode();
+        ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
+            TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE,
+            itemIds,
+            null,
+            0);
+        return true;
       case R.id.CREATE_PLAN_INSTANCE_SAVE_COMMAND:
       case R.id.CANCEL_PLAN_INSTANCE_COMMAND:
       case R.id.RESET_PLAN_INSTANCE_COMMAND:
-        caldroidFragment.dispatchCommandMultiple(command,positions);
+        planMonthFragment.dispatchCommandMultiple(command, positions);
+        finishActionMode();
         return true;
     }
     return super.dispatchCommandMultiple(command, positions, itemIds);
@@ -198,11 +207,23 @@ public class TemplatesList extends SortableListFragment {
     Intent i;
     switch (command) {
       case R.id.CREATE_INSTANCE_EDIT_COMMAND:
+        finishActionMode();
+        Intent intent = new Intent(getActivity(), ExpenseEdit.class);
+        intent.putExtra(KEY_TEMPLATEID, menuInfo.id);
+        intent.putExtra(KEY_INSTANCEID, -1L);
+        startActivity(intent);
+        return true;
       case R.id.EDIT_COMMAND:
-        return ((ManageTemplates) getActivity()).dispatchCommand(command, menuInfo.id);
+        finishActionMode();
+        i = new Intent(getActivity(), ExpenseEdit.class);
+        i.putExtra(DatabaseConstants.KEY_TEMPLATEID, menuInfo.id);
+        //TODO check what to do on Result
+        startActivityForResult(i, ProtectedFragmentActivity.EDIT_TRANSACTION_REQUEST);
+        return true;
       case R.id.EDIT_PLAN_INSTANCE_COMMAND:
       case R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND:
-        caldroidFragment.dispatchCommandSingle(command, menuInfo.position);
+        planMonthFragment.dispatchCommandSingle(command, menuInfo.position);
+        finishActionMode();
         return true;
     }
     return super.dispatchCommandSingle(command, info);
@@ -254,6 +275,12 @@ public class TemplatesList extends SortableListFragment {
   @Override
   protected MyApplication.PrefKey getSortOrderPrefKey() {
     return MyApplication.PrefKey.SORT_ORDER_TEMPLATES;
+  }
+
+  public void refreshPlanMonthFragment() {
+    if (planMonthFragment != null) {
+      planMonthFragment.refreshView();
+    }
   }
 
   public class MyAdapter extends SimpleCursorAdapter {
@@ -322,9 +349,9 @@ public class TemplatesList extends SortableListFragment {
     super.configureMenuLegacy(menu, menuInfo, lv);
     if (lv == mListView) {
       AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
-      configureMenuInternal(menu, isForeignExchangeTransfer(info.position), isPlan(info.position));
+      configureMenuInternal(menu, 1, isForeignExchangeTransfer(info.position), isPlan(info.position));
     } else {
-      caldroidFragment.configureMenuLegacy(menu, menuInfo, lv);
+      planMonthFragment.configureMenuLegacy(menu, menuInfo, lv);
     }
   }
 
@@ -348,15 +375,15 @@ public class TemplatesList extends SortableListFragment {
           break;
         }
       }
-      configureMenuInternal(menu, hasForeignExchangeTransfer, hasPlan);
+      configureMenuInternal(menu, count, hasForeignExchangeTransfer, hasPlan);
     } else {
-      caldroidFragment.configureMenu11(menu, count, lv);
+      planMonthFragment.configureMenu11(menu, count, lv);
     }
   }
 
-  private void configureMenuInternal(Menu menu, boolean foreignExchangeTransfer, boolean hasPlan) {
+  private void configureMenuInternal(Menu menu, int count, boolean foreignExchangeTransfer, boolean hasPlan) {
     menu.findItem(R.id.CREATE_INSTANCE_SAVE_COMMAND).setVisible(!foreignExchangeTransfer && !hasPlan);
-    menu.findItem(R.id.CREATE_INSTANCE_EDIT_COMMAND).setVisible(!hasPlan);
+    menu.findItem(R.id.CREATE_INSTANCE_EDIT_COMMAND).setVisible(count == 1 && !hasPlan);
   }
 
   private boolean isForeignExchangeTransfer(int position) {

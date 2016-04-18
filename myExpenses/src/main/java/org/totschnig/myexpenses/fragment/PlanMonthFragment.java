@@ -10,7 +10,6 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -72,10 +71,6 @@ public class PlanMonthFragment extends CaldroidFragment
 
   private Map<DateTime, Long> dateTime2InstanceMap = new HashMap<>();
 
-  public LongSparseArray<Long> getInstance2TransactionMap() {
-    return instance2TransactionMap;
-  }
-
   private LongSparseArray<Long> instance2TransactionMap = new LongSparseArray<>();
 
   public static PlanMonthFragment newInstance(String title, long templateId, long planId, int color) {
@@ -97,7 +92,6 @@ public class PlanMonthFragment extends CaldroidFragment
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    FragmentManager.enableDebugLogging(true);
     setCaldroidListener(new CaldroidListener() {
       @Override
       public void onSelectDate(Date date, View view) {
@@ -195,12 +189,14 @@ public class PlanMonthFragment extends CaldroidFragment
         break;
       case INSTANCE_STATUS_CURSOR:
         data.moveToFirst();
+        instance2TransactionMap.clear();
         while (!data.isAfterLast()) {
           instance2TransactionMap.put(
               data.getLong(data.getColumnIndex(KEY_INSTANCEID)),
               data.getLong(data.getColumnIndex(KEY_TRANSACTIONID)));
           data.moveToNext();
         }
+        refreshView();
     }
   }
 
@@ -238,7 +234,7 @@ public class PlanMonthFragment extends CaldroidFragment
             int position = positions.keyAt(i);
             long instanceId = getPlanInstanceForPosition(position);
             //ignore instances that are not open
-            if (getInstance2TransactionMap().get(instanceId) != null)
+            if (instance2TransactionMap.get(instanceId) != null)
               continue;
             //pass event instance id and date as extra
             extra2dAL.add(new Long[]{instanceId, getDateForPosition(position)});
@@ -258,7 +254,7 @@ public class PlanMonthFragment extends CaldroidFragment
             long instanceId = getPlanInstanceForPosition(position);
             objectIdsAL.add(instanceId);
             extra2dAL.add(new Long[]{getArguments().getLong(KEY_ROWID),
-                getInstance2TransactionMap().get(instanceId)});
+                instance2TransactionMap.get(instanceId)});
           }
         }
         ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
@@ -275,8 +271,7 @@ public class PlanMonthFragment extends CaldroidFragment
             long instanceId = getPlanInstanceForPosition(position);
             objectIdsAL.add(instanceId);
             //pass transactionId in extra
-            extraAL.add(getInstance2TransactionMap().get(instanceId));
-            getInstance2TransactionMap().remove(instanceId);
+            extraAL.add(instance2TransactionMap.get(instanceId));
           }
         }
         ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
@@ -337,7 +332,7 @@ public class PlanMonthFragment extends CaldroidFragment
   }
 
   private PlanInstanceState getState(Long id) {
-    Long transactionId = getInstance2TransactionMap().get(id);
+    Long transactionId = instance2TransactionMap.get(id);
     if (transactionId == null) {
       return PlanInstanceState.OPEN;
     } else if (transactionId != 0L) {

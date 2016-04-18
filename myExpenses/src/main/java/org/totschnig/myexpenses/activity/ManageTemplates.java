@@ -53,6 +53,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
   int mCurrentPosition = 0;
   
   private int monkey_state = 0;
+  private TemplatesList mListFragment;
 
 /*  @Override
   public boolean onKeyUp (int keyCode, KeyEvent event) {
@@ -89,6 +90,8 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
       }
     }
     configureFloatingActionButton(R.string.menu_create_template);
+
+    mListFragment = ((TemplatesList) getSupportFragmentManager().findFragmentById(R.id.templates_list));
   }
 
   @Override
@@ -109,13 +112,6 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
           null,
           R.string.progress_dialog_deleting);
       return true;
-    case R.id.EDIT_COMMAND:
-      finishActionMode();
-      i = new Intent(this, ExpenseEdit.class);
-      i.putExtra(DatabaseConstants.KEY_TEMPLATEID,((Long)tag));
-      //TODO check what to do on Result
-      startActivityForResult(i, EDIT_TRANSACTION_REQUEST);
-      return true;
     case R.id.CANCEL_CALLBACK_COMMAND:
       finishActionMode();
       return true;
@@ -135,19 +131,6 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
           NavUtils.navigateUpTo(this, upIntent);
       }
       return true;
-    case R.id.CREATE_INSTANCE_SAVE_COMMAND:
-      startTaskExecution(
-          TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE,
-          (Long[])tag,
-          null,
-          0);
-      return true;
-    case R.id.CREATE_INSTANCE_EDIT_COMMAND:
-      Intent intent = new Intent(this, ExpenseEdit.class);
-      intent.putExtra(KEY_TEMPLATEID, (Long) tag);
-      intent.putExtra(KEY_INSTANCEID, -1L);
-      startActivity(intent);
-      return true;
     }
     return super.dispatchCommand(command, tag);
    }
@@ -162,20 +145,10 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
         getResources().getQuantityString(R.plurals.save_transaction_from_template_success, successCount, successCount);
       Toast.makeText(this,msg, Toast.LENGTH_LONG).show();
     }
-/*    PlanList pl = (PlanList) getSupportFragmentManager().findFragmentByTag(
-        mSectionsPagerAdapter.getFragmentName(1));
-    if (pl != null) {
-      pl.refresh();
-    }*/
   }
 
   public void finishActionMode() {
-/*    ContextualActionBarFragment f =
-    ((ContextualActionBarFragment) getSupportFragmentManager().findFragmentByTag(
-        mSectionsPagerAdapter.getFragmentName(mCurrentPosition)));
-    if (f != null) {
-      f.finishActionMode();
-    }*/
+    mListFragment.finishActionMode();
   }
   @Override
   public void onPositive(Bundle args) {
