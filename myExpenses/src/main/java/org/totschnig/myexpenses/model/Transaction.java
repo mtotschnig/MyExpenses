@@ -695,6 +695,31 @@ public class Transaction extends Model {
     return true;
   }
 
+  @Override
+  public int hashCode() {
+    int result = this.comment != null ? this.comment.hashCode() : 0;
+    result = 31 * result + (this.payee != null ? this.payee.hashCode() : 0);
+    result = 31 * result + (this.referenceNumber != null ? this.referenceNumber.hashCode() : 0);
+    result = 31 * result + (this.label != null ? this.label.hashCode() : 0);
+    result = 31 * result + (this.date != null ? this.date.hashCode() : 0);
+    result = 31 * result + (this.amount != null ? this.amount.hashCode() : 0);
+    result = 31 * result + (this.transferAmount != null ? this.transferAmount.hashCode() : 0);
+    result = 31 * result + (this.catId != null ? this.catId.hashCode() : 0);
+    result = 31 * result + (this.accountId != null ? this.accountId.hashCode() : 0);
+    result = 31 * result + (this.transfer_peer != null ? this.transfer_peer.hashCode() : 0);
+    result = 31 * result + (this.transfer_account != null ? this.transfer_account.hashCode() : 0);
+    result = 31 * result + (this.methodId != null ? this.methodId.hashCode() : 0);
+    result = 31 * result + (this.methodLabel != null ? this.methodLabel.hashCode() : 0);
+    result = 31 * result + (this.parentId != null ? this.parentId.hashCode() : 0);
+    result = 31 * result + (this.payeeId != null ? this.payeeId.hashCode() : 0);
+    result = 31 * result + (this.originTemplateId != null ? this.originTemplateId.hashCode() : 0);
+    result = 31 * result + (this.originPlanInstanceId != null ? this.originPlanInstanceId.hashCode() : 0);
+    result = 31 * result + this.status;
+    result = 31 * result + (this.crStatus != null ? this.crStatus.hashCode() : 0);
+    result = 31 * result + (this.pictureUri != null ? this.pictureUri.hashCode() : 0);
+    return result;
+  }
+
   public Uri getPictureUri() {
     return pictureUri;
   }
