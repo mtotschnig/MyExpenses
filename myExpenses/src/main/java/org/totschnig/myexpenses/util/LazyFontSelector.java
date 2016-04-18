@@ -95,7 +95,7 @@ public class LazyFontSelector {
     if (c == '\n' || c == '\r') {
       sb.append(c);
     } else {
-      Font font = null;
+      Font font;
       if (Utilities.isSurrogatePair(cc, k)) {
         int u = Utilities.convertToUtf32(cc, k);
         for (int f = 0; f < files.length; ++f) {

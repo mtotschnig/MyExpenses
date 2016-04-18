@@ -503,7 +503,6 @@ public class MyExpenses extends LaunchActivity implements
   public boolean dispatchCommand(int command, Object tag) {
     Intent i;
     TransactionList tl;
-    Account a;
     switch (command) {
       case R.id.DISTRIBUTION_COMMAND:
         tl = getCurrentFragment();

@@ -317,7 +317,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
       return;
     }
     Result r = (Result) result;
-    String msg = null;
+    String msg;
     if (r.success) {
       switch (taskId) {
         case TaskExecutionFragment.TASK_GRISBI_IMPORT:

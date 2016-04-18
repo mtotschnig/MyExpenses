@@ -61,7 +61,7 @@ public class ZipUtils {
                 addFileToZip(PICTURES, imageFile, zip);
               }
             } else {
-              InputStream in = null;
+              InputStream in;
               try {
                 in = MyApplication.getInstance().getContentResolver().openInputStream(imageFileUri);
                 addInputStreamToZip(PICTURES + "/" + imageFileUri.getLastPathSegment(),
@@ -91,8 +91,8 @@ public class ZipUtils {
    * zip the folders
    */
   public static void zipFolder(File srcFolder, File destZipFile) throws Exception {
-      ZipOutputStream zip = null;
-      FileOutputStream fileWriter = null;
+      ZipOutputStream zip;
+      FileOutputStream fileWriter;
       /*
        * create the output stream to zip file result
        */
@@ -171,7 +171,7 @@ public class ZipUtils {
   public static boolean unzip(InputStream fileIn, File dirOut) {
     try  {
       ZipInputStream zin = new ZipInputStream(fileIn);
-      ZipEntry ze = null;
+      ZipEntry ze;
       while ((ze = zin.getNextEntry()) != null) {
         Log.v("Decompress", "Unzipping " + ze.getName());
         File newFile = new File(dirOut,ze.getName());
