@@ -85,7 +85,7 @@ public class PartiesList extends ContextualActionBarFragment implements LoaderMa
           }
         }
       }
-      if (idList.size()>0) {
+      if (!idList.isEmpty()) {
         ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
             TaskExecutionFragment.TASK_DELETE_PAYEES,
             idList.toArray(new Long[idList.size()]),

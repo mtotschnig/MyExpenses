@@ -211,7 +211,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
                       .getString(R.string.qif_parse_failure_found_multiple_accounts_cannot_merge));
           return;
         }
-        if (parser.accounts.size() == 0) {
+        if (parser.accounts.isEmpty()) {
           return;
         }
         Account dbAccount = Account.getInstanceFromDb(accountId);

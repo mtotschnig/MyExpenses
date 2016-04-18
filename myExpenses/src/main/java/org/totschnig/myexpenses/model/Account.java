@@ -604,7 +604,7 @@ public class Account extends Model {
     Account account;
     String selection = KEY_ROWID + " = ";
     if (id == 0) {
-      if (accounts.size() > 0) {
+      if (!accounts.isEmpty()) {
         for (long _id : accounts.keySet()) {
           if (_id > 0) {
             return accounts.get(_id);

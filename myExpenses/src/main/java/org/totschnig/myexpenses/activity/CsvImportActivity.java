@@ -96,7 +96,7 @@ public class CsvImportActivity extends TabbedActivity implements
       case TaskExecutionFragment.TASK_CSV_PARSE:
         if (result != null) {
           ArrayList<CSVRecord> data = (ArrayList<CSVRecord>) result;
-          if (data.size() > 0) {
+          if (!data.isEmpty()) {
             if (!mDataReady) {
               addTab(1);
               setmDataReady(true);

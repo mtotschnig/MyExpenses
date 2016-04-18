@@ -254,7 +254,7 @@ public class DialogUtils {
       }
     }
     List<String> filePathSegments = uri.getPathSegments();
-    if (filePathSegments.size()>0) {
+    if (!filePathSegments.isEmpty()) {
       return filePathSegments.get(filePathSegments.size()-1);
     } else {
       return "UNKNOWN";

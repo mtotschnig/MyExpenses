@@ -170,7 +170,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
               }
             }));
       }
-      if (menuItems.size() == 0) {
+      if (menuItems.isEmpty()) {
         view.findViewById(R.id.form_fields_heading).setVisibility(View.GONE);
       } else {
         handleMenuItems(menuItems, "form", 2);
@@ -184,7 +184,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
       if (variant != null &&
           (resId = resolveArray(context + "_" + variant + "_menuitems")) != 0)
         menuItems.addAll(Arrays.asList(res.getStringArray(resId)));
-      if (menuItems.size() == 0)
+      if (menuItems.isEmpty())
         view.findViewById(R.id.menu_commands_heading).setVisibility(View.GONE);
       else {
         handleMenuItems(menuItems, "menu", 1);
@@ -198,7 +198,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
       if (variant != null &&
           (resId = resolveArray(context + "_" + variant + "_cabitems")) != 0)
         menuItems.addAll(Arrays.asList(res.getStringArray(resId)));
-      if (menuItems.size() == 0)
+      if (menuItems.isEmpty())
         view.findViewById(R.id.cab_commands_heading).setVisibility(View.GONE);
       else {
         handleMenuItems(menuItems, "cab", 0);

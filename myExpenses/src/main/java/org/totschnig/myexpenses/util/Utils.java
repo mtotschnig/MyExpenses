@@ -783,13 +783,13 @@ public class Utils {
     final PackageManager packageManager = context.getPackageManager();
     List<ResolveInfo> list = packageManager.queryIntentActivities(intent,
         PackageManager.MATCH_DEFAULT_ONLY);
-    return list.size() > 0;
+    return !list.isEmpty();
   }
 
   public static boolean isIntentReceiverAvailable(Context context, Intent intent) {
     final PackageManager packageManager = context.getPackageManager();
     List<ResolveInfo> list = packageManager.queryBroadcastReceivers(intent, 0);
-    return list.size() > 0;
+    return !list.isEmpty();
   }
 
   public static boolean isBrightColor(int color) {
