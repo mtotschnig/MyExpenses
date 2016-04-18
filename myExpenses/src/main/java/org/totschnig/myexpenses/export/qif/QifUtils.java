@@ -34,6 +34,9 @@ public class QifUtils {
     private static final Pattern MONEY_PREFIX_PATTERN = Pattern.compile("\\D");
     private static final BigDecimal HUNDRED = new BigDecimal(100);
 
+    private QifUtils() {
+    }
+
     public static String trimFirstChar(String s) {
         return s.length() > 1 ? s.substring(1) : "";
     }

@@ -65,6 +65,9 @@ import java.util.List;
  *
  */
 public class DialogUtils {
+  private DialogUtils() {
+  }
+
   /**
    * @return Dialog to be used from Preference,
    * and from version update

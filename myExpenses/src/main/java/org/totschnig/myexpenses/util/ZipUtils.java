@@ -27,6 +27,9 @@ public class ZipUtils {
 
   public static final String PICTURES = Environment.DIRECTORY_PICTURES;
 
+  private ZipUtils() {
+  }
+
   /**
    * convenience method that allows to store the pictures into the backup
    * without copying them first

@@ -151,6 +151,9 @@ public class Utils {
     }
   };
 
+  private Utils() {
+  }
+
   public static boolean hasApiLevel(int checkVersion) {
     return Build.VERSION.SDK_INT >= checkVersion;
   }

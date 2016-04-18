@@ -43,6 +43,9 @@ import com.android.calendar.CalendarContractCompat;
 
 public class DbUtils {
 
+  private DbUtils() {
+  }
+
   public static Result backup(File backupDir) {
     cacheEventData();
     SQLiteDatabase db = TransactionProvider.mOpenHelper.getReadableDatabase();

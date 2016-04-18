@@ -35,6 +35,9 @@ public class EventRecurrenceFormatter
     private static int[] mMonthRepeatByDayOfWeekIds;
     private static String[][] mMonthRepeatByDayOfWeekStrs;
 
+    private EventRecurrenceFormatter() {
+    }
+
     public static String getRepeatString(Context context, Resources r, EventRecurrence recurrence,
             boolean includeEndString) {
         String endString = "";

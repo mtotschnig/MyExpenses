@@ -34,6 +34,9 @@ public class Fixture {
   private static Account account3;
   private static Currency foreignCurrency;
 
+  private Fixture() {
+  }
+
   public static Account getAccount1() {
     return account1;
   }
