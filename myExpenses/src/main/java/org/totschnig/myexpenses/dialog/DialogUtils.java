@@ -359,8 +359,8 @@ public class DialogUtils {
   public static Spinner configureDateFormat(View view, Context context, String prefName) {
     Spinner spinner = (Spinner) view.findViewById(R.id.DateFormat);
     ArrayAdapter<QifDateFormat> dateFormatAdapter =
-        new ArrayAdapter<QifDateFormat>(
-            context, android.R.layout.simple_spinner_item, QifDateFormat.values());
+            new ArrayAdapter<>(
+                    context, android.R.layout.simple_spinner_item, QifDateFormat.values());
     dateFormatAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     spinner.setAdapter(dateFormatAdapter);
     QifDateFormat qdf;
@@ -400,9 +400,9 @@ public class DialogUtils {
   public static Spinner configureCurrencySpinner(
       View view, Context context, AdapterView.OnItemSelectedListener listener) {
     Spinner spinner = (Spinner) view.findViewById(R.id.Currency);
-    ArrayAdapter<Account.CurrencyEnum> curAdapter = new ArrayAdapter<Account.CurrencyEnum>(
-        context, android.R.layout.simple_spinner_item, android.R.id.text1,
-        Account.CurrencyEnum.sortedValues());
+    ArrayAdapter<Account.CurrencyEnum> curAdapter = new ArrayAdapter<>(
+            context, android.R.layout.simple_spinner_item, android.R.id.text1,
+            Account.CurrencyEnum.sortedValues());
     curAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     spinner.setAdapter(curAdapter);
     spinner.setOnItemSelectedListener(listener);
@@ -413,8 +413,8 @@ public class DialogUtils {
 
   public static Spinner configureTypeSpinner(View view, Context context) {
     Spinner spinner = (Spinner) view.findViewById(R.id.AccountType);
-    ArrayAdapter<Account.Type> typAdapter = new ArrayAdapter<Account.Type>(
-        context, android.R.layout.simple_spinner_item, android.R.id.text1,Account.Type.values());
+    ArrayAdapter<Account.Type> typAdapter = new ArrayAdapter<>(
+            context, android.R.layout.simple_spinner_item, android.R.id.text1, Account.Type.values());
     typAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     spinner.setAdapter(typAdapter);
     return spinner;

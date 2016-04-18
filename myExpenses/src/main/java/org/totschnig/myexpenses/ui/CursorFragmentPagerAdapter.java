@@ -42,7 +42,7 @@ public abstract class CursorFragmentPagerAdapter extends FragmentPagerAdapter {
     }
 
     void init(Context context, Cursor c) {
-        mObjectMap = new HashMap<Object, Integer>();
+        mObjectMap = new HashMap<>();
         boolean cursorPresent = c != null;
         mCursor = c;
         mDataValid = cursorPresent;

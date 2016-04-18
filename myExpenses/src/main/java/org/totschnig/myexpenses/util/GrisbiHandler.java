@@ -64,7 +64,7 @@ public class GrisbiHandler extends DefaultHandler{
   public void startDocument() throws SAXException {
       super.startDocument();
       catTree = new CategoryTree("root");
-      partiesList = new ArrayList<String>();
+      partiesList = new ArrayList<>();
       builder = new StringBuilder();
   }
 

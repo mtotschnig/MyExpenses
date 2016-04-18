@@ -79,7 +79,7 @@ public class EventRecurrence {
     /** maps a part string to a parser object */
     private static HashMap<String,PartParser> sParsePartMap;
     static {
-        sParsePartMap = new HashMap<String,PartParser>();
+        sParsePartMap = new HashMap<>();
         sParsePartMap.put("FREQ", new ParseFreq());
         sParsePartMap.put("UNTIL", new ParseUntil());
         sParsePartMap.put("COUNT", new ParseCount());
@@ -113,7 +113,7 @@ public class EventRecurrence {
     private static final int PARSED_WKST = 1 << 13;
 
     /** maps a FREQ value to an integer constant */
-    private static final HashMap<String,Integer> sParseFreqMap = new HashMap<String,Integer>();
+    private static final HashMap<String,Integer> sParseFreqMap = new HashMap<>();
     static {
         sParseFreqMap.put("SECONDLY", SECONDLY);
         sParseFreqMap.put("MINUTELY", MINUTELY);
@@ -125,7 +125,7 @@ public class EventRecurrence {
     }
 
     /** maps a two-character weekday string to an integer constant */
-    private static final HashMap<String,Integer> sParseWeekdayMap = new HashMap<String,Integer>();
+    private static final HashMap<String,Integer> sParseWeekdayMap = new HashMap<>();
     static {
         sParseWeekdayMap.put("SU", SU);
         sParseWeekdayMap.put("MO", MO);

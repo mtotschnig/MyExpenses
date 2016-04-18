@@ -173,7 +173,7 @@ public class CategoryList extends SortableListFragment implements
     mManager = getLoaderManager();
     if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
       showChart = MyApplication.PrefKey.DISTRIBUTION_SHOW_CHART.getBoolean(true);
-      mMainColors = new ArrayList<Integer>();
+      mMainColors = new ArrayList<>();
       for (int col : ColorTemplate.PASTEL_COLORS)
         mMainColors.add(col);
       for (int col : ColorTemplate.JOYFUL_COLORS)
@@ -365,7 +365,7 @@ public class CategoryList extends SortableListFragment implements
     switch (command) {
       case R.id.DELETE_COMMAND:
         int mappedTransactionsCount = 0, mappedTemplatesCount = 0, hasChildrenCount = 0;
-        idList = new ArrayList<Long>();
+        idList = new ArrayList<>();
         for (int i = 0; i < positions.size(); i++) {
           Cursor c;
           if (positions.valueAt(i)) {
@@ -460,7 +460,7 @@ public class CategoryList extends SortableListFragment implements
         if (inGroup) {
           excludedIds = itemIds;
         } else {
-          idList = new ArrayList<Long>();
+          idList = new ArrayList<>();
           for (int i = 0; i < positions.size(); i++) {
             if (positions.valueAt(i)) {
               int position = positions.keyAt(i);
@@ -651,14 +651,14 @@ public class CategoryList extends SortableListFragment implements
           null);
     }
     if (id == DATEINFO_CURSOR) {
-      ArrayList<String> projectionList = new ArrayList<String>(Arrays.asList(
-          new String[]{
-              getThisYearOfWeekStart() + " AS " + KEY_THIS_YEAR_OF_WEEK_START,
-              THIS_YEAR + " AS " + KEY_THIS_YEAR,
-              THIS_MONTH + " AS " + KEY_THIS_MONTH,
-              getThisWeek() + " AS " + KEY_THIS_WEEK,
-              THIS_DAY + " AS " + KEY_THIS_DAY
-          }
+      ArrayList<String> projectionList = new ArrayList<>(Arrays.asList(
+              new String[]{
+                      getThisYearOfWeekStart() + " AS " + KEY_THIS_YEAR_OF_WEEK_START,
+                      THIS_YEAR + " AS " + KEY_THIS_YEAR,
+                      THIS_MONTH + " AS " + KEY_THIS_MONTH,
+                      getThisWeek() + " AS " + KEY_THIS_WEEK,
+                      THIS_DAY + " AS " + KEY_THIS_DAY
+              }
       ));
       //if we are at the beginning of the year we are interested in the max of the previous year
       int yearToLookUp = mGroupingSecond == 1 ? mGroupingYear - 1 : mGroupingYear;
@@ -1219,8 +1219,8 @@ public class CategoryList extends SortableListFragment implements
 
   private void setData(Cursor c, ArrayList<Integer> colors) {
     chartDisplaysSubs = c != mGroupCursor;
-    ArrayList<Entry> entries1 = new ArrayList<Entry>();
-    ArrayList<String> xVals = new ArrayList<String>();
+    ArrayList<Entry> entries1 = new ArrayList<>();
+    ArrayList<String> xVals = new ArrayList<>();
     if (c != null && c.moveToFirst()) {
       do {
         long sum = c.getLong(c.getColumnIndex(DatabaseConstants.KEY_SUM));
@@ -1253,7 +1253,7 @@ public class CategoryList extends SortableListFragment implements
   }
 
   private ArrayList<Integer> getShades(int color) {
-    ArrayList<Integer> result = new ArrayList<Integer>();
+    ArrayList<Integer> result = new ArrayList<>();
     int red = Color.red(color);
     int redDecrement = (int) Math.round(red * 0.1);
     int green = Color.green(color);
@@ -1280,7 +1280,7 @@ public class CategoryList extends SortableListFragment implements
   }
 
   private ArrayList<Integer> getTints(int color) {
-    ArrayList<Integer> result = new ArrayList<Integer>();
+    ArrayList<Integer> result = new ArrayList<>();
     int red = Color.red(color);
     int redIncrement = (int) Math.round((255 - red) * 0.1);
     int green = Color.green(color);

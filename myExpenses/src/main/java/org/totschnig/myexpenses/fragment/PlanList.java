@@ -79,7 +79,7 @@ public class PlanList extends ContextualActionBarFragment implements LoaderManag
   public static final int PLANS_CURSOR = -2;
   Cursor mTemplatesCursor;
   private HashMap<Long, String> mPlanTimeInfo;
-  private HashMap<Long, Long> mInstance2TransactionMap = new HashMap<Long, Long>();
+  private HashMap<Long, Long> mInstance2TransactionMap = new HashMap<>();
   private MyExpandableListAdapter mAdapter;
   //private SimpleCursorAdapter mAdapter;
   //private StickyListHeadersListView mListView;
@@ -186,8 +186,8 @@ public class PlanList extends ContextualActionBarFragment implements LoaderManag
   public boolean dispatchCommandMultiple(int command,
                                          SparseBooleanArray positions, Long[] itemIds) {
     int checkedItemCount = positions.size();
-    ArrayList<Long[]> extra2dAL = new ArrayList<Long[]>();
-    ArrayList<Long> objectIdsAL = new ArrayList<Long>();
+    ArrayList<Long[]> extra2dAL = new ArrayList<>();
+    ArrayList<Long> objectIdsAL = new ArrayList<>();
     switch (command) {
       case R.id.DELETE_COMMAND:
         MessageDialogFragment.newInstance(
@@ -346,7 +346,7 @@ public class PlanList extends ContextualActionBarFragment implements LoaderManag
 
         if (planCount > 0) {
           mTemplatesCursor.moveToFirst();
-          ArrayList<Long> plans = new ArrayList<Long>();
+          ArrayList<Long> plans = new ArrayList<>();
           long templateId, planId;
           Bundle planBundle = new Bundle();
           while (mTemplatesCursor.isAfterLast() == false) {
@@ -378,13 +378,13 @@ public class PlanList extends ContextualActionBarFragment implements LoaderManag
             mManager.initLoader(PLANS_CURSOR, planBundle, this);
           }
         } else {
-          mPlanTimeInfo = new HashMap<Long, String>();
+          mPlanTimeInfo = new HashMap<>();
           mAdapter.setGroupCursor(mTemplatesCursor);
         }
         invalidateCAB();
         break;
       case PLANS_CURSOR:
-        mPlanTimeInfo = new HashMap<Long, String>();
+        mPlanTimeInfo = new HashMap<>();
         c.moveToFirst();
         while (c.isAfterLast() == false) {
           mPlanTimeInfo.put(

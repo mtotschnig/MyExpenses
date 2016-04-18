@@ -56,7 +56,7 @@ public class PaymentMethod extends Model {
   /**
    * array of account types for which this payment method is applicable
    */
-  private ArrayList<Account.Type> accountTypes = new ArrayList<Account.Type>();
+  private ArrayList<Account.Type> accountTypes = new ArrayList<>();
   
   public enum PreDefined {
     CHEQUE(-1,true,R.string.pm_cheque),
@@ -177,7 +177,7 @@ public class PaymentMethod extends Model {
     this.label = label;
   }
 
-  static HashMap<Long,PaymentMethod> methods = new HashMap<Long,PaymentMethod>();
+  static HashMap<Long,PaymentMethod> methods = new HashMap<>();
   
   public Uri save() {
     Uri uri;

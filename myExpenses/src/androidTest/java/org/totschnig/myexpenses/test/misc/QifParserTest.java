@@ -673,7 +673,7 @@ public class QifParserTest extends AndroidTestCase {
     }
 
     private List<QifCategory> getCategoriesList(QifParser p) {
-        List<QifCategory> categories = new ArrayList<QifCategory>(p.categories.size());
+        List<QifCategory> categories = new ArrayList<>(p.categories.size());
         categories.addAll(p.categories);
         Collections.sort(categories, new Comparator<QifCategory>() {
             @Override

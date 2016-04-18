@@ -141,7 +141,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
     } else {
       destDir = appDir;
     }
-    ArrayList<Account> successfullyExported = new ArrayList<Account>();
+    ArrayList<Account> successfullyExported = new ArrayList<>();
     for (Long id : accountIds) {
       account = Account.getInstanceFromDb(id);
       if (account == null) continue;
