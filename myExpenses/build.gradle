@@ -66,6 +66,8 @@ android {
 }
 
 dependencies {
+    compile 'frankiesardo:icepick:3.2.0'
+    provided 'frankiesardo:icepick-processor:3.2.0'
     compile project(':StickyListHeaders:library')
     compile project(':MaterialSeekBarPreference:library')
     compile project(':Caldroid:caldroid')

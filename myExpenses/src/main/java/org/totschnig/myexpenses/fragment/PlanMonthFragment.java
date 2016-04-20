@@ -14,7 +14,6 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v4.util.LongSparseArray;
 import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -50,6 +49,8 @@ import java.util.Map;
 import java.util.TimeZone;
 
 import hirondelle.date4j.DateTime;
+import icepick.Icepick;
+import icepick.State;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
@@ -69,9 +70,11 @@ public class PlanMonthFragment extends CaldroidFragment
     OPEN, APPLIED, CANCELLED
   }
 
-  private Map<DateTime, Long> dateTime2InstanceMap = new HashMap<>();
+  @State
+  protected HashMap<DateTime, Long> dateTime2InstanceMap = new HashMap<>();
 
-  private LongSparseArray<Long> instance2TransactionMap = new LongSparseArray<>();
+  @State
+  protected HashMap<Long,Long> instance2TransactionMap = new HashMap<>();
 
   public static PlanMonthFragment newInstance(String title, long templateId, long planId, int color) {
     PlanMonthFragment f = new PlanMonthFragment();
@@ -92,6 +95,7 @@ public class PlanMonthFragment extends CaldroidFragment
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    Icepick.restoreInstanceState(this, savedInstanceState);
     setCaldroidListener(new CaldroidListener() {
       @Override
       public void onSelectDate(Date date, View view) {
@@ -100,6 +104,7 @@ public class PlanMonthFragment extends CaldroidFragment
 
       @Override
       public void onChangeMonth(int month, int year) {
+        ((ContextualActionBarFragment) getParentFragment()).finishActionMode();
         requireLoader(INSTANCES_CURSOR);
       }
 
@@ -124,6 +129,11 @@ public class PlanMonthFragment extends CaldroidFragment
     View view = super.onCreateView(inflater, container, savedInstanceState);
     requireLoader(INSTANCE_STATUS_CURSOR);
     return view;
+  }
+
+  @Override public void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    Icepick.saveInstanceState(this, outState);
   }
 
 

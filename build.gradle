@@ -18,6 +18,9 @@ allprojects {
         maven {
             url "https://jitpack.io"
         }
+        maven {
+            url "https://clojars.org/repo/"
+        }
     }
 }
 

@@ -194,7 +194,7 @@ public class TemplatesList extends SortableListFragment {
       case R.id.CREATE_PLAN_INSTANCE_SAVE_COMMAND:
       case R.id.CANCEL_PLAN_INSTANCE_COMMAND:
       case R.id.RESET_PLAN_INSTANCE_COMMAND:
-        planMonthFragment.dispatchCommandMultiple(command, positions);
+        requirePlanMonthFragment().dispatchCommandMultiple(command, positions);
         finishActionMode();
         return true;
     }
@@ -222,7 +222,7 @@ public class TemplatesList extends SortableListFragment {
         return true;
       case R.id.EDIT_PLAN_INSTANCE_COMMAND:
       case R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND:
-        planMonthFragment.dispatchCommandSingle(command, menuInfo.position);
+        requirePlanMonthFragment().dispatchCommandSingle(command, menuInfo.position);
         finishActionMode();
         return true;
     }
@@ -277,10 +277,10 @@ public class TemplatesList extends SortableListFragment {
     return MyApplication.PrefKey.SORT_ORDER_TEMPLATES;
   }
 
-  public void refreshPlanMonthFragment() {
-    if (planMonthFragment != null) {
-      planMonthFragment.refreshView();
-    }
+  //after orientation change, we need to restore the reference
+  public PlanMonthFragment requirePlanMonthFragment() {
+    return planMonthFragment != null ? planMonthFragment : ((PlanMonthFragment)
+        getChildFragmentManager().findFragmentByTag(CALDROID_DIALOG_FRAGMENT_TAG));
   }
 
   public class MyAdapter extends SimpleCursorAdapter {
@@ -351,7 +351,7 @@ public class TemplatesList extends SortableListFragment {
       AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
       configureMenuInternal(menu, 1, isForeignExchangeTransfer(info.position), isPlan(info.position));
     } else {
-      planMonthFragment.configureMenuLegacy(menu, menuInfo, lv);
+      requirePlanMonthFragment().configureMenuLegacy(menu, menuInfo, lv);
     }
   }
 
@@ -377,7 +377,7 @@ public class TemplatesList extends SortableListFragment {
       }
       configureMenuInternal(menu, count, hasForeignExchangeTransfer, hasPlan);
     } else {
-      planMonthFragment.configureMenu11(menu, count, lv);
+      requirePlanMonthFragment().configureMenu11(menu, count, lv);
     }
   }
 
