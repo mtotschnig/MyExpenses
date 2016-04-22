@@ -104,7 +104,9 @@ public class PlanMonthFragment extends CaldroidFragment
 
       @Override
       public void onChangeMonth(int month, int year) {
-        ((ContextualActionBarFragment) getParentFragment()).finishActionMode();
+        if (isVisible()) {
+          ((ContextualActionBarFragment) getParentFragment()).finishActionMode();
+        }
         requireLoader(INSTANCES_CURSOR);
       }
 
