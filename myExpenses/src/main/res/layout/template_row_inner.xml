@@ -15,6 +15,7 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:app="http://schemas.android.com/apk/res-auto"
        xmlns:tools="http://schemas.android.com/tools">
 
     <ImageView
@@ -22,8 +23,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:src="@android:drawable/ic_menu_my_calendar"
-        android:contentDescription="@string/menu_manage_plans_tab_plans"/>
+        android:contentDescription="@string/menu_manage_plans_tab_plans"
+        app:srcCompat="@drawable/ic_event"
+        tools:ignore="MissingPrefix"/>
+
     <View
         android:id="@+id/colorAccount"
         android:layout_width="4dp"
@@ -62,8 +65,8 @@
             android:id="@+id/amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
