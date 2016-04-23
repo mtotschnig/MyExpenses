@@ -34,6 +34,9 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 public class PlanExecutor extends IntentService {
+  public static final String ACTION_CANCEL = "Cancel";
+  public static final String ACTION_APPLY = "Apply";
+  public static final String KEY_TITLE = "title";
   //production: 21600000 6* 60 * 60 * 1000 6 hours; for testing: 60000 1 minute
   public static long INTERVAL = BuildConfig.DEBUG ? 60000 : 21600000;
   public PlanExecutor() {
@@ -114,8 +117,9 @@ public class PlanExecutor extends IntentService {
               NotificationManager mNotificationManager =
                   (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
               String content = template.label;
-              if (!content.equals(""))
+              if (!content.equals("")) {
                 content += " : ";
+              }
               content += Utils.formatCurrency(template.getAmount());
               String title = account.label + " : " + template.title;
               NotificationCompat.Builder builder =
@@ -125,6 +129,7 @@ public class PlanExecutor extends IntentService {
                       .setContentText(content);
               if (template.planExecutionAutomatic) {
                 Transaction t = Transaction.getInstanceFromTemplate(template);
+                t.originPlanInstanceId = instanceId;
                 t.setDate(new Date(date));
                 if (t.save() != null) {
                   Intent displayIntent = new Intent(this, MyExpenses.class)
@@ -140,10 +145,12 @@ public class PlanExecutor extends IntentService {
                 notification = builder.build();
               } else {
                 Intent cancelIntent = new Intent(this, PlanNotificationClickHandler.class)
-                  .setAction("Cancel")
+                  .setAction(ACTION_CANCEL)
                   .putExtra(MyApplication.KEY_NOTIFICATION_ID, notificationId)
+                  .putExtra(KEY_TEMPLATEID, template.getId())
+                  .putExtra(KEY_INSTANCEID, instanceId)
                   //we also put the title in the intent, because we need it while we update the notification
-                  .putExtra("title", title);
+                  .putExtra(KEY_TITLE, title);
                 builder.addAction(
                     android.R.drawable.ic_menu_close_clear_cancel,
                     getString(android.R.string.cancel),
@@ -151,7 +158,7 @@ public class PlanExecutor extends IntentService {
                 Intent editIntent = new Intent(this,ExpenseEdit.class)
                   .putExtra(MyApplication.KEY_NOTIFICATION_ID, notificationId)
                   .putExtra(KEY_TEMPLATEID, template.getId())
-                  .putExtra(KEY_INSTANCEID, -1L)
+                  .putExtra(KEY_INSTANCEID, instanceId)
                   .putExtra(KEY_DATE, date);
                 resultIntent = PendingIntent.getActivity(this, notificationId, editIntent, 0);
                 builder.addAction(
@@ -159,10 +166,11 @@ public class PlanExecutor extends IntentService {
                     getString(R.string.menu_edit),
                     resultIntent);
                 Intent applyIntent = new Intent(this, PlanNotificationClickHandler.class);
-                applyIntent.setAction("Apply")
+                applyIntent.setAction(ACTION_APPLY)
                   .putExtra(MyApplication.KEY_NOTIFICATION_ID, notificationId)
                   .putExtra("title", title)
                   .putExtra(KEY_TEMPLATEID, template.getId())
+                  .putExtra(KEY_INSTANCEID, instanceId)
                   .putExtra(KEY_DATE, date);
                 builder.addAction(
                     android.R.drawable.ic_menu_save,
