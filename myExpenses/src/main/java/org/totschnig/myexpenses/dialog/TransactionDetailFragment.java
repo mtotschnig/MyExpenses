@@ -193,8 +193,8 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
         }
       }
       btn = dlg.getButton(AlertDialog.BUTTON_NEUTRAL);
-      if (btn!=null && doShowPicture) {
-        btn.setVisibility(View.VISIBLE);
+      if (btn!=null) {
+        btn.setVisibility(doShowPicture ? View.VISIBLE : View.GONE);
       }
     }
     mLayout.findViewById(R.id.Table).setVisibility(View.VISIBLE);
