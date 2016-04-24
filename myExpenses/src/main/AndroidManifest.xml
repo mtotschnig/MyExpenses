@@ -62,7 +62,7 @@
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MyExpenses" />
+                android:value="org.totschnig.myexpenses.activity.MyExpenses" />
         </activity>
         <activity android:name=".activity.AccountEdit"
                   android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge" />
@@ -160,7 +160,7 @@
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MyExpenses" />
+                android:value="org.totschnig.myexpenses.activity.MyExpenses" />
         </activity>
         <activity android:name=".activity.ManageMethods"
                   android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge" >
