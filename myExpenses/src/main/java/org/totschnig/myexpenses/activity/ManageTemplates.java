@@ -16,26 +16,19 @@
 package org.totschnig.myexpenses.activity;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
 
 import com.android.calendar.CalendarContractCompat.Events;
 
-import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
-import org.totschnig.myexpenses.fragment.ContextualActionBarFragment;
-import org.totschnig.myexpenses.fragment.PlanList;
 import org.totschnig.myexpenses.fragment.TemplatesList;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
@@ -43,31 +36,12 @@ import org.totschnig.myexpenses.util.Utils;
 
 import java.util.List;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
-
 public class ManageTemplates extends ProtectedFragmentActivity implements
     ConfirmationDialogListener {
 
   public long calledFromCalendarWithId = 0;
-  int mCurrentPosition = 0;
-  
-  private int monkey_state = 0;
-  private TemplatesList mListFragment;
 
-/*  @Override
-  public boolean onKeyUp (int keyCode, KeyEvent event) {
-    if (keyCode == KeyEvent.KEYCODE_CAMERA && BuildConfig.DEBUG) {
-      switch (monkey_state) {
-      case 0:
-        ((PlanList) getSupportFragmentManager().findFragmentByTag(
-            mSectionsPagerAdapter.getFragmentName(1)))
-          .listFocus();
-        return true;
-      }
-    }
-    return super.onKeyUp(keyCode, event);
-  }*/
+  private TemplatesList mListFragment;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -184,20 +158,4 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
     requestCalendarPermission();
   }
 
-/*  @Override
-  public void onRequestPermissionsResult(int requestCode,
-                                         String permissions[], int[] grantResults) {
-    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    switch (requestCode) {
-      case ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR: {
-        // If request is cancelled, the result arrays are empty.
-        if (grantResults.length > 0
-            && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-          PlanList pl = (PlanList) getSupportFragmentManager().findFragmentByTag(
-              mSectionsPagerAdapter.getFragmentName(1));
-          pl.setupList();
-        }
-      }
-    }
-  }*/
 }
