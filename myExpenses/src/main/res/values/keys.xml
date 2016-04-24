@@ -98,8 +98,7 @@
 
     <string name="help_ManageMethods_title" tools:ignore="UnusedResources">@string/pref_manage_methods_title</string>
     <string name="help_ManageParties_title" tools:ignore="UnusedResources">@string/pref_manage_parties_title</string>
-    <string name="help_ManageTemplates_templates_title" tools:ignore="UnusedResources">@string/menu_manage_plans_tab_templates</string>
-    <string name="help_ManageTemplates_plans_title" tools:ignore="UnusedResources">@string/menu_manage_plans_tab_plans</string>
+    <string name="help_ManageTemplates_templates_title" tools:ignore="UnusedResources">@string/menu_manage_plans</string>
     <string name="help_ManageCategories_manage_title" tools:ignore="UnusedResources">@string/pref_manage_categories_title</string>
     <string name="help_ManageCategories_distribution_title" tools:ignore="UnusedResources">@string/menu_distribution</string>
     <string name="help_ManageCategories_select_mapping_title" tools:ignore="UnusedResources">@string/select_category</string>

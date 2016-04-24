@@ -20,7 +20,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
-import android.view.View;
 import android.widget.Toast;
 
 import com.android.calendar.CalendarContractCompat.Events;
@@ -43,9 +42,14 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
 
   private TemplatesList mListFragment;
 
+  public enum HelpVariant {
+    templates,plans
+  }
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeIdEditDialog());
+    helpVariant = HelpVariant.templates;
     super.onCreate(savedInstanceState);
     setContentView(R.layout.manage_templates);
     setupToolbar(true);

@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.fragment;
 
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -14,10 +15,12 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v7.widget.Toolbar;
 import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -35,6 +38,7 @@ import com.roomorama.caldroid.CellView;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
+import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -61,6 +65,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIO
 public class PlanMonthFragment extends CaldroidFragment
     implements LoaderManager.LoaderCallbacks<Cursor> {
 
+  private static final String TOOLBAR_TITLE = "toolbarTitle";
   private static boolean darkThemeSelected;
   private LoaderManager mManager;
   public static final int INSTANCES_CURSOR = 1;
@@ -79,8 +84,7 @@ public class PlanMonthFragment extends CaldroidFragment
   public static PlanMonthFragment newInstance(String title, long templateId, long planId, int color) {
     PlanMonthFragment f = new PlanMonthFragment();
     Bundle args = new Bundle();
-    args.putInt(CaldroidFragment.DIALOG_TITLE_CUSTOM_VIEW, R.layout.calendar_title);
-    args.putString(CaldroidFragment.DIALOG_TITLE, title);
+    args.putString(TOOLBAR_TITLE, title);
     darkThemeSelected = MyApplication.getThemeType().equals(MyApplication.ThemeType.dark);
     args.putInt(CaldroidFragment.THEME_RESOURCE,
         darkThemeSelected ?
@@ -129,6 +133,18 @@ public class PlanMonthFragment extends CaldroidFragment
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     mManager = getLoaderManager();
     View view = super.onCreateView(inflater, container, savedInstanceState);
+    Toolbar toolbar = (Toolbar) view.findViewById(R.id.calendar_toolbar);
+    toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+      @Override
+      public boolean onMenuItemClick(MenuItem item) {
+        ((ProtectedFragmentActivity) getActivity()).dispatchCommand(item.getItemId(),
+            ManageTemplates.HelpVariant.plans);
+        return true;
+      }
+    });
+    toolbar.inflateMenu(R.menu.help_with_icon);
+    toolbar.setTitle(getArguments().getString(TOOLBAR_TITLE));
+
     requireLoader(INSTANCE_STATUS_CURSOR);
     return view;
   }
@@ -400,13 +416,13 @@ public class PlanMonthFragment extends CaldroidFragment
         state.setVisibility(View.VISIBLE);
         Long transactionId = instance2TransactionMap.get(dateTime2InstanceMap.get(dateTime));
         if (transactionId == null) {
-          state.setImageResource(R.drawable.ic_stat_open_24dp);
+          state.setImageResource(R.drawable.ic_stat_open);
           framelayout.setContentDescription(getString(R.string.plan_instance_state_open));
         } else if (transactionId == 0L) {
-          state.setImageResource(R.drawable.ic_stat_cancelled_24dp);
+          state.setImageResource(R.drawable.ic_stat_cancelled);
           framelayout.setContentDescription(getString(R.string.plan_instance_state_cancelled));
         } else {
-          state.setImageResource(R.drawable.ic_stat_applied_24dp);
+          state.setImageResource(R.drawable.ic_stat_applied);
           framelayout.setContentDescription(getString(R.string.plan_instance_state_applied));
         }
         boolean brightColor = Utils.isBrightColor(getArguments().getInt(DatabaseConstants.KEY_COLOR));
