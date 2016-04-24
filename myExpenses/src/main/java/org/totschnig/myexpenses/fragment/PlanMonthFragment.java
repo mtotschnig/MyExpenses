@@ -1,19 +1,19 @@
 package org.totschnig.myexpenses.fragment;
 
+import android.app.Dialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
@@ -22,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -118,6 +119,22 @@ public class PlanMonthFragment extends CaldroidFragment
         ((TemplatesList) getParentFragment()).registerForContextualActionBar(gridView);
       }
     });
+  }
+
+  @NonNull
+  @Override
+  public Dialog onCreateDialog(Bundle savedInstanceState) {
+    return new Dialog(getActivity(), getTheme()) {
+      @Override
+      public boolean onMenuItemSelected(int featureId, MenuItem item) {
+        if (featureId == Window.FEATURE_CONTEXT_MENU) {
+          return getParentFragment().onContextItemSelected(item);
+        }
+        else {
+          return super.onMenuItemSelected(featureId, item);
+        }
+      }
+    };
   }
 
   private void requireLoader(int loaderId) {
