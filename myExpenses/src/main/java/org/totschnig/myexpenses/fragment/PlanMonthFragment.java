@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.fragment;
 
 import android.content.ContentUris;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -415,20 +414,21 @@ public class PlanMonthFragment extends CaldroidFragment
       if (dateTime2InstanceMap.get(dateTime) != null) {
         state.setVisibility(View.VISIBLE);
         Long transactionId = instance2TransactionMap.get(dateTime2InstanceMap.get(dateTime));
+        boolean brightColor = Utils.isBrightColor(getArguments().getInt(DatabaseConstants.KEY_COLOR));
+        int themeResId = brightColor ? R.style.ThemeLight : R.style.ThemeDark;
         if (transactionId == null) {
-          state.setImageResource(R.drawable.ic_stat_open);
+          state.setImageBitmap(Utils.getTintedBitmapForTheme(R.drawable.ic_stat_open, themeResId));
           framelayout.setContentDescription(getString(R.string.plan_instance_state_open));
         } else if (transactionId == 0L) {
-          state.setImageResource(R.drawable.ic_stat_cancelled);
+          state.setImageBitmap(Utils.getTintedBitmapForTheme(R.drawable.ic_stat_cancelled, themeResId));
           framelayout.setContentDescription(getString(R.string.plan_instance_state_cancelled));
         } else {
-          state.setImageResource(R.drawable.ic_stat_applied);
+          state.setImageBitmap(Utils.getTintedBitmapForTheme(R.drawable.ic_stat_applied, themeResId));
           framelayout.setContentDescription(getString(R.string.plan_instance_state_applied));
         }
-        boolean brightColor = Utils.isBrightColor(getArguments().getInt(DatabaseConstants.KEY_COLOR));
+
         cell.setTextColor(getContext().getResources().getColor(
             brightColor ? R.color.cell_text_color : R.color.cell_text_color_dark));
-        DrawableCompat.setTint(state.getDrawable(), brightColor ? Color.BLACK : Color.WHITE);
       } else {
         state.setVisibility(View.GONE);
       }
