@@ -425,7 +425,7 @@ public class ProtectedFragmentActivity extends AppCompatActivity
         !ActivityCompat.shouldShowRequestPermissionRationale(this, permission);
   }
 
-  protected void requestCalendarPermission() {
+  public void requestCalendarPermission() {
     if (calendarPermissionPermanentlyDeclined()) {
       //noinspection InlinedApi
       Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);

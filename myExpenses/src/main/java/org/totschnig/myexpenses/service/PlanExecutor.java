@@ -50,6 +50,10 @@ public class PlanExecutor extends IntentService {
   public void onHandleIntent(Intent intent) {
     String plannerCalendarId;
     long now = System.currentTimeMillis();
+    if (ContextCompat.checkSelfPermission(this,
+        Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+      return;
+    }
     try {
       plannerCalendarId = MyApplication.getInstance().checkPlanner();
     } catch (Exception e) {

@@ -153,9 +153,4 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
   @Override
   public void onDismissOrCancel(Bundle args) {
   }
-
-  public void requestPermission(View v) {
-    requestCalendarPermission();
-  }
-
 }

@@ -15,11 +15,14 @@
 
 package org.totschnig.myexpenses.fragment;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.text.SpannableStringBuilder;
@@ -125,12 +128,17 @@ public class TemplatesList extends SortableListFragment {
       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (mTemplatesCursor == null || !mTemplatesCursor.moveToPosition(position)) return;
         if (!mTemplatesCursor.isNull(columnIndexPlanId)) {
-          planMonthFragment = PlanMonthFragment.newInstance(
-              mTemplatesCursor.getString(columnIndexTitle),
-              id,
-              mTemplatesCursor.getLong(columnIndexPlanId),
-              mTemplatesCursor.getInt(columnIndexColor));
-          planMonthFragment.show(getChildFragmentManager(), CALDROID_DIALOG_FRAGMENT_TAG);
+          if (ContextCompat.checkSelfPermission(getContext(),
+              Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
+            planMonthFragment = PlanMonthFragment.newInstance(
+                mTemplatesCursor.getString(columnIndexTitle),
+                id,
+                mTemplatesCursor.getLong(columnIndexPlanId),
+                mTemplatesCursor.getInt(columnIndexColor));
+            planMonthFragment.show(getChildFragmentManager(), CALDROID_DIALOG_FRAGMENT_TAG);
+          } else {
+            ((ProtectedFragmentActivity) getActivity()).requestCalendarPermission();
+          }
         } else if (isForeignExchangeTransfer(position)) {
           ((ManageTemplates) getActivity()).dispatchCommand(R.id.CREATE_INSTANCE_EDIT_COMMAND,
               id);
