@@ -635,7 +635,7 @@ public class ExpenseEdit extends AmountActivity implements
       if (Utils.IS_ANDROID && !calendarPermissionPermanentlyDeclined()) {
         //if user has denied access and checked that he does not want to be asked again, we do not
         //bother him with a button that is not working
-        findViewById(R.id.PlannerRow).setVisibility(View.VISIBLE);
+        setPlannerRowVisibility(View.VISIBLE);
       }
       mAttachPictureButton.setVisibility(View.GONE);
       setTitle(
@@ -743,6 +743,10 @@ public class ExpenseEdit extends AmountActivity implements
         }
       }
     });
+  }
+
+  private void setPlannerRowVisibility(int visibility) {
+    findViewById(R.id.PlannerRow).setVisibility(visibility);
   }
 
   @Override
@@ -2190,6 +2194,11 @@ public class ExpenseEdit extends AmountActivity implements
         if (grantResults.length > 0
             && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
           mLaunchNewPlan = true;
+        } else {
+          if (!ActivityCompat.shouldShowRequestPermissionRationale(
+              this, Manifest.permission.WRITE_CALENDAR)) {
+            setPlannerRowVisibility(View.GONE);
+          }
         }
       }
     }
