@@ -358,7 +358,7 @@ public class PlanMonthFragment extends CaldroidFragment
     }
   }
 
-  public void configureMenuLegacy(Menu menu, ContextMenu.ContextMenuInfo menuInfo, AbsListView lv) {
+  public void configureMenuLegacy(Menu menu, ContextMenu.ContextMenuInfo menuInfo) {
     boolean withOpen = false, withApplied = false, withCancelled = false;
     long instanceId = getPlanInstanceForPosition(((AdapterView.AdapterContextMenuInfo) menuInfo).position);
     switch (getState(instanceId)) {

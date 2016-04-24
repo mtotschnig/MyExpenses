@@ -719,15 +719,15 @@ public class TransactionList extends ContextualActionBarFragment implements
   }
 
   @Override
-  protected void configureMenuLegacy(Menu menu, ContextMenuInfo menuInfo, AbsListView lv) {
-    super.configureMenuLegacy(menu, menuInfo, lv);
+  protected void configureMenuLegacy(Menu menu, ContextMenuInfo menuInfo, int listId) {
+    super.configureMenuLegacy(menu, menuInfo, listId);
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
     configureMenuInternal(menu,isSplitAtPosition(info.position),isVoidAtPosition(info.position),1);
   }
   @Override
   protected void configureMenu11(Menu menu, int count, AbsListView lv) {
     super.configureMenu11(menu, count, lv);
-    SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
+    SparseBooleanArray checkedItemPositions = lv.getCheckedItemPositions();
     boolean hasSplit = false, hasNotVoid = false;
     for (int i=0; i<checkedItemPositions.size(); i++) {
       if (checkedItemPositions.valueAt(i) && isSplitAtPosition(checkedItemPositions.keyAt(i))) {

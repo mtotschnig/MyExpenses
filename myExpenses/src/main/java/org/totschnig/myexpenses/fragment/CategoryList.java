@@ -1149,7 +1149,7 @@ public class CategoryList extends SortableListFragment implements
   }
 
   @Override
-  protected void configureMenu(Menu menu, int count, AbsListView lv) {
+  protected void configureMenu(Menu menu, int count, int listId) {
     ManageCategories ctx = (ManageCategories) getActivity();
     if (ctx == null) {
       return;
@@ -1171,8 +1171,8 @@ public class CategoryList extends SortableListFragment implements
   }
 
   @Override
-  protected void configureMenuLegacy(Menu menu, ContextMenu.ContextMenuInfo menuInfo, AbsListView lv) {
-    super.configureMenuLegacy(menu, menuInfo, lv);
+  protected void configureMenuLegacy(Menu menu, ContextMenu.ContextMenuInfo menuInfo, int listId) {
+    super.configureMenuLegacy(menu, menuInfo, listId);
     if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
       ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) menuInfo;
       int groupPos = ExpandableListView.getPackedPositionGroup(info.packedPosition);

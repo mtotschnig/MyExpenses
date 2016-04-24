@@ -146,7 +146,7 @@ public class StaleImagesList extends ContextualActionBarFragment implements Load
   }
 
   @Override
-  protected void inflateHelper(Menu menu, AbsListView lv) {
+  protected void inflateHelper(Menu menu, int listId) {
     MenuInflater inflater = getActivity().getMenuInflater();
     inflater.inflate(R.menu.stale_images_context, menu);
   }

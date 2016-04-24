@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
@@ -25,8 +26,8 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 
 /**
  * @author Michael Totschnig
- *  provide helper functionality to create a CAB for a ListView
- *  below ICE_CREAM_SANDWICH a context menu is used instead
+ *         provide helper functionality to create a CAB for a ListView
+ *         below ICE_CREAM_SANDWICH a context menu is used instead
  */
 public class ContextualActionBarFragment extends Fragment implements OnGroupClickListener, OnChildClickListener {
   protected ActionMode mActionMode;
@@ -38,8 +39,8 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
       return false;
     int itemId = item.getItemId();
     ContextMenuInfo info = item.getMenuInfo();
-    if (item.getGroupId()==R.id.MenuSingle || item.getGroupId()==R.id.MenuSingleChild) {
-      return dispatchCommandSingle(itemId,info);
+    if (item.getGroupId() == R.id.MenuSingle || item.getGroupId() == R.id.MenuSingleChild) {
+      return dispatchCommandSingle(itemId, info);
     } else {
       int position;
       long id;
@@ -55,9 +56,10 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
       }
       SparseBooleanArray sba = new SparseBooleanArray();
       sba.put(position, true);
-      return dispatchCommandMultiple(itemId,sba,new Long[]{id});
+      return dispatchCommandMultiple(itemId, sba, new Long[]{id});
     }
   }
+
   @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
     ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
@@ -65,17 +67,19 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
       finishActionMode();
     return ctx.dispatchCommand(command, info);
   }
+
   /**
    * dispatch a bulk command with the provided information about checked positions and itemIds
-   * subclasses that override this method should not assume that the count and order of positions 
+   * subclasses that override this method should not assume that the count and order of positions
    * is in parallel with the itemIds, it should do its work either based on positions or based on itemIds
+   *
    * @param command
    * @param positions
    * @param itemIds
    * @return
    */
   @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-  public boolean dispatchCommandMultiple(int command, SparseBooleanArray positions, Long[]itemIds) {
+  public boolean dispatchCommandMultiple(int command, SparseBooleanArray positions, Long[] itemIds) {
     ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
     //we send only the positions to the default dispatch command mechanism,
     //but subclasses can provide a method that handles the itemIds
@@ -83,26 +87,30 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
       finishActionMode();
     return ctx.dispatchCommand(command, positions);
   }
+
   protected int getMenuResource() {
     return 0;
   }
-  protected void inflateHelper(Menu menu, AbsListView lv) {
+
+  protected void inflateHelper(Menu menu, int listId) {
     MenuInflater inflater = getActivity().getMenuInflater();
     inflater.inflate(R.menu.common_context, menu);
     int menuResource = getMenuResource();
     if (menuResource != 0)
       inflater.inflate(menuResource, menu);
   }
+
   @Override
   public void onCreateContextMenu(ContextMenu menu, View v,
-      ContextMenuInfo menuInfo) {
-    inflateHelper(menu, ((AbsListView) v.getParent()));
+                                  ContextMenuInfo menuInfo) {
+    inflateHelper(menu, v.getId());
     super.onCreateContextMenu(menu, v, menuInfo);
     expandableListSelectionType = (menuInfo instanceof ExpandableListContextMenuInfo) ?
-      ExpandableListView.getPackedPositionType(((ExpandableListContextMenuInfo) menuInfo).packedPosition) :
+        ExpandableListView.getPackedPositionType(((ExpandableListContextMenuInfo) menuInfo).packedPosition) :
         ExpandableListView.PACKED_POSITION_TYPE_NULL;
-    configureMenuLegacy(menu, menuInfo, ((AbsListView) v.getParent()));
+    configureMenuLegacy(menu, menuInfo, v.getId());
   }
+
   @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   public void registerForContextualActionBar(final AbsListView lv) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
@@ -133,7 +141,7 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
           expandableListSelectionType = (lv instanceof ExpandableListView) ?
               ExpandableListView.PACKED_POSITION_TYPE_GROUP :
               ExpandableListView.PACKED_POSITION_TYPE_NULL;
-          inflateHelper(menu, lv);
+          inflateHelper(menu, lv.getId());
           mode.setTitle(String.valueOf(lv.getCheckedItemCount()));
           mActionMode = mode;
           return true;
@@ -151,8 +159,8 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
           SparseBooleanArray checkedItemPositions = lv.getCheckedItemPositions();
           int checkedItemCount = checkedItemPositions.size();
           boolean result = false;
-          if (item.getGroupId()==R.id.MenuSingle || item.getGroupId()==R.id.MenuSingleChild) {
-            for (int i=0; i<checkedItemCount; i++) {
+          if (item.getGroupId() == R.id.MenuSingle || item.getGroupId() == R.id.MenuSingleChild) {
+            for (int i = 0; i < checkedItemCount; i++) {
               if (checkedItemPositions.valueAt(i)) {
                 int position = checkedItemPositions.keyAt(i);
                 ContextMenuInfo info;
@@ -164,7 +172,7 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
                     id = ((ExpandableListView) lv).getExpandableListAdapter().getGroupId(groupPos);
                   } else {
                     int childPos = ExpandableListView.getPackedPositionChild(pos);
-                    id = ((ExpandableListView) lv).getExpandableListAdapter().getChildId(groupPos,childPos);
+                    id = ((ExpandableListView) lv).getExpandableListAdapter().getChildId(groupPos, childPos);
                   }
                   //getChildAt returned null in some cases
                   //thus we decide to not rely on it
@@ -172,9 +180,9 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
                 } else {
                   View v = lv.getChildAt(position);
                   id = lv.getItemIdAtPosition(position);
-                  info = new AdapterContextMenuInfo(v,position,id);
+                  info = new AdapterContextMenuInfo(v, position, id);
                 }
-                result = dispatchCommandSingle(itemId,info);
+                result = dispatchCommandSingle(itemId, info);
                 break;
               }
             }
@@ -182,7 +190,7 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
             Long[] itemIdsObj;
             if (lv instanceof ExpandableListView) {
               itemIdsObj = new Long[checkedItemCount];
-              for(int i = 0; i < checkedItemCount; ++i) {
+              for (int i = 0; i < checkedItemCount; ++i) {
                 if (checkedItemPositions.valueAt(i)) {
                   int position = checkedItemPositions.keyAt(i);
                   long pos = ((ExpandableListView) lv).getExpandableListPosition(position);
@@ -191,14 +199,14 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
                     itemIdsObj[i] = ((ExpandableListView) lv).getExpandableListAdapter().getGroupId(groupPos);
                   } else {
                     int childPos = ExpandableListView.getPackedPositionChild(pos);
-                    itemIdsObj[i] = ((ExpandableListView) lv).getExpandableListAdapter().getChildId(groupPos,childPos);
+                    itemIdsObj[i] = ((ExpandableListView) lv).getExpandableListAdapter().getChildId(groupPos, childPos);
                   }
                 }
               }
             } else {
               long[] itemIdsPrim = lv.getCheckedItemIds();
               itemIdsObj = new Long[itemIdsPrim.length];
-              for(int i = 0; i < itemIdsPrim.length; i++){
+              for (int i = 0; i < itemIdsPrim.length; i++) {
                 itemIdsObj[i] = itemIdsPrim[i];
               }
             }
@@ -226,9 +234,10 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
       elv.setOnChildClickListener(this);
     }
   }
+
   @Override
   public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-    if (mActionMode != null)  {
+    if (mActionMode != null) {
       if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
         int flatPosition = parent.getFlatListPosition(ExpandableListView.getPackedPositionForGroup(groupPosition));
         parent.setItemChecked(
@@ -239,13 +248,14 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
     }
     return false;
   }
+
   @Override
   public boolean onChildClick(ExpandableListView parent, View v,
-      int groupPosition, int childPosition, long id) {
-    if (mActionMode != null)  {
+                              int groupPosition, int childPosition, long id) {
+    if (mActionMode != null) {
       if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
         int flatPosition = parent.getFlatListPosition(
-            ExpandableListView.getPackedPositionForChild(groupPosition,childPosition));
+            ExpandableListView.getPackedPositionForChild(groupPosition, childPosition));
         parent.setItemChecked(
             flatPosition,
             !parent.isItemChecked(flatPosition));
@@ -254,28 +264,33 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
     }
     return false;
   }
-  protected void configureMenuLegacy(Menu menu, ContextMenuInfo menuInfo, AbsListView lv) {
-    configureMenu(menu, 1, lv);
+
+  protected void configureMenuLegacy(Menu menu, ContextMenuInfo menuInfo, int listId) {
+    configureMenu(menu, 1, listId);
   }
+
   protected void configureMenu11(Menu menu, int count, AbsListView lv) {
-    configureMenu(menu, count, lv);
+    configureMenu(menu, count, lv.getId());
   }
-  protected void configureMenu(Menu menu, int count, AbsListView lv) {
+
+  protected void configureMenu(Menu menu, int count, int listId) {
     if (expandableListSelectionType != ExpandableListView.PACKED_POSITION_TYPE_NULL) {
       boolean inGroup = expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP;
       menu.setGroupVisible(R.id.MenuBulk, inGroup);
-      menu.setGroupVisible(R.id.MenuSingle, inGroup && count==1);
+      menu.setGroupVisible(R.id.MenuSingle, inGroup && count == 1);
       menu.setGroupVisible(R.id.MenuBulkChild, !inGroup);
-      menu.setGroupVisible(R.id.MenuSingleChild, !inGroup && count==1);
+      menu.setGroupVisible(R.id.MenuSingleChild, !inGroup && count == 1);
     } else {
-      menu.setGroupVisible(R.id.MenuSingle,count==1);
+      menu.setGroupVisible(R.id.MenuSingle, count == 1);
     }
   }
+
   @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   public void finishActionMode() {
     if (mActionMode != null)
       mActionMode.finish();
   }
+
   @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   public void invalidateCAB() {
     if (mActionMode != null) {

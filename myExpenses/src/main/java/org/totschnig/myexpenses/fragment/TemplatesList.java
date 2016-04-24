@@ -353,39 +353,43 @@ public class TemplatesList extends SortableListFragment {
   }
 
   @Override
-  protected void configureMenuLegacy(Menu menu, ContextMenu.ContextMenuInfo menuInfo, AbsListView lv) {
-    super.configureMenuLegacy(menu, menuInfo, lv);
-    if (lv == mListView) {
-      AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
-      configureMenuInternal(menu, 1, isForeignExchangeTransfer(info.position), isPlan(info.position));
-    } else {
-      requirePlanMonthFragment().configureMenuLegacy(menu, menuInfo, lv);
+  protected void configureMenuLegacy(Menu menu, ContextMenu.ContextMenuInfo menuInfo, int listId) {
+    super.configureMenuLegacy(menu, menuInfo, listId);
+    switch (listId) {
+      case R.id.list:
+        AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
+        configureMenuInternal(menu, 1, isForeignExchangeTransfer(info.position), isPlan(info.position));
+        break;
+      case R.id.calendar_gridview:
+        requirePlanMonthFragment().configureMenuLegacy(menu, menuInfo);
     }
   }
 
   @Override
   protected void configureMenu11(Menu menu, int count, AbsListView lv) {
     super.configureMenu11(menu, count, lv);
-    if (lv == mListView) {
-      SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
-      boolean hasForeignExchangeTransfer = false, hasPlan = false;
-      for (int i = 0; i < checkedItemPositions.size(); i++) {
-        if (checkedItemPositions.valueAt(i) && isForeignExchangeTransfer(checkedItemPositions.keyAt
-            (i))) {
-          hasForeignExchangeTransfer = true;
-          break;
+    switch (lv.getId()) {
+      case R.id.list:
+        SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
+        boolean hasForeignExchangeTransfer = false, hasPlan = false;
+        for (int i = 0; i < checkedItemPositions.size(); i++) {
+          if (checkedItemPositions.valueAt(i) && isForeignExchangeTransfer(checkedItemPositions.keyAt
+              (i))) {
+            hasForeignExchangeTransfer = true;
+            break;
+          }
         }
-      }
-      for (int i = 0; i < checkedItemPositions.size(); i++) {
-        if (checkedItemPositions.valueAt(i) && isPlan(checkedItemPositions.keyAt
-            (i))) {
-          hasPlan = true;
-          break;
+        for (int i = 0; i < checkedItemPositions.size(); i++) {
+          if (checkedItemPositions.valueAt(i) && isPlan(checkedItemPositions.keyAt
+              (i))) {
+            hasPlan = true;
+            break;
+          }
         }
-      }
-      configureMenuInternal(menu, count, hasForeignExchangeTransfer, hasPlan);
-    } else {
-      requirePlanMonthFragment().configureMenu11(menu, count, lv);
+        configureMenuInternal(menu, count, hasForeignExchangeTransfer, hasPlan);
+        break;
+      case R.id.calendar_gridview:
+        requirePlanMonthFragment().configureMenu11(menu, count, lv);
     }
   }
 
@@ -425,11 +429,13 @@ public class TemplatesList extends SortableListFragment {
   }
 
   @Override
-  protected void inflateHelper(Menu menu, AbsListView lv) {
-    if (lv == mListView) {
-      super.inflateHelper(menu, lv);
-    } else {
-      getActivity().getMenuInflater().inflate(R.menu.planlist_context, menu);
+  protected void inflateHelper(Menu menu, int listId) {
+    switch (listId) {
+      case R.id.list:
+        super.inflateHelper(menu, listId);
+        break;
+      case R.id.calendar_gridview:
+        getActivity().getMenuInflater().inflate(R.menu.planlist_context, menu);
     }
   }
 }
