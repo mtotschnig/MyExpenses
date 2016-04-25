@@ -130,11 +130,8 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
       case ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR:
         if (grantResults.length > 0
             && grantResults[0] == PackageManager.PERMISSION_DENIED) {
-          if (ActivityCompat.shouldShowRequestPermissionRationale(
+          if (!ActivityCompat.shouldShowRequestPermissionRationale(
               this, Manifest.permission.WRITE_CALENDAR)) {
-            Toast.makeText(this, getString(R.string.calendar_permission_required),Toast.LENGTH_LONG)
-                .show();
-          } else {
             MyApplication.getInstance().removePlanner();
           }
         }

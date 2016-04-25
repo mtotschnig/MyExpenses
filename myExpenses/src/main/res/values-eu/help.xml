@@ -55,6 +55,7 @@
   <string name="help_ExpenseEdit_templateTransfer_title">Transferentzia txantiloien formularioa</string>
   <string name="form_account_help_text">Hautatu transakzioari dagokion kontua.</string>
   <string name="form_date.time_help_text">Sartu transakzioa gertatu zeneko ordua.</string>
+  <string name="form_calculator_help_text"><![CDATA[The <img src=\"?calcIcon\"> botoiak kalkulagailua irekitzen du.]]></string>
   <string name="form_comment_help_text">Sartu objektuari buruzko edozein ohar.</string>
   <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Aukeratu kategoria bat banaketaren zati honentzat.</string>
   <string name="form_title_help_text">Sartu txantiloia identifikatzeko izen esklusibo bat.</string>
@@ -84,6 +85,7 @@
   <!--CSV Import-->
   <string name="help_CsvImportActivity_info"><![CDATA[Inportatu nahi duzun fitxategia aukeratu eta gero, honen kodeketa zehaztu behar duzu (UTF-8 edo ISO-8859-1), eremuak banatzeko erabilitako karakterea (koma, puntu eta koma edo tabulazioa), eta daten formatua. Datuak aurretik dagoen kontu batetara inportatu daitezke edo kontu berri batetara, bigarren kasuan moneta eta kontu mota aukeratu ditzakezu.<br><br>Ekintza barrako prozesatu botoia sakatu eta gero datuak taula batean aurkeztuko zaizkizu. Inportazioa ekintza barrako botoiarekin abiatu aurretik albo batera utzi nahi dituzun lerroak aukeratu ditzakezu, eta zutabeak dagokien eremuekin lotu behar dituzu.<br><br>lehen lerroa alboratzen baduzu, goiburu gisa hartu nahi duzun galdetuko zaizu, kasu honetan <i>Nire Gastuak</i> zutabeak eremuekin automatikoki lotzen saiatuko da goiburuko gelaxken edukien arabera. Goiburuaren araberako loturak ere gogoratuko ditu goiburu formatu bera duen beste fitxategi bat inportatzean.]]></string>
   <string name="menu_create_account_help_text">Sortu kontu berri bat. Dohako bertsioa bost kontuetara mugatuta dago.</string>
+  <string name="menu_NavigationDrawer_grouping_help_text">Kontuen zerrenda kontu mota edo monetaren arabera taldekatuta ala taldekatu gabe bistaratu daiteke.</string>
   <string name="cab_sort_up_help_text">Mugitu elementua posizio bat gora zerrendan.</string>
   <string name="cab_sort_down_help_text">Mugitu elementua posizio bat behera zerrendan.</string>
 </resources>

@@ -88,7 +88,8 @@ public class CommonCommands {
       return true;
     case R.id.HELP_COMMAND:
       i = new Intent(ctx,Help.class);
-      i.putExtra(HelpDialogFragment.KEY_VARIANT,((ProtectedFragmentActivity)ctx).helpVariant);
+      i.putExtra(HelpDialogFragment.KEY_VARIANT,
+          tag != null ? (Enum<?>) tag : ((ProtectedFragmentActivity)ctx).helpVariant);
       //for result is needed since it allows us to inspect the calling activity
       ctx.startActivityForResult(i,0);
       return true;

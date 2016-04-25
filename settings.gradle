@@ -1,3 +1,4 @@
 include ':StickyListHeaders:library'
 include ':MaterialSeekBarPreference:library'
 include ':myExpenses'
+include ':Caldroid:caldroid'

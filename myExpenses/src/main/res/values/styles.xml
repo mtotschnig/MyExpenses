@@ -112,6 +112,28 @@
     <style name="MyAlertDialogThemeDark" parent="@style/Theme.AppCompat.Dialog.Alert">
         <item name="colorControlNormal">@android:color/white</item>
     </style>
+
+    <style name="CaldroidCustom" parent="@style/CaldroidDefault">
+        <item name="styleCaldroidGridView">@style/CaldroidCustomGridView</item>
+    </style>
+
+    <style name="CaldroidCustomDark" parent="@style/CaldroidDefaultDark">
+        <item name="styleCaldroidGridView">@style/CaldroidCustomDarkGridView</item>
+    </style>
+
+    <style name="CaldroidCustomGridView">
+        <item name="android:drawSelectorOnTop">true</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:background">@color/caldroid_lighter_gray</item>
+        <item name="android:horizontalSpacing">1dp</item>
+        <item name="android:padding">1dp</item>
+        <item name="android:verticalSpacing">1dp</item>
+    </style>
+
+    <style name="CaldroidCustomDarkGridView" parent="CaldroidCustomGridView">
+        <item name="android:background">@color/caldroid_middle_gray</item>
+    </style>
     <style name="MySpinnerItemStyle" parent="@style/Widget.AppCompat.TextView.SpinnerItem">
         <item name="android:minHeight">@dimen/accessibility_clickable_minimum</item>
         <item name="android:gravity">center</item>

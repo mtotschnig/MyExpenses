@@ -521,6 +521,8 @@ Tradus de DD</string>
   <string name="restore_not_possible_local_calendar_missing">Calendarul curent de scadenţe nu este disponibil.</string>
   <string name="menu_view_picture">Vezi imagine</string>
   <string name="menu_delete_picture">Şterge imagine</string>
+  <string name="menu_distribution_show_pie_char">Afiseaza grafic pie</string>
+  <string name="menu_select_categories">Selectează categoriile bifate</string>
   <string name="file_name">Nume fişier</string>
   <string name="folder_name">Numele folder</string>
   <string name="menu_categories_export">Export ca QIF</string>
@@ -536,11 +538,13 @@ Tradus de DD</string>
   <string name="pref_auto_backup_title">Activează auto-backup</string>
   <string name="pref_auto_backup_summary">Backup bază de date zilnic la timpul specificat</string>
   <string name="pref_auto_backup_time_title">Timp auto-backup</string>
+  <string name="warning_auto_backup_limit_reached">Limita pentru backup-uri automate free a fost atinsa</string>
   <string name="button_request_calendar_access">Acordare acces</string>
   <string name="switch_on_text">Activat</string>
   <string name="switch_off_text">Dezactivat</string>
   <string name="menu_move">Muta</string>
   <string name="dialog_title_select_target">Selectează  targhet</string>
+  <string name="transform_subcategory_to_main">Transformă in categorie principala</string>
   <string name="preferences_week_start_day_title">Săptămâna începe</string>
   <string name="preferences_month_start_date_title">Luna începe pe</string>
   <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->

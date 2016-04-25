@@ -150,16 +150,14 @@
         <item>delete</item>
     </string-array>
 
-    <string-array name="ManageTemplates_cabitems" tools:ignore="UnusedResources">
+    <string-array name="ManageTemplates_templates_cabitems" tools:ignore="UnusedResources">
         <item>edit</item>
         <item>delete</item>
+        <item>create_instance_save</item>
+        <item>create_instance_edit</item>
     </string-array>
     <string-array name="ManageTemplates_templates_menuitems" tools:ignore="UnusedResources">
         <item>sort</item>
-    </string-array>
-    <string-array name="ManageTemplates_templates_cabitems" tools:ignore="UnusedResources">
-        <item>create_instance_save</item>
-        <item>create_instance_edit</item>
     </string-array>
     <string-array name="ManageTemplates_plans_cabitems" tools:ignore="UnusedResources">
         <item>create_instance_save</item>

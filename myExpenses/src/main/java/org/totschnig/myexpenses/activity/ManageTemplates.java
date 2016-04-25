@@ -16,26 +16,18 @@
 package org.totschnig.myexpenses.activity;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.view.KeyEvent;
-import android.view.View;
 import android.widget.Toast;
 
 import com.android.calendar.CalendarContractCompat.Events;
 
-import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
-import org.totschnig.myexpenses.fragment.ContextualActionBarFragment;
-import org.totschnig.myexpenses.fragment.PlanList;
 import org.totschnig.myexpenses.fragment.TemplatesList;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
@@ -43,76 +35,41 @@ import org.totschnig.myexpenses.util.Utils;
 
 import java.util.List;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
-
-public class ManageTemplates extends TabbedActivity implements
+public class ManageTemplates extends ProtectedFragmentActivity implements
     ConfirmationDialogListener {
-  public enum HelpVariant {
-    templates,plans
-  }
 
   public long calledFromCalendarWithId = 0;
-  int mCurrentPosition = 0;
-  
-  private int monkey_state = 0;
 
-  @Override
-  public boolean onKeyUp (int keyCode, KeyEvent event) {
-    if (keyCode == KeyEvent.KEYCODE_CAMERA && BuildConfig.DEBUG) {
-      switch (monkey_state) {
-      case 0:
-        ((PlanList) getSupportFragmentManager().findFragmentByTag(
-            mSectionsPagerAdapter.getFragmentName(1)))
-          .listFocus();
-        return true;
-      }
-    }
-    return super.onKeyUp(keyCode, event);
-  }
+  private TemplatesList mListFragment;
 
-  @Override
-  protected int getLayoutRessourceId() {
-    return R.layout.activity_with_tabs_legacy;
+  public enum HelpVariant {
+    templates,plans
   }
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeIdEditDialog());
+    helpVariant = HelpVariant.templates;
     super.onCreate(savedInstanceState);
-
-    final ActionBar actionBar = getSupportActionBar();
-    actionBar.setTitle(getString(Utils.IS_ANDROID ?
+    setContentView(R.layout.manage_templates);
+    setupToolbar(true);
+    setTitle(getString(Utils.IS_ANDROID ?
         R.string.menu_manage_plans : R.string.menu_manage_plans_tab_templates));
 
-    mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-      @Override
-      public void onPageSelected(int position) {
-        finishActionMode();
-        mCurrentPosition = position;
-        helpVariant = position == 0 ? HelpVariant.templates : HelpVariant.plans;
-      }
-    });
 
     String uriString = getIntent().getStringExtra(Events.CUSTOM_APP_URI);
     if (uriString != null) {
       List <String> uriPath = Uri.parse(uriString).getPathSegments();
       try {
+        //TODO migrate handling of custom_app_uri in new templates list
         calledFromCalendarWithId = Long.parseLong(uriPath.get(2));
-        mViewPager.setCurrentItem(1);
       } catch (Exception e) {
         Utils.reportToAcra(e);
       }
     }
-    helpVariant = HelpVariant.templates;
     configureFloatingActionButton(R.string.menu_create_template);
-  }
 
-  @Override
-  protected void setupTabs(Bundle savedInstanceState) {
-    mSectionsPagerAdapter.addFragment(new TemplatesList(), getString(R.string.menu_manage_plans_tab_templates));
-    if (Utils.IS_ANDROID)
-      mSectionsPagerAdapter.addFragment(new PlanList(), getString(R.string.menu_manage_plans_tab_plans));
+    mListFragment = ((TemplatesList) getSupportFragmentManager().findFragmentById(R.id.templates_list));
   }
 
   @Override
@@ -133,13 +90,6 @@ public class ManageTemplates extends TabbedActivity implements
           null,
           R.string.progress_dialog_deleting);
       return true;
-    case R.id.EDIT_COMMAND:
-      finishActionMode();
-      i = new Intent(this, ExpenseEdit.class);
-      i.putExtra(DatabaseConstants.KEY_TEMPLATEID,((Long)tag));
-      //TODO check what to do on Result
-      startActivityForResult(i, EDIT_TRANSACTION_REQUEST);
-      return true;
     case R.id.CANCEL_CALLBACK_COMMAND:
       finishActionMode();
       return true;
@@ -159,19 +109,6 @@ public class ManageTemplates extends TabbedActivity implements
           NavUtils.navigateUpTo(this, upIntent);
       }
       return true;
-    case R.id.CREATE_INSTANCE_SAVE_COMMAND:
-      startTaskExecution(
-          TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE,
-          (Long[])tag,
-          null,
-          0);
-      return true;
-    case R.id.CREATE_INSTANCE_EDIT_COMMAND:
-      Intent intent = new Intent(this, ExpenseEdit.class);
-      intent.putExtra(KEY_TEMPLATEID, (Long) tag);
-      intent.putExtra(KEY_INSTANCEID, -1L);
-      startActivity(intent);
-      return true;
     }
     return super.dispatchCommand(command, tag);
    }
@@ -186,20 +123,10 @@ public class ManageTemplates extends TabbedActivity implements
         getResources().getQuantityString(R.plurals.save_transaction_from_template_success, successCount, successCount);
       Toast.makeText(this,msg, Toast.LENGTH_LONG).show();
     }
-    PlanList pl = (PlanList) getSupportFragmentManager().findFragmentByTag(
-        mSectionsPagerAdapter.getFragmentName(1));
-    if (pl != null) {
-      pl.refresh();
-    }
   }
 
   public void finishActionMode() {
-    ContextualActionBarFragment f =
-    ((ContextualActionBarFragment) getSupportFragmentManager().findFragmentByTag(
-        mSectionsPagerAdapter.getFragmentName(mCurrentPosition)));
-    if (f != null) {
-      f.finishActionMode();
-    }
+    mListFragment.finishActionMode();
   }
   @Override
   public void onPositive(Bundle args) {
@@ -229,26 +156,5 @@ public class ManageTemplates extends TabbedActivity implements
   }
   @Override
   public void onDismissOrCancel(Bundle args) {
-  }
-
-  public void requestPermission(View v) {
-    requestCalendarPermission();
-  }
-
-  @Override
-  public void onRequestPermissionsResult(int requestCode,
-                                         String permissions[], int[] grantResults) {
-    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    switch (requestCode) {
-      case ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR: {
-        // If request is cancelled, the result arrays are empty.
-        if (grantResults.length > 0
-            && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-          PlanList pl = (PlanList) getSupportFragmentManager().findFragmentByTag(
-              mSectionsPagerAdapter.getFragmentName(1));
-          pl.setupList();
-        }
-      }
-    }
   }
 }

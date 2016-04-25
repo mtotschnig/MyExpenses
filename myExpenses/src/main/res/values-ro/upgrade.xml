@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_266">
+    <item>Noi iconuri meniu</item>
+  </string-array>
   <string-array name="whats_new_265">
     <item>Sortare de template-uri, categorii şi conturi cu uşurintă</item>
   </string-array>

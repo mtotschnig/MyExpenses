@@ -17,7 +17,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:tools="http://schemas.android.com/tools"
       tools:ignore="AppCompatResource,UnusedAttribute">
-    <group android:id="@+id/MenuBulkChild">
+    <group android:id="@id/MenuBulk">
         <item
             android:id="@id/CREATE_PLAN_INSTANCE_SAVE_COMMAND"
             android:icon="@drawable/ic_action_apply_save"
@@ -40,7 +40,7 @@
             android:title="@string/menu_reset_plan_instance">
         </item>
     </group>
-    <group android:id="@+id/MenuSingleChild">
+    <group android:id="@id/MenuSingle">
         <item
             android:id="@id/CREATE_PLAN_INSTANCE_EDIT_COMMAND"
             android:icon="@drawable/ic_action_apply_edit"

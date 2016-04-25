@@ -379,14 +379,73 @@
   <string name="create_new_folder_fail">فشل في انشاء المجلد</string>
   <string name="widget_title_accounts">حساباتي</string>
   <string name="widget_title_templates">نماذجي</string>
+  <string name="search_category">ابحث عن تصنيف</string>
+  <string name="search_comment">ابحث عن ملاحظة</string>
+  <string name="search_date">ابحث عن تاريخ</string>
+  <string name="search_status">ابحث عن حالة</string>
+  <string name="and">و</string>
+  <string name="between_and">بين %1$s و %2$s</string>
+  <string name="before">قبل %s</string>
+  <string name="after">بعد %s</string>
+  <string name="comparison_operator_equal">مساوي لـ</string>
+  <string name="comparison_operator_greater_than">أكبر من</string>
+  <string name="comparison_operator_lesser_than">أقل من</string>
+  <string name="comparison_operator_between">بين</string>
+  <string name="comparison_operator_date_before">قبل</string>
+  <string name="comparison_operator_date_after">بعد</string>
+  <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">.عملية الشراء فشلت أو ألغيت</string>
+  <string name="yes">نعم</string>
+  <string name="no">لا</string>
+  <string name="import_source_file">ملف</string>
+  <string name="restore_calendar_handling_ignore">لا تستعيد الخطط</string>
+  <string name="menu_view_picture">أعرض الصورة</string>
+  <string name="menu_delete_picture">احذف الصورة</string>
+  <string name="menu_change_picture">أرفق صورة أخرى</string>
+  <string name="menu_distribution_show_pie_char">أظهر التخطيط البياني</string>
+  <string name="menu_distribution_aggreate">مجموع المصروفات والدخل</string>
+  <string name="image_deleted">تم حدذف الصورة</string>
+  <string name="export_handle_deleted_update_balance">حدث الرصيد الافتتاحي</string>
+  <string name="file_name">اسم الملف</string>
+  <string name="folder_name">اسم المجلد</string>
+  <string name="menu_undelete_transaction">تراجع عن الحذف</string>
+  <string name="slash_forbidden_in_filename">/ رمز غير مسموح به في اسماء الملفات</string>
+  <string name="io_error_unable_to_create_file">غير قادر على إنشاء الملف %1$s في المجلد %2$s</string>
+  <string name="menu_categories_export">تصدير لصيغة QIF</string>
+  <string name="csv_import_preview">معاينة</string>
   <!--Label for column where user can check rows to be discarded from import-->
   <string name="cvs_import_discard">تجاهل</string>
+  <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d غير قادر على استيراد التسجيلات</string>
+  <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d التسجيلات تم تجاهلها</string>
+  <string name="cvs_import_set_first_line_as_header">هل يتوجب التعامل مع السطر الأول كرأس للجدول؟</string>
+  <string name="csv_import_delimiter_comma">فاصلة</string>
+  <string name="csv_import_delimiter_semicolon">نقطة وفاصلة</string>
+  <string name="menu_show_transactions">أظهر العمليات</string>
+  <string name="pref_custom_decimal_format_title">تنسيق الرقم</string>
+  <string name="pref_custom_decimal_format_summary">إذا لم تكن راضي مع التنسيق الافتراضي لجهازك، حوله لما يناسبك. اتركه فارغا لتستعيد التنسيق الافتراضي.</string>
+  <string name="pref_auto_backup_title">نسخ احتياطي آلي</string>
+  <string name="pref_auto_backup_summary">نسخ احتياطي لقاعدة البيانات يوميا في وقت محدد (فقط في حالة تغير البيانات)</string>
+  <string name="pref_auto_backup_time_title">وقت النسخ الاحتياطي الآلي</string>
+  <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">بعد %d نسخ احتياطي آلي ناجح، سيتم إيقاف النسخ الاحتياطي الآلي.</string>
+  <string name="warning_auto_backup_limit_reached">تم بلوغ الحد المجاني للنسخ الاحتياطي الآلي.</string>
   <string name="switch_on_text">تشغيل</string>
   <string name="switch_off_text">إيقاف</string>
   <string name="menu_move">تحريك</string>
+  <string name="dialog_title_select_target">حدد هدف</string>
   <string name="preferences_week_start_day_title">يبدأ الأسبوع يوم</string>
+  <string name="preferences_month_start_date_title">الشهر يبدأ من</string>
   <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
+  <string name="exchange_rate">معدل الصرف</string>
+  <string name="date_format_hour">ساعة</string>
+  <string name="date_format_minute">دقيقة</string>
+  <string name="copied_to_clipboard">تم النسخ للحافظة</string>
+  <string name="menu_sort">رتب بواسطة</string>
+  <string name="pref_sort_order_last_used">آخر استخدام</string>
+  <string name="pref_sort_order_custom">تخصيص</string>
+  <string name="content_description_calculator">الحاسبة</string>
   <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <string name="plan_instance_state_open">فتح</string>
   <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
+  <string name="plan_instance_state_cancelled">تم الإلغاء</string>
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <string name="plan_instance_state_applied">تم التطبيق</string>
 </resources>
