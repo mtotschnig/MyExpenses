@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string name="Main_1">Altri proventi</string>
+  <string name="Main_1">Altre entrate</string>
   <string name="Sub_1_1">Indennità di disoccupazione</string>
   <string name="Sub_1_2">Assegno familiare</string>
   <string name="Sub_1_3">Credito d\'imposta</string>
   <string name="Sub_1_4">Gioco</string>
-  <string name="Sub_1_5">Assicurazione mutua</string>
+  <string name="Sub_1_5">Mutua assicurazione</string>
   <string name="Sub_1_6">Previdenza sociale</string>
   <string name="Main_2">Pensionamento</string>
   <string name="Sub_2_1">Fondo pensione</string>
@@ -18,10 +18,10 @@
   <string name="Main_4">Stipendio</string>
   <string name="Sub_4_1">Straordinario</string>
   <string name="Sub_4_2">Liquidazione</string>
-  <string name="Sub_4_3">Varie premi</string>
+  <string name="Sub_4_3">Premi vari</string>
   <string name="Sub_4_4">Commissione di successo</string>
   <string name="Sub_4_5">Salario netto</string>
-  <string name="Main_5">Varie reddito</string>
+  <string name="Main_5">Redditi vari</string>
   <string name="Sub_5_1">Regali</string>
   <string name="Sub_5_2">Rimborsi</string>
   <string name="Sub_5_3">Vendite di seconda mano</string>
@@ -54,7 +54,7 @@
   <string name="Sub_9_5">Multe</string>
   <string name="Main_11">Regali</string>
   <string name="Main_12">Bambini</string>
-  <string name="Sub_12_1">Bambinaia</string>
+  <string name="Sub_12_1">Baby sitter</string>
   <string name="Sub_12_2">Varie ed eventuali</string>
   <string name="Sub_12_3">Studi</string>
   <string name="Main_13">Studi</string>

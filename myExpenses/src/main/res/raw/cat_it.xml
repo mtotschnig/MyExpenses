@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Grisbi_categ>
-<Category Nb="1" Na="Altri proventi"/>
+<Category Nb="1" Na="Altre entrate"/>
 <Sub_category Nbc="1" Nb="1" Na="Indennità di disoccupazione"/>
 <Sub_category Nbc="1" Nb="2" Na="Assegno familiare"/>
 <Sub_category Nbc="1" Nb="3" Na="Credito d'imposta"/>
 <Sub_category Nbc="1" Nb="4" Na="Gioco"/>
-<Sub_category Nbc="1" Nb="5" Na="Assicurazione mutua"/>
+<Sub_category Nbc="1" Nb="5" Na="Mutua assicurazione"/>
 <Sub_category Nbc="1" Nb="6" Na="Previdenza sociale"/>
 <Category Nb="2" Na="Pensionamento"/>
 <Sub_category Nbc="2" Nb="1" Na="Fondo pensione"/>
@@ -18,10 +18,10 @@
 <Category Nb="4" Na="Stipendio"/>
 <Sub_category Nbc="4" Nb="1" Na="Straordinario"/>
 <Sub_category Nbc="4" Nb="2" Na="Liquidazione"/>
-<Sub_category Nbc="4" Nb="3" Na="Varie premi"/>
+<Sub_category Nbc="4" Nb="3" Na="Premi vari"/>
 <Sub_category Nbc="4" Nb="4" Na="Commissione di successo"/>
 <Sub_category Nbc="4" Nb="5" Na="Salario netto"/>
-<Category Nb="5" Na="Varie reddito"/>
+<Category Nb="5" Na="Redditi vari"/>
 <Sub_category Nbc="5" Nb="1" Na="Regali"/>
 <Sub_category Nbc="5" Nb="2" Na="Rimborsi"/>
 <Sub_category Nbc="5" Nb="3" Na="Vendite di seconda mano"/>
@@ -54,7 +54,7 @@
 <Sub_category Nbc="9" Nb="5" Na="Multe"/>
 <Category Nb="11" Na="Regali"/>
 <Category Nb="12" Na="Bambini"/>
-<Sub_category Nbc="12" Nb="1" Na="Bambinaia"/>
+<Sub_category Nbc="12" Nb="1" Na="Baby sitter"/>
 <Sub_category Nbc="12" Nb="2" Na="Varie ed eventuali"/>
 <Sub_category Nbc="12" Nb="3" Na="Studi"/>
 <Category Nb="13" Na="Studi"/>
