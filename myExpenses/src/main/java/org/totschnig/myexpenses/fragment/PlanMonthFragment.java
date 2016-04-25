@@ -4,11 +4,13 @@ import android.app.Dialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
@@ -119,6 +121,18 @@ public class PlanMonthFragment extends CaldroidFragment
         ((TemplatesList) getParentFragment()).registerForContextualActionBar(gridView);
       }
     });
+  }
+
+  @Override
+  public void onStart() {
+    super.onStart();
+
+    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
+      int dialogHeight = getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ?
+          (int) getResources().getDimension(R.dimen.plan_month_dialog_height) : ViewGroup.LayoutParams.MATCH_PARENT;
+
+      getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, dialogHeight);
+    }
   }
 
   @NonNull
