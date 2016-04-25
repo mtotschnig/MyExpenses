@@ -40,3 +40,10 @@
 -keepclassmembers class android.support.v4.widget.DrawerLayout {
     private android.support.v4.widget.DrawerLayout$DrawerListener mListener;
 }
+
+-dontwarn icepick.**
+-keep class icepick.** { *; }
+-keep class **$$Icepick { *; }
+-keepclasseswithmembernames class * {
+    @icepick.* <fields>;
+}
