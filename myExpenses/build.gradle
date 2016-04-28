@@ -71,7 +71,6 @@ dependencies {
     apt 'frankiesardo:icepick-processor:3.2.0'
     compile project(':StickyListHeaders:library')
     compile project(':MaterialSeekBarPreference:library')
-    compile project(':Caldroid:caldroid')
     compile 'com.android.support:appcompat-v7:' + project.androidSupportLibraryVersion
     compile 'com.android.support:support-v4:' + project.androidSupportLibraryVersion
     compile 'com.android.support:recyclerview-v7:' + project.androidSupportLibraryVersion
@@ -85,6 +84,7 @@ dependencies {
     compile 'org.apache.commons:commons-csv:1.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.PhilJay:MPAndroidChart:bd75e6c'
+    compile 'com.github.mtotschnig:Caldroid:master-SNAPSHOT'
     //noinspection GradleDynamicVersion
     compile 'com.commonsware.cwac:wakeful:1.0.+'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:' + project.espressoVersion
