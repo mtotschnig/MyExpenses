@@ -82,9 +82,23 @@
             style="@style/about_text"
             android:text="@string/help_licence_materialseekbar"/>
 
+
         <TextView
             style="@style/about_text"
-            android:text="© 2015 Michael Totschnig"/>
+            android:text="@string/help_licence_picasso"/>
+
+        <TextView
+            style="@style/about_text"
+            android:text="@string/help_licence_caldroid"/>
+
+
+        <TextView
+            style="@style/about_text"
+            android:text="@string/help_licence_icepick"/>
+
+        <TextView
+            style="@style/about_text"
+            android:text="© 2016 Michael Totschnig"/>
         <!--  Credits -->
         <TextView
             style="@style/headingStyle.WithMargin"

@@ -26,13 +26,23 @@ Features
 - Aggregate financial situation over all accounts with same currency
 - Two themes: light and dark
 
-Dependencies
+Credits
 =====
-*My Expenses* depends on:
-- Emil Sjölander's <a href="https://github.com/emilsjolander/StickyListHeaders">StickyListHeaders</a>
-- <a href="http://itextpdf.com/">Itext</a>
-- Philipp Jahoda's <a href="https://github.com/PhilJay/MPAndroidChart">MPAndroidChart</a>
+*My Expenses* relies on a couple of open source libraries :
 
+- <a href="https://github.com/emilsjolander/StickyListHeaders">StickyListHeaders</a>
+- <a href="http://itextpdf.com/">Itext</a>
+- <a href="https://github.com/PhilJay/MPAndroidChart">MPAndroidChart</a>
+- <a href="https://github.com/MrBIMC/MaterialSeekBarPreference">MaterialSeekBarPreference</a>
+- <a href="http://square.github.io/picasso/">Picasso</a>
+- <a href="https://github.com/roomorama/Caldroid">Caldroid</a>
+- <a href="https://github.com/commonsguy/cwac-wakeful">Wakeful</a>
+- <a href="https://github.com/frankiesardo/icepick">Icepick</a>
+- Apache Commons <a href="https://commons.apache.org/proper/commons-lang/">Lang</a> and <a href="https://commons.apache.org/proper/commons-csv/">CSV</a>
+- <a href="https://github.com/google/guava">Guava</a>
+
+and on the contribution of many users that helped make My Expenses available in 27 different languages
+<a href="http://www.myexpenses.mobi/en/#translate">languages</a>:
 
 Build
 =====
@@ -45,4 +55,3 @@ git submodule update
 export ANDROID_HOME={sdk-dir}
 ./gradlew build
 ```
-

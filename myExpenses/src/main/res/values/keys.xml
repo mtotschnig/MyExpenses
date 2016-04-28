@@ -86,6 +86,9 @@
     <string name="help_licence_itext">iText from http://itextpdf.com, licensed under Affero General Public License .</string>
     <string name="help_licence_wakeful">WakefulIntentService from https://commonsware.com/cwac, licensed under Apache License, Version 2.0 .</string>
     <string name="help_licence_materialseekbar">MaterialSeekBarPreference from https://github.com/MrBIMC/MaterialSeekBarPreference, licensed under  MIT licence .</string>
+    <string name="help_licence_picasso">Picasso from http://square.github.io/picasso/, licensed under Apache License, Version 2.0 .</string>
+    <string name="help_licence_caldroid">Caldroid from https://github.com/roomorama/Caldroid, licensed under MIT License .</string>
+    <string name="help_licence_icepick">Icepic from https://github.com/frankiesardo/icepick, licensed under Eclipse Public License -v 1.0 .</string>
     <string name="donate_button_paypal">Paypal</string>
     <string name="donate_button_bitcoin">Bitcoin</string>
     <!-- User retrieving MyExpenses from a repository should not hit this message,
