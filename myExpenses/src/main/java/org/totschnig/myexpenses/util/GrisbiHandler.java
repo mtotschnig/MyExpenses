@@ -36,7 +36,7 @@ public class GrisbiHandler extends DefaultHandler{
   
   
   public Result getResult() {
-    if (catTree.getTotal() > 0 || partiesList.size() >0 ) {
+    if (catTree.getTotal() > 0 || !partiesList.isEmpty()) {
       return new Result(true,0,catTree,partiesList);
     } else {
       return new Result(false,R.string.parse_error_no_data_found);

@@ -400,7 +400,7 @@ public class CategoryList extends SortableListFragment implements
             }
           }
         }
-        if (idList.size() > 0) {
+        if (!idList.isEmpty()) {
           Long[] objectIds = idList.toArray(new Long[idList.size()]);
           if (hasChildrenCount > 0) {
             MessageDialogFragment.newInstance(

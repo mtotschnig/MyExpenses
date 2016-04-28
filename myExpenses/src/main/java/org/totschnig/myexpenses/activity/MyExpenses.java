@@ -979,7 +979,7 @@ public class MyExpenses extends LaunchActivity implements
         break;
       case TaskExecutionFragment.TASK_EXPORT:
         ArrayList<Uri> files = (ArrayList<Uri>) o;
-        if (files != null && files.size() > 0)
+        if (files != null && !files.isEmpty())
           Utils.share(this, files,
               MyApplication.PrefKey.SHARE_TARGET.getString("").trim(),
               "text/" + mExportFormat.toLowerCase(Locale.US));
