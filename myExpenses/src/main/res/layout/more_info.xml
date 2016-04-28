@@ -114,7 +114,7 @@
 
         <TextView
             style="@style/about_text"
-            android:text="Translations: Laurent Collombet (fr,it,es), Alexandre Beelen (fr), gudrunto (it), Silvia Delpero (it), Tulliver (es), christoft (es), Paco Rivière (ca), mauron (tr), Caner Başaran (tr), Phan Anh (vi), Ar.Alothaim (ar), Roland Csipai (hu), Pongsametrey SOK (km), Enrico Nicoletto (pt_BR), Fabiano Oliveira (pt_BR), Maria Gabriel (pt_BR), Marcin Kralka (pl), Jan Splíchal (cs), Dmitrij Kurenkov (ru), isuru (si),  janith9590 (si), Dilruni (si), Abuyop (ms), Naofumi (ja), Diana Kara (bg), Ivan Dimitrov (bg), geoch (el), Michalis Ntovas (el), Mihovil Nakić-Vojnović (hr), DD (ro), CasperLi_HK (zh_TW), Osoitz (eu), halcyonest (ko), Kbaleesh (ar), hamood550 (ar), wa3SdlmHXu (pt_PT), smarquespt (pt_PT), fedett92 (it), pierluigi1985 (it), hhggit (zh_CN)"/>
+            android:text="Translations: Laurent Collombet (fr,it,es), Alexandre Beelen (fr), gudrunto (it), Silvia Delpero (it), Tulliver (es), christoft (es), Paco Rivière (ca), mauron (tr), Caner Başaran (tr), Phan Anh (vi), Abdulrahman Alothaim (ar), Roland Csipai (hu), Pongsametrey SOK (km), Enrico Nicoletto (pt_BR), Fabiano Oliveira (pt_BR), Maria Gabriel (pt_BR), Marcin Kralka (pl), Jan Splíchal (cs), Dmitrij Kurenkov (ru), isuru (si),  janith9590 (si), Dilruni (si), Abuyop (ms), Naofumi (ja), Diana Kara (bg), Ivan Dimitrov (bg), geoch (el), Michalis Ntovas (el), Mihovil Nakić-Vojnović (hr), DD (ro), CasperLi_HK (zh_TW), Osoitz (eu), halcyonest (ko), Khaled Saleem Baleesh (ar), Mohammed Al Blooshi (ar), wa3SdlmHXu (pt_PT), Sérgio Marques (pt_PT), fedett92 (it), Pierluigi Rufo (it), hhggit (zh_CN), jpgine (ca), tangodev (pl), visualfanatic (pl)"/>
 
         <TextView
             style="@style/about_text"

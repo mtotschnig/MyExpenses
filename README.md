@@ -41,7 +41,7 @@ Credits
 - Apache Commons <a href="https://commons.apache.org/proper/commons-lang/">Lang</a> and <a href="https://commons.apache.org/proper/commons-csv/">CSV</a>
 - <a href="https://github.com/google/guava">Guava</a>
 
-and on the contribution of many users that helped make My Expenses available in 27 different languages
+and on the contribution of many users that helped make My Expenses available in 28 different languages
 <a href="http://www.myexpenses.mobi/en/#translate">languages</a>:
 
 Build
