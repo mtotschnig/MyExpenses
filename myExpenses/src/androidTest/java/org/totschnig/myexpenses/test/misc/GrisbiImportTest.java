@@ -15,18 +15,17 @@
 
 package org.totschnig.myexpenses.test.misc;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import android.test.InstrumentationTestCase;
+import android.util.SparseArray;
+
+import junit.framework.Assert;
 
 import org.totschnig.myexpenses.test.R;
 import org.totschnig.myexpenses.util.CategoryTree;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
-import android.test.InstrumentationTestCase;
-import android.util.SparseArray;
-
-import junit.framework.Assert;
+import java.util.ArrayList;
 
 public class GrisbiImportTest extends InstrumentationTestCase {
   private Result analyze(int id) {
