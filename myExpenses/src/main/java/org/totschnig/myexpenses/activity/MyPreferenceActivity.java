@@ -148,11 +148,9 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    if (item.getItemId() == android.R.id.home) {
-      if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-        getSupportFragmentManager().popBackStack();
-        return true;
-      }
+    if (item.getItemId() == android.R.id.home && getSupportFragmentManager().getBackStackEntryCount() > 0) {
+      getSupportFragmentManager().popBackStack();
+      return true;
     }
     return super.onOptionsItemSelected(item);
   }

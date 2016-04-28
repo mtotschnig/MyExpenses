@@ -191,15 +191,13 @@ public class AccountEdit extends AmountActivity implements
 
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
-    if (requestCode == PICK_COLOR_REQUEST) {
-      if (resultCode == RESULT_OK) {
-        mAccount.color = data.getExtras().getInt(OPENINTENTS_COLOR_EXTRA);
-        if (mColors.indexOf(mAccount.color) == -1) {
-          final int lastButOne = mColors.size()-1;
-          mColors.add(lastButOne,mAccount.color);
-          mColorSpinner.setSelection(lastButOne,true);
-          mColAdapter.notifyDataSetChanged();
-        }
+    if (requestCode == PICK_COLOR_REQUEST && resultCode == RESULT_OK) {
+      mAccount.color = data.getExtras().getInt(OPENINTENTS_COLOR_EXTRA);
+      if (mColors.indexOf(mAccount.color) == -1) {
+        final int lastButOne = mColors.size()-1;
+        mColors.add(lastButOne,mAccount.color);
+        mColorSpinner.setSelection(lastButOne,true);
+        mColAdapter.notifyDataSetChanged();
       }
     }
   }

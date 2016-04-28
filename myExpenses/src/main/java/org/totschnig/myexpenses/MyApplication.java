@@ -502,12 +502,10 @@ public class MyApplication extends Application implements
 
   public String checkPlanner() {
     mPlannerCalendarId = PrefKey.PLANNER_CALENDAR_ID.getString(INVALID_CALENDAR_ID);
-    if (!mPlannerCalendarId.equals(INVALID_CALENDAR_ID)) {
-      if (!checkPlannerInternal(mPlannerCalendarId)) {
-        removePlanner();
-        return
-            INVALID_CALENDAR_ID;
-      }
+    if (!mPlannerCalendarId.equals(INVALID_CALENDAR_ID) && !checkPlannerInternal(mPlannerCalendarId)) {
+      removePlanner();
+      return
+          INVALID_CALENDAR_ID;
     }
     return mPlannerCalendarId;
   }
