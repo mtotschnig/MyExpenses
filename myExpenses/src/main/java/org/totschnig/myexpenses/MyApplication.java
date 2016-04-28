@@ -199,12 +199,10 @@ public class MyApplication extends Application implements
   public static final String KEY_OPERATION_TYPE = "operationType";
 
   public static final String CONTRIB_SECRET = "RANDOM_SECRET";
-  public static final String MARKET_PREFIX = "market://details?id=";
   public static final String CALENDAR_FULL_PATH_PROJECTION = "ifnull("
       + Calendars.ACCOUNT_NAME + ",'') || '/' ||" + "ifnull("
       + Calendars.ACCOUNT_TYPE + ",'') || '/' ||" + "ifnull(" + Calendars.NAME
       + ",'')";
-  // public static String MARKET_PREFIX = "amzn://apps/android?p=";
 
   private Utils.LicenceStatus contribEnabled = null;
   private boolean contribEnabledInitialized = false;
@@ -876,6 +874,24 @@ public class MyApplication extends Application implements
     return new Result(true, R.string.restore_calendar_success,
         restoredPlansCount);
   }
+
+  public static String getMarketPrefix() {
+    switch(BuildConfig.FLAVOR) {
+      case "amazon":
+        return "amzn://apps/android?p=";
+      default:
+        return "market://details?id=";
+    }
+  }
+
+  public static String getMarketSelfUri() {
+    if (BuildConfig.FLAVOR.equals("blackberry")) {
+      return "appworld://content/54472888";
+    } else {
+      return getMarketPrefix() + "org.totschnig.myexpenses";
+    }
+  }
+
   public static void markDataDirty() {
     boolean persistedDirty =  PrefKey.AUTO_BACKUP_DIRTY.getBoolean(true);
     if (!persistedDirty) {
