@@ -346,7 +346,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           if (c.moveToFirst()) {
             Uri imageFileUri = Uri.parse(c.getString(0));
             if (checkImagePath(imageFileUri.getLastPathSegment())) {
-              boolean success = false;
+              boolean success;
               if (imageFileUri.getScheme().equals("file")) {
                 success = new File(imageFileUri.getPath()).delete();
               } else {

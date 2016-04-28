@@ -655,7 +655,7 @@ public class TransactionProvider extends ContentProvider {
     setDirty();
     log(values.toString());
     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
-    long id = 0;
+    long id;
     String newUri;
     int uriMatch = URI_MATCHER.match(uri);
     switch (uriMatch) {

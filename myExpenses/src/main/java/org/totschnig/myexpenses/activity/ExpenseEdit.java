@@ -1109,7 +1109,7 @@ public class ExpenseEdit extends AmountActivity implements
    */
   protected boolean syncStateAndValidate() {
     boolean validP = true;
-    String title = "";
+    String title;
 
     Account account = getCurrentAccount();
     if (account == null)
