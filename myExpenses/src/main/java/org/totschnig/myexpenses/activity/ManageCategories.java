@@ -317,7 +317,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
       return;
     }
     Result r = (Result) result;
-    String msg = null;
+    String msg;
     if (r.success) {
       switch (taskId) {
         case TaskExecutionFragment.TASK_GRISBI_IMPORT:
@@ -358,10 +358,8 @@ public class ManageCategories extends ProtectedFragmentActivity implements
 
   @Override
   public boolean dispatchTouchEvent(MotionEvent event) {
-    if (mDetector != null && !mListFragment.mGrouping.equals(Grouping.NONE)) {
-      if (mDetector.onTouchEvent(event)) {
-        return true;
-      }
+    if (mDetector != null && !mListFragment.mGrouping.equals(Grouping.NONE) && mDetector.onTouchEvent(event)) {
+      return true;
     }
     // Be sure to call the superclass implementation
     return super.dispatchTouchEvent(event);

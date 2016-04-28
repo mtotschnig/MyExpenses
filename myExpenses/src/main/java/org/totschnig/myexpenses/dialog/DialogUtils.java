@@ -65,6 +65,9 @@ import java.util.List;
  *
  */
 public class DialogUtils {
+  private DialogUtils() {
+  }
+
   /**
    * @return Dialog to be used from Preference,
    * and from version update
@@ -254,7 +257,7 @@ public class DialogUtils {
       }
     }
     List<String> filePathSegments = uri.getPathSegments();
-    if (filePathSegments.size()>0) {
+    if (!filePathSegments.isEmpty()) {
       return filePathSegments.get(filePathSegments.size()-1);
     } else {
       return "UNKNOWN";

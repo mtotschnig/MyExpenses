@@ -26,6 +26,9 @@ import java.lang.reflect.Method;
  */
 public class SharedPreferencesCompat {
 
+    private SharedPreferencesCompat() {
+    }
+
     public static void apply(SharedPreferences.Editor editor) {
         android.support.v4.content.SharedPreferencesCompat.EditorCompat.getInstance().apply(editor);
     }

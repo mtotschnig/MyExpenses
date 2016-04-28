@@ -400,7 +400,7 @@ public class CategoryList extends SortableListFragment implements
             }
           }
         }
-        if (idList.size() > 0) {
+        if (!idList.isEmpty()) {
           Long[] objectIds = idList.toArray(new Long[idList.size()]);
           if (hasChildrenCount > 0) {
             MessageDialogFragment.newInstance(
@@ -691,7 +691,7 @@ public class CategoryList extends SortableListFragment implements
     //SORTABLE_CURSOR
     long parentId;
     String selection = "", accountSelector = "", sortOrder = null;
-    String[] selectionArgs, projection = null;
+    String[] selectionArgs, projection;
     String CATTREE_WHERE_CLAUSE = KEY_CATID + " IN (SELECT " +
         TABLE_CATEGORIES + "." + KEY_ROWID +
         " UNION SELECT " + KEY_ROWID + " FROM "

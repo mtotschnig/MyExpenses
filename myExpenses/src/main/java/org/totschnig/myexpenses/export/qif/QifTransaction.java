@@ -78,10 +78,8 @@ public class QifTransaction {
         if (split != null) {
           split.amount = parseMoney(trimFirstChar(line));
         }
-      } else if (line.startsWith("E")) {
-        if (split != null) {
-          split.memo = trimFirstChar(line);
-        }
+      } else if (line.startsWith("E") && split != null) {
+        split.memo = trimFirstChar(line);
       }
     }
     addSplit(split);

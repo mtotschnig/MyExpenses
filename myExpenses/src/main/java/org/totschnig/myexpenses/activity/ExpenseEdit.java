@@ -1109,7 +1109,7 @@ public class ExpenseEdit extends AmountActivity implements
    */
   protected boolean syncStateAndValidate() {
     boolean validP = true;
-    String title = "";
+    String title;
 
     Account account = getCurrentAccount();
     if (account == null)
@@ -1582,10 +1582,8 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   private boolean isFileAndNotExists(Uri uri) {
-    if (uri.getScheme().equals("file")) {
-      if (!new File(uri.getPath()).exists()) {
-        return true;
-      }
+    if (uri.getScheme().equals("file") && !new File(uri.getPath()).exists()) {
+      return true;
     }
     return false;
   }

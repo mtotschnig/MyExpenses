@@ -22,6 +22,9 @@ import static org.hamcrest.Matchers.is;
  * Created by michaeltotschnig on 01.03.16.
  */
 public class Matchers {
+  private Matchers() {
+  }
+
   public static Matcher<View> withSpinnerText(final String string) {
     checkNotNull(string);
     final CursorMatchers.CursorMatcher cursorMatcher =

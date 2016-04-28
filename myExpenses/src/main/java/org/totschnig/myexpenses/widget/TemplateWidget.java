@@ -186,15 +186,13 @@ public class TemplateWidget extends AbstractWidget<Template> {
         if (widgetId != INVALID_APPWIDGET_ID) {
           long objectId = loadForWidget(context, widgetId);
           Transaction t = Transaction.getInstanceFromTemplate(objectId);
-          if (t != null) {
-            if (t.save() != null) {
-              Toast.makeText(context,
-                  context.getResources().getQuantityString(R.plurals.save_transaction_from_template_success, 1, 1),
-                  Toast.LENGTH_LONG).show();
-              if (!ContribFeature.TEMPLATE_WIDGET.hasAccess()) {
-                ContribFeature.TEMPLATE_WIDGET.recordUsage();
-                showContribMessage(context);
-              }
+          if (t != null && t.save() != null) {
+            Toast.makeText(context,
+                context.getResources().getQuantityString(R.plurals.save_transaction_from_template_success, 1, 1),
+                Toast.LENGTH_LONG).show();
+            if (!ContribFeature.TEMPLATE_WIDGET.hasAccess()) {
+              ContribFeature.TEMPLATE_WIDGET.recordUsage();
+              showContribMessage(context);
             }
           }
         }

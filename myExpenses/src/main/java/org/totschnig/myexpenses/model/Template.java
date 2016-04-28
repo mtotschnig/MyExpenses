@@ -408,4 +408,14 @@ public class Template extends Transaction {
       return false;
     return true;
   }
+
+  @Override
+  public int hashCode() {
+    int result = this.title != null ? this.title.hashCode() : 0;
+    result = 31 * result + (this.isTransfer ? 1 : 0);
+    result = 31 * result + (this.planId != null ? this.planId.hashCode() : 0);
+    result = 31 * result + (this.planExecutionAutomatic ? 1 : 0);
+    result = 31 * result + (this.uuid != null ? this.uuid.hashCode() : 0);
+    return result;
+  }
 }

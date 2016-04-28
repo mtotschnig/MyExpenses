@@ -358,7 +358,7 @@ public class CalculatorInput extends ProtectedFragmentActivity implements OnClic
   }
 
   private void doPercentChar() {
-    if (stack.size() == 0) return;
+    if (stack.isEmpty()) return;
     setDisplay(new BigDecimal(result).divide(HUNDRED).multiply(new BigDecimal(stack.peek()))
         .toPlainString());
     tvOp.setText("");

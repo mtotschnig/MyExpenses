@@ -503,7 +503,6 @@ public class MyExpenses extends LaunchActivity implements
   public boolean dispatchCommand(int command, Object tag) {
     Intent i;
     TransactionList tl;
-    Account a;
     switch (command) {
       case R.id.DISTRIBUTION_COMMAND:
         tl = getCurrentFragment();
@@ -979,7 +978,7 @@ public class MyExpenses extends LaunchActivity implements
         break;
       case TaskExecutionFragment.TASK_EXPORT:
         ArrayList<Uri> files = (ArrayList<Uri>) o;
-        if (files != null && files.size() > 0)
+        if (files != null && !files.isEmpty())
           Utils.share(this, files,
               MyApplication.PrefKey.SHARE_TARGET.getString("").trim(),
               "text/" + mExportFormat.toLowerCase(Locale.US));

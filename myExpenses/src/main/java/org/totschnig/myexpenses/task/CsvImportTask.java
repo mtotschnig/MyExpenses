@@ -115,7 +115,7 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
     int columnIndexSplit = findColumnIndex(R.string.split_transaction);
 
     boolean isSplitParent = false, isSplitPart = false;
-    Transaction t = null;
+    Transaction t;
     Long splitParent = null;
     for (int i = 0; i < data.size(); i++) {
       long transferAccountId = -1;

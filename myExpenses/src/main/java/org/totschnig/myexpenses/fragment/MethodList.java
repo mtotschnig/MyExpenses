@@ -130,7 +130,7 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
           }
         }
       }
-      if (idList.size()>0) {
+      if (!idList.isEmpty()) {
         ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
             TaskExecutionFragment.TASK_DELETE_PAYMENT_METHODS,
             idList.toArray(new Long[idList.size()]),

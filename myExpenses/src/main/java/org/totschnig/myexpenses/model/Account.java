@@ -604,7 +604,7 @@ public class Account extends Model {
     Account account;
     String selection = KEY_ROWID + " = ";
     if (id == 0) {
-      if (accounts.size() > 0) {
+      if (!accounts.isEmpty()) {
         for (long _id : accounts.keySet()) {
           if (_id > 0) {
             return accounts.get(_id);
@@ -1274,6 +1274,19 @@ public class Account extends Model {
     if (type != other.type)
       return false;
     return true;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = this.label != null ? this.label.hashCode() : 0;
+    result = 31 * result + (this.openingBalance != null ? this.openingBalance.hashCode() : 0);
+    result = 31 * result + (this.currency != null ? this.currency.hashCode() : 0);
+    result = 31 * result + (this.description != null ? this.description.hashCode() : 0);
+    result = 31 * result + this.color;
+    result = 31 * result + (this.excludeFromTotals ? 1 : 0);
+    result = 31 * result + (this.type != null ? this.type.hashCode() : 0);
+    result = 31 * result + (this.grouping != null ? this.grouping.hashCode() : 0);
+    return result;
   }
 
   /**

@@ -68,7 +68,7 @@ public class DateFilterDialog extends CommitSafeDialogFragment implements OnClic
   @Override
   public void onClick(DialogInterface dialog, int which) {
     MyExpenses ctx = (MyExpenses) getActivity();
-    Long date1, date2 = null;
+    Long date1, date2;
     DateCriteria c;
     if (ctx==null) {
       return;
