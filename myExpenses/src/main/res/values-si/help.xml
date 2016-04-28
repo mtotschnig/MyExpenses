@@ -11,7 +11,6 @@
   <!--ManageMethods title is in keys-->
   <!--ManageParties title is in keys-->
   <!--ManageTemplates title is in keys-->
-  <string name="help_ManageTemplates_plans_info"><![CDATA[ක්‍රමයක් යනු යම් සිදුවීමකට ( එක් වරකට හෝ නැවතත් ඇති වන )සැලසුම් දර්ශකයේ නිර්මාණය වූ සැලසුමකි. මෙම තීරුවේ සියළු ක්‍රම ලැයිස්තු ගත කෙරේ.ක්‍රම සටහනක් ප්‍රසාරණය කල විට ඉදිරියට ඇති සිද්ධීන් ලැයිස්තු ගත කරයි. යම් සිද්ධියක් සිදු වූ විට එන නිවේදනය එන තෙක් බලා නොසිට මෙම සිද්ධීන් ඉදිරියේදී ඇතිවීමට නියම කිරීමට තීරණය කල හැක, එය සන්දර්භ ලේඛනයේ විවිධ විධාන මඟින් ගනුදෙනු ලැයිස්තුවේ පෙන්නුම් කල හැක. සිද්ධියක තත්ත්වය මෙසේ පෙන්විය හැක:<br><img src=\"ic_stat_open\">සිද්ධිය තවම අදාල කර නොමැත.<br><img src=\"ic_stat_cancelled\"> සිද්ධිය අවලංගු කර ඇත, එනම් එය මඟ හැරීමට සලකුණු කර ඇත. මෙම සිද්ධියට ගනුදෙනු සකසා නොමැත.]]></string>
   <string name="cab_ManageTemplates_templates_create_instance_save_help_text">තෝරා ගත් සැලසුම් ක්ෂණයෙන් සිදුවන්නක් කර එය සුරැකීම.</string>
   <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">තෝරා ගත් සැලසුම් ක්ෂණයෙන් සිදුවන්නක් කර එය අවශ්‍ය ස්ථාන සංස්කරණය කර එය සුරැකීම</string>
   <string name="cab_ManageTemplates_delete_help_text">තෝරා ගත් සැලසුම් හා ඊට සම්බඳ ක්‍රම මකා දැමීම.</string>

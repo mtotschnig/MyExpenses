@@ -18,7 +18,6 @@
   <!--ManageMethods title is in keys-->
   <!--ManageParties title is in keys-->
   <!--ManageTemplates title is in keys-->
-  <string name="help_ManageTemplates_plans_info"><![CDATA[O scadenţă este un şablon pentru care aţi creat un eveniment (unic sau recurente) în calendarul scadenţar.Pe acest tab sunt listate toate scadenţele.  Când  extindeţi o scadenţă în lista, veţi vedea lista  scadenţelor viitoare. Decât să aşteptaţi să primiţi notificarea  când are loc o instanţa de eveniment, aici puteţi decide să aplicaţi aceste apariţii viitoare în avans pentru a le vizibile în lista de tranzactie apelând comenzile respective din meniul contextual.Statul instantei este indicat de urmãtoarele pictograme: <br><img src=\"ic_stat_open\"> Instanţa nu a fost aplicată. <br><img src=\"ic_stat_applied\"> Instanţa a fost aplicată. <br><img src=\"ic_stat_cancelled\"> Instanta a fost anulată, adică aţi marcat-o pentru a fi ignorată. Nicio tranzacţie va fi creată pentru această instanţă.]]></string>
   <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Instanţiaţi şabloanele selectate şi salvaţi-le imediat.</string>
   <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Instanţiaţi  şablonul selectat şi introduceţi formularul de editare unde se pot modifica înainte de salvare.</string>
   <string name="cab_ManageTemplates_delete_help_text">Ştergeţi şabloanele selectate şi orice scadenţe  asociate.</string>

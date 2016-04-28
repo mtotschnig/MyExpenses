@@ -17,7 +17,6 @@
   <!--ManageMethods title is in keys-->
   <!--ManageParties title is in keys-->
   <!--ManageTemplates title is in keys-->
-  <string name="help_ManageTemplates_plans_info"><![CDATA[Um plano é um modelo para o qual você criou um evento (único ou recorrente) no calendário planejador. nesta Guia estão listados todos os planos. Quando você expandir uma entrada de plano na lista, você verá a lista de instâncias próximas de um plano. em vez de aguardar a notificação que você recebe quando ocorre uma instância, aqui você pode optar por aplicar estas ocorrências futuras prévia a fim de torná-los visíveis em sua lista de transação chamando os respectivos comandos a partir do menu de contexto. O estado de uma instância é indicado pelos seguintes ícones: <br><img src=\"ic_stat_open\"> a instância ainda não tiver sido aplicada. <br><img src=\"ic_stat_applied\"> a instância tiver sido aplicada.<br><img src=\"ic_stat_cancelled\"> a instância foi cancelada, ou seja, você tem flaged que seja ignorada. Nenhuma transação será criada para esta instância.]]></string>
   <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Instanciar os modelos selecionados e salvá-los imediatamente.</string>
   <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Criar uma instância do modelo selecionado e insirar a sua forma de edição onde você pode modificá-la antes de salvar.</string>
   <string name="cab_ManageTemplates_delete_help_text">Exclua os modelos selecionados e planos associados.</string>

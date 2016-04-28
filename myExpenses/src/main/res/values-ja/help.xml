@@ -24,8 +24,7 @@
   <!--ManageParties title is in keys-->
   <string name="help_ManageParties_info">この画面は、支払人/受取人フィールドのオートコンプリート用に使用される取引先/支払先が一覧表示されます。フローティングアクションボタンを使用して、新しいエントリを追加します。</string>
   <!--ManageTemplates title is in keys-->
-  <string name="help_ManageTemplates_templates_info">このタブには、使用可能なすべてのテンプレートが一覧表示されます。テンプレートは、取引のコンテキストメニューから派生させることができますが、ここで、フローティングアクションボタンをクリックして、最初から (取引または振替用の) 新しいテンプレートを作成することができます。リストのエントリーをクリックすると、テンプレートをインスタンス化することができます。</string>
-  <string name="help_ManageTemplates_plans_info"><![CDATA[計画は、プランナー カレンダーに (1回または繰り返しの) イベントを作成するテンプレートです。このタブにすべての計画が一覧表示されます。リスト内の計画のエントリを展開すると、計画の今後のインスタンスが一覧表示されます。インスタンスが発生したときに、通知を受け取るのを待つ代わりに、ここでこれらの将来の発生を事前に適用することを指定できます。取引リスト内でそれらが見えるようにするためには、コンテキストメニューから各コマンドを呼び出します。インスタンスの状態は以下のアイコンで示されます:<br><img src=\"ic_stat_open\"> インスタンスはまだ適用されていません。<br><img src=\"ic_stat_applied\"> インスタンスは適用済です。<br><img src=\"ic_stat_cancelled\"> インスタンスはキャンセルされました。すなわち、スキップするようにフラグが付けられています。取引はこのインスタンスに作成されません。]]></string>
+  <string name="help_ManageTemplates_plans_title">計画カレンダー表示</string>
   <string name="cab_ManageTemplates_templates_create_instance_save_help_text">選択したテンプレートをインスタンス化し、すぐに保存します。</string>
   <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">選択したテンプレートをインスタンス化し、保存する前にその編集フォームの入力項目に入力することができます。</string>
   <string name="cab_ManageTemplates_delete_help_text">選択したテンプレートおよびすべての関連した計画を削除します。</string>
