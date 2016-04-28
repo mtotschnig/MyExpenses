@@ -23,7 +23,7 @@ public class LazyFontSelector {
         Font.ITALIC, null), UNDERLINE(12, Font.UNDERLINE, null), INCOME(12,
         Font.NORMAL, BaseColor.GREEN), EXPENSE(12, Font.NORMAL, BaseColor.RED);
 
-    SparseArray<Font> fonts = new SparseArray<Font>();
+    SparseArray<Font> fonts = new SparseArray<>();
     float size;
     int style;
     BaseColor color;
@@ -46,7 +46,7 @@ public class LazyFontSelector {
   }
 
   protected File[] files;
-  protected ArrayList<BaseFont> baseFonts = new ArrayList<BaseFont>();
+  protected ArrayList<BaseFont> baseFonts = new ArrayList<>();
   protected Font currentFont = null;
   protected FontType type;
 

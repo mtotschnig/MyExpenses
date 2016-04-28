@@ -113,7 +113,7 @@ public class QifTransaction {
       return;
     }
     if (splits == null) {
-      splits = new ArrayList<QifTransaction>();
+      splits = new ArrayList<>();
     }
     splits.add(split);
   }

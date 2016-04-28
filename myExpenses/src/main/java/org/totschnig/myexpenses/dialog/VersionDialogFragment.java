@@ -66,7 +66,7 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
     Resources res = getResources();
     int[] versionCodes = res.getIntArray(R.array.version_codes);
     String[] versionNames = res.getStringArray(R.array.version_names);
-    final ArrayList<VersionInfo> versions = new ArrayList<VersionInfo>();
+    final ArrayList<VersionInfo> versions = new ArrayList<>();
     for (int i=0;i<versionCodes.length;i++) {
       int code = versionCodes[i];
       if (from >= code) {

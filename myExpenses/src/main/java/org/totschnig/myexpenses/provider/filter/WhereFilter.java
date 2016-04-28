@@ -33,8 +33,8 @@ public class WhereFilter {
 
   public static final String LIKE_ESCAPE_CHAR = "\\";
 
-  private SparseArray<Criteria> criterias= new SparseArray<Criteria>();
-  private final LinkedList<String> sorts = new LinkedList<String>();
+  private SparseArray<Criteria> criterias= new SparseArray<>();
+  private final LinkedList<String> sorts = new LinkedList<>();
 
   public WhereFilter() {
   }

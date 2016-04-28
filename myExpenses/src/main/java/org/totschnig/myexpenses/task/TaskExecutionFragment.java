@@ -126,7 +126,7 @@ public class TaskExecutionFragment<T> extends Fragment {
 
   public static <T> TaskExecutionFragment newInstance(int taskId, T[] objectIds,
                                                       Serializable extra) {
-    TaskExecutionFragment<T> f = new TaskExecutionFragment<T>();
+    TaskExecutionFragment<T> f = new TaskExecutionFragment<>();
     Bundle bundle = new Bundle();
     bundle.putInt(KEY_TASKID, taskId);
     if (objectIds != null) {
