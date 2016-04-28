@@ -42,7 +42,10 @@ public class DatabaseConstants {
   private static String WEEK_END;
   private static String COUNT_FROM_WEEK_START_ZERO;
 
-  public static void buildLocalized(Locale locale) {
+    private DatabaseConstants() {
+    }
+
+    public static void buildLocalized(Locale locale) {
     weekStartsOn = Integer.parseInt(MyApplication.PrefKey.GROUP_WEEK_STARTS.getString("-1"));
     if (weekStartsOn == -1)
       weekStartsOn = Utils.getFirstDayOfWeek(locale); //JAVA starts with Sunday = 1

@@ -39,7 +39,10 @@ import android.util.Log;
 import android.widget.Toast;
 
 public class CommonCommands {
-  static boolean dispatchCommand(Activity ctx,int command, Object tag) {
+  private CommonCommands() {
+  }
+
+  static boolean dispatchCommand(Activity ctx, int command, Object tag) {
     Intent i;
     switch(command) {
     case R.id.RATE_COMMAND:

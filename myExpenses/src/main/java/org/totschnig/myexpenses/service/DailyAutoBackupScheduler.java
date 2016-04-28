@@ -28,6 +28,9 @@ import java.util.Date;
  */
 public class DailyAutoBackupScheduler {
 
+    private DailyAutoBackupScheduler() {
+    }
+
     public static void updateAutoBackupAlarms(Context context) {
         if (MyApplication.PrefKey.AUTO_BACKUP.getBoolean(false) &&
             MyApplication.PrefKey.AUTO_BACKUP_DIRTY.getBoolean(true)) {
