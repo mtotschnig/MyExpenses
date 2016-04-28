@@ -112,7 +112,7 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
       int columnIndexMappedTemplates = mMethodsCursor.getColumnIndex(DatabaseConstants.KEY_MAPPED_TEMPLATES);
       int columnIndexRowId = mMethodsCursor.getColumnIndex(DatabaseConstants.KEY_ROWID);
       int mappedTransactionsCount = 0, mappedTemplatesCount = 0;
-      ArrayList<Long> idList = new ArrayList<Long>();
+      ArrayList<Long> idList = new ArrayList<>();
       for (int i=0; i<positions.size(); i++) {
         if (positions.valueAt(i)) {
           boolean deletable = true;

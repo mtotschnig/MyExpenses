@@ -724,7 +724,7 @@ public class Utils {
     } else if (scheme.equals("mailto")) {
       if (multiple) {
         intent = new Intent(android.content.Intent.ACTION_SEND_MULTIPLE);
-        ArrayList<Uri> uris = new ArrayList<Uri>();
+        ArrayList<Uri> uris = new ArrayList<>();
         for (Uri fileUri : fileUris) {
           uris.add(fileUri);
         }

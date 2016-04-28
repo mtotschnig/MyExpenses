@@ -32,7 +32,7 @@ public class QifAccount {
     public BigDecimal openinBalance = null;
 
     public Account dbAccount;
-    public final List<QifTransaction> transactions = new ArrayList<QifTransaction>();
+    public final List<QifTransaction> transactions = new ArrayList<>();
 
     public static QifAccount fromAccount(Account account) {
         QifAccount qifAccount = new QifAccount();

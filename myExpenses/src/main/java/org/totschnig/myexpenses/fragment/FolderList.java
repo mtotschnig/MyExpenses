@@ -39,7 +39,7 @@ import java.util.List;
 
 public class FolderList extends ListFragment {
 
-  private final List<FileItem> files = new ArrayList<FileItem>();
+  private final List<FileItem> files = new ArrayList<>();
 
   private File selectedFolder;
 
@@ -190,8 +190,8 @@ public class FolderList extends ListFragment {
   }
 
   private void setAdapter() {
-    ListAdapter adapter = new ArrayAdapter<FileItem>(getActivity(),
-        android.R.layout.simple_list_item_1, files);
+    ListAdapter adapter = new ArrayAdapter<>(getActivity(),
+            android.R.layout.simple_list_item_1, files);
     setListAdapter(adapter);
   }
 
