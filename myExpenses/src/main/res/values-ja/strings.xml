@@ -595,4 +595,8 @@
   <string name="plan_instance_state_cancelled">キャンセル</string>
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <string name="plan_instance_state_applied">適用済</string>
+  <string name="progress_dialog_updating_split_parts">分割パートを更新中</string>
+  <string name="warning_cannot_move_split_transaction">この分割取引は、この勘定を参照する振替パートがあるため、勘定 %1$s に移動できません。</string>
+  <string name="content_description_calculator_clear_button">すべてリセット</string>
+  <string name="content_description_calculator_delete_button">最後の数字を削除</string>
 </resources>

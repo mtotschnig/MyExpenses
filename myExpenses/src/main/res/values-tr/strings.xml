@@ -606,4 +606,8 @@
   <string name="plan_instance_state_cancelled">iptal edildi</string>
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <string name="plan_instance_state_applied">uygulandı</string>
+  <string name="progress_dialog_updating_split_parts">Bölünmüş parçalar güncelleniyor</string>
+  <string name="warning_cannot_move_split_transaction">Bu bölünmüş muamele %1$s hesabına taşınamaz çünkü bu hesapla ilişkili transfer parçaları bulunmaktadır.</string>
+  <string name="content_description_calculator_clear_button">Sıfırla tümünü</string>
+  <string name="content_description_calculator_delete_button">Son rakamı sil</string>
 </resources>

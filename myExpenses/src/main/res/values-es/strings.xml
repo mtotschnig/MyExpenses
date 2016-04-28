@@ -606,4 +606,5 @@
   <string name="plan_instance_state_cancelled">cancelado</string>
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <string name="plan_instance_state_applied">aplicado</string>
+  <string name="content_description_calculator_clear_button">Restablecer todas</string>
 </resources>

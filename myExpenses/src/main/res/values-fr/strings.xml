@@ -606,4 +606,8 @@
   <string name="plan_instance_state_cancelled">annulé</string>
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <string name="plan_instance_state_applied">appliqué</string>
+  <string name="progress_dialog_updating_split_parts">Mise à jour des ventilations</string>
+  <string name="warning_cannot_move_split_transaction">Cette opération ventilée ne peut pas être déplacée vers le compte %1$s car il existe des ventilations de transfert vers ce même compte.</string>
+  <string name="content_description_calculator_clear_button">Réinitialiser tous</string>
+  <string name="content_description_calculator_delete_button">Supprimer le dernier chiffre</string>
 </resources>
