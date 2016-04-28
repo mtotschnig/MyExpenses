@@ -30,8 +30,8 @@
   <string name="cab_ManageTemplates_edit_help_text">Editar la plantilla y crear o editar un plan asociado.</string>
   <string name="cab_ManageTemplates_plans_create_instance_save_help_text">Crear una transacción en el momento de la instancia de este evento y guárdelo inmediatamente.</string>
   <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">Crear una transacción en el momento de la instancia de este evento y entrar en su formulario de edición donde puedes modificarla antes de guardarlo.</string>
-  <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Indican que en el caso del evento seleccionado, no debe crearse ninguna operación.</string>
-  <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Si una transacción se ha creado para esta instancia del evento, será eliminado, si ha sido marcado como cancelado, se retira la bandera.</string>
+  <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Indican que en el caso del evento seleccionado, no debe crearse ninguna operación. Si una transacción se ha creado para esta instancia del evento, será eliminada</string>
+  <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Si una transacción se ha creado para esta instancia del evento, será eliminada, si ha sido marcado como cancelada, se retira la bandera.</string>
   <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Edite la transacción que ha sido creada para la instancia del plan seleccionado.</string>
   <string name="menu_ManageTemplates_templates_sort_help_text">La lista de plantillas se puede ordenada por título (alfabéticamente), cantidad, frecuencia de usos o la última vez que una transacción se crea una instancia de ella.</string>
   <!--ManageCategories_* titles are in keys-->

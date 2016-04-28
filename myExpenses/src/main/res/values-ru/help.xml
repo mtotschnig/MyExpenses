@@ -18,7 +18,7 @@
   <string name="cab_ManageTemplates_edit_help_text">Редактировать выбранный шаблон и создать или править связанный план.</string>
   <string name="cab_ManageTemplates_plans_create_instance_save_help_text">Создать операции на время выбранных событий и сразу сохранить их.</string>
   <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">Создать операцию на время выбранного события и войти в форму редактирования, где можно изменить её перед сохранением.</string>
-  <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Указывает, что на выбранные события операции не должны быть созданы.</string>
+  <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Указывает, что на выбранные события операции не должны быть созданы. Если операции были созданы для выбранного события, они будут удалены.</string>
   <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Если операции были созданы для выбранного события, они будут удалены. Если они были помечены как отмененные, пометка будет удалена.</string>
   <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Редактировать операцию, которая была создана для события выбранного плана.</string>
   <!--ManageCategories_* titles are in keys-->

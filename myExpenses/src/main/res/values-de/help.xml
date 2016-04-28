@@ -30,7 +30,7 @@
   <string name="cab_ManageTemplates_edit_help_text">Verändern der Vorlage und Anlegen oder Verändern eines damit verknüpften Planes.</string>
   <string name="cab_ManageTemplates_plans_create_instance_save_help_text">Zum Zeitpunkt der ausgewählten Kalendereinträge werden Buchungen angelegt und unmittelbar gespeichert.</string>
   <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">Zum Zeitpunkt des ausgewählten Kalendereintrages wird eine Buchung angelegt und das Eingabeformular der Buchung wird geöffnet, wo diese vor dem Speichern verändert werden kann.</string>
-  <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Für die ausgewählten Kalendereinträge wird vermerkt, dass für diese keine Buchung angelegt werden soll.</string>
+  <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Für die ausgewählten Kalendereinträge wird vermerkt, dass für diese keine Buchung angelegt werden soll. Falls für die ausgewählten Kalendereinträge Buchungen angelegt wurden, werden diese gelöscht.</string>
   <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Falls für die ausgewählten Kalendereinträge Buchungen angelegt wurden, werden diese gelöscht, falls diese storniert wurden, wird die Stornierung aufgehoben.</string>
   <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Die dem ausgewählten Kalendereintrag zugeordnete Buchung kann verändert werden.</string>
   <string name="menu_ManageTemplates_templates_sort_help_text">Die Vorlagenliste kann nach Titel (alphabetisch) sortiert werden, nach dem Betrag, nach der Häufigkeit der Verwendung oder nach dem Zeitpunkt, an dem daraus zuletzt eine Buchung  instanziiert wurde.</string>

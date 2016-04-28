@@ -23,7 +23,7 @@
   <string name="cab_ManageTemplates_edit_help_text">Editar o modelo selecionado e criar ou editar um plano associado.</string>
   <string name="cab_ManageTemplates_plans_create_instance_save_help_text">Criar transações no momento das instâncias de evento selecionado e salvá-los imediatamente.</string>
   <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">Criar uma transação no momento da instância do evento selecionado e insira a sua forma de edição onde você pode modificá-la antes de salvar.</string>
-  <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Indica que pelas instâncias de evento selecionado, nenhuma transação deve ser criada.</string>
+  <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Indica que pelas instâncias de evento selecionado, nenhuma transação deve ser criada. Se foram criadas transações para as instâncias de evento selecionado, elas serão canceladas.</string>
   <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Se foram criadas transações para as instâncias de evento selecionado, elas serão canceladas, se elas tem sido marcadas como cancelada, os sinalizadores são removidos.</string>
   <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Editar a transação que foi criada pela instância do plano selecionado.</string>
   <!--ManageCategories_* titles are in keys-->

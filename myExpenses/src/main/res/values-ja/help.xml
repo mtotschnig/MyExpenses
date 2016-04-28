@@ -31,7 +31,7 @@
   <string name="cab_ManageTemplates_edit_help_text">選択したテンプレートを編集したり、関連した計画を作成したり編集します。</string>
   <string name="cab_ManageTemplates_plans_create_instance_save_help_text">選択したイベントがインスタンス化する時に、取引を作成して、すぐに保存します。</string>
   <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">選択したイベント·がインスタンス化する時に、取引を作成して、保存する前にその編集フォームの入力項目に入力することができます。</string>
-  <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">選択されたイベントがインスタンス化する時に、取引が作成されないことを示しています。</string>
+  <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">選択されたイベントがインスタンス化する時に、取引が作成されないことを示しています。選択されたイベントのインスタンスに対して取引が作成されている場合、それらは削除されます。</string>
   <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">選択されたイベントのインスタンスに対して取引が作成されている場合、それらは削除されます。キャンセル済としてフラグが設定されている場合、フラグは削除されます。</string>
   <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">選択された計画のインスタンスに対して作成された取引を編集します。</string>
   <string name="menu_ManageTemplates_templates_sort_help_text">テンプレートリストは、タイトル (アルファベット順)、金額、使用頻度、または取引がインスタンス化された最後の時間によってソートすることができます。</string>

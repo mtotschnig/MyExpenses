@@ -30,7 +30,7 @@
   <string name="cab_ManageTemplates_edit_help_text">Editatu aukeratutako txantiloia eta sortu edo editatu honi lotutako plana.</string>
   <string name="cab_ManageTemplates_plans_create_instance_save_help_text">Sortu transakzioak aukeratutako gertakarien instantzien unean eta gorde berehala.</string>
   <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">Sortu transakzio bat aukeratutako gertaeraren instantziaren unean eta sartu bere edizio formularioan gorde aurretik aldatzeko. </string>
-  <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Adierazi aukeratutako gertakarien instantzietan, transakziorik sortu behar ez dela.</string>
+  <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Adierazi aukeratutako gertakarien instantzietan, transakziorik sortu behar ez dela. Aukeratutako gertaeren instantzietatik transakzioak sortu badira, hauek ezabatu egingo dira.</string>
   <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Aukeratutako gertaeren instantzietatik transakzioak sortu badira, hauek ezabatu egingo dira, ezeztatuta gisa markatu badira, marka kenduko zaie.</string>
   <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Editatu sortutako transakzioa aukeratutako planaren instantziatik.</string>
   <!--ManageCategories_* titles are in keys-->

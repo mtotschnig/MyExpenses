@@ -17,7 +17,7 @@
   <string name="cab_ManageTemplates_edit_help_text">තෝරා ගත් සැලසුම් සංස්කරණය කර ඊට සම්බඳ ක්‍රම සැකසීම හෝ සංස්කරණය කිරීම.</string>
   <string name="cab_ManageTemplates_plans_create_instance_save_help_text">තෝරා ගත් සිද්ධියක් අවස්ථාවේදීම ගනුදෙනුව සකසා සැණින් සුරැකීම.</string>
   <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">තෝරා ගත් සිද්ධියක් අවස්ථාවේදීම ගනුදෙනුව සකසා අවශ්‍ය ස්ථාන සංස්කරණය කර සැණින් සුරැකීම.</string>
-  <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">තෝරා ගත් සිද්ධියක් අවස්ථාවේදී ගනුදෙනුවක් සැකසීමට නොහැකි බව දක්වන්න.</string>
+  <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">තෝරා ගත් සිද්ධියක් අවස්ථාවේදී ගනුදෙනුවක් සැකසීමට නොහැකි බව දක්වන්න. තෝරා ගත් සිද්ධියක් අවස්ථාවේදී ගනුදෙනුවක් සකසා තිබේ නම් එය මකා දැමේ.</string>
   <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">තෝරා ගත් සිද්ධියක් අවස්ථාවේදී ගනුදෙනුවක් සකසා තිබේ නම් එය මකා දැමේ, අවලංගු කිරීමට සලකුණු දමා තිබේ නම් ඒවා මකා දැමේ.</string>
   <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">තෝරා ගත් සිද්ධි අවස්ථාවේ ගනුදෙනුවක් සංස්කරණය කිරීම.</string>
   <!--ManageCategories_* titles are in keys-->

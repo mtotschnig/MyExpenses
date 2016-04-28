@@ -24,8 +24,8 @@
   <string name="cab_ManageTemplates_edit_help_text">Editaţi şablonul selectat şi creaţi sau editaţi o scadenţă asociată.</string>
   <string name="cab_ManageTemplates_plans_create_instance_save_help_text">Crează tranzacţii la momentul instanţei de eveniment selectat şi le salvează imediat.</string>
   <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">Creaţi o tranzacţie la momentul instanţei de eveniment selectat şi introduceţi formularul de editare  de unde se poate modifica înainte de salvare.</string>
-  <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Indică faptul că la   instanţele evenimentului selectat, tranzacţiile nu ar trebui să fie create.</string>
-  <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Dacă  tranzacţiile au fost create pentru evenimentele selectate , acestea vor fi şterse, dacă acestea au fost marcate ca anulate, steagurile sunt eliminate.</string>
+  <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Indică faptul că la   instanţele evenimentului selectat, tranzacţiile nu ar trebui să fie create. Dacă tranzacţiile au fost create pentru evenimentele selectate , acestea vor fi şterse.</string>
+  <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Dacă tranzacţiile au fost create pentru evenimentele selectate , acestea vor fi şterse, dacă acestea au fost marcate ca anulate, steagurile sunt eliminate.</string>
   <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Editarea tranzacţiei care a fost creată pentru scadenţa selectată.</string>
   <!--ManageCategories_* titles are in keys-->
   <string name="help_ManageCategories_select_mapping_info">Pe lângă acţiunile pe care puteţi efectua gestionarea categoriilor din ecranul  Preferinţe (creare, editare, ştergere) de pe acest ecran mapaţi o tranzacţie la o categorie selectată. Selectaţi o subcategorie pentru maparea la tranzacţia curentă  pur şi simplu făcând clic pe ea. Pentru a asocia o categorie principală,  apelaţi-o din meniul ei  contextual.</string>

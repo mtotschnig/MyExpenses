@@ -30,7 +30,7 @@
   <string name="cab_ManageTemplates_edit_help_text">Modificare il modello selezionato e creare o modificare una scadenza associata.</string>
   <string name="cab_ManageTemplates_plans_create_instance_save_help_text">Creare una transazione nel momento degli eventi selezionati e salvarli immediatamente.</string>
   <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">Creare una transazione nel momento dell\'evento selezionato e immettere il suo modello di modifica che consente di apportare modifiche prima di salvare.</string>
-  <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Indicare che al momento dell\'evento selezionato non deve avvenire nessuna operazione.</string>
+  <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Indicare che al momento dell\'evento selezionato non deve avvenire nessuna operazione. Se delle transazioni sono state ordinate per l\'evento selezionato, queste verranno eliminate.</string>
   <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Se delle transazioni sono state ordinate per l\'evento selezionato, queste verranno eliminate; nel caso siano state contrassegnate come annullate, i flag verranno rimossi.</string>
   <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Modificare la transazine creata per l\'istanza del piano selezionato.</string>
   <string name="menu_ManageTemplates_templates_sort_help_text">L\'elenco di modello possa essere ordinato titolo (in ordine alfabetico), dalla quantità, dalla frequenza di utilizzi o dall\'ultima volta che una transazione è stata creata un\'istanza da esso.</string>
