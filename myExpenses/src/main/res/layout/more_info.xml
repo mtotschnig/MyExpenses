@@ -118,7 +118,7 @@
 
         <TextView
             style="@style/about_text"
-            android:text="Code contributions: Configuring and applying custom colors to accounts by khris78"/>
+            android:text="Code contributions: Configuring and applying custom colors to accounts by khris78; Applying Sonar code quality checks by Ayman Abdelghany"/>
     </LinearLayout>
 </ScrollView>
 
