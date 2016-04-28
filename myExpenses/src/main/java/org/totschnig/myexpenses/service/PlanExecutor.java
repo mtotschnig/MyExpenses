@@ -40,7 +40,7 @@ public class PlanExecutor extends IntentService {
   public static final String ACTION_APPLY = "Apply";
   public static final String KEY_TITLE = "title";
   //production: 21600000 6* 60 * 60 * 1000 6 hours; for testing: 60000 1 minute
-  public static long INTERVAL = BuildConfig.DEBUG ? 60000 : 21600000;
+  public static final long INTERVAL = BuildConfig.DEBUG ? 60000 : 21600000;
 
   public PlanExecutor() {
     super("PlanExexcutor");

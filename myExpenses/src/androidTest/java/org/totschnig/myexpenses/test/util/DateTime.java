@@ -10,7 +10,7 @@ import java.util.Date;
  */
 public class DateTime {
 
-    public static DateTime NULL_DATE = new DateTime(){
+    public static final DateTime NULL_DATE = new DateTime(){
         @Override
         public Date asDate() {
             return new Date(0);

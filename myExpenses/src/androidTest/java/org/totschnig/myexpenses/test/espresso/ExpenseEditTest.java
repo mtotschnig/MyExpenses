@@ -42,9 +42,9 @@ public class ExpenseEditTest {
 
   @BeforeClass
   public static void fixture() {
-    account1 = new Account(accountLabel1, currency1, 0, "", Account.Type.CASH, Account.defaultColor);
+    account1 = new Account(accountLabel1, currency1, 0, "", Account.Type.CASH, Account.DEFAULT_COLOR);
     account1.save();
-    account2 = new Account(accountLabel2, currency2, 0, "", Account.Type.CASH, Account.defaultColor);
+    account2 = new Account(accountLabel2, currency2, 0, "", Account.Type.CASH, Account.DEFAULT_COLOR);
     account2.save();
   }
 

@@ -50,7 +50,7 @@ public class Widgets extends ActivityInstrumentationTestCase2<MyExpenses> {
         translate(l,R.string.testData_account1Label),
         c,
         2000,
-        "", Type.BANK, Account.defaultColor
+        "", Type.BANK, Account.DEFAULT_COLOR
     );
     a.save();
     Template t = Template.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION, a.getId());

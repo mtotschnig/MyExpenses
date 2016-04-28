@@ -47,7 +47,7 @@ public class Template extends Transaction {
   private String uuid;
 
   public static final Uri CONTENT_URI = TransactionProvider.TEMPLATES_URI;
-  public static String[] PROJECTION_BASE, PROJECTION_EXTENDED;
+  public static final String[] PROJECTION_BASE, PROJECTION_EXTENDED;
 
   public String getUuid() {
     return uuid;

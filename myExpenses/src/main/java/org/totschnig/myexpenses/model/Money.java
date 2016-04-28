@@ -31,7 +31,7 @@ public class Money implements Serializable {
   /**
    * used with currencies where Currency.getDefaultFractionDigits returns -1
    */
-  public static int DEFAULTFRACTIONDIGITS = 8;
+  public static final int DEFAULTFRACTIONDIGITS = 8;
   
   public Money(Currency currency, Long amountMinor) {
     this.currency = currency;
