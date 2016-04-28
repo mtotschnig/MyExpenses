@@ -55,7 +55,7 @@ public class ManageCurrenciesTest {
   }
 
   private void testHelper(boolean withUpdate) throws RemoteException, OperationApplicationException {
-    Account account = new Account("TEST ACCOUNT", Currency.getInstance("EUR"), 5000L, "", Account.Type.CASH, Account.defaultColor);
+    Account account = new Account("TEST ACCOUNT", Currency.getInstance("EUR"), 5000L, "", Account.Type.CASH, Account.DEFAULT_COLOR);
     account.save();
     Transaction op = Transaction.getNewInstance(account.getId());
     op.setAmount(new Money(Currency.getInstance("EUR"), -1200L));

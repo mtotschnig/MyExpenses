@@ -334,7 +334,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     initialValues.put(KEY_CURRENCY,Account.getLocaleCurrency().getCurrencyCode());
     initialValues.put(KEY_TYPE,Account.Type.CASH.name());
     initialValues.put(KEY_GROUPING,Account.Grouping.NONE.name());
-    initialValues.put(KEY_COLOR,Account.defaultColor);
+    initialValues.put(KEY_COLOR,Account.DEFAULT_COLOR);
     db.insert(TABLE_ACCOUNTS, null, initialValues);
   }
 
