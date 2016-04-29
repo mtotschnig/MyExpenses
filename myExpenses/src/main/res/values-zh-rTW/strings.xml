@@ -15,8 +15,8 @@
   <string name="already_defined">%1$s 已被定義</string>
   <string name="amount">金額</string>
   <string name="app_name">開支助手</string>
-  <string name="backup_failure">備份到SD卡失敗。</string>
-  <string name="backup_success">數據庫及喜好設定成功寫入到SD卡。</string>
+  <string name="backup_failure">備份到SD卡失敗 (%1$s)。</string>
+  <string name="backup_success">數據庫及喜好設定成功寫入到SD卡 (%1$s)。</string>
   <string name="category">類別</string>
   <string name="color">顏色</string>
   <string name="comment">附註</string>
@@ -314,14 +314,14 @@
   <string name="type">類型</string>
   <string name="unsplit_amount">未分割數量</string>
   <string name="unsplit_amount_greater_than_zero">還有一些金額未分割。</string>
-  <string name="warning_backup">數據庫和喜好設定將被儲存到SD卡。你要繼續嗎？</string>
-  <string name="warning_delete_account">此帳戶將與它的所有交易將被刪除。你要繼續嗎？</string>
+  <string name="warning_backup">數據庫和喜好設定將被儲存到SD卡 (%1$s)。你要繼續嗎？</string>
+  <string name="warning_delete_account">此帳戶將與它的所有交易將被刪除 (%1$s)。你要繼續嗎？</string>
   <string name="warning_password_contrib">若果您忘記了密碼，設置一個安全問題可讓你再次解鎖此應用。</string>
   <string name="warning_password_no_contrib">如果你設置了密碼，但又小心不要忘記了它。你將無法恢復它，除非你成功回答所設置的安全問題。</string>
   <string name="warning_reset_account">如果你繼續，這個帳戶的所有交易都從數據庫中被刪除且無法恢復。</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">如果你繼續，所有帳戶%1$s和當中的所有交易都從數據庫中被刪除且無法恢復。</string>
-  <string name="warning_restore">數據庫和喜好設定將會從備份中被恢復過來。當前的數據會被刪除。你要繼續嗎？</string>
+  <string name="warning_restore">數據庫和喜好設定將會從備份中被恢復過來 (%1$s)。當前的數據會被刪除。你要繼續嗎？</string>
   <string name="warning_splitpartcategory_context">轉移是分割的一部分，它只能在有分割的情況下被編輯或刪除。</string>
   <string name="import_categories_success">%1$s 類別  被匯入成功</string>
   <string name="import_parties_success">%1$s 貿易夥伴被匯入成功</string>

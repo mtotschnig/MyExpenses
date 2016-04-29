@@ -511,7 +511,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
             (ListPreference) findPreference(getString(R.string.pref_group_month_starts_key));
         String[] daysEntries = new String[31], daysValues = new String[31];
         for (int i = 1; i <= 31; i++) {
-          daysEntries[i-1] = String.format("%d.",i);
+          daysEntries[i-1] = Utils.toLocalizedString(i);
           daysValues[i-1] = String.valueOf(i);
         }
         startPref.setEntries(daysEntries);

@@ -263,7 +263,7 @@
   <string name="numbered">numeración</string>
   <string name="opening_balance">Saldo inicial</string>
   <string name="parse_error_file_not_found">No se ha podido encontrar el archivo %1$s</string>
-  <string name="parse_error_grisbi_version_not_supported">La versión del archivo Grisbi no está apoyada.</string>
+  <string name="parse_error_grisbi_version_not_supported">La versión del archivo Grisbi no está apoyada: %1$s.</string>
   <string name="parse_error_no_data_found">No hay datos importables en el archivo.</string>
   <string name="parse_error_other_exception">Se ha producido un error: %1$s</string>
   <string name="parse_error_parse_exception">No se ha podido analizar el archivo.</string>
@@ -439,7 +439,7 @@
   <string name="type">Tipo</string>
   <string name="unsplit_amount">Importe no dividido</string>
   <string name="unsplit_amount_greater_than_zero">Todavía hay cierta cantidad que queda no dividida.</string>
-  <string name="warning_backup">La base de datos y las configuraciones son archivadas en la tarjeta SD. ¿Quiere continuar?</string>
+  <string name="warning_backup">La base de datos y las configuraciones son archivadas en la tarjeta SD (%1$s). ¿Quiere continuar?</string>
   <string name="warning_delete_account">Cuenta \"%1$s\" se eliminarán con todas sus transacciones.</string>
   <plurals name="warning_delete_main_category">
     <item quantity="one">La categoría seleccionada tiene subcategorías, que se eliminará también.</item>
@@ -476,7 +476,7 @@
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Si continúa, todas las transacciones de todas las cuentas%1$s se eliminan de la base de datos y no se pueden restaurar.</string>
   <string name="warning_reset_account_matched">Si continúas, transacciones igualadas por el filtro actual se eliminan de la base de datos y no se pueden restaurar..</string>
-  <string name="warning_restore">La base de datos y las preferencias se restaurarán desde la copia de seguridad. Se borrarán los datos actuales. ¿Quiere continuar?</string>
+  <string name="warning_restore">La base de datos y las preferencias se restaurarán desde la copia de seguridad (%1$s). Se borrarán los datos actuales. ¿Quiere continuar?</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">La carpeta seleccionada para copias de seguridad y las exportaciones se eliminará automáticamente por Android si desinstalas Mis Gastos. Puede evitar que esto suceda al seleccionar una carpeta diferente desde la pantalla de configuración.</string>
   <string name="warning_splitpartcategory_context">Transferencias que forman parte de un asiento dividido sólo pueden ser editadas en el contexto del asiento dividido.</string>
   <string name="warning_fraction_digits_out_of_range">Por favor, defina un número entre 0 y 8</string>

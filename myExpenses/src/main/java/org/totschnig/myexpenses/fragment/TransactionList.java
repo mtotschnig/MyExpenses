@@ -56,6 +56,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView.OnHeaderClickListener;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -724,6 +725,8 @@ public class TransactionList extends ContextualActionBarFragment implements
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
     configureMenuInternal(menu,isSplitAtPosition(info.position),isVoidAtPosition(info.position),1);
   }
+
+  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   @Override
   protected void configureMenu11(Menu menu, int count, AbsListView lv) {
     super.configureMenu11(menu, count, lv);

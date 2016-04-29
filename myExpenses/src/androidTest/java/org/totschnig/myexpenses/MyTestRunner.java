@@ -1,9 +1,13 @@
 package org.totschnig.myexpenses;
 
+import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.test.runner.AndroidJUnitRunner;
 import android.util.Log;
+
+import org.totschnig.myexpenses.util.Utils;
 
 public final class MyTestRunner extends AndroidJUnitRunner {
   public MyTestRunner() {
@@ -14,13 +18,17 @@ public final class MyTestRunner extends AndroidJUnitRunner {
 
   @Override
   public void onStart() {
-    String[] criticalSettings = {
-        Settings.System.TRANSITION_ANIMATION_SCALE,
-        Settings.System.WINDOW_ANIMATION_SCALE,
-        Settings.System.ANIMATOR_DURATION_SCALE
-    };
+    boolean isJellyBean = Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN);
+    String[] criticalSettings = new String[isJellyBean ? 3 : 2];
+    criticalSettings[0] = Settings.System.TRANSITION_ANIMATION_SCALE;
+    criticalSettings[1] = Settings.System.WINDOW_ANIMATION_SCALE;
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+      //noinspection InlinedApi
+      criticalSettings[2] = Settings.System.ANIMATOR_DURATION_SCALE;
+    }
+
     try {
-      for (String setting: criticalSettings) {
+      for (String setting : criticalSettings) {
         if (Settings.Global.getFloat(getContext().getContentResolver(), setting) != 0) {
           throw new AnimationsNotDisabledException(setting);
         }
@@ -37,7 +45,7 @@ public final class MyTestRunner extends AndroidJUnitRunner {
     super.finish(resultCode, results);
   }
 
-  public class AnimationsNotDisabledException extends RuntimeException {
+  public static class AnimationsNotDisabledException extends RuntimeException {
     String setting;
 
     public AnimationsNotDisabledException(String setting) {

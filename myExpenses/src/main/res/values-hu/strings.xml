@@ -15,8 +15,8 @@
   <string name="already_defined">%1$s már létezik</string>
   <string name="amount">Összeg</string>
   <string name="app_name">Kiadásaim</string>
-  <string name="backup_failure">Nem sikerült az adatokat SD-kártyára menteni</string>
-  <string name="backup_success">Az adatbázis és beállítások sikeresen az SD-kártyára mentve.</string>
+  <string name="backup_failure">Nem sikerült az adatokat SD-kártyára menteni (%1$s)</string>
+  <string name="backup_success">Az adatbázis és beállítások sikeresen az SD-kártyára mentve (%1$s).</string>
   <string name="category">Kategória</string>
   <string name="color">Szín</string>
   <string name="comment">Megjegyzés</string>
@@ -318,14 +318,14 @@
   <string name="type">Típus</string>
   <string name="unsplit_amount">Felosztatlan összeg</string>
   <string name="unsplit_amount_greater_than_zero">Még továbbra is maradt felosztatlan összeg.</string>
-  <string name="warning_backup">Az adatbázis és beállítások mentése az SD-kártyára. Folytatja?</string>
-  <string name="warning_delete_account">Ez a számla törlésre kerül minden tranzakcióval együtt. Folytatja?</string>
+  <string name="warning_backup">Az adatbázis és beállítások mentése az SD-kártyára (%1$s). Folytatja?</string>
+  <string name="warning_delete_account">Ez a számla törlésre kerül minden tranzakcióval együtt (%1$s). Folytatja?</string>
   <string name="warning_password_contrib">Biztonsági kérdés és válasz megadásával a jelszó elvesztése/elfelejtése esetén is van lehetőség az alkalmazás megnyitására.</string>
   <string name="warning_password_no_contrib">Jelszó választása esetén ügyeljen arra, hogy azt ne felejtse, vagy veszítse el. A jelszó visszaállítása csak biztonsági kérdés és válasz megadásával működik!</string>
   <string name="warning_reset_account">Ha folytatja minden ehhez a számlához tartozó tranzakció visszavonhatatlanul törlésre kerül az adatbázisból.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Ha folytatja minden számla%1$s és tranzakció visszavonhatatlanul törlésre kerül az adatbázisból.</string>
-  <string name="warning_restore">Adatbázis és beállítások visszaállítása a korábbi mentésből. A jelenlegi adatok törlésre kerülnek. Folytatja?</string>
+  <string name="warning_restore">Adatbázis és beállítások visszaállítása a korábbi mentésből (%1$s). A jelenlegi adatok törlésre kerülnek. Folytatja?</string>
   <string name="warning_splitpartcategory_context">Azon tranzakciók, melyek felosztott tételek között szerepelnek, csak a felosztásoknál szerkeszthetők, vagy törölhetők.</string>
   <string name="import_categories_success">%1$s kategóriák sikeresen beolvasva</string>
   <string name="import_parties_success">%1$s résztvevők sikeresen beolvasva</string>

@@ -125,7 +125,7 @@
   <string name="dialog_title_warning_delete_plan">Excluir projeto?</string>
   <string name="dialog_title_warning_delete_template">Excluir o modelo?</string>
   <string name="dialog_title_warning_delete_transaction">Excluir a transação?</string>
-  <string name="dialog_title_welcome">Bem vindo!</string>
+  <string name="dialog_title_welcome">Bem-vindo!</string>
   <string name="donate_dialog_text">Por favor doar via PayPal ou Bitcoin e em seguida, solicitar uma chave a partir da tela de configurações.</string>
   <string name="expense">Despesa</string>
   <string name="export_expenses">Exportar despesas</string>
@@ -476,7 +476,7 @@
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Se você prosseguir, para todas as contas%1$s, transações serão excluídas do banco de dados e não podem ser restauradas.</string>
   <string name="warning_reset_account_matched">Se você prosseguir, transações correspondidas pelo filtro atual serão excluídas do banco de dados e não podem ser restauradas.</string>
-  <string name="warning_restore">Banco de dados e preferências serão restauradas do backup. Os dados atuais serão excluídos. Você quer continuar?</string>
+  <string name="warning_restore">Banco de dados e preferências serão restauradas do backup (%1$s). Os dados atuais serão excluídos. Você quer continuar?</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Pasta atualmente selecionada para backups e as exportações serão automaticamente excluída pelo Android se você desinstalar Minhas Despesas. Você pode impedir que isto aconteça selecionando uma pasta diferente na tela de configurações.</string>
   <string name="warning_splitpartcategory_context">Transferências que fazem parte de uma transação de divisão apenas podem ser editadas no contexto da divisão.</string>
   <string name="warning_fraction_digits_out_of_range">Por favor, defina um número entre 0 e 8</string>

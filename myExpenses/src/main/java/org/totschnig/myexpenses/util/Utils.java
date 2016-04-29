@@ -858,6 +858,11 @@ public class Utils {
     return found != 0 ? found : color;
   }
 
+  @SuppressLint("DefaultLocale")
+  public static String toLocalizedString(int i) {
+    return String.format("%d", i);
+  }
+
   public enum LicenceStatus {
     CONTRIB, EXTENDED
   }

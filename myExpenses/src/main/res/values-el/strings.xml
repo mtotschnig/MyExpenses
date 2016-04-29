@@ -21,8 +21,8 @@
   <string name="already_defined">%1$s ήδη οριστεί</string>
   <string name="amount">Ποσό</string>
   <string name="app_name">Έξοδα μου</string>
-  <string name="backup_failure">Απέτυχε η δημιουργία αντιγράφων ασφαλείας σε sdcard.</string>
-  <string name="backup_success">Βάση δεδομένων και προτιμήσεις εγγεγραμένα με επιτυχία να sdcard.</string>
+  <string name="backup_failure">Απέτυχε η δημιουργία αντιγράφων ασφαλείας σε sdcard (%1$s).</string>
+  <string name="backup_success">Βάση δεδομένων και προτιμήσεις εγγεγραμένα με επιτυχία να sdcard (%1$s).</string>
   <string name="category">Κατηγορία</string>
   <string name="split_transaction_error">Δεν μπόρεσε να μετατραπεί η συναλλαγή για διάσπαση.</string>
   <string name="color">Χρώμα</string>
@@ -434,7 +434,7 @@
   <string name="type">Τύπος</string>
   <string name="unsplit_amount">Μη διαχωρισμένο ποσό</string>
   <string name="unsplit_amount_greater_than_zero">Εξακολουθεί να υπάρχει κάποιο ποσό που δεν είναι διαχωρισμένο.</string>
-  <string name="warning_backup">Βάση δεδομένων και προτιμήσεις σας θα αποθηκευτούν στο sdcard. Θέλετε να συνεχίσετε;</string>
+  <string name="warning_backup">Βάση δεδομένων και προτιμήσεις σας θα αποθηκευτούν στο sdcard (%1$s). Θέλετε να συνεχίσετε;</string>
   <string name="warning_delete_account">Ο Λογαριασμός \"%1$s\" θα διαγραφεί με όλες τις συναλλαγές του.</string>
   <plurals name="warning_delete_main_category">
     <item quantity="one">Η επιλεγμένη κατηγορία έχει υποκατηγορίες, που θα διαγραφούν επίσης.</item>
@@ -471,7 +471,7 @@
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Εάν συνεχίσετε, για όλους τους λογαριασμούς %1$s οι συναλλαγές θα διαγραφούν από τη βάση δεδομένων και δεν θα μπορούν να ανακτηθούν.</string>
   <string name="warning_reset_account_matched">Αν συνεχίσετε, οι συναλλαγές που αντιστοιχούν στο τρέχον φίλτρο θα διαγραφούν από τη βάση δεδομένων και δεν θα μπορούν να αποκατασταθούν.</string>
-  <string name="warning_restore">Βάση δεδομένων και προτιμήσεις θα ανακτηθούν από τη δημιουργία αντιγράφων. Τα τρέχοντα δεδομένα θα διαγραφούν. Θέλετε να συνεχίσετε;</string>
+  <string name="warning_restore">Βάση δεδομένων και προτιμήσεις θα ανακτηθούν από τη δημιουργία αντιγράφων (%1$s). Τα τρέχοντα δεδομένα θα διαγραφούν. Θέλετε να συνεχίσετε;</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Ο τρέχων επιλεγμένος φάκελος για αντίγραφα ασφαλείας και εξαγωγές θα διαγραφεί αυτόματα από το Android αν απεγκαταστήσετε το «Τα έξοδά μου». Μπορείτε να αποτρέψετε ένα τέτοιο ενδεχόμενο, επιλέγοντας ένα διαφορετικό φάκελο από την οθόνη Ρυθμίσεις.</string>
   <string name="warning_splitpartcategory_context">Μεταφορές που αποτελούν μέρος διαχωρισμού μπορούν να τύχουν επεξεργασίας μόνο στο πλαίσιο της διαίρεσης.</string>
   <string name="warning_fraction_digits_out_of_range">Παρακαλώ να ορίσετε έναν αριθμό μεταξύ 0 και 8</string>

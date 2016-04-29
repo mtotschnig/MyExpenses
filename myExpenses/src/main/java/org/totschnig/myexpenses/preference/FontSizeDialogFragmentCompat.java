@@ -15,9 +15,6 @@ import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
 
-/**
- * Created by privat on 07.11.15.
- */
 public class FontSizeDialogFragmentCompat extends PreferenceDialogFragmentCompat {
   @Override
   protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
@@ -25,6 +22,7 @@ public class FontSizeDialogFragmentCompat extends PreferenceDialogFragmentCompat
     int selectedIndex = preference.getValue();
     final TypedArray a = getActivity().obtainStyledAttributes(null, android.support.v7.appcompat.R.styleable.AlertDialog,
         android.support.v7.appcompat.R.attr.alertDialogStyle, 0);
+    //noinspection PrivateResource
     ListAdapter adapter = new ArrayAdapter<String>(
         getActivity(),
         a.getResourceId(android.support.v7.appcompat.R.styleable.AlertDialog_singleChoiceItemLayout, 0),

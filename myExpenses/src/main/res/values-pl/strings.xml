@@ -20,8 +20,8 @@
   <string name="already_defined">%1$s jest już zdefiniowane</string>
   <string name="amount">Kwota</string>
   <string name="app_name">Moje Wydatki</string>
-  <string name="backup_failure">Wykonanie kopii zapasowej na kartę pamięci nie powiodło się.</string>
-  <string name="backup_success">Baza danych oraz preferencje zostały zapisane na kartę pamięci pomyślnie.</string>
+  <string name="backup_failure">Wykonanie kopii zapasowej na kartę pamięci nie powiodło się (%1$s).</string>
+  <string name="backup_success">Baza danych oraz preferencje zostały zapisane na kartę pamięci pomyślnie (%1$s).</string>
   <string name="category">Kategoria</string>
   <string name="split_transaction_error">Zamiana transakcji w podział nie była możliwa</string>
   <string name="color">Kolor</string>
@@ -404,7 +404,7 @@
   <string name="type">Typ</string>
   <string name="unsplit_amount">Wycofaj rozdzielenie kwoty</string>
   <string name="unsplit_amount_greater_than_zero">Pewna kwota została nierozdzielona.</string>
-  <string name="warning_backup">Baza danych oraz preferencje zostaną zapisane na kartę pamięci. Czy chcesz kontynuować?</string>
+  <string name="warning_backup">Baza danych oraz preferencje zostaną zapisane na kartę pamięci (%1$s). Czy chcesz kontynuować?</string>
   <string name="warning_delete_account">Konto \"%1$s\" zostanie usunięte razem ze wszystkimi jego transakcjami.</string>
   <plurals name="warning_delete_main_category">
     <item quantity="one">Jedna wybrana kategoria posiada podkategorie, które zostaną też usunięte.</item>
@@ -435,7 +435,7 @@
   <string name="warning_reset_account">Jeżeli kontynuujesz, wszystkie transakcje tego konta zostaną usunięte z bazy danych i nie będą mogły zostać przywrócone.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Jeżeli będziesz kontynuować, dla wszystkich kont %1$s, transakcje zostaną usunięte z bazy danych i nie będą mogły być przywrócone.</string>
-  <string name="warning_restore">Baza danych oraz preferencje zostaną przywrócone z kopii zapasowej. Bieżące dane zostaną usunięte. Czy chcesz kontynuować?</string>
+  <string name="warning_restore">Baza danych oraz preferencje zostaną przywrócone z kopii zapasowej (%1$s). Bieżące dane zostaną usunięte. Czy chcesz kontynuować?</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Aktualnie wybrany folder dla kopii zapasowych i eksportów zostanie automatycznie usunięty przez system Android jeżeli odinstalujesz Moje Wydatki. Może temu zapobiec poprzez wybranie innego folderu z ekranu Ustawień.</string>
   <string name="warning_splitpartcategory_context">Przelewy które są częścią podziału mogą być tylko edytowane w kontekście podziału.</string>
   <string name="warning_fraction_digits_out_of_range">Proszę wybrać cyfrę pomiędzy 0 a 8</string>

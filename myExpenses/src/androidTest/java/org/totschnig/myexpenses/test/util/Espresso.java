@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.test.util;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.support.test.espresso.UiController;
@@ -91,6 +92,7 @@ public class Espresso {
       return actionButtonCount > 1;
     }
   }
+  @SuppressLint("PrivateResource")
   private static final Matcher<View> localizedOverFlowButtonMatcher(Context context) {
     return anyOf(
         allOf(isDisplayed(), withContentDescription(context.getString(

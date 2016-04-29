@@ -55,7 +55,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="dropdownListPreferredItemHeight">48sp</item>
         <item name="colorIncome">@color/colorIncomeLight</item>
         <item name="colorExpense">@color/colorExpenseLight</item>
-        <item name="colorAggregate">@color/material_grey_600</item>
+        <item name="colorAggregate">@color/my_material_grey_600</item>
         <item name="drawerBackground">@color/drawerBackgroundLight</item>
         <item name="pageMargin">@drawable/pagermargin_black</item>
         <item name="drawerWidth">260sp</item>

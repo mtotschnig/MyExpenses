@@ -10,6 +10,7 @@
         <ignore path="src/main/res/values-ms/eventrecurrence.xml" />
         <ignore path="src/main/res/values-ja/eventrecurrence.xml" />
         <ignore path="src/main/res/values-zh-rTW/eventrecurrence.xml" />
+        <ignore path="src/main/res/values-zh-rCN/eventrecurrence.xml" />
     </issue>
     <issue id="TypographyDashes" severity="ignore" />
     <issue id="VectorRaster" severity="ignore" />

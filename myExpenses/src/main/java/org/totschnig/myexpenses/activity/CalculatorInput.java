@@ -76,7 +76,7 @@ public class CalculatorInput extends ProtectedFragmentActivity implements OnClic
     for (int i = 0; i < numberButtons.length; i++) {
       Button b = (Button) findViewById(numberButtons[i]);
       b.setOnClickListener(this);
-      b.setText(String.format("%d", i));
+      b.setText(Utils.toLocalizedString(i));
     }
     for (int id : otherbuttons) {
       Button b = (Button) findViewById(id);
@@ -174,7 +174,7 @@ public class CalculatorInput extends ProtectedFragmentActivity implements OnClic
     StringBuilder out = new StringBuilder();
     for (char c : in.toCharArray()) {
       if (Character.isDigit(c)) {
-        out.append(String.format("%d", Character.getNumericValue(c)));
+        out.append(Utils.toLocalizedString(Character.getNumericValue(c)));
       } else if (c == '.') {
         out.append(String.valueOf(Utils.getDefaultDecimalSeparator()));
       } else {
@@ -359,6 +359,7 @@ public class CalculatorInput extends ProtectedFragmentActivity implements OnClic
 
   private void doPercentChar() {
     if (stack.isEmpty()) return;
+    //noinspection BigDecimalMethodWithoutRoundingCalled
     setDisplay(new BigDecimal(result).divide(HUNDRED).multiply(new BigDecimal(stack.peek()))
         .toPlainString());
     tvOp.setText("");

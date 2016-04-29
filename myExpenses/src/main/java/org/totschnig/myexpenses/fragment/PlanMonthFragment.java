@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.fragment;
 
+import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.ContentUris;
 import android.content.Context;
@@ -350,6 +351,7 @@ public class PlanMonthFragment extends CaldroidFragment
     return CalendarHelper.convertDateTimeToDate(dateInMonthsList.get(position)).getTime();
   }
 
+  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   public void configureMenu11(Menu menu, int count, AbsListView lv) {
     boolean withOpen = false, withApplied = false, withCancelled = false;
     SparseBooleanArray checkedItemPositions = lv.getCheckedItemPositions();
@@ -430,7 +432,7 @@ public class PlanMonthFragment extends CaldroidFragment
 
       // For reuse
       if (convertView == null) {
-        framelayout = inflater.inflate(R.layout.plan_calendar_cell, null);
+        framelayout = inflater.inflate(R.layout.plan_calendar_cell, parent, false);
       } else {
         framelayout = convertView;
       }
@@ -475,8 +477,11 @@ public class PlanMonthFragment extends CaldroidFragment
       GradientDrawable todaySelected =
           (GradientDrawable) getResources().getDrawable(todayDrawable).mutate();
       todaySelected.setColor(accountColor);
-      stateListDrawable.addState(new int[]{android.R.attr.state_activated},
-          new ColorDrawable(getContext().getResources().getColor(R.color.appDefault)));
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+        //noinspection InlinedApi
+        stateListDrawable.addState(new int[]{android.R.attr.state_activated},
+            new ColorDrawable(getContext().getResources().getColor(R.color.appDefault)));
+      }
       stateListDrawable.addState(
           new int[]{R.attr.state_date_selected, R.attr.state_date_today},
           todaySelected);
