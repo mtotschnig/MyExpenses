@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_267">
+    <item>Tradução de chinês simplificado</item>
+    <item>Melhoria no tratamento de casos de planos</item>
+  </string-array>
   <string-array name="whats_new_263">
     <item>Transferência entre contas em diferentes moedas</item>
   </string-array>

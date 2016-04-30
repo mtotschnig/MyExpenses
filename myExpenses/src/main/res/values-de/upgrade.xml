@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_267">
+    <item>Übersetzung vereinfachtes Chinesisch</item>
+    <item>Verbesserte Verarbeitung von Plan-Instanzen</item>
+  </string-array>
   <string-array name="whats_new_266">
     <item>Neue Menü-icons</item>
   </string-array>
