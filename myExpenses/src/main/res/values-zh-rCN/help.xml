@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <string name="help_menu_commands">菜单命令</string>
+  <string name="cab_delete_help_text">删除所选条目</string>
+  <string name="cab_edit_help_text">编辑所选条目</string>
+  <!--My Expenses Transaction list-->
+  <string name="help_MyExpenses_title">交易清单</string>
+  <string name="cab_create_template_from_transaction_help_text">根据所选交易定义一个新模板.会提示你交易标题</string>
+  <!--ManageMethods title is in keys-->
+  <!--ManageParties title is in keys-->
+  <!--ManageTemplates title is in keys-->
+  <string name="cab_ManageTemplates_delete_help_text">删除所选模板及其关联的计划</string>
+  <string name="cab_ManageTemplates_edit_help_text">编辑所选模板,创建或编辑一个关联的计划</string>
+  <string name="cab_ManageTemplates_plans_create_instance_save_help_text">指示选择事件时候,没有交易应该被创建</string>
+  <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">指示在所选事件时间,创建</string>
+  <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">指示在所选事件时间,不创建交易</string>
+  <!--ManageCategories_* titles are in keys-->
+  <string name="menu_back_help_text">导航到前一组.也可以从左向右滑动手势实现</string>
+  <string name="cab_ManageCategories_create_sub_cat_help_text">打开创建所选类别的子类别对话框</string>
+  <string name="cab_ManageCategories_move_help_text">子类别可以被移动到不同主类别,可以转换为主类别.没有子类别的主类别可以转换为其他主类别的子类别</string>
+  <string name="cab_ManageCategories_select_category_help_text">映射所选类别到转换,返回转换表格</string>
+  <string name="menu_categories_setup_default_help_text">一套默认类别将会被导入</string>
+  <string name="menu_categories_export_help_text">类别会被导出到QIF文件</string>
+  <string name="cab_ManageCategories_select_filter_select_category_help_text">所选类别将会被应用与过滤转换列表</string>
+  <string name="menu_ManageCategories_search_help_text">只有显示匹配你查询的主和次类别</string>
+  <!--ExpenseEdit-->
+  <string name="form_date.time_help_text">输入交易发生时间</string>
+  <string name="form_comment_help_text">输入关于对象的标注</string>
+  <string name="form_title_help_text">输入代表该模板唯一标识的标题</string>
+  <string name="menu_save_help_text">保存数据并且关闭表格</string>
+  <string name="menu_save_and_new_help_text">保存数据,保存表格以便创建相同数据的交易</string>
+  <string name="menu_invert_transfer_help_text">通过交互交易人倒置交易的方向</string>
+  <!--AccountEdit-->
+  <!--MethodEdit-->
+  <!--ManageCurrencies-->
+  <!--FolderBrowser title is in keys-->
+  <string name="menu_create_folder_help_text">在当前文件夹创建新文件夹</string>
+  <string name="menu_select_folder_help_text">设置当前文件夹作为导出和备份路径</string>
+  <string name="menu_up_help_text">导航到父文件夹</string>
+  <!--StaleImages-->
+  <!--CSV Import-->
+  <string name="menu_create_account_help_text">创建一个新账户.免费版限制为5个</string>
+  <string name="cab_sort_up_help_text">将条目上移一位</string>
+  <string name="cab_sort_down_help_text">将条目下移一位</string>
+</resources>
