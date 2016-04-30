@@ -262,7 +262,7 @@ public class Template extends Transaction {
             //we encode both account and template into the CUSTOM URI
             Events.CUSTOM_APP_URI,
             buildCustomAppUri(accountId, getId()));
-        initialValues.put(Events.CUSTOM_APP_PACKAGE, "org.totschnig.myexpenses");
+        initialValues.put(Events.CUSTOM_APP_PACKAGE, MyApplication.getInstance().getPackageName());
       }
       initialValues.put(Events.TITLE, title);
       initialValues.put(Events.DESCRIPTION, compileDescription(MyApplication.getInstance()));
