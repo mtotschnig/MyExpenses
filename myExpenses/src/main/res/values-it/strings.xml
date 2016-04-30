@@ -541,6 +541,7 @@
   <string name="pref_manage_stale_images_summary">Gestire immagini lasciati da transazioni eliminate</string>
   <string name="menu_select_categories">Selezionare categorie controllate</string>
   <string name="image_deleted">Foto cancellata</string>
+  <string name="transaction_deleted">Transazione è stato eliminato</string>
   <string name="dialog_export_applied_to_filter">Saranno considerate solo le transazioni di pari passo con il filtro corrente.</string>
   <string name="export_handle_deleted_create_helper">Creare transazione ausiliario</string>
   <string name="export_handle_deleted_update_balance">Aggiornare il saldo iniziale</string>
@@ -600,5 +601,8 @@
   <string name="plan_instance_state_cancelled">annullato</string>
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <string name="plan_instance_state_applied">applicato</string>
+  <string name="progress_dialog_updating_split_parts">Aggiornamento di frazionamenti</string>
+  <string name="warning_cannot_move_split_transaction">Questo operazione frazionata non può essere spostato per %1$s perché ci sono frazionamenti che fanno riferimento a questo conto.</string>
   <string name="content_description_calculator_clear_button">Reinizializzare tutti</string>
+  <string name="content_description_calculator_delete_button">Eliminare l\'ultima cifra</string>
 </resources>

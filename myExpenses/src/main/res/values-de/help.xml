@@ -24,6 +24,9 @@
   <!--ManageParties title is in keys-->
   <string name="help_ManageParties_info">Auf diesem Bildschirm wird die Liste der Parteien angezeigt, die für die automatische Komplettierung des Feldes Zahler/Empfänger verwendet wird. Verwenden Sie die schwebende Aktionsschaltfläche um einen Eintrag hinzuzufügen.</string>
   <!--ManageTemplates title is in keys-->
+  <string name="help_ManageTemplates_plans_title">Plan-Kalender Ansicht</string>
+  <string name="help_ManageTemplates_templates_info"><![CDATA[<img src=\"ic_menu_template\">Während Vorlagen auch von bestehenden Buchungen über deren Kontextmenü abgeleitet werden können, können Sie hier neue Vorlagen (für Buchungen und Umbuchungen) von Grund auf festlegen, indem Sie auf die schwebende Aktionsschaltfläche klicken. Wenn Sie auf eine Vorlage klicken, wird diese angewendet.<br><img src=\"ic_event\">Ein Plan ist eine Vorlage, für die Sie im Kalender ein Ereignis (einmalig oder wiederkehrend) angelegt haben. Wenn Sie auf einen Plan klicken, wird ein Kalender angezeigt, der vergangene und zukünftige Ereignisse dieses Plans anzeigt.]]></string>
+  <string name="help_ManageTemplates_plans_info"><![CDATA[Jedes hervorgehobene Datum stellt ein Ereignis des Planes dar. Der Status eines Termins wird durch folgende Symbole angezeigt:<br><img src=\"ic_stat_open\"> Für den Termin wurde noch keine Buchung angelegt.<br><img src=\"ic_stat_applied\"> Für den Termin wurde bereits eine Buchung angelegt.<br><img src=\"ic_stat_cancelled\"> Der Termin wurde annulliert, d.h. dieser wird übersprungen und keine Buchung wird für diesen angelegt.]]></string>
   <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Die ausgewählten Vorlagen werden angewendet und unmittelbar abgespeichert.</string>
   <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Die ausgewählte Vorlage wird angewendet und das Eingabeformular der Buchung wird geöffnet, wo diese vor dem Speichern verändert werden kann.</string>
   <string name="cab_ManageTemplates_delete_help_text">Die ausgewählten Vorlagen und etwaig damit verbundene Pläne werden gelöscht.</string>
@@ -99,7 +102,7 @@
   <string name="form_MethodEdit_numbered_help_text">Wenn eine Methode nummeriert ist, haben Buchungen, die ihr zugeordnet sind, ein zusätzliches Feld für die Eingabe einer Referenznummer.</string>
   <string name="form_MethodEdit_account_types_help_text">Wählen Sie die Kontotypen aus, für welche diese Methode anwendbar ist.</string>
   <!--ManageCurrencies-->
-  <string name="help_ManageCurrencies_info" tools:ignore="Typos">Für jede Währung können Sie die Anzahl der verwendeten Nachkommastellen verändern. Wenn für Euro mit 1/10 von einem ¢, d.h. 1/1000 Euro rechnen wollen, würden Sie beispielsweise die Anzahl auf drei festlegen. Bestehende Konten, die die Währung verwenden, werden auf die neue Einstellung umgeschaltet.</string>
+  <string name="help_ManageCurrencies_info">Für jede Währung können Sie die Anzahl der verwendeten Nachkommastellen verändern. Wenn für Euro mit 1/10 von einem ¢, d.h. 1/1000 Euro rechnen wollen, würden Sie beispielsweise die Anzahl auf drei festlegen. Bestehende Konten, die die Währung verwenden, werden auf die neue Einstellung umgeschaltet.</string>
   <!--FolderBrowser title is in keys-->
   <string name="help_FolderBrowser_info">In dem Ordner, den sie hier auswählen, werden Sicherungen und Exporte gespeichert. Navigieren Sie durch die Ordner-Hierarchie navigieren, bis Sie den gewünschten Ordner erreichen.</string>
   <string name="menu_create_folder_help_text">Erstellen Sie einen neuen Ordner im aktuellen Ordner.</string>

@@ -410,7 +410,7 @@
   <string name="menu_select_folder">Seleccione esta carpeta</string>
   <string name="share_scheme_not_supported">Esquema %1$s no está apoyado.</string>
   <string name="share_sending">Enviar el archivo</string>
-  <string name="split_parts_heading">Fracciones</string>
+  <string name="split_parts_heading">Divisiones</string>
   <string name="split_transaction">Asiento dividido</string>
   <string name="status">Estado</string>
   <string name="status_cleared">despejado</string>
@@ -541,6 +541,7 @@
   <string name="pref_manage_stale_images_summary">Administrar imágenes de transacciones eliminadas</string>
   <string name="menu_select_categories">Seleccionar las categorías marcadas</string>
   <string name="image_deleted">Foto ha sido borrado</string>
+  <string name="transaction_deleted">Transacción se ha eliminado</string>
   <string name="dialog_export_applied_to_filter">Se considerarán transacciones sólo igualadas por el filtro actual.</string>
   <string name="export_handle_deleted_create_helper">Crear transacción ayudante</string>
   <string name="export_handle_deleted_update_balance">Actualizar saldo inicial</string>
@@ -600,5 +601,8 @@
   <string name="plan_instance_state_cancelled">cancelado</string>
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <string name="plan_instance_state_applied">aplicado</string>
+  <string name="progress_dialog_updating_split_parts">Actualización de divisiones</string>
+  <string name="warning_cannot_move_split_transaction">Esto asiento dividido no se pueden mover para %1$s porque hay divisiones que hacen referencia a esta cuenta.</string>
   <string name="content_description_calculator_clear_button">Restablecer todas</string>
+  <string name="content_description_calculator_delete_button">Borrar el último dígito</string>
 </resources>

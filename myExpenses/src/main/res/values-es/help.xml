@@ -24,6 +24,8 @@
   <!--ManageParties title is in keys-->
   <string name="help_ManageParties_info">Esta pantalla muestra las partes que se utiliza para el autocompletado del campo ordenante/beneficiario. Utilice el botón de acción flotante para añadir una nueva entrada.</string>
   <!--ManageTemplates title is in keys-->
+  <string name="help_ManageTemplates_plans_title">Calendario</string>
+  <string name="help_ManageTemplates_templates_info"><![CDATA[<img src=\"ic_menu_template\">Mientras que las plantillas pueden derivarse de las transacciones a través de su menú de contexto, aquí puede crear nuevas plantillas desde cero (para las transacciones o transferencias) haciendo clic en el botón de acción flotante. Hacer clic en una plantilla, se crea una instancia para ello.<br><img src=\"ic_event\">Un plan es una plantilla con un evento (una sola vez o recurrente) en el calendario planificador. Haga clic en un plan, para abrir una vista de calendario, que muestra las pasadas y las próximas instancias de un plan.]]></string>
   <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Crear una instancia de la plantilla y guárdelo inmediatamente.</string>
   <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Crear una instancia de la plantilla e introduzca su formulario de edición donde puedes modificarla antes de guardarlo.</string>
   <string name="cab_ManageTemplates_delete_help_text">Eliminar la plantilla y cualquier plan de asociados.</string>

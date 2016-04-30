@@ -27,7 +27,7 @@
   <string name="split_transaction_error">Não poderia dividir a transação.</string>
   <plurals name="split_transaction_success">
     <item quantity="one">Transação com sucesso transformada para dividir.</item>
-    <item quantity="other">%1$d transações com êxito foram transformadas para divisões.</item>
+    <item quantity="other">%1$d transações com êxito foram divididas.</item>
   </plurals>
   <string name="color">Cor</string>
   <string name="comment">Notas</string>
@@ -41,7 +41,7 @@
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Número ilimitado de planos</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Exportar lista de transações para PDF</string>
   <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">Pergunta de segurança</string>
-  <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">Transação de divisão</string>
+  <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">Transação com parcelas</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Widget de modelos</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Importação CSV</string>
   <string name="contrib_feature_auto_backup_label" tools:ignore="UnusedResources">Backup automático</string>
@@ -188,9 +188,9 @@
   <string name="menu_create_main_cat">Nova categoria principal</string>
   <string name="menu_create_method">Novo método de pagamento</string>
   <string name="menu_create_party">Novo partido</string>
-  <string name="menu_create_split">Nova divisão</string>
-  <string name="menu_create_split_part_category">Nova categoria dividir parte</string>
-  <string name="menu_create_split_part_transfer">Nova transferência dividir parte</string>
+  <string name="menu_create_split">Nova transação com parcelas</string>
+  <string name="menu_create_split_part_category">Nova parcela - categoria</string>
+  <string name="menu_create_split_part_transfer">Nova parcela - transferência</string>
   <string name="menu_create_sub_cat">Nova subcategoria</string>
   <string name="menu_create_template">Novo modelo</string>
   <string name="menu_create_template_from_transaction">Salvar como modelo</string>
@@ -206,9 +206,9 @@
   <string name="menu_edit_method">Editar método de pagamento</string>
   <string name="menu_edit_party">Editar a festa</string>
   <string name="menu_edit_plan_instance">Editar único plano de ocorrência</string>
-  <string name="menu_edit_split">Editar divisão</string>
-  <string name="menu_edit_split_part_category">Editar Categoria dividir parte</string>
-  <string name="menu_edit_split_part_transfer">Editar transferência dividir parte</string>
+  <string name="menu_edit_split">Editar transação com parcelas</string>
+  <string name="menu_edit_split_part_category">Editar parcela - categoria</string>
+  <string name="menu_edit_split_part_transfer">Editar parcela - transferência</string>
   <string name="menu_edit_template">Editar modelo</string>
   <string name="menu_edit_transaction">Editar transação</string>
   <string name="menu_edit_transfer">Editar transferência</string>
@@ -247,7 +247,7 @@
   <string name="no_mapped_transactions">Nenhuma transação foi mapeada para categorias durante este período.</string>
   <string name="no_methods">Não há métodos de pagamento.</string>
   <string name="no_parties">Sem participantes.</string>
-  <string name="no_split_parts">Não há dividir partes.</string>
+  <string name="no_split_parts">Não há parcelas.</string>
   <string name="no_templates">Sem modelos.</string>
   <string name="no_title_given">Você não digitou nenhum título.</string>
   <plurals name="not_deletable_mapped_transactions">
@@ -410,8 +410,8 @@
   <string name="menu_select_folder">Selecionar esta pasta</string>
   <string name="share_scheme_not_supported">Não há suporte ao esquema %1$s</string>
   <string name="share_sending">Enviar o arquivo de exportação</string>
-  <string name="split_parts_heading">Dividir partes</string>
-  <string name="split_transaction">Transação de divisão</string>
+  <string name="split_parts_heading">Parcelas</string>
+  <string name="split_transaction">Transação com parcelas</string>
   <string name="status">Estado</string>
   <string name="status_cleared">desmarcada</string>
   <string name="status_reconciled">reconciliados</string>
@@ -472,7 +472,7 @@
   <string name="warning_reset_account_matched">Se você prosseguir, transações correspondidas pelo filtro atual serão excluídas do banco de dados e não podem ser restauradas.</string>
   <string name="warning_restore">Banco de dados e preferências serão restauradas do backup (%1$s). Os dados atuais serão excluídos. Você quer continuar?</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Pasta atualmente selecionada para backups e as exportações serão automaticamente excluída pelo Android se você desinstalar Minhas Despesas. Você pode impedir que isto aconteça selecionando uma pasta diferente na tela de configurações.</string>
-  <string name="warning_splitpartcategory_context">Transferências que fazem parte de uma transação de divisão apenas podem ser editadas no contexto da divisão.</string>
+  <string name="warning_splitpartcategory_context">Transferências que fazem parte de uma transação com parcelas apenas podem ser editadas no contexto da divisão.</string>
   <string name="warning_fraction_digits_out_of_range">Por favor, defina um número entre 0 e 8</string>
   <string name="warning_change_fraction_digits_1">Quantidade no banco de dados precisa ser atualizado para coincidir com o novo número de dígitos de fração.</string>
   <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Se os valores não estão atualizados, eles serão exibidos como multiplicado por %d após a mudança.</string>
@@ -541,6 +541,7 @@
   <string name="pref_manage_stale_images_summary">Gerenciar fotos que sobraram de transações excluídas</string>
   <string name="menu_select_categories">Selecione as categorias verificadas</string>
   <string name="image_deleted">Imagens foi excluída</string>
+  <string name="transaction_deleted">Transação foi excluída</string>
   <string name="dialog_export_applied_to_filter">Serão consideradas apenas as transações correspondidas com o filtro atual.</string>
   <string name="export_handle_deleted_create_helper">Criar transações de auxiliar</string>
   <string name="export_handle_deleted_update_balance">Atualizar o saldo de abertura</string>
@@ -600,4 +601,8 @@
   <string name="plan_instance_state_cancelled">cancelado</string>
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <string name="plan_instance_state_applied">aplicada</string>
+  <string name="progress_dialog_updating_split_parts">Atualizando a parcelas</string>
+  <string name="warning_cannot_move_split_transaction">Isso transação com parcelas não pode ser movido para %1$s porque há parcelas de transferência que se referem a esta conta.</string>
+  <string name="content_description_calculator_clear_button">Redefinir todas</string>
+  <string name="content_description_calculator_delete_button">Apagar o último dígito</string>
 </resources>

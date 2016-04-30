@@ -41,7 +41,7 @@
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Unbegrenzte Anzahl von Plänen</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Buchungsliste als PDF-Datei drucken</string>
   <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">Sicherheitsfrage</string>
-  <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">Splitbuchung</string>
+  <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">Mehrteilige Buchung</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Vorlagen Widget</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV import</string>
   <string name="contrib_feature_auto_backup_label" tools:ignore="UnusedResources">Automatisches Backup</string>
@@ -188,9 +188,9 @@
   <string name="menu_create_main_cat">Neue Hauptkategorie</string>
   <string name="menu_create_method">Neue Zahlungsweise</string>
   <string name="menu_create_party">Neue Partei</string>
-  <string name="menu_create_split">Neue Splitbuchung</string>
-  <string name="menu_create_split_part_category">Neuer Split-Teilbetrag (Kategorie)</string>
-  <string name="menu_create_split_part_transfer">Neuer Split-Teilbetrag (Umbuchung)</string>
+  <string name="menu_create_split">Neue mehrteilige Buchung</string>
+  <string name="menu_create_split_part_category">Neuer Teilbetrag - Kategorie</string>
+  <string name="menu_create_split_part_transfer">Neuer Teilbetrag - Umbuchung</string>
   <string name="menu_create_sub_cat">Neue Unterkategorie</string>
   <string name="menu_create_template">Neue Vorlage</string>
   <string name="menu_create_template_from_transaction">Als Vorlage speichern</string>
@@ -206,9 +206,9 @@
   <string name="menu_edit_method">Zahlungsweise verändern</string>
   <string name="menu_edit_party">Partei verändern</string>
   <string name="menu_edit_plan_instance">Einzelnes Ereignis verändern</string>
-  <string name="menu_edit_split">Split-Buchung verändern</string>
-  <string name="menu_edit_split_part_category">Split-Teilbetrag (Kategorie) verändern</string>
-  <string name="menu_edit_split_part_transfer">Split-Teilbetrag (Umbuchung) verändern</string>
+  <string name="menu_edit_split">Mehrteilige Buchung verändern</string>
+  <string name="menu_edit_split_part_category">Teilbetrag - Kategorie verändern</string>
+  <string name="menu_edit_split_part_transfer">Teilbetrag - Umbuchung verändern</string>
   <string name="menu_edit_template">Vorlage verändern</string>
   <string name="menu_edit_transaction">Buchung verändern</string>
   <string name="menu_edit_transfer">Umbuchung verändern</string>
@@ -247,7 +247,7 @@
   <string name="no_mapped_transactions">In diesem Zeitraum wurden keine Buchungen Kategorien zugeordnet.</string>
   <string name="no_methods">Keine Zahlungsweisen.</string>
   <string name="no_parties">Keine Parteien.</string>
-  <string name="no_split_parts">Keine Split-Teilbeträge.</string>
+  <string name="no_split_parts">Keine Teilbeträge.</string>
   <string name="no_templates">Keine Vorlagen.</string>
   <string name="no_title_given">Sie haben keinen Titel eingegeben.</string>
   <plurals name="not_deletable_mapped_transactions">
@@ -410,8 +410,8 @@
   <string name="menu_select_folder">Diesen Ordner auswählen</string>
   <string name="share_scheme_not_supported">Schema %1$s nicht unterstützt </string>
   <string name="share_sending">Export Datei senden</string>
-  <string name="split_parts_heading">Split-Teilbeträge</string>
-  <string name="split_transaction">Splitbuchung</string>
+  <string name="split_parts_heading">Teilbeträge</string>
+  <string name="split_transaction">Mehrteilige Buchung</string>
   <string name="status">Status</string>
   <string name="status_cleared">verrechnet</string>
   <string name="status_reconciled">abgestimmt</string>
@@ -472,7 +472,7 @@
   <string name="warning_reset_account_matched">Wenn Sie fortfahren, werden alle mit dem aktuellen Suchfilter übereinstimmenden Buchungen aus der Datenbank gelöscht. Dies kann nicht rückgängig gemacht werden.</string>
   <string name="warning_restore">Datenbank und Einstellungen werden aus dem Backup (%1$s) wiederhergestellt. Aktuelle Daten werden gelöscht. Möchten Sie fortfahren?</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Der aktuell ausgewählte Ordner für Sicherungskopien und Exporte wird von Android automatisch gelöscht wenn Sie meine Ausgaben deinstallieren. Sie können dies verhindern, indem Sie einen anderen Ordner in den Einstellungen auswählen.</string>
-  <string name="warning_splitpartcategory_context">Umbuchungen, die Teil einer Splitbuchung sind, können nur im Kontext der Splitbuchunung geändert werden.</string>
+  <string name="warning_splitpartcategory_context">Umbuchungen, die Teil einer mehrteiligen Buchung sind, können nur im Kontext der mehrteiligen Buchung geändert werden.</string>
   <string name="warning_fraction_digits_out_of_range">Bitte eine Zahl zwischen 0 und 8 angeben</string>
   <string name="warning_change_fraction_digits_1">Beträge in der Datenbank müssen aktualisiert werden, um mit der neuen Anzahl der Nachkommastellen übereinzustimmen.</string>
   <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Wenn Beträge nicht aktualisiert werden, erscheinen diese nach der Änderung als multipliziert mit %d.</string>
@@ -541,6 +541,7 @@
   <string name="pref_manage_stale_images_summary">Verwalten Sie Bilder aus gelöschten Buchungen</string>
   <string name="menu_select_categories">Angehackten Kategorien auswählen</string>
   <string name="image_deleted">Bild wurde gelöscht</string>
+  <string name="transaction_deleted">Buchung wurde gelöscht</string>
   <string name="dialog_export_applied_to_filter">Nur Buchungen, die mit dem aktuellen Suchfilter übereinstimmen, werden berücksichtigt.</string>
   <string name="export_handle_deleted_create_helper">Hilfsbuchung erstellen</string>
   <string name="export_handle_deleted_update_balance">Anfangssaldo aktualisieren</string>
@@ -600,5 +601,8 @@
   <string name="plan_instance_state_cancelled">annulliert</string>
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <string name="plan_instance_state_applied">angewendet</string>
+  <string name="progress_dialog_updating_split_parts">Teilbeträge werden aktualisiert</string>
+  <string name="warning_cannot_move_split_transaction">Diese mehrteilige Buchung kann nicht nach %1$s verschoben werden, denn es gibt Teilbeträge, die auf dieses Konto verweisen.</string>
   <string name="content_description_calculator_clear_button">Alle zurücksetzen</string>
+  <string name="content_description_calculator_delete_button">Letzte Ziffer löschen</string>
 </resources>
