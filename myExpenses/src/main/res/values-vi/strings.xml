@@ -24,8 +24,6 @@
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Số lượng không giới hạn các tài khoản</string>
   <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Tác động phân phối các giao dịch cho mỗi phân loại</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Unlimited number of plans</string>
-  <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">Câu hỏi an ninh</string>
-  <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">Phân tách giao dịch</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">Yêu cầu sử dụng %s.</string>
   <string name="currency">Tiền tệ</string>

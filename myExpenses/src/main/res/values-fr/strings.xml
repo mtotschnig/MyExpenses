@@ -40,11 +40,8 @@
   <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">Le nombre d\'échéances que vous pouvez créer avec <i>Mes dépenses</i> est limité à 3.</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Nombre d\'échéances illimité</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Export de la liste des opérations au format PDF</string>
-  <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">Question de sécurité</string>
-  <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">Opération ventilée</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Widget de modèles</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Import CSV</string>
-  <string name="contrib_feature_auto_backup_label" tools:ignore="UnusedResources">Auto-backup</string>
   <string name="contrib_key">Clé Contrib</string>
   <string name="extended_key">Clé étendue</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->

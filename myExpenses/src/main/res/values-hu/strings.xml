@@ -25,8 +25,6 @@
   <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">A tranzakciók kategóriánkénti eloszlása</string>
   <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">A tervek száma a <i>Kiadásaim</i> alkalmazásban maximum 3 darab lehet.</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Korlátlan számú terv</string>
-  <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">Biztonsági kérdés</string>
-  <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">Tranzakció felosztása</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Sablon widget</string>
   <string name="contrib_key">Contrib Kulcs</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->

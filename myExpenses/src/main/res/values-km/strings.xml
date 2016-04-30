@@ -31,8 +31,6 @@
   <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">ការចែកចាយប្រតិបត្តិការផ្សេងៗ​តាមចំណាត់ថ្នាក់</string>
   <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">ចំនួន​ផែនការ​​ ដែល​អ្នក​អាច​បង្កើតជាមួយ <i>ការចំណាយរបស់ខ្ញុំ</i> ត្រូវបាន​កំណត់​តែ 3 ប៉ុណ្ណោះ។</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">ចំនួន​ផែនការគ្មានដែន​កំណត់​</string>
-  <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">សំណួរសន្តិសុខ</string>
-  <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">ការញែក​​ប្រតិបត្តិការ</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">ប្រអប់​ធាតុពុម្ព</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">ត្រូវការកម្មវិធី %s.</string>

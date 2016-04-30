@@ -25,10 +25,7 @@
   <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Распределение операций по категориям</string>
   <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">Количество планов, которые можно создать с <i>Мои расходы</i> ограниченно 3.</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Неограниченное количество планов</string>
-  <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">Секретный вопрос</string>
-  <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">Разделение операции</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Шаблон виджет</string>
-  <string name="contrib_feature_auto_backup_label" tools:ignore="UnusedResources">Авто-бэкап</string>
   <string name="contrib_key">Contrib-ключ</string>
   <string name="extended_key">Расширенный ключ</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->

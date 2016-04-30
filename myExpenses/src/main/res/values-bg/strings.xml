@@ -40,11 +40,8 @@
   <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">Броят на плановете, които можете да създадете с <i>Моите разходи</i> е ограничен до 3.</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Неограничен брой планове</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Експортиране в PDF на списък транзакции</string>
-  <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">Въпрос за сигурност</string>
-  <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">Разпределена транзакция</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Шаблон на уиджет</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Импорт от CSV</string>
-  <string name="contrib_feature_auto_backup_label" tools:ignore="UnusedResources">Автоматичен бекъп</string>
   <string name="contrib_key">ключ за Премиум вариант</string>
   <string name="extended_key">ключ за Разширен вариант</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->

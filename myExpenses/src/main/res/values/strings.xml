@@ -55,11 +55,8 @@
     <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">The number of plans you can create with <i>My Expenses</i> is limited to 3.</string>
     <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Unlimited number of plans</string>
     <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Export transaction list to PDF</string>
-    <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">Security question</string>
-    <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">Split transaction</string>
     <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Template widget</string>
     <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV import</string>
-    <string name="contrib_feature_auto_backup_label" tools:ignore="UnusedResources">Auto-Backup</string>
 
     <string name="contrib_key">Contrib Key</string>
     <string name="extended_key">Extended Key</string>

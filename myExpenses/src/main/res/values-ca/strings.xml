@@ -32,10 +32,7 @@
   <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">Amb <i>Les meves despeses</i> podeu generar 3 planificacions.</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Nombre de planificacions il·limitat</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Exporta la llista de transaccions en PDF</string>
-  <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">Pregunta de seguretat</string>
-  <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">Operació repartida</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Widget de plantilla</string>
-  <string name="contrib_feature_auto_backup_label" tools:ignore="UnusedResources">Còpia de seguretat automàtica</string>
   <string name="contrib_key">Clau del Contribuïdor</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">Requereix %s.</string>

@@ -40,11 +40,8 @@
   <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">El número de planes que se pueden crear con <i>Mis gastos</i> se limita a 3.</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Planes sin límite</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Lista de transacciones de exportación a PDF</string>
-  <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">Pregunta de seguridad</string>
-  <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">Asiento dividido</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Widget de plantillas</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Importación CSV</string>
-  <string name="contrib_feature_auto_backup_label" tools:ignore="UnusedResources">Backup automática</string>
   <string name="contrib_key">Clave Contrib</string>
   <string name="extended_key">Clave Extendida</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->

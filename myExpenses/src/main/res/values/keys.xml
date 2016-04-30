@@ -118,12 +118,17 @@
     <string name="account_list_not_yet_loaded">Account list not yet loaded. Please try again</string>
 
     <string-array name="whats_new_252" tools:ignore="UnusedResources">
-        <item>@string/contrib_feature_auto_backup_label</item>
+        <item>@string/pref_auto_backup_title</item>
     </string-array>
 
     <string name="calculator_operator_plus">+</string>
     <string name="calculator_operator_minus">−</string>
     <string name="calculator_operator_multiply">×</string>
     <string name="calculator_operator_divide">÷</string>
+
+    <string name="contrib_feature_auto_backup_label" tools:ignore="UnusedResources">@string/pref_auto_backup_title</string>
+    <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">@string/split_transaction</string>
+    <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">@string/pref_security_question_title</string>
+
 
 </resources>

@@ -40,11 +40,8 @@
   <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">Mit <i>Meine Ausgaben</i> können Sie bis zu 3 Pläne anlegen.</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Unbegrenzte Anzahl von Plänen</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Buchungsliste als PDF-Datei drucken</string>
-  <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">Sicherheitsfrage</string>
-  <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">Mehrteilige Buchung</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Vorlagen Widget</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV import</string>
-  <string name="contrib_feature_auto_backup_label" tools:ignore="UnusedResources">Automatisches Backup</string>
   <string name="contrib_key">Contrib-Schlüssel</string>
   <string name="extended_key">Erweiterungsschlüssel</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->

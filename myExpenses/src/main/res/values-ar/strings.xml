@@ -32,10 +32,7 @@
   <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">توزيع العمليات لكل تصنيف</string>
   <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">عدد الخطط المسموح انشاؤها في <i>مصروفاتي</i> هي 3 فقط.</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">عدد غير محدود من الخطط</string>
-  <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">السؤال السري</string>
-  <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">تقسيم العمليات</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">إستيراد ملف CSV</string>
-  <string name="contrib_feature_auto_backup_label" tools:ignore="UnusedResources">نسخ احتياطي آلي</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="currency">العملة</string>
   <string name="current_balance">الرصيد الحالي</string>

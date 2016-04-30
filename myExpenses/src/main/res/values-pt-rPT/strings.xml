@@ -40,11 +40,8 @@
   <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">Apenas pode criar 3 planos na versão gratuita do <i>My Expenses</i>.</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Número ilimitado de planos</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Exportação de transações para PDF</string>
-  <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">Questão de segurança</string>
-  <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">Repartir transação</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Widget de modelos</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Importação CSV</string>
-  <string name="contrib_feature_auto_backup_label" tools:ignore="UnusedResources">Backup automático</string>
   <string name="contrib_key">Chave de contribuição</string>
   <string name="extended_key">Chave expandida</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->

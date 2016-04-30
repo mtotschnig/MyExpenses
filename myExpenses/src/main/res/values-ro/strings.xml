@@ -41,11 +41,8 @@
   <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">Numărul de scadenţe pe care le puteţi crea cu<i>Cheltuielile Mele</i> este limitat la 3.</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Număr nelimitat de scadenţe</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Export listă tranzacţii în PDF</string>
-  <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">Întrebare securitate</string>
-  <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">Tranzacţie  repartizată</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Şablon widget</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV import</string>
-  <string name="contrib_feature_auto_backup_label" tools:ignore="UnusedResources">Auto-backup</string>
   <string name="contrib_key">Cheie Contrib</string>
   <string name="extended_key">Cheie Extinse</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->

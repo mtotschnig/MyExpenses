@@ -39,11 +39,8 @@
   <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources"><i>My Expenses</i>에서 만들 수 있는 재무 계획의 개수는 최대 3개로 제한되어 있습니다.</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">개수 제한 없는 재무 계획</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">거래 내역 목록을 PDF로 내보내기</string>
-  <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">보안 질문</string>
-  <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">거래 내역을 분할하기</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">템플릿 위젯</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV 가져오기</string>
-  <string name="contrib_feature_auto_backup_label" tools:ignore="UnusedResources">자동 백업</string>
   <string name="contrib_key">기부 확인 키</string>
   <string name="extended_key">확장 키</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->

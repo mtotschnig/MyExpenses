@@ -36,11 +36,8 @@
   <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">你可以在 <i>开支助手</i> 中创建计划的数目仅限3个.</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">计划数量不限</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">导出交易记录清单成PDF</string>
-  <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">安全问题</string>
-  <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">分割交易</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">模板插件</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">从CSV导入</string>
-  <string name="contrib_feature_auto_backup_label" tools:ignore="UnusedResources">自动备份</string>
   <string name="contrib_key">贡献密钥</string>
   <string name="extended_key">扩展密钥</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->

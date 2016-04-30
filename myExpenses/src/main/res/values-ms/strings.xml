@@ -39,11 +39,8 @@
   <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">Bilang pelan yang boleh dicipta dengan <i>Perbelanjaan Saya</i> adalah terhad pada 3.</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Bilang pelan tidak terhad</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Eksport senarai transaksi menjadi PDF</string>
-  <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">Soalan keselamatan</string>
-  <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">Transaksi pisah</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Widget  templat</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Import CSV</string>
-  <string name="contrib_feature_auto_backup_label" tools:ignore="UnusedResources">Auto-Sandar</string>
   <string name="contrib_key">Kunci Contrib</string>
   <string name="extended_key">Kunci Lanjutan</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
