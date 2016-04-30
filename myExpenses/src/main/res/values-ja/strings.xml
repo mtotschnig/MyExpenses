@@ -120,7 +120,6 @@
   <string name="dialog_title_template_title">タイトル/科目を設定</string>
   <string name="dialog_title_warning_delete_account">勘定を削除しますか?</string>
   <string name="dialog_title_warning_delete_main_category">主分類を削除しますか?</string>
-  <string name="dialog_title_warning_delete_plan">計画を削除しますか?</string>
   <string name="dialog_title_warning_delete_template">テンプレートを削除しますか?</string>
   <string name="dialog_title_warning_delete_transaction">取引を削除しますか?</string>
   <string name="dialog_title_welcome">ようこそ!</string>
@@ -246,7 +245,6 @@
   <string name="no_mapped_transactions">この期間に、分類に配置する取引はありません。</string>
   <string name="no_methods">支払方法がありません。</string>
   <string name="no_parties">取引先がありません。</string>
-  <string name="no_plans">計画がありません。</string>
   <string name="no_split_parts">分割パートがありません。</string>
   <string name="no_templates">テンプレートがありません。</string>
   <string name="no_title_given">タイトル/科目が入力されていません。</string>
@@ -439,9 +437,6 @@
   <plurals name="warning_delete_main_category">
     <item quantity="other">%1$d の選択された分類は副分類があります。これらも同様に削除されます。</item>
   </plurals>
-  <plurals name="warning_delete_plan">
-    <item quantity="other">%1$d の選択された計画が削除されます。</item>
-  </plurals>
   <plurals name="warning_delete_template">
     <item quantity="other">%1$d の選択されたテンプレートが削除されます。</item>
   </plurals>
@@ -570,7 +565,7 @@
   <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">%d 回正常に自動バックアップを行った後、自動バックアップは無効になります。</string>
   <string name="warning_auto_backup_limit_reached">無料自動バックアップ回数の制限に達しました。</string>
   <string name="calendar_permission_required"><i>マイエクスペンス</i> は、将来の計画および繰り返しの取引を作成するために、自分のカレンダーにアクセスするアクセス許可が必要です。</string>
-  <string name="button_request_calendar_access">アクセスを許可</string>
+  <string name="button_request_calendar_access" tools:ignore="UnusedResources">アクセスを許可</string>
   <string name="switch_on_text">ON</string>
   <string name="switch_off_text">OFF</string>
   <string name="menu_move">移動</string>

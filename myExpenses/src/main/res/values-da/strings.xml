@@ -113,7 +113,6 @@
   <string name="dialog_title_template_title">Indtast titel</string>
   <string name="dialog_title_warning_delete_account">Slet konto?</string>
   <string name="dialog_title_warning_delete_main_category">Slet hovedkategori?</string>
-  <string name="dialog_title_warning_delete_plan">Slet planen?</string>
   <string name="dialog_title_warning_delete_template">Slet skabelonen?</string>
   <string name="dialog_title_warning_delete_transaction">Slet transaktionen?</string>
   <string name="dialog_title_welcome">Velkommen!</string>
@@ -238,7 +237,6 @@
   <string name="no_mapped_transactions">Der blev ingen posteringer knyttet til kategorier i denne periode.</string>
   <string name="no_methods">Ingen betalingsmetoder.</string>
   <string name="no_parties">Ingen parter.</string>
-  <string name="no_plans">Ingen planer.</string>
   <string name="no_split_parts">Ingen split dele.</string>
   <string name="no_templates">Ingen skabeloner.</string>
   <string name="no_title_given">Du har ikke angivet nogen titel.</string>
@@ -432,10 +430,6 @@
   <plurals name="warning_delete_main_category">
     <item quantity="one">Valgte kategori har underkategorier, der vil blive slettet så godt.</item>
     <item quantity="other">%1$d valgt kategorier har underkategorier, der også vil blive slettet.</item>
-  </plurals>
-  <plurals name="warning_delete_plan">
-    <item quantity="one">Den valgte plan vil blive slettet.</item>
-    <item quantity="other">%1$d valgt planer vil blive slettet.</item>
   </plurals>
   <plurals name="warning_delete_template">
     <item quantity="one">Den valgte skabelon vil blive slettet.</item>

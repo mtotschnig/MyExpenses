@@ -122,7 +122,6 @@
   <string name="dialog_title_template_title">Establecer el título</string>
   <string name="dialog_title_warning_delete_account">¿Borrar la cuenta?</string>
   <string name="dialog_title_warning_delete_main_category">¿Borrar la categoría principal?</string>
-  <string name="dialog_title_warning_delete_plan">¿Borrar el plan?</string>
   <string name="dialog_title_warning_delete_template">Borrar plantilla</string>
   <string name="dialog_title_warning_delete_transaction">Borrar asiento</string>
   <string name="dialog_title_welcome">¡Bienvenido!</string>
@@ -248,7 +247,6 @@
   <string name="no_mapped_transactions">Ninguna transacción se ha asignado a las categorías durante este período.</string>
   <string name="no_methods">No hay métodos.</string>
   <string name="no_parties">No hay partidos.</string>
-  <string name="no_plans">No hay planes.</string>
   <string name="no_split_parts">No hay divisiones.</string>
   <string name="no_templates">No hay plantillas</string>
   <string name="no_title_given">No ha insertado usted título alguno.</string>
@@ -445,10 +443,6 @@
     <item quantity="one">La categoría seleccionada tiene subcategorías, que se eliminará también.</item>
     <item quantity="other">%1$d categorías seleccionadas tienen subcategorías, que se eliminarán también.</item>
   </plurals>
-  <plurals name="warning_delete_plan">
-    <item quantity="one">Se eliminará el plan seleccionado.</item>
-    <item quantity="other">Se eliminarán %1$d planes seleccionados.</item>
-  </plurals>
   <plurals name="warning_delete_template">
     <item quantity="one">Se eliminará la plantilla seleccionada. </item>
     <item quantity="other">Se eliminarán %1$d plantillas seleccionadas.</item>
@@ -581,7 +575,7 @@
   <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Después de %d copias de seguridad automáticas exitosa, copia de seguridad automática se desactiva.</string>
   <string name="warning_auto_backup_limit_reached">Il limite per i backup automatici di successo libero è stato raggiunto.</string>
   <string name="calendar_permission_required"><i>Mis gastos</i> necesita permiso para acceder a su calendario, con el fin de crear planes para transacciones futuras y recurrentes.</string>
-  <string name="button_request_calendar_access">Otorgar acceso</string>
+  <string name="button_request_calendar_access" tools:ignore="UnusedResources">Otorgar acceso</string>
   <string name="switch_on_text">Sí</string>
   <string name="switch_off_text">No</string>
   <string name="menu_move">Mover</string>

@@ -119,7 +119,6 @@
   <string name="dialog_title_template_title">제목 설정</string>
   <string name="dialog_title_warning_delete_account">계좌를 삭제할까요?</string>
   <string name="dialog_title_warning_delete_main_category">주 카테고리를 삭제할까요?</string>
-  <string name="dialog_title_warning_delete_plan">재무 계획을 삭제할까요?</string>
   <string name="dialog_title_warning_delete_template">템플릿을 삭제할까요?</string>
   <string name="dialog_title_warning_delete_transaction">거래 내역을 삭제할까요?</string>
   <string name="dialog_title_welcome">환영합니다!</string>
@@ -245,7 +244,6 @@
   <string name="no_mapped_transactions">이 기간동안 카테고리에 배치된 거래 내역이 없습니다.</string>
   <string name="no_methods">지불 방식이 없습니다.</string>
   <string name="no_parties">구성원이 없습니다.</string>
-  <string name="no_plans">재무 계획이 없습니다.</string>
   <string name="no_split_parts">분할 거래의 일부분이 없습니다.</string>
   <string name="no_templates">템플릿이 없습니다.</string>
   <string name="no_title_given">제목을 입력하지 않으셨습니다.</string>
@@ -439,9 +437,6 @@
   <plurals name="warning_delete_main_category">
     <item quantity="other">%1$d 선택된 카테고리는 하위 카테고리를 가지고 있으며, 함께 삭제됩니다.</item>
   </plurals>
-  <plurals name="warning_delete_plan">
-    <item quantity="other">%1$d 선택된 재무 계획이 삭제됩니다.</item>
-  </plurals>
   <plurals name="warning_delete_template">
     <item quantity="other">%1$d 선택된 템플릿이 삭제됩니다.</item>
   </plurals>
@@ -564,7 +559,7 @@
   <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">%d 번의 성공적인 자동 백업 이후에, 자동 백업은 비활성화됩니다.</string>
   <string name="warning_auto_backup_limit_reached">무료 자동 백업 횟수 제한에 도달했습니다.</string>
   <string name="calendar_permission_required"><i>My Expenses</i>는 향후의 재무 계획과 반복 거래를 만들기 위해서 캘린더에 접근할 수 있는 권한이 필요합니다.</string>
-  <string name="button_request_calendar_access">접근 허용</string>
+  <string name="button_request_calendar_access" tools:ignore="UnusedResources">접근 허용</string>
   <string name="switch_on_text">사용</string>
   <string name="switch_off_text">사용 안함</string>
   <string name="menu_move">옮기기</string>

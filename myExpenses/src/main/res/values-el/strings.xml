@@ -117,7 +117,6 @@
   <string name="dialog_title_template_title">Ρυθμίστε τον τίτλο</string>
   <string name="dialog_title_warning_delete_account">Διαγραφή λογαριασμού;</string>
   <string name="dialog_title_warning_delete_main_category">Διαγραφή κύριας κατηγορίας;</string>
-  <string name="dialog_title_warning_delete_plan">Θέλετε να διαγράψετε το σχέδιο;</string>
   <string name="dialog_title_warning_delete_template">Θέλετε να διαγράψετε το πρότυπο;</string>
   <string name="dialog_title_warning_delete_transaction">Να διαγραφεί η συναλλαγή;</string>
   <string name="dialog_title_welcome">Καλώς όρισες!</string>
@@ -243,7 +242,6 @@
   <string name="no_mapped_transactions">Συναλλαγές δεν έχουν καταχωρηθεί σε κατηγορίες κατά τη διάρκεια αυτής της περιόδου.</string>
   <string name="no_methods">Δεν υπάρχουν τρόποι πληρωμής.</string>
   <string name="no_parties">Δεν υπάρχουν μέρη/πρόσωπα.</string>
-  <string name="no_plans">Κανένα σχέδιο.</string>
   <string name="no_split_parts">Κανένας διαχωρισμός των μερών </string>
   <string name="no_templates">Δεν υπαρχουν πρότυπα.</string>
   <string name="no_title_given">Δεν έγινε καμία εισαγωγή τίτλου κυριότητας.</string>
@@ -440,10 +438,6 @@
     <item quantity="one">Η επιλεγμένη κατηγορία έχει υποκατηγορίες, που θα διαγραφούν επίσης.</item>
     <item quantity="other">%1$d επιλεγμένες κατηγορίες έχουν υποκατηγορίες, που θα διαγραφούν επίσης.</item>
   </plurals>
-  <plurals name="warning_delete_plan">
-    <item quantity="one">Το επιλεγμένο σχέδιο θα διαγραφεί.</item>
-    <item quantity="other">%1$d επιλεγμένα σχέδια θα διαγραφούν.</item>
-  </plurals>
   <plurals name="warning_delete_template">
     <item quantity="one">Το επιλεγμένο πρότυπο θα διαγραφεί.</item>
     <item quantity="other">%1$d Επιλεγμένα πρότυπα θα διαγραφούν.</item>
@@ -570,7 +564,7 @@
   <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Μετά από %d επιτυχημένα αυτόματα αντίγραφα ασφαλείας, η λειτουργία αυτόματου αντίγραφου ασφαλείας θα απενεργοποιηθεί.</string>
   <string name="warning_auto_backup_limit_reached">Το όριο για δωρεάν επιτυχή δημιουργία αυτόματων αντιγράφων ασφαλείας έχει επιτευχθεί.</string>
   <string name="calendar_permission_required"><i>Τα έξοδά μου</i> χρειάζεται άδεια για πρόσβαση στο ημερολόγιό σας, προκειμένου να δημιουργήσει σχέδια για μελλοντικές και επαναλαμβανόμενες συναλλαγές.</string>
-  <string name="button_request_calendar_access">Παραχώρηση πρόσβασης</string>
+  <string name="button_request_calendar_access" tools:ignore="UnusedResources">Παραχώρηση πρόσβασης</string>
   <string name="switch_on_text">Ενεργό</string>
   <string name="switch_off_text">Ανενεργό</string>
   <string name="menu_move">Μετακίνηση</string>

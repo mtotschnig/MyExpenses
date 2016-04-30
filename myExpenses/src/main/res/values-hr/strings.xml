@@ -97,7 +97,6 @@
   <string name="dialog_title_template_title">Odaberi naslov</string>
   <string name="dialog_title_warning_delete_account">Izbriši račun?</string>
   <string name="dialog_title_warning_delete_main_category">Izbrišu osnovnu kategoriju?</string>
-  <string name="dialog_title_warning_delete_plan">Izbriši plan?</string>
   <string name="dialog_title_warning_delete_template">Izbriši predložak?</string>
   <string name="dialog_title_warning_delete_transaction">Izbriši transakciju?</string>
   <string name="dialog_title_welcome">Dobrodošli!</string>
@@ -219,7 +218,6 @@
   <string name="no_mapped_transactions">Nema transakcija označenih po kategorijama tijekom ovog perioda.</string>
   <string name="no_methods">Nema načina plaćanja.</string>
   <string name="no_parties">Nema stranki.</string>
-  <string name="no_plans">Nema planova.</string>
   <string name="no_split_parts">Nema transakcija s odvojenim dijelovima.</string>
   <string name="no_templates">Nema predložaka.</string>
   <string name="no_title_given">Molimo unesite naslov.</string>
@@ -412,11 +410,6 @@
     <item quantity="one">Odabrana kategorija sadrži podkategorije, koje će također biti obrisane.</item>
     <item quantity="few">%1$d Odabrane kategorije sadrže podkategorije, koje će također biti obrisane.</item>
     <item quantity="other">%1$d Odabrane kategorije sadrže podkategorije, koje će također biti obrisane.</item>
-  </plurals>
-  <plurals name="warning_delete_plan">
-    <item quantity="one">Odabrani plan će biti obrisan.</item>
-    <item quantity="few">%1$d odabrani planovi će biti obrisani.</item>
-    <item quantity="other">%1$d odabrani planovi će biti obrisani.</item>
   </plurals>
   <plurals name="warning_delete_template">
     <item quantity="one">Odabrani predložak će biti obrisan.</item>

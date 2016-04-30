@@ -122,7 +122,6 @@
   <string name="dialog_title_template_title">Titel festlegen</string>
   <string name="dialog_title_warning_delete_account">Konto löschen?</string>
   <string name="dialog_title_warning_delete_main_category">Hauptkategorie löschen?</string>
-  <string name="dialog_title_warning_delete_plan">Plan löschen?</string>
   <string name="dialog_title_warning_delete_template">Vorlage löschen?</string>
   <string name="dialog_title_warning_delete_transaction">Buchung löschen?</string>
   <string name="dialog_title_welcome">Willkommen!</string>
@@ -248,7 +247,6 @@
   <string name="no_mapped_transactions">In diesem Zeitraum wurden keine Buchungen Kategorien zugeordnet.</string>
   <string name="no_methods">Keine Zahlungsweisen.</string>
   <string name="no_parties">Keine Parteien.</string>
-  <string name="no_plans">Keine Pläne.</string>
   <string name="no_split_parts">Keine Split-Teilbeträge.</string>
   <string name="no_templates">Keine Vorlagen.</string>
   <string name="no_title_given">Sie haben keinen Titel eingegeben.</string>
@@ -445,10 +443,6 @@
     <item quantity="one">Die ausgewählte Kategorie hat Unterkategorien. Diese werden ebenfalls gelöscht.</item>
     <item quantity="other">%1$d ausgewählte Kategorien haben Unterkategorien. Diese werden ebenfalls gelöscht.</item>
   </plurals>
-  <plurals name="warning_delete_plan">
-    <item quantity="one">Der ausgewählte Plan wird gelöscht.</item>
-    <item quantity="other">%1$d ausgewählte Pläne werden gelöscht.</item>
-  </plurals>
   <plurals name="warning_delete_template">
     <item quantity="one">Die ausgewählte Vorlage wird gelöscht.</item>
     <item quantity="other">%1$d ausgewählte Vorlagen werden gelöscht.</item>
@@ -581,7 +575,7 @@
   <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Nach %d erfolgreichen automatischen Sicherungen wird automatische Sicherung deaktiviert werden.</string>
   <string name="warning_auto_backup_limit_reached">Das Limit für kostenlose erfolgreiche automatische Sicherungen wurde erreicht.</string>
   <string name="calendar_permission_required"><i>Meine Ausgaben</i> benötigt die Berechtigung, auf Ihren Kalender zugreifen, um Pläne für zukünftige und wiederkehrende Buchungen zu erstellen.</string>
-  <string name="button_request_calendar_access">Zugriff gewähren</string>
+  <string name="button_request_calendar_access" tools:ignore="UnusedResources">Zugriff gewähren</string>
   <string name="switch_on_text">An</string>
   <string name="switch_off_text">Aus</string>
   <string name="menu_move">Verschieben</string>

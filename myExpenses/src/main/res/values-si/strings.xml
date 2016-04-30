@@ -80,7 +80,6 @@
   <string name="dialog_title_template_title">මාතෘකාවක් යොදන්න </string>
   <string name="dialog_title_warning_delete_account">ගිණුම මකාදමන්න?</string>
   <string name="dialog_title_warning_delete_main_category">ප්‍රධාන ප්‍රබෙධය මක දමන්න?</string>
-  <string name="dialog_title_warning_delete_plan">සැලසුම මකා  දමන්න?</string>
   <string name="dialog_title_warning_delete_template">අච්චුව මකාදමන්න?</string>
   <string name="dialog_title_warning_delete_transaction">ගනුදෙනුව   මකාදමන්න?</string>
   <string name="dialog_title_welcome">ආදරයෙන් පිළිගන්නවා!</string>
@@ -198,7 +197,6 @@
   <string name="no_mapped_transactions">මෙම කාලපරාසය තුල කිසම ගනුදෙනුවක් ප්‍රබේධ තුලට වෙන්  කොට නැත </string>
   <string name="no_methods">මිලදී ගැනීමේ ක්‍රමයක් නැත </string>
   <string name="no_parties">කණ්ඩායම් නැත </string>
-  <string name="no_plans">සැලසුම් නොමැත </string>
   <string name="no_split_parts">කොටස් බෙදීම් නොමැත </string>
   <string name="no_templates">අච්චු නැත </string>
   <string name="no_title_given">ඔබ කිසිදු මාතෘකාවක් ඇතුලත් කරන නොමැත </string>
@@ -372,10 +370,6 @@
   <plurals name="warning_delete_main_category">
     <item quantity="one">තෝරාගත් ප්‍රබෙධයහි අනු ප්‍රබෙධද මකා දැමෙයි </item>
     <item quantity="other">තෝරාගත් %1$d ප්‍රබෙධයන්හි අනු ප්‍රබෙධද මකා දැමෙයි </item>
-  </plurals>
-  <plurals name="warning_delete_plan">
-    <item quantity="one">තෝරාගත් සැලසුම මකා දමයි </item>
-    <item quantity="other">තෝරාගත්  සැලසුම් %1$d  මකා දමයි </item>
   </plurals>
   <plurals name="warning_delete_template">
     <item quantity="one">තෝරාගත් අච්චුව   මකා දමයි </item>

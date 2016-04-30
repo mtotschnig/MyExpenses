@@ -122,7 +122,6 @@
   <string name="dialog_title_template_title">Définir le titre</string>
   <string name="dialog_title_warning_delete_account">Effacer le compte?</string>
   <string name="dialog_title_warning_delete_main_category">Effacer la catégorie principale</string>
-  <string name="dialog_title_warning_delete_plan">Effacer l\'échéance ?</string>
   <string name="dialog_title_warning_delete_template">Supprimer le modèle ?</string>
   <string name="dialog_title_warning_delete_transaction">Supprimer l\'opération ?</string>
   <string name="dialog_title_welcome">Bienvenue!</string>
@@ -248,7 +247,6 @@
   <string name="no_mapped_transactions">Aucune opération n\'a été attribuée à aucune catégorie au cours de cette période.</string>
   <string name="no_methods">Aucune méthode.</string>
   <string name="no_parties">Aucun tiers.</string>
-  <string name="no_plans">Aucune échéance.</string>
   <string name="no_split_parts">Aucune sous-opération.</string>
   <string name="no_templates">Aucun modèle.</string>
   <string name="no_title_given">Vous n\'avez pas saisi de titre.</string>
@@ -445,10 +443,6 @@
     <item quantity="one">La catégorie sélectionnée possède des sous-catégories, qui seront aussi supprimées.</item>
     <item quantity="other">%1$d catégories sélectionnées possèdent des sous-catégories, qui seront aussi supprimées.</item>
   </plurals>
-  <plurals name="warning_delete_plan">
-    <item quantity="one">L\'échéance sélectionnée sera supprimée.</item>
-    <item quantity="other">%1$d échéances sélectionnées seront supprimées.</item>
-  </plurals>
   <plurals name="warning_delete_template">
     <item quantity="one">Le modèle sélectionné sera supprimé.</item>
     <item quantity="other">%1$d modèles sélectionnés seront supprimés.</item>
@@ -581,7 +575,7 @@
   <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Après %d sauvegardes automatiques réussies, la sauvegarde automatique sera désactivée.</string>
   <string name="warning_auto_backup_limit_reached">La limite des sauvegardes automatiques réussies gratuites a été atteinte.</string>
   <string name="calendar_permission_required"><i>Mes dépenses </i> requiert votre permission d\'accéder à votre calendrier , dans le but de créer des échéances pour des opérations futures et répétitives </string>
-  <string name="button_request_calendar_access">Autoriser l\'accès</string>
+  <string name="button_request_calendar_access" tools:ignore="UnusedResources">Autoriser l\'accès</string>
   <string name="switch_on_text">Activé</string>
   <string name="switch_off_text">Désactivé</string>
   <string name="menu_move">Déplacer</string>

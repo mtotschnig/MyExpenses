@@ -84,7 +84,6 @@
   <string name="dialog_title_template_title">Установить заголовок</string>
   <string name="dialog_title_warning_delete_account">Удалить счёт?</string>
   <string name="dialog_title_warning_delete_main_category">Удалить основную категорию?</string>
-  <string name="dialog_title_warning_delete_plan">Удалить план?</string>
   <string name="dialog_title_warning_delete_template">Удалить шаблон?</string>
   <string name="dialog_title_warning_delete_transaction">Удалить операцию?</string>
   <string name="dialog_title_welcome">Добро пожаловать!</string>
@@ -201,7 +200,6 @@
   <string name="no_mapped_transactions">Нет операций с сопоставленными категориями в этот период.</string>
   <string name="no_methods">Нет методов оплаты.</string>
   <string name="no_parties">Нет участников.</string>
-  <string name="no_plans">Нет планов.</string>
   <string name="no_split_parts">Нет разделённых частей</string>
   <string name="no_templates">Нет шаблонов.</string>
   <string name="no_title_given">Вы не ввели какое-либо название.</string>
@@ -378,12 +376,6 @@
     <item quantity="few"> %1$d выбранных категорий есть подкатегории, которые также будут удалены.</item>
     <item quantity="many"> %1$d выбранных категорий есть подкатегории, которые также будут удалены.</item>
     <item quantity="other"> %1$d выбранных категорий есть подкатегории, которые также будут удалены.</item>
-  </plurals>
-  <plurals name="warning_delete_plan">
-    <item quantity="one">Выбранный план будет удалён.</item>
-    <item quantity="few">%1$d выбранных планов будут удалены.</item>
-    <item quantity="many">%1$d выбранных планов будут удалены.</item>
-    <item quantity="other">%1$d выбранных планов будут удалены.</item>
   </plurals>
   <plurals name="warning_delete_template">
     <item quantity="one">Выбранный шаблон будет удалён</item>

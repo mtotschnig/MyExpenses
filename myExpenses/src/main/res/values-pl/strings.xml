@@ -96,7 +96,6 @@
   <string name="dialog_title_template_title">Określ nazwę</string>
   <string name="dialog_title_warning_delete_account">Usunąć konto?</string>
   <string name="dialog_title_warning_delete_main_category">Usunąć główną kategorię?</string>
-  <string name="dialog_title_warning_delete_plan">Usunąć plan?</string>
   <string name="dialog_title_warning_delete_template">Usunąć szablon?</string>
   <string name="dialog_title_warning_delete_transaction">Usunąć transakcję?</string>
   <string name="dialog_title_welcome">Witaj!</string>
@@ -219,7 +218,6 @@
   <string name="no_mapped_transactions">Żadne z transakcji nie zostały zmapowane do kategorii podczas tego okresu.</string>
   <string name="no_methods">Brak metod płatności.</string>
   <string name="no_parties">Brak partii.</string>
-  <string name="no_plans">Brak planów.</string>
   <string name="no_split_parts">Brak części podziałów</string>
   <string name="no_templates">Brak szablonów.</string>
   <string name="no_title_given">Nie wprowadziłeś tytułu.</string>
@@ -410,11 +408,6 @@
     <item quantity="one">Jedna wybrana kategoria posiada podkategorie, które zostaną też usunięte.</item>
     <item quantity="few">%1$d wybrane kategorie posiadają podkategorie, które zostaną też usunięte.</item>
     <item quantity="other">%1$d wybranych kategorii posiadają podkategorie, które zostaną też usunięte.</item>
-  </plurals>
-  <plurals name="warning_delete_plan">
-    <item quantity="one">Zaznaczony plan zostanie usunięty.</item>
-    <item quantity="few">%1$d zaznaczone plany zostaną usunięte.</item>
-    <item quantity="other">%1$d zaznaczonych planów zostanie usuniętych.</item>
   </plurals>
   <plurals name="warning_delete_template">
     <item quantity="one">Wybrany szablon zostanie usunięty.</item>

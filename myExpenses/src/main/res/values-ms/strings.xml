@@ -120,7 +120,6 @@
   <string name="dialog_title_template_title">Tetapkan tajuk</string>
   <string name="dialog_title_warning_delete_account">Padam akaun?</string>
   <string name="dialog_title_warning_delete_main_category">Padam kategori utama?</string>
-  <string name="dialog_title_warning_delete_plan">Padam pelan?</string>
   <string name="dialog_title_warning_delete_template">Padam templat?</string>
   <string name="dialog_title_warning_delete_transaction">Padam transaksi?</string>
   <string name="dialog_title_welcome">Selamat Datang!</string>
@@ -246,7 +245,6 @@
   <string name="no_mapped_transactions">Tiada transaksi dipetakan pada kategori ketika tempoh ini.</string>
   <string name="no_methods">Tiada kaedah pembayaran.</string>
   <string name="no_parties">Tiada pihak.</string>
-  <string name="no_plans">Tiada pelan.</string>
   <string name="no_split_parts">Tiada bahagian pisah.</string>
   <string name="no_templates">Tiada templat.</string>
   <string name="no_title_given">Anda tidak masukkan sebarang tajuk.</string>
@@ -439,9 +437,6 @@
   <plurals name="warning_delete_main_category">
     <item quantity="other">%1$d kategori terpilih mempunyai subkategori, yang juga akan dipadamkan.</item>
   </plurals>
-  <plurals name="warning_delete_plan">
-    <item quantity="other">%1$d pelan terpilih akan dipadam.</item>
-  </plurals>
   <plurals name="warning_delete_template">
     <item quantity="other">%1$d templat terpilih akan dipadam.</item>
   </plurals>
@@ -570,7 +565,7 @@
   <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Selepas %d kali sandar automatik berjaya, auto-sandar akan dinyahaktifkan.</string>
   <string name="warning_auto_backup_limit_reached">Had untuk sandar automatik berjaya secara percuma telah dicapai.</string>
   <string name="calendar_permission_required"><i>My Expenses</i> memerlukan keizinan untuk mencapai kalendar anda, supaya dapat mencipta pelan untuk transaksi akan datang dan yang berulangan.</string>
-  <string name="button_request_calendar_access">Beri capaian</string>
+  <string name="button_request_calendar_access" tools:ignore="UnusedResources">Beri capaian</string>
   <string name="switch_on_text">Dihidupkan</string>
   <string name="switch_off_text">Dimatikan</string>
   <string name="menu_move">Alih</string>

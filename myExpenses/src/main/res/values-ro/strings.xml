@@ -115,7 +115,6 @@
   <string name="dialog_title_template_title">Setează titlul</string>
   <string name="dialog_title_warning_delete_account">Şterg cont ?</string>
   <string name="dialog_title_warning_delete_main_category">Şterg categoria principală ?</string>
-  <string name="dialog_title_warning_delete_plan">Şterg scadenţă?</string>
   <string name="dialog_title_warning_delete_template">Şterg şablon?</string>
   <string name="dialog_title_warning_delete_transaction">Şterg  tranzacţie?</string>
   <string name="dialog_title_welcome">Bine ai venit!</string>
@@ -240,7 +239,6 @@
   <string name="no_mapped_transactions">Nici o tranzacţie nu a fost mapată la această categorie în această perioadă.</string>
   <string name="no_methods">Nici o metodă de plată.</string>
   <string name="no_parties">Nici un terţ.</string>
-  <string name="no_plans">Nici o scadenţă.</string>
   <string name="no_split_parts">Nici o repartizare</string>
   <string name="no_templates">Nici un şablon.</string>
   <string name="no_title_given">Nu aţi introdus nici un titlu.</string>
@@ -440,11 +438,6 @@ Tradus de DD</string>
     <item quantity="few">%1$d  categorii selectate  au subcategorii, care vor fi şterse de asemenea.</item>
     <item quantity="other">%1$d  categorii selectate  au subcategorii, care vor fi şterse de asemenea.</item>
   </plurals>
-  <plurals name="warning_delete_plan">
-    <item quantity="one">Scadenţa selectată va fi ştearsă.</item>
-    <item quantity="few">%1$d scadenţe selectate vor fi şterse.</item>
-    <item quantity="other">%1$d scadenţe selectate vor fi şterse.</item>
-  </plurals>
   <plurals name="warning_delete_template">
     <item quantity="one">Șablonul selectat va fi şters.</item>
     <item quantity="few">%1$d  şabloanel selectate vor fi şterse.</item>
@@ -539,7 +532,7 @@ Tradus de DD</string>
   <string name="pref_auto_backup_summary">Backup bază de date zilnic la timpul specificat</string>
   <string name="pref_auto_backup_time_title">Timp auto-backup</string>
   <string name="warning_auto_backup_limit_reached">Limita pentru backup-uri automate free a fost atinsa</string>
-  <string name="button_request_calendar_access">Acordare acces</string>
+  <string name="button_request_calendar_access" tools:ignore="UnusedResources">Acordare acces</string>
   <string name="switch_on_text">Activat</string>
   <string name="switch_off_text">Dezactivat</string>
   <string name="menu_move">Muta</string>

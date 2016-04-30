@@ -122,7 +122,6 @@
   <string name="dialog_title_template_title">Defina o título</string>
   <string name="dialog_title_warning_delete_account">Excluir a conta?</string>
   <string name="dialog_title_warning_delete_main_category">Excluir categoria principal?</string>
-  <string name="dialog_title_warning_delete_plan">Excluir projeto?</string>
   <string name="dialog_title_warning_delete_template">Excluir o modelo?</string>
   <string name="dialog_title_warning_delete_transaction">Excluir a transação?</string>
   <string name="dialog_title_welcome">Bem-vindo!</string>
@@ -248,7 +247,6 @@
   <string name="no_mapped_transactions">Nenhuma transação foi mapeada para categorias durante este período.</string>
   <string name="no_methods">Não há métodos de pagamento.</string>
   <string name="no_parties">Sem participantes.</string>
-  <string name="no_plans">Não tenho planos.</string>
   <string name="no_split_parts">Não há dividir partes.</string>
   <string name="no_templates">Sem modelos.</string>
   <string name="no_title_given">Você não digitou nenhum título.</string>
@@ -445,10 +443,6 @@
     <item quantity="one">A categoria selecionada contém subcategorias, que também serão excluídas.</item>
     <item quantity="other">A categoria %1$d selecionada contém subcategorias, que também serão excluídas.</item>
   </plurals>
-  <plurals name="warning_delete_plan">
-    <item quantity="one">O projeto selecionado será eliminado.</item>
-    <item quantity="other">Projeto %1$d selecionado será eliminado.</item>
-  </plurals>
   <plurals name="warning_delete_template">
     <item quantity="one">O modelo selecionado será eliminado.</item>
     <item quantity="other">Os modelos %1$d selecionado serão eliminados.</item>
@@ -581,7 +575,7 @@
   <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Depois de %d bem sucedido backups automáticos, backup automático será desativado.</string>
   <string name="warning_auto_backup_limit_reached">O limite de graça backups automáticos de sucesso foi alcançado.</string>
   <string name="calendar_permission_required"><i>Minhas despesas</i> precisa de permissão para acessar seu calendário, a fim de criar planos para transações futuras e recorrentes.</string>
-  <string name="button_request_calendar_access">Conceder acesso</string>
+  <string name="button_request_calendar_access" tools:ignore="UnusedResources">Conceder acesso</string>
   <string name="switch_on_text">Ativado</string>
   <string name="switch_off_text">Desativado</string>
   <string name="menu_move">Mover</string>

@@ -121,7 +121,6 @@
   <string name="dialog_title_template_title">Definir título</string>
   <string name="dialog_title_warning_delete_account">Apagar conta?</string>
   <string name="dialog_title_warning_delete_main_category">Apagar categoria principal?</string>
-  <string name="dialog_title_warning_delete_plan">Apagar plano?</string>
   <string name="dialog_title_warning_delete_template">Apagar modelo?</string>
   <string name="dialog_title_warning_delete_transaction">Apagar transação?</string>
   <string name="dialog_title_welcome">Bem-vindo!</string>
@@ -237,7 +236,6 @@
   <string name="no_calendar_app_installed">Não possui uma aplicação para editar eventos do calendário.</string>
   <string name="no_methods">Não existem métodos de pagamento.</string>
   <string name="no_parties">Sem partes.</string>
-  <string name="no_plans">Não existem planos.</string>
   <string name="no_templates">Não existem modelos.</string>
   <string name="no_title_given">Não introduziu qualquer título.</string>
   <plurals name="not_deletable_mapped_transactions">

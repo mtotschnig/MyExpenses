@@ -190,7 +190,6 @@
   <string name="no_filemanager_installed">Není nainstalován žádný souborový manažer</string>
   <string name="no_mapped_transactions">Během tohoto období nebyly namapovány žádné transakce do kategorií.</string>
   <string name="no_parties">Žádné oddíly.</string>
-  <string name="no_plans">Žádné plány.</string>
   <string name="no_split_parts">Žádné rozdělené oddíly.</string>
   <string name="no_templates">Nebyly nalezeny žádné šablony.</string>
   <string name="no_title_given">Nezadali jste název.</string>

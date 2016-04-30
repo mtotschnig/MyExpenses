@@ -87,7 +87,6 @@
   <string name="dialog_title_template_title">កំណត់ចំណងជើង</string>
   <string name="dialog_title_warning_delete_account">លុបចោលគណនី ?</string>
   <string name="dialog_title_warning_delete_main_category">តើលុប​ចំណាត់​ថ្នាក់​ចម្បងទេ?</string>
-  <string name="dialog_title_warning_delete_plan">លុប​គម្រោងនេះទេ?</string>
   <string name="dialog_title_warning_delete_template">លុប​ទិន្នន័យ​គំរូ?</string>
   <string name="dialog_title_warning_delete_transaction">លុប​ប្រតិបត្តិ​ការ?</string>
   <string name="dialog_title_welcome">សូមស្វាគមន៍!</string>
@@ -204,7 +203,6 @@
   <string name="no_mapped_transactions">គ្មាន​ប្រតិបត្តិ​ការ​ណាមួយ​ត្រូវបាន​ភ្ជាប់ទៅ​ចំណាត់ថ្នាក់ណា​ក្នុង​រយៈពេលនេះទេ</string>
   <string name="no_methods">គ្មានវិធីសាស្ត្រទូទាត់​ប្រាក់</string>
   <string name="no_parties">គ្មានទិន្នន័យភាគីទេ។</string>
-  <string name="no_plans">គ្មានគម្រោង។</string>
   <string name="no_split_parts">គ្មាន​ផ្នែក​ណា​​ត្រូវបាន​​ញែកទេ។</string>
   <string name="no_templates">គ្មានពុម្ពគំរូទេ។</string>
   <string name="no_title_given">អ្នកមិនបានបញ្ចូលចំណងជើងណាមួយឡើយ។</string>
@@ -363,9 +361,6 @@
   <string name="unsplit_amount_greater_than_zero">នៅ​មាន​ចំនួន​​ទឹក​ប្រាក់​​ខ្លះ​​ស្ថិត​នៅ​ភាព​​មិនបំបែក</string>
   <string name="warning_backup">មូលដ្ឋានទិន្នន័យនិងចំណង់ចំណូលចិត្តនឹងត្រូវបានរក្សាទុកទៅ sdកាត ។ (%1$s) តើអ្នកចង់បន្តឬ?</string>
   <string name="warning_delete_account">គណនី \"%1$s\" នឹង​ត្រូវ​លុប​ចេញ​ជាមួយនឹង​ប្រតិបត្តិការ​ទាំងអស់ផងដែរ។</string>
-  <plurals name="warning_delete_plan">
-    <item quantity="other">%1$d គម្រោងនេះ​នឹង​ត្រូវ​លុបចេញ។</item>
-  </plurals>
   <plurals name="warning_delete_template">
     <item quantity="other">%1$d ធាតុ​នេះ​នឹង​ត្រូវ​លុបចេញ។</item>
   </plurals>

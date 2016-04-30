@@ -122,7 +122,6 @@
   <string name="dialog_title_template_title">Задайте заглавие</string>
   <string name="dialog_title_warning_delete_account">Да изтрия ли сметката?</string>
   <string name="dialog_title_warning_delete_main_category">Да изтрия ли основната категория?</string>
-  <string name="dialog_title_warning_delete_plan">Да изтрия ли плана?</string>
   <string name="dialog_title_warning_delete_template">Да изтрия ли шаблона?</string>
   <string name="dialog_title_warning_delete_transaction">Да изтрия ли транзакцията?</string>
   <string name="dialog_title_welcome">Добре дошли!</string>
@@ -248,7 +247,6 @@
   <string name="no_mapped_transactions">За този период няма транзакции, свързани с категорията.</string>
   <string name="no_methods">Няма начини на плащане.</string>
   <string name="no_parties">Няма страни.</string>
-  <string name="no_plans">Няма планове.</string>
   <string name="no_split_parts">Няма разпределени части.</string>
   <string name="no_templates">Няма шаблони.</string>
   <string name="no_title_given">Не сте въвели име.</string>
@@ -445,10 +443,6 @@
     <item quantity="one">Избраната категория има подкатегории, които също ще бъдат изтрити.</item>
     <item quantity="other">%1$d избрани категории имат подкатегори, които също ще бъдат изтрити.</item>
   </plurals>
-  <plurals name="warning_delete_plan">
-    <item quantity="one">Избрания план ще бъде изтрит.</item>
-    <item quantity="other">%1$d избрани планове ще бъдат изтрити.</item>
-  </plurals>
   <plurals name="warning_delete_template">
     <item quantity="one">Избрания шаблон ще бъде изтрит.</item>
     <item quantity="other">Избраните %1$d шаблона ще бъдат изтрити.</item>
@@ -581,7 +575,7 @@
   <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">След  %d успешни бекъпа, автоматичното запазване ще се деактивира.</string>
   <string name="warning_auto_backup_limit_reached">Достигнат е лимита на успешни безплатни бекъпи.</string>
   <string name="calendar_permission_required"><i>Моите разходи</i> се нуждае от право на достъп до вашия календар за да създаде план за бъдещи и повтарящи се транзакции.</string>
-  <string name="button_request_calendar_access">Предоставен достъп</string>
+  <string name="button_request_calendar_access" tools:ignore="UnusedResources">Предоставен достъп</string>
   <string name="switch_on_text">Включено</string>
   <string name="switch_off_text">Изключено</string>
   <string name="menu_move">Премести</string>
