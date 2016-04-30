@@ -458,6 +458,9 @@ public class ExpenseEdit extends AmountActivity implements
       }
     } else {
       mOperationType = getIntent().getIntExtra(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_TRANSACTION);
+      if (!isValidType(mOperationType)) {
+        mOperationType = MyExpenses.TYPE_TRANSACTION;
+      }
       if (mOperationType == MyExpenses.TYPE_SPLIT && !ContribFeature.SPLIT_TRANSACTION.hasAccess() &&
           ContribFeature.SPLIT_TRANSACTION.usagesLeft() < 1) {
         Toast.makeText(this, ContribFeature.SPLIT_TRANSACTION.buildRequiresString(this),
@@ -550,7 +553,8 @@ public class ExpenseEdit extends AmountActivity implements
       }
       if (mTransaction == null) {
         String errMsg = "Error instantiating transaction for account " + accountId;
-        Utils.reportToAcra(new IllegalStateException(errMsg));
+        Utils.reportToAcra(new IllegalStateException(errMsg),
+            "Extras", getIntent().getExtras().toString());
         Toast.makeText(this, errMsg, Toast.LENGTH_SHORT).show();
         finish();
         return;
@@ -1635,7 +1639,7 @@ public class ExpenseEdit extends AmountActivity implements
         break;
       case R.id.OperationType:
         int newType = ((Integer) mOperationTypeSpinner.getItemAtPosition(position));
-        if (newType != mOperationType) {
+        if (newType != mOperationType && isValidType(newType)) {
           if (newType == MyExpenses.TYPE_TRANSFER && !checkTransferEnabled(getCurrentAccount())) {
             //reset to previous
             resetOperationType();
@@ -1652,6 +1656,11 @@ public class ExpenseEdit extends AmountActivity implements
         configureTransferInput();
         break;
     }
+  }
+
+  private boolean isValidType(int type) {
+    return type == MyExpenses.TYPE_SPLIT || type == MyExpenses.TYPE_TRANSACTION ||
+        type == MyExpenses.TYPE_TRANSFER;
   }
 
   private void updateAccount(Account account) {
