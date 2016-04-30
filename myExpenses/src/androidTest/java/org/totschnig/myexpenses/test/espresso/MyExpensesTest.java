@@ -7,6 +7,7 @@ import android.content.OperationApplicationException;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.NoMatchingViewException;
 import android.support.test.espresso.contrib.DrawerActions;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.espresso.matcher.CursorMatchers;
@@ -124,25 +125,39 @@ public final class MyExpensesTest extends MyExpensesTestBase {
 
   @Test
   public void inActiveItemsOpenDialog() {
-    //only when we send this key event, onPrepareOptionsMenu is called before the test
-    //mInstrumentation.sendKeyDownUpSync(KeyEvent.KEYCODE_MENU);
-    int[] commands = new int[]{
-        R.string.menu_reset,
-        R.string.menu_distribution,
-        R.string.menu_print
-    };
-    int[] messages = new int[]{
-        R.string.dialog_command_disabled_reset_account,
-        R.string.dialog_command_disabled_distribution,
-        R.string.dialog_command_disabled_reset_account
-    };
-    for (int i = 0; i < commands.length; i++) {
+    testInActiveItemHelper(R.id.RESET_COMMAND, R.string.menu_reset,
+        R.string.dialog_command_disabled_reset_account);
+    testInActiveItemHelper(R.id.DISTRIBUTION_COMMAND, R.string.menu_distribution,
+        R.string.dialog_command_disabled_distribution);
+    testInActiveItemHelper(R.id.PRINT_COMMAND, R.string.menu_print,
+        R.string.dialog_command_disabled_reset_account);
+  }
+
+  /**
+   * Call a menu item and verify that a message is shown in dialog
+   * @param menuItemId
+   * @param menuTextResId
+   * @param messageResId
+   */
+  private void testInActiveItemHelper(int menuItemId, int menuTextResId, int messageResId) {
+    testMenuItem(menuItemId, menuTextResId);
+    onView(withText(messageResId)).check(matches(isDisplayed()));
+    onView(allOf(
+        isAssignableFrom(Button.class),
+        withText(is(mActivityRule.getActivity().getString(android.R.string.ok))))).perform(click());
+  }
+
+  /**
+   * Click on a menu item, that might be visible or hidden in overflow menu
+   * @param menuItemId
+   * @param menuTextResId
+   */
+  private void testMenuItem(int menuItemId, int menuTextResId) {
+    try {
+      onView(withId(menuItemId)).perform(click());
+    } catch (NoMatchingViewException e) {
       openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
-      onView(withText(commands[i])).perform(click());
-      onView(withText(messages[i])).check(matches(isDisplayed()));
-      onView(allOf(
-          isAssignableFrom(Button.class),
-          withText(is(mActivityRule.getActivity().getString(android.R.string.ok))))).perform(click());
+      onView(withText(menuTextResId)).perform(click());
     }
   }
 
