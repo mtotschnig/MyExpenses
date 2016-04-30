@@ -24,7 +24,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:contentDescription="@string/menu_manage_plans_tab_plans"
-        app:srcCompat="@drawable/ic_event"
         tools:ignore="MissingPrefix"/>
 
     <View

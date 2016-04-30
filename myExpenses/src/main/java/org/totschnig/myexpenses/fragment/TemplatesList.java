@@ -41,6 +41,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -455,7 +456,8 @@ public class TemplatesList extends SortableListFragment {
             //noinspection SetTextI18n
             c.getString(columnIndexTitle) + " (" + planInfo + ")");
       }
-      convertView.findViewById(R.id.Plan).setVisibility(doesHavePlan ? View.VISIBLE: View.INVISIBLE);
+      ((ImageView) convertView.findViewById(R.id.Plan)).setImageResource(
+          doesHavePlan ? R.drawable.ic_event : R.drawable.ic_menu_template);
       return convertView;
     }
   }
