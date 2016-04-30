@@ -38,12 +38,17 @@ import java.util.List;
 public class ManageTemplates extends ProtectedFragmentActivity implements
     ConfirmationDialogListener {
 
-  public long calledFromCalendarWithId = 0;
+  public static final int NOT_CALLED = -1;
+  private long calledFromCalendarWithId = NOT_CALLED;
 
   private TemplatesList mListFragment;
 
   public enum HelpVariant {
     templates,plans
+  }
+
+  public long getCalledFromCalendarWithId() {
+    return calledFromCalendarWithId;
   }
 
   @Override
@@ -61,7 +66,6 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
     if (uriString != null) {
       List <String> uriPath = Uri.parse(uriString).getPathSegments();
       try {
-        //TODO migrate handling of custom_app_uri in new templates list
         calledFromCalendarWithId = Long.parseLong(uriPath.get(2));
       } catch (Exception e) {
         Utils.reportToAcra(e);
