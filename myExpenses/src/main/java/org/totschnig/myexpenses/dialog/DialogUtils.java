@@ -330,6 +330,7 @@ public class DialogUtils {
     if ((calendarId.equals("-1")) || calendarPath.equals("")) {
       configured.setEnabled(false);
     } else {
+      //noinspection SetTextI18n
       configured.setText(configured.getText() + " (" + calendarPath + ")");
     }
     return restorePlanStrategie;

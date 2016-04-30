@@ -690,6 +690,7 @@ public class ExpenseEdit extends AmountActivity implements
         mTransaction instanceof SplitPartTransfer) {
       findViewById(R.id.DateTimeRow).setVisibility(View.GONE);
     } else {
+      //noinspection SetTextI18n
       ((TextView) findViewById(R.id.DateTimeLabel)).setText(getString(
           R.string.date) + " / " + getString(R.string.time));
       mDateButton.setOnClickListener(new View.OnClickListener() {
@@ -1690,8 +1691,8 @@ public class ExpenseEdit extends AmountActivity implements
     findViewById(R.id.ExchangeRateRow).setVisibility(
         isSame || (mTransaction instanceof Template) ? View.GONE : View.VISIBLE);
     final String symbol2 = transferAccount.currency.getSymbol();
-    ((TextView) findViewById(R.id.TransferAmountLabel)).setText(getString(R.string.amount) + " ("
-        + symbol2 + ")");
+    //noinspection SetTextI18n
+    addCurrencyToLabel((TextView) findViewById(R.id.TransferAmountLabel), symbol2);
     mTransferAmountText.setFractionDigits(Money.getFractionDigits(transferAccount.currency));
     final String symbol1 = currency.getSymbol();
     ((TextView) findViewById(R.id.ExchangeRateLabel_1_1)).setText(String.format("1 %s =", symbol1));
@@ -1708,7 +1709,12 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   private void setAccountLabel(Account account) {
-    mAmountLabel.setText(getString(R.string.amount) + " (" + account.currency.getSymbol() + ")");
+    addCurrencyToLabel(mAmountLabel, account.currency.getSymbol());
+  }
+
+  private void addCurrencyToLabel(TextView label, String symbol) {
+    //noinspection SetTextI18n
+    label.setText(getString(R.string.amount) + " (" + symbol + ")");
   }
 
   private void resetOperationType() {

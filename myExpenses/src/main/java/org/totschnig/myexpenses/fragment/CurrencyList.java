@@ -44,7 +44,8 @@ public class CurrencyList extends ListFragment {
         } catch (IllegalArgumentException e) {
           text = "not supported by your OS";
         }
-        v.setText(v.getText()+ " ("+text+")");
+        //noinspection SetTextI18n
+        v.setText(v.getText() + " (" + text + ")");
         return v;
       }
     };

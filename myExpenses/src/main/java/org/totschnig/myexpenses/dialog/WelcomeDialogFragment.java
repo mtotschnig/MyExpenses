@@ -91,6 +91,7 @@ public class WelcomeDialogFragment extends CommitSafeDialogFragment
     //noinspection InflateParams
     View view = li.inflate(R.layout.welcome_dialog, null);
     mProgress = (ProgressBar) view.findViewById(R.id.progress);
+    //noinspection SetTextI18n
     ((TextView) view.findViewById(R.id.help_intro))
       .setText("- " + TextUtils.join("\n- ", getResources().getStringArray(R.array.help_intro)));
     SwitchCompat themeSwitch = (SwitchCompat) view.findViewById(R.id.TaType);

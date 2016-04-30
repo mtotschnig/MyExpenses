@@ -558,6 +558,7 @@
     <string name="pref_manage_stale_images_summary">Manage pictures left over from deleted transactions</string>
     <string name="menu_select_categories">Select checked categories</string>
     <string name="image_deleted">Picture has been deleted</string>
+    <string name="transaction_deleted">Transaction has been deleted</string>
     <string name="dialog_export_applied_to_filter">Only transactions matched by the current filter will be considered.</string>
     <string name="export_handle_deleted_create_helper">Create helper transaction</string>
     <string name="export_handle_deleted_update_balance">Update opening balance</string>

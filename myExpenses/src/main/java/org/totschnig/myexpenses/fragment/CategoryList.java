@@ -191,6 +191,7 @@ public class CategoryList extends SortableListFragment implements
       mAccount = Account.getInstanceFromDb(id);
       if (mAccount == null) {
         TextView tv = new TextView(ctx);
+        //noinspection SetTextI18n
         tv.setText("Error loading distribution for account " + id);
         return tv;
       }
@@ -1127,9 +1128,11 @@ public class CategoryList extends SortableListFragment implements
   }
 
   private void updateSum(String prefix, TextView tv, long amount) {
-    if (tv != null)
+    if (tv != null) {
+      //noinspection SetTextI18n
       tv.setText(prefix + Utils.formatCurrency(
           new Money(mAccount.currency, amount)));
+    }
   }
 
   private void updateColor() {

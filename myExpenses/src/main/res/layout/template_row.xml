@@ -20,7 +20,7 @@
     android:layout_height="fill_parent"
     android:orientation="horizontal"
     android:paddingBottom="3dp"
-    android:paddingEnd="@dimen/general_padding"
+    android:paddingLeft="@dimen/general_padding"
     android:paddingRight="@dimen/general_padding"
     android:paddingTop="3dp"
     >

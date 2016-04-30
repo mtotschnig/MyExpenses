@@ -452,8 +452,8 @@ public class TemplatesList extends SortableListFragment {
           planInfo = getString(R.string.plan_event_deleted);
         }
         ((TextView) convertView.findViewById(R.id.title)).setText(
-            c.getString(columnIndexTitle)
-                + " (" + planInfo + ")");
+            //noinspection SetTextI18n
+            c.getString(columnIndexTitle) + " (" + planInfo + ")");
       }
       convertView.findViewById(R.id.Plan).setVisibility(doesHavePlan ? View.VISIBLE: View.INVISIBLE);
       return convertView;

@@ -30,6 +30,8 @@
     <View
         android:id="@+id/colorAccount"
         android:layout_width="4dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginLeft="6dp"
         android:layout_height="fill_parent"/>
 
     <RelativeLayout

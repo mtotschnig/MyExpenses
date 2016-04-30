@@ -212,7 +212,8 @@ public class TransactionList extends ContextualActionBarFragment implements
     final MyExpenses ctx = (MyExpenses) getActivity();
     if (mAccount==null) {
       TextView tv = new TextView(ctx);
-      tv.setText("Error loading transaction list for account "+getArguments().getLong(KEY_ACCOUNTID));
+      //noinspection SetTextI18n
+      tv.setText("Error loading transaction list for account " + getArguments().getLong(KEY_ACCOUNTID));
       return  tv;
     }
     mManager = getLoaderManager();
@@ -628,6 +629,8 @@ public class TransactionList extends ContextualActionBarFragment implements
       //holder.text.setText(mAccount.grouping.getDisplayTitle(getActivity(), year, second, mAccount.grouping.equals(Grouping.WEEK)?this_year_of_week_start:this_year, this_week,this_day));
       return convertView;
     }
+
+    @SuppressLint("SetTextI18n")
     private void fillSums(HeaderViewHolder holder, Cursor mGroupingCursor) {
       Long sumExpense = DbUtils.getLongOr0L(mGroupingCursor, columnIndexGroupSumExpense);
       holder.sumExpense.setText("- " + Utils.convAmount(
@@ -653,6 +656,7 @@ public class TransactionList extends ContextualActionBarFragment implements
                 Utils.convAmount(interimBalance, mAccount.currency)));
       }
     }
+
     @Override
     public long getHeaderId(int position) {
       if (mAccount.grouping.equals(Account.Grouping.NONE))

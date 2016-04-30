@@ -174,7 +174,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     if (mTransaction == null) {
       TextView error = (TextView) mLayout.findViewById(R.id.error);
       error.setVisibility(View.VISIBLE);
-      error.setText("Transaction has been deleted");
+      error.setText(R.string.transaction_deleted);
       return;
     }
     boolean doShowPicture = false;
@@ -265,6 +265,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       amountText = formatCurrencyAbs(mTransaction.getAmount());
     }
 
+    //noinspection SetTextI18n
     ((TextView) mLayout.findViewById(R.id.Date)).setText(
         DateFormat.getDateInstance(DateFormat.FULL).format(mTransaction.getDate())
             + " "
