@@ -422,13 +422,13 @@ public class PlanMonthFragment extends CaldroidFragment
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-      LayoutInflater inflater = (LayoutInflater) context
-          .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
       View framelayout;
 
       // For reuse
       if (convertView == null) {
-        framelayout = inflater.inflate(R.layout.plan_calendar_cell, parent, false);
+        //TODO investigate why passing parent to inflate leads to corrupted display
+        //noinspection InflateParams
+        framelayout = localInflater.inflate(R.layout.plan_calendar_cell, null);
       } else {
         framelayout = convertView;
       }
