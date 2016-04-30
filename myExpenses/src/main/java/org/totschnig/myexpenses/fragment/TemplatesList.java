@@ -44,6 +44,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.android.calendar.CalendarContractCompat;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
@@ -53,12 +55,16 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.Utils;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
@@ -76,11 +82,16 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
 
+import com.android.calendar.CalendarContractCompat.Events;
+
 public class TemplatesList extends SortableListFragment {
 
   public static final String CALDROID_DIALOG_FRAGMENT_TAG = "CALDROID_DIALOG_FRAGMENT";
+  private static final int PLANS_CURSOR = 1;
+  public static final String KEY_PLANS_LIST = "plans";
   private ListView mListView;
   private PlanMonthFragment planMonthFragment;
+  private final HashMap<Long, String> mPlanTimeInfo = new HashMap<>();
 
   protected int getMenuResource() {
     return R.menu.templateslist_context;
@@ -128,8 +139,7 @@ public class TemplatesList extends SortableListFragment {
       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (mTemplatesCursor == null || !mTemplatesCursor.moveToPosition(position)) return;
         if (!mTemplatesCursor.isNull(columnIndexPlanId)) {
-          if (ContextCompat.checkSelfPermission(getContext(),
-              Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
+          if (isCalendarPermissionGranted()) {
             planMonthFragment = PlanMonthFragment.newInstance(
                 mTemplatesCursor.getString(columnIndexTitle),
                 id,
@@ -173,6 +183,11 @@ public class TemplatesList extends SortableListFragment {
     });
     registerForContextualActionBar(mListView);
     return v;
+  }
+
+  private boolean isCalendarPermissionGranted() {
+    return ContextCompat.checkSelfPermission(getContext(),
+        Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED;
   }
 
   @Override
@@ -247,6 +262,18 @@ public class TemplatesList extends SortableListFragment {
             null,
             null,
             null);
+      case PLANS_CURSOR:
+        return new CursorLoader(getActivity(),
+            CalendarContractCompat.Events.CONTENT_URI,
+            new String[]{
+                Events._ID,
+                Events.DTSTART,
+                Events.RRULE,
+            },
+            Events._ID + " IN (" +
+                TextUtils.join(",", (ArrayList<Long>) bundle.getSerializable(KEY_PLANS_LIST)) + ")",
+            null,
+            null);
     }
     return null;
   }
@@ -271,13 +298,48 @@ public class TemplatesList extends SortableListFragment {
         }
         mAdapter.swapCursor(mTemplatesCursor);
         invalidateCAB();
+        if (isCalendarPermissionGranted() &&
+            mTemplatesCursor != null && mTemplatesCursor.moveToFirst()) {
+          ArrayList<Long> plans = new ArrayList<>();
+          long planId;
+          Bundle planBundle = new Bundle();
+          while (mTemplatesCursor.isAfterLast() == false) {
+            if ((planId = mTemplatesCursor.getLong(columnIndexPlanId)) != 0L) {
+              plans.add(planId);
+            }
+            mTemplatesCursor.moveToNext();
+          }
+          planBundle.putSerializable(KEY_PLANS_LIST, plans);
+          Utils.requireLoader(mManager, PLANS_CURSOR, planBundle, this);
+        }
         break;
+      case PLANS_CURSOR:
+        mPlanTimeInfo.clear();
+        if (c != null && c.moveToFirst()) {
+          while (!c.isAfterLast()) {
+            mPlanTimeInfo.put(
+                c.getLong(c.getColumnIndex(Events._ID)),
+                Plan.prettyTimeInfo(
+                    getActivity(),
+                    c.getString(c.getColumnIndex(Events.RRULE)),
+                    c.getLong(c.getColumnIndex(Events.DTSTART))));
+            c.moveToNext();
+          }
+          mAdapter.notifyDataSetChanged();
+        }
     }
   }
 
   @Override
   public void onLoaderReset(Loader<Cursor> loader) {
-    mAdapter.swapCursor(null);
+    switch (loader.getId()) {
+      case SORTABLE_CURSOR:
+        mTemplatesCursor = null;
+        mAdapter.swapCursor(null);
+        break;
+      case PLANS_CURSOR:
+        mPlanTimeInfo.clear();
+    }
   }
 
   @Override
@@ -291,10 +353,10 @@ public class TemplatesList extends SortableListFragment {
         getChildFragmentManager().findFragmentByTag(CALDROID_DIALOG_FRAGMENT_TAG));
   }
 
-  public class MyAdapter extends SimpleCursorAdapter {
+  private class MyAdapter extends SimpleCursorAdapter {
     private int colorExpense;
     private int colorIncome;
-    String categorySeparator = " : ",
+    private String categorySeparator = " : ",
         commentSeparator = " / ";
 
     public MyAdapter(Context context, int layout, Cursor c, String[] from,
@@ -309,6 +371,7 @@ public class TemplatesList extends SortableListFragment {
       convertView = super.getView(position, convertView, parent);
       Cursor c = getCursor();
       c.moveToPosition(position);
+      boolean doesHavePlan = !c.isNull(columnIndexPlanId);
       TextView tv1 = (TextView) convertView.findViewById(R.id.amount);
       long amount = c.getLong(columnIndexAmount);
       tv1.setTextColor(amount < 0 ? colorExpense : colorIncome);
@@ -345,9 +408,18 @@ public class TemplatesList extends SortableListFragment {
         catText = TextUtils.concat(catText, commentSeparator, ssb);
       }
       tv2.setText(catText);
-      if (c.isNull(columnIndexPlanId)) {
-        convertView.findViewById(R.id.Plan).setVisibility(View.INVISIBLE);
+
+      if (doesHavePlan) {
+        Long planId = c.getLong(columnIndexPlanId);
+        String planInfo = mPlanTimeInfo.get(planId);
+        if (planInfo == null) {
+          planInfo = getString(R.string.plan_event_deleted);
+        }
+        ((TextView) convertView.findViewById(R.id.title)).setText(
+            c.getString(columnIndexTitle)
+                + " (" + planInfo + ")");
       }
+      convertView.findViewById(R.id.Plan).setVisibility(doesHavePlan ? View.VISIBLE: View.INVISIBLE);
       return convertView;
     }
   }

@@ -153,11 +153,7 @@ public class PlanMonthFragment extends CaldroidFragment
   }
 
   private void requireLoader(int loaderId) {
-    if (mManager.getLoader(loaderId) != null && !mManager.getLoader(loaderId).isReset()) {
-      mManager.restartLoader(loaderId, new Bundle(), this);
-    } else {
-      mManager.initLoader(loaderId, new Bundle(), this);
-    }
+    Utils.requireLoader(mManager, loaderId, null, this);
   }
 
   @Override
