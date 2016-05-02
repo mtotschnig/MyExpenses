@@ -170,11 +170,9 @@ public class TemplatesList extends SortableListFragment {
               id);
         } else if (MyApplication.PrefKey.TEMPLATE_CLICK_HINT_SHOWN.getBoolean(false)) {
           if (MyApplication.PrefKey.TEMPLATE_CLICK_DEFAULT.getString("SAVE").equals("SAVE")) {
-            ((ManageTemplates) getActivity()).dispatchCommand(R.id.CREATE_INSTANCE_SAVE_COMMAND,
-                new Long[]{id});
+            dispatchCreateInstanceSave(new Long[]{id});
           } else {
-            ((ManageTemplates) getActivity()).dispatchCommand(R.id.CREATE_INSTANCE_EDIT_COMMAND,
-                id);
+            dispatchCreateInstanceEdit(id);
           }
         } else {
           Bundle b = new Bundle();
@@ -224,11 +222,7 @@ public class TemplatesList extends SortableListFragment {
         return true;
       case R.id.CREATE_INSTANCE_SAVE_COMMAND:
         finishActionMode();
-        ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
-            TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE,
-            itemIds,
-            null,
-            0);
+        dispatchCreateInstanceSave(itemIds);
         return true;
       case R.id.CREATE_PLAN_INSTANCE_SAVE_COMMAND:
       case R.id.CANCEL_PLAN_INSTANCE_COMMAND:
@@ -247,10 +241,7 @@ public class TemplatesList extends SortableListFragment {
     switch (command) {
       case R.id.CREATE_INSTANCE_EDIT_COMMAND:
         finishActionMode();
-        Intent intent = new Intent(getActivity(), ExpenseEdit.class);
-        intent.putExtra(KEY_TEMPLATEID, menuInfo.id);
-        intent.putExtra(KEY_INSTANCEID, -1L);
-        startActivity(intent);
+        dispatchCreateInstanceEdit(menuInfo.id);
         return true;
       case R.id.EDIT_COMMAND:
         finishActionMode();
@@ -266,6 +257,21 @@ public class TemplatesList extends SortableListFragment {
         return true;
     }
     return super.dispatchCommandSingle(command, info);
+  }
+  
+  public void dispatchCreateInstanceSave(Long[] itemIds) {
+    ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
+        TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE,
+        itemIds,
+        null,
+        0);
+  }
+
+  public void dispatchCreateInstanceEdit(long itemId) {
+    Intent intent = new Intent(getActivity(), ExpenseEdit.class);
+    intent.putExtra(KEY_TEMPLATEID, itemId);
+    intent.putExtra(KEY_INSTANCEID, -1L);
+    startActivity(intent);
   }
 
   @Override

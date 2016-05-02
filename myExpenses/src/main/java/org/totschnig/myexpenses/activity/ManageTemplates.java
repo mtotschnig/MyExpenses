@@ -139,9 +139,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
     switch(command) {
     case R.id.CREATE_INSTANCE_SAVE_COMMAND:
       MyApplication.PrefKey.TEMPLATE_CLICK_DEFAULT.putString("SAVE");
-      dispatchCommand(
-          command,
-          new Long[] {id});
+      mListFragment.dispatchCreateInstanceSave(new Long[] {id});
       break;
     }
   }
@@ -152,9 +150,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
     switch(command) {
     case R.id.CREATE_INSTANCE_EDIT_COMMAND:
       MyApplication.PrefKey.TEMPLATE_CLICK_DEFAULT.putString("EDIT");
-      dispatchCommand(
-          command,
-          id);
+      mListFragment.dispatchCreateInstanceEdit(id);
       break;
     }
   }
