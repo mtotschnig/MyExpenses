@@ -47,6 +47,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.calendar.CalendarContractCompat;
+import com.android.calendar.CalendarContractCompat.Events;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -68,6 +69,9 @@ import org.totschnig.myexpenses.util.Utils;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import icepick.Icepick;
+import icepick.State;
+
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
@@ -83,11 +87,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
-
-import com.android.calendar.CalendarContractCompat.Events;
-
-import icepick.Icepick;
-import icepick.State;
 
 public class TemplatesList extends SortableListFragment {
 
