@@ -37,6 +37,7 @@
         android:label="${appName}"
         android:theme="@style/Launch"
         android:allowBackup="true"
+        android:fullBackupContent="@xml/mybackupscheme"
         android:supportsRtl="true">
         <activity
             android:name=".activity.MyExpenses"
