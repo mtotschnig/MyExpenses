@@ -52,6 +52,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -207,7 +208,7 @@ public class PlanMonthFragment extends CaldroidFragment
                 CalendarContractCompat.Instances._ID,
                 CalendarContractCompat.Instances.BEGIN
             },
-            String.format(CalendarContractCompat.Instances.EVENT_ID + " = %d",
+            String.format(Locale.US, CalendarContractCompat.Instances.EVENT_ID + " = %d",
                 getArguments().getLong(DatabaseConstants.KEY_PLANID)),
             null,
             null);
