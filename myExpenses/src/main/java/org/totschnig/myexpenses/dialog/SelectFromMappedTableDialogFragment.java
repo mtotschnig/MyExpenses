@@ -15,9 +15,7 @@
 
 package org.totschnig.myexpenses.dialog;
 
-import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.database.Cursor;
@@ -26,6 +24,7 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.AlertDialog;
 import android.util.SparseBooleanArray;
 import android.widget.ListView;
 
@@ -79,7 +78,7 @@ public abstract class SelectFromMappedTableDialogFragment extends CommitSafeDial
     if (getActivity()==null || mCursor ==null) {
       return;
     }
-    ListView listView = ((AlertDialog) getDialog()).getListView();
+    ListView listView = ((AlertDialog) dialog).getListView();
     SparseBooleanArray positions = listView.getCheckedItemPositions();
 
     long[] itemIds = listView.getCheckedItemIds();
