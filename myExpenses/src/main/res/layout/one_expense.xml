@@ -295,6 +295,13 @@
                 <LinearLayout
                     android:orientation="horizontal">
 
+                    <Spinner
+                        android:id="@+id/Recurrence"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"/>
+
                     <Button
                         android:id="@+id/Plan"
                         style="@style/SmallButton"
@@ -302,7 +309,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
-                        android:text="@string/menu_create"/>
+                        android:visibility="gone"/>
 
                     <ToggleButton
                         android:id="@+id/togglebutton"

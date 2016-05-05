@@ -88,6 +88,7 @@ public class Template extends Transaction {
    * @param title identifies the template in the template list
    */
   public Template(Transaction t, String title) {
+    super();
     this.title = title;
     this.accountId = t.accountId;
     this.amount = t.amount;
@@ -115,6 +116,7 @@ public class Template extends Transaction {
    * @param c
    */
   public Template(Cursor c) {
+    super();
     this.accountId = c.getLong(c.getColumnIndexOrThrow(KEY_ACCOUNTID));
     Currency currency;
     int currencyColumnIndex = c.getColumnIndex(KEY_CURRENCY);
@@ -168,10 +170,6 @@ public class Template extends Transaction {
     Template t = new Template(account, 0L);
     t.isTransfer = mOperationType == MyExpenses.TYPE_TRANSFER;
     return t;
-  }
-
-  public void setDate(Date date) {
-    //templates have no date
   }
 
   /**

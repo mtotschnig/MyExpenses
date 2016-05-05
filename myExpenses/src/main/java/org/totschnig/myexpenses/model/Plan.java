@@ -97,7 +97,7 @@ public class Plan extends Model implements Serializable {
       Time date = new Time();
       date.set(start);
       eventRecurrence.setStartDate(date);
-      return EventRecurrenceFormatter.getRepeatString(ctx,ctx.getResources(), eventRecurrence,true);
+      return EventRecurrenceFormatter.getRepeatString(ctx,ctx.getResources(), eventRecurrence, true);
     } else {
       return java.text.DateFormat
           .getDateInstance(java.text.DateFormat.FULL)
