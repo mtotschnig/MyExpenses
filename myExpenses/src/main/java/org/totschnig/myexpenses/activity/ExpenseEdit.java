@@ -817,10 +817,9 @@ public class ExpenseEdit extends AmountActivity implements
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     super.onCreateOptionsMenu(menu);
-    if (mTransaction instanceof SplitTransaction || mTransaction instanceof Template) {
-      return true;
-    } else if (!(mTransaction instanceof SplitPartCategory ||
-        mTransaction instanceof SplitPartTransfer)) {
+    if (!(mTransaction instanceof SplitPartCategory || mTransaction instanceof SplitPartTransfer ||
+        mTransaction instanceof Template ||
+        (mTransaction instanceof SplitTransaction && !MyApplication.getInstance().isContribEnabled()))) {
       MenuItemCompat.setShowAsAction(
           menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)
               .setIcon(R.drawable.ic_action_save_new),
@@ -842,14 +841,16 @@ public class ExpenseEdit extends AmountActivity implements
         finish();
         return true;
       case R.id.SAVE_COMMAND:
+      case R.id.SAVE_AND_NEW_COMMAND:
         if (mTransaction instanceof SplitTransaction &&
             !findSplitPartList().splitComplete()) {
           Toast.makeText(this, getString(R.string.unsplit_amount_greater_than_zero), Toast.LENGTH_SHORT).show();
           return true;
         }
-        //handled in super
-        break;
-      case R.id.SAVE_AND_NEW_COMMAND:
+        if (command == R.id.SAVE_COMMAND) {
+          //handled in super
+          break;
+        }
         if (!mIsSaving) {
           mCreateNew = true;
           saveState();
@@ -1680,8 +1681,7 @@ public class ExpenseEdit extends AmountActivity implements
       }
       if (mTransaction instanceof SplitTransaction) {
         final SplitPartList splitPartList = findSplitPartList();
-        splitPartList.updateBalance();
-        splitPartList.updateFabColor(account.color);
+        splitPartList.updateAccount(account);
       }
     }
     configureStatusSpinner();
@@ -1758,7 +1758,6 @@ public class ExpenseEdit extends AmountActivity implements
         //if the unique constraint for template titles is violated
         //TODO: we should probably validate the title earlier
         mTitleText.setError(getString(R.string.template_title_exists, ((Template) mTransaction).title));
-        mCreateNew = false;
       } else {
         String errorMsg;
         switch (sequenceCount.intValue()) {
@@ -1777,6 +1776,7 @@ public class ExpenseEdit extends AmountActivity implements
         }
         Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show();
       }
+      mCreateNew = false;
     } else {
       if (mRecordTemplateWidget) {
         recordUsage(ContribFeature.TEMPLATE_WIDGET);
@@ -1784,21 +1784,28 @@ public class ExpenseEdit extends AmountActivity implements
       }
       if (mCreateNew) {
         mCreateNew = false;
-        mTransaction.setId(0L);
+        if (mOperationType == MyExpenses.TYPE_SPLIT) {
+          mTransaction = SplitTransaction.getNewInstance(mTransaction.accountId);
+          mRowId = mTransaction.getId();
+          findSplitPartList().updateParent(mRowId);
+        } else {
+          mTransaction.setId(0L);
+          mRowId = 0L;
+        }
         //while saving the picture might have been moved from temp to permanent
         mPictureUri = mTransaction.getPictureUri();
-        mRowId = 0L;
         mNewInstance = true;
         mClone = false;
-        if (mTransaction instanceof Template) {
-          setTitle(R.string.menu_create_template);
-          mTitleText.setText("");
-          mPlanId = null;
-          mPlan = null;
-          configurePlan();
-        } else {
-          setTitle(mOperationType == MyExpenses.TYPE_TRANSACTION ?
-              R.string.menu_create_transaction : R.string.menu_create_transfer);
+        switch (mOperationType) {
+          case MyExpenses.TYPE_TRANSACTION:
+            setTitle(R.string.menu_create_transaction);
+            break;
+          case MyExpenses.TYPE_TRANSFER:
+            setTitle(R.string.menu_create_transfer);
+            break;
+          case MyExpenses.TYPE_SPLIT:
+            setTitle(R.string.menu_create_split);
+            break;
         }
         isProcessingLinkedAmountInputs = true;
         mAmountText.setText("");

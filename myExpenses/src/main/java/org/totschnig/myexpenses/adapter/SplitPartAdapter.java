@@ -29,7 +29,12 @@ public final class SplitPartAdapter extends SimpleCursorAdapter {
   private final String categorySeparator = " : ";
   int colorExpense;
   int colorIncome;
-  Currency mCurrency;
+
+  public void setCurrency(Currency currency) {
+    this.currency = currency;
+  }
+
+  Currency currency;
   boolean insideFragment;
 
   public SplitPartAdapter(Context context, int layout, Cursor c,
@@ -44,7 +49,7 @@ public final class SplitPartAdapter extends SimpleCursorAdapter {
     colorExpense = color.data;
     theme.resolveAttribute(R.attr.colorIncome,color, true);
     colorIncome = color.data;
-    mCurrency = currency;
+    this.currency = currency;
   }
 
   /* (non-Javadoc)
@@ -55,7 +60,7 @@ public final class SplitPartAdapter extends SimpleCursorAdapter {
   public void setViewText(TextView v, String text) {
     switch (v.getId()) {
     case R.id.amount:
-      text = Utils.convAmount(text,mCurrency);
+      text = Utils.convAmount(text, currency);
     }
     super.setViewText(v, text);
   }

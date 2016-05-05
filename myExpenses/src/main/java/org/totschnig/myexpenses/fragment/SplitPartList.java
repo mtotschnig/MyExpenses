@@ -26,11 +26,9 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
-import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -51,30 +49,52 @@ import android.widget.TextView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 
+import icepick.Icepick;
+import icepick.State;
+
 //TODO: consider moving to ListFragment
 public class SplitPartList extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
   //
-  SimpleCursorAdapter mAdapter;
+  SplitPartAdapter mAdapter;
   private TextView balanceTv;
   private long transactionSum = 0;
   private Money unsplitAmount;
   private FloatingActionButton fab;
 
+  @State
+  long parentId;
+
+  @State
+  long accountId;
+
   public static SplitPartList newInstance(Long parentId, Long accountId) {
     SplitPartList f = new SplitPartList(); 
     Bundle bundle = new Bundle();
-    bundle.putLong(KEY_PARENTID,parentId);
-    bundle.putLong(KEY_ACCOUNTID,accountId);
+    bundle.putLong(KEY_PARENTID, parentId);
+    bundle.putLong(KEY_ACCOUNTID, accountId);
     f.setArguments(bundle);
     return f;
   }
   @Override
   public void onCreate(Bundle savedInstanceState) {
-      super.onCreate(savedInstanceState);
-      setHasOptionsMenu(true);
-      setRetainInstance(true);
+    super.onCreate(savedInstanceState);
+    setHasOptionsMenu(true);
+    setRetainInstance(true);
+    if (savedInstanceState == null) {
+      parentId = getArguments().getLong(KEY_PARENTID);
+      accountId = getArguments().getLong(KEY_ACCOUNTID);
+    } else {
+      Icepick.restoreInstanceState(this, savedInstanceState);
+    }
   }
-  @Override  
+
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    Icepick.saveInstanceState(this, outState);
+  }
+
+  @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     final FragmentActivity ctx = getActivity();
     View v = inflater.inflate(R.layout.split_parts_list, container, false);
@@ -88,10 +108,9 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
     // and an array of the fields we want to bind those fields to 
     int[] to = new int[]{R.id.category,R.id.amount};
 
-    ctx.getSupportLoaderManager().initLoader(ExpenseEdit.TRANSACTION_CURSOR, getArguments(), this);
-    ctx.getSupportLoaderManager().initLoader(ExpenseEdit.SUM_CURSOR, getArguments(), this);
+    requireLoaders();
     // Now create a simple cursor adapter and set it to display
-    final Account account = Account.getInstanceFromDb(getArguments().getLong(KEY_ACCOUNTID));
+    final Account account = Account.getInstanceFromDb(accountId);
     mAdapter = new SplitPartAdapter(ctx, R.layout.split_part_row, null, from, to, 0,
         account.currency);
     lv.setAdapter(mAdapter);
@@ -139,7 +158,7 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
   }
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-    String[] selectionArgs = new String[] {String.valueOf(args.getLong(KEY_PARENTID))};
+    String[] selectionArgs = new String[] {String.valueOf(parentId)};
     CursorLoader cursorLoader = null;
     Uri uri = TransactionProvider.UNCOMMITTED_URI;
     switch(id) {
@@ -194,5 +213,23 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
   }
   public int getSplitCount() {
     return mAdapter.getCount();
+  }
+
+  public void updateAccount(Account account) {
+    accountId = account.getId();
+    mAdapter.setCurrency(account.currency);
+    mAdapter.notifyDataSetChanged();
+    updateBalance();
+    updateFabColor(account.color);
+  }
+
+  public void updateParent(long parentId) {
+    this.parentId = parentId;
+    requireLoaders();
+  }
+
+  private void requireLoaders() {
+    Utils.requireLoader(getActivity().getSupportLoaderManager(), ExpenseEdit.TRANSACTION_CURSOR, null, this);
+    Utils.requireLoader(getActivity().getSupportLoaderManager(), ExpenseEdit.SUM_CURSOR, null, this);
   }
 }
