@@ -273,6 +273,7 @@ public class Template extends Transaction {
         return null;
       }
     }
+    updateNewPlanEnabled();
     return uri;
   }
 
@@ -292,6 +293,7 @@ public class Template extends Transaction {
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
         null,
         null);
+    updateNewPlanEnabled();
   }
 
   public static int countPerMethod(long methodId) {
@@ -406,5 +408,15 @@ public class Template extends Transaction {
     result = 31 * result + (this.planExecutionAutomatic ? 1 : 0);
     result = 31 * result + (this.uuid != null ? this.uuid.hashCode() : 0);
     return result;
+  }
+
+  public static void updateNewPlanEnabled() {
+    boolean newPlanEnabled = true;
+    if (!ContribFeature.PLANS_UNLIMITED.hasAccess()) {
+      if (count(Template.CONTENT_URI, KEY_PLANID + " is not null", null) >= 3) {
+        newPlanEnabled = false;
+      }
+    }
+    MyApplication.PrefKey.NEW_PLAN_ENABLED.putBoolean(newPlanEnabled);
   }
 }

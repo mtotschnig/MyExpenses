@@ -1555,17 +1555,21 @@ public class ExpenseEdit extends AmountActivity implements
     }
     switch (parent.getId()) {
       case R.id.Recurrence:
-        int visibility;
+        int visibility = View.GONE;
         if (id > 0)  {
-          visibility = View.VISIBLE;
           if (ContextCompat.checkSelfPermission(ExpenseEdit.this,
-              Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+              Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
+            if (MyApplication.PrefKey.NEW_PLAN_ENABLED.getBoolean(true)) {
+              visibility = View.VISIBLE;
+            } else {
+              mReccurenceSpinner.setSelection(0);
+              CommonCommands.showContribDialog(this, ContribFeature.PLANS_UNLIMITED, null);
+            }
+          } else {
             ActivityCompat.requestPermissions(ExpenseEdit.this,
                 new String[]{Manifest.permission.WRITE_CALENDAR},
                 ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR);
           }
-        } else {
-          visibility = View.GONE;
         }
         mPlanButton.setVisibility(visibility);
         mPlanToggleButton.setVisibility(visibility);
@@ -2106,15 +2110,16 @@ public class ExpenseEdit extends AmountActivity implements
     switch (requestCode) {
       case ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR: {
         // If request is cancelled, the result arrays are empty.
-        if (grantResults.length == 0
-            || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+        if (grantResults.length > 0
+            && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+          mPlanButton.setVisibility(View.VISIBLE);
+          mPlanToggleButton.setVisibility(View.VISIBLE);
+        } else {
           if (!ActivityCompat.shouldShowRequestPermissionRationale(
               this, Manifest.permission.WRITE_CALENDAR)) {
             setPlannerRowVisibility(View.GONE);
           } else {
             mReccurenceSpinner.setSelection(0);
-            mPlanButton.setVisibility(View.GONE);
-            mPlanToggleButton.setVisibility(View.GONE);
           }
         }
       }
