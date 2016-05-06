@@ -8,6 +8,7 @@ import java.util.TimeZone;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.MyApplication.PrefKey;
+import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.Utils;
 
 import com.android.calendar.EventRecurrenceFormatter;
@@ -35,7 +36,7 @@ public class Plan extends Model implements Serializable {
   public String description;
   private String customAppUri;
 
-  public enum Reccurrence {
+  public enum Recurrence {
     NONE, ONETIME, DAILY, WEEKLY, MONTHLY, YEARLY;
 
     public String toRrule() {
@@ -51,6 +52,24 @@ public class Plan extends Model implements Serializable {
         default:
           return null;
       }
+    }
+
+    public String getLabel(Context context) {
+      switch (this) {
+        case NONE:
+          return "---";
+        case ONETIME:
+          return context.getString(R.string.plan_recurrence_one_time);
+        case DAILY:
+          return context.getString(R.string.daily_plain);
+        case WEEKLY:
+          return context.getString(R.string.weekly_plain);
+        case MONTHLY:
+          return context.getString(R.string.monthly);
+        case YEARLY:
+          return context.getString(R.string.yearly_plain);
+      }
+      return null;
     }
   }
 

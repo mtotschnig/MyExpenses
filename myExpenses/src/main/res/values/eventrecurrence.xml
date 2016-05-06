@@ -48,10 +48,11 @@
     <string name="monthly_on_day">"Monthly (on day <xliff:g id="day_of_month">%s</xliff:g>)"</string>
     <!-- Example: "Yearly (on April 15)" -->
     <string name="yearly">"Yearly (on <xliff:g id="dates">%s</xliff:g>)"</string>
-    <!-- This is a label for telling the user that this event repeats in
-         custom (non-standard) way from the usual repeat rates (such as daily,
-         weekly, etc.) and that the user cannot change this on the phone
-         (but only on the web). -->         
+
+    <string name="yearly_plain">Yearly</string>
+    <string name="daily_plain">Daily</string>
+    <string name="weekly_plain">Weekly</string>
+
         <!-- The following sets of strings describe a monthly recurring event, which will repeat
          on the Nth WEEKDAY of every month. For example, the 3rd Monday of every month, or
          the last Sunday. These are set up like this to resolve any gender-matching issues

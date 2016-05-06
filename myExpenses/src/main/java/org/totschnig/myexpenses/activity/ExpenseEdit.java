@@ -49,6 +49,7 @@ import java.util.List;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.adapter.RecurrenceAdapter;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.dialog.ContribInfoDialogFragment;
@@ -648,9 +649,8 @@ public class ExpenseEdit extends AmountActivity implements
         //if user has denied access and checked that he does not want to be asked again, we do not
         //bother him with a button that is not working
         setPlannerRowVisibility(View.VISIBLE);
-        ArrayAdapter<Plan.Reccurrence> reccurenceAdapter = new ArrayAdapter<>(this,
-            android.R.layout.simple_spinner_item, Plan.Reccurrence.values());
-        mReccurenceSpinner.setAdapter(reccurenceAdapter);
+        RecurrenceAdapter recurrenceAdapter = new RecurrenceAdapter(this);
+        mReccurenceSpinner.setAdapter(recurrenceAdapter);
         mReccurenceSpinner.setOnItemSelectedListener(this);
         mPlanButton.setOnClickListener(new View.OnClickListener() {
           public void onClick(View view) {
@@ -1187,7 +1187,7 @@ public class ExpenseEdit extends AmountActivity implements
               "",
               ((Template) mTransaction).title,
               description);
-          mPlan.rrule = ((Plan.Reccurrence) mReccurenceSpinner.getSelectedItem()).toRrule();
+          mPlan.rrule = ((Plan.Recurrence) mReccurenceSpinner.getSelectedItem()).toRrule();
           ((Template) mTransaction).setPlan(mPlan);
         }
       } else {
