@@ -46,6 +46,16 @@ public class Template extends Transaction {
   public boolean planExecutionAutomatic = false;
   private String uuid;
 
+  public Plan getPlan() {
+    return plan;
+  }
+
+  public void setPlan(Plan plan) {
+    this.plan = plan;
+  }
+
+  private Plan plan;
+
   public static final Uri CONTENT_URI = TransactionProvider.TEMPLATES_URI;
   public static final String[] PROJECTION_BASE, PROJECTION_EXTENDED;
 
@@ -212,6 +222,9 @@ public class Template extends Transaction {
     c.moveToFirst();
     Template t = new Template(c);
     c.close();
+    if (t.planId != null) {
+      t.plan = Plan.getInstanceFromDb(t.planId);
+    }
     return t;
   }
 
@@ -221,6 +234,14 @@ public class Template extends Transaction {
    * @return the Uri of the template. Upon creation it is returned from the content provider, null if inserting fails on constraints
    */
   public Uri save() {
+    if (plan != null) {
+      //we encode both account and template into the CUSTOM URI
+      plan.setCustomAppUri(buildCustomAppUri(accountId, getId()));
+      Uri planUri = plan.save();
+      if (planUri != null) {
+        planId = ContentUris.parseId(planUri);
+      }
+    }
     Uri uri;
     Long payee_id = (payee != null && !payee.equals("")) ?
         Payee.require(payee) : null;
@@ -250,36 +271,6 @@ public class Template extends Transaction {
         cr().update(uri, initialValues, null, null);
       } catch (SQLiteConstraintException e) {
         return null;
-      }
-    }
-    //add callback to event
-    if (planId != null) {
-      initialValues.clear();
-      if (android.os.Build.VERSION.SDK_INT >= 16) {
-        initialValues.put(
-            //we encode both account and template into the CUSTOM URI
-            Events.CUSTOM_APP_URI,
-            buildCustomAppUri(accountId, getId()));
-        initialValues.put(Events.CUSTOM_APP_PACKAGE, MyApplication.getInstance().getPackageName());
-      }
-      initialValues.put(Events.TITLE, title);
-      initialValues.put(Events.DESCRIPTION, compileDescription(MyApplication.getInstance()));
-      try {
-        cr().update(
-            ContentUris.withAppendedId(Events.CONTENT_URI, planId),
-            initialValues,
-            null,
-            null);
-      } catch (SQLiteException e) {
-        //we have seen a bugy calendar provider implementation on Symphony phone
-        //we try the insert again without the custom app columns
-        initialValues.remove(Events.CUSTOM_APP_URI);
-        initialValues.remove(Events.CUSTOM_APP_PACKAGE);
-        cr().update(
-            ContentUris.withAppendedId(Events.CONTENT_URI, planId),
-            initialValues,
-            null,
-            null);
       }
     }
     return uri;

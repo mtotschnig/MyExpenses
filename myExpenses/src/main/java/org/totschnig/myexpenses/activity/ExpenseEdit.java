@@ -151,7 +151,6 @@ public class ExpenseEdit extends AmountActivity implements
   private static final String SPLIT_PART_LIST = "SPLIT_PART_LIST";
   public static final String KEY_NEW_TEMPLATE = "newTemplate";
   public static final String KEY_CLONE = "clone";
-  private static final String KEY_PLAN = "plan";
   private static final String KEY_CALENDAR = "calendar";
   private static final String PREFKEY_TRANSACTION_LAST_ACCOUNT_FROM_WIDGET = "transactionLastAccountFromWidget";
   private static final String PREFKEY_TRANSFER_LAST_ACCOUNT_FROM_WIDGET = "transferLastAccountFromWidget";
@@ -200,7 +199,6 @@ public class ExpenseEdit extends AmountActivity implements
 
   public static final int METHODS_CURSOR = 2;
   public static final int ACCOUNTS_CURSOR = 3;
-  private static final int EVENT_CURSOR = 4;
   public static final int TRANSACTION_CURSOR = 5;
   public static final int SUM_CURSOR = 6;
   public static final int LAST_EXCHANGE_CURSOR = 7;
@@ -211,7 +209,6 @@ public class ExpenseEdit extends AmountActivity implements
 
   protected boolean mClone = false;
   protected boolean mCreateNew;
-  protected boolean mLaunchPlanView, mLaunchNewPlan;
   protected boolean mIsMainTransactionOrTemplate;
   protected boolean mSavedInstance;
   protected boolean mRecordTemplateWidget;
@@ -360,13 +357,6 @@ public class ExpenseEdit extends AmountActivity implements
       }
 
       mCalendar = (Calendar) savedInstanceState.getSerializable(KEY_CALENDAR);
-      mPlan = (Plan) savedInstanceState.getSerializable(KEY_PLAN);
-      if (mPlan != null &&
-          mPlan.getId() != 0L //ignore the temporary plan we have set up in launchnewPlan
-          ) {
-        mPlanId = mPlan.getId();
-        configurePlan();
-      }
       mLabel = savedInstanceState.getString(KEY_LABEL);
       if ((mCatId = savedInstanceState.getLong(KEY_CATID)) == 0L) {
         mCatId = null;
@@ -569,10 +559,6 @@ public class ExpenseEdit extends AmountActivity implements
     super.onResume();
     mIsResumed = true;
     if (mAccounts != null) setupListeners();
-    if (mLaunchNewPlan) {
-      launchNewPlanDialog();
-      mLaunchNewPlan = false;
-    }
   }
 
   private void setup() {
@@ -1023,12 +1009,6 @@ public class ExpenseEdit extends AmountActivity implements
     }
     if (mTransaction instanceof Template) {
       mTitleText.setText(((Template) mTransaction).title);
-      if (mPlanId != null) {
-        //we need data from the cursor when launching the view intent
-        //hence need to disable button until data is loaded
-        mPlanButton.setEnabled(false);
-        mManager.initLoader(EVENT_CURSOR, null, this);
-      }
       mPlanToggleButton.setChecked(((Template) mTransaction).planExecutionAutomatic);
     } else {
       mReferenceNumberText.setText(mTransaction.referenceNumber);
@@ -1093,10 +1073,6 @@ public class ExpenseEdit extends AmountActivity implements
 
   protected void saveState() {
     if (syncStateAndValidate()) {
-      //we are not interested in receiving onLoadFinished about
-      //the updated plan, it will cause problems if we are in SAVE_AND_NEW
-      //since we reset the plan to null in that case
-      mManager.destroyLoader(EVENT_CURSOR);
       mIsSaving = true;
       startDbWriteTask(true);
       if (getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, false)) {
@@ -1209,6 +1185,22 @@ public class ExpenseEdit extends AmountActivity implements
       }
       ((Template) mTransaction).title = title;
       ((Template) mTransaction).planId = mPlanId;
+      if (mPlanId == null) {
+        if (mReccurenceSpinner.getSelectedItemPosition() > 0) {
+          String description = ((Template) mTransaction).compileDescription(ExpenseEdit.this);
+          mPlan = new Plan(
+              0L,
+              mTransaction.getDate().getTime(),
+              "",
+              ((Template) mTransaction).title,
+              description);
+          //mPlan.rrule = "FREQ=WEEKLY;WKST=SU;BYDAY=TH";
+          ((Template) mTransaction).setPlan(mPlan);
+        }
+      } else {
+        mPlan.description = ((Template) mTransaction).compileDescription(ExpenseEdit.this);
+        mPlan.title = title;
+      }
     } else {
       mTransaction.referenceNumber = mReferenceNumberText.getText().toString();
     }
@@ -1231,10 +1223,10 @@ public class ExpenseEdit extends AmountActivity implements
       mCategoryButton.setText(mLabel);
       mIsDirty = true;
     }
-    if (requestCode == PREFERENCES_REQUEST && resultCode == RESULT_OK) {
+    //if (requestCode == PREFERENCES_REQUEST && resultCode == RESULT_OK) {
       // returned from setting up calendar
-      launchNewPlanDialog();
-    }
+      //launchNewPlanDialog();
+    //}
     if (requestCode == PICTURE_REQUEST_CODE && resultCode == RESULT_OK) {
       Uri uri;
       String errorMsg;
@@ -1310,16 +1302,14 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   private void configurePlan() {
-    if (mPlan == null) {
-      mPlanButton.setText(R.string.menu_create);
-      mPlanToggleButton.setVisibility(View.GONE);
-    } else {
+    if (mPlan != null) {
       mPlanButton.setText(Plan.prettyTimeInfo(this, mPlan.rrule, mPlan.dtstart));
       if (mTitleText.getText().toString().equals(""))
         mTitleText.setText(mPlan.title);
       mPlanToggleButton.setVisibility(View.VISIBLE);
     }
-    mPlanButton.setEnabled(true);
+    mReccurenceSpinner.getSpinner().setVisibility(View.GONE);
+    mPlanButton.setVisibility(View.VISIBLE);
   }
 
   private void configureStatusSpinner() {
@@ -1352,9 +1342,6 @@ public class ExpenseEdit extends AmountActivity implements
       outState.putLong(KEY_CATID, mCatId);
     }
     outState.putString(KEY_LABEL, mLabel);
-    if (mPlan != null) {
-      outState.putSerializable(KEY_PLAN, mPlan);
-    }
     if (mPictureUri != null) {
       outState.putParcelable(KEY_PICTURE_URI, mPictureUri);
     }
@@ -1463,10 +1450,8 @@ public class ExpenseEdit extends AmountActivity implements
               createNewButton,
               MessageDialogFragment.Button.noButton())
               .show(getSupportFragmentManager(), "CALENDAR_SETUP_INFO");
-          mPlanButton.setEnabled(true);
         } else if (mPlanId == Plan.LIMIT_EXHAUSTED_ID) {
           mPlanId = null;
-          mPlanButton.setEnabled(true);
           CommonCommands.showContribDialog(ExpenseEdit.this, ContribFeature.PLANS_UNLIMITED, null);
         }
       /*else if (mPlanId == 0L) {
@@ -1491,10 +1476,6 @@ public class ExpenseEdit extends AmountActivity implements
             this,
             success ? R.string.planner_create_calendar_success : R.string.planner_create_calendar_failure,
             Toast.LENGTH_LONG).show();
-        //if we successfully created the calendar, we set up the plan immediately
-        if (success) {
-          launchNewPlanDialog();
-        }
         break;
       case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2:
         if (o != null) {
@@ -1539,9 +1520,9 @@ public class ExpenseEdit extends AmountActivity implements
           mOperationType = MyExpenses.TYPE_SPLIT;
         } else if (mTransaction instanceof Template) {
           mOperationType = ((Template) mTransaction).isTransfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
-          if (mPlanId == null) {
-            mPlanId = ((Template) mTransaction).planId;
-          }
+          mPlanId = ((Template) mTransaction).planId;
+          mPlan = ((Template) mTransaction).getPlan();
+          configurePlan();
         } else {
           mOperationType = mTransaction instanceof Transfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
           if (mPictureUri == null) { // we might have received a picture in onActivityResult before
@@ -1866,18 +1847,6 @@ public class ExpenseEdit extends AmountActivity implements
       case ACCOUNTS_CURSOR:
         return new CursorLoader(this, TransactionProvider.ACCOUNTS_BASE_URI,
             null, null, null, null);
-      case EVENT_CURSOR:
-        return new CursorLoader(
-            this,
-            ContentUris.withAppendedId(Events.CONTENT_URI, mPlanId),
-            new String[]{
-                Events._ID,
-                Events.DTSTART,
-                Events.RRULE,
-                Events.TITLE},
-            null,
-            null,
-            null);
       case LAST_EXCHANGE_CURSOR:
         String[] currencies = args.getStringArray(KEY_CURRENCY);
         return new CursorLoader(this,
@@ -1978,35 +1947,6 @@ public class ExpenseEdit extends AmountActivity implements
         configureStatusSpinner();
         if (mIsResumed) setupListeners();
         break;
-      case EVENT_CURSOR:
-        if (data.moveToFirst()) {
-          long eventId = data.getLong(data.getColumnIndexOrThrow(Events._ID));
-          long dtStart = data.getLong(data.getColumnIndexOrThrow(Events.DTSTART));
-          String rRule = data.getString(data.getColumnIndexOrThrow(Events.RRULE));
-          String title = data.getString(data.getColumnIndexOrThrow(Events.TITLE));
-          if (mPlan == null) {
-            mPlan = new Plan(
-                eventId,
-                dtStart,
-                rRule,
-                title,
-                "" // we do not need the description stored in the event
-            );
-          } else {
-            mPlan.setId(eventId);
-            mPlan.dtstart = dtStart;
-            mPlan.rrule = rRule;
-            mPlan.title = title;
-          }
-          if (mLaunchPlanView) {
-            launchPlanView();
-          }
-        } else {
-          mPlan = null;
-          mPlanId = null;
-        }
-        configurePlan();
-        break;
       case LAST_EXCHANGE_CURSOR:
         if (data.moveToFirst()) {
           final Currency currency1 = getCurrentAccount().currency;
@@ -2045,7 +1985,6 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   private void launchPlanView() {
-    mLaunchPlanView = false;
     //unfortunately ACTION_EDIT does not work see http://code.google.com/p/android/issues/detail?id=39402
     Intent intent = new Intent(Intent.ACTION_VIEW);
     intent.setData(ContentUris.withAppendedId(Events.CONTENT_URI, mPlanId));
@@ -2095,31 +2034,6 @@ public class ExpenseEdit extends AmountActivity implements
   public void contribFeatureNotCalled(ContribFeature feature) {
     if (feature == ContribFeature.SPLIT_TRANSACTION) {
       resetOperationType();
-    }
-  }
-
-  private void launchNewPlanDialog() {
-    launchNewPlanTask();
-  }
-
-  private void launchNewPlanTask() {
-    if (mTransaction != null) { // might be null if called from onActivityResult
-      if (mPlan == null) {
-        String description = ((Template) mTransaction).compileDescription(ExpenseEdit.this);
-        mPlan = new Plan(
-            0L,
-            System.currentTimeMillis(),
-            "",
-            ((Template) mTransaction).title,
-            description);
-        mPlan.rrule = "FREQ=WEEKLY;WKST=SU;BYDAY=TH";
-      }
-      mPlanButton.setEnabled(false);
-      startTaskExecution(
-          TaskExecutionFragment.TASK_NEW_PLAN,
-          new Long[]{0L},
-          mPlan,
-          R.string.progress_dialog_create_plan);
     }
   }
 
@@ -2236,7 +2150,6 @@ public class ExpenseEdit extends AmountActivity implements
         // If request is cancelled, the result arrays are empty.
         if (grantResults.length > 0
             && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-          mLaunchNewPlan = true;
         } else {
           if (!ActivityCompat.shouldShowRequestPermissionRationale(
               this, Manifest.permission.WRITE_CALENDAR)) {
