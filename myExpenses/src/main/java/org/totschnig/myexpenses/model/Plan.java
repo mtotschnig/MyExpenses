@@ -1,7 +1,9 @@
 package org.totschnig.myexpenses.model;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -34,6 +36,25 @@ public class Plan extends Model implements Serializable {
   public String title;
   public String description;
   private String customAppUri;
+
+  public enum Reccurrence {
+    NONE, ONETIME, DAILY, WEEKLY, MONTHLY, YEARLY;
+
+    public String toRrule() {
+      switch (this) {
+        case DAILY:
+          return "FREQ=DAILY";
+        case WEEKLY:
+          return "FREQ=WEEKLY";
+        case MONTHLY:
+          return "FREQ=MONTHLY";
+        case YEARLY:
+          return "FREQ=YEARLY";
+        default:
+          return null;
+      }
+    }
+  }
 
   public Plan(Long id, long dtstart, String rrule, String title, String description) {
     super();
@@ -91,7 +112,7 @@ public class Plan extends Model implements Serializable {
     }
     if (!TextUtils.isEmpty(rrule))
       values.put(Events.RRULE, rrule);
-    //values.put(Events.ALL_DAY,1);
+    values.put(Events.ALL_DAY,1);
     values.put(Events.EVENT_TIMEZONE, TimeZone.getDefault().getID());
     if (getId() == 0) {
       String calendarId = MyApplication.getInstance().checkPlanner();

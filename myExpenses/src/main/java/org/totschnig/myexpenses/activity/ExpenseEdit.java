@@ -627,35 +627,15 @@ public class ExpenseEdit extends AmountActivity implements
         //if user has denied access and checked that he does not want to be asked again, we do not
         //bother him with a button that is not working
         setPlannerRowVisibility(View.VISIBLE);
-        String[] recurrenceTypes = new String[] {
-            "----",
-            "one time",
-            "daily",
-            "weekly",
-            "monthly",
-            "yearly"
-        };
-        ArrayAdapter<String> reccurenceAdapter = new ArrayAdapter<>(this,
-            android.R.layout.simple_spinner_item, recurrenceTypes);
+        ArrayAdapter<Plan.Reccurrence> reccurenceAdapter = new ArrayAdapter<>(this,
+            android.R.layout.simple_spinner_item, Plan.Reccurrence.values());
         mReccurenceSpinner.setAdapter(reccurenceAdapter);
         mReccurenceSpinner.setOnItemSelectedListener(this);
         mPlanButton.setOnClickListener(new View.OnClickListener() {
           public void onClick(View view) {
             if (mPlanId == null) {
               showDialog(DATE_DIALOG_ID);
-             /* if (syncStateAndValidate()) {
-                if (ContextCompat.checkSelfPermission(ExpenseEdit.this,
-                    Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
-                  launchNewPlanDialog();
-                } else {
-                  ActivityCompat.requestPermissions(ExpenseEdit.this,
-                      new String[]{Manifest.permission.WRITE_CALENDAR},
-                      ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR);
-                }
-              }*/
-            }
-            //mPlan could be null, even if mPlanId is not , when EVENT_CURSOR is loading
-            else if (mPlan != null) {
+            } else {
               launchPlanView();
             }
           }
@@ -1008,6 +988,8 @@ public class ExpenseEdit extends AmountActivity implements
     if (!(mTransaction instanceof SplitPartCategory || mTransaction instanceof SplitPartTransfer)) {
       setDateTime();
     }
+    //after setdatetime, so that the plan info can override the date
+    configurePlan();
 
     fillAmount(mTransaction.getAmount().getAmountMajor());
 
@@ -1117,10 +1099,9 @@ public class ExpenseEdit extends AmountActivity implements
 
     mTransaction.comment = mCommentText.getText().toString();
 
-    if (!(mTransaction instanceof Template ||
-        mTransaction instanceof SplitPartCategory ||
-        mTransaction instanceof SplitPartTransfer))
+    if (!(mTransaction instanceof SplitPartCategory || mTransaction instanceof SplitPartTransfer)) {
       mTransaction.setDate(mCalendar.getTime());
+    }
 
     if (mOperationType == MyExpenses.TYPE_TRANSACTION) {
       mTransaction.setCatId(mCatId);
@@ -1186,7 +1167,7 @@ public class ExpenseEdit extends AmountActivity implements
               "",
               ((Template) mTransaction).title,
               description);
-          //mPlan.rrule = "FREQ=WEEKLY;WKST=SU;BYDAY=TH";
+          mPlan.rrule = ((Plan.Reccurrence) mReccurenceSpinner.getSelectedItem()).toRrule();
           ((Template) mTransaction).setPlan(mPlan);
         }
       } else {
@@ -1299,9 +1280,9 @@ public class ExpenseEdit extends AmountActivity implements
       if (mTitleText.getText().toString().equals(""))
         mTitleText.setText(mPlan.title);
       mPlanToggleButton.setVisibility(View.VISIBLE);
+      mReccurenceSpinner.getSpinner().setVisibility(View.GONE);
+      mPlanButton.setVisibility(View.VISIBLE);
     }
-    mReccurenceSpinner.getSpinner().setVisibility(View.GONE);
-    mPlanButton.setVisibility(View.VISIBLE);
   }
 
   private void configureStatusSpinner() {
@@ -1456,7 +1437,6 @@ public class ExpenseEdit extends AmountActivity implements
           mOperationType = ((Template) mTransaction).isTransfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
           mPlanId = ((Template) mTransaction).planId;
           mPlan = ((Template) mTransaction).getPlan();
-          configurePlan();
         } else {
           mOperationType = mTransaction instanceof Transfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
           if (mPictureUri == null) { // we might have received a picture in onActivityResult before
