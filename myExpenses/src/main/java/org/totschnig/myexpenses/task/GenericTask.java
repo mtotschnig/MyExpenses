@@ -270,16 +270,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           resultMsg += MyApplication.getInstance().getResources().getQuantityString(R.plurals.move_category_failure, failureCount, failureCount);
         }
         return new Result(successCount > 0, resultMsg);
-      case TaskExecutionFragment.TASK_NEW_PLAN:
-        if (!ContribFeature.PLANS_UNLIMITED.hasAccess()) {
-          if (Template.count(Template.CONTENT_URI, KEY_PLANID + " is not null", null) >= 3) {
-            return Plan.LIMIT_EXHAUSTED_ID;
-          }
-        }
-        Uri uri = ((Plan) mExtra).save();
-        return uri == null ? Plan.CALENDAR_NOT_SETUP_ID : ContentUris.parseId(uri);
-      case TaskExecutionFragment.TASK_NEW_CALENDAR:
-        return !MyApplication.getInstance().createPlanner(true).equals(MyApplication.INVALID_CALENDAR_ID);
       case TaskExecutionFragment.TASK_CANCEL_PLAN_INSTANCE:
         for (int i = 0; i < ids.length; i++) {
           extraInfo2d = (Long[][]) mExtra;

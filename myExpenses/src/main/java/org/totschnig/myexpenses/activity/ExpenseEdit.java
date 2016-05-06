@@ -858,14 +858,6 @@ public class ExpenseEdit extends AmountActivity implements
       case R.id.CREATE_COMMAND:
         createRow();
         return true;
-      case R.id.CREATE_PLAN_COMMAND:
-        //create calendar
-        startTaskExecution(
-            TaskExecutionFragment.TASK_NEW_CALENDAR,
-            new Long[]{0L},
-            null,
-            R.string.progress_dialog_create_calendar);
-        return true;
       case R.id.INVERT_TRANSFER_COMMAND:
         mType = !mType;
         switchAccountViews();
@@ -1419,64 +1411,6 @@ public class ExpenseEdit extends AmountActivity implements
     super.onPostExecute(taskId, o);
     boolean success;
     switch (taskId) {
-      case TaskExecutionFragment.TASK_NEW_PLAN:
-        mPlanId = (Long) o;
-        //unable to create new plan, inform user
-        if (mPlanId == Plan.CALENDAR_NOT_SETUP_ID) {
-          mPlanId = null;
-          MessageDialogFragment.Button createNewButton;
-          String message;
-          int selectButtonLabel;
-          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            createNewButton =
-                new MessageDialogFragment.Button(
-                    R.string.dialog_setup_planner_button_create_new,
-                    R.id.CREATE_PLAN_COMMAND,
-                    null);
-            message = Utils.concatResStrings(this, " ", R.string.planner_setup_info_jb, R.string.planner_setup_info_create_new_warning);
-            selectButtonLabel = R.string.dialog_setup_planner_button_select_existing;
-          } else {
-            createNewButton = null;
-            message = getString(R.string.planner_setup_info);
-            selectButtonLabel = android.R.string.yes;
-          }
-          MessageDialogFragment.newInstance(
-              R.string.dialog_title_planner_setup_info,
-              message,
-              new MessageDialogFragment.Button(
-                  selectButtonLabel,
-                  R.id.SETTINGS_COMMAND,
-                  MyApplication.PrefKey.PLANNER_CALENDAR_ID.getKey()),
-              createNewButton,
-              MessageDialogFragment.Button.noButton())
-              .show(getSupportFragmentManager(), "CALENDAR_SETUP_INFO");
-        } else if (mPlanId == Plan.LIMIT_EXHAUSTED_ID) {
-          mPlanId = null;
-          CommonCommands.showContribDialog(ExpenseEdit.this, ContribFeature.PLANS_UNLIMITED, null);
-        }
-      /*else if (mPlanId == 0L) {
-        mPlanId = null;
-        Toast.makeText(
-            this,
-            "Unable to create plan. Need WRITE_CALENDAR permission.",
-            Toast.LENGTH_LONG).show();
-      } */
-        else {
-          configurePlan();
-         /* mLaunchPlanView = true;
-          if (mManager.getLoader(EVENT_CURSOR) != null && !mManager.getLoader(EVENT_CURSOR).isReset())
-            mManager.restartLoader(EVENT_CURSOR, null, this);
-          else
-            mManager.initLoader(EVENT_CURSOR, null, this);*/
-        }
-        break;
-      case TaskExecutionFragment.TASK_NEW_CALENDAR:
-        success = (Boolean) o;
-        Toast.makeText(
-            this,
-            success ? R.string.planner_create_calendar_success : R.string.planner_create_calendar_failure,
-            Toast.LENGTH_LONG).show();
-        break;
       case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2:
         if (o != null) {
           Transaction t = (Transaction) o;
@@ -1608,7 +1542,18 @@ public class ExpenseEdit extends AmountActivity implements
     }
     switch (parent.getId()) {
       case R.id.Recurrence:
-        int visibility = id > 0 ? View.VISIBLE : View.GONE;
+        int visibility;
+        if (id > 0)  {
+          visibility = View.VISIBLE;
+          if (ContextCompat.checkSelfPermission(ExpenseEdit.this,
+              Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(ExpenseEdit.this,
+                new String[]{Manifest.permission.WRITE_CALENDAR},
+                ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR);
+          }
+        } else {
+          visibility = View.GONE;
+        }
         mPlanButton.setVisibility(visibility);
         mPlanToggleButton.setVisibility(visibility);
         break;
@@ -2148,12 +2093,15 @@ public class ExpenseEdit extends AmountActivity implements
     switch (requestCode) {
       case ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR: {
         // If request is cancelled, the result arrays are empty.
-        if (grantResults.length > 0
-            && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-        } else {
+        if (grantResults.length == 0
+            || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
           if (!ActivityCompat.shouldShowRequestPermissionRationale(
               this, Manifest.permission.WRITE_CALENDAR)) {
             setPlannerRowVisibility(View.GONE);
+          } else {
+            mReccurenceSpinner.setSelection(0);
+            mPlanButton.setVisibility(View.GONE);
+            mPlanToggleButton.setVisibility(View.GONE);
           }
         }
       }
