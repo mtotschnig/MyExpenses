@@ -756,7 +756,6 @@ public class MyApplication extends Application implements
 
     @Override
     public void onChange(boolean selfChange) {
-      super.onChange(selfChange);
       AbstractWidget.updateWidgets(mSelf, mProvider);
     }
   }

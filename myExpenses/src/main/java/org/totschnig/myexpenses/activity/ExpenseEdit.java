@@ -86,17 +86,20 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.NotificationManager;
 import android.app.TimePickerDialog;
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.ContentObserver;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MergeCursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
@@ -179,7 +182,7 @@ public class ExpenseEdit extends AmountActivity implements
   private Account[] mAccounts;
   private Calendar mCalendar = Calendar.getInstance();
   private DateFormat mDateFormat, mTimeFormat;
-  private Long mCatId = null, mPlanId = null, mMethodId = null,
+  private Long mCatId = null, mMethodId = null,
       mAccountId = null, mTransferAccountId;
   private String mLabel;
   private Transaction mTransaction;
@@ -214,6 +217,8 @@ public class ExpenseEdit extends AmountActivity implements
   protected boolean mRecordTemplateWidget;
   private boolean mIsResumed;
   boolean isProcessingLinkedAmountInputs = false;
+  private ContentObserver pObserver;
+  private boolean mPlanUpdateNeeded;
 
   public enum HelpVariant {
     transaction, transfer, split, templateCategory, templateTransfer, splitPartCategory, splitPartTransfer
@@ -559,6 +564,22 @@ public class ExpenseEdit extends AmountActivity implements
     super.onResume();
     mIsResumed = true;
     if (mAccounts != null) setupListeners();
+    if (mPlanUpdateNeeded) {
+      refreshPlanData();
+    }
+  }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    if (pObserver != null) {
+      try {
+        ContentResolver cr = getContentResolver();
+        cr.unregisterContentObserver(pObserver);
+      } catch (IllegalStateException ise) {
+        // Do Nothing.  Observer has already been unregistered.
+      }
+    }
   }
 
   private void setup() {
@@ -633,7 +654,7 @@ public class ExpenseEdit extends AmountActivity implements
         mReccurenceSpinner.setOnItemSelectedListener(this);
         mPlanButton.setOnClickListener(new View.OnClickListener() {
           public void onClick(View view) {
-            if (mPlanId == null) {
+            if (mPlan == null) {
               showDialog(DATE_DIALOG_ID);
             } else {
               launchPlanView();
@@ -1157,8 +1178,7 @@ public class ExpenseEdit extends AmountActivity implements
         validP = false;
       }
       ((Template) mTransaction).title = title;
-      ((Template) mTransaction).planId = mPlanId;
-      if (mPlanId == null) {
+      if (mPlan == null) {
         if (mReccurenceSpinner.getSelectedItemPosition() > 0) {
           String description = ((Template) mTransaction).compileDescription(ExpenseEdit.this);
           mPlan = new Plan(
@@ -1173,6 +1193,7 @@ public class ExpenseEdit extends AmountActivity implements
       } else {
         mPlan.description = ((Template) mTransaction).compileDescription(ExpenseEdit.this);
         mPlan.title = title;
+        ((Template) mTransaction).setPlan(mPlan);
       }
     } else {
       mTransaction.referenceNumber = mReferenceNumberText.getText().toString();
@@ -1196,10 +1217,6 @@ public class ExpenseEdit extends AmountActivity implements
       mCategoryButton.setText(mLabel);
       mIsDirty = true;
     }
-    //if (requestCode == PREFERENCES_REQUEST && resultCode == RESULT_OK) {
-      // returned from setting up calendar
-      //launchNewPlanDialog();
-    //}
     if (requestCode == PICTURE_REQUEST_CODE && resultCode == RESULT_OK) {
       Uri uri;
       String errorMsg;
@@ -1245,18 +1262,6 @@ public class ExpenseEdit extends AmountActivity implements
   protected void cleanup() {
     if (mTransaction instanceof SplitTransaction) {
       ((SplitTransaction) mTransaction).cleanupCanceledEdit();
-    } else if (mTransaction instanceof Template) {
-      deleteUnusedPlan();
-    }
-  }
-
-  /**
-   * when we have created a new plan without saving the template, we delete the plan
-   */
-  private void deleteUnusedPlan() {
-    if (mPlanId != null && !mPlanId.equals(((Template) mTransaction).planId)) {
-      Log.i(MyApplication.TAG, "deleting unused plan " + mPlanId);
-      Plan.delete(mPlanId);
     }
   }
 
@@ -1282,7 +1287,32 @@ public class ExpenseEdit extends AmountActivity implements
       mPlanToggleButton.setVisibility(View.VISIBLE);
       mReccurenceSpinner.getSpinner().setVisibility(View.GONE);
       mPlanButton.setVisibility(View.VISIBLE);
+      pObserver = new PlanObserver();
+      getContentResolver().registerContentObserver(
+          ContentUris.withAppendedId(Events.CONTENT_URI, mPlan.getId()),
+          false, pObserver);
     }
+  }
+
+  private class PlanObserver extends ContentObserver {
+    public PlanObserver() {
+      super(new Handler());
+    }
+
+    @Override
+    public void onChange(boolean selfChange) {
+      if (mIsResumed) {
+        refreshPlanData();
+      }
+      else {
+        mPlanUpdateNeeded = true;
+      }
+    }
+  }
+
+  private void refreshPlanData() {
+    startTaskExecution(TaskExecutionFragment.TASK_INSTANTIATE_PLAN,
+        new Long[]{mPlan.getId()}, null, 0);
   }
 
   private void configureStatusSpinner() {
@@ -1435,7 +1465,6 @@ public class ExpenseEdit extends AmountActivity implements
           mOperationType = MyExpenses.TYPE_SPLIT;
         } else if (mTransaction instanceof Template) {
           mOperationType = ((Template) mTransaction).isTransfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
-          mPlanId = ((Template) mTransaction).planId;
           mPlan = ((Template) mTransaction).getPlan();
         } else {
           mOperationType = mTransaction instanceof Transfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
@@ -1491,6 +1520,10 @@ public class ExpenseEdit extends AmountActivity implements
               getString(R.string.warning_cannot_move_split_transaction, account.label),
               Toast.LENGTH_LONG).show();
         }
+        break;
+      case TaskExecutionFragment.TASK_INSTANTIATE_PLAN:
+        mPlan = ((Plan) o);
+        configurePlan();
         break;
     }
   }
@@ -1910,14 +1943,13 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   private void launchPlanView() {
-    //unfortunately ACTION_EDIT does not work see http://code.google.com/p/android/issues/detail?id=39402
     Intent intent = new Intent(Intent.ACTION_VIEW);
-    intent.setData(ContentUris.withAppendedId(Events.CONTENT_URI, mPlanId));
+    intent.setData(ContentUris.withAppendedId(Events.CONTENT_URI, mPlan.getId()));
     //ACTION_VIEW expects to get a range http://code.google.com/p/android/issues/detail?id=23852
     intent.putExtra(CalendarContractCompat.EXTRA_EVENT_BEGIN_TIME, mPlan.dtstart);
     intent.putExtra(CalendarContractCompat.EXTRA_EVENT_END_TIME, mPlan.dtstart);
     if (Utils.isIntentAvailable(this, intent)) {
-      startActivityForResult(intent, EDIT_EVENT_REQUEST);
+      startActivity(intent);
     } else {
       Toast.makeText(this, R.string.no_calendar_app_installed, Toast.LENGTH_SHORT).show();
     }
@@ -1999,6 +2031,7 @@ public class ExpenseEdit extends AmountActivity implements
   protected void onPause() {
     //try to prevent cursor leak
     mPayeeAdapter.changeCursor(null);
+    mIsResumed = false;
     super.onPause();
   }
 

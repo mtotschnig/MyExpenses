@@ -69,6 +69,7 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_MOVE = 12;
   public static final int TASK_NEW_FROM_TEMPLATE = 13;
   public static final int TASK_DELETE_CATEGORY = 14;
+  public static final int TASK_INSTANTIATE_PLAN = 15;
   public static final int TASK_CANCEL_PLAN_INSTANCE = 17;
   public static final int TASK_RESET_PLAN_INSTANCE = 18;
   public static final int TASK_GRISBI_IMPORT = 19;

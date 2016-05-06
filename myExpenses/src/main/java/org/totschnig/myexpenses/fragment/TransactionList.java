@@ -197,13 +197,13 @@ public class TransactionList extends ContextualActionBarFragment implements
   public void onDestroy() {
     super.onDestroy();
     MyApplication.getInstance().getSettings().unregisterOnSharedPreferenceChangeListener(this);
-    if (aObserver==null)
-      return;
-    try {
-      ContentResolver cr = getActivity().getContentResolver();
-      cr.unregisterContentObserver(aObserver);
-    } catch (IllegalStateException ise) {
+    if (aObserver != null) {
+      try {
+        ContentResolver cr = getActivity().getContentResolver();
+        cr.unregisterContentObserver(aObserver);
+      } catch (IllegalStateException ise) {
         // Do Nothing.  Observer has already been unregistered.
+      }
     }
   }
 
@@ -523,7 +523,6 @@ public class TransactionList extends ContextualActionBarFragment implements
        super(handler);
     }
     public void onChange(boolean selfChange) {
-      super.onChange(selfChange);
       if (getActivity()==null||getActivity().isFinishing()) {
         return;
       }
