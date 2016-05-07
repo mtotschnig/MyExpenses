@@ -59,7 +59,7 @@ public class Plan extends Model implements Serializable {
         case NONE:
           return "---";
         case ONETIME:
-          return context.getString(R.string.plan_recurrence_one_time);
+          return context.getString(R.string.does_not_repeat);
         case DAILY:
           return context.getString(R.string.daily_plain);
         case WEEKLY:

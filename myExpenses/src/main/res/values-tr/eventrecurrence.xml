@@ -14,6 +14,7 @@
      limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="does_not_repeat" msgid="1877681921029738999">"Bir kerelik etkinlik"</string>
     <string name="endByDate" msgid="7654221304929538201">"; <xliff:g id="DATE">%s</xliff:g> tarihine kadar"</string>
   <plurals name="endByCount">
     <item quantity="one" msgid="3727754565990691816">"; bir kerelik"</item>
@@ -31,6 +32,10 @@
     <string name="monthly" msgid="4587116285383048586">"Aylık"</string>
     <string name="monthly_on_day" msgid="5370155265278821156">"Ayda bir (<xliff:g id="DAY_OF_MONTH">%s</xliff:g>. günde)"</string>
     <string name="yearly" msgid="8576208380302949002">"Yılda bir (<xliff:g id="DATES">%s</xliff:g> tarihinde)"</string>
+  <string name="yearly_plain">Yılda bir</string>
+  <string name="daily_plain">Günlük</string>
+  <string name="weekly_plain">Haftalık</string>
+
 	  <string-array name="repeat_by_nth_sun">
     <item msgid="143841313172233420">"her ayın ilk Pazar günü"</item>
     <item msgid="2557379346106451363">"her ayın ikinci Pazar günü"</item>

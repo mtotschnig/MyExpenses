@@ -14,6 +14,7 @@
      limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="does_not_repeat" msgid="1877681921029738999">"Einmaliger Termin"</string>
     <string name="endByDate" msgid="7654221304929538201">", bis <xliff:g id="DATE">%s</xliff:g>"</string>
   <plurals name="endByCount">
     <item quantity="one" msgid="3727754565990691816">", ein Mal"</item>
@@ -31,7 +32,11 @@
     <string name="monthly" msgid="4587116285383048586">"Monatlich"</string>
     <string name="monthly_on_day" msgid="5370155265278821156">"Monatlich (am <xliff:g id="DAY_OF_MONTH">%s</xliff:g>.)"</string>
     <string name="yearly" msgid="8576208380302949002">"Jährlich (am <xliff:g id="DATES">%s</xliff:g>)"</string>
-	  <string-array name="repeat_by_nth_sun">
+  <string name="yearly_plain" msgid="3652692085322162449">"Jährlich"</string>
+  <string name="daily_plain">Täglich</string>
+  <string name="weekly_plain">Wöchentlich</string>
+
+  <string-array name="repeat_by_nth_sun">
     <item msgid="143841313172233420">"an jedem ersten Sonntag"</item>
     <item msgid="2557379346106451363">"an jedem zweiten Sonntag"</item>
     <item msgid="7622144489915654132">"an jedem dritten Sonntag"</item>

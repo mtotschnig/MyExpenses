@@ -15,6 +15,7 @@
      android-source/packages/apps/Calendar/res/values
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="does_not_repeat">One-time event</string>
     <!-- Part of a description of an repeating event. This part states the date when a repeating
          event ends. The part before the semi-colon describes how it repeats.
          e.g. Every 2 weeks; until 1/1/2030 [CHAR LIMIT=21] -->

@@ -16,6 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="does_not_repeat" msgid="1877681921029738999">"Еднократно събитие"</string>
     <string name="endByDate" msgid="7654221304929538201">"– до <xliff:g id="DATE">%s</xliff:g>"</string>
   <plurals name="endByCount">
     <item quantity="one" msgid="3727754565990691816">"– по един път"</item>
@@ -33,6 +34,9 @@
     <string name="monthly" msgid="4587116285383048586">"Всеки месец"</string>
     <string name="monthly_on_day" msgid="5370155265278821156">"Всеки месец (на <xliff:g id="DAY_OF_MONTH">%s</xliff:g>)"</string>
     <string name="yearly" msgid="8576208380302949002">"Всяка година (на <xliff:g id="DATES">%s</xliff:g>)"</string>
+    <string name="yearly_plain" msgid="3652692085322162449">"Всяка година"</string>
+    <string name="daily_plain">"Ежедневно"</string>
+    <string name="weekly_plain">"Ежеседмично"</string>
   <string-array name="repeat_by_nth_sun">
     <item msgid="143841313172233420">"всяка първа неделя"</item>
     <item msgid="2557379346106451363">"всяка втора неделя"</item>

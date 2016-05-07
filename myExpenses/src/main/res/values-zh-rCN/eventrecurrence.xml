@@ -16,6 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="does_not_repeat" msgid="1877681921029738999">"一次性活动"</string>
   <string name="endByDate" msgid="7654221304929538201">; 直到 <xliff:g id="DATE">%s</xliff:g></string>
   <plurals name="endByCount">
     <item quantity="one" msgid="3727754565990691816">"；1 次"</item>
@@ -33,6 +34,10 @@
   <string name="monthly" msgid="4587116285383048586">"每月"</string>
   <string name="monthly_on_day" msgid="5370155265278821156">"每月 (<xliff:g id="DAY_OF_MONTH">%s</xliff:g> 日)"</string>
   <string name="yearly" msgid="8576208380302949002">"每年 (<xliff:g id="DATES">%s</xliff:g>)"</string>
+  <string name="yearly_plain">每年</string>
+  <string name="daily_plain">每天</string>
+  <string name="weekly_plain">每周</string>
+
   <string-array name="repeat_by_nth_sun">
     <item msgid="143841313172233420">"每月第一个周日"</item>
     <item msgid="2557379346106451363">"每月第二个周日"</item>

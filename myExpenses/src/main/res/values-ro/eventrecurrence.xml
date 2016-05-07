@@ -16,6 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="does_not_repeat" msgid="1877681921029738999">"Eveniment unic"</string>
     <string name="endByDate" msgid="7654221304929538201">"; până la <xliff:g id="DATE">%s</xliff:g>"</string>
   <plurals name="endByCount">
     <item quantity="one" msgid="3727754565990691816">"; o dată"</item>
@@ -33,6 +34,10 @@
     <string name="monthly" msgid="4587116285383048586">"Lunar"</string>
     <string name="monthly_on_day" msgid="5370155265278821156">"Lunar (în zile de <xliff:g id="DAY_OF_MONTH">%s</xliff:g>)"</string>
     <string name="yearly" msgid="8576208380302949002">"Anual (pe <xliff:g id="DATES">%s</xliff:g>)"</string>
+  <string name="yearly_plain">Anual</string>
+  <string name="daily_plain">Zilnic</string>
+  <string name="weekly_plain">Săptămânal</string>
+
   <string-array name="repeat_by_nth_sun">
     <item msgid="143841313172233420">"în prima duminică din lună"</item>
     <item msgid="2557379346106451363">"în a doua duminică din lună"</item>
