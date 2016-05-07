@@ -57,7 +57,7 @@ public class Plan extends Model implements Serializable {
     public String getLabel(Context context) {
       switch (this) {
         case NONE:
-          return "---";
+          return "- - - -";
         case ONETIME:
           return context.getString(R.string.does_not_repeat);
         case DAILY:

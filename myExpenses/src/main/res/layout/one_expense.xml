@@ -71,7 +71,7 @@
                     android:layout_marginRight="12dp"
                     android:layout_marginEnd="12dp"
                     android:id="@+id/Account"
-                    android:layout_gravity="center_vertical"/>
+                    android:layout_gravity="center_vertical|start"/>
             </TableRow>
 
             <TableRow
@@ -141,7 +141,7 @@
                     android:layout_marginRight="12dp"
                     android:layout_marginEnd="12dp"
                     android:id="@+id/TransferAccount"
-                    android:layout_gravity="center_vertical"/>
+                    android:layout_gravity="center_vertical|start"/>
             </TableRow>
 
             <TableRow android:id="@+id/DateTimeRow">
@@ -262,10 +262,10 @@
 
                     <Spinner
                         android:id="@+id/Method"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
+                        android:layout_gravity="center_vertical|start"
+                        android:textAlignment="viewStart"
                         android:prompt="@string/method"/>
 
                     <EditText
@@ -276,7 +276,7 @@
                         android:layout_weight="1"
                         android:hint="@string/reference_number"
                         android:singleLine="true"
-                        android:visibility="invisible"
+                        android:visibility="gone"
                         android:inputType="text"
                         tools:ignore="TextFields"/>
                 </LinearLayout>
@@ -292,36 +292,7 @@
                     style="@style/form_label.compat"
                     android:text="@string/plan"/>
 
-                <LinearLayout
-                    android:orientation="horizontal">
-
-                    <Spinner
-                        android:id="@+id/Recurrence"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"/>
-
-                    <Button
-                        android:id="@+id/Plan"
-                        style="@style/SmallButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:visibility="gone"/>
-
-                    <ToggleButton
-                        android:id="@+id/togglebutton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:onClick="onToggleClicked"
-                        android:textOff="@string/plan_manual"
-                        android:textOn="@string/plan_automatic"
-                        android:visibility="gone"/>
-                </LinearLayout>
+                <include layout="@layout/recurrence_row"/>
             </TableRow>
         </TableLayout>
     </ScrollView>
