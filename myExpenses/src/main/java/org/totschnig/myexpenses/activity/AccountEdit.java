@@ -270,7 +270,7 @@ public class AccountEdit extends AmountActivity implements
   @Override
   public void onItemSelected(AdapterView<?> parent, View view, int position,
       long id) {
-    mIsDirty = true;
+    setDirty(true);
     switch(parent.getId()) {
       case R.id.Color:
         if (mColors.get(position) != 0) mAccount.color = mColors.get(position);

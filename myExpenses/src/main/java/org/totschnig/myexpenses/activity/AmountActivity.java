@@ -73,7 +73,7 @@ public abstract class AmountActivity extends EditActivity {
   }
   protected void onTypeChanged(boolean isChecked) {
     mType = isChecked;
-    mIsDirty = true;
+    setDirty(true);
     configureType();
   }
 

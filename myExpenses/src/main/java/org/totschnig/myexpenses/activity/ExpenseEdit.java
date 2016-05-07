@@ -879,7 +879,7 @@ public class ExpenseEdit extends AmountActivity implements
               mCalendar.get(Calendar.DAY_OF_MONTH) != dayOfMonth) {
             mCalendar.set(year, monthOfYear, dayOfMonth);
             setDate();
-            mIsDirty = true;
+            setDirty(true);
           }
         }
       };
@@ -896,7 +896,7 @@ public class ExpenseEdit extends AmountActivity implements
             mCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
             mCalendar.set(Calendar.MINUTE, minute);
             setTime();
-            mIsDirty = true;
+            setDirty(true);
           }
         }
       };
@@ -1164,7 +1164,7 @@ public class ExpenseEdit extends AmountActivity implements
       mCatId = intent.getLongExtra("cat_id", 0);
       mLabel = intent.getStringExtra("label");
       mCategoryButton.setText(mLabel);
-      mIsDirty = true;
+      setDirty(true);
     }
     if (requestCode == PICTURE_REQUEST_CODE && resultCode == RESULT_OK) {
       Uri uri;
@@ -1185,7 +1185,7 @@ public class ExpenseEdit extends AmountActivity implements
         } else {
           mPictureUri = uri;
           setPicture();
-          mIsDirty = true;
+          setDirty(true);
           return;
         }
       } else {
@@ -1501,7 +1501,7 @@ public class ExpenseEdit extends AmountActivity implements
   public void onItemSelected(AdapterView<?> parent, View view, int position,
                              long id) {
     if (parent.getId() != R.id.OperationType) {
-      mIsDirty = true;
+      setDirty(true);
     }
     switch (parent.getId()) {
       case R.id.Recurrence:
@@ -1533,7 +1533,7 @@ public class ExpenseEdit extends AmountActivity implements
                 View.VISIBLE : View.INVISIBLE);
         } else {
           mTransaction.methodId = null;
-          mReferenceNumberText.setVisibility(View.INVISIBLE);
+          mReferenceNumberText.setVisibility(View.GONE);
         }
         break;
       case R.id.Account:

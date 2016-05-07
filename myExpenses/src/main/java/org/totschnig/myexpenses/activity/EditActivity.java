@@ -16,7 +16,6 @@
 package org.totschnig.myexpenses.activity;
 
 import android.content.res.TypedArray;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -26,21 +25,19 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
-import org.totschnig.myexpenses.util.Utils;
 
 public abstract class EditActivity extends ProtectedFragmentActivity implements
     DbWriteFragment.TaskCallbacks, ConfirmationDialogFragment.ConfirmationDialogListener, TextWatcher {
 
   private static final String KEY_IS_DIRTY = "isDirty";
-  protected boolean mIsSaving = false, mIsDirty = false;
+  protected boolean mIsSaving = false;
+  private boolean mIsDirty = false;
   protected boolean mNewInstance = true;
   private int primaryColor;
   private int accentColor;
@@ -61,7 +58,7 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements
 
   @Override
   public void afterTextChanged(Editable s) {
-    mIsDirty = true;
+    setDirty(true);
   }
 
   @Override
@@ -76,7 +73,7 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements
     a = obtainStyledAttributes(typedValue.data, new int[] { R.attr.colorAccent });
     accentColor = a.getColor(0, 0);
     if (savedInstanceState != null) {
-      mIsDirty = savedInstanceState.getBoolean(KEY_IS_DIRTY);
+      setDirty(savedInstanceState.getBoolean(KEY_IS_DIRTY));
     }
   }
 
@@ -96,7 +93,7 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    if (mIsDirty && item.getItemId()==android.R.id.home) {
+    if (isDirty() && item.getItemId()==android.R.id.home) {
       showDiscardDialog();
       return true;
     }
@@ -154,7 +151,7 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements
 
   @Override
   public void onBackPressed() {
-    if (mIsDirty) {
+    if (isDirty()) {
       showDiscardDialog();
     } else {
       super.onBackPressed();
@@ -172,6 +169,14 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements
   @Override
   protected void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
-    outState.putBoolean(KEY_IS_DIRTY,mIsDirty);
+    outState.putBoolean(KEY_IS_DIRTY, isDirty());
+  }
+
+  public boolean isDirty() {
+    return mIsDirty;
+  }
+
+  public void setDirty(boolean mIsDirty) {
+    this.mIsDirty = mIsDirty;
   }
 }

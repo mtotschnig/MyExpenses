@@ -19,7 +19,6 @@ import android.os.Bundle;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.GridLayout;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -151,7 +150,7 @@ public class MethodEdit extends EditActivity implements CompoundButton.OnChecked
     mPaymentTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
       @Override
       public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        mIsDirty = true;
+        setDirty(true);
       }
 
       @Override
@@ -164,7 +163,7 @@ public class MethodEdit extends EditActivity implements CompoundButton.OnChecked
 
   @Override
   public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-    mIsDirty = true;
+    setDirty(true);
   }
 
   protected void linkInputsWithLabels() {
