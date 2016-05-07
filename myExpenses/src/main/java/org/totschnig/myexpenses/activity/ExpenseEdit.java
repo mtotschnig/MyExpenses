@@ -736,6 +736,13 @@ public class ExpenseEdit extends AmountActivity implements
       populateFields();
     }
 
+    if (!(mTransaction instanceof SplitPartCategory || mTransaction instanceof SplitPartTransfer)) {
+      setDateTime();
+    }
+    //after setdatetime, so that the plan info can override the date
+    configurePlan();
+
+
     if (mType == INCOME && mOperationType == MyExpenses.TYPE_TRANSFER) {
       switchAccountViews();
     }
@@ -1006,11 +1013,6 @@ public class ExpenseEdit extends AmountActivity implements
     } else {
       mReferenceNumberText.setText(mTransaction.referenceNumber);
     }
-    if (!(mTransaction instanceof SplitPartCategory || mTransaction instanceof SplitPartTransfer)) {
-      setDateTime();
-    }
-    //after setdatetime, so that the plan info can override the date
-    configurePlan();
 
     fillAmount(mTransaction.getAmount().getAmountMajor());
 
@@ -1045,8 +1047,6 @@ public class ExpenseEdit extends AmountActivity implements
    * extracts the fields from the transaction date for setting them on the buttons
    */
   private void setDateTime() {
-    mCalendar.setTime(mTransaction.getDate());
-
     setDate();
     setTime();
   }
@@ -1498,6 +1498,7 @@ public class ExpenseEdit extends AmountActivity implements
           mTransaction.setDate(new Date());
           mClone = true;
         }
+        mCalendar.setTime(mTransaction.getDate());
         setup();
         supportInvalidateOptionsMenu();
         break;
