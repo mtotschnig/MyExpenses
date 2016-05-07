@@ -107,6 +107,11 @@ public class CalendarListPreferenceDialogFragmentCompat extends PreferenceDialog
     builder.setPositiveButton( null, null );
   }
 
+  @Override
+  public void onDialogClosed(boolean b) {
+    //nothing to do since directly handlind in onClickListener of SinglechoiceItems
+  }
+
   public static CalendarListPreferenceDialogFragmentCompat newInstance(String key) {
     CalendarListPreferenceDialogFragmentCompat fragment = new CalendarListPreferenceDialogFragmentCompat();
     Bundle bundle = new Bundle(1);
