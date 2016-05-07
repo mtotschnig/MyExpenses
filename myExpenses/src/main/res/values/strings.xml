@@ -118,17 +118,12 @@
     <string name="dialog_remind_rate_yes">Rate now</string>
     <string name="dialog_security_answer">Answer</string>
     <string name="dialog_security_question">Question</string>
-    <!-- Label for button that leads to creation of new local calendar -->
-    <string name="dialog_setup_planner_button_create_new">Create new</string>
-    <!-- Label for button that opens preferences for selecting an existing calendar -->
-    <string name="dialog_setup_planner_button_select_existing">Select existing</string>
     <string name="dialog_title_attention">Attention</string>
     <string name="dialog_title_information">Information</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Balance %1$s</string>
     <string name="dialog_title_contrib_feature">Premium feature</string>
     <string name="dialog_title_extended_feature">Extended feature</string>
-    <string name="dialog_title_planner_setup_info">Calendar setup required</string>
     <!-- the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢ -->
     <string name="dialog_title_set_fraction_digits">Set the number of fraction digits</string>
@@ -193,8 +188,6 @@
     <string name="menu_cancel_plan_instance">Cancel</string>
     <string name="menu_clone_transaction">Clone</string>
     <string name="menu_contrib">Contribute</string>
-    <!-- Currently used on button for creating a new plan -->
-    <string name="menu_create">Create</string>
     <string name="menu_create_account">New account</string>
     <string name="menu_create_instance_edit">Apply and edit</string>
     <string name="menu_create_instance_save">Apply and save</string>
@@ -298,10 +291,6 @@
     <string name="plan_manual">manual</string>
     <string name="planner_create_calendar_failure">Unable to create local planner calendar</string>
     <string name="planner_create_calendar_success">Local planner calendar successfully created</string>
-    <!-- On Jelly Bean and above, we offer the option of creating a local calendar -->
-    <string name="planner_setup_info_jb">You can either create a local dedicated calendar or select an existing one in the settings.</string>
-    <string name="planner_setup_info_create_new_warning">Attention: Local calendars have been reported to not work reliably on some devices. If your plans do not work with a dedicated local calendar, please rather select a calendar that you have set up in your Calendar App.</string>
-    <string name="planner_setup_info">Please select a calendar for storing plans in the settings.</string>
     <!-- payment methods -->
     <string name="pm_cheque">Cheque</string>
     <string name="pm_creditcard">Credit card</string>
@@ -391,8 +380,6 @@
     <string name="pref_ui_theme_title">Theme</string>
     <string name="pref_visit_website_summary">Changelog and FAQ</string>
     <string name="pref_visit_website_title">Visit Website</string>
-    <string name="progress_dialog_create_calendar">Creating local calendar</string>
-    <string name="progress_dialog_create_plan">Creating new plan</string>
     <string name="progress_dialog_deleting">Deleting objects</string>
     <string name="progress_dialog_loading">Loading object from database</string>
     <string name="progress_dialog_printing">Generating PDF</string>

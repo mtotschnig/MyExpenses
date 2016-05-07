@@ -61,13 +61,8 @@
   <string name="dialog_remind_rate_yes">Értékelje most</string>
   <string name="dialog_security_answer">Válasz</string>
   <string name="dialog_security_question">Kérdés</string>
-  <!--Label for button that leads to creation of new local calendar-->
-  <string name="dialog_setup_planner_button_create_new">Új létrehozása</string>
-  <!--Label for button that opens preferences for selecting an existing calendar-->
-  <string name="dialog_setup_planner_button_select_existing">Meglévő választása</string>
   <!--%1$s is replace with account label-->
   <string name="dialog_title_contrib_feature">Prémium szolgáltatás</string>
-  <string name="dialog_title_planner_setup_info">Naptár beállítás szükséges</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">Elnevezés megadása</string>
@@ -125,8 +120,6 @@
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
   <string name="menu_clone_transaction">Másolás</string>
   <string name="menu_contrib">Támogatás</string>
-  <!--Currently used on button for creating a new plan-->
-  <string name="menu_create">Létrehoz</string>
   <string name="menu_create_account">Új számla</string>
   <string name="menu_create_instance_edit">Alkalmaz és szerkesztés</string>
   <string name="menu_create_instance_save">Alkalmaz és mentés</string>
@@ -208,9 +201,6 @@
   <string name="plan_manual">kézi</string>
   <string name="planner_create_calendar_failure">Helyi terv-naptár készítése nem sikerült</string>
   <string name="planner_create_calendar_success">Helyi terv-naptár készítése sikeres</string>
-  <!--On Jelly Bean and above, we offer the option of creating a local calendar-->
-  <string name="planner_setup_info_jb">Készíthet helyi naptárt kifejezetten erre a célra, vagy választhat a létező naptárakból a beállítások menüben.</string>
-  <string name="planner_setup_info">Válasszon naptárt a tervek tárolására, a beállítások alatt.</string>
   <!--payment methods-->
   <string name="pm_cheque">Csekk</string>
   <string name="pm_creditcard">Hitelkártya</string>
@@ -274,8 +264,6 @@
   <string name="pref_ui_theme_title">Téma</string>
   <string name="pref_visit_website_summary">Fejlesztések és GYIK</string>
   <string name="pref_visit_website_title">Weboldal megtekintése</string>
-  <string name="progress_dialog_create_calendar">Helyi naptár készítése</string>
-  <string name="progress_dialog_create_plan">Új terv készítése</string>
   <string name="progress_dialog_loading">Elemek betöltése az adatbázisból</string>
   <string name="reference_number">Referencia szám</string>
   <string name="request_licence_mail_description">Kérjük írja meg számunkra angolul, németül vagy franciául, hogy milyen módon vett részt a Kiadásaim fejlesztésében (például: PayPal támogatás, hibajelentés, tesztelés, fordítás).</string>

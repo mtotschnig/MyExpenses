@@ -94,17 +94,12 @@
   <string name="dialog_remind_rate_yes">Anmeld nu</string>
   <string name="dialog_security_answer">Svar</string>
   <string name="dialog_security_question">Spørgsmål</string>
-  <!--Label for button that leads to creation of new local calendar-->
-  <string name="dialog_setup_planner_button_create_new">Opret en ny</string>
-  <!--Label for button that opens preferences for selecting an existing calendar-->
-  <string name="dialog_setup_planner_button_select_existing">Vælg eksisterende</string>
   <string name="dialog_title_attention">OBS!</string>
   <string name="dialog_title_information">Information</string>
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">Balance %1$s</string>
   <string name="dialog_title_contrib_feature">Premiumfunktion</string>
   <string name="dialog_title_extended_feature">Udvidet funktion</string>
-  <string name="dialog_title_planner_setup_info">Der kræves opsætning kalenderen</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">Vælg antal decimaler</string>
@@ -169,8 +164,6 @@
   <string name="menu_cancel_plan_instance">Annuller</string>
   <string name="menu_clone_transaction">Klon</string>
   <string name="menu_contrib">Bidrage</string>
-  <!--Currently used on button for creating a new plan-->
-  <string name="menu_create">Oprette</string>
   <string name="menu_create_account">Ny konto</string>
   <string name="menu_create_instance_edit">Anvend og rediger</string>
   <string name="menu_create_instance_save">Anvend og gem</string>
@@ -273,10 +266,6 @@
   <string name="plan_manual">manuel</string>
   <string name="planner_create_calendar_failure">Lokal kalender kunne ikke oprettes</string>
   <string name="planner_create_calendar_success">Lokal kalender oprettet</string>
-  <!--On Jelly Bean and above, we offer the option of creating a local calendar-->
-  <string name="planner_setup_info_jb">Du kan enten oprette en lokal kalender eller vælge en eksisterende kalender i indstillingerne.</string>
-  <string name="planner_setup_info_create_new_warning">OPS: På nogle enheder virker lokale kalendere måske ikke. Hvis dine planer ikke virker med en dedikeret lokal kalender så vælg hellere en kalender, som du har oprettet i din kalender App.</string>
-  <string name="planner_setup_info">Vælg en kalender til at gemme planer i indstillingerne.</string>
   <!--payment methods-->
   <string name="pm_cheque">Check</string>
   <string name="pm_creditcard">Kreditkort</string>
@@ -363,8 +352,6 @@
   <string name="pref_ui_theme_title">Stil</string>
   <string name="pref_visit_website_summary">Ændringer og FAQ</string>
   <string name="pref_visit_website_title">Besøg hjemmeside</string>
-  <string name="progress_dialog_create_calendar">Opretter lokal kalender</string>
-  <string name="progress_dialog_create_plan">Opretter ny plan</string>
   <string name="progress_dialog_deleting">Objekter slettes</string>
   <string name="progress_dialog_loading">Lastning objekt fra database</string>
   <string name="progress_dialog_printing">Generating PDF</string>

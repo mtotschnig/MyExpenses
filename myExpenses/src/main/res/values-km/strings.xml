@@ -70,16 +70,11 @@
   <string name="dialog_remind_rate_yes">វាយតម្លៃឥលូវ</string>
   <string name="dialog_security_answer">ចម្លើយ</string>
   <string name="dialog_security_question">សំនួរ</string>
-  <!--Label for button that leads to creation of new local calendar-->
-  <string name="dialog_setup_planner_button_create_new">បង្កើត​ថ្មី</string>
-  <!--Label for button that opens preferences for selecting an existing calendar-->
-  <string name="dialog_setup_planner_button_select_existing">ជ្រើសរើស​អ្វី​ដែល​មានស្រាប់</string>
   <string name="dialog_title_attention">ប្រុង​ប្រយ័ត្ន</string>
   <string name="dialog_title_information">ព័ត៌មាន</string>
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">សមតុល្យ %1$s</string>
   <string name="dialog_title_contrib_feature">លក្ខណៈពិសេសល្អជាងគេ</string>
-  <string name="dialog_title_planner_setup_info">ត្រូវមានការ​រៀបចំ​​ប្រតិទិន</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">កំណត់ចំណងជើង</string>
@@ -138,8 +133,6 @@
   <string name="menu_cancel_plan_instance">បោះបង់</string>
   <string name="menu_clone_transaction">ក្លូន</string>
   <string name="menu_contrib">រួមចំណែក</string>
-  <!--Currently used on button for creating a new plan-->
-  <string name="menu_create">បង្កើត</string>
   <string name="menu_create_account">គណនីថ្មី</string>
   <string name="menu_create_instance_edit">ដាក់​យក និង​កែ</string>
   <string name="menu_create_instance_save">ដាក់​យក​ និង​រក្សាទុក</string>
@@ -237,9 +230,6 @@
   <string name="plan_manual">សៀវភៅតូច</string>
   <string name="planner_create_calendar_failure">មិន​អាច​​បង្កើត​​ប្រតិទិន​​ផែនការ​មូលដ្ឋាន​ទេ</string>
   <string name="planner_create_calendar_success">ប្រតិទិន​ផែនការ​មូលដ្ឋាន​បាន​បង្កើត​ដោយជោគជ័យ</string>
-  <!--On Jelly Bean and above, we offer the option of creating a local calendar-->
-  <string name="planner_setup_info_jb">អ្នក​អាច បង្កើត​ប្រតិទិន​មូលដ្ឋាន​​ណាមួយ ឬ​ក៏​ជ្រើសរើស​ប្រតិទិន​មួយ​ដែល​មាន​ស្រាប់ ពីការ​កំណត់</string>
-  <string name="planner_setup_info">សូមជ្រើស​ប្រតិទិន​សម្រាប់​រក្សា​ទុក​ផែនការ​ក្នុងការ​កំណត់​មួយ។</string>
   <!--payment methods-->
   <string name="pm_cheque">មូលប្បទានប័ត្រ</string>
   <string name="pm_creditcard">កាតឥណទាន</string>
@@ -308,8 +298,6 @@
   <string name="pref_ui_theme_title">ប្រធានបទ</string>
   <string name="pref_visit_website_summary">ការផ្លាស់ប្ដូរ និងសំណួរ​គេសួរ​ញឹក​ញាប់</string>
   <string name="pref_visit_website_title">សូមចូលទស្សនាគេហទំព័រ</string>
-  <string name="progress_dialog_create_calendar">កំពុង​បង្កើត​ប្រតិទិន​​មូលដ្ឋាន</string>
-  <string name="progress_dialog_create_plan">កំពុង​បង្កើត​ផែនការ​ថ្មី​</string>
   <string name="progress_dialog_deleting">កំពុងលុប​អ្វីផ្សេងៗ</string>
   <string name="progress_dialog_loading">ផ្ទុកវត្ថុពីមូលដ្ឋានទិន្នន័យ</string>
   <string name="progress_dialog_saving">កំពុង​ផ្ទុក​ទៅមូលដ្ឋាន​ទិន្នន័យ​</string>

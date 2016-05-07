@@ -57,8 +57,6 @@
   <string name="dialog_remind_rate_yes">Xếp hạng ngay</string>
   <string name="dialog_security_answer">Trả lời</string>
   <string name="dialog_security_question">Câu hỏi</string>
-  <!--Label for button that leads to creation of new local calendar-->
-  <!--Label for button that opens preferences for selecting an existing calendar-->
   <!--%1$s is replace with account label-->
   <string name="dialog_title_contrib_feature">Tính năng nâng cao</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
@@ -112,7 +110,6 @@
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
   <string name="menu_clone_transaction">Sao y</string>
   <string name="menu_contrib">Cống hiến</string>
-  <!--Currently used on button for creating a new plan-->
   <string name="menu_create_account">Tài khoản mới</string>
   <string name="menu_create_main_cat">Phân loại chính mới</string>
   <string name="menu_create_method">Phương pháp chi trả mới</string>
@@ -180,7 +177,6 @@
   <!--Plan for future and recurring transactions-->
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <!--This message is shown, after a user decides to not apply a manual plan-->
-  <!--On Jelly Bean and above, we offer the option of creating a local calendar-->
   <!--payment methods-->
   <string name="pm_cheque">Séc</string>
   <string name="pm_creditcard">Thẻ tín dụng</string>

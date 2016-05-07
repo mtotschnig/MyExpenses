@@ -102,17 +102,12 @@
   <string name="dialog_remind_rate_yes">Vota ora</string>
   <string name="dialog_security_answer">Risposta</string>
   <string name="dialog_security_question">Domanda</string>
-  <!--Label for button that leads to creation of new local calendar-->
-  <string name="dialog_setup_planner_button_create_new">Crea nuovo</string>
-  <!--Label for button that opens preferences for selecting an existing calendar-->
-  <string name="dialog_setup_planner_button_select_existing">Seleziona esistente</string>
   <string name="dialog_title_attention">Attenzione</string>
   <string name="dialog_title_information">Informazioni</string>
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">Bilanciare %1$s</string>
   <string name="dialog_title_contrib_feature">Funzionalità speciale</string>
   <string name="dialog_title_extended_feature">Funzionalità ampliata</string>
-  <string name="dialog_title_planner_setup_info">Configurazione di calendario richiesta</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">Impostare il numero di cifre della frazione</string>
@@ -177,8 +172,6 @@
   <string name="menu_cancel_plan_instance">Annullare</string>
   <string name="menu_clone_transaction">Ricopiare</string>
   <string name="menu_contrib">Contribuire</string>
-  <!--Currently used on button for creating a new plan-->
-  <string name="menu_create">Creare</string>
   <string name="menu_create_account">Nuovo conto</string>
   <string name="menu_create_instance_edit">Applicare e modificare</string>
   <string name="menu_create_instance_save">Applicare e salvare</string>
@@ -282,10 +275,6 @@
   <string name="plan_manual">manuale</string>
   <string name="planner_create_calendar_failure">Impossibile creare il calendario locale di scadenze</string>
   <string name="planner_create_calendar_success">Calendario locale di scadenze creato con successo</string>
-  <!--On Jelly Bean and above, we offer the option of creating a local calendar-->
-  <string name="planner_setup_info_jb">Potete creare un calendario dedicato locale o selezionarne uno esistente nelle impostazioni.</string>
-  <string name="planner_setup_info_create_new_warning">Attenzione: I calendari locali sono stati segnalati per non funzionare correttamente su alcuni dispositivi. Se i vostri piani non funzionano con un calendario locale dedicato, piuttosto seleziona un calendario che hanno istituito nell\'applicazione Calendario.</string>
-  <string name="planner_setup_info">Scegliete un calendario per memorizzare le scadenze nelle impostazioni.</string>
   <!--payment methods-->
   <string name="pm_cheque">Assegno</string>
   <string name="pm_creditcard">Carta di credito</string>
@@ -374,8 +363,6 @@
   <string name="pref_ui_theme_title">Motivo</string>
   <string name="pref_visit_website_summary">Aggiornamenti e FAQ</string>
   <string name="pref_visit_website_title">Visita il sito web</string>
-  <string name="progress_dialog_create_calendar">Creazione calendario locale</string>
-  <string name="progress_dialog_create_plan">Creazione di una nuova scadenza</string>
   <string name="progress_dialog_deleting">Cancellazione di oggetti</string>
   <string name="progress_dialog_loading">Caricamento di oggetti dal database</string>
   <string name="progress_dialog_printing">Creazione di PDF</string>

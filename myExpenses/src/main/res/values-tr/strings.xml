@@ -102,17 +102,12 @@
   <string name="dialog_remind_rate_yes">Şimdi not ver</string>
   <string name="dialog_security_answer">Cevap</string>
   <string name="dialog_security_question">Soru</string>
-  <!--Label for button that leads to creation of new local calendar-->
-  <string name="dialog_setup_planner_button_create_new">Yenisini oluştur</string>
-  <!--Label for button that opens preferences for selecting an existing calendar-->
-  <string name="dialog_setup_planner_button_select_existing">Mevcuttan seç</string>
   <string name="dialog_title_attention">Dikkat</string>
   <string name="dialog_title_information">Bilgi</string>
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">%1$s unsurunu uzlaştır</string>
   <string name="dialog_title_contrib_feature">Ücretli işlev</string>
   <string name="dialog_title_extended_feature">Genişletilmiş işlev</string>
-  <string name="dialog_title_planner_setup_info">Takvim kurulumu gereklidir</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">Kesir basamak sayısını ayarla</string>
@@ -177,8 +172,6 @@
   <string name="menu_cancel_plan_instance">İptal et</string>
   <string name="menu_clone_transaction">Klonla</string>
   <string name="menu_contrib">Katkıda bulun</string>
-  <!--Currently used on button for creating a new plan-->
-  <string name="menu_create">Oluştur</string>
   <string name="menu_create_account">Yeni hesap oluştur</string>
   <string name="menu_create_instance_edit">Uygula ve düzenle</string>
   <string name="menu_create_instance_save">Uygula ve kaydet</string>
@@ -282,10 +275,6 @@
   <string name="plan_manual">el ile</string>
   <string name="planner_create_calendar_failure">Yerel planlama takvimi oluşturulamadı</string>
   <string name="planner_create_calendar_success">Yerel planlama takvimi başarıyla oluşturuldu</string>
-  <!--On Jelly Bean and above, we offer the option of creating a local calendar-->
-  <string name="planner_setup_info_jb">Yerel özel bir takvim oluşturabilir ya da ayarlardan mevcut birini seçebilirsiniz.</string>
-  <string name="planner_setup_info_create_new_warning">Dikkat: Bazı cihazlarda yerel takvimlerin güvenilir bir şekilde çalışmadıkları bildirilmiştir. Eğer planlamalarınız özel bir yerel takvimle çalışmıyorsa, bunun yerine Takvim uygulamanızda kurduğunuz bir takvim seçiniz.</string>
-  <string name="planner_setup_info">Ayarlarda planların saklanacağı bir takvim seç</string>
   <!--payment methods-->
   <string name="pm_cheque">Çek</string>
   <string name="pm_creditcard">Kredi kartı</string>
@@ -374,8 +363,6 @@
   <string name="pref_ui_theme_title">Tema</string>
   <string name="pref_visit_website_summary">Değişiklikler ya SSS</string>
   <string name="pref_visit_website_title">Siteyi ziyaret et</string>
-  <string name="progress_dialog_create_calendar">Yerel takvim oluşturuluyor</string>
-  <string name="progress_dialog_create_plan">Yeni planlama oluşturuluyor</string>
   <string name="progress_dialog_deleting">Nesneler siliniyor</string>
   <string name="progress_dialog_loading">Veritabanından nesne yükleniyor</string>
   <string name="progress_dialog_printing">PDF oluşturuluyor</string>

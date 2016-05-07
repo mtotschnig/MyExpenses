@@ -102,17 +102,12 @@
   <string name="dialog_remind_rate_yes">Avaliar agora</string>
   <string name="dialog_security_answer">Responder</string>
   <string name="dialog_security_question">Pergunta</string>
-  <!--Label for button that leads to creation of new local calendar-->
-  <string name="dialog_setup_planner_button_create_new">Criar novo</string>
-  <!--Label for button that opens preferences for selecting an existing calendar-->
-  <string name="dialog_setup_planner_button_select_existing">Selecionar existente</string>
   <string name="dialog_title_attention">Atenção</string>
   <string name="dialog_title_information">Informações</string>
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">Equilíbrar %1$s</string>
   <string name="dialog_title_contrib_feature">Característica Premium</string>
   <string name="dialog_title_extended_feature">Característica estendida</string>
-  <string name="dialog_title_planner_setup_info">Configuração de calendário necessária</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">Definir o número de dígitos de fração</string>
@@ -177,8 +172,6 @@
   <string name="menu_cancel_plan_instance">Cancelar</string>
   <string name="menu_clone_transaction">Clone</string>
   <string name="menu_contrib">Contribuir</string>
-  <!--Currently used on button for creating a new plan-->
-  <string name="menu_create">Criar</string>
   <string name="menu_create_account">Nova conta</string>
   <string name="menu_create_instance_edit">Aplicar e editar</string>
   <string name="menu_create_instance_save">Aplicar e salvar</string>
@@ -282,10 +275,6 @@
   <string name="plan_manual">manual</string>
   <string name="planner_create_calendar_failure">Não é possível criar calendário do organizador local</string>
   <string name="planner_create_calendar_success">Calendário de planejador local criado com sucesso</string>
-  <!--On Jelly Bean and above, we offer the option of creating a local calendar-->
-  <string name="planner_setup_info_jb">Você pode criar um calendário dedicado local ou selecionar um existente nas configurações.</string>
-  <string name="planner_setup_info_create_new_warning">Atenção: Calendários locais foram relatados para não trabalhar confiantemente em alguns dispositivos. Se seus planos não funcionam com um calendário local dedicado, por favor, prefiro selecione um calendário que você configurou no seu aplicativo de calendário.</string>
-  <string name="planner_setup_info">Por favor, selecione um calendário para armazenar planos nas configurações.</string>
   <!--payment methods-->
   <string name="pm_cheque">Cheque</string>
   <string name="pm_creditcard">Cartão de crédito</string>
@@ -374,8 +363,6 @@
   <string name="pref_ui_theme_title">Tema</string>
   <string name="pref_visit_website_summary">Changelog e FAQ</string>
   <string name="pref_visit_website_title">Visite o site</string>
-  <string name="progress_dialog_create_calendar">Criação de calendário local</string>
-  <string name="progress_dialog_create_plan">Criação de novo plano</string>
   <string name="progress_dialog_deleting">Exclusão de objetos</string>
   <string name="progress_dialog_loading">Objeto de carregamento de banco de dados</string>
   <string name="progress_dialog_printing">Gerando PDF</string>

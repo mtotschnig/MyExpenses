@@ -66,13 +66,8 @@
   <string name="dialog_remind_rate_yes">Ohodnoťte nyní</string>
   <string name="dialog_security_answer">Odpověď</string>
   <string name="dialog_security_question">Otázka</string>
-  <!--Label for button that leads to creation of new local calendar-->
-  <string name="dialog_setup_planner_button_create_new">Vytvořit nový</string>
-  <!--Label for button that opens preferences for selecting an existing calendar-->
-  <string name="dialog_setup_planner_button_select_existing">Vyberte existující</string>
   <!--%1$s is replace with account label-->
   <string name="dialog_title_contrib_feature">Prémiové funkce</string>
-  <string name="dialog_title_planner_setup_info">Vyžadování nastavení kalendáře</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">Nastavte název</string>
@@ -131,8 +126,6 @@
   <string name="menu_cancel_plan_instance">Storno</string>
   <string name="menu_clone_transaction">Klon</string>
   <string name="menu_contrib">Přispět</string>
-  <!--Currently used on button for creating a new plan-->
-  <string name="menu_create">Vytvořit</string>
   <string name="menu_create_account">Nový účet</string>
   <string name="menu_create_instance_edit">Použít a upravit</string>
   <string name="menu_create_instance_save">Použít a uložit</string>
@@ -216,9 +209,6 @@
   <string name="plan_manual">manuálně</string>
   <string name="planner_create_calendar_failure">Nelze vytvořit místní plánovací kalendář</string>
   <string name="planner_create_calendar_success">Místní plánovací kalendář byl úspěšně vytvořen</string>
-  <!--On Jelly Bean and above, we offer the option of creating a local calendar-->
-  <string name="planner_setup_info_jb">Můžete buď vytvořit místní speciální kalendář nebo vyberte již existující nastavení.</string>
-  <string name="planner_setup_info">Prosím vyberte kalendář pro ukládání plánů v nastavení.</string>
   <!--payment methods-->
   <string name="pm_cheque">Šek</string>
   <string name="pm_creditcard">Kreditní karta</string>
@@ -284,8 +274,6 @@
   <string name="pref_ui_theme_title">Motiv</string>
   <string name="pref_visit_website_summary">Seznam změn a FAQ</string>
   <string name="pref_visit_website_title">Navštivte webové stránky</string>
-  <string name="progress_dialog_create_calendar">Vytváření místního kalendáře</string>
-  <string name="progress_dialog_create_plan">Vytváření nového plánu</string>
   <string name="progress_dialog_loading">Načítání objektů z databáze</string>
   <string name="reference_number">Referenční číslo</string>
   <string name="request_licence_mail_description">Popište prosím váš příspěvek pro Moje výdaje (V angličtině, němčině nebo francouzštině)  (např.: dar přes Paypal, hlášení o chybě, testování, překlad).</string>

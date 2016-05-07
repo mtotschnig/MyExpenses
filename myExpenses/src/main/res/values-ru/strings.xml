@@ -69,13 +69,8 @@
   <string name="dialog_remind_rate_yes">Оценить сейчас</string>
   <string name="dialog_security_answer">Ответ</string>
   <string name="dialog_security_question">Вопрос</string>
-  <!--Label for button that leads to creation of new local calendar-->
-  <string name="dialog_setup_planner_button_create_new">Создать новый</string>
-  <!--Label for button that opens preferences for selecting an existing calendar-->
-  <string name="dialog_setup_planner_button_select_existing">Выбрать существующий</string>
   <!--%1$s is replace with account label-->
   <string name="dialog_title_contrib_feature">Премиум функция</string>
-  <string name="dialog_title_planner_setup_info">Требуется настройка календаря</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">Установить заголовок</string>
@@ -137,8 +132,6 @@
   <string name="menu_cancel_plan_instance">Отмена</string>
   <string name="menu_clone_transaction">Дублировать</string>
   <string name="menu_contrib">Внести вклад</string>
-  <!--Currently used on button for creating a new plan-->
-  <string name="menu_create">Создать</string>
   <string name="menu_create_account">Новый счёт</string>
   <string name="menu_create_instance_edit">Применить и редактировать</string>
   <string name="menu_create_instance_save">Применить и сохранить</string>
@@ -238,9 +231,6 @@
   <string name="plan_manual">вручную</string>
   <string name="planner_create_calendar_failure">Не удается создать локальный календарь планов</string>
   <string name="planner_create_calendar_success">Локальный календарь планов успешно создан</string>
-  <!--On Jelly Bean and above, we offer the option of creating a local calendar-->
-  <string name="planner_setup_info_jb">Можно либо создать отдельный локальный календарь или выбрать один из существующих в настройках.</string>
-  <string name="planner_setup_info">Пожалуйста выберите календарь для хранения планов в настройках.</string>
   <!--payment methods-->
   <string name="pm_cheque">Чек</string>
   <string name="pm_creditcard">Кредитная карта</string>
@@ -312,8 +302,6 @@
   <string name="pref_ui_theme_title">Тема</string>
   <string name="pref_visit_website_summary">Список изменений и ЧаВО</string>
   <string name="pref_visit_website_title">Посетить веб-сайт</string>
-  <string name="progress_dialog_create_calendar">Создать локальный календарь</string>
-  <string name="progress_dialog_create_plan">Создать новый план</string>
   <string name="progress_dialog_deleting">Удалить объекты</string>
   <string name="progress_dialog_loading">Загрузка объекта из базы данных</string>
   <string name="qif_parse_result">Проанализированно: %1$s счетов; %2$s категорий и %3$s участников</string>

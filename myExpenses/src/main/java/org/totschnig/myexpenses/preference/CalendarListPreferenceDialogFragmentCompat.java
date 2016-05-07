@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceDialogFragmentCompat;
+import android.widget.Toast;
 
 import com.android.calendar.CalendarContractCompat;
 
@@ -79,17 +80,24 @@ public class CalendarListPreferenceDialogFragmentCompat extends PreferenceDialog
           new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
               long itemId = ((AlertDialog) dialog).getListView().getItemIdAtPosition(which);
-              int whichButton = 0;
               if (itemId == -1) {
-                ((MyPreferenceActivity) getContext()).showDialog(R.id.PLANNER_SETUP_INFO_CREATE_NEW_WARNING_DIALOG);
-                whichButton = DialogInterface.BUTTON_NEGATIVE;
+                //TODO: use Async Task Strict Mode violation
+                String plannerId = MyApplication.getInstance().createPlanner(false);
+                boolean success = !plannerId.equals(MyApplication.INVALID_CALENDAR_ID);
+                Toast.makeText(
+                    getActivity(),
+                    success ? R.string.planner_create_calendar_success : R.string.planner_create_calendar_failure,
+                    Toast.LENGTH_LONG).show();
+                if (success) {
+                  preference.setValue(plannerId);
+                }
               } else {
                 if(preference.callChangeListener(itemId)) {
                   preference.setValue(String.valueOf(itemId));
-                  whichButton = DialogInterface.BUTTON_POSITIVE;
                 }
               }
-              CalendarListPreferenceDialogFragmentCompat.this.onClick(dialog, whichButton);
+              CalendarListPreferenceDialogFragmentCompat.this.onClick(dialog,
+                  DialogInterface.BUTTON_POSITIVE);
               dialog.dismiss();
             }
           });
@@ -97,11 +105,6 @@ public class CalendarListPreferenceDialogFragmentCompat extends PreferenceDialog
       builder.setMessage("Calendar provider not available");
     }
     builder.setPositiveButton( null, null );
-  }
-  @Override
-  public void onDialogClosed(boolean positiveResult) {
-    if (positiveResult)
-      ((MyPreferenceActivity) getContext()).onCalendarListPreferenceSet();
   }
 
   public static CalendarListPreferenceDialogFragmentCompat newInstance(String key) {

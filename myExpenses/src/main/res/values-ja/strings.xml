@@ -100,17 +100,12 @@
   <string name="dialog_remind_rate_yes">今すぐ評価</string>
   <string name="dialog_security_answer">回答</string>
   <string name="dialog_security_question">質問</string>
-  <!--Label for button that leads to creation of new local calendar-->
-  <string name="dialog_setup_planner_button_create_new">新しく作成</string>
-  <!--Label for button that opens preferences for selecting an existing calendar-->
-  <string name="dialog_setup_planner_button_select_existing">既存を選択</string>
   <string name="dialog_title_attention">注意</string>
   <string name="dialog_title_information">情報</string>
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">貸借 %1$s</string>
   <string name="dialog_title_contrib_feature">プレミアム機能</string>
   <string name="dialog_title_extended_feature">拡張機能</string>
-  <string name="dialog_title_planner_setup_info">カレンダーのセットアップが必要です</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">小数の桁数を設定</string>
@@ -175,8 +170,6 @@
   <string name="menu_cancel_plan_instance">キャンセル</string>
   <string name="menu_clone_transaction">複製</string>
   <string name="menu_contrib">貢献</string>
-  <!--Currently used on button for creating a new plan-->
-  <string name="menu_create">作成</string>
   <string name="menu_create_account">新しい勘定</string>
   <string name="menu_create_instance_edit">適用および編集</string>
   <string name="menu_create_instance_save">適用および保存</string>
@@ -278,10 +271,6 @@
   <string name="plan_manual">手動</string>
   <string name="planner_create_calendar_failure">ローカル プランナー カレンダーを作成できません</string>
   <string name="planner_create_calendar_success">ローカル プランナー カレンダーが正常に作成されました</string>
-  <!--On Jelly Bean and above, we offer the option of creating a local calendar-->
-  <string name="planner_setup_info_jb">設定で、ローカル専用のカレンダーを作成するか、既存のものを選択することができます。</string>
-  <string name="planner_setup_info_create_new_warning">注意: ローカル カレンダーは、いくつかのデバイスで正しく動作しないことが報告されています。ローカル専用カレンダーで計画が動作しない場合は、カレンダー アプリで設定したカレンダーを選択するようにしてください。</string>
-  <string name="planner_setup_info">設定で、計画を保存するカレンダーを選択してください。</string>
   <!--payment methods-->
   <string name="pm_cheque">小切手/手形</string>
   <string name="pm_creditcard">クレジットカード</string>
@@ -370,8 +359,6 @@
   <string name="pref_ui_theme_title">テーマ</string>
   <string name="pref_visit_website_summary">変更履歴 および FAQ</string>
   <string name="pref_visit_website_title">Webサイトを訪問</string>
-  <string name="progress_dialog_create_calendar">ローカル カレンダーを作成中</string>
-  <string name="progress_dialog_create_plan">新しい計画を作成中</string>
   <string name="progress_dialog_deleting">オブジェクトを削除中</string>
   <string name="progress_dialog_loading">データベースからオブジェクトをロード中</string>
   <string name="progress_dialog_printing">PDF を生成中</string>
@@ -528,6 +515,7 @@
   <string name="pref_manage_stale_images_summary">削除された取引から残っている写真を管理します</string>
   <string name="menu_select_categories">チェックした分類を選択</string>
   <string name="image_deleted">写真が削除されました</string>
+  <string name="transaction_deleted">取引が削除されました</string>
   <string name="dialog_export_applied_to_filter">現在のフィルターに一致する取引のみが考慮されます。</string>
   <string name="export_handle_deleted_create_helper">ヘルパー取引を作成</string>
   <string name="export_handle_deleted_update_balance">期首残高を更新</string>

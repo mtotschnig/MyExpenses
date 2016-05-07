@@ -102,17 +102,12 @@
   <string name="dialog_remind_rate_yes">Baloratu orain</string>
   <string name="dialog_security_answer">Erantzuna</string>
   <string name="dialog_security_question">Galdera</string>
-  <!--Label for button that leads to creation of new local calendar-->
-  <string name="dialog_setup_planner_button_create_new">Sortu berria</string>
-  <!--Label for button that opens preferences for selecting an existing calendar-->
-  <string name="dialog_setup_planner_button_select_existing">Aukeratu badagoen bat</string>
   <string name="dialog_title_attention">Adi</string>
   <string name="dialog_title_information">Informazioa</string>
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">%1$s saldoa</string>
   <string name="dialog_title_contrib_feature">Premium ezaugarria</string>
   <string name="dialog_title_extended_feature">Bertsio hedatuaren ezaugarria</string>
-  <string name="dialog_title_planner_setup_info">Egutegia ezartzea ezinbestekoa</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">Ezarri frakzio zenbaki kopurua</string>
@@ -177,8 +172,6 @@
   <string name="menu_cancel_plan_instance">Utzi</string>
   <string name="menu_clone_transaction">Klonatu</string>
   <string name="menu_contrib">Egin kontribuzioa</string>
-  <!--Currently used on button for creating a new plan-->
-  <string name="menu_create">Sortu</string>
   <string name="menu_create_account">Kontu berria</string>
   <string name="menu_create_instance_edit">Aplikatu eta editatu</string>
   <string name="menu_create_instance_save">Aplikatu eta gorde</string>
@@ -282,10 +275,6 @@
   <string name="plan_manual">eskuz</string>
   <string name="planner_create_calendar_failure">Ezin izan da planifikatzailearen tokiko egutegia sortu</string>
   <string name="planner_create_calendar_success">Planifikatzailearen tokiko egutegia ondo sortu da</string>
-  <!--On Jelly Bean and above, we offer the option of creating a local calendar-->
-  <string name="planner_setup_info_jb">Tokiko dedikatutako egutegi bat sortu dezakezu edo badagoen bat aukeratu ezarpenetan.</string>
-  <string name="planner_setup_info_create_new_warning">Adi: Tokiko egutegiak gailu batzuetan behar bezala dioten txostenak jaso ditugu. Zure plana ez badabil dedikatutako tokiko egutegi batekin aukeratu Egutegi aplikazioan ezarrita duzun egutegi bat.</string>
-  <string name="planner_setup_info">Aukeratu egutegi bat ezarpenetan planak gordetzeko</string>
   <!--payment methods-->
   <string name="pm_cheque">Txekea</string>
   <string name="pm_creditcard">Kreditu txartela</string>
@@ -375,8 +364,6 @@ Librezale.eus</string>
   <string name="pref_ui_theme_title">Gaia</string>
   <string name="pref_visit_website_summary">Aldaketen erregistroa eta maiz egindako galderak</string>
   <string name="pref_visit_website_title">Bisitatu webgunea</string>
-  <string name="progress_dialog_create_calendar">Tokiko egutegia sortzen</string>
-  <string name="progress_dialog_create_plan">Plan berria sortzen</string>
   <string name="progress_dialog_deleting">Objektuak ezabatzen</string>
   <string name="progress_dialog_loading">Objektua datu-basetik kargatzen</string>
   <string name="progress_dialog_printing">PDFa sortzen</string>

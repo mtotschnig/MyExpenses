@@ -95,17 +95,12 @@
   <string name="dialog_remind_rate_yes">De acord</string>
   <string name="dialog_security_answer">Răspuns</string>
   <string name="dialog_security_question">Întrebare</string>
-  <!--Label for button that leads to creation of new local calendar-->
-  <string name="dialog_setup_planner_button_create_new">Crează nou</string>
-  <!--Label for button that opens preferences for selecting an existing calendar-->
-  <string name="dialog_setup_planner_button_select_existing">Selectează existent</string>
   <string name="dialog_title_attention">Atenţie</string>
   <string name="dialog_title_information">Informare</string>
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">Sold  %1$s</string>
   <string name="dialog_title_contrib_feature">Funcţionaliate premium</string>
   <string name="dialog_title_extended_feature">Functionalitati Extinse</string>
-  <string name="dialog_title_planner_setup_info">Configurarea calendarului necesar</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">Setează numărul de zecimale</string>
@@ -170,8 +165,6 @@
   <string name="menu_cancel_plan_instance">Anulează</string>
   <string name="menu_clone_transaction">Clonează</string>
   <string name="menu_contrib">Contribuie</string>
-  <!--Currently used on button for creating a new plan-->
-  <string name="menu_create">Crează</string>
   <string name="menu_create_account">Cont nou</string>
   <string name="menu_create_instance_edit">Aplică şi editează</string>
   <string name="menu_create_instance_save">Aplică şi salvează</string>
@@ -276,10 +269,6 @@
   <string name="plan_manual">manual</string>
   <string name="planner_create_calendar_failure">Imposibil de creat calendar local scadenţă </string>
   <string name="planner_create_calendar_success">Calendar local scadenţă creat </string>
-  <!--On Jelly Bean and above, we offer the option of creating a local calendar-->
-  <string name="planner_setup_info_jb">Puteţi crea un calendar local dedicat sau selectaţi unul existent în setări.</string>
-  <string name="planner_setup_info_create_new_warning">Atentie: Calendarele locale au raportat că nu funcţionează corect pe unele dispozitive. În cazul în care scadenţele dumneavoastră nu funcţionează cu un calendar dedicat local, selectați mai bine un calendar pe care l-aţi parametrizat în Calendar App.</string>
-  <string name="planner_setup_info">Selectaţi un calendar pentru a memora scadenţele în setări.</string>
   <!--payment methods-->
   <string name="pm_cheque">Cec</string>
   <string name="pm_creditcard">Carte de credit</string>
@@ -367,8 +356,6 @@ Tradus de DD</string>
   <string name="pref_ui_theme_title">Temă</string>
   <string name="pref_visit_website_summary">Jurnal modificări şi FAQ</string>
   <string name="pref_visit_website_title">Vizitează site web</string>
-  <string name="progress_dialog_create_calendar">Creare calendar local</string>
-  <string name="progress_dialog_create_plan">Creare scadenţă nouă</string>
   <string name="progress_dialog_deleting">Ştergere obiecte</string>
   <string name="progress_dialog_loading">Încărcare obiect din baza de date</string>
   <string name="progress_dialog_printing">Generare PDF</string>

@@ -102,17 +102,12 @@
   <string name="dialog_remind_rate_yes">D\'accord</string>
   <string name="dialog_security_answer">Réponse</string>
   <string name="dialog_security_question">Question</string>
-  <!--Label for button that leads to creation of new local calendar-->
-  <string name="dialog_setup_planner_button_create_new">Créer nouveau</string>
-  <!--Label for button that opens preferences for selecting an existing calendar-->
-  <string name="dialog_setup_planner_button_select_existing">Sélectionner existant</string>
   <string name="dialog_title_attention">Attention</string>
   <string name="dialog_title_information">Information</string>
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">Rapprochement %1$s</string>
   <string name="dialog_title_contrib_feature">Fonction Premium</string>
   <string name="dialog_title_extended_feature">Fonction étendue</string>
-  <string name="dialog_title_planner_setup_info">Configuration du calendrier nécessaire</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">Définir le nombre de décimales</string>
@@ -177,8 +172,6 @@
   <string name="menu_cancel_plan_instance">Annuler</string>
   <string name="menu_clone_transaction">Cloner</string>
   <string name="menu_contrib">Contribuer</string>
-  <!--Currently used on button for creating a new plan-->
-  <string name="menu_create">Créer</string>
   <string name="menu_create_account">Nouveau compte</string>
   <string name="menu_create_instance_edit">Appliquer et éditer</string>
   <string name="menu_create_instance_save">Appliquer et enregistrer</string>
@@ -282,10 +275,6 @@
   <string name="plan_manual">manuelle</string>
   <string name="planner_create_calendar_failure">Impossible de créer un échéancier local</string>
   <string name="planner_create_calendar_success">Échéancier créé avec succès</string>
-  <!--On Jelly Bean and above, we offer the option of creating a local calendar-->
-  <string name="planner_setup_info_jb">Vous pouvez créer un calendrier local dédié ou en sélectionnez un dans les paramètres.</string>
-  <string name="planner_setup_info_create_new_warning">ATTENTION : Les calendriers locaux ont été signalés comme ne fonctionnant pas correctement sur certains périphériques. Si vos échéances ne fonctionnent pas avec un calendrier local dédié, veuillez plutôt sélectionner celui configuré par le système.</string>
-  <string name="planner_setup_info">Veuillez sélectionner un calendrier pour stocker les échéances dans les paramètres.</string>
   <!--payment methods-->
   <string name="pm_cheque">Chèque</string>
   <string name="pm_creditcard">Carte de crédit</string>
@@ -374,9 +363,7 @@
   <string name="pref_ui_theme_title">Style</string>
   <string name="pref_visit_website_summary">Journal des modifications et FAQ</string>
   <string name="pref_visit_website_title">Visiter le site Web</string>
-  <string name="progress_dialog_create_calendar">Création d\'un calendrier local</string>
-  <string name="progress_dialog_create_plan">Création d\'une nouvelle échéance</string>
-  <string name="progress_dialog_deleting">Les objets sont effaçés</string>
+  <string name="progress_dialog_deleting">Les objets sont effacés</string>
   <string name="progress_dialog_loading">Chargement</string>
   <string name="progress_dialog_printing">Génération du PDF</string>
   <string name="progress_dialog_saving">Enregistrement dans la base de données</string>

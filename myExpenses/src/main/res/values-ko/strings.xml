@@ -99,17 +99,12 @@
   <string name="dialog_remind_rate_yes">지금 평가하기</string>
   <string name="dialog_security_answer">정답</string>
   <string name="dialog_security_question">질문</string>
-  <!--Label for button that leads to creation of new local calendar-->
-  <string name="dialog_setup_planner_button_create_new">새로 만들기</string>
-  <!--Label for button that opens preferences for selecting an existing calendar-->
-  <string name="dialog_setup_planner_button_select_existing">기존 항목 선택</string>
   <string name="dialog_title_attention">주목</string>
   <string name="dialog_title_information">정보</string>
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">잔고 %1$s</string>
   <string name="dialog_title_contrib_feature">프리미엄 기능</string>
   <string name="dialog_title_extended_feature">확장된 기능</string>
-  <string name="dialog_title_planner_setup_info">캘린더 설치가 필요함</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">구분 자릿수 숫자 설정</string>
@@ -174,8 +169,6 @@
   <string name="menu_cancel_plan_instance">취소</string>
   <string name="menu_clone_transaction">복제</string>
   <string name="menu_contrib">공헌하기</string>
-  <!--Currently used on button for creating a new plan-->
-  <string name="menu_create">만들기</string>
   <string name="menu_create_account">새 계좌</string>
   <string name="menu_create_instance_edit">적용 및 편집</string>
   <string name="menu_create_instance_save">적용 및 저장</string>
@@ -277,10 +270,6 @@
   <string name="plan_manual">수동</string>
   <string name="planner_create_calendar_failure">로컬 플래너 캘린더를 만들 수 없습니다</string>
   <string name="planner_create_calendar_success">로컬 플래너 캘린더를 만들었습니다</string>
-  <!--On Jelly Bean and above, we offer the option of creating a local calendar-->
-  <string name="planner_setup_info_jb">로컬 캘린더를 새로 만들거나 설정 화면에서 기존의 캘린더를 선택할 수 있습니다.</string>
-  <string name="planner_setup_info_create_new_warning">주의하세요: 로컬 캘린더는 일부 기기에서 제대로 작동하지 않을 수 있습니다. 만약 재무 계획이 로컬 캘린더에서 작동하지 않으면, 캘린더 앱에서 설정한 캘린더를 선택하세요.</string>
-  <string name="planner_setup_info">재무 계획을 보관할 캘린더를 설정 화면에서 선택하세요.</string>
   <!--payment methods-->
   <string name="pm_cheque">수표</string>
   <string name="pm_creditcard">신용카드</string>
@@ -370,8 +359,6 @@
   <string name="pref_ui_theme_title">테마</string>
   <string name="pref_visit_website_summary">변경 사항 및 자주 묻는 질문과 답변</string>
   <string name="pref_visit_website_title">웹사이트 방문</string>
-  <string name="progress_dialog_create_calendar">로컬 캘린더 만드는 중</string>
-  <string name="progress_dialog_create_plan">새 재무 계획 만드는 중</string>
   <string name="progress_dialog_deleting">항목 삭제하는 중</string>
   <string name="progress_dialog_loading">데이터베이스에서 항목 불러오는 중</string>
   <string name="progress_dialog_printing">PDF 파일 만드는 중</string>

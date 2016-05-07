@@ -79,16 +79,11 @@
   <string name="dialog_remind_rate_yes">Ocijeni</string>
   <string name="dialog_security_answer">Odgovor</string>
   <string name="dialog_security_question">Pitanje</string>
-  <!--Label for button that leads to creation of new local calendar-->
-  <string name="dialog_setup_planner_button_create_new">Kreiraj novo</string>
-  <!--Label for button that opens preferences for selecting an existing calendar-->
-  <string name="dialog_setup_planner_button_select_existing">Odaberi postojeće</string>
   <string name="dialog_title_attention">Oprez</string>
   <string name="dialog_title_information">Informacije</string>
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">Saldo %1$s</string>
   <string name="dialog_title_contrib_feature">Premium opcija</string>
-  <string name="dialog_title_planner_setup_info">Potrebno podešavanje kalendara</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">Odredi broj razlomačkih znamenki</string>
@@ -151,8 +146,6 @@
   <string name="menu_cancel_plan_instance">Odustani</string>
   <string name="menu_clone_transaction">Kopiraj</string>
   <string name="menu_contrib">Doprinesi</string>
-  <!--Currently used on button for creating a new plan-->
-  <string name="menu_create">Izradi</string>
   <string name="menu_create_account">Novi račun</string>
   <string name="menu_create_instance_edit">Primjeni i uredi</string>
   <string name="menu_create_instance_save">Primjeni i spremi</string>
@@ -256,10 +249,6 @@
   <string name="plan_manual">ručno</string>
   <string name="planner_create_calendar_failure">Greška u izradi lokalnog kalendara za planove</string>
   <string name="planner_create_calendar_success">Lokalni kalendar za planove uspješno kreiran</string>
-  <!--On Jelly Bean and above, we offer the option of creating a local calendar-->
-  <string name="planner_setup_info_jb">Možete ili kreirati lokalni kalendar ili odabrati postojeći iz postavki.</string>
-  <string name="planner_setup_info_create_new_warning">Oprez: Na nekim uređajima lokalni kalendari neće raditi. Ako vaši planovi neće raditi s lokalnim kalendarom, molimo odaberite kalendar kojeg ste postavili u Kalendar aplikaciji.</string>
-  <string name="planner_setup_info">Molimo odaberite kalendar za pohranu planova u postavkama.</string>
   <!--payment methods-->
   <string name="pm_cheque">Ček</string>
   <string name="pm_creditcard">Kreditna kartica</string>
@@ -343,8 +332,6 @@
   <string name="pref_ui_theme_title">Tema</string>
   <string name="pref_visit_website_summary">Izmjene i Često postavljana pitanja</string>
   <string name="pref_visit_website_title">Posjeti web stranicu</string>
-  <string name="progress_dialog_create_calendar">Kreiranje kalendara</string>
-  <string name="progress_dialog_create_plan">Kreiranje novog plana</string>
   <string name="progress_dialog_deleting">Brisanje stavki</string>
   <string name="progress_dialog_loading">Učitavanje stavki iz baze podataka</string>
   <string name="progress_dialog_printing">Generiranje PDF-a</string>

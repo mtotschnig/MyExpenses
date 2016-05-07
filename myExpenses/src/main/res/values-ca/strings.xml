@@ -76,16 +76,11 @@
   <string name="dialog_remind_rate_yes">Valoreu-ho ara</string>
   <string name="dialog_security_answer">Resposta</string>
   <string name="dialog_security_question">Pregunta</string>
-  <!--Label for button that leads to creation of new local calendar-->
-  <string name="dialog_setup_planner_button_create_new">Nova</string>
-  <!--Label for button that opens preferences for selecting an existing calendar-->
-  <string name="dialog_setup_planner_button_select_existing">Trieu</string>
   <string name="dialog_title_attention">Atenció</string>
   <string name="dialog_title_information">Informació</string>
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">Balanç %1$s</string>
   <string name="dialog_title_contrib_feature">Característica premium</string>
-  <string name="dialog_title_planner_setup_info">Cal configurar l\'agenda</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">Trieu el títol</string>
@@ -146,8 +141,6 @@
   <string name="menu_cancel_plan_instance">Anul·la</string>
   <string name="menu_clone_transaction">Clona</string>
   <string name="menu_contrib">Contribuïu</string>
-  <!--Currently used on button for creating a new plan-->
-  <string name="menu_create">Nou</string>
   <string name="menu_create_account">Nou compte</string>
   <string name="menu_create_instance_edit">Aplica i modifica</string>
   <string name="menu_create_instance_save">Aplica i desa</string>
@@ -235,9 +228,6 @@
   <string name="plan_manual">manual</string>
   <string name="planner_create_calendar_failure">No ha estat possible generar l\'agenda de planificació local</string>
   <string name="planner_create_calendar_success">L\'agenda  de planificació s\'ha generat correctament</string>
-  <!--On Jelly Bean and above, we offer the option of creating a local calendar-->
-  <string name="planner_setup_info_jb">Podeu generar una agenda local o triar una existent a les preferències.</string>
-  <string name="planner_setup_info">Trieu una agenda per desar les planificacions a les preferències</string>
   <!--payment methods-->
   <string name="pm_cheque">Xec</string>
   <string name="pm_creditcard">Targeta de crèdit</string>
@@ -304,8 +294,6 @@
   <string name="pref_ui_theme_title">Tema</string>
   <string name="pref_visit_website_summary">Registre de canvis i preguntes més freqüents</string>
   <string name="pref_visit_website_title">Visiteu el lloc web</string>
-  <string name="progress_dialog_create_calendar">S\'està generant una agenda local</string>
-  <string name="progress_dialog_create_plan">S\'està generant una nova planificació</string>
   <string name="progress_dialog_deleting">S\'estàn suprimint els objectes</string>
   <string name="progress_dialog_loading">S\'està carregant l\'objecte de la base de dades</string>
   <string name="reference_number">Número de referència</string>

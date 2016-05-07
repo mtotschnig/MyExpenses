@@ -64,13 +64,8 @@
   <string name="dialog_remind_rate_yes">現在評分</string>
   <string name="dialog_security_answer">答案</string>
   <string name="dialog_security_question">問題</string>
-  <!--Label for button that leads to creation of new local calendar-->
-  <string name="dialog_setup_planner_button_create_new">新建</string>
-  <!--Label for button that opens preferences for selecting an existing calendar-->
-  <string name="dialog_setup_planner_button_select_existing">選取現有的</string>
   <!--%1$s is replace with account label-->
   <string name="dialog_title_contrib_feature">高級功能</string>
-  <string name="dialog_title_planner_setup_info">要求設定日曆</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">設置名稱</string>
@@ -125,8 +120,6 @@
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
   <string name="menu_clone_transaction">複製</string>
   <string name="menu_contrib">貢獻</string>
-  <!--Currently used on button for creating a new plan-->
-  <string name="menu_create">新建</string>
   <string name="menu_create_account">新增賬戶</string>
   <string name="menu_create_main_cat">新增主要類別</string>
   <string name="menu_create_method">新增付款方法</string>
@@ -204,9 +197,6 @@
   <string name="plan_manual">說明書</string>
   <string name="planner_create_calendar_failure">無法建立本機日曆</string>
   <string name="planner_create_calendar_success">本機計劃日曆被成功新增</string>
-  <!--On Jelly Bean and above, we offer the option of creating a local calendar-->
-  <string name="planner_setup_info_jb">在設定中，你可以建立一個本機日曆或選擇一個現有日曆。</string>
-  <string name="planner_setup_info">請選擇一個日曆用作存儲計劃於設置中。</string>
   <!--payment methods-->
   <string name="pm_cheque">支票</string>
   <string name="pm_creditcard">信用卡</string>
@@ -270,8 +260,6 @@
   <string name="pref_ui_theme_title">界面主題</string>
   <string name="pref_visit_website_summary">活動日誌和常見問題</string>
   <string name="pref_visit_website_title">瀏覽官方網站</string>
-  <string name="progress_dialog_create_calendar">建立本機日歷</string>
-  <string name="progress_dialog_create_plan">建立新的計劃</string>
   <string name="progress_dialog_loading">從數據庫載入物件</string>
   <string name="reference_number">參考編號</string>
   <string name="request_licence_mail_description">透過英語，德語或法語請描述你的貢獻，例如透過Paypal捐款、錯誤報告、測試和翻譯等。</string>

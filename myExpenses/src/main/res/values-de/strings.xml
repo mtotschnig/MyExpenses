@@ -102,17 +102,12 @@
   <string name="dialog_remind_rate_yes">Jetzt bewerten</string>
   <string name="dialog_security_answer">Antwort</string>
   <string name="dialog_security_question">Frage</string>
-  <!--Label for button that leads to creation of new local calendar-->
-  <string name="dialog_setup_planner_button_create_new">Neu anlegen</string>
-  <!--Label for button that opens preferences for selecting an existing calendar-->
-  <string name="dialog_setup_planner_button_select_existing">Bestehenden auswählen</string>
   <string name="dialog_title_attention">Achtung</string>
   <string name="dialog_title_information">Informationen</string>
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">%1$s abstimmen</string>
   <string name="dialog_title_contrib_feature">Premium-Funktion</string>
   <string name="dialog_title_extended_feature">Erweiterte Funktion</string>
-  <string name="dialog_title_planner_setup_info">Einrichtung des Kalenders erforderlich</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">Anzahl der Nachkommastellen</string>
@@ -177,8 +172,6 @@
   <string name="menu_cancel_plan_instance">Annullieren</string>
   <string name="menu_clone_transaction">Klonen</string>
   <string name="menu_contrib">Beitragen</string>
-  <!--Currently used on button for creating a new plan-->
-  <string name="menu_create">Erstellen</string>
   <string name="menu_create_account">Neues Konto</string>
   <string name="menu_create_instance_edit">Anwenden und verändern</string>
   <string name="menu_create_instance_save">Anwenden und speichern</string>
@@ -282,10 +275,6 @@
   <string name="plan_manual">manuell</string>
   <string name="planner_create_calendar_failure">Lokaler Kalender konnte nicht angelegt werden</string>
   <string name="planner_create_calendar_success">Lokaler Kalender erfolgreich angelegt</string>
-  <!--On Jelly Bean and above, we offer the option of creating a local calendar-->
-  <string name="planner_setup_info_jb">Sie können entweder einen speziellen lokalen Kalender anlegen, oder in den Einstellungen einen bestehenden Kalender auswählen.</string>
-  <string name="planner_setup_info_create_new_warning">Achtung: Auf manchen Geräten sind lokale Kalender unter Umständen unzuverlässig. Falls Ihre Pläne mit einem lokalen Kalender nicht funktionieren, verwenden Sie bitte eher einen in der Kalender-App angelegten Kalender.</string>
-  <string name="planner_setup_info">Bitte wählen Sie in den Einstellungen den Kalender aus, in dem Pläne gespeichert werden sollen.</string>
   <!--payment methods-->
   <string name="pm_cheque">Scheck</string>
   <string name="pm_creditcard">Kreditkarte</string>
@@ -374,8 +363,6 @@
   <string name="pref_ui_theme_title">Stil</string>
   <string name="pref_visit_website_summary">Änderungsprotokoll und FAQ</string>
   <string name="pref_visit_website_title">Website besuchen</string>
-  <string name="progress_dialog_create_calendar">Lokaler Kalender wird angelegt</string>
-  <string name="progress_dialog_create_plan">Neuer Plan wird angelegt</string>
   <string name="progress_dialog_deleting">Objekte werden gelöscht</string>
   <string name="progress_dialog_loading">Buchung wird von Datenbank geladen</string>
   <string name="progress_dialog_printing">Generierung von PDF</string>

@@ -188,27 +188,6 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
             .setView(view)
             .setPositiveButton(android.R.string.ok, null)
             .create();
-      case R.id.PLANNER_SETUP_INFO_CREATE_NEW_WARNING_DIALOG:
-        return new AlertDialog.Builder(this)
-            .setTitle(R.string.dialog_title_attention)
-            .setMessage(R.string.planner_setup_info_create_new_warning)
-            .setNegativeButton(android.R.string.cancel, null)
-            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-              public void onClick(DialogInterface dialog, int id) {
-                //TODO: use Async Task Strict Mode violation
-                String plannerId = MyApplication.getInstance().createPlanner(false);
-                boolean success = !plannerId.equals(MyApplication.INVALID_CALENDAR_ID);
-                Toast.makeText(
-                    MyPreferenceActivity.this,
-                    success ? R.string.planner_create_calendar_success : R.string.planner_create_calendar_failure,
-                    Toast.LENGTH_LONG).show();
-                if (success) {
-                  ((ListPreference) getFragment().findPreference(PrefKey.PLANNER_CALENDAR_ID.getKey()))
-                      .setValue(plannerId);
-                }
-              }
-            })
-            .create();
     }
     return null;
   }
@@ -248,15 +227,6 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       return intent;
     }
     return null;
-  }
-
-  public void onCalendarListPreferenceSet() {
-    if (TextUtils.equals(
-        getIntent().getStringExtra(KEY_OPEN_PREF_KEY),
-        PrefKey.PLANNER_CALENDAR_ID.getKey())) {
-      setResult(RESULT_OK);
-      finish();
-    }
   }
 
   @Override

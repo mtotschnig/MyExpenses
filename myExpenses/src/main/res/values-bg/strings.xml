@@ -102,17 +102,12 @@
   <string name="dialog_remind_rate_yes">Оценете сега</string>
   <string name="dialog_security_answer">Отговор</string>
   <string name="dialog_security_question">Въпрос</string>
-  <!--Label for button that leads to creation of new local calendar-->
-  <string name="dialog_setup_planner_button_create_new">Създайте нов</string>
-  <!--Label for button that opens preferences for selecting an existing calendar-->
-  <string name="dialog_setup_planner_button_select_existing">Изберете съществуващ</string>
   <string name="dialog_title_attention">Внимание</string>
   <string name="dialog_title_information">Информация</string>
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">Баланс %1$s</string>
   <string name="dialog_title_contrib_feature">Функция от Премиум вариант</string>
   <string name="dialog_title_extended_feature">Функция от Разширен вариант</string>
-  <string name="dialog_title_planner_setup_info">Изисква да е зададен календар</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_set_fraction_digits">Задайте броя цифри след десетичния знак</string>
@@ -177,8 +172,6 @@
   <string name="menu_cancel_plan_instance">Отмени</string>
   <string name="menu_clone_transaction">Клонирай</string>
   <string name="menu_contrib">Допринесете</string>
-  <!--Currently used on button for creating a new plan-->
-  <string name="menu_create">Създай</string>
   <string name="menu_create_account">Нова сметка</string>
   <string name="menu_create_instance_edit">Приложи и редактирай</string>
   <string name="menu_create_instance_save">Приложи и запиши</string>
@@ -282,10 +275,6 @@
   <string name="plan_manual">ръчно</string>
   <string name="planner_create_calendar_failure">Не може да се зададе локален календарен план</string>
   <string name="planner_create_calendar_success">Успешно зададен локален календарен план</string>
-  <!--On Jelly Bean and above, we offer the option of creating a local calendar-->
-  <string name="planner_setup_info_jb">Може да зададете отделен локален календар или да изберете съществуващ от Настройки.</string>
-  <string name="planner_setup_info_create_new_warning">Внимание: получена е информация, че локалните календари не работят надеждно на някои устройства. Ако вашите планове не работят с локален календар, моля изберете календар, който сте задали във вашето приложение Календар.</string>
-  <string name="planner_setup_info">Моля, изберете в Настройки календар за съхраняване на плановете.</string>
   <!--payment methods-->
   <string name="pm_cheque">Чек</string>
   <string name="pm_creditcard">Кредитна карта</string>
@@ -374,8 +363,6 @@
   <string name="pref_ui_theme_title">Тема</string>
   <string name="pref_visit_website_summary">Често задавани въпроси (FAQ)</string>
   <string name="pref_visit_website_title">Посетете сайта ни</string>
-  <string name="progress_dialog_create_calendar">Създаване на локален календар</string>
-  <string name="progress_dialog_create_plan">Създаване на нов план</string>
   <string name="progress_dialog_deleting">Изтриване на обекти</string>
   <string name="progress_dialog_loading">Зареждане обекти от база данни</string>
   <string name="progress_dialog_printing">Генериране на PDF</string>
