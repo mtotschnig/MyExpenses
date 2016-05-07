@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.test.util;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.Calendar;
 import java.util.Currency;
 import java.util.Date;
 import java.util.Locale;
@@ -208,8 +209,7 @@ public class Fixture {
     template.title = templateSubCat;
     template.payee = testContext.getString(R.string.testData_templatePayee);
     Uri planUri = new Plan(
-        0L,
-        System.currentTimeMillis(),
+        Calendar.getInstance(),
         "FREQ=WEEKLY;COUNT=10;WKST=SU",
         template.title,
         template.compileDescription(appContext))
