@@ -11,8 +11,7 @@
         android:id="@+id/Recurrence"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|start"
-        android:textAlignment="viewStart"/>
+        android:layout_gravity="center_vertical|start"/>
 
     <Button
         android:id="@+id/Plan"
