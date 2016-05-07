@@ -49,6 +49,7 @@ import java.util.List;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.adapter.CrStatusAdapter;
 import org.totschnig.myexpenses.adapter.RecurrenceAdapter;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
@@ -387,29 +388,7 @@ public class ExpenseEdit extends AmountActivity implements
     }
 
 
-    ArrayAdapter<Transaction.CrStatus> sAdapter = new ArrayAdapter<Transaction.CrStatus>(
-        this,
-        R.layout.custom_spinner_item, android.R.id.text1, Transaction.CrStatus.values()) {
-      @Override
-      public View getView(int position, View convertView, ViewGroup parent) {
-        View row = super.getView(position, convertView, parent);
-        setColor(position, row);
-        row.findViewById(android.R.id.text1).setVisibility(View.GONE);
-        return row;
-      }
-
-      @Override
-      public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        View row = super.getDropDownView(position, convertView, parent);
-        setColor(position, row);
-        row.findViewById(android.R.id.text1).setEnabled(isEnabled(position));
-        return row;
-      }
-
-      private void setColor(int position, View row) {
-        View color = row.findViewById(R.id.color1);
-        color.setBackgroundColor(getItem(position).color);
-      }
+    CrStatusAdapter sAdapter = new CrStatusAdapter(this) {
 
       @Override
       public boolean isEnabled(int position) {
@@ -418,7 +397,6 @@ public class ExpenseEdit extends AmountActivity implements
         return mTransaction != null && mTransaction.crStatus != CrStatus.RECONCILED && position != CrStatus.RECONCILED.ordinal();
       }
     };
-    sAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_item);
     mStatusSpinner.setAdapter(sAdapter);
 
     //1. fetch the transaction or create a new instance

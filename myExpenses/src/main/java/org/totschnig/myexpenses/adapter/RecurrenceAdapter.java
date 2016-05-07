@@ -11,10 +11,6 @@ import org.totschnig.myexpenses.model.Plan;
 import java.util.List;
 
 public class RecurrenceAdapter extends ArrayAdapter<Plan.Recurrence> {
-  public RecurrenceAdapter(Context context, int resource) {
-    super(context, resource);
-  }
-
 
   public RecurrenceAdapter(Context context) {
     super(context, android.R.layout.simple_spinner_item, Plan.Recurrence.values());
