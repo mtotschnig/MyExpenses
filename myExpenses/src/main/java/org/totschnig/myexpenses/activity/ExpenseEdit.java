@@ -1182,12 +1182,10 @@ public class ExpenseEdit extends AmountActivity implements
         if (mReccurenceSpinner.getSelectedItemPosition() > 0) {
           String description = ((Template) mTransaction).compileDescription(ExpenseEdit.this);
           mPlan = new Plan(
-              0L,
-              mTransaction.getDate().getTime(),
-              "",
+             mCalendar,
+              ((Plan.Recurrence) mReccurenceSpinner.getSelectedItem()).toRrule(),
               ((Template) mTransaction).title,
               description);
-          mPlan.rrule = ((Plan.Recurrence) mReccurenceSpinner.getSelectedItem()).toRrule();
           ((Template) mTransaction).setPlan(mPlan);
         }
       } else {

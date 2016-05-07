@@ -1,29 +1,29 @@
 package org.totschnig.myexpenses.model;
 
-import java.io.Serializable;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
-
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.MyApplication.PrefKey;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.util.Utils;
-
-import com.android.calendar.EventRecurrenceFormatter;
-import com.android.calendar.CalendarContractCompat.Events;
-import com.android.calendarcommon2.EventRecurrence;
-
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
+import android.os.Build;
 import android.text.TextUtils;
 import android.text.format.Time;
 import android.util.Log;
+
+import com.android.calendar.CalendarContractCompat.Events;
+import com.android.calendar.EventRecurrenceFormatter;
+import com.android.calendarcommon2.EventRecurrence;
+
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.MyApplication.PrefKey;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.util.Utils;
+
+import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * @author Michael Totschnig
@@ -73,13 +73,24 @@ public class Plan extends Model implements Serializable {
     }
   }
 
-  public Plan(Long id, long dtstart, String rrule, String title, String description) {
-    super();
+  private Plan(Long id, long dtstart, String rrule, String title, String description) {
     this.setId(id);
     this.dtstart = dtstart;
     this.rrule = rrule;
     this.title = title;
     this.description = description;
+  }
+
+  public Plan(Calendar cal, String rrule, String title, String description) {
+    Calendar clone = ((Calendar) cal.clone());
+    clone.set(Calendar.HOUR, 0);
+    clone.set(Calendar.MINUTE, 0);
+    clone.set(Calendar.SECOND, 0);
+    this.dtstart = cal.getTimeInMillis();
+    this.rrule = rrule;
+    this.title = title;
+    this.description = description;
+
   }
 
   public static Plan getInstanceFromDb(long planId) {
@@ -127,10 +138,13 @@ public class Plan extends Model implements Serializable {
       values.put(Events.CUSTOM_APP_URI, customAppUri);
       values.put(Events.CUSTOM_APP_PACKAGE, MyApplication.getInstance().getPackageName());
     }
-    if (!TextUtils.isEmpty(rrule))
+    if (!TextUtils.isEmpty(rrule)) {
       values.put(Events.RRULE, rrule);
-    values.put(Events.ALL_DAY,1);
-    values.put(Events.EVENT_TIMEZONE, TimeZone.getDefault().getID());
+    }
+    if (Utils.hasApiLevel(Build.VERSION_CODES.ICE_CREAM_SANDWICH)) {
+      values.put(Events.ALL_DAY, 1);
+    }
+    values.put(Events.EVENT_TIMEZONE, Time.TIMEZONE_UTC);
     if (getId() == 0) {
       String calendarId = MyApplication.getInstance().checkPlanner();
       if (calendarId.equals(MyApplication.INVALID_CALENDAR_ID)) {
