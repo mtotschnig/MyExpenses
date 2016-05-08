@@ -147,7 +147,6 @@
   </string-array>
   <string name="help_leading">Ευχαριστώ για την εγκατάσταση <i>Έξοδα μου</i> για το Android.</string>
   <string name="important_upgrade_information_heading">Σημαντικές πληροφορίες</string>
-  <string name="important_upgrade_information_1">Τα αντίγραφα ασφαλείας και οι εξαγωγές τώρα αποθηκεύονται στο Android/data/org.totschnig.myexpenses . ΠΡΟΣΟΧΗ: Αυτός ο κατάλογος διαγράφεται, όταν απεγκαθίσταται το «Τα έξοδά μου».</string>
   <string name="import_select_transactions">Συναλλαγές</string>
   <string name="income">Εισόδημα</string>
   <string name="invalid_number_format">Δεκαδική μορφή δεν αναγνωρίζεται από τις τοπικές σας ρυθμίσεις. Παρακαλούμε να χρησιμοποιήσετε το %1$s</string>

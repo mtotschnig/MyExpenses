@@ -150,7 +150,6 @@
   </string-array>
   <string name="help_leading">Obrigado por instalar o <i>My Expenses</i> para Android.</string>
   <string name="important_upgrade_information_heading">Informação importante</string>
-  <string name="important_upgrade_information_1">Os backups e exportações são agora guardados em Android/data/org.totschnig.myexpenses . ATENÇÃO: este diretório será eliminado se desinstalar o My Expenses.</string>
   <string name="import_select_transactions">Transações</string>
   <string name="income">Receitas</string>
   <string name="invalid_number_format">Formato decimal não reconhecido pela sua configuração regional. Por favor utilize %1$s.</string>

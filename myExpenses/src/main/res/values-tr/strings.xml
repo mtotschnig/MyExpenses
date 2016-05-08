@@ -152,7 +152,6 @@
   </string-array>
   <string name="help_leading">Android için <i>Harcamalarım</i>\'i kurduğunuz için teşekkür ederiz.</string>
   <string name="important_upgrade_information_heading">Önemli bilgi</string>
-  <string name="important_upgrade_information_1">Yedeklemeler ve dışa aktarmalar bundan böyle Android/data/org.totschnig.myexpenses konumunda saklanır. DİKKATİNİZE: Harcamalarım kaldırıldığında bu klasör silinir.</string>
   <string name="import_select_transactions">Muameleler</string>
   <string name="income">gelirler</string>
   <string name="invalid_number_format">Yerel ayarlarınız ondalık biçimi tanımıyor. Lütfen şunu kullanınız: %1$s</string>

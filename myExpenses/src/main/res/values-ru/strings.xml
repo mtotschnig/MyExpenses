@@ -114,7 +114,6 @@
   </string-array>
   <string name="help_leading">Спасибо за установку <i>Мои расходы</i> для Android.</string>
   <string name="important_upgrade_information_heading">Важная информация</string>
-  <string name="important_upgrade_information_1">Резервное копирование и экспортированные данные теперь хранятся в Android/data/org.totschnig.myexpenses. ВНИМАНИЕ: Этот каталог будет удален при удалении приложения Мои расходы.</string>
   <string name="import_select_transactions">Операция</string>
   <string name="income">Прибыль</string>
   <string name="invalid_number_format">Десятичный формат не опознан в вашей локали. Пожалуйста, используйте %1$s</string>

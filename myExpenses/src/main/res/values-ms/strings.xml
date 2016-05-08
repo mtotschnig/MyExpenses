@@ -150,7 +150,6 @@
   </string-array>
   <string name="help_leading">Terima kasih kerana memasang <i>Perbelanjaan Saya</i> Android.</string>
   <string name="important_upgrade_information_heading">Maklumat penting</string>
-  <string name="important_upgrade_information_1">Sandar dan Eksport kini disimpan dibawah Android/data/org.totschnig.myexpenses . PERHATIAN: Direktori ini akan dipadam jika anda menyahpasang Perbelanjaan Saya.</string>
   <string name="import_select_transactions">Transaksi</string>
   <string name="income">Pendapatan</string>
   <string name="invalid_number_format">Format perpuluhan tidak dikenali oleh lokal anda. Sila guna %1$s</string>

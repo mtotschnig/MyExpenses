@@ -144,7 +144,6 @@
   </string-array>
   <string name="help_leading">Tak for at installere <i>Mine udgifter</i> til Android.</string>
   <string name="important_upgrade_information_heading">Vigtige oplysninger</string>
-  <string name="important_upgrade_information_1">Sikkerhedskopier og eksporten er nu gemt under Android/data/org.totschnig.myexpenses. OBS: Denne mappe slettes, når du afinstallerer Mine udgifter.</string>
   <string name="import_select_transactions">Posteringer</string>
   <string name="income">Indkomst</string>
   <string name="invalid_number_format">Tal format understøttes ikke af din landestandard/lokalinstillinger. Brug venligst %1$s</string>

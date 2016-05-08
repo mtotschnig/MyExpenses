@@ -152,7 +152,6 @@
   </string-array>
   <string name="help_leading">Благодаря Ви, че инсталирахте <i>Моите разходи</i> за Андроид.</string>
   <string name="important_upgrade_information_heading">Важна информация</string>
-  <string name="important_upgrade_information_1">Бекъп и експортите сега се съхраняват в Android/data/org.totschnig.myexpenses  ВНИМАНИЕ: Тази директория се изтрива, когато деинсталирате Моите разходи.</string>
   <string name="import_select_transactions">Транзакции</string>
   <string name="income">Приход</string>
   <string name="invalid_number_format">Не е рапознат десетичния разделител. Моля, използвайте %1$s</string>

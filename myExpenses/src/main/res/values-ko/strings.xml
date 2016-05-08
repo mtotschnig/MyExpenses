@@ -149,7 +149,6 @@
   </string-array>
   <string name="help_leading">My Expenses를 설치해 주셔서 감사합니다.</string>
   <string name="important_upgrade_information_heading">중요한 정보</string>
-  <string name="important_upgrade_information_1">백업된 자료와 내보낸 자료는 Android/data/org.totschnig.myexpenses 에 저장됩니다. 주의하세요: My Expenses를 제거하게 되면 여기에 저장된 자료도 같이 삭제됩니다.</string>
   <string name="import_select_transactions">거래 내역</string>
   <string name="income">수입</string>
   <string name="invalid_number_format">현재 설정된 언어권에 맞는 십진수 형식을 인식할 수 없습니다. 다음을 사용하세요: %1$s</string>

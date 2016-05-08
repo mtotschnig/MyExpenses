@@ -128,7 +128,6 @@
   </string-array>
   <string name="help_leading">Zahvaljujemo na instalaciji  <i>My Expenses</i> za Android.</string>
   <string name="important_upgrade_information_heading">Važne informacije</string>
-  <string name="important_upgrade_information_1">Sigurnosne kopije i eksporti su pohranjeni u Android/data/org.totschnig.myexpenses. OPREZ: Prilikom deinstalacije My Expenses-a, i ovaj direktorij će biti obrisan.</string>
   <string name="import_select_transactions">Transakcije</string>
   <string name="income">Prihod</string>
   <string name="invalid_number_format">Decimalni format nije prepoznat. Molimo koristite %1$s</string>

@@ -147,7 +147,6 @@
   </string-array>
   <string name="help_leading">感谢你安装<i>开支助手</i>Android版.</string>
   <string name="important_upgrade_information_heading">重要资讯</string>
-  <string name="important_upgrade_information_1">备份和导出被存储到 Android/data/org.totschnig.myexpenses . 注意: 当你卸载开支助手时候,这个目录会被删除.</string>
   <string name="import_select_transactions">交易</string>
   <string name="income">收入</string>
   <string name="invalid_number_format">十进制格式不能被辨认.请使用 %1$s</string>

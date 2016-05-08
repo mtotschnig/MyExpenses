@@ -152,7 +152,6 @@
   </string-array>
   <string name="help_leading">Eskerrik asko Androiderako <i>Nire Gastuak</i> instalatzeagatik.</string>
   <string name="important_upgrade_information_heading">Informazio garrantzitsua</string>
-  <string name="important_upgrade_information_1">Babeskopiak eta esportazioak orain Android/data/org.totschnig.myexpenses direktorioan gordeko dira. ADI: Direktorio hau ezabatu egingo da Nire gastuak desinstalatzen baduzu.</string>
   <string name="import_select_transactions">Transakzioak</string>
   <string name="income">Diru-sarrera</string>
   <string name="invalid_number_format">Formatu dezimala ezin da ulertu zure hizkuntzan. Erabili %1$s</string>

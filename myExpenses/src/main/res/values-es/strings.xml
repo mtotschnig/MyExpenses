@@ -152,7 +152,6 @@
   </string-array>
   <string name="help_leading">Gracias por probar <i>Mis gastos</i> para Android.</string>
   <string name="important_upgrade_information_heading">Información importante</string>
-  <string name="important_upgrade_information_1">Las copias de seguridad y las exportaciones se almacenan ahora bajo Android/data/org.totschnig.myexpenses. ATENCIÓN: Este directorio es eliminado cuando desinstalas Mis Gastos.</string>
   <string name="import_select_transactions">Asientos</string>
   <string name="income">Ingreso</string>
   <string name="invalid_number_format">Formato de número no compatible con su configuración regional. Por favor, utilice %1$s</string>

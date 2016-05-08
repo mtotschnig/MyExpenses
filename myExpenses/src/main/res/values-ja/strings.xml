@@ -150,7 +150,6 @@
   </string-array>
   <string name="help_leading">Android 用 <i>マイ エクスペンス</i> をインストールしていただきありがとうございます。</string>
   <string name="important_upgrade_information_heading">重要な情報</string>
-  <string name="important_upgrade_information_1">バックアップおよびエクスポートは、Android/data/org.totschnig.myexpenses の下に格納されます。注意: マイ エクスペンス をアンインストールすると、このディレクトリは削除されます。</string>
   <string name="import_select_transactions">取引</string>
   <string name="income">収入</string>
   <string name="invalid_number_format">小数点の書式があなたのロケールでは認識できません。%1$s を使用してください。</string>

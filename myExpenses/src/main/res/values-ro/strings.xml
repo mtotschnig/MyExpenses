@@ -145,7 +145,6 @@
   </string-array>
   <string name="help_leading">Vă mulţumim pentru instalarea  <i>Cheltuielile Mele</i> pentru Android.</string>
   <string name="important_upgrade_information_heading">Informaţii importante</string>
-  <string name="important_upgrade_information_1">Backup-uri şi exporturile sunt acum stocate în Android/data/org.totschnig.myexpenses .ATENŢIE: Acest director este şters, atunci când dezinstalaţi Cheltuielile Mele.</string>
   <string name="import_select_transactions">Tranzacţii</string>
   <string name="income">Venituri</string>
   <string name="invalid_number_format">Format zecimal necunoscut de localizarea dvs. Utilizaţi %1$s</string>

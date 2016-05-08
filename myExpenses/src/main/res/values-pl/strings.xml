@@ -126,7 +126,6 @@
   </string-array>
   <string name="help_leading">Dziękujemy za zainstalowanie <i>Moje Wydatki</i> dla systemu Android.</string>
   <string name="important_upgrade_information_heading">Ważna informacja</string>
-  <string name="important_upgrade_information_1">Kopie zapasowe oraz Eksporty są teraz przechowywane w Android/data/org.totschnig.myexpenses . UWAGA: Ten katalog jest usuwany, gdy odinstalujesz Moje Wydatki.</string>
   <string name="import_select_transactions">Transakcje</string>
   <string name="income">Dochód</string>
   <string name="invalid_number_format">Format dziesiętny nie jest rozpoznawalny przez twoją lokalizację. Proszę użyć %1$s</string>
