@@ -53,9 +53,9 @@ fr:
       deprecated: |
         NOTE: Depuis la version 2.3.9, la Clé Contrib pour déverrouiller les fonctionnalités Premium de Mes Dépenses peut être facilement achetée par un paiement dans l'application, et vous n'avez plus besoin d'installer l'application "Mes dépenses Clé Contrib".
       intro: |
-        Vous avez les options suivantes pour l'achat de la licence de Contrib :
+        Vous avez les options suivantes pour l'achat des licences Contrib et Étendue:
       in-app: |
-        Si vous avez installé Mes Dépenses depuis Google Play ou Amazon App Store, elle est disponible en tant qu'achat via l'application.
+        Si vous avez installé Mes Dépenses depuis Google Play ou Amazon App Store, elles sont disponibles en tant qu'achat via l'application.
       blackberry: |2
          Si vous avez installé Mes Dépenses depuis Blackberry World, installez <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">Mes Dépenses Contrib</a>.
       blackberry-extra: |

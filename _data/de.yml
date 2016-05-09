@@ -53,9 +53,9 @@ de:
       deprecated: |
         HINWEIS: Seit Version 2.3.9 kann der Contrib Schlüssel zur Freischaltung der Premium-Funktionalität von Meine Ausgaben einfacher durch eine In-App Bezahlung erworben werden, und Sie müssen daher die "Meine Ausgaben Contrib Schlüssel" App nicht mehr installieren.
       intro: |
-        Die Contrib Lizenz kann auf folgenden Wegen erworben werden:
+        Die Contrib und die erweiterte Lizenzen können auf folgenden Wegen erworben werden:
       in-app: |
-        Wenn Sie Meine Ausgaben von Google Play oder Amazon AppStore installiert haben, steht diese als In-App-Kauf zur Verfügung.
+        Wenn Sie Meine Ausgaben von Google Play oder Amazon AppStore installiert haben, stehen diese als In-App-Käufe zur Verfügung.
       blackberry: |
         Wenn Sie Meine Ausgaben von Blackberry World installiert haben, installieren Sie auch <a class="track" id="amazon-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">Meine Ausgaben Contrib</a>.
       blackberry-extra: |
