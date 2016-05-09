@@ -1449,6 +1449,9 @@ public class Utils {
     return null;
   }
 
+  //TODO TintContextWrapper is not public in Support library 23.3.0,
+  //need to find another solution
+  //maybe http://stackoverflow.com/a/37097656/1199911
   public static Bitmap getTintedBitmapForTheme(int drawableResId, int themeResId) {
     Context wrappedContext = TintContextWrapper.wrap(
         new ContextThemeWrapper(MyApplication.getInstance(), themeResId));

@@ -30,7 +30,7 @@ ext {
     buildToolsVersion = "23.0.2"
     minSdkVersion = 8
     targetSdkVersion = 23
-    androidSupportLibraryVersion = "23.2.0"
+    androidSupportLibraryVersion = "23.2.1"
     espressoVersion = "2.2.2"
     androidSupportTestVersion = "0.5"
 }

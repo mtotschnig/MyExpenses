@@ -9,7 +9,7 @@ android {
         applicationId "org.totschnig.myexpenses"
         minSdkVersion project.minSdkVersion
         targetSdkVersion project.targetSdkVersion
-        versionCode 248
+        versionCode 250
         versionName '2.6.8'
 
         buildConfigField "String", "PLATTFORM", "\"Android\""
@@ -63,7 +63,7 @@ android {
     aaptOptions {
         additionalParameters "--no-version-vectors"
     }
-    //testBuildType "release"
+    testBuildType "release"
 }
 
 dependencies {
