@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_268">
+    <item>繰り返し、および将来の取引の設定が簡単になりました。</item>
+  </string-array>
   <string-array name="whats_new_267">
     <item>簡体中国語翻訳</item>
     <item>計画インスタンスの処理を改善しました</item>

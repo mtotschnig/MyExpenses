@@ -4,6 +4,18 @@
     <item>Tradução de chinês simplificado</item>
     <item>Melhoria no tratamento de casos de planos</item>
   </string-array>
+  <string-array name="whats_new_266">
+    <item>Novos ícones de menu</item>
+  </string-array>
+  <string-array name="whats_new_265">
+    <item>Melhorias na organização de modelos, categorias e contas</item>
+  </string-array>
+  <string-array name="whats_new_264">
+    <item>Possibilidade de pesquisar no ecrã de categorias</item>
+    <item>Possibilidade de copiar o saldo das contas para a área de transferência</item>
+    <item>Possibilidade de colar dados da área de transferência na calculadora</item>
+    <item>Adição de ajuda na formatação de datas no diálogo de exportação</item>
+  </string-array>
   <string-array name="whats_new_263">
     <item>Transferência entre contas em diferentes moedas</item>
   </string-array>
@@ -29,6 +41,9 @@
   <string-array name="whats_new_249">
     <item>Exportação de categorias para QIF</item>
     <item>Somas agregadas no widget do ecrã</item>
+  </string-array>
+  <string-array name="whats_new_247">
+    <item>O comando Clonar abre o formulário de edição</item>
   </string-array>
   <string-array name="whats_new_242">
     <item>Possibilidade de anexar imagens às transações</item>

@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_268">
+    <item>Mise en place des opérations futures et récurrentes plus facile </item>
+  </string-array>
   <string-array name="whats_new_267">
     <item>Traduction en chinois simplifié</item>
     <item>Traitement amélioré des instances</item>

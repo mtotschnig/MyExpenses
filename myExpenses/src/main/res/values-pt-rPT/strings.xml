@@ -321,22 +321,41 @@ Sérgio Marques</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Permitido sem palavra-passe</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Requer palavra-passe</string>
   <string name="pref_qif_export_file_encoding_title">Codificação de caracteres</string>
+  <string name="pref_request_licence_title">Solicitar uma chave</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
+  <string name="pref_restore_alternative">Alternativo</string>
+  <string name="pref_restore_title">Restaurar</string>
   <string name="pref_security_question_title">Questão de segurança</string>
+  <string name="pref_send_feedback_title">Enviar comentários</string>
+  <string name="pref_shortcut_added">Atalho adicionado ao ecrã</string>
+  <string name="pref_ui_fontsize_title">Tamanho do tipo de letra</string>
+  <string name="pref_ui_home_screen_shortcuts">Atalhos no ecrã</string>
   <string name="pref_ui_language_default">Definições do sistema</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Idioma</string>
   <string name="pref_ui_theme_dark">escuro</string>
   <string name="pref_ui_theme_light">claro</string>
   <string name="pref_ui_theme_title">Tema</string>
+  <string name="pref_visit_website_summary">Alterações e FAQ</string>
+  <string name="pref_visit_website_title">Aceder ao sítio web</string>
   <string name="progress_dialog_deleting">A apagar objetos</string>
   <string name="progress_dialog_loading">A carregar objetos da base de dados</string>
   <string name="progress_dialog_printing">A gerar ficheiro PDF</string>
   <string name="progress_dialog_saving">A guardar objeto na base de dados</string>
   <string name="qif_parse_result">Processado: %1$s contas; %2$s categorias e %3$s partes</string>
+  <string name="qif_parse_failure_found_multiple_accounts">Encontradas diversas contas no ficheiro QIF.</string>
+  <string name="reference_number">Número de referência</string>
+  <string name="restore_db_failure">Falha ao restaurar a base de dados.</string>
+  <string name="restore_db_success">Base de dados restaurada a parir do backup.</string>
+  <string name="restore_no_backup_found">Não existem backups.</string>
+  <string name="restore_preferences_failure">Falha ao restaurar as preferências</string>
+  <string name="restore_backup_archive_not_valid">O arquivo %1$s não é válido</string>
+  <string name="save_transaction_and_new_success">Guardado com sucesso</string>
+  <string name="select">Selecionar</string>
   <string name="select_category">Selecionar categoria</string>
   <string name="menu_select_category">Selecionar esta categoria</string>
   <string name="menu_select_folder">Selecionar esta pasta</string>
+  <string name="share_scheme_not_supported">O esquema %1$s não é suportado</string>
   <string name="split_transaction">Repartir transação</string>
   <string name="status">Estado</string>
   <string name="status_reconciled">reconciliada</string>
@@ -358,6 +377,14 @@ Sérgio Marques</string>
   <string name="transfer_to_account">Para</string>
   <string name="type">Tipo</string>
   <string name="warning_delete_account">A conta \"%1$s\" e todas as suas transações serão apagadas.</string>
+  <plurals name="warning_delete_template">
+    <item quantity="one">O modelo selecionado será apagado.</item>
+    <item quantity="other">%1$d modelos selecionados serão apagados.</item>
+  </plurals>
+  <plurals name="warning_delete_transaction">
+    <item quantity="one">A transação selecionada será apagada.</item>
+    <item quantity="other">%1$d transações selecionadas serão apagadas.</item>
+  </plurals>
   <string name="warning_password_protected">A aplicação está protegida por palavra-passe.</string>
   <string name="warning_widget_disabled">Necessita de ativar este widget nas definições da aplicação.</string>
   <string name="warning_password_contrib">Definir uma pergunta de segurança permite-lhe desbloquear a aplicação, no caso de se esquecer da palavra-passe.</string>
@@ -365,6 +392,7 @@ Sérgio Marques</string>
   <string name="warning_reset_account">Se continuar, todas as transações desta conta serão eliminadas da base de dados e não poderão ser recuperadas.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Se continuar, as transações de todas as contas %1$s serão eliminadas e não poderão ser recuperadas.</string>
+  <string name="warning_fraction_digits_out_of_range">Defina um número entre 0 e 8</string>
   <string name="import_parties_none">Nenhuma parte importada</string>
   <string name="menu_create_folder">Nova pasta</string>
   <!--This string is used for navigating up in the folder browser-->
@@ -394,14 +422,19 @@ Sérgio Marques</string>
   <string name="no">Não</string>
   <string name="learn_more">Saber mais</string>
   <string name="import_source_file">Ficheiro</string>
+  <string name="restore_calendar_handling_ignore">Não restaurar planos</string>
   <string name="menu_view_picture">Ver imagem</string>
   <string name="menu_delete_picture">Apagar imagem</string>
   <string name="menu_change_picture">Anexar outra imagem</string>
   <string name="menu_distribution_show_pie_char">Mostrar gráfico circular</string>
   <string name="menu_distribution_aggreate">Agregar receitas e despesas</string>
+  <string name="image_deleted">Imagem apagada</string>
+  <string name="transaction_deleted">Transação apagada</string>
+  <string name="export_handle_deleted_update_balance">Atualizar saldo inicial</string>
   <string name="file_name">Nome do ficheiro</string>
   <string name="folder_name">Nome da pasta</string>
   <string name="menu_undelete_transaction">Restaurar</string>
+  <string name="menu_categories_export">Exportar para QIF</string>
   <string name="pref_csv_import_delimiter">Delimitador</string>
   <string name="csv_import_preview">Antevisão</string>
   <string name="menu_parse">Processar</string>
@@ -413,10 +446,21 @@ Sérgio Marques</string>
   <string name="menu_show_transactions">Mostrar transações</string>
   <string name="pref_custom_decimal_format_title">Formato numérico</string>
   <string name="pref_auto_backup_title">Cópia de segurança automática</string>
+  <string name="button_request_calendar_access" tools:ignore="UnusedResources">Permitir acesso</string>
   <string name="menu_move">Mover</string>
+  <string name="dialog_title_select_target">Selecionar destino</string>
+  <string name="transform_subcategory_to_main">Transformar em categoria principal</string>
+  <string name="preferences_week_start_day_title">Semana começa em</string>
+  <string name="preferences_month_start_date_title">Mês começa em</string>
   <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
+  <string name="exchange_rate">Taxa de câmbio</string>
+  <string name="date_format_hour">Hora</string>
+  <string name="date_format_minute">Minuto</string>
+  <string name="copied_to_clipboard">Copiado para a área de transferência</string>
+  <string name="menu_sort">Organizar por</string>
   <string name="content_description_calculator">Calculadora</string>
   <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
   <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <string name="content_description_calculator_delete_button">Apagar último dígito</string>
 </resources>
