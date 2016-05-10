@@ -516,9 +516,6 @@ public class ExpenseEdit extends AmountActivity implements
     super.onResume();
     mIsResumed = true;
     if (mAccounts != null) setupListeners();
-    if (mPlanUpdateNeeded) {
-      refreshPlanData();
-    }
   }
 
   @Override
@@ -1256,6 +1253,15 @@ public class ExpenseEdit extends AmountActivity implements
       else {
         mPlanUpdateNeeded = true;
       }
+    }
+  }
+
+  @Override
+  protected void onPostResume() {
+    super.onPostResume();
+    if (mPlanUpdateNeeded) {
+      refreshPlanData();
+      mPlanUpdateNeeded = false;
     }
   }
 
