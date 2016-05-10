@@ -457,6 +457,10 @@
         <item>posts/1732752853652852</item>
         <item>49zhp2i3f7u</item>
     </string-array>
+    <string-array name="version_more_info_268" tools:ignore="UnusedResources">
+        <item>photos/a.1450395311888609.1073741827.1450391968555610/1735968603331277</item>
+        <item>MXtMYPTArBs</item>
+    </string-array>
 
     <string-array name="comparison_operator_entries">
         <item>@string/comparison_operator_equal</item>
