@@ -58,7 +58,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
     super.onCreate(savedInstanceState);
     setContentView(R.layout.manage_templates);
     setupToolbar(true);
-    setTitle(getString(Utils.IS_ANDROID ?
+    setTitle(getString(Utils.Feature.Plans.isEnabled() ?
         R.string.menu_manage_plans : R.string.menu_manage_plans_tab_templates));
 
 

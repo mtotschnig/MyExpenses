@@ -109,6 +109,7 @@ public class MyApplication extends Application implements
     APP_DIR(R.string.pref_app_dir_key),
     CATEGORY_CONTRIB(R.string.pref_category_contrib_key),
     CATEGORY_MANAGE(R.string.pref_category_manage_key),
+    CATEGORY_ADVANCED(R.string.pref_category_advanced_key),
     ACCOUNT_GROUPING(R.string.pref_account_grouping_key),
     PLANNER_CALENDAR_PATH("planner_calendar_path"),
     CURRENT_VERSION("currentversion"),
@@ -593,7 +594,7 @@ public class MyApplication extends Application implements
    * plans 3) reschedule execution through alarm
    */
   public void initPlanner() {
-    if (Utils.IS_ANDROID) {
+    if (Utils.Feature.Plans.isEnabled()) {
       Log.i(TAG, "initPlanner called, setting plan executor to run in 1 minute");
       PlanExecutor.setAlarm(this, System.currentTimeMillis() + 60000);
     }

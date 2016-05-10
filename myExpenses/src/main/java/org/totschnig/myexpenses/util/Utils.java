@@ -122,6 +122,14 @@ public class Utils {
   public static final boolean IS_FLAVOURED = !TextUtils.isEmpty(BuildConfig.FLAVOR);
   public static final boolean IS_ANDROID = BuildConfig.PLATTFORM.equals("Android");
 
+  public enum Feature {
+    Plans;
+
+    public boolean isEnabled() {
+      return true;
+    }
+  }
+
   /*
   from https://www.google.com/design/spec/style/color.html#color-color-palette
   maps the 500 color to the 700 color

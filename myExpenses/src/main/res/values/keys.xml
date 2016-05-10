@@ -19,6 +19,7 @@
     <string name="pref_category_export_key">category_export</string>
     <string name="pref_category_contrib_key">category_contrib</string>
     <string name="pref_category_manage_key">category_manage</string>
+    <string name="pref_category_advanced_key">category_manage</string>
     <string name="pref_sort_order_key">sort_order</string>
     <string name="pref_categories_sort_by_usages_key">categories_sort_by_usages</string>
     <!-- legacy -->

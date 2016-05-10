@@ -414,8 +414,9 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
           }
         }.execute();
 
-        if (!Utils.IS_ANDROID) {
-          categoryManage.removePreference(findPreference(PrefKey.PLANNER_CALENDAR_ID.getKey()));
+        if (!Utils.Feature.Plans.isEnabled()) {
+          ((PreferenceCategory) findPreference(PrefKey.CATEGORY_ADVANCED.getKey()))
+              .removePreference(findPreference(PrefKey.PLANNER_CALENDAR_ID.getKey()));
         }
 
       }
