@@ -2071,11 +2071,10 @@ public class ExpenseEdit extends AmountActivity implements
           mPlanButton.setVisibility(View.VISIBLE);
           mPlanToggleButton.setVisibility(View.VISIBLE);
         } else {
+          mReccurenceSpinner.setSelection(0);
           if (!ActivityCompat.shouldShowRequestPermissionRationale(
               this, Manifest.permission.WRITE_CALENDAR)) {
             setPlannerRowVisibility(View.GONE);
-          } else {
-            mReccurenceSpinner.setSelection(0);
           }
         }
       }
