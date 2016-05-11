@@ -32,7 +32,6 @@
     <TextView
         android:id="@+id/ImportantUpgradeInfoBody"
         style="@style/about_text"
-        android:text="@string/important_upgrade_information_1"
         android:visibility="gone"/>
 
     <ListView
