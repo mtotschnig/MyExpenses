@@ -371,13 +371,16 @@ public class TransactionDatabase extends SQLiteOpenHelper {
             "opening_balance integer, description text, currency text not null);");
         //db.execSQL("ALTER TABLE expenses add column account_id integer");
       }
+
       if (oldVersion < 18) {
         db.execSQL("CREATE TABLE payee (_id integer primary key autoincrement, name text unique not null);");
         db.execSQL("ALTER TABLE expenses add column payee text");
       }
+
       if (oldVersion < 19) {
         db.execSQL("ALTER TABLE expenses add column transfer_peer text");
       }
+
       if (oldVersion < 20) {
         db.execSQL("CREATE TABLE transactions ( _id integer primary key autoincrement, comment text not null, "
             + "date datetime not null, amount integer not null, cat_id integer, account_id integer, "
@@ -392,6 +395,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
             " SELECT label,CAST(ROUND(opening_balance*100) AS INTEGER),description,currency FROM accounts_old");
         db.execSQL("DROP TABLE accounts_old");
       }
+
       if (oldVersion < 21) {
         db.execSQL("CREATE TABLE paymentmethods (_id integer primary key autoincrement, label text not null, type integer default 0);");
         db.execSQL("CREATE TABLE accounttype_paymentmethod (type text, method_id integer, primary key (type,method_id));");
@@ -410,11 +414,13 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         db.execSQL("ALTER TABLE transactions add column payment_method_id integer");
         db.execSQL("ALTER TABLE accounts add column type text default 'CASH'");
       }
+
       if (oldVersion < 22) {
         db.execSQL("CREATE TABLE templates ( _id integer primary key autoincrement, comment text not null, "
             + "amount integer not null, cat_id integer, account_id integer, payee text, transfer_peer integer default null, "
             + "payment_method_id integer, title text not null);");
       }
+
       if (oldVersion < 23) {
         db.execSQL("ALTER TABLE templates RENAME to templates_old");
         db.execSQL("CREATE TABLE templates ( _id integer primary key autoincrement, comment text not null, "
@@ -430,19 +436,24 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         }
         db.execSQL("DROP TABLE templates_old");
       }
+
       if (oldVersion < 24) {
         db.execSQL("ALTER TABLE templates add column usages integer default 0");
       }
+
       if (oldVersion < 25) {
         //for transactions that were not transfers, transfer_peer was set to null in transactions, but to 0 in templates
         db.execSQL("update transactions set transfer_peer=0 WHERE transfer_peer is null;");
       }
+
       if (oldVersion < 26) {
         db.execSQL("alter table accounts add column color integer default -6697984");
       }
+
       if (oldVersion < 27) {
         db.execSQL("CREATE TABLE feature_used (feature text not null);");
       }
+
       if (oldVersion < 28) {
         db.execSQL("ALTER TABLE transactions RENAME to transactions_old");
         db.execSQL("CREATE TABLE transactions(_id integer primary key autoincrement, comment text, date datetime not null, amount integer not null, " +
@@ -500,9 +511,11 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         //3) catId etc now need to be null instead of 0
         //4) transactions payment_method_id renamed to method_id
       }
+
       if (oldVersion < 29) {
         db.execSQL("ALTER TABLE transactions add column status integer default 0");
       }
+
       if (oldVersion < 30) {
         db.execSQL("ALTER TABLE transactions add column parent_id integer references transactions (_id)");
         //      db.execSQL("CREATE VIEW committed AS SELECT * FROM transactions WHERE status != 2;");
@@ -513,6 +526,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         initialValues.put("label", "__SPLIT_TRANSACTION__");
         db.insert("categories", null, initialValues);
       }
+
       if (oldVersion < 31) {
         //in an alpha version distributed on Google Play, we had SPLIT_CATID as -1
         ContentValues initialValues = new ContentValues();
@@ -520,21 +534,26 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         initialValues.put("parent_id", 0);
         db.update("categories", initialValues, "_id=-1", null);
       }
+
       if (oldVersion < 32) {
         db.execSQL("ALTER TABLE accounts add column grouping text not null check (grouping in " +
             "('NONE','DAY','WEEK','MONTH','YEAR')) default 'NONE'");
       }
+
       if (oldVersion < 33) {
         db.execSQL("ALTER TABLE accounts add column usages integer default 0");
         db.execSQL("UPDATE accounts SET usages = (SELECT count(*) FROM transactions WHERE account_id = accounts._id AND parent_id IS null)");
       }
+
       if (oldVersion < 34) {
         //fix for https://github.com/mtotschnig/MyExpenses/issues/69
         db.execSQL("UPDATE transactions set date = (SELECT date from transactions parent WHERE parent._id = transactions.parent_id) WHERE parent_id IS NOT null");
       }
+
       if (oldVersion < 35) {
         db.execSQL("ALTER TABLE transactions add column cr_status text not null check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED')) default 'UNRECONCILED'");
       }
+
       if (oldVersion < 36) {
         //move payee field in transactions from text to foreign key
         db.execSQL("ALTER TABLE transactions RENAME to transactions_old");
@@ -616,6 +635,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         //      db.execSQL("CREATE VIEW transactions_all" + viewTransactions);
         //      db.execSQL("CREATE VIEW templates_all" +  VIEW_DEFINITION(TABLE_TEMPLATES));
       }
+
       if (oldVersion < 37) {
         db.execSQL("ALTER TABLE transactions add column number text");
         db.execSQL("ALTER TABLE paymentmethods add column is_numbered boolean default 0");
@@ -623,16 +643,19 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         initialValues.put("is_numbered", true);
         db.update("paymentmethods", initialValues, "label = ?", new String[]{"CHEQUE"});
       }
+
       if (oldVersion < 38) {
         db.execSQL("ALTER TABLE templates add column plan_id integer");
         db.execSQL("ALTER TABLE templates add column plan_execution boolean default 0");
       }
+
       if (oldVersion < 39) {
         //      db.execSQL("CREATE VIEW transactions_extended" + VIEW_DEFINITION_EXTENDED(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
         //      db.execSQL("CREATE VIEW templates_extended" +  VIEW_DEFINITION_EXTENDED(TABLE_TEMPLATES));
         db.execSQL("CREATE TABLE currency (_id integer primary key autoincrement, code text unique not null);");
         insertCurrencies(db);
       }
+
       if (oldVersion < 40) {
         //added currency to extended view
         db.execSQL("DROP VIEW IF EXISTS transactions_extended");
@@ -640,6 +663,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         //      db.execSQL("CREATE VIEW transactions_extended" + VIEW_DEFINITION_EXTENDED(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
         //      db.execSQL("CREATE VIEW templates_extended" +  VIEW_DEFINITION_EXTENDED(TABLE_TEMPLATES));
       }
+
       if (oldVersion < 41) {
         db.execSQL("CREATE TABLE planinstance_transaction " +
             "(template_id integer references templates(_id), " +
@@ -647,6 +671,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
             "transaction_id integer references transactions(_id), " +
             "primary key (instance_id,transaction_id));");
       }
+
       if (oldVersion < 42) {
         //migrate date field to unix time stamp (UTC)
         db.execSQL("ALTER TABLE transactions RENAME to transactions_old");
@@ -684,10 +709,12 @@ public class TransactionDatabase extends SQLiteOpenHelper {
             "FROM transactions_old");
         db.execSQL("DROP TABLE transactions_old");
       }
+
       if (oldVersion < 43) {
         db.execSQL("UPDATE accounts set currency = 'ZMW' WHERE currency = 'ZMK'");
         db.execSQL("UPDATE currency set code = 'ZMW' WHERE code = 'ZMK'");
       }
+
       if (oldVersion < 44) {
         //add ON DELETE CASCADE
         //accounts table sort_key column
@@ -771,6 +798,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
             "FROM templates_old");
         db.execSQL("ALTER TABLE accounts add column sort_key integer");
       }
+
       if (oldVersion < 45) {
         db.execSQL("ALTER TABLE accounts add column exclude_from_totals boolean default 0");
         //added  to extended view
@@ -779,6 +807,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         //      db.execSQL("CREATE VIEW transactions_extended" + VIEW_DEFINITION_EXTENDED(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
         //      db.execSQL("CREATE VIEW templates_extended" +  VIEW_DEFINITION_EXTENDED(TABLE_TEMPLATES));
       }
+
       if (oldVersion < 46) {
         db.execSQL("ALTER TABLE payee add column name_normalized text");
         Cursor c = db.query("payee", new String[]{"_id", "name"}, null, null, null, null, null);
@@ -794,10 +823,12 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           c.close();
         }
       }
+
       if (oldVersion < 47) {
         db.execSQL("ALTER TABLE templates add column uuid text");
         db.execSQL(EVENT_CACHE_CREATE);
       }
+
       if (oldVersion < 48) {
         //added method_label to extended view
         //do not comment out, since it is needed by the uuid update
@@ -815,6 +846,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         db.execSQL("CREATE VIEW transactions_all" + viewTransactions);
         db.execSQL("CREATE VIEW templates_all" + VIEW_DEFINITION(TABLE_TEMPLATES));
         //need to inline to protect against later renames
+
         if (oldVersion < 47) {
           String[] projection = new String[]{
               "templates._id",
@@ -885,14 +917,17 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           }
         }
       }
+
       if (oldVersion < 49) {
         //forgotten to drop in previous upgrade
         db.execSQL("DROP TABLE IF EXISTS templates_old");
       }
+
       if (oldVersion < 50) {
         db.execSQL("ALTER TABLE transactions add column picture_id text");
         db.execSQL("DROP TABLE IF EXISTS feature_used");
       }
+
       if (oldVersion < 51) {
         File pictureDir = Utils.getPictureDir(false);
         //fallback if not mounted
@@ -916,10 +951,12 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         db.execSQL("CREATE TRIGGER cache_stale_uri BEFORE DELETE ON transactions WHEN old.picture_id NOT NULL "
             + " BEGIN INSERT INTO stale_uris VALUES (old.picture_id); END");
       }
+
       if (oldVersion < 52) {
         db.execSQL("CREATE INDEX transactions_cat_id_index on transactions(cat_id)");
         db.execSQL("CREATE INDEX templates_cat_id_index on templates(cat_id)");
       }
+
       if (oldVersion < 53) {
         //add VOID status
         db.execSQL("ALTER TABLE transactions RENAME to transactions_old");
@@ -963,6 +1000,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
             + " BEGIN INSERT INTO stale_uris VALUES (old.picture_id); END");
         db.execSQL("CREATE INDEX transactions_cat_id_index on transactions(cat_id)");
       }
+
       if (oldVersion < 54) {
         db.execSQL("DROP TRIGGER cache_stale_uri");
         db.execSQL("CREATE TRIGGER cache_stale_uri " +
@@ -991,6 +1029,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           c.close();
         }
       }
+
       if (oldVersion < 56) {
         db.execSQL("ALTER TABLE templates add column last_used datetime");
         db.execSQL("ALTER TABLE categories add column last_used datetime");

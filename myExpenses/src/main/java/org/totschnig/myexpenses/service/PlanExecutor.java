@@ -105,7 +105,7 @@ public class PlanExecutor extends IntentService {
       }
       if (cursor != null) {
         if (cursor.moveToFirst()) {
-          while (cursor.isAfterLast() == false) {
+          while (!cursor.isAfterLast()) {
             long planId = cursor.getLong(0);
             Long instanceId = cursor.getLong(1);
             long date = cursor.getLong(2);
