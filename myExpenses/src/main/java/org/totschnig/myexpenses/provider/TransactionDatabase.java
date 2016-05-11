@@ -213,6 +213,15 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       KEY_INSTANCEID + " integer," + // references Instances._ID in calendar content provider
       KEY_TRANSACTIONID + " integer references " + TABLE_TRANSACTIONS + "(" + KEY_ROWID + ") ON DELETE CASCADE, " +
       "primary key (" + KEY_INSTANCEID + "," + KEY_TRANSACTIONID + "));";
+  /**
+   * This version is used on Blackberry devices, where reading instances from calendar provider does not work
+   */
+  private static final String PLAN_INSTANCE_STATUS_CREATE_SIMPLIFIED =
+      "CREATE TABLE " + TABLE_PLAN_INSTANCE_STATUS
+          + " ( " + KEY_TEMPLATEID + " integer references " + TABLE_TEMPLATES + "(" + KEY_ROWID + ") ON DELETE CASCADE," +
+          KEY_DATE + " datetime," +
+          KEY_TRANSACTIONID + " integer references " + TABLE_TRANSACTIONS + "(" + KEY_ROWID + ") ON DELETE CASCADE, " +
+          "primary key (" + KEY_INSTANCEID + "," + KEY_TRANSACTIONID + "));";
 
   private static final String STALE_URIS_CREATE =
       "CREATE TABLE " + TABLE_STALE_URIS
@@ -292,7 +301,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     initialValues.put(KEY_LABEL, "__SPLIT_TRANSACTION__");
     db.insertOrThrow(TABLE_CATEGORIES, null, initialValues);
     insertCurrencies(db);
-    db.execSQL(PLAN_INSTANCE_STATUS_CREATE);
+    db.execSQL(Utils.IS_ANDROID ? PLAN_INSTANCE_STATUS_CREATE : PLAN_INSTANCE_STATUS_CREATE_SIMPLIFIED);
     db.execSQL(EVENT_CACHE_CREATE);
     db.execSQL(STALE_URIS_CREATE);
     db.execSQL(STALE_URI_TRIGGER_CREATE);
