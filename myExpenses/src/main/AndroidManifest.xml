@@ -192,6 +192,7 @@
             android:name=".provider.TransactionProvider"
             android:authorities="${applicationId}"
             android:exported="false" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
@@ -201,6 +202,11 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/image_path" />
         </provider>
+
+        <provider
+            android:authorities="${applicationId}.calendarinstances"
+            android:name=".provider.CalendarInstancesProviderProxy"
+            android:exported="false" />
 
         <service android:name=".service.PlanExecutor" />
         <service android:name=".service.PlanNotificationClickHandler" />

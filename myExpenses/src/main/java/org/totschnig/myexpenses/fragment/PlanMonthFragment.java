@@ -43,6 +43,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.provider.CalendarInstancesProviderProxy;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
@@ -193,7 +194,7 @@ public class PlanMonthFragment extends CaldroidFragment
     switch (id) {
       case INSTANCES_CURSOR:
         // Construct the query with the desired date range.
-        Uri.Builder builder = CalendarContractCompat.Instances.CONTENT_URI.buildUpon();
+        Uri.Builder builder = CalendarInstancesProviderProxy.CONTENT_URI.buildUpon();
         DateTime startOfMonth = new DateTime(year, month, 1, 0, 0, 0, 0);
         long start = startOfMonth.minusDays(7)
             .getMilliseconds(TimeZone.getDefault());

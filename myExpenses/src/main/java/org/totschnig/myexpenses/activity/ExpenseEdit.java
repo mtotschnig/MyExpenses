@@ -593,7 +593,7 @@ public class ExpenseEdit extends AmountActivity implements
 
     if (mTransaction instanceof Template) {
       findViewById(R.id.TitleRow).setVisibility(View.VISIBLE);
-      if (Utils.Feature.Plans.isEnabled() && !calendarPermissionPermanentlyDeclined()) {
+      if (!calendarPermissionPermanentlyDeclined()) {
         //if user has denied access and checked that he does not want to be asked again, we do not
         //bother him with a button that is not working
         setPlannerRowVisibility(View.VISIBLE);

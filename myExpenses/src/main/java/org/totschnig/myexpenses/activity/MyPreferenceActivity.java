@@ -414,11 +414,6 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
           }
         }.execute();
 
-        if (!Utils.Feature.Plans.isEnabled()) {
-          ((PreferenceCategory) findPreference(PrefKey.CATEGORY_ADVANCED.getKey()))
-              .removePreference(findPreference(PrefKey.PLANNER_CALENDAR_ID.getKey()));
-        }
-
       }
       //SHORTCUTS screen
       else if (rootKey.equals(getString(R.string.pref_ui_home_screen_shortcuts_key))) {

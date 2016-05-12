@@ -121,10 +121,9 @@ public class Utils {
 
   public static final boolean IS_FLAVOURED = !TextUtils.isEmpty(BuildConfig.FLAVOR);
   public static final boolean IS_ANDROID = BuildConfig.PLATTFORM.equals("Android");
-
+  
   public enum Feature {
-    Plans;
-
+    ;
     public boolean isEnabled() {
       return true;
     }
