@@ -205,10 +205,7 @@ public class PlanMonthFragment extends CaldroidFragment
         return new CursorLoader(
             getActivity(),
             builder.build(),
-            new String[]{
-                CalendarContractCompat.Instances._ID,
-                CalendarContractCompat.Instances.BEGIN
-            },
+            null,
             String.format(Locale.US, CalendarContractCompat.Instances.EVENT_ID + " = %d",
                 getArguments().getLong(DatabaseConstants.KEY_PLANID)),
             null,
@@ -236,9 +233,11 @@ public class PlanMonthFragment extends CaldroidFragment
         Calendar calendar = Calendar.getInstance();
         data.moveToFirst();
         while (!data.isAfterLast()) {
-          calendar.setTimeInMillis(data.getLong(1));
+          calendar.setTimeInMillis(data.getLong(
+              data.getColumnIndex(CalendarContractCompat.Instances.BEGIN)));
           DateTime dateTime = CalendarHelper.convertDateToDateTime(calendar.getTime());
-          dateTime2InstanceMap.put(dateTime, data.getLong(0));
+          dateTime2InstanceMap.put(dateTime,
+              data.getLong(data.getColumnIndex(CalendarContractCompat.Instances._ID)));
           selectedDates.add(dateTime);
           data.moveToNext();
         }

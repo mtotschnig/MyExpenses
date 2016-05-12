@@ -16,6 +16,11 @@ import org.totschnig.myexpenses.BuildConfig;
 public class CalendarInstancesProviderProxy extends ContentProvider {
   public static final String AUTHORITY = BuildConfig.APPLICATION_ID + ".calendarinstances";
   public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/instances/when");
+  public static final String[] INSTANCE_PROJECTION = new String[]{
+      CalendarContractCompat.Instances.EVENT_ID,
+      CalendarContractCompat.Instances._ID,
+      CalendarContractCompat.Instances.BEGIN
+  };
 
   @Override
   public boolean onCreate() {
@@ -25,11 +30,17 @@ public class CalendarInstancesProviderProxy extends ContentProvider {
   @Override
   public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
                       String sortOrder) {
+    if (projection != null) {
+      throw new IllegalStateException("Must pass in null projection, since we allways use " +
+          "INSTANCE_PROJECTION");
+    }
     Uri proxiedUri = Uri.parse(uri.toString().replace(
         CONTENT_URI.toString(), CalendarContractCompat.Instances.CONTENT_URI.toString()));
-    return getContext().getContentResolver().query(proxiedUri, projection, selection, selectionArgs,
+    return getContext().getContentResolver().query(proxiedUri, INSTANCE_PROJECTION, selection, selectionArgs,
         sortOrder);
   }
+
+}
 
   @Override
   public String getType(Uri uri) {

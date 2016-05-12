@@ -74,11 +74,7 @@ public class PlanExecutor extends IntentService {
           "executing plans from %d to %d",
           lastExecutionTimeStamp,
           now));
-      String[] INSTANCE_PROJECTION = new String[]{
-          Instances.EVENT_ID,
-          Instances._ID,
-          Instances.BEGIN
-      };
+
       Uri.Builder eventsUriBuilder = CalendarInstancesProviderProxy.CONTENT_URI.buildUpon();
       ContentUris.appendId(eventsUriBuilder, lastExecutionTimeStamp);
       ContentUris.appendId(eventsUriBuilder, now);
@@ -90,7 +86,7 @@ public class PlanExecutor extends IntentService {
       //hence we put them into the selection
       Cursor cursor;
       try {
-        cursor = getContentResolver().query(eventsUri, INSTANCE_PROJECTION,
+        cursor = getContentResolver().query(eventsUri, null,
             Events.CALENDAR_ID + " = " + plannerCalendarId + " AND " + Instances.BEGIN +
                 " BETWEEN " + lastExecutionTimeStamp + " AND " + now,
             null,
@@ -106,9 +102,9 @@ public class PlanExecutor extends IntentService {
       if (cursor != null) {
         if (cursor.moveToFirst()) {
           while (!cursor.isAfterLast()) {
-            long planId = cursor.getLong(0);
-            Long instanceId = cursor.getLong(1);
-            long date = cursor.getLong(2);
+            long planId = cursor.getLong(cursor.getColumnIndex(CalendarContractCompat.Instances.EVENT_ID));
+            Long instanceId = cursor.getLong(cursor.getColumnIndex(CalendarContractCompat.Instances._ID));
+            long date = cursor.getLong(cursor.getColumnIndex(CalendarContractCompat.Instances.BEGIN));
             //2) check if they are part of a plan linked to a template
             //3) execute the template
             Log.i(MyApplication.TAG, String.format("found instance %d of plan %d", instanceId, planId));
