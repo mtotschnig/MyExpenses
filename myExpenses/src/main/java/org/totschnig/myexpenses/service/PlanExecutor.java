@@ -74,7 +74,7 @@ public class PlanExecutor extends IntentService {
           lastExecutionTimeStamp,
           now));
 
-      Uri.Builder eventsUriBuilder = CalendarInstancesProviderProxy.CONTENT_URI_ANDROID.buildUpon();
+      Uri.Builder eventsUriBuilder = CalendarInstancesProviderProxy.CONTENT_URI.buildUpon();
       ContentUris.appendId(eventsUriBuilder, lastExecutionTimeStamp);
       ContentUris.appendId(eventsUriBuilder, now);
       Uri eventsUri = eventsUriBuilder.build();
