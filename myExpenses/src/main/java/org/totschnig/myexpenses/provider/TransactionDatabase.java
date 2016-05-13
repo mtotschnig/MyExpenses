@@ -48,7 +48,7 @@ import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 57;
+  public static final int DATABASE_VERSION = 56;
   public static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -218,16 +218,6 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           KEY_TRANSACTIONID + " integer references " + TABLE_TRANSACTIONS + "(" + KEY_ROWID + ") ON DELETE CASCADE, " +
           "primary key (" + KEY_INSTANCEID + "," + KEY_TRANSACTIONID + "));";
 
-  /**
-   * This version is used on Blackberry devices, where reading instances from calendar provider does not work
-   */
-  private static final String PLAN_INSTANCE_STATUS_CREATE_SIMPLIFIED =
-      "CREATE TABLE " + TABLE_PLAN_INSTANCE_STATUS
-          + " ( " + KEY_TEMPLATEID + " integer references " + TABLE_TEMPLATES + "(" + KEY_ROWID + ") ON DELETE CASCADE," +
-          KEY_DATE + " datetime," +
-          KEY_TRANSACTIONID + " integer references " + TABLE_TRANSACTIONS + "(" + KEY_ROWID + ") ON DELETE CASCADE, " +
-          "primary key (" + KEY_INSTANCEID + "," + KEY_TRANSACTIONID + "));";
-
   private static final String STALE_URIS_CREATE =
       "CREATE TABLE " + TABLE_STALE_URIS
           + " ( " + KEY_PICTURE_URI + " text);";
@@ -306,7 +296,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     initialValues.put(KEY_LABEL, "__SPLIT_TRANSACTION__");
     db.insertOrThrow(TABLE_CATEGORIES, null, initialValues);
     insertCurrencies(db);
-    db.execSQL(Utils.IS_ANDROID ? PLAN_INSTANCE_STATUS_CREATE : PLAN_INSTANCE_STATUS_CREATE_SIMPLIFIED);
+    db.execSQL(PLAN_INSTANCE_STATUS_CREATE);
     db.execSQL(EVENT_CACHE_CREATE);
     db.execSQL(STALE_URIS_CREATE);
     db.execSQL(STALE_URI_TRIGGER_CREATE);

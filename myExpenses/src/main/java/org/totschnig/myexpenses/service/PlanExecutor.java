@@ -18,7 +18,6 @@ import org.totschnig.myexpenses.util.Utils;
 
 import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Events;
-import com.android.calendar.CalendarContractCompat.Instances;
 
 import android.Manifest;
 import android.app.AlarmManager;
@@ -75,20 +74,14 @@ public class PlanExecutor extends IntentService {
           lastExecutionTimeStamp,
           now));
 
-      Uri.Builder eventsUriBuilder = CalendarInstancesProviderProxy.CONTENT_URI.buildUpon();
+      Uri.Builder eventsUriBuilder = CalendarInstancesProviderProxy.CONTENT_URI_ANDROID.buildUpon();
       ContentUris.appendId(eventsUriBuilder, lastExecutionTimeStamp);
       ContentUris.appendId(eventsUriBuilder, now);
       Uri eventsUri = eventsUriBuilder.build();
-      //Instances.Content_URI returns events that fall totally or partially in a given range
-      //we additionally select only instances where the begin is inside the range
-      //because we want to deal with each instance only once
-      //the calendar content provider on Android < 4 does not interpret the selection arguments
-      //hence we put them into the selection
       Cursor cursor;
       try {
         cursor = getContentResolver().query(eventsUri, null,
-            Events.CALENDAR_ID + " = " + plannerCalendarId + " AND " + Instances.BEGIN +
-                " BETWEEN " + lastExecutionTimeStamp + " AND " + now,
+            Events.CALENDAR_ID + " = " + plannerCalendarId,
             null,
             null);
       } catch (Exception e) {

@@ -194,14 +194,21 @@ public class PlanMonthFragment extends CaldroidFragment
     switch (id) {
       case INSTANCES_CURSOR:
         // Construct the query with the desired date range.
-        Uri.Builder builder = CalendarInstancesProviderProxy.CONTENT_URI.buildUpon();
-        DateTime startOfMonth = new DateTime(year, month, 1, 0, 0, 0, 0);
-        long start = startOfMonth.minusDays(7)
-            .getMilliseconds(TimeZone.getDefault());
-        long end = startOfMonth.getEndOfMonth().plusDays(7)
-            .getMilliseconds(TimeZone.getDefault());
-        ContentUris.appendId(builder, start);
-        ContentUris.appendId(builder, end);
+        Uri.Builder builder;
+        if (Utils.IS_ANDROID) {
+          builder = CalendarInstancesProviderProxy.CONTENT_URI_ANDROID.buildUpon();
+          DateTime startOfMonth = new DateTime(year, month, 1, 0, 0, 0, 0);
+          long start = startOfMonth.minusDays(7)
+              .getMilliseconds(TimeZone.getDefault());
+          long end = startOfMonth.getEndOfMonth().plusDays(7)
+              .getMilliseconds(TimeZone.getDefault());
+          ContentUris.appendId(builder, start);
+          ContentUris.appendId(builder, end);
+        } else {
+          builder = CalendarInstancesProviderProxy.CONTENT_URI_BLACKBERY_MONTH.buildUpon();
+          ContentUris.appendId(builder, year);
+          ContentUris.appendId(builder, month);
+        }
         return new CursorLoader(
             getActivity(),
             builder.build(),
