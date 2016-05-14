@@ -58,17 +58,17 @@ public class CalendarInstancesProviderProxy extends ContentProvider {
     if (uriMatch != INSTANCES_ANDROID) {
       throw new IllegalArgumentException("Unknown URL " + uri);
     }
+    long startMilliseconds = Long.parseLong(uri.getPathSegments().get(2));
+    long endMilliseconds = Long.parseLong(uri.getPathSegments().get(3));
     if (Utils.IS_ANDROID) {
       //Instances.Content_URI returns events that fall totally or partially in a given range
       //we additionally select only instances where the begin is inside the range
       //because we want to deal with each instance only once
       //the calendar content provider on Android < 4 does not interpret the selection arguments
       //hence we put them into the selection
-      long begin = Long.parseLong(uri.getPathSegments().get(2));
-      long end = Long.parseLong(uri.getPathSegments().get(3));
       selection = selection == null ? "" : (selection + " AND ");
       selection += CalendarContractCompat.Instances.BEGIN +
-          " BETWEEN " + begin + " AND " + end;
+          " BETWEEN " + startMilliseconds + " AND " + endMilliseconds;
       Uri proxiedUri = Uri.parse(uri.toString().replace(
           CONTENT_URI.toString(), CalendarContractCompat.Instances.CONTENT_URI.toString()));
       return getContext().getContentResolver().query(proxiedUri, INSTANCE_PROJECTION, selection, selectionArgs,
@@ -84,21 +84,23 @@ public class CalendarInstancesProviderProxy extends ContentProvider {
         CalendarContractCompat.Events.RRULE};
     Cursor eventcursor = getContext().getContentResolver().query(CalendarContractCompat.Events.CONTENT_URI,
         eventProjection, eventSelection, selectionArgs, sortOrder);
-    DateTime start = DateTime.forInstant(Long.parseLong(uri.getPathSegments().get(2)), TimeZone.getDefault());
-    DateTime end = DateTime.forInstant(Long.parseLong(uri.getPathSegments().get(3)), TimeZone.getDefault());
+    DateTime end = DateTime.forInstant(endMilliseconds, TimeZone.getDefault());
     if (eventcursor != null) {
       if (eventcursor.moveToFirst()) {
         while (!eventcursor.isAfterLast()) {
           String eventId = eventcursor.getString(0);
           long dtstart = eventcursor.getLong(1);
-          String rrule = eventcursor.getString(2);
-          for (DateTime dayToCheck = start; dayToCheck.lteq(end); dayToCheck = dayToCheck.plusDays(1)) {
-            if (isInstanceOfPlan(dayToCheck, dtstart, rrule)) {
-              result.addRow(new String[]{
-                  eventId,
-                  String.valueOf(dayToCheck.getYear() * 1000 + dayToCheck.getDayOfYear()),
-                  String.valueOf(dayToCheck.getMilliseconds(TimeZone.getDefault())),
-              });
+          if (dtstart <= endMilliseconds) {
+            String rrule = eventcursor.getString(2);
+            DateTime dayToCheck = DateTime.forInstant(Math.max(startMilliseconds,dtstart), TimeZone.getDefault());
+            for (; dayToCheck.lteq(end); dayToCheck = dayToCheck.plusDays(1)) {
+              if (isInstanceOfPlan(dayToCheck, dtstart, rrule)) {
+                result.addRow(new String[]{
+                    eventId,
+                    String.valueOf(dayToCheck.getYear() * 1000 + dayToCheck.getDayOfYear()),
+                    String.valueOf(dayToCheck.getMilliseconds(TimeZone.getDefault())),
+                });
+              }
             }
           }
           eventcursor.moveToNext();
