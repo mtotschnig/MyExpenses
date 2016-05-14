@@ -6,8 +6,10 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
+import android.text.TextUtils;
 
 import com.android.calendar.CalendarContractCompat;
+import com.android.calendarcommon2.EventRecurrence;
 
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.util.Utils;
@@ -91,15 +93,40 @@ public class CalendarInstancesProviderProxy extends ContentProvider {
           String eventId = eventcursor.getString(0);
           long dtstart = eventcursor.getLong(1);
           if (dtstart <= endMilliseconds) {
+            EventRecurrence recurrence = null;
             String rrule = eventcursor.getString(2);
-            DateTime dayToCheck = DateTime.forInstant(Math.max(startMilliseconds,dtstart), TimeZone.getDefault());
-            for (; dayToCheck.lteq(end); dayToCheck = dayToCheck.plusDays(1)) {
-              if (isInstanceOfPlan(dayToCheck, dtstart, rrule)) {
+            if (!TextUtils.isEmpty(rrule)) {
+              recurrence = new EventRecurrence();
+              recurrence.parse(rrule);
+            }
+            for (DateTime dayToCheck = DateTime.forInstant(Math.max(startMilliseconds, dtstart),
+                TimeZone.getDefault());
+                 dayToCheck.lteq(end); ) {
+              if (isInstanceOfPlan(dayToCheck, dtstart, recurrence)) {
                 result.addRow(new String[]{
                     eventId,
                     String.valueOf(dayToCheck.getYear() * 1000 + dayToCheck.getDayOfYear()),
                     String.valueOf(dayToCheck.getMilliseconds(TimeZone.getDefault())),
                 });
+                if (recurrence == null) {
+                  break;
+                } else {
+                  switch (recurrence.freq) {
+                    case EventRecurrence.DAILY:
+                      dayToCheck = dayToCheck.plusDays(1);
+                      break;
+                    case EventRecurrence.WEEKLY:
+                      dayToCheck = dayToCheck.plusDays(7);
+                      break;
+                    case EventRecurrence.MONTHLY:
+                      dayToCheck = dayToCheck.plus(0, 1, 0, 0, 0, 0, 0, DateTime.DayOverflow.LastDay);
+                      break;
+                    case EventRecurrence.YEARLY:
+                      dayToCheck = dayToCheck.plus(1, 0, 0, 0, 0, 0, 0, DateTime.DayOverflow.LastDay);
+                  }
+                }
+              } else {
+                dayToCheck = dayToCheck.plusDays(1);
               }
             }
           }
@@ -111,8 +138,23 @@ public class CalendarInstancesProviderProxy extends ContentProvider {
     return result;
   }
 
-  private boolean isInstanceOfPlan(DateTime dayToCheck, long dtstart, String rrule) {
-    return dayToCheck.getDay() % 3 == 0;
+  private boolean isInstanceOfPlan(DateTime dayToCheck, long dtstart, EventRecurrence recurrence) {
+    DateTime startDate = DateTime.forInstant(dtstart, TimeZone.getDefault());
+    if (recurrence == null) {
+      return dayToCheck.isSameDayAs(startDate);
+    }
+    switch (recurrence.freq) {
+      case EventRecurrence.DAILY:
+        return true;
+      case EventRecurrence.WEEKLY:
+        return dayToCheck.getWeekDay().equals(startDate.getWeekDay());
+      case EventRecurrence.MONTHLY:
+        return dayToCheck.getDay().equals(startDate.getDay());
+      case EventRecurrence.YEARLY:
+        return dayToCheck.getDay().equals(startDate.getDay()) &&
+            dayToCheck.getMonth().equals(startDate.getMonth());
+    }
+    throw new IllegalStateException("Unhandled event recurrence" + recurrence.toString());
   }
 
   @Override
