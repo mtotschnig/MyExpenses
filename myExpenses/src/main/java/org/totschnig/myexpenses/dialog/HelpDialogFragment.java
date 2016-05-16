@@ -158,17 +158,8 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
           resolveArray(context + "_formfields");
       ArrayList<String> menuItems = new ArrayList<>();
       if (resId != 0) {
-        menuItems.addAll(Collections2.filter(
-            Arrays.asList(res.getStringArray(resId)),
-            new Predicate<String>() {
-              @Override
-              public boolean apply(String input) {
-                //on Blackberry we hide the plan entry on ExpenseEdit
-                return Utils.IS_ANDROID ||
-                    !context.equals(ExpenseEdit.class.getSimpleName()) ||
-                    !input.equals("plan");
-              }
-            }));
+        //TODO provide different entry for plan for Blackberry
+        menuItems.addAll(Arrays.asList(res.getStringArray(resId)));
       }
       if (menuItems.isEmpty()) {
         view.findViewById(R.id.form_fields_heading).setVisibility(View.GONE);

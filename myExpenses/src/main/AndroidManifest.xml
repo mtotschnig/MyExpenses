@@ -205,7 +205,7 @@
 
         <provider
             android:authorities="${applicationId}.calendarinstances"
-            android:name=".provider.CalendarInstancesProviderProxy"
+            android:name=".provider.CalendarProviderProxy"
             android:exported="false" />
 
         <service android:name=".service.PlanExecutor" />

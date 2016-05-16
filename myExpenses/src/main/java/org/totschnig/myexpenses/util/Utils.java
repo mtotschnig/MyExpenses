@@ -1480,4 +1480,8 @@ public class Utils {
       manager.initLoader(loaderId, args, callback);
     }
   }
+
+  public static final boolean shouldUseAndroidPlatformCalendar() {
+    return IS_ANDROID;
+  }
 }

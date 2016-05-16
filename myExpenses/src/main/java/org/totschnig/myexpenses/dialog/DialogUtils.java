@@ -319,7 +319,7 @@ public class DialogUtils {
   }
 
   public static RadioGroup configureCalendarRestoreStrategy(View view) {
-    if (!Utils.IS_ANDROID) {
+    if (!Utils.shouldUseAndroidPlatformCalendar()) {
       view.findViewById(R.id.RestoreCalendarHandlingRow).setVisibility(View.GONE);
       return null;
     }

@@ -13,7 +13,7 @@ import org.totschnig.myexpenses.model.Transaction;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
-import org.totschnig.myexpenses.provider.CalendarInstancesProviderProxy;
+import org.totschnig.myexpenses.provider.CalendarProviderProxy;
 import org.totschnig.myexpenses.util.Utils;
 
 import com.android.calendar.CalendarContractCompat;
@@ -74,7 +74,7 @@ public class PlanExecutor extends IntentService {
           lastExecutionTimeStamp,
           now));
 
-      Uri.Builder eventsUriBuilder = CalendarInstancesProviderProxy.CONTENT_URI.buildUpon();
+      Uri.Builder eventsUriBuilder = CalendarProviderProxy.INSTANCES_URI.buildUpon();
       ContentUris.appendId(eventsUriBuilder, lastExecutionTimeStamp);
       ContentUris.appendId(eventsUriBuilder, now);
       Uri eventsUri = eventsUriBuilder.build();
