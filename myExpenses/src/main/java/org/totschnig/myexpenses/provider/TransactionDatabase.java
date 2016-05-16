@@ -82,7 +82,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_REFERENCE_NUMBER + " text, "
           + KEY_PICTURE_URI + " text);";
 
-  private static final String VIEW_DEFINITION(String tableName) {
+  private static String buildViewDefinition(String tableName) {
     return " AS SELECT " +
         tableName + ".*, " + TABLE_PAYEES + ".name as " + KEY_PAYEE_NAME + ", " +
         TABLE_METHODS + "." + KEY_LABEL + " AS " + KEY_METHOD_LABEL +
@@ -91,7 +91,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         " LEFT JOIN " + TABLE_METHODS + " ON " + KEY_METHODID + " = " + TABLE_METHODS + "." + KEY_ROWID;
   }
 
-  private static final String VIEW_DEFINITION_EXTENDED(String tableName) {
+  private static String buildViewDefinitionExtended(String tableName) {
     return " AS SELECT " +
         tableName + ".*, " + TABLE_PAYEES + ".name as " + KEY_PAYEE_NAME + ", " +
         KEY_COLOR + ", " + KEY_CURRENCY + ", " + KEY_EXCLUDE_FROM_TOTALS + ", " +
@@ -274,16 +274,16 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL(DATABASE_CREATE);
     db.execSQL(PAYEE_CREATE);
     db.execSQL(PAYMENT_METHODS_CREATE);
-    String viewTransactions = VIEW_DEFINITION(TABLE_TRANSACTIONS);
+    String viewTransactions = buildViewDefinition(TABLE_TRANSACTIONS);
     db.execSQL("CREATE VIEW " + VIEW_COMMITTED + viewTransactions + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
     db.execSQL("CREATE VIEW " + VIEW_UNCOMMITTED + viewTransactions + " WHERE " + KEY_STATUS + " = " + STATUS_UNCOMMITTED + ";");
     db.execSQL("CREATE VIEW " + VIEW_ALL + viewTransactions);
     db.execSQL(TEMPLATE_CREATE);
-    db.execSQL("CREATE VIEW " + VIEW_TEMPLATES + VIEW_DEFINITION(TABLE_TEMPLATES));
+    db.execSQL("CREATE VIEW " + VIEW_TEMPLATES + buildViewDefinition(TABLE_TEMPLATES));
     db.execSQL(CATEGORIES_CREATE);
     db.execSQL(ACCOUNTS_CREATE);
-    db.execSQL("CREATE VIEW " + VIEW_EXTENDED + VIEW_DEFINITION_EXTENDED(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
-    db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_EXTENDED + VIEW_DEFINITION_EXTENDED(TABLE_TEMPLATES));
+    db.execSQL("CREATE VIEW " + VIEW_EXTENDED + buildViewDefinitionExtended(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
+    db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_EXTENDED + buildViewDefinitionExtended(TABLE_TEMPLATES));
     db.execSQL(ACCOUNTS_TRIGGER_CREATE);
     insertDefaultAccount(db);
     db.execSQL(ACCOUNTTYE_METHOD_CREATE);
@@ -828,13 +828,13 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         db.execSQL("DROP VIEW IF EXISTS transactions_uncommitted");
         db.execSQL("DROP VIEW IF EXISTS transactions_all");
         db.execSQL("DROP VIEW IF EXISTS templates_all");
-        db.execSQL("CREATE VIEW transactions_extended" + VIEW_DEFINITION_EXTENDED(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
-        db.execSQL("CREATE VIEW templates_extended" + VIEW_DEFINITION_EXTENDED(TABLE_TEMPLATES));
-        String viewTransactions = VIEW_DEFINITION(TABLE_TRANSACTIONS);
+        db.execSQL("CREATE VIEW transactions_extended" + buildViewDefinitionExtended(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
+        db.execSQL("CREATE VIEW templates_extended" + buildViewDefinitionExtended(TABLE_TEMPLATES));
+        String viewTransactions = buildViewDefinition(TABLE_TRANSACTIONS);
         db.execSQL("CREATE VIEW transactions_committed " + viewTransactions + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
         db.execSQL("CREATE VIEW transactions_uncommitted" + viewTransactions + " WHERE " + KEY_STATUS + " = " + STATUS_UNCOMMITTED + ";");
         db.execSQL("CREATE VIEW transactions_all" + viewTransactions);
-        db.execSQL("CREATE VIEW templates_all" + VIEW_DEFINITION(TABLE_TEMPLATES));
+        db.execSQL("CREATE VIEW templates_all" + buildViewDefinition(TABLE_TEMPLATES));
         //need to inline to protect against later renames
 
         if (oldVersion < 47) {
