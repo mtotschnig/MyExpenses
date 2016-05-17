@@ -293,6 +293,11 @@
         <item>form_comment_help_text</item>
         <item>form_attach_image_help_text</item>
     </string-array>
+    <string-array name="form_plan_help_text">
+        <item>form_plan_help_text</item>
+        <item>form_plan_help_text_advanced</item>
+        <item>form_plan_help_text_mode</item>
+    </string-array>
 
     <string-array name="AccountEdit_menuitems" tools:ignore="UnusedResources">
         <item>save</item>

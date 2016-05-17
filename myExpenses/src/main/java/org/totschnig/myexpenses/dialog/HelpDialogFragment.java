@@ -158,7 +158,6 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
           resolveArray(context + "_formfields");
       ArrayList<String> menuItems = new ArrayList<>();
       if (resId != 0) {
-        //TODO provide different entry for plan for Blackberry
         menuItems.addAll(Arrays.asList(res.getStringArray(resId)));
       }
       if (menuItems.isEmpty()) {
@@ -306,14 +305,25 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
       }
     } else {
       String[] components = getResources().getStringArray(resId);
-      CharSequence[] resolvedComponents = new CharSequence[components.length];
+      ArrayList<CharSequence> resolvedComponents = new ArrayList<>();
       for (int i = 0; i < components.length; i++) {
+        if (shouldSkip(components[i])) {
+          continue;
+        }
         String component = getStringSafe(resolveString(components[i]));
         if (i<components.length-1) component += " ";
-        resolvedComponents[i] = Html.fromHtml(component, this, null);
+        resolvedComponents.add(Html.fromHtml(component, this, null));
       }
-      return TextUtils.concat(resolvedComponents);
+      return TextUtils.concat(resolvedComponents.toArray(new CharSequence[resolvedComponents.size()]));
     }
+  }
+
+  private boolean shouldSkip(String component) {
+    switch (component) {
+      case "form_plan_help_text_advanced":
+        return !Utils.shouldUseAndroidPlatformCalendar();
+    }
+    return false;
   }
 
   private int resolveString(String resIdString) {

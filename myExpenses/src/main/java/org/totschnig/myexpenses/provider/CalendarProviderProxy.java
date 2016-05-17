@@ -6,6 +6,7 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.android.calendar.CalendarContractCompat;
@@ -35,7 +36,8 @@ public class CalendarProviderProxy extends ContentProvider {
   private static final UriMatcher URI_MATCHER;
 
   private static final int INSTANCES_WHEN = 1;
-  private static final int EVENTS = 2;
+  private static final int EVENTS = 2; //currently not used, but possibly in the future we provide
+                                       //an implementation that does not need the platform calendar
 
   static {
     URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
@@ -49,14 +51,14 @@ public class CalendarProviderProxy extends ContentProvider {
   }
 
   @Override
-  public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
+  public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs,
                       String sortOrder) {
-    if (projection != null) {
-      throw new IllegalStateException("Must pass in null projection");
-    }
     int uriMatch = URI_MATCHER.match(uri);
     switch (uriMatch) {
       case INSTANCES_WHEN:
+        if (projection != null) {
+          throw new IllegalStateException("Must pass in null projection");
+        }
         long startMilliseconds = Long.parseLong(uri.getPathSegments().get(2));
         long endMilliseconds = Long.parseLong(uri.getPathSegments().get(3));
         if (Utils.shouldUseAndroidPlatformCalendar()) {
