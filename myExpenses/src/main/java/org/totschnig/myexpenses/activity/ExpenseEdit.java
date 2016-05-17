@@ -604,7 +604,7 @@ public class ExpenseEdit extends AmountActivity implements
           public void onClick(View view) {
             if (mPlan == null) {
               showDialog(DATE_DIALOG_ID);
-            } else {
+            } else if (Utils.IS_ANDROID) {
               launchPlanView();
             }
           }
