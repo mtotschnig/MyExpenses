@@ -97,6 +97,7 @@ public class PlanMonthFragment extends CaldroidFragment
     args.putLong(DatabaseConstants.KEY_PLANID, planId);
     args.putInt(DatabaseConstants.KEY_COLOR, color);
     args.putLong(DatabaseConstants.KEY_ROWID, templateId);
+    args.putBoolean(CaldroidFragment.SIX_WEEKS_IN_CALENDAR, false);
     f.setArguments(args);
     return f;
   }
