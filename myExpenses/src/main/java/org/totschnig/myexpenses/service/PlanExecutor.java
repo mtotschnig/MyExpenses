@@ -13,11 +13,11 @@ import org.totschnig.myexpenses.model.Transaction;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
+import org.totschnig.myexpenses.provider.CalendarProviderProxy;
 import org.totschnig.myexpenses.util.Utils;
 
 import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Events;
-import com.android.calendar.CalendarContractCompat.Instances;
 
 import android.Manifest;
 import android.app.AlarmManager;
@@ -73,26 +73,15 @@ public class PlanExecutor extends IntentService {
           "executing plans from %d to %d",
           lastExecutionTimeStamp,
           now));
-      String[] INSTANCE_PROJECTION = new String[]{
-          Instances.EVENT_ID,
-          Instances._ID,
-          Instances.BEGIN
-      };
-      Uri.Builder eventsUriBuilder = CalendarContractCompat.Instances.CONTENT_URI
-          .buildUpon();
+
+      Uri.Builder eventsUriBuilder = CalendarProviderProxy.INSTANCES_URI.buildUpon();
       ContentUris.appendId(eventsUriBuilder, lastExecutionTimeStamp);
       ContentUris.appendId(eventsUriBuilder, now);
       Uri eventsUri = eventsUriBuilder.build();
-      //Instances.Content_URI returns events that fall totally or partially in a given range
-      //we additionally select only instances where the begin is inside the range
-      //because we want to deal with each instance only once
-      //the calendar content provider on Android < 4 does not interpret the selection arguments
-      //hence we put them into the selection
       Cursor cursor;
       try {
-        cursor = getContentResolver().query(eventsUri, INSTANCE_PROJECTION,
-            Events.CALENDAR_ID + " = " + plannerCalendarId + " AND " + Instances.BEGIN +
-                " BETWEEN " + lastExecutionTimeStamp + " AND " + now,
+        cursor = getContentResolver().query(eventsUri, null,
+            Events.CALENDAR_ID + " = " + plannerCalendarId,
             null,
             null);
       } catch (Exception e) {
@@ -105,10 +94,10 @@ public class PlanExecutor extends IntentService {
       }
       if (cursor != null) {
         if (cursor.moveToFirst()) {
-          while (cursor.isAfterLast() == false) {
-            long planId = cursor.getLong(0);
-            Long instanceId = cursor.getLong(1);
-            long date = cursor.getLong(2);
+          while (!cursor.isAfterLast()) {
+            long planId = cursor.getLong(cursor.getColumnIndex(CalendarContractCompat.Instances.EVENT_ID));
+            Long instanceId = cursor.getLong(cursor.getColumnIndex(CalendarContractCompat.Instances._ID));
+            long date = cursor.getLong(cursor.getColumnIndex(CalendarContractCompat.Instances.BEGIN));
             //2) check if they are part of a plan linked to a template
             //3) execute the template
             Log.i(MyApplication.TAG, String.format("found instance %d of plan %d", instanceId, planId));

@@ -43,6 +43,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.provider.CalendarProviderProxy;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
@@ -96,6 +97,7 @@ public class PlanMonthFragment extends CaldroidFragment
     args.putLong(DatabaseConstants.KEY_PLANID, planId);
     args.putInt(DatabaseConstants.KEY_COLOR, color);
     args.putLong(DatabaseConstants.KEY_ROWID, templateId);
+    args.putBoolean(CaldroidFragment.SIX_WEEKS_IN_CALENDAR, false);
     f.setArguments(args);
     return f;
   }
@@ -193,7 +195,7 @@ public class PlanMonthFragment extends CaldroidFragment
     switch (id) {
       case INSTANCES_CURSOR:
         // Construct the query with the desired date range.
-        Uri.Builder builder = CalendarContractCompat.Instances.CONTENT_URI.buildUpon();
+        Uri.Builder builder = CalendarProviderProxy.INSTANCES_URI.buildUpon();
         DateTime startOfMonth = new DateTime(year, month, 1, 0, 0, 0, 0);
         long start = startOfMonth.minusDays(7)
             .getMilliseconds(TimeZone.getDefault());
@@ -204,10 +206,7 @@ public class PlanMonthFragment extends CaldroidFragment
         return new CursorLoader(
             getActivity(),
             builder.build(),
-            new String[]{
-                CalendarContractCompat.Instances._ID,
-                CalendarContractCompat.Instances.BEGIN
-            },
+            null,
             String.format(Locale.US, CalendarContractCompat.Instances.EVENT_ID + " = %d",
                 getArguments().getLong(DatabaseConstants.KEY_PLANID)),
             null,
@@ -235,9 +234,11 @@ public class PlanMonthFragment extends CaldroidFragment
         Calendar calendar = Calendar.getInstance();
         data.moveToFirst();
         while (!data.isAfterLast()) {
-          calendar.setTimeInMillis(data.getLong(1));
+          calendar.setTimeInMillis(data.getLong(
+              data.getColumnIndex(CalendarContractCompat.Instances.BEGIN)));
           DateTime dateTime = CalendarHelper.convertDateToDateTime(calendar.getTime());
-          dateTime2InstanceMap.put(dateTime, data.getLong(0));
+          dateTime2InstanceMap.put(dateTime,
+              data.getLong(data.getColumnIndex(CalendarContractCompat.Instances._ID)));
           selectedDates.add(dateTime);
           data.moveToNext();
         }

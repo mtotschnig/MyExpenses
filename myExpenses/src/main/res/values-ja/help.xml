@@ -81,7 +81,9 @@
   <string name="form_transfer_from_account.transfer_to_account_help_text">この対象の振替元または先の勘定を割り当てます。</string>
   <string name="form_exchange_rate_help_text">振替の双方のいずれかのレートを指定することができます。逆のレートと為替レートの依存する部分に相当する金額は自動的に計算されます。</string>
   <string name="form_title_help_text">テンプレートを一意に識別するタイトルを入力してください。</string>
-  <string name="form_plan_help_text">テンプレート用の計画を作成すると、お使いのカレンダーアプリが扱うプライベート カレンダーに追加されます。1回のイベントとして、または毎日、毎週、毎月、毎年の繰り返しイベントとして、計画を定義することができます。テンプレートを保存した後、お使いのカレンダーアプリを使用してより詳細な種類の繰り返しを設定することができます。計画は、自動または手動に設定できます。自動の計画のインスタンスが発生すると、取引が作成されて、通知を受け取ります。計画が手動の場合も通知を受け取りますが、キャンセル、変更またはテンプレートを適用する選択があります。</string>
+  <string name="form_plan_help_text">テンプレート用の計画を作成すると、お使いのカレンダーアプリが扱うプライベート カレンダーに追加されます。1回のイベントとして、または毎日、毎週、毎月、毎年の繰り返しイベントとして、計画を定義することができます。</string>
+  <string name="form_plan_help_text_advanced">テンプレートを保存した後、お使いのカレンダーアプリを使用してより詳細な種類の繰り返しを設定することができます。</string>
+  <string name="form_plan_help_text_mode">計画は、自動または手動に設定できます。自動の計画のインスタンスが発生すると、取引が作成されて、通知を受け取ります。計画が手動の場合も通知を受け取りますが、キャンセル、変更またはテンプレートを適用する選択があります。</string>
   <string name="menu_save_help_text">データを保存して、フォームを閉じます。</string>
   <string name="menu_save_and_new_help_text">データを保存し、同じデータで新しい取引を作成するためにフォームを開いたままにします。</string>
   <string name="menu_invert_transfer_help_text">勘定の \'元\' と \'先\' を入れ換えて、振替の向きを反転させます。</string>

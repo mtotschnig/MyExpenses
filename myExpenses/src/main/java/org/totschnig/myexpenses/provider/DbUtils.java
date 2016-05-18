@@ -103,7 +103,7 @@ public class DbUtils {
     MyApplication app = MyApplication.getInstance();
     try {
       DailyAutoBackupScheduler.cancelAutoBackup(app);
-      if (Utils.IS_ANDROID) PlanExecutor.cancelPlans(app);
+      PlanExecutor.cancelPlans(app);
       Account.clear();
       PaymentMethod.clear();
       File dataDir = new File(getInternalAppDir(), "databases");

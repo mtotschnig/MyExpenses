@@ -319,10 +319,6 @@ public class DialogUtils {
   }
 
   public static RadioGroup configureCalendarRestoreStrategy(View view) {
-    if (!Utils.IS_ANDROID) {
-      view.findViewById(R.id.RestoreCalendarHandlingRow).setVisibility(View.GONE);
-      return null;
-    }
     RadioGroup restorePlanStrategie = (RadioGroup) view.findViewById(R.id.restore_calendar_handling);
     String calendarId = MyApplication.PrefKey.PLANNER_CALENDAR_ID.getString("-1");
     String calendarPath = MyApplication.PrefKey.PLANNER_CALENDAR_PATH.getString("");
