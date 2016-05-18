@@ -25,6 +25,10 @@
   <string name="backup_success">Βάση δεδομένων και προτιμήσεις εγγεγραμένα με επιτυχία να sdcard (%1$s).</string>
   <string name="category">Κατηγορία</string>
   <string name="split_transaction_error">Δεν μπόρεσε να μετατραπεί η συναλλαγή για διάσπαση.</string>
+  <plurals name="split_transaction_success">
+    <item quantity="one">συνναλλαγή μετατράπηκε επιτυχώς σε διασπασμένη</item>
+    <item quantity="other">%1$d συνναλλαγές μετατράπηκαν επιτυχώς σε διασπασμένες</item>
+  </plurals>
   <string name="color">Χρώμα</string>
   <string name="comment">Σημειώσεις</string>
   <string name="confirmation_dialog_dont_show_again">Να μην εμφανιστεί ξανά</string>
@@ -61,6 +65,7 @@
   <string name="dialog_confirm_discard_new_account">Απόρριψη νέου λογαριασμού;</string>
   <string name="dialog_confirm_discard_new_method">Απόρριψη νέας μεθόδου πληρωμής;</string>
   <string name="dialog_command_disabled_balance">Δεν υπάρχουν εκκαθαρισμένες συναλλαγές που πρέπει να διακανονιστούν.</string>
+  <string name="dialog_command_disabled_insert_transfer">Οι συναλλαγές μεταφοράς απαιτούν ένα δεύτερο λογαριασμό</string>
   <string name="dialog_command_disabled_reset_account">Συναλλαγές για την εξαγωγή.</string>
   <string name="dialog_command_disabled_distribution">Συναλλαγές δεν έχουν καταχωρηθεί σε κατηγορίες σε αυτό το λογαριασμό.</string>
   <string name="dialog_contrib_no">Όχι ακόμα</string>
@@ -452,6 +457,11 @@
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Ο τρέχων επιλεγμένος φάκελος για αντίγραφα ασφαλείας και εξαγωγές θα διαγραφεί αυτόματα από το Android αν απεγκαταστήσετε το «Τα έξοδά μου». Μπορείτε να αποτρέψετε ένα τέτοιο ενδεχόμενο, επιλέγοντας ένα διαφορετικό φάκελο από την οθόνη Ρυθμίσεις.</string>
   <string name="warning_splitpartcategory_context">Μεταφορές που αποτελούν μέρος διαχωρισμού μπορούν να τύχουν επεξεργασίας μόνο στο πλαίσιο της διαίρεσης.</string>
   <string name="warning_fraction_digits_out_of_range">Παρακαλώ να ορίσετε έναν αριθμό μεταξύ 0 και 8</string>
+  <string name="warning_change_fraction_digits_1">Τα ποσά στην βάση δεδομένων πρέπει να ενημερωθούν ώστε να ταιριάζουν με το νέο αριθμό δεκαδικών ψηφίων</string>
+  <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Εάν δεν γίνει ενημέρωση ποσών, θα εμφανίζονται πολλαπλασιασμένα με %d μετά την αλλαγή</string>
+  <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Εάν δεν γίνει ενημέρωση ποσών, θα εμφανίζονται διαιρεμένα με %d μετά την αλλαγή</string>
+  <string name="warning_change_fraction_digits_3">Εάν γίνει ενημέρωση ποσών, θα χαθεί πληροφορία για το δεκαδικό μέρος</string>
+  <string name="warning_change_fraction_digits_checkbox_label">Ενημέρωση ποσών στην βάση δεδομένων</string>
   <string name="import_categories_success">%1$s κατηγορίες που εισάγονται με επιτυχία</string>
   <string name="import_parties_success">%1$s μέρη που εισάγονται με επιτυχία</string>
   <string name="import_accounts_success">%1$s λογαριασμοί εισάχθηκαν με επιτυχία</string>
@@ -468,6 +478,7 @@
   <!--Move an account up in the account list-->
   <string name="menu_sort_up">Πάνω</string>
   <!--Move an account down in the account list-->
+  <string name="menu_sort_down">Κάτων</string>
   <string name="create_new_folder_fail">Αποτυχία δημιουργίας του φακέλου</string>
   <string name="widget_title_accounts">Οι λογαριασμοί μου</string>
   <string name="widget_title_templates">Τα πρότυπά μου</string>
@@ -513,6 +524,7 @@
   <string name="pref_manage_stale_images_summary">Διαχείριση εικόνων που έχουν απομείνει από διαγραμμένες συναλλαγές</string>
   <string name="menu_select_categories">Επιλογή επισημασμένων κατηγοριών</string>
   <string name="image_deleted">Η εικόνα έχει διαγραφεί</string>
+  <string name="transaction_deleted">Η συναλλαγή έχει διαγραφεί</string>
   <string name="dialog_export_applied_to_filter">Μόνο συναλλαγές που ταιριάζουν με το τρέχων φίλτρο θα ληφθούν υπόψη.</string>
   <string name="export_handle_deleted_create_helper">Δημιουργία βοηθητικής συναλλαγής</string>
   <string name="export_handle_deleted_update_balance">Ενημέρωση αρχικού υπολοίπου</string>
@@ -554,9 +566,26 @@
   <string name="dialog_title_select_target">Επιλέξτε στόχο</string>
   <string name="transform_subcategory_to_main">Μεταμόρφωση στην κύρια κατηγορία</string>
   <string name="preferences_week_start_day_title">Έναρξη εβδομάδας:</string>
+  <string name="preferences_month_start_date_title">Έναρξη μήνα:</string>
   <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
+  <string name="pref_grouping_periods">Περίοδοι ομαδοποίησης</string>
+  <string name="exchange_rate">Ισοτιμία</string>
+  <string name="date_format_hour">Ώρα</string>
+  <string name="date_format_minute">Λεπτό</string>
+  <string name="copied_to_clipboard">Αντιγράφτηκε στο πρόχειρο</string>
+  <string name="menu_sort">Ταξινόμηση κατά</string>
+  <string name="pref_sort_order_last_used">Τελευταία χρήση</string>
+  <string name="pref_sort_order_custom">Προσαρμοσμένο</string>
+  <string name="dialog_info_custom_sort">Χρησιμοποιήστε τις Πάνω και Κάτω εντολές στο μενού του κάθε αντικειμένου ώστε να αλλάξετε την σειρά ταξινόμησης</string>
   <string name="content_description_calculator">Αριθμομηχανή</string>
   <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <string name="plan_instance_state_open">ανοιχτό</string>
   <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
+  <string name="plan_instance_state_cancelled">ακυρωμένο</string>
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <string name="plan_instance_state_applied">εφαρμοσμένο</string>
+  <string name="progress_dialog_updating_split_parts">Ενημέρωση διεσπασμένων μερών</string>
+  <string name="warning_cannot_move_split_transaction">Αυτή η διεσπασμένη συναλλαγή δεν μπορεί να μετακινηθεί στον λογαριασμό %1$s γιατί υπάρχει μέρη μεταφοράς που αναφέρονται σε αυτόν τον λογαριασμό</string>
+  <string name="content_description_calculator_clear_button">Επαναφορά όλων</string>
+  <string name="content_description_calculator_delete_button">Διαγραφή τελευταίου ψηφίου</string>
 </resources>
