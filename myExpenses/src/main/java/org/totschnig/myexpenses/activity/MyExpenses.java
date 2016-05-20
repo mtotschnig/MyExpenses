@@ -72,6 +72,7 @@ import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.dialog.ExportDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
+import org.totschnig.myexpenses.dialog.PaypalPaymentCompletedCallbackDialog;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
@@ -357,6 +358,14 @@ public class MyExpenses extends LaunchActivity implements
                 .show(fm, TransactionDetailFragment.class.getName());
             getIntent().removeExtra(KEY_TRANSACTIONID);
           }
+        }
+      }
+      if (Intent.ACTION_VIEW.equals(getIntent().getAction())) {
+        Uri data = getIntent().getData();
+        FragmentManager fm = getSupportFragmentManager();
+        if (fm.findFragmentByTag(PaypalPaymentCompletedCallbackDialog.class.getName()) == null) {
+          PaypalPaymentCompletedCallbackDialog.newInstance(data.getQueryParameter("tx"))
+              .show(fm, PaypalPaymentCompletedCallbackDialog.class.getName());
         }
       }
     }

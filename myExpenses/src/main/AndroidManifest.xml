@@ -50,6 +50,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="http" android:host="www.myexpenses.mobi"
+                      android:path="/thankyou.html" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".activity.ExpenseEdit"
@@ -113,14 +120,18 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
         <activity android:name=".activity.CsvImportActivity"
                   android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
         <activity android:name=".activity.MyPreferenceActivity"
+                  android:exported="true"
                   android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".activity.Help"
             android:theme="@style/Theme.AppCompat.Light.Dialog">
