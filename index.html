@@ -40,7 +40,7 @@ function findDestination() {
   }
   translations = ["en","de","fr","it","es","tr","vi","ar","hu","ca","zh-tw","pt","pl","cs","ru"];
   lang = translations.indexOf(userLang) > -1 ? userLang : "en";
-  return "http://" + window.location.host + "/" + lang + hash;
+  return "https://" + window.location.host + "/" + lang + hash;
 }
 window.location.replace(findDestination());
 </script>
