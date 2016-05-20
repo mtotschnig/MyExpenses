@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses.dialog;
 
+import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribIFace;
@@ -22,6 +23,7 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListen
 import org.totschnig.myexpenses.util.Utils;
 
 import android.app.Activity;
+import android.os.Build;
 import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.text.ClipboardManager;
@@ -114,13 +116,16 @@ public class DonateDialogFragment extends CommitSafeDialogFragment {
           }
         }
       } else if (which == AlertDialog.BUTTON_POSITIVE) {
-        String paypalButtonId = "LBUDF8DSWJAZ8";
+        String host = BuildConfig.DEBUG ? "www.sandbox.paypal.com" : "www.paypal.com" ;
+        String paypalButtonId = BuildConfig.DEBUG? "TURRUESSCUG8N" : "LBUDF8DSWJAZ8";
         String whichLicence = MyApplication.getInstance().isContribEnabled() ?
             PAYPAL_BUTTON_UPGRADE :
             (getArguments().getBoolean(KEY_EXTENDED) ? PAYPAL_BUTTON_EXTENDED : PAYPAL_BUTTON_CONTRIB);
         String uri = String.format(Locale.US,
-            "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=%s&on0=%s&os0=%s&lc=%s",
-            paypalButtonId, "Licence", whichLicence, getPaypalLocale());
+            "https://%s/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=%s&on0=%s&os0=%s&lc=%s",
+            host, paypalButtonId, "Licence", whichLicence, getPaypalLocale());
+
+
 
         intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(uri));
