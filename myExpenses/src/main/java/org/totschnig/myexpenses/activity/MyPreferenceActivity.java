@@ -643,18 +643,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
           }
         }
       } else if (key.equals(PrefKey.ENTER_LICENCE.getKey())) {
-        Utils.LicenceStatus licenceStatus = Utils.verifyLicenceKey((String) value);
-        if (licenceStatus != null) {
-          Toast.makeText(getActivity(),
-              Utils.concatResStrings(getActivity(), " ",
-                  R.string.licence_validation_success,
-                  (licenceStatus == Utils.LicenceStatus.EXTENDED ?
-                      R.string.licence_validation_extended : R.string.licence_validation_premium)),
-              Toast.LENGTH_LONG).show();
-        } else {
-          Toast.makeText(getActivity(), R.string.licence_validation_failure, Toast.LENGTH_LONG).show();
-        }
-        MyApplication.getInstance().setContribEnabled(licenceStatus);
+        CommonCommands.dispatchCommand(getActivity(), R.id.VERIFY_LICENCE_COMMAND, (String) value);
         setProtectionDependentsState();
         configureContribPrefs();
       } else if (key.equals(PrefKey.CUSTOM_DECIMAL_FORMAT.getKey())) {

@@ -115,6 +115,20 @@ public class CommonCommands {
         ctx.startActivity(i);
       }
       return true;
+      case R.id.VERIFY_LICENCE_COMMAND:
+        Utils.LicenceStatus licenceStatus = Utils.verifyLicenceKey((String) tag);
+        if (licenceStatus != null) {
+          Toast.makeText(ctx,
+              Utils.concatResStrings(ctx, " ",
+                  R.string.licence_validation_success,
+                  (licenceStatus == Utils.LicenceStatus.EXTENDED ?
+                      R.string.licence_validation_extended : R.string.licence_validation_premium)),
+              Toast.LENGTH_LONG).show();
+        } else {
+          Toast.makeText(ctx, R.string.licence_validation_failure, Toast.LENGTH_LONG).show();
+        }
+        MyApplication.getInstance().setContribEnabled(licenceStatus);
+        return true;
     case android.R.id.home:
       ctx.setResult(FragmentActivity.RESULT_CANCELED);
       ctx.finish();
