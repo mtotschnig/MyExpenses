@@ -6,4 +6,13 @@
     "sha256_cert_fingerprints":
     ["38:9F:22:AF:32:48:D6:86:D6:1A:03:8A:7B:4E:92:35:6D:CC:7A:EB:C2:4A:49:FF:6D:BA:6C:FE:CC:09:2E:C1"]
   }
+},
+{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "org.totschnig.myexpenses.debug",
+    "sha256_cert_fingerprints":
+    ["F5:59:71:75:CB:E2:FB:9C:44:B6:19:F1:53:03:ED:DA:52:0D:F6:DB:0A:3A:B6:63:B2:BD:2D:23:23:24:01:83"]
+  }
 }]
