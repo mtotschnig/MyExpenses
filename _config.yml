@@ -1,4 +1,6 @@
 markdown: kramdown
+include:
+  - .well-known
 sections:
   - features
   - premium
