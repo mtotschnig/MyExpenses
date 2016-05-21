@@ -370,7 +370,6 @@
   <string name="qif_parse_failure_found_multiple_accounts">Várias contas encontradas no arquivo QIF.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Não pode mesclá-las em conta existente.</string>
   <string name="reference_number">Número de Referência</string>
-  <string name="request_licence_mail_description">Por favor, descreva (em inglês, alemão ou francês), sua contribuição para as despesas de meu (por exemplo: doação via Paypal, relatório de bugs, testes, tradução).</string>
   <string name="request_licence_mail_head">Por favor me envie uma chave para Android-Id %1$s.</string>
   <string name="restore_db_failure">A restauração do banco de dados falhou.</string>
   <string name="restore_db_success">O banco de dados foi restaurado a partir do backup.</string>

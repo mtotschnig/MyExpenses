@@ -366,7 +366,6 @@
   <string name="qif_parse_failure_found_multiple_accounts">QIF ファイルに複数の勘定が見つかりました。</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">既存の勘定にそれをマージすることはできません。</string>
   <string name="reference_number">参照番号</string>
-  <string name="request_licence_mail_description">(英語、ドイツ語またはフランス語で) マイ エクスペンス に、あなたの貢献を説明してください (例: Paypal で寄付、バグ報告、テスト、翻訳)。</string>
   <string name="request_licence_mail_head">Please send me a key for Android-Id %1$s. </string>
   <string name="restore_db_failure">データベースの復元に失敗しました。</string>
   <string name="restore_db_success">バックアップからデータベースが復元されました。</string>

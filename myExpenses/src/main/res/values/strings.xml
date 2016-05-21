@@ -605,5 +605,7 @@
     <string name="content_description_calculator_clear_button">Reset all</string>
     <string name="content_description_calculator_delete_button">Delete last digit</string>
     <string name="paypal_transaction_id">Paypal Transaction ID</string>
+    <string name="paypal_callback_info">Your transaction has been completed, and a receipt for your purchase has been emailed to you. You may log into your account at www.paypal.com to view details of this transaction.</string>
+    <string name="paypal_callback_later_clicked_info">From the settings screen, you can request a key at any time.</string>
 </resources>
 

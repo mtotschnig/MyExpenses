@@ -344,7 +344,6 @@
   <string name="progress_dialog_printing">生成PDF</string>
   <string name="progress_dialog_saving">保存对象到数据库</string>
   <string name="reference_number">参考编号</string>
-  <string name="request_licence_mail_description">透过英语,德语或法语请描述你的贡献,例如透过Paypal捐款、错误报告、测试和翻译等.</string>
   <string name="restore_db_failure">数据库恢复失败.</string>
   <string name="restore_db_success">数据库已从备份恢复过来.</string>
   <string name="restore_no_backup_found">没有找到备份</string>

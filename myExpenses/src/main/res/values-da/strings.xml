@@ -359,7 +359,6 @@
   <string name="qif_parse_failure_found_multiple_accounts">Der findes flere konti i QIF filen.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Matcher ikke eksisterende konto.</string>
   <string name="reference_number">Referencenummer</string>
-  <string name="request_licence_mail_description">Beskriv (på engelsk, fransk eller tysk) dit bidrag til Mine udgifter (f.eks.: donation via Paypal, fejlrapport, afprøvning, oversættelse).</string>
   <string name="request_licence_mail_head">Jeg vil bede dig om at sende mig en nøgle for Android-Id %1$s.</string>
   <string name="restore_db_failure">Gendannelse af databasen mislykkedes.</string>
   <string name="restore_db_success">Databasen blev gendannet fra backup.</string>

@@ -230,7 +230,6 @@
   <string name="pref_visit_website_summary">Nhật trình và các câu hỏi thường gặp</string>
   <string name="pref_visit_website_title">Truy cập Website</string>
   <string name="progress_dialog_loading">Đang tải đối tượng từ cơ sở dữ liệu</string>
-  <string name="request_licence_mail_description">Hãy gửi cho tác giả một mô tả ngắn gọn (bằng tiếng Anh, Đức hoặc Pháp) về sự cống hiến của bạn dành cho Chi Tiêu Của Tôi (ví dụ.: đóng góp qua Paypal, gửi báo cáo lỗi, xài thử chương trình, tham gia vào việc dịch chương trình).</string>
   <string name="restore_db_failure">Xảy ra lỗi khi khôi phục cơ sở dữ liệu</string>
   <string name="restore_db_success">Cơ sở dữ liệu đã được phục hồi từ phần sao lưu</string>
   <string name="restore_preferences_failure">Xảy ra lỗi khi khôi phục phần tùy biến</string>

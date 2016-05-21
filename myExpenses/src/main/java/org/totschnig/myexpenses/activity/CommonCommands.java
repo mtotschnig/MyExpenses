@@ -114,6 +114,7 @@ public class CommonCommands {
       } else {
         ctx.startActivity(i);
       }
+      return true;
     case android.R.id.home:
       ctx.setResult(FragmentActivity.RESULT_CANCELED);
       ctx.finish();

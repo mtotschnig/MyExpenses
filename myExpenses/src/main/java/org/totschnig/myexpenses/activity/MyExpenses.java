@@ -360,14 +360,6 @@ public class MyExpenses extends LaunchActivity implements
           }
         }
       }
-      if (Intent.ACTION_VIEW.equals(getIntent().getAction())) {
-        Uri data = getIntent().getData();
-        FragmentManager fm = getSupportFragmentManager();
-        if (fm.findFragmentByTag(PaypalPaymentCompletedCallbackDialog.class.getName()) == null) {
-          PaypalPaymentCompletedCallbackDialog.newInstance(data.getQueryParameter("tx"))
-              .show(fm, PaypalPaymentCompletedCallbackDialog.class.getName());
-        }
-      }
     }
     if (mAccountId == 0)
       mAccountId = MyApplication.PrefKey.CURRENT_ACCOUNT.getLong(0L);
