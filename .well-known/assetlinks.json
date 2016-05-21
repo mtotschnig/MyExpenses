@@ -4,6 +4,6 @@
     "namespace": "android_app",
     "package_name": "org.totschnig.myexpenses",
     "sha256_cert_fingerprints":
-    [38:9F:22:AF:32:48:D6:86:D6:1A:03:8A:7B:4E:92:35:6D:CC:7A:EB:C2:4A:49:FF:6D:BA:6C:FE:CC:09:2E:C1]
+    ["38:9F:22:AF:32:48:D6:86:D6:1A:03:8A:7B:4E:92:35:6D:CC:7A:EB:C2:4A:49:FF:6D:BA:6C:FE:CC:09:2E:C1"]
   }
 }]
