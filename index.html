@@ -15,7 +15,7 @@ function findDestination() {
   var userLang = (getURLParameter("lang") || window.navigator.userLanguage || window.navigator.language).substring(0,2);
   if (userLang == 'zh')
     userLang = 'zh-tw';
-  var hash = window.location.hash != "" ? window.location.hash : "";
+  var hash = window.location.hash;
   switch (hash) {
     case "#tutorial":
     case "#tutorial_r4":
@@ -40,7 +40,7 @@ function findDestination() {
   }
   translations = ["en","de","fr","it","es","tr","vi","ar","hu","ca","zh-tw","pt","pl","cs","ru"];
   lang = translations.indexOf(userLang) > -1 ? userLang : "en";
-  return "https://" + window.location.host + "/" + lang + hash;
+  return window.location.protocol + "//" + window.location.host + "/" + lang + hash;
 }
 window.location.replace(findDestination());
 </script>

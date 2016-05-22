@@ -1,0 +1,102 @@
+---
+---
+<html>
+<head>
+<script type="text/javascript" src="/script/utils.js" charset="UTF-8"> </script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<script type="text/javascript">
+function getURLParameter(name) {
+  return decodeURI(
+    (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,''])[1]
+   );
+}
+function findDestination() {
+  lang = findLang();
+  hash = "#thankyou";
+  return window.location.protocol + "//" + window.location.host + "/" + lang + location.search + hash;
+}
+
+function findLang() {
+  userLang = (getURLParameter("lang") || window.navigator.userLanguage || window.navigator.language).substring(0,2);
+  if (userLang == 'zh')
+    userLang = 'zh-tw';
+  translations = ["en","de","fr","it","es","tr","vi","ar","hu","ca","zh-tw","pt","pl","cs","ru"];
+  return translations.indexOf(userLang) > -1 ? userLang : "en";
+}
+
+var translation_data = {
+	
+   	   "text_1":  {
+   	   	   {% for lang in site.data %}{% capture code %}{{lang[0]}}{% endcapture %}{% assign msg = lang[1][code] %}
+   	   	   "{{code}}": "{{msg.contrib.key-delivery-email.text-1}}"{% if forloop.last %}{% else %},{% endif %}
+    	   {% endfor %}
+   	   },
+   	   "text_2": {
+   	   	   {% for lang in site.data %}{% capture code %}{{lang[0]}}{% endcapture %}{% assign msg = lang[1][code] %}
+   	   	   "{{code}}": "{{msg.contrib.key-delivery-email.text-2}}"{% if forloop.last %}{% else %},{% endif %}
+    	   {% endfor %}
+   	   }
+   };
+
+function buildLocalizedAlert() {
+   lang = findLang();
+   return getLocalized("text_1", lang) + " " + sprintf(getLocalized("text_2", lang), getURLParameter("key"));
+}
+
+function getLocalized(key, lang) {
+	if (translation_data[key][lang] == "") {
+		return translation_data[key]["en"];
+	} else {
+		return translation_data[key][lang];
+	}
+}
+
+//http://stackoverflow.com/a/4795914/1199911
+function sprintf() {
+    var args = arguments,
+    string = args[0],
+    i = 1;
+    return string.replace(/%((%)|s|d)/g, function (m) {
+        // m is the matched format, e.g. %s, %d
+        var val = null;
+        if (m[2]) {
+            val = m[2];
+        } else {
+            val = args[i];
+            // A switch statement so that the formatter can be extended. Default is %s
+            switch (m) {
+                case '%d':
+                    val = parseFloat(val);
+                    if (isNaN(val)) {
+                        val = 0;
+                    }
+                    break;
+            }
+            i++;
+        }
+        return val;
+    });
+}
+
+
+switch(window.location.hash) {
+case '#thankyou':
+	window.location.replace(findDestination());
+	break;
+case '#verify':
+	alert(buildLocalizedAlert());
+	break;
+}
+</script>
+</head>
+<body>
+<noscript>
+<ul>
+{% for title in site.title %}
+    <li><a href="{{title[0]}}">{{title[1]}}</a></li>
+{% endfor %}
+</ul>
+</noscript> 
+</body>
+
+

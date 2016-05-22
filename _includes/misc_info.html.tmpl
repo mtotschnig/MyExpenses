@@ -349,3 +349,27 @@
 {% endfor %}
 </dl>
 </div>
+
+<!--
+  Thank you After Purchase
+-->
+
+<div class="block" id="thankyou" style="display:none">
+<h2>Thank you</h2>
+
+<p>Thank you for your payment. Your transaction has been completed, and a receipt
+for your purchase has been emailed to you.
+You may log into your account at www.paypal.com to view details of this transaction.
+In order to claim your key, open My Expenses on your Android device, go to the Settings screen and click on the "Request a key" entry.
+<script>
+function getURLParameter(name) {
+  return decodeURI(
+    (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,''])[1]
+   );
+}
+var transactionId = getURLParameter("tx");
+document.write("Please refer to the transaction ID "+ transactionId + " .");
+</script>
+</p>
+</div>
+
