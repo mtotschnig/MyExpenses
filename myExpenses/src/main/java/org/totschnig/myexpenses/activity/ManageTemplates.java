@@ -65,7 +65,10 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
     if (uriString != null) {
       List <String> uriPath = Uri.parse(uriString).getPathSegments();
       try {
-        calledFromCalendarWithId = Long.parseLong(uriPath.get(2));
+        calledFromCalendarWithId =  Long.parseLong(uriPath.get(uriPath.size() - 1)); //legacy uri had account_id/template_id
+        if (calledFromCalendarWithId == 0) { //ignore 0 that were introduced by legacy bug
+          calledFromCalendarWithId = NOT_CALLED;
+        }
       } catch (Exception e) {
         Utils.reportToAcra(e);
       }

@@ -34,7 +34,6 @@ public class Plan extends Model implements Serializable {
   public String rrule;
   public String title;
   public String description;
-  private String customAppUri;
 
   public enum Recurrence {
     NONE, ONETIME, DAILY, WEEKLY, MONTHLY, YEARLY;
@@ -134,10 +133,6 @@ public class Plan extends Model implements Serializable {
     ContentValues values = new ContentValues();
     values.put(Events.TITLE, title);
     values.put(Events.DESCRIPTION, description);
-    if (android.os.Build.VERSION.SDK_INT >= 16) {
-      values.put(Events.CUSTOM_APP_URI, customAppUri);
-      values.put(Events.CUSTOM_APP_PACKAGE, MyApplication.getInstance().getPackageName());
-    }
     if (!TextUtils.isEmpty(rrule)) {
       values.put(Events.RRULE, rrule);
     }
@@ -156,32 +151,15 @@ public class Plan extends Model implements Serializable {
       values.put(Events.CALENDAR_ID, Long.parseLong(calendarId));
       values.put(Events.DTSTART, dtstart);
       values.put(Events.DTEND, dtstart);
-      try {
-        uri = cr().insert(Events.CONTENT_URI, values);
-      } catch (SQLiteException e) {
-        removeCustomValues(values);
-        uri = cr().insert(Events.CONTENT_URI, values);
-      }
+      uri = cr().insert(Events.CONTENT_URI, values);
+      setId(ContentUris.parseId(uri));
     } else {
-      try {
       uri = ContentUris.withAppendedId(Events.CONTENT_URI, getId());
-      } catch (SQLiteException e) {
-        removeCustomValues(values);
-        uri = ContentUris.withAppendedId(Events.CONTENT_URI, getId());
-      }
+      cr().update(uri, values, null, null);
     }
     return uri;
   }
 
-  /**
-   * we have seen a bugy calendar provider implementation on Symphony phone
-   * we try the insert again without the custom app columns
-   * @param values
-   */
-  private void removeCustomValues(ContentValues values) {
-    values.remove(Events.CUSTOM_APP_URI);
-    values.remove(Events.CUSTOM_APP_PACKAGE);
-  }
 
   public static void delete(Long id) {
     String calendarId = PrefKey.PLANNER_CALENDAR_ID.getString("-1");
@@ -226,7 +204,23 @@ public class Plan extends Model implements Serializable {
     }
   }
 
-  public void setCustomAppUri(String customAppUri) {
-    this.customAppUri = customAppUri;
+  public void updateCustomAppUri(String customAppUri) {
+    if (getId()==0) {
+      throw new IllegalStateException("Can not set custom app uri on unsaved plan");
+    }
+    updateCustomAppUri(getId(), customAppUri);
+  }
+
+  public static void updateCustomAppUri(Long id, String customAppUri) {
+    if (android.os.Build.VERSION.SDK_INT >= 16) {
+      try {
+        ContentValues values = new ContentValues();
+        values.put(Events.CUSTOM_APP_URI, customAppUri);
+        values.put(Events.CUSTOM_APP_PACKAGE, MyApplication.getInstance().getPackageName());
+        cr().update(ContentUris.withAppendedId(Events.CONTENT_URI, id), values, null, null);
+      } catch (SQLiteException e) {
+        // we have seen a bugy calendar provider implementation on Symphony phone
+      }
+    }
   }
 }

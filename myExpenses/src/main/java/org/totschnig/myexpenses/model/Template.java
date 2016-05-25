@@ -235,8 +235,6 @@ public class Template extends Transaction {
    */
   public Uri save() {
     if (plan != null) {
-      //we encode both account and template into the CUSTOM URI
-      plan.setCustomAppUri(buildCustomAppUri(accountId, getId()));
       Uri planUri = plan.save();
       if (planUri != null) {
         planId = ContentUris.parseId(planUri);
@@ -265,6 +263,7 @@ public class Template extends Transaction {
         return null;
       }
       setId(ContentUris.parseId(uri));
+      plan.updateCustomAppUri(buildCustomAppUri(getId()));
     } else {
       uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build();
       try {
@@ -360,13 +359,8 @@ public class Template extends Transaction {
     return t.save() != null;
   }
 
-  public static String buildCustomAppUri(long accountId, long templateId) {
-    return ContentUris.withAppendedId(
-        ContentUris.withAppendedId(
-            Template.CONTENT_URI,
-            accountId),
-        templateId)
-        .toString();
+  public static String buildCustomAppUri(long id) {
+    return ContentUris.withAppendedId(Template.CONTENT_URI, id).toString();
   }
 
   @Override

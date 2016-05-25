@@ -24,6 +24,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.PaymentMethod;
+import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.util.Utils;
@@ -48,7 +49,7 @@ import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 56;
+  public static final int DATABASE_VERSION = 57;
   public static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -1052,6 +1053,20 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?
           new SQLiteUpgradeFailedException("Database upgrade failed", e) :
           e;
+    }
+
+    if (oldVersion < 57) {
+      //fix custom app uris
+      Cursor c = db.query("templates", new String[]{"_id", "plan_id"}, null, null, null, null, null);
+      if (c != null) {
+        if (c.moveToFirst()) {
+          while (!c.isAfterLast()) {
+            Plan.updateCustomAppUri(c.getLong(1), Template.buildCustomAppUri(c.getLong(0)));
+            c.moveToNext();
+          }
+        }
+        c.close();
+      }
     }
   }
 
