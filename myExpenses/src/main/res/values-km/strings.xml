@@ -302,7 +302,6 @@
   <string name="progress_dialog_loading">ផ្ទុកវត្ថុពីមូលដ្ឋានទិន្នន័យ</string>
   <string name="progress_dialog_saving">កំពុង​ផ្ទុក​ទៅមូលដ្ឋាន​ទិន្នន័យ​</string>
   <string name="reference_number">លេខ​យោង</string>
-  <string name="request_licence_mail_description">សូម​ពិពណ៌នា (ជាភាសាអង់គ្លេស អាឡឺម៉ង ឬបារាំង) ពី​​ការរួម​ចំណែក​របស់​អ្នក​សំរាប់ My Expenses (ឧ. វិភាគទាន​ជា​ប្រាក់​តាម Paypal, ផ្តល់​ព័ត៌​មាន​ពីកំហុស, តេស្ត ឬ​បក​ប្រែ)។</string>
   <string name="restore_db_failure">ការ​ restore មូលដ្ឋានទិន្នន័យមិនបានសំរេច</string>
   <string name="restore_db_success">មូលដ្ឋានទិន្នន័យត្រូវបានស្តារឡើងវិញពីការបម្រុងទុក។</string>
   <string name="restore_no_backup_found">គ្មាន​អ្វីដែល​រក្សាទុករកឃើញទេ។</string>

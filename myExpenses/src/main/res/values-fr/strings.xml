@@ -370,7 +370,6 @@
   <string name="qif_parse_failure_found_multiple_accounts">Plusieurs comptes trouvés dans le fichier QIF.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Impossible de fusionner avec le compte existant.</string>
   <string name="reference_number">Numéro de référence</string>
-  <string name="request_licence_mail_description">S\'il vous plaît décrire votre contribution à Mes dépenses (par exemple: un don via Paypal, rapport de bug, des tests, de la traduction).</string>
   <string name="request_licence_mail_head">Envoyez-moi, s\'il vous plaît, une clé pour l\'Android-Id %1$s.</string>
   <string name="restore_db_failure">La restauration de la base de données a échoué.</string>
   <string name="restore_db_success">La base de données a été rétablie à partir de la sauvegarde.</string>

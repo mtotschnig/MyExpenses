@@ -370,7 +370,6 @@
   <string name="qif_parse_failure_found_multiple_accounts">Открити са множество сметки в QIF файла.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Не могат да бъдат обединени в съществуваща сметка.</string>
   <string name="reference_number">Референтен номер</string>
-  <string name="request_licence_mail_description">Моля, опишете (на английски, немски или френски) вашия принос към Моите разходи (например: дарение чрез Paypal, доклад за бъг, тестване, превод).</string>
   <string name="request_licence_mail_head">Моля, изпратете ми ключ за андроид-ИД %1$s.</string>
   <string name="restore_db_failure">Неуспешно възстановяване на база данни.</string>
   <string name="restore_db_success">Базата данни е възстановена успешно.</string>
@@ -524,6 +523,7 @@
   <string name="pref_manage_stale_images_summary">Управление на изображения, останали след изтриване на транзакция</string>
   <string name="menu_select_categories">Избери отбелязаните категории</string>
   <string name="image_deleted">Изображението е изтрито</string>
+  <string name="transaction_deleted">Транзакцията е изтрита</string>
   <string name="dialog_export_applied_to_filter">Ще се отчитат само транзакции, избрани с текущия филтър</string>
   <string name="export_handle_deleted_create_helper">Създай помощна транзакция</string>
   <string name="export_handle_deleted_update_balance">Обнови началното салдо</string>

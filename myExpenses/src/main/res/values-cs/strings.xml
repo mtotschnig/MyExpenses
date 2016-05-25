@@ -276,7 +276,6 @@
   <string name="pref_visit_website_title">Navštivte webové stránky</string>
   <string name="progress_dialog_loading">Načítání objektů z databáze</string>
   <string name="reference_number">Referenční číslo</string>
-  <string name="request_licence_mail_description">Popište prosím váš příspěvek pro Moje výdaje (V angličtině, němčině nebo francouzštině)  (např.: dar přes Paypal, hlášení o chybě, testování, překlad).</string>
   <string name="request_licence_mail_head">Pošlete mi prosím klíč pro Android-Id %1$s.</string>
   <string name="restore_db_failure">Obnovení databáze se nezdařilo.</string>
   <string name="restore_db_success">Databáze byla obnovena ze zálohy.</string>

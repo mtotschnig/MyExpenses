@@ -119,4 +119,6 @@
   <item name="MenuBulk" type="id"/>
   <item name="MenuSingleChild" type="id"/>
   <item name="MenuBulkChild" type="id"/>
+  <item name="REQUEST_LICENCE_COMMAND" type="id"/>
+  <item name="VERIFY_LICENCE_COMMAND" type="id"/>
 </resources>

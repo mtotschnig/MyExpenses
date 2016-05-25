@@ -51,6 +51,17 @@
                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.DeepLinkActivity"
+                  android:excludeFromRecents="true"
+                  android:theme="@style/Theme.AppCompat.Light.Dialog">
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="www.myexpenses.mobi"
+                      android:path="/callback.html" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activity.ExpenseEdit"
             android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge"
@@ -113,14 +124,18 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
         <activity android:name=".activity.CsvImportActivity"
                   android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
         <activity android:name=".activity.MyPreferenceActivity"
+                  android:exported="true"
                   android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".activity.Help"
             android:theme="@style/Theme.AppCompat.Light.Dialog">

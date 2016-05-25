@@ -72,6 +72,7 @@ import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.dialog.ExportDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
+import org.totschnig.myexpenses.dialog.PaypalPaymentCompletedCallbackDialog;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;

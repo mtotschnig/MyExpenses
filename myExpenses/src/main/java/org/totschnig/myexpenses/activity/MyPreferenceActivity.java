@@ -643,18 +643,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
           }
         }
       } else if (key.equals(PrefKey.ENTER_LICENCE.getKey())) {
-        Utils.LicenceStatus licenceStatus = Utils.verifyLicenceKey((String) value);
-        if (licenceStatus != null) {
-          Toast.makeText(getActivity(),
-              Utils.concatResStrings(getActivity(), " ",
-                  R.string.licence_validation_success,
-                  (licenceStatus == Utils.LicenceStatus.EXTENDED ?
-                      R.string.licence_validation_extended : R.string.licence_validation_premium)),
-              Toast.LENGTH_LONG).show();
-        } else {
-          Toast.makeText(getActivity(), R.string.licence_validation_failure, Toast.LENGTH_LONG).show();
-        }
-        MyApplication.getInstance().setContribEnabled(licenceStatus);
+        CommonCommands.dispatchCommand(getActivity(), R.id.VERIFY_LICENCE_COMMAND, (String) value);
         setProtectionDependentsState();
         configureContribPrefs();
       } else if (key.equals(PrefKey.CUSTOM_DECIMAL_FORMAT.getKey())) {
@@ -696,20 +685,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         return true;
       }
       if (preference.getKey().equals(PrefKey.REQUEST_LICENCE.getKey())) {
-        String androidId = Secure.getString(getActivity().getContentResolver(), Secure.ANDROID_ID);
-        Intent i = new Intent(android.content.Intent.ACTION_SEND);
-        i.setType("plain/text");
-        i.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{MyApplication.FEEDBACK_EMAIL});
-        i.putExtra(android.content.Intent.EXTRA_SUBJECT,
-            "[" + getString(R.string.app_name) + "] " + getString(R.string.contrib_key));
-        i.putExtra(android.content.Intent.EXTRA_TEXT,
-            getString(R.string.request_licence_mail_head, androidId)
-                + " \n\n[" + getString(R.string.request_licence_mail_description) + "]");
-        if (!Utils.isIntentAvailable(getActivity(), i)) {
-          Toast.makeText(getActivity(), R.string.no_app_handling_email_available, Toast.LENGTH_LONG).show();
-        } else {
-          startActivity(i);
-        }
+        CommonCommands.dispatchCommand(getActivity(), R.id.REQUEST_LICENCE_COMMAND, null);
         return true;
       }
       if (preference.getKey().equals(PrefKey.SEND_FEEDBACK.getKey())) {

@@ -307,7 +307,6 @@
   <string name="qif_parse_failure_found_multiple_accounts">Найдено несколько счетов в QIF-файле.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Не удается объединить в существующий счёт.</string>
   <string name="reference_number">Номер ссылки</string>
-  <string name="request_licence_mail_description">Просьба описать (на английском, немецком или французском) ваш вклад в Мои расходы (например: пожертвование через Paypal, отчет об ошибке, тестирование, перевод).</string>
   <string name="request_licence_mail_head">Пожалуйста, пришлите мне ключ для Android-Id %1$s.</string>
   <string name="restore_db_failure">Восстановление БД не удалось.</string>
   <string name="restore_db_success">БД была восстановлена из рез.копии.</string>

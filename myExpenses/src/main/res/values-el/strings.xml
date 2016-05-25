@@ -370,7 +370,6 @@
   <string name="qif_parse_failure_found_multiple_accounts">Πολλαπλοί λογαριασμοί βρέθηκαν στο αρχείο QIF.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Δεν είναι δυνατή η συγχώνευσή τους σε υπάρχοντα λογαριασμό.</string>
   <string name="reference_number">Αριθμός αναφοράς</string>
-  <string name="request_licence_mail_description">Παρακαλώ, περιγράψτε (στα αγγλικά, γερμανικά ή γαλλικά) τη συνεισφορά σας  στα Έξοδά μου  (π.χ.: δωρεά μέσω Paypal, αναφορά σφάλματος, δοκιμές, μετάφραση).</string>
   <string name="request_licence_mail_head">Παρακαλώ στείλτε μου ένα κλειδί για Android-Id %1$s.</string>
   <string name="restore_db_failure">Απέτυχε η επαναφορά της βάσης δεδομένων.</string>
   <string name="restore_db_success">Η βάση δεδομένων έχει αποκατασταθεί από την δημιουργία αντιγράφων.</string>

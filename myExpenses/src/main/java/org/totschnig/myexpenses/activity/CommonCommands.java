@@ -33,6 +33,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.res.Resources.NotFoundException;
 import android.net.Uri;
+import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -96,6 +97,38 @@ public class CommonCommands {
       //for result is needed since it allows us to inspect the calling activity
       ctx.startActivityForResult(i,0);
       return true;
+    case R.id.REQUEST_LICENCE_COMMAND:
+      String androidId = Settings.Secure.getString(ctx.getContentResolver(), Settings.Secure.ANDROID_ID);
+      i = new Intent(android.content.Intent.ACTION_SEND);
+      i.setType("plain/text");
+      i.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{MyApplication.FEEDBACK_EMAIL});
+      i.putExtra(android.content.Intent.EXTRA_SUBJECT,
+          "[" + ctx.getString(R.string.app_name) + "] " + ctx.getString(R.string.contrib_key));
+      String extraText = ctx.getString(R.string.request_licence_mail_head, androidId);
+      if (tag != null) {
+        extraText += " \n\n[" + ctx.getString(R.string.paypal_transaction_id) + ": " + tag +  "]";
+      }
+      i.putExtra(android.content.Intent.EXTRA_TEXT, extraText);
+      if (!Utils.isIntentAvailable(ctx, i)) {
+        Toast.makeText(ctx, R.string.no_app_handling_email_available, Toast.LENGTH_LONG).show();
+      } else {
+        ctx.startActivity(i);
+      }
+      return true;
+      case R.id.VERIFY_LICENCE_COMMAND:
+        Utils.LicenceStatus licenceStatus = Utils.verifyLicenceKey((String) tag);
+        if (licenceStatus != null) {
+          Toast.makeText(ctx,
+              Utils.concatResStrings(ctx, " ",
+                  R.string.licence_validation_success,
+                  (licenceStatus == Utils.LicenceStatus.EXTENDED ?
+                      R.string.licence_validation_extended : R.string.licence_validation_premium)),
+              Toast.LENGTH_LONG).show();
+        } else {
+          Toast.makeText(ctx, R.string.licence_validation_failure, Toast.LENGTH_LONG).show();
+        }
+        MyApplication.getInstance().setContribEnabled(licenceStatus);
+        return true;
     case android.R.id.home:
       ctx.setResult(FragmentActivity.RESULT_CANCELED);
       ctx.finish();

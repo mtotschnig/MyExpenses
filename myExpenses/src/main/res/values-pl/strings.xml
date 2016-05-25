@@ -335,7 +335,6 @@
   <string name="qif_parse_failure_found_multiple_accounts">Znaleziono wiele kont w pliku QIF.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Nie można importu do istniejącego konta.</string>
   <string name="reference_number">Numer Odniesienia</string>
-  <string name="request_licence_mail_description">Proszę opisać (w języku Angielskim, Niemieckim lub Francuskim) swój wkład do Moich Wydatków (np.: datek przez Paypal, zgłoszenie błędu, testowanie, tłumaczenie).</string>
   <string name="request_licence_mail_head">Proszę wysłać mi klucz dla systemu Android %1$s.</string>
   <string name="restore_db_failure">Przywracanie bazy danych nie powiodło się.</string>
   <string name="restore_db_success">Baza danych została przywrócona z kopii zapasowej.</string>
