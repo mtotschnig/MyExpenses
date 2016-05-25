@@ -7,36 +7,15 @@
     android:orientation="vertical"
     tools:showIn="@layout/one_expense">
 
-    <Spinner
-        android:id="@+id/Recurrence"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|start"/>
+    <include layout="@layout/recurrence_spinner"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        tools:showIn="@layout/one_expense">
+        android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/Plan"
-            style="@style/SmallButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:visibility="gone"/>
+        <include layout="@layout/plan_button"/>
 
-        <ToggleButton
-            android:id="@+id/togglebutton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:onClick="onToggleClicked"
-            android:textOff="@string/plan_manual"
-            android:textOn="@string/plan_automatic"
-            android:visibility="gone"/>
+        <include layout="@layout/toggle_button"/>
     </LinearLayout>
 </LinearLayout>
