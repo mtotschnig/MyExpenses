@@ -13,8 +13,9 @@ import java.util.List;
 
 public class RecurrenceAdapter extends ArrayAdapter<Plan.Recurrence> {
 
-  public RecurrenceAdapter(Context context) {
-    super(context, android.R.layout.simple_spinner_item, Plan.Recurrence.values());
+  public RecurrenceAdapter(Context context, boolean withoutOneTime) {
+    super(context, android.R.layout.simple_spinner_item,
+        withoutOneTime? Plan.Recurrence.valuesWithoutOneTime() : Plan.Recurrence.values());
     setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
   }
 

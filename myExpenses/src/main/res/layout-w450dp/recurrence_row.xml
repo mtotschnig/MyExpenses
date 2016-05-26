@@ -7,8 +7,10 @@
     android:orientation="horizontal"
     tools:showIn="@layout/one_expense">
 
-    <include layout="@layout/recurrence_spinner"/>
-
+    <include
+        layout="@layout/recurrence_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     <include layout="@layout/plan_button"/>
 

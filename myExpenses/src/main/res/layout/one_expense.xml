@@ -17,11 +17,11 @@
 <LinearLayout
     android:id="@+id/OneExpense"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="vertical">
 
     <include layout="@layout/toolbar_expense_edit"/>
 
@@ -45,9 +45,9 @@
                 android:visibility="gone">
 
                 <TextView
-                    android:labelFor="@+id/Title"
                     android:id="@+id/TitleLabel"
                     style="@style/form_label.compat"
+                    android:labelFor="@+id/Title"
                     android:text="@string/title"/>
 
                 <EditText
@@ -55,48 +55,48 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:singleLine="true"
-                    android:inputType="text"/>
+                    android:inputType="text"
+                    android:singleLine="true"/>
             </TableRow>
 
             <TableRow android:id="@+id/AccountRow">
 
                 <TextView
-                    android:labelFor="@+id/Account"
                     android:id="@+id/AccountLabel"
                     style="@style/form_label.compat"
+                    android:labelFor="@+id/Account"
                     android:text="@string/account"/>
 
                 <Spinner
                     android:layout_marginRight="12dp"
                     android:layout_marginEnd="12dp"
                     android:id="@+id/Account"
-                    android:layout_gravity="center_vertical|start"/>
+                    android:layout_gravity="center_vertical"/>
             </TableRow>
 
             <TableRow
                 android:id="@+id/AmountRow">
 
                 <TextView
-                    android:labelFor="@id/Amount"
                     android:id="@+id/AmountLabel"
                     style="@style/form_label.compat"
+                    android:labelFor="@id/Amount"
                     android:textColor="?attr/colorAccent"/>
 
-                    <include layout="@layout/amount_input"/>
+                <include layout="@layout/amount_input"/>
             </TableRow>
 
             <TableRow
                 android:id="@+id/ExchangeRateRow"
-                tools:visibility="visible"
-                android:visibility="gone">
+                android:visibility="gone"
+                tools:visibility="visible">
 
                 <TextView
                     android:id="@+id/ExchangeRateLabel"
-                    android:text="@string/exchange_rate"
-                    style="@style/form_label.compat"/>
+                    style="@style/form_label.compat"
+                    android:text="@string/exchange_rate"/>
 
-                    <include layout="@layout/exchange_rates"/>
+                <include layout="@layout/exchange_rates"/>
             </TableRow>
 
             <TableRow
@@ -104,9 +104,9 @@
                 android:visibility="gone">
 
                 <TextView
-                    android:labelFor="@+id/TranferAmount"
                     android:id="@+id/TransferAmountLabel"
-                    style="@style/form_label.compat"/>
+                    style="@style/form_label.compat"
+                    android:labelFor="@+id/TranferAmount"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -123,7 +123,9 @@
                         android:digits="1234567890,.٫"
                         android:inputType="numberDecimal"/>
 
-                    <include layout="@layout/calc_icon" android:id="@+id/CalculatorTransfer"/>
+                    <include
+                        android:id="@+id/CalculatorTransfer"
+                        layout="@layout/calc_icon"/>
                 </LinearLayout>
             </TableRow>
 
@@ -132,16 +134,16 @@
                 android:visibility="gone">
 
                 <TextView
-                    android:labelFor="@+id/TransferAccount"
                     android:id="@+id/TransferAccountLabel"
                     style="@style/form_label.compat"
+                    android:labelFor="@+id/TransferAccount"
                     android:text="@string/transfer_to_account"/>
 
                 <Spinner
-                    android:layout_marginRight="12dp"
-                    android:layout_marginEnd="12dp"
                     android:id="@+id/TransferAccount"
-                    android:layout_gravity="center_vertical|start"/>
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginRight="12dp"/>
             </TableRow>
 
             <TableRow android:id="@+id/DateTimeRow">
@@ -156,19 +158,19 @@
                     <Button
                         android:id="@+id/DateButton"
                         style="@style/SmallButton"
-                        android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="fill_parent"
                         android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
                         android:contentDescription="@string/date"/>
 
                     <Button
                         android:id="@+id/TimeButton"
                         style="@style/SmallButton"
-                        android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="fill_parent"
                         android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
                         android:contentDescription="@string/time"/>
                 </LinearLayout>
             </TableRow>
@@ -176,9 +178,9 @@
             <TableRow android:id="@+id/PayeeRow">
 
                 <TextView
-                    android:labelFor="@+id/Payee"
                     android:id="@+id/PayeeLabel"
                     style="@style/form_label.compat"
+                    android:labelFor="@+id/Payee"
                     android:text="@string/payee"/>
 
                 <AutoCompleteTextView
@@ -193,9 +195,9 @@
             <TableRow android:id="@+id/CategoryRow">
 
                 <TextView
-                    android:labelFor="@+id/Category"
                     android:id="@+id/CategoryLabel"
                     style="@style/form_label.compat"
+                    android:labelFor="@+id/Category"
                     android:text="@string/category"/>
 
                 <Button
@@ -208,9 +210,9 @@
             <TableRow android:id="@+id/CommentRow">
 
                 <TextView
-                    android:labelFor="@+id/Comment"
                     android:id="@+id/CommentLabel"
                     style="@style/form_label.compat"
+                    android:labelFor="@+id/Comment"
                     android:text="@string/comment"/>
 
                 <LinearLayout
@@ -238,10 +240,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:onClick="startMediaChooser"
-                        android:focusable="true"
-                        app:srcCompat="@drawable/ic_menu_camera"
                         android:contentDescription="@string/contrib_feature_attach_picture_label"
+                        android:focusable="true"
+                        android:onClick="startMediaChooser"
+                        app:srcCompat="@drawable/ic_menu_camera"
                         tools:ignore="MissingPrefix"/>
 
                     <include layout="@layout/picture_view"/>
@@ -251,9 +253,9 @@
             <TableRow android:id="@+id/MethodRow">
 
                 <TextView
-                    android:labelFor="@+id/Method"
                     android:id="@+id/MethodLabel"
                     style="@style/form_label.compat"
+                    android:labelFor="@+id/Method"
                     android:text="@string/method"/>
 
                 <LinearLayout
@@ -264,7 +266,7 @@
                         android:id="@+id/Method"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|start"
+                        android:layout_gravity="center_vertical"
                         android:prompt="@string/method"/>
 
                     <EditText
@@ -274,9 +276,9 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:hint="@string/reference_number"
+                        android:inputType="text"
                         android:singleLine="true"
                         android:visibility="gone"
-                        android:inputType="text"
                         tools:ignore="TextFields"/>
                 </LinearLayout>
             </TableRow>
@@ -286,12 +288,30 @@
                 android:visibility="gone">
 
                 <TextView
-                    android:labelFor="@+id/Plan"
                     android:id="@+id/PlanLabel"
                     style="@style/form_label.compat"
+                    android:labelFor="@+id/Plan"
                     android:text="@string/plan"/>
 
                 <include layout="@layout/recurrence_row"/>
+            </TableRow>
+
+            <TableRow
+                android:visibility="gone"
+                android:id="@+id/PlanFromTransactionRow">
+
+                    <TextView
+                        android:id="@+id/TemplateLabel"
+                        style="@style/form_label.compat"
+                        android:labelFor="@+id/Template"
+                        android:text="@string/plan"/>
+
+                        <include android:id="@+id/RecurrenceForPlanFromTransaction"
+                                 android:layout_width="match_parent"
+                                 android:layout_height="wrap_content"
+                                 android:layout_marginRight="12dp"
+                                 android:layout_marginEnd="12dp"
+                                 layout="@layout/recurrence_spinner"/>
             </TableRow>
         </TableLayout>
     </ScrollView>
