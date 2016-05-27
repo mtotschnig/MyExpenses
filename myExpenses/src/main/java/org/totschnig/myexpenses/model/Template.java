@@ -263,7 +263,9 @@ public class Template extends Transaction {
         return null;
       }
       setId(ContentUris.parseId(uri));
-      plan.updateCustomAppUri(buildCustomAppUri(getId()));
+      if (plan != null) {
+        plan.updateCustomAppUri(buildCustomAppUri(getId()));
+      }
     } else {
       uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build();
       try {
