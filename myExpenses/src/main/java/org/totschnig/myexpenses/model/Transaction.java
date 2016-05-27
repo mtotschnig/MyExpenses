@@ -18,9 +18,12 @@ package org.totschnig.myexpenses.model;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.provider.CalendarProviderProxy;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -34,6 +37,10 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.util.Log;
+
+import com.android.calendar.CalendarContractCompat;
+
+import hirondelle.date4j.DateTime;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import static org.totschnig.myexpenses.provider.DbUtils.getLongOrNull;
@@ -440,6 +447,32 @@ public class Transaction extends Model {
     } else {
       uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build();
       cr().update(uri, initialValues, null, null);
+    }
+    if (originTemplate != null && originTemplate.getId() == 0) {
+      originTemplate.save();
+      //now need to find out the instance number
+      Uri.Builder eventsUriBuilder = CalendarProviderProxy.INSTANCES_URI.buildUpon();
+      DateTime instant = DateTime.forInstant(originTemplate.getPlan().dtstart, TimeZone.getDefault());
+      ContentUris.appendId(eventsUriBuilder, instant.getStartOfDay().getMilliseconds(TimeZone.getDefault()));
+      ContentUris.appendId(eventsUriBuilder, instant.getEndOfDay().getMilliseconds(TimeZone.getDefault()));
+      Uri eventsUri = eventsUriBuilder.build();
+      Cursor c = cr().query(eventsUri,
+          null,
+          String.format(Locale.US, CalendarContractCompat.Instances.EVENT_ID + " = %d",
+              originTemplate.getPlan().getId()),
+          null,
+          null);
+      if (c != null) {
+        if (c.moveToFirst()) {
+          long instance_id = c.getLong(c.getColumnIndex(CalendarContractCompat.Instances._ID));
+          ContentValues values = new ContentValues();
+          values.put(KEY_TEMPLATEID, originTemplate.getId());
+          values.put(KEY_INSTANCEID, instance_id);
+          values.put(KEY_TRANSACTIONID, getId());
+          cr().insert(TransactionProvider.PLAN_INSTANCE_STATUS_URI, values);
+        }
+        c.close();
+      }
     }
     if (needIncreaseUsage) {
       cr().update(

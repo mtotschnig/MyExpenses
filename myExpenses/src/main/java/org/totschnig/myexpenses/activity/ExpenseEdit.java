@@ -754,7 +754,10 @@ public class ExpenseEdit extends AmountActivity implements
     View methodLabel = findViewById(R.id.MethodLabel);
     linkInputWithLabel(mMethodSpinner, methodLabel);
     linkInputWithLabel(mReferenceNumberText, methodLabel);
-    linkInputWithLabel(mPlanButton, findViewById(R.id.PlanLabel));
+    View planLabel = findViewById(R.id.PlanLabel);
+    linkInputWithLabel(mPlanButton, planLabel);
+    linkInputWithLabel(mReccurenceSpinner.getSpinner(), planLabel);
+    linkInputWithLabel(mPlanToggleButton, planLabel);
     final View transferAmountLabel = findViewById(R.id.TransferAmountLabel);
     linkInputWithLabel(mTransferAmountText, transferAmountLabel);
     linkInputWithLabel(findViewById(R.id.CalculatorTransfer), transferAmountLabel);
@@ -1159,6 +1162,17 @@ public class ExpenseEdit extends AmountActivity implements
       }
     } else {
       mTransaction.referenceNumber = mReferenceNumberText.getText().toString();
+      if (!(mTransaction instanceof SplitPartCategory || mTransaction instanceof SplitPartTransfer)) {
+        if (mReccurenceSpinner.getSelectedItemPosition() > 0) {
+          mTransaction.originTemplate = new Template(mTransaction,"TODO_REPLACE_ME");
+          String description = mTransaction.originTemplate.compileDescription(ExpenseEdit.this);
+          mTransaction.originTemplate.setPlan(new Plan(
+              mCalendar,
+              ((Plan.Recurrence) mReccurenceSpinner.getSelectedItem()).toRrule(),
+              mTransaction.originTemplate.title,
+              description));
+        }
+      }
     }
 
     mTransaction.crStatus = (Transaction.CrStatus) mStatusSpinner.getSelectedItem();
