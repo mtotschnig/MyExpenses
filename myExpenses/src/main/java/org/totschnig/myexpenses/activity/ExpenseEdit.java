@@ -649,12 +649,13 @@ public class ExpenseEdit extends AmountActivity implements
       } else {
         //Transfer or Template, we can suggest to create a plan
         if (!calendarPermissionPermanentlyDeclined()) {
+          //we set adapter even if spinner is not immediately visible, since it might become visible
+          //after SAVE_AND_NEW action
+          RecurrenceAdapter recurrenceAdapter = new RecurrenceAdapter(this, true);
+          mReccurenceSpinner.setAdapter(recurrenceAdapter);
+          mReccurenceSpinner.setOnItemSelectedListener(this);
           findViewById(R.id.PlannerRow).setVisibility(View.VISIBLE);
-          if (mTransaction.originTemplate == null) {
-            RecurrenceAdapter recurrenceAdapter = new RecurrenceAdapter(this, true);
-            mReccurenceSpinner.setAdapter(recurrenceAdapter);
-            mReccurenceSpinner.setOnItemSelectedListener(this);
-          } else {
+          if (mTransaction.originTemplate != null) {
             mReccurenceSpinner.getSpinner().setVisibility(View.GONE);
             mPlanButton.setVisibility(View.VISIBLE);
             mPlanButton.setText(Plan.prettyTimeInfo(this,
@@ -1756,6 +1757,9 @@ public class ExpenseEdit extends AmountActivity implements
         } else {
           mTransaction.setId(0L);
           mRowId = 0L;
+          mReccurenceSpinner.getSpinner().setVisibility(View.VISIBLE);
+          mReccurenceSpinner.setSelection(0);
+          mPlanButton.setVisibility(View.GONE);
         }
         //while saving the picture might have been moved from temp to permanent
         mPictureUri = mTransaction.getPictureUri();
