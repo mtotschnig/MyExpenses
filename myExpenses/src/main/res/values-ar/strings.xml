@@ -327,7 +327,6 @@
   <string name="sum_transfer">التحويلات</string>
   <!--%s is replaced with Android or Blackberry-->
   <string name="template_create_success">تم انشاء النموذج \"%1$s\" بنجاح</string>
-  <string name="template_title_exists">هناك نموذج بنفس العنوان \"%1$s\" موجود مسبقاً</string>
   <string name="thank_you">شكراً لدعمك!</string>
   <string name="time">الوقت</string>
   <string name="title">العنوان</string>

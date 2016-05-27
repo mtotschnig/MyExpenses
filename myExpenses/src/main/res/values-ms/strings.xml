@@ -401,7 +401,6 @@
   <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Lihat Perbelanjaan Saya, Pengurus Kewangan Persendirian untuk %s, di http://www.myexpenses.mobi</string>
   <string name="template_create_success">Templat \"%1$s\" berjaya dicipta</string>
-  <string name="template_title_exists">Satu templat dengan tajuk \"%1$s\" sudah wujud</string>
   <string name="thank_you">Terima kasih atas sokongan anda!</string>
   <string name="time">Masa</string>
   <string name="title">Tajuk</string>

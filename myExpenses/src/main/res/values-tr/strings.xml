@@ -406,7 +406,6 @@
   <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">%s için kişisel finans yöneticisi olan Harcamalarıma http://www.myexpenses.mobi adresinde göz atın</string>
   <string name="template_create_success">\"%1$s\" şablonu başarıyla oluşturuldu</string>
-  <string name="template_title_exists">\"%1$s\" başlıklı bir şablon zaten mevcut</string>
   <string name="thank_you">Desteğiniz için teşekkür ederiz!</string>
   <string name="time">Zaman</string>
   <string name="title">Başlık</string>

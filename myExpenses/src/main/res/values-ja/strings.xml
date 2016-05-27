@@ -401,7 +401,6 @@
   <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">マイ エクスペンス: %s用のパーソナル ファイナンス マネージャーを確かめてください。ここから http://www.myexpenses.mobi</string>
   <string name="template_create_success">テンプレート \"%1$s\" は正常に作成されました</string>
-  <string name="template_title_exists">タイトル \"%1$s\" のテンプレートは既に存在します</string>
   <string name="thank_you">サポートありがとうございます!</string>
   <string name="time">時間</string>
   <string name="title">タイトル/科目</string>

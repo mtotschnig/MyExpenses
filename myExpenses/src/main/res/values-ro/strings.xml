@@ -400,7 +400,6 @@ Tradus de DD</string>
   <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Check out Cheltuielile Mele, Manager Finanţe  Personale pentru %s, de la http://www.myexpenses.mobi</string>
   <string name="template_create_success">Şablon \"%1$s\" creat</string>
-  <string name="template_title_exists">Un şablon cu titlul \"%1$s\" există deja</string>
   <string name="thank_you">Mulţumim pentru suportul dvs!</string>
   <string name="time">Timp</string>
   <string name="title">Titlu</string>

@@ -254,7 +254,6 @@
   <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Chi Tiêu Của Tôi, Quản lý tài chính cá nhân trên %s, http://www.myexpenses.mobi</string>
   <string name="template_create_success">Mẫu \"%1$s\" đã được tạo thành công</string>
-  <string name="template_title_exists">Một mẫu có tiêu đề \"%1$s\" đã tồn tại trước đó</string>
   <string name="thank_you">Xin cảm ơn về sự hỗ trợ của bạn!</string>
   <string name="time">Thời gian</string>
   <string name="title">Tiêu đề</string>

@@ -367,7 +367,6 @@ Sérgio Marques</string>
   <string name="sum_transfer">Transferências</string>
   <!--%s is replaced with Android or Blackberry-->
   <string name="template_create_success">Modelo \"%1$s\" criado com sucesso</string>
-  <string name="template_title_exists">Já existe um modelo com o título \"%1$s\"</string>
   <string name="thank_you">Obrigado pela sua ajuda!</string>
   <string name="time">Hora</string>
   <string name="title">Título</string>

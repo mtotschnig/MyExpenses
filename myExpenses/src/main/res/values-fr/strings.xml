@@ -406,7 +406,6 @@
   <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Essayez Mes dépenses, Gestionnaire de finances personnelles pour %s, de http://www.myexpenses.mobi</string>
   <string name="template_create_success">Modèle \"%1$s\" créé avec succès</string>
-  <string name="template_title_exists">Un modèle avec le titre \"%1$s\" existe déjà</string>
   <string name="thank_you">Merci de votre soutien!</string>
   <string name="time">Heure</string>
   <string name="title">Titre</string>

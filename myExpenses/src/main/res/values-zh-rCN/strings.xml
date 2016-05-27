@@ -374,7 +374,6 @@
   <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">开支助手, 个人理财工具 %s版, http://www.myexpenses.mobi</string>
   <string name="template_create_success">模板 \"%1$s\" 成功被建立</string>
-  <string name="template_title_exists">名为 \"%1$s\" 的模板早已存在</string>
   <string name="thank_you">感谢你的支持!</string>
   <string name="time">时间</string>
   <string name="title">名称</string>

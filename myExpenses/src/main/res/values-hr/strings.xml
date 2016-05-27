@@ -374,7 +374,6 @@
   <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Posjeti My Expenses, Osobni Financijski Menadžer za %s, na http://www.myexpenses.mobi</string>
   <string name="template_create_success">Predložak \"%1$s\" uspješno kreiran</string>
-  <string name="template_title_exists">Predložak imena \"%1$s\" već postoji</string>
   <string name="thank_you">Zahvaljujemo se na vašoj podršci!</string>
   <string name="time">Vrijeme</string>
   <string name="title">Naslov</string>

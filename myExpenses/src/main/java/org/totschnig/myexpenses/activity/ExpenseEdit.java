@@ -1719,12 +1719,6 @@ public class ExpenseEdit extends AmountActivity implements
     }
     Long sequenceCount = (Long) result;
     if (sequenceCount < 0L) {
-      if (mTransaction instanceof Template) {
-        //for the moment, the only case where saving will fail
-        //if the unique constraint for template titles is violated
-        //TODO: we should probably validate the title earlier
-        mTitleText.setError(getString(R.string.template_title_exists, ((Template) mTransaction).title));
-      } else {
         String errorMsg;
         switch (sequenceCount.intValue()) {
           case DbWriteFragment.ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE:
@@ -1741,7 +1735,6 @@ public class ExpenseEdit extends AmountActivity implements
             errorMsg = "Error while saving transaction";
         }
         Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show();
-      }
       mCreateNew = false;
     } else {
       if (mRecordTemplateWidget) {

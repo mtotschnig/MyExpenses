@@ -924,7 +924,7 @@ public class MyExpenses extends LaunchActivity implements
     switch (args.getInt(EditTextDialog.KEY_REQUEST_CODE)) {
       case TEMPLATE_TITLE_REQUEST:
         if ((new Template(Transaction.getInstanceFromDb(args.getLong(KEY_ROWID)), result)).save() == null) {
-          Toast.makeText(getBaseContext(), getString(R.string.template_title_exists, result), Toast.LENGTH_LONG).show();
+          Toast.makeText(getBaseContext(), "Error while saving template", Toast.LENGTH_LONG).show();
         } else {
           Toast.makeText(getBaseContext(), getString(R.string.template_create_success, result), Toast.LENGTH_LONG).show();
         }

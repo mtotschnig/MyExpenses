@@ -406,7 +406,6 @@
   <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Le mie spese, Gestione delle finanze personali per %s, http://www.myexpenses.mobi</string>
   <string name="template_create_success">Il modello \"%1$s\" è stato creato con successo</string>
-  <string name="template_title_exists">Un modello con il nome \"%1$s\" esiste già</string>
   <string name="thank_you">Grazie per il vostro sostegno!</string>
   <string name="time">Ora</string>
   <string name="title">Titolo</string>
