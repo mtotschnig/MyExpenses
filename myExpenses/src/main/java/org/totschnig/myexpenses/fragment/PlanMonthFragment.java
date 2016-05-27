@@ -71,10 +71,12 @@ public class PlanMonthFragment extends CaldroidFragment
     implements LoaderManager.LoaderCallbacks<Cursor> {
 
   private static final String TOOLBAR_TITLE = "toolbarTitle";
+  private static final String KEY_READ_ONLY = "readoOnly";
   private static boolean darkThemeSelected;
   private LoaderManager mManager;
   public static final int INSTANCES_CURSOR = 1;
   public static final int INSTANCE_STATUS_CURSOR = 2;
+  private boolean readOnly;
 
   private enum PlanInstanceState {
     OPEN, APPLIED, CANCELLED
@@ -86,7 +88,7 @@ public class PlanMonthFragment extends CaldroidFragment
   @State
   protected HashMap<Long,Long> instance2TransactionMap = new HashMap<>();
 
-  public static PlanMonthFragment newInstance(String title, long templateId, long planId, int color) {
+  public static PlanMonthFragment newInstance(String title, long templateId, long planId, int color, boolean readOnly) {
     PlanMonthFragment f = new PlanMonthFragment();
     Bundle args = new Bundle();
     args.putString(TOOLBAR_TITLE, title);
@@ -98,6 +100,7 @@ public class PlanMonthFragment extends CaldroidFragment
     args.putInt(DatabaseConstants.KEY_COLOR, color);
     args.putLong(DatabaseConstants.KEY_ROWID, templateId);
     args.putBoolean(CaldroidFragment.SIX_WEEKS_IN_CALENDAR, false);
+    args.putBoolean(KEY_READ_ONLY, readOnly);
     f.setArguments(args);
     return f;
   }
@@ -105,6 +108,7 @@ public class PlanMonthFragment extends CaldroidFragment
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    readOnly = getArguments().getBoolean(KEY_READ_ONLY);
     Icepick.restoreInstanceState(this, savedInstanceState);
     setCaldroidListener(new CaldroidListener() {
       @Override
@@ -114,7 +118,7 @@ public class PlanMonthFragment extends CaldroidFragment
 
       @Override
       public void onChangeMonth(int month, int year) {
-        if (isVisible()) {
+        if (!readOnly && isVisible()) {
           ((ContextualActionBarFragment) getParentFragment()).finishActionMode();
         }
         requireLoader(INSTANCES_CURSOR);
@@ -122,6 +126,7 @@ public class PlanMonthFragment extends CaldroidFragment
 
       @Override
       public void onGridCreated(GridView gridView) {
+        if (!readOnly)
         ((TemplatesList) getParentFragment()).registerForContextualActionBar(gridView);
       }
     });
@@ -164,15 +169,17 @@ public class PlanMonthFragment extends CaldroidFragment
     mManager = getLoaderManager();
     View view = super.onCreateView(inflater, container, savedInstanceState);
     Toolbar toolbar = (Toolbar) view.findViewById(R.id.calendar_toolbar);
-    toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-      @Override
-      public boolean onMenuItemClick(MenuItem item) {
-        ((ProtectedFragmentActivity) getActivity()).dispatchCommand(item.getItemId(),
-            ManageTemplates.HelpVariant.plans);
-        return true;
-      }
-    });
-    toolbar.inflateMenu(R.menu.help_with_icon);
+    if (!readOnly) {
+      toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+          ((ProtectedFragmentActivity) getActivity()).dispatchCommand(item.getItemId(),
+              ManageTemplates.HelpVariant.plans);
+          return true;
+        }
+      });
+      toolbar.inflateMenu(R.menu.help_with_icon);
+    }
     toolbar.setTitle(getArguments().getString(TOOLBAR_TITLE));
 
     requireLoader(INSTANCE_STATUS_CURSOR);

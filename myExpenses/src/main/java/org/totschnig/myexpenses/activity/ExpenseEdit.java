@@ -86,7 +86,9 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDi
 import org.totschnig.myexpenses.dialog.ContribInfoDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
+import org.totschnig.myexpenses.fragment.PlanMonthFragment;
 import org.totschnig.myexpenses.fragment.SplitPartList;
+import org.totschnig.myexpenses.fragment.TemplatesList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.model.ContribFeature;
@@ -657,6 +659,16 @@ public class ExpenseEdit extends AmountActivity implements
             mPlanButton.setVisibility(View.VISIBLE);
             mPlanButton.setText(Plan.prettyTimeInfo(this,
                 mTransaction.originTemplate.getPlan().rrule, mTransaction.originTemplate.getPlan().dtstart));
+            mPlanButton.setOnClickListener(new View.OnClickListener() {
+              public void onClick(View view) {
+                PlanMonthFragment.newInstance(
+                    mTransaction.originTemplate.title,
+                    mTransaction.originTemplate.getId(),
+                    mTransaction.originTemplate.planId,
+                    getCurrentAccount().color, true).show(getSupportFragmentManager(),
+                    TemplatesList.CALDROID_DIALOG_FRAGMENT_TAG);
+              }
+            });
           }
         }
         if (mTransaction instanceof Transfer) {

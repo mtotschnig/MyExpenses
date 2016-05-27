@@ -159,7 +159,7 @@ public class TemplatesList extends SortableListFragment {
                 mTemplatesCursor.getString(columnIndexTitle),
                 id,
                 mTemplatesCursor.getLong(columnIndexPlanId),
-                mTemplatesCursor.getInt(columnIndexColor));
+                mTemplatesCursor.getInt(columnIndexColor), false);
             planMonthFragment.show(getChildFragmentManager(), CALDROID_DIALOG_FRAGMENT_TAG);
           } else {
             ((ProtectedFragmentActivity) getActivity()).requestCalendarPermission();
@@ -335,7 +335,7 @@ public class TemplatesList extends SortableListFragment {
                   mTemplatesCursor.getString(columnIndexTitle),
                   templateId,
                   mTemplatesCursor.getLong(columnIndexPlanId),
-                  mTemplatesCursor.getInt(columnIndexColor));
+                  mTemplatesCursor.getInt(columnIndexColor), false);
               foundToExpand = true;
             }
             if ((planId = mTemplatesCursor.getLong(columnIndexPlanId)) != 0L) {
