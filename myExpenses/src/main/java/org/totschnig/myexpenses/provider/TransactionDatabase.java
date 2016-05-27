@@ -179,8 +179,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_PLANID + " integer, "
           + KEY_PLAN_EXECUTION + " boolean default 0, "
           + KEY_UUID + " text, "
-          + KEY_LAST_USED + " datetime, "
-          + "unique(" + KEY_ACCOUNTID + "," + KEY_TITLE + "));";
+          + KEY_LAST_USED + " datetime);";
 
   private static final String EVENT_CACHE_CREATE =
       "CREATE TABLE " + TABLE_EVENT_CACHE + " ( " +
