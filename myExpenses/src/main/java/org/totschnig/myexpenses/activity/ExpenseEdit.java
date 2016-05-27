@@ -1164,7 +1164,11 @@ public class ExpenseEdit extends AmountActivity implements
       mTransaction.referenceNumber = mReferenceNumberText.getText().toString();
       if (!(mTransaction instanceof SplitPartCategory || mTransaction instanceof SplitPartTransfer)) {
         if (mReccurenceSpinner.getSelectedItemPosition() > 0) {
-          mTransaction.originTemplate = new Template(mTransaction,"TODO_REPLACE_ME");
+          title = TextUtils.isEmpty(mTransaction.payee) ?
+              (TextUtils.isEmpty(mLabel) ?
+                  (TextUtils.isEmpty(mTransaction.comment) ?
+                      getString(R.string.menu_create_template) : mTransaction.comment) : mLabel) : mTransaction.payee;
+          mTransaction.originTemplate = new Template(mTransaction, title);
           String description = mTransaction.originTemplate.compileDescription(ExpenseEdit.this);
           mTransaction.originTemplate.setPlan(new Plan(
               mCalendar,
