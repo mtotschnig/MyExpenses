@@ -577,4 +577,7 @@
   <string name="warning_cannot_move_split_transaction">この分割取引は、この勘定を参照する振替パートがあるため、勘定 %1$s に移動できません。</string>
   <string name="content_description_calculator_clear_button">すべてリセット</string>
   <string name="content_description_calculator_delete_button">最後の数字を削除</string>
+  <string name="paypal_transaction_id">Paypal 取引 ID</string>
+  <string name="paypal_callback_info">取引は完了しました。ご購入の領収書をメールで送信しました。www.paypal.com にあなたのアカウントでログインして、この取引の詳細を表示することができます。</string>
+  <string name="paypal_callback_later_clicked_info">設定画面から、いつでもこのキーをリクエストすることができます。</string>
 </resources>

@@ -513,6 +513,7 @@
   <string name="pref_manage_stale_images_summary">Urus gambar berbaki dari transaksi yang telah dipadam</string>
   <string name="menu_select_categories">Pilih kategori ditanda</string>
   <string name="image_deleted">Gambar telah dipadamkan</string>
+  <string name="transaction_deleted">Transaksi telah dipadamkan</string>
   <string name="dialog_export_applied_to_filter">Hanya transaksi yang sepadan dengan penapis semasa akan diambilkira.</string>
   <string name="export_handle_deleted_create_helper">Cipta transaksi pembantu</string>
   <string name="export_handle_deleted_update_balance">Kemaskini baki mula</string>
@@ -572,4 +573,11 @@
   <string name="plan_instance_state_cancelled">dibatalkan</string>
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <string name="plan_instance_state_applied">dilaksanakan</string>
+  <string name="progress_dialog_updating_split_parts">Mengemaskini bahagian pisah</string>
+  <string name="warning_cannot_move_split_transaction">Transaksi pisah ini tidak dapat dialih ke akaun %1$s kerana terdapat bahagian pemindahan yang merujuk pada akaun ini.</string>
+  <string name="content_description_calculator_clear_button">Tetap semula semua</string>
+  <string name="content_description_calculator_delete_button">Padam digit terakhir</string>
+  <string name="paypal_transaction_id">ID Transaksi Paypal</string>
+  <string name="paypal_callback_info">Transaksi anda telah selesai, dan satu resip pembelian anda telah diemelkan kepada anda. Anda boleh daftar masuk ke akaun anda di www.paypal.com untuk melihat perincian transaksi ini.</string>
+  <string name="paypal_callback_later_clicked_info">Melalui skrin tetapan, anda boleh pinta kunci pada bila-bila masa.</string>
 </resources>

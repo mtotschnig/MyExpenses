@@ -587,4 +587,7 @@
   <string name="warning_cannot_move_split_transaction">Esto asiento dividido no se pueden mover para %1$s porque hay divisiones que hacen referencia a esta cuenta.</string>
   <string name="content_description_calculator_clear_button">Restablecer todas</string>
   <string name="content_description_calculator_delete_button">Borrar el último dígito</string>
+  <string name="paypal_transaction_id">Identificador de la transacción de PayPal</string>
+  <string name="paypal_callback_info">Se haya completado su transacción, y un recibo de su compra ha sido enviado a usted. Puede iniciar sesión en tu cuenta en www.paypal.com para ver los detalles de esta transacción.</string>
+  <string name="paypal_callback_later_clicked_info">En la pantalla de configuración, puede solicitar una clave en cualquier momento.</string>
 </resources>
