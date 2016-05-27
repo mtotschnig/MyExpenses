@@ -85,22 +85,26 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
   private static String buildViewDefinition(String tableName) {
     return " AS SELECT " +
-        tableName + ".*, " + TABLE_PAYEES + ".name as " + KEY_PAYEE_NAME + ", " +
-        TABLE_METHODS + "." + KEY_LABEL + " AS " + KEY_METHOD_LABEL +
+        tableName + ".*, " + TABLE_PAYEES + "." + KEY_PAYEE_NAME + ", " +
+        TABLE_METHODS + "." + KEY_LABEL + " AS " + KEY_METHOD_LABEL + ", " +
+        TABLE_PLAN_INSTANCE_STATUS + "." + KEY_TEMPLATEID +
         " FROM " + tableName +
         " LEFT JOIN " + TABLE_PAYEES + " ON " + KEY_PAYEEID + " = " + TABLE_PAYEES + "." + KEY_ROWID +
-        " LEFT JOIN " + TABLE_METHODS + " ON " + KEY_METHODID + " = " + TABLE_METHODS + "." + KEY_ROWID;
+        " LEFT JOIN " + TABLE_METHODS + " ON " + KEY_METHODID + " = " + TABLE_METHODS + "." + KEY_ROWID +
+        " LEFT JOIN " + TABLE_PLAN_INSTANCE_STATUS + " ON " + tableName + "." + KEY_ROWID + " = " + TABLE_PLAN_INSTANCE_STATUS + "." + KEY_TRANSACTIONID;
   }
 
   private static String buildViewDefinitionExtended(String tableName) {
     return " AS SELECT " +
-        tableName + ".*, " + TABLE_PAYEES + ".name as " + KEY_PAYEE_NAME + ", " +
+        tableName + ".*, " + TABLE_PAYEES + "." + KEY_PAYEE_NAME + ", " +
         KEY_COLOR + ", " + KEY_CURRENCY + ", " + KEY_EXCLUDE_FROM_TOTALS + ", " +
-        TABLE_METHODS + "." + KEY_LABEL + " AS " + KEY_METHOD_LABEL +
+        TABLE_METHODS + "." + KEY_LABEL + " AS " + KEY_METHOD_LABEL + ", " +
+        TABLE_PLAN_INSTANCE_STATUS + "." + KEY_TEMPLATEID +
         " FROM " + tableName +
         " LEFT JOIN " + TABLE_PAYEES + " ON " + KEY_PAYEEID + " = " + TABLE_PAYEES + "." + KEY_ROWID +
         " LEFT JOIN " + TABLE_ACCOUNTS + " ON " + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID +
-        " LEFT JOIN " + TABLE_METHODS + " ON " + KEY_METHODID + " = " + TABLE_METHODS + "." + KEY_ROWID;
+        " LEFT JOIN " + TABLE_METHODS + " ON " + KEY_METHODID + " = " + TABLE_METHODS + "." + KEY_ROWID +
+        " LEFT JOIN " + TABLE_PLAN_INSTANCE_STATUS + " ON " + tableName + "." + KEY_ROWID + " = " + TABLE_PLAN_INSTANCE_STATUS + "." + KEY_TRANSACTIONID;
   }
 
   /**
@@ -275,11 +279,12 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL(DATABASE_CREATE);
     db.execSQL(PAYEE_CREATE);
     db.execSQL(PAYMENT_METHODS_CREATE);
+    db.execSQL(TEMPLATE_CREATE);
+    db.execSQL(PLAN_INSTANCE_STATUS_CREATE);
     String viewTransactions = buildViewDefinition(TABLE_TRANSACTIONS);
     db.execSQL("CREATE VIEW " + VIEW_COMMITTED + viewTransactions + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
     db.execSQL("CREATE VIEW " + VIEW_UNCOMMITTED + viewTransactions + " WHERE " + KEY_STATUS + " = " + STATUS_UNCOMMITTED + ";");
     db.execSQL("CREATE VIEW " + VIEW_ALL + viewTransactions);
-    db.execSQL(TEMPLATE_CREATE);
     db.execSQL("CREATE VIEW " + VIEW_TEMPLATES + buildViewDefinition(TABLE_TEMPLATES));
     db.execSQL(CATEGORIES_CREATE);
     db.execSQL(ACCOUNTS_CREATE);
@@ -297,7 +302,6 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     initialValues.put(KEY_LABEL, "__SPLIT_TRANSACTION__");
     db.insertOrThrow(TABLE_CATEGORIES, null, initialValues);
     insertCurrencies(db);
-    db.execSQL(PLAN_INSTANCE_STATUS_CREATE);
     db.execSQL(EVENT_CACHE_CREATE);
     db.execSQL(STALE_URIS_CREATE);
     db.execSQL(STALE_URI_TRIGGER_CREATE);

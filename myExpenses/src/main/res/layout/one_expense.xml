@@ -296,23 +296,6 @@
                 <include layout="@layout/recurrence_row"/>
             </TableRow>
 
-            <TableRow
-                android:visibility="gone"
-                android:id="@+id/PlanFromTransactionRow">
-
-                    <TextView
-                        android:id="@+id/TemplateLabel"
-                        style="@style/form_label.compat"
-                        android:labelFor="@+id/Template"
-                        android:text="@string/plan"/>
-
-                        <include android:id="@+id/RecurrenceForPlanFromTransaction"
-                                 android:layout_width="match_parent"
-                                 android:layout_height="wrap_content"
-                                 android:layout_marginRight="12dp"
-                                 android:layout_marginEnd="12dp"
-                                 layout="@layout/recurrence_spinner"/>
-            </TableRow>
         </TableLayout>
     </ScrollView>
 </LinearLayout>

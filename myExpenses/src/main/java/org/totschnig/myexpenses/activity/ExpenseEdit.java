@@ -170,7 +170,7 @@ public class ExpenseEdit extends AmountActivity implements
   private Button mCategoryButton, mPlanButton;
   private Spinner mMethodSpinner;
   private SpinnerHelper mAccountSpinner, mTransferAccountSpinner, mStatusSpinner,
-      mOperationTypeSpinner, mReccurenceSpinner, mReccurenceForPlanFromTransactionSpinner;
+      mOperationTypeSpinner, mReccurenceSpinner;
   private SimpleCursorAdapter mMethodsAdapter, mAccountsAdapter, mTransferAccountsAdapter, mPayeeAdapter;
   private OperationTypeAdapter mOperationTypeAdapter;
   private FilterCursorWrapper mTransferAccountCursor;
@@ -342,8 +342,6 @@ public class ExpenseEdit extends AmountActivity implements
     mTransferAccountSpinner.setOnItemSelectedListener(this);
     mStatusSpinner = new SpinnerHelper(findViewById(R.id.Status));
     mReccurenceSpinner = new SpinnerHelper(findViewById(R.id.Recurrence));
-    mReccurenceForPlanFromTransactionSpinner =
-        new SpinnerHelper(findViewById(R.id.RecurrenceForPlanFromTransaction));
     mPlanToggleButton = (ToggleButton) findViewById(R.id.PlanExecutionAutomatic);
     TextPaint paint = mPlanToggleButton.getPaint();
     int automatic = (int) paint.measureText(getString(R.string.plan_automatic));
@@ -649,10 +647,17 @@ public class ExpenseEdit extends AmountActivity implements
       } else {
         //Transfer or Template, we can suggest to create a plan
         if (!calendarPermissionPermanentlyDeclined()) {
-          findViewById(R.id.PlanFromTransactionRow).setVisibility(View.VISIBLE);
-          RecurrenceAdapter recurrenceAdapter = new RecurrenceAdapter(this, true);
-          mReccurenceForPlanFromTransactionSpinner.setAdapter(recurrenceAdapter);
-          mReccurenceForPlanFromTransactionSpinner.setOnItemSelectedListener(this);
+          findViewById(R.id.PlannerRow).setVisibility(View.VISIBLE);
+          if (mTransaction.originTemplate == null) {
+            RecurrenceAdapter recurrenceAdapter = new RecurrenceAdapter(this, true);
+            mReccurenceSpinner.setAdapter(recurrenceAdapter);
+            mReccurenceSpinner.setOnItemSelectedListener(this);
+          } else {
+            mReccurenceSpinner.getSpinner().setVisibility(View.GONE);
+            mPlanButton.setVisibility(View.VISIBLE);
+            mPlanButton.setText(Plan.prettyTimeInfo(this,
+                mTransaction.originTemplate.getPlan().rrule, mTransaction.originTemplate.getPlan().dtstart));
+          }
         }
         if (mTransaction instanceof Transfer) {
           setTitle(mTransaction.getId() == 0 ?
@@ -717,7 +722,7 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   private void setPlannerRowVisibility(int visibility) {
-    findViewById(mTransaction instanceof Template ? R.id.PlannerRow  :R.id.PlanFromTransactionRow).setVisibility(visibility);
+    findViewById(R.id.PlannerRow).setVisibility(visibility);
   }
 
   @Override
@@ -1522,7 +1527,6 @@ public class ExpenseEdit extends AmountActivity implements
     }
     switch (parent.getId()) {
       case R.id.Recurrence:
-      case R.id.RecurrenceForPlanFromTransaction:
         int visibility = View.GONE;
         if (id > 0)  {
           if (ContextCompat.checkSelfPermission(ExpenseEdit.this,
@@ -1530,8 +1534,7 @@ public class ExpenseEdit extends AmountActivity implements
             if (MyApplication.PrefKey.NEW_PLAN_ENABLED.getBoolean(true)) {
               visibility = View.VISIBLE;
             } else {
-              (parent.getId() == R.id.Recurrence ? mReccurenceSpinner : mReccurenceForPlanFromTransactionSpinner)
-                  .setSelection(0);
+              mReccurenceSpinner.setSelection(0);
               CommonCommands.showContribDialog(this, ContribFeature.PLANS_UNLIMITED, null);
             }
           } else {
@@ -1540,7 +1543,7 @@ public class ExpenseEdit extends AmountActivity implements
                 ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR);
           }
         }
-        if (parent.getId() == R.id.Recurrence) {
+        if (mTransaction instanceof Template) {
           mPlanButton.setVisibility(visibility);
           mPlanToggleButton.setVisibility(visibility);
         }
@@ -2086,8 +2089,7 @@ public class ExpenseEdit extends AmountActivity implements
           mPlanButton.setVisibility(View.VISIBLE);
           mPlanToggleButton.setVisibility(View.VISIBLE);
         } else {
-          (mTransaction instanceof Template ? mReccurenceSpinner : mReccurenceForPlanFromTransactionSpinner)
-              .setSelection(0);
+          mReccurenceSpinner.setSelection(0);
           if (!ActivityCompat.shouldShowRequestPermissionRationale(
               this, Manifest.permission.WRITE_CALENDAR)) {
             setPlannerRowVisibility(View.GONE);
