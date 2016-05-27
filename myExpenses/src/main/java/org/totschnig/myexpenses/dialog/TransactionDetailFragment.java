@@ -46,6 +46,7 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.PaymentMethod;
+import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
@@ -299,12 +300,19 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       mLayout.findViewById(R.id.MethodRow).setVisibility(View.GONE);
     }
 
-    if (Account.getInstanceFromDb(mTransaction.accountId).type.equals(Type.CASH))
+    if (Account.getInstanceFromDb(mTransaction.accountId).type.equals(Type.CASH)) {
       mLayout.findViewById(R.id.StatusRow).setVisibility(View.GONE);
-    else {
+    } else {
       TextView tv = (TextView) mLayout.findViewById(R.id.Status);
       tv.setBackgroundColor(mTransaction.crStatus.color);
       tv.setText(mTransaction.crStatus.toString());
+    }
+
+    if (mTransaction.originTemplate == null) {
+      mLayout.findViewById(R.id.PlannerRow).setVisibility(View.GONE);
+    } else {
+      ((TextView) mLayout.findViewById(R.id.Plan)).setText(Plan.prettyTimeInfo(getActivity(),
+          mTransaction.originTemplate.getPlan().rrule, mTransaction.originTemplate.getPlan().dtstart));
     }
 
     dlg.setTitle(title);
