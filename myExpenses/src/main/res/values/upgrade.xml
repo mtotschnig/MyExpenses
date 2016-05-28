@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_269">
+    <item>Transaction form allows to create recurrence directly</item>
+  </string-array>
   <string-array name="whats_new_268">
     <item>Setup of recurring and future transactions made easier.</item>
   </string-array>
