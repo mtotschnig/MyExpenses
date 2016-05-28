@@ -169,17 +169,15 @@ public class PlanMonthFragment extends CaldroidFragment
     mManager = getLoaderManager();
     View view = super.onCreateView(inflater, container, savedInstanceState);
     Toolbar toolbar = (Toolbar) view.findViewById(R.id.calendar_toolbar);
-    if (!readOnly) {
-      toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-        @Override
-        public boolean onMenuItemClick(MenuItem item) {
-          ((ProtectedFragmentActivity) getActivity()).dispatchCommand(item.getItemId(),
-              ManageTemplates.HelpVariant.plans);
-          return true;
-        }
-      });
-      toolbar.inflateMenu(R.menu.help_with_icon);
-    }
+    toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+      @Override
+      public boolean onMenuItemClick(MenuItem item) {
+        ((ProtectedFragmentActivity) getActivity()).dispatchCommand(item.getItemId(),
+            ManageTemplates.HelpVariant.plans);
+        return true;
+      }
+    });
+    toolbar.inflateMenu(R.menu.help_with_icon);
     toolbar.setTitle(getArguments().getString(TOOLBAR_TITLE));
 
     requireLoader(INSTANCE_STATUS_CURSOR);

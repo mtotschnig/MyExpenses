@@ -145,4 +145,5 @@
   <string name="menu_NavigationDrawer_grouping_help_text">The account list can be displayed grouped by account type, by currency, or ungrouped.</string>
   <string name="cab_sort_up_help_text">Move the item one position up in the list.</string>
   <string name="cab_sort_down_help_text">Move the item one position down in the list.</string>
+  <string name="form_instant_plan_help_text">Here you can set the transaction to recur on a daily, weekly, monthly or yearly basis. On the \'Templates and Plans\' screen, you can inspect the resulting plan and configure advanced options. If a transaction is already linked to a plan, you can no longer change the type of recurrence, but you can open a calendar view displaying all recurring dates.</string>
 </resources>
