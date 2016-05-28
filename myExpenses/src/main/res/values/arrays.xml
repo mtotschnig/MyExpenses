@@ -202,18 +202,31 @@
         <item>select_category</item>
     </string-array>
 
-    <string-array name="ExpenseEdit_menuitems" tools:ignore="UnusedResources">
-        <item>save</item>
-    </string-array>
     <string-array name="ExpenseEdit_transaction_menuitems" tools:ignore="UnusedResources">
+        <item>save</item>
         <item>save_and_new</item>
     </string-array>
     <string-array name="ExpenseEdit_transfer_menuitems" tools:ignore="UnusedResources">
+        <item>save</item>
         <item>save_and_new</item>
         <item>invert_transfer</item>
     </string-array>
+    <string-array name="ExpenseEdit_split_menuitems">
+        <item>save</item>
+        <item>save_and_new</item>
+    </string-array>
+    <string-array name="ExpenseEdit_templateCategory_menuitems">
+        <item>save</item>
+    </string-array>
+    <string-array name="ExpenseEdit_templateTransfer_menuitems">
+        <item>save</item>
+    </string-array>
+    <string-array name="ExpenseEdit_splitPartCategory_menuitems" tools:ignore="UnusedResources">
+        <item>save</item>
+    </string-array>
     <string-array name="ExpenseEdit_splitPartTransfer_menuitems" tools:ignore="UnusedResources">
-      <item>invert_transfer</item>
+        <item>save</item>
+        <item>invert_transfer</item>
     </string-array>
     <string-array name="ExpenseEdit_transaction_formfields" tools:ignore="UnusedResources">
         <item>account</item>
@@ -223,6 +236,7 @@
         <item>comment</item>
         <item>category</item>
         <item>method</item>
+        <item>instant_plan</item>
     </string-array>
     <string-array name="ExpenseEdit_transfer_formfields" tools:ignore="UnusedResources">
         <item>transfer_from_account.transfer_to_account</item>
@@ -230,6 +244,7 @@
         <item>exchange_rate</item>
         <item>date.time</item>
         <item>comment</item>
+        <item>instant_plan</item>
     </string-array>
     <string-array name="ExpenseEdit_templateCategory_formfields" tools:ignore="UnusedResources">
         <item>title</item>

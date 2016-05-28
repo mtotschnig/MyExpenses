@@ -167,12 +167,10 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
       }
 
       // Menu items
-      resId = resolveArray(context + "_menuitems");
+      resId = variant != null ? resolveArray(context + "_" + variant + "_menuitems") :
+          resolveArray(context + "_menuitems");
       menuItems.clear();
       if (resId != 0)
-        menuItems.addAll(Arrays.asList(res.getStringArray(resId)));
-      if (variant != null &&
-          (resId = resolveArray(context + "_" + variant + "_menuitems")) != 0)
         menuItems.addAll(Arrays.asList(res.getStringArray(resId)));
       if (menuItems.isEmpty())
         view.findViewById(R.id.menu_commands_heading).setVisibility(View.GONE);
@@ -181,12 +179,10 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
       }
 
       // Contextual action bar
-      resId = resolveArray(context + "_cabitems");
+      resId = variant != null ? resolveArray(context + "_" + variant + "_cabitems") :
+          resolveArray(context + "_cabitems");
       menuItems.clear();
       if (resId != 0)
-        menuItems.addAll(Arrays.asList(res.getStringArray(resId)));
-      if (variant != null &&
-          (resId = resolveArray(context + "_" + variant + "_cabitems")) != 0)
         menuItems.addAll(Arrays.asList(res.getStringArray(resId)));
       if (menuItems.isEmpty())
         view.findViewById(R.id.cab_commands_heading).setVisibility(View.GONE);
