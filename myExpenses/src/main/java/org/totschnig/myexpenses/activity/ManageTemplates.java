@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.activity;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -44,7 +45,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
   private TemplatesList mListFragment;
 
   public enum HelpVariant {
-    templates,plans
+    templates, plans
   }
 
   public long getCalledFromCalendarWithId() {
@@ -63,9 +64,9 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
 
     String uriString = getIntent().getStringExtra(Events.CUSTOM_APP_URI);
     if (uriString != null) {
-      List <String> uriPath = Uri.parse(uriString).getPathSegments();
+      List<String> uriPath = Uri.parse(uriString).getPathSegments();
       try {
-        calledFromCalendarWithId =  Long.parseLong(uriPath.get(uriPath.size() - 1)); //legacy uri had account_id/template_id
+        calledFromCalendarWithId = Long.parseLong(uriPath.get(uriPath.size() - 1)); //legacy uri had account_id/template_id
         if (calledFromCalendarWithId == 0) { //ignore 0 that were introduced by legacy bug
           calledFromCalendarWithId = NOT_CALLED;
         }
@@ -81,82 +82,99 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
   @Override
   public boolean dispatchCommand(int command, Object tag) {
     Intent i;
-    switch(command) {
-    case R.id.CREATE_COMMAND:
-      i = new Intent(this, ExpenseEdit.class);
-      i.putExtra(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_TRANSACTION);
-      i.putExtra(ExpenseEdit.KEY_NEW_TEMPLATE, true);
-      startActivity(i);
-      return true;
-    case R.id.DELETE_COMMAND_DO:
-      finishActionMode();
-      startTaskExecution(
-          TaskExecutionFragment.TASK_DELETE_TEMPLATES,
-          (Long[])tag,
-          null,
-          R.string.progress_dialog_deleting);
-      return true;
-    case R.id.CANCEL_CALLBACK_COMMAND:
-      finishActionMode();
-      return true;
-    case android.R.id.home:
-      Intent upIntent = NavUtils.getParentActivityIntent(this);
-      if (shouldUpRecreateTask(this)) {
+    switch (command) {
+      case R.id.CREATE_COMMAND:
+        i = new Intent(this, ExpenseEdit.class);
+        i.putExtra(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_TRANSACTION);
+        i.putExtra(ExpenseEdit.KEY_NEW_TEMPLATE, true);
+        startActivity(i);
+        return true;
+      case R.id.DELETE_COMMAND_DO:
+        finishActionMode();
+        startTaskExecution(
+            TaskExecutionFragment.TASK_DELETE_TEMPLATES,
+            (Long[]) tag,
+            null,
+            R.string.progress_dialog_deleting);
+        return true;
+      case R.id.CANCEL_CALLBACK_COMMAND:
+        finishActionMode();
+        return true;
+      case android.R.id.home:
+        Intent upIntent = NavUtils.getParentActivityIntent(this);
+        if (shouldUpRecreateTask(this)) {
           // This activity is NOT part of this app's task, so create a new task
           // when navigating up, with a synthesized back stack.
           TaskStackBuilder.create(this)
-                  // Add all of this activity's parents to the back stack
-                  .addNextIntentWithParentStack(upIntent)
-                  // Navigate up to the closest parent
-                  .startActivities();
-      } else {
+              // Add all of this activity's parents to the back stack
+              .addNextIntentWithParentStack(upIntent)
+              // Navigate up to the closest parent
+              .startActivities();
+        } else {
           // This activity is part of this app's task, so simply
           // navigate up to the logical parent activity.
           NavUtils.navigateUpTo(this, upIntent);
-      }
-      return true;
+        }
+        return true;
     }
     return super.dispatchCommand(command, tag);
-   }
+  }
 
   @Override
   public void onPostExecute(int taskId, Object o) {
     super.onPostExecute(taskId, o);
-    switch(taskId) {
-    case TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE:
-      Integer successCount = (Integer) o;
-      String msg = successCount == 0 ?  getString(R.string.save_transaction_error) :
-        getResources().getQuantityString(R.plurals.save_transaction_from_template_success, successCount, successCount);
-      Toast.makeText(this,msg, Toast.LENGTH_LONG).show();
+    switch (taskId) {
+      case TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE:
+        Integer successCount = (Integer) o;
+        String msg = successCount == 0 ? getString(R.string.save_transaction_error) :
+            getResources().getQuantityString(R.plurals.save_transaction_from_template_success, successCount, successCount);
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
     }
   }
 
   public void finishActionMode() {
     mListFragment.finishActionMode();
   }
+
   @Override
   public void onPositive(Bundle args) {
     long id = args.getLong(DatabaseConstants.KEY_ROWID);
     int command = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE);
-    switch(command) {
-    case R.id.CREATE_INSTANCE_SAVE_COMMAND:
-      MyApplication.PrefKey.TEMPLATE_CLICK_DEFAULT.putString("SAVE");
-      mListFragment.dispatchCreateInstanceSave(new Long[] {id});
-      break;
+    switch (command) {
+      case R.id.CREATE_INSTANCE_SAVE_COMMAND:
+        MyApplication.PrefKey.TEMPLATE_CLICK_DEFAULT.putString("SAVE");
+        mListFragment.dispatchCreateInstanceSave(new Long[]{id});
+        break;
     }
   }
+
   @Override
   public void onNegative(Bundle args) {
     long id = args.getLong(DatabaseConstants.KEY_ROWID);
     int command = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE);
-    switch(command) {
-    case R.id.CREATE_INSTANCE_EDIT_COMMAND:
-      MyApplication.PrefKey.TEMPLATE_CLICK_DEFAULT.putString("EDIT");
-      mListFragment.dispatchCreateInstanceEdit(id);
-      break;
+    switch (command) {
+      case R.id.CREATE_INSTANCE_EDIT_COMMAND:
+        MyApplication.PrefKey.TEMPLATE_CLICK_DEFAULT.putString("EDIT");
+        mListFragment.dispatchCreateInstanceEdit(id);
+        break;
     }
   }
+
   @Override
   public void onDismissOrCancel(Bundle args) {
+  }
+
+  @Override
+  public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    switch (requestCode) {
+      case ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR: {
+        // If request is cancelled, the result arrays are empty.
+        if (grantResults.length > 0
+            && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+          mListFragment.refresh();
+        }
+      }
+    }
   }
 }

@@ -455,7 +455,9 @@ public class TemplatesList extends SortableListFragment {
         Long planId = c.getLong(columnIndexPlanId);
         String planInfo = mPlanTimeInfo.get(planId);
         if (planInfo == null) {
-          planInfo = getString(R.string.plan_event_deleted);
+          planInfo = getString(ContextCompat.checkSelfPermission(getActivity(),
+              Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_DENIED ?
+              R.string.calendar_permission_required : R.string.plan_event_deleted);
         }
         ((TextView) convertView.findViewById(R.id.title)).setText(
             //noinspection SetTextI18n
@@ -552,5 +554,8 @@ public class TemplatesList extends SortableListFragment {
       case R.id.calendar_gridview:
         getActivity().getMenuInflater().inflate(R.menu.planlist_context, menu);
     }
+  }
+  public void refresh() {
+    Utils.requireLoader(mManager,SORTABLE_CURSOR, null, this);
   }
 }
