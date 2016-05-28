@@ -87,10 +87,6 @@ public class Plan extends Model implements Serializable {
   }
 
   public Plan(Calendar cal, String rrule, String title, String description) {
-    Calendar clone = ((Calendar) cal.clone());
-    clone.set(Calendar.HOUR, 0);
-    clone.set(Calendar.MINUTE, 0);
-    clone.set(Calendar.SECOND, 0);
     this.dtstart = cal.getTimeInMillis();
     this.rrule = rrule;
     this.title = title;
@@ -142,10 +138,7 @@ public class Plan extends Model implements Serializable {
     if (!TextUtils.isEmpty(rrule)) {
       values.put(Events.RRULE, rrule);
     }
-    if (Utils.hasApiLevel(Build.VERSION_CODES.ICE_CREAM_SANDWICH)) {
-      values.put(Events.ALL_DAY, 1);
-    }
-    values.put(Events.EVENT_TIMEZONE, Time.TIMEZONE_UTC);
+    values.put(Events.EVENT_TIMEZONE, TimeZone.getDefault().getID());
     if (getId() == 0) {
       String calendarId = MyApplication.getInstance().checkPlanner();
       if (calendarId.equals(MyApplication.INVALID_CALENDAR_ID)) {
