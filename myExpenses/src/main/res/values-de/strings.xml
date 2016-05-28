@@ -586,4 +586,7 @@
   <string name="warning_cannot_move_split_transaction">Diese mehrteilige Buchung kann nicht nach %1$s verschoben werden, denn es gibt Teilbeträge, die auf dieses Konto verweisen.</string>
   <string name="content_description_calculator_clear_button">Alle zurücksetzen</string>
   <string name="content_description_calculator_delete_button">Letzte Ziffer löschen</string>
+  <string name="paypal_transaction_id">PayPal Transaktionscode</string>
+  <string name="paypal_callback_info">Danke für Ihre Zahlung. Ihre Transaktion wurde abgeschlossen und Sie erhalten per E-Mail eine Bestätigung für Ihren Kauf. Sie können sich unter www.paypal.de in Ihr Konto einloggen, um die Transaktionsdetails anzuzeigen.</string>
+  <string name="paypal_callback_later_clicked_info">Über den Bereich \"Einstellungen\" können Sie jederzeit einen Schlüssel beantragen.</string>
 </resources>

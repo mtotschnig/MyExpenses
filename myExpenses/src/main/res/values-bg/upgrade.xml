@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_268">
+    <item>Задаването на повтарящи се и бъдещи транзакции вече става по-лесно</item>
+  </string-array>
   <string-array name="whats_new_267">
     <item>Превод на китайски език</item>
     <item>Подобрена обработка на плановите инстанции</item>

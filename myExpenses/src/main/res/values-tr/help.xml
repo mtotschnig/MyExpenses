@@ -121,4 +121,5 @@
   <string name="menu_NavigationDrawer_grouping_help_text">Hesap listesi hesap türüne veya  para birimine göre gruplandırılmış şekilde ya da gruplandırılmamış şekilde görüntülenebilir.</string>
   <string name="cab_sort_up_help_text">Unsuru listede bir kez yukarı taşı.</string>
   <string name="cab_sort_down_help_text">Unsuru listede bir kez aşağı taşı.</string>
+  <string name="form_instant_plan_help_text">Burada muamelenin günlük, haftalık, aylık ya da yıllık olarak tekrarlanmasını ayarlayabilirsiniz. \"Şablonlar ve Planlamalar\" ekranında sonuç muameleyi gözden geçirebilir ve gelişmiş seçenekleri yapılandırabilirsiniz.  Eğer bir muamele zaten bir planlama ile ilişkili ise tekrar türünü artık değiştiremezsiniz, ancak bir takvim görünümü açıp tüm tekrar tarihlerini görüntüleyebilirsiniz.</string>
 </resources>

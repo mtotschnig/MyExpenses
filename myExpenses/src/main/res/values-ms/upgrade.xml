@@ -1,5 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_268">
+    <item>Persediaan transaksi berulang dan akan datang menjadi lebih mudah. </item>
+  </string-array>
+  <string-array name="whats_new_267">
+    <item>Terjemahan Bahasa Cina Mudah</item>
+    <item>Pengendalian kejadian pelan yang lebih baik</item>
+  </string-array>
+  <string-array name="whats_new_266">
+    <item>Ikon menu baharu</item>
+  </string-array>
   <string-array name="whats_new_265">
     <item>Pengisihan templat, kategori dan akaun menjadi lebih mudah</item>
   </string-array>
