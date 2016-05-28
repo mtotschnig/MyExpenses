@@ -2113,8 +2113,10 @@ public class ExpenseEdit extends AmountActivity implements
         // If request is cancelled, the result arrays are empty.
         if (grantResults.length > 0
             && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-          mPlanButton.setVisibility(View.VISIBLE);
-          mPlanToggleButton.setVisibility(View.VISIBLE);
+          if (mTransaction instanceof Template) {
+            mPlanButton.setVisibility(View.VISIBLE);
+            mPlanToggleButton.setVisibility(View.VISIBLE);
+          }
         } else {
           mReccurenceSpinner.setSelection(0);
           if (!ActivityCompat.shouldShowRequestPermissionRationale(
