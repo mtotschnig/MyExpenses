@@ -5,6 +5,7 @@ import android.support.test.espresso.NoMatchingRootException;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.widget.AdapterView;
 
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -34,13 +35,19 @@ public class ManageTemplatesTest {
   @Rule
   public IntentsTestRule<ManageTemplates> mActivityRule =
       new IntentsTestRule<>(ManageTemplates.class);
+  private static Template template;
 
   @BeforeClass
   public static void fixture() {
     Account account = Account.getInstanceFromDb(0);
-    Template t0 = new Template(account, -1200L);
-    t0.setTitle("Espresso Test Template");
-    t0.save();
+    template = new Template(account, -1200L);
+    template.setTitle("Espresso Test Template");
+    template.save();
+  }
+
+  @AfterClass
+  public static void tearDown() {
+    Template.delete(template.getId());
   }
 
   @Before

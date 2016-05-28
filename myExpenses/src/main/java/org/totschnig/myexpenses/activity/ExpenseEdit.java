@@ -655,7 +655,7 @@ public class ExpenseEdit extends AmountActivity implements
           mReccurenceSpinner.setAdapter(recurrenceAdapter);
           mReccurenceSpinner.setOnItemSelectedListener(this);
           findViewById(R.id.PlannerRow).setVisibility(View.VISIBLE);
-          if (mTransaction.originTemplate != null) {
+          if (mTransaction.originTemplate != null && mTransaction.originTemplate.getPlan() != null) {
             mReccurenceSpinner.getSpinner().setVisibility(View.GONE);
             mPlanButton.setVisibility(View.VISIBLE);
             mPlanButton.setText(Plan.prettyTimeInfo(this,

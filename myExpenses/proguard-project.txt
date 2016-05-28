@@ -39,6 +39,7 @@
 # Espresso Contrib DrawerActions accesses this through reflection
 -keepclassmembers class android.support.v4.widget.DrawerLayout {
     private android.support.v4.widget.DrawerLayout$DrawerListener mListener;
+    public void setDrawerListener(android.support.v4.widget.DrawerLayout$DrawerListener);
 }
 
 -dontwarn icepick.**
