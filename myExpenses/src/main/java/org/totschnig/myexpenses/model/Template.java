@@ -26,24 +26,20 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 
-import com.android.calendar.CalendarContractCompat.Events;
-
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
-import android.database.sqlite.SQLiteException;
 import android.net.Uri;
-import android.provider.CalendarContract;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class Template extends Transaction {
-  public String title;
-  public boolean isTransfer;
+  private String title;
+  private boolean isTransfer;
   public Long planId;
-  public boolean planExecutionAutomatic = false;
+  private boolean planExecutionAutomatic = false;
   private String uuid;
 
   public Plan getPlan() {
@@ -99,7 +95,7 @@ public class Template extends Transaction {
    */
   public Template(Transaction t, String title) {
     super();
-    this.title = title;
+    this.setTitle(title);
     this.accountId = t.accountId;
     this.amount = t.amount;
     this.setCatId(t.getCatId());
@@ -151,9 +147,9 @@ public class Template extends Transaction {
     setId(c.getLong(c.getColumnIndexOrThrow(KEY_ROWID)));
     comment = DbUtils.getString(c, KEY_COMMENT);
     label = DbUtils.getString(c, KEY_LABEL);
-    title = DbUtils.getString(c, KEY_TITLE);
+    setTitle(DbUtils.getString(c, KEY_TITLE));
     planId = DbUtils.getLongOrNull(c, KEY_PLANID);
-    planExecutionAutomatic = c.getInt(c.getColumnIndexOrThrow(KEY_PLAN_EXECUTION)) > 0;
+    setPlanExecutionAutomatic(c.getInt(c.getColumnIndexOrThrow(KEY_PLAN_EXECUTION)) > 0);
     int uuidColumnIndex = c.getColumnIndexOrThrow(KEY_UUID);
     if (c.isNull(uuidColumnIndex)) {//while upgrade to DB schema 47, uuid is still null
       generateUuid();
@@ -164,7 +160,7 @@ public class Template extends Transaction {
 
   public Template(Account account, long amount) {
     super(account, amount);
-    title = "";
+    setTitle("");
     generateUuid();
   }
 
@@ -250,12 +246,12 @@ public class Template extends Transaction {
     initialValues.put(KEY_TRANSFER_ACCOUNT, transfer_account);
     initialValues.put(KEY_PAYEEID, payee_id);
     initialValues.put(KEY_METHODID, methodId);
-    initialValues.put(KEY_TITLE, title);
+    initialValues.put(KEY_TITLE, getTitle());
     initialValues.put(KEY_PLANID, planId);
-    initialValues.put(KEY_PLAN_EXECUTION, planExecutionAutomatic);
+    initialValues.put(KEY_PLAN_EXECUTION, isPlanExecutionAutomatic());
     initialValues.put(KEY_ACCOUNTID, accountId);
     if (getId() == 0) {
-      initialValues.put(KEY_TRANSFER_PEER, isTransfer);
+      initialValues.put(KEY_TRANSFER_PEER, isTransfer());
       initialValues.put(KEY_UUID, uuid);
       try {
         uri = cr().insert(CONTENT_URI, initialValues);
@@ -321,7 +317,7 @@ public class Template extends Transaction {
       sb.append(label);
       sb.append("\n");
     }
-    if (isTransfer) {
+    if (isTransfer()) {
       sb.append(ctx.getString(R.string.account));
       sb.append(" : ");
       sb.append(label);
@@ -374,19 +370,19 @@ public class Template extends Transaction {
     if (getClass() != obj.getClass())
       return false;
     Template other = (Template) obj;
-    if (isTransfer != other.isTransfer)
+    if (isTransfer() != other.isTransfer())
       return false;
-    if (planExecutionAutomatic != other.planExecutionAutomatic)
+    if (isPlanExecutionAutomatic() != other.isPlanExecutionAutomatic())
       return false;
     if (planId == null) {
       if (other.planId != null)
         return false;
     } else if (!planId.equals(other.planId))
       return false;
-    if (title == null) {
-      if (other.title != null)
+    if (getTitle() == null) {
+      if (other.getTitle() != null)
         return false;
-    } else if (!title.equals(other.title))
+    } else if (!getTitle().equals(other.getTitle()))
       return false;
     if (uuid == null) {
       if (other.uuid != null)
@@ -398,10 +394,10 @@ public class Template extends Transaction {
 
   @Override
   public int hashCode() {
-    int result = this.title != null ? this.title.hashCode() : 0;
-    result = 31 * result + (this.isTransfer ? 1 : 0);
+    int result = this.getTitle() != null ? this.getTitle().hashCode() : 0;
+    result = 31 * result + (this.isTransfer() ? 1 : 0);
     result = 31 * result + (this.planId != null ? this.planId.hashCode() : 0);
-    result = 31 * result + (this.planExecutionAutomatic ? 1 : 0);
+    result = 31 * result + (this.isPlanExecutionAutomatic() ? 1 : 0);
     result = 31 * result + (this.uuid != null ? this.uuid.hashCode() : 0);
     return result;
   }
@@ -414,5 +410,25 @@ public class Template extends Transaction {
       }
     }
     MyApplication.PrefKey.NEW_PLAN_ENABLED.putBoolean(newPlanEnabled);
+  }
+
+  public boolean isPlanExecutionAutomatic() {
+    return planExecutionAutomatic;
+  }
+
+  public void setPlanExecutionAutomatic(boolean planExecutionAutomatic) {
+    this.planExecutionAutomatic = planExecutionAutomatic;
+  }
+
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
+  }
+
+  public boolean isTransfer() {
+    return isTransfer;
   }
 }

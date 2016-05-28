@@ -67,7 +67,7 @@ public class TemplateTest extends ModelTest  {
     Template t,restored;
     t = Template.getTypedNewInstance(type, mAccount1.getId());
     assert t != null;
-    t.title = "Template";
+    t.setTitle("Template");
     t.save();
     restored = Template.getInstanceFromDb(t.getId());
     assertEquals(t,restored);

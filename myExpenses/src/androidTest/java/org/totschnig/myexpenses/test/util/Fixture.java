@@ -206,12 +206,12 @@ public class Fixture {
     String templateSubCat = testContext.getString(R.string.testData_templateSubCat);
     template.setCatId(findCat(templateSubCat,
         findCat(testContext.getString(R.string.testData_templateMainCat), null)));
-    template.title = templateSubCat;
+    template.setTitle(templateSubCat);
     template.payee = testContext.getString(R.string.testData_templatePayee);
     Uri planUri = new Plan(
         Calendar.getInstance(),
         "FREQ=WEEKLY;COUNT=10;WKST=SU",
-        template.title,
+        template.getTitle(),
         template.compileDescription(appContext))
       .save();
     template.planId = ContentUris.parseId(planUri);

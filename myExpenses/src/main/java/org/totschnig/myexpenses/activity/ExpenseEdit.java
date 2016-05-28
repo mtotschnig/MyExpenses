@@ -663,7 +663,7 @@ public class ExpenseEdit extends AmountActivity implements
             mPlanButton.setOnClickListener(new View.OnClickListener() {
               public void onClick(View view) {
                 PlanMonthFragment.newInstance(
-                    mTransaction.originTemplate.title,
+                    mTransaction.originTemplate.getTitle(),
                     mTransaction.originTemplate.getId(),
                     mTransaction.originTemplate.planId,
                     getCurrentAccount().color, true).show(getSupportFragmentManager(),
@@ -988,8 +988,8 @@ public class ExpenseEdit extends AmountActivity implements
       }
     }
     if (mTransaction instanceof Template) {
-      mTitleText.setText(((Template) mTransaction).title);
-      mPlanToggleButton.setChecked(((Template) mTransaction).planExecutionAutomatic);
+      mTitleText.setText(((Template) mTransaction).getTitle());
+      mPlanToggleButton.setChecked(((Template) mTransaction).isPlanExecutionAutomatic());
     } else {
       mReferenceNumberText.setText(mTransaction.referenceNumber);
     }
@@ -1157,14 +1157,14 @@ public class ExpenseEdit extends AmountActivity implements
         mTitleText.setError(getString(R.string.no_title_given));
         validP = false;
       }
-      ((Template) mTransaction).title = title;
+      ((Template) mTransaction).setTitle(title);
       if (mPlan == null) {
         if (mReccurenceSpinner.getSelectedItemPosition() > 0) {
           String description = ((Template) mTransaction).compileDescription(ExpenseEdit.this);
           mPlan = new Plan(
              mCalendar,
               ((Plan.Recurrence) mReccurenceSpinner.getSelectedItem()).toRrule(),
-              ((Template) mTransaction).title,
+              ((Template) mTransaction).getTitle(),
               description);
           ((Template) mTransaction).setPlan(mPlan);
         }
@@ -1182,11 +1182,12 @@ public class ExpenseEdit extends AmountActivity implements
                   (TextUtils.isEmpty(mTransaction.comment) ?
                       getString(R.string.menu_create_template) : mTransaction.comment) : mLabel) : mTransaction.payee;
           mTransaction.originTemplate = new Template(mTransaction, title);
+          mTransaction.originTemplate.setPlanExecutionAutomatic(true);
           String description = mTransaction.originTemplate.compileDescription(ExpenseEdit.this);
           mTransaction.originTemplate.setPlan(new Plan(
               mCalendar,
               ((Plan.Recurrence) mReccurenceSpinner.getSelectedItem()).toRrule(),
-              mTransaction.originTemplate.title,
+              mTransaction.originTemplate.getTitle(),
               description));
         }
       }
@@ -1466,7 +1467,7 @@ public class ExpenseEdit extends AmountActivity implements
         if (mTransaction instanceof SplitTransaction) {
           mOperationType = MyExpenses.TYPE_SPLIT;
         } else if (mTransaction instanceof Template) {
-          mOperationType = ((Template) mTransaction).isTransfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
+          mOperationType = ((Template) mTransaction).isTransfer() ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
           mPlan = ((Template) mTransaction).getPlan();
         } else {
           mOperationType = mTransaction instanceof Transfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
@@ -1980,7 +1981,7 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   public void onToggleClicked(View view) {
-    ((Template) mTransaction).planExecutionAutomatic = ((ToggleButton) view).isChecked();
+    ((Template) mTransaction).setPlanExecutionAutomatic(((ToggleButton) view).isChecked());
   }
 
   @Override

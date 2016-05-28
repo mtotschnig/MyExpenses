@@ -117,13 +117,13 @@ public class PlanExecutor extends IntentService {
                 content += " : ";
               }
               content += Utils.formatCurrency(template.getAmount());
-              String title = account.label + " : " + template.title;
+              String title = account.label + " : " + template.getTitle();
               NotificationCompat.Builder builder =
                   new NotificationCompat.Builder(this)
                       .setSmallIcon(R.drawable.ic_stat_planner)
                       .setContentTitle(title)
                       .setContentText(content);
-              if (template.planExecutionAutomatic) {
+              if (template.isPlanExecutionAutomatic()) {
                 Transaction t = Transaction.getInstanceFromTemplate(template);
                 t.originPlanInstanceId = instanceId;
                 t.setDate(new Date(date));

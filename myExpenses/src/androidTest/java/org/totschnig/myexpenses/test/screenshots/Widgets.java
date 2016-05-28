@@ -55,7 +55,7 @@ public class Widgets extends ActivityInstrumentationTestCase2<MyExpenses> {
     a.save();
     Template t = Template.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION, a.getId());
     t.setAmount(new Money(c,-90000L));
-    t.title = translate(l,R.string.testData_templateSubCat);
+    t.setTitle(translate(l,R.string.testData_templateSubCat));
     t.payee = translate(l,R.string.testData_templatePayee);
     t.save();
   }

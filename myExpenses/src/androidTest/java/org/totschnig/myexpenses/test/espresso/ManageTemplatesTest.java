@@ -39,7 +39,7 @@ public class ManageTemplatesTest {
   public static void fixture() {
     Account account = Account.getInstanceFromDb(0);
     Template t0 = new Template(account, -1200L);
-    t0.title = "Espresso Test Template";
+    t0.setTitle("Espresso Test Template");
     t0.save();
   }
 

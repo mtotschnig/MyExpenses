@@ -266,7 +266,7 @@ public class Transaction extends Model {
 
   public static Transaction getInstanceFromTemplate(Template te) {
     Transaction tr;
-    if (te.isTransfer) {
+    if (te.isTransfer()) {
       tr = new Transfer(te.accountId, te.amount);
       tr.transfer_account = te.transfer_account;
     } else {
