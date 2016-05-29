@@ -9,7 +9,7 @@ android {
         applicationId "org.totschnig.myexpenses"
         minSdkVersion project.minSdkVersion
         targetSdkVersion project.targetSdkVersion
-        versionCode 252
+        versionCode 253
         versionName '2.6.9'
 
         buildConfigField "String", "PLATTFORM", "\"Android\""

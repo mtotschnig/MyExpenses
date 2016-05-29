@@ -30,9 +30,11 @@ import org.totschnig.myexpenses.util.Utils;
 
 import com.android.calendar.CalendarContractCompat.Events;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteConstraintException;
@@ -43,6 +45,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
@@ -1074,15 +1077,18 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
     if (oldVersion < 57) {
       //fix custom app uris
-      Cursor c = db.query("templates", new String[]{"_id", "plan_id"}, null, null, null, null, null);
-      if (c != null) {
-        if (c.moveToFirst()) {
-          while (!c.isAfterLast()) {
-            Plan.updateCustomAppUri(c.getLong(1), Template.buildCustomAppUri(c.getLong(0)));
-            c.moveToNext();
+      if (ContextCompat.checkSelfPermission(mCtx,
+          Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
+        Cursor c = db.query("templates", new String[]{"_id", "plan_id"}, "plan_id IS NOT null", null, null, null, null);
+        if (c != null) {
+          if (c.moveToFirst()) {
+            while (!c.isAfterLast()) {
+              Plan.updateCustomAppUri(c.getLong(1), Template.buildCustomAppUri(c.getLong(0)));
+              c.moveToNext();
+            }
           }
+          c.close();
         }
-        c.close();
       }
 
       //Drop unique constraint on templates
