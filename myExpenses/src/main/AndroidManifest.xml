@@ -39,6 +39,7 @@
         android:allowBackup="true"
         android:fullBackupContent="@xml/mybackupscheme"
         android:supportsRtl="true">
+
         <activity
             android:name=".activity.MyExpenses"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
@@ -51,6 +52,7 @@
                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".activity.DeepLinkActivity"
                   android:excludeFromRecents="true"
                   android:theme="@style/Theme.AppCompat.Light.Dialog">
@@ -62,6 +64,7 @@
                       android:path="/callback.html" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".activity.ExpenseEdit"
             android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge"
@@ -76,10 +79,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.totschnig.myexpenses.activity.MyExpenses" />
         </activity>
+
         <activity android:name=".activity.AccountEdit"
                   android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge" />
+
         <activity android:name=".activity.MethodEdit"
                   android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge" />
+
         <activity android:name=".activity.ManageCategories"
                   android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge" >
             <intent-filter>
@@ -92,6 +98,7 @@
                 android:resource="@xml/searchable">
             </meta-data>
         </activity>
+
         <activity
             android:name=".activity.BackupRestoreActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog">
@@ -106,6 +113,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".activity.GrisbiImport"
             android:theme="@style/Theme.AppCompat.Light.Dialog" >
@@ -115,6 +123,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".activity.QifCSVImport"
             android:theme="@style/Theme.AppCompat.Light.Dialog" >
@@ -143,6 +152,7 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
+
         <activity android:name=".activity.ManageParties"
                   android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge" >
             <intent-filter>
@@ -151,6 +161,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
         <activity android:name=".activity.ManageStaleImages"
                   android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge" >
             <intent-filter>
@@ -159,6 +170,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".activity.ManageTemplates"
             android:parentActivityName=".activity.MyExpenses"
@@ -178,6 +190,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.totschnig.myexpenses.activity.MyExpenses" />
         </activity>
+
         <activity android:name=".activity.ManageMethods"
                   android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge" >
             <intent-filter>
@@ -186,10 +199,12 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".activity.FolderBrowser"
             android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge">
         </activity>
+
         <activity
             android:name=".activity.CalculatorInput"
             android:theme="@style/Theme.AppCompat.Light.Dialog.NoTitle" >
@@ -197,6 +212,7 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".activity.ContribInfoDialogActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
@@ -224,6 +240,7 @@
             android:exported="false" />
 
         <service android:name=".service.PlanExecutor" />
+
         <service android:name=".service.PlanNotificationClickHandler" />
 
         <service android:name=".service.AutoBackupService" android:exported="false">
@@ -246,6 +263,7 @@
                     android:scheme="package" />
             </intent-filter>
         </receiver>
+
         <receiver
             android:name="org.totschnig.myexpenses.widget.AccountWidget"
             android:label="@string/widget_title_accounts" >
@@ -258,6 +276,7 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_info_accounts" />
         </receiver>
+        
         <receiver
             android:name="org.totschnig.myexpenses.widget.TemplateWidget"
             android:label="@string/widget_title_templates" >
