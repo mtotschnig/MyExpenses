@@ -41,7 +41,7 @@ android {
             manifestPlaceholders = [appName: "@string/app_name"]
         }
         debug {
-            //applicationIdSuffix ".debug"
+            applicationIdSuffix ".debug"
             manifestPlaceholders = [appName: "My Expenses Debug"]
         }
     }
