@@ -25,9 +25,7 @@ import android.util.AttributeSet;
  *
  */
 public class ListPreferenceShowSummary extends ListPreference {
-
-  private final static String TAG = ListPreferenceShowSummary.class.getName();
-
+  
   public ListPreferenceShowSummary(Context context, AttributeSet attrs) {
       super(context, attrs);
       init();
