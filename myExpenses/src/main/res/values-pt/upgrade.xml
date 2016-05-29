@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_269">
+    <item>Forma de transação permite criar recorrência diretamente</item>
+  </string-array>
   <string-array name="whats_new_268">
     <item>Instalação de transações futuras e recorrentes facilitado.</item>
   </string-array>
