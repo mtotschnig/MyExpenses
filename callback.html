@@ -13,7 +13,11 @@ function getURLParameter(name) {
 function findDestination() {
   lang = findLang();
   hash = "#thankyou";
-  return window.location.protocol + "//" + window.location.host + "/" + lang + location.search + hash;
+  result = window.location.protocol + "//" + window.location.host + "/" + lang;
+  if (getURLParameter("tx") != "") {
+  	  result += location.search + "#thankyou";
+  }
+  return result;
 }
 
 function findLang() {
@@ -80,11 +84,11 @@ function sprintf() {
 
 
 switch(window.location.hash) {
-case '#thankyou':
-	window.location.replace(findDestination());
-	break;
 case '#verify':
 	alert(buildLocalizedAlert());
+	break;
+default:
+	window.location.replace(findDestination());
 	break;
 }
 </script>
