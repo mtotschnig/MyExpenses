@@ -406,24 +406,29 @@ public class MyExpenses extends LaunchActivity implements
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
     super.onPrepareOptionsMenu(menu);
-    boolean showBalanceCommand = false;
-    if (mAccountId > 0 && mAccountsCursor != null && !mAccountsCursor.isClosed() &&
-        mAccountsCursor.moveToPosition(mCurrentPosition)) {
-      try {
-        if (Type.valueOf(mAccountsCursor.getString(mAccountsCursor.getColumnIndexOrThrow(KEY_TYPE)))
-            != Type.CASH) {
-          showBalanceCommand = true;
-        }
-      } catch (IllegalArgumentException ex) {/*aggregate*/}
+    MenuItem balanceItem = menu.findItem(R.id.BALANCE_COMMAND);
+    if (balanceItem != null) {
+      boolean showBalanceCommand = false;
+      if (mAccountId > 0 && mAccountsCursor != null && !mAccountsCursor.isClosed() &&
+          mAccountsCursor.moveToPosition(mCurrentPosition)) {
+        try {
+          if (Type.valueOf(mAccountsCursor.getString(mAccountsCursor.getColumnIndexOrThrow(KEY_TYPE)))
+              != Type.CASH) {
+            showBalanceCommand = true;
+          }
+        } catch (IllegalArgumentException ex) {/*aggregate*/}
+      }
+      Utils.menuItemSetEnabledAndVisible(balanceItem, showBalanceCommand);
     }
-    Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.BALANCE_COMMAND),
-        showBalanceCommand);
 
-    SubMenu groupingMenu = menu.findItem(R.id.GROUPING_COMMAND).getSubMenu();
+    MenuItem groupingItem = menu.findItem(R.id.GROUPING_COMMAND);
+    if (groupingItem != null) {
+      SubMenu groupingMenu = groupingItem.getSubMenu();
 
-    Account account = Account.getInstanceFromDb(mAccountId);
-    if (account!=null) {
-      Utils.configureGroupingMenu(groupingMenu,account.grouping);
+      Account account = Account.getInstanceFromDb(mAccountId);
+      if (account != null) {
+        Utils.configureGroupingMenu(groupingMenu, account.grouping);
+      }
     }
     return true;
   }
