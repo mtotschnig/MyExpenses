@@ -141,15 +141,21 @@
                 style="@style/form_label.condensed"
                 android:text="@string/status"/>
 
-            <TextView
-                android:id="@+id/Status"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:paddingBottom="2dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:paddingTop="2dp"
-                android:textColor="#000000"/>
+            <LinearLayout>
+                <!-- do not remove this linear layout, it prevents the enclosed textview from filling
+                the complete row https://github.com/mtotschnig/MyExpenses/issues/297
+                 -->
+                <TextView
+                    android:id="@+id/Status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:background="@color/material_amber"
+                    android:paddingBottom="2dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingTop="2dp"
+                    android:textColor="#000000"/>
+            </LinearLayout>
         </TableRow>
 
         <TableRow android:id="@+id/PlannerRow">
