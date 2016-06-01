@@ -121,4 +121,5 @@
   <string name="menu_NavigationDrawer_grouping_help_text">勘定リストは、勘定の種類別、通貨別にグループ化して、またはグループ化しないで表示することができます。</string>
   <string name="cab_sort_up_help_text">リスト内の項目の位置を 1 つ上に移動します。</string>
   <string name="cab_sort_down_help_text">リスト内の項目の位置を 1 つ下に移動します。</string>
+  <string name="form_instant_plan_help_text">ここでは、毎日、毎週、毎月、または年単位で繰り返す取引を設定することができます。 「テンプレートと計画」の画面では、結果の計画を検査し、高度なオプションを設定することができます。取引がすでに計画にリンクされている場合、もう繰り返しの種類を変更することはできませんが、繰り返しの日付をすべて表示するカレンダー表示を開くことができます。</string>
 </resources>
