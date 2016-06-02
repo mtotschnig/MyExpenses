@@ -93,6 +93,102 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 2.6.9
+    - "2016-05-29"
+    -
+      en: |
+        Transaction form allows to create recurrence directly.
+      fr: |
+        Création directe des échéances à partir des opérations.
+      de: |
+        Buchungsformular ermöglicht Wiederholung direkt einzustellen.
+      it: |
+        Il formulario dell'operazione permette di creare la ricorrenza direttamente.
+      es: |
+        El formulario de transacción permite crear directamente la repetición.
+      pt: |
+        Forma de transação permite criar recorrência diretamente.
+      tr: |
+        Muamele formu doğrudan tekrar oluşturmaya izin verir.
+      bg: |
+        Повтаряне на транзакцията може да се зададе директно от формата при създаването й.
+      ja: |
+        直接、繰り返しを作成することができる取引フォーム.
+  -
+    - 2.6.8
+    - "2016-05-08"
+    -
+      en: |
+        Setup of recurring and future transactions made easier.
+      fr: |
+        Mise en place des opérations futures et récurrentes plus facile .
+      de: |
+        Einrichtung von wiederkehrenden und zukünftigen Buchungen leichter gemacht.
+      it: |
+        Installazione di transazioni ricorrenti e future facilitata.
+      es: |
+        Configuración de transacciones recurrentes y futuras más fácil.
+      pt: |
+        Instalação de transações futuras e recorrentes facilitado.
+      tr: |
+        Gelecekteki ve tekrar eden muamelelerin oluşturulması artık daha kolay.
+      bg: |
+        Задаването на повтарящи се и бъдещи транзакции вече става по-лесно.
+      ms: |
+        Persediaan transaksi berulang dan akan datang menjadi lebih mudah.
+      ja: |
+        繰り返し、および将来の取引の設定が簡単になりました.
+  -
+    - 2.6.7
+    - "2016-04-30"
+    -
+      en: |
+        Simplified Chinese translation. Improved handling of plan instances.
+      fr: |
+        Traduction en chinois simplifié. Traitement amélioré des instances.
+      de: |
+        Übersetzung vereinfachtes Chinesisch. Verbesserte Verarbeitung von Plan-Instanzen.
+      it: |
+        Traduzione cinese semplificato. Migliorata la gestione delle istanze di piano.
+      es: |
+        Traducción al chino simplificado. Mejorando la gestión de las instancias de planes.
+      tr: |
+        Sade Çince tercüme. Planlama örneklemelerinin geliştirilmiş yönetimi.
+      bg: |
+        Превод на китайски език. Подобрена обработка на плановите инстанции.
+      ms: |
+        Terjemahan Bahasa Cina Mudah. Pengendalian kejadian pelan yang lebih baik.
+      ja: |
+        簡体中国語翻訳. 計画インスタンスの処理を改善しました.
+  -
+    - 2.6.6
+    - "2016-03-09"
+    -
+      en: |
+        New menu icons.
+      fr: |
+        Nouvelles icônes de menu.
+      de: |
+        Neue Menü-icons.
+      it: |
+        Nuove icone di menu.
+      es: |
+        Nuevos iconos de menú.
+      pt: |
+        Novos ícones do menu.
+      tr: |
+        Yeni menü ikonları.
+      eu: |
+        Ikono berriak menuan.
+      bg: |
+        Нови икони в менюто.
+      ms: |
+        Ikon menu baharu.
+      ja: |
+        新しいメニューアイコン.
+      ro: |
+        Noi iconuri meniu.
+  -
     - 2.6.5
     - "2016-02-19"
     -
