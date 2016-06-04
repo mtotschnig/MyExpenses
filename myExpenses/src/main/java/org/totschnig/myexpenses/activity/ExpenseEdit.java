@@ -1730,6 +1730,7 @@ public class ExpenseEdit extends AmountActivity implements
             break;
           case DbWriteFragment.ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE:
             mReccurenceSpinner.setSelection(0);
+            mTransaction.originTemplate = null;
             errorMsg = "Recurring transactions are not available, because calendar integration is not functional on this device.";
             break;
           default:
