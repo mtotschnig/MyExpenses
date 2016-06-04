@@ -539,8 +539,7 @@ public class MyApplication extends Application implements
         new String[] { Calendars._ID }, Calendars.NAME + " = ?",
         new String[] { PLANNER_CALENDAR_NAME }, null);
     if (c == null) {
-      Utils
-          .reportToAcra(new Exception(
+      Utils.reportToAcra(new Exception(
               "Searching for planner calendar failed, Calendar app not installed?"));
       return INVALID_CALENDAR_ID;
     }
