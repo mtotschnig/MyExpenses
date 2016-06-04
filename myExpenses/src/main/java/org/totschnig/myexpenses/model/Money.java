@@ -116,9 +116,13 @@ public class Money implements Serializable {
     return DEFAULTFRACTIONDIGITS;
   }
 
-  public static void putFractionDigits(String currencyCode, int newValue) {
+  public static void storeCustomFractionDigits(String currencyCode, int newValue) {
     SharedPreferencesCompat.apply(
         MyApplication.getInstance().getSettings().edit()
             .putInt(currencyCode + KEY_CUSTOM_FRACTION_DIGITS, newValue));
+  }
+
+  public static void ensureFractionDigitsAreCached(Currency currency) {
+    storeCustomFractionDigits(currency.getCurrencyCode(), getFractionDigits(currency));
   }
 }

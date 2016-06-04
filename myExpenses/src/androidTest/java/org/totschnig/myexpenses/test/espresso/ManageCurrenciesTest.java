@@ -79,6 +79,6 @@ public class ManageCurrenciesTest {
       assertEquals(before.getAmountMinor(), after.getAmountMinor());
     }
     Account.delete(account.getId());
-    Money.putFractionDigits("EUR", 2);
+    Money.storeCustomFractionDigits("EUR", 2);
   }
 }

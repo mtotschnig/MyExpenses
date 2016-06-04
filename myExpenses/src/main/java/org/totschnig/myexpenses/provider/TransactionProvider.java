@@ -1131,7 +1131,7 @@ public class TransactionProvider extends ContentProvider {
                 + " IN (SELECT " + DatabaseConstants.KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + "=?)",
                 bindArgs);
           }
-          Money.putFractionDigits(segment, newValue);
+          Money.storeCustomFractionDigits(segment, newValue);
           db.setTransactionSuccessful();
           //force accounts to be refetched,since amountMinor of their opening balance has changed
           Account.clear();

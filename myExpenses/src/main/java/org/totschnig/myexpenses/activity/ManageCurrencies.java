@@ -14,7 +14,6 @@ import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Money;
-import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 
@@ -120,7 +119,7 @@ public class ManageCurrencies extends ProtectedFragmentActivity implements
   }
 
   private void apply() {
-    Money.putFractionDigits(mCurrency, mResult);
+    Money.storeCustomFractionDigits(mCurrency, mResult);
     getContentResolver().notifyChange(TransactionProvider.TEMPLATES_URI, null);
     getContentResolver().notifyChange(TransactionProvider.TRANSACTIONS_URI, null);
     getContentResolver().notifyChange(TransactionProvider.ACCOUNTS_URI, null);

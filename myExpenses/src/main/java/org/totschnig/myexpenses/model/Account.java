@@ -1219,8 +1219,10 @@ public class Account extends Model {
       uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build();
       cr().update(uri, initialValues, null, null);
     }
-    if (!accounts.containsKey(getId()))
+    if (!accounts.containsKey(getId())) {
       accounts.put(getId(), this);
+    }
+    Money.ensureFractionDigitsAreCached(currency);
     return uri;
   }
 
@@ -1652,6 +1654,7 @@ public class Account extends Model {
 
   public void persistGrouping(Grouping value) {
     grouping = value;
+    //TODO should not need to do complete save, just update grouping value
     save();
   }
 

@@ -17,11 +17,13 @@ package org.totschnig.myexpenses.provider;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.Currency;
 import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.Template;
@@ -51,7 +53,7 @@ import android.util.Log;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 57;
+  public static final int DATABASE_VERSION = 58;
   public static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -369,11 +371,13 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     initialValues.put(KEY_LABEL, mCtx.getString(R.string.default_account_name));
     initialValues.put(KEY_OPENING_BALANCE, 0);
     initialValues.put(KEY_DESCRIPTION, mCtx.getString(R.string.default_account_description));
-    initialValues.put(KEY_CURRENCY, Account.getLocaleCurrency().getCurrencyCode());
+    Currency localeCurrency = Account.getLocaleCurrency();
+    initialValues.put(KEY_CURRENCY, localeCurrency.getCurrencyCode());
     initialValues.put(KEY_TYPE, Account.Type.CASH.name());
     initialValues.put(KEY_GROUPING, Account.Grouping.NONE.name());
     initialValues.put(KEY_COLOR, Account.DEFAULT_COLOR);
     db.insert(TABLE_ACCOUNTS, null, initialValues);
+    Money.ensureFractionDigitsAreCached(localeCurrency);
   }
 
   /*
@@ -1130,6 +1134,20 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       db.execSQL("DROP TABLE templates_old");
       //Recreate changed views
       refreshViews(db);
+    }
+
+    if (oldVersion < 58) {
+      //cache fraction digits
+      Cursor c = db.rawQuery("SELECT distinct currency from accounts", null);
+      if (c != null) {
+        if (c.moveToFirst()) {
+          while (!c.isAfterLast()) {
+            Money.ensureFractionDigitsAreCached(Utils.getSaveInstance(c.getString(0)));
+            c.moveToNext();
+          }
+        }
+        c.close();
+      }
     }
   }
 
