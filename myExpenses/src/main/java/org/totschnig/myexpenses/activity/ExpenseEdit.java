@@ -1728,6 +1728,10 @@ public class ExpenseEdit extends AmountActivity implements
           case DbWriteFragment.ERROR_PICTURE_SAVE_UNKNOWN:
             errorMsg = "Error while saving picture";
             break;
+          case DbWriteFragment.ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE:
+            mReccurenceSpinner.setSelection(0);
+            errorMsg = "Recurring transactions are not available, because calendar integration is not functional on this device.";
+            break;
           default:
             //possibly the selected category has been deleted
             mCatId = null;

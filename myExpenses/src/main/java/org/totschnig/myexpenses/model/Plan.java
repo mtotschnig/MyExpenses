@@ -6,7 +6,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
-import android.os.Build;
 import android.text.TextUtils;
 import android.text.format.Time;
 import android.util.Log;
@@ -144,7 +143,7 @@ public class Plan extends Model implements Serializable {
       if (calendarId.equals(MyApplication.INVALID_CALENDAR_ID)) {
         calendarId = MyApplication.getInstance().createPlanner(true);
         if (calendarId.equals(MyApplication.INVALID_CALENDAR_ID)) {
-          return null;
+          throw new CalendarIntegrationNotAvailableException();
         }
       }
       values.put(Events.CALENDAR_ID, Long.parseLong(calendarId));
@@ -221,5 +220,8 @@ public class Plan extends Model implements Serializable {
         // we have seen a bugy calendar provider implementation on Symphony phone
       }
     }
+  }
+
+  public static class CalendarIntegrationNotAvailableException extends IllegalStateException {
   }
 }

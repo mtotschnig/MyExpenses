@@ -575,9 +575,8 @@ public class MyApplication extends Application implements
       }
       plannerCalendarId = uri.getLastPathSegment();
       if (plannerCalendarId == null || plannerCalendarId.equals("0")) {
-        Utils
-            .reportToAcra(new Exception(
-                "Inserting planner calendar failed, last path segment is null or 0"));
+        Utils.reportToAcra(new Exception(String.format(Locale.US,
+                "Inserting planner calendar failed, last path segment is %s", plannerCalendarId)));
         return INVALID_CALENDAR_ID;
       }
       Log.i(TAG, "successfully set up new calendar: " + plannerCalendarId);

@@ -18,6 +18,7 @@ package org.totschnig.myexpenses.fragment;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.Model;
+import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -43,6 +44,7 @@ public class DbWriteFragment extends Fragment {
   public static final int ERROR_UNKNOWN = -1;
   public static final int ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE = -2;
   public static final int ERROR_PICTURE_SAVE_UNKNOWN = -3;
+  public static final int ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE = -4;
 
 
   /**
@@ -153,6 +155,8 @@ public class DbWriteFragment extends Fragment {
         //ACRA.getErrorReporter().removeCustomData("pictureUri");
         //ACRA.getErrorReporter().removeCustomData("homeUri");
         error = ERROR_PICTURE_SAVE_UNKNOWN;
+      } catch (Plan.CalendarIntegrationNotAvailableException e) {
+        error = ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE;
       } catch (Exception e) {
           Utils.reportToAcra(e);
       }
