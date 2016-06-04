@@ -311,7 +311,8 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     if (mTransaction.originTemplate == null) {
       mLayout.findViewById(R.id.PlannerRow).setVisibility(View.GONE);
     } else {
-      ((TextView) mLayout.findViewById(R.id.Plan)).setText(Plan.prettyTimeInfo(getActivity(),
+      ((TextView) mLayout.findViewById(R.id.Plan)).setText(mTransaction.originTemplate.getPlan() == null ?
+          getString(R.string.plan_event_deleted) : Plan.prettyTimeInfo(getActivity(),
           mTransaction.originTemplate.getPlan().rrule, mTransaction.originTemplate.getPlan().dtstart));
     }
 
