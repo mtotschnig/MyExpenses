@@ -30,7 +30,6 @@ import android.widget.Toast;
 import org.apache.commons.csv.CSVRecord;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.CsvImportActivity;
 import org.totschnig.myexpenses.activity.ProtectionDelegate;
@@ -38,6 +37,7 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable;
 import org.totschnig.myexpenses.util.Utils;
@@ -128,7 +128,7 @@ public class CsvImportDataFragment extends Fragment {
 
     windowWidth = displayMetrics.widthPixels / displayMetrics.density;
 
-    String header2FieldMapJson = MyApplication.PrefKey.CSV_IMPORT_HEADER_TO_FIELD_MAP.getString(null);
+    String header2FieldMapJson = PrefKey.CSV_IMPORT_HEADER_TO_FIELD_MAP.getString(null);
     if (header2FieldMapJson!=null) {
       try {
         header2FieldMap = new JSONObject(header2FieldMapJson);
@@ -407,7 +407,7 @@ public class CsvImportDataFragment extends Fragment {
           }
         }
         if (validateMapping(columnToFieldMap)) {
-          MyApplication.PrefKey.CSV_IMPORT_HEADER_TO_FIELD_MAP.putString(header2FieldMap.toString());
+          PrefKey.CSV_IMPORT_HEADER_TO_FIELD_MAP.putString(header2FieldMap.toString());
           long accountId = ((CsvImportActivity) getActivity()).getAccountId();
           String currency = ((CsvImportActivity) getActivity()).getCurrency();
           QifDateFormat format = ((CsvImportActivity) getActivity()).getDateFormat();

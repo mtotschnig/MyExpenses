@@ -25,6 +25,7 @@ import org.totschnig.myexpenses.model.Account.Grouping;
 import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.Utils;
@@ -50,7 +51,7 @@ public class TransactionAdapter extends SimpleCursorAdapter {
   private int colorIncome;
   boolean insideFragment;
   protected int monthStart =
-      Integer.parseInt(MyApplication.PrefKey.GROUP_MONTH_STARTS.getString("1"));
+      Integer.parseInt(PrefKey.GROUP_MONTH_STARTS.getString("1"));
 
   public TransactionAdapter(Account account, Grouping grouping, Context context, int layout, Cursor c, String[] from,
       int[] to, int flags) {

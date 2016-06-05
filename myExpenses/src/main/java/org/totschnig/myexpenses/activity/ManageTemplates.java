@@ -30,6 +30,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.fragment.TemplatesList;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Utils;
@@ -142,7 +143,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
     int command = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE);
     switch (command) {
       case R.id.CREATE_INSTANCE_SAVE_COMMAND:
-        MyApplication.PrefKey.TEMPLATE_CLICK_DEFAULT.putString("SAVE");
+        PrefKey.TEMPLATE_CLICK_DEFAULT.putString("SAVE");
         mListFragment.dispatchCreateInstanceSave(new Long[]{id});
         break;
     }
@@ -154,7 +155,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
     int command = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE);
     switch (command) {
       case R.id.CREATE_INSTANCE_EDIT_COMMAND:
-        MyApplication.PrefKey.TEMPLATE_CLICK_DEFAULT.putString("EDIT");
+        PrefKey.TEMPLATE_CLICK_DEFAULT.putString("EDIT");
         mListFragment.dispatchCreateInstanceEdit(id);
         break;
     }

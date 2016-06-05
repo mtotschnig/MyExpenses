@@ -18,11 +18,11 @@ package org.totschnig.myexpenses.provider;
 import java.util.Calendar;
 import java.util.Locale;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.Utils;
 
 /**
@@ -46,10 +46,10 @@ public class DatabaseConstants {
     }
 
     public static void buildLocalized(Locale locale) {
-    weekStartsOn = Integer.parseInt(MyApplication.PrefKey.GROUP_WEEK_STARTS.getString("-1"));
+    weekStartsOn = Integer.parseInt(PrefKey.GROUP_WEEK_STARTS.getString("-1"));
     if (weekStartsOn == -1)
       weekStartsOn = Utils.getFirstDayOfWeek(locale); //JAVA starts with Sunday = 1
-    monthStartsOn = Integer.parseInt(MyApplication.PrefKey.GROUP_MONTH_STARTS.getString("1"));
+    monthStartsOn = Integer.parseInt(PrefKey.GROUP_MONTH_STARTS.getString("1"));
     int monthDelta = monthStartsOn - 1;
     int nextWeekEndSqlite, nextWeekStartsSqlite = weekStartsOn -1; //Sqlite starts with Sunday = 0
     if(weekStartsOn==Calendar.SUNDAY) {

@@ -25,6 +25,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.Account.Grouping;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.content.ContentProvider;
@@ -351,7 +352,7 @@ public class TransactionProvider extends ContentProvider {
       if (projection == null) {
         projection = Category.PROJECTION;
       }
-      defaultOrderBy = Utils.defaultOrderBy(KEY_LABEL, MyApplication.PrefKey.SORT_ORDER_CATEGORIES);
+      defaultOrderBy = Utils.defaultOrderBy(KEY_LABEL, PrefKey.SORT_ORDER_CATEGORIES);
       break;
     case CATEGORY_ID:
       qb.setTables(TABLE_CATEGORIES);
@@ -361,7 +362,7 @@ public class TransactionProvider extends ContentProvider {
     case ACCOUNTS_BASE:
       qb.setTables(TABLE_ACCOUNTS);
       boolean mergeCurrencyAggregates = uri.getQueryParameter(QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES) != null;
-      defaultOrderBy =  Utils.defaultOrderBy(KEY_LABEL, MyApplication.PrefKey.SORT_ORDER_ACCOUNTS);
+      defaultOrderBy =  Utils.defaultOrderBy(KEY_LABEL, PrefKey.SORT_ORDER_ACCOUNTS);
       if (mergeCurrencyAggregates) {
         if (projection != null)
           throw new IllegalArgumentException(
@@ -417,7 +418,7 @@ public class TransactionProvider extends ContentProvider {
         Account.AccountGrouping accountGrouping;
         try {
           accountGrouping = Account.AccountGrouping.valueOf(
-              MyApplication.PrefKey.ACCOUNT_GROUPING.getString("TYPE"));
+              PrefKey.ACCOUNT_GROUPING.getString("TYPE"));
         } catch (IllegalArgumentException e) {
           accountGrouping = Account.AccountGrouping.TYPE;
         }
@@ -553,7 +554,7 @@ public class TransactionProvider extends ContentProvider {
       break;
     case TEMPLATES:
       qb.setTables(VIEW_TEMPLATES_EXTENDED);
-      defaultOrderBy =  Utils.defaultOrderBy(KEY_TITLE, MyApplication.PrefKey.SORT_ORDER_TEMPLATES);
+      defaultOrderBy =  Utils.defaultOrderBy(KEY_TITLE, PrefKey.SORT_ORDER_TEMPLATES);
       if (projection == null)
         projection = Template.PROJECTION_EXTENDED;
       break;

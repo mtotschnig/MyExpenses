@@ -16,7 +16,7 @@
 package org.totschnig.myexpenses.dialog;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.MyApplication.PrefKey;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.util.Utils;

@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.PaypalPaymentCompletedCallbackDialog;
+import org.totschnig.myexpenses.preference.PrefKey;
 
 public class DeepLinkActivity extends ProtectedFragmentActivity {
 
@@ -24,7 +25,7 @@ public class DeepLinkActivity extends ProtectedFragmentActivity {
         String fragment = data.getFragment();
         if ("verify".equals(fragment)) {
           String key = data.getQueryParameter("key");
-          MyApplication.PrefKey.ENTER_LICENCE.putString(key);
+          PrefKey.ENTER_LICENCE.putString(key);
           CommonCommands.dispatchCommand(this, R.id.VERIFY_LICENCE_COMMAND, key);
           finish();
         } else {

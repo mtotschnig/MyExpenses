@@ -13,6 +13,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import org.junit.Ignore;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.CommonCommands;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.test.util.Fixture;
 import org.totschnig.myexpenses.activity.MyExpenses;
@@ -156,15 +157,15 @@ public class TestMain extends ActivityInstrumentationTestCase2<MyExpenses> {
     if (pref==null)
       Assert.fail("Could not find prefs");
     SharedPreferencesCompat.apply(pref.edit()
-        .putString(MyApplication.PrefKey.UI_LANGUAGE.getKey(), lang + "-"+country)
-        .putString(MyApplication.PrefKey.ENTER_LICENCE.getKey(), l.toString())
+        .putString(PrefKey.UI_LANGUAGE.getKey(), lang + "-"+country)
+        .putString(PrefKey.ENTER_LICENCE.getKey(), l.toString())
     );
     getActivity();
 	  Fixture.setup(getInstrumentation(), locale, defaultCurrency);
     int current_version = CommonCommands.getVersionNumber(getActivity());
     SharedPreferencesCompat.apply(pref.edit()
-        .putLong(MyApplication.PrefKey.CURRENT_ACCOUNT.getKey(), Fixture.getAccount3().getId())
-        .putInt(MyApplication.PrefKey.CURRENT_VERSION.getKey(), current_version)
-        .putInt(MyApplication.PrefKey.FIRST_INSTALL_VERSION.getKey(), current_version));
+        .putLong(PrefKey.CURRENT_ACCOUNT.getKey(), Fixture.getAccount3().getId())
+        .putInt(PrefKey.CURRENT_VERSION.getKey(), current_version)
+        .putInt(PrefKey.FIRST_INSTALL_VERSION.getKey(), current_version));
 	}
 }

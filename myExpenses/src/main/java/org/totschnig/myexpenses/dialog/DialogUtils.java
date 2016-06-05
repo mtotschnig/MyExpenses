@@ -54,6 +54,7 @@ import org.totschnig.myexpenses.activity.ProtectionDelegate;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.util.Arrays;
@@ -130,7 +131,7 @@ public class DialogUtils {
       b.setOnClickListener(passwordDialogListener);
   }
   public static AlertDialog passwordDialog(final Activity ctx, final boolean cancelable) {
-    final String securityQuestion = MyApplication.PrefKey.SECURITY_QUESTION.getString("");
+    final String securityQuestion = PrefKey.SECURITY_QUESTION.getString("");
     LayoutInflater li = LayoutInflater.from(ctx);
     //noinspection InflateParams
     View view = li.inflate(R.layout.password_check, null);
@@ -281,7 +282,7 @@ public class DialogUtils {
     @Override
     public void onClick(View v) {
       final SharedPreferences settings = MyApplication.getInstance().getSettings();
-      final String securityQuestion = MyApplication.PrefKey.SECURITY_QUESTION.getString("");
+      final String securityQuestion = PrefKey.SECURITY_QUESTION.getString("");
       EditText input = (EditText) dialog.findViewById(R.id.password);
       TextView error = (TextView) dialog.findViewById(R.id.passwordInvalid);
       if (v == dialog.getButton(AlertDialog.BUTTON_NEUTRAL)) {
@@ -298,12 +299,12 @@ public class DialogUtils {
         String value = input.getText().toString();
         boolean isInSecurityQuestion = (Boolean) input.getTag();
         if (Utils.md5(value).equals(
-            (isInSecurityQuestion ? MyApplication.PrefKey.SECURITY_ANSWER : MyApplication.PrefKey.SET_PASSWORD).getString(""))) {
+            (isInSecurityQuestion ? PrefKey.SECURITY_ANSWER : PrefKey.SET_PASSWORD).getString(""))) {
           input.setText("");
           error.setText("");
           callback.onPasswordDialogUnlocked();
           if (isInSecurityQuestion) {
-            MyApplication.PrefKey.PERFORM_PROTECTION.putBoolean(false);
+            PrefKey.PERFORM_PROTECTION.putBoolean(false);
             Toast.makeText(ctx.getBaseContext(),R.string.password_disabled_reenable, Toast.LENGTH_LONG).show();
             dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setText(R.string.password_lost);
             dialog.setTitle(R.string.password_prompt);
@@ -320,8 +321,8 @@ public class DialogUtils {
 
   public static RadioGroup configureCalendarRestoreStrategy(View view) {
     RadioGroup restorePlanStrategie = (RadioGroup) view.findViewById(R.id.restore_calendar_handling);
-    String calendarId = MyApplication.PrefKey.PLANNER_CALENDAR_ID.getString("-1");
-    String calendarPath = MyApplication.PrefKey.PLANNER_CALENDAR_PATH.getString("");
+    String calendarId = PrefKey.PLANNER_CALENDAR_ID.getString("-1");
+    String calendarPath = PrefKey.PLANNER_CALENDAR_PATH.getString("");
     RadioButton configured = (RadioButton) view.findViewById(R.id.restore_calendar_handling_configured);
     if ((calendarId.equals("-1")) || calendarPath.equals("")) {
       configured.setEnabled(false);

@@ -1,10 +1,8 @@
 package org.totschnig.myexpenses.activity;
 
-import java.io.Serializable;
-
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.MyApplication.PrefKey;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.dialog.ContribDialogFragment;
 import org.totschnig.myexpenses.dialog.ContribInfoDialogFragment;
 import org.totschnig.myexpenses.dialog.DonateDialogFragment;
@@ -13,7 +11,6 @@ import org.totschnig.myexpenses.model.ContribFeature;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 
 public class ContribInfoDialogActivity extends ProtectedFragmentActivity
     implements MessageDialogListener {

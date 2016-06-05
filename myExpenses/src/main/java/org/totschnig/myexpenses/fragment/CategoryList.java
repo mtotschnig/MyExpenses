@@ -74,6 +74,7 @@ import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Grouping;
 import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -167,13 +168,13 @@ public class CategoryList extends SortableListFragment implements
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    aggregateTypes = MyApplication.PrefKey.DISTRIBUTION_AGGREGATE_TYPES.getBoolean(true);
+    aggregateTypes = PrefKey.DISTRIBUTION_AGGREGATE_TYPES.getBoolean(true);
     final ManageCategories ctx = (ManageCategories) getActivity();
     View v;
     Bundle extras = ctx.getIntent().getExtras();
     mManager = getLoaderManager();
     if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
-      showChart = MyApplication.PrefKey.DISTRIBUTION_SHOW_CHART.getBoolean(true);
+      showChart = PrefKey.DISTRIBUTION_SHOW_CHART.getBoolean(true);
       mMainColors = new ArrayList<>();
       for (int col : ColorTemplate.PASTEL_COLORS)
         mMainColors.add(col);
@@ -881,8 +882,8 @@ public class CategoryList extends SortableListFragment implements
   }
 
   @Override
-  protected MyApplication.PrefKey getSortOrderPrefKey() {
-    return MyApplication.PrefKey.SORT_ORDER_CATEGORIES;
+  protected PrefKey getSortOrderPrefKey() {
+    return PrefKey.SORT_ORDER_CATEGORIES;
   }
 
   @Override
@@ -991,7 +992,7 @@ public class CategoryList extends SortableListFragment implements
         return true;
       case R.id.TOGGLE_CHART_COMMAND:
         showChart = !showChart;
-        MyApplication.PrefKey.DISTRIBUTION_SHOW_CHART.putBoolean(showChart);
+        PrefKey.DISTRIBUTION_SHOW_CHART.putBoolean(showChart);
         mChart.setVisibility(showChart ? View.VISIBLE : View.GONE);
         if (showChart) {
           collapseAll();
@@ -1001,7 +1002,7 @@ public class CategoryList extends SortableListFragment implements
         return true;
       case R.id.TOGGLE_AGGREGATE_TYPES:
         aggregateTypes = !aggregateTypes;
-        MyApplication.PrefKey.DISTRIBUTION_AGGREGATE_TYPES.putBoolean(aggregateTypes);
+        PrefKey.DISTRIBUTION_AGGREGATE_TYPES.putBoolean(aggregateTypes);
         getActivity().supportInvalidateOptionsMenu();
         reset();
         return true;

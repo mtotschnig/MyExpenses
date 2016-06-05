@@ -50,6 +50,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.task.ExportTask;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
@@ -217,7 +218,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
             .indexOf(encoding));
 
     formatRBCSV = (RadioButton) view.findViewById(R.id.csv);
-    String format = MyApplication.PrefKey.EXPORT_FORMAT.getString("QIF");
+    String format = PrefKey.EXPORT_FORMAT.getString("QIF");
     if (format.equals("CSV")) {
       formatRBCSV.setChecked(true);
     }
@@ -364,7 +365,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
     String encoding = (String) ((Spinner) dlg.findViewById(R.id.Encoding)).getSelectedItem();
     SharedPreferencesCompat.apply(
         MyApplication.getInstance().getSettings().edit()
-            .putString(MyApplication.PrefKey.EXPORT_FORMAT.getKey(), format)
+            .putString(PrefKey.EXPORT_FORMAT.getKey(), format)
             .putString(PREFKEY_EXPORT_DATE_FORMAT, dateFormat)
             .putString(PREFKEY_EXPORT_ENCODING, encoding)
             .putInt(ExportTask.KEY_DECIMAL_SEPARATOR, decimalSeparator)
@@ -400,7 +401,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
         b.putString(ConfirmationDialogFragment.KEY_MESSAGE,
             getString(R.string.warning_app_folder_will_be_deleted_upon_uninstall));
         b.putString(ConfirmationDialogFragment.KEY_PREFKEY,
-            MyApplication.PrefKey.APP_FOLDER_WARNING_SHOWN.getKey());
+            PrefKey.APP_FOLDER_WARNING_SHOWN.getKey());
         ConfirmationDialogFragment.newInstance(b)
             .show(getFragmentManager(), "APP_FOLDER_WARNING");
       }

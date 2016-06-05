@@ -19,7 +19,6 @@ import android.Manifest;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -58,7 +57,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.MyApplication.PrefKey;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.model.ContribFeature;

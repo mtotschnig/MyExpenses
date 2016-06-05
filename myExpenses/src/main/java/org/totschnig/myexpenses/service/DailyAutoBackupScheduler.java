@@ -14,8 +14,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.preference.TimePreference;
 
 import java.util.Calendar;
@@ -32,8 +32,8 @@ public class DailyAutoBackupScheduler {
     }
 
     public static void updateAutoBackupAlarms(Context context) {
-        if (MyApplication.PrefKey.AUTO_BACKUP.getBoolean(false) &&
-            MyApplication.PrefKey.AUTO_BACKUP_DIRTY.getBoolean(true)) {
+        if (PrefKey.AUTO_BACKUP.getBoolean(false) &&
+            PrefKey.AUTO_BACKUP_DIRTY.getBoolean(true)) {
             if (ContribFeature.AUTO_BACKUP.hasAccess() || ContribFeature.AUTO_BACKUP.usagesLeft()>0) {
                 scheduleAutoBackup(context);
             }
@@ -63,7 +63,7 @@ public class DailyAutoBackupScheduler {
     }
 
     public static Date getScheduledTime() {
-        int hhmm = MyApplication.PrefKey.AUTO_BACKUP_TIME.getInt(TimePreference.DEFAULT_VALUE);
+        int hhmm = PrefKey.AUTO_BACKUP_TIME.getInt(TimePreference.DEFAULT_VALUE);
         int hh = hhmm/100;
         int mm = hhmm - 100*hh;
         Calendar c = Calendar.getInstance();

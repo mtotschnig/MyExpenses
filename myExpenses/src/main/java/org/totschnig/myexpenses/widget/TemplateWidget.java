@@ -45,6 +45,7 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
@@ -65,8 +66,8 @@ public class TemplateWidget extends AbstractWidget<Template> {
   }
 
   @Override
-  MyApplication.PrefKey getProtectionKey() {
-    return MyApplication.PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET;
+  PrefKey getProtectionKey() {
+    return PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET;
   }
 
   public static final Uri[] OBSERVED_URIS = new Uri[]{

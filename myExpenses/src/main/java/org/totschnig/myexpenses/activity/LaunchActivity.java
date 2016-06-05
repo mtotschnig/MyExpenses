@@ -3,9 +3,9 @@ package org.totschnig.myexpenses.activity;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.VersionDialogFragment;
 import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.Criteria;
@@ -19,7 +19,6 @@ import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.File;
 import java.util.Map;
@@ -33,17 +32,17 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
    * and display information to be presented upon app launch
    */
   public void newVersionCheck() {
-    int prev_version = MyApplication.PrefKey.CURRENT_VERSION.getInt(-1);
+    int prev_version = PrefKey.CURRENT_VERSION.getInt(-1);
     int current_version = CommonCommands.getVersionNumber(this);
     if (prev_version < current_version) {
       if (prev_version == -1) {
         return;
       }
-      MyApplication.PrefKey.CURRENT_VERSION.putInt(current_version);
+      PrefKey.CURRENT_VERSION.putInt(current_version);
       SharedPreferences settings = MyApplication.getInstance().getSettings();
       Editor edit = settings.edit();
       if (prev_version < 19) {
-        edit.putString(MyApplication.PrefKey.SHARE_TARGET.getKey(), settings.getString("ftp_target", ""));
+        edit.putString(PrefKey.SHARE_TARGET.getKey(), settings.getString("ftp_target", ""));
         edit.remove("ftp_target");
         SharedPreferencesCompat.apply(edit);
       }
@@ -53,8 +52,8 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
                 KEY_ACCOUNTID + " not in (SELECT _id FROM accounts)", null)));
       }
       if (prev_version < 30) {
-        if (!"".equals(MyApplication.PrefKey.SHARE_TARGET.getString(""))) {
-          edit.putBoolean(MyApplication.PrefKey.SHARE_TARGET.getKey(), true);
+        if (!"".equals(PrefKey.SHARE_TARGET.getString(""))) {
+          edit.putBoolean(PrefKey.SHARE_TARGET.getKey(), true);
           SharedPreferencesCompat.apply(edit);
         }
       }
@@ -96,14 +95,14 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
         SharedPreferencesCompat.apply(edit);
       }
       if (prev_version < 202) {
-        String appDir = MyApplication.PrefKey.APP_DIR.getString(null);
+        String appDir = PrefKey.APP_DIR.getString(null);
         if (appDir!=null) {
-          MyApplication.PrefKey.APP_DIR.putString(Uri.fromFile(new File(appDir)).toString());
+          PrefKey.APP_DIR.putString(Uri.fromFile(new File(appDir)).toString());
         }
       }
       if (prev_version < 221) {
-        MyApplication.PrefKey.SORT_ORDER_LEGACY.putString(
-            MyApplication.PrefKey.CATEGORIES_SORT_BY_USAGES_LEGACY.getBoolean(true) ?
+        PrefKey.SORT_ORDER_LEGACY.putString(
+            PrefKey.CATEGORIES_SORT_BY_USAGES_LEGACY.getBoolean(true) ?
                 "USAGES" : "ALPHABETIC");
       }
       VersionDialogFragment.newInstance(prev_version)
@@ -113,7 +112,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
   }
 
   private void checkCalendarPermission() {
-    if (!MyApplication.PrefKey.PLANNER_CALENDAR_ID.getString("-1").equals("-1")) {
+    if (!PrefKey.PLANNER_CALENDAR_ID.getString("-1").equals("-1")) {
       if (ContextCompat.checkSelfPermission(this,
           Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_DENIED) {
         ActivityCompat.requestPermissions(this,

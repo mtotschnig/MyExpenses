@@ -10,12 +10,12 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Template;
+import org.totschnig.myexpenses.preference.PrefKey;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
@@ -93,21 +93,21 @@ public class ManageTemplatesTest {
 
   @Test
   public void clickOnTemplateWithDefaultActionApplySave() {
-    MyApplication.PrefKey.TEMPLATE_CLICK_HINT_SHOWN.putBoolean(true);
-    MyApplication.PrefKey.TEMPLATE_CLICK_DEFAULT.putString("SAVE");
+    PrefKey.TEMPLATE_CLICK_HINT_SHOWN.putBoolean(true);
+    PrefKey.TEMPLATE_CLICK_DEFAULT.putString("SAVE");
     clicketiclick();
     verifySaveAction();
-    MyApplication.PrefKey.TEMPLATE_CLICK_HINT_SHOWN.remove();
-    MyApplication.PrefKey.TEMPLATE_CLICK_DEFAULT.remove();
+    PrefKey.TEMPLATE_CLICK_HINT_SHOWN.remove();
+    PrefKey.TEMPLATE_CLICK_DEFAULT.remove();
   }
 
   @Test
   public void clickOnTemplateWithDefaultActionApplyEdit() {
-    MyApplication.PrefKey.TEMPLATE_CLICK_HINT_SHOWN.putBoolean(true);
-    MyApplication.PrefKey.TEMPLATE_CLICK_DEFAULT.putString("EDIT");
+    PrefKey.TEMPLATE_CLICK_HINT_SHOWN.putBoolean(true);
+    PrefKey.TEMPLATE_CLICK_DEFAULT.putString("EDIT");
     clicketiclick();
     verifyEditAction();
-    MyApplication.PrefKey.TEMPLATE_CLICK_HINT_SHOWN.remove();
-    MyApplication.PrefKey.TEMPLATE_CLICK_DEFAULT.remove();
+    PrefKey.TEMPLATE_CLICK_HINT_SHOWN.remove();
+    PrefKey.TEMPLATE_CLICK_DEFAULT.remove();
   }
 }

@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.ExportFormat;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -161,7 +162,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
         }
         publishProgress("... " + progressMsg);
         if (result.success) {
-          if (MyApplication.PrefKey.PERFORM_SHARE.getBoolean(false)) {
+          if (PrefKey.PERFORM_SHARE.getBoolean(false)) {
             addResult((Uri) result.extra[0]);
           }
           successfullyExported.add(account);

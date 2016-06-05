@@ -21,11 +21,11 @@ import android.util.Log;
 
 import com.commonsware.cwac.wakeful.WakefulIntentService;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.task.GenericTask;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
@@ -75,7 +75,7 @@ public class AutoBackupService extends WakefulIntentService {
             } else {
                 String content = result.print(this);
                 Intent preferenceIntent = new Intent(this, MyPreferenceActivity.class);
-                preferenceIntent.putExtra(MyPreferenceActivity.KEY_OPEN_PREF_KEY, MyApplication.PrefKey.APP_DIR.getKey());
+                preferenceIntent.putExtra(MyPreferenceActivity.KEY_OPEN_PREF_KEY, PrefKey.APP_DIR.getKey());
                 NotificationCompat.Builder builder =
                     new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_home_dark)

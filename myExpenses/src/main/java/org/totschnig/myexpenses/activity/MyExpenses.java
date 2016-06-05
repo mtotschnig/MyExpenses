@@ -62,7 +62,7 @@ import android.widget.Toast;
 import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.MyApplication.PrefKey;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.BalanceDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
@@ -72,7 +72,6 @@ import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.dialog.ExportDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
-import org.totschnig.myexpenses.dialog.PaypalPaymentCompletedCallbackDialog;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
@@ -202,7 +201,7 @@ public class MyExpenses extends LaunchActivity implements
     TypedValue value = new TypedValue();
     theme.resolveAttribute(R.attr.colorAggregate, value, true);
     colorAggregate = value.data;
-    int prev_version = MyApplication.PrefKey.CURRENT_VERSION.getInt(-1);
+    int prev_version = PrefKey.CURRENT_VERSION.getInt(-1);
     if (prev_version == -1) {
       //prevent preference change listener from firing when preference file is created
       if (MyApplication.getInstance().isInstrumentationTest()) {
@@ -295,7 +294,7 @@ public class MyExpenses extends LaunchActivity implements
     Account.AccountGrouping accountGrouping;
     try {
       accountGrouping = Account.AccountGrouping.valueOf(
-          MyApplication.PrefKey.ACCOUNT_GROUPING.getString("TYPE"));
+          PrefKey.ACCOUNT_GROUPING.getString("TYPE"));
     } catch (IllegalArgumentException e) {
       accountGrouping = Account.AccountGrouping.TYPE;
     }
@@ -362,7 +361,7 @@ public class MyExpenses extends LaunchActivity implements
       }
     }
     if (mAccountId == 0)
-      mAccountId = MyApplication.PrefKey.CURRENT_ACCOUNT.getLong(0L);
+      mAccountId = PrefKey.CURRENT_ACCOUNT.getLong(0L);
     setup();
   }
 
@@ -455,7 +454,7 @@ public class MyExpenses extends LaunchActivity implements
       sequenceCount = intent.getLongExtra(ContribInfoDialogFragment.KEY_SEQUENCE_COUNT, 0);
       if (Utils.IS_FLAVOURED) {
         nextReminder =
-            MyApplication.PrefKey.NEXT_REMINDER_RATE.getLong(TRESHOLD_REMIND_RATE);
+            PrefKey.NEXT_REMINDER_RATE.getLong(TRESHOLD_REMIND_RATE);
         if (nextReminder != -1 && sequenceCount >= nextReminder) {
           RemindRateDialogFragment f = new RemindRateDialogFragment();
           f.setCancelable(false);
@@ -465,7 +464,7 @@ public class MyExpenses extends LaunchActivity implements
       }
       if (!MyApplication.getInstance().isContribEnabled()) {
         nextReminder =
-            MyApplication.PrefKey.NEXT_REMINDER_CONTRIB.getLong(TRESHOLD_REMIND_CONTRIB);
+            PrefKey.NEXT_REMINDER_CONTRIB.getLong(TRESHOLD_REMIND_CONTRIB);
         if (nextReminder != -1 && sequenceCount >= nextReminder) {
           CommonCommands.showContribInfoDialog(this, sequenceCount);
           return;
@@ -824,7 +823,7 @@ public class MyExpenses extends LaunchActivity implements
     mAccountsCursor.moveToPosition(position);
     long newAccountId = mAccountsCursor.getLong(columnIndexRowId);
     if (mAccountId != newAccountId) {
-      MyApplication.PrefKey.CURRENT_ACCOUNT.putLong(newAccountId);
+      PrefKey.CURRENT_ACCOUNT.putLong(newAccountId);
     }
     int color = newAccountId < 0 ? colorAggregate : mAccountsCursor.getInt(columnIndexColor);
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -863,7 +862,7 @@ public class MyExpenses extends LaunchActivity implements
         //and we need to refresh the value here
         try {
           mAccountGrouping = Account.AccountGrouping.valueOf(
-              MyApplication.PrefKey.ACCOUNT_GROUPING.getString("TYPE"));
+              PrefKey.ACCOUNT_GROUPING.getString("TYPE"));
         } catch (IllegalArgumentException e) {
           mAccountGrouping = Account.AccountGrouping.TYPE;
         }
@@ -986,7 +985,7 @@ public class MyExpenses extends LaunchActivity implements
         ArrayList<Uri> files = (ArrayList<Uri>) o;
         if (files != null && !files.isEmpty())
           Utils.share(this, files,
-              MyApplication.PrefKey.SHARE_TARGET.getString("").trim(),
+              PrefKey.SHARE_TARGET.getString("").trim(),
               "text/" + mExportFormat.toLowerCase(Locale.US));
         break;
       case TaskExecutionFragment.TASK_PRINT:

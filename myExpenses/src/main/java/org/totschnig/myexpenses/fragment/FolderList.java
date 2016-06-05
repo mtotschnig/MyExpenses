@@ -25,10 +25,10 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.FolderBrowser;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.io.File;
@@ -80,7 +80,7 @@ public class FolderList extends ListFragment {
           break;
         }
       }
-      MyApplication.PrefKey.APP_DIR.putString(Uri.fromFile(selectedFolder).toString());
+      PrefKey.APP_DIR.putString(Uri.fromFile(selectedFolder).toString());
       ctx.setResult(FolderBrowser.RESULT_OK);
       ctx.finish();
       break;

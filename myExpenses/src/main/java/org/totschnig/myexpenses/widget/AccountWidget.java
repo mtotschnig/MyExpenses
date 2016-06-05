@@ -33,6 +33,7 @@ import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
@@ -53,8 +54,8 @@ public class AccountWidget extends AbstractWidget<Account> {
   }
 
   @Override
-  MyApplication.PrefKey getProtectionKey() {
-    return MyApplication.PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET;
+  PrefKey getProtectionKey() {
+    return PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET;
   }
 
   public static final Uri[] OBSERVED_URIS = new Uri[]{

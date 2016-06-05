@@ -35,6 +35,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -313,7 +314,7 @@ public class Account extends Model {
             yearPrefix = groupYear + ", ";
           return yearPrefix + ctx.getString(R.string.grouping_week) + " " + groupSecond + weekRange;
         case MONTH:
-          int monthStarts = Integer.parseInt(MyApplication.PrefKey.GROUP_MONTH_STARTS.getString("1"));
+          int monthStarts = Integer.parseInt(PrefKey.GROUP_MONTH_STARTS.getString("1"));
           cal = Calendar.getInstance();
           if (monthStarts == 1) {
             cal.set(groupYear, groupSecond - 1, 1);

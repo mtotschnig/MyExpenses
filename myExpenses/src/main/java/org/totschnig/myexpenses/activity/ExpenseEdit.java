@@ -102,6 +102,7 @@ import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.model.Transfer;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
@@ -312,8 +313,8 @@ public class ExpenseEdit extends AmountActivity implements
             //moveToPosition should not be necessary,
             //but has been reported to not be positioned correctly on samsung GT-I8190N
             if (!c.isNull(2)) {
-              if (MyApplication.PrefKey.AUTO_FILL_HINT_SHOWN.getBoolean(false)) {
-                if (MyApplication.PrefKey.AUTO_FILL.getBoolean(true)) {
+              if (PrefKey.AUTO_FILL_HINT_SHOWN.getBoolean(false)) {
+                if (PrefKey.AUTO_FILL.getBoolean(true)) {
                   startAutoFill(c.getLong(2));
                 }
               } else {
@@ -323,7 +324,7 @@ public class ExpenseEdit extends AmountActivity implements
                 b.putString(ConfirmationDialogFragment.KEY_MESSAGE, getString(R.string
                     .hint_auto_fill));
                 b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.AUTO_FILL_COMMAND);
-                b.putString(ConfirmationDialogFragment.KEY_PREFKEY, MyApplication.PrefKey
+                b.putString(ConfirmationDialogFragment.KEY_PREFKEY, PrefKey
                     .AUTO_FILL_HINT_SHOWN.getKey());
                 b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.yes);
                 b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, R.string.no);
@@ -999,7 +1000,7 @@ public class ExpenseEdit extends AmountActivity implements
     if (mNewInstance) {
       if (mTransaction instanceof Template) {
         mTitleText.requestFocus();
-      } else if (mIsMainTransactionOrTemplate && MyApplication.PrefKey.AUTO_FILL.getBoolean(false)) {
+      } else if (mIsMainTransactionOrTemplate && PrefKey.AUTO_FILL.getBoolean(false)) {
         mPayeeText.requestFocus();
       }
     }
@@ -1563,7 +1564,7 @@ public class ExpenseEdit extends AmountActivity implements
         if (id > 0)  {
           if (ContextCompat.checkSelfPermission(ExpenseEdit.this,
               Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
-            if (MyApplication.PrefKey.NEW_PLAN_ENABLED.getBoolean(true)) {
+            if (PrefKey.NEW_PLAN_ENABLED.getBoolean(true)) {
               visibility = View.VISIBLE;
             } else {
               mReccurenceSpinner.setSelection(0);
@@ -2014,7 +2015,7 @@ public class ExpenseEdit extends AmountActivity implements
     switch (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
       case R.id.AUTO_FILL_COMMAND:
         startAutoFill(args.getLong(KEY_ROWID));
-        MyApplication.PrefKey.AUTO_FILL.putBoolean(true);
+        PrefKey.AUTO_FILL.putBoolean(true);
         break;
       default:
         super.onPositive(args);
@@ -2032,7 +2033,7 @@ public class ExpenseEdit extends AmountActivity implements
   @Override
   public void onDismissOrCancel(Bundle args) {
     if (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE) == R.id.AUTO_FILL_COMMAND) {
-      MyApplication.PrefKey.AUTO_FILL.putBoolean(false);
+      PrefKey.AUTO_FILL.putBoolean(false);
     } else {
       super.onDismissOrCancel(args);
     }

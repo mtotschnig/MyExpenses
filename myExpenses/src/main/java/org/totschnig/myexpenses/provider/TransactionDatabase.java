@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.Utils;
 
 import com.android.calendar.CalendarContractCompat.Events;
@@ -1067,11 +1068,11 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           }
           c.close();
         }
-        String legacy = MyApplication.PrefKey.SORT_ORDER_LEGACY.getString("USAGES");
-        MyApplication.PrefKey.SORT_ORDER_TEMPLATES.putString(legacy);
-        MyApplication.PrefKey.SORT_ORDER_CATEGORIES.putString(legacy);
-        MyApplication.PrefKey.SORT_ORDER_ACCOUNTS.putString(hasAccountSortKeySet ? "CUSTOM" : legacy);
-        MyApplication.PrefKey.SORT_ORDER_LEGACY.remove();
+        String legacy = PrefKey.SORT_ORDER_LEGACY.getString("USAGES");
+        PrefKey.SORT_ORDER_TEMPLATES.putString(legacy);
+        PrefKey.SORT_ORDER_CATEGORIES.putString(legacy);
+        PrefKey.SORT_ORDER_ACCOUNTS.putString(hasAccountSortKeySet ? "CUSTOM" : legacy);
+        PrefKey.SORT_ORDER_LEGACY.remove();
       }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?

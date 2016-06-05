@@ -19,9 +19,9 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.UUID;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
@@ -409,7 +409,7 @@ public class Template extends Transaction {
         newPlanEnabled = false;
       }
     }
-    MyApplication.PrefKey.NEW_PLAN_ENABLED.putBoolean(newPlanEnabled);
+    PrefKey.NEW_PLAN_ENABLED.putBoolean(newPlanEnabled);
   }
 
   public boolean isPlanExecutionAutomatic() {

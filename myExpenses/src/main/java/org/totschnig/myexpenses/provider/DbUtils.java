@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.util.Result;
@@ -71,7 +72,7 @@ public class DbUtils {
           }
         }
         if (Utils.copy(sharedPrefFile, backupPrefFile)) {
-          MyApplication.PrefKey.AUTO_BACKUP_DIRTY.putBoolean(false);
+          PrefKey.AUTO_BACKUP_DIRTY.putBoolean(false);
           TransactionProvider.mDirty = false;
           return result;
         }
@@ -216,7 +217,7 @@ public class DbUtils {
 }
 
   private static void cacheEventData() {
-    String plannerCalendarId = MyApplication.PrefKey.PLANNER_CALENDAR_ID.getString("-1");
+    String plannerCalendarId = PrefKey.PLANNER_CALENDAR_ID.getString("-1");
     if (plannerCalendarId.equals("-1")) {
       return;
     }

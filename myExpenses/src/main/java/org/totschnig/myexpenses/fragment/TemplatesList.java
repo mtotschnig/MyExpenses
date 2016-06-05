@@ -49,7 +49,6 @@ import android.widget.Toast;
 import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Events;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
@@ -59,6 +58,7 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Plan;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -167,8 +167,8 @@ public class TemplatesList extends SortableListFragment {
         } else if (isForeignExchangeTransfer(position)) {
           ((ManageTemplates) getActivity()).dispatchCommand(R.id.CREATE_INSTANCE_EDIT_COMMAND,
               id);
-        } else if (MyApplication.PrefKey.TEMPLATE_CLICK_HINT_SHOWN.getBoolean(false)) {
-          if (MyApplication.PrefKey.TEMPLATE_CLICK_DEFAULT.getString("SAVE").equals("SAVE")) {
+        } else if (PrefKey.TEMPLATE_CLICK_HINT_SHOWN.getBoolean(false)) {
+          if (PrefKey.TEMPLATE_CLICK_DEFAULT.getString("SAVE").equals("SAVE")) {
             dispatchCreateInstanceSave(new Long[]{id});
           } else {
             dispatchCreateInstanceEdit(id);
@@ -183,7 +183,7 @@ public class TemplatesList extends SortableListFragment {
               .CREATE_INSTANCE_SAVE_COMMAND);
           b.putInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE, R.id
               .CREATE_INSTANCE_EDIT_COMMAND);
-          b.putString(ConfirmationDialogFragment.KEY_PREFKEY, MyApplication.PrefKey
+          b.putString(ConfirmationDialogFragment.KEY_PREFKEY, PrefKey
               .TEMPLATE_CLICK_HINT_SHOWN.getKey());
           b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string
               .menu_create_instance_save);
@@ -385,8 +385,8 @@ public class TemplatesList extends SortableListFragment {
   }
 
   @Override
-  protected MyApplication.PrefKey getSortOrderPrefKey() {
-    return MyApplication.PrefKey.SORT_ORDER_TEMPLATES;
+  protected PrefKey getSortOrderPrefKey() {
+    return PrefKey.SORT_ORDER_TEMPLATES;
   }
 
   //after orientation change, we need to restore the reference

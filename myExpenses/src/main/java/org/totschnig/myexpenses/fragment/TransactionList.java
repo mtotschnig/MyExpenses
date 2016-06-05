@@ -40,6 +40,7 @@ import org.totschnig.myexpenses.model.Account.Grouping;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
@@ -228,7 +229,7 @@ public class TransactionList extends ContextualActionBarFragment implements
     //work around the problem that the view pager does not display its background correctly with Sherlock
     if (Build.VERSION.SDK_INT < 11) {
       v.setBackgroundColor(ctx.getResources().getColor(
-         MyApplication.PrefKey.UI_THEME_KEY.getString("dark").equals("light")
+         PrefKey.UI_THEME_KEY.getString("dark").equals("light")
           ? android.R.color.white : android.R.color.black));
     }
     mListView = (ExpandableStickyListHeadersListView) v.findViewById(R.id.list);
@@ -511,9 +512,9 @@ public class TransactionList extends ContextualActionBarFragment implements
 
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-    if (key.equals(MyApplication.PrefKey.UI_LANGUAGE.getKey()) ||
-        key.equals(MyApplication.PrefKey.GROUP_MONTH_STARTS.getKey()) ||
-        key.equals(MyApplication.PrefKey.GROUP_WEEK_STARTS.getKey())) {
+    if (key.equals(PrefKey.UI_LANGUAGE.getKey()) ||
+        key.equals(PrefKey.GROUP_MONTH_STARTS.getKey()) ||
+        key.equals(PrefKey.GROUP_WEEK_STARTS.getKey())) {
       scheduledRestart = true;
     }
   }

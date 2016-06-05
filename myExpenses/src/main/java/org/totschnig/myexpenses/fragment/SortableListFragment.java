@@ -7,9 +7,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.Utils;
 
 /**
@@ -66,5 +66,5 @@ public abstract class SortableListFragment extends ContextualActionBarFragment
   }
 
 
-  protected abstract MyApplication.PrefKey getSortOrderPrefKey();
+  protected abstract PrefKey getSortOrderPrefKey();
 }

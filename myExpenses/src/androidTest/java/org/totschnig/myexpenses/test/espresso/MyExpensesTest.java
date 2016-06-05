@@ -21,7 +21,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.AccountEdit;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
@@ -30,6 +29,7 @@ import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
 import org.totschnig.myexpenses.dialog.ContribInfoDialogFragment;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
 import org.totschnig.myexpenses.util.Utils;
@@ -86,8 +86,8 @@ public final class MyExpensesTest extends MyExpensesTestBase {
 
   @Test
   public void contribDialogIsShown() {
-    MyApplication.PrefKey.NEXT_REMINDER_RATE.putLong(-1);//assumption rating dialog is no longer showable
-    MyApplication.PrefKey.NEXT_REMINDER_CONTRIB.remove();
+    PrefKey.NEXT_REMINDER_RATE.putLong(-1);//assumption rating dialog is no longer showable
+    PrefKey.NEXT_REMINDER_CONTRIB.remove();
     stubExpenseEditIntentWithSequenceCount(MyExpenses.TRESHOLD_REMIND_CONTRIB + 1);
     onView(withId(R.id.CREATE_COMMAND)).perform(click());
     onView(withText(containsString(mActivityRule.getActivity().getString(R.string.menu_contrib))))
@@ -97,7 +97,7 @@ public final class MyExpensesTest extends MyExpensesTestBase {
   @Test
   public void ratingDialogIsShown() {
     if (!Utils.IS_FLAVOURED) return;
-    MyApplication.PrefKey.NEXT_REMINDER_RATE.remove();
+    PrefKey.NEXT_REMINDER_RATE.remove();
     stubExpenseEditIntentWithSequenceCount(MyExpenses.TRESHOLD_REMIND_RATE + 1);
     onView(withId(R.id.CREATE_COMMAND)).perform(click());
     onView(withText(containsString(mActivityRule.getActivity().getString(R.string.dialog_remind_rate_1))))

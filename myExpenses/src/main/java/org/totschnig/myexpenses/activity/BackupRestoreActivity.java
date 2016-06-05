@@ -27,25 +27,22 @@ import org.totschnig.myexpenses.dialog.BackupListDialogFragment;
 import org.totschnig.myexpenses.dialog.BackupSourcesDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.DialogUtils;
-import org.totschnig.myexpenses.dialog.ImportSourceDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 
 import static org.totschnig.myexpenses.task.RestoreTask.KEY_DIR_NAME_LEGACY;
 
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
-import android.Manifest;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.provider.DocumentFile;
-import android.view.Window;
 import android.widget.Toast;
 
 public class BackupRestoreActivity extends ProtectedFragmentActivity
@@ -145,7 +142,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
           b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
               R.id.BACKUP_COMMAND_DO);
           b.putString(ConfirmationDialogFragment.KEY_PREFKEY,
-              MyApplication.PrefKey.APP_FOLDER_WARNING_SHOWN.getKey());
+              PrefKey.APP_FOLDER_WARNING_SHOWN.getKey());
           ConfirmationDialogFragment.newInstance(b).show(
               getSupportFragmentManager(), "APP_FOLDER_WARNING");
         }
@@ -199,11 +196,11 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
           Toast.makeText(getBaseContext(),
               getString(r.getMessage(), FileUtils.getPath(this, backupFileUri)), Toast.LENGTH_LONG)
               .show();
-          if (MyApplication.PrefKey.PERFORM_SHARE.getBoolean(false)) {
+          if (PrefKey.PERFORM_SHARE.getBoolean(false)) {
             ArrayList<Uri> uris = new ArrayList<>();
             uris.add(backupFileUri);
             Utils.share(this, uris,
-                MyApplication.PrefKey.SHARE_TARGET.getString("").trim(),
+                PrefKey.SHARE_TARGET.getString("").trim(),
                 "application/zip");
           }
         }

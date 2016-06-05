@@ -1,11 +1,9 @@
 package org.totschnig.myexpenses.preference;
 
 import android.app.Dialog;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceDialogFragmentCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,7 +15,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.util.Utils;
@@ -43,7 +40,7 @@ public class PasswordPreferenceDialogFragmentCompat extends PreferenceDialogFrag
     if (positiveResult) {
       if (boolProtect && strPass1 != null && strPass1.equals(strPass2)) {
         String hash = Utils.md5(strPass1);
-        MyApplication.PrefKey.SET_PASSWORD.putString(hash);
+        PrefKey.SET_PASSWORD.putString(hash);
       }
       ((PasswordPreference) getPreference()).setValue(boolProtect);
     }

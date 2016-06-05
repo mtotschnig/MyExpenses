@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.model.Transaction;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.CalendarProviderProxy;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -65,7 +66,7 @@ public class PlanExecutor extends IntentService {
       Log.i(MyApplication.TAG, "PlanExecutor: no planner set, nothing to do");
       return;
     }
-    long lastExecutionTimeStamp = MyApplication.PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP.getLong(0L);
+    long lastExecutionTimeStamp = PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP.getLong(0L);
     if (lastExecutionTimeStamp == 0) {
       Log.i(MyApplication.TAG, "PlanExecutor started first time, nothing to do");
     } else {
@@ -186,7 +187,7 @@ public class PlanExecutor extends IntentService {
         cursor.close();
       }
     }
-    MyApplication.PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP.putLong(now);
+    PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP.putLong(now);
     setAlarm(this, now + INTERVAL);
   }
 

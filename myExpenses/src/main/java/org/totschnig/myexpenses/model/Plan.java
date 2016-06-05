@@ -15,7 +15,7 @@ import com.android.calendar.EventRecurrenceFormatter;
 import com.android.calendarcommon2.EventRecurrence;
 
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.MyApplication.PrefKey;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.Utils;
 

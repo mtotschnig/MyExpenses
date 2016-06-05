@@ -44,6 +44,7 @@ import org.totschnig.myexpenses.fragment.DbWriteFragment;
 import org.totschnig.myexpenses.model.Account.Grouping;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Model;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.FileUtils;
@@ -332,11 +333,11 @@ public class ManageCategories extends ProtectedFragmentActivity implements
           Uri uri = (Uri) r.extra[0];
           msg = getString(r.getMessage(),
             FileUtils.getPath(MyApplication.getInstance(), uri));
-          if (MyApplication.PrefKey.PERFORM_SHARE.getBoolean(false)) {
+          if (PrefKey.PERFORM_SHARE.getBoolean(false)) {
             ArrayList<Uri> uris = new ArrayList<>();
             uris.add(uri);
             Utils.share(this, uris,
-                MyApplication.PrefKey.SHARE_TARGET.getString("").trim(),
+                PrefKey.SHARE_TARGET.getString("").trim(),
                 "text/qif");
           }
           break;
