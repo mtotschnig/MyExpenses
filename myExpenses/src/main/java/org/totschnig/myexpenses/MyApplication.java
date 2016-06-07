@@ -58,12 +58,12 @@ import java.util.UUID;
 
 public class MyApplication extends Application implements
     OnSharedPreferenceChangeListener {
-  protected static boolean instrumentationTest = false;
+  private static boolean instrumentationTest = false;
   private static String testId;
   public static final String PLANNER_CALENDAR_NAME = "MyExpensesPlanner";
   public static final String PLANNER_ACCOUNT_NAME = "Local Calendar";
   public static final String INVALID_CALENDAR_ID = "-1";
-  SharedPreferences mSettings;
+  private SharedPreferences mSettings;
   private static MyApplication mSelf;
 
   public static final String BACKUP_DB_FILE_NAME = "BACKUP";
@@ -81,11 +81,18 @@ public class MyApplication extends Application implements
   private Utils.LicenceStatus contribEnabled = null;
   private boolean contribEnabledInitialized = false;
 
-  public boolean showImportantUpgradeInfo = false;
   private long mLastPause = 0;
-  public static String TAG = "MyExpenses";
+  public final static String TAG = "MyExpenses";
 
   private boolean isLocked;
+
+  public static void setInstrumentationTest(boolean instrumentationTest) {
+    MyApplication.instrumentationTest = instrumentationTest;
+  }
+
+  public static boolean isInstrumentationTest() {
+    return instrumentationTest;
+  }
 
   public boolean isLocked() {
     return isLocked;
@@ -121,10 +128,6 @@ public class MyApplication extends Application implements
     this.isLocked = isLocked;
   }
 
-  public static boolean isInstrumentationTest() {
-    return instrumentationTest;
-  }
-
   public static final String FEEDBACK_EMAIL = "support@myexpenses.mobi";
   // public static int BACKDOOR_KEY = KeyEvent.KEYCODE_CAMERA;
 
@@ -138,8 +141,6 @@ public class MyApplication extends Application implements
    * tried a different locale;
    */
   private Locale systemLocale = Locale.getDefault();
-
-  private WidgetObserver mTemplateObserver, mAccountObserver;
 
   @Override
   public void onCreate() {
@@ -157,11 +158,11 @@ public class MyApplication extends Application implements
 
   private void registerWidgetObservers() {
     final ContentResolver r = getContentResolver();
-    mTemplateObserver = new WidgetObserver(TemplateWidget.class);
+    WidgetObserver mTemplateObserver = new WidgetObserver(TemplateWidget.class);
     for (Uri uri : TemplateWidget.OBSERVED_URIS) {
       r.registerContentObserver(uri, true, mTemplateObserver);
     }
-    mAccountObserver = new WidgetObserver(AccountWidget.class);
+    WidgetObserver mAccountObserver = new WidgetObserver(AccountWidget.class);
     for (Uri uri : AccountWidget.OBSERVED_URIS) {
       r.registerContentObserver(uri, true, mAccountObserver);
     }
@@ -275,8 +276,7 @@ public class MyApplication extends Application implements
   }
 
   public static DocumentFile requireBackupFile(@NonNull DocumentFile appDir) {
-    DocumentFile dir = Utils.timeStampedFile(appDir, "backup", "application/zip", false);
-    return dir;
+    return Utils.timeStampedFile(appDir, "backup", "application/zip", false);
   }
 
   public static File getBackupDbFile(File backupDir) {
@@ -342,7 +342,7 @@ public class MyApplication extends Application implements
   }
 
   /**
-   * @param calendarId
+   * @param calendarId id of calendar in system calendar content provider
    * @return verifies if the passed in calendarid exists and is the one stored
    *         in {@link PrefKey#PLANNER_CALENDAR_PATH}
    */
@@ -396,7 +396,7 @@ public class MyApplication extends Application implements
    * {@link #PLANNER_ACCOUNT_NAME} if yes use it, otherwise create it
    * 
    * @return true if we have configured a useable calendar
-   * @param persistToSharedPref
+   * @param persistToSharedPref if true id of the created calendar is stored in preferences
    */
   public String createPlanner(boolean persistToSharedPref) {
     Uri.Builder builder = Calendars.CONTENT_URI.buildUpon();
@@ -490,7 +490,7 @@ public class MyApplication extends Application implements
    * @param eventCursor
    *          must have been populated with a projection built by
    *          {@link #buildEventProjection()}
-   * @param eventValues
+   * @param eventValues ContentValues where the extracted data is copied to
    */
   public static void copyEventData(Cursor eventCursor, ContentValues eventValues) {
     eventValues.put(Events.DTSTART, DbUtils.getLongOrNull(eventCursor, 0));
@@ -614,7 +614,7 @@ public class MyApplication extends Application implements
     }
   }
 
-  class WidgetObserver extends ContentObserver {
+  private class WidgetObserver extends ContentObserver {
     /**
        * 
        */
@@ -738,8 +738,8 @@ public class MyApplication extends Application implements
             planCursor.close();
           }
         }
+        c.close();
       }
-      c.close();
     }
     return new Result(true, R.string.restore_calendar_success,
         restoredPlansCount);

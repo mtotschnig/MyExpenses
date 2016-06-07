@@ -34,6 +34,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
   public void newVersionCheck() {
     int prev_version = PrefKey.CURRENT_VERSION.getInt(-1);
     int current_version = CommonCommands.getVersionNumber(this);
+    boolean showImportantUpgradeInfo = false;
     if (prev_version < current_version) {
       if (prev_version == -1) {
         return;
@@ -64,9 +65,6 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
         //if they are already above both tresholds, so we set some delay
         edit.putLong("nextReminderContrib", Transaction.getSequenceCount() + 23);
         SharedPreferencesCompat.apply(edit);
-      }
-      if (prev_version < 132) {
-        MyApplication.getInstance().showImportantUpgradeInfo = true;
       }
       if (prev_version < 163) {
        edit.remove("qif_export_file_encoding");

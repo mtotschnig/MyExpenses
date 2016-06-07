@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses;
 
-import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -13,7 +12,7 @@ public final class MyTestRunner extends AndroidJUnitRunner {
   public MyTestRunner() {
     // Inform the app we are an instrumentation test before the object graph is initialized.
     Log.d("instrumentationTest", "now setting instrumentationTest to true");
-    MyApplication.instrumentationTest = true;
+    MyApplication.setInstrumentationTest(true);
   }
 
   @Override
