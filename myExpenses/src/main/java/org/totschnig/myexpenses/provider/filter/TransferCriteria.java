@@ -1,0 +1,56 @@
+/*   This file is part of My Expenses.
+ *   My Expenses is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   My Expenses is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ *   
+ *   Based on Financisto (c) 2010 Denis Solonenko, made available
+ *   under the terms of the GNU Public License v2.0
+*/
+
+package org.totschnig.myexpenses.provider.filter;
+
+import android.os.Parcel;
+
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
+
+public class TransferCriteria extends IdCriteria {
+
+  public TransferCriteria(String label, long... ids) {
+    super(MyApplication.getInstance().getString(R.string.transfer),
+        DatabaseConstants.KEY_TRANSFER_ACCOUNT, label, ids);
+  }
+
+  @SuppressWarnings("unused")
+  public TransferCriteria(String label, String... ids) {
+    super(MyApplication.getInstance().getString(R.string.transfer),
+        DatabaseConstants.KEY_TRANSFER_ACCOUNT, label, ids);
+  }
+
+  public TransferCriteria(Parcel in) {
+    super(in);
+  }
+
+  public static final Creator<TransferCriteria> CREATOR = new Creator<TransferCriteria>() {
+    public TransferCriteria createFromParcel(Parcel in) {
+        return new TransferCriteria(in);
+    }
+
+    public TransferCriteria[] newArray(int size) {
+        return new TransferCriteria[size];
+    }
+  };
+  public static TransferCriteria fromStringExtra(String extra) {
+    return IdCriteria.fromStringExtra(extra,TransferCriteria.class);
+  }
+}

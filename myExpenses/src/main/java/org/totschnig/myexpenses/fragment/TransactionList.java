@@ -33,6 +33,7 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectCrStatusDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectMethodDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectPayerDialogFragment;
+import org.totschnig.myexpenses.dialog.SelectTransferAccountDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Account.Type;
@@ -927,6 +928,12 @@ public class TransactionList extends ContextualActionBarFragment implements
         .show(getActivity().getSupportFragmentManager(), "METHOD_FILTER");
       }
       return true;
+      case R.id.FILTER_TRANSFER_COMMAND:
+        if (!removeFilter(command)) {
+          SelectTransferAccountDialogFragment.newInstance(mAccount.getId())
+              .show(getActivity().getSupportFragmentManager(), "TRANSFER_FILTER");
+        }
+        return true;
     case R.id.PRINT_COMMAND:
       MyExpenses ctx = (MyExpenses) getActivity();
       Result appDirStatus = Utils.checkAppDir();

@@ -94,6 +94,8 @@ public class TransactionProvider extends ContentProvider {
       Uri.parse("content://" + AUTHORITY + "/debug_schema");
   public static final Uri STALE_IMAGES_URI =
       Uri.parse("content://" + AUTHORITY + "/stale_images");
+  public static final Uri MAPPED_TRANSFER_ACCOUNTS_URI =
+      Uri.parse("content://" + AUTHORITY + "/transfer_account_transactions");
   /**
    * select info from DB without table, e.g. CategoryList#DATEINFO_CURSOR
    */
@@ -158,6 +160,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int TRANSACTION_UNDELETE = 38;
   private static final int TRANSACTIONS_LASTEXCHANGE = 39;
   private static final int ACCOUNTS_SWAP_SORT_KEY = 40;
+  private static final int MAPPED_TRANSFER_ACCOUNTS = 41;
   
 
   protected static boolean mDirty = false;
@@ -507,6 +510,11 @@ public class TransactionProvider extends ContentProvider {
       qb.setTables(TABLE_PAYEES  + " JOIN " + TABLE_TRANSACTIONS+ " ON (" + KEY_PAYEEID + " = " + TABLE_PAYEES + "." + KEY_ROWID + ")");
       projection = new String[] {"DISTINCT " + TABLE_PAYEES + "." + KEY_ROWID,KEY_PAYEE_NAME + " AS " + KEY_LABEL};
       defaultOrderBy = KEY_PAYEE_NAME;
+      break;
+    case MAPPED_TRANSFER_ACCOUNTS:
+      qb.setTables(TABLE_ACCOUNTS  + " JOIN " + TABLE_TRANSACTIONS+ " ON (" + KEY_TRANSFER_ACCOUNT + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + ")");
+      projection = new String[] {"DISTINCT " + TABLE_ACCOUNTS + "." + KEY_ROWID, KEY_LABEL};
+      defaultOrderBy = KEY_LABEL;
       break;
     case METHODS:
       qb.setTables(TABLE_METHODS);
@@ -1243,6 +1251,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "stale_images", STALE_IMAGES);
     URI_MATCHER.addURI(AUTHORITY, "stale_images/#", STALE_IMAGES_ID);
     URI_MATCHER.addURI(AUTHORITY, "accounts/"+ URI_SEGMENT_SWAP_SORT_KEY + "/#/#", ACCOUNTS_SWAP_SORT_KEY);
+    URI_MATCHER.addURI(AUTHORITY, "transfer_account_transactions", MAPPED_TRANSFER_ACCOUNTS);
     
   }
   public void resetDatabase() {
