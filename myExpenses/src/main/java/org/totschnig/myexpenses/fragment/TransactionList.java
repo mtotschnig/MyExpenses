@@ -962,37 +962,43 @@ public class TransactionList extends ContextualActionBarFragment implements
   public SparseArray<Criteria> getFilterCriteria() {
     return mFilter.getCriteria();
   }
+
   private void restoreFilterFromPreferences() {
     SharedPreferences settings = MyApplication.getInstance().getSettings();
-    String filter = settings.getString(KEY_FILTER + "_"+KEY_CATID+"_"+mAccount.getId(),null);
-    if (filter!=null) {
+    String filter = settings.getString(KEY_FILTER + "_" + KEY_CATID + "_" + mAccount.getId(), null);
+    if (filter != null) {
       mFilter.put(R.id.FILTER_CATEGORY_COMMAND, CategoryCriteria.fromStringExtra(filter));
     }
-    filter = settings.getString(KEY_FILTER + "_"+KEY_AMOUNT+"_"+mAccount.getId(),null);
-    if (filter!=null) {
+    filter = settings.getString(KEY_FILTER + "_" + KEY_AMOUNT + "_" + mAccount.getId(), null);
+    if (filter != null) {
       mFilter.put(R.id.FILTER_AMOUNT_COMMAND, AmountCriteria.fromStringExtra(filter));
     }
-    filter = settings.getString(KEY_FILTER + "_"+KEY_COMMENT+"_"+mAccount.getId(),null);
-    if (filter!=null) {
+    filter = settings.getString(KEY_FILTER + "_" + KEY_COMMENT + "_" + mAccount.getId(), null);
+    if (filter != null) {
       mFilter.put(R.id.FILTER_COMMENT_COMMAND, CommentCriteria.fromStringExtra(filter));
     }
-    filter = settings.getString(KEY_FILTER + "_"+KEY_CR_STATUS+"_"+mAccount.getId(),null);
-    if (filter!=null) {
+    filter = settings.getString(KEY_FILTER + "_" + KEY_CR_STATUS + "_" + mAccount.getId(), null);
+    if (filter != null) {
       mFilter.put(R.id.FILTER_STATUS_COMMAND, CrStatusCriteria.fromStringExtra(filter));
     }
-    filter = settings.getString(KEY_FILTER + "_"+KEY_PAYEEID+"_"+mAccount.getId(),null);
-    if (filter!=null) {
+    filter = settings.getString(KEY_FILTER + "_" + KEY_PAYEEID + "_" + mAccount.getId(), null);
+    if (filter != null) {
       mFilter.put(R.id.FILTER_PAYEE_COMMAND, PayeeCriteria.fromStringExtra(filter));
     }
-    filter = settings.getString(KEY_FILTER + "_"+KEY_METHODID+"_"+mAccount.getId(),null);
-    if (filter!=null) {
+    filter = settings.getString(KEY_FILTER + "_" + KEY_METHODID + "_" + mAccount.getId(), null);
+    if (filter != null) {
       mFilter.put(R.id.FILTER_METHOD_COMMAND, MethodCriteria.fromStringExtra(filter));
     }
-    filter = settings.getString(KEY_FILTER + "_"+KEY_DATE+"_"+mAccount.getId(),null);
-    if (filter!=null) {
+    filter = settings.getString(KEY_FILTER + "_" + KEY_DATE + "_" + mAccount.getId(), null);
+    if (filter != null) {
       mFilter.put(R.id.FILTER_DATE_COMMAND, DateCriteria.fromStringExtra(filter));
     }
+    filter = settings.getString(KEY_FILTER + "_" + KEY_TRANSFER_ACCOUNT + "_" + mAccount.getId(), null);
+    if (filter != null) {
+      mFilter.put(R.id.FILTER_TRANSFER_COMMAND, TransferCriteria.fromStringExtra(filter));
+    }
   }
+
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent intent) {
     if (requestCode == ProtectedFragmentActivity.FILTER_CATEGORY_REQUEST &&
