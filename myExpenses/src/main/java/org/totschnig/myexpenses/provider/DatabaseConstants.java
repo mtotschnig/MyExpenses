@@ -161,6 +161,7 @@ public class DatabaseConstants {
   public static final String KEY_TRANSFER_AMOUNT = "transfer_amount";
   public static final String KEY_LABEL_NORMALIZED = "label_normalized";
   public static final String KEY_LAST_USED = "last_used";
+  public static final String KEY_HAS_TRANSFERS = "has_transfers";
 
   /**
    * column alias for the second group (month or week)
@@ -328,6 +329,8 @@ public class DatabaseConstants {
       "count(CASE WHEN  " + KEY_PAYEEID + ">0 AND " + WHERE_NOT_VOID + "  THEN 1 ELSE null END) as " + KEY_MAPPED_PAYEES;
   public static final String MAPPED_METHODS =
       "count(CASE WHEN  " + KEY_METHODID + ">0 AND " + WHERE_NOT_VOID + "  THEN 1 ELSE null END) as " + KEY_MAPPED_METHODS;
+  public static final String HAS_TRANSFERS =
+      "count(CASE WHEN  " + KEY_TRANSFER_ACCOUNT + ">0 AND " + WHERE_NOT_VOID + "  THEN 1 ELSE null END) as " + KEY_HAS_TRANSFERS;
 
   public static final String WHERE_DEPENDENT =
       KEY_ROWID + " = ? OR " + KEY_TRANSFER_PEER + " = ? OR "

@@ -117,7 +117,7 @@ public class TransactionList extends ContextualActionBarFragment implements
   private MyGroupedAdapter mAdapter;
   private AccountObserver aObserver;
   Account mAccount;
-  public boolean hasItems, mappedCategories, mappedPayees, mappedMethods;
+  public boolean hasItems, mappedCategories, mappedPayees, mappedMethods, hasTransfers;
   private Cursor mTransactionsCursor, mGroupingCursor;
 
   private ExpandableStickyListHeadersListView mListView;
@@ -416,7 +416,7 @@ public class TransactionList extends ContextualActionBarFragment implements
       case SUM_CURSOR:
         cursorLoader = new CursorLoader(getActivity(),
             TransactionProvider.TRANSACTIONS_URI,
-            new String[]{MAPPED_CATEGORIES, MAPPED_METHODS, MAPPED_PAYEES},
+            new String[]{MAPPED_CATEGORIES, MAPPED_METHODS, MAPPED_PAYEES, HAS_TRANSFERS},
             selection,
             selectionArgs, null);
         break;
@@ -473,6 +473,7 @@ public class TransactionList extends ContextualActionBarFragment implements
         mappedCategories = c.getInt(c.getColumnIndex(KEY_MAPPED_CATEGORIES)) > 0;
         mappedPayees = c.getInt(c.getColumnIndex(KEY_MAPPED_PAYEES)) > 0;
         mappedMethods = c.getInt(c.getColumnIndex(KEY_MAPPED_METHODS)) > 0;
+        hasTransfers = c.getInt(c.getColumnIndex(KEY_HAS_TRANSFERS)) > 0;
         getActivity().supportInvalidateOptionsMenu();
         break;
       case GROUPING_CURSOR:
@@ -881,6 +882,9 @@ public class TransactionList extends ContextualActionBarFragment implements
           break;
         case R.id.FILTER_METHOD_COMMAND:
           enabled = mappedMethods;
+          break;
+        case R.id.FILTER_TRANSFER_COMMAND:
+          enabled = hasTransfers;
           break;
       }
       Criteria c = mFilter.get(filterItem.getItemId());
