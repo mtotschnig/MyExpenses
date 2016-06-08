@@ -22,7 +22,6 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.Criteria;
-import org.totschnig.myexpenses.provider.filter.PayeeCriteria;
 import org.totschnig.myexpenses.provider.filter.TransferCriteria;
 
 public class SelectTransferAccountDialogFragment extends SelectFromMappedTableDialogFragment
