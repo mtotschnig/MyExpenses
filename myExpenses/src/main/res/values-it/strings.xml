@@ -150,7 +150,7 @@
     <item>Gestire direttamente sul vostro smartphone.</item>
     <item>Esportarli in un programma di finanza Desktop come Grisbi, GnuCash, Quicken o MS Money.</item>
   </string-array>
-  <string name="help_leading">Grazie di aver installato <i>Le mie spese</i> per Android</string>
+  <string name="help_leading">Grazie di aver installato <i>Le mie spese</i> per %s</string>
   <string name="important_upgrade_information_heading">Informazioni importanti</string>
   <string name="import_select_transactions">Operazioni</string>
   <string name="income">Entrate</string>

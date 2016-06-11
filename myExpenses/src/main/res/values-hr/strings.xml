@@ -126,7 +126,7 @@
     <item>Upravljajte njima direktno putem smartphonea.</item>
     <item>Eksportirajte ih u Desktop financijske programe kao što su Grisbi, GnuCash, Quicken ili MS Money.</item>
   </string-array>
-  <string name="help_leading">Zahvaljujemo na instalaciji  <i>My Expenses</i> za Android.</string>
+  <string name="help_leading">Zahvaljujemo na instalaciji  <i>My Expenses</i> za %s.</string>
   <string name="important_upgrade_information_heading">Važne informacije</string>
   <string name="import_select_transactions">Transakcije</string>
   <string name="income">Prihod</string>

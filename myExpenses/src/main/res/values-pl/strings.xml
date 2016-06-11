@@ -124,7 +124,7 @@
     <item>Zarządzaj nimi bezpośrednio na swoim smartfonie.</item>
     <item>Eksportuj je do finansowego programu komputerowego t.j. Grisbi, GnuCash, Quicken lub Microsoft Money.</item>
   </string-array>
-  <string name="help_leading">Dziękujemy za zainstalowanie <i>Moje Wydatki</i> dla systemu Android.</string>
+  <string name="help_leading">Dziękujemy za zainstalowanie <i>Moje Wydatki</i> dla systemu %s.</string>
   <string name="important_upgrade_information_heading">Ważna informacja</string>
   <string name="import_select_transactions">Transakcje</string>
   <string name="income">Dochód</string>

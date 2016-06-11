@@ -145,7 +145,7 @@
     <item>直接使用你的智能手机管理它们.</item>
     <item>导出它们到理财程式,例如Grisbi、GnuCash、Quicken或MS Money.</item>
   </string-array>
-  <string name="help_leading">感谢你安装<i>开支助手</i>Android版.</string>
+  <string name="help_leading">感谢你安装<i>开支助手</i>%s版.</string>
   <string name="important_upgrade_information_heading">重要资讯</string>
   <string name="import_select_transactions">交易</string>
   <string name="income">收入</string>

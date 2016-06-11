@@ -150,7 +150,7 @@
     <item>Administrar directamente en su móvil.</item>
     <item>Exportarlos a un programa de escritorio de finanzas (Grisbi, Gnucash, Quicken o MS Money).</item>
   </string-array>
-  <string name="help_leading">Gracias por probar <i>Mis gastos</i> para Android.</string>
+  <string name="help_leading">Gracias por probar <i>Mis gastos</i> para %s.</string>
   <string name="important_upgrade_information_heading">Información importante</string>
   <string name="import_select_transactions">Asientos</string>
   <string name="income">Ingreso</string>

@@ -148,7 +148,7 @@
     <item>スマートフォンで直接管理します。</item>
     <item>Grisbi, GnuCash, Quicken または MS Money などのデスクトップのファイナンス プログラムにエクスポートすることができます。</item>
   </string-array>
-  <string name="help_leading">Android 用 <i>マイ エクスペンス</i> をインストールしていただきありがとうございます。</string>
+  <string name="help_leading">%s 用 <i>マイ エクスペンス</i> をインストールしていただきありがとうございます。</string>
   <string name="important_upgrade_information_heading">重要な情報</string>
   <string name="import_select_transactions">取引</string>
   <string name="income">収入</string>

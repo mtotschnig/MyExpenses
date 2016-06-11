@@ -112,7 +112,7 @@
     <item>إدارتهم مباشرة من خلال جهازك الذكي.</item>
     <item>تصديرهم لبرامج إدارة الموارد المالية مثل Grisbi, GnuCash, Quicken, MS Money.</item>
   </string-array>
-  <string name="help_leading">شكرا لتثبيتك تطبيق <i>مصروفاتي</i> للاندرويد.</string>
+  <string name="help_leading">شكرا لتثبيتك تطبيق <i>مصروفاتي</i>لا %s.</string>
   <string name="important_upgrade_information_heading">معلومات مهمة</string>
   <string name="import_select_transactions">العمليات</string>
   <string name="income">الدخل</string>

@@ -150,7 +150,7 @@
     <item>Управлявайте директно на вашия смартфон.</item>
     <item>Експортирайте ги във финансова програма на персоналния си компютър, като Grisbi, GnuCash, Quicken или MS пари.</item>
   </string-array>
-  <string name="help_leading">Благодаря Ви, че инсталирахте <i>Моите разходи</i> за Андроид.</string>
+  <string name="help_leading">Благодаря Ви, че инсталирахте <i>Моите разходи</i> за %s.</string>
   <string name="important_upgrade_information_heading">Важна информация</string>
   <string name="import_select_transactions">Транзакции</string>
   <string name="income">Приход</string>

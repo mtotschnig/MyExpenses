@@ -150,7 +150,7 @@
     <item>Akıllı telefonunuzda doğrudan yönetin.</item>
     <item>Grisbi, GnuCash, Quicken ya da MS Money gibi masa üstü finans programlarına aktarın.</item>
   </string-array>
-  <string name="help_leading">Android için <i>Harcamalarım</i>\'i kurduğunuz için teşekkür ederiz.</string>
+  <string name="help_leading">%s için <i>Harcamalarım</i>\'i kurduğunuz için teşekkür ederiz.</string>
   <string name="important_upgrade_information_heading">Önemli bilgi</string>
   <string name="import_select_transactions">Muameleler</string>
   <string name="income">gelirler</string>

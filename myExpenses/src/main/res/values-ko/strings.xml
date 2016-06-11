@@ -147,7 +147,7 @@
     <item>스마트폰에서 곧바로 관리하세요.</item>
     <item>컴퓨터용 금융 프로그램인 Grisbi, GnuCash, Quicken 또는 MS Money로 내보내세요.</item>
   </string-array>
-  <string name="help_leading">My Expenses를 설치해 주셔서 감사합니다.</string>
+  <string name="help_leading">내 지출 (%s) 를 설치해 주셔서 감사합니다.</string>
   <string name="important_upgrade_information_heading">중요한 정보</string>
   <string name="import_select_transactions">거래 내역</string>
   <string name="income">수입</string>

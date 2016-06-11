@@ -115,7 +115,7 @@
     <item>គ្រប់គ្រង ដោយផ្ទាល់នៅលើទូរស័ព្ទ​ដៃ​របស់អ្នក។</item>
     <item>នាំចេញ ទៅក្នុងកម្មវិធីហិរញ្ញវត្ថុលើ Desktop ដូចជា Grisbi, GnuCash, Quicken ឬក៏ MS Money។</item>
   </string-array>
-  <string name="help_leading">អរគុណ​ចំពោះការបញ្ចូល <i>My Expenses</i> លើ​ Android។</string>
+  <string name="help_leading">អរគុណ​ចំពោះការបញ្ចូល <i>My Expenses</i> លើ​ %s។</string>
   <string name="important_upgrade_information_heading">ព័ត៌​មាន​សំខាន់</string>
   <string name="import_select_transactions">ប្រតិបត្តិការ</string>
   <string name="income">ចំណូល</string>

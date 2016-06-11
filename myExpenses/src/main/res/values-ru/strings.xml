@@ -112,7 +112,7 @@
     <item>Управляйте ими непосредственно на вашем смартфоне.</item>
     <item>Экспортируйте их в финансовые программы, такие как Grisbi, GnuCash, Quicken или MS Money.</item>
   </string-array>
-  <string name="help_leading">Спасибо за установку <i>Мои расходы</i> для Android.</string>
+  <string name="help_leading">Спасибо за установку <i>Мои расходы</i> для %s.</string>
   <string name="important_upgrade_information_heading">Важная информация</string>
   <string name="import_select_transactions">Операция</string>
   <string name="income">Прибыль</string>

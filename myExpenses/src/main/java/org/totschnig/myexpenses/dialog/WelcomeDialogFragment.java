@@ -15,18 +15,14 @@
 
 package org.totschnig.myexpenses.dialog;
 
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.CommonCommands;
-import org.totschnig.myexpenses.activity.MyExpenses;
-import org.totschnig.myexpenses.preference.PrefKey;
-
 import android.app.Activity;
-import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -35,6 +31,12 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.CommonCommands;
+import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.preference.PrefKey;
 
 public class WelcomeDialogFragment extends CommitSafeDialogFragment
     implements DialogInterface.OnClickListener {
@@ -84,10 +86,9 @@ public class WelcomeDialogFragment extends CommitSafeDialogFragment
   
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    Activity ctx  = (Activity) getActivity();
+    Activity ctx  = getActivity();
     LayoutInflater li = LayoutInflater.from(ctx);
-    //noinspection InflateParams
-    View view = li.inflate(R.layout.welcome_dialog, null);
+    View view = DataBindingUtil.inflate(li, R.layout.welcome_dialog, null, false).getRoot();
     mProgress = (ProgressBar) view.findViewById(R.id.progress);
     //noinspection SetTextI18n
     ((TextView) view.findViewById(R.id.help_intro))

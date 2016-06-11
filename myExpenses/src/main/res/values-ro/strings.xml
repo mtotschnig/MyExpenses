@@ -143,7 +143,7 @@
     <item>Gestionaţi-le direct pe smartphone-ul dvs.</item>
     <item>Exportaţi-le într-un program de  finanţe de tip desktop ca Grisbi, GnuCash, Quicken or MS Money.</item>
   </string-array>
-  <string name="help_leading">Vă mulţumim pentru instalarea  <i>Cheltuielile Mele</i> pentru Android.</string>
+  <string name="help_leading">Vă mulţumim pentru instalarea  <i>Cheltuielile Mele</i> pentru %.</string>
   <string name="important_upgrade_information_heading">Informaţii importante</string>
   <string name="import_select_transactions">Tranzacţii</string>
   <string name="income">Venituri</string>

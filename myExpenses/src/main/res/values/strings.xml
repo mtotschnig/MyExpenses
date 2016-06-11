@@ -166,7 +166,8 @@
         <item>Manage them directly on your smartphone.</item>
         <item>Export them into a Desktop finance program like Grisbi, GnuCash, Quicken or MS Money.</item>
     </string-array>
-    <string name="help_leading">Thanks for installing <i>My Expenses</i> for Android.</string>
+    <!-- %s is replaced with Android or Blackberry -->
+    <string name="help_leading">Thanks for installing <i>My Expenses</i> for %s.</string>
     <string name="important_upgrade_information_heading">Important information</string>
     <string name="import_select_transactions">Transactions</string>
     <string name="income">Income</string>

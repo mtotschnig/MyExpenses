@@ -103,7 +103,7 @@
     <item>Kezelje közvetlenül telefonjáról</item>
     <item>Exportálja adatait olyan alkalmazásokba, mint a Grisbi, GnuCash, Quicken vagy MS Money.</item>
   </string-array>
-  <string name="help_leading">Köszönjük, hogy a <i>Kiadásaim</i> Android változatát telepítette.</string>
+  <string name="help_leading">Köszönjük, hogy a <i>Kiadásaim</i> %s változatát telepítette.</string>
   <string name="important_upgrade_information_heading">Fontos információ</string>
   <string name="income">Bevétel</string>
   <string name="invalid_number_format">Tizedes formátum nem található az Ön nyelvén. Kérem használja ezt: %1$s</string>

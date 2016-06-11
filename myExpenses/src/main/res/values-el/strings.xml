@@ -150,7 +150,7 @@
     <item>Διαχειριστείτε τα απευθείας στο smartphone σας.</item>
     <item>Κάνετε εξαγωγή τους σε ένα πρόγραμμα υπολογιστών γραφείου οικονομικών όπως Grisbi, GnuCash, Quicken ή MS Money.</item>
   </string-array>
-  <string name="help_leading">Ευχαριστώ για την εγκατάσταση <i>Έξοδα μου</i> για το Android.</string>
+  <string name="help_leading">Ευχαριστώ για την εγκατάσταση <i>Έξοδα μου</i> για το %s.</string>
   <string name="important_upgrade_information_heading">Σημαντικές πληροφορίες</string>
   <string name="import_select_transactions">Συναλλαγές</string>
   <string name="income">Εισόδημα</string>

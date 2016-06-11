@@ -150,7 +150,7 @@
     <item>Verwalten Sie diese direkt auf Ihrem Smartphone.</item>
     <item>Exportieren Sie diese in ein Desktop-Finanzprogrammm (Grisbi, Gnucash, Quicken oder MS Money).</item>
   </string-array>
-  <string name="help_leading">Danke fürs Ausprobieren von <i>Meine Ausgaben</i> für Android.</string>
+  <string name="help_leading">Danke fürs Ausprobieren von <i>Meine Ausgaben</i> für %s.</string>
   <string name="important_upgrade_information_heading">Wichtige Information</string>
   <string name="import_select_transactions">Buchungen</string>
   <string name="income">Einnahme</string>

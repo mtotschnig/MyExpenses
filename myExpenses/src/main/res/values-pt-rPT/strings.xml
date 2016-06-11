@@ -148,7 +148,7 @@
     <item>Gestão direta no seu smartphone.</item>
     <item>Exportação para um programa de finanças como o Grisbi, GnuCash, Quicken ou MS Money.</item>
   </string-array>
-  <string name="help_leading">Obrigado por instalar o <i>My Expenses</i> para Android.</string>
+  <string name="help_leading">Obrigado por instalar o <i>My Expenses</i> para %s.</string>
   <string name="important_upgrade_information_heading">Informação importante</string>
   <string name="import_select_transactions">Transações</string>
   <string name="income">Receitas</string>

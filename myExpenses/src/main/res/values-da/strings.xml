@@ -142,7 +142,7 @@
     <item>Administrere dem direkte på din smartphone.</item>
     <item>Eksportere dem til en Desktop økonomiprogramm ligesom Grisbi, GnuCash, Quicken eller MS Money.</item>
   </string-array>
-  <string name="help_leading">Tak for at installere <i>Mine udgifter</i> til Android.</string>
+  <string name="help_leading">Tak for at installere <i>Mine udgifter</i> til %s.</string>
   <string name="important_upgrade_information_heading">Vigtige oplysninger</string>
   <string name="import_select_transactions">Posteringer</string>
   <string name="income">Indkomst</string>

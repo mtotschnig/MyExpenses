@@ -109,7 +109,7 @@
     <item>ස්මාර්ට් ජංගම දුරකථනය හරහා මනා කළමනාකරණය </item>
     <item>ග්රිස්බි, නු කෑෂ් , කුඉකන් හෝ එම එස් මනි වැනි ඩෙක්ස්ටොප් මුල්‍ය වැඩසටහන් වලට අපනයන </item>
   </string-array>
-  <string name="help_leading"> <i>මයි එක්ස්පෙන්සස්</i> ඇන්ඩ්‍රෝයිඩ් පිහිටුවීම නිසා ස්තුත්යි   </string>
+  <string name="help_leading"> <i>මයි එක්ස්පෙන්සස්</i> %s පිහිටුවීම නිසා ස්තුත්යි   </string>
   <string name="important_upgrade_information_heading">වැදගත් තොරතුරු </string>
   <string name="import_select_transactions">ගනුදෙනු </string>
   <string name="income">ආදායම</string>
