@@ -58,6 +58,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -160,6 +161,9 @@ public class ExpenseEdit extends AmountActivity implements
   public static final String KEY_NEW_TEMPLATE = "newTemplate";
   public static final String KEY_CLONE = "clone";
   private static final String KEY_CALENDAR = "calendar";
+  private static final String KEY_CACHED_DATA = "cachedData";
+  private static final String KEY_CACHED_RECURRENCE = "cachedRecurrence";
+  private static final String KEY_CACHED_PICTURE_URI = "cachedPictureUri";
   private static final String PREFKEY_TRANSACTION_LAST_ACCOUNT_FROM_WIDGET = "transactionLastAccountFromWidget";
   private static final String PREFKEY_TRANSFER_LAST_ACCOUNT_FROM_WIDGET = "transferLastAccountFromWidget";
   private static final String PREFKEY_TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET = "transferLastTransferAccountFromWidget";
@@ -510,6 +514,22 @@ public class ExpenseEdit extends AmountActivity implements
         finish();
         return;
       }
+      if (!mSavedInstance) {
+        //processing data from user switching operation type
+        Transaction cached = (Transaction) getIntent().getSerializableExtra(KEY_CACHED_DATA);
+        if (cached != null) {
+          mTransaction.setAmount(cached.getAmount());
+          mTransaction.accountId = cached.accountId;
+          mTransaction.comment = cached.comment;
+          mTransaction.payee = cached.payee;
+          mCalendar.setTime(cached.getDate());
+          mPictureUri = getIntent().getParcelableExtra(KEY_CACHED_PICTURE_URI);
+          setPicture();
+          mTransaction.crStatus = cached.crStatus;
+          mTransaction.methodId = cached.methodId;
+          mTransaction.referenceNumber = cached.referenceNumber;
+        }
+      }
       setup();
     }
   }
@@ -654,6 +674,11 @@ public class ExpenseEdit extends AmountActivity implements
           //after SAVE_AND_NEW action
           RecurrenceAdapter recurrenceAdapter = new RecurrenceAdapter(this, true);
           mReccurenceSpinner.setAdapter(recurrenceAdapter);
+          Plan.Recurrence cachedRecurrence = (Plan.Recurrence) getIntent().getSerializableExtra(KEY_CACHED_RECURRENCE);
+          if (cachedRecurrence != null) {
+            mReccurenceSpinner.setSelection(
+                ((ArrayAdapter) mReccurenceSpinner.getAdapter()).getPosition(cachedRecurrence));
+          }
           mReccurenceSpinner.setOnItemSelectedListener(this);
           findViewById(R.id.PlannerRow).setVisibility(View.VISIBLE);
           if (mTransaction.originTemplate != null && mTransaction.originTemplate.getPlan() != null) {
@@ -980,13 +1005,9 @@ public class ExpenseEdit extends AmountActivity implements
   private void populateFields() {
     isProcessingLinkedAmountInputs = true;
     mStatusSpinner.setSelection(mTransaction.crStatus.ordinal(), false);
-    if (mClone || mRowId != 0 || mTemplateId != 0) {
-      //3 handle edit existing transaction or new one from template
-      //3b  fill comment
-      mCommentText.setText(mTransaction.comment);
-      if (mIsMainTransactionOrTemplate) {
-        mPayeeText.setText(mTransaction.payee);
-      }
+    mCommentText.setText(mTransaction.comment);
+    if (mIsMainTransactionOrTemplate) {
+      mPayeeText.setText(mTransaction.payee);
     }
     if (mTransaction instanceof Template) {
       mTitleText.setText(((Template) mTransaction).getTitle());
@@ -1048,7 +1069,7 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   protected void saveState() {
-    if (syncStateAndValidate()) {
+    if (syncStateAndValidate(true)) {
       mIsSaving = true;
       startDbWriteTask(true);
       if (getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, false)) {
@@ -1077,7 +1098,7 @@ public class ExpenseEdit extends AmountActivity implements
    *
    * @return false if any data is not valid, also informs user through toast
    */
-  protected boolean syncStateAndValidate() {
+  protected boolean syncStateAndValidate(boolean forSave) {
     boolean validP = true;
     String title;
 
@@ -1085,7 +1106,7 @@ public class ExpenseEdit extends AmountActivity implements
     if (account == null)
       return false;
 
-    BigDecimal amount = validateAmountInput(true);
+    BigDecimal amount = validateAmountInput(forSave);
 
     if (amount == null) {
       //Toast is shown in validateAmountInput
@@ -1121,7 +1142,7 @@ public class ExpenseEdit extends AmountActivity implements
       boolean isSame = account.currency.equals(transferAccount.currency);
       if (mTransaction instanceof Template) {
         if (!isSame && amount == null) {
-          BigDecimal transferAmount = validateAmountInput(mTransferAmountText, true);
+          BigDecimal transferAmount = validateAmountInput(mTransferAmountText, forSave);
           if (transferAmount != null) {
             mTransaction.accountId = transferAccount.getId();
             mTransaction.transfer_account = account.getId();
@@ -1138,7 +1159,7 @@ public class ExpenseEdit extends AmountActivity implements
         if (isSame) {
           if (amount != null) mTransaction.getTransferAmount().setAmountMajor(amount.negate());
         } else {
-          BigDecimal transferAmount = validateAmountInput(mTransferAmountText, true);
+          BigDecimal transferAmount = validateAmountInput(mTransferAmountText, forSave);
 
           if (transferAmount == null) {
             //Toast is shown in validateAmountInput
@@ -1176,7 +1197,7 @@ public class ExpenseEdit extends AmountActivity implements
       }
     } else {
       mTransaction.referenceNumber = mReferenceNumberText.getText().toString();
-      if (!(mTransaction instanceof SplitPartCategory || mTransaction instanceof SplitPartTransfer)) {
+      if (forSave && !(mTransaction instanceof SplitPartCategory || mTransaction instanceof SplitPartTransfer)) {
         if (mReccurenceSpinner.getSelectedItemPosition() > 0) {
           title = TextUtils.isEmpty(mTransaction.payee) ?
               (TextUtils.isEmpty(mLabel) ?
@@ -1702,6 +1723,14 @@ public class ExpenseEdit extends AmountActivity implements
     cleanup();
     Intent restartIntent = getIntent();
     restartIntent.putExtra(MyApplication.KEY_OPERATION_TYPE, newType);
+    syncStateAndValidate(false);
+    restartIntent.putExtra(KEY_CACHED_DATA, mTransaction);
+    if (mOperationType != MyExpenses.TYPE_SPLIT && newType != MyExpenses.TYPE_SPLIT) {
+      restartIntent.putExtra(KEY_CACHED_RECURRENCE, ((Plan.Recurrence) mReccurenceSpinner.getSelectedItem()));
+    }
+    if (mTransaction.getPictureUri() != null) {
+      restartIntent.putExtra(KEY_CACHED_PICTURE_URI, mTransaction.getPictureUri());
+    }
     finish();
     startActivity(restartIntent);
   }

@@ -187,7 +187,7 @@ public class Transaction extends Model {
   }
 
   public CrStatus crStatus;
-  protected Uri pictureUri;
+  transient protected Uri pictureUri;
 
   /**
    * factory method for retrieving an instance from the db with the given id
