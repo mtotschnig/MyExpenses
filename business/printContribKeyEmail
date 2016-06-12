@@ -5,24 +5,21 @@ cat << EOF
    Calculate key for ANDROID-ID found in system clipboard
    -e          Calculate extended key
    -l LANG     Use LANG instead of the one from environment
+   -a ANDROID_ID 
 EOF
 }
 
-clipboard=`pbpaste`
-words=( $clipboard )
-if [ ${#words[@]} -ne 1 ]
-then
-  echo "Clipboard contains more than one word"
-  exit 1
-fi
-
 func=Contrib
-while getopts "el:" opt; do
+lang=en_US
+while getopts "el:a:" opt; do
     case "$opt" in
         e)  func=Extended
             ;;
         l)  lang=$OPTARG
             ;;
+        a)
+        	android=$OPTARG
+        	;;
         '?')
             show_help >&2
             exit 1
@@ -30,21 +27,25 @@ while getopts "el:" opt; do
     esac
 done
 
+words=( $android )
+if [ ${#words[@]} -ne 1 ]
+then
+  echo "ANDROID_ID does not contain one word"
+  exit 1
+fi
+
+
 hashcodeExtended(){ (cd ~/workspace/HashCode/bin;java HashCode $1 RANDOM_SECRET_EXTENDED;) }
 hashcodeContrib(){ (cd ~/workspace/HashCode/bin;java HashCode $1 RANDOM_SECRET;) }
 
 export TEXTDOMAIN=printContribKeyEmail.sh
 export TEXTDOMAINDIR=${HOME}/locale
 
-key=`hashcode$func $clipboard`
+key=`hashcode$func $android`
 
-if [ -n "$lang" ]
-then
-	export LC_MESSAGES=$lang
-fi
+export LC_MESSAGES=$lang
 
-echo "Reply to $func key request for Android-ID $clipboard"
-echo "==============================================\n"
+say "$func Android-ID $android"
 
 cat <<EOF
 `gettext "Thankyou"`
@@ -57,5 +58,4 @@ https://www.myexpenses.mobi/callback.html?key=${key}#verify
 
 `gettext "Best regards"`
 
-Michael
 EOF

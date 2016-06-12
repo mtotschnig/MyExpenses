@@ -1,0 +1,29 @@
+-- ExtendedKeyEmailService
+on run {input, parameters}
+	set lang to (choose from list {"bg_BG", "de_DE", "en_US", "es_ES", "fr_FR", "it_IT", "ja_JP", "ms_MY", "pt_PT", "tr_TR"} with prompt "Select language?")
+	if lang is false then error number -128
+	set the clipboard to (do shell script "eval `/usr/libexec/path_helper -s`; ~/bin/printContribKeyEmail -e " & " -l " & lang & " -a " & input)
+	
+	tell application "Thunderbird" to activate
+	
+	tell application "System Events"
+		keystroke "r" using command down
+		keystroke "v" using command down
+	end tell
+	
+end run
+
+-- ContribKeyEmailService
+on run {input, parameters}
+	set lang to (choose from list {"bg_BG", "de_DE", "en_US", "es_ES", "fr_FR", "it_IT", "ja_JP", "ms_MY", "pt_PT", "tr_TR"} with prompt "Select language?")
+	if lang is false then error number -128
+	set the clipboard to (do shell script "eval `/usr/libexec/path_helper -s`; ~/bin/printContribKeyEmail " & " -l " & lang & " -a " & input)
+	
+	tell application "Thunderbird" to activate
+	
+	tell application "System Events"
+		keystroke "r" using command down
+		keystroke "v" using command down
+	end tell
+	
+end run
