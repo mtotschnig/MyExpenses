@@ -41,3 +41,8 @@ file_filter = ../MyExpenses.website/_data/<lang>.yml
 source_lang = en
 source_file = myExpenses/src/androidTest/res/values/strings.xml
 file_filter = myExpenses/src/androidTest/res/values-<lang>/strings.xml
+
+[my-expenses.KeyDeliveryEmail]
+source_lang = en
+source_file = business/printContribKeyEmailMessages/en.po
+file_filter = business/printContribKeyEmailMessages/<lang>.po

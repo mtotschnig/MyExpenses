@@ -1,0 +1,26 @@
+# 
+# Translators:
+# Michael Totschnig <michael@totschnig.org>, 2016
+msgid ""
+msgstr ""
+"Project-Id-Version: My Expenses\n"
+"PO-Revision-Date: 2016-06-12 10:06+0000\n"
+"Last-Translator: Michael Totschnig <michael@totschnig.org>\n"
+"Language-Team: Bulgarian (http://www.transifex.com/mtotschnig/my-expenses/language/bg/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: bg\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Thankyou"
+msgstr "Вашият принос помага по-нататъшното развитие на Моите разходи. Благодарим Ви!"
+
+msgid "Open Link"
+msgstr "Отвори тази връзка от приложението Моите разходи на своето устройство с Андроид."
+
+msgid "Alternative Settings"
+msgstr "Друг начин е да въведеш %s от екрана с Настройки от приложението."
+
+msgid "Best regards"
+msgstr "С най-добри пожелания!"

@@ -1,0 +1,61 @@
+#!/bin/sh
+function show_help() {
+cat << EOF
+   Usage: ${0##*/} [-e] [-l LANG]
+   Calculate key for ANDROID-ID found in system clipboard
+   -e          Calculate extended key
+   -l LANG     Use LANG instead of the one from environment
+EOF
+}
+
+clipboard=`pbpaste`
+words=( $clipboard )
+if [ ${#words[@]} -ne 1 ]
+then
+  echo "Clipboard contains more than one word"
+  exit 1
+fi
+
+func=Contrib
+while getopts "el:" opt; do
+    case "$opt" in
+        e)  func=Extended
+            ;;
+        l)  lang=$OPTARG
+            ;;
+        '?')
+            show_help >&2
+            exit 1
+            ;;
+    esac
+done
+
+hashcodeExtended(){ (cd ~/workspace/HashCode/bin;java HashCode $1 RANDOM_SECRET_EXTENDED;) }
+hashcodeContrib(){ (cd ~/workspace/HashCode/bin;java HashCode $1 RANDOM_SECRET;) }
+
+export TEXTDOMAIN=printContribKeyEmail.sh
+export TEXTDOMAINDIR=${HOME}/locale
+
+key=`hashcode$func $clipboard`
+
+if [ -n "$lang" ]
+then
+	export LC_MESSAGES=$lang
+fi
+
+echo "Reply to $func key request for Android-ID $clipboard"
+echo "==============================================\n"
+
+cat <<EOF
+`gettext "Thankyou"`
+
+`gettext "Open Link"`
+
+https://www.myexpenses.mobi/callback.html?key=${key}#verify
+
+`printf "$(gettext "Alternative Settings")" $key`
+
+`gettext "Best regards"`
+
+Michael
+EOF

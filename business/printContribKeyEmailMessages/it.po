@@ -1,0 +1,26 @@
+# 
+# Translators:
+# Michael Totschnig <michael@totschnig.org>, 2016
+msgid ""
+msgstr ""
+"Project-Id-Version: My Expenses\n"
+"PO-Revision-Date: 2016-06-12 10:07+0000\n"
+"Last-Translator: Michael Totschnig <michael@totschnig.org>\n"
+"Language-Team: Italian (http://www.transifex.com/mtotschnig/my-expenses/language/it/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: it\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Thankyou"
+msgstr "Il tuo contributo permette l'ulteriore sviluppo di Le mie spese. Grazie!"
+
+msgid "Open Link"
+msgstr "Aprire questo link sul tuo dispositivo Android con l'app My spese."
+
+msgid "Alternative Settings"
+msgstr "In alternativa è possibile immettere %s dalla schermata delle impostazioni all'interno dell'app."
+
+msgid "Best regards"
+msgstr "Migliori saluti"
