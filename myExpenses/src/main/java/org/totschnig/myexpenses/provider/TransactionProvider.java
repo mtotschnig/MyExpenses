@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.Account.Grouping;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.util.PlanInfoCursorWrapper;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.content.ContentProvider;
@@ -115,6 +116,7 @@ public class TransactionProvider extends ContentProvider {
   public static final String QUERY_PARAMETER_EXTENDED = "extended";
   public static final String QUERY_PARAMETER_DISTINCT = "distinct";
   public static final String QUERY_PARAMETER_MARK_VOID = "markVoid";
+  public static final String QUERY_PARAMETER_WITH_PLAN_INFO = "withPlanInfo";
 
   
   static final String TAG = "TransactionProvider";
@@ -651,6 +653,11 @@ public class TransactionProvider extends ContentProvider {
     c = qb.query(db, projection, selection, selectionArgs, groupBy, having, orderBy, limit);
     //long endTime = System.nanoTime();
     //Log.d("TIMER",uri.toString() + Arrays.toString(selectionArgs) + " : "+(endTime-startTime));
+
+    if (uriMatch == TEMPLATES && uri.getQueryParameter(QUERY_PARAMETER_WITH_PLAN_INFO) != null) {
+      c = new PlanInfoCursorWrapper(getContext(), c);
+      ((PlanInfoCursorWrapper) c).fetchPlanInfo();
+    }
     c.setNotificationUri(getContext().getContentResolver(), uri);
     return c;
   }
@@ -1252,7 +1259,6 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "stale_images/#", STALE_IMAGES_ID);
     URI_MATCHER.addURI(AUTHORITY, "accounts/"+ URI_SEGMENT_SWAP_SORT_KEY + "/#/#", ACCOUNTS_SWAP_SORT_KEY);
     URI_MATCHER.addURI(AUTHORITY, "transfer_account_transactions", MAPPED_TRANSFER_ACCOUNTS);
-    
   }
   public void resetDatabase() {
     mOpenHelper.close();

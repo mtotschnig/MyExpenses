@@ -82,6 +82,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_MAIN
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_SUB;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLAN_INFO;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE;
@@ -91,11 +92,9 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_P
 public class TemplatesList extends SortableListFragment {
 
   public static final String CALDROID_DIALOG_FRAGMENT_TAG = "CALDROID_DIALOG_FRAGMENT";
-  private static final int PLANS_CURSOR = 1;
   public static final String KEY_PLANS_LIST = "plans";
   private ListView mListView;
   private PlanMonthFragment planMonthFragment;
-  private final HashMap<Long, String> mPlanTimeInfo = new HashMap<>();
 
   protected int getMenuResource() {
     return R.menu.templateslist_context;
@@ -108,7 +107,7 @@ public class TemplatesList extends SortableListFragment {
   private int columnIndexAmount, columnIndexLabelSub, columnIndexComment,
       columnIndexPayee, columnIndexColor, columnIndexTransferPeer,
       columnIndexCurrency, columnIndexTransferAccount, columnIndexPlanId,
-      columnIndexTitle, columnIndexRowId;
+      columnIndexTitle, columnIndexRowId, columnIndexPlanInfo;
   private boolean indexesCalculated = false;
   /**
    * if we are called from the calendar app, we only need to handle display of plan once
@@ -278,21 +277,10 @@ public class TemplatesList extends SortableListFragment {
     switch (id) {
       case SORTABLE_CURSOR:
         return new CursorLoader(getActivity(),
-            TransactionProvider.TEMPLATES_URI,
+            TransactionProvider.TEMPLATES_URI.buildUpon()
+                .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_PLAN_INFO, "1").build(),
             null,
             null,
-            null,
-            null);
-      case PLANS_CURSOR:
-        return new CursorLoader(getActivity(),
-            CalendarContractCompat.Events.CONTENT_URI,
-            new String[]{
-                Events._ID,
-                Events.DTSTART,
-                Events.RRULE,
-            },
-            Events._ID + " IN (" +
-                TextUtils.join(",", (ArrayList<Long>) bundle.getSerializable(KEY_PLANS_LIST)) + ")",
             null,
             null);
     }
@@ -316,18 +304,16 @@ public class TemplatesList extends SortableListFragment {
           columnIndexTransferAccount = c.getColumnIndex(KEY_TRANSFER_ACCOUNT);
           columnIndexPlanId = c.getColumnIndex(KEY_PLANID);
           columnIndexTitle = c.getColumnIndex(KEY_TITLE);
+          columnIndexPlanInfo = c.getColumnIndex(KEY_PLAN_INFO);
           indexesCalculated = true;
         }
         mAdapter.swapCursor(mTemplatesCursor);
         invalidateCAB();
         if (isCalendarPermissionGranted() &&
             mTemplatesCursor != null && mTemplatesCursor.moveToFirst()) {
-          ArrayList<Long> plans = new ArrayList<>();
-          long planId;
           long needToExpand = expandedHandled ? ManageTemplates.NOT_CALLED :
               ((ManageTemplates) getActivity()).getCalledFromCalendarWithId();
           boolean foundToExpand = false;
-          Bundle planBundle = new Bundle();
           while (!mTemplatesCursor.isAfterLast()) {
             long templateId = mTemplatesCursor.getLong(columnIndexRowId);
             if (needToExpand == templateId) {
@@ -338,13 +324,10 @@ public class TemplatesList extends SortableListFragment {
                   mTemplatesCursor.getInt(columnIndexColor), false);
               foundToExpand = true;
             }
-            if ((planId = mTemplatesCursor.getLong(columnIndexPlanId)) != 0L) {
-              plans.add(planId);
-            }
             mTemplatesCursor.moveToNext();
           }
-          planBundle.putSerializable(KEY_PLANS_LIST, plans);
-          Utils.requireLoader(mManager, PLANS_CURSOR, planBundle, this);
+          //planBundle.putSerializable(KEY_PLANS_LIST, plans);
+          //Utils.requireLoader(mManager, PLANS_CURSOR, planBundle, this);
           if (needToExpand != ManageTemplates.NOT_CALLED) {
             expandedHandled = true;
             if (foundToExpand) {
@@ -355,20 +338,6 @@ public class TemplatesList extends SortableListFragment {
           }
         }
         break;
-      case PLANS_CURSOR:
-        mPlanTimeInfo.clear();
-        if (c != null && c.moveToFirst()) {
-          while (!c.isAfterLast()) {
-            mPlanTimeInfo.put(
-                c.getLong(c.getColumnIndex(Events._ID)),
-                Plan.prettyTimeInfo(
-                    getActivity(),
-                    c.getString(c.getColumnIndex(Events.RRULE)),
-                    c.getLong(c.getColumnIndex(Events.DTSTART))));
-            c.moveToNext();
-          }
-          mAdapter.notifyDataSetChanged();
-        }
     }
   }
 
@@ -379,8 +348,6 @@ public class TemplatesList extends SortableListFragment {
         mTemplatesCursor = null;
         mAdapter.swapCursor(null);
         break;
-      case PLANS_CURSOR:
-        mPlanTimeInfo.clear();
     }
   }
 
@@ -452,8 +419,7 @@ public class TemplatesList extends SortableListFragment {
       tv2.setText(catText);
 
       if (doesHavePlan) {
-        Long planId = c.getLong(columnIndexPlanId);
-        String planInfo = mPlanTimeInfo.get(planId);
+        String planInfo = c.getString(columnIndexPlanInfo);
         if (planInfo == null) {
           planInfo = getString(ContextCompat.checkSelfPermission(getActivity(),
               Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_DENIED ?

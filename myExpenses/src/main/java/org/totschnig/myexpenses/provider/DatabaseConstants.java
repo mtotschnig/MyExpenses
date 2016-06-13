@@ -162,6 +162,7 @@ public class DatabaseConstants {
   public static final String KEY_LABEL_NORMALIZED = "label_normalized";
   public static final String KEY_LAST_USED = "last_used";
   public static final String KEY_HAS_TRANSFERS = "has_transfers";
+  public static final String KEY_PLAN_INFO = "plan_info";
 
   /**
    * column alias for the second group (month or week)
