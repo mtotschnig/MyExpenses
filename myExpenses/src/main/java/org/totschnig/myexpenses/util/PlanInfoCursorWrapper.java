@@ -1,20 +1,27 @@
 package org.totschnig.myexpenses.util;
 
+import android.Manifest;
+import android.content.ContentUris;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.net.Uri;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Events;
 
 import org.totschnig.myexpenses.model.Plan;
+import org.totschnig.myexpenses.provider.CalendarProviderProxy;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Random;
+import java.util.Locale;
 
 public class PlanInfoCursorWrapper extends CursorWrapperHelper {
   private Context context;
@@ -51,45 +58,79 @@ public class PlanInfoCursorWrapper extends CursorWrapperHelper {
             if (rhNextInstance == null) {
               return 0;
             } else {
-              return -1;
+              return 1;
             }
           }
           if (rhNextInstance == null) {
-            return 1;
+            return -1;
           }
           return lhNextInstance.compareTo(rhNextInstance);
         }
       });
-      Cursor c = context.getContentResolver().query(Events.CONTENT_URI,
-          new String[]{
-              Events._ID,
-              Events.DTSTART,
-              Events.RRULE,
-          },
-          Events._ID + " IN (" +
-              TextUtils.join(",", plans) + ")",
-          null,
-          null);
-      if (c != null) {
-        if (c.moveToFirst()) {
-          while (!c.isAfterLast()) {
-            planInfo.put(
-                c.getLong(c.getColumnIndex(Events._ID)),
-                Plan.prettyTimeInfo(
-                    context,
-                    c.getString(c.getColumnIndex(Events.RRULE)),
-                    c.getLong(c.getColumnIndex(Events.DTSTART))));
-            c.moveToNext();
+      if (plans.size() > 0 && ContextCompat.checkSelfPermission(context,
+          Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
+        Cursor c = context.getContentResolver().query(Events.CONTENT_URI,
+            new String[]{
+                Events._ID,
+                Events.DTSTART,
+                Events.RRULE,
+            },
+            Events._ID + " IN (" +
+                TextUtils.join(",", plans) + ")",
+            null,
+            null);
+        if (c != null) {
+          if (c.moveToFirst()) {
+            while (!c.isAfterLast()) {
+              planInfo.put(
+                  c.getLong(c.getColumnIndex(Events._ID)),
+                  Plan.prettyTimeInfo(
+                      context,
+                      c.getString(c.getColumnIndex(Events.RRULE)),
+                      c.getLong(c.getColumnIndex(Events.DTSTART))));
+              c.moveToNext();
+            }
           }
+          c.close();
         }
-        c.close();
       }
     }
     doSort = true;
   }
 
   private long getNextInstance(long planId) {
-    return planId; // TODO fetch from calendar;
+    long result;
+    //we go in three passes in order to prevent calendar provider from having to expand too much instances
+    //1) one week 2) one month 3) one year
+    long now = System.currentTimeMillis();
+    long inOneWeek = now + (7 * 24 * 60 * 60 * 1000);
+    long inOneMonth = now + (31 * 24 * 60 * 60 * 1000);
+    long inOneYear = now + (366 * 24 * 60 * 60 * 1000);
+    long[][] intervals = new long[][] {
+        {now, inOneWeek},
+        {inOneWeek, inOneMonth},
+        {inOneMonth, inOneYear}
+    };
+    for (long[] interval: intervals) {
+      Uri.Builder eventsUriBuilder = CalendarProviderProxy.INSTANCES_URI.buildUpon();
+      ContentUris.appendId(eventsUriBuilder, interval[0]);
+      ContentUris.appendId(eventsUriBuilder, interval[1]);
+      Uri eventsUri = eventsUriBuilder.build();
+      Cursor c = context.getContentResolver().query(eventsUri, null,
+          String.format(Locale.US, CalendarContractCompat.Instances.EVENT_ID + " = %d",
+              planId),
+          null,
+          null);
+      if (c != null) {
+        if (c.moveToFirst()) {
+          result = c.getLong(c.getColumnIndex(CalendarContractCompat.Instances.BEGIN));
+          c.close();
+          return result;
+        }
+        c.close();
+      }
+    }
+    return Long.MAX_VALUE;
   }
 
   @Override
