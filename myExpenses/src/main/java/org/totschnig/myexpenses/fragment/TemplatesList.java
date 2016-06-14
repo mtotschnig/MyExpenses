@@ -326,8 +326,6 @@ public class TemplatesList extends SortableListFragment {
             }
             mTemplatesCursor.moveToNext();
           }
-          //planBundle.putSerializable(KEY_PLANS_LIST, plans);
-          //Utils.requireLoader(mManager, PLANS_CURSOR, planBundle, this);
           if (needToExpand != ManageTemplates.NOT_CALLED) {
             expandedHandled = true;
             if (foundToExpand) {

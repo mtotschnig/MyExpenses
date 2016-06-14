@@ -55,10 +55,7 @@ public abstract class SortableListFragment extends ContextualActionBarFragment
         getSortOrderPrefKey().putString(newSortOrder);
         getActivity().supportInvalidateOptionsMenu();
         LoaderManager manager = getLoaderManager();
-        if (manager.getLoader(SORTABLE_CURSOR) != null && !manager.getLoader(SORTABLE_CURSOR).isReset())
-          manager.restartLoader(SORTABLE_CURSOR, null, this);
-        else
-          manager.initLoader(SORTABLE_CURSOR, null, this);
+        Utils.requireLoader(manager, SORTABLE_CURSOR, null, this);
       }
       return true;
     }
