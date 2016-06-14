@@ -23,6 +23,7 @@ import java.util.List;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.Account.Grouping;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -655,8 +656,7 @@ public class TransactionProvider extends ContentProvider {
     //Log.d("TIMER",uri.toString() + Arrays.toString(selectionArgs) + " : "+(endTime-startTime));
 
     if (uriMatch == TEMPLATES && uri.getQueryParameter(QUERY_PARAMETER_WITH_PLAN_INFO) != null) {
-      c = new PlanInfoCursorWrapper(getContext(), c);
-      ((PlanInfoCursorWrapper) c).fetchPlanInfo();
+      c = new PlanInfoCursorWrapper(getContext(), c, defaultOrderBy == null);
     }
     c.setNotificationUri(getContext().getContentResolver(), uri);
     return c;

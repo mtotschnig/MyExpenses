@@ -222,6 +222,8 @@ public class Utils {
       case ProtectedFragmentActivity.SORT_ORDER_AMOUNT:
         sortOrder =  "abs(" + KEY_AMOUNT + ") DESC, " + sortOrder;
         break;
+      case ProtectedFragmentActivity.SORT_ORDER_NEXT_INSTANCE:
+        sortOrder = null; //handled by PlanInfoCursorWrapper
       //default is textColumn
     }
     return sortOrder;
@@ -1397,6 +1399,8 @@ public class Utils {
         break;
       case ProtectedFragmentActivity.SORT_ORDER_CUSTOM:
         activeItem = sortMenu.findItem(R.id.SORT_CUSTOM_COMMAND);
+      case ProtectedFragmentActivity.SORT_ORDER_NEXT_INSTANCE:
+        activeItem = sortMenu.findItem(R.id.SORT_NEXT_INSTANCE_COMMAND);
         break;
       default:
         activeItem = sortMenu.findItem(R.id.SORT_TITLE_COMMAND);
@@ -1415,6 +1419,8 @@ public class Utils {
         return ProtectedFragmentActivity.SORT_ORDER_CUSTOM;
       case R.id.SORT_AMOUNT_COMMAND:
         return ProtectedFragmentActivity.SORT_ORDER_AMOUNT;
+      case R.id.SORT_NEXT_INSTANCE_COMMAND:
+        return ProtectedFragmentActivity.SORT_ORDER_NEXT_INSTANCE;
     }
     return null;
   }

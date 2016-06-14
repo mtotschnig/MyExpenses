@@ -25,22 +25,6 @@ public abstract class SortableListFragment extends ContextualActionBarFragment
     MenuItem menuItem = menu.findItem(R.id.SORT_COMMAND);
     if (menuItem == null) return;
     Utils.configureSortMenu(menuItem.getSubMenu(),getCurrentSortOrder());
-    SubMenu sortMenu = menuItem.getSubMenu();
-    MenuItem activeItem;
-    switch (getCurrentSortOrder()) {
-      case ProtectedFragmentActivity.SORT_ORDER_USAGES:
-        activeItem = sortMenu.findItem(R.id.SORT_USAGES_COMMAND);
-        break;
-      case ProtectedFragmentActivity.SORT_ORDER_LAST_USED:
-        activeItem = sortMenu.findItem(R.id.SORT_LAST_USED_COMMAND);
-        break;
-      case ProtectedFragmentActivity.SORT_ORDER_AMOUNT:
-        activeItem = sortMenu.findItem(R.id.SORT_AMOUNT_COMMAND);
-        break;
-      default:
-        activeItem = sortMenu.findItem(R.id.SORT_TITLE_COMMAND);
-    }
-    activeItem.setChecked(true);
   }
 
   @NonNull

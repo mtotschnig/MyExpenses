@@ -86,6 +86,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   public static final String SORT_ORDER_AMOUNT = "AMOUNT";
   public static final String SORT_ORDER_TITLE = "TITLE";
   public static final String SORT_ORDER_CUSTOM = "CUSTOM";
+  public static final String SORT_ORDER_NEXT_INSTANCE = "NEXT_INSTANCE";
   private AlertDialog pwDialog;
   private ProtectionDelegate protection;
   private boolean scheduledRestart = false;

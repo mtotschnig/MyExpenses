@@ -28,15 +28,19 @@ public class PlanInfoCursorWrapper extends CursorWrapperHelper {
   private final HashMap<Long, String> planInfo = new HashMap<>();
   private final HashMap<Integer, Long> nextInstance = new HashMap<>();
   private ArrayList<Integer> sortedPositions = new ArrayList<>();
-  private boolean doSort;
+  private boolean isInitializingPlanInfo;
+  private boolean shouldSortByNextInstance;
 
-  public PlanInfoCursorWrapper(Context context, Cursor cursor) {
+  public PlanInfoCursorWrapper(Context context, Cursor cursor, boolean shouldSortByNextInstance) {
     super(cursor);
     this.context = context;
+    this.shouldSortByNextInstance = shouldSortByNextInstance;
+    initializePlanInfo();
   }
 
-  public void fetchPlanInfo() {
-    doSort = false;
+  public void initializePlanInfo() {
+    isInitializingPlanInfo = true; // without having to support Gingerbread, we would not need to switch of sort,
+                    // we would use getWrappedCursor method introduced later
     if (moveToFirst()) {
       ArrayList<Long> plans = new ArrayList<>();
       long planId;
@@ -95,7 +99,7 @@ public class PlanInfoCursorWrapper extends CursorWrapperHelper {
         }
       }
     }
-    doSort = true;
+    isInitializingPlanInfo = false;
   }
 
   private long getNextInstance(long planId) {
@@ -156,6 +160,6 @@ public class PlanInfoCursorWrapper extends CursorWrapperHelper {
 
   @Override
   protected int getMappedPosition(int pos) {
-    return doSort ? sortedPositions.get(pos) : pos;
+    return (!isInitializingPlanInfo && shouldSortByNextInstance) ? sortedPositions.get(pos) : pos;
   }
 }
