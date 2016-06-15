@@ -259,6 +259,6 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
     return Ints.indexOf(column2FieldMap,field);
   }
   private String saveGetFromRecord(CSVRecord record, int index) {
-    return record.size()>index ? record.get(index) : "";
+    return record.size() > index ? record.get(index).trim() : "";
   }
 }
