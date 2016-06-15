@@ -154,7 +154,7 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
 
     AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
       .setTitle(getString(R.string.help_heading_whats_new))
-      .setIcon(R.drawable.myexpenses)
+      .setIcon(R.mipmap.ic_launcher)
       .setView(view)
       .setNegativeButton(android.R.string.ok, this);
     if (!MyApplication.getInstance().isContribEnabled())

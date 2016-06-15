@@ -33,7 +33,7 @@
     <application
         tools:ignore="UnusedAttribute"
         android:name="org.totschnig.myexpenses.MyApplication"
-        android:icon="@drawable/myexpenses"
+        android:icon="@mipmap/ic_launcher"
         android:label="${appName}"
         android:theme="@style/Launch"
         android:allowBackup="true"

@@ -111,7 +111,7 @@ public class WelcomeDialogFragment extends CommitSafeDialogFragment
     });
     mDialog = new AlertDialog.Builder(ctx)
       .setTitle(getResources().getString(R.string.app_name) + " " + getResources().getString(R.string.dialog_title_welcome))
-      .setIcon(R.drawable.myexpenses)
+      .setIcon(R.mipmap.ic_launcher)
       .setView(view)
       .setPositiveButton(android.R.string.ok,this)
       .create();

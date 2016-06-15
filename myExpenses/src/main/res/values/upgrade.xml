@@ -18,6 +18,11 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_270">
+    <item>New launcher icon</item>
+    <item>Search for transfers</item>
+    <item>Sort plans by next instance</item>
+  </string-array>
   <string-array name="whats_new_269">
     <item>Transaction form allows to create recurrence directly</item>
   </string-array>
