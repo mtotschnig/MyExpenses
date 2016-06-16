@@ -142,6 +142,7 @@
     <item>Administrere dem direkte på din smartphone.</item>
     <item>Eksportere dem til en Desktop økonomiprogramm ligesom Grisbi, GnuCash, Quicken eller MS Money.</item>
   </string-array>
+  <!--%s is replaced with Android or Blackberry-->
   <string name="help_leading">Tak for at installere <i>Mine udgifter</i> til %s.</string>
   <string name="important_upgrade_information_heading">Vigtige oplysninger</string>
   <string name="import_select_transactions">Posteringer</string>
@@ -529,4 +530,5 @@
   <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
   <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <!--Sort plans (recurring transactions) by the next instance-->
 </resources>

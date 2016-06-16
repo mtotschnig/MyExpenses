@@ -148,6 +148,7 @@
     <item>スマートフォンで直接管理します。</item>
     <item>Grisbi, GnuCash, Quicken または MS Money などのデスクトップのファイナンス プログラムにエクスポートすることができます。</item>
   </string-array>
+  <!--%s is replaced with Android or Blackberry-->
   <string name="help_leading">%s 用 <i>マイ エクスペンス</i> をインストールしていただきありがとうございます。</string>
   <string name="important_upgrade_information_heading">重要な情報</string>
   <string name="import_select_transactions">取引</string>
@@ -579,4 +580,7 @@
   <string name="paypal_transaction_id">Paypal 取引 ID</string>
   <string name="paypal_callback_info">取引は完了しました。ご購入の領収書をメールで送信しました。www.paypal.com にあなたのアカウントでログインして、この取引の詳細を表示することができます。</string>
   <string name="paypal_callback_later_clicked_info">設定画面から、いつでもこのキーをリクエストすることができます。</string>
+  <string name="search_transfer">振替の検索</string>
+  <!--Sort plans (recurring transactions) by the next instance-->
+  <string name="pref_sort_order_next_instance">次のインスタンス</string>
 </resources>

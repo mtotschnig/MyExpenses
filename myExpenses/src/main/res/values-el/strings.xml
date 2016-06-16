@@ -150,6 +150,7 @@
     <item>Διαχειριστείτε τα απευθείας στο smartphone σας.</item>
     <item>Κάνετε εξαγωγή τους σε ένα πρόγραμμα υπολογιστών γραφείου οικονομικών όπως Grisbi, GnuCash, Quicken ή MS Money.</item>
   </string-array>
+  <!--%s is replaced with Android or Blackberry-->
   <string name="help_leading">Ευχαριστώ για την εγκατάσταση <i>Έξοδα μου</i> για το %s.</string>
   <string name="important_upgrade_information_heading">Σημαντικές πληροφορίες</string>
   <string name="import_select_transactions">Συναλλαγές</string>
@@ -586,4 +587,5 @@
   <string name="warning_cannot_move_split_transaction">Αυτή η διεσπασμένη συναλλαγή δεν μπορεί να μετακινηθεί στον λογαριασμό %1$s γιατί υπάρχει μέρη μεταφοράς που αναφέρονται σε αυτόν τον λογαριασμό</string>
   <string name="content_description_calculator_clear_button">Επαναφορά όλων</string>
   <string name="content_description_calculator_delete_button">Διαγραφή τελευταίου ψηφίου</string>
+  <!--Sort plans (recurring transactions) by the next instance-->
 </resources>

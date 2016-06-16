@@ -103,6 +103,7 @@
     <item>Kezelje közvetlenül telefonjáról</item>
     <item>Exportálja adatait olyan alkalmazásokba, mint a Grisbi, GnuCash, Quicken vagy MS Money.</item>
   </string-array>
+  <!--%s is replaced with Android or Blackberry-->
   <string name="help_leading">Köszönjük, hogy a <i>Kiadásaim</i> %s változatát telepítette.</string>
   <string name="important_upgrade_information_heading">Fontos információ</string>
   <string name="income">Bevétel</string>
@@ -328,4 +329,5 @@
   <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
   <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <!--Sort plans (recurring transactions) by the next instance-->
 </resources>

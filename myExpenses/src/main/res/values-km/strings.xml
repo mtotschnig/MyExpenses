@@ -115,6 +115,7 @@
     <item>គ្រប់គ្រង ដោយផ្ទាល់នៅលើទូរស័ព្ទ​ដៃ​របស់អ្នក។</item>
     <item>នាំចេញ ទៅក្នុងកម្មវិធីហិរញ្ញវត្ថុលើ Desktop ដូចជា Grisbi, GnuCash, Quicken ឬក៏ MS Money។</item>
   </string-array>
+  <!--%s is replaced with Android or Blackberry-->
   <string name="help_leading">អរគុណ​ចំពោះការបញ្ចូល <i>My Expenses</i> លើ​ %s។</string>
   <string name="important_upgrade_information_heading">ព័ត៌​មាន​សំខាន់</string>
   <string name="import_select_transactions">ប្រតិបត្តិការ</string>
@@ -398,4 +399,5 @@
   <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
   <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <!--Sort plans (recurring transactions) by the next instance-->
 </resources>

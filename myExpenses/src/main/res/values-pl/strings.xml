@@ -124,6 +124,7 @@
     <item>Zarządzaj nimi bezpośrednio na swoim smartfonie.</item>
     <item>Eksportuj je do finansowego programu komputerowego t.j. Grisbi, GnuCash, Quicken lub Microsoft Money.</item>
   </string-array>
+  <!--%s is replaced with Android or Blackberry-->
   <string name="help_leading">Dziękujemy za zainstalowanie <i>Moje Wydatki</i> dla systemu %s.</string>
   <string name="important_upgrade_information_heading">Ważna informacja</string>
   <string name="import_select_transactions">Transakcje</string>
@@ -483,4 +484,5 @@
   <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
   <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <!--Sort plans (recurring transactions) by the next instance-->
 </resources>

@@ -1,5 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_270">
+    <item>Nouvelle icône de lancement</item>
+    <item>Recherche de transferts</item>
+    <item>Tri des échéances par date</item>
+  </string-array>
   <string-array name="whats_new_269">
     <item>Création directe des échéances à partir des opérations</item>
   </string-array>

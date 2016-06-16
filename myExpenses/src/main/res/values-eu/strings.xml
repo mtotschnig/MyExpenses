@@ -150,6 +150,7 @@
     <item>Kudeatu itzazu zuzenean zure sakelakotik</item>
     <item>Esportatu dena Grisbi, GnuCash, Quicken edo MS Money bezalako mahaigaineko aplikazio batetara.</item>
   </string-array>
+  <!--%s is replaced with Android or Blackberry-->
   <string name="help_leading">Eskerrik asko %s <i>Nire Gastuak</i> instalatzeagatik.</string>
   <string name="important_upgrade_information_heading">Informazio garrantzitsua</string>
   <string name="import_select_transactions">Transakzioak</string>
@@ -582,4 +583,5 @@ Librezale.eus</string>
   <string name="plan_instance_state_cancelled">ezeztatuta</string>
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <string name="plan_instance_state_applied">aplikatuta</string>
+  <!--Sort plans (recurring transactions) by the next instance-->
 </resources>

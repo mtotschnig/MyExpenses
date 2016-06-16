@@ -150,6 +150,7 @@
     <item>Akıllı telefonunuzda doğrudan yönetin.</item>
     <item>Grisbi, GnuCash, Quicken ya da MS Money gibi masa üstü finans programlarına aktarın.</item>
   </string-array>
+  <!--%s is replaced with Android or Blackberry-->
   <string name="help_leading">%s için <i>Harcamalarım</i>\'i kurduğunuz için teşekkür ederiz.</string>
   <string name="important_upgrade_information_heading">Önemli bilgi</string>
   <string name="import_select_transactions">Muameleler</string>
@@ -589,4 +590,6 @@
   <string name="paypal_transaction_id">Paypal Muamele Kimliği</string>
   <string name="paypal_callback_info">Muameleniz tamamlanmış ve alışverişiniz hakkında bir makbuz e-posta ile size gönderilmiştir. Bu muamelenin ayrıntılarını görüntülemek için hesabınıza www.paypal.com adresinde bağlanabilirsiniz.</string>
   <string name="paypal_callback_later_clicked_info">Ayarlar ekranından ne zaman isterseniz bir anahtar talep edebilirsiniz.</string>
+  <string name="search_transfer">Transfer için ara</string>
+  <!--Sort plans (recurring transactions) by the next instance-->
 </resources>

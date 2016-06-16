@@ -65,7 +65,7 @@
   <string name="dialog_confirm_discard_new_account">Да отхвърля ли новата сметка?</string>
   <string name="dialog_confirm_discard_new_method">Да отхвърля ли новия начин на плащане?</string>
   <string name="dialog_command_disabled_balance">Няма изчистени транзакции, които да бъдат изравнени.</string>
-  <string name="dialog_command_disabled_insert_transfer">Транзакциите трансфер изискват втора сметка.</string>
+  <string name="dialog_command_disabled_insert_transfer">Транзакциите превод изискват втора сметка.</string>
   <string name="dialog_command_disabled_reset_account">Няма транзакции за експорт.</string>
   <string name="dialog_command_disabled_distribution">В тази сметка няма транзакции, отнесени към категорията.</string>
   <string name="dialog_contrib_no">Още не</string>
@@ -78,7 +78,7 @@
   <string name="dialog_contrib_reminder_remove_limitation">Премахнете ограничението с покупка на %s.</string>
   <string name="dialog_contrib_reminder_gain_access">Може да получите неограничен достъп до следните функции:</string>
   <string name="dialog_contrib_extended_gain_access">Aко закупите ключ за Разширен вариант се отключват допълнително следните функции:</string>
-  <string name="dialog_contrib_text_1"><i>Моите разходи</i> се предлага свободно от реклами и с отворен код.</string>
+  <string name="dialog_contrib_text_1"><i>Моите разходи</i> се предлага без реклами и с отворен код.</string>
   <string name="dialog_contrib_text_2">Моля, допринесете като закупите %s.</string>
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Остава само една свободна употреба.</item>
@@ -150,6 +150,7 @@
     <item>Управлявайте директно на вашия смартфон.</item>
     <item>Експортирайте ги във финансова програма на персоналния си компютър, като Grisbi, GnuCash, Quicken или MS пари.</item>
   </string-array>
+  <!--%s is replaced with Android or Blackberry-->
   <string name="help_leading">Благодаря Ви, че инсталирахте <i>Моите разходи</i> за %s.</string>
   <string name="important_upgrade_information_heading">Важна информация</string>
   <string name="import_select_transactions">Транзакции</string>
@@ -179,14 +180,14 @@
   <string name="menu_create_party">Нова страна</string>
   <string name="menu_create_split">Ново разпределяне</string>
   <string name="menu_create_split_part_category">Разпредели в категория</string>
-  <string name="menu_create_split_part_transfer">Разпредели с трансфер</string>
+  <string name="menu_create_split_part_transfer">Разпредели с превод</string>
   <string name="menu_create_sub_cat">Нова подкатегория</string>
   <string name="menu_create_template">Нов шаблон</string>
   <string name="menu_create_template_from_transaction">Запамети като шаблон</string>
   <string name="menu_create_template_for_transaction">Нов шаблон за транзакция</string>
-  <string name="menu_create_template_for_transfer">Нов шаблон за трансфер</string>
+  <string name="menu_create_template_for_transfer">Нов шаблон за превод</string>
   <string name="menu_create_transaction">Нова транзакция</string>
-  <string name="menu_create_transfer">Нов трансфер</string>
+  <string name="menu_create_transfer">Нов превод</string>
   <string name="menu_delete">Изтрий</string>
   <string name="menu_distribution">Графика</string>
   <string name="menu_edit">Редактирай</string>
@@ -197,10 +198,10 @@
   <string name="menu_edit_plan_instance">Редактирай плана</string>
   <string name="menu_edit_split">Редактирай разпределяне</string>
   <string name="menu_edit_split_part_category">Редактирай разпределяне по категория</string>
-  <string name="menu_edit_split_part_transfer">Редактирай разпределяне с трансфер</string>
+  <string name="menu_edit_split_part_transfer">Редактирай разпределяне с превод</string>
   <string name="menu_edit_template">Редактирай шаблон</string>
   <string name="menu_edit_transaction">Редактирай транзакция</string>
-  <string name="menu_edit_transfer">Редактирай трансфер</string>
+  <string name="menu_edit_transfer">Редактирай превод</string>
   <string name="menu_exclude_from_totals">Изключи от Общи суми</string>
   <string name="menu_forward">Напред</string>
   <string name="menu_grouping">Групиране</string>
@@ -380,7 +381,7 @@
   <string name="restore_preferences_success">Предпочитанията са възстановени успешно.</string>
   <string name="restore_calendar_success" tools:ignore="PluralsCandidate">Успешно възстановени %d плана.</string>
   <string name="save_transaction_and_new_success">Успешно запаметено.</string>
-  <string name="save_transaction_error">Неуспешен запис на транзакция от шаблон.</string>
+  <string name="save_transaction_error">Неуспешен запис на превод от шаблон.</string>
   <plurals name="save_transaction_from_template_success">
     <item quantity="one">Успешно записана транзакция от шаблон.</item>
     <item quantity="other">Успешно записани %1$d транзакции от шаблон.</item>
@@ -402,7 +403,7 @@
   <string name="subcategory">Подкатегория</string>
   <string name="sum_expenses">Разходи общо</string>
   <string name="sum_income">Приходи общо</string>
-  <string name="sum_transfer">Трансфери общо</string>
+  <string name="sum_transfer">Преводи общо</string>
   <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Вижте Mоите разходи, личен финансов мениджър за %s, на http://www.myexpenses.mobi</string>
   <string name="template_create_success">Успешно създаден шаблон \"%1$s\"</string>
@@ -412,7 +413,7 @@
   <string name="total_cleared">Изчистени общо</string>
   <string name="total_reconciled">Съгласувани общо</string>
   <string name="transaction">Транзакция</string>
-  <string name="transfer">Трансфер</string>
+  <string name="transfer">Превод</string>
   <string name="transfer_from_account">От</string>
   <string name="transfer_to_account">Към</string>
   <string name="type">Тип</string>
@@ -583,10 +584,13 @@
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <string name="plan_instance_state_applied">приложен</string>
   <string name="progress_dialog_updating_split_parts">Обновяване на разпределяните части</string>
-  <string name="warning_cannot_move_split_transaction">Тази разпределена транзакция не може да бъде преместена в сметка %1$s, защото има отнесени към сметката нейни части .</string>
+  <string name="warning_cannot_move_split_transaction">Тази разпределена транзакция не може да бъде преместена в сметка %1$s, защото има отнесени към сметката нейни части.</string>
   <string name="content_description_calculator_clear_button">Нулирай всичко</string>
   <string name="content_description_calculator_delete_button">Изтрии последната цифра</string>
   <string name="paypal_transaction_id">Paypal идентификатор на транзакцията</string>
   <string name="paypal_callback_info">Транзакцията е завършена и квитанцията за покупката Ви е изпратена на електронната поща. За подробности по транзакцията вижте профила си във www.paypal.com.</string>
   <string name="paypal_callback_later_clicked_info">От екрана с Настройки може да заявите ключ по всяко време.</string>
+  <string name="search_transfer">Търсене на превод</string>
+  <!--Sort plans (recurring transactions) by the next instance-->
+  <string name="pref_sort_order_next_instance">Следваща инстанция</string>
 </resources>

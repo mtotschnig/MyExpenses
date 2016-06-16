@@ -1,5 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_270">
+    <item>Нова икона за стартиране</item>
+    <item>Търсене на преводи</item>
+    <item>Сортиране на плановете по следваща инстанция</item>
+  </string-array>
   <string-array name="whats_new_269">
     <item>Повтаряне на транзакцията може да се зададе директно от формата при създаването й.</item>
   </string-array>
@@ -8,7 +13,7 @@
   </string-array>
   <string-array name="whats_new_267">
     <item>Превод на китайски език</item>
-    <item>Подобрена обработка на плановите инстанции</item>
+    <item>Подобрена обработка на инстанциите в плановете</item>
   </string-array>
   <string-array name="whats_new_266">
     <item>Нови икони в менюто</item>
@@ -23,7 +28,7 @@
     <item>Помощ за формат на датата в диалога за експорт</item>
   </string-array>
   <string-array name="whats_new_263">
-    <item>Трансфер между сметки с различни валути.</item>
+    <item>Преводи между сметки с различни валути.</item>
   </string-array>
   <string-array name="whats_new_262">
     <item>Възможност да настроите ден от седмицата и дата от месеца за период на групирне на транзакциите.</item>

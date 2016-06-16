@@ -148,6 +148,7 @@
     <item>Urus ia secara terus dalam telefon pintar anda.</item>
     <item>Eksport ia ke dalam program kewangan Desktop seperti Grisbi, GnuCash, Quicken atau MS Money.</item>
   </string-array>
+  <!--%s is replaced with Android or Blackberry-->
   <string name="help_leading">Terima kasih kerana memasang <i>Perbelanjaan Saya</i> %s.</string>
   <string name="important_upgrade_information_heading">Maklumat penting</string>
   <string name="import_select_transactions">Transaksi</string>
@@ -579,4 +580,5 @@
   <string name="paypal_transaction_id">ID Transaksi Paypal</string>
   <string name="paypal_callback_info">Transaksi anda telah selesai, dan satu resip pembelian anda telah diemelkan kepada anda. Anda boleh daftar masuk ke akaun anda di www.paypal.com untuk melihat perincian transaksi ini.</string>
   <string name="paypal_callback_later_clicked_info">Melalui skrin tetapan, anda boleh pinta kunci pada bila-bila masa.</string>
+  <!--Sort plans (recurring transactions) by the next instance-->
 </resources>

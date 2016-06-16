@@ -150,6 +150,7 @@
     <item>Verwalten Sie diese direkt auf Ihrem Smartphone.</item>
     <item>Exportieren Sie diese in ein Desktop-Finanzprogrammm (Grisbi, Gnucash, Quicken oder MS Money).</item>
   </string-array>
+  <!--%s is replaced with Android or Blackberry-->
   <string name="help_leading">Danke fürs Ausprobieren von <i>Meine Ausgaben</i> für %s.</string>
   <string name="important_upgrade_information_heading">Wichtige Information</string>
   <string name="import_select_transactions">Buchungen</string>
@@ -589,4 +590,7 @@
   <string name="paypal_transaction_id">PayPal Transaktionscode</string>
   <string name="paypal_callback_info">Danke für Ihre Zahlung. Ihre Transaktion wurde abgeschlossen und Sie erhalten per E-Mail eine Bestätigung für Ihren Kauf. Sie können sich unter www.paypal.de in Ihr Konto einloggen, um die Transaktionsdetails anzuzeigen.</string>
   <string name="paypal_callback_later_clicked_info">Über den Bereich \"Einstellungen\" können Sie jederzeit einen Schlüssel beantragen.</string>
+  <string name="search_transfer">Suche nach Umbuchung</string>
+  <!--Sort plans (recurring transactions) by the next instance-->
+  <string name="pref_sort_order_next_instance">Nächstes Vorkommen</string>
 </resources>

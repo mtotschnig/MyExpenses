@@ -1,5 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_270">
+    <item>Nuova icona di avvio</item>
+    <item>Ricerca per i trasferimenti</item>
+    <item>Piani di sorta di istanza successiva</item>
+  </string-array>
   <string-array name="whats_new_269">
     <item>Il formulario dell\'operazione permette di creare la ricorrenza direttamente</item>
   </string-array>

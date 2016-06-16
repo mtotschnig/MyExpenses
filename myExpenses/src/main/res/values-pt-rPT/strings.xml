@@ -148,6 +148,7 @@
     <item>Gestão direta no seu smartphone.</item>
     <item>Exportação para um programa de finanças como o Grisbi, GnuCash, Quicken ou MS Money.</item>
   </string-array>
+  <!--%s is replaced with Android or Blackberry-->
   <string name="help_leading">Obrigado por instalar o <i>My Expenses</i> para %s.</string>
   <string name="important_upgrade_information_heading">Informação importante</string>
   <string name="import_select_transactions">Transações</string>
@@ -513,4 +514,5 @@ Sérgio Marques</string>
   <string name="content_description_calculator_delete_button">Apagar o último dígito</string>
   <string name="paypal_transaction_id">ID da transação Paypal</string>
   <string name="paypal_callback_info">A sua transação foi concluída e um recibo da sua compra foi enviado para o seu email. Pode aceder à sua conta em www.paypal.com para ver os detalhes desta transação.</string>
+  <!--Sort plans (recurring transactions) by the next instance-->
 </resources>

@@ -143,6 +143,7 @@
     <item>Gestionaţi-le direct pe smartphone-ul dvs.</item>
     <item>Exportaţi-le într-un program de  finanţe de tip desktop ca Grisbi, GnuCash, Quicken or MS Money.</item>
   </string-array>
+  <!--%s is replaced with Android or Blackberry-->
   <string name="help_leading">Vă mulţumim pentru instalarea <i>Cheltuielile Mele</i> pentru %s.</string>
   <string name="important_upgrade_information_heading">Informaţii importante</string>
   <string name="import_select_transactions">Tranzacţii</string>
@@ -538,4 +539,5 @@ Tradus de DD</string>
   <string name="plan_instance_state_cancelled">Anulat</string>
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <string name="plan_instance_state_applied">aplicat</string>
+  <!--Sort plans (recurring transactions) by the next instance-->
 </resources>

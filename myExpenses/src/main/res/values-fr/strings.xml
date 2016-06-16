@@ -150,6 +150,7 @@
     <item>Gérez-les directement sur votre smartphone.</item>
     <item>Exportez-les vers un logiciel de finance, tel que Grisbi, Gnucash, Quicken ou MS Money.</item>
   </string-array>
+  <!--%s is replaced with Android or Blackberry-->
   <string name="help_leading">Merci d\'essayer <i>Mes dépenses</i> pour %s.</string>
   <string name="important_upgrade_information_heading">Information importante</string>
   <string name="import_select_transactions">Opérations</string>
@@ -589,4 +590,7 @@
   <string name="paypal_transaction_id">N° d\'opération Paypal</string>
   <string name="paypal_callback_info">Votre transaction s\'est bien terminée,  et un reçu de votre achat vous a été envoyé par courriel. Vous pouvez vous connecter sur votre compte PayPal pour voir les détails de cette transaction.  </string>
   <string name="paypal_callback_later_clicked_info">A partir de l\'écran des paramètres,  vous pouvez demander une clé n\'importe quand. </string>
+  <string name="search_transfer">Recherche de transfert</string>
+  <!--Sort plans (recurring transactions) by the next instance-->
+  <string name="pref_sort_order_next_instance">Echéance suivante</string>
 </resources>

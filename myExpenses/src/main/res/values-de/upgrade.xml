@@ -1,5 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_270">
+    <item>Neues Start-Symbol</item>
+    <item>Suche nach Umbuncung</item>
+    <item>Pläne können nach dem nächsten Vorkommen sortiert werden</item>
+  </string-array>
   <string-array name="whats_new_269">
     <item>Buchungsformular ermöglicht Wiederholung direkt einzustellen</item>
   </string-array>

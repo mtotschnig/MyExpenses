@@ -112,6 +112,7 @@
     <item>إدارتهم مباشرة من خلال جهازك الذكي.</item>
     <item>تصديرهم لبرامج إدارة الموارد المالية مثل Grisbi, GnuCash, Quicken, MS Money.</item>
   </string-array>
+  <!--%s is replaced with Android or Blackberry-->
   <string name="help_leading">شكرا لتثبيتك تطبيق <i>مصروفاتي</i>لا %s.</string>
   <string name="important_upgrade_information_heading">معلومات مهمة</string>
   <string name="import_select_transactions">العمليات</string>
@@ -427,4 +428,5 @@
   <string name="plan_instance_state_cancelled">تم الإلغاء</string>
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <string name="plan_instance_state_applied">تم التطبيق</string>
+  <!--Sort plans (recurring transactions) by the next instance-->
 </resources>

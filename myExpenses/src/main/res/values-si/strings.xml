@@ -109,6 +109,7 @@
     <item>ස්මාර්ට් ජංගම දුරකථනය හරහා මනා කළමනාකරණය </item>
     <item>ග්රිස්බි, නු කෑෂ් , කුඉකන් හෝ එම එස් මනි වැනි ඩෙක්ස්ටොප් මුල්‍ය වැඩසටහන් වලට අපනයන </item>
   </string-array>
+  <!--%s is replaced with Android or Blackberry-->
   <string name="help_leading"> <i>මයි එක්ස්පෙන්සස්</i> %s පිහිටුවීම නිසා ස්තුත්යි   </string>
   <string name="important_upgrade_information_heading">වැදගත් තොරතුරු </string>
   <string name="import_select_transactions">ගනුදෙනු </string>
@@ -400,4 +401,5 @@
   <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
   <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <!--Sort plans (recurring transactions) by the next instance-->
 </resources>

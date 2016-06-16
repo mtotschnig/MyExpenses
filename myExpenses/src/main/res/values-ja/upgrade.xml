@@ -1,5 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_270">
+    <item>新しいランチャーアイコン</item>
+    <item>振替の検索</item>
+    <item>次のインスタンスで計画をソート</item>
+  </string-array>
   <string-array name="whats_new_269">
     <item>直接、繰り返しを作成することができる取引フォーム</item>
   </string-array>

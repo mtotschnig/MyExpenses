@@ -105,6 +105,7 @@
     <item>直接使用你的智能手機管理它們。</item>
     <item>匯出它們到理財程式，例如Grisbi、GnuCash、Quicken或MS Money。</item>
   </string-array>
+  <!--%s is replaced with Android or Blackberry-->
   <string name="help_leading">感謝你安裝<i>開支助手</i>%s版。</string>
   <string name="important_upgrade_information_heading">重要資訊</string>
   <string name="income">收入</string>
@@ -325,4 +326,5 @@
   <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
   <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <!--Sort plans (recurring transactions) by the next instance-->
 </resources>

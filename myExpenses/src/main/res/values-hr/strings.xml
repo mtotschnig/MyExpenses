@@ -126,6 +126,7 @@
     <item>Upravljajte njima direktno putem smartphonea.</item>
     <item>Eksportirajte ih u Desktop financijske programe kao što su Grisbi, GnuCash, Quicken ili MS Money.</item>
   </string-array>
+  <!--%s is replaced with Android or Blackberry-->
   <string name="help_leading">Zahvaljujemo na instalaciji  <i>My Expenses</i> za %s.</string>
   <string name="important_upgrade_information_heading">Važne informacije</string>
   <string name="import_select_transactions">Transakcije</string>
@@ -472,4 +473,5 @@
   <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
   <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <!--Sort plans (recurring transactions) by the next instance-->
 </resources>

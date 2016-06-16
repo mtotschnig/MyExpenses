@@ -150,6 +150,7 @@
     <item>Gerenciá-los diretamente em seu smartphone.</item>
     <item>Exportá-las para um programa de Desktop Finanças Grisbi, GnuCash, Quicken ou MS Money.</item>
   </string-array>
+  <!--%s is replaced with Android or Blackberry-->
   <string name="help_leading">Obrigado por instalar o <i>My Expenses</i> para %s.</string>
   <string name="important_upgrade_information_heading">Informações importantes</string>
   <string name="import_select_transactions">Transações</string>
@@ -586,4 +587,5 @@
   <string name="warning_cannot_move_split_transaction">Isso transação com parcelas não pode ser movido para %1$s porque há parcelas de transferência que se referem a esta conta.</string>
   <string name="content_description_calculator_clear_button">Redefinir todas</string>
   <string name="content_description_calculator_delete_button">Apagar o último dígito</string>
+  <!--Sort plans (recurring transactions) by the next instance-->
 </resources>

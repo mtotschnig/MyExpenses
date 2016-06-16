@@ -108,6 +108,7 @@
     <item>Spravovujte je přímo v telefonu.</item>
     <item>Exportujte je do plochy finančního programu jako Grisbi, GnuCash, Quicken nebo MS Money.</item>
   </string-array>
+  <!--%s is replaced with Android or Blackberry-->
   <string name="help_leading">Děkujeme za instalaci <i>My výdaje</i> pro %s.</string>
   <string name="important_upgrade_information_heading">Důležité informace</string>
   <string name="income">Příjem</string>
@@ -340,4 +341,5 @@
   <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
   <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <!--Sort plans (recurring transactions) by the next instance-->
 </resources>

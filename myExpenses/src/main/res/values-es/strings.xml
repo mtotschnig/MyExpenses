@@ -150,6 +150,7 @@
     <item>Administrar directamente en su móvil.</item>
     <item>Exportarlos a un programa de escritorio de finanzas (Grisbi, Gnucash, Quicken o MS Money).</item>
   </string-array>
+  <!--%s is replaced with Android or Blackberry-->
   <string name="help_leading">Gracias por probar <i>Mis gastos</i> para %s.</string>
   <string name="important_upgrade_information_heading">Información importante</string>
   <string name="import_select_transactions">Asientos</string>
@@ -589,4 +590,7 @@
   <string name="paypal_transaction_id">Identificador de la transacción de PayPal</string>
   <string name="paypal_callback_info">Se haya completado su transacción, y un recibo de su compra ha sido enviado a usted. Puede iniciar sesión en tu cuenta en www.paypal.com para ver los detalles de esta transacción.</string>
   <string name="paypal_callback_later_clicked_info">En la pantalla de configuración, puede solicitar una clave en cualquier momento.</string>
+  <string name="search_transfer">Búsqueda para transferencia</string>
+  <!--Sort plans (recurring transactions) by the next instance-->
+  <string name="pref_sort_order_next_instance">Instancia siguiente</string>
 </resources>
