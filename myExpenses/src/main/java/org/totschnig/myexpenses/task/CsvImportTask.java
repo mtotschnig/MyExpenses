@@ -20,8 +20,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import com.google.common.primitives.Ints;
-
 import org.apache.commons.csv.CSVRecord;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -41,10 +39,10 @@ import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable;
+import org.totschnig.myexpenses.util.Utils;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Currency;
 import java.util.HashMap;
 import java.util.Map;
@@ -256,7 +254,7 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
         a.label);
   }
   private int findColumnIndex(int field) {
-    return Ints.indexOf(column2FieldMap,field);
+    return Utils.indexOf(column2FieldMap, field);
   }
   private String saveGetFromRecord(CSVRecord record, int index) {
     return record.size() > index ? record.get(index).trim() : "";

@@ -25,8 +25,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import com.google.common.base.Joiner;
+import android.text.TextUtils;
 
 public class CrStatusCriteria extends Criteria {
   public CrStatusCriteria(String... values) {
@@ -59,7 +58,7 @@ public class CrStatusCriteria extends Criteria {
   };
   @Override
   public String toStringExtra() {
-    return Joiner.on(EXTRA_SEPARATOR).join(values);
+    return TextUtils.join(EXTRA_SEPARATOR, values);
   }
   public static CrStatusCriteria fromStringExtra(String extra) {
     return new CrStatusCriteria(extra.split(EXTRA_SEPARATOR));

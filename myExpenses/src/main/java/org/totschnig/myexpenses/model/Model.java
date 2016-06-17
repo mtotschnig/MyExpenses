@@ -21,8 +21,7 @@ import org.totschnig.myexpenses.MyApplication;
 
 import android.content.ContentResolver;
 import android.net.Uri;
-
-import com.google.common.annotations.VisibleForTesting;
+import android.support.annotation.VisibleForTesting;
 
 public abstract class Model implements Serializable {
   private Long id = 0L;

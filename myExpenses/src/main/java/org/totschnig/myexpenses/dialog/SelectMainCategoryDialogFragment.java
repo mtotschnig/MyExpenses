@@ -26,8 +26,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AlertDialog;
-
-import com.google.common.base.Joiner;
+import android.text.TextUtils;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.R;
@@ -90,7 +89,7 @@ public class SelectMainCategoryDialogFragment extends CommitSafeDialogFragment i
       return null;
     }
     String selection = KEY_PARENTID + " is null AND "+ KEY_ROWID + " NOT IN (" +
-        Joiner.on(',').join(ArrayUtils.toObject(getArguments().getLongArray(KEY_EXCLUDED_ID)))+ ")";
+        TextUtils.join(",", ArrayUtils.toObject(getArguments().getLongArray(KEY_EXCLUDED_ID)))+ ")";
 
     CursorLoader cursorLoader = new CursorLoader(
         getActivity(),

@@ -25,10 +25,9 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.util.SparseBooleanArray;
 import android.widget.ListView;
-
-import com.google.common.base.Joiner;
 
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.provider.filter.Criteria;
@@ -93,7 +92,7 @@ public abstract class SelectFromMappedTableDialogFragment extends CommitSafeDial
       }
       ((MyExpenses) getActivity()).addFilterCriteria(
           getCommand(),
-          makeCriteria(Joiner.on(",").join(labelList), itemIds));
+          makeCriteria(TextUtils.join(",", labelList), itemIds));
     }
     dismiss();
   }

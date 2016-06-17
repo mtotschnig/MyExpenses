@@ -47,8 +47,6 @@ import org.totschnig.myexpenses.util.PdfHelper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.Result;
 
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.primitives.Ints;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -66,6 +64,7 @@ import android.net.Uri;
 import android.net.Uri.Builder;
 import android.os.Build;
 import android.os.RemoteException;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 
@@ -554,7 +553,7 @@ public class Account extends Model {
         Arrays.sort(result, new Comparator<CurrencyEnum>() {
           @Override
           public int compare(CurrencyEnum lhs, CurrencyEnum rhs) {
-            int classCompare = Ints.compare(lhs.sortClass(), rhs.sortClass());
+            int classCompare = Utils.compare(lhs.sortClass(), rhs.sortClass());
             return classCompare == 0 ?
                 collator.compare(lhs.toString(), rhs.toString()) : classCompare;
           }

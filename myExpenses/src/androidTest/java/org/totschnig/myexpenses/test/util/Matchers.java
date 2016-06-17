@@ -18,18 +18,13 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static org.hamcrest.Matchers.is;
 
-/**
- * Created by michaeltotschnig on 01.03.16.
- */
 public class Matchers {
   private Matchers() {
   }
 
   public static Matcher<View> withSpinnerText(final String string) {
-    checkNotNull(string);
     final CursorMatchers.CursorMatcher cursorMatcher =
         CursorMatchers.withRowString(DatabaseConstants.KEY_LABEL,string);
     return new BoundedMatcher<View, Spinner>(Spinner.class) {
@@ -52,7 +47,6 @@ public class Matchers {
   }
 
   public static Matcher<View> withListSize(final Matcher<Integer> integerMatcher) {
-    checkNotNull(integerMatcher);
     return new BoundedMatcher<View, ListView>(ListView.class) {
       @Override
       public void describeTo(Description description) {

@@ -31,9 +31,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.net.Uri;
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
-
-import com.google.common.annotations.VisibleForTesting;
 
 public class PaymentMethod extends Model {
   private String label;

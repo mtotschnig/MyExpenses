@@ -18,7 +18,7 @@
 -dontwarn sun.misc.Unsafe
 
 -keepclassmembers class * {
-    @com.google.common.annotations.VisibleForTesting *;
+    @android.support.annotation.VisibleForTesting *;
 }
 
 -keep enum org.totschnig.myexpenses.activity.*$HelpVariant
@@ -32,7 +32,7 @@
 
 # needed by MyTestRunner
 -keepclassmembers class org.totschnig.myexpenses.MyApplication {
-    protected static boolean instrumentationTest;
+    public static void setInstrumentationTest(boolean);
     public static void cleanUpAfterTest();
 }
 

@@ -19,8 +19,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SwitchCompat;
@@ -32,6 +30,7 @@ import android.widget.CompoundButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.CommonCommands;
@@ -88,7 +87,8 @@ public class WelcomeDialogFragment extends CommitSafeDialogFragment
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     Activity ctx  = getActivity();
     LayoutInflater li = LayoutInflater.from(ctx);
-    View view = DataBindingUtil.inflate(li, R.layout.welcome_dialog, null, false).getRoot();
+    View view = li.inflate(R.layout.welcome_dialog, null);
+    ((TextView) view.findViewById(R.id.help_leading)).setText(getString(R.string.help_leading, BuildConfig.PLATTFORM));
     mProgress = (ProgressBar) view.findViewById(R.id.progress);
     //noinspection SetTextI18n
     ((TextView) view.findViewById(R.id.help_intro))

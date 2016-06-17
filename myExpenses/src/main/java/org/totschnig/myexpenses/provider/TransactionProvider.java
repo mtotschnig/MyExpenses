@@ -23,7 +23,6 @@ import java.util.List;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.Account.Grouping;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -42,10 +41,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.os.Build;
+import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 import android.util.Log;
-
-import com.google.common.annotations.VisibleForTesting;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 

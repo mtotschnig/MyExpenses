@@ -59,7 +59,6 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.google.common.base.Joiner;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.MyApplication;
@@ -453,7 +452,7 @@ public class CategoryList extends SortableListFragment implements
         }
         Intent intent = new Intent();
         intent.putExtra(KEY_CATID, ArrayUtils.toPrimitive(itemIds));
-        intent.putExtra(KEY_LABEL, Joiner.on(",").join(labelList));
+        intent.putExtra(KEY_LABEL, TextUtils.join(",", labelList));
         ctx.setResult(ManageCategories.RESULT_FIRST_USER, intent);
         ctx.finish();
         return true;

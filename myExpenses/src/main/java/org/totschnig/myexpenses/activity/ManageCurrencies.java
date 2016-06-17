@@ -5,8 +5,6 @@ import android.support.v4.app.ListFragment;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import com.google.common.math.IntMath;
-
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
@@ -16,6 +14,7 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.util.Utils;
 
 import java.util.Currency;
 
@@ -57,7 +56,7 @@ public class ManageCurrencies extends ProtectedFragmentActivity implements
           message += " " + getString(
               delta > 0 ? R.string.warning_change_fraction_digits_2_multiplied :
                   R.string.warning_change_fraction_digits_2_divided,
-              IntMath.pow(10, Math.abs(delta)));
+              Utils.pow(10, Math.abs(delta)));
           if (delta > 0) {
             message += " " + getString(R.string.warning_change_fraction_digits_3);
           }

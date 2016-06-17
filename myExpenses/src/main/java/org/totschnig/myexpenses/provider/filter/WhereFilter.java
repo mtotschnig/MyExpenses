@@ -19,7 +19,6 @@
 package org.totschnig.myexpenses.provider.filter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -27,7 +26,6 @@ import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.SparseArray;
 
-import com.google.common.base.Joiner;
 
 public class WhereFilter {
 
@@ -146,7 +144,7 @@ public class WhereFilter {
         labels.add(c.prettyPrint());
       }
     }
-    return Joiner.on(" - ").join(labels);
+    return TextUtils.join(" - ", labels);
   }
 
   public static enum Operation {

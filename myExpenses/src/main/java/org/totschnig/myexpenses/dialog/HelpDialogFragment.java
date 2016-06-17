@@ -35,11 +35,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
-
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.util.ArrayList;

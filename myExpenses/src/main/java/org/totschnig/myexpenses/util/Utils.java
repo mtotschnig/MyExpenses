@@ -36,6 +36,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.ContextCompat;
@@ -58,8 +59,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-
-import com.google.common.annotations.VisibleForTesting;
 
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
@@ -1490,5 +1489,56 @@ public class Utils {
 
   public static final boolean shouldUseAndroidPlatformCalendar() {
     return IS_ANDROID;
+  }
+
+  //Integer compare is API 19
+  public static int compare(int lhs, int rhs) {
+    return lhs < rhs ? -1 : (lhs == rhs ? 0 : 1);
+  }
+  // From Guava
+  public static int indexOf(int[] array, int target) {
+    return indexOf(array, target, 0, array.length);
+  }
+
+  private static int indexOf(
+      int[] array, int target, int start, int end) {
+    for (int i = start; i < end; i++) {
+      if (array[i] == target) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  public static int pow(int b, int k) {
+    switch (b) {
+      case 0:
+        return (k == 0) ? 1 : 0;
+      case 1:
+        return 1;
+      case (-1):
+        return ((k & 1) == 0) ? 1 : -1;
+      case 2:
+        return (k < Integer.SIZE) ? (1 << k) : 0;
+      case (-2):
+        if (k < Integer.SIZE) {
+          return ((k & 1) == 0) ? (1 << k) : -(1 << k);
+        } else {
+          return 0;
+        }
+      default:
+        // continue below to handle the general case
+    }
+    for (int accum = 1;; k >>= 1) {
+      switch (k) {
+        case 0:
+          return accum;
+        case 1:
+          return b * accum;
+        default:
+          accum *= ((k & 1) == 0) ? 1 : b;
+          b *= b;
+      }
+    }
   }
 }

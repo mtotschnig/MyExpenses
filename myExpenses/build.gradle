@@ -25,10 +25,6 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
 
-    dataBinding {
-        enabled = true
-    }
-
     /*signingConfigs {
         release {
             storeFile file(RELEASE_STORE_FILE)

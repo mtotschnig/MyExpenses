@@ -134,5 +134,8 @@
     <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">@string/split_transaction</string>
     <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">@string/pref_security_question_title</string>
 
+    <string name="crash_reports_user_info"/>
+    <integer name="crash_reports_welcome_visible">2</integer>
+
 
 </resources>
