@@ -66,10 +66,7 @@
             style="@style/about_text"
             android:text="@string/help_contextuel_help"/>
 
-        <TextView
-            style="@style/about_text"
-            android:visibility="@integer/crash_reports_welcome_visible"
-            android:text="@string/crash_reports_user_info"/>
+        <include layout="@layout/crash_reports_user_info"/>
 
         <TextView
             style="@style/headingStyle.WithMargin"
