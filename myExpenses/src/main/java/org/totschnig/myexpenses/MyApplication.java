@@ -30,6 +30,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.provider.DocumentFile;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -145,6 +146,7 @@ public class MyApplication extends Application implements
   @Override
   public void onCreate() {
     super.onCreate();
+    AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     //Maybe prevents occasional crashes on Gingerbread
     //https://code.google.com/p/android/issues/detail?id=81083
     try {Class.forName("android.os.AsyncTask");} catch(Throwable ignore) {}
