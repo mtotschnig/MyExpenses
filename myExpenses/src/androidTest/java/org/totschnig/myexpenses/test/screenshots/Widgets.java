@@ -10,10 +10,12 @@ import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.test.R;
 
+import org.junit.Ignore;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.test.ActivityInstrumentationTestCase2;
 
+@Ignore
 public class Widgets extends ActivityInstrumentationTestCase2<MyExpenses> {
   private Context instCtx;
 

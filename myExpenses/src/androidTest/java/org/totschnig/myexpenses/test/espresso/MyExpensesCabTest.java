@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.test.espresso;
 
 import android.content.OperationApplicationException;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.RemoteException;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -22,6 +23,7 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.util.Utils;
 
 import java.util.Currency;
 
@@ -79,7 +81,7 @@ public final class MyExpensesCabTest extends MyExpensesTestBase {
         .inAdapterView(getWrappedList())
         .atPosition(1) // position 0 is header
         .perform(longClick());
-    onView(withId(R.id.CLONE_TRANSACTION_COMMAND)).perform(click());
+    performContextMenuClick(R.string.menu_clone_transaction, R.id.CLONE_TRANSACTION_COMMAND);
     onView(withId(R.id.SAVE_COMMAND)).perform(click());
     onView(getWrappedList()).check(matches(withListSize(origListSize + 1)));
   }
@@ -91,7 +93,7 @@ public final class MyExpensesCabTest extends MyExpensesTestBase {
         .inAdapterView(getWrappedList())
         .atPosition(1) // position 0 is header
         .perform(longClick());
-    onView(withId(R.id.EDIT_COMMAND)).perform(click());
+    performContextMenuClick(R.string.menu_edit, R.id.EDIT_COMMAND);
     onView(withId(R.id.SAVE_COMMAND)).perform(click());
     onView(getWrappedList()).check(matches(withListSize(origListSize)));
   }
@@ -103,7 +105,7 @@ public final class MyExpensesCabTest extends MyExpensesTestBase {
         .inAdapterView(getWrappedList())
         .atPosition(1) // position 0 is header
         .perform(longClick());
-    onView(withId(R.id.CREATE_TEMPLATE_COMMAND)).perform(click());
+    performContextMenuClick(R.string.menu_create_template_from_transaction, R.id.CREATE_TEMPLATE_COMMAND);
     onView(withText(containsString(mActivityRule.getActivity().getString(R.string.dialog_title_template_title))))
         .check(matches(isDisplayed()));
     onView(withId(R.id.EditTextDialogInput))
@@ -121,7 +123,7 @@ public final class MyExpensesCabTest extends MyExpensesTestBase {
         .inAdapterView(getWrappedList())
         .atPosition(1) // position 0 is header
         .perform(longClick());
-    onView(withId(R.id.DELETE_COMMAND)).perform(click());
+    performContextMenuClick(R.string.menu_delete, R.id.DELETE_COMMAND);
     onView(withText(R.string.menu_delete)).perform(click());
     onView(getWrappedList()).check(matches(withListSize(origListSize - 1)));
   }
@@ -133,7 +135,7 @@ public final class MyExpensesCabTest extends MyExpensesTestBase {
         .inAdapterView(getWrappedList())
         .atPosition(1) // position 0 is header
         .perform(longClick());
-    onView(withId(R.id.DELETE_COMMAND)).perform(click());
+    performContextMenuClick(R.string.menu_delete, R.id.DELETE_COMMAND);
     onView(withText(android.R.string.cancel)).perform(click());
     onView(getWrappedList()).check(matches(withListSize(origListSize)));
   }
@@ -144,7 +146,7 @@ public final class MyExpensesCabTest extends MyExpensesTestBase {
         .inAdapterView(getWrappedList())
         .atPosition(1) // position 0 is header
         .perform(longClick());
-    onView(withId(R.id.SPLIT_TRANSACTION_COMMAND)).perform(click());
+    performContextMenuClick(R.string.menu_split_transaction, R.id.SPLIT_TRANSACTION_COMMAND);
     if (!ContribFeature.SPLIT_TRANSACTION.hasAccess()) {
       onView(withText(R.string.dialog_title_contrib_feature)).check(matches(isDisplayed()));
       onView(withText(R.string.dialog_contrib_no)).perform(click());
@@ -161,6 +163,15 @@ public final class MyExpensesCabTest extends MyExpensesTestBase {
   private StickyListHeadersListView getList() {
       TransactionList currentFragment = mActivityRule.getActivity().getCurrentFragment();
       return (StickyListHeadersListView) currentFragment.getView().findViewById(R.id.list);
+  }
+
+  /**
+   * @param legacyString String used on Gingerbread where context actions are rendered in a context menu
+   * @param cabId id of menu item rendered in CAB on Honeycomb and higher
+   */
+  private void performContextMenuClick(int legacyString, int cabId) {
+    onView(Utils.hasApiLevel(Build.VERSION_CODES.HONEYCOMB) ? withId(cabId) : withText(legacyString))
+        .perform(click());
   }
 
 

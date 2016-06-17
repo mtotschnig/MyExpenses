@@ -28,7 +28,7 @@ public final class MyTestRunner extends AndroidJUnitRunner {
 
     try {
       for (String setting : criticalSettings) {
-        if (Settings.Global.getFloat(getContext().getContentResolver(), setting) != 0) {
+        if (Settings.System.getFloat(getContext().getContentResolver(), setting) != 0) {
           throw new AnimationsNotDisabledException(setting);
         }
       }
