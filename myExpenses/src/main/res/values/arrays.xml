@@ -508,6 +508,10 @@
         <item>posts/1743809429213861</item>
         <item>QY1RddPqa3q</item>
     </string-array>
+    <string-array name="version_more_info_270" tools:ignore="UnusedResources">
+        <item>posts/1751340485127422</item>
+        <item>H2XZeUfmrex</item>
+    </string-array>
 
     <string-array name="comparison_operator_entries">
         <item>@string/comparison_operator_equal</item>
