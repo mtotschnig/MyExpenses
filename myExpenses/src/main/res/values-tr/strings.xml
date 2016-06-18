@@ -592,4 +592,5 @@
   <string name="paypal_callback_later_clicked_info">Ayarlar ekranından ne zaman isterseniz bir anahtar talep edebilirsiniz.</string>
   <string name="search_transfer">Transfer için ara</string>
   <!--Sort plans (recurring transactions) by the next instance-->
+  <string name="pref_sort_order_next_instance">Sonraki örnekleme</string>
 </resources>

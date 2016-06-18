@@ -1,5 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_270">
+    <item>Yeni başlatma ikonu</item>
+    <item>Transferler için arama</item>
+    <item>Planlamaları sonraki örneklemeye dayalı sıralama</item>
+  </string-array>
   <string-array name="whats_new_269">
     <item>Muamele formu doğrudan tekrar oluşturmaya izin verir</item>
   </string-array>
