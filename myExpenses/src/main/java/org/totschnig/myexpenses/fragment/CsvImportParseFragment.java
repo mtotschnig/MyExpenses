@@ -239,7 +239,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
     extras.addRow(new String[] {
         "0",
         getString(R.string.menu_create_account),
-        Account.getLocaleCurrency().getCurrencyCode(),
+        Account.getLocalCurrency().getCurrencyCode(),
         Account.Type.CASH.name()
 
     });

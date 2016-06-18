@@ -66,6 +66,8 @@ import android.os.Build;
 import android.os.RemoteException;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.provider.DocumentFile;
+import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.Log;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
@@ -541,7 +543,8 @@ public class Account extends Model {
       if (Utils.hasApiLevel(Build.VERSION_CODES.KITKAT)) {
         try {
           return Currency.getInstance(name()).getDisplayName();
-        } catch (IllegalArgumentException e) {}
+        } catch (IllegalArgumentException e) {
+        }
       }
       return description;
     }
@@ -666,14 +669,32 @@ public class Account extends Model {
     this("", (long) 0, "");
   }
 
-  public static Currency getLocaleCurrency() {
-    try {
-      Currency c = Currency.getInstance(Locale.getDefault());
-      //makeSure we know about the currency
-      return Utils.getSaveInstance(c);
-    } catch (IllegalArgumentException e) {
-      return Currency.getInstance("EUR");
+  public static Currency getLocalCurrency() {
+    Currency result = null;
+    TelephonyManager telephonyManager = (TelephonyManager) MyApplication.getInstance()
+        .getSystemService(Context.TELEPHONY_SERVICE);
+    if (telephonyManager != null) {
+      try {
+        String userCountry = telephonyManager.getNetworkCountryIso();
+        if (TextUtils.isEmpty(userCountry)) {
+          userCountry = telephonyManager.getSimCountryIso();
+        }
+        if (!TextUtils.isEmpty(userCountry)) {
+          result = Utils.getSaveInstance(Currency.getInstance(new Locale("", userCountry)));
+        }
+      } catch (Exception e) {
+        //fall back to currency from locale
+      }
     }
+    if (result == null) {
+      try {
+        //makeSure we know about the currency
+        result = Utils.getSaveInstance(Currency.getInstance(Locale.getDefault()));
+      } catch (IllegalArgumentException e) {
+        result = Currency.getInstance("EUR");
+      }
+    }
+    return result;
   }
 
   /**
@@ -684,7 +705,7 @@ public class Account extends Model {
    * @param description    the description
    */
   public Account(String label, long openingBalance, String description) {
-    this(label, getLocaleCurrency(), openingBalance, description, Type.CASH, DEFAULT_COLOR);
+    this(label, getLocalCurrency(), openingBalance, description, Type.CASH, DEFAULT_COLOR);
   }
 
   public Account(String label, Currency currency, long openingBalance, String description,
@@ -711,6 +732,7 @@ public class Account extends Model {
    *
    * @param c a Cursor retrieved from {@link TransactionProvider#ACCOUNTS_URI}
    */
+
   protected void extract(Cursor c) {
     this.setId(c.getLong(c.getColumnIndexOrThrow(KEY_ROWID)));
     Log.d("DEBUG", "extracting account from cursor with id " + getId());

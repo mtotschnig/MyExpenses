@@ -137,7 +137,7 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
     extras.addRow(new String[] {
         "0",
         getString(R.string.menu_create_account),
-        Account.getLocaleCurrency().getCurrencyCode()
+        Account.getLocalCurrency().getCurrencyCode()
     });
     mAccountsCursor = new MergeCursor(new Cursor[] {extras,data});
     mAccountsAdapter.swapCursor(mAccountsCursor);

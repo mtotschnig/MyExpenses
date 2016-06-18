@@ -170,7 +170,7 @@ public class AccountTest extends ModelTest  {
   public void testGetAggregateAccountFromDb () {
     insertData();
     Account.clear();
-    String currency = Account.getLocaleCurrency().getCurrencyCode();
+    String currency = Account.getLocalCurrency().getCurrencyCode();
     Cursor c = getMockContentResolver().query(
         TransactionProvider.CURRENCIES_URI,
         new String[]{KEY_ROWID},

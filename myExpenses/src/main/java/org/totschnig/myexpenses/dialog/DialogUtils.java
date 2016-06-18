@@ -408,7 +408,7 @@ public class DialogUtils {
     spinner.setAdapter(curAdapter);
     spinner.setOnItemSelectedListener(listener);
     spinner.setSelection(curAdapter.getPosition(Account.CurrencyEnum.valueOf(
-        Account.getLocaleCurrency().getCurrencyCode())));
+        Account.getLocalCurrency().getCurrencyCode())));
     return spinner;
   }
 

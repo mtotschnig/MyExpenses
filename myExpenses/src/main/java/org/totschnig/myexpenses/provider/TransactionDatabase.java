@@ -372,13 +372,13 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     initialValues.put(KEY_LABEL, mCtx.getString(R.string.default_account_name));
     initialValues.put(KEY_OPENING_BALANCE, 0);
     initialValues.put(KEY_DESCRIPTION, mCtx.getString(R.string.default_account_description));
-    Currency localeCurrency = Account.getLocaleCurrency();
-    initialValues.put(KEY_CURRENCY, localeCurrency.getCurrencyCode());
+    Currency localCurrency = Account.getLocalCurrency();
+    initialValues.put(KEY_CURRENCY, localCurrency.getCurrencyCode());
     initialValues.put(KEY_TYPE, Account.Type.CASH.name());
     initialValues.put(KEY_GROUPING, Account.Grouping.NONE.name());
     initialValues.put(KEY_COLOR, Account.DEFAULT_COLOR);
     db.insert(TABLE_ACCOUNTS, null, initialValues);
-    Money.ensureFractionDigitsAreCached(localeCurrency);
+    Money.ensureFractionDigitsAreCached(localCurrency);
   }
 
   /*
