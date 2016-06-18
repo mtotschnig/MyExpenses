@@ -121,4 +121,5 @@
   <string name="menu_NavigationDrawer_grouping_help_text">La lista de cuenta puede mostrarse agrupadas por el tipo de cuenta, por la moneda, o desagrupada.</string>
   <string name="cab_sort_up_help_text">Mover el elemento una posición hacia arriba en la lista.</string>
   <string name="cab_sort_down_help_text">Mover el elemento una posición hacia abajo en la lista.</string>
+  <string name="form_instant_plan_help_text">Aquí puede configurar la transacción a repetirse de manera diaria, semanal, mensual o anual. En la pantalla \'Plantillas y planes\', puede inspeccionar el plan resultante y configurar opciones avanzadas. Si una transacción ya está vinculada a un plan, ya no puede cambiar el tipo de repetición, pero se puede abrir una vista de calendario muestra todas las fechas recurrentes.</string>
 </resources>

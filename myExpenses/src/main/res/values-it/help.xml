@@ -121,4 +121,5 @@
   <string name="menu_NavigationDrawer_grouping_help_text">L\'elenco degli account possa essere visualizzato raggruppati per tipo di conto, di valuta, o separati.</string>
   <string name="cab_sort_up_help_text">Salire la posizione di un elemento nell\'elenco.</string>
   <string name="cab_sort_down_help_text">Spostare la voce di una posizione verso il basso nell\'elenco.</string>
+  <string name="form_instant_plan_help_text">Qui è possibile impostare l\'operazione a ripresentarsi su base giornaliera, settimanale, mensile o annua. Nella schermata \'Modelli e piani\', è possibile ispezionare il piano risultante e configurare le opzioni avanzate. Se una transazione è già collegata a un piano, non è possibile modificare il tipo di ricorrenza, ma è possibile aprire una visualizzazione calendario visualizzati tutte le date ricorrenti.</string>
 </resources>
