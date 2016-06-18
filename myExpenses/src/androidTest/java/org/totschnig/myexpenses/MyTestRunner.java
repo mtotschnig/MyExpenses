@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -16,25 +17,32 @@ public final class MyTestRunner extends AndroidJUnitRunner {
   }
 
   @Override
+  @SuppressLint("NewApi")
   public void onStart() {
     boolean isJellyBean = Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN);
     String[] criticalSettings = new String[isJellyBean ? 3 : 2];
-    criticalSettings[0] = Settings.System.TRANSITION_ANIMATION_SCALE;
-    criticalSettings[1] = Settings.System.WINDOW_ANIMATION_SCALE;
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+    criticalSettings[0] = isJellyBean ? Settings.Global.TRANSITION_ANIMATION_SCALE :
+        Settings.System.TRANSITION_ANIMATION_SCALE;
+    criticalSettings[1] = isJellyBean ? Settings.Global.WINDOW_ANIMATION_SCALE :
+        Settings.System.WINDOW_ANIMATION_SCALE;
+    if (isJellyBean) {
       //noinspection InlinedApi
-      criticalSettings[2] = Settings.System.ANIMATOR_DURATION_SCALE;
+      criticalSettings[2] = Settings.Global.ANIMATOR_DURATION_SCALE;
     }
 
-    try {
-      for (String setting : criticalSettings) {
-        if (Settings.System.getFloat(getContext().getContentResolver(), setting) != 0) {
+    for (String setting : criticalSettings) {
+      try {
+         float aSetting = isJellyBean ?
+            Settings.Global.getFloat(getContext().getContentResolver(), setting) :
+            Settings.System.getFloat(getContext().getContentResolver(), setting);
+        if (aSetting != 0) {
           throw new AnimationsNotDisabledException(setting);
         }
+      } catch (Settings.SettingNotFoundException e) {
+        throw new RuntimeException(String.format("Unable to determine animation settings for %s", setting));
       }
-    } catch (Settings.SettingNotFoundException e) {
-      throw new RuntimeException("Unable to determine animation settings");
     }
+
     super.onStart();
   }
 
