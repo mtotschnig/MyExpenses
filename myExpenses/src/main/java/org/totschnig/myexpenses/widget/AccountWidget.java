@@ -122,7 +122,7 @@ public class AccountWidget extends AbstractWidget<Account> {
         intent,
         PendingIntent.FLAG_UPDATE_CURRENT);
     updateViews.setOnClickPendingIntent(R.id.command1, pendingIntent);
-    setImageViewVectorDrawable(updateViews, R.id.command1, R.drawable.ic_menu_add);
+    setImageViewVectorDrawable(context, updateViews, R.id.command1, R.drawable.ic_menu_add);
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
       updateViews.setContentDescription(R.id.command1,
           context.getString(R.string.menu_create_transaction));
@@ -135,7 +135,7 @@ public class AccountWidget extends AbstractWidget<Account> {
         intent,
         PendingIntent.FLAG_UPDATE_CURRENT);
     updateViews.setOnClickPendingIntent(R.id.command2, pendingIntent);
-    setImageViewVectorDrawable(updateViews, R.id.command2, R.drawable.ic_menu_forward);
+    setImageViewVectorDrawable(context, updateViews, R.id.command2, R.drawable.ic_menu_forward);
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
       updateViews.setContentDescription(R.id.command2,
           context.getString(R.string.menu_create_transfer));

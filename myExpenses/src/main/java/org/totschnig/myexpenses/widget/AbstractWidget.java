@@ -221,8 +221,9 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
   }
 
   //http://stackoverflow.com/a/35633411/1199911
-  protected void setImageViewVectorDrawable(RemoteViews remoteViews,
+  protected void setImageViewVectorDrawable(Context context, RemoteViews remoteViews,
                                             int viewId, int resId) {
-    remoteViews.setImageViewBitmap(viewId, Utils.getTintedBitmapForTheme(resId, R.style.ThemeDark));
+    remoteViews.setImageViewBitmap(viewId, Utils.getTintedBitmapForTheme(context, resId,
+        R.style.ThemeDark));
   }
 }

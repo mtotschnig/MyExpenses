@@ -43,6 +43,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.provider.DocumentFile;
+import android.support.v7.widget.AppCompatDrawableManager;
 import android.support.v7.widget.TintContextWrapper;
 import android.text.Html;
 import android.text.InputFilter;
@@ -1465,10 +1466,9 @@ public class Utils {
   //TODO TintContextWrapper is not public in Support library 23.3.0,
   //need to find another solution
   //maybe http://stackoverflow.com/a/37097656/1199911
-  public static Bitmap getTintedBitmapForTheme(int drawableResId, int themeResId) {
-    Context wrappedContext = TintContextWrapper.wrap(
-        new ContextThemeWrapper(MyApplication.getInstance(), themeResId));
-    Drawable d = ContextCompat.getDrawable(wrappedContext, drawableResId);
+  public static Bitmap getTintedBitmapForTheme(Context context, int drawableResId, int themeResId) {
+    Context wrappedContext = new ContextThemeWrapper(context, themeResId);
+    Drawable d = AppCompatDrawableManager.get().getDrawable(wrappedContext, drawableResId);
     Bitmap b = Bitmap.createBitmap(d.getIntrinsicWidth(),
         d.getIntrinsicHeight(),
         Bitmap.Config.ARGB_8888);

@@ -767,7 +767,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       Intent intent = new Intent();
       intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
       intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(nameId));
-      intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, Utils.getTintedBitmapForTheme(iconId, R.style.ThemeDark));
+      intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, Utils.getTintedBitmapForTheme(getActivity(), iconId, R.style.ThemeDark));
       intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
 
       if (Utils.isIntentReceiverAvailable(getActivity(), intent)) {

@@ -453,13 +453,13 @@ public class PlanMonthFragment extends CaldroidFragment
         boolean brightColor = Utils.isBrightColor(getArguments().getInt(DatabaseConstants.KEY_COLOR));
         int themeResId = brightColor ? R.style.ThemeLight : R.style.ThemeDark;
         if (transactionId == null) {
-          state.setImageBitmap(Utils.getTintedBitmapForTheme(R.drawable.ic_stat_open, themeResId));
+          state.setImageBitmap(Utils.getTintedBitmapForTheme(getContext(), R.drawable.ic_stat_open, themeResId));
           framelayout.setContentDescription(getString(R.string.plan_instance_state_open));
         } else if (transactionId == 0L) {
-          state.setImageBitmap(Utils.getTintedBitmapForTheme(R.drawable.ic_stat_cancelled, themeResId));
+          state.setImageBitmap(Utils.getTintedBitmapForTheme(getContext(), R.drawable.ic_stat_cancelled, themeResId));
           framelayout.setContentDescription(getString(R.string.plan_instance_state_cancelled));
         } else {
-          state.setImageBitmap(Utils.getTintedBitmapForTheme(R.drawable.ic_stat_applied, themeResId));
+          state.setImageBitmap(Utils.getTintedBitmapForTheme(getContext(), R.drawable.ic_stat_applied, themeResId));
           framelayout.setContentDescription(getString(R.string.plan_instance_state_applied));
         }
 
