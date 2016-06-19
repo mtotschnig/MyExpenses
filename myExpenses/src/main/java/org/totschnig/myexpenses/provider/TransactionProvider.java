@@ -380,7 +380,7 @@ public class TransactionProvider extends ContentProvider {
             KEY_OPENING_BALANCE + "," +
             KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM +
               " AND " + WHERE_NOT_SPLIT +
-              " AND date(" + KEY_DATE + ",'unixepoch') <= date('now') ) AS " + KEY_CURRENT_BALANCE + ", " +
+              " AND " + WHERE_IN_PAST + " ) AS " + KEY_CURRENT_BALANCE + ", " +
             KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM +
               " AND " + WHERE_NOT_SPLIT + " ) AS " + KEY_TOTAL + ", " +
             "(" + SELECT_AMOUNT_SUM + " AND " + WHERE_EXPENSE + ") AS " + KEY_SUM_EXPENSES + "," +

@@ -98,7 +98,7 @@ public class Account extends Model {
 
   public static final String[] PROJECTION_BASE, PROJECTION_EXTENDED, PROJECTION_FULL;
   private static final String CURRENT_BALANCE_EXPR = KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM + " AND " + WHERE_NOT_SPLIT_PART
-      + " AND date(" + KEY_DATE + ",'unixepoch') <= date('now') )";
+      + " AND " + WHERE_IN_PAST + " )";
 
   static {
     PROJECTION_BASE = new String[]{
