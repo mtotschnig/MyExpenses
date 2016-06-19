@@ -366,9 +366,8 @@ public class ExpenseEdit extends AmountActivity implements
       mRowId = savedInstanceState.getLong(KEY_ROWID);
       mPictureUri = savedInstanceState.getParcelable(KEY_PICTURE_URI);
       mPictureUriTemp = savedInstanceState.getParcelable(KEY_PICTURE_URI_TMP);
-      if (mPictureUri != null) {
-        setPicture();
-      }
+      setPicture();
+
 
       mCalendar = (Calendar) savedInstanceState.getSerializable(KEY_CALENDAR);
       mLabel = savedInstanceState.getString(KEY_LABEL);
@@ -518,16 +517,11 @@ public class ExpenseEdit extends AmountActivity implements
         //processing data from user switching operation type
         Transaction cached = (Transaction) getIntent().getSerializableExtra(KEY_CACHED_DATA);
         if (cached != null) {
-          mTransaction.setAmount(cached.getAmount());
           mTransaction.accountId = cached.accountId;
-          mTransaction.comment = cached.comment;
-          mTransaction.payee = cached.payee;
           mCalendar.setTime(cached.getDate());
           mPictureUri = getIntent().getParcelableExtra(KEY_CACHED_PICTURE_URI);
           setPicture();
-          mTransaction.crStatus = cached.crStatus;
           mTransaction.methodId = cached.methodId;
-          mTransaction.referenceNumber = cached.referenceNumber;
         }
       }
       setup();
@@ -1003,20 +997,23 @@ public class ExpenseEdit extends AmountActivity implements
    * populates the input fields with a transaction from the database or a new one
    */
   private void populateFields() {
+    //processing data from user switching operation type
+    Transaction cached = (Transaction) getIntent().getSerializableExtra(KEY_CACHED_DATA);
+
     isProcessingLinkedAmountInputs = true;
-    mStatusSpinner.setSelection(mTransaction.crStatus.ordinal(), false);
-    mCommentText.setText(mTransaction.comment);
+    mStatusSpinner.setSelection((cached != null ? cached : mTransaction).crStatus.ordinal(), false);
+    mCommentText.setText((cached != null ? cached : mTransaction).comment);
     if (mIsMainTransactionOrTemplate) {
-      mPayeeText.setText(mTransaction.payee);
+      mPayeeText.setText((cached != null ? cached : mTransaction).payee);
     }
     if (mTransaction instanceof Template) {
       mTitleText.setText(((Template) mTransaction).getTitle());
       mPlanToggleButton.setChecked(((Template) mTransaction).isPlanExecutionAutomatic());
     } else {
-      mReferenceNumberText.setText(mTransaction.referenceNumber);
+      mReferenceNumberText.setText((cached != null ? cached : mTransaction).referenceNumber);
     }
 
-    fillAmount(mTransaction.getAmount().getAmountMajor());
+    fillAmount((cached != null ? cached : mTransaction).getAmount().getAmountMajor());
 
     if (mNewInstance) {
       if (mTransaction instanceof Template) {
@@ -1264,9 +1261,11 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   protected void setPicture() {
-    mPictureViewContainer.setVisibility(View.VISIBLE);
-    Picasso.with(this).load(mPictureUri).fit().into((ImageView) mPictureViewContainer.findViewById(R.id.picture));
-    mAttachPictureButton.setVisibility(View.GONE);
+    if (mPictureUri != null) {
+      mPictureViewContainer.setVisibility(View.VISIBLE);
+      Picasso.with(this).load(mPictureUri).fit().into((ImageView) mPictureViewContainer.findViewById(R.id.picture));
+      mAttachPictureButton.setVisibility(View.GONE);
+    }
   }
 
   @Override
