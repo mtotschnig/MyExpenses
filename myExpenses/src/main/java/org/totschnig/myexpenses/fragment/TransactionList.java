@@ -68,6 +68,7 @@ import android.database.ContentObserver;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.Uri.Builder;
 import android.os.Build;
 import android.os.Bundle;
@@ -855,44 +856,57 @@ public class TransactionList extends ContextualActionBarFragment implements
       return;
     }
     MenuItem searchMenu = menu.findItem(R.id.SEARCH_COMMAND);
-    String title;
-    if (!mFilter.isEmpty()) {
-      searchMenu.getIcon().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
-      searchMenu.setChecked(true);
-      title = mAccount.label + " ( " + mFilter.prettyPrint() + " )";
+    if (searchMenu != null) {
+      String title;
+      Drawable searchMenuIcon = searchMenu.getIcon();
+      if (!mFilter.isEmpty()) {
+        if (searchMenuIcon != null) {
+          searchMenuIcon.setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+        } else {
+          Utils.reportToAcra(new Exception("Search menu icon not found"));
+        }
+        searchMenu.setChecked(true);
+        title = mAccount.label + " ( " + mFilter.prettyPrint() + " )";
+      } else {
+        if (searchMenuIcon != null) {
+          searchMenuIcon.setColorFilter(null);
+        } else {
+          Utils.reportToAcra(new Exception("Search menu icon not found"));
+        }
+        searchMenu.setChecked(false);
+        title = mAccount.label;
+      }
+      ((MyExpenses) getActivity()).setTitle(title);
+      SubMenu filterMenu = searchMenu.getSubMenu();
+      for (int i = 0; i < filterMenu.size(); i++) {
+        MenuItem filterItem = filterMenu.getItem(i);
+        boolean enabled = true;
+        switch (filterItem.getItemId()) {
+          case R.id.FILTER_CATEGORY_COMMAND:
+            enabled = mappedCategories;
+            break;
+          case R.id.FILTER_STATUS_COMMAND:
+            enabled = !mAccount.type.equals(Type.CASH);
+            break;
+          case R.id.FILTER_PAYEE_COMMAND:
+            enabled = mappedPayees;
+            break;
+          case R.id.FILTER_METHOD_COMMAND:
+            enabled = mappedMethods;
+            break;
+          case R.id.FILTER_TRANSFER_COMMAND:
+            enabled = hasTransfers;
+            break;
+        }
+        Criteria c = mFilter.get(filterItem.getItemId());
+        Utils.menuItemSetEnabledAndVisible(filterItem, enabled || c != null);
+        if (c != null) {
+          filterItem.setChecked(true);
+          filterItem.setTitle(c.prettyPrint());
+        }
+      }
     } else {
-      searchMenu.getIcon().setColorFilter(null);
-      searchMenu.setChecked(false);
-      title = mAccount.label;
-    }
-    ((MyExpenses) getActivity()).setTitle(title);
-    SubMenu filterMenu = searchMenu.getSubMenu();
-    for (int i = 0; i < filterMenu.size(); i++) {
-      MenuItem filterItem = filterMenu.getItem(i);
-      boolean enabled = true;
-      switch (filterItem.getItemId()) {
-        case R.id.FILTER_CATEGORY_COMMAND:
-          enabled = mappedCategories;
-          break;
-        case R.id.FILTER_STATUS_COMMAND:
-          enabled = !mAccount.type.equals(Type.CASH);
-          break;
-        case R.id.FILTER_PAYEE_COMMAND:
-          enabled = mappedPayees;
-          break;
-        case R.id.FILTER_METHOD_COMMAND:
-          enabled = mappedMethods;
-          break;
-        case R.id.FILTER_TRANSFER_COMMAND:
-          enabled = hasTransfers;
-          break;
-      }
-      Criteria c = mFilter.get(filterItem.getItemId());
-      Utils.menuItemSetEnabledAndVisible(filterItem, enabled || c != null);
-      if (c != null) {
-        filterItem.setChecked(true);
-        filterItem.setTitle(c.prettyPrint());
-      }
+      Utils.reportToAcra(new Exception("Search menu not found"));
     }
   }
 
