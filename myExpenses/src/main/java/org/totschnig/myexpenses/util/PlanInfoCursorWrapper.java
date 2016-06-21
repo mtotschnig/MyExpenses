@@ -39,6 +39,10 @@ public class PlanInfoCursorWrapper extends CursorWrapperHelper {
   }
 
   public void initializePlanInfo() {
+    if (ContextCompat.checkSelfPermission(context,
+        Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+      return;
+    }
     isInitializingPlanInfo = true; // without having to support Gingerbread, we would not need to switch of sort,
                     // we would use getWrappedCursor method introduced later
     if (moveToFirst()) {
@@ -71,8 +75,7 @@ public class PlanInfoCursorWrapper extends CursorWrapperHelper {
           return lhNextInstance.compareTo(rhNextInstance);
         }
       });
-      if (plans.size() > 0 && ContextCompat.checkSelfPermission(context,
-          Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
+      if (plans.size() > 0) {
         Cursor c = context.getContentResolver().query(Events.CONTENT_URI,
             new String[]{
                 Events._ID,
@@ -145,13 +148,11 @@ public class PlanInfoCursorWrapper extends CursorWrapperHelper {
     } else {
       result = super.getColumnIndex(columnName);
     }
-    Log.d("PlanInfoCursorWrapper", columnName + " : " + result);
     return result;
   }
 
   @Override
   public String getString(int columnIndex) {
-    Log.d("PlanInfoCursorWrapper", "" + columnIndex);
     if (columnIndex == getColumnCount()) {
       return planInfo.get(getLong(getColumnIndex(DatabaseConstants.KEY_PLANID)));
     }

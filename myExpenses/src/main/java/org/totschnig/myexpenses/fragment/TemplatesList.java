@@ -93,7 +93,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_P
 public class TemplatesList extends SortableListFragment {
 
   public static final String CALDROID_DIALOG_FRAGMENT_TAG = "CALDROID_DIALOG_FRAGMENT";
-  public static final String KEY_PLANS_LIST = "plans";
   private ListView mListView;
   private PlanMonthFragment planMonthFragment;
 
