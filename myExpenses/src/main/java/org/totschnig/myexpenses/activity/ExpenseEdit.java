@@ -1335,8 +1335,13 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   private void refreshPlanData() {
-    startTaskExecution(TaskExecutionFragment.TASK_INSTANTIATE_PLAN,
-        new Long[]{mPlan.getId()}, null, 0);
+    if (mPlan != null) {
+      startTaskExecution(TaskExecutionFragment.TASK_INSTANTIATE_PLAN,
+          new Long[]{mPlan.getId()}, null, 0);
+    } else {
+      //seen in report 96a04ce6a647555356751634fee9fc73, need to investigate how this can happen
+      Utils.reportToAcra(new Exception("Received onChange on ContentOberver for plan, but mPlan is null"));
+    }
   }
 
   private void configureStatusSpinner() {
