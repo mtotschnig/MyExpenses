@@ -1,5 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_270">
+    <item>Novo ícone do lançador</item>
+    <item>Busca de transferências</item>
+    <item>Classificar os planos da próxima instância</item>
+  </string-array>
   <string-array name="whats_new_269">
     <item>Forma de transação permite criar recorrência diretamente</item>
   </string-array>
