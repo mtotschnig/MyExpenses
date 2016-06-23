@@ -93,6 +93,28 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 2.7.0
+    - "2016-06-18"
+    -
+      en: |
+        New launcher icon. Search for transfers. Sort plans by next instance.
+      fr: |
+        Nouvelle icône de lancement. Recherche de transferts. Tri des échéances par date.
+      de: |
+        Neues Start-Symbol. Suche nach Umbuchung. Pläne können nach dem nächsten Vorkommen sortiert werden.
+      it: |
+        Nuova icona di avvio. Ricerca per i trasferimenti. I piani possono essere ordinati per istanza successiva.
+      es: |
+        Nuevo icono de lanzador. Búsqueda para las transferencias. Los planes pueden ser ordenados por instancia siguiente.
+      pt: |
+        Novo ícone do lançador. Busca de transferências. Classificar os planos da próxima instância.
+      tr: |
+        Yeni başlatma ikonu. Transferler için arama. Planlamaları sonraki örneklemeye dayalı sıralama.
+      bg: |
+        Нова икона за стартиране. Търсене на преводи. Сортиране на плановете по следваща инстанция.
+      ja: |
+        新しいランチャーアイコン. 振替の検索. 次のインスタンスで計画をソート.
+  -
     - 2.6.9
     - "2016-05-29"
     -
