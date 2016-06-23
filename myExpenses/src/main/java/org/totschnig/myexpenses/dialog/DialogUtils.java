@@ -37,6 +37,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -108,6 +109,7 @@ public class DialogUtils {
         if (actionBar != null) actionBar.hide();
       }
     }
+    dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     dialog.show();
     if (callback==null) {
       callback = new PasswordDialogUnlockedCallback() {
