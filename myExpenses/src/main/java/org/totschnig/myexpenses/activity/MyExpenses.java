@@ -462,7 +462,7 @@ public class MyExpenses extends LaunchActivity implements
           return;
         }
       }
-      if (!MyApplication.getInstance().isContribEnabled()) {
+      if (!MyApplication.getInstance().getLicenceHandler().isContribEnabled()) {
         nextReminder =
             PrefKey.NEXT_REMINDER_CONTRIB.getLong(TRESHOLD_REMIND_CONTRIB);
         if (nextReminder != -1 && sequenceCount >= nextReminder) {

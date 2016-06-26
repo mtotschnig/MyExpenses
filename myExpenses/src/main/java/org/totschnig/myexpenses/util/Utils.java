@@ -34,7 +34,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.FloatingActionButton;
@@ -44,7 +43,6 @@ import android.support.v4.content.FileProvider;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.provider.DocumentFile;
 import android.support.v7.widget.AppCompatDrawableManager;
-import android.support.v7.widget.TintContextWrapper;
 import android.text.Html;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -826,26 +824,6 @@ public class Utils {
   }
 
   /**
-   *
-   * @param key
-   * @return
-   */
-  public static LicenceStatus verifyLicenceKey(String key) {
-    String secret= MyApplication.CONTRIB_SECRET;
-    String extendedSecret = secret+"_EXTENDED";
-    String androidId = Settings.Secure.getString(MyApplication.getInstance()
-        .getContentResolver(), Settings.Secure.ANDROID_ID);
-    String s = androidId + extendedSecret;
-    Long l = (s.hashCode() & 0x00000000ffffffffL);
-    if (l.toString().equals(key)) {
-      return LicenceStatus.EXTENDED;
-    }
-    s = androidId + secret;
-    l = (s.hashCode() & 0x00000000ffffffffL);
-    return l.toString().equals(key) ? LicenceStatus.CONTRIB : null;
-  }
-
-  /**
    * get a value from extras that could be either passed as String or a long extra
    * we need this method, to pass values from monkeyrunner, which is not able to pass long extras
    * if extras is null, defaultValue is returned
@@ -874,14 +852,10 @@ public class Utils {
     return String.format("%d", i);
   }
 
-  public enum LicenceStatus {
-    CONTRIB, EXTENDED
-  }
-
   @VisibleForTesting
   public static CharSequence getContribFeatureLabelsAsFormattedList(
       Context ctx, ContribFeature other) {
-    return getContribFeatureLabelsAsFormattedList(ctx,other,LicenceStatus.CONTRIB);
+    return getContribFeatureLabelsAsFormattedList(ctx,other, LicenceHandlerIFace.LicenceStatus.CONTRIB);
   }
   /**
    * @param ctx
@@ -893,7 +867,7 @@ public class Utils {
    *         TextView
    */
   public static CharSequence getContribFeatureLabelsAsFormattedList(
-      Context ctx, ContribFeature other, LicenceStatus type) {
+      Context ctx, ContribFeature other, LicenceHandlerIFace.LicenceStatus type) {
     CharSequence result = "", linefeed = Html.fromHtml("<br>");
     Iterator<ContribFeature> iterator = EnumSet.allOf(ContribFeature.class)
         .iterator();
@@ -902,8 +876,8 @@ public class Utils {
       if (!f.equals(other) &&
           (!f.equals(ContribFeature.AD_FREE) || IS_FLAVOURED)) {
         if (type !=null &&
-            ((f.isExtended && !type.equals(LicenceStatus.EXTENDED)) ||
-            (!f.isExtended && type.equals(LicenceStatus.EXTENDED)))) {
+            ((f.isExtended() && !type.equals(LicenceHandlerIFace.LicenceStatus.EXTENDED)) ||
+            (!f.isExtended() && type.equals(LicenceHandlerIFace.LicenceStatus.EXTENDED)))) {
           continue;
         }
         String resName = "contrib_feature_" + f.toString() + "_label";

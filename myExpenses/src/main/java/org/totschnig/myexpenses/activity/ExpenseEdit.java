@@ -826,7 +826,7 @@ public class ExpenseEdit extends AmountActivity implements
     super.onCreateOptionsMenu(menu);
     if (!(mTransaction instanceof SplitPartCategory || mTransaction instanceof SplitPartTransfer ||
         mTransaction instanceof Template ||
-        (mTransaction instanceof SplitTransaction && !MyApplication.getInstance().isContribEnabled()))) {
+        (mTransaction instanceof SplitTransaction && !MyApplication.getInstance().getLicenceHandler().isContribEnabled()))) {
       MenuItemCompat.setShowAsAction(
           menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)
               .setIcon(R.drawable.ic_action_save_new),

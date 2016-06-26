@@ -422,7 +422,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
             .setOnPreferenceClickListener(homeScreenShortcutPrefClickHandler);
         pref = findPreference(PrefKey.SHORTCUT_CREATE_SPLIT.getKey());
         pref.setOnPreferenceClickListener(homeScreenShortcutPrefClickHandler);
-        pref.setEnabled(MyApplication.getInstance().isContribEnabled());
+        pref.setEnabled(MyApplication.getInstance().getLicenceHandler().isContribEnabled());
         pref.setSummary(
             getString(R.string.pref_shortcut_summary) + " " +
                 ContribFeature.SPLIT_TRANSACTION.buildRequiresString(getActivity()));
@@ -580,7 +580,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     private void configureContribPrefs() {
       Preference pref1 = findPreference(PrefKey.REQUEST_LICENCE.getKey()),
           pref2 = findPreference(PrefKey.CONTRIB_PURCHASE.getKey());
-      if (MyApplication.getInstance().isExtendedEnabled()) {
+      if (MyApplication.getInstance().getLicenceHandler().isExtendedEnabled()) {
         PreferenceCategory cat = ((PreferenceCategory) findPreference(PrefKey.CATEGORY_CONTRIB.getKey()));
         if (Utils.IS_FLAVOURED) {
           getPreferenceScreen().removePreference(cat);
@@ -594,7 +594,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
           pref1.setSummary(getString(R.string.pref_request_licence_summary, Secure.getString(getActivity().getContentResolver(), Secure.ANDROID_ID)));
         }
         if (pref2 != null) {//if a user replaces a valid key with an invalid key, we might run into that uncommon situation
-          int baseTitle = MyApplication.getInstance().isContribEnabled() ?
+          int baseTitle = MyApplication.getInstance().getLicenceHandler().isContribEnabled() ?
               R.string.pref_contrib_purchase_title_upgrade : R.string.pref_contrib_purchase_title;
           if (Utils.IS_FLAVOURED) {
             pref2.setTitle(getString(baseTitle) + " (" + getString(R.string.pref_contrib_purchase_title_in_app) + ")");
@@ -608,7 +608,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
 
     private void setProtectionDependentsState() {
       boolean isProtected = PrefKey.PERFORM_PROTECTION.getBoolean(false);
-      findPreference(PrefKey.SECURITY_QUESTION.getKey()).setEnabled(MyApplication.getInstance().isContribEnabled() && isProtected);
+      findPreference(PrefKey.SECURITY_QUESTION.getKey()).setEnabled(MyApplication.getInstance().getLicenceHandler().isContribEnabled() && isProtected);
       findPreference(PrefKey.PROTECTION_DELAY_SECONDS.getKey()).setEnabled(isProtected);
       findPreference(PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET.getKey()).setEnabled(isProtected);
       findPreference(PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET.getKey()).setEnabled(isProtected);
@@ -671,7 +671,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     @Override
     public boolean onPreferenceClick(Preference preference) {
       if (preference.getKey().equals(PrefKey.CONTRIB_PURCHASE.getKey())) {
-        if (MyApplication.getInstance().isExtendedEnabled()) {
+        if (MyApplication.getInstance().getLicenceHandler().isExtendedEnabled()) {
           //showDialog(R.id.DONATE_DIALOG);//should not happen
         } else {
           Intent i = new Intent(getActivity(), ContribInfoDialogActivity.class);

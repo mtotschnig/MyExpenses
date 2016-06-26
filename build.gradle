@@ -33,4 +33,5 @@ ext {
     androidSupportLibraryVersion = "24.0.0"
     espressoVersion = "2.2.2"
     androidSupportTestVersion = "0.5"
+    daggerVersion = "2.5"
 }

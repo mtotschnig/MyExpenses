@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ContribInfoDialogFragment;
 import org.totschnig.myexpenses.dialog.HelpDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.util.LicenceHandlerIFace;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.app.Activity;
@@ -116,18 +117,19 @@ public class CommonCommands {
       }
       return true;
       case R.id.VERIFY_LICENCE_COMMAND:
-        Utils.LicenceStatus licenceStatus = Utils.verifyLicenceKey((String) tag);
+        LicenceHandlerIFace licenceHandler = MyApplication.getInstance().getLicenceHandler();
+        LicenceHandlerIFace.LicenceStatus licenceStatus = licenceHandler.verifyLicenceKey((String) tag);
         if (licenceStatus != null) {
           Toast.makeText(ctx,
               Utils.concatResStrings(ctx, " ",
                   R.string.licence_validation_success,
-                  (licenceStatus == Utils.LicenceStatus.EXTENDED ?
+                  (licenceStatus == LicenceHandlerIFace.LicenceStatus.EXTENDED ?
                       R.string.licence_validation_extended : R.string.licence_validation_premium)),
               Toast.LENGTH_LONG).show();
         } else {
           Toast.makeText(ctx, R.string.licence_validation_failure, Toast.LENGTH_LONG).show();
         }
-        MyApplication.getInstance().setContribEnabled(licenceStatus);
+        licenceHandler.setContribEnabled(licenceStatus);
         return true;
     case android.R.id.home:
       ctx.setResult(FragmentActivity.RESULT_CANCELED);

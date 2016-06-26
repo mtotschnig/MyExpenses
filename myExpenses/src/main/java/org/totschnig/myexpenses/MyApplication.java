@@ -39,6 +39,9 @@ import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Calendars;
 import com.android.calendar.CalendarContractCompat.Events;
 
+import org.totschnig.myexpenses.di.AppComponent;
+import org.totschnig.myexpenses.di.AppModule;
+import org.totschnig.myexpenses.di.DaggerAppComponent;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
@@ -47,6 +50,7 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
 import org.totschnig.myexpenses.service.PlanExecutor;
+import org.totschnig.myexpenses.util.LicenceHandlerIFace;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
@@ -57,8 +61,18 @@ import java.io.File;
 import java.util.Locale;
 import java.util.UUID;
 
+import javax.inject.Inject;
+
 public class MyApplication extends Application implements
     OnSharedPreferenceChangeListener {
+
+  public AppComponent getAppComponent() {
+    return appComponent;
+  }
+
+  private AppComponent appComponent;
+  @Inject
+  LicenceHandlerIFace licenceHandler;
   private static boolean instrumentationTest = false;
   private static String testId;
   public static final String PLANNER_CALENDAR_NAME = "MyExpensesPlanner";
@@ -79,9 +93,6 @@ public class MyApplication extends Application implements
       + Calendars.ACCOUNT_TYPE + ",'') || '/' ||" + "ifnull(" + Calendars.NAME
       + ",'')";
 
-  private Utils.LicenceStatus contribEnabled = null;
-  private boolean contribEnabledInitialized = false;
-
   private long mLastPause = 0;
   public final static String TAG = "MyExpenses";
 
@@ -97,32 +108,6 @@ public class MyApplication extends Application implements
 
   public boolean isLocked() {
     return isLocked;
-  }
-
-  public void setContribEnabled(Utils.LicenceStatus status) {
-    this.contribEnabled = status;
-    Template.updateNewPlanEnabled();
-  }
-
-  public boolean isContribEnabled() {
-    if (!contribEnabledInitialized) {
-      contribEnabled = Utils.verifyLicenceKey(PrefKey.ENTER_LICENCE
-          .getString(""));
-      contribEnabledInitialized = true;
-    }
-    return contribEnabled!=null;
-  }
-  public boolean isExtendedEnabled() {
-    if (!contribEnabledInitialized) {
-      contribEnabled = Utils.verifyLicenceKey(PrefKey.ENTER_LICENCE
-          .getString(""));
-      contribEnabledInitialized = true;
-    }
-    return contribEnabled == Utils.LicenceStatus.EXTENDED;
-  }
-
-  public void resetContribEnabled() {
-    contribEnabledInitialized = false;
   }
 
   public void setLocked(boolean isLocked) {
@@ -146,6 +131,8 @@ public class MyApplication extends Application implements
   @Override
   public void onCreate() {
     super.onCreate();
+    appComponent = DaggerAppComponent.builder().build();
+    appComponent.inject(this);
     AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     //Maybe prevents occasional crashes on Gingerbread
     //https://code.google.com/p/android/issues/detail?id=81083
@@ -206,6 +193,10 @@ public class MyApplication extends Application implements
 
   public static int getThemeIdTranslucent() {
     return getThemeId("Translucent");
+  }
+
+  public LicenceHandlerIFace getLicenceHandler() {
+    return licenceHandler;
   }
 
   public enum ThemeType {

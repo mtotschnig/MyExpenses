@@ -82,7 +82,7 @@ public class DonateDialogFragment extends CommitSafeDialogFragment {
         getString(R.string.thank_you)
     ));
     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-    int title = MyApplication.getInstance().isContribEnabled() ?
+    int title = MyApplication.getInstance().getLicenceHandler().isContribEnabled() ?
         R.string.pref_contrib_purchase_title_upgrade :
         (isExtended ? R.string.extended_key : R.string.contrib_key);
     return builder
@@ -118,7 +118,7 @@ public class DonateDialogFragment extends CommitSafeDialogFragment {
       } else if (which == AlertDialog.BUTTON_POSITIVE) {
         String host = BuildConfig.DEBUG ? "www.sandbox.paypal.com" : "www.paypal.com" ;
         String paypalButtonId = BuildConfig.DEBUG? "TURRUESSCUG8N" : "LBUDF8DSWJAZ8";
-        String whichLicence = MyApplication.getInstance().isContribEnabled() ?
+        String whichLicence = MyApplication.getInstance().getLicenceHandler().isContribEnabled() ?
             PAYPAL_BUTTON_UPGRADE :
             (getArguments().getBoolean(KEY_EXTENDED) ? PAYPAL_BUTTON_EXTENDED : PAYPAL_BUTTON_CONTRIB);
         String uri = String.format(Locale.US,
