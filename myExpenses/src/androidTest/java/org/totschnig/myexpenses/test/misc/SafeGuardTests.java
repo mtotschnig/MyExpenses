@@ -8,7 +8,7 @@ import junit.framework.TestCase;
 
 public class SafeGuardTests extends TestCase {
   public void testContribIsNotEnabled() {
-    Assert.assertFalse(MyApplication.getInstance().isContribEnabled());
+    Assert.assertFalse(MyApplication.getInstance().getLicenceHandler().isContribEnabled());
     
   }
 }

@@ -20,10 +20,16 @@ public class LocaleTest extends android.test.InstrumentationTestCase {
   @Override
   protected void setUp() throws Exception {
       super.setUp();
-      MyApplication app = (MyApplication) getInstrumentation().getTargetContext().getApplicationContext();
       mAccount = new Account("TestAccount 1",100,"Main account");
       mAccount.save();
   }
+
+  @Override
+  protected void tearDown() throws Exception {
+    super.tearDown();
+    Account.delete(mAccount.getId());
+  }
+
   public void testDateIsSavedIndependentFromLocale() {
     Locale[] locs = Locale.getAvailableLocales();
     //Locale loc = new Locale("ar");

@@ -88,6 +88,17 @@ public class AccountTest extends ProviderTestCase2<TransactionProvider> {
   @Override
   protected void tearDown() throws Exception {
     super.tearDown();
+    Cursor cursor = mMockResolver.query(
+        TransactionProvider.ACCOUNTS_URI,  // the URI for the main data table
+        null,                       // no projection, get all columns
+        null,                       // no selection criteria, get all records
+        null,                       // no selection arguments
+        null                        // use default sort order
+    );
+    while (cursor.moveToNext()) {
+      Account.delete(cursor.getLong(cursor.getColumnIndex(DatabaseConstants.KEY_ROWID)));
+    }
+    cursor.close();
   }
 
   /*

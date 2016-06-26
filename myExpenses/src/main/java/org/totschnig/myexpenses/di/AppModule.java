@@ -12,11 +12,16 @@ import dagger.Provides;
 
 @Module
 public class AppModule {
+  boolean instrumentationTest;
+
+  public AppModule(boolean instrumentationTest) {
+    this.instrumentationTest = instrumentationTest;
+  }
 
   @Provides
   @Singleton
   LicenceHandlerIFace providesLicenceHandler() {
-    return new LicenceHandler();
+    return instrumentationTest ? new FakeLicenceHandler()  :new LicenceHandler();
   }
   @Provides
   @Singleton

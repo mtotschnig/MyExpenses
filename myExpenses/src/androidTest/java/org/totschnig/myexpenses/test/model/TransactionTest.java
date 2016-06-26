@@ -44,6 +44,14 @@ public class TransactionTest extends ModelTest  {
       mAccount2 = new Account("TestAccount 2",100,"Secondary account");
       mAccount2.save();
   }
+
+  @Override
+  protected void tearDown() throws Exception {
+    super.tearDown();
+    Account.delete(mAccount1.getId());
+    Account.delete(mAccount2.getId());
+  }
+
   public void testTransaction() {
     String payee = "N.N";
     assertEquals(0L, Transaction.getSequenceCount().longValue());

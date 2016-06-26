@@ -76,7 +76,13 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
     testAccountId = mDb.insertOrThrow(DatabaseConstants.TABLE_ACCOUNTS, null, testAccount.getContentValues());
   }
 
-  /*
+  @Override
+  protected void tearDown() throws Exception {
+    super.tearDown();
+    Account.delete(testAccountId);
+  }
+
+  /**
    * Sets up test data.
    * The test data is in an SQL database. It is created in setUp() without any data,
    * and populated in insertData if necessary.

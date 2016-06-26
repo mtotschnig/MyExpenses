@@ -40,6 +40,7 @@ import com.android.calendar.CalendarContractCompat.Calendars;
 import com.android.calendar.CalendarContractCompat.Events;
 
 import org.totschnig.myexpenses.di.AppComponent;
+import org.totschnig.myexpenses.di.AppModule;
 import org.totschnig.myexpenses.di.DaggerAppComponent;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -133,8 +134,6 @@ public class MyApplication extends Application implements
   @Override
   public void onCreate() {
     super.onCreate();
-    appComponent = DaggerAppComponent.builder().build();
-    appComponent.inject(this);
     AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     //Maybe prevents occasional crashes on Gingerbread
     //https://code.google.com/p/android/issues/detail?id=81083
@@ -152,6 +151,9 @@ public class MyApplication extends Application implements
   @Override
   protected void attachBaseContext(Context base) {
     super.attachBaseContext(base);
+    appComponent = DaggerAppComponent.builder()
+        .appModule(new AppModule(instrumentationTest)).build();
+    appComponent.inject(this);
     acraWrapper.init(this);
   }
 
