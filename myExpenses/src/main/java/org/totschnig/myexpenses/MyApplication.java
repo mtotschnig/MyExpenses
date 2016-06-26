@@ -40,7 +40,6 @@ import com.android.calendar.CalendarContractCompat.Calendars;
 import com.android.calendar.CalendarContractCompat.Events;
 
 import org.totschnig.myexpenses.di.AppComponent;
-import org.totschnig.myexpenses.di.AppModule;
 import org.totschnig.myexpenses.di.DaggerAppComponent;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -208,6 +207,10 @@ public class MyApplication extends Application implements
 
   public LicenceHandlerIFace getLicenceHandler() {
     return licenceHandler;
+  }
+
+  public AcraWrapperIFace getAcraWrapper() {
+    return acraWrapper;
   }
 
   public enum ThemeType {

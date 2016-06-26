@@ -1062,22 +1062,15 @@ public class Utils {
   }
 
   public static void reportToAcraWithDbSchema(Exception e) {
-    // reportToAcra(e, "DB_SCHEMA", DbUtils.getTableDetails());
-    reportToAcra(e);
+    MyApplication.getInstance().getAcraWrapper().reportToAcraWithDbSchema(e);
   }
 
-  public static void reportToAcra(Exception e,String key,String data) {
-    // ErrorReporter errorReporter = org.acra.ACRA.getErrorReporter();
-    // errorReporter.putCustomData(key, data);
-    // errorReporter.handleException(e);
-    // errorReporter.removeCustomData(key);
-    Log.e(MyApplication.TAG, key + ": " + data);
-    reportToAcra(e);
+  public static void reportToAcra(Exception e, String key,String data) {
+    MyApplication.getInstance().getAcraWrapper().reportToAcra(e, key, data);
   }
 
   public static void reportToAcra(Exception e) {
-    Log.e(MyApplication.TAG, "Report", e);
-    /* org.acra.ACRA.getErrorReporter().handleSilentException(e); */
+    MyApplication.getInstance().getAcraWrapper().reportToAcra(e);
   }
 
   public static String concatResStrings(Context ctx, String separator, Integer... resIds) {
