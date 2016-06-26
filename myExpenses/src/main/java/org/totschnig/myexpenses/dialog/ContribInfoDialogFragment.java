@@ -52,8 +52,6 @@ public class ContribInfoDialogFragment  extends CommitSafeDialogFragment impleme
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     boolean isContrib = MyApplication.getInstance().getLicenceHandler().isContribEnabled();
     String pro = getString(R.string.dialog_contrib_extended_gain_access);
-    CharSequence extendedList = Utils.getContribFeatureLabelsAsFormattedList(
-        getActivity(),null, LicenceHandlerIFace.LicenceStatus.EXTENDED);
     CharSequence linefeed = Html.fromHtml("<br><br>"),
       message = TextUtils.concat(
           Utils.IS_FLAVOURED ? "" : getText(R.string.dialog_contrib_text_1),
@@ -66,7 +64,9 @@ public class ContribInfoDialogFragment  extends CommitSafeDialogFragment impleme
           linefeed,
           Utils.getContribFeatureLabelsAsFormattedList(getActivity(),null,
               isContrib ? LicenceHandlerIFace.LicenceStatus.EXTENDED : LicenceHandlerIFace.LicenceStatus.CONTRIB));
-    if (!isContrib) {
+    if (!isContrib && LicenceHandlerIFace.HAS_EXTENDED) {
+      CharSequence extendedList = Utils.getContribFeatureLabelsAsFormattedList(
+          getActivity(),null, LicenceHandlerIFace.LicenceStatus.EXTENDED);
       message = TextUtils.concat(
           message,
           linefeed,
@@ -89,7 +89,9 @@ public class ContribInfoDialogFragment  extends CommitSafeDialogFragment impleme
       } else {
         if (!isContrib) {
           builder.setNeutralButton(R.string.dialog_contrib_buy_premium, this);
-          builder.setPositiveButton(R.string.dialog_contrib_buy_extended, this);
+          if (LicenceHandlerIFace.HAS_EXTENDED) {
+            builder.setPositiveButton(R.string.dialog_contrib_buy_extended, this);
+          }
         } else {
           builder.setPositiveButton(R.string.dialog_contrib_upgrade_extended, this);
         }

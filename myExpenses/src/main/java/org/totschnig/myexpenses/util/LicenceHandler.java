@@ -1,14 +1,18 @@
 package org.totschnig.myexpenses.util;
 
+import android.content.Context;
 import android.provider.Settings;
 
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.PrefKey;
 
 public class LicenceHandler implements LicenceHandlerIFace {
   private LicenceStatus contribEnabled = null;
   private boolean contribEnabledInitialized = false;
+
+  @Override
+  public void init(Context ctx) {
+  }
 
   @Override
   public boolean isContribEnabled() {
@@ -30,21 +34,10 @@ public class LicenceHandler implements LicenceHandlerIFace {
   }
 
   @Override
-  public void resetContribEnabled() {
-    contribEnabledInitialized = false;
+  public void invalidate() {
+    this.contribEnabledInitialized = false;
   }
 
-  public void setContribEnabled(LicenceStatus status) {
-    this.contribEnabled = status;
-    Template.updateNewPlanEnabled();
-  }
-
-  /**
-   *
-   * @param key
-   * @return
-   */
-  @Override
   public LicenceStatus verifyLicenceKey(String key) {
     String secret= MyApplication.CONTRIB_SECRET;
     String extendedSecret = secret+"_EXTENDED";

@@ -23,7 +23,6 @@ import java.util.Locale;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
-import org.totschnig.myexpenses.util.LicenceHandler;
 import org.totschnig.myexpenses.util.LicenceHandlerIFace;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -58,7 +57,7 @@ public enum ContribFeature {
 
   ContribFeature(boolean hasTrial, boolean isExtended) {
     this.hasTrial = hasTrial;
-    this.isExtended = isExtended;
+    this.isExtended = LicenceHandlerIFace.HAS_EXTENDED ? isExtended : false;
   }
 
   private boolean hasTrial;
