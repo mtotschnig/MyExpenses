@@ -50,6 +50,7 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
 import org.totschnig.myexpenses.service.PlanExecutor;
+import org.totschnig.myexpenses.util.AcraWrapperIFace;
 import org.totschnig.myexpenses.util.LicenceHandlerIFace;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
@@ -73,6 +74,8 @@ public class MyApplication extends Application implements
   private AppComponent appComponent;
   @Inject
   LicenceHandlerIFace licenceHandler;
+  @Inject
+  AcraWrapperIFace acraWrapper;
   private static boolean instrumentationTest = false;
   private static String testId;
   public static final String PLANNER_CALENDAR_NAME = "MyExpensesPlanner";
@@ -138,12 +141,19 @@ public class MyApplication extends Application implements
     //https://code.google.com/p/android/issues/detail?id=81083
     try {Class.forName("android.os.AsyncTask");} catch(Throwable ignore) {}
     mSelf = this;
-    // sets up mSettings
-    getSettings().registerOnSharedPreferenceChangeListener(this);
-    licenceHandler.init(this);
-    initPlanner();
-    registerWidgetObservers();
-    Log.d(TAG, "Memory class " + getMemoryClass());
+    if (!acraWrapper.isACRASenderServiceProcess()) {
+      // sets up mSettings
+      getSettings().registerOnSharedPreferenceChangeListener(this);
+      licenceHandler.init(this);
+      initPlanner();
+      registerWidgetObservers();
+    }
+  }
+
+  @Override
+  protected void attachBaseContext(Context base) {
+    super.attachBaseContext(base);
+    acraWrapper.init(this);
   }
 
   private void registerWidgetObservers() {
