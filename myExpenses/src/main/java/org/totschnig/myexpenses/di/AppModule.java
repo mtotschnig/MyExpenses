@@ -1,9 +1,16 @@
 package org.totschnig.myexpenses.di;
 
-import org.totschnig.myexpenses.util.AcraWrapperIFace;
+import android.support.annotation.Nullable;
+import android.util.Log;
+
+import org.acra.ReportingInteractionMode;
+import org.acra.config.ACRAConfiguration;
+import org.acra.config.ACRAConfigurationException;
+import org.acra.config.ConfigurationBuilder;
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.LicenceHandler;
 import org.totschnig.myexpenses.util.LicenceHandlerIFace;
-import org.totschnig.myexpenses.util.NoopAcraWrapper;
 
 import javax.inject.Singleton;
 
@@ -12,20 +19,33 @@ import dagger.Provides;
 
 @Module
 public class AppModule {
-  boolean instrumentationTest;
+  MyApplication application;
 
-  public AppModule(boolean instrumentationTest) {
-    this.instrumentationTest = instrumentationTest;
+  public AppModule(MyApplication application) {
+    this.application = application;
   }
 
   @Provides
   @Singleton
   LicenceHandlerIFace providesLicenceHandler() {
-    return instrumentationTest ? new FakeLicenceHandler()  :new LicenceHandler();
+    return MyApplication.isInstrumentationTest() ? new FakeLicenceHandler()  :new LicenceHandler();
   }
+
   @Provides
   @Singleton
-  AcraWrapperIFace providesAcraWrapper() {
-    return new NoopAcraWrapper();
+  @Nullable
+  ACRAConfiguration providesAcraConfiguration() {
+    try {
+      return new ConfigurationBuilder(application)
+          .setReportingInteractionMode(ReportingInteractionMode.DIALOG)
+          .setMailTo("bug-reports@myexpenses.mobi")
+          .setResDialogText(R.string.crash_dialog_text)
+          .setResDialogTitle(R.string.crash_dialog_title)
+          .setResDialogCommentPrompt(R.string.crash_dialog_comment_prompt)
+          .build();
+    } catch (ACRAConfigurationException e) {
+      Log.e("ACRA", "ACRA not initialized", e);
+      return null;
+    }
   }
 }

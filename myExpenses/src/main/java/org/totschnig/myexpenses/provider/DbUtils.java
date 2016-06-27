@@ -200,21 +200,28 @@ public class DbUtils {
     return String.format(Locale.US, getCountFromWeekStartZero() + " AS " + KEY_WEEK_END,year,week*7+6);
   }
 
-  public static String getTableDetails() {
+  public static String[][] getTableDetails() {
     Cursor c = MyApplication.getInstance().getContentResolver()
         .query(TransactionProvider.DEBUG_SCHEMA_URI, null,null,null,null);
-    StringBuilder sb = new StringBuilder();
-    if (c!= null) {
-      for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
-        sb.append(c.getString(0));
-        sb.append(" : ");
-        sb.append(c.getString(1));
-        sb.append("\n");
-      }
-      c.close();
+    return getTableDetails(c);
+  }
+  /**
+   * @param c
+   * @return
+   */
+  public static String[][] getTableDetails(Cursor c) {
+    if (c == null) {
+      return null;
     }
-    return sb.toString();
-}
+    String[][] result = new String[c.getCount()][2];
+    for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+      int pos = c.getPosition();
+      result[pos][0] = c.getString(0);
+      result[pos][1] = c.getString(1);
+    }
+    c.close();
+    return result;
+  }
 
   private static void cacheEventData() {
     String plannerCalendarId = PrefKey.PLANNER_CALENDAR_ID.getString("-1");

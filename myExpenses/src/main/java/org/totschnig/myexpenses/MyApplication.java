@@ -29,6 +29,7 @@ import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.provider.DocumentFile;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.preference.PreferenceManager;
@@ -39,6 +40,8 @@ import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Calendars;
 import com.android.calendar.CalendarContractCompat.Events;
 
+import org.acra.ACRA;
+import org.acra.config.ACRAConfiguration;
 import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.di.AppModule;
 import org.totschnig.myexpenses.di.DaggerAppComponent;
@@ -50,7 +53,6 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
 import org.totschnig.myexpenses.service.PlanExecutor;
-import org.totschnig.myexpenses.util.AcraWrapperIFace;
 import org.totschnig.myexpenses.util.LicenceHandlerIFace;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
@@ -74,8 +76,8 @@ public class MyApplication extends Application implements
   private AppComponent appComponent;
   @Inject
   LicenceHandlerIFace licenceHandler;
-  @Inject
-  AcraWrapperIFace acraWrapper;
+  @Inject @Nullable
+  ACRAConfiguration acraConfiguration;
   private static boolean instrumentationTest = false;
   private static String testId;
   public static final String PLANNER_CALENDAR_NAME = "MyExpensesPlanner";
@@ -139,7 +141,7 @@ public class MyApplication extends Application implements
     //https://code.google.com/p/android/issues/detail?id=81083
     try {Class.forName("android.os.AsyncTask");} catch(Throwable ignore) {}
     mSelf = this;
-    if (!acraWrapper.isACRASenderServiceProcess()) {
+    if (!ACRA.isACRASenderServiceProcess()) {
       // sets up mSettings
       getSettings().registerOnSharedPreferenceChangeListener(this);
       licenceHandler.init(this);
@@ -152,9 +154,11 @@ public class MyApplication extends Application implements
   protected void attachBaseContext(Context base) {
     super.attachBaseContext(base);
     appComponent = DaggerAppComponent.builder()
-        .appModule(new AppModule(instrumentationTest)).build();
+        .appModule(new AppModule(this)).build();
     appComponent.inject(this);
-    acraWrapper.init(this);
+    if (acraConfiguration != null) {
+      ACRA.init(this, acraConfiguration);
+    }
   }
 
   private void registerWidgetObservers() {
@@ -209,10 +213,6 @@ public class MyApplication extends Application implements
 
   public LicenceHandlerIFace getLicenceHandler() {
     return licenceHandler;
-  }
-
-  public AcraWrapperIFace getAcraWrapper() {
-    return acraWrapper;
   }
 
   public enum ThemeType {
