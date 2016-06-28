@@ -71,11 +71,6 @@ en:
         Once you receive it by email, enter it also from the settings screen.
       price: |
         The minimum amount is %1$s for the Contrib key and %2$s for the Extended key. Send %1$s for upgrading from Contrib to Extended.
-    key-delivery-email:
-      intro: Hello %s
-      text-1: Open this link on your Android device with the My Expenses app.
-      text-2: Alternatively you can enter %s from the Settings screen within the app.
-      outro: Best regards
   permissions-heading: |
     My Expenses requires the following permissions
   permissions-calendar: |
