@@ -1,3 +1,4 @@
+{% capture paypallc %}{% if site.paypal-lc[pagelang] %}&lc={{site.paypal-lc[pagelang]}}{% else %}{% endif %}{% endcapture %}
 <!--
   Credits
 -->
@@ -291,13 +292,13 @@
         <li>PayPal
           <ul>
             <li>
-               Contrib <a class="track" id="paypal" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A7ZPSCUTS23K6"><img src="https://www.paypalobjects.com/en_GB/i/btn/btn_paynow_SM.gif" border="0" alt="PayPal - The safer, easier way to pay online." /></a>
+               Contrib <a class="track" id="paypal" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LBUDF8DSWJAZ8&on0=Contrib&os0=Contrib{{paypallc}}"><img src="https://www.paypalobjects.com/en_GB/i/btn/btn_paynow_SM.gif" border="0" alt="PayPal - The safer, easier way to pay online." /></a>
             </li>
             <li>
-               Extended <a class="track" id="paypal" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=85U6933MANDW8"><img src="https://www.paypalobjects.com/en_GB/i/btn/btn_paynow_SM.gif" border="0" alt="PayPal - The safer, easier way to pay online." /></a>
+               Extended <a class="track" id="paypal" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LBUDF8DSWJAZ8&on0=Extended&os0=Extended{{paypallc}}"><img src="https://www.paypalobjects.com/en_GB/i/btn/btn_paynow_SM.gif" border="0" alt="PayPal - The safer, easier way to pay online." /></a>
             </li>
             <li>
-               Upgrade from Contrib to Extended <a class="track" id="paypal" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7RVRT537PF6RC"><img src="https://www.paypalobjects.com/en_GB/i/btn/btn_paynow_SM.gif" border="0" alt="PayPal - The safer, easier way to pay online." /></a>
+               Upgrade from Contrib to Extended <a class="track" id="paypal" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LBUDF8DSWJAZ8&on0=Upgrade&os0=Upgrade{{paypallc}}"><img src="https://www.paypalobjects.com/en_GB/i/btn/btn_paynow_SM.gif" border="0" alt="PayPal - The safer, easier way to pay online." /></a>
             </li>
           </ul>
         </li>

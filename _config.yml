@@ -83,6 +83,19 @@ langs:
   eu: euskara
   da: Dansk
   bg: български
+paypal-lc:
+  de: DE
+  en: US
+  it: IT
+  fr: FR
+  pt: pt_BR
+  es: ES
+  pl: PL
+  ru: RU
+  tr: tr_TR
+  zh-tw: zh_TW
+  ja: ja_JP
+  da: da_DK
 support-email: "support@myexpenses.mobi"
 amazon:
   de: "www.amazon.de"
