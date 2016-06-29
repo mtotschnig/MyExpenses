@@ -272,7 +272,7 @@ public class EventRecurrence {
      * @throws IllegalArgumentException Thrown if the day argument is not one of
      * the defined day constants.
      */
-    private static String day2String(int day) {
+    public static String day2String(int day) {
         switch (day) {
         case SU:
             return "SU";

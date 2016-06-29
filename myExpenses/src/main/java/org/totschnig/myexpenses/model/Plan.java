@@ -17,11 +17,13 @@ import com.android.calendarcommon2.EventRecurrence;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 /**
@@ -37,19 +39,25 @@ public class Plan extends Model implements Serializable {
   public enum Recurrence {
     NONE, ONETIME, DAILY, WEEKLY, MONTHLY, YEARLY;
 
-    public String toRrule() {
+    public String toRrule(Calendar calendar) {
+      String wkst = calendarDay2String(Utils.getFirstDayOfWeek(Locale.getDefault()));
       switch (this) {
         case DAILY:
-          return "FREQ=DAILY";
+          return String.format(Locale.US, "FREQ=DAILY;INTERVAL=1;WKST=%s", wkst);
         case WEEKLY:
-          return "FREQ=WEEKLY";
+          return String.format(Locale.US, "FREQ=WEEKLY;INTERVAL=1;WKST=%s;BYDAY=%s", wkst,
+              calendarDay2String(calendar.get(Calendar.DAY_OF_WEEK)));
         case MONTHLY:
-          return "FREQ=MONTHLY";
+          return String.format(Locale.US, "FREQ=MONTHLY;INTERVAL=1;WKST=%s;BYMONTHDAY=%d", wkst,
+              calendar.get(Calendar.DAY_OF_MONTH));
         case YEARLY:
-          return "FREQ=YEARLY";
+          return String.format(Locale.US, "FREQ=YEARLY;INTERVAL=1;WKST=%s", wkst);
         default:
           return null;
       }
+    }
+    private String calendarDay2String(int calendarDay) {
+      return EventRecurrence.day2String(EventRecurrence.calendarDay2Day(calendarDay));
     }
 
     public String getLabel(Context context) {

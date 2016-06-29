@@ -1182,7 +1182,7 @@ public class ExpenseEdit extends AmountActivity implements
           String description = ((Template) mTransaction).compileDescription(ExpenseEdit.this);
           mPlan = new Plan(
              mCalendar,
-              ((Plan.Recurrence) mReccurenceSpinner.getSelectedItem()).toRrule(),
+              ((Plan.Recurrence) mReccurenceSpinner.getSelectedItem()).toRrule(mCalendar),
               ((Template) mTransaction).getTitle(),
               description);
           ((Template) mTransaction).setPlan(mPlan);
@@ -1205,7 +1205,7 @@ public class ExpenseEdit extends AmountActivity implements
           String description = mTransaction.originTemplate.compileDescription(ExpenseEdit.this);
           mTransaction.originTemplate.setPlan(new Plan(
               mCalendar,
-              ((Plan.Recurrence) mReccurenceSpinner.getSelectedItem()).toRrule(),
+              ((Plan.Recurrence) mReccurenceSpinner.getSelectedItem()).toRrule(mCalendar),
               mTransaction.originTemplate.getTitle(),
               description));
         }
