@@ -3,19 +3,22 @@ package org.totschnig.myexpenses.util;
 import android.content.Context;
 
 import org.totschnig.myexpenses.BuildConfig;
+import org.totschnig.myexpenses.model.Template;
 
-public interface LicenceHandlerIFace {
+public abstract class LicenceHandlerIFace {
   public static boolean HAS_EXTENDED = !BuildConfig.FLAVOR.equals("blackberry");
 
-  void init(Context ctx);
+  public abstract void init(Context ctx);
 
-  boolean isContribEnabled();
+  public abstract boolean isContribEnabled();
 
-  boolean isExtendedEnabled();
+  public abstract boolean isExtendedEnabled();
 
-  void invalidate();
+  public void invalidate() {
+    Template.updateNewPlanEnabled();
+  }
 
-  enum LicenceStatus {
+  public enum LicenceStatus {
     CONTRIB, EXTENDED
   }
 }

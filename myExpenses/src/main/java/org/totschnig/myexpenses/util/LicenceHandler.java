@@ -4,9 +4,10 @@ import android.content.Context;
 import android.provider.Settings;
 
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.PrefKey;
 
-public class LicenceHandler implements LicenceHandlerIFace {
+public class LicenceHandler extends LicenceHandlerIFace {
   private LicenceStatus contribEnabled = null;
   private boolean contribEnabledInitialized = false;
 
@@ -35,6 +36,7 @@ public class LicenceHandler implements LicenceHandlerIFace {
 
   @Override
   public void invalidate() {
+    super.invalidate();
     this.contribEnabledInitialized = false;
   }
 

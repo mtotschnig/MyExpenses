@@ -4,7 +4,7 @@ import android.content.Context;
 
 import org.totschnig.myexpenses.util.LicenceHandlerIFace;
 
-public class FakeLicenceHandler implements LicenceHandlerIFace {
+public class FakeLicenceHandler extends LicenceHandlerIFace {
   public void setLicenceStatus(LicenceStatus licenceStatus) {
     this.licenceStatus = licenceStatus;
   }
@@ -26,8 +26,4 @@ public class FakeLicenceHandler implements LicenceHandlerIFace {
     return licenceStatus == LicenceStatus.EXTENDED;
   }
 
-  @Override
-  public void invalidate() {
-
-  }
 }
