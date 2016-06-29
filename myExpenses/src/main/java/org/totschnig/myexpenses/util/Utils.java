@@ -858,7 +858,7 @@ public class Utils {
   @VisibleForTesting
   public static CharSequence getContribFeatureLabelsAsFormattedList(
       Context ctx, ContribFeature other) {
-    return getContribFeatureLabelsAsFormattedList(ctx,other, LicenceHandlerIFace.LicenceStatus.CONTRIB);
+    return getContribFeatureLabelsAsFormattedList(ctx,other, LicenceHandler.LicenceStatus.CONTRIB);
   }
   /**
    * @param ctx
@@ -870,7 +870,7 @@ public class Utils {
    *         TextView
    */
   public static CharSequence getContribFeatureLabelsAsFormattedList(
-      Context ctx, ContribFeature other, LicenceHandlerIFace.LicenceStatus type) {
+      Context ctx, ContribFeature other, LicenceHandler.LicenceStatus type) {
     CharSequence result = "", linefeed = Html.fromHtml("<br>");
     Iterator<ContribFeature> iterator = EnumSet.allOf(ContribFeature.class)
         .iterator();
@@ -879,8 +879,8 @@ public class Utils {
       if (!f.equals(other) &&
           (!f.equals(ContribFeature.AD_FREE) || IS_FLAVOURED)) {
         if (type !=null &&
-            ((f.isExtended() && !type.equals(LicenceHandlerIFace.LicenceStatus.EXTENDED)) ||
-            (!f.isExtended() && type.equals(LicenceHandlerIFace.LicenceStatus.EXTENDED)))) {
+            ((f.isExtended() && !type.equals(LicenceHandler.LicenceStatus.EXTENDED)) ||
+            (!f.isExtended() && type.equals(LicenceHandler.LicenceStatus.EXTENDED)))) {
           continue;
         }
         String resName = "contrib_feature_" + f.toString() + "_label";

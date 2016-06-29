@@ -53,7 +53,7 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
 import org.totschnig.myexpenses.service.PlanExecutor;
-import org.totschnig.myexpenses.util.LicenceHandlerIFace;
+import org.totschnig.myexpenses.util.LicenceHandler;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
@@ -75,7 +75,7 @@ public class MyApplication extends Application implements
 
   private AppComponent appComponent;
   @Inject
-  LicenceHandlerIFace licenceHandler;
+  LicenceHandler licenceHandler;
   @Inject @Nullable
   ACRAConfiguration acraConfiguration;
   private static boolean instrumentationTest = false;
@@ -211,7 +211,7 @@ public class MyApplication extends Application implements
     return getThemeId("Translucent");
   }
 
-  public LicenceHandlerIFace getLicenceHandler() {
+  public LicenceHandler getLicenceHandler() {
     return licenceHandler;
   }
 

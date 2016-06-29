@@ -5,7 +5,7 @@ import junit.framework.Assert;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.di.FakeLicenceHandler;
 import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.util.LicenceHandlerIFace;
+import org.totschnig.myexpenses.util.LicenceHandler;
 import org.totschnig.myexpenses.util.Utils;
 
 public class ContribFeatureTest extends ModelTest  {
@@ -21,7 +21,7 @@ public class ContribFeatureTest extends ModelTest  {
     licenceHandler.setLicenceStatus(null);
     feature.recordUsage();
     Assert.assertEquals(4,feature.usagesLeft());
-    licenceHandler.setLicenceStatus(LicenceHandlerIFace.LicenceStatus.CONTRIB);
+    licenceHandler.setLicenceStatus(LicenceHandler.LicenceStatus.CONTRIB);
     feature.recordUsage();
     Assert.assertEquals(4,feature.usagesLeft());
     licenceHandler.setLicenceStatus(null);

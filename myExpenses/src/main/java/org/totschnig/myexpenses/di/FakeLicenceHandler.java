@@ -2,9 +2,9 @@ package org.totschnig.myexpenses.di;
 
 import android.content.Context;
 
-import org.totschnig.myexpenses.util.LicenceHandlerIFace;
+import org.totschnig.myexpenses.util.LicenceHandler;
 
-public class FakeLicenceHandler extends LicenceHandlerIFace {
+public class FakeLicenceHandler extends LicenceHandler {
   public void setLicenceStatus(LicenceStatus licenceStatus) {
     this.licenceStatus = licenceStatus;
   }

@@ -15,10 +15,7 @@
 
 package org.totschnig.myexpenses.activity;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
-import java.util.Properties;
 
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
@@ -26,14 +23,13 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ContribInfoDialogFragment;
 import org.totschnig.myexpenses.dialog.HelpDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.util.HashLicenceHandler;
 import org.totschnig.myexpenses.util.LicenceHandler;
-import org.totschnig.myexpenses.util.LicenceHandlerIFace;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
-import android.content.res.Resources.NotFoundException;
 import android.net.Uri;
 import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
@@ -117,13 +113,13 @@ public class CommonCommands {
       }
       return true;
       case R.id.VERIFY_LICENCE_COMMAND:
-        LicenceHandler licenceHandler = (LicenceHandler) MyApplication.getInstance().getLicenceHandler();
-        LicenceHandlerIFace.LicenceStatus licenceStatus = licenceHandler.verifyLicenceKey((String) tag);
+        HashLicenceHandler licenceHandler = (HashLicenceHandler) MyApplication.getInstance().getLicenceHandler();
+        LicenceHandler.LicenceStatus licenceStatus = licenceHandler.verifyLicenceKey((String) tag);
         if (licenceStatus != null) {
           Toast.makeText(ctx,
               Utils.concatResStrings(ctx, " ",
                   R.string.licence_validation_success,
-                  (licenceStatus == LicenceHandlerIFace.LicenceStatus.EXTENDED ?
+                  (licenceStatus == LicenceHandler.LicenceStatus.EXTENDED ?
                       R.string.licence_validation_extended : R.string.licence_validation_premium)),
               Toast.LENGTH_LONG).show();
         } else {
