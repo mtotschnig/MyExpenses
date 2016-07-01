@@ -49,6 +49,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.*;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
+import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -863,7 +864,7 @@ public class TransactionList extends ContextualActionBarFragment implements
         if (searchMenuIcon != null) {
           searchMenuIcon.setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
         } else {
-          Utils.reportToAcra(new Exception("Search menu icon not found"));
+          AcraHelper.report(new Exception("Search menu icon not found"));
         }
         searchMenu.setChecked(true);
         title = mAccount.label + " ( " + mFilter.prettyPrint() + " )";
@@ -871,7 +872,7 @@ public class TransactionList extends ContextualActionBarFragment implements
         if (searchMenuIcon != null) {
           searchMenuIcon.setColorFilter(null);
         } else {
-          Utils.reportToAcra(new Exception("Search menu icon not found"));
+          AcraHelper.report(new Exception("Search menu icon not found"));
         }
         searchMenu.setChecked(false);
         title = mAccount.label;
@@ -906,7 +907,7 @@ public class TransactionList extends ContextualActionBarFragment implements
         }
       }
     } else {
-      Utils.reportToAcra(new Exception("Search menu not found"));
+      AcraHelper.report(new Exception("Search menu not found"));
     }
   }
 

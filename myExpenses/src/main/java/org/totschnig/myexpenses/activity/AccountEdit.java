@@ -27,7 +27,7 @@ import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SpinnerHelper;
-import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.AcraHelper;
 
 import android.annotation.SuppressLint;
 import android.content.ContentUris;
@@ -315,11 +315,11 @@ public class AccountEdit extends AmountActivity implements
   public boolean onPrepareOptionsMenu(Menu menu) {
     requireAccount();
     if (mAccount==null) {
-      Utils.reportToAcra(new NullPointerException("mAccount is null"));
+      AcraHelper.report(new NullPointerException("mAccount is null"));
     } else {
       MenuItem item = menu.findItem(R.id.EXCLUDE_FROM_TOTALS_COMMAND);
       if (item==null) {
-        Utils.reportToAcra(new NullPointerException("EXCLUDE_FROM_TOTALS_COMMAND menu item not found"));
+        AcraHelper.report(new NullPointerException("EXCLUDE_FROM_TOTALS_COMMAND menu item not found"));
       } else {
         item.setChecked(
             mAccount.excludeFromTotals);

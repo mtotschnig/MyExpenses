@@ -39,19 +39,17 @@ import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.export.qif.QifParser;
 import org.totschnig.myexpenses.export.qif.QifTransaction;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.FileUtils;
-import org.totschnig.myexpenses.util.Utils;
 
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -217,7 +215,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
         Account dbAccount = Account.getInstanceFromDb(accountId);
         parser.accounts.get(0).dbAccount = dbAccount;
         if (dbAccount==null) {
-          Utils.reportToAcra(new Exception(
+          AcraHelper.report(new Exception(
               "Exception during QIF import. Did not get instance from DB for id " +accountId));
         }
       }
@@ -271,7 +269,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
         Account dbAccount = Account.getInstanceFromDb(accountId);
         account.dbAccount = dbAccount;
         if (dbAccount==null) {
-          Utils.reportToAcra(new Exception(
+          AcraHelper.report(new Exception(
               "Exception during QIF import. Did not get instance from DB for id " +accountId));
         }
       } else {

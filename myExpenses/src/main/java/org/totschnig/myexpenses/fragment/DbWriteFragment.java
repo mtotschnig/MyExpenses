@@ -20,7 +20,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.AcraHelper;
 
 import android.app.Activity;
 import android.net.Uri;
@@ -151,14 +151,14 @@ public class DbWriteFragment extends Fragment {
       } catch (Transaction.UnknownPictureSaveException e) {
         //ACRA.getErrorReporter().putCustomData("pictureUri", e.pictureUri.toString());
         //ACRA.getErrorReporter().putCustomData("homeUri", e.homeUri.toString());
-        Utils.reportToAcra(e);
+        AcraHelper.report(e);
         //ACRA.getErrorReporter().removeCustomData("pictureUri");
         //ACRA.getErrorReporter().removeCustomData("homeUri");
         error = ERROR_PICTURE_SAVE_UNKNOWN;
       } catch (Plan.CalendarIntegrationNotAvailableException e) {
         error = ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE;
       } catch (Exception e) {
-          Utils.reportToAcra(e);
+          AcraHelper.report(e);
       }
       if (returnSequenceCount && object[0] instanceof Transaction)
         return uri == null ? error : Transaction.getSequenceCount();

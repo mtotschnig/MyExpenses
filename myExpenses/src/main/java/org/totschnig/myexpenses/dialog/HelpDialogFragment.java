@@ -36,6 +36,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.util.ArrayList;
@@ -193,7 +194,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
         title = getString(resId);
       }
     } catch (NotFoundException e) {
-      Utils.reportToAcra(e);
+      AcraHelper.report(e);
       return new AlertDialog.Builder(ctx)
           .setMessage("Error generating Help dialog")
           .create();

@@ -41,6 +41,7 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.CrStatusCriteria;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
+import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.LazyFontSelector.FontType;
 import org.totschnig.myexpenses.util.PdfHelper;
@@ -873,7 +874,7 @@ public class Account extends Model {
     try {
       cr().applyBatch(TransactionProvider.AUTHORITY, ops);
     } catch (Exception e) {
-      Utils.reportToAcra(e);
+      AcraHelper.report(e);
       e.printStackTrace();
     }
   }

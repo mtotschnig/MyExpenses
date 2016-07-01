@@ -74,6 +74,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
 import org.totschnig.myexpenses.ui.PreferenceDividerItemDecoration;
+import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
@@ -719,7 +720,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
               startActivityForResult(intent, PICK_FOLDER_REQUEST);
               return true;
             } catch (ActivityNotFoundException e) {
-              Utils.reportToAcra(e);
+              AcraHelper.report(e);
               //fallback to FolderBrowser
             }
           }

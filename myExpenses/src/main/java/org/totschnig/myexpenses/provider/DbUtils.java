@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
 import org.totschnig.myexpenses.service.PlanExecutor;
+import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -67,7 +68,7 @@ public class DbUtils {
           if (!sharedPrefFile.exists()) {
             final String message = "Unable to find shared preference file at " +
                 sharedPrefFile.getPath();
-            Utils.reportToAcra(new Exception(message));
+            AcraHelper.report(new Exception(message));
             return new Result(false,message);
           }
         }
@@ -123,7 +124,7 @@ public class DbUtils {
         client.release();
       }
     } catch (Exception e) {
-      Utils.reportToAcra(e);
+      AcraHelper.report(e);
     }
     app.initPlanner();
     DailyAutoBackupScheduler.updateAutoBackupAlarms(app);

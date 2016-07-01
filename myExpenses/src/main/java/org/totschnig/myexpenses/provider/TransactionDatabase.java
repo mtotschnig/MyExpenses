@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.Utils;
 
 import com.android.calendar.CalendarContractCompat.Events;
@@ -288,21 +289,26 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
   @Override
   public void onOpen(SQLiteDatabase db) {
-    super.onOpen(db);
-    //since API 16 we could use onConfigure to enable foreign keys
-    //which is run before onUpgrade
-    //but this makes upgrades more difficult, since then you have to maintain the constraint in
-    //each step of a multi statement upgrade with table rename
-    //we stick to doing upgrades with foreign keys disabled which forces us
-    //to take care of ensuring consistency during upgrades
-    if (!db.isReadOnly()) {
-      db.execSQL("PRAGMA foreign_keys=ON;");
-    }
-    try {
-      db.delete(TABLE_TRANSACTIONS, KEY_STATUS + " = " + STATUS_UNCOMMITTED, null);
-    } catch (SQLiteConstraintException e) {
-      Utils.reportToAcraWithDbSchema(e);
-    }
+      super.onOpen(db);
+      //since API 16 we could use onConfigure to enable foreign keys
+      //which is run before onUpgrade
+      //but this makes upgrades more difficult, since then you have to maintain the constraint in
+      //each step of a multi statement upgrade with table rename
+      //we stick to doing upgrades with foreign keys disabled which forces us
+      //to take care of ensuring consistency during upgrades
+      if (!db.isReadOnly()) {
+          db.execSQL("PRAGMA foreign_keys=ON;");
+      }
+      try {
+        db.delete(TABLE_TRANSACTIONS, KEY_STATUS + " = " + STATUS_UNCOMMITTED, null);
+      } catch (SQLiteException e) {
+        AcraHelper.reportWithTableDetails(e,
+            DbUtils.getTableDetails(
+                db.query("sqlite_master",
+                    new String[]{"name","sql"},
+                    "type = 'table'",
+                    null, null, null, null)));
+      }
   }
 
   @Override
@@ -954,7 +960,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
               Environment.DIRECTORY_PICTURES);
         }
         if (!pictureDir.exists()) {
-          Utils.reportToAcra(new Exception("Unable to calculate pictureDir during upgrade"));
+          AcraHelper.report(new Exception("Unable to calculate pictureDir during upgrade"));
         }
         //if pictureDir does not exist, we use its URI nonetheless, in order to have the data around
         //for potential trouble handling

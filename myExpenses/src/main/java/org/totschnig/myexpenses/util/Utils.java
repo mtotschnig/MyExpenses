@@ -59,8 +59,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import org.acra.ACRA;
-import org.acra.ErrorReporter;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -71,7 +69,6 @@ import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.task.GrisbiImportTask;
@@ -448,7 +445,7 @@ public class Utils {
       return DocumentFile.fromFile(externalFilesDir);
     } else {
       String permission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
-      Utils.reportToAcra(new Exception("getExternalFilesDir returned null; " + permission + " : " +
+      AcraHelper.report(new Exception("getExternalFilesDir returned null; " + permission + " : " +
           ContextCompat.checkSelfPermission(MyApplication.getInstance(),permission)));
       return null;
     }
@@ -491,12 +488,12 @@ public class Utils {
         try {
           result = parentDir.createFile(mimeType, name);
           if (result == null) {
-            Utils.reportToAcra(new Exception(String.format(
+            AcraHelper.report(new Exception(String.format(
                 "createFile returned null: mimeType %s; name %s; parent %s",
                 mimeType,name,parentDir.getUri().toString())));
           }
         } catch (SecurityException e) {
-          Utils.reportToAcra(new Exception(String.format(
+          AcraHelper.report(new Exception(String.format(
               "createFile threw SecurityException: mimeType %s; name %s; parent %s",
               mimeType, name, parentDir.getUri().toString())));
         }
@@ -888,7 +885,7 @@ public class Utils {
             resName, "string",
             ctx.getPackageName());
         if (resId==0) {
-          reportToAcra(new Resources.NotFoundException(resName));
+          AcraHelper.report(new Resources.NotFoundException(resName));
           continue;
         }
         if (!result.equals("")) {
@@ -1064,41 +1061,6 @@ public class Utils {
     return total;
   }
 
-  public static void reportToAcraWithDbSchema(Exception e) {
-    if (IS_FLAVOURED) {
-      ErrorReporter errorReporter = ACRA.getErrorReporter();
-      String[][] schema = DbUtils.getTableDetails();
-      for (String[] tableInfo : schema) {
-        errorReporter.putCustomData(tableInfo[0], tableInfo[1]);
-      }
-      errorReporter.handleSilentException(e);
-      for (String[] tableInfo : schema) {
-        errorReporter.removeCustomData(tableInfo[0]);
-      }
-    } else {
-      Log.e(MyApplication.TAG, "Report", e);
-    }
-  }
-
-  public static void reportToAcra(Exception e, String key,String data) {
-    if (IS_FLAVOURED) {
-      ErrorReporter errorReporter = ACRA.getErrorReporter();
-      errorReporter.putCustomData(key, data);
-      errorReporter.handleSilentException(e);
-      errorReporter.removeCustomData(key);
-    } else {
-      Log.e(MyApplication.TAG, key + ": " + data);
-      reportToAcra(e);
-    }
-  }
-
-  public static void reportToAcra(Exception e) {
-    if (IS_FLAVOURED) {
-      ACRA.getErrorReporter().handleSilentException(e);
-    } else {
-      Log.e(MyApplication.TAG, "Report", e);
-    }
-  }
 
   public static String concatResStrings(Context ctx, String separator, Integer... resIds) {
     String result = "";

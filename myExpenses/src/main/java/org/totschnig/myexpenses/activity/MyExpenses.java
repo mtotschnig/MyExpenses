@@ -94,6 +94,7 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
+import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
@@ -793,7 +794,7 @@ public class MyExpenses extends LaunchActivity implements
               return super.loadInBackground();
             } catch (TransactionDatabase.SQLiteDowngradeFailedException |
                 TransactionDatabase.SQLiteUpgradeFailedException e) {
-              Utils.reportToAcra(e);
+              AcraHelper.report(e);
               String msg = e instanceof TransactionDatabase.SQLiteDowngradeFailedException ?
                   ("Database cannot be downgraded from a newer version. Please either uninstall MyExpenses, " +
                       "before reinstalling, or upgrade to a new version.") :

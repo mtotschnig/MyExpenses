@@ -56,6 +56,7 @@ import org.totschnig.myexpenses.fragment.DbWriteFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 
@@ -350,7 +351,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     try {
       super.onBackPressed();
     } catch (IllegalStateException e) {
-      Utils.reportToAcra(e);
+      AcraHelper.report(e);
       finish();
     }
   }
