@@ -302,7 +302,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       try {
         db.delete(TABLE_TRANSACTIONS, KEY_STATUS + " = " + STATUS_UNCOMMITTED, null);
       } catch (SQLiteException e) {
-        AcraHelper.reportWithTableDetails(e,
+        AcraHelper.report(e,
             DbUtils.getTableDetails(
                 db.query("sqlite_master",
                     new String[]{"name","sql"},

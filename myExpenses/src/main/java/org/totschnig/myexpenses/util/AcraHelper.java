@@ -8,27 +8,14 @@ import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.provider.DbUtils;
 
+import java.util.Map;
+
 public class AcraHelper {
   private static final boolean DO_REPORT = Utils.IS_FLAVOURED && !BuildConfig.DEBUG;
 
   public static void reportWithDbSchema(Exception e) {
     if (DO_REPORT) {
-      reportWithTableDetails(e, DbUtils.getTableDetails());
-    } else {
-      Log.e(MyApplication.TAG, "Report", e);
-    }
-  }
-
-  public static void reportWithTableDetails(Exception e, String[][] schema) {
-    if (DO_REPORT) {
-      ErrorReporter errorReporter = ACRA.getErrorReporter();
-      for (String[] tableInfo : schema) {
-        errorReporter.putCustomData(tableInfo[0], tableInfo[1]);
-      }
-      errorReporter.handleSilentException(e);
-      for (String[] tableInfo : schema) {
-        errorReporter.removeCustomData(tableInfo[0]);
-      }
+      report(e, DbUtils.getSchemaDetails());
     } else {
       Log.e(MyApplication.TAG, "Report", e);
     }
@@ -43,6 +30,24 @@ public class AcraHelper {
     } else {
       Log.e(MyApplication.TAG, key + ": " + data);
       report(e);
+    }
+  }
+
+  public static void report(Exception e, Map<String, String> customData) {
+    if (DO_REPORT) {
+      ErrorReporter errorReporter = ACRA.getErrorReporter();
+      for (Map.Entry<String, String> entry : customData.entrySet()) {
+        errorReporter.putCustomData(entry.getKey(), entry.getValue());
+      }
+      errorReporter.handleSilentException(e);
+      for (String key : customData.keySet()) {
+        errorReporter.removeCustomData(key);
+      }
+    } else {
+      for (Map.Entry<String, String> entry : customData.entrySet()) {
+        Log.e(MyApplication.TAG, entry.getKey() + ": " + entry.getValue());
+      }
+      Log.e(MyApplication.TAG, "Report", e);
     }
   }
 
