@@ -102,6 +102,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
               fileUri);
         }
       } catch (FileNotFoundException | SecurityException e) {
+        AcraHelper.report(e);
         return new Result(
             false,
             R.string.restore_backup_archive_not_valid,
