@@ -207,7 +207,7 @@ public class MyExpenses extends LaunchActivity implements
       //prevent preference change listener from firing when preference file is created
       if (MyApplication.getInstance().isInstrumentationTest()) {
         PreferenceManager.setDefaultValues(this, MyApplication.getTestId(), Context.MODE_PRIVATE,
-          R.xml.preferences, true);
+            R.xml.preferences, true);
       } else {
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
       }
@@ -348,7 +348,7 @@ public class MyExpenses extends LaunchActivity implements
     } else {
       Bundle extras = getIntent().getExtras();
       if (extras != null) {
-        mAccountId = Utils.getFromExtra(extras,KEY_ROWID, 0);
+        mAccountId = Utils.getFromExtra(extras, KEY_ROWID, 0);
         idFromNotification = extras.getLong(KEY_TRANSACTIONID, 0);
         //detail fragment from notification should only be shown upon first instantiation from notification
         if (idFromNotification != 0) {
@@ -372,7 +372,7 @@ public class MyExpenses extends LaunchActivity implements
       fm.beginTransaction()
           .add(WelcomeDialogFragment.newInstance(), "WELCOME")
           .add(TaskExecutionFragment.newInstance(
-                  TaskExecutionFragment.TASK_REQUIRE_ACCOUNT, new Long[]{0L}, null),
+              TaskExecutionFragment.TASK_REQUIRE_ACCOUNT, new Long[]{0L}, null),
               ProtectionDelegate.ASYNC_TAG)
           .commit();
       setupComplete = false;
@@ -496,7 +496,7 @@ public class MyExpenses extends LaunchActivity implements
       i.putExtra(KEY_CURRENCY, mAccountsCursor.getString(columnIndexCurrency));
     } else {
       //if accountId is 0 ExpenseEdit will retrieve the first entry from the accounts table
-      i.putExtra(KEY_ACCOUNTID,mAccountId);
+      i.putExtra(KEY_ACCOUNTID, mAccountId);
     }
     startActivityForResult(i, EDIT_TRANSACTION_REQUEST);
   }
@@ -599,8 +599,8 @@ public class MyExpenses extends LaunchActivity implements
         PrefKey.NEXT_REMINDER_RATE.putLong(sequenceCount + TRESHOLD_REMIND_RATE);
         return true;
       case R.id.HELP_COMMAND_DRAWER:
-        i = new Intent(this,Help.class);
-        i.putExtra(Help.KEY_CONTEXT,"NavigationDrawer");
+        i = new Intent(this, Help.class);
+        i.putExtra(Help.KEY_CONTEXT, "NavigationDrawer");
         //for result is needed since it allows us to inspect the calling activity
         startActivity(i);
         return true;
@@ -841,7 +841,7 @@ public class MyExpenses extends LaunchActivity implements
             Utils.isBrightColor(color700) ? View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR : 0);
       }
     }
-    Utils.setBackgroundTintListOnFab(floatingActionButton,color);
+    Utils.setBackgroundTintListOnFab(floatingActionButton, color);
     mAccountId = newAccountId;
     setBalance();
     mDrawerList.setItemChecked(position, true);
@@ -1176,12 +1176,12 @@ public class MyExpenses extends LaunchActivity implements
         accountMenu.setVisibility(View.VISIBLE);
         boolean upVisible = false, downVisible = false;
         if (PrefKey.SORT_ORDER_ACCOUNTS.getString(SORT_ORDER_USAGES).equals(SORT_ORDER_CUSTOM)) {
-          if (position > 0 && getHeaderId(position-1) == getHeaderId(position)) {
-            getCursor().moveToPosition(position-1);
+          if (position > 0 && getHeaderId(position - 1) == getHeaderId(position)) {
+            getCursor().moveToPosition(position - 1);
             if (c.getLong(columnIndexRowId) > 0) upVisible = true; //ignore if previous is aggregate
           }
-          if(position + 1 < getCount() && getHeaderId(position+1) == getHeaderId(position)) {
-            getCursor().moveToPosition(position+1);
+          if (position + 1 < getCount() && getHeaderId(position + 1) == getHeaderId(position)) {
+            getCursor().moveToPosition(position + 1);
             if (c.getLong(columnIndexRowId) > 0) downVisible = true;
           }
           getCursor().moveToPosition(position);
@@ -1213,7 +1213,7 @@ public class MyExpenses extends LaunchActivity implements
                 String sortKey2 = c.getString(c.getColumnIndex(KEY_SORT_KEY));
                 startTaskExecution(
                     TaskExecutionFragment.TASK_SWAP_SORT_KEY,
-                    new String[] {sortKey1, sortKey2},
+                    new String[]{sortKey1, sortKey2},
                     null,
                     R.string.progress_dialog_saving);
                 return true;
@@ -1352,7 +1352,7 @@ public class MyExpenses extends LaunchActivity implements
         } else {
           mManager.initLoader(ACCOUNTS_CURSOR, null, this);
         }
-        if (item.getItemId()==R.id.SORT_CUSTOM_COMMAND) {
+        if (item.getItemId() == R.id.SORT_CUSTOM_COMMAND) {
           MessageDialogFragment.newInstance(
               R.string.dialog_title_information,
               R.string.dialog_info_custom_sort,
