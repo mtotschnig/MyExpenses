@@ -62,8 +62,6 @@ fr:
         Sur Blackberry, il n'y a pas de clé étendue, la clé Contrib donne également accès aux fonctionnalités étendues.
       other: |
         Si vous avez téléchargé Mes Dépenses  depuis F-Droid, Yandex ou SlideMe, envoyez un don par l'une des opérations suivantes :
-      transfer: |
-        Vous pouvez également transférer de l'argent pour le compte suivant :
       key: |
         et ensuite demandez la clé de licence dans l'écran Paramètres.
         Une fois reçue par courriel, entrez-la également dans l'écran Paramètres.

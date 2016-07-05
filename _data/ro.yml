@@ -61,8 +61,6 @@ ro:
       blackberry-extra: |
         Pe Blackberry nu există o cheie de extinsă, cheia Contrib oferă, de asemenea, acces la functionalitati extinse.
       other: "Dacă aţi descărcat Cheltuielile Mele de la F-Droid, Yandex sau SlideMe, \ntrimiteţi o donaţie prin una din următoarele:\n"
-      transfer: |
-        Alternativ, transfer bancar în următorul contul :
       key: |+
         şi apoi cereţi cheia licenţei din ecranul setări.
         Odată ce-l primiţi prin e-mail, introduceţi-l, de asemenea, din ecranul Setări.

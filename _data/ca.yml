@@ -46,8 +46,6 @@ ca_ES:
       other: |
         Si heu baixat Les meves despeses de F-Droid, Yandex o SlideMe,
         envieu una donació amb alguna de les següents opcions:
-      transfer: |
-        També podeu transferir diners al següent compte:
       key: |
         i llavors demaneu una clau de llicència a Preferències.
         Un cop la rebeu per correu, entreu-la també a les Preferències.

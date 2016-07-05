@@ -56,8 +56,6 @@ pl:
       other: |
         Jeżeli pobrałeś Moje Wydatki z F-Droid, Yandex lub SlideMe,
         wyślij datek przez jedno z poniższych:
-      transfer: |
-        Alternatywnie, przelej pieniądze na następujące konto:
       key: |
         i wtedy zażądaj klucz licencyjny przez ekran ustawień.
         Po otrzymaniu go na e-mail, wprowadź go także z ekranu ustawień.
