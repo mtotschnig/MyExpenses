@@ -95,6 +95,7 @@ import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.AdHandler;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
@@ -149,6 +150,7 @@ public class MyExpenses extends LaunchActivity implements
 
   public static final int ACCOUNTS_CURSOR = -1;
   public static final int SPLIT_PART_CURSOR = 3;
+
   private LoaderManager mManager;
 
   int mCurrentPosition = -1;
@@ -159,6 +161,7 @@ public class MyExpenses extends LaunchActivity implements
   private ViewPager myPager;
   private long mAccountId = 0;
   int mAccountCount = 0;
+  private AdHandler adHandler;
   private Toolbar mToolbar;
   private String mCurrentBalance;
   private SubMenu sortMenu;
@@ -191,6 +194,7 @@ public class MyExpenses extends LaunchActivity implements
   public boolean setupComplete;
   private Account.AccountGrouping mAccountGrouping;
 
+
   /* (non-Javadoc)
    * Called when the activity is first created.
    * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -215,6 +219,9 @@ public class MyExpenses extends LaunchActivity implements
 
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+
+    adHandler = new AdHandler(this);
+    adHandler.init();
 
     mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
     mDrawerList = (StickyListHeadersListView) findViewById(R.id.left_drawer);
@@ -471,6 +478,7 @@ public class MyExpenses extends LaunchActivity implements
           return;
         }
       }
+      adHandler.onEditTransactionResult();
     }
     if (requestCode == CREATE_ACCOUNT_REQUEST && resultCode == RESULT_OK) {
       mAccountId = intent.getLongExtra(KEY_ROWID, 0);
@@ -1326,6 +1334,23 @@ public class MyExpenses extends LaunchActivity implements
   }
 
   @Override
+  protected void onResume() {
+    super.onResume();
+    adHandler.onResume();
+  }
+
+  @Override
+  public void onDestroy() {
+    adHandler.onDestroy();
+    super.onDestroy();
+  }
+
+  @Override
+  protected void onPause() {
+    adHandler.onPause();
+    super.onPause();
+  }
+
   public void onBackPressed() {
     if (mDrawerLayout != null && mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
       mDrawerLayout.closeDrawer(GravityCompat.START);
