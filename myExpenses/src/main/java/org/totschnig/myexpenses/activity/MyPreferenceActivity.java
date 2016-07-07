@@ -217,6 +217,10 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       AbstractWidget.updateWidgets(this, TemplateWidget.class);
     } else if (key.equals(PrefKey.AUTO_BACKUP.getKey()) || key.equals(PrefKey.AUTO_BACKUP_TIME.getKey())) {
       DailyAutoBackupScheduler.updateAutoBackupAlarms(this);
+    }  else if (key.equals(PrefKey.ENTER_LICENCE.getKey())) {
+      CommonCommands.dispatchCommand(this, R.id.VERIFY_LICENCE_COMMAND, null);
+      getFragment().setProtectionDependentsState();
+      getFragment().configureContribPrefs();
     }
   }
 
@@ -642,10 +646,6 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
             }
           }
         }
-      } else if (key.equals(PrefKey.ENTER_LICENCE.getKey())) {
-        CommonCommands.dispatchCommand(getActivity(), R.id.VERIFY_LICENCE_COMMAND, (String) value);
-        setProtectionDependentsState();
-        configureContribPrefs();
       } else if (key.equals(PrefKey.CUSTOM_DECIMAL_FORMAT.getKey())) {
         if (TextUtils.isEmpty((String) value)) {
           Utils.setNumberFormat(NumberFormat.getCurrencyInstance());

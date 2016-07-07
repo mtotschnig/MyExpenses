@@ -17,17 +17,16 @@ public class HashLicenceHandler extends LicenceHandler {
   @Override
   public boolean isContribEnabled() {
     if (!contribEnabledInitialized) {
-      contribEnabled = verifyLicenceKey(PrefKey.ENTER_LICENCE
-          .getString(""));
+      contribEnabled = verifyLicenceKey();
       contribEnabledInitialized = true;
     }
     return contribEnabled!=null;
   }
+
   @Override
   public boolean isExtendedEnabled() {
     if (!contribEnabledInitialized) {
-      contribEnabled = verifyLicenceKey(PrefKey.ENTER_LICENCE
-          .getString(""));
+      contribEnabled = verifyLicenceKey();
       contribEnabledInitialized = true;
     }
     return contribEnabled == LicenceStatus.EXTENDED;
@@ -39,7 +38,8 @@ public class HashLicenceHandler extends LicenceHandler {
     this.contribEnabledInitialized = false;
   }
 
-  public LicenceStatus verifyLicenceKey(String key) {
+  public LicenceStatus verifyLicenceKey() {
+    String key = PrefKey.ENTER_LICENCE.getString("");
     String secret= MyApplication.CONTRIB_SECRET;
     String extendedSecret = secret+"_EXTENDED";
     String androidId = Settings.Secure.getString(MyApplication.getInstance()

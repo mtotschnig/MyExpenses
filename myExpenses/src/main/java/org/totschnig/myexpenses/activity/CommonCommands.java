@@ -114,7 +114,7 @@ public class CommonCommands {
       return true;
       case R.id.VERIFY_LICENCE_COMMAND:
         HashLicenceHandler licenceHandler = (HashLicenceHandler) MyApplication.getInstance().getLicenceHandler();
-        LicenceHandler.LicenceStatus licenceStatus = licenceHandler.verifyLicenceKey((String) tag);
+        LicenceHandler.LicenceStatus licenceStatus = licenceHandler.verifyLicenceKey();
         if (licenceStatus != null) {
           Toast.makeText(ctx,
               Utils.concatResStrings(ctx, " ",
