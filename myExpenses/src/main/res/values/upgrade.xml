@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_271">
+    <item>Problems with plans on Samsung devices are fixed</item>
+    <item>Edit transactions from distribution screen</item>
+  </string-array>
   <string-array name="whats_new_270">
     <item>New launcher icon</item>
     <item>Search for transfers</item>
