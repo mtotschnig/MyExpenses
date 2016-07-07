@@ -163,7 +163,7 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
     Uri uri = TransactionProvider.UNCOMMITTED_URI;
     switch(id) {
     case ExpenseEdit.TRANSACTION_CURSOR:
-      cursorLoader = new CursorLoader(getActivity(), uri,null, "parent_id = ?",
+      cursorLoader = new CursorLoader(getActivity(), uri, null, "parent_id = ?",
           selectionArgs, null);
       return cursorLoader;
     case ExpenseEdit.SUM_CURSOR:

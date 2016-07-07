@@ -125,7 +125,6 @@ public class CategoryList extends SortableListFragment implements
     OnChildClickListener, OnGroupClickListener, LoaderManager.LoaderCallbacks<Cursor> {
 
   private static final String KEY_CHILD_COUNT = "child_count";
-  private static final String TABS = "\u0009\u0009\u0009\u0009";
   private View mImportButton;
 
   protected int getMenuResource() {
@@ -511,11 +510,7 @@ public class CategoryList extends SortableListFragment implements
         ctx.editCat(label, elcmi.id);
         return true;
       case R.id.SELECT_COMMAND:
-        if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
-          label += TABS + Utils.convAmount(
-              c.getString(c.getColumnIndex(KEY_SUM)),
-              mAccount.currency);
-        } else if (!isMain &&
+        if (!isMain &&
             ctx.helpVariant.equals(ManageCategories.HelpVariant.select_mapping)) {
           mGroupCursor.moveToPosition(group);
           label = mGroupCursor.getString(mGroupCursor.getColumnIndex(KEY_LABEL))
@@ -820,11 +815,13 @@ public class CategoryList extends SortableListFragment implements
         mAdapter.setGroupCursor(c);
         if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
           if (c.getCount() > 0) {
-            mChart.setVisibility(showChart ? View.VISIBLE : View.GONE);
-            setData(c, mMainColors);
-            highlight(0);
-            if (showChart)
-              mListView.setItemChecked(mListView.getFlatListPosition(ExpandableListView.getPackedPositionForGroup(0)), true);
+            if (lastExpandedPosition == -1) {
+              mChart.setVisibility(showChart ? View.VISIBLE : View.GONE);
+              setData(c, mMainColors);
+              highlight(0);
+              if (showChart)
+                mListView.setItemChecked(mListView.getFlatListPosition(ExpandableListView.getPackedPositionForGroup(0)), true);
+            }
           } else {
             mChart.setVisibility(View.GONE);
           }
@@ -1039,9 +1036,7 @@ public class CategoryList extends SortableListFragment implements
       return false;
     }
     String label = ((TextView) v.findViewById(R.id.label)).getText().toString();
-    if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
-      label += TABS + ((TextView) v.findViewById(R.id.amount)).getText().toString();
-    } else if (ctx.helpVariant.equals(ManageCategories.HelpVariant.select_mapping)) {
+    if (ctx.helpVariant.equals(ManageCategories.HelpVariant.select_mapping)) {
       mGroupCursor.moveToPosition(groupPosition);
       label = mGroupCursor.getString(mGroupCursor.getColumnIndex(KEY_LABEL))
           + TransactionList.CATEGORY_SEPARATOR
@@ -1065,9 +1060,6 @@ public class CategoryList extends SortableListFragment implements
     if (mGroupCursor.getInt(mGroupCursor.getColumnIndex(KEY_CHILD_COUNT)) > 0)
       return false;
     String label = ((TextView) v.findViewById(R.id.label)).getText().toString();
-    if (ctx.helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
-      label += TABS + ((TextView) v.findViewById(R.id.amount)).getText().toString();
-    }
     doSelection(cat_id, label, true);
     return true;
   }

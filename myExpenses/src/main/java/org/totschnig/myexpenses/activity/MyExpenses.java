@@ -149,7 +149,6 @@ public class MyExpenses extends LaunchActivity implements
   public static final long TRESHOLD_REMIND_CONTRIB = 113L;
 
   public static final int ACCOUNTS_CURSOR = -1;
-  public static final int SPLIT_PART_CURSOR = 3;
 
   private LoaderManager mManager;
 
@@ -960,13 +959,6 @@ public class MyExpenses extends LaunchActivity implements
     String msg;
     super.onPostExecute(taskId, o);
     switch (taskId) {
-      case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2:
-        TransactionDetailFragment tdf = (TransactionDetailFragment)
-            getSupportFragmentManager().findFragmentByTag(TransactionDetailFragment.class.getName());
-        if (tdf != null) {
-          tdf.fillData((Transaction) o);
-        }
-        break;
 /*    case TaskExecutionFragment.TASK_CLONE:
       successCount = (Integer) o;
       msg = successCount == 0 ?  getString(R.string.clone_transaction_error) :

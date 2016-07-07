@@ -259,7 +259,7 @@ public class TransactionList extends ContextualActionBarFragment implements
         FragmentManager fm = ctx.getSupportFragmentManager();
         DialogFragment f = (DialogFragment) fm.findFragmentByTag(TransactionDetailFragment.class.getName());
         if (f == null) {
-          FragmentTransaction ft = getFragmentManager().beginTransaction();
+          FragmentTransaction ft = fm.beginTransaction();
           TransactionDetailFragment.newInstance(id).show(ft, TransactionDetailFragment.class.getName());
         }
       }

@@ -1171,6 +1171,7 @@ public class TransactionProvider extends ContentProvider {
       getContext().getContentResolver().notifyChange(TRANSACTIONS_URI, null);
       getContext().getContentResolver().notifyChange(ACCOUNTS_URI, null);
       getContext().getContentResolver().notifyChange(UNCOMMITTED_URI, null);
+      getContext().getContentResolver().notifyChange(CATEGORIES_URI, null);
     } else if (
         //we do not need to refresh cursors on the usage counters
         uriMatch != TEMPLATES_INCREASE_USAGE &&
