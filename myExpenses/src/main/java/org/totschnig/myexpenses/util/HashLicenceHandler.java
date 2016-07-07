@@ -38,6 +38,11 @@ public class HashLicenceHandler extends LicenceHandler {
     this.contribEnabledInitialized = false;
   }
 
+  @Override
+  protected void setLockStateDo(boolean locked) {
+    contribEnabled = locked ? null : LicenceStatus.CONTRIB;
+  }
+
   public LicenceStatus verifyLicenceKey() {
     String key = PrefKey.ENTER_LICENCE.getString("");
     String secret= MyApplication.CONTRIB_SECRET;
