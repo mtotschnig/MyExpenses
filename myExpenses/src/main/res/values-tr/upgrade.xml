@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_271">
+    <item>Samsung cihazlarında planlamalar ile ilgili sorunlar giderildi</item>
+    <item>Dağıtım ekranında mumaleleri düzenleme</item>
+  </string-array>
   <string-array name="whats_new_270">
     <item>Yeni başlatma ikonu</item>
     <item>Transferler için arama</item>

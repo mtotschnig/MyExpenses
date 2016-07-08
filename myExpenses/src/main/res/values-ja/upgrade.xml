@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_271">
+    <item>Samsung デバイスで計画の問題が修正されます</item>
+    <item>分布画面から取引の編集</item>
+  </string-array>
   <string-array name="whats_new_270">
     <item>新しいランチャーアイコン</item>
     <item>振替の検索</item>
