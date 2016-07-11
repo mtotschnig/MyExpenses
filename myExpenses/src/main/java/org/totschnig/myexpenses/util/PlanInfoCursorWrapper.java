@@ -41,6 +41,7 @@ public class PlanInfoCursorWrapper extends CursorWrapperHelper {
   public void initializePlanInfo() {
     if (ContextCompat.checkSelfPermission(context,
         Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+      shouldSortByNextInstance = false;
       return;
     }
     isInitializingPlanInfo = true; // without having to support Gingerbread, we would not need to switch of sort,
