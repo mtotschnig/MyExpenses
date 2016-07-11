@@ -35,6 +35,7 @@ public class AppModule {
   @Singleton
   @Nullable
   ACRAConfiguration providesAcraConfiguration() {
+    if (MyApplication.isInstrumentationTest()) return null;
     try {
       return new ConfigurationBuilder(application)
           .setReportingInteractionMode(ReportingInteractionMode.DIALOG)
