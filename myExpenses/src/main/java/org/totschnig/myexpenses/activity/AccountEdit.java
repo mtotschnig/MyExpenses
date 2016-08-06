@@ -296,6 +296,10 @@ public class AccountEdit extends AmountActivity implements
    */
   @Override
   public void onPostExecute(Object result) {
+    if (result == null) {
+      Toast.makeText(this, "Unknown error while saving account", Toast.LENGTH_SHORT).show();
+      return;
+    }
     Intent intent=new Intent();
     intent.putExtra(DatabaseConstants.KEY_ROWID, ContentUris.parseId((Uri)result));
     setResult(RESULT_OK,intent);
