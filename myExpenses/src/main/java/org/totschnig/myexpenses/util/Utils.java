@@ -1355,6 +1355,7 @@ public class Utils {
         break;
       case ProtectedFragmentActivity.SORT_ORDER_CUSTOM:
         activeItem = sortMenu.findItem(R.id.SORT_CUSTOM_COMMAND);
+        break;
       case ProtectedFragmentActivity.SORT_ORDER_NEXT_INSTANCE:
         activeItem = sortMenu.findItem(R.id.SORT_NEXT_INSTANCE_COMMAND);
         break;
