@@ -640,6 +640,14 @@ public class Account extends Model {
     return account;
   }
 
+  public static Account getInstanceFromDbWithFallback(long id) {
+    Account account = getInstanceFromDb(id);
+    if (account == null) {
+      account = getInstanceFromDb(0);
+    }
+    return account;
+  }
+
   /**
    * empty the cache
    */
