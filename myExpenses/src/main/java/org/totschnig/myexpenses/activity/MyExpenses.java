@@ -251,6 +251,11 @@ public class MyExpenses extends LaunchActivity implements
             tl.onDrawerOpened();
           //ActivityCompat.invalidateOptionsMenu(MyExpenses.this); // creates call to onPrepareOptionsMenu()
         }
+
+        @Override
+        public void onDrawerSlide(View drawerView, float slideOffset) {
+          super.onDrawerSlide(drawerView, 0); // this disables the animation
+        }
       };
 
       // Set the drawer toggle as the DrawerListener
