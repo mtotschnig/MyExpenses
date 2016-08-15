@@ -13,7 +13,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.Account.ExportFormat;
+import org.totschnig.myexpenses.model.ExportFormat;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
@@ -39,7 +39,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
   //we store the label of the account as progress
   private String progress ="";
   private final ArrayList<Uri> result = new ArrayList<>();
-  private Account.ExportFormat format;
+  private ExportFormat format;
   private boolean deleteP;
   private boolean notYetExportedP;
   private String dateFormat;

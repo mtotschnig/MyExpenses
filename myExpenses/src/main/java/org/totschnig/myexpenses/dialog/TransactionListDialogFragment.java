@@ -33,7 +33,7 @@ import android.widget.ListView;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.TransactionAdapter;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.Account.Grouping;
+import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;

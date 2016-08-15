@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.view.View;
 import android.widget.Toast;
 
 import org.apache.commons.csv.CSVRecord;
@@ -12,7 +11,7 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.fragment.CsvImportDataFragment;
 import org.totschnig.myexpenses.fragment.CsvImportParseFragment;
-import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Result;
@@ -171,7 +170,7 @@ public class CsvImportActivity extends TabbedActivity implements
     return pf.getDateFormat();
   }
 
-  public Account.Type getAccountType() {
+  public AccountType getAccountType() {
     CsvImportParseFragment pf = getParseFragment();
     return pf.getAccountType();
   }

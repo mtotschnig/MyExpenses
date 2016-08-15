@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageCurrencies;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Transaction;
 
@@ -31,7 +32,7 @@ import static junit.framework.Assert.assertEquals;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
-import static org.totschnig.myexpenses.model.Account.CurrencyEnum.EUR;
+import static org.totschnig.myexpenses.model.CurrencyEnum.EUR;
 
 /**
  * Created by michaeltotschnig on 01.03.16.
@@ -55,7 +56,7 @@ public class ManageCurrenciesTest {
   }
 
   private void testHelper(boolean withUpdate) throws RemoteException, OperationApplicationException {
-    Account account = new Account("TEST ACCOUNT", Currency.getInstance("EUR"), 5000L, "", Account.Type.CASH, Account.DEFAULT_COLOR);
+    Account account = new Account("TEST ACCOUNT", Currency.getInstance("EUR"), 5000L, "", AccountType.CASH, Account.DEFAULT_COLOR);
     account.save();
     Transaction op = Transaction.getNewInstance(account.getId());
     op.setAmount(new Money(Currency.getInstance("EUR"), -1200L));

@@ -25,6 +25,7 @@ import android.test.ProviderTestCase2;
 import android.test.mock.MockContentResolver;
 
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
@@ -47,9 +48,9 @@ public class AccountTest extends ProviderTestCase2<TransactionProvider> {
 
   // Contains the test data, as an array of NoteInfo instances.
   private final AccountInfo[] TEST_ACCOUNTS = {
-      new AccountInfo("Account 0", Account.Type.CASH, 0),
-      new AccountInfo("Account 1", Account.Type.BANK, 100),
-      new AccountInfo("Account 2", Account.Type.CCARD, -100),
+      new AccountInfo("Account 0", AccountType.CASH, 0),
+      new AccountInfo("Account 1", AccountType.BANK, 100),
+      new AccountInfo("Account 2", AccountType.CCARD, -100),
   };
 
   /*
@@ -346,7 +347,7 @@ public class AccountTest extends ProviderTestCase2<TransactionProvider> {
     // Creates a new Account instance
     AccountInfo account = new AccountInfo(
         "Account 4",
-        Account.Type.ASSET, 1000);
+        AccountType.ASSET, 1000);
 
     // Insert subtest 1.
     // Inserts a row using the new note instance.

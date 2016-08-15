@@ -1,6 +1,6 @@
 package org.totschnig.myexpenses.test.provider;
 
-import org.totschnig.myexpenses.model.Account.Type;
+import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 
 import android.content.ContentValues;
@@ -12,14 +12,14 @@ import android.content.ContentValues;
 class AccountInfo {
     String label;
     long openingBalance;
-    Type type;
+    AccountType type;
     String currency;
     /**
      * Constructor for a AccountInfo instance. This class helps create an account and
      * return its values in a ContentValues map expected by data model methods.
      * The account's id is created automatically when it is inserted into the data model.
      */
-    public AccountInfo(String label, Type type, long openingBalance) {
+    public AccountInfo(String label, AccountType type, long openingBalance) {
       this.label = label;
       this.type = type;
       this.openingBalance = openingBalance;

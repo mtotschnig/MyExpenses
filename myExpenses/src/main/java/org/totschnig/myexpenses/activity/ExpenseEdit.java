@@ -91,7 +91,7 @@ import org.totschnig.myexpenses.fragment.PlanMonthFragment;
 import org.totschnig.myexpenses.fragment.SplitPartList;
 import org.totschnig.myexpenses.fragment.TemplatesList;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.Account.Type;
+import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Money;
@@ -1351,7 +1351,7 @@ public class ExpenseEdit extends AmountActivity implements
         mTransaction instanceof SplitPartCategory ||
         mTransaction instanceof SplitPartTransfer ||
         a == null ||
-        a.type.equals(Type.CASH)) ? View.GONE : View.VISIBLE);
+        a.type.equals(AccountType.CASH)) ? View.GONE : View.VISIBLE);
   }
 
   /**

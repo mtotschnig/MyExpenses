@@ -20,10 +20,9 @@ import android.os.Parcel;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.Currency;
 
 import org.totschnig.myexpenses.export.qif.QifUtils;
-import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.util.PdfHelper;
 import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable;
 import org.totschnig.myexpenses.util.Utils;
@@ -50,7 +49,7 @@ public class UtilsTest extends TestCase {
   }
 
   public void testGetSaveInstance() {
-    Assert.assertNotNull(Account.CurrencyEnum.valueOf(Utils.getSaveInstance("EEK").getCurrencyCode()));
+    Assert.assertNotNull(CurrencyEnum.valueOf(Utils.getSaveInstance("EEK").getCurrencyCode()));
   }
 
   public void testPdfHelper() {

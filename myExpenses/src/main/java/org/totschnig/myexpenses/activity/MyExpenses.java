@@ -62,6 +62,8 @@ import android.widget.Toast;
 import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.model.AccountGrouping;
+import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.BalanceDialogFragment;
@@ -79,8 +81,8 @@ import org.totschnig.myexpenses.dialog.WelcomeDialogFragment;
 import org.totschnig.myexpenses.fragment.ContextualActionBarFragment;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.Account.Grouping;
-import org.totschnig.myexpenses.model.Account.Type;
+import org.totschnig.myexpenses.model.Grouping;
+import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Money;
@@ -171,7 +173,7 @@ public class MyExpenses extends LaunchActivity implements
 
   private void setHelpVariant() {
     Account account = Account.getInstanceFromDb(mAccountId);
-    helpVariant = account == null || account.type.equals(Type.CASH) ?
+    helpVariant = account == null || account.type.equals(AccountType.CASH) ?
         null : HelpVariant.crStatus;
   }
 
@@ -191,7 +193,7 @@ public class MyExpenses extends LaunchActivity implements
   private long idFromNotification = 0;
   private String mExportFormat = null;
   public boolean setupComplete;
-  private Account.AccountGrouping mAccountGrouping;
+  private AccountGrouping mAccountGrouping;
 
 
   /* (non-Javadoc)
@@ -303,12 +305,12 @@ public class MyExpenses extends LaunchActivity implements
     //Grouping submenu
     SubMenu groupingMenu = accountsMenu.getMenu().findItem(R.id.GROUPING_ACCOUNTS_COMMAND)
         .getSubMenu();
-    Account.AccountGrouping accountGrouping;
+    AccountGrouping accountGrouping;
     try {
-      accountGrouping = Account.AccountGrouping.valueOf(
+      accountGrouping = AccountGrouping.valueOf(
           PrefKey.ACCOUNT_GROUPING.getString("TYPE"));
     } catch (IllegalArgumentException e) {
-      accountGrouping = Account.AccountGrouping.TYPE;
+      accountGrouping = AccountGrouping.TYPE;
     }
     MenuItem activeItem;
     switch (accountGrouping) {
@@ -423,8 +425,8 @@ public class MyExpenses extends LaunchActivity implements
       if (mAccountId > 0 && mAccountsCursor != null && !mAccountsCursor.isClosed() &&
           mAccountsCursor.moveToPosition(mCurrentPosition)) {
         try {
-          if (Type.valueOf(mAccountsCursor.getString(mAccountsCursor.getColumnIndexOrThrow(KEY_TYPE)))
-              != Type.CASH) {
+          if (AccountType.valueOf(mAccountsCursor.getString(mAccountsCursor.getColumnIndexOrThrow(KEY_TYPE)))
+              != AccountType.CASH) {
             showBalanceCommand = true;
           }
         } catch (IllegalArgumentException ex) {/*aggregate*/}
@@ -874,10 +876,10 @@ public class MyExpenses extends LaunchActivity implements
         //when account grouping is changed in setting, cursor is reloaded,
         //and we need to refresh the value here
         try {
-          mAccountGrouping = Account.AccountGrouping.valueOf(
+          mAccountGrouping = AccountGrouping.valueOf(
               PrefKey.ACCOUNT_GROUPING.getString("TYPE"));
         } catch (IllegalArgumentException e) {
-          mAccountGrouping = Account.AccountGrouping.TYPE;
+          mAccountGrouping = AccountGrouping.TYPE;
         }
         ((SimpleCursorAdapter) mDrawerListAdapter).swapCursor(mAccountsCursor);
         //swaping the cursor is altering the accountId, if the
@@ -1102,17 +1104,17 @@ public class MyExpenses extends LaunchActivity implements
       TextView sectionLabelTV = (TextView) convertView.findViewById(R.id.sectionLabel);
       switch (mAccountGrouping) {
         case CURRENCY:
-          sectionLabelTV.setText(Account.CurrencyEnum.valueOf(c.getString(columnIndexCurrency)).toString());
+          sectionLabelTV.setText(CurrencyEnum.valueOf(c.getString(columnIndexCurrency)).toString());
           break;
         case NONE:
           sectionLabelTV.setText(headerId == 0 ? R.string.pref_manage_accounts_title : R.string.menu_aggregates);
           break;
         case TYPE:
           int headerRes;
-          if (headerId == Type.values().length) {
+          if (headerId == AccountType.values().length) {
             headerRes = R.string.menu_aggregates;
           } else {
-            headerRes = Type.values()[(int) headerId].toStringResPlural();
+            headerRes = AccountType.values()[(int) headerId].toStringResPlural();
           }
           sectionLabelTV.setText(headerRes);
         default:
@@ -1128,16 +1130,16 @@ public class MyExpenses extends LaunchActivity implements
       c.moveToPosition(position);
       switch (mAccountGrouping) {
         case CURRENCY:
-          return Account.CurrencyEnum.valueOf(c.getString(columnIndexCurrency)).ordinal();
+          return CurrencyEnum.valueOf(c.getString(columnIndexCurrency)).ordinal();
         case NONE:
           return c.getLong(columnIndexRowId) > 0 ? 0 : 1;
         case TYPE:
-          Type type;
+          AccountType type;
           try {
-            type = Type.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_TYPE)));
+            type = AccountType.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_TYPE)));
             return type.ordinal();
           } catch (IllegalArgumentException ex) {
-            return Type.values().length;
+            return AccountType.values().length;
           }
       }
       return 0;
@@ -1231,14 +1233,14 @@ public class MyExpenses extends LaunchActivity implements
 
       if (isAggregate) {
         hide_cr = true;
-        if (mAccountGrouping == Account.AccountGrouping.CURRENCY) {
+        if (mAccountGrouping == AccountGrouping.CURRENCY) {
           labelTv.setText(R.string.menu_aggregates);
         }
         colorInt = colorAggregate;
       } else {
         //for deleting we need the position, because we need to find out the account's label
         try {
-          hide_cr = Type.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_TYPE))).equals(Type.CASH);
+          hide_cr = AccountType.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_TYPE))).equals(AccountType.CASH);
         } catch (IllegalArgumentException ex) {
           hide_cr = true;
         }
@@ -1389,16 +1391,16 @@ public class MyExpenses extends LaunchActivity implements
   }
 
   protected boolean handleAccountsGrouping(MenuItem item) {
-    Account.AccountGrouping newGrouping = null;
+    AccountGrouping newGrouping = null;
     switch (item.getItemId()) {
       case R.id.GROUPING_ACCOUNTS_CURRENCY_COMMAND:
-        newGrouping = Account.AccountGrouping.CURRENCY;
+        newGrouping = AccountGrouping.CURRENCY;
         break;
       case R.id.GROUPING_ACCOUNTS_TYPE_COMMAND:
-        newGrouping = Account.AccountGrouping.TYPE;
+        newGrouping = AccountGrouping.TYPE;
         break;
       case R.id.GROUPING_ACCOUNTS_NONE_COMMAND:
-        newGrouping = Account.AccountGrouping.NONE;
+        newGrouping = AccountGrouping.NONE;
         break;
     }
     if (newGrouping != null) {

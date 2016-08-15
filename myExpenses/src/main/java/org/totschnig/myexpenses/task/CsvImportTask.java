@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.export.qif.QifUtils;
 import org.totschnig.myexpenses.fragment.CsvImportDataFragment;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.PaymentMethod;
@@ -55,7 +56,7 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
   SparseBooleanArrayParcelable discardedRows;
   private long accountId;
   private Currency mCurrency;
-  private Account.Type mAccountType;
+  private AccountType mAccountType;
   private final Map<String, Long> payeeToId = new HashMap<>();
   private final Map<String, Long> categoryToId = new HashMap<>();
 
@@ -67,7 +68,7 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
     this.discardedRows = b.getParcelable(CsvImportDataFragment.KEY_DISCARDED_ROWS);
     this.accountId = b.getLong(DatabaseConstants.KEY_ACCOUNTID);
     this.mCurrency = Currency.getInstance(b.getString(DatabaseConstants.KEY_CURRENCY));
-    this.mAccountType = (Account.Type) b.getSerializable(DatabaseConstants.KEY_TYPE);
+    this.mAccountType = (AccountType) b.getSerializable(DatabaseConstants.KEY_TYPE);
   }
 
   @Override

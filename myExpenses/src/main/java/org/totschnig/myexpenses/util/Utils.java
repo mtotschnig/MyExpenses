@@ -43,6 +43,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.provider.DocumentFile;
 import android.support.v7.widget.AppCompatDrawableManager;
+import android.telephony.TelephonyManager;
 import android.text.Html;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -63,9 +64,10 @@ import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
-import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.CurrencyEnum;
+import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -120,7 +122,35 @@ public class Utils {
 
   public static final boolean IS_FLAVOURED = !TextUtils.isEmpty(BuildConfig.FLAVOR);
   public static final boolean IS_ANDROID = BuildConfig.PLATTFORM.equals("Android");
-  
+
+  public static Currency getLocalCurrency() {
+    Currency result = null;
+    TelephonyManager telephonyManager = (TelephonyManager) MyApplication.getInstance()
+        .getSystemService(Context.TELEPHONY_SERVICE);
+    if (telephonyManager != null) {
+      try {
+        String userCountry = telephonyManager.getNetworkCountryIso();
+        if (TextUtils.isEmpty(userCountry)) {
+          userCountry = telephonyManager.getSimCountryIso();
+        }
+        if (!TextUtils.isEmpty(userCountry)) {
+          result = getSaveInstance(Currency.getInstance(new Locale("", userCountry)));
+        }
+      } catch (Exception e) {
+        //fall back to currency from locale
+      }
+    }
+    if (result == null) {
+      try {
+        //makeSure we know about the currency
+        result = getSaveInstance(Currency.getInstance(Locale.getDefault()));
+      } catch (IllegalArgumentException e) {
+        result = Currency.getInstance("EUR");
+      }
+    }
+    return result;
+  }
+
   public enum Feature {
     ;
     public boolean isEnabled() {
@@ -399,7 +429,7 @@ public class Utils {
 
   public static Currency getSaveInstance(Currency currency) {
     try {
-      Account.CurrencyEnum.valueOf(currency.getCurrencyCode());
+      CurrencyEnum.valueOf(currency.getCurrencyCode());
       return currency;
     } catch (IllegalArgumentException e) {
       return Currency.getInstance("EUR");
@@ -1382,7 +1412,7 @@ public class Utils {
     return null;
   }
 
-  public static void configureGroupingMenu(SubMenu groupingMenu, Account.Grouping currentGrouping) {
+  public static void configureGroupingMenu(SubMenu groupingMenu, Grouping currentGrouping) {
     MenuItem activeItem;
     switch (currentGrouping) {
       case DAY:
@@ -1404,18 +1434,18 @@ public class Utils {
     activeItem.setChecked(true);
   }
 
-  public static Account.Grouping getGroupingFromMenuItemId(int id) {
+  public static Grouping getGroupingFromMenuItemId(int id) {
     switch (id) {
       case R.id.GROUPING_NONE_COMMAND:
-        return Account.Grouping.NONE;
+        return Grouping.NONE;
       case R.id.GROUPING_DAY_COMMAND:
-        return Account.Grouping.DAY;
+        return Grouping.DAY;
       case R.id.GROUPING_WEEK_COMMAND:
-        return Account.Grouping.WEEK;
+        return Grouping.WEEK;
       case R.id.GROUPING_MONTH_COMMAND:
-        return Account.Grouping.MONTH;
+        return Grouping.MONTH;
       case R.id.GROUPING_YEAR_COMMAND:
-        return Account.Grouping.YEAR;
+        return Grouping.YEAR;
     }
     return null;
   }

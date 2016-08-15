@@ -31,7 +31,8 @@ import org.totschnig.myexpenses.activity.ProtectionDelegate;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
-import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
@@ -80,16 +81,16 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
   private MergeCursor mAccountsCursor;
   private SimpleCursorAdapter mAccountsAdapter;
   private long accountId = 0;
-  private Account.CurrencyEnum currency = null;
-  private Account.Type type = null;
+  private CurrencyEnum currency = null;
+  private AccountType type = null;
 
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     if (savedInstanceState!=null) {
         accountId = savedInstanceState.getLong(KEY_ACCOUNTID);
-        currency = (Account.CurrencyEnum) savedInstanceState.getSerializable(KEY_CURRENCY);
-        type = (Account.Type) savedInstanceState.getSerializable(KEY_TYPE);
+        currency = (CurrencyEnum) savedInstanceState.getSerializable(KEY_CURRENCY);
+        type = (AccountType) savedInstanceState.getSerializable(KEY_TYPE);
     }
 
     View view = inflater.inflate(R.layout.import_csv_parse, container, false);
@@ -239,8 +240,8 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
     extras.addRow(new String[] {
         "0",
         getString(R.string.menu_create_account),
-        Account.getLocalCurrency().getCurrencyCode(),
-        Account.Type.CASH.name()
+        Utils.getLocalCurrency().getCurrencyCode(),
+        AccountType.CASH.name()
 
     });
     mAccountsCursor = new MergeCursor(new Cursor[] {extras,data});
@@ -258,13 +259,13 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
                              long id) {
     if (parent.getId()==R.id.Currency) {
       if (accountId==0) {
-        currency = (Account.CurrencyEnum) parent.getSelectedItem();
+        currency = (CurrencyEnum) parent.getSelectedItem();
       }
       return;
     }
     if (parent.getId()==R.id.AccountType) {
       if (accountId==0) {
-        type = (Account.Type) parent.getSelectedItem();
+        type = (AccountType) parent.getSelectedItem();
       }
       return;
     }
@@ -273,17 +274,17 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
       accountId = id;
       mAccountsCursor.moveToPosition(position);
 
-      Account.CurrencyEnum currency = (accountId==0 && this.currency !=null) ?
+      CurrencyEnum currency = (accountId==0 && this.currency !=null) ?
           this.currency :
-          Account.CurrencyEnum
+          CurrencyEnum
               .valueOf(
                   mAccountsCursor.getString(2));//2=KEY_CURRENCY
-      Account.Type type = (accountId==0 && this.type !=null) ?
+      AccountType type = (accountId==0 && this.type !=null) ?
           this.type :
-          Account.Type.valueOf(
+          AccountType.valueOf(
                   mAccountsCursor.getString(3));//3=KEY_TYPE
       mCurrencySpinner.setSelection(
-          ((ArrayAdapter<Account.CurrencyEnum>) mCurrencySpinner.getAdapter())
+          ((ArrayAdapter<CurrencyEnum>) mCurrencySpinner.getAdapter())
               .getPosition(currency));
       mTypeSpinner.setSelection(type.ordinal());
       mCurrencySpinner.setEnabled(position == 0);
@@ -298,14 +299,14 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
     return mAccountSpinner.getSelectedItemId();
   }
   public String getCurrency() {
-    return ((Account.CurrencyEnum) mCurrencySpinner.getSelectedItem()).name();
+    return ((CurrencyEnum) mCurrencySpinner.getSelectedItem()).name();
   }
 
   public QifDateFormat getDateFormat() {
     return (QifDateFormat) mDateFormatSpinner.getSelectedItem();
   }
 
-  public Account.Type getAccountType() {
-    return (Account.Type) mTypeSpinner.getSelectedItem();
+  public AccountType getAccountType() {
+    return (AccountType) mTypeSpinner.getSelectedItem();
   }
 }

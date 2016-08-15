@@ -36,8 +36,8 @@ import org.totschnig.myexpenses.dialog.SelectPayerDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectTransferAccountDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.Account.Type;
-import org.totschnig.myexpenses.model.Account.Grouping;
+import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
@@ -144,7 +144,7 @@ public class TransactionList extends ContextualActionBarFragment implements
   boolean indexesCalculated = false, indexesGroupingCalculated = false;
   //the following values are cached from the account object, so that we can react to changes in the observer
   private Grouping mGrouping;
-  private Type mType;
+  private AccountType mType;
   private String mCurrency;
   private Long mOpeningBalance;
 
@@ -671,7 +671,7 @@ public class TransactionList extends ContextualActionBarFragment implements
 
     @Override
     public long getHeaderId(int position) {
-      if (mAccount.grouping.equals(Account.Grouping.NONE))
+      if (mAccount.grouping.equals(Grouping.NONE))
         return 1;
       Cursor c = getCursor();
       c.moveToPosition(position);
@@ -887,7 +887,7 @@ public class TransactionList extends ContextualActionBarFragment implements
             enabled = mappedCategories;
             break;
           case R.id.FILTER_STATUS_COMMAND:
-            enabled = !mAccount.type.equals(Type.CASH);
+            enabled = !mAccount.type.equals(AccountType.CASH);
             break;
           case R.id.FILTER_PAYEE_COMMAND:
             enabled = mappedPayees;

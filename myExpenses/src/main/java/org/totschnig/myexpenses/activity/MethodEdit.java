@@ -26,7 +26,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -99,7 +99,7 @@ public class MethodEdit extends EditActivity implements CompoundButton.OnChecked
     AppCompatCheckBox cb;
     int cbId = 1;
     TextView accountTypesLabel = (TextView) findViewById(R.id.AccountTypesLabel);
-    for (Account.Type accountType : Account.Type.values()) {
+    for (AccountType accountType : AccountType.values()) {
       cb = new AppCompatCheckBox(this);
       cb.setText(accountType.toString());
       cb.setTag(accountType);
@@ -123,7 +123,7 @@ public class MethodEdit extends EditActivity implements CompoundButton.OnChecked
     mMethod.setLabel(label);
 
     mMethod.setPaymentType(mPaymentTypeSpinner.getSelectedItemPosition()-1);
-    for (Account.Type accountType : Account.Type.values()) {
+    for (AccountType accountType : AccountType.values()) {
       CheckBox cb = (CheckBox) mAccountTypesGrid.findViewWithTag(accountType);
       if (cb.isChecked()) {
         mMethod.addAccountType(accountType);

@@ -28,6 +28,7 @@ import android.test.mock.MockContentResolver;
 import java.util.Date;
 
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
@@ -72,7 +73,7 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
          * a database object from the helper.
          */
     mDb = getProvider().getOpenHelperForTest().getWritableDatabase();
-    AccountInfo testAccount = new AccountInfo("Test account", Account.Type.CASH, 0);
+    AccountInfo testAccount = new AccountInfo("Test account", AccountType.CASH, 0);
     testAccountId = mDb.insertOrThrow(DatabaseConstants.TABLE_ACCOUNTS, null, testAccount.getContentValues());
   }
 

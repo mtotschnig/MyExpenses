@@ -44,7 +44,7 @@ import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.SplitPartAdapter;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.Account.Type;
+import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Plan;
@@ -302,7 +302,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       mLayout.findViewById(R.id.MethodRow).setVisibility(View.GONE);
     }
 
-    if (Account.getInstanceFromDb(mTransaction.accountId).type.equals(Type.CASH)) {
+    if (Account.getInstanceFromDb(mTransaction.accountId).type.equals(AccountType.CASH)) {
       mLayout.findViewById(R.id.StatusRow).setVisibility(View.GONE);
     } else {
       TextView tv = (TextView) mLayout.findViewById(R.id.Status);

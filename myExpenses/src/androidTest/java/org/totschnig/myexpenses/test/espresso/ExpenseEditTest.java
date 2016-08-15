@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.test.util.Matchers;
 
@@ -42,9 +43,9 @@ public class ExpenseEditTest {
 
   @BeforeClass
   public static void fixture() {
-    account1 = new Account(accountLabel1, currency1, 0, "", Account.Type.CASH, Account.DEFAULT_COLOR);
+    account1 = new Account(accountLabel1, currency1, 0, "", AccountType.CASH, Account.DEFAULT_COLOR);
     account1.save();
-    account2 = new Account(accountLabel2, currency2, 0, "", Account.Type.CASH, Account.DEFAULT_COLOR);
+    account2 = new Account(accountLabel2, currency2, 0, "", AccountType.CASH, Account.DEFAULT_COLOR);
     account2.save();
   }
 
