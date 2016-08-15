@@ -26,6 +26,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.export.Exporter;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.util.Result;
@@ -250,8 +251,8 @@ public class ExportTest extends ModelTest  {
     };
     try {
       insertData1();
-      Result result = account1.exportWithFilter(outDir, FILE_NAME, ExportFormat.CSV, false,
-          "M/d/yyyy", ',', "UTF-8", null);
+      Result result = new Exporter(account1, null, outDir, FILE_NAME, ExportFormat.CSV, false, "M/d/yyyy", ',', "UTF-8")
+          .export();
       assertTrue(result.success);
       export = (Uri) result.extra[0];
       compare(new File(export.getPath()),linesCSV);
@@ -328,16 +329,10 @@ public class ExportTest extends ModelTest  {
       new File(export.getPath()).delete();
     }
   }
-  /**
-   * calls {@link Account#exportWithFilter(DocumentFile, String, ExportFormat, boolean, String, char, String, WhereFilter)} with
-   * * fileName TEST
-   * * date format "dd/MM/yyyy"
-   * * encoding UTF-8
-   * * decimal separator '.'
-   * * WhereFilter null
-   * should only be used from unit tests
-   */
-  private Result exportAll(Account account, ExportFormat format, boolean notYetExportedP) throws IOException {
-    return account.exportWithFilter(outDir, FILE_NAME, format, notYetExportedP, "dd/MM/yyyy", '.', "UTF-8", null);
+
+  private Result exportAll(Account account, ExportFormat format, boolean notYetExportedP)
+      throws IOException {
+    return new Exporter(account, null, outDir, FILE_NAME, format, notYetExportedP, "dd/MM/yyyy", '.', "UTF-8")
+        .export();
   }
 }

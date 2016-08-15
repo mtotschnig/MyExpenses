@@ -11,6 +11,7 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.export.Exporter;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.ExportFormat;
@@ -152,7 +153,8 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
             Utils.escapeForFileName(account.label) + "-" + new SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
                 .format(new Date()) :
             fileName;
-        Result result = account.exportWithFilter(destDir, fileNameForAccount, format, notYetExportedP, dateFormat, decimalSeparator, encoding, filter);
+        Result result = new Exporter(account,filter, destDir, fileNameForAccount, format,
+            notYetExportedP, dateFormat, decimalSeparator, encoding).export();
         String progressMsg;
         if (result.success) {
           progressMsg = MyApplication.getInstance().getString(result.getMessage(),

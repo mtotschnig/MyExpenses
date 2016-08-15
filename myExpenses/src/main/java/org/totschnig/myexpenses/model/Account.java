@@ -15,21 +15,19 @@
 
 package org.totschnig.myexpenses.model;
 
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Currency;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
+import android.content.ContentProviderOperation;
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.content.OperationApplicationException;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.RemoteException;
+import android.support.annotation.VisibleForTesting;
+import android.support.v4.provider.DocumentFile;
+import android.util.Log;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
@@ -38,30 +36,70 @@ import org.totschnig.myexpenses.provider.filter.CrStatusCriteria;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.FileUtils;
-import org.totschnig.myexpenses.util.LazyFontSelector.FontType;
-import org.totschnig.myexpenses.util.PdfHelper;
-import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.Result;
+import org.totschnig.myexpenses.util.Utils;
 
-import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.text.pdf.draw.LineSeparator;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Currency;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
 
-import android.content.ContentProviderOperation;
-import android.content.ContentUris;
-import android.content.ContentValues;
-import android.content.OperationApplicationException;
-import android.database.Cursor;
-import android.net.Uri;
-import android.net.Uri.Builder;
-import android.os.RemoteException;
-import android.support.annotation.VisibleForTesting;
-import android.support.v4.provider.DocumentFile;
-import android.util.Log;
-
-import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_CLEARED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_EXPORTED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_FUTURE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_AGGREGATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_MAIN;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_SUB;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TOTAL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.SELECT_AMOUNT_SUM;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_EXPORTED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_HELPER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_EXPENSE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_INCOME;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_IN_PAST;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT_PART;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_TRANSFER;
 
 /**
  * Account represents an account stored in the database.
@@ -88,7 +126,7 @@ public class Account extends Model {
   public boolean excludeFromTotals = false;
 
   public static final String[] PROJECTION_BASE, PROJECTION_EXTENDED, PROJECTION_FULL;
-  private static final String CURRENT_BALANCE_EXPR = KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM + " AND " + WHERE_NOT_SPLIT_PART
+  public static final String CURRENT_BALANCE_EXPR = KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM + " AND " + WHERE_NOT_SPLIT_PART
       + " AND " + WHERE_IN_PAST + " )";
 
   static {
@@ -498,267 +536,6 @@ public class Account extends Model {
   }
 
   /**
-   * writes transactions to export file
-   *
-   * @param destDir          destination directory
-   * @param format           QIF or CSV
-   * @param notYetExportedP  if true only transactions not marked as exported will be handled
-   * @param dateFormat       format parseable by SimpleDateFormat class
-   * @param decimalSeparator , or .
-   * @param filter           only transactions matched by filter will be considered
-   * @return Result object indicating success, message, extra if not null contains uri
-   * @throws IOException
-   */
-  public Result exportWithFilter(
-      DocumentFile destDir,
-      String fileName,
-      ExportFormat format,
-      boolean notYetExportedP,
-      String dateFormat,
-      char decimalSeparator,
-      String encoding,
-      WhereFilter filter)
-      throws IOException {
-    MyApplication ctx = MyApplication.getInstance();
-    DecimalFormat nfFormat = Utils.getDecimalFormat(currency, decimalSeparator);
-    Log.i("MyExpenses", "now starting export");
-    //first we check if there are any exportable transactions
-    String selection = KEY_ACCOUNTID + " = ? AND " + KEY_PARENTID + " is null";
-    String[] selectionArgs = new String[]{String.valueOf(getId())};
-    if (notYetExportedP)
-      selection += " AND " + KEY_STATUS + " = " + STATUS_NONE;
-    if (filter != null && !filter.isEmpty()) {
-      selection += " AND " + filter.getSelectionForParents(DatabaseConstants.VIEW_EXTENDED);
-      selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs(false));
-    }
-    Cursor c = cr().query(
-        Transaction.EXTENDED_URI,
-        null, selection, selectionArgs, KEY_DATE);
-    if (c.getCount() == 0) {
-      c.close();
-      return new Result(false, R.string.no_exportable_expenses);
-    }
-    //then we check if the destDir is writable
-    DocumentFile outputFile = Utils.newFile(
-        destDir,
-        fileName,
-        format.getMimeType(), true);
-    if (outputFile == null) {
-      c.close();
-      return new Result(
-          false,
-          R.string.io_error_unable_to_create_file,
-          fileName,
-          FileUtils.getPath(MyApplication.getInstance(), destDir.getUri()));
-    }
-    c.moveToFirst();
-    Utils.StringBuilderWrapper sb = new Utils.StringBuilderWrapper();
-    SimpleDateFormat formatter = new SimpleDateFormat(dateFormat, Locale.US);
-    OutputStreamWriter out = new OutputStreamWriter(
-        cr().openOutputStream(outputFile.getUri()),
-        encoding);
-    switch (format) {
-      case CSV:
-        int[] columns = {R.string.split_transaction, R.string.date, R.string.payee, R.string.income, R.string.expense,
-            R.string.category, R.string.subcategory, R.string.comment, R.string.method, R.string.status, R.string.reference_number};
-        for (int column : columns) {
-          sb.append("\"")
-              .appendQ(ctx.getString(column))
-              .append("\";");
-        }
-        break;
-      //QIF
-      default:
-        sb.append("!Account\nN")
-            .append(label)
-            .append("\nT")
-            .append(type.toQifName())
-            .append("\n^\n!Type:")
-            .append(type.toQifName());
-    }
-    //Write header
-    out.write(sb.toString());
-    while (c.getPosition() < c.getCount()) {
-      String comment = DbUtils.getString(c, KEY_COMMENT);
-      String full_label = "", label_sub = "", label_main;
-      CrStatus status;
-      Long catId = DbUtils.getLongOrNull(c, KEY_CATID);
-      Cursor splits = null, readCat;
-      if (SPLIT_CATID.equals(catId)) {
-        //split transactions take their full_label from the first split part
-        splits = cr().query(Transaction.CONTENT_URI, null,
-            KEY_PARENTID + " = " + c.getLong(c.getColumnIndex(KEY_ROWID)), null, null);
-        if (splits != null && splits.moveToFirst()) {
-          readCat = splits;
-        } else {
-          readCat = c;
-        }
-      } else {
-        readCat = c;
-      }
-      Long transfer_peer = DbUtils.getLongOrNull(readCat, KEY_TRANSFER_PEER);
-      label_main = DbUtils.getString(readCat, KEY_LABEL_MAIN);
-      if (label_main.length() > 0) {
-        if (transfer_peer != null) {
-          full_label = "[" + label_main + "]";
-          label_main = ctx.getString(R.string.transfer);
-          label_sub = full_label;
-        } else {
-          full_label = label_main;
-          label_sub = DbUtils.getString(readCat, KEY_LABEL_SUB);
-          if (label_sub.length() > 0)
-            full_label += ":" + label_sub;
-        }
-      }
-      String payee = DbUtils.getString(c, KEY_PAYEE_NAME);
-      String dateStr = formatter.format(new Date(c.getLong(
-          c.getColumnIndexOrThrow(KEY_DATE)) * 1000));
-      long amount = c.getLong(
-          c.getColumnIndexOrThrow(KEY_AMOUNT));
-      BigDecimal bdAmount = new Money(currency, amount).getAmountMajor();
-      String amountQIF = nfFormat.format(bdAmount);
-      String amountAbsCSV = nfFormat.format(bdAmount.abs());
-      try {
-        status = CrStatus.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_CR_STATUS)));
-      } catch (IllegalArgumentException ex) {
-        status = CrStatus.UNRECONCILED;
-      }
-      String referenceNumber = DbUtils.getString(c, KEY_REFERENCE_NUMBER);
-      String splitIndicator = SPLIT_CATID.equals(catId) ? SplitTransaction.CSV_INDICATOR : "";
-      sb.clear();
-      switch (format) {
-        case CSV:
-          //{R.string.split_transaction,R.string.date,R.string.payee,R.string.income,R.string.expense,R.string.category,R.string.subcategory,R.string.comment,R.string.method,R.string.status,R.string.reference_number};
-          Long methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
-          PaymentMethod method = methodId == null ? null : PaymentMethod.getInstanceFromDb(methodId);
-          sb.append("\n\"")
-              .append(splitIndicator)
-              .append("\";\"")
-              .append(dateStr)
-              .append("\";\"")
-              .appendQ(payee)
-              .append("\";")
-              .append(amount > 0 ? amountAbsCSV : "0")
-              .append(";")
-              .append(amount < 0 ? amountAbsCSV : "0")
-              .append(";\"")
-              .appendQ(label_main)
-              .append("\";\"")
-              .appendQ(label_sub)
-              .append("\";\"")
-              .appendQ(comment)
-              .append("\";\"")
-              .appendQ(method == null ? "" : method.getLabel())
-              .append("\";\"")
-              .append(status.symbol)
-              .append("\";\"")
-              .append(referenceNumber)
-              .append("\"");
-          break;
-        default:
-          sb.append("\nD")
-              .append(dateStr)
-              .append("\nT")
-              .append(amountQIF);
-          if (comment.length() > 0) {
-            sb.append("\nM")
-                .append(comment);
-          }
-          if (full_label.length() > 0) {
-            sb.append("\nL")
-                .append(full_label);
-          }
-          if (payee.length() > 0) {
-            sb.append("\nP")
-                .append(payee);
-          }
-          if (!status.equals(CrStatus.UNRECONCILED))
-            sb.append("\nC")
-                .append(status.symbol);
-          if (referenceNumber.length() > 0) {
-            sb.append("\nN")
-                .append(referenceNumber);
-          }
-      }
-      out.write(sb.toString());
-      if (SPLIT_CATID.equals(catId) && splits != null) {
-        while (splits.getPosition() < splits.getCount()) {
-          transfer_peer = DbUtils.getLongOrNull(splits, KEY_TRANSFER_PEER);
-          comment = DbUtils.getString(splits, KEY_COMMENT);
-          label_main = DbUtils.getString(splits, KEY_LABEL_MAIN);
-          if (label_main.length() > 0) {
-            if (transfer_peer != null) {
-              full_label = "[" + label_main + "]";
-              label_main = ctx.getString(R.string.transfer);
-              label_sub = full_label;
-            } else {
-              full_label = label_main;
-              label_sub = DbUtils.getString(splits, KEY_LABEL_SUB);
-              if (label_sub.length() > 0)
-                full_label += ":" + label_sub;
-            }
-          } else {
-            label_main = full_label = Category.NO_CATEGORY_ASSIGNED_LABEL;
-            label_sub = "";
-          }
-          amount = splits.getLong(
-              splits.getColumnIndexOrThrow(KEY_AMOUNT));
-          bdAmount = new Money(currency, amount).getAmountMajor();
-          amountQIF = nfFormat.format(bdAmount);
-          amountAbsCSV = nfFormat.format(bdAmount.abs());
-          sb.clear();
-          switch (format) {
-            case CSV:
-              //{R.string.split_transaction,R.string.date,R.string.payee,R.string.income,R.string.expense,R.string.category,R.string.subcategory,R.string.comment,R.string.method};
-              Long methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
-              PaymentMethod method = methodId == null ? null : PaymentMethod.getInstanceFromDb(methodId);
-              sb.append("\n\"")
-                  .append(SplitTransaction.CSV_PART_INDICATOR)
-                  .append("\";\"")
-                  .append(dateStr)
-                  .append("\";\"")
-                  .appendQ(payee)
-                  .append("\";")
-                  .append(amount > 0 ? amountAbsCSV : "0")
-                  .append(";")
-                  .append(amount < 0 ? amountAbsCSV : "0")
-                  .append(";\"")
-                  .appendQ(label_main)
-                  .append("\";\"")
-                  .appendQ(label_sub)
-                  .append("\";\"")
-                  .appendQ(comment)
-                  .append("\";\"")
-                  .appendQ(method == null ? "" : method.getLabel())
-                  .append("\";\"\";\"\"");
-              break;
-            //QIF
-            default:
-              sb.append("\nS")
-                  .append(full_label);
-              if ((comment.length() > 0)) {
-                sb.append("\nE")
-                    .append(comment);
-              }
-              sb.append("\n$")
-                  .append(amountQIF);
-          }
-          out.write(sb.toString());
-          splits.moveToNext();
-        }
-        splits.close();
-      }
-      if (format.equals(ExportFormat.QIF)) {
-        out.write("\n^");
-      }
-      c.moveToNext();
-    }
-    out.close();
-    c.close();
-    return new Result(true, R.string.export_sdcard_success, outputFile.getUri());
-  }
-
-  /**
    * Saves the account, creating it new if necessary
    *
    * @return the id of the account. Upon creation it is returned from the database
@@ -879,342 +656,6 @@ public class Account extends Model {
     filter.put(R.id.FILTER_STATUS_COMMAND,
         new CrStatusCriteria(CrStatus.RECONCILED.name()));
     return filter;
-  }
-
-  public Result print(DocumentFile destDir, WhereFilter filter) throws IOException, DocumentException {
-    long start = System.currentTimeMillis();
-    Log.d("MyExpenses", "Print start " + start);
-    PdfHelper helper = new PdfHelper();
-    Log.d("MyExpenses", "Helper created " + (System.currentTimeMillis() - start));
-    String selection;
-    String[] selectionArgs;
-    if (getId() < 0) {
-      selection = KEY_ACCOUNTID + " IN " +
-          "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
-      selectionArgs = new String[]{currency.getCurrencyCode()};
-    } else {
-      selection = KEY_ACCOUNTID + " = ?";
-      selectionArgs = new String[]{String.valueOf(getId())};
-    }
-    if (filter != null && !filter.isEmpty()) {
-      selection += " AND " + filter.getSelectionForParents(DatabaseConstants.VIEW_EXTENDED);
-      selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs(false));
-    }
-    Cursor transactionCursor;
-    String fileName = label.replaceAll("\\W", "");
-    DocumentFile outputFile = Utils.timeStampedFile(
-        destDir,
-        fileName,
-        "application/pdf", false);
-    Document document = new Document();
-    transactionCursor = cr().query(Transaction.EXTENDED_URI, null, selection + " AND " + KEY_PARENTID + " is null", selectionArgs, KEY_DATE + " ASC");
-    //first we check if there are any exportable transactions
-    //String selection = KEY_ACCOUNTID + " = " + getId() + " AND " + KEY_PARENTID + " is null";
-    if (transactionCursor.getCount() == 0) {
-      transactionCursor.close();
-      return new Result(false, R.string.no_exportable_expenses);
-    }
-    //then we check if the filename we construct already exists
-    if (outputFile == null) {
-      transactionCursor.close();
-      return new Result(
-          false,
-          R.string.io_error_unable_to_create_file,
-          fileName,
-          FileUtils.getPath(MyApplication.getInstance(), destDir.getUri()));
-    }
-    PdfWriter.getInstance(document, cr().openOutputStream(outputFile.getUri()));
-    Log.d("MyExpenses", "All setup " + (System.currentTimeMillis() - start));
-    document.open();
-    Log.d("MyExpenses", "Document open " + (System.currentTimeMillis() - start));
-    addMetaData(document);
-    Log.d("MyExpenses", "Metadata " + (System.currentTimeMillis() - start));
-    addHeader(document, helper);
-    Log.d("MyExpenses", "Header " + (System.currentTimeMillis() - start));
-    addTransactionList(document, transactionCursor, helper, filter);
-    Log.d("MyExpenses", "List " + (System.currentTimeMillis() - start));
-    transactionCursor.close();
-    document.close();
-    return new Result(true, R.string.export_sdcard_success, outputFile.getUri());
-  }
-
-  private void addMetaData(Document document) {
-    document.addTitle(label);
-    document.addSubject("Generated by MyExpenses.mobi");
-  }
-
-  private void addHeader(Document document, PdfHelper helper)
-      throws DocumentException, IOException {
-    String selection, column;
-    String[] selectionArgs;
-    if (getId() < 0) {
-      column = "sum(" + CURRENT_BALANCE_EXPR + ")";
-      selection = KEY_ROWID + " IN " +
-          "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
-      selectionArgs = new String[]{currency.getCurrencyCode()};
-    } else {
-      column = CURRENT_BALANCE_EXPR;
-      selection = KEY_ROWID + " = ?";
-      selectionArgs = new String[]{String.valueOf(getId())};
-    }
-    Cursor account = cr().query(
-        CONTENT_URI,
-        new String[]{column},
-        selection,
-        selectionArgs,
-        null);
-    account.moveToFirst();
-    long currentBalance = account.getLong(0);
-    account.close();
-    PdfPTable preface = new PdfPTable(1);
-
-    preface.addCell(helper.printToCell(label, FontType.TITLE));
-
-    preface.addCell(helper.printToCell(
-        java.text.DateFormat.getDateInstance(java.text.DateFormat.FULL).format(new Date()), FontType.BOLD));
-    preface.addCell(helper.printToCell(
-        MyApplication.getInstance().getString(R.string.current_balance) + " : " +
-            Utils.formatCurrency(new Money(currency, currentBalance)), FontType.BOLD));
-
-    document.add(preface);
-    Paragraph empty = new Paragraph();
-    addEmptyLine(empty, 1);
-    document.add(empty);
-  }
-
-  private void addTransactionList(Document document, Cursor transactionCursor, PdfHelper helper, WhereFilter filter)
-      throws DocumentException, IOException {
-    String selection;
-    String[] selectionArgs;
-    if (!filter.isEmpty()) {
-      selection = filter.getSelectionForParts(DatabaseConstants.VIEW_EXTENDED);//GROUP query uses extended view
-      selectionArgs = filter.getSelectionArgs(true);
-    } else {
-      selection = null;
-      selectionArgs = null;
-    }
-    Builder builder = Transaction.CONTENT_URI.buildUpon();
-    builder.appendPath(TransactionProvider.URI_SEGMENT_GROUPS)
-        .appendPath(grouping.name());
-    if (getId() < 0) {
-      builder.appendQueryParameter(KEY_CURRENCY, currency.getCurrencyCode());
-    } else {
-      builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(getId()));
-    }
-    Cursor groupCursor = cr().query(builder.build(), null, selection, selectionArgs,
-        KEY_YEAR + " ASC," + KEY_SECOND_GROUP + " ASC");
-
-    MyApplication ctx = MyApplication.getInstance();
-
-    int columnIndexGroupSumIncome = groupCursor.getColumnIndex(KEY_SUM_INCOME);
-    int columnIndexGroupSumExpense = groupCursor.getColumnIndex(KEY_SUM_EXPENSES);
-    int columnIndexGroupSumTransfer = groupCursor.getColumnIndex(KEY_SUM_TRANSFERS);
-    int columIndexGroupSumInterim = groupCursor.getColumnIndex(KEY_INTERIM_BALANCE);
-    int columnIndexRowId = transactionCursor.getColumnIndex(KEY_ROWID);
-    int columnIndexYear = transactionCursor.getColumnIndex(KEY_YEAR);
-    int columnIndexYearOfWeekStart = transactionCursor.getColumnIndex(KEY_YEAR_OF_WEEK_START);
-    int columnIndexMonth = transactionCursor.getColumnIndex(KEY_MONTH);
-    int columnIndexWeek = transactionCursor.getColumnIndex(KEY_WEEK);
-    int columnIndexDay = transactionCursor.getColumnIndex(KEY_DAY);
-    int columnIndexAmount = transactionCursor.getColumnIndex(KEY_AMOUNT);
-    int columnIndexLabelSub = transactionCursor.getColumnIndex(KEY_LABEL_SUB);
-    int columnIndexLabelMain = transactionCursor.getColumnIndex(KEY_LABEL_MAIN);
-    int columnIndexComment = transactionCursor.getColumnIndex(KEY_COMMENT);
-    int columnIndexReferenceNumber = transactionCursor.getColumnIndex(KEY_REFERENCE_NUMBER);
-    int columnIndexPayee = transactionCursor.getColumnIndex(KEY_PAYEE_NAME);
-    int columnIndexTransferPeer = transactionCursor.getColumnIndex(KEY_TRANSFER_PEER);
-    int columnIndexDate = transactionCursor.getColumnIndex(KEY_DATE);
-    DateFormat itemDateFormat;
-    switch (grouping) {
-      case DAY:
-        itemDateFormat = android.text.format.DateFormat.getTimeFormat(ctx);
-        break;
-      case MONTH:
-        //noinspection SimpleDateFormat
-        itemDateFormat = new SimpleDateFormat("dd");
-        break;
-      case WEEK:
-        //noinspection SimpleDateFormat
-        itemDateFormat = new SimpleDateFormat("EEE");
-        break;
-      default:
-        itemDateFormat = Utils.localizedYearlessDateFormat();
-    }
-    PdfPTable table = null;
-
-    int prevHeaderId = 0, currentHeaderId;
-
-    transactionCursor.moveToFirst();
-    groupCursor.moveToFirst();
-
-    while (transactionCursor.getPosition() < transactionCursor.getCount()) {
-      int year = transactionCursor.getInt(grouping.equals(Grouping.WEEK) ? columnIndexYearOfWeekStart : columnIndexYear);
-      int month = transactionCursor.getInt(columnIndexMonth);
-      int week = transactionCursor.getInt(columnIndexWeek);
-      int day = transactionCursor.getInt(columnIndexDay);
-      int second = -1;
-
-      switch (grouping) {
-        case DAY:
-          currentHeaderId = year * 1000 + day;
-          break;
-        case WEEK:
-          currentHeaderId = year * 1000 + week;
-          break;
-        case MONTH:
-          currentHeaderId = year * 1000 + month;
-          break;
-        case YEAR:
-          currentHeaderId = year * 1000;
-          break;
-        default:
-          currentHeaderId = 1;
-      }
-      if (currentHeaderId != prevHeaderId) {
-        if (table != null) {
-          document.add(table);
-        }
-        switch (grouping) {
-          case DAY:
-            second = transactionCursor.getInt(columnIndexDay);
-            break;
-          case MONTH:
-            second = transactionCursor.getInt(columnIndexMonth);
-            break;
-          case WEEK:
-            second = transactionCursor.getInt(columnIndexWeek);
-            break;
-        }
-        table = helper.newTable(2);
-        table.setWidthPercentage(100f);
-        PdfPCell cell = helper.printToCell(grouping.getDisplayTitle(ctx, year, second, transactionCursor), FontType.HEADER);
-        table.addCell(cell);
-        Long sumExpense = DbUtils.getLongOr0L(groupCursor, columnIndexGroupSumExpense);
-        Long sumIncome = DbUtils.getLongOr0L(groupCursor, columnIndexGroupSumIncome);
-        Long sumTransfer = DbUtils.getLongOr0L(groupCursor, columnIndexGroupSumTransfer);
-        Long delta = sumIncome - sumExpense + sumTransfer;
-        Long interimBalance = DbUtils.getLongOr0L(groupCursor, columIndexGroupSumInterim);
-        Long previousBalance = interimBalance - delta;
-        cell = helper.printToCell(String.format("%s %s %s = %s",
-            Utils.convAmount(previousBalance, currency),
-            Long.signum(delta) > -1 ? "+" : "-",
-            Utils.convAmount(Math.abs(delta), currency),
-            Utils.convAmount(interimBalance, currency)), FontType.HEADER);
-        cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-        table.addCell(cell);
-        document.add(table);
-        table = helper.newTable(3);
-        table.setWidthPercentage(100f);
-        cell = helper.printToCell("+ " + Utils.convAmount(sumIncome,
-            currency), FontType.NORMAL);
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(cell);
-        cell = helper.printToCell("- " + Utils.convAmount(sumExpense,
-            currency), FontType.NORMAL);
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(cell);
-        cell = helper.printToCell("<-> " + Utils.convAmount(
-            DbUtils.getLongOr0L(groupCursor, columnIndexGroupSumTransfer),
-            currency), FontType.NORMAL);
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(cell);
-        table.setSpacingAfter(2f);
-        document.add(table);
-        LineSeparator sep = new LineSeparator();
-        document.add(sep);
-        table = helper.newTable(4);
-        table.setWidths(table.getRunDirection() == PdfWriter.RUN_DIRECTION_RTL ?
-            new int[]{2, 3, 5, 1} : new int[]{1, 5, 3, 2});
-        table.setSpacingBefore(2f);
-        table.setSpacingAfter(2f);
-        table.setWidthPercentage(100f);
-        prevHeaderId = currentHeaderId;
-        groupCursor.moveToNext();
-      }
-      long amount = transactionCursor.getLong(columnIndexAmount);
-      String catText = transactionCursor.getString(columnIndexLabelMain);
-
-      PdfPCell cell = helper.printToCell(Utils.convDateTime(transactionCursor.getString(columnIndexDate), itemDateFormat), FontType.NORMAL);
-      table.addCell(cell);
-      if (DbUtils.getLongOrNull(transactionCursor, columnIndexTransferPeer) != null) {
-        catText = ((amount < 0) ? "=> " : "<= ") + catText;
-      } else {
-        Long catId = DbUtils.getLongOrNull(transactionCursor, KEY_CATID);
-        if (SPLIT_CATID.equals(catId)) {
-          Cursor splits = cr().query(Transaction.CONTENT_URI, null,
-              KEY_PARENTID + " = " + transactionCursor.getLong(columnIndexRowId), null, null);
-          splits.moveToFirst();
-          catText = "";
-          while (splits.getPosition() < splits.getCount()) {
-            String splitText = DbUtils.getString(splits, KEY_LABEL_MAIN);
-            if (splitText.length() > 0) {
-              if (DbUtils.getLongOrNull(splits, KEY_TRANSFER_PEER) != null) {
-                splitText = "[" + splitText + "]";
-              } else {
-                String label_sub = DbUtils.getString(splits, KEY_LABEL_SUB);
-                if (label_sub.length() > 0)
-                  splitText += TransactionList.CATEGORY_SEPARATOR + label_sub;
-              }
-            } else {
-              splitText = Category.NO_CATEGORY_ASSIGNED_LABEL;
-            }
-            splitText += " " + Utils.convAmount(splits.getLong(
-                splits.getColumnIndexOrThrow(KEY_AMOUNT)), currency);
-            String splitComment = DbUtils.getString(splits, KEY_COMMENT);
-            if (splitComment != null && splitComment.length() > 0) {
-              splitText += " (" + splitComment + ")";
-            }
-            catText += splitText;
-            if (splits.getPosition() != splits.getCount() - 1) {
-              catText += "; ";
-            }
-            splits.moveToNext();
-          }
-          splits.close();
-        } else if (catId == null) {
-          catText = Category.NO_CATEGORY_ASSIGNED_LABEL;
-        } else {
-          String label_sub = transactionCursor.getString(columnIndexLabelSub);
-          if (label_sub != null && label_sub.length() > 0) {
-            catText = catText + TransactionList.CATEGORY_SEPARATOR + label_sub;
-          }
-        }
-      }
-      String referenceNumber = transactionCursor.getString(columnIndexReferenceNumber);
-      if (referenceNumber != null && referenceNumber.length() > 0)
-        catText = "(" + referenceNumber + ") " + catText;
-      cell = helper.printToCell(catText, FontType.NORMAL);
-      String payee = transactionCursor.getString(columnIndexPayee);
-      if (payee == null || payee.length() == 0) {
-        cell.setColspan(2);
-      }
-      table.addCell(cell);
-      if (payee != null && payee.length() > 0) {
-        table.addCell(helper.printToCell(payee, FontType.UNDERLINE));
-      }
-      FontType t = amount < 0 ? FontType.EXPENSE : FontType.INCOME;
-      cell = helper.printToCell(Utils.convAmount(amount, currency), t);
-      cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-      table.addCell(cell);
-      String comment = transactionCursor.getString(columnIndexComment);
-      if (comment != null && comment.length() > 0) {
-        cell = helper.printToCell(comment, FontType.ITALIC);
-        cell.setColspan(2);
-        table.addCell(helper.emptyCell());
-        table.addCell(cell);
-        table.addCell(helper.emptyCell());
-      }
-      transactionCursor.moveToNext();
-    }
-    // now add all this to the document
-    document.add(table);
-    groupCursor.close();
-  }
-
-  private void addEmptyLine(Paragraph paragraph, int number) {
-    for (int i = 0; i < number; i++) {
-      paragraph.add(new Paragraph(" "));
-    }
   }
 
   public void persistGrouping(Grouping value) {
