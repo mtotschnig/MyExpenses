@@ -135,13 +135,19 @@ public class QifParser {
     }
 
     private void addCategoryFromTransaction(QifTransaction t) {
+      if (t.isSplit()) {
+        for (QifTransaction split : t.splits) {
+          addCategoryFromTransaction(split);
+        }
+      } else {
         if (!TextUtils.isEmpty(t.category)) {
-            QifCategory c = new QifCategory(t.category, false);
-            categoriesFromTransactions.add(c);
+          QifCategory c = new QifCategory(t.category, false);
+          categoriesFromTransactions.add(c);
         }
         if (!TextUtils.isEmpty(t.categoryClass)) {
-            classes.add(t.categoryClass);
+          classes.add(t.categoryClass);
         }
+      }
     }
 
     private boolean shouldBreakCurrentBlock() throws IOException {

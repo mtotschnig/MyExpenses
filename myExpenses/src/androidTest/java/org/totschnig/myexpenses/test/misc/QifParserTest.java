@@ -505,6 +505,23 @@ public class QifParserTest extends AndroidTestCase {
         assertEquals("Vacation", p.classes.iterator().next());
     }
 
+    public void test_should_collect_categories_from_splits() throws Exception {
+        parseQif(
+            "!Type:Cash\n" +
+                "D12/07/2011\n" +
+                "T-2,600.66\n" +
+                "SA:A1\n" +
+                "$-1,100.56\n" +
+                "ENote on first split\n" +
+                "SA:A2\n" +
+                "$-1,000.00\n" +
+                "S<NO_CATEGORY>\n" +
+                "$500.10\n" +
+                "ENote on third split\n" +
+                "^\n");
+        assertEquals(3, p.categories.size());
+    }
+
     public void test_should_parse_splits() throws Exception {
         parseQif(
             "!Type:Cat\nNA\nE\n^\nNA:A1\nE\n^\nNA:A1:AA1\nE\n^\nNA:A2\nE\n^\nNB\nE\n^\n" + // this is not important
