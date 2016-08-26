@@ -156,4 +156,13 @@ public class QifUtils {
         return !TextUtils.isEmpty(category) && category.startsWith("[") && category.endsWith("]");
     }
 
+    public static boolean twoSidesOfTheSameTransfer(QifAccount fromAccount,
+                                                    QifTransaction fromTransaction, QifAccount toAccount,
+                                                    QifTransaction toTransaction) {
+        return toTransaction.isTransfer()
+            && toTransaction.toAccount.equals(fromAccount.memo)
+            && fromTransaction.toAccount.equals(toAccount.memo)
+            && fromTransaction.date.equals(toTransaction.date)
+            && fromTransaction.amount.equals(toTransaction.amount.negate());
+    }
 }

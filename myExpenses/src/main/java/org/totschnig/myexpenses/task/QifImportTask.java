@@ -16,6 +16,31 @@
 
 package org.totschnig.myexpenses.task;
 
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
+
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.DialogUtils;
+import org.totschnig.myexpenses.export.qif.QifAccount;
+import org.totschnig.myexpenses.export.qif.QifBufferedReader;
+import org.totschnig.myexpenses.export.qif.QifCategory;
+import org.totschnig.myexpenses.export.qif.QifDateFormat;
+import org.totschnig.myexpenses.export.qif.QifParser;
+import org.totschnig.myexpenses.export.qif.QifTransaction;
+import org.totschnig.myexpenses.export.qif.QifUtils;
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.Payee;
+import org.totschnig.myexpenses.model.SplitTransaction;
+import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.FileUtils;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -28,30 +53,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.DialogUtils;
-import org.totschnig.myexpenses.export.qif.QifAccount;
-import org.totschnig.myexpenses.export.qif.QifBufferedReader;
-import org.totschnig.myexpenses.export.qif.QifCategory;
-import org.totschnig.myexpenses.export.qif.QifDateFormat;
-import org.totschnig.myexpenses.export.qif.QifParser;
-import org.totschnig.myexpenses.export.qif.QifTransaction;
-import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.model.Payee;
-import org.totschnig.myexpenses.model.SplitTransaction;
-import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.util.AcraHelper;
-import org.totschnig.myexpenses.util.FileUtils;
-
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 
 public class QifImportTask extends AsyncTask<Void, String, Void> {
   private final TaskExecutionFragment taskExecutionFragment;
@@ -343,7 +344,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
                 .iterator();
             while (iterator.hasNext()) {
               QifTransaction toTransaction = iterator.next();
-              if (twoSidesOfTheSameTransfer(fromAccount, fromTransaction,
+              if (QifUtils.twoSidesOfTheSameTransfer(fromAccount, fromTransaction,
                   toAccount, toTransaction)) {
                 iterator.remove();
                 found = true;
@@ -393,16 +394,6 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
     fromTransaction.memo = prependMemo(
         "Transfer: " + fromTransaction.toAccount, fromTransaction);
     fromTransaction.toAccount = null;
-  }
-
-  private boolean twoSidesOfTheSameTransfer(QifAccount fromAccount,
-      QifTransaction fromTransaction, QifAccount toAccount,
-      QifTransaction toTransaction) {
-    return toTransaction.isTransfer()
-        && toTransaction.toAccount.equals(fromAccount.memo)
-        && fromTransaction.toAccount.equals(toAccount.memo)
-        && fromTransaction.date.equals(toTransaction.date)
-        && fromTransaction.amount == toTransaction.amount.negate();
   }
 
   private int insertTransactions(Account a, List<QifTransaction> transactions) {
