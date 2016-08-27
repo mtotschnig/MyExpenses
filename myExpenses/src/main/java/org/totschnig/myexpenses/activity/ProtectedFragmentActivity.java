@@ -59,6 +59,7 @@ import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 
@@ -279,8 +280,8 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
       case TaskExecutionFragment.TASK_DELETE_PAYEES:
       case TaskExecutionFragment.TASK_DELETE_TEMPLATES:
       case TaskExecutionFragment.TASK_UNDELETE_TRANSACTION:
-        Boolean success = (Boolean) o;
-        if (!success) {
+        Result result = (Result) o;
+        if (!result.success) {
           Toast.makeText(this,
               "There was an error deleting the object. Please contact support@myexenses.mobi !",
               Toast.LENGTH_LONG).show();

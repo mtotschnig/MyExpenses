@@ -38,11 +38,13 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
             //signingConfig signingConfigs.release
-            manifestPlaceholders = [appName: "@string/app_name"]
+            manifestPlaceholders = [appName: "@string/app_name", debug: "false"]
+            resValue "string", "content_authority", "org.totschnig.myexpenses"
         }
         debug {
             applicationIdSuffix ".debug"
-            manifestPlaceholders = [appName: "My Expenses Debug"]
+            manifestPlaceholders = [appName: "My Expenses Debug", debug: "true"]
+            resValue "string", "content_authority", "org.totschnig.myexpenses.debug"
         }
     }
 

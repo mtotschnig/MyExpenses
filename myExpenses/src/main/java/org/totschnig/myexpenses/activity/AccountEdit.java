@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Currency;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
@@ -59,7 +60,7 @@ public class AccountEdit extends AmountActivity implements
   private EditText mLabelText;
   private EditText mDescriptionText;
   private SpinnerHelper mCurrencySpinner, mAccountTypeSpinner, mColorSpinner;
-  Account mAccount;
+  private Account mAccount;
   private ArrayList<Integer> mColors;
   private ArrayAdapter<Integer> mColAdapter;
   private ArrayAdapter<CurrencyEnum> currencyAdapter;
@@ -264,7 +265,6 @@ public class AccountEdit extends AmountActivity implements
   }
   @Override
   public Model getObject() {
-    // TODO Auto-generated method stub
     return mAccount;
   }
 
@@ -302,7 +302,12 @@ public class AccountEdit extends AmountActivity implements
       return;
     }
     Intent intent=new Intent();
-    intent.putExtra(DatabaseConstants.KEY_ROWID, ContentUris.parseId((Uri)result));
+    long id = ContentUris.parseId((Uri) result);
+    if (mAccount.isSynced()) {
+      //TODO if this is a new account and we fail, we should report to user and to ACRA
+      MyApplication.createSyncAccount(id);
+    }
+    intent.putExtra(DatabaseConstants.KEY_ROWID, id);
     setResult(RESULT_OK,intent);
     finish();
     //no need to call super after finish

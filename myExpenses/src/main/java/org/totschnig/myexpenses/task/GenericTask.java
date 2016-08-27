@@ -170,9 +170,9 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           }
         } catch (SQLiteConstraintException e) {
           AcraHelper.reportWithDbSchema(e);
-          return false;
+          return Result.FAILURE;
         }
-        return true;
+        return Result.SUCCESS;
       case TaskExecutionFragment.TASK_UNDELETE_TRANSACTION:
         try {
           for (long id : (Long[]) ids) {
@@ -180,17 +180,18 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           }
         } catch (SQLiteConstraintException e) {
           AcraHelper.reportWithDbSchema(e);
-          return false;
+          return Result.FAILURE;
         }
-        return true;
+        return Result.SUCCESS;
       case TaskExecutionFragment.TASK_DELETE_ACCOUNT:
+        Long anId = (Long) ids[0];
         try {
-          Account.delete((Long) ids[0]);
+          Account.delete(anId);
         } catch (Exception e) {
           AcraHelper.reportWithDbSchema(e);
-          return false;
+          return Result.FAILURE;
         }
-        return true;
+        return new Result(true, 0, anId);
       case TaskExecutionFragment.TASK_DELETE_PAYMENT_METHODS:
         try {
           for (long id : (Long[]) ids) {
@@ -198,9 +199,9 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           }
         } catch (SQLiteConstraintException e) {
           AcraHelper.reportWithDbSchema(e);
-          return false;
+          return Result.FAILURE;
         }
-        return true;
+        return Result.SUCCESS;
       case TaskExecutionFragment.TASK_DELETE_PAYEES:
         try {
           for (long id : (Long[]) ids) {
@@ -208,9 +209,9 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           }
         } catch (SQLiteConstraintException e) {
           AcraHelper.reportWithDbSchema(e);
-          return false;
+          return Result.FAILURE;
         }
-        return true;
+        return Result.SUCCESS;
       case TaskExecutionFragment.TASK_DELETE_CATEGORY:
         try {
           for (long id : (Long[]) ids) {
@@ -218,9 +219,9 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           }
         } catch (SQLiteConstraintException e) {
           AcraHelper.reportWithDbSchema(e);
-          return false;
+          return Result.FAILURE;
         }
-        return true;
+        return Result.SUCCESS;
       case TaskExecutionFragment.TASK_DELETE_TEMPLATES:
         try {
           for (long id : (Long[]) ids) {
@@ -228,9 +229,9 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           }
         } catch (SQLiteConstraintException e) {
           AcraHelper.reportWithDbSchema(e);
-          return false;
+          return Result.FAILURE;
         }
-        return true;
+        return Result.SUCCESS;
       case TaskExecutionFragment.TASK_TOGGLE_CRSTATUS:
         cr.update(
             TransactionProvider.TRANSACTIONS_URI

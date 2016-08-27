@@ -15,6 +15,8 @@
 
 package org.totschnig.myexpenses;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
@@ -42,6 +44,7 @@ import com.android.calendar.CalendarContractCompat.Events;
 
 import org.acra.ACRA;
 import org.acra.config.ACRAConfiguration;
+import org.acra.util.IOUtils;
 import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.di.AppModule;
 import org.totschnig.myexpenses.di.DaggerAppComponent;
@@ -53,6 +56,7 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
 import org.totschnig.myexpenses.service.PlanExecutor;
+import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.LicenceHandler;
 import org.totschnig.myexpenses.util.Result;
@@ -62,6 +66,8 @@ import org.totschnig.myexpenses.widget.AccountWidget;
 import org.totschnig.myexpenses.widget.TemplateWidget;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -70,14 +76,11 @@ import javax.inject.Inject;
 public class MyApplication extends Application implements
     OnSharedPreferenceChangeListener {
 
-  public AppComponent getAppComponent() {
-    return appComponent;
-  }
-
   private AppComponent appComponent;
   @Inject
   LicenceHandler licenceHandler;
-  @Inject @Nullable
+  @Inject
+  @Nullable
   ACRAConfiguration acraConfiguration;
   private static boolean instrumentationTest = false;
   private static String testId;
@@ -140,15 +143,49 @@ public class MyApplication extends Application implements
     AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     //Maybe prevents occasional crashes on Gingerbread
     //https://code.google.com/p/android/issues/detail?id=81083
-    try {Class.forName("android.os.AsyncTask");} catch(Throwable ignore) {}
+    try {
+      Class.forName("android.os.AsyncTask");
+    } catch (Throwable ignore) {
+    }
     mSelf = this;
-    if (!ACRA.isACRASenderServiceProcess()) {
+    if (!ACRA.isACRASenderServiceProcess() && !isSyncService()) {
       // sets up mSettings
       getSettings().registerOnSharedPreferenceChangeListener(this);
       licenceHandler.init(this);
       initPlanner();
       registerWidgetObservers();
     }
+  }
+
+  private boolean isSyncService() {
+    final String processName = getCurrentProcessName();
+    return processName != null && processName.endsWith(":sync");
+  }
+
+  //from ACRA
+  @Nullable
+  private static String getCurrentProcessName() {
+    try {
+      return IOUtils.streamToString(new FileInputStream("/proc/self/cmdline")).trim();
+    } catch (IOException e) {
+      return null;
+    }
+  }
+
+  public static void deleteSyncAccount(long accountId) {
+    Account oldAccount = GenericAccountService.GetAccount("_" + accountId);
+    AccountManager accountManager =
+        (AccountManager) mSelf.getSystemService(
+            ACCOUNT_SERVICE);
+    accountManager.removeAccount(oldAccount, null, null);
+  }
+
+  public static boolean createSyncAccount(long accountId) {
+    Account newAccount = GenericAccountService.GetAccount("_" + accountId);
+    AccountManager accountManager =
+        (AccountManager) mSelf.getSystemService(
+            ACCOUNT_SERVICE);
+    return accountManager.addAccountExplicitly(newAccount, null, null);
   }
 
   @Override
@@ -246,10 +283,10 @@ public class MyApplication extends Application implements
       resolve = style + ".s" + fontScale;
     }
     int resId = mSelf.getResources().getIdentifier(resolve, "style", mSelf.getPackageName());
-    if (resId==0) {
+    if (resId == 0) {
       //try style without font scaling as fallback
       resId = mSelf.getResources().getIdentifier(style, "style", mSelf.getPackageName());
-      if (resId==0) throw new RuntimeException(style + " is not defined");
+      if (resId == 0) throw new RuntimeException(style + " is not defined");
     }
     return resId;
   }
@@ -321,18 +358,17 @@ public class MyApplication extends Application implements
   }
 
   /**
-   * @param ctx
-   *          Activity that should be password protected, can be null if called
-   *          from widget provider
+   * @param ctx Activity that should be password protected, can be null if called
+   *            from widget provider
    * @return true if password protection is set, and we have paused for at least
-   *         {@link PrefKey#PROTECTION_DELAY_SECONDS} seconds unless we are called
-   *         from widget or from an activity called from widget and passwordless
-   *         data entry from widget is allowed sets isLocked as a side effect
+   * {@link PrefKey#PROTECTION_DELAY_SECONDS} seconds unless we are called
+   * from widget or from an activity called from widget and passwordless
+   * data entry from widget is allowed sets isLocked as a side effect
    */
   public boolean shouldLock(Activity ctx) {
     boolean isStartFromWidget = ctx == null
         || ctx.getIntent().getBooleanExtra(
-            AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, false);
+        AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, false);
     boolean isProtected = isProtected();
     long lastPause = getLastPause();
     boolean isPostDelay = System.nanoTime() - lastPause > (PrefKey.PROTECTION_DELAY_SECONDS
@@ -354,13 +390,13 @@ public class MyApplication extends Application implements
   /**
    * @param calendarId id of calendar in system calendar content provider
    * @return verifies if the passed in calendarid exists and is the one stored
-   *         in {@link PrefKey#PLANNER_CALENDAR_PATH}
+   * in {@link PrefKey#PLANNER_CALENDAR_PATH}
    */
   private boolean checkPlannerInternal(String calendarId) {
     ContentResolver cr = getContentResolver();
     Cursor c = cr.query(Calendars.CONTENT_URI,
-        new String[] { CALENDAR_FULL_PATH_PROJECTION + " AS path" },
-        Calendars._ID + " = ?", new String[] { calendarId }, null);
+        new String[]{CALENDAR_FULL_PATH_PROJECTION + " AS path"},
+        Calendars._ID + " = ?", new String[]{calendarId}, null);
     boolean result = true;
     if (c == null)
       return false;
@@ -404,9 +440,9 @@ public class MyApplication extends Application implements
    * check if we already have a calendar in Account {@link #PLANNER_ACCOUNT_NAME}
    * of type {@link CalendarContractCompat#ACCOUNT_TYPE_LOCAL} with name
    * {@link #PLANNER_ACCOUNT_NAME} if yes use it, otherwise create it
-   * 
-   * @return true if we have configured a useable calendar
+   *
    * @param persistToSharedPref if true id of the created calendar is stored in preferences
+   * @return true if we have configured a useable calendar
    */
   public String createPlanner(boolean persistToSharedPref) {
     Uri.Builder builder = Calendars.CONTENT_URI.buildUpon();
@@ -418,11 +454,11 @@ public class MyApplication extends Application implements
         "true");
     Uri calendarUri = builder.build();
     Cursor c = getContentResolver().query(calendarUri,
-        new String[] { Calendars._ID }, Calendars.NAME + " = ?",
-        new String[] { PLANNER_CALENDAR_NAME }, null);
+        new String[]{Calendars._ID}, Calendars.NAME + " = ?",
+        new String[]{PLANNER_CALENDAR_NAME}, null);
     if (c == null) {
       AcraHelper.report(new Exception(
-              "Searching for planner calendar failed, Calendar app not installed?"));
+          "Searching for planner calendar failed, Calendar app not installed?"));
       return INVALID_CALENDAR_ID;
     }
     if (c.moveToFirst()) {
@@ -457,7 +493,7 @@ public class MyApplication extends Application implements
       plannerCalendarId = uri.getLastPathSegment();
       if (plannerCalendarId == null || plannerCalendarId.equals("0")) {
         AcraHelper.report(new Exception(String.format(Locale.US,
-                "Inserting planner calendar failed, last path segment is %s", plannerCalendarId)));
+            "Inserting planner calendar failed, last path segment is %s", plannerCalendarId)));
         return INVALID_CALENDAR_ID;
       }
       Log.i(TAG, "successfully set up new calendar: " + plannerCalendarId);
@@ -497,9 +533,8 @@ public class MyApplication extends Application implements
   }
 
   /**
-   * @param eventCursor
-   *          must have been populated with a projection built by
-   *          {@link #buildEventProjection()}
+   * @param eventCursor must have been populated with a projection built by
+   *                    {@link #buildEventProjection()}
    * @param eventValues ContentValues where the extracted data is copied to
    */
   public static void copyEventData(Cursor eventCursor, ContentValues eventValues) {
@@ -522,7 +557,7 @@ public class MyApplication extends Application implements
   }
 
   private boolean insertEventAndUpdatePlan(ContentValues eventValues,
-      long templateId) {
+                                           long templateId) {
     Uri uri = getContentResolver().insert(Events.CONTENT_URI, eventValues);
     long planId = ContentUris.parseId(uri);
     Log.i(TAG, "event copied with new id: " + planId);
@@ -536,7 +571,7 @@ public class MyApplication extends Application implements
 
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
-      String key) {
+                                        String key) {
     if (!key.equals(PrefKey.AUTO_BACKUP_DIRTY.getKey())) {
       markDataDirty();
     }
@@ -564,8 +599,8 @@ public class MyApplication extends Application implements
       // and then accidentally we link to the wrong calendar
       Uri uri = ContentUris.withAppendedId(Calendars.CONTENT_URI,
           Long.parseLong(mPlannerCalendarId));
-      Cursor c = cr.query(uri, new String[] { CALENDAR_FULL_PATH_PROJECTION
-          + " AS path" }, null, null, null);
+      Cursor c = cr.query(uri, new String[]{CALENDAR_FULL_PATH_PROJECTION
+          + " AS path"}, null, null, null);
       if (c != null && c.moveToFirst()) {
         String path = c.getString(0);
         Log.i(TAG, "storing calendar path : " + path);
@@ -588,8 +623,8 @@ public class MyApplication extends Application implements
       } else if (safeToMovePlans) {
         ContentValues eventValues = new ContentValues();
         eventValues.put(Events.CALENDAR_ID, Long.parseLong(newValue));
-        Cursor planCursor = cr.query(Template.CONTENT_URI, new String[] {
-            DatabaseConstants.KEY_ROWID, DatabaseConstants.KEY_PLANID },
+        Cursor planCursor = cr.query(Template.CONTENT_URI, new String[]{
+                DatabaseConstants.KEY_ROWID, DatabaseConstants.KEY_PLANID},
             DatabaseConstants.KEY_PLANID + " IS NOT null", null, null);
         if (planCursor != null) {
           if (planCursor.moveToFirst()) {
@@ -600,7 +635,7 @@ public class MyApplication extends Application implements
                   planId);
 
               Cursor eventCursor = cr.query(eventUri, buildEventProjection(),
-                  Events.CALENDAR_ID + " = ?", new String[] { oldValue }, null);
+                  Events.CALENDAR_ID + " = ?", new String[]{oldValue}, null);
               if (eventCursor != null) {
                 if (eventCursor.moveToFirst()) {
                   // Log.i("DEBUG",
@@ -626,8 +661,8 @@ public class MyApplication extends Application implements
 
   private class WidgetObserver extends ContentObserver {
     /**
-       * 
-       */
+     *
+     */
     private Class<? extends AbstractWidget<?>> mProvider;
 
     WidgetObserver(Class<? extends AbstractWidget<?>> provider) {
@@ -666,8 +701,8 @@ public class MyApplication extends Application implements
     int restoredPlansCount = 0;
     if (!(calendarId.equals("-1") || calendarPath.equals(""))) {
       Cursor c = cr.query(Calendars.CONTENT_URI,
-          new String[] { Calendars._ID }, CALENDAR_FULL_PATH_PROJECTION
-              + " = ?", new String[] { calendarPath }, null);
+          new String[]{Calendars._ID}, CALENDAR_FULL_PATH_PROJECTION
+              + " = ?", new String[]{calendarPath}, null);
       if (c != null) {
         if (c.moveToFirst()) {
           mPlannerCalendarId = c.getString(0);
@@ -677,9 +712,9 @@ public class MyApplication extends Application implements
           ContentValues planValues = new ContentValues(), eventValues = new ContentValues();
           eventValues.put(Events.CALENDAR_ID,
               Long.parseLong(mPlannerCalendarId));
-          Cursor planCursor = cr.query(Template.CONTENT_URI, new String[] {
+          Cursor planCursor = cr.query(Template.CONTENT_URI, new String[]{
               DatabaseConstants.KEY_ROWID, DatabaseConstants.KEY_PLANID,
-              DatabaseConstants.KEY_UUID }, DatabaseConstants.KEY_PLANID
+              DatabaseConstants.KEY_UUID}, DatabaseConstants.KEY_PLANID
               + " IS NOT null", null, null);
           if (planCursor != null) {
             if (planCursor.moveToFirst()) {
@@ -688,10 +723,10 @@ public class MyApplication extends Application implements
                 long oldPlanId = planCursor.getLong(1);
                 String uuid = planCursor.getString(2);
                 Cursor eventCursor = cr
-                    .query(Events.CONTENT_URI, new String[] { Events._ID },
+                    .query(Events.CONTENT_URI, new String[]{Events._ID},
                         Events.CALENDAR_ID + " = ? AND " + Events.DESCRIPTION
-                            + " LIKE ?", new String[] { mPlannerCalendarId,
-                            "%" + uuid + "%" }, null);
+                            + " LIKE ?", new String[]{mPlannerCalendarId,
+                            "%" + uuid + "%"}, null);
                 if (eventCursor != null) {
                   if (eventCursor.moveToFirst()) {
                     long newPlanId = eventCursor.getLong(0);
@@ -723,7 +758,7 @@ public class MyApplication extends Application implements
                             uuid));
                 eventCursor = cr.query(TransactionProvider.EVENT_CACHE_URI,
                     buildEventProjection(), Events.DESCRIPTION + " LIKE ?",
-                    new String[] { "%" + uuid + "%" }, null);
+                    new String[]{"%" + uuid + "%"}, null);
                 boolean found = false;
                 if (eventCursor != null) {
                   if (eventCursor.moveToFirst()) {
@@ -756,7 +791,7 @@ public class MyApplication extends Application implements
   }
 
   public static String getMarketPrefix() {
-    switch(BuildConfig.FLAVOR) {
+    switch (BuildConfig.FLAVOR) {
       case "amazon":
         return "amzn://apps/android?p=";
       default:
@@ -773,7 +808,7 @@ public class MyApplication extends Application implements
   }
 
   public static void markDataDirty() {
-    boolean persistedDirty =  PrefKey.AUTO_BACKUP_DIRTY.getBoolean(true);
+    boolean persistedDirty = PrefKey.AUTO_BACKUP_DIRTY.getBoolean(true);
     if (!persistedDirty) {
       PrefKey.AUTO_BACKUP_DIRTY.putBoolean(true);
       DailyAutoBackupScheduler.updateAutoBackupAlarms(mSelf);

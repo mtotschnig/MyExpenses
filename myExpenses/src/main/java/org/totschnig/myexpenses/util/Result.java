@@ -25,6 +25,9 @@ import android.content.Context;
  *
  */
 public class Result {
+
+  public static Result SUCCESS = new Result(true);
+  public static Result FAILURE = new Result(false);
   /**
    * true represents success, false failure
    */

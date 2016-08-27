@@ -125,6 +125,8 @@ public class Account extends Model {
 
   public boolean excludeFromTotals = false;
 
+  private boolean isSynced = true;
+
   public static final String[] PROJECTION_BASE, PROJECTION_EXTENDED, PROJECTION_FULL;
   public static final String CURRENT_BALANCE_EXPR = KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM + " AND " + WHERE_NOT_SPLIT_PART
       + " AND " + WHERE_IN_PAST + " )";
@@ -707,5 +709,9 @@ public class Account extends Model {
       }
     }
     return accounts.get(accountId);
+  }
+
+  public boolean isSynced() {
+    return isSynced;
   }
 }

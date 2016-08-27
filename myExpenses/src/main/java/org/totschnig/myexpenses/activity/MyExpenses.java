@@ -1012,6 +1012,11 @@ public class MyExpenses extends LaunchActivity implements
           Toast.makeText(this, result.print(this), Toast.LENGTH_LONG).show();
         }
         break;
+      case TaskExecutionFragment.TASK_DELETE_ACCOUNT:
+        result = (Result) o;
+        if (result.success) {
+          MyApplication.deleteSyncAccount(((Long) result.extra[0]));
+      }
     }
   }
 
