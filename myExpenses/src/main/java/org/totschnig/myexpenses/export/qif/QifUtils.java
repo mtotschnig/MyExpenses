@@ -114,7 +114,7 @@ public class QifUtils {
         String sMoney = money;
 
         if (sMoney != null) {
-            sMoney = sMoney.trim(); // to be safe
+            sMoney = sMoney.trim().replace(" ",""); // to be safe
             try {
                 return new BigDecimal(sMoney);
             } catch (NumberFormatException e) {
@@ -128,11 +128,21 @@ public class QifUtils {
                     if (sMoney.startsWith("-")) {
                         buf.append('-');
                     }
-                    for (int i = 0; i < split.length - 1; i++) {
-                        buf.append(split[i]);
+                    boolean foundFirst = false;
+                    for (int i = 0; i < split.length; i++) {
+                        if (split[i].equals("")) {
+                            continue;
+                        }
+                        if (foundFirst) {
+                            buf.append('.');
+                            buf.append(split[i]);
+                            break;
+                        } else {
+                            buf.append(split[i]);
+                            foundFirst = true;
+                        }
                     }
-                    buf.append('.');
-                    buf.append(split[split.length - 1]);
+
                     try {
                         return new BigDecimal(buf.toString());
 
