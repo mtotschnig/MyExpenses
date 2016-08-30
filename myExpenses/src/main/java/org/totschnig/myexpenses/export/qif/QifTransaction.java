@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.model.Transfer;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.Date;
 import java.util.List;
 
@@ -48,7 +49,7 @@ public class QifTransaction {
     this.splits = splits;
   }
 
-  public void readFrom(QifBufferedReader r, QifDateFormat dateFormat)
+  public void readFrom(QifBufferedReader r, QifDateFormat dateFormat, Currency currency)
       throws IOException {
     QifTransaction split = null;
     String line;
@@ -59,7 +60,7 @@ public class QifTransaction {
       if (line.startsWith("D")) {
         this.date = parseDate(trimFirstChar(line), dateFormat);
       } else if (line.startsWith("T")) {
-        this.amount = parseMoney(trimFirstChar(line));
+        this.amount = parseMoney(trimFirstChar(line), currency);
       } else if (line.startsWith("P")) {
         this.payee = trimFirstChar(line);
       } else if (line.startsWith("M")) {

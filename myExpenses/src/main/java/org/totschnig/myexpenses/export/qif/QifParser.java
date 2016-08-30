@@ -11,6 +11,7 @@ package org.totschnig.myexpenses.export.qif;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,10 +33,12 @@ public class QifParser {
   public final Set<QifCategory> categoriesFromTransactions = new HashSet<>();
   public final Set<String> payees = new HashSet<>();
   public final Set<String> classes = new HashSet<>();
+  private final Currency currency;
 
-  public QifParser(QifBufferedReader r, QifDateFormat dateFormat) {
+  public QifParser(QifBufferedReader r, QifDateFormat dateFormat, Currency currency) {
     this.r = r;
     this.dateFormat = dateFormat;
+    this.currency = currency;
   }
 
   public void parse() throws IOException {
@@ -101,7 +104,7 @@ public class QifParser {
       r.readLine();
       while (true) {
         QifTransaction t = new QifTransaction();
-        t.readFrom(r, dateFormat);
+        t.readFrom(r, dateFormat, currency);
         if (t.isOpeningBalance()) {
           account.openinBalance = t.amount;
           if (!TextUtils.isEmpty(t.toAccount))

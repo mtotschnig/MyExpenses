@@ -180,7 +180,7 @@ public class QifUtils {
             }
         }
         if (result.precision() - result.scale() > maxSize) {
-            throw new IllegalArgumentException(result.toString() + "exceeds maximum size of " + maxSize);
+            throw new IllegalArgumentException(result.toString() + " exceeds maximum size of " + maxSize);
         }
         return result;
     }

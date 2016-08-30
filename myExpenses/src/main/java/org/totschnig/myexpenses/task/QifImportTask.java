@@ -121,7 +121,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
           .getString(R.string.parse_error_other_exception,e.getMessage()));
       return null;
     }
-    parser = new QifParser(r, dateFormat);
+    parser = new QifParser(r, dateFormat, mCurrency);
     try {
       parser.parse();
       long t1 = System.currentTimeMillis();
