@@ -68,15 +68,4 @@ public class UtilsTest extends TestCase {
     p.setDataPosition(0);
     assertEquals(sbap, SparseBooleanArrayParcelable.CREATOR.createFromParcel(p));
   }
-
-  public void testParseMoney() {
-    assertEquals(QifUtils.parseMoney("4"),new BigDecimal(4));
-    assertEquals(QifUtils.parseMoney("-4"),new BigDecimal(-4));
-    assertEquals(QifUtils.parseMoney("4.5"),new BigDecimal(4.5));
-    assertEquals(QifUtils.parseMoney("4,5"),new BigDecimal(4.5));
-    assertEquals(QifUtils.parseMoney("-4.5"),new BigDecimal(-4.5));
-    assertEquals(QifUtils.parseMoney("-4,5"),new BigDecimal(-4.5));
-    assertEquals(QifUtils.parseMoney("0"),new BigDecimal(0));
-    assertEquals(QifUtils.parseMoney(""),new BigDecimal(0));
-  }
 }
