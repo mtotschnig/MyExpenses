@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteException;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
@@ -821,6 +822,19 @@ public class MyExpenses extends LaunchActivity implements
                   null);
               f.setCancelable(false);
               f.show(getSupportFragmentManager(), "DOWN_OR_UP_GRADE");
+              return null;
+            } catch (SQLiteException e) {
+              String msg = String.format(
+                  "Loading of transactions failed (%s). Probably the sum of the entered amounts exceeds the storage limit !"
+                  ,e.getMessage());
+              MessageDialogFragment f = MessageDialogFragment.newInstance(
+                  0,
+                  msg,
+                  new MessageDialogFragment.Button(android.R.string.ok, R.id.QUIT_COMMAND, null),
+                  null,
+                  null);
+              f.setCancelable(false);
+              f.show(getSupportFragmentManager(), "SQLITE_EXCEPTION");
               return null;
             }
           }
