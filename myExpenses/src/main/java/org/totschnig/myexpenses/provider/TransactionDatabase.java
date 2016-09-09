@@ -355,7 +355,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   private static final String TRANSACTIONS_DELETE_TRIGGER_CREATE =
       "CREATE TRIGGER delete_change_log "
           + "AFTER DELETE ON " + TABLE_TRANSACTIONS
-          + " WHEN old." + KEY_STATUS + " != " + STATUS_UNCOMMITTED
+          + " WHEN old." + KEY_STATUS + " != " + STATUS_UNCOMMITTED + " AND EXISTS (SELECT 1 FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = old." + KEY_ACCOUNTID + ")"
           + DELETE_TRIGGER_ACTION;
 
   private static String buildChangeTriggerDefinitionForColumn(String column) {
