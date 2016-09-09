@@ -136,7 +136,6 @@ public class TransactionProvider extends ContentProvider {
   private static final int TEMPLATES = 11;
   private static final int TEMPLATE_ID = 12;
   private static final int CATEGORY_ID = 13;
-  private static final int CATEGORY_INCREASE_USAGE = 14;
   private static final int PAYEE_ID = 15;
   private static final int METHODS_FILTERED = 16;
   private static final int TEMPLATES_INCREASE_USAGE = 17;
@@ -1043,14 +1042,6 @@ public class TransactionProvider extends ContentProvider {
       count = db.update(TABLE_METHODS, values, "_id=" + segment + whereString,
           whereArgs);
       break;
-    case CATEGORY_INCREASE_USAGE:
-      segment = uri.getPathSegments().get(1);
-      db.execSQL("UPDATE " + DatabaseConstants.TABLE_CATEGORIES + " SET " + KEY_USAGES + " = " +
-          KEY_USAGES + " + 1, " + KEY_LAST_USED + " = strftime('%s', 'now')  WHERE " + KEY_ROWID +
-          " IN (" + segment + " , (SELECT " + KEY_PARENTID +
-          " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + segment + "))");
-      count = 1;
-      break;
     case TEMPLATES_INCREASE_USAGE:
       segment = uri.getPathSegments().get(1);
       db.execSQL("UPDATE " + TABLE_TEMPLATES + " SET " + KEY_USAGES + " = " + KEY_USAGES + " + 1, " +
@@ -1176,15 +1167,11 @@ public class TransactionProvider extends ContentProvider {
     } else if (
         //we do not need to refresh cursors on the usage counters
         uriMatch != TEMPLATES_INCREASE_USAGE &&
-        uriMatch != CATEGORY_INCREASE_USAGE &&
         uriMatch != ACCOUNT_INCREASE_USAGE) {
       getContext().getContentResolver().notifyChange(uri, null);
     }
     if (uriMatch == CURRENCIES_CHANGE_FRACTION_DIGITS || uriMatch == TEMPLATES_INCREASE_USAGE) {
       getContext().getContentResolver().notifyChange(TEMPLATES_URI,null);
-    }
-    if (uriMatch == CATEGORY_INCREASE_USAGE) {
-      getContext().getContentResolver().notifyChange(CATEGORIES_URI,null);
     }
     if (uriMatch == ACCOUNT_INCREASE_USAGE) {
       getContext().getContentResolver().notifyChange(ACCOUNTS_URI,null);
@@ -1227,7 +1214,6 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_UNDELETE, TRANSACTION_UNDELETE);
     URI_MATCHER.addURI(AUTHORITY, "categories", CATEGORIES);
     URI_MATCHER.addURI(AUTHORITY, "categories/#", CATEGORY_ID);
-    URI_MATCHER.addURI(AUTHORITY, "categories/#/" + URI_SEGMENT_INCREASE_USAGE, CATEGORY_INCREASE_USAGE);
     URI_MATCHER.addURI(AUTHORITY, "accounts", ACCOUNTS);
     URI_MATCHER.addURI(AUTHORITY, "accounts/base", ACCOUNTS_BASE);
     URI_MATCHER.addURI(AUTHORITY, "accounts/#", ACCOUNT_ID);

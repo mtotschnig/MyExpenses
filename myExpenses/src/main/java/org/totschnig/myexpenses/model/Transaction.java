@@ -404,24 +404,6 @@ public class Transaction extends Model {
    * @return the URI of the transaction. Upon creation it is returned from the content provider
    */
   public Uri save() {
-    boolean needIncreaseUsage = false;
-    if (catId != null && !catId.equals(DatabaseConstants.SPLIT_CATID)) {
-      if (getId() == 0) {
-        needIncreaseUsage = true;
-      } else {
-        Cursor c = cr().query(
-            CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build(),
-            new String[]{KEY_CATID},
-            null, null, null);
-        if (c != null) {
-          if (c.moveToFirst() && c.getLong(0) != catId) {
-            //category has been changed
-            needIncreaseUsage = true;
-          }
-          c.close();
-        }
-      }
-    }
     Uri uri;
     ContentValues initialValues = buildInitialValues();
     if (getId() == 0) {
@@ -479,15 +461,6 @@ public class Transaction extends Model {
         }
         c.close();
       }
-    }
-    if (needIncreaseUsage) {
-      cr().update(
-          TransactionProvider.CATEGORIES_URI
-              .buildUpon()
-              .appendPath(String.valueOf(catId))
-              .appendPath(TransactionProvider.URI_SEGMENT_INCREASE_USAGE)
-              .build(),
-          null, null, null);
     }
     return uri;
   }

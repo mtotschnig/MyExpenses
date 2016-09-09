@@ -393,6 +393,24 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + buildChangeTriggerDefinitionForColumn(KEY_REFERENCE_NUMBER) + ", "
           + buildChangeTriggerDefinitionForColumn(KEY_PICTURE_URI) + "); END;";
 
+
+  private static final String INCREASE_CATEGORY_USAGE_ACTION = " BEGIN UPDATE " + TABLE_CATEGORIES + " SET " + KEY_USAGES + " = " +
+      KEY_USAGES + " + 1, " + KEY_LAST_USED + " = strftime('%s', 'now')  WHERE " + KEY_ROWID +
+      " IN (new." + KEY_CATID + " , (SELECT " + KEY_PARENTID +
+      " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = new." + KEY_CATID + ")); END;";
+
+  private static final String INCREASE_CATEGORY_USAGE_INSERT_TRIGGER = "CREATE TRIGGER insert_increase_category_usage "
+      + "AFTER INSERT ON " + TABLE_TRANSACTIONS
+      + " WHEN new." + KEY_CATID + " IS NOT NULL AND new." + KEY_CATID + " != " + SPLIT_CATID + ""
+      + INCREASE_CATEGORY_USAGE_ACTION;
+
+
+  private static final String INCREASE_CATEGORY_USAGE_UPDATE_TRIGGER = "CREATE TRIGGER update_increase_category_usage "
+      + "AFTER UPDATE ON " + TABLE_TRANSACTIONS
+      + " WHEN new." + KEY_CATID + " IS NOT NULL AND (old." + KEY_CATID + " IS NULL OR new." + KEY_CATID + " != old." + KEY_CATID + ")"
+      + INCREASE_CATEGORY_USAGE_ACTION;
+
+
   public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
   public static final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 
@@ -468,6 +486,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL(TRANSACTIONS_DELETE_TRIGGER_CREATE);
     db.execSQL(TRANSACTIONS_UPDATE_TRIGGER_CREATE);
     db.execSQL(TRANSACTIONS_DELETE_AFTER_UPDATE_TRIGGER_CREATE);
+    db.execSQL(INCREASE_CATEGORY_USAGE_INSERT_TRIGGER);
+    db.execSQL(INCREASE_CATEGORY_USAGE_UPDATE_TRIGGER);
   }
 
   private void insertCurrencies(SQLiteDatabase db) {
