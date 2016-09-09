@@ -96,6 +96,7 @@ public class TransactionProvider extends ContentProvider {
       Uri.parse("content://" + AUTHORITY + "/stale_images");
   public static final Uri MAPPED_TRANSFER_ACCOUNTS_URI =
       Uri.parse("content://" + AUTHORITY + "/transfer_account_transactions");
+  public static final Uri CHANGES_URI = Uri.parse("content://" + AUTHORITY + "/changes");
   /**
    * select info from DB without table, e.g. CategoryList#DATEINFO_CURSOR
    */

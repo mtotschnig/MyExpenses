@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.UUID;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -59,6 +60,7 @@ public class Transaction extends Model {
   protected Date date;
   protected Money amount;
   protected Money transferAmount;
+  protected String uuid;
   private Long catId;
   public Long accountId;
   public Long transfer_peer;
@@ -189,6 +191,11 @@ public class Transaction extends Model {
   public CrStatus crStatus;
   transient protected Uri pictureUri;
 
+  protected String generateUuid() {
+    return UUID.randomUUID().toString();
+
+  }
+
   /**
    * factory method for retrieving an instance from the db with the given id
    *
@@ -200,7 +207,7 @@ public class Transaction extends Model {
     String[] projection = new String[]{KEY_ROWID, KEY_DATE, KEY_AMOUNT, KEY_COMMENT, KEY_CATID,
         FULL_LABEL, KEY_PAYEEID, KEY_PAYEE_NAME, KEY_TRANSFER_PEER, KEY_TRANSFER_ACCOUNT,
         KEY_ACCOUNTID, KEY_METHODID, KEY_PARENTID, KEY_CR_STATUS, KEY_REFERENCE_NUMBER,
-        KEY_PICTURE_URI, KEY_METHOD_LABEL, KEY_STATUS, TRANSFER_AMOUNT, KEY_TEMPLATEID};
+        KEY_PICTURE_URI, KEY_METHOD_LABEL, KEY_STATUS, TRANSFER_AMOUNT, KEY_TEMPLATEID, KEY_UUID};
 
     Cursor c = cr().query(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection, null, null, null);
@@ -225,7 +232,7 @@ public class Transaction extends Model {
       t.transferAmount = new Money(Account.getInstanceFromDb(t.transfer_account).currency,
           c.getLong(c.getColumnIndex(KEY_TRANSFER_AMOUNT)));
     } else {
-      if (catId == DatabaseConstants.SPLIT_CATID) {
+      if (DatabaseConstants.SPLIT_CATID.equals(catId)) {
         t = new SplitTransaction(account_id, amount);
       } else {
         t = parent_id != null ? new SplitPartCategory(account_id, amount, parent_id) :
@@ -255,6 +262,7 @@ public class Transaction extends Model {
     t.status = c.getInt(c.getColumnIndexOrThrow(KEY_STATUS));
     Long originTemplateId = getLongOrNull(c, KEY_TEMPLATEID);
     t.originTemplate = originTemplateId == null ? null : Template.getInstanceFromDb(originTemplateId);
+    t.uuid = DbUtils.getString(c, KEY_UUID);
     c.close();
     return t;
   }
@@ -318,7 +326,6 @@ public class Transaction extends Model {
     cr().update(uri, null, null, null);
   }
 
-  //needed for Template subclass
   protected Transaction() {
     setDate(new Date());
     this.crStatus = CrStatus.UNRECONCILED;
@@ -398,7 +405,7 @@ public class Transaction extends Model {
    */
   public Uri save() {
     boolean needIncreaseUsage = false;
-    if (catId != null && catId != DatabaseConstants.SPLIT_CATID) {
+    if (catId != null && !catId.equals(DatabaseConstants.SPLIT_CATID)) {
       if (getId() == 0) {
         needIncreaseUsage = true;
       } else {
@@ -418,6 +425,7 @@ public class Transaction extends Model {
     Uri uri;
     ContentValues initialValues = buildInitialValues();
     if (getId() == 0) {
+      initialValues.put(KEY_UUID, generateUuid());
       uri = cr().insert(CONTENT_URI, initialValues);
       if (uri == null) {
         return null;
@@ -426,7 +434,7 @@ public class Transaction extends Model {
         ContribFeature.ATTACH_PICTURE.recordUsage();
       }
       setId(ContentUris.parseId(uri));
-      if (parentId == null)
+      if (parentId == null) {
         cr().update(
             TransactionProvider.ACCOUNTS_URI
                 .buildUpon()
@@ -434,6 +442,7 @@ public class Transaction extends Model {
                 .appendPath(TransactionProvider.URI_SEGMENT_INCREASE_USAGE)
                 .build(),
             null, null, null);
+      }
       if (originPlanInstanceId != null) {
         ContentValues values = new ContentValues();
         values.put(KEY_TEMPLATEID, originTemplate.getId());

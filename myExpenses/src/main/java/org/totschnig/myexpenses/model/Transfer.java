@@ -94,6 +94,8 @@ public class Transfer extends Transaction {
     initialValues.put(KEY_ACCOUNTID, accountId);
     savePicture(initialValues);
     if (getId() == 0) {
+      //both parts of the transfer share uuid
+      initialValues.put(KEY_UUID, generateUuid());
       initialValues.put(KEY_PARENTID, parentId);
       initialValues.put(KEY_STATUS, status);
       uri = cr().insert(CONTENT_URI, initialValues);

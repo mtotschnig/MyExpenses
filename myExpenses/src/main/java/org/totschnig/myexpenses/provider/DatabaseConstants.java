@@ -163,6 +163,7 @@ public class DatabaseConstants {
   public static final String KEY_LAST_USED = "last_used";
   public static final String KEY_HAS_TRANSFERS = "has_transfers";
   public static final String KEY_PLAN_INFO = "plan_info";
+  public static final String KEY_PARENT_UUID = "parent_uuid";
 
   /**
    * column alias for the second group (month or week)
@@ -205,6 +206,7 @@ public class DatabaseConstants {
   public static final String VIEW_TEMPLATES_EXTENDED = "templates_extended";
   public static final String TABLE_PLAN_INSTANCE_STATUS = "planinstance_transaction";
   public static final String TABLE_STALE_URIS = "stale_uris";
+  public static final String TABLE_CHANGES = "changes";
   /**
    * used on backup and restore
    */

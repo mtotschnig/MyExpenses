@@ -32,6 +32,7 @@ import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -90,7 +91,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_STATUS + " integer default 0, "
           + KEY_CR_STATUS + " text not null check (" + KEY_CR_STATUS + " in (" + Transaction.CrStatus.JOIN + ")) default '" + Transaction.CrStatus.RECONCILED.name() + "',"
           + KEY_REFERENCE_NUMBER + " text, "
-          + KEY_PICTURE_URI + " text);";
+          + KEY_PICTURE_URI + " text, "
+          + KEY_UUID + " text);";
 
   private static String buildViewDefinition(String tableName) {
     StringBuilder stringBuilder = new StringBuilder();
@@ -278,6 +280,119 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           " = (SELECT coalesce(max(" + KEY_SORT_KEY + "),0) FROM " + TABLE_ACCOUNTS + ") + 1 WHERE " +
           KEY_ROWID + " = NEW." + KEY_ROWID + "; END";
 
+  private static final String CHANGES_CREATE =
+      "CREATE TABLE " + TABLE_CHANGES
+          + " ( " + KEY_ACCOUNTID + " integer references "+ TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE CASCADE,"
+          + KEY_TYPE + " text not null check (" + KEY_TYPE + " in (" + TransactionChange.Type.JOIN + ")), "
+          + KEY_UUID + " text, "
+          + KEY_PARENT_UUID + " text, "
+          + KEY_COMMENT + " text, "
+          + KEY_DATE + " datetime, "
+          + KEY_AMOUNT + " integer, "
+          + KEY_CATID + " integer references " + TABLE_CATEGORIES + "(" + KEY_ROWID + ") ON DELETE SET NULL, "
+          + KEY_PAYEEID + " integer references " + TABLE_PAYEES + "(" + KEY_ROWID + ") ON DELETE SET NULL, "
+          + KEY_TRANSFER_ACCOUNT + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE SET NULL,"
+          + KEY_METHODID + " integer references " + TABLE_METHODS + "(" + KEY_ROWID + "),"
+          + KEY_CR_STATUS + " text check (" + KEY_CR_STATUS + " in (" + Transaction.CrStatus.JOIN + ")),"
+          + KEY_REFERENCE_NUMBER + " text, "
+          + KEY_PICTURE_URI + " text);";
+
+  public static final String INSERT_TRIGGER_ACTION = " BEGIN INSERT INTO " + TABLE_CHANGES + "("
+      + KEY_TYPE + ","
+      + KEY_UUID + ", "
+      + KEY_PARENT_UUID + ", "
+      + KEY_COMMENT + ", "
+      + KEY_DATE + ", "
+      + KEY_AMOUNT + ", "
+      + KEY_CATID + ", "
+      + KEY_ACCOUNTID + ","
+      + KEY_PAYEEID + ", "
+      + KEY_TRANSFER_ACCOUNT + ", "
+      + KEY_METHODID + ","
+      + KEY_CR_STATUS + ", "
+      + KEY_REFERENCE_NUMBER + ", "
+      + KEY_PICTURE_URI + ") VALUES ('" + TransactionChange.Type.created + "',"
+      + "new." + KEY_UUID + ", "
+      + "CASE WHEN new." + KEY_PARENTID + " IS NULL THEN NULL ELSE (SELECT " + KEY_UUID + " from " + TABLE_TRANSACTIONS + " where " + KEY_ROWID + " = new." + KEY_PARENTID + ") END, "
+      + "new." + KEY_COMMENT + ", "
+      + "new." + KEY_DATE + ", "
+      + "new." + KEY_AMOUNT + ", "
+      + "new." + KEY_CATID + ", "
+      + "new." + KEY_ACCOUNTID + ","
+      + "new." + KEY_PAYEEID + ", "
+      + "new." + KEY_TRANSFER_ACCOUNT + ", "
+      + "new." + KEY_METHODID + ","
+      + "new." + KEY_CR_STATUS + ", "
+      + "new." + KEY_REFERENCE_NUMBER + ", "
+      + "new." + KEY_PICTURE_URI + "); END;";
+
+  public static final String DELETE_TRIGGER_ACTION = " BEGIN INSERT INTO " + TABLE_CHANGES + "("
+      + KEY_TYPE + ","
+      + KEY_ACCOUNTID + ","
+      + KEY_UUID + ") VALUES ('" + TransactionChange.Type.deleted + "',"
+      + "old." + KEY_ACCOUNTID + ","
+      + "old." + KEY_UUID + "); END;";
+
+  private static final String TRANSACTIONS_INSERT_TRIGGER_CREATE =
+      "CREATE TRIGGER insert_change_log "
+          + "AFTER INSERT ON " + TABLE_TRANSACTIONS
+          + " WHEN new." + KEY_STATUS + " != " + STATUS_UNCOMMITTED
+          + INSERT_TRIGGER_ACTION;
+
+  private static final String TRANSACTIONS_INSERT_AFTER_UPDATE_TRIGGER_CREATE =
+      "CREATE TRIGGER insert_after_update_change_log "
+          + "AFTER UPDATE ON " + TABLE_TRANSACTIONS
+          + " WHEN (old." + KEY_STATUS + " = " + STATUS_UNCOMMITTED + " AND new." + KEY_STATUS + " = " + STATUS_NONE + ")"
+          + " OR old." + KEY_ACCOUNTID + " != new." + KEY_ACCOUNTID
+          + INSERT_TRIGGER_ACTION;
+
+  private static final String TRANSACTIONS_DELETE_AFTER_UPDATE_TRIGGER_CREATE =
+      "CREATE TRIGGER delete_after_update_change_log "
+          + "AFTER UPDATE ON " + TABLE_TRANSACTIONS
+          + " WHEN old." + KEY_ACCOUNTID + " != new." + KEY_ACCOUNTID
+          + DELETE_TRIGGER_ACTION;
+
+  private static final String TRANSACTIONS_DELETE_TRIGGER_CREATE =
+      "CREATE TRIGGER delete_change_log "
+          + "AFTER DELETE ON " + TABLE_TRANSACTIONS
+          + " WHEN old." + KEY_STATUS + " != " + STATUS_UNCOMMITTED
+          + DELETE_TRIGGER_ACTION;
+
+  private static String buildChangeTriggerDefinitionForColumn(String column) {
+    return "CASE WHEN old." + column + " = new." + column + " THEN NULL ELSE new." + column + " END";
+  }
+
+  private static final String TRANSACTIONS_UPDATE_TRIGGER_CREATE =
+      "CREATE TRIGGER update_change_log "
+          + "AFTER UPDATE ON " + TABLE_TRANSACTIONS
+          + " WHEN old." + KEY_STATUS + " != " + STATUS_UNCOMMITTED + " AND new." + KEY_STATUS + " != " + STATUS_UNCOMMITTED + " AND new." + KEY_ACCOUNTID + " = " + "old." + KEY_ACCOUNTID
+          + " BEGIN INSERT INTO " + TABLE_CHANGES + "("
+          + KEY_TYPE + ","
+          + KEY_UUID + ", "
+          + KEY_ACCOUNTID + ","
+          + KEY_COMMENT + ", "
+          + KEY_DATE + ", "
+          + KEY_AMOUNT + ", "
+          + KEY_CATID + ", "
+          + KEY_PAYEEID + ", "
+          + KEY_TRANSFER_ACCOUNT + ", "
+          + KEY_METHODID + ","
+          + KEY_CR_STATUS + ", "
+          + KEY_REFERENCE_NUMBER + ", "
+          + KEY_PICTURE_URI + ") VALUES ('" + TransactionChange.Type.updated + "',"
+          + "new." + KEY_UUID + ", "
+          + "new." + KEY_ACCOUNTID + ","
+          + buildChangeTriggerDefinitionForColumn(KEY_COMMENT) + ", "
+          + buildChangeTriggerDefinitionForColumn(KEY_DATE) + ", "
+          + buildChangeTriggerDefinitionForColumn(KEY_AMOUNT) + ", "
+          + buildChangeTriggerDefinitionForColumn(KEY_CATID) + ", "
+          + buildChangeTriggerDefinitionForColumn(KEY_PAYEEID) + ", "
+          + buildChangeTriggerDefinitionForColumn(KEY_TRANSFER_ACCOUNT) + ", "
+          + buildChangeTriggerDefinitionForColumn(KEY_METHODID) + ", "
+          + buildChangeTriggerDefinitionForColumn(KEY_CR_STATUS) + ", "
+          + buildChangeTriggerDefinitionForColumn(KEY_REFERENCE_NUMBER) + ", "
+          + buildChangeTriggerDefinitionForColumn(KEY_PICTURE_URI) + "); END;";
+
   public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
   public static final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 
@@ -347,6 +462,12 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL(STALE_URI_TRIGGER_CREATE);
     db.execSQL("CREATE INDEX transactions_cat_id_index on " + TABLE_TRANSACTIONS + "(" + KEY_CATID + ")");
     db.execSQL("CREATE INDEX templates_cat_id_index on " + TABLE_TEMPLATES + "(" + KEY_CATID + ")");
+    db.execSQL(CHANGES_CREATE);
+    db.execSQL(TRANSACTIONS_INSERT_TRIGGER_CREATE);
+    db.execSQL(TRANSACTIONS_INSERT_AFTER_UPDATE_TRIGGER_CREATE);
+    db.execSQL(TRANSACTIONS_DELETE_TRIGGER_CREATE);
+    db.execSQL(TRANSACTIONS_UPDATE_TRIGGER_CREATE);
+    db.execSQL(TRANSACTIONS_DELETE_AFTER_UPDATE_TRIGGER_CREATE);
   }
 
   private void insertCurrencies(SQLiteDatabase db) {
