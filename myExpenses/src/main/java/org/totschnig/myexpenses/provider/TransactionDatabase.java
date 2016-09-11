@@ -410,6 +410,20 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       + " WHEN new." + KEY_CATID + " IS NOT NULL AND (old." + KEY_CATID + " IS NULL OR new." + KEY_CATID + " != old." + KEY_CATID + ")"
       + INCREASE_CATEGORY_USAGE_ACTION;
 
+  private static final String INCREASE_ACCOUNT_USAGE_ACTION = " BEGIN UPDATE " + TABLE_ACCOUNTS + " SET " + KEY_USAGES + " = " +
+      KEY_USAGES + " + 1, " + KEY_LAST_USED + " = strftime('%s', 'now')  WHERE " + KEY_ROWID +
+      " = new." + KEY_ACCOUNTID + "; END;";
+
+  private static final String INCREASE_ACCOUNT_USAGE_INSERT_TRIGGER = "CREATE TRIGGER insert_increase_account_usage "
+      + "AFTER INSERT ON " + TABLE_TRANSACTIONS
+      + INCREASE_ACCOUNT_USAGE_ACTION;
+
+
+  private static final String INCREASE_ACCOUNT_USAGE_UPDATE_TRIGGER = "CREATE TRIGGER update_increase_account_usage "
+      + "AFTER UPDATE ON " + TABLE_TRANSACTIONS
+      + " WHEN new." + KEY_ACCOUNTID + " != old." + KEY_ACCOUNTID + " AND (old." + KEY_TRANSFER_ACCOUNT + " IS NULL OR new." + KEY_ACCOUNTID + " != old." + KEY_TRANSFER_ACCOUNT + ")"
+      + INCREASE_ACCOUNT_USAGE_ACTION;
+
 
   public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
   public static final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
@@ -488,6 +502,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL(TRANSACTIONS_DELETE_AFTER_UPDATE_TRIGGER_CREATE);
     db.execSQL(INCREASE_CATEGORY_USAGE_INSERT_TRIGGER);
     db.execSQL(INCREASE_CATEGORY_USAGE_UPDATE_TRIGGER);
+    db.execSQL(INCREASE_ACCOUNT_USAGE_INSERT_TRIGGER);
+    db.execSQL(INCREASE_ACCOUNT_USAGE_UPDATE_TRIGGER);
   }
 
   private void insertCurrencies(SQLiteDatabase db) {

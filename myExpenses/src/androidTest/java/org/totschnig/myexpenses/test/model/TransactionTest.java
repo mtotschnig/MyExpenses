@@ -31,6 +31,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.database.Cursor;
+import android.net.Uri;
 
 public class TransactionTest extends ModelTest {
   private Account mAccount1;
@@ -159,38 +160,57 @@ public class TransactionTest extends ModelTest {
   public void testIncreaseCatUsage() {
     long catId1 = Category.write(0, "Test category 1", null);
     long catId2 = Category.write(0, "Test category 2", null);
-    assertEquals(getUsage(catId1), 0);
-    assertEquals(getUsage(catId2), 0);
+    assertEquals(getCatUsage(catId1), 0);
+    assertEquals(getCatUsage(catId2), 0);
     Transaction op1 = Transaction.getNewInstance(mAccount1.getId());
     assert op1 != null;
     op1.setAmount(new Money(mAccount1.currency, 100L));
     op1.setCatId(catId1);
     op1.save();
     //saving a new transaction increases usage
-    assertEquals(getUsage(catId1), 1);
-    assertEquals(getUsage(catId2), 0);
+    assertEquals(getCatUsage(catId1), 1);
+    assertEquals(getCatUsage(catId2), 0);
     //updating a transaction without touching catId does not increase usage
     op1.comment = "Now with comment";
     op1.save();
-    assertEquals(getUsage(catId1), 1);
-    assertEquals(getUsage(catId2), 0);
+    assertEquals(getCatUsage(catId1), 1);
+    assertEquals(getCatUsage(catId2), 0);
     //updating category in transaction, does increase usage of new catId
     op1.setCatId(catId2);
     op1.save();
-    assertEquals(getUsage(catId1), 1);
-    assertEquals(getUsage(catId2), 1);
+    assertEquals(getCatUsage(catId1), 1);
+    assertEquals(getCatUsage(catId2), 1);
     //new transaction without cat, does not increase usage
     Transaction op2 = Transaction.getNewInstance(mAccount1.getId());
     assert op2 != null;
     op2.setAmount(new Money(mAccount1.currency, 100L));
     op2.save();
-    assertEquals(getUsage(catId1), 1);
-    assertEquals(getUsage(catId2), 1);
+    assertEquals(getCatUsage(catId1), 1);
+    assertEquals(getCatUsage(catId2), 1);
     //setting catId now does increase usage
     op2.setCatId(catId1);
     op2.save();
-    assertEquals(getUsage(catId1), 2);
-    assertEquals(getUsage(catId2), 1);
+    assertEquals(getCatUsage(catId1), 2);
+    assertEquals(getCatUsage(catId2), 1);
+  }
+
+  public void testIncreaseAccountUsage() {
+    assertEquals(0, getAccountUsage(mAccount1.getId()));
+    assertEquals(0, getAccountUsage(mAccount2.getId()));
+    Transaction op1 = Transaction.getNewInstance(mAccount1.getId());
+    assert op1 != null;
+    op1.setAmount(new Money(mAccount1.currency, 100L));
+    op1.save();
+    assertEquals(1, getAccountUsage(mAccount1.getId()));
+    Transfer op2 = Transfer.getNewInstance(mAccount1.getId(), mAccount2.getId());
+    assert op2 != null;
+    op2.setAmount(new Money(mAccount1.currency, 100L));
+    op2.save();
+    assertEquals(2, getAccountUsage(mAccount1.getId()));
+    assertEquals(1, getAccountUsage(mAccount2.getId()));
+    op1.accountId = mAccount2.getId();
+    op1.save();
+    assertEquals(2, getAccountUsage(mAccount2.getId()));
   }
 
   private int countPayee(String name) {
@@ -208,10 +228,18 @@ public class TransactionTest extends ModelTest {
     }
   }
 
-  private long getUsage(long catId) {
+  private long getCatUsage(long catId) {
+    return getUsage(catId, TransactionProvider.CATEGORIES_URI);
+  }
+
+  private long getAccountUsage(long acccountId) {
+    return getUsage(acccountId, TransactionProvider.ACCOUNTS_URI);
+  }
+
+  private long getUsage(long catId, Uri baseUri) {
     long result = 0;
     Cursor c = getMockContentResolver().query(
-        TransactionProvider.CATEGORIES_URI.buildUpon().appendPath(String.valueOf(catId)).build(),
+        baseUri.buildUpon().appendPath(String.valueOf(catId)).build(),
         new String[]{DatabaseConstants.KEY_USAGES},
         null, null, null);
     if (c != null) {

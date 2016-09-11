@@ -416,15 +416,6 @@ public class Transaction extends Model {
         ContribFeature.ATTACH_PICTURE.recordUsage();
       }
       setId(ContentUris.parseId(uri));
-      if (parentId == null) {
-        cr().update(
-            TransactionProvider.ACCOUNTS_URI
-                .buildUpon()
-                .appendPath(String.valueOf(accountId))
-                .appendPath(TransactionProvider.URI_SEGMENT_INCREASE_USAGE)
-                .build(),
-            null, null, null);
-      }
       if (originPlanInstanceId != null) {
         ContentValues values = new ContentValues();
         values.put(KEY_TEMPLATEID, originTemplate.getId());

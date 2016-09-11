@@ -143,7 +143,6 @@ public class TransactionProvider extends ContentProvider {
   private static final int AGGREGATE_ID = 20;
   private static final int UNCOMMITTED = 21;
   private static final int TRANSACTIONS_GROUPS = 22;
-  private static final int ACCOUNT_INCREASE_USAGE = 23;
   private static final int TRANSACTIONS_SUMS = 24;
   private static final int TRANSACTION_MOVE = 25;
   private static final int PLANINSTANCE_TRANSACTION_STATUS = 26;
@@ -1048,12 +1047,6 @@ public class TransactionProvider extends ContentProvider {
           KEY_LAST_USED + " = strftime('%s', 'now') WHERE " + KEY_ROWID + " = " + segment);
       count = 1;
       break;
-    case ACCOUNT_INCREASE_USAGE:
-      segment = uri.getPathSegments().get(1);
-      db.execSQL("UPDATE " + TABLE_ACCOUNTS + " SET " + KEY_USAGES + " = " + KEY_USAGES + " + 1, " +
-          KEY_LAST_USED + " = strftime('%s', 'now')   WHERE " + KEY_ROWID + " = " + segment);
-      count = 1;
-      break;
     //   when we move a transaction to a new target we apply two checks
     //1) we do not move a transfer to its own transfer_account
     //2) we check if the transactions method_id is also available in the target account, if not we set it to null
@@ -1166,15 +1159,11 @@ public class TransactionProvider extends ContentProvider {
       getContext().getContentResolver().notifyChange(CATEGORIES_URI, null);
     } else if (
         //we do not need to refresh cursors on the usage counters
-        uriMatch != TEMPLATES_INCREASE_USAGE &&
-        uriMatch != ACCOUNT_INCREASE_USAGE) {
+        uriMatch != TEMPLATES_INCREASE_USAGE) {
       getContext().getContentResolver().notifyChange(uri, null);
     }
     if (uriMatch == CURRENCIES_CHANGE_FRACTION_DIGITS || uriMatch == TEMPLATES_INCREASE_USAGE) {
       getContext().getContentResolver().notifyChange(TEMPLATES_URI,null);
-    }
-    if (uriMatch == ACCOUNT_INCREASE_USAGE) {
-      getContext().getContentResolver().notifyChange(ACCOUNTS_URI,null);
     }
     return count;
   }
@@ -1217,7 +1206,6 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "accounts", ACCOUNTS);
     URI_MATCHER.addURI(AUTHORITY, "accounts/base", ACCOUNTS_BASE);
     URI_MATCHER.addURI(AUTHORITY, "accounts/#", ACCOUNT_ID);
-    URI_MATCHER.addURI(AUTHORITY, "accounts/#/" + URI_SEGMENT_INCREASE_USAGE, ACCOUNT_INCREASE_USAGE);
     URI_MATCHER.addURI(AUTHORITY, "payees", PAYEES);
     URI_MATCHER.addURI(AUTHORITY, "payees/#", PAYEE_ID);
     URI_MATCHER.addURI(AUTHORITY, "methods", METHODS);
