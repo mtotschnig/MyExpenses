@@ -416,12 +416,13 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
   private static final String INCREASE_ACCOUNT_USAGE_INSERT_TRIGGER = "CREATE TRIGGER insert_increase_account_usage "
       + "AFTER INSERT ON " + TABLE_TRANSACTIONS
+      + " WHEN new." + KEY_PARENTID + " IS NULL"
       + INCREASE_ACCOUNT_USAGE_ACTION;
 
 
   private static final String INCREASE_ACCOUNT_USAGE_UPDATE_TRIGGER = "CREATE TRIGGER update_increase_account_usage "
       + "AFTER UPDATE ON " + TABLE_TRANSACTIONS
-      + " WHEN new." + KEY_ACCOUNTID + " != old." + KEY_ACCOUNTID + " AND (old." + KEY_TRANSFER_ACCOUNT + " IS NULL OR new." + KEY_ACCOUNTID + " != old." + KEY_TRANSFER_ACCOUNT + ")"
+      + " WHEN new." + KEY_PARENTID + " IS NULL AND new." + KEY_ACCOUNTID + " != old." + KEY_ACCOUNTID + " AND (old." + KEY_TRANSFER_ACCOUNT + " IS NULL OR new." + KEY_ACCOUNTID + " != old." + KEY_TRANSFER_ACCOUNT + ")"
       + INCREASE_ACCOUNT_USAGE_ACTION;
 
 

@@ -118,14 +118,14 @@ public class TransactionTest extends ModelTest {
     assert split1 != null;
     split1.setAmount(new Money(mAccount1.currency, 50L));
     assertEquals(split1.parentId, op1.getId());
-    split1.status = org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
+    split1.status = DatabaseConstants.STATUS_UNCOMMITTED;
     split1.save();
     assertTrue(split1.getId() > 0);
     Transaction split2 = SplitPartCategory.getNewInstance(mAccount1.getId(), op1.getId());
     assert split2 != null;
     split2.setAmount(new Money(mAccount1.currency, 50L));
     assertEquals(split2.parentId, op1.getId());
-    split2.status = org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
+    split2.status = DatabaseConstants.STATUS_UNCOMMITTED;
     split2.save();
     assertTrue(split2.getId() > 0);
     op1.save();
@@ -202,6 +202,7 @@ public class TransactionTest extends ModelTest {
     op1.setAmount(new Money(mAccount1.currency, 100L));
     op1.save();
     assertEquals(1, getAccountUsage(mAccount1.getId()));
+    //transfer
     Transfer op2 = Transfer.getNewInstance(mAccount1.getId(), mAccount2.getId());
     assert op2 != null;
     op2.setAmount(new Money(mAccount1.currency, 100L));
@@ -211,6 +212,23 @@ public class TransactionTest extends ModelTest {
     op1.accountId = mAccount2.getId();
     op1.save();
     assertEquals(2, getAccountUsage(mAccount2.getId()));
+    //split
+    SplitTransaction op3 = SplitTransaction.getNewInstance(mAccount1.getId(), false);
+    assert op3 != null;
+    op3.setAmount(new Money(mAccount1.currency, 100L));
+    op3.save();
+    Transaction split1 = SplitPartCategory.getNewInstance(mAccount1.getId(), op3.getId());
+    assert split1 != null;
+    split1.setAmount(new Money(mAccount1.currency, 50L));
+    split1.status = DatabaseConstants.STATUS_UNCOMMITTED;
+    split1.save();
+    Transaction split2 = SplitPartCategory.getNewInstance(mAccount1.getId(), op3.getId());
+    assert split2 != null;
+    split2.setAmount(new Money(mAccount1.currency, 50L));
+    split2.status = DatabaseConstants.STATUS_UNCOMMITTED;
+    split2.save();
+    op3.commit();
+    assertEquals(3, getAccountUsage(mAccount1.getId()));
   }
 
   private int countPayee(String name) {
