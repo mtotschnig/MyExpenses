@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.model;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -30,13 +31,17 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 
+import android.content.ContentProviderOperation;
+import android.content.ContentProviderResult;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.RemoteException;
 import android.util.Log;
 
 import com.android.calendar.CalendarContractCompat;
@@ -397,36 +402,26 @@ public class Transaction extends Model {
     this.payeeId = payeeId;
   }
 
-  /**
-   * Saves the transaction, creating it new if necessary
-   * as a side effect calls {@link Payee#require(String)}
-   *
-   * @return the URI of the transaction. Upon creation it is returned from the content provider
-   */
+  @Override
   public Uri save() {
     Uri uri;
-    ContentValues initialValues = buildInitialValues();
-    if (getId() == 0) {
-      initialValues.put(KEY_UUID, generateUuid());
-      uri = cr().insert(CONTENT_URI, initialValues);
-      if (uri == null) {
-        return null;
+    try {
+      ContentProviderResult[] result = cr().applyBatch(TransactionProvider.AUTHORITY, buildSaveOperations());
+      if (getId() == 0) {
+        //we need to find a uri, otherwise we would crash. Need to handle?
+        uri = result[0].uri;
+        updateFromResult(result);
+      } else {
+        uri = Uri.parse(CONTENT_URI + "/" + getId());
       }
-      if (pictureUri != null) {
-        ContribFeature.ATTACH_PICTURE.recordUsage();
-      }
-      setId(ContentUris.parseId(uri));
-      if (originPlanInstanceId != null) {
-        ContentValues values = new ContentValues();
-        values.put(KEY_TEMPLATEID, originTemplate.getId());
-        values.put(KEY_INSTANCEID, originPlanInstanceId);
-        values.put(KEY_TRANSACTIONID, getId());
-        cr().insert(TransactionProvider.PLAN_INSTANCE_STATUS_URI, values);
-      }
-    } else {
-      uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build();
-      cr().update(uri, initialValues, null, null);
+    } catch (RemoteException | OperationApplicationException e) {
+      return null;
     }
+
+    if (pictureUri != null) {
+      ContribFeature.ATTACH_PICTURE.recordUsage();
+    }
+
     if (originTemplate != null && originTemplate.getId() == 0) {
       originTemplate.save();
       //now need to find out the instance number
@@ -454,6 +449,41 @@ public class Transaction extends Model {
       }
     }
     return uri;
+  }
+
+  protected void updateFromResult(ContentProviderResult[] result) {
+    setId(ContentUris.parseId(result[0].uri));
+  }
+
+  /**
+   * Saves the transaction, creating it new if necessary
+   * as a side effect calls {@link Payee#require(String)}
+   *
+   * @return the URI of the transaction. Upon creation it is returned from the content provider
+   */
+  protected ArrayList<ContentProviderOperation> buildSaveOperations() {
+    ArrayList<ContentProviderOperation> ops = new ArrayList<>();
+    ContentValues initialValues = buildInitialValues();
+    if (getId() == 0) {
+      initialValues.put(KEY_UUID, generateUuid());
+      ops.add(ContentProviderOperation.newInsert(CONTENT_URI).withValues(initialValues).build());
+      addOriginPlanInstance(ops);
+    } else {
+      ops.add(ContentProviderOperation
+          .newUpdate(CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build())
+          .withValues(initialValues).build());
+    }
+    return ops;
+  }
+
+  protected void addOriginPlanInstance(ArrayList<ContentProviderOperation> ops) {
+    if (originPlanInstanceId != null) {
+      ContentValues values = new ContentValues();
+      values.put(KEY_TEMPLATEID, originTemplate.getId());
+      values.put(KEY_INSTANCEID, originPlanInstanceId);
+      ops.add(ContentProviderOperation.newInsert(TransactionProvider.PLAN_INSTANCE_STATUS_URI)
+          .withValues(values).withValueBackReference(KEY_TRANSACTIONID, 0).build());
+    }
   }
 
   ContentValues buildInitialValues() {
@@ -543,7 +573,6 @@ public class Transaction extends Model {
     setId(0L);
     setDate(new Date());
     Uri result = save();
-    setId(ContentUris.parseId(result));
     return result;
   }
 
