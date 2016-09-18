@@ -342,14 +342,14 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   private static final String TRANSACTIONS_INSERT_AFTER_UPDATE_TRIGGER_CREATE =
       "CREATE TRIGGER insert_after_update_change_log "
           + "AFTER UPDATE ON " + TABLE_TRANSACTIONS
-          + " WHEN (old." + KEY_STATUS + " = " + STATUS_UNCOMMITTED + " AND new." + KEY_STATUS + " = " + STATUS_NONE + ")"
-          + " OR old." + KEY_ACCOUNTID + " != new." + KEY_ACCOUNTID
+          + " WHEN (old." + KEY_STATUS + " = " + STATUS_UNCOMMITTED + " AND new." + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ")"
+          + " OR (old." + KEY_ACCOUNTID + " != new." + KEY_ACCOUNTID + " AND new." + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ")"
           + INSERT_TRIGGER_ACTION;
 
   private static final String TRANSACTIONS_DELETE_AFTER_UPDATE_TRIGGER_CREATE =
       "CREATE TRIGGER delete_after_update_change_log "
           + "AFTER UPDATE ON " + TABLE_TRANSACTIONS
-          + " WHEN old." + KEY_ACCOUNTID + " != new." + KEY_ACCOUNTID
+          + " WHEN old." + KEY_ACCOUNTID + " != new." + KEY_ACCOUNTID + " AND new." + KEY_STATUS + " != " + STATUS_UNCOMMITTED
           + DELETE_TRIGGER_ACTION;
 
   private static final String TRANSACTIONS_DELETE_TRIGGER_CREATE =
@@ -365,7 +365,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   private static final String TRANSACTIONS_UPDATE_TRIGGER_CREATE =
       "CREATE TRIGGER update_change_log "
           + "AFTER UPDATE ON " + TABLE_TRANSACTIONS
-          + " WHEN old." + KEY_STATUS + " != " + STATUS_UNCOMMITTED + " AND new." + KEY_STATUS + " != " + STATUS_UNCOMMITTED + " AND new." + KEY_ACCOUNTID + " = " + "old." + KEY_ACCOUNTID
+          + " WHEN old." + KEY_STATUS + " != " + STATUS_UNCOMMITTED
+          + " AND new." + KEY_STATUS + " != " + STATUS_UNCOMMITTED
+          + " AND new." + KEY_ACCOUNTID + " = " + "old." + KEY_ACCOUNTID //if account is changed, we need to delete transaction from one account, and add it to the other
+          + " AND new." + KEY_TRANSFER_PEER + " = " + "old." + KEY_TRANSFER_PEER //if a new transfer is inserted, the first peer is updated, is after first one is added, and we can skip this update here
           + " BEGIN INSERT INTO " + TABLE_CHANGES + "("
           + KEY_TYPE + ","
           + KEY_UUID + ", "
