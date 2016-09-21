@@ -110,13 +110,6 @@
             android:title="@string/pref_import_from_grisbi_title">
             <intent android:action="myexpenses.intent.import_from_grisbi"/>
         </Preference>
-        <Preference android:key="@string/pref_import_qif_key">
-            <intent android:action="myexpenses.intent.import">
-                <extra
-                    android:name="format"
-                    android:value="QIF"/>
-            </intent>
-        </Preference>
         <Preference android:key="@string/pref_import_csv_key">
             <intent android:action="myexpenses.intent.import.csv"/>
         </Preference>
@@ -293,4 +286,4 @@
             android:summary="@string/pref_planning_calendar_summary"
             android:title="@string/pref_planning_calendar_title"/>
     </PreferenceCategory>
-</PreferenceScreen> 
+</PreferenceScreen>

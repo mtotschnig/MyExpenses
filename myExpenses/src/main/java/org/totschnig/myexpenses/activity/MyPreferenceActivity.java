@@ -385,10 +385,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
             ((PreferenceCategory) findPreference(PrefKey.CATEGORY_MANAGE.getKey()));
         final Preference prefStaleImages = findPreference(PrefKey.MANAGE_STALE_IMAGES.getKey());
         categoryManage.removePreference(prefStaleImages);
-
-        pref = findPreference(PrefKey.IMPORT_QIF.getKey());
-        pref.setSummary(getString(R.string.pref_import_summary, "QIF"));
-        pref.setTitle(getString(R.string.pref_import_title, "QIF"));
+        
         pref = findPreference(PrefKey.IMPORT_CSV.getKey());
         pref.setSummary(getString(R.string.pref_import_summary, "CSV"));
         pref.setTitle(getString(R.string.pref_import_title, "CSV"));

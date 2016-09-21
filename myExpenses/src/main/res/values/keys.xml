@@ -60,7 +60,6 @@
     <string name="pref_account_grouping_key">account_grouping</string>
     <string name="pref_manage_stale_images_key">manage_stale_images</string>
     <string name="pref_screen_protection">screen_protection</string>
-    <string name="pref_import_qif_key">import_qif</string>
     <string name="pref_import_csv_key">import_csv</string>
     <string name="pref_import_csv_header_to_field_map_key">import_csv_header_to_field_map</string>
     <string name="pref_custom_decimal_format_key">custom_decimal_format</string>
