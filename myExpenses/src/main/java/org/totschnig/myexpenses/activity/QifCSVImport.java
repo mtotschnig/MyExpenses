@@ -29,7 +29,7 @@ import android.os.Bundle;
 
 public class QifCSVImport extends ProtectedFragmentActivity {
 
-  private ExportFormat format = ExportFormat.QIF;
+  private ExportFormat format = ExportFormat.CSV;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
