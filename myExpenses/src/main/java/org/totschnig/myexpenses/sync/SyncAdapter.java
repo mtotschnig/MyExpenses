@@ -17,29 +17,40 @@ package org.totschnig.myexpenses.sync;
  */
 
 import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.annotation.TargetApi;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SyncResult;
+import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.util.Log;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.sync.json.AdapterFactory;
+import org.totschnig.myexpenses.sync.json.TransactionChange;
+
+import java.util.ArrayList;
+import java.util.List;
 
 class SyncAdapter extends AbstractThreadedSyncAdapter {
   public static final String TAG = "SyncAdapter";
   private final ContentResolver mContentResolver;
 
-  /**
-   * Constructor. Obtains handle to content resolver for later use.
-   */
   public SyncAdapter(Context context, boolean autoInitialize) {
     super(context, autoInitialize);
     mContentResolver = context.getContentResolver();
   }
 
-  /**
-   * Constructor. Obtains handle to content resolver for later use.
-   */
+  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   public SyncAdapter(Context context, boolean autoInitialize, boolean allowParallelSyncs) {
     super(context, autoInitialize, allowParallelSyncs);
     mContentResolver = context.getContentResolver();
@@ -48,6 +59,40 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
   @Override
   public void onPerformSync(Account account, Bundle extras, String authority,
                             ContentProviderClient provider, SyncResult syncResult) {
-    Log.i(TAG, "TODO");
+    Log.i(TAG, "onPerformSync");
+    String sequence = AccountManager.get(getContext()).getUserData(account, "SYQUENCE");
+    long sequenceNumber = sequence == null ? 0 : Integer.parseInt(sequence);
+    Gson gson = new GsonBuilder()
+        .registerTypeAdapterFactory(AdapterFactory.create())
+        .create();
+    List<TransactionChange> localChanges = new ArrayList<>();
+    try {
+      Cursor c = provider.query(TransactionProvider.CHANGES_URI.buildUpon()
+              .appendQueryParameter(DatabaseConstants.KEY_ACCOUNTID, account.name.substring(1))
+              .build(),
+          null, null, null, null);
+      if (c != null) {
+        if (c.moveToFirst()) {
+          do {
+            localChanges.add(TransactionChange.create(c));
+          } while (c.moveToNext());
+        }
+        c.close();
+      }
+    } catch (RemoteException e) {
+      e.printStackTrace();
+    }
+    for (TransactionChange change: localChanges) {
+      Log.i(TAG, gson.toJson(change));
+    }
+    //get remote changes since sequence
+    //get local changes
+    //merge
+    //filter out afterDelete changes
+    //sort
+    //iterate
+    //write local change to remote source
+    //write remote change to db
+    //store new sequence
   }
 }

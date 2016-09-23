@@ -185,7 +185,11 @@ public class MyApplication extends Application implements
     AccountManager accountManager =
         (AccountManager) mSelf.getSystemService(
             ACCOUNT_SERVICE);
-    return accountManager.addAccountExplicitly(newAccount, null, null);
+    if (accountManager.addAccountExplicitly(newAccount, null, null)) {
+      ContentResolver.setSyncAutomatically(newAccount, TransactionProvider.AUTHORITY, true);
+      return true;
+    }
+    return false;
   }
 
   @Override

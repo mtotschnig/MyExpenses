@@ -161,6 +161,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int TRANSACTIONS_LASTEXCHANGE = 39;
   private static final int ACCOUNTS_SWAP_SORT_KEY = 40;
   private static final int MAPPED_TRANSFER_ACCOUNTS = 41;
+  private static final int CHANGES = 42;
   
 
   protected static boolean mDirty = false;
@@ -629,7 +630,9 @@ public class TransactionProvider extends ContentProvider {
       limit = "1";
       qb.setTables(VIEW_COMMITTED);
       break;
-
+      case CHANGES:
+        qb.setTables(TABLE_CHANGES);
+        break;
     default:
       throw new IllegalArgumentException("Unknown URL " + uri);
     }
@@ -1233,6 +1236,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "stale_images/#", STALE_IMAGES_ID);
     URI_MATCHER.addURI(AUTHORITY, "accounts/"+ URI_SEGMENT_SWAP_SORT_KEY + "/#/#", ACCOUNTS_SWAP_SORT_KEY);
     URI_MATCHER.addURI(AUTHORITY, "transfer_account_transactions", MAPPED_TRANSFER_ACCOUNTS);
+    URI_MATCHER.addURI(AUTHORITY, "changes", CHANGES);
   }
   public void resetDatabase() {
     mOpenHelper.close();
