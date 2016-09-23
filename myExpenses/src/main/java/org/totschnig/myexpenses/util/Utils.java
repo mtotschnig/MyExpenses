@@ -466,7 +466,10 @@ public class Utils {
       } else {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
           //this will return null, if called on a pre-Lolipop device
-          return DocumentFile.fromTreeUri(MyApplication.getInstance(), pref);
+          DocumentFile documentFile = DocumentFile.fromTreeUri(MyApplication.getInstance(), pref);
+          if (dirExistsAndIsWritable(documentFile)) {
+            return documentFile;
+          }
         }
       }
     }

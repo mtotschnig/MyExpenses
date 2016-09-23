@@ -679,13 +679,28 @@ public class QifParserTest extends AndroidTestCase {
       assertEquals(1,a.transactions.size());
     }
 
-    public void parseQif(String fileContent) throws IOException {
+    public void test_should_throw_exception_on_astronomic_amount() throws Exception {
+      try {
+        parseQif(
+            "!Type:Bank\n" +
+                "D19.12.14\n" +
+                "T12345678901234567\n" +
+                "Cx\n" +
+                "POpening Balance\n" +
+                "L[My Account Name]\n"
+        );
+        fail("Should not accept large amount input");
+      } catch (IllegalArgumentException e) {}
+
+    }
+
+    private void parseQif(String fileContent) throws IOException {
         parseQif(fileContent, EU);
     }
 
     public void parseQif(String fileContent, QifDateFormat dateFormat) throws IOException {
         QifBufferedReader r = new QifBufferedReader(new BufferedReader(new InputStreamReader(new ByteArrayInputStream(fileContent.getBytes()), "UTF-8")));
-        p = new QifParser(r, dateFormat);
+        p = new QifParser(r, dateFormat, Currency.getInstance("EUR"));
         p.parse();
     }
 

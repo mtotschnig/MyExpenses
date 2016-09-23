@@ -152,7 +152,7 @@ public class MyApplication extends Application implements
       // sets up mSettings
       getSettings().registerOnSharedPreferenceChangeListener(this);
       licenceHandler.init(this);
-      initPlanner();
+      initPlannerInternal(60000);
       registerWidgetObservers();
     }
   }
@@ -510,8 +510,12 @@ public class MyApplication extends Application implements
    * plans 3) reschedule execution through alarm
    */
   public void initPlanner() {
-    Log.i(TAG, "initPlanner called, setting plan executor to run in 1 minute");
-    PlanExecutor.setAlarm(this, System.currentTimeMillis() + 60000);
+    initPlannerInternal(0);
+  }
+
+  private void initPlannerInternal(long delay) {
+    Log.i(TAG, "initPlanner called, setting plan executor to run with delay " + delay);
+    PlanExecutor.setAlarm(this, System.currentTimeMillis() + delay);
   }
 
   public static String[] buildEventProjection() {

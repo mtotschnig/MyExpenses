@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class QifUtilTest extends TestCase {
+public class QifUtilTwoSidesOfTheSameTransferTest extends TestCase {
 
   public void testShouldMatchTwoSidesOfSameTransfer() {
     Date now = new Date(System.currentTimeMillis());

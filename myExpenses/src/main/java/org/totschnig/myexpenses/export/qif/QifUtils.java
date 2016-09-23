@@ -9,15 +9,18 @@
 
 package org.totschnig.myexpenses.export.qif;
 
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
 import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.model.Money;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Calendar;
+import java.util.Currency;
 import java.util.Date;
 import java.util.regex.Pattern;
 
@@ -107,49 +110,79 @@ public class QifUtils {
         return cal.getTime();
     }
 
+    public static BigDecimal parseMoney(@NonNull String money) {
+        return parseMoney(money, Integer.MAX_VALUE);
+    }
+
+  /**
+   * Parse the string with a maxSize, that takes the number of fraction digits of currency into account,
+   * so that the number representing the amount in the database does not exceed approximately 1/10th of {@link Long#MAX_VALUE}
+   * @param money
+   * @param currency
+   * @return
+   */
+    public static BigDecimal parseMoney(@NonNull String money, Currency currency) {
+        return parseMoney(money, 18 - Money.getFractionDigits(currency));
+    }
+
     /**
      * Adopted from http://jgnash.svn.sourceforge.net/viewvc/jgnash/jgnash2/trunk/src/jgnash/imports/qif/QifUtils.java
+     * @param money String to be parsed
+     * @param maxSize maxSize of the result, as calculated by precision - scale, i.e.  the number of digits in front of the decimal point
+     * @return BigDecimal, if the result exceeds maxSize, {@link IllegalArgumentException} is thrown
      */
-    public static BigDecimal parseMoney(String money) {
-        String sMoney = money;
+    public static BigDecimal parseMoney(@NonNull String money, int maxSize) {
+        BigDecimal result;
 
-        if (sMoney != null) {
-            sMoney = sMoney.trim(); // to be safe
-            try {
-                return new BigDecimal(sMoney);
-            } catch (NumberFormatException e) {
-                /* there must be commas, etc in the number.  Need to look for them
-                 * and remove them first, and then try BigDecimal again.  If that
-                 * fails, then give up and use NumberFormat and scale it down
-                 * */
-                String[] split = MONEY_PREFIX_PATTERN.split(sMoney);
-                if (split.length >= 2) {
-                    StringBuilder buf = new StringBuilder();
-                    if (sMoney.startsWith("-")) {
-                        buf.append('-');
+        String sMoney = money.trim().replace(" ",""); // to be safe
+        try {
+            result = new BigDecimal(sMoney);
+        } catch (NumberFormatException e) {
+            /* there must be commas, etc in the number.  Need to look for them
+             * and remove them first, and then try BigDecimal again.  If that
+             * fails, then give up and use NumberFormat and scale it down
+             * */
+            String[] split = MONEY_PREFIX_PATTERN.split(sMoney);
+            if (split.length >= 2) {
+                StringBuilder buf = new StringBuilder();
+                if (sMoney.startsWith("-")) {
+                    buf.append('-');
+                }
+                boolean foundFirst = false;
+                for (String aSplit : split) {
+                    if (aSplit.equals("")) {
+                        continue;
                     }
-                    for (int i = 0; i < split.length - 1; i++) {
-                        buf.append(split[i]);
-                    }
-                    buf.append('.');
-                    buf.append(split[split.length - 1]);
-                    try {
-                        return new BigDecimal(buf.toString());
-
-                    } catch (final NumberFormatException e2) {
-                        Log.e("QifUtils", "Second parse attempt failed, falling back to rounding");
+                    if (foundFirst) {
+                        buf.append('.');
+                        buf.append(aSplit);
+                        break;
+                    } else {
+                        buf.append(aSplit);
+                        foundFirst = true;
                     }
                 }
-                NumberFormat formatter = NumberFormat.getNumberInstance();
+
                 try {
-                    Number num = formatter.parse(sMoney);
-                    return new BigDecimal(num.floatValue());
-                } catch (ParseException ignored) {
+                    result = new BigDecimal(buf.toString());
+                } catch (final NumberFormatException e2) {
+                    NumberFormat formatter = NumberFormat.getNumberInstance();
+                    try {
+                        Number num = formatter.parse(sMoney);
+                        result = new BigDecimal(num.floatValue());
+                    } catch (ParseException ignored) {
+                        result = new BigDecimal(0);
+                    }
+                    Log.e("QifUtils", "Could not parse money " + sMoney);
                 }
-                Log.e("QifUtils", "Could not parse money " + sMoney);
+            } else {
+                result = new BigDecimal(0);
             }
         }
-        return new BigDecimal(0);
+        if (result.precision() - result.scale() > maxSize) {
+            throw new IllegalArgumentException(result.toString() + " exceeds maximum size of " + maxSize);
+        }
+        return result;
     }
 
     public static boolean isTransferCategory(String category) {
