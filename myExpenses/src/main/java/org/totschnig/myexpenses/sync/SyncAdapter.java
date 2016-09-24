@@ -17,7 +17,6 @@ package org.totschnig.myexpenses.sync;
  */
 
 import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.annotation.TargetApi;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
@@ -60,8 +59,8 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
   public void onPerformSync(Account account, Bundle extras, String authority,
                             ContentProviderClient provider, SyncResult syncResult) {
     Log.i(TAG, "onPerformSync");
-    String sequence = AccountManager.get(getContext()).getUserData(account, "SYQUENCE");
-    long sequenceNumber = sequence == null ? 0 : Integer.parseInt(sequence);
+    String sequence = "0"; //TODO obtain current sequence from db and as a side effect increase sequence
+                           //visible for the triggers
     Gson gson = new GsonBuilder()
         .registerTypeAdapterFactory(AdapterFactory.create())
         .create();
@@ -69,6 +68,7 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
     try {
       Cursor c = provider.query(TransactionProvider.CHANGES_URI.buildUpon()
               .appendQueryParameter(DatabaseConstants.KEY_ACCOUNTID, account.name.substring(1))
+              .appendQueryParameter(DatabaseConstants.KEY_SYNC_SEQUENCE, sequence)
               .build(),
           null, null, null, null);
       if (c != null) {
@@ -82,7 +82,7 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
     } catch (RemoteException e) {
       e.printStackTrace();
     }
-    for (TransactionChange change: localChanges) {
+    for (TransactionChange change : localChanges) {
       Log.i(TAG, gson.toJson(change));
     }
     //get remote changes since sequence

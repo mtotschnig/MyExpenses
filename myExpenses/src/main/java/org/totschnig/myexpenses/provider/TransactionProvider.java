@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.util.PlanInfoCursorWrapper;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -631,7 +632,30 @@ public class TransactionProvider extends ContentProvider {
       qb.setTables(VIEW_COMMITTED);
       break;
       case CHANGES:
-        qb.setTables(TABLE_CHANGES);
+        selection = KEY_ACCOUNTID + " = ?";
+        selectionArgs = new String[]{uri.getQueryParameter(KEY_ACCOUNTID)};
+        if (Long.parseLong(uri.getQueryParameter(KEY_SYNC_SEQUENCE)) > 0L) {
+          qb.setTables(TABLE_CHANGES);
+        } else {
+          qb.setTables(VIEW_COMMITTED);
+          projection = new String[] {
+              "'" + TransactionChange.Type.created.name() + "' AS " + KEY_TYPE,
+              KEY_UUID,
+              "CASE WHEN " + KEY_PARENTID + " IS NULL THEN NULL ELSE " +
+                  "(SELECT " + KEY_UUID + " from " + TABLE_TRANSACTIONS + " parent where "
+                  + KEY_ROWID + " = " + VIEW_COMMITTED + "."+ KEY_PARENTID + ") END AS " + KEY_PARENT_UUID,
+              KEY_COMMENT,
+              KEY_DATE,
+              KEY_AMOUNT,
+              KEY_CATID,
+              KEY_PAYEEID,
+              KEY_TRANSFER_ACCOUNT,
+              KEY_METHODID,
+              KEY_CR_STATUS,
+              KEY_REFERENCE_NUMBER,
+              KEY_PICTURE_URI
+          };
+        }
         break;
     default:
       throw new IllegalArgumentException("Unknown URL " + uri);
