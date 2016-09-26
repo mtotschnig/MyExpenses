@@ -39,4 +39,14 @@
 
     <dimen name="accessibility_clickable_minimum">48dp</dimen>
     <dimen name="plan_month_dialog_height">450dp</dimen>
+
+    <!-- Welcome activity -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="dots_height">30dp</dimen>
+    <dimen name="dots_margin_bottom">20dp</dimen>
+    <dimen name="img_width_height">120dp</dimen>
+    <dimen name="slide_title">30dp</dimen>
+    <dimen name="slide_desc">16dp</dimen>
+    <dimen name="desc_padding">40dp</dimen>
 </resources>
