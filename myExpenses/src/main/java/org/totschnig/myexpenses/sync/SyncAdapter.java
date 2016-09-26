@@ -148,7 +148,9 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
         new String[]{"count(*)"}, null, null, null);
 
     if (c != null) {
-      result = c.getCount() > 0;
+      if (c.moveToFirst()) {
+        result = c.getLong(0) > 0;
+      }
       c.close();
     }
     return result;

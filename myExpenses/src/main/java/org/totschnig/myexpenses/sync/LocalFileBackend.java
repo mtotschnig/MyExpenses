@@ -29,10 +29,11 @@ class LocalFileBackend implements SyncBackend {
   Context context;
 
   private long getLastSequence() {
+    long result = 0;
     for (DocumentFile file: baseDir.listFiles()) {
-      file.getName()
+      result = Math.max(Long.parseLong(file.getName().substring(1)), result);
     }
-    return 0;
+    return result;
   }
 
 
