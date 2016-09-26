@@ -162,7 +162,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_LAST_USED + " datetime, "
           + KEY_SORT_KEY + " integer, "
           + KEY_SYNC_URI + " text, "
-          + KEY_SYNC_SEQUENCE + " integer default 0,"
+          + KEY_SYNC_SEQUENCE_LOCAL + " integer default 0,"
           + KEY_EXCLUDE_FROM_TOTALS + " boolean default 0);";
 
   /**
@@ -286,7 +286,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       "CREATE TABLE " + TABLE_CHANGES
           + " ( " + KEY_ACCOUNTID + " integer not null references "+ TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE CASCADE,"
           + KEY_TYPE + " text not null check (" + KEY_TYPE + " in (" + TransactionChange.Type.JOIN + ")), "
-          + KEY_SYNC_SEQUENCE + " integer, "
+          + KEY_SYNC_SEQUENCE_LOCAL + " integer, "
           + KEY_UUID + " text, "
           + KEY_PARENT_UUID + " text, "
           + KEY_COMMENT + " text, "
@@ -300,11 +300,11 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_REFERENCE_NUMBER + " text, "
           + KEY_PICTURE_URI + " text);";
 
-  private static final String SELECT_SEQUCENE_NUMBER_TEMLATE = "(SELECT " + KEY_SYNC_SEQUENCE + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = %s." + KEY_ACCOUNTID +  ")";
+  private static final String SELECT_SEQUCENE_NUMBER_TEMLATE = "(SELECT " + KEY_SYNC_SEQUENCE_LOCAL + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = %s." + KEY_ACCOUNTID +  ")";
 
   private static final String INSERT_TRIGGER_ACTION = " BEGIN INSERT INTO " + TABLE_CHANGES + "("
       + KEY_TYPE + ","
-      + KEY_SYNC_SEQUENCE + ", "
+      + KEY_SYNC_SEQUENCE_LOCAL + ", "
       + KEY_UUID + ", "
       + KEY_PARENT_UUID + ", "
       + KEY_COMMENT + ", "
@@ -335,14 +335,14 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
   private static final String DELETE_TRIGGER_ACTION = " BEGIN INSERT INTO " + TABLE_CHANGES + "("
       + KEY_TYPE + ","
-      + KEY_SYNC_SEQUENCE + ", "
+      + KEY_SYNC_SEQUENCE_LOCAL + ", "
       + KEY_ACCOUNTID + ","
       + KEY_UUID + ") VALUES ('" + TransactionChange.Type.deleted + "',"
       + String.format(Locale.US, SELECT_SEQUCENE_NUMBER_TEMLATE, "old") +  " , "
       + "old." + KEY_ACCOUNTID + ","
       + "old." + KEY_UUID + "); END;";
 
-  private static final String SHOULD_WRITE_CHANGE_TEMPLATE = " EXISTS (SELECT 1 FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = %s." + KEY_ACCOUNTID + " AND " + KEY_SYNC_URI + " IS NOT NULL AND " + KEY_SYNC_SEQUENCE + " > 0)";
+  private static final String SHOULD_WRITE_CHANGE_TEMPLATE = " EXISTS (SELECT 1 FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = %s." + KEY_ACCOUNTID + " AND " + KEY_SYNC_URI + " IS NOT NULL AND " + KEY_SYNC_SEQUENCE_LOCAL + " > 0)";
 
   private static final String TRANSACTIONS_INSERT_TRIGGER_CREATE =
       "CREATE TRIGGER insert_change_log "
@@ -387,7 +387,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + " AND new." + KEY_TRANSFER_PEER + " = " + "old." + KEY_TRANSFER_PEER //if a new transfer is inserted, the first peer is updated, is after first one is added, and we can skip this update here
           + " BEGIN INSERT INTO " + TABLE_CHANGES + "("
           + KEY_TYPE + ","
-          + KEY_SYNC_SEQUENCE + ", "
+          + KEY_SYNC_SEQUENCE_LOCAL + ", "
           + KEY_UUID + ", "
           + KEY_ACCOUNTID + ","
           + KEY_COMMENT + ", "

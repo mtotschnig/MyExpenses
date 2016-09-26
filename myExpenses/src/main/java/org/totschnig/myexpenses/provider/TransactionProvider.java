@@ -632,11 +632,14 @@ public class TransactionProvider extends ContentProvider {
       qb.setTables(VIEW_COMMITTED);
       break;
       case CHANGES:
-        selection = KEY_ACCOUNTID + " = ?";
-        selectionArgs = new String[]{uri.getQueryParameter(KEY_ACCOUNTID)};
-        if (Long.parseLong(uri.getQueryParameter(KEY_SYNC_SEQUENCE)) > 0L) {
+        String sequence = uri.getQueryParameter(KEY_SYNC_SEQUENCE_LOCAL);
+        if (Long.parseLong(sequence) > 0L) {
+          selection = KEY_ACCOUNTID + " = ? AND " + KEY_SYNC_SEQUENCE_LOCAL + " = ?";
+          selectionArgs = new String[]{uri.getQueryParameter(KEY_ACCOUNTID), sequence};
           qb.setTables(TABLE_CHANGES);
         } else {
+          selection = KEY_ACCOUNTID + " = ?";
+          selectionArgs = new String[]{uri.getQueryParameter(KEY_ACCOUNTID)};
           qb.setTables(VIEW_COMMITTED);
           projection = new String[] {
               "'" + TransactionChange.Type.created.name() + "' AS " + KEY_TYPE,
