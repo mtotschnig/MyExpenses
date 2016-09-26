@@ -43,14 +43,12 @@ public class AutoBackupService extends WakefulIntentService {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.i("DEBUG", "Created AutoBackupService service ...");
     }
 
     @Override
 	protected void doWakefulWork(Intent intent) {
         String action = intent.getAction();
         if (ACTION_AUTO_BACKUP.equals(action)) {
-            Log.i("DEBUG","now doing backup");
             Result result = GenericTask.doBackup();
             String notifTitle = Utils.concatResStrings(this, " ", R.string.app_name, R.string.contrib_feature_auto_backup_label);
             if (result.success) {

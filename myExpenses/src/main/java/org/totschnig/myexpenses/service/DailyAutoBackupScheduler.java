@@ -47,14 +47,12 @@ public class DailyAutoBackupScheduler {
         PendingIntent pendingIntent = createPendingIntent(context);
         Date scheduledTime = getScheduledTime();
         service.set(AlarmManager.RTC_WAKEUP, scheduledTime.getTime(), pendingIntent);
-        Log.i("DEBUG", "Next auto-backup scheduled at "+scheduledTime);
     }
 
     public static void cancelAutoBackup(Context context) {
         AlarmManager service = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         PendingIntent pendingIntent = createPendingIntent(context);
         service.cancel(pendingIntent);
-        Log.i("DEBUG", "auto-backup canceled ");
     }
 
     private static PendingIntent createPendingIntent(Context context) {
