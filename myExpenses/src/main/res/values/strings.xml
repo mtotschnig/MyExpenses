@@ -619,8 +619,11 @@
     <string name="skip">SKIP</string>
     <string name="start">GOT IT</string>
 
-    <string name="slide_1_title">Hello Food!</string>
-    <string name="slide_1_desc">The easiest way to order food from your favourite restaurant!</string>
+    <string name="slide_1_title">Welcome!</string>
+    <string name="slide_1_desc">Description 1</string>
+
+    <string name="slide_2_title">Slide 2</string>
+    <string name="slide_2_desc">Description 2</string>
 
     <string name="slide_3_title">Enter transaction details</string>
     <string name="slide_3_desc">Convenient to use, quick to check</string>
