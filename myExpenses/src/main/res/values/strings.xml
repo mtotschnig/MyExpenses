@@ -622,8 +622,8 @@
     <string name="slide_1_title">Hello Food!</string>
     <string name="slide_1_desc">The easiest way to order food from your favourite restaurant!</string>
 
-    <string name="slide_3_title">Great Discounts</string>
-    <string name="slide_3_desc">Best discounts on every single service we offer!</string>
+    <string name="slide_3_title">Enter transaction details</string>
+    <string name="slide_3_desc">Convenient to use, quick to check</string>
 
     <string name="slide_4_title">Additional accounts</string>
     <string name="slide_4_desc">You can add more payment accounts</string>
