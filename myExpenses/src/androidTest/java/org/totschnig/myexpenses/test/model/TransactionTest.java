@@ -227,7 +227,7 @@ public class TransactionTest extends ModelTest {
     split2.setAmount(new Money(mAccount1.currency, 50L));
     split2.status = DatabaseConstants.STATUS_UNCOMMITTED;
     split2.save();
-    op3.commit();
+    op3.save();
     assertEquals(3, getAccountUsage(mAccount1.getId()));
   }
 
