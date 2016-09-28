@@ -625,8 +625,8 @@
     <string name="slide_3_title">Great Discounts</string>
     <string name="slide_3_desc">Best discounts on every single service we offer!</string>
 
-    <string name="slide_4_title">World Travel</string>
-    <string name="slide_4_desc">Book tickets of any transportation and travel the world!</string>
+    <string name="slide_4_title">Additional accounts</string>
+    <string name="slide_4_desc">You can add more payment accounts</string>
 
     <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
     <string name="play_again">Play Again</string>

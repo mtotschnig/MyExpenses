@@ -14,12 +14,12 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:src="@drawable/v_tablet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"/>
+    <!--<ImageView-->
+        <!--android:src="@drawable/v_tablet"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/imageView"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_alignParentEnd="true"/>-->
 
 </RelativeLayout>
