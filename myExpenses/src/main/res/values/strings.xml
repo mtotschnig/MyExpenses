@@ -619,8 +619,8 @@
     <string name="skip">SKIP</string>
     <string name="start">GOT IT</string>
 
-    <string name="slide_1_title">Welcome!</string>
-    <string name="slide_1_desc">Description 1</string>
+    <string name="slide_1_title">Welcome to MyExpenses!</string>
+    <string name="slide_1_desc">The application in which you can track your incomes and expenses in comfortable way</string>
 
     <string name="slide_2_title">Slide 2</string>
     <string name="slide_2_desc">Description 2</string>
