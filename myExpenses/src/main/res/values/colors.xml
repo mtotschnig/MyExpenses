@@ -54,7 +54,7 @@
     <!--  Welcome activity colors -->
     <!-- Screens background color-->
     <color name="bg_screen1">#26A69A</color>
-    <color name="bg_screen2">#EC407A</color>
+    <color name="bg_screen2">#1cd1b0</color>
     <color name="bg_screen3">#5C6BC0</color>
     <color name="bg_screen4">#7E57C2</color>
 
