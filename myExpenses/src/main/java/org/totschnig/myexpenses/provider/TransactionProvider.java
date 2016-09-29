@@ -641,23 +641,25 @@ public class TransactionProvider extends ContentProvider {
           selection = KEY_ACCOUNTID + " = ?";
           selectionArgs = new String[]{uri.getQueryParameter(KEY_ACCOUNTID)};
           qb.setTables(VIEW_COMMITTED);
-          projection = new String[] {
-              "'" + TransactionChange.Type.created.name() + "' AS " + KEY_TYPE,
-              KEY_UUID,
-              "CASE WHEN " + KEY_PARENTID + " IS NULL THEN NULL ELSE " +
-                  "(SELECT " + KEY_UUID + " from " + TABLE_TRANSACTIONS + " parent where "
-                  + KEY_ROWID + " = " + VIEW_COMMITTED + "."+ KEY_PARENTID + ") END AS " + KEY_PARENT_UUID,
-              KEY_COMMENT,
-              KEY_DATE,
-              KEY_AMOUNT,
-              KEY_CATID,
-              KEY_PAYEEID,
-              KEY_TRANSFER_ACCOUNT,
-              KEY_METHODID,
-              KEY_CR_STATUS,
-              KEY_REFERENCE_NUMBER,
-              KEY_PICTURE_URI
-          };
+          if (projection == null) {
+            projection = new String[]{
+                "'" + TransactionChange.Type.created.name() + "' AS " + KEY_TYPE,
+                KEY_UUID,
+                "CASE WHEN " + KEY_PARENTID + " IS NULL THEN NULL ELSE " +
+                    "(SELECT " + KEY_UUID + " from " + TABLE_TRANSACTIONS + " parent where "
+                    + KEY_ROWID + " = " + VIEW_COMMITTED + "." + KEY_PARENTID + ") END AS " + KEY_PARENT_UUID,
+                KEY_COMMENT,
+                KEY_DATE,
+                KEY_AMOUNT,
+                KEY_CATID,
+                KEY_PAYEEID,
+                KEY_TRANSFER_ACCOUNT,
+                KEY_METHODID,
+                KEY_CR_STATUS,
+                KEY_REFERENCE_NUMBER,
+                KEY_PICTURE_URI
+            };
+          }
         }
         break;
     default:
