@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.sync;
 import android.content.Context;
 import android.support.v4.provider.DocumentFile;
 
+import com.google.common.io.Files;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -31,7 +32,7 @@ class LocalFileBackend implements SyncBackend {
   private long getLastSequence() {
     long result = 0;
     for (DocumentFile file: baseDir.listFiles()) {
-      result = Math.max(Long.parseLong(file.getName().substring(1)), result);
+      result = Math.max(Long.parseLong(Files.getNameWithoutExtension(file.getName()).substring(1)), result);
     }
     return result;
   }
