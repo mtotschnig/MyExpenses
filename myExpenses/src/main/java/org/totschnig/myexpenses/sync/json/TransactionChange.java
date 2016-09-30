@@ -37,11 +37,11 @@ public abstract class TransactionChange {
   }
 
   @ColumnName(KEY_TYPE)
-  abstract String type();
+  public abstract String type();
 
   @ColumnName(KEY_UUID)
   @Nullable
-  abstract String uuid();
+  public abstract String uuid();
 
   @ColumnName(KEY_PARENT_UUID)
   @Nullable
@@ -94,5 +94,17 @@ public abstract class TransactionChange {
     static {
       JOIN = Utils.joinEnum(Type.class);
     }
+  }
+
+  public boolean isCreate() {
+    return type().equals(Type.created.name());
+  }
+
+  public boolean isUpdate() {
+    return type().equals(Type.updated.name());
+  }
+
+  public boolean isDelete() {
+    return type().equals(Type.deleted.name());
   }
 }
