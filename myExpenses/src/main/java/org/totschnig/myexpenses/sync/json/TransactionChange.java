@@ -21,6 +21,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENT_UUI
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_URI;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TIMESTAMP;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
@@ -46,9 +47,9 @@ public abstract class TransactionChange {
   public abstract String type();
 
   @ColumnName(KEY_UUID)
-  @Nullable
   public abstract String uuid();
 
+  @ColumnName(KEY_TIMESTAMP)
   public abstract Long timeStamp();
 
   @ColumnName(KEY_PARENT_UUID)

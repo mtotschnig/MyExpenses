@@ -645,6 +645,7 @@ public class TransactionProvider extends ContentProvider {
             projection = new String[]{
                 "'" + TransactionChange.Type.created.name() + "' AS " + KEY_TYPE,
                 KEY_UUID,
+                "strftime('%s','now') AS "+ KEY_TIMESTAMP,
                 "CASE WHEN " + KEY_PARENTID + " IS NULL THEN NULL ELSE " +
                     "(SELECT " + KEY_UUID + " from " + TABLE_TRANSACTIONS + " parent where "
                     + KEY_ROWID + " = " + VIEW_COMMITTED + "." + KEY_PARENTID + ") END AS " + KEY_PARENT_UUID,

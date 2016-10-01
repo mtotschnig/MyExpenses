@@ -167,6 +167,7 @@ public class DatabaseConstants {
   public static final String KEY_PARENT_UUID = "parent_uuid";
   public static final String KEY_SYNC_SEQUENCE_LOCAL = "sync_sequence_local";
   public static final String KEY_SYNC_SEQUENCE_REMOTE = "sync_sequence_remote";
+  public static final String KEY_TIMESTAMP = "timestamp";
 
   /**
    * column alias for the second group (month or week)

@@ -288,6 +288,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_TYPE + " text not null check (" + KEY_TYPE + " in (" + TransactionChange.Type.JOIN + ")), "
           + KEY_SYNC_SEQUENCE_LOCAL + " integer, "
           + KEY_UUID + " text, "
+          + KEY_TIMESTAMP + " datetime DEFAULT (strftime('%s','now')), "
           + KEY_PARENT_UUID + " text, "
           + KEY_COMMENT + " text, "
           + KEY_DATE + " datetime, "

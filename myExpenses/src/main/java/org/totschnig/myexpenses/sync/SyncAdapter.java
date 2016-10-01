@@ -78,8 +78,10 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
     AccountManager accountManager = (AccountManager) getContext().getSystemService(ACCOUNT_SERVICE);
     String lastLocalSequence = getUserDataWithDefault(accountManager, account,
         KEY_SYNC_SEQUENCE_LOCAL, "0");
+    long currentSequenceLocal = Long.parseLong(lastLocalSequence);
     String lastRemoteSequence = getUserDataWithDefault(accountManager, account,
         KEY_SYNC_SEQUENCE_REMOTE, "0");
+    long currentSequenceRemote = Long.parseLong(lastRemoteSequence);
     String accountId = account.name.substring(1);
     SyncBackend backend = getBackendForAccount(accountId);
     if (backend == null) {
@@ -89,10 +91,11 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
     Pair<Long, List<TransactionChange>> changeSetSince = backend.getChangeSetSince(
         Long.parseLong(lastRemoteSequence));
 
-    Long currentSequenceRemote = changeSetSince.first;
-    List<TransactionChange> remoteChanges = changeSetSince.second;
+    if (changeSetSince != null) {
+      currentSequenceRemote = changeSetSince.first;
+      List<TransactionChange> remoteChanges = changeSetSince.second;
+    }
 
-    long currentSequenceLocal = Long.parseLong(lastLocalSequence);
     List<TransactionChange> localChanges = new ArrayList<>();
     try {
       Uri changesUri = buildChangesUri(lastLocalSequence, accountId);
