@@ -4,7 +4,7 @@ import android.content.Context;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.TextUtils;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
@@ -103,6 +103,6 @@ public enum AccountType {
   }
 
   static {
-    JOIN = Utils.joinEnum(AccountType.class);
+    JOIN = TextUtils.joinEnum(AccountType.class);
   }
 }

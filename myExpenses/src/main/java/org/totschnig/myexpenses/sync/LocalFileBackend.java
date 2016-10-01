@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.sync;
 
 import android.content.Context;
 import android.support.v4.provider.DocumentFile;
+import android.support.v4.util.Pair;
 
 import com.google.common.io.Files;
 import com.google.gson.Gson;
@@ -44,7 +45,7 @@ class LocalFileBackend implements SyncBackend {
   }
 
   @Override
-  public List<TransactionChange> getChangeSetSince(long sequenceNumber) {
+  public Pair<Long, List<TransactionChange>> getChangeSetSince(long sequenceNumber) {
     return null;
   }
 

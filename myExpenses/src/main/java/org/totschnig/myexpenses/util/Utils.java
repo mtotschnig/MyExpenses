@@ -978,17 +978,6 @@ public class Utils {
     }
   }
 
-  public static <E extends Enum<E>> String joinEnum(Class<E> enumClass) {
-    String result = "";
-    Iterator<E> iterator = EnumSet.allOf(enumClass).iterator();
-    while (iterator.hasNext()) {
-      result += "'" + iterator.next().name() + "'";
-      if (iterator.hasNext())
-        result += ",";
-    }
-    return result;
-  }
-
   /**
    * Credit:
    * https://groups.google.com/forum/?fromgroups#!topic/actionbarsherlock

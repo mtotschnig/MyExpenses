@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.provider.CalendarProviderProxy;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.content.ContentProviderOperation;
@@ -177,7 +178,7 @@ public class Transaction extends Model {
     public static final String JOIN;
 
     static {
-      JOIN = Utils.joinEnum(CrStatus.class);
+      JOIN = TextUtils.joinEnum(CrStatus.class);
     }
 
     public static CrStatus fromQifName(String qifName) {

@@ -9,7 +9,7 @@ import com.google.auto.value.AutoValue;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 
-import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.TextUtils;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
@@ -34,6 +34,10 @@ public abstract class TransactionChange {
 
   public static TypeAdapter<TransactionChange> typeAdapter(Gson gson) {
     return new AutoValue_TransactionChange.GsonTypeAdapter(gson);
+  }
+
+  public static Builder builder() {
+    return new AutoValue_TransactionChange.Builder();
   }
 
   @ColumnName(KEY_TYPE)
@@ -92,7 +96,7 @@ public abstract class TransactionChange {
 
     public static final String JOIN;
     static {
-      JOIN = Utils.joinEnum(Type.class);
+      JOIN = TextUtils.joinEnum(Type.class);
     }
   }
 
@@ -106,5 +110,26 @@ public abstract class TransactionChange {
 
   public boolean isDelete() {
     return type().equals(Type.deleted.name());
+  }
+
+  @AutoValue.Builder
+  public abstract static class Builder {
+    public Builder setType(Type type) {
+      return setType(type.name());
+    }
+    public abstract Builder setType(String value);
+    public abstract Builder setUuid(String value);
+    public abstract Builder setParentUuid(String value);
+    public abstract Builder setComment(String value);
+    public abstract Builder setAmount(Long value);
+    public abstract Builder setDate(Long value);
+    public abstract Builder setCatId(Long value);
+    public abstract Builder setPayeeId(Long value);
+    public abstract Builder setTransferAccount(Long value);
+    public abstract Builder setMethodId(Long value);
+    public abstract Builder setCrStatus(String value);
+    public abstract Builder setReferenceNumber(String value);
+    public abstract Builder setPictureUri(String value);
+    public abstract TransactionChange build();
   }
 }

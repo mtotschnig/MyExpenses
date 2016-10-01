@@ -147,7 +147,7 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     //filter out changes made obsolete by later delete
     List<String> deletedUuids = Stream.concat(Stream.of(first), Stream.of(second))
-        .filter(change -> change.isDelete())
+        .filter(TransactionChange::isDelete)
         .map(TransactionChange::uuid)
         .collect(Collectors.toList());
     List<TransactionChange> firstResult = filterDeleted(first, deletedUuids);
@@ -170,7 +170,7 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
 
   private List<TransactionChange> filterDeleted(List<TransactionChange> input, List<String> deletedUuids) {
     return Stream.of(input).filter(change ->
-        !change.isDelete() && !deletedUuids.contains(change.uuid()))
+        change.isDelete() || !deletedUuids.contains(change.uuid()))
         .collect(Collectors.toList());
   }
 
