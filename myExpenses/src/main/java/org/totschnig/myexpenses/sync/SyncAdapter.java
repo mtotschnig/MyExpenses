@@ -181,8 +181,12 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
         .distinct().collect(Collectors.toList());
   }
 
-  private TransactionChange mergeUpdates(List<TransactionChange> changeList) {
-    return null;
+  @VisibleForTesting
+  public TransactionChange mergeUpdates(List<TransactionChange> changeList) {
+    if (changeList.size() < 2) {
+      throw new IllegalStateException("nothing to merge");
+    }
+    return Stream.of(changeList).reduce(TransactionChange::mergeUpdate).get();
   }
 
   protected Uri buildChangesUri(String current_sync, String accountId) {

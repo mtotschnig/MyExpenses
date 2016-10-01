@@ -40,6 +40,8 @@ public abstract class TransactionChange {
     return new AutoValue_TransactionChange.Builder();
   }
 
+  public abstract Builder toBuilder();
+
   @ColumnName(KEY_TYPE)
   public abstract String type();
 
@@ -49,47 +51,91 @@ public abstract class TransactionChange {
 
   @ColumnName(KEY_PARENT_UUID)
   @Nullable
-  abstract String parentUuid();
+  public abstract String parentUuid();
 
   @ColumnName(KEY_COMMENT)
   @Nullable
-  abstract String comment();
+  public abstract String comment();
 
   @ColumnName(KEY_DATE)
   @Nullable
-  abstract Long date();
+  public abstract Long date();
 
   @ColumnName(KEY_AMOUNT)
   @Nullable
-  abstract Long amount();
+  public abstract Long amount();
 
   @ColumnName(KEY_CATID)
   @Nullable
-  abstract Long catId();
+  public abstract Long catId();
 
   @ColumnName(KEY_PAYEEID)
   @Nullable
-  abstract Long payeeId();
+  public abstract Long payeeId();
 
   @ColumnName(KEY_TRANSFER_ACCOUNT)
   @Nullable
-  abstract Long transferAccount();
+  public abstract Long transferAccount();
 
   @ColumnName(KEY_METHODID)
   @Nullable
-  abstract Long methodId();
+  public abstract Long methodId();
 
   @ColumnName(KEY_CR_STATUS)
   @Nullable
-  abstract String crStatus();
+  public abstract String crStatus();
 
   @ColumnName(KEY_REFERENCE_NUMBER)
   @Nullable
-  abstract String referenceNumber();
+  public abstract String referenceNumber();
 
   @ColumnName(KEY_PICTURE_URI)
   @Nullable
-  abstract String pictureUri();
+  public abstract String pictureUri();
+
+  public static TransactionChange mergeUpdate(TransactionChange initial, TransactionChange change) {
+    if (!(change.isUpdate() && initial.isUpdate())) {
+      throw new IllegalStateException("Can only merge updates");
+    }
+    if (!initial.uuid().equals(change.uuid())) {
+      throw new IllegalStateException("Can only merge changes with same uuid");
+    }
+    Builder builder = initial.toBuilder();
+    if (change.parentUuid() != null) {
+      builder.setParentUuid(change.parentUuid());
+    }
+    if (change.comment() != null) {
+      builder.setComment(change.comment());
+    }
+    if (change.date() != null) {
+      builder.setDate(change.date());
+    }
+    if (change.amount() != null) {
+      builder.setAmount(change.amount());
+    }
+    if (change.catId() != null) {
+      builder.setCatId(change.catId());
+    }
+    if (change.payeeId() != null) {
+      builder.setPayeeId(change.payeeId());
+    }
+    if (change.transferAccount() != null) {
+      builder.setTransferAccount(change.transferAccount());
+    }
+    if (change.methodId() != null) {
+      builder.setMethodId(change.methodId());
+    }
+    if (change.crStatus() != null) {
+      builder.setCrStatus(change.crStatus());
+    }
+    if (change.referenceNumber() != null) {
+      builder.setReferenceNumber(change.referenceNumber());
+    }
+    if (change.pictureUri() != null) {
+      builder.setPictureUri(change.pictureUri());
+    }
+    return builder.build();
+  }
 
   public enum Type {
     created, updated, deleted;
