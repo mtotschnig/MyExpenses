@@ -186,7 +186,7 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
     if (changeList.size() < 2) {
       throw new IllegalStateException("nothing to merge");
     }
-    return Stream.of(changeList).reduce(TransactionChange::mergeUpdate).get();
+    return Stream.of(changeList).sortBy(TransactionChange::timeStamp).reduce(TransactionChange::mergeUpdate).get();
   }
 
   protected Uri buildChangesUri(String current_sync, String accountId) {

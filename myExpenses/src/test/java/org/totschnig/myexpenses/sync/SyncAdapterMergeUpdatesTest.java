@@ -68,10 +68,12 @@ public class SyncAdapterMergeUpdatesTest {
   public void lastChangeShouldOverride() {
     List<TransactionChange> changes = new ArrayList<>();
     String uuid = "one";
-    String comment1 = "My first comment";
-    String comment2 = "My second comment";
-    changes.add(TransactionChange.builder().setType(TransactionChange.Type.updated).setUuid(uuid).setComment(comment1).build());
-    changes.add(TransactionChange.builder().setType(TransactionChange.Type.updated).setUuid(uuid).setComment(comment2).build());
+    String comment1 = "My earlier comment";
+    String comment2 = "My later comment";
+    Long later = System.currentTimeMillis();
+    Long earlier = later - 10000;
+    changes.add(TransactionChange.builder().setType(TransactionChange.Type.updated).setUuid(uuid).setTimeStamp(later).setComment(comment2).build());
+    changes.add(TransactionChange.builder().setType(TransactionChange.Type.updated).setUuid(uuid).setTimeStamp(earlier).setComment(comment1).build());
     TransactionChange merge = syncAdapter.mergeUpdates(changes);
     assertEquals(comment2, merge.comment());
   }

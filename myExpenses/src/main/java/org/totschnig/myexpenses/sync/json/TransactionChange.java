@@ -49,6 +49,8 @@ public abstract class TransactionChange {
   @Nullable
   public abstract String uuid();
 
+  public abstract Long timeStamp();
+
   @ColumnName(KEY_PARENT_UUID)
   @Nullable
   public abstract String parentUuid();
@@ -134,7 +136,7 @@ public abstract class TransactionChange {
     if (change.pictureUri() != null) {
       builder.setPictureUri(change.pictureUri());
     }
-    return builder.build();
+    return builder.setTimeStamp(System.currentTimeMillis()).build();
   }
 
   public enum Type {
@@ -165,6 +167,7 @@ public abstract class TransactionChange {
     }
     public abstract Builder setType(String value);
     public abstract Builder setUuid(String value);
+    public abstract Builder setTimeStamp(Long value);
     public abstract Builder setParentUuid(String value);
     public abstract Builder setComment(String value);
     public abstract Builder setAmount(Long value);
