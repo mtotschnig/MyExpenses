@@ -649,7 +649,7 @@ public class TransactionProvider extends ContentProvider {
                 "CASE WHEN " + KEY_PARENTID + " IS NULL THEN NULL ELSE " +
                     "(SELECT " + KEY_UUID + " from " + TABLE_TRANSACTIONS + " parent where "
                     + KEY_ROWID + " = " + VIEW_COMMITTED + "." + KEY_PARENTID + ") END AS " + KEY_PARENT_UUID,
-                KEY_COMMENT,
+                "NULLIF(TRIM(" + KEY_COMMENT + "),'') AS " + KEY_COMMENT,
                 KEY_DATE,
                 KEY_AMOUNT,
                 KEY_CATID,
@@ -657,7 +657,7 @@ public class TransactionProvider extends ContentProvider {
                 KEY_TRANSFER_ACCOUNT,
                 KEY_METHODID,
                 KEY_CR_STATUS,
-                KEY_REFERENCE_NUMBER,
+                "NULLIF(TRIM(" + KEY_REFERENCE_NUMBER + "),'') AS " + KEY_REFERENCE_NUMBER,
                 KEY_PICTURE_URI
             };
           }

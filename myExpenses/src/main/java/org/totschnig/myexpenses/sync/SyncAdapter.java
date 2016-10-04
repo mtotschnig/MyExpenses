@@ -39,6 +39,7 @@ import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.sync.json.ChangeSet;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 
 import java.io.File;
@@ -46,7 +47,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static android.content.Context.ACCOUNT_SERVICE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
@@ -88,12 +88,11 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
       //TODO report
       return;
     }
-    Pair<Long, List<TransactionChange>> changeSetSince = backend.getChangeSetSince(
-        Long.parseLong(lastRemoteSequence));
+    ChangeSet changeSetSince = backend.getChangeSetSince(Long.parseLong(lastRemoteSequence));
 
     if (changeSetSince != null) {
-      currentSequenceRemote = changeSetSince.first;
-      List<TransactionChange> remoteChanges = changeSetSince.second;
+      currentSequenceRemote = changeSetSince.sequenceNumber;
+      List<TransactionChange> remoteChanges = changeSetSince.changes;
     }
 
     List<TransactionChange> localChanges = new ArrayList<>();
@@ -118,11 +117,7 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
 
       if (localChanges.size() > 0) {
         backend.lock();
-        try {
-          currentSequenceRemote = backend.writeChangeSet(localChanges);
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
+        currentSequenceRemote = backend.writeChangeSet(localChanges);
         backend.unlock();
         accountManager.setUserData(account, KEY_SYNC_SEQUENCE_LOCAL, String.valueOf(currentSequenceLocal));
       }
