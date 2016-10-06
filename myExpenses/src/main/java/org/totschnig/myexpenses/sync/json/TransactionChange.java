@@ -12,13 +12,13 @@ import com.google.gson.TypeAdapter;
 import org.totschnig.myexpenses.util.TextUtils;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENT_UUID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_URI;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TIMESTAMP;
@@ -68,21 +68,21 @@ public abstract class TransactionChange {
   @Nullable
   public abstract Long amount();
 
-  @ColumnName(KEY_CATID)
+  @ColumnName(KEY_LABEL)
   @Nullable
-  public abstract Long catId();
+  public abstract String label();
 
-  @ColumnName(KEY_PAYEEID)
+  @ColumnName(KEY_PAYEE_NAME)
   @Nullable
-  public abstract Long payeeId();
+  public abstract String payeeName();
 
   @ColumnName(KEY_TRANSFER_ACCOUNT)
   @Nullable
   public abstract Long transferAccount();
 
-  @ColumnName(KEY_METHODID)
+  @ColumnName(KEY_METHOD_LABEL)
   @Nullable
-  public abstract Long methodId();
+  public abstract String methodLabel();
 
   @ColumnName(KEY_CR_STATUS)
   @Nullable
@@ -116,17 +116,17 @@ public abstract class TransactionChange {
     if (change.amount() != null) {
       builder.setAmount(change.amount());
     }
-    if (change.catId() != null) {
-      builder.setCatId(change.catId());
+    if (change.label() != null) {
+      builder.setLabel(change.label());
     }
-    if (change.payeeId() != null) {
-      builder.setPayeeId(change.payeeId());
+    if (change.payeeName() != null) {
+      builder.setPayeeName(change.payeeName());
     }
     if (change.transferAccount() != null) {
       builder.setTransferAccount(change.transferAccount());
     }
-    if (change.methodId() != null) {
-      builder.setMethodId(change.methodId());
+    if (change.methodLabel() != null) {
+      builder.setMethodLabel(change.methodLabel());
     }
     if (change.crStatus() != null) {
       builder.setCrStatus(change.crStatus());
@@ -173,10 +173,10 @@ public abstract class TransactionChange {
     public abstract Builder setComment(String value);
     public abstract Builder setAmount(Long value);
     public abstract Builder setDate(Long value);
-    public abstract Builder setCatId(Long value);
-    public abstract Builder setPayeeId(Long value);
+    public abstract Builder setLabel(String value);
+    public abstract Builder setPayeeName(String value);
     public abstract Builder setTransferAccount(Long value);
-    public abstract Builder setMethodId(Long value);
+    public abstract Builder setMethodLabel(String value);
     public abstract Builder setCrStatus(String value);
     public abstract Builder setReferenceNumber(String value);
     public abstract Builder setPictureUri(String value);

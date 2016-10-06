@@ -121,9 +121,13 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     StringBuilder stringBuilder = new StringBuilder();
 
     stringBuilder.append(" AS SELECT ").append(tableName).append(".*, ").append(TABLE_PAYEES)
-        .append(".").append(KEY_PAYEE_NAME).append(", ").append(KEY_COLOR).append(", ")
-        .append(KEY_CURRENCY).append(", ").append(KEY_EXCLUDE_FROM_TOTALS).append(", ")
+        .append(".").append(KEY_PAYEE_NAME).append(", ")
         .append(TABLE_METHODS).append(".").append(KEY_LABEL).append(" AS ").append(KEY_METHOD_LABEL);
+
+    if (!tableName.equals(TABLE_CHANGES)) {
+      stringBuilder.append(", ").append(KEY_COLOR).append(", ")
+          .append(KEY_CURRENCY).append(", ").append(KEY_EXCLUDE_FROM_TOTALS);
+    }
 
     if (tableName.equals(TABLE_TRANSACTIONS)) {
       stringBuilder.append(", ").append(TABLE_PLAN_INSTANCE_STATUS).append(".").append(KEY_TEMPLATEID);
@@ -131,10 +135,14 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
     stringBuilder.append(" FROM ").append(tableName).append(" LEFT JOIN ").append(TABLE_PAYEES).append(" ON ")
         .append(KEY_PAYEEID).append(" = ").append(TABLE_PAYEES).append(".").append(KEY_ROWID)
-        .append(" LEFT JOIN ").append(TABLE_ACCOUNTS).append(" ON ").append(KEY_ACCOUNTID)
-        .append(" = ").append(TABLE_ACCOUNTS).append(".").append(KEY_ROWID).append(" LEFT JOIN ")
+        .append(" LEFT JOIN ")
         .append(TABLE_METHODS).append(" ON ").append(KEY_METHODID).append(" = ").append(TABLE_METHODS)
         .append(".").append(KEY_ROWID);
+
+    if (!tableName.equals(TABLE_CHANGES)) {
+      stringBuilder.append(" LEFT JOIN ").append(TABLE_ACCOUNTS).append(" ON ").append(KEY_ACCOUNTID)
+          .append(" = ").append(TABLE_ACCOUNTS).append(".").append(KEY_ROWID);
+    }
 
     if (tableName.equals(TABLE_TRANSACTIONS)) {
       stringBuilder.append(" LEFT JOIN ").append(TABLE_PLAN_INSTANCE_STATUS)
@@ -518,6 +526,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL("CREATE INDEX transactions_cat_id_index on " + TABLE_TRANSACTIONS + "(" + KEY_CATID + ")");
     db.execSQL("CREATE INDEX templates_cat_id_index on " + TABLE_TEMPLATES + "(" + KEY_CATID + ")");
     db.execSQL(CHANGES_CREATE);
+    db.execSQL("CREATE VIEW " + VIEW_CHANGES_EXTENDED + buildViewDefinitionExtended(TABLE_CHANGES));
     db.execSQL(TRANSACTIONS_INSERT_TRIGGER_CREATE);
     db.execSQL(TRANSACTIONS_INSERT_AFTER_UPDATE_TRIGGER_CREATE);
     db.execSQL(TRANSACTIONS_DELETE_TRIGGER_CREATE);

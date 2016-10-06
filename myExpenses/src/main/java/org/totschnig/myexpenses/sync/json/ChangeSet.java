@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChangeSet {
-  private static int FAILED = -1;
+  public static long FAILED = -1;
   public static final ChangeSet empty = new ChangeSet(0, new ArrayList<>());
   public static final ChangeSet failed = new ChangeSet(FAILED, null);
   public final long sequenceNumber;

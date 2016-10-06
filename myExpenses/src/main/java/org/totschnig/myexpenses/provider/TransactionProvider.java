@@ -636,11 +636,29 @@ public class TransactionProvider extends ContentProvider {
         if (Long.parseLong(sequence) > 0L) {
           selection = KEY_ACCOUNTID + " = ? AND " + KEY_SYNC_SEQUENCE_LOCAL + " = ?";
           selectionArgs = new String[]{uri.getQueryParameter(KEY_ACCOUNTID), sequence};
-          qb.setTables(TABLE_CHANGES);
+          qb.setTables(VIEW_CHANGES_EXTENDED);
+          if (projection == null) {
+            projection = new String[]{
+                KEY_TYPE,
+                KEY_UUID,
+                KEY_TIMESTAMP,
+                KEY_PARENT_UUID,
+                "NULLIF(TRIM(" + KEY_COMMENT + "),'') AS " + KEY_COMMENT,
+                KEY_DATE,
+                KEY_AMOUNT,
+                CAT_AS_LABEL,
+                KEY_PAYEE_NAME,
+                KEY_TRANSFER_ACCOUNT,
+                KEY_METHOD_LABEL,
+                KEY_CR_STATUS,
+                "NULLIF(TRIM(" + KEY_REFERENCE_NUMBER + "),'') AS " + KEY_REFERENCE_NUMBER,
+                KEY_PICTURE_URI
+            };
+          }
         } else {
           selection = KEY_ACCOUNTID + " = ?";
           selectionArgs = new String[]{uri.getQueryParameter(KEY_ACCOUNTID)};
-          qb.setTables(VIEW_COMMITTED);
+          qb.setTables(VIEW_EXTENDED);
           if (projection == null) {
             projection = new String[]{
                 "'" + TransactionChange.Type.created.name() + "' AS " + KEY_TYPE,
@@ -648,14 +666,14 @@ public class TransactionProvider extends ContentProvider {
                 "strftime('%s','now') AS "+ KEY_TIMESTAMP,
                 "CASE WHEN " + KEY_PARENTID + " IS NULL THEN NULL ELSE " +
                     "(SELECT " + KEY_UUID + " from " + TABLE_TRANSACTIONS + " parent where "
-                    + KEY_ROWID + " = " + VIEW_COMMITTED + "." + KEY_PARENTID + ") END AS " + KEY_PARENT_UUID,
+                    + KEY_ROWID + " = " + VIEW_EXTENDED + "." + KEY_PARENTID + ") END AS " + KEY_PARENT_UUID,
                 "NULLIF(TRIM(" + KEY_COMMENT + "),'') AS " + KEY_COMMENT,
                 KEY_DATE,
                 KEY_AMOUNT,
-                KEY_CATID,
-                KEY_PAYEEID,
+                CAT_AS_LABEL,
+                KEY_PAYEE_NAME,
                 KEY_TRANSFER_ACCOUNT,
-                KEY_METHODID,
+                KEY_METHOD_LABEL,
                 KEY_CR_STATUS,
                 "NULLIF(TRIM(" + KEY_REFERENCE_NUMBER + "),'') AS " + KEY_REFERENCE_NUMBER,
                 KEY_PICTURE_URI

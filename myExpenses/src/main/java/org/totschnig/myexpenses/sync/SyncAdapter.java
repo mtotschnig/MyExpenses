@@ -119,7 +119,9 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
         backend.lock();
         currentSequenceRemote = backend.writeChangeSet(localChanges);
         backend.unlock();
-        accountManager.setUserData(account, KEY_SYNC_SEQUENCE_LOCAL, String.valueOf(currentSequenceLocal));
+        if (currentSequenceRemote != ChangeSet.FAILED) {
+          accountManager.setUserData(account, KEY_SYNC_SEQUENCE_LOCAL, String.valueOf(currentSequenceLocal));
+        }
       }
 
       //write remote changes to local

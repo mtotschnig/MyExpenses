@@ -89,7 +89,7 @@ class LocalFileBackend implements SyncBackend {
         e.printStackTrace();
       }
     }
-    return nextSequence;
+    return ChangeSet.FAILED;
   }
 
   @Override
