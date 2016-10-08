@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.AcraHelper;
+
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
