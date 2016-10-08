@@ -5,7 +5,7 @@
 
 package org.totschnig.myexpenses.dialog;
 
-import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.AcraHelper;
 
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -18,7 +18,7 @@ public abstract class CommitSafeDialogFragment extends DialogFragment {
       try {
           return super.show(transaction, tag);
       } catch (IllegalStateException e) {
-        Utils.reportToAcra(e);
+        AcraHelper.report(e);
       }
       return -1;
   }
@@ -28,7 +28,7 @@ public abstract class CommitSafeDialogFragment extends DialogFragment {
       try {
           super.show(manager, tag);
       } catch (IllegalStateException e) {
-        Utils.reportToAcra(e);
+        AcraHelper.report(e);
       }
   }
 }

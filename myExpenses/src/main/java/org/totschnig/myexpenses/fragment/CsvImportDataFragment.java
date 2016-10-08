@@ -36,9 +36,10 @@ import org.totschnig.myexpenses.activity.ProtectionDelegate;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
-import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -402,7 +403,7 @@ public class CsvImportDataFragment extends Fragment {
                 header2FieldMap.put(Utils.normalize(header.get(i)), fieldKeys[position]);
               }
             } catch (JSONException e) {
-              Utils.reportToAcra(e);
+              AcraHelper.report(e);
             }
           }
         }
@@ -411,7 +412,7 @@ public class CsvImportDataFragment extends Fragment {
           long accountId = ((CsvImportActivity) getActivity()).getAccountId();
           String currency = ((CsvImportActivity) getActivity()).getCurrency();
           QifDateFormat format = ((CsvImportActivity) getActivity()).getDateFormat();
-          Account.Type type = ((CsvImportActivity) getActivity()).getAccountType();
+          AccountType type = ((CsvImportActivity) getActivity()).getAccountType();
           TaskExecutionFragment taskExecutionFragment =
               TaskExecutionFragment.newInstanceCSVImport(
                   mDataset,columnToFieldMap,discardedRows,format,accountId,currency,type);

@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.view.View;
 import android.widget.Toast;
 
 import org.apache.commons.csv.CSVRecord;
@@ -12,7 +11,7 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.fragment.CsvImportDataFragment;
 import org.totschnig.myexpenses.fragment.CsvImportParseFragment;
-import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Result;
@@ -57,25 +56,25 @@ public class CsvImportActivity extends TabbedActivity implements
   }
 
   private void addTab(int index) {
-   switch(index) {
-     case 0:
-       mSectionsPagerAdapter.addFragment(CsvImportParseFragment.newInstance(), getString(
-           R.string.menu_parse));
-       break;
-     case 1:
-       mSectionsPagerAdapter.addFragment(CsvImportDataFragment.newInstance(), getString(
-           R.string.csv_import_preview));
-       break;
-   }
+    switch (index) {
+      case 0:
+        mSectionsPagerAdapter.addFragment(CsvImportParseFragment.newInstance(), getString(
+            R.string.menu_parse));
+        break;
+      case 1:
+        mSectionsPagerAdapter.addFragment(CsvImportDataFragment.newInstance(), getString(
+            R.string.csv_import_preview));
+        break;
+    }
   }
 
   @Override
   public void onPositive(Bundle args) {
     switch (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
       case R.id.SET_HEADER_COMMAND:
-      CsvImportDataFragment df = (CsvImportDataFragment) getSupportFragmentManager().findFragmentByTag(
-          mSectionsPagerAdapter.getFragmentName(1));
-      df.setHeader();
+        CsvImportDataFragment df = (CsvImportDataFragment) getSupportFragmentManager().findFragmentByTag(
+            mSectionsPagerAdapter.getFragmentName(1));
+        df.setHeader();
     }
   }
 
@@ -124,13 +123,15 @@ public class CsvImportActivity extends TabbedActivity implements
           Integer discarded = (Integer) r.extra[2];
           String label = (String) r.extra[3];
           String msg = getString(R.string.import_transactions_success, imported, label) + ".";
-          if (failed>0) {
-            msg += " " + getString(R.string.csv_import_records_failed,failed);
+          if (failed > 0) {
+            msg += " " + getString(R.string.csv_import_records_failed, failed);
           }
-          if (discarded>0) {
-            msg += " " + getString(R.string.csv_import_records_discarded,discarded);
+          if (discarded > 0) {
+            msg += " " + getString(R.string.csv_import_records_discarded, discarded);
           }
-          Toast.makeText(this, msg,Toast.LENGTH_LONG).show();
+          Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+        } else {
+          Toast.makeText(this, r.print(this), Toast.LENGTH_LONG).show();
         }
     }
   }
@@ -148,7 +149,7 @@ public class CsvImportActivity extends TabbedActivity implements
   public void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
     outState.putBoolean(KEY_DATA_READY, mDataReady);
-    outState.putBoolean(KEY_USAGE_RECORDED,mUsageRecorded);
+    outState.putBoolean(KEY_USAGE_RECORDED, mUsageRecorded);
   }
 
   public long getAccountId() {
@@ -171,7 +172,7 @@ public class CsvImportActivity extends TabbedActivity implements
     return pf.getDateFormat();
   }
 
-  public Account.Type getAccountType() {
+  public AccountType getAccountType() {
     CsvImportParseFragment pf = getParseFragment();
     return pf.getAccountType();
   }

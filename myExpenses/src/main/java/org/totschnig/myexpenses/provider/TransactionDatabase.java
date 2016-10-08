@@ -23,12 +23,16 @@ import java.util.Locale;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.CurrencyEnum;
+import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.Utils;
 
 import com.android.calendar.CalendarContractCompat.Events;
@@ -149,9 +153,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_OPENING_BALANCE + " integer, "
           + KEY_DESCRIPTION + " text, "
           + KEY_CURRENCY + " text not null, "
-          + KEY_TYPE + " text not null check (" + KEY_TYPE + " in (" + Account.Type.JOIN + ")) default '" + Account.Type.CASH.name() + "', "
+          + KEY_TYPE + " text not null check (" + KEY_TYPE + " in (" + AccountType.JOIN + ")) default '" + AccountType.CASH.name() + "', "
           + KEY_COLOR + " integer default -3355444, "
-          + KEY_GROUPING + " text not null check (" + KEY_GROUPING + " in (" + Account.Grouping.JOIN + ")) default '" + Account.Grouping.NONE.name() + "', "
+          + KEY_GROUPING + " text not null check (" + KEY_GROUPING + " in (" + Grouping.JOIN + ")) default '" + Grouping.NONE.name() + "', "
           + KEY_USAGES + " integer default 0,"
           + KEY_LAST_USED + " datetime, "
           + KEY_SORT_KEY + " integer,"
@@ -186,7 +190,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
   private static final String ACCOUNTTYE_METHOD_CREATE =
       "CREATE TABLE " + TABLE_ACCOUNTTYES_METHODS + " ("
-          + KEY_TYPE + " text not null check (" + KEY_TYPE + " in (" + Account.Type.JOIN + ")), "
+          + KEY_TYPE + " text not null check (" + KEY_TYPE + " in (" + AccountType.JOIN + ")), "
           + KEY_METHODID + " integer references " + TABLE_METHODS + "(" + KEY_ROWID + "), "
           + "primary key (" + KEY_TYPE + "," + KEY_METHODID + "));";
 
@@ -288,21 +292,26 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
   @Override
   public void onOpen(SQLiteDatabase db) {
-    super.onOpen(db);
-    //since API 16 we could use onConfigure to enable foreign keys
-    //which is run before onUpgrade
-    //but this makes upgrades more difficult, since then you have to maintain the constraint in
-    //each step of a multi statement upgrade with table rename
-    //we stick to doing upgrades with foreign keys disabled which forces us
-    //to take care of ensuring consistency during upgrades
-    if (!db.isReadOnly()) {
-      db.execSQL("PRAGMA foreign_keys=ON;");
-    }
-    try {
-      db.delete(TABLE_TRANSACTIONS, KEY_STATUS + " = " + STATUS_UNCOMMITTED, null);
-    } catch (SQLiteConstraintException e) {
-      Utils.reportToAcraWithDbSchema(e);
-    }
+      super.onOpen(db);
+      //since API 16 we could use onConfigure to enable foreign keys
+      //which is run before onUpgrade
+      //but this makes upgrades more difficult, since then you have to maintain the constraint in
+      //each step of a multi statement upgrade with table rename
+      //we stick to doing upgrades with foreign keys disabled which forces us
+      //to take care of ensuring consistency during upgrades
+      if (!db.isReadOnly()) {
+          db.execSQL("PRAGMA foreign_keys=ON;");
+      }
+      try {
+        db.delete(TABLE_TRANSACTIONS, KEY_STATUS + " = " + STATUS_UNCOMMITTED, null);
+      } catch (SQLiteException e) {
+        AcraHelper.report(e,
+            DbUtils.getTableDetails(
+                db.query("sqlite_master",
+                    new String[]{"name","sql"},
+                    "type = 'table'",
+                    null, null, null, null)));
+      }
   }
 
   @Override
@@ -342,7 +351,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
   private void insertCurrencies(SQLiteDatabase db) {
     ContentValues initialValues = new ContentValues();
-    for (Account.CurrencyEnum currency : Account.CurrencyEnum.values()) {
+    for (CurrencyEnum currency : CurrencyEnum.values()) {
       initialValues.put(KEY_CODE, currency.name());
       db.insert(TABLE_CURRENCIES, null, initialValues);
     }
@@ -372,10 +381,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     initialValues.put(KEY_LABEL, mCtx.getString(R.string.default_account_name));
     initialValues.put(KEY_OPENING_BALANCE, 0);
     initialValues.put(KEY_DESCRIPTION, mCtx.getString(R.string.default_account_description));
-    Currency localCurrency = Account.getLocalCurrency();
+    Currency localCurrency = Utils.getLocalCurrency();
     initialValues.put(KEY_CURRENCY, localCurrency.getCurrencyCode());
-    initialValues.put(KEY_TYPE, Account.Type.CASH.name());
-    initialValues.put(KEY_GROUPING, Account.Grouping.NONE.name());
+    initialValues.put(KEY_TYPE, AccountType.CASH.name());
+    initialValues.put(KEY_GROUPING, Grouping.NONE.name());
     initialValues.put(KEY_COLOR, Account.DEFAULT_COLOR);
     db.insert(TABLE_ACCOUNTS, null, initialValues);
     Money.ensureFractionDigitsAreCached(localCurrency);
@@ -954,7 +963,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
               Environment.DIRECTORY_PICTURES);
         }
         if (!pictureDir.exists()) {
-          Utils.reportToAcra(new Exception("Unable to calculate pictureDir during upgrade"));
+          AcraHelper.report(new Exception("Unable to calculate pictureDir during upgrade"));
         }
         //if pictureDir does not exist, we use its URI nonetheless, in order to have the data around
         //for potential trouble handling

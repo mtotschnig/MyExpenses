@@ -18,6 +18,7 @@ package org.totschnig.myexpenses.dialog;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -40,10 +41,10 @@ import com.squareup.picasso.Picasso;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
-import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.SplitPartAdapter;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.Account.Type;
+import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Plan;
@@ -64,6 +65,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_MAIN
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 public class TransactionDetailFragment extends CommitSafeDialogFragment implements LoaderManager.LoaderCallbacks<Cursor>, OnClickListener {
+  public static final int SPLIT_PART_CURSOR = 3;
   Transaction mTransaction;
   SimpleCursorAdapter mAdapter;
   View mLayout;
@@ -79,7 +81,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
   @Override
   public void onAttach(Activity activity) {
     super.onAttach(activity);
-    ((MyExpenses) activity).startTaskExecution(
+    ((ProtectedFragmentActivity) activity).startTaskExecution(
         TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2,
         new Long[]{getArguments().getLong(KEY_ROWID)},
         null,
@@ -121,7 +123,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       return null;
     }
     switch (id) {
-      case MyExpenses.SPLIT_PART_CURSOR:
+      case SPLIT_PART_CURSOR:
         CursorLoader cursorLoader = new CursorLoader(getActivity(), TransactionProvider.TRANSACTIONS_URI, null, "parent_id = ?",
             new String[]{String.valueOf(mTransaction.getId())}, null);
         return cursorLoader;
@@ -133,7 +135,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
   public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
     int id = loader.getId();
     switch (id) {
-      case MyExpenses.SPLIT_PART_CURSOR:
+      case SPLIT_PART_CURSOR:
         mAdapter.swapCursor(cursor);
     }
   }
@@ -145,7 +147,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
 
   @Override
   public void onClick(DialogInterface dialog, int which) {
-    MyExpenses ctx = (MyExpenses) getActivity();
+    Activity ctx = getActivity();
     if (ctx == null || mTransaction == null) {
       return;
     }
@@ -158,7 +160,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
         Intent i = new Intent(ctx, ExpenseEdit.class);
         i.putExtra(KEY_ROWID, mTransaction.getId());
         //i.putExtra("operationType", operationType);
-        ctx.startActivityForResult(i, MyExpenses.EDIT_TRANSACTION_REQUEST);
+        ctx.startActivityForResult(i, ProtectedFragmentActivity.EDIT_TRANSACTION_REQUEST);
         break;
       case AlertDialog.BUTTON_NEUTRAL:
         startActivity(Transaction.getViewIntent(mTransaction.getPictureUri()));
@@ -169,7 +171,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
   }
 
   public void fillData(Transaction o) {
-    final MyExpenses ctx = (MyExpenses) getActivity();
+    final FragmentActivity ctx = getActivity();
     mLayout.findViewById(R.id.progress).setVisibility(View.GONE);
     mTransaction = o;
     if (mTransaction == null) {
@@ -226,12 +228,12 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       lv.setAdapter(mAdapter);
       lv.setEmptyView(emptyView);
 
-      LoaderManager manager = ctx.getSupportLoaderManager();
-      if (manager.getLoader(MyExpenses.SPLIT_PART_CURSOR) != null &&
-          !manager.getLoader(MyExpenses.SPLIT_PART_CURSOR).isReset()) {
-        manager.restartLoader(MyExpenses.SPLIT_PART_CURSOR, null, this);
+      LoaderManager manager = getLoaderManager();
+      if (manager.getLoader(SPLIT_PART_CURSOR) != null &&
+          !manager.getLoader(SPLIT_PART_CURSOR).isReset()) {
+        manager.restartLoader(SPLIT_PART_CURSOR, null, this);
       } else {
-        manager.initLoader(MyExpenses.SPLIT_PART_CURSOR, null, this);
+        manager.initLoader(SPLIT_PART_CURSOR, null, this);
       }
 
     } else {
@@ -300,7 +302,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       mLayout.findViewById(R.id.MethodRow).setVisibility(View.GONE);
     }
 
-    if (Account.getInstanceFromDb(mTransaction.accountId).type.equals(Type.CASH)) {
+    if (Account.getInstanceFromDb(mTransaction.accountId).type.equals(AccountType.CASH)) {
       mLayout.findViewById(R.id.StatusRow).setVisibility(View.GONE);
     } else {
       TextView tv = (TextView) mLayout.findViewById(R.id.Status);

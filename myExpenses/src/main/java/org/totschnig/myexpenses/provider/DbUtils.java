@@ -16,7 +16,9 @@
 package org.totschnig.myexpenses.provider;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.Account;
@@ -26,6 +28,7 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
 import org.totschnig.myexpenses.service.PlanExecutor;
+import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -67,7 +70,7 @@ public class DbUtils {
           if (!sharedPrefFile.exists()) {
             final String message = "Unable to find shared preference file at " +
                 sharedPrefFile.getPath();
-            Utils.reportToAcra(new Exception(message));
+            AcraHelper.report(new Exception(message));
             return new Result(false,message);
           }
         }
@@ -123,7 +126,7 @@ public class DbUtils {
         client.release();
       }
     } catch (Exception e) {
-      Utils.reportToAcra(e);
+      AcraHelper.report(e);
     }
     app.initPlanner();
     DailyAutoBackupScheduler.updateAutoBackupAlarms(app);
@@ -200,27 +203,26 @@ public class DbUtils {
     return String.format(Locale.US, getCountFromWeekStartZero() + " AS " + KEY_WEEK_END,year,week*7+6);
   }
 
-  public static String[][] getTableDetails() {
+  public static Map<String, String> getSchemaDetails() {
     Cursor c = MyApplication.getInstance().getContentResolver()
         .query(TransactionProvider.DEBUG_SCHEMA_URI, null,null,null,null);
     return getTableDetails(c);
   }
+
   /**
    * @param c
    * @return
    */
-  public static String[][] getTableDetails(Cursor c) {
+  public static Map<String, String> getTableDetails(Cursor c) {
+    HashMap<String, String> data = new HashMap<>();
     if (c == null) {
-      return null;
+      return data;
     }
-    String[][] result = new String[c.getCount()][2];
     for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
-      int pos = c.getPosition();
-      result[pos][0] = c.getString(0);
-      result[pos][1] = c.getString(1);
+      data.put(c.getString(0), c.getString(1));
     }
     c.close();
-    return result;
+    return data;
   }
 
   private static void cacheEventData() {

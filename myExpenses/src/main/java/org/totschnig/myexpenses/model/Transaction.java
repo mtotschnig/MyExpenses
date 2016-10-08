@@ -297,10 +297,7 @@ public class Transaction extends Model {
    * if parentId == 0L, otherwise {@link SplitPartCategory} or {@link SplitPartTransfer}
    */
   public static Transaction getNewInstance(long accountId) {
-    Account account = Account.getInstanceFromDb(accountId);
-    if (account == null) {
-      account = Account.getInstanceFromDb(0L);
-    }
+    Account account = Account.getInstanceFromDbWithFallback(accountId);
     if (account == null) {
       return null;
     }

@@ -53,8 +53,9 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.activity.ProtectionDelegate;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
-import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -403,21 +404,21 @@ public class DialogUtils {
   public static Spinner configureCurrencySpinner(
       View view, Context context, AdapterView.OnItemSelectedListener listener) {
     Spinner spinner = (Spinner) view.findViewById(R.id.Currency);
-    ArrayAdapter<Account.CurrencyEnum> curAdapter = new ArrayAdapter<>(
+    ArrayAdapter<CurrencyEnum> curAdapter = new ArrayAdapter<>(
             context, android.R.layout.simple_spinner_item, android.R.id.text1,
-            Account.CurrencyEnum.sortedValues());
+            CurrencyEnum.sortedValues());
     curAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     spinner.setAdapter(curAdapter);
     spinner.setOnItemSelectedListener(listener);
-    spinner.setSelection(curAdapter.getPosition(Account.CurrencyEnum.valueOf(
-        Account.getLocalCurrency().getCurrencyCode())));
+    spinner.setSelection(curAdapter.getPosition(CurrencyEnum.valueOf(
+        Utils.getLocalCurrency().getCurrencyCode())));
     return spinner;
   }
 
   public static Spinner configureTypeSpinner(View view, Context context) {
     Spinner spinner = (Spinner) view.findViewById(R.id.AccountType);
-    ArrayAdapter<Account.Type> typAdapter = new ArrayAdapter<>(
-            context, android.R.layout.simple_spinner_item, android.R.id.text1, Account.Type.values());
+    ArrayAdapter<AccountType> typAdapter = new ArrayAdapter<>(
+            context, android.R.layout.simple_spinner_item, android.R.id.text1, AccountType.values());
     typAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     spinner.setAdapter(typAdapter);
     return spinner;

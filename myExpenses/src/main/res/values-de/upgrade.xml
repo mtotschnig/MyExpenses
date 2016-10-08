@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_271">
+    <item>Probleme mit Plänen auf Samsung-Geräten behoben</item>
+    <item>Buchungen können von der Verteilungsansicht aus bearbeitet werden.</item>
+  </string-array>
   <string-array name="whats_new_270">
     <item>Neues Start-Symbol</item>
     <item>Suche nach Umbuchung</item>

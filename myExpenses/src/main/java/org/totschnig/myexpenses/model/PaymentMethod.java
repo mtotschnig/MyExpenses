@@ -22,7 +22,6 @@ import java.util.HashMap;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.model.Account.Type;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 
@@ -55,7 +54,7 @@ public class PaymentMethod extends Model {
   /**
    * array of account types for which this payment method is applicable
    */
-  private ArrayList<Account.Type> accountTypes = new ArrayList<>();
+  private ArrayList<AccountType> accountTypes = new ArrayList<>();
   
   public enum PreDefined {
     CHEQUE(-1,true,R.string.pm_cheque),
@@ -126,7 +125,7 @@ public class PaymentMethod extends Model {
     if(c.moveToFirst()) {
       for (int i = 0; i < c.getCount(); i++){
         try {
-          method.addAccountType(Account.Type.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_TYPE))));
+          method.addAccountType(AccountType.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_TYPE))));
         } catch (IllegalArgumentException ex) { 
           Log.w("MyExpenses","Found unknown account type in database");
         }
@@ -157,15 +156,15 @@ public class PaymentMethod extends Model {
   public void setPaymentType(int paymentType) {
     this.paymentType = paymentType;
   }
-  public void addAccountType(Account.Type accountType) {
+  public void addAccountType(AccountType accountType) {
     if (!accountTypes.contains(accountType))
       accountTypes.add(accountType);
   }
-  public void removeAccountType(Account.Type accountType) {
+  public void removeAccountType(AccountType accountType) {
     if (accountTypes.contains(accountType))
       accountTypes.remove(accountType);
   }
-  public boolean isValidForAccountType(Account.Type accountType) {
+  public boolean isValidForAccountType(AccountType accountType) {
     return accountTypes.contains(accountType);
   }
   
@@ -202,7 +201,7 @@ public class PaymentMethod extends Model {
     cr().delete(TransactionProvider.ACCOUNTTYPES_METHODS_URI, KEY_METHODID + " = ?", new String[]{String.valueOf(getId())});
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_METHODID, getId());
-    for (Account.Type accountType : accountTypes) {
+    for (AccountType accountType : accountTypes) {
       initialValues.put(KEY_TYPE,accountType.name());
       cr().insert(TransactionProvider.ACCOUNTTYPES_METHODS_URI, initialValues);
     }
@@ -232,7 +231,7 @@ public class PaymentMethod extends Model {
       return result;
     }
   }
-  public static int countPerType(Type type) {
+  public static int countPerType(AccountType type) {
     return count("type = ?", new String[] {type.name()});
   }
   /**

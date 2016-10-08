@@ -36,8 +36,8 @@ import org.totschnig.myexpenses.dialog.SelectPayerDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectTransferAccountDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.Account.Type;
-import org.totschnig.myexpenses.model.Account.Grouping;
+import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
@@ -49,6 +49,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.*;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
+import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -143,7 +144,7 @@ public class TransactionList extends ContextualActionBarFragment implements
   boolean indexesCalculated = false, indexesGroupingCalculated = false;
   //the following values are cached from the account object, so that we can react to changes in the observer
   private Grouping mGrouping;
-  private Type mType;
+  private AccountType mType;
   private String mCurrency;
   private Long mOpeningBalance;
 
@@ -258,7 +259,7 @@ public class TransactionList extends ContextualActionBarFragment implements
         FragmentManager fm = ctx.getSupportFragmentManager();
         DialogFragment f = (DialogFragment) fm.findFragmentByTag(TransactionDetailFragment.class.getName());
         if (f == null) {
-          FragmentTransaction ft = getFragmentManager().beginTransaction();
+          FragmentTransaction ft = fm.beginTransaction();
           TransactionDetailFragment.newInstance(id).show(ft, TransactionDetailFragment.class.getName());
         }
       }
@@ -670,7 +671,7 @@ public class TransactionList extends ContextualActionBarFragment implements
 
     @Override
     public long getHeaderId(int position) {
-      if (mAccount.grouping.equals(Account.Grouping.NONE))
+      if (mAccount.grouping.equals(Grouping.NONE))
         return 1;
       Cursor c = getCursor();
       c.moveToPosition(position);
@@ -863,7 +864,7 @@ public class TransactionList extends ContextualActionBarFragment implements
         if (searchMenuIcon != null) {
           searchMenuIcon.setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
         } else {
-          Utils.reportToAcra(new Exception("Search menu icon not found"));
+          AcraHelper.report(new Exception("Search menu icon not found"));
         }
         searchMenu.setChecked(true);
         title = mAccount.label + " ( " + mFilter.prettyPrint() + " )";
@@ -871,7 +872,7 @@ public class TransactionList extends ContextualActionBarFragment implements
         if (searchMenuIcon != null) {
           searchMenuIcon.setColorFilter(null);
         } else {
-          Utils.reportToAcra(new Exception("Search menu icon not found"));
+          AcraHelper.report(new Exception("Search menu icon not found"));
         }
         searchMenu.setChecked(false);
         title = mAccount.label;
@@ -886,7 +887,7 @@ public class TransactionList extends ContextualActionBarFragment implements
             enabled = mappedCategories;
             break;
           case R.id.FILTER_STATUS_COMMAND:
-            enabled = !mAccount.type.equals(Type.CASH);
+            enabled = !mAccount.type.equals(AccountType.CASH);
             break;
           case R.id.FILTER_PAYEE_COMMAND:
             enabled = mappedPayees;
@@ -906,7 +907,7 @@ public class TransactionList extends ContextualActionBarFragment implements
         }
       }
     } else {
-      Utils.reportToAcra(new Exception("Search menu not found"));
+      AcraHelper.report(new Exception("Search menu not found"));
     }
   }
 

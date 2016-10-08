@@ -50,11 +50,8 @@ public class SplitTransaction extends Transaction {
    * @param forEdit if true transaction is immediately persisted to DB in uncommited state
    * @return new SplitTransactionw with Account set to accountId
    */
-  public static SplitTransaction getNewInstance(long accountId,boolean forEdit) {
-    Account account = Account.getInstanceFromDb(accountId);
-    if (account == null) {
-      account = Account.getInstanceFromDb(0L);
-    }
+  public static SplitTransaction getNewInstance(long accountId, boolean forEdit) {
+    Account account = Account.getInstanceFromDbWithFallback(accountId);
     if (account == null) {
       return null;
     }

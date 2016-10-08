@@ -91,7 +91,7 @@ import org.totschnig.myexpenses.fragment.PlanMonthFragment;
 import org.totschnig.myexpenses.fragment.SplitPartList;
 import org.totschnig.myexpenses.fragment.TemplatesList;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.Account.Type;
+import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Money;
@@ -111,6 +111,7 @@ import org.totschnig.myexpenses.ui.AmountEditText;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter.CursorToStringConverter;
 import org.totschnig.myexpenses.ui.SpinnerHelper;
+import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.FilterCursorWrapper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
@@ -507,7 +508,7 @@ public class ExpenseEdit extends AmountActivity implements
       }
       if (mTransaction == null) {
         String errMsg = "Error instantiating transaction for account " + accountId;
-        Utils.reportToAcra(new IllegalStateException(errMsg),
+        AcraHelper.report(new IllegalStateException(errMsg),
             "Extras", getIntent().getExtras().toString());
         Toast.makeText(this, errMsg, Toast.LENGTH_SHORT).show();
         finish();
@@ -1035,7 +1036,7 @@ public class ExpenseEdit extends AmountActivity implements
       case 1:
         mType = INCOME;
     }
-    if (signum != 0) {
+    if (!mNewInstance) {
       mAmountText.setAmount(amount);
     }
     mAmountText.requestFocus();
@@ -1255,7 +1256,7 @@ public class ExpenseEdit extends AmountActivity implements
       } else {
         errorMsg = "Error while retrieving image: No data found.";
       }
-      Utils.reportToAcra(new Exception(errorMsg));
+      AcraHelper.report(new Exception(errorMsg));
       Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show();
     }
   }
@@ -1340,7 +1341,7 @@ public class ExpenseEdit extends AmountActivity implements
           new Long[]{mPlan.getId()}, null, 0);
     } else {
       //seen in report 96a04ce6a647555356751634fee9fc73, need to investigate how this can happen
-      Utils.reportToAcra(new Exception("Received onChange on ContentOberver for plan, but mPlan is null"));
+      AcraHelper.report(new Exception("Received onChange on ContentOberver for plan, but mPlan is null"));
     }
   }
 
@@ -1350,7 +1351,7 @@ public class ExpenseEdit extends AmountActivity implements
         mTransaction instanceof SplitPartCategory ||
         mTransaction instanceof SplitPartTransfer ||
         a == null ||
-        a.type.equals(Type.CASH)) ? View.GONE : View.VISIBLE);
+        a.type.equals(AccountType.CASH)) ? View.GONE : View.VISIBLE);
   }
 
   /**

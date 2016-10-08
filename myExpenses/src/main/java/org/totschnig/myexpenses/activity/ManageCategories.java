@@ -41,7 +41,7 @@ import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectMainCategoryDialogFragment;
 import org.totschnig.myexpenses.fragment.CategoryList;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
-import org.totschnig.myexpenses.model.Account.Grouping;
+import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.preference.PrefKey;

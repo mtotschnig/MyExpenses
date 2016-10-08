@@ -16,6 +16,9 @@
 package org.totschnig.myexpenses.dialog;
 
 
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.database.Cursor;
@@ -23,15 +26,18 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.TransactionAdapter;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.Account.Grouping;
+import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
+import org.totschnig.myexpenses.util.Utils;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
@@ -50,13 +56,16 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORI
 public class TransactionListDialogFragment extends CommitSafeDialogFragment implements LoaderManager.LoaderCallbacks<Cursor> {
   private static final String KEY_IS_MAIN = "is_main";
   private static final String KEY_GROUPING_CLAUSE = "grouping_clause";
+  public static final int TRANSACTION_CURSOR = 1;
+  public static final int SUM_CURSOR = 2;
+  private static final String TABS = "\u0009\u0009\u0009\u0009";
   Account mAccount;
   SimpleCursorAdapter mAdapter;
   ListView mListView;
   boolean isMain;
   
   public static final TransactionListDialogFragment newInstance(
-      Long account_id,long cat_id, boolean isMain, Grouping grouping,String groupingClause,String label) {
+      Long account_id, long cat_id, boolean isMain, Grouping grouping, String groupingClause, String label) {
     TransactionListDialogFragment dialogFragment = new TransactionListDialogFragment();
     Bundle bundle = new Bundle();
     bundle.putLong(KEY_ACCOUNTID, account_id);
@@ -102,7 +111,19 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
           }
       };
     mListView.setAdapter(mAdapter);
-    getLoaderManager().initLoader(0, null, this);
+    getLoaderManager().initLoader(TRANSACTION_CURSOR, null, this);
+    getLoaderManager().initLoader(SUM_CURSOR, null, this);
+    mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+      @Override
+      public void onItemClick(AdapterView<?> a, View v, int position, long id) {
+        FragmentManager fm = getFragmentManager();
+        DialogFragment f = (DialogFragment) fm.findFragmentByTag(TransactionDetailFragment.class.getName());
+        if (f == null) {
+          FragmentTransaction ft = fm.beginTransaction();
+          TransactionDetailFragment.newInstance(id).show(ft, TransactionDetailFragment.class.getName());
+        }
+      }
+    });
     //TODO pretify layout
 //    View titleView = LayoutInflater.from(getActivity()).inflate(R.layout.transaction_list_dialog_title, null);
 //    ((TextView) titleView.findViewById(R.id.label)).setText(getArguments().getString(KEY_LABEL));
@@ -136,17 +157,39 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
     if (groupingClause!= null) {
       selection += " AND " + groupingClause;
     }
-    return new CursorLoader(getActivity(),
-        Transaction.EXTENDED_URI, null, selection,
-        selectionArgs, null);
+    switch (id) {
+      case TRANSACTION_CURSOR:
+        return new CursorLoader(getActivity(),
+            Transaction.EXTENDED_URI, null, selection,
+            selectionArgs, null);
+      case SUM_CURSOR:
+        return new CursorLoader(getActivity(),
+            Transaction.EXTENDED_URI, new String[] {"sum(" + KEY_AMOUNT + ")"}, selection,
+            selectionArgs, null);
+    }
+    return null;
   }
 
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-    mAdapter.swapCursor(cursor);
+    switch (loader.getId()) {
+      case TRANSACTION_CURSOR:
+        mAdapter.swapCursor(cursor);
+        break;
+      case SUM_CURSOR:
+        cursor.moveToFirst();
+        String title = getArguments().getString(KEY_LABEL) + TABS + Utils.convAmount(
+            cursor.getString(0),
+            mAccount.currency);
+        getDialog().setTitle(title);
+    }
   }
   @Override
   public void onLoaderReset(Loader<Cursor> loader) {
-    mAdapter.swapCursor(null);
+    switch (loader.getId()) {
+      case TRANSACTION_CURSOR:
+        mAdapter.swapCursor(null);
+        break;
+    }
   }
 }

@@ -66,11 +66,11 @@ public class Transfer extends Transaction {
    * @return
    */
   public static Transfer getNewInstance(long accountId, Long transferAccountId) {
-    Account account = Account.getInstanceFromDb(accountId);
+    Account account = Account.getInstanceFromDbWithFallback(accountId);
     if (account == null) {
       return null;
     }
-    Account transferAccount = Account.getInstanceFromDb(transferAccountId);
+    Account transferAccount = Account.getInstanceFromDbWithFallback(transferAccountId);
     if (transferAccount == null) {
       return null;
     }

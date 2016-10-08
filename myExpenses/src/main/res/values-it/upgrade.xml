@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_271">
+    <item>Risolti i problemi con i programmi su dispositivi Samsung</item>
+    <item>Modifica transazioni dalla schermata di distribuzione</item>
+  </string-array>
   <string-array name="whats_new_270">
     <item>Nuova icona di avvio</item>
     <item>Ricerca per i trasferimenti</item>

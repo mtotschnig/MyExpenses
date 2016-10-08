@@ -25,6 +25,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.ZipUtils;
@@ -101,6 +102,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
               fileUri);
         }
       } catch (FileNotFoundException | SecurityException e) {
+        AcraHelper.report(e);
         return new Result(
             false,
             R.string.restore_backup_archive_not_valid,
@@ -149,14 +151,14 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
     File sharedPrefsDir = new File(internalAppDir.getPath() + "/shared_prefs/");
     sharedPrefsDir.mkdir();
     if (!sharedPrefsDir.isDirectory()) {
-      Utils.reportToAcra(
+      AcraHelper.report(
           new Exception(String.format(Locale.US,"Could not access shared preferences directory at %s",
               sharedPrefsDir.getAbsolutePath())));
       return new Result(false,R.string.restore_preferences_failure);
     }
     File tempPrefFile = new File(sharedPrefsDir,"backup_temp.xml");
     if (!Utils.copy(backupPrefFile,tempPrefFile)) {
-      Utils.reportToAcra(
+      AcraHelper.report(
           new Exception("Preferences restore failed"),
           "FAILED_COPY_OPERATION",
           String.format("%s => %s",

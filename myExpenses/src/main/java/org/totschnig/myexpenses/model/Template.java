@@ -169,7 +169,7 @@ public class Template extends Transaction {
       throw new UnsupportedOperationException(
           "Templates for Split transactions are not yet implemented");
     }
-    Account account = Account.getInstanceFromDb(accountId);
+    Account account = Account.getInstanceFromDbWithFallback(accountId);
     if (account == null) {
       return null;
     }

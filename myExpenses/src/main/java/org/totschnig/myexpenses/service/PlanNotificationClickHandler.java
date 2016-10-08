@@ -52,7 +52,7 @@ public class PlanNotificationClickHandler extends IntentService {
           message = getString(R.string.save_transaction_error);
         else {
           message = getResources().getQuantityString(
-            R.plurals.save_transaction_from_template_success,1);
+            R.plurals.save_transaction_from_template_success, 1, 1);
           Intent displayIntent = new Intent(this, MyExpenses.class)
           .putExtra(DatabaseConstants.KEY_ROWID, t.accountId)
           .putExtra(DatabaseConstants.KEY_TRANSACTIONID, t.getId());

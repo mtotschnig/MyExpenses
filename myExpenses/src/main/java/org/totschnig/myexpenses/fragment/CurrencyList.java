@@ -11,13 +11,13 @@ import android.widget.*;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
-import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 
 public class CurrencyList extends ListFragment {
 
-  private Account.CurrencyEnum[] sortedValues;
+  private CurrencyEnum[] sortedValues;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -26,18 +26,18 @@ public class CurrencyList extends ListFragment {
   @Override
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
-    sortedValues = Account.CurrencyEnum.sortedValues();
+    sortedValues = CurrencyEnum.sortedValues();
     setAdapter();
   }
 
   private void setAdapter() {
-    ArrayAdapter<Account.CurrencyEnum> curAdapter = new ArrayAdapter<Account.CurrencyEnum>(
+    ArrayAdapter<CurrencyEnum> curAdapter = new ArrayAdapter<CurrencyEnum>(
         getActivity(), android.R.layout.simple_list_item_1, sortedValues) {
       @Override
       public View getView(int position, View convertView, ViewGroup parent) {
         String text;
         TextView v = (TextView) super.getView(position, convertView, parent);
-        Account.CurrencyEnum item = sortedValues[position];
+        CurrencyEnum item = sortedValues[position];
         try {
           Currency c = Currency.getInstance(item.name());
           text = String.valueOf(Money.getFractionDigits(c));
@@ -56,7 +56,7 @@ public class CurrencyList extends ListFragment {
   @Override
   public void onListItemClick(ListView l, View v, int position, long id) {
     super.onListItemClick(l, v, position, id);
-    Account.CurrencyEnum item = sortedValues[position];
+    CurrencyEnum item = sortedValues[position];
     try {
       Currency c = Currency.getInstance(item.name());
       Bundle args = new Bundle();

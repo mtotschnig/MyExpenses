@@ -43,6 +43,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.provider.DocumentFile;
 import android.support.v7.widget.AppCompatDrawableManager;
+import android.telephony.TelephonyManager;
 import android.text.Html;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -59,19 +60,17 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import org.acra.ACRA;
-import org.acra.ErrorReporter;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
-import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.CurrencyEnum;
+import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.task.GrisbiImportTask;
@@ -123,7 +122,35 @@ public class Utils {
 
   public static final boolean IS_FLAVOURED = !TextUtils.isEmpty(BuildConfig.FLAVOR);
   public static final boolean IS_ANDROID = BuildConfig.PLATTFORM.equals("Android");
-  
+
+  public static Currency getLocalCurrency() {
+    Currency result = null;
+    TelephonyManager telephonyManager = (TelephonyManager) MyApplication.getInstance()
+        .getSystemService(Context.TELEPHONY_SERVICE);
+    if (telephonyManager != null) {
+      try {
+        String userCountry = telephonyManager.getNetworkCountryIso();
+        if (TextUtils.isEmpty(userCountry)) {
+          userCountry = telephonyManager.getSimCountryIso();
+        }
+        if (!TextUtils.isEmpty(userCountry)) {
+          result = getSaveInstance(Currency.getInstance(new Locale("", userCountry)));
+        }
+      } catch (Exception e) {
+        //fall back to currency from locale
+      }
+    }
+    if (result == null) {
+      try {
+        //makeSure we know about the currency
+        result = getSaveInstance(Currency.getInstance(Locale.getDefault()));
+      } catch (IllegalArgumentException e) {
+        result = Currency.getInstance("EUR");
+      }
+    }
+    return result;
+  }
+
   public enum Feature {
     ;
     public boolean isEnabled() {
@@ -402,7 +429,7 @@ public class Utils {
 
   public static Currency getSaveInstance(Currency currency) {
     try {
-      Account.CurrencyEnum.valueOf(currency.getCurrencyCode());
+      CurrencyEnum.valueOf(currency.getCurrencyCode());
       return currency;
     } catch (IllegalArgumentException e) {
       return Currency.getInstance("EUR");
@@ -439,7 +466,10 @@ public class Utils {
       } else {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
           //this will return null, if called on a pre-Lolipop device
-          return DocumentFile.fromTreeUri(MyApplication.getInstance(), pref);
+          DocumentFile documentFile = DocumentFile.fromTreeUri(MyApplication.getInstance(), pref);
+          if (dirExistsAndIsWritable(documentFile)) {
+            return documentFile;
+          }
         }
       }
     }
@@ -448,7 +478,7 @@ public class Utils {
       return DocumentFile.fromFile(externalFilesDir);
     } else {
       String permission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
-      Utils.reportToAcra(new Exception("getExternalFilesDir returned null; " + permission + " : " +
+      AcraHelper.report(new Exception("getExternalFilesDir returned null; " + permission + " : " +
           ContextCompat.checkSelfPermission(MyApplication.getInstance(),permission)));
       return null;
     }
@@ -491,12 +521,12 @@ public class Utils {
         try {
           result = parentDir.createFile(mimeType, name);
           if (result == null) {
-            Utils.reportToAcra(new Exception(String.format(
+            AcraHelper.report(new Exception(String.format(
                 "createFile returned null: mimeType %s; name %s; parent %s",
                 mimeType,name,parentDir.getUri().toString())));
           }
         } catch (SecurityException e) {
-          Utils.reportToAcra(new Exception(String.format(
+          AcraHelper.report(new Exception(String.format(
               "createFile threw SecurityException: mimeType %s; name %s; parent %s",
               mimeType, name, parentDir.getUri().toString())));
         }
@@ -858,7 +888,7 @@ public class Utils {
   @VisibleForTesting
   public static CharSequence getContribFeatureLabelsAsFormattedList(
       Context ctx, ContribFeature other) {
-    return getContribFeatureLabelsAsFormattedList(ctx,other, LicenceHandlerIFace.LicenceStatus.CONTRIB);
+    return getContribFeatureLabelsAsFormattedList(ctx,other, LicenceHandler.LicenceStatus.CONTRIB);
   }
   /**
    * @param ctx
@@ -870,7 +900,7 @@ public class Utils {
    *         TextView
    */
   public static CharSequence getContribFeatureLabelsAsFormattedList(
-      Context ctx, ContribFeature other, LicenceHandlerIFace.LicenceStatus type) {
+      Context ctx, ContribFeature other, LicenceHandler.LicenceStatus type) {
     CharSequence result = "", linefeed = Html.fromHtml("<br>");
     Iterator<ContribFeature> iterator = EnumSet.allOf(ContribFeature.class)
         .iterator();
@@ -879,8 +909,8 @@ public class Utils {
       if (!f.equals(other) &&
           (!f.equals(ContribFeature.AD_FREE) || IS_FLAVOURED)) {
         if (type !=null &&
-            ((f.isExtended() && !type.equals(LicenceHandlerIFace.LicenceStatus.EXTENDED)) ||
-            (!f.isExtended() && type.equals(LicenceHandlerIFace.LicenceStatus.EXTENDED)))) {
+            ((f.isExtended() && !type.equals(LicenceHandler.LicenceStatus.EXTENDED)) ||
+            (!f.isExtended() && type.equals(LicenceHandler.LicenceStatus.EXTENDED)))) {
           continue;
         }
         String resName = "contrib_feature_" + f.toString() + "_label";
@@ -888,7 +918,7 @@ public class Utils {
             resName, "string",
             ctx.getPackageName());
         if (resId==0) {
-          reportToAcra(new Resources.NotFoundException(resName));
+          AcraHelper.report(new Resources.NotFoundException(resName));
           continue;
         }
         if (!result.equals("")) {
@@ -1064,41 +1094,6 @@ public class Utils {
     return total;
   }
 
-  public static void reportToAcraWithDbSchema(Exception e) {
-    if (IS_FLAVOURED) {
-      ErrorReporter errorReporter = ACRA.getErrorReporter();
-      String[][] schema = DbUtils.getTableDetails();
-      for (String[] tableInfo : schema) {
-        errorReporter.putCustomData(tableInfo[0], tableInfo[1]);
-      }
-      errorReporter.handleSilentException(e);
-      for (String[] tableInfo : schema) {
-        errorReporter.removeCustomData(tableInfo[0]);
-      }
-    } else {
-      Log.e(MyApplication.TAG, "Report", e);
-    }
-  }
-
-  public static void reportToAcra(Exception e, String key,String data) {
-    if (IS_FLAVOURED) {
-      ErrorReporter errorReporter = ACRA.getErrorReporter();
-      errorReporter.putCustomData(key, data);
-      errorReporter.handleSilentException(e);
-      errorReporter.removeCustomData(key);
-    } else {
-      Log.e(MyApplication.TAG, key + ": " + data);
-      reportToAcra(e);
-    }
-  }
-
-  public static void reportToAcra(Exception e) {
-    if (IS_FLAVOURED) {
-      ACRA.getErrorReporter().handleSilentException(e);
-    } else {
-      Log.e(MyApplication.TAG, "Report", e);
-    }
-  }
 
   public static String concatResStrings(Context ctx, String separator, Integer... resIds) {
     String result = "";
@@ -1393,6 +1388,7 @@ public class Utils {
         break;
       case ProtectedFragmentActivity.SORT_ORDER_CUSTOM:
         activeItem = sortMenu.findItem(R.id.SORT_CUSTOM_COMMAND);
+        break;
       case ProtectedFragmentActivity.SORT_ORDER_NEXT_INSTANCE:
         activeItem = sortMenu.findItem(R.id.SORT_NEXT_INSTANCE_COMMAND);
         break;
@@ -1419,7 +1415,7 @@ public class Utils {
     return null;
   }
 
-  public static void configureGroupingMenu(SubMenu groupingMenu, Account.Grouping currentGrouping) {
+  public static void configureGroupingMenu(SubMenu groupingMenu, Grouping currentGrouping) {
     MenuItem activeItem;
     switch (currentGrouping) {
       case DAY:
@@ -1441,18 +1437,18 @@ public class Utils {
     activeItem.setChecked(true);
   }
 
-  public static Account.Grouping getGroupingFromMenuItemId(int id) {
+  public static Grouping getGroupingFromMenuItemId(int id) {
     switch (id) {
       case R.id.GROUPING_NONE_COMMAND:
-        return Account.Grouping.NONE;
+        return Grouping.NONE;
       case R.id.GROUPING_DAY_COMMAND:
-        return Account.Grouping.DAY;
+        return Grouping.DAY;
       case R.id.GROUPING_WEEK_COMMAND:
-        return Account.Grouping.WEEK;
+        return Grouping.WEEK;
       case R.id.GROUPING_MONTH_COMMAND:
-        return Account.Grouping.MONTH;
+        return Grouping.MONTH;
       case R.id.GROUPING_YEAR_COMMAND:
-        return Account.Grouping.YEAR;
+        return Grouping.YEAR;
     }
     return null;
   }

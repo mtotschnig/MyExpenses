@@ -4,12 +4,9 @@
 
 package org.totschnig.myexpenses.export.qif;
 
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Money;
-
-import android.text.TextUtils;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -46,7 +43,7 @@ public class QifAccount {
         Account a = new Account();
         a.currency = currency;
         a.label = memo;
-        a.type = Account.Type.fromQifName(type);
+        a.type = AccountType.fromQifName(type);
         a.description = desc;
         if (openinBalance != null) {
             a.openingBalance = new Money(currency,openinBalance);

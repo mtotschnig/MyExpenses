@@ -9,8 +9,8 @@ import org.acra.config.ACRAConfigurationException;
 import org.acra.config.ConfigurationBuilder;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.util.HashLicenceHandler;
 import org.totschnig.myexpenses.util.LicenceHandler;
-import org.totschnig.myexpenses.util.LicenceHandlerIFace;
 
 import javax.inject.Singleton;
 
@@ -27,14 +27,15 @@ public class AppModule {
 
   @Provides
   @Singleton
-  LicenceHandlerIFace providesLicenceHandler() {
-    return MyApplication.isInstrumentationTest() ? new FakeLicenceHandler()  :new LicenceHandler();
+  LicenceHandler providesLicenceHandler() {
+    return new HashLicenceHandler();
   }
 
   @Provides
   @Singleton
   @Nullable
   ACRAConfiguration providesAcraConfiguration() {
+    if (MyApplication.isInstrumentationTest()) return null;
     try {
       return new ConfigurationBuilder(application)
           .setReportingInteractionMode(ReportingInteractionMode.DIALOG)

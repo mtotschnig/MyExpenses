@@ -21,8 +21,8 @@ import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.Account.Grouping;
-import org.totschnig.myexpenses.model.Account.Type;
+import org.totschnig.myexpenses.model.Grouping;
+import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -192,7 +192,7 @@ public class TransactionAdapter extends SimpleCursorAdapter {
       status = CrStatus.UNRECONCILED;
     }
     
-    if (!mAccount.type.equals(Type.CASH) && !status.equals(CrStatus.VOID)) {
+    if (!mAccount.type.equals(AccountType.CASH) && !status.equals(CrStatus.VOID)) {
       viewHolder.color1.setBackgroundColor(status.color);
       viewHolder.colorContainer.setTag(status == CrStatus.RECONCILED ? -1 : getItemId(position));
       viewHolder.colorContainer.setVisibility(View.VISIBLE);

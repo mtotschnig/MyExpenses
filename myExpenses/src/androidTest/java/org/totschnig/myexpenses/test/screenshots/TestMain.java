@@ -1,22 +1,21 @@
 package org.totschnig.myexpenses.test.screenshots;
 
-import java.util.Currency;
-import java.util.Locale;
-
-import junit.framework.Assert;
-
 import android.content.Context;
 import android.content.res.Configuration;
-import android.provider.Settings.Secure;
 import android.test.ActivityInstrumentationTestCase2;
+
+import junit.framework.Assert;
 
 import org.junit.Ignore;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.CommonCommands;
+import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.test.util.Fixture;
-import org.totschnig.myexpenses.activity.MyExpenses;
+
+import java.util.Currency;
+import java.util.Locale;
 
 /**
  * These tests are meant to be run with script/testLangs.sh
@@ -149,17 +148,13 @@ public class TestMain extends ActivityInstrumentationTestCase2<MyExpenses> {
 	      app.getResources().getDisplayMetrics());
     instCtx.getResources().updateConfiguration(config,  
         instCtx.getResources().getDisplayMetrics());
-    //set language and contrib key as preference,
-    String s = Secure.getString(MyApplication.getInstance().getContentResolver(),Secure.ANDROID_ID) + 
-        MyApplication.CONTRIB_SECRET;
-    Long l = (s.hashCode() & 0x00000000ffffffffL);
     android.content.SharedPreferences pref = app.getSettings();
     if (pref==null)
       Assert.fail("Could not find prefs");
     SharedPreferencesCompat.apply(pref.edit()
-        .putString(PrefKey.UI_LANGUAGE.getKey(), lang + "-"+country)
-        .putString(PrefKey.ENTER_LICENCE.getKey(), l.toString())
-    );
+        .putString(PrefKey.UI_LANGUAGE.getKey(), lang + "-"+country));
+    app.getLicenceHandler().setLockState(false);
+    
     getActivity();
 	  Fixture.setup(getInstrumentation(), locale, defaultCurrency);
     int current_version = CommonCommands.getVersionNumber(getActivity());

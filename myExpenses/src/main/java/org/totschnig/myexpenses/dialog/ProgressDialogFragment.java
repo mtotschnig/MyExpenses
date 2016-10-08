@@ -18,7 +18,7 @@ package org.totschnig.myexpenses.dialog;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.ui.ScrollableProgressDialog;
-import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.AcraHelper;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -192,7 +192,7 @@ public class ProgressDialogFragment extends CommitSafeDialogFragment {
       mDialog.setIndeterminateDrawable(null);
     } catch (NullPointerException e) {
       //seen on samsung SM-G900F
-      Utils.reportToAcra(e);
+      AcraHelper.report(e);
     }
     mDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setEnabled(true);
   }

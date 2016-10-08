@@ -18,32 +18,32 @@
   <string name="account_type_liability">Conta de passivos</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_liability_plural">Contas de passivos</string>
-  <string name="already_defined">%1$s já definido</string>
+  <string name="already_defined">%1$s já está definido</string>
   <string name="amount">Quantia</string>
   <string name="app_name">My Expenses</string>
   <string name="backup_failure">Falha ao criar a cópia de segurança em \"%1$s\".</string>
   <string name="backup_success">A base de dados e as preferências foram guardadas com sucesso em \"%1$s\".</string>
   <string name="category">Categoria</string>
-  <string name="split_transaction_error">Não foi possível repartir a transação.</string>
+  <string name="split_transaction_error">Não foi possível dividir a transação.</string>
   <plurals name="split_transaction_success">
-    <item quantity="one">1 transação repartida com sucesso.</item>
-    <item quantity="other">%1$d transações repartidas com sucesso.</item>
+    <item quantity="one">A transação foi dividida com sucesso.</item>
+    <item quantity="other">%1$d transações foram divididas com sucesso.</item>
   </plurals>
   <string name="color">Cor</string>
   <string name="comment">Notas</string>
   <string name="confirmation_dialog_dont_show_again">Não mostrar novamente</string>
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Sem anúncios</string>
-  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources">Apenas pode criar 5 contas na versão gratuita do <i>My Expenses</i>.</string>
+  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources">O número de contas que pode criar com o <i>My Expenses</i> está limitado a 5.</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Número ilimitado de contas</string>
-  <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Possibilidade de anexar imagens</string>
+  <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Anexar imagem à transação</string>
   <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Distribuição de transações por categoria</string>
-  <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">Apenas pode criar 3 planos na versão gratuita do <i>My Expenses</i>.</string>
+  <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">O número de planos que pode criar com o <i>My Expenses</i> está limitado a 3.</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Número ilimitado de planos</string>
-  <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Exportação de transações para PDF</string>
+  <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Exportar a lista de transações para PDF</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Widget de modelos</string>
-  <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Importação CSV</string>
-  <string name="contrib_key">Chave de contribuição</string>
-  <string name="extended_key">Chave expandida</string>
+  <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Importar CSV</string>
+  <string name="contrib_key">Chave Contrib</string>
+  <string name="extended_key">Chave Extended</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">Requer %1$s.</string>
   <string name="currency">Moeda</string>
@@ -54,7 +54,7 @@
   <string name="number_format_illegal">Formato numérico inválido</string>
   <string name="decimal_separator">Separador decimal</string>
   <string name="default_account_description">Esta conta foi criada automaticamente durante a instalação</string>
-  <string name="default_account_name">Orçamento</string>
+  <string name="default_account_name">Livro de orçamento</string>
   <string name="description">Descrição</string>
   <string name="dialog_balance_delete">Eliminar transações reconciliadas</string>
   <!--User confirms that he wants to discard changes-->
@@ -64,9 +64,10 @@
   <string name="dialog_confirm_discard_new_template">Rejeitar novo modelo?</string>
   <string name="dialog_confirm_discard_new_account">Rejeitar nova conta?</string>
   <string name="dialog_confirm_discard_new_method">Rejeitar novo método de pagamento?</string>
+  <string name="dialog_command_disabled_balance">Nenhuma transação liquidada para ser reconciliada.</string>
   <string name="dialog_command_disabled_insert_transfer">Transações de transferências requerem uma segunda conta.</string>
   <string name="dialog_command_disabled_reset_account">Sem transações para exportar.</string>
-  <string name="dialog_command_disabled_distribution">Não existem transações mapeadas em categorias para esta conta.</string>
+  <string name="dialog_command_disabled_distribution">Não existem transações atribuídas a categorias nesta conta.</string>
   <string name="dialog_contrib_no">Ainda não</string>
   <string name="dialog_contrib_no_usages_left">Sem usos gratuitos restantes.</string>
   <!--Placeholder: 1 is name of the feature-->
@@ -74,14 +75,14 @@
   <!--Placeholder: 1 is name of the feature-->
   <string name="dialog_contrib_extended_feature">%1$s é uma funcionalidade extended.</string>
   <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
-  <string name="dialog_contrib_reminder_remove_limitation">Remova esta limitação ao comprar %s.</string>
-  <string name="dialog_contrib_reminder_gain_access">Você obtém também acesso sem restrições às seguintes funcionalidades:</string>
-  <string name="dialog_contrib_extended_gain_access">Adicionalmente, as seguintes funcionalidades são desbloqueadas se comprar a chave Extended:</string>
-  <string name="dialog_contrib_text_1"><i>My Expenses</i> é disponibilizado sem anúncios e em código aberto.</string>
-  <string name="dialog_contrib_text_2">Por favor contribua ao comprar %s.</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Remova esta limitação ao adquirir %s.</string>
+  <string name="dialog_contrib_reminder_gain_access">Também obtém acesso sem restrições às seguintes funcionalidades:</string>
+  <string name="dialog_contrib_extended_gain_access">Adicionalmente, as seguintes funcionalidades são desbloqueadas se adquirir a chave Extended:</string>
+  <string name="dialog_contrib_text_1"><i>My Expenses</i> é oferecido sem anúncios e em código aberto.</string>
+  <string name="dialog_contrib_text_2">Por favor contribua ao adquirir %s.</string>
   <plurals name="dialog_contrib_usage_count">
-    <item quantity="one">Você tem um uso gratuito restante.</item>
-    <item quantity="other">Você tem %1$d usos gratuitos restantes.</item>
+    <item quantity="one">Tem um uso gratuito restante.</item>
+    <item quantity="other">Tem %1$d usos gratuitos restantes.</item>
   </plurals>
   <string name="dialog_contrib_buy_premium">Comprar PREMIUM</string>
   <string name="dialog_contrib_buy_extended">Comprar EXTENDED</string>
@@ -89,60 +90,61 @@
   <string name="dialog_export_delete">Eliminar transações exportadas</string>
   <string name="dialog_export_not_yet_exported">Exportar apenas as transações não exportadas</string>
   <string name="dialog_password_activate_protection">Ativar proteção por palavra-passe</string>
-  <string name="dialog_password_change_password">Mudar palavra-passe</string>
+  <string name="dialog_password_change_password">Alterar palavra-passe</string>
   <string name="dialog_password_new_password">Nova palavra-passe</string>
   <string name="dialog_password_new_password_confirmation">Nova palavra-passe (confirmação)</string>
   <string name="dialog_remind_later">Mais tarde</string>
-  <string name="dialog_remind_no">Não</string>
-  <string name="dialog_remind_rate_how_many_stars">Quantas estrelas você daria ao My Expenses?</string>
-  <string name="dialog_remind_rate_1">Por favor conceda-nos um momento para avaliar o My Expenses.</string>
-  <string name="dialog_remind_rate_2">Os seus comentários ajudam-nos a melhorar a aplicação.</string>
-  <string name="dialog_remind_rate_1_suggest_improvement">Por favor conceda-nos um momento e envie as suas sugestões e comentários.</string>
+  <string name="dialog_remind_no">Não obrigado</string>
+  <string name="dialog_remind_rate_how_many_stars">Quantas estrelas daria ao My Expenses?</string>
+  <string name="dialog_remind_rate_1">Por favor tire um momento para avaliar e dar a sua opinião sobre o My Expenses.</string>
+  <string name="dialog_remind_rate_2">Os seus comentários permitem-nos adicionar continuamente melhorias e aperfeiçoamentos.</string>
+  <string name="dialog_remind_rate_1_suggest_improvement">Por favor tire um momento para enviar as suas sugestões de melhoramentos.</string>
   <string name="dialog_remind_rate_yes">Avaliar agora</string>
   <string name="dialog_security_answer">Resposta</string>
   <string name="dialog_security_question">Pergunta</string>
   <string name="dialog_title_attention">Atenção</string>
-  <string name="dialog_title_information">Informações</string>
+  <string name="dialog_title_information">Informação</string>
   <!--%1$s is replace with account label-->
   <string name="dialog_title_balance_account">Saldo de %1$s</string>
   <string name="dialog_title_contrib_feature">Funcionalidade premium</string>
   <string name="dialog_title_extended_feature">Funcionalidade extended</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
-  <string name="dialog_title_set_fraction_digits">Defina o número de dígitos de fração</string>
-  <string name="dialog_title_template_title">Definir título</string>
+  <string name="dialog_title_set_fraction_digits">Defina o número de dígitos de fracionários</string>
+  <string name="dialog_title_template_title">Definir o título</string>
   <string name="dialog_title_warning_delete_account">Eliminar conta?</string>
   <string name="dialog_title_warning_delete_main_category">Eliminar categoria principal?</string>
   <string name="dialog_title_warning_delete_template">Eliminar modelo?</string>
   <string name="dialog_title_warning_delete_transaction">Eliminar transação?</string>
   <string name="dialog_title_welcome">Bem-vindo!</string>
-  <string name="donate_dialog_text">Por favor faça o seu donativo via PayPal ou Bitcoin e, posteriormente, solicite-nos a chave através do menu de definições.</string>
+  <string name="donate_dialog_text">Por favor faça o seu donativo via PayPal ou Bitcoin e, posteriormente, solicite uma chave a partir do ecrã de definições.</string>
   <string name="expense">Despesa</string>
-  <string name="export_expenses">Relatório de despesas</string>
+  <string name="export_expenses">Exportação de despesas</string>
   <!--1$s is replaced with path to file, 2$s with error message-->
   <string name="export_sdcard_failure">A exportação para o ficheiro \"%1$s\" falhou: %2$s</string>
   <!--1$s is replaced with path to file-->
-  <string name="export_sdcard_success">Os dados foram exportados com sucesso para \"%1$s\"</string>
-  <string name="external_storage_unavailable">Armazenamento externo (sdcard) não disponível</string>
+  <string name="export_sdcard_success">Os dados foram exportados com sucesso para o ficheiro \"%1$s\"</string>
+  <string name="external_storage_unavailable">Armazenamento externo (cartão SD) não disponível</string>
   <string name="feedback">Comentários</string>
-  <string name="feedback_email_message">Envie os seus comentários em inglês, francês ou alemão!</string>
+  <string name="feedback_email_message">Por favor, envie os seus comentários em inglês, francês ou alemão!</string>
   <string name="ftp_uri_malformed">URI inválido %1$s</string>
   <string name="grisbi_import_categories_loading">A carregar categorias de %1$s</string>
-  <string name="grisbi_import_default_source">Categorias predefinidas em inglês</string>
-  <string name="grisbi_import_parties_loading">A carregar participantes a partir de %1$s</string>
+  <string name="grisbi_import_default_source">Categorias predefinidas em português</string>
+  <string name="grisbi_import_parties_loading">A carregar participantes de %1$s</string>
   <string name="grouping_day">Dia</string>
   <string name="grouping_last_week">Última semana</string>
   <string name="grouping_month">Mês</string>
-  <string name="grouping_none">Não agrupada</string>
+  <string name="grouping_none">Não agrupado</string>
   <string name="grouping_this_week">Esta semana</string>
   <string name="grouping_today">Hoje</string>
   <string name="grouping_week">Semana</string>
   <string name="grouping_year">Ano</string>
   <string name="grouping_yesterday">Ontem</string>
   <string name="help_button_rate">Avaliar ou dar opinião</string>
+  <string name="help_contextuel_help">Pode encontrar mais informação sobre a funcionalidade disponível através da Ajuda no menu.</string>
   <string name="help_heading_credits">Créditos</string>
   <string name="help_heading_license">Licença</string>
-  <string name="help_heading_whats_new">Novidades</string>
+  <string name="help_heading_whats_new">O que há de novo</string>
   <string-array name="help_intro">
     <item>Mantenha o controlo das suas despesas e rendimentos.</item>
     <item>Gestão direta no seu smartphone.</item>
@@ -154,28 +156,31 @@
   <string name="import_select_transactions">Transações</string>
   <string name="income">Receitas</string>
   <string name="invalid_number_format">Formato decimal não reconhecido pela sua configuração regional. Por favor utilize %1$s.</string>
-  <string name="label">Nome</string>
-  <string name="licence_validation_failure">Incapaz de validar a chave da licença.</string>
+  <string name="label">Etiqueta</string>
+  <string name="licence_validation_failure">Incapaz de validar a chave de licença.</string>
   <string name="licence_validation_success">A chave de licença foi validada com sucesso:</string>
   <string name="licence_validation_premium">As funcionalidades premium foram desbloqueadas.</string>
   <string name="licence_validation_extended">As funcionalidades extended foram desbloqueadas.</string>
   <string name="menu_aggregates">Total</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Aplicar</string>
-  <string name="menu_back">Recuar</string>
+  <string name="menu_back">Voltar</string>
   <string name="menu_backup">Cópia de segurança</string>
   <!--Balance: compare cleared balance in app with balance on statement received from bank-->
   <string name="menu_balance">Saldo da conta</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
   <string name="menu_cancel_plan_instance">Cancelar</string>
   <string name="menu_clone_transaction">Clonar</string>
-  <string name="menu_contrib">Participar</string>
+  <string name="menu_contrib">Contribuir</string>
   <string name="menu_create_account">Nova conta</string>
   <string name="menu_create_instance_edit">Aplicar e editar</string>
   <string name="menu_create_instance_save">Aplicar e guardar</string>
   <string name="menu_create_main_cat">Nova categoria principal</string>
   <string name="menu_create_method">Novo método de pagamento</string>
   <string name="menu_create_party">Novo participante</string>
+  <string name="menu_create_split">Nova divisão</string>
+  <string name="menu_create_split_part_category">Nova divisão (categoria)</string>
+  <string name="menu_create_split_part_transfer">Nova divisão (transferência)</string>
   <string name="menu_create_sub_cat">Nova subcategoria</string>
   <string name="menu_create_template">Novo modelo</string>
   <string name="menu_create_template_from_transaction">Guardar como modelo</string>
@@ -190,10 +195,14 @@
   <string name="menu_edit_cat">Editar categoria</string>
   <string name="menu_edit_method">Editar método de pagamento</string>
   <string name="menu_edit_party">Editar participante</string>
+  <string name="menu_edit_plan_instance">Editar ocorrência do plano</string>
+  <string name="menu_edit_split">Editar divisão</string>
+  <string name="menu_edit_split_part_category">Editar divisão (categoria)</string>
+  <string name="menu_edit_split_part_transfer">Editar divisão (transferência)</string>
   <string name="menu_edit_template">Editar modelo</string>
   <string name="menu_edit_transaction">Editar transação</string>
   <string name="menu_edit_transfer">Editar transferência</string>
-  <string name="menu_exclude_from_totals">Exclui do total</string>
+  <string name="menu_exclude_from_totals">Excluir do total</string>
   <string name="menu_forward">Avançar</string>
   <string name="menu_grouping">Agrupamento</string>
   <string name="menu_help">Ajuda</string>
@@ -205,45 +214,48 @@
   <string name="menu_open">Abrir</string>
   <string name="menu_import">Importar</string>
   <string name="menu_print">Imprimir</string>
-  <string name="menu_reset">Exportar e repor</string>
-  <string name="menu_reset_all">Exportar e repor tudo</string>
+  <string name="menu_reset">Exportar e reiniciar</string>
+  <string name="menu_reset_all">Exportar e reiniciar tudo</string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
-  <string name="menu_reset_plan_instance">Repor</string>
+  <string name="menu_reset_plan_instance">Reiniciar</string>
   <string name="menu_save">Guardar</string>
-  <string name="menu_save_and_new">Guardar e criar</string>
+  <string name="menu_save_and_new">Guardar e novo</string>
   <string name="menu_search">Pesquisar</string>
   <string name="menu_settings">Definições</string>
   <string name="menu_share">Recomendar a um amigo</string>
+  <string name="menu_split_transaction">Dividir</string>
   <string name="method">Método</string>
   <string name="no_amount_given">Não introduziu qualquer quantia.</string>
-  <string name="no_app_handling_email_available">Não existem aplicações de email.</string>
-  <string name="no_app_handling_ftp_available">Não existem aplicações para ligações FTP. Instalar <i>Send With FTP</i>?</string>
-  <string name="no_app_handling_pdf_available">Não existem aplicações para gerir ficheiros PDF.</string>
+  <string name="no_app_handling_email_available">Nenhuma aplicação para envio de email disponível.</string>
+  <string name="no_app_handling_ftp_available">Nenhuma aplicação para ligações FTP disponível. Instalar <i>Send With FTP</i>?</string>
+  <string name="no_app_handling_pdf_available">Nenhuma aplicação para ficheiros PDF disponível.</string>
   <string name="no_categories">Sem categorias.</string>
   <string name="no_expenses">Sem despesas ainda!</string>
   <string name="no_exportable_expenses">Não existem transações que ainda não tenham sido exportadas.</string>
-  <string name="no_filemanager_installed">Não possui um gestor de ficheiros.</string>
-  <string name="no_calendar_app_installed">Não possui uma aplicação para editar eventos do calendário.</string>
-  <string name="no_methods">Não existem métodos de pagamento.</string>
+  <string name="no_filemanager_installed">Nenhum gestor de ficheiros instalado.</string>
+  <string name="no_calendar_app_installed">Nenhuma aplicação para editar eventos do calendário encontrada.</string>
+  <string name="no_mapped_transactions">Não existem transações atribuídas a categorias durante este período.</string>
+  <string name="no_methods">Sem métodos de pagamento.</string>
   <string name="no_parties">Sem participantes.</string>
-  <string name="no_templates">Não existem modelos.</string>
+  <string name="no_split_parts">Sem divisões.</string>
+  <string name="no_templates">Sem modelos.</string>
   <string name="no_title_given">Não introduziu qualquer título.</string>
   <plurals name="not_deletable_mapped_transactions">
-    <item quantity="one">O objeto selecionado está mapeado a uma transação e não pode ser apagado.</item>
-    <item quantity="other">%1$d objetos estão mapeados a transações e não podem ser apagados.</item>
+    <item quantity="one">O objeto selecionado está atribuído a uma transação e não pode ser eliminado.</item>
+    <item quantity="other">%1$d objetos estão atribuídos a transações e não podem ser eliminados.</item>
   </plurals>
   <plurals name="not_deletable_mapped_templates">
-    <item quantity="one">O objeto selecionado está mapeado a um modelo e não pode ser apagado.</item>
-    <item quantity="other">%1$d objetos estão mapeados a modelos e não podem ser apagados.</item>
+    <item quantity="one">O objeto selecionado está atribuído a um modelo e não pode ser eliminado.</item>
+    <item quantity="other">%1$d objetos estão atribuídos a modelos e não podem ser eliminados.</item>
   </plurals>
-  <string name="numbered">numerada</string>
+  <string name="numbered">numerado</string>
   <string name="opening_balance">Saldo de abertura</string>
   <string name="parse_error_file_not_found">Ficheiro %1$s não encontrado</string>
   <string name="parse_error_grisbi_version_not_supported">Versão do ficheiro Grisbi não suportada: %1$s</string>
-  <string name="parse_error_no_data_found">Não foram encontrados dados para importação no ficheiro.</string>
+  <string name="parse_error_no_data_found">Não foram encontrados dados importáveis no ficheiro.</string>
   <string name="parse_error_other_exception">Ocorreu um erro: %1$s</string>
   <string name="parse_error_parse_exception">Não foi possível analisar o ficheiro</string>
-  <string name="password_disabled_reenable">A proteção por palavra-passe foi desativada. Pode reativar a proteção nas definições.</string>
+  <string name="password_disabled_reenable">A proteção por palavra-passe foi desativada. Pode reativar nas definições.</string>
   <string name="password_lost">Palavra-passe perdida</string>
   <string name="password_not_valid">Palavra-passe inválida. Tente novamente!</string>
   <string name="password_prompt">Introduza a sua palavra-passe</string>
@@ -251,16 +263,18 @@
   <string name="payee">Beneficiário</string>
   <string name="payer">Pagador</string>
   <string name="payer_or_payee">Beneficiário/pagador</string>
+  <string name="peer_transaction_deleted">Esta transação referia-se a uma entrada (conta %1$s) que foi eliminada.</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">Plano</string>
   <string name="plan_automatic">automático</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">Planificador My Expenses</string>
+  <string name="plan_calendar_name">Planeador My Expenses</string>
+  <string name="plan_event_deleted">O plano associado a este modelo foi eliminado do calendário.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
-  <string name="plan_execution_canceled">Execução do plano cancelada.</string>
+  <string name="plan_execution_canceled">A execução do plano foi cancelada</string>
   <string name="plan_manual">manual</string>
-  <string name="planner_create_calendar_failure">Não foi possível criar o calendário local</string>
-  <string name="planner_create_calendar_success">O calendário local foi criado com sucesso</string>
+  <string name="planner_create_calendar_failure">Não foi possível criar o calendário local de planeamento</string>
+  <string name="planner_create_calendar_success">O calendário local de planeamento foi criado com sucesso</string>
   <!--payment methods-->
   <string name="pm_cheque">Cheque</string>
   <string name="pm_creditcard">Cartão de crédito</string>
@@ -281,9 +295,9 @@
   <string name="pref_category_title_more_information">Mais informações</string>
   <string name="pref_category_title_security">Segurança</string>
   <string name="pref_category_title_ui">Interface do utilizador</string>
-  <string name="pref_checkbox_enabled">Ativa</string>
-  <string name="pref_checkbox_disabled">Inativa</string>
-  <string name="pref_contrib_purchase_summary">Obter acesso às funcionalidades premium e extended.</string>
+  <string name="pref_checkbox_enabled">Ativado</string>
+  <string name="pref_checkbox_disabled">Desativado</string>
+  <string name="pref_contrib_purchase_summary">Adquirir acesso às funcionalidades premium e extended.</string>
   <string name="pref_contrib_purchase_title">Chave de compra</string>
   <string name="pref_contrib_purchase_title_upgrade">Chave de atualização</string>
   <string name="pref_contrib_purchase_title_in_app">Compra na aplicação</string>
@@ -295,10 +309,10 @@
   <string name="pref_import_from_grisbi_summary">Importar categorias e participantes do ficheiro XML do Grisbi</string>
   <string name="pref_import_from_grisbi_title">Importar do Grisbi</string>
   <!--%s is replaced with QIF or CSV-->
-  <string name="pref_import_summary">Importar transações, categorias e participantes a partir do ficheiro %s</string>
+  <string name="pref_import_summary">Importar transações, categorias e participantes do ficheiro %s</string>
   <!--%s is replaced with QIF or CSV-->
   <string name="pref_import_title">Importar %s</string>
-  <string name="pref_like_facebook_title">Gosto no Facebook</string>
+  <string name="pref_like_facebook_title">Siga-nos no Facebook</string>
   <string name="pref_manage_accounts_title">Contas</string>
   <string name="pref_manage_categories_summary">Adicionar, editar e eliminar categorias.</string>
   <string name="pref_manage_categories_title">Categorias</string>
@@ -308,33 +322,37 @@
   <string name="pref_manage_parties_title">Participantes</string>
   <string name="pref_more_info_dialog_summary">
 
-Sérgio Marques</string>
+Traduzido por Sérgio Marques</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
-  <string name="pref_more_info_dialog_title">Licença e créditos</string>
+  <string name="pref_more_info_dialog_title">Licença &amp; Créditos</string>
   <string name="pref_password_not_equal">As palavras-passe não coincidem</string>
-  <string name="pref_perform_protection_summary">Devem os inícios e retornos da aplicação ser protegidos?</string>
+  <string name="pref_perform_protection_summary">Devem os inícios e regressos à aplicação ser protegidos?</string>
   <string name="pref_perform_protection_title">Proteção por palavra-passe</string>
   <string name="pref_perform_share_title">Partilhar exportações e cópias de segurança</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Criar calendário local de planeamento</string>
+  <string name="pref_planning_calendar_summary">Selecione o calendário onde os planos para transações futuras e recorrentes serão armazenados</string>
   <string name="pref_planning_calendar_title">Calendário de planeamento</string>
+  <string name="pref_protection_delay_seconds_summary">Segundos de inatividade antes da aplicação ser bloqueada com palavra-passe.</string>
   <string name="pref_protection_delay_seconds_title">Atraso até à proteção</string>
   <string name="pref_protection_enable_data_entry_from_widget_title">Introdução de dados a partir de widgets e atalhos</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Permitido sem palavra-passe</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Requer palavra-passe</string>
   <string name="pref_qif_export_file_encoding_title">Codificação de caracteres</string>
-  <string name="pref_request_licence_summary">Se contribuiu, peça por email uma chave para o Android-Id %1$s.</string>
+  <string name="pref_request_licence_summary">Se contribuiu, solicite por email uma chave para o Android-Id %1$s.</string>
   <string name="pref_request_licence_title">Solicitar uma chave</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Alternativo</string>
+  <string name="pref_restore_alternative_summary">Utilize este método alternativo se não houver um gestor de ficheiros instalado no dispositivo ou se restaurar uma cópia de segurança em formato obsoleto.</string>
   <string name="pref_restore_summary">Selecione uma cópia de segurança para restaurar a base de dados e as preferências.</string>
   <string name="pref_restore_title">Restaurar</string>
   <string name="pref_security_question_summary">Permite-lhe desbloquear a aplicação, se tiver esquecido a sua palavra-passe.</string>
-  <string name="pref_security_question_title">Questão de segurança</string>
+  <string name="pref_security_question_title">Pergunta de segurança</string>
   <string name="pref_send_feedback_title">Enviar comentários</string>
   <string name="pref_share_target_summary">Deixe em branco se pretende escolher entre aplicações apropriadas (Email, Dropbox, Google Docs, ...), ou forneça um URL num dos esquemas suportados</string>
   <string name="pref_share_target_title">URL de envio</string>
   <string name="pref_shortcut_added">Atalho adicionado ao ecrã inicial</string>
+  <string name="pref_shortcut_not_added">Nenhum ecrã inicial disponível que aceite atalhos.</string>
   <string name="pref_shortcut_summary">Adicionar o atalho ao ecrã inicial.</string>
   <string name="pref_template_click_default_summary">Após um toque curto numa entrada na lista de modelos</string>
   <string name="pref_ui_fontsize_title">Tamanho do tipo de letra</string>
@@ -346,13 +364,14 @@ Sérgio Marques</string>
   <string name="pref_ui_theme_light">claro</string>
   <string name="pref_ui_theme_title">Tema</string>
   <string name="pref_visit_website_summary">Registo de alterações e FAQ</string>
-  <string name="pref_visit_website_title">Visitar website</string>
+  <string name="pref_visit_website_title">Visitar página web</string>
   <string name="progress_dialog_deleting">A eliminar objetos</string>
   <string name="progress_dialog_loading">A carregar objetos da base de dados</string>
-  <string name="progress_dialog_printing">A gerar ficheiro PDF</string>
+  <string name="progress_dialog_printing">A gerar PDF</string>
   <string name="progress_dialog_saving">A guardar objeto na base de dados</string>
   <string name="qif_parse_result">Analisadas: %1$s contas; %2$s categorias e %3$s participantes</string>
   <string name="qif_parse_failure_found_multiple_accounts">Encontradas diversas contas no ficheiro QIF.</string>
+  <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Não é possível unir com a conta existente.</string>
   <string name="reference_number">Número de referência</string>
   <string name="request_licence_mail_head">Por favor envie-me uma chave para o Android-Id %1$s.</string>
   <string name="restore_db_failure">Falha ao restaurar a base de dados.</string>
@@ -360,6 +379,7 @@ Sérgio Marques</string>
   <string name="restore_no_backup_found">Não foram encontradas cópias de segurança.</string>
   <string name="restore_preferences_failure">Falha ao restaurar as preferências</string>
   <string name="restore_backup_archive_not_valid">O arquivo %1$s não é válido</string>
+  <string name="restore_backup_file_not_found">Não foi encontrado o ficheiro %1$s no arquivo \"%2$s\"</string>
   <string name="restore_preferences_success">As preferências foram restauradas a partir da cópia de segurança.</string>
   <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d planos foram restaurados a partir da cópia de segurança</string>
   <string name="save_transaction_and_new_success">Guardado com sucesso</string>
@@ -368,14 +388,17 @@ Sérgio Marques</string>
     <item quantity="one">Nova transação guardada com sucesso a partir do modelo.</item>
     <item quantity="other">%1$d novas transações foram guardadas com sucesso a partir dos modelos.</item>
   </plurals>
-  <string name="save_transaction_template_deleted">O modelo foi apagado</string>
+  <string name="save_transaction_template_deleted">O modelo foi eliminado</string>
   <string name="select">Selecionar</string>
   <string name="select_category">Selecionar categoria</string>
   <string name="menu_select_category">Selecionar esta categoria</string>
   <string name="menu_select_folder">Selecionar esta pasta</string>
   <string name="share_scheme_not_supported">O esquema %1$s não é suportado</string>
-  <string name="split_transaction">Repartir transação</string>
+  <string name="share_sending">Enviar ficheiro de exportação</string>
+  <string name="split_parts_heading">Divisões</string>
+  <string name="split_transaction">Transação dividida</string>
   <string name="status">Estado</string>
+  <string name="status_cleared">liquidada</string>
   <string name="status_reconciled">reconciliada</string>
   <string name="status_uncreconciled">não reconciliada</string>
   <string name="status_void">nula</string>
@@ -384,19 +407,24 @@ Sérgio Marques</string>
   <string name="sum_income">Receitas</string>
   <string name="sum_transfer">Transferências</string>
   <!--%s is replaced with Android or Blackberry-->
+  <string name="tell_a_friend_message">Experimente o My Expenses, Gestor de finanças pessoal para %s, http://www.myexpenses.mobi</string>
   <string name="template_create_success">O modelo \"%1$s\" foi criado com sucesso</string>
-  <string name="thank_you">Obrigado pela sua ajuda!</string>
+  <string name="thank_you">Obrigado pelo seu apoio!</string>
   <string name="time">Hora</string>
   <string name="title">Título</string>
+  <string name="total_cleared">Total liquidado</string>
+  <string name="total_reconciled">Total reconciliado</string>
   <string name="transaction">Transação</string>
   <string name="transfer">Transferência</string>
   <string name="transfer_from_account">De</string>
   <string name="transfer_to_account">Para</string>
   <string name="type">Tipo</string>
+  <string name="unsplit_amount">Quantia por dividir</string>
+  <string name="unsplit_amount_greater_than_zero">Ainda há alguma quantia por dividir.</string>
   <string name="warning_backup">A base de dados e as preferências serão guardadas em \"%1$s\". Pretende continuar?</string>
-  <string name="warning_delete_account">A conta \"%1$s\" e todas as suas transações serão apagadas.</string>
+  <string name="warning_delete_account">A conta \"%1$s\" e todas as respetivas transações serão eliminadas.</string>
   <plurals name="warning_delete_main_category">
-    <item quantity="one">Uma categoria selecionada contem subcategorias, que também serão apagadas.</item>
+    <item quantity="one">Uma categoria selecionada contém subcategorias, que também serão apagadas.</item>
     <item quantity="other">%1$d categorias selecionadas contêm subcategorias, que também serão apagadas.</item>
   </plurals>
   <plurals name="warning_delete_template">
@@ -411,28 +439,50 @@ Sérgio Marques</string>
     <item quantity="one">Uma categoria foi movida com sucesso.</item>
     <item quantity="other">%d categorias foram movidas com sucesso.</item>
   </plurals>
+  <plurals name="move_category_failure">
+    <item quantity="one">Uma categoria não foi movida, porque a mesma etiqueta já existe no destino.</item>
+    <item quantity="other">%d categorias não foram movidas, porque a mesma etiqueta já existe no destino.</item>
+  </plurals>
+  <string name="warning_delete_reconciled">Eliminar transações reconciliadas causará diferença entre os seus registos e o extrato bancário.</string>
+  <string name="warning_balance_account">Por favor compare o total liquidado com o saldo final no seu extrato bancário. Se proceder, as transações liquidadas serão marcadas como reconciliadas.</string>
   <string name="warning_password_protected">A aplicação está protegida por palavra-passe.</string>
   <string name="warning_widget_disabled">Necessita de ativar este widget nas definições da aplicação.</string>
+  <string name="warning_instantiate_template_from_widget_password_protected">A aplicação rápida de modelos a partir deste widget apenas funciona se nas definições da aplicação permitir a introdução de dados a partir de widgets sem palavra-passe.</string>
   <string name="warning_password_contrib">Definir uma pergunta de segurança permite-lhe desbloquear a aplicação, no caso de se esquecer da palavra-passe.</string>
   <string name="warning_password_no_contrib">Se definir uma palavra-passe, tenha cuidado para não a esquecer. Não irá ser possível recuperá-la, a não ser que defina uma pergunta de segurança.</string>
-  <string name="warning_reset_account">Se continuar, todas as transações desta conta serão eliminadas da base de dados e não poderão ser recuperadas.</string>
+  <string name="warning_reset_account">Se proceder, todas as transações desta conta serão eliminadas da base de dados e não poderão ser recuperadas.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
-  <string name="warning_reset_account_all">Se continuar, as transações de todas as contas %1$s serão eliminadas e não poderão ser recuperadas.</string>
+  <string name="warning_reset_account_all">Se proceder, as transações de todas as contas %1$s serão eliminadas da base de dados e não poderão ser recuperadas.</string>
+  <string name="warning_reset_account_matched">Se proceder, as transações que correspondem ao filtro atual serão eliminadas da base de dados e não poderão ser recuperadas.</string>
   <string name="warning_restore">A base de dados e as preferências serão restauradas a partir do ficheiro \"%1$s\". Os dados atuais serão eliminados. Pretende continuar?</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">A pasta para cópias de segurança e exportações atualmente selecionada será eliminada automaticamente pelo Android se desinstalar o My Expenses. Pode prevenir isso de acontecer ao selecionar uma pasta diferente no ecrã de Definições.</string>
+  <string name="warning_splitpartcategory_context">Transferências que fazem parte de uma divisão apenas podem ser editadas no contexto da divisão.</string>
   <string name="warning_fraction_digits_out_of_range">Defina um número entre 0 e 8</string>
+  <string name="warning_change_fraction_digits_1">As quantias na base de dados precisam de ser atualizadas para corresponderem com o novo número de dígitos fracionários.</string>
+  <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Se as quantias não forem atualizadas, as mesmas serão exibidas multiplicadas por %d após a alteração.</string>
+  <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Se as quantias não forem atualizadas, as mesmas serão exibidas divididas por %d após a alteração.</string>
+  <string name="warning_change_fraction_digits_3">Se as quantias forem atualizadas, perderá a informação sobre as respetivas partes fracionárias.</string>
+  <string name="warning_change_fraction_digits_checkbox_label">Atualizar quantias na base de dados</string>
   <string name="import_categories_success">%1$s categorias importadas com sucesso</string>
   <string name="import_parties_success">%1$s participantes importados com sucesso</string>
   <string name="import_accounts_success">%1$s contas importadas com sucesso</string>
   <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transações foram importadas com sucesso para a conta %2$s</string>
+  <string name="import_accounts_none">Nenhuma conta importada</string>
+  <string name="import_categories_none">Nenhuma categoria importada</string>
   <string name="import_parties_none">Nenhum participante importado</string>
+  <string name="import_transactions_none">Nenhuma transação importada para a conta %1$s</string>
+  <string name="import_source_select_error">Por favor forneça um ficheiro do tipo %1$s</string>
+  <string name="menu_categories_setup_default">Carregar categorias predefinidas</string>
   <string name="menu_create_folder">Nova pasta</string>
   <!--This string is used for navigating up in the folder browser-->
+  <string name="menu_up">Para cima</string>
   <!--Move an account up in the account list-->
+  <string name="menu_sort_up">Para cima</string>
   <!--Move an account down in the account list-->
+  <string name="menu_sort_down">Para baixo</string>
   <string name="create_new_folder_fail">Falha ao criar a pasta</string>
-  <string name="widget_title_accounts">Minhas contas</string>
-  <string name="widget_title_templates">Meus modelos</string>
+  <string name="widget_title_accounts">As minhas contas</string>
+  <string name="widget_title_templates">Os meus modelos</string>
   <string name="app_dir_not_accessible">A pasta para cópias de segurança e exportações atualmente selecionada (%1$s) não está acessível. Por favor selecione uma diferente.</string>
   <string name="search_amount">Pesquisar por quantia</string>
   <string name="search_category">Pesquisar por categoria</string>
@@ -451,68 +501,98 @@ Sérgio Marques</string>
   <string name="comparison_operator_between">entre</string>
   <string name="comparison_operator_date_before">antes</string>
   <string name="comparison_operator_date_after">depois</string>
+  <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Promoção especial de hoje com AppGratis: Funcionalidades premium desbloqueadas gratuitamente.</string>
   <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">A compra falhou ou foi cancelada.</string>
+  <string name="hint_auto_fill">Devem a quantia, categoria e comentário ser preenchidos automaticamente a partir da última transação para o mesmo beneficiário/pagador? Pode sempre alterar este comportamento nas definições.</string>
   <string name="yes">Sim</string>
   <string name="no">Não</string>
   <string name="hint_template_click">Um toque curto numa entrada nesta lista irá aplicar o modelo e guarda-lo imediatamente ou entrar no respetivo formulário de edição onde pode modifica-lo antes de guardar. Pode sempre aceder a ambas as ações através de um toque longo, e alterar a ação predefinida nas definições.</string>
   <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d contas com a moeda %2$s foram atualizadas.</string>
   <string name="learn_more">Saber mais</string>
   <string name="import_source_file">Ficheiro</string>
+  <string name="restore_calendar_handling">Gestão de dados do calendário</string>
+  <string name="restore_calendar_handling_configured">Restaurar planos para o calendário atualmente configurado</string>
+  <string name="restore_calendar_handling_backup">Restaurar planos para o calendário definido na cópia de segurança se disponível</string>
   <string name="restore_calendar_handling_ignore">Não restaurar planos</string>
+  <string name="restore_not_possible_target_calendar_missing">O calendário %s configurado no arquivo da cópia de segurança não existe localmente. O restauro foi interrompido.</string>
+  <string name="restore_not_possible_local_calendar_missing">O calendário de planeamento atual não está disponível.</string>
   <string name="menu_view_picture">Ver imagem</string>
   <string name="menu_delete_picture">Eliminar imagem</string>
-  <string name="menu_change_picture">Anexar outra imagem</string>
+  <string name="menu_change_picture">Anexar imagem diferente</string>
   <string name="menu_distribution_show_pie_char">Mostrar gráfico circular</string>
   <string name="menu_distribution_aggreate">Agregar receitas e despesas</string>
+  <string name="pref_manage_stale_images_title">Imagens obsoletas</string>
+  <string name="pref_manage_stale_images_summary">Gerir imagens deixadas para trás pelas transações eliminadas</string>
+  <string name="menu_select_categories">Selecionar as categorias marcadas</string>
   <string name="image_deleted">A imagem foi apagada</string>
   <string name="transaction_deleted">A transação foi apagada</string>
   <string name="dialog_export_applied_to_filter">Apenas serão consideradas as transações que coincidirem com o filtro atual.</string>
-  <string name="export_handle_deleted_update_balance">Atualizar saldo inicial</string>
+  <string name="export_handle_deleted_create_helper">Criar transação de ajuda</string>
+  <string name="export_handle_deleted_update_balance">Atualizar saldo de abertura</string>
   <string name="file_name">Nome do ficheiro</string>
   <string name="folder_name">Nome da pasta</string>
   <string name="mark_void_instead_of_delete">Não eliminar esta transação, marcar antes como nula.</string>
-  <string name="menu_undelete_transaction">Restaurar</string>
-  <string name="slash_forbidden_in_filename">O carácter / não é permitido no nome dos ficherios</string>
+  <string name="menu_undelete_transaction">Anular eliminação</string>
+  <string name="slash_forbidden_in_filename">O carácter / não é permitido no nome dos ficheiros</string>
   <string name="io_error_unable_to_create_file">Incapaz de criar o ficheiro %1$s na pasta %2$s</string>
   <string name="menu_categories_export">Exportar para QIF</string>
   <string name="pref_csv_import_delimiter">Delimitador</string>
-  <string name="csv_import_preview">Antevisão</string>
+  <string name="csv_import_preview">Prever</string>
   <string name="menu_parse">Analisar</string>
   <!--Label for column where user can check rows to be discarded from import-->
   <string name="cvs_import_discard">Rejeitar</string>
-  <string name="csv_import_field_mapped_more_than_once">%s está mapeado mais que uma vez.</string>
+  <string name="csv_import_field_mapped_more_than_once">%s está atribuído mais que uma vez.</string>
   <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d registos não puderam ser importados.</string>
   <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d registos foram rejeitados.</string>
+  <string name="csv_import_subcategory_requires_category">Se atribuir uma subcategoria, deve também atribuir uma categoria.</string>
+  <string name="cvs_import_set_first_line_as_header">Deve a primeira linha ser tratada como uma linha de cabeçalho?</string>
   <string name="csv_import_delimiter_comma">Vírgula</string>
   <string name="csv_import_delimiter_semicolon">Ponto e vírgula</string>
-  <string name="csv_import_delimiter_tab">Tabulação</string>
+  <string name="csv_import_delimiter_tab">Tabulador</string>
+  <string name="csv_import_no_mapping_found_for_amount">Por favor atribua uma coluna a uma quantia, receita ou despesa.</string>
   <string name="menu_show_transactions">Mostrar transações</string>
   <string name="pref_custom_decimal_format_title">Formato numérico</string>
   <string name="pref_custom_decimal_format_summary">Se não estiver satisfeito com o formato predefinido para a sua localização, adapte-o às suas necessidades. Deixe em branco para restaurar o formato predefinido.</string>
   <string name="licence_validation_upgrade_needed" tools:ignore="UnusedResources">Por favor atualize o My Expenses Contrib para a versão 1.5.</string>
   <string name="pref_auto_backup_title">Cópia de segurança automática</string>
+  <string name="pref_auto_backup_summary">Criar diariamente uma cópia de segurança da base de dados na hora especificada (apenas se os dados forem alterados).</string>
+  <string name="pref_auto_backup_time_title">Hora da cópia de segurança automática</string>
   <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Após %d cópias de segurança automáticas bem sucedidas, a cópia de segurança automática será desativada.</string>
   <string name="warning_auto_backup_limit_reached">O limite de cópias de segurança automáticas bem sucedidas foi atingido.</string>
+  <string name="calendar_permission_required">O <i>My Expenses</i> precisa de permissão para aceder ao seu calendário, a fim de criar planos para transações futuras e recorrentes.</string>
   <string name="button_request_calendar_access" tools:ignore="UnusedResources">Permitir acesso</string>
+  <string name="switch_on_text">Ativar</string>
+  <string name="switch_off_text">Desativar</string>
   <string name="menu_move">Mover</string>
   <string name="dialog_title_select_target">Selecionar destino</string>
   <string name="transform_subcategory_to_main">Transformar em categoria principal</string>
-  <string name="preferences_week_start_day_title">Semana começa em</string>
-  <string name="preferences_month_start_date_title">Mês começa em</string>
+  <string name="preferences_week_start_day_title">Início da semana</string>
+  <string name="preferences_month_start_date_title">Início do mês</string>
   <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
+  <string name="pref_grouping_periods">Períodos de agrupamento</string>
   <string name="exchange_rate">Taxa de câmbio</string>
   <string name="date_format_hour">Hora</string>
   <string name="date_format_minute">Minuto</string>
   <string name="copied_to_clipboard">Copiado para a área de transferência</string>
   <string name="menu_sort">Ordenar por</string>
   <string name="pref_sort_order_last_used">Última utilização</string>
+  <string name="pref_sort_order_custom">Personalizado</string>
+  <string name="dialog_info_custom_sort">Utilize os comandos Para cima e Para baixo no menu de contexto de cada item para alterar a respetiva ordenação.</string>
   <string name="content_description_calculator">Calculadora</string>
   <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <string name="plan_instance_state_open">aberto</string>
   <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
+  <string name="plan_instance_state_cancelled">cancelado</string>
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <string name="plan_instance_state_applied">aplicado</string>
+  <string name="progress_dialog_updating_split_parts">A atualizar divisões</string>
+  <string name="warning_cannot_move_split_transaction">Esta transação dividida não pode ser movida para a conta %1$s porque existem partes da transferência que referem a esta conta.</string>
   <string name="content_description_calculator_clear_button">Reiniciar tudo</string>
   <string name="content_description_calculator_delete_button">Apagar o último dígito</string>
   <string name="paypal_transaction_id">ID da transação Paypal</string>
   <string name="paypal_callback_info">A sua transação foi concluída e um recibo da sua compra foi enviado para o seu email. Pode aceder à sua conta em www.paypal.com para ver os detalhes desta transação.</string>
+  <string name="paypal_callback_later_clicked_info">A partir do ecrã de definições, pode solicitar uma chave em qualquer momento.</string>
+  <string name="search_transfer">Pesquisar por transferência</string>
   <!--Sort plans (recurring transactions) by the next instance-->
+  <string name="pref_sort_order_next_instance">Próxima ocorrência</string>
 </resources>

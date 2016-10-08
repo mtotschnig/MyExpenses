@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_271">
+    <item>Problemas com planos em dispositivos Samsung são resolvidos</item>
+    <item>Editar transações da tela de distribuição</item>
+  </string-array>
   <string-array name="whats_new_270">
     <item>Novo ícone do lançador</item>
     <item>Busca de transferências</item>
@@ -10,6 +14,10 @@
   </string-array>
   <string-array name="whats_new_268">
     <item>Instalação de transações futuras e recorrentes facilitado.</item>
+  </string-array>
+  <string-array name="whats_new_267">
+    <item>Tradução em chinês simplificado</item>
+    <item>Melhoria no tratamento de ocorrências de planos</item>
   </string-array>
   <string-array name="whats_new_266">
     <item>Novos ícones do menu</item>

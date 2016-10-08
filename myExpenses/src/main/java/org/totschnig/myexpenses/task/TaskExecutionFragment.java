@@ -24,7 +24,7 @@ import org.apache.commons.csv.CSVRecord;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.fragment.CsvImportDataFragment;
-import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable;
 import org.totschnig.myexpenses.util.Utils;
@@ -188,7 +188,7 @@ public class TaskExecutionFragment<T> extends Fragment {
       int[] fieldToColumnMap,
       SparseBooleanArrayParcelable discardedRows,
       QifDateFormat qifDateFormat,
-      long accountId, String currency, Account.Type type) {
+      long accountId, String currency, AccountType type) {
     TaskExecutionFragment f = new TaskExecutionFragment();
     Bundle bundle = new Bundle();
     bundle.putInt(KEY_TASKID, TASK_CSV_IMPORT);

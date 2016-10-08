@@ -3,9 +3,8 @@ package org.totschnig.myexpenses.test.model;
 import junit.framework.Assert;
 
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.di.FakeLicenceHandler;
 import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.util.LicenceHandlerIFace;
+import org.totschnig.myexpenses.util.LicenceHandler;
 import org.totschnig.myexpenses.util.Utils;
 
 public class ContribFeatureTest extends ModelTest  {
@@ -16,15 +15,15 @@ public class ContribFeatureTest extends ModelTest  {
   public void testRecordUsage() {
     ContribFeature feature = ContribFeature.ATTACH_PICTURE;
     MyApplication app = (MyApplication) getContext().getApplicationContext();
-    FakeLicenceHandler licenceHandler = ((FakeLicenceHandler) app.getLicenceHandler());
+    LicenceHandler licenceHandler = app.getLicenceHandler();
     Assert.assertEquals(5,feature.usagesLeft());
-    licenceHandler.setLicenceStatus(null);
+    licenceHandler.setLockState(true);
     feature.recordUsage();
     Assert.assertEquals(4,feature.usagesLeft());
-    licenceHandler.setLicenceStatus(LicenceHandlerIFace.LicenceStatus.CONTRIB);
+    licenceHandler.setLockState(false);
     feature.recordUsage();
     Assert.assertEquals(4,feature.usagesLeft());
-    licenceHandler.setLicenceStatus(null);
+    licenceHandler.setLockState(true);
     feature.recordUsage();
     Assert.assertEquals(3,feature.usagesLeft());
   }

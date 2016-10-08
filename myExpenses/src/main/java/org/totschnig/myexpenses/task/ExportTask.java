@@ -11,9 +11,10 @@ import java.util.Locale;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.export.Exporter;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.Account.ExportFormat;
+import org.totschnig.myexpenses.model.ExportFormat;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
@@ -39,7 +40,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
   //we store the label of the account as progress
   private String progress ="";
   private final ArrayList<Uri> result = new ArrayList<>();
-  private Account.ExportFormat format;
+  private ExportFormat format;
   private boolean deleteP;
   private boolean notYetExportedP;
   private String dateFormat;
@@ -152,7 +153,8 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
             Utils.escapeForFileName(account.label) + "-" + new SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
                 .format(new Date()) :
             fileName;
-        Result result = account.exportWithFilter(destDir, fileNameForAccount, format, notYetExportedP, dateFormat, decimalSeparator, encoding, filter);
+        Result result = new Exporter(account,filter, destDir, fileNameForAccount, format,
+            notYetExportedP, dateFormat, decimalSeparator, encoding).export();
         String progressMsg;
         if (result.success) {
           progressMsg = MyApplication.getInstance().getString(result.getMessage(),

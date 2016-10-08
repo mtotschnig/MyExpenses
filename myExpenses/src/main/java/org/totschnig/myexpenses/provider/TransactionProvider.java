@@ -24,7 +24,7 @@ import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.*;
-import org.totschnig.myexpenses.model.Account.Grouping;
+import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.PlanInfoCursorWrapper;
 import org.totschnig.myexpenses.util.Utils;
@@ -419,12 +419,12 @@ public class TransactionProvider extends ContentProvider {
         @SuppressWarnings("deprecation")
         String currencySubquery = qb.buildQuery(projection, null, null, groupBy, having, null, null);
         String grouping="";
-        Account.AccountGrouping accountGrouping;
+        AccountGrouping accountGrouping;
         try {
-          accountGrouping = Account.AccountGrouping.valueOf(
+          accountGrouping = AccountGrouping.valueOf(
               PrefKey.ACCOUNT_GROUPING.getString("TYPE"));
         } catch (IllegalArgumentException e) {
-          accountGrouping = Account.AccountGrouping.TYPE;
+          accountGrouping = AccountGrouping.TYPE;
         }
         switch (accountGrouping) {
         case CURRENCY:
@@ -550,7 +550,7 @@ public class TransactionProvider extends ContentProvider {
       }
       String accountType = uri.getPathSegments().get(3);
       try {
-        Account.Type.valueOf(accountType);
+        AccountType.valueOf(accountType);
       } catch (IllegalArgumentException e) {
         throw new IllegalArgumentException("Unknown accountType " + accountType);
       }
@@ -1171,6 +1171,7 @@ public class TransactionProvider extends ContentProvider {
       getContext().getContentResolver().notifyChange(TRANSACTIONS_URI, null);
       getContext().getContentResolver().notifyChange(ACCOUNTS_URI, null);
       getContext().getContentResolver().notifyChange(UNCOMMITTED_URI, null);
+      getContext().getContentResolver().notifyChange(CATEGORIES_URI, null);
     } else if (
         //we do not need to refresh cursors on the usage counters
         uriMatch != TEMPLATES_INCREASE_USAGE &&

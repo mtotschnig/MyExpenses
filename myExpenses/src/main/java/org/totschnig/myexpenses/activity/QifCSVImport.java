@@ -20,7 +20,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.QifCsvImportDialogFragment;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
-import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.ExportFormat;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 
 import android.app.ProgressDialog;
@@ -29,7 +29,7 @@ import android.os.Bundle;
 
 public class QifCSVImport extends ProtectedFragmentActivity {
 
-  private Account.ExportFormat format = Account.ExportFormat.QIF;
+  private ExportFormat format = ExportFormat.QIF;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {

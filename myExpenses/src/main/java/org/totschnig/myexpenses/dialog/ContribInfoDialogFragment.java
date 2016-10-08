@@ -20,7 +20,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.util.LicenceHandlerIFace;
+import org.totschnig.myexpenses.util.LicenceHandler;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.support.v7.app.AlertDialog;
@@ -63,10 +63,10 @@ public class ContribInfoDialogFragment  extends CommitSafeDialogFragment impleme
           getString(R.string.dialog_contrib_reminder_gain_access),
           linefeed,
           Utils.getContribFeatureLabelsAsFormattedList(getActivity(),null,
-              isContrib ? LicenceHandlerIFace.LicenceStatus.EXTENDED : LicenceHandlerIFace.LicenceStatus.CONTRIB));
-    if (!isContrib && LicenceHandlerIFace.HAS_EXTENDED) {
+              isContrib ? LicenceHandler.LicenceStatus.EXTENDED : LicenceHandler.LicenceStatus.CONTRIB));
+    if (!isContrib && LicenceHandler.HAS_EXTENDED) {
       CharSequence extendedList = Utils.getContribFeatureLabelsAsFormattedList(
-          getActivity(),null, LicenceHandlerIFace.LicenceStatus.EXTENDED);
+          getActivity(),null, LicenceHandler.LicenceStatus.EXTENDED);
       message = TextUtils.concat(
           message,
           linefeed,
@@ -89,7 +89,7 @@ public class ContribInfoDialogFragment  extends CommitSafeDialogFragment impleme
       } else {
         if (!isContrib) {
           builder.setNeutralButton(R.string.dialog_contrib_buy_premium, this);
-          if (LicenceHandlerIFace.HAS_EXTENDED) {
+          if (LicenceHandler.HAS_EXTENDED) {
             builder.setPositiveButton(R.string.dialog_contrib_buy_extended, this);
           }
         } else {

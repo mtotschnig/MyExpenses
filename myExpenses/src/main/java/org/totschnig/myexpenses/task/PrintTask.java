@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.task;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.export.pdf.PdfPrinter;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
@@ -52,7 +53,7 @@ public class PrintTask extends AsyncTask<Void, String, Result> {
     }
     account = Account.getInstanceFromDb(accountId);
     try {
-      return account.print(appDir,filter);
+      return new PdfPrinter(account, appDir, filter).print();
     } catch (Exception e) {
       Log.e("DEBUG","Error while printing",e);
       return new Result(false,

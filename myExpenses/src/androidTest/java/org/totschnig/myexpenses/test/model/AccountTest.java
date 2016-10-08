@@ -27,6 +27,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.CategoryCriteria;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
+import org.totschnig.myexpenses.util.Utils;
 
 import android.content.OperationApplicationException;
 import android.database.Cursor;
@@ -180,7 +181,7 @@ public class AccountTest extends ModelTest  {
   public void testGetAggregateAccountFromDb () {
     insertData();
     Account.clear();
-    String currency = Account.getLocalCurrency().getCurrencyCode();
+    String currency = Utils.getLocalCurrency().getCurrencyCode();
     Cursor c = getMockContentResolver().query(
         TransactionProvider.CURRENCIES_URI,
         new String[]{KEY_ROWID},

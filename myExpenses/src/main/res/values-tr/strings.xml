@@ -95,8 +95,8 @@
   <string name="dialog_password_new_password_confirmation">Yeni parola (teyit)</string>
   <string name="dialog_remind_later">Daha sonra</string>
   <string name="dialog_remind_no">Hayır teşekkürler</string>
-  <string name="dialog_remind_rate_how_many_stars">Harcamalarıma kaç yıldız verirsiniz?</string>
-  <string name="dialog_remind_rate_1">Harcamalarımı yorumlamak ve puan vermek için lütfen bir dakikanızı ayrınız.</string>
+  <string name="dialog_remind_rate_how_many_stars">Harcamalarım\'a kaç yıldız verirsiniz?</string>
+  <string name="dialog_remind_rate_1">Harcamalarım\'ı yorumlamak ve puan vermek için lütfen bir dakikanızı ayrınız.</string>
   <string name="dialog_remind_rate_2">Yorumlarınız devamlı olarak geliştirme ve iyileştirmeler eklememize imkân vermektedir.</string>
   <string name="dialog_remind_rate_1_suggest_improvement">Bize geliştirme için tavsiyelerinizi yollamak için lütfen bir dakikanızı ayırınız.</string>
   <string name="dialog_remind_rate_yes">Şimdi not ver</string>
@@ -151,7 +151,7 @@
     <item>Grisbi, GnuCash, Quicken ya da MS Money gibi masa üstü finans programlarına aktarın.</item>
   </string-array>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="help_leading">%s için <i>Harcamalarım</i>\'i kurduğunuz için teşekkür ederiz.</string>
+  <string name="help_leading">%s için <i>Harcamalarım</i>\'ı kurduğunuz için teşekkür ederiz.</string>
   <string name="important_upgrade_information_heading">Önemli bilgi</string>
   <string name="import_select_transactions">Muameleler</string>
   <string name="income">gelirler</string>
@@ -305,7 +305,7 @@
   <string name="pref_enter_licence_summary">Eğer anahtarı aldıysanız tüm işlevlere erişim kazanın.</string>
   <string name="pref_enter_licence_title">Anahtarını gir</string>
   <string name="pref_export_format_title">Veri biçimi</string>
-  <string name="pref_follow_gplus_title">Harcamalarımı Google+\'da takip edin</string>
+  <string name="pref_follow_gplus_title">Harcamalarım\'ı Google+\'da takip edin</string>
   <string name="pref_import_from_grisbi_summary">Kategori (ve bölüm) içeri aktar Grisbi XML.</string>
   <string name="pref_import_from_grisbi_title">Grisbi\'den içeri aktar</string>
   <!--%s is replaced with QIF or CSV-->
@@ -405,7 +405,7 @@
   <string name="sum_income">Gelirler</string>
   <string name="sum_transfer">Transferler</string>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">%s için kişisel finans yöneticisi olan Harcamalarıma http://www.myexpenses.mobi adresinde göz atın</string>
+  <string name="tell_a_friend_message">%s için kişisel finans yöneticisi olan Harcamalarım\'a http://www.myexpenses.mobi adresinde göz atın</string>
   <string name="template_create_success">\"%1$s\" şablonu başarıyla oluşturuldu</string>
   <string name="thank_you">Desteğiniz için teşekkür ederiz!</string>
   <string name="time">Zaman</string>
@@ -447,13 +447,13 @@
   <string name="warning_widget_disabled">Bu widget\'i uygulama ayarlarında etkinleştirmeniz gerekir.</string>
   <string name="warning_instantiate_template_from_widget_password_protected">Şablonların bu widget\'ten hızlı örneklenmeleri sadece uygulama ayarlarında widget\'lerden parola olmadan veri girilmesine izin verdiyseniz mümkündür.</string>
   <string name="warning_password_contrib">Bir güvenlik sorusu ayarlamanız parolanızı unutursanız uygulamanın kilidini açmanıza imkân sağlar.</string>
-  <string name="warning_password_no_contrib">Bir parola ayarlarsanız onu unutmamaya dikkat ediniz. Unutursanız parolanızı tekrar elde edemenizin tek yolu bir güvenlik sorusu ayarlamanıza imkân sağlayan Harcamalarımın Katkı Anahtarı kurmaktır.</string>
+  <string name="warning_password_no_contrib">Bir parola ayarlarsanız onu unutmamaya dikkat ediniz. Unutursanız parolanızı tekrar elde edemenizin tek yolu bir güvenlik sorusu ayarlamanıza imkân sağlayan Harcamalarım\'ın Katkı Anahtarı kurmaktır.</string>
   <string name="warning_reset_account">Devam ederseniz bu hesabın tüm muameleleri veritabanından silinecek ve bu geri alınamayacaktır.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Devam ederseniz, tüm hesaplar%1$s için muameleler veritabanından silinecek ve bu geri alınamayacaktır.</string>
   <string name="warning_reset_account_matched">Eğer devam ederseniz, güncel filtre ile eşleşen muameleler veritabanından silinecek ve bu geri alınamayacaktır.</string>
   <string name="warning_restore">Veritabanı ve tercihler \"%1$s\" yedekleme dosyasından yüklenecektir. Güncel veriler silinecektir. Devam etmek istiyor musunuz?</string>
-  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Eğer Harcamalarımı kaldırırsanız şu anda seçili olan dışa aktarmalar ve yedeklemeler klasörü Android tarafından otomatik olarak silinecektir. Buna mani olmak için Ayarlar ekranından başka bir klasör seçebilirsiniz.</string>
+  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Eğer Harcamalarım\'ı kaldırırsanız şu anda seçili olan dışa aktarmalar ve yedeklemeler klasörü Android tarafından otomatik olarak silinecektir. Buna mani olmak için Ayarlar ekranından başka bir klasör seçebilirsiniz.</string>
   <string name="warning_splitpartcategory_context">Bölünmüş muamelelerin bir parçası olan transferler sadece bu bölünmüş muamele bağlamında düzenlenebilirler.</string>
   <string name="warning_fraction_digits_out_of_range">0 ilâ 8 arası bir sayı ayarlayınız</string>
   <string name="warning_change_fraction_digits_1">Yeni kesir basamak sayısıyla eşleşmesi için veritabanındaki meblağların güncellenmesi gerekmektedir.</string>
@@ -557,7 +557,7 @@
   <string name="pref_auto_backup_time_title">Otomatik yedekleme zamanı</string>
   <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">%d başarılı otomatik yedekleme ardından otomatik yedekleme devre dışı bırakılacaktır.</string>
   <string name="warning_auto_backup_limit_reached">Başarılı otomatik yedeklemeler için sınıra erişildi.</string>
-  <string name="calendar_permission_required">Gelecek ve tekrar eden muameleler oluşturabilmek amacıyla <i>Harcamalarımın</i> takviminize erişmek için müsaadeye ihtiyacı vardır. </string>
+  <string name="calendar_permission_required">Gelecek ve tekrar eden muameleler oluşturabilmek amacıyla <i>Harcamalarım</i>\'ın takviminize erişmek için müsaadeye ihtiyacı vardır. </string>
   <string name="button_request_calendar_access" tools:ignore="UnusedResources">İzin ver</string>
   <string name="switch_on_text">Açık</string>
   <string name="switch_off_text">Kapalı</string>

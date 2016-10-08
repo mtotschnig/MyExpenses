@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.activity;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
@@ -74,6 +75,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
 import org.totschnig.myexpenses.ui.PreferenceDividerItemDecoration;
+import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
@@ -100,6 +102,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
   private static final int RESTORE_REQUEST = 1;
   private static final int PICK_FOLDER_REQUEST = 2;
   private static final int CONTRIB_PURCHASE_REQUEST = 3;
+  private static final int PICK_FOLDER_REQUEST_LEGACY = 4;
   public static final String KEY_OPEN_PREF_KEY = "openPrefKey";
   private String initialPrefToShow;
   private SettingsFragment activeFragment;
@@ -216,6 +219,10 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       AbstractWidget.updateWidgets(this, TemplateWidget.class);
     } else if (key.equals(PrefKey.AUTO_BACKUP.getKey()) || key.equals(PrefKey.AUTO_BACKUP_TIME.getKey())) {
       DailyAutoBackupScheduler.updateAutoBackupAlarms(this);
+    } else if (key.equals(PrefKey.ENTER_LICENCE.getKey())) {
+      CommonCommands.dispatchCommand(this, R.id.VERIFY_LICENCE_COMMAND, null);
+      getFragment().setProtectionDependentsState();
+      getFragment().configureContribPrefs();
     }
   }
 
@@ -269,7 +276,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
 
   @Override
   public boolean onPreferenceStartScreen(PreferenceFragmentCompat preferenceFragmentCompat,
-      PreferenceScreen preferenceScreen) {
+                                         PreferenceScreen preferenceScreen) {
     final String key = preferenceScreen.getKey();
     if (key.equals(getString(R.string.pref_screen_protection)) &&
         MyApplication.getInstance().isProtected()) {
@@ -278,8 +285,8 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
             @Override
             public void onPasswordDialogUnlocked() {
               startPreferenceScreen(key);
-          }
-        });
+            }
+          });
       return true;
     }
     startPreferenceScreen(key);
@@ -476,8 +483,8 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
             (ListPreference) findPreference(getString(R.string.pref_group_month_starts_key));
         String[] daysEntries = new String[31], daysValues = new String[31];
         for (int i = 1; i <= 31; i++) {
-          daysEntries[i-1] = Utils.toLocalizedString(i);
-          daysValues[i-1] = String.valueOf(i);
+          daysEntries[i - 1] = Utils.toLocalizedString(i);
+          daysValues[i - 1] = String.valueOf(i);
         }
         startPref.setEntries(daysEntries);
         startPref.setEntryValues(daysValues);
@@ -641,10 +648,6 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
             }
           }
         }
-      } else if (key.equals(PrefKey.ENTER_LICENCE.getKey())) {
-        CommonCommands.dispatchCommand(getActivity(), R.id.VERIFY_LICENCE_COMMAND, (String) value);
-        setProtectionDependentsState();
-        configureContribPrefs();
       } else if (key.equals(PrefKey.CUSTOM_DECIMAL_FORMAT.getKey())) {
         if (TextUtils.isEmpty((String) value)) {
           Utils.setNumberFormat(NumberFormat.getCurrencyInstance());
@@ -711,21 +714,18 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
           preference.setSummary(R.string.external_storage_unavailable);
           preference.setEnabled(false);
         } else {
-          Intent intent;
           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             //noinspection InlinedApi
-            intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
             try {
               startActivityForResult(intent, PICK_FOLDER_REQUEST);
               return true;
             } catch (ActivityNotFoundException e) {
-              Utils.reportToAcra(e);
+              AcraHelper.report(e);
               //fallback to FolderBrowser
             }
           }
-          intent = new Intent(getActivity(), FolderBrowser.class);
-          intent.putExtra(FolderBrowser.PATH, appDir.getUri().getPath());
-          startActivityForResult(intent, PICK_FOLDER_REQUEST);
+          startLegacyFolderRequest(appDir);
         }
         return true;
       }
@@ -738,6 +738,13 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         return true;
       }
       return false;
+    }
+
+    protected void startLegacyFolderRequest(DocumentFile appDir) {
+      Intent intent;
+      intent = new Intent(getActivity(), FolderBrowser.class);
+      intent.putExtra(FolderBrowser.PATH, appDir.getUri().getPath());
+      startActivityForResult(intent, PICK_FOLDER_REQUEST_LEGACY);
     }
 
     private void setAppDirSummary() {
@@ -826,20 +833,26 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       return result;
     }
 
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     public void onActivityResult(int requestCode, int resultCode,
                                  Intent intent) {
       if (requestCode == RESTORE_REQUEST && resultCode == RESULT_FIRST_USER) {
         getActivity().setResult(resultCode);
         getActivity().finish();
-      } else if (requestCode == PICK_FOLDER_REQUEST && resultCode == RESULT_OK) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      } else if (requestCode == PICK_FOLDER_REQUEST) {
+        if (resultCode == RESULT_OK) {
           Uri dir = intent.getData();
           getActivity().getContentResolver().takePersistableUriPermission(dir,
-              Intent.FLAG_GRANT_READ_URI_PERMISSION |
-                  Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+              Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
           PrefKey.APP_DIR.putString(intent.getData().toString());
+          setAppDirSummary();
+        } else {
+          String error = "PICK_FOLDER_REQUEST gescheitert";
+          AcraHelper.report(new Exception(error));
+          startLegacyFolderRequest(Utils.getAppDir());
         }
+      } else if (requestCode == PICK_FOLDER_REQUEST_LEGACY && resultCode == RESULT_OK) {
         setAppDirSummary();
       }
     }

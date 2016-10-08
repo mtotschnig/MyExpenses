@@ -53,7 +53,8 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
 import org.totschnig.myexpenses.service.PlanExecutor;
-import org.totschnig.myexpenses.util.LicenceHandlerIFace;
+import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.LicenceHandler;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
@@ -75,7 +76,7 @@ public class MyApplication extends Application implements
 
   private AppComponent appComponent;
   @Inject
-  LicenceHandlerIFace licenceHandler;
+  LicenceHandler licenceHandler;
   @Inject @Nullable
   ACRAConfiguration acraConfiguration;
   private static boolean instrumentationTest = false;
@@ -145,7 +146,7 @@ public class MyApplication extends Application implements
       // sets up mSettings
       getSettings().registerOnSharedPreferenceChangeListener(this);
       licenceHandler.init(this);
-      initPlanner();
+      initPlannerInternal(60000);
       registerWidgetObservers();
     }
   }
@@ -211,7 +212,7 @@ public class MyApplication extends Application implements
     return getThemeId("Translucent");
   }
 
-  public LicenceHandlerIFace getLicenceHandler() {
+  public LicenceHandler getLicenceHandler() {
     return licenceHandler;
   }
 
@@ -420,7 +421,7 @@ public class MyApplication extends Application implements
         new String[] { Calendars._ID }, Calendars.NAME + " = ?",
         new String[] { PLANNER_CALENDAR_NAME }, null);
     if (c == null) {
-      Utils.reportToAcra(new Exception(
+      AcraHelper.report(new Exception(
               "Searching for planner calendar failed, Calendar app not installed?"));
       return INVALID_CALENDAR_ID;
     }
@@ -445,17 +446,17 @@ public class MyApplication extends Application implements
       try {
         uri = getContentResolver().insert(calendarUri, values);
       } catch (IllegalArgumentException e) {
-        Utils.reportToAcra(e);
+        AcraHelper.report(e);
         return INVALID_CALENDAR_ID;
       }
       if (uri == null) {
-        Utils.reportToAcra(new Exception(
+        AcraHelper.report(new Exception(
             "Inserting planner calendar failed, uri is null"));
         return INVALID_CALENDAR_ID;
       }
       plannerCalendarId = uri.getLastPathSegment();
       if (plannerCalendarId == null || plannerCalendarId.equals("0")) {
-        Utils.reportToAcra(new Exception(String.format(Locale.US,
+        AcraHelper.report(new Exception(String.format(Locale.US,
                 "Inserting planner calendar failed, last path segment is %s", plannerCalendarId)));
         return INVALID_CALENDAR_ID;
       }
@@ -473,8 +474,12 @@ public class MyApplication extends Application implements
    * plans 3) reschedule execution through alarm
    */
   public void initPlanner() {
-    Log.i(TAG, "initPlanner called, setting plan executor to run in 1 minute");
-    PlanExecutor.setAlarm(this, System.currentTimeMillis() + 60000);
+    initPlannerInternal(0);
+  }
+
+  private void initPlannerInternal(long delay) {
+    Log.i(TAG, "initPlanner called, setting plan executor to run with delay " + delay);
+    PlanExecutor.setAlarm(this, System.currentTimeMillis() + delay);
   }
 
   public static String[] buildEventProjection() {
@@ -570,7 +575,7 @@ public class MyApplication extends Application implements
         Log.i(TAG, "storing calendar path : " + path);
         PrefKey.PLANNER_CALENDAR_PATH.putString(path);
       } else {
-        Utils.reportToAcra(new IllegalStateException(
+        AcraHelper.report(new IllegalStateException(
             "could not retrieve configured calendar"));
         mPlannerCalendarId = "-1";
         PrefKey.PLANNER_CALENDAR_PATH.remove();

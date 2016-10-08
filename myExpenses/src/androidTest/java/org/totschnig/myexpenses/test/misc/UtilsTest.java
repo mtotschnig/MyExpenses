@@ -20,10 +20,9 @@ import android.os.Parcel;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.Currency;
 
 import org.totschnig.myexpenses.export.qif.QifUtils;
-import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.util.PdfHelper;
 import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable;
 import org.totschnig.myexpenses.util.Utils;
@@ -50,7 +49,7 @@ public class UtilsTest extends TestCase {
   }
 
   public void testGetSaveInstance() {
-    Assert.assertNotNull(Account.CurrencyEnum.valueOf(Utils.getSaveInstance("EEK").getCurrencyCode()));
+    Assert.assertNotNull(CurrencyEnum.valueOf(Utils.getSaveInstance("EEK").getCurrencyCode()));
   }
 
   public void testPdfHelper() {
@@ -68,16 +67,5 @@ public class UtilsTest extends TestCase {
     sbap.writeToParcel(p, 0);
     p.setDataPosition(0);
     assertEquals(sbap, SparseBooleanArrayParcelable.CREATOR.createFromParcel(p));
-  }
-
-  public void testParseMoney() {
-    assertEquals(QifUtils.parseMoney("4"),new BigDecimal(4));
-    assertEquals(QifUtils.parseMoney("-4"),new BigDecimal(-4));
-    assertEquals(QifUtils.parseMoney("4.5"),new BigDecimal(4.5));
-    assertEquals(QifUtils.parseMoney("4,5"),new BigDecimal(4.5));
-    assertEquals(QifUtils.parseMoney("-4.5"),new BigDecimal(-4.5));
-    assertEquals(QifUtils.parseMoney("-4,5"),new BigDecimal(-4.5));
-    assertEquals(QifUtils.parseMoney("0"),new BigDecimal(0));
-    assertEquals(QifUtils.parseMoney(""),new BigDecimal(0));
   }
 }

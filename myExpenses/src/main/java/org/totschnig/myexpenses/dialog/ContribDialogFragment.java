@@ -21,7 +21,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.util.LicenceHandlerIFace;
+import org.totschnig.myexpenses.util.LicenceHandler;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.app.Activity;
@@ -72,7 +72,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     boolean isContrib = MyApplication.getInstance().getLicenceHandler().isContribEnabled();
     if (!isContrib) {
       CharSequence featureList = Utils.getContribFeatureLabelsAsFormattedList(ctx, feature,
-          feature.isExtended() ? null : LicenceHandlerIFace.LicenceStatus.CONTRIB); //if feature is extended, we list all features
+          feature.isExtended() ? null : LicenceHandler.LicenceStatus.CONTRIB); //if feature is extended, we list all features
       //if user has contrib key, he already has access to premium features, currently there is only
       //one extended feature
       message = TextUtils.concat(message, " ",
@@ -80,7 +80,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
           linefeed, featureList);
       if (!feature.isExtended()) {
         String pro = getString(R.string.dialog_contrib_extended_gain_access);
-        CharSequence extendedList = Utils.getContribFeatureLabelsAsFormattedList(ctx,feature, LicenceHandlerIFace.LicenceStatus.EXTENDED);
+        CharSequence extendedList = Utils.getContribFeatureLabelsAsFormattedList(ctx,feature, LicenceHandler.LicenceStatus.EXTENDED);
         message = TextUtils.concat(message,linefeed, pro, linefeed, extendedList);
         builder.setNegativeButton(R.string.dialog_contrib_buy_premium, this);
       }
@@ -90,7 +90,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
         .setMessage(message)
         .setNeutralButton(R.string.dialog_contrib_no, this)
         .setIcon(R.mipmap.ic_launcher_alt);
-    if (LicenceHandlerIFace.HAS_EXTENDED) {
+    if (LicenceHandler.HAS_EXTENDED) {
       builder.setPositiveButton(isContrib ? R.string.dialog_contrib_upgrade_extended : R.string.dialog_contrib_buy_extended, this);
     }
     return builder.create();

@@ -12,7 +12,7 @@ import junit.framework.Assert;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.*;
-import org.totschnig.myexpenses.model.Account.Type;
+import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.test.R;
 import org.totschnig.myexpenses.util.CategoryTree;
@@ -86,14 +86,14 @@ public class Fixture {
     account1.description = testContext.getString(R.string.testData_account1Description);
     account1.label = testContext.getString(R.string.testData_account1Label);
     account1.openingBalance = new Money(defaultCurrency,2000L);
-    account1.grouping = Account.Grouping.DAY;
+    account1.grouping = Grouping.DAY;
     account1.save();
     if (stage ==1) return;
     account2 = new Account(
         testContext.getString(R.string.testData_account2Label),
         foreignCurrency,
         50000,
-        testContext.getString(R.string.testData_account2Description), Type.CASH,
+        testContext.getString(R.string.testData_account2Description), AccountType.CASH,
         Build.VERSION.SDK_INT > 13 ? appContext.getResources().getColor(org.totschnig.myexpenses.R.color.material_red) : Color.RED
     );
     account2.save();
@@ -102,17 +102,17 @@ public class Fixture {
         testContext.getString(R.string.testData_account3Label),
         defaultCurrency,
         200000,
-        testContext.getString(R.string.testData_account3Description), Type.BANK,
+        testContext.getString(R.string.testData_account3Description), AccountType.BANK,
         Build.VERSION.SDK_INT > 13 ? appContext.getResources().getColor(org.totschnig.myexpenses.R.color.material_blue) : Color.BLUE
     );
-    account3.grouping = Account.Grouping.DAY;
+    account3.grouping = Grouping.DAY;
     account3.save();
     account4 = new Account(
         testContext.getString(R.string.testData_account3Description),
         foreignCurrency,
         0,
         "",
-        Type.CCARD,
+        AccountType.CCARD,
         Build.VERSION.SDK_INT > 13 ? appContext.getResources().getColor(org.totschnig.myexpenses.R.color.material_cyan) : Color.CYAN);
     account4.save();
     //set up categories

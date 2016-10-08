@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.task;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
@@ -31,13 +30,13 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.ZipUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
@@ -170,7 +169,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
             Transaction.delete(id, (boolean) mExtra);
           }
         } catch (SQLiteConstraintException e) {
-          Utils.reportToAcraWithDbSchema(e);
+          AcraHelper.reportWithDbSchema(e);
           return false;
         }
         return true;
@@ -180,7 +179,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
             Transaction.undelete(id);
           }
         } catch (SQLiteConstraintException e) {
-          Utils.reportToAcraWithDbSchema(e);
+          AcraHelper.reportWithDbSchema(e);
           return false;
         }
         return true;
@@ -188,7 +187,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         try {
           Account.delete((Long) ids[0]);
         } catch (Exception e) {
-          Utils.reportToAcraWithDbSchema(e);
+          AcraHelper.reportWithDbSchema(e);
           return false;
         }
         return true;
@@ -198,7 +197,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
             PaymentMethod.delete(id);
           }
         } catch (SQLiteConstraintException e) {
-          Utils.reportToAcraWithDbSchema(e);
+          AcraHelper.reportWithDbSchema(e);
           return false;
         }
         return true;
@@ -208,7 +207,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
             Payee.delete(id);
           }
         } catch (SQLiteConstraintException e) {
-          Utils.reportToAcraWithDbSchema(e);
+          AcraHelper.reportWithDbSchema(e);
           return false;
         }
         return true;
@@ -218,7 +217,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
             Category.delete(id);
           }
         } catch (SQLiteConstraintException e) {
-          Utils.reportToAcraWithDbSchema(e);
+          AcraHelper.reportWithDbSchema(e);
           return false;
         }
         return true;
@@ -228,7 +227,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
             Template.delete(id);
           }
         } catch (SQLiteConstraintException e) {
-          Utils.reportToAcraWithDbSchema(e);
+          AcraHelper.reportWithDbSchema(e);
           return false;
         }
         return true;
@@ -504,7 +503,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     }
     File cacheDir = Utils.getCacheDir();
     if (cacheDir == null) {
-      Utils.reportToAcra(new Exception(
+      AcraHelper.report(new Exception(
           MyApplication.getInstance().getString(R.string.io_error_cachedir_null)));
       return new Result(false, R.string.io_error_cachedir_null);
     }
@@ -521,7 +520,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
             R.string.backup_success,
             backupFile.getUri());
       } catch (IOException e) {
-        Utils.reportToAcra(e);
+        AcraHelper.report(e);
         return new Result(
             false,
             failureMessage + " " + e.getMessage());

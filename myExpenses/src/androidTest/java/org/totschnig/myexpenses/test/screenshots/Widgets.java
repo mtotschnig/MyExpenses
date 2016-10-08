@@ -7,7 +7,7 @@ import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Template;
-import org.totschnig.myexpenses.model.Account.Type;
+import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.test.R;
 
 import org.junit.Ignore;
@@ -52,7 +52,7 @@ public class Widgets extends ActivityInstrumentationTestCase2<MyExpenses> {
         translate(l,R.string.testData_account1Label),
         c,
         2000,
-        "", Type.BANK, Account.DEFAULT_COLOR
+        "", AccountType.BANK, Account.DEFAULT_COLOR
     );
     a.save();
     Template t = Template.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION, a.getId());

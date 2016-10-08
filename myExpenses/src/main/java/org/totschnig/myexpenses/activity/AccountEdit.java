@@ -21,13 +21,14 @@ import java.util.Currency;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.Account.Type;
+import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SpinnerHelper;
-import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.AcraHelper;
 
 import android.annotation.SuppressLint;
 import android.content.ContentUris;
@@ -61,7 +62,7 @@ public class AccountEdit extends AmountActivity implements
   Account mAccount;
   private ArrayList<Integer> mColors;
   private ArrayAdapter<Integer> mColAdapter;
-  private ArrayAdapter<Account.CurrencyEnum> currencyAdapter;
+  private ArrayAdapter<CurrencyEnum> currencyAdapter;
 
   private void requireAccount() {
     if (mAccount==null) {
@@ -123,13 +124,13 @@ public class AccountEdit extends AmountActivity implements
     mCurrencySpinner = new SpinnerHelper(findViewById(R.id.Currency));
     currencyAdapter = new ArrayAdapter<>(
         this, android.R.layout.simple_spinner_item,
-        android.R.id.text1, Account.CurrencyEnum.sortedValues());
+        android.R.id.text1, CurrencyEnum.sortedValues());
     currencyAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
     mCurrencySpinner.setAdapter(currencyAdapter);
     
     mAccountTypeSpinner = new SpinnerHelper(findViewById(R.id.AccountType));
-    ArrayAdapter<Account.Type> typAdapter = new ArrayAdapter<>(
-            this, android.R.layout.simple_spinner_item, android.R.id.text1, Account.Type.values());
+    ArrayAdapter<AccountType> typAdapter = new ArrayAdapter<>(
+            this, android.R.layout.simple_spinner_item, android.R.id.text1, AccountType.values());
     typAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
     mAccountTypeSpinner.setAdapter(typAdapter);
     
@@ -222,7 +223,7 @@ public class AccountEdit extends AmountActivity implements
     }
     mAmountText.setAmount(amount);
     mCurrencySpinner.setSelection(currencyAdapter.getPosition(
-        Account.CurrencyEnum.valueOf(mAccount.currency.getCurrencyCode())));
+        CurrencyEnum.valueOf(mAccount.currency.getCurrencyCode())));
     mAccountTypeSpinner.setSelection(mAccount.type.ordinal());
     int selected = mColors.indexOf(mAccount.color);
     mColorSpinner.setSelection(selected);
@@ -238,7 +239,7 @@ public class AccountEdit extends AmountActivity implements
     if (openingBalance == null)
        return;
     String label;
-    String currency = ((Account.CurrencyEnum) mCurrencySpinner.getSelectedItem()).name();
+    String currency = ((CurrencyEnum) mCurrencySpinner.getSelectedItem()).name();
     try {
       mAccount.setCurrency(currency);
     } catch (IllegalArgumentException e) {
@@ -257,7 +258,7 @@ public class AccountEdit extends AmountActivity implements
       openingBalance = openingBalance.negate();
     }
     mAccount.openingBalance.setAmountMajor(openingBalance);
-    mAccount.type = (Type) mAccountTypeSpinner.getSelectedItem();
+    mAccount.type = (AccountType) mAccountTypeSpinner.getSelectedItem();
     //EditActivity.saveState calls DbWriteFragment
     super.saveState();
   }
@@ -278,7 +279,7 @@ public class AccountEdit extends AmountActivity implements
       case R.id.Currency:
         try {
           mAmountText.setFractionDigits(Money.getFractionDigits(
-              Currency.getInstance(Account.CurrencyEnum.values()[position].name())));
+              Currency.getInstance(CurrencyEnum.values()[position].name())));
         } catch (IllegalArgumentException e) {
           //will be reported to user when he tries so safe
         }
@@ -296,6 +297,10 @@ public class AccountEdit extends AmountActivity implements
    */
   @Override
   public void onPostExecute(Object result) {
+    if (result == null) {
+      Toast.makeText(this, "Unknown error while saving account", Toast.LENGTH_SHORT).show();
+      return;
+    }
     Intent intent=new Intent();
     intent.putExtra(DatabaseConstants.KEY_ROWID, ContentUris.parseId((Uri)result));
     setResult(RESULT_OK,intent);
@@ -315,11 +320,11 @@ public class AccountEdit extends AmountActivity implements
   public boolean onPrepareOptionsMenu(Menu menu) {
     requireAccount();
     if (mAccount==null) {
-      Utils.reportToAcra(new NullPointerException("mAccount is null"));
+      AcraHelper.report(new NullPointerException("mAccount is null"));
     } else {
       MenuItem item = menu.findItem(R.id.EXCLUDE_FROM_TOTALS_COMMAND);
       if (item==null) {
-        Utils.reportToAcra(new NullPointerException("EXCLUDE_FROM_TOTALS_COMMAND menu item not found"));
+        AcraHelper.report(new NullPointerException("EXCLUDE_FROM_TOTALS_COMMAND menu item not found"));
       } else {
         item.setChecked(
             mAccount.excludeFromTotals);

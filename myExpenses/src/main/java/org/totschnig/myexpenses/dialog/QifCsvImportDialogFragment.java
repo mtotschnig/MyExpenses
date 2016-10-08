@@ -9,7 +9,8 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.QifCSVImport;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
-import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.CurrencyEnum;
+import org.totschnig.myexpenses.model.ExportFormat;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.KEY_FORMAT;
@@ -42,9 +43,9 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
   public static final String PREFKEY_IMPORT_ENCODING = "import_qif_encoding";
   private MergeCursor mAccountsCursor;
   private long accountId = 0;
-  private Account.CurrencyEnum currency = null;
+  private CurrencyEnum currency = null;
 
-  public static final QifCsvImportDialogFragment newInstance(Account.ExportFormat format) {
+  public static final QifCsvImportDialogFragment newInstance(ExportFormat format) {
     QifCsvImportDialogFragment f = new QifCsvImportDialogFragment();
     Bundle args = new Bundle();
     args.putSerializable(KEY_FORMAT,format);
@@ -56,7 +57,7 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     if (savedInstanceState!=null) {
       accountId = savedInstanceState.getLong(KEY_ACCOUNTID);
-      currency = (Account.CurrencyEnum) savedInstanceState.getSerializable(KEY_CURRENCY);
+      currency = (CurrencyEnum) savedInstanceState.getSerializable(KEY_CURRENCY);
     }
     return super.onCreateDialog(savedInstanceState);
   }
@@ -71,8 +72,8 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
         getFormat().name());
   }
 
-  private Account.ExportFormat getFormat() {
-    return (Account.ExportFormat) getArguments().getSerializable(KEY_FORMAT);
+  private ExportFormat getFormat() {
+    return (ExportFormat) getArguments().getSerializable(KEY_FORMAT);
   }
 
   @Override
@@ -101,7 +102,7 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
           mUri,
           format,
           mAccountSpinner.getSelectedItemId(),
-          ((Account.CurrencyEnum) mCurrencySpinner.getSelectedItem()).name(),
+          ((CurrencyEnum) mCurrencySpinner.getSelectedItem()).name(),
           mImportTransactions.isChecked(),
           mImportCategories.isChecked(),
           mImportParties.isChecked(),
@@ -137,7 +138,7 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
     extras.addRow(new String[] {
         "0",
         getString(R.string.menu_create_account),
-        Account.getLocalCurrency().getCurrencyCode()
+        Utils.getLocalCurrency().getCurrencyCode()
     });
     mAccountsCursor = new MergeCursor(new Cursor[] {extras,data});
     mAccountsAdapter.swapCursor(mAccountsCursor);
@@ -153,7 +154,7 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
   @Override
   protected void setupDialogView(View view) {
     super.setupDialogView(view);
-    if (getFormat().equals(Account.ExportFormat.CSV)) {
+    if (getFormat().equals(ExportFormat.CSV)) {
       view.findViewById(R.id.import_select_types).setVisibility(View.GONE);
     }
     mAccountSpinner = (Spinner) view.findViewById(R.id.Account);
@@ -178,7 +179,7 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
       long id) {
     if (parent.getId()==R.id.Currency) {
       if (accountId==0) {
-        currency = (Account.CurrencyEnum) parent.getSelectedItem();
+        currency = (CurrencyEnum) parent.getSelectedItem();
       }
       return;
     }
@@ -186,13 +187,13 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
       accountId = id;
       mAccountsCursor.moveToPosition(position);
 
-      Account.CurrencyEnum currency = (accountId==0 && this.currency !=null) ?
+      CurrencyEnum currency = (accountId==0 && this.currency !=null) ?
           this.currency :
-          Account.CurrencyEnum
+          CurrencyEnum
           .valueOf(
               mAccountsCursor.getString(2));//2=KEY_CURRENCY
       mCurrencySpinner.setSelection(
-          ((ArrayAdapter<Account.CurrencyEnum>) mCurrencySpinner.getAdapter())
+          ((ArrayAdapter<CurrencyEnum>) mCurrencySpinner.getAdapter())
               .getPosition(currency));
       mCurrencySpinner.setEnabled(position==0);
     }
