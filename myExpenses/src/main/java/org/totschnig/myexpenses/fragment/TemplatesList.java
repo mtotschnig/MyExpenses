@@ -21,6 +21,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
@@ -47,9 +49,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.calendar.CalendarContractCompat;
-import com.android.calendar.CalendarContractCompat.Events;
-
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
@@ -58,7 +57,6 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
-import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
@@ -67,8 +65,8 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.Utils;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import icepick.Icepick;
 import icepick.State;
@@ -89,6 +87,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 
 public class TemplatesList extends SortableListFragment {
 
@@ -114,6 +113,9 @@ public class TemplatesList extends SortableListFragment {
    */
   @State
   boolean expandedHandled = false;
+
+  @State
+  boolean repairTriggered = false;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -334,8 +336,45 @@ public class TemplatesList extends SortableListFragment {
               Toast.makeText(getActivity(), R.string.save_transaction_template_deleted, Toast.LENGTH_LONG).show();
             }
           }
+          //look for plans that we could possible relink
+          if (!repairTriggered && mTemplatesCursor.moveToFirst()) {
+            final ArrayList<String> missingUuids = new ArrayList<>();
+            while (!mTemplatesCursor.isAfterLast()) {
+              if (!mTemplatesCursor.isNull(columnIndexPlanId) && mTemplatesCursor.isNull(columnIndexPlanInfo)) {
+                missingUuids.add(mTemplatesCursor.getString(mTemplatesCursor.getColumnIndex(KEY_UUID)));
+              }
+              mTemplatesCursor.moveToNext();
+            }
+            if (missingUuids.size() > 0) {
+              new RepairHandler(this).obtainMessage(
+                  0, missingUuids.toArray(new String[missingUuids.size()]))
+                  .sendToTarget();
+            }
+          }
         }
         break;
+    }
+  }
+
+  private static class RepairHandler extends Handler {
+    private final WeakReference<TemplatesList> mFragment;
+
+    public RepairHandler(TemplatesList fragment) {
+      mFragment = new WeakReference<TemplatesList>(fragment);
+    }
+
+    @Override
+    public void handleMessage(Message msg) {
+      String[] missingUuids = (String[]) msg.obj;
+      TemplatesList fragment = mFragment.get();
+      if (fragment != null && fragment.getActivity() != null) {
+        fragment.repairTriggered = true;
+        ((ProtectedFragmentActivity) fragment.getActivity()).startTaskExecution(
+            TaskExecutionFragment.TASK_REPAIR_PLAN,
+            missingUuids,
+            null,
+            0);
+      }
     }
   }
 
