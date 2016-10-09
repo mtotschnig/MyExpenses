@@ -362,9 +362,9 @@ public class MyApplication extends Application implements
         new String[] { CALENDAR_FULL_PATH_PROJECTION + " AS path" },
         Calendars._ID + " = ?", new String[] { calendarId }, null);
     boolean result = true;
-    if (c == null)
-      return false;
-    else {
+    if (c == null) {
+      result = false;
+    } else {
       if (c.moveToFirst()) {
         String found = DbUtils.getString(c, 0);
         String expected = PrefKey.PLANNER_CALENDAR_PATH.getString("");
@@ -379,16 +379,15 @@ public class MyApplication extends Application implements
         result = false;
       }
       c.close();
-      return result;
     }
+    return result;
   }
 
   public String checkPlanner() {
     mPlannerCalendarId = PrefKey.PLANNER_CALENDAR_ID.getString(INVALID_CALENDAR_ID);
     if (!mPlannerCalendarId.equals(INVALID_CALENDAR_ID) && !checkPlannerInternal(mPlannerCalendarId)) {
       removePlanner();
-      return
-          INVALID_CALENDAR_ID;
+      return INVALID_CALENDAR_ID;
     }
     return mPlannerCalendarId;
   }
