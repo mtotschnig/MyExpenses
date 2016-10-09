@@ -1,20 +1,17 @@
 package org.totschnig.myexpenses.task;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+import android.support.v4.provider.DocumentFile;
+import android.text.TextUtils;
+import android.util.Log;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Serializable;
-import java.util.Date;
+import com.android.calendar.CalendarContractCompat;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -27,25 +24,32 @@ import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.FileUtils;
-import org.totschnig.myexpenses.util.ZipUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.ZipUtils;
 
-import android.content.ContentResolver;
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteConstraintException;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.support.annotation.NonNull;
-import android.support.v4.provider.DocumentFile;
-import android.text.TextUtils;
-import android.util.Log;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Serializable;
+import java.util.Date;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
 
 /**
  * Note that we need to check if the callbacks are null in each method in case
@@ -480,6 +484,28 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           return true;
         }
         return false;
+      case TaskExecutionFragment.TASK_REPAIR_PLAN:
+        String calendarId = PrefKey.PLANNER_CALENDAR_ID.getString("-1");
+        if (calendarId.equals("-1")) {
+          return false;
+        }
+        values = new ContentValues();
+        for (String uuid : (String[]) ids) {
+          Cursor eventCursor = cr.query(CalendarContractCompat.Events.CONTENT_URI, new String[]{CalendarContractCompat.Events._ID},
+              CalendarContractCompat.Events.CALENDAR_ID + " = ? AND " + CalendarContractCompat.Events.DESCRIPTION
+                  + " LIKE ?", new String[]{calendarId,
+                  "%" + uuid + "%"}, null);
+          if (eventCursor != null) {
+            if (eventCursor.moveToFirst()) {
+              values.put(KEY_PLANID, eventCursor.getLong(0));
+              cr.update(TransactionProvider.TEMPLATES_URI, values,
+                  DatabaseConstants.KEY_UUID + " = ?",
+                  new String[]{uuid});
+            }
+            eventCursor.close();
+          }
+        }
+        return true;
     }
     return null;
   }
