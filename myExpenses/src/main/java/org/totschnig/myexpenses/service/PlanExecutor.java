@@ -68,7 +68,7 @@ public class PlanExecutor extends IntentService {
       Log.i(MyApplication.TAG, "PlanExecutor: no planner set, nothing to do");
       return;
     }
-    long lastExecutionTimeStamp = PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP.getLong(H24);
+    long lastExecutionTimeStamp = PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP.getLong(now - H24);
     Log.i(MyApplication.TAG, String.format(
         "executing plans from %d to %d",
         lastExecutionTimeStamp,
