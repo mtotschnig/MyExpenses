@@ -54,19 +54,19 @@
     <!--  Welcome activity colors -->
     <!-- Screens background color-->
     <color name="bg_screen1">#26A69A</color>
-    <color name="bg_screen2">#1cd1b0</color>
+    <color name="bg_screen2">#20d2bb</color>
     <color name="bg_screen3">#5C6BC0</color>
     <color name="bg_screen4">#7E57C2</color>
 
     <!-- dots inactive colors -->
     <color name="dot_dark_screen1">#009688</color>
-    <color name="dot_dark_screen2">#E91E63</color>
+    <color name="dot_dark_screen2">#14a895</color>
     <color name="dot_dark_screen3">#3F51B5</color>
     <color name="dot_dark_screen4">#673AB7</color>
 
     <!-- dots active colors -->
     <color name="dot_light_screen1">#80CBC4</color>
-    <color name="dot_light_screen2">#F48FB1</color>
+    <color name="dot_light_screen2">#8cf9eb</color>
     <color name="dot_light_screen3">#9FA8DA</color>
     <color name="dot_light_screen4">#B39DDB</color>
 
