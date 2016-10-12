@@ -77,7 +77,6 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
-import org.totschnig.myexpenses.dialog.WelcomeDialogFragment;
 import org.totschnig.myexpenses.fragment.ContextualActionBarFragment;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
@@ -383,7 +382,6 @@ public class MyExpenses extends LaunchActivity implements
     FragmentManager fm = getSupportFragmentManager();
     if (fm.findFragmentByTag(ProtectionDelegate.ASYNC_TAG) == null) {
       fm.beginTransaction()
-          .add(WelcomeDialogFragment.newInstance(), "WELCOME")
           .add(TaskExecutionFragment.newInstance(
               TaskExecutionFragment.TASK_REQUIRE_ACCOUNT, new Long[]{0L}, null),
               ProtectionDelegate.ASYNC_TAG)
@@ -983,11 +981,6 @@ public class MyExpenses extends LaunchActivity implements
         getSupportActionBar().show();
         FragmentManager fm = getSupportFragmentManager();
         setup();
-        WelcomeDialogFragment wdf =
-            ((WelcomeDialogFragment) fm.findFragmentByTag("WELCOME"));
-        if (wdf != null) {
-          wdf.setSetupComplete();
-        }
         break;
       case TaskExecutionFragment.TASK_EXPORT:
         ArrayList<Uri> files = (ArrayList<Uri>) o;
