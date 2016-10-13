@@ -1,33 +1,28 @@
-MyExpenses
-==========
+# MyExpenses
 
 GPL licenced Android Expense Tracking App.
 
-*My Expenses* is an Android app designed to keep
-  track of your expenses and incomes, and to export them as QIF files into a desktop
-  finance tool, like <a href="http://www.grisbi.org">Grisbi</a> (Open Source), <a
-  href="http://www.gnucash.org">Gnucash</a> (Open Source), MS Money, Quicken or Wiso Mein Geld.<br />
-  Requires Android 2.1 and above.
-  
-  [![Bountysource](https://www.bountysource.com/badge/tracker?tracker_id=267118)](https://www.bountysource.com/trackers/267118-myexpenses?utm_source=267118&utm_medium=shield&utm_campaign=TRACKER_BADGE)
+*My Expenses* is an Android app designed to keep track of your expenses and 
+    incomes. Original app was developed by Michael Totschnig, improved by
+    team of developers from Innopolis University.  
+    
+Requires Android 2.1 and above.
 
-Features
-========
-- Up to five accounts with transfers (unlimited in Contrib version)
-- Define plans (3) for future and recurrent transactions  (unlimited in Contrib version)
+# Features
+- Up to five accounts with transfers
+- Define plans for future and recurrent transactions
 - Group transactions per day, week, month, year and display sums per group
-- Two levels of categories (import from Grisbi XML), display distribution of transactions in Contrib version
+- Two levels of categories (import from Grisbi XML), display distribution of transactions
 - Split transactions (Contrib version)
 - Calculator
-- Export to QIF and CSV (MS Excel), can be automatically shared (via email, FTP, Dropbox, ...) and done in batch in Contrib version
-- Password protection, recoverable with security question in Contrib version
+- Export to CSV (MS Excel), can be automatically shared (via email, FTP, Dropbox, ...) and done in batch in Contrib version
+- Password protection, recoverable with security question
 - Integrated Help
 - Data backup and restore
 - Aggregate financial situation over all accounts with same currency
 - Two themes: light and dark
 
-Credits
-=====
+# Credits
 *My Expenses* relies on a couple of open source libraries :
 
 - <a href="https://github.com/emilsjolander/StickyListHeaders">StickyListHeaders</a>
@@ -44,14 +39,12 @@ Credits
 and on the contribution of many users that helped make My Expenses available in 28 different languages
 <a href="http://www.myexpenses.mobi/en/#translate">languages</a>:
 
-Build
-=====
-
+# Build
 ```
-git clone --depth 1 https://github.com/mtotschnig/MyExpenses.git
+git clone --depth 1 https://gitlab.com/dsamoylenko/MyExpenses.git
 cd MyExpenses
 git submodule init
 git submodule update
-export ANDROID_HOME={sdk-dir}
+export ANDROID_HOME=/opt/android-sdk
 ./gradlew build
 ```
