@@ -42,6 +42,7 @@ import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.export.CategoryInfo;
+import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
@@ -61,6 +62,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_FROM_ADAPTER;
@@ -71,6 +73,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 class SyncAdapter extends AbstractThreadedSyncAdapter {
   public static final String TAG = "SyncAdapter";
   private Map<String, Long> categoryToId;
+  private Map<String, Long> payeeToId;
 
   public SyncAdapter(Context context, boolean autoInitialize) {
     super(context, autoInitialize);
@@ -91,6 +94,7 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
   public void onPerformSync(Account account, Bundle extras, String authority,
                             ContentProviderClient provider, SyncResult syncResult) {
     categoryToId = new HashMap<>();
+    payeeToId = new HashMap<>();
     Log.i(TAG, "onPerformSync");
     AccountManager accountManager = (AccountManager) getContext().getSystemService(ACCOUNT_SERVICE);
     String lastLocalSequence = getUserDataWithDefault(accountManager, account,
@@ -211,7 +215,18 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
       new CategoryInfo(change.label()).insert(categoryToId);
       values.put(KEY_CATID, categoryToId.get(change.label()));
     }
-    //values.put("name", payeeName());
+    if (change.payeeName() != null) {
+      Long id = payeeToId.get(change.payeeName());
+      if (id == null) {
+        id = Payee.find(change.payeeName());
+        if (id == -1) {
+          id = Payee.maybeWrite(change.payeeName());
+        }
+        if (id != -1) {
+          values.put(KEY_PAYEEID, id);
+        }
+      }
+    }
     //values.put("transfer_account", transferAccount());
     //values.put("method_label", methodLabel());
     values.put(KEY_CR_STATUS, change.crStatus());
