@@ -1,9 +1,11 @@
 package org.totschnig.myexpenses.sync.json;
 
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.support.annotation.Nullable;
 
+import com.gabrielittner.auto.value.cursor.ColumnAdapter;
 import com.gabrielittner.auto.value.cursor.ColumnName;
 import com.google.auto.value.AutoValue;
 import com.google.gson.Gson;
@@ -43,8 +45,8 @@ public abstract class TransactionChange {
 
   public abstract Builder toBuilder();
 
-  @ColumnName(KEY_TYPE)
-  public abstract String type();
+  @ColumnAdapter(ChangeTypeAdapter.class)
+  public abstract Type type();
 
   @ColumnName(KEY_UUID)
   public abstract String uuid();
@@ -95,6 +97,25 @@ public abstract class TransactionChange {
   @ColumnName(KEY_PICTURE_URI)
   @Nullable
   public abstract String pictureUri();
+
+  public ContentValues toContentValues() {
+    ContentValues values = new ContentValues(14);
+    if (isCreate()) {
+      values.put("uuid", uuid());
+    }
+    //values.put("parent_uuid", parentUuid());
+    values.put("comment", comment());
+    values.put("date", date());
+    values.put("amount", amount());
+    //values.put("label", label());
+    //values.put("name", payeeName());
+    //values.put("transfer_account", transferAccount());
+    //values.put("method_label", methodLabel());
+    values.put("cr_status", crStatus());
+    values.put("number", referenceNumber());
+    //values.put("picture_id", pictureUri());
+    return values;
+  }
 
   public static TransactionChange mergeUpdate(TransactionChange initial, TransactionChange change) {
     if (!(change.isUpdate() && initial.isUpdate())) {
@@ -150,23 +171,20 @@ public abstract class TransactionChange {
   }
 
   public boolean isCreate() {
-    return type().equals(Type.created.name());
+    return type().equals(Type.created);
   }
 
   public boolean isUpdate() {
-    return type().equals(Type.updated.name());
+    return type().equals(Type.updated);
   }
 
   public boolean isDelete() {
-    return type().equals(Type.deleted.name());
+    return type().equals(Type.deleted);
   }
 
   @AutoValue.Builder
   public abstract static class Builder {
-    public Builder setType(Type type) {
-      return setType(type.name());
-    }
-    public abstract Builder setType(String value);
+    public abstract Builder setType(Type value);
     public abstract Builder setUuid(String value);
     public abstract Builder setTimeStamp(Long value);
     public abstract Builder setParentUuid(String value);

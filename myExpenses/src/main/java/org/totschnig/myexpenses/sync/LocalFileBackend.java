@@ -60,7 +60,7 @@ class LocalFileBackend implements SyncBackend {
         .filter(file -> Long.parseLong(Files.getNameWithoutExtension(file.getName()).substring(1)) > sequenceNumber)
         .map(this::getFromFile)
         .takeWhile(changeset -> !changeset.equals(ChangeSet.failed))
-        .reduce(ChangeSet::merge).orElse(ChangeSet.empty);
+        .reduce(ChangeSet::merge).orElse(ChangeSet.empty(sequenceNumber));
   }
 
   private ChangeSet getFromFile(DocumentFile file) {

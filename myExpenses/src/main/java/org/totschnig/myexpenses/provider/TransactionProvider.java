@@ -42,6 +42,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 import android.util.Log;
@@ -1224,7 +1225,7 @@ public class TransactionProvider extends ContentProvider {
   * any single one fails.
   */
   @Override
-  public ContentProviderResult[] applyBatch(ArrayList<ContentProviderOperation> operations)
+  public ContentProviderResult[] applyBatch(@NonNull ArrayList<ContentProviderOperation> operations)
       throws OperationApplicationException {
     final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
     db.beginTransaction();

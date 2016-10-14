@@ -21,14 +21,18 @@ import android.accounts.AccountManager;
 import android.annotation.TargetApi;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
+import android.content.ContentProviderOperation;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.OperationApplicationException;
 import android.content.SyncResult;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.RemoteException;
+import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.provider.DocumentFile;
 import android.support.v4.util.Pair;
@@ -41,17 +45,20 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
+import org.totschnig.myexpenses.util.AcraHelper;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import static android.content.Context.ACCOUNT_SERVICE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_FROM_ADAPTER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_REMOTE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 
 class SyncAdapter extends AbstractThreadedSyncAdapter {
   public static final String TAG = "SyncAdapter";
@@ -90,12 +97,14 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
     ChangeSet changeSetSince = backend.getChangeSetSince(Long.parseLong(lastRemoteSequence));
 
+    List<TransactionChange> remoteChanges;
+    List<TransactionChange> localChanges = new ArrayList<>();
     if (changeSetSince != null) {
       currentSequenceRemote = changeSetSince.sequenceNumber;
-      List<TransactionChange> remoteChanges = changeSetSince.changes;
+      remoteChanges = changeSetSince.changes;
+    } else {
+      remoteChanges = new ArrayList<>();
     }
-
-    List<TransactionChange> localChanges = new ArrayList<>();
     try {
       Uri changesUri = buildChangesUri(lastLocalSequence, accountId);
       if (hasLocalChanges(provider, changesUri)) {
@@ -114,31 +123,67 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
           c.close();
         }
       }
-
-      if (localChanges.size() > 0) {
-        backend.lock();
-        currentSequenceRemote = backend.writeChangeSet(localChanges);
-        backend.unlock();
-        if (currentSequenceRemote != ChangeSet.FAILED) {
-          accountManager.setUserData(account, KEY_SYNC_SEQUENCE_LOCAL, String.valueOf(currentSequenceLocal));
-        }
-      }
-
-      //write remote changes to local
-
-      accountManager.setUserData(account, KEY_SYNC_SEQUENCE_REMOTE, String.valueOf(currentSequenceRemote));
     } catch (RemoteException e) {
       e.printStackTrace();
     }
-    //get remote changes since sequence
-    //get local changes
-    //merge
-    //filter out afterDelete changes
-    //sort
-    //iterate
-    //write local change to remote source
-    //write remote change to db
-    //store new sequence
+
+    if (localChanges.size() > 0 && remoteChanges.size() > 0) {
+      Pair<List<TransactionChange>, List<TransactionChange>> mergeResult =
+          mergeChangeSets(localChanges, remoteChanges);
+      localChanges = mergeResult.first; remoteChanges = mergeResult.second;
+    }
+
+    if (remoteChanges.size() > 0) {
+      try {
+        writeRemoteChangesToDb(provider, remoteChanges, accountId);
+        accountManager.setUserData(account, KEY_SYNC_SEQUENCE_REMOTE, String.valueOf(currentSequenceRemote));
+      } catch (RemoteException | OperationApplicationException | SQLiteException e) {
+        AcraHelper.report(e);
+        return;
+      }
+    }
+
+    if (localChanges.size() > 0) {
+      backend.lock();
+      currentSequenceRemote = backend.writeChangeSet(localChanges);
+      backend.unlock();
+      if (currentSequenceRemote != ChangeSet.FAILED) {
+        accountManager.setUserData(account, KEY_SYNC_SEQUENCE_LOCAL, String.valueOf(currentSequenceLocal));
+        accountManager.setUserData(account, KEY_SYNC_SEQUENCE_REMOTE, String.valueOf(currentSequenceRemote));
+      }
+    }
+
+  }
+
+  private void writeRemoteChangesToDb(ContentProviderClient provider, List<TransactionChange> remoteChanges, String accountId)
+      throws RemoteException, OperationApplicationException {
+    ArrayList<ContentProviderOperation> ops = new ArrayList<>();
+    Uri accountUri = TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(accountId).build();
+    ops.add(ContentProviderOperation.newUpdate(accountUri).withValue(KEY_SYNC_FROM_ADAPTER, true).build());
+    Stream.of(remoteChanges).map(change -> buildOperation(change, accountId)).forEach(ops::add);
+    ops.add(ContentProviderOperation.newUpdate(accountUri).withValue(KEY_SYNC_FROM_ADAPTER, false).build());
+    provider.applyBatch(ops);
+  }
+
+  private @NonNull ContentProviderOperation buildOperation(@NonNull TransactionChange change, String accountId) {
+    switch(change.type()) {
+      case created:
+        return ContentProviderOperation.newInsert(TransactionProvider.TRANSACTIONS_URI)
+            .withValues(change.toContentValues())
+            .withValue(KEY_ACCOUNTID, accountId)
+            .build();
+      case updated:
+        return ContentProviderOperation.newUpdate(TransactionProvider.TRANSACTIONS_URI)
+            .withSelection(KEY_UUID + " = ?",new String[]{change.uuid()})
+            .withValues(change.toContentValues())
+            .build();
+      case deleted:
+       return ContentProviderOperation.newDelete(TransactionProvider.TRANSACTIONS_URI)
+           .withSelection(KEY_UUID + " = ?",new String[]{change.uuid()})
+           .build();
+      default:
+        return null;
+    }
   }
 
   @VisibleForTesting
@@ -159,7 +204,7 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
     Stream.concat(Stream.of(firstResult), Stream.of(secondResult))
         .forEach(change -> ensureList(updatesPerUuid, change.uuid()).add(change));
     List<String> uuidsRequiringMerge = Stream.of(updatesPerUuid.keySet())
-        .filter(uuid -> updatesPerUuid.get(uuid).size() > 0).collect(Collectors.toList());
+        .filter(uuid -> updatesPerUuid.get(uuid).size() > 1).collect(Collectors.toList());
     Stream.of(uuidsRequiringMerge)
         .forEach(uuid -> mergesPerUuid.put(uuid, mergeUpdates(updatesPerUuid.get(uuid))));
     firstResult = replaceByMerged(firstResult, mergesPerUuid);

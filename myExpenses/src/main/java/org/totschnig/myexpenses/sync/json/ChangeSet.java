@@ -6,7 +6,6 @@ import java.util.List;
 
 public class ChangeSet {
   public static long FAILED = -1;
-  public static final ChangeSet empty = new ChangeSet(0, new ArrayList<>());
   public static final ChangeSet failed = new ChangeSet(FAILED, null);
   public final long sequenceNumber;
   public final List<TransactionChange> changes;
@@ -18,6 +17,11 @@ public class ChangeSet {
 
   public static ChangeSet create(long sequenceNumber, List<TransactionChange> changes) {
     return new ChangeSet(sequenceNumber, changes);
+  }
+
+
+  public static ChangeSet empty(long sequenceNumber) {
+    return create(sequenceNumber, new ArrayList<>());
   }
 
   public static ChangeSet merge(ChangeSet changeset1, ChangeSet changeset2) {
