@@ -161,6 +161,14 @@ public class PlanInfoCursorWrapper extends CursorWrapperHelper {
   }
 
   @Override
+  public boolean isNull(int columnIndex) {
+    if (columnIndex == getColumnCount()) {
+      return getString(columnIndex) == null;
+    }
+    return super.isNull(columnIndex);
+  }
+
+  @Override
   protected int getMappedPosition(int pos) {
     return (!isInitializingPlanInfo && shouldSortByNextInstance) ? sortedPositions.get(pos) : pos;
   }

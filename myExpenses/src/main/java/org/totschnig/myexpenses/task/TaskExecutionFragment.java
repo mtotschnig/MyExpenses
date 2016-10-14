@@ -100,6 +100,7 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_MOVE_CATEGORY = 38;
   public static final int TASK_SWAP_SORT_KEY = 39;
   public static final int TASK_MOVE_UNCOMMITED_SPLIT_PARTS = 40;
+  public static final int TASK_REPAIR_PLAN = 41;
 
 
   /**
