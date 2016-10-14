@@ -98,25 +98,6 @@ public abstract class TransactionChange {
   @Nullable
   public abstract String pictureUri();
 
-  public ContentValues toContentValues() {
-    ContentValues values = new ContentValues(14);
-    if (isCreate()) {
-      values.put("uuid", uuid());
-    }
-    //values.put("parent_uuid", parentUuid());
-    values.put("comment", comment());
-    values.put("date", date());
-    values.put("amount", amount());
-    //values.put("label", label());
-    //values.put("name", payeeName());
-    //values.put("transfer_account", transferAccount());
-    //values.put("method_label", methodLabel());
-    values.put("cr_status", crStatus());
-    values.put("number", referenceNumber());
-    //values.put("picture_id", pictureUri());
-    return values;
-  }
-
   public static TransactionChange mergeUpdate(TransactionChange initial, TransactionChange change) {
     if (!(change.isUpdate() && initial.isUpdate())) {
       throw new IllegalStateException("Can only merge updates");

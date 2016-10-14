@@ -41,6 +41,7 @@ import android.util.Log;
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
+import org.totschnig.myexpenses.export.CategoryInfo;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
@@ -51,9 +52,16 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static android.content.Context.ACCOUNT_SERVICE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_FROM_ADAPTER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL;
@@ -62,6 +70,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 
 class SyncAdapter extends AbstractThreadedSyncAdapter {
   public static final String TAG = "SyncAdapter";
+  private Map<String, Long> categoryToId;
 
   public SyncAdapter(Context context, boolean autoInitialize) {
     super(context, autoInitialize);
@@ -81,6 +90,7 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
   @Override
   public void onPerformSync(Account account, Bundle extras, String authority,
                             ContentProviderClient provider, SyncResult syncResult) {
+    categoryToId = new HashMap<>();
     Log.i(TAG, "onPerformSync");
     AccountManager accountManager = (AccountManager) getContext().getSystemService(ACCOUNT_SERVICE);
     String lastLocalSequence = getUserDataWithDefault(accountManager, account,
@@ -169,13 +179,13 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
     switch(change.type()) {
       case created:
         return ContentProviderOperation.newInsert(TransactionProvider.TRANSACTIONS_URI)
-            .withValues(change.toContentValues())
+            .withValues(toContentValues(change))
             .withValue(KEY_ACCOUNTID, accountId)
             .build();
       case updated:
         return ContentProviderOperation.newUpdate(TransactionProvider.TRANSACTIONS_URI)
             .withSelection(KEY_UUID + " = ?",new String[]{change.uuid()})
-            .withValues(change.toContentValues())
+            .withValues(toContentValues(change))
             .build();
       case deleted:
        return ContentProviderOperation.newDelete(TransactionProvider.TRANSACTIONS_URI)
@@ -184,6 +194,30 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
       default:
         return null;
     }
+  }
+
+  private ContentValues toContentValues(TransactionChange change) {
+    ContentValues values = new ContentValues();
+    if (change.isCreate()) {
+      values.put(KEY_UUID, change.uuid());
+    }
+    //values.put("parent_uuid", parentUuid());
+    if (change.comment() != null) {
+      values.put(KEY_COMMENT, change.comment());
+    }
+    values.put(KEY_DATE, change.date());
+    values.put(KEY_AMOUNT, change.amount());
+    if (change.label() != null) {
+      new CategoryInfo(change.label()).insert(categoryToId);
+      values.put(KEY_CATID, categoryToId.get(change.label()));
+    }
+    //values.put("name", payeeName());
+    //values.put("transfer_account", transferAccount());
+    //values.put("method_label", methodLabel());
+    values.put(KEY_CR_STATUS, change.crStatus());
+    values.put(KEY_REFERENCE_NUMBER, change.referenceNumber());
+    //values.put("picture_id", pictureUri());
+    return values;
   }
 
   @VisibleForTesting
