@@ -43,6 +43,7 @@ import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.export.CategoryInfo;
 import org.totschnig.myexpenses.model.Payee;
+import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
@@ -62,6 +63,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
@@ -74,6 +77,8 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
   public static final String TAG = "SyncAdapter";
   private Map<String, Long> categoryToId;
   private Map<String, Long> payeeToId;
+  private Map<String, Long> methodToId;
+  org.totschnig.myexpenses.model.Account dbAccount;
 
   public SyncAdapter(Context context, boolean autoInitialize) {
     super(context, autoInitialize);
@@ -95,6 +100,7 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
                             ContentProviderClient provider, SyncResult syncResult) {
     categoryToId = new HashMap<>();
     payeeToId = new HashMap<>();
+    methodToId = new HashMap<>();
     Log.i(TAG, "onPerformSync");
     AccountManager accountManager = (AccountManager) getContext().getSystemService(ACCOUNT_SERVICE);
     String lastLocalSequence = getUserDataWithDefault(accountManager, account,
@@ -104,6 +110,7 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
         KEY_SYNC_SEQUENCE_REMOTE, "0");
     long currentSequenceRemote = Long.parseLong(lastRemoteSequence);
     String accountId = account.name.substring(1);
+    dbAccount = org.totschnig.myexpenses.model.Account.getInstanceFromDb(Long.valueOf(accountId));
     SyncBackend backend = getBackendForAccount(accountId);
     if (backend == null) {
       //TODO report
@@ -223,12 +230,25 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
           id = Payee.maybeWrite(change.payeeName());
         }
         if (id != -1) {
+          payeeToId.put(change.payeeName(), id);
           values.put(KEY_PAYEEID, id);
         }
       }
     }
+    if (change.methodLabel() != null) {
+      Long id = methodToId.get(change.methodLabel());
+      if (id == null) {
+        id = PaymentMethod.find(change.methodLabel());
+        if (id == -1) {
+          id = PaymentMethod.maybeWrite(change.methodLabel(), dbAccount.type);
+        }
+        if (id != -1) {
+          methodToId.put(change.methodLabel(), id);
+          values.put(KEY_METHODID, id);
+        }
+      }
+    }
     //values.put("transfer_account", transferAccount());
-    //values.put("method_label", methodLabel());
     values.put(KEY_CR_STATUS, change.crStatus());
     values.put(KEY_REFERENCE_NUMBER, change.referenceNumber());
     //values.put("picture_id", pictureUri());
