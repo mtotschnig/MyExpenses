@@ -26,9 +26,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVi
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static junit.framework.Assert.assertEquals;
 
-/**
- * Created by michaeltotschnig on 29.02.16.
- */
 public class ExpenseEditTest {
 
   @Rule

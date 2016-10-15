@@ -44,6 +44,7 @@ import com.annimon.stream.Stream;
 import org.totschnig.myexpenses.export.CategoryInfo;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.PaymentMethod;
+import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
@@ -52,19 +53,18 @@ import org.totschnig.myexpenses.util.AcraHelper;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static android.content.Context.ACCOUNT_SERVICE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
@@ -73,12 +73,13 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUE
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_REMOTE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 
-class SyncAdapter extends AbstractThreadedSyncAdapter {
+public class SyncAdapter extends AbstractThreadedSyncAdapter {
   public static final String TAG = "SyncAdapter";
   private Map<String, Long> categoryToId;
   private Map<String, Long> payeeToId;
   private Map<String, Long> methodToId;
-  org.totschnig.myexpenses.model.Account dbAccount;
+  private static final ThreadLocal<org.totschnig.myexpenses.model.Account>
+      dbAccount = new ThreadLocal<org.totschnig.myexpenses.model.Account>();
 
   public SyncAdapter(Context context, boolean autoInitialize) {
     super(context, autoInitialize);
@@ -110,7 +111,7 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
         KEY_SYNC_SEQUENCE_REMOTE, "0");
     long currentSequenceRemote = Long.parseLong(lastRemoteSequence);
     String accountId = account.name.substring(1);
-    dbAccount = org.totschnig.myexpenses.model.Account.getInstanceFromDb(Long.valueOf(accountId));
+    dbAccount.set(org.totschnig.myexpenses.model.Account.getInstanceFromDb(Long.valueOf(accountId)));
     SyncBackend backend = getBackendForAccount(accountId);
     if (backend == null) {
       //TODO report
@@ -181,37 +182,74 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
     Uri accountUri = TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(accountId).build();
     ops.add(ContentProviderOperation.newUpdate(accountUri).withValue(KEY_SYNC_FROM_ADAPTER, true).build());
-    Stream.of(remoteChanges).map(change -> buildOperation(change, accountId)).forEach(ops::add);
+    Stream.of(remoteChanges).filter(change -> !(change.isCreate() && uuidExists(change.uuid())))
+        .forEach(change -> collectOperations(change, ops));
     ops.add(ContentProviderOperation.newUpdate(accountUri).withValue(KEY_SYNC_FROM_ADAPTER, false).build());
     provider.applyBatch(ops);
   }
 
-  private @NonNull ContentProviderOperation buildOperation(@NonNull TransactionChange change, String accountId) {
+  private boolean uuidExists(String uuid) {
+    return Transaction.countPerUuid(uuid) > 0;
+  }
+
+  @VisibleForTesting
+  public void collectOperations(@NonNull TransactionChange change, ArrayList<ContentProviderOperation> ops) {
     switch(change.type()) {
       case created:
-        return ContentProviderOperation.newInsert(TransactionProvider.TRANSACTIONS_URI)
-            .withValues(toContentValues(change))
-            .withValue(KEY_ACCOUNTID, accountId)
-            .build();
+        ops.addAll(toTransaction(change).buildSaveOperations());
+        break;
       case updated:
-        return ContentProviderOperation.newUpdate(TransactionProvider.TRANSACTIONS_URI)
+        ops.add(ContentProviderOperation.newUpdate(TransactionProvider.TRANSACTIONS_URI)
             .withSelection(KEY_UUID + " = ?",new String[]{change.uuid()})
             .withValues(toContentValues(change))
-            .build();
+            .build());
+        break;
       case deleted:
-       return ContentProviderOperation.newDelete(TransactionProvider.TRANSACTIONS_URI)
+       ops.add(ContentProviderOperation.newDelete(TransactionProvider.TRANSACTIONS_URI)
            .withSelection(KEY_UUID + " = ?",new String[]{change.uuid()})
-           .build();
-      default:
-        return null;
+           .build());
+        break;
     }
   }
 
-  private ContentValues toContentValues(TransactionChange change) {
-    ContentValues values = new ContentValues();
-    if (change.isCreate()) {
-      values.put(KEY_UUID, change.uuid());
+  private Transaction toTransaction(TransactionChange change) {
+    if (!change.isCreate()) throw new AssertionError();
+    Long amount = change.amount() != null ? change.amount() : 0L;
+    Transaction t = new Transaction(getAccount().getId(), amount);
+    if (change.comment() != null) {
+      t.comment = change.comment();
     }
+    if (change.date() != null) {
+      Long date = change.date();
+      assert date != null;
+      t.setDate(new Date(date));
+    }
+    if (change.label() != null) {
+      t.setCatId(extractCatId(change.label()));
+    }
+    if (change.payeeName() != null) {
+      long id = extractPayeeId(change.payeeName());
+      if (id != -1) {
+        t.payeeId = id;
+      }
+    }
+    if (change.methodLabel() != null) {
+      long id = extractMethodId(change.methodLabel());
+      if (id != -1) {
+        t.methodId = id;
+      }
+    }
+    //values.put("transfer_account", transferAccount());
+    if (change.crStatus() != null) {
+      t.crStatus = Transaction.CrStatus.valueOf(change.crStatus());
+    }
+    t.referenceNumber = change.referenceNumber();
+    return t;
+  }
+
+  private ContentValues toContentValues(TransactionChange change) {
+    if (!change.isUpdate()) throw new AssertionError();
+    ContentValues values = new ContentValues();
     //values.put("parent_uuid", parentUuid());
     if (change.comment() != null) {
       values.put(KEY_COMMENT, change.comment());
@@ -219,33 +257,18 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
     values.put(KEY_DATE, change.date());
     values.put(KEY_AMOUNT, change.amount());
     if (change.label() != null) {
-      new CategoryInfo(change.label()).insert(categoryToId);
-      values.put(KEY_CATID, categoryToId.get(change.label()));
+      values.put(KEY_CATID, extractCatId(change.label()));
     }
     if (change.payeeName() != null) {
-      Long id = payeeToId.get(change.payeeName());
-      if (id == null) {
-        id = Payee.find(change.payeeName());
-        if (id == -1) {
-          id = Payee.maybeWrite(change.payeeName());
-        }
-        if (id != -1) {
-          payeeToId.put(change.payeeName(), id);
-          values.put(KEY_PAYEEID, id);
-        }
+      long id = extractPayeeId(change.payeeName());
+      if (id != -1) {
+        values.put(KEY_PAYEEID, id);
       }
     }
     if (change.methodLabel() != null) {
-      Long id = methodToId.get(change.methodLabel());
-      if (id == null) {
-        id = PaymentMethod.find(change.methodLabel());
-        if (id == -1) {
-          id = PaymentMethod.maybeWrite(change.methodLabel(), dbAccount.type);
-        }
+      long id = extractMethodId(change.methodLabel());
         if (id != -1) {
-          methodToId.put(change.methodLabel(), id);
           values.put(KEY_METHODID, id);
-        }
       }
     }
     //values.put("transfer_account", transferAccount());
@@ -253,6 +276,40 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
     values.put(KEY_REFERENCE_NUMBER, change.referenceNumber());
     //values.put("picture_id", pictureUri());
     return values;
+  }
+
+
+  private long extractCatId(String label) {
+    new CategoryInfo(label).insert(categoryToId);
+    return categoryToId.get(label);
+  }
+
+  private long extractPayeeId(String payeeName) {
+    Long id = payeeToId.get(payeeName);
+    if (id == null) {
+      id = Payee.find(payeeName);
+      if (id == -1) {
+        id = Payee.maybeWrite(payeeName);
+      }
+      if (id != -1) { //should always be the case
+        payeeToId.put(payeeName, id);
+      }
+    }
+    return id;
+  }
+
+  private long extractMethodId(String methodLabel) {
+    Long id = methodToId.get(methodLabel);
+    if (id == null) {
+      id = PaymentMethod.find(methodLabel);
+      if (id == -1) {
+        id = PaymentMethod.maybeWrite(methodLabel, getAccount().type);
+      }
+      if (id != -1) { //should always be the case
+        methodToId.put(methodLabel, id);
+      }
+    }
+    return id;
   }
 
   @VisibleForTesting
@@ -344,5 +401,10 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
       c.close();
     }
     return result;
+  }
+
+  @VisibleForTesting
+  public org.totschnig.myexpenses.model.Account getAccount() {
+    return dbAccount.get();
   }
 }

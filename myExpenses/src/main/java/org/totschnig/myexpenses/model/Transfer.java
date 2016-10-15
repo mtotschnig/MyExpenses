@@ -83,7 +83,7 @@ public class Transfer extends Transaction {
   }
 
   @Override
-  protected ArrayList<ContentProviderOperation> buildSaveOperations() {
+  public ArrayList<ContentProviderOperation> buildSaveOperations() {
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
     long amount = this.amount.getAmountMinor();
     long transferAmount = this.transferAmount.getAmountMinor();

@@ -13,9 +13,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.containsString;
 
-/**
- * Created by michaeltotschnig on 29.02.16.
- */
 public class MyExpensesTestBase {
 
   @Before

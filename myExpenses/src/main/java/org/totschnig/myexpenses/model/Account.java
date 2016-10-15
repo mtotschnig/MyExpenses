@@ -88,6 +88,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_A
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SELECT_AMOUNT_SUM;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_EXPORTED;
@@ -554,6 +555,7 @@ public class Account extends Model {
     initialValues.put(KEY_COLOR, color);
 
     if (getId() == 0) {
+      initialValues.put(KEY_UUID, generateUuid());
       uri = cr().insert(CONTENT_URI, initialValues);
       if (uri == null) {
         return null;

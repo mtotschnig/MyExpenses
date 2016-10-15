@@ -92,7 +92,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_CR_STATUS + " text not null check (" + KEY_CR_STATUS + " in (" + Transaction.CrStatus.JOIN + ")) default '" + Transaction.CrStatus.RECONCILED.name() + "',"
           + KEY_REFERENCE_NUMBER + " text, "
           + KEY_PICTURE_URI + " text, "
-          + KEY_UUID + " text unique);";
+          + KEY_UUID + " text, UNIQUE (" + KEY_ACCOUNTID + "," + KEY_UUID + "));";
 
   private static String buildViewDefinition(String tableName) {
     StringBuilder stringBuilder = new StringBuilder();
@@ -172,7 +172,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_SYNC_URI + " text, "
           + KEY_SYNC_SEQUENCE_LOCAL + " integer default 0,"
           + KEY_SYNC_FROM_ADAPTER + " integer default 0,"
-          + KEY_EXCLUDE_FROM_TOTALS + " boolean default 0);";
+          + KEY_EXCLUDE_FROM_TOTALS + " boolean default 0, "
+          + KEY_UUID + " text UNIQUE);";
 
   /**
    * SQL statement for categories TABLE
@@ -188,7 +189,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_PARENTID + " integer references " + TABLE_CATEGORIES + "(" + KEY_ROWID + "), "
           + KEY_USAGES + " integer default 0, "
           + KEY_LAST_USED + " datetime, "
-          + "unique (" + KEY_LABEL + "," + KEY_PARENTID + "));";
+          + "UNIQUE (" + KEY_LABEL + "," + KEY_PARENTID + "));";
 
   private static final String PAYMENT_METHODS_CREATE =
       "CREATE TABLE " + TABLE_METHODS + " ("
@@ -251,13 +252,13 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   private static final String PAYEE_CREATE =
       "CREATE TABLE " + TABLE_PAYEES
           + " (" + KEY_ROWID + " integer primary key autoincrement, " +
-          KEY_PAYEE_NAME + " text unique not null," +
+          KEY_PAYEE_NAME + " text UNIQUE not null," +
           KEY_PAYEE_NAME_NORMALIZED + " text);";
 
   private static final String CURRENCY_CREATE =
       "CREATE TABLE " + TABLE_CURRENCIES
           + " (" + KEY_ROWID + " integer primary key autoincrement, " + KEY_CODE
-          + " text unique not null);";
+          + " text UNIQUE not null);";
 
   /**
    * in this table we store links between plan instances and transactions,

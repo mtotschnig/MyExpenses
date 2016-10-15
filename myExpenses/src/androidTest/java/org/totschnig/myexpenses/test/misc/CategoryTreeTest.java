@@ -17,12 +17,10 @@ package org.totschnig.myexpenses.test.misc;
 
 import android.util.SparseArray;
 
-import java.util.HashMap;
-
-import org.totschnig.myexpenses.util.CategoryTree;
-
 import junit.framework.Assert;
 import junit.framework.TestCase;
+
+import org.totschnig.myexpenses.util.CategoryTree;
 
 public class CategoryTreeTest extends TestCase {
   public void testCategoryTree() {

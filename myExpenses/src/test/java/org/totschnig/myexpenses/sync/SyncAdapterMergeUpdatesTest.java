@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.sync;
 
-import android.support.v4.util.Pair;
 import android.test.mock.MockContext;
 
 import org.junit.Before;
@@ -10,7 +9,7 @@ import org.totschnig.myexpenses.sync.json.TransactionChange;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class SyncAdapterMergeUpdatesTest {
   private SyncAdapter syncAdapter;

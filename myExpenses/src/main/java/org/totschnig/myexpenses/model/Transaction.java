@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.provider.CalendarProviderProxy;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -43,6 +44,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.RemoteException;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.android.calendar.CalendarContractCompat;
@@ -66,7 +68,6 @@ public class Transaction extends Model {
   protected Date date;
   protected Money amount;
   protected Money transferAmount;
-  protected String uuid;
   private Long catId;
   public Long accountId;
   public Long transfer_peer;
@@ -196,11 +197,6 @@ public class Transaction extends Model {
 
   public CrStatus crStatus;
   transient protected Uri pictureUri;
-
-  protected String generateUuid() {
-    return UUID.randomUUID().toString();
-
-  }
 
   /**
    * factory method for retrieving an instance from the db with the given id
@@ -462,7 +458,7 @@ public class Transaction extends Model {
    *
    * @return the URI of the transaction. Upon creation it is returned from the content provider
    */
-  protected ArrayList<ContentProviderOperation> buildSaveOperations() {
+  public ArrayList<ContentProviderOperation> buildSaveOperations() {
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
     ContentValues initialValues = buildInitialValues();
     if (getId() == 0) {
@@ -629,6 +625,14 @@ public class Transaction extends Model {
 
   public static int countPerAccount(long accountId) {
     return countPerAccount(CONTENT_URI, accountId);
+  }
+
+  public static int countPerUuid(String uuid) {
+    return countPerUuid(CONTENT_URI, uuid);
+  }
+
+  private static int countPerUuid(Uri contentUri, String uuid) {
+    return count(contentUri, KEY_UUID + " = ?", new String[]{uuid});
   }
 
   public static int countAll() {
