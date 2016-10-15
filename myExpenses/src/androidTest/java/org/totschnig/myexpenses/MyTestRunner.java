@@ -62,7 +62,7 @@ public final class MyTestRunner extends AndroidJUnitRunner {
         throw new AnimationsNotDisabledException(setting);
       }
     } catch (Settings.SettingNotFoundException e) {
-      throw new RuntimeException(String.format("Unable to determine animation settings for %s", setting));
+      throw new AnimationsNotDisabledException(setting, "%s  setting not found");
     }
   }
 
@@ -74,14 +74,20 @@ public final class MyTestRunner extends AndroidJUnitRunner {
 
   public static class AnimationsNotDisabledException extends RuntimeException {
     String setting;
+    String messageFormat;
 
     public AnimationsNotDisabledException(String setting) {
+      this(setting, "%s  must be disabled for reliable Espresso tests");
+    }
+
+    public AnimationsNotDisabledException(String setting, String messageFormat) {
       this.setting = setting;
+      this.messageFormat = messageFormat;
     }
 
     @Override
     public String getMessage() {
-      return String.format("%s  must be disabled for reliable Espresso tests", setting);
+      return String.format(messageFormat, setting);
     }
   }
 }
