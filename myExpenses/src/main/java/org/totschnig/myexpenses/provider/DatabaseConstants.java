@@ -275,7 +275,9 @@ public class DatabaseConstants {
       "' END || " +
       " (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ")";
 
-  public static final String CAT_AS_LABEL = FULL_CAT_CASE + " AS " + KEY_LABEL;
+  //public static final String CAT_AS_LABEL = FULL_CAT_CASE + " AS " + KEY_LABEL;
+
+  public static final String TRANSFER_ACCOUNT_UUUID = "(SELECT " + KEY_UUID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = " + KEY_TRANSFER_ACCOUNT + ") AS " + KEY_TRANSFER_ACCOUNT;
 
   /**
    * if transaction is linked to a subcategory
@@ -283,7 +285,7 @@ public class DatabaseConstants {
    */
   public static final String FULL_LABEL =
       "CASE WHEN " +
-          "  " + KEY_TRANSFER_PEER + " " +
+          "  " + KEY_TRANSFER_ACCOUNT + " " +
       " THEN " +
         "  (SELECT " + KEY_LABEL + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = " + KEY_TRANSFER_ACCOUNT + ") " +
       " ELSE " +

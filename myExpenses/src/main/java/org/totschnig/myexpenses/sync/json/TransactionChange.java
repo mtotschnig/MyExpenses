@@ -80,7 +80,7 @@ public abstract class TransactionChange {
 
   @ColumnName(KEY_TRANSFER_ACCOUNT)
   @Nullable
-  public abstract Long transferAccount();
+  public abstract String transferAccount();
 
   @ColumnName(KEY_METHOD_LABEL)
   @Nullable
@@ -174,7 +174,7 @@ public abstract class TransactionChange {
     public abstract Builder setDate(Long value);
     public abstract Builder setLabel(String value);
     public abstract Builder setPayeeName(String value);
-    public abstract Builder setTransferAccount(Long value);
+    public abstract Builder setTransferAccount(String value);
     public abstract Builder setMethodLabel(String value);
     public abstract Builder setCrStatus(String value);
     public abstract Builder setReferenceNumber(String value);

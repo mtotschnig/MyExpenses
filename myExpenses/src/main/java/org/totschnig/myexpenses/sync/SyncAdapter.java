@@ -42,9 +42,11 @@ import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.export.CategoryInfo;
+import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
@@ -78,6 +80,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   private Map<String, Long> categoryToId;
   private Map<String, Long> payeeToId;
   private Map<String, Long> methodToId;
+  private Map<String, Long> accountUuidToId;
+
   private static final ThreadLocal<org.totschnig.myexpenses.model.Account>
       dbAccount = new ThreadLocal<org.totschnig.myexpenses.model.Account>();
 
@@ -102,6 +106,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     categoryToId = new HashMap<>();
     payeeToId = new HashMap<>();
     methodToId = new HashMap<>();
+    accountUuidToId = new HashMap<>();
     Log.i(TAG, "onPerformSync");
     AccountManager accountManager = (AccountManager) getContext().getSystemService(ACCOUNT_SERVICE);
     String lastLocalSequence = getUserDataWithDefault(accountManager, account,
@@ -215,18 +220,26 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   private Transaction toTransaction(TransactionChange change) {
     if (!change.isCreate()) throw new AssertionError();
     Long amount = change.amount() != null ? change.amount() : 0L;
-    Transaction t = new Transaction(getAccount().getId(), amount);
+    Transaction t;
+    if (change.transferAccount() != null) {
+      long transferAccount = extractTransferAccount(change.transferAccount(),change.label());
+      t = new Transfer(getAccount().getId(),amount);
+      t.transfer_account = transferAccount;
+    } else {
+      t = new Transaction(getAccount().getId(), amount);
+      if (change.label() != null) {
+        t.setCatId(extractCatId(change.label()));
+      }
+    }
     if (change.comment() != null) {
       t.comment = change.comment();
     }
     if (change.date() != null) {
       Long date = change.date();
       assert date != null;
-      t.setDate(new Date(date));
+      t.setDate(new Date(date * 10000));
     }
-    if (change.label() != null) {
-      t.setCatId(extractCatId(change.label()));
-    }
+
     if (change.payeeName() != null) {
       long id = extractPayeeId(change.payeeName());
       if (id != -1) {
@@ -278,6 +291,24 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     return values;
   }
 
+  private long extractTransferAccount(String uuid, String label) {
+    Long id = accountUuidToId.get(uuid);
+    if (id == null) {
+      id = org.totschnig.myexpenses.model.Account.findByUuid(uuid);
+      if (id == -1) {
+        org.totschnig.myexpenses.model.Account transferAccount =
+            new org.totschnig.myexpenses.model.Account(label, getAccount().currency, 0L, "",
+            AccountType.CASH, org.totschnig.myexpenses.model.Account.DEFAULT_COLOR);
+        transferAccount.uuid = uuid;
+        transferAccount.save();
+        id = transferAccount.getId();
+      }
+      if (id != -1) { //should always be the case
+        accountUuidToId.put(uuid, id);
+      }
+    }
+    return id;
+  }
 
   private long extractCatId(String label) {
     new CategoryInfo(label).insert(categoryToId);

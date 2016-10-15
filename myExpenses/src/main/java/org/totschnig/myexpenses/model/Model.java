@@ -25,7 +25,7 @@ import android.net.Uri;
 import android.support.annotation.VisibleForTesting;
 
 public abstract class Model implements Serializable {
-  protected String uuid;
+  public String uuid;
   private Long id = 0L;
   private static ContentResolver cr;
 
