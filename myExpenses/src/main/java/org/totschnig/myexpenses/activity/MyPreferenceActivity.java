@@ -58,7 +58,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.model.ContribFeature;
@@ -68,6 +67,7 @@ import org.totschnig.myexpenses.preference.FontSizeDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogPreference;
 import org.totschnig.myexpenses.preference.PasswordPreference;
 import org.totschnig.myexpenses.preference.PasswordPreferenceDialogFragmentCompat;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.preference.SecurityQuestionDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.TimePreference;
 import org.totschnig.myexpenses.preference.TimePreferenceDialogFragmentCompat;
@@ -308,10 +308,12 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       Preference.OnPreferenceChangeListener,
       Preference.OnPreferenceClickListener {
 
+    private long pickFolderRequestStart;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
-      if (MyApplication.getInstance().isInstrumentationTest()) {
+      if (MyApplication.isInstrumentationTest()) {
         getPreferenceManager().setSharedPreferencesName(MyApplication.getTestId());
       }
     }
@@ -718,6 +720,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
             //noinspection InlinedApi
             Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
             try {
+              pickFolderRequestStart = System.currentTimeMillis();
               startActivityForResult(intent, PICK_FOLDER_REQUEST);
               return true;
             } catch (ActivityNotFoundException e) {
@@ -848,9 +851,14 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
           PrefKey.APP_DIR.putString(intent.getData().toString());
           setAppDirSummary();
         } else {
-          String error = "PICK_FOLDER_REQUEST gescheitert";
-          AcraHelper.report(new Exception(error));
-          startLegacyFolderRequest(Utils.getAppDir());
+          //we try to determine if we get here due to abnormal failure (observed on Xiaomi) of request, or if user canceled
+          long pickFolderRequestDuration = System.currentTimeMillis() - pickFolderRequestStart;
+          if (pickFolderRequestDuration < 250) {
+            String error = String.format(Locale.ROOT, "PICK_FOLDER_REQUEST returned after %d millis with request code %d",
+                pickFolderRequestDuration, requestCode);
+            AcraHelper.report(new Exception(error));
+            startLegacyFolderRequest(Utils.getAppDir());
+          }
         }
       } else if (requestCode == PICK_FOLDER_REQUEST_LEGACY && resultCode == RESULT_OK) {
         setAppDirSummary();
