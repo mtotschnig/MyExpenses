@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
-import java.util.UUID;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -29,7 +28,6 @@ import org.totschnig.myexpenses.provider.CalendarProviderProxy;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -44,7 +42,6 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.RemoteException;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.android.calendar.CalendarContractCompat;
@@ -403,7 +400,7 @@ public class Transaction extends Model {
   public Uri save() {
     Uri uri;
     try {
-      ContentProviderResult[] result = cr().applyBatch(TransactionProvider.AUTHORITY, buildSaveOperations());
+      ContentProviderResult[] result = cr().applyBatch(TransactionProvider.AUTHORITY, buildSaveOperations(0));
       if (getId() == 0) {
         //we need to find a uri, otherwise we would crash. Need to handle?
         uri = result[0].uri;
@@ -457,8 +454,9 @@ public class Transaction extends Model {
    * as a side effect calls {@link Payee#require(String)}
    *
    * @return the URI of the transaction. Upon creation it is returned from the content provider
+   * @param offset Number of operations that are already added to the batch, needed for calculating back references
    */
-  public ArrayList<ContentProviderOperation> buildSaveOperations() {
+  public ArrayList<ContentProviderOperation> buildSaveOperations(int offset) {
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
     ContentValues initialValues = buildInitialValues();
     if (getId() == 0) {

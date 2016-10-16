@@ -15,13 +15,10 @@
 
 package org.totschnig.myexpenses.model;
 
-import org.totschnig.myexpenses.provider.TransactionProvider;
-
 import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
 import android.content.ContentUris;
 import android.content.ContentValues;
-import android.net.Uri;
 
 import java.util.ArrayList;
 
@@ -83,7 +80,7 @@ public class Transfer extends Transaction {
   }
 
   @Override
-  public ArrayList<ContentProviderOperation> buildSaveOperations() {
+  public ArrayList<ContentProviderOperation> buildSaveOperations(int offset) {
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
     long amount = this.amount.getAmountMinor();
     long transferAmount = this.transferAmount.getAmountMinor();
@@ -110,15 +107,15 @@ public class Transfer extends Transaction {
       transferValues.put(KEY_TRANSFER_ACCOUNT, accountId);
       transferValues.put(KEY_ACCOUNTID, transfer_account);
       ops.add(ContentProviderOperation.newInsert(CONTENT_URI)
-          .withValues(transferValues).withValueBackReference(KEY_TRANSFER_PEER, 0)
+          .withValues(transferValues).withValueBackReference(KEY_TRANSFER_PEER, offset)
           .build());
       //we have to set the transfer_peer for the first transaction
       ContentValues args = new ContentValues();
       args.put(KEY_TRANSFER_PEER,transfer_peer);
       ops.add(ContentProviderOperation.newUpdate(CONTENT_URI)
-          .withValueBackReference(KEY_TRANSFER_PEER, 1)
+          .withValueBackReference(KEY_TRANSFER_PEER, offset + 1)
           .withSelection(KEY_ROWID + " = ?", new String[]{""})//replaced by back reference
-          .withSelectionBackReference(0, 0)
+          .withSelectionBackReference(0, offset)
           .build());
       addOriginPlanInstance(ops);
     } else {

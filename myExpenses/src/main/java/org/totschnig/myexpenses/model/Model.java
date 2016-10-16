@@ -46,7 +46,7 @@ public abstract class Model implements Serializable {
     cr = crIn;
   }
 
-  protected String generateUuid() {
+  public static String generateUuid() {
     return UUID.randomUUID().toString();
 
   }

@@ -85,8 +85,8 @@ public class SplitTransaction extends Transaction {
   }
 
   @Override
-  public ArrayList<ContentProviderOperation> buildSaveOperations() {
-    ArrayList<ContentProviderOperation> ops = super.buildSaveOperations();
+  public ArrayList<ContentProviderOperation> buildSaveOperations(int offset) {
+    ArrayList<ContentProviderOperation> ops = super.buildSaveOperations(offset);
     if (getId() != 0) {
       String idStr = String.valueOf(getId());
       ContentValues statusValues = new ContentValues();

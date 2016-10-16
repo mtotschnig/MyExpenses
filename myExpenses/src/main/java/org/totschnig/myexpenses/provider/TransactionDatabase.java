@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.Grouping;
+import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Plan;
@@ -578,6 +579,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     initialValues.put(KEY_TYPE, AccountType.CASH.name());
     initialValues.put(KEY_GROUPING, Grouping.NONE.name());
     initialValues.put(KEY_COLOR, Account.DEFAULT_COLOR);
+    initialValues.put(KEY_UUID, Model.generateUuid());
     db.insert(TABLE_ACCOUNTS, null, initialValues);
     Money.ensureFractionDigitsAreCached(localCurrency);
   }

@@ -154,11 +154,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       e.printStackTrace();
     }
 
-    if (localChanges.size() > 0 && remoteChanges.size() > 0) {
-      Pair<List<TransactionChange>, List<TransactionChange>> mergeResult =
-          mergeChangeSets(localChanges, remoteChanges);
-      localChanges = mergeResult.first; remoteChanges = mergeResult.second;
+    if (localChanges.size() == 0 && remoteChanges.size() == 0) {
+      return;
     }
+
+    Pair<List<TransactionChange>, List<TransactionChange>> mergeResult =
+        mergeChangeSets(localChanges, remoteChanges);
+    localChanges = mergeResult.first; remoteChanges = mergeResult.second;
 
     if (remoteChanges.size() > 0) {
       try {
@@ -201,7 +203,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   public void collectOperations(@NonNull TransactionChange change, ArrayList<ContentProviderOperation> ops) {
     switch(change.type()) {
       case created:
-        ops.addAll(toTransaction(change).buildSaveOperations());
+        ops.addAll(toTransaction(change).buildSaveOperations(ops.size()));
         break;
       case updated:
         ops.add(ContentProviderOperation.newUpdate(TransactionProvider.TRANSACTIONS_URI)
@@ -219,10 +221,16 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
   private Transaction toTransaction(TransactionChange change) {
     if (!change.isCreate()) throw new AssertionError();
-    Long amount = change.amount() != null ? change.amount() : 0L;
+    Long amount;
+    if (change.amount() != null) {
+      amount = change.amount();
+    } else {
+      amount = 0L;
+    }
     Transaction t;
-    if (change.transferAccount() != null) {
-      long transferAccount = extractTransferAccount(change.transferAccount(),change.label());
+    long transferAccount;
+    if (change.transferAccount() != null &&
+        (transferAccount = extractTransferAccount(change.transferAccount(),change.label())) != -1) {
       t = new Transfer(getAccount().getId(),amount);
       t.transfer_account = transferAccount;
     } else {
@@ -295,7 +303,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     Long id = accountUuidToId.get(uuid);
     if (id == null) {
       id = org.totschnig.myexpenses.model.Account.findByUuid(uuid);
-      if (id == -1) {
+      if (id == -1 && label != null) {
         org.totschnig.myexpenses.model.Account transferAccount =
             new org.totschnig.myexpenses.model.Account(label, getAccount().currency, 0L, "",
             AccountType.CASH, org.totschnig.myexpenses.model.Account.DEFAULT_COLOR);
@@ -359,6 +367,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     HashMap<String, List<TransactionChange>> updatesPerUuid = new HashMap<>();
     HashMap<String, TransactionChange> mergesPerUuid = new HashMap<>();
     Stream.concat(Stream.of(firstResult), Stream.of(secondResult))
+        .filter(TransactionChange::isUpdate)
         .forEach(change -> ensureList(updatesPerUuid, change.uuid()).add(change));
     List<String> uuidsRequiringMerge = Stream.of(updatesPerUuid.keySet())
         .filter(uuid -> updatesPerUuid.get(uuid).size() > 1).collect(Collectors.toList());
@@ -377,7 +386,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   }
 
   private List<TransactionChange> replaceByMerged(List<TransactionChange> input, HashMap<String, TransactionChange> mergedMap) {
-    return Stream.of(input).map(change -> change.type().equals(TransactionChange.Type.updated.name())
+    return Stream.of(input).map(change -> change.type().equals(TransactionChange.Type.updated)
         && mergedMap.containsKey(change.uuid()) ?
         mergedMap.get(change.uuid()) : change)
         .distinct().collect(Collectors.toList());
