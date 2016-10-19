@@ -291,7 +291,8 @@ public class DatabaseConstants {
       " END AS " + KEY_TRANSFER_AMOUNT;
 
   public static final Long SPLIT_CATID = 0L;
-  
+  public static final Long EMPTY_CATID = 1L;
+
   public static final String WHERE_NOT_SPLIT =
       "(" + KEY_CATID + " IS null OR " + KEY_CATID + " != " + SPLIT_CATID + ")";
   public static final String WHERE_NOT_SPLIT_PART =
