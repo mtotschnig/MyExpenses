@@ -577,16 +577,12 @@ public class TransactionList extends ContextualActionBarFragment implements
       if (convertView == null) {
         convertView = inflater.inflate(R.layout.header, parent, false);
         holder = new HeaderViewHolder();
-        holder.text = (TextView) convertView.findViewById(R.id.text);
         holder.sumExpense = (TextView) convertView.findViewById(R.id.sum_expense);
         holder.sumIncome = (TextView) convertView.findViewById(R.id.sum_income);
-        holder.sumTransfer = (TextView) convertView.findViewById(R.id.sum_transfer);
-        holder.interimBalance = (TextView) convertView.findViewById(R.id.interim_balance);
         convertView.setTag(holder);
       } else {
         holder = (HeaderViewHolder) convertView.getTag();
       }
-      holder.interimBalance.setVisibility(mFilter.isEmpty() ? View.VISIBLE : View.GONE);
 
       Cursor c = getCursor();
       c.moveToPosition(position);
@@ -637,7 +633,6 @@ public class TransactionList extends ContextualActionBarFragment implements
         if (!mGroupingCursor.isAfterLast())
           mappedCategoriesPerGroup.put(position, mGroupingCursor.getInt(columnIndexGroupMappedCategories) > 0);
       }
-      holder.text.setText(mAccount.grouping.getDisplayTitle(getActivity(), year, second, c));
       //holder.text.setText(mAccount.grouping.getDisplayTitle(getActivity(), year, second, mAccount.grouping.equals(Grouping.WEEK)?this_year_of_week_start:this_year, this_week,this_day));
       return convertView;
     }
@@ -652,21 +647,6 @@ public class TransactionList extends ContextualActionBarFragment implements
       holder.sumIncome.setText("+ " + Utils.convAmount(
           sumIncome,
           mAccount.currency));
-      Long sumTransfer = DbUtils.getLongOr0L(mGroupingCursor, columnIndexGroupSumTransfer);
-      holder.sumTransfer.setText("<-> " + Utils.convAmount(
-          sumTransfer,
-          mAccount.currency));
-      Long delta = sumIncome - sumExpense + sumTransfer;
-      if (mFilter.isEmpty()) {
-        Long interimBalance = DbUtils.getLongOr0L(mGroupingCursor, columnIndexGroupSumInterim);
-        Long previousBalance = interimBalance - delta;
-        holder.interimBalance.setText(
-            String.format("%s %s %s = %s",
-                Utils.convAmount(previousBalance, mAccount.currency),
-                Long.signum(delta) > -1 ? "+" : "-",
-                Utils.convAmount(Math.abs(delta), mAccount.currency),
-                Utils.convAmount(interimBalance, mAccount.currency)));
-      }
     }
 
     @Override
@@ -706,11 +686,8 @@ public class TransactionList extends ContextualActionBarFragment implements
   }
 
   class HeaderViewHolder {
-    TextView interimBalance;
-    TextView text;
     TextView sumIncome;
     TextView sumExpense;
-    TextView sumTransfer;
   }
 
   @Override

@@ -20,12 +20,10 @@
                 android:layout_height="wrap_content"
                 android:background="?listChoiceBackgroundIndicator">
 
-    <include layout="@layout/header_line"/>
-
     <LinearLayout
         android:id="@+id/sum_line"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_below="@+id/header_line"
         android:orientation="horizontal"
         tools:ignore="UnknownIdInLayout">
@@ -35,21 +33,18 @@
             android:layout_width="1dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"/>
+            android:gravity="start"
+            android:textColor="@color/material_green"
+            style="@style/Subtitle"/>
 
         <TextView
             android:id="@+id/sum_expense"
             android:layout_width="1dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"/>
-
-        <TextView
-            android:id="@+id/sum_transfer"
-            android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"/>
+            android:gravity="end"
+            android:textColor="@color/material_red"
+            style="@style/Subtitle"/>
     </LinearLayout>
 
     <View

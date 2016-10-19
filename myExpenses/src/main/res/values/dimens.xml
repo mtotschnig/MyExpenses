@@ -15,6 +15,7 @@
     <dimen name="fab_margin_bottom">0dp</dimen>
     <integer name="account_type_grid_columns">1</integer>
     <item name="form_table_ratio" format="float" type="dimen">2.5</item>
+    <dimen name="list_item_height">30dp</dimen>
 
     <dimen name="textSizeSmallBase">14sp</dimen>
     <dimen name="textSizeMediumBase">18sp</dimen>

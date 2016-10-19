@@ -104,6 +104,7 @@
     <style name="ExpandableListRow">
         <item name="android:paddingRight">@dimen/general_padding</item>
         <item name="android:paddingLeft">?android:attr/expandableListPreferredItemPaddingLeft</item>
+        <item name="android:layout_height">@dimen/list_item_height</item>
     </style>
 
     <style name="MyAlertDialogThemeLight" parent="@style/Theme.AppCompat.Light.Dialog.Alert">
@@ -187,5 +188,13 @@
         <item name="android:textColor">#39b54a</item>
         <item name="android:textStyle">bold</item>
         <item name="android:text">=</item>
+    </style>
+
+    <style name="Subtitle">
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginRight">13dp</item>
+        <item name="android:layout_marginBottom">16dp</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 </resources>

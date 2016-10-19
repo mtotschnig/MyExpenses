@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    style="@style/ExpandableListRow"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?android:attr/activatedBackgroundIndicator">
+    android:layout_height="44dp"
+    android:background="?android:attr/activatedBackgroundIndicator"
+    style="@style/ExpandableListRow">
 
     <include layout="@layout/category_row_inner"/>
 

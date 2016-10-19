@@ -5,7 +5,8 @@
     <View
         android:id="@+id/colorAccount"
         android:layout_width="0dp"
-        android:layout_height="fill_parent"/>
+        android:layout_height="fill_parent"
+        android:minHeight="40dp"/>
 
     <RelativeLayout
         android:layout_width="fill_parent"
