@@ -95,8 +95,7 @@ public enum ContribFeature {
 
   public boolean hasAccess() {
     LicenceHandler licenceHandler = MyApplication.getInstance().getLicenceHandler();
-    return isExtended ? licenceHandler.isExtendedEnabled() :
-        licenceHandler.isContribEnabled();
+    return true;
   }
 
   public String buildRequiresString(Context ctx) {
