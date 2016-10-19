@@ -640,11 +640,11 @@ public class TransactionList extends ContextualActionBarFragment implements
     @SuppressLint("SetTextI18n")
     private void fillSums(HeaderViewHolder holder, Cursor mGroupingCursor) {
       Long sumExpense = DbUtils.getLongOr0L(mGroupingCursor, columnIndexGroupSumExpense);
-      holder.sumExpense.setText("- " + Utils.convAmount(
+      holder.sumExpense.setText("Expense: - " + Utils.convAmount(
           sumExpense,
           mAccount.currency));
       Long sumIncome = DbUtils.getLongOr0L(mGroupingCursor, columnIndexGroupSumIncome);
-      holder.sumIncome.setText("+ " + Utils.convAmount(
+      holder.sumIncome.setText("Income: + " + Utils.convAmount(
           sumIncome,
           mAccount.currency));
     }
