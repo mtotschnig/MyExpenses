@@ -192,9 +192,21 @@
 
     <style name="Subtitle">
         <item name="android:layout_marginTop">16dp</item>
-        <item name="android:layout_marginRight">13dp</item>
         <item name="android:layout_marginBottom">16dp</item>
-        <item name="android:layout_marginLeft">20dp</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Subtitle.Left">
+        <item name="android:layout_marginRight">5dp</item>
+        <item name="android:layout_marginLeft">20dp</item>
+    </style>
+
+    <style name="Subtitle.Right">
+        <item name="android:layout_marginRight">13dp</item>
+        <item name="android:layout_marginLeft">5dp</item>
+    </style>
+
+    <style name="StatisticsChart">
+        <item name="android:layout_marginBottom">15dp</item>
     </style>
 </resources>

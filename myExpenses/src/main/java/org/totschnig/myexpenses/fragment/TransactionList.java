@@ -633,18 +633,17 @@ public class TransactionList extends ContextualActionBarFragment implements
         if (!mGroupingCursor.isAfterLast())
           mappedCategoriesPerGroup.put(position, mGroupingCursor.getInt(columnIndexGroupMappedCategories) > 0);
       }
-      //holder.text.setText(mAccount.grouping.getDisplayTitle(getActivity(), year, second, mAccount.grouping.equals(Grouping.WEEK)?this_year_of_week_start:this_year, this_week,this_day));
       return convertView;
     }
 
     @SuppressLint("SetTextI18n")
     private void fillSums(HeaderViewHolder holder, Cursor mGroupingCursor) {
       Long sumExpense = DbUtils.getLongOr0L(mGroupingCursor, columnIndexGroupSumExpense);
-      holder.sumExpense.setText("Expense: - " + Utils.convAmount(
+      holder.sumExpense.setText("Out: - " + Utils.convAmount(
           sumExpense,
           mAccount.currency));
       Long sumIncome = DbUtils.getLongOr0L(mGroupingCursor, columnIndexGroupSumIncome);
-      holder.sumIncome.setText("Income: + " + Utils.convAmount(
+      holder.sumIncome.setText("In: + " + Utils.convAmount(
           sumIncome,
           mAccount.currency));
     }

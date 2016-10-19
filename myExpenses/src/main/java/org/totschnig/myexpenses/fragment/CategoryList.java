@@ -208,12 +208,6 @@ public class CategoryList extends SortableListFragment implements
       mChart.setVisibility(showChart ? View.VISIBLE : View.GONE);
       mChart.setDescription("");
 
-      //Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Regular.ttf");
-
-      //mChart.setValueTypeface(tf);
-      //mChart.setCenterTextTypeface(Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Light.ttf"));
-      //mChart.setUsePercentValues(true);
-      //mChart.setCenterText("Quarterly\nRevenue");
       TypedValue typedValue = new TypedValue();
       getActivity().getTheme().resolveAttribute(android.R.attr.textAppearanceMedium, typedValue, true);
       int[] textSizeAttr = new int[]{android.R.attr.textSize};
@@ -222,14 +216,14 @@ public class CategoryList extends SortableListFragment implements
       int textSize = a.getDimensionPixelSize(indexOfAttrTextSize, -1);
       a.recycle();
       mChart.setCenterTextSizePixels(textSize);
-
-      // radius of the center hole in percent of maximum radius
-      //mChart.setHoleRadius(60f); 
-      //mChart.setTransparentCircleRadius(0f);
       mChart.setDrawSliceText(false);
       mChart.setDrawHoleEnabled(true);
       mChart.setDrawCenterText(true);
       mChart.setRotationEnabled(false);
+      mChart.setTouchEnabled(true);
+      mChart.setRotationAngle(0);
+      mChart.setRotationEnabled(true);
+
       mChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
 
         @Override

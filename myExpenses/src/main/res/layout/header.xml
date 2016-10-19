@@ -26,25 +26,26 @@
         android:layout_height="50dp"
         android:layout_below="@+id/header_line"
         android:orientation="horizontal"
+        android:weightSum="2"
         tools:ignore="UnknownIdInLayout">
 
         <TextView
             android:id="@+id/sum_income"
-            android:layout_width="1dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="start"
             android:textColor="@color/material_green"
-            style="@style/Subtitle"/>
+            style="@style/Subtitle.Left"/>
 
         <TextView
             android:id="@+id/sum_expense"
-            android:layout_width="1dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="end"
             android:textColor="@color/material_red"
-            style="@style/Subtitle"/>
+            style="@style/Subtitle.Right"/>
     </LinearLayout>
 
     <View
