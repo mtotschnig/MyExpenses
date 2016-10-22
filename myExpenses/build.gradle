@@ -48,6 +48,7 @@ android {
 
     lintOptions {
         disable 'InvalidPackage', 'MissingQuantity', 'MissingTranslation', 'ImpliedQuantity'
+        abortOnError false
     }
 
     dexOptions {

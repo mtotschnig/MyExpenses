@@ -7,7 +7,7 @@
 
     <com.github.mikephil.charting.charts.PieChart
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/chart1"
+        android:id="@+id/pie_chart_statistics"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
