@@ -84,7 +84,7 @@ dependencies {
     compile 'com.android.support:gridlayout-v7:' + project.androidSupportLibraryVersion
     compile 'com.android.support:preference-v14:' + "23.1.1"
     compile 'com.itextpdf:itextpdf:5.5.8'
-    compile 'ch.acra:acra:4.9.0'
+    compile 'ch.acra:acra:4.9.1'
     compile group: 'com.google.guava', name: 'guava', version: '18.0'
     compile 'org.apache.commons:commons-lang3:3.4'
     compile 'org.apache.commons:commons-csv:1.1'
