@@ -299,16 +299,16 @@ public class AccountEdit extends AmountActivity implements
   public void onPostExecute(Object result) {
     if (result == null) {
       Toast.makeText(this, "Unknown error while saving account", Toast.LENGTH_SHORT).show();
-      return;
+    } else {
+      Intent intent = new Intent();
+      long id = ContentUris.parseId((Uri) result);
+      if (mAccount.isSynced()) {
+        //TODO if this is a new account and we fail, we should report to user and to ACRA
+        MyApplication.createSyncAccount(id);
+      }
+      intent.putExtra(DatabaseConstants.KEY_ROWID, id);
+      setResult(RESULT_OK, intent);
     }
-    Intent intent=new Intent();
-    long id = ContentUris.parseId((Uri) result);
-    if (mAccount.isSynced()) {
-      //TODO if this is a new account and we fail, we should report to user and to ACRA
-      MyApplication.createSyncAccount(id);
-    }
-    intent.putExtra(DatabaseConstants.KEY_ROWID, id);
-    setResult(RESULT_OK,intent);
     finish();
     //no need to call super after finish
   }
