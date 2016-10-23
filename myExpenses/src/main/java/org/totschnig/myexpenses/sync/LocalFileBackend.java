@@ -67,7 +67,11 @@ class LocalFileBackend implements SyncBackend {
     try {
       final BufferedReader reader = new BufferedReader(new InputStreamReader(
           context.getContentResolver().openInputStream(file.getUri())));
-      return ChangeSet.create(getSequenceFromFileName(file), Utils.getChanges(gson, reader));
+      List<TransactionChange> changes = Utils.getChanges(gson, reader);
+      if (changes == null || changes.size() == 0) {
+        return ChangeSet.failed;
+      }
+      return ChangeSet.create(getSequenceFromFileName(file), changes);
     } catch (FileNotFoundException e) {
       return ChangeSet.failed;
     }
