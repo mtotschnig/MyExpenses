@@ -32,7 +32,6 @@ public class SplitTransaction extends Transaction {
   private String PART_OR_PEER_SELECT = "(" + KEY_PARENTID + "= ? OR " + KEY_TRANSFER_PEER
       + " IN (SELECT " + KEY_ROWID + " FROM " + TABLE_TRANSACTIONS + " where "
       + KEY_PARENTID + " = ?))";
-  private boolean noCommit = false;
 
   public SplitTransaction(long accountId, Long amount) {
     super(accountId, amount);
