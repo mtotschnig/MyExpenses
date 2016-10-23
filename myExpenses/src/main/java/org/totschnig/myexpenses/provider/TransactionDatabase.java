@@ -349,10 +349,12 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       + KEY_TYPE + ","
       + KEY_SYNC_SEQUENCE_LOCAL + ", "
       + KEY_ACCOUNTID + ","
-      + KEY_UUID + ") VALUES ('" + TransactionChange.Type.deleted + "',"
-      + String.format(Locale.US, SELECT_SEQUCENE_NUMBER_TEMLATE, "old") +  " , "
-      + "old." + KEY_ACCOUNTID + ","
-      + "old." + KEY_UUID + "); END;";
+      + KEY_UUID + ","
+      + KEY_PARENT_UUID + ") VALUES ('" + TransactionChange.Type.deleted + "', "
+      + String.format(Locale.US, SELECT_SEQUCENE_NUMBER_TEMLATE, "old") +  ", "
+      + "old." + KEY_ACCOUNTID + ", "
+      + "old." + KEY_UUID + ", "
+      + "CASE WHEN old." + KEY_PARENTID + " IS NULL THEN NULL ELSE (SELECT " + KEY_UUID + " from " + TABLE_TRANSACTIONS + " where " + KEY_ROWID + " = old." + KEY_PARENTID + ") END); END;";
 
   private static final String SHOULD_WRITE_CHANGE_TEMPLATE = " EXISTS (SELECT 1 FROM " + TABLE_ACCOUNTS
       + " WHERE " + KEY_ROWID + " = %s." + KEY_ACCOUNTID + " AND " + KEY_SYNC_URI + " IS NOT NULL AND "
