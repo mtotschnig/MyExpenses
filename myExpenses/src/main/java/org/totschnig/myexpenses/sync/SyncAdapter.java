@@ -57,6 +57,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -158,9 +159,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       return;
     }
 
+    if (localChanges.size() > 0) {
+      localChanges = collectSplits(localChanges);
+    }
+
     Pair<List<TransactionChange>, List<TransactionChange>> mergeResult =
         mergeChangeSets(localChanges, remoteChanges);
-    localChanges = mergeResult.first; remoteChanges = mergeResult.second;
+    localChanges = mergeResult.first;
+    remoteChanges = mergeResult.second;
 
     if (remoteChanges.size() > 0) {
       try {
@@ -184,6 +190,28 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
   }
 
+  private List<TransactionChange> collectSplits(List<TransactionChange> changeList) {
+    HashMap<String, List<TransactionChange>> splitsPerUuid = new HashMap<>();
+    for (Iterator<TransactionChange> i = changeList.iterator(); i.hasNext(); ) {
+      TransactionChange change = i.next();
+      if ((change.parentUuid() != null)) {
+        ensureList(splitsPerUuid, change.parentUuid()).add(change);
+        i.remove();
+      }
+    }
+    //When a split transaction is changed, we do not necessarily have an entry for the parent, so we
+    //create one here
+    Stream.of(splitsPerUuid.keySet()).forEach(uuid -> {
+      if (!Stream.of(changeList).anyMatch(change -> change.uuid().equals(uuid))) {
+        changeList.add(TransactionChange.builder().setType(TransactionChange.Type.updated).setTimeStamp(splitsPerUuid.get(uuid).get(0).timeStamp()).setUuid(uuid).build());
+      }
+    });
+
+    return Stream.of(changeList).map(change -> splitsPerUuid.containsKey(change.uuid()) ?
+        change.toBuilder().setSplitPartsAndValidate(splitsPerUuid.get(change.uuid())).build() : change)
+        .collect(Collectors.toList());
+  }
+
   private void writeRemoteChangesToDb(ContentProviderClient provider, List<TransactionChange> remoteChanges, String accountId)
       throws RemoteException, OperationApplicationException {
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
@@ -201,20 +229,20 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
   @VisibleForTesting
   public void collectOperations(@NonNull TransactionChange change, ArrayList<ContentProviderOperation> ops) {
-    switch(change.type()) {
+    switch (change.type()) {
       case created:
         ops.addAll(toTransaction(change).buildSaveOperations(ops.size()));
         break;
       case updated:
         ops.add(ContentProviderOperation.newUpdate(TransactionProvider.TRANSACTIONS_URI)
-            .withSelection(KEY_UUID + " = ?",new String[]{change.uuid()})
+            .withSelection(KEY_UUID + " = ?", new String[]{change.uuid()})
             .withValues(toContentValues(change))
             .build());
         break;
       case deleted:
-       ops.add(ContentProviderOperation.newDelete(TransactionProvider.TRANSACTIONS_URI)
-           .withSelection(KEY_UUID + " = ?",new String[]{change.uuid()})
-           .build());
+        ops.add(ContentProviderOperation.newDelete(TransactionProvider.TRANSACTIONS_URI)
+            .withSelection(KEY_UUID + " = ?", new String[]{change.uuid()})
+            .build());
         break;
     }
   }
@@ -230,8 +258,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     Transaction t;
     long transferAccount;
     if (change.transferAccount() != null &&
-        (transferAccount = extractTransferAccount(change.transferAccount(),change.label())) != -1) {
-      t = new Transfer(getAccount().getId(),amount);
+        (transferAccount = extractTransferAccount(change.transferAccount(), change.label())) != -1) {
+      t = new Transfer(getAccount().getId(), amount);
       t.transfer_account = transferAccount;
     } else {
       t = new Transaction(getAccount().getId(), amount);
@@ -288,8 +316,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
     if (change.methodLabel() != null) {
       long id = extractMethodId(change.methodLabel());
-        if (id != -1) {
-          values.put(KEY_METHODID, id);
+      if (id != -1) {
+        values.put(KEY_METHODID, id);
       }
     }
     //values.put("transfer_account", transferAccount());
@@ -306,7 +334,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       if (id == -1 && label != null) {
         org.totschnig.myexpenses.model.Account transferAccount =
             new org.totschnig.myexpenses.model.Account(label, getAccount().currency, 0L, "",
-            AccountType.CASH, org.totschnig.myexpenses.model.Account.DEFAULT_COLOR);
+                AccountType.CASH, org.totschnig.myexpenses.model.Account.DEFAULT_COLOR);
         transferAccount.uuid = uuid;
         transferAccount.save();
         id = transferAccount.getId();

@@ -1,10 +1,10 @@
 package org.totschnig.myexpenses.sync.json;
 
 
-import android.content.ContentValues;
 import android.database.Cursor;
 import android.support.annotation.Nullable;
 
+import com.annimon.stream.Stream;
 import com.gabrielittner.auto.value.cursor.ColumnAdapter;
 import com.gabrielittner.auto.value.cursor.ColumnName;
 import com.google.auto.value.AutoValue;
@@ -12,6 +12,9 @@ import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 
 import org.totschnig.myexpenses.util.TextUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
@@ -25,7 +28,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_UR
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TIMESTAMP;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 
 @AutoValue
@@ -98,6 +100,9 @@ public abstract class TransactionChange {
   @Nullable
   public abstract String pictureUri();
 
+  @Nullable
+  public abstract List<TransactionChange> splitParts();
+
   public static TransactionChange mergeUpdate(TransactionChange initial, TransactionChange change) {
     if (!(change.isUpdate() && initial.isUpdate())) {
       throw new IllegalStateException("Can only merge updates");
@@ -167,6 +172,7 @@ public abstract class TransactionChange {
   public abstract static class Builder {
     public abstract Builder setType(Type value);
     public abstract Builder setUuid(String value);
+    abstract String uuid();
     public abstract Builder setTimeStamp(Long value);
     public abstract Builder setParentUuid(String value);
     public abstract Builder setComment(String value);
@@ -179,6 +185,14 @@ public abstract class TransactionChange {
     public abstract Builder setCrStatus(String value);
     public abstract Builder setReferenceNumber(String value);
     public abstract Builder setPictureUri(String value);
+    public abstract Builder setSplitParts(List<TransactionChange> value);
+    public Builder setSplitPartsAndValidate(List<TransactionChange> value) {
+      if (Stream.of(value).allMatch(value1 -> value1.parentUuid().equals(uuid()))) {
+        return setSplitParts(value);
+      } else {
+        throw new IllegalStateException("parts parentUuid does not mactch parents uuid");
+      }
+    }
     public abstract TransactionChange build();
   }
 }

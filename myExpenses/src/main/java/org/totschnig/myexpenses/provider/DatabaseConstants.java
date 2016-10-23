@@ -355,9 +355,12 @@ public class DatabaseConstants {
       "count(CASE WHEN  " + KEY_TRANSFER_ACCOUNT + ">0 AND " + WHERE_NOT_VOID + "  THEN 1 ELSE null END) as " + KEY_HAS_TRANSFERS;
 
   public static final String WHERE_DEPENDENT =
-      KEY_ROWID + " = ? OR " + KEY_TRANSFER_PEER + " = ? OR "
+      KEY_TRANSFER_PEER + " = ? OR "
           + KEY_PARENTID + " = ? OR " + KEY_ROWID + " IN "
           + "(SELECT " + KEY_TRANSFER_PEER + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_PARENTID + "= ?)";
+
+  public static final String WHERE_SELF_OR_DEPENDENT =
+      KEY_ROWID + " = ? OR "  + WHERE_DEPENDENT;
 
   public static String getYearOfWeekStart() {
     ensureLocalized();

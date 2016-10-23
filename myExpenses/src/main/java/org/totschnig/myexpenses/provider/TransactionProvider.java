@@ -838,15 +838,15 @@ public class TransactionProvider extends ContentProvider {
             args,
             KEY_TRANSFER_PEER + " = ? AND " + KEY_PARENTID + " IS NOT null",
             new String[] {segment});
-        //we delete the transaction, its children (in case of delete they are also handled by
-        //ON DELETE CASCADE, but not in case of mark void and its transfer peer, and transfer peers of its children
-        whereArgs = new String[] {segment,segment, segment, segment};
+        //we delete the transaction, its children and its transfer peer, and transfer peers of its children
         if (uri.getQueryParameter(QUERY_PARAMETER_MARK_VOID) == null) {
-          count = db.delete(TABLE_TRANSACTIONS, WHERE_DEPENDENT, whereArgs);
+          //we delete the parent separately, so that the changes trigger can correctly record the parent uuid
+          count = db.delete(TABLE_TRANSACTIONS, WHERE_DEPENDENT, new String[] {segment, segment, segment});
+          count += db.delete(TABLE_TRANSACTIONS, KEY_ROWID + " = ?", new String[] {segment});
         } else {
           ContentValues v = new ContentValues();
           v.put(KEY_CR_STATUS, Transaction.CrStatus.VOID.name());
-          count = db.update(TABLE_TRANSACTIONS,v,WHERE_DEPENDENT,whereArgs);
+          count = db.update(TABLE_TRANSACTIONS, v, WHERE_SELF_OR_DEPENDENT, new String[] {segment, segment, segment, segment});
         }
         db.setTransactionSuccessful();
       }    finally {
@@ -975,7 +975,7 @@ public class TransactionProvider extends ContentProvider {
       whereArgs = new String[] {segment,segment, segment, segment};
       ContentValues v = new ContentValues();
       v.put(KEY_CR_STATUS, Transaction.CrStatus.UNRECONCILED.name());
-      count = db.update(TABLE_TRANSACTIONS,v,WHERE_DEPENDENT,whereArgs);
+      count = db.update(TABLE_TRANSACTIONS, v, WHERE_SELF_OR_DEPENDENT, whereArgs);
       break;
     case ACCOUNTS:
       count = db.update(TABLE_ACCOUNTS, values, where, whereArgs);
