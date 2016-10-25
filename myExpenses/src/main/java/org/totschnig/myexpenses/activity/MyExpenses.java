@@ -278,7 +278,6 @@ public class MyExpenses extends LaunchActivity implements
         int[] to = new int[]{
                 R.id.description,
                 R.id.label,
-                R.id.opening_balance,
                 R.id.sum_income,
                 R.id.sum_expenses,
                 R.id.sum_transfer,
@@ -1253,7 +1252,6 @@ public class MyExpenses extends LaunchActivity implements
                 setConvertedAmount((TextView) row.findViewById(R.id.sum_transfer), currency);
             }
             v.setBackgroundColor(colorInt);
-            setConvertedAmount((TextView) row.findViewById(R.id.opening_balance), currency);
             setConvertedAmount((TextView) row.findViewById(R.id.sum_income), currency);
             setConvertedAmount((TextView) row.findViewById(R.id.sum_expenses), currency);
             setConvertedAmount((TextView) row.findViewById(R.id.current_balance), currency);

@@ -81,21 +81,7 @@
                             tools:text="DESCRIPTION"/>
                     </TableRow>
 
-                    <TableRow
-                        android:layout_marginTop="5dp">
-
-                        <TextView
-                            android:text="@string/opening_balance"/>
-
-                        <TextView
-                            android:id="@+id/opening_balance"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="end"
-                            tools:text="OPENING_BALANCE"/>
-                    </TableRow>
-
-                    <TableRow>
+                    <TableRow android:layout_marginTop="5dp">
 
                         <TextView
                             android:text="@string/sum_income"/>
@@ -135,12 +121,12 @@
                     </TableRow>
 
                     <TableRow>
-
-                        <View/>
-
                         <View
                             android:layout_width="fill_parent"
-                            android:layout_height="4dp"
+                            android:layout_height="2dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_span="2"
                             android:background="?android:attr/colorForeground"/>
                     </TableRow>
 

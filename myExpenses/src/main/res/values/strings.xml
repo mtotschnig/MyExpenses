@@ -68,7 +68,7 @@
     <string name="date_format_illegal">Illegal date format</string>
     <string name="number_format_illegal">Illegal number format</string>
     <string name="decimal_separator">Decimal separator</string>
-    <string name="default_account_description">This account was set up automatically during installation</string>
+    <string name="default_account_description">Default account</string>
     <string name="default_account_name">Budget Book</string>
     <string name="description">Description</string>
     <string name="dialog_balance_delete">Delete reconciled transactions</string>
