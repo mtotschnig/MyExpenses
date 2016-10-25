@@ -22,11 +22,14 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <fragment
-        android:id="@+id/category_list"
-        android:name="org.totschnig.myexpenses.fragment.CategoryList"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"/>
+
+        <!-- Container for the CategoryList fragment. -->
+        <FrameLayout
+            android:id="@+id/category_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </FrameLayout>
+
         <include layout="@layout/floating_action_button"/>
     </FrameLayout>
 </LinearLayout>

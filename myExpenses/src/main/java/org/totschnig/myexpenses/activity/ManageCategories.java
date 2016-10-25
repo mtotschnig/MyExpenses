@@ -135,6 +135,12 @@ public class ManageCategories extends ProtectedFragmentActivity implements
           });
     }
     setContentView(R.layout.select_category);
+
+    // Create CategoryList manually to allow replacing it later.
+    // TODO: Get this fragment only once.
+    // TODO: Pass account ID to fragment arguments instead of getting it from the activity bundle.
+    getSupportFragmentManager().beginTransaction().add(R.id.category_list, new CategoryList()).commit();
+
     setupToolbar(true);
     if (title!=0) getSupportActionBar().setTitle(title);
     FragmentManager fm = getSupportFragmentManager();
@@ -359,7 +365,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
 
   @Override
   public boolean dispatchTouchEvent(MotionEvent event) {
-    if (mDetector != null && !mListFragment.mGrouping.equals(Grouping.NONE) && mDetector.onTouchEvent(event)) {
+    if (mDetector != null && mListFragment != null && mListFragment.mGrouping != null && !mListFragment.mGrouping.equals(Grouping.NONE) && mDetector.onTouchEvent(event)) {
       return true;
     }
     // Be sure to call the superclass implementation

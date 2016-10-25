@@ -23,6 +23,8 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri.Builder;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -126,6 +128,15 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekS
 public class CategoryList extends SortableListFragment implements
         OnChildClickListener, OnGroupClickListener, LoaderManager.LoaderCallbacks<Cursor> {
 
+    // Fragment arguments.
+    // Account to be displayed.
+    public static final String ARG_ACCOUNT_ID = "ACCOUNT_ID";
+    // Spinner position for account ID.
+    // FIXME: move account selection outside this fragment.
+    public static final String ARG_ACCOUNT_POSITION = "ACCOUNT_POSITION";
+    // HACK: Holds spinner position passed from the previous identical fragment.
+    private int mAccountSelectionPosition;
+
     private static final String KEY_CHILD_COUNT = "child_count";
     private View mImportButton;
 
@@ -193,7 +204,16 @@ public class CategoryList extends SortableListFragment implements
                 mMainColors.add(col);
             mMainColors.add(ColorTemplate.getHoloBlue());
 
-            final long id = Utils.getFromExtra(extras, KEY_ACCOUNTID, 0);
+            final long id;
+            // Generally, fragments should get their parameters through getArguments().
+            // This conditional is here for backwards compatibility with legacy code
+            // which gets parameters from an enclosing activity bundle.
+            if (getArguments() != null) {
+                id = getArguments().getLong(ARG_ACCOUNT_ID, 0);
+                mAccountSelectionPosition = getArguments().getInt(ARG_ACCOUNT_POSITION, 0);
+            } else {
+                id = Utils.getFromExtra(extras, KEY_ACCOUNTID, 0);
+            }
             mAccount = Account.getInstanceFromDb(id);
             if (mAccount == null) {
                 TextView tv = new TextView(ctx);
@@ -224,11 +244,19 @@ public class CategoryList extends SortableListFragment implements
             mAccountsAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
             mSpinner.setAdapter(mAccountsAdapter);
 
-
             mSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    Bundle args = new Bundle();
+                    args.putLong(ARG_ACCOUNT_ID, id);
+                    args.putInt(ARG_ACCOUNT_POSITION, position);
 
+                    Fragment accountFragment = new CategoryList();
+                    accountFragment.setArguments(args);
+
+                    FragmentTransaction tx = getActivity().getSupportFragmentManager().beginTransaction();
+                    tx.replace(R.id.category_list, accountFragment);
+                    tx.commit();
                 }
 
                 @Override
@@ -871,7 +899,9 @@ public class CategoryList extends SortableListFragment implements
                     Account a = Account.fromCacheOrFromCursor(c);
                     mAccounts[position] = a;
                     if (!selectionSet) {
-                        mSpinner.setSelection(position);
+                        // mSpinner.setSelection(position);
+                        // HACK: Set spinner position from fragment arguments (which has been previously saved to the field).
+                        mSpinner.setSelection(mAccountSelectionPosition);
                         selectionSet = true;
                     }
                     c.moveToNext();
