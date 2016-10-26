@@ -67,6 +67,7 @@ android {
         exclude 'META-INF/LGPL2.1'
     }
     testBuildType "release"
+    useLibrary 'org.apache.http.legacy'
 }
 
 dependencies {
@@ -90,6 +91,8 @@ dependencies {
     compile 'org.apache.commons:commons-lang3:3.4'
     compile 'org.apache.commons:commons-csv:1.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.android.volley:volley:1.0.0'
+    compile 'com.google.code.gson:gson:2.6.1'
     compile 'com.github.PhilJay:MPAndroidChart:bd75e6c'
     compile 'com.github.mtotschnig:Caldroid:master-SNAPSHOT'
     //noinspection GradleDynamicVersion

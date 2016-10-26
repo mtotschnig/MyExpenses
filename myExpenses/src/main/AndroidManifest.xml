@@ -28,6 +28,7 @@
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".MyApplication"
@@ -53,8 +54,7 @@
         <activity
             android:name=".activity.MyExpenses"
             android:label="@string/title_activity_welcome"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".activity.DeepLinkActivity"
             android:excludeFromRecents="true"
@@ -102,7 +102,7 @@
 
             <meta-data
                 android:name="android.app.searchable"
-                android:resource="@xml/searchable"></meta-data>
+                android:resource="@xml/searchable" />
         </activity>
         <activity
             android:name=".activity.BackupRestoreActivity"
@@ -202,7 +202,7 @@
         </activity>
         <activity
             android:name=".activity.FolderBrowser"
-            android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge"></activity>
+            android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge" />
         <activity
             android:name=".activity.CalculatorInput"
             android:theme="@style/Theme.AppCompat.Light.Dialog.NoTitle">
@@ -216,6 +216,14 @@
         <activity
             android:name=".activity.ManageCurrencies"
             android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge" />
+        <activity
+            android:name=".activity.CurrencyActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
 
         <provider
             android:name=".provider.TransactionProvider"

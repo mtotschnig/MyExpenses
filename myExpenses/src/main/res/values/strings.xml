@@ -205,6 +205,7 @@
     <string name="menu_create_transfer">New Transfer</string>
     <string name="menu_delete">Delete</string>
     <string name="menu_distribution">Statistics</string>
+    <string name="menu_currencies">Currencies</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_edit_account">Edit Account</string>
     <string name="menu_edit_cat">Edit category</string>
@@ -633,5 +634,6 @@
 
     <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
     <string name="play_again">Play Again</string>
+    <string name="title_activity_tcurrency_acivity">TCurrencyAcivity</string>
 </resources>
 

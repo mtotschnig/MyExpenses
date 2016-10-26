@@ -55,6 +55,7 @@
             </group>
         </menu>
     </item>
+
     <item
         android:id="@id/MANAGE_PLANS_COMMAND"
         android:icon="@drawable/ic_menu_template"
@@ -67,6 +68,13 @@
         android:icon="@drawable/ic_menu_chart"
         android:orderInCategory="10"
         android:title="@string/menu_distribution"
+        app:showAsAction="ifRoom">
+    </item>
+    <item
+        android:id="@id/CURRENCY_COMMAND"
+        android:icon="@drawable/ic_attach_money"
+        android:orderInCategory="10"
+        android:title="@string/menu_currencies"
         app:showAsAction="ifRoom">
     </item>
     <item

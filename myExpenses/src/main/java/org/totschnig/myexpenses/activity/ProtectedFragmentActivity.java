@@ -110,7 +110,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     if (BuildConfig.DEBUG) {
-      enableStrictMode();
+      //enableStrictMode();
     }
     super.onCreate(savedInstanceState);
     if (PrefKey.PERFORM_PROTECTION.getBoolean(false)) {

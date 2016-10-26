@@ -38,163 +38,174 @@ import android.util.Log;
 import android.widget.Toast;
 
 public class CommonCommands {
-  private CommonCommands() {
-  }
+    private CommonCommands() {
+    }
 
-  static boolean dispatchCommand(Activity ctx, int command, Object tag) {
-    Intent i;
-    switch(command) {
-    case R.id.RATE_COMMAND:
-      i = new Intent(Intent.ACTION_VIEW);
-      i.setData(Uri.parse(MyApplication.getMarketSelfUri()));
-      if (Utils.isIntentAvailable(ctx,i)) {
-        ctx.startActivity(i);
-      } else {
-        Toast.makeText(
-            ctx,
-            R.string.error_accessing_market,
-            Toast.LENGTH_LONG)
-          .show();
-      }
-      return true;
-    case R.id.SETTINGS_COMMAND:
-      i = new Intent(ctx, MyPreferenceActivity.class);
-      i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-      if (tag != null) {
-        i.putExtra(MyPreferenceActivity.KEY_OPEN_PREF_KEY,(String) tag);
-      }
-      ctx.startActivityForResult(i,ProtectedFragmentActivity.PREFERENCES_REQUEST);
-      return true;
-    case R.id.FEEDBACK_COMMAND:
-      i = new Intent(android.content.Intent.ACTION_SEND);
-      i.setType("plain/text");
-      i.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{ MyApplication.FEEDBACK_EMAIL });
-      i.putExtra(android.content.Intent.EXTRA_SUBJECT,
-          "[" + ctx.getString(R.string.app_name) + "] Feedback"
-      );
-      i.putExtra(android.content.Intent.EXTRA_TEXT, getVersionInfo(ctx) + "\n" + ctx.getString(R.string.feedback_email_message));
-      if (!Utils.isIntentAvailable(ctx,i)) {
-        Toast.makeText(ctx,R.string.no_app_handling_email_available, Toast.LENGTH_LONG).show();
-      } else {
-        ctx.startActivity(i);
-      }
-      break;
-    case R.id.CONTRIB_INFO_COMMAND:
-      CommonCommands.showContribInfoDialog((FragmentActivity) ctx,-1);
-      return true;
-    case R.id.WEB_COMMAND:
-      i = new Intent(Intent.ACTION_VIEW);
-      i.setData(Uri.parse(ctx.getString(R.string.website)));
-      ctx.startActivity(i);
-      return true;
-    case R.id.HELP_COMMAND:
-      i = new Intent(ctx,Help.class);
-      i.putExtra(HelpDialogFragment.KEY_VARIANT,
-          tag != null ? (Enum<?>) tag : ((ProtectedFragmentActivity)ctx).helpVariant);
-      //for result is needed since it allows us to inspect the calling activity
-      ctx.startActivityForResult(i,0);
-      return true;
-    case R.id.REQUEST_LICENCE_COMMAND:
-      String androidId = Settings.Secure.getString(ctx.getContentResolver(), Settings.Secure.ANDROID_ID);
-      i = new Intent(android.content.Intent.ACTION_SEND);
-      i.setType("plain/text");
-      i.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{MyApplication.FEEDBACK_EMAIL});
-      i.putExtra(android.content.Intent.EXTRA_SUBJECT,
-          "[" + ctx.getString(R.string.app_name) + "] " + ctx.getString(R.string.contrib_key));
-      String extraText = ctx.getString(R.string.request_licence_mail_head, androidId);
-      if (tag != null) {
-        extraText += " \n\n[" + ctx.getString(R.string.paypal_transaction_id) + ": " + tag +  "]";
-      }
-      i.putExtra(android.content.Intent.EXTRA_TEXT, extraText);
-      if (!Utils.isIntentAvailable(ctx, i)) {
-        Toast.makeText(ctx, R.string.no_app_handling_email_available, Toast.LENGTH_LONG).show();
-      } else {
-        ctx.startActivity(i);
-      }
-      return true;
-      case R.id.VERIFY_LICENCE_COMMAND:
-        HashLicenceHandler licenceHandler = (HashLicenceHandler) MyApplication.getInstance().getLicenceHandler();
-        LicenceHandler.LicenceStatus licenceStatus = licenceHandler.verifyLicenceKey();
-        if (licenceStatus != null) {
-          Toast.makeText(ctx,
-              Utils.concatResStrings(ctx, " ",
-                  R.string.licence_validation_success,
-                  (licenceStatus == LicenceHandler.LicenceStatus.EXTENDED ?
-                      R.string.licence_validation_extended : R.string.licence_validation_premium)),
-              Toast.LENGTH_LONG).show();
-        } else {
-          Toast.makeText(ctx, R.string.licence_validation_failure, Toast.LENGTH_LONG).show();
+    static boolean dispatchCommand(Activity ctx, int command, Object tag) {
+        Intent i;
+        switch (command) {
+            case R.id.RATE_COMMAND:
+                i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(MyApplication.getMarketSelfUri()));
+                if (Utils.isIntentAvailable(ctx, i)) {
+                    ctx.startActivity(i);
+                } else {
+                    Toast.makeText(
+                            ctx,
+                            R.string.error_accessing_market,
+                            Toast.LENGTH_LONG)
+                            .show();
+                }
+                return true;
+            case R.id.CURRENCY_COMMAND:
+                i = new Intent(ctx, CurrencyActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                ctx.startActivity(i);
+                return true;
+            case R.id.SETTINGS_COMMAND:
+                i = new Intent(ctx, MyPreferenceActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                if (tag != null) {
+                    i.putExtra(MyPreferenceActivity.KEY_OPEN_PREF_KEY, (String) tag);
+                }
+                ctx.startActivityForResult(i, ProtectedFragmentActivity.PREFERENCES_REQUEST);
+                return true;
+            case R.id.FEEDBACK_COMMAND:
+                i = new Intent(android.content.Intent.ACTION_SEND);
+                i.setType("plain/text");
+                i.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{MyApplication.FEEDBACK_EMAIL});
+                i.putExtra(android.content.Intent.EXTRA_SUBJECT,
+                        "[" + ctx.getString(R.string.app_name) + "] Feedback"
+                );
+                i.putExtra(android.content.Intent.EXTRA_TEXT, getVersionInfo(ctx) + "\n" + ctx.getString(R.string.feedback_email_message));
+                if (!Utils.isIntentAvailable(ctx, i)) {
+                    Toast.makeText(ctx, R.string.no_app_handling_email_available, Toast.LENGTH_LONG).show();
+                } else {
+                    ctx.startActivity(i);
+                }
+                break;
+            case R.id.CONTRIB_INFO_COMMAND:
+                CommonCommands.showContribInfoDialog((FragmentActivity) ctx, -1);
+                return true;
+            case R.id.WEB_COMMAND:
+                i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(ctx.getString(R.string.website)));
+                ctx.startActivity(i);
+                return true;
+            case R.id.HELP_COMMAND:
+                i = new Intent(ctx, Help.class);
+                i.putExtra(HelpDialogFragment.KEY_VARIANT,
+                        tag != null ? (Enum<?>) tag : ((ProtectedFragmentActivity) ctx).helpVariant);
+                //for result is needed since it allows us to inspect the calling activity
+                ctx.startActivityForResult(i, 0);
+                return true;
+            case R.id.REQUEST_LICENCE_COMMAND:
+                String androidId = Settings.Secure.getString(ctx.getContentResolver(), Settings.Secure.ANDROID_ID);
+                i = new Intent(android.content.Intent.ACTION_SEND);
+                i.setType("plain/text");
+                i.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{MyApplication.FEEDBACK_EMAIL});
+                i.putExtra(android.content.Intent.EXTRA_SUBJECT,
+                        "[" + ctx.getString(R.string.app_name) + "] " + ctx.getString(R.string.contrib_key));
+                String extraText = ctx.getString(R.string.request_licence_mail_head, androidId);
+                if (tag != null) {
+                    extraText += " \n\n[" + ctx.getString(R.string.paypal_transaction_id) + ": " + tag + "]";
+                }
+                i.putExtra(android.content.Intent.EXTRA_TEXT, extraText);
+                if (!Utils.isIntentAvailable(ctx, i)) {
+                    Toast.makeText(ctx, R.string.no_app_handling_email_available, Toast.LENGTH_LONG).show();
+                } else {
+                    ctx.startActivity(i);
+                }
+                return true;
+            case R.id.VERIFY_LICENCE_COMMAND:
+                HashLicenceHandler licenceHandler = (HashLicenceHandler) MyApplication.getInstance().getLicenceHandler();
+                LicenceHandler.LicenceStatus licenceStatus = licenceHandler.verifyLicenceKey();
+                if (licenceStatus != null) {
+                    Toast.makeText(ctx,
+                            Utils.concatResStrings(ctx, " ",
+                                    R.string.licence_validation_success,
+                                    (licenceStatus == LicenceHandler.LicenceStatus.EXTENDED ?
+                                            R.string.licence_validation_extended : R.string.licence_validation_premium)),
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(ctx, R.string.licence_validation_failure, Toast.LENGTH_LONG).show();
+                }
+                licenceHandler.invalidate();
+                return true;
+            case android.R.id.home:
+                ctx.setResult(FragmentActivity.RESULT_CANCELED);
+                ctx.finish();
+                return true;
         }
-        licenceHandler.invalidate();
-        return true;
-    case android.R.id.home:
-      ctx.setResult(FragmentActivity.RESULT_CANCELED);
-      ctx.finish();
-      return true;
+        return false;
     }
-   return false;
-  }
-  public static void showContribDialog(Activity ctx,ContribFeature feature, Serializable tag) {
-    Intent i = new Intent(ctx,ContribInfoDialogActivity.class);
-    i.putExtra(ContribInfoDialogActivity.KEY_FEATURE, feature);
-    i.putExtra(ContribInfoDialogActivity.KEY_TAG,tag);
-    ctx.startActivityForResult(i,ProtectionDelegate.CONTRIB_REQUEST);
-  }
-  public static void showContribInfoDialog(FragmentActivity ctx,long sequenceCount) {
-    Intent i = new Intent(ctx,ContribInfoDialogActivity.class);
-    i.putExtra(ContribInfoDialogFragment.KEY_SEQUENCE_COUNT, sequenceCount);
-    ctx.startActivityForResult(i,0);
-  }
-  /**
-   * retrieve information about the current version
-   * @return concatenation of versionName, versionCode and buildTime
-   * buildTime is automatically stored in property file during build process
-   */
-  public static String getVersionInfo(Activity ctx) {
-    String version = "";
-    String versionname = "";
-    try {
-      PackageInfo pi = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0);
-      version = " (revision " + pi.versionCode + ") ";
-      versionname = pi.versionName;
-      //versiontime = ", " + R.string.installed + " " + sdf.format(new Date(pi.lastUpdateTime));
-    } catch (Exception e) {
-      Log.e(MyApplication.TAG, "Package info not found", e);
-    }
-    String buildDate = BuildConfig.BUILD_DATE;
 
-    final String flavor = TextUtils.isEmpty(BuildConfig.FLAVOR) ?
-        "" : " " + BuildConfig.FLAVOR;
-    String installer = ctx.getPackageManager()
-        .getInstallerPackageName(ctx.getPackageName());
-    installer = TextUtils.isEmpty(installer) ?
-        "" : " " + installer;
-    return versionname + version  + buildDate + flavor + installer;
-  }
-  /**
-   * @return version name
-   */
-  public static String getVersionName(Activity ctx) {
-    String version = "";
-    try {
-      PackageInfo pi = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0);
-      version = pi.versionName;
-    } catch (Exception e) {
-      Log.e("MyExpenses", "Package name not found", e);
+    public static void showContribDialog(Activity ctx, ContribFeature feature, Serializable tag) {
+        Intent i = new Intent(ctx, ContribInfoDialogActivity.class);
+        i.putExtra(ContribInfoDialogActivity.KEY_FEATURE, feature);
+        i.putExtra(ContribInfoDialogActivity.KEY_TAG, tag);
+        ctx.startActivityForResult(i, ProtectionDelegate.CONTRIB_REQUEST);
     }
-    return version;
-  }
-  /**
-   * @return version number (versionCode)
-   */
-  public static int getVersionNumber(Activity ctx) {
-    int version = -1;
-    try {
-      PackageInfo pi = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0);
-      version = pi.versionCode;
-    } catch (Exception e) {
-      Log.e("MyExpenses", "Package name not found", e);
+
+    public static void showContribInfoDialog(FragmentActivity ctx, long sequenceCount) {
+        Intent i = new Intent(ctx, ContribInfoDialogActivity.class);
+        i.putExtra(ContribInfoDialogFragment.KEY_SEQUENCE_COUNT, sequenceCount);
+        ctx.startActivityForResult(i, 0);
     }
-    return version;
-  }
+
+    /**
+     * retrieve information about the current version
+     *
+     * @return concatenation of versionName, versionCode and buildTime
+     * buildTime is automatically stored in property file during build process
+     */
+    public static String getVersionInfo(Activity ctx) {
+        String version = "";
+        String versionname = "";
+        try {
+            PackageInfo pi = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0);
+            version = " (revision " + pi.versionCode + ") ";
+            versionname = pi.versionName;
+            //versiontime = ", " + R.string.installed + " " + sdf.format(new Date(pi.lastUpdateTime));
+        } catch (Exception e) {
+            Log.e(MyApplication.TAG, "Package info not found", e);
+        }
+        String buildDate = BuildConfig.BUILD_DATE;
+
+        final String flavor = TextUtils.isEmpty(BuildConfig.FLAVOR) ?
+                "" : " " + BuildConfig.FLAVOR;
+        String installer = ctx.getPackageManager()
+                .getInstallerPackageName(ctx.getPackageName());
+        installer = TextUtils.isEmpty(installer) ?
+                "" : " " + installer;
+        return versionname + version + buildDate + flavor + installer;
+    }
+
+    /**
+     * @return version name
+     */
+    public static String getVersionName(Activity ctx) {
+        String version = "";
+        try {
+            PackageInfo pi = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0);
+            version = pi.versionName;
+        } catch (Exception e) {
+            Log.e("MyExpenses", "Package name not found", e);
+        }
+        return version;
+    }
+
+    /**
+     * @return version number (versionCode)
+     */
+    public static int getVersionNumber(Activity ctx) {
+        int version = -1;
+        try {
+            PackageInfo pi = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0);
+            version = pi.versionCode;
+        } catch (Exception e) {
+            Log.e("MyExpenses", "Package name not found", e);
+        }
+        return version;
+    }
 }
