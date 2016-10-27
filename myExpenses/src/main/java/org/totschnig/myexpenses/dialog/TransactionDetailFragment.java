@@ -96,7 +96,6 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     mLayout = li.inflate(R.layout.transaction_detail, null);
     AlertDialog dialog = new AlertDialog.Builder(getActivity())
         .setTitle(R.string.progress_dialog_loading)
-        //.setIcon(android.R.color.transparent)
         .setView(mLayout)
         .setNegativeButton(android.R.string.ok, this)
         .setPositiveButton(R.string.menu_edit, this)
