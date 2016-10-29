@@ -1036,7 +1036,7 @@ public class ExpenseEdit extends AmountActivity implements
       case 1:
         mType = INCOME;
     }
-    if (!mNewInstance) {
+    if (signum != 0 ) {
       mAmountText.setAmount(amount);
     }
     mAmountText.requestFocus();
