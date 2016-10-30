@@ -22,6 +22,7 @@ import android.annotation.TargetApi;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentProviderOperation;
+import android.content.ContentProviderResult;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.OperationApplicationException;
@@ -45,6 +46,7 @@ import org.totschnig.myexpenses.export.CategoryInfo;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.PaymentMethod;
+import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -170,7 +172,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     if (remoteChanges.size() > 0) {
       try {
-        writeRemoteChangesToDb(provider, remoteChanges, accountId);
+        ContentProviderResult[] contentProviderResults = writeRemoteChangesToDb(provider, remoteChanges, accountId);
+        if (contentProviderResults.length == 0) {
+          throw new OperationApplicationException("write to db yielded no results");
+        }
         accountManager.setUserData(account, KEY_SYNC_SEQUENCE_REMOTE, String.valueOf(currentSequenceRemote));
       } catch (RemoteException | OperationApplicationException | SQLiteException e) {
         AcraHelper.report(e);
@@ -212,7 +217,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         .collect(Collectors.toList());
   }
 
-  private void writeRemoteChangesToDb(ContentProviderClient provider, List<TransactionChange> remoteChanges, String accountId)
+  private ContentProviderResult[] writeRemoteChangesToDb(ContentProviderClient provider, List<TransactionChange> remoteChanges, String accountId)
       throws RemoteException, OperationApplicationException {
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
     Uri accountUri = TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(accountId).build();
@@ -220,7 +225,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     Stream.of(remoteChanges).filter(change -> !(change.isCreate() && uuidExists(change.uuid())))
         .forEach(change -> collectOperations(change, ops));
     ops.add(ContentProviderOperation.newUpdate(accountUri).withValue(KEY_SYNC_FROM_ADAPTER, false).build());
-    provider.applyBatch(ops);
+    return provider.applyBatch(ops);
   }
 
   private boolean uuidExists(String uuid) {
@@ -231,7 +236,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   public void collectOperations(@NonNull TransactionChange change, ArrayList<ContentProviderOperation> ops) {
     switch (change.type()) {
       case created:
-        ops.addAll(toTransaction(change).buildSaveOperations(ops.size()));
+        ops.addAll(toContentProviderOperations(change, ops.size(), -1));
         break;
       case updated:
         ops.add(ContentProviderOperation.newUpdate(TransactionProvider.TRANSACTIONS_URI)
@@ -245,9 +250,16 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             .build());
         break;
     }
+    if (change.splitParts() != null) {
+      int parentOffset = ops.size() - 1;
+      Stream.of(change.splitParts()).map(splitChange -> toContentProviderOperations(splitChange, ops.size(), parentOffset)).forEach(ops::addAll);
+    }
   }
 
-  private Transaction toTransaction(TransactionChange change) {
+
+
+  private ArrayList<ContentProviderOperation> toContentProviderOperations(
+      TransactionChange change, int offset, int parentOffset) {
     if (!change.isCreate()) throw new AssertionError();
     Long amount;
     if (change.amount() != null) {
@@ -257,7 +269,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
     Transaction t;
     long transferAccount;
-    if (change.transferAccount() != null &&
+    if (change.splitParts() != null) {
+      t = new SplitTransaction(getAccount().getId(), amount);
+    }
+    else if (change.transferAccount() != null &&
         (transferAccount = extractTransferAccount(change.transferAccount(), change.label())) != -1) {
       t = new Transfer(getAccount().getId(), amount);
       t.transfer_account = transferAccount;
@@ -288,12 +303,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         t.methodId = id;
       }
     }
-    //values.put("transfer_account", transferAccount());
     if (change.crStatus() != null) {
       t.crStatus = Transaction.CrStatus.valueOf(change.crStatus());
     }
     t.referenceNumber = change.referenceNumber();
-    return t;
+    ArrayList<ContentProviderOperation> contentProviderOperations = t.buildSaveOperations(offset, parentOffset);
+    return contentProviderOperations;
   }
 
   private ContentValues toContentValues(TransactionChange change) {

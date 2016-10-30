@@ -80,7 +80,7 @@ public class Transfer extends Transaction {
   }
 
   @Override
-  public ArrayList<ContentProviderOperation> buildSaveOperations(int offset) {
+  public ArrayList<ContentProviderOperation> buildSaveOperations(int offset, int parentOffset) {
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
     long amount = this.amount.getAmountMinor();
     long transferAmount = this.transferAmount.getAmountMinor();
@@ -99,7 +99,11 @@ public class Transfer extends Transaction {
       initialValues.put(KEY_UUID, generateUuid());
       initialValues.put(KEY_PARENTID, parentId);
       initialValues.put(KEY_STATUS, status);
-      ops.add(ContentProviderOperation.newInsert(CONTENT_URI).withValues(initialValues).build());
+      ContentProviderOperation.Builder builder = ContentProviderOperation.newInsert(CONTENT_URI).withValues(initialValues);
+      if (parentOffset != -1) {
+        builder.withValueBackReference(KEY_PARENTID, parentOffset);
+      }
+      ops.add(builder.build());
       //if the transfer is part of a split, the transfer peer needs to have a null parent
       ContentValues transferValues = new ContentValues(initialValues);
       transferValues.remove(KEY_PARENTID);

@@ -400,7 +400,7 @@ public class Transaction extends Model {
   public Uri save() {
     Uri uri;
     try {
-      ContentProviderResult[] result = cr().applyBatch(TransactionProvider.AUTHORITY, buildSaveOperations(0));
+      ContentProviderResult[] result = cr().applyBatch(TransactionProvider.AUTHORITY, buildSaveOperations(0, -1));
       if (getId() == 0) {
         //we need to find a uri, otherwise we would crash. Need to handle?
         uri = result[0].uri;
@@ -450,18 +450,25 @@ public class Transaction extends Model {
   }
 
   /**
-   * Saves the transaction, creating it new if necessary
+   * Constructs the {@link ArrayList} of {@link ContentProviderOperation}s necessary for saving
+   * the transaction
    * as a side effect calls {@link Payee#require(String)}
    *
    * @return the URI of the transaction. Upon creation it is returned from the content provider
    * @param offset Number of operations that are already added to the batch, needed for calculating back references
+   * @param parentOffset if not -1, it indicates at which position in the batch the parent of a new split transaction is situated.
+   *                     Is used from SyncAdapter for creating split transactions
    */
-  public ArrayList<ContentProviderOperation> buildSaveOperations(int offset) {
+  public ArrayList<ContentProviderOperation> buildSaveOperations(int offset, int parentOffset) {
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
     ContentValues initialValues = buildInitialValues();
     if (getId() == 0) {
       initialValues.put(KEY_UUID, generateUuid());
-      ops.add(ContentProviderOperation.newInsert(CONTENT_URI).withValues(initialValues).build());
+      ContentProviderOperation.Builder builder = ContentProviderOperation.newInsert(CONTENT_URI).withValues(initialValues);
+      if (parentOffset != -1) {
+        builder.withValueBackReference(KEY_PARENTID, parentOffset);
+      }
+      ops.add(builder.build());
       addOriginPlanInstance(ops);
     } else {
       ops.add(ContentProviderOperation
