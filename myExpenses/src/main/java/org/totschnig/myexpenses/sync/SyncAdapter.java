@@ -223,7 +223,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     Uri accountUri = TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(accountId).build();
     ops.add(ContentProviderOperation.newUpdate(accountUri).withValue(KEY_SYNC_FROM_ADAPTER, true).build());
     Stream.of(remoteChanges).filter(change -> !(change.isCreate() && uuidExists(change.uuid())))
-        .forEach(change -> collectOperations(change, ops));
+        .forEach(change -> collectOperations(change, ops, -1));
     ops.add(ContentProviderOperation.newUpdate(accountUri).withValue(KEY_SYNC_FROM_ADAPTER, false).build());
     return provider.applyBatch(ops);
   }
@@ -233,16 +233,19 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   }
 
   @VisibleForTesting
-  public void collectOperations(@NonNull TransactionChange change, ArrayList<ContentProviderOperation> ops) {
+  public void collectOperations(@NonNull TransactionChange change, ArrayList<ContentProviderOperation> ops, int parentOffset) {
     switch (change.type()) {
       case created:
-        ops.addAll(toContentProviderOperations(change, ops.size(), -1));
+        ops.addAll(getContentProviderOperationsForCreate(change, ops.size(), parentOffset));
         break;
       case updated:
-        ops.add(ContentProviderOperation.newUpdate(TransactionProvider.TRANSACTIONS_URI)
-            .withSelection(KEY_UUID + " = ?", new String[]{change.uuid()})
-            .withValues(toContentValues(change))
-            .build());
+        ContentValues values = toContentValues(change);
+        if (values.size() > 0) {
+          ops.add(ContentProviderOperation.newUpdate(TransactionProvider.TRANSACTIONS_URI)
+              .withSelection(KEY_UUID + " = ?", new String[]{change.uuid()})
+              .withValues(values)
+              .build());
+        }
         break;
       case deleted:
         ops.add(ContentProviderOperation.newDelete(TransactionProvider.TRANSACTIONS_URI)
@@ -251,14 +254,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         break;
     }
     if (change.splitParts() != null) {
-      int parentOffset = ops.size() - 1;
-      Stream.of(change.splitParts()).map(splitChange -> toContentProviderOperations(splitChange, ops.size(), parentOffset)).forEach(ops::addAll);
+      Stream.of(change.splitParts()).forEach(splitChange -> collectOperations(splitChange, ops,
+          change.isCreate() ? ops.size() - 1 : -1)); //back reference is only used when we insert a new split, for updating an existing split we search for its _id via its uuid
     }
   }
 
 
 
-  private ArrayList<ContentProviderOperation> toContentProviderOperations(
+  private ArrayList<ContentProviderOperation> getContentProviderOperationsForCreate(
       TransactionChange change, int offset, int parentOffset) {
     if (!change.isCreate()) throw new AssertionError();
     Long amount;
@@ -307,8 +310,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       t.crStatus = Transaction.CrStatus.valueOf(change.crStatus());
     }
     t.referenceNumber = change.referenceNumber();
-    ArrayList<ContentProviderOperation> contentProviderOperations = t.buildSaveOperations(offset, parentOffset);
-    return contentProviderOperations;
+    if (parentOffset == -1 && change.parentUuid() != null) {
+      long parentId = Transaction.findByUuid(change.parentUuid());
+      if (parentId == -1) {
+        return new ArrayList<>(); //if we fail to link a split part to a parent, we need to ignore it
+      }
+      t.parentId = parentId;
+    }
+    return t.buildSaveOperations(offset, parentOffset);
   }
 
   private ContentValues toContentValues(TransactionChange change) {
@@ -318,8 +327,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     if (change.comment() != null) {
       values.put(KEY_COMMENT, change.comment());
     }
-    values.put(KEY_DATE, change.date());
-    values.put(KEY_AMOUNT, change.amount());
+    if (change.date() != null) {
+      values.put(KEY_DATE, change.date());
+    }
+    if (change.amount() != null) {
+      values.put(KEY_AMOUNT, change.amount());
+    }
     if (change.label() != null) {
       values.put(KEY_CATID, extractCatId(change.label()));
     }
@@ -335,9 +348,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         values.put(KEY_METHODID, id);
       }
     }
-    //values.put("transfer_account", transferAccount());
-    values.put(KEY_CR_STATUS, change.crStatus());
-    values.put(KEY_REFERENCE_NUMBER, change.referenceNumber());
+    if (change.crStatus() != null) {
+      values.put(KEY_CR_STATUS, change.crStatus());
+    }
+    if (change.referenceNumber() != null) {
+      values.put(KEY_REFERENCE_NUMBER, change.referenceNumber());
+    }
     //values.put("picture_id", pictureUri());
     return values;
   }

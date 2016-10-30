@@ -791,4 +791,21 @@ public class Transaction extends Model {
       this.homeUri = homeUri;
     }
   }
+
+  public static long findByUuid(String uuid) {
+    String selection = KEY_UUID + " = ?";
+    String[] selectionArgs = new String[]{uuid};
+
+    Cursor mCursor = cr().query(CONTENT_URI,
+        new String[]{KEY_ROWID}, selection, selectionArgs, null);
+    if (mCursor.getCount() == 0) {
+      mCursor.close();
+      return -1;
+    } else {
+      mCursor.moveToFirst();
+      long result = mCursor.getLong(0);
+      mCursor.close();
+      return result;
+    }
+  }
 }
