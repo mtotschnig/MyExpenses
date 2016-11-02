@@ -222,7 +222,6 @@ public class CategoryList extends SortableListFragment implements
             mChart = (PieChart) v.findViewById(R.id.pie_chart_statistics);
             mChart.setVisibility(showChart ? View.VISIBLE : View.GONE);
             mChart.setDescription("");
-            //TODO
 
             mSpinner = new SpinnerHelper(v.findViewById(R.id.distribution_list_spinner));
             mAccountsAdapter = new SimpleCursorAdapter(getContext(), android.R.layout.simple_spinner_item, null,
