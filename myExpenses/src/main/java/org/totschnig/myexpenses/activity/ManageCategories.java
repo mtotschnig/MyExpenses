@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SwitchCompat;
 import android.util.DisplayMetrics;
@@ -52,6 +53,8 @@ import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.util.ArrayList;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 
 /**
  * SelectCategory activity allows to select categories while editing a transaction
@@ -136,15 +139,23 @@ public class ManageCategories extends ProtectedFragmentActivity implements
     }
     setContentView(R.layout.select_category);
 
-    // Create CategoryList manually to allow replacing it later.
-    // TODO: Get this fragment only once.
-    // TODO: Pass account ID to fragment arguments instead of getting it from the activity bundle.
-    getSupportFragmentManager().beginTransaction().add(R.id.category_list, new CategoryList()).commit();
+    // Create CategoryList.
+
+    long accountId = Utils.getFromExtra(getIntent().getExtras(), KEY_ACCOUNTID, 0);
+    Bundle args = new Bundle();
+    args.putLong(CategoryList.ARG_ACCOUNT_ID, accountId);
+
+    mListFragment = new CategoryList();
+    mListFragment.setArguments(args);
+
+    FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
+    tx.add(R.id.category_list, mListFragment);
+    tx.commit();
+
+    // End Create CategoryList.
 
     setupToolbar(true);
     if (title!=0) getSupportActionBar().setTitle(title);
-    FragmentManager fm = getSupportFragmentManager();
-    mListFragment = ((CategoryList) fm.findFragmentById(R.id.category_list));
     if (helpVariant.equals(HelpVariant.select_mapping) || helpVariant.equals(HelpVariant.manage)) {
      configureFloatingActionButton(R.string.menu_create_main_cat);
     } else {

@@ -131,11 +131,6 @@ public class CategoryList extends SortableListFragment implements
     // Fragment arguments.
     // Account to be displayed.
     public static final String ARG_ACCOUNT_ID = "ACCOUNT_ID";
-    // Spinner position for account ID.
-    // FIXME: move account selection outside this fragment.
-    public static final String ARG_ACCOUNT_POSITION = "ACCOUNT_POSITION";
-    // HACK: Holds spinner position passed from the previous identical fragment.
-    private int mAccountSelectionPosition;
 
     private static final String KEY_CHILD_COUNT = "child_count";
     private View mImportButton;
@@ -156,7 +151,6 @@ public class CategoryList extends SortableListFragment implements
     private PieChart mChart;
     private SpinnerHelper mSpinner;
     public Grouping mGrouping;
-    private Account[] mAccounts;
     int mGroupingYear;
     int mGroupingSecond;
     int thisYear, thisMonth, thisWeek, thisDay, maxValue;
@@ -204,16 +198,8 @@ public class CategoryList extends SortableListFragment implements
                 mMainColors.add(col);
             mMainColors.add(ColorTemplate.getHoloBlue());
 
-            final long id;
-            // Generally, fragments should get their parameters through getArguments().
-            // This conditional is here for backwards compatibility with legacy code
-            // which gets parameters from an enclosing activity bundle.
-            if (getArguments() != null) {
-                id = getArguments().getLong(ARG_ACCOUNT_ID, 0);
-                mAccountSelectionPosition = getArguments().getInt(ARG_ACCOUNT_POSITION, 0);
-            } else {
-                id = Utils.getFromExtra(extras, KEY_ACCOUNTID, 0);
-            }
+            final long id = getArguments().getLong(ARG_ACCOUNT_ID, 0);
+
             mAccount = Account.getInstanceFromDb(id);
             if (mAccount == null) {
                 TextView tv = new TextView(ctx);
@@ -249,7 +235,6 @@ public class CategoryList extends SortableListFragment implements
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     Bundle args = new Bundle();
                     args.putLong(ARG_ACCOUNT_ID, id);
-                    args.putInt(ARG_ACCOUNT_POSITION, position);
 
                     Fragment accountFragment = new CategoryList();
                     accountFragment.setArguments(args);
@@ -891,23 +876,17 @@ public class CategoryList extends SortableListFragment implements
                 break;
             case ACCOUNT_CURSOR:
                 mAccountsAdapter.swapCursor(c);
-                mAccounts = new Account[c.getCount()];
+                // Set spinner position to the corresponding account.
                 c.moveToFirst();
-                boolean selectionSet = false;
                 while (!c.isAfterLast()) {
-                    int position = c.getPosition();
-                    Account a = Account.fromCacheOrFromCursor(c);
-                    mAccounts[position] = a;
-                    if (!selectionSet) {
-                        // mSpinner.setSelection(position);
-                        // HACK: Set spinner position from fragment arguments (which has been previously saved to the field).
-                        mSpinner.setSelection(mAccountSelectionPosition);
-                        selectionSet = true;
+                    if (mAccount.getId() == c.getLong(c.getColumnIndexOrThrow("_id"))) {
+                        mSpinner.setSelection(c.getPosition());
+                        break;
                     }
                     c.moveToNext();
                 }
-                //if the accountId we have been passed does not exist, we select the first entry
-                if (mSpinner.getSelectedItemPosition() == android.widget.AdapterView.INVALID_POSITION) {
+                // If the accountId we have been passed does not exist, we select the first entry.
+                if (c.isAfterLast()) {
                     mSpinner.setSelection(0);
                 }
                 break;
