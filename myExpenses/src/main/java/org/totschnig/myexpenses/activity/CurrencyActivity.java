@@ -42,18 +42,16 @@ public class CurrencyActivity extends ProtectedFragmentActivity {
                 JSONCurrency currency = gson.fromJson(response.toString(), JSONCurrency.class);
                 getSupportActionBar().setTitle("Currencies (" + currency.date + ")");
                 Log.d("CURRENCY", currency.base);
-                String[] currencies = new String[10];
+                String[] currencies = new String[8];
 
-                currencies[0] = "EUR: " + currency.rates.EUR + " / $1";
-                currencies[1] = "RUB: " + currency.rates.RUB + " / $1";
-                currencies[2] = "JPY: " + currency.rates.JPY + " / $1";
-                currencies[3] = "CHF: " + currency.rates.CHF + " / $1";
-                currencies[4] = "GBP: " + currency.rates.GBP + " / $1";
-                currencies[5] = "NZD: " + currency.rates.NZD + " / $1";
-                currencies[6] = "RON: " + currency.rates.RON + " / $1";
-                currencies[7] = "SEK: " + currency.rates.SEK + " / $1";
-                currencies[8] = "THB: " + currency.rates.THB + " / $1";
-                currencies[9] = "ZAR: " + currency.rates.ZAR + " / $1";
+                currencies[0] = "\u20AC: " + currency.rates.EUR + " / $1";
+                currencies[1] = "\u20BD: " + currency.rates.RUB + " / $1";
+                currencies[2] = "\u00A5: " + currency.rates.JPY + " / $1";
+                currencies[3] = "R\u0024: " + currency.rates.BRL + " / $1";
+                currencies[4] = "\u00A3: " + currency.rates.GBP + " / $1";
+                currencies[5] = "\u20AA: " + currency.rates.ILS + " / $1";
+                currencies[6] = "\u0E3F: " + currency.rates.THB + " / $1";
+                currencies[7] = "R: " + currency.rates.ZAR + " / $1";
 
                 ListView lvCurrency = (ListView) findViewById(R.id.lvCurrency);
 
