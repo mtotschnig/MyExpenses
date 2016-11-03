@@ -523,7 +523,7 @@ public class MyExpenses extends LaunchActivity implements
         switch (command) {
             case R.id.DISTRIBUTION_COMMAND:
                 tl = getCurrentFragment();
-                if (tl != null && tl.mappedCategories) {
+                if (tl != null) {
                     contribFeatureRequested(ContribFeature.DISTRIBUTION, null);
                 } else {
                     MessageDialogFragment.newInstance(

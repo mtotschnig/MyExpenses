@@ -92,6 +92,7 @@ import org.totschnig.myexpenses.fragment.SplitPartList;
 import org.totschnig.myexpenses.fragment.TemplatesList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Money;
@@ -105,6 +106,7 @@ import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.AmountEditText;
@@ -128,6 +130,7 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.List;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.EMPTY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
@@ -374,6 +377,8 @@ public class ExpenseEdit extends AmountActivity implements
             mLabel = savedInstanceState.getString(KEY_LABEL);
             if ((mCatId = savedInstanceState.getLong(KEY_CATID)) == 0L) {
                 mCatId = null;
+            } else if ((mCatId = savedInstanceState.getLong(KEY_CATID)) == 0L) {
+                mCatId = EMPTY_CATID;
             }
             if ((mMethodId = savedInstanceState.getLong(KEY_METHODID)) == 0L)
                 mMethodId = null;
@@ -523,6 +528,7 @@ public class ExpenseEdit extends AmountActivity implements
                     mPictureUri = getIntent().getParcelableExtra(KEY_CACHED_PICTURE_URI);
                     setPicture();
                     mTransaction.methodId = cached.methodId;
+
                 }
             }
             setup();
@@ -1228,6 +1234,9 @@ public class ExpenseEdit extends AmountActivity implements
         super.onActivityResult(requestCode, resultCode, intent);
         if (requestCode == SELECT_CATEGORY_REQUEST && intent != null) {
             mCatId = intent.getLongExtra("cat_id", 0);
+            if (mCatId == null){
+                mCatId = intent.getLongExtra("cat_id", 1L);
+            }
             mLabel = intent.getStringExtra("label");
             mCategoryButton.setText(mLabel);
             setDirty(true);
@@ -1360,6 +1369,8 @@ public class ExpenseEdit extends AmountActivity implements
     private void setCategoryButton() {
         if (mLabel != null && mLabel.length() != 0) {
             mCategoryButton.setText(mLabel);
+        } else {
+            mCategoryButton.setText("Default : No category");
         }
     }
 
@@ -1367,14 +1378,21 @@ public class ExpenseEdit extends AmountActivity implements
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putSerializable(KEY_CALENDAR, mCalendar);
+
         //restored in onCreate
         if (mRowId != 0) {
             outState.putLong(KEY_ROWID, mRowId);
         }
         if (mCatId != null) {
             outState.putLong(KEY_CATID, mCatId);
+        } else {
+            outState.putLong(KEY_CATID, DatabaseConstants.EMPTY_CATID);
         }
-        outState.putString(KEY_LABEL, mLabel);
+        if (mLabel != null) {
+            outState.putString(KEY_LABEL, mLabel);
+        } else {
+            outState.putString(KEY_LABEL, Category.NO_CATEGORY_ASSIGNED_LABEL);
+        }
         if (mPictureUri != null) {
             outState.putParcelable(KEY_PICTURE_URI, mPictureUri);
         }
@@ -1455,7 +1473,7 @@ public class ExpenseEdit extends AmountActivity implements
             case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2:
                 if (o != null) {
                     Transaction t = (Transaction) o;
-                    if (mCatId == null) {
+                    if (mCatId == null ) {
                         mCatId = t.getCatId();
                         mLabel = t.label;
                         setCategoryButton();
@@ -1514,7 +1532,7 @@ public class ExpenseEdit extends AmountActivity implements
                     }
                 }
                 //if catId has already been set by onRestoreInstanceState, the value might have been edited by the user and has precedence
-                if (mCatId == null) {
+                if (mCatId == null || mCatId == EMPTY_CATID) {
                     mCatId = mTransaction.getCatId();
                     mLabel = mTransaction.label;
                 }
@@ -1770,8 +1788,8 @@ public class ExpenseEdit extends AmountActivity implements
                     break;
                 default:
                     //possibly the selected category has been deleted
-                    mCatId = null;
-                    mCategoryButton.setText(R.string.select);
+                    mCatId = EMPTY_CATID;
+                    mCategoryButton.setText(mLabel);
 
                     errorMsg = "Error while saving transaction";
             }
