@@ -256,8 +256,17 @@ public class TransactionList extends ContextualActionBarFragment implements
     mListView.setOnItemClickListener(new OnItemClickListener() {
       @Override
       public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-        Intent i = new Intent(ctx, ExpenseEdit.class);
-        ctx.startActivityForResult(i, ProtectedFragmentActivity.EDIT_TRANSACTION_REQUEST);
+        FragmentManager fm = ctx.getSupportFragmentManager();
+        DialogFragment f = (DialogFragment) fm.findFragmentByTag(TransactionDetailFragment.class.getName());
+        if (f == null) {
+//          FragmentTransaction ft = fm.beginTransaction();
+//          TransactionDetailFragment.newInstance(id).show(ft, TransactionDetailFragment.class.getName());
+
+          Activity ctx = getActivity();
+          Intent i = new Intent(ctx, ExpenseEdit.class);
+          i.putExtra(KEY_ROWID, id);
+          ctx.startActivityForResult(i, ProtectedFragmentActivity.EDIT_TRANSACTION_REQUEST);
+        }
       }
     });
     aObserver = new AccountObserver(new Handler());
