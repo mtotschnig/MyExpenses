@@ -1,4 +1,91 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_271">
+    <item>Исправлены проблемы с планами на устройствах Samsung</item>
+    <item>Редактирование операций с экрана распределения</item>
+  </string-array>
+  <string-array name="whats_new_270">
+    <item>Новая иконка</item>
+    <item>Поиск переводов</item>
+    <item>Сортировать планы по ближайшему событию</item>
+  </string-array>
+  <string-array name="whats_new_269">
+    <item>Форма операции позволяет повторить ее</item>
+  </string-array>
+  <string-array name="whats_new_268">
+    <item>Упрощена настройка повторяющихся и будущих операций.</item>
+  </string-array>
+  <string-array name="whats_new_267">
+    <item>Упрощенный китайский перевод</item>
+    <item>Улучшена обработка планов</item>
+  </string-array>
+  <string-array name="whats_new_266">
+    <item>Новые иконки меню</item>
+  </string-array>
+  <string-array name="whats_new_265">
+    <item>Упрощена сортировка шаблонов, категорий и счетов</item>
+  </string-array>
+  <string-array name="whats_new_264">
+    <item>Экран категорий</item>
+    <item>Баланс счета можно скопировать в буфер обмена</item>
+    <item>Вставка в калькулятор из буфера обмена</item>
+    <item>Помощь в диалоге экспорта формат даты</item>
+  </string-array>
+  <string-array name="whats_new_263">
+    <item>Переводы между счетами в различных валютах</item>
+  </string-array>
+  <string-array name="whats_new_262">
+    <item>Можно настроить дни начала недели и месяца</item>
+  </string-array>
+  <string-array name="whats_new_261">
+    <item>Категории могут быть перемещены</item>
+  </string-array>
+  <string-array name="whats_new_260">
+    <item>Material design</item>
+    <item>Улучшенная компоновка в режиме планшета</item>
+    <item>Поддержка Samsung Knox</item>
+  </string-array>
+  <string-array name="whats_new_251">
+    <item>Настраиваемый числовой формат</item>
+    <item>Датский Перевод</item>
+  </string-array>
+  <string-array name="whats_new_250">
+    <item>Импорт CSV</item>
+    <item>Перевод на Корейский</item>
+  </string-array>
+  <string-array name="whats_new_249">
+    <item>Экспорт категорий в QIF</item>
+    <item>Отображение общих сумм в виджете на главном экране</item>
+  </string-array>
+  <string-array name="whats_new_248">
+    <item>Статус клонированной операций сбрасывается на несогласованная</item>
+    <item>Альтернативный метод восстановления для устройств без файлового менеджера</item>
+  </string-array>
+  <string-array name="whats_new_247">
+    <item>Команда клонировать открывает форму редактирования</item>
+  </string-array>
+  <string-array name="whats_new_246">
+    <item>Операциям можно присвоить состояние «Пустая»</item>
+  </string-array>
+  <string-array name="whats_new_245">
+    <item>Функции экспорта и сброса теперь могут применяться к операциям, соответствующим критериям поиска</item>
+  </string-array>
+  <string-array name="whats_new_244">
+    <item>Фильтр поиска по длительности</item>
+    <item>Фильтры по методу, получателю, статусу и категории теперь поддерживают множественный выбор</item>
+    <item>Баскский перевод</item>
+  </string-array>
+  <string-array name="whats_new_243">
+    <item>Если приложение защищено паролем, изображения надежно хранятся во внутренней памяти</item>
+  </string-array>
+  <string-array name="whats_new_242">
+    <item>Прикрепить изображение к операции</item>
+  </string-array>
+  <string-array name="whats_new_241">
+    <item>Круговая диаграмма распределения по категориям</item>
+  </string-array>
+  <string-array name="whats_new_240">
+    <item>Преобразование обычной операции в разделенную</item>
+  </string-array>
   <string name="bug_fixes">Исправления ошибок</string>
 </resources>

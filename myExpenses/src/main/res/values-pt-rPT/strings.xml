@@ -141,7 +141,7 @@
   <string name="grouping_year">Ano</string>
   <string name="grouping_yesterday">Ontem</string>
   <string name="help_button_rate">Avaliar ou dar opinião</string>
-  <string name="help_contextuel_help">Pode encontrar mais informação sobre a funcionalidade disponível através da Ajuda no menu.</string>
+  <string name="help_contextuel_help">Pode encontrar mais informação sobre as funcionalidades disponíveis através da Ajuda no menu.</string>
   <string name="help_heading_credits">Créditos</string>
   <string name="help_heading_license">Licença</string>
   <string name="help_heading_whats_new">O que há de novo</string>
@@ -595,4 +595,7 @@ Traduzido por Sérgio Marques</string>
   <string name="search_transfer">Pesquisar por transferência</string>
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="pref_sort_order_next_instance">Próxima ocorrência</string>
+  <string name="crash_dialog_title">O My Expenses falhou</string>
+  <string name="crash_dialog_text">Ocorreu um erro inesperado forçando a aplicação a parar. Por favor ajude-nos a corrigir isto ao enviar-nos os dados do erro, tudo o que tem que fazer é clicar em OK.</string>
+  <string name="crash_dialog_comment_prompt">Pode adicionar os seus comentários sobre o problema em baixo:</string>
 </resources>

@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_271">
+    <item>Problemas com planos em dispositivos Samsung estão corrigidos</item>
+    <item>Editar transações a partir do ecrã de distribuição</item>
+  </string-array>
   <string-array name="whats_new_270">
     <item>Novo ícone</item>
     <item>Pesquisar por transferências</item>

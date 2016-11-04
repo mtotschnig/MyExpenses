@@ -593,4 +593,7 @@
   <string name="search_transfer">Recherche de transfert</string>
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="pref_sort_order_next_instance">Echéance suivante</string>
+  <string name="crash_dialog_title">Mes dépenses s\'est arrêté</string>
+  <string name="crash_dialog_text">Une erreur inattendue a arrêté l\'application. Aidez-nous à réparer celle-ci en envoyant le rapport d\'erreur,  tout ce que vous avez à faire est de cliquer sur OK</string>
+  <string name="crash_dialog_comment_prompt">Vpus pouvez ajouter vos commentaires sur ce problème. </string>
 </resources>

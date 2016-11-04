@@ -583,4 +583,7 @@
   <string name="search_transfer">振替の検索</string>
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="pref_sort_order_next_instance">次のインスタンス</string>
+  <string name="crash_dialog_title">マイ エクスペンスがクラッシュしました</string>
+  <string name="crash_dialog_text">予期しないエラーが発生しました。アプリケーションを強制的に停止します。私たちにエラーデータを送信して、この問題の解決を助けてください。あなたがする必要があるのは OK をクリックするだけです。</string>
+  <string name="crash_dialog_comment_prompt">以下に問題についてのコメントを追加できます:</string>
 </resources>

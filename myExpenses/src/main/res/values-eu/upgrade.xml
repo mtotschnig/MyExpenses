@@ -1,5 +1,24 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_271">
+    <item>Planekin Samsung gailuetan zeuden arazoak konpòndu dira</item>
+    <item>Editatu transakzioak distribuzioaren pantailatik</item>
+  </string-array>
+  <string-array name="whats_new_270">
+    <item>Ikono berria</item>
+    <item>Tranferentzien bilaketa</item>
+    <item>Ordenatu planak hurrengo gertaeraren arabera</item>
+  </string-array>
+  <string-array name="whats_new_269">
+    <item>Transakzioaren formularioak errepikakortasuna zuzenean sortzea baimentzen du</item>
+  </string-array>
+  <string-array name="whats_new_268">
+    <item>Etorkizunean errepikatzen diren transakzioak erraztu dira.</item>
+  </string-array>
+  <string-array name="whats_new_267">
+    <item>Sinplifikatutako txinerara itzulpena</item>
+    <item>Planen instantzien kudeaketa hobetua</item>
+  </string-array>
   <string-array name="whats_new_266">
     <item>Ikono berriak menuan</item>
   </string-array>

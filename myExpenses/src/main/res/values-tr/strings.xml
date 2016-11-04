@@ -593,4 +593,7 @@
   <string name="search_transfer">Transfer için ara</string>
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="pref_sort_order_next_instance">Sonraki örnekleme</string>
+  <string name="crash_dialog_title">Harcamalarım çöktü</string>
+  <string name="crash_dialog_text">Uygulamanın çıkmasının zorlanması sırasında beklenmeyen bir hata meydana geldi. Lütfen bu hatayı düzeltmemize kullanıcı verileri yollayarak yardımcı olun, tüm yapmanız gereken Tamam\'a dokunmaktır.</string>
+  <string name="crash_dialog_comment_prompt">Problemle ilgili yorumlarınızı aşağıda ekleyebilirsiniz:</string>
 </resources>
