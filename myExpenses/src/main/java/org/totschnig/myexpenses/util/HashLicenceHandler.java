@@ -12,6 +12,7 @@ public class HashLicenceHandler extends LicenceHandler {
 
   @Override
   public void init(Context ctx) {
+    invalidate();
   }
 
   @Override
