@@ -77,7 +77,7 @@ public class QifTransaction {
         parseCategory(split, line);
       } else if (line.startsWith("$")) {
         if (split != null) {
-          split.amount = parseMoney(trimFirstChar(line));
+          split.amount = parseMoney(trimFirstChar(line), currency);
         }
       } else if (line.startsWith("E") && split != null) {
         split.memo = trimFirstChar(line);

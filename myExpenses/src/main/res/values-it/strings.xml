@@ -225,7 +225,7 @@
   <string name="menu_share">Dillo a un amico</string>
   <string name="menu_split_transaction">Frazionare</string>
   <string name="method">Modo</string>
-  <string name="no_amount_given">Non ha scritto ningun somma.</string>
+  <string name="no_amount_given">Non hai scritto nessuno importo.</string>
   <string name="no_app_handling_email_available">Nessuna applicazione disponibile per e-mail</string>
   <string name="no_app_handling_ftp_available">Nessuna applicazione disponibile per ftp. Installare <i>Invia via FTP</i>?</string>
   <string name="no_app_handling_pdf_available">Nessun applicazione gestisce i file PDF e disponibile.</string>
@@ -593,4 +593,7 @@
   <string name="search_transfer">Ricerca per il trasferimento</string>
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="pref_sort_order_next_instance">Istanza successiva</string>
+  <string name="crash_dialog_title">Le mie spese si è schiantato</string>
+  <string name="crash_dialog_text">Errore imprevisto durante l\'imposizione all\'applicazione di interrompere. Vi preghiamo di aiutarci a risolvere questo problema inviandoci i dati errore, tutto quello che dovete fare è fare clic su OK.</string>
+  <string name="crash_dialog_comment_prompt">È possibile aggiungere i vostri commenti sul problema riportato di seguito:</string>
 </resources>

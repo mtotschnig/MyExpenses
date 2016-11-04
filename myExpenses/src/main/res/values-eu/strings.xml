@@ -589,5 +589,12 @@ Librezale.eus</string>
   <string name="content_description_calculator_clear_button">Berrezarri guztia</string>
   <string name="content_description_calculator_delete_button">Ezabatu azken digitoa</string>
   <string name="paypal_transaction_id">Paypal transakzioaren IDa</string>
+  <string name="paypal_callback_info">Zure transakzioa burutu da, eta zure erosketaren egiaztagiri bat bidali da zure e-postara. Zure kontura sartu zaitezke www.paypal.com helbidean eta transakzioaren xehetasunak ikusi.</string>
+  <string name="paypal_callback_later_clicked_info">Ezarpenen pantailan, gako bat eskatu dezakezu noiznahi.</string>
+  <string name="search_transfer">Bilatu transferentzia</string>
   <!--Sort plans (recurring transactions) by the next instance-->
+  <string name="pref_sort_order_next_instance">Hurrengo gertaera</string>
+  <string name="crash_dialog_title">Nire gastuak kraskatu da</string>
+  <string name="crash_dialog_text">Ustekabeko errore bat gertatu da eta aplikazioa itxi behar izan da. Lagundu gaitzazu arazoa konpontzen errorearen datuak bidaliz, egin behar duzun guztia Ados sakatzea da.</string>
+  <string name="crash_dialog_comment_prompt">Zure iruzkinak gehitu ditzakezu hemen:</string>
 </resources>

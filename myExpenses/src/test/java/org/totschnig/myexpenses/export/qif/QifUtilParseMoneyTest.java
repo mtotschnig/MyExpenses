@@ -14,8 +14,15 @@ public class QifUtilParseMoneyTest extends TestCase {
     assertEquals(new BigDecimal("4.13"), QifUtils.parseMoney("4.13"));
   }
 
-  public void testShouldTakeIntoAccountTwoGroups() {
-    assertEquals(new BigDecimal("23.08"), QifUtils.parseMoney("23.08.2016;23.08.2016;blabla"));
+  public void testShouldTakeIntoAccountMultipleGroups() {
+    assertEquals(new BigDecimal("230820162308.2016"), QifUtils.parseMoney("23.08.2016;23.08.2016;blabla"));
+  }
+
+  public void testShouldNotExceedLimitWithMultipleGroups() {
+    try {
+      QifUtils.parseMoney("23.08.2016;23.08.2016;blabla",11);
+      fail("Should throw IllegalArgumentException");
+    } catch(IllegalArgumentException e) {}
   }
 
   public void testShouldIgnoreBlanks() {
@@ -26,11 +33,15 @@ public class QifUtilParseMoneyTest extends TestCase {
     assertEquals(new BigDecimal("230820.16"), QifUtils.parseMoney("blabla230820,16"));
   }
 
-  public void testShouldThrowIllegalArgumentException() {
+  public void testShouldNotExceedLimit() {
     assertEquals(new BigDecimal(1234567890), QifUtils.parseMoney("1234567890", 10));
     try {
       QifUtils.parseMoney("1234567890",9);
       fail("Should throw IllegalArgumentException");
     } catch(IllegalArgumentException e) {}
+  }
+
+  public void testShouldParseMoneyWithGroupSeparator() {
+    assertEquals(new BigDecimal("-2600.66"), QifUtils.parseMoney("-2,600.66"));
   }
 }

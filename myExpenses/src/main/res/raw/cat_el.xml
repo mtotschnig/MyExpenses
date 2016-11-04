@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Grisbi_categ>
+<Category Nb="1" Na="Άλλο εισόδημα"/>
+<Sub_category Nbc="1" Nb="1" Na="Επίδομα ανεργίας"/>
+<Sub_category Nbc="1" Nb="2" Na="Χαρτζηλίκι"/>
+<Sub_category Nbc="1" Nb="3" Na="Πίστωση φόρων"/>
+<Sub_category Nbc="1" Nb="4" Na="Τζόγος"/>
+<Sub_category Nbc="1" Nb="5" Na="Αμοιβαία ασφάλιση"/>
+<Sub_category Nbc="1" Nb="6" Na="Κοινωνική ασφάλιση"/>
+<Category Nb="2" Na="Σύνταξη"/>
+<Sub_category Nbc="2" Nb="1" Na="Συνταξιοδοτικό ταμείο"/>
+<Sub_category Nbc="2" Nb="2" Na="Σύνταξη"/>
+<Sub_category Nbc="2" Nb="3" Na="Επικουρική σύνταξη"/>
+<Category Nb="3" Na="Εισόδημα από επενδύσεις"/>
+<Sub_category Nbc="3" Nb="1" Na="Μέρισμα"/>
+<Sub_category Nbc="3" Nb="2" Na="Τόκοι"/>
+<Sub_category Nbc="3" Nb="3" Na="Κεφαλαιακό κέρδος"/>
+<Category Nb="4" Na="Μισθός"/>
+<Sub_category Nbc="4" Nb="1" Na="Υπερωρίες"/>
+<Sub_category Nbc="4" Nb="2" Na="Επίδομα αδείας"/>
+<Sub_category Nbc="4" Nb="3" Na="Διάφορα εξτρα"/>
+<Sub_category Nbc="4" Nb="4" Na="αμοιβή επιτυχίας"/>
+<Sub_category Nbc="4" Nb="5" Na="Καθαρός μισθός"/>
+<Category Nb="5" Na="Διάφορα εισοδήματα"/>
+<Sub_category Nbc="5" Nb="1" Na="Δώρα"/>
+<Sub_category Nbc="5" Nb="2" Na="Επιστροφές"/>
+<Sub_category Nbc="5" Nb="3" Na="Πωλήσεις προιόντων δεύτερο χέρι"/>
+<Category Nb="6" Na="Τρόφιμα"/>
+<Sub_category Nbc="6" Nb="1" Na="Μπαρ"/>
+<Sub_category Nbc="6" Nb="2" Na="Φούρναρης"/>
+<Sub_category Nbc="6" Nb="3" Na="Καντίνα"/>
+<Sub_category Nbc="6" Nb="4" Na="Γλυκά"/>
+<Sub_category Nbc="6" Nb="5" Na="Διάφορα"/>
+<Sub_category Nbc="6" Nb="6" Na="Οπωροπώλης"/>
+<Sub_category Nbc="6" Nb="7" Na="Εστιατόριο"/>
+<Sub_category Nbc="6" Nb="8" Na="Αυτοεξυπηρέτηση"/>
+<Sub_category Nbc="6" Nb="9" Na="Σουπερμάρκετ"/>
+<Category Nb="7" Na="Κατοικίδια"/>
+<Sub_category Nbc="7" Nb="1" Na="Τρόφιμα"/>
+<Sub_category Nbc="7" Nb="2" Na="Διάφορες προμήθειες"/>
+<Sub_category Nbc="7" Nb="3" Na="Περιποίηση"/>
+<Sub_category Nbc="7" Nb="4" Na="Κτηνίατρος"/>
+<Category Nb="8" Na="Ασφάλιση"/>
+<Sub_category Nbc="8" Nb="1" Na="Αυτοκίνητο"/>
+<Sub_category Nbc="8" Nb="2" Na="Υγεία"/>
+<Sub_category Nbc="8" Nb="3" Na="Οικία"/>
+<Sub_category Nbc="8" Nb="4" Na="Αστική ευθύνη"/>
+<Sub_category Nbc="8" Nb="5" Na="Ζωή"/>
+<Category Nb="9" Na="Αυτοκίνητο"/>
+<Sub_category Nbc="9" Nb="1" Na="Καύσιμα"/>
+<Sub_category Nbc="9" Nb="2" Na="Επισκευές"/>
+<Sub_category Nbc="9" Nb="3" Na="Συντήρηση"/>
+<Sub_category Nbc="9" Nb="4" Na="Πάρκιν"/>
+<Sub_category Nbc="9" Nb="5" Na="Πρόστιμα"/>
+<Category Nb="11" Na="Δώρα"/>
+<Category Nb="12" Na="Παιδιά"/>
+<Sub_category Nbc="12" Nb="1" Na="Νοσοκόμα"/>
+<Sub_category Nbc="12" Nb="2" Na="Διάφορα"/>
+<Sub_category Nbc="12" Nb="3" Na="Σπουδές"/>
+<Category Nb="13" Na="Σπουδές"/>
+<Sub_category Nbc="13" Nb="1" Na="Μαθήματα"/>
+<Sub_category Nbc="13" Nb="2" Na="Δίδακτρα"/>
+<Sub_category Nbc="13" Nb="3" Na="Βιβλία"/>
+<Category Nb="14" Na="Διάφορα"/>
+<Sub_category Nbc="14" Nb="1" Na="Δώρα"/>
+<Category Nb="15" Na="Χρηματοοικονομικά έξοδα"/>
+<Sub_category Nbc="15" Nb="1" Na="Διάφορα"/>
+<Sub_category Nbc="15" Nb="2" Na="Τραπεζικές χρεώσεις"/>
+<Sub_category Nbc="15" Nb="3" Na="Δάνεια/Υποθήκες"/>
+<Sub_category Nbc="15" Nb="4" Na="Χρεώσεις"/>
+<Sub_category Nbc="15" Nb="5" Na="Aναχρηματοδότηση"/>
+<Category Nb="16" Na="Επαγγελματικά έξοδα"/>
+<Sub_category Nbc="16" Nb="1" Na="Μη επιστρέψιμα"/>
+<Sub_category Nbc="16" Nb="2" Na="Επιστρέψιμα"/>
+<Category Nb="17" Na="Φόροι"/>
+<Sub_category Nbc="17" Nb="1" Na="Διάφορα"/>
+<Sub_category Nbc="17" Nb="2" Na="Εισόδημα"/>
+<Sub_category Nbc="17" Nb="3" Na="Γη"/>
+<Category Nb="18" Na="Στέγαση"/>
+<Sub_category Nbc="18" Nb="1" Na="Ξενοδοχείο"/>
+<Sub_category Nbc="18" Nb="2" Na="Ενοίκιο"/>
+<Sub_category Nbc="18" Nb="3" Na="Τηλεόραση"/>
+<Sub_category Nbc="18" Nb="4" Na="Έπιπλα"/>
+<Sub_category Nbc="18" Nb="5" Na="Χρεώσεις"/>
+<Sub_category Nbc="18" Nb="6" Na="Θέρμανση"/>
+<Sub_category Nbc="18" Nb="7" Na="Διακόσμηση"/>
+<Sub_category Nbc="18" Nb="8" Na="Νερό"/>
+<Sub_category Nbc="18" Nb="9" Na="Ηλεκτρικό"/>
+<Sub_category Nbc="18" Nb="10" Na="Λευκά είδη"/>
+<Sub_category Nbc="18" Nb="11" Na="Εξοπλισμός"/>
+<Sub_category Nbc="18" Nb="12" Na="Βενζίνη"/>
+<Sub_category Nbc="18" Nb="13" Na="Κήπος"/>
+<Sub_category Nbc="18" Nb="14" Na="Οικονόμος"/>
+<Sub_category Nbc="18" Nb="15" Na="Τηλέφωνο"/>
+<Sub_category Nbc="18" Nb="16" Na="Κινητό τηλέφωνο"/>
+<Category Nb="19" Na="Αναψυχή"/>
+<Sub_category Nbc="19" Nb="1" Na="Σνοοκερ/μπιλιάρδο"/>
+<Sub_category Nbc="19" Nb="2" Na="Μπόουλιν"/>
+<Sub_category Nbc="19" Nb="3" Na="Σινεμά"/>
+<Sub_category Nbc="19" Nb="4" Na="Νυχτερινό κέντρο"/>
+<Sub_category Nbc="19" Nb="5" Na="ΙΤ"/>
+<Sub_category Nbc="19" Nb="6" Na="Παιχνίδια"/>
+<Sub_category Nbc="19" Nb="7" Na="Βιβλία"/>
+<Sub_category Nbc="19" Nb="8" Na="Πάρκα"/>
+<Sub_category Nbc="19" Nb="9" Na="Συναυλίες"/>
+<Sub_category Nbc="19" Nb="10" Na="Σπορ"/>
+<Sub_category Nbc="19" Nb="11" Na="Βίντεο"/>
+<Sub_category Nbc="19" Nb="12" Na="Ταξίδια"/>
+<Sub_category Nbc="19" Nb="13" Na="Εξοπλισμός"/>
+<Sub_category Nbc="19" Nb="14" Na="Μουσεία/Εκθέσεις"/>
+<Category Nb="20" Na="Δάνεια/Υποθήκες"/>
+<Sub_category Nbc="20" Nb="1" Na="Κεφάλαιο"/>
+<Category Nb="21" Na="Υγεία"/>
+<Sub_category Nbc="21" Nb="1" Na="Ασφάλιση"/>
+<Sub_category Nbc="21" Nb="2" Na="Οδοντίατρος"/>
+<Sub_category Nbc="21" Nb="3" Na="Νοσοκομείο"/>
+<Sub_category Nbc="21" Nb="4" Na="Φυσιοθεραπευτής"/>
+<Sub_category Nbc="21" Nb="5" Na="Ιατρός"/>
+<Sub_category Nbc="21" Nb="6" Na="Οφθαλμολόγος"/>
+<Sub_category Nbc="21" Nb="7" Na="Οστεολόγος"/>
+<Sub_category Nbc="21" Nb="8" Na="Χημικός"/>
+<Sub_category Nbc="21" Nb="9" Na="Κοινωνική ασφάλιση"/>
+<Category Nb="22" Na="Φροντίδα"/>
+<Sub_category Nbc="22" Nb="1" Na="Κομμωτής"/>
+<Sub_category Nbc="22" Nb="2" Na="Ένδυση"/>
+<Category Nb="23" Na="Μεταφορές"/>
+<Sub_category Nbc="23" Nb="1" Na="Λεωφορείο"/>
+<Sub_category Nbc="23" Nb="2" Na="Μετρό"/>
+<Sub_category Nbc="23" Nb="3" Na="Διόδια"/>
+<Sub_category Nbc="23" Nb="4" Na="Τρένο"/>
+<Sub_category Nbc="23" Nb="5" Na="Τραμ"/>
+<Sub_category Nbc="23" Nb="6" Na="Ταξίδια"/>
+<Sub_category Nbc="23" Nb="7" Na="Αέρας"/>
+<Category Nb="24" Na="Διακοπές"/>
+<Sub_category Nbc="24" Nb="1" Na="Στέγαση"/>
+<Sub_category Nbc="24" Nb="2" Na="Επισκέψεις"/>
+<Sub_category Nbc="24" Nb="3" Na="Ταξίδια"/></Grisbi_categ>

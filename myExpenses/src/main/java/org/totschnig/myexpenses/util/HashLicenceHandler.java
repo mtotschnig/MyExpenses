@@ -12,30 +12,32 @@ public class HashLicenceHandler extends LicenceHandler {
 
   @Override
   public void init(Context ctx) {
+    invalidate();
   }
 
   @Override
   public boolean isContribEnabled() {
+    ensureInitialized();
+    return contribEnabled != null;
+  }
+
+  protected void ensureInitialized() {
     if (!contribEnabledInitialized) {
       contribEnabled = verifyLicenceKey();
       contribEnabledInitialized = true;
     }
-    return contribEnabled!=null;
   }
 
   @Override
   public boolean isExtendedEnabled() {
-    if (!contribEnabledInitialized) {
-      contribEnabled = verifyLicenceKey();
-      contribEnabledInitialized = true;
-    }
+    ensureInitialized();
     return contribEnabled == LicenceStatus.EXTENDED;
   }
 
   @Override
   public void invalidate() {
-    super.invalidate();
     this.contribEnabledInitialized = false;
+    super.invalidate();
   }
 
   @Override
