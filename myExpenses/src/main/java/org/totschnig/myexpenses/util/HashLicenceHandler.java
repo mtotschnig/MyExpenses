@@ -34,8 +34,8 @@ public class HashLicenceHandler extends LicenceHandler {
 
   @Override
   public void invalidate() {
-    super.invalidate();
     this.contribEnabledInitialized = false;
+    super.invalidate();
   }
 
   @Override
