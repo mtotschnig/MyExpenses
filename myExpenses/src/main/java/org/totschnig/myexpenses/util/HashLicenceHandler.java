@@ -16,19 +16,20 @@ public class HashLicenceHandler extends LicenceHandler {
 
   @Override
   public boolean isContribEnabled() {
+    ensureInitialized();
+    return contribEnabled != null;
+  }
+
+  protected void ensureInitialized() {
     if (!contribEnabledInitialized) {
       contribEnabled = verifyLicenceKey();
       contribEnabledInitialized = true;
     }
-    return contribEnabled!=null;
   }
 
   @Override
   public boolean isExtendedEnabled() {
-    if (!contribEnabledInitialized) {
-      contribEnabled = verifyLicenceKey();
-      contribEnabledInitialized = true;
-    }
+    ensureInitialized();
     return contribEnabled == LicenceStatus.EXTENDED;
   }
 
