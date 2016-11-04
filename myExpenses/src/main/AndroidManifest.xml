@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   This file is part of My Expenses. My Expenses is free software: you 
 	can redistribute it and/or modify it under the terms of the GNU General Public 
 	License as published by the Free Software Foundation, either version 3 of 
@@ -10,25 +11,26 @@
 	see <http://www.gnu.org/licenses/>.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="org.totschnig.myexpenses"
-    android:installLocation="internalOnly">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="org.totschnig.myexpenses"
+          android:installLocation="internalOnly">
 
-    <uses-sdk tools:overrideLibrary="android.support.v14.preference" />
+    <uses-sdk tools:overrideLibrary="android.support.v14.preference"/>
 
     <supports-screens
         android:largeScreens="true"
         android:normalScreens="true"
         android:smallScreens="true"
         android:xlargeScreens="true"
-        tools:ignore="UnusedAttribute" />
+        tools:ignore="UnusedAttribute"/>
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
-    <uses-permission android:name="android.permission.READ_CALENDAR" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
+    <uses-permission android:name="android.permission.READ_CALENDAR"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
 
     <application
         android:name=".MyApplication"
@@ -44,31 +46,31 @@
             android:label="${appName}"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
             android:name=".activity.MyExpenses"
             android:label="@string/title_activity_welcome"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".activity.DeepLinkActivity"
             android:excludeFromRecents="true"
             android:theme="@style/Theme.AppCompat.Light.Dialog">
             <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.VIEW"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
 
                 <data
                     android:host="www.myexpenses.mobi"
                     android:path="/callback.html"
-                    android:scheme="https" />
+                    android:scheme="https"/>
             </intent-filter>
         </activity>
         <activity
@@ -76,100 +78,100 @@
             android:parentActivityName=".activity.MyExpenses"
             android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.totschnig.myexpenses.activity.MyExpenses" />
+                android:value="org.totschnig.myexpenses.activity.MyExpenses"/>
         </activity>
         <activity
             android:name=".activity.AccountEdit"
-            android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge" />
+            android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge"/>
         <activity
             android:name=".activity.MethodEdit"
-            android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge" />
+            android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge"/>
         <activity
             android:name=".activity.ManageCategories"
             android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge">
             <intent-filter>
-                <action android:name="myexpenses.intent.manage.categories" />
+                <action android:name="myexpenses.intent.manage.categories"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
 
             <meta-data
                 android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
+                android:resource="@xml/searchable"/>
         </activity>
         <activity
             android:name=".activity.BackupRestoreActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog">
             <intent-filter>
-                <action android:name="myexpenses.intent.backup" />
+                <action android:name="myexpenses.intent.backup"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
             <intent-filter>
-                <action android:name="myexpenses.intent.restore" />
+                <action android:name="myexpenses.intent.restore"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <activity
             android:name=".activity.GrisbiImport"
             android:theme="@style/Theme.AppCompat.Light.Dialog">
             <intent-filter>
-                <action android:name="myexpenses.intent.import_from_grisbi" />
+                <action android:name="myexpenses.intent.import_from_grisbi"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <activity
             android:name=".activity.QifCSVImport"
             android:theme="@style/Theme.AppCompat.Light.Dialog">
             <intent-filter>
-                <action android:name="myexpenses.intent.import" />
+                <action android:name="myexpenses.intent.import"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <activity
             android:name=".activity.CsvImportActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".activity.MyPreferenceActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
             </intent-filter>
         </activity>
         <activity
             android:name=".activity.Help"
             android:theme="@style/Theme.AppCompat.Light.Dialog">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
             </intent-filter>
         </activity>
         <activity
             android:name=".activity.ManageParties"
             android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge">
             <intent-filter>
-                <action android:name="myexpenses.intent.manage.parties" />
+                <action android:name="myexpenses.intent.manage.parties"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <activity
             android:name=".activity.ManageStaleImages"
             android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge">
             <intent-filter>
-                <action android:name="myexpenses.intent.manage.stale_images" />
+                <action android:name="myexpenses.intent.manage.stale_images"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <activity
@@ -177,58 +179,58 @@
             android:parentActivityName=".activity.MyExpenses"
             android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge">
             <intent-filter>
-                <action android:name="android.provider.calendar.action.HANDLE_CUSTOM_EVENT" />
+                <action android:name="android.provider.calendar.action.HANDLE_CUSTOM_EVENT"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
 
-                <data android:mimeType="vnd.android.cursor.item/event" />
+                <data android:mimeType="vnd.android.cursor.item/event"/>
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
             </intent-filter>
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.totschnig.myexpenses.activity.MyExpenses" />
+                android:value="org.totschnig.myexpenses.activity.MyExpenses"/>
         </activity>
         <activity
             android:name=".activity.ManageMethods"
             android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge">
             <intent-filter>
-                <action android:name="myexpenses.intent.manage.methods" />
+                <action android:name="myexpenses.intent.manage.methods"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <activity
             android:name=".activity.FolderBrowser"
-            android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge" />
+            android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge"/>
         <activity
             android:name=".activity.CalculatorInput"
             android:theme="@style/Theme.AppCompat.Light.Dialog.NoTitle">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
             </intent-filter>
         </activity>
         <activity
             android:name=".activity.ContribInfoDialogActivity"
-            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+            android:theme="@style/Theme.AppCompat.Light.Dialog"/>
         <activity
             android:name=".activity.ManageCurrencies"
-            android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge" />
+            android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge"/>
         <activity
             android:name=".activity.CurrencyActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
             </intent-filter>
         </activity>
 
         <provider
             android:name=".provider.TransactionProvider"
             android:authorities="${applicationId}"
-            android:exported="false" />
+            android:exported="false"/>
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
@@ -236,68 +238,78 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/image_path" />
+                android:resource="@xml/image_path"/>
         </provider>
         <provider
             android:name=".provider.CalendarProviderProxy"
             android:authorities="${applicationId}.calendarinstances"
-            android:exported="false" />
+            android:exported="false"/>
 
-        <service android:name=".service.PlanExecutor" />
-        <service android:name=".service.PlanNotificationClickHandler" />
+        <service android:name=".service.PlanExecutor"/>
+        <service android:name=".service.PlanNotificationClickHandler"/>
         <service
             android:name=".service.AutoBackupService"
             android:exported="false">
             <intent-filter>
-                <action android:name="org.totschnig.myexpenses.ACTION_SCHEDULE_AUTO_BACKUP" />
-                <action android:name="org.totschnig.myexpenses.ACTION_AUTO_BACKUP" />
+                <action android:name="org.totschnig.myexpenses.ACTION_SCHEDULE_AUTO_BACKUP"/>
+                <action android:name="org.totschnig.myexpenses.ACTION_AUTO_BACKUP"/>
             </intent-filter>
         </service>
 
         <receiver android:name=".service.ScheduledAlarmReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="org.totschnig.myexpenses.SCHEDULED_BACKUP" />
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="org.totschnig.myexpenses.SCHEDULED_BACKUP"/>
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+                <action android:name="android.intent.action.PACKAGE_REPLACED"/>
 
                 <data
                     android:path="org.toschnig.myexpenses"
-                    android:scheme="package" />
+                    android:scheme="package"/>
             </intent-filter>
         </receiver>
         <receiver
             android:name=".widget.AccountWidget"
             android:label="@string/widget_title_accounts">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="org.totschnig.myexpenses.UPDATE_WIDGET" />
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="org.totschnig.myexpenses.UPDATE_WIDGET"/>
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widget_info_accounts" />
+                android:resource="@xml/widget_info_accounts"/>
         </receiver>
         <receiver
             android:name=".widget.TemplateWidget"
             android:label="@string/widget_title_templates">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="org.totschnig.myexpenses.UPDATE_WIDGET" />
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="org.totschnig.myexpenses.UPDATE_WIDGET"/>
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widget_info_templates" />
+                android:resource="@xml/widget_info_templates"/>
+        </receiver>
+
+        <receiver
+            android:name=".service.SmsNotificationReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BROADCAST_SMS">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
+            </intent-filter>
         </receiver>
 
         <meta-data
             android:name="com.samsung.android.sdk.multiwindow.enable"
-            android:value="true" />
+            android:value="true"/>
         <meta-data
             android:name="com.sec.android.support.multiwindow"
-            android:value="true" />
+            android:value="true"/>
         <!-- <meta-data android:name="com.samsung.android.sdk.multiwindow.penwindow.enable" android:value="true"/> -->
         <!-- <uses-library android:name="com.sec.android.app.multiwindow" android:required="false" /> -->
     </application>
