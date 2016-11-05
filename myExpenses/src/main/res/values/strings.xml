@@ -206,7 +206,7 @@
     <string name="menu_delete">Delete</string>
     <string name="menu_distribution">Statistics</string>
     <string name="menu_currencies">Currencies</string>
-    <string name="menu_map">Map</string>
+    <string name="menu_map">Find ATMs</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_edit_account">Edit Account</string>
     <string name="menu_edit_cat">Edit category</string>
@@ -638,9 +638,16 @@
     <string name="title_activity_tcurrency_acivity">TCurrencyAcivity</string>
 
     <string name="google_android_map_api_key">AIzaSyBnAW--mvjihujIlpcj9kn7U0dC6gX7agQ</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_maps">Map</string>
+
+    <string-array name="place_type">
+        <item>atm</item>
+        <item>bank</item>
+    </string-array>
+
+    <string-array name="place_type_name">
+        <item>ATM</item>
+        <item>Bank</item>
+    </string-array>
 </resources>
 
