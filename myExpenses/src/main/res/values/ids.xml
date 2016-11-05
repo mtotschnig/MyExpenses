@@ -28,6 +28,7 @@
   <item type="id" name="DELETE_COMMAND_DO"/>
   <item type="id" name="DISTRIBUTION_COMMAND"/>
   <item type="id" name="CURRENCY_COMMAND" />
+  <item type="id" name="MAP_COMMAND" />
   <item type="id" name="EDIT_ACCOUNT_COMMAND"/>
   <item type="id" name="EDIT_PLAN_INSTANCE_COMMAND"/>
   <item type="id" name="EDIT_COMMAND"/>

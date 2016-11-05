@@ -62,6 +62,11 @@ public class CommonCommands {
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 ctx.startActivity(i);
                 return true;
+            case R.id.MAP_COMMAND:
+                i = new Intent(ctx, MapsActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                ctx.startActivity(i);
+                return true;
             case R.id.SETTINGS_COMMAND:
                 i = new Intent(ctx, MyPreferenceActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

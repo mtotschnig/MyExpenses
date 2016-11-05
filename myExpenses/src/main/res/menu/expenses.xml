@@ -78,6 +78,13 @@
         app:showAsAction="ifRoom">
     </item>
     <item
+        android:id="@id/MAP_COMMAND"
+        android:icon="@drawable/ic_menu_map"
+        android:orderInCategory="10"
+        android:title="@string/menu_map"
+        app:showAsAction="ifRoom">
+    </item>
+    <item
         android:id="@id/RESET_COMMAND"
         android:icon="@drawable/ic_menu_download"
         android:orderInCategory="10"

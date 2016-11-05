@@ -25,14 +25,6 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
 
-    /*signingConfigs {
-        release {
-            storeFile file(RELEASE_STORE_FILE)
-            storePassword RELEASE_STORE_PASSWORD
-            keyAlias RELEASE_KEY_ALIAS
-            keyPassword RELEASE_KEY_PASSWORD
-        }
-    }*/
     buildTypes {
         release {
             minifyEnabled true
@@ -73,9 +65,6 @@ android {
 dependencies {
     apt 'com.google.dagger:dagger-compiler:' + project.daggerVersion
     compile 'com.google.dagger:dagger:' + project.daggerVersion
-    provided 'javax.annotation:jsr250-api:1.0'
-    compile 'frankiesardo:icepick:3.2.0'
-    apt 'frankiesardo:icepick-processor:3.2.0'
     compile project(':StickyListHeaders:library')
     compile project(':MaterialSeekBarPreference:library')
     compile 'com.android.support:appcompat-v7:' + project.androidSupportLibraryVersion
@@ -85,21 +74,10 @@ dependencies {
     compile 'com.android.support:design:' + project.androidSupportLibraryVersion
     compile 'com.android.support:gridlayout-v7:' + project.androidSupportLibraryVersion
     compile 'com.android.support:preference-v14:' + "23.1.1"
-    compile 'com.itextpdf:itextpdf:5.5.8'
-    compile 'ch.acra:acra:4.9.0'
     compile group: 'com.google.guava', name: 'guava', version: '18.0'
-    compile 'org.apache.commons:commons-lang3:3.4'
-    compile 'org.apache.commons:commons-csv:1.1'
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.android.volley:volley:1.0.0'
-    compile 'com.google.code.gson:gson:2.6.1'
-    compile 'com.github.PhilJay:MPAndroidChart:bd75e6c'
-    compile 'com.github.mtotschnig:Caldroid:master-SNAPSHOT'
     //noinspection GradleDynamicVersion
-    compile 'com.commonsware.cwac:wakeful:1.0.+'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:' + project.espressoVersion
-    androidTestCompile 'junit:junit:4.12'
-    androidTestCompile 'com.android.support:support-annotations:'  + project.androidSupportLibraryVersion
+    androidTestCompile 'com.android.support:support-annotations:' + project.androidSupportLibraryVersion
     androidTestCompile 'com.android.support.test:runner:' + project.androidSupportTestVersion
     androidTestCompile 'com.android.support.test:rules:' + project.androidSupportTestVersion
     androidTestCompile 'com.android.support.test.espresso:espresso-intents:' + project.espressoVersion
@@ -107,8 +85,28 @@ dependencies {
         exclude module: 'accessibility-test-framework'
     }
 
+    compile 'frankiesardo:icepick:3.2.0'
+    compile 'com.itextpdf:itextpdf:5.5.8'
+    compile 'ch.acra:acra:4.9.0'
+    compile 'org.apache.commons:commons-lang3:3.4'
+    compile 'org.apache.commons:commons-csv:1.1'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.android.volley:volley:1.0.0'
+    compile 'com.google.code.gson:gson:2.6.1'
+    compile 'com.google.firebase:firebase-ads:9.8.0'
+    compile 'com.google.android.gms:play-services-maps:9.8.0'
+    compile 'com.github.PhilJay:MPAndroidChart:bd75e6c'
+    compile 'com.github.mtotschnig:Caldroid:master-SNAPSHOT'
+    compile 'com.commonsware.cwac:wakeful:1.0.+'
+    compile 'com.android.support:support-v4:23.4.0'
+    compile 'com.google.android.gms:play-services:9.8.0'
+    compile 'com.android.support:appcompat-v7:23.4.0'
     testCompile 'junit:junit:4.12'
+    androidTestCompile 'junit:junit:4.12'
+    apt 'frankiesardo:icepick-processor:3.2.0'
+    provided 'javax.annotation:jsr250-api:1.0'
 }
+
 def getDate() {
     def date = new Date()
     def formattedDate = date.format('yyyyMMdd-HHmm')
