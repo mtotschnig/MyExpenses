@@ -206,7 +206,7 @@
     <string name="menu_delete">Delete</string>
     <string name="menu_distribution">Statistics</string>
     <string name="menu_currencies">Currencies</string>
-    <string name="menu_map">Find ATMs</string>
+    <string name="menu_map">Find banks</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_edit_account">Edit Account</string>
     <string name="menu_edit_cat">Edit category</string>

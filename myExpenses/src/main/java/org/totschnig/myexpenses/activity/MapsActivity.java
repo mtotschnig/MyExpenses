@@ -8,6 +8,12 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -22,18 +28,26 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
 
+import org.json.JSONObject;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.places.PlacesResponse;
+import org.totschnig.myexpenses.places.Result;
+
+import java.util.List;
 
 
 public class MapsActivity extends ProtectedFragmentActivity
         implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
+    private RequestQueue mRequestQueue;
+
     LocationRequest mLocationRequest;
     GoogleApiClient mGoogleApiClient;
     private final int ACCESS_FINE_LOCATION_PERMISSION = 1;
-
+    boolean mGotMarkers = false;
     LatLng latLng;
     GoogleMap mGoogleMap;
     SupportMapFragment mFragment;
@@ -45,7 +59,9 @@ public class MapsActivity extends ProtectedFragmentActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         setupToolbar(true);
-        getSupportActionBar().setTitle("Find ATMs");
+        mGotMarkers = false;
+        getSupportActionBar().setTitle("Find banks");
+        mRequestQueue = Volley.newRequestQueue(this);
 
         mFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mFragment.getMapAsync(this);
@@ -57,6 +73,7 @@ public class MapsActivity extends ProtectedFragmentActivity
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, ACCESS_FINE_LOCATION_PERMISSION);
         } else {
+            mGoogleMap.setMyLocationEnabled(true);
             buildGoogleApiClient();
             mGoogleApiClient.connect();
         }
@@ -72,6 +89,7 @@ public class MapsActivity extends ProtectedFragmentActivity
                     if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                         mGoogleMap.setMyLocationEnabled(true);
                         buildGoogleApiClient();
+                        mGoogleMap.getUiSettings().setMyLocationButtonEnabled(true);
                         mGoogleApiClient.connect();
                     }
                 } else {
@@ -92,7 +110,6 @@ public class MapsActivity extends ProtectedFragmentActivity
 
     @Override
     public void onConnected(Bundle bundle) {
-        //Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
         Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if (mLastLocation != null) {
             latLng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
@@ -133,6 +150,10 @@ public class MapsActivity extends ProtectedFragmentActivity
             currLocationMarker.remove();
         }
         latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        if (!mGotMarkers) {
+            getBanks(latLng);
+            mGotMarkers = true;
+        }
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
         markerOptions.title("Current Position");
@@ -144,7 +165,48 @@ public class MapsActivity extends ProtectedFragmentActivity
         mGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
-    public void showATM() {
+    private void getBanks(LatLng latLng) {
+        int radius = 1000;
+        String placeType = "bank";
+        String placeAPIKey = "AIzaSyCr9ORdA_Pt-d0tB_Q3HqM1hsHOofo4hvs";
+        String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latLng.latitude + "," + latLng.longitude + "&radius=" + radius + "&types=" + placeType + "&key=" + placeAPIKey;
 
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Gson gson = new Gson();
+                List<Result> places = gson.fromJson(response.toString(), PlacesResponse.class).getResults();
+                for (Result place : places) {
+                    MarkerOptions markerOptions = new MarkerOptions();
+                    org.totschnig.myexpenses.places.Location location = place.getGeometry().getLocation();
+                    markerOptions.position(new LatLng(location.getLat(), location.getLng()));
+                    
+                    String title = place.getName();
+
+                    if (place.getOpeningHours() != null) {
+                        title += "\n";
+                        title += ". Working now: " + (place.getOpeningHours().getOpenNow() ? "yes" : "no");
+
+                    }
+                    if (place.getOpeningHours() != null && place.getOpeningHours().getOpenNow()) {
+                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                    } else {
+                        if (place.getOpeningHours() == null)
+                            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                        else
+                            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                    }
+
+                    markerOptions.title(title);
+                    mGoogleMap.addMarker(markerOptions);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "Cannot find banks near you", Toast.LENGTH_SHORT).show();
+            }
+        });
+        mRequestQueue.add(request);
     }
 }
