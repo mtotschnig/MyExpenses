@@ -7,7 +7,13 @@ import java.util.List;
 
 public interface SyncBackend {
   boolean lock();
+
   ChangeSet getChangeSetSince(long sequenceNumber);
+
   long writeChangeSet(List<TransactionChange> changeSet);
+
   boolean unlock();
+
+  boolean isAvailable();
+
 }

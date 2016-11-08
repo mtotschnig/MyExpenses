@@ -51,7 +51,7 @@ class LocalFileBackend implements SyncBackend {
 
   @Override
   public boolean lock() {
-    return false;
+    return true;
   }
 
   @Override
@@ -98,7 +98,12 @@ class LocalFileBackend implements SyncBackend {
 
   @Override
   public boolean unlock() {
-    return false;
+    return true;
+  }
+
+  @Override
+  public boolean isAvailable() {
+    return true;
   }
 
 }

@@ -313,6 +313,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_PICTURE_URI + " text);";
 
   private static final String SELECT_SEQUCENE_NUMBER_TEMLATE = "(SELECT " + KEY_SYNC_SEQUENCE_LOCAL + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = %s." + KEY_ACCOUNTID +  ")";
+  private static final String SELECT_PARENT_UUID_TEMPLATE = "CASE WHEN %1$s." + KEY_PARENTID + " IS NULL THEN NULL ELSE (SELECT " + KEY_UUID + " from " + TABLE_TRANSACTIONS + " where " + KEY_ROWID + " = %1$s." + KEY_PARENTID + ") END";
 
   private static final String INSERT_TRIGGER_ACTION = " BEGIN INSERT INTO " + TABLE_CHANGES + "("
       + KEY_TYPE + ","
@@ -329,18 +330,18 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       + KEY_METHODID + ","
       + KEY_CR_STATUS + ", "
       + KEY_REFERENCE_NUMBER + ", "
-      + KEY_PICTURE_URI + ") VALUES ('" + TransactionChange.Type.created + "',"
-      + String.format(Locale.US, SELECT_SEQUCENE_NUMBER_TEMLATE, "new") +  " , "
+      + KEY_PICTURE_URI + ") VALUES ('" + TransactionChange.Type.created + "', "
+      + String.format(Locale.US, SELECT_SEQUCENE_NUMBER_TEMLATE, "new") +  ", "
       + "new." + KEY_UUID + ", "
-      + "CASE WHEN new." + KEY_PARENTID + " IS NULL THEN NULL ELSE (SELECT " + KEY_UUID + " from " + TABLE_TRANSACTIONS + " where " + KEY_ROWID + " = new." + KEY_PARENTID + ") END, "
+      + String.format(Locale.US, SELECT_PARENT_UUID_TEMPLATE, "new") +  ", "
       + "new." + KEY_COMMENT + ", "
       + "new." + KEY_DATE + ", "
       + "new." + KEY_AMOUNT + ", "
       + "new." + KEY_CATID + ", "
-      + "new." + KEY_ACCOUNTID + ","
+      + "new." + KEY_ACCOUNTID + ", "
       + "new." + KEY_PAYEEID + ", "
       + "new." + KEY_TRANSFER_ACCOUNT + ", "
-      + "new." + KEY_METHODID + ","
+      + "new." + KEY_METHODID + ", "
       + "new." + KEY_CR_STATUS + ", "
       + "new." + KEY_REFERENCE_NUMBER + ", "
       + "new." + KEY_PICTURE_URI + "); END;";
@@ -354,7 +355,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       + String.format(Locale.US, SELECT_SEQUCENE_NUMBER_TEMLATE, "old") +  ", "
       + "old." + KEY_ACCOUNTID + ", "
       + "old." + KEY_UUID + ", "
-      + "CASE WHEN old." + KEY_PARENTID + " IS NULL THEN NULL ELSE (SELECT " + KEY_UUID + " from " + TABLE_TRANSACTIONS + " where " + KEY_ROWID + " = old." + KEY_PARENTID + ") END); END;";
+      + String.format(Locale.US, SELECT_PARENT_UUID_TEMPLATE, "old") +  "); END;";
 
   private static final String SHOULD_WRITE_CHANGE_TEMPLATE = " EXISTS (SELECT 1 FROM " + TABLE_ACCOUNTS
       + " WHERE " + KEY_ROWID + " = %s." + KEY_ACCOUNTID + " AND " + KEY_SYNC_URI + " IS NOT NULL AND "
@@ -399,26 +400,28 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + " WHEN " + String.format(Locale.US, SHOULD_WRITE_CHANGE_TEMPLATE, "old")
           + " AND old." + KEY_STATUS + " != " + STATUS_UNCOMMITTED
           + " AND new." + KEY_STATUS + " != " + STATUS_UNCOMMITTED
-          + " AND new." + KEY_ACCOUNTID + " = " + "old." + KEY_ACCOUNTID //if account is changed, we need to delete transaction from one account, and add it to the other
-          + " AND new." + KEY_TRANSFER_PEER + " = " + "old." + KEY_TRANSFER_PEER //if a new transfer is inserted, the first peer is updated, is after first one is added, and we can skip this update here
+          + " AND new." + KEY_ACCOUNTID + " = old." + KEY_ACCOUNTID //if account is changed, we need to delete transaction from one account, and add it to the other
+          + " AND new." + KEY_TRANSFER_PEER + " IS old." + KEY_TRANSFER_PEER //if a new transfer is inserted, the first peer is updated, after second one is added, and we can skip this update here
           + " BEGIN INSERT INTO " + TABLE_CHANGES + "("
           + KEY_TYPE + ","
           + KEY_SYNC_SEQUENCE_LOCAL + ", "
           + KEY_UUID + ", "
-          + KEY_ACCOUNTID + ","
+          + KEY_ACCOUNTID + ", "
+          + KEY_PARENT_UUID + ", "
           + KEY_COMMENT + ", "
           + KEY_DATE + ", "
           + KEY_AMOUNT + ", "
           + KEY_CATID + ", "
           + KEY_PAYEEID + ", "
           + KEY_TRANSFER_ACCOUNT + ", "
-          + KEY_METHODID + ","
+          + KEY_METHODID + ", "
           + KEY_CR_STATUS + ", "
           + KEY_REFERENCE_NUMBER + ", "
-          + KEY_PICTURE_URI + ") VALUES ('" + TransactionChange.Type.updated + "',"
-          + String.format(Locale.US, SELECT_SEQUCENE_NUMBER_TEMLATE, "old") +  " , "
+          + KEY_PICTURE_URI + ") VALUES ('" + TransactionChange.Type.updated + "', "
+          + String.format(Locale.US, SELECT_SEQUCENE_NUMBER_TEMLATE, "old") +  ", "
           + "new." + KEY_UUID + ", "
-          + "new." + KEY_ACCOUNTID + ","
+          + "new." + KEY_ACCOUNTID + ", "
+          + String.format(Locale.US, SELECT_PARENT_UUID_TEMPLATE, "new") +  ", "
           + buildChangeTriggerDefinitionForColumn(KEY_COMMENT) + ", "
           + buildChangeTriggerDefinitionForColumn(KEY_DATE) + ", "
           + buildChangeTriggerDefinitionForColumn(KEY_AMOUNT) + ", "

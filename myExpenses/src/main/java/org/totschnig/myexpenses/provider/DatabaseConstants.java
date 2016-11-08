@@ -166,7 +166,6 @@ public class DatabaseConstants {
   public static final String KEY_PLAN_INFO = "plan_info";
   public static final String KEY_PARENT_UUID = "parent_uuid";
   public static final String KEY_SYNC_SEQUENCE_LOCAL = "sync_sequence_local";
-  public static final String KEY_SYNC_SEQUENCE_REMOTE = "sync_sequence_remote";
   /**
    * This flag is set to true during changes written by sync adapter, and used to suspend triggers that
    * write change log
@@ -272,7 +271,7 @@ public class DatabaseConstants {
       " (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " +
       " (SELECT " + KEY_PARENTID + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ")) " +
       " || '" + TransactionList.CATEGORY_SEPARATOR +
-      "' END || " +
+      "' ELSE '' END || " +
       " (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ")";
 
   //public static final String CAT_AS_LABEL = FULL_CAT_CASE + " AS " + KEY_LABEL;

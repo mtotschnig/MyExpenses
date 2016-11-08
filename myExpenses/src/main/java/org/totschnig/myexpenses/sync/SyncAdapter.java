@@ -75,18 +75,20 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_FROM_ADAPTER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_REMOTE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
   public static final String TAG = "SyncAdapter";
+  private static final String LAST_SYNCED_REMOTE = "last_synced_remote";
+  private static final String LAST_SYNCED_LOCAL = "last_synced_local";
+
   private Map<String, Long> categoryToId;
   private Map<String, Long> payeeToId;
   private Map<String, Long> methodToId;
   private Map<String, Long> accountUuidToId;
 
   private static final ThreadLocal<org.totschnig.myexpenses.model.Account>
-      dbAccount = new ThreadLocal<org.totschnig.myexpenses.model.Account>();
+      dbAccount = new ThreadLocal<>();
 
   public SyncAdapter(Context context, boolean autoInitialize) {
     super(context, autoInitialize);
@@ -112,49 +114,42 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     accountUuidToId = new HashMap<>();
     Log.i(TAG, "onPerformSync");
     AccountManager accountManager = (AccountManager) getContext().getSystemService(ACCOUNT_SERVICE);
-    String lastLocalSequence = getUserDataWithDefault(accountManager, account,
-        KEY_SYNC_SEQUENCE_LOCAL, "0");
-    long currentSequenceLocal = Long.parseLong(lastLocalSequence);
-    String lastRemoteSequence = getUserDataWithDefault(accountManager, account,
-        KEY_SYNC_SEQUENCE_REMOTE, "0");
-    long currentSequenceRemote = Long.parseLong(lastRemoteSequence);
+    //TODO check if account has been initialized for sync, i.e. transaction list written to change log
+    long lastSyncedLocal = Long.parseLong(getUserDataWithDefault(accountManager, account,
+        LAST_SYNCED_LOCAL, "0"));
+    long lastSyncedRemote = Long.parseLong(getUserDataWithDefault(accountManager, account,
+        LAST_SYNCED_REMOTE, "0"));
     String accountId = account.name.substring(1);
     dbAccount.set(org.totschnig.myexpenses.model.Account.getInstanceFromDb(Long.valueOf(accountId)));
     SyncBackend backend = getBackendForAccount(accountId);
     if (backend == null) {
       //TODO report
       return;
+    } else if (!backend.isAvailable()) {
+      return;
     }
-    ChangeSet changeSetSince = backend.getChangeSetSince(Long.parseLong(lastRemoteSequence));
+
+    ChangeSet changeSetSince = backend.getChangeSetSince(lastSyncedRemote);
 
     List<TransactionChange> remoteChanges;
-    List<TransactionChange> localChanges = new ArrayList<>();
     if (changeSetSince != null) {
-      currentSequenceRemote = changeSetSince.sequenceNumber;
+      lastSyncedRemote = changeSetSince.sequenceNumber;
       remoteChanges = changeSetSince.changes;
     } else {
       remoteChanges = new ArrayList<>();
     }
-    try {
-      Uri changesUri = buildChangesUri(lastLocalSequence, accountId);
-      if (hasLocalChanges(provider, changesUri)) {
-        currentSequenceLocal++;
-        ContentValues currentSyncIncrease = new ContentValues(1);
-        currentSyncIncrease.put(KEY_SYNC_SEQUENCE_LOCAL, currentSequenceLocal);
-        provider.update(TransactionProvider.ACCOUNTS_URI, currentSyncIncrease, KEY_ROWID + " = ?",
-            new String[]{accountId});
-        Cursor c = provider.query(changesUri, null, null, null, null);
-        if (c != null) {
-          if (c.moveToFirst()) {
-            do {
-              localChanges.add(TransactionChange.create(c));
-            } while (c.moveToNext());
-          }
-          c.close();
-        }
+
+    List<TransactionChange> localChanges = new ArrayList<>();
+    long sequenceToTest = lastSyncedLocal + 1;
+    while(true) {
+      List<TransactionChange> nextChanges = getLocalChanges(provider, accountId, sequenceToTest);
+      if (nextChanges.size() > 0) {
+        localChanges.addAll(nextChanges);
+        lastSyncedLocal = sequenceToTest;
+        sequenceToTest++;
+      } else {
+        break;
       }
-    } catch (RemoteException e) {
-      e.printStackTrace();
     }
 
     if (localChanges.size() == 0 && remoteChanges.size() == 0) {
@@ -176,25 +171,62 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         if (contentProviderResults.length == 0) {
           throw new OperationApplicationException("write to db yielded no results");
         }
-        accountManager.setUserData(account, KEY_SYNC_SEQUENCE_REMOTE, String.valueOf(currentSequenceRemote));
+        accountManager.setUserData(account, LAST_SYNCED_REMOTE, String.valueOf(lastSyncedRemote));
       } catch (RemoteException | OperationApplicationException | SQLiteException e) {
         AcraHelper.report(e);
         return;
       }
     }
 
-    if (localChanges.size() > 0) {
-      backend.lock();
-      currentSequenceRemote = backend.writeChangeSet(localChanges);
-      backend.unlock();
-      if (currentSequenceRemote != ChangeSet.FAILED) {
-        accountManager.setUserData(account, KEY_SYNC_SEQUENCE_LOCAL, String.valueOf(currentSequenceLocal));
-        accountManager.setUserData(account, KEY_SYNC_SEQUENCE_REMOTE, String.valueOf(currentSequenceRemote));
+    if (localChanges.size() > 0 && backend.lock()) {
+      try {
+        lastSyncedRemote = backend.writeChangeSet(localChanges);
+      } finally {
+        backend.unlock();
+      }
+      if (lastSyncedRemote != ChangeSet.FAILED) {
+        accountManager.setUserData(account, LAST_SYNCED_LOCAL, String.valueOf(lastSyncedLocal));
+        accountManager.setUserData(account, LAST_SYNCED_REMOTE, String.valueOf(lastSyncedRemote));
       }
     }
-
   }
 
+  private List<TransactionChange> getLocalChanges(ContentProviderClient provider, String accountId, long sequenceNumber) {
+    List<TransactionChange> result = new ArrayList<>();
+    try {
+      Uri changesUri = buildChangesUri(sequenceNumber, accountId);
+      boolean hasLocalChanges = hasLocalChanges(provider, changesUri);
+      if (hasLocalChanges) {
+        ContentValues currentSyncIncrease = new ContentValues(1);
+        long nextSequence = sequenceNumber + 1;
+        currentSyncIncrease.put(KEY_SYNC_SEQUENCE_LOCAL, nextSequence);
+        //in case of failed synces due to non-available backends, sequence number might already be higher than nextSequence
+        //we must take care to not decrease it here
+        provider.update(TransactionProvider.ACCOUNTS_URI, currentSyncIncrease, KEY_ROWID + " = ? AND " + KEY_SYNC_SEQUENCE_LOCAL + " < ?",
+            new String[]{accountId, String.valueOf(nextSequence)});
+      }
+      if (hasLocalChanges) {
+        Cursor c = provider.query(changesUri, null, null, null, null);
+        if (c != null) {
+          if (c.moveToFirst()) {
+            do {
+              result.add(TransactionChange.create(c));
+            } while (c.moveToNext());
+          }
+          c.close();
+        }
+      }
+    } catch (RemoteException e) {
+      e.printStackTrace();
+    }
+    return result;
+  }
+
+  /**
+   * @param changeList
+   * @return the same list with split parts moved as parts to their parents. If there are multiple parents
+   * for the same uuid, the splits will appear under each of them
+   */
   private List<TransactionChange> collectSplits(List<TransactionChange> changeList) {
     HashMap<String, List<TransactionChange>> splitsPerUuid = new HashMap<>();
     for (Iterator<TransactionChange> i = changeList.iterator(); i.hasNext(); ) {
@@ -209,6 +241,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     Stream.of(splitsPerUuid.keySet()).forEach(uuid -> {
       if (!Stream.of(changeList).anyMatch(change -> change.uuid().equals(uuid))) {
         changeList.add(TransactionChange.builder().setType(TransactionChange.Type.updated).setTimeStamp(splitsPerUuid.get(uuid).get(0).timeStamp()).setUuid(uuid).build());
+        splitsPerUuid.put(uuid, filterDeleted(
+            splitsPerUuid.get(uuid), findDeletedUuids(Stream.of(splitsPerUuid.get(uuid)))));
       }
     });
 
@@ -254,11 +288,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         break;
     }
     if (change.splitParts() != null) {
-      Stream.of(change.splitParts()).forEach(splitChange -> collectOperations(splitChange, ops,
-          change.isCreate() ? ops.size() - 1 : -1)); //back reference is only used when we insert a new split, for updating an existing split we search for its _id via its uuid
+      final int newParentOffset = ops.size() - 1;
+      List<TransactionChange> splitPartsFiltered = filterDeleted(change.splitParts(),
+          findDeletedUuids(Stream.of(change.splitParts())));
+      Stream.of(splitPartsFiltered).forEach(splitChange -> collectOperations(splitChange, ops,
+          change.isCreate() ? newParentOffset : -1)); //back reference is only used when we insert a new split, for updating an existing split we search for its _id via its uuid
     }
   }
-
 
 
   private ArrayList<ContentProviderOperation> getContentProviderOperationsForCreate(
@@ -274,8 +310,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     long transferAccount;
     if (change.splitParts() != null) {
       t = new SplitTransaction(getAccount().getId(), amount);
-    }
-    else if (change.transferAccount() != null &&
+    } else if (change.transferAccount() != null &&
         (transferAccount = extractTransferAccount(change.transferAccount(), change.label())) != -1) {
       t = new Transfer(getAccount().getId(), amount);
       t.transfer_account = transferAccount;
@@ -285,6 +320,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         t.setCatId(extractCatId(change.label()));
       }
     }
+    t.uuid = change.uuid();
     if (change.comment() != null) {
       t.comment = change.comment();
     }
@@ -415,10 +451,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       List<TransactionChange> first, List<TransactionChange> second) {
 
     //filter out changes made obsolete by later delete
-    List<String> deletedUuids = Stream.concat(Stream.of(first), Stream.of(second))
-        .filter(TransactionChange::isDelete)
-        .map(TransactionChange::uuid)
-        .collect(Collectors.toList());
+    List<String> deletedUuids = findDeletedUuids(Stream.concat(Stream.of(first), Stream.of(second)));
+
     List<TransactionChange> firstResult = filterDeleted(first, deletedUuids);
     List<TransactionChange> secondResult = filterDeleted(second, deletedUuids);
 
@@ -426,7 +460,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     HashMap<String, List<TransactionChange>> updatesPerUuid = new HashMap<>();
     HashMap<String, TransactionChange> mergesPerUuid = new HashMap<>();
     Stream.concat(Stream.of(firstResult), Stream.of(secondResult))
-        .filter(TransactionChange::isUpdate)
+        .filter(TransactionChange::isCreateOrUpdate)
         .forEach(change -> ensureList(updatesPerUuid, change.uuid()).add(change));
     List<String> uuidsRequiringMerge = Stream.of(updatesPerUuid.keySet())
         .filter(uuid -> updatesPerUuid.get(uuid).size() > 1).collect(Collectors.toList());
@@ -438,6 +472,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     return Pair.create(firstResult, secondResult);
   }
 
+  private List<String> findDeletedUuids(Stream<TransactionChange> stream) {
+    return stream.filter(TransactionChange::isDelete)
+        .map(TransactionChange::uuid)
+        .collect(Collectors.toList());
+  }
+
   private List<TransactionChange> filterDeleted(List<TransactionChange> input, List<String> deletedUuids) {
     return Stream.of(input).filter(change ->
         change.isDelete() || !deletedUuids.contains(change.uuid()))
@@ -445,9 +485,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   }
 
   private List<TransactionChange> replaceByMerged(List<TransactionChange> input, HashMap<String, TransactionChange> mergedMap) {
-    return Stream.of(input).map(change -> change.type().equals(TransactionChange.Type.updated)
-        && mergedMap.containsKey(change.uuid()) ?
-        mergedMap.get(change.uuid()) : change)
+    return Stream.of(input).map(change -> change.isCreateOrUpdate()
+        && mergedMap.containsKey(change.uuid()) ? mergedMap.get(change.uuid()) : change)
         .distinct().collect(Collectors.toList());
   }
 
@@ -456,13 +495,60 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     if (changeList.size() < 2) {
       throw new IllegalStateException("nothing to merge");
     }
-    return Stream.of(changeList).sortBy(TransactionChange::timeStamp).reduce(TransactionChange::mergeUpdate).get();
+    return Stream.of(changeList).sortBy(TransactionChange::timeStamp).reduce(this::mergeUpdate).get();
   }
 
-  protected Uri buildChangesUri(String current_sync, String accountId) {
+  private TransactionChange mergeUpdate(TransactionChange initial, TransactionChange change) {
+    if (!(change.isCreateOrUpdate() && initial.isCreateOrUpdate())) {
+      throw new IllegalStateException("Can only merge creates and updates");
+    }
+    if (!initial.uuid().equals(change.uuid())) {
+      throw new IllegalStateException("Can only merge changes with same uuid");
+    }
+    TransactionChange.Builder builder = initial.toBuilder();
+    if (change.parentUuid() != null) {
+      builder.setParentUuid(change.parentUuid());
+    }
+    if (change.comment() != null) {
+      builder.setComment(change.comment());
+    }
+    if (change.date() != null) {
+      builder.setDate(change.date());
+    }
+    if (change.amount() != null) {
+      builder.setAmount(change.amount());
+    }
+    if (change.label() != null) {
+      builder.setLabel(change.label());
+    }
+    if (change.payeeName() != null) {
+      builder.setPayeeName(change.payeeName());
+    }
+    if (change.transferAccount() != null) {
+      builder.setTransferAccount(change.transferAccount());
+    }
+    if (change.methodLabel() != null) {
+      builder.setMethodLabel(change.methodLabel());
+    }
+    if (change.crStatus() != null) {
+      builder.setCrStatus(change.crStatus());
+    }
+    if (change.referenceNumber() != null) {
+      builder.setReferenceNumber(change.referenceNumber());
+    }
+    if (change.pictureUri() != null) {
+      builder.setPictureUri(change.pictureUri());
+    }
+    if (change.splitParts() != null) {
+      builder.setSplitParts(change.splitParts());
+    }
+    return builder.setTimeStamp(System.currentTimeMillis()).build();
+  }
+
+  protected Uri buildChangesUri(long current_sync, String accountId) {
     return TransactionProvider.CHANGES_URI.buildUpon()
         .appendQueryParameter(DatabaseConstants.KEY_ACCOUNTID, accountId)
-        .appendQueryParameter(KEY_SYNC_SEQUENCE_LOCAL, current_sync)
+        .appendQueryParameter(KEY_SYNC_SEQUENCE_LOCAL, String.valueOf(current_sync))
         .build();
   }
 

@@ -454,16 +454,17 @@ public class Transaction extends Model {
    * the transaction
    * as a side effect calls {@link Payee#require(String)}
    *
-   * @return the URI of the transaction. Upon creation it is returned from the content provider
-   * @param offset Number of operations that are already added to the batch, needed for calculating back references
+   * @param offset       Number of operations that are already added to the batch, needed for calculating back references
    * @param parentOffset if not -1, it indicates at which position in the batch the parent of a new split transaction is situated.
    *                     Is used from SyncAdapter for creating split transactions
+   * @return the URI of the transaction. Upon creation it is returned from the content provider
    */
   public ArrayList<ContentProviderOperation> buildSaveOperations(int offset, int parentOffset) {
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
     ContentValues initialValues = buildInitialValues();
     if (getId() == 0) {
-      initialValues.put(KEY_UUID, generateUuid());
+      //if transaction is added via sync adapter uuid is already set
+      initialValues.put(KEY_UUID, android.text.TextUtils.isEmpty(uuid) ? generateUuid() : uuid);
       ContentProviderOperation.Builder builder = ContentProviderOperation.newInsert(CONTENT_URI).withValues(initialValues);
       if (parentOffset != -1) {
         builder.withValueBackReference(KEY_PARENTID, parentOffset);
@@ -586,7 +587,7 @@ public class Transaction extends Model {
     ContentValues args = new ContentValues();
     args.put(KEY_ACCOUNTID, whereAccountId);
     cr().update(Uri.parse(
-            CONTENT_URI + "/" + whichTransactionId + "/" + TransactionProvider.URI_SEGMENT_MOVE + "/" + whereAccountId),
+        CONTENT_URI + "/" + whichTransactionId + "/" + TransactionProvider.URI_SEGMENT_MOVE + "/" + whereAccountId),
         null, null, null);
   }
 
