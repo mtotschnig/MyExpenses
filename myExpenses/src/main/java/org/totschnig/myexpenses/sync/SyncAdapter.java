@@ -327,7 +327,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     if (change.date() != null) {
       Long date = change.date();
       assert date != null;
-      t.setDate(new Date(date * 10000));
+      t.setDate(new Date(date * 1000));
     }
 
     if (change.payeeName() != null) {
