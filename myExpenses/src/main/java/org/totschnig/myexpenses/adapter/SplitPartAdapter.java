@@ -95,10 +95,7 @@ public final class SplitPartAdapter extends SimpleCursorAdapter {
       catText = ((amount < 0) ? "=&gt; " : "&lt;= ") + catText;
     } else {
       Long catId = DbUtils.getLongOrNull(c,KEY_CATID);
-      if (catId == null) {
-        catText = Category.NO_CATEGORY_ASSIGNED_LABEL;
-      }
-      else {
+      if (catId != null) {
         col = c.getColumnIndex(KEY_LABEL_SUB);
         String label_sub = c.getString(col);
         if (label_sub != null && label_sub.length() > 0) {

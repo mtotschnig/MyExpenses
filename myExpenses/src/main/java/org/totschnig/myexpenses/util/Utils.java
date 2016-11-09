@@ -1051,6 +1051,7 @@ public class Utils {
     String label;
     long main_id, sub_id;
 
+
     int size = catTree.children().size();
     for(int i = 0; i < size; i++) {
       CategoryTree mainCat = catTree.children().valueAt(i);
@@ -1088,6 +1089,7 @@ public class Utils {
         }
       }
     }
+
     return total;
   }
 

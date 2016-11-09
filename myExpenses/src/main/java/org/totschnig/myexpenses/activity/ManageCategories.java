@@ -270,7 +270,6 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         .add(ProgressDialogFragment.newInstance(
             0, 0, ProgressDialog.STYLE_HORIZONTAL, false), ProtectionDelegate.PROGRESS_TAG)
         .commit();
-
   }
 
   private void exportCats(String encoding) {
@@ -382,4 +381,5 @@ public class ManageCategories extends ProtectedFragmentActivity implements
     // Be sure to call the superclass implementation
     return super.dispatchTouchEvent(event);
   }
+
 }

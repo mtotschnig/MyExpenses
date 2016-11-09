@@ -30,6 +30,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.multidex.MultiDex;
 import android.support.v4.provider.DocumentFile;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.preference.PreferenceManager;
@@ -154,12 +155,14 @@ public class MyApplication extends Application implements
   @Override
   protected void attachBaseContext(Context base) {
     super.attachBaseContext(base);
+    MultiDex.install(this);
     appComponent = DaggerAppComponent.builder()
         .appModule(new AppModule(this)).build();
     appComponent.inject(this);
     if (acraConfiguration != null) {
       ACRA.init(this, acraConfiguration);
     }
+
   }
 
   private void registerWidgetObservers() {

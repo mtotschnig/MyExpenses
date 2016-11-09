@@ -34,7 +34,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 //TODO implement complete DAO
 //for the moment we only wrap calls to the content provider
 public class Category extends Model {
-  public final static String NO_CATEGORY_ASSIGNED_LABEL = "Default : No category";
   public String label;
   public Long parentId;
 
@@ -188,4 +187,6 @@ public class Category extends Model {
       return false;
     }
   }
+
+
 }

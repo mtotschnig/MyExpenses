@@ -391,9 +391,7 @@ public class TemplatesList extends SortableListFragment {
         catText = ((amount < 0) ? "=> " : "<= ") + catText;
       } else {
         Long catId = DbUtils.getLongOrNull(c, KEY_CATID);
-        if (catId == null) {
-          catText = Category.NO_CATEGORY_ASSIGNED_LABEL;
-        } else {
+        if (catId != null) {
           String label_sub = c.getString(columnIndexLabelSub);
           if (label_sub != null && label_sub.length() > 0) {
             catText = catText + categorySeparator + label_sub;

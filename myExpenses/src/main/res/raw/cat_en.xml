@@ -89,7 +89,6 @@
 	<Sub_category Nbc="15" Nb="3" Na="Loan/Mortgage" />
 	<Sub_category Nbc="15" Nb="4" Na="Charges" />
 	<Sub_category Nbc="15" Nb="5" Na="Refunding" />
-	<Sub_category Nbc="15" Nb="6" Na="No category" />
 	<Category Nb="16" Na="Professional expenses" Kd="1" />
 	<Sub_category Nbc="16" Nb="1" Na="Non refundable" />
 	<Sub_category Nbc="16" Nb="2" Na="Refundable" />
@@ -156,6 +155,4 @@
 	<Sub_category Nbc="24" Nb="1" Na="Housing" />
 	<Sub_category Nbc="24" Nb="2" Na="Visits" />
 	<Sub_category Nbc="24" Nb="3" Na="Travels" />
-	<Category Nb="25" Na="Default" Kd="0" />
-	<Sub_category Nbc="25" Nb="1" Na="No category" />
 </Grisbi_categ>

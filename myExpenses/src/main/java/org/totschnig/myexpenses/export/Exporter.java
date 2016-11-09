@@ -264,7 +264,6 @@ public class Exporter {
                 full_label += ":" + label_sub;
             }
           } else {
-            label_main = full_label = Category.NO_CATEGORY_ASSIGNED_LABEL;
             label_sub = "";
           }
           amount = splits.getLong(

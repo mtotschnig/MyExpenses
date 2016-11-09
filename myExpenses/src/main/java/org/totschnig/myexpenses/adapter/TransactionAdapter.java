@@ -147,11 +147,7 @@ public class TransactionAdapter extends SimpleCursorAdapter {
       Long catId = DbUtils.getLongOrNull(c,KEY_CATID);
       if (SPLIT_CATID.equals(catId))
         catText = MyApplication.getInstance().getString(R.string.split_transaction);
-      else if (catId == null) {
-        if (c.getInt(c.getColumnIndex(KEY_STATUS)) != STATUS_HELPER) {
-          catText = Category.NO_CATEGORY_ASSIGNED_LABEL;
-        }
-      } else {
+      else {
         catText = getCatText(catText,c.getString(c.getColumnIndex(KEY_LABEL_SUB)));
       }
     }
@@ -191,7 +187,7 @@ public class TransactionAdapter extends SimpleCursorAdapter {
     } catch (IllegalArgumentException ex) {
       status = CrStatus.UNRECONCILED;
     }
-    
+
     if (!mAccount.type.equals(AccountType.CASH) && !status.equals(CrStatus.VOID)) {
       viewHolder.color1.setBackgroundColor(status.color);
       viewHolder.colorContainer.setTag(status == CrStatus.RECONCILED ? -1 : getItemId(position));

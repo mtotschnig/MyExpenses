@@ -350,8 +350,6 @@ public class PdfPrinter {
                 if (label_sub.length() > 0)
                   splitText += TransactionList.CATEGORY_SEPARATOR + label_sub;
               }
-            } else {
-              splitText = Category.NO_CATEGORY_ASSIGNED_LABEL;
             }
             splitText += " " + Utils.convAmount(splits.getLong(
                 splits.getColumnIndexOrThrow(KEY_AMOUNT)), account.currency);
@@ -366,9 +364,7 @@ public class PdfPrinter {
             splits.moveToNext();
           }
           splits.close();
-        } else if (catId == null) {
-          catText = Category.NO_CATEGORY_ASSIGNED_LABEL;
-        } else {
+        } else if (catId != null) {
           String label_sub = transactionCursor.getString(columnIndexLabelSub);
           if (label_sub != null && label_sub.length() > 0) {
             catText = catText + TransactionList.CATEGORY_SEPARATOR + label_sub;

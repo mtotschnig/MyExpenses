@@ -18,6 +18,7 @@ android {
         testProguardFile "proguard-test.txt"
 
         vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
     }
 
     compileOptions {
@@ -84,6 +85,8 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-contrib:' + project.espressoVersion) {
         exclude module: 'accessibility-test-framework'
     }
+
+    compile 'com.android.support:multidex:1.0.0'
 
     compile 'frankiesardo:icepick:3.2.0'
     compile 'com.itextpdf:itextpdf:5.5.8'

@@ -24,6 +24,7 @@ import android.app.TimePickerDialog;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -43,6 +44,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.text.Editable;
 import android.text.TextPaint;
@@ -106,7 +108,6 @@ import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.AmountEditText;
@@ -195,6 +196,7 @@ public class ExpenseEdit extends AmountActivity implements
     private Account[] mAccounts;
     private Calendar mCalendar = Calendar.getInstance();
     private DateFormat mDateFormat, mTimeFormat;
+
     private Long mCatId = null, mMethodId = null,
             mAccountId = null, mTransferAccountId;
     private String mLabel;
@@ -377,8 +379,6 @@ public class ExpenseEdit extends AmountActivity implements
             mLabel = savedInstanceState.getString(KEY_LABEL);
             if ((mCatId = savedInstanceState.getLong(KEY_CATID)) == 0L) {
                 mCatId = null;
-            } else if ((mCatId = savedInstanceState.getLong(KEY_CATID)) == 0L) {
-                mCatId = EMPTY_CATID;
             }
             if ((mMethodId = savedInstanceState.getLong(KEY_METHODID)) == 0L)
                 mMethodId = null;
@@ -862,8 +862,14 @@ public class ExpenseEdit extends AmountActivity implements
                     return true;
                 }
                 if (command == R.id.SAVE_COMMAND) {
-                    //handled in super
-                    break;
+                    if (mCatId == null) {
+                        Toast.makeText(this, "You did not select any category",
+                                Toast.LENGTH_LONG).show();
+                        return true;
+                    } else {
+                        //handled in super
+                        break;
+                    }
                 }
                 if (!mIsSaving) {
                     mCreateNew = true;
@@ -1234,9 +1240,6 @@ public class ExpenseEdit extends AmountActivity implements
         super.onActivityResult(requestCode, resultCode, intent);
         if (requestCode == SELECT_CATEGORY_REQUEST && intent != null) {
             mCatId = intent.getLongExtra("cat_id", 0);
-            if (mCatId == null){
-                mCatId = intent.getLongExtra("cat_id", 1L);
-            }
             mLabel = intent.getStringExtra("label");
             mCategoryButton.setText(mLabel);
             setDirty(true);
@@ -1370,13 +1373,15 @@ public class ExpenseEdit extends AmountActivity implements
         if (mLabel != null && mLabel.length() != 0) {
             mCategoryButton.setText(mLabel);
         } else {
-            mCategoryButton.setText("Default : No category");
+            mCategoryButton.setText(R.string.select);
         }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+
         super.onSaveInstanceState(outState);
+
         outState.putSerializable(KEY_CALENDAR, mCalendar);
 
         //restored in onCreate
@@ -1385,13 +1390,9 @@ public class ExpenseEdit extends AmountActivity implements
         }
         if (mCatId != null) {
             outState.putLong(KEY_CATID, mCatId);
-        } else {
-            outState.putLong(KEY_CATID, DatabaseConstants.EMPTY_CATID);
         }
         if (mLabel != null) {
             outState.putString(KEY_LABEL, mLabel);
-        } else {
-            outState.putString(KEY_LABEL, Category.NO_CATEGORY_ASSIGNED_LABEL);
         }
         if (mPictureUri != null) {
             outState.putParcelable(KEY_PICTURE_URI, mPictureUri);
@@ -1417,6 +1418,7 @@ public class ExpenseEdit extends AmountActivity implements
             outState.putLong(KEY_TRANSFER_ACCOUNT, mTransferAccountSpinner.getSelectedItemId());
         }
     }
+
 
     private void switchAccountViews() {
         Spinner accountSpinner = mAccountSpinner.getSpinner();
@@ -1473,7 +1475,7 @@ public class ExpenseEdit extends AmountActivity implements
             case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2:
                 if (o != null) {
                     Transaction t = (Transaction) o;
-                    if (mCatId == null ) {
+                    if (mCatId == null) {
                         mCatId = t.getCatId();
                         mLabel = t.label;
                         setCategoryButton();
@@ -1532,7 +1534,7 @@ public class ExpenseEdit extends AmountActivity implements
                     }
                 }
                 //if catId has already been set by onRestoreInstanceState, the value might have been edited by the user and has precedence
-                if (mCatId == null || mCatId == EMPTY_CATID) {
+                if (mCatId == null || mCatId.equals(EMPTY_CATID)) {
                     mCatId = mTransaction.getCatId();
                     mLabel = mTransaction.label;
                 }
@@ -1788,8 +1790,8 @@ public class ExpenseEdit extends AmountActivity implements
                     break;
                 default:
                     //possibly the selected category has been deleted
-                    mCatId = EMPTY_CATID;
-                    mCategoryButton.setText(mLabel);
+                    mCatId = null;
+                    mCategoryButton.setText(R.string.select);
 
                     errorMsg = "Error while saving transaction";
             }
@@ -2279,4 +2281,6 @@ public class ExpenseEdit extends AmountActivity implements
         super.onRestoreInstanceState(savedInstanceState);
         isProcessingLinkedAmountInputs = false;
     }
+
+
 }
