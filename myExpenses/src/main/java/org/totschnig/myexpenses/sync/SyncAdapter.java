@@ -331,7 +331,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     if (change.payeeName() != null) {
-      long id = extractPayeeId(change.payeeName());
+      long id = Payee.extractPayeeId(change.payeeName(), payeeToId);
       if (id != -1) {
         t.payeeId = id;
       }
@@ -373,7 +373,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       values.put(KEY_CATID, extractCatId(change.label()));
     }
     if (change.payeeName() != null) {
-      long id = extractPayeeId(change.payeeName());
+      long id = Payee.extractPayeeId(change.payeeName(), payeeToId);
       if (id != -1) {
         values.put(KEY_PAYEEID, id);
       }
@@ -416,20 +416,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   private long extractCatId(String label) {
     new CategoryInfo(label).insert(categoryToId);
     return categoryToId.get(label);
-  }
-
-  private long extractPayeeId(String payeeName) {
-    Long id = payeeToId.get(payeeName);
-    if (id == null) {
-      id = Payee.find(payeeName);
-      if (id == -1) {
-        id = Payee.maybeWrite(payeeName);
-      }
-      if (id != -1) { //should always be the case
-        payeeToId.put(payeeName, id);
-      }
-    }
-    return id;
   }
 
   private long extractMethodId(String methodLabel) {
