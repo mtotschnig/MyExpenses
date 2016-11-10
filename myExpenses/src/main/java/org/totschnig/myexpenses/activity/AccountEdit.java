@@ -87,7 +87,7 @@ public class AccountEdit extends AmountActivity implements
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    
+
     setContentView(R.layout.one_account);
     setupToolbar();
 
@@ -128,13 +128,13 @@ public class AccountEdit extends AmountActivity implements
         android.R.id.text1, CurrencyEnum.sortedValues());
     currencyAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
     mCurrencySpinner.setAdapter(currencyAdapter);
-    
+
     mAccountTypeSpinner = new SpinnerHelper(findViewById(R.id.AccountType));
     ArrayAdapter<AccountType> typAdapter = new ArrayAdapter<>(
             this, android.R.layout.simple_spinner_item, android.R.id.text1, AccountType.values());
     typAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
     mAccountTypeSpinner.setAdapter(typAdapter);
-    
+
     mColorSpinner = new SpinnerHelper(findViewById(R.id.Color));
     mColors = new ArrayList<>();
     Resources r = getResources();
@@ -302,10 +302,6 @@ public class AccountEdit extends AmountActivity implements
     } else {
       Intent intent = new Intent();
       long id = ContentUris.parseId((Uri) result);
-      if (mAccount.isSynced()) {
-        //TODO if this is a new account and we fail, we should report to user and to ACRA
-        MyApplication.createSyncAccount(id);
-      }
       intent.putExtra(DatabaseConstants.KEY_ROWID, id);
       setResult(RESULT_OK, intent);
     }
@@ -318,6 +314,10 @@ public class AccountEdit extends AmountActivity implements
     MenuItemCompat.setShowAsAction(
         menu.add(Menu.NONE, R.id.EXCLUDE_FROM_TOTALS_COMMAND, 0, R.string.menu_exclude_from_totals)
           .setCheckable(true),
+        MenuItemCompat.SHOW_AS_ACTION_NEVER);
+    MenuItemCompat.setShowAsAction(
+        menu.add(Menu.NONE, R.id.SYNCED_COMMAND, 0, "START SYNC")
+            .setCheckable(true),
         MenuItemCompat.SHOW_AS_ACTION_NEVER);
     return true;
   }
@@ -350,6 +350,16 @@ public class AccountEdit extends AmountActivity implements
         supportInvalidateOptionsMenu();
       }
       return true;
+      case R.id.SYNCED_COMMAND:
+        if (mAccount.getId() != 0) {
+          startTaskExecution(
+              TaskExecutionFragment.TASK_START_SYNC,
+              new Long[]{mAccount.getId()},
+              null, 0);
+          supportInvalidateOptionsMenu();
+        }
+        return true;
+
     }
     return super.dispatchCommand(command, tag);
   }

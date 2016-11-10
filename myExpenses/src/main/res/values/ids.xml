@@ -123,4 +123,5 @@
   <item name="VERIFY_LICENCE_COMMAND" type="id"/>
   <item name="FILTER_TRANSFER_COMMAND" type="id"/>
   <item name="SORT_NEXT_INSTANCE_COMMAND" type="id"/>
+  <item name="SYNCED_COMMAND" type="id" />
 </resources>

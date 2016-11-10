@@ -507,6 +507,16 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           }
         }
         return true;
+      case TaskExecutionFragment.TASK_START_SYNC:
+        values = new ContentValues();
+        values.put(DatabaseConstants.KEY_SYNC_URI, "debug");
+        accountId = (Long) ids[0];
+        cr.update(
+            TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(accountId)).build(),
+            values, null, null);
+        //TODO if we fail, we should report to user and to ACRA
+        MyApplication.createSyncAccount(accountId);
+        return null;
     }
     return null;
   }
