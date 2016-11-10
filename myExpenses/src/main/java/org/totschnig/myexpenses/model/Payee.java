@@ -18,6 +18,7 @@ package org.totschnig.myexpenses.model;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 import java.text.Normalizer;
+import java.util.Map;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -93,9 +94,24 @@ public class Payee extends Model {
     Uri uri = new Payee(0L,name).save();
     return uri == null ? -1 : Long.valueOf(uri.getLastPathSegment());
   }
+
   public static void delete(long id) {
     cr().delete(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
         null, null);
+  }
+
+  public static long extractPayeeId(String payeeName, Map<String, Long> payeeToId) {
+    Long id = payeeToId.get(payeeName);
+    if (id == null) {
+      id = Payee.find(payeeName);
+      if (id == -1) {
+        id = Payee.maybeWrite(payeeName);
+      }
+      if (id != -1) { //should always be the case
+        payeeToId.put(payeeName, id);
+      }
+    }
+    return id;
   }
 
   @Override
