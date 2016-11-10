@@ -94,4 +94,5 @@
 	<Sub_category Nbc="13" Nb="1" Na="Housing" />
 	<Sub_category Nbc="13" Nb="2" Na="Visits" />
 	<Sub_category Nbc="13" Nb="3" Na="Travels" />
+	<Category Nb="14" Na="Other" Kd="1" />
 </Grisbi_categ>
