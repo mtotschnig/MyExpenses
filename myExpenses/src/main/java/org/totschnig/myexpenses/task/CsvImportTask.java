@@ -151,20 +151,22 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
 
         if (!isSplitParent && columnIndexCategory != -1) {
           String category = saveGetFromRecord(record, columnIndexCategory);
-          String subCategory = columnIndexSubcategory != -1 ?
-              saveGetFromRecord(record, columnIndexSubcategory)
-              : "";
-          if (category.equals(MyApplication.getInstance().getString(R.string.transfer)) &&
-              !subCategory.equals("") &&
-              QifUtils.isTransferCategory(subCategory)) {
-            transferAccountId = Account.findAny(subCategory.substring(1, subCategory.length() - 1));
-          } else if (QifUtils.isTransferCategory(category)) {
-            transferAccountId = Account.findAny(category.substring(1, category.length() - 1));
-          }
-          if (transferAccountId == -1) {
-            categoryInfo = category;
-            if (!subCategory.equals("")) {
-              categoryInfo += ":" + subCategory;
+          if (!category.equals("")) {
+            String subCategory = columnIndexSubcategory != -1 ?
+                saveGetFromRecord(record, columnIndexSubcategory)
+                : "";
+            if (category.equals(MyApplication.getInstance().getString(R.string.transfer)) &&
+                !subCategory.equals("") &&
+                QifUtils.isTransferCategory(subCategory)) {
+              transferAccountId = Account.findAny(subCategory.substring(1, subCategory.length() - 1));
+            } else if (QifUtils.isTransferCategory(category)) {
+              transferAccountId = Account.findAny(category.substring(1, category.length() - 1));
+            }
+            if (transferAccountId == -1) {
+              categoryInfo = category;
+              if (!subCategory.equals("")) {
+                categoryInfo += ":" + subCategory;
+              }
             }
           }
         }
@@ -198,12 +200,8 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
 
         if (columnIndexPayee != -1) {
           String payee = saveGetFromRecord(record, columnIndexPayee);
-          Long id = payeeToId.get(payee);
-          if (id == null) {
-            id = Payee.find(payee);
-            if (id == -1) {
-              id = Payee.maybeWrite(payee);
-            }
+          if (!payee.equals("")) {
+            long id = Payee.extractPayeeId(payee, payeeToId);
             if (id != -1) {
               payeeToId.put(payee, id);
               t.payeeId = id;
@@ -217,15 +215,17 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
 
         if (columnIndexMethod != -1) {
           String method = saveGetFromRecord(record, columnIndexMethod);
-          for (PaymentMethod.PreDefined preDefined : PaymentMethod.PreDefined.values()) {
-            if (preDefined.getLocalizedLabel().equals(method)) {
-              method = preDefined.name();
-              break;
+          if (!method.equals("")) {
+            for (PaymentMethod.PreDefined preDefined : PaymentMethod.PreDefined.values()) {
+              if (preDefined.getLocalizedLabel().equals(method)) {
+                method = preDefined.name();
+                break;
+              }
             }
-          }
-          long methodId = PaymentMethod.find(method);
-          if (methodId != -1) {
-            t.methodId = methodId;
+            long methodId = PaymentMethod.find(method);
+            if (methodId != -1) {
+              t.methodId = methodId;
+            }
           }
         }
 
