@@ -81,6 +81,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   public static final String TAG = "SyncAdapter";
   private static final String LAST_SYNCED_REMOTE = "last_synced_remote";
   private static final String LAST_SYNCED_LOCAL = "last_synced_local";
+  private static final String IS_INITIALIZED = "is_initialized";
 
   private Map<String, Long> categoryToId;
   private Map<String, Long> payeeToId;
@@ -113,13 +114,22 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     methodToId = new HashMap<>();
     accountUuidToId = new HashMap<>();
     Log.i(TAG, "onPerformSync");
+    String accountId = account.name.substring(1);
     AccountManager accountManager = (AccountManager) getContext().getSystemService(ACCOUNT_SERVICE);
-    //TODO check if account has been initialized for sync, i.e. transaction list written to change log
+    if (!"1".equals(accountManager.getUserData(account, IS_INITIALIZED))) {
+      try {
+        provider.update(buildInitializationUri(accountId), new ContentValues(0), null, null);
+        accountManager.setUserData(account, IS_INITIALIZED, "1");
+      } catch (RemoteException e) {
+        AcraHelper.report(e);
+        return;
+      }
+    }
+
     long lastSyncedLocal = Long.parseLong(getUserDataWithDefault(accountManager, account,
         LAST_SYNCED_LOCAL, "0"));
     long lastSyncedRemote = Long.parseLong(getUserDataWithDefault(accountManager, account,
         LAST_SYNCED_REMOTE, "0"));
-    String accountId = account.name.substring(1);
     dbAccount.set(org.totschnig.myexpenses.model.Account.getInstanceFromDb(Long.valueOf(accountId)));
     SyncBackend backend = getBackendForAccount(accountId);
     if (backend == null) {
@@ -531,10 +541,16 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     return builder.setTimeStamp(System.currentTimeMillis()).build();
   }
 
-  protected Uri buildChangesUri(long current_sync, String accountId) {
+  private Uri buildChangesUri(long current_sync, String accountId) {
     return TransactionProvider.CHANGES_URI.buildUpon()
         .appendQueryParameter(DatabaseConstants.KEY_ACCOUNTID, accountId)
         .appendQueryParameter(KEY_SYNC_SEQUENCE_LOCAL, String.valueOf(current_sync))
+        .build();
+  }
+  private Uri buildInitializationUri(String accountId) {
+    return TransactionProvider.CHANGES_URI.buildUpon()
+        .appendQueryParameter(DatabaseConstants.KEY_ACCOUNTID, accountId)
+        .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_INIT, "1")
         .build();
   }
 

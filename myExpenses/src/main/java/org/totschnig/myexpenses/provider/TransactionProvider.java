@@ -119,6 +119,7 @@ public class TransactionProvider extends ContentProvider {
   public static final String QUERY_PARAMETER_DISTINCT = "distinct";
   public static final String QUERY_PARAMETER_MARK_VOID = "markVoid";
   public static final String QUERY_PARAMETER_WITH_PLAN_INFO = "withPlanInfo";
+  public static final String QUERY_PARAMETER_INIT = "init";
 
   
   static final String TAG = "TransactionProvider";
@@ -634,56 +635,30 @@ public class TransactionProvider extends ContentProvider {
       break;
       case CHANGES:
         String sequence = uri.getQueryParameter(KEY_SYNC_SEQUENCE_LOCAL);
-        if (Long.parseLong(sequence) > 0L) {
-          selection = KEY_ACCOUNTID + " = ? AND " + KEY_SYNC_SEQUENCE_LOCAL + " = ?";
-          selectionArgs = new String[]{uri.getQueryParameter(KEY_ACCOUNTID), sequence};
-          qb.setTables(VIEW_CHANGES_EXTENDED);
-          if (projection == null) {
-            projection = new String[]{
-                KEY_TYPE,
-                KEY_UUID,
-                KEY_TIMESTAMP,
-                KEY_PARENT_UUID,
-                "NULLIF(TRIM(" + KEY_COMMENT + "),'') AS " + KEY_COMMENT,
-                KEY_DATE,
-                KEY_AMOUNT,
-                FULL_LABEL,
-                KEY_PAYEE_NAME,
-                TRANSFER_ACCOUNT_UUUID,
-                KEY_METHOD_LABEL,
-                KEY_CR_STATUS,
-                "NULLIF(TRIM(" + KEY_REFERENCE_NUMBER + "),'') AS " + KEY_REFERENCE_NUMBER,
-                KEY_PICTURE_URI
-            };
-          }
-        } else {
-          selection = KEY_ACCOUNTID + " = ?";
-          selectionArgs = new String[]{uri.getQueryParameter(KEY_ACCOUNTID)};
-          qb.setTables(VIEW_EXTENDED);
-          if (projection == null) {
-            projection = new String[]{
-                "'" + TransactionChange.Type.created.name() + "' AS " + KEY_TYPE,
-                KEY_UUID,
-                "strftime('%s','now') AS "+ KEY_TIMESTAMP,
-                "CASE WHEN " + KEY_PARENTID + " IS NULL THEN NULL ELSE " +
-                    "(SELECT " + KEY_UUID + " from " + TABLE_TRANSACTIONS + " parent where "
-                    + KEY_ROWID + " = " + VIEW_EXTENDED + "." + KEY_PARENTID + ") END AS " + KEY_PARENT_UUID,
-                "NULLIF(TRIM(" + KEY_COMMENT + "),'') AS " + KEY_COMMENT,
-                KEY_DATE,
-                KEY_AMOUNT,
-                FULL_LABEL,
-                KEY_PAYEE_NAME,
-                TRANSFER_ACCOUNT_UUUID,
-                KEY_METHOD_LABEL,
-                KEY_CR_STATUS,
-                "NULLIF(TRIM(" + KEY_REFERENCE_NUMBER + "),'') AS " + KEY_REFERENCE_NUMBER,
-                KEY_PICTURE_URI
-            };
-          }
+        selection = KEY_ACCOUNTID + " = ? AND " + KEY_SYNC_SEQUENCE_LOCAL + " = ?";
+        selectionArgs = new String[]{uri.getQueryParameter(KEY_ACCOUNTID), sequence};
+        qb.setTables(VIEW_CHANGES_EXTENDED);
+        if (projection == null) {
+          projection = new String[]{
+              KEY_TYPE,
+              KEY_UUID,
+              KEY_TIMESTAMP,
+              KEY_PARENT_UUID,
+              "NULLIF(TRIM(" + KEY_COMMENT + "),'') AS " + KEY_COMMENT,
+              KEY_DATE,
+              KEY_AMOUNT,
+              FULL_LABEL,
+              KEY_PAYEE_NAME,
+              TRANSFER_ACCOUNT_UUUID,
+              KEY_METHOD_LABEL,
+              KEY_CR_STATUS,
+              "NULLIF(TRIM(" + KEY_REFERENCE_NUMBER + "),'') AS " + KEY_REFERENCE_NUMBER,
+              KEY_PICTURE_URI
+          };
         }
         break;
     default:
-      throw new IllegalArgumentException("Unknown URL " + uri);
+      throw unknownUri(uri);
     }
     String orderBy;
     if (TextUtils.isEmpty(sortOrder)) {
@@ -715,6 +690,11 @@ public class TransactionProvider extends ContentProvider {
   public String getType(Uri uri) {
     return null;
   }
+
+  private IllegalArgumentException unknownUri(Uri uri) {
+    return new IllegalArgumentException("Unknown URL " + uri);
+  }
+
   @Override
   public Uri insert(Uri uri, ContentValues values) {
     setDirty();
@@ -785,7 +765,7 @@ public class TransactionProvider extends ContentProvider {
       newUri = TABLE_STALE_URIS + "/" + id;
       break;
     default:
-      throw new IllegalArgumentException("Unknown URI: " + uri);
+      throw unknownUri(uri);
     }
     getContext().getContentResolver().notifyChange(uri, null);
     //the accounts cursor contains aggregates about transactions
@@ -931,7 +911,7 @@ public class TransactionProvider extends ContentProvider {
       count = db.delete(TABLE_STALE_URIS, where, whereArgs);
       break;
     default:
-      throw new IllegalArgumentException("Unknown URL " + uri);
+      throw unknownUri(uri);
     }
     if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTION_ID) {
       getContext().getContentResolver().notifyChange(TRANSACTIONS_URI, null);
@@ -1199,8 +1179,51 @@ public class TransactionProvider extends ContentProvider {
           new String[] {sortKey1, sortKey2, sortKey2, sortKey1, sortKey1, sortKey2 });
       count = 2;
       break;
+    case CHANGES:
+      if ("1".equals(uri.getQueryParameter(QUERY_PARAMETER_INIT))) {
+        db.execSQL("INSERT INTO " + TABLE_CHANGES + "("
+            + KEY_TYPE + ", "
+            + KEY_SYNC_SEQUENCE_LOCAL + ", "
+            + KEY_UUID + ", "
+            + KEY_PARENT_UUID + ", "
+            + KEY_COMMENT + ", "
+            + KEY_DATE + ", "
+            + KEY_AMOUNT + ", "
+            + KEY_CATID + ", "
+            + KEY_ACCOUNTID + ","
+            + KEY_PAYEEID + ", "
+            + KEY_TRANSFER_ACCOUNT + ", "
+            + KEY_METHODID + ","
+            + KEY_CR_STATUS + ", "
+            + KEY_REFERENCE_NUMBER + ", "
+            + KEY_PICTURE_URI
+            + ") SELECT "
+            + "'" + TransactionChange.Type.created.name() + "', "
+            + " 1, "
+            + KEY_UUID  + ", "
+            + "CASE WHEN " + KEY_PARENTID + " IS NULL THEN NULL ELSE " +
+                    "(SELECT " + KEY_UUID + " FROM " + TABLE_TRANSACTIONS + " parent where "
+                    + KEY_ROWID + " = " + TABLE_TRANSACTIONS + "." + KEY_PARENTID + ") END, "
+            + KEY_COMMENT + ", "
+            + KEY_DATE + ", "
+            + KEY_AMOUNT + ", "
+            + KEY_CATID + ", "
+            + KEY_ACCOUNTID + ", "
+            + KEY_PAYEEID + ", "
+            + KEY_TRANSFER_ACCOUNT + ", "
+            + KEY_METHODID + ","
+            + KEY_CR_STATUS + ", "
+            + KEY_REFERENCE_NUMBER + ", "
+            + KEY_PICTURE_URI
+            + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_ACCOUNTID + " = ?",
+            new String[] {uri.getQueryParameter(KEY_ACCOUNTID)});
+       count = 1;
+      } else {
+        throw unknownUri(uri);
+      }
+      break;
     default:
-      throw new IllegalArgumentException("Unknown URI " + uri);
+      throw unknownUri(uri);
     }
     if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTION_ID ||
         uriMatch == CURRENCIES_CHANGE_FRACTION_DIGITS || uriMatch == TRANSACTION_UNDELETE ||
