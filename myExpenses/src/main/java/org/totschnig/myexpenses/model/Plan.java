@@ -142,7 +142,8 @@ public class Plan extends Model implements Serializable {
     ContentValues values = new ContentValues();
     values.put(Events.TITLE, title);
     values.put(Events.DESCRIPTION, description);
-    if (!TextUtils.isEmpty(rrule)) {
+    boolean isOneTimeEvent = TextUtils.isEmpty(rrule);
+    if (!isOneTimeEvent) {
       values.put(Events.RRULE, rrule);
     }
     values.put(Events.EVENT_TIMEZONE, TimeZone.getDefault().getID());
@@ -156,7 +157,11 @@ public class Plan extends Model implements Serializable {
       }
       values.put(Events.CALENDAR_ID, Long.parseLong(calendarId));
       values.put(Events.DTSTART, dtstart);
-      values.put(Events.DTEND, dtstart);
+      if (isOneTimeEvent) {
+        values.put(Events.DTEND, dtstart);
+      } else {
+        values.put(Events.DURATION, "P0S");
+      }
       uri = cr().insert(Events.CONTENT_URI, values);
       setId(ContentUris.parseId(uri));
     } else {
