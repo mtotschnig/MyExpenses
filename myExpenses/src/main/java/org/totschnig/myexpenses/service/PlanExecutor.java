@@ -43,7 +43,8 @@ public class PlanExecutor extends IntentService {
   public static final String KEY_TITLE = "title";
   //production: 21600000 6* 60 * 60 * 1000 6 hours; for testing: 60000 1 minute
   public static final long INTERVAL = BuildConfig.DEBUG ? 60000 : 21600000;
-  public static final long H24 = 24 * 60 * 60 * 1000;
+  private static final long H24 = 24 * 60 * 60 * 1000;
+  private static final long M5 = 5 * 60 * 1000;
 
   public PlanExecutor() {
     super("PlanExexcutor");
@@ -68,14 +69,16 @@ public class PlanExecutor extends IntentService {
       Log.i(MyApplication.TAG, "PlanExecutor: no planner set, nothing to do");
       return;
     }
-    long lastExecutionTimeStamp = PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP.getLong(now - H24);
+    //we use an overlapping window of 5 minutes to prevent plans that are just created by the user while
+    //we are running from falling through
+    long instancesFrom = PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP.getLong(now - H24) - M5;
     Log.i(MyApplication.TAG, String.format(
         "executing plans from %d to %d",
-        lastExecutionTimeStamp,
+        instancesFrom,
         now));
 
     Uri.Builder eventsUriBuilder = CalendarProviderProxy.INSTANCES_URI.buildUpon();
-    ContentUris.appendId(eventsUriBuilder, lastExecutionTimeStamp);
+    ContentUris.appendId(eventsUriBuilder, instancesFrom);
     ContentUris.appendId(eventsUriBuilder, now);
     Uri eventsUri = eventsUriBuilder.build();
     Cursor cursor;
