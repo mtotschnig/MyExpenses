@@ -11,7 +11,8 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import java.util.Map;
 
 public class AcraHelper {
-  private static final boolean DO_REPORT = Utils.IS_FLAVOURED && !BuildConfig.DEBUG;
+  private static final boolean DO_REPORT = Utils.IS_FLAVOURED && !BuildConfig.DEBUG
+      && !MyApplication.isInstrumentationTest();
 
   public static void reportWithDbSchema(Exception e) {
     if (DO_REPORT) {
