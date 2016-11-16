@@ -15,9 +15,11 @@
 
 package org.totschnig.myexpenses.activity;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -25,9 +27,12 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.GravityCompat;
@@ -1281,6 +1286,27 @@ public class MyExpenses extends LaunchActivity implements
     protected void onResume() {
         super.onResume();
         adHandler.onResume();
+        askSmsParsingPermission();
+    }
+
+    private static final int SMS_PARSING_PERMISSION_REQUEST_CODE = 0;
+
+    private void askSmsParsingPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Explain that we need this permission for SMS parsing.
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECEIVE_SMS}, SMS_PARSING_PERMISSION_REQUEST_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case SMS_PARSING_PERMISSION_REQUEST_CODE:
+                if (grantResults.length == 0 || grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                    // TODO: Tell the user that they can always enable SMS parsing feature in the system settings.
+                }
+                return;
+        }
     }
 
     @Override
