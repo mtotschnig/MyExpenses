@@ -211,7 +211,6 @@
   <string name="menu_manage_plans_tab_plans">計画</string>
   <string name="menu_open">開く</string>
   <string name="menu_import">インポート</string>
-  <string name="menu_print">印刷</string>
   <string name="menu_reset">エクスポートおよびリセット</string>
   <string name="menu_reset_all">エクスポートおよびすべてリセット</string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
@@ -220,13 +219,11 @@
   <string name="menu_save_and_new">保存および新規</string>
   <string name="menu_search">検索</string>
   <string name="menu_settings">設定</string>
-  <string name="menu_share">友達に教える</string>
   <string name="menu_split_transaction">変換して分割</string>
   <string name="method">方法</string>
   <string name="no_amount_given">金額が入力されていません。</string>
   <string name="no_app_handling_email_available">利用可能なメール アプリがありません。</string>
   <string name="no_app_handling_ftp_available">利用可能な ftp アプリがありません。<i>Send With FTP</i> をインストールしますか?</string>
-  <string name="no_app_handling_pdf_available">PDF を利用可能なアプリがありません。</string>
   <string name="no_categories">分類がありません。</string>
   <string name="no_expenses">まだ支出がありません!</string>
   <string name="no_exportable_expenses">まだエクスポートしていない取引はありません。</string>
@@ -361,7 +358,6 @@
   <string name="pref_visit_website_title">Webサイトを訪問</string>
   <string name="progress_dialog_deleting">オブジェクトを削除中</string>
   <string name="progress_dialog_loading">データベースからオブジェクトをロード中</string>
-  <string name="progress_dialog_printing">PDF を生成中</string>
   <string name="progress_dialog_saving">データベースにオブジェクトを保存中</string>
   <string name="qif_parse_result">解析しました: %1$s 勘定; %2$s 分類 および %3$s 取引先</string>
   <string name="qif_parse_failure_found_multiple_accounts">QIF ファイルに複数の勘定が見つかりました。</string>

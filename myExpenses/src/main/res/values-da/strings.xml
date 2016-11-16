@@ -205,7 +205,6 @@
   <string name="menu_manage_plans_tab_plans">Planer</string>
   <string name="menu_open">Åbn</string>
   <string name="menu_import">Import</string>
-  <string name="menu_print">Udskriv</string>
   <string name="menu_reset">Eksporter og nulstil</string>
   <string name="menu_reset_all">Eksporter alle og nulstil</string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
@@ -214,13 +213,11 @@
   <string name="menu_save_and_new">Gem og ny</string>
   <string name="menu_search">Søg</string>
   <string name="menu_settings">Indstillinger</string>
-  <string name="menu_share">Fortæl en ven</string>
   <string name="menu_split_transaction">Opsplit</string>
   <string name="method">Metode</string>
   <string name="no_amount_given">Du har ikke angivet noget beløb.</string>
   <string name="no_app_handling_email_available">Der findes ingen app til håndtering af e-mail.</string>
   <string name="no_app_handling_ftp_available">Der findes ingen app til håndtering af ftp. Installer <i>Send via FTP</i>?</string>
-  <string name="no_app_handling_pdf_available">Der findes Ingen app til håndtering af PDF-filer.</string>
   <string name="no_categories">Ingen kategorier.</string>
   <string name="no_expenses">Der findes endnu ingen udgifter!</string>
   <string name="no_exportable_expenses">Der findes ingen posteringer, der ikke allerede blev eksporteret.</string>
@@ -354,7 +351,6 @@
   <string name="pref_visit_website_title">Besøg hjemmeside</string>
   <string name="progress_dialog_deleting">Objekter slettes</string>
   <string name="progress_dialog_loading">Lastning objekt fra database</string>
-  <string name="progress_dialog_printing">Generating PDF</string>
   <string name="progress_dialog_saving">Gemmer objektet til database</string>
   <string name="qif_parse_result">Fundet: %1$s regnskaber; %2$s kategorier og %3$s parter</string>
   <string name="qif_parse_failure_found_multiple_accounts">Der findes flere konti i QIF filen.</string>

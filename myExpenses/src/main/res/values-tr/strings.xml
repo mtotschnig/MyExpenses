@@ -213,7 +213,6 @@
   <string name="menu_manage_plans_tab_plans">Planlar</string>
   <string name="menu_open">Aç</string>
   <string name="menu_import">İçe aktar</string>
-  <string name="menu_print">Yazdır</string>
   <string name="menu_reset">Dışa aktar ve sıfırla</string>
   <string name="menu_reset_all">Tümünü dışa aktar ve sıfırla</string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
@@ -222,13 +221,11 @@
   <string name="menu_save_and_new">Kaydet ve yenisini aç</string>
   <string name="menu_search">Ara</string>
   <string name="menu_settings">Ayarlar</string>
-  <string name="menu_share">Bir arkadaşa bahset</string>
   <string name="menu_split_transaction">Bölünmüşe dönüştür</string>
   <string name="method">Metot</string>
   <string name="no_amount_given">Hiçbir meblağ girmediniz.</string>
   <string name="no_app_handling_email_available">E-postayı yöneten bir uygulama yok.</string>
   <string name="no_app_handling_ftp_available">FTP yöneten bir uygulama yok. <i>Send With FTP</i> indirilsin mi?</string>
-  <string name="no_app_handling_pdf_available">PDF dosyalarını yönetecek hiçbir uygulama yok.</string>
   <string name="no_categories">Kategori yok.</string>
   <string name="no_expenses">Henüz hiçbir harcama yok!</string>
   <string name="no_exportable_expenses">Henüz dışa aktarılmamış hiçbir muamele yok.</string>
@@ -365,7 +362,6 @@
   <string name="pref_visit_website_title">Siteyi ziyaret et</string>
   <string name="progress_dialog_deleting">Nesneler siliniyor</string>
   <string name="progress_dialog_loading">Veritabanından nesne yükleniyor</string>
-  <string name="progress_dialog_printing">PDF oluşturuluyor</string>
   <string name="progress_dialog_saving">Nesne veritabanına kaydediliyor</string>
   <string name="qif_parse_result">Ayrıştırıldı:  %1$s hesap,  %2$s kategori ve %3$s kişi</string>
   <string name="qif_parse_failure_found_multiple_accounts">QIF dosyasında birden çok hesap bulundu.</string>

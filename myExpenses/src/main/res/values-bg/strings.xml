@@ -213,7 +213,6 @@
   <string name="menu_manage_plans_tab_plans">Планове</string>
   <string name="menu_open">Отвори</string>
   <string name="menu_import">Импортиране</string>
-  <string name="menu_print">Разпечатай</string>
   <string name="menu_reset">Експорт и нулиране</string>
   <string name="menu_reset_all">Експорт и нулиране на всичко</string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
@@ -222,13 +221,11 @@
   <string name="menu_save_and_new">Запамети и нов</string>
   <string name="menu_search">Търсене</string>
   <string name="menu_settings">Настройки</string>
-  <string name="menu_share">Кажи на приятел</string>
   <string name="menu_split_transaction">Преобразувай в разпределена</string>
   <string name="method">Плащане с</string>
   <string name="no_amount_given">Не сте въвели сума.</string>
   <string name="no_app_handling_email_available">Няма приложение за електронна поща.</string>
   <string name="no_app_handling_ftp_available">Няма приложение за работа с ftp. Ще инсталирате ли <i>Send With FTP</i>?</string>
-  <string name="no_app_handling_pdf_available">Няма приложение за PDF файлове.</string>
   <string name="no_categories">Няма категории.</string>
   <string name="no_expenses">Все още без разходи!</string>
   <string name="no_exportable_expenses">Няма транзакции, които да не са експортирани.</string>
@@ -365,7 +362,6 @@
   <string name="pref_visit_website_title">Посетете сайта ни</string>
   <string name="progress_dialog_deleting">Изтриване на обекти</string>
   <string name="progress_dialog_loading">Зареждане обекти от база данни</string>
-  <string name="progress_dialog_printing">Генериране на PDF</string>
   <string name="progress_dialog_saving">Записване на обект в база данни</string>
   <string name="qif_parse_result">Анализирани: %1$s сметки; %2$s категории и %3$s страни</string>
   <string name="qif_parse_failure_found_multiple_accounts">Открити са множество сметки в QIF файла.</string>

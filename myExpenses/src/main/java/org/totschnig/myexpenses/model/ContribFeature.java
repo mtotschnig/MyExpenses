@@ -33,7 +33,6 @@ public enum ContribFeature {
   SPLIT_TRANSACTION,
   DISTRIBUTION,
   TEMPLATE_WIDGET,
-  PRINT,
   ATTACH_PICTURE,
   AD_FREE(false),
   CSV_IMPORT(true, true),

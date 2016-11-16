@@ -210,7 +210,6 @@
   <string name="menu_manage_plans_tab_plans">재무 계획</string>
   <string name="menu_open">열기</string>
   <string name="menu_import">가져오기</string>
-  <string name="menu_print">인쇄</string>
   <string name="menu_reset">내보내기 및 초기화</string>
   <string name="menu_reset_all">내보내기 및 전체 초기화</string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
@@ -219,13 +218,11 @@
   <string name="menu_save_and_new">저장하고 새로 만들기</string>
   <string name="menu_search">찾기</string>
   <string name="menu_settings">설정</string>
-  <string name="menu_share">친구에게 알려주기</string>
   <string name="menu_split_transaction">분할 거래로 바꾸기</string>
   <string name="method">방식</string>
   <string name="no_amount_given">금액을 입력하지 않으셨습니다.</string>
   <string name="no_app_handling_email_available">이메일을 다룰 수 있는 앱이 없습니다.</string>
   <string name="no_app_handling_ftp_available">FTP를 다룰 수 있는 앱이 없습니다. <i>Send With FTP</i>를 설치할까요?</string>
-  <string name="no_app_handling_pdf_available">PDF 파일을 다룰 수 있는 앱이 없습니다.</string>
   <string name="no_categories">카테고리가 없습니다.</string>
   <string name="no_expenses">지출이 아직 없습니다.</string>
   <string name="no_exportable_expenses">아직 내보내지 않은 거래 내역이 없습니다.</string>
@@ -361,7 +358,6 @@
   <string name="pref_visit_website_title">웹사이트 방문</string>
   <string name="progress_dialog_deleting">항목 삭제하는 중</string>
   <string name="progress_dialog_loading">데이터베이스에서 항목 불러오는 중</string>
-  <string name="progress_dialog_printing">PDF 파일 만드는 중</string>
   <string name="progress_dialog_saving">항목을 데이터베이스에 저장하는 중</string>
   <string name="qif_parse_result">분석됨: %1$s 계좌; %2$s 카테고리와 %3$s 구성원</string>
   <string name="qif_parse_failure_found_multiple_accounts">QIF 파일에서 여러개의 계좌가 발견되었습니다.</string>

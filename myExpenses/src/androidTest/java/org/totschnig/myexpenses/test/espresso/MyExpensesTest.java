@@ -129,8 +129,6 @@ public final class MyExpensesTest extends MyExpensesTestBase {
         R.string.dialog_command_disabled_reset_account);
     testInActiveItemHelper(R.id.DISTRIBUTION_COMMAND, R.string.menu_distribution,
         R.string.dialog_command_disabled_distribution);
-    testInActiveItemHelper(R.id.PRINT_COMMAND, R.string.menu_print,
-        R.string.dialog_command_disabled_reset_account);
   }
 
   /**
