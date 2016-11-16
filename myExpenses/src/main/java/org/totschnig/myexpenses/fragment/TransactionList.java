@@ -953,27 +953,6 @@ public class TransactionList extends ContextualActionBarFragment implements
               .show(getActivity().getSupportFragmentManager(), "TRANSFER_FILTER");
         }
         return true;
-      case R.id.PRINT_COMMAND:
-        MyExpenses ctx = (MyExpenses) getActivity();
-        Result appDirStatus = Utils.checkAppDir();
-        if (hasItems) {
-          if (appDirStatus.success) {
-            ctx.contribFeatureRequested(ContribFeature.PRINT, null);
-          } else {
-            Toast.makeText(getActivity(),
-                appDirStatus.print(getActivity()),
-                Toast.LENGTH_LONG)
-                .show();
-          }
-        } else {
-          MessageDialogFragment.newInstance(
-              0,
-              R.string.dialog_command_disabled_reset_account,
-              MessageDialogFragment.Button.okButton(),
-              null, null)
-              .show(ctx.getSupportFragmentManager(), "BUTTON_DISABLED_INFO");
-        }
-        return true;
       default:
         return super.onOptionsItemSelected(item);
     }

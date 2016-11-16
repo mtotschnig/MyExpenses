@@ -213,7 +213,6 @@
   <string name="menu_manage_plans_tab_plans">Planes</string>
   <string name="menu_open">Abierto</string>
   <string name="menu_import">Importación</string>
-  <string name="menu_print">Imprimir</string>
   <string name="menu_reset">Exportar y restablecer</string>
   <string name="menu_reset_all">Exportar y restablecer todas</string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
@@ -222,13 +221,11 @@
   <string name="menu_save_and_new">Guardar y nueva</string>
   <string name="menu_search">Buscar</string>
   <string name="menu_settings">Configuraciones</string>
-  <string name="menu_share">Contarle a un amigo</string>
   <string name="menu_split_transaction">Dividir</string>
   <string name="method">Método</string>
   <string name="no_amount_given">No ha insertado ningún importe.</string>
   <string name="no_app_handling_email_available">No se ha encontrado una aplicación para enviar un correo electrónico.</string>
   <string name="no_app_handling_ftp_available">No se ha encontrado una aplicación para ftp. ¿Desea instalar <i>Enviar con FTP</i>?</string>
-  <string name="no_app_handling_pdf_available">No se ha encontrado una aplicación para abrir archivos PDF disponibles.</string>
   <string name="no_categories">Todavía no hay categorías.</string>
   <string name="no_expenses">¡Todavía no hay gastos!</string>
   <string name="no_exportable_expenses">Existen transacciones que aún no han sido exportadas.</string>
@@ -365,7 +362,6 @@
   <string name="pref_visit_website_title">Visite el sitio web</string>
   <string name="progress_dialog_deleting">Eliminación de objetos</string>
   <string name="progress_dialog_loading">Cargando objeto de base de datos</string>
-  <string name="progress_dialog_printing">Generación de PDF</string>
   <string name="progress_dialog_saving">Guardando objeto de base de datos</string>
   <string name="qif_parse_result">Analizado: %1$s cuentas, %2$s categorías y %3$s partidos</string>
   <string name="qif_parse_failure_found_multiple_accounts">Se encuentran en archivo QIF varias cuentas.</string>

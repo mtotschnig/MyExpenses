@@ -176,7 +176,6 @@
   <string name="menu_save">حفظ</string>
   <string name="menu_save_and_new">حفظ وجديد</string>
   <string name="menu_settings">الاعدادات</string>
-  <string name="menu_share">اخبر صديق</string>
   <string name="method">طريقة</string>
   <string name="no_amount_given">لم تقم بإدخال قيمة.</string>
   <string name="no_app_handling_email_available">لا يوجد تطبيق للبريد الالكتروني.</string>
@@ -296,7 +295,6 @@
   <string name="pref_visit_website_summary">التغييرات والاسئلة المتكررة</string>
   <string name="pref_visit_website_title">زيارة الموقع</string>
   <string name="progress_dialog_loading">جاري التحميل من قاعدة البيانات</string>
-  <string name="progress_dialog_printing">انشاء ملف PDF</string>
   <string name="qif_parse_result">تم إيجاد: %1$s حسابات; %2$s تصنيفات و %3$s أطراف</string>
   <string name="qif_parse_failure_found_multiple_accounts">تم العثور على أكثر من حساب في ملف QIF.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">لا يمكن دمجهم لحساب موجود. </string>

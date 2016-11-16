@@ -206,7 +206,6 @@
   <string name="menu_manage_plans_tab_plans">Scadenţe</string>
   <string name="menu_open">Deschis</string>
   <string name="menu_import">Import</string>
-  <string name="menu_print">Printează</string>
   <string name="menu_reset">Export şi resetare</string>
   <string name="menu_reset_all">Export şi a resetează toate</string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
@@ -215,13 +214,11 @@
   <string name="menu_save_and_new">Salvează și nou</string>
   <string name="menu_search">Căutare</string>
   <string name="menu_settings">Setări</string>
-  <string name="menu_share">Recomandă</string>
   <string name="menu_split_transaction">Transformă in repartizare</string>
   <string name="method">Metoda</string>
   <string name="no_amount_given">Nu aţi introdus nici o valoare.</string>
   <string name="no_app_handling_email_available">Nici o aplicaţie disponibilă pentru trimitere email.</string>
   <string name="no_app_handling_ftp_available">Nici o aplicaţie disponibilă pentru ftp.Instalez <i>Trimit prinFTP</i>?</string>
-  <string name="no_app_handling_pdf_available">Nici o aplicaţie disponibilă pentru fişiere PDF</string>
   <string name="no_categories">Nici o categorie.</string>
   <string name="no_expenses">Nici o cheltuială încă!</string>
   <string name="no_exportable_expenses">Nici o tranzacţie ce nu a fost exportată.</string>
@@ -358,7 +355,6 @@ Tradus de DD</string>
   <string name="pref_visit_website_title">Vizitează site web</string>
   <string name="progress_dialog_deleting">Ştergere obiecte</string>
   <string name="progress_dialog_loading">Încărcare obiect din baza de date</string>
-  <string name="progress_dialog_printing">Generare PDF</string>
   <string name="progress_dialog_saving">Salvare obiect în baza de date</string>
   <string name="qif_parse_result">Analizat: %1$s conturi; %2$s categorii şi %3$s terţi</string>
   <string name="qif_parse_failure_found_multiple_accounts">Multiple conturi găsite în  fişierul QIF .</string>

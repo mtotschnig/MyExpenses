@@ -213,7 +213,6 @@
   <string name="menu_manage_plans_tab_plans">Scadenze</string>
   <string name="menu_open">Aprir</string>
   <string name="menu_import">Importa</string>
-  <string name="menu_print">Stampare</string>
   <string name="menu_reset">Esportare e reinizializzare</string>
   <string name="menu_reset_all">Esportare e reinizializzare tutti</string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
@@ -222,13 +221,11 @@
   <string name="menu_save_and_new">Salvare e nuova</string>
   <string name="menu_search">Cerca</string>
   <string name="menu_settings">Impostazioni</string>
-  <string name="menu_share">Dillo a un amico</string>
   <string name="menu_split_transaction">Frazionare</string>
   <string name="method">Modo</string>
   <string name="no_amount_given">Non ha scritto ningun somma.</string>
   <string name="no_app_handling_email_available">Nessuna applicazione disponibile per e-mail</string>
   <string name="no_app_handling_ftp_available">Nessuna applicazione disponibile per ftp. Installare <i>Invia via FTP</i>?</string>
-  <string name="no_app_handling_pdf_available">Nessun applicazione gestisce i file PDF e disponibile.</string>
   <string name="no_categories">Non ci sono categorie.</string>
   <string name="no_expenses">Non ci sono spese.</string>
   <string name="no_exportable_expenses">Non ci sono operazioni che non sono ancora stati esportati.</string>
@@ -365,7 +362,6 @@
   <string name="pref_visit_website_title">Visita il sito web</string>
   <string name="progress_dialog_deleting">Cancellazione di oggetti</string>
   <string name="progress_dialog_loading">Caricamento di oggetti dal database</string>
-  <string name="progress_dialog_printing">Creazione di PDF</string>
   <string name="progress_dialog_saving">Salvando oggetto al database</string>
   <string name="qif_parse_result">Analizzato: %1$s conti. %2$s categorie e %3$s beneficiari</string>
   <string name="qif_parse_failure_found_multiple_accounts">Più conti nel file QIF.</string>

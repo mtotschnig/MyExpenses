@@ -211,7 +211,6 @@
   <string name="menu_manage_plans_tab_plans">Pelan</string>
   <string name="menu_open">Buka</string>
   <string name="menu_import">Import</string>
-  <string name="menu_print">Cetak</string>
   <string name="menu_reset">Eksport dan tetap semula</string>
   <string name="menu_reset_all">Eksport dan tetap semula semua</string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
@@ -220,13 +219,11 @@
   <string name="menu_save_and_new">Simpan dan baharu</string>
   <string name="menu_search">Gelintar</string>
   <string name="menu_settings">Tetapan</string>
-  <string name="menu_share">Beritahu rakan</string>
   <string name="menu_split_transaction">Ubah untuk pisah</string>
   <string name="method">Kaedah</string>
   <string name="no_amount_given">Anda tidak masukkan apa-apa amaun.</string>
   <string name="no_app_handling_email_available">Tiada emel pengendalian apl tersedia.</string>
   <string name="no_app_handling_ftp_available">Tiada apl pengendalian ftp tersedia. Pasang <i>Hantar Dengan FTP</i>?</string>
-  <string name="no_app_handling_pdf_available">Tiada apl pengendalian fail PDF tersedia.</string>
   <string name="no_categories">Tiada kategori.</string>
   <string name="no_expenses">Tiada Perbelanjaan Lagi!</string>
   <string name="no_exportable_expenses">Tiada transaksi yang belum lagi dieksport.</string>
@@ -361,7 +358,6 @@
   <string name="pref_visit_website_title">Lawati Laman Sesawang</string>
   <string name="progress_dialog_deleting">Memadam objek</string>
   <string name="progress_dialog_loading">Memuatkan objek dari pangkalan data</string>
-  <string name="progress_dialog_printing">Menjana PDF</string>
   <string name="progress_dialog_saving">Menyimpan objek ke pangkalan data</string>
   <string name="qif_parse_result">Dihurai: %1$s akaun; %2$s kategori dan %3$s pihak</string>
   <string name="qif_parse_failure_found_multiple_accounts">Akaun berbilang ditemui dalam fail QIF.</string>

@@ -213,7 +213,6 @@
   <string name="menu_manage_plans_tab_plans">Planos</string>
   <string name="menu_open">Abrir</string>
   <string name="menu_import">Importar</string>
-  <string name="menu_print">Imprimir</string>
   <string name="menu_reset">Exportação e reset</string>
   <string name="menu_reset_all">Exportação e redefinir todos os</string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
@@ -222,13 +221,11 @@
   <string name="menu_save_and_new">Salvar e novo</string>
   <string name="menu_search">Pesquisar</string>
   <string name="menu_settings">Configurações</string>
-  <string name="menu_share">Indique a um amigo</string>
   <string name="menu_split_transaction">Dividir</string>
   <string name="method">Método</string>
   <string name="no_amount_given">Você não entra qualquer quantidade.</string>
   <string name="no_app_handling_email_available">Nenhum aplicativo de manipulação de e-mail disponível.</string>
   <string name="no_app_handling_ftp_available">Nenhum app manipulação de ftp disponível. Instalar <i>enviar com FTP</i>?</string>
-  <string name="no_app_handling_pdf_available">Nenhum app PDF disponível.</string>
   <string name="no_categories">Sem categorias.</string>
   <string name="no_expenses">Sem despesas ainda!</string>
   <string name="no_exportable_expenses">Ainda não foi exportada nenhuma transação.</string>
@@ -365,7 +362,6 @@
   <string name="pref_visit_website_title">Visite o site</string>
   <string name="progress_dialog_deleting">Exclusão de objetos</string>
   <string name="progress_dialog_loading">Objeto de carregamento de banco de dados</string>
-  <string name="progress_dialog_printing">Gerando PDF</string>
   <string name="progress_dialog_saving">Salvando o objeto de banco de dados</string>
   <string name="qif_parse_result">Analisada: %1$s contas, %2$s categorias e %3$s partidos</string>
   <string name="qif_parse_failure_found_multiple_accounts">Várias contas encontradas no arquivo QIF.</string>

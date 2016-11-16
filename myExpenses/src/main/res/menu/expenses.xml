@@ -99,18 +99,6 @@
         app:showAsAction="ifRoom">
     </item>
     <item
-        android:id="@id/PRINT_COMMAND"
-        android:icon="@drawable/ic_menu_print"
-        android:orderInCategory="30"
-        android:title="@string/menu_print"
-        app:showAsAction="never"/>
-    <item
-        android:id="@id/SHARE_COMMAND"
-        android:orderInCategory="30"
-        android:title="@string/menu_share"
-        app:showAsAction="never">
-    </item>
-    <item
         android:id="@id/SETTINGS_COMMAND"
         android:orderInCategory="30"
         app:showAsAction="never"

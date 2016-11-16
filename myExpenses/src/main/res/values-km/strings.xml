@@ -174,7 +174,6 @@
   <string name="menu_manage_plans_tab_plans">គម្រោង</string>
   <string name="menu_open">បើក</string>
   <string name="menu_import">នាំចូល</string>
-  <string name="menu_print">ព្រីន</string>
   <string name="menu_reset">ការនាំចេញនិងការកំណត់ឡើងវិញ</string>
   <string name="menu_reset_all">ការនាំចេញនិងការកំណត់ឡើងវិញទាំងអស់</string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
@@ -183,7 +182,6 @@
   <string name="menu_save_and_new">រក្សាទុក និងថ្មី</string>
   <string name="menu_search">ស្វែងរក</string>
   <string name="menu_settings">ការកំណត់</string>
-  <string name="menu_share">ប្រាប់​មិត្តម្នាក់</string>
   <string name="method">វិធីសាស្ត្រ</string>
   <string name="no_amount_given">អ្នកមិនបានបញ្ចូលចំនួនទឹកប្រាក់ណាមួយឡើយ។</string>
   <string name="no_app_handling_email_available">គ្មាន​កម្មវិធី​ដំណើការ​អ៊ីម៉ែល​ទេ</string>

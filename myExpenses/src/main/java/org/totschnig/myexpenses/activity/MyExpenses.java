@@ -15,9 +15,11 @@
 
 package org.totschnig.myexpenses.activity;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -25,9 +27,12 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.GravityCompat;
@@ -643,27 +648,8 @@ public class MyExpenses extends LaunchActivity implements
                         null,
                         0);
                 return true;
-            case R.id.SHARE_COMMAND:
-                i = new Intent();
-                i.setAction(Intent.ACTION_SEND);
-                i.putExtra(Intent.EXTRA_TEXT, getString(R.string.tell_a_friend_message, BuildConfig.PLATTFORM));
-                i.setType("text/plain");
-                startActivity(Intent.createChooser(i, getResources().getText(R.string.menu_share)));
-                return true;
             case R.id.CANCEL_CALLBACK_COMMAND:
                 finishActionMode();
-                return true;
-            case R.id.OPEN_PDF_COMMAND:
-                i = new Intent();
-                i.setAction(Intent.ACTION_VIEW);
-                Uri data = Uri.parse((String) tag);
-                Log.d("DEBUG", data.toString());
-                i.setDataAndType(data, "application/pdf");
-                if (!Utils.isIntentAvailable(this, i)) {
-                    Toast.makeText(this, R.string.no_app_handling_pdf_available, Toast.LENGTH_LONG).show();
-                } else {
-                    startActivity(i);
-                }
                 return true;
             case R.id.QUIT_COMMAND:
                 finish();
@@ -766,19 +752,6 @@ public class MyExpenses extends LaunchActivity implements
                             (Object[]) tag,
                             null,
                             0);
-                }
-                break;
-            case PRINT:
-                TransactionList tl = getCurrentFragment();
-                if (tl != null) {
-                    Bundle args = new Bundle();
-                    args.putSparseParcelableArray(TransactionList.KEY_FILTER, tl.getFilterCriteria());
-                    args.putLong(KEY_ROWID, mAccountId);
-                    getSupportFragmentManager().beginTransaction()
-                            .add(TaskExecutionFragment.newInstancePrint(args),
-                                    ProtectionDelegate.ASYNC_TAG)
-                            .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_printing), ProtectionDelegate.PROGRESS_TAG)
-                            .commit();
                 }
                 break;
         }
@@ -984,22 +957,6 @@ public class MyExpenses extends LaunchActivity implements
                     Utils.share(this, files,
                             PrefKey.SHARE_TARGET.getString("").trim(),
                             "text/" + mExportFormat.toLowerCase(Locale.US));
-                break;
-            case TaskExecutionFragment.TASK_PRINT:
-                Result result = (Result) o;
-                if (result.success) {
-                    recordUsage(ContribFeature.PRINT);
-                    MessageDialogFragment f = MessageDialogFragment.newInstance(
-                            0,
-                            getString(result.getMessage(), FileUtils.getPath(this, (Uri) result.extra[0])),
-                            new MessageDialogFragment.Button(R.string.menu_open, R.id.OPEN_PDF_COMMAND, ((Uri) result.extra[0]).toString()),
-                            null,
-                            MessageDialogFragment.Button.nullButton(android.R.string.cancel));
-                    f.setCancelable(false);
-                    f.show(getSupportFragmentManager(), "PRINT_RESULT");
-                } else {
-                    Toast.makeText(this, result.print(this), Toast.LENGTH_LONG).show();
-                }
                 break;
         }
     }
@@ -1315,6 +1272,27 @@ public class MyExpenses extends LaunchActivity implements
     protected void onResume() {
         super.onResume();
         adHandler.onResume();
+        askSmsParsingPermission();
+    }
+
+    private static final int SMS_PARSING_PERMISSION_REQUEST_CODE = 0;
+
+    private void askSmsParsingPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Explain that we need this permission for SMS parsing.
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECEIVE_SMS}, SMS_PARSING_PERMISSION_REQUEST_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case SMS_PARSING_PERMISSION_REQUEST_CODE:
+                if (grantResults.length == 0 || grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                    // TODO: Tell the user that they can always enable SMS parsing feature in the system settings.
+                }
+                return;
+        }
     }
 
     @Override

@@ -213,7 +213,6 @@
   <string name="menu_manage_plans_tab_plans">Planos</string>
   <string name="menu_open">Abrir</string>
   <string name="menu_import">Importar</string>
-  <string name="menu_print">Imprimir</string>
   <string name="menu_reset">Exportar e reiniciar</string>
   <string name="menu_reset_all">Exportar e reiniciar tudo</string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
@@ -222,13 +221,11 @@
   <string name="menu_save_and_new">Guardar e novo</string>
   <string name="menu_search">Pesquisar</string>
   <string name="menu_settings">Definições</string>
-  <string name="menu_share">Recomendar a um amigo</string>
   <string name="menu_split_transaction">Dividir</string>
   <string name="method">Método</string>
   <string name="no_amount_given">Não introduziu qualquer quantia.</string>
   <string name="no_app_handling_email_available">Nenhuma aplicação para envio de email disponível.</string>
   <string name="no_app_handling_ftp_available">Nenhuma aplicação para ligações FTP disponível. Instalar <i>Send With FTP</i>?</string>
-  <string name="no_app_handling_pdf_available">Nenhuma aplicação para ficheiros PDF disponível.</string>
   <string name="no_categories">Sem categorias.</string>
   <string name="no_expenses">Sem despesas ainda!</string>
   <string name="no_exportable_expenses">Não existem transações que ainda não tenham sido exportadas.</string>
@@ -367,7 +364,6 @@ Traduzido por Sérgio Marques</string>
   <string name="pref_visit_website_title">Visitar página web</string>
   <string name="progress_dialog_deleting">A eliminar objetos</string>
   <string name="progress_dialog_loading">A carregar objetos da base de dados</string>
-  <string name="progress_dialog_printing">A gerar PDF</string>
   <string name="progress_dialog_saving">A guardar objeto na base de dados</string>
   <string name="qif_parse_result">Analisadas: %1$s contas; %2$s categorias e %3$s participantes</string>
   <string name="qif_parse_failure_found_multiple_accounts">Encontradas diversas contas no ficheiro QIF.</string>

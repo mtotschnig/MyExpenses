@@ -213,7 +213,6 @@
   <string name="menu_manage_plans_tab_plans">Planak</string>
   <string name="menu_open">Ireki</string>
   <string name="menu_import">Inportatu</string>
-  <string name="menu_print">Inprimatu</string>
   <string name="menu_reset">Esportatu eta berrezarri</string>
   <string name="menu_reset_all">Esportatu eta berrezarri guztiak </string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
@@ -222,13 +221,11 @@
   <string name="menu_save_and_new">Gorde eta berria</string>
   <string name="menu_search">Bilatu</string>
   <string name="menu_settings">Ezarpenak</string>
-  <string name="menu_share">Esan lagun bati</string>
   <string name="menu_split_transaction">Bihurtu banaketara</string>
   <string name="method">Metodoa</string>
   <string name="no_amount_given">Ez duzu kopururik idatzi</string>
   <string name="no_app_handling_email_available">Ez dago posta elektronikoa kudeatu dezaken aplikaziorik.</string>
   <string name="no_app_handling_ftp_available">Ez dago FTP kudeatzeko gai den aplikaziorik erabilgarri. Instalatu <i>Send With FTP</i>?</string>
-  <string name="no_app_handling_pdf_available">Ez dago PDF fitxategiak kudeatzeko aplikaziorik</string>
   <string name="no_categories">Kategoriarik ez</string>
   <string name="no_expenses">Ez dago gasturik oraindik!</string>
   <string name="no_exportable_expenses">Ez dago jada esportatu ez den transakziorik.</string>
@@ -366,7 +363,6 @@ Librezale.eus</string>
   <string name="pref_visit_website_title">Bisitatu webgunea</string>
   <string name="progress_dialog_deleting">Objektuak ezabatzen</string>
   <string name="progress_dialog_loading">Objektua datu-basetik kargatzen</string>
-  <string name="progress_dialog_printing">PDFa sortzen</string>
   <string name="progress_dialog_saving">Objektua datu-basera gordetzen</string>
   <string name="qif_parse_result">Aztertuta: %1$s kontu; %2$s kategoria eta %3$s onuradun/ordaintzaile</string>
   <string name="qif_parse_failure_found_multiple_accounts">Hainbat kontu aurkitu dira QIF fitxategian.</string>

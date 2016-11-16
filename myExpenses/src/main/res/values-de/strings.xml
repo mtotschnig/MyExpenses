@@ -213,7 +213,6 @@
   <string name="menu_manage_plans_tab_plans">Pläne</string>
   <string name="menu_open">Öffnen</string>
   <string name="menu_import">Import</string>
-  <string name="menu_print">Drucken</string>
   <string name="menu_reset">Exportieren und zurücksetzen</string>
   <string name="menu_reset_all">Alle exportieren und zurücksetzen</string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
@@ -222,13 +221,11 @@
   <string name="menu_save_and_new">Speichern und neu</string>
   <string name="menu_search">Suche</string>
   <string name="menu_settings">Einstellungen</string>
-  <string name="menu_share">Weiterempfehlen</string>
   <string name="menu_split_transaction">Splitten</string>
   <string name="method">Zahlungsweise</string>
   <string name="no_amount_given">Sie haben keinen Betrag eingegeben.</string>
   <string name="no_app_handling_email_available">Keine App für das Versenden von Email gefunden.</string>
   <string name="no_app_handling_ftp_available">Keine App für FTP gefunden. <i>Mit FTP Senden</i> installieren?</string>
-  <string name="no_app_handling_pdf_available">Keine App für das Öffnen von PDF Dateien gefunden.</string>
   <string name="no_categories">Noch keine Kategorien vorhanden.</string>
   <string name="no_expenses">Noch keine Ausgaben!</string>
   <string name="no_exportable_expenses">Es gibt keine Buchungen, die noch nicht exportiert wurden.</string>
@@ -365,7 +362,6 @@
   <string name="pref_visit_website_title">Website besuchen</string>
   <string name="progress_dialog_deleting">Objekte werden gelöscht</string>
   <string name="progress_dialog_loading">Buchung wird von Datenbank geladen</string>
-  <string name="progress_dialog_printing">Generierung von PDF</string>
   <string name="progress_dialog_saving">Objekt wird in Datenbank gespeichert</string>
   <string name="qif_parse_result">Gefunden: %1$s Konten, %2$s Kategorien und %3$s parteien.</string>
   <string name="qif_parse_failure_found_multiple_accounts">In der QIF Datei wurden mehrere Konten gefunden.</string>

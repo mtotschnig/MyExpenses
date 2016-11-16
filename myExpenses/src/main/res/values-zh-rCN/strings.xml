@@ -208,7 +208,6 @@
   <string name="menu_manage_plans_tab_plans">计划</string>
   <string name="menu_open">打开</string>
   <string name="menu_import">导入</string>
-  <string name="menu_print">打印</string>
   <string name="menu_reset">导出和重设</string>
   <string name="menu_reset_all">导出和重设所有</string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
@@ -217,7 +216,6 @@
   <string name="menu_save_and_new">保存并新增</string>
   <string name="menu_search">搜索</string>
   <string name="menu_settings">设置</string>
-  <string name="menu_share">分享给朋友</string>
   <string name="menu_split_transaction">转换为分割</string>
   <string name="method">方法</string>
   <string name="no_amount_given">你未输入任何金额.</string>
@@ -342,7 +340,6 @@
   <string name="pref_visit_website_title">浏览官方网站</string>
   <string name="progress_dialog_deleting">删除对象</string>
   <string name="progress_dialog_loading">从数据库载入物件</string>
-  <string name="progress_dialog_printing">生成PDF</string>
   <string name="progress_dialog_saving">保存对象到数据库</string>
   <string name="reference_number">参考编号</string>
   <string name="restore_db_failure">数据库恢复失败.</string>

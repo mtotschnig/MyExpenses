@@ -230,7 +230,6 @@
     <string name="menu_manage_plans_tab_plans">Plans</string>
     <string name="menu_open">Open</string>
     <string name="menu_import">Import</string>
-    <string name="menu_print">Print</string>
     <string name="menu_reset">Export and reset</string>
     <string name="menu_reset_all">Export and reset all</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
@@ -239,13 +238,11 @@
     <string name="menu_save_and_new">Save and new</string>
     <string name="menu_search">Search</string>
     <string name="menu_settings">Settings</string>
-    <string name="menu_share">Tell a friend</string>
     <string name="menu_split_transaction">Transform to split</string>
     <string name="method">Method</string>
     <string name="no_amount_given">You did not enter any amount.</string>
     <string name="no_app_handling_email_available">No app handling email available.</string>
     <string name="no_app_handling_ftp_available">No app handling ftp available. Install <i>Send With FTP</i>?</string>
-    <string name="no_app_handling_pdf_available">No app handling PDF files available.</string>
     <string name="no_categories">No categories.</string>
     <string name="no_expenses">No Expenses Yet!</string>
     <string name="no_exportable_expenses">There are no transactions that have not yet been exported.</string>
@@ -383,7 +380,6 @@
     <string name="pref_visit_website_title">Visit Website</string>
     <string name="progress_dialog_deleting">Deleting objects</string>
     <string name="progress_dialog_loading">Loading object from database</string>
-    <string name="progress_dialog_printing">Generating PDF</string>
     <string name="progress_dialog_saving">Saving object to database</string>
     <string name="qif_parse_result">Parsed: %1$s accounts; %2$s categories and %3$s parties</string>
     <string name="qif_parse_failure_found_multiple_accounts">Multiple accounts found in QIF file.</string>
@@ -423,7 +419,6 @@
     <string name="sum_income">Income</string>
     <string name="sum_transfer">Transfers</string>
     <!-- %s is replaced with Android or Blackberry -->
-    <string name="tell_a_friend_message">Check out My Expenses, Personal Finance Manager for %s, from http://www.myexpenses.mobi</string>
     <string name="template_create_success">Template \"%1$s\" created successfully</string>
     <string name="thank_you">Thank you for your support!</string>
     <string name="time">Time</string>
