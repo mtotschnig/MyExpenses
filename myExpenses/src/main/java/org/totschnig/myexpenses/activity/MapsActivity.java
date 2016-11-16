@@ -180,7 +180,7 @@ public class MapsActivity extends ProtectedFragmentActivity
                     MarkerOptions markerOptions = new MarkerOptions();
                     org.totschnig.myexpenses.places.Location location = place.getGeometry().getLocation();
                     markerOptions.position(new LatLng(location.getLat(), location.getLng()));
-                    
+
                     String title = place.getName();
 
                     if (place.getOpeningHours() != null) {
