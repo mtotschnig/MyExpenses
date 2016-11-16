@@ -209,4 +209,9 @@
     <style name="StatisticsChart">
         <item name="android:layout_marginBottom">15dp</item>
     </style>
+
+    <style name="SmallLabel">
+        <item name="android:visibility">gone</item>
+        <item name="android:textSize">10dp</item>
+    </style>
 </resources>

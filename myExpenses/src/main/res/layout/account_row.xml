@@ -46,7 +46,7 @@
 
                 <View
                     android:id="@+id/color1"
-                    android:layout_width="4dp"
+                    android:layout_width="3dp"
                     android:layout_height="fill_parent"/>
 
                 <TableLayout
@@ -65,20 +65,20 @@
                         <TextView
                             android:id="@+id/label"
                             style="@style/headingStyle"
-                            android:layout_marginRight="20dp"
+                            android:layout_marginTop="4dp"
                             android:layout_marginEnd="20dp"
                             android:layout_span="2"
                             tools:text="@string/label"/>
                     </TableRow>
 
-                    <TableRow>
-
+                    <TableRow android:visibility="gone">
                         <TextView
                             android:id="@+id/description"
                             android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="0dp"
                             android:layout_span="2"
-                            tools:text="DESCRIPTION"/>
+                            tools:text="DESCRIPTION"
+                            style="@style/SmallLabel"/>
                     </TableRow>
 
                     <TableRow android:layout_marginTop="5dp">
@@ -107,23 +107,10 @@
                             tools:text="SUM_EXPENSES"/>
                     </TableRow>
 
-                    <TableRow android:id="@+id/TransferRow">
-
-                        <TextView
-                            android:text="@string/sum_transfer"/>
-
-                        <TextView
-                            android:id="@+id/sum_transfer"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="end"
-                            tools:text="SUM_TRANSFER"/>
-                    </TableRow>
-
                     <TableRow>
                         <View
                             android:layout_width="fill_parent"
-                            android:layout_height="2dp"
+                            android:layout_height="1dp"
                             android:layout_marginTop="5dp"
                             android:layout_marginBottom="5dp"
                             android:layout_span="2"
@@ -131,7 +118,6 @@
                     </TableRow>
 
                     <TableRow>
-
                         <TextView
                             android:text="@string/current_balance"/>
 
@@ -154,33 +140,6 @@
                             android:layout_height="wrap_content"
                             android:gravity="end"
                             tools:text="TOTAL"/>
-                    </TableRow>
-
-                    <TableRow android:id="@+id/ClearedRow">
-
-                        <TextView
-                            android:text="@string/total_cleared"/>
-
-                        <TextView
-                            android:id="@+id/cleared_total"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="end"
-                            tools:text="CLEARED_TOTAL"/>
-                    </TableRow>
-
-                    <TableRow
-                        android:id="@+id/ReconciledRow">
-
-                        <TextView
-                            android:text="@string/total_reconciled"/>
-
-                        <TextView
-                            android:id="@+id/reconciled_total"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="end"
-                            tools:text="RECONCILED_TOTAL"/>
                     </TableRow>
                 </TableLayout>
             </LinearLayout>

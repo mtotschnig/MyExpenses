@@ -280,11 +280,8 @@ public class MyExpenses extends LaunchActivity implements
                 R.id.label,
                 R.id.sum_income,
                 R.id.sum_expenses,
-                R.id.sum_transfer,
                 R.id.current_balance,
-                R.id.total,
-                R.id.cleared_total,
-                R.id.reconciled_total
+                R.id.total
         };
         mDrawerListAdapter = new MyGroupedAdapter(this, R.layout.account_row, null, from, to, 0);
 
@@ -1240,24 +1237,13 @@ public class MyExpenses extends LaunchActivity implements
                 }
                 colorInt = c.getInt(columnIndexColor);
             }
-            row.findViewById(R.id.TransferRow).setVisibility(
-                    sum_transfer == 0 ? View.GONE : View.VISIBLE);
             row.findViewById(R.id.TotalRow).setVisibility(
                     has_future ? View.VISIBLE : View.GONE);
-            row.findViewById(R.id.ClearedRow).setVisibility(
-                    hide_cr ? View.GONE : View.VISIBLE);
-            row.findViewById(R.id.ReconciledRow).setVisibility(
-                    hide_cr ? View.GONE : View.VISIBLE);
-            if (c.getLong(columnIndexRowId) > 0) {
-                setConvertedAmount((TextView) row.findViewById(R.id.sum_transfer), currency);
-            }
             v.setBackgroundColor(colorInt);
             setConvertedAmount((TextView) row.findViewById(R.id.sum_income), currency);
             setConvertedAmount((TextView) row.findViewById(R.id.sum_expenses), currency);
             setConvertedAmount((TextView) row.findViewById(R.id.current_balance), currency);
             setConvertedAmount((TextView) row.findViewById(R.id.total), currency);
-            setConvertedAmount((TextView) row.findViewById(R.id.reconciled_total), currency);
-            setConvertedAmount((TextView) row.findViewById(R.id.cleared_total), currency);
             String description = c.getString(columnIndexDescription);
             row.findViewById(R.id.description).setVisibility(
                     TextUtils.isEmpty(description) ? View.GONE : View.VISIBLE);
