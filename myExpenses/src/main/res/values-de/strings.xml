@@ -401,7 +401,6 @@
   <string name="sum_income">Einnahmen</string>
   <string name="sum_transfer">Umbuchungen</string>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">Probiere Meine Ausgaben, Persönliches Finanz-Management für %s, von http://www.myexpenses.mobi</string>
   <string name="template_create_success">Vorlage \"%1$s\" erfolgreich angelegt</string>
   <string name="thank_you">Danke für Ihre Unterstützung!</string>
   <string name="time">Zeit</string>

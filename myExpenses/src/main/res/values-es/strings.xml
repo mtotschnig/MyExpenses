@@ -401,7 +401,6 @@
   <string name="sum_income">Ingresos</string>
   <string name="sum_transfer">Traslados</string>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">Probar Mis Gastos, Gestión de las finanzas personales para %s, desde http://www.myexpenses.mobi</string>
   <string name="template_create_success">Plantilla \"%1$s\" creada con éxito</string>
   <string name="thank_you">¡Gracias por su apoyo!</string>
   <string name="time">Hora</string>

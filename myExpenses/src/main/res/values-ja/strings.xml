@@ -396,7 +396,6 @@
   <string name="sum_income">収入</string>
   <string name="sum_transfer">振替</string>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">マイ エクスペンス: %s用のパーソナル ファイナンス マネージャーを確かめてください。ここから http://www.myexpenses.mobi</string>
   <string name="template_create_success">テンプレート \"%1$s\" は正常に作成されました</string>
   <string name="thank_you">サポートありがとうございます!</string>
   <string name="time">時間</string>

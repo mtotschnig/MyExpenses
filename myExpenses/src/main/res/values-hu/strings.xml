@@ -291,7 +291,6 @@
   <string name="sum_income">Bevétel</string>
   <string name="sum_transfer">Átutalások</string>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">Kiadásaim, A személyes pénzügyi nyilvántartás - %s, http://www.myexpenses.mobi</string>
   <string name="template_create_success">\"%1$s\" nevű sablon sikeresen létrehozva</string>
   <string name="thank_you">Köszönjük a támogatását!</string>
   <string name="time">Idő</string>

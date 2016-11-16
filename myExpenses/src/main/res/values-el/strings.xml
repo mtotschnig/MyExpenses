@@ -401,7 +401,6 @@
   <string name="sum_income">Εισόδημα</string>
   <string name="sum_transfer">Μεταφορές</string>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">Ελέγξτε το «Έξοδά μου», διαχειριστή προσωπικών οικονομιών για %s, στο http://www.myexpenses.mobi</string>
   <string name="template_create_success">Πρότυπο \"%1$s\" δημιουργήθηκε με επιτυχία</string>
   <string name="thank_you">Σας ευχαριστώ για την υποστήριξή σας!</string>
   <string name="time">Χρόνος</string>

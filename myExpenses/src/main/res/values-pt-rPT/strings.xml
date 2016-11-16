@@ -403,7 +403,6 @@ Traduzido por Sérgio Marques</string>
   <string name="sum_income">Receitas</string>
   <string name="sum_transfer">Transferências</string>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">Experimente o My Expenses, Gestor de finanças pessoal para %s, http://www.myexpenses.mobi</string>
   <string name="template_create_success">O modelo \"%1$s\" foi criado com sucesso</string>
   <string name="thank_you">Obrigado pelo seu apoio!</string>
   <string name="time">Hora</string>

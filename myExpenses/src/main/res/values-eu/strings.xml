@@ -402,7 +402,6 @@ Librezale.eus</string>
   <string name="sum_income">Diru-sarrerak</string>
   <string name="sum_transfer">Tranferentziak</string>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">Egiaztatu Nire gastuak %s plataformarako http://www.myexpenses.mobi helbidean</string>
   <string name="template_create_success">\"%1$s\" txantiloia ondo gorde da</string>
   <string name="thank_you">Eskerrik asko zure babesagatik!</string>
   <string name="time">Ordua</string>

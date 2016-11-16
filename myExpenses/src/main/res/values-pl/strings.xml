@@ -366,7 +366,6 @@
   <string name="sum_income">Dochód</string>
   <string name="sum_transfer">Przelewy</string>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">Moje Wydatki, Personalny menadżer finansów dla systemu %s, http://www.myexpenses.mobi</string>
   <string name="template_create_success">Szablon \"%1$s\" został utworzony pomyślnie</string>
   <string name="thank_you">Dziękujemy za twoje wsparcie!</string>
   <string name="time">Czas</string>

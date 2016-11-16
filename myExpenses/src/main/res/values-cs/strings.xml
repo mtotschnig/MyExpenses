@@ -301,7 +301,6 @@
   <string name="sum_income">Příjem</string>
   <string name="sum_transfer">Převody</string>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">Moje výdaje, Správa osobních výdajů pro %s, http://www.myexpenses.mobi</string>
   <string name="template_create_success">Šablona \"%1$s\" byla úspěšně vytvořen</string>
   <string name="thank_you">Děkujeme vám za vaši podporu!</string>
   <string name="time">Čas</string>

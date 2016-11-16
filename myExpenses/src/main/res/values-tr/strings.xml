@@ -401,7 +401,6 @@
   <string name="sum_income">Gelirler</string>
   <string name="sum_transfer">Transferler</string>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">%s için kişisel finans yöneticisi olan Harcamalarım\'a http://www.myexpenses.mobi adresinde göz atın</string>
   <string name="template_create_success">\"%1$s\" şablonu başarıyla oluşturuldu</string>
   <string name="thank_you">Desteğiniz için teşekkür ederiz!</string>
   <string name="time">Zaman</string>

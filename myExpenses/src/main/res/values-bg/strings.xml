@@ -401,7 +401,6 @@
   <string name="sum_income">Приходи общо</string>
   <string name="sum_transfer">Преводи общо</string>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">Вижте Mоите разходи, личен финансов мениджър за %s, на http://www.myexpenses.mobi</string>
   <string name="template_create_success">Успешно създаден шаблон \"%1$s\"</string>
   <string name="thank_you">Благодарим Ви за подкрепата!</string>
   <string name="time">Време</string>

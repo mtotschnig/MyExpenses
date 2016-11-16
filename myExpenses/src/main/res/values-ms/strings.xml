@@ -396,7 +396,6 @@
   <string name="sum_income">Pendapatan</string>
   <string name="sum_transfer">Pemindahan</string>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">Lihat Perbelanjaan Saya, Pengurus Kewangan Persendirian untuk %s, di http://www.myexpenses.mobi</string>
   <string name="template_create_success">Templat \"%1$s\" berjaya dicipta</string>
   <string name="thank_you">Terima kasih atas sokongan anda!</string>
   <string name="time">Masa</string>

@@ -390,7 +390,6 @@
   <string name="sum_income">Indkomst</string>
   <string name="sum_transfer">Overførsler</string>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">Tjek Mine Udgifter, Personal Finance Manager for %s, fra http://www.myexpenses.mobi</string>
   <string name="template_create_success">Skabelon \"%1$s\" oprettet</string>
   <string name="thank_you">Tak for din støtte!</string>
   <string name="time">Tid</string>
