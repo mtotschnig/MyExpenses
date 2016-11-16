@@ -270,13 +270,6 @@
     <PreferenceCategory
         android:key="@string/pref_category_advanced_key"
         android:title="@string/pref_category_title_advanced">
-        <Preference
-            android:key="@string/pref_custom_currency_key"
-            android:title="@string/pref_custom_currency_title">
-            <intent
-                android:targetClass="org.totschnig.myexpenses.activity.ManageCurrencies"
-                android:targetPackage="org.totschnig.myexpenses"/>
-        </Preference>
         <EditTextPreference
             android:key="@string/pref_custom_decimal_format_key"
             android:summary="@string/pref_custom_decimal_format_summary"
