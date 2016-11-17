@@ -229,6 +229,7 @@ public class CategoryList extends SortableListFragment implements
             mAccountsAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
             mSpinner.setAdapter(mAccountsAdapter);
 
+
             mSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -830,15 +831,15 @@ public class CategoryList extends SortableListFragment implements
                 c.moveToFirst();
                 while (!c.isAfterLast()) {
                     int type = c.getInt(c.getColumnIndex(KEY_TYPE));
-                    updateSum(type > 0 ? "+ " : "- ",
+                    updateSum("",
                             type > 0 ? incomeSumTv : expenseSumTv,
                             c.getLong(c.getColumnIndex(KEY_SUM)));
                     c.moveToNext();
                     seen[type] = true;
                 }
                 //if we have no income or expense, there is no row in the cursor
-                if (!seen[1]) updateSum("+ ", incomeSumTv, 0);
-                if (!seen[0]) updateSum("- ", expenseSumTv, 0);
+                if (!seen[1]) updateSum("", incomeSumTv, 0);
+                if (!seen[0]) updateSum("", expenseSumTv, 0);
                 break;
             case DATEINFO_CURSOR:
                 c.moveToFirst();
