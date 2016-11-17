@@ -628,6 +628,15 @@
     <string name="slide_4_title">Additional accounts</string>
     <string name="slide_4_desc">You can add more payment accounts</string>
 
+    <string name="slide_5_title">Exchange rate</string>
+    <string name="slide_5_desc">Actual exchange rate information about your currencies</string>
+
+    <string name="slide_6_title">SMS parsing</string>
+    <string name="slide_6_desc">Add information about your expenses automatically from SMS</string>
+
+    <string name="slide_7_title">Find bank or ATM</string>
+    <string name="slide_7_desc">Help you to find nearest bank or ATM, and show you working hours</string>
+
     <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
     <string name="play_again">Play Again</string>
     <string name="title_activity_tcurrency_acivity">TCurrencyAcivity</string>
