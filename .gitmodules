@@ -4,3 +4,7 @@
 [submodule "MaterialSeekBarPreference"]
 	path = MaterialSeekBarPreference
 	url = git://github.com/mtotschnig/MaterialSeekBarPreference.git
+[submodule "Caldroid"]
+	path = Caldroid
+	url = https://github.com/mtotschnig/Caldroid.git
+	branch = master
