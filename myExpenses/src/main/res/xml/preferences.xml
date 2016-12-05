@@ -176,6 +176,16 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:title="@string/synchronization">
+        <Preference
+            android:key="@string/pref_manage_sync_backends_key"
+            android:summary="@string/pref_manage_sync_backends_description"
+            android:title="@string/pref_manage_sync_backends_title">
+            <intent android:action="myexpenses.intent.manage.sync_backends"/>
+            </Preference>
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:key="@string/pref_category_contrib_key"
         android:title="@string/menu_contrib">
         <Preference

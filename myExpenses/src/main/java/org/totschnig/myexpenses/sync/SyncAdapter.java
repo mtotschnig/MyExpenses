@@ -40,6 +40,7 @@ import android.support.v4.util.Pair;
 import android.util.Log;
 
 import com.annimon.stream.Collectors;
+import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.export.CategoryInfo;
@@ -62,6 +63,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.ServiceLoader;
 
 import static android.content.Context.ACCOUNT_SERVICE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
@@ -131,15 +133,20 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     long lastSyncedRemote = Long.parseLong(getUserDataWithDefault(accountManager, account,
         LAST_SYNCED_REMOTE, "0"));
     dbAccount.set(org.totschnig.myexpenses.model.Account.getInstanceFromDb(Long.valueOf(accountId)));
-    SyncBackend backend = getBackendForAccount(accountId);
-    if (backend == null) {
+    Optional<SyncBackendProvider> backendProviderOptional = SyncBackendProviderFactory.get(
+        ServiceLoader.load(SyncBackendProviderFactory.class), account, accountManager);
+    if (!backendProviderOptional.isPresent()) {
       //TODO report
-      return;
-    } else if (!backend.isAvailable()) {
       return;
     }
 
-    ChangeSet changeSetSince = backend.getChangeSetSince(lastSyncedRemote);
+    SyncBackendProvider backend = backendProviderOptional.get();
+
+    if (!backend.isAvailable()) {
+      return;
+    }
+
+    ChangeSet changeSetSince = backend.getChangeSetSince(lastSyncedRemote, getContext());
 
     List<TransactionChange> remoteChanges;
     if (changeSetSince != null) {
@@ -190,7 +197,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     if (localChanges.size() > 0 && backend.lock()) {
       try {
-        lastSyncedRemote = backend.writeChangeSet(localChanges);
+        lastSyncedRemote = backend.writeChangeSet(localChanges, getContext());
       } finally {
         backend.unlock();
       }
@@ -561,19 +568,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       map.put(uuid, changesForUuid);
     }
     return changesForUuid;
-  }
-
-  private SyncBackend getBackendForAccount(String accountId) {
-    File baseFolder = new File("/sdcard/Debug");
-    if (!baseFolder.isDirectory()) {
-      return null;
-    }
-    File accountFolder = new File(baseFolder, "_" + accountId);
-    accountFolder.mkdir();
-    if (!accountFolder.isDirectory()) {
-      return null;
-    }
-    return new LocalFileBackend(DocumentFile.fromFile(accountFolder), getContext());
   }
 
   private boolean hasLocalChanges(ContentProviderClient provider, Uri changesUri) throws RemoteException {

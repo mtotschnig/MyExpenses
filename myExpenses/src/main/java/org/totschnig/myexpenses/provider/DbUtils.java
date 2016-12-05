@@ -29,8 +29,8 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.FileCopyUtils;
 import org.totschnig.myexpenses.util.Result;
-import org.totschnig.myexpenses.util.Utils;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
@@ -74,7 +74,7 @@ public class DbUtils {
             return new Result(false,message);
           }
         }
-        if (Utils.copy(sharedPrefFile, backupPrefFile)) {
+        if (FileCopyUtils.copy(sharedPrefFile, backupPrefFile)) {
           PrefKey.AUTO_BACKUP_DIRTY.putBoolean(false);
           TransactionProvider.mDirty = false;
           return result;
@@ -94,7 +94,7 @@ public class DbUtils {
     File backupDb = new File(dir,MyApplication.BACKUP_DB_FILE_NAME);
     File currentDb = new File(TransactionProvider.mOpenHelper.getReadableDatabase().getPath());
     if (currentDb.exists()) {
-      if (Utils.copy(currentDb, backupDb)) {
+      if (FileCopyUtils.copy(currentDb, backupDb)) {
         return new Result(true);
       }
       return new Result(false,String.format(
@@ -118,7 +118,7 @@ public class DbUtils {
       File currentDb = new File(dataDir, TransactionDatabase.getDbName());
 
       if (backupFile.exists()) {
-        result = Utils.copy(backupFile,currentDb);
+        result = FileCopyUtils.copy(backupFile,currentDb);
         ContentResolver resolver = app.getContentResolver();
         ContentProviderClient client = resolver.acquireContentProviderClient(TransactionProvider.AUTHORITY);
         TransactionProvider provider = (TransactionProvider) client.getLocalContentProvider();

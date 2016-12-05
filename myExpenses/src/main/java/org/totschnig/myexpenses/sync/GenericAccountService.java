@@ -32,8 +32,8 @@ import android.widget.Toast;
 
 public class GenericAccountService extends Service {
     private static final String TAG = "GenericAccountService";
-    private static final String ACCOUNT_TYPE = "org.totschnig.myexpenses.sync";
-    public static final String ACCOUNT_NAME = "sync";
+    public static final String ACCOUNT_TYPE = "org.totschnig.myexpenses.sync";
+    public static final String KEY_SYNC_PROVIDER = "sync_provider";
     private Authenticator mAuthenticator;
 
     /**
@@ -87,15 +87,10 @@ public class GenericAccountService extends Service {
                 throws NetworkErrorException {
             final Bundle result = new Bundle();
             final String message = "Not yet implemented";
-            bundle.putInt(AccountManager.KEY_ERROR_CODE, 1);
-            bundle.putString(AccountManager.KEY_ERROR_MESSAGE, message);
+            result.putInt(AccountManager.KEY_ERROR_CODE, 1);
+            result.putString(AccountManager.KEY_ERROR_MESSAGE, message);
 
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-                }
-            });
+            handler.post(() -> Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show());
 
             return result;
         }

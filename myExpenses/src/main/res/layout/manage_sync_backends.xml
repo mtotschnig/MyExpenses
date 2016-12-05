@@ -22,10 +22,9 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-   <fragment android:name="org.totschnig.myexpenses.fragment.MethodList"
-           android:id="@+id/methods_list"
+   <fragment android:name="org.totschnig.myexpenses.fragment.SyncBackendList"
+           android:id="@+id/backend_list"
            android:layout_width="fill_parent"
            android:layout_height="fill_parent"/>
-        <include layout="@layout/floating_action_button"/>
     </FrameLayout>
   </LinearLayout>

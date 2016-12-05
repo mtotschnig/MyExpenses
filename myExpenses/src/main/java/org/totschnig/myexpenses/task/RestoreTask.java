@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.FileCopyUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.ZipUtils;
@@ -157,7 +158,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       return new Result(false,R.string.restore_preferences_failure);
     }
     File tempPrefFile = new File(sharedPrefsDir,"backup_temp.xml");
-    if (!Utils.copy(backupPrefFile,tempPrefFile)) {
+    if (!FileCopyUtils.copy(backupPrefFile,tempPrefFile)) {
       AcraHelper.report(
           new Exception("Preferences restore failed"),
           "FAILED_COPY_OPERATION",
@@ -300,7 +301,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
           Uri restored = null;
           if (backupImage.exists()) {
             File restoredImage = Utils.getOutputMediaFile(fileName.substring(0,fileName.lastIndexOf('.')),false);
-            if (restoredImage == null || !Utils.copy(backupImage,restoredImage)) {
+            if (restoredImage == null || !FileCopyUtils.copy(backupImage,restoredImage)) {
               Log.e(MyApplication.TAG,String.format("Could not restore file %s from backup",fromBackup.toString()));
             } else {
               restored = application.isProtected() ?

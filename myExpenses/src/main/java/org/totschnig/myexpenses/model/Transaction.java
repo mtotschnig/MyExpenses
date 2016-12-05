@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.provider.CalendarProviderProxy;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.FileCopyUtils;
 import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -565,7 +566,7 @@ public class Transaction extends Model {
   }
 
   private void copyPictureHelper(boolean delete, Uri homeUri) throws IOException {
-    Utils.copy(pictureUri, homeUri);
+    FileCopyUtils.copy(pictureUri, homeUri);
     if (delete) {
       new File(pictureUri.getPath()).delete();
     }

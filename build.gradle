@@ -27,11 +27,11 @@ allprojects {
 }
 
 ext {
-    compileSdkVersion = 23
-    buildToolsVersion = "24.0.3"
+    compileSdkVersion = 24
+    buildToolsVersion = "25.0.1"
     minSdkVersion = 9
     targetSdkVersion = 23
-    androidSupportLibraryVersion = "25.0.0"
+    androidSupportLibraryVersion = "25.0.1"
     espressoVersion = "2.2.2"
     androidSupportTestVersion = "0.5"
     daggerVersion = "2.5"

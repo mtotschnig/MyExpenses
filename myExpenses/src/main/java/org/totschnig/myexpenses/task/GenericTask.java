@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.FileCopyUtils;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
@@ -384,7 +385,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
                 success = staleFile.renameTo(new File(staleFileDir, staleFile.getName()));
               } else {
                 try {
-                  Utils.copy(imageFileUri, Uri.fromFile(new File(staleFileDir, imageFileUri.getLastPathSegment())));
+                  FileCopyUtils.copy(imageFileUri, Uri.fromFile(new File(staleFileDir, imageFileUri.getLastPathSegment())));
                   success = cr.delete(imageFileUri, null, null) > 0;
                 } catch (IOException e) {
                   e.printStackTrace();

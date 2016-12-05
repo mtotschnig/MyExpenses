@@ -9,32 +9,41 @@ import com.google.common.io.Files;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.activity.ManageSyncBackends;
 import org.totschnig.myexpenses.sync.json.AdapterFactory;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.sync.json.Utils;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.List;
 
-class LocalFileBackend implements SyncBackend {
+public class LocalFileBackendProvider implements SyncBackendProvider {
 
-  private final Gson gson;
+  private Gson gson;
 
-  LocalFileBackend(DocumentFile baseDir, Context context) {
-    this.baseDir = baseDir;
-    this.context = context;
+  private DocumentFile baseDir;
+
+  public LocalFileBackendProvider(String filePath) {
+    File baseFolder = new File(filePath);
+    if (!baseFolder.isDirectory()) {
+      throw new RuntimeException("No directory " + filePath);
+    }
+    /*    File accountFolder = new File(baseFolder, "_" + accountId);
+    accountFolder.mkdir();
+    if (!accountFolder.isDirectory()) {
+    }*/
+    this.baseDir = DocumentFile.fromFile(baseFolder);
     gson = new GsonBuilder()
         .registerTypeAdapterFactory(AdapterFactory.create())
         .create();
   }
-
-  private DocumentFile baseDir;
-  private Context context;
 
   private long getLastSequence() {
     return Stream.of(baseDir.listFiles())
@@ -48,22 +57,21 @@ class LocalFileBackend implements SyncBackend {
     return Long.parseLong(Files.getNameWithoutExtension(file.getName()).substring(1));
   }
 
-
   @Override
   public boolean lock() {
     return true;
   }
 
   @Override
-  public ChangeSet getChangeSetSince(long sequenceNumber)  {
+  public ChangeSet getChangeSetSince(long sequenceNumber, Context context)  {
     return Stream.of(baseDir.listFiles())
         .filter(file -> Long.parseLong(Files.getNameWithoutExtension(file.getName()).substring(1)) > sequenceNumber)
-        .map(this::getFromFile)
+        .map(file -> getFromFile(file, context))
         .takeWhile(changeset -> !changeset.equals(ChangeSet.failed))
         .reduce(ChangeSet::merge).orElse(ChangeSet.empty(sequenceNumber));
   }
 
-  private ChangeSet getFromFile(DocumentFile file) {
+  private ChangeSet getFromFile(DocumentFile file, Context context) {
     try {
       final BufferedReader reader = new BufferedReader(new InputStreamReader(
           context.getContentResolver().openInputStream(file.getUri())));
@@ -78,7 +86,7 @@ class LocalFileBackend implements SyncBackend {
   }
 
   @Override
-  public long writeChangeSet(List<TransactionChange> changeSet) {
+  public long writeChangeSet(List<TransactionChange> changeSet, Context context) {
     long nextSequence = getLastSequence() + 1;
     DocumentFile changeSetFile = baseDir.createFile("text/json", "_" + nextSequence + ".json");
     if (changeSetFile != null && changeSetFile.getUri() != null) {
@@ -106,4 +114,8 @@ class LocalFileBackend implements SyncBackend {
     return true;
   }
 
+  @Override
+  public String toString() {
+    return baseDir.getUri().toString();
+  }
 }

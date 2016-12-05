@@ -19,7 +19,6 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.ActivityManager;
-import android.app.Application;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -32,6 +31,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.multidex.MultiDexApplication;
 import android.support.v4.provider.DocumentFile;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.preference.PreferenceManager;
@@ -73,7 +73,7 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
-public class MyApplication extends Application implements
+public class MyApplication extends MultiDexApplication implements
     OnSharedPreferenceChangeListener {
 
   private AppComponent appComponent;
@@ -180,13 +180,14 @@ public class MyApplication extends Application implements
     accountManager.removeAccount(oldAccount, null, null);
   }
 
-  public static boolean createSyncAccount(long accountId) {
-    Account newAccount = GenericAccountService.GetAccount("_" + accountId);
+  public boolean createSyncAccount(String label, String id) {
+    Account newAccount = GenericAccountService.GetAccount(label);
     AccountManager accountManager =
         (AccountManager) mSelf.getSystemService(
             ACCOUNT_SERVICE);
     if (accountManager.addAccountExplicitly(newAccount, null, null)) {
       ContentResolver.setSyncAutomatically(newAccount, TransactionProvider.AUTHORITY, true);
+      accountManager.setUserData(newAccount, GenericAccountService.KEY_SYNC_PROVIDER, id);
       return true;
     }
     return false;
