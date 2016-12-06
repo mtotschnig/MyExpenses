@@ -1,12 +1,15 @@
 package org.totschnig.myexpenses.activity;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.fragment.SyncBackendList;
 import org.totschnig.myexpenses.sync.GenericAccountService;
+
+import java.io.File;
 
 public class ManageSyncBackends extends ProtectedFragmentActivity implements
     EditTextDialog.EditTextDialogListener {
@@ -23,9 +26,19 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
   //LocalFileBackend
   @Override
   public void onFinishEditDialog(Bundle args) {
-    if(((MyApplication) getApplicationContext()).createSyncAccount(
-        args.getString(EditTextDialog.KEY_RESULT),
-        args.getString(GenericAccountService.KEY_SYNC_PROVIDER))) {
+    String filePath = args.getString(EditTextDialog.KEY_RESULT);
+    File baseFolder = new File(filePath);
+    if (!baseFolder.isDirectory()) {
+      Toast.makeText(this, "No directory " + filePath, Toast.LENGTH_SHORT).show();
+      return;
+    }
+    String accountName = args.getString(GenericAccountService.KEY_SYNC_PROVIDER_LABEL) + " - "
+        + filePath;
+    Bundle bundle = new Bundle(1);
+    bundle.putString(GenericAccountService.KEY_SYNC_PROVIDER_ID,
+        args.getString(GenericAccountService.KEY_SYNC_PROVIDER_ID));
+    bundle.putString(GenericAccountService.KEY_SYNC_PROVIDER_URI, filePath);
+    if(((MyApplication) getApplicationContext()).createSyncAccount(accountName, bundle)) {
       ((SyncBackendList) getSupportFragmentManager().findFragmentById(R.id.backend_list)).loadData();
     }
   }

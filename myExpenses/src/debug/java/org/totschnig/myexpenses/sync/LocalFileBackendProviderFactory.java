@@ -11,7 +11,7 @@ public class LocalFileBackendProviderFactory extends SyncBackendProviderFactory 
 
   @Override
   protected LocalFileBackendProvider _fromAccount(Account account, AccountManager accountManager) {
-    return new LocalFileBackendProvider(account.name);
+    return new LocalFileBackendProvider(accountManager.getUserData(account, GenericAccountService.KEY_SYNC_PROVIDER_URI));
   }
 
   @Override
@@ -28,7 +28,8 @@ public class LocalFileBackendProviderFactory extends SyncBackendProviderFactory 
   public void startSetup(ManageSyncBackends context) {
     Bundle args = new Bundle();
     args.putString(EditTextDialog.KEY_DIALOG_TITLE, "Local backend: Directory path");
-    args.putString(GenericAccountService.KEY_SYNC_PROVIDER, String.valueOf(getId()));
+    args.putString(GenericAccountService.KEY_SYNC_PROVIDER_ID, String.valueOf(getId()));
+    args.putString(GenericAccountService.KEY_SYNC_PROVIDER_LABEL, getLabel());
     EditTextDialog.newInstance(args)
         .show(context.getSupportFragmentManager(), "LOCAL_BACKEND_DIRECTORY_PATH");
   }

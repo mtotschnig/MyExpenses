@@ -29,6 +29,7 @@ import android.content.res.Configuration;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.multidex.MultiDexApplication;
@@ -180,14 +181,13 @@ public class MyApplication extends MultiDexApplication implements
     accountManager.removeAccount(oldAccount, null, null);
   }
 
-  public boolean createSyncAccount(String label, String id) {
+  public boolean createSyncAccount(String label, Bundle bundle) {
     Account newAccount = GenericAccountService.GetAccount(label);
     AccountManager accountManager =
         (AccountManager) mSelf.getSystemService(
             ACCOUNT_SERVICE);
-    if (accountManager.addAccountExplicitly(newAccount, null, null)) {
+    if (accountManager.addAccountExplicitly(newAccount, null, bundle)) {
       ContentResolver.setSyncAutomatically(newAccount, TransactionProvider.AUTHORITY, true);
-      accountManager.setUserData(newAccount, GenericAccountService.KEY_SYNC_PROVIDER, id);
       return true;
     }
     return false;

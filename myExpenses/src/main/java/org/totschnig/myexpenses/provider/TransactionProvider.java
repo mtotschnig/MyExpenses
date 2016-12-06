@@ -406,6 +406,7 @@ public class TransactionProvider extends ContentProvider {
             "0 AS " + KEY_SORT_KEY,
             "0 AS " + KEY_EXCLUDE_FROM_TOTALS,
             "max(" + KEY_HAS_EXPORTED + ") AS " + KEY_HAS_EXPORTED,
+            "null AS " + KEY_SYNC_ACCOUNT_NAME,
             "sum(" + KEY_CURRENT_BALANCE + ") AS " + KEY_CURRENT_BALANCE,
             "sum(" + KEY_SUM_INCOME + ") AS " + KEY_SUM_INCOME,
             "sum(" + KEY_SUM_EXPENSES + ") AS " + KEY_SUM_EXPENSES,
@@ -1181,43 +1182,53 @@ public class TransactionProvider extends ContentProvider {
       break;
     case CHANGES:
       if ("1".equals(uri.getQueryParameter(QUERY_PARAMETER_INIT))) {
-        db.execSQL("INSERT INTO " + TABLE_CHANGES + "("
-            + KEY_TYPE + ", "
-            + KEY_SYNC_SEQUENCE_LOCAL + ", "
-            + KEY_UUID + ", "
-            + KEY_PARENT_UUID + ", "
-            + KEY_COMMENT + ", "
-            + KEY_DATE + ", "
-            + KEY_AMOUNT + ", "
-            + KEY_CATID + ", "
-            + KEY_ACCOUNTID + ","
-            + KEY_PAYEEID + ", "
-            + KEY_TRANSFER_ACCOUNT + ", "
-            + KEY_METHODID + ","
-            + KEY_CR_STATUS + ", "
-            + KEY_REFERENCE_NUMBER + ", "
-            + KEY_PICTURE_URI
-            + ") SELECT "
-            + "'" + TransactionChange.Type.created.name() + "', "
-            + " 1, "
-            + KEY_UUID  + ", "
-            + "CASE WHEN " + KEY_PARENTID + " IS NULL THEN NULL ELSE " +
-                    "(SELECT " + KEY_UUID + " FROM " + TABLE_TRANSACTIONS + " parent where "
-                    + KEY_ROWID + " = " + TABLE_TRANSACTIONS + "." + KEY_PARENTID + ") END, "
-            + KEY_COMMENT + ", "
-            + KEY_DATE + ", "
-            + KEY_AMOUNT + ", "
-            + KEY_CATID + ", "
-            + KEY_ACCOUNTID + ", "
-            + KEY_PAYEEID + ", "
-            + KEY_TRANSFER_ACCOUNT + ", "
-            + KEY_METHODID + ","
-            + KEY_CR_STATUS + ", "
-            + KEY_REFERENCE_NUMBER + ", "
-            + KEY_PICTURE_URI
-            + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_ACCOUNTID + " = ?",
-            new String[] {uri.getQueryParameter(KEY_ACCOUNTID)});
-       count = 1;
+        db.beginTransaction();
+        try {
+          String[] accountIdBindArgs = {uri.getQueryParameter(KEY_ACCOUNTID)};
+          db.execSQL("INSERT INTO " + TABLE_CHANGES + "("
+              + KEY_TYPE + ", "
+              + KEY_SYNC_SEQUENCE_LOCAL + ", "
+              + KEY_UUID + ", "
+              + KEY_PARENT_UUID + ", "
+              + KEY_COMMENT + ", "
+              + KEY_DATE + ", "
+              + KEY_AMOUNT + ", "
+              + KEY_CATID + ", "
+              + KEY_ACCOUNTID + ","
+              + KEY_PAYEEID + ", "
+              + KEY_TRANSFER_ACCOUNT + ", "
+              + KEY_METHODID + ","
+              + KEY_CR_STATUS + ", "
+              + KEY_REFERENCE_NUMBER + ", "
+              + KEY_PICTURE_URI
+              + ") SELECT "
+              + "'" + TransactionChange.Type.created.name() + "', "
+              + " 1, "
+              + KEY_UUID  + ", "
+              + "CASE WHEN " + KEY_PARENTID + " IS NULL THEN NULL ELSE " +
+                      "(SELECT " + KEY_UUID + " FROM " + TABLE_TRANSACTIONS + " parent where "
+                      + KEY_ROWID + " = " + TABLE_TRANSACTIONS + "." + KEY_PARENTID + ") END, "
+              + KEY_COMMENT + ", "
+              + KEY_DATE + ", "
+              + KEY_AMOUNT + ", "
+              + KEY_CATID + ", "
+              + KEY_ACCOUNTID + ", "
+              + KEY_PAYEEID + ", "
+              + KEY_TRANSFER_ACCOUNT + ", "
+              + KEY_METHODID + ","
+              + KEY_CR_STATUS + ", "
+              + KEY_REFERENCE_NUMBER + ", "
+              + KEY_PICTURE_URI
+              + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_ACCOUNTID + " = ?",
+              accountIdBindArgs);
+          ContentValues currentSyncIncrease = new ContentValues(1);
+          currentSyncIncrease.put(KEY_SYNC_SEQUENCE_LOCAL, 1);
+          db.update(TABLE_ACCOUNTS, currentSyncIncrease, KEY_ACCOUNTID + " = ?", accountIdBindArgs);
+          db.setTransactionSuccessful();
+        } finally {
+          db.endTransaction();
+        }
+        count = 1;
       } else {
         throw unknownUri(uri);
       }

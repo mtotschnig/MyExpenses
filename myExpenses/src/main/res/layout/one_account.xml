@@ -123,6 +123,20 @@
                     android:layout_gravity="center_vertical"/>
             </TableRow>
 
+            <TableRow>
+
+                <TextView
+                    android:labelFor="@+id/Sync"
+                    android:id="@+id/SyncLabel"
+                    style="@style/form_label.compat"
+                    android:text="@string/synchronization"/>
+
+                <Spinner
+                    android:id="@+id/Sync"
+                    android:prompt="@string/synchronization"
+                    android:layout_gravity="center_vertical"/>
+            </TableRow>
+
         </TableLayout>
     </ScrollView>
 </LinearLayout>

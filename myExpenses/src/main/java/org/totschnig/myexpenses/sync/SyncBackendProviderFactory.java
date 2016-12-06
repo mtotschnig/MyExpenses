@@ -8,11 +8,12 @@ import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
 
+import java.util.ServiceLoader;
+
 public abstract class SyncBackendProviderFactory {
 
-  public static Optional<SyncBackendProvider> get(Iterable<SyncBackendProviderFactory> syncBackendProviderFactories,
-                                                  Account account, AccountManager accountManager) {
-    return Stream.of(syncBackendProviderFactories)
+  public static Optional<SyncBackendProvider> get(Account account, AccountManager accountManager) {
+    return Stream.of(ServiceLoader.load(SyncBackendProviderFactory.class))
         .map(factory -> factory.from(account, accountManager))
         .filter(Optional::isPresent)
         .map(Optional::get)
@@ -20,7 +21,7 @@ public abstract class SyncBackendProviderFactory {
   }
 
   public Optional<SyncBackendProvider> from(Account account, AccountManager accountManager) {
-    if (accountManager.getUserData(account, GenericAccountService.KEY_SYNC_PROVIDER).equals(String.valueOf(getId()))) {
+    if (accountManager.getUserData(account, GenericAccountService.KEY_SYNC_PROVIDER_ID).equals(String.valueOf(getId()))) {
       return Optional.of(_fromAccount(account, accountManager));
     }
     return Optional.empty();

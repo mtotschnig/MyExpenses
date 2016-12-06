@@ -83,6 +83,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
@@ -126,7 +127,17 @@ public class Account extends Model {
 
   public boolean excludeFromTotals = false;
 
-  private boolean isSynced = true;
+  private String syncAccountName;
+
+
+  public String getSyncAccountName() {
+    return syncAccountName;
+  }
+
+  public void setSyncAccountName(String syncAccountName) {
+    this.syncAccountName = syncAccountName;
+  }
+
 
   public static final String[] PROJECTION_BASE, PROJECTION_EXTENDED, PROJECTION_FULL;
   public static final String CURRENT_BALANCE_EXPR = KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM + " AND " + WHERE_NOT_SPLIT_PART
@@ -144,7 +155,8 @@ public class Account extends Model {
         KEY_TYPE,
         KEY_SORT_KEY,
         KEY_EXCLUDE_FROM_TOTALS,
-        HAS_EXPORTED
+        HAS_EXPORTED,
+        KEY_SYNC_ACCOUNT_NAME
     };
     int baseLength = PROJECTION_BASE.length;
     PROJECTION_EXTENDED = new String[baseLength + 1];
@@ -342,6 +354,8 @@ public class Account extends Model {
       this.color = DEFAULT_COLOR;
     }
     this.excludeFromTotals = c.getInt(c.getColumnIndex(KEY_EXCLUDE_FROM_TOTALS)) != 0;
+
+    this.syncAccountName = c.getString(c.getColumnIndex(KEY_SYNC_ACCOUNT_NAME));
   }
 
   public void setCurrency(String currency) throws IllegalArgumentException {
@@ -553,6 +567,7 @@ public class Account extends Model {
     initialValues.put(KEY_TYPE, type.name());
     initialValues.put(KEY_GROUPING, grouping.name());
     initialValues.put(KEY_COLOR, color);
+    initialValues.put(KEY_SYNC_ACCOUNT_NAME, syncAccountName);
 
     if (getId() == 0) {
       initialValues.put(KEY_UUID, generateUuid());
@@ -729,9 +744,5 @@ public class Account extends Model {
       }
     }
     return accounts.get(accountId);
-  }
-
-  public boolean isSynced() {
-    return isSynced;
   }
 }

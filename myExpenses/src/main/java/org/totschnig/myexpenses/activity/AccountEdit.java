@@ -21,6 +21,8 @@ import java.util.Currency;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.adapter.SyncBackendProviderArrayAdapter;
+import org.totschnig.myexpenses.dialog.SetupWebdavDialogFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.CurrencyEnum;
@@ -46,6 +48,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,7 +62,7 @@ public class AccountEdit extends AmountActivity implements
   private static final String OPENINTENTS_PICK_COLOR_ACTION = "org.openintents.action.PICK_COLOR";
   private EditText mLabelText;
   private EditText mDescriptionText;
-  private SpinnerHelper mCurrencySpinner, mAccountTypeSpinner, mColorSpinner;
+  private SpinnerHelper mCurrencySpinner, mAccountTypeSpinner, mColorSpinner, mSyncSpinner;
   private Account mAccount;
   private ArrayList<Integer> mColors;
   private ArrayAdapter<Integer> mColAdapter;
@@ -187,6 +190,13 @@ public class AccountEdit extends AmountActivity implements
     };
     mColAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     mColorSpinner.setAdapter(mColAdapter);
+
+    mSyncSpinner = new SpinnerHelper(findViewById(R.id.Sync));
+    SyncBackendProviderArrayAdapter syncBackendProviderArrayAdapter =
+        new SyncBackendProviderArrayAdapter(this, android.R.layout.simple_spinner_item, true);
+    syncBackendProviderArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    mSyncSpinner.setAdapter(syncBackendProviderArrayAdapter);
+
     linkInputsWithLabels();
     populateFields();
   }
@@ -228,6 +238,10 @@ public class AccountEdit extends AmountActivity implements
     mAccountTypeSpinner.setSelection(mAccount.type.ordinal());
     int selected = mColors.indexOf(mAccount.color);
     mColorSpinner.setSelection(selected);
+    if (mAccount.getSyncAccountName() != null) {
+      mSyncSpinner.setSelection(
+          ((ArrayAdapter<String>) mSyncSpinner.getAdapter()).getPosition(mAccount.getSyncAccountName()));
+    }
   }
 
   /**
@@ -260,6 +274,9 @@ public class AccountEdit extends AmountActivity implements
     }
     mAccount.openingBalance.setAmountMajor(openingBalance);
     mAccount.type = (AccountType) mAccountTypeSpinner.getSelectedItem();
+    if (mSyncSpinner.getSelectedItemPosition() > 0) {
+      mAccount.setSyncAccountName((String) mSyncSpinner.getSelectedItem());
+    }
     //EditActivity.saveState calls DbWriteFragment
     super.saveState();
   }
@@ -372,6 +389,7 @@ public class AccountEdit extends AmountActivity implements
     mColorSpinner.setOnItemSelectedListener(this);
     mAccountTypeSpinner.setOnItemSelectedListener(this);
     mCurrencySpinner.setOnItemSelectedListener(this);
+    mSyncSpinner.setOnItemSelectedListener(this);
   }
 
   @Override
@@ -382,5 +400,6 @@ public class AccountEdit extends AmountActivity implements
     linkInputWithLabel(mColorSpinner.getSpinner(),findViewById(R.id.ColorLabel));
     linkInputWithLabel(mAccountTypeSpinner.getSpinner(),findViewById(R.id.AccountTypeLabel));
     linkInputWithLabel(mCurrencySpinner.getSpinner(),findViewById(R.id.CurrencyLabel));
+    linkInputWithLabel(mSyncSpinner.getSpinner(), findViewById(R.id.SyncLabel));
   }
 }

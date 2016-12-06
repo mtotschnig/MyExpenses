@@ -170,7 +170,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_USAGES + " integer default 0,"
           + KEY_LAST_USED + " datetime, "
           + KEY_SORT_KEY + " integer, "
-          + KEY_SYNC_URI + " text, "
+          + KEY_SYNC_ACCOUNT_NAME + " text, "
           + KEY_SYNC_SEQUENCE_LOCAL + " integer default 0,"
           + KEY_SYNC_FROM_ADAPTER + " integer default 0,"
           + KEY_EXCLUDE_FROM_TOTALS + " boolean default 0, "
@@ -358,7 +358,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       + String.format(Locale.US, SELECT_PARENT_UUID_TEMPLATE, "old") +  "); END;";
 
   private static final String SHOULD_WRITE_CHANGE_TEMPLATE = " EXISTS (SELECT 1 FROM " + TABLE_ACCOUNTS
-      + " WHERE " + KEY_ROWID + " = %s." + KEY_ACCOUNTID + " AND " + KEY_SYNC_URI + " IS NOT NULL AND "
+      + " WHERE " + KEY_ROWID + " = %s." + KEY_ACCOUNTID + " AND " + KEY_SYNC_ACCOUNT_NAME + " IS NOT NULL AND "
       + KEY_SYNC_SEQUENCE_LOCAL + " > 0 AND " + KEY_SYNC_FROM_ADAPTER + " = 0)";
 
   private static final String TRANSACTIONS_INSERT_TRIGGER_CREATE =

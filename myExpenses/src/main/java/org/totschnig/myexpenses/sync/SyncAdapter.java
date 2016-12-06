@@ -35,7 +35,6 @@ import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
-import android.support.v4.provider.DocumentFile;
 import android.support.v4.util.Pair;
 import android.util.Log;
 
@@ -56,16 +55,13 @@ import org.totschnig.myexpenses.sync.json.ChangeSet;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.util.AcraHelper;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.ServiceLoader;
 
-import static android.content.Context.ACCOUNT_SERVICE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
@@ -75,15 +71,15 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_FROM_ADAPTER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
   public static final String TAG = "SyncAdapter";
-  private static final String LAST_SYNCED_REMOTE = "last_synced_remote";
-  private static final String LAST_SYNCED_LOCAL = "last_synced_local";
-  private static final String IS_INITIALIZED = "is_initialized";
+  private static final String KEY_LAST_SYNCED_REMOTE = "last_synced_remote";
+  private static final String KEY_LAST_SYNCED_LOCAL = "last_synced_local";
 
   private Map<String, Long> categoryToId;
   private Map<String, Long> payeeToId;
@@ -116,99 +112,116 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     methodToId = new HashMap<>();
     accountUuidToId = new HashMap<>();
     Log.i(TAG, "onPerformSync");
-    String accountId = account.name.substring(1);
-    AccountManager accountManager = (AccountManager) getContext().getSystemService(ACCOUNT_SERVICE);
-    if (!"1".equals(accountManager.getUserData(account, IS_INITIALIZED))) {
-      try {
-        provider.update(buildInitializationUri(accountId), new ContentValues(0), null, null);
-        accountManager.setUserData(account, IS_INITIALIZED, "1");
-      } catch (RemoteException e) {
-        AcraHelper.report(e);
-        return;
-      }
-    }
 
-    long lastSyncedLocal = Long.parseLong(getUserDataWithDefault(accountManager, account,
-        LAST_SYNCED_LOCAL, "0"));
-    long lastSyncedRemote = Long.parseLong(getUserDataWithDefault(accountManager, account,
-        LAST_SYNCED_REMOTE, "0"));
-    dbAccount.set(org.totschnig.myexpenses.model.Account.getInstanceFromDb(Long.valueOf(accountId)));
-    Optional<SyncBackendProvider> backendProviderOptional = SyncBackendProviderFactory.get(
-        ServiceLoader.load(SyncBackendProviderFactory.class), account, accountManager);
+    AccountManager accountManager = AccountManager.get(getContext());
+
+    Optional<SyncBackendProvider> backendProviderOptional = SyncBackendProviderFactory.get(account, accountManager);
     if (!backendProviderOptional.isPresent()) {
-      //TODO report
+      AcraHelper.report(new Exception("Could not find backend for account " + account.name));
       return;
     }
-
     SyncBackendProvider backend = backendProviderOptional.get();
-
     if (!backend.isAvailable()) {
       return;
     }
 
-    ChangeSet changeSetSince = backend.getChangeSetSince(lastSyncedRemote, getContext());
-
-    List<TransactionChange> remoteChanges;
-    if (changeSetSince != null) {
-      lastSyncedRemote = changeSetSince.sequenceNumber;
-      remoteChanges = changeSetSince.changes;
-    } else {
-      remoteChanges = new ArrayList<>();
-    }
-
-    List<TransactionChange> localChanges = new ArrayList<>();
-    long sequenceToTest = lastSyncedLocal + 1;
-    while(true) {
-      List<TransactionChange> nextChanges = getLocalChanges(provider, accountId, sequenceToTest);
-      if (nextChanges.size() > 0) {
-        localChanges.addAll(nextChanges);
-        lastSyncedLocal = sequenceToTest;
-        sequenceToTest++;
-      } else {
-        break;
-      }
-    }
-
-    if (localChanges.size() == 0 && remoteChanges.size() == 0) {
+    Cursor c = null;
+    try {
+      c = provider.query(TransactionProvider.ACCOUNTS_URI,
+          new String[]{KEY_ROWID, KEY_SYNC_SEQUENCE_LOCAL}, KEY_SYNC_ACCOUNT_NAME + " = ?",
+          new String[]{account.name}, null);
+    } catch (RemoteException e) {
+      AcraHelper.report(e);
       return;
     }
+    if (c != null) {
+      if (c.moveToFirst()) {
+        do {
+          long accountId = c.getLong(0);
+          String lastLocalSyncKey = KEY_LAST_SYNCED_LOCAL + "_" + accountId;
+          String lastRemoteSyncKey = KEY_LAST_SYNCED_REMOTE + "_" + accountId;
+          if (c.getLong(1) == 0) {
+            try {
+              provider.update(buildInitializationUri(accountId), new ContentValues(0), null, null);
+            } catch (RemoteException e) {
+              AcraHelper.report(e);
+              return;
+            }
+          }
 
-    if (localChanges.size() > 0) {
-      localChanges = collectSplits(localChanges);
-    }
+          long lastSyncedLocal = Long.parseLong(getUserDataWithDefault(accountManager, account,
+              lastLocalSyncKey, "0"));
+          long lastSyncedRemote = Long.parseLong(getUserDataWithDefault(accountManager, account,
+              lastRemoteSyncKey, "0"));
+          dbAccount.set(org.totschnig.myexpenses.model.Account.getInstanceFromDb(accountId));
 
-    Pair<List<TransactionChange>, List<TransactionChange>> mergeResult =
-        mergeChangeSets(localChanges, remoteChanges);
-    localChanges = mergeResult.first;
-    remoteChanges = mergeResult.second;
+          ChangeSet changeSetSince = backend.getChangeSetSince(lastSyncedRemote, getContext());
 
-    if (remoteChanges.size() > 0) {
-      try {
-        ContentProviderResult[] contentProviderResults = writeRemoteChangesToDb(provider, remoteChanges, accountId);
-        if (contentProviderResults.length == 0) {
-          throw new OperationApplicationException("write to db yielded no results");
-        }
-        accountManager.setUserData(account, LAST_SYNCED_REMOTE, String.valueOf(lastSyncedRemote));
-      } catch (RemoteException | OperationApplicationException | SQLiteException e) {
-        AcraHelper.report(e);
-        return;
+          List<TransactionChange> remoteChanges;
+          if (changeSetSince != null) {
+            lastSyncedRemote = changeSetSince.sequenceNumber;
+            remoteChanges = changeSetSince.changes;
+          } else {
+            remoteChanges = new ArrayList<>();
+          }
+
+          List<TransactionChange> localChanges = new ArrayList<>();
+          long sequenceToTest = lastSyncedLocal + 1;
+          while(true) {
+            List<TransactionChange> nextChanges = getLocalChanges(provider, accountId, sequenceToTest);
+            if (nextChanges.size() > 0) {
+              localChanges.addAll(nextChanges);
+              lastSyncedLocal = sequenceToTest;
+              sequenceToTest++;
+            } else {
+              break;
+            }
+          }
+
+          if (localChanges.size() == 0 && remoteChanges.size() == 0) {
+            return;
+          }
+
+          if (localChanges.size() > 0) {
+            localChanges = collectSplits(localChanges);
+          }
+
+          Pair<List<TransactionChange>, List<TransactionChange>> mergeResult =
+              mergeChangeSets(localChanges, remoteChanges);
+          localChanges = mergeResult.first;
+          remoteChanges = mergeResult.second;
+
+          if (remoteChanges.size() > 0) {
+            try {
+              ContentProviderResult[] contentProviderResults = writeRemoteChangesToDb(provider, remoteChanges, accountId);
+              if (contentProviderResults.length == 0) {
+                throw new OperationApplicationException("write to db yielded no results");
+              }
+              accountManager.setUserData(account, lastRemoteSyncKey, String.valueOf(lastSyncedRemote));
+            } catch (RemoteException | OperationApplicationException | SQLiteException e) {
+              AcraHelper.report(e);
+              return;
+            }
+          }
+
+          if (localChanges.size() > 0 && backend.lock()) {
+            try {
+              lastSyncedRemote = backend.writeChangeSet(localChanges, getContext());
+            } finally {
+              backend.unlock();
+            }
+            if (lastSyncedRemote != ChangeSet.FAILED) {
+              accountManager.setUserData(account, lastLocalSyncKey, String.valueOf(lastSyncedLocal));
+              accountManager.setUserData(account, lastRemoteSyncKey, String.valueOf(lastSyncedRemote));
+            }
+          }
+        } while (c.moveToNext());
       }
-    }
-
-    if (localChanges.size() > 0 && backend.lock()) {
-      try {
-        lastSyncedRemote = backend.writeChangeSet(localChanges, getContext());
-      } finally {
-        backend.unlock();
-      }
-      if (lastSyncedRemote != ChangeSet.FAILED) {
-        accountManager.setUserData(account, LAST_SYNCED_LOCAL, String.valueOf(lastSyncedLocal));
-        accountManager.setUserData(account, LAST_SYNCED_REMOTE, String.valueOf(lastSyncedRemote));
-      }
+      c.close();
     }
   }
 
-  private List<TransactionChange> getLocalChanges(ContentProviderClient provider, String accountId, long sequenceNumber) {
+  private List<TransactionChange> getLocalChanges(ContentProviderClient provider, long accountId, long sequenceNumber) {
     List<TransactionChange> result = new ArrayList<>();
     try {
       Uri changesUri = buildChangesUri(sequenceNumber, accountId);
@@ -217,10 +230,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         ContentValues currentSyncIncrease = new ContentValues(1);
         long nextSequence = sequenceNumber + 1;
         currentSyncIncrease.put(KEY_SYNC_SEQUENCE_LOCAL, nextSequence);
-        //in case of failed synces due to non-available backends, sequence number might already be higher than nextSequence
+        //in case of failed syncs due to non-available backends, sequence number might already be higher than nextSequence
         //we must take care to not decrease it here
         provider.update(TransactionProvider.ACCOUNTS_URI, currentSyncIncrease, KEY_ROWID + " = ? AND " + KEY_SYNC_SEQUENCE_LOCAL + " < ?",
-            new String[]{accountId, String.valueOf(nextSequence)});
+            new String[]{String.valueOf(accountId), String.valueOf(nextSequence)});
       }
       if (hasLocalChanges) {
         Cursor c = provider.query(changesUri, null, null, null, null);
@@ -268,10 +281,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         .collect(Collectors.toList());
   }
 
-  private ContentProviderResult[] writeRemoteChangesToDb(ContentProviderClient provider, List<TransactionChange> remoteChanges, String accountId)
+  private ContentProviderResult[] writeRemoteChangesToDb(ContentProviderClient provider, List<TransactionChange> remoteChanges, long accountId)
       throws RemoteException, OperationApplicationException {
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
-    Uri accountUri = TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(accountId).build();
+    Uri accountUri = TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(accountId)).build();
     ops.add(ContentProviderOperation.newUpdate(accountUri).withValue(KEY_SYNC_FROM_ADAPTER, true).build());
     Stream.of(remoteChanges).filter(change -> !(change.isCreate() && uuidExists(change.uuid())))
         .forEach(change -> collectOperations(change, ops, -1));
@@ -548,15 +561,15 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     return builder.setTimeStamp(System.currentTimeMillis()).build();
   }
 
-  private Uri buildChangesUri(long current_sync, String accountId) {
+  private Uri buildChangesUri(long current_sync, long accountId) {
     return TransactionProvider.CHANGES_URI.buildUpon()
-        .appendQueryParameter(DatabaseConstants.KEY_ACCOUNTID, accountId)
+        .appendQueryParameter(DatabaseConstants.KEY_ACCOUNTID, String.valueOf(accountId))
         .appendQueryParameter(KEY_SYNC_SEQUENCE_LOCAL, String.valueOf(current_sync))
         .build();
   }
-  private Uri buildInitializationUri(String accountId) {
+  private Uri buildInitializationUri(long accountId) {
     return TransactionProvider.CHANGES_URI.buildUpon()
-        .appendQueryParameter(DatabaseConstants.KEY_ACCOUNTID, accountId)
+        .appendQueryParameter(DatabaseConstants.KEY_ACCOUNTID, String.valueOf(accountId))
         .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_INIT, "1")
         .build();
   }
