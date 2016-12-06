@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.fragment;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -13,36 +12,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.annimon.stream.Stream;
-
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
 import org.totschnig.myexpenses.adapter.SyncBackendProviderArrayAdapter;
+import org.totschnig.myexpenses.sync.ServiceLoader;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 
-import java.util.ArrayList;
-import java.util.ServiceLoader;
+import java.util.List;
 
 public class SyncBackendList extends ContextualActionBarFragment {
-  private ArrayList<SyncBackendProviderFactory> backendProviders = new ArrayList<>();
+  private List<SyncBackendProviderFactory> backendProviders = ServiceLoader.load();
   private SyncBackendProviderArrayAdapter syncBackendProviderArrayAdapter;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
-    new AsyncTask<Void, Void, Void>() {
-      @Override
-      protected Void doInBackground(Void... params) {
-        Stream.of(ServiceLoader.load(SyncBackendProviderFactory.class)).forEach(backendProviders::add);
-        return null;
-      }
-
-      @Override
-      protected void onPostExecute(Void aVoid) {
-        getActivity().supportInvalidateOptionsMenu();
-      }
-    }.execute();
   }
 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

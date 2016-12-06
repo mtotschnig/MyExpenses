@@ -8,12 +8,10 @@ import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
 
-import java.util.ServiceLoader;
-
 public abstract class SyncBackendProviderFactory {
 
   public static Optional<SyncBackendProvider> get(Account account, AccountManager accountManager) {
-    return Stream.of(ServiceLoader.load(SyncBackendProviderFactory.class))
+    return Stream.of(ServiceLoader.load())
         .map(factory -> factory.from(account, accountManager))
         .filter(Optional::isPresent)
         .map(Optional::get)

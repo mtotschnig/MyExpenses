@@ -9,8 +9,6 @@ import com.google.common.io.Files;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.activity.ManageSyncBackends;
 import org.totschnig.myexpenses.sync.json.AdapterFactory;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
