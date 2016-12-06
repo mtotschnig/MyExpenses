@@ -1,6 +1,6 @@
 package org.totschnig.myexpenses.fragment;
 
-import android.accounts.AccountManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -13,23 +13,36 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.annimon.stream.Stream;
+
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
 import org.totschnig.myexpenses.adapter.SyncBackendProviderArrayAdapter;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 
+import java.util.ArrayList;
 import java.util.ServiceLoader;
 
 public class SyncBackendList extends ContextualActionBarFragment {
-  private ServiceLoader<SyncBackendProviderFactory> backendProviderServiceLoader;
+  private ArrayList<SyncBackendProviderFactory> backendProviders = new ArrayList<>();
   private SyncBackendProviderArrayAdapter syncBackendProviderArrayAdapter;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
-    //TODO Move to background?
-    backendProviderServiceLoader = ServiceLoader.load(SyncBackendProviderFactory.class);
+    new AsyncTask<Void, Void, Void>() {
+      @Override
+      protected Void doInBackground(Void... params) {
+        Stream.of(ServiceLoader.load(SyncBackendProviderFactory.class)).forEach(backendProviders::add);
+        return null;
+      }
+
+      @Override
+      protected void onPostExecute(Void aVoid) {
+        getActivity().supportInvalidateOptionsMenu();
+      }
+    }.execute();
   }
 
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,7 +60,7 @@ public class SyncBackendList extends ContextualActionBarFragment {
   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
     inflater.inflate(R.menu.sync_backend, menu);
     SubMenu createSubMenu = menu.findItem(R.id.CREATE_COMMAND).getSubMenu();
-    for (SyncBackendProviderFactory factory: backendProviderServiceLoader) {
+    for (SyncBackendProviderFactory factory: backendProviders) {
       createSubMenu.add(
           Menu.NONE, factory.getId(), Menu.NONE, factory.getLabel());
     }
@@ -55,7 +68,7 @@ public class SyncBackendList extends ContextualActionBarFragment {
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    for (SyncBackendProviderFactory factory: backendProviderServiceLoader) {
+    for (SyncBackendProviderFactory factory: backendProviders) {
       if (factory.getId() == item.getItemId()) {
         factory.startSetup((ManageSyncBackends) getActivity());
         return true;
