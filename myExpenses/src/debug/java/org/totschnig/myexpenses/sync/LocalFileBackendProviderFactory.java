@@ -11,7 +11,7 @@ public class LocalFileBackendProviderFactory extends SyncBackendProviderFactory 
 
   @Override
   protected LocalFileBackendProvider _fromAccount(Account account, AccountManager accountManager) {
-    return new LocalFileBackendProvider(accountManager.getUserData(account, GenericAccountService.KEY_SYNC_PROVIDER_URI));
+    return new LocalFileBackendProvider(accountManager.getUserData(account, GenericAccountService.KEY_SYNC_PROVIDER_URL));
   }
 
   @Override

@@ -10,6 +10,8 @@ import java.util.List;
 
 public class WebDavBackendProvider implements SyncBackendProvider {
 
+  public static final String KEY_WEB_DAV_URL = "webDavUrl";
+  public static final String KEY_WEB_DAV_CERTIFICATE = "webDavCertificate";
 
   public WebDavBackendProvider() {
   }

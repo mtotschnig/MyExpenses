@@ -12,6 +12,7 @@ android {
         targetSdkVersion project.targetSdkVersion
         versionCode 258
         versionName '2.7.1.1'
+        multiDexEnabled true
 
         buildConfigField "String", "PLATTFORM", "\"Android\""
         buildConfigField "String", "BUILD_DATE", "\"" + getDate() + "\""
@@ -104,6 +105,12 @@ dependencies {
     //noinspection GradleDynamicVersion
     compile 'com.commonsware.cwac:wakeful:1.0.+'
     compile 'com.annimon:stream:1.1.2'
+
+    // WebDAV
+    compile 'com.squareup.okhttp3:okhttp:3.4.2'
+
+    compile 'com.android.support:multidex:1.0.1'
+
     androidTestCompile 'com.android.support.test.espresso:espresso-core:' + project.espressoVersion
     androidTestCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support:support-annotations:'  + project.androidSupportLibraryVersion

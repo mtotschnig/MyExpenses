@@ -181,12 +181,11 @@ public class MyApplication extends MultiDexApplication implements
     accountManager.removeAccount(oldAccount, null, null);
   }
 
-  public boolean createSyncAccount(String label, Bundle bundle) {
+  public boolean createSyncAccount(String label, String password, Bundle bundle) {
     Account newAccount = GenericAccountService.GetAccount(label);
-    AccountManager accountManager =
-        (AccountManager) mSelf.getSystemService(
-            ACCOUNT_SERVICE);
+    AccountManager accountManager = AccountManager.get(this);
     if (accountManager.addAccountExplicitly(newAccount, null, bundle)) {
+      accountManager.setPassword(newAccount, password);
       ContentResolver.setSyncAutomatically(newAccount, TransactionProvider.AUTHORITY, true);
       return true;
     }

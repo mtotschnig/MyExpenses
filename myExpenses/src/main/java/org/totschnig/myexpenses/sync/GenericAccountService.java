@@ -35,7 +35,8 @@ public class GenericAccountService extends Service {
     public static final String ACCOUNT_TYPE = "org.totschnig.myexpenses.sync";
     public static final String KEY_SYNC_PROVIDER_ID = "sync_provider_id";
     public static final String KEY_SYNC_PROVIDER_LABEL = "sync_provider_label";
-    public static final String KEY_SYNC_PROVIDER_URI = "sync_provider_uri";
+    public static final String KEY_SYNC_PROVIDER_URL = "sync_provider_url";
+    public static final String KEY_SYNC_PROVIDER_USERNAME = "sync_provider_user_name";
     private Authenticator mAuthenticator;
 
     /**

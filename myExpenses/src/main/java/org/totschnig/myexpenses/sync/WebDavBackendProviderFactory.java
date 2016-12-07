@@ -9,9 +9,11 @@ import org.totschnig.myexpenses.dialog.SetupWebdavDialogFragment;
 
 public class WebDavBackendProviderFactory extends SyncBackendProviderFactory {
 
+  public static final String LABEL = "WebDAV";
+
   @Override
   public String getLabel() {
-    return "WebDAV";
+    return LABEL;
   }
 
   @Override
@@ -27,6 +29,7 @@ public class WebDavBackendProviderFactory extends SyncBackendProviderFactory {
   @Override
   public void startSetup(ManageSyncBackends context) {
     SetupWebdavDialogFragment webdavDialogFragment = new SetupWebdavDialogFragment();
+    webdavDialogFragment.setCancelable(false);
     webdavDialogFragment.show(context.getSupportFragmentManager(), "WEBDAV_SETUP");
   }
 }
