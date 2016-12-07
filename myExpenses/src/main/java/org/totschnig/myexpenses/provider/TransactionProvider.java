@@ -15,21 +15,6 @@
 
 package org.totschnig.myexpenses.provider;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Currency;
-import java.util.List;
-
-import org.totschnig.myexpenses.BuildConfig;
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.model.*;
-import org.totschnig.myexpenses.model.Grouping;
-import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.sync.json.TransactionChange;
-import org.totschnig.myexpenses.util.PlanInfoCursorWrapper;
-import org.totschnig.myexpenses.util.Utils;
-
 import android.content.ContentProvider;
 import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
@@ -47,7 +32,123 @@ import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 import android.util.Log;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
+import org.totschnig.myexpenses.BuildConfig;
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AccountGrouping;
+import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.model.Grouping;
+import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.model.Payee;
+import org.totschnig.myexpenses.model.PaymentMethod;
+import org.totschnig.myexpenses.model.Template;
+import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.sync.json.TransactionChange;
+import org.totschnig.myexpenses.util.PlanInfoCursorWrapper;
+import org.totschnig.myexpenses.util.Utils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Currency;
+import java.util.List;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.DAY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.EXPENSE_SUM;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.FULL_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_EXPORTED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_FUTURE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.INCOME_SUM;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_CLEARED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_EXPORTED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_FUTURE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INTERIM_BALANCE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_AGGREGATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_CATEGORIES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENT_UUID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_URI;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY_TYPE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TIMESTAMP;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TOTAL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_CATEGORIES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.SELECT_AMOUNT_SUM;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTTYES_METHODS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CHANGES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_EVENT_CACHE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_METHODS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INSTANCE_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_STALE_URIS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_ACCOUNT_UUUID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_SUM;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_ALL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_CHANGES_EXTENDED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_EXTENDED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_DEPENDENT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_EXPENSE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_INCOME;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_IN_PAST;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_DEPENDENT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_TRANSACTION;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.YEAR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.getMonth;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.getWeek;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart;
 
 public class TransactionProvider extends ContentProvider {
 
@@ -407,6 +508,7 @@ public class TransactionProvider extends ContentProvider {
             "0 AS " + KEY_EXCLUDE_FROM_TOTALS,
             "max(" + KEY_HAS_EXPORTED + ") AS " + KEY_HAS_EXPORTED,
             "null AS " + KEY_SYNC_ACCOUNT_NAME,
+            "null AS " + KEY_UUID,
             "sum(" + KEY_CURRENT_BALANCE + ") AS " + KEY_CURRENT_BALANCE,
             "sum(" + KEY_SUM_INCOME + ") AS " + KEY_SUM_INCOME,
             "sum(" + KEY_SUM_EXPENSES + ") AS " + KEY_SUM_EXPENSES,
@@ -1223,7 +1325,7 @@ public class TransactionProvider extends ContentProvider {
               accountIdBindArgs);
           ContentValues currentSyncIncrease = new ContentValues(1);
           currentSyncIncrease.put(KEY_SYNC_SEQUENCE_LOCAL, 1);
-          db.update(TABLE_ACCOUNTS, currentSyncIncrease, KEY_ACCOUNTID + " = ?", accountIdBindArgs);
+          db.update(TABLE_ACCOUNTS, currentSyncIncrease, KEY_ROWID + " = ?", accountIdBindArgs);
           db.setTransactionSuccessful();
         } finally {
           db.endTransaction();

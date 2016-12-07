@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.sync;
 
 import android.content.Context;
 
+import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 
@@ -11,6 +12,11 @@ public class WebDavBackendProvider implements SyncBackendProvider {
 
 
   public WebDavBackendProvider() {
+  }
+
+  @Override
+  public void withAccount(Account account) {
+
   }
 
   @Override

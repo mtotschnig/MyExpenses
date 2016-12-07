@@ -15,24 +15,6 @@
 
 package org.totschnig.myexpenses.activity;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Currency;
-
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.adapter.SyncBackendProviderArrayAdapter;
-import org.totschnig.myexpenses.dialog.SetupWebdavDialogFragment;
-import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.AccountType;
-import org.totschnig.myexpenses.model.CurrencyEnum;
-import org.totschnig.myexpenses.model.Model;
-import org.totschnig.myexpenses.model.Money;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.task.TaskExecutionFragment;
-import org.totschnig.myexpenses.ui.SpinnerHelper;
-import org.totschnig.myexpenses.util.AcraHelper;
-
 import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Intent;
@@ -48,9 +30,24 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.adapter.SyncBackendProviderArrayAdapter;
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.CurrencyEnum;
+import org.totschnig.myexpenses.model.Model;
+import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.ui.SpinnerHelper;
+import org.totschnig.myexpenses.util.AcraHelper;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Currency;
 
 /**
  * Activity for editing an account
@@ -239,8 +236,10 @@ public class AccountEdit extends AmountActivity implements
     int selected = mColors.indexOf(mAccount.color);
     mColorSpinner.setSelection(selected);
     if (mAccount.getSyncAccountName() != null) {
-      mSyncSpinner.setSelection(
-          ((ArrayAdapter<String>) mSyncSpinner.getAdapter()).getPosition(mAccount.getSyncAccountName()));
+      int position = ((ArrayAdapter<String>) mSyncSpinner.getAdapter()).getPosition(mAccount.getSyncAccountName());
+      if (position > -1) {
+        mSyncSpinner.setSelection(position);
+      }
     }
   }
 

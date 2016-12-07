@@ -154,6 +154,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
           long lastSyncedRemote = Long.parseLong(getUserDataWithDefault(accountManager, account,
               lastRemoteSyncKey, "0"));
           dbAccount.set(org.totschnig.myexpenses.model.Account.getInstanceFromDb(accountId));
+          backend.withAccount(dbAccount.get());
 
           ChangeSet changeSetSince = backend.getChangeSetSince(lastSyncedRemote, getContext());
 
