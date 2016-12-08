@@ -58,7 +58,7 @@ public class WebDavBackendProvider implements SyncBackendProvider {
 
   @Override
   public boolean lock() {
-    return true;
+    return webDavClient.lock(accountUuid);
   }
 
   @Override
@@ -73,7 +73,7 @@ public class WebDavBackendProvider implements SyncBackendProvider {
 
   @Override
   public boolean unlock() {
-    return true;
+    return webDavClient.unlock(accountUuid);
   }
 
   @Override

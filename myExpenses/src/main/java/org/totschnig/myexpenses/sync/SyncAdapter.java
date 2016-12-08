@@ -159,64 +159,68 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             continue;
           }
 
-          ChangeSet changeSetSince = backend.getChangeSetSince(lastSyncedRemote, getContext());
-
-          List<TransactionChange> remoteChanges;
-          if (changeSetSince != null) {
-            lastSyncedRemote = changeSetSince.sequenceNumber;
-            remoteChanges = changeSetSince.changes;
-          } else {
-            remoteChanges = new ArrayList<>();
-          }
-
-          List<TransactionChange> localChanges = new ArrayList<>();
-          long sequenceToTest = lastSyncedLocal + 1;
-          while(true) {
-            List<TransactionChange> nextChanges = getLocalChanges(provider, accountId, sequenceToTest);
-            if (nextChanges.size() > 0) {
-              localChanges.addAll(nextChanges);
-              lastSyncedLocal = sequenceToTest;
-              sequenceToTest++;
-            } else {
-              break;
-            }
-          }
-
-          if (localChanges.size() == 0 && remoteChanges.size() == 0) {
-            return;
-          }
-
-          if (localChanges.size() > 0) {
-            localChanges = collectSplits(localChanges);
-          }
-
-          Pair<List<TransactionChange>, List<TransactionChange>> mergeResult =
-              mergeChangeSets(localChanges, remoteChanges);
-          localChanges = mergeResult.first;
-          remoteChanges = mergeResult.second;
-
-          if (remoteChanges.size() > 0) {
+          if (backend.lock()) {
             try {
-              ContentProviderResult[] contentProviderResults = writeRemoteChangesToDb(provider, remoteChanges, accountId);
-              if (contentProviderResults.length == 0) {
-                throw new OperationApplicationException("write to db yielded no results");
+              ChangeSet changeSetSince = backend.getChangeSetSince(lastSyncedRemote, getContext());
+
+              List<TransactionChange> remoteChanges;
+              if (changeSetSince != null) {
+                lastSyncedRemote = changeSetSince.sequenceNumber;
+                remoteChanges = changeSetSince.changes;
+              } else {
+                remoteChanges = new ArrayList<>();
               }
-              accountManager.setUserData(account, lastRemoteSyncKey, String.valueOf(lastSyncedRemote));
-            } catch (RemoteException | OperationApplicationException | SQLiteException e) {
-              AcraHelper.report(e);
-              return;
-            }
-          }
 
-          if (localChanges.size() > 0 && backend.lock()) {
-            try {
-              lastSyncedRemote = backend.writeChangeSet(localChanges, getContext());
+              List<TransactionChange> localChanges = new ArrayList<>();
+              long sequenceToTest = lastSyncedLocal + 1;
+              while (true) {
+                List<TransactionChange> nextChanges = getLocalChanges(provider, accountId, sequenceToTest);
+                if (nextChanges.size() > 0) {
+                  localChanges.addAll(nextChanges);
+                  lastSyncedLocal = sequenceToTest;
+                  sequenceToTest++;
+                } else {
+                  break;
+                }
+              }
+
+              if (localChanges.size() == 0 && remoteChanges.size() == 0) {
+                return;
+              }
+
+              if (localChanges.size() > 0) {
+                localChanges = collectSplits(localChanges);
+              }
+
+              Pair<List<TransactionChange>, List<TransactionChange>> mergeResult =
+                  mergeChangeSets(localChanges, remoteChanges);
+              localChanges = mergeResult.first;
+              remoteChanges = mergeResult.second;
+
+              if (remoteChanges.size() > 0) {
+                try {
+                  ContentProviderResult[] contentProviderResults = writeRemoteChangesToDb(provider, remoteChanges, accountId);
+                  if (contentProviderResults.length == 0) {
+                    throw new OperationApplicationException("write to db yielded no results");
+                  }
+                  accountManager.setUserData(account, lastRemoteSyncKey, String.valueOf(lastSyncedRemote));
+                } catch (RemoteException | OperationApplicationException | SQLiteException e) {
+                  AcraHelper.report(e);
+                  return;
+                }
+              }
+
+
+              if (localChanges.size() > 0) {
+                lastSyncedRemote = backend.writeChangeSet(localChanges, getContext());
+
+                if (lastSyncedRemote != ChangeSet.FAILED) {
+                  accountManager.setUserData(account, lastLocalSyncKey, String.valueOf(lastSyncedLocal));
+                  accountManager.setUserData(account, lastRemoteSyncKey, String.valueOf(lastSyncedRemote));
+                }
+              }
             } finally {
               backend.unlock();
-            }
-            if (lastSyncedRemote != ChangeSet.FAILED) {
-              accountManager.setUserData(account, lastLocalSyncKey, String.valueOf(lastSyncedLocal));
-              accountManager.setUserData(account, lastRemoteSyncKey, String.valueOf(lastSyncedRemote));
             }
           }
         } while (c.moveToNext());
@@ -571,6 +575,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         .appendQueryParameter(KEY_SYNC_SEQUENCE_LOCAL, String.valueOf(current_sync))
         .build();
   }
+
   private Uri buildInitializationUri(long accountId) {
     return TransactionProvider.CHANGES_URI.buildUpon()
         .appendQueryParameter(DatabaseConstants.KEY_ACCOUNTID, String.valueOf(accountId))
