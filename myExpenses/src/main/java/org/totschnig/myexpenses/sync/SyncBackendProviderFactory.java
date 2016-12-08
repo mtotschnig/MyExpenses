@@ -7,6 +7,7 @@ import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
+import org.totschnig.myexpenses.util.AcraHelper;
 
 public abstract class SyncBackendProviderFactory {
 
@@ -20,12 +21,16 @@ public abstract class SyncBackendProviderFactory {
 
   public Optional<SyncBackendProvider> from(Account account, AccountManager accountManager) {
     if (accountManager.getUserData(account, GenericAccountService.KEY_SYNC_PROVIDER_ID).equals(String.valueOf(getId()))) {
-      return Optional.of(_fromAccount(account, accountManager));
+      try {
+        return Optional.of(_fromAccount(account, accountManager));
+      } catch (SyncBackendProvider.SyncParseException e) {
+        AcraHelper.report(e);
+      }
     }
     return Optional.empty();
   }
 
-  protected abstract SyncBackendProvider _fromAccount(Account account, AccountManager accountManager);
+  protected abstract SyncBackendProvider _fromAccount(Account account, AccountManager accountManager) throws SyncBackendProvider.SyncParseException;
 
   public abstract int getId();
 

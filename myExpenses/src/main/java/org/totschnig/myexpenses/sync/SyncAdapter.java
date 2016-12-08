@@ -154,7 +154,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
           long lastSyncedRemote = Long.parseLong(getUserDataWithDefault(accountManager, account,
               lastRemoteSyncKey, "0"));
           dbAccount.set(org.totschnig.myexpenses.model.Account.getInstanceFromDb(accountId));
-          backend.withAccount(dbAccount.get());
+          if (!backend.withAccount(dbAccount.get())) {
+            AcraHelper.report("Could not create directory for account");
+            continue;
+          }
 
           ChangeSet changeSetSince = backend.getChangeSetSince(lastSyncedRemote, getContext());
 

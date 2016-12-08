@@ -11,6 +11,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
+import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.WebDavBackendProvider;
 import org.totschnig.myexpenses.sync.webdav.CertificateHelper;
 import org.totschnig.myexpenses.sync.webdav.HttpException;
@@ -45,7 +47,7 @@ public class SetupWebdavDialogFragment extends CommitSafeDialogFragment {
   private EditText mEdtUrl;
   private EditText mEdtUserName;
   private EditText mEdtPassword;
-  private TextView mTxtTrustCertificateDescription;
+  private ViewGroup certificateContainer;
   private TextView mTxtTrustCertificate;
   private CheckBox mChkTrustCertificate;
   private X509Certificate mTrustCertificate;
@@ -68,19 +70,17 @@ public class SetupWebdavDialogFragment extends CommitSafeDialogFragment {
 
       @Override
       public void afterTextChanged(Editable s) {
-        mTxtTrustCertificateDescription.setVisibility(View.GONE);
-        mTxtTrustCertificate.setVisibility(View.GONE);
+        certificateContainer.setVisibility(View.GONE);
         mChkTrustCertificate.setChecked(false);
-        mChkTrustCertificate.setVisibility(View.GONE);
       }
     });
     mEdtUserName = (EditText) view.findViewById(R.id.edt_user_name);
     mEdtPassword = (EditText) view.findViewById(R.id.edt_password);
-    mTxtTrustCertificateDescription = (TextView) view.findViewById(R.id.txt_trust_certificate_description);
+    certificateContainer = (ViewGroup) view.findViewById(R.id.certificate_container);
     mTxtTrustCertificate = (TextView) view.findViewById(R.id.txt_trust_certificate);
     mChkTrustCertificate = (CheckBox) view.findViewById(R.id.chk_trust_certificate);
 
-    mTxtTrustCertificateDescription.setVisibility(View.GONE);
+    certificateContainer.setVisibility(View.GONE);
     mTxtTrustCertificate.setVisibility(View.GONE);
     mChkTrustCertificate.setVisibility(View.GONE);
     AlertDialog alertDialog = new AlertDialog.Builder(ctx)
@@ -150,7 +150,7 @@ public class SetupWebdavDialogFragment extends CommitSafeDialogFragment {
             Bundle data = new Bundle();
             data.putString(AccountManager.KEY_ACCOUNT_NAME, mEdtUserName.getText().toString());
             data.putString(AccountManager.KEY_PASSWORD, mEdtPassword.getText().toString());
-            data.putString(WebDavBackendProvider.KEY_WEB_DAV_URL, mEdtUrl.getText().toString());
+            data.putString(GenericAccountService.KEY_SYNC_PROVIDER_URL, mEdtUrl.getText().toString());
             if (mTrustCertificate != null && mChkTrustCertificate.isChecked()) {
               try {
                 data.putString(WebDavBackendProvider.KEY_WEB_DAV_CERTIFICATE, CertificateHelper.toString(mTrustCertificate));
@@ -162,7 +162,7 @@ public class SetupWebdavDialogFragment extends CommitSafeDialogFragment {
             activity.onFinishWebDavSetup(data);
             dismiss();
           } else if (status == TestLoginStatus.UNTRUSTED_CERTIFICATE) {
-            mTxtTrustCertificateDescription.setVisibility(View.VISIBLE);
+            certificateContainer.setVisibility(View.VISIBLE);
             mTxtTrustCertificate.setText(CertificateHelper.getShortDescription(mTrustCertificate, getActivity()));
             mTxtTrustCertificate.setVisibility(View.VISIBLE);
             mChkTrustCertificate.setVisibility(View.VISIBLE);

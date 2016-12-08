@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface SyncBackendProvider {
 
-  void withAccount(Account account);
+  boolean withAccount(Account account);
 
   boolean lock();
 
@@ -22,4 +22,9 @@ public interface SyncBackendProvider {
 
   boolean isAvailable();
 
+  class SyncParseException extends Exception {
+    SyncParseException(Exception e) {
+      super(e);
+    }
+  }
 }

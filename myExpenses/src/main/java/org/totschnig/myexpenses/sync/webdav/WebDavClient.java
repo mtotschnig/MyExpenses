@@ -31,10 +31,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLHandshakeException;
-import javax.net.ssl.SSLSession;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -61,21 +59,19 @@ public class WebDavClient {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
 
         if (userName != null && password != null) {
-            builder.authenticator(new BasicDigestAuthenticator(mBaseUri.getHost(), userName, password));
+            BasicDigestAuthHandler authHandler = new BasicDigestAuthHandler(mBaseUri.getHost(), userName, password);
+            builder.authenticator(authHandler).addNetworkInterceptor(authHandler);
         }
 
         if (trustedCertificate != null) {
             builder.sslSocketFactory(CertificateHelper.createSocketFactory(trustedCertificate));
 
-            builder.hostnameVerifier(new HostnameVerifier() {
-                @Override
-                public boolean verify(String hostname, SSLSession session) {
-                    try {
-                        X509Certificate certificate = (X509Certificate) session.getPeerCertificates()[0];
-                        return certificate.equals(trustedCertificate);
-                    } catch (SSLException e) {
-                        return false;
-                    }
+            builder.hostnameVerifier((hostname, session) -> {
+                try {
+                    X509Certificate certificate = (X509Certificate) session.getPeerCertificates()[0];
+                    return certificate.equals(trustedCertificate);
+                } catch (SSLException e) {
+                    return false;
                 }
             });
         }
@@ -119,6 +115,40 @@ public class WebDavClient {
             throw new HttpException(request, e);
         }
     }
+
+    public String mkCol(String folderName) throws HttpException {
+        String colUri = mBaseUri.buildUpon().appendPath(folderName).toString() + "/";
+        if (!colExists(colUri)) {
+            Request request = new Request.Builder()
+                .url(colUri)
+                .method("MKCOL", null)
+                .build();
+            try {
+                Response response = mClient.newCall(request).execute();
+                if (!response.isSuccessful()) {
+                    throw new HttpException(response);
+                }
+            } catch (IOException e) {
+                throw new HttpException(request, e);
+            }
+        }
+        return colUri;
+    }
+
+    private boolean colExists(String colUri) throws HttpException {
+        Request request = new Request.Builder()
+            .url(colUri)
+            .method("PROPFIND", null)
+            .header("Depth", "0")
+            .build();
+        try {
+            Response response = mClient.newCall(request).execute();
+            return response.isSuccessful();
+        } catch (IOException e) {
+            throw new HttpException(request, e);
+        }
+    }
+
 
     @SuppressWarnings("TryWithIdenticalCatches")
     public Date getLastModified(String remoteFilepath) throws HttpException {

@@ -43,12 +43,10 @@ public class LocalFileBackendProvider implements SyncBackendProvider {
   }
 
   @Override
-  public void withAccount(Account account) {
+  public boolean withAccount(Account account) {
     accountDir = new File(baseDir, account.uuid);
     accountDir.mkdir();
-    if (!accountDir.isDirectory()) {
-      throw new RuntimeException("Could not create directory for account");
-    }
+    return accountDir.isDirectory();
   }
 
   private long getLastSequence() {

@@ -14,7 +14,6 @@ import org.totschnig.myexpenses.sync.WebDavBackendProviderFactory;
 import java.io.File;
 
 import static org.totschnig.myexpenses.sync.WebDavBackendProvider.KEY_WEB_DAV_CERTIFICATE;
-import static org.totschnig.myexpenses.sync.WebDavBackendProvider.KEY_WEB_DAV_URL;
 
 public class ManageSyncBackends extends ProtectedFragmentActivity implements
     EditTextDialog.EditTextDialogListener {
@@ -50,7 +49,7 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
   public void onFinishWebDavSetup(Bundle data) {
     String userName = data.getString(AccountManager.KEY_ACCOUNT_NAME);
     String password = data.getString(AccountManager.KEY_PASSWORD);
-    String url = data.getString(KEY_WEB_DAV_URL);
+    String url = data.getString(GenericAccountService.KEY_SYNC_PROVIDER_URL);
     String certificate = data.getString(KEY_WEB_DAV_CERTIFICATE);
     String accountName = WebDavBackendProviderFactory.LABEL + " - " + url;
 
@@ -65,7 +64,7 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
   }
 
   private void createAccount(String accountName, String password, Bundle bundle) {
-    if(((MyApplication) getApplicationContext()).createSyncAccount(accountName, null, bundle)) {
+    if(((MyApplication) getApplicationContext()).createSyncAccount(accountName, password, bundle)) {
       ((SyncBackendList) getSupportFragmentManager().findFragmentById(R.id.backend_list)).loadData();
     }
   }

@@ -58,4 +58,8 @@ public class AcraHelper {
       Log.e(MyApplication.TAG, "Report", e);
     }
   }
+
+  public static void report(String message) {
+    report(new Exception(message));
+  }
 }

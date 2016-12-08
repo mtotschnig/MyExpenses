@@ -6,6 +6,7 @@ import android.accounts.AccountManager;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
 import org.totschnig.myexpenses.dialog.SetupWebdavDialogFragment;
+import org.totschnig.myexpenses.sync.SyncBackendProvider.SyncParseException;
 
 public class WebDavBackendProviderFactory extends SyncBackendProviderFactory {
 
@@ -17,8 +18,8 @@ public class WebDavBackendProviderFactory extends SyncBackendProviderFactory {
   }
 
   @Override
-  protected SyncBackendProvider _fromAccount(Account account, AccountManager accountManager) {
-    return new WebDavBackendProvider();
+  protected SyncBackendProvider _fromAccount(Account account, AccountManager accountManager) throws SyncParseException {
+    return new WebDavBackendProvider(account, accountManager);
   }
 
   @Override
