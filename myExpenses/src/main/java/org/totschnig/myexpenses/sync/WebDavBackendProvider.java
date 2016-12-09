@@ -3,21 +3,28 @@ package org.totschnig.myexpenses.sync;
 import android.accounts.AccountManager;
 import android.content.Context;
 
+import com.annimon.stream.Stream;
+
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
-import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.sync.webdav.CertificateHelper;
 import org.totschnig.myexpenses.sync.webdav.HttpException;
 import org.totschnig.myexpenses.sync.webdav.InvalidCertificateException;
 import org.totschnig.myexpenses.sync.webdav.WebDavClient;
 
+import java.io.IOException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.List;
 
-public class WebDavBackendProvider implements SyncBackendProvider {
+import at.bitfire.dav4android.DavResource;
+import at.bitfire.dav4android.exception.DavException;
+import okhttp3.MediaType;
 
-  public static final String KEY_WEB_DAV_CERTIFICATE = "webDavCertificate";/**/
+public class WebDavBackendProvider extends AbstractSyncBackendProvider {
+
+  public static final String KEY_WEB_DAV_CERTIFICATE = "webDavCertificate";
+  public static final String MIMETYPE_JSON = "application/json";
+  public final MediaType MIME_JSON = MediaType.parse(MIMETYPE_JSON + "; charset=utf-8");
 
   private WebDavClient webDavClient;
   /**
@@ -63,12 +70,39 @@ public class WebDavBackendProvider implements SyncBackendProvider {
 
   @Override
   public ChangeSet getChangeSetSince(long sequenceNumber, Context context) {
-    return null;
+    return merge(filterDavResources(sequenceNumber).map(this::getFromDavResource))
+        .orElse(ChangeSet.empty(sequenceNumber));
+  }
+
+  private ChangeSet getFromDavResource(DavResource davResource) {
+    try {
+      return getFromInputStream(getSequenceFromFileName(davResource.fileName()),
+          davResource.get(MIMETYPE_JSON).byteStream());
+    } catch (IOException | at.bitfire.dav4android.exception.HttpException | DavException e) {
+      return ChangeSet.failed;
+    }
+  }
+
+  private Stream<DavResource> filterDavResources(long sequenceNumber) {
+    return webDavClient.getFolderMembers(accountUuid)
+        .filter(davResource -> accept(sequenceNumber, davResource.fileName()));
   }
 
   @Override
-  public long writeChangeSet(List<TransactionChange> changeSet, Context context) {
-    return 0;
+  protected long getLastSequence() {
+    return filterDavResources(0)
+        .map(davResource -> getSequenceFromFileName(davResource.fileName()))
+        .max(Long::compare)
+        .orElse(0L);
+  }
+
+  @Override
+  void saveFileContents(String fileName, String fileContents) throws IOException {
+    try {
+      webDavClient.upload(accountUuid, fileName, fileContents, MIME_JSON);
+    } catch (HttpException e) {
+      throw e.getCause() instanceof IOException ? ((IOException) e.getCause()) : new IOException(e);
+    }
   }
 
   @Override

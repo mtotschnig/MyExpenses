@@ -40,7 +40,7 @@
     <uses-sdk tools:overrideLibrary="android.support.v14.preference" />
 
     <application
-        tools:ignore="UnusedAttribute"
+        tools:replace="android:label"
         android:name="org.totschnig.myexpenses.MyApplication"
         android:icon="@mipmap/ic_myexpenses"
         android:label="${appName}"
