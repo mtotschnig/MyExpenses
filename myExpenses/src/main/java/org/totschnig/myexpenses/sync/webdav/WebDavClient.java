@@ -224,7 +224,7 @@ public class WebDavClient {
     }
   }
 
-  public void testLogin() throws HttpException, UntrustedCertificateException {
+  public void testLogin() throws HttpException, UntrustedCertificateException, NotCompliantWebDavException {
     Request request = new Request.Builder()
         .url(mBaseUri)
         .method("PROPFIND", null)
@@ -232,9 +232,10 @@ public class WebDavClient {
         .build();
 
     try {
-      Response response = httpClient.newCall(request).execute();
-      if (!response.isSuccessful()) {
-        throw new HttpException(response);
+      DavResource baseResource = new DavResource(httpClient, mBaseUri);
+      baseResource.options();
+      if (!baseResource.capabilities.contains("2")) {
+        throw new NotCompliantWebDavException();
       }
     } catch (SSLHandshakeException e) {
       Throwable innerEx = e;
@@ -259,6 +260,8 @@ public class WebDavClient {
       }
     } catch (IOException e) {
       throw new HttpException(request, e);
+    } catch (at.bitfire.dav4android.exception.HttpException | DavException e) {
+      throw new HttpException(e);
     }
   }
 }

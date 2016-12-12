@@ -24,6 +24,7 @@ import org.totschnig.myexpenses.sync.WebDavBackendProvider;
 import org.totschnig.myexpenses.sync.webdav.CertificateHelper;
 import org.totschnig.myexpenses.sync.webdav.HttpException;
 import org.totschnig.myexpenses.sync.webdav.InvalidCertificateException;
+import org.totschnig.myexpenses.sync.webdav.NotCompliantWebDavException;
 import org.totschnig.myexpenses.sync.webdav.UntrustedCertificateException;
 import org.totschnig.myexpenses.sync.webdav.WebDavClient;
 import org.totschnig.myexpenses.util.AcraHelper;
@@ -41,6 +42,7 @@ public class SetupWebdavDialogFragment extends CommitSafeDialogFragment {
     OK,
     UNTRUSTED_CERTIFICATE,
     INVALID_CERTIFICATE,
+    NOT_COMPLIANT_WEBDAV,
     FAILED
   }
 
@@ -137,6 +139,8 @@ public class SetupWebdavDialogFragment extends CommitSafeDialogFragment {
           } catch (HttpException e) {
             exception = e;
             return TestLoginStatus.FAILED;
+          } catch (NotCompliantWebDavException e) {
+            return TestLoginStatus.NOT_COMPLIANT_WEBDAV;
           }
         }
 
@@ -168,6 +172,8 @@ public class SetupWebdavDialogFragment extends CommitSafeDialogFragment {
             mChkTrustCertificate.setVisibility(View.VISIBLE);
           } else if (status == TestLoginStatus.INVALID_CERTIFICATE) {
             mChkTrustCertificate.setError(getString(R.string.validate_error_webdav_invalid_certificate));
+          } else if (status == TestLoginStatus.NOT_COMPLIANT_WEBDAV) {
+            mEdtUrl.setError(getString(R.string.validate_error_webdav_not_compliant));
           } else {
             mEdtUrl.setError(exception.getMessage());
           }
