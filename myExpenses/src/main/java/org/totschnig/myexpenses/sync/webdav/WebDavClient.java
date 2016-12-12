@@ -226,8 +226,9 @@ public class WebDavClient {
 
   public void testLogin() throws HttpException, UntrustedCertificateException {
     Request request = new Request.Builder()
-        .url(mBaseUri.toString())
-        .head()
+        .url(mBaseUri)
+        .method("PROPFIND", null)
+        .header("Depth", "0")
         .build();
 
     try {
