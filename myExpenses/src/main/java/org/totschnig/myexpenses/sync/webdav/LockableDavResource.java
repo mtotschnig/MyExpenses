@@ -18,6 +18,13 @@ public class LockableDavResource extends at.bitfire.dav4android.DavResource {
     super(httpClient, location);
   }
 
+  /**
+   *
+   * @param body content to be written to resource
+   * @param ifHeader DAV compliant If header
+   * @throws IOException
+   * @throws HttpException
+   */
   public void put(@NonNull RequestBody body, String ifHeader) throws IOException, HttpException {
     Response response = null;
     Request.Builder builder = new Request.Builder()
@@ -39,6 +46,22 @@ public class LockableDavResource extends at.bitfire.dav4android.DavResource {
       properties.remove(GetETag.NAME);
     else
       properties.put(GetETag.NAME, new GetETag(eTag));
+  }
 
+  /**
+   * Tries to establish if the Dav resource represented by this object exists on the server by sending
+   * a HEAD request to it
+   */
+  public boolean exists() throws org.totschnig.myexpenses.sync.webdav.HttpException {
+    Request request = new Request.Builder()
+        .url(location)
+        .head()
+        .build();
+    try {
+      Response response = httpClient.newCall(request).execute();
+      return response.isSuccessful();
+    } catch (IOException e) {
+      throw new org.totschnig.myexpenses.sync.webdav.HttpException(request, e);
+    }
   }
 }

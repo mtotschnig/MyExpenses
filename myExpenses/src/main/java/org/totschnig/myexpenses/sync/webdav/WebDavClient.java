@@ -92,7 +92,6 @@ public class WebDavClient {
     httpClient = builder.build();
   }
 
-
   public void upload(String folderName, String fileName, String fileContent, MediaType mediaType) throws HttpException {
     try {
       new LockableDavResource(httpClient, buildResourceUri(folderName, fileName))
@@ -107,23 +106,15 @@ public class WebDavClient {
         webDavIfHeaderConditionList(webdavCodedUrl(currentLockToken));
   }
 
-  public String mkCol(String folderName) throws HttpException {
-    HttpUrl colUri = buildCollectionUri(folderName);
-    if (!colExists(colUri)) {
-      Request request = new Request.Builder()
-          .url(colUri)
-          .method("MKCOL", null)
-          .build();
+  public void mkCol(String folderName) throws HttpException {
+    LockableDavResource folder = new LockableDavResource(httpClient, buildCollectionUri(folderName));
+    if (!folder.exists()) {
       try {
-        Response response = httpClient.newCall(request).execute();
-        if (!response.isSuccessful()) {
-          throw new HttpException(response);
-        }
-      } catch (IOException e) {
-        throw new HttpException(request, e);
+        folder.mkCol(null);
+      } catch (IOException | at.bitfire.dav4android.exception.HttpException e) {
+        throw new HttpException(e);
       }
     }
-    return colUri.toString();
   }
 
   public Stream<DavResource> getFolderMembers(String folderName) {
@@ -135,6 +126,10 @@ public class WebDavClient {
       AcraHelper.report(e);
     }
     return Stream.empty();
+  }
+
+  public LockableDavResource getResource(String folderName, String resourceName) {
+    return new LockableDavResource(httpClient, buildResourceUri(folderName, resourceName));
   }
 
   public boolean lock(String folderName) {
@@ -225,12 +220,6 @@ public class WebDavClient {
   }
 
   public void testLogin() throws HttpException, UntrustedCertificateException, NotCompliantWebDavException {
-    Request request = new Request.Builder()
-        .url(mBaseUri)
-        .method("PROPFIND", null)
-        .header("Depth", "0")
-        .build();
-
     try {
       DavResource baseResource = new DavResource(httpClient, mBaseUri);
       baseResource.options();
@@ -258,9 +247,7 @@ public class WebDavClient {
           throw new UntrustedCertificateException(cert);
         }
       }
-    } catch (IOException e) {
-      throw new HttpException(request, e);
-    } catch (at.bitfire.dav4android.exception.HttpException | DavException e) {
+    } catch (IOException | at.bitfire.dav4android.exception.HttpException | DavException e) {
       throw new HttpException(e);
     }
   }

@@ -6,10 +6,12 @@ import android.content.Context;
 import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
 import org.totschnig.myexpenses.sync.webdav.CertificateHelper;
 import org.totschnig.myexpenses.sync.webdav.HttpException;
 import org.totschnig.myexpenses.sync.webdav.InvalidCertificateException;
+import org.totschnig.myexpenses.sync.webdav.LockableDavResource;
 import org.totschnig.myexpenses.sync.webdav.WebDavClient;
 
 import java.io.IOException;
@@ -19,6 +21,7 @@ import java.security.cert.X509Certificate;
 import at.bitfire.dav4android.DavResource;
 import at.bitfire.dav4android.exception.DavException;
 import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
@@ -57,7 +60,18 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
     accountUuid = account.uuid;
     try {
       webDavClient.mkCol(accountUuid);
-    } catch (HttpException e) {
+      LockableDavResource metaData = webDavClient.getResource(accountUuid, "metadata.json");
+      if (!metaData.exists()) {
+
+        metaData.put(RequestBody.create(MIME_JSON, gson.toJson(
+            AccountMetaData.builder()
+                .setColor(account.color)
+                .setCurrency(account.currency.toString())
+                .setLabel(account.label)
+                .setUuid(account.uuid)
+                .build())), null, false);
+      }
+    } catch (HttpException | at.bitfire.dav4android.exception.HttpException | IOException e) {
       return false;
     }
     return true;
