@@ -11,6 +11,7 @@ import org.totschnig.myexpenses.sync.SyncBackendProvider.SyncParseException;
 public class WebDavBackendProviderFactory extends SyncBackendProviderFactory {
 
   public static final String LABEL = "WebDAV";
+  public static final String WEBDAV_SETUP = "WEBDAV_SETUP";
 
   @Override
   public String getLabel() {
@@ -31,6 +32,6 @@ public class WebDavBackendProviderFactory extends SyncBackendProviderFactory {
   public void startSetup(ManageSyncBackends context) {
     SetupWebdavDialogFragment webdavDialogFragment = new SetupWebdavDialogFragment();
     webdavDialogFragment.setCancelable(false);
-    webdavDialogFragment.show(context.getSupportFragmentManager(), "WEBDAV_SETUP");
+    webdavDialogFragment.show(context.getSupportFragmentManager(), WEBDAV_SETUP);
   }
 }

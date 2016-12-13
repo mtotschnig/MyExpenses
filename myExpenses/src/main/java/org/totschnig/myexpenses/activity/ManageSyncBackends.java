@@ -7,9 +7,12 @@ import android.widget.Toast;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
+import org.totschnig.myexpenses.dialog.SetupWebdavDialogFragment;
 import org.totschnig.myexpenses.fragment.SyncBackendList;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.WebDavBackendProviderFactory;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.util.Result;
 
 import java.io.File;
 
@@ -65,12 +68,32 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
 
   private void createAccount(String accountName, String password, Bundle bundle) {
     if(((MyApplication) getApplicationContext()).createSyncAccount(accountName, password, bundle)) {
-      ((SyncBackendList) getSupportFragmentManager().findFragmentById(R.id.backend_list)).loadData();
+      getListFragment().loadData();
     }
+  }
+
+  private SyncBackendList getListFragment() {
+    return (SyncBackendList) getSupportFragmentManager().findFragmentById(R.id.backend_list);
   }
 
   @Override
   public void onCancelEditDialog() {
 
+  }
+
+  @Override
+  public void onPostExecute(int taskId, Object o) {
+    super.onPostExecute(taskId, o);
+    switch (taskId) {
+      case TaskExecutionFragment.TASK_WEBDAV_TEST_LOGIN:
+        Result result = (Result) o;
+        getWebdavFragment().onTestLoginResult(result);
+        break;
+
+    }
+  }
+
+  private SetupWebdavDialogFragment getWebdavFragment() {
+    return (SetupWebdavDialogFragment) getSupportFragmentManager().findFragmentByTag(WebDavBackendProviderFactory.WEBDAV_SETUP);
   }
 }

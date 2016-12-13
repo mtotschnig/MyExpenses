@@ -17,8 +17,11 @@
 package org.totschnig.myexpenses.task;
 
 
-import java.io.Serializable;
-import java.util.ArrayList;
+import android.app.Activity;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import org.apache.commons.csv.CSVRecord;
 import org.totschnig.myexpenses.MyApplication;
@@ -29,11 +32,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable;
 import org.totschnig.myexpenses.util.Utils;
 
-import android.app.Activity;
-import android.net.Uri;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.util.Log;
+import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * This Fragment manages a single background task and retains itself across
@@ -102,13 +102,14 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_MOVE_UNCOMMITED_SPLIT_PARTS = 40;
   public static final int TASK_REPAIR_PLAN = 41;
   public static final int TASK_START_SYNC = 42;
+  public static final int TASK_WEBDAV_TEST_LOGIN = 43;
 
 
   /**
    * Callback interface through which the fragment will report the task's
    * progress and results back to the Activity.
    */
-  public static interface TaskCallbacks {
+  public interface TaskCallbacks {
     void onPreExecute();
 
     void onProgressUpdate(Object progress);
@@ -226,6 +227,13 @@ public class TaskExecutionFragment<T> extends Fragment {
     return f;
   }
 
+  public static TaskExecutionFragment newInstanceWebdavTestLogin(Bundle b) {
+    TaskExecutionFragment f = new TaskExecutionFragment();
+    b.putInt(KEY_TASKID, TASK_WEBDAV_TEST_LOGIN);
+    f.setArguments(b);
+    return f;
+  }
+
   /**
    * Hold a reference to the parent Activity so we can report the task's current
    * progress and results. The Android framework will pass us a reference to the
@@ -285,6 +293,9 @@ public class TaskExecutionFragment<T> extends Fragment {
           break;
         case TASK_PRINT:
           new PrintTask(this, args).execute();
+          break;
+        case TASK_WEBDAV_TEST_LOGIN:
+          new TestLoginTask(this, args).execute();
           break;
         default:
           new GenericTask<T>(this, taskId, args.getSerializable(KEY_EXTRA))

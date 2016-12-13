@@ -42,9 +42,9 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
   public static final String KEY_DIR_NAME_LEGACY = "dirNameLegacy";
   private final TaskExecutionFragment taskExecutionFragment;
   private int restorePlanStrategy;
-  Uri fileUri;
-  String dirNameLegacy;
-  public RestoreTask(TaskExecutionFragment taskExecutionFragment,Bundle b) {
+  private Uri fileUri;
+  private String dirNameLegacy;
+  RestoreTask(TaskExecutionFragment taskExecutionFragment, Bundle b) {
     this.taskExecutionFragment = taskExecutionFragment;
     this.fileUri = b.getParcelable(TaskExecutionFragment.KEY_FILE_PATH);
     if (fileUri == null) {
@@ -77,6 +77,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
           TaskExecutionFragment.TASK_RESTORE, result);
     }
   }
+
   @Override
   protected Result doInBackground(Void... ignored) {
     File workingDir;
@@ -114,13 +115,13 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
     }
     File backupFile = MyApplication.getBackupDbFile(workingDir);
     File backupPrefFile = MyApplication.getBackupPrefFile(workingDir);
-    if (backupFile == null || !backupFile.exists()) {
+    if (!backupFile.exists()) {
       return new Result(
           false,
           R.string.restore_backup_file_not_found,
           MyApplication.BACKUP_DB_FILE_NAME,workingDir);
     }
-    if (backupPrefFile == null || !backupPrefFile.exists()) {
+    if (!backupPrefFile.exists()) {
       return new Result(
           false,
           R.string.restore_backup_file_not_found,

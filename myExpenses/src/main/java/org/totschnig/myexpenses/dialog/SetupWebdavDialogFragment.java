@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.dialog;
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.Dialog;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -19,15 +18,17 @@ import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
+import org.totschnig.myexpenses.activity.ProtectionDelegate;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.WebDavBackendProvider;
 import org.totschnig.myexpenses.sync.webdav.CertificateHelper;
-import org.totschnig.myexpenses.sync.webdav.HttpException;
 import org.totschnig.myexpenses.sync.webdav.InvalidCertificateException;
 import org.totschnig.myexpenses.sync.webdav.NotCompliantWebDavException;
 import org.totschnig.myexpenses.sync.webdav.UntrustedCertificateException;
-import org.totschnig.myexpenses.sync.webdav.WebDavClient;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.task.TestLoginTask;
 import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.form.AbstractFormFieldValidator;
 import org.totschnig.myexpenses.util.form.FormFieldNotEmptyValidator;
 import org.totschnig.myexpenses.util.form.FormValidator;
@@ -38,13 +39,6 @@ import java.security.cert.X509Certificate;
 import okhttp3.HttpUrl;
 
 public class SetupWebdavDialogFragment extends CommitSafeDialogFragment {
-  enum TestLoginStatus {
-    OK,
-    UNTRUSTED_CERTIFICATE,
-    INVALID_CERTIFICATE,
-    NOT_COMPLIANT_WEBDAV,
-    FAILED
-  }
 
   private EditText mEdtUrl;
   private EditText mEdtUserName;
@@ -107,85 +101,68 @@ public class SetupWebdavDialogFragment extends CommitSafeDialogFragment {
     validator.add(new FormFieldNotEmptyValidator(mEdtPassword));
 
     if (validator.validate()) {
-      new AsyncTask<Void, Void, TestLoginStatus>() {
-        private String url;
-        private String userName;
-        private String password;
-        private X509Certificate trustedCertificate;
-        private HttpException exception;
-
-        @Override
-        protected void onPreExecute() {
-          url = mEdtUrl.getText().toString().trim();
-          userName = mEdtUserName.getText().toString().trim();
-          password = mEdtPassword.getText().toString().trim();
-          trustedCertificate = mChkTrustCertificate.isChecked() ? mTrustCertificate : null;
-          exception = null;
-
-          view.setEnabled(false);
-        }
-
-        @Override
-        protected TestLoginStatus doInBackground(Void... params) {
-          try {
-            WebDavClient client = new WebDavClient(url, userName, password, trustedCertificate);
-            client.testLogin();
-            return TestLoginStatus.OK;
-          } catch (UntrustedCertificateException e) {
-            mTrustCertificate = e.getCertificate();
-            return TestLoginStatus.UNTRUSTED_CERTIFICATE;
-          } catch (InvalidCertificateException e) {
-            return TestLoginStatus.INVALID_CERTIFICATE;
-          } catch (HttpException e) {
-            exception = e;
-            return TestLoginStatus.FAILED;
-          } catch (NotCompliantWebDavException e) {
-            return TestLoginStatus.NOT_COMPLIANT_WEBDAV;
-          }
-        }
-
-        @Override
-        protected void onPostExecute(TestLoginStatus status) {
-          ManageSyncBackends activity = (ManageSyncBackends) getActivity();
-          if (activity == null) {
-            return;
-          }
-          if (status == TestLoginStatus.OK) {
-            Bundle data = new Bundle();
-            data.putString(AccountManager.KEY_ACCOUNT_NAME, mEdtUserName.getText().toString());
-            data.putString(AccountManager.KEY_PASSWORD, mEdtPassword.getText().toString());
-            data.putString(GenericAccountService.KEY_SYNC_PROVIDER_URL, mEdtUrl.getText().toString());
-            if (mTrustCertificate != null && mChkTrustCertificate.isChecked()) {
-              try {
-                data.putString(WebDavBackendProvider.KEY_WEB_DAV_CERTIFICATE, CertificateHelper.toString(mTrustCertificate));
-              } catch (CertificateEncodingException e) {
-                AcraHelper.report(e);
-              }
-            }
-
-            activity.onFinishWebDavSetup(data);
-            dismiss();
-          } else if (status == TestLoginStatus.UNTRUSTED_CERTIFICATE) {
-            certificateContainer.setVisibility(View.VISIBLE);
-            mTxtTrustCertificate.setText(CertificateHelper.getShortDescription(mTrustCertificate, getActivity()));
-            mTxtTrustCertificate.setVisibility(View.VISIBLE);
-            mChkTrustCertificate.setVisibility(View.VISIBLE);
-          } else if (status == TestLoginStatus.INVALID_CERTIFICATE) {
-            mChkTrustCertificate.setError(getString(R.string.validate_error_webdav_invalid_certificate));
-          } else if (status == TestLoginStatus.NOT_COMPLIANT_WEBDAV) {
-            mEdtUrl.setError(getString(R.string.validate_error_webdav_not_compliant));
-          } else {
-            mEdtUrl.setError(exception.getMessage());
-          }
-
-          view.setEnabled(true);
-        }
-      }.execute();
+      Bundle args = new Bundle();
+      args.putString(TestLoginTask.KEY_URL, mEdtUrl.getText().toString().trim());
+      args.putString(TestLoginTask.KEY_USERNAME, mEdtUserName.getText().toString().trim());
+      args.putString(TestLoginTask.KEY_PASSWORD, mEdtPassword.getText().toString().trim());
+      args.putSerializable(TestLoginTask.KEY_CERTIFICATE, mChkTrustCertificate.isChecked() ? mTrustCertificate : null);
+      getFragmentManager()
+          .beginTransaction()
+          .add(TaskExecutionFragment.newInstanceWebdavTestLogin(args), ProtectionDelegate.ASYNC_TAG)
+          .add(ProgressDialogFragment.newInstance("WebDAV", null, 0, false),
+              ProtectionDelegate.PROGRESS_TAG).commit();
+      view.setEnabled(false);
     }
   }
 
+  public void onTestLoginResult(Result result) {
+    if (result.success) {
+      Bundle data = new Bundle();
+      data.putString(AccountManager.KEY_ACCOUNT_NAME, mEdtUserName.getText().toString());
+      data.putString(AccountManager.KEY_PASSWORD, mEdtPassword.getText().toString());
+      data.putString(GenericAccountService.KEY_SYNC_PROVIDER_URL, mEdtUrl.getText().toString());
+      if (mTrustCertificate != null && mChkTrustCertificate.isChecked()) {
+        try {
+          data.putString(WebDavBackendProvider.KEY_WEB_DAV_CERTIFICATE, CertificateHelper.toString(mTrustCertificate));
+        } catch (CertificateEncodingException e) {
+          AcraHelper.report(e);
+        }
+      }
+
+      ((ManageSyncBackends) getActivity()).onFinishWebDavSetup(data);
+      dismiss();
+    } else {
+      Exception exception = ((Exception) result.extra[0]);
+      if (exception instanceof UntrustedCertificateException) {
+        certificateContainer.setVisibility(View.VISIBLE);
+        mTxtTrustCertificate.setText(CertificateHelper.getShortDescription(mTrustCertificate, getActivity()));
+        mTxtTrustCertificate.setVisibility(View.VISIBLE);
+        mChkTrustCertificate.setVisibility(View.VISIBLE);
+      } else if (exception instanceof InvalidCertificateException) {
+        mChkTrustCertificate.setError(getString(R.string.validate_error_webdav_invalid_certificate));
+      } else if (exception instanceof NotCompliantWebDavException) {
+        mEdtUrl.setError(getString(R.string.validate_error_webdav_not_compliant));
+      } else {
+        //noinspection ThrowableResultOfMethodCallIgnored
+        mEdtUrl.setError(getCause(exception).getMessage());
+      }
+      ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+    }
+  }
+
+  //http://stackoverflow.com/a/28565320/1199911
+  Throwable getCause(Throwable e) {
+    Throwable cause = null;
+    Throwable result = e;
+
+    while(null != (cause = result.getCause())  && (result != cause) ) {
+      result = cause;
+    }
+    return result;
+  }
+
   private static class UrlValidator extends AbstractFormFieldValidator {
-    public UrlValidator(EditText mEdtUrl) {
+    UrlValidator(EditText mEdtUrl) {
       super(mEdtUrl);
     }
 
@@ -199,4 +176,5 @@ public class SetupWebdavDialogFragment extends CommitSafeDialogFragment {
       return HttpUrl.parse(fields[0].getText().toString().trim()) != null;
     }
   }
+
 }
