@@ -73,8 +73,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
   protected void onPreExecute() {
     if (this.taskExecutionFragment.mCallbacks != null) {
       this.taskExecutionFragment.mCallbacks.onPreExecute();
-
-
     }
   }
 

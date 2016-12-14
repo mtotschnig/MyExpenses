@@ -108,7 +108,7 @@ public class SetupWebdavDialogFragment extends CommitSafeDialogFragment {
       args.putSerializable(TestLoginTask.KEY_CERTIFICATE, mChkTrustCertificate.isChecked() ? mTrustCertificate : null);
       getFragmentManager()
           .beginTransaction()
-          .add(TaskExecutionFragment.newInstanceWebdavTestLogin(args), ProtectionDelegate.ASYNC_TAG)
+          .add(TaskExecutionFragment.newInstanceWithBundle(args, TaskExecutionFragment.TASK_WEBDAV_TEST_LOGIN), ProtectionDelegate.ASYNC_TAG)
           .add(ProgressDialogFragment.newInstance("WebDAV", null, 0, false),
               ProtectionDelegate.PROGRESS_TAG).commit();
       view.setEnabled(false);
@@ -135,6 +135,7 @@ public class SetupWebdavDialogFragment extends CommitSafeDialogFragment {
       Exception exception = ((Exception) result.extra[0]);
       if (exception instanceof UntrustedCertificateException) {
         certificateContainer.setVisibility(View.VISIBLE);
+        mTrustCertificate = ((UntrustedCertificateException) exception).getCertificate();
         mTxtTrustCertificate.setText(CertificateHelper.getShortDescription(mTrustCertificate, getActivity()));
         mTxtTrustCertificate.setVisibility(View.VISIBLE);
         mChkTrustCertificate.setVisibility(View.VISIBLE);

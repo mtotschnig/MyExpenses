@@ -15,8 +15,6 @@
 
 package org.totschnig.myexpenses;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.ContentResolver;
@@ -29,7 +27,6 @@ import android.content.res.Configuration;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.multidex.MultiDexApplication;
@@ -57,7 +54,6 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
 import org.totschnig.myexpenses.service.PlanExecutor;
-import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.LicenceHandler;
 import org.totschnig.myexpenses.util.Result;
@@ -171,25 +167,6 @@ public class MyApplication extends MultiDexApplication implements
     } catch (IOException e) {
       return null;
     }
-  }
-
-  public static void deleteSyncAccount(long accountId) {
-    Account oldAccount = GenericAccountService.GetAccount("_" + accountId);
-    AccountManager accountManager =
-        (AccountManager) mSelf.getSystemService(
-            ACCOUNT_SERVICE);
-    accountManager.removeAccount(oldAccount, null, null);
-  }
-
-  public boolean createSyncAccount(String label, String password, Bundle bundle) {
-    Account newAccount = GenericAccountService.GetAccount(label);
-    AccountManager accountManager = AccountManager.get(this);
-    if (accountManager.addAccountExplicitly(newAccount, null, bundle)) {
-      accountManager.setPassword(newAccount, password);
-      ContentResolver.setSyncAutomatically(newAccount, TransactionProvider.AUTHORITY, true);
-      return true;
-    }
-    return false;
   }
 
   @Override

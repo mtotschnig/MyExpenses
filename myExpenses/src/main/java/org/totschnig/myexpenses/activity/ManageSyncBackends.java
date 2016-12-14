@@ -11,6 +11,7 @@ import org.totschnig.myexpenses.dialog.SetupWebdavDialogFragment;
 import org.totschnig.myexpenses.fragment.SyncBackendList;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.WebDavBackendProviderFactory;
+import org.totschnig.myexpenses.task.CreateSyncAccountTask;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Result;
 
@@ -67,13 +68,14 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
   }
 
   private void createAccount(String accountName, String password, Bundle bundle) {
-    if(((MyApplication) getApplicationContext()).createSyncAccount(accountName, password, bundle)) {
-      getListFragment().loadData();
-    }
-  }
-
-  private SyncBackendList getListFragment() {
-    return (SyncBackendList) getSupportFragmentManager().findFragmentById(R.id.backend_list);
+    Bundle args = new Bundle();
+    args.putString(CreateSyncAccountTask.KEY_ACCOUNT_NAME, accountName);
+    args.putString(CreateSyncAccountTask.KEY_PASSWORD, password);
+    args.putParcelable(CreateSyncAccountTask.KEY_USERDATA, bundle);
+    getSupportFragmentManager()
+        .beginTransaction()
+        .add(TaskExecutionFragment.newInstanceWithBundle(args, TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT), ProtectionDelegate.ASYNC_TAG)
+        .commit();
   }
 
   @Override
@@ -84,13 +86,20 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
   @Override
   public void onPostExecute(int taskId, Object o) {
     super.onPostExecute(taskId, o);
+    Result result = (Result) o;
     switch (taskId) {
       case TaskExecutionFragment.TASK_WEBDAV_TEST_LOGIN:
-        Result result = (Result) o;
         getWebdavFragment().onTestLoginResult(result);
         break;
-
+      case TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT:
+        if (result.success) {
+          getListFragment().loadData();
+        }
     }
+  }
+
+  private SyncBackendList getListFragment() {
+    return (SyncBackendList) getSupportFragmentManager().findFragmentById(R.id.backend_list);
   }
 
   private SetupWebdavDialogFragment getWebdavFragment() {

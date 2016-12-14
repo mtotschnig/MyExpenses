@@ -103,7 +103,7 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_REPAIR_PLAN = 41;
   public static final int TASK_START_SYNC = 42;
   public static final int TASK_WEBDAV_TEST_LOGIN = 43;
-
+  public static final int TASK_CREATE_SYNC_ACCOUNT = 44;
 
   /**
    * Callback interface through which the fragment will report the task's
@@ -206,30 +206,9 @@ public class TaskExecutionFragment<T> extends Fragment {
     return f;
   }
 
-  public static TaskExecutionFragment newInstanceExport(Bundle b) {
+  public static TaskExecutionFragment newInstanceWithBundle(Bundle b, int taskId) {
     TaskExecutionFragment f = new TaskExecutionFragment();
-    b.putInt(KEY_TASKID, TASK_EXPORT);
-    f.setArguments(b);
-    return f;
-  }
-
-  public static TaskExecutionFragment newInstanceRestore(Bundle b) {
-    TaskExecutionFragment f = new TaskExecutionFragment();
-    b.putInt(KEY_TASKID, TASK_RESTORE);
-    f.setArguments(b);
-    return f;
-  }
-
-  public static TaskExecutionFragment newInstancePrint(Bundle b) {
-    TaskExecutionFragment f = new TaskExecutionFragment();
-    b.putInt(KEY_TASKID, TASK_PRINT);
-    f.setArguments(b);
-    return f;
-  }
-
-  public static TaskExecutionFragment newInstanceWebdavTestLogin(Bundle b) {
-    TaskExecutionFragment f = new TaskExecutionFragment();
-    b.putInt(KEY_TASKID, TASK_WEBDAV_TEST_LOGIN);
+    b.putInt(KEY_TASKID, taskId);
     f.setArguments(b);
     return f;
   }
@@ -296,6 +275,9 @@ public class TaskExecutionFragment<T> extends Fragment {
           break;
         case TASK_WEBDAV_TEST_LOGIN:
           new TestLoginTask(this, args).execute();
+          break;
+        case TASK_CREATE_SYNC_ACCOUNT:
+          new CreateSyncAccountTask(this, args).execute();
           break;
         default:
           new GenericTask<T>(this, taskId, args.getSerializable(KEY_EXTRA))
