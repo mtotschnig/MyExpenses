@@ -9,6 +9,8 @@ import com.google.common.io.Files;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.sync.json.AdapterFactory;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
@@ -23,7 +25,8 @@ import java.util.regex.Pattern;
 
 abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
 
-  public static final Pattern FILE_PATTERN = Pattern.compile("_\\d+");
+  protected static final String ACCOUNT_METADATA_FILENAME = "metadata.json";
+  private static final Pattern FILE_PATTERN = Pattern.compile("_\\d+");
   protected Gson gson;
 
   AbstractSyncBackendProvider() {
@@ -32,7 +35,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
         .create();
   }
 
-  protected ChangeSet getFromInputStream(long sequenceNumber, InputStream inputStream) {
+  ChangeSet getChangeSetFromInputStream(long sequenceNumber, InputStream inputStream) {
     final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
     List<TransactionChange> changes = Utils.getChanges(gson, reader);
     if (changes == null || changes.size() == 0) {
@@ -41,7 +44,11 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     return ChangeSet.create(sequenceNumber, changes);
   }
 
-  protected boolean accept(long sequenceNumber, String name) {
+  AccountMetaData getAccountMetaDataFromInputStream(InputStream inputStream) {
+    return gson.fromJson(new BufferedReader(new InputStreamReader(inputStream)), AccountMetaData.class);
+  }
+
+  boolean isNewerJsonFile(long sequenceNumber, String name) {
     String fileName = Files.getNameWithoutExtension(name);
     String fileExtension = Files.getFileExtension(name);
     return fileExtension.equals("json") && FILE_PATTERN.matcher(fileName).matches() &&
@@ -54,7 +61,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   }
 
   @NonNull
-  protected Long getSequenceFromFileName(String fileName) {
+  Long getSequenceFromFileName(String fileName) {
     return Long.parseLong(Files.getNameWithoutExtension(fileName).substring(1));
   }
 
@@ -67,6 +74,15 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
       return ChangeSet.FAILED;
     }
     return nextSequence;
+  }
+
+  String buildMetadata(Account account) {
+    return gson.toJson(AccountMetaData.builder()
+        .setColor(account.color)
+        .setCurrency(account.currency.toString())
+        .setLabel(account.label)
+        .setUuid(account.uuid)
+        .build());
   }
 
   protected abstract long getLastSequence();

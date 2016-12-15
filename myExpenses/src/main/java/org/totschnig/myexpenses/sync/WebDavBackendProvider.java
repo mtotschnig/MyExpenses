@@ -17,6 +17,7 @@ import org.totschnig.myexpenses.sync.webdav.WebDavClient;
 import java.io.IOException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.List;
 
 import at.bitfire.dav4android.DavResource;
 import at.bitfire.dav4android.exception.DavException;
@@ -60,16 +61,10 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
     accountUuid = account.uuid;
     try {
       webDavClient.mkCol(accountUuid);
-      LockableDavResource metaData = webDavClient.getResource(accountUuid, "metadata.json");
+      LockableDavResource metaData = webDavClient.getResource(accountUuid, ACCOUNT_METADATA_FILENAME);
       if (!metaData.exists()) {
 
-        metaData.put(RequestBody.create(MIME_JSON, gson.toJson(
-            AccountMetaData.builder()
-                .setColor(account.color)
-                .setCurrency(account.currency.toString())
-                .setLabel(account.label)
-                .setUuid(account.uuid)
-                .build())), null, false);
+        metaData.put(RequestBody.create(MIME_JSON, buildMetadata(account)), null, false);
       }
     } catch (HttpException | at.bitfire.dav4android.exception.HttpException | IOException e) {
       return false;
@@ -90,7 +85,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
   private ChangeSet getFromDavResource(DavResource davResource) {
     try {
-      return getFromInputStream(getSequenceFromFileName(davResource.fileName()),
+      return getChangeSetFromInputStream(getSequenceFromFileName(davResource.fileName()),
           davResource.get(MIMETYPE_JSON).byteStream());
     } catch (IOException | at.bitfire.dav4android.exception.HttpException | DavException e) {
       return ChangeSet.failed;
@@ -99,7 +94,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
   private Stream<DavResource> filterDavResources(long sequenceNumber) {
     return webDavClient.getFolderMembers(accountUuid)
-        .filter(davResource -> accept(sequenceNumber, davResource.fileName()));
+        .filter(davResource -> isNewerJsonFile(sequenceNumber, davResource.fileName()));
   }
 
   @Override
@@ -127,6 +122,11 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   @Override
   public boolean isAvailable() {
     return true;
+  }
+
+  @Override
+  public List<AccountMetaData> getRemoteAccountList() {
+    return null;
   }
 
 }

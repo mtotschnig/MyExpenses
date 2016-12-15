@@ -2,10 +2,13 @@ package org.totschnig.myexpenses.sync;
 
 import android.content.Context;
 
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 import com.google.common.base.Preconditions;
 
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
 
 import java.io.File;
@@ -14,12 +17,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.List;
 
-public class LocalFileBackendProvider extends AbstractSyncBackendProvider {
+class LocalFileBackendProvider extends AbstractSyncBackendProvider {
 
   private File baseDir, accountDir;
 
-  public LocalFileBackendProvider(String filePath) {
+  LocalFileBackendProvider(String filePath) {
     super();
     baseDir = new File(filePath);
     if (!baseDir.isDirectory()) {
@@ -31,7 +35,19 @@ public class LocalFileBackendProvider extends AbstractSyncBackendProvider {
   public boolean withAccount(Account account) {
     accountDir = new File(baseDir, account.uuid);
     accountDir.mkdir();
-    return accountDir.isDirectory();
+    if (accountDir.isDirectory()) {
+      File metaData = new File(accountDir, ACCOUNT_METADATA_FILENAME);
+      if (!metaData.exists()) {
+        try {
+          saveFileContents(metaData, buildMetadata(account));
+        } catch (IOException e) {
+          return false;
+        }
+      }
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @Override
@@ -44,8 +60,7 @@ public class LocalFileBackendProvider extends AbstractSyncBackendProvider {
 
   private Stream<File> filterFiles(long sequenceNumber) {
     Preconditions.checkNotNull(accountDir);
-    return Stream.of(accountDir.listFiles())
-        .filter(file -> accept(sequenceNumber, file.getName()));
+    return Stream.of(accountDir.listFiles(file -> isNewerJsonFile(sequenceNumber, file.getName())));
   }
 
   @Override
@@ -55,18 +70,25 @@ public class LocalFileBackendProvider extends AbstractSyncBackendProvider {
 
   @Override
   public ChangeSet getChangeSetSince(long sequenceNumber, Context context) {
-    return merge(filterFiles(sequenceNumber).map(this::getFromFile))
+    return merge(filterFiles(sequenceNumber).map(this::getChangeSetFromFile))
         .orElse(ChangeSet.empty(sequenceNumber));
   }
 
-  private ChangeSet getFromFile(File file) {
+  private ChangeSet getChangeSetFromFile(File file) {
     try {
-      return getFromInputStream(getSequenceFromFileName(file.getName()), new FileInputStream(file));
+      return getChangeSetFromInputStream(getSequenceFromFileName(file.getName()), new FileInputStream(file));
     } catch (FileNotFoundException e) {
       return ChangeSet.failed;
     }
   }
 
+  private Optional<AccountMetaData> getAccountMetaDataFromFile(File file) {
+    try {
+      return Optional.of(getAccountMetaDataFromInputStream(new FileInputStream(file)));
+    } catch (FileNotFoundException e) {
+      return Optional.empty();
+    }
+  }
 
   @Override
   public boolean unlock() {
@@ -86,10 +108,24 @@ public class LocalFileBackendProvider extends AbstractSyncBackendProvider {
   @Override
   void saveFileContents(String fileName, String fileContents) throws IOException {
     Preconditions.checkNotNull(accountDir);
-    File changeSetFile = new File(accountDir, fileName);
+    saveFileContents(new File(accountDir, fileName), fileContents);
+  }
+
+  private void saveFileContents(File file, String fileContents) throws IOException {
     OutputStreamWriter out;
-    out = new OutputStreamWriter(new FileOutputStream(changeSetFile));
-    out.write(gson.toJson(fileContents));
+    out = new OutputStreamWriter(new FileOutputStream(file));
+    out.write(fileContents);
     out.close();
+  }
+
+  @Override
+  public List<AccountMetaData> getRemoteAccountList() {
+    return Stream.of(baseDir.listFiles(File::isDirectory))
+        .map(directory -> new File(directory, ACCOUNT_METADATA_FILENAME))
+        .filter(File::exists)
+        .map(this::getAccountMetaDataFromFile)
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .collect(Collectors.toList());
   }
 }
