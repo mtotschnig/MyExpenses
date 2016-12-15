@@ -1,7 +1,7 @@
 package org.totschnig.myexpenses.adapter;
 
-import android.accounts.Account;
 import android.content.Context;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,23 +11,27 @@ import android.widget.TextView;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class SyncBackendAdapter extends BaseExpandableListAdapter {
 
-  private List<SyncAccount> syncAccounts;
+  private List<String> syncAccounts;
+  private SparseArray<List<AccountMetaData>> accountMetaDataMap = new SparseArray<>();
   private LayoutInflater layoutInflater;
 
-  public SyncBackendAdapter(Context context, List<SyncAccount> syncAccounts) {
+  public SyncBackendAdapter(Context context, List<String> syncAccounts) {
     this.layoutInflater = LayoutInflater.from(context);
     this.syncAccounts = syncAccounts;
   }
 
   @Override
   public Object getChild(int groupPosition, int childPosititon) {
-    return syncAccounts.get(groupPosition).getChildList().get(childPosititon);
+    List<AccountMetaData> childList = getChildList(groupPosition);
+    return childList != null ? childList.get(childPosititon) : null ;
+  }
+
+  private List<AccountMetaData> getChildList(int groupPosition) {
+    return accountMetaDataMap.get(groupPosition);
   }
 
   @Override
@@ -42,7 +46,7 @@ public class SyncBackendAdapter extends BaseExpandableListAdapter {
     final String childText = ((AccountMetaData) getChild(groupPosition, childPosition)).label();
 
     if (convertView == null) {
-      convertView = layoutInflater.inflate(R.layout.sync_backend_row, null);
+      convertView = layoutInflater.inflate(R.layout.sync_backend_row, parent, false);
     }
 
     ((TextView) convertView.findViewById(R.id.label)).setText(childText);
@@ -51,7 +55,8 @@ public class SyncBackendAdapter extends BaseExpandableListAdapter {
 
   @Override
   public int getChildrenCount(int groupPosition) {
-    return ((SyncAccount) getGroup(groupPosition)).getChildList().size();
+    List<AccountMetaData> childList = getChildList(groupPosition);
+    return childList != null ? childList.size() : 0;
   }
 
   @Override
@@ -72,9 +77,9 @@ public class SyncBackendAdapter extends BaseExpandableListAdapter {
   @Override
   public View getGroupView(int groupPosition, boolean isExpanded,
                            View convertView, ViewGroup parent) {
-    String headerTitle = ((SyncAccount) getGroup(groupPosition)).name;
+    String headerTitle = (String) getGroup(groupPosition);
     if (convertView == null) {
-      convertView = layoutInflater.inflate(R.layout.sync_backend_row, null);
+      convertView = layoutInflater.inflate(R.layout.sync_backend_row, parent, false);
     }
 
     ((TextView) convertView.findViewById(R.id.label)).setText(headerTitle);
@@ -93,22 +98,17 @@ public class SyncBackendAdapter extends BaseExpandableListAdapter {
     return true;
   }
 
-  public void setData(List<SyncAccount> accountList) {
+  public void setAccountList(List<String> accountList) {
     syncAccounts = accountList;
     notifyDataSetChanged();
   }
 
-  public static class SyncAccount {
-    public final String name;
-    private final List<AccountMetaData> childList = new ArrayList<>();
+  public void setAccountMetadata(int groupPosition, List<AccountMetaData> accountMetaDataList) {
+    accountMetaDataMap.put(groupPosition, accountMetaDataList);
+    notifyDataSetChanged();
+  }
 
-    public SyncAccount(Account account) {
-      this.name = account.name;
-      childList.add(AccountMetaData.builder().setLabel("DEBUG").setUuid("DEBUG").setColor(-1).setCurrency("EUR").build());
-    }
-
-    List<AccountMetaData> getChildList() {
-      return Collections.unmodifiableList(childList);
-    }
+  public boolean hasAccountMetdata(int groupPosition) {
+    return accountMetaDataMap.get(groupPosition) != null;
   }
 }

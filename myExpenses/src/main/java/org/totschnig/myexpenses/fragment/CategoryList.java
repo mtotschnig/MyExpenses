@@ -554,7 +554,7 @@ public class CategoryList extends SortableListFragment implements
       // Given the group, we return a cursor for all the children within that group
       long parentId = groupCursor.getLong(groupCursor.getColumnIndexOrThrow(KEY_ROWID));
       Bundle bundle = new Bundle();
-      bundle.putLong("parent_id", parentId);
+      bundle.putLong(KEY_PARENTID, parentId);
       int groupPos = groupCursor.getPosition();
       if (mManager.getLoader(groupPos) != null && !mManager.getLoader(groupPos).isReset()) {
         try {
@@ -788,7 +788,7 @@ public class CategoryList extends SortableListFragment implements
       case SUM_CURSOR:
         boolean[] seen = new boolean[2];
         c.moveToFirst();
-        while (c.isAfterLast() == false) {
+        while (!c.isAfterLast()) {
           int type = c.getInt(c.getColumnIndex(KEY_TYPE));
           updateSum(type > 0 ? "+ " : "- ",
               type > 0 ? incomeSumTv : expenseSumTv,

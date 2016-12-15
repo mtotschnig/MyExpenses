@@ -11,7 +11,6 @@ import org.totschnig.myexpenses.dialog.SetupWebdavDialogFragment;
 import org.totschnig.myexpenses.fragment.SyncBackendList;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.WebDavBackendProviderFactory;
-import org.totschnig.myexpenses.task.CreateSyncAccountTask;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Result;
 
@@ -69,9 +68,9 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
 
   private void createAccount(String accountName, String password, Bundle bundle) {
     Bundle args = new Bundle();
-    args.putString(CreateSyncAccountTask.KEY_ACCOUNT_NAME, accountName);
-    args.putString(CreateSyncAccountTask.KEY_PASSWORD, password);
-    args.putParcelable(CreateSyncAccountTask.KEY_USERDATA, bundle);
+    args.putString(AccountManager.KEY_ACCOUNT_NAME, accountName);
+    args.putString(AccountManager.KEY_PASSWORD, password);
+    args.putParcelable(AccountManager.KEY_USERDATA, bundle);
     getSupportFragmentManager()
         .beginTransaction()
         .add(TaskExecutionFragment.newInstanceWithBundle(args, TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT), ProtectionDelegate.ASYNC_TAG)

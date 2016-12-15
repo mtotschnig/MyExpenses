@@ -11,10 +11,11 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.util.Result;
 
+import static android.accounts.AccountManager.KEY_ACCOUNT_NAME;
+import static android.accounts.AccountManager.KEY_PASSWORD;
+import static android.accounts.AccountManager.KEY_USERDATA;
+
 public class CreateSyncAccountTask extends AsyncTask<Void, Void, Result> {
-  public static String KEY_ACCOUNT_NAME = "account_name";
-  public static String KEY_PASSWORD = "password";
-  public static String KEY_USERDATA = "userdata";
 
   private final TaskExecutionFragment taskExecutionFragment;
   private final String accountName;
