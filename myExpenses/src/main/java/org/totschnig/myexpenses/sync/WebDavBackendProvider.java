@@ -3,6 +3,8 @@ package org.totschnig.myexpenses.sync;
 import android.accounts.AccountManager;
 import android.content.Context;
 
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.model.Account;
@@ -79,11 +81,11 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
   @Override
   public ChangeSet getChangeSetSince(long sequenceNumber, Context context) {
-    return merge(filterDavResources(sequenceNumber).map(this::getFromDavResource))
+    return merge(filterDavResources(sequenceNumber).map(this::getChangeSetFromDavResource))
         .orElse(ChangeSet.empty(sequenceNumber));
   }
 
-  private ChangeSet getFromDavResource(DavResource davResource) {
+  private ChangeSet getChangeSetFromDavResource(DavResource davResource) {
     try {
       return getChangeSetFromInputStream(getSequenceFromFileName(davResource.fileName()),
           davResource.get(MIMETYPE_JSON).byteStream());
@@ -126,7 +128,27 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
   @Override
   public List<AccountMetaData> getRemoteAccountList() {
-    return null;
+    return webDavClient.getFolderMembers(null)
+        .filter(LockableDavResource::isCollection)
+        .map(davResource -> webDavClient.getResource(davResource.location, ACCOUNT_METADATA_FILENAME))
+        .filter(davResoure -> {
+          try {
+            return davResoure.exists();
+          } catch (HttpException e) {
+            return false;
+          }
+        })
+        .map(this::getAccountMetaDataFromDavResource)
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .collect(Collectors.toList());
   }
 
+  private Optional<AccountMetaData> getAccountMetaDataFromDavResource(LockableDavResource lockableDavResource) {
+    try {
+      return Optional.of(getAccountMetaDataFromInputStream(lockableDavResource.get(MIMETYPE_JSON).byteStream()));
+    } catch (DavException | at.bitfire.dav4android.exception.HttpException | IOException e) {
+      return Optional.empty();
+    }
+  }
 }

@@ -5,8 +5,10 @@ import android.text.TextUtils;
 
 import java.io.IOException;
 
+import at.bitfire.dav4android.DavResource;
 import at.bitfire.dav4android.exception.HttpException;
 import at.bitfire.dav4android.property.GetETag;
+import at.bitfire.dav4android.property.ResourceType;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -14,8 +16,13 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class LockableDavResource extends at.bitfire.dav4android.DavResource {
-  public LockableDavResource(@NonNull OkHttpClient httpClient, @NonNull HttpUrl location) {
+  LockableDavResource(@NonNull OkHttpClient httpClient, @NonNull HttpUrl location) {
     super(httpClient, location);
+  }
+
+  public static boolean isCollection(DavResource davResource) {
+    ResourceType type = (ResourceType)davResource.properties.get(ResourceType.NAME);
+    return type != null && type.types.contains(ResourceType.COLLECTION);
   }
 
   /**

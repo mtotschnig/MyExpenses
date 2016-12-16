@@ -41,6 +41,7 @@ import at.bitfire.dav4android.DavResource;
 import at.bitfire.dav4android.XmlUtils;
 import at.bitfire.dav4android.exception.DavException;
 import at.bitfire.dav4android.property.DisplayName;
+import at.bitfire.dav4android.property.ResourceType;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -117,10 +118,14 @@ public class WebDavClient {
     }
   }
 
+  /**
+   *
+   * @param folderName if null, members of base uri are returned
+   */
   public Stream<DavResource> getFolderMembers(String folderName) {
-    DavResource folder = new DavResource(httpClient, buildCollectionUri(folderName));
+    DavResource folder = new DavResource(httpClient, folderName == null ? mBaseUri : buildCollectionUri(folderName));
     try {
-      folder.propfind(1, DisplayName.NAME);
+      folder.propfind(1, DisplayName.NAME, ResourceType.NAME);
       return Stream.of(folder.members);
     } catch (IOException | at.bitfire.dav4android.exception.HttpException | DavException e) {
       AcraHelper.report(e);
@@ -130,6 +135,10 @@ public class WebDavClient {
 
   public LockableDavResource getResource(String folderName, String resourceName) {
     return new LockableDavResource(httpClient, buildResourceUri(folderName, resourceName));
+  }
+
+  public LockableDavResource getResource(HttpUrl folderUri, String resourceName) {
+    return new LockableDavResource(httpClient, folderUri.newBuilder().addPathSegment(resourceName).build());
   }
 
   public boolean lock(String folderName) {
