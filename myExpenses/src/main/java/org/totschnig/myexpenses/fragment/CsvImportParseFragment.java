@@ -217,7 +217,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
     if (getActivity()==null) {
       return null;
     }
-    CursorLoader cursorLoader = new CursorLoader(
+    return new CursorLoader(
         getActivity(),
         TransactionProvider.ACCOUNTS_BASE_URI,
         new String[] {
@@ -226,7 +226,6 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
             KEY_CURRENCY,
             KEY_TYPE},
         null,null, null);
-    return cursorLoader;
   }
 
   @Override
