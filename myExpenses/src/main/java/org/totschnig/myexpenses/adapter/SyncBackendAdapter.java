@@ -6,18 +6,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
 
 import java.util.List;
+import java.util.Map;
 
 public class SyncBackendAdapter extends BaseExpandableListAdapter {
+
+  public enum SyncState {
+    SYNCED,
+    KNOWN,
+    UNKNOWN
+  }
 
   private List<String> syncAccounts;
   private SparseArray<List<AccountMetaData>> accountMetaDataMap = new SparseArray<>();
   private LayoutInflater layoutInflater;
+  private Map<String, String> localAccountInfo;
 
   public SyncBackendAdapter(Context context, List<String> syncAccounts) {
     this.layoutInflater = LayoutInflater.from(context);
@@ -42,14 +53,29 @@ public class SyncBackendAdapter extends BaseExpandableListAdapter {
   @Override
   public View getChildView(int groupPosition, final int childPosition,
                            boolean isLastChild, View convertView, ViewGroup parent) {
-
-    final String childText = ((AccountMetaData) getChild(groupPosition, childPosition)).label();
+    AccountMetaData accountMetaData = (AccountMetaData) getChild(groupPosition, childPosition);
 
     if (convertView == null) {
-      convertView = layoutInflater.inflate(R.layout.sync_backend_row, parent, false);
+      convertView = layoutInflater.inflate(R.layout.sync_account_row, parent, false);
     }
 
-    ((TextView) convertView.findViewById(R.id.label)).setText(childText);
+    ((TextView) convertView.findViewById(R.id.label)).setText(accountMetaData.toString());
+    convertView.findViewById(R.id.color1).setBackgroundColor(accountMetaData.color());
+    ImageView syncStateView = (ImageView) convertView.findViewById(R.id.state);
+    SyncState syncState  = getSyncState(groupPosition, childPosition);
+    switch (syncState) {
+      case UNKNOWN:
+        syncStateView.setVisibility(View.GONE);
+        break;
+      case SYNCED:
+        syncStateView.setImageResource(R.drawable.ic_check_activated);
+        syncStateView.setVisibility(View.VISIBLE);
+        break;
+      case KNOWN:
+        syncStateView.setImageResource(R.drawable.ic_check);
+        syncStateView.setVisibility(View.VISIBLE);
+        break;
+    }
     return convertView;
   }
 
@@ -110,5 +136,34 @@ public class SyncBackendAdapter extends BaseExpandableListAdapter {
 
   public boolean hasAccountMetdata(int groupPosition) {
     return accountMetaDataMap.get(groupPosition) != null;
+  }
+
+  public void setLocalAccountInfo(Map<String, String> uuid2syncMap) {
+    localAccountInfo = uuid2syncMap;
+    notifyDataSetChanged();
+  }
+
+  public SyncState getSyncState(long packedPosition) {
+    return getSyncState(ExpandableListView.getPackedPositionGroup(packedPosition), ExpandableListView.getPackedPositionChild(packedPosition));
+  }
+
+  private SyncState getSyncState(int groupPosition, int childPosition) {
+    String syncAccount = (String) getGroup(groupPosition);
+    AccountMetaData accountMetaData = (AccountMetaData) getChild(groupPosition, childPosition);
+
+    if (localAccountInfo.containsKey(accountMetaData.uuid())) {
+      return syncAccount.equals(localAccountInfo.get(accountMetaData.uuid())) ?
+          SyncState.SYNCED : SyncState.KNOWN;
+    } else {
+      return SyncState.UNKNOWN;
+    }
+  }
+
+  public Account getAccountForSync(long packedPosition) {
+    int groupPosition = ExpandableListView.getPackedPositionGroup(packedPosition);
+    Account account = ((AccountMetaData) getChild(groupPosition,
+        ExpandableListView.getPackedPositionChild(packedPosition))).toAccount();
+    account.setSyncAccountName((String) getGroup(groupPosition));
+    return account;
   }
 }

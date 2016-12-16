@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    style="@style/ExpandableListRow"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <View
+        android:id="@+id/color1"
+        android:layout_width="4dp"
+        android:layout_height="fill_parent"/>
+
+    <TextView
+        tools:text="Account label"
+        android:id="@+id/label"
+        android:layout_width="match_parent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_height="?android:attr/listPreferredItemHeight"
+        android:gravity="center_vertical"/>
+
+    <ImageView
+        android:id="@+id/state"
+        android:contentDescription="@string/synchronization"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        tools:src="@drawable/ic_check"
+        android:layout_width="32dp"
+        android:layout_height="32dp"/>
+
+</LinearLayout>

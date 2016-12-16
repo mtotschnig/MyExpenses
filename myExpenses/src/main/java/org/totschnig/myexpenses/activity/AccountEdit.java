@@ -73,8 +73,7 @@ public class AccountEdit extends AmountActivity implements
   private void requireAccount() {
     if (mAccount == null) {
       Bundle extras = getIntent().getExtras();
-      long rowId = extras != null ? extras.getLong(DatabaseConstants.KEY_ROWID)
-          : 0;
+      long rowId = extras != null ? extras.getLong(DatabaseConstants.KEY_ROWID) : 0;
       if (rowId != 0) {
         mAccount = Account.getInstanceFromDb(rowId);
       } else {
@@ -287,9 +286,7 @@ public class AccountEdit extends AmountActivity implements
     }
     mAccount.openingBalance.setAmountMajor(openingBalance);
     mAccount.type = (AccountType) mAccountTypeSpinner.getSelectedItem();
-    if (mSyncSpinner.getSelectedItemPosition() > 0) {
-      mAccount.setSyncAccountName((String) mSyncSpinner.getSelectedItem());
-    }
+    mAccount.setSyncAccountName((String) mSyncSpinner.getSelectedItem());
     //EditActivity.saveState calls DbWriteFragment
     super.saveState();
   }

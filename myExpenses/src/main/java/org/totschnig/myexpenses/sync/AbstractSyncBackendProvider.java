@@ -77,12 +77,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   }
 
   String buildMetadata(Account account) {
-    return gson.toJson(AccountMetaData.builder()
-        .setColor(account.color)
-        .setCurrency(account.currency.toString())
-        .setLabel(account.label)
-        .setUuid(account.uuid)
-        .build());
+    return gson.toJson(AccountMetaData.from(account));
   }
 
   protected abstract long getLastSequence();

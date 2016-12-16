@@ -16,12 +16,6 @@
 
 package org.totschnig.myexpenses.fragment;
 
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.model.Model;
-import org.totschnig.myexpenses.model.Plan;
-import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.util.AcraHelper;
-
 import android.app.Activity;
 import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
@@ -29,6 +23,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.model.Model;
+import org.totschnig.myexpenses.model.Plan;
+import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.util.AcraHelper;
 
 import java.util.HashMap;
 
@@ -54,7 +54,7 @@ public class DbWriteFragment extends Fragment {
    * Callback interface through which the fragment will report the
    * task's progress and results back to the Activity.
    */
-  public static interface TaskCallbacks {
+  public interface TaskCallbacks {
     /**
      * @return get the Object that should be saved to DB
      */

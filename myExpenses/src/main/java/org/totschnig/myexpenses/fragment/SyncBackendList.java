@@ -2,12 +2,16 @@ package org.totschnig.myexpenses.fragment;
 
 import android.accounts.AccountManager;
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,6 +29,8 @@ import com.annimon.stream.Stream;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
 import org.totschnig.myexpenses.adapter.SyncBackendAdapter;
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.ServiceLoader;
 import org.totschnig.myexpenses.sync.SyncBackendProvider;
@@ -32,12 +38,19 @@ import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.util.Utils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static android.content.Context.ACCOUNT_SERVICE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 
-public class SyncBackendList extends ContextualActionBarFragment implements
-    ExpandableListView.OnGroupExpandListener, LoaderManager.LoaderCallbacks<Optional<List<AccountMetaData>>> {
+public class SyncBackendList extends Fragment implements
+    ExpandableListView.OnGroupExpandListener {
+
+  private static final int ACCOUNT_CURSOR = -1;
+
   private List<SyncBackendProviderFactory> backendProviders = ServiceLoader.load();
   private SyncBackendAdapter syncBackendAdapter;
   private LoaderManager mManager;
@@ -59,11 +72,38 @@ public class SyncBackendList extends ContextualActionBarFragment implements
     listView.setAdapter(syncBackendAdapter);
     listView.setEmptyView(emptyView);
     listView.setOnGroupExpandListener(this);
-    //lv.setOnItemClickListener(this);
-    //registerForContextualActionBar(lv);
+    mManager.initLoader(ACCOUNT_CURSOR, null, new LocalAccountInfoCallbacks());
+    registerForContextMenu(listView);
     return v;
   }
 
+  @Override
+  public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+    long packedPosition = ((ExpandableListView.ExpandableListContextMenuInfo) menuInfo).packedPosition;
+    if (ExpandableListView.getPackedPositionType(packedPosition) ==
+        ExpandableListView.PACKED_POSITION_TYPE_CHILD ) {
+      int commandId;
+      int titleId;
+      switch (syncBackendAdapter.getSyncState(packedPosition)) {
+        case SYNCED:
+          commandId = R.id.SYNC_UNLINK_COMMAND;
+          titleId = R.string.menu_sync_unlink;
+          break;
+        case KNOWN:
+          commandId = R.id.SYNC_LINK_COMMAND;
+          titleId = R.string.menu_sync_link;
+          break;
+        case UNKNOWN:
+          commandId = R.id.SYNC_DOWNLOAD_COMMAND;
+          titleId = R.string.menu_sync_download;
+          break;
+        default:
+          throw new IllegalStateException("Unknown state");
+      }
+      menu.add(Menu.NONE, commandId, 0, titleId);
+    }
+    super.onCreateContextMenu(menu, v, menuInfo);
+  }
 
   protected List<String> getAccountList() {
     AccountManager accountManager = (AccountManager) getActivity().getSystemService(ACCOUNT_SERVICE);
@@ -100,26 +140,60 @@ public class SyncBackendList extends ContextualActionBarFragment implements
   @Override
   public void onGroupExpand(int groupPosition) {
     if (!syncBackendAdapter.hasAccountMetdata(groupPosition)) {
-      Utils.requireLoader(mManager, groupPosition, null, this);
+      Utils.requireLoader(mManager, groupPosition, null, new AccountMetaDataLoaderCallbacks());
     }
   }
 
-  @Override
-  public Loader<Optional<List<AccountMetaData>>> onCreateLoader(int id, Bundle args) {
-    return new AccountMetaDataLoader(getActivity(), (String) syncBackendAdapter.getGroup(id));
+  public Account getAccountForSync(long packedPosition) {
+    return syncBackendAdapter.getAccountForSync(packedPosition);
   }
 
-  @Override
-  public void onLoadFinished(Loader<Optional<List<AccountMetaData>>> loader,
-                             Optional<List<AccountMetaData>> optionalData) {
-    optionalData.executeIfPresent(data -> syncBackendAdapter.setAccountMetadata(loader.getId(), data))
-        .executeIfAbsent(() -> Toast.makeText(getActivity(),
-            "Unable to get info for account " + loader.getId(), Toast.LENGTH_SHORT).show());
+  private class LocalAccountInfoCallbacks implements LoaderManager.LoaderCallbacks<Cursor> {
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+      return new CursorLoader(getActivity(), TransactionProvider.ACCOUNTS_BASE_URI,
+          new String[] {KEY_UUID, KEY_SYNC_ACCOUNT_NAME}, null, null, null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+      Map<String, String> uuid2syncMap = new HashMap<>();
+      cursor.moveToFirst();
+      while (!cursor.isAfterLast()) {
+        int columnIndexUuid = cursor.getColumnIndex(KEY_UUID);
+        int columnIndexSyncAccountName = cursor.getColumnIndex(KEY_SYNC_ACCOUNT_NAME);
+        uuid2syncMap.put(cursor.getString(columnIndexUuid), cursor.getString(columnIndexSyncAccountName));
+        cursor.moveToNext();
+      }
+      syncBackendAdapter.setLocalAccountInfo(uuid2syncMap);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
+    }
   }
 
-  @Override
-  public void onLoaderReset(Loader<Optional<List<AccountMetaData>>> loader) {
+  private class AccountMetaDataLoaderCallbacks implements LoaderManager.LoaderCallbacks<Optional<List<AccountMetaData>>> {
+    @Override
+    public Loader<Optional<List<AccountMetaData>>> onCreateLoader(int id, Bundle args) {
+      return new AccountMetaDataLoader(getActivity(), (String) syncBackendAdapter.getGroup(id));
+    }
 
+    @Override
+    public void onLoadFinished(Loader<Optional<List<AccountMetaData>>> loader,
+                               Optional<List<AccountMetaData>> optionalData) {
+      optionalData
+          .executeIfPresent(data -> syncBackendAdapter.setAccountMetadata(loader.getId(), data))
+          .executeIfAbsent(() -> Toast.makeText(getActivity(),
+              "Unable to get info for account " + loader.getId(), Toast.LENGTH_SHORT).show());
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Optional<List<AccountMetaData>>> loader) {
+
+    }
   }
 
   private static class AccountMetaDataLoader extends AsyncTaskLoader<Optional<List<AccountMetaData>>> {
@@ -140,6 +214,7 @@ public class SyncBackendList extends ContextualActionBarFragment implements
           AccountManager.get(getContext()))
           .map(SyncBackendProvider::getRemoteAccountList);
     }
+
     @Override
     protected void onStartLoading() {
       if (takeContentChanged())

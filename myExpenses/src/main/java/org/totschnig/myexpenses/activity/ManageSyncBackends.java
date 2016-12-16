@@ -1,7 +1,10 @@
 package org.totschnig.myexpenses.activity;
 
 import android.accounts.AccountManager;
+import android.content.ContentResolver;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.Toast;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -9,6 +12,10 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.SetupWebdavDialogFragment;
 import org.totschnig.myexpenses.fragment.SyncBackendList;
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Model;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.WebDavBackendProviderFactory;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
@@ -20,6 +27,8 @@ import static org.totschnig.myexpenses.sync.WebDavBackendProvider.KEY_WEB_DAV_CE
 
 public class ManageSyncBackends extends ProtectedFragmentActivity implements
     EditTextDialog.EditTextDialogListener {
+
+  private Account newAccount;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -104,4 +113,36 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
   private SetupWebdavDialogFragment getWebdavFragment() {
     return (SetupWebdavDialogFragment) getSupportFragmentManager().findFragmentByTag(WebDavBackendProviderFactory.WEBDAV_SETUP);
   }
+
+
+  @Override
+  public boolean onContextItemSelected(MenuItem item) {
+    switch(item.getItemId()) {
+      case R.id.SYNC_DOWNLOAD_COMMAND:
+        newAccount = getListFragment().getAccountForSync(
+            ((ExpandableListContextMenuInfo) item.getMenuInfo()).packedPosition);
+        startDbWriteTask(false);
+        return true;
+    }
+    return super.onContextItemSelected(item);
+  }
+
+  @Override
+  public void onPostExecute(Object result) {
+    super.onPostExecute(result);
+    Bundle bundle = new Bundle();
+    bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+    bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+    //TODO the idea here is in sync manager to concentrate on the newly added account. This is not
+    //yet honoured there, maybe not needed
+    bundle.putLong(DatabaseConstants.KEY_ACCOUNTID, newAccount.getId());
+    ContentResolver.requestSync(GenericAccountService.GetAccount(newAccount.getSyncAccountName()),
+        TransactionProvider.AUTHORITY, bundle);
+  }
+
+  @Override
+  public Model getObject() {
+    return newAccount;
+  }
+  
 }
