@@ -33,7 +33,7 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
 
 public abstract class EditActivity extends ProtectedFragmentActivity implements
-    DbWriteFragment.TaskCallbacks, ConfirmationDialogFragment.ConfirmationDialogListener, TextWatcher {
+    ConfirmationDialogFragment.ConfirmationDialogListener, TextWatcher {
 
   private static final String KEY_IS_DIRTY = "isDirty";
   protected boolean mIsSaving = false;

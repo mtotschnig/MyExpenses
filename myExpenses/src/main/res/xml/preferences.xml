@@ -15,6 +15,7 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:my="http://schemas.android.com/apk/res-auto"
                   android:key="@string/pref_root_screen">
 
     <PreferenceCategory
@@ -177,8 +178,17 @@
 
     <PreferenceCategory
         android:title="@string/synchronization">
+        <com.pavelsikun.seekbarpreference.SeekBarPreference
+            android:defaultValue="12"
+            android:key="@string/pref_sync_frequency_key"
+            android:summary="@string/pref_sync_frequency_summary"
+            android:title="@string/pref_sync_frequency_title"
+            my:msbp_interval="1"
+            my:msbp_maxValue="99"
+            my:msbp_measurementUnit=" h"
+            my:msbp_minValue="1"/>
         <Preference
-            android:summary="@string/pref_manage_sync_backends_description"
+            android:summary="@string/pref_manage_sync_backends_summary"
             android:title="@string/pref_manage_sync_backends_title">
             <intent android:action="myexpenses.intent.manage.sync_backends"/>
             </Preference>
@@ -209,7 +219,6 @@
                 android:summary="@string/pref_perform_protection_summary"
                 android:title="@string/pref_perform_protection_title"/>
             <com.pavelsikun.seekbarpreference.SeekBarPreference
-                xmlns:my="http://schemas.android.com/apk/res-auto"
                 android:defaultValue="15"
                 android:key="@string/pref_protection_delay_seconds_key"
                 android:summary="@string/pref_protection_delay_seconds_summary"

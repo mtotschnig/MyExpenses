@@ -344,10 +344,6 @@ public class AccountEdit extends AmountActivity implements
         menu.add(Menu.NONE, R.id.EXCLUDE_FROM_TOTALS_COMMAND, 0, R.string.menu_exclude_from_totals)
             .setCheckable(true),
         MenuItemCompat.SHOW_AS_ACTION_NEVER);
-    MenuItemCompat.setShowAsAction(
-        menu.add(Menu.NONE, R.id.SYNCED_COMMAND, 0, "START SYNC")
-            .setCheckable(true),
-        MenuItemCompat.SHOW_AS_ACTION_NEVER);
     return true;
   }
 
@@ -381,16 +377,6 @@ public class AccountEdit extends AmountActivity implements
           supportInvalidateOptionsMenu();
         }
         return true;
-      case R.id.SYNCED_COMMAND:
-        if (mAccount.getId() != 0) {
-          startTaskExecution(
-              TaskExecutionFragment.TASK_START_SYNC,
-              new Long[]{mAccount.getId()},
-              null, 0);
-          supportInvalidateOptionsMenu();
-        }
-        return true;
-
     }
     return super.dispatchCommand(command, tag);
   }

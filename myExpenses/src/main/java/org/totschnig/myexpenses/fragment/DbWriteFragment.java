@@ -39,7 +39,7 @@ import java.util.HashMap;
  * It calls getObject on its callback to retrieve the object
  * and calls save on the Object
  * it can return either the uri for the new object (null on failure)
- * or the number of stored objects in the db for the Model (-1 on failure)
+ * or the number of stored objects in the db for the Model (error code < 0 on failure)
  * the later is only implemented for transactions
  */
 public class DbWriteFragment extends Fragment {

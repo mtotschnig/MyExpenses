@@ -130,13 +130,17 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
   @Override
   public void onPostExecute(Object result) {
     super.onPostExecute(result);
+    requestSync(newAccount.getSyncAccountName(), newAccount.getId());
+  }
+
+  public void requestSync(String syncAccountName, Long id) {
     Bundle bundle = new Bundle();
     bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
     bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-    //TODO the idea here is in sync manager to concentrate on the newly added account. This is not
-    //yet honoured there, maybe not needed
-    bundle.putLong(DatabaseConstants.KEY_ACCOUNTID, newAccount.getId());
-    ContentResolver.requestSync(GenericAccountService.GetAccount(newAccount.getSyncAccountName()),
+    if (!id.equals(0L)) {
+      bundle.putLong(DatabaseConstants.KEY_ACCOUNTID, id);
+    }
+    ContentResolver.requestSync(GenericAccountService.GetAccount(syncAccountName),
         TransactionProvider.AUTHORITY, bundle);
   }
 

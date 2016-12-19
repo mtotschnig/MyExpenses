@@ -123,7 +123,7 @@
   <item name="VERIFY_LICENCE_COMMAND" type="id"/>
   <item name="FILTER_TRANSFER_COMMAND" type="id"/>
   <item name="SORT_NEXT_INSTANCE_COMMAND" type="id"/>
-  <item name="SYNCED_COMMAND" type="id" />
+  <item name="SYNC_COMMAND" type="id" />
   <item name="SYNC_DOWNLOAD_COMMAND" type="id" />
   <item name="SYNC_LINK_COMMAND" type="id" />
   <item name="SYNC_UNLINK_COMMAND" type="id" />

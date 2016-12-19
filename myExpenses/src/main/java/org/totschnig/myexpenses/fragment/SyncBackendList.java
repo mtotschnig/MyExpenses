@@ -80,10 +80,10 @@ public class SyncBackendList extends Fragment implements
   @Override
   public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
     long packedPosition = ((ExpandableListView.ExpandableListContextMenuInfo) menuInfo).packedPosition;
+    int commandId;
+    int titleId;
     if (ExpandableListView.getPackedPositionType(packedPosition) ==
         ExpandableListView.PACKED_POSITION_TYPE_CHILD ) {
-      int commandId;
-      int titleId;
       switch (syncBackendAdapter.getSyncState(packedPosition)) {
         case SYNCED:
           commandId = R.id.SYNC_UNLINK_COMMAND;
@@ -100,8 +100,12 @@ public class SyncBackendList extends Fragment implements
         default:
           throw new IllegalStateException("Unknown state");
       }
-      menu.add(Menu.NONE, commandId, 0, titleId);
+    } else {
+      commandId = R.id.SYNC_COMMAND;
+      titleId = R.string.menu_sync_now;
     }
+
+    menu.add(Menu.NONE, commandId, 0, titleId);
     super.onCreateContextMenu(menu, v, menuInfo);
   }
 
@@ -131,6 +135,16 @@ public class SyncBackendList extends Fragment implements
       }
     }
     return super.onOptionsItemSelected(item);
+  }
+
+  @Override
+  public boolean onContextItemSelected(MenuItem item) {
+    if (item.getItemId() == R.id.SYNC_COMMAND) {
+      ((ManageSyncBackends) getActivity()).requestSync(syncBackendAdapter.getSyncAccount(
+          ((ExpandableListView.ExpandableListContextMenuInfo) item.getMenuInfo()).packedPosition), 0L);
+      return true;
+    }
+    return super.onContextItemSelected(item);
   }
 
   public void loadData() {

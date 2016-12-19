@@ -62,6 +62,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
@@ -111,7 +112,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     payeeToId = new HashMap<>();
     methodToId = new HashMap<>();
     accountUuidToId = new HashMap<>();
-    Log.i(TAG, "onPerformSync");
+    long accountIdFromExtras = extras.getLong(KEY_ACCOUNTID);
+    Log.i(TAG, "onPerformSync " + extras.toString());
 
     AccountManager accountManager = AccountManager.get(getContext());
 
@@ -138,6 +140,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       if (c.moveToFirst()) {
         do {
           long accountId = c.getLong(0);
+          if (accountIdFromExtras != 0 && accountIdFromExtras != accountId) {
+            continue;
+          }
           String lastLocalSyncKey = KEY_LAST_SYNCED_LOCAL + "_" + accountId;
           String lastRemoteSyncKey = KEY_LAST_SYNCED_REMOTE + "_" + accountId;
           if (c.getLong(1) == 0) {
