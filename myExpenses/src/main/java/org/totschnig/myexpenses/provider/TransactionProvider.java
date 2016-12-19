@@ -47,9 +47,13 @@ import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
+import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.FileCopyUtils;
 import org.totschnig.myexpenses.util.PlanInfoCursorWrapper;
+import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Currency;
@@ -152,7 +156,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekS
 
 public class TransactionProvider extends ContentProvider {
 
-  protected static TransactionDatabase mOpenHelper;
+  protected TransactionDatabase mOpenHelper;
   public static final String AUTHORITY = BuildConfig.APPLICATION_ID;
   public static final Uri ACCOUNTS_URI =
       Uri.parse("content://" + AUTHORITY + "/accounts");
@@ -272,8 +276,12 @@ public class TransactionProvider extends ContentProvider {
 
   @Override
   public boolean onCreate() {
-    mOpenHelper = new TransactionDatabase(getContext());
+    initOpenHelper();
     return true;
+  }
+
+  private void initOpenHelper() {
+    mOpenHelper = new TransactionDatabase(getContext());
   }
 
   private void setDirty() {
@@ -1423,10 +1431,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "transfer_account_transactions", MAPPED_TRANSFER_ACCOUNTS);
     URI_MATCHER.addURI(AUTHORITY, "changes", CHANGES);
   }
-  public void resetDatabase() {
-    mOpenHelper.close();
-    mOpenHelper = new TransactionDatabase(getContext());
-}
+
   /**
    * A test package can call this to get a handle to the database underlying TransactionProvider,
    * so it can insert test data into the database. The test case class is responsible for
@@ -1445,5 +1450,70 @@ public class TransactionProvider extends ContentProvider {
       Log.d(TAG,message);
     }
   }
-  
+
+  public Result backup(File backupDir) {
+    File currentDb = new File(mOpenHelper.getReadableDatabase().getPath());
+    mOpenHelper.close();
+    try {
+      File backupPrefFile, sharedPrefFile;
+      Result result = backupDb(new File(backupDir, MyApplication.BACKUP_DB_FILE_NAME), currentDb);
+      if (result.success) {
+        backupPrefFile = new File(backupDir, MyApplication.BACKUP_PREF_FILE_NAME);
+        // Samsung has special path on some devices
+        // http://stackoverflow.com/questions/5531289/copy-the-shared-preferences-xml-file-from-data-on-samsung-device-failed
+        final MyApplication application = MyApplication.getInstance();
+        String sharedPrefPath =  "/shared_prefs/" + application.getPackageName() + "_preferences.xml";
+        sharedPrefFile = new File("/dbdata/databases/" + application.getPackageName() + sharedPrefPath);
+        if (!sharedPrefFile.exists()) {
+          sharedPrefFile = new File(getInternalAppDir().getPath() + sharedPrefPath);
+          Log.d("DbUtils",sharedPrefFile.getPath());
+          if (!sharedPrefFile.exists()) {
+            final String message = "Unable to find shared preference file at " +
+                sharedPrefFile.getPath();
+            AcraHelper.report(new Exception(message));
+            return new Result(false,message);
+          }
+        }
+        if (FileCopyUtils.copy(sharedPrefFile, backupPrefFile)) {
+          PrefKey.AUTO_BACKUP_DIRTY.putBoolean(false);
+          TransactionProvider.mDirty = false;
+          return result;
+        }
+      }
+      return result;
+    } finally {
+      initOpenHelper();
+    }
+  }
+
+  private Result backupDb(File backupDb, File currentDb) {
+    if (currentDb.exists()) {
+      if (FileCopyUtils.copy(currentDb, backupDb)) {
+        return new Result(true);
+      }
+      return new Result(false,String.format(
+          "Error while copying %s to %s",currentDb.getPath(),backupDb.getPath()));
+    }
+    return new Result(false,"Could not find database at " + currentDb.getPath());
+  }
+
+  private File getInternalAppDir() {
+    return MyApplication.getInstance().getFilesDir().getParentFile();
+  }
+
+  public boolean restore(File backupFile) {
+    File dataDir = new File(getInternalAppDir(), "databases");
+    dataDir.mkdir();
+    //line below gives app_databases instead of databases ???
+    //File currentDb = new File(mCtx.getDir("databases", 0),mDatabaseName);
+    File currentDb = new File(dataDir, TransactionDatabase.getDbName());
+    boolean result = false;
+    mOpenHelper.close();
+    try {
+      result = FileCopyUtils.copy(backupFile, currentDb);
+    } finally {
+      initOpenHelper();
+    }
+    return result;
+  }
 }
