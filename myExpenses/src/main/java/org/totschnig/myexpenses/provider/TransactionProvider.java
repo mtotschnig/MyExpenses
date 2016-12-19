@@ -156,7 +156,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekS
 
 public class TransactionProvider extends ContentProvider {
 
-  protected TransactionDatabase mOpenHelper;
+  private TransactionDatabase mOpenHelper;
   public static final String AUTHORITY = BuildConfig.APPLICATION_ID;
   public static final Uri ACCOUNTS_URI =
       Uri.parse("content://" + AUTHORITY + "/accounts");
@@ -272,7 +272,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int CHANGES = 42;
   
 
-  protected static boolean mDirty = false;
+  private boolean mDirty = false;
 
   @Override
   public boolean onCreate() {
@@ -292,8 +292,8 @@ public class TransactionProvider extends ContentProvider {
   }
 
   @Override
-  public Cursor query(Uri uri, String[] projection, String selection,
-      String[] selectionArgs, String sortOrder) {
+  public Cursor query(@NonNull Uri uri, String[] projection, String selection,
+                      String[] selectionArgs, String sortOrder) {
     SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
     SQLiteDatabase db;
     db = mOpenHelper.getReadableDatabase();
@@ -798,16 +798,16 @@ public class TransactionProvider extends ContentProvider {
   }
 
   @Override
-  public String getType(Uri uri) {
+  public String getType(@NonNull Uri uri) {
     return null;
   }
 
-  private IllegalArgumentException unknownUri(Uri uri) {
+  private IllegalArgumentException unknownUri(@NonNull Uri uri) {
     return new IllegalArgumentException("Unknown URL " + uri);
   }
 
   @Override
-  public Uri insert(Uri uri, ContentValues values) {
+  public Uri insert(@NonNull Uri uri, ContentValues values) {
     setDirty();
     log(values.toString());
     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
@@ -891,7 +891,7 @@ public class TransactionProvider extends ContentProvider {
   }
 
   @Override
-  public int delete(Uri uri, String where, String[] whereArgs) {
+  public int delete(@NonNull Uri uri, String where, String[] whereArgs) {
     setDirty();
     log("Delete for URL: " + uri);
     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
@@ -1038,8 +1038,8 @@ public class TransactionProvider extends ContentProvider {
   }
 
   @Override
-  public int update(Uri uri, ContentValues values, String where,
-      String[] whereArgs) {
+  public int update(@NonNull Uri uri, ContentValues values, String where,
+                    String[] whereArgs) {
     setDirty();
     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
     String segment; // contains rowId
@@ -1476,7 +1476,7 @@ public class TransactionProvider extends ContentProvider {
         }
         if (FileCopyUtils.copy(sharedPrefFile, backupPrefFile)) {
           PrefKey.AUTO_BACKUP_DIRTY.putBoolean(false);
-          TransactionProvider.mDirty = false;
+          mDirty = false;
           return result;
         }
       }
