@@ -2175,9 +2175,9 @@ public class ExpenseEdit extends AmountActivity implements
     BigDecimal exchangeRate =
         (amount != null && transferAmount != null && amount.compareTo(nullValue) != 0) ?
             transferAmount.divide(amount, EXCHANGE_RATE_FRACTION_DIGITS, RoundingMode.DOWN) : nullValue;
-    BigDecimal inverseExchangeRate = exchangeRate.compareTo(nullValue) != 0 ?
-        new BigDecimal(1).divide(exchangeRate, EXCHANGE_RATE_FRACTION_DIGITS, RoundingMode.DOWN) :
-        nullValue;
+    BigDecimal inverseExchangeRate =
+        (amount != null && transferAmount != null && transferAmount.compareTo(nullValue) != 0) ?
+            amount.divide(transferAmount, EXCHANGE_RATE_FRACTION_DIGITS, RoundingMode.DOWN) : nullValue;
     mExchangeRate1Text.setAmount(exchangeRate);
     mExchangeRate2Text.setAmount(inverseExchangeRate);
   }
