@@ -24,13 +24,10 @@ import com.google.common.base.Preconditions;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
 import java.security.cert.CertPathValidatorException;
 import java.security.cert.X509Certificate;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import javax.net.ssl.SSLException;
@@ -51,14 +48,12 @@ import okhttp3.Response;
 
 public class WebDavClient {
   private static final String TAG = "WebDavClient";
-  public final MediaType MIME_XML = MediaType.parse("application/xml; charset=utf-8");
-  public static final String NS_WEBDAV = "DAV:";
-
-  public static final DateFormat MODIFICATION_DATE_FORMAT = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
+  private static final String LOCK_TIMEOUT = String.format(Locale.ROOT, "Second-%d",30 * 60);
+  private final MediaType MIME_XML = MediaType.parse("application/xml; charset=utf-8");
+  private static final String NS_WEBDAV = "DAV:";
 
   private OkHttpClient httpClient;
   private HttpUrl mBaseUri;
-  private XmlPullParserFactory xmlPullParserFactory;
   private String currentLockToken;
 
   public WebDavClient(String baseUrl, String userName, String password, final X509Certificate trustedCertificate) throws InvalidCertificateException {
@@ -152,6 +147,7 @@ public class WebDavClient {
             "</d:lockinfo>");
     Request request = new Request.Builder()
         .url(buildCollectionUri(folderName))
+        .header("Timeout", LOCK_TIMEOUT)
         .method("LOCK", lockXml)
         .build();
     try {
