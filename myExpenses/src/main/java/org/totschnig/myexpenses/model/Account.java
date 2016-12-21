@@ -16,11 +16,13 @@
 package org.totschnig.myexpenses.model;
 
 import android.content.ContentProviderOperation;
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
@@ -32,6 +34,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.CrStatusCriteria;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
+import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -568,6 +571,7 @@ public class Account extends Model {
       accounts.put(getId(), this);
     }
     Money.ensureFractionDigitsAreCached(currency);
+    requestSync();
     return uri;
   }
 
@@ -728,5 +732,16 @@ public class Account extends Model {
       }
     }
     return accounts.get(accountId);
+  }
+
+  public void requestSync() {
+    if (syncAccountName != null) {
+      Bundle bundle = new Bundle();
+      bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+      bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+      bundle.putLong(DatabaseConstants.KEY_ACCOUNTID, getId());
+      ContentResolver.requestSync(GenericAccountService.GetAccount(syncAccountName),
+          TransactionProvider.AUTHORITY, bundle);
+    }
   }
 }

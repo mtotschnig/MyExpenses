@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.activity;
 
 import android.accounts.AccountManager;
-import android.content.ContentResolver;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
@@ -9,13 +8,13 @@ import android.widget.Toast;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.SetupWebdavDialogFragment;
 import org.totschnig.myexpenses.fragment.SyncBackendList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.WebDavBackendProviderFactory;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
@@ -24,6 +23,9 @@ import org.totschnig.myexpenses.util.Result;
 import java.io.File;
 
 import static org.totschnig.myexpenses.sync.WebDavBackendProvider.KEY_WEB_DAV_CERTIFICATE;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_UNLINK;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_WEBDAV_TEST_LOGIN;
 
 public class ManageSyncBackends extends ProtectedFragmentActivity implements
     EditTextDialog.EditTextDialogListener {
@@ -82,7 +84,7 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
     args.putParcelable(AccountManager.KEY_USERDATA, bundle);
     getSupportFragmentManager()
         .beginTransaction()
-        .add(TaskExecutionFragment.newInstanceWithBundle(args, TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT), ProtectionDelegate.ASYNC_TAG)
+        .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_CREATE_SYNC_ACCOUNT), ProtectionDelegate.ASYNC_TAG)
         .commit();
   }
 
@@ -92,17 +94,37 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
   }
 
   @Override
+  public void onPositive(Bundle args) {
+    switch (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
+      case R.id.SYNC_UNLINK_COMMAND: {
+        startTaskExecution(
+            TASK_SYNC_UNLINK,
+            new String[]{args.getString(DatabaseConstants.KEY_UUID)}, null, 0);
+      }
+    }
+  }
+
+  @Override
   public void onPostExecute(int taskId, Object o) {
     super.onPostExecute(taskId, o);
     Result result = (Result) o;
     switch (taskId) {
-      case TaskExecutionFragment.TASK_WEBDAV_TEST_LOGIN:
+      case TASK_WEBDAV_TEST_LOGIN: {
         getWebdavFragment().onTestLoginResult(result);
         break;
-      case TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT:
+      }
+      case TASK_CREATE_SYNC_ACCOUNT: {
         if (result.success) {
-          getListFragment().loadData();
+          getListFragment().reloadAccountList();
         }
+        break;
+      }
+      case TASK_SYNC_UNLINK: {
+        if (result.success) {
+          getListFragment().reloadLocalAccountInfo();
+        }
+        break;
+      }
     }
   }
 
@@ -113,7 +135,6 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
   private SetupWebdavDialogFragment getWebdavFragment() {
     return (SetupWebdavDialogFragment) getSupportFragmentManager().findFragmentByTag(WebDavBackendProviderFactory.WEBDAV_SETUP);
   }
-
 
   @Override
   public boolean onContextItemSelected(MenuItem item) {
@@ -130,18 +151,7 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
   @Override
   public void onPostExecute(Object result) {
     super.onPostExecute(result);
-    requestSync(newAccount.getSyncAccountName(), newAccount.getId());
-  }
-
-  public void requestSync(String syncAccountName, Long id) {
-    Bundle bundle = new Bundle();
-    bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-    bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-    if (!id.equals(0L)) {
-      bundle.putLong(DatabaseConstants.KEY_ACCOUNTID, id);
-    }
-    ContentResolver.requestSync(GenericAccountService.GetAccount(syncAccountName),
-        TransactionProvider.AUTHORITY, bundle);
+    newAccount.requestSync();
   }
 
   @Override

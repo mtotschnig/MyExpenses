@@ -167,7 +167,7 @@ public class SyncBackendAdapter extends BaseExpandableListAdapter {
     return account;
   }
 
-  public String getSyncAccount(long packedPosition) {
+  public String getSyncAccountName(long packedPosition) {
     int groupPosition = ExpandableListView.getPackedPositionGroup(packedPosition);
     return (String) getGroup(groupPosition);
   }

@@ -48,6 +48,7 @@ import android.widget.Toast;
 
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -70,6 +71,7 @@ import java.io.Serializable;
  */
 public abstract class ProtectedFragmentActivity extends AppCompatActivity
     implements MessageDialogListener, OnSharedPreferenceChangeListener,
+    ConfirmationDialogFragment.ConfirmationDialogListener,
     TaskExecutionFragment.TaskCallbacks, DbWriteFragment.TaskCallbacks {
   public static final int CALCULATOR_REQUEST = 0;
   public static final int EDIT_TRANSACTION_REQUEST = 1;
@@ -448,5 +450,20 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
           new String[]{Manifest.permission.WRITE_CALENDAR},
           ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR);
     }
+  }
+
+
+  @Override
+  public void onPositive(Bundle args) {
+    dispatchCommand(args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE), null);
+  }
+
+  @Override
+  public void onNegative(Bundle args) {
+  }
+
+  @Override
+  public void onDismissOrCancel(Bundle args) {
+
   }
 }

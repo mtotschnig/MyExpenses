@@ -103,6 +103,7 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_REPAIR_PLAN = 41;
   public static final int TASK_WEBDAV_TEST_LOGIN = 42;
   public static final int TASK_CREATE_SYNC_ACCOUNT = 43;
+  public static final int TASK_SYNC_UNLINK = 44;
 
   /**
    * Callback interface through which the fragment will report the task's

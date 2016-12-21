@@ -38,6 +38,8 @@ import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
+import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.CurrencyEnum;
@@ -52,6 +54,9 @@ import org.totschnig.myexpenses.util.AcraHelper;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Currency;
+
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_UNLINK;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_TOGGLE_EXCLUDE_FROM_TOTALS;
 
 /**
  * Activity for editing an account
@@ -251,6 +256,8 @@ public class AccountEdit extends AmountActivity implements
       int position = ((ArrayAdapter<String>) mSyncSpinner.getAdapter()).getPosition(mAccount.getSyncAccountName());
       if (position > -1) {
         mSyncSpinner.setSelection(position);
+        mSyncSpinner.setEnabled(false);
+        findViewById(R.id.SyncUnlink).setVisibility(View.VISIBLE);
       }
     }
   }
@@ -286,7 +293,9 @@ public class AccountEdit extends AmountActivity implements
     }
     mAccount.openingBalance.setAmountMajor(openingBalance);
     mAccount.type = (AccountType) mAccountTypeSpinner.getSelectedItem();
-    mAccount.setSyncAccountName((String) mSyncSpinner.getSelectedItem());
+    if (mSyncSpinner.getSelectedItemPosition() > 0) {
+      mAccount.setSyncAccountName((String) mSyncSpinner.getSelectedItem());
+    }
     //EditActivity.saveState calls DbWriteFragment
     super.saveState();
   }
@@ -338,6 +347,17 @@ public class AccountEdit extends AmountActivity implements
   }
 
   @Override
+  public void onPostExecute(int taskId, Object o) {
+    super.onPostExecute(taskId, o);
+    switch (taskId) {
+      case TASK_SYNC_UNLINK:
+        mSyncSpinner.setSelection(0);
+        mSyncSpinner.setEnabled(true);
+        findViewById(R.id.SyncUnlink).setVisibility(View.GONE);
+    }
+  }
+
+  @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     super.onCreateOptionsMenu(menu);
     MenuItemCompat.setShowAsAction(
@@ -371,11 +391,16 @@ public class AccountEdit extends AmountActivity implements
         mAccount.excludeFromTotals = !mAccount.excludeFromTotals;
         if (mAccount.getId() != 0) {
           startTaskExecution(
-              TaskExecutionFragment.TASK_TOGGLE_EXCLUDE_FROM_TOTALS,
+              TASK_TOGGLE_EXCLUDE_FROM_TOTALS,
               new Long[]{mAccount.getId()},
               mAccount.excludeFromTotals, 0);
           supportInvalidateOptionsMenu();
         }
+        return true;
+      case R.id.SYNC_UNLINK_COMMAND:
+        startTaskExecution(
+            TASK_SYNC_UNLINK,
+            new String[]{mAccount.uuid}, null, 0);
         return true;
     }
     return super.dispatchCommand(command, tag);
@@ -401,5 +426,9 @@ public class AccountEdit extends AmountActivity implements
     linkInputWithLabel(mAccountTypeSpinner.getSpinner(), findViewById(R.id.AccountTypeLabel));
     linkInputWithLabel(mCurrencySpinner.getSpinner(), findViewById(R.id.CurrencyLabel));
     linkInputWithLabel(mSyncSpinner.getSpinner(), findViewById(R.id.SyncLabel));
+  }
+
+  public void syncUnlink(View view) {
+    DialogUtils.showSyncUnlinkConfirmationDialog(this, mAccount);
   }
 }

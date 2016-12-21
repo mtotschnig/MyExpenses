@@ -80,8 +80,12 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
   public static final String TAG = "SyncAdapter";
-  private static final String KEY_LAST_SYNCED_REMOTE = "last_synced_remote";
-  private static final String KEY_LAST_SYNCED_LOCAL = "last_synced_local";
+  public static final String KEY_LAST_SYNCED_REMOTE(long accountId) {
+    return "last_synced_remote_" + accountId;
+  }
+  public static final String KEY_LAST_SYNCED_LOCAL(long accountId) {
+    return "last_synced_local_" + accountId;
+  }
 
   private Map<String, Long> categoryToId;
   private Map<String, Long> payeeToId;
@@ -143,8 +147,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
           if (accountIdFromExtras != 0 && accountIdFromExtras != accountId) {
             continue;
           }
-          String lastLocalSyncKey = KEY_LAST_SYNCED_LOCAL + "_" + accountId;
-          String lastRemoteSyncKey = KEY_LAST_SYNCED_REMOTE + "_" + accountId;
+          String lastLocalSyncKey = KEY_LAST_SYNCED_LOCAL(accountId);
+          String lastRemoteSyncKey = KEY_LAST_SYNCED_REMOTE(accountId);
           if (c.getLong(1) == 0) {
             try {
               provider.update(buildInitializationUri(accountId), new ContentValues(0), null, null);

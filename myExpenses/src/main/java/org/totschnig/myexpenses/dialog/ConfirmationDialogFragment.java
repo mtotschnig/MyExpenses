@@ -15,20 +15,19 @@
 
 package org.totschnig.myexpenses.dialog;
 
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
-
 import android.app.Activity;
-import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
+
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 
 /**
  * This class presents a simple dialog asking user to confirm a message. Optionally the dialog can also
@@ -131,6 +130,6 @@ public class ConfirmationDialogFragment extends CommitSafeDialogFragment impleme
 
   }
   public interface ConfirmationDialogCheckedListener extends ConfirmationDialogBaseListener {
-    void onPositive(Bundle args,boolean checked);
+    void onPositive(Bundle args, boolean checked);
   }
 }

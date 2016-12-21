@@ -561,6 +561,6 @@ public class TemplatesList extends SortableListFragment {
     }
   }
   public void refresh() {
-    Utils.requireLoader(mManager,SORTABLE_CURSOR, null, this);
+    Utils.requireLoader(mManager, SORTABLE_CURSOR, null, this);
   }
 }

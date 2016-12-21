@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.task;
 
+import android.accounts.AccountManager;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -28,6 +29,8 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.sync.GenericAccountService;
+import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.FileCopyUtils;
 import org.totschnig.myexpenses.util.FileUtils;
@@ -41,6 +44,7 @@ import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.util.Date;
 
+import static android.R.attr.id;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
@@ -85,7 +89,8 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     Transaction t;
     Long transactionId;
     Long[][] extraInfo2d;
-    ContentResolver cr = MyApplication.getInstance().getContentResolver();
+    MyApplication application = MyApplication.getInstance();
+    ContentResolver cr = application.getContentResolver();
     ContentValues values;
     Cursor c;
     int successCount = 0, failureCount = 0;
@@ -157,15 +162,15 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         return successCount;
       case TaskExecutionFragment.TASK_INSTANTIATE_PLAN:
         return Plan.getInstanceFromDb((Long) ids[0]);
-      case TaskExecutionFragment.TASK_REQUIRE_ACCOUNT:
-        Account account;
-        account = Account.getInstanceFromDb(0);
+      case TaskExecutionFragment.TASK_REQUIRE_ACCOUNT: {
+        Account account = Account.getInstanceFromDb(0);
         if (account == null) {
-          account = new Account(MyApplication.getInstance().getString(R.string.default_account_name), 0,
-              MyApplication.getInstance().getString(R.string.default_account_description));
+          account = new Account(application.getString(R.string.default_account_name), 0,
+              application.getString(R.string.default_account_description));
           account.save();
         }
         return account;
+      }
       case TaskExecutionFragment.TASK_DELETE_TRANSACTION:
         try {
           for (long id : (Long[]) ids) {
@@ -266,13 +271,13 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         }
         String resultMsg = "";
         if (successCount > 0) {
-          resultMsg += MyApplication.getInstance().getResources().getQuantityString(R.plurals.move_category_success, successCount, successCount);
+          resultMsg += application.getResources().getQuantityString(R.plurals.move_category_success, successCount, successCount);
         }
         if (failureCount > 0) {
           if (!TextUtils.isEmpty(resultMsg)) {
             resultMsg += " ";
           }
-          resultMsg += MyApplication.getInstance().getResources().getQuantityString(R.plurals.move_category_failure, failureCount, failureCount);
+          resultMsg += application.getResources().getQuantityString(R.plurals.move_category_failure, failureCount, failureCount);
         }
         return new Result(successCount > 0, resultMsg);
       case TaskExecutionFragment.TASK_CANCEL_PLAN_INSTANCE:
@@ -361,7 +366,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         }
         return null;
       case TaskExecutionFragment.TASK_SAVE_IMAGES:
-        File staleFileDir = new File(MyApplication.getInstance().getExternalFilesDir(null), "images.old");
+        File staleFileDir = new File(application.getExternalFilesDir(null), "images.old");
         staleFileDir.mkdir();
         if (!staleFileDir.isDirectory()) {
           return null;
@@ -430,7 +435,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
               false,
               R.string.io_error_unable_to_create_file,
               fileName,
-              FileUtils.getPath(MyApplication.getInstance(), appDir.getUri()));
+              FileUtils.getPath(application, appDir.getUri()));
         }
         try {
           OutputStreamWriter out = new OutputStreamWriter(
@@ -506,6 +511,16 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           }
         }
         return true;
+      case TaskExecutionFragment.TASK_SYNC_UNLINK: {
+        Account account = Account.getInstanceFromDb(Account.findByUuid((String) ids[0]));
+        AccountManager accountManager = AccountManager.get(application);
+        android.accounts.Account syncAccount = GenericAccountService.GetAccount(account.getSyncAccountName());
+        accountManager.setUserData(syncAccount, SyncAdapter.KEY_LAST_SYNCED_LOCAL(id), null);
+        accountManager.setUserData(syncAccount, SyncAdapter.KEY_LAST_SYNCED_REMOTE(id), null);
+        account.setSyncAccountName(null);
+        account.save();
+        return new Result(true);
+      }
     }
     return null;
   }

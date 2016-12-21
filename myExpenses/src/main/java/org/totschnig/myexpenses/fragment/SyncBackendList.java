@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.fragment;
 
 import android.accounts.AccountManager;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -29,13 +30,13 @@ import com.annimon.stream.Stream;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
 import org.totschnig.myexpenses.adapter.SyncBackendAdapter;
+import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.ServiceLoader;
 import org.totschnig.myexpenses.sync.SyncBackendProvider;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
-import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.io.IOException;
@@ -140,15 +141,33 @@ public class SyncBackendList extends Fragment implements
 
   @Override
   public boolean onContextItemSelected(MenuItem item) {
-    if (item.getItemId() == R.id.SYNC_COMMAND) {
-      ((ManageSyncBackends) getActivity()).requestSync(syncBackendAdapter.getSyncAccount(
-          ((ExpandableListView.ExpandableListContextMenuInfo) item.getMenuInfo()).packedPosition), 0L);
-      return true;
+    long packedPosition = ((ExpandableListView.ExpandableListContextMenuInfo) item.getMenuInfo())
+        .packedPosition;
+    switch (item.getItemId()) {
+      case R.id.SYNC_COMMAND: {
+        String syncAccountName = syncBackendAdapter.getSyncAccountName(
+            packedPosition);
+        requestSync(syncAccountName);
+        return true;
+      }
+      case R.id.SYNC_UNLINK_COMMAND: {
+        DialogUtils.showSyncUnlinkConfirmationDialog(getActivity(),
+            syncBackendAdapter.getAccountForSync(packedPosition));
+        return true;
+      }
     }
     return super.onContextItemSelected(item);
   }
 
-  public void loadData() {
+  private void requestSync(String syncAccountName) {
+    Bundle bundle = new Bundle();
+    bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+    bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+    ContentResolver.requestSync(GenericAccountService.GetAccount(syncAccountName),
+        TransactionProvider.AUTHORITY, bundle);
+  }
+
+  public void reloadAccountList() {
     syncBackendAdapter.setAccountList(getAccountList());
   }
 
@@ -161,6 +180,10 @@ public class SyncBackendList extends Fragment implements
 
   public Account getAccountForSync(long packedPosition) {
     return syncBackendAdapter.getAccountForSync(packedPosition);
+  }
+
+  public void reloadLocalAccountInfo() {
+    Utils.requireLoader(mManager, ACCOUNT_CURSOR, null, new LocalAccountInfoCallbacks());
   }
 
   private class LocalAccountInfoCallbacks implements LoaderManager.LoaderCallbacks<Cursor> {
