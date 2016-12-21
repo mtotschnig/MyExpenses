@@ -96,11 +96,6 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  public boolean isAvailable() {
-    return true;
-  }
-
-  @Override
   public String toString() {
     return baseDir.toString();
   }

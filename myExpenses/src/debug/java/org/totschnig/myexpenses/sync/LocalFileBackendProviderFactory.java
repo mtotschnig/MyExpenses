@@ -5,6 +5,7 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -13,6 +14,7 @@ import org.totschnig.myexpenses.dialog.EditTextDialog;
 
 public class LocalFileBackendProviderFactory extends SyncBackendProviderFactory {
 
+  @NonNull
   @Override
   protected LocalFileBackendProvider _fromAccount(Account account, AccountManager accountManager) {
     if (ContextCompat.checkSelfPermission(MyApplication.getInstance(), Manifest.permission.READ_EXTERNAL_STORAGE)

@@ -122,15 +122,14 @@ public class WebDavClient {
    *
    * @param folderName if null, members of base uri are returned
    */
-  public Stream<DavResource> getFolderMembers(String folderName) {
+  public Stream<DavResource> getFolderMembers(String folderName) throws IOException {
     DavResource folder = new DavResource(httpClient, folderName == null ? mBaseUri : buildCollectionUri(folderName));
     try {
       folder.propfind(1, DisplayName.NAME, ResourceType.NAME);
-      return Stream.of(folder.members);
-    } catch (IOException | at.bitfire.dav4android.exception.HttpException | DavException e) {
-      AcraHelper.report(e);
+    } catch (DavException | at.bitfire.dav4android.exception.HttpException e) {
+      throw new IOException(e);
     }
-    return Stream.empty();
+    return Stream.of(folder.members);
   }
 
   public LockableDavResource getResource(String folderName, String resourceName) {

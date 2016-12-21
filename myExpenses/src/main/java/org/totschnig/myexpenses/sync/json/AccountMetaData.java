@@ -37,7 +37,7 @@ public abstract class AccountMetaData {
   }
 
   public Account toAccount() {
-    AccountType accountType = null;
+    AccountType accountType;
     try {
       accountType = AccountType.valueOf(type());
     } catch (IllegalArgumentException e) {

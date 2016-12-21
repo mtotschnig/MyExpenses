@@ -38,7 +38,7 @@ public class CreateSyncAccountTask extends AsyncTask<Void, Void, Result> {
     if (accountManager.addAccountExplicitly(newAccount, null, userData)) {
       accountManager.setPassword(newAccount, password);
       ContentResolver.setSyncAutomatically(newAccount, TransactionProvider.AUTHORITY, true);
-      ContentResolver.addPeriodicSync(newAccount, TransactionProvider.AUTHORITY, null,
+      ContentResolver.addPeriodicSync(newAccount, TransactionProvider.AUTHORITY, Bundle.EMPTY,
           PrefKey.SYNC_FREQUCENCY.getInt(GenericAccountService.DEFAULT_SYNC_FREQUENCY_HOURS) * HOUR_IN_SECONDS);
       return new Result(true);
     }

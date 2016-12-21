@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.sync;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.support.annotation.NonNull;
 
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
@@ -30,6 +31,7 @@ public abstract class SyncBackendProviderFactory {
     return Optional.empty();
   }
 
+  @NonNull
   protected abstract SyncBackendProvider _fromAccount(Account account, AccountManager accountManager) throws SyncBackendProvider.SyncParseException;
 
   public abstract int getId();

@@ -80,7 +80,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  public ChangeSet getChangeSetSince(long sequenceNumber, Context context) {
+  public ChangeSet getChangeSetSince(long sequenceNumber, Context context) throws IOException {
     return merge(filterDavResources(sequenceNumber).map(this::getChangeSetFromDavResource))
         .orElse(ChangeSet.empty(sequenceNumber));
   }
@@ -94,13 +94,13 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
     }
   }
 
-  private Stream<DavResource> filterDavResources(long sequenceNumber) {
+  private Stream<DavResource> filterDavResources(long sequenceNumber) throws IOException {
     return webDavClient.getFolderMembers(accountUuid)
         .filter(davResource -> isNewerJsonFile(sequenceNumber, davResource.fileName()));
   }
 
   @Override
-  protected long getLastSequence() {
+  protected long getLastSequence() throws IOException {
     return filterDavResources(0)
         .map(davResource -> getSequenceFromFileName(davResource.fileName()))
         .max(Long::compare)
@@ -122,12 +122,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  public boolean isAvailable() {
-    return true;
-  }
-
-  @Override
-  public List<AccountMetaData> getRemoteAccountList() {
+  public List<AccountMetaData> getRemoteAccountList() throws IOException {
     return webDavClient.getFolderMembers(null)
         .filter(LockableDavResource::isCollection)
         .map(davResource -> webDavClient.getResource(davResource.location, ACCOUNT_METADATA_FILENAME))

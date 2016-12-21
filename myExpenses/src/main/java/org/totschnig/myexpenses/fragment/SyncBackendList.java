@@ -38,6 +38,7 @@ import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.util.Utils;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -189,31 +190,51 @@ public class SyncBackendList extends Fragment implements
     }
   }
 
-  private class AccountMetaDataLoaderCallbacks implements LoaderManager.LoaderCallbacks<Optional<List<AccountMetaData>>> {
+  private class AccountMetaDataLoaderCallbacks implements LoaderManager.LoaderCallbacks<AccountMetaDataLoaderResult> {
     @Override
-    public Loader<Optional<List<AccountMetaData>>> onCreateLoader(int id, Bundle args) {
+    public Loader<AccountMetaDataLoaderResult> onCreateLoader(int id, Bundle args) {
       return new AccountMetaDataLoader(getActivity(), (String) syncBackendAdapter.getGroup(id));
     }
 
     @Override
-    public void onLoadFinished(Loader<Optional<List<AccountMetaData>>> loader,
-                               Optional<List<AccountMetaData>> optionalData) {
-      optionalData
-          .executeIfPresent(data -> syncBackendAdapter.setAccountMetadata(loader.getId(), data))
-          .executeIfAbsent(() -> Toast.makeText(getActivity(),
-              "Unable to get info for account " + loader.getId(), Toast.LENGTH_SHORT).show());
+    public void onLoadFinished(Loader<AccountMetaDataLoaderResult> loader,
+                               AccountMetaDataLoaderResult result) {
+      if (result.getResult() != null) {
+        syncBackendAdapter.setAccountMetadata(loader.getId(), result.getResult());
+      } else {
+        Toast.makeText(getActivity(), result.getError().toString(), Toast.LENGTH_SHORT).show();
+      }
     }
 
     @Override
-    public void onLoaderReset(Loader<Optional<List<AccountMetaData>>> loader) {
+    public void onLoaderReset(Loader<AccountMetaDataLoaderResult> loader) {
 
     }
   }
 
-  private static class AccountMetaDataLoader extends AsyncTaskLoader<Optional<List<AccountMetaData>>> {
+  private static class AccountMetaDataLoaderResult {
+    private final List result;
+    private final Exception error;
+    public AccountMetaDataLoaderResult(List result, Exception error) {
+      this.result = result;
+      this.error = error;
+    }
+
+
+    public Exception getError() {
+      return error;
+    }
+
+    public List getResult() {
+      return result;
+    }
+
+  }
+
+  private static class AccountMetaDataLoader extends AsyncTaskLoader<AccountMetaDataLoaderResult> {
     private final String accountName;
     private boolean hasResult = false;
-    private Optional<List<AccountMetaData>> data;
+    private AccountMetaDataLoaderResult data;
 
     AccountMetaDataLoader(Context context, String accountName) {
       super(context);
@@ -222,11 +243,23 @@ public class SyncBackendList extends Fragment implements
     }
 
     @Override
-    public Optional<List<AccountMetaData>> loadInBackground() {
-      return SyncBackendProviderFactory.get(
+    public AccountMetaDataLoaderResult loadInBackground() {
+      Optional<SyncBackendProvider> syncBackendProviderOptional = SyncBackendProviderFactory.get(
           GenericAccountService.GetAccount(accountName),
-          AccountManager.get(getContext()))
-          .map(SyncBackendProvider::getRemoteAccountList);
+          AccountManager.get(getContext()));
+      if (syncBackendProviderOptional.isPresent()) {
+        return getRemoteAccountList(syncBackendProviderOptional.get());
+      } else {
+        return new AccountMetaDataLoaderResult(null, new Exception("Unable to get info for account " + accountName));
+      }
+    }
+
+    private AccountMetaDataLoaderResult getRemoteAccountList(SyncBackendProvider provider) {
+      try {
+        return new AccountMetaDataLoaderResult(provider.getRemoteAccountList(), null);
+      } catch (IOException e) {
+        return new AccountMetaDataLoaderResult(null, e);
+      }
     }
 
     @Override
@@ -238,7 +271,7 @@ public class SyncBackendList extends Fragment implements
     }
 
     @Override
-    public void deliverResult(final Optional<List<AccountMetaData>> data) {
+    public void deliverResult(final AccountMetaDataLoaderResult data) {
       this.data = data;
       hasResult = true;
       super.deliverResult(data);

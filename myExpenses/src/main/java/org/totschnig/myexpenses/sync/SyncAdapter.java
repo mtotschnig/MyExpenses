@@ -55,6 +55,7 @@ import org.totschnig.myexpenses.sync.json.ChangeSet;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.util.AcraHelper;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -120,19 +121,18 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     Optional<SyncBackendProvider> backendProviderOptional = SyncBackendProviderFactory.get(account, accountManager);
     if (!backendProviderOptional.isPresent()) {
       AcraHelper.report(new Exception("Could not find backend for account " + account.name));
+      syncResult.databaseError = true;
       return;
     }
     SyncBackendProvider backend = backendProviderOptional.get();
-    if (!backend.isAvailable()) {
-      return;
-    }
 
-    Cursor c = null;
+    Cursor c;
     try {
       c = provider.query(TransactionProvider.ACCOUNTS_URI,
           new String[]{KEY_ROWID, KEY_SYNC_SEQUENCE_LOCAL}, KEY_SYNC_ACCOUNT_NAME + " = ?",
           new String[]{account.name}, null);
     } catch (RemoteException e) {
+      syncResult.databaseError = true;
       AcraHelper.report(e);
       return;
     }
@@ -149,6 +149,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             try {
               provider.update(buildInitializationUri(accountId), new ContentValues(0), null, null);
             } catch (RemoteException e) {
+              syncResult.databaseError = true;
               AcraHelper.report(e);
               return;
             }
@@ -160,7 +161,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
               lastRemoteSyncKey, "0"));
           dbAccount.set(org.totschnig.myexpenses.model.Account.getInstanceFromDb(accountId));
           if (!backend.withAccount(dbAccount.get())) {
-            AcraHelper.report("Could not create directory for account");
+            syncResult.stats.numIoExceptions++;
             continue;
           }
 
@@ -203,16 +204,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
               remoteChanges = mergeResult.second;
 
               if (remoteChanges.size() > 0) {
-                try {
-                  ContentProviderResult[] contentProviderResults = writeRemoteChangesToDb(provider, remoteChanges, accountId);
-                  if (contentProviderResults.length == 0) {
-                    throw new OperationApplicationException("write to db yielded no results");
-                  }
-                  accountManager.setUserData(account, lastRemoteSyncKey, String.valueOf(lastSyncedRemote));
-                } catch (RemoteException | OperationApplicationException | SQLiteException e) {
-                  AcraHelper.report(e);
-                  return;
+                ContentProviderResult[] contentProviderResults = writeRemoteChangesToDb(provider, remoteChanges, accountId);
+                if (contentProviderResults.length == 0) {
+                  throw new OperationApplicationException("write to db yielded no results");
                 }
+                accountManager.setUserData(account, lastRemoteSyncKey, String.valueOf(lastSyncedRemote));
               }
 
 
@@ -224,9 +220,17 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                   accountManager.setUserData(account, lastRemoteSyncKey, String.valueOf(lastSyncedRemote));
                 }
               }
+            } catch (IOException e) {
+              syncResult.stats.numIoExceptions++;
+            } catch (RemoteException | OperationApplicationException | SQLiteException e) {
+              syncResult.databaseError = true;
+              AcraHelper.report(e);
             } finally {
               backend.unlock();
             }
+          } else {
+            //TODO syncResult.delayUntil = ???
+            syncResult.stats.numIoExceptions++;
           }
         } while (c.moveToNext());
       }
@@ -234,9 +238,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
   }
 
-  private List<TransactionChange> getLocalChanges(ContentProviderClient provider, long accountId, long sequenceNumber) {
+  private List<TransactionChange> getLocalChanges(ContentProviderClient provider, long accountId,
+                                                  long sequenceNumber) throws RemoteException {
     List<TransactionChange> result = new ArrayList<>();
-    try {
       Uri changesUri = buildChangesUri(sequenceNumber, accountId);
       boolean hasLocalChanges = hasLocalChanges(provider, changesUri);
       if (hasLocalChanges) {
@@ -259,9 +263,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
           c.close();
         }
       }
-    } catch (RemoteException e) {
-      e.printStackTrace();
-    }
     return result;
   }
 

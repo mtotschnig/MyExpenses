@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.sync;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.support.annotation.NonNull;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
@@ -18,6 +19,7 @@ public class WebDavBackendProviderFactory extends SyncBackendProviderFactory {
     return LABEL;
   }
 
+  @NonNull
   @Override
   protected SyncBackendProvider _fromAccount(Account account, AccountManager accountManager) throws SyncParseException {
     return new WebDavBackendProvider(account, accountManager);

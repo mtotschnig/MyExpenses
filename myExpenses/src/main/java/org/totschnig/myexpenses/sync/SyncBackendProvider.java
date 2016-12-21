@@ -7,6 +7,7 @@ import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface SyncBackendProvider {
@@ -15,15 +16,13 @@ public interface SyncBackendProvider {
 
   boolean lock();
 
-  ChangeSet getChangeSetSince(long sequenceNumber, Context context);
+  ChangeSet getChangeSetSince(long sequenceNumber, Context context) throws IOException;
 
-  long writeChangeSet(List<TransactionChange> changeSet, Context context);
+  long writeChangeSet(List<TransactionChange> changeSet, Context context) throws IOException;
 
   boolean unlock();
 
-  boolean isAvailable();
-
-  List<AccountMetaData> getRemoteAccountList();
+  List<AccountMetaData> getRemoteAccountList() throws IOException;
 
   class SyncParseException extends Exception {
     SyncParseException(Exception e) {
