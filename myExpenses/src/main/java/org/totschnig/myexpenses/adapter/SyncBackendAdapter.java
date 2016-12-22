@@ -68,12 +68,12 @@ public class SyncBackendAdapter extends BaseExpandableListAdapter {
         syncStateView.setVisibility(View.GONE);
         break;
       case SYNCED:
-        syncStateView.setImageResource(R.drawable.ic_check_activated);
         syncStateView.setVisibility(View.VISIBLE);
+        syncStateView.setImageResource(R.drawable.ic_sync);
         break;
       case KNOWN:
-        syncStateView.setImageResource(R.drawable.ic_check);
         syncStateView.setVisibility(View.VISIBLE);
+        syncStateView.setImageResource(R.drawable.ic_action_sync_unlink);
         break;
     }
     return convertView;
