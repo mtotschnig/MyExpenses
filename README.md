@@ -42,7 +42,7 @@ Credits
 - <a href="https://github.com/google/guava">Guava</a>
 
 and on the contribution of many users that helped make My Expenses available in 28 different 
-<a href="http://www.myexpenses.mobi/en/#translate">languages</a>:
+<a href="http://www.myexpenses.mobi/en/#translate">languages</a>.
 
 Build
 =====
