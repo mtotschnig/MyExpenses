@@ -2,7 +2,6 @@
 {% capture pagelang %}{% if page.lang %}{{page.lang}}{% else %}en{% endif %}{% endcapture %}
 {% assign msg = site.data[pagelang][pagelang]  %}
 {% capture amazon %}{% if site.amazon[pagelang]%}{{site.amazon[pagelang]}}{% else %}{{site.amazon.en}}{% endif %}{% endcapture %}
-{% capture playicon %}https://play.google.com/intl/en_gb/badges/images/generic/{% if pagelang == "es" or pagelang == "de" or pagelang == "fr" or pagelang == "it" or pagelang == "pt" or pagelang == "ja" or pagelang == "ko" or pagelang == "zh" or pagelang == "ru"%}{{pagelang}}{% else %}en{% endif %}{% if pagelang == "pt" %}-br{% endif %}{% if pagelang == "zh" %}-tw{% endif %}-play-badge.png{% endcapture %}
 <html lang="{{pagelang}}">
   <head>
     <meta charset="utf-8">
@@ -206,13 +205,55 @@
       </div> <!-- /jumbotron -->
       <div class="well">
         <div class="row">
-          <div class="col-xs-12 col-ms-6 col-sm-6">
-            <a id="gplay" class="track" href="https://play.google.com/store/apps/details?id=org.totschnig.myexpenses">
-              <img alt="Get it on Google Play" width="133" height="45"
-                src="{{playicon}}" />
-            </a>
+          <div class="col-xs-12 col-ms-6 col-sm-6 play-logo">
+            {% case pagelang %}
+            {% when 'ar' %}
+            <a href='https://play.google.com/store/apps/details?id=org.totschnig.myexpenses&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='احصل عليه من Google Play ' src='https://play.google.com/intl/de_de/badges/images/generic/ar_badge_web_generic.png'/></a>
+			{% when 'fr' %}
+			<a href='https://play.google.com/store/apps/details?id=org.totschnig.myexpenses&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Disponible sur Google Play' src='https://play.google.com/intl/de_de/badges/images/generic/fr_badge_web_generic.png'/></a>
+			{% when 'de' %}
+			<a href='https://play.google.com/store/apps/details?id=org.totschnig.myexpenses&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Jetzt bei Google Play' src='https://play.google.com/intl/de_de/badges/images/generic/de_badge_web_generic.png'/></a>
+			{% when 'it' %}
+			<a href='https://play.google.com/store/apps/details?id=org.totschnig.myexpenses&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Disponibile su Google Play' src='https://play.google.com/intl/de_de/badges/images/generic/it_badge_web_generic.png'/></a>
+			{% when 'es' %}
+			<a href='https://play.google.com/store/apps/details?id=org.totschnig.myexpenses&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Disponible en Google Play' src='https://play.google.com/intl/de_de/badges/images/generic/es_badge_web_generic.png'/></a>
+			{% when 'ca' %}
+			<a href='https://play.google.com/store/apps/details?id=org.totschnig.myexpenses&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Disponible a Google Play' src='https://play.google.com/intl/de_de/badges/images/generic/ca_badge_web_generic.png'/></a>
+			{% when 'tr' %}
+			<a href='https://play.google.com/store/apps/details?id=org.totschnig.myexpenses&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Google Play'den alın' src='https://play.google.com/intl/de_de/badges/images/generic/tr_badge_web_generic.png'/></a>
+			{% when 'vi' %}
+			<a href='https://play.google.com/store/apps/details?id=org.totschnig.myexpenses&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Tải nội dung trên Google Play' src='https://play.google.com/intl/de_de/badges/images/generic/vi_badge_web_generic.png'/></a>
+			{% when 'hu' %}
+			<a href='https://play.google.com/store/apps/details?id=org.totschnig.myexpenses&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Szerezd meg: Google Play' src='https://play.google.com/intl/de_de/badges/images/generic/hu_badge_web_generic.png'/></a>
+			{% when 'zh-tw' %}
+			<a href='https://play.google.com/store/apps/details?id=org.totschnig.myexpenses&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Google Play立即下載' src='https://play.google.com/intl/de_de/badges/images/generic/zh-tw_badge_web_generic.png'/></a>
+			{% when 'pt' %}
+			<a href='https://play.google.com/store/apps/details?id=org.totschnig.myexpenses&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Disponível no Google Play' src='https://play.google.com/intl/de_de/badges/images/generic/pt_badge_web_generic.png'/></a>
+			{% when 'pl' %}
+			<a href='https://play.google.com/store/apps/details?id=org.totschnig.myexpenses&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='pobierz z Google Play' src='https://play.google.com/intl/de_de/badges/images/generic/pl_badge_web_generic.png'/></a>
+			{% when 'cs' %}
+			<a href='https://play.google.com/store/apps/details?id=org.totschnig.myexpenses&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Nyní na Google Play' src='https://play.google.com/intl/de_de/badges/images/generic/cs_badge_web_generic.png'/></a>
+			{% when 'ru' %}
+			<a href='https://play.google.com/store/apps/details?id=org.totschnig.myexpenses&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Доступно в Google Play' src='https://play.google.com/intl/de_de/badges/images/generic/ru_badge_web_generic.png'/></a>
+			{% when 'ro' %}
+			<a href='https://play.google.com/store/apps/details?id=org.totschnig.myexpenses&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='acum pe Google Play' src='https://play.google.com/intl/de_de/badges/images/generic/ro_badge_web_generic.png'/></a>
+			{% when 'ja' %}
+			<a href='https://play.google.com/store/apps/details?id=org.totschnig.myexpenses&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Google Play で手に入れよう' src='https://play.google.com/intl/de_de/badges/images/generic/ja_badge_web_generic.png'/></a>
+			{% when 'ms' %}
+			<a href='https://play.google.com/store/apps/details?id=org.totschnig.myexpenses&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Dapatkan di Google Play' src='https://play.google.com/intl/de_de/badges/images/generic/ms_badge_web_generic.png'/></a>
+			{% when 'hr' %}
+			<a href='https://play.google.com/store/apps/details?id=org.totschnig.myexpenses&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Dostupno na usluzi Google Play' src='https://play.google.com/intl/de_de/badges/images/generic/hr_badge_web_generic.png'/></a>
+			{% when 'eu' %}
+			<a href='https://play.google.com/store/apps/details?id=org.totschnig.myexpenses&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Lortu Google Play dendan' src='https://play.google.com/intl/de_de/badges/images/generic/eu_badge_web_generic.png'/></a>
+			{% when 'da' %}
+			<a href='https://play.google.com/store/apps/details?id=org.totschnig.myexpenses&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Nu på Google Play' src='https://play.google.com/intl/de_de/badges/images/generic/da_badge_web_generic.png'/></a>
+			{% when 'bg' %}
+			<a href='https://play.google.com/store/apps/details?id=org.totschnig.myexpenses&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Предлага се в Google Play' src='https://play.google.com/intl/de_de/badges/images/generic/bg_badge_web_generic.png'/></a>
+		    {% else %}
+			<a href='https://play.google.com/store/apps/details?id=org.totschnig.myexpenses&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/de_de/badges/images/generic/en_badge_web_generic.png'/></a>
+			{% endcase %}
           </div>
-          <div class="col-xs-12 col-ms-6 col-sm-6">
+          <div class="col-xs-12 col-ms-6 col-sm-6 fdroid-logo">
             <a id="fdroid" class="track" href="https://f-droid.org/repository/browse/?fdid=org.totschnig.myexpenses">
               <img alt="Get it on F-Droid" src="/visuals/getitonfdroid.png" />
             </a>

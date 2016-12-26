@@ -146,3 +146,12 @@ Back to top button
  text-align: center; 
 }
 
+.play-logo a img {
+	height: 65px;
+	width: auto;
+}
+
+.fdroid-logo a img {
+	padding: 10px;
+}
+
