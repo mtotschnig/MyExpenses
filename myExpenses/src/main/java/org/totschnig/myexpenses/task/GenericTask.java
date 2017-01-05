@@ -3,10 +3,13 @@ package org.totschnig.myexpenses.task;
 import android.accounts.AccountManager;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.RemoteException;
 import android.support.annotation.NonNull;
 import android.support.v4.provider.DocumentFile;
 import android.text.TextUtils;
@@ -53,6 +56,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
 
@@ -193,13 +197,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         return Result.SUCCESS;
       case TaskExecutionFragment.TASK_DELETE_ACCOUNT:
         Long anId = (Long) ids[0];
-        try {
-          Account.delete(anId);
-        } catch (Exception e) {
-          AcraHelper.reportWithDbSchema(e);
-          return Result.FAILURE;
-        }
-        return new Result(true, 0, anId);
+        return deleteAccount(anId) ? new Result(true, 0, anId) : Result.FAILURE;
       case TaskExecutionFragment.TASK_DELETE_PAYMENT_METHODS:
         try {
           for (long id : (Long[]) ids) {
@@ -519,10 +517,43 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         accountManager.setUserData(syncAccount, SyncAdapter.KEY_LAST_SYNCED_REMOTE(id), null);
         account.setSyncAccountName(null);
         account.save();
-        return new Result(true);
+        return Result.SUCCESS;
+      }
+      case TaskExecutionFragment.TASK_SYNC_LINK_LOCAL: {
+        Account account = Account.getInstanceFromDb(Account.findByUuid((String) ids[0]));
+        String syncAccountName = (String) this.mExtra;
+        account.setSyncAccountName(syncAccountName);
+        account.save();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+        bundle.putString(KEY_UUID, account.uuid);
+        bundle.putBoolean(SyncAdapter.KEY_RESET_REMOTE_ACCOUNT, true);
+        ContentResolver.requestSync(GenericAccountService.GetAccount(syncAccountName),
+            TransactionProvider.AUTHORITY, bundle);
+        return Result.SUCCESS;
+      }
+      case TaskExecutionFragment.TASK_SYNC_LINK_REMOTE: {
+        Account remoteAccount = (Account) this.mExtra;
+        if (!deleteAccount(Account.findByUuid(remoteAccount.uuid))) {
+          return Result.FAILURE;
+        }
+        remoteAccount.save();
+        remoteAccount.requestSync();
+        return Result.SUCCESS;
       }
     }
     return null;
+  }
+
+  private boolean deleteAccount(Long anId)  {
+    try {
+      Account.delete(anId);
+    } catch (RemoteException | OperationApplicationException e) {
+      AcraHelper.reportWithDbSchema(e);
+      return false;
+    }
+    return true;
   }
 
   @NonNull

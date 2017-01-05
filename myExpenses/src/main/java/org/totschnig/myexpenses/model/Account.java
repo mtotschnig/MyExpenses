@@ -739,7 +739,7 @@ public class Account extends Model {
       Bundle bundle = new Bundle();
       bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
       bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-      bundle.putLong(DatabaseConstants.KEY_ACCOUNTID, getId());
+      bundle.putString(DatabaseConstants.KEY_UUID, uuid);
       ContentResolver.requestSync(GenericAccountService.GetAccount(syncAccountName),
           TransactionProvider.AUTHORITY, bundle);
     }

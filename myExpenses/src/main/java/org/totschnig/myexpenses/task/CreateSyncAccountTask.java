@@ -18,7 +18,6 @@ import static android.accounts.AccountManager.KEY_USERDATA;
 
 public class CreateSyncAccountTask extends AsyncTask<Void, Void, Result> {
 
-  private static final int HOUR_IN_SECONDS = 3600;
   private final TaskExecutionFragment taskExecutionFragment;
   private final String accountName;
   private final String password;
@@ -39,7 +38,7 @@ public class CreateSyncAccountTask extends AsyncTask<Void, Void, Result> {
       accountManager.setPassword(newAccount, password);
       ContentResolver.setSyncAutomatically(newAccount, TransactionProvider.AUTHORITY, true);
       ContentResolver.addPeriodicSync(newAccount, TransactionProvider.AUTHORITY, Bundle.EMPTY,
-          PrefKey.SYNC_FREQUCENCY.getInt(GenericAccountService.DEFAULT_SYNC_FREQUENCY_HOURS) * HOUR_IN_SECONDS);
+          PrefKey.SYNC_FREQUCENCY.getInt(GenericAccountService.DEFAULT_SYNC_FREQUENCY_HOURS) * GenericAccountService.HOUR_IN_SECONDS);
       return new Result(true);
     }
     return new Result(false);

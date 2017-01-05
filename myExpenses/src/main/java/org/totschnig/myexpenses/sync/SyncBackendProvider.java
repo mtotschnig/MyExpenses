@@ -14,6 +14,8 @@ public interface SyncBackendProvider {
 
   boolean withAccount(Account account);
 
+  boolean resetAccountData(String uuid);
+
   boolean lock();
 
   ChangeSet getChangeSetSince(long sequenceNumber, Context context) throws IOException;

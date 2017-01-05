@@ -579,7 +579,8 @@ public class TransactionProvider extends ContentProvider {
           "'NONE' AS " + KEY_GROUPING,
           "'AGGREGATE' AS " + KEY_TYPE,
           "-1 AS " + KEY_SORT_KEY,
-          "0 AS " + KEY_EXCLUDE_FROM_TOTALS};
+          "0 AS " + KEY_EXCLUDE_FROM_TOTALS,
+          "null AS " + KEY_SYNC_ACCOUNT_NAME};
       qb.appendWhere(KEY_ROWID + "=" + currencyId);
       break;
     case ACCOUNT_ID:
@@ -1419,7 +1420,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "planinstance_transaction", PLANINSTANCE_TRANSACTION_STATUS);
     URI_MATCHER.addURI(AUTHORITY, "currencies", CURRENCIES);
     URI_MATCHER.addURI(AUTHORITY, "currencies/" + URI_SEGMENT_CHANGE_FRACTION_DIGITS + "/*/#", CURRENCIES_CHANGE_FRACTION_DIGITS);
-    URI_MATCHER.addURI(AUTHORITY, "accounts/aggregates/#",AGGREGATE_ID);
+    URI_MATCHER.addURI(AUTHORITY, "accounts/aggregates/#", AGGREGATE_ID);
     URI_MATCHER.addURI(AUTHORITY, "payees_transactions", MAPPED_PAYEES);
     URI_MATCHER.addURI(AUTHORITY, "methods_transactions", MAPPED_METHODS);
     URI_MATCHER.addURI(AUTHORITY, "dual", DUAL);

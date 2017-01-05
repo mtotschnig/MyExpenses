@@ -24,6 +24,8 @@ import java.io.File;
 
 import static org.totschnig.myexpenses.sync.WebDavBackendProvider.KEY_WEB_DAV_CERTIFICATE;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_LINK_LOCAL;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_LINK_REMOTE;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_UNLINK;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_WEBDAV_TEST_LOGIN;
 
@@ -97,11 +99,28 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
   public void onPositive(Bundle args) {
     switch (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
       case R.id.SYNC_UNLINK_COMMAND: {
-        startTaskExecution(
-            TASK_SYNC_UNLINK,
+        startTaskExecution(TASK_SYNC_UNLINK,
             new String[]{args.getString(DatabaseConstants.KEY_UUID)}, null, 0);
       }
     }
+  }
+
+  @Override
+  public boolean dispatchCommand(int command, Object tag) {
+    switch (command) {
+      case R.id.SYNC_LINK_COMMAND_DO_LOCAL: {
+        Account account = getListFragment().getAccountForSync((Long) tag);
+        startTaskExecution(TASK_SYNC_LINK_LOCAL,
+            new String[]{account.uuid}, account.getSyncAccountName(), 0);
+      }
+      case R.id.SYNC_LINK_COMMAND_DO_REMOTE: {
+        Account account = getListFragment().getAccountForSync((Long) tag);
+        startTaskExecution(TASK_SYNC_LINK_REMOTE,
+            null, account, 0);
+
+      }
+    }
+    return super.dispatchCommand(command, tag);
   }
 
   @Override
@@ -119,7 +138,9 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
         }
         break;
       }
-      case TASK_SYNC_UNLINK: {
+      case TASK_SYNC_UNLINK:
+      case TASK_SYNC_LINK_LOCAL:
+      case TASK_SYNC_LINK_REMOTE: {
         if (result.success) {
           getListFragment().reloadLocalAccountInfo();
         }
@@ -133,12 +154,13 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
   }
 
   private SetupWebdavDialogFragment getWebdavFragment() {
-    return (SetupWebdavDialogFragment) getSupportFragmentManager().findFragmentByTag(WebDavBackendProviderFactory.WEBDAV_SETUP);
+    return (SetupWebdavDialogFragment) getSupportFragmentManager().findFragmentByTag(
+        WebDavBackendProviderFactory.WEBDAV_SETUP);
   }
 
   @Override
   public boolean onContextItemSelected(MenuItem item) {
-    switch(item.getItemId()) {
+    switch (item.getItemId()) {
       case R.id.SYNC_DOWNLOAD_COMMAND:
         newAccount = getListFragment().getAccountForSync(
             ((ExpandableListContextMenuInfo) item.getMenuInfo()).packedPosition);
@@ -158,5 +180,5 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
   public Model getObject() {
     return newAccount;
   }
-  
+
 }

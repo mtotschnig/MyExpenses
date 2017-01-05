@@ -63,7 +63,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
@@ -86,6 +85,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   public static final String KEY_LAST_SYNCED_LOCAL(long accountId) {
     return "last_synced_local_" + accountId;
   }
+  public static final String KEY_RESET_REMOTE_ACCOUNT = "reset_remote_account";
 
   private Map<String, Long> categoryToId;
   private Map<String, Long> payeeToId;
@@ -117,7 +117,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     payeeToId = new HashMap<>();
     methodToId = new HashMap<>();
     accountUuidToId = new HashMap<>();
-    long accountIdFromExtras = extras.getLong(KEY_ACCOUNTID);
+    String uuidFromExtras = extras.getString(KEY_UUID);
     Log.i(TAG, "onPerformSync " + extras.toString());
 
     AccountManager accountManager = AccountManager.get(getContext());
@@ -133,7 +133,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     Cursor c;
     try {
       c = provider.query(TransactionProvider.ACCOUNTS_URI,
-          new String[]{KEY_ROWID, KEY_SYNC_SEQUENCE_LOCAL}, KEY_SYNC_ACCOUNT_NAME + " = ?",
+          new String[]{KEY_ROWID, KEY_SYNC_SEQUENCE_LOCAL, KEY_UUID}, KEY_SYNC_ACCOUNT_NAME + " = ?",
           new String[]{account.name}, null);
     } catch (RemoteException e) {
       syncResult.databaseError = true;
@@ -144,12 +144,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       if (c.moveToFirst()) {
         do {
           long accountId = c.getLong(0);
-          if (accountIdFromExtras != 0 && accountIdFromExtras != accountId) {
+          long syncSequenceLocal = c.getLong(1);
+          String uuid = c.getString(2);
+          if (uuidFromExtras != null && !uuidFromExtras.equals(uuid)) {
             continue;
           }
           String lastLocalSyncKey = KEY_LAST_SYNCED_LOCAL(accountId);
           String lastRemoteSyncKey = KEY_LAST_SYNCED_REMOTE(accountId);
-          if (c.getLong(1) == 0) {
+          if (syncSequenceLocal == 0) {
             try {
               provider.update(buildInitializationUri(accountId), new ContentValues(0), null, null);
             } catch (RemoteException e) {
@@ -164,6 +166,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
           long lastSyncedRemote = Long.parseLong(getUserDataWithDefault(accountManager, account,
               lastRemoteSyncKey, "0"));
           dbAccount.set(org.totschnig.myexpenses.model.Account.getInstanceFromDb(accountId));
+          if (uuidFromExtras != null && extras.getBoolean(KEY_RESET_REMOTE_ACCOUNT)) {
+            if (!backend.resetAccountData(uuidFromExtras)) {
+              syncResult.stats.numIoExceptions++;
+              continue;
+            }
+          }
           if (!backend.withAccount(dbAccount.get())) {
             syncResult.stats.numIoExceptions++;
             continue;

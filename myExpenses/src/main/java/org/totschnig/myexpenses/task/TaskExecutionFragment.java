@@ -104,6 +104,8 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_WEBDAV_TEST_LOGIN = 42;
   public static final int TASK_CREATE_SYNC_ACCOUNT = 43;
   public static final int TASK_SYNC_UNLINK = 44;
+  public static final int TASK_SYNC_LINK_LOCAL = 45;
+  public static final int TASK_SYNC_LINK_REMOTE = 46;
 
   /**
    * Callback interface through which the fragment will report the task's

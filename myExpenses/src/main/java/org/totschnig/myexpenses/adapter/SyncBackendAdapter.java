@@ -20,8 +20,9 @@ import java.util.Map;
 public class SyncBackendAdapter extends BaseExpandableListAdapter {
 
   public enum SyncState {
-    SYNCED,
-    KNOWN,
+    SYNCED_TO_THIS,
+    SYNCED_TO_OTHER,
+    UNSYNCED,
     UNKNOWN
   }
 
@@ -67,11 +68,12 @@ public class SyncBackendAdapter extends BaseExpandableListAdapter {
       case UNKNOWN:
         syncStateView.setVisibility(View.GONE);
         break;
-      case SYNCED:
+      case SYNCED_TO_THIS:
         syncStateView.setVisibility(View.VISIBLE);
         syncStateView.setImageResource(R.drawable.ic_sync);
         break;
-      case KNOWN:
+      case UNSYNCED:
+      case SYNCED_TO_OTHER:
         syncStateView.setVisibility(View.VISIBLE);
         syncStateView.setImageResource(R.drawable.ic_action_sync_unlink);
         break;
@@ -152,11 +154,13 @@ public class SyncBackendAdapter extends BaseExpandableListAdapter {
     AccountMetaData accountMetaData = (AccountMetaData) getChild(groupPosition, childPosition);
 
     if (localAccountInfo.containsKey(accountMetaData.uuid())) {
+      if (localAccountInfo.get(accountMetaData.uuid()) == null) {
+        return SyncState.UNSYNCED;
+      }
       return syncAccount.equals(localAccountInfo.get(accountMetaData.uuid())) ?
-          SyncState.SYNCED : SyncState.KNOWN;
-    } else {
-      return SyncState.UNKNOWN;
+          SyncState.SYNCED_TO_THIS : SyncState.SYNCED_TO_OTHER;
     }
+    return SyncState.UNKNOWN;
   }
 
   public Account getAccountForSync(long packedPosition) {

@@ -75,6 +75,11 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
+  public boolean resetAccountData(String uuid) {
+    return false;
+  }
+
+  @Override
   public boolean lock() {
     return webDavClient.lock(accountUuid);
   }

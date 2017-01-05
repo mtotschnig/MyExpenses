@@ -51,6 +51,20 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
+  public boolean resetAccountData(String uuid) {
+    //we do not set the member, this needs to be done through withAccount
+    File accountDir = new File(baseDir, uuid);
+    if (accountDir.isDirectory()) {
+      for (String file : accountDir.list()) {
+        if (!(new File(accountDir, file).delete())) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  @Override
   protected long getLastSequence() {
     return filterFiles(0)
         .map(file -> getSequenceFromFileName(file.getName()))

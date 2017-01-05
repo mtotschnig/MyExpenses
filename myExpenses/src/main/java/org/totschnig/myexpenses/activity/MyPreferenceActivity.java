@@ -16,10 +16,13 @@
 package org.totschnig.myexpenses.activity;
 
 import android.Manifest;
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -74,6 +77,7 @@ import org.totschnig.myexpenses.preference.TimePreferenceDialogFragmentCompat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
+import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.ui.PreferenceDividerItemDecoration;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.FileUtils;
@@ -89,6 +93,8 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Locale;
+
+import static org.totschnig.myexpenses.sync.GenericAccountService.HOUR_IN_SECONDS;
 
 /**
  * Present references screen defined in Layout file
@@ -223,6 +229,12 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       CommonCommands.dispatchCommand(this, R.id.VERIFY_LICENCE_COMMAND, null);
       getFragment().setProtectionDependentsState();
       getFragment().configureContribPrefs();
+    } else if (key.equals(PrefKey.SYNC_FREQUCENCY.getKey())) {
+      AccountManager accountManager = (AccountManager) getSystemService(ACCOUNT_SERVICE);
+      for (Account account: accountManager.getAccountsByType(GenericAccountService.ACCOUNT_TYPE)) {
+        ContentResolver.addPeriodicSync(account, TransactionProvider.AUTHORITY, Bundle.EMPTY,
+            PrefKey.SYNC_FREQUCENCY.getInt(GenericAccountService.DEFAULT_SYNC_FREQUENCY_HOURS) * HOUR_IN_SECONDS);
+      }
     }
   }
 
@@ -370,10 +382,6 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
 
         findPreference(PrefKey.RATE.getKey())
             .setOnPreferenceClickListener(this);
-
-        pref = findPreference(PrefKey.ENTER_LICENCE.getKey());
-        if (pref != null) //does not exist in Play Store version
-          pref.setOnPreferenceChangeListener(this);
 
         pref = findPreference(PrefKey.CUSTOM_DECIMAL_FORMAT.getKey());
         pref.setOnPreferenceChangeListener(this);

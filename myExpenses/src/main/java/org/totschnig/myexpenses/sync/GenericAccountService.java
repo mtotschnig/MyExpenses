@@ -30,6 +30,8 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.totschnig.myexpenses.activity.ManageSyncBackends;
+
 public class GenericAccountService extends Service {
     private static final String TAG = "GenericAccountService";
     public static final String ACCOUNT_TYPE = "org.totschnig.myexpenses.sync";
@@ -38,6 +40,7 @@ public class GenericAccountService extends Service {
     public static final String KEY_SYNC_PROVIDER_URL = "sync_provider_url";
     public static final String KEY_SYNC_PROVIDER_USERNAME = "sync_provider_user_name";
     public static final int DEFAULT_SYNC_FREQUENCY_HOURS = 12;
+    public static final int HOUR_IN_SECONDS = 3600;
     private Authenticator mAuthenticator;
 
     /**
@@ -130,6 +133,13 @@ public class GenericAccountService extends Service {
                                   Account account, String[] strings)
                 throws NetworkErrorException {
             throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public Bundle getAccountRemovalAllowed(AccountAuthenticatorResponse response, Account account) throws NetworkErrorException {
+            Bundle result = new Bundle();
+            result.putParcelable(AccountManager.KEY_INTENT, new Intent(GenericAccountService.this, ManageSyncBackends.class));
+            return result;
         }
     }
 

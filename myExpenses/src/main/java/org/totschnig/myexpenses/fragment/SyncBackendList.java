@@ -31,6 +31,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
 import org.totschnig.myexpenses.adapter.SyncBackendAdapter;
 import org.totschnig.myexpenses.dialog.DialogUtils;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.sync.GenericAccountService;
@@ -87,12 +88,16 @@ public class SyncBackendList extends Fragment implements
     if (ExpandableListView.getPackedPositionType(packedPosition) ==
         ExpandableListView.PACKED_POSITION_TYPE_CHILD ) {
       switch (syncBackendAdapter.getSyncState(packedPosition)) {
-        case SYNCED:
+        case SYNCED_TO_THIS:
           commandId = R.id.SYNC_UNLINK_COMMAND;
           titleId = R.string.menu_sync_unlink;
           break;
-        case KNOWN:
+        case UNSYNCED:
           commandId = R.id.SYNC_LINK_COMMAND;
+          titleId = R.string.menu_sync_link;
+          break;
+        case SYNCED_TO_OTHER:
+          commandId = R.id.SYNCED_TO_OTHER_COMMAND;
           titleId = R.string.menu_sync_link;
           break;
         case UNKNOWN:
@@ -145,21 +150,40 @@ public class SyncBackendList extends Fragment implements
         .packedPosition;
     switch (item.getItemId()) {
       case R.id.SYNC_COMMAND: {
-        String syncAccountName = syncBackendAdapter.getSyncAccountName(
-            packedPosition);
-        requestSync(syncAccountName);
+        requestSync(packedPosition);
         return true;
       }
       case R.id.SYNC_UNLINK_COMMAND: {
         DialogUtils.showSyncUnlinkConfirmationDialog(getActivity(),
-            syncBackendAdapter.getAccountForSync(packedPosition));
+            getAccountForSync(packedPosition));
         return true;
+      }
+      case R.id.SYNCED_TO_OTHER_COMMAND: {
+        Account account = getAccountForSync(packedPosition);
+        MessageDialogFragment.newInstance(
+            0,
+            getString(R.string.dialog_synced_to_other, account.uuid),
+            MessageDialogFragment.Button.okButton(),
+            null, null)
+            .show(getFragmentManager(), "SYNCED_TO_OTHER");
+        return true;
+      }
+      case R.id.SYNC_LINK_COMMAND: {
+        Account account = getAccountForSync(packedPosition);
+        MessageDialogFragment.newInstance(
+            R.string.menu_sync_link,
+            getString(R.string.dialog_sync_link, account.uuid),
+            new MessageDialogFragment.Button(R.string.dialog_command_sync_link_remote, R.id.SYNC_LINK_COMMAND_DO_REMOTE, packedPosition),
+            MessageDialogFragment.Button.nullButton(android.R.string.cancel),
+            new MessageDialogFragment.Button(R.string.dialog_command_sync_link_local, R.id.SYNC_LINK_COMMAND_DO_LOCAL, packedPosition))
+            .show(getFragmentManager(), "SYNC_LINK");
       }
     }
     return super.onContextItemSelected(item);
   }
 
-  private void requestSync(String syncAccountName) {
+  private void requestSync(long packedPosition) {
+    String syncAccountName = syncBackendAdapter.getSyncAccountName(packedPosition);
     Bundle bundle = new Bundle();
     bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
     bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);

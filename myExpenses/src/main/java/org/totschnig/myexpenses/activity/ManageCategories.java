@@ -60,8 +60,7 @@ import java.util.ArrayList;
  * @author Michael Totschnig
  */
 public class ManageCategories extends ProtectedFragmentActivity implements
-    EditTextDialogListener, DbWriteFragment.TaskCallbacks,
-    SelectMainCategoryDialogFragment.CategorySelectedListener {
+    EditTextDialogListener, SelectMainCategoryDialogFragment.CategorySelectedListener {
 
   public enum HelpVariant {
     manage, distribution, select_mapping, select_filter
