@@ -763,16 +763,17 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       if (Utils.isExternalStorageAvailable()) {
         DocumentFile appDir = Utils.getAppDir();
         if (appDir != null) {
-          if (Utils.dirExistsAndIsWritable(appDir))
+          if (Utils.dirExistsAndIsWritable(appDir)) {
             pref.setSummary(FileUtils.getPath(getActivity(), appDir.getUri()));
-          else
+          } else {
             pref.setSummary(getString(R.string.app_dir_not_accessible,
                 FileUtils.getPath(MyApplication.getInstance(), appDir.getUri())));
-          return;
+          }
         }
+      } else {
+        pref.setSummary(R.string.external_storage_unavailable);
+        pref.setEnabled(false);
       }
-      pref.setSummary(R.string.external_storage_unavailable);
-      pref.setEnabled(false);
     }
 
     // credits Financisto

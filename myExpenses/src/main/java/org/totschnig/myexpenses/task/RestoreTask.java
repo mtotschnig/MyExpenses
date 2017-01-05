@@ -107,8 +107,8 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
         AcraHelper.report(e);
         return new Result(
             false,
-            R.string.restore_backup_archive_not_valid,
-            fileUri);
+            R.string.parse_error_other_exception,
+            e.getMessage());
       }
     } else {
       workingDir = new File(Utils.getAppDir().getUri().getPath(),dirNameLegacy);

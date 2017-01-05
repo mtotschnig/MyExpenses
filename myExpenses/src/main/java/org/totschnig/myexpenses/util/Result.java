@@ -64,6 +64,7 @@ public class Result {
   }
 
   public Result(boolean success, String messageString) {
+    this.success = success;
     this.message = 0;
     this.messageString = messageString;
   }
