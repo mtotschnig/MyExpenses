@@ -125,12 +125,8 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
         BigDecimal amount;
         String categoryInfo = null;
         if (columnIndexSplit != -1) {
-          if (isSplitParent) {
-            isSplitPart = saveGetFromRecord(record, columnIndexSplit).equals(SplitTransaction.CSV_PART_INDICATOR);
-            isSplitParent = false;
-          } else {
-            isSplitParent = saveGetFromRecord(record, columnIndexSplit).equals(SplitTransaction.CSV_INDICATOR);
-          }
+          isSplitPart = saveGetFromRecord(record, columnIndexSplit).equals(SplitTransaction.CSV_PART_INDICATOR);
+          isSplitParent = saveGetFromRecord(record, columnIndexSplit).equals(SplitTransaction.CSV_INDICATOR);
         }
         try {
           if (columnIndexAmount != -1) {
