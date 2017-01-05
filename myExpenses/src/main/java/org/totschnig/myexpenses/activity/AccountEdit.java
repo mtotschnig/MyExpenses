@@ -38,7 +38,6 @@ import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
@@ -47,7 +46,6 @@ import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.sync.GenericAccountService;
-import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SpinnerHelper;
 import org.totschnig.myexpenses.util.AcraHelper;
 
@@ -339,6 +337,7 @@ public class AccountEdit extends AmountActivity implements
     } else {
       Intent intent = new Intent();
       long id = ContentUris.parseId((Uri) result);
+      mAccount.requestSync();
       intent.putExtra(DatabaseConstants.KEY_ROWID, id);
       setResult(RESULT_OK, intent);
     }

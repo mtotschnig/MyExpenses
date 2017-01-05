@@ -18,7 +18,6 @@ package org.totschnig.myexpenses.sync.webdav;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.annimon.stream.Stream;
 import com.google.common.base.Preconditions;
 
 import org.totschnig.myexpenses.util.AcraHelper;
@@ -29,6 +28,7 @@ import java.io.IOException;
 import java.security.cert.CertPathValidatorException;
 import java.security.cert.X509Certificate;
 import java.util.Locale;
+import java.util.Set;
 
 import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLHandshakeException;
@@ -117,14 +117,14 @@ public class WebDavClient {
    *
    * @param folderName if null, members of base uri are returned
    */
-  public Stream<DavResource> getFolderMembers(String folderName) throws IOException {
+  public Set<DavResource> getFolderMembers(String folderName) throws IOException {
     DavResource folder = new DavResource(httpClient, folderName == null ? mBaseUri : buildCollectionUri(folderName));
     try {
       folder.propfind(1, DisplayName.NAME, ResourceType.NAME);
     } catch (DavException | at.bitfire.dav4android.exception.HttpException e) {
       throw new IOException(e);
     }
-    return Stream.of(folder.members);
+    return folder.members;
   }
 
   public LockableDavResource getResource(String folderName, String resourceName) {

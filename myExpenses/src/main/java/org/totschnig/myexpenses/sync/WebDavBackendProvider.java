@@ -76,7 +76,14 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
   @Override
   public boolean resetAccountData(String uuid) {
-    return false;
+    try {
+      for (DavResource davResource : webDavClient.getFolderMembers(uuid)) {
+        davResource.delete(null);
+      }
+    } catch (IOException | at.bitfire.dav4android.exception.HttpException e) {
+      return false;
+    }
+    return true;
   }
 
   @Override
@@ -100,7 +107,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   }
 
   private Stream<DavResource> filterDavResources(long sequenceNumber) throws IOException {
-    return webDavClient.getFolderMembers(accountUuid)
+    return Stream.of(webDavClient.getFolderMembers(accountUuid))
         .filter(davResource -> isNewerJsonFile(sequenceNumber, davResource.fileName()));
   }
 
@@ -128,7 +135,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
   @Override
   public List<AccountMetaData> getRemoteAccountList() throws IOException {
-    return webDavClient.getFolderMembers(null)
+    return Stream.of(webDavClient.getFolderMembers(null))
         .filter(LockableDavResource::isCollection)
         .map(davResource -> webDavClient.getResource(davResource.location, ACCOUNT_METADATA_FILENAME))
         .filter(davResoure -> {

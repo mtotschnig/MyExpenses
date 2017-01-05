@@ -571,7 +571,6 @@ public class Account extends Model {
       accounts.put(getId(), this);
     }
     Money.ensureFractionDigitsAreCached(currency);
-    requestSync();
     return uri;
   }
 
