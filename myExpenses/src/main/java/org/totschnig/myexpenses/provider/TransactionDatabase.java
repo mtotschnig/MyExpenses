@@ -124,7 +124,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 58;
+  public static final int DATABASE_VERSION = 59;
   public static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -157,7 +157,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_CR_STATUS + " text not null check (" + KEY_CR_STATUS + " in (" + Transaction.CrStatus.JOIN + ")) default '" + Transaction.CrStatus.RECONCILED.name() + "',"
           + KEY_REFERENCE_NUMBER + " text, "
           + KEY_PICTURE_URI + " text, "
-          + KEY_UUID + " text, UNIQUE (" + KEY_ACCOUNTID + "," + KEY_UUID + "));";
+          + KEY_UUID + " text);";
+
+  private static final String TRANSACTIONS_UUID_INDEX_CREATE = "CREATE UNIQUE INDEX transactions_account_uuid ON "
+      + TABLE_TRANSACTIONS + "(" + KEY_ACCOUNTID + "," + KEY_UUID + ")";
 
   private static String buildViewDefinition(String tableName) {
     StringBuilder stringBuilder = new StringBuilder();
@@ -238,7 +241,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_SYNC_SEQUENCE_LOCAL + " integer default 0,"
           + KEY_SYNC_FROM_ADAPTER + " integer default 0,"
           + KEY_EXCLUDE_FROM_TOTALS + " boolean default 0, "
-          + KEY_UUID + " text UNIQUE);";
+          + KEY_UUID + " text);";
+
+  private static final String ACCOUNTS_UUID_INDEX_CREATE = "CREATE UNIQUE INDEX accounts_uuid ON "
+      + TABLE_ACCOUNTS + "(" + KEY_UUID + ")";
 
   /**
    * SQL statement for categories TABLE
@@ -575,6 +581,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   @Override
   public void onCreate(SQLiteDatabase db) {
     db.execSQL(DATABASE_CREATE);
+    db.execSQL(TRANSACTIONS_UUID_INDEX_CREATE);
     db.execSQL(PAYEE_CREATE);
     db.execSQL(PAYMENT_METHODS_CREATE);
     db.execSQL(TEMPLATE_CREATE);
@@ -586,6 +593,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL("CREATE VIEW " + VIEW_TEMPLATES + buildViewDefinition(TABLE_TEMPLATES));
     db.execSQL(CATEGORIES_CREATE);
     db.execSQL(ACCOUNTS_CREATE);
+    db.execSQL(ACCOUNTS_UUID_INDEX_CREATE);
     db.execSQL("CREATE VIEW " + VIEW_EXTENDED + buildViewDefinitionExtended(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
     db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_EXTENDED + buildViewDefinitionExtended(TABLE_TEMPLATES));
     db.execSQL(ACCOUNTS_TRIGGER_CREATE);
@@ -609,9 +617,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL("CREATE VIEW " + VIEW_CHANGES_EXTENDED + buildViewDefinitionExtended(TABLE_CHANGES));
     db.execSQL(TRANSACTIONS_INSERT_TRIGGER_CREATE);
     db.execSQL(TRANSACTIONS_INSERT_AFTER_UPDATE_TRIGGER_CREATE);
+    db.execSQL(TRANSACTIONS_DELETE_AFTER_UPDATE_TRIGGER_CREATE);
     db.execSQL(TRANSACTIONS_DELETE_TRIGGER_CREATE);
     db.execSQL(TRANSACTIONS_UPDATE_TRIGGER_CREATE);
-    db.execSQL(TRANSACTIONS_DELETE_AFTER_UPDATE_TRIGGER_CREATE);
     db.execSQL(INCREASE_CATEGORY_USAGE_INSERT_TRIGGER);
     db.execSQL(INCREASE_CATEGORY_USAGE_UPDATE_TRIGGER);
     db.execSQL(INCREASE_ACCOUNT_USAGE_INSERT_TRIGGER);
@@ -1189,7 +1197,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
               String planCalendarId = MyApplication.getInstance().checkPlanner();
               while (c.getPosition() < c.getCount()) {
                 Template t = new Template(c);
-                templateValues.put(DatabaseConstants.KEY_UUID, t.getUuid());
+                templateValues.put("uuid", t.getUuid());
                 long templateId = c.getLong(c.getColumnIndex("_id"));
                 long planId = c.getLong(c.getColumnIndex("plan_id"));
                 eventValues.put(Events.DESCRIPTION, t.compileDescription(mCtx));
@@ -1430,6 +1438,28 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         c.close();
       }
     }
+
+    if (oldVersion < 59) {
+      db.execSQL("ALTER TABLE transactions add column uuid text");
+      db.execSQL("CREATE UNIQUE INDEX transactions_account_uuid ON transactions(account_id,uuid)");
+      db.execSQL("ALTER TABLE accounts add column sync_account_name text");
+      db.execSQL("ALTER TABLE accounts add column sync_sequence_local integer default 0");
+      db.execSQL("ALTER TABLE accounts add column sync_from_adapter integer default 0");
+      db.execSQL("ALTER TABLE accounts add column uuid text unique");
+      db.execSQL("CREATE UNIQUE INDEX accounts_uuid ON accounts(uuid)");
+      db.execSQL("CREATE TABLE changes ( account_id integer not null references accounts(_id) ON DELETE CASCADE,type text not null check (type in ('created','updated','deleted')), sync_sequence_local integer, uuid text, timestamp datetime DEFAULT (strftime('%s','now')), parent_uuid text, comment text, date datetime, amount integer, cat_id integer references categories(_id) ON DELETE SET NULL, payee_id integer references payee(_id) ON DELETE SET NULL, transfer_account integer references accounts(_id) ON DELETE SET NULL,method_id integer references paymentmethods(_id),cr_status text check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED','VOID')),number text, picture_id text)");
+      db.execSQL("CREATE TRIGGER insert_change_log AFTER INSERT ON transactions WHEN  EXISTS (SELECT 1 FROM accounts WHERE _id = new.account_id AND sync_account_name IS NOT NULL AND sync_sequence_local > 0 AND sync_from_adapter = 0) AND new.status != 2 BEGIN INSERT INTO changes(type,sync_sequence_local, uuid, parent_uuid, comment, date, amount, cat_id, account_id,payee_id, transfer_account, method_id,cr_status, number, picture_id) VALUES ('created', (SELECT sync_sequence_local FROM accounts WHERE _id = new.account_id), new.uuid, CASE WHEN new.parent_id IS NULL THEN NULL ELSE (SELECT uuid from transactions where _id = new.parent_id) END, new.comment, new.date, new.amount, new.cat_id, new.account_id, new.payee_id, new.transfer_account, new.method_id, new.cr_status, new.number, new.picture_id); END;");
+      db.execSQL("CREATE TRIGGER insert_after_update_change_log AFTER UPDATE ON transactions WHEN  EXISTS (SELECT 1 FROM accounts WHERE _id = new.account_id AND sync_account_name IS NOT NULL AND sync_sequence_local > 0 AND sync_from_adapter = 0) AND (old.status = 2 AND new.status != 2) OR (old.account_id != new.account_id AND new.status != 2) BEGIN INSERT INTO changes(type,sync_sequence_local, uuid, parent_uuid, comment, date, amount, cat_id, account_id,payee_id, transfer_account, method_id,cr_status, number, picture_id) VALUES ('created', (SELECT sync_sequence_local FROM accounts WHERE _id = new.account_id), new.uuid, CASE WHEN new.parent_id IS NULL THEN NULL ELSE (SELECT uuid from transactions where _id = new.parent_id) END, new.comment, new.date, new.amount, new.cat_id, new.account_id, new.payee_id, new.transfer_account, new.method_id, new.cr_status, new.number, new.picture_id); END;");
+      db.execSQL("CREATE TRIGGER delete_after_update_change_log AFTER UPDATE ON transactions WHEN  EXISTS (SELECT 1 FROM accounts WHERE _id = old.account_id AND sync_account_name IS NOT NULL AND sync_sequence_local > 0 AND sync_from_adapter = 0) AND old.account_id != new.account_id AND new.status != 2 BEGIN INSERT INTO changes(type,sync_sequence_local, account_id,uuid,parent_uuid) VALUES ('deleted', (SELECT sync_sequence_local FROM accounts WHERE _id = old.account_id), old.account_id, old.uuid, CASE WHEN old.parent_id IS NULL THEN NULL ELSE (SELECT uuid from transactions where _id = old.parent_id) END); END;");
+      db.execSQL("CREATE TRIGGER delete_change_log AFTER DELETE ON transactions WHEN  EXISTS (SELECT 1 FROM accounts WHERE _id = old.account_id AND sync_account_name IS NOT NULL AND sync_sequence_local > 0 AND sync_from_adapter = 0) AND old.status != 2 AND EXISTS (SELECT 1 FROM accounts WHERE _id = old.account_id) BEGIN INSERT INTO changes(type,sync_sequence_local, account_id,uuid,parent_uuid) VALUES ('deleted', (SELECT sync_sequence_local FROM accounts WHERE _id = old.account_id), old.account_id, old.uuid, CASE WHEN old.parent_id IS NULL THEN NULL ELSE (SELECT uuid from transactions where _id = old.parent_id) END); END;");
+      db.execSQL("CREATE TRIGGER update_change_log AFTER UPDATE ON transactions WHEN  EXISTS (SELECT 1 FROM accounts WHERE _id = old.account_id AND sync_account_name IS NOT NULL AND sync_sequence_local > 0 AND sync_from_adapter = 0) AND old.status != 2 AND new.status != 2 AND new.account_id = old.account_id AND new.transfer_peer IS old.transfer_peer BEGIN INSERT INTO changes(type,sync_sequence_local, uuid, account_id, parent_uuid, comment, date, amount, cat_id, payee_id, transfer_account, method_id, cr_status, number, picture_id) VALUES ('updated', (SELECT sync_sequence_local FROM accounts WHERE _id = old.account_id), new.uuid, new.account_id, CASE WHEN new.parent_id IS NULL THEN NULL ELSE (SELECT uuid from transactions where _id = new.parent_id) END, CASE WHEN old.comment = new.comment THEN NULL ELSE new.comment END, CASE WHEN old.date = new.date THEN NULL ELSE new.date END, CASE WHEN old.amount = new.amount THEN NULL ELSE new.amount END, CASE WHEN old.cat_id = new.cat_id THEN NULL ELSE new.cat_id END, CASE WHEN old.payee_id = new.payee_id THEN NULL ELSE new.payee_id END, CASE WHEN old.transfer_account = new.transfer_account THEN NULL ELSE new.transfer_account END, CASE WHEN old.method_id = new.method_id THEN NULL ELSE new.method_id END, CASE WHEN old.cr_status = new.cr_status THEN NULL ELSE new.cr_status END, CASE WHEN old.number = new.number THEN NULL ELSE new.number END, CASE WHEN old.picture_id = new.picture_id THEN NULL ELSE new.picture_id END); END;");
+      db.execSQL("CREATE TRIGGER insert_increase_category_usage AFTER INSERT ON transactions WHEN new.cat_id IS NOT NULL AND new.cat_id != 0 BEGIN UPDATE categories SET usages = usages + 1, last_used = strftime('%s', 'now')  WHERE _id IN (new.cat_id , (SELECT parent_id FROM categories WHERE _id = new.cat_id)); END;");
+      db.execSQL("CREATE TRIGGER update_increase_category_usage AFTER UPDATE ON transactions WHEN new.cat_id IS NOT NULL AND (old.cat_id IS NULL OR new.cat_id != old.cat_id) BEGIN UPDATE categories SET usages = usages + 1, last_used = strftime('%s', 'now')  WHERE _id IN (new.cat_id , (SELECT parent_id FROM categories WHERE _id = new.cat_id)); END;");
+      db.execSQL("CREATE TRIGGER insert_increase_account_usage AFTER INSERT ON transactions WHEN new.parent_id IS NULL BEGIN UPDATE accounts SET usages = usages + 1, last_used = strftime('%s', 'now')  WHERE _id = new.account_id; END;");
+      db.execSQL("CREATE TRIGGER update_increase_account_usage AFTER UPDATE ON transactions WHEN new.parent_id IS NULL AND new.account_id != old.account_id AND (old.transfer_account IS NULL OR new.account_id != old.transfer_account) BEGIN UPDATE accounts SET usages = usages + 1, last_used = strftime('%s', 'now')  WHERE _id = new.account_id; END;");
+      db.execSQL("CREATE TRIGGER update_account_sync_null AFTER UPDATE ON accounts WHEN new.sync_account_name IS NULL AND old.sync_account_name IS NOT NULL BEGIN UPDATE accounts SET sync_sequence_local = 0 WHERE _id = old._id; DELETE FROM changes WHERE account_id = old._id; END;");
+      refreshViews(db);
+    }
   }
 
   private void refreshViews(SQLiteDatabase db) {
@@ -1446,6 +1476,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL("CREATE VIEW transactions_uncommitted" + viewTransactions + " WHERE " + KEY_STATUS + " = " + STATUS_UNCOMMITTED + ";");
     db.execSQL("CREATE VIEW transactions_all" + viewTransactions);
     db.execSQL("CREATE VIEW templates_all" + buildViewDefinition(TABLE_TEMPLATES));
+    db.execSQL("CREATE VIEW changes_extended" + buildViewDefinitionExtended(TABLE_CHANGES));
   }
 
   @Override

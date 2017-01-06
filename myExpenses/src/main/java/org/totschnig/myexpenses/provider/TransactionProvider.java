@@ -29,6 +29,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
+import android.test.ProviderTestCase2;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -40,6 +41,7 @@ import org.totschnig.myexpenses.model.AccountGrouping;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Grouping;
+import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.PaymentMethod;
@@ -1299,6 +1301,15 @@ public class TransactionProvider extends ContentProvider {
       if ("1".equals(uri.getQueryParameter(QUERY_PARAMETER_INIT))) {
         db.beginTransaction();
         try {
+          c = db.query(TABLE_TRANSACTIONS, new String[]{KEY_ROWID}, KEY_UUID + " IS NULL", null, null, null, null);
+          if (c.moveToFirst()) {
+            while (!c.isAfterLast()) {
+              db.execSQL("UPDATE " + TABLE_TRANSACTIONS + " SET " + KEY_UUID + " = ? WHERE " + KEY_ROWID + " = ?",
+                new String[] {Model.generateUuid(), c.getString(0)});
+              c.moveToNext();
+            }
+          }
+          c.close();
           String[] accountIdBindArgs = {uri.getQueryParameter(KEY_ACCOUNTID)};
           db.execSQL("INSERT INTO " + TABLE_CHANGES + "("
               + KEY_TYPE + ", "
@@ -1440,7 +1451,7 @@ public class TransactionProvider extends ContentProvider {
   /**
    * A test package can call this to get a handle to the database underlying TransactionProvider,
    * so it can insert test data into the database. The test case class is responsible for
-   * instantiating the provider in a test context; {@link android.test.ProviderTestCase2} does
+   * instantiating the provider in a test context; {@link ProviderTestCase2} does
    * this during the call to setUp()
    *
    * @return a handle to the database helper object for the provider's data.

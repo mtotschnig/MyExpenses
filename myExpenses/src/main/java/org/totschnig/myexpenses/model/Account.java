@@ -563,6 +563,11 @@ public class Account extends Model {
       }
       setId(ContentUris.parseId(uri));
     } else {
+      if (android.text.TextUtils.isEmpty(uuid)) {
+        //for accounts created before DB schema 59, uuid has not yet been set
+        //and is needed when the account is supposed to be synced
+        initialValues.put(KEY_UUID, generateUuid());
+      }
       uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build();
       cr().update(uri, initialValues, null, null);
     }
