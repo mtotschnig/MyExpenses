@@ -1,6 +1,9 @@
 package org.totschnig.myexpenses.task;
 
 import android.accounts.AccountManager;
+import android.accounts.AccountManagerFuture;
+import android.accounts.AuthenticatorException;
+import android.accounts.OperationCanceledException;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.OperationApplicationException;
@@ -540,6 +543,16 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         remoteAccount.save();
         remoteAccount.requestSync();
         return Result.SUCCESS;
+      }
+      case TaskExecutionFragment.TASK_SYNC_REMOVE_BACKEND: {
+        AccountManagerFuture<Boolean> accountManagerFuture = AccountManager.get(application).removeAccount(
+            GenericAccountService.GetAccount((String) ids[0]), null, null);
+        try {
+          return accountManagerFuture.getResult() ? Result.SUCCESS : Result.FAILURE;
+        } catch (OperationCanceledException | AuthenticatorException | IOException e) {
+          AcraHelper.report(e);
+          return Result.FAILURE;
+        }
       }
     }
     return null;

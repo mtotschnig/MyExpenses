@@ -456,6 +456,6 @@ public class DialogUtils {
     b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.SYNC_UNLINK_COMMAND);
     b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_sync_unlink);
     b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, android.R.string.cancel);
-    ConfirmationDialogFragment.newInstance(b).show(context.getSupportFragmentManager(), "AUTO_FILL_HINT");
+    ConfirmationDialogFragment.newInstance(b).show(context.getSupportFragmentManager(), "SYNC_UNLINK");
   }
 }

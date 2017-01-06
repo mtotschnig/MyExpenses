@@ -12,7 +12,6 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -56,7 +55,7 @@ public class DailyAutoBackupScheduler {
     }
 
     private static PendingIntent createPendingIntent(Context context) {
-        Intent intent = new Intent(ScheduledAlarmReceiver.SCHEDULED_BACKUP);
+        Intent intent = new Intent(GenericAlarmReceiver.SCHEDULED_BACKUP);
         return PendingIntent.getBroadcast(context, -100, intent, PendingIntent.FLAG_CANCEL_CURRENT);
     }
 

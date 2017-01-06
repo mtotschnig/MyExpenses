@@ -128,6 +128,7 @@ public class SyncBackendAdapter extends BaseExpandableListAdapter {
 
   public void setAccountList(List<String> accountList) {
     syncAccounts = accountList;
+    accountMetaDataMap.clear();
     notifyDataSetChanged();
   }
 

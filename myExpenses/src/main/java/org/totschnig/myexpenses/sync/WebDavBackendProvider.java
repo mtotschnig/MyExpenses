@@ -153,7 +153,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
   private Optional<AccountMetaData> getAccountMetaDataFromDavResource(LockableDavResource lockableDavResource) {
     try {
-      return Optional.of(getAccountMetaDataFromInputStream(lockableDavResource.get(MIMETYPE_JSON).byteStream()));
+      return getAccountMetaDataFromInputStream(lockableDavResource.get(MIMETYPE_JSON).byteStream());
     } catch (DavException | at.bitfire.dav4android.exception.HttpException | IOException e) {
       return Optional.empty();
     }

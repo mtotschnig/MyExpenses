@@ -26,6 +26,7 @@ import static org.totschnig.myexpenses.sync.WebDavBackendProvider.KEY_WEB_DAV_CE
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_LINK_LOCAL;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_LINK_REMOTE;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_REMOVE_BACKEND;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_UNLINK;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_WEBDAV_TEST_LOGIN;
 
@@ -101,6 +102,12 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
       case R.id.SYNC_UNLINK_COMMAND: {
         startTaskExecution(TASK_SYNC_UNLINK,
             new String[]{args.getString(DatabaseConstants.KEY_UUID)}, null, 0);
+        break;
+      }
+      case R.id.SYNC_REMOVE_BACKEND_COMMAND: {
+        startTaskExecution(TASK_SYNC_REMOVE_BACKEND,
+            new String[]{args.getString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)}, null, 0);
+        break;
       }
     }
   }
@@ -133,7 +140,8 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
         getWebdavFragment().onTestLoginResult(result);
         break;
       }
-      case TASK_CREATE_SYNC_ACCOUNT: {
+      case TASK_CREATE_SYNC_ACCOUNT:
+      case TASK_SYNC_REMOVE_BACKEND: {
         if (result.success) {
           getListFragment().reloadAccountList();
         }

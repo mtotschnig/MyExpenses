@@ -15,6 +15,7 @@ import org.totschnig.myexpenses.sync.json.AdapterFactory;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.sync.json.Utils;
+import org.totschnig.myexpenses.util.AcraHelper;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -44,8 +45,13 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     return ChangeSet.create(sequenceNumber, changes);
   }
 
-  AccountMetaData getAccountMetaDataFromInputStream(InputStream inputStream) {
-    return gson.fromJson(new BufferedReader(new InputStreamReader(inputStream)), AccountMetaData.class);
+  Optional<AccountMetaData> getAccountMetaDataFromInputStream(InputStream inputStream) {
+    try {
+      return Optional.of(gson.fromJson(new BufferedReader(new InputStreamReader(inputStream)), AccountMetaData.class));
+    } catch (Exception e) {
+      AcraHelper.report(e);
+      return Optional.empty();
+    }
   }
 
   boolean isNewerJsonFile(long sequenceNumber, String name) {

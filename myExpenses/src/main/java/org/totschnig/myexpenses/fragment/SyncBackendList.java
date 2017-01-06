@@ -30,9 +30,11 @@ import com.annimon.stream.Stream;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
 import org.totschnig.myexpenses.adapter.SyncBackendAdapter;
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.ServiceLoader;
@@ -57,6 +59,7 @@ public class SyncBackendList extends Fragment implements
   private List<SyncBackendProviderFactory> backendProviders = ServiceLoader.load();
   private SyncBackendAdapter syncBackendAdapter;
   private LoaderManager mManager;
+  private ExpandableListView listView;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,7 +71,7 @@ public class SyncBackendList extends Fragment implements
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     FragmentActivity context = getActivity();
     View v = inflater.inflate(R.layout.sync_backends_list, container, false);
-    ExpandableListView listView = (ExpandableListView) v.findViewById(R.id.list);
+    listView = (ExpandableListView) v.findViewById(R.id.list);
     View emptyView = v.findViewById(R.id.empty);
     List<String> data = getAccountList();
     syncBackendAdapter = new SyncBackendAdapter(context, data);
@@ -107,12 +110,12 @@ public class SyncBackendList extends Fragment implements
         default:
           throw new IllegalStateException("Unknown state");
       }
+      menu.add(Menu.NONE, commandId, 0, titleId);
     } else {
-      commandId = R.id.SYNC_COMMAND;
-      titleId = R.string.menu_sync_now;
+      menu.add(Menu.NONE, R.id.SYNC_COMMAND, 0, R.string.menu_sync_now);
+      menu.add(Menu.NONE, R.id.SYNC_REMOVE_BACKEND_COMMAND, 0, R.string.menu_remove);
     }
 
-    menu.add(Menu.NONE, commandId, 0, titleId);
     super.onCreateContextMenu(menu, v, menuInfo);
   }
 
@@ -177,6 +180,18 @@ public class SyncBackendList extends Fragment implements
             MessageDialogFragment.Button.nullButton(android.R.string.cancel),
             new MessageDialogFragment.Button(R.string.dialog_command_sync_link_local, R.id.SYNC_LINK_COMMAND_DO_LOCAL, packedPosition))
             .show(getFragmentManager(), "SYNC_LINK");
+        return true;
+      }
+      case R.id.SYNC_REMOVE_BACKEND_COMMAND: {
+        String syncAccountName = syncBackendAdapter.getSyncAccountName(packedPosition);
+        Bundle b = new Bundle();
+        b.putString(ConfirmationDialogFragment.KEY_MESSAGE,
+            getString(R.string.dialog_confirm_sync_remove_backend, syncAccountName));
+        b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.SYNC_REMOVE_BACKEND_COMMAND);
+        b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_remove);
+        b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, android.R.string.cancel);
+        b.putString(KEY_SYNC_ACCOUNT_NAME, syncAccountName);
+        ConfirmationDialogFragment.newInstance(b).show(getFragmentManager(), "SYNC_REMOVE_BACKEND");
       }
     }
     return super.onContextItemSelected(item);
@@ -193,6 +208,10 @@ public class SyncBackendList extends Fragment implements
 
   public void reloadAccountList() {
     syncBackendAdapter.setAccountList(getAccountList());
+    int count =  syncBackendAdapter.getGroupCount();
+    for (int i = 0; i < count ; i++) {
+      listView.collapseGroup(i);
+    }
   }
 
   @Override

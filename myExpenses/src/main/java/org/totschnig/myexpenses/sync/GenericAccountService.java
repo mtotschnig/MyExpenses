@@ -25,10 +25,9 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
 
@@ -76,7 +75,6 @@ public class GenericAccountService extends Service {
   }
 
   public class Authenticator extends AbstractAccountAuthenticator {
-    private final Handler handler = new Handler();
 
     public Authenticator(Context context) {
       super(context);
@@ -92,13 +90,13 @@ public class GenericAccountService extends Service {
     public Bundle addAccount(AccountAuthenticatorResponse accountAuthenticatorResponse,
                              String s, String s2, String[] strings, Bundle bundle)
         throws NetworkErrorException {
-      final Bundle result = new Bundle();
-      final String message = "Not yet implemented";
-      result.putInt(AccountManager.KEY_ERROR_CODE, 1);
-      result.putString(AccountManager.KEY_ERROR_MESSAGE, message);
+      return createManageSyncBackendIntentBundle();
+    }
 
-      handler.post(() -> Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show());
-
+    @NonNull
+    private Bundle createManageSyncBackendIntentBundle() {
+      Bundle result = new Bundle();
+      result.putParcelable(AccountManager.KEY_INTENT, new Intent(GenericAccountService.this, ManageSyncBackends.class));
       return result;
     }
 
@@ -137,8 +135,8 @@ public class GenericAccountService extends Service {
 
     @Override
     public Bundle getAccountRemovalAllowed(AccountAuthenticatorResponse response, Account account) throws NetworkErrorException {
-      Bundle result = new Bundle();
-      result.putParcelable(AccountManager.KEY_INTENT, new Intent(GenericAccountService.this, ManageSyncBackends.class));
+      final Bundle result = new Bundle();
+      result.putBoolean(AccountManager.KEY_BOOLEAN_RESULT, true);
       return result;
     }
   }

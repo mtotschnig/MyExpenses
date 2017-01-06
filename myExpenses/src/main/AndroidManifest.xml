@@ -290,16 +290,17 @@
                        android:resource="@xml/sync_adapter" />
         </service>
 
-        <receiver android:name=".service.ScheduledAlarmReceiver" >
+        <receiver android:name=".service.GenericAlarmReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="org.totschnig.myexpenses.SCHEDULED_BACKUP" />
+                <action android:name="android.accounts.LOGIN_ACCOUNTS_CHANGED" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REPLACED" />
 
                 <data
-                    android:path="org.toschnig.myexpenses"
+                    android:path="org.totschnig.myexpenses"
                     android:scheme="package" />
             </intent-filter>
         </receiver>
