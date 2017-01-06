@@ -112,7 +112,6 @@ public class Account extends Model {
 
   private String syncAccountName;
 
-
   public String getSyncAccountName() {
     return syncAccountName;
   }

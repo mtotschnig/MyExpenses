@@ -212,7 +212,7 @@ public class MyExpenses extends LaunchActivity implements
     int prev_version = PrefKey.CURRENT_VERSION.getInt(-1);
     if (prev_version == -1) {
       //prevent preference change listener from firing when preference file is created
-      if (MyApplication.getInstance().isInstrumentationTest()) {
+      if (MyApplication.isInstrumentationTest()) {
         PreferenceManager.setDefaultValues(this, MyApplication.getTestId(), Context.MODE_PRIVATE,
             R.xml.preferences, true);
       } else {

@@ -1023,6 +1023,9 @@ public class TransactionProvider extends ContentProvider {
     case STALE_IMAGES:
       count = db.delete(TABLE_STALE_URIS, where, whereArgs);
       break;
+    case CHANGES:
+        count = db.delete(TABLE_CHANGES, where, whereArgs);
+        break;
     default:
       throw unknownUri(uri);
     }

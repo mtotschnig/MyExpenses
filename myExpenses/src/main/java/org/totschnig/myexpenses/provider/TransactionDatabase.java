@@ -15,30 +15,6 @@
 
 package org.totschnig.myexpenses.provider;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Currency;
-import java.util.Locale;
-
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.AccountType;
-import org.totschnig.myexpenses.model.CurrencyEnum;
-import org.totschnig.myexpenses.model.Grouping;
-import org.totschnig.myexpenses.model.Model;
-import org.totschnig.myexpenses.model.Money;
-import org.totschnig.myexpenses.model.PaymentMethod;
-import org.totschnig.myexpenses.model.Plan;
-import org.totschnig.myexpenses.model.Template;
-import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.sync.json.TransactionChange;
-import org.totschnig.myexpenses.util.AcraHelper;
-import org.totschnig.myexpenses.util.Utils;
-
-import com.android.calendar.CalendarContractCompat.Events;
-
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.ContentValues;
@@ -57,7 +33,95 @@ import android.os.Environment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
+import com.android.calendar.CalendarContractCompat.Events;
+
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.CurrencyEnum;
+import org.totschnig.myexpenses.model.Grouping;
+import org.totschnig.myexpenses.model.Model;
+import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.model.PaymentMethod;
+import org.totschnig.myexpenses.model.Plan;
+import org.totschnig.myexpenses.model.Template;
+import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.sync.json.TransactionChange;
+import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.Utils;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Currency;
+import java.util.Locale;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_NORMALIZED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENT_UUID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_URI;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLAN_EXECUTION;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_FROM_ADAPTER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TIMESTAMP;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTTYES_METHODS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CHANGES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_EVENT_CACHE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_METHODS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INSTANCE_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_STALE_URIS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_ALL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_CHANGES_EXTENDED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_EXTENDED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
   public static final int DATABASE_VERSION = 58;
@@ -459,11 +523,18 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       + " WHEN new." + KEY_PARENTID + " IS NULL"
       + INCREASE_ACCOUNT_USAGE_ACTION;
 
-
   private static final String INCREASE_ACCOUNT_USAGE_UPDATE_TRIGGER = "CREATE TRIGGER update_increase_account_usage "
       + "AFTER UPDATE ON " + TABLE_TRANSACTIONS
       + " WHEN new." + KEY_PARENTID + " IS NULL AND new." + KEY_ACCOUNTID + " != old." + KEY_ACCOUNTID + " AND (old." + KEY_TRANSFER_ACCOUNT + " IS NULL OR new." + KEY_ACCOUNTID + " != old." + KEY_TRANSFER_ACCOUNT + ")"
       + INCREASE_ACCOUNT_USAGE_ACTION;
+
+  private static final String UPDATE_ACCOUNT_SYNC_NULL_TRIGGER = "CREATE TRIGGER update_account_sync_null "
+      + "AFTER UPDATE ON " + TABLE_ACCOUNTS
+      + " WHEN new." + KEY_SYNC_ACCOUNT_NAME + " IS NULL AND old." + KEY_SYNC_ACCOUNT_NAME + " IS NOT NULL "
+      + "BEGIN "
+      + "UPDATE " + TABLE_ACCOUNTS + " SET " + KEY_SYNC_SEQUENCE_LOCAL + " = 0 WHERE " + KEY_ROWID +  " = old." + KEY_ROWID + "; "
+      + "DELETE FROM " + TABLE_CHANGES + " WHERE " + KEY_ACCOUNTID +  " = old." + KEY_ROWID + "; "
+      + "END;";
 
   public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
   public static final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
@@ -545,6 +616,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL(INCREASE_CATEGORY_USAGE_UPDATE_TRIGGER);
     db.execSQL(INCREASE_ACCOUNT_USAGE_INSERT_TRIGGER);
     db.execSQL(INCREASE_ACCOUNT_USAGE_UPDATE_TRIGGER);
+    db.execSQL(UPDATE_ACCOUNT_SYNC_NULL_TRIGGER);
   }
 
   private void insertCurrencies(SQLiteDatabase db) {

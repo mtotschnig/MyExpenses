@@ -112,12 +112,13 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
         Account account = getListFragment().getAccountForSync((Long) tag);
         startTaskExecution(TASK_SYNC_LINK_LOCAL,
             new String[]{account.uuid}, account.getSyncAccountName(), 0);
+        break;
       }
       case R.id.SYNC_LINK_COMMAND_DO_REMOTE: {
         Account account = getListFragment().getAccountForSync((Long) tag);
         startTaskExecution(TASK_SYNC_LINK_REMOTE,
             null, account, 0);
-
+        break;
       }
     }
     return super.dispatchCommand(command, tag);

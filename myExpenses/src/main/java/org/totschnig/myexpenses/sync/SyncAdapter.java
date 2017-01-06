@@ -63,6 +63,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
@@ -226,8 +227,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
               if (localChanges.size() > 0) {
                 lastSyncedRemote = backend.writeChangeSet(localChanges, getContext());
-
                 if (lastSyncedRemote != ChangeSet.FAILED) {
+                  provider.delete(TransactionProvider.CHANGES_URI,
+                      KEY_ACCOUNTID + " = ? AND " + KEY_SYNC_SEQUENCE_LOCAL + " <= ?",
+                      new String[]{String.valueOf(accountId), String.valueOf(lastSyncedLocal)});
                   accountManager.setUserData(account, lastLocalSyncKey, String.valueOf(lastSyncedLocal));
                   accountManager.setUserData(account, lastRemoteSyncKey, String.valueOf(lastSyncedRemote));
                 }

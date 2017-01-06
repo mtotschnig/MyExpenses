@@ -47,7 +47,6 @@ import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.util.Date;
 
-import static android.R.attr.id;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
@@ -513,8 +512,8 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         Account account = Account.getInstanceFromDb(Account.findByUuid((String) ids[0]));
         AccountManager accountManager = AccountManager.get(application);
         android.accounts.Account syncAccount = GenericAccountService.GetAccount(account.getSyncAccountName());
-        accountManager.setUserData(syncAccount, SyncAdapter.KEY_LAST_SYNCED_LOCAL(id), null);
-        accountManager.setUserData(syncAccount, SyncAdapter.KEY_LAST_SYNCED_REMOTE(id), null);
+        accountManager.setUserData(syncAccount, SyncAdapter.KEY_LAST_SYNCED_LOCAL(account.getId()), null);
+        accountManager.setUserData(syncAccount, SyncAdapter.KEY_LAST_SYNCED_REMOTE(account.getId()), null);
         account.setSyncAccountName(null);
         account.save();
         return Result.SUCCESS;
