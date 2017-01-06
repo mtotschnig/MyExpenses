@@ -12,7 +12,11 @@ public class HashLicenceHandler extends LicenceHandler {
 
   @Override
   public void init(Context ctx) {
-    invalidate();
+    //TODO should be moved to background
+    int prev_version = PrefKey.CURRENT_VERSION.getInt(-1);
+    if (prev_version != -1) {
+      invalidate();
+    }
   }
 
   @Override
