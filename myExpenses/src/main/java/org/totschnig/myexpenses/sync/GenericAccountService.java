@@ -33,115 +33,115 @@ import android.widget.Toast;
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
 
 public class GenericAccountService extends Service {
-    private static final String TAG = "GenericAccountService";
-    public static final String ACCOUNT_TYPE = "org.totschnig.myexpenses.sync";
-    public static final String KEY_SYNC_PROVIDER_ID = "sync_provider_id";
-    public static final String KEY_SYNC_PROVIDER_LABEL = "sync_provider_label";
-    public static final String KEY_SYNC_PROVIDER_URL = "sync_provider_url";
-    public static final String KEY_SYNC_PROVIDER_USERNAME = "sync_provider_user_name";
-    public static final int DEFAULT_SYNC_FREQUENCY_HOURS = 12;
-    public static final int HOUR_IN_SECONDS = 3600;
-    private Authenticator mAuthenticator;
+  private static final String TAG = "GenericAccountService";
+  public static final String ACCOUNT_TYPE = "org.totschnig.myexpenses.sync";
+  public static final String KEY_SYNC_PROVIDER_ID = "sync_provider_id";
+  public static final String KEY_SYNC_PROVIDER_LABEL = "sync_provider_label";
+  public static final String KEY_SYNC_PROVIDER_URL = "sync_provider_url";
+  public static final String KEY_SYNC_PROVIDER_USERNAME = "sync_provider_user_name";
+  public static final int DEFAULT_SYNC_FREQUENCY_HOURS = 12;
+  public static final int HOUR_IN_SECONDS = 3600;
+  private Authenticator mAuthenticator;
 
-    /**
-     * Obtain a handle to the {@link Account} used for sync in this application.
-     *
-     * @return Handle to application's account (not guaranteed to resolve unless CreateSyncAccount()
-     *         has been called)
-     */
-    public static Account GetAccount(String accountName) {
-        // Note: Normally the account name is set to the user's identity (username or email
-        // address). However, since we aren't actually using any user accounts, it makes more sense
-        // to use a generic string in this case.
-        //
-        // This string should *not* be localized. If the user switches locale, we would not be
-        // able to locate the old account, and may erroneously register multiple accounts.
-        return new Account(accountName, ACCOUNT_TYPE);
+  /**
+   * Obtain a handle to the {@link Account} used for sync in this application.
+   *
+   * @return Handle to application's account (not guaranteed to resolve unless CreateSyncAccount()
+   * has been called)
+   */
+  public static Account GetAccount(String accountName) {
+    // Note: Normally the account name is set to the user's identity (username or email
+    // address). However, since we aren't actually using any user accounts, it makes more sense
+    // to use a generic string in this case.
+    //
+    // This string should *not* be localized. If the user switches locale, we would not be
+    // able to locate the old account, and may erroneously register multiple accounts.
+    return new Account(accountName, ACCOUNT_TYPE);
+  }
+
+  @Override
+  public void onCreate() {
+    Log.i(TAG, "Service created");
+    mAuthenticator = new Authenticator(this);
+  }
+
+  @Override
+  public void onDestroy() {
+    Log.i(TAG, "Service destroyed");
+  }
+
+  @Override
+  public IBinder onBind(Intent intent) {
+    return mAuthenticator.getIBinder();
+  }
+
+  public class Authenticator extends AbstractAccountAuthenticator {
+    private final Handler handler = new Handler();
+
+    public Authenticator(Context context) {
+      super(context);
     }
 
     @Override
-    public void onCreate() {
-        Log.i(TAG, "Service created");
-        mAuthenticator = new Authenticator(this);
+    public Bundle editProperties(AccountAuthenticatorResponse accountAuthenticatorResponse,
+                                 String s) {
+      throw new UnsupportedOperationException();
     }
 
     @Override
-    public void onDestroy() {
-        Log.i(TAG, "Service destroyed");
+    public Bundle addAccount(AccountAuthenticatorResponse accountAuthenticatorResponse,
+                             String s, String s2, String[] strings, Bundle bundle)
+        throws NetworkErrorException {
+      final Bundle result = new Bundle();
+      final String message = "Not yet implemented";
+      result.putInt(AccountManager.KEY_ERROR_CODE, 1);
+      result.putString(AccountManager.KEY_ERROR_MESSAGE, message);
+
+      handler.post(() -> Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show());
+
+      return result;
     }
 
     @Override
-    public IBinder onBind(Intent intent) {
-        return mAuthenticator.getIBinder();
+    public Bundle confirmCredentials(AccountAuthenticatorResponse accountAuthenticatorResponse,
+                                     Account account, Bundle bundle)
+        throws NetworkErrorException {
+      return null;
     }
 
-    public class Authenticator extends AbstractAccountAuthenticator {
-        private final Handler handler = new Handler();
-
-        public Authenticator(Context context) {
-            super(context);
-        }
-
-        @Override
-        public Bundle editProperties(AccountAuthenticatorResponse accountAuthenticatorResponse,
-                                     String s) {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public Bundle addAccount(AccountAuthenticatorResponse accountAuthenticatorResponse,
-                                 String s, String s2, String[] strings, Bundle bundle)
-                throws NetworkErrorException {
-            final Bundle result = new Bundle();
-            final String message = "Not yet implemented";
-            result.putInt(AccountManager.KEY_ERROR_CODE, 1);
-            result.putString(AccountManager.KEY_ERROR_MESSAGE, message);
-
-            handler.post(() -> Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show());
-
-            return result;
-        }
-
-        @Override
-        public Bundle confirmCredentials(AccountAuthenticatorResponse accountAuthenticatorResponse,
-                                         Account account, Bundle bundle)
-                throws NetworkErrorException {
-            return null;
-        }
-
-        @Override
-        public Bundle getAuthToken(AccountAuthenticatorResponse accountAuthenticatorResponse,
-                                   Account account, String s, Bundle bundle)
-                throws NetworkErrorException {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public String getAuthTokenLabel(String s) {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public Bundle updateCredentials(AccountAuthenticatorResponse accountAuthenticatorResponse,
-                                        Account account, String s, Bundle bundle)
-                throws NetworkErrorException {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public Bundle hasFeatures(AccountAuthenticatorResponse accountAuthenticatorResponse,
-                                  Account account, String[] strings)
-                throws NetworkErrorException {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public Bundle getAccountRemovalAllowed(AccountAuthenticatorResponse response, Account account) throws NetworkErrorException {
-            Bundle result = new Bundle();
-            result.putParcelable(AccountManager.KEY_INTENT, new Intent(GenericAccountService.this, ManageSyncBackends.class));
-            return result;
-        }
+    @Override
+    public Bundle getAuthToken(AccountAuthenticatorResponse accountAuthenticatorResponse,
+                               Account account, String s, Bundle bundle)
+        throws NetworkErrorException {
+      throw new UnsupportedOperationException();
     }
+
+    @Override
+    public String getAuthTokenLabel(String s) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Bundle updateCredentials(AccountAuthenticatorResponse accountAuthenticatorResponse,
+                                    Account account, String s, Bundle bundle)
+        throws NetworkErrorException {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Bundle hasFeatures(AccountAuthenticatorResponse accountAuthenticatorResponse,
+                              Account account, String[] strings)
+        throws NetworkErrorException {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Bundle getAccountRemovalAllowed(AccountAuthenticatorResponse response, Account account) throws NetworkErrorException {
+      Bundle result = new Bundle();
+      result.putParcelable(AccountManager.KEY_INTENT, new Intent(GenericAccountService.this, ManageSyncBackends.class));
+      return result;
+    }
+  }
 
 }
 
