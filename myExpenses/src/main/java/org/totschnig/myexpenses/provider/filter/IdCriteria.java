@@ -19,26 +19,24 @@
 package org.totschnig.myexpenses.provider.filter;
 
 import android.os.Parcel;
-import android.os.Parcelable;
+import android.text.TextUtils;
 
-import com.google.common.base.Joiner;
-
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
-import java.util.regex.Pattern;
 
 public abstract class IdCriteria extends Criteria {
 
   protected final String label;
 
   public IdCriteria(String title, String column, String label, long... ids) {
-    this(title,column,label,longArrayToStringArray(ids));
+    this(title, column, label, longArrayToStringArray(ids));
   }
+
   public IdCriteria(String title, String column, String label, String... ids) {
     super(column, WhereFilter.Operation.IN, ids);
     this.label = label;
     this.title = title;
   }
+
   private static String[] longArrayToStringArray(long[] in) {
     String[] out = new String[in.length];
     for (int i = 0; i < in.length; i++) {
@@ -56,24 +54,26 @@ public abstract class IdCriteria extends Criteria {
   public String prettyPrint() {
     return label;
   }
+
   @Override
   public void writeToParcel(Parcel dest, int flags) {
     super.writeToParcel(dest, flags);
     dest.writeString(label);
   }
-  
+
   @Override
   public String toStringExtra() {
-    return escapeSeparator(label) + EXTRA_SEPARATOR + Joiner.on(EXTRA_SEPARATOR).join(values);
-  };
-  public static<T extends IdCriteria> T fromStringExtra(String extra, Class<T> clazz) {
+    return escapeSeparator(label) + EXTRA_SEPARATOR + TextUtils.join(EXTRA_SEPARATOR, values);
+  }
+
+  public static <T extends IdCriteria> T fromStringExtra(String extra, Class<T> clazz) {
     String[] extraParts = extra.split(EXTRA_SEPARATOR_ESCAPE_SAVE_REGEXP);
-    String ids[] = Arrays.asList(extraParts).subList(1,extraParts.length).toArray(new String[extraParts.length-1]);
+    String ids[] = Arrays.asList(extraParts).subList(1, extraParts.length).toArray(new String[extraParts.length - 1]);
     String label = unescapeSeparator(extraParts[0]);
     try {
-      return clazz.getConstructor(String.class,String[].class).newInstance(label, (Object) ids);
+      return clazz.getConstructor(String.class, String[].class).newInstance(label, ids);
     } catch (Exception e) {
-      throw new RuntimeException("Unable to find constructor for class "+clazz.getName());
+      throw new RuntimeException("Unable to find constructor for class " + clazz.getName());
     }
   }
 }

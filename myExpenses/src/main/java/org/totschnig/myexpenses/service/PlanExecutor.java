@@ -1,26 +1,5 @@
 package org.totschnig.myexpenses.service;
 
-import java.util.Date;
-
-import org.totschnig.myexpenses.BuildConfig;
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ExpenseEdit;
-import org.totschnig.myexpenses.activity.MyExpenses;
-import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.Template;
-import org.totschnig.myexpenses.model.Transaction;
-
-import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
-
-import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.provider.CalendarProviderProxy;
-import org.totschnig.myexpenses.util.AcraHelper;
-import org.totschnig.myexpenses.util.Utils;
-
-import com.android.calendar.CalendarContractCompat;
-import com.android.calendar.CalendarContractCompat.Events;
-
 import android.Manifest;
 import android.app.AlarmManager;
 import android.app.IntentService;
@@ -33,9 +12,33 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+
+import com.android.calendar.CalendarContractCompat;
+import com.android.calendar.CalendarContractCompat.Events;
+
+import org.totschnig.myexpenses.BuildConfig;
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ExpenseEdit;
+import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Template;
+import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.provider.CalendarProviderProxy;
+import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.NotificationBuilderWrapper;
+import org.totschnig.myexpenses.util.Utils;
+
+import java.util.Date;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 
 public class PlanExecutor extends IntentService {
   public static final String ACTION_CANCEL = "Cancel";
@@ -43,7 +46,8 @@ public class PlanExecutor extends IntentService {
   public static final String KEY_TITLE = "title";
   //production: 21600000 6* 60 * 60 * 1000 6 hours; for testing: 60000 1 minute
   public static final long INTERVAL = BuildConfig.DEBUG ? 60000 : 21600000;
-  public static final long H24 = 24 * 60 * 60 * 1000;
+  private static final long H24 = 24 * 60 * 60 * 1000;
+  private static final long M5 = 5 * 60 * 1000;
 
   public PlanExecutor() {
     super("PlanExexcutor");
@@ -68,14 +72,16 @@ public class PlanExecutor extends IntentService {
       Log.i(MyApplication.TAG, "PlanExecutor: no planner set, nothing to do");
       return;
     }
-    long lastExecutionTimeStamp = PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP.getLong(now - H24);
+    //we use an overlapping window of 5 minutes to prevent plans that are just created by the user while
+    //we are running from falling through
+    long instancesFrom = PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP.getLong(now - H24) - M5;
     Log.i(MyApplication.TAG, String.format(
         "executing plans from %d to %d",
-        lastExecutionTimeStamp,
+        instancesFrom,
         now));
 
     Uri.Builder eventsUriBuilder = CalendarProviderProxy.INSTANCES_URI.buildUpon();
-    ContentUris.appendId(eventsUriBuilder, lastExecutionTimeStamp);
+    ContentUris.appendId(eventsUriBuilder, instancesFrom);
     ContentUris.appendId(eventsUriBuilder, now);
     Uri eventsUri = eventsUriBuilder.build();
     Cursor cursor;
@@ -102,7 +108,6 @@ public class PlanExecutor extends IntentService {
           //3) execute the template
           Log.i(MyApplication.TAG, String.format("found instance %d of plan %d", instanceId, planId));
           //TODO if we have multiple Event instances for one plan, we should maybe cache the template objects
-          //TODO we should set the date of the Event instance on the created transactions
           Template template = Template.getInstanceForPlanIfInstanceIsOpen(planId, instanceId);
           if (template != null) {
             Log.i(MyApplication.TAG, String.format("belongs to template %d", template.getId()));
@@ -118,8 +123,8 @@ public class PlanExecutor extends IntentService {
             }
             content += Utils.formatCurrency(template.getAmount());
             String title = account.label + " : " + template.getTitle();
-            NotificationCompat.Builder builder =
-                new NotificationCompat.Builder(this)
+            NotificationBuilderWrapper builder =
+                new NotificationBuilderWrapper(this)
                     .setSmallIcon(R.drawable.ic_stat_planner)
                     .setContentTitle(title)
                     .setContentText(content);
@@ -149,6 +154,7 @@ public class PlanExecutor extends IntentService {
                   .putExtra(KEY_TITLE, title);
               builder.addAction(
                   android.R.drawable.ic_menu_close_clear_cancel,
+                  R.drawable.ic_menu_close_clear_cancel,
                   getString(android.R.string.cancel),
                   PendingIntent.getService(this, notificationId, cancelIntent, 0));
               Intent editIntent = new Intent(this, ExpenseEdit.class)
@@ -159,6 +165,7 @@ public class PlanExecutor extends IntentService {
               resultIntent = PendingIntent.getActivity(this, notificationId, editIntent, 0);
               builder.addAction(
                   android.R.drawable.ic_menu_edit,
+                  R.drawable.ic_menu_edit,
                   getString(R.string.menu_edit),
                   resultIntent);
               Intent applyIntent = new Intent(this, PlanNotificationClickHandler.class);
@@ -170,6 +177,7 @@ public class PlanExecutor extends IntentService {
                   .putExtra(KEY_DATE, date);
               builder.addAction(
                   android.R.drawable.ic_menu_save,
+                  R.drawable.ic_menu_save,
                   getString(R.string.menu_apply_template),
                   PendingIntent.getService(this, notificationId, applyIntent, 0));
               builder.setContentIntent(resultIntent);

@@ -28,6 +28,7 @@ public enum CurrencyEnum {
   BDT("Bangladesh Taka"),
   BBD("Barbados Dollar"),
   BYR("Belarussian Ruble"),
+  BYN("New Belarusian ruble"),
   BZD("Belize Dollar"),
   BMD("Bermudian Dollar"),
   BTN("Bhutan Ngultrum"),

@@ -226,7 +226,13 @@
             android:name=".activity.ContribInfoDialogActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity android:name=".activity.ManageCurrencies"
-                  android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge" />
+                  android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge">
+            <intent-filter>
+                <action android:name="myexpenses.intent.manage.currencies" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <activity android:name=".activity.ManageSyncBackends"
                   android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge" >
