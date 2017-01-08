@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
-import com.google.common.io.Files;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -18,11 +17,14 @@ import org.totschnig.myexpenses.sync.json.Utils;
 import org.totschnig.myexpenses.util.AcraHelper;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.regex.Pattern;
+
+import dagger.internal.Preconditions;
 
 abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
 
@@ -55,8 +57,8 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   }
 
   boolean isNewerJsonFile(long sequenceNumber, String name) {
-    String fileName = Files.getNameWithoutExtension(name);
-    String fileExtension = Files.getFileExtension(name);
+    String fileName = getNameWithoutExtension(name);
+    String fileExtension = getFileExtension(name);
     return fileExtension.equals("json") && FILE_PATTERN.matcher(fileName).matches() &&
         Long.parseLong(fileName.substring(1)) > sequenceNumber;
   }
@@ -68,7 +70,23 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
 
   @NonNull
   Long getSequenceFromFileName(String fileName) {
-    return Long.parseLong(Files.getNameWithoutExtension(fileName).substring(1));
+    return Long.parseLong(getNameWithoutExtension(fileName).substring(1));
+  }
+
+  //from Guava
+  private String getNameWithoutExtension(String file) {
+    Preconditions.checkNotNull(file);
+    String fileName = new File(file).getName();
+    int dotIndex = fileName.lastIndexOf('.');
+    return (dotIndex == -1) ? fileName : fileName.substring(0, dotIndex);
+  }
+
+  //from Guava
+  private String getFileExtension(String fullName) {
+    Preconditions.checkNotNull(fullName);
+    String fileName = new File(fullName).getName();
+    int dotIndex = fileName.lastIndexOf('.');
+    return (dotIndex == -1) ? "" : fileName.substring(dotIndex + 1);
   }
 
   @Override

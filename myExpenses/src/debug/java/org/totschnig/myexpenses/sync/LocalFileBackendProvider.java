@@ -5,7 +5,6 @@ import android.content.Context;
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
-import com.google.common.base.Preconditions;
 
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
@@ -18,6 +17,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.List;
+
+import dagger.internal.Preconditions;
 
 class LocalFileBackendProvider extends AbstractSyncBackendProvider {
 

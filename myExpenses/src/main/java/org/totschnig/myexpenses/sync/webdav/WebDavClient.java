@@ -18,8 +18,6 @@ package org.totschnig.myexpenses.sync.webdav;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.google.common.base.Preconditions;
-
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -39,6 +37,7 @@ import at.bitfire.dav4android.XmlUtils;
 import at.bitfire.dav4android.exception.DavException;
 import at.bitfire.dav4android.property.DisplayName;
 import at.bitfire.dav4android.property.ResourceType;
+import dagger.internal.Preconditions;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;

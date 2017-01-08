@@ -1,7 +1,7 @@
 package org.totschnig.myexpenses.sync.json;
 
-import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.Reader;
 import java.lang.reflect.Type;
