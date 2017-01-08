@@ -1,6 +1,8 @@
 package org.totschnig.myexpenses.util;
 
 import android.content.Context;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.provider.Settings;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -13,8 +15,11 @@ public class HashLicenceHandler extends LicenceHandler {
   @Override
   public void init(Context ctx) {
     if (PrefKey.CURRENT_VERSION.getInt(-1) != -1) {
-      //TODO should be moved to background
-      invalidate();
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+        AsyncTask.execute(this::invalidate);
+      } else {
+        invalidate();
+      }
     }
   }
 
