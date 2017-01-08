@@ -136,11 +136,7 @@ public class AccountEdit extends AmountActivity implements
     currencyAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
     mCurrencySpinner.setAdapter(currencyAdapter);
 
-    mAccountTypeSpinner = new SpinnerHelper(findViewById(R.id.AccountType));
-    ArrayAdapter<AccountType> typAdapter = new ArrayAdapter<>(
-        this, android.R.layout.simple_spinner_item, android.R.id.text1, AccountType.values());
-    typAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-    mAccountTypeSpinner.setAdapter(typAdapter);
+    mAccountTypeSpinner = new SpinnerHelper(DialogUtils.configureTypeSpinner(this));
 
     mColorSpinner = new SpinnerHelper(findViewById(R.id.Color));
     mColors = new ArrayList<>();
@@ -206,7 +202,7 @@ public class AccountEdit extends AmountActivity implements
                 Stream.of(accountManager.getAccountsByType(GenericAccountService.ACCOUNT_TYPE))
                     .map(account -> account.name))
                 .collect(Collectors.toList()));
-    syncBackendAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    syncBackendAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
     mSyncSpinner.setAdapter(syncBackendAdapter);
 
     linkInputsWithLabels();

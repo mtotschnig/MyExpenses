@@ -369,7 +369,7 @@ public class DialogUtils {
     ArrayAdapter<QifDateFormat> dateFormatAdapter =
             new ArrayAdapter<>(
                     context, android.R.layout.simple_spinner_item, QifDateFormat.values());
-    dateFormatAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    dateFormatAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
     spinner.setAdapter(dateFormatAdapter);
     QifDateFormat qdf;
     try {
@@ -411,7 +411,7 @@ public class DialogUtils {
     ArrayAdapter<CurrencyEnum> curAdapter = new ArrayAdapter<>(
             context, android.R.layout.simple_spinner_item, android.R.id.text1,
             CurrencyEnum.sortedValues());
-    curAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    curAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
     spinner.setAdapter(curAdapter);
     spinner.setOnItemSelectedListener(listener);
     spinner.setSelection(curAdapter.getPosition(CurrencyEnum.valueOf(
@@ -419,13 +419,23 @@ public class DialogUtils {
     return spinner;
   }
 
+  public static Spinner configureTypeSpinner(Activity context) {
+    Spinner spinner = (Spinner) context.findViewById(R.id.AccountType);
+    configureTypeSpinner(spinner, context);
+    return spinner;
+  }
+
   public static Spinner configureTypeSpinner(View view, Context context) {
     Spinner spinner = (Spinner) view.findViewById(R.id.AccountType);
-    ArrayAdapter<AccountType> typAdapter = new ArrayAdapter<>(
-            context, android.R.layout.simple_spinner_item, android.R.id.text1, AccountType.values());
-    typAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    spinner.setAdapter(typAdapter);
+    configureTypeSpinner(spinner, context);
     return spinner;
+  }
+
+  private static void configureTypeSpinner(Spinner spinner, Context context) {
+    ArrayAdapter<AccountType> typAdapter = new ArrayAdapter<>(
+        context, android.R.layout.simple_spinner_item, android.R.id.text1, AccountType.values());
+    typAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+    spinner.setAdapter(typAdapter);
   }
 
   public static void openBrowse(Uri uri, Fragment fragment) {

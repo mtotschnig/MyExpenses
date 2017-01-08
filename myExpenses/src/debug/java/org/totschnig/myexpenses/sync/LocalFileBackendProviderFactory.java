@@ -17,8 +17,9 @@ public class LocalFileBackendProviderFactory extends SyncBackendProviderFactory 
   @NonNull
   @Override
   protected LocalFileBackendProvider _fromAccount(Account account, AccountManager accountManager) {
-    if (ContextCompat.checkSelfPermission(MyApplication.getInstance(), Manifest.permission.READ_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_GRANTED) {
+    //before API 16, we need to check for write access
+    if (!(hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
+        hasPermission(Manifest.permission.READ_EXTERNAL_STORAGE))) {
       throw new IllegalStateException("LocalFileBackendProvider needs READ_EXTERNAL_STORAGE permission");
     }
     return new LocalFileBackendProvider(accountManager.getUserData(account, GenericAccountService.KEY_SYNC_PROVIDER_URL));
@@ -42,5 +43,10 @@ public class LocalFileBackendProviderFactory extends SyncBackendProviderFactory 
     args.putString(GenericAccountService.KEY_SYNC_PROVIDER_LABEL, getLabel());
     EditTextDialog.newInstance(args)
         .show(context.getSupportFragmentManager(), "LOCAL_BACKEND_DIRECTORY_PATH");
+  }
+
+  private boolean hasPermission(String permission) {
+    return ContextCompat.checkSelfPermission(MyApplication.getInstance(), permission) ==
+        PackageManager.PERMISSION_GRANTED;
   }
 }
