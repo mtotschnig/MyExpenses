@@ -16,7 +16,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.annimon.stream.Stream;
 import com.commonsware.cwac.wakeful.WakefulIntentService;

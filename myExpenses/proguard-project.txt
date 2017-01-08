@@ -48,3 +48,13 @@
 -keepclasseswithmembernames class * {
     @icepick.* <fields>;
 }
+
+# Dav4Android
+-dontwarn lombok.**
+
+# okhttp
+-dontwarn java.nio.file.**
+-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
+
+# Retrolambda
+-dontwarn java.lang.invoke.*
