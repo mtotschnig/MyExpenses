@@ -178,7 +178,7 @@
 
     <PreferenceCategory
         android:title="@string/synchronization">
-        <com.pavelsikun.seekbarpreference.SeekBarPreference
+        <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat
             android:defaultValue="12"
             android:key="@string/pref_sync_frequency_key"
             android:summary="@string/pref_sync_frequency_summary"
@@ -218,7 +218,7 @@
                 android:key="@string/pref_perform_protection_key"
                 android:summary="@string/pref_perform_protection_summary"
                 android:title="@string/pref_perform_protection_title"/>
-            <com.pavelsikun.seekbarpreference.SeekBarPreference
+            <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat
                 android:defaultValue="15"
                 android:key="@string/pref_protection_delay_seconds_key"
                 android:summary="@string/pref_protection_delay_seconds_summary"
