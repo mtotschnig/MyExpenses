@@ -56,12 +56,14 @@ fr:
         Vous avez les options suivantes pour l'achat des licences Contrib et Étendue:
       in-app: |
         Si vous avez installé Mes Dépenses depuis Google Play ou Amazon App Store, elles sont disponibles en tant qu'achat via l'application.
-      blackberry: |2
-         Si vous avez installé Mes Dépenses depuis Blackberry World, installez <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">Mes Dépenses Contrib</a>.
+      blackberry: |
+        Si vous avez installé Mes Dépenses depuis Blackberry World, installez <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">Mes Dépenses Contrib</a>.
       blackberry-extra: |
         Sur Blackberry, il n'y a pas de clé étendue, la clé Contrib donne également accès aux fonctionnalités étendues.
       other: |
         Si vous avez téléchargé Mes Dépenses  depuis F-Droid, Yandex ou SlideMe, envoyez un don par l'une des opérations suivantes :
+      transfer: |-
+        Sinon, pour des informations sur les virements bancaires contacter le support@myexpenses.mobi:
       key: |
         et ensuite demandez la clé de licence dans l'écran Paramètres.
         Une fois reçue par courriel, entrez-la également dans l'écran Paramètres.

@@ -55,14 +55,16 @@ tr:
       intro: |
         Katkı ya da Genişletilmiş lisansları satın almak için seçenekleriniz şunlardır:
       in-app: |
-        Harcamalarımı Google Play ya da Amazon App Store'dan indirdiyseniz, uygulama içi satın alma olarak mevcutturlar.
+        Harcamalarım'ı Google Play ya da Amazon App Store'dan indirdiyseniz, uygulama içi satın alma olarak mevcutturlar.
       blackberry: |
-        Eğer Harcamalarımı Blackberry World'dan indirdiyseniz, <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">Harcamalarım Katkı sürümünü</a> kurunuz.
+        Eğer Harcamalarım'ı Blackberry World'dan indirdiyseniz, <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">Harcamalarım Katkı sürümünü</a> kurunuz.
       blackberry-extra: |
         Blackberry'de Genişletilmiş anahtar bulunmamaktadır, Katkı anahtarı genişletilmiş işlevlere de erişim sağlar.
       other: |
-        Eğer Harcamalarımı F-Droid, Yandex ya da SlideMe'dan indirdiyseniz,
+        Eğer Harcamalarım'ı F-Droid, Yandex ya da SlideMe'dan indirdiyseniz,
         aşağıdaki seçeneklerden biriyle bağış gönderiniz:
+      transfer: |
+        Alternatif olarak banka transferi hakkında bilgi için support@myexpenses.mobi ile irtibata geçin:
       key: |
         ve bunun ardından ayarlar ekranından bir lisans anahtarı talep ediniz.
         E-posta ile anahtarı aldıktan sonra yine ayarlar ekranından onu giriniz.

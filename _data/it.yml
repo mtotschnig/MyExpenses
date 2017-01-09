@@ -65,6 +65,8 @@ it:
       other: |
         Se hai scaricato Le Mie Spese da F-Droid, Yandex o SlideMe,
         invia una donazione tramite uno dei seguenti:
+      transfer: |
+        In alternativa, per informazioni sul bonifico bancario, contattare support@myexpenses.mobi:
       key: |
         e successivamente richiedi la chiave di licenza dalla schermata delle impostazioni.
         Una volta ricevuta via mail, dovrà essere inserita nella schermata delle impostazioni.

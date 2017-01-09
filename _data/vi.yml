@@ -8,6 +8,8 @@ vi:
   menu_title:
     more_information: Thêm thông tin
   sections:
+    features: Tính năng
+    premium: Nâng cấp bản đầy đủ
     participate: Tham gia vào dự án
     faq: Các câu hỏi thường gặp
     versionlist: Danh sách các phiên bản
@@ -18,7 +20,8 @@ vi:
   features:
     manage_accounts: Sở hữu đến 5 tài khoản quản lý tài chính
     grouped_list: Gom nhóm các giao dịch theo mỗi ngày, tuần, tháng, năm và hiển thị phần số liệu tổng kết với mỗi nhóm
-    split: Phân tích giao dịch (Tính năng nâng cao)
+    distribution: Hai cấp danh mục (nhập từ Grisbi XML và QIF)
+    split: Phân tích giao dịch (Bản đầy đủ)
     calculator: Máy tính hỗ trợ
     export: 'Xuất sang định dạng QIF hoặc CSV (dùng cho Excel), Chia sẻ các tập tin dữ liệu được xuất ra
 

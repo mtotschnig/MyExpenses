@@ -1,79 +1,67 @@
-pt_PT:
-  imprint: Impresso
-  hero_main: "Gestor de finanças pessoal para o Android"
+pt_BR:
+  imprint: Marca
+  hero_main: "Gerenciador de finanças pessoais para o Android"
   hero_sub:
-    use: "Fácil de utilizar"
-    functionality: "Repleto de funcionalidades"
-    source: "Código aberto"
+    use: "Fácil de usar"
+    functionality: "Funcionalidade Rich"
+    source: "Open Source"
   menu_title:
     more_information: Mais informações
   sections:
-    features: Funcionalidades
-    premium: Obter Premium
+    features: Características
+    premium: Ir Premium
     participate: Participar
     faq: FAQ
-    versionlist: Registo de alterações
+    versionlist: Registro de alterações
     credits: Créditos
     licence: Licença
-    sourcecode: Código fonte
+    sourcecode: Código-fonte
     links: Links
   features:
-    manage_accounts: Até cinco contas com transferências
-    plans: Definir planos para transações futuras e recorrentes
-    grouped_list: Agrupar transações por dia, semana, mês e ano e exibir as somas por grupo
-    distribution: Dois níveis de categorias (importar a partir de XML do Grisbi e QIF)
-    split: Transações divididas (versão Contrib)
+    manage_accounts: Até 5 contas com transferências
+    plans: Definir modelos e planos futuros e recorrentes de transações
+    grouped_list: Grupo de transações por dia, semana, mês, ano e exibir somas por grupo
+    distribution: Dois níveis de categorias (importação de XML Grisbi e QIF)
+    split: Transação de divisão (versão Contrib)
     calculator: Calculadora
-    export: Exportar para QIF e CSV (MS Excel), pode ser partilhado automaticamente (via email, FTP, Dropbox, ...)
-    import: Importar dados QIF
-    password: Proteção por palavra-passe
+    export: Exportação de QIF e CSV (MS Excel), podem ser compartilhados automaticamente (via e-mail, FTP, Dropbox,...)
+    import: Importe dados QIF
+    password: Proteção de senha
     help: Ajuda integrada
-    backup: Cópia de segurança e restauro dos dados
-    light_theme: "Dois temas: claro e escuro"
+    backup: Restauração e backup de dados
+    light_theme: "Dois temas: luz e trevas"
     attach_picture: Anexar imagem à transação
   contrib:
     thank_you: |
-      A sua contribuição apoia o constante desenvolvimento do My Expenses. Obrigado!
-    feature-list-title: |
-      As seguintes funcionalidades Premium podem ser desbloqueadas ao adquirir uma licença Contrib ou Extended:
+      Sua contribuição apoia o desenvolvimento futuro do Minhas despesas. obrigado!
     feature:
       accounts_unlimited: Número ilimitado de contas
       plans_unlimited: Número ilimitado de planos
       distribution: Distribuição de transações por categoria
-      split_transaction: Dividir transação
+      split_transaction: Transação de divisão
       security_question: Pergunta de segurança
       template_widget: Widget de modelos
-      print: Exportar a lista de transações para PDF
+      print: Exportar lista de transações para PDF
       attach_picture: Anexar imagem à transação
       ad_free: Sem anúncios
-      csv_import: Importar CSV
-      auto_backup: Cópia de segurança automática
-    extended-label: Extended
+      csv_import: Importação CSV
+      auto_backup: Habilitar backup automático
     licence-howto-buy:
       deprecated: |
-        Nota: A partir da versão 2.3.9, a chave Contrib utilizada para desbloquear as funcionalidades premium do My Expenses, pode ser adquirida facilmente através de um pagamento na aplicação, não sendo mais necessário instalar a aplicação "My Expenses Contrib Key".
-      intro: |
-        Dispõe das seguintes opções para adquirir as licenças Contrib e Extended:
-      in-app: |
-        Se instalou o My Expenses a partir da Google Play ou Amazon App Store, as mesmas estão disponíveis como compras na aplicação.
+        NOTA: Desde a versão 2.3.9 a Chave Contrib para desbloqueio funcionalidade premium de Minhas Despesas podem ser mais facilmente adquirido através de pagamento no App, e você já não precisa instalar o app "Minhas despesas Chave Contrib".
       blackberry: |
-        Se instalou o My Expenses a partir do Blackberry World, instale
-        <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">My Expenses Contrib</a>.
-      blackberry-extra: |
-        Para os Blackberry não existe a chave Extended, mas a chave Contrib dá acesso às mesmas funcionalidades.
+        Se você instalou meus gastos do Blackberry World, instale <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">Minhas despesas Contrib</a>.
       other: |
-        Se transferiu o My Expenses a partir do F-Droid, Yandex ou SlideMe,
-        envie um donativo através de uma das seguintes formas:
+        Se baixou Minhas Despesas de F-Droid, Yandex ou SlideMe,
+        faça uma doação por meio de um dos seguintes:
       key: |
-        e a seguir solicite a chave da licença a partir do ecrã de definições.
-        Assim que a receber por e-mail, introduza-a também no ecrã de definições.
-      price: |
-        A quantia mínima é de %1$s para a chave Contrib e %2$s para a chave Extended. Envie %1$s para atualizar da Contrib para a Extended.
+        e, em seguida, solicitar a chave de licença a partir da tela de configurações.
+        Assim que você recebê-la por e-mail, digite-o também a partir da tela de configurações.
   permissions-heading: |
-    O My Expenses requer as seguintes permissões
+    Minhas Despesas requer as seguintes permissões
   permissions-calendar: |
-    Leitura e escrita no calendário: Planos para transações futuras e recorrentes são guardados numa pasta local especial ou em qualquer outro calendário que atribuir.
+    Leitura e escrita do calendário: planos para transações futuras e recorrentes são armazenadas em um calendário local especial ou em qualquer outro calendário que você atribuir.
   permissions-external-storage: |
-    Escrita no armazenamento USB: Armazenamento de exportações QIF e CSV e ficheiros de cópia de segurança
+    Armazenamento USB a escrever: armazenamento de exportação QIF e CSV e arquivos de backup
   permissions-internet: |
-    Comunicação de rede: Relatórios de falhas são enviados automaticamente aos desenvolvedores, a menos que sejam desativados pelo utilizador nas definições da aplicação.
+    Comunicação de rede: relatórios de travamento são enviados automaticamente para os desenvolvedores, a menos que sejam desativados pelo usuário nas preferências do aplicativo.
