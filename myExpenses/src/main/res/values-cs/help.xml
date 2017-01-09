@@ -1,9 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="help_menu_commands">Příkazy nabídky</string>
+  <string name="help_contextual_actions">Kontextové akce</string>
+  <string name="help_form_fields">Pole šablon</string>
+  <string name="cab_delete_help_text">Vymaž vybranou položku.</string>
+  <string name="cab_edit_help_text">Uprav vybranou položku.</string>
   <!--My Expenses Transaction list-->
   <string name="help_MyExpenses_title">Seznam transakcí</string>
+  <string name="help_MyExpenses_info">Tato obrazovka obsahuje všechny transakce na současný účtu. Použijte plovoucí tlačítko akcí pro otevření šablony tvorby nové transkace.</string>
   <string name="help_MyExpenses_crStatus_info">Stav transakce je označena barevným obdélníkem: šedá nevyřešené, modrá pro čisté, zelená pro vyřešené. Kliknutím na obdélník, změníte stav.</string>
+  <string name="menu_reset_help_text">Tento příkaz exportuje všechny transakce současného účtu do souboru na SD kartě v QIF nebo CSV formátu. Můžete se rozhodnout vymazat exportované transakce, v takovém případě je počáteční zůstatek automaticky upraven. Nebo, pokud nejsou transakce vymazány, budou označeny jako exportované. My Expenses může sdílet soubor ihned po exportu přes FTP, email nebo jinou data sdílející aplikaci pokud tak učiníte v Nastavení. Pokud je aktivní filtr hledání, pouze vyfiltrované transakce budou brány v potaz.</string>
   <string name="menu_manage_plans_help_text">Otevře seznam šablon a plánů, kde můžete použít, upravit nebo odstranit a také definovat plány pro budoucí a opakující se transakce.</string>
   <!--ManageMethods title is in keys-->
   <!--ManageParties title is in keys-->

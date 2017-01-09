@@ -1,19 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>	
-    <string name="testData_account1Label">La meva cartera</string>
-    <string name="testData_account1Description">Les despeses diaris</string>
-    <!--  Account 2 is used as an example for a short term budget used for a travel to a country with
-    a different currency -->
-    <string name="testData_account2Label">Cap de setmana a Londres</string>
-    <string name="testData_account2Description">Agost 2012</string>
-    <string name="testData_account2Currency">GBP</string>
-    <!--  Account 3 is a bank account at an institution well known in the locale region -->
-    <string name="testData_account3Label">Compte bancari</string>
-    <string name="testData_account3Description">CatalunyaCaixa</string>
-    <!-- just an example of how one could describe by a comment a specific purchase -->
-    <string name="testData_transaction2Comment">Fruites i verdures</string>
-    <!-- should be the name of a typical restaurant -->
-    <string name="testData_transaction4Payee">Pizzeria Antonella</string>
-    <!-- a name typically used as example name -->
-    <string name="testData_templatePayee">Fulano de Tal</string>
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="testData_account1Label">La meva cartera</string>
+  <string name="testData_account1Description">Les despeses diaris</string>
+  <!--Account 2 is used as an example for a short term budget used for a travel to a country with
+    a different currency-->
+  <string name="testData_account2Label">Cap de setmana a Londres</string>
+  <string name="testData_account2Description">Agost 2012</string>
+  <!--the ISO 4217 currency code-->
+  <string name="testData_account2Currency">GBP</string>
+  <!--Account 3 is a bank account at an institution well known in the locale region-->
+  <string name="testData_account3Label">Compte bancari</string>
+  <string name="testData_account3Description">CatalunyaCaixa</string>
+  <!--the cats must exist in the categories of the locale-->
+  <!--just an example of how one could describe by a comment a specific purchase-->
+  <string name="testData_transaction2Comment">Fruites i verdures</string>
+  <!--should be the name of a typical restaurant-->
+  <string name="testData_transaction4Payee">Pizzeria Antonella</string>
+  <!--a name typically used as example name-->
+  <string name="testData_templatePayee">Fulano de Tal</string>
 </resources>

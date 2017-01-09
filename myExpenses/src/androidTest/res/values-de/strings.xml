@@ -1,14 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
-    <string name="testData_account1Label">Meine Geldtasche</string>
-    <string name="testData_account1Description">Tägliche Ausgaben</string>
-    <string name="testData_account2Label">Wochenende in London</string>
-    <string name="testData_account2Description">August 2012</string>
-    <string name="testData_account2Currency">GBP</string>
-    <string name="testData_account3Label">Bankkonto</string>
-    <string name="testData_account3Description">Deutsche Bank</string>
-    <string name="testData_transaction2Comment">Obst und Gemüse</string>
-    <string name="testData_transaction4Payee">Pizzeria Antonella</string>
-    <!-- a name typically used as example name -->
-    <string name="testData_templatePayee">Erika Musterfrau</string>
+  <string name="testData_account1Label">Meine Geldtasche</string>
+  <string name="testData_account1Description">Tägliche Ausgaben</string>
+  <!--Account 2 is used as an example for a short term budget used for a travel to a country with
+    a different currency-->
+  <string name="testData_account2Label">Wochenende in London</string>
+  <string name="testData_account2Description">August 2012</string>
+  <!--the ISO 4217 currency code-->
+  <string name="testData_account2Currency">GBP</string>
+  <!--Account 3 is a bank account at an institution well known in the locale region-->
+  <string name="testData_account3Label">Bankkonto</string>
+  <string name="testData_account3Description">Deutsche Bank</string>
+  <!--the cats must exist in the categories of the locale-->
+  <!--just an example of how one could describe by a comment a specific purchase-->
+  <string name="testData_transaction2Comment">Obst und Gemüse</string>
+  <!--should be the name of a typical restaurant-->
+  <string name="testData_transaction4Payee">Pizzeria Antonella</string>
+  <!--a name typically used as example name-->
+  <string name="testData_templatePayee">Erika Musterfrau</string>
 </resources>

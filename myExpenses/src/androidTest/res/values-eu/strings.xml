@@ -2,11 +2,20 @@
 <resources>
   <string name="testData_account1Label">Nire diru-zorroa</string>
   <string name="testData_account1Description">Eguneroko gastuak</string>
+  <!--Account 2 is used as an example for a short term budget used for a travel to a country with
+    a different currency-->
   <string name="testData_account2Label">asteburua Parisen</string>
   <string name="testData_account2Description">2012ko Abuztua</string>
+  <!--the ISO 4217 currency code-->
   <string name="testData_account2Currency">EUR</string>
+  <!--Account 3 is a bank account at an institution well known in the locale region-->
   <string name="testData_account3Label">Banku kontua</string>
   <string name="testData_account3Description">Bank of America</string>
+  <!--the cats must exist in the categories of the locale-->
+  <!--just an example of how one could describe by a comment a specific purchase-->
   <string name="testData_transaction2Comment">Frutak eta barazkiak</string>
+  <!--should be the name of a typical restaurant-->
   <string name="testData_transaction4Payee">Pizzeria Antonella</string>
+  <!--a name typically used as example name-->
+  <string name="testData_templatePayee">Don Inorrez</string>
 </resources>
