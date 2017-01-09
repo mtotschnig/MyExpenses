@@ -91,6 +91,7 @@
     <string name="help_licence_picasso">Picasso from http://square.github.io/picasso/, licensed under Apache License, Version 2.0 .</string>
     <string name="help_licence_caldroid">Caldroid from https://github.com/roomorama/Caldroid, licensed under MIT License .</string>
     <string name="help_licence_icepick">Icepic from https://github.com/frankiesardo/icepick, licensed under Eclipse Public License -v 1.0 .</string>
+    <string name="help_licence_dav4android">dav4android from https://gitlab.com/bitfireAT/dav4android, licensed under GPL v3.0 .</string>
     <string name="donate_button_paypal">Paypal</string>
     <string name="donate_button_bitcoin">Bitcoin</string>
     <!-- User retrieving MyExpenses from a repository should not hit this message,

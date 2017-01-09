@@ -82,7 +82,6 @@
             style="@style/about_text"
             android:text="@string/help_licence_materialseekbar"/>
 
-
         <TextView
             style="@style/about_text"
             android:text="@string/help_licence_picasso"/>
@@ -91,10 +90,17 @@
             style="@style/about_text"
             android:text="@string/help_licence_caldroid"/>
 
-
         <TextView
             style="@style/about_text"
             android:text="@string/help_licence_icepick"/>
+
+        <TextView
+            style="@style/about_text"
+            android:text="@string/help_licence_dav4android"/>
+
+        <TextView
+            style="@style/about_text"
+            android:text="WebDAV setup inspired by https://bitbucket.org/frigus02/car-report/, licensed under Apache License, Version 2.0 ."/>
 
         <TextView
             style="@style/about_text"
