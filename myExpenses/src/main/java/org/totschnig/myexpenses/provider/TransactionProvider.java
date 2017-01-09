@@ -15,20 +15,6 @@
 
 package org.totschnig.myexpenses.provider;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Currency;
-import java.util.List;
-
-import org.totschnig.myexpenses.BuildConfig;
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.model.*;
-import org.totschnig.myexpenses.model.Grouping;
-import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.util.PlanInfoCursorWrapper;
-import org.totschnig.myexpenses.util.Utils;
-
 import android.content.ContentProvider;
 import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
@@ -41,15 +27,138 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
+import android.test.ProviderTestCase2;
 import android.text.TextUtils;
 import android.util.Log;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
+import org.totschnig.myexpenses.BuildConfig;
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AccountGrouping;
+import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.model.Grouping;
+import org.totschnig.myexpenses.model.Model;
+import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.model.Payee;
+import org.totschnig.myexpenses.model.PaymentMethod;
+import org.totschnig.myexpenses.model.Template;
+import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.sync.json.TransactionChange;
+import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.FileCopyUtils;
+import org.totschnig.myexpenses.util.PlanInfoCursorWrapper;
+import org.totschnig.myexpenses.util.Result;
+import org.totschnig.myexpenses.util.Utils;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Currency;
+import java.util.List;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.DAY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.EXPENSE_SUM;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.FULL_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_EXPORTED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_FUTURE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.INCOME_SUM;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_CLEARED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_EXPORTED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_FUTURE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INTERIM_BALANCE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_AGGREGATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_CATEGORIES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENT_UUID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_URI;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY_TYPE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TIMESTAMP;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TOTAL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_CATEGORIES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.SELECT_AMOUNT_SUM;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTTYES_METHODS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CHANGES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_EVENT_CACHE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_METHODS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INSTANCE_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_STALE_URIS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_ACCOUNT_UUUID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_SUM;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_ALL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_CHANGES_EXTENDED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_EXTENDED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_DEPENDENT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_EXPENSE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_INCOME;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_IN_PAST;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_DEPENDENT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_TRANSACTION;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.YEAR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.getMonth;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.getWeek;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart;
 
 public class TransactionProvider extends ContentProvider {
 
-  protected static TransactionDatabase mOpenHelper;
+  private TransactionDatabase mOpenHelper;
   public static final String AUTHORITY = BuildConfig.APPLICATION_ID;
   public static final Uri ACCOUNTS_URI =
       Uri.parse("content://" + AUTHORITY + "/accounts");
@@ -96,6 +205,7 @@ public class TransactionProvider extends ContentProvider {
       Uri.parse("content://" + AUTHORITY + "/stale_images");
   public static final Uri MAPPED_TRANSFER_ACCOUNTS_URI =
       Uri.parse("content://" + AUTHORITY + "/transfer_account_transactions");
+  public static final Uri CHANGES_URI = Uri.parse("content://" + AUTHORITY + "/changes");
   /**
    * select info from DB without table, e.g. CategoryList#DATEINFO_CURSOR
    */
@@ -116,6 +226,7 @@ public class TransactionProvider extends ContentProvider {
   public static final String QUERY_PARAMETER_DISTINCT = "distinct";
   public static final String QUERY_PARAMETER_MARK_VOID = "markVoid";
   public static final String QUERY_PARAMETER_WITH_PLAN_INFO = "withPlanInfo";
+  public static final String QUERY_PARAMETER_INIT = "init";
 
   
   static final String TAG = "TransactionProvider";
@@ -135,7 +246,6 @@ public class TransactionProvider extends ContentProvider {
   private static final int TEMPLATES = 11;
   private static final int TEMPLATE_ID = 12;
   private static final int CATEGORY_ID = 13;
-  private static final int CATEGORY_INCREASE_USAGE = 14;
   private static final int PAYEE_ID = 15;
   private static final int METHODS_FILTERED = 16;
   private static final int TEMPLATES_INCREASE_USAGE = 17;
@@ -143,7 +253,6 @@ public class TransactionProvider extends ContentProvider {
   private static final int AGGREGATE_ID = 20;
   private static final int UNCOMMITTED = 21;
   private static final int TRANSACTIONS_GROUPS = 22;
-  private static final int ACCOUNT_INCREASE_USAGE = 23;
   private static final int TRANSACTIONS_SUMS = 24;
   private static final int TRANSACTION_MOVE = 25;
   private static final int PLANINSTANCE_TRANSACTION_STATUS = 26;
@@ -162,14 +271,19 @@ public class TransactionProvider extends ContentProvider {
   private static final int TRANSACTIONS_LASTEXCHANGE = 39;
   private static final int ACCOUNTS_SWAP_SORT_KEY = 40;
   private static final int MAPPED_TRANSFER_ACCOUNTS = 41;
+  private static final int CHANGES = 42;
   
 
-  protected static boolean mDirty = false;
+  private boolean mDirty = false;
 
   @Override
   public boolean onCreate() {
-    mOpenHelper = new TransactionDatabase(getContext());
+    initOpenHelper();
     return true;
+  }
+
+  private void initOpenHelper() {
+    mOpenHelper = new TransactionDatabase(getContext());
   }
 
   private void setDirty() {
@@ -180,8 +294,8 @@ public class TransactionProvider extends ContentProvider {
   }
 
   @Override
-  public Cursor query(Uri uri, String[] projection, String selection,
-      String[] selectionArgs, String sortOrder) {
+  public Cursor query(@NonNull Uri uri, String[] projection, String selection,
+                      String[] selectionArgs, String sortOrder) {
     SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
     SQLiteDatabase db;
     db = mOpenHelper.getReadableDatabase();
@@ -403,6 +517,8 @@ public class TransactionProvider extends ContentProvider {
             "0 AS " + KEY_SORT_KEY,
             "0 AS " + KEY_EXCLUDE_FROM_TOTALS,
             "max(" + KEY_HAS_EXPORTED + ") AS " + KEY_HAS_EXPORTED,
+            "null AS " + KEY_SYNC_ACCOUNT_NAME,
+            "null AS " + KEY_UUID,
             "sum(" + KEY_CURRENT_BALANCE + ") AS " + KEY_CURRENT_BALANCE,
             "sum(" + KEY_SUM_INCOME + ") AS " + KEY_SUM_INCOME,
             "sum(" + KEY_SUM_EXPENSES + ") AS " + KEY_SUM_EXPENSES,
@@ -465,7 +581,9 @@ public class TransactionProvider extends ContentProvider {
           "'NONE' AS " + KEY_GROUPING,
           "'AGGREGATE' AS " + KEY_TYPE,
           "-1 AS " + KEY_SORT_KEY,
-          "0 AS " + KEY_EXCLUDE_FROM_TOTALS};
+          "0 AS " + KEY_EXCLUDE_FROM_TOTALS,
+          "null AS " + KEY_SYNC_ACCOUNT_NAME,
+          "null AS " + KEY_UUID};
       qb.appendWhere(KEY_ROWID + "=" + currencyId);
       break;
     case ACCOUNT_ID:
@@ -630,9 +748,32 @@ public class TransactionProvider extends ContentProvider {
       limit = "1";
       qb.setTables(VIEW_COMMITTED);
       break;
-
+      case CHANGES:
+        String sequence = uri.getQueryParameter(KEY_SYNC_SEQUENCE_LOCAL);
+        selection = KEY_ACCOUNTID + " = ? AND " + KEY_SYNC_SEQUENCE_LOCAL + " = ?";
+        selectionArgs = new String[]{uri.getQueryParameter(KEY_ACCOUNTID), sequence};
+        qb.setTables(VIEW_CHANGES_EXTENDED);
+        if (projection == null) {
+          projection = new String[]{
+              KEY_TYPE,
+              KEY_UUID,
+              KEY_TIMESTAMP,
+              KEY_PARENT_UUID,
+              "NULLIF(TRIM(" + KEY_COMMENT + "),'') AS " + KEY_COMMENT,
+              KEY_DATE,
+              KEY_AMOUNT,
+              FULL_LABEL,
+              KEY_PAYEE_NAME,
+              TRANSFER_ACCOUNT_UUUID,
+              KEY_METHOD_LABEL,
+              KEY_CR_STATUS,
+              "NULLIF(TRIM(" + KEY_REFERENCE_NUMBER + "),'') AS " + KEY_REFERENCE_NUMBER,
+              KEY_PICTURE_URI
+          };
+        }
+        break;
     default:
-      throw new IllegalArgumentException("Unknown URL " + uri);
+      throw unknownUri(uri);
     }
     String orderBy;
     if (TextUtils.isEmpty(sortOrder)) {
@@ -661,11 +802,16 @@ public class TransactionProvider extends ContentProvider {
   }
 
   @Override
-  public String getType(Uri uri) {
+  public String getType(@NonNull Uri uri) {
     return null;
   }
+
+  private IllegalArgumentException unknownUri(@NonNull Uri uri) {
+    return new IllegalArgumentException("Unknown URL " + uri);
+  }
+
   @Override
-  public Uri insert(Uri uri, ContentValues values) {
+  public Uri insert(@NonNull Uri uri, ContentValues values) {
     setDirty();
     log(values.toString());
     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
@@ -734,7 +880,7 @@ public class TransactionProvider extends ContentProvider {
       newUri = TABLE_STALE_URIS + "/" + id;
       break;
     default:
-      throw new IllegalArgumentException("Unknown URI: " + uri);
+      throw unknownUri(uri);
     }
     getContext().getContentResolver().notifyChange(uri, null);
     //the accounts cursor contains aggregates about transactions
@@ -749,7 +895,7 @@ public class TransactionProvider extends ContentProvider {
   }
 
   @Override
-  public int delete(Uri uri, String where, String[] whereArgs) {
+  public int delete(@NonNull Uri uri, String where, String[] whereArgs) {
     setDirty();
     log("Delete for URL: " + uri);
     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
@@ -787,15 +933,15 @@ public class TransactionProvider extends ContentProvider {
             args,
             KEY_TRANSFER_PEER + " = ? AND " + KEY_PARENTID + " IS NOT null",
             new String[] {segment});
-        //we delete the transaction, its children (in case of delete they are also handled by
-        //ON DELETE CASCADE, but not in case of mark void and its transfer peer, and transfer peers of its children
-        whereArgs = new String[] {segment,segment, segment, segment};
+        //we delete the transaction, its children and its transfer peer, and transfer peers of its children
         if (uri.getQueryParameter(QUERY_PARAMETER_MARK_VOID) == null) {
-          count = db.delete(TABLE_TRANSACTIONS, WHERE_DEPENDENT, whereArgs);
+          //we delete the parent separately, so that the changes trigger can correctly record the parent uuid
+          count = db.delete(TABLE_TRANSACTIONS, WHERE_DEPENDENT, new String[] {segment, segment, segment});
+          count += db.delete(TABLE_TRANSACTIONS, KEY_ROWID + " = ?", new String[] {segment});
         } else {
           ContentValues v = new ContentValues();
           v.put(KEY_CR_STATUS, Transaction.CrStatus.VOID.name());
-          count = db.update(TABLE_TRANSACTIONS,v,WHERE_DEPENDENT,whereArgs);
+          count = db.update(TABLE_TRANSACTIONS, v, WHERE_SELF_OR_DEPENDENT, new String[] {segment, segment, segment, segment});
         }
         db.setTransactionSuccessful();
       }    finally {
@@ -879,8 +1025,11 @@ public class TransactionProvider extends ContentProvider {
     case STALE_IMAGES:
       count = db.delete(TABLE_STALE_URIS, where, whereArgs);
       break;
+    case CHANGES:
+        count = db.delete(TABLE_CHANGES, where, whereArgs);
+        break;
     default:
-      throw new IllegalArgumentException("Unknown URL " + uri);
+      throw unknownUri(uri);
     }
     if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTION_ID) {
       getContext().getContentResolver().notifyChange(TRANSACTIONS_URI, null);
@@ -896,8 +1045,8 @@ public class TransactionProvider extends ContentProvider {
   }
 
   @Override
-  public int update(Uri uri, ContentValues values, String where,
-      String[] whereArgs) {
+  public int update(@NonNull Uri uri, ContentValues values, String where,
+                    String[] whereArgs) {
     setDirty();
     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
     String segment; // contains rowId
@@ -924,7 +1073,7 @@ public class TransactionProvider extends ContentProvider {
       whereArgs = new String[] {segment,segment, segment, segment};
       ContentValues v = new ContentValues();
       v.put(KEY_CR_STATUS, Transaction.CrStatus.UNRECONCILED.name());
-      count = db.update(TABLE_TRANSACTIONS,v,WHERE_DEPENDENT,whereArgs);
+      count = db.update(TABLE_TRANSACTIONS, v, WHERE_SELF_OR_DEPENDENT, whereArgs);
       break;
     case ACCOUNTS:
       count = db.update(TABLE_ACCOUNTS, values, where, whereArgs);
@@ -1042,24 +1191,10 @@ public class TransactionProvider extends ContentProvider {
       count = db.update(TABLE_METHODS, values, "_id=" + segment + whereString,
           whereArgs);
       break;
-    case CATEGORY_INCREASE_USAGE:
-      segment = uri.getPathSegments().get(1);
-      db.execSQL("UPDATE " + DatabaseConstants.TABLE_CATEGORIES + " SET " + KEY_USAGES + " = " +
-          KEY_USAGES + " + 1, " + KEY_LAST_USED + " = strftime('%s', 'now')  WHERE " + KEY_ROWID +
-          " IN (" + segment + " , (SELECT " + KEY_PARENTID +
-          " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + segment + "))");
-      count = 1;
-      break;
     case TEMPLATES_INCREASE_USAGE:
       segment = uri.getPathSegments().get(1);
       db.execSQL("UPDATE " + TABLE_TEMPLATES + " SET " + KEY_USAGES + " = " + KEY_USAGES + " + 1, " +
           KEY_LAST_USED + " = strftime('%s', 'now') WHERE " + KEY_ROWID + " = " + segment);
-      count = 1;
-      break;
-    case ACCOUNT_INCREASE_USAGE:
-      segment = uri.getPathSegments().get(1);
-      db.execSQL("UPDATE " + TABLE_ACCOUNTS + " SET " + KEY_USAGES + " = " + KEY_USAGES + " + 1, " +
-          KEY_LAST_USED + " = strftime('%s', 'now')   WHERE " + KEY_ROWID + " = " + segment);
       count = 1;
       break;
     //   when we move a transaction to a new target we apply two checks
@@ -1162,8 +1297,70 @@ public class TransactionProvider extends ContentProvider {
           new String[] {sortKey1, sortKey2, sortKey2, sortKey1, sortKey1, sortKey2 });
       count = 2;
       break;
+    case CHANGES:
+      if ("1".equals(uri.getQueryParameter(QUERY_PARAMETER_INIT))) {
+        db.beginTransaction();
+        try {
+          c = db.query(TABLE_TRANSACTIONS, new String[]{KEY_ROWID}, KEY_UUID + " IS NULL", null, null, null, null);
+          if (c.moveToFirst()) {
+            while (!c.isAfterLast()) {
+              db.execSQL("UPDATE " + TABLE_TRANSACTIONS + " SET " + KEY_UUID + " = ? WHERE " + KEY_ROWID + " = ?",
+                new String[] {Model.generateUuid(), c.getString(0)});
+              c.moveToNext();
+            }
+          }
+          c.close();
+          String[] accountIdBindArgs = {uri.getQueryParameter(KEY_ACCOUNTID)};
+          db.execSQL("INSERT INTO " + TABLE_CHANGES + "("
+              + KEY_TYPE + ", "
+              + KEY_SYNC_SEQUENCE_LOCAL + ", "
+              + KEY_UUID + ", "
+              + KEY_PARENT_UUID + ", "
+              + KEY_COMMENT + ", "
+              + KEY_DATE + ", "
+              + KEY_AMOUNT + ", "
+              + KEY_CATID + ", "
+              + KEY_ACCOUNTID + ","
+              + KEY_PAYEEID + ", "
+              + KEY_TRANSFER_ACCOUNT + ", "
+              + KEY_METHODID + ","
+              + KEY_CR_STATUS + ", "
+              + KEY_REFERENCE_NUMBER + ", "
+              + KEY_PICTURE_URI
+              + ") SELECT "
+              + "'" + TransactionChange.Type.created.name() + "', "
+              + " 1, "
+              + KEY_UUID  + ", "
+              + "CASE WHEN " + KEY_PARENTID + " IS NULL THEN NULL ELSE " +
+                      "(SELECT " + KEY_UUID + " FROM " + TABLE_TRANSACTIONS + " parent where "
+                      + KEY_ROWID + " = " + TABLE_TRANSACTIONS + "." + KEY_PARENTID + ") END, "
+              + KEY_COMMENT + ", "
+              + KEY_DATE + ", "
+              + KEY_AMOUNT + ", "
+              + KEY_CATID + ", "
+              + KEY_ACCOUNTID + ", "
+              + KEY_PAYEEID + ", "
+              + KEY_TRANSFER_ACCOUNT + ", "
+              + KEY_METHODID + ","
+              + KEY_CR_STATUS + ", "
+              + KEY_REFERENCE_NUMBER + ", "
+              + KEY_PICTURE_URI
+              + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_ACCOUNTID + " = ?",
+              accountIdBindArgs);
+          ContentValues currentSyncIncrease = new ContentValues(1);
+          currentSyncIncrease.put(KEY_SYNC_SEQUENCE_LOCAL, 1);
+          db.update(TABLE_ACCOUNTS, currentSyncIncrease, KEY_ROWID + " = ?", accountIdBindArgs);
+          db.setTransactionSuccessful();
+        } finally {
+          db.endTransaction();
+        }
+        count = 1;
+      } else {
+        throw unknownUri(uri);
+      }
+      break;
     default:
-      throw new IllegalArgumentException("Unknown URI " + uri);
+      throw unknownUri(uri);
     }
     if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTION_ID ||
         uriMatch == CURRENCIES_CHANGE_FRACTION_DIGITS || uriMatch == TRANSACTION_UNDELETE ||
@@ -1174,19 +1371,11 @@ public class TransactionProvider extends ContentProvider {
       getContext().getContentResolver().notifyChange(CATEGORIES_URI, null);
     } else if (
         //we do not need to refresh cursors on the usage counters
-        uriMatch != TEMPLATES_INCREASE_USAGE &&
-        uriMatch != CATEGORY_INCREASE_USAGE &&
-        uriMatch != ACCOUNT_INCREASE_USAGE) {
+        uriMatch != TEMPLATES_INCREASE_USAGE) {
       getContext().getContentResolver().notifyChange(uri, null);
     }
     if (uriMatch == CURRENCIES_CHANGE_FRACTION_DIGITS || uriMatch == TEMPLATES_INCREASE_USAGE) {
       getContext().getContentResolver().notifyChange(TEMPLATES_URI,null);
-    }
-    if (uriMatch == CATEGORY_INCREASE_USAGE) {
-      getContext().getContentResolver().notifyChange(CATEGORIES_URI,null);
-    }
-    if (uriMatch == ACCOUNT_INCREASE_USAGE) {
-      getContext().getContentResolver().notifyChange(ACCOUNTS_URI,null);
     }
     return count;
   }
@@ -1196,7 +1385,7 @@ public class TransactionProvider extends ContentProvider {
   * any single one fails.
   */
   @Override
-  public ContentProviderResult[] applyBatch(ArrayList<ContentProviderOperation> operations)
+  public ContentProviderResult[] applyBatch(@NonNull ArrayList<ContentProviderOperation> operations)
       throws OperationApplicationException {
     final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
     db.beginTransaction();
@@ -1226,11 +1415,9 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_UNDELETE, TRANSACTION_UNDELETE);
     URI_MATCHER.addURI(AUTHORITY, "categories", CATEGORIES);
     URI_MATCHER.addURI(AUTHORITY, "categories/#", CATEGORY_ID);
-    URI_MATCHER.addURI(AUTHORITY, "categories/#/" + URI_SEGMENT_INCREASE_USAGE, CATEGORY_INCREASE_USAGE);
     URI_MATCHER.addURI(AUTHORITY, "accounts", ACCOUNTS);
     URI_MATCHER.addURI(AUTHORITY, "accounts/base", ACCOUNTS_BASE);
     URI_MATCHER.addURI(AUTHORITY, "accounts/#", ACCOUNT_ID);
-    URI_MATCHER.addURI(AUTHORITY, "accounts/#/" + URI_SEGMENT_INCREASE_USAGE, ACCOUNT_INCREASE_USAGE);
     URI_MATCHER.addURI(AUTHORITY, "payees", PAYEES);
     URI_MATCHER.addURI(AUTHORITY, "payees/#", PAYEE_ID);
     URI_MATCHER.addURI(AUTHORITY, "methods", METHODS);
@@ -1248,7 +1435,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "planinstance_transaction", PLANINSTANCE_TRANSACTION_STATUS);
     URI_MATCHER.addURI(AUTHORITY, "currencies", CURRENCIES);
     URI_MATCHER.addURI(AUTHORITY, "currencies/" + URI_SEGMENT_CHANGE_FRACTION_DIGITS + "/*/#", CURRENCIES_CHANGE_FRACTION_DIGITS);
-    URI_MATCHER.addURI(AUTHORITY, "accounts/aggregates/#",AGGREGATE_ID);
+    URI_MATCHER.addURI(AUTHORITY, "accounts/aggregates/#", AGGREGATE_ID);
     URI_MATCHER.addURI(AUTHORITY, "payees_transactions", MAPPED_PAYEES);
     URI_MATCHER.addURI(AUTHORITY, "methods_transactions", MAPPED_METHODS);
     URI_MATCHER.addURI(AUTHORITY, "dual", DUAL);
@@ -1258,15 +1445,13 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "stale_images/#", STALE_IMAGES_ID);
     URI_MATCHER.addURI(AUTHORITY, "accounts/"+ URI_SEGMENT_SWAP_SORT_KEY + "/#/#", ACCOUNTS_SWAP_SORT_KEY);
     URI_MATCHER.addURI(AUTHORITY, "transfer_account_transactions", MAPPED_TRANSFER_ACCOUNTS);
+    URI_MATCHER.addURI(AUTHORITY, "changes", CHANGES);
   }
-  public void resetDatabase() {
-    mOpenHelper.close();
-    mOpenHelper = new TransactionDatabase(getContext());
-}
+
   /**
    * A test package can call this to get a handle to the database underlying TransactionProvider,
    * so it can insert test data into the database. The test case class is responsible for
-   * instantiating the provider in a test context; {@link android.test.ProviderTestCase2} does
+   * instantiating the provider in a test context; {@link ProviderTestCase2} does
    * this during the call to setUp()
    *
    * @return a handle to the database helper object for the provider's data.
@@ -1281,5 +1466,70 @@ public class TransactionProvider extends ContentProvider {
       Log.d(TAG,message);
     }
   }
-  
+
+  public Result backup(File backupDir) {
+    File currentDb = new File(mOpenHelper.getReadableDatabase().getPath());
+    mOpenHelper.close();
+    try {
+      File backupPrefFile, sharedPrefFile;
+      Result result = backupDb(new File(backupDir, MyApplication.BACKUP_DB_FILE_NAME), currentDb);
+      if (result.success) {
+        backupPrefFile = new File(backupDir, MyApplication.BACKUP_PREF_FILE_NAME);
+        // Samsung has special path on some devices
+        // http://stackoverflow.com/questions/5531289/copy-the-shared-preferences-xml-file-from-data-on-samsung-device-failed
+        final MyApplication application = MyApplication.getInstance();
+        String sharedPrefPath =  "/shared_prefs/" + application.getPackageName() + "_preferences.xml";
+        sharedPrefFile = new File("/dbdata/databases/" + application.getPackageName() + sharedPrefPath);
+        if (!sharedPrefFile.exists()) {
+          sharedPrefFile = new File(getInternalAppDir().getPath() + sharedPrefPath);
+          Log.d("DbUtils",sharedPrefFile.getPath());
+          if (!sharedPrefFile.exists()) {
+            final String message = "Unable to find shared preference file at " +
+                sharedPrefFile.getPath();
+            AcraHelper.report(new Exception(message));
+            return new Result(false,message);
+          }
+        }
+        if (FileCopyUtils.copy(sharedPrefFile, backupPrefFile)) {
+          PrefKey.AUTO_BACKUP_DIRTY.putBoolean(false);
+          mDirty = false;
+          return result;
+        }
+      }
+      return result;
+    } finally {
+      initOpenHelper();
+    }
+  }
+
+  private Result backupDb(File backupDb, File currentDb) {
+    if (currentDb.exists()) {
+      if (FileCopyUtils.copy(currentDb, backupDb)) {
+        return new Result(true);
+      }
+      return new Result(false,String.format(
+          "Error while copying %s to %s",currentDb.getPath(),backupDb.getPath()));
+    }
+    return new Result(false,"Could not find database at " + currentDb.getPath());
+  }
+
+  private File getInternalAppDir() {
+    return MyApplication.getInstance().getFilesDir().getParentFile();
+  }
+
+  public boolean restore(File backupFile) {
+    File dataDir = new File(getInternalAppDir(), "databases");
+    dataDir.mkdir();
+    //line below gives app_databases instead of databases ???
+    //File currentDb = new File(mCtx.getDir("databases", 0),mDatabaseName);
+    File currentDb = new File(dataDir, TransactionDatabase.getDbName());
+    boolean result = false;
+    mOpenHelper.close();
+    try {
+      result = FileCopyUtils.copy(backupFile, currentDb);
+    } finally {
+      initOpenHelper();
+    }
+    return result;
+  }
 }

@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion project.compileSdkVersion
@@ -11,6 +12,7 @@ android {
         targetSdkVersion project.targetSdkVersion
         versionCode 258
         versionName '2.7.1.1'
+        multiDexEnabled true
 
         buildConfigField "String", "PLATTFORM", "\"Android\""
         buildConfigField "String", "BUILD_DATE", "\"" + getDate() + "\""
@@ -21,8 +23,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     /*signingConfigs {
@@ -38,11 +40,13 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
             //signingConfig signingConfigs.release
-            manifestPlaceholders = [appName: "@string/app_name"]
+            manifestPlaceholders = [appName: "@string/app_name", debug: "false"]
+            resValue "string", "content_authority", "org.totschnig.myexpenses"
         }
         debug {
             applicationIdSuffix ".debug"
-            manifestPlaceholders = [appName: "My Expenses Debug"]
+            manifestPlaceholders = [appName: "My Expenses Debug", debug: "true"]
+            resValue "string", "content_authority", "org.totschnig.myexpenses.debug"
         }
     }
 
@@ -65,7 +69,7 @@ android {
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
     }
-    testBuildType "release"
+    //testBuildType "release"
 }
 
 dependencies {
@@ -74,8 +78,16 @@ dependencies {
     provided 'javax.annotation:jsr250-api:1.0'
     compile 'frankiesardo:icepick:3.2.0'
     apt 'frankiesardo:icepick-processor:3.2.0'
+    compile 'com.google.code.gson:gson:2.7'
+    provided 'com.google.auto.value:auto-value:1.2'
+    apt 'com.google.auto.value:auto-value:1.2'
+    apt 'com.ryanharter.auto.value:auto-value-gson:0.4.2'
+    provided 'com.ryanharter.auto.value:auto-value-gson:0.4.2'
+    apt 'com.gabrielittner.auto.value:auto-value-cursor:1.0.0'
+    compile 'com.gabrielittner.auto.value:auto-value-cursor-annotations:1.0.0'
     compile project(':StickyListHeaders:library')
-    compile project(':MaterialSeekBarPreference:library')
+    compile 'com.pavelsikun:material-seekbar-preference:2.3.0+'
+    compile project(':dav4android')
     compile 'com.android.support:appcompat-v7:' + project.androidSupportLibraryVersion
     compile 'com.android.support:support-v4:' + project.androidSupportLibraryVersion
     compile 'com.android.support:recyclerview-v7:' + project.androidSupportLibraryVersion
@@ -92,6 +104,13 @@ dependencies {
     compile 'com.github.mtotschnig:Caldroid:master-SNAPSHOT'
     //noinspection GradleDynamicVersion
     compile 'com.commonsware.cwac:wakeful:1.0.+'
+    compile 'com.annimon:stream:1.1.2'
+
+    // WebDAV
+    compile 'com.squareup.okhttp3:okhttp:3.4.2'
+
+    compile 'com.android.support:multidex:1.0.1'
+
     androidTestCompile 'com.android.support.test.espresso:espresso-core:' + project.espressoVersion
     androidTestCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support:support-annotations:'  + project.androidSupportLibraryVersion
@@ -101,6 +120,10 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-contrib:' + project.espressoVersion) {
         exclude module: 'accessibility-test-framework'
     }
+    androidTestCompile 'org.mockito:mockito-core:1.10.19'
+    androidTestCompile 'com.crittercism.dexmaker:dexmaker:1.4'
+    androidTestCompile 'com.crittercism.dexmaker:dexmaker-dx:1.4'
+    androidTestCompile 'com.crittercism.dexmaker:dexmaker-mockito:1.4'
 
     testCompile 'junit:junit:4.12'
 }

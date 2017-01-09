@@ -336,6 +336,8 @@
     <string name="pref_manage_methods_title">Payment methods</string>
     <string name="pref_manage_parties_summary">Add, edit, delete parties (payers and payees).</string>
     <string name="pref_manage_parties_title">Parties</string>
+    <string name="pref_manage_sync_backends_title">Synchronization backends</string>
+    <string name="pref_manage_sync_backends_summary">Add backends for synchronizing accounts with Google Drive, Dropbox or WebDAV</string>
     <string name="pref_more_info_dialog_summary">
         
     <!-- this is empty for English and gives credit to translators in the other languages --></string>
@@ -613,5 +615,32 @@
     <string name="crash_dialog_title">My Expenses has crashed</string>
     <string name="crash_dialog_text">An unexpected error occurred forcing the application to stop. Please help us fix this by sending us error data, all you have to do is click OK.</string>
     <string name="crash_dialog_comment_prompt">You might add your comments about the problem below:</string>
+    <string name="synchronization">Synchronization</string>
+    <string name="synchronization_none">No synchronization</string>
+    <string name="hint_url">URL</string>
+    <string name="description_webdav_url">Please enter the URL to a special folder for this account data on your WebDAV server. My Expenses will store its data inside this folder, it won\'t touch anything outside of it.</string>
+    <string name="description_webdav_trust_certificate">The website uses a certificate, which is not trusted by Android.</string>
+    <string name="hint_user_name">User name</string>
+    <string name="hint_password">Password</string>
+    <string name="label_trust_certificate">Trust this certificate</string>
+    <string name="no_sync_backends">No synchronization backends</string>
+    <string name="menu_create_sync_backend">New synchronization backend</string>
+    <string name="validate_error_not_empty">Must not be empty</string>
+    <string name="validate_error_webdav_invalid_certificate">The certificate could not be trusted. It seems invalid.</string>
+    <string name="validate_error_webdav_not_compliant">The URL does not point to a Class 2 compliant WebDAV ressource.</string>
+    <string name="url_not_valid">URL not valid</string>
+    <string name="menu_sync_unlink">Stop syncing</string>
+    <string name="menu_sync_link">Start syncing</string>
+    <string name="menu_sync_download">Download and sync</string>
+    <string name="menu_sync_now">Sync now</string>
+    <string name="pref_sync_frequency_title">Synchronization frequency</string>
+    <string name="pref_sync_frequency_summary">How often should data be synchonized (in hours)</string>
+    <string name="dialog_confirm_sync_unlink">If you unlink this account from %s, the synchronization status gets lost. Linking them again later, requires a full synchronization to be executed again.</string>
+    <string name="dialog_sync_link">An account with uuid %s exists both in the local database and on the remote backend. When you link both, you need to decide, if, initially, you want to upload local data to the remote backend or download remote data to the local database.</string>
+    <string name="dialog_command_sync_link_remote">Download from remote</string>
+    <string name="dialog_command_sync_link_local">Upload from local</string>
+    <string name="dialog_synced_to_other">An account with uuid %s already exists in the local database and is linked to a different remote backend.</string>
+    <string name="menu_remove">Remove</string>
+    <string name="dialog_confirm_sync_remove_backend">Remote backend %s will be removed. This will not affect data stored locally or remotely, but synchronization status gets lost. Do you want to continue?</string>
 </resources>
 

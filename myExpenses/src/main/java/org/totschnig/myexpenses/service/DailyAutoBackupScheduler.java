@@ -12,7 +12,6 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -47,18 +46,16 @@ public class DailyAutoBackupScheduler {
         PendingIntent pendingIntent = createPendingIntent(context);
         Date scheduledTime = getScheduledTime();
         service.set(AlarmManager.RTC_WAKEUP, scheduledTime.getTime(), pendingIntent);
-        Log.i("DEBUG", "Next auto-backup scheduled at "+scheduledTime);
     }
 
     public static void cancelAutoBackup(Context context) {
         AlarmManager service = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         PendingIntent pendingIntent = createPendingIntent(context);
         service.cancel(pendingIntent);
-        Log.i("DEBUG", "auto-backup canceled ");
     }
 
     private static PendingIntent createPendingIntent(Context context) {
-        Intent intent = new Intent(ScheduledAlarmReceiver.SCHEDULED_BACKUP);
+        Intent intent = new Intent(GenericAlarmReceiver.SCHEDULED_BACKUP);
         return PendingIntent.getBroadcast(context, -100, intent, PendingIntent.FLAG_CANCEL_CURRENT);
     }
 

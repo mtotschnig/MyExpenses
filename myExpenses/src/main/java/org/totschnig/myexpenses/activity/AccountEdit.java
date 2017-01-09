@@ -15,21 +15,7 @@
 
 package org.totschnig.myexpenses.activity;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Currency;
-
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.AccountType;
-import org.totschnig.myexpenses.model.CurrencyEnum;
-import org.totschnig.myexpenses.model.Model;
-import org.totschnig.myexpenses.model.Money;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.task.TaskExecutionFragment;
-import org.totschnig.myexpenses.ui.SpinnerHelper;
-import org.totschnig.myexpenses.util.AcraHelper;
-
+import android.accounts.AccountManager;
 import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Intent;
@@ -48,27 +34,49 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
+
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.DialogUtils;
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.CurrencyEnum;
+import org.totschnig.myexpenses.model.Model;
+import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.sync.GenericAccountService;
+import org.totschnig.myexpenses.ui.SpinnerHelper;
+import org.totschnig.myexpenses.util.AcraHelper;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Currency;
+
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_UNLINK;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_TOGGLE_EXCLUDE_FROM_TOTALS;
+
 /**
  * Activity for editing an account
+ *
  * @author Michael Totschnig
  */
 public class AccountEdit extends AmountActivity implements
-    OnItemSelectedListener  {
+    OnItemSelectedListener {
   private static final String OPENINTENTS_COLOR_EXTRA = "org.openintents.extra.COLOR";
   private static final String OPENINTENTS_PICK_COLOR_ACTION = "org.openintents.action.PICK_COLOR";
   private EditText mLabelText;
   private EditText mDescriptionText;
-  private SpinnerHelper mCurrencySpinner, mAccountTypeSpinner, mColorSpinner;
-  Account mAccount;
+  private SpinnerHelper mCurrencySpinner, mAccountTypeSpinner, mColorSpinner, mSyncSpinner;
+  private Account mAccount;
   private ArrayList<Integer> mColors;
   private ArrayAdapter<Integer> mColAdapter;
   private ArrayAdapter<CurrencyEnum> currencyAdapter;
 
   private void requireAccount() {
-    if (mAccount==null) {
+    if (mAccount == null) {
       Bundle extras = getIntent().getExtras();
-      long rowId = extras != null ? extras.getLong(DatabaseConstants.KEY_ROWID)
-          : 0;
+      long rowId = extras != null ? extras.getLong(DatabaseConstants.KEY_ROWID) : 0;
       if (rowId != 0) {
         mAccount = Account.getInstanceFromDb(rowId);
       } else {
@@ -86,7 +94,7 @@ public class AccountEdit extends AmountActivity implements
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    
+
     setContentView(R.layout.one_account);
     setupToolbar();
 
@@ -95,10 +103,10 @@ public class AccountEdit extends AmountActivity implements
 
     Bundle extras = getIntent().getExtras();
     long rowId = extras != null ? extras.getLong(DatabaseConstants.KEY_ROWID)
-          : 0;
+        : 0;
     requireAccount();
     if (mAccount == null) {
-      Toast.makeText(this,"Error instantiating account "+rowId,Toast.LENGTH_SHORT).show();
+      Toast.makeText(this, "Error instantiating account " + rowId, Toast.LENGTH_SHORT).show();
       finish();
       return;
     }
@@ -127,13 +135,9 @@ public class AccountEdit extends AmountActivity implements
         android.R.id.text1, CurrencyEnum.sortedValues());
     currencyAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
     mCurrencySpinner.setAdapter(currencyAdapter);
-    
-    mAccountTypeSpinner = new SpinnerHelper(findViewById(R.id.AccountType));
-    ArrayAdapter<AccountType> typAdapter = new ArrayAdapter<>(
-            this, android.R.layout.simple_spinner_item, android.R.id.text1, AccountType.values());
-    typAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-    mAccountTypeSpinner.setAdapter(typAdapter);
-    
+
+    mAccountTypeSpinner = new SpinnerHelper(DialogUtils.configureTypeSpinner(this));
+
     mColorSpinner = new SpinnerHelper(findViewById(R.id.Color));
     mColors = new ArrayList<>();
     Resources r = getResources();
@@ -166,18 +170,20 @@ public class AccountEdit extends AmountActivity implements
       public View getView(int position, View convertView, ViewGroup parent) {
         TextView tv = (TextView) super.getView(position, convertView, parent);
         if (mColors.get(position) != 0)
-          setColor(tv,mColors.get(position));
+          setColor(tv, mColors.get(position));
         else
-          setColor(tv,mAccount.color);
+          setColor(tv, mAccount.color);
         return tv;
       }
+
       @Override
       public View getDropDownView(int position, View convertView, ViewGroup parent) {
         TextView tv = (TextView) super.getDropDownView(position, convertView, parent);
         if (mColors.get(position) != 0)
-          setColor(tv,mColors.get(position));
+          setColor(tv, mColors.get(position));
         return tv;
       }
+
       public void setColor(TextView tv, int color) {
         tv.setBackgroundColor(color);
         tv.setText("");
@@ -186,6 +192,19 @@ public class AccountEdit extends AmountActivity implements
     };
     mColAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     mColorSpinner.setAdapter(mColAdapter);
+
+    mSyncSpinner = new SpinnerHelper(findViewById(R.id.Sync));
+    AccountManager accountManager = (AccountManager) getSystemService(ACCOUNT_SERVICE);
+    ArrayAdapter syncBackendAdapter =
+        new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
+            Stream.concat(
+                Stream.of(getString(R.string.synchronization_none)),
+                Stream.of(accountManager.getAccountsByType(GenericAccountService.ACCOUNT_TYPE))
+                    .map(account -> account.name))
+                .collect(Collectors.toList()));
+    syncBackendAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+    mSyncSpinner.setAdapter(syncBackendAdapter);
+
     linkInputsWithLabels();
     populateFields();
   }
@@ -195,9 +214,9 @@ public class AccountEdit extends AmountActivity implements
     if (requestCode == PICK_COLOR_REQUEST && resultCode == RESULT_OK) {
       mAccount.color = data.getExtras().getInt(OPENINTENTS_COLOR_EXTRA);
       if (mColors.indexOf(mAccount.color) == -1) {
-        final int lastButOne = mColors.size()-1;
-        mColors.add(lastButOne,mAccount.color);
-        mColorSpinner.setSelection(lastButOne,true);
+        final int lastButOne = mColors.size() - 1;
+        mColors.add(lastButOne, mAccount.color);
+        mColorSpinner.setSelection(lastButOne, true);
         mColAdapter.notifyDataSetChanged();
       }
     }
@@ -227,23 +246,32 @@ public class AccountEdit extends AmountActivity implements
     mAccountTypeSpinner.setSelection(mAccount.type.ordinal());
     int selected = mColors.indexOf(mAccount.color);
     mColorSpinner.setSelection(selected);
+    if (mAccount.getSyncAccountName() != null) {
+      int position = ((ArrayAdapter<String>) mSyncSpinner.getAdapter()).getPosition(mAccount.getSyncAccountName());
+      if (position > -1) {
+        mSyncSpinner.setSelection(position);
+        mSyncSpinner.setEnabled(false);
+        findViewById(R.id.SyncUnlink).setVisibility(View.VISIBLE);
+      }
+    }
   }
 
   /**
    * validates currency (must be code from ISO 4217) and opening balance
    * (a valid float according to the format from the locale)
+   *
    * @return true upon success, false if validation fails
    */
   protected void saveState() {
     BigDecimal openingBalance = validateAmountInput(true);
     if (openingBalance == null)
-       return;
+      return;
     String label;
     String currency = ((CurrencyEnum) mCurrencySpinner.getSelectedItem()).name();
     try {
       mAccount.setCurrency(currency);
     } catch (IllegalArgumentException e) {
-      Toast.makeText(this, currency + " not supported by your OS. Please select a different currency.",Toast.LENGTH_LONG).show();
+      Toast.makeText(this, currency + " not supported by your OS. Please select a different currency.", Toast.LENGTH_LONG).show();
       return;
     }
 
@@ -259,20 +287,23 @@ public class AccountEdit extends AmountActivity implements
     }
     mAccount.openingBalance.setAmountMajor(openingBalance);
     mAccount.type = (AccountType) mAccountTypeSpinner.getSelectedItem();
+    if (mSyncSpinner.getSelectedItemPosition() > 0) {
+      mAccount.setSyncAccountName((String) mSyncSpinner.getSelectedItem());
+    }
     //EditActivity.saveState calls DbWriteFragment
     super.saveState();
   }
+
   @Override
   public Model getObject() {
-    // TODO Auto-generated method stub
     return mAccount;
   }
 
   @Override
   public void onItemSelected(AdapterView<?> parent, View view, int position,
-      long id) {
+                             long id) {
     setDirty(true);
-    switch(parent.getId()) {
+    switch (parent.getId()) {
       case R.id.Color:
         if (mColors.get(position) != 0) mAccount.color = mColors.get(position);
         break;
@@ -299,31 +330,46 @@ public class AccountEdit extends AmountActivity implements
   public void onPostExecute(Object result) {
     if (result == null) {
       Toast.makeText(this, "Unknown error while saving account", Toast.LENGTH_SHORT).show();
-      return;
+    } else {
+      Intent intent = new Intent();
+      long id = ContentUris.parseId((Uri) result);
+      mAccount.requestSync();
+      intent.putExtra(DatabaseConstants.KEY_ROWID, id);
+      setResult(RESULT_OK, intent);
     }
-    Intent intent=new Intent();
-    intent.putExtra(DatabaseConstants.KEY_ROWID, ContentUris.parseId((Uri)result));
-    setResult(RESULT_OK,intent);
     finish();
     //no need to call super after finish
   }
+
+  @Override
+  public void onPostExecute(int taskId, Object o) {
+    super.onPostExecute(taskId, o);
+    switch (taskId) {
+      case TASK_SYNC_UNLINK:
+        mSyncSpinner.setSelection(0);
+        mSyncSpinner.setEnabled(true);
+        findViewById(R.id.SyncUnlink).setVisibility(View.GONE);
+    }
+  }
+
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     super.onCreateOptionsMenu(menu);
     MenuItemCompat.setShowAsAction(
         menu.add(Menu.NONE, R.id.EXCLUDE_FROM_TOTALS_COMMAND, 0, R.string.menu_exclude_from_totals)
-          .setCheckable(true),
+            .setCheckable(true),
         MenuItemCompat.SHOW_AS_ACTION_NEVER);
     return true;
   }
+
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
     requireAccount();
-    if (mAccount==null) {
+    if (mAccount == null) {
       AcraHelper.report(new NullPointerException("mAccount is null"));
     } else {
       MenuItem item = menu.findItem(R.id.EXCLUDE_FROM_TOTALS_COMMAND);
-      if (item==null) {
+      if (item == null) {
         AcraHelper.report(new NullPointerException("EXCLUDE_FROM_TOTALS_COMMAND menu item not found"));
       } else {
         item.setChecked(
@@ -332,19 +378,25 @@ public class AccountEdit extends AmountActivity implements
     }
     return super.onPrepareOptionsMenu(menu);
   }
+
   @Override
   public boolean dispatchCommand(int command, Object tag) {
     switch (command) {
-    case R.id.EXCLUDE_FROM_TOTALS_COMMAND:
-      mAccount.excludeFromTotals = !mAccount.excludeFromTotals;
-      if (mAccount.getId()!=0) {
+      case R.id.EXCLUDE_FROM_TOTALS_COMMAND:
+        mAccount.excludeFromTotals = !mAccount.excludeFromTotals;
+        if (mAccount.getId() != 0) {
+          startTaskExecution(
+              TASK_TOGGLE_EXCLUDE_FROM_TOTALS,
+              new Long[]{mAccount.getId()},
+              mAccount.excludeFromTotals, 0);
+          supportInvalidateOptionsMenu();
+        }
+        return true;
+      case R.id.SYNC_UNLINK_COMMAND:
         startTaskExecution(
-            TaskExecutionFragment.TASK_TOGGLE_EXCLUDE_FROM_TOTALS,
-            new Long[] {mAccount.getId()},
-            mAccount.excludeFromTotals, 0);
-        supportInvalidateOptionsMenu();
-      }
-      return true;
+            TASK_SYNC_UNLINK,
+            new String[]{mAccount.uuid}, null, 0);
+        return true;
     }
     return super.dispatchCommand(command, tag);
   }
@@ -357,15 +409,21 @@ public class AccountEdit extends AmountActivity implements
     mColorSpinner.setOnItemSelectedListener(this);
     mAccountTypeSpinner.setOnItemSelectedListener(this);
     mCurrencySpinner.setOnItemSelectedListener(this);
+    mSyncSpinner.setOnItemSelectedListener(this);
   }
 
   @Override
   protected void linkInputsWithLabels() {
     super.linkInputsWithLabels();
-    linkInputWithLabel(mLabelText,findViewById(R.id.LabelLabel));
-    linkInputWithLabel(mDescriptionText,findViewById(R.id.DescriptionLabel));
-    linkInputWithLabel(mColorSpinner.getSpinner(),findViewById(R.id.ColorLabel));
-    linkInputWithLabel(mAccountTypeSpinner.getSpinner(),findViewById(R.id.AccountTypeLabel));
-    linkInputWithLabel(mCurrencySpinner.getSpinner(),findViewById(R.id.CurrencyLabel));
+    linkInputWithLabel(mLabelText, findViewById(R.id.LabelLabel));
+    linkInputWithLabel(mDescriptionText, findViewById(R.id.DescriptionLabel));
+    linkInputWithLabel(mColorSpinner.getSpinner(), findViewById(R.id.ColorLabel));
+    linkInputWithLabel(mAccountTypeSpinner.getSpinner(), findViewById(R.id.AccountTypeLabel));
+    linkInputWithLabel(mCurrencySpinner.getSpinner(), findViewById(R.id.CurrencyLabel));
+    linkInputWithLabel(mSyncSpinner.getSpinner(), findViewById(R.id.SyncLabel));
+  }
+
+  public void syncUnlink(View view) {
+    DialogUtils.showSyncUnlinkConfirmationDialog(this, mAccount);
   }
 }

@@ -16,83 +16,68 @@
 package org.totschnig.myexpenses.model;
 
 import android.content.ContentProviderOperation;
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.annotation.VisibleForTesting;
-import android.support.v4.provider.DocumentFile;
 import android.util.Log;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.CrStatusCriteria;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
+import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.util.AcraHelper;
-import org.totschnig.myexpenses.util.FileUtils;
-import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Currency;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_CLEARED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_EXPORTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_FUTURE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_AGGREGATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_MAIN;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_SUB;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SELECT_AMOUNT_SUM;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_EXPORTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_HELPER;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_EXPENSE;
@@ -125,6 +110,17 @@ public class Account extends Model {
 
   public boolean excludeFromTotals = false;
 
+  private String syncAccountName;
+
+  public String getSyncAccountName() {
+    return syncAccountName;
+  }
+
+  public void setSyncAccountName(String syncAccountName) {
+    this.syncAccountName = syncAccountName;
+  }
+
+
   public static final String[] PROJECTION_BASE, PROJECTION_EXTENDED, PROJECTION_FULL;
   public static final String CURRENT_BALANCE_EXPR = KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM + " AND " + WHERE_NOT_SPLIT_PART
       + " AND " + WHERE_IN_PAST + " )";
@@ -141,7 +137,9 @@ public class Account extends Model {
         KEY_TYPE,
         KEY_SORT_KEY,
         KEY_EXCLUDE_FROM_TOTALS,
-        HAS_EXPORTED
+        HAS_EXPORTED,
+        KEY_SYNC_ACCOUNT_NAME,
+        KEY_UUID
     };
     int baseLength = PROJECTION_BASE.length;
     PROJECTION_EXTENDED = new String[baseLength + 1];
@@ -240,7 +238,7 @@ public class Account extends Model {
     return account;
   }
 
-  public static Account getInstanceFromDbWithFallback(long id) {
+  static Account getInstanceFromDbWithFallback(long id) {
     Account account = getInstanceFromDb(id);
     if (account == null) {
       account = getInstanceFromDb(0);
@@ -339,6 +337,10 @@ public class Account extends Model {
       this.color = DEFAULT_COLOR;
     }
     this.excludeFromTotals = c.getInt(c.getColumnIndex(KEY_EXCLUDE_FROM_TOTALS)) != 0;
+
+    this.syncAccountName = c.getString(c.getColumnIndex(KEY_SYNC_ACCOUNT_NAME));
+
+    this.uuid = c.getString(c.getColumnIndex(KEY_UUID));
   }
 
   public void setCurrency(String currency) throws IllegalArgumentException {
@@ -550,14 +552,22 @@ public class Account extends Model {
     initialValues.put(KEY_TYPE, type.name());
     initialValues.put(KEY_GROUPING, grouping.name());
     initialValues.put(KEY_COLOR, color);
+    initialValues.put(KEY_SYNC_ACCOUNT_NAME, syncAccountName);
 
     if (getId() == 0) {
+      //if account is added from sync backend uuid is already set
+      initialValues.put(KEY_UUID, android.text.TextUtils.isEmpty(uuid) ? generateUuid() : uuid);
       uri = cr().insert(CONTENT_URI, initialValues);
       if (uri == null) {
         return null;
       }
       setId(ContentUris.parseId(uri));
     } else {
+      if (android.text.TextUtils.isEmpty(uuid)) {
+        //for accounts created before DB schema 59, uuid has not yet been set
+        //and is needed when the account is supposed to be synced
+        initialValues.put(KEY_UUID, generateUuid());
+      }
       uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build();
       cr().update(uri, initialValues, null, null);
     }
@@ -688,6 +698,24 @@ public class Account extends Model {
     }
   }
 
+  public static long findByUuid(String uuid) {
+    String selection = KEY_UUID + " = ?";
+    String[] selectionArgs = new String[]{uuid};
+
+    Cursor mCursor = cr().query(CONTENT_URI,
+        new String[]{KEY_ROWID}, selection, selectionArgs, null);
+    if (mCursor.getCount() == 0) {
+      mCursor.close();
+      return -1;
+    } else {
+      mCursor.moveToFirst();
+      long result = mCursor.getLong(0);
+      mCursor.close();
+      return result;
+    }
+  }
+
+
   /**
    * return an Account or AggregateAccount that matches the one found in the cursor at the row it is
    * positioned at. Either the one found in the cache is returned or it is extracted from the cursor
@@ -707,5 +735,16 @@ public class Account extends Model {
       }
     }
     return accounts.get(accountId);
+  }
+
+  public void requestSync() {
+    if (syncAccountName != null) {
+      Bundle bundle = new Bundle();
+      bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+      bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+      bundle.putString(DatabaseConstants.KEY_UUID, uuid);
+      ContentResolver.requestSync(GenericAccountService.GetAccount(syncAccountName),
+          TransactionProvider.AUTHORITY, bundle);
+    }
   }
 }

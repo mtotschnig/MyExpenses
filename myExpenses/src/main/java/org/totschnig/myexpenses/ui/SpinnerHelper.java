@@ -75,7 +75,14 @@ public class SpinnerHelper implements OnItemSelectedListener {
   private OnItemSelectedListener proxiedItemSelectedListener = null;
 
   public SpinnerHelper(Object spinner) {
-    this.spinner = (spinner != null) ? (Spinner) spinner : null;
+    if (spinner != null) {
+      this.spinner = (Spinner) spinner;
+      if (this.spinner.getAdapter() != null && this.spinner.getAdapter().getCount() > 0) {
+        lastPosition = 0;
+      }
+    } else {
+      this.spinner = null;
+    }
   }
 
   public Spinner getSpinner() {

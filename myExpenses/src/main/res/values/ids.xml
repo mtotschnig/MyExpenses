@@ -123,4 +123,13 @@
   <item name="VERIFY_LICENCE_COMMAND" type="id"/>
   <item name="FILTER_TRANSFER_COMMAND" type="id"/>
   <item name="SORT_NEXT_INSTANCE_COMMAND" type="id"/>
+  <item name="SYNC_COMMAND" type="id" />
+  <item name="SYNC_DOWNLOAD_COMMAND" type="id" />
+  <item name="SYNC_LINK_COMMAND" type="id" />
+  <item name="SYNC_UNLINK_COMMAND" type="id" />
+  <item name="CREATE_BACKEND_WEBDAV_COMMAND" type="id"/>
+  <item name="SYNC_LINK_COMMAND_DO_REMOTE" type="id"/>
+  <item name="SYNC_LINK_COMMAND_DO_LOCAL" type="id"/>
+  <item name="SYNCED_TO_OTHER_COMMAND" type="id"/>
+  <item name="SYNC_REMOVE_BACKEND_COMMAND" type="id"/>
 </resources>

@@ -10,29 +10,36 @@
  ******************************************************************************/
 package org.totschnig.myexpenses.service;
 
+import android.accounts.AccountManager;
 import android.content.BroadcastReceiver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
+import android.os.AsyncTask;
 
+import com.annimon.stream.Stream;
 import com.commonsware.cwac.wakeful.WakefulIntentService;
 
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.provider.filter.WhereFilter;
+import org.totschnig.myexpenses.sync.GenericAccountService;
 
-public class ScheduledAlarmReceiver extends BroadcastReceiver {
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
+
+public class GenericAlarmReceiver extends BroadcastReceiver {
 
   static final String PACKAGE_REPLACED = "android.intent.action.PACKAGE_REPLACED";
   static final String BOOT_COMPLETED = "android.intent.action.BOOT_COMPLETED";
   static final String SCHEDULED_BACKUP = "org.totschnig.myexpenses.SCHEDULED_BACKUP";
+  static final String ACCOUNT_CHANGED = "android.accounts.LOGIN_ACCOUNTS_CHANGED";
 
   @Override
   public void onReceive(Context context, Intent intent) {
     String action = intent.getAction();
     String dataString = intent.getDataString();
     if (PACKAGE_REPLACED.equals(action)) {
-      Log.d("ScheduledAlarmReceiver", "Received " + dataString);
       if ("package:org.totschnig.myexpenses".equals(dataString)) {
-        Log.d("ScheduledAlarmReceiver", "Re-scheduling backup");
         requestScheduleAutoBackup(context);
         MyApplication.getInstance().initPlanner();
       }
@@ -43,6 +50,24 @@ public class ScheduledAlarmReceiver extends BroadcastReceiver {
       //MyApplication.getInstance().initPlanner();
     } else if (SCHEDULED_BACKUP.equals(action)) {
       requestAutoBackup(context);
+    } else if (ACCOUNT_CHANGED.equals(action)) {
+      String[] accounts = Stream.of(AccountManager.get(context).getAccountsByType(GenericAccountService.ACCOUNT_TYPE))
+          .map(account -> account.name)
+          .toArray(String[]::new);
+      ContentValues values = new ContentValues(1);
+      values.putNull(KEY_SYNC_ACCOUNT_NAME);
+      new AsyncTask<Void, Void, Void>() {
+        @Override
+        protected Void doInBackground(Void... params) {
+          String where = accounts.length > 0 ?
+              KEY_SYNC_ACCOUNT_NAME + " NOT " + WhereFilter.Operation.IN.getOp(accounts.length) :
+              null;
+          context.getContentResolver().update(TransactionProvider.ACCOUNTS_URI, values,
+              where, accounts);
+          return null;
+        }
+      }.execute();
+
     }
   }
 

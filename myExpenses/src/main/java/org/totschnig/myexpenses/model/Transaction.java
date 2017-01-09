@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.model;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -27,15 +28,21 @@ import org.totschnig.myexpenses.provider.CalendarProviderProxy;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.FileCopyUtils;
+import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.Utils;
 
+import android.content.ContentProviderOperation;
+import android.content.ContentProviderResult;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.RemoteException;
 import android.util.Log;
 
 import com.android.calendar.CalendarContractCompat;
@@ -170,7 +177,7 @@ public class Transaction extends Model {
     public static final String JOIN;
 
     static {
-      JOIN = Utils.joinEnum(CrStatus.class);
+      JOIN = TextUtils.joinEnum(CrStatus.class);
     }
 
     public static CrStatus fromQifName(String qifName) {
@@ -200,7 +207,7 @@ public class Transaction extends Model {
     String[] projection = new String[]{KEY_ROWID, KEY_DATE, KEY_AMOUNT, KEY_COMMENT, KEY_CATID,
         FULL_LABEL, KEY_PAYEEID, KEY_PAYEE_NAME, KEY_TRANSFER_PEER, KEY_TRANSFER_ACCOUNT,
         KEY_ACCOUNTID, KEY_METHODID, KEY_PARENTID, KEY_CR_STATUS, KEY_REFERENCE_NUMBER,
-        KEY_PICTURE_URI, KEY_METHOD_LABEL, KEY_STATUS, TRANSFER_AMOUNT, KEY_TEMPLATEID};
+        KEY_PICTURE_URI, KEY_METHOD_LABEL, KEY_STATUS, TRANSFER_AMOUNT, KEY_TEMPLATEID, KEY_UUID};
 
     Cursor c = cr().query(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection, null, null, null);
@@ -225,7 +232,7 @@ public class Transaction extends Model {
       t.transferAmount = new Money(Account.getInstanceFromDb(t.transfer_account).currency,
           c.getLong(c.getColumnIndex(KEY_TRANSFER_AMOUNT)));
     } else {
-      if (catId == DatabaseConstants.SPLIT_CATID) {
+      if (DatabaseConstants.SPLIT_CATID.equals(catId)) {
         t = new SplitTransaction(account_id, amount);
       } else {
         t = parent_id != null ? new SplitPartCategory(account_id, amount, parent_id) :
@@ -255,6 +262,7 @@ public class Transaction extends Model {
     t.status = c.getInt(c.getColumnIndexOrThrow(KEY_STATUS));
     Long originTemplateId = getLongOrNull(c, KEY_TEMPLATEID);
     t.originTemplate = originTemplateId == null ? null : Template.getInstanceFromDb(originTemplateId);
+    t.uuid = DbUtils.getString(c, KEY_UUID);
     c.close();
     return t;
   }
@@ -318,7 +326,6 @@ public class Transaction extends Model {
     cr().update(uri, null, null, null);
   }
 
-  //needed for Template subclass
   protected Transaction() {
     setDate(new Date());
     this.crStatus = CrStatus.UNRECONCILED;
@@ -390,61 +397,26 @@ public class Transaction extends Model {
     this.payeeId = payeeId;
   }
 
-  /**
-   * Saves the transaction, creating it new if necessary
-   * as a side effect calls {@link Payee#require(String)}
-   *
-   * @return the URI of the transaction. Upon creation it is returned from the content provider
-   */
+  @Override
   public Uri save() {
-    boolean needIncreaseUsage = false;
-    if (catId != null && catId != DatabaseConstants.SPLIT_CATID) {
-      if (getId() == 0) {
-        needIncreaseUsage = true;
-      } else {
-        Cursor c = cr().query(
-            CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build(),
-            new String[]{KEY_CATID},
-            null, null, null);
-        if (c != null) {
-          if (c.moveToFirst() && c.getLong(0) != catId) {
-            //category has been changed
-            needIncreaseUsage = true;
-          }
-          c.close();
-        }
-      }
-    }
     Uri uri;
-    ContentValues initialValues = buildInitialValues();
-    if (getId() == 0) {
-      uri = cr().insert(CONTENT_URI, initialValues);
-      if (uri == null) {
-        return null;
+    try {
+      ContentProviderResult[] result = cr().applyBatch(TransactionProvider.AUTHORITY, buildSaveOperations(0, -1));
+      if (getId() == 0) {
+        //we need to find a uri, otherwise we would crash. Need to handle?
+        uri = result[0].uri;
+        updateFromResult(result);
+      } else {
+        uri = Uri.parse(CONTENT_URI + "/" + getId());
       }
-      if (pictureUri != null) {
-        ContribFeature.ATTACH_PICTURE.recordUsage();
-      }
-      setId(ContentUris.parseId(uri));
-      if (parentId == null)
-        cr().update(
-            TransactionProvider.ACCOUNTS_URI
-                .buildUpon()
-                .appendPath(String.valueOf(accountId))
-                .appendPath(TransactionProvider.URI_SEGMENT_INCREASE_USAGE)
-                .build(),
-            null, null, null);
-      if (originPlanInstanceId != null) {
-        ContentValues values = new ContentValues();
-        values.put(KEY_TEMPLATEID, originTemplate.getId());
-        values.put(KEY_INSTANCEID, originPlanInstanceId);
-        values.put(KEY_TRANSACTIONID, getId());
-        cr().insert(TransactionProvider.PLAN_INSTANCE_STATUS_URI, values);
-      }
-    } else {
-      uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build();
-      cr().update(uri, initialValues, null, null);
+    } catch (RemoteException | OperationApplicationException e) {
+      return null;
     }
+
+    if (pictureUri != null) {
+      ContribFeature.ATTACH_PICTURE.recordUsage();
+    }
+
     if (originTemplate != null && originTemplate.getId() == 0) {
       originTemplate.save();
       //now need to find out the instance number
@@ -471,16 +443,51 @@ public class Transaction extends Model {
         c.close();
       }
     }
-    if (needIncreaseUsage) {
-      cr().update(
-          TransactionProvider.CATEGORIES_URI
-              .buildUpon()
-              .appendPath(String.valueOf(catId))
-              .appendPath(TransactionProvider.URI_SEGMENT_INCREASE_USAGE)
-              .build(),
-          null, null, null);
-    }
     return uri;
+  }
+
+  protected void updateFromResult(ContentProviderResult[] result) {
+    setId(ContentUris.parseId(result[0].uri));
+  }
+
+  /**
+   * Constructs the {@link ArrayList} of {@link ContentProviderOperation}s necessary for saving
+   * the transaction
+   * as a side effect calls {@link Payee#require(String)}
+   *
+   * @param offset       Number of operations that are already added to the batch, needed for calculating back references
+   * @param parentOffset if not -1, it indicates at which position in the batch the parent of a new split transaction is situated.
+   *                     Is used from SyncAdapter for creating split transactions
+   * @return the URI of the transaction. Upon creation it is returned from the content provider
+   */
+  public ArrayList<ContentProviderOperation> buildSaveOperations(int offset, int parentOffset) {
+    ArrayList<ContentProviderOperation> ops = new ArrayList<>();
+    ContentValues initialValues = buildInitialValues();
+    if (getId() == 0) {
+      //if transaction is added via sync adapter uuid is already set
+      initialValues.put(KEY_UUID, android.text.TextUtils.isEmpty(uuid) ? generateUuid() : uuid);
+      ContentProviderOperation.Builder builder = ContentProviderOperation.newInsert(CONTENT_URI).withValues(initialValues);
+      if (parentOffset != -1) {
+        builder.withValueBackReference(KEY_PARENTID, parentOffset);
+      }
+      ops.add(builder.build());
+      addOriginPlanInstance(ops);
+    } else {
+      ops.add(ContentProviderOperation
+          .newUpdate(CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build())
+          .withValues(initialValues).build());
+    }
+    return ops;
+  }
+
+  protected void addOriginPlanInstance(ArrayList<ContentProviderOperation> ops) {
+    if (originPlanInstanceId != null) {
+      ContentValues values = new ContentValues();
+      values.put(KEY_TEMPLATEID, originTemplate.getId());
+      values.put(KEY_INSTANCEID, originPlanInstanceId);
+      ops.add(ContentProviderOperation.newInsert(TransactionProvider.PLAN_INSTANCE_STATUS_URI)
+          .withValues(values).withValueBackReference(KEY_TRANSACTIONID, 0).build());
+    }
   }
 
   ContentValues buildInitialValues() {
@@ -559,7 +566,7 @@ public class Transaction extends Model {
   }
 
   private void copyPictureHelper(boolean delete, Uri homeUri) throws IOException {
-    Utils.copy(pictureUri, homeUri);
+    FileCopyUtils.copy(pictureUri, homeUri);
     if (delete) {
       new File(pictureUri.getPath()).delete();
     }
@@ -570,7 +577,6 @@ public class Transaction extends Model {
     setId(0L);
     setDate(new Date());
     Uri result = save();
-    setId(ContentUris.parseId(result));
     return result;
   }
 
@@ -582,7 +588,7 @@ public class Transaction extends Model {
     ContentValues args = new ContentValues();
     args.put(KEY_ACCOUNTID, whereAccountId);
     cr().update(Uri.parse(
-            CONTENT_URI + "/" + whichTransactionId + "/" + TransactionProvider.URI_SEGMENT_MOVE + "/" + whereAccountId),
+        CONTENT_URI + "/" + whichTransactionId + "/" + TransactionProvider.URI_SEGMENT_MOVE + "/" + whereAccountId),
         null, null, null);
   }
 
@@ -626,6 +632,14 @@ public class Transaction extends Model {
 
   public static int countPerAccount(long accountId) {
     return countPerAccount(CONTENT_URI, accountId);
+  }
+
+  public static int countPerUuid(String uuid) {
+    return countPerUuid(CONTENT_URI, uuid);
+  }
+
+  private static int countPerUuid(Uri contentUri, String uuid) {
+    return count(contentUri, KEY_UUID + " = ?", new String[]{uuid});
   }
 
   public static int countAll() {
@@ -777,6 +791,23 @@ public class Transaction extends Model {
       super(e);
       this.pictureUri = pictureUri;
       this.homeUri = homeUri;
+    }
+  }
+
+  public static long findByUuid(String uuid) {
+    String selection = KEY_UUID + " = ?";
+    String[] selectionArgs = new String[]{uuid};
+
+    Cursor mCursor = cr().query(CONTENT_URI,
+        new String[]{KEY_ROWID}, selection, selectionArgs, null);
+    if (mCursor.getCount() == 0) {
+      mCursor.close();
+      return -1;
+    } else {
+      mCursor.moveToFirst();
+      long result = mCursor.getLong(0);
+      mCursor.close();
+      return result;
     }
   }
 }

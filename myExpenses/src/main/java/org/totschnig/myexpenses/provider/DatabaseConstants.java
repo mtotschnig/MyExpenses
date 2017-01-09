@@ -158,11 +158,20 @@ public class DatabaseConstants {
   public static final String KEY_PREDEFINED_METHOD_NAME = "predefined";
   public static final String KEY_UUID = "uuid";
   public static final String KEY_PICTURE_URI = "picture_id";//historical reasons
+  public static final String KEY_SYNC_ACCOUNT_NAME = "sync_account_name";
   public static final String KEY_TRANSFER_AMOUNT = "transfer_amount";
   public static final String KEY_LABEL_NORMALIZED = "label_normalized";
   public static final String KEY_LAST_USED = "last_used";
   public static final String KEY_HAS_TRANSFERS = "has_transfers";
   public static final String KEY_PLAN_INFO = "plan_info";
+  public static final String KEY_PARENT_UUID = "parent_uuid";
+  public static final String KEY_SYNC_SEQUENCE_LOCAL = "sync_sequence_local";
+  /**
+   * This flag is set to true during changes written by sync adapter, and used to suspend triggers that
+   * write change log
+   */
+  public static final String KEY_SYNC_FROM_ADAPTER = "sync_from_adapter";
+  public static final String KEY_TIMESTAMP = "timestamp";
 
   /**
    * column alias for the second group (month or week)
@@ -202,9 +211,11 @@ public class DatabaseConstants {
   public static final String VIEW_ALL = "transactions_all";
   public static final String VIEW_TEMPLATES = "templates_all";
   public static final String VIEW_EXTENDED = "transactions_extended";
+  public static final String VIEW_CHANGES_EXTENDED = "changes_extended";
   public static final String VIEW_TEMPLATES_EXTENDED = "templates_extended";
   public static final String TABLE_PLAN_INSTANCE_STATUS = "planinstance_transaction";
   public static final String TABLE_STALE_URIS = "stale_uris";
+  public static final String TABLE_CHANGES = "changes";
   /**
    * used on backup and restore
    */
@@ -217,22 +228,23 @@ public class DatabaseConstants {
    */
   public static final String LABEL_MAIN =
     "CASE WHEN " +
-        KEY_TRANSFER_PEER +
+        KEY_TRANSFER_ACCOUNT +
     " THEN " +
-    "  (SELECT label FROM " + TABLE_ACCOUNTS + " WHERE _id = " + KEY_TRANSFER_ACCOUNT + ") " +
+    "  (SELECT " + KEY_LABEL + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = " + KEY_TRANSFER_ACCOUNT + ") " +
     "WHEN " +
-    "  cat_id " +
-    "THEN " +
+    KEY_CATID +
+    " THEN " +
     "  CASE WHEN " +
-    "    (SELECT parent_id FROM " + TABLE_CATEGORIES + " WHERE _id = cat_id) " +
+    "    (SELECT " + KEY_PARENTID + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID  + " = " + KEY_CATID + ") " +
     "  THEN " +
-    "    (SELECT label FROM " + TABLE_CATEGORIES
-        + " WHERE _id = (SELECT parent_id FROM " + TABLE_CATEGORIES
-            + " WHERE _id = cat_id)) " +
+    "    (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES
+        + " WHERE  " + KEY_ROWID + " = (SELECT " + KEY_PARENTID + " FROM " + TABLE_CATEGORIES
+             + " WHERE " + KEY_ROWID  + " = " + KEY_CATID + ")) " +
     "  ELSE " +
-    "    (SELECT label FROM " + TABLE_CATEGORIES + " WHERE _id = cat_id) " +
+    "    (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID  + " = " + KEY_CATID + ") " +
     "  END " +
     "END AS " + KEY_LABEL_MAIN;
+
  public static final String LABEL_SUB =
     "CASE WHEN " +
     "  " + KEY_TRANSFER_PEER + " is null AND cat_id AND (SELECT " + KEY_PARENTID + " FROM " + TABLE_CATEGORIES
@@ -252,27 +264,34 @@ public class DatabaseConstants {
           "  (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES  + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
           "END AS " + KEY_LABEL_SUB;
 
+  private static final String FULL_CAT_CASE =
+      " CASE WHEN " +
+      " (SELECT " + KEY_PARENTID + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
+      " THEN " +
+      " (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " +
+      " (SELECT " + KEY_PARENTID + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ")) " +
+      " || '" + TransactionList.CATEGORY_SEPARATOR +
+      "' ELSE '' END || " +
+      " (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ")";
+
+  //public static final String CAT_AS_LABEL = FULL_CAT_CASE + " AS " + KEY_LABEL;
+
+  public static final String TRANSFER_ACCOUNT_UUUID = "(SELECT " + KEY_UUID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = " + KEY_TRANSFER_ACCOUNT + ") AS " + KEY_TRANSFER_ACCOUNT;
+
   /**
    * if transaction is linked to a subcategory
    * main and category label are concatenated
    */
   public static final String FULL_LABEL =
       "CASE WHEN " +
-          "  " + KEY_TRANSFER_PEER + " " +
+          "  " + KEY_TRANSFER_ACCOUNT + " " +
       " THEN " +
         "  (SELECT " + KEY_LABEL + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = " + KEY_TRANSFER_ACCOUNT + ") " +
       " ELSE " +
-        " CASE WHEN " +
-            " (SELECT " + KEY_PARENTID + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
-        " THEN " +
-          " (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " +
-            " (SELECT " + KEY_PARENTID + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ")) " +
-          "  || '" + TransactionList.CATEGORY_SEPARATOR + "' || " +
-          " (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
-        " ELSE" +
-          " (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
-        " END " +
+        FULL_CAT_CASE +
       " END AS  " + KEY_LABEL;
+
+
   public static final String TRANSFER_PEER_PARENT =
       "(SELECT " + KEY_PARENTID
           + " FROM " + TABLE_TRANSACTIONS + " peer WHERE peer." + KEY_ROWID
@@ -335,9 +354,12 @@ public class DatabaseConstants {
       "count(CASE WHEN  " + KEY_TRANSFER_ACCOUNT + ">0 AND " + WHERE_NOT_VOID + "  THEN 1 ELSE null END) as " + KEY_HAS_TRANSFERS;
 
   public static final String WHERE_DEPENDENT =
-      KEY_ROWID + " = ? OR " + KEY_TRANSFER_PEER + " = ? OR "
+      KEY_TRANSFER_PEER + " = ? OR "
           + KEY_PARENTID + " = ? OR " + KEY_ROWID + " IN "
           + "(SELECT " + KEY_TRANSFER_PEER + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_PARENTID + "= ?)";
+
+  public static final String WHERE_SELF_OR_DEPENDENT =
+      KEY_ROWID + " = ? OR "  + WHERE_DEPENDENT;
 
   public static String getYearOfWeekStart() {
     ensureLocalized();

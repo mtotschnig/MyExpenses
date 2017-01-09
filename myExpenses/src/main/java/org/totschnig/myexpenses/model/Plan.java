@@ -48,8 +48,7 @@ public class Plan extends Model implements Serializable {
           return String.format(Locale.US, "FREQ=WEEKLY;INTERVAL=1;WKST=%s;BYDAY=%s", wkst,
               calendarDay2String(calendar.get(Calendar.DAY_OF_WEEK)));
         case MONTHLY:
-          return String.format(Locale.US, "FREQ=MONTHLY;INTERVAL=1;WKST=%s;BYMONTHDAY=%d", wkst,
-              calendar.get(Calendar.DAY_OF_MONTH));
+          return String.format(Locale.US, "FREQ=MONTHLY;INTERVAL=1;WKST=%s", wkst);
         case YEARLY:
           return String.format(Locale.US, "FREQ=YEARLY;INTERVAL=1;WKST=%s", wkst);
         default:

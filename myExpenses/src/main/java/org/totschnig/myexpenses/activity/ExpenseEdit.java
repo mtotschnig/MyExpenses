@@ -569,8 +569,7 @@ public class ExpenseEdit extends AmountActivity implements
         new String[]{KEY_LABEL}, new int[]{android.R.id.text1}, 0);
     mAccountsAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
     mAccountSpinner.setAdapter(mAccountsAdapter);
-    if (mTransaction instanceof SplitPartCategory ||
-        mTransaction instanceof SplitPartTransfer) {
+    if (isSplitPart()) {
       disableAccountSpinner();
     }
     mIsMainTransactionOrTemplate = mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory);
@@ -708,9 +707,7 @@ public class ExpenseEdit extends AmountActivity implements
       setTitle(R.string.menu_clone_transaction);
     }
 
-    if (mTransaction instanceof Template ||
-        mTransaction instanceof SplitPartCategory ||
-        mTransaction instanceof SplitPartTransfer) {
+    if (isNoMainTransaction()) {
       findViewById(R.id.DateTimeRow).setVisibility(View.GONE);
     } else {
       //noinspection SetTextI18n
@@ -734,7 +731,7 @@ public class ExpenseEdit extends AmountActivity implements
       populateFields();
     }
 
-    if (!(mTransaction instanceof SplitPartCategory || mTransaction instanceof SplitPartTransfer)) {
+    if (!(isSplitPart())) {
       setDateTime();
     }
     //after setdatetime, so that the plan info can override the date
@@ -825,9 +822,9 @@ public class ExpenseEdit extends AmountActivity implements
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     super.onCreateOptionsMenu(menu);
-    if (!(mTransaction instanceof SplitPartCategory || mTransaction instanceof SplitPartTransfer ||
-        mTransaction instanceof Template ||
-        (mTransaction instanceof SplitTransaction && !MyApplication.getInstance().getLicenceHandler().isContribEnabled()))) {
+    if (!(isNoMainTransaction() ||
+        (mTransaction instanceof SplitTransaction &&
+            !MyApplication.getInstance().getLicenceHandler().isContribEnabled()))) {
       MenuItemCompat.setShowAsAction(
           menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)
               .setIcon(R.drawable.ic_action_save_new),
@@ -1036,7 +1033,7 @@ public class ExpenseEdit extends AmountActivity implements
       case 1:
         mType = INCOME;
     }
-    if (!mNewInstance) {
+    if (signum != 0 ) {
       mAmountText.setAmount(amount);
     }
     mAmountText.requestFocus();
@@ -1120,7 +1117,7 @@ public class ExpenseEdit extends AmountActivity implements
 
     mTransaction.comment = mCommentText.getText().toString();
 
-    if (!(mTransaction instanceof SplitPartCategory || mTransaction instanceof SplitPartTransfer)) {
+    if (!isSplitPart()) {
       mTransaction.setDate(mCalendar.getTime());
     }
 
@@ -1195,7 +1192,7 @@ public class ExpenseEdit extends AmountActivity implements
       }
     } else {
       mTransaction.referenceNumber = mReferenceNumberText.getText().toString();
-      if (forSave && !(mTransaction instanceof SplitPartCategory || mTransaction instanceof SplitPartTransfer)) {
+      if (forSave && !(isSplitPart())) {
         if (mReccurenceSpinner.getSelectedItemPosition() > 0) {
           title = TextUtils.isEmpty(mTransaction.payee) ?
               (TextUtils.isEmpty(mLabel) ?
@@ -1217,6 +1214,14 @@ public class ExpenseEdit extends AmountActivity implements
 
     mTransaction.setPictureUri(mPictureUri);
     return validP;
+  }
+
+  private boolean isSplitPart() {
+    return mTransaction instanceof SplitPartCategory || mTransaction instanceof SplitPartTransfer;
+  }
+
+  private boolean isNoMainTransaction() {
+    return isSplitPart() || mTransaction instanceof Template;
   }
 
   /* (non-Javadoc)
@@ -1347,11 +1352,8 @@ public class ExpenseEdit extends AmountActivity implements
 
   private void configureStatusSpinner() {
     Account a = getCurrentAccount();
-    mStatusSpinner.getSpinner().setVisibility((mTransaction instanceof Template ||
-        mTransaction instanceof SplitPartCategory ||
-        mTransaction instanceof SplitPartTransfer ||
-        a == null ||
-        a.type.equals(AccountType.CASH)) ? View.GONE : View.VISIBLE);
+    mStatusSpinner.getSpinner().setVisibility((isNoMainTransaction() ||
+        a == null || a.type.equals(AccountType.CASH)) ? View.GONE : View.VISIBLE);
   }
 
   /**

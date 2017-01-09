@@ -17,7 +17,6 @@ package org.totschnig.myexpenses.model;
 
 import java.util.Currency;
 import java.util.Date;
-import java.util.UUID;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
@@ -40,7 +39,6 @@ public class Template extends Transaction {
   private boolean isTransfer;
   public Long planId;
   private boolean planExecutionAutomatic = false;
-  private String uuid;
 
   public Plan getPlan() {
     return plan;
@@ -108,13 +106,8 @@ public class Template extends Transaction {
     //we use KEY_TRANSFER_PEER as boolean
     this.isTransfer = t.transfer_peer != null;
     this.transfer_account = t.transfer_account;
-    generateUuid();
   }
 
-  private void generateUuid() {
-    uuid = UUID.randomUUID().toString();
-
-  }
   /**
    * @param c Cursor positioned at the row we want to extract into the object
    */
@@ -152,7 +145,7 @@ public class Template extends Transaction {
     setPlanExecutionAutomatic(c.getInt(c.getColumnIndexOrThrow(KEY_PLAN_EXECUTION)) > 0);
     int uuidColumnIndex = c.getColumnIndexOrThrow(KEY_UUID);
     if (c.isNull(uuidColumnIndex)) {//while upgrade to DB schema 47, uuid is still null
-      generateUuid();
+      uuid = generateUuid();
     } else {
       uuid = DbUtils.getString(c, KEY_UUID);
     }
@@ -161,7 +154,6 @@ public class Template extends Transaction {
   public Template(Account account, long amount) {
     super(account, amount);
     setTitle("");
-    generateUuid();
   }
 
   public static Template getTypedNewInstance(int mOperationType, long accountId) {
@@ -252,7 +244,7 @@ public class Template extends Transaction {
     initialValues.put(KEY_ACCOUNTID, accountId);
     if (getId() == 0) {
       initialValues.put(KEY_TRANSFER_PEER, isTransfer());
-      initialValues.put(KEY_UUID, uuid);
+      initialValues.put(KEY_UUID, generateUuid());
       try {
         uri = cr().insert(CONTENT_URI, initialValues);
       } catch (SQLiteConstraintException e) {

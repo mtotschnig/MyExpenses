@@ -32,8 +32,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
 
-public abstract class EditActivity extends ProtectedFragmentActivity implements
-    DbWriteFragment.TaskCallbacks, ConfirmationDialogFragment.ConfirmationDialogListener, TextWatcher {
+public abstract class EditActivity extends ProtectedFragmentActivity implements TextWatcher {
 
   private static final String KEY_IS_DIRTY = "isDirty";
   protected boolean mIsSaving = false;
@@ -122,20 +121,6 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements
       return true;
     }
     return super.dispatchCommand(command, tag);
-  }
-
-  @Override
-  public void onPositive(Bundle args) {
-    dispatchCommand(args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE),null);
-  }
-
-  @Override
-  public void onNegative(Bundle args) {
-  }
-
-  @Override
-  public void onDismissOrCancel(Bundle args) {
-
   }
 
   protected void saveState() {

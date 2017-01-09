@@ -63,9 +63,6 @@ import android.widget.Toast;
 import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.model.AccountGrouping;
-import org.totschnig.myexpenses.model.CurrencyEnum;
-import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.BalanceDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
@@ -82,13 +79,16 @@ import org.totschnig.myexpenses.dialog.WelcomeDialogFragment;
 import org.totschnig.myexpenses.fragment.ContextualActionBarFragment;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.Grouping;
+import org.totschnig.myexpenses.model.AccountGrouping;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.CurrencyEnum;
+import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.CommentCriteria;
@@ -131,6 +131,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSF
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_PRINT;
 
 /**
  * This is the main activity where all expenses are listed
@@ -211,7 +212,7 @@ public class MyExpenses extends LaunchActivity implements
     int prev_version = PrefKey.CURRENT_VERSION.getInt(-1);
     if (prev_version == -1) {
       //prevent preference change listener from firing when preference file is created
-      if (MyApplication.getInstance().isInstrumentationTest()) {
+      if (MyApplication.isInstrumentationTest()) {
         PreferenceManager.setDefaultValues(this, MyApplication.getTestId(), Context.MODE_PRIVATE,
             R.xml.preferences, true);
       } else {
@@ -782,7 +783,7 @@ public class MyExpenses extends LaunchActivity implements
           args.putSparseParcelableArray(TransactionList.KEY_FILTER, tl.getFilterCriteria());
           args.putLong(KEY_ROWID, mAccountId);
           getSupportFragmentManager().beginTransaction()
-              .add(TaskExecutionFragment.newInstancePrint(args),
+              .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_PRINT),
                   ProtectionDelegate.ASYNC_TAG)
               .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_printing), ProtectionDelegate.PROGRESS_TAG)
               .commit();
@@ -1304,7 +1305,7 @@ public class MyExpenses extends LaunchActivity implements
         args.putSparseParcelableArray(TransactionList.KEY_FILTER,
             getCurrentFragment().getFilterCriteria());
         getSupportFragmentManager().beginTransaction()
-            .add(TaskExecutionFragment.newInstanceExport(args),
+            .add(TaskExecutionFragment.newInstanceWithBundle(args, TaskExecutionFragment.TASK_EXPORT),
                 ProtectionDelegate.ASYNC_TAG)
             .add(ProgressDialogFragment.newInstance(
                 R.string.pref_category_title_export, 0, ProgressDialog.STYLE_SPINNER, true), ProtectionDelegate.PROGRESS_TAG)

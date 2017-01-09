@@ -48,6 +48,7 @@ import android.widget.Toast;
 
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -59,6 +60,7 @@ import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 
@@ -69,6 +71,7 @@ import java.io.Serializable;
  */
 public abstract class ProtectedFragmentActivity extends AppCompatActivity
     implements MessageDialogListener, OnSharedPreferenceChangeListener,
+    ConfirmationDialogFragment.ConfirmationDialogListener,
     TaskExecutionFragment.TaskCallbacks, DbWriteFragment.TaskCallbacks {
   public static final int CALCULATOR_REQUEST = 0;
   public static final int EDIT_TRANSACTION_REQUEST = 1;
@@ -279,8 +282,8 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
       case TaskExecutionFragment.TASK_DELETE_PAYEES:
       case TaskExecutionFragment.TASK_DELETE_TEMPLATES:
       case TaskExecutionFragment.TASK_UNDELETE_TRANSACTION:
-        Boolean success = (Boolean) o;
-        if (!success) {
+        Result result = (Result) o;
+        if (!result.success) {
           Toast.makeText(this,
               "There was an error deleting the object. Please contact support@myexenses.mobi !",
               Toast.LENGTH_LONG).show();
@@ -447,5 +450,20 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
           new String[]{Manifest.permission.WRITE_CALENDAR},
           ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR);
     }
+  }
+
+
+  @Override
+  public void onPositive(Bundle args) {
+    dispatchCommand(args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE), null);
+  }
+
+  @Override
+  public void onNegative(Bundle args) {
+  }
+
+  @Override
+  public void onDismissOrCancel(Bundle args) {
+
   }
 }

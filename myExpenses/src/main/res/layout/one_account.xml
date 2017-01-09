@@ -39,9 +39,9 @@
             <TableRow>
 
                 <TextView
-                    android:labelFor="@+id/Label"
                     android:id="@+id/LabelLabel"
                     style="@style/form_label.compat"
+                    android:labelFor="@+id/Label"
                     android:text="@string/label"/>
 
                 <EditText
@@ -55,9 +55,9 @@
             <TableRow>
 
                 <TextView
-                    android:labelFor="@+id/Description"
                     android:id="@+id/DescriptionLabel"
                     style="@style/form_label.compat"
+                    android:labelFor="@+id/Description"
                     android:text="@string/description"/>
 
                 <EditText
@@ -72,55 +72,89 @@
                 android:id="@+id/AmountRow">
 
                 <TextView
-                    android:labelFor="@+id/Amount"
                     android:id="@+id/AmountLabel"
                     style="@style/form_label.compat"
-                    android:textColor="?attr/colorAccent"
-                    android:text="@string/opening_balance"/>
+                    android:labelFor="@+id/Amount"
+                    android:text="@string/opening_balance"
+                    android:textColor="?attr/colorAccent"/>
 
-                    <include layout="@layout/amount_input"/>
+                <include layout="@layout/amount_input"/>
             </TableRow>
 
             <TableRow>
 
                 <TextView
-                    android:labelFor="@+id/Currency"
                     android:id="@+id/CurrencyLabel"
                     style="@style/form_label.compat"
+                    android:labelFor="@+id/Currency"
                     android:text="@string/currency"/>
 
                 <Spinner
                     android:id="@+id/Currency"
-                    android:prompt="@string/currency"
-                    android:layout_gravity="center_vertical"/>
+                    android:layout_gravity="center_vertical"
+                    android:prompt="@string/currency"/>
             </TableRow>
 
             <TableRow>
 
                 <TextView
-                    android:labelFor="@+id/AccountType"
                     android:id="@+id/AccountTypeLabel"
                     style="@style/form_label.compat"
+                    android:labelFor="@+id/AccountType"
                     android:text="@string/type"/>
 
                 <Spinner
                     android:id="@+id/AccountType"
-                    android:prompt="@string/type"
-                    android:layout_gravity="center_vertical"/>
+                    android:layout_gravity="center_vertical"
+                    android:prompt="@string/type"/>
             </TableRow>
 
             <TableRow>
 
                 <TextView
-                    android:labelFor="@+id/Color"
                     android:id="@+id/ColorLabel"
                     style="@style/form_label.compat"
+                    android:labelFor="@+id/Color"
                     android:text="@string/color"/>
 
                 <Spinner
                     android:id="@+id/Color"
-                    android:prompt="@string/color"
-                    android:layout_gravity="center_vertical"/>
+                    android:layout_gravity="center_vertical"
+                    android:prompt="@string/color"/>
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/SyncLabel"
+                    style="@style/form_label.compat"
+                    android:labelFor="@+id/Sync"
+                    android:text="@string/synchronization"/>
+
+                <LinearLayout
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <Spinner
+                        android:id="@+id/Sync"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:prompt="@string/synchronization"/>
+
+                    <ImageView
+                        android:id="@+id/SyncUnlink"
+                        style="?actionButtonStyle"
+                        android:visibility="gone"
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:contentDescription="@string/menu_sync_unlink"
+                        android:focusable="true"
+                        android:onClick="syncUnlink"
+                        app:srcCompat="@drawable/ic_action_sync_unlink" />
+                </LinearLayout>
             </TableRow>
 
         </TableLayout>

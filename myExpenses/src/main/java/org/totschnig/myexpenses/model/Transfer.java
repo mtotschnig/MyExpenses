@@ -15,11 +15,13 @@
 
 package org.totschnig.myexpenses.model;
 
-import org.totschnig.myexpenses.provider.TransactionProvider;
-
+import android.content.ContentProviderOperation;
+import android.content.ContentProviderResult;
 import android.content.ContentUris;
 import android.content.ContentValues;
-import android.net.Uri;
+
+import java.util.ArrayList;
+
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 /**
@@ -76,11 +78,10 @@ public class Transfer extends Transaction {
     }
     return new Transfer(account,0L,transferAccount);
   }
-  /* (non-Javadoc)
-   * @see org.totschnig.myexpenses.Transaction#save()
-   */
-  public Uri save() {
-    Uri uri;
+
+  @Override
+  public ArrayList<ContentProviderOperation> buildSaveOperations(int offset, int parentOffset) {
+    ArrayList<ContentProviderOperation> ops = new ArrayList<>();
     long amount = this.amount.getAmountMinor();
     long transferAmount = this.transferAmount.getAmountMinor();
     //the id of the peer_account is stored in KEY_TRANSFER_ACCOUNT,
@@ -94,46 +95,55 @@ public class Transfer extends Transaction {
     initialValues.put(KEY_ACCOUNTID, accountId);
     savePicture(initialValues);
     if (getId() == 0) {
+      //both parts of the transfer share uuid
+      initialValues.put(KEY_UUID, generateUuid());
       initialValues.put(KEY_PARENTID, parentId);
       initialValues.put(KEY_STATUS, status);
-      uri = cr().insert(CONTENT_URI, initialValues);
-      setId(ContentUris.parseId(uri));
+      ContentProviderOperation.Builder builder = ContentProviderOperation.newInsert(CONTENT_URI).withValues(initialValues);
+      if (parentOffset != -1) {
+        builder.withValueBackReference(KEY_PARENTID, parentOffset);
+      }
+      ops.add(builder.build());
       //if the transfer is part of a split, the transfer peer needs to have a null parent
-      initialValues.remove(KEY_PARENTID);
-      initialValues.put(KEY_AMOUNT, transferAmount);
-      initialValues.put(KEY_TRANSFER_ACCOUNT, accountId);
-      initialValues.put(KEY_ACCOUNTID, transfer_account);
-      initialValues.put(KEY_TRANSFER_PEER,getId());
-      Uri transferUri = cr().insert(CONTENT_URI, initialValues);
-      transfer_peer = ContentUris.parseId(transferUri);
+      ContentValues transferValues = new ContentValues(initialValues);
+      transferValues.remove(KEY_PARENTID);
+      transferValues.put(KEY_AMOUNT, transferAmount);
+      transferValues.put(KEY_TRANSFER_ACCOUNT, accountId);
+      transferValues.put(KEY_ACCOUNTID, transfer_account);
+      ops.add(ContentProviderOperation.newInsert(CONTENT_URI)
+          .withValues(transferValues).withValueBackReference(KEY_TRANSFER_PEER, offset)
+          .build());
       //we have to set the transfer_peer for the first transaction
       ContentValues args = new ContentValues();
       args.put(KEY_TRANSFER_PEER,transfer_peer);
-      cr().update(Uri.parse(CONTENT_URI+ "/" + getId()), args, null, null);
-      cr().update(
-          TransactionProvider.ACCOUNTS_URI.buildUpon()
-            .appendPath(String.valueOf(accountId))
-            .appendPath(TransactionProvider.URI_SEGMENT_INCREASE_USAGE)
-            .build(),
-          null, null, null);
-      cr().update(
-          TransactionProvider.ACCOUNTS_URI.buildUpon()
-            .appendPath(String.valueOf(transfer_account))
-            .appendPath(TransactionProvider.URI_SEGMENT_INCREASE_USAGE)
-            .build(),
-          null, null, null);
+      ops.add(ContentProviderOperation.newUpdate(CONTENT_URI)
+          .withValueBackReference(KEY_TRANSFER_PEER, offset + 1)
+          .withSelection(KEY_ROWID + " = ?", new String[]{""})//replaced by back reference
+          .withSelectionBackReference(0, offset)
+          .build());
+      addOriginPlanInstance(ops);
     } else {
-      uri = Uri.parse(CONTENT_URI + "/" + getId());
-      cr().update(uri,initialValues,null,null);
-      initialValues.put(KEY_AMOUNT, transferAmount);
+      ops.add(ContentProviderOperation
+          .newUpdate(CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build())
+          .withValues(initialValues).build());
+      ContentValues transferValues = new ContentValues(initialValues);
+      transferValues.put(KEY_AMOUNT, transferAmount);
       //if the user has changed the account to which we should transfer,
       //in the peer transaction we need to update the account_id
-      initialValues.put(KEY_ACCOUNTID, transfer_account);
+      transferValues.put(KEY_ACCOUNTID, transfer_account);
       //the account from which is transfered could also have been altered
-      initialValues.put(KEY_TRANSFER_ACCOUNT,accountId);
-      cr().update(Uri.parse(CONTENT_URI + "/" + transfer_peer),initialValues,null,null);
+      transferValues.put(KEY_TRANSFER_ACCOUNT,accountId);
+      ops.add(ContentProviderOperation
+          .newUpdate(CONTENT_URI.buildUpon().appendPath(String.valueOf(transfer_peer)).build())
+          .withValues(transferValues).build());
     }
-    return uri;
+    return ops;
+  }
+
+  @Override
+  protected void updateFromResult(ContentProviderResult[] result) {
+    super.updateFromResult(result);
+    transfer_peer = ContentUris.parseId(result[1].uri);
   }
 
   public boolean isSameCurrency() {

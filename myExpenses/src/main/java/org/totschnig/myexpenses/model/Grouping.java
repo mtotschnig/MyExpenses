@@ -5,6 +5,7 @@ import android.database.Cursor;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.text.DateFormat;
@@ -109,6 +110,6 @@ public enum Grouping {
   public static final String JOIN;
 
   static {
-    JOIN = Utils.joinEnum(Grouping.class);
+    JOIN = TextUtils.joinEnum(Grouping.class);
   }
 }

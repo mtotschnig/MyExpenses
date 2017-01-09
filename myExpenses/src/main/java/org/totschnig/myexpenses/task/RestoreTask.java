@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.FileCopyUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.ZipUtils;
@@ -41,9 +42,9 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
   public static final String KEY_DIR_NAME_LEGACY = "dirNameLegacy";
   private final TaskExecutionFragment taskExecutionFragment;
   private int restorePlanStrategy;
-  Uri fileUri;
-  String dirNameLegacy;
-  public RestoreTask(TaskExecutionFragment taskExecutionFragment,Bundle b) {
+  private Uri fileUri;
+  private String dirNameLegacy;
+  RestoreTask(TaskExecutionFragment taskExecutionFragment, Bundle b) {
     this.taskExecutionFragment = taskExecutionFragment;
     this.fileUri = b.getParcelable(TaskExecutionFragment.KEY_FILE_PATH);
     if (fileUri == null) {
@@ -76,6 +77,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
           TaskExecutionFragment.TASK_RESTORE, result);
     }
   }
+
   @Override
   protected Result doInBackground(Void... ignored) {
     File workingDir;
@@ -105,21 +107,21 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
         AcraHelper.report(e);
         return new Result(
             false,
-            R.string.restore_backup_archive_not_valid,
-            fileUri);
+            R.string.parse_error_other_exception,
+            e.getMessage());
       }
     } else {
       workingDir = new File(Utils.getAppDir().getUri().getPath(),dirNameLegacy);
     }
     File backupFile = MyApplication.getBackupDbFile(workingDir);
     File backupPrefFile = MyApplication.getBackupPrefFile(workingDir);
-    if (backupFile == null || !backupFile.exists()) {
+    if (!backupFile.exists()) {
       return new Result(
           false,
           R.string.restore_backup_file_not_found,
           MyApplication.BACKUP_DB_FILE_NAME,workingDir);
     }
-    if (backupPrefFile == null || !backupPrefFile.exists()) {
+    if (!backupPrefFile.exists()) {
       return new Result(
           false,
           R.string.restore_backup_file_not_found,
@@ -157,7 +159,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       return new Result(false,R.string.restore_preferences_failure);
     }
     File tempPrefFile = new File(sharedPrefsDir,"backup_temp.xml");
-    if (!Utils.copy(backupPrefFile,tempPrefFile)) {
+    if (!FileCopyUtils.copy(backupPrefFile,tempPrefFile)) {
       AcraHelper.report(
           new Exception("Preferences restore failed"),
           "FAILED_COPY_OPERATION",
@@ -300,7 +302,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
           Uri restored = null;
           if (backupImage.exists()) {
             File restoredImage = Utils.getOutputMediaFile(fileName.substring(0,fileName.lastIndexOf('.')),false);
-            if (restoredImage == null || !Utils.copy(backupImage,restoredImage)) {
+            if (restoredImage == null || !FileCopyUtils.copy(backupImage,restoredImage)) {
               Log.e(MyApplication.TAG,String.format("Could not restore file %s from backup",fromBackup.toString()));
             } else {
               restored = application.isProtected() ?

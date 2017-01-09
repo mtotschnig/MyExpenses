@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.model;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 import org.totschnig.myexpenses.MyApplication;
 
@@ -24,6 +25,7 @@ import android.net.Uri;
 import android.support.annotation.VisibleForTesting;
 
 public abstract class Model implements Serializable {
+  public String uuid;
   private Long id = 0L;
   private static ContentResolver cr;
 
@@ -43,5 +45,11 @@ public abstract class Model implements Serializable {
   public static void setContentResolver(ContentResolver crIn) {
     cr = crIn;
   }
+
+  public static String generateUuid() {
+    return UUID.randomUUID().toString();
+
+  }
+
   public abstract Uri save();
 }

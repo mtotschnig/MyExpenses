@@ -1,23 +1,5 @@
 package org.totschnig.myexpenses.dialog;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
-
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.QifCSVImport;
-import org.totschnig.myexpenses.export.qif.QifDateFormat;
-import org.totschnig.myexpenses.model.CurrencyEnum;
-import org.totschnig.myexpenses.model.ExportFormat;
-import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
-import org.totschnig.myexpenses.provider.TransactionProvider;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.KEY_FORMAT;
-import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
-import org.totschnig.myexpenses.util.Utils;
-
-import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -28,11 +10,29 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.QifCSVImport;
+import org.totschnig.myexpenses.export.qif.QifDateFormat;
+import org.totschnig.myexpenses.model.CurrencyEnum;
+import org.totschnig.myexpenses.model.ExportFormat;
+import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
+import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
+import org.totschnig.myexpenses.util.Utils;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.KEY_FORMAT;
 
 public class QifCsvImportDialogFragment extends TextSourceDialogFragment implements
     LoaderManager.LoaderCallbacks<Cursor>, OnItemSelectedListener {
@@ -161,7 +161,7 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
     Context wrappedCtx = view.getContext();
     mAccountsAdapter = new SimpleCursorAdapter(wrappedCtx , android.R.layout.simple_spinner_item, null,
         new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0);
-    mAccountsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    mAccountsAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
     mAccountSpinner.setAdapter(mAccountsAdapter);
     mAccountSpinner.setOnItemSelectedListener(this);
     getLoaderManager().initLoader(0, null, this);

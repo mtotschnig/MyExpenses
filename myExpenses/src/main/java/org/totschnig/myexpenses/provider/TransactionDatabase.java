@@ -15,28 +15,6 @@
 
 package org.totschnig.myexpenses.provider;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Currency;
-import java.util.Locale;
-
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.AccountType;
-import org.totschnig.myexpenses.model.CurrencyEnum;
-import org.totschnig.myexpenses.model.Grouping;
-import org.totschnig.myexpenses.model.Money;
-import org.totschnig.myexpenses.model.PaymentMethod;
-import org.totschnig.myexpenses.model.Plan;
-import org.totschnig.myexpenses.model.Template;
-import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.util.AcraHelper;
-import org.totschnig.myexpenses.util.Utils;
-
-import com.android.calendar.CalendarContractCompat.Events;
-
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.ContentValues;
@@ -55,10 +33,98 @@ import android.os.Environment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
+import com.android.calendar.CalendarContractCompat.Events;
+
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.CurrencyEnum;
+import org.totschnig.myexpenses.model.Grouping;
+import org.totschnig.myexpenses.model.Model;
+import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.model.PaymentMethod;
+import org.totschnig.myexpenses.model.Plan;
+import org.totschnig.myexpenses.model.Template;
+import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.sync.json.TransactionChange;
+import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.Utils;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Currency;
+import java.util.Locale;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_NORMALIZED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENT_UUID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_URI;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLAN_EXECUTION;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_FROM_ADAPTER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TIMESTAMP;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTTYES_METHODS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CHANGES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_EVENT_CACHE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_METHODS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INSTANCE_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_STALE_URIS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_ALL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_CHANGES_EXTENDED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_EXTENDED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 58;
+  public static final int DATABASE_VERSION = 59;
   public static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -90,7 +156,11 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_STATUS + " integer default 0, "
           + KEY_CR_STATUS + " text not null check (" + KEY_CR_STATUS + " in (" + Transaction.CrStatus.JOIN + ")) default '" + Transaction.CrStatus.RECONCILED.name() + "',"
           + KEY_REFERENCE_NUMBER + " text, "
-          + KEY_PICTURE_URI + " text);";
+          + KEY_PICTURE_URI + " text, "
+          + KEY_UUID + " text);";
+
+  private static final String TRANSACTIONS_UUID_INDEX_CREATE = "CREATE UNIQUE INDEX transactions_account_uuid ON "
+      + TABLE_TRANSACTIONS + "(" + KEY_ACCOUNTID + "," + KEY_UUID + ")";
 
   private static String buildViewDefinition(String tableName) {
     StringBuilder stringBuilder = new StringBuilder();
@@ -119,9 +189,13 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     StringBuilder stringBuilder = new StringBuilder();
 
     stringBuilder.append(" AS SELECT ").append(tableName).append(".*, ").append(TABLE_PAYEES)
-        .append(".").append(KEY_PAYEE_NAME).append(", ").append(KEY_COLOR).append(", ")
-        .append(KEY_CURRENCY).append(", ").append(KEY_EXCLUDE_FROM_TOTALS).append(", ")
+        .append(".").append(KEY_PAYEE_NAME).append(", ")
         .append(TABLE_METHODS).append(".").append(KEY_LABEL).append(" AS ").append(KEY_METHOD_LABEL);
+
+    if (!tableName.equals(TABLE_CHANGES)) {
+      stringBuilder.append(", ").append(KEY_COLOR).append(", ")
+          .append(KEY_CURRENCY).append(", ").append(KEY_EXCLUDE_FROM_TOTALS);
+    }
 
     if (tableName.equals(TABLE_TRANSACTIONS)) {
       stringBuilder.append(", ").append(TABLE_PLAN_INSTANCE_STATUS).append(".").append(KEY_TEMPLATEID);
@@ -129,10 +203,14 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
     stringBuilder.append(" FROM ").append(tableName).append(" LEFT JOIN ").append(TABLE_PAYEES).append(" ON ")
         .append(KEY_PAYEEID).append(" = ").append(TABLE_PAYEES).append(".").append(KEY_ROWID)
-        .append(" LEFT JOIN ").append(TABLE_ACCOUNTS).append(" ON ").append(KEY_ACCOUNTID)
-        .append(" = ").append(TABLE_ACCOUNTS).append(".").append(KEY_ROWID).append(" LEFT JOIN ")
+        .append(" LEFT JOIN ")
         .append(TABLE_METHODS).append(" ON ").append(KEY_METHODID).append(" = ").append(TABLE_METHODS)
         .append(".").append(KEY_ROWID);
+
+    if (!tableName.equals(TABLE_CHANGES)) {
+      stringBuilder.append(" LEFT JOIN ").append(TABLE_ACCOUNTS).append(" ON ").append(KEY_ACCOUNTID)
+          .append(" = ").append(TABLE_ACCOUNTS).append(".").append(KEY_ROWID);
+    }
 
     if (tableName.equals(TABLE_TRANSACTIONS)) {
       stringBuilder.append(" LEFT JOIN ").append(TABLE_PLAN_INSTANCE_STATUS)
@@ -158,8 +236,15 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_GROUPING + " text not null check (" + KEY_GROUPING + " in (" + Grouping.JOIN + ")) default '" + Grouping.NONE.name() + "', "
           + KEY_USAGES + " integer default 0,"
           + KEY_LAST_USED + " datetime, "
-          + KEY_SORT_KEY + " integer,"
-          + KEY_EXCLUDE_FROM_TOTALS + " boolean default 0);";
+          + KEY_SORT_KEY + " integer, "
+          + KEY_SYNC_ACCOUNT_NAME + " text, "
+          + KEY_SYNC_SEQUENCE_LOCAL + " integer default 0,"
+          + KEY_SYNC_FROM_ADAPTER + " integer default 0,"
+          + KEY_EXCLUDE_FROM_TOTALS + " boolean default 0, "
+          + KEY_UUID + " text);";
+
+  private static final String ACCOUNTS_UUID_INDEX_CREATE = "CREATE UNIQUE INDEX accounts_uuid ON "
+      + TABLE_ACCOUNTS + "(" + KEY_UUID + ")";
 
   /**
    * SQL statement for categories TABLE
@@ -175,7 +260,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_PARENTID + " integer references " + TABLE_CATEGORIES + "(" + KEY_ROWID + "), "
           + KEY_USAGES + " integer default 0, "
           + KEY_LAST_USED + " datetime, "
-          + "unique (" + KEY_LABEL + "," + KEY_PARENTID + "));";
+          + "UNIQUE (" + KEY_LABEL + "," + KEY_PARENTID + "));";
 
   private static final String PAYMENT_METHODS_CREATE =
       "CREATE TABLE " + TABLE_METHODS + " ("
@@ -238,13 +323,13 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   private static final String PAYEE_CREATE =
       "CREATE TABLE " + TABLE_PAYEES
           + " (" + KEY_ROWID + " integer primary key autoincrement, " +
-          KEY_PAYEE_NAME + " text unique not null," +
+          KEY_PAYEE_NAME + " text UNIQUE not null," +
           KEY_PAYEE_NAME_NORMALIZED + " text);";
 
   private static final String CURRENCY_CREATE =
       "CREATE TABLE " + TABLE_CURRENCIES
           + " (" + KEY_ROWID + " integer primary key autoincrement, " + KEY_CODE
-          + " text unique not null);";
+          + " text UNIQUE not null);";
 
   /**
    * in this table we store links between plan instances and transactions,
@@ -277,6 +362,185 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           "BEGIN UPDATE " + TABLE_ACCOUNTS + " SET " + KEY_SORT_KEY +
           " = (SELECT coalesce(max(" + KEY_SORT_KEY + "),0) FROM " + TABLE_ACCOUNTS + ") + 1 WHERE " +
           KEY_ROWID + " = NEW." + KEY_ROWID + "; END";
+
+  private static final String CHANGES_CREATE =
+      "CREATE TABLE " + TABLE_CHANGES
+          + " ( " + KEY_ACCOUNTID + " integer not null references "+ TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE CASCADE,"
+          + KEY_TYPE + " text not null check (" + KEY_TYPE + " in (" + TransactionChange.Type.JOIN + ")), "
+          + KEY_SYNC_SEQUENCE_LOCAL + " integer, "
+          + KEY_UUID + " text, "
+          + KEY_TIMESTAMP + " datetime DEFAULT (strftime('%s','now')), "
+          + KEY_PARENT_UUID + " text, "
+          + KEY_COMMENT + " text, "
+          + KEY_DATE + " datetime, "
+          + KEY_AMOUNT + " integer, "
+          + KEY_CATID + " integer references " + TABLE_CATEGORIES + "(" + KEY_ROWID + ") ON DELETE SET NULL, "
+          + KEY_PAYEEID + " integer references " + TABLE_PAYEES + "(" + KEY_ROWID + ") ON DELETE SET NULL, "
+          + KEY_TRANSFER_ACCOUNT + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE SET NULL,"
+          + KEY_METHODID + " integer references " + TABLE_METHODS + "(" + KEY_ROWID + "),"
+          + KEY_CR_STATUS + " text check (" + KEY_CR_STATUS + " in (" + Transaction.CrStatus.JOIN + ")),"
+          + KEY_REFERENCE_NUMBER + " text, "
+          + KEY_PICTURE_URI + " text);";
+
+  private static final String SELECT_SEQUCENE_NUMBER_TEMLATE = "(SELECT " + KEY_SYNC_SEQUENCE_LOCAL + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = %s." + KEY_ACCOUNTID +  ")";
+  private static final String SELECT_PARENT_UUID_TEMPLATE = "CASE WHEN %1$s." + KEY_PARENTID + " IS NULL THEN NULL ELSE (SELECT " + KEY_UUID + " from " + TABLE_TRANSACTIONS + " where " + KEY_ROWID + " = %1$s." + KEY_PARENTID + ") END";
+
+  private static final String INSERT_TRIGGER_ACTION = " BEGIN INSERT INTO " + TABLE_CHANGES + "("
+      + KEY_TYPE + ","
+      + KEY_SYNC_SEQUENCE_LOCAL + ", "
+      + KEY_UUID + ", "
+      + KEY_PARENT_UUID + ", "
+      + KEY_COMMENT + ", "
+      + KEY_DATE + ", "
+      + KEY_AMOUNT + ", "
+      + KEY_CATID + ", "
+      + KEY_ACCOUNTID + ","
+      + KEY_PAYEEID + ", "
+      + KEY_TRANSFER_ACCOUNT + ", "
+      + KEY_METHODID + ","
+      + KEY_CR_STATUS + ", "
+      + KEY_REFERENCE_NUMBER + ", "
+      + KEY_PICTURE_URI + ") VALUES ('" + TransactionChange.Type.created + "', "
+      + String.format(Locale.US, SELECT_SEQUCENE_NUMBER_TEMLATE, "new") +  ", "
+      + "new." + KEY_UUID + ", "
+      + String.format(Locale.US, SELECT_PARENT_UUID_TEMPLATE, "new") +  ", "
+      + "new." + KEY_COMMENT + ", "
+      + "new." + KEY_DATE + ", "
+      + "new." + KEY_AMOUNT + ", "
+      + "new." + KEY_CATID + ", "
+      + "new." + KEY_ACCOUNTID + ", "
+      + "new." + KEY_PAYEEID + ", "
+      + "new." + KEY_TRANSFER_ACCOUNT + ", "
+      + "new." + KEY_METHODID + ", "
+      + "new." + KEY_CR_STATUS + ", "
+      + "new." + KEY_REFERENCE_NUMBER + ", "
+      + "new." + KEY_PICTURE_URI + "); END;";
+
+  private static final String DELETE_TRIGGER_ACTION = " BEGIN INSERT INTO " + TABLE_CHANGES + "("
+      + KEY_TYPE + ","
+      + KEY_SYNC_SEQUENCE_LOCAL + ", "
+      + KEY_ACCOUNTID + ","
+      + KEY_UUID + ","
+      + KEY_PARENT_UUID + ") VALUES ('" + TransactionChange.Type.deleted + "', "
+      + String.format(Locale.US, SELECT_SEQUCENE_NUMBER_TEMLATE, "old") +  ", "
+      + "old." + KEY_ACCOUNTID + ", "
+      + "old." + KEY_UUID + ", "
+      + String.format(Locale.US, SELECT_PARENT_UUID_TEMPLATE, "old") +  "); END;";
+
+  private static final String SHOULD_WRITE_CHANGE_TEMPLATE = " EXISTS (SELECT 1 FROM " + TABLE_ACCOUNTS
+      + " WHERE " + KEY_ROWID + " = %s." + KEY_ACCOUNTID + " AND " + KEY_SYNC_ACCOUNT_NAME + " IS NOT NULL AND "
+      + KEY_SYNC_SEQUENCE_LOCAL + " > 0 AND " + KEY_SYNC_FROM_ADAPTER + " = 0)";
+
+  private static final String TRANSACTIONS_INSERT_TRIGGER_CREATE =
+      "CREATE TRIGGER insert_change_log "
+          + "AFTER INSERT ON " + TABLE_TRANSACTIONS
+          + " WHEN " + String.format(Locale.US, SHOULD_WRITE_CHANGE_TEMPLATE, "new")
+          + " AND new." + KEY_STATUS + " != " + STATUS_UNCOMMITTED
+          + INSERT_TRIGGER_ACTION;
+
+  private static final String TRANSACTIONS_INSERT_AFTER_UPDATE_TRIGGER_CREATE =
+      "CREATE TRIGGER insert_after_update_change_log "
+          + "AFTER UPDATE ON " + TABLE_TRANSACTIONS
+          + " WHEN " + String.format(Locale.US, SHOULD_WRITE_CHANGE_TEMPLATE, "new")
+          + " AND (old." + KEY_STATUS + " = " + STATUS_UNCOMMITTED + " AND new." + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ")"
+          + " OR (old." + KEY_ACCOUNTID + " != new." + KEY_ACCOUNTID + " AND new." + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ")"
+          + INSERT_TRIGGER_ACTION;
+
+  private static final String TRANSACTIONS_DELETE_AFTER_UPDATE_TRIGGER_CREATE =
+      "CREATE TRIGGER delete_after_update_change_log "
+          + "AFTER UPDATE ON " + TABLE_TRANSACTIONS
+          + " WHEN " + String.format(Locale.US, SHOULD_WRITE_CHANGE_TEMPLATE, "old")
+          + " AND old." + KEY_ACCOUNTID + " != new." + KEY_ACCOUNTID + " AND new." + KEY_STATUS + " != " + STATUS_UNCOMMITTED
+          + DELETE_TRIGGER_ACTION;
+
+  private static final String TRANSACTIONS_DELETE_TRIGGER_CREATE =
+      "CREATE TRIGGER delete_change_log "
+          + "AFTER DELETE ON " + TABLE_TRANSACTIONS
+          + " WHEN " + String.format(Locale.US, SHOULD_WRITE_CHANGE_TEMPLATE, "old")
+          + " AND old." + KEY_STATUS + " != " + STATUS_UNCOMMITTED + " AND EXISTS (SELECT 1 FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = old." + KEY_ACCOUNTID + ")"
+          + DELETE_TRIGGER_ACTION;
+
+  private static String buildChangeTriggerDefinitionForColumn(String column) {
+    return "CASE WHEN old." + column + " = new." + column + " THEN NULL ELSE new." + column + " END";
+  }
+
+  private static final String TRANSACTIONS_UPDATE_TRIGGER_CREATE =
+      "CREATE TRIGGER update_change_log "
+          + "AFTER UPDATE ON " + TABLE_TRANSACTIONS
+          + " WHEN " + String.format(Locale.US, SHOULD_WRITE_CHANGE_TEMPLATE, "old")
+          + " AND old." + KEY_STATUS + " != " + STATUS_UNCOMMITTED
+          + " AND new." + KEY_STATUS + " != " + STATUS_UNCOMMITTED
+          + " AND new." + KEY_ACCOUNTID + " = old." + KEY_ACCOUNTID //if account is changed, we need to delete transaction from one account, and add it to the other
+          + " AND new." + KEY_TRANSFER_PEER + " IS old." + KEY_TRANSFER_PEER //if a new transfer is inserted, the first peer is updated, after second one is added, and we can skip this update here
+          + " BEGIN INSERT INTO " + TABLE_CHANGES + "("
+          + KEY_TYPE + ","
+          + KEY_SYNC_SEQUENCE_LOCAL + ", "
+          + KEY_UUID + ", "
+          + KEY_ACCOUNTID + ", "
+          + KEY_PARENT_UUID + ", "
+          + KEY_COMMENT + ", "
+          + KEY_DATE + ", "
+          + KEY_AMOUNT + ", "
+          + KEY_CATID + ", "
+          + KEY_PAYEEID + ", "
+          + KEY_TRANSFER_ACCOUNT + ", "
+          + KEY_METHODID + ", "
+          + KEY_CR_STATUS + ", "
+          + KEY_REFERENCE_NUMBER + ", "
+          + KEY_PICTURE_URI + ") VALUES ('" + TransactionChange.Type.updated + "', "
+          + String.format(Locale.US, SELECT_SEQUCENE_NUMBER_TEMLATE, "old") +  ", "
+          + "new." + KEY_UUID + ", "
+          + "new." + KEY_ACCOUNTID + ", "
+          + String.format(Locale.US, SELECT_PARENT_UUID_TEMPLATE, "new") +  ", "
+          + buildChangeTriggerDefinitionForColumn(KEY_COMMENT) + ", "
+          + buildChangeTriggerDefinitionForColumn(KEY_DATE) + ", "
+          + buildChangeTriggerDefinitionForColumn(KEY_AMOUNT) + ", "
+          + buildChangeTriggerDefinitionForColumn(KEY_CATID) + ", "
+          + buildChangeTriggerDefinitionForColumn(KEY_PAYEEID) + ", "
+          + buildChangeTriggerDefinitionForColumn(KEY_TRANSFER_ACCOUNT) + ", "
+          + buildChangeTriggerDefinitionForColumn(KEY_METHODID) + ", "
+          + buildChangeTriggerDefinitionForColumn(KEY_CR_STATUS) + ", "
+          + buildChangeTriggerDefinitionForColumn(KEY_REFERENCE_NUMBER) + ", "
+          + buildChangeTriggerDefinitionForColumn(KEY_PICTURE_URI) + "); END;";
+
+
+  private static final String INCREASE_CATEGORY_USAGE_ACTION = " BEGIN UPDATE " + TABLE_CATEGORIES + " SET " + KEY_USAGES + " = " +
+      KEY_USAGES + " + 1, " + KEY_LAST_USED + " = strftime('%s', 'now')  WHERE " + KEY_ROWID +
+      " IN (new." + KEY_CATID + " , (SELECT " + KEY_PARENTID +
+      " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = new." + KEY_CATID + ")); END;";
+
+  private static final String INCREASE_CATEGORY_USAGE_INSERT_TRIGGER = "CREATE TRIGGER insert_increase_category_usage "
+      + "AFTER INSERT ON " + TABLE_TRANSACTIONS
+      + " WHEN new." + KEY_CATID + " IS NOT NULL AND new." + KEY_CATID + " != " + SPLIT_CATID + ""
+      + INCREASE_CATEGORY_USAGE_ACTION;
+
+
+  private static final String INCREASE_CATEGORY_USAGE_UPDATE_TRIGGER = "CREATE TRIGGER update_increase_category_usage "
+      + "AFTER UPDATE ON " + TABLE_TRANSACTIONS
+      + " WHEN new." + KEY_CATID + " IS NOT NULL AND (old." + KEY_CATID + " IS NULL OR new." + KEY_CATID + " != old." + KEY_CATID + ")"
+      + INCREASE_CATEGORY_USAGE_ACTION;
+
+  private static final String INCREASE_ACCOUNT_USAGE_ACTION = " BEGIN UPDATE " + TABLE_ACCOUNTS + " SET " + KEY_USAGES + " = " +
+      KEY_USAGES + " + 1, " + KEY_LAST_USED + " = strftime('%s', 'now')  WHERE " + KEY_ROWID +
+      " = new." + KEY_ACCOUNTID + "; END;";
+
+  private static final String INCREASE_ACCOUNT_USAGE_INSERT_TRIGGER = "CREATE TRIGGER insert_increase_account_usage "
+      + "AFTER INSERT ON " + TABLE_TRANSACTIONS
+      + " WHEN new." + KEY_PARENTID + " IS NULL"
+      + INCREASE_ACCOUNT_USAGE_ACTION;
+
+  private static final String INCREASE_ACCOUNT_USAGE_UPDATE_TRIGGER = "CREATE TRIGGER update_increase_account_usage "
+      + "AFTER UPDATE ON " + TABLE_TRANSACTIONS
+      + " WHEN new." + KEY_PARENTID + " IS NULL AND new." + KEY_ACCOUNTID + " != old." + KEY_ACCOUNTID + " AND (old." + KEY_TRANSFER_ACCOUNT + " IS NULL OR new." + KEY_ACCOUNTID + " != old." + KEY_TRANSFER_ACCOUNT + ")"
+      + INCREASE_ACCOUNT_USAGE_ACTION;
+
+  private static final String UPDATE_ACCOUNT_SYNC_NULL_TRIGGER = "CREATE TRIGGER update_account_sync_null "
+      + "AFTER UPDATE ON " + TABLE_ACCOUNTS
+      + " WHEN new." + KEY_SYNC_ACCOUNT_NAME + " IS NULL AND old." + KEY_SYNC_ACCOUNT_NAME + " IS NOT NULL "
+      + "BEGIN "
+      + "UPDATE " + TABLE_ACCOUNTS + " SET " + KEY_SYNC_SEQUENCE_LOCAL + " = 0 WHERE " + KEY_ROWID +  " = old." + KEY_ROWID + "; "
+      + "DELETE FROM " + TABLE_CHANGES + " WHERE " + KEY_ACCOUNTID +  " = old." + KEY_ROWID + "; "
+      + "END;";
 
   public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
   public static final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
@@ -317,6 +581,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   @Override
   public void onCreate(SQLiteDatabase db) {
     db.execSQL(DATABASE_CREATE);
+    db.execSQL(TRANSACTIONS_UUID_INDEX_CREATE);
     db.execSQL(PAYEE_CREATE);
     db.execSQL(PAYMENT_METHODS_CREATE);
     db.execSQL(TEMPLATE_CREATE);
@@ -328,6 +593,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL("CREATE VIEW " + VIEW_TEMPLATES + buildViewDefinition(TABLE_TEMPLATES));
     db.execSQL(CATEGORIES_CREATE);
     db.execSQL(ACCOUNTS_CREATE);
+    db.execSQL(ACCOUNTS_UUID_INDEX_CREATE);
     db.execSQL("CREATE VIEW " + VIEW_EXTENDED + buildViewDefinitionExtended(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
     db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_EXTENDED + buildViewDefinitionExtended(TABLE_TEMPLATES));
     db.execSQL(ACCOUNTS_TRIGGER_CREATE);
@@ -347,6 +613,18 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL(STALE_URI_TRIGGER_CREATE);
     db.execSQL("CREATE INDEX transactions_cat_id_index on " + TABLE_TRANSACTIONS + "(" + KEY_CATID + ")");
     db.execSQL("CREATE INDEX templates_cat_id_index on " + TABLE_TEMPLATES + "(" + KEY_CATID + ")");
+    db.execSQL(CHANGES_CREATE);
+    db.execSQL("CREATE VIEW " + VIEW_CHANGES_EXTENDED + buildViewDefinitionExtended(TABLE_CHANGES));
+    db.execSQL(TRANSACTIONS_INSERT_TRIGGER_CREATE);
+    db.execSQL(TRANSACTIONS_INSERT_AFTER_UPDATE_TRIGGER_CREATE);
+    db.execSQL(TRANSACTIONS_DELETE_AFTER_UPDATE_TRIGGER_CREATE);
+    db.execSQL(TRANSACTIONS_DELETE_TRIGGER_CREATE);
+    db.execSQL(TRANSACTIONS_UPDATE_TRIGGER_CREATE);
+    db.execSQL(INCREASE_CATEGORY_USAGE_INSERT_TRIGGER);
+    db.execSQL(INCREASE_CATEGORY_USAGE_UPDATE_TRIGGER);
+    db.execSQL(INCREASE_ACCOUNT_USAGE_INSERT_TRIGGER);
+    db.execSQL(INCREASE_ACCOUNT_USAGE_UPDATE_TRIGGER);
+    db.execSQL(UPDATE_ACCOUNT_SYNC_NULL_TRIGGER);
   }
 
   private void insertCurrencies(SQLiteDatabase db) {
@@ -386,6 +664,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     initialValues.put(KEY_TYPE, AccountType.CASH.name());
     initialValues.put(KEY_GROUPING, Grouping.NONE.name());
     initialValues.put(KEY_COLOR, Account.DEFAULT_COLOR);
+    initialValues.put(KEY_UUID, Model.generateUuid());
     db.insert(TABLE_ACCOUNTS, null, initialValues);
     Money.ensureFractionDigitsAreCached(localCurrency);
   }
@@ -918,7 +1197,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
               String planCalendarId = MyApplication.getInstance().checkPlanner();
               while (c.getPosition() < c.getCount()) {
                 Template t = new Template(c);
-                templateValues.put(DatabaseConstants.KEY_UUID, t.getUuid());
+                templateValues.put("uuid", t.getUuid());
                 long templateId = c.getLong(c.getColumnIndex("_id"));
                 long planId = c.getLong(c.getColumnIndex("plan_id"));
                 eventValues.put(Events.DESCRIPTION, t.compileDescription(mCtx));
@@ -1159,6 +1438,28 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         c.close();
       }
     }
+
+    if (oldVersion < 59) {
+      db.execSQL("ALTER TABLE transactions add column uuid text");
+      db.execSQL("CREATE UNIQUE INDEX transactions_account_uuid ON transactions(account_id,uuid)");
+      db.execSQL("ALTER TABLE accounts add column sync_account_name text");
+      db.execSQL("ALTER TABLE accounts add column sync_sequence_local integer default 0");
+      db.execSQL("ALTER TABLE accounts add column sync_from_adapter integer default 0");
+      db.execSQL("ALTER TABLE accounts add column uuid text");
+      db.execSQL("CREATE UNIQUE INDEX accounts_uuid ON accounts(uuid)");
+      db.execSQL("CREATE TABLE changes ( account_id integer not null references accounts(_id) ON DELETE CASCADE,type text not null check (type in ('created','updated','deleted')), sync_sequence_local integer, uuid text, timestamp datetime DEFAULT (strftime('%s','now')), parent_uuid text, comment text, date datetime, amount integer, cat_id integer references categories(_id) ON DELETE SET NULL, payee_id integer references payee(_id) ON DELETE SET NULL, transfer_account integer references accounts(_id) ON DELETE SET NULL,method_id integer references paymentmethods(_id),cr_status text check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED','VOID')),number text, picture_id text)");
+      db.execSQL("CREATE TRIGGER insert_change_log AFTER INSERT ON transactions WHEN  EXISTS (SELECT 1 FROM accounts WHERE _id = new.account_id AND sync_account_name IS NOT NULL AND sync_sequence_local > 0 AND sync_from_adapter = 0) AND new.status != 2 BEGIN INSERT INTO changes(type,sync_sequence_local, uuid, parent_uuid, comment, date, amount, cat_id, account_id,payee_id, transfer_account, method_id,cr_status, number, picture_id) VALUES ('created', (SELECT sync_sequence_local FROM accounts WHERE _id = new.account_id), new.uuid, CASE WHEN new.parent_id IS NULL THEN NULL ELSE (SELECT uuid from transactions where _id = new.parent_id) END, new.comment, new.date, new.amount, new.cat_id, new.account_id, new.payee_id, new.transfer_account, new.method_id, new.cr_status, new.number, new.picture_id); END;");
+      db.execSQL("CREATE TRIGGER insert_after_update_change_log AFTER UPDATE ON transactions WHEN  EXISTS (SELECT 1 FROM accounts WHERE _id = new.account_id AND sync_account_name IS NOT NULL AND sync_sequence_local > 0 AND sync_from_adapter = 0) AND (old.status = 2 AND new.status != 2) OR (old.account_id != new.account_id AND new.status != 2) BEGIN INSERT INTO changes(type,sync_sequence_local, uuid, parent_uuid, comment, date, amount, cat_id, account_id,payee_id, transfer_account, method_id,cr_status, number, picture_id) VALUES ('created', (SELECT sync_sequence_local FROM accounts WHERE _id = new.account_id), new.uuid, CASE WHEN new.parent_id IS NULL THEN NULL ELSE (SELECT uuid from transactions where _id = new.parent_id) END, new.comment, new.date, new.amount, new.cat_id, new.account_id, new.payee_id, new.transfer_account, new.method_id, new.cr_status, new.number, new.picture_id); END;");
+      db.execSQL("CREATE TRIGGER delete_after_update_change_log AFTER UPDATE ON transactions WHEN  EXISTS (SELECT 1 FROM accounts WHERE _id = old.account_id AND sync_account_name IS NOT NULL AND sync_sequence_local > 0 AND sync_from_adapter = 0) AND old.account_id != new.account_id AND new.status != 2 BEGIN INSERT INTO changes(type,sync_sequence_local, account_id,uuid,parent_uuid) VALUES ('deleted', (SELECT sync_sequence_local FROM accounts WHERE _id = old.account_id), old.account_id, old.uuid, CASE WHEN old.parent_id IS NULL THEN NULL ELSE (SELECT uuid from transactions where _id = old.parent_id) END); END;");
+      db.execSQL("CREATE TRIGGER delete_change_log AFTER DELETE ON transactions WHEN  EXISTS (SELECT 1 FROM accounts WHERE _id = old.account_id AND sync_account_name IS NOT NULL AND sync_sequence_local > 0 AND sync_from_adapter = 0) AND old.status != 2 AND EXISTS (SELECT 1 FROM accounts WHERE _id = old.account_id) BEGIN INSERT INTO changes(type,sync_sequence_local, account_id,uuid,parent_uuid) VALUES ('deleted', (SELECT sync_sequence_local FROM accounts WHERE _id = old.account_id), old.account_id, old.uuid, CASE WHEN old.parent_id IS NULL THEN NULL ELSE (SELECT uuid from transactions where _id = old.parent_id) END); END;");
+      db.execSQL("CREATE TRIGGER update_change_log AFTER UPDATE ON transactions WHEN  EXISTS (SELECT 1 FROM accounts WHERE _id = old.account_id AND sync_account_name IS NOT NULL AND sync_sequence_local > 0 AND sync_from_adapter = 0) AND old.status != 2 AND new.status != 2 AND new.account_id = old.account_id AND new.transfer_peer IS old.transfer_peer BEGIN INSERT INTO changes(type,sync_sequence_local, uuid, account_id, parent_uuid, comment, date, amount, cat_id, payee_id, transfer_account, method_id, cr_status, number, picture_id) VALUES ('updated', (SELECT sync_sequence_local FROM accounts WHERE _id = old.account_id), new.uuid, new.account_id, CASE WHEN new.parent_id IS NULL THEN NULL ELSE (SELECT uuid from transactions where _id = new.parent_id) END, CASE WHEN old.comment = new.comment THEN NULL ELSE new.comment END, CASE WHEN old.date = new.date THEN NULL ELSE new.date END, CASE WHEN old.amount = new.amount THEN NULL ELSE new.amount END, CASE WHEN old.cat_id = new.cat_id THEN NULL ELSE new.cat_id END, CASE WHEN old.payee_id = new.payee_id THEN NULL ELSE new.payee_id END, CASE WHEN old.transfer_account = new.transfer_account THEN NULL ELSE new.transfer_account END, CASE WHEN old.method_id = new.method_id THEN NULL ELSE new.method_id END, CASE WHEN old.cr_status = new.cr_status THEN NULL ELSE new.cr_status END, CASE WHEN old.number = new.number THEN NULL ELSE new.number END, CASE WHEN old.picture_id = new.picture_id THEN NULL ELSE new.picture_id END); END;");
+      db.execSQL("CREATE TRIGGER insert_increase_category_usage AFTER INSERT ON transactions WHEN new.cat_id IS NOT NULL AND new.cat_id != 0 BEGIN UPDATE categories SET usages = usages + 1, last_used = strftime('%s', 'now')  WHERE _id IN (new.cat_id , (SELECT parent_id FROM categories WHERE _id = new.cat_id)); END;");
+      db.execSQL("CREATE TRIGGER update_increase_category_usage AFTER UPDATE ON transactions WHEN new.cat_id IS NOT NULL AND (old.cat_id IS NULL OR new.cat_id != old.cat_id) BEGIN UPDATE categories SET usages = usages + 1, last_used = strftime('%s', 'now')  WHERE _id IN (new.cat_id , (SELECT parent_id FROM categories WHERE _id = new.cat_id)); END;");
+      db.execSQL("CREATE TRIGGER insert_increase_account_usage AFTER INSERT ON transactions WHEN new.parent_id IS NULL BEGIN UPDATE accounts SET usages = usages + 1, last_used = strftime('%s', 'now')  WHERE _id = new.account_id; END;");
+      db.execSQL("CREATE TRIGGER update_increase_account_usage AFTER UPDATE ON transactions WHEN new.parent_id IS NULL AND new.account_id != old.account_id AND (old.transfer_account IS NULL OR new.account_id != old.transfer_account) BEGIN UPDATE accounts SET usages = usages + 1, last_used = strftime('%s', 'now')  WHERE _id = new.account_id; END;");
+      db.execSQL("CREATE TRIGGER update_account_sync_null AFTER UPDATE ON accounts WHEN new.sync_account_name IS NULL AND old.sync_account_name IS NOT NULL BEGIN UPDATE accounts SET sync_sequence_local = 0 WHERE _id = old._id; DELETE FROM changes WHERE account_id = old._id; END;");
+      refreshViews(db);
+    }
   }
 
   private void refreshViews(SQLiteDatabase db) {
@@ -1175,6 +1476,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL("CREATE VIEW transactions_uncommitted" + viewTransactions + " WHERE " + KEY_STATUS + " = " + STATUS_UNCOMMITTED + ";");
     db.execSQL("CREATE VIEW transactions_all" + viewTransactions);
     db.execSQL("CREATE VIEW templates_all" + buildViewDefinition(TABLE_TEMPLATES));
+    db.execSQL("CREATE VIEW changes_extended" + buildViewDefinitionExtended(TABLE_CHANGES));
   }
 
   @Override

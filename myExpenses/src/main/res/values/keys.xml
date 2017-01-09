@@ -68,6 +68,7 @@
     <string name="pref_grouping_start">grouping_start</string>
     <string name="pref_group_week_starts_key">group_week_start</string>
     <string name="pref_group_month_starts_key">group_month_start</string>
+    <string name="pref_sync_frequency_key">sync_frequency</string>
 
     <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
   <string name="help_licence_financisto">CalculatorInput, QifParser, FolderBrowser, HomeScreenWidgets, WhereFilter and AutoBackupService inspired by https://launchpad.net/financisto ,

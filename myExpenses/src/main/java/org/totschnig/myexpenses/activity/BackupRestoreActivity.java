@@ -15,35 +15,35 @@
 
 package org.totschnig.myexpenses.activity;
 
-import java.io.File;
-import java.io.FilenameFilter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.v4.provider.DocumentFile;
+import android.widget.Toast;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.BackupListDialogFragment;
 import org.totschnig.myexpenses.dialog.BackupSourcesDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
-import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
+import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
-
-import static org.totschnig.myexpenses.task.RestoreTask.KEY_DIR_NAME_LEGACY;
-
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
-import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.os.Bundle;
-import android.support.v4.provider.DocumentFile;
-import android.widget.Toast;
+import java.io.File;
+import java.io.FilenameFilter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+
+import static org.totschnig.myexpenses.task.RestoreTask.KEY_DIR_NAME_LEGACY;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_RESTORE;
 
 public class BackupRestoreActivity extends ProtectedFragmentActivity
     implements ConfirmationDialogListener {
@@ -168,7 +168,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
     super.onPostExecute(taskId, result);
     Result r = (Result) result;
     switch (taskId) {
-      case TaskExecutionFragment.TASK_RESTORE:
+      case TASK_RESTORE:
         String msg = r.print(this);
         if (msg != null) {
           Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
@@ -242,7 +242,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
       case R.id.RESTORE_COMMAND:
         getSupportFragmentManager()
             .beginTransaction()
-            .add(TaskExecutionFragment.newInstanceRestore(args), ProtectionDelegate.ASYNC_TAG)
+            .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_RESTORE), ProtectionDelegate.ASYNC_TAG)
             .add(ProgressDialogFragment.newInstance(R.string.pref_restore_title),
                 ProtectionDelegate.PROGRESS_TAG).commit();
         break;

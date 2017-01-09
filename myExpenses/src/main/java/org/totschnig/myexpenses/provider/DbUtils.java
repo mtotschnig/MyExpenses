@@ -15,10 +15,14 @@
 
 package org.totschnig.myexpenses.provider;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import android.content.ContentProviderClient;
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.net.Uri;
+
+import com.android.calendar.CalendarContractCompat;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.Account;
@@ -30,20 +34,15 @@ import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.Result;
-import org.totschnig.myexpenses.util.Utils;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
-import android.content.ContentProviderClient;
-import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
-import android.util.Log;
-
-import com.android.calendar.CalendarContractCompat;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_END;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_START;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.getCountFromWeekStartZero;
 
 public class DbUtils {
 
@@ -52,56 +51,14 @@ public class DbUtils {
 
   public static Result backup(File backupDir) {
     cacheEventData();
-    SQLiteDatabase db = TransactionProvider.mOpenHelper.getReadableDatabase();
-    db.beginTransaction();
-    try {
-      File backupPrefFile, sharedPrefFile;
-      Result result = DbUtils.backupDb(backupDir);
-      if (result.success) {
-        backupPrefFile = new File(backupDir, MyApplication.BACKUP_PREF_FILE_NAME);
-        // Samsung has special path on some devices
-        // http://stackoverflow.com/questions/5531289/copy-the-shared-preferences-xml-file-from-data-on-samsung-device-failed
-        final MyApplication application = MyApplication.getInstance();
-        String sharedPrefPath =  "/shared_prefs/" + application.getPackageName() + "_preferences.xml";
-        sharedPrefFile = new File("/dbdata/databases/" + application.getPackageName() + sharedPrefPath);
-        if (!sharedPrefFile.exists()) {
-          sharedPrefFile = new File(getInternalAppDir().getPath() + sharedPrefPath);
-          Log.d("DbUtils",sharedPrefFile.getPath());
-          if (!sharedPrefFile.exists()) {
-            final String message = "Unable to find shared preference file at " +
-                sharedPrefFile.getPath();
-            AcraHelper.report(new Exception(message));
-            return new Result(false,message);
-          }
-        }
-        if (Utils.copy(sharedPrefFile, backupPrefFile)) {
-          PrefKey.AUTO_BACKUP_DIRTY.putBoolean(false);
-          TransactionProvider.mDirty = false;
-          return result;
-        }
-      }
-      return result;
-    } finally {
-      db.endTransaction();
-    }
+    ContentResolver resolver = MyApplication.getInstance().getContentResolver();
+    ContentProviderClient client = resolver.acquireContentProviderClient(TransactionProvider.AUTHORITY);
+    TransactionProvider provider = (TransactionProvider) client.getLocalContentProvider();
+    Result result = provider.backup(backupDir);
+    client.release();
+    return result;
   }
 
-  private static File getInternalAppDir() {
-    return MyApplication.getInstance().getFilesDir().getParentFile();
-  }
-
-  public static Result backupDb(File dir) {
-    File backupDb = new File(dir,MyApplication.BACKUP_DB_FILE_NAME);
-    File currentDb = new File(TransactionProvider.mOpenHelper.getReadableDatabase().getPath());
-    if (currentDb.exists()) {
-      if (Utils.copy(currentDb, backupDb)) {
-        return new Result(true);
-      }
-      return new Result(false,String.format(
-          "Error while copying %s to %s",currentDb.getPath(),backupDb.getPath()));
-    }
-    return new Result(false,"Could not find database at " + currentDb.getPath());
-  }
   public static boolean restore(File backupFile) {
     boolean result = false;
     MyApplication app = MyApplication.getInstance();
@@ -110,19 +67,12 @@ public class DbUtils {
       PlanExecutor.cancelPlans(app);
       Account.clear();
       PaymentMethod.clear();
-      File dataDir = new File(getInternalAppDir(), "databases");
-      dataDir.mkdir();
-
-      //line below gives app_databases instead of databases ???
-      //File currentDb = new File(mCtx.getDir("databases", 0),mDatabaseName);
-      File currentDb = new File(dataDir, TransactionDatabase.getDbName());
 
       if (backupFile.exists()) {
-        result = Utils.copy(backupFile,currentDb);
         ContentResolver resolver = app.getContentResolver();
         ContentProviderClient client = resolver.acquireContentProviderClient(TransactionProvider.AUTHORITY);
         TransactionProvider provider = (TransactionProvider) client.getLocalContentProvider();
-        provider.resetDatabase();
+        result = provider.restore(backupFile);
         client.release();
       }
     } catch (Exception e) {

@@ -18,13 +18,14 @@
 
 package org.totschnig.myexpenses.provider.filter;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import org.totschnig.myexpenses.util.Utils;
-
 import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.SparseArray;
+
+import org.totschnig.myexpenses.util.Utils;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 
 public class WhereFilter {
@@ -147,14 +148,14 @@ public class WhereFilter {
     return TextUtils.join(" - ", labels);
   }
 
-  public static enum Operation {
+  public enum Operation {
     NOPE(""), EQ("=?"), NEQ("!=?"), GT(">?"), GTE(">=?"), LT("<?"), LTE("<=?"), BTW(
         "BETWEEN ? AND ?"), ISNULL("is NULL"), LIKE("LIKE ? ESCAPE '" + LIKE_ESCAPE_CHAR + "'"),
     IN(null);
 
     public final String op;
 
-    private Operation(String op) {
+    Operation(String op) {
       this.op = op;
     }
 

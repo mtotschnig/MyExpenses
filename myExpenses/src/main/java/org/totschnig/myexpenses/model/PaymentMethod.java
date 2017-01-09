@@ -33,6 +33,7 @@ import android.net.Uri;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
+//TODO refactor to use autovalue
 public class PaymentMethod extends Model {
   private String label;
   public static final int EXPENSE =  -1;
@@ -41,6 +42,7 @@ public class PaymentMethod extends Model {
   private int paymentType;
   public boolean isNumbered = false;
   private PreDefined preDefined = null;
+
   public static final String[] PROJECTION(Context ctx) { return new String[] {
     KEY_ROWID,
     preDefinedName() + " AS " + KEY_PREDEFINED_METHOD_NAME,
@@ -142,9 +144,16 @@ public class PaymentMethod extends Model {
    }
 
   public PaymentMethod() {
-    this.paymentType = NEUTRAL;
-    this.label = "";
+    this("");
   }
+
+  public PaymentMethod(String label) {
+    this.paymentType = NEUTRAL;
+    this.label = label;
+
+  }
+
+
   public int getPaymentType() {
     return paymentType;
   }
@@ -218,6 +227,7 @@ public class PaymentMethod extends Model {
     cr().delete(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
         null, null);
   }
+
   public static int count(String selection,String[] selectionArgs) {
     Cursor mCursor = cr().query(TransactionProvider.ACCOUNTTYPES_METHODS_URI,new String[] {"count(*)"},
         selection, selectionArgs, null);
@@ -231,9 +241,22 @@ public class PaymentMethod extends Model {
       return result;
     }
   }
+
   public static int countPerType(AccountType type) {
     return count("type = ?", new String[] {type.name()});
   }
+
+  /**
+   * @param label
+   * @return id of new record, or -1, if it already exists
+   */
+  public static long maybeWrite(String label, AccountType accountType) {
+    PaymentMethod paymentMethod = new PaymentMethod(label);
+    paymentMethod.addAccountType(accountType);
+    Uri uri = paymentMethod.save();
+    return uri == null ? -1 : Long.valueOf(uri.getLastPathSegment());
+  }
+
   /**
    * Looks for a method with a label;
    * @param label

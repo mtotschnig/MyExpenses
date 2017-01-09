@@ -4,8 +4,9 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.2'
+        classpath 'com.android.tools.build:gradle:2.2.3'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath 'me.tatarka:gradle-retrolambda:3.3.0'
     }
 }
 
@@ -27,10 +28,10 @@ allprojects {
 
 ext {
     compileSdkVersion = 25
-    buildToolsVersion = "25"
+    buildToolsVersion = "25.0.2"
     minSdkVersion = 9
     targetSdkVersion = 23
-    androidSupportLibraryVersion = "25.0.0"
+    androidSupportLibraryVersion = "25.1.0"
     espressoVersion = "2.2.2"
     androidSupportTestVersion = "0.5"
     daggerVersion = "2.5"

@@ -1,0 +1,68 @@
+package org.totschnig.myexpenses.test.sync;
+
+import android.content.ContentProviderOperation;
+import android.test.mock.MockContext;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.sync.SyncAdapter;
+import org.totschnig.myexpenses.sync.json.TransactionChange;
+
+import java.util.ArrayList;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
+
+public class SyncAdapterWriteToDbTest {
+  private SyncAdapter syncAdapter;
+  private ArrayList<ContentProviderOperation> ops;
+
+  @Before
+  public void setup() {
+    syncAdapter = spy(new SyncAdapter(new MockContext(), true, true));
+    when(syncAdapter.getAccount()).thenReturn(new Account());
+    ops = new ArrayList<>();
+  }
+
+  @Test
+  public void createdChangeShouldBeCollectedAsInsertOperation() {
+    TransactionChange change = TransactionChange.builder()
+        .setType(TransactionChange.Type.created)
+        .setUuid("any")
+        .setTimeStamp(System.currentTimeMillis())
+        .setAmount(123L)
+        .build();
+    syncAdapter.collectOperations(change, ops, -1);
+    assertEquals(1, ops.size());
+    assertTrue(ops.get(0).isInsert());
+  }
+
+  @Test
+  public void updatedChangeShouldBeCollectedAsUpdateOperation() {
+    TransactionChange change = TransactionChange.builder()
+        .setType(TransactionChange.Type.updated)
+        .setUuid("any")
+        .setTimeStamp(System.currentTimeMillis())
+        .setAmount(123L)
+        .build();
+    syncAdapter.collectOperations(change, ops, -1);
+    assertEquals(1, ops.size());
+    assertTrue(ops.get(0).isUpdate());
+  }
+
+  @Test
+  public void deletedChangeShouldBeCollectedAsDeleteOperation() {
+    TransactionChange change = TransactionChange.builder()
+        .setType(TransactionChange.Type.deleted)
+        .setUuid("any")
+        .setTimeStamp(System.currentTimeMillis())
+        .build();
+    syncAdapter.collectOperations(change, ops, -1);
+    assertEquals(1, ops.size());
+    assertTrue(ops.get(0).isDelete());
+  }
+
+}

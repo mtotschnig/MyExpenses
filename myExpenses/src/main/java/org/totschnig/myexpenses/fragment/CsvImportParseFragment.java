@@ -102,11 +102,11 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
     Context wrappedCtx = view.getContext();
     mAccountsAdapter = new SimpleCursorAdapter(wrappedCtx , android.R.layout.simple_spinner_item, null,
         new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0);
-    mAccountsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    mAccountsAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
     mAccountSpinner.setAdapter(mAccountsAdapter);
     mAccountSpinner.setOnItemSelectedListener(this);
-    mCurrencySpinner = DialogUtils.configureCurrencySpinner(view,wrappedCtx,this);
-    mTypeSpinner = DialogUtils.configureTypeSpinner(view,wrappedCtx);
+    mCurrencySpinner = DialogUtils.configureCurrencySpinner(view, wrappedCtx, this);
+    mTypeSpinner = DialogUtils.configureTypeSpinner(view, wrappedCtx);
     mTypeSpinner.setOnItemSelectedListener(this);
     getLoaderManager().initLoader(0, null, this);
     view.findViewById(R.id.btn_browse).setOnClickListener(this);
@@ -217,7 +217,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
     if (getActivity()==null) {
       return null;
     }
-    CursorLoader cursorLoader = new CursorLoader(
+    return new CursorLoader(
         getActivity(),
         TransactionProvider.ACCOUNTS_BASE_URI,
         new String[] {
@@ -226,7 +226,6 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
             KEY_CURRENCY,
             KEY_TYPE},
         null,null, null);
-    return cursorLoader;
   }
 
   @Override

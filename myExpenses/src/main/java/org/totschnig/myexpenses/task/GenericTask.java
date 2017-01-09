@@ -1,11 +1,18 @@
 package org.totschnig.myexpenses.task;
 
+import android.accounts.AccountManager;
+import android.accounts.AccountManagerFuture;
+import android.accounts.AuthenticatorException;
+import android.accounts.OperationCanceledException;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.RemoteException;
 import android.support.annotation.NonNull;
 import android.support.v4.provider.DocumentFile;
 import android.text.TextUtils;
@@ -28,7 +35,10 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.sync.GenericAccountService;
+import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.FileCopyUtils;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
@@ -48,6 +58,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
 
@@ -72,8 +83,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
   protected void onPreExecute() {
     if (this.taskExecutionFragment.mCallbacks != null) {
       this.taskExecutionFragment.mCallbacks.onPreExecute();
-
-
     }
   }
 
@@ -86,7 +95,8 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     Transaction t;
     Long transactionId;
     Long[][] extraInfo2d;
-    ContentResolver cr = MyApplication.getInstance().getContentResolver();
+    MyApplication application = MyApplication.getInstance();
+    ContentResolver cr = application.getContentResolver();
     ContentValues values;
     Cursor c;
     int successCount = 0, failureCount = 0;
@@ -158,15 +168,15 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         return successCount;
       case TaskExecutionFragment.TASK_INSTANTIATE_PLAN:
         return Plan.getInstanceFromDb((Long) ids[0]);
-      case TaskExecutionFragment.TASK_REQUIRE_ACCOUNT:
-        Account account;
-        account = Account.getInstanceFromDb(0);
+      case TaskExecutionFragment.TASK_REQUIRE_ACCOUNT: {
+        Account account = Account.getInstanceFromDb(0);
         if (account == null) {
-          account = new Account(MyApplication.getInstance().getString(R.string.default_account_name), 0,
-              MyApplication.getInstance().getString(R.string.default_account_description));
+          account = new Account(application.getString(R.string.default_account_name), 0,
+              application.getString(R.string.default_account_description));
           account.save();
         }
         return account;
+      }
       case TaskExecutionFragment.TASK_DELETE_TRANSACTION:
         try {
           for (long id : (Long[]) ids) {
@@ -174,9 +184,9 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           }
         } catch (SQLiteConstraintException e) {
           AcraHelper.reportWithDbSchema(e);
-          return false;
+          return Result.FAILURE;
         }
-        return true;
+        return Result.SUCCESS;
       case TaskExecutionFragment.TASK_UNDELETE_TRANSACTION:
         try {
           for (long id : (Long[]) ids) {
@@ -184,17 +194,12 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           }
         } catch (SQLiteConstraintException e) {
           AcraHelper.reportWithDbSchema(e);
-          return false;
+          return Result.FAILURE;
         }
-        return true;
+        return Result.SUCCESS;
       case TaskExecutionFragment.TASK_DELETE_ACCOUNT:
-        try {
-          Account.delete((Long) ids[0]);
-        } catch (Exception e) {
-          AcraHelper.reportWithDbSchema(e);
-          return false;
-        }
-        return true;
+        Long anId = (Long) ids[0];
+        return deleteAccount(anId) ? new Result(true, 0, anId) : Result.FAILURE;
       case TaskExecutionFragment.TASK_DELETE_PAYMENT_METHODS:
         try {
           for (long id : (Long[]) ids) {
@@ -202,9 +207,9 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           }
         } catch (SQLiteConstraintException e) {
           AcraHelper.reportWithDbSchema(e);
-          return false;
+          return Result.FAILURE;
         }
-        return true;
+        return Result.SUCCESS;
       case TaskExecutionFragment.TASK_DELETE_PAYEES:
         try {
           for (long id : (Long[]) ids) {
@@ -212,9 +217,9 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           }
         } catch (SQLiteConstraintException e) {
           AcraHelper.reportWithDbSchema(e);
-          return false;
+          return Result.FAILURE;
         }
-        return true;
+        return Result.SUCCESS;
       case TaskExecutionFragment.TASK_DELETE_CATEGORY:
         try {
           for (long id : (Long[]) ids) {
@@ -222,9 +227,9 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           }
         } catch (SQLiteConstraintException e) {
           AcraHelper.reportWithDbSchema(e);
-          return false;
+          return Result.FAILURE;
         }
-        return true;
+        return Result.SUCCESS;
       case TaskExecutionFragment.TASK_DELETE_TEMPLATES:
         try {
           for (long id : (Long[]) ids) {
@@ -232,9 +237,9 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           }
         } catch (SQLiteConstraintException e) {
           AcraHelper.reportWithDbSchema(e);
-          return false;
+          return Result.FAILURE;
         }
-        return true;
+        return Result.SUCCESS;
       case TaskExecutionFragment.TASK_TOGGLE_CRSTATUS:
         cr.update(
             TransactionProvider.TRANSACTIONS_URI
@@ -266,13 +271,13 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         }
         String resultMsg = "";
         if (successCount > 0) {
-          resultMsg += MyApplication.getInstance().getResources().getQuantityString(R.plurals.move_category_success, successCount, successCount);
+          resultMsg += application.getResources().getQuantityString(R.plurals.move_category_success, successCount, successCount);
         }
         if (failureCount > 0) {
           if (!TextUtils.isEmpty(resultMsg)) {
             resultMsg += " ";
           }
-          resultMsg += MyApplication.getInstance().getResources().getQuantityString(R.plurals.move_category_failure, failureCount, failureCount);
+          resultMsg += application.getResources().getQuantityString(R.plurals.move_category_failure, failureCount, failureCount);
         }
         return new Result(successCount > 0, resultMsg);
       case TaskExecutionFragment.TASK_CANCEL_PLAN_INSTANCE:
@@ -361,7 +366,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         }
         return null;
       case TaskExecutionFragment.TASK_SAVE_IMAGES:
-        File staleFileDir = new File(MyApplication.getInstance().getExternalFilesDir(null), "images.old");
+        File staleFileDir = new File(application.getExternalFilesDir(null), "images.old");
         staleFileDir.mkdir();
         if (!staleFileDir.isDirectory()) {
           return null;
@@ -383,7 +388,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
                 success = staleFile.renameTo(new File(staleFileDir, staleFile.getName()));
               } else {
                 try {
-                  Utils.copy(imageFileUri, Uri.fromFile(new File(staleFileDir, imageFileUri.getLastPathSegment())));
+                  FileCopyUtils.copy(imageFileUri, Uri.fromFile(new File(staleFileDir, imageFileUri.getLastPathSegment())));
                   success = cr.delete(imageFileUri, null, null) > 0;
                 } catch (IOException e) {
                   e.printStackTrace();
@@ -430,7 +435,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
               false,
               R.string.io_error_unable_to_create_file,
               fileName,
-              FileUtils.getPath(MyApplication.getInstance(), appDir.getUri()));
+              FileUtils.getPath(application, appDir.getUri()));
         }
         try {
           OutputStreamWriter out = new OutputStreamWriter(
@@ -506,8 +511,61 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           }
         }
         return true;
+      case TaskExecutionFragment.TASK_SYNC_UNLINK: {
+        Account account = Account.getInstanceFromDb(Account.findByUuid((String) ids[0]));
+        AccountManager accountManager = AccountManager.get(application);
+        android.accounts.Account syncAccount = GenericAccountService.GetAccount(account.getSyncAccountName());
+        accountManager.setUserData(syncAccount, SyncAdapter.KEY_LAST_SYNCED_LOCAL(account.getId()), null);
+        accountManager.setUserData(syncAccount, SyncAdapter.KEY_LAST_SYNCED_REMOTE(account.getId()), null);
+        account.setSyncAccountName(null);
+        account.save();
+        return Result.SUCCESS;
+      }
+      case TaskExecutionFragment.TASK_SYNC_LINK_LOCAL: {
+        Account account = Account.getInstanceFromDb(Account.findByUuid((String) ids[0]));
+        String syncAccountName = (String) this.mExtra;
+        account.setSyncAccountName(syncAccountName);
+        account.save();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+        bundle.putString(KEY_UUID, account.uuid);
+        bundle.putBoolean(SyncAdapter.KEY_RESET_REMOTE_ACCOUNT, true);
+        ContentResolver.requestSync(GenericAccountService.GetAccount(syncAccountName),
+            TransactionProvider.AUTHORITY, bundle);
+        return Result.SUCCESS;
+      }
+      case TaskExecutionFragment.TASK_SYNC_LINK_REMOTE: {
+        Account remoteAccount = (Account) this.mExtra;
+        if (!deleteAccount(Account.findByUuid(remoteAccount.uuid))) {
+          return Result.FAILURE;
+        }
+        remoteAccount.save();
+        remoteAccount.requestSync();
+        return Result.SUCCESS;
+      }
+      case TaskExecutionFragment.TASK_SYNC_REMOVE_BACKEND: {
+        AccountManagerFuture<Boolean> accountManagerFuture = AccountManager.get(application).removeAccount(
+            GenericAccountService.GetAccount((String) ids[0]), null, null);
+        try {
+          return accountManagerFuture.getResult() ? Result.SUCCESS : Result.FAILURE;
+        } catch (OperationCanceledException | AuthenticatorException | IOException e) {
+          AcraHelper.report(e);
+          return Result.FAILURE;
+        }
+      }
     }
     return null;
+  }
+
+  private boolean deleteAccount(Long anId)  {
+    try {
+      Account.delete(anId);
+    } catch (RemoteException | OperationApplicationException e) {
+      AcraHelper.reportWithDbSchema(e);
+      return false;
+    }
+    return true;
   }
 
   @NonNull

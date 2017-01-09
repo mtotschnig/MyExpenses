@@ -162,7 +162,7 @@ public class CsvImportDataFragment extends Fragment {
         return tv;
       }
     };
-    mFieldAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    mFieldAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
     View view = inflater.inflate(R.layout.import_csv_data, container, false);
     mRecyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
     mHeaderLine = (LinearLayout) view.findViewById(R.id.header_line);
