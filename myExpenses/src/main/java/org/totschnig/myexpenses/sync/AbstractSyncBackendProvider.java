@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.sync;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.annimon.stream.Optional;
@@ -8,6 +9,7 @@ import com.annimon.stream.Stream;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.sync.json.AdapterFactory;
@@ -15,12 +17,14 @@ import org.totschnig.myexpenses.sync.json.ChangeSet;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.sync.json.Utils;
 import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.FileCopyUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -38,14 +42,34 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
         .create();
   }
 
-  ChangeSet getChangeSetFromInputStream(long sequenceNumber, InputStream inputStream) {
+  ChangeSet getChangeSetFromInputStream(long sequenceNumber, InputStream inputStream) throws IOException {
     final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
     List<TransactionChange> changes = Utils.getChanges(gson, reader);
     if (changes == null || changes.size() == 0) {
       return ChangeSet.failed;
     }
-    return ChangeSet.create(sequenceNumber, changes);
+    List<TransactionChange> changeSetRead = new ArrayList<>();
+    for (TransactionChange transactionChange : changes) {
+      if (transactionChange.pictureUri() != null) {
+        changeSetRead.add(transactionChange.toBuilder().setPictureUri(ingestPictureUri(transactionChange.pictureUri())).build());
+      } else {
+        changeSetRead.add(transactionChange);
+      }
+    }
+    return ChangeSet.create(sequenceNumber, changeSetRead);
   }
+
+  protected String ingestPictureUri(String relativeUri) throws IOException {
+    Uri homeUri = org.totschnig.myexpenses.util.Utils.getOutputMediaUri(false);
+    if (homeUri == null) {
+      throw new IOException("Unable to write picture");
+    }
+    FileCopyUtils.copy(getInputStreamForPicture(relativeUri),  MyApplication.getInstance().getContentResolver()
+        .openOutputStream(homeUri));
+    return homeUri.toString();
+  }
+
+  protected abstract InputStream getInputStreamForPicture(String relativeUri) throws IOException;
 
   Optional<AccountMetaData> getAccountMetaDataFromInputStream(InputStream inputStream) {
     try {
@@ -64,8 +88,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   }
 
   protected Optional<ChangeSet> merge(Stream<ChangeSet> changeSetStream) {
-    return changeSetStream.takeWhile(changeSet -> !changeSet.equals(ChangeSet.failed))
-        .reduce(ChangeSet::merge);
+    return changeSetStream.reduce(ChangeSet::merge);
   }
 
   @NonNull
@@ -74,7 +97,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   }
 
   //from Guava
-  private String getNameWithoutExtension(String file) {
+  protected String getNameWithoutExtension(String file) {
     Preconditions.checkNotNull(file);
     String fileName = new File(file).getName();
     int dotIndex = fileName.lastIndexOf('.');
@@ -82,7 +105,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   }
 
   //from Guava
-  private String getFileExtension(String fullName) {
+  protected String getFileExtension(String fullName) {
     Preconditions.checkNotNull(fullName);
     String fileName = new File(fullName).getName();
     int dotIndex = fileName.lastIndexOf('.');
@@ -92,13 +115,21 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   @Override
   public long writeChangeSet(List<TransactionChange> changeSet, Context context) throws IOException {
     long nextSequence = getLastSequence() + 1;
-    try {
-      saveFileContents("_" + nextSequence + ".json", gson.toJson(changeSet));
-    } catch (IOException e) {
-      return ChangeSet.FAILED;
+    List<TransactionChange> changeSetToWrite = new ArrayList<>();
+    for (TransactionChange transactionChange : changeSet) {
+      if (transactionChange.pictureUri() != null) {
+        String newUri = transactionChange.uuid() + "_" + Uri.parse(transactionChange.pictureUri()).getLastPathSegment();
+        saveUri(newUri, Uri.parse(transactionChange.pictureUri()));
+        changeSetToWrite.add(transactionChange.toBuilder().setPictureUri(newUri).build());
+      } else {
+        changeSetToWrite.add(transactionChange);
+      }
     }
+    saveFileContents("_" + nextSequence + ".json", gson.toJson(changeSetToWrite));
     return nextSequence;
   }
+
+  protected abstract void saveUri(String fileName, Uri uri) throws IOException;
 
   String buildMetadata(Account account) {
     return gson.toJson(AccountMetaData.from(account));
@@ -107,4 +138,9 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   protected abstract long getLastSequence() throws IOException;
 
   abstract void saveFileContents(String fileName, String fileContents) throws IOException;
+
+  //from API 19 Long.compare
+  int compareInt(Long x, Long y) {
+    return (x < y) ? -1 : ((x == y) ? 0 : 1);
+  }
 }

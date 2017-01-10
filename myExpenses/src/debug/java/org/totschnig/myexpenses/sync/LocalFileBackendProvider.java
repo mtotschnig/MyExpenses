@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.sync;
 
 import android.content.Context;
+import android.net.Uri;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Optional;
@@ -9,13 +10,16 @@ import com.annimon.stream.Stream;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
+import org.totschnig.myexpenses.util.FileCopyUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import dagger.internal.Preconditions;
@@ -66,16 +70,26 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
+  protected InputStream getInputStreamForPicture(String relativeUri) throws IOException {
+    return new FileInputStream(new File(accountDir, relativeUri));
+  }
+
+  @Override
+  protected void saveUri(String fileName, Uri uri) throws IOException {
+    FileCopyUtils.copy(uri, Uri.fromFile(new File(accountDir, fileName)));
+  }
+
+  @Override
   protected long getLastSequence() {
-    return filterFiles(0)
+    return Stream.of(filterFiles(0))
         .map(file -> getSequenceFromFileName(file.getName()))
-        .max(Long::compare)
+        .max(this::compareInt)
         .orElse(0L);
   }
 
-  private Stream<File> filterFiles(long sequenceNumber) {
+  private File[] filterFiles(long sequenceNumber) {
     Preconditions.checkNotNull(accountDir);
-    return Stream.of(accountDir.listFiles(file -> isNewerJsonFile(sequenceNumber, file.getName())));
+    return accountDir.listFiles(file -> isNewerJsonFile(sequenceNumber, file.getName()));
   }
 
   @Override
@@ -84,17 +98,16 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  public ChangeSet getChangeSetSince(long sequenceNumber, Context context) {
-    return merge(filterFiles(sequenceNumber).map(this::getChangeSetFromFile))
-        .orElse(ChangeSet.empty(sequenceNumber));
+  public ChangeSet getChangeSetSince(long sequenceNumber, Context context) throws IOException {
+    List<ChangeSet> changeSets = new ArrayList<>();
+    for (File file: filterFiles(sequenceNumber)) {
+      changeSets.add(getChangeSetFromFile(file));
+    }
+    return merge(Stream.of(changeSets)).orElse(ChangeSet.empty(sequenceNumber));
   }
 
-  private ChangeSet getChangeSetFromFile(File file) {
-    try {
-      return getChangeSetFromInputStream(getSequenceFromFileName(file.getName()), new FileInputStream(file));
-    } catch (FileNotFoundException e) {
-      return ChangeSet.failed;
-    }
+  private ChangeSet getChangeSetFromFile(File file) throws IOException {
+    return getChangeSetFromInputStream(getSequenceFromFileName(file.getName()), new FileInputStream(file));
   }
 
   private Optional<AccountMetaData> getAccountMetaDataFromFile(File file) {

@@ -71,6 +71,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_URI;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
@@ -236,6 +237,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 }
               }
             } catch (IOException e) {
+              Log.e(TAG, "Error while syncing ", e);
               syncResult.stats.numIoExceptions++;
             } catch (RemoteException | OperationApplicationException | SQLiteException e) {
               syncResult.databaseError = true;
@@ -412,6 +414,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       }
       t.parentId = parentId;
     }
+    if (change.pictureUri() != null) {
+      t.setPictureUri(Uri.parse(change.pictureUri()));
+    }
     return t.buildSaveOperations(offset, parentOffset);
   }
 
@@ -449,7 +454,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     if (change.referenceNumber() != null) {
       values.put(KEY_REFERENCE_NUMBER, change.referenceNumber());
     }
-    //values.put("picture_id", pictureUri());
+    if (change.pictureUri() != null) {
+      values.put(KEY_PICTURE_URI, change.pictureUri());
+    }
     return values;
   }
 

@@ -15,6 +15,10 @@ public class ChangeSet {
     this.changes = changes;
   }
 
+  public boolean isFailed() {
+    return sequenceNumber == -1;
+  }
+
   public static ChangeSet create(long sequenceNumber, List<TransactionChange> changes) {
     return new ChangeSet(sequenceNumber, changes);
   }
@@ -25,7 +29,7 @@ public class ChangeSet {
   }
 
   public static ChangeSet merge(ChangeSet changeset1, ChangeSet changeset2) {
-    if (changeset1.equals(failed) || changeset2.equals(failed)) {
+    if (changeset1.isFailed() || changeset2.isFailed()) {
       return failed;
     }
     List<TransactionChange> changes = new ArrayList<>();

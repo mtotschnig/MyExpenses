@@ -96,6 +96,15 @@ public class WebDavClient {
     }
   }
 
+  public void upload(String folderName, String fileName, byte[] fileContent, MediaType mediaType) throws HttpException {
+    try {
+      new LockableDavResource(httpClient, buildResourceUri(folderName, fileName))
+          .put(RequestBody.create(mediaType, fileContent), buildIfHeader(folderName));
+    } catch (IOException | at.bitfire.dav4android.exception.HttpException e) {
+      throw new HttpException(e);
+    }
+  }
+
   private String buildIfHeader(String folderName) {
     return webdavCodedUrl(buildCollectionUri(folderName).toString()) + " " +
         webDavIfHeaderConditionList(webdavCodedUrl(currentLockToken));

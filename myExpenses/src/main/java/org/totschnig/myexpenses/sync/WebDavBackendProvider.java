@@ -2,11 +2,14 @@ package org.totschnig.myexpenses.sync;
 
 import android.accounts.AccountManager;
 import android.content.Context;
+import android.net.Uri;
+import android.webkit.MimeTypeMap;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
@@ -17,6 +20,7 @@ import org.totschnig.myexpenses.sync.webdav.LockableDavResource;
 import org.totschnig.myexpenses.sync.webdav.WebDavClient;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.List;
@@ -25,6 +29,8 @@ import at.bitfire.dav4android.DavResource;
 import at.bitfire.dav4android.exception.DavException;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
+
+import static org.totschnig.myexpenses.util.FileCopyUtils.toByteArray;
 
 public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
@@ -112,10 +118,35 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
+  protected InputStream getInputStreamForPicture(String relativeUri) throws IOException {
+    try {
+      return webDavClient.getResource(accountUuid, relativeUri).get("*/* ").byteStream();
+    } catch (at.bitfire.dav4android.exception.HttpException | DavException e) {
+      throw new IOException(e);
+    }
+  }
+
+  @Override
+  protected void saveUri(String fileName, Uri uri) throws IOException {
+    try {
+      InputStream in = MyApplication.getInstance().getContentResolver()
+          .openInputStream(uri);
+      if (in == null) {
+        throw new IOException("Could not read " + uri.toString());
+      }
+      webDavClient.upload(accountUuid, fileName, toByteArray(in),
+          MediaType.parse(MimeTypeMap.getSingleton().getMimeTypeFromExtension(
+              getFileExtension(fileName))));
+    } catch (HttpException e) {
+      throw e.getCause() instanceof IOException ? ((IOException) e.getCause()) : new IOException(e);
+    }
+  }
+
+  @Override
   protected long getLastSequence() throws IOException {
     return filterDavResources(0)
         .map(davResource -> getSequenceFromFileName(davResource.fileName()))
-        .max(Long::compare)
+        .max(this::compareInt)
         .orElse(0L);
   }
 
