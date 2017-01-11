@@ -199,7 +199,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
         int importedAccounts = insertAccounts(parser.accounts);
         publishProgress(importedAccounts == 0 ?
           MyApplication.getInstance().getString(R.string.import_accounts_none):
-          MyApplication.getInstance().getString(R.string.import_accounts_success,importedAccounts));
+          MyApplication.getInstance().getString(R.string.import_accounts_success, importedAccounts));
       } else {
         if (parser.accounts.size() > 1) {
           publishProgress(
@@ -266,12 +266,12 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
         break;
       }
       long dbAccountId = TextUtils.isEmpty(account.memo) ? -1 : Account.findAny(account.memo);
-      if (dbAccountId!=-1) {
-        Account dbAccount = Account.getInstanceFromDb(accountId);
+      if (dbAccountId != -1) {
+        Account dbAccount = Account.getInstanceFromDb(dbAccountId);
         account.dbAccount = dbAccount;
         if (dbAccount==null) {
           AcraHelper.report(new Exception(
-              "Exception during QIF import. Did not get instance from DB for id " +accountId));
+              "Exception during QIF import. Did not get instance from DB for id " + dbAccountId));
         }
       } else {
         Account a = account.toAccount(mCurrency);
