@@ -124,7 +124,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     AccountManager accountManager = AccountManager.get(getContext());
 
-    Optional<SyncBackendProvider> backendProviderOptional = SyncBackendProviderFactory.get(account, accountManager);
+    Optional<SyncBackendProvider> backendProviderOptional = SyncBackendProviderFactory.get(
+        getContext(), account, accountManager);
     if (!backendProviderOptional.isPresent()) {
       AcraHelper.report(new Exception("Could not find backend for account " + account.name));
       syncResult.databaseError = true;
@@ -182,6 +183,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
           if (backend.lock()) {
             try {
               ChangeSet changeSetSince = backend.getChangeSetSince(lastSyncedRemote, getContext());
+
+              if (changeSetSince.isFailed()) {
+                syncResult.stats.numIoExceptions++;
+                continue;
+              }
 
               List<TransactionChange> remoteChanges;
               if (changeSetSince != null) {

@@ -9,11 +9,16 @@ import java.util.List;
 public class ServiceLoader {
   public static List<SyncBackendProviderFactory> load() {
     List<SyncBackendProviderFactory> services = new ArrayList<>();
-    try {
-      services.add((SyncBackendProviderFactory) Class.forName("org.totschnig.myexpenses.sync.LocalFileBackendProviderFactory").newInstance());
-    } catch (InstantiationException | ClassNotFoundException | IllegalAccessException | ClassCastException e) {
-    }
+    tryToInstantiate(services, "org.totschnig.myexpenses.sync.LocalFileBackendProviderFactory");
+    tryToInstantiate(services, "org.totschnig.myexpenses.sync.GoogleDriveBackendProviderFactory");
     services.add(new WebDavBackendProviderFactory());
     return services;
+  }
+
+  private static void tryToInstantiate(List<SyncBackendProviderFactory> services, String className) {
+    try {
+      services.add((SyncBackendProviderFactory) Class.forName(className).newInstance());
+    } catch (InstantiationException | ClassNotFoundException | IllegalAccessException | ClassCastException e) {
+    }
   }
 }

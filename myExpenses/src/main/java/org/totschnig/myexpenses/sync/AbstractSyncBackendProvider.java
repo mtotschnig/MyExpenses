@@ -32,6 +32,7 @@ import dagger.internal.Preconditions;
 
 abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
 
+  public static final String MIMETYPE_JSON = "application/json";
   protected static final String ACCOUNT_METADATA_FILENAME = "metadata.json";
   private static final Pattern FILE_PATTERN = Pattern.compile("_\\d+");
   protected Gson gson;

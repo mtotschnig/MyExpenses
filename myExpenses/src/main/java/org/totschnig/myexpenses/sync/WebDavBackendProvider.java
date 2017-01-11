@@ -35,7 +35,6 @@ import static org.totschnig.myexpenses.util.FileCopyUtils.toByteArray;
 public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
   public static final String KEY_WEB_DAV_CERTIFICATE = "webDavCertificate";
-  public static final String MIMETYPE_JSON = "application/json";
   public final MediaType MIME_JSON = MediaType.parse(MIMETYPE_JSON + "; charset=utf-8");
 
   private WebDavClient webDavClient;
@@ -44,7 +43,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
    */
   private String accountUuid;
 
-  public WebDavBackendProvider(android.accounts.Account account, AccountManager accountManager) throws SyncParseException {
+  WebDavBackendProvider(android.accounts.Account account, AccountManager accountManager) throws SyncParseException {
     String url = accountManager.getUserData(account, GenericAccountService.KEY_SYNC_PROVIDER_URL);
     String userName = accountManager.getUserData(account, GenericAccountService.KEY_SYNC_PROVIDER_USERNAME);
     String password = accountManager.getPassword(account);

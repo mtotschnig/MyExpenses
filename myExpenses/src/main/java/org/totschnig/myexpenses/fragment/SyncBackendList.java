@@ -40,6 +40,7 @@ import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.ServiceLoader;
 import org.totschnig.myexpenses.sync.SyncBackendProvider;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
+import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.io.IOException;
@@ -89,7 +90,7 @@ public class SyncBackendList extends Fragment implements
     int commandId;
     int titleId;
     if (ExpandableListView.getPackedPositionType(packedPosition) ==
-        ExpandableListView.PACKED_POSITION_TYPE_CHILD ) {
+        ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
       switch (syncBackendAdapter.getSyncState(packedPosition)) {
         case SYNCED_TO_THIS:
           commandId = R.id.SYNC_UNLINK_COMMAND;
@@ -130,19 +131,16 @@ public class SyncBackendList extends Fragment implements
   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
     inflater.inflate(R.menu.sync_backend, menu);
     SubMenu createSubMenu = menu.findItem(R.id.CREATE_COMMAND).getSubMenu();
-    for (SyncBackendProviderFactory factory: backendProviders) {
-      createSubMenu.add(
-          Menu.NONE, factory.getId(), Menu.NONE, factory.getLabel());
+    for (int i = 0, backendProvidersSize = backendProviders.size(); i < backendProvidersSize; i++) {
+      createSubMenu.add(Menu.NONE, i, Menu.NONE, backendProviders.get(i).getLabel());
     }
   }
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    for (SyncBackendProviderFactory factory: backendProviders) {
-      if (factory.getId() == item.getItemId()) {
-        factory.startSetup((ManageSyncBackends) getActivity());
-        return true;
-      }
+    if (item.getItemId() < backendProviders.size()) {
+      backendProviders.get(item.getItemId()).startSetup((ManageSyncBackends) getActivity());
+      return true;
     }
     return super.onOptionsItemSelected(item);
   }
@@ -208,8 +206,8 @@ public class SyncBackendList extends Fragment implements
 
   public void reloadAccountList() {
     syncBackendAdapter.setAccountList(getAccountList());
-    int count =  syncBackendAdapter.getGroupCount();
-    for (int i = 0; i < count ; i++) {
+    int count = syncBackendAdapter.getGroupCount();
+    for (int i = 0; i < count; i++) {
       listView.collapseGroup(i);
     }
   }
@@ -234,7 +232,7 @@ public class SyncBackendList extends Fragment implements
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
       return new CursorLoader(getActivity(), TransactionProvider.ACCOUNTS_BASE_URI,
-          new String[] {KEY_UUID, KEY_SYNC_ACCOUNT_NAME}, null, null, null);
+          new String[]{KEY_UUID, KEY_SYNC_ACCOUNT_NAME}, null, null, null);
     }
 
     @Override
@@ -268,7 +266,8 @@ public class SyncBackendList extends Fragment implements
       if (result.getResult() != null) {
         syncBackendAdapter.setAccountMetadata(loader.getId(), result.getResult());
       } else {
-        Toast.makeText(getActivity(), result.getError().toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), result.getError() != null ? result.getError().getMessage() :
+            "Could not get account metadata for backend", Toast.LENGTH_SHORT).show();
       }
     }
 
@@ -279,9 +278,10 @@ public class SyncBackendList extends Fragment implements
   }
 
   private static class AccountMetaDataLoaderResult {
-    private final List result;
+    private final List<AccountMetaData> result;
     private final Exception error;
-    public AccountMetaDataLoaderResult(List result, Exception error) {
+
+    AccountMetaDataLoaderResult(List<AccountMetaData> result, Exception error) {
       this.result = result;
       this.error = error;
     }
@@ -291,7 +291,7 @@ public class SyncBackendList extends Fragment implements
       return error;
     }
 
-    public List getResult() {
+    public List<AccountMetaData> getResult() {
       return result;
     }
 
@@ -311,6 +311,7 @@ public class SyncBackendList extends Fragment implements
     @Override
     public AccountMetaDataLoaderResult loadInBackground() {
       Optional<SyncBackendProvider> syncBackendProviderOptional = SyncBackendProviderFactory.get(
+          getContext(),
           GenericAccountService.GetAccount(accountName),
           AccountManager.get(getContext()));
       if (syncBackendProviderOptional.isPresent()) {

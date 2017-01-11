@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.activity;
 
 import android.Manifest;
+import android.accounts.AccountManager;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
@@ -66,6 +67,8 @@ import org.totschnig.myexpenses.widget.AbstractWidget;
 
 import java.io.Serializable;
 
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
+
 /**
  * @author Michael Totschnig
  */
@@ -86,6 +89,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   public static final int PICK_COLOR_REQUEST = 11;
   public static final int PICTURE_REQUEST_CODE = 14;
   public static final int IMPORT_FILENAME_REQUESTCODE = 15;
+  public static final int SYNC_BACKEND_SETUP_REQUEST = 16;
   public static final String SAVE_TAG = "SAVE_TASK";
   public static final String SORT_ORDER_USAGES = "USAGES";
   public static final String SORT_ORDER_LAST_USED = "LAST_USED";
@@ -452,6 +456,17 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     }
   }
 
+
+  protected void createAccount(String accountName, String password, Bundle bundle) {
+    Bundle args = new Bundle();
+    args.putString(AccountManager.KEY_ACCOUNT_NAME, accountName);
+    args.putString(AccountManager.KEY_PASSWORD, password);
+    args.putParcelable(AccountManager.KEY_USERDATA, bundle);
+    getSupportFragmentManager()
+        .beginTransaction()
+        .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_CREATE_SYNC_ACCOUNT), ProtectionDelegate.ASYNC_TAG)
+        .commit();
+  }
 
   @Override
   public void onPositive(Bundle args) {

@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.activity;
 
 import android.accounts.AccountManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
@@ -15,13 +16,14 @@ import org.totschnig.myexpenses.fragment.SyncBackendList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.WebDavBackendProviderFactory;
-import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Result;
 
 import java.io.File;
 
+import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_SYNC_PROVIDER_LABEL;
+import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_SYNC_PROVIDER_URL;
+import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_SYNC_PROVIDER_USERNAME;
 import static org.totschnig.myexpenses.sync.WebDavBackendProvider.KEY_WEB_DAV_CERTIFICATE;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_LINK_LOCAL;
@@ -53,12 +55,10 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
       Toast.makeText(this, "No directory " + filePath, Toast.LENGTH_SHORT).show();
       return;
     }
-    String accountName = args.getString(GenericAccountService.KEY_SYNC_PROVIDER_LABEL) + " - "
+    String accountName = args.getString(KEY_SYNC_PROVIDER_LABEL) + " - "
         + filePath;
-    Bundle bundle = new Bundle(2);
-    bundle.putString(GenericAccountService.KEY_SYNC_PROVIDER_ID,
-        args.getString(GenericAccountService.KEY_SYNC_PROVIDER_ID));
-    bundle.putString(GenericAccountService.KEY_SYNC_PROVIDER_URL, filePath);
+    Bundle bundle = new Bundle(1);
+    bundle.putString(KEY_SYNC_PROVIDER_URL, filePath);
     createAccount(accountName, null, bundle);
   }
 
@@ -66,29 +66,27 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
   public void onFinishWebDavSetup(Bundle data) {
     String userName = data.getString(AccountManager.KEY_ACCOUNT_NAME);
     String password = data.getString(AccountManager.KEY_PASSWORD);
-    String url = data.getString(GenericAccountService.KEY_SYNC_PROVIDER_URL);
+    String url = data.getString(KEY_SYNC_PROVIDER_URL);
     String certificate = data.getString(KEY_WEB_DAV_CERTIFICATE);
     String accountName = WebDavBackendProviderFactory.LABEL + " - " + url;
 
-    Bundle bundle = new Bundle();
-    bundle.putString(GenericAccountService.KEY_SYNC_PROVIDER_ID, String.valueOf(R.id.CREATE_BACKEND_WEBDAV_COMMAND));
-    bundle.putString(GenericAccountService.KEY_SYNC_PROVIDER_URL, url);
-    bundle.putString(GenericAccountService.KEY_SYNC_PROVIDER_USERNAME, userName);
+    Bundle bundle = new Bundle(2);
+    bundle.putString(KEY_SYNC_PROVIDER_URL, url);
+    bundle.putString(KEY_SYNC_PROVIDER_USERNAME, userName);
     if (certificate != null) {
       bundle.putString(KEY_WEB_DAV_CERTIFICATE, certificate);
     }
     createAccount(accountName, password, bundle);
   }
 
-  private void createAccount(String accountName, String password, Bundle bundle) {
-    Bundle args = new Bundle();
-    args.putString(AccountManager.KEY_ACCOUNT_NAME, accountName);
-    args.putString(AccountManager.KEY_PASSWORD, password);
-    args.putParcelable(AccountManager.KEY_USERDATA, bundle);
-    getSupportFragmentManager()
-        .beginTransaction()
-        .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_CREATE_SYNC_ACCOUNT), ProtectionDelegate.ASYNC_TAG)
-        .commit();
+  //Google Drive
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+    if (requestCode == SYNC_BACKEND_SETUP_REQUEST && resultCode == RESULT_OK) {
+      getListFragment().reloadAccountList();
+      return;
+    }
+    super.onActivityResult(requestCode, resultCode, intent);
   }
 
   @Override

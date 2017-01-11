@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.sync;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.annimon.stream.Optional;
@@ -12,18 +13,18 @@ import org.totschnig.myexpenses.util.AcraHelper;
 
 public abstract class SyncBackendProviderFactory {
 
-  public static Optional<SyncBackendProvider> get(Account account, AccountManager accountManager) {
+  public static Optional<SyncBackendProvider> get(Context context, Account account, AccountManager accountManager) {
     return Stream.of(ServiceLoader.load())
-        .map(factory -> factory.from(account, accountManager))
+        .map(factory -> factory.from(context, account, accountManager))
         .filter(Optional::isPresent)
         .map(Optional::get)
         .findFirst();
   }
 
-  public Optional<SyncBackendProvider> from(Account account, AccountManager accountManager) {
-    if (accountManager.getUserData(account, GenericAccountService.KEY_SYNC_PROVIDER_ID).equals(String.valueOf(getId()))) {
+  public final Optional<SyncBackendProvider> from(Context context, Account account, AccountManager accountManager) {
+    if (account.name.startsWith(getLabel())) {
       try {
-        return Optional.of(_fromAccount(account, accountManager));
+        return Optional.of(_fromAccount(context, account, accountManager));
       } catch (SyncBackendProvider.SyncParseException e) {
         AcraHelper.report(e);
       }
@@ -32,9 +33,7 @@ public abstract class SyncBackendProviderFactory {
   }
 
   @NonNull
-  protected abstract SyncBackendProvider _fromAccount(Account account, AccountManager accountManager) throws SyncBackendProvider.SyncParseException;
-
-  public abstract int getId();
+  protected abstract SyncBackendProvider _fromAccount(Context context, Account account, AccountManager accountManager) throws SyncBackendProvider.SyncParseException;
 
   public abstract String getLabel();
 
