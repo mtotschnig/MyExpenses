@@ -20,7 +20,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Button;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -37,9 +36,10 @@ public class ProgressDialogFragment extends CommitSafeDialogFragment {
   private static final String KEY_PROGRESS = "progress";
   private static final String KEY_MAX = "max";
   private ProgressDialog mDialog;
-  boolean mTaskCompleted = false;
-  int progress = 0, max = 0;
-  String title, message;
+  private boolean mTaskCompleted = false;
+  private int progress = 0, max = 0;
+  private String title, message;
+  private int dialogButton = DialogInterface.BUTTON_POSITIVE;
 
 
   /**
@@ -104,7 +104,7 @@ public class ProgressDialogFragment extends CommitSafeDialogFragment {
     if (mTaskCompleted) {
       mDialog.setIndeterminateDrawable(null);
     } else {
-      Button b = mDialog.getButton(DialogInterface.BUTTON_NEUTRAL);
+      Button b = mDialog.getButton(dialogButton);
       if (b != null) {
         b.setEnabled(false);
       }
@@ -154,15 +154,12 @@ public class ProgressDialogFragment extends CommitSafeDialogFragment {
       }
     }
     if (withButton) {
-      mDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(android.R.string.ok),
-          new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-              if (getActivity() == null) {
-                return;
-              }
-              ((MessageDialogListener) getActivity()).onMessageDialogDismissOrCancel();
+      mDialog.setButton(dialogButton, getString(android.R.string.ok),
+          (dialog, which) -> {
+            if (getActivity() == null) {
+              return;
             }
+            ((MessageDialogListener) getActivity()).onMessageDialogDismissOrCancel();
           });
     }
     return mDialog;
@@ -187,10 +184,8 @@ public class ProgressDialogFragment extends CommitSafeDialogFragment {
 
   public void appendToMessage(String newMessage) {
     if (TextUtils.isEmpty(this.message)) {
-      Log.i("DEBUG", "setting message to " + newMessage);
       this.message = newMessage;
     } else {
-      Log.i("DEBUG", "appending message " + newMessage + " to " + this.message);
       this.message += "\n" + newMessage;
     }
     mDialog.setMessage(this.message);
@@ -204,7 +199,7 @@ public class ProgressDialogFragment extends CommitSafeDialogFragment {
       //seen on samsung SM-G900F
       AcraHelper.report(e);
     }
-    mDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setEnabled(true);
+    mDialog.getButton(dialogButton).setEnabled(true);
   }
 
   @Override
