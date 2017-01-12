@@ -132,6 +132,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       return;
     }
     SyncBackendProvider backend = backendProviderOptional.get();
+    if (!backend.setUp()) {
+      syncResult.stats.numIoExceptions++;
+      return;
+    }
 
     Cursor c;
     try {
@@ -249,7 +253,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
               syncResult.databaseError = true;
               AcraHelper.report(e);
             } finally {
-              backend.unlock();
+              if (!backend.unlock()) {
+                Log.e(TAG, "Unlocking backend failed");
+                syncResult.stats.numIoExceptions++;
+              }
             }
           } else {
             //TODO syncResult.delayUntil = ???
@@ -259,6 +266,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       }
       c.close();
     }
+    backend.tearDown();
   }
 
   private List<TransactionChange> getLocalChanges(ContentProviderClient provider, long accountId,

@@ -26,6 +26,10 @@ public interface SyncBackendProvider {
 
   List<AccountMetaData> getRemoteAccountList() throws IOException;
 
+  boolean setUp();
+
+  void tearDown();
+
   class SyncParseException extends Exception {
     SyncParseException(Exception e) {
       super(e);
