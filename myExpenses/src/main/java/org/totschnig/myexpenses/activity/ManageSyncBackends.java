@@ -35,6 +35,7 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_WEBDAV_TE
 public class ManageSyncBackends extends ProtectedFragmentActivity implements
     EditTextDialog.EditTextDialogListener {
 
+  private static final String KEY_PACKED_POSITION = "packedPosition";
   private Account newAccount;
 
   @Override
@@ -107,22 +108,44 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
             new String[]{args.getString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)}, null, 0);
         break;
       }
+      case R.id.SYNC_LINK_COMMAND_LOCAL_DO: {
+        Account account = getListFragment().getAccountForSync(args.getLong(KEY_PACKED_POSITION));
+        startTaskExecution(TASK_SYNC_LINK_LOCAL,
+            new String[]{account.uuid}, account.getSyncAccountName(), 0);
+        break;
+      }
+      case R.id.SYNC_LINK_COMMAND_REMOTE_DO: {
+        Account account = getListFragment().getAccountForSync(args.getLong(KEY_PACKED_POSITION));
+        startTaskExecution(TASK_SYNC_LINK_REMOTE,
+            null, account, 0);
+        break;
+      }
     }
   }
 
   @Override
   public boolean dispatchCommand(int command, Object tag) {
     switch (command) {
-      case R.id.SYNC_LINK_COMMAND_DO_LOCAL: {
-        Account account = getListFragment().getAccountForSync((Long) tag);
-        startTaskExecution(TASK_SYNC_LINK_LOCAL,
-            new String[]{account.uuid}, account.getSyncAccountName(), 0);
+      case R.id.SYNC_LINK_COMMAND_LOCAL: {
+        Bundle b = new Bundle();
+        b.putString(ConfirmationDialogFragment.KEY_MESSAGE,
+            getString(R.string.dialog_confirm_sync_link_local));
+        b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.SYNC_LINK_COMMAND_LOCAL_DO);
+        b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.dialog_command_sync_link_local);
+        b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, android.R.string.cancel);
+        b.putLong(KEY_PACKED_POSITION, (Long) tag);
+        ConfirmationDialogFragment.newInstance(b).show(getSupportFragmentManager(), "SYNC_LINK_LOCAL");
         break;
       }
-      case R.id.SYNC_LINK_COMMAND_DO_REMOTE: {
-        Account account = getListFragment().getAccountForSync((Long) tag);
-        startTaskExecution(TASK_SYNC_LINK_REMOTE,
-            null, account, 0);
+      case R.id.SYNC_LINK_COMMAND_REMOTE: {
+        Bundle b = new Bundle();
+        b.putString(ConfirmationDialogFragment.KEY_MESSAGE,
+            getString(R.string.dialog_confirm_sync_link_remote));
+        b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.SYNC_LINK_COMMAND_REMOTE_DO);
+        b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.dialog_command_sync_link_remote);
+        b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, android.R.string.cancel);
+        b.putLong(KEY_PACKED_POSITION, (Long) tag);
+        ConfirmationDialogFragment.newInstance(b).show(getSupportFragmentManager(), "SYNC_LINK_REMOTE");
         break;
       }
     }

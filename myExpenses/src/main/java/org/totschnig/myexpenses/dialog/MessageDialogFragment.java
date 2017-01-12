@@ -15,20 +15,27 @@
 
 package org.totschnig.myexpenses.dialog;
 
-import java.io.Serializable;
-
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
 import android.app.Activity;
-import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
+
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+
+import java.io.Serializable;
 
 public class MessageDialogFragment extends CommitSafeDialogFragment implements OnClickListener {
-  
+
+  private static final String KEY_TITLE = "title";
+  private static final String KEY_MESSAGE = "message";
+  private static final String KEY_POSITIVE = "positive";
+  private static final String KEY_NEUTRAL = "neutral";
+  private static final String KEY_NEGATIVE = "negative";
+
   public static class Button implements Serializable {
     int label;
     int command;
@@ -63,28 +70,29 @@ public class MessageDialogFragment extends CommitSafeDialogFragment implements O
       int title, CharSequence message, Button positive, Button neutral, Button negative) {
     MessageDialogFragment dialogFragment = new MessageDialogFragment();
     Bundle bundle = new Bundle();
-    bundle.putInt("title", title);
-    bundle.putCharSequence("message", message);
-    bundle.putSerializable("positive", positive);
-    bundle.putSerializable("neutral", neutral);
-    bundle.putSerializable("negative", negative);
+    bundle.putInt(KEY_TITLE, title);
+    bundle.putCharSequence(KEY_MESSAGE, message);
+    bundle.putSerializable(KEY_POSITIVE, positive);
+    bundle.putSerializable(KEY_NEUTRAL, neutral);
+    bundle.putSerializable(KEY_NEGATIVE, negative);
     dialogFragment.setArguments(bundle);
     return dialogFragment;
   }
   
+  @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     final Bundle bundle = getArguments();
     Activity ctx  = getActivity();
     AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
-        .setMessage(bundle.getCharSequence("message"));
-    int title = bundle.getInt("title");
+        .setMessage(bundle.getCharSequence(KEY_MESSAGE));
+    int title = bundle.getInt(KEY_TITLE);
     if (title != 0) {
       builder.setTitle(title);
     }
-    Button positive = (Button) bundle.getSerializable("positive");
-    Button neutral = (Button) bundle.getSerializable("neutral");
-    Button negative = (Button) bundle.getSerializable("negative");
+    Button positive = (Button) bundle.getSerializable(KEY_POSITIVE);
+    Button neutral = (Button) bundle.getSerializable(KEY_NEUTRAL);
+    Button negative = (Button) bundle.getSerializable(KEY_NEGATIVE);
     if (positive != null)
       builder.setPositiveButton(positive.label, this);
     if (neutral != null)
@@ -111,13 +119,13 @@ public class MessageDialogFragment extends CommitSafeDialogFragment implements O
     Button clicked = null;
     switch(which) {
     case AlertDialog.BUTTON_POSITIVE:
-      clicked = (Button) bundle.getSerializable("positive");
+      clicked = (Button) bundle.getSerializable(KEY_POSITIVE);
       break;
     case AlertDialog.BUTTON_NEUTRAL:
-      clicked = (Button) bundle.getSerializable("neutral");
+      clicked = (Button) bundle.getSerializable(KEY_NEUTRAL);
       break;
     case AlertDialog.BUTTON_NEGATIVE:
-      clicked = (Button) bundle.getSerializable("negative");
+      clicked = (Button) bundle.getSerializable(KEY_NEGATIVE);
       break;
     }
     if (clicked.command == R.id.NO_COMMAND)

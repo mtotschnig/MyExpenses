@@ -127,8 +127,10 @@
   <item name="SYNC_DOWNLOAD_COMMAND" type="id" />
   <item name="SYNC_LINK_COMMAND" type="id" />
   <item name="SYNC_UNLINK_COMMAND" type="id" />
-  <item name="SYNC_LINK_COMMAND_DO_REMOTE" type="id"/>
-  <item name="SYNC_LINK_COMMAND_DO_LOCAL" type="id"/>
+  <item name="SYNC_LINK_COMMAND_REMOTE_DO" type="id"/>
+  <item name="SYNC_LINK_COMMAND_LOCAL_DO" type="id"/>
+  <item name="SYNC_LINK_COMMAND_REMOTE" type="id"/>
+  <item name="SYNC_LINK_COMMAND_LOCAL" type="id"/>
   <item name="SYNCED_TO_OTHER_COMMAND" type="id"/>
   <item name="SYNC_REMOVE_BACKEND_COMMAND" type="id"/>
 </resources>

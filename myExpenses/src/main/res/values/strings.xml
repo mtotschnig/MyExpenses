@@ -642,5 +642,7 @@
     <string name="dialog_synced_to_other">An account with uuid %s already exists in the local database and is linked to a different remote backend.</string>
     <string name="menu_remove">Remove</string>
     <string name="dialog_confirm_sync_remove_backend">Remote backend %s will be removed. This will not affect data stored locally or remotely, but synchronization status gets lost. Do you want to continue?</string>
+    <string name="dialog_confirm_sync_link_local">Remote data for this account will be deleted. Make sure no other devices are linked to it.</string>
+    <string name="dialog_confirm_sync_link_remote">Local data for this account will be deleted.</string>
 </resources>
 

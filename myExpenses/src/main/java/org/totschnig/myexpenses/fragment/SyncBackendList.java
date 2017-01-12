@@ -34,7 +34,6 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.ServiceLoader;
@@ -174,9 +173,9 @@ public class SyncBackendList extends Fragment implements
         MessageDialogFragment.newInstance(
             R.string.menu_sync_link,
             getString(R.string.dialog_sync_link, account.uuid),
-            new MessageDialogFragment.Button(R.string.dialog_command_sync_link_remote, R.id.SYNC_LINK_COMMAND_DO_REMOTE, packedPosition),
+            new MessageDialogFragment.Button(R.string.dialog_command_sync_link_remote, R.id.SYNC_LINK_COMMAND_REMOTE, packedPosition),
             MessageDialogFragment.Button.nullButton(android.R.string.cancel),
-            new MessageDialogFragment.Button(R.string.dialog_command_sync_link_local, R.id.SYNC_LINK_COMMAND_DO_LOCAL, packedPosition))
+            new MessageDialogFragment.Button(R.string.dialog_command_sync_link_local, R.id.SYNC_LINK_COMMAND_LOCAL, packedPosition))
             .show(getFragmentManager(), "SYNC_LINK");
         return true;
       }
