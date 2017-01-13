@@ -366,6 +366,16 @@
         <item>up</item>
     </string-array>
 
+    <string-array name="help_ManageSyncBackends_info">
+        <item>help_ManageSyncBackends_intro</item>
+        <item>help_ManageSyncBackends_webdav</item>
+        <item>help_ManageSyncBackends_drive</item>
+    </string-array>
+
+    <string-array name="ManageSyncBackends_menuitems" tools:ignore="UnusedResources">
+        <item>create_sync_backend</item>
+    </string-array>
+
     <integer-array name="version_codes">
         <item>258</item>
         <item>257</item>

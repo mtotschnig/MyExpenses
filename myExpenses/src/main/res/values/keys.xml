@@ -114,6 +114,7 @@
     <string name="help_ManageStaleImages_title" tools:ignore="UnusedResources">@string/pref_manage_stale_images_title</string>
     <string name="help_CsvImportActivity_title" tools:ignore="UnusedResources">@string/contrib_feature_csv_import_label</string>
     <string name="help_NavigationDrawer_title" tools:ignore="UnusedResources">@string/pref_manage_accounts_title</string>
+    <string name="help_ManageSyncBackends_title" tools:ignore="UnusedResources">@string/pref_manage_sync_backends_title</string>
     <string name="help_ExpenseEdit_plans_title">@string/help_ManageTemplates_plans_title</string>
     <string name="help_ExpenseEdit_plans_info">@string/help_ManageTemplates_plans_info</string>
     <string name="instant_plan">@string/plan</string>

@@ -22,7 +22,9 @@ import android.content.res.Resources;
 import android.content.res.Resources.NotFoundException;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.ArrayRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
@@ -35,6 +37,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
+
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.Utils;
@@ -42,6 +47,7 @@ import org.totschnig.myexpenses.util.Utils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * A Dialog Fragment that displays help information. The content is constructed from resources
@@ -87,11 +93,12 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     iconMap.put("up", R.drawable.ic_arrow_upward);
     iconMap.put("categories_export", R.drawable.ic_menu_download);
     iconMap.put("split_transaction", R.drawable.ic_menu_split);
-    iconMap.put("move",R.drawable.ic_menu_move);
-    iconMap.put("sort",R.drawable.ic_menu_sort);
-    iconMap.put("sort_up",R.drawable.ic_arrow_upward);
-    iconMap.put("sort_down",R.drawable.ic_arrow_downward);
-    iconMap.put("grouping",R.drawable.ic_action_group);
+    iconMap.put("move", R.drawable.ic_menu_move);
+    iconMap.put("sort", R.drawable.ic_menu_sort);
+    iconMap.put("sort_up", R.drawable.ic_arrow_upward);
+    iconMap.put("sort_down", R.drawable.ic_arrow_downward);
+    iconMap.put("grouping", R.drawable.ic_action_group);
+    iconMap.put("create_sync_backend", R.drawable.ic_menu_add);
   }
 
   private LayoutInflater layoutInflater;
@@ -115,7 +122,6 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     FragmentActivity ctx = getActivity();
     final Resources res = getResources();
     String title;
-    String screenInfo = "";
     Bundle args = getArguments();
     context = args.getString(KEY_CONTEXT);
     variant = args.getString(KEY_VARIANT);
@@ -126,20 +132,15 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
 
     try {
       String resIdString = "help_" + context + "_info";
-      int resId = resolveString(resIdString);
-      if (resId != 0) {
-        screenInfo = getStringSafe(resId);
-      }
+      CharSequence screenInfo = resolveStringOrArray(resIdString, true);
       if (variant != null) {
         resIdString = "help_" + context + "_" + variant + "_info";
-        resId = resolveString(resIdString);
-        if (resId != 0) {
-          String variantInfo = getStringSafe(resId);
-          if (!TextUtils.isEmpty(variantInfo)) {
-            if (!TextUtils.isEmpty(screenInfo)) {
-              screenInfo += "<br>";
-            }
-            screenInfo += variantInfo;
+        CharSequence variantInfo = resolveStringOrArray(resIdString, true);
+        if (!TextUtils.isEmpty(variantInfo)) {
+          if (!TextUtils.isEmpty(screenInfo)) {
+            screenInfo = TextUtils.concat(screenInfo, Html.fromHtml("<br>"), variantInfo);
+          } else {
+            screenInfo = variantInfo;
           }
         }
       }
@@ -147,11 +148,11 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
       if (TextUtils.isEmpty(screenInfo)) {
         infoView.setVisibility(View.GONE);
       } else {
-        infoView.setText(Html.fromHtml(screenInfo, this, null));
+        infoView.setText(screenInfo);
       }
 
       // Form entries
-      resId = variant != null ? resolveArray(context + "_" + variant + "_formfields") :
+      int resId = variant != null ? resolveArray(context + "_" + variant + "_formfields") :
           resolveArray(context + "_formfields");
       ArrayList<String> menuItems = new ArrayList<>();
       if (resId != 0) {
@@ -226,8 +227,8 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
 
   /**
    * @param menuItems list of menuitems to be displayed
-   * @param prefix "form", "menu" or "cab"
-   * @param offset items will be added with this offset at the bottom
+   * @param prefix    "form", "menu" or "cab"
+   * @param offset    items will be added with this offset at the bottom
    * @throws NotFoundException
    */
   protected void handleMenuItems(ArrayList<String> menuItems, String prefix, int offset)
@@ -235,7 +236,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     String resIdString;
     int resId;
     for (String item : menuItems) {
-      View row = layoutInflater.inflate(R.layout.help_dialog_action_row, linearLayout,false);
+      View row = layoutInflater.inflate(R.layout.help_dialog_action_row, linearLayout, false);
 
       String title = "";
       if (prefix.equals("form")) {
@@ -270,12 +271,12 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
 
       CharSequence helpText;
 
-      helpText = resolveStringOrArray(prefix + "_" + context + "_" + variant + "_" + item + "_help_text");
+      helpText = resolveStringOrArray(prefix + "_" + context + "_" + variant + "_" + item + "_help_text", false);
       if (TextUtils.isEmpty(helpText)) {
-        helpText = resolveStringOrArray(prefix + "_" + context + "_" + item + "_help_text");
+        helpText = resolveStringOrArray(prefix + "_" + context + "_" + item + "_help_text", false);
         if (TextUtils.isEmpty(helpText)) {
           resIdString = prefix + "_" + item + "_help_text";
-          helpText = resolveStringOrArray(resIdString);
+          helpText = resolveStringOrArray(resIdString, false);
           if (TextUtils.isEmpty(helpText)) {
             throw new NotFoundException(resIdString);
           }
@@ -287,7 +288,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     }
   }
 
-  private CharSequence resolveStringOrArray(String resString) {
+  private CharSequence resolveStringOrArray(String resString, boolean separateComponentsByLinefeeds) {
     int resId = resolveArray(resString);
     if (resId == 0) {
       resId = resolveString(resString);
@@ -297,15 +298,17 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
         return Html.fromHtml(getStringSafe(resId), this, null);
       }
     } else {
-      String[] components = getResources().getStringArray(resId);
+      CharSequence linefeed = Html.fromHtml("<br><br>");
+      List<String> components = Stream.of(getResources().getStringArray(resId))
+          .filter(component -> !shouldSkip(component))
+          .map(this::resolveString)
+          .map(this::getStringSafe).collect(Collectors.toList());
       ArrayList<CharSequence> resolvedComponents = new ArrayList<>();
-      for (int i = 0; i < components.length; i++) {
-        if (shouldSkip(components[i])) {
-          continue;
+      for (int i = 0; i < components.size(); i++) {
+        resolvedComponents.add(Html.fromHtml(components.get(i), this, null));
+        if (i < components.size() - 1) {
+          resolvedComponents.add(separateComponentsByLinefeeds ? linefeed : " ");
         }
-        String component = getStringSafe(resolveString(components[i]));
-        if (i<components.length-1) component += " ";
-        resolvedComponents.add(Html.fromHtml(component, this, null));
       }
       return TextUtils.concat(resolvedComponents.toArray(new CharSequence[resolvedComponents.size()]));
     }
@@ -315,11 +318,15 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     switch (component) {
       case "form_plan_help_text_advanced":
         return !Utils.shouldUseAndroidPlatformCalendar();
+      case "help_ManageSyncBackends_drive":
+        return !Utils.IS_FLAVOURED;
     }
     return false;
   }
 
-  private int resolveString(String resIdString) {
+  private
+  @StringRes
+  int resolveString(String resIdString) {
     return resolve(resIdString, "string");
   }
 
@@ -344,7 +351,9 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     }
   }
 
-  private int resolveArray(String resIdString) {
+  private
+  @ArrayRes
+  int resolveArray(String resIdString) {
     return resolve(resIdString, "array");
   }
 
@@ -371,7 +380,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     try {
       if (name.startsWith("?")) {
         name = name.substring(1);
-        switch(name) {
+        switch (name) {
           case "calcIcon":
             resId = R.drawable.ic_action_equal;
             break;
@@ -389,9 +398,12 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
         }
       }
       @SuppressWarnings("deprecation")
-      Drawable d = android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP ?
-          getResources().getDrawable(resId,getActivity().getTheme()):
-          getResources().getDrawable(resId);
+      Drawable d = null;
+      if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+        d = getResources().getDrawable(resId, getActivity().getTheme());
+      } else {
+        d = getResources().getDrawable(resId);
+      }
       if (d != null) {
         d.setBounds(0, 0, d.getIntrinsicWidth() / 2,
             d.getIntrinsicHeight() / 2);
