@@ -176,8 +176,7 @@ public class ExpenseEdit extends AmountActivity implements
   private EditText mCommentText, mTitleText, mReferenceNumberText;
   private AmountEditText mTransferAmountText, mExchangeRate1Text, mExchangeRate2Text;
   private Button mCategoryButton, mPlanButton;
-  private Spinner mMethodSpinner;
-  private SpinnerHelper mAccountSpinner, mTransferAccountSpinner, mStatusSpinner,
+  private SpinnerHelper mMethodSpinner, mAccountSpinner, mTransferAccountSpinner, mStatusSpinner,
       mOperationTypeSpinner, mReccurenceSpinner;
   private SimpleCursorAdapter mMethodsAdapter, mAccountsAdapter, mTransferAccountsAdapter, mPayeeAdapter;
   private OperationTypeAdapter mOperationTypeAdapter;
@@ -344,7 +343,7 @@ public class ExpenseEdit extends AmountActivity implements
 
     mCategoryButton = (Button) findViewById(R.id.Category);
     mPlanButton = (Button) findViewById(R.id.Plan);
-    mMethodSpinner = (Spinner) findViewById(R.id.Method);
+    mMethodSpinner = new SpinnerHelper(findViewById(R.id.Method));
     mAccountSpinner = new SpinnerHelper(findViewById(R.id.Account));
     mTransferAccountSpinner = new SpinnerHelper(findViewById(R.id.TransferAccount));
     mTransferAccountSpinner.setOnItemSelectedListener(this);
@@ -783,7 +782,7 @@ public class ExpenseEdit extends AmountActivity implements
     linkInputWithLabel(mCommentText, commentLabel);
     linkInputWithLabel(mCategoryButton, findViewById(R.id.CategoryLabel));
     View methodLabel = findViewById(R.id.MethodLabel);
-    linkInputWithLabel(mMethodSpinner, methodLabel);
+    linkInputWithLabel(mMethodSpinner.getSpinner(), methodLabel);
     linkInputWithLabel(mReferenceNumberText, methodLabel);
     View planLabel = findViewById(R.id.PlanLabel);
     linkInputWithLabel(mPlanButton, planLabel);
@@ -1543,7 +1542,7 @@ public class ExpenseEdit extends AmountActivity implements
           updateAccount(account);
         } else {
           for (int i = 0; i < mAccounts.length; i++) {
-            if (mAccounts[i].getId() == mTransaction.accountId) {
+            if (mAccounts[i].getId().equals(mTransaction.accountId)) {
               mAccountSpinner.setSelection(i);
               break;
             }
