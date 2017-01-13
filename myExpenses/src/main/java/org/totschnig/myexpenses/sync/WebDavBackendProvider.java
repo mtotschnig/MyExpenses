@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.sync;
 import android.accounts.AccountManager;
 import android.content.Context;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.webkit.MimeTypeMap;
 
 import com.annimon.stream.Collectors;
@@ -116,6 +117,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
         .filter(davResource -> isNewerJsonFile(sequenceNumber, davResource.fileName()));
   }
 
+  @NonNull
   @Override
   protected InputStream getInputStreamForPicture(String relativeUri) throws IOException {
     try {

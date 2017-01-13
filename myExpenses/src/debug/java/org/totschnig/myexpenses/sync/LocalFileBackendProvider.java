@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.sync;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Optional;
@@ -69,6 +70,7 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
     return true;
   }
 
+  @NonNull
   @Override
   protected InputStream getInputStreamForPicture(String relativeUri) throws IOException {
     return new FileInputStream(new File(accountDir, relativeUri));

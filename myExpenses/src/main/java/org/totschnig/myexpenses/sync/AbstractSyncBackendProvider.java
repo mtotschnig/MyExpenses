@@ -52,7 +52,8 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   public void tearDown() {
   }
 
-  ChangeSet getChangeSetFromInputStream(long sequenceNumber, InputStream inputStream) throws IOException {
+  ChangeSet getChangeSetFromInputStream(long sequenceNumber, InputStream inputStream)
+      throws IOException {
     final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
     List<TransactionChange> changes = Utils.getChanges(gson, reader);
     if (changes == null || changes.size() == 0) {
@@ -61,7 +62,8 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     List<TransactionChange> changeSetRead = new ArrayList<>();
     for (TransactionChange transactionChange : changes) {
       if (transactionChange.pictureUri() != null) {
-        changeSetRead.add(transactionChange.toBuilder().setPictureUri(ingestPictureUri(transactionChange.pictureUri())).build());
+        changeSetRead.add(transactionChange.toBuilder()
+            .setPictureUri(ingestPictureUri(transactionChange.pictureUri())).build());
       } else {
         changeSetRead.add(transactionChange);
       }
@@ -74,16 +76,19 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     if (homeUri == null) {
       throw new IOException("Unable to write picture");
     }
-    FileCopyUtils.copy(getInputStreamForPicture(relativeUri),  MyApplication.getInstance().getContentResolver()
+    FileCopyUtils.copy(getInputStreamForPicture(relativeUri),
+        MyApplication.getInstance().getContentResolver()
         .openOutputStream(homeUri));
     return homeUri.toString();
   }
 
+  @NonNull
   protected abstract InputStream getInputStreamForPicture(String relativeUri) throws IOException;
 
   Optional<AccountMetaData> getAccountMetaDataFromInputStream(InputStream inputStream) {
     try {
-      return Optional.of(gson.fromJson(new BufferedReader(new InputStreamReader(inputStream)), AccountMetaData.class));
+      return Optional.of(gson.fromJson(
+          new BufferedReader(new InputStreamReader(inputStream)), AccountMetaData.class));
     } catch (Exception e) {
       AcraHelper.report(e);
       return Optional.empty();
@@ -128,7 +133,8 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     List<TransactionChange> changeSetToWrite = new ArrayList<>();
     for (TransactionChange transactionChange : changeSet) {
       if (transactionChange.pictureUri() != null) {
-        String newUri = transactionChange.uuid() + "_" + Uri.parse(transactionChange.pictureUri()).getLastPathSegment();
+        String newUri = transactionChange.uuid() + "_" +
+            Uri.parse(transactionChange.pictureUri()).getLastPathSegment();
         saveUri(newUri, Uri.parse(transactionChange.pictureUri()));
         changeSetToWrite.add(transactionChange.toBuilder().setPictureUri(newUri).build());
       } else {
