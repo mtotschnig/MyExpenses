@@ -307,7 +307,6 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
   }
   @Override
   public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     switch (requestCode) {
       case ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR:
         if (grantResults.length > 0
@@ -317,7 +316,8 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
           ((DialogUtils.CalendarRestoreStrategyChangedListener)
               getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG)).onCalendarPermissionDenied();
         }
-        break;
+        return;
     }
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
   }
 }
