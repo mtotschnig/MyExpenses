@@ -153,4 +153,9 @@
   <string name="help_ManageSyncBackends_webdav">WebDAV: If your cloud storage provider supports this protocol, My Expenses will be able to sync data with it. Simply provide the URL to a folder with your username and password. If you use https and your webserver uses a self-signed certificate, you will be able to trust it explicitly.</string>
   <string name="help_ManageSyncBackends_drive">Google Drive: Pick any folder that you own or that is shared with you.</string>
   <string name="menu_create_sync_backend_help_text">From the submenu select the type of synchronization backend that you want to add, and provide the details specific to each.</string>
+  <string name="cab_sync_now_help_text">Trigger immediate synchronization with the selected backend.</string>
+  <string name="cab_remove_help_text">Remove the selected backend.</string>
+  <string name="cab_sync_download_help_text">Download an account that is available on the backend. An account will be created locally and be configured for synchronization with the backend.</string>
+  <string name="cab_sync_link_help_text">Start synchronization for an account that exists both locally and remotely. You need to decide if local or remote data should be kept on the first synchronization.</string>
+  <string name="cab_sync_unlink_help_text">The selected account will no longer be synced to the backend</string>
 </resources>

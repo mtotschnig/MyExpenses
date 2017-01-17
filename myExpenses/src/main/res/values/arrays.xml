@@ -372,6 +372,14 @@
         <item>help_ManageSyncBackends_drive</item>
     </string-array>
 
+    <string-array name="ManageSyncBackends_cabitems" tools:ignore="UnusedResources">
+        <item>sync_now</item>
+        <item>remove</item>
+        <item>sync_download</item>
+        <item>sync_link</item>
+        <item>sync_unlink</item>
+    </string-array>
+
     <string-array name="ManageSyncBackends_menuitems" tools:ignore="UnusedResources">
         <item>create_sync_backend</item>
     </string-array>

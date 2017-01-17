@@ -99,6 +99,11 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     iconMap.put("sort_down", R.drawable.ic_arrow_downward);
     iconMap.put("grouping", R.drawable.ic_action_group);
     iconMap.put("create_sync_backend", R.drawable.ic_menu_add);
+    iconMap.put("sync_now", null);
+    iconMap.put("remove", null);
+    iconMap.put("sync_download", null);
+    iconMap.put("sync_link", null);
+    iconMap.put("sync_unlink", null);
   }
 
   private LayoutInflater layoutInflater;
@@ -234,7 +239,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
   protected void handleMenuItems(ArrayList<String> menuItems, String prefix, int offset)
       throws NotFoundException {
     String resIdString;
-    int resId;
+    Integer resId;
     for (String item : menuItems) {
       View row = layoutInflater.inflate(R.layout.help_dialog_action_row, linearLayout, false);
 
@@ -256,12 +261,15 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
         row.findViewById(R.id.list_image_container).setVisibility(View.GONE);
       } else if (iconMap.containsKey(item)) {
         resId = iconMap.get(item);
-        final ImageView icon = (ImageView) row.findViewById(R.id.list_image);
-        icon.setVisibility(View.VISIBLE);
-        icon.setImageResource(resId);
-        icon.setContentDescription(title);
+        if (resId != null) {
+          //null value in the map indicates no icon
+          final ImageView icon = (ImageView) row.findViewById(R.id.list_image);
+          icon.setVisibility(View.VISIBLE);
+          icon.setImageResource(resId);
+          icon.setContentDescription(title);
+        }
       } else {
-        //for the moment we assume that menu entries without icon are checkable
+        //menu entries without entries in the map are checkable
         row.findViewById(R.id.list_checkbox).setVisibility(View.VISIBLE);
       }
 
