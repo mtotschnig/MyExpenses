@@ -15,12 +15,15 @@
 
 package org.totschnig.myexpenses.provider;
 
+import android.Manifest;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.support.v4.content.ContextCompat;
 
 import com.android.calendar.CalendarContractCompat;
 
@@ -176,6 +179,10 @@ public class DbUtils {
   }
 
   private static void cacheEventData() {
+    if (ContextCompat.checkSelfPermission(MyApplication.getInstance(),
+        Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+      return;
+    }
     String plannerCalendarId = PrefKey.PLANNER_CALENDAR_ID.getString("-1");
     if (plannerCalendarId.equals("-1")) {
       return;

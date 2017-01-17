@@ -1,11 +1,14 @@
 package org.totschnig.myexpenses.model;
 
+import android.Manifest;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.text.format.Time;
 import android.util.Log;
@@ -102,30 +105,33 @@ public class Plan extends Model implements Serializable {
 
   public static Plan getInstanceFromDb(long planId) {
     Plan plan = null;
-    Cursor c = cr().query(
-        ContentUris.withAppendedId(Events.CONTENT_URI, planId),
-        new String[]{
-            Events._ID,
-            Events.DTSTART,
-            Events.RRULE,
-            Events.TITLE},
-        null,
-        null,
-        null);
-    if (c != null) {
-      if (c.moveToFirst()) {
-        long eventId = c.getLong(c.getColumnIndexOrThrow(Events._ID));
-        long dtStart = c.getLong(c.getColumnIndexOrThrow(Events.DTSTART));
-        String rRule = c.getString(c.getColumnIndexOrThrow(Events.RRULE));
-        String title = c.getString(c.getColumnIndexOrThrow(Events.TITLE));
-        plan = new Plan(
-            eventId,
-            dtStart,
-            rRule,
-            title,
-            "" // we do not need the description stored in the event
-        );
-        c.close();
+    if (ContextCompat.checkSelfPermission(MyApplication.getInstance(),
+        Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
+      Cursor c = cr().query(
+          ContentUris.withAppendedId(Events.CONTENT_URI, planId),
+          new String[]{
+              Events._ID,
+              Events.DTSTART,
+              Events.RRULE,
+              Events.TITLE},
+          null,
+          null,
+          null);
+      if (c != null) {
+        if (c.moveToFirst()) {
+          long eventId = c.getLong(c.getColumnIndexOrThrow(Events._ID));
+          long dtStart = c.getLong(c.getColumnIndexOrThrow(Events.DTSTART));
+          String rRule = c.getString(c.getColumnIndexOrThrow(Events.RRULE));
+          String title = c.getString(c.getColumnIndexOrThrow(Events.TITLE));
+          plan = new Plan(
+              eventId,
+              dtStart,
+              rRule,
+              title,
+              "" // we do not need the description stored in the event
+          );
+          c.close();
+        }
       }
     }
     return plan;
