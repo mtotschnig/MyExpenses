@@ -15,7 +15,14 @@
 
 package org.totschnig.myexpenses.dialog;
 
-import java.io.Serializable;
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.res.Resources;
+import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.text.Html;
+import android.text.TextUtils;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -24,18 +31,10 @@ import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.util.LicenceHandler;
 import org.totschnig.myexpenses.util.Utils;
 
-import android.app.Activity;
-import android.support.v7.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.res.Resources;
-import android.os.Bundle;
-import android.text.Html;
-import android.text.TextUtils;
+import java.io.Serializable;
 
-public class ContribDialogFragment extends CommitSafeDialogFragment implements DialogInterface.OnClickListener{
+public class ContribDialogFragment extends CommitSafeDialogFragment implements DialogInterface.OnClickListener {
   ContribFeature feature;
-  int usagesLeft;
 
   public static final ContribDialogFragment newInstance(ContribFeature feature, Serializable tag) {
     ContribDialogFragment dialogFragment = new ContribDialogFragment();
@@ -45,27 +44,28 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     dialogFragment.setArguments(bundle);
     return dialogFragment;
   }
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
-      super.onCreate(savedInstanceState);
-      final Bundle bundle = getArguments();
-      feature = (ContribFeature) bundle.getSerializable(ContribInfoDialogActivity.KEY_FEATURE);
-      usagesLeft = feature.usagesLeft(); //TODO Strict mode
+    super.onCreate(savedInstanceState);
+    final Bundle bundle = getArguments();
+    feature = (ContribFeature) bundle.getSerializable(ContribInfoDialogActivity.KEY_FEATURE);
   }
+
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    Activity ctx  = getActivity();
+    Activity ctx = getActivity();
     Resources res = getResources();
     CharSequence featureDescription;
     if (feature.hasTrial()) {
-      featureDescription = Html.fromHtml(feature.buildFullInfoString(ctx,usagesLeft));
+      featureDescription = Html.fromHtml(feature.buildFullInfoString(ctx));
     } else {
       featureDescription = getText(res.getIdentifier("contrib_feature_" + feature + "_description", "string", ctx.getPackageName()));
     }
     AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
     CharSequence
         linefeed = Html.fromHtml("<br><br>"),
-        removePhrase = feature.buildRemoveLimitation(getActivity(),true),
+        removePhrase = feature.buildRemoveLimitation(getActivity(), true),
         message = TextUtils.concat(
             featureDescription, " ",
             removePhrase);
@@ -80,8 +80,8 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
           linefeed, featureList);
       if (!feature.isExtended()) {
         String pro = getString(R.string.dialog_contrib_extended_gain_access);
-        CharSequence extendedList = Utils.getContribFeatureLabelsAsFormattedList(ctx,feature, LicenceHandler.LicenceStatus.EXTENDED);
-        message = TextUtils.concat(message,linefeed, pro, linefeed, extendedList);
+        CharSequence extendedList = Utils.getContribFeatureLabelsAsFormattedList(ctx, feature, LicenceHandler.LicenceStatus.EXTENDED);
+        message = TextUtils.concat(message, linefeed, pro, linefeed, extendedList);
         builder.setNegativeButton(R.string.dialog_contrib_buy_premium, this);
       }
     }
@@ -95,10 +95,11 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     }
     return builder.create();
   }
+
   @Override
   public void onClick(DialogInterface dialog, int which) {
     ContribInfoDialogActivity ctx = (ContribInfoDialogActivity) getActivity();
-    if (ctx==null) {
+    if (ctx == null) {
       return;
     }
     if (which == AlertDialog.BUTTON_POSITIVE) {
@@ -106,14 +107,17 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     } else if (which == AlertDialog.BUTTON_NEGATIVE) {
       ctx.contribBuyDo(false);
     } else {
-      ctx.finish();
+      //BUTTON_NEUTRAL
+      ctx.finish(false);
     }
   }
+
   @Override
-  public void onCancel (DialogInterface dialog) {
-    if (getActivity()==null) {
+  public void onCancel(DialogInterface dialog) {
+    ContribInfoDialogActivity ctx = (ContribInfoDialogActivity) getActivity();
+    if (ctx == null) {
       return;
     }
-    getActivity().finish();
+    ctx.finish(true);
   }
 }
