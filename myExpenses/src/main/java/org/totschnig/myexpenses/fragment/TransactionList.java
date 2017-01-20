@@ -15,49 +15,6 @@
 
 package org.totschnig.myexpenses.fragment;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
-
-import org.apache.commons.lang3.ArrayUtils;
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ExpenseEdit;
-import org.totschnig.myexpenses.activity.ManageCategories;
-import org.totschnig.myexpenses.activity.MyExpenses;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
-import org.totschnig.myexpenses.adapter.TransactionAdapter;
-import org.totschnig.myexpenses.dialog.AmountFilterDialog;
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
-import org.totschnig.myexpenses.dialog.DateFilterDialog;
-import org.totschnig.myexpenses.dialog.EditTextDialog;
-import org.totschnig.myexpenses.dialog.MessageDialogFragment;
-import org.totschnig.myexpenses.dialog.SelectCrStatusDialogFragment;
-import org.totschnig.myexpenses.dialog.SelectMethodDialogFragment;
-import org.totschnig.myexpenses.dialog.SelectPayerDialogFragment;
-import org.totschnig.myexpenses.dialog.SelectTransferAccountDialogFragment;
-import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
-import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.AccountType;
-import org.totschnig.myexpenses.model.Grouping;
-import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.model.Transaction.CrStatus;
-import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.DbUtils;
-import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.provider.filter.*;
-import org.totschnig.myexpenses.task.TaskExecutionFragment;
-import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
-import org.totschnig.myexpenses.util.AcraHelper;
-import org.totschnig.myexpenses.util.Result;
-import org.totschnig.myexpenses.util.Utils;
-
-import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
-import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
-import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
-import se.emilsjolander.stickylistheaders.StickyListHeadersListView.OnHeaderClickListener;
-
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -85,19 +42,107 @@ import android.text.TextUtils;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.TextView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.apache.commons.lang3.ArrayUtils;
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ExpenseEdit;
+import org.totschnig.myexpenses.activity.ManageCategories;
+import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.adapter.TransactionAdapter;
+import org.totschnig.myexpenses.dialog.AmountFilterDialog;
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
+import org.totschnig.myexpenses.dialog.DateFilterDialog;
+import org.totschnig.myexpenses.dialog.EditTextDialog;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment;
+import org.totschnig.myexpenses.dialog.SelectCrStatusDialogFragment;
+import org.totschnig.myexpenses.dialog.SelectMethodDialogFragment;
+import org.totschnig.myexpenses.dialog.SelectPayerDialogFragment;
+import org.totschnig.myexpenses.dialog.SelectTransferAccountDialogFragment;
+import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.Grouping;
+import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.model.Transaction.CrStatus;
+import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.DbUtils;
+import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.provider.filter.AmountCriteria;
+import org.totschnig.myexpenses.provider.filter.CategoryCriteria;
+import org.totschnig.myexpenses.provider.filter.CommentCriteria;
+import org.totschnig.myexpenses.provider.filter.CrStatusCriteria;
+import org.totschnig.myexpenses.provider.filter.Criteria;
+import org.totschnig.myexpenses.provider.filter.DateCriteria;
+import org.totschnig.myexpenses.provider.filter.MethodCriteria;
+import org.totschnig.myexpenses.provider.filter.PayeeCriteria;
+import org.totschnig.myexpenses.provider.filter.TransferCriteria;
+import org.totschnig.myexpenses.provider.filter.WhereFilter;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
+import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.Result;
+import org.totschnig.myexpenses.util.Utils;
+
+import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
+import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView.OnHeaderClickListener;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_TRANSFERS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DAY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_TRANSFERS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INTERIM_BALANCE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_MAIN;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_SUB;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_CATEGORIES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_METHODS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_PAYEES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MONTH;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR_OF_MONTH_START;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR_OF_WEEK_START;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_CATEGORIES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_METHODS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_PAYEES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
 
 //TODO: consider moving to ListFragment
 public class TransactionList extends ContextualActionBarFragment implements
@@ -135,12 +180,12 @@ public class TransactionList extends ContextualActionBarFragment implements
    */
   private SparseBooleanArray mCheckedListItems;
 
-  private int columnIndexYear,                 columnIndexYearOfWeekStart,  columnIndexMonth,
-              columnIndexWeek,                 columnIndexDay,              columnIndexLabelSub,
-              columnIndexPayee,                columnIndexCrStatus,         columnIndexGroupYear,
-              columnIndexGroupMappedCategories,columnIndexGroupSumInterim,  columnIndexGroupSumIncome,
-              columnIndexGroupSumExpense,      columnIndexGroupSumTransfer, columnIndexYearOfMonthStart,
-              columnIndexLabelMain,            columnIndexGroupSecond;
+  private int columnIndexYear, columnIndexYearOfWeekStart, columnIndexMonth,
+      columnIndexWeek, columnIndexDay, columnIndexLabelSub,
+      columnIndexPayee, columnIndexCrStatus, columnIndexGroupYear,
+      columnIndexGroupMappedCategories, columnIndexGroupSumInterim, columnIndexGroupSumIncome,
+      columnIndexGroupSumExpense, columnIndexGroupSumTransfer, columnIndexYearOfMonthStart,
+      columnIndexLabelMain, columnIndexGroupSecond;
   boolean indexesCalculated = false, indexesGroupingCalculated = false;
   //the following values are cached from the account object, so that we can react to changes in the observer
   private Grouping mGrouping;
@@ -819,9 +864,9 @@ public class TransactionList extends ContextualActionBarFragment implements
 
   public void addFilterCriteria(Integer id, Criteria c) {
     mFilter.put(id, c);
-    SharedPreferencesCompat.apply(
-        MyApplication.getInstance().getSettings().edit().putString(
-            KEY_FILTER + "_" + c.columnName + "_" + mAccount.getId(), c.toStringExtra()));
+    MyApplication.getInstance().getSettings().edit().putString(
+        KEY_FILTER + "_" + c.columnName + "_" + mAccount.getId(), c.toStringExtra())
+        .apply();
     mManager.restartLoader(TRANSACTION_CURSOR, null, this);
     mManager.restartLoader(GROUPING_CURSOR, null, this);
     getActivity().supportInvalidateOptionsMenu();
@@ -837,9 +882,9 @@ public class TransactionList extends ContextualActionBarFragment implements
     Criteria c = mFilter.get(id);
     boolean isFiltered = c != null;
     if (isFiltered) {
-      SharedPreferencesCompat.apply(
-          MyApplication.getInstance().getSettings().edit().remove(
-              KEY_FILTER + "_" + c.columnName + "_" + mAccount.getId()));
+      MyApplication.getInstance().getSettings().edit().remove(
+          KEY_FILTER + "_" + c.columnName + "_" + mAccount.getId())
+          .apply();
       mFilter.remove(id);
       mManager.restartLoader(TRANSACTION_CURSOR, null, this);
       mManager.restartLoader(GROUPING_CURSOR, null, this);

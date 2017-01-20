@@ -15,13 +15,12 @@
 
 package org.totschnig.myexpenses.model;
 
+import org.totschnig.myexpenses.MyApplication;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Currency;
-
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 
 public class Money implements Serializable {
   public static final String KEY_CUSTOM_FRACTION_DIGITS = "CustomFractionDigits";
@@ -32,38 +31,46 @@ public class Money implements Serializable {
    * used with currencies where Currency.getDefaultFractionDigits returns -1
    */
   public static final int DEFAULTFRACTIONDIGITS = 8;
-  
+
   public Money(Currency currency, Long amountMinor) {
     this.currency = currency;
     this.amountMinor = amountMinor;
     this.fractionDigits = getFractionDigits(currency);
   }
+
   public Money(Currency currency, BigDecimal amountMajor) {
     setCurrency(currency);
     setAmountMajor(amountMajor);
   }
+
   public Currency getCurrency() {
     return currency;
   }
+
   public void setCurrency(Currency currency) {
     this.currency = currency;
     this.fractionDigits = getFractionDigits(currency);
   }
+
   public Long getAmountMinor() {
     return amountMinor;
   }
+
   public void setAmountMinor(Long amountMinor) {
     this.amountMinor = amountMinor;
   }
+
   public void setAmountMajor(BigDecimal amountMajor) {
-    this.amountMinor = amountMajor.multiply(new BigDecimal(Math.pow(10,fractionDigits))).longValue();
+    this.amountMinor = amountMajor.multiply(new BigDecimal(Math.pow(10, fractionDigits))).longValue();
   }
+
   public BigDecimal getAmountMajor() {
     return new BigDecimal(amountMinor).divide(
         new BigDecimal(Math.pow(10, fractionDigits)),
         fractionDigits,
         RoundingMode.DOWN);
   }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj)
@@ -102,9 +109,9 @@ public class Money implements Serializable {
   public static int getFractionDigits(Currency c) {
     MyApplication context = MyApplication.getInstance();
     //in testing environment context might be null
-    if (context!=null) {
+    if (context != null) {
       int customFractionDigits = context.getSettings()
-          .getInt(c.getCurrencyCode()+KEY_CUSTOM_FRACTION_DIGITS, -1);
+          .getInt(c.getCurrencyCode() + KEY_CUSTOM_FRACTION_DIGITS, -1);
       if (customFractionDigits != -1) {
         return customFractionDigits;
       }
@@ -117,9 +124,8 @@ public class Money implements Serializable {
   }
 
   public static void storeCustomFractionDigits(String currencyCode, int newValue) {
-    SharedPreferencesCompat.apply(
-        MyApplication.getInstance().getSettings().edit()
-            .putInt(currencyCode + KEY_CUSTOM_FRACTION_DIGITS, newValue));
+    MyApplication.getInstance().getSettings().edit()
+        .putInt(currencyCode + KEY_CUSTOM_FRACTION_DIGITS, newValue).apply();
   }
 
   public static void ensureFractionDigitsAreCached(Currency currency) {

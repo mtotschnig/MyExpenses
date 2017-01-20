@@ -33,7 +33,6 @@ import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.CurrencyEnum;
-import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
@@ -63,7 +62,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
   public Uri getUri() {
     return mUri;
   }
-  
+
   @Override
   public void setUri(Uri mUri) {
     this.mUri = mUri;
@@ -87,10 +86,10 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    if (savedInstanceState!=null) {
-        accountId = savedInstanceState.getLong(KEY_ACCOUNTID);
-        currency = (CurrencyEnum) savedInstanceState.getSerializable(KEY_CURRENCY);
-        type = (AccountType) savedInstanceState.getSerializable(KEY_TYPE);
+    if (savedInstanceState != null) {
+      accountId = savedInstanceState.getLong(KEY_ACCOUNTID);
+      currency = (CurrencyEnum) savedInstanceState.getSerializable(KEY_CURRENCY);
+      type = (AccountType) savedInstanceState.getSerializable(KEY_TYPE);
     }
 
     View view = inflater.inflate(R.layout.import_csv_parse, container, false);
@@ -100,8 +99,8 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
     mFilename = DialogUtils.configureFilename(view);
     mAccountSpinner = (Spinner) view.findViewById(R.id.Account);
     Context wrappedCtx = view.getContext();
-    mAccountsAdapter = new SimpleCursorAdapter(wrappedCtx , android.R.layout.simple_spinner_item, null,
-        new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0);
+    mAccountsAdapter = new SimpleCursorAdapter(wrappedCtx, android.R.layout.simple_spinner_item, null,
+        new String[]{KEY_LABEL}, new int[]{android.R.id.text1}, 0);
     mAccountsAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
     mAccountSpinner.setAdapter(mAccountsAdapter);
     mAccountSpinner.setOnItemSelectedListener(this);
@@ -143,6 +142,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
     outState.putLong(KEY_ACCOUNTID, accountId);
     outState.putSerializable(KEY_CURRENCY, currency);
   }
+
   @Override
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
@@ -170,8 +170,9 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
 
   @Override
   public boolean checkTypeParts(String[] typeParts) {
-   return DialogUtils.checkTypePartsDefault(typeParts);
+    return DialogUtils.checkTypePartsDefault(typeParts);
   }
+
   @Override
   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
     inflater.inflate(R.menu.csv_parse, menu);
@@ -190,11 +191,11 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
         String encoding = (String) mEncodingSpinner.getSelectedItem();
         String delimiter = getResources().getStringArray(R.array.pref_csv_import_delimiter_values)
             [mDelimiterSpinner.getSelectedItemPosition()];
-        SharedPreferencesCompat.apply(
-            MyApplication.getInstance().getSettings().edit()
-                .putString(PREFKEY_IMPORT_CSV_DELIMITER, delimiter)
-                .putString(PREFKEY_IMPORT_CSV_ENCODING, encoding)
-                .putString(PREFKEY_IMPORT_CSV_DATE_FORMAT, format.name()));
+        MyApplication.getInstance().getSettings().edit()
+            .putString(PREFKEY_IMPORT_CSV_DELIMITER, delimiter)
+            .putString(PREFKEY_IMPORT_CSV_ENCODING, encoding)
+            .putString(PREFKEY_IMPORT_CSV_DATE_FORMAT, format.name())
+            .apply();
         FileUtils.maybePersistUri(this);
         TaskExecutionFragment taskExecutionFragment =
             TaskExecutionFragment.newInstanceCSVParse(
@@ -204,46 +205,47 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
             .add(taskExecutionFragment,
                 ProtectionDelegate.ASYNC_TAG)
             .add(ProgressDialogFragment.newInstance(
-                    getString(R.string.pref_import_title, "CSV"),
-                    null, ProgressDialog.STYLE_SPINNER, false),
+                getString(R.string.pref_import_title, "CSV"),
+                null, ProgressDialog.STYLE_SPINNER, false),
                 ProtectionDelegate.PROGRESS_TAG)
             .commit();
         break;
     }
     return super.onOptionsItemSelected(item);
   }
+
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-    if (getActivity()==null) {
+    if (getActivity() == null) {
       return null;
     }
     return new CursorLoader(
         getActivity(),
         TransactionProvider.ACCOUNTS_BASE_URI,
-        new String[] {
+        new String[]{
             KEY_ROWID,
             KEY_LABEL,
             KEY_CURRENCY,
             KEY_TYPE},
-        null,null, null);
+        null, null, null);
   }
 
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-    MatrixCursor extras = new MatrixCursor(new String[] {
+    MatrixCursor extras = new MatrixCursor(new String[]{
         KEY_ROWID,
         KEY_LABEL,
         KEY_CURRENCY,
         KEY_TYPE
     });
-    extras.addRow(new String[] {
+    extras.addRow(new String[]{
         "0",
         getString(R.string.menu_create_account),
         Utils.getLocalCurrency().getCurrencyCode(),
         AccountType.CASH.name()
 
     });
-    mAccountsCursor = new MergeCursor(new Cursor[] {extras,data});
+    mAccountsCursor = new MergeCursor(new Cursor[]{extras, data});
     mAccountsAdapter.swapCursor(mAccountsCursor);
     Utils.selectSpinnerItemByValue(mAccountSpinner, accountId);
   }
@@ -253,17 +255,18 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
     mAccountsCursor = null;
     mAccountsAdapter.swapCursor(null);
   }
+
   @Override
   public void onItemSelected(AdapterView<?> parent, View view, int position,
                              long id) {
-    if (parent.getId()==R.id.Currency) {
-      if (accountId==0) {
+    if (parent.getId() == R.id.Currency) {
+      if (accountId == 0) {
         currency = (CurrencyEnum) parent.getSelectedItem();
       }
       return;
     }
-    if (parent.getId()==R.id.AccountType) {
-      if (accountId==0) {
+    if (parent.getId() == R.id.AccountType) {
+      if (accountId == 0) {
         type = (AccountType) parent.getSelectedItem();
       }
       return;
@@ -273,23 +276,24 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
       accountId = id;
       mAccountsCursor.moveToPosition(position);
 
-      CurrencyEnum currency = (accountId==0 && this.currency !=null) ?
+      CurrencyEnum currency = (accountId == 0 && this.currency != null) ?
           this.currency :
           CurrencyEnum
               .valueOf(
                   mAccountsCursor.getString(2));//2=KEY_CURRENCY
-      AccountType type = (accountId==0 && this.type !=null) ?
+      AccountType type = (accountId == 0 && this.type != null) ?
           this.type :
           AccountType.valueOf(
-                  mAccountsCursor.getString(3));//3=KEY_TYPE
+              mAccountsCursor.getString(3));//3=KEY_TYPE
       mCurrencySpinner.setSelection(
           ((ArrayAdapter<CurrencyEnum>) mCurrencySpinner.getAdapter())
               .getPosition(currency));
       mTypeSpinner.setSelection(type.ordinal());
       mCurrencySpinner.setEnabled(position == 0);
-      mTypeSpinner.setEnabled(position==0);
+      mTypeSpinner.setEnabled(position == 0);
     }
   }
+
   @Override
   public void onNothingSelected(AdapterView<?> parent) {
   }
@@ -297,6 +301,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
   public long getAccountId() {
     return mAccountSpinner.getSelectedItemId();
   }
+
   public String getCurrency() {
     return ((CurrencyEnum) mCurrencySpinner.getSelectedItem()).name();
   }

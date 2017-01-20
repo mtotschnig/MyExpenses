@@ -22,7 +22,6 @@ import android.text.Html;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.util.LicenceHandler;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -50,14 +49,14 @@ public enum ContribFeature {
   },
   SYNCHRONIZATION(true, true) {
     private String PREF_KEY = "FEATURE_SYNCHRONIZATION_FIRST_USAGE";
-    private long TRIAL_DURATION = (BuildConfig.DEBUG ? 10 :  10 * 24 * 60) * 60 * 1000;
+    private long TRIAL_DURATION = (BuildConfig.DEBUG ? 10 : 10 * 24 * 60) * 60 * 1000;
 
     @Override
     public int recordUsage() {
       if (!hasAccess()) {
         long now = System.currentTimeMillis();
         if (getStartOfTrial(0L) == 0L) {
-          SharedPreferencesCompat.apply(MyApplication.getInstance().getSettings().edit().putLong(PREF_KEY, now));
+          MyApplication.getInstance().getSettings().edit().putLong(PREF_KEY, now).apply();
         }
         if (getEndOfTrial(now) < now) {
           return 0;
@@ -123,15 +122,14 @@ public enum ContribFeature {
   }
 
   /**
-   *
    * @return number of remaining usages (> 0, if usage still possible, <= 0 if not)
    */
   public int recordUsage() {
     if (!hasAccess()) {
       int usages = getUsages() + 1;
-      SharedPreferencesCompat.apply(
-          MyApplication.getInstance().getSettings()
-              .edit().putInt(getPrefKey(), usages));
+      MyApplication.getInstance().getSettings().edit()
+          .putInt(getPrefKey(), usages)
+          .apply();
       return USAGES_LIMIT - usages;
     }
     return USAGES_LIMIT;
@@ -146,7 +144,6 @@ public enum ContribFeature {
   }
 
   /**
-   *
    * @return if user has licence that includes feature
    */
   public boolean hasAccess() {
@@ -156,7 +153,6 @@ public enum ContribFeature {
   }
 
   /**
-   *
    * @return user either has access through licence or through trial
    */
   public boolean isAvailable() {
@@ -204,10 +200,10 @@ public enum ContribFeature {
         ctx.getString(R.string.dialog_contrib_no_usages_left);
   }
 
-  public CharSequence buildRemoveLimitation(Context ctx,boolean asHTML) {
-    String keyName = buildKeyFullName(ctx,isExtended);
+  public CharSequence buildRemoveLimitation(Context ctx, boolean asHTML) {
+    String keyName = buildKeyFullName(ctx, isExtended);
     if (asHTML) {
-      keyName = "<i>" +  keyName + "</i>";
+      keyName = "<i>" + keyName + "</i>";
     }
     String result = ctx.getString(R.string.dialog_contrib_reminder_remove_limitation, keyName);
     return asHTML ? Html.fromHtml(result) : result;

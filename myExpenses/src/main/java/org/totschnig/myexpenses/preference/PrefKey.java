@@ -84,8 +84,7 @@ public enum PrefKey {
   }
 
   public void putString(String value) {
-    SharedPreferencesCompat.apply(MyApplication.getInstance().getSettings().edit().putString(getKey(),
-        value));
+    MyApplication.getInstance().getSettings().edit().putString(getKey(), value).apply();
   }
 
   public boolean getBoolean(boolean defValue) {
@@ -93,8 +92,7 @@ public enum PrefKey {
   }
 
   public void putBoolean(boolean value) {
-    SharedPreferencesCompat.apply(MyApplication.getInstance().getSettings().edit().putBoolean(getKey(),
-        value));
+    MyApplication.getInstance().getSettings().edit().putBoolean(getKey(), value).apply();
   }
 
   public int getInt(int defValue) {
@@ -102,8 +100,7 @@ public enum PrefKey {
   }
 
   public void putInt(int value) {
-    SharedPreferencesCompat.apply(MyApplication.getInstance().getSettings().edit().putInt(getKey(),
-        value));
+    MyApplication.getInstance().getSettings().edit().putInt(getKey(), value).apply();
   }
 
   public long getLong(long defValue) {
@@ -111,12 +108,11 @@ public enum PrefKey {
   }
 
   public void putLong(long value) {
-    SharedPreferencesCompat.apply(MyApplication.getInstance().getSettings().edit().putLong(getKey(),
-        value));
+    MyApplication.getInstance().getSettings().edit().putLong(getKey(), value).apply();
   }
 
   public void remove() {
-    SharedPreferencesCompat.apply(MyApplication.getInstance().getSettings().edit().remove(getKey()));
+    MyApplication.getInstance().getSettings().edit().remove(getKey()).apply();
   }
 
   public boolean isSet() {

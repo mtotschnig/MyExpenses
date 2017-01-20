@@ -51,7 +51,6 @@ import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.task.ExportTask;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Result;
@@ -189,11 +188,11 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
       public void onTextChanged(CharSequence s, int start, int before, int count) {
       }
     });
-    fileNameET.setFilters(new InputFilter[] {
+    fileNameET.setFilters(new InputFilter[]{
         new InputFilter() {
           @Override
           public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-            StringBuilder sb = new StringBuilder(end-start);
+            StringBuilder sb = new StringBuilder(end - start);
             for (int i = start; i < end; i++) {
               final char c = source.charAt(i);
               int type = Character.getType(c);
@@ -232,8 +231,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
 
     handleDeletedGroup = (RadioGroup) view.findViewById(R.id.handle_deleted);
     View.OnClickListener radioClickListener = new View.OnClickListener() {
-      public void onClick(View v)
-      {
+      public void onClick(View v) {
         int mappedAction = v.getId() == R.id.create_helper ?
             Account.EXPORT_HANDLE_DELETED_CREATE_HELPER : Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE;
         if (handleDeletedAction == mappedAction) {
@@ -326,7 +324,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
       sb.append(letters[i]);
       sb.append(" => ");
       sb.append(components[i]);
-      if (i<letters.length-1)
+      if (i < letters.length - 1)
         sb.append(", ");
       else
         sb.append(". ");
@@ -363,13 +361,13 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
     }
 
     String encoding = (String) ((Spinner) dlg.findViewById(R.id.Encoding)).getSelectedItem();
-    SharedPreferencesCompat.apply(
-        MyApplication.getInstance().getSettings().edit()
-            .putString(PrefKey.EXPORT_FORMAT.getKey(), format)
-            .putString(PREFKEY_EXPORT_DATE_FORMAT, dateFormat)
-            .putString(PREFKEY_EXPORT_ENCODING, encoding)
-            .putInt(ExportTask.KEY_DECIMAL_SEPARATOR, decimalSeparator)
-            .putInt(ExportTask.KEY_EXPORT_HANDLE_DELETED, handleDeleted));
+    MyApplication.getInstance().getSettings().edit()
+        .putString(PrefKey.EXPORT_FORMAT.getKey(), format)
+        .putString(PREFKEY_EXPORT_DATE_FORMAT, dateFormat)
+        .putString(PREFKEY_EXPORT_ENCODING, encoding)
+        .putInt(ExportTask.KEY_DECIMAL_SEPARATOR, decimalSeparator)
+        .putInt(ExportTask.KEY_EXPORT_HANDLE_DELETED, handleDeleted)
+        .apply();
     boolean deleteP = deleteCB.isChecked();
     boolean notYetExportedP = notYetExportedCB.isChecked();
     String fileName = fileNameET.getText().toString();

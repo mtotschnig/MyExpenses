@@ -396,7 +396,6 @@ public class MyExpenses extends LaunchActivity implements
 
   private void setup() {
     newVersionCheck();
-    //SharedPreferencesCompat.apply(mSettings.edit().remove("restoreOnInstallAsked"));
     Resources.Theme theme = getTheme();
     TypedValue margin = new TypedValue();
     theme.resolveAttribute(R.attr.pageMargin, margin, true);

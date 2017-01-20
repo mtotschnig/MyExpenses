@@ -1,13 +1,11 @@
 package org.totschnig.myexpenses.dialog;
 
-import org.totschnig.myexpenses.MyApplication;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
+import android.view.View;
+
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.GrisbiImport;
-import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
-
-import android.support.v7.app.AlertDialog;
-import android.content.DialogInterface;
-import android.view.View;
 
 public class GrisbiSourcesDialogFragment extends TextSourceDialogFragment implements
 DialogInterface.OnClickListener {

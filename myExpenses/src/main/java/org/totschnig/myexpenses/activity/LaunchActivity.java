@@ -1,15 +1,5 @@
 package org.totschnig.myexpenses.activity;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
-
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.dialog.VersionDialogFragment;
-import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
-import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.provider.filter.Criteria;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,8 +10,17 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.dialog.VersionDialogFragment;
+import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.provider.filter.Criteria;
+
 import java.io.File;
 import java.util.Map;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 
 public abstract class LaunchActivity extends ProtectedFragmentActivity {
 
@@ -45,7 +44,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
       if (prev_version < 19) {
         edit.putString(PrefKey.SHARE_TARGET.getKey(), settings.getString("ftp_target", ""));
         edit.remove("ftp_target");
-        SharedPreferencesCompat.apply(edit);
+        edit.apply();
       }
       if (prev_version < 28) {
         Log.i("MyExpenses", String.format("Upgrading to version 28: Purging %d transactions from datbase",
@@ -55,7 +54,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
       if (prev_version < 30) {
         if (!"".equals(PrefKey.SHARE_TARGET.getString(""))) {
           edit.putBoolean(PrefKey.SHARE_TARGET.getKey(), true);
-          SharedPreferencesCompat.apply(edit);
+          edit.apply();
         }
       }
       if (prev_version < 40) {
@@ -64,11 +63,11 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
         //we do not want to show both reminder dialogs too quickly one after the other for upgrading users
         //if they are already above both tresholds, so we set some delay
         edit.putLong("nextReminderContrib", Transaction.getSequenceCount() + 23);
-        SharedPreferencesCompat.apply(edit);
+        edit.apply();
       }
       if (prev_version < 163) {
-       edit.remove("qif_export_file_encoding");
-       SharedPreferencesCompat.apply(edit);
+        edit.remove("qif_export_file_encoding");
+        edit.apply();
       }
       if (prev_version < 199) {
         //filter serialization format has changed
@@ -76,13 +75,13 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
           String key = entry.getKey();
           String[] keyParts = key.split("_");
           if (keyParts[0].equals("filter")) {
-            String val = settings.getString(key,"");
+            String val = settings.getString(key, "");
             switch (keyParts[1]) {
               case "method":
               case "payee":
               case "cat":
                 int sepIndex = val.indexOf(";");
-                edit.putString(key,val.substring(sepIndex+1)+";"+Criteria.escapeSeparator(val.substring(0, sepIndex)));
+                edit.putString(key, val.substring(sepIndex + 1) + ";" + Criteria.escapeSeparator(val.substring(0, sepIndex)));
                 break;
               case "cr":
                 edit.putString(key, Transaction.CrStatus.values()[Integer.parseInt(val)].name());
@@ -90,11 +89,11 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
             }
           }
         }
-        SharedPreferencesCompat.apply(edit);
+        edit.apply();
       }
       if (prev_version < 202) {
         String appDir = PrefKey.APP_DIR.getString(null);
-        if (appDir!=null) {
+        if (appDir != null) {
           PrefKey.APP_DIR.putString(Uri.fromFile(new File(appDir)).toString());
         }
       }
@@ -104,7 +103,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
                 "USAGES" : "ALPHABETIC");
       }
       VersionDialogFragment.newInstance(prev_version, showImportantUpgradeInfo)
-        .show(getSupportFragmentManager(), "VERSION_INFO");
+          .show(getSupportFragmentManager(), "VERSION_INFO");
     }
     checkCalendarPermission();
   }
@@ -142,8 +141,8 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
      * the need to restart if the restore command has been called
      */
   @Override
-  protected void onActivityResult(int requestCode, int resultCode, 
-      Intent intent) {
+  protected void onActivityResult(int requestCode, int resultCode,
+                                  Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
     //configButtons();
     if (requestCode == PREFERENCES_REQUEST && resultCode == RESULT_FIRST_USER) {

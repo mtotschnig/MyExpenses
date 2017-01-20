@@ -48,7 +48,6 @@ import org.totschnig.myexpenses.di.AppModule;
 import org.totschnig.myexpenses.di.DaggerAppComponent;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -410,10 +409,11 @@ public class MyApplication extends MultiDexApplication implements
   }
 
   public void removePlanner() {
-    SharedPreferencesCompat.apply(mSettings.edit()
+    mSettings.edit()
         .remove(PrefKey.PLANNER_CALENDAR_ID.getKey())
         .remove(PrefKey.PLANNER_CALENDAR_PATH.getKey())
-        .remove(PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP.getKey()));
+        .remove(PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP.getKey())
+        .apply();
   }
 
   /**

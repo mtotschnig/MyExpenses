@@ -36,21 +36,22 @@ import android.webkit.MimeTypeMap;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.dialog.DialogUtils;
-import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 
 import java.io.File;
 import java.text.DecimalFormat;
 
 /**
- * @version 2009-07-03
  * @author Peli
- * @version 2013-12-11
  * @author paulburke (ipaulpro)
+ * @version 2013-12-11
  */
 public class FileUtils {
-  private FileUtils() {} //private constructor to enforce Singleton pattern
+  private FileUtils() {
+  } //private constructor to enforce Singleton pattern
 
-  /** TAG for log messages. */
+  /**
+   * TAG for log messages.
+   */
   static final String TAG = "FileUtils";
   private static final boolean DEBUG = BuildConfig.DEBUG; // Set to true to enable logging
 
@@ -67,7 +68,7 @@ public class FileUtils {
    *
    * @param uri
    * @return Extension including the dot("."); "" if there is no extension;
-   *         null if uri was null.
+   * null if uri was null.
    */
   public static String getExtension(String uri) {
     if (uri == null) {
@@ -201,9 +202,9 @@ public class FileUtils {
    * Get the value of the data column for this Uri. This is useful for
    * MediaStore Uris, and other file-based ContentProviders.
    *
-   * @param context The context.
-   * @param uri The Uri to query.
-   * @param selection (Optional) Filter used in the query.
+   * @param context       The context.
+   * @param uri           The Uri to query.
+   * @param selection     (Optional) Filter used in the query.
    * @param selectionArgs (Optional) Selection arguments used in the query.
    * @return The value of the _data column, which is typically a file path.
    * @author paulburke
@@ -243,10 +244,10 @@ public class FileUtils {
    * file system
    *
    * @param context The context.
-   * @param uri The Uri to query.
+   * @param uri     The Uri to query.
+   * @author paulburke
    * @see #isLocal(String)
    * @see #getFile(Context, Uri)
-   * @author paulburke
    */
   @TargetApi(Build.VERSION_CODES.KITKAT)
   public static String getPath(final Context context, final Uri uri) {
@@ -306,7 +307,7 @@ public class FileUtils {
         }
 
         final String selection = "_id=?";
-        final String[] selectionArgs = new String[] {
+        final String[] selectionArgs = new String[]{
             split[1]
         };
 
@@ -336,21 +337,21 @@ public class FileUtils {
     return isKitKat && DocumentsContract.isDocumentUri(context, uri);
   }
 
-  public static <T extends Fragment & FileNameHost> void  maybePersistUri(T context) {
+  public static <T extends Fragment & FileNameHost> void maybePersistUri(T context) {
     if (!isDocumentUri(context.getActivity(), context.getUri())) {
-      SharedPreferencesCompat.apply(
-          MyApplication.getInstance().getSettings().edit()
-              .putString(context.getPrefKey(), context.getUri().toString()));
+      MyApplication.getInstance().getSettings().edit()
+          .putString(context.getPrefKey(), context.getUri().toString())
+          .apply();
     }
   }
 
   public static <T extends Fragment & FileNameHost> void handleFileNameHostOnResume(T context) {
-    if (context.getUri()==null) {
+    if (context.getUri() == null) {
       String restoredUriString = MyApplication.getInstance().getSettings()
           .getString(context.getPrefKey(), "");
       if (!restoredUriString.equals("")) {
         Uri restoredUri = Uri.parse(restoredUriString);
-        if (!FileUtils.isDocumentUri(context.getActivity(),restoredUri)) {
+        if (!FileUtils.isDocumentUri(context.getActivity(), restoredUri)) {
           String displayName = DialogUtils.getDisplayName(restoredUri);
           if (displayName != null) {
             context.setUri(restoredUri);
@@ -365,9 +366,9 @@ public class FileUtils {
    * Convert Uri into File, if possible.
    *
    * @return file A local file that the Uri was pointing to, or null if the
-   *         Uri is unsupported or pointed to a remote resource.
-   * @see #getPath(Context, Uri)
+   * Uri is unsupported or pointed to a remote resource.
    * @author paulburke
+   * @see #getPath(Context, Uri)
    */
   public static File getFile(Context context, Uri uri) {
     if (uri != null) {
@@ -472,8 +473,7 @@ public class FileUtils {
                 id,
                 MediaStore.Video.Thumbnails.MINI_KIND,
                 null);
-          }
-          else if (mimeType.contains(FileUtils.MIME_TYPE_IMAGE)) {
+          } else if (mimeType.contains(FileUtils.MIME_TYPE_IMAGE)) {
             bm = MediaStore.Images.Thumbnails.getThumbnail(
                 resolver,
                 id,
@@ -554,7 +554,9 @@ public class FileUtils {
     String getPrefKey();
 
     Uri getUri();
+
     void setUri(Uri uri);
+
     void setFilename(String filename);
   }
 }

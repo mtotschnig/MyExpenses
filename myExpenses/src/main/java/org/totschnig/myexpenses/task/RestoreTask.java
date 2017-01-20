@@ -16,11 +16,10 @@ import android.util.Log;
 import com.android.calendar.CalendarContractCompat.Calendars;
 
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.BackupRestoreActivity;
 import org.totschnig.myexpenses.model.Template;
-import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
@@ -252,7 +251,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
         edit.putString(PrefKey.PLANNER_CALENDAR_ID.getKey(), currentPlannerId);
       }
 
-      SharedPreferencesCompat.apply(edit);
+      edit.apply();
       application.getSettings()
           .registerOnSharedPreferenceChangeListener(application);
       tempPrefFile.delete();

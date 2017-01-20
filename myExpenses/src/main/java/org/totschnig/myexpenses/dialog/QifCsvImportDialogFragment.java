@@ -23,7 +23,6 @@ import org.totschnig.myexpenses.activity.QifCSVImport;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.ExportFormat;
-import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.Utils;
@@ -48,14 +47,14 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
   public static final QifCsvImportDialogFragment newInstance(ExportFormat format) {
     QifCsvImportDialogFragment f = new QifCsvImportDialogFragment();
     Bundle args = new Bundle();
-    args.putSerializable(KEY_FORMAT,format);
+    args.putSerializable(KEY_FORMAT, format);
     f.setArguments(args);
     return f;
   }
 
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    if (savedInstanceState!=null) {
+    if (savedInstanceState != null) {
       accountId = savedInstanceState.getLong(KEY_ACCOUNTID);
       currency = (CurrencyEnum) savedInstanceState.getSerializable(KEY_CURRENCY);
     }
@@ -66,6 +65,7 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
   protected int getLayoutId() {
     return R.layout.import_dialog;
   }
+
   @Override
   protected String getLayoutTitle() {
     return getString(R.string.pref_import_title,
@@ -85,19 +85,20 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
   public String getPrefKey() {
     return "import_" + getFormat().getExtension() + "_file_uri";
   }
+
   @Override
   public void onClick(DialogInterface dialog, int id) {
-    if (getActivity()==null) {
+    if (getActivity() == null) {
       return;
     }
     if (id == AlertDialog.BUTTON_POSITIVE) {
       QifDateFormat format = (QifDateFormat) mDateFormatSpinner.getSelectedItem();
       String encoding = (String) mEncodingSpinner.getSelectedItem();
       maybePersistUri();
-      SharedPreferencesCompat.apply(
-        MyApplication.getInstance().getSettings().edit()
+      MyApplication.getInstance().getSettings().edit()
           .putString(PREFKEY_IMPORT_ENCODING, encoding)
-          .putString(PREFKEY_IMPORT_DATE_FORMAT, format.name()));
+          .putString(PREFKEY_IMPORT_DATE_FORMAT, format.name())
+          .apply();
       ((QifCSVImport) getActivity()).onSourceSelected(
           mUri,
           format,
@@ -107,40 +108,41 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
           mImportCategories.isChecked(),
           mImportParties.isChecked(),
           encoding
-          );
+      );
     } else {
       super.onClick(dialog, id);
     }
   }
+
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-    if (getActivity()==null) {
+    if (getActivity() == null) {
       return null;
     }
     CursorLoader cursorLoader = new CursorLoader(
         getActivity(),
         TransactionProvider.ACCOUNTS_BASE_URI,
-        new String[] {
-          KEY_ROWID,
-          KEY_LABEL,
-          KEY_CURRENCY},
-        null,null, null);
+        new String[]{
+            KEY_ROWID,
+            KEY_LABEL,
+            KEY_CURRENCY},
+        null, null, null);
     return cursorLoader;
   }
 
   @Override
   public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-    MatrixCursor extras = new MatrixCursor(new String[] {
+    MatrixCursor extras = new MatrixCursor(new String[]{
         KEY_ROWID,
         KEY_LABEL,
         KEY_CURRENCY
     });
-    extras.addRow(new String[] {
+    extras.addRow(new String[]{
         "0",
         getString(R.string.menu_create_account),
         Utils.getLocalCurrency().getCurrencyCode()
     });
-    mAccountsCursor = new MergeCursor(new Cursor[] {extras,data});
+    mAccountsCursor = new MergeCursor(new Cursor[]{extras, data});
     mAccountsAdapter.swapCursor(mAccountsCursor);
     Utils.selectSpinnerItemByValue(mAccountSpinner, accountId);
   }
@@ -159,14 +161,14 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
     }
     mAccountSpinner = (Spinner) view.findViewById(R.id.Account);
     Context wrappedCtx = view.getContext();
-    mAccountsAdapter = new SimpleCursorAdapter(wrappedCtx , android.R.layout.simple_spinner_item, null,
-        new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0);
+    mAccountsAdapter = new SimpleCursorAdapter(wrappedCtx, android.R.layout.simple_spinner_item, null,
+        new String[]{KEY_LABEL}, new int[]{android.R.id.text1}, 0);
     mAccountsAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
     mAccountSpinner.setAdapter(mAccountsAdapter);
     mAccountSpinner.setOnItemSelectedListener(this);
     getLoaderManager().initLoader(0, null, this);
 
-    mDateFormatSpinner = DialogUtils.configureDateFormat(view,wrappedCtx, PREFKEY_IMPORT_DATE_FORMAT);
+    mDateFormatSpinner = DialogUtils.configureDateFormat(view, wrappedCtx, PREFKEY_IMPORT_DATE_FORMAT);
 
     mEncodingSpinner = DialogUtils.configureEncoding(view, wrappedCtx, PREFKEY_IMPORT_ENCODING);
 
@@ -176,9 +178,9 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
 
   @Override
   public void onItemSelected(AdapterView<?> parent, View view, int position,
-      long id) {
-    if (parent.getId()==R.id.Currency) {
-      if (accountId==0) {
+                             long id) {
+    if (parent.getId() == R.id.Currency) {
+      if (accountId == 0) {
         currency = (CurrencyEnum) parent.getSelectedItem();
       }
       return;
@@ -187,17 +189,18 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
       accountId = id;
       mAccountsCursor.moveToPosition(position);
 
-      CurrencyEnum currency = (accountId==0 && this.currency !=null) ?
+      CurrencyEnum currency = (accountId == 0 && this.currency != null) ?
           this.currency :
           CurrencyEnum
-          .valueOf(
-              mAccountsCursor.getString(2));//2=KEY_CURRENCY
+              .valueOf(
+                  mAccountsCursor.getString(2));//2=KEY_CURRENCY
       mCurrencySpinner.setSelection(
           ((ArrayAdapter<CurrencyEnum>) mCurrencySpinner.getAdapter())
               .getPosition(currency));
-      mCurrencySpinner.setEnabled(position==0);
+      mCurrencySpinner.setEnabled(position == 0);
     }
   }
+
   @Override
   public void onNothingSelected(AdapterView<?> parent) {
   }
@@ -206,7 +209,7 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
   public void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
     outState.putLong(KEY_ACCOUNTID, accountId);
-    outState.putSerializable(KEY_CURRENCY,currency);
+    outState.putSerializable(KEY_CURRENCY, currency);
   }
 
 }

@@ -27,7 +27,6 @@ import android.widget.CheckBox;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.preference.SharedPreferencesCompat;
 
 /**
  * This class presents a simple dialog asking user to confirm a message. Optionally the dialog can also
@@ -43,7 +42,7 @@ public class ConfirmationDialogFragment extends CommitSafeDialogFragment impleme
 
 
   CheckBox checkBox;
-  
+
   public static final String KEY_TITLE = "title";
   public static final String KEY_MESSAGE = "message";
   public static final String KEY_COMMAND_POSITIVE = "positiveCommand";
@@ -58,18 +57,18 @@ public class ConfirmationDialogFragment extends CommitSafeDialogFragment impleme
     dialogFragment.setArguments(args);
     return dialogFragment;
   }
-  
+
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     final Bundle bundle = getArguments();
-    Activity ctx  = getActivity();
+    Activity ctx = getActivity();
     AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
     int title = bundle.getInt(KEY_TITLE, 0);
     if (title != 0) {
       builder.setTitle(title);
     }
     builder.setMessage(bundle.getCharSequence(KEY_MESSAGE));
-    int checkboxLabel = bundle.getInt(KEY_CHECKBOX_LABEL,0);
+    int checkboxLabel = bundle.getInt(KEY_CHECKBOX_LABEL, 0);
     if (bundle.getString(KEY_PREFKEY) != null ||
         checkboxLabel != 0) {
       //noinspection InflateParams
@@ -77,40 +76,42 @@ public class ConfirmationDialogFragment extends CommitSafeDialogFragment impleme
       checkBox = (CheckBox) cb.findViewById(R.id.checkbox);
       checkBox.setText(
           checkboxLabel != 0 ? checkboxLabel :
-          R.string.confirmation_dialog_dont_show_again);
+              R.string.confirmation_dialog_dont_show_again);
       builder.setView(cb);
     }
     int positiveLabel = bundle.getInt(KEY_POSITIVE_BUTTON_LABEL);
     int negativeLabel = bundle.getInt(KEY_NEGATIVE_BUTTON_LABEL);
     builder.setPositiveButton(positiveLabel == 0 ? android.R.string.ok : positiveLabel, this);
-    builder.setNegativeButton(negativeLabel == 0 ? android.R.string.cancel: negativeLabel, this);
+    builder.setNegativeButton(negativeLabel == 0 ? android.R.string.cancel : negativeLabel, this);
     return builder.create();
   }
+
   @Override
-  public void onCancel (DialogInterface dialog) {
+  public void onCancel(DialogInterface dialog) {
     ConfirmationDialogBaseListener ctx = (ConfirmationDialogBaseListener) getActivity();
     if (ctx != null) {
       ctx.onDismissOrCancel(getArguments());
     }
   }
+
   @Override
   public void onClick(DialogInterface dialog, int which) {
     ConfirmationDialogBaseListener ctx = (ConfirmationDialogBaseListener) getActivity();
-    if (ctx == null)  {
+    if (ctx == null) {
       return;
     }
     Bundle bundle = getArguments();
     String prefKey = bundle.getString(KEY_PREFKEY);
     if (prefKey != null && checkBox.isChecked()) {
-      SharedPreferencesCompat.apply(
-        MyApplication.getInstance().getSettings().edit()
-        .putBoolean(prefKey, true));
+      MyApplication.getInstance().getSettings().edit()
+          .putBoolean(prefKey, true)
+          .apply();
     }
     if (which == AlertDialog.BUTTON_POSITIVE) {
-      if (bundle.getInt(KEY_CHECKBOX_LABEL,0)==0) {
+      if (bundle.getInt(KEY_CHECKBOX_LABEL, 0) == 0) {
         ((ConfirmationDialogListener) ctx).onPositive(bundle);
       } else {
-        ((ConfirmationDialogCheckedListener) ctx).onPositive(bundle,checkBox.isChecked());
+        ((ConfirmationDialogCheckedListener) ctx).onPositive(bundle, checkBox.isChecked());
       }
     } else {
       int negativeCommand = getArguments().getInt(KEY_COMMAND_NEGATIVE);
@@ -121,14 +122,18 @@ public class ConfirmationDialogFragment extends CommitSafeDialogFragment impleme
       }
     }
   }
+
   public interface ConfirmationDialogBaseListener {
     void onNegative(Bundle args);
+
     void onDismissOrCancel(Bundle args);
   }
+
   public interface ConfirmationDialogListener extends ConfirmationDialogBaseListener {
     void onPositive(Bundle args);
 
   }
+
   public interface ConfirmationDialogCheckedListener extends ConfirmationDialogBaseListener {
     void onPositive(Bundle args, boolean checked);
   }
