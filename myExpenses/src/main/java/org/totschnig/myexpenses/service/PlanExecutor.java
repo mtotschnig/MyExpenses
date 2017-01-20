@@ -115,7 +115,7 @@ public class PlanExecutor extends IntentService {
             int notificationId = instanceId.hashCode();
             PendingIntent resultIntent;
             Account account = Account.getInstanceFromDb(template.accountId);
-            NotificationManager mNotificationManager =
+            NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             String content = template.label;
             if (!content.equals("")) {
@@ -184,7 +184,7 @@ public class PlanExecutor extends IntentService {
               notification = builder.build();
               notification.flags |= Notification.FLAG_NO_CLEAR;
             }
-            mNotificationManager.notify(notificationId, notification);
+            notificationManager.notify(notificationId, notification);
           } else {
             Log.i(MyApplication.TAG, "Template.getInstanceForPlanIfInstanceIsOpen returned null, instance might already have been dealt with");
           }

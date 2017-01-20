@@ -29,11 +29,13 @@ import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.SyncBackendAdapter;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.ServiceLoader;
@@ -88,31 +90,36 @@ public class SyncBackendList extends Fragment implements
     long packedPosition = ((ExpandableListView.ExpandableListContextMenuInfo) menuInfo).packedPosition;
     int commandId;
     int titleId;
+    boolean isSyncAvailable = ContribFeature.SYNCHRONIZATION.isAvailable();
     if (ExpandableListView.getPackedPositionType(packedPosition) ==
         ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-      switch (syncBackendAdapter.getSyncState(packedPosition)) {
-        case SYNCED_TO_THIS:
-          commandId = R.id.SYNC_UNLINK_COMMAND;
-          titleId = R.string.menu_sync_unlink;
-          break;
-        case UNSYNCED:
-          commandId = R.id.SYNC_LINK_COMMAND;
-          titleId = R.string.menu_sync_link;
-          break;
-        case SYNCED_TO_OTHER:
-          commandId = R.id.SYNCED_TO_OTHER_COMMAND;
-          titleId = R.string.menu_sync_link;
-          break;
-        case UNKNOWN:
-          commandId = R.id.SYNC_DOWNLOAD_COMMAND;
-          titleId = R.string.menu_sync_download;
-          break;
-        default:
-          throw new IllegalStateException("Unknown state");
+      if (isSyncAvailable) {
+        switch (syncBackendAdapter.getSyncState(packedPosition)) {
+          case SYNCED_TO_THIS:
+            commandId = R.id.SYNC_UNLINK_COMMAND;
+            titleId = R.string.menu_sync_unlink;
+            break;
+          case UNSYNCED:
+            commandId = R.id.SYNC_LINK_COMMAND;
+            titleId = R.string.menu_sync_link;
+            break;
+          case SYNCED_TO_OTHER:
+            commandId = R.id.SYNCED_TO_OTHER_COMMAND;
+            titleId = R.string.menu_sync_link;
+            break;
+          case UNKNOWN:
+            commandId = R.id.SYNC_DOWNLOAD_COMMAND;
+            titleId = R.string.menu_sync_download;
+            break;
+          default:
+            throw new IllegalStateException("Unknown state");
+        }
+        menu.add(Menu.NONE, commandId, 0, titleId);
       }
-      menu.add(Menu.NONE, commandId, 0, titleId);
     } else {
-      menu.add(Menu.NONE, R.id.SYNC_COMMAND, 0, R.string.menu_sync_now);
+      if (isSyncAvailable) {
+        menu.add(Menu.NONE, R.id.SYNC_COMMAND, 0, R.string.menu_sync_now);
+      }
       menu.add(Menu.NONE, R.id.SYNC_REMOVE_BACKEND_COMMAND, 0, R.string.menu_remove);
     }
 
@@ -138,10 +145,15 @@ public class SyncBackendList extends Fragment implements
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     if (item.getItemId() < backendProviders.size()) {
-      backendProviders.get(item.getItemId()).startSetup((ManageSyncBackends) getActivity());
+      ((ProtectedFragmentActivity) getActivity()).contribFeatureRequested(
+          ContribFeature.SYNCHRONIZATION, item.getItemId());
       return true;
     }
     return super.onOptionsItemSelected(item);
+  }
+
+  public void startBackendSetup(int index) {
+    backendProviders.get(index).startSetup((ManageSyncBackends) getActivity());
   }
 
   @Override

@@ -16,17 +16,15 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
-import android.text.TextUtils;
-import android.util.Log;
 
 import com.commonsware.cwac.wakeful.WakefulIntentService;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.task.GenericTask;
+import org.totschnig.myexpenses.util.ContribUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -50,27 +48,13 @@ public class AutoBackupService extends WakefulIntentService {
         String action = intent.getAction();
         if (ACTION_AUTO_BACKUP.equals(action)) {
             Result result = GenericTask.doBackup();
-            String notifTitle = Utils.concatResStrings(this, " ", R.string.app_name, R.string.contrib_feature_auto_backup_label);
             if (result.success) {
                 int remaining = ContribFeature.AUTO_BACKUP.recordUsage();
                 if (remaining < 1) {
-                    CharSequence content = TextUtils.concat(
-                        getText(R.string.warning_auto_backup_limit_reached), " ",
-                        ContribFeature.AUTO_BACKUP.buildRemoveLimitation(this,true));
-                    Intent contribIntent = new Intent(this, ContribInfoDialogActivity.class);
-                    contribIntent.putExtra(ContribInfoDialogActivity.KEY_FEATURE, ContribFeature.AUTO_BACKUP);
-                    NotificationCompat.Builder builder =
-                        new NotificationCompat.Builder(this)
-                            .setSmallIcon(R.drawable.ic_home_dark)
-                            .setContentTitle(notifTitle)
-                            .setContentText(content)
-                            .setContentIntent(PendingIntent.getActivity(this, 0, contribIntent, PendingIntent.FLAG_CANCEL_CURRENT))
-                            .setStyle(new NotificationCompat.BigTextStyle().bigText(content));
-                    Notification notification = builder.build();
-                    notification.flags = Notification.FLAG_AUTO_CANCEL;
-                    ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).notify(0,notification);
+                    ContribUtils.showContribNotification(this, ContribFeature.AUTO_BACKUP);
                 }
             } else {
+                String notifTitle = Utils.concatResStrings(this, " ", R.string.app_name, R.string.contrib_feature_auto_backup_label);
                 String content = result.print(this);
                 Intent preferenceIntent = new Intent(this, MyPreferenceActivity.class);
                 preferenceIntent.putExtra(MyPreferenceActivity.KEY_OPEN_PREF_KEY, PrefKey.APP_DIR.getKey());

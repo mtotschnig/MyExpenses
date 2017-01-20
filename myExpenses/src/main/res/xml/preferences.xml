@@ -178,6 +178,11 @@
 
     <PreferenceCategory
         android:title="@string/synchronization">
+        <Preference
+            android:key="@string/pref_manage_sync_backends_key"
+            android:title="@string/pref_manage_sync_backends_title">
+            <intent android:action="myexpenses.intent.manage.sync_backends"/>
+        </Preference>
         <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat
             android:defaultValue="12"
             android:key="@string/pref_sync_frequency_key"
@@ -187,11 +192,6 @@
             my:msbp_maxValue="99"
             my:msbp_measurementUnit=" h"
             my:msbp_minValue="1"/>
-        <Preference
-            android:summary="@string/pref_manage_sync_backends_summary"
-            android:title="@string/pref_manage_sync_backends_title">
-            <intent android:action="myexpenses.intent.manage.sync_backends"/>
-            </Preference>
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -293,7 +293,6 @@
             android:title="@string/pref_send_feedback_title"/>
     </PreferenceCategory>
     <PreferenceCategory
-        android:key="@string/pref_category_advanced_key"
         android:title="@string/pref_category_title_advanced">
         <Preference
             android:key="@string/pref_custom_currency_key"

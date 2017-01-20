@@ -330,34 +330,31 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       }
     }
 
-    Preference.OnPreferenceClickListener homeScreenShortcutPrefClickHandler =
-        new Preference.OnPreferenceClickListener() {
-          @Override
-          public boolean onPreferenceClick(Preference preference) {
-            Bundle extras = new Bundle();
-            extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
-            extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
-            int nameId = 0, iconId = 0;
-            if (preference.getKey().equals(PrefKey.SHORTCUT_CREATE_TRANSACTION.getKey())) {
-              nameId = R.string.transaction;
-              iconId = R.drawable.shortcut_create_transaction_icon;
-            }
-            if (preference.getKey().equals(PrefKey.SHORTCUT_CREATE_TRANSFER.getKey())) {
-              extras.putInt(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_TRANSFER);
-              nameId = R.string.transfer;
-              iconId = R.drawable.shortcut_create_transfer_icon;
-            }
-            if (preference.getKey().equals(PrefKey.SHORTCUT_CREATE_SPLIT.getKey())) {
-              extras.putInt(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_SPLIT);
-              nameId = R.string.split_transaction;
-              iconId = R.drawable.shortcut_create_split_icon;
-            }
-            if (nameId != 0) {
-              addShortcut(".activity.ExpenseEdit", nameId, iconId, extras);
-              return true;
-            }
-            return false;
+    private Preference.OnPreferenceClickListener homeScreenShortcutPrefClickHandler =
+        preference -> {
+          Bundle extras = new Bundle();
+          extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
+          extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
+          int nameId = 0, iconId = 0;
+          if (preference.getKey().equals(PrefKey.SHORTCUT_CREATE_TRANSACTION.getKey())) {
+            nameId = R.string.transaction;
+            iconId = R.drawable.shortcut_create_transaction_icon;
           }
+          if (preference.getKey().equals(PrefKey.SHORTCUT_CREATE_TRANSFER.getKey())) {
+            extras.putInt(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_TRANSFER);
+            nameId = R.string.transfer;
+            iconId = R.drawable.shortcut_create_transfer_icon;
+          }
+          if (preference.getKey().equals(PrefKey.SHORTCUT_CREATE_SPLIT.getKey())) {
+            extras.putInt(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_SPLIT);
+            nameId = R.string.split_transaction;
+            iconId = R.drawable.shortcut_create_split_icon;
+          }
+          if (nameId != 0) {
+            addShortcut(".activity.ExpenseEdit", nameId, iconId, extras);
+            return true;
+          }
+          return false;
         };
 
     @Override
@@ -405,6 +402,10 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         pref.setSummary(getString(R.string.pref_import_summary, "CSV"));
         pref.setTitle(getString(R.string.pref_import_title, "CSV"));
         pref.setOnPreferenceClickListener(this);
+
+        findPreference(getString(R.string.pref_manage_sync_backends_key)).setSummary(
+            getString(R.string.pref_manage_sync_backends_summary) + " " +
+                ContribFeature.SYNCHRONIZATION.buildRequiresString(getActivity()));
 
         new AsyncTask<Void, Void, Boolean>() {
           @Override

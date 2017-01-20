@@ -344,6 +344,7 @@
         <item>currency</item>
         <item>type</item>
         <item>color</item>
+        <item>synchronization</item>
     </string-array>
     <string-array name="form_opening_balance_help_text" tools:ignore="UnusedResources">
         <item>form_AccountEdit_amount_switch_help_text</item>

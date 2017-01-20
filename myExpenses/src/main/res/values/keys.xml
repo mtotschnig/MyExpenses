@@ -19,7 +19,6 @@
     <string name="pref_category_export_key">category_export</string>
     <string name="pref_category_contrib_key">category_contrib</string>
     <string name="pref_category_manage_key">category_manage</string>
-    <string name="pref_category_advanced_key">category_manage</string>
     <string name="pref_sort_order_key">sort_order</string>
     <string name="pref_categories_sort_by_usages_key">categories_sort_by_usages</string>
     <!-- legacy -->
@@ -69,6 +68,7 @@
     <string name="pref_group_week_starts_key">group_week_start</string>
     <string name="pref_group_month_starts_key">group_month_start</string>
     <string name="pref_sync_frequency_key">sync_frequency</string>
+    <string name="pref_manage_sync_backends_key">manage_sync_backends</string>
 
     <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
   <string name="help_licence_financisto">CalculatorInput, QifParser, FolderBrowser, HomeScreenWidgets, WhereFilter and AutoBackupService inspired by https://launchpad.net/financisto ,
@@ -136,5 +136,6 @@
     <string name="contrib_feature_auto_backup_label" tools:ignore="UnusedResources">@string/pref_auto_backup_title</string>
     <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">@string/split_transaction</string>
     <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">@string/pref_security_question_title</string>
+    <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">@string/synchronization</string>
 
 </resources>

@@ -41,6 +41,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Money;
@@ -49,6 +50,7 @@ import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.ui.SpinnerHelper;
 import org.totschnig.myexpenses.util.AcraHelper;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Currency;
@@ -62,7 +64,7 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_TOGGLE_EX
  * @author Michael Totschnig
  */
 public class AccountEdit extends AmountActivity implements
-    OnItemSelectedListener {
+    OnItemSelectedListener, ContribIFace {
   private static final String OPENINTENTS_COLOR_EXTRA = "org.openintents.extra.COLOR";
   private static final String OPENINTENTS_PICK_COLOR_ACTION = "org.openintents.action.PICK_COLOR";
   private EditText mLabelText;
@@ -315,6 +317,9 @@ public class AccountEdit extends AmountActivity implements
           //will be reported to user when he tries so safe
         }
         break;
+      case R.id.Sync:
+        contribFeatureRequested(ContribFeature.SYNCHRONIZATION, null);
+        break;
     }
   }
 
@@ -425,5 +430,17 @@ public class AccountEdit extends AmountActivity implements
 
   public void syncUnlink(View view) {
     DialogUtils.showSyncUnlinkConfirmationDialog(this, mAccount);
+  }
+
+  @Override
+  public void contribFeatureCalled(ContribFeature feature, Serializable tag) {
+
+  }
+
+  @Override
+  public void contribFeatureNotCalled(ContribFeature feature) {
+    if (feature == ContribFeature.SYNCHRONIZATION) {
+      mSyncSpinner.setSelection(0);
+    }
   }
 }

@@ -6,6 +6,7 @@ import android.support.annotation.VisibleForTesting;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.Template;
+import org.totschnig.myexpenses.sync.GenericAccountService;
 
 public abstract class LicenceHandler {
   public static boolean HAS_EXTENDED = !BuildConfig.FLAVOR.equals("blackberry");
@@ -18,6 +19,7 @@ public abstract class LicenceHandler {
 
   public void invalidate() {
     Template.updateNewPlanEnabled();
+    GenericAccountService.updateAccountsIsSyncable();
   }
 
   @VisibleForTesting

@@ -22,6 +22,7 @@ import android.accounts.AccountAuthenticatorResponse;
 import android.accounts.AccountManager;
 import android.accounts.NetworkErrorException;
 import android.app.Service;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,7 +30,12 @@ import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.activity.ContribIFace;
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
+import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.provider.TransactionProvider;
 
 public class GenericAccountService extends Service {
   private static final String TAG = "GenericAccountService";
@@ -71,6 +77,23 @@ public class GenericAccountService extends Service {
   @Override
   public IBinder onBind(Intent intent) {
     return mAuthenticator.getIBinder();
+  }
+
+  public static void updateAccountsIsSyncable() {
+    boolean isSyncable = ContribFeature.SYNCHRONIZATION.hasAccess() || ContribFeature.SYNCHRONIZATION.usagesLeft() > 0;
+    AccountManager accountManager = (AccountManager) MyApplication.getInstance().getSystemService(ACCOUNT_SERVICE);
+
+    for (Account account : accountManager.getAccountsByType(GenericAccountService.ACCOUNT_TYPE)) {
+      if (isSyncable) {
+        ContentResolver.addPeriodicSync(account, TransactionProvider.AUTHORITY, Bundle.EMPTY,
+            PrefKey.SYNC_FREQUCENCY.getInt(GenericAccountService.DEFAULT_SYNC_FREQUENCY_HOURS) * HOUR_IN_SECONDS);
+        ContentResolver.setIsSyncable(account, TransactionProvider.AUTHORITY, 1);
+      } else {
+        ContentResolver.cancelSync(account, TransactionProvider.AUTHORITY);
+        ContentResolver.removePeriodicSync(account, TransactionProvider.AUTHORITY, Bundle.EMPTY);
+        ContentResolver.setIsSyncable(account, TransactionProvider.AUTHORITY, 0);
+      }
+    }
   }
 
   public class Authenticator extends AbstractAccountAuthenticator {

@@ -14,12 +14,14 @@ import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.SetupWebdavDialogFragment;
 import org.totschnig.myexpenses.fragment.SyncBackendList;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.sync.WebDavBackendProviderFactory;
 import org.totschnig.myexpenses.util.Result;
 
 import java.io.File;
+import java.io.Serializable;
 
 import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_SYNC_PROVIDER_LABEL;
 import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_SYNC_PROVIDER_URL;
@@ -33,7 +35,7 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_UNLI
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_WEBDAV_TEST_LOGIN;
 
 public class ManageSyncBackends extends ProtectedFragmentActivity implements
-    EditTextDialog.EditTextDialogListener {
+    EditTextDialog.EditTextDialogListener, ContribIFace {
 
   private static final String KEY_PACKED_POSITION = "packedPosition";
   private Account newAccount;
@@ -45,6 +47,9 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
     setContentView(R.layout.manage_sync_backends);
     setupToolbar(true);
     setTitle(R.string.pref_manage_sync_backends_title);
+    if (!ContribFeature.SYNCHRONIZATION.isAvailable()) {
+      contribFeatureRequested(ContribFeature.SYNCHRONIZATION, null);
+    }
   }
 
   //LocalFileBackend
@@ -211,4 +216,15 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
     return newAccount;
   }
 
+  @Override
+  public void contribFeatureCalled(ContribFeature feature, Serializable tag) {
+    if (tag instanceof Integer) {
+      getListFragment().startBackendSetup((Integer) tag);
+    }
+  }
+
+  @Override
+  public void contribFeatureNotCalled(ContribFeature feature) {
+
+  }
 }

@@ -222,13 +222,12 @@ public class TemplateWidget extends AbstractWidget<Template> {
   }
 
   public static void showContribMessage(Context context) {
-    int usagesLeft = ContribFeature.TEMPLATE_WIDGET.usagesLeft();
     String message = context.getString(
         R.string.dialog_contrib_premium_feature,
         context.getString(R.string.contrib_feature_template_widget_label)) +
-        ContribFeature.TEMPLATE_WIDGET.buildUsagesString(context, usagesLeft);
+        ContribFeature.TEMPLATE_WIDGET.buildUsagesString(context);
     Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-    if (usagesLeft == 0) {
+    if (ContribFeature.TEMPLATE_WIDGET.usagesLeft() == 0) {
       updateWidgets(context, TemplateWidget.class);
     }
   }
