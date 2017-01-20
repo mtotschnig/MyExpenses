@@ -70,6 +70,7 @@ public enum PrefKey {
   GROUP_WEEK_STARTS(R.string.pref_group_week_starts_key),
   GROUP_MONTH_STARTS(R.string.pref_group_month_starts_key),
   NEW_PLAN_ENABLED("new_plan_enabled"),
+  NEW_ACCOUNT_ENABLED("new_account_enabled"),
   SYNC_FREQUCENCY(R.string.pref_sync_frequency_key);
 
   private int resId = 0;

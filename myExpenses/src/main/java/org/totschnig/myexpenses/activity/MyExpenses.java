@@ -163,7 +163,7 @@ public class MyExpenses extends LaunchActivity implements
   private StickyListHeadersAdapter mDrawerListAdapter;
   private ViewPager myPager;
   private long mAccountId = 0;
-  int mAccountCount = 0;
+  private int mAccountCount = 0;
   private AdHandler adHandler;
   private Toolbar mToolbar;
   private String mCurrentBalance;

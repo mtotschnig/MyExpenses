@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.fragment.SyncBackendList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Model;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.sync.WebDavBackendProviderFactory;
 import org.totschnig.myexpenses.util.Result;
@@ -197,9 +198,13 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
   public boolean onContextItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case R.id.SYNC_DOWNLOAD_COMMAND:
-        newAccount = getListFragment().getAccountForSync(
-            ((ExpandableListContextMenuInfo) item.getMenuInfo()).packedPosition);
-        startDbWriteTask(false);
+        if (PrefKey.NEW_ACCOUNT_ENABLED.getBoolean(true)) {
+          newAccount = getListFragment().getAccountForSync(
+              ((ExpandableListContextMenuInfo) item.getMenuInfo()).packedPosition);
+          startDbWriteTask(false);
+        } else {
+          contribFeatureRequested(ContribFeature.ACCOUNTS_UNLIMITED, null);
+        }
         return true;
     }
     return super.onContextItemSelected(item);

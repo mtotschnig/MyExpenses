@@ -30,6 +30,7 @@ import android.util.Log;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.CrStatusCriteria;
@@ -267,6 +268,7 @@ public class Account extends Model {
         .build());
     cr().applyBatch(TransactionProvider.AUTHORITY, ops);
     accounts.remove(id);
+    updateNewAccountEnabled();
   }
 
   /**
@@ -575,6 +577,7 @@ public class Account extends Model {
       accounts.put(getId(), this);
     }
     Money.ensureFractionDigitsAreCached(currency);
+    updateNewAccountEnabled();
     return uri;
   }
 
@@ -746,5 +749,15 @@ public class Account extends Model {
       ContentResolver.requestSync(GenericAccountService.GetAccount(syncAccountName),
           TransactionProvider.AUTHORITY, bundle);
     }
+  }
+
+  public static void updateNewAccountEnabled() {
+    boolean newAccountEnabled = true;
+    if (!ContribFeature.ACCOUNTS_UNLIMITED.hasAccess()) {
+      if (count(null, null) >= 5) {
+        newAccountEnabled = false;
+      }
+    }
+    PrefKey.NEW_ACCOUNT_ENABLED.putBoolean(newAccountEnabled);
   }
 }
