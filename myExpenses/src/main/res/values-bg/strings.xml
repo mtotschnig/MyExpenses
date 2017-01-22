@@ -320,6 +320,8 @@
   <string name="pref_manage_methods_title">Начини на плащане</string>
   <string name="pref_manage_parties_summary">Добавяне, редактиране, изтриване на страни (платци и получатели).</string>
   <string name="pref_manage_parties_title">Страни</string>
+  <string name="pref_manage_sync_backends_title">Отдалечени места за съхранение и синхронизация</string>
+  <string name="pref_manage_sync_backends_summary">Добавяне на места за отдалечено съхранение (%s).</string>
   <string name="pref_more_info_dialog_summary">Превод на български: Диана Карa, Иван Димитров</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Лиценз и кредити</string>
@@ -596,4 +598,31 @@
   <string name="crash_dialog_title">Моите разходи спря</string>
   <string name="crash_dialog_text">Възникна неочаквана грешка, която принуди приложението да спре. Моля, помогнете ни да отстраним грешката, като ни изпратите данни за нея. Всичко, което трябва да направите, е да натиснете ОК.</string>
   <string name="crash_dialog_comment_prompt">По-долу може да добавите коментар относно този проблем:</string>
+  <string name="synchronization">Синхронизиране</string>
+  <string name="synchronization_none">Без синхронизиране</string>
+  <string name="hint_url">URL</string>
+  <string name="description_webdav_url">Въведете URL на специална папка от WebDAV сървър за данните от тази сметка. My Expenses ще запази данните си в тази папка и няма да пипа нищо извън нея.</string>
+  <string name="description_webdav_trust_certificate">Сайтът използва сертификат, който не е доверен за Android.</string>
+  <string name="hint_user_name">Име на потребител</string>
+  <string name="hint_password">Парола</string>
+  <string name="label_trust_certificate">Довери се на този сертификат</string>
+  <string name="no_sync_backends">Няма отдалечено място за съхранение, с което да се прави синхронизация</string>
+  <string name="menu_create_sync_backend">Ново отдалечено място за съхранение, с което да се прави синхронизация</string>
+  <string name="validate_error_not_empty">Трябва да не е празно</string>
+  <string name="validate_error_webdav_invalid_certificate">На този сертификат не може да се довери. Изглежда е невалиден.</string>
+  <string name="validate_error_webdav_not_compliant">Този URL не е WebDAV Class 2 съвместим ресурс.</string>
+  <string name="url_not_valid">Невалиден URL</string>
+  <string name="menu_sync_unlink">Спри синхронизирането</string>
+  <string name="menu_sync_link">Започни синхронизиране</string>
+  <string name="menu_sync_download">Зареждане и синхронизиране</string>
+  <string name="menu_sync_now">Синхронизирай сега</string>
+  <string name="pref_sync_frequency_title">Честота на синхронизиране</string>
+  <string name="pref_sync_frequency_summary">Колко често да се синхронизират данните (в часове)</string>
+  <string name="dialog_confirm_sync_unlink">Ако развържете тази сметка от %s, ще се загуби състоянието на синхронизиране. При последващо ново свързване ще трябва да се извърши пълно синхронизиране.</string>
+  <string name="dialog_sync_link">Сметката %s съществува и в локалната и в отдалечената бази от данни. Когато ги свържете ще трябва да решите дали първоначално да се пренесат локалните данни в отдалечената база или да се заредят данните от отдалечената в локалната.</string>
+  <string name="dialog_command_sync_link_remote">Зареди от отдалечената</string>
+  <string name="dialog_command_sync_link_local">Изпрати локалните</string>
+  <string name="dialog_synced_to_other">Сметката %s вече съществува в локалната база данни и е свързана с друго отдалечено място за съхранение.</string>
+  <string name="menu_remove">Премахни</string>
+  <string name="dialog_confirm_sync_remove_backend">Отдалеченото място %s ще бъде премахнато. Това няма да повлияе нито локално, нито отдалечено съхранените данни, но ще се загуби състоянието на синхронизиране. Да продължим ли?</string>
 </resources>

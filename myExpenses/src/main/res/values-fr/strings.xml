@@ -320,6 +320,8 @@
   <string name="pref_manage_methods_title">Méthodes de paiement</string>
   <string name="pref_manage_parties_summary">Ajouter, éditer, supprimer les tiers.</string>
   <string name="pref_manage_parties_title">Tiers</string>
+  <string name="pref_manage_sync_backends_title">Serveur de synchronisation</string>
+  <string name="pref_manage_sync_backends_summary">Ajoutez un serveur pour la synchronisation des comptes (%s).</string>
   <string name="pref_more_info_dialog_summary">Traduit par Laurent Collombet, Alexandre Beelen et Michael Totschnig</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Licence &amp; Générique</string>
@@ -596,4 +598,31 @@
   <string name="crash_dialog_title">Mes dépenses s\'est arrêté</string>
   <string name="crash_dialog_text">Une erreur inattendue a arrêté l\'application. Aidez-nous à réparer celle-ci en envoyant le rapport d\'erreur,  tout ce que vous avez à faire est de cliquer sur OK</string>
   <string name="crash_dialog_comment_prompt">Vpus pouvez ajouter vos commentaires sur ce problème. </string>
+  <string name="synchronization">Synchronisation</string>
+  <string name="synchronization_none">Aucune synchronisation</string>
+  <string name="hint_url">URL</string>
+  <string name="description_webdav_url">S’il vous plaît entrez l’URL vers un dossier spécial pour les données de ce compte sur votre serveur WebDAV. Mes dépenses vont stocker ses données à l’intérieur de ce dossier, il ne touche à rien en dehors de celui-ci.</string>
+  <string name="description_webdav_trust_certificate">Le site web utilise un certificat  non validé par Android.</string>
+  <string name="hint_user_name">Nom d\'utilisateur</string>
+  <string name="hint_password">Mot de passe</string>
+  <string name="label_trust_certificate">Valider ce certificat</string>
+  <string name="no_sync_backends">Aucun serveur de synchronisation</string>
+  <string name="menu_create_sync_backend">Nouveau serveur de synchronisation</string>
+  <string name="validate_error_not_empty">Ne doit pas être vide</string>
+  <string name="validate_error_webdav_invalid_certificate">Le certificat n\'est pas vérifié. Il semble invalide. </string>
+  <string name="validate_error_webdav_not_compliant">L’URL ne pointe pas vers une ressource de WebDAV conforme de classe 2.</string>
+  <string name="url_not_valid">URL invalide</string>
+  <string name="menu_sync_unlink">Arrêter la synchronisation </string>
+  <string name="menu_sync_link">Démarrer la synchronisation</string>
+  <string name="menu_sync_download">Télécharger et synchroniser</string>
+  <string name="menu_sync_now">Synchroniser maintenant</string>
+  <string name="pref_sync_frequency_title">Fréquence de synchronisation</string>
+  <string name="pref_sync_frequency_summary">À quelle fréquence les données devraient être synchronisés (en heures)</string>
+  <string name="dialog_confirm_sync_unlink">Si vous supprimez le lien de ce compte de %s, l’état de synchronisation se perdra. Pour les relier à nouveau plus tard, il sera nécessaire de faire une synchronisation complète pour être de nouveau exécutée.</string>
+  <string name="dialog_sync_link">Un compte avec l’uuid %s existe dans la base de données locale et sur le serveur distant. Lorsque vous liez les deux, vous devez décider, si, au départ, vous souhaitez télécharger les données locales au serveur distant ou télécharger des données distantes à la base de données locale.</string>
+  <string name="dialog_command_sync_link_remote">Télécharger du site éloigné</string>
+  <string name="dialog_command_sync_link_local">Télécharger en local</string>
+  <string name="dialog_synced_to_other">Un compte avec l’uuid %s déjà existe dans la base de données locale et est lié à un serveur distant différent.</string>
+  <string name="menu_remove">Supprimer</string>
+  <string name="dialog_confirm_sync_remove_backend">Le serveur distant %s sera supprimé. Cela n’affectera pas les données stockées localement ou à distance, mais l’état de synchronisation se perdra. Voulez-vous continuer ?</string>
 </resources>

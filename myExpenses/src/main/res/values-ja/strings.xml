@@ -316,6 +316,8 @@
   <string name="pref_manage_methods_title">支払方法</string>
   <string name="pref_manage_parties_summary">取引先 (受取人/支払人) を追加/編集/削除します。</string>
   <string name="pref_manage_parties_title">取引先</string>
+  <string name="pref_manage_sync_backends_title">同期バックエンド</string>
+  <string name="pref_manage_sync_backends_summary">Google ドライブ、Dropbox、WebDAV でアカウントを同期するためのバックエンドを追加します</string>
   <string name="pref_more_info_dialog_summary">福江尚史訳</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">ライセンス &amp; クレジット</string>
@@ -586,4 +588,31 @@
   <string name="crash_dialog_title">マイ エクスペンスがクラッシュしました</string>
   <string name="crash_dialog_text">予期しないエラーが発生しました。アプリケーションを強制的に停止します。私たちにエラーデータを送信して、この問題の解決を助けてください。あなたがする必要があるのは OK をクリックするだけです。</string>
   <string name="crash_dialog_comment_prompt">以下に問題についてのコメントを追加できます:</string>
+  <string name="synchronization">同期</string>
+  <string name="synchronization_none">同期しない</string>
+  <string name="hint_url">URL</string>
+  <string name="description_webdav_url">WebDAV サーバー上の、このアカウントデータ用の特別なフォルダーの URL を入力してください。 マイエクスペンスはこのフォルダの中にデータを保存し、それ以外には触れません。</string>
+  <string name="description_webdav_trust_certificate">このウェブサイトは Android で信頼されていない証明書を使用しています。</string>
+  <string name="hint_user_name">ユーザー名</string>
+  <string name="hint_password">パスワード</string>
+  <string name="label_trust_certificate">この証明書を信頼する</string>
+  <string name="no_sync_backends">同期バックエンドはありません</string>
+  <string name="menu_create_sync_backend">新しい同期バックエンド</string>
+  <string name="validate_error_not_empty">空にできません</string>
+  <string name="validate_error_webdav_invalid_certificate">証明書を信頼できませんでした。 無効のようです。</string>
+  <string name="validate_error_webdav_not_compliant">URL は、クラス 2 に準拠した WebDAV リソースを指していません。</string>
+  <string name="url_not_valid">URL が無効です</string>
+  <string name="menu_sync_unlink">同期を停止</string>
+  <string name="menu_sync_link">同期を開始</string>
+  <string name="menu_sync_download">ダウンロードと同期</string>
+  <string name="menu_sync_now">今すぐ同期</string>
+  <string name="pref_sync_frequency_title">同期の周期</string>
+  <string name="pref_sync_frequency_summary">データを同期する頻度 (時間単位)</string>
+  <string name="dialog_confirm_sync_unlink">%s からこのアカウントのリンクを解除すると、同期ステータスが失われます。 後で再度リンクするには、完全な同期を再度実行する必要があります。</string>
+  <string name="dialog_sync_link">uuid %s のアカウントが、ローカルデータベースとリモートバックエンドの両方に存在します。 両方をリンクするときは、最初にローカルデータをリモートバックエンドにアップロードするか、リモートデータをローカルデータベースにダウンロードするかどうかを決定する必要があります。</string>
+  <string name="dialog_command_sync_link_remote">リモートからダウンロード</string>
+  <string name="dialog_command_sync_link_local">ローカルからアップロード</string>
+  <string name="dialog_synced_to_other">uuid %s のアカウントは、ローカルデータベースに既に存在し、別のリモートバックエンドにリンクされています。</string>
+  <string name="menu_remove">削除</string>
+  <string name="dialog_confirm_sync_remove_backend">リモートバックエンド %s は削除されます。 これはローカルまたはリモートに保存されたデータには影響しませんが、同期ステータスは失われます。 続けますか?</string>
 </resources>

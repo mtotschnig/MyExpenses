@@ -320,7 +320,9 @@
   <string name="pref_manage_methods_title">Modalità di pagamento</string>
   <string name="pref_manage_parties_summary">Aggiungi, modifica, cancella beneficiari.</string>
   <string name="pref_manage_parties_title">Beneficiari</string>
-  <string name="pref_more_info_dialog_summary">Tradotto da gudrunto, Laurent Collombet, Silvia Delpero, FrancescaLaV et  fedett92</string>
+  <string name="pref_manage_sync_backends_title">Backend di sincronizzazione</string>
+  <string name="pref_manage_sync_backends_summary">Aggiungere il backend per la sincronizzazione degli conti (%s).</string>
+  <string name="pref_more_info_dialog_summary">Tradotto da gudrunto, Laurent Collombet, Silvia Delpero, FrancescaLaV et fedett92</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Licenza &amp; Generico</string>
   <string name="pref_password_not_equal">Le password non corrispondono</string>
@@ -596,4 +598,31 @@
   <string name="crash_dialog_title">Le mie spese si è schiantato</string>
   <string name="crash_dialog_text">Errore imprevisto durante l\'imposizione all\'applicazione di interrompere. Vi preghiamo di aiutarci a risolvere questo problema inviandoci i dati errore, tutto quello che dovete fare è fare clic su OK.</string>
   <string name="crash_dialog_comment_prompt">È possibile aggiungere i vostri commenti sul problema riportato di seguito:</string>
+  <string name="synchronization">Sincronizzazione</string>
+  <string name="synchronization_none">Nessuna sincronizzazione</string>
+  <string name="hint_url">URL</string>
+  <string name="description_webdav_url">Inserisci l\'URL a una cartella speciale per questi dati di account sul server WebDAV. Le mie spese memorizzerà i dati all\'interno di questa cartella, non tocca nulla di fuori di esso.</string>
+  <string name="description_webdav_trust_certificate">Il sito utilizza un certificato che non è attendibile per Android.</string>
+  <string name="hint_user_name">Nome utente</string>
+  <string name="hint_password">Password</string>
+  <string name="label_trust_certificate">Questo certificato attendibile</string>
+  <string name="no_sync_backends">Nessuna sincronizzazione backend</string>
+  <string name="menu_create_sync_backend">Nuova sincronizzazione backend</string>
+  <string name="validate_error_not_empty">Non deve essere vuoto</string>
+  <string name="validate_error_webdav_invalid_certificate">Il certificato potrebbe non essere attendibile. Sembra non valido.</string>
+  <string name="validate_error_webdav_not_compliant">L\'URL non fa riferimento a una classe 2 conforme a WebDAV ressource.</string>
+  <string name="url_not_valid">URL non valido</string>
+  <string name="menu_sync_unlink">Interrompere la sincronizzazione</string>
+  <string name="menu_sync_link">Avviare la sincronizzazione.</string>
+  <string name="menu_sync_download">Download e sincronizzazione</string>
+  <string name="menu_sync_now">Sincronizza ora</string>
+  <string name="pref_sync_frequency_title">Frequenza di sincronizzazione</string>
+  <string name="pref_sync_frequency_summary">Quanto spesso i dati devono essere sincronizzata (in ore)</string>
+  <string name="dialog_confirm_sync_unlink">Se si scollega questo account da %s, lo stato di sincronizzazione si perde. Loro collegamento più tardi, richiede una sincronizzazione completa per essere eseguito nuovamente.</string>
+  <string name="dialog_sync_link">Sia nel database locale e il backend remoto esiste un account con uuid %s. Quando si collegano entrambi, è necessario decidere, se, inizialmente, si desidera caricare dati locali il backend remoto o scaricare dati remoti al database locale.</string>
+  <string name="dialog_command_sync_link_remote">Scaricare da remoto</string>
+  <string name="dialog_command_sync_link_local">Caricare da locale</string>
+  <string name="dialog_synced_to_other">Un account con uuid %s già esiste nel database locale ed è collegato ad un backend remoto diverso.</string>
+  <string name="menu_remove">Rimuovere</string>
+  <string name="dialog_confirm_sync_remove_backend">Backend remoto %s verranno rimossi. Ciò non influirà dati memorizzati localmente o in remoto, ma lo stato di sincronizzazione si perde. Si desidera continuare?</string>
 </resources>

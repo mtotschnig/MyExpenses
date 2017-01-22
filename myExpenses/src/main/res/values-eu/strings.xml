@@ -597,4 +597,8 @@ Librezale.eus</string>
   <string name="crash_dialog_title">Nire gastuak kraskatu da</string>
   <string name="crash_dialog_text">Ustekabeko errore bat gertatu da eta aplikazioa itxi behar izan da. Lagundu gaitzazu arazoa konpontzen errorearen datuak bidaliz, egin behar duzun guztia Ados sakatzea da.</string>
   <string name="crash_dialog_comment_prompt">Zure iruzkinak gehitu ditzakezu hemen:</string>
+  <string name="synchronization">Sinkronizazioa</string>
+  <string name="synchronization_none">Sinkronizaziorik ez</string>
+  <string name="hint_url">URLa</string>
+  <string name="description_webdav_url">Idatzi mesedez kontu honen datuetarko zure WebDAV zerbitzariko karpeta berezi baten URLa. Nire gastuak bere datuak karpeta honetan gordeko ditu, ez du hortik kanpoko ezer ikutuko.</string>
 </resources>
