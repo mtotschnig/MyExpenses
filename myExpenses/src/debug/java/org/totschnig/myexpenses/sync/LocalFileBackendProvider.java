@@ -46,6 +46,7 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
       if (!metaData.exists()) {
         try {
           saveFileContents(metaData, buildMetadata(account));
+          createWarningFile();
         } catch (IOException e) {
           return false;
         }
@@ -131,7 +132,7 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  void saveFileContents(String fileName, String fileContents) throws IOException {
+  void saveFileContents(String fileName, String fileContents, String mimeType) throws IOException {
     Preconditions.checkNotNull(accountDir);
     saveFileContents(new File(accountDir, fileName), fileContents);
   }

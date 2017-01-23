@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.sync.webdav;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import java.io.IOException;
@@ -32,12 +33,15 @@ public class LockableDavResource extends at.bitfire.dav4android.DavResource {
    * @throws IOException
    * @throws HttpException
    */
-  public void put(@NonNull RequestBody body, String ifHeader) throws IOException, HttpException {
-    Response response = null;
+  public void put(@NonNull RequestBody body, @Nullable String ifHeader) throws IOException, HttpException {
+    Response response;
     Request.Builder builder = new Request.Builder()
-        .header("If", ifHeader)
         .put(body)
         .url(location);
+
+    if (ifHeader != null) {
+      builder.header("If", ifHeader);
+    }
 
     response = httpClient.newCall(builder.build()).execute();
 

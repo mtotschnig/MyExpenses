@@ -36,7 +36,7 @@ import static org.totschnig.myexpenses.util.FileCopyUtils.toByteArray;
 public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
   public static final String KEY_WEB_DAV_CERTIFICATE = "webDavCertificate";
-  public final MediaType MIME_JSON = MediaType.parse(MIMETYPE_JSON + "; charset=utf-8");
+  private final MediaType MIME_JSON = MediaType.parse(MIMETYPE_JSON + "; charset=utf-8");
 
   private WebDavClient webDavClient;
   /**
@@ -71,8 +71,8 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
       webDavClient.mkCol(accountUuid);
       LockableDavResource metaData = webDavClient.getResource(accountUuid, ACCOUNT_METADATA_FILENAME);
       if (!metaData.exists()) {
-
         metaData.put(RequestBody.create(MIME_JSON, buildMetadata(account)), null, false);
+        createWarningFile();
       }
     } catch (HttpException | at.bitfire.dav4android.exception.HttpException | IOException e) {
       return false;
@@ -152,9 +152,10 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  void saveFileContents(String fileName, String fileContents) throws IOException {
+  void saveFileContents(String fileName, String fileContents, String mimeType) throws IOException {
     try {
-      webDavClient.upload(accountUuid, fileName, fileContents, MIME_JSON);
+      webDavClient.upload(accountUuid, fileName, fileContents,
+          MediaType.parse(mimeType + "; charset=utf-8"));
     } catch (HttpException e) {
       throw e.getCause() instanceof IOException ? ((IOException) e.getCause()) : new IOException(e);
     }

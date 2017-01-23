@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.sync.webdav;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import org.totschnig.myexpenses.util.AcraHelper;
@@ -105,7 +106,11 @@ public class WebDavClient {
     }
   }
 
+  @Nullable
   private String buildIfHeader(String folderName) {
+    if (currentLockToken == null) {
+      return null;
+    }
     return webdavCodedUrl(buildCollectionUri(folderName).toString()) + " " +
         webDavIfHeaderConditionList(webdavCodedUrl(currentLockToken));
   }

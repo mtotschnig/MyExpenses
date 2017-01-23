@@ -647,5 +647,6 @@
     <string name="dialog_confirm_sync_link_remote">Local data for this account will be deleted.</string>
     <string name="warning_synchronization_limited_trial">The synchronization feature can be tested until %s.</string>
     <string name="warning_synchronization_limit_reached">The trial period for testing the synchronization feature has ended.</string>
+    <string name="synchronization_folder_usage_warning">This folder is used for synchronising data between installations of My Expenses on different devices. Please do not modify any of its contents manually.</string>
 </resources>
 

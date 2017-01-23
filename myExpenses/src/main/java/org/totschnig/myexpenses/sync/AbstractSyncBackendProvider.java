@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.sync.json.AdapterFactory;
@@ -141,7 +142,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
         changeSetToWrite.add(transactionChange);
       }
     }
-    saveFileContents("_" + nextSequence + ".json", gson.toJson(changeSetToWrite));
+    saveFileContents("_" + nextSequence + ".json", gson.toJson(changeSetToWrite), MIMETYPE_JSON);
     return nextSequence;
   }
 
@@ -153,10 +154,20 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
 
   protected abstract long getLastSequence() throws IOException;
 
-  abstract void saveFileContents(String fileName, String fileContents) throws IOException;
+  abstract void saveFileContents(String fileName, String fileContents, String mimeType) throws IOException;
 
   //from API 19 Long.compare
   int compareInt(Long x, Long y) {
     return (x < y) ? -1 : ((x == y) ? 0 : 1);
+  }
+
+  void createWarningFile() {
+    try {
+      saveFileContents("IMPORTANT_INFORMATION",
+          MyApplication.getInstance().getString(R.string.synchronization_folder_usage_warning),
+          "text/plain");
+    } catch (IOException e) {
+      AcraHelper.report(e);
+    }
   }
 }
