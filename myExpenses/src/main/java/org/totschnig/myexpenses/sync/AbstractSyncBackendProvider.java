@@ -164,7 +164,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   void createWarningFile() {
     try {
       saveFileContents("IMPORTANT_INFORMATION",
-          MyApplication.getInstance().getString(R.string.synchronization_folder_usage_warning),
+          MyApplication.getInstance().getString(R.string.warning_synchronization_folder_usage),
           "text/plain");
     } catch (IOException e) {
       AcraHelper.report(e);

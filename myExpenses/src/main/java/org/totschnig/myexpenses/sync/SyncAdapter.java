@@ -136,7 +136,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     SyncBackendProvider backend = backendProviderOptional.get();
     if (!backend.setUp()) {
       syncResult.stats.numIoExceptions++;
-      syncResult.delayUntil = 60;
+      syncResult.delayUntil = 300;
       return;
     }
 
