@@ -1170,7 +1170,7 @@ public class Utils {
     for (Object object : objects) {
       if (!result.equals(""))
         result += ",";
-      result += object.toString();
+      result += (object == null ? "null" : object.toString());
     }
     return result;
   }

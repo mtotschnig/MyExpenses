@@ -2,13 +2,10 @@ package org.totschnig.myexpenses.task;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.content.ContentResolver;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.util.Result;
 
@@ -36,9 +33,7 @@ public class CreateSyncAccountTask extends AsyncTask<Void, Void, Result> {
     AccountManager accountManager = AccountManager.get(MyApplication.getInstance());
     if (accountManager.addAccountExplicitly(newAccount, null, userData)) {
       accountManager.setPassword(newAccount, password);
-      ContentResolver.setSyncAutomatically(newAccount, TransactionProvider.AUTHORITY, true);
-      ContentResolver.addPeriodicSync(newAccount, TransactionProvider.AUTHORITY, Bundle.EMPTY,
-          PrefKey.SYNC_FREQUCENCY.getInt(GenericAccountService.DEFAULT_SYNC_FREQUENCY_HOURS) * GenericAccountService.HOUR_IN_SECONDS);
+      GenericAccountService.activateSync(newAccount);
       return new Result(true);
     }
     return new Result(false);

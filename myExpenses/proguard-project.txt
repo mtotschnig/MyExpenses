@@ -1,6 +1,6 @@
 # Restore some Source file names and restore approximate line numbers in the stack traces,
 # otherwise the stack traces are pretty useless
--keepattributes SourceFile,LineNumberTable
+-keepattributes SourceFile, LineNumberTable, InnerClasses
 -dontskipnonpubliclibraryclassmembers
 
 #-keep class org.bouncycastle.** { *; }
@@ -58,3 +58,8 @@
 
 # Retrolambda
 -dontwarn java.lang.invoke.*
+
+-keep public enum org.totschnig.myexpenses.sync.json.TransactionChange$** {
+    **[] $VALUES;
+    public *;
+}

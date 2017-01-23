@@ -317,7 +317,6 @@
   <string name="pref_manage_parties_summary">取引先 (受取人/支払人) を追加/編集/削除します。</string>
   <string name="pref_manage_parties_title">取引先</string>
   <string name="pref_manage_sync_backends_title">同期バックエンド</string>
-  <string name="pref_manage_sync_backends_summary">Google ドライブ、Dropbox、WebDAV でアカウントを同期するためのバックエンドを追加します</string>
   <string name="pref_more_info_dialog_summary">福江尚史訳</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">ライセンス &amp; クレジット</string>

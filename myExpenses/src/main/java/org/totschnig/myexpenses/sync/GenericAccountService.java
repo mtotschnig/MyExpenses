@@ -38,7 +38,7 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 public class GenericAccountService extends Service {
-  private static final String TAG = "GenericAccountService";
+  private static final String TAG = GenericAccountService.class.getSimpleName();
   public static final String ACCOUNT_TYPE = "org.totschnig.myexpenses.sync";
   public static final String KEY_SYNC_PROVIDER_LABEL = "sync_provider_label";
   public static final String KEY_SYNC_PROVIDER_URL = "sync_provider_url";
@@ -85,15 +85,20 @@ public class GenericAccountService extends Service {
 
     for (Account account : accountManager.getAccountsByType(GenericAccountService.ACCOUNT_TYPE)) {
       if (isSyncable) {
-        ContentResolver.addPeriodicSync(account, TransactionProvider.AUTHORITY, Bundle.EMPTY,
-            PrefKey.SYNC_FREQUCENCY.getInt(GenericAccountService.DEFAULT_SYNC_FREQUENCY_HOURS) * HOUR_IN_SECONDS);
-        ContentResolver.setIsSyncable(account, TransactionProvider.AUTHORITY, 1);
+        activateSync(account);
       } else {
         ContentResolver.cancelSync(account, TransactionProvider.AUTHORITY);
         ContentResolver.removePeriodicSync(account, TransactionProvider.AUTHORITY, Bundle.EMPTY);
         ContentResolver.setIsSyncable(account, TransactionProvider.AUTHORITY, 0);
       }
     }
+  }
+
+  public static void activateSync(Account account) {
+    ContentResolver.setSyncAutomatically(account, TransactionProvider.AUTHORITY, true);
+    ContentResolver.setIsSyncable(account, TransactionProvider.AUTHORITY, 1);
+    ContentResolver.addPeriodicSync(account, TransactionProvider.AUTHORITY, Bundle.EMPTY,
+        PrefKey.SYNC_FREQUCENCY.getInt(GenericAccountService.DEFAULT_SYNC_FREQUENCY_HOURS) * GenericAccountService.HOUR_IN_SECONDS);
   }
 
   public class Authenticator extends AbstractAccountAuthenticator {

@@ -252,7 +252,7 @@ public class TaskExecutionFragment<T> extends Fragment {
     Bundle args = getArguments();
     int taskId = args.getInt(KEY_TASKID);
     Log.i(MyApplication.TAG, "TaskExecutionFragment created for task " + taskId +
-        " with objects: " + Utils.printDebug((T[]) args.getSerializable(KEY_OBJECT_IDS)));
+        " with objects: " + Utils.printDebug((Object[]) args.getSerializable(KEY_OBJECT_IDS)));
     try {
       switch (taskId) {
         case TASK_GRISBI_IMPORT:

@@ -82,8 +82,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUE
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
-  public static final String TAG = "SyncAdapter";
-  public static final String KEY_LAST_SYNCED_REMOTE(long accountId) {
+  private static final String TAG = SyncAdapter.class.getSimpleName();
+  public static String KEY_LAST_SYNCED_REMOTE(long accountId) {
     return "last_synced_remote_" + accountId;
   }
   public static final String KEY_LAST_SYNCED_LOCAL(long accountId) {
@@ -136,6 +136,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     SyncBackendProvider backend = backendProviderOptional.get();
     if (!backend.setUp()) {
       syncResult.stats.numIoExceptions++;
+      syncResult.delayUntil = 60;
       return;
     }
 

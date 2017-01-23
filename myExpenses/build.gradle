@@ -43,6 +43,11 @@ android {
             manifestPlaceholders = [appName: "@string/app_name", debug: "false"]
             resValue "string", "content_authority", "org.totschnig.myexpenses"
         }
+        beta {
+            initWith release
+            applicationIdSuffix ".beta"
+            resValue "string", "content_authority", "org.totschnig.myexpenses.beta"
+        }
         debug {
             applicationIdSuffix ".debug"
             manifestPlaceholders = [appName: "My Expenses Debug", debug: "true"]
