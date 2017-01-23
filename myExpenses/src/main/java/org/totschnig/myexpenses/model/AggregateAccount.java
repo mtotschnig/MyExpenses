@@ -57,6 +57,6 @@ public class AggregateAccount extends Account {
     MyApplication.getInstance().getSettings().edit()
         .putString(GROUPING_PREF_PREFIX + currency.getCurrencyCode(), value.name())
         .apply();
-    cr().notifyChange(TransactionProvider.ACCOUNTS_URI, null);
+    cr().notifyChange(TransactionProvider.ACCOUNTS_URI, null, false);
   }
 }

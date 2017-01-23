@@ -19,6 +19,7 @@ import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.net.Uri;
 
 import java.util.ArrayList;
 
@@ -80,7 +81,8 @@ public class Transfer extends Transaction {
   }
 
   @Override
-  public ArrayList<ContentProviderOperation> buildSaveOperations(int offset, int parentOffset) {
+  public ArrayList<ContentProviderOperation> buildSaveOperations(int offset, int parentOffset, boolean callerIsSyncAdapter) {
+    Uri uri = getUriForSave(callerIsSyncAdapter);
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
     long amount = this.amount.getAmountMinor();
     long transferAmount = this.transferAmount.getAmountMinor();
@@ -99,7 +101,7 @@ public class Transfer extends Transaction {
       initialValues.put(KEY_UUID, generateUuid());
       initialValues.put(KEY_PARENTID, parentId);
       initialValues.put(KEY_STATUS, status);
-      ContentProviderOperation.Builder builder = ContentProviderOperation.newInsert(CONTENT_URI).withValues(initialValues);
+      ContentProviderOperation.Builder builder = ContentProviderOperation.newInsert(uri).withValues(initialValues);
       if (parentOffset != -1) {
         builder.withValueBackReference(KEY_PARENTID, parentOffset);
       }
@@ -110,13 +112,13 @@ public class Transfer extends Transaction {
       transferValues.put(KEY_AMOUNT, transferAmount);
       transferValues.put(KEY_TRANSFER_ACCOUNT, accountId);
       transferValues.put(KEY_ACCOUNTID, transfer_account);
-      ops.add(ContentProviderOperation.newInsert(CONTENT_URI)
+      ops.add(ContentProviderOperation.newInsert(uri)
           .withValues(transferValues).withValueBackReference(KEY_TRANSFER_PEER, offset)
           .build());
       //we have to set the transfer_peer for the first transaction
       ContentValues args = new ContentValues();
       args.put(KEY_TRANSFER_PEER,transfer_peer);
-      ops.add(ContentProviderOperation.newUpdate(CONTENT_URI)
+      ops.add(ContentProviderOperation.newUpdate(uri)
           .withValueBackReference(KEY_TRANSFER_PEER, offset + 1)
           .withSelection(KEY_ROWID + " = ?", new String[]{""})//replaced by back reference
           .withSelectionBackReference(0, offset)
@@ -124,7 +126,7 @@ public class Transfer extends Transaction {
       addOriginPlanInstance(ops);
     } else {
       ops.add(ContentProviderOperation
-          .newUpdate(CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build())
+          .newUpdate(uri.buildUpon().appendPath(String.valueOf(getId())).build())
           .withValues(initialValues).build());
       ContentValues transferValues = new ContentValues(initialValues);
       transferValues.put(KEY_AMOUNT, transferAmount);
@@ -134,7 +136,7 @@ public class Transfer extends Transaction {
       //the account from which is transfered could also have been altered
       transferValues.put(KEY_TRANSFER_ACCOUNT,accountId);
       ops.add(ContentProviderOperation
-          .newUpdate(CONTENT_URI.buildUpon().appendPath(String.valueOf(transfer_peer)).build())
+          .newUpdate(uri.buildUpon().appendPath(String.valueOf(transfer_peer)).build())
           .withValues(transferValues).build());
     }
     return ops;

@@ -15,16 +15,24 @@
 
 package org.totschnig.myexpenses.model;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
-
-import org.totschnig.myexpenses.provider.DatabaseConstants;
-
 import android.content.ContentProviderOperation;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 
+import org.totschnig.myexpenses.provider.DatabaseConstants;
+
 import java.util.ArrayList;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED;
 
 public class SplitTransaction extends Transaction {
   public static final String CSV_INDICATOR = "*";
@@ -84,13 +92,14 @@ public class SplitTransaction extends Transaction {
   }
 
   @Override
-  public ArrayList<ContentProviderOperation> buildSaveOperations(int offset, int parentOffset) {
-    ArrayList<ContentProviderOperation> ops = super.buildSaveOperations(offset, parentOffset);
+  public ArrayList<ContentProviderOperation> buildSaveOperations(int offset, int parentOffset, boolean callerIsSyncAdapter) {
+    ArrayList<ContentProviderOperation> ops = super.buildSaveOperations(offset, parentOffset, callerIsSyncAdapter);
+    Uri uri = getUriForSave(callerIsSyncAdapter);
     if (getId() != 0) {
       String idStr = String.valueOf(getId());
       ContentValues statusValues = new ContentValues();
 
-        ops.add(ContentProviderOperation.newDelete(CONTENT_URI).withSelection(
+        ops.add(ContentProviderOperation.newDelete(uri).withSelection(
             PART_OR_PEER_SELECT + "  AND " + KEY_STATUS + " != ?",
             new String[]{idStr, idStr, String.valueOf(STATUS_UNCOMMITTED)}).build());
         statusValues.put(KEY_STATUS, STATUS_NONE);
@@ -98,10 +107,10 @@ public class SplitTransaction extends Transaction {
         //when we edit a split only the parts are in state uncommitted,
         //in any case we only update the state for rows that are uncommitted, to
         //prevent altering the state of a parent (e.g. from exported to non-exported)
-        ops.add(ContentProviderOperation.newUpdate(CONTENT_URI).withValues(statusValues).withSelection(
+        ops.add(ContentProviderOperation.newUpdate(uri).withValues(statusValues).withSelection(
             KEY_STATUS + " = ? AND " + KEY_ROWID + " = ?",
             new String[]{String.valueOf(STATUS_UNCOMMITTED), idStr}).build());
-        ops.add(ContentProviderOperation.newUpdate(CONTENT_URI).withValues(statusValues).withSelection(
+        ops.add(ContentProviderOperation.newUpdate(uri).withValues(statusValues).withSelection(
             KEY_STATUS + " = ? AND " + PART_OR_PEER_SELECT,
             new String[]{String.valueOf(STATUS_UNCOMMITTED), idStr, idStr}).build());
 
@@ -109,7 +118,7 @@ public class SplitTransaction extends Transaction {
       //otherwise they might be incorrectly counted in groups
       ContentValues dateValues = new ContentValues();
       dateValues.put(KEY_DATE, date.getTime() / 1000);
-      ops.add(ContentProviderOperation.newUpdate(CONTENT_URI).withValues(dateValues)
+      ops.add(ContentProviderOperation.newUpdate(uri).withValues(dateValues)
           .withSelection(PART_OR_PEER_SELECT, new String[]{idStr, idStr}).build());
     }
     return ops;

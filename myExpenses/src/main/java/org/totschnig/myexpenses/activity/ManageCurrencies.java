@@ -119,10 +119,10 @@ public class ManageCurrencies extends ProtectedFragmentActivity implements
 
   private void apply() {
     Money.storeCustomFractionDigits(mCurrency, mResult);
-    getContentResolver().notifyChange(TransactionProvider.TEMPLATES_URI, null);
-    getContentResolver().notifyChange(TransactionProvider.TRANSACTIONS_URI, null);
-    getContentResolver().notifyChange(TransactionProvider.ACCOUNTS_URI, null);
-    getContentResolver().notifyChange(TransactionProvider.UNCOMMITTED_URI, null);
+    getContentResolver().notifyChange(TransactionProvider.TEMPLATES_URI, null, false);
+    getContentResolver().notifyChange(TransactionProvider.TRANSACTIONS_URI, null, false);
+    getContentResolver().notifyChange(TransactionProvider.ACCOUNTS_URI, null, false);
+    getContentResolver().notifyChange(TransactionProvider.UNCOMMITTED_URI, null, false);
     refresh();
   }
 

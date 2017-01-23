@@ -227,6 +227,7 @@ public class TransactionProvider extends ContentProvider {
   public static final String QUERY_PARAMETER_MARK_VOID = "markVoid";
   public static final String QUERY_PARAMETER_WITH_PLAN_INFO = "withPlanInfo";
   public static final String QUERY_PARAMETER_INIT = "init";
+  public static final String QUERY_PARAMETER_CALLER_IS_SYNCADAPTER = "caller_is_syncadapter";
 
   
   static final String TAG = "TransactionProvider";
@@ -882,14 +883,14 @@ public class TransactionProvider extends ContentProvider {
     default:
       throw unknownUri(uri);
     }
-    getContext().getContentResolver().notifyChange(uri, null);
+    notifyChange(uri, callerIsNotSyncAdatper(uri));
     //the accounts cursor contains aggregates about transactions
     //we need to notify it when transactions change
     if (uriMatch == TRANSACTIONS) {
-      getContext().getContentResolver().notifyChange(ACCOUNTS_URI, null);
-      getContext().getContentResolver().notifyChange(UNCOMMITTED_URI, null);
+      notifyChange(ACCOUNTS_URI, false);
+      notifyChange(UNCOMMITTED_URI, false);
     } else if (uriMatch == ACCOUNTS) {
-      getContext().getContentResolver().notifyChange(ACCOUNTS_BASE_URI, null);
+      notifyChange(ACCOUNTS_BASE_URI, false);
     }
     return id >0 ? Uri.parse(newUri) : null;
   }
@@ -1032,14 +1033,14 @@ public class TransactionProvider extends ContentProvider {
       throw unknownUri(uri);
     }
     if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTION_ID) {
-      getContext().getContentResolver().notifyChange(TRANSACTIONS_URI, null);
-      getContext().getContentResolver().notifyChange(ACCOUNTS_URI, null);
-      getContext().getContentResolver().notifyChange(UNCOMMITTED_URI, null);
+      notifyChange(TRANSACTIONS_URI, callerIsNotSyncAdatper(uri));
+      notifyChange(ACCOUNTS_URI, false);
+      notifyChange(UNCOMMITTED_URI, false);
     } else {
       if (uriMatch == ACCOUNTS) {
-        getContext().getContentResolver().notifyChange(ACCOUNTS_BASE_URI, null);
+        notifyChange(ACCOUNTS_BASE_URI, false);
       }
-      getContext().getContentResolver().notifyChange(uri, null);
+      notifyChange(uri, false);
     }
     return count;
   }
@@ -1111,7 +1112,7 @@ public class TransactionProvider extends ContentProvider {
       }
       count = db.update(TABLE_PAYEES, values, "_id=" + segment + whereString,
             whereArgs);
-      getContext().getContentResolver().notifyChange(TRANSACTIONS_URI, null);
+      notifyChange(TRANSACTIONS_URI, false);
       break;
     case CATEGORIES:
       throw new UnsupportedOperationException("Bulk update of categories is not supported");
@@ -1365,25 +1366,36 @@ public class TransactionProvider extends ContentProvider {
     if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTION_ID ||
         uriMatch == CURRENCIES_CHANGE_FRACTION_DIGITS || uriMatch == TRANSACTION_UNDELETE ||
         uriMatch == TRANSACTION_MOVE || uriMatch == TRANSACTION_TOGGLE_CRSTATUS) {
-      getContext().getContentResolver().notifyChange(TRANSACTIONS_URI, null);
-      getContext().getContentResolver().notifyChange(ACCOUNTS_URI, null);
-      getContext().getContentResolver().notifyChange(UNCOMMITTED_URI, null);
-      getContext().getContentResolver().notifyChange(CATEGORIES_URI, null);
+      notifyChange(TRANSACTIONS_URI, callerIsNotSyncAdatper(uri));
+      notifyChange(ACCOUNTS_URI, false);
+      notifyChange(UNCOMMITTED_URI, false);
+      notifyChange(CATEGORIES_URI, false);
     } else if (
         //we do not need to refresh cursors on the usage counters
         uriMatch != TEMPLATES_INCREASE_USAGE) {
-      getContext().getContentResolver().notifyChange(uri, null);
+      notifyChange(uri, false);
     }
     if (uriMatch == CURRENCIES_CHANGE_FRACTION_DIGITS || uriMatch == TEMPLATES_INCREASE_USAGE) {
-      getContext().getContentResolver().notifyChange(TEMPLATES_URI,null);
+      notifyChange(TEMPLATES_URI, false);
     }
     return count;
   }
+
+  private void notifyChange(Uri uri, boolean syncToNetwork) {
+    Log.d(TAG, "Notifying " + uri.toString() + " syncToNetwor " + syncToNetwork);
+    getContext().getContentResolver().notifyChange(uri, null, syncToNetwork);
+  }
+
+  private boolean callerIsNotSyncAdatper(Uri uri) {
+    return uri.getQueryParameter(QUERY_PARAMETER_CALLER_IS_SYNCADAPTER) == null;
+  }
+
   /**
   * Apply the given set of {@link ContentProviderOperation}, executing inside
   * a {@link SQLiteDatabase} transaction. All changes will be rolled back if
   * any single one fails.
   */
+  @NonNull
   @Override
   public ContentProviderResult[] applyBatch(@NonNull ArrayList<ContentProviderOperation> operations)
       throws OperationApplicationException {

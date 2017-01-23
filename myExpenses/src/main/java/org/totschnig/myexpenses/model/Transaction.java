@@ -15,23 +15,6 @@
 
 package org.totschnig.myexpenses.model;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
-
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.provider.CalendarProviderProxy;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.DbUtils;
-import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.util.FileCopyUtils;
-import org.totschnig.myexpenses.util.TextUtils;
-import org.totschnig.myexpenses.util.Utils;
-
 import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
 import android.content.ContentUris;
@@ -47,9 +30,78 @@ import android.util.Log;
 
 import com.android.calendar.CalendarContractCompat;
 
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.provider.CalendarProviderProxy;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.DbUtils;
+import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.FileCopyUtils;
+import org.totschnig.myexpenses.util.TextUtils;
+import org.totschnig.myexpenses.util.Utils;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
+
 import hirondelle.date4j.DateTime;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.DAY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.FULL_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DAY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MONTH;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_URI;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_DAY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_WEEK;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_YEAR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_YEAR_OF_WEEK_START;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_END;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_START;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR_OF_MONTH_START;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR_OF_WEEK_START;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.LABEL_MAIN;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.LABEL_SUB;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.THIS_DAY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.THIS_YEAR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_PEER_PARENT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.YEAR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.getMonth;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.getThisWeek;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.getThisYearOfWeekStart;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.getWeek;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.getWeekEnd;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.getWeekStart;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart;
 import static org.totschnig.myexpenses.provider.DbUtils.getLongOrNull;
 
 /**
@@ -136,6 +188,8 @@ public class Transaction extends Model {
   public static final Uri CONTENT_URI = TransactionProvider.TRANSACTIONS_URI;
   public static final Uri EXTENDED_URI = CONTENT_URI.buildUpon().appendQueryParameter(
       TransactionProvider.QUERY_PARAMETER_EXTENDED, "1").build();
+  public static final Uri CALLER_IS_SYNC_ADAPTER_URI = CONTENT_URI.buildUpon()
+      .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_CALLER_IS_SYNCADAPTER, "1").build();
 
   public Money getAmount() {
     return amount;
@@ -401,7 +455,7 @@ public class Transaction extends Model {
   public Uri save() {
     Uri uri;
     try {
-      ContentProviderResult[] result = cr().applyBatch(TransactionProvider.AUTHORITY, buildSaveOperations(0, -1));
+      ContentProviderResult[] result = cr().applyBatch(TransactionProvider.AUTHORITY, buildSaveOperations(0, -1, false));
       if (getId() == 0) {
         //we need to find a uri, otherwise we would crash. Need to handle?
         uri = result[0].uri;
@@ -458,15 +512,17 @@ public class Transaction extends Model {
    * @param offset       Number of operations that are already added to the batch, needed for calculating back references
    * @param parentOffset if not -1, it indicates at which position in the batch the parent of a new split transaction is situated.
    *                     Is used from SyncAdapter for creating split transactions
+   * @param callerIsSyncAdapter
    * @return the URI of the transaction. Upon creation it is returned from the content provider
    */
-  public ArrayList<ContentProviderOperation> buildSaveOperations(int offset, int parentOffset) {
+  public ArrayList<ContentProviderOperation> buildSaveOperations(int offset, int parentOffset, boolean callerIsSyncAdapter) {
+    Uri uri = getUriForSave(callerIsSyncAdapter);
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
     ContentValues initialValues = buildInitialValues();
     if (getId() == 0) {
       //if transaction is added via sync adapter uuid is already set
       initialValues.put(KEY_UUID, android.text.TextUtils.isEmpty(uuid) ? generateUuid() : uuid);
-      ContentProviderOperation.Builder builder = ContentProviderOperation.newInsert(CONTENT_URI).withValues(initialValues);
+      ContentProviderOperation.Builder builder = ContentProviderOperation.newInsert(uri).withValues(initialValues);
       if (parentOffset != -1) {
         builder.withValueBackReference(KEY_PARENTID, parentOffset);
       }
@@ -474,10 +530,14 @@ public class Transaction extends Model {
       addOriginPlanInstance(ops);
     } else {
       ops.add(ContentProviderOperation
-          .newUpdate(CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build())
+          .newUpdate(uri.buildUpon().appendPath(String.valueOf(getId())).build())
           .withValues(initialValues).build());
     }
     return ops;
+  }
+
+  protected Uri getUriForSave(boolean callerIsSyncAdapter) {
+    return callerIsSyncAdapter ? CALLER_IS_SYNC_ADAPTER_URI : CONTENT_URI;
   }
 
   protected void addOriginPlanInstance(ArrayList<ContentProviderOperation> ops) {

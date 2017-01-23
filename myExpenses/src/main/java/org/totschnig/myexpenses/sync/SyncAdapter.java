@@ -351,6 +351,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
   @VisibleForTesting
   public void collectOperations(@NonNull TransactionChange change, ArrayList<ContentProviderOperation> ops, int parentOffset) {
+    Uri uri = Transaction.CALLER_IS_SYNC_ADAPTER_URI;
     switch (change.type()) {
       case created:
         ops.addAll(getContentProviderOperationsForCreate(change, ops.size(), parentOffset));
@@ -358,14 +359,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       case updated:
         ContentValues values = toContentValues(change);
         if (values.size() > 0) {
-          ops.add(ContentProviderOperation.newUpdate(TransactionProvider.TRANSACTIONS_URI)
+          ops.add(ContentProviderOperation.newUpdate(uri)
               .withSelection(KEY_UUID + " = ?", new String[]{change.uuid()})
               .withValues(values)
               .build());
         }
         break;
       case deleted:
-        ops.add(ContentProviderOperation.newDelete(TransactionProvider.TRANSACTIONS_URI)
+        ops.add(ContentProviderOperation.newDelete(uri)
             .withSelection(KEY_UUID + " = ?", new String[]{change.uuid()})
             .build());
         break;
@@ -439,7 +440,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     if (change.pictureUri() != null) {
       t.setPictureUri(Uri.parse(change.pictureUri()));
     }
-    return t.buildSaveOperations(offset, parentOffset);
+    return t.buildSaveOperations(offset, parentOffset, true);
   }
 
   private ContentValues toContentValues(TransactionChange change) {
