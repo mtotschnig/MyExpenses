@@ -147,6 +147,9 @@ public enum ContribFeature {
    * @return if user has licence that includes feature
    */
   public boolean hasAccess() {
+    if (BuildConfig.BUILD_TYPE.equals("beta")) {
+      return true;
+    }
     LicenceHandler licenceHandler = MyApplication.getInstance().getLicenceHandler();
     return isExtended ? licenceHandler.isExtendedEnabled() :
         licenceHandler.isContribEnabled();
