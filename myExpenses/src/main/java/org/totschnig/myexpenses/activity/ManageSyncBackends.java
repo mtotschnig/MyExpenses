@@ -28,6 +28,7 @@ import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_SYNC_PROVI
 import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_SYNC_PROVIDER_URL;
 import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_SYNC_PROVIDER_USERNAME;
 import static org.totschnig.myexpenses.sync.WebDavBackendProvider.KEY_WEB_DAV_CERTIFICATE;
+import static org.totschnig.myexpenses.sync.WebDavBackendProvider.KEY_WEB_DAV_FALLBACK_TO_CLASS1;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_LINK_LOCAL;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_LINK_REMOTE;
@@ -77,11 +78,14 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
     String certificate = data.getString(KEY_WEB_DAV_CERTIFICATE);
     String accountName = WebDavBackendProviderFactory.LABEL + " - " + url;
 
-    Bundle bundle = new Bundle(2);
+    Bundle bundle = new Bundle();
     bundle.putString(KEY_SYNC_PROVIDER_URL, url);
     bundle.putString(KEY_SYNC_PROVIDER_USERNAME, userName);
     if (certificate != null) {
       bundle.putString(KEY_WEB_DAV_CERTIFICATE, certificate);
+    }
+    if (data.getBoolean(KEY_WEB_DAV_FALLBACK_TO_CLASS1)) {
+      bundle.putString(KEY_WEB_DAV_FALLBACK_TO_CLASS1, "1");
     }
     createAccount(accountName, password, bundle);
   }

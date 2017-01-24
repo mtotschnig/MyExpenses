@@ -241,7 +241,7 @@ public class WebDavClient {
       DavResource baseResource = new DavResource(httpClient, mBaseUri);
       baseResource.options();
       if (!baseResource.capabilities.contains("2")) {
-        throw new NotCompliantWebDavException();
+        throw new NotCompliantWebDavException(baseResource.capabilities.contains("1"));
       }
     } catch (SSLHandshakeException e) {
       Throwable innerEx = e;

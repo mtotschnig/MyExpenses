@@ -117,20 +117,7 @@ public class SetupWebdavDialogFragment extends CommitSafeDialogFragment {
 
   public void onTestLoginResult(Result result) {
     if (result.success) {
-      Bundle data = new Bundle();
-      data.putString(AccountManager.KEY_ACCOUNT_NAME, mEdtUserName.getText().toString());
-      data.putString(AccountManager.KEY_PASSWORD, mEdtPassword.getText().toString());
-      data.putString(GenericAccountService.KEY_SYNC_PROVIDER_URL, mEdtUrl.getText().toString());
-      if (mTrustCertificate != null && mChkTrustCertificate.isChecked()) {
-        try {
-          data.putString(WebDavBackendProvider.KEY_WEB_DAV_CERTIFICATE, CertificateHelper.toString(mTrustCertificate));
-        } catch (CertificateEncodingException e) {
-          AcraHelper.report(e);
-        }
-      }
-
-      ((ManageSyncBackends) getActivity()).onFinishWebDavSetup(data);
-      dismiss();
+      finish(prepareData());
     } else {
       Exception exception = ((Exception) result.extra[0]);
       if (exception instanceof UntrustedCertificateException) {
@@ -142,13 +129,40 @@ public class SetupWebdavDialogFragment extends CommitSafeDialogFragment {
       } else if (exception instanceof InvalidCertificateException) {
         mChkTrustCertificate.setError(getString(R.string.validate_error_webdav_invalid_certificate));
       } else if (exception instanceof NotCompliantWebDavException) {
-        mEdtUrl.setError(getString(R.string.validate_error_webdav_not_compliant));
+        if (((NotCompliantWebDavException) exception).isFallbackToClass1()) {
+          Bundle data = prepareData();
+          data.putBoolean(WebDavBackendProvider.KEY_WEB_DAV_FALLBACK_TO_CLASS1, true);
+          finish(data);
+          return;
+        } else {
+          mEdtUrl.setError(getString(R.string.validate_error_webdav_not_compliant));
+        }
       } else {
         //noinspection ThrowableResultOfMethodCallIgnored
         mEdtUrl.setError(getCause(exception).getMessage());
       }
       ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
     }
+  }
+
+  private Bundle prepareData() {
+    Bundle data = new Bundle();
+    data.putString(AccountManager.KEY_ACCOUNT_NAME, mEdtUserName.getText().toString());
+    data.putString(AccountManager.KEY_PASSWORD, mEdtPassword.getText().toString());
+    data.putString(GenericAccountService.KEY_SYNC_PROVIDER_URL, mEdtUrl.getText().toString());
+    if (mTrustCertificate != null && mChkTrustCertificate.isChecked()) {
+      try {
+        data.putString(WebDavBackendProvider.KEY_WEB_DAV_CERTIFICATE, CertificateHelper.toString(mTrustCertificate));
+      } catch (CertificateEncodingException e) {
+        AcraHelper.report(e);
+      }
+    }
+    return data;
+  }
+
+  private void finish(Bundle data) {
+    ((ManageSyncBackends) getActivity()).onFinishWebDavSetup(data);
+    dismiss();
   }
 
   //http://stackoverflow.com/a/28565320/1199911

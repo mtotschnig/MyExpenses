@@ -36,9 +36,12 @@ import static org.totschnig.myexpenses.util.FileCopyUtils.toByteArray;
 public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
   public static final String KEY_WEB_DAV_CERTIFICATE = "webDavCertificate";
+  public static final String KEY_WEB_DAV_FALLBACK_TO_CLASS1 = "fallbackToClass1";
   private final MediaType MIME_JSON = MediaType.parse(MIMETYPE_JSON + "; charset=utf-8");
+  private static final String FALLBACK_LOCK_FILENAME = ".lock";
 
   private WebDavClient webDavClient;
+  private boolean fallbackToClass1 = false;
   /**
    * this holds the uuid of the db account which data is currently synced
    */
@@ -55,6 +58,9 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
       } catch (CertificateException e) {
         throw new SyncParseException(e);
       }
+    }
+    if (accountManager.getUserData(account, KEY_WEB_DAV_FALLBACK_TO_CLASS1) != null) {
+      fallbackToClass1 = true;
     }
 
     try {
@@ -94,7 +100,25 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
   @Override
   public boolean lock() {
-    return webDavClient.lock(accountUuid);
+    if (fallbackToClass1) {
+      LockableDavResource lockfile = getLockFile();
+      try {
+        if (lockfile.exists()) {
+          return false;
+        } else {
+          lockfile.put(RequestBody.create(MediaType.parse("text/plain; charset=utf-8"), ""), null, false);
+          return true;
+        }
+      } catch (HttpException | IOException | at.bitfire.dav4android.exception.HttpException e) {
+        return false;
+      }
+    } else {
+      return webDavClient.lock(accountUuid);
+    }
+  }
+
+  private LockableDavResource getLockFile() {
+    return webDavClient.getResource(accountUuid, FALLBACK_LOCK_FILENAME);
   }
 
   @Override
@@ -163,7 +187,16 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
   @Override
   public boolean unlock() {
-    return webDavClient.unlock(accountUuid);
+    if (fallbackToClass1) {
+      try {
+        getLockFile().delete(null);
+        return true;
+      } catch (IOException | at.bitfire.dav4android.exception.HttpException e) {
+        return false;
+      }
+    } else {
+      return webDavClient.unlock(accountUuid);
+    }
   }
 
   @Override
