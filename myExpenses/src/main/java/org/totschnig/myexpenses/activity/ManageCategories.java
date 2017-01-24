@@ -82,7 +82,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
     Intent intent = getIntent();
     String action = intent.getAction();
     int title = 0;
-    switch(action==null ? "" : action) {
+    switch (action == null ? "" : action) {
       case Intent.ACTION_MAIN:
       case "myexpenses.intent.manage.categories":
         helpVariant = HelpVariant.manage;
@@ -135,11 +135,11 @@ public class ManageCategories extends ProtectedFragmentActivity implements
     }
     setContentView(R.layout.select_category);
     setupToolbar(true);
-    if (title!=0) getSupportActionBar().setTitle(title);
+    if (title != 0) getSupportActionBar().setTitle(title);
     FragmentManager fm = getSupportFragmentManager();
     mListFragment = ((CategoryList) fm.findFragmentById(R.id.category_list));
     if (helpVariant.equals(HelpVariant.select_mapping) || helpVariant.equals(HelpVariant.manage)) {
-     configureFloatingActionButton(R.string.menu_create_main_cat);
+      configureFloatingActionButton(R.string.menu_create_main_cat);
     } else {
       findViewById(R.id.CREATE_COMMAND).setVisibility(View.GONE);
     }
@@ -331,7 +331,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         case TaskExecutionFragment.TASK_EXPORT_CATEGRIES:
           Uri uri = (Uri) r.extra[0];
           msg = getString(r.getMessage(),
-            FileUtils.getPath(MyApplication.getInstance(), uri));
+              FileUtils.getPath(MyApplication.getInstance(), uri));
           if (PrefKey.PERFORM_SHARE.getBoolean(false)) {
             ArrayList<Uri> uris = new ArrayList<>();
             uris.add(uri);
@@ -345,7 +345,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         default:
           msg = r.print(this);
       }
-    }  else {
+    } else {
       msg = r.print(this);
     }
     Toast.makeText(this, msg, Toast.LENGTH_LONG).show();

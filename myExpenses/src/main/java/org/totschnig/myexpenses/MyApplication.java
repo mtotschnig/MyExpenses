@@ -29,6 +29,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
 import android.support.multidex.MultiDexApplication;
 import android.support.v4.provider.DocumentFile;
 import android.support.v7.app.AppCompatDelegate;
@@ -217,10 +218,12 @@ public class MyApplication extends MultiDexApplication implements
         testId + ".xml").delete();
   }
 
+  @StyleRes
   public static int getThemeId() {
     return getThemeId("");
   }
 
+  @StyleRes
   public static int getThemeIdEditDialog() {
     return getThemeId("EditDialog");
   }
@@ -245,6 +248,7 @@ public class MyApplication extends MultiDexApplication implements
     }
   }
 
+  @StyleRes
   private static int getThemeId(String subStyle) {
     int fontScale;
     try {

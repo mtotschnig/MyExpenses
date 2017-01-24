@@ -44,6 +44,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall</item>
         <item name="colorControlNormal">@android:color/white</item>
         <item name="colorControlInverse">@android:color/black</item>
+        <item name="colorControlActivated">@color/my_material_deep_teal_800</item>
         <item name="alertDialogTheme">@style/MyAlertDialogThemeDark</item>
         <item name="android:spinnerItemStyle">@style/MySpinnerItemStyle</item>
     </style>
@@ -73,6 +74,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall</item>
         <item name="colorControlNormal">@android:color/black</item>
         <item name="colorControlInverse">@android:color/white</item>
+        <item name="colorControlActivated">@color/my_material_deep_teal_200</item>
         <item name="alertDialogTheme">@style/MyAlertDialogThemeLight</item>
         <item name="android:spinnerItemStyle">@style/MySpinnerItemStyle</item>
     </style>
@@ -159,6 +161,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall</item>
         <item name="colorControlNormal">@android:color/white</item>
         <item name="colorControlInverse">@android:color/black</item>
+        <item name="colorControlActivated">@color/my_material_deep_teal_800</item>
         <item name="alertDialogTheme">@style/MyAlertDialogThemeDark</item>
         <item name="android:spinnerItemStyle">@style/MySpinnerItemStyle</item>
     </style>
@@ -179,6 +182,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall</item>
         <item name="colorControlNormal">@android:color/black</item>
         <item name="colorControlInverse">@android:color/white</item>
+        <item name="colorControlActivated">@color/my_material_deep_teal_200</item>
         <item name="alertDialogTheme">@style/MyAlertDialogThemeLight</item>
         <item name="android:spinnerItemStyle">@style/MySpinnerItemStyle</item>
     </style>

@@ -142,7 +142,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   protected void configureFloatingActionButton(int fabDescription) {
     if (!requireFloatingActionButtonWithContentDescription(getString(fabDescription))) return;
     TypedValue color = new TypedValue();
-    getTheme().resolveAttribute(R.attr.colorAccent, color, true);
+    getTheme().resolveAttribute(R.attr.colorControlActivated, color, true);
     Utils.setBackgroundTintListOnFab(floatingActionButton, color.data);
   }
 
