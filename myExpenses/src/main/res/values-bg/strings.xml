@@ -610,7 +610,7 @@
   <string name="menu_create_sync_backend">Ново отдалечено място за съхранение, с което да се прави синхронизация</string>
   <string name="validate_error_not_empty">Трябва да не е празно</string>
   <string name="validate_error_webdav_invalid_certificate">На този сертификат не може да се довери. Изглежда е невалиден.</string>
-  <string name="validate_error_webdav_not_compliant">Този URL не е WebDAV Class 2 съвместим ресурс.</string>
+  <string name="validate_error_webdav_not_compliant">Този URL не е WebDAV съвместим ресурс.</string>
   <string name="url_not_valid">Невалиден URL</string>
   <string name="menu_sync_unlink">Спри синхронизирането</string>
   <string name="menu_sync_link">Започни синхронизиране</string>

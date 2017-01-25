@@ -107,6 +107,7 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_SYNC_LINK_LOCAL = 45;
   public static final int TASK_SYNC_LINK_REMOTE = 46;
   public static final int TASK_SYNC_REMOVE_BACKEND = 47;
+  public static final int TASK_SYNC_LINK_SAVE = 48;
 
   /**
    * Callback interface through which the fragment will report the task's

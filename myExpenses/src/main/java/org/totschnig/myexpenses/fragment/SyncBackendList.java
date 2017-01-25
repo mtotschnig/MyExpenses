@@ -58,7 +58,6 @@ public class SyncBackendList extends Fragment implements
 
   private static final int ACCOUNT_CURSOR = -1;
 
-  private List<SyncBackendProviderFactory> backendProviders = ServiceLoader.load();
   private SyncBackendAdapter syncBackendAdapter;
   private LoaderManager mManager;
   private ExpandableListView listView;
@@ -131,29 +130,6 @@ public class SyncBackendList extends Fragment implements
     return Stream.of(accountManager.getAccountsByType(GenericAccountService.ACCOUNT_TYPE))
         .map(account -> account.name)
         .collect(Collectors.toList());
-  }
-
-  @Override
-  public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-    inflater.inflate(R.menu.sync_backend, menu);
-    SubMenu createSubMenu = menu.findItem(R.id.CREATE_COMMAND).getSubMenu();
-    for (int i = 0, backendProvidersSize = backendProviders.size(); i < backendProvidersSize; i++) {
-      createSubMenu.add(Menu.NONE, i, Menu.NONE, backendProviders.get(i).getLabel());
-    }
-  }
-
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-    if (item.getItemId() < backendProviders.size()) {
-      ((ProtectedFragmentActivity) getActivity()).contribFeatureRequested(
-          ContribFeature.SYNCHRONIZATION, item.getItemId());
-      return true;
-    }
-    return super.onOptionsItemSelected(item);
-  }
-
-  public void startBackendSetup(int index) {
-    backendProviders.get(index).startSetup((ManageSyncBackends) getActivity());
   }
 
   @Override

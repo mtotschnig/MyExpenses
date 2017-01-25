@@ -628,7 +628,7 @@
     <string name="menu_create_sync_backend">New synchronization backend</string>
     <string name="validate_error_not_empty">Must not be empty</string>
     <string name="validate_error_webdav_invalid_certificate">The certificate could not be trusted. It seems invalid.</string>
-    <string name="validate_error_webdav_not_compliant">The URL does not point to a Class 2 compliant WebDAV resource.</string>
+    <string name="validate_error_webdav_not_compliant">The URL does not point to a WebDAV resource.</string>
     <string name="url_not_valid">URL not valid</string>
     <string name="menu_sync_unlink">Stop syncing</string>
     <string name="menu_sync_link">Start syncing</string>
@@ -649,5 +649,8 @@
     <string name="warning_synchronization_limit_reached">The trial period for testing the synchronization feature has ended.</string>
     <string name="warning_synchronization_folder_usage">This folder is used for synchronizing data between installations of My Expenses on different devices. Please do not modify any of its contents manually.</string>
     <string name="warning_synchronization_select_parent">The folder you have selected corresponds to one account of an existing backend. You need to select its parent folder in order to reuse this backend.</string>
+    <string name="select_unsynced_accounts">Select accounts to be synced to this backend</string>
+    <string name="link_account_success">%d accounts were configured to be synced with the backend.</string>
+    <string name="link_account_failure">%d accounts could not be configured to be synced with the backend. An account with the same uuid already exists on the remote backend. The conflict can be resolved manually from the entry\'s context menu.</string>
 </resources>
 

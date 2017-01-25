@@ -3,7 +3,9 @@ package org.totschnig.myexpenses.activity;
 import android.accounts.AccountManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.Toast;
 
@@ -11,6 +13,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
+import org.totschnig.myexpenses.dialog.SelectUnSyncedAccountDialogFragment;
 import org.totschnig.myexpenses.dialog.SetupWebdavDialogFragment;
 import org.totschnig.myexpenses.fragment.SyncBackendList;
 import org.totschnig.myexpenses.model.Account;
@@ -18,11 +21,14 @@ import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.sync.ServiceLoader;
+import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.sync.WebDavBackendProviderFactory;
 import org.totschnig.myexpenses.util.Result;
 
 import java.io.File;
 import java.io.Serializable;
+import java.util.List;
 
 import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_SYNC_PROVIDER_LABEL;
 import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_SYNC_PROVIDER_URL;
@@ -32,6 +38,7 @@ import static org.totschnig.myexpenses.sync.WebDavBackendProvider.KEY_WEB_DAV_FA
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_LINK_LOCAL;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_LINK_REMOTE;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_LINK_SAVE;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_REMOVE_BACKEND;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_UNLINK;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_WEBDAV_TEST_LOGIN;
@@ -42,6 +49,8 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
   private static final String KEY_PACKED_POSITION = "packedPosition";
   private Account newAccount;
 
+  private List<SyncBackendProviderFactory> backendProviders = ServiceLoader.load();
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeIdEditDialog());
@@ -49,9 +58,28 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
     setContentView(R.layout.manage_sync_backends);
     setupToolbar(true);
     setTitle(R.string.pref_manage_sync_backends_title);
-    if (!ContribFeature.SYNCHRONIZATION.isAvailable()) {
+    if (savedInstanceState == null && !ContribFeature.SYNCHRONIZATION.isAvailable()) {
       contribFeatureRequested(ContribFeature.SYNCHRONIZATION, null);
     }
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.sync_backend, menu);
+    SubMenu createSubMenu = menu.findItem(R.id.CREATE_COMMAND).getSubMenu();
+    for (int i = 0, backendProvidersSize = backendProviders.size(); i < backendProvidersSize; i++) {
+      createSubMenu.add(Menu.NONE, i, Menu.NONE, backendProviders.get(i).getLabel());
+    }
+    return super.onCreateOptionsMenu(menu);
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    if (item.getItemId() < backendProviders.size()) {
+      contribFeatureRequested(ContribFeature.SYNCHRONIZATION, item.getItemId());
+      return true;
+    }
+    return super.onOptionsItemSelected(item);
   }
 
   //LocalFileBackend
@@ -171,12 +199,23 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
         getWebdavFragment().onTestLoginResult(result);
         break;
       }
-      case TASK_CREATE_SYNC_ACCOUNT:
+      case TASK_CREATE_SYNC_ACCOUNT: {
+        if (result.success) {
+          getListFragment().reloadAccountList();
+          SelectUnSyncedAccountDialogFragment.newInstance(((String) result.extra[0]))
+              .show(getSupportFragmentManager(), "SELECT_UNSYNCED");
+        }
+        break;
+      }
       case TASK_SYNC_REMOVE_BACKEND: {
         if (result.success) {
           getListFragment().reloadAccountList();
         }
         break;
+      }
+      case TASK_SYNC_LINK_SAVE: {
+        Toast.makeText(this, result.print(this), Toast.LENGTH_LONG).show();
+        //fall throug
       }
       case TASK_SYNC_UNLINK:
       case TASK_SYNC_LINK_LOCAL:
@@ -228,7 +267,7 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
   @Override
   public void contribFeatureCalled(ContribFeature feature, Serializable tag) {
     if (tag instanceof Integer) {
-      getListFragment().startBackendSetup((Integer) tag);
+      backendProviders.get((Integer) tag).startSetup(this);
     }
   }
 
@@ -236,4 +275,5 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
   public void contribFeatureNotCalled(ContribFeature feature) {
 
   }
+
 }

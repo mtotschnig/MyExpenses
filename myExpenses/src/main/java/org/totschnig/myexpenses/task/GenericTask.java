@@ -19,6 +19,9 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.android.calendar.CalendarContractCompat;
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Optional;
+import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -35,8 +38,12 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.SyncAdapter;
+import org.totschnig.myexpenses.sync.SyncBackendProvider;
+import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
+import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.FileCopyUtils;
 import org.totschnig.myexpenses.util.FileUtils;
@@ -49,6 +56,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
@@ -552,6 +560,62 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         } catch (OperationCanceledException | AuthenticatorException | IOException e) {
           AcraHelper.report(e);
           return Result.FAILURE;
+        }
+      }
+      case TaskExecutionFragment.TASK_SYNC_LINK_SAVE: {
+        //first get remote data for account
+        String syncAccountName = ((String) mExtra);
+        Optional<SyncBackendProvider> syncBackendProviderOptional = SyncBackendProviderFactory.get(
+            application,
+            GenericAccountService.GetAccount(syncAccountName),
+            AccountManager.get(application));
+        if (!syncBackendProviderOptional.isPresent()) {
+          return Result.FAILURE;
+        }
+        List<String> remoteUuidList;
+        try {
+          remoteUuidList =
+              Stream.of(syncBackendProviderOptional.get().getRemoteAccountList())
+                  .map(AccountMetaData::uuid)
+                  .collect(Collectors.toList());
+        } catch (IOException e) {
+          return Result.FAILURE;
+        }
+        int requested = ids.length;
+        c = cr.query(TransactionProvider.ACCOUNTS_URI,
+            new String[] {KEY_ROWID},
+            KEY_ROWID + " " + WhereFilter.Operation.IN.getOp(requested) + " AND NOT "+
+            KEY_UUID + " " + WhereFilter.Operation.IN.getOp(remoteUuidList.size()),
+            Stream.concat(
+                Stream.of(((Long[]) ids)).map(String::valueOf),
+                Stream.of(remoteUuidList))
+                .toArray(String[]::new),
+            null);
+        if (c == null) {
+          return Result.FAILURE;
+        }
+        if (c.moveToFirst()) {
+          int result = c.getCount();
+          while (!c.isAfterLast()) {
+            Account account = Account.getInstanceFromDb(c.getLong(0));
+            account.setSyncAccountName(syncAccountName);
+            account.save();
+            c.moveToNext();
+          }
+          c.close();
+          String message = "";
+          if (result > 0) {
+            message = application.getString(R.string.link_account_success, result);
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+            bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+            ContentResolver.requestSync(GenericAccountService.GetAccount(syncAccountName),
+                TransactionProvider.AUTHORITY, bundle);
+          }
+          if (requested > result) {
+            message += " " + application.getString(R.string.link_account_failure, requested - result);
+          }
+          return new Result(requested == result, message);
         }
       }
     }

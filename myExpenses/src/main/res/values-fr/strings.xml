@@ -610,7 +610,7 @@
   <string name="menu_create_sync_backend">Nouveau serveur de synchronisation</string>
   <string name="validate_error_not_empty">Ne doit pas être vide</string>
   <string name="validate_error_webdav_invalid_certificate">Le certificat n\'est pas vérifié. Il semble invalide. </string>
-  <string name="validate_error_webdav_not_compliant">L’URL ne pointe pas vers une ressource de WebDAV conforme de classe 2.</string>
+  <string name="validate_error_webdav_not_compliant">L’URL ne pointe pas vers une ressource de WebDAV.</string>
   <string name="url_not_valid">URL invalide</string>
   <string name="menu_sync_unlink">Arrêter la synchronisation </string>
   <string name="menu_sync_link">Démarrer la synchronisation</string>

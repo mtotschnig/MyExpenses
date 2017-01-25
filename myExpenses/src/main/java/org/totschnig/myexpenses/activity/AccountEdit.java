@@ -39,6 +39,7 @@ import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.DialogUtils;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.ContribFeature;
@@ -196,17 +197,7 @@ public class AccountEdit extends AmountActivity implements
     mColorSpinner.setAdapter(mColAdapter);
 
     mSyncSpinner = new SpinnerHelper(findViewById(R.id.Sync));
-    AccountManager accountManager = (AccountManager) getSystemService(ACCOUNT_SERVICE);
-    ArrayAdapter syncBackendAdapter =
-        new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
-            Stream.concat(
-                Stream.of(getString(R.string.synchronization_none)),
-                Stream.of(accountManager.getAccountsByType(GenericAccountService.ACCOUNT_TYPE))
-                    .map(account -> account.name))
-                .collect(Collectors.toList()));
-    syncBackendAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-    mSyncSpinner.setAdapter(syncBackendAdapter);
-
+    configureSyncBackendAdapter();
     linkInputsWithLabels();
     populateFields();
   }
@@ -221,6 +212,32 @@ public class AccountEdit extends AmountActivity implements
         mColorSpinner.setSelection(lastButOne, true);
         mColAdapter.notifyDataSetChanged();
       }
+    }
+    if (requestCode == PREFERENCES_REQUEST) {
+      configureSyncBackendAdapter();
+    }
+  }
+
+  private void configureSyncBackendAdapter() {
+    AccountManager accountManager = (AccountManager) getSystemService(ACCOUNT_SERVICE);
+    ArrayAdapter syncBackendAdapter =
+        new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
+            Stream.concat(
+                Stream.of(getString(R.string.synchronization_none)),
+                Stream.of(accountManager.getAccountsByType(GenericAccountService.ACCOUNT_TYPE))
+                    .map(account -> account.name))
+                .collect(Collectors.toList()));
+    syncBackendAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+    mSyncSpinner.setAdapter(syncBackendAdapter);
+    if (mAccount.getSyncAccountName() != null) {
+      int position = syncBackendAdapter.getPosition(mAccount.getSyncAccountName());
+      if (position > -1) {
+        mSyncSpinner.setSelection(position);
+        mSyncSpinner.setEnabled(false);
+        findViewById(R.id.SyncUnlink).setVisibility(View.VISIBLE);
+      }
+    } else {
+      findViewById(R.id.SyncHelp).setVisibility(View.VISIBLE);
     }
   }
 
@@ -248,14 +265,7 @@ public class AccountEdit extends AmountActivity implements
     mAccountTypeSpinner.setSelection(mAccount.type.ordinal());
     int selected = mColors.indexOf(mAccount.color);
     mColorSpinner.setSelection(selected);
-    if (mAccount.getSyncAccountName() != null) {
-      int position = ((ArrayAdapter<String>) mSyncSpinner.getAdapter()).getPosition(mAccount.getSyncAccountName());
-      if (position > -1) {
-        mSyncSpinner.setSelection(position);
-        mSyncSpinner.setEnabled(false);
-        findViewById(R.id.SyncUnlink).setVisibility(View.VISIBLE);
-      }
-    }
+
   }
 
   /**
@@ -402,6 +412,10 @@ public class AccountEdit extends AmountActivity implements
             TASK_SYNC_UNLINK,
             new String[]{mAccount.uuid}, null, 0);
         return true;
+      case R.id.SETTINGS_COMMAND:
+        Intent i = new Intent(this, ManageSyncBackends.class);
+        startActivityForResult(i, PREFERENCES_REQUEST);
+        return true;
     }
     return super.dispatchCommand(command, tag);
   }
@@ -442,5 +456,15 @@ public class AccountEdit extends AmountActivity implements
     if (feature == ContribFeature.SYNCHRONIZATION) {
       mSyncSpinner.setSelection(0);
     }
+  }
+
+  public void syncHelp(View view) {
+    MessageDialogFragment.newInstance(
+        0,
+        R.string.form_synchronization_help_text_add,
+        new MessageDialogFragment.Button(R.string.pref_category_title_manage, R.id.SETTINGS_COMMAND, null),
+        MessageDialogFragment.Button.okButton(),
+        null)
+        .show(getSupportFragmentManager(), "SYNC_HELP");
   }
 }

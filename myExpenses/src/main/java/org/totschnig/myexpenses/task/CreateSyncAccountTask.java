@@ -34,7 +34,7 @@ public class CreateSyncAccountTask extends AsyncTask<Void, Void, Result> {
     if (accountManager.addAccountExplicitly(newAccount, null, userData)) {
       accountManager.setPassword(newAccount, password);
       GenericAccountService.activateSync(newAccount);
-      return new Result(true);
+      return new Result(true, 0, accountName);
     }
     return new Result(false);
   }

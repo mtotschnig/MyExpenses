@@ -72,7 +72,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     return ChangeSet.create(sequenceNumber, changeSetRead);
   }
 
-  protected String ingestPictureUri(String relativeUri) throws IOException {
+  private String ingestPictureUri(String relativeUri) throws IOException {
     Uri homeUri = org.totschnig.myexpenses.util.Utils.getOutputMediaUri(false);
     if (homeUri == null) {
       throw new IOException("Unable to write picture");
@@ -113,7 +113,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   }
 
   //from Guava
-  protected String getNameWithoutExtension(String file) {
+  private String getNameWithoutExtension(String file) {
     Preconditions.checkNotNull(file);
     String fileName = new File(file).getName();
     int dotIndex = fileName.lastIndexOf('.');
@@ -121,7 +121,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   }
 
   //from Guava
-  protected String getFileExtension(String fullName) {
+  String getFileExtension(String fullName) {
     Preconditions.checkNotNull(fullName);
     String fileName = new File(fullName).getName();
     int dotIndex = fileName.lastIndexOf('.');
@@ -157,7 +157,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   abstract void saveFileContents(String fileName, String fileContents, String mimeType) throws IOException;
 
   //from API 19 Long.compare
-  int compareInt(Long x, Long y) {
+  int compareInt(long x, long y) {
     return (x < y) ? -1 : ((x == y) ? 0 : 1);
   }
 

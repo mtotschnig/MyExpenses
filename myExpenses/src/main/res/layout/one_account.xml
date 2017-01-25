@@ -154,6 +154,18 @@
                         android:focusable="true"
                         android:onClick="syncUnlink"
                         app:srcCompat="@drawable/ic_action_sync_unlink" />
+                    <ImageView
+                        android:id="@+id/SyncHelp"
+                        style="?actionButtonStyle"
+                        android:visibility="gone"
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:contentDescription="@string/menu_help"
+                        android:focusable="true"
+                        android:onClick="syncHelp"
+                        app:srcCompat="@drawable/ic_menu_help" />
                 </LinearLayout>
             </TableRow>
 

@@ -332,6 +332,10 @@
         <item>form_AccountEdit_type_help_text</item>
         <item>form_AccountEdit_type_help_text_reconciliation</item>
     </string-array>
+    <string-array name="form_synchronization_help_text">
+        <item>form_synchronization_help_text_select</item>
+        <item>form_synchronization_help_text_add</item>
+    </string-array>
 
     <string-array name="AccountEdit_menuitems" tools:ignore="UnusedResources">
         <item>save</item>

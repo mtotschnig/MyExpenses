@@ -120,7 +120,8 @@
   <string name="form_AccountEdit_type_help_text">You can define the type of an account as one of Cash, Bank, Asset, Liabilities, Credit Card. The type determines the available payment methods that you can configure under Settings -> Manage -> Payment Methods.</string>
   <string name="form_AccountEdit_type_help_text_reconciliation">The reconciliation feature is available for all but cash accounts: It allows to set a transactions\' status to cleared, once it is confirmed, and reconcile the whole account with your bank statement through the \"Balance account\" command.</string>
   <string name="form_color_help_text">On the transaction list for an account, its color will be used as primary user interface color.</string>
-  <string name="form_synchronization_help_text">Select a backend for cloud synchronization. Backends can be added from the Settings screen.</string>
+  <string name="form_synchronization_help_text_select">Select a backend for cloud synchronization.</string>
+  <string name="form_synchronization_help_text_add">Backends can be added from the Settings screen.</string>
   <string name="menu_exclude_from_totals_help_text">If you check this option, this account will not be included into the aggregates per currency.</string>
   <!-- MethodEdit -->
   <string name="help_MethodEdit_title">Form for payment methods</string>

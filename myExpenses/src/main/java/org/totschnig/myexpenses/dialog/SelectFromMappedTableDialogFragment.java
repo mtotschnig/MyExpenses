@@ -15,23 +15,10 @@
 
 package org.totschnig.myexpenses.dialog;
 
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Bundle;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
-import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.util.SparseBooleanArray;
-import android.widget.ListView;
 
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.provider.filter.Criteria;
-import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 
 import java.util.ArrayList;
 
@@ -43,93 +30,37 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES;
 
-public abstract class SelectFromMappedTableDialogFragment extends CommitSafeDialogFragment implements OnClickListener,
-    LoaderManager.LoaderCallbacks<Cursor>
+public abstract class SelectFromMappedTableDialogFragment extends SelectFromTableDialogFragment
 {
-  protected SimpleCursorAdapter mAdapter;
-  protected Cursor mCursor;
-  
-  abstract int getDialogTitle();
   abstract Criteria makeCriteria(String label, long... id);
   abstract int getCommand();
-  abstract Uri getUri();
-
-  SparseBooleanArray ids = new SparseBooleanArray();
 
   @Override
-  public Dialog onCreateDialog(Bundle savedInstanceState) {
-    mAdapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_multiple_choice, null,
-        new String[] {KEY_LABEL}, new int[] {android.R.id.text1}, 0);
-    getLoaderManager().initLoader(0, null, this);
-    final AlertDialog dialog = new AlertDialog.Builder(getActivity())
-        .setTitle(getDialogTitle())
-        .setAdapter(mAdapter,null)
-        .setPositiveButton(android.R.string.ok,this)
-        .setNegativeButton(android.R.string.cancel,null)
-        .create();
-    dialog.getListView().setItemsCanFocus(false);
-    dialog.getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-    return dialog;
+  String getColumn() {
+    return KEY_LABEL;
   }
 
   @Override
-  public void onClick(DialogInterface dialog, int which) {
-    if (getActivity()==null || mCursor ==null) {
-      return;
-    }
-    ListView listView = ((AlertDialog) dialog).getListView();
-    SparseBooleanArray positions = listView.getCheckedItemPositions();
-
-    long[] itemIds = listView.getCheckedItemIds();
-
-    if (itemIds.length>0) {
-      ArrayList<String> labelList = new ArrayList<>();
-      for (int i = 0; i < positions.size(); i++) {
-        if (positions.valueAt(i)) {
-          mCursor.moveToPosition(positions.keyAt(i));
-          labelList.add(mCursor.getString(mCursor.getColumnIndex(KEY_LABEL)));
-        }
-      }
-      ((MyExpenses) getActivity()).addFilterCriteria(
-          getCommand(),
-          makeCriteria(TextUtils.join(",", labelList), itemIds));
-    }
-    dismiss();
+  void onResult(ArrayList<String> labelList, long[] itemIds) {
+    ((MyExpenses) getActivity()).addFilterCriteria(
+        getCommand(),
+        makeCriteria(TextUtils.join(",", labelList), itemIds));
   }
+
   @Override
-  public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
-    if (getActivity()==null) {
-      return null;
-    }
-    String selection,selectionArg;
-    long accountId = getArguments().getLong(KEY_ACCOUNTID);
-    if (accountId < 0) {
-      selection = KEY_ACCOUNTID + " IN " +
+  String getSelection() {
+    if (getArguments().getLong(KEY_ACCOUNTID) < 0) {
+      return KEY_ACCOUNTID + " IN " +
           "(SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY +
           " = (SELECT " + KEY_CODE + " FROM " + TABLE_CURRENCIES + " WHERE " + KEY_ROWID + " = ?))";
-      selectionArg = String.valueOf(Math.abs(accountId));
     } else {
-      selection = KEY_ACCOUNTID + " = ?";
-      selectionArg = String.valueOf(accountId);
+      return KEY_ACCOUNTID + " = ?";
     }
-    CursorLoader cursorLoader = new CursorLoader(
-        getActivity(),
-        getUri(),
-        null,
-        selection,
-        new String[] {selectionArg},
-        null);
-    return cursorLoader;
+  }
 
-  }
   @Override
-  public void onLoadFinished(Loader<Cursor> arg0, Cursor data) {
-    mCursor = data;
-    mAdapter.swapCursor(data);
+  String[] getSelectionArgs() {
+    return new String[]{String.valueOf(Math.abs(getArguments().getLong(KEY_ACCOUNTID)))};
   }
-  @Override
-  public void onLoaderReset(Loader<Cursor> arg0) {
-    mCursor = null;
-    mAdapter.swapCursor(null);
-  }
+
 }
