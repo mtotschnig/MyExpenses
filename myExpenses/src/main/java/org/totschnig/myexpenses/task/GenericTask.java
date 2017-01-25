@@ -594,29 +594,30 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         if (c == null) {
           return Result.FAILURE;
         }
+        int result = 0;
         if (c.moveToFirst()) {
-          int result = c.getCount();
+          result = c.getCount();
           while (!c.isAfterLast()) {
             Account account = Account.getInstanceFromDb(c.getLong(0));
             account.setSyncAccountName(syncAccountName);
             account.save();
             c.moveToNext();
           }
-          c.close();
-          String message = "";
-          if (result > 0) {
-            message = application.getString(R.string.link_account_success, result);
-            Bundle bundle = new Bundle();
-            bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-            bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-            ContentResolver.requestSync(GenericAccountService.GetAccount(syncAccountName),
-                TransactionProvider.AUTHORITY, bundle);
-          }
-          if (requested > result) {
-            message += " " + application.getString(R.string.link_account_failure, requested - result);
-          }
-          return new Result(requested == result, message);
         }
+        c.close();
+        String message = "";
+        if (result > 0) {
+          message = application.getString(R.string.link_account_success, result);
+          Bundle bundle = new Bundle();
+          bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+          bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+          ContentResolver.requestSync(GenericAccountService.GetAccount(syncAccountName),
+              TransactionProvider.AUTHORITY, bundle);
+        }
+        if (requested > result) {
+          message += " " + application.getString(R.string.link_account_failure, requested - result);
+        }
+        return new Result(requested == result, message);
       }
     }
     return null;
