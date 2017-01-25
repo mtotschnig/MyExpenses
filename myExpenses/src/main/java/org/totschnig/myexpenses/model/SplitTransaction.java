@@ -23,6 +23,7 @@ import android.net.Uri;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
@@ -133,6 +134,7 @@ public class SplitTransaction extends Transaction {
     Long oldId = getId();
     if (clone) {
       status = STATUS_UNCOMMITTED;
+      setDate(new Date());
       super.saveAsNew();
     }
     String idStr = String.valueOf(oldId);

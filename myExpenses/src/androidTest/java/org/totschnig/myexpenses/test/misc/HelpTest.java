@@ -123,6 +123,7 @@ public class HelpTest extends android.test.InstrumentationTestCase {
           new VersionDialogFragment.VersionInfo(versionCodes[i], versionNames[i]).getChanges(ctx));
     }
   }
+
   private void testMenuItems(
       String activityName,
       String variant,

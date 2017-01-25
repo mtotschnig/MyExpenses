@@ -15,8 +15,12 @@
 
 package org.totschnig.myexpenses.model;
 
-import java.util.Currency;
-import java.util.Date;
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
+import android.net.Uri;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
@@ -25,14 +29,33 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 
-import android.content.ContentUris;
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteConstraintException;
-import android.net.Uri;
+import java.util.Currency;
+import java.util.Date;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.FULL_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLAN_EXECUTION;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.LABEL_MAIN;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.LABEL_SUB_TEMPLATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INSTANCE_STATUS;
 
 public class Template extends Transaction {
   private String title;
@@ -244,7 +267,7 @@ public class Template extends Transaction {
     initialValues.put(KEY_ACCOUNTID, accountId);
     if (getId() == 0) {
       initialValues.put(KEY_TRANSFER_PEER, isTransfer());
-      initialValues.put(KEY_UUID, generateUuid());
+      initialValues.put(KEY_UUID, requireUuid());
       try {
         uri = cr().insert(CONTENT_URI, initialValues);
       } catch (SQLiteConstraintException e) {

@@ -98,7 +98,7 @@ public class Transfer extends Transaction {
     savePicture(initialValues);
     if (getId() == 0) {
       //both parts of the transfer share uuid
-      initialValues.put(KEY_UUID, generateUuid());
+      initialValues.put(KEY_UUID, requireUuid());
       initialValues.put(KEY_PARENTID, parentId);
       initialValues.put(KEY_STATUS, status);
       ContentProviderOperation.Builder builder = ContentProviderOperation.newInsert(uri).withValues(initialValues);

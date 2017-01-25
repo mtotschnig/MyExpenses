@@ -1,8 +1,5 @@
 package org.totschnig.myexpenses.sync;
 
-import android.test.mock.MockContext;
-
-import org.junit.Before;
 import org.junit.Test;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 
@@ -10,44 +7,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
-public class SyncAdapterMergeUpdatesTest {
-  private SyncAdapter syncAdapter;
+public class SyncAdapterMergeUpdatesTest extends SyncAdapterBaseTest {
 
-  @Before
-  public void setup() {
-    syncAdapter = new SyncAdapter(new MockContext(), true, true);
-  }
-
-  @Test(expected = IllegalStateException.class)
+  @Test
   public void shouldThrowOnListWithOnlyOneElement() {
     List<TransactionChange> changes = new ArrayList<>();
-    changes.add(TransactionChange.builder().setType(TransactionChange.Type.updated).build());
-    syncAdapter.mergeUpdates(changes);
+    changes.add(buildUpdated().setUuid("random").build());
+    mergeUpdatesAndExpectIllegalStateExpection(changes);
   }
 
-  @Test(expected = IllegalStateException.class)
-  public void shouldThrowOnCreate() {
-    List<TransactionChange> changes = new ArrayList<>();
-    changes.add(TransactionChange.builder().setType(TransactionChange.Type.created).build());
-    changes.add(TransactionChange.builder().setType(TransactionChange.Type.updated).build());
-    syncAdapter.mergeUpdates(changes);
-  }
-
-  @Test(expected = IllegalStateException.class)
+  @Test
   public void shouldThrowOnDelete() {
     List<TransactionChange> changes = new ArrayList<>();
-    changes.add(TransactionChange.builder().setType(TransactionChange.Type.deleted).build());
-    changes.add(TransactionChange.builder().setType(TransactionChange.Type.updated).build());
-    syncAdapter.mergeUpdates(changes);
+    changes.add(buildDeleted().setUuid("random").build());
+    changes.add(buildUpdated().setUuid("random").build());
+    mergeUpdatesAndExpectIllegalStateExpection(changes);
   }
 
-  @Test(expected = IllegalStateException.class)
+  @Test
   public void shouldThrowOnUpdatesWithDistinctUuids() {
     List<TransactionChange> changes = new ArrayList<>();
-    changes.add(TransactionChange.builder().setType(TransactionChange.Type.updated).setUuid("one").build());
-    changes.add(TransactionChange.builder().setType(TransactionChange.Type.updated).setUuid("two").build());
-    syncAdapter.mergeUpdates(changes);
+    changes.add(buildUpdated().setUuid("one").build());
+    changes.add(buildUpdated().setUuid("two").build());
+    mergeUpdatesAndExpectIllegalStateExpection(changes);
+  }
+
+  private void mergeUpdatesAndExpectIllegalStateExpection(List<TransactionChange> changes) {
+    try {
+      syncAdapter.mergeUpdates(changes);
+      fail("Expected IllegalStateEception to be thrown");
+    } catch (IllegalStateException expected) {
+      //expected
+    }
   }
 
   @Test
@@ -56,8 +49,8 @@ public class SyncAdapterMergeUpdatesTest {
     String uuid = "one";
     String comment = "My comment";
     Long amount = 123L;
-    changes.add(TransactionChange.builder().setType(TransactionChange.Type.updated).setUuid(uuid).setComment(comment).build());
-    changes.add(TransactionChange.builder().setType(TransactionChange.Type.updated).setUuid(uuid).setAmount(amount).build());
+    changes.add(buildUpdated().setUuid(uuid).setComment(comment).build());
+    changes.add(buildUpdated().setUuid(uuid).setAmount(amount).build());
     TransactionChange merge = syncAdapter.mergeUpdates(changes);
     assertEquals(comment, merge.comment());
     assertEquals(amount, merge.amount());

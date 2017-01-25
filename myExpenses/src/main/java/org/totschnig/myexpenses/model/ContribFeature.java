@@ -49,7 +49,7 @@ public enum ContribFeature {
   },
   SYNCHRONIZATION(true, true) {
     private String PREF_KEY = "FEATURE_SYNCHRONIZATION_FIRST_USAGE";
-    private long TRIAL_DURATION = (BuildConfig.DEBUG ? 10 : 10 * 24 * 60) * 60 * 1000;
+    private long TRIAL_DURATION = (10 * 24 * 60) * 60 * 1000;
 
     @Override
     public int recordUsage() {

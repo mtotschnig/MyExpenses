@@ -1,25 +1,16 @@
 package org.totschnig.myexpenses.sync;
 
-import android.support.annotation.NonNull;
 import android.support.v4.util.Pair;
-import android.test.mock.MockContext;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-public class SyncAdapterMergeChangeSetsTest {
-  private SyncAdapter syncAdapter;
-
-  @Before
-  public void setup() {
-    syncAdapter = new SyncAdapter(new MockContext(), true, true);
-  }
+public class SyncAdapterMergeChangeSetsTest extends SyncAdapterBaseTest {
 
   @Test
   public void noConflictsShouldBeReturnedIdentical() {
@@ -69,31 +60,13 @@ public class SyncAdapterMergeChangeSetsTest {
   }
 
   @Test
-  public void insertShouldNotBeHandledAsUpdate() {
+  public void insertCanBeMergedWithUpdate() {
     String uuid = "random";
     List<TransactionChange> first = new ArrayList<>();
     first.add(buildCreated().setUuid(uuid).build());
     first.add(buildUpdated().setUuid(uuid).build());
     List<TransactionChange> second = new ArrayList<>();
     Pair<List<TransactionChange>, List<TransactionChange>> result = syncAdapter.mergeChangeSets(first, second);
-    assertEquals(2, result.first.size());
-  }
-
-
-  private TransactionChange.Builder buildCreated() {
-    return buildWithTimestamp().setType(TransactionChange.Type.created);
-  }
-
-  @NonNull
-  private TransactionChange.Builder buildWithTimestamp() {
-    return TransactionChange.builder().setTimeStamp(System.currentTimeMillis());
-  }
-
-  private TransactionChange.Builder buildDeleted() {
-    return buildWithTimestamp().setType(TransactionChange.Type.deleted);
-  }
-
-  private TransactionChange.Builder buildUpdated() {
-    return buildWithTimestamp().setType(TransactionChange.Type.updated);
+    assertEquals(1, result.first.size());
   }
 }

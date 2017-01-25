@@ -35,6 +35,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.longClick;
 import static android.support.test.espresso.action.ViewActions.pressKey;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
@@ -149,7 +150,7 @@ public final class MyExpensesCabTest extends MyExpensesTestBase {
     performContextMenuClick(R.string.menu_split_transaction, R.id.SPLIT_TRANSACTION_COMMAND);
     if (!ContribFeature.SPLIT_TRANSACTION.hasAccess()) {
       onView(withText(R.string.dialog_title_contrib_feature)).check(matches(isDisplayed()));
-      onView(withText(R.string.dialog_contrib_no)).perform(click());
+      onView(withText(R.string.dialog_contrib_no)).perform(scrollTo()).perform(click());
     }
     onView(withText(R.string.split_transaction)).check(matches(isDisplayed()));
     //CursoMatchers class does not allow to distinguish between null and 0 in database

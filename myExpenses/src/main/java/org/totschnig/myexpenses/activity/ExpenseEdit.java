@@ -1528,6 +1528,7 @@ public class ExpenseEdit extends AmountActivity implements
           mTransaction.crStatus = CrStatus.UNRECONCILED;
           mTransaction.status = STATUS_NONE;
           mTransaction.setDate(new Date());
+          mTransaction.uuid = Model.generateUuid();
           mClone = true;
         }
         mCalendar.setTime(mTransaction.getDate());

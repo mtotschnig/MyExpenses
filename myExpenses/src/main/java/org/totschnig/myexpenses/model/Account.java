@@ -558,7 +558,7 @@ public class Account extends Model {
 
     if (getId() == 0) {
       //if account is added from sync backend uuid is already set
-      initialValues.put(KEY_UUID, android.text.TextUtils.isEmpty(uuid) ? generateUuid() : uuid);
+      initialValues.put(KEY_UUID, requireUuid());
       uri = cr().insert(CONTENT_URI, initialValues);
       if (uri == null) {
         return null;
