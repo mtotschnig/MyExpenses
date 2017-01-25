@@ -12,6 +12,7 @@ import org.totschnig.myexpenses.util.Result;
 import static android.accounts.AccountManager.KEY_ACCOUNT_NAME;
 import static android.accounts.AccountManager.KEY_PASSWORD;
 import static android.accounts.AccountManager.KEY_USERDATA;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 
 public class CreateSyncAccountTask extends AsyncTask<Void, Void, Result> {
 
@@ -34,9 +35,11 @@ public class CreateSyncAccountTask extends AsyncTask<Void, Void, Result> {
     if (accountManager.addAccountExplicitly(newAccount, null, userData)) {
       accountManager.setPassword(newAccount, password);
       GenericAccountService.activateSync(newAccount);
-      return new Result(true, 0, accountName);
+      //we pass the accountName back, only if there are unlinked accounts
+      return org.totschnig.myexpenses.model.Account.count(KEY_SYNC_ACCOUNT_NAME + " IS NULL", null) > 0 ?
+          new Result(true, 0, accountName) : Result.SUCCESS;
     }
-    return new Result(false);
+    return Result.FAILURE;
   }
 
   @Override

@@ -202,8 +202,12 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
       case TASK_CREATE_SYNC_ACCOUNT: {
         if (result.success) {
           getListFragment().reloadAccountList();
-          SelectUnSyncedAccountDialogFragment.newInstance(((String) result.extra[0]))
-              .show(getSupportFragmentManager(), "SELECT_UNSYNCED");
+          //if we were called from AccountEdit, we do not show the unsynced account selection
+          //since we suppose that user wants to create one account for the account he is editing
+          if (getCallingActivity() == null && result.extra != null) {
+            SelectUnSyncedAccountDialogFragment.newInstance(((String) result.extra[0]))
+                .show(getSupportFragmentManager(), "SELECT_UNSYNCED");
+          }
         }
         break;
       }
@@ -215,7 +219,7 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
       }
       case TASK_SYNC_LINK_SAVE: {
         Toast.makeText(this, result.print(this), Toast.LENGTH_LONG).show();
-        //fall throug
+        //fall through
       }
       case TASK_SYNC_UNLINK:
       case TASK_SYNC_LINK_LOCAL:
