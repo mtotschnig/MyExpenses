@@ -455,7 +455,8 @@ public class Transaction extends Model {
   public Uri save() {
     Uri uri;
     try {
-      ContentProviderResult[] result = cr().applyBatch(TransactionProvider.AUTHORITY, buildSaveOperations(0, -1, false));
+      ContentProviderResult[] result = cr().applyBatch(TransactionProvider.AUTHORITY,
+          buildSaveOperations(0, -1, false));
       if (getId() == 0) {
         //we need to find a uri, otherwise we would crash. Need to handle?
         uri = result[0].uri;
@@ -635,8 +636,8 @@ public class Transaction extends Model {
 
   public Uri saveAsNew() {
     setId(0L);
-    Uri result = save();
-    return result;
+    uuid = null;
+    return save();
   }
 
   /**
