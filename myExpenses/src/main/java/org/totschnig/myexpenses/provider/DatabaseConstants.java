@@ -15,15 +15,15 @@
 
 package org.totschnig.myexpenses.provider;
 
-import java.util.Calendar;
-import java.util.Locale;
-
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.Utils;
+
+import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * @author Michael Totschnig
@@ -353,13 +353,14 @@ public class DatabaseConstants {
   public static final String HAS_TRANSFERS =
       "count(CASE WHEN  " + KEY_TRANSFER_ACCOUNT + ">0 AND " + WHERE_NOT_VOID + "  THEN 1 ELSE null END) as " + KEY_HAS_TRANSFERS;
 
-  public static final String WHERE_DEPENDENT =
-      KEY_TRANSFER_PEER + " = ? OR "
-          + KEY_PARENTID + " = ? OR " + KEY_ROWID + " IN "
-          + "(SELECT " + KEY_TRANSFER_PEER + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_PARENTID + "= ?)";
+  public static final String WHERE_DEPENDENT = KEY_PARENTID + " = ? OR " + KEY_ROWID + " IN "
+      + "(SELECT " + KEY_TRANSFER_PEER + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_PARENTID + "= ?)";;
 
-  public static final String WHERE_SELF_OR_DEPENDENT =
-      KEY_ROWID + " = ? OR "  + WHERE_DEPENDENT;
+  public static final String WHERE_RELATED = KEY_TRANSFER_PEER + " = ? OR " + WHERE_DEPENDENT;
+
+  public static final String WHERE_SELF_OR_PEER = KEY_TRANSFER_PEER + " = ? OR " + KEY_ROWID + " = ?";
+
+  public static final String WHERE_SELF_OR_DEPENDENT = KEY_ROWID + " = ? OR "  + WHERE_DEPENDENT;
 
   public static String getYearOfWeekStart() {
     ensureLocalized();

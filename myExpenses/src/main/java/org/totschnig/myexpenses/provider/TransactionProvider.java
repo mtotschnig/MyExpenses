@@ -149,6 +149,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_IN_PAST;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_DEPENDENT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_PEER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_TRANSACTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getMonth;
@@ -937,8 +938,8 @@ public class TransactionProvider extends ContentProvider {
         //we delete the transaction, its children and its transfer peer, and transfer peers of its children
         if (uri.getQueryParameter(QUERY_PARAMETER_MARK_VOID) == null) {
           //we delete the parent separately, so that the changes trigger can correctly record the parent uuid
-          count = db.delete(TABLE_TRANSACTIONS, WHERE_DEPENDENT, new String[] {segment, segment, segment});
-          count += db.delete(TABLE_TRANSACTIONS, KEY_ROWID + " = ?", new String[] {segment});
+          count = db.delete(TABLE_TRANSACTIONS, WHERE_DEPENDENT, new String[] {segment, segment});
+          count += db.delete(TABLE_TRANSACTIONS, WHERE_SELF_OR_PEER, new String[] {segment, segment});
         } else {
           ContentValues v = new ContentValues();
           v.put(KEY_CR_STATUS, Transaction.CrStatus.VOID.name());
