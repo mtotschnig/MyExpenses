@@ -122,4 +122,5 @@
   <string name="cab_sort_up_help_text">Mover o item uma posição para cima na lista.</string>
   <string name="cab_sort_down_help_text">Mover o item uma posição para baixo na lista.</string>
   <string name="form_instant_plan_help_text">Aqui pode marcar a transação para ocorrer diariamente, semanalmente, mensalmente ou anualmente. No ecrã de \"Modelos e planos\", pode inspecionar o plano resultante e configurar opções avançadas. Se a transação já se encontra associada a um plano, já não pode alterar o tipo de recorrência, mas pode abrir uma vista de calendário exibindo todas as datas recorrentes.</string>
+  <!--SyncBackends-->
 </resources>

@@ -13,7 +13,7 @@
   <string name="menu_grouping_help_text">日、週、月または年で取引をグループ化できます。各グループについて、収入、支出、および振替の合計が計算されて表示されます。グループヘッダーをクリックすると、取引のグループが折りたたまれて、ヘッダーのみが表示されます。展開するには、もう一度クリックします。</string>
   <string name="menu_distribution_help_text">分類ごとの支出の分布を表示します。また、グループヘッダーを長押しすると、特定の期間の分布を確認することができます。</string>
   <string name="menu_manage_plans_help_text">テンプレートと計画のリストを開いて、適用、編集または削除することができます。また、将来の計画や繰り返し取引を定義することができます。</string>
-  <string name="menu_balance_help_text">このコマンドは、最後に照合した残高や消去した残高を表示するダイアログを開きます。あなたは銀行取引明細書と、照合済としてすべて消込済にマークした取引と比較することができます。オプションで、照合済の取引を削除することを指定することができます。</string>
+  <string name="menu_balance_help_text">このコマンドは、最後に照合した残高や消込した残高を表示するダイアログを開きます。あなたは銀行取引明細書と、照合済としてすべて消込済にマークした取引と比較することができます。オプションで、照合済の取引を削除することを指定することができます。</string>
   <string name="menu_print_help_text">現在表示されている取引の印刷可能なビューを生成します。</string>
   <string name="menu_search_help_text">このエントリーは、分類、金額、コメント、ステータス、支払人/受取人および支払方法に基づいて、検索基準を定義できるサブメニューが開きます。検索フィルターが有効な場合、サブメニュー内のエントリーをクリックするだけで、無効にすることができます。</string>
   <string name="cab_create_template_from_transaction_help_text">選択した取引に基づいて新しいテンプレートを定義します。テンプレートのタイトルを入力するように求められます。</string>
@@ -71,7 +71,7 @@
   <string name="form_payer_or_payee_help_text">このフィールドは入力した値を記憶し、将来それらを提案します。</string>
   <string name="form_amount_switch_help_text">支出と収入を切り替えるには、スイッチを使用します。</string>
   <string name="form_calculator_help_text"><![CDATA[<img src=\"?calcIcon\"> ボタンは電卓を開きます。]]></string>
-  <string name="form_crstatus_help_text">銀行口座に属する取引の場合、取引のステータスを消込済に変更することができます。照合済に設定するには、取引リストから \"貸借勘定\" コマンドを使用する必要があります。ステータスが無効に設定されている場合、取引はカウントされません。</string>
+  <string name="form_crstatus_help_text">銀行口座に属する取引の場合、取引のステータスを消込済に変更することができます。照合済に設定するには、取引リストから \"口座決算\" コマンドを使用する必要があります。ステータスが無効に設定されている場合、取引はカウントされません。</string>
   <string name="form_comment_help_text">対象に関するメモを入力します。</string>
   <string name="form_method_help_text">このフィールドは、現在の勘定が何かの支払方法にリンクされた種類の場合にのみ使用可能です。デフォルトでは、銀行口座のみ支払方法 (小切手/手形、クレジットカード、預金、口座引落) にリンクされています。 設定 -&gt; 管理 -&gt; 支払方法、に移動して、勘定の種類と支払方法の間の関連付けを設定します。番号として定義されている方法を選択すると、参照番号を入力するための追加のフィールドが使用可能になります。</string>
   <string name="form_attach_image_help_text"><![CDATA[<img src=\"android:ic_menu_camera\"> ボタンをクリックすると、オブジェクトに (例えばギャラリーやカメラから) 画像を添付することができます。]]></string>
@@ -95,7 +95,10 @@
   <string name="form_AccountEdit_amount_switch_help_text">負の期首残高で開始するには、スイッチを使用します。</string>
   <string name="form_currency_help_text">提供される現在のすべての通貨のリストから、通貨を選択します。</string>
   <string name="form_AccountEdit_type_help_text">現金、銀行、資産、負債、クレジットカードの一つから、勘定の種類を定義することができます。種類は、設定 -&gt; 管理 -&gt; 支払方法、で設定することができる支払方法を決定します。</string>
+  <string name="form_AccountEdit_type_help_text_reconciliation">照合機能は、現金のすべてのアカウントで利用できます。確認されると取引ステータスを消込済に設定することができ、\"口座決算\" コマンドを使用して口座全体を銀行取引明細書と照合することができます。</string>
   <string name="form_color_help_text">勘定の取引リストでは、色は、プライマリ ユーザーインターフェースの色として使用されます。</string>
+  <string name="form_synchronization_help_text_select">クラウド同期のバックエンドを選択します。</string>
+  <string name="form_synchronization_help_text_add">バックエンドは設定画面から追加できます。</string>
   <string name="menu_exclude_from_totals_help_text">このオプションをチェックすると、この勘定は、通貨ごとの集計に含まれません。</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">支払方法用のフォーム</string>
@@ -122,4 +125,14 @@
   <string name="cab_sort_up_help_text">リスト内の項目の位置を 1 つ上に移動します。</string>
   <string name="cab_sort_down_help_text">リスト内の項目の位置を 1 つ下に移動します。</string>
   <string name="form_instant_plan_help_text">ここでは、毎日、毎週、毎月、または年単位で繰り返す取引を設定することができます。 「テンプレートと計画」の画面では、結果の計画を検査し、高度なオプションを設定することができます。取引がすでに計画にリンクされている場合、もう繰り返しの種類を変更することはできませんが、繰り返しの日付をすべて表示するカレンダー表示を開くことができます。</string>
+  <!--SyncBackends-->
+  <string name="help_ManageSyncBackends_intro">マイエクスペンスは、勘定ごとに異なる同期バックエンドを設定できます。 たとえば、ある勘定を共有フォルダに同期し、別の勘定をプライベートフォルダと同期させることができます。 この画面では、同期バックエンドの追加または削除、リモートで使用可能な勘定との同期開始または停止を行います。 同期は定期的に自動的に行われますが、バックエンドと手動で同期を起動することもできます。 マイエクスペンスはリモートフォルダーをフルコントロールする必要があることに注意してください。 同期中に失敗する可能性が非常に高いため、内容を変更するために他のツールやインターフェースを使用しないでください。</string>
+  <string name="help_ManageSyncBackends_webdav">WebDAV: お使いのクラウドストレージプロバイダーがこのプロトコルをサポートしている場合、マイエクスペンスはデータをそのプロトコルで同期させることができます。 フォルダーへのURLをユーザー名とパスワードと一緒に入力するだけです。 httpsを使用していて、Webサーバーが自己署名証明書を使用している場合は、その証明書を明示的に信頼することができます。</string>
+  <string name="help_ManageSyncBackends_drive">Google ドライブ: あなたが所有している、またはあなたと共有しているフォルダを選択します。</string>
+  <string name="menu_create_sync_backend_help_text">サブメニューから、追加する同期バックエンドの種類を選択し、それぞれに固有の詳細情報を入力します。</string>
+  <string name="cab_sync_now_help_text">選択したバックエンドとの同期をすぐに開始します。</string>
+  <string name="cab_remove_help_text">選択したバックエンドを削除します。</string>
+  <string name="cab_sync_download_help_text">バックエンドで利用可能な勘定をダウンロードします。 勘定はローカルで作成され、バックエンドとの同期用に設定されます。</string>
+  <string name="cab_sync_link_help_text">ローカルとリモートの両方に存在する勘定の同期を開始します。 最初の同期で、ローカルまたはリモートのデータを保持する必要があるかどうかを判断する必要があります。</string>
+  <string name="cab_sync_unlink_help_text">選択した勘定はバックエンドに同期されなくなります</string>
 </resources>

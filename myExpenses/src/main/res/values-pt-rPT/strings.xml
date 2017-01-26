@@ -320,6 +320,7 @@
   <string name="pref_manage_methods_title">Métodos de pagamento</string>
   <string name="pref_manage_parties_summary">Adicionar, editar e eliminar participantes (pagadores e beneficiários).</string>
   <string name="pref_manage_parties_title">Participantes</string>
+  <!--%s will be replaced with list of backends-->
   <string name="pref_more_info_dialog_summary">
 
 Traduzido por Sérgio Marques</string>

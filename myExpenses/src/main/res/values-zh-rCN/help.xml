@@ -42,4 +42,5 @@
   <string name="menu_create_account_help_text">创建一个新账户.免费版限制为5个</string>
   <string name="cab_sort_up_help_text">将条目上移一位</string>
   <string name="cab_sort_down_help_text">将条目下移一位</string>
+  <!--SyncBackends-->
 </resources>

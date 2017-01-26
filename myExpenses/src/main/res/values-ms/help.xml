@@ -103,4 +103,5 @@
   <string name="menu_NavigationDrawer_grouping_help_text">Senarai akaun boleh dipapar berkempulan mengikut jenis akaun, mengikut matawang, atau tidak dikelompokkan.</string>
   <string name="cab_sort_up_help_text">Alih item satu kedudukan naik di dalam senarai.</string>
   <string name="cab_sort_down_help_text">Alih item satu kedudukan turun di dalam senarai.</string>
+  <!--SyncBackends-->
 </resources>

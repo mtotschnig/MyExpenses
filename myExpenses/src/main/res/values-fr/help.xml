@@ -122,4 +122,5 @@
   <string name="cab_sort_up_help_text">Remonter la position d\'un élément dans la liste.</string>
   <string name="cab_sort_down_help_text">Descendre la position d\'un élément dans la liste.</string>
   <string name="form_instant_plan_help_text">Ici, vous pouvez définir un échéancier - quotidien, hebdomadaire, mensuel ou annuel - pour la transaction. Sur l’écran « Modèles et Plans », vous pouvez inspecter cet échéancier et configurer les options avancées. Si une transaction est déjà liée à un plan, vous ne pouvez plus modifier le type de périodicité, mais vous pouvez ouvrir un calendrier affichant toutes les dates récurrentes.</string>
+  <!--SyncBackends-->
 </resources>

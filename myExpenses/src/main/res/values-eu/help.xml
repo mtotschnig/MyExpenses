@@ -86,4 +86,5 @@
   <string name="menu_NavigationDrawer_grouping_help_text">Kontuen zerrenda kontu mota edo monetaren arabera taldekatuta ala taldekatu gabe bistaratu daiteke.</string>
   <string name="cab_sort_up_help_text">Mugitu elementua posizio bat gora zerrendan.</string>
   <string name="cab_sort_down_help_text">Mugitu elementua posizio bat behera zerrendan.</string>
+  <!--SyncBackends-->
 </resources>

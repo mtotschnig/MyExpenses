@@ -122,4 +122,5 @@
   <string name="cab_sort_up_help_text">Verschiebt den Eintrag in der Liste um eine Position nach oben.</string>
   <string name="cab_sort_down_help_text">Verschiebt den Eintrag in der Liste um eine Position nach unten.</string>
   <string name="form_instant_plan_help_text">Hier können Sie einstellen, dass die Buchung sich täglich, wöchentlich, monatlich oder jährlich Basis wiederholt. Im Bereich \"Vorlagen und Pläne\" können Sie den sich daraus ergebenden Plan begutachten und erweiterte Optionen konfigurieren. Wenn eine Buchung bereits mit einem Plan verknüpft ist, kann die Art der Wiederholung nicht mehr verändert werden, aber Sie können eine Kalenderansicht mit allen wiederkehrenden Terminen öffnen.</string>
+  <!--SyncBackends-->
 </resources>

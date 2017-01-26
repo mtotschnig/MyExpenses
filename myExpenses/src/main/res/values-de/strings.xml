@@ -320,6 +320,7 @@
   <string name="pref_manage_methods_title">Zahlungsweisen</string>
   <string name="pref_manage_parties_summary">Parteien (Zahler und Empfänger) hinzufügen, editieren und löschen.</string>
   <string name="pref_manage_parties_title">Parteien</string>
+  <!--%s will be replaced with list of backends-->
   <string name="pref_more_info_dialog_summary">Übersetzt von Michael Totschnig</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Lizenz &amp; Abspann</string>
