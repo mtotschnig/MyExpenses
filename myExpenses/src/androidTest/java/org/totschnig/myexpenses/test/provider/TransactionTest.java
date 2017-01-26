@@ -25,14 +25,13 @@ import android.net.Uri;
 import android.test.ProviderTestCase2;
 import android.test.mock.MockContentResolver;
 
-import java.util.Date;
-
-import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+
+import java.util.Date;
 
 public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
 
@@ -44,7 +43,9 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
 
   // Contains the test data, as an array of TransactionInfo instances.
   private TransactionInfo[] TEST_TRANSACTIONS = new TransactionInfo[3];
+  private String PAYEE_NAME = "N.N";
   long testAccountId;
+  long payeeId;
 
   /*
    * Constructor for the test case class.
@@ -75,12 +76,7 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
     mDb = getProvider().getOpenHelperForTest().getWritableDatabase();
     AccountInfo testAccount = new AccountInfo("Test account", AccountType.CASH, 0);
     testAccountId = mDb.insertOrThrow(DatabaseConstants.TABLE_ACCOUNTS, null, testAccount.getContentValues());
-  }
-
-  @Override
-  protected void tearDown() throws Exception {
-    super.tearDown();
-    Account.delete(testAccountId);
+    payeeId = mDb.insertOrThrow(DatabaseConstants.TABLE_PAYEES, null, new PayeeInfo(PAYEE_NAME).getContentValues());
   }
 
   /**
@@ -90,9 +86,9 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
    */
   private void insertData() {
 
-    TEST_TRANSACTIONS[0] = new TransactionInfo("Transaction 0", TransactionDatabase.dateTimeFormat.format(new Date()), 0, testAccountId);
-    TEST_TRANSACTIONS[1] = new TransactionInfo("Transaction 1", TransactionDatabase.dateTimeFormat.format(new Date()), 100, testAccountId);
-    TEST_TRANSACTIONS[2] = new TransactionInfo("Transaction 2", TransactionDatabase.dateTimeFormat.format(new Date()), -100, testAccountId);
+    TEST_TRANSACTIONS[0] = new TransactionInfo("Transaction 0", TransactionDatabase.dateTimeFormat.format(new Date()), 0, testAccountId, payeeId);
+    TEST_TRANSACTIONS[1] = new TransactionInfo("Transaction 1", TransactionDatabase.dateTimeFormat.format(new Date()), 100, testAccountId, payeeId);
+    TEST_TRANSACTIONS[2] = new TransactionInfo("Transaction 2", TransactionDatabase.dateTimeFormat.format(new Date()), -100, testAccountId, payeeId);
 
     // Sets up test data
     for (TransactionInfo TEST_TRANSACTION : TEST_TRANSACTIONS) {
@@ -320,7 +316,7 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
     // Creates a new transaction instance
     TransactionInfo transaction = new TransactionInfo(
         "Transaction 4",
-        TransactionDatabase.dateTimeFormat.format(new Date()), 1000, testAccountId);
+        TransactionDatabase.dateTimeFormat.format(new Date()), 1000, testAccountId, payeeId);
 
     // Insert subtest 1.
     // Inserts a row using the new transaction instance.
@@ -361,7 +357,7 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
     assertEquals(transaction.comment, cursor.getString(commentIndex));
     assertEquals(transaction.date, cursor.getString(dateIndex));
     assertEquals(transaction.amount, cursor.getLong(amountIndex));
-    assertEquals(transaction.payeeName, cursor.getString(payeeIndex));
+    assertEquals(PAYEE_NAME, cursor.getString(payeeIndex));
     // Insert subtest 2.
     // Tests that we can't insert a record whose id value already exists.
 
@@ -385,7 +381,7 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
   public void testInsertViolatesForeignKey() {
     TransactionInfo transaction = new TransactionInfo(
         "Transaction 4",
-        TransactionDatabase.dateTimeFormat.format(new Date()), 1000, testAccountId + 1);
+        TransactionDatabase.dateTimeFormat.format(new Date()), 1000, testAccountId + 1, payeeId);
     try {
       mMockResolver.insert(TransactionProvider.TRANSACTIONS_URI, transaction.getContentValues());
       fail("Expected insert failure for link to non-existing account but insert succeeded.");

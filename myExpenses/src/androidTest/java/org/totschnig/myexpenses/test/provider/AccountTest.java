@@ -24,7 +24,6 @@ import android.net.Uri;
 import android.test.ProviderTestCase2;
 import android.test.mock.MockContentResolver;
 
-import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -80,26 +79,6 @@ public class AccountTest extends ProviderTestCase2<TransactionProvider> {
          * a database object from the helper.
          */
     mDb = getProvider().getOpenHelperForTest().getWritableDatabase();
-  }
-
-  /*
-   *  This method is called after each test method, to clean up the current fixture. Since
-   *  this sample test case runs in an isolated context, no cleanup is necessary.
-   */
-  @Override
-  protected void tearDown() throws Exception {
-    super.tearDown();
-    Cursor cursor = mMockResolver.query(
-        TransactionProvider.ACCOUNTS_URI,  // the URI for the main data table
-        null,                       // no projection, get all columns
-        null,                       // no selection criteria, get all records
-        null,                       // no selection arguments
-        null                        // use default sort order
-    );
-    while (cursor.moveToNext()) {
-      Account.delete(cursor.getLong(cursor.getColumnIndex(DatabaseConstants.KEY_ROWID)));
-    }
-    cursor.close();
   }
 
   /*

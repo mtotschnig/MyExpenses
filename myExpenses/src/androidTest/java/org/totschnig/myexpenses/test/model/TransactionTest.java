@@ -15,7 +15,8 @@
 
 package org.totschnig.myexpenses.test.model;
 
-import java.util.Date;
+import android.database.Cursor;
+import android.net.Uri;
 
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
@@ -30,8 +31,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 
-import android.database.Cursor;
-import android.net.Uri;
+import java.util.Date;
 
 public class TransactionTest extends ModelTest {
   private Account mAccount1;
