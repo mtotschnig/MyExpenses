@@ -160,7 +160,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_UUID + " text);";
 
   private static final String TRANSACTIONS_UUID_INDEX_CREATE = "CREATE UNIQUE INDEX transactions_account_uuid ON "
-      + TABLE_TRANSACTIONS + "(" + KEY_ACCOUNTID + "," + KEY_UUID + ")";
+      + TABLE_TRANSACTIONS + "(" + KEY_ACCOUNTID + "," + KEY_UUID + "," + KEY_STATUS + ")";
 
   private static String buildViewDefinition(String tableName) {
     StringBuilder stringBuilder = new StringBuilder();
@@ -1441,7 +1441,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
     if (oldVersion < 59) {
       db.execSQL("ALTER TABLE transactions add column uuid text");
-      db.execSQL("CREATE UNIQUE INDEX transactions_account_uuid ON transactions(account_id,uuid)");
+      db.execSQL("CREATE UNIQUE INDEX transactions_account_uuid ON transactions(account_id,uuid,status)");
       db.execSQL("ALTER TABLE accounts add column sync_account_name text");
       db.execSQL("ALTER TABLE accounts add column sync_sequence_local integer default 0");
       db.execSQL("ALTER TABLE accounts add column sync_from_adapter integer default 0");
