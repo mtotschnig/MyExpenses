@@ -164,10 +164,13 @@ public class WhereFilter {
         case IN:
           StringBuilder sb = new StringBuilder();
           sb.append("IN (");
-          for (int i = 0; i < length-1; i++) {
-            sb.append("?,");
+          for (int i = 0; i < length; i++) {
+            sb.append("?");
+            if (i < length -1) {
+              sb.append(",");
+            }
           }
-          sb.append("?)");
+          sb.append(")");
           return sb.toString();
         default:
           return op;
