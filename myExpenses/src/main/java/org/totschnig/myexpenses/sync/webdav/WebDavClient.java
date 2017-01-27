@@ -163,8 +163,9 @@ public class WebDavClient {
         .header("Timeout", LOCK_TIMEOUT)
         .method("LOCK", lockXml)
         .build();
+    Response response = null;
     try {
-      Response response = httpClient.newCall(request).execute();
+      response = httpClient.newCall(request).execute();
       if (response.isSuccessful()) {
         boolean foundTokenNode = false;
 
@@ -186,6 +187,8 @@ public class WebDavClient {
       }
     } catch (IOException | XmlPullParserException e) {
       AcraHelper.report(e);
+    } finally {
+      cleanUp(response);
     }
     return false;
   }
@@ -197,11 +200,21 @@ public class WebDavClient {
         .header("Lock-Token", webdavCodedUrl(currentLockToken))
         .method("UNLOCK", null)
         .build();
+    Response response = null;
     try {
-      Response response = httpClient.newCall(request).execute();
+      response = httpClient.newCall(request).execute();
+      currentLockToken = null;
       return response.isSuccessful();
     } catch (IOException e) {
       return false;
+    } finally {
+      cleanUp(response);
+    }
+  }
+
+  private void cleanUp(Response response) {
+    if (response != null) {
+      response.close();
     }
   }
 
@@ -221,19 +234,6 @@ public class WebDavClient {
   @NonNull
   private HttpUrl buildResourceUri(String folderName, String resourceName) {
     return mBaseUri.newBuilder().addPathSegment(folderName).addPathSegment(resourceName).build();
-  }
-
-  private boolean colExists(HttpUrl colUri) throws HttpException {
-    Request request = new Request.Builder()
-        .url(colUri)
-        .head()
-        .build();
-    try {
-      Response response = httpClient.newCall(request).execute();
-      return response.isSuccessful();
-    } catch (IOException e) {
-      throw new HttpException(request, e);
-    }
   }
 
   public void testLogin() throws HttpException, UntrustedCertificateException, NotCompliantWebDavException {
