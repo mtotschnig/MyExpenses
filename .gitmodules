@@ -1,9 +1,6 @@
 [submodule "StickyListHeaders"]
 	path = StickyListHeaders
 	url = git://github.com/mtotschnig/StickyListHeaders.git
-[submodule "MaterialSeekBarPreference"]
-	path = MaterialSeekBarPreference
-	url = git://github.com/mtotschnig/MaterialSeekBarPreference.git
 [submodule "dav4android"]
 	path = dav4android
 	url = https://gitlab.com/bitfireAT/dav4android.git
