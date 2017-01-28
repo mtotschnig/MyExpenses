@@ -51,6 +51,9 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
     String url = accountManager.getUserData(account, GenericAccountService.KEY_SYNC_PROVIDER_URL);
     String userName = accountManager.getUserData(account, GenericAccountService.KEY_SYNC_PROVIDER_USERNAME);
     String password = accountManager.getPassword(account);
+
+    fallbackToClass1 = accountManager.getUserData(account, KEY_WEB_DAV_FALLBACK_TO_CLASS1) != null;
+
     X509Certificate certificate = null;
     if (accountManager.getUserData(account, KEY_WEB_DAV_CERTIFICATE) != null) {
       try {
@@ -59,10 +62,6 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
         throw new SyncParseException(e);
       }
     }
-    if (accountManager.getUserData(account, KEY_WEB_DAV_FALLBACK_TO_CLASS1) != null) {
-      fallbackToClass1 = true;
-    }
-
     try {
       webDavClient = new WebDavClient(url, userName, password, certificate);
     } catch (InvalidCertificateException e) {

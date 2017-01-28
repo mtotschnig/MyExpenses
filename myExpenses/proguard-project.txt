@@ -51,6 +51,7 @@
 
 # Dav4Android
 -dontwarn lombok.**
+-keep class at.bitfire.** { *; }       # all DAVdroid code is required
 
 # okhttp
 -dontwarn java.nio.file.**
