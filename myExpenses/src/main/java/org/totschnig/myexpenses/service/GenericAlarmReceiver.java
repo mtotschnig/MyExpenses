@@ -53,7 +53,7 @@ public class GenericAlarmReceiver extends BroadcastReceiver {
     } else if (ACCOUNT_CHANGED.equals(action)) {
       String[] accounts = Stream.of(AccountManager.get(context).getAccountsByType(GenericAccountService.ACCOUNT_TYPE))
           .map(account -> account.name)
-          .toArray(String[]::new);
+          .toArray(size -> new String[size]);
       ContentValues values = new ContentValues(1);
       values.putNull(KEY_SYNC_ACCOUNT_NAME);
       new AsyncTask<Void, Void, Void>() {

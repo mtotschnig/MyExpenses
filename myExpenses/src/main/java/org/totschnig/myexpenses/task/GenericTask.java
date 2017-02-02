@@ -589,7 +589,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
             Stream.concat(
                 Stream.of(((Long[]) ids)).map(String::valueOf),
                 Stream.of(remoteUuidList))
-                .toArray(String[]::new),
+                .toArray(size -> new String[size]),
             null);
         if (c == null) {
           return Result.FAILURE;
