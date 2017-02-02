@@ -651,6 +651,9 @@
     <string name="warning_synchronization_select_parent">The folder you have selected corresponds to one account of an existing backend. You need to select its parent folder in order to reuse this backend.</string>
     <string name="select_unsynced_accounts">Select accounts to be synced to this backend</string>
     <string name="link_account_success">%d accounts were configured to be synced with the backend.</string>
-    <string name="link_account_failure">%d accounts could not be configured to be synced with the backend. An account with the same uuid already exists on the remote backend. The conflict can be resolved manually from the entry\'s context menu.</string>
+    <string name="link_account_failure_1">%d accounts could not be configured to be synced with the backend.</string>
+    <string name="link_account_failure_2">An account with the same uuid already exists on the remote backend.</string>
+    <string name="link_account_failure_3">The conflict can be resolved manually from the entry\'s context menu.</string>
+    <string name="progress_dialog_checking_sync_backend">Verifying backend</string>
 </resources>
 

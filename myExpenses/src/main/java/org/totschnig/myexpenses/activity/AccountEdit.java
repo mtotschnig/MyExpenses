@@ -50,12 +50,14 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.ui.SpinnerHelper;
 import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.Result;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Currency;
 
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_CHECK;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_UNLINK;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_TOGGLE_EXCLUDE_FROM_TOTALS;
 
@@ -364,6 +366,14 @@ public class AccountEdit extends AmountActivity implements
         mSyncSpinner.setSelection(0);
         mSyncSpinner.setEnabled(true);
         findViewById(R.id.SyncUnlink).setVisibility(View.GONE);
+        break;
+      case TASK_SYNC_CHECK:
+        Result r = ((Result) o);
+        if (!r.success) {
+          mSyncSpinner.setSelection(0);
+          showHelp(r.print(this));
+        }
+        break;
     }
   }
 
@@ -448,7 +458,13 @@ public class AccountEdit extends AmountActivity implements
 
   @Override
   public void contribFeatureCalled(ContribFeature feature, Serializable tag) {
-
+    if (!mNewInstance) {
+      startTaskExecution(
+          TASK_SYNC_CHECK,
+          new String[]{mAccount.uuid},
+          (String) mSyncSpinner.getSelectedItem(),
+          R.string.progress_dialog_checking_sync_backend);
+    }
   }
 
   @Override
@@ -459,9 +475,12 @@ public class AccountEdit extends AmountActivity implements
   }
 
   public void syncHelp(View view) {
+   showHelp(getString(R.string.form_synchronization_help_text_add));
+  }
+  private void showHelp(String message) {
     MessageDialogFragment.newInstance(
         0,
-        R.string.form_synchronization_help_text_add,
+        message,
         new MessageDialogFragment.Button(R.string.pref_category_title_manage, R.id.SETTINGS_COMMAND, null),
         MessageDialogFragment.Button.okButton(),
         null)

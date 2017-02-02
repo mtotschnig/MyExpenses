@@ -485,13 +485,13 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         c = cr.query(TransactionProvider.UNCOMMITTED_URI,
             new String[]{"count(*)"},
             DatabaseConstants.KEY_PARENTID + " = ? AND " + DatabaseConstants.KEY_TRANSFER_ACCOUNT + "  = ?",
-            new String[]{String.valueOf(transactionId),String.valueOf(accountId)}, null);
+            new String[]{String.valueOf(transactionId), String.valueOf(accountId)}, null);
         success = (c != null && c.moveToFirst() && c.getInt(0) == 0);
         c.close();
         if (success) {
           values = new ContentValues();
           values.put(DatabaseConstants.KEY_ACCOUNTID, accountId);
-          cr.update(TransactionProvider.TRANSACTIONS_URI,values,
+          cr.update(TransactionProvider.TRANSACTIONS_URI, values,
               DatabaseConstants.KEY_PARENTID + " = ? AND " + KEY_STATUS + " = " + STATUS_UNCOMMITTED,
               new String[]{String.valueOf(transactionId)});
           return true;
@@ -583,9 +583,9 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         }
         int requested = ids.length;
         c = cr.query(TransactionProvider.ACCOUNTS_URI,
-            new String[] {KEY_ROWID},
-            KEY_ROWID + " " + WhereFilter.Operation.IN.getOp(requested) + " AND NOT "+
-            KEY_UUID + " " + WhereFilter.Operation.IN.getOp(remoteUuidList.size()),
+            new String[]{KEY_ROWID},
+            KEY_ROWID + " " + WhereFilter.Operation.IN.getOp(requested) + " AND NOT " +
+                KEY_UUID + " " + WhereFilter.Operation.IN.getOp(remoteUuidList.size()),
             Stream.concat(
                 Stream.of(((Long[]) ids)).map(String::valueOf),
                 Stream.of(remoteUuidList))
@@ -615,15 +615,41 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
               TransactionProvider.AUTHORITY, bundle);
         }
         if (requested > result) {
-          message += " " + application.getString(R.string.link_account_failure, requested - result);
+          message += " " + application.getString(R.string.link_account_failure_1, requested - result)
+              + " " + application.getString(R.string.link_account_failure_2)
+              + " " + application.getString(R.string.link_account_failure_3);
         }
         return new Result(requested == result, message);
+      }
+      case TaskExecutionFragment.TASK_SYNC_CHECK: {
+        String accountUuid = (String) ids[0];
+        String syncAccountName = ((String) mExtra);
+        Optional<SyncBackendProvider> syncBackendProviderOptional = SyncBackendProviderFactory.get(
+            application,
+            GenericAccountService.GetAccount(syncAccountName),
+            AccountManager.get(application));
+        if (!syncBackendProviderOptional.isPresent()) {
+          //should not happen
+          return Result.FAILURE;
+        }
+        try {
+              if (Stream.of(syncBackendProviderOptional.get().getRemoteAccountList())
+                  .anyMatch(metadata -> metadata.uuid().equals(accountUuid))) {
+                return new Result(false, Utils.concatResStrings(application, " ",
+                    R.string.link_account_failure_2, R.string.link_account_failure_3)
+                    + "(" + Utils.concatResStrings(application, ", ", R.string.menu_settings,
+                    R.string.pref_manage_sync_backends_title) + ")");
+              }
+          return Result.SUCCESS;
+        } catch (IOException e) {
+          return new Result(false, e.getMessage());
+        }
       }
     }
     return null;
   }
 
-  private boolean deleteAccount(Long anId)  {
+  private boolean deleteAccount(Long anId) {
     try {
       Account.delete(anId);
     } catch (RemoteException | OperationApplicationException e) {
