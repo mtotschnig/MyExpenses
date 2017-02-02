@@ -262,6 +262,7 @@
   <string name="pref_manage_methods_title">វិធីសាស្ត្រទូទាត់​ប្រាក់</string>
   <string name="pref_manage_parties_summary">បញ្ចូល កែ លុប ភាគី (អ្នក​បង់​ចំណាយ និង​អ្នក​ទទួល)។</string>
   <string name="pref_manage_parties_title">ភាគី</string>
+  <!--%s will be replaced with list of backends-->
   <string name="pref_more_info_dialog_summary">
         
     <!-- My Expenses បក​ប្រែ​ដោយ Pongsametrey SOK, http://osify.com, 2013 រួមគ្នា​​ដើម្បី​​អក្សរ​សាស្ត្រ​ខ្មែរ នៅ​កម្ពុជា --></string>

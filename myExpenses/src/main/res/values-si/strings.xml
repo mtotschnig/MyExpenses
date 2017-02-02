@@ -259,6 +259,7 @@
   <string name="pref_manage_methods_title">මුදල් ගෙවීමේ ක්‍රම </string>
   <string name="pref_manage_parties_summary">පක්ෂ එකතු කිරීම, සංස්කරණය කිරම, මකා දැමීම (ගෙවන්නා  සහ ආදායකයා)</string>
   <string name="pref_manage_parties_title">පක්ෂ </string>
+  <!--%s will be replaced with list of backends-->
   <string name="pref_more_info_dialog_summary">
 <!-- මෙය ඉංග්‍රීසි භාෂාවට හිස් වන අතර අනිකුත් භාෂා වල පරිවර්තකයන්ට ස්තුති ලබාදේ  --></string>
   <!--this is empty for English and gives credit to translators in the other languages-->

@@ -310,6 +310,7 @@
   <string name="pref_manage_methods_title">Betalingsmetoder</string>
   <string name="pref_manage_parties_summary">Tilføj, rediger, slet parter (betalere og modtagere).</string>
   <string name="pref_manage_parties_title">Parter</string>
+  <!--%s will be replaced with list of backends-->
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Licens &amp; Credits</string>
   <string name="pref_password_not_equal">Adgangskoderne er ikke ens</string>

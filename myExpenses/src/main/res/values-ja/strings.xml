@@ -63,7 +63,7 @@
   <string name="dialog_confirm_discard_new_template">新しいテンプレートを破棄しますか?</string>
   <string name="dialog_confirm_discard_new_account">新しい勘定を破棄しますか?</string>
   <string name="dialog_confirm_discard_new_method">新しい支払方法を破棄しますか?</string>
-  <string name="dialog_command_disabled_balance">消去された照合すべき取引はありません。</string>
+  <string name="dialog_command_disabled_balance">照合すべき消込された取引はありません。</string>
   <string name="dialog_command_disabled_insert_transfer">取引の振替には、2番目の勘定が必要です。</string>
   <string name="dialog_command_disabled_reset_account">エクスポートする取引がありません。</string>
   <string name="dialog_command_disabled_distribution">この勘定の分類に配置する取引はありません。</string>
@@ -103,7 +103,7 @@
   <string name="dialog_title_attention">注意</string>
   <string name="dialog_title_information">情報</string>
   <!--%1$s is replace with account label-->
-  <string name="dialog_title_balance_account">貸借 %1$s</string>
+  <string name="dialog_title_balance_account">%1$s 決算</string>
   <string name="dialog_title_contrib_feature">プレミアム機能</string>
   <string name="dialog_title_extended_feature">拡張機能</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
@@ -165,7 +165,7 @@
   <string name="menu_back">戻る</string>
   <string name="menu_backup">バックアップ</string>
   <!--Balance: compare cleared balance in app with balance on statement received from bank-->
-  <string name="menu_balance">貸借勘定</string>
+  <string name="menu_balance">口座決算</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
   <string name="menu_cancel_plan_instance">キャンセル</string>
   <string name="menu_clone_transaction">複製</string>
@@ -317,6 +317,8 @@
   <string name="pref_manage_parties_summary">取引先 (受取人/支払人) を追加/編集/削除します。</string>
   <string name="pref_manage_parties_title">取引先</string>
   <string name="pref_manage_sync_backends_title">同期バックエンド</string>
+  <!--%s will be replaced with list of backends-->
+  <string name="pref_manage_sync_backends_summary">アカウントを同期するためのバックエンドを追加します (%s)。</string>
   <string name="pref_more_info_dialog_summary">福江尚史訳</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">ライセンス &amp; クレジット</string>
@@ -392,7 +394,7 @@
   <string name="split_parts_heading">分割パート</string>
   <string name="split_transaction">取引を分割</string>
   <string name="status">ステータス</string>
-  <string name="status_cleared">消去済</string>
+  <string name="status_cleared">消込済</string>
   <string name="status_reconciled">照合済</string>
   <string name="status_uncreconciled">未照合</string>
   <string name="status_void">無効</string>
@@ -406,7 +408,7 @@
   <string name="thank_you">サポートありがとうございます!</string>
   <string name="time">時間</string>
   <string name="title">タイトル/科目</string>
-  <string name="total_cleared">消去済合計</string>
+  <string name="total_cleared">消込済合計</string>
   <string name="total_reconciled">照合済合計</string>
   <string name="transaction">取引</string>
   <string name="transfer">振替</string>
@@ -433,7 +435,7 @@
     <item quantity="other">%d 分類の取引が移動できませんでした。対象に同じラベルがすでに存在します。</item>
   </plurals>
   <string name="warning_delete_reconciled">照合済の取引を削除すると、記録が銀行取引明細書と異なることになります。</string>
-  <string name="warning_balance_account">銀行取引明細書の期末残高と消去済合計を比較してください。続行すると、消去済取引は照合済としてマークされます。</string>
+  <string name="warning_balance_account">銀行取引明細書の期末残高と消込済合計を比較してください。続行すると、消込済取引は照合済としてマークされます。</string>
   <string name="warning_password_protected">アプリはパスワード保護されています。</string>
   <string name="warning_widget_disabled">アプリの設定で、このウィジェットを有効にする必要があります。</string>
   <string name="warning_instantiate_template_from_widget_password_protected">アプリの設定で、パスワードなしにウィジェットからデータの入力を許可する場合のみ、このウィジェットからのテンプレートのクイックインスタンス化は機能します。</string>
@@ -599,7 +601,7 @@
   <string name="menu_create_sync_backend">新しい同期バックエンド</string>
   <string name="validate_error_not_empty">空にできません</string>
   <string name="validate_error_webdav_invalid_certificate">証明書を信頼できませんでした。 無効のようです。</string>
-  <string name="validate_error_webdav_not_compliant">URL は、クラス 2 に準拠した WebDAV リソースを指していません。</string>
+  <string name="validate_error_webdav_not_compliant">URL は WebDAV リソースを指していません。</string>
   <string name="url_not_valid">URL が無効です</string>
   <string name="menu_sync_unlink">同期を停止</string>
   <string name="menu_sync_link">同期を開始</string>
@@ -614,4 +616,15 @@
   <string name="dialog_synced_to_other">uuid %s のアカウントは、ローカルデータベースに既に存在し、別のリモートバックエンドにリンクされています。</string>
   <string name="menu_remove">削除</string>
   <string name="dialog_confirm_sync_remove_backend">リモートバックエンド %s は削除されます。 これはローカルまたはリモートに保存されたデータには影響しませんが、同期ステータスは失われます。 続けますか?</string>
+  <string name="dialog_confirm_sync_link_local">このアカウントのリモートデータは削除されます。 他のデバイスがリンクされていないことを確認してください。</string>
+  <string name="dialog_confirm_sync_link_remote">このアカウントのローカルデータは削除されます。</string>
+  <string name="warning_synchronization_limited_trial">同期機能は %s までテストできます。</string>
+  <string name="warning_synchronization_limit_reached">同期機能をテストする試用期間が終了しました。</string>
+  <string name="warning_synchronization_folder_usage">このフォルダーは、さまざまなデバイス上のマイエクスペンスのインストール間でデータを同期するために使用されます。 内容を手動で変更しないでください。</string>
+  <string name="warning_synchronization_select_parent">選択したフォルダーは、既存のバックエンドのアカウントに対応します。 このバックエンドを再利用するには、その親フォルダーを選択する必要があります。</string>
+  <string name="select_unsynced_accounts">選択した勘定はこのバックエンドに同期されます</string>
+  <string name="link_account_success">%d の勘定がこのバックエンドに同期するように設定されました。</string>
+  <string name="link_account_failure_1">%d の勘定がバックエンドと同期するように設定できませんでした。</string>
+  <string name="link_account_failure_2">同じuuidを持つ勘定が、リモートのバックエンドにすでに存在します。</string>
+  <string name="link_account_failure_3">競合は、エントリーのコンテキストメニューから手動で解決できます。</string>
 </resources>

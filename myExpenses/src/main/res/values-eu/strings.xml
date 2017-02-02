@@ -320,6 +320,7 @@
   <string name="pref_manage_methods_title">Ordainketa metodoak</string>
   <string name="pref_manage_parties_summary">Gehitu, editatu, ezabatu onuradun edo ordaintzaileak</string>
   <string name="pref_manage_parties_title">Onuradun/ordaintzaileak</string>
+  <!--%s will be replaced with list of backends-->
   <string name="pref_more_info_dialog_summary">
 Librezale.eus</string>
   <!--this is empty for English and gives credit to translators in the other languages-->

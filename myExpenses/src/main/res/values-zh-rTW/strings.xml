@@ -227,6 +227,7 @@
   <string name="pref_manage_methods_title">付款方法</string>
   <string name="pref_manage_parties_summary">新增、編輯、刪除貿易夥伴 (付款人和收款人) 。</string>
   <string name="pref_manage_parties_title">貿易夥伴</string>
+  <!--%s will be replaced with list of backends-->
   <string name="pref_more_info_dialog_summary">
         
     <!-- this is empty for English and gives credit to translators in the other languages --></string>
