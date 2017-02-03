@@ -204,8 +204,6 @@
   <!--This command inverts the direction of a transfer-->
   <string name="menu_invert_transfer">倒置</string>
   <string name="menu_manage_plans">模板与计划</string>
-  <string name="menu_manage_plans_tab_templates">模板</string>
-  <string name="menu_manage_plans_tab_plans">计划</string>
   <string name="menu_open">打开</string>
   <string name="menu_import">导入</string>
   <string name="menu_print">打印</string>

@@ -206,8 +206,6 @@
   <!--This command inverts the direction of a transfer-->
   <string name="menu_invert_transfer">반전</string>
   <string name="menu_manage_plans">템플릿과 재무 계획</string>
-  <string name="menu_manage_plans_tab_templates">템플릿</string>
-  <string name="menu_manage_plans_tab_plans">재무 계획</string>
   <string name="menu_open">열기</string>
   <string name="menu_import">가져오기</string>
   <string name="menu_print">인쇄</string>

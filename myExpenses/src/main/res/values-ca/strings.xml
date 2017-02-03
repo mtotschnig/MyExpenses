@@ -178,8 +178,6 @@
   <!--This command inverts the direction of a transfer-->
   <string name="menu_invert_transfer">Inverteix</string>
   <string name="menu_manage_plans">Plantilles i planificacions</string>
-  <string name="menu_manage_plans_tab_templates">Plantilles</string>
-  <string name="menu_manage_plans_tab_plans">Planificacions</string>
   <string name="menu_import">Importació</string>
   <string name="menu_reset">Exporta i reinicia</string>
   <string name="menu_reset_all">Exporta i reinicia-ho tot</string>
@@ -367,4 +365,5 @@
   <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <!--Sort plans (recurring transactions) by the next instance-->
+  <string name="template">Plantilla</string>
 </resources>

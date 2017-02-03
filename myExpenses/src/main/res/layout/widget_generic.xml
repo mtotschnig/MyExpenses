@@ -69,10 +69,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:ellipsize="end"
-            android:singleLine="true"
             android:textColor="#ffffff"
             android:textSize="14sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:maxLines="1"/>
 
         <TextView
             android:id="@+id/note"

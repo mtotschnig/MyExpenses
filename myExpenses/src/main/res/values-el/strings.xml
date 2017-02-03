@@ -209,8 +209,6 @@
   <!--This command inverts the direction of a transfer-->
   <string name="menu_invert_transfer">\"Αντιστροφή\"</string>
   <string name="menu_manage_plans">Πρότυπα και σχέδια</string>
-  <string name="menu_manage_plans_tab_templates">Πρότυπα</string>
-  <string name="menu_manage_plans_tab_plans">Σχέδια</string>
   <string name="menu_open">Άνοιγμα</string>
   <string name="menu_import">Εισαγωγή</string>
   <string name="menu_print">Εκτύπωση</string>
@@ -589,4 +587,5 @@
   <string name="content_description_calculator_clear_button">Επαναφορά όλων</string>
   <string name="content_description_calculator_delete_button">Διαγραφή τελευταίου ψηφίου</string>
   <!--Sort plans (recurring transactions) by the next instance-->
+  <string name="template">Πρότυπο</string>
 </resources>

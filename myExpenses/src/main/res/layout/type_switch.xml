@@ -15,19 +15,19 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <android.support.v7.widget.SwitchCompat
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/TaType"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
     android:minHeight="@dimen/accessibility_clickable_minimum"
     android:minWidth="@dimen/accessibility_clickable_minimum"
     android:switchMinWidth="0dp"
-    app:switchTextAppearance="@style/SwitchTextAppearance"
     android:textOff="&#8722;"
     android:textOn="+"
     android:theme="@style/AmountSwitch"
     app:showText="true"
-    tools:ignore="UnusedAttribute"/>
+    app:switchTextAppearance="@style/SwitchTextAppearance"
+    tools:ignore="HardcodedText,UnusedAttribute"/>

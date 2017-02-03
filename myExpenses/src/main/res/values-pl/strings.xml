@@ -181,8 +181,6 @@
   <!--This command inverts the direction of a transfer-->
   <string name="menu_invert_transfer">Odwróć</string>
   <string name="menu_manage_plans">Szablony i plany</string>
-  <string name="menu_manage_plans_tab_templates">Szablony</string>
-  <string name="menu_manage_plans_tab_plans">Plany</string>
   <string name="menu_open">Otwórz</string>
   <string name="menu_import">Import</string>
   <string name="menu_print">Drukuj</string>
@@ -486,4 +484,5 @@
   <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <!--Sort plans (recurring transactions) by the next instance-->
+  <string name="template">Szablon</string>
 </resources>

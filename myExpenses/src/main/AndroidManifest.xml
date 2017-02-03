@@ -65,7 +65,8 @@
         <activity android:name=".activity.DeepLinkActivity"
                   android:excludeFromRecents="true"
                   android:theme="@style/Theme.AppCompat.Light.Dialog">
-            <intent-filter android:autoVerify="true">
+            <intent-filter android:autoVerify="true"
+                           tools:ignore="UnusedAttribute">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
@@ -77,7 +78,8 @@
         <activity
             android:name=".activity.ExpenseEdit"
             android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge"
-            android:parentActivityName=".activity.MyExpenses" >
+            android:parentActivityName=".activity.MyExpenses"
+            tools:ignore="UnusedAttribute">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -183,7 +185,8 @@
         <activity
             android:name=".activity.ManageTemplates"
             android:parentActivityName=".activity.MyExpenses"
-            android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge">
+            android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge"
+            tools:ignore="UnusedAttribute">
             <intent-filter>
                 <action android:name="android.provider.calendar.action.HANDLE_CUSTOM_EVENT" />
 
@@ -288,6 +291,7 @@
         <service
             android:name=".sync.SyncService"
             android:exported="true"
+            tools:ignore="ExportedService"
             android:process=":sync">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter"/>

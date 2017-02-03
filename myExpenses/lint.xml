@@ -20,4 +20,5 @@
         <ignore path="src/main/res/layout-h400dp/calculator.xml" />
         <ignore path="src/main/res/layout/more_info.xml" />
     </issue>
+    <issue id="HardwareIds" severity="ignore" />
 </lint>

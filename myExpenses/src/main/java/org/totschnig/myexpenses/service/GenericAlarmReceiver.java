@@ -10,14 +10,12 @@
  ******************************************************************************/
 package org.totschnig.myexpenses.service;
 
-import android.accounts.AccountManager;
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 
-import com.annimon.stream.Stream;
 import com.commonsware.cwac.wakeful.WakefulIntentService;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -51,7 +49,7 @@ public class GenericAlarmReceiver extends BroadcastReceiver {
     } else if (SCHEDULED_BACKUP.equals(action)) {
       requestAutoBackup(context);
     } else if (ACCOUNT_CHANGED.equals(action)) {
-      String[] accounts = Stream.of(AccountManager.get(context).getAccountsByType(GenericAccountService.ACCOUNT_TYPE))
+      String[] accounts = GenericAccountService.getAccountsAsStream()
           .map(account -> account.name)
           .toArray(size -> new String[size]);
       ContentValues values = new ContentValues(1);

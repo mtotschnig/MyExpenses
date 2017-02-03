@@ -209,8 +209,6 @@
   <!--This command inverts the direction of a transfer-->
   <string name="menu_invert_transfer">Размяна</string>
   <string name="menu_manage_plans">Шаблони и планове</string>
-  <string name="menu_manage_plans_tab_templates">Шаблони</string>
-  <string name="menu_manage_plans_tab_plans">Планове</string>
   <string name="menu_open">Отвори</string>
   <string name="menu_import">Импортиране</string>
   <string name="menu_print">Разпечатай</string>
@@ -321,6 +319,7 @@
   <string name="pref_manage_parties_summary">Добавяне, редактиране, изтриване на страни (платци и получатели).</string>
   <string name="pref_manage_parties_title">Страни</string>
   <string name="pref_manage_sync_backends_title">Отдалечени места за съхранение и синхронизация</string>
+  <!--%s will be replaced with list of backends-->
   <string name="pref_manage_sync_backends_summary">Добавяне на места за отдалечено съхранение (%s).</string>
   <string name="pref_more_info_dialog_summary">Превод на български: Диана Карa, Иван Димитров</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
@@ -610,7 +609,6 @@
   <string name="menu_create_sync_backend">Ново отдалечено място за съхранение, с което да се прави синхронизация</string>
   <string name="validate_error_not_empty">Трябва да не е празно</string>
   <string name="validate_error_webdav_invalid_certificate">На този сертификат не може да се довери. Изглежда е невалиден.</string>
-  <string name="validate_error_webdav_not_compliant">Този URL не е WebDAV съвместим ресурс.</string>
   <string name="url_not_valid">Невалиден URL</string>
   <string name="menu_sync_unlink">Спри синхронизирането</string>
   <string name="menu_sync_link">Започни синхронизиране</string>
@@ -625,4 +623,5 @@
   <string name="dialog_synced_to_other">Сметката %s вече съществува в локалната база данни и е свързана с друго отдалечено място за съхранение.</string>
   <string name="menu_remove">Премахни</string>
   <string name="dialog_confirm_sync_remove_backend">Отдалеченото място %s ще бъде премахнато. Това няма да повлияе нито локално, нито отдалечено съхранените данни, но ще се загуби състоянието на синхронизиране. Да продължим ли?</string>
+  <string name="template">Темплейт</string>
 </resources>

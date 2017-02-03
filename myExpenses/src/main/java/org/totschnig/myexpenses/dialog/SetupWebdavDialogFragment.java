@@ -53,6 +53,7 @@ public class SetupWebdavDialogFragment extends CommitSafeDialogFragment {
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     Activity ctx  = getActivity();
     LayoutInflater li = LayoutInflater.from(ctx);
+    //noinspection InflateParams
     View view = li.inflate(R.layout.setup_webdav, null);
     mEdtUrl = (EditText) view.findViewById(R.id.edt_url);
     mEdtUrl.addTextChangedListener(new TextWatcher() {

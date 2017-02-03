@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="@string/dialog_security_question"
-            android:singleLine="true"/>
+            android:maxLines="1"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -44,6 +44,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="@string/dialog_security_answer"
-            android:singleLine="true"/>
+            android:maxLines="1"/>
     </android.support.design.widget.TextInputLayout>
 </LinearLayout>

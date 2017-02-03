@@ -40,9 +40,8 @@ import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectMainCategoryDialogFragment;
 import org.totschnig.myexpenses.fragment.CategoryList;
-import org.totschnig.myexpenses.fragment.DbWriteFragment;
-import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -323,7 +322,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         case TaskExecutionFragment.TASK_GRISBI_IMPORT:
           Integer imported = (Integer) r.extra[0];
           if (imported > 0) {
-            msg = getString(R.string.import_categories_success, imported);
+            msg = getString(R.string.import_categories_success, String.valueOf(imported));
           } else {
             msg = getString(R.string.import_categories_none);
           }

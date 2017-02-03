@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses.activity;
 
-import android.accounts.AccountManager;
 import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Intent;
@@ -221,13 +220,11 @@ public class AccountEdit extends AmountActivity implements
   }
 
   private void configureSyncBackendAdapter() {
-    AccountManager accountManager = (AccountManager) getSystemService(ACCOUNT_SERVICE);
     ArrayAdapter syncBackendAdapter =
         new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
             Stream.concat(
                 Stream.of(getString(R.string.synchronization_none)),
-                Stream.of(accountManager.getAccountsByType(GenericAccountService.ACCOUNT_TYPE))
-                    .map(account -> account.name))
+                GenericAccountService.getAccountsAsStream().map(account -> account.name))
                 .collect(Collectors.toList()));
     syncBackendAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
     mSyncSpinner.setAdapter(syncBackendAdapter);

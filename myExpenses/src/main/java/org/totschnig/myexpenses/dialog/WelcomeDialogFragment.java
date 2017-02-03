@@ -87,6 +87,7 @@ public class WelcomeDialogFragment extends CommitSafeDialogFragment
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     Activity ctx  = getActivity();
     LayoutInflater li = LayoutInflater.from(ctx);
+    //noinspection InflateParams
     View view = li.inflate(R.layout.welcome_dialog, null);
     ((TextView) view.findViewById(R.id.help_leading)).setText(getString(R.string.help_leading, BuildConfig.PLATTFORM));
     mProgress = (ProgressBar) view.findViewById(R.id.progress);

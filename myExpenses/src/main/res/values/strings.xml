@@ -225,8 +225,6 @@
     <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">Invert</string>
     <string name="menu_manage_plans">Templates and plans</string>
-    <string name="menu_manage_plans_tab_templates">Templates</string>
-    <string name="menu_manage_plans_tab_plans">Plans</string>
     <string name="menu_open">Open</string>
     <string name="menu_import">Import</string>
     <string name="menu_print">Print</string>
@@ -648,12 +646,13 @@
     <string name="warning_synchronization_limited_trial">The synchronization feature can be tested until %s.</string>
     <string name="warning_synchronization_limit_reached">The trial period for testing the synchronization feature has ended.</string>
     <string name="warning_synchronization_folder_usage">This folder is used for synchronizing data between installations of My Expenses on different devices. Please do not modify any of its contents manually.</string>
-    <string name="warning_synchronization_select_parent">The folder you have selected corresponds to one account of an existing backend. You need to select its parent folder in order to reuse this backend.</string>
+    <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">The folder you have selected corresponds to one account of an existing backend. You need to select its parent folder in order to reuse this backend.</string>
     <string name="select_unsynced_accounts">Select accounts to be synced to this backend</string>
-    <string name="link_account_success">%d accounts were configured to be synced with the backend.</string>
-    <string name="link_account_failure_1">%d accounts could not be configured to be synced with the backend.</string>
+    <string name="link_account_success" tools:ignore="PluralsCandidate">%d accounts were configured to be synced with the backend.</string>
+    <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d accounts could not be configured to be synced with the backend.</string>
     <string name="link_account_failure_2">An account with the same uuid already exists on the remote backend.</string>
     <string name="link_account_failure_3">The conflict can be resolved manually from the entry\'s context menu.</string>
     <string name="progress_dialog_checking_sync_backend">Verifying backend</string>
+    <string name="template">Template</string>
 </resources>
 

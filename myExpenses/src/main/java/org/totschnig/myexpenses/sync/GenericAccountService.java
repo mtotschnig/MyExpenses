@@ -30,12 +30,14 @@ import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.annimon.stream.Stream;
+
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.activity.ContribIFace;
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.AcraHelper;
 
 public class GenericAccountService extends Service {
   private static final String TAG = GenericAccountService.class.getSimpleName();
@@ -81,9 +83,8 @@ public class GenericAccountService extends Service {
 
   public static void updateAccountsIsSyncable() {
     boolean isSyncable = ContribFeature.SYNCHRONIZATION.hasAccess() || ContribFeature.SYNCHRONIZATION.usagesLeft() > 0;
-    AccountManager accountManager = (AccountManager) MyApplication.getInstance().getSystemService(ACCOUNT_SERVICE);
 
-    for (Account account : accountManager.getAccountsByType(GenericAccountService.ACCOUNT_TYPE)) {
+    for (Account account : getAccountsAsArray()) {
       if (isSyncable) {
         activateSync(account);
       } else {
@@ -92,6 +93,20 @@ public class GenericAccountService extends Service {
         ContentResolver.setIsSyncable(account, TransactionProvider.AUTHORITY, 0);
       }
     }
+  }
+
+  public static Account[] getAccountsAsArray() {
+    AccountManager accountManager = (AccountManager) MyApplication.getInstance().getSystemService(ACCOUNT_SERVICE);
+    try {
+      return accountManager.getAccountsByType(ACCOUNT_TYPE);
+    } catch (SecurityException e) {
+      AcraHelper.report(e);
+    }
+    return new Account[0];
+  }
+
+  public static Stream<Account> getAccountsAsStream() {
+    return Stream.of(getAccountsAsArray());
   }
 
   public static void activateSync(Account account) {

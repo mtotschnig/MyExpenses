@@ -31,10 +31,10 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginTop="-5sp"
-        android:singleLine="true"
         tools:text="123.45"
         android:textColor="#000000"
-        android:textSize="36sp"/>
+        android:textSize="36sp"
+        android:maxLines="1"/>
 
 
 </RelativeLayout>

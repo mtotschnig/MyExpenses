@@ -17,7 +17,6 @@ package org.totschnig.myexpenses.activity;
 
 import android.Manifest;
 import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
@@ -235,8 +234,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       getFragment().setProtectionDependentsState();
       getFragment().configureContribPrefs();
     } else if (key.equals(PrefKey.SYNC_FREQUCENCY.getKey())) {
-      AccountManager accountManager = (AccountManager) getSystemService(ACCOUNT_SERVICE);
-      for (Account account : accountManager.getAccountsByType(GenericAccountService.ACCOUNT_TYPE)) {
+      for (Account account : GenericAccountService.getAccountsAsArray()) {
         ContentResolver.addPeriodicSync(account, TransactionProvider.AUTHORITY, Bundle.EMPTY,
             PrefKey.SYNC_FREQUCENCY.getInt(GenericAccountService.DEFAULT_SYNC_FREQUENCY_HOURS) * HOUR_IN_SECONDS);
       }
@@ -464,6 +462,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       //SHARE screen
       else if (rootKey.equals(getString(R.string.pref_perform_share_key))) {
         pref = findPreference(PrefKey.SHARE_TARGET.getKey());
+        //noinspection AuthLeak
         pref.setSummary(getString(R.string.pref_share_target_summary) + ":\n" +
             "ftp: \"ftp://login:password@my.example.org:port/my/directory/\"\n" +
             "mailto: \"mailto:john@my.example.com\"");

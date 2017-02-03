@@ -207,8 +207,6 @@
   <!--This command inverts the direction of a transfer-->
   <string name="menu_invert_transfer">Songsang</string>
   <string name="menu_manage_plans">Templat dan pelan</string>
-  <string name="menu_manage_plans_tab_templates">Templat</string>
-  <string name="menu_manage_plans_tab_plans">Pelan</string>
   <string name="menu_open">Buka</string>
   <string name="menu_import">Import</string>
   <string name="menu_print">Cetak</string>
@@ -582,4 +580,5 @@
   <string name="paypal_callback_info">Transaksi anda telah selesai, dan satu resip pembelian anda telah diemelkan kepada anda. Anda boleh daftar masuk ke akaun anda di www.paypal.com untuk melihat perincian transaksi ini.</string>
   <string name="paypal_callback_later_clicked_info">Melalui skrin tetapan, anda boleh pinta kunci pada bila-bila masa.</string>
   <!--Sort plans (recurring transactions) by the next instance-->
+  <string name="template">Templat</string>
 </resources>

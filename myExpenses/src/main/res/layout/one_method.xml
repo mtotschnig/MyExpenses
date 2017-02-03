@@ -47,11 +47,11 @@
 
                 <EditText
                     android:id="@+id/Label"
-                    android:singleLine="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:inputType="text"/>
+                    android:inputType="text"
+                    android:maxLines="1"/>
             </TableRow>
 
             <TableRow>

@@ -209,8 +209,6 @@
   <!--This command inverts the direction of a transfer-->
   <string name="menu_invert_transfer">Inverter</string>
   <string name="menu_manage_plans">Modelos e planos</string>
-  <string name="menu_manage_plans_tab_templates">Modelos</string>
-  <string name="menu_manage_plans_tab_plans">Planos</string>
   <string name="menu_open">Abrir</string>
   <string name="menu_import">Importar</string>
   <string name="menu_print">Imprimir</string>
@@ -350,7 +348,7 @@ Traduzido por Sérgio Marques</string>
   <string name="pref_security_question_summary">Permite-lhe desbloquear a aplicação, se tiver esquecido a sua palavra-passe.</string>
   <string name="pref_security_question_title">Pergunta de segurança</string>
   <string name="pref_send_feedback_title">Enviar comentários</string>
-  <string name="pref_share_target_summary">Deixe em branco se pretende escolher entre aplicações apropriadas (Email, Dropbox, Google Docs, ...), ou forneça um URL num dos esquemas suportados</string>
+  <string name="pref_share_target_summary">Deixe em branco se pretende escolher entre aplicações apropriadas (Email, Dropbox, Google Docs, …), ou forneça um URL num dos esquemas suportados</string>
   <string name="pref_share_target_title">URL de envio</string>
   <string name="pref_shortcut_added">Atalho adicionado ao ecrã inicial</string>
   <string name="pref_shortcut_not_added">Nenhum ecrã inicial disponível que aceite atalhos.</string>

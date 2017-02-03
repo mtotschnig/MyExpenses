@@ -9,6 +9,6 @@
     android:layout_width="0dp"
     android:layout_weight="1"
     android:ellipsize="end"
-    android:singleLine="true"
     android:text="@android:string/ok"
-    tools:showIn="@layout/ok_cancel_buttons"/>
+    tools:showIn="@layout/ok_cancel_buttons"
+    android:maxLines="1"/>

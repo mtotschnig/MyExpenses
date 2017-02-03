@@ -226,14 +226,14 @@
         <item>save_and_new</item>
         <item>invert_transfer</item>
     </string-array>
-    <string-array name="ExpenseEdit_split_menuitems">
+    <string-array name="ExpenseEdit_split_menuitems" tools:ignore="UnusedResources">
         <item>save</item>
         <item>save_and_new</item>
     </string-array>
-    <string-array name="ExpenseEdit_templateCategory_menuitems">
+    <string-array name="ExpenseEdit_templateCategory_menuitems" tools:ignore="UnusedResources">
         <item>save</item>
     </string-array>
-    <string-array name="ExpenseEdit_templateTransfer_menuitems">
+    <string-array name="ExpenseEdit_templateTransfer_menuitems" tools:ignore="UnusedResources">
         <item>save</item>
     </string-array>
     <string-array name="ExpenseEdit_splitPartCategory_menuitems" tools:ignore="UnusedResources">
@@ -323,16 +323,16 @@
         <item>form_comment_help_text</item>
         <item>form_attach_image_help_text</item>
     </string-array>
-    <string-array name="form_plan_help_text">
+    <string-array name="form_plan_help_text" tools:ignore="UnusedResources">
         <item>form_plan_help_text</item>
         <item>form_plan_help_text_advanced</item>
         <item>form_plan_help_text_mode</item>
     </string-array>
-    <string-array name="form_AccountEdit_type_help_text">
+    <string-array name="form_AccountEdit_type_help_text" tools:ignore="UnusedResources">
         <item>form_AccountEdit_type_help_text</item>
         <item>form_AccountEdit_type_help_text_reconciliation</item>
     </string-array>
-    <string-array name="form_synchronization_help_text">
+    <string-array name="form_synchronization_help_text" tools:ignore="UnusedResources">
         <item>form_synchronization_help_text_select</item>
         <item>form_synchronization_help_text_add</item>
     </string-array>
@@ -371,7 +371,7 @@
         <item>up</item>
     </string-array>
 
-    <string-array name="help_ManageSyncBackends_info">
+    <string-array name="help_ManageSyncBackends_info" tools:ignore="UnusedResources">
         <item>help_ManageSyncBackends_intro</item>
         <item>help_ManageSyncBackends_webdav</item>
         <item>help_ManageSyncBackends_drive</item>

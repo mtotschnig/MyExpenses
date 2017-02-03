@@ -209,8 +209,6 @@
   <!--This command inverts the direction of a transfer-->
   <string name="menu_invert_transfer">Alderantzikatu</string>
   <string name="menu_manage_plans">Txantiloiak eta planak</string>
-  <string name="menu_manage_plans_tab_templates">Txantiloiak</string>
-  <string name="menu_manage_plans_tab_plans">Planak</string>
   <string name="menu_open">Ireki</string>
   <string name="menu_import">Inportatu</string>
   <string name="menu_print">Inprimatu</string>
@@ -602,4 +600,5 @@ Librezale.eus</string>
   <string name="synchronization_none">Sinkronizaziorik ez</string>
   <string name="hint_url">URLa</string>
   <string name="description_webdav_url">Idatzi mesedez kontu honen datuetarko zure WebDAV zerbitzariko karpeta berezi baten URLa. Nire gastuak bere datuak karpeta honetan gordeko ditu, ez du hortik kanpoko ezer ikutuko.</string>
+  <string name="template">Txantiloia</string>
 </resources>

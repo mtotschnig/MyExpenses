@@ -30,6 +30,7 @@ import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.util.Locale;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -52,7 +53,8 @@ public class CertificateHelper {
         X500PrincipalHelper issuerHelper = new X500PrincipalHelper(certificate.getIssuerX500Principal());
         String issuer = issuerHelper.getCN();
 
-        String serialNumber = certificate.getSerialNumber().toString(16).toUpperCase().replaceAll("(?<=..)(..)", ":$1");
+        String serialNumber = certificate.getSerialNumber().toString(16).toUpperCase(Locale.ROOT)
+            .replaceAll("(?<=..)(..)", ":$1");
         String validFrom = dateFormat.format(certificate.getNotBefore());
         String validUntil = dateFormat.format(certificate.getNotAfter());
 
@@ -77,7 +79,7 @@ public class CertificateHelper {
         return (X509Certificate) cf.generateCertificate(new ByteArrayInputStream(certificate.getBytes()));
     }
 
-    public static SSLSocketFactory createSocketFactory(X509Certificate certificate) throws InvalidCertificateException {
+    static SSLSocketFactory createSocketFactory(X509Certificate certificate) throws InvalidCertificateException {
         try {
             // Create a KeyStore containing our trusted CAs
             String keyStoreType = KeyStore.getDefaultType();

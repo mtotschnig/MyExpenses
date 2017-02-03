@@ -161,8 +161,6 @@
   <!--This command inverts the direction of a transfer-->
   <string name="menu_invert_transfer">Invertovat</string>
   <string name="menu_manage_plans">Šablony a plány</string>
-  <string name="menu_manage_plans_tab_templates">Šablony</string>
-  <string name="menu_manage_plans_tab_plans">Plány</string>
   <string name="menu_import">Importovat</string>
   <string name="menu_reset">Exportovat a resetovat</string>
   <string name="menu_reset_all">Exportovat a obnovit vše</string>
@@ -343,4 +341,5 @@
   <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <!--Sort plans (recurring transactions) by the next instance-->
+  <string name="template">Šablona</string>
 </resources>

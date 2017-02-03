@@ -141,7 +141,6 @@
   <string name="menu_grouping">Gom nhóm</string>
   <string name="menu_help">Trợ giúp</string>
   <!--This command inverts the direction of a transfer-->
-  <string name="menu_manage_plans_tab_templates">Mẫu</string>
   <string name="menu_import">Nhập dữ liệu</string>
   <string name="menu_reset">Xuất dữ liệu và cài đặt lại</string>
   <string name="menu_reset_all">Xuất dữ liệu và cài đặt lại tất cả</string>

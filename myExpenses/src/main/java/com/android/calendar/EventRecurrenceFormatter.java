@@ -24,10 +24,10 @@ import android.util.TimeFormatException;
 
 import com.android.calendarcommon2.EventRecurrence;
 
+import org.totschnig.myexpenses.R;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
-import org.totschnig.myexpenses.R;
 
 public class EventRecurrenceFormatter
 {
@@ -121,7 +121,7 @@ public class EventRecurrenceFormatter
                     sb.append(endString);
                     return sb.toString();
                 }
-                return r.getString(R.string.monthly_on_day,recurrence.startDate.monthDay) + endString;
+                return r.getString(R.string.monthly_on_day, String.valueOf(recurrence.startDate.monthDay)) + endString;
             }
             case EventRecurrence.YEARLY:
                 return r.getString(R.string.yearly,

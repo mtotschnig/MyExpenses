@@ -209,8 +209,6 @@
   <!--This command inverts the direction of a transfer-->
   <string name="menu_invert_transfer">Ters Çevir</string>
   <string name="menu_manage_plans">Şablonlar ve planlar</string>
-  <string name="menu_manage_plans_tab_templates">Şablonlar</string>
-  <string name="menu_manage_plans_tab_plans">Planlar</string>
   <string name="menu_open">Aç</string>
   <string name="menu_import">İçe aktar</string>
   <string name="menu_print">Yazdır</string>
@@ -597,4 +595,5 @@
   <string name="crash_dialog_title">Harcamalarım çöktü</string>
   <string name="crash_dialog_text">Uygulamanın çıkmasının zorlanması sırasında beklenmeyen bir hata meydana geldi. Lütfen bu hatayı düzeltmemize kullanıcı verileri yollayarak yardımcı olun, tüm yapmanız gereken Tamam\'a dokunmaktır.</string>
   <string name="crash_dialog_comment_prompt">Problemle ilgili yorumlarınızı aşağıda ekleyebilirsiniz:</string>
+  <string name="template">Şablon</string>
 </resources>

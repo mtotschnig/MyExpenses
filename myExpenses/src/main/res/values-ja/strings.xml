@@ -207,8 +207,6 @@
   <!--This command inverts the direction of a transfer-->
   <string name="menu_invert_transfer">反転</string>
   <string name="menu_manage_plans">テンプレートと計画</string>
-  <string name="menu_manage_plans_tab_templates">テンプレート</string>
-  <string name="menu_manage_plans_tab_plans">計画</string>
   <string name="menu_open">開く</string>
   <string name="menu_import">インポート</string>
   <string name="menu_print">印刷</string>
@@ -627,4 +625,6 @@
   <string name="link_account_failure_1">%d の勘定がバックエンドと同期するように設定できませんでした。</string>
   <string name="link_account_failure_2">同じuuidを持つ勘定が、リモートのバックエンドにすでに存在します。</string>
   <string name="link_account_failure_3">競合は、エントリーのコンテキストメニューから手動で解決できます。</string>
+  <string name="progress_dialog_checking_sync_backend">バックエンドの確認中</string>
+  <string name="template">テンプレート</string>
 </resources>

@@ -181,7 +181,8 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
       int totalParties = insertPayees(parser.payees);
       publishProgress(totalParties == 0 ?
           MyApplication.getInstance().getString(R.string.import_parties_none) :
-          MyApplication.getInstance().getString(R.string.import_parties_success, totalParties));
+          MyApplication.getInstance().getString(R.string.import_parties_success,
+              String.valueOf(totalParties)));
     }
     /*
      * insertProjects(parser.classes); long t2 = System.currentTimeMillis();
@@ -192,14 +193,16 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
       insertCategories(parser.categories);
       publishProgress(totalCategories == 0 ?
           MyApplication.getInstance().getString(R.string.import_categories_none) :
-          MyApplication.getInstance().getString(R.string.import_categories_success, totalCategories));
+          MyApplication.getInstance().getString(R.string.import_categories_success,
+              String.valueOf(totalCategories)));
     }
     if (withTransactionsP) {
       if (accountId == 0) {
         int importedAccounts = insertAccounts(parser.accounts);
         publishProgress(importedAccounts == 0 ?
             MyApplication.getInstance().getString(R.string.import_accounts_none) :
-            MyApplication.getInstance().getString(R.string.import_accounts_success, importedAccounts));
+            MyApplication.getInstance().getString(R.string.import_accounts_success,
+                String.valueOf(importedAccounts)));
       } else {
         if (parser.accounts.size() > 1) {
           publishProgress(

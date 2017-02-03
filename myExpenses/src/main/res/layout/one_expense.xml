@@ -56,7 +56,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:inputType="text"
-                    android:singleLine="true"/>
+                    android:maxLines="1"/>
             </TableRow>
 
             <TableRow android:id="@+id/AccountRow">
@@ -277,9 +277,9 @@
                         android:layout_weight="1"
                         android:hint="@string/reference_number"
                         android:inputType="text"
-                        android:singleLine="true"
                         android:visibility="gone"
-                        tools:ignore="TextFields"/>
+                        tools:ignore="TextFields"
+                        android:maxLines="1"/>
                 </LinearLayout>
             </TableRow>
 

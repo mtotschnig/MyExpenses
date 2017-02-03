@@ -15,9 +15,7 @@ import android.support.v4.content.Loader;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
@@ -25,11 +23,8 @@ import android.widget.Toast;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Optional;
-import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ManageSyncBackends;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.SyncBackendAdapter;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.DialogUtils;
@@ -38,7 +33,6 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.sync.GenericAccountService;
-import org.totschnig.myexpenses.sync.ServiceLoader;
 import org.totschnig.myexpenses.sync.SyncBackendProvider;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
@@ -49,7 +43,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static android.content.Context.ACCOUNT_SERVICE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 
@@ -126,8 +119,7 @@ public class SyncBackendList extends Fragment implements
   }
 
   protected List<String> getAccountList() {
-    AccountManager accountManager = (AccountManager) getActivity().getSystemService(ACCOUNT_SERVICE);
-    return Stream.of(accountManager.getAccountsByType(GenericAccountService.ACCOUNT_TYPE))
+    return GenericAccountService.getAccountsAsStream()
         .map(account -> account.name)
         .collect(Collectors.toList());
   }

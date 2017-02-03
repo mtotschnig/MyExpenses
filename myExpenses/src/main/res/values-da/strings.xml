@@ -201,8 +201,6 @@
   <!--This command inverts the direction of a transfer-->
   <string name="menu_invert_transfer">Inverter</string>
   <string name="menu_manage_plans">Skabeloner og planer</string>
-  <string name="menu_manage_plans_tab_templates">Skabeloner</string>
-  <string name="menu_manage_plans_tab_plans">Planer</string>
   <string name="menu_open">Åbn</string>
   <string name="menu_import">Import</string>
   <string name="menu_print">Udskriv</string>

@@ -466,8 +466,11 @@ public class TemplatesList extends SortableListFragment {
             //noinspection SetTextI18n
             c.getString(columnIndexTitle) + " (" + planInfo + ")");
       }
-      ((ImageView) convertView.findViewById(R.id.Plan)).setImageResource(
+      ImageView planImage = (ImageView) convertView.findViewById(R.id.Plan);
+      planImage.setImageResource(
           doesHavePlan ? R.drawable.ic_event : R.drawable.ic_menu_template);
+      planImage.setContentDescription(getString(doesHavePlan ?
+          R.string.plan : R.string.template));
       return convertView;
     }
   }

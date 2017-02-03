@@ -209,8 +209,6 @@
   <!--This command inverts the direction of a transfer-->
   <string name="menu_invert_transfer">Inverser</string>
   <string name="menu_manage_plans">Modèles et échéances</string>
-  <string name="menu_manage_plans_tab_templates">Modèles</string>
-  <string name="menu_manage_plans_tab_plans">Échéances</string>
   <string name="menu_open">Ouvrir</string>
   <string name="menu_import">Import</string>
   <string name="menu_print">Imprimer</string>
@@ -321,6 +319,7 @@
   <string name="pref_manage_parties_summary">Ajouter, éditer, supprimer les tiers.</string>
   <string name="pref_manage_parties_title">Tiers</string>
   <string name="pref_manage_sync_backends_title">Serveur de synchronisation</string>
+  <!--%s will be replaced with list of backends-->
   <string name="pref_manage_sync_backends_summary">Ajoutez un serveur pour la synchronisation des comptes (%s).</string>
   <string name="pref_more_info_dialog_summary">Traduit par Laurent Collombet, Alexandre Beelen et Michael Totschnig</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
@@ -610,7 +609,6 @@
   <string name="menu_create_sync_backend">Nouveau serveur de synchronisation</string>
   <string name="validate_error_not_empty">Ne doit pas être vide</string>
   <string name="validate_error_webdav_invalid_certificate">Le certificat n\'est pas vérifié. Il semble invalide. </string>
-  <string name="validate_error_webdav_not_compliant">L’URL ne pointe pas vers une ressource de WebDAV.</string>
   <string name="url_not_valid">URL invalide</string>
   <string name="menu_sync_unlink">Arrêter la synchronisation </string>
   <string name="menu_sync_link">Démarrer la synchronisation</string>
@@ -625,4 +623,5 @@
   <string name="dialog_synced_to_other">Un compte avec l’uuid %s déjà existe dans la base de données locale et est lié à un serveur distant différent.</string>
   <string name="menu_remove">Supprimer</string>
   <string name="dialog_confirm_sync_remove_backend">Le serveur distant %s sera supprimé. Cela n’affectera pas les données stockées localement ou à distance, mais l’état de synchronisation se perdra. Voulez-vous continuer ?</string>
+  <string name="template">Modèle</string>
 </resources>

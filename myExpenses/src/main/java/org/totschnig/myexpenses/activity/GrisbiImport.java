@@ -46,14 +46,14 @@ public class GrisbiImport extends ProtectedFragmentActivity {
       if (imported>-1) {
         msg = imported == 0 ?
             getString(R.string.import_categories_none) :
-            getString(R.string.import_categories_success,imported);
+            getString(R.string.import_categories_success, String.valueOf(imported));
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
       }
       imported = (Integer) r.extra[1];
       if (imported>-1) {
         msg = imported == 0 ?
             getString(R.string.import_parties_none) :
-            getString(R.string.import_parties_success,imported);
+            getString(R.string.import_parties_success, String.valueOf(imported));
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
       }
     } else {

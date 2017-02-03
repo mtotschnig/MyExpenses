@@ -213,7 +213,7 @@ public class MyApplication extends MultiDexApplication implements
 
   public static void cleanUpAfterTest() {
     mSelf.deleteDatabase(testId);
-    mSelf.getSettings().edit().clear().commit();
+    mSelf.getSettings().edit().clear().apply();
     new File(new File(mSelf.getFilesDir().getParentFile().getPath() + "/shared_prefs/"),
         testId + ".xml").delete();
   }
