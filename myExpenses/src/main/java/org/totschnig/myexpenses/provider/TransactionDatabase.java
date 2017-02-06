@@ -1148,7 +1148,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       if (oldVersion < 48) {
         //added method_label to extended view
         //do not comment out, since it is needed by the uuid update
-        refreshViews(db);
+        refreshViews1(db);
         //need to inline to protect against later renames
 
         if (oldVersion < 47) {
@@ -1422,7 +1422,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           "FROM templates_old");
       db.execSQL("DROP TABLE templates_old");
       //Recreate changed views
-      refreshViews(db);
+      //refreshViews1(db);
     }
 
     if (oldVersion < 58) {
@@ -1458,11 +1458,11 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       db.execSQL("CREATE TRIGGER insert_increase_account_usage AFTER INSERT ON transactions WHEN new.parent_id IS NULL BEGIN UPDATE accounts SET usages = usages + 1, last_used = strftime('%s', 'now')  WHERE _id = new.account_id; END;");
       db.execSQL("CREATE TRIGGER update_increase_account_usage AFTER UPDATE ON transactions WHEN new.parent_id IS NULL AND new.account_id != old.account_id AND (old.transfer_account IS NULL OR new.account_id != old.transfer_account) BEGIN UPDATE accounts SET usages = usages + 1, last_used = strftime('%s', 'now')  WHERE _id = new.account_id; END;");
       db.execSQL("CREATE TRIGGER update_account_sync_null AFTER UPDATE ON accounts WHEN new.sync_account_name IS NULL AND old.sync_account_name IS NOT NULL BEGIN UPDATE accounts SET sync_sequence_local = 0 WHERE _id = old._id; DELETE FROM changes WHERE account_id = old._id; END;");
-      refreshViews(db);
+      refreshViews2(db);
     }
   }
 
-  private void refreshViews(SQLiteDatabase db) {
+  private void refreshViews1(SQLiteDatabase db) {
     db.execSQL("DROP VIEW IF EXISTS transactions_extended");
     db.execSQL("DROP VIEW IF EXISTS templates_extended");
     db.execSQL("DROP VIEW IF EXISTS transactions_committed");
@@ -1476,8 +1476,14 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL("CREATE VIEW transactions_uncommitted" + viewTransactions + " WHERE " + KEY_STATUS + " = " + STATUS_UNCOMMITTED + ";");
     db.execSQL("CREATE VIEW transactions_all" + viewTransactions);
     db.execSQL("CREATE VIEW templates_all" + buildViewDefinition(TABLE_TEMPLATES));
+  }
+
+  private void refreshViews2(SQLiteDatabase db) {
+    refreshViews1(db);
+    db.execSQL("DROP VIEW IF EXISTS changes_extended");
     db.execSQL("CREATE VIEW changes_extended" + buildViewDefinitionExtended(TABLE_CHANGES));
   }
+
 
   @Override
   public final void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
