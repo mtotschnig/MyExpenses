@@ -121,11 +121,12 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
   //Google Drive
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-    if (requestCode == SYNC_BACKEND_SETUP_REQUEST && resultCode == RESULT_OK) {
-      getListFragment().reloadAccountList();
+    super.onActivityResult(requestCode, resultCode, intent);
+    if (requestCode == SYNC_BACKEND_SETUP_REQUEST && resultCode == RESULT_OK && intent != null) {
+        createAccount(intent.getStringExtra(AccountManager.KEY_ACCOUNT_NAME), null,
+            intent.getBundleExtra(AccountManager.KEY_USERDATA));
       return;
     }
-    super.onActivityResult(requestCode, resultCode, intent);
   }
 
   @Override
@@ -202,11 +203,8 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
       case TASK_CREATE_SYNC_ACCOUNT: {
         if (result.success) {
           getListFragment().reloadAccountList();
-          //if we were called from AccountEdit, we do not show the unsynced account selection
-          //since we suppose that user wants to create one account for the account he is editing
-          if (getCallingActivity() == null && result.extra != null) {
-            SelectUnSyncedAccountDialogFragment.newInstance(((String) result.extra[0]))
-                .show(getSupportFragmentManager(), "SELECT_UNSYNCED");
+          if (result.extra != null) {
+            showSelectUnsyncedAccount((String) result.extra[0]);
           }
         }
         break;
@@ -229,6 +227,15 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
         }
         break;
       }
+    }
+  }
+
+  protected void showSelectUnsyncedAccount(String accountName) {
+    //if we were called from AccountEdit, we do not show the unsynced account selection
+    //since we suppose that user wants to create one account for the account he is editing
+    if (getCallingActivity() == null) {
+      SelectUnSyncedAccountDialogFragment.newInstance(accountName)
+          .show(getSupportFragmentManager(), "SELECT_UNSYNCED");
     }
   }
 
