@@ -318,7 +318,9 @@
   <string name="pref_manage_methods_title">Zahlungsweisen</string>
   <string name="pref_manage_parties_summary">Parteien (Zahler und Empfänger) hinzufügen, editieren und löschen.</string>
   <string name="pref_manage_parties_title">Parteien</string>
+  <string name="pref_manage_sync_backends_title">Synchronisierung Backends</string>
   <!--%s will be replaced with list of backends-->
+  <string name="pref_manage_sync_backends_summary">Backends für die Synchronisierung der Konten (%s) hinzufügen.</string>
   <string name="pref_more_info_dialog_summary">Übersetzt von Michael Totschnig</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Lizenz &amp; Abspann</string>
@@ -595,5 +597,44 @@
   <string name="crash_dialog_title">Meine Ausgaben ist abgestürzt</string>
   <string name="crash_dialog_text">Ein unerwarteter Fehler ist aufgetreten ist und hat zum Absturz der Anwendung geführt. Bitte helfen Sie uns, dieses Problem zu beheben, indem Sie uns Fehlerdaten senden. Alles, was Sie tun müssen, ist auf \"OK\" zu klicken.</string>
   <string name="crash_dialog_comment_prompt">Sie können Ihre Anmerkungen zum Problem unten hinzufügen:</string>
+  <string name="synchronization">Synchronisierung</string>
+  <string name="synchronization_none">Keine Synchronisierung</string>
+  <string name="hint_url">URL</string>
+  <string name="description_webdav_url">Bitte geben Sie die URL für einen speziellen Ordner auf Ihrem WebDAV-Server an. Meine Ausgaben speichert seine Daten in diesem Ordner, es greift auf keine Daten außerhalb davon zu.</string>
+  <string name="description_webdav_trust_certificate">Die Website verwendet ein Zertifikat, das von Android als nicht vertrauenswürdig eingestuft wird.</string>
+  <string name="hint_user_name">Benutzername</string>
+  <string name="hint_password">Passwort</string>
+  <string name="label_trust_certificate">Diesem Zertifikat vertrauen</string>
+  <string name="no_sync_backends">Keine Synchronisierung Backends</string>
+  <string name="menu_create_sync_backend">Neues Synchronisierung Backend</string>
+  <string name="validate_error_not_empty">Darf nicht leer sein</string>
+  <string name="validate_error_webdav_invalid_certificate">Dem Zertifikat konnte nicht vertraut werden. Es scheint ungültig.</string>
+  <string name="validate_error_webdav_not_compliant">Die URL verweist nicht auf eine WebDAV-Ressource.</string>
+  <string name="url_not_valid">URL nicht gültig</string>
+  <string name="menu_sync_unlink">Synchronisierung stoppen</string>
+  <string name="menu_sync_link">Synchronisierung starten</string>
+  <string name="menu_sync_download">Herunterladen und synchronisieren</string>
+  <string name="menu_sync_now">Jetzt synchronisieren</string>
+  <string name="pref_sync_frequency_title">Häufigkeit der Synchronisierung</string>
+  <string name="pref_sync_frequency_summary">Wie oft sollten die Daten synchronisiert werden (in Stunden)</string>
+  <string name="dialog_confirm_sync_unlink">Wenn Sie dieses Konto von %s entkoppeln, geht der Status der Synchronisierung verloren. Wenn Sie die Verknüpfung später wiederherstellen, erfordert dies eine erneute vollständige Synchronisierung.</string>
+  <string name="dialog_sync_link">Ein Konto mit UUID %s existiert sowohl in der lokalen Datenbank als auch auf dem entfernten Backend. Wenn Sie beide verknüpfen, müssen Sie entscheiden, ob zunächst lokale Daten auf das Backend hochgeladen werden sollen, oder entfernte Daten in die lokale Datenbank geschrieben werden sollen.</string>
+  <string name="dialog_command_sync_link_remote">Herunterladen von Entfernt</string>
+  <string name="dialog_command_sync_link_local">Hochladen von Lokal</string>
+  <string name="dialog_synced_to_other">Ein Konto mit UUID %s existiert bereits in der lokalen Datenbank und ist mit einem anderen Backend verbunden.</string>
+  <string name="menu_remove">Entfernen</string>
+  <string name="dialog_confirm_sync_remove_backend">Das entfernte Backend %s wird entfernt. Dadurch werden lokal und entfernt gespeicherte Daten nicht berührt, aber der Status der Synchronisation geht verloren. Möchten Sie fortfahren?</string>
+  <string name="dialog_confirm_sync_link_local">Entfernte Daten für dieses Konto werden gelöscht. Achten Sie darauf, dass keine anderen Geräte mit diesem verbunden sind.</string>
+  <string name="dialog_confirm_sync_link_remote">Lokale Daten für dieses Konto werden gelöscht.</string>
+  <string name="warning_synchronization_limited_trial">Die Synchronisierungs-Funktion kann bis %s getestet werden.</string>
+  <string name="warning_synchronization_limit_reached">Die Probezeit für die Synchronisierungs-Funktion ist abgelaufen.</string>
+  <string name="warning_synchronization_folder_usage">Dieser Ordner wird für die Synchronisierung von Daten zwischen den Installationen von Meine Ausgaben auf verschiedenen Geräten verwendet. Bitte ändern Sie dessen Inhalt nicht manuell.</string>
+  <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Der Ordner, den Sie ausgewählt haben, entspricht einem Konto eines bestehenden Backends. Sie müssen den übergeordneten Ordner auswählen, um dieses Backend wiederzuverwenden.</string>
+  <string name="select_unsynced_accounts">Wählen Sie die Konten aus, die mit diesem Backend synchronisiert werden sollen.</string>
+  <string name="link_account_success" tools:ignore="PluralsCandidate">%d Konten wurden konfiguriert, um mit dem Backend synchronisiert zu werden.</string>
+  <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d Konten konnten nicht für die Synchronisierung mit dem Backend konfiguriert werden.</string>
+  <string name="link_account_failure_2">Ein Konto mit der gleichen UUID existiert bereits auf dem entfernten Backend.</string>
+  <string name="link_account_failure_3">Der Konflikt kann über den Eintrag im Kontextmenü manuell aufgelöst werden.</string>
+  <string name="progress_dialog_checking_sync_backend">Backend wird überprüft</string>
   <string name="template">Vorlage</string>
 </resources>

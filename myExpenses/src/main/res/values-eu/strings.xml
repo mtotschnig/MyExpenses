@@ -599,6 +599,6 @@ Librezale.eus</string>
   <string name="synchronization">Sinkronizazioa</string>
   <string name="synchronization_none">Sinkronizaziorik ez</string>
   <string name="hint_url">URLa</string>
-  <string name="description_webdav_url">Idatzi mesedez kontu honen datuetarko zure WebDAV zerbitzariko karpeta berezi baten URLa. Nire gastuak bere datuak karpeta honetan gordeko ditu, ez du hortik kanpoko ezer ikutuko.</string>
+  <string name="description_webdav_url">Idatzi mesedez zure WebDAV zerbitzariko karpeta berezi baten URLa. Nire gastuak bere datuak karpeta honetan gordeko ditu, ez du hortik kanpoko ezer ikutuko.</string>
   <string name="template">Txantiloia</string>
 </resources>

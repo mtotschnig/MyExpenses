@@ -600,7 +600,7 @@
   <string name="synchronization">Sincronizzazione</string>
   <string name="synchronization_none">Nessuna sincronizzazione</string>
   <string name="hint_url">URL</string>
-  <string name="description_webdav_url">Inserisci l\'URL a una cartella speciale per questi dati di account sul server WebDAV. Le mie spese memorizzerà i dati all\'interno di questa cartella, non tocca nulla di fuori di esso.</string>
+  <string name="description_webdav_url">Inserisci l\'URL a una cartella speciale sul server WebDAV. Le mie spese memorizzerà i dati all\'interno di questa cartella, non tocca nulla di fuori di esso.</string>
   <string name="description_webdav_trust_certificate">Il sito utilizza un certificato che non è attendibile per Android.</string>
   <string name="hint_user_name">Nome utente</string>
   <string name="hint_password">Password</string>
