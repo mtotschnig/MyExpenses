@@ -95,7 +95,10 @@
   <string name="form_AccountEdit_amount_switch_help_text">Verwenden Sie den Schalter um mit einer negativen Eröffnungsbilanz zu starten.</string>
   <string name="form_currency_help_text">Wählen Sie eine Währung aus der bereitgestellten Liste aller aktuellen Währungen aus.</string>
   <string name="form_AccountEdit_type_help_text">Sie können den Typ eines Kontos als einen aus Kreditkarte, Bargeld, Verbindlichkeiten, Bankkonto, Anlagekonto definieren. Der Typ bestimmt die verfügbaren Zahlungsweisen, die Sie unter Einstellungen -&gt; Verwalten -&gt; Zahlungsmethoden konfigurieren können.</string>
+  <string name="form_AccountEdit_type_help_text_reconciliation">Die Abstimmungs-Funktion steht für alle Konten außer Geldkonten zur Verfügung: Es ermöglicht eine Buchung als verrechnet zu markieren, sobald diese bestätigt wurde, und das ganze Konto mit Ihrem Kontoauszug abzugleichen, mit Hilfe des Befehls \"Konto abgleichen\".</string>
   <string name="form_color_help_text">Auf der Buchungsliste für ein Konto wird dessen Farbe als primäre Farbe für die Benutzer-Schnittstelle verwendet.</string>
+  <string name="form_synchronization_help_text_select">Wählen Sie ein Backend für die  Cloud-Synchronisierung.</string>
+  <string name="form_synchronization_help_text_add">Backends können über die Einstellungen hinzugefügt werden.</string>
   <string name="menu_exclude_from_totals_help_text">Wenn Sie diese Option aktivieren, wird dieses Konto in der Gesamtdarstellung pro Währung nicht berücksichtigt.</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Formular für Zahlungsweisen</string>
@@ -123,4 +126,13 @@
   <string name="cab_sort_down_help_text">Verschiebt den Eintrag in der Liste um eine Position nach unten.</string>
   <string name="form_instant_plan_help_text">Hier können Sie einstellen, dass die Buchung sich täglich, wöchentlich, monatlich oder jährlich Basis wiederholt. Im Bereich \"Vorlagen und Pläne\" können Sie den sich daraus ergebenden Plan begutachten und erweiterte Optionen konfigurieren. Wenn eine Buchung bereits mit einem Plan verknüpft ist, kann die Art der Wiederholung nicht mehr verändert werden, aber Sie können eine Kalenderansicht mit allen wiederkehrenden Terminen öffnen.</string>
   <!--SyncBackends-->
+  <string name="help_ManageSyncBackends_intro">Meine Ausgaben ermöglicht es, für jedes Konto ein anderes Synchronisierungs-Backend zu konfigurieren. Zum Beispiel können Sie ein Konto mit einem freigegebenen Ordner synchronisieren, während Sie ein anderes Konto mit einem privaten Ordner synchronisieren. Auf diesem Bildschirm können Sie Synchronisierungs-Backends hinzufügen oder entfernen, und die Synchronisierung mit am Backend verfügbaren Konten starten oder stoppen. Während die Synchronisierung automatisch in regelmäßigen Abständen stattfindet, können Sie diese hier auch manuell auslösen. Bitte beachten Sie, dass Meine Ausgaben die volle Kontrolle über den entfernten Ordner benötigt. Sie sollten nicht andere Werkzeuge oder Schnittstellen verwenden, um diesen zu verändern, da dies höchstwahrscheinlich zu Fehlern bei der Synchronisation führt.</string>
+  <string name="help_ManageSyncBackends_webdav">WebDAV: Wenn Ihr Cloud-Speicheranbieter dieses Protokoll unterstützt, ist Meine Ausgaben in der Lage, Daten mit diesem zu synchronisieren. Geben Sie einfach die URL zu einem Ordner mit Ihrem Benutzernamen und Passwort ein. Wenn Sie https verwenden und ihr Webserver verwendet ein selbst signiertes Zertifikat, können Sie diesem explizit vertrauen.</string>
+  <string name="help_ManageSyncBackends_drive">Google Drive: Wählen Sie einen beliebigen Ordner, den Sie besitzen oder der mit Ihnen geteilt wird.</string>
+  <string name="menu_create_sync_backend_help_text">Aus dem Untermenü wählen Sie die Art des Synchronisierungs-Backends, das Sie hinzufügen möchten, und ergänzen Sie die dafür benötigten Details.</string>
+  <string name="cab_sync_now_help_text">Sofortige Synchronisierung mit dem gewählten Backend auslösen.</string>
+  <string name="cab_remove_help_text">Entfernen Sie das ausgewählte Backend.</string>
+  <string name="cab_sync_download_help_text">Laden Sie ein Konto, das auf dem Backend zur Verfügung steht. Lokal wird ein neues Konto erstellt und für die Synchronisierung mit dem Backend konfiguriert.</string>
+  <string name="cab_sync_link_help_text">Starten Sie die Synchronisierung für ein Konto, das sowohl lokal als auch am Backend vorhanden ist. Sie müssen entscheiden, ob lokale oder entfernte Daten bei der ersten Synchronisierung behalten werden sollen.</string>
+  <string name="cab_sync_unlink_help_text">Das ausgewählte Konto wird nicht mehr mit dem Backend synchronisiert werden</string>
 </resources>

@@ -95,7 +95,10 @@
   <string name="form_AccountEdit_amount_switch_help_text">Utilisez le commutateur pour démarrer avec un solde négatif.</string>
   <string name="form_currency_help_text">Sélectionnez une devise dans la liste de toutes les monnaies actuelles.</string>
   <string name="form_AccountEdit_type_help_text">Vous pouvez définir le type d\'un compte comme étant espèces, banque, actifs, passifs, ou carte de crédit. Le type détermine les modes de paiement disponibles que vous pouvez configurer sous Paramètres -&gt; Gérer -&gt; modes de paiement.</string>
+  <string name="form_AccountEdit_type_help_text_reconciliation">La fonction de réconciliation est disponible pour tous sauf les comptes de caisse: Il permet de pointer une transaction, une fois que celle-ci est confirmé, et rapprocher le compte avec votre relevé bancaire par le biais de la commande \"Rapprocher le compte\".</string>
   <string name="form_color_help_text">Sur la liste des transactions d\'un compte, sa couleur servira comme couleur d\'interface utilisateur principal.</string>
+  <string name="form_synchronization_help_text_select">Sélectionnez un backend pour la synchronisation dans les nuages.</string>
+  <string name="form_synchronization_help_text_add">Backends peuvent être ajoutés à partir de l\'écran Paramètres.</string>
   <string name="menu_exclude_from_totals_help_text">Si vous cochez cette option, ce compte ne sera pas inclus dans les totaux par devise.</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Formulaire pour méthodes de paiement</string>
@@ -123,4 +126,13 @@
   <string name="cab_sort_down_help_text">Descendre la position d\'un élément dans la liste.</string>
   <string name="form_instant_plan_help_text">Ici, vous pouvez définir un échéancier - quotidien, hebdomadaire, mensuel ou annuel - pour la transaction. Sur l’écran « Modèles et Plans », vous pouvez inspecter cet échéancier et configurer les options avancées. Si une transaction est déjà liée à un plan, vous ne pouvez plus modifier le type de périodicité, mais vous pouvez ouvrir un calendrier affichant toutes les dates récurrentes.</string>
   <!--SyncBackends-->
+  <string name="help_ManageSyncBackends_intro">Mes Dépenses permet de configurer différents backends de synchronisation pour chaque compte. Par exemple, vous pouvez synchroniser un compte avec un dossier partagé, alors que vous synchronisez un autre compte avec un dossier privé. Sur cet écran, vous ajoutez ou supprimez backends de synchronisation, démarrer ou arrêter la synchronisation avec les comptes disponibles à distance. Alors que la synchronisation se fait automatiquement de façon périodique, ici, vous pouvez également la déclencher manuellement avec un backend. S\'il vous plaît être conscient que Mes Dépenses a besoin d\'un contrôle total sur le dossier distant. Vous ne devriez pas utiliser d\'autres outils ou interfaces pour modifier son contenu, car cela conduira très probablement à des défaillances lors de la synchronisation.</string>
+  <string name="help_ManageSyncBackends_webdav">WebDAV: Si votre fournisseur de stockage en nuage supporte ce protocole, Mes dépenses sera en mesure de synchroniser les données avec celui-ci. Il suffit de fournir l\'URL d\'un dossier avec votre nom d\'utilisateur et mot de passe. Si vous utilisez https et votre serveur utilise un certificat auto-signé, vous serez en mesure de faire confiance explicitement.</string>
+  <string name="help_ManageSyncBackends_drive">Google Drive: Choisissez un dossier que vous possédez ou qui est partagé avec vous.</string>
+  <string name="menu_create_sync_backend_help_text">Dans le sous-menu sélectionnez le type de backend que vous souhaitez ajouter, et de fournissez les détails spécifiques à chacun.</string>
+  <string name="cab_sync_now_help_text">Déclencher une synchronisation immédiate avec le backend sélectionné.</string>
+  <string name="cab_remove_help_text">Supprimez le backend sélectionné.</string>
+  <string name="cab_sync_download_help_text">Télécharger un compte qui est disponible sur le backend. Un compte sera créé localement et être configuré pour la synchronisation avec le backend.</string>
+  <string name="cab_sync_link_help_text">Démarrer la synchronisation pour un compte qui existe à la fois localement et à distance. Vous devez décider si les données locales ou distantes doivent être conservés sur la première synchronisation.</string>
+  <string name="cab_sync_unlink_help_text">Le compte sélectionné ne sera plus synchronisé avec le backend</string>
 </resources>
