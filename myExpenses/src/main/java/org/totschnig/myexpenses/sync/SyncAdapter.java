@@ -401,7 +401,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     } else {
       t = new Transaction(getAccount().getId(), amount);
       if (change.label() != null) {
-        t.setCatId(extractCatId(change.label()));
+        long catId = extractCatId(change.label());
+        if (catId != -1) {
+          t.setCatId(catId);
+        }
       }
     }
     t.uuid = change.uuid();
@@ -457,7 +460,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       values.put(KEY_AMOUNT, change.amount());
     }
     if (change.label() != null) {
-      values.put(KEY_CATID, extractCatId(change.label()));
+      long catId = extractCatId(change.label());
+      if (catId != -1) {
+        values.put(KEY_CATID, catId);
+      }
     }
     if (change.payeeName() != null) {
       long id = Payee.extractPayeeId(change.payeeName(), payeeToId);
@@ -503,8 +509,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   }
 
   private long extractCatId(String label) {
-    new CategoryInfo(label).insert(categoryToId);
-    return categoryToId.get(label);
+    new CategoryInfo(label).insert(categoryToId, false);
+    return categoryToId.get(label) != null ? categoryToId.get(label) : -1;
   }
 
   private long extractMethodId(String methodLabel) {

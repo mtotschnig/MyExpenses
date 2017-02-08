@@ -248,7 +248,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
 
   private void insertCategories(Set<QifCategory> categories) {
     for (QifCategory category : categories) {
-      totalCategories += category.insert(categoryToId);
+      totalCategories += category.insert(categoryToId, true);
     }
   }
 

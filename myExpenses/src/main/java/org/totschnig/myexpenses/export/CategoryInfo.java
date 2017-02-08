@@ -73,29 +73,30 @@ public class CategoryInfo {
      * inserts the category to the database if needed
      * @param categoryToId a map which caches the relation between the category name and the database
      *                     id, both the root and the child category are place in this map
+     * @param stripQifCategoryClass
      * @return the number of new elements added to the database
      */
-    public int insert(Map<String, Long> categoryToId) {
+    public int insert(Map<String, Long> categoryToId, boolean stripQifCategoryClass) {
         countInserted = 0;
-        insertCategory(extractCategoryName(),categoryToId);
+        String name = stripQifCategoryClass ? stripCategoryClass(getName()) : getName();
+        insertCategory(reduceToTwoLevels(name), categoryToId);
         return countInserted;
     }
 
-    /**
-     *
-     * @return name, whwere we get rid of class, reduce to two levels
-     */
-    private String extractCategoryName() {
-        String result = getName();
-        int i = result.indexOf('/');
+    private String stripCategoryClass(String name) {
+        int i = name.indexOf('/');
         if (i != -1) {
-            result = result.substring(0, i);
+            return name.substring(0, i);
         }
-        if (StringUtils.countMatches(result,':')>1) {
-            String parts[] = result.split(":");
-            result = parts[0]+":"+parts[1];
+        return name;
+    }
+
+    private String reduceToTwoLevels(String name) {
+        if (StringUtils.countMatches(name, ':') > 1) {
+            String parts[] = name.split(":");
+            return parts[0]+":"+parts[1];
         }
-        return result;
+        return name;
     }
 
     private void insertCategory(String name, Map<String, Long> categoryToId) {

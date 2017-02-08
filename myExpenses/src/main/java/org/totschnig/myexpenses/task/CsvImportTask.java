@@ -187,7 +187,7 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
           }
         }
         if (!TextUtils.isEmpty(categoryInfo)) {
-          new CategoryInfo(categoryInfo).insert(categoryToId);
+          new CategoryInfo(categoryInfo).insert(categoryToId, false);
           t.setCatId(categoryToId.get(categoryInfo));
         }
         if (columnIndexDate != -1) {
