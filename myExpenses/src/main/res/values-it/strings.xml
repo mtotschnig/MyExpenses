@@ -315,7 +315,7 @@
   <string name="pref_manage_categories_summary">Aggiungere, modificare, eliminare categorie.</string>
   <string name="pref_manage_categories_title">Categorie</string>
   <string name="pref_manage_methods_summary">Creare e modificare modalità di pagamento e associarle a tipi di conto.</string>
-<string name="pref_manage_methods_title">Modalità di pagamento</string>
+  <string name="pref_manage_methods_title">Modalità di pagamento</string>
   <string name="pref_manage_parties_summary">Aggiungere, modificare, cancellare beneficiari.</string>
   <string name="pref_manage_parties_title">Beneficiari</string>
   <string name="pref_manage_sync_backends_title">Backend di sincronizzazione</string>
@@ -623,10 +623,6 @@
   <string name="dialog_synced_to_other">Un account con uuid %s esiste già nel database locale ed è collegato ad un backend remoto diverso.</string>
   <string name="menu_remove">Rimuovere</string>
   <string name="dialog_confirm_sync_remove_backend">Il backend remoto %s verrà rimosso. Ciò non influirà sui dati memorizzati localmente o in remoto, ma lo stato di sincronizzazione verrà perso. Si desidera continuare?</string>
-  <string name="template">Modello</string>
-
-
-  <!-- Added by Claudio Fusillo -->
   <string name="dialog_confirm_sync_link_local">I dati remoti per questo account saranno cancellati. Accertati che non ci siano altri dispositivi collegati all\'account.</string>
   <string name="dialog_confirm_sync_link_remote">I dati locali per questo account saranno cancellati.</string>
   <string name="warning_synchronization_limited_trial">La funzionalità di sincronizzazione può essere provata fino al %s.</string>
@@ -639,4 +635,5 @@
   <string name="link_account_failure_2">Un account con lo stesso uuid esiste già sul backend remoto.</string>
   <string name="link_account_failure_3">Il conflitto può essere risolto manualmente dalle voci del menu contestuale.</string>
   <string name="progress_dialog_checking_sync_backend">Verificando il backend</string>
+  <string name="template">Modello</string>
 </resources>
