@@ -2,17 +2,22 @@ package org.totschnig.myexpenses.test.espresso;
 
 import android.content.OperationApplicationException;
 import android.database.Cursor;
+import android.database.DataSetObserver;
 import android.os.Build;
 import android.os.RemoteException;
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.IdlingResource;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 
 import org.hamcrest.Matcher;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,9 +46,11 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
@@ -56,10 +63,11 @@ public final class MyExpensesCabTest extends MyExpensesTestBase {
   @Rule
   public ActivityTestRule<MyExpenses> mActivityRule =
       new ActivityTestRule<>(MyExpenses.class);
-  private static Account account;
+  private Account account;
+  private AdapterIdlingResource adapterIdlingResource;
 
-  @BeforeClass
-  public static void fixture() {
+  @Before
+  public void fixture() {
     account = Account.getInstanceFromDb(0);
     Transaction op0 = Transaction.getNewInstance(account.getId());
     op0.setAmount(new Money(Currency.getInstance("USD"),-1200L));
@@ -68,11 +76,17 @@ public final class MyExpensesCabTest extends MyExpensesTestBase {
     for (int i = 0; i < times; i++) {
       op0.saveAsNew();
     }
+    adapterIdlingResource = new AdapterIdlingResource(getList().getAdapter(), MyExpensesCabTest.class.getSimpleName());
+    Espresso.registerIdlingResources(adapterIdlingResource);
+    onView(isRoot()).check(matches(anything()));
   }
 
-  @AfterClass
-  public static void tearDown() throws RemoteException, OperationApplicationException {
+  @After
+  public void tearDown() throws RemoteException, OperationApplicationException {
     account.reset(null, Account.EXPORT_HANDLE_DELETED_DO_NOTHING, null);
+    if (adapterIdlingResource != null) {
+      Espresso.unregisterIdlingResources(adapterIdlingResource);
+    }
   }
 
   @Test
@@ -181,5 +195,40 @@ public final class MyExpensesCabTest extends MyExpensesTestBase {
         isAssignableFrom(AdapterView.class),
         isDescendantOfA(withId(R.id.list)),
         isDisplayed());
+  }
+
+  private class AdapterIdlingResource implements IdlingResource {
+    private String name;
+    private ResourceCallback callback;
+    private Adapter adapter;
+
+    public AdapterIdlingResource(Adapter adapter, String name) {
+      this.adapter = adapter;
+      adapter.registerDataSetObserver(new DataSetObserver() {
+        @Override
+        public void onChanged() {
+          if (isIdleNow() && callback != null) {
+            callback.onTransitionToIdle();
+          }
+        }
+      });
+      this.name = name;
+    }
+
+    @Override
+    public String getName() {
+      return name;
+    }
+
+    @Override
+    public boolean isIdleNow() {
+      boolean idle = adapter.getCount() > 0;
+      return idle;
+    }
+
+    @Override
+    public void registerIdleTransitionCallback(ResourceCallback resourceCallback) {
+      callback = resourceCallback;
+    }
   }
 }
