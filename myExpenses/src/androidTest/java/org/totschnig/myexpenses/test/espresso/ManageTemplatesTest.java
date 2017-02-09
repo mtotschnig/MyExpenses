@@ -36,10 +36,11 @@ public class ManageTemplatesTest {
   public IntentsTestRule<ManageTemplates> mActivityRule =
       new IntentsTestRule<>(ManageTemplates.class);
   private static Template template;
+  private static Account account;
 
   @BeforeClass
   public static void fixture() {
-    Account account = Account.getInstanceFromDb(0);
+    account = Account.getInstanceFromDb(0);
     template = new Template(account, -1200L);
     template.setTitle("Espresso Test Template");
     template.save();
@@ -48,6 +49,7 @@ public class ManageTemplatesTest {
   @AfterClass
   public static void tearDown() {
     Template.delete(template.getId());
+    account.reset(null, Account.EXPORT_HANDLE_DELETED_DO_NOTHING, null);
   }
 
   @Before
