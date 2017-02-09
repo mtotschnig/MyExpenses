@@ -1,91 +1,94 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_275">
+    <item>Sincronización entre varios dispositivos vía servicios en la nube</item>
+  </string-array>
   <string-array name="whats_new_271">
-    <item>Los problemas con los planes de los dispositivos de Samsung se resuelven</item>
-    <item>Editar transacciones desde pantalla de distribución</item>
+    <item>Se han resuelto problemas en los proyectos con dispositivos Samsung</item>
+    <item>Editar transacciones desde la pantalla de distribución</item>
   </string-array>
   <string-array name="whats_new_270">
-    <item>Nuevo icono de lanzador</item>
-    <item>Búsqueda para las transferencias</item>
-    <item>Los planes pueden ser ordenados por instancia siguiente</item>
+    <item>Nuevo icono</item>
+    <item>Búsqueda para transferencias</item>
+    <item>Los proyectos pueden ser ordenados por futuras instancias</item>
   </string-array>
   <string-array name="whats_new_269">
-    <item>El formulario de transacción permite crear directamente la repetición</item>
+    <item>El formulario de transacción permite crear directamente repeticiones</item>
   </string-array>
   <string-array name="whats_new_268">
-    <item>Configuración de transacciones recurrentes y futuras más fácil.</item>
+    <item>Configuración más fácil de transacciones recurrentes y futuras.</item>
   </string-array>
   <string-array name="whats_new_267">
-    <item>Traducción al chino simplificado</item>
-    <item>Mejorando la gestión de las instancias de planes</item>
+    <item>Traducción simplificada al chino</item>
+    <item>Gestión de proyectos de instancias mejorado</item>
   </string-array>
   <string-array name="whats_new_266">
     <item>Nuevos iconos de menú</item>
   </string-array>
   <string-array name="whats_new_265">
-    <item>Clasificación de las plantillas, categorías y cuentas más fácil</item>
+    <item>Clasificación de plantillas, categorías y cuentas mejorado</item>
   </string-array>
   <string-array name="whats_new_264">
-    <item>Pantalla de categorías puede ser buscada</item>
-    <item>Saldo de la cuenta puede copiarse al portapapeles</item>
-    <item>Pegar en la calculadora desde el portapapeles</item>
-    <item>Ayuda para formato de fecha en cuadro de diálogo de exportación</item>
+    <item>Se pueden buscar pantallas de categorías</item>
+    <item>El saldo de la cuenta puede copiarse al portapapeles</item>
+    <item>Se puede pegar en la calculadora desde el portapapeles</item>
+    <item>Ayuda para formatear fecha en el cuadro de diálogo de exportación</item>
   </string-array>
   <string-array name="whats_new_263">
     <item>Transferencias entre cuentas con distintas divisas</item>
   </string-array>
   <string-array name="whats_new_262">
-    <item>Días donde se puede configurar inicio de semana y mes</item>
+    <item>Se puede configurar como inicio días en lugar de semanas y meses</item>
   </string-array>
   <string-array name="whats_new_261">
-    <item>Categorías se pueden mover</item>
+    <item>Se pueden mover las categorías</item>
   </string-array>
   <string-array name="whats_new_260">
-    <item>Material design</item>
+    <item>Material Design</item>
     <item>Mejor diseño de tableta</item>
     <item>Soporte para Samsung Knox</item>
   </string-array>
   <string-array name="whats_new_251">
     <item>Formato de número configurable</item>
-    <item>Traducción en danés</item>
+    <item>Traducción a danés</item>
   </string-array>
   <string-array name="whats_new_250">
-    <item>Importación de CSV</item>
-    <item>Traducción de Coreano</item>
+    <item>Importación a CSV</item>
+    <item>Traducción a Coreano</item>
   </string-array>
   <string-array name="whats_new_249">
     <item>Exportación de categorías a QIF</item>
     <item>Visualizar sumas acumuladas en el widget de la pantalla de inicio</item>
   </string-array>
   <string-array name="whats_new_248">
-    <item>El estado de las transacciones clonadas se restablece a reconciliada</item>
-    <item>Alternativa restaurar el método para dispositivos sin el administrador de archivos</item>
+    <item>Se restablece el estado de las transacciones copiadas a reconciliadas</item>
+    <item>Alternativa al método de restaurar para dispositivos sin administrador de archivos</item>
   </string-array>
   <string-array name="whats_new_247">
-    <item>Comando clon abre formulario de edición</item>
+    <item>El comando de copiado abre el formulario de edición</item>
   </string-array>
   <string-array name="whats_new_246">
-    <item>Las transacciones se pueden establecer en estado \"Inválida\"</item>
+    <item>Las transacciones se pueden establecer con estado de \"Inválida\"</item>
   </string-array>
   <string-array name="whats_new_245">
-    <item>La función \"Exportar y restablecer\" ahora puede ser aplicada a las transacciones igualadas por filtro de búsqueda</item>
+    <item>La función \"Exportar y restablecer\" ahora puede ser aplicada a las transacciones coincidentes por filtro de búsqueda</item>
   </string-array>
   <string-array name="whats_new_244">
     <item>Filtro de búsqueda por duración</item>
-    <item>Filtros por método, el beneficiario, estado y categoría ahora permiten selección múltiple</item>
-    <item>Traducción en euskera</item>
+    <item>Los filtros por método, acreedor, estado y categoría ahora permiten selección múltiple</item>
+    <item>Traducción a eusquera</item>
   </string-array>
   <string-array name="whats_new_243">
-    <item>Si la aplicación esta protegida por contraseña , fotos se almacenan en almacenamiento interno</item>
+    <item>Si la aplicación está protegida por contraseña, las fotos se almacenarán en el almacenamiento interno</item>
   </string-array>
   <string-array name="whats_new_242">
-    <item>Adjuntar imagen de transacción</item>
+    <item>Adjuntar imagen a la transacción</item>
   </string-array>
   <string-array name="whats_new_241">
     <item>Diagrama circular de la distribución por categoría</item>
   </string-array>
   <string-array name="whats_new_240">
-    <item>Transformar el asiento normal en asiento dividido</item>
+    <item>Transformar la transacción normal en transacción dividida</item>
   </string-array>
   <string name="bug_fixes">Corrección de errores</string>
 </resources>
