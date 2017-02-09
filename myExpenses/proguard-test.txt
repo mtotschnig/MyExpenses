@@ -5,3 +5,4 @@
 -dontwarn android.support.test.espresso.contrib.**
 -dontwarn org.junit.**
 -dontwarn android.support.test.runner.MonitoringInstrumentation
+-dontwarn org.mockito.**
