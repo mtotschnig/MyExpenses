@@ -609,6 +609,7 @@
   <string name="menu_create_sync_backend">Nuova sincronizzazione backend</string>
   <string name="validate_error_not_empty">Non deve essere vuoto</string>
   <string name="validate_error_webdav_invalid_certificate">Il certificato potrebbe non essere attendibile. Sembra non valido.</string>
+  <string name="validate_error_webdav_not_compliant">L\'URL non punta a una risorsa WebDAV.</string>
   <string name="url_not_valid">URL non valido</string>
   <string name="menu_sync_unlink">Interrompere la sincronizzazione</string>
   <string name="menu_sync_link">Avviare la sincronizzazione.</string>

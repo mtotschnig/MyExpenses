@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_275">
+    <item>Synchronisation à travers les dispositifs via les services dans les nuages</item>
+  </string-array>
   <string-array name="whats_new_271">
     <item>Problèmes avec les plans sur les appareils de Samsung sont résolus</item>
     <item>Modifier les transactions à partir de l’écran de la distribution</item>

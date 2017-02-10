@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_275">
+    <item>Synchronisierung zwischen mehreren Geräten über Cloud-Dienste</item>
+  </string-array>
   <string-array name="whats_new_271">
     <item>Probleme mit Plänen auf Samsung-Geräten behoben</item>
     <item>Buchungen können von der Verteilungsansicht aus bearbeitet werden.</item>
