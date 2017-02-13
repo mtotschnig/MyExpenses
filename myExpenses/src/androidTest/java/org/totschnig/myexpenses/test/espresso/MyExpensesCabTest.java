@@ -9,7 +9,6 @@ import android.support.test.espresso.Espresso;
 import android.support.test.espresso.IdlingResource;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Adapter;
@@ -43,6 +42,7 @@ import static android.support.test.espresso.action.ViewActions.pressKey;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -51,6 +51,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
+import static org.hamcrest.Matchers.both;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
@@ -141,6 +142,21 @@ public final class MyExpensesCabTest extends MyExpensesTestBase {
     performContextMenuClick(R.string.menu_delete, R.id.DELETE_COMMAND);
     onView(withText(R.string.menu_delete)).perform(click());
     onView(getWrappedList()).check(matches(withListSize(origListSize - 1)));
+  }
+
+  @Test
+  public void deleteCommandWithVoidOption() {
+    int origListSize = getList().getAdapter().getCount();
+    onData(is(instanceOf(Cursor.class)))
+            .inAdapterView(getWrappedList())
+            .atPosition(1) // position 0 is header
+            .perform(longClick());
+    performContextMenuClick(R.string.menu_delete, R.id.DELETE_COMMAND);
+    onView(withId(R.id.checkbox)).perform(click());
+    onView(withText(R.string.menu_delete)).perform(click());
+    onData(is(instanceOf(Cursor.class))).inAdapterView(getWrappedList()).atPosition(1)
+            .check(matches(hasDescendant(both(withId(R.id.voidMarker)).and(isDisplayed()))));
+    onView(getWrappedList()).check(matches(withListSize(origListSize)));
   }
 
   @Test
