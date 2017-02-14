@@ -1791,6 +1791,7 @@ public class ExpenseEdit extends AmountActivity implements
           findSplitPartList().updateParent(mRowId);
         } else {
           mTransaction.setId(0L);
+          mTransaction.uuid = Model.generateUuid();
           mRowId = 0L;
           mReccurenceSpinner.getSpinner().setVisibility(View.VISIBLE);
           mReccurenceSpinner.setSelection(0);

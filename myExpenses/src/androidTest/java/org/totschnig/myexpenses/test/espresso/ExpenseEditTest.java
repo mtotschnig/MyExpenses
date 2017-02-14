@@ -21,10 +21,15 @@ import org.totschnig.myexpenses.test.util.Matchers;
 import java.util.Currency;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertEquals;
+import static org.totschnig.myexpenses.test.util.Matchers.inToast;
 
 public class ExpenseEditTest {
 
@@ -122,4 +127,23 @@ public class ExpenseEditTest {
     }
   }
 
+
+  @Test
+  public void saveAsNewWorksMultipleTimesInARow() {
+    Intent i = new Intent(Intent.ACTION_EDIT);
+    i.setClassName("org.totschnig.myexpenses.activity", "org.totschnig.myexpenses.activity.ExpenseEdit");
+    i.putExtra("operationType", MyExpenses.TYPE_TRANSACTION);
+    i.putExtra(DatabaseConstants.KEY_ACCOUNTID, account1.getId());
+    mActivityRule.launchActivity(i);
+    String success = mActivityRule.getActivity().getString(R.string.save_transaction_and_new_success);
+    int times = 5;
+    int amount = 2;
+    for (int j = 0; j < times; j++) {
+      onView(withId(R.id.Amount)).perform(typeText(String.valueOf(amount)));
+      onView(withId(R.id.SAVE_AND_NEW_COMMAND)).perform(click());
+      onView(withText(success)).inRoot(inToast()).check(matches(isDisplayed()));
+    }
+    //we assume two fraction digits
+    assertEquals("Transaction sum does not match saved transactions", account1.getTransactionSum(null), - amount * times * 100);
+  }
 }
