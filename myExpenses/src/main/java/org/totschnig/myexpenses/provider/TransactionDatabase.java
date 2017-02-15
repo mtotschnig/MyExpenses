@@ -124,7 +124,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 59;
+  public static final int DATABASE_VERSION = 60;
   public static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -1459,6 +1459,11 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       db.execSQL("CREATE TRIGGER update_increase_account_usage AFTER UPDATE ON transactions WHEN new.parent_id IS NULL AND new.account_id != old.account_id AND (old.transfer_account IS NULL OR new.account_id != old.transfer_account) BEGIN UPDATE accounts SET usages = usages + 1, last_used = strftime('%s', 'now')  WHERE _id = new.account_id; END;");
       db.execSQL("CREATE TRIGGER update_account_sync_null AFTER UPDATE ON accounts WHEN new.sync_account_name IS NULL AND old.sync_account_name IS NOT NULL BEGIN UPDATE accounts SET sync_sequence_local = 0 WHERE _id = old._id; DELETE FROM changes WHERE account_id = old._id; END;");
       refreshViews2(db);
+    }
+
+    if (oldVersion < 60) {
+      // Repair inconsistent uuids for transfers
+      db.execSQL("UPDATE transactions set uuid = (select uuid from transactions peers where peers._id = transactions.transfer_peer) where transfer_peer > _id");
     }
   }
 

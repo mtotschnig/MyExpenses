@@ -1303,11 +1303,12 @@ public class TransactionProvider extends ContentProvider {
       if ("1".equals(uri.getQueryParameter(QUERY_PARAMETER_INIT))) {
         db.beginTransaction();
         try {
-          c = db.query(TABLE_TRANSACTIONS, new String[]{KEY_ROWID}, KEY_UUID + " IS NULL", null, null, null, null);
+          c = db.query(TABLE_TRANSACTIONS, new String[]{KEY_ROWID}, KEY_UUID + " IS NULL AND " + KEY_ROWID + " < " + KEY_TRANSFER_PEER, null, null, null, null);
           if (c.moveToFirst()) {
             while (!c.isAfterLast()) {
-              db.execSQL("UPDATE " + TABLE_TRANSACTIONS + " SET " + KEY_UUID + " = ? WHERE " + KEY_ROWID + " = ?",
-                new String[] {Model.generateUuid(), c.getString(0)});
+              String idString = c.getString(0);
+              db.execSQL("UPDATE " + TABLE_TRANSACTIONS + " SET " + KEY_UUID + " = ? WHERE " + KEY_ROWID + " = ? OR " + KEY_TRANSFER_PEER + " = ?",
+                new String[] {Model.generateUuid(), idString, idString});
               c.moveToNext();
             }
           }
