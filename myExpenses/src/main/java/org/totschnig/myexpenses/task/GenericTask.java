@@ -584,8 +584,8 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         int requested = ids.length;
         c = cr.query(TransactionProvider.ACCOUNTS_URI,
             new String[]{KEY_ROWID},
-            KEY_ROWID + " " + WhereFilter.Operation.IN.getOp(requested) + " AND NOT " +
-                KEY_UUID + " " + WhereFilter.Operation.IN.getOp(remoteUuidList.size()),
+            KEY_ROWID + " " + WhereFilter.Operation.IN.getOp(requested) + " AND (" + KEY_UUID + " IS NULL OR NOT " +
+                KEY_UUID + " " + WhereFilter.Operation.IN.getOp(remoteUuidList.size()) + ")",
             Stream.concat(
                 Stream.of(((Long[]) ids)).map(String::valueOf),
                 Stream.of(remoteUuidList))
