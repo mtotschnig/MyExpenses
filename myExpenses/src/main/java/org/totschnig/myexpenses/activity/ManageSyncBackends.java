@@ -49,10 +49,11 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
   private static final String KEY_PACKED_POSITION = "packedPosition";
   private Account newAccount;
 
-  private List<SyncBackendProviderFactory> backendProviders = ServiceLoader.load();
+  private List<SyncBackendProviderFactory> backendProviders;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
+    backendProviders = ServiceLoader.load(this);
     setTheme(MyApplication.getThemeIdEditDialog());
     super.onCreate(savedInstanceState);
     setContentView(R.layout.manage_sync_backends);

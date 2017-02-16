@@ -408,7 +408,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
 
         findPreference(getString(R.string.pref_manage_sync_backends_key)).setSummary(
             getString(R.string.pref_manage_sync_backends_summary,
-                Stream.of(ServiceLoader.load())
+                Stream.of(ServiceLoader.load(getContext()))
                     .map(SyncBackendProviderFactory::getLabel)
                     .collect(Collectors.joining(", "))) +
                 " " + ContribFeature.SYNCHRONIZATION.buildRequiresString(getActivity()));
