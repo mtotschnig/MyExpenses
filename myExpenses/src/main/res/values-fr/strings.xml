@@ -589,7 +589,7 @@
   <string name="content_description_calculator_clear_button">Réinitialiser tous</string>
   <string name="content_description_calculator_delete_button">Supprimer le dernier chiffre</string>
   <string name="paypal_transaction_id">N° d\'opération Paypal</string>
-  <string name="paypal_callback_info">Votre transaction s\'est bien terminée,  et un reçu de votre achat vous a été envoyé par courriel. Vous pouvez vous connecter sur votre compte PayPal pour voir les détails de cette transaction.  </string>
+  <string name="paypal_callback_info">Votre transaction s\'est bien terminée,  et un reçu de votre achat vous a été envoyé par courriel. Vous pouvez vous connecter sur votre compte PayPal pour voir les détails de cette transaction.</string>
   <string name="paypal_callback_later_clicked_info">A partir de l\'écran des paramètres,  vous pouvez demander une clé n\'importe quand. </string>
   <string name="search_transfer">Recherche de transfert</string>
   <!--Sort plans (recurring transactions) by the next instance-->
@@ -619,7 +619,7 @@
   <string name="pref_sync_frequency_summary">À quelle fréquence les données devraient être synchronisés (en heures)</string>
   <string name="dialog_confirm_sync_unlink">Si vous supprimez le lien de ce compte de %s, l’état de synchronisation se perdra. Pour les relier à nouveau plus tard, il sera nécessaire de faire une synchronisation complète pour être de nouveau exécutée.</string>
   <string name="dialog_sync_link">Un compte avec l’uuid %s existe dans la base de données locale et sur le serveur distant. Lorsque vous liez les deux, vous devez décider, si, au départ, vous souhaitez télécharger les données locales au serveur distant ou télécharger des données distantes à la base de données locale.</string>
-  <string name="dialog_command_sync_link_remote">Télécharger du site éloigné</string>
+  <string name="dialog_command_sync_link_remote">Télécharger du site distant</string>
   <string name="dialog_command_sync_link_local">Télécharger en local</string>
   <string name="dialog_synced_to_other">Un compte avec l’uuid %s déjà existe dans la base de données locale et est lié à un serveur distant différent.</string>
   <string name="menu_remove">Supprimer</string>
@@ -633,7 +633,7 @@
   <string name="select_unsynced_accounts">Sélectionnez les comptes à être synchronisés avec ce backend</string>
   <string name="link_account_success" tools:ignore="PluralsCandidate">%d comptes ont été configurés pour être synchronisés avec le backend.</string>
   <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d comptes n\'ont pas pu être configurés pour être synchronisés avec le backend.</string>
-  <string name="link_account_failure_2">Un compte avec le même UUID existe déjà sur le backend à distance.</string>
+  <string name="link_account_failure_2">Un compte avec le même UUID existe déjà sur le serveur à distance.</string>
   <string name="link_account_failure_3">Le conflit peut être résolu manuellement à partir du menu contextuel de l\'entrée.</string>
   <string name="progress_dialog_checking_sync_backend">Vérification du backend</string>
   <string name="template">Modèle</string>

@@ -600,5 +600,21 @@ Librezale.eus</string>
   <string name="synchronization_none">Sinkronizaziorik ez</string>
   <string name="hint_url">URLa</string>
   <string name="description_webdav_url">Idatzi mesedez zure WebDAV zerbitzariko karpeta berezi baten URLa. Nire gastuak bere datuak karpeta honetan gordeko ditu, ez du hortik kanpoko ezer ikutuko.</string>
+  <string name="hint_user_name">Erabiltzaile-izena</string>
+  <string name="hint_password">Pasahitza</string>
+  <string name="validate_error_not_empty">Ezin da hutsik egon</string>
+  <string name="validate_error_webdav_not_compliant">URLak ez darama WevDAV baliabide batetara.</string>
+  <string name="url_not_valid">URL baliogabea</string>
+  <string name="menu_sync_unlink">Gelditu sinkronizazioa</string>
+  <string name="menu_sync_link">Hasi sinkronizazioa</string>
+  <string name="menu_sync_download">Deskargatu eta sinkronizatu</string>
+  <string name="menu_sync_now">Sinkronizatu orain</string>
+  <string name="pref_sync_frequency_title">Sinkronizazioaren maiztasuna</string>
+  <string name="pref_sync_frequency_summary">Zenbat orduetan behin sinkronizatu behar litzateke datuak
+</string>
+  <string name="dialog_command_sync_link_remote">Deskargatu urruneko helbidetik</string>
+  <string name="dialog_command_sync_link_local">Igo tokiko biltegitik</string>
+  <string name="menu_remove">Kendu</string>
+  <string name="dialog_confirm_sync_link_remote">Kontu honen tokiko informazioa ezabatuko da.</string>
   <string name="template">Txantiloia</string>
 </resources>

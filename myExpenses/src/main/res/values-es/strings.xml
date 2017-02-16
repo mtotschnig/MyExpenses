@@ -121,18 +121,18 @@
   <string name="expense">Gasto</string>
   <string name="export_expenses">Exportar gastos</string>
   <!--1$s is replaced with path to file, 2$s with error message-->
-  <string name="export_sdcard_failure">Exportación  al archivo %1$s ha fallado: %2$s</string>
+  <string name="export_sdcard_failure">Exportar al archivo %1$s ha fallado: %2$s</string>
   <!--1$s is replaced with path to file-->
-  <string name="export_sdcard_success">Datos han sido exportados al archivo %1$s</string>
-  <string name="external_storage_unavailable">La memoria externa (tarjeta SD) no disponible.</string>
-  <string name="feedback">Feedback</string>
-  <string name="feedback_email_message">¡Envíenos su opinión, en inglés, francés o alemán, por favor!</string>
+  <string name="export_sdcard_success">Los datos han sido exportado al archivo \"%1$s\" correctamente</string>
+  <string name="external_storage_unavailable">La memoria externa (tarjeta SD) no está disponible</string>
+  <string name="feedback">Comentarios</string>
+  <string name="feedback_email_message">¡Por favor! Envíe su opinión en inglés, frances o alemán.</string>
   <string name="ftp_uri_malformed">URI %1$s inválido</string>
-  <string name="grisbi_import_categories_loading">Las categorías se cargan desde %1$s</string>
+  <string name="grisbi_import_categories_loading">Cargando categorías desde %1$s</string>
   <string name="grisbi_import_default_source">Categorías predeterminadas en español</string>
-  <string name="grisbi_import_parties_loading">Partidos se cargan desde %1$s</string>
+  <string name="grisbi_import_parties_loading">Cargando grupos desde %1$s</string>
   <string name="grouping_day">Día</string>
-  <string name="grouping_last_week">Semana pasada</string>
+  <string name="grouping_last_week">La semana pasada</string>
   <string name="grouping_month">Mes</string>
   <string name="grouping_none">Desagrupada</string>
   <string name="grouping_this_week">Esta semana</string>
@@ -140,7 +140,7 @@
   <string name="grouping_week">Semana</string>
   <string name="grouping_year">Año</string>
   <string name="grouping_yesterday">Ayer</string>
-  <string name="help_button_rate">Dé su revisión</string>
+  <string name="help_button_rate">Valorar o dar opinión</string>
   <string name="help_contextuel_help">Puede encontrar más información acerca de las funcionalidades disponibles a través de la entrada Ayuda del menú.</string>
   <string name="help_heading_credits">Créditos</string>
   <string name="help_heading_license">Licencia</string>

@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string-array name="whats_new_275">
+    <item>Συγχρονισμό μεταξύ συσκευών μέσω υπηρεσιών σύννεφου</item>
+  </string-array>
+  <string-array name="whats_new_269">
+    <item>Η φόρμα συναλλαγής σας επιτρέπει να δημιουργήσετε άμεσα επαναλήψεις</item>
+  </string-array>
+  <string-array name="whats_new_268">
+    <item>Η δημιουργία επαναλαμβανόμενων και μελλοντικών συναλλαγών είναι πλέον ευκολότερη.</item>
+  </string-array>
+  <string-array name="whats_new_266">
+    <item>Νέα εικονίδια μενού</item>
+  </string-array>
+  <string-array name="whats_new_261">
+    <item>Επιτρέπεται η μετακίνηση κατηγοριών</item>
+  </string-array>
+  <string-array name="whats_new_260">
+    <item>Material design</item>
+    <item>Βελτίωση εμφάνισης σε ταμπλέτες</item>
+    <item>Υποστήριξη Samsung Knox</item>
+  </string-array>
+  <string-array name="whats_new_251">
+    <item>Ρυθμιζόμενος τρόπος εμφάνισης αριθμός</item>
+    <item>Δανέζικη μετάφραση</item>
+  </string-array>
+  <string-array name="whats_new_250">
+    <item>Εισαγωγή CSV</item>
+    <item>Κορεάτικη μετάφραση</item>
+  </string-array>
+  <string-array name="whats_new_246">
+    <item>Οι συναλλαγές τώρα μπορούν να οριστούν ως \"άκυρες\"</item>
+  </string-array>
+  <string name="bug_fixes">Διορθώσεις σφαλμάτων</string>
+</resources>
