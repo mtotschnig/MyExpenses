@@ -38,4 +38,8 @@ public abstract class SyncBackendProviderFactory {
   public abstract String getLabel();
 
   public abstract void startSetup(ManageSyncBackends activity);
+
+  public boolean isEnabled() {
+    return true;
+  }
 }

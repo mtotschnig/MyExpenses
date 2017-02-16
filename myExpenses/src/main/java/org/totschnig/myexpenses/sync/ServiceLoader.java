@@ -17,7 +17,10 @@ public class ServiceLoader {
 
   private static void tryToInstantiate(List<SyncBackendProviderFactory> services, String className) {
     try {
-      services.add((SyncBackendProviderFactory) Class.forName(className).newInstance());
+      SyncBackendProviderFactory factory = (SyncBackendProviderFactory) Class.forName(className).newInstance();
+      if (factory.isEnabled()) {
+        services.add(factory);
+      }
     } catch (InstantiationException | ClassNotFoundException | IllegalAccessException | ClassCastException ignored) {
     }
   }
