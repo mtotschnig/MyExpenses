@@ -22,7 +22,6 @@ import android.annotation.TargetApi;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentProviderOperation;
-import android.content.ContentProviderResult;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.OperationApplicationException;
@@ -42,6 +41,7 @@ import com.annimon.stream.Collectors;
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 
+import org.apache.commons.collections4.ListUtils;
 import org.totschnig.myexpenses.export.CategoryInfo;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.ContribFeature;
@@ -83,6 +83,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
   private static final String TAG = SyncAdapter.class.getSimpleName();
+  public static final int BATCH_SIZE = 100;
+
   public static String KEY_LAST_SYNCED_REMOTE(long accountId) {
     return "last_synced_remote_" + accountId;
   }
@@ -236,8 +238,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
               remoteChanges = mergeResult.second;
 
               if (remoteChanges.size() > 0) {
-                ContentProviderResult[] contentProviderResults = writeRemoteChangesToDb(provider, remoteChanges, accountId);
-                if (contentProviderResults.length == 0) {
+                if (writeRemoteChangesToDb(provider, remoteChanges, accountId)) {
                   throw new OperationApplicationException("write to db yielded no results");
                 }
                 accountManager.setUserData(account, lastRemoteSyncKey, String.valueOf(lastSyncedRemote));
@@ -334,15 +335,27 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         .collect(Collectors.toList());
   }
 
-  private ContentProviderResult[] writeRemoteChangesToDb(ContentProviderClient provider, List<TransactionChange> remoteChanges, long accountId)
+  private boolean writeRemoteChangesToDb(ContentProviderClient provider, List<TransactionChange> remoteChanges, long accountId)
       throws RemoteException, OperationApplicationException {
+    if (remoteChanges.size() > BATCH_SIZE) {
+      for (List<TransactionChange> part: ListUtils.partition(remoteChanges, BATCH_SIZE)) {
+        if (!writeRemoteChangesToDbPart(provider, part, accountId)) {
+          return false;
+        }
+      }
+      return true;
+    }
+    return writeRemoteChangesToDbPart(provider, remoteChanges, accountId);
+  }
+
+  private boolean writeRemoteChangesToDbPart(ContentProviderClient provider, List<TransactionChange> remoteChanges, long accountId) throws RemoteException, OperationApplicationException {
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
     Uri accountUri = TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(accountId)).build();
     ops.add(ContentProviderOperation.newUpdate(accountUri).withValue(KEY_SYNC_FROM_ADAPTER, true).build());
     Stream.of(remoteChanges).filter(change -> !(change.isCreate() && uuidExists(change.uuid())))
         .forEach(change -> collectOperations(change, ops, -1));
     ops.add(ContentProviderOperation.newUpdate(accountUri).withValue(KEY_SYNC_FROM_ADAPTER, false).build());
-    return provider.applyBatch(ops);
+    return provider.applyBatch(ops).length > 0;
   }
 
   private boolean uuidExists(String uuid) {
