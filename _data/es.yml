@@ -1,80 +1,83 @@
 es:
-  imprint: Imprint
-  hero_main: "Gestión de las finanzas personales para Android"
+  imprint: Impresión
+  hero_main: "Gestor de finanzas personales para Android"
   hero_sub:
     use: "Fácil de usar"
-    functionality: "Rico en funcionalidad"
-    source: "Open Source"
+    functionality: "Abundantes funcionalidades"
+    source: "Código abierto"
   menu_title:
     more_information: Más información
   sections:
     features: Características
-    premium: Ir Premium
+    premium: Hazte Premium
     participate: Participar
     faq: FAQ
-    versionlist: Cambios
+    versionlist: Registro de cambios
     credits: Créditos
     licence: Licencia
     sourcecode: Código fuente
     links: Enlaces
   features:
     manage_accounts: Hasta cinco cuentas con transferencias
-    plans: Plantillas y planes para las transacciones futuras y recurrentes
-    grouped_list: Agrupamiento por día, semana, mes, año y visualización sumas por grupo
-    distribution: Dos niveles de categorías (de importación de Grisbi XML)
-    split: Asientos divididos (versión Contrib)
+    plans: Definir plantillas y proyectos para las futuras transacciones futuras y transacciones recurrentes
+    grouped_list: Agrupamiento por día, semana, mes, año y visualización de sumas por grupo
+    distribution: Dos niveles de categorías (importación desde Grisbi XML y QIF)
+    split: Transacciones divididas (versión Contrib)
     calculator: Calculadora
-    export: 'Formatos de exportación: QIF y CSV (MS Excel), cargar el archivo export (a través de FTP, correo electrónico, Dropbox, ...)'
-    import: Datos de importación QIF
+    export: Exportar a QIF y CSV (MS Excel) puede compartirse automáticamente (a través de correo electrónico, FTP, Dropbox, ...)
+    import: Importar datos desde QIF
     password: Protección por contraseña
     help: Ayuda integrada
-    backup: Backup y Restauración
-    light_theme: "Dos temas: oscuro y claro"
-    attach_picture: Adjuntar imagen de transacción
+    backup: Copia de seguridad y restauración
+    light_theme: "Dos temas: claro y oscuro"
+    attach_picture: Adjuntar imagen a la transacción
   contrib:
     thank_you: |
-      Su contribución apoya el desarrollo de Mis gastos. Gracias!
+      Su contribución apoya el desarrollo de Mis Gastos. ¡Gracias!
     feature-list-title: |
-      Las siguientes características Premium se pueden desbloquear mediante la adquisición de una licencia extendida o una Contrib:
+      Las siguientes características Premium se pueden desbloquear mediante la adquisición de una licencia extendida o una licencia Contrib:
     feature:
-      accounts_unlimited: Cuentas sin limite
-      plans_unlimited: Planes sin limite
-      distribution: Distribución de las transacciones por categoría
-      split_transaction: Asiento dividido
+      accounts_unlimited: Número de cuentas sin límite
+      plans_unlimited: Número de proyectos sin límite
+      distribution: Distribución de transacciones por categoría
+      split_transaction: Transacción dividida
       security_question: Pregunta de seguridad
-      template_widget: Widget de plantillas
-      print: Lista de transacciones de exportación a PDF
-      attach_picture: Adjuntar imagen de transacción
+      template_widget: Plantilla de widget
+      print: Exportar la lista de transacciones a PDF
+      attach_picture: Adjuntar imagen a la transacción
       ad_free: Sin anuncios
-      csv_import: Importación CSV
-      auto_backup: Permitir backup automática
+      csv_import: Importar desde CSV
+      auto_backup: Permitir respaldo automático
+      cloud_sync: Sincronización en la nube
     extended-label: Extendido
     licence-howto-buy:
       deprecated: |
-        NOTA: Desde la versión 2.3.9 la Clave Contrib para desbloquear la funcionalidad premium mis gastos puede adquirirse más fácilmente a través de pago en la aplicación, y ya no tienes que instalar la aplicación "Mis gastos Clave Contrib".
+        NOTA: Desde la versión 2.3.9 la Clave Contrib para desbloquear la funcionalidad premium de Mis Gastos, puede adquirirse más fácilmente a través del pago en la propia aplicación, sin necesidad de instalar la aplicación "Mis Gastos Clave Contrib".
       intro: |
-        Tienes las siguientes opciones para adquirir las licencias Contrib y Extendida:
+        Tiene las siguientes opciones para adquirir licencias Contrib y Extendida:
       in-app: |
-        Si ha instalado mis gastos desde Google Play o App Store de Amazon, están disponibles como las compras en la aplicación.
+        Si ha instalado Mis Gastos desde Google Play o App Store de Amazon, están disponibles como compra dentro de la aplicación.
       blackberry: |
-        Si ha instalado Mis Gastos de Blackberry World, instalar
+        Si ha instalado Mis Gastos desde Blackberry World, debe instalar
         <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">Mis Gastos Contrib</a>.
       blackberry-extra: |
-        En Blackberry no hay ninguna tecla extendida, la clave de Contrib también da acceso a características extendidas.
+        En Blackberry no hay licencia extendida, la clave de Contrib también da acceso a las funcionalidades extendidas.
       other: |
-        Si ha descargado Mis Gastos de F-Droid, Yandex o SlideMe, enviar una donación a través de uno de los siguientes:
+        Si ha descargado Mis Gastos de F-Droid, Yandex o SlideMe, podrá enviar una donación a través de uno de los siguientes métodos:
       transfer: |
-        Alternativamente, para obtener información sobre la transferencia bancaria, póngase en contacto con support@myexpenses.mobi:
+        Alternativamente, puede obtener información sobre transferencia bancaria, poniéndose en contacto con support@myexpenses.mobi:
       key: |
-        y luego solicitar la clave de licencia en la pantalla Configuración.
-        Una vez que usted lo recibe por correo electrónico, entra también en la pantalla Configuración.
+        y luego solicitar la clave para la licencia desde la pantalla Configuración.
+        Una vez que la reciba por correo electrónico, podrá añadirla también desde la pantalla Configuración.
       price: |
-        El monto mínimo es de %1$s para la clave de Contrib y %2$s para la clave extendida. Enviar € %1$s para la actualización de Contrib a extendida.
+        La cantidad mínima es de %1$s para la clave de Contrib y %2$s para la clave extendida. Envíe € %1$s para actualizar desde Contrib a Extendida.
   permissions-heading: |
-    Mis gastos requiere los siguientes permisos
+    Mis Gastos requiere los siguientes permisos
   permissions-calendar: |
-    Leer y escribir el calendario: Los planes para las transacciones futuras y recurrentes se almacenan en un calendario local especial o en cualquier otro calendario que asigne.
+    Leer y escribir en el calendario: los proyectos para las transacciones futuras y recurrentes se almacenarán en un calendario local especial o en cualquier otro calendario que asigne.
   permissions-external-storage: |
-    Writing USB storage: Almacenamiento de las exportaciones QIF y CSV y archivos de copia de seguridad
+    Escribir en el almacenamiento USB: almacenamiento de las exportaciones QIF, CSV y copias de seguridad
   permissions-internet: |
-    Comunicación de la red: accidente de informes se envían automáticamente a desarrolladores a menos desactivada por el usuario en las preferencias de la aplicación.
+    Redes de comunicación: los informes de fallo se enviarán automáticamente a los desarrolladores, a menos que sea desactivado por el usuario en las preferencias de la aplicación.
+  permissions-accounts: |
+    Cuentas: Sincronización entre varios dispositivos vía servicios en la nube

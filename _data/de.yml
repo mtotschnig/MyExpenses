@@ -48,6 +48,7 @@ de:
       ad_free: Ohne Werbung
       csv_import: CSV import
       auto_backup: Automatisches Backup
+      cloud_sync: Cloud-Synchronisierung
     extended-label: Erweitert
     licence-howto-buy:
       deprecated: |
@@ -62,6 +63,8 @@ de:
         Für Blackberry gibt es keinen Erweiterten Schlüssel. Der Contrib-Schlüssel gibt auch Zugriff auf erweiterte Funktionen.
       other: |
         Wenn Sie meine Ausgaben von F-Droid, Yandex oder SlideMe bezogen haben, senden Sie Ihre Spende mittels einer der folgenden Methoden:
+      transfer: |
+        Alternativ, für Informationen zur Banküberweisung, kontaktieren Sie support@myexpenses.mobi:
       key: |
         und forden Sie dann über die Einstellungen den Lizenz-Schlüssel an. Sobald Sie diesen erhalten haben, geben Sie diesen ebenfalls über die Einstellungen ein.
       price: |
@@ -74,3 +77,5 @@ de:
     USB Speicher schreiben: Speichern von QIF und CSV-Export und Backup-Dateien.
   permissions-internet: |
     Netzwerk-Kommunikation: Berichte über Abstürze werden automatisch an Entwickler gesendet, sofern dieses Verhalten in den Einstellungen nicht deaktiviert wurde.
+  permissions-accounts: |
+    Konten: Synchronisierung zwischen mehreren Geräten über Cloud-Dienste

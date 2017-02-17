@@ -48,6 +48,7 @@ fr:
       ad_free: Sans publicité
       csv_import: Import CSV
       auto_backup: Auto-backup
+      cloud_sync: Synchronisation dans les nuages
     extended-label: Étendu
     licence-howto-buy:
       deprecated: |
@@ -77,3 +78,5 @@ fr:
     Écriture mémoire USB : enregistrement des fichiers de sauvegarde et exportation QIF et CSV
   permissions-internet: |
     Communication réseau : les rapports d'incidents sont automatiquement envoyés aux développeurs, sauf si l'option est désactivée dans les préférences de l'application.
+  permissions-accounts: |
+    Comptes: Synchronisation à travers les dispositifs via les services dans les nuages

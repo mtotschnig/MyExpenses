@@ -48,6 +48,7 @@ it:
       ad_free: Nessun annuncio
       csv_import: Importazione CSV
       auto_backup: Attivare il backup automatico
+      cloud_sync: Sincronizzazione cloud
     extended-label: Esteso
     licence-howto-buy:
       deprecated: |
@@ -80,3 +81,5 @@ it:
     Scrittura USB: Stoccaggio di QIF e CSV esportazioni e file di backup
   permissions-internet: |
     Comunicazione di rete: Crash report vengono inviati automaticamente agli sviluppatori, se non l'opzione non viene disattivata dall'utente nelle preferenze di app.
+  permissions-accounts: |
+    Account: Sincronizzare tra dispositivi attraverso i servizi cloud
