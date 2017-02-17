@@ -65,6 +65,7 @@
   <plurals name="dialog_contrib_usage_count">
     <item quantity="one">Zostało Ci jedno darmowe użycie.</item>
     <item quantity="few">Posiadasz jeszcze %1$d darmowych użyć.</item>
+    <item quantity="many">Posiadasz jeszcze %1$d darmowych użyć.</item>
     <item quantity="other">Posiadasz jeszcze %1$d darmowych użyć.</item>
   </plurals>
   <string name="dialog_export_delete">Usuń wyeksportowane transakcje</string>
@@ -212,11 +213,13 @@
   <plurals name="not_deletable_mapped_transactions">
     <item quantity="one">Wybrany obiekt jest zmapowany do transakcji i nie może zostać usunięty.</item>
     <item quantity="few">%1$d obiekty są zmapowane do transakcji i nie mogą zostać usunięte.</item>
+    <item quantity="many">%1$d obiektów jest zmapowanych do transakcji i nie mogą zostać usunięte.</item>
     <item quantity="other">%1$d obiektów jest zmapowanych do transakcji i nie mogą zostać usunięte.</item>
   </plurals>
   <plurals name="not_deletable_mapped_templates">
     <item quantity="one">Wybrany obiekt jest zmapowany do szablonu i nie może być usunięty.</item>
     <item quantity="few">%1$d obiekty zostały zmapowane do szablonu i nie mogą być usunięte.</item>
+    <item quantity="many">%1$d obiektów jest zmapowanych do szablonu i nie mogą być usunięte.</item>
     <item quantity="other">%1$d obiektów jest zmapowanych do szablonu i nie mogą być usunięte.</item>
   </plurals>
   <string name="numbered">ponumerowane</string>
@@ -348,6 +351,7 @@
   <plurals name="save_transaction_from_template_success">
     <item quantity="one">Nowa transakcja została pomyślnie zapisana z szablonu.</item>
     <item quantity="few">%1$d nowe transakcje zostały pomyślnie zapisane z szablonu.</item>
+    <item quantity="many">%1$d nowych transakcji zostało pomyślnie zapisanych z szablonu.</item>
     <item quantity="other">%1$d nowych transakcji zostało pomyślnie zapisanych z szablonu.</item>
   </plurals>
   <string name="save_transaction_template_deleted">Szablon został usunięty</string>
@@ -388,16 +392,19 @@
   <plurals name="warning_delete_main_category">
     <item quantity="one">Jedna wybrana kategoria posiada podkategorie, które zostaną też usunięte.</item>
     <item quantity="few">%1$d wybrane kategorie posiadają podkategorie, które zostaną też usunięte.</item>
+    <item quantity="many">%1$d wybranych kategorii posiadają podkategorie, które zostaną też usunięte.</item>
     <item quantity="other">%1$d wybranych kategorii posiadają podkategorie, które zostaną też usunięte.</item>
   </plurals>
   <plurals name="warning_delete_template">
     <item quantity="one">Wybrany szablon zostanie usunięty.</item>
     <item quantity="few">%1$d wybrane szablony zostanią usunięte.</item>
+    <item quantity="many">%1$d wybranych szablonów zostanie usuniętych.</item>
     <item quantity="other">%1$d wybranych szablonów zostanie usuniętych.</item>
   </plurals>
   <plurals name="warning_delete_transaction">
     <item quantity="one">Wybrana transakcja zostanie usunięta.</item>
     <item quantity="few">%1$d wybrane transakcje zostaną usunięte.</item>
+    <item quantity="many">%1$d wybranych transakcji zostanie usuniętych.</item>
     <item quantity="other">%1$d wybranych transakcji zostanie usuniętych.</item>
   </plurals>
   <string name="warning_delete_reconciled">Usunięcie pojednanych transakcji spowoduje powstanie różnicy twoich rekordów z wyciągiem z konta bankowego.</string>

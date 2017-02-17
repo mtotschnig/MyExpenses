@@ -637,4 +637,5 @@
   <string name="link_account_failure_3">Le conflit peut être résolu manuellement à partir du menu contextuel de l\'entrée.</string>
   <string name="progress_dialog_checking_sync_backend">Vérification du backend</string>
   <string name="template">Modèle</string>
+  <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Synchronisation dans les nuages</string>
 </resources>

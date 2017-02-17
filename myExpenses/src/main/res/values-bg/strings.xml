@@ -637,4 +637,5 @@
   <string name="link_account_failure_3">Конфликтът може да бъде разрешен ръчно от контекстното меню на елемента.</string>
   <string name="progress_dialog_checking_sync_backend">Проверка на отдалеченото място за съхранение</string>
   <string name="template">Темплейт</string>
+  <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">синхронизация чрез облак</string>
 </resources>
