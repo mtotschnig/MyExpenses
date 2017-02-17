@@ -33,6 +33,7 @@ import android.os.Environment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Events;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -57,6 +58,7 @@ import java.text.SimpleDateFormat;
 import java.util.Currency;
 import java.util.Locale;
 
+import static org.totschnig.myexpenses.MyApplication.PLANNER_ACCOUNT_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
@@ -124,7 +126,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 60;
+  public static final int DATABASE_VERSION = 61;
   public static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -365,7 +367,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
   private static final String CHANGES_CREATE =
       "CREATE TABLE " + TABLE_CHANGES
-          + " ( " + KEY_ACCOUNTID + " integer not null references "+ TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE CASCADE,"
+          + " ( " + KEY_ACCOUNTID + " integer not null references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE CASCADE,"
           + KEY_TYPE + " text not null check (" + KEY_TYPE + " in (" + TransactionChange.Type.JOIN + ")), "
           + KEY_SYNC_SEQUENCE_LOCAL + " integer, "
           + KEY_UUID + " text, "
@@ -382,7 +384,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_REFERENCE_NUMBER + " text, "
           + KEY_PICTURE_URI + " text);";
 
-  private static final String SELECT_SEQUCENE_NUMBER_TEMLATE = "(SELECT " + KEY_SYNC_SEQUENCE_LOCAL + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = %s." + KEY_ACCOUNTID +  ")";
+  private static final String SELECT_SEQUCENE_NUMBER_TEMLATE = "(SELECT " + KEY_SYNC_SEQUENCE_LOCAL + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = %s." + KEY_ACCOUNTID + ")";
   private static final String SELECT_PARENT_UUID_TEMPLATE = "CASE WHEN %1$s." + KEY_PARENTID + " IS NULL THEN NULL ELSE (SELECT " + KEY_UUID + " from " + TABLE_TRANSACTIONS + " where " + KEY_ROWID + " = %1$s." + KEY_PARENTID + ") END";
 
   private static final String INSERT_TRIGGER_ACTION = " BEGIN INSERT INTO " + TABLE_CHANGES + "("
@@ -401,9 +403,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       + KEY_CR_STATUS + ", "
       + KEY_REFERENCE_NUMBER + ", "
       + KEY_PICTURE_URI + ") VALUES ('" + TransactionChange.Type.created + "', "
-      + String.format(Locale.US, SELECT_SEQUCENE_NUMBER_TEMLATE, "new") +  ", "
+      + String.format(Locale.US, SELECT_SEQUCENE_NUMBER_TEMLATE, "new") + ", "
       + "new." + KEY_UUID + ", "
-      + String.format(Locale.US, SELECT_PARENT_UUID_TEMPLATE, "new") +  ", "
+      + String.format(Locale.US, SELECT_PARENT_UUID_TEMPLATE, "new") + ", "
       + "new." + KEY_COMMENT + ", "
       + "new." + KEY_DATE + ", "
       + "new." + KEY_AMOUNT + ", "
@@ -422,10 +424,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       + KEY_ACCOUNTID + ","
       + KEY_UUID + ","
       + KEY_PARENT_UUID + ") VALUES ('" + TransactionChange.Type.deleted + "', "
-      + String.format(Locale.US, SELECT_SEQUCENE_NUMBER_TEMLATE, "old") +  ", "
+      + String.format(Locale.US, SELECT_SEQUCENE_NUMBER_TEMLATE, "old") + ", "
       + "old." + KEY_ACCOUNTID + ", "
       + "old." + KEY_UUID + ", "
-      + String.format(Locale.US, SELECT_PARENT_UUID_TEMPLATE, "old") +  "); END;";
+      + String.format(Locale.US, SELECT_PARENT_UUID_TEMPLATE, "old") + "); END;";
 
   private static final String SHOULD_WRITE_CHANGE_TEMPLATE = " EXISTS (SELECT 1 FROM " + TABLE_ACCOUNTS
       + " WHERE " + KEY_ROWID + " = %s." + KEY_ACCOUNTID + " AND " + KEY_SYNC_ACCOUNT_NAME + " IS NOT NULL AND "
@@ -488,10 +490,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_CR_STATUS + ", "
           + KEY_REFERENCE_NUMBER + ", "
           + KEY_PICTURE_URI + ") VALUES ('" + TransactionChange.Type.updated + "', "
-          + String.format(Locale.US, SELECT_SEQUCENE_NUMBER_TEMLATE, "old") +  ", "
+          + String.format(Locale.US, SELECT_SEQUCENE_NUMBER_TEMLATE, "old") + ", "
           + "new." + KEY_UUID + ", "
           + "new." + KEY_ACCOUNTID + ", "
-          + String.format(Locale.US, SELECT_PARENT_UUID_TEMPLATE, "new") +  ", "
+          + String.format(Locale.US, SELECT_PARENT_UUID_TEMPLATE, "new") + ", "
           + buildChangeTriggerDefinitionForColumn(KEY_COMMENT) + ", "
           + buildChangeTriggerDefinitionForColumn(KEY_DATE) + ", "
           + buildChangeTriggerDefinitionForColumn(KEY_AMOUNT) + ", "
@@ -538,8 +540,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       + "AFTER UPDATE ON " + TABLE_ACCOUNTS
       + " WHEN new." + KEY_SYNC_ACCOUNT_NAME + " IS NULL AND old." + KEY_SYNC_ACCOUNT_NAME + " IS NOT NULL "
       + "BEGIN "
-      + "UPDATE " + TABLE_ACCOUNTS + " SET " + KEY_SYNC_SEQUENCE_LOCAL + " = 0 WHERE " + KEY_ROWID +  " = old." + KEY_ROWID + "; "
-      + "DELETE FROM " + TABLE_CHANGES + " WHERE " + KEY_ACCOUNTID +  " = old." + KEY_ROWID + "; "
+      + "UPDATE " + TABLE_ACCOUNTS + " SET " + KEY_SYNC_SEQUENCE_LOCAL + " = 0 WHERE " + KEY_ROWID + " = old." + KEY_ROWID + "; "
+      + "DELETE FROM " + TABLE_CHANGES + " WHERE " + KEY_ACCOUNTID + " = old." + KEY_ROWID + "; "
       + "END;";
 
   public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
@@ -556,26 +558,26 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
   @Override
   public void onOpen(SQLiteDatabase db) {
-      super.onOpen(db);
-      //since API 16 we could use onConfigure to enable foreign keys
-      //which is run before onUpgrade
-      //but this makes upgrades more difficult, since then you have to maintain the constraint in
-      //each step of a multi statement upgrade with table rename
-      //we stick to doing upgrades with foreign keys disabled which forces us
-      //to take care of ensuring consistency during upgrades
-      if (!db.isReadOnly()) {
-          db.execSQL("PRAGMA foreign_keys=ON;");
-      }
-      try {
-        db.delete(TABLE_TRANSACTIONS, KEY_STATUS + " = " + STATUS_UNCOMMITTED, null);
-      } catch (SQLiteException e) {
-        AcraHelper.report(e,
-            DbUtils.getTableDetails(
-                db.query("sqlite_master",
-                    new String[]{"name","sql"},
-                    "type = 'table'",
-                    null, null, null, null)));
-      }
+    super.onOpen(db);
+    //since API 16 we could use onConfigure to enable foreign keys
+    //which is run before onUpgrade
+    //but this makes upgrades more difficult, since then you have to maintain the constraint in
+    //each step of a multi statement upgrade with table rename
+    //we stick to doing upgrades with foreign keys disabled which forces us
+    //to take care of ensuring consistency during upgrades
+    if (!db.isReadOnly()) {
+      db.execSQL("PRAGMA foreign_keys=ON;");
+    }
+    try {
+      db.delete(TABLE_TRANSACTIONS, KEY_STATUS + " = " + STATUS_UNCOMMITTED, null);
+    } catch (SQLiteException e) {
+      AcraHelper.report(e,
+          DbUtils.getTableDetails(
+              db.query("sqlite_master",
+                  new String[]{"name", "sql"},
+                  "type = 'table'",
+                  null, null, null, null)));
+    }
   }
 
   @Override
@@ -1464,6 +1466,24 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     if (oldVersion < 60) {
       // Repair inconsistent uuids for transfers
       db.execSQL("UPDATE transactions set uuid = (select uuid from transactions peers where peers._id = transactions.transfer_peer) where transfer_peer > _id");
+    }
+
+    if (oldVersion < 61) {
+      String calendarId = MyApplication.getInstance().checkPlanner();
+      if (!calendarId.equals(MyApplication.INVALID_CALENDAR_ID)) {
+        String[] parts = PrefKey.PLANNER_CALENDAR_PATH.getString("").split("/", 3);
+        if (parts[0].equals(PLANNER_ACCOUNT_NAME) && parts[1].equals(CalendarContractCompat.ACCOUNT_TYPE_LOCAL)) {
+          Uri.Builder builder = CalendarContractCompat.Calendars.CONTENT_URI.buildUpon().appendEncodedPath(calendarId);
+          builder.appendQueryParameter(CalendarContractCompat.Calendars.ACCOUNT_NAME, PLANNER_ACCOUNT_NAME);
+          builder.appendQueryParameter(CalendarContractCompat.Calendars.ACCOUNT_TYPE,
+              CalendarContractCompat.ACCOUNT_TYPE_LOCAL);
+          builder.appendQueryParameter(CalendarContractCompat.CALLER_IS_SYNCADAPTER,
+              "true");
+          ContentValues values = new ContentValues(1);
+          values.put(CalendarContractCompat.Calendars.SYNC_EVENTS, 1);
+          mCtx.getContentResolver().update(builder.build(), values, null, null);
+        }
+      }
     }
   }
 

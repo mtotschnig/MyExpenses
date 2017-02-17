@@ -79,7 +79,8 @@ public final class CalendarContractCompat {
           NAME,
           CALENDAR_LOCATION,
           CALENDAR_ACCESS_LEVEL,
-          VISIBLE;
+          VISIBLE,
+          SYNC_EVENTS;
       public static Uri CONTENT_URI;
       public static final int CAL_ACCESS_NONE ,
           CAL_ACCESS_FREEBUSY ,
@@ -101,6 +102,7 @@ public final class CalendarContractCompat {
           NAME = "name";
           CALENDAR_LOCATION = "location";
           VISIBLE = "selected";
+          SYNC_EVENTS = "sync_events";
           CALENDAR_ACCESS_LEVEL = "access_level";
           CAL_ACCESS_NONE = 0;
           CAL_ACCESS_FREEBUSY = 100;
@@ -121,6 +123,7 @@ public final class CalendarContractCompat {
           NAME = CalendarContract.Calendars.NAME;
           CALENDAR_LOCATION = CalendarContract.Calendars.CALENDAR_LOCATION;
           VISIBLE = CalendarContract.Calendars.VISIBLE;
+          SYNC_EVENTS = CalendarContract.Calendars.SYNC_EVENTS;
           CALENDAR_ACCESS_LEVEL = CalendarContract.Calendars.CALENDAR_ACCESS_LEVEL;
           CAL_ACCESS_NONE = CalendarContract.Calendars.CAL_ACCESS_NONE;
           CAL_ACCESS_FREEBUSY = CalendarContract.Calendars.CAL_ACCESS_FREEBUSY;

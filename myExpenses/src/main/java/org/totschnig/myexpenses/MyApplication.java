@@ -462,6 +462,7 @@ public class MyApplication extends MultiDexApplication implements
           getResources().getColor(R.color.appDefault));
       values.put(Calendars.CALENDAR_ACCESS_LEVEL, Calendars.CAL_ACCESS_OWNER);
       values.put(Calendars.OWNER_ACCOUNT, "private");
+      values.put(Calendars.SYNC_EVENTS, 1);
       Uri uri;
       try {
         uri = getContentResolver().insert(calendarUri, values);
