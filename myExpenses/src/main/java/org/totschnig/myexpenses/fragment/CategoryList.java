@@ -1115,8 +1115,10 @@ public class CategoryList extends SortableListFragment implements
 //      }
     collapseAll();
     mManager.restartLoader(SORTABLE_CURSOR, null, this);
-    mManager.restartLoader(SUM_CURSOR, null, this);
-    mManager.restartLoader(DATEINFO_CURSOR, null, this);
+    if (((ManageCategories) getActivity()).helpVariant.equals(ManageCategories.HelpVariant.distribution)) {
+      mManager.restartLoader(SUM_CURSOR, null, this);
+      mManager.restartLoader(DATEINFO_CURSOR, null, this);
+    }
   }
 
   private void updateSum(String prefix, TextView tv, long amount) {
