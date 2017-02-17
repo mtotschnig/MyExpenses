@@ -136,6 +136,4 @@
     <string name="contrib_feature_auto_backup_label" tools:ignore="UnusedResources">@string/pref_auto_backup_title</string>
     <string name="contrib_feature_split_transaction_label" tools:ignore="UnusedResources">@string/split_transaction</string>
     <string name="contrib_feature_security_question_label" tools:ignore="UnusedResources">@string/pref_security_question_title</string>
-    <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">@string/synchronization</string>
-
 </resources>
