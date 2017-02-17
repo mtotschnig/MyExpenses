@@ -81,4 +81,4 @@ en:
   permissions-internet: |
     Network communication: Crash reports are automatically sent to developers unless deactivated by user in app preferences.
   permissions-accounts: |
-    Accounts: Managing backends for cloud synchronization
+    Accounts: Synchronization across devices via cloud services
