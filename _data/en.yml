@@ -48,6 +48,7 @@ en:
       ad_free: No ads
       csv_import: CSV import
       auto_backup: Auto-backup
+      cloud_sync: Cloud synchronization
     extended-label: Extended
     licence-howto-buy:
       deprecated: |
@@ -79,3 +80,5 @@ en:
     Writing USB storage: Storage of QIF and CSV exports and backup files
   permissions-internet: |
     Network communication: Crash reports are automatically sent to developers unless deactivated by user in app preferences.
+  permissions-accounts: |
+    Accounts: Managing backends for cloud synchronization

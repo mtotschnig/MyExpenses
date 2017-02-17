@@ -37,6 +37,7 @@ contrib:
 extended:
   - csv_import
   - auto_backup
+  - cloud_sync
 title:
   ar: مصروفاتي
   en: My Expenses
