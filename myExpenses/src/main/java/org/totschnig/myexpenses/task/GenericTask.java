@@ -574,8 +574,11 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         }
         List<String> remoteUuidList;
         try {
-          remoteUuidList =
-              Stream.of(syncBackendProviderOptional.get().getRemoteAccountList())
+          List<AccountMetaData> remoteAccountList = syncBackendProviderOptional.get().getRemoteAccountList();
+          if (remoteAccountList == null) {
+            return Result.FAILURE;
+          }
+          remoteUuidList = Stream.of(remoteAccountList)
                   .map(AccountMetaData::uuid)
                   .collect(Collectors.toList());
         } catch (IOException e) {
