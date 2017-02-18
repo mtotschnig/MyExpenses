@@ -268,7 +268,6 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
   @Override
   public void onPostExecute(Object result) {
     super.onPostExecute(result);
-    newAccount.requestSync();
   }
 
   @Override
