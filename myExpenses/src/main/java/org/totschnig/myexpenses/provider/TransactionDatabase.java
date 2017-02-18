@@ -370,7 +370,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + " ( " + KEY_ACCOUNTID + " integer not null references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE CASCADE,"
           + KEY_TYPE + " text not null check (" + KEY_TYPE + " in (" + TransactionChange.Type.JOIN + ")), "
           + KEY_SYNC_SEQUENCE_LOCAL + " integer, "
-          + KEY_UUID + " text, "
+          + KEY_UUID + " text not null, "
           + KEY_TIMESTAMP + " datetime DEFAULT (strftime('%s','now')), "
           + KEY_PARENT_UUID + " text, "
           + KEY_COMMENT + " text, "
@@ -1484,6 +1484,18 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           mCtx.getContentResolver().update(builder.build(), values, null, null);
         }
       }
+
+      //Repair failed uuid seeding of changes
+      db.execSQL("UPDATE accounts set sync_sequence_local = 0 where _id in (select distinct account_id from changes where uuid is null)");
+      db.execSQL("DELETE FROM changes where account_id in (select distinct account_id from changes where uuid is null)");
+
+      //force changes to have uuid
+      db.execSQL("ALTER TABLE changes RENAME to changes_old");
+      db.execSQL("CREATE TABLE changes ( account_id integer not null references accounts(_id) ON DELETE CASCADE,type text not null check (type in ('created','updated','deleted')), sync_sequence_local integer, uuid text not null, timestamp datetime DEFAULT (strftime('%s','now')), parent_uuid text, comment text, date datetime, amount integer, cat_id integer references categories(_id) ON DELETE SET NULL, payee_id integer references payee(_id) ON DELETE SET NULL, transfer_account integer references accounts(_id) ON DELETE SET NULL,method_id integer references paymentmethods(_id),cr_status text check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED','VOID')),number text, picture_id text)");
+      db.execSQL("INSERT INTO changes " +
+          "(account_id, type, sync_sequence_local, uuid, timestamp, parent_uuid, comment, date, amount, cat_id, payee_id, transfer_account, method_id, cr_status, number, picture_id)" +
+          "SELECT account_id, type, sync_sequence_local, uuid, timestamp, parent_uuid, comment, date, amount, cat_id, payee_id, transfer_account, method_id, cr_status, number, picture_id FROM changes_old");
+      db.execSQL("DROP TABLE changes_old");
     }
   }
 

@@ -1303,7 +1303,8 @@ public class TransactionProvider extends ContentProvider {
       if ("1".equals(uri.getQueryParameter(QUERY_PARAMETER_INIT))) {
         db.beginTransaction();
         try {
-          c = db.query(TABLE_TRANSACTIONS, new String[]{KEY_ROWID}, KEY_UUID + " IS NULL AND " + KEY_ROWID + " < " + KEY_TRANSFER_PEER, null, null, null, null);
+          c = db.query(TABLE_TRANSACTIONS, new String[]{KEY_ROWID}, KEY_UUID + " IS NULL AND ("
+              + KEY_TRANSFER_PEER + " IS NULL OR " + KEY_ROWID + " < " + KEY_TRANSFER_PEER + ")", null, null, null, null);
           if (c.moveToFirst()) {
             while (!c.isAfterLast()) {
               String idString = c.getString(0);
