@@ -11,7 +11,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.annotation.NonNull;
 import android.support.v4.provider.DocumentFile;
@@ -534,13 +533,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         String syncAccountName = (String) this.mExtra;
         account.setSyncAccountName(syncAccountName);
         account.save();
-        Bundle bundle = new Bundle();
-        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-        bundle.putString(KEY_UUID, account.uuid);
-        bundle.putBoolean(SyncAdapter.KEY_RESET_REMOTE_ACCOUNT, true);
-        ContentResolver.requestSync(GenericAccountService.GetAccount(syncAccountName),
-            TransactionProvider.AUTHORITY, bundle);
         return Result.SUCCESS;
       }
       case TaskExecutionFragment.TASK_SYNC_LINK_REMOTE: {
@@ -549,7 +541,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           return Result.FAILURE;
         }
         remoteAccount.save();
-        remoteAccount.requestSync();
         return Result.SUCCESS;
       }
       case TaskExecutionFragment.TASK_SYNC_REMOVE_BACKEND: {
@@ -611,11 +602,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         String message = "";
         if (result > 0) {
           message = application.getString(R.string.link_account_success, result);
-          Bundle bundle = new Bundle();
-          bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-          bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-          ContentResolver.requestSync(GenericAccountService.GetAccount(syncAccountName),
-              TransactionProvider.AUTHORITY, bundle);
         }
         if (requested > result) {
           message += " " + application.getString(R.string.link_account_failure_1, requested - result)
