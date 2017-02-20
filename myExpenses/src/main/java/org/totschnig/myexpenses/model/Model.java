@@ -50,7 +50,7 @@ public abstract class Model implements Serializable {
     return UUID.randomUUID().toString();
   }
 
-  protected String requireUuid() {
+  String requireUuid() {
     if (android.text.TextUtils.isEmpty(uuid)) {
       uuid = generateUuid();
     }

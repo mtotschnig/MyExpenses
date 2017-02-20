@@ -1173,9 +1173,9 @@ public class ExpenseEdit extends AmountActivity implements
         validP = false;
       }
       ((Template) mTransaction).setTitle(title);
+      String description = ((Template) mTransaction).compileDescription(ExpenseEdit.this);
       if (mPlan == null) {
         if (mReccurenceSpinner.getSelectedItemPosition() > 0) {
-          String description = ((Template) mTransaction).compileDescription(ExpenseEdit.this);
           mPlan = new Plan(
              mCalendar,
               ((Plan.Recurrence) mReccurenceSpinner.getSelectedItem()).toRrule(mCalendar),
@@ -1184,7 +1184,7 @@ public class ExpenseEdit extends AmountActivity implements
           ((Template) mTransaction).setPlan(mPlan);
         }
       } else {
-        mPlan.description = ((Template) mTransaction).compileDescription(ExpenseEdit.this);
+        mPlan.description = description;
         mPlan.title = title;
         ((Template) mTransaction).setPlan(mPlan);
       }

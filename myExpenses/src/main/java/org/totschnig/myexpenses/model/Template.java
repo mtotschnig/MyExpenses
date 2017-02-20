@@ -361,7 +361,7 @@ public class Template extends Transaction {
       sb.append("\n");
     }
     sb.append("UUID : ");
-    sb.append(uuid);
+    sb.append(requireUuid());
     return sb.toString();
   }
 
