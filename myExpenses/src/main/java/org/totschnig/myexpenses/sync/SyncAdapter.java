@@ -22,6 +22,7 @@ import android.annotation.TargetApi;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentProviderOperation;
+import android.content.ContentProviderResult;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.OperationApplicationException;
@@ -63,6 +64,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
@@ -88,9 +90,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   public static String KEY_LAST_SYNCED_REMOTE(long accountId) {
     return "last_synced_remote_" + accountId;
   }
+
   public static final String KEY_LAST_SYNCED_LOCAL(long accountId) {
     return "last_synced_local_" + accountId;
   }
+
   public static final String KEY_RESET_REMOTE_ACCOUNT = "reset_remote_account";
 
   private Map<String, Long> categoryToId;
@@ -238,9 +242,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
               remoteChanges = mergeResult.second;
 
               if (remoteChanges.size() > 0) {
-                if (writeRemoteChangesToDb(provider, remoteChanges, accountId)) {
-                  throw new OperationApplicationException("write to db yielded no results");
-                }
+                writeRemoteChangesToDb(provider, remoteChanges, accountId);
                 accountManager.setUserData(account, lastRemoteSyncKey, String.valueOf(lastSyncedRemote));
               }
 
@@ -281,28 +283,28 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   private List<TransactionChange> getLocalChanges(ContentProviderClient provider, long accountId,
                                                   long sequenceNumber) throws RemoteException {
     List<TransactionChange> result = new ArrayList<>();
-      Uri changesUri = buildChangesUri(sequenceNumber, accountId);
-      boolean hasLocalChanges = hasLocalChanges(provider, changesUri);
-      if (hasLocalChanges) {
-        ContentValues currentSyncIncrease = new ContentValues(1);
-        long nextSequence = sequenceNumber + 1;
-        currentSyncIncrease.put(KEY_SYNC_SEQUENCE_LOCAL, nextSequence);
-        //in case of failed syncs due to non-available backends, sequence number might already be higher than nextSequence
-        //we must take care to not decrease it here
-        provider.update(TransactionProvider.ACCOUNTS_URI, currentSyncIncrease, KEY_ROWID + " = ? AND " + KEY_SYNC_SEQUENCE_LOCAL + " < ?",
-            new String[]{String.valueOf(accountId), String.valueOf(nextSequence)});
-      }
-      if (hasLocalChanges) {
-        Cursor c = provider.query(changesUri, null, null, null, null);
-        if (c != null) {
-          if (c.moveToFirst()) {
-            do {
-              result.add(TransactionChange.create(c));
-            } while (c.moveToNext());
-          }
-          c.close();
+    Uri changesUri = buildChangesUri(sequenceNumber, accountId);
+    boolean hasLocalChanges = hasLocalChanges(provider, changesUri);
+    if (hasLocalChanges) {
+      ContentValues currentSyncIncrease = new ContentValues(1);
+      long nextSequence = sequenceNumber + 1;
+      currentSyncIncrease.put(KEY_SYNC_SEQUENCE_LOCAL, nextSequence);
+      //in case of failed syncs due to non-available backends, sequence number might already be higher than nextSequence
+      //we must take care to not decrease it here
+      provider.update(TransactionProvider.ACCOUNTS_URI, currentSyncIncrease, KEY_ROWID + " = ? AND " + KEY_SYNC_SEQUENCE_LOCAL + " < ?",
+          new String[]{String.valueOf(accountId), String.valueOf(nextSequence)});
+    }
+    if (hasLocalChanges) {
+      Cursor c = provider.query(changesUri, null, null, null, null);
+      if (c != null) {
+        if (c.moveToFirst()) {
+          do {
+            result.add(TransactionChange.create(c));
+          } while (c.moveToNext());
         }
+        c.close();
       }
+    }
     return result;
   }
 
@@ -335,27 +337,31 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         .collect(Collectors.toList());
   }
 
-  private boolean writeRemoteChangesToDb(ContentProviderClient provider, List<TransactionChange> remoteChanges, long accountId)
+  private void writeRemoteChangesToDb(ContentProviderClient provider, List<TransactionChange> remoteChanges, long accountId)
       throws RemoteException, OperationApplicationException {
     if (remoteChanges.size() > BATCH_SIZE) {
-      for (List<TransactionChange> part: ListUtils.partition(remoteChanges, BATCH_SIZE)) {
-        if (!writeRemoteChangesToDbPart(provider, part, accountId)) {
-          return false;
-        }
+      for (List<TransactionChange> part : ListUtils.partition(remoteChanges, BATCH_SIZE)) {
+        writeRemoteChangesToDbPart(provider, part, accountId);
       }
-      return true;
+    } else {
+      writeRemoteChangesToDbPart(provider, remoteChanges, accountId);
     }
-    return writeRemoteChangesToDbPart(provider, remoteChanges, accountId);
   }
 
-  private boolean writeRemoteChangesToDbPart(ContentProviderClient provider, List<TransactionChange> remoteChanges, long accountId) throws RemoteException, OperationApplicationException {
+  private void writeRemoteChangesToDbPart(ContentProviderClient provider, List<TransactionChange> remoteChanges, long accountId) throws RemoteException, OperationApplicationException {
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
     Uri accountUri = TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(String.valueOf(accountId)).build();
     ops.add(ContentProviderOperation.newUpdate(accountUri).withValue(KEY_SYNC_FROM_ADAPTER, true).build());
     Stream.of(remoteChanges).filter(change -> !(change.isCreate() && uuidExists(change.uuid())))
         .forEach(change -> collectOperations(change, ops, -1));
     ops.add(ContentProviderOperation.newUpdate(accountUri).withValue(KEY_SYNC_FROM_ADAPTER, false).build());
-    return provider.applyBatch(ops).length > 0;
+    ContentProviderResult[] contentProviderResults = provider.applyBatch(ops);
+    int opsSize = ops.size();
+    int resultsSize = contentProviderResults.length;
+    if (opsSize != resultsSize) {
+      AcraHelper.report(String.format(Locale.ROOT, "applied %d operations, received %d results",
+          opsSize, resultsSize));
+    }
   }
 
   private boolean uuidExists(String uuid) {
