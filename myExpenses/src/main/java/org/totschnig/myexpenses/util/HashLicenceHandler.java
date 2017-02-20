@@ -1,8 +1,5 @@
 package org.totschnig.myexpenses.util;
 
-import android.content.Context;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.provider.Settings;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -11,17 +8,6 @@ import org.totschnig.myexpenses.preference.PrefKey;
 public class HashLicenceHandler extends LicenceHandler {
   private LicenceStatus contribEnabled = null;
   private boolean contribEnabledInitialized = false;
-
-  @Override
-  public void init(Context ctx) {
-    if (PrefKey.CURRENT_VERSION.getInt(-1) != -1) {
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-        AsyncTask.execute(this::invalidate);
-      } else {
-        invalidate();
-      }
-    }
-  }
 
   @Override
   public boolean isContribEnabled() {
@@ -43,9 +29,11 @@ public class HashLicenceHandler extends LicenceHandler {
   }
 
   @Override
-  public void invalidate() {
+  public void refresh(boolean invalidate) {
     this.contribEnabledInitialized = false;
-    super.invalidate();
+    if (invalidate) {
+      invalidate();
+    }
   }
 
   @Override

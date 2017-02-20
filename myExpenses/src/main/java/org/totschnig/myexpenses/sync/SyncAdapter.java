@@ -43,6 +43,7 @@ import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 
 import org.apache.commons.collections4.ListUtils;
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.export.CategoryInfo;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.ContribFeature;
@@ -158,6 +159,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
     if (c != null) {
       if (c.moveToFirst()) {
+        MyApplication.getInstance().getLicenceHandler().refresh(false);
         if (ContribFeature.SYNCHRONIZATION.recordUsage() < 1) {
           ContribUtils.showContribNotification(getContext(), ContribFeature.SYNCHRONIZATION);
           GenericAccountService.updateAccountsIsSyncable();
