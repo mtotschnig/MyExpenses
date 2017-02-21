@@ -28,7 +28,7 @@ public abstract class LicenceHandler {
 
   public abstract boolean isExtendedEnabled();
 
-  public void refresh(boolean invalidate) {
+  public final void refresh(boolean invalidate) {
     refreshDo();
     if (invalidate) {
       invalidate();
@@ -37,7 +37,7 @@ public abstract class LicenceHandler {
 
   protected abstract void refreshDo();
 
-  void invalidate() {
+  final void invalidate() {
     Template.updateNewPlanEnabled();
     Account.updateNewAccountEnabled();
     GenericAccountService.updateAccountsIsSyncable();
