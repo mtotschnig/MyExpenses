@@ -15,12 +15,11 @@ public abstract class LicenceHandler {
   public static boolean HAS_EXTENDED = !BuildConfig.FLAVOR.equals("blackberry");
 
   public void init() {
-    refresh(true);
     if (PrefKey.CURRENT_VERSION.getInt(-1) != -1) {
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-        AsyncTask.execute(this::invalidate);
+        AsyncTask.execute(() -> refresh(true));
       } else {
-        invalidate();
+        refresh(true);
       }
     }
   }
@@ -29,9 +28,16 @@ public abstract class LicenceHandler {
 
   public abstract boolean isExtendedEnabled();
 
-  public abstract void refresh(boolean invalidate);
+  public void refresh(boolean invalidate) {
+    refreshDo();
+    if (invalidate) {
+      invalidate();
+    }
+  }
 
-  public void invalidate() {
+  protected abstract void refreshDo();
+
+  void invalidate() {
     Template.updateNewPlanEnabled();
     Account.updateNewAccountEnabled();
     GenericAccountService.updateAccountsIsSyncable();

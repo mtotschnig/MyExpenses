@@ -278,6 +278,7 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
   @Override
   public void contribFeatureCalled(ContribFeature feature, Serializable tag) {
     if (tag instanceof Integer) {
+      feature.recordUsage();
       backendProviders.get((Integer) tag).startSetup(this);
     }
   }

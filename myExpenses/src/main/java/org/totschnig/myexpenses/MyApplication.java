@@ -198,7 +198,7 @@ public class MyApplication extends MultiDexApplication implements
 
   public SharedPreferences getSettings() {
     if (mSettings == null) {
-      mSettings = instrumentationTest ? getSharedPreferences(getTestId(), Context.MODE_MULTI_PROCESS) :
+      mSettings = instrumentationTest ? getSharedPreferences(getTestId(), Context.MODE_PRIVATE) :
           PreferenceManager.getDefaultSharedPreferences(this);
     }
     return mSettings;

@@ -174,7 +174,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
           Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
         }
         if (r.success) {
-          MyApplication.getInstance().getLicenceHandler().invalidate();
+          MyApplication.getInstance().getLicenceHandler().refresh(true);
           // if the backup is password protected, we want to force the password
           // check
           // is it not enough to set mLastPause to zero, since it would be

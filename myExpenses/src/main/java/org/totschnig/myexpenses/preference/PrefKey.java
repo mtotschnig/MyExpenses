@@ -71,7 +71,8 @@ public enum PrefKey {
   GROUP_MONTH_STARTS(R.string.pref_group_month_starts_key),
   NEW_PLAN_ENABLED("new_plan_enabled"),
   NEW_ACCOUNT_ENABLED("new_account_enabled"),
-  SYNC_FREQUCENCY(R.string.pref_sync_frequency_key);
+  SYNC_FREQUCENCY(R.string.pref_sync_frequency_key),
+  SYNC_UPSELL_NOTIFICATION_SHOWN("sync_upsell_notification_shown");
 
   private int resId = 0;
   private String key = null;

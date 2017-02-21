@@ -29,11 +29,8 @@ public class HashLicenceHandler extends LicenceHandler {
   }
 
   @Override
-  public void refresh(boolean invalidate) {
+  public void refreshDo() {
     this.contribEnabledInitialized = false;
-    if (invalidate) {
-      invalidate();
-    }
   }
 
   @Override

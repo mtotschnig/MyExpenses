@@ -15,7 +15,15 @@
 
 package org.totschnig.myexpenses.activity;
 
-import java.io.Serializable;
+import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.net.Uri;
+import android.provider.Settings;
+import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
+import android.util.Log;
+import android.widget.Toast;
 
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
@@ -27,15 +35,7 @@ import org.totschnig.myexpenses.util.HashLicenceHandler;
 import org.totschnig.myexpenses.util.LicenceHandler;
 import org.totschnig.myexpenses.util.Utils;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.net.Uri;
-import android.provider.Settings;
-import android.support.v4.app.FragmentActivity;
-import android.text.TextUtils;
-import android.util.Log;
-import android.widget.Toast;
+import java.io.Serializable;
 
 public class CommonCommands {
   private CommonCommands() {
@@ -125,7 +125,7 @@ public class CommonCommands {
         } else {
           Toast.makeText(ctx, R.string.licence_validation_failure, Toast.LENGTH_LONG).show();
         }
-        licenceHandler.invalidate();
+        licenceHandler.refresh(true);
         return true;
     case android.R.id.home:
       ctx.setResult(FragmentActivity.RESULT_CANCELED);

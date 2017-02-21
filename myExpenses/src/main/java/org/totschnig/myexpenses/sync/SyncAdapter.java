@@ -43,10 +43,8 @@ import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 
 import org.apache.commons.collections4.ListUtils;
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.export.CategoryInfo;
 import org.totschnig.myexpenses.model.AccountType;
-import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.SplitTransaction;
@@ -57,7 +55,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.util.AcraHelper;
-import org.totschnig.myexpenses.util.ContribUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -159,12 +156,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
     if (c != null) {
       if (c.moveToFirst()) {
-        MyApplication.getInstance().getLicenceHandler().refresh(false);
-        if (ContribFeature.SYNCHRONIZATION.recordUsage() < 1) {
-          ContribUtils.showContribNotification(getContext(), ContribFeature.SYNCHRONIZATION);
-          GenericAccountService.updateAccountsIsSyncable();
-          return;
-        }
         do {
           long accountId = c.getLong(0);
           long syncSequenceLocal = c.getLong(1);
