@@ -379,7 +379,7 @@ public class MyApplication extends MultiDexApplication implements
   private boolean checkPlannerInternal(String calendarId) {
     ContentResolver cr = getContentResolver();
     Cursor c = cr.query(Calendars.CONTENT_URI,
-        new String[]{CALENDAR_FULL_PATH_PROJECTION + " AS path"},
+        new String[]{CALENDAR_FULL_PATH_PROJECTION + " AS path", Calendars.SYNC_EVENTS},
         Calendars._ID + " = ?", new String[]{calendarId}, null);
     boolean result = true;
     if (c == null) {
@@ -393,6 +393,23 @@ public class MyApplication extends MultiDexApplication implements
               "found calendar, but path did not match; expected %s ; got %s",
               expected, found));
           result = false;
+        } else {
+          int syncEvents = c.getInt(1);
+          if (syncEvents == 0) {
+            String[] parts = found.split("/", 3);
+            if (parts[0].equals(PLANNER_ACCOUNT_NAME) && parts[1].equals(CalendarContractCompat.ACCOUNT_TYPE_LOCAL)) {
+              Uri.Builder builder = Calendars.CONTENT_URI.buildUpon().appendEncodedPath(calendarId);
+              builder.appendQueryParameter(CalendarContractCompat.Calendars.ACCOUNT_NAME, PLANNER_ACCOUNT_NAME);
+              builder.appendQueryParameter(CalendarContractCompat.Calendars.ACCOUNT_TYPE,
+                  CalendarContractCompat.ACCOUNT_TYPE_LOCAL);
+              builder.appendQueryParameter(CalendarContractCompat.CALLER_IS_SYNCADAPTER,
+                  "true");
+              ContentValues values = new ContentValues(1);
+              values.put(CalendarContractCompat.Calendars.SYNC_EVENTS, 1);
+              getContentResolver().update(builder.build(), values, null, null);
+              Log.i(TAG, "Fixing sync_events for planning calendar ");
+            }
+          }
         }
       } else {
         Log.i(TAG, "configured calendar has been deleted: " + calendarId);
@@ -403,6 +420,11 @@ public class MyApplication extends MultiDexApplication implements
     return result;
   }
 
+  /**
+   * WARNING this method relies on calendar permissions being granted. It is the callers permission
+   * to check if they have been granted
+   * @return id of planning calendar if it has been configured and passed checked
+   */
   public String checkPlanner() {
     mPlannerCalendarId = PrefKey.PLANNER_CALENDAR_ID.getString(INVALID_CALENDAR_ID);
     if (!mPlannerCalendarId.equals(INVALID_CALENDAR_ID) && !checkPlannerInternal(mPlannerCalendarId)) {

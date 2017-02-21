@@ -33,7 +33,6 @@ import android.os.Environment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
-import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Events;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -58,7 +57,6 @@ import java.text.SimpleDateFormat;
 import java.util.Currency;
 import java.util.Locale;
 
-import static org.totschnig.myexpenses.MyApplication.PLANNER_ACCOUNT_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
@@ -1469,22 +1467,6 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     }
 
     if (oldVersion < 61) {
-      String calendarId = MyApplication.getInstance().checkPlanner();
-      if (!calendarId.equals(MyApplication.INVALID_CALENDAR_ID)) {
-        String[] parts = PrefKey.PLANNER_CALENDAR_PATH.getString("").split("/", 3);
-        if (parts[0].equals(PLANNER_ACCOUNT_NAME) && parts[1].equals(CalendarContractCompat.ACCOUNT_TYPE_LOCAL)) {
-          Uri.Builder builder = CalendarContractCompat.Calendars.CONTENT_URI.buildUpon().appendEncodedPath(calendarId);
-          builder.appendQueryParameter(CalendarContractCompat.Calendars.ACCOUNT_NAME, PLANNER_ACCOUNT_NAME);
-          builder.appendQueryParameter(CalendarContractCompat.Calendars.ACCOUNT_TYPE,
-              CalendarContractCompat.ACCOUNT_TYPE_LOCAL);
-          builder.appendQueryParameter(CalendarContractCompat.CALLER_IS_SYNCADAPTER,
-              "true");
-          ContentValues values = new ContentValues(1);
-          values.put(CalendarContractCompat.Calendars.SYNC_EVENTS, 1);
-          mCtx.getContentResolver().update(builder.build(), values, null, null);
-        }
-      }
-
       //Repair failed uuid seeding of changes
       db.execSQL("UPDATE accounts set sync_sequence_local = 0 where _id in (select distinct account_id from changes where uuid is null)");
       db.execSQL("DELETE FROM changes where account_id in (select distinct account_id from changes where uuid is null)");
