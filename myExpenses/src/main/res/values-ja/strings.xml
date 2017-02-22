@@ -627,4 +627,5 @@
   <string name="link_account_failure_3">競合は、エントリーのコンテキストメニューから手動で解決できます。</string>
   <string name="progress_dialog_checking_sync_backend">バックエンドの確認中</string>
   <string name="template">テンプレート</string>
+  <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">クラウド同期</string>
 </resources>
