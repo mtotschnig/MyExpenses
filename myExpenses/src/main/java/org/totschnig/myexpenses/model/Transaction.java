@@ -521,8 +521,6 @@ public class Transaction extends Model {
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
     ContentValues initialValues = buildInitialValues();
     if (getId() == 0) {
-      //if transaction is added via sync adapter uuid is already set
-      initialValues.put(KEY_UUID, requireUuid());
       ContentProviderOperation.Builder builder = ContentProviderOperation.newInsert(uri).withValues(initialValues);
       if (parentOffset != -1) {
         builder.withValueBackReference(KEY_PARENTID, parentOffset);
@@ -574,6 +572,7 @@ public class Transaction extends Model {
     initialValues.put(KEY_METHODID, methodId);
     initialValues.put(KEY_CR_STATUS, crStatus.name());
     initialValues.put(KEY_ACCOUNTID, accountId);
+    initialValues.put(KEY_UUID, requireUuid());
 
     savePicture(initialValues);
     if (getId() == 0) {
