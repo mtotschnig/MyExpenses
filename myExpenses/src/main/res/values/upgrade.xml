@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_2753">
+    <item>@string/bug_fixes</item>
+  </string-array>
   <string-array name="whats_new_275">
     <item>Synchronization across devices via cloud services</item>
   </string-array>
