@@ -82,7 +82,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUE
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
-  private static final String TAG = SyncAdapter.class.getSimpleName();
+  private static final String TAG = "SyncAdapter";
   public static final int BATCH_SIZE = 100;
 
   public static String KEY_LAST_SYNCED_REMOTE(long accountId) {
@@ -180,14 +180,17 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
           long lastSyncedRemote = Long.parseLong(getUserDataWithDefault(accountManager, account,
               lastRemoteSyncKey, "0"));
           dbAccount.set(org.totschnig.myexpenses.model.Account.getInstanceFromDb(accountId));
+          Log.i(TAG, "now syncing " + dbAccount.get().label);
           if (uuidFromExtras != null && extras.getBoolean(KEY_RESET_REMOTE_ACCOUNT)) {
             if (!backend.resetAccountData(uuidFromExtras)) {
               syncResult.stats.numIoExceptions++;
+              Log.e(TAG, "error resetting account data");
               continue;
             }
           }
           if (!backend.withAccount(dbAccount.get())) {
             syncResult.stats.numIoExceptions++;
+            Log.e(TAG, "error withAccount");
             continue;
           }
 
@@ -197,6 +200,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
               if (changeSetSince.isFailed()) {
                 syncResult.stats.numIoExceptions++;
+                Log.e(TAG, "error getting changeset");
                 continue;
               }
 
@@ -222,7 +226,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
               }
 
               if (localChanges.size() == 0 && remoteChanges.size() == 0) {
-                return;
+                continue;
               }
 
               if (localChanges.size() > 0) {
@@ -254,6 +258,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
               Log.e(TAG, "Error while syncing ", e);
               syncResult.stats.numIoExceptions++;
             } catch (RemoteException | OperationApplicationException | SQLiteException e) {
+              Log.e(TAG, "Error while syncing ", e);
               syncResult.databaseError = true;
               AcraHelper.report(e);
             } finally {
