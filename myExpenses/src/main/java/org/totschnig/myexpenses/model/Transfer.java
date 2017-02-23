@@ -32,6 +32,11 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
  *
  */
 public class Transfer extends Transaction {
+
+  public static String RIGHT_ARROW = "→";
+  public static String LEFT_ARROW = "←";
+  public static String BI_ARROW = "⇄";
+
   
   public Transfer(long accountId, Long amount) {
     super(accountId,amount);
@@ -150,5 +155,13 @@ public class Transfer extends Transaction {
 
   public boolean isSameCurrency() {
     return amount.getCurrency().equals(transferAmount.getCurrency());
+  }
+
+  public static String getIndicatorPrefixForLabel(long amount) {
+    return ((amount < 0) ? RIGHT_ARROW : LEFT_ARROW) + " ";
+  }
+
+  public String printLabelWithPrefix() {
+    return getIndicatorPrefixForLabel(getAmount().getAmountMinor()) + " " + label;
   }
 }

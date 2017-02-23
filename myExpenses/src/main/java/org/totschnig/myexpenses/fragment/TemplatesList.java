@@ -57,6 +57,7 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
@@ -427,7 +428,7 @@ public class TemplatesList extends SortableListFragment {
       TextView tv2 = (TextView) convertView.findViewById(R.id.category);
       CharSequence catText = tv2.getText();
       if (c.getInt(columnIndexTransferPeer) > 0) {
-        catText = ((amount < 0) ? "=> " : "<= ") + catText;
+        catText = Transfer.getIndicatorPrefixForLabel(amount) + catText;
       } else {
         Long catId = DbUtils.getLongOrNull(c, KEY_CATID);
         if (catId == null) {

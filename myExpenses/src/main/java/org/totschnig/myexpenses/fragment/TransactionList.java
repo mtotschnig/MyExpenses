@@ -80,6 +80,7 @@ import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
+import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
@@ -698,7 +699,7 @@ public class TransactionList extends ContextualActionBarFragment implements
           sumIncome,
           mAccount.currency));
       Long sumTransfer = DbUtils.getLongOr0L(mGroupingCursor, columnIndexGroupSumTransfer);
-      holder.sumTransfer.setText("<-> " + Utils.convAmount(
+      holder.sumTransfer.setText(Transfer.BI_ARROW + " " + Utils.convAmount(
           sumTransfer,
           mAccount.currency));
       Long delta = sumIncome - sumExpense + sumTransfer;

@@ -24,6 +24,7 @@ import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -308,7 +309,7 @@ public class PdfPrinter {
             account.currency), LazyFontSelector.FontType.NORMAL);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(cell);
-        cell = helper.printToCell("<-> " + Utils.convAmount(
+        cell = helper.printToCell(Transfer.BI_ARROW + " " + Utils.convAmount(
             DbUtils.getLongOr0L(groupCursor, columnIndexGroupSumTransfer),
             account.currency), LazyFontSelector.FontType.NORMAL);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -332,7 +333,7 @@ public class PdfPrinter {
       PdfPCell cell = helper.printToCell(Utils.convDateTime(transactionCursor.getString(columnIndexDate), itemDateFormat), LazyFontSelector.FontType.NORMAL);
       table.addCell(cell);
       if (DbUtils.getLongOrNull(transactionCursor, columnIndexTransferPeer) != null) {
-        catText = ((amount < 0) ? "=> " : "<= ") + catText;
+        catText = Transfer.getIndicatorPrefixForLabel(amount) + catText;
       } else {
         Long catId = DbUtils.getLongOrNull(transactionCursor, KEY_CATID);
         if (SPLIT_CATID.equals(catId)) {

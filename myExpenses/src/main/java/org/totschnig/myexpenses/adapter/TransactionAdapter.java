@@ -1,35 +1,5 @@
 package org.totschnig.myexpenses.adapter;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_SUB;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_HELPER;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ManageCategories;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
-import org.totschnig.myexpenses.fragment.TransactionList;
-import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.Grouping;
-import org.totschnig.myexpenses.model.AccountType;
-import org.totschnig.myexpenses.model.Category;
-import org.totschnig.myexpenses.model.Transaction.CrStatus;
-import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.provider.DbUtils;
-import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
-import org.totschnig.myexpenses.util.Utils;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.text.SpannableStringBuilder;
@@ -39,8 +9,39 @@ import android.text.style.UnderlineSpan;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.TextView;
+
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ManageCategories;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.fragment.TransactionList;
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.model.Grouping;
+import org.totschnig.myexpenses.model.Transaction.CrStatus;
+import org.totschnig.myexpenses.model.Transfer;
+import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.provider.DbUtils;
+import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
+import org.totschnig.myexpenses.util.Utils;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_SUB;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_HELPER;
 
 public class TransactionAdapter extends SimpleCursorAdapter {
   private int dateEms;
@@ -142,7 +143,7 @@ public class TransactionAdapter extends SimpleCursorAdapter {
     TextView tv2 = viewHolder.category;
     CharSequence catText = tv2.getText();
     if (DbUtils.getLongOrNull(c,c.getColumnIndex(KEY_TRANSFER_PEER)) != null) {
-      catText = ((amount < 0) ? "=> " : "<= ") + catText;
+      catText = Transfer.getIndicatorPrefixForLabel(amount) + catText;
     } else {
       Long catId = DbUtils.getLongOrNull(c,KEY_CATID);
       if (SPLIT_CATID.equals(catId))

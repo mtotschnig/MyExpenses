@@ -16,13 +16,12 @@
 
 package org.totschnig.myexpenses.widget;
 
-import static android.appwidget.AppWidgetManager.INVALID_APPWIDGET_ID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
-
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProviderInfo;
-import android.content.*;
+import android.content.ContentUris;
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -45,10 +44,14 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
+
+import static android.appwidget.AppWidgetManager.INVALID_APPWIDGET_ID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
 
 public class TemplateWidget extends AbstractWidget<Template> {
 
@@ -138,7 +141,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
         t.getTitle() + " : " + Utils.formatCurrency(t.getAmount()));
     String commentSeparator = " / ";
     SpannableStringBuilder description = new SpannableStringBuilder(t.isTransfer() ?
-        ((t.getAmount().getAmountMinor() < 0) ? "=> " : "<= ") + t.label :
+        Transfer.getIndicatorPrefixForLabel(t.getAmount().getAmountMinor()) + t.label :
         t.label);
     if (!TextUtils.isEmpty(t.comment)) {
       if (description.length() != 0) {
