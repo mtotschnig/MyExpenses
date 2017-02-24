@@ -33,6 +33,7 @@ import java.text.SimpleDateFormat;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_SUB;
@@ -135,7 +136,7 @@ public class TransactionAdapter extends SimpleCursorAdapter {
     Cursor c = getCursor();
     c.moveToPosition(position);
     if (mAccount.getId() <0) {
-      int color = c.getInt(c.getColumnIndex("color"));
+      int color = c.getInt(c.getColumnIndex(KEY_COLOR));
       viewHolder.colorAccount.setBackgroundColor(color);
     }
     long amount = c.getLong(c.getColumnIndex(KEY_AMOUNT));
