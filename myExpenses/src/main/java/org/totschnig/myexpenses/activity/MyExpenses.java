@@ -509,6 +509,7 @@ public class MyExpenses extends LaunchActivity implements
     //if we are called from an aggregate cursor, we also hand over the currency
     if (mAccountId < 0 && mAccountsCursor != null && mAccountsCursor.moveToPosition(mCurrentPosition)) {
       i.putExtra(KEY_CURRENCY, mAccountsCursor.getString(columnIndexCurrency));
+      i.putExtra(ExpenseEdit.KEY_AUTOFILL_MAY_SET_ACCOUNT, true);
     } else {
       //if accountId is 0 ExpenseEdit will retrieve the first entry from the accounts table
       i.putExtra(KEY_ACCOUNTID, mAccountId);

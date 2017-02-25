@@ -164,6 +164,7 @@ public class ExpenseEdit extends AmountActivity implements
   private static final String KEY_CACHED_DATA = "cachedData";
   private static final String KEY_CACHED_RECURRENCE = "cachedRecurrence";
   private static final String KEY_CACHED_PICTURE_URI = "cachedPictureUri";
+  public static final String KEY_AUTOFILL_MAY_SET_ACCOUNT = "autoFillMaySetAccount";
   private static final String PREFKEY_TRANSACTION_LAST_ACCOUNT_FROM_WIDGET = "transactionLastAccountFromWidget";
   private static final String PREFKEY_TRANSFER_LAST_ACCOUNT_FROM_WIDGET = "transferLastAccountFromWidget";
   private static final String PREFKEY_TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET = "transferLastTransferAccountFromWidget";
@@ -227,6 +228,7 @@ public class ExpenseEdit extends AmountActivity implements
   boolean isProcessingLinkedAmountInputs = false;
   private ContentObserver pObserver;
   private boolean mPlanUpdateNeeded;
+  private boolean didUserSetAccount;
 
   public enum HelpVariant {
     transaction, transfer, split, templateCategory, templateTransfer, splitPartCategory, splitPartTransfer
@@ -378,9 +380,7 @@ public class ExpenseEdit extends AmountActivity implements
       if ((mAccountId = savedInstanceState.getLong(KEY_ACCOUNTID)) == 0L) {
         mAccountId = null;
       } else {
-        //once user has selected account, we no longer want
-        //the passed in KEY_CURRENCY to override it in onLoadFinished
-        getIntent().removeExtra(KEY_CURRENCY);
+        didUserSetAccount = true;
       }
       if ((mTransferAccountId = savedInstanceState.getLong(KEY_TRANSFER_ACCOUNT)) == 0L)
         mTransferAccountId = null;
@@ -1388,12 +1388,14 @@ public class ExpenseEdit extends AmountActivity implements
     if (methodId != android.widget.AdapterView.INVALID_ROW_ID) {
       outState.putLong(KEY_METHODID, methodId);
     }
-    long accountId = mAccountSpinner.getSelectedItemId();
-    if (accountId == android.widget.AdapterView.INVALID_ROW_ID && mAccountId != null) {
-      accountId = mAccountId;
-    }
-    if (accountId != android.widget.AdapterView.INVALID_ROW_ID) {
-      outState.putLong(KEY_ACCOUNTID, accountId);
+    if (didUserSetAccount) {
+      long accountId = mAccountSpinner.getSelectedItemId();
+      if (accountId == android.widget.AdapterView.INVALID_ROW_ID && mAccountId != null) {
+        accountId = mAccountId;
+      }
+      if (accountId != android.widget.AdapterView.INVALID_ROW_ID) {
+        outState.putLong(KEY_ACCOUNTID, accountId);
+      }
     }
     if (mOperationType == MyExpenses.TYPE_TRANSFER) {
       outState.putLong(KEY_TRANSFER_ACCOUNT, mTransferAccountSpinner.getSelectedItemId());
@@ -1466,6 +1468,15 @@ public class ExpenseEdit extends AmountActivity implements
           if (TextUtils.isEmpty(mAmountText.getText().toString())) {
             fillAmount(t.getAmount().getAmountMajor());
             configureType();
+          }
+          if (!didUserSetAccount && getIntent().getBooleanExtra(KEY_AUTOFILL_MAY_SET_ACCOUNT, false)
+              && mAccounts != null) {
+            for (int i = 0; i < mAccounts.length; i++) {
+              if (mAccounts[i].getId().equals(t.accountId)) {
+                mAccountSpinner.setSelection(i);
+                break;
+              }
+            }
           }
         }
         break;
@@ -1660,6 +1671,7 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   private void updateAccount(Account account) {
+    didUserSetAccount = true;
     mTransaction.accountId = account.getId();
     setAccountLabel(account);
     if (mOperationType == MyExpenses.TYPE_TRANSFER) {
@@ -1681,9 +1693,6 @@ public class ExpenseEdit extends AmountActivity implements
     }
     configureStatusSpinner();
     mAmountText.setFractionDigits(Money.getFractionDigits(account.currency));
-    //once user has selected account, we no longer want
-    //the passed in KEY_CURRENCY to override it in onLoadFinished
-    getIntent().removeExtra(KEY_CURRENCY);
   }
 
   private void configureTransferInput() {
@@ -1908,8 +1917,8 @@ public class ExpenseEdit extends AmountActivity implements
         }
         data.moveToFirst();
         boolean selectionSet = false;
-        String currencyExtra = getIntent().getStringExtra(KEY_CURRENCY);
-        while (data.isAfterLast() == false) {
+        String currencyExtra = didUserSetAccount ? null : getIntent().getStringExtra(KEY_CURRENCY);
+        while (!data.isAfterLast()) {
           int position = data.getPosition();
           Account a = Account.fromCacheOrFromCursor(data);
           mAccounts[position] = a;
