@@ -34,5 +34,8 @@ public interface SyncBackendProvider {
     SyncParseException(Exception e) {
       super(e);
     }
+    SyncParseException(String message) {
+      super(message);
+    }
   }
 }
