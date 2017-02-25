@@ -1,9 +1,5 @@
 package org.totschnig.myexpenses.util;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-
 import android.util.Log;
 import android.util.SparseArray;
 
@@ -15,6 +11,12 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Utilities;
 import com.itextpdf.text.error_messages.MessageLocalization;
 import com.itextpdf.text.pdf.BaseFont;
+
+import org.totschnig.myexpenses.BuildConfig;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class LazyFontSelector {
   public enum FontType {
@@ -60,7 +62,7 @@ public class LazyFontSelector {
    * 
    * @param text
    *          the text
-   * @param font
+   * @param type
    * @return a <CODE>Phrase</CODE> with one or more chunks
    * @throws IOException 
    * @throws DocumentException 
@@ -115,6 +117,7 @@ public class LazyFontSelector {
           }
         }
       } else {
+        boolean found = false;
         for (int f = 0; f < files.length; ++f) {
           font = getFont(f);
           if (font.getBaseFont().charExists(c)
@@ -127,8 +130,13 @@ public class LazyFontSelector {
               currentFont = font;
             }
             sb.append(c);
+            found = true;
+            //Log.d("MyExpenses","Character " + c + " was found in font " + currentFont.getBaseFont().getPostscriptFontName());
             break;
           }
+        }
+        if (!found && BuildConfig.DEBUG) {
+          Log.d("MyExpenses","Character " + c + " was not found in any fonts");
         }
       }
     }
