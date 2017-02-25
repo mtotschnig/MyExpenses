@@ -1,16 +1,5 @@
 package org.totschnig.myexpenses.util;
 
-import java.io.File;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Locale;
-import java.util.regex.Pattern;
-
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.util.LazyFontSelector.FontType;
-
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.text.TextUtils;
@@ -24,6 +13,17 @@ import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.util.LazyFontSelector.FontType;
+
+import java.io.File;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Locale;
+import java.util.regex.Pattern;
 
 public class PdfHelper {
   
@@ -57,7 +57,9 @@ public class PdfHelper {
 
           @Override
           public boolean accept(File dir, String filename) {
-            return !filename.equals("NotoColorEmoji.ttf");//know not to work
+            return filename.endsWith("ttf") //NotoSans*-Regular.otf files found not to work:
+                                            //BaseFont.charExists finds chars that are not visible in PDF
+                && !filename.equals("NotoColorEmoji.ttf");//know not to work
 
           }
         });
