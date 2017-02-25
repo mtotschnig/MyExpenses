@@ -52,6 +52,7 @@ import hirondelle.date4j.DateTime;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.FULL_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
@@ -176,13 +177,14 @@ public class Transaction extends Model {
         getWeekEnd() + " AS " + KEY_WEEK_END
     };
     int baseLength = PROJECTION_BASE.length;
-    PROJECTION_EXTENDED = new String[baseLength + 3];
+    PROJECTION_EXTENDED = new String[baseLength + 4];
     System.arraycopy(PROJECTION_BASE, 0, PROJECTION_EXTENDED, 0, baseLength);
     PROJECTION_EXTENDED[baseLength] = KEY_COLOR;
     //the definition of column TRANSFER_PEER_PARENT refers to view_extended,
     //thus can not be used in PROJECTION_BASE
     PROJECTION_EXTENDED[baseLength + 1] = TRANSFER_PEER_PARENT + " AS transfer_peer_parent";
     PROJECTION_EXTENDED[baseLength + 2] = KEY_STATUS;
+    PROJECTION_EXTENDED[baseLength + 3] = KEY_ACCOUNT_LABEL;
   }
 
   public static final Uri CONTENT_URI = TransactionProvider.TRANSACTIONS_URI;

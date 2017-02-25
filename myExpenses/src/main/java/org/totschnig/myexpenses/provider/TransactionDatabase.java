@@ -58,6 +58,7 @@ import java.util.Currency;
 import java.util.Locale;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
@@ -124,7 +125,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 61;
+  public static final int DATABASE_VERSION = 62;
   public static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -193,8 +194,11 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         .append(TABLE_METHODS).append(".").append(KEY_LABEL).append(" AS ").append(KEY_METHOD_LABEL);
 
     if (!tableName.equals(TABLE_CHANGES)) {
-      stringBuilder.append(", ").append(KEY_COLOR).append(", ")
-          .append(KEY_CURRENCY).append(", ").append(KEY_EXCLUDE_FROM_TOTALS);
+      stringBuilder.append(", ")
+          .append(KEY_COLOR).append(", ")
+          .append(KEY_CURRENCY).append(", ")
+          .append(KEY_EXCLUDE_FROM_TOTALS).append(", ")
+          .append(TABLE_ACCOUNTS).append(".").append(KEY_LABEL).append(" AS ").append(KEY_ACCOUNT_LABEL);
     }
 
     if (tableName.equals(TABLE_TRANSACTIONS)) {
@@ -1479,22 +1483,30 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           "SELECT account_id, type, sync_sequence_local, uuid, timestamp, parent_uuid, comment, date, amount, cat_id, payee_id, transfer_account, method_id, cr_status, number, picture_id FROM changes_old");
       db.execSQL("DROP TABLE changes_old");
     }
+
+    if (oldVersion < 62) {
+      refreshViewsExtended(db);
+    }
   }
 
   private void refreshViews1(SQLiteDatabase db) {
-    db.execSQL("DROP VIEW IF EXISTS transactions_extended");
-    db.execSQL("DROP VIEW IF EXISTS templates_extended");
     db.execSQL("DROP VIEW IF EXISTS transactions_committed");
     db.execSQL("DROP VIEW IF EXISTS transactions_uncommitted");
     db.execSQL("DROP VIEW IF EXISTS transactions_all");
     db.execSQL("DROP VIEW IF EXISTS templates_all");
-    db.execSQL("CREATE VIEW transactions_extended" + buildViewDefinitionExtended(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
-    db.execSQL("CREATE VIEW templates_extended" + buildViewDefinitionExtended(TABLE_TEMPLATES));
     String viewTransactions = buildViewDefinition(TABLE_TRANSACTIONS);
     db.execSQL("CREATE VIEW transactions_committed " + viewTransactions + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
     db.execSQL("CREATE VIEW transactions_uncommitted" + viewTransactions + " WHERE " + KEY_STATUS + " = " + STATUS_UNCOMMITTED + ";");
     db.execSQL("CREATE VIEW transactions_all" + viewTransactions);
     db.execSQL("CREATE VIEW templates_all" + buildViewDefinition(TABLE_TEMPLATES));
+    refreshViewsExtended(db);
+  }
+
+  private void refreshViewsExtended(SQLiteDatabase db) {
+    db.execSQL("DROP VIEW IF EXISTS transactions_extended");
+    db.execSQL("DROP VIEW IF EXISTS templates_extended");
+    db.execSQL("CREATE VIEW transactions_extended" + buildViewDefinitionExtended(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
+    db.execSQL("CREATE VIEW templates_extended" + buildViewDefinitionExtended(TABLE_TEMPLATES));
   }
 
   private void refreshViews2(SQLiteDatabase db) {

@@ -23,7 +23,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -49,16 +51,16 @@ import android.widget.Toast;
 
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
-import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
-import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
+import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Model;
+import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.Result;
@@ -102,17 +104,22 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   private boolean scheduledRestart = false;
   public Enum<?> helpVariant = null;
   protected int colorExpense;
+  protected int colorIncome;
+  protected ColorStateList textColorSecondary;
   protected FloatingActionButton floatingActionButton;
+
+  public int getColorIncome() {
+    return colorIncome;
+  }
 
   public int getColorExpense() {
     return colorExpense;
   }
 
-  protected int colorIncome;
-
-  public int getColorIncome() {
-    return colorIncome;
+  public ColorStateList getTextColorSecondary() {
+    return textColorSecondary;
   }
+
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +139,8 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     colorExpense = color.data;
     theme.resolveAttribute(R.attr.colorIncome, color, true);
     colorIncome = color.data;
+    TypedArray themeArray = theme.obtainStyledAttributes(new int[] {android.R.attr.textColorSecondary});
+    textColorSecondary = themeArray.getColorStateList(0);
   }
 
   @Override
@@ -174,7 +183,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
           .build());
       StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
           .detectLeakedSqlLiteObjects()
-              //.detectLeakedClosableObjects()
+          //.detectLeakedClosableObjects()
           .penaltyLog()
           .penaltyDeath()
           .build());
@@ -427,7 +436,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
         } else {
           if (ActivityCompat.shouldShowRequestPermissionRationale(
               this, Manifest.permission.WRITE_CALENDAR)) {
-            Toast.makeText(this, getString(R.string.calendar_permission_required),Toast.LENGTH_LONG)
+            Toast.makeText(this, getString(R.string.calendar_permission_required), Toast.LENGTH_LONG)
                 .show();
           }
         }

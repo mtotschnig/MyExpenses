@@ -229,6 +229,7 @@ public class TransactionProvider extends ContentProvider {
   public static final String QUERY_PARAMETER_WITH_PLAN_INFO = "withPlanInfo";
   public static final String QUERY_PARAMETER_INIT = "init";
   public static final String QUERY_PARAMETER_CALLER_IS_SYNCADAPTER = "caller_is_syncadapter";
+  public static final String QUERY_PARAMETER_MERGE_TRANSFERS = "mergeTransfers";
 
   
   static final String TAG = "TransactionProvider";
@@ -321,8 +322,12 @@ public class TransactionProvider extends ContentProvider {
         qb.setDistinct(true);
       }
       defaultOrderBy = KEY_DATE + " DESC";
-      if (projection == null)
+      if (projection == null) {
         projection = extended ? Transaction.PROJECTION_EXTENDED : Transaction.PROJECTION_BASE;
+      }
+      if (uri.getQueryParameter(QUERY_PARAMETER_MERGE_TRANSFERS) != null) {
+        groupBy = "min(" + KEY_ROWID + ", ifnull(" + KEY_TRANSFER_PEER + "," + KEY_ROWID + "))";
+      }
       break;
     case UNCOMMITTED:
       qb.setTables(VIEW_UNCOMMITTED);
