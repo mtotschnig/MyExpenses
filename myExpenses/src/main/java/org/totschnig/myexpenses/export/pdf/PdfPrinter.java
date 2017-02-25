@@ -41,6 +41,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
@@ -48,6 +49,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INTERIM_BALANCE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_SAME_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_MAIN;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_SUB;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MONTH;
@@ -104,7 +106,9 @@ public class PdfPrinter {
         fileName,
         "application/pdf", false);
     Document document = new Document();
-    transactionCursor = Model.cr().query(Transaction.EXTENDED_URI, null, selection + " AND " + KEY_PARENTID + " is null", selectionArgs, KEY_DATE + " ASC");
+    transactionCursor = Model.cr().query(
+        account.getExtendedUriForTransactionList(), account.getExtendedProjectionForTransactionList(),
+        selection + " AND " + KEY_PARENTID + " is null", selectionArgs, KEY_DATE + " ASC");
     //first we check if there are any exportable transactions
     //String selection = KEY_ACCOUNTID + " = " + getId() + " AND " + KEY_PARENTID + " is null";
     if (transactionCursor.getCount() == 0) {
@@ -328,10 +332,11 @@ public class PdfPrinter {
         groupCursor.moveToNext();
       }
       long amount = transactionCursor.getLong(columnIndexAmount);
-      String catText = transactionCursor.getString(columnIndexLabelMain);
 
       PdfPCell cell = helper.printToCell(Utils.convDateTime(transactionCursor.getString(columnIndexDate), itemDateFormat), LazyFontSelector.FontType.NORMAL);
       table.addCell(cell);
+
+      String catText = transactionCursor.getString(columnIndexLabelMain);
       if (DbUtils.getLongOrNull(transactionCursor, columnIndexTransferPeer) != null) {
         catText = Transfer.getIndicatorPrefixForLabel(amount) + catText;
       } else {
@@ -376,6 +381,11 @@ public class PdfPrinter {
           }
         }
       }
+      if (account.getId() < 0) {
+        //for aggregate accounts we need to indicate the account name
+        catText = transactionCursor.getString(transactionCursor.getColumnIndex(KEY_ACCOUNT_LABEL))
+            + " " + catText;
+      }
       String referenceNumber = transactionCursor.getString(columnIndexReferenceNumber);
       if (referenceNumber != null && referenceNumber.length() > 0)
         catText = "(" + referenceNumber + ") " + catText;
@@ -388,7 +398,13 @@ public class PdfPrinter {
       if (payee != null && payee.length() > 0) {
         table.addCell(helper.printToCell(payee, LazyFontSelector.FontType.UNDERLINE));
       }
-      LazyFontSelector.FontType t = amount < 0 ? LazyFontSelector.FontType.EXPENSE : LazyFontSelector.FontType.INCOME;
+      LazyFontSelector.FontType t;
+      if (account.getId() < 0 &&
+          transactionCursor.getInt(transactionCursor.getColumnIndex(KEY_IS_SAME_CURRENCY)) == 1) {
+        t = LazyFontSelector.FontType.NORMAL;
+      } else {
+        t = amount < 0 ? LazyFontSelector.FontType.EXPENSE : LazyFontSelector.FontType.INCOME;
+      }
       cell = helper.printToCell(Utils.convAmount(amount, account.currency), t);
       cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
       table.addCell(cell);

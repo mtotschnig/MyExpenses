@@ -27,7 +27,6 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.net.Uri.Builder;
 import android.os.Build;
 import android.os.Bundle;
@@ -79,7 +78,6 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Grouping;
-import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -119,7 +117,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_TRANSFERS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INTERIM_BALANCE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_SAME_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_MAIN;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_SUB;
@@ -458,21 +455,10 @@ public class TransactionList extends ContextualActionBarFragment implements
             selectionArgs = Utils.joinArrays(selectionArgs, mFilter.getSelectionArgs(false));
           }
         }
-        Uri uri = Transaction.EXTENDED_URI;
-        String[] projection = null;
-        if (mAccount.getId() < 0) {
-          uri = uri.buildUpon().appendQueryParameter(
-              TransactionProvider.QUERY_PARAMETER_MERGE_TRANSFERS, "1")
-              .build();
-          int baseLength = Transaction.PROJECTION_EXTENDED.length;
-          projection = new String[baseLength + 1];
-          System.arraycopy(Transaction.PROJECTION_EXTENDED, 0, projection, 0, baseLength);
-          projection[baseLength] = KEY_CURRENCY  + " = (SELECT " + KEY_CURRENCY + " from " +
-              TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = " + KEY_TRANSFER_ACCOUNT + ") AS " +
-              KEY_IS_SAME_CURRENCY;
-        }
         cursorLoader = new CursorLoader(getActivity(),
-            uri, projection, selection + " AND " + KEY_PARENTID + " is null",
+            mAccount.getExtendedUriForTransactionList(),
+            mAccount.getExtendedProjectionForTransactionList(),
+            selection + " AND " + KEY_PARENTID + " is null",
             selectionArgs, null);
         break;
       //TODO: probably we can get rid of SUM_CURSOR, if we also aggregate unmapped transactions

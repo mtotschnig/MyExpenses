@@ -760,4 +760,12 @@ public class Account extends Model {
     }
     PrefKey.NEW_ACCOUNT_ENABLED.putBoolean(newAccountEnabled);
   }
+
+  public Uri getExtendedUriForTransactionList() {
+    return Transaction.EXTENDED_URI;
+  }
+
+  public String[] getExtendedProjectionForTransactionList() {
+    return Transaction.PROJECTION_EXTENDED;
+  }
 }

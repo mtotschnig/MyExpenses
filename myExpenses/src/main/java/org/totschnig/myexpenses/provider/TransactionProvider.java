@@ -67,6 +67,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.FULL_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_EXPORTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_FUTURE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.INCOME_SUM;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.IS_SAME_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
@@ -326,7 +327,10 @@ public class TransactionProvider extends ContentProvider {
         projection = extended ? Transaction.PROJECTION_EXTENDED : Transaction.PROJECTION_BASE;
       }
       if (uri.getQueryParameter(QUERY_PARAMETER_MERGE_TRANSFERS) != null) {
-        groupBy = "min(" + KEY_ROWID + ", ifnull(" + KEY_TRANSFER_PEER + "," + KEY_ROWID + "))";
+        String mergeTransferSelection = KEY_TRANSFER_PEER + " IS NULL OR " + IS_SAME_CURRENCY +
+            " != 1 OR " + KEY_AMOUNT + " > 0";
+        selection = selection == null ? mergeTransferSelection :
+            selection + " AND " + mergeTransferSelection;
       }
       break;
     case UNCOMMITTED:

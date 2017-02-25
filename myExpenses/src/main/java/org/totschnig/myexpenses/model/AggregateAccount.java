@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.model;
 
 import android.database.Cursor;
+import android.net.Uri;
 import android.util.Log;
 
 import org.totschnig.myexpenses.BuildConfig;
@@ -58,5 +59,17 @@ public class AggregateAccount extends Account {
         .putString(GROUPING_PREF_PREFIX + currency.getCurrencyCode(), value.name())
         .apply();
     cr().notifyChange(TransactionProvider.ACCOUNTS_URI, null, false);
+  }
+
+  @Override
+  public Uri getExtendedUriForTransactionList() {
+    return super.getExtendedUriForTransactionList().buildUpon().appendQueryParameter(
+        TransactionProvider.QUERY_PARAMETER_MERGE_TRANSFERS, "1")
+        .build();
+  }
+
+  @Override
+  public String[] getExtendedProjectionForTransactionList() {
+    return Transaction.PROJECTION_EXTENDED_AGGREGATE;
   }
 }
