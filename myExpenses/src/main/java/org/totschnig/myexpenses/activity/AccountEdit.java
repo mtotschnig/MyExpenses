@@ -358,14 +358,16 @@ public class AccountEdit extends AmountActivity implements
   @Override
   public void onPostExecute(int taskId, Object o) {
     super.onPostExecute(taskId, o);
+    Result r = ((Result) o);
     switch (taskId) {
       case TASK_SYNC_UNLINK:
-        mSyncSpinner.setSelection(0);
-        mSyncSpinner.setEnabled(true);
-        findViewById(R.id.SyncUnlink).setVisibility(View.GONE);
+        if (r.success) {
+          mSyncSpinner.setSelection(0);
+          mSyncSpinner.setEnabled(true);
+          findViewById(R.id.SyncUnlink).setVisibility(View.GONE);
+        }
         break;
       case TASK_SYNC_CHECK:
-        Result r = ((Result) o);
         if (!r.success) {
           mSyncSpinner.setSelection(0);
           showHelp(r.print(this));

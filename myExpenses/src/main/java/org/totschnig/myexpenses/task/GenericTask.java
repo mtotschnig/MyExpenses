@@ -519,7 +519,11 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         }
         return true;
       case TaskExecutionFragment.TASK_SYNC_UNLINK: {
-        Account account = Account.getInstanceFromDb(Account.findByUuid((String) ids[0]));
+        String uuid = (String) ids[0];
+        if (TextUtils.isEmpty(uuid)) {
+          return Result.FAILURE;
+        }
+        Account account = Account.getInstanceFromDb(Account.findByUuid(uuid));
         AccountManager accountManager = AccountManager.get(application);
         android.accounts.Account syncAccount = GenericAccountService.GetAccount(account.getSyncAccountName());
         accountManager.setUserData(syncAccount, SyncAdapter.KEY_LAST_SYNCED_LOCAL(account.getId()), null);
