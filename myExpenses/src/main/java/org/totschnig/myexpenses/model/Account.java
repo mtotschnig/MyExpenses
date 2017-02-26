@@ -555,21 +555,17 @@ public class Account extends Model {
     initialValues.put(KEY_GROUPING, grouping.name());
     initialValues.put(KEY_COLOR, color);
     initialValues.put(KEY_SYNC_ACCOUNT_NAME, syncAccountName);
+    initialValues.put(KEY_UUID, requireUuid());
 
     if (getId() == 0) {
       //if account is added from sync backend uuid is already set
-      initialValues.put(KEY_UUID, requireUuid());
+
       uri = cr().insert(CONTENT_URI, initialValues);
       if (uri == null) {
         return null;
       }
       setId(ContentUris.parseId(uri));
     } else {
-      if (android.text.TextUtils.isEmpty(uuid)) {
-        //for accounts created before DB schema 59, uuid has not yet been set
-        //and is needed when the account is supposed to be synced
-        initialValues.put(KEY_UUID, generateUuid());
-      }
       uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build();
       cr().update(uri, initialValues, null, null);
     }
