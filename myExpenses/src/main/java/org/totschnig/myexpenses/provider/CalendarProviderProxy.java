@@ -41,7 +41,7 @@ public class CalendarProviderProxy extends ContentProvider {
 
   static {
     URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
-    URI_MATCHER.addURI(AUTHORITY, "instances/when/#/#", INSTANCES_WHEN);
+    URI_MATCHER.addURI(AUTHORITY, "instances/when/*/*", INSTANCES_WHEN);
     URI_MATCHER.addURI(AUTHORITY, "events", EVENTS);
   }
 

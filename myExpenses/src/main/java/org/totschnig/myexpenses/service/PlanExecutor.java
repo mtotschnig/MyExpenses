@@ -75,6 +75,10 @@ public class PlanExecutor extends IntentService {
     //we use an overlapping window of 5 minutes to prevent plans that are just created by the user while
     //we are running from falling through
     long instancesFrom = PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP.getLong(now - H24) - M5;
+    if (now < instancesFrom) {
+      Log.i(MyApplication.TAG, "Broken system time? Cannot execute plans.");
+      return;
+    }
     Log.i(MyApplication.TAG, String.format(
         "executing plans from %d to %d",
         instancesFrom,
