@@ -101,7 +101,7 @@ dependencies {
     compile 'com.android.support:gridlayout-v7:' + project.androidSupportLibraryVersion
     compile 'com.android.support:preference-v14:' + "23.1.1"
     compile 'com.itextpdf:itextg:5.5.10'
-    compile 'ch.acra:acra:4.9.1'
+    compile 'ch.acra:acra:4.9.2'
     compile 'org.apache.commons:commons-lang3:3.4'
     compile 'org.apache.commons:commons-csv:1.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
