@@ -142,7 +142,8 @@ public class TransactionAdapter extends SimpleCursorAdapter {
     long amount = c.getLong(c.getColumnIndex(KEY_AMOUNT));
     tv1.setTextColor(amount < 0 ? colorExpense : colorIncome);
     if (mAccount.getId() < 0) {
-      if (c.getInt(c.getColumnIndex(KEY_IS_SAME_CURRENCY)) != 1) {
+      int columnIndex = c.getColumnIndex(KEY_IS_SAME_CURRENCY);
+      if (columnIndex == -1 || c.getInt(columnIndex) != 1) {
         int color = c.getInt(c.getColumnIndex(KEY_COLOR));
         viewHolder.colorAccount.setBackgroundColor(color);
       } else {
