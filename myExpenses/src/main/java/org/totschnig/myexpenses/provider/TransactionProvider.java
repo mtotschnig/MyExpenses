@@ -330,7 +330,7 @@ public class TransactionProvider extends ContentProvider {
         String mergeTransferSelection = KEY_TRANSFER_PEER + " IS NULL OR " + IS_SAME_CURRENCY +
             " != 1 OR " + KEY_AMOUNT + " > 0";
         selection = selection == null ? mergeTransferSelection :
-            selection + " AND " + mergeTransferSelection;
+            selection + " AND (" + mergeTransferSelection + ")";
       }
       break;
     case UNCOMMITTED:
