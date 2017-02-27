@@ -22,19 +22,34 @@ import android.os.Parcel;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.util.Utils;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
 
 public class TransferCriteria extends IdCriteria {
 
   public TransferCriteria(String label, long... ids) {
     super(MyApplication.getInstance().getString(R.string.transfer),
-        DatabaseConstants.KEY_TRANSFER_ACCOUNT, label, ids);
+        KEY_TRANSFER_ACCOUNT, label, ids);
   }
 
   @SuppressWarnings("unused")
   public TransferCriteria(String label, String... ids) {
     super(MyApplication.getInstance().getString(R.string.transfer),
-        DatabaseConstants.KEY_TRANSFER_ACCOUNT, label, ids);
+        KEY_TRANSFER_ACCOUNT, label, ids);
+  }
+
+  @Override
+  public String getSelection() {
+    String selection = operation.getOp(values.length);
+    return KEY_TRANSFER_PEER + " IS NOT NULL AND (" + KEY_TRANSFER_ACCOUNT + " " + selection + " OR " + KEY_ACCOUNTID + " " + selection + ")";
+  }
+
+  @Override
+  public String[] getSelectionArgs() {
+    return Utils.joinArrays(values,values);
   }
 
   public TransferCriteria(Parcel in) {
