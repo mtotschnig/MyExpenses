@@ -552,6 +552,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   TransactionDatabase(Context context) {
     super(context, getDbName(), null, DATABASE_VERSION);
     mCtx = context;
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+      setWriteAheadLoggingEnabled(true);
+    }
   }
 
   public static String getDbName() {
