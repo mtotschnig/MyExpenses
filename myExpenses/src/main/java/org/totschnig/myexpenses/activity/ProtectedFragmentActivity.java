@@ -29,7 +29,6 @@ import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
@@ -49,7 +48,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
@@ -123,9 +121,6 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    if (BuildConfig.DEBUG) {
-      enableStrictMode();
-    }
     super.onCreate(savedInstanceState);
     if (PrefKey.PERFORM_PROTECTION.getBoolean(false)) {
       getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
@@ -170,24 +165,6 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
       actionBar.setDisplayHomeAsUpEnabled(true);
     }
     return toolbar;
-  }
-
-  @TargetApi(9)
-  private void enableStrictMode() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-      StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-          .detectDiskReads()
-          .detectDiskWrites()
-          .detectNetwork()   // or .detectAll() for all detectable problems
-          .penaltyLog()
-          .build());
-      StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-          .detectLeakedSqlLiteObjects()
-          //.detectLeakedClosableObjects()
-          .penaltyLog()
-          .penaltyDeath()
-          .build());
-    }
   }
 
   private ProtectionDelegate getProtection() {

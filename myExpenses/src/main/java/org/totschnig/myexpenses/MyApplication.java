@@ -27,6 +27,8 @@ import android.content.res.Configuration;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
+import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
@@ -136,6 +138,9 @@ public class MyApplication extends MultiDexApplication implements
 
   @Override
   public void onCreate() {
+    if (BuildConfig.DEBUG) {
+      enableStrictMode();
+    }
     super.onCreate();
     AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     //Maybe prevents occasional crashes on Gingerbread
@@ -148,6 +153,7 @@ public class MyApplication extends MultiDexApplication implements
     if (!ACRA.isACRASenderServiceProcess() && !isSyncService()) {
       // sets up mSettings
       getSettings().registerOnSharedPreferenceChangeListener(this);
+      //TODO do in background and present to user a splash screen while database is set up
       licenceHandler.init();
       initPlannerInternal(60000);
       registerWidgetObservers();
@@ -823,6 +829,23 @@ public class MyApplication extends MultiDexApplication implements
     if (!persistedDirty) {
       PrefKey.AUTO_BACKUP_DIRTY.putBoolean(true);
       DailyAutoBackupScheduler.updateAutoBackupAlarms(mSelf);
+    }
+  }
+
+  private void enableStrictMode() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+      StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+          .detectDiskReads()
+          .detectDiskWrites()
+          .detectNetwork()   // or .detectAll() for all detectable problems
+          .penaltyLog()
+          .build());
+      StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+          .detectLeakedSqlLiteObjects()
+          //.detectLeakedClosableObjects()
+          .penaltyLog()
+          .penaltyDeath()
+          .build());
     }
   }
 }
