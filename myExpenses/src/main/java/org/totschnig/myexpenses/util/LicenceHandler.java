@@ -1,7 +1,5 @@
 package org.totschnig.myexpenses.util;
 
-import android.os.AsyncTask;
-import android.os.Build;
 import android.support.annotation.VisibleForTesting;
 
 import org.totschnig.myexpenses.BuildConfig;
@@ -16,11 +14,7 @@ public abstract class LicenceHandler {
 
   public void init() {
     if (PrefKey.CURRENT_VERSION.getInt(-1) != -1) {
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-        AsyncTask.execute(() -> refresh(true));
-      } else {
-        refresh(true);
-      }
+      refresh(true);
     }
   }
 
