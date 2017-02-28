@@ -46,9 +46,7 @@ public class DatabaseConstants {
     }
 
     public static void buildLocalized(Locale locale) {
-    weekStartsOn = Integer.parseInt(PrefKey.GROUP_WEEK_STARTS.getString("-1"));
-    if (weekStartsOn == -1)
-      weekStartsOn = Utils.getFirstDayOfWeek(locale); //JAVA starts with Sunday = 1
+    weekStartsOn = Utils.getFirstDayOfWeekFromPreferenceWithFallbackToLocale(locale);
     monthStartsOn = Integer.parseInt(PrefKey.GROUP_MONTH_STARTS.getString("1"));
     int monthDelta = monthStartsOn - 1;
     int nextWeekEndSqlite, nextWeekStartsSqlite = weekStartsOn -1; //Sqlite starts with Sunday = 0

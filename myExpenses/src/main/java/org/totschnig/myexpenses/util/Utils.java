@@ -1293,6 +1293,12 @@ public class Utils {
     return new GregorianCalendar(locale).getFirstDayOfWeek();
   }
 
+  public static int getFirstDayOfWeekFromPreferenceWithFallbackToLocale(Locale locale) {
+    String weekStartsOn = PrefKey.GROUP_WEEK_STARTS.getString("-1");
+    return weekStartsOn.equals("-1") ? Utils.getFirstDayOfWeek(locale) :
+        Integer.parseInt(weekStartsOn);
+  }
+
   public static void configureSortMenu(SubMenu sortMenu, String currentSortOrder) {
     MenuItem activeItem;
     switch (currentSortOrder) {

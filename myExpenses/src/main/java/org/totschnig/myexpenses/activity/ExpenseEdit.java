@@ -61,7 +61,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.DatePicker;
+import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.FrameLayout;
@@ -69,7 +69,6 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -126,6 +125,7 @@ import java.util.Calendar;
 import java.util.Currency;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
@@ -925,17 +925,13 @@ public class ExpenseEdit extends AmountActivity implements
    * listens on changes in the date dialog and sets the date on the button
    */
   private DatePickerDialog.OnDateSetListener mDateSetListener =
-      new DatePickerDialog.OnDateSetListener() {
-
-        public void onDateSet(DatePicker view, int year,
-                              int monthOfYear, int dayOfMonth) {
-          if (mCalendar.get(Calendar.YEAR) != year ||
-              mCalendar.get(Calendar.MONTH) != monthOfYear ||
-              mCalendar.get(Calendar.DAY_OF_MONTH) != dayOfMonth) {
-            mCalendar.set(year, monthOfYear, dayOfMonth);
-            setDate();
-            setDirty(true);
-          }
+      (view, year, monthOfYear, dayOfMonth) -> {
+        if (mCalendar.get(Calendar.YEAR) != year ||
+            mCalendar.get(Calendar.MONTH) != monthOfYear ||
+            mCalendar.get(Calendar.DAY_OF_MONTH) != dayOfMonth) {
+          mCalendar.set(year, monthOfYear, dayOfMonth);
+          setDate();
+          setDirty(true);
         }
       };
 
@@ -943,16 +939,13 @@ public class ExpenseEdit extends AmountActivity implements
    * listens on changes in the time dialog and sets the time on the button
    */
   private TimePickerDialog.OnTimeSetListener mTimeSetListener =
-      new TimePickerDialog.OnTimeSetListener() {
-
-        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-          if (mCalendar.get(Calendar.HOUR_OF_DAY) != hourOfDay ||
-              mCalendar.get(Calendar.MINUTE) != minute) {
-            mCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-            mCalendar.set(Calendar.MINUTE, minute);
-            setTime();
-            setDirty(true);
-          }
+      (view, hourOfDay, minute) -> {
+        if (mCalendar.get(Calendar.HOUR_OF_DAY) != hourOfDay ||
+            mCalendar.get(Calendar.MINUTE) != minute) {
+          mCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+          mCalendar.set(Calendar.MINUTE, minute);
+          setTime();
+          setDirty(true);
         }
       };
 
@@ -976,6 +969,20 @@ public class ExpenseEdit extends AmountActivity implements
           datePickerDialog.setTitle("");
           datePickerDialog.updateDate(year, month, day);
         }
+        if (PrefKey.GROUP_WEEK_STARTS.isSet()) {
+          int startOfWeek = Utils.getFirstDayOfWeekFromPreferenceWithFallbackToLocale(Locale.getDefault());
+          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            datePickerDialog.getDatePicker().setFirstDayOfWeek(startOfWeek);
+          } else {
+            try {
+              if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB_MR1) {
+                CalendarView calendarView = datePickerDialog.getDatePicker().getCalendarView();
+                calendarView.setFirstDayOfWeek(startOfWeek);
+              }
+            } catch (UnsupportedOperationException e) {/*Nothing left tod do*/}
+          }
+        }
+
         return datePickerDialog;
       case TIME_DIALOG_ID:
         return new TimePickerDialog(this,

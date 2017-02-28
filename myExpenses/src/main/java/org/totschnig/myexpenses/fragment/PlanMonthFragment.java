@@ -101,6 +101,8 @@ public class PlanMonthFragment extends CaldroidFragment
     args.putLong(DatabaseConstants.KEY_ROWID, templateId);
     args.putBoolean(CaldroidFragment.SIX_WEEKS_IN_CALENDAR, false);
     args.putBoolean(KEY_READ_ONLY, readOnly);
+    args.putInt(CaldroidFragment.START_DAY_OF_WEEK,
+        Utils.getFirstDayOfWeekFromPreferenceWithFallbackToLocale(Locale.getDefault()));
     f.setArguments(args);
     return f;
   }
