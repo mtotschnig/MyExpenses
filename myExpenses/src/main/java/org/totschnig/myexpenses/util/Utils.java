@@ -832,22 +832,19 @@ public class Utils {
   public static CharSequence getContribFeatureLabelsAsFormattedList(
       Context ctx, ContribFeature other, LicenceHandler.LicenceStatus type) {
     CharSequence result = "", linefeed = Html.fromHtml("<br>");
-    Iterator<ContribFeature> iterator = EnumSet.allOf(ContribFeature.class)
-        .iterator();
-    while (iterator.hasNext()) {
-      ContribFeature f = iterator.next();
+    for (ContribFeature f : EnumSet.allOf(ContribFeature.class)) {
       if (!f.equals(other) &&
           (!f.equals(ContribFeature.AD_FREE) || IS_FLAVOURED)) {
-        if (type !=null &&
+        if (type != null &&
             ((f.isExtended() && !type.equals(LicenceHandler.LicenceStatus.EXTENDED)) ||
-            (!f.isExtended() && type.equals(LicenceHandler.LicenceStatus.EXTENDED)))) {
+                (!f.isExtended() && type.equals(LicenceHandler.LicenceStatus.EXTENDED)))) {
           continue;
         }
         String resName = "contrib_feature_" + f.toString() + "_label";
         int resId = ctx.getResources().getIdentifier(
             resName, "string",
             ctx.getPackageName());
-        if (resId==0) {
+        if (resId == 0) {
           AcraHelper.report(new Resources.NotFoundException(resName));
           continue;
         }

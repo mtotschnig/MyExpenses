@@ -19,6 +19,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.text.TextUtils;
@@ -50,6 +51,7 @@ public class ContribInfoDialogFragment extends CommitSafeDialogFragment implemen
     return dialogFragment;
   }
 
+  @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     boolean isContrib = MyApplication.getInstance().getLicenceHandler().isContribEnabled();

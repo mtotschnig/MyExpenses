@@ -102,7 +102,7 @@ public enum ContribFeature {
 
   ContribFeature(boolean hasTrial, boolean isExtended) {
     this.hasTrial = hasTrial;
-    this.isExtended = LicenceHandler.HAS_EXTENDED ? isExtended : false;
+    this.isExtended = LicenceHandler.HAS_EXTENDED && isExtended;
   }
 
   private boolean hasTrial;

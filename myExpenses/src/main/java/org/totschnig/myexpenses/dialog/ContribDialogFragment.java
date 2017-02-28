@@ -73,15 +73,16 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     if (!isContrib) {
       CharSequence featureList = Utils.getContribFeatureLabelsAsFormattedList(ctx, feature,
           feature.isExtended() ? null : LicenceHandler.LicenceStatus.CONTRIB); //if feature is extended, we list all features
-      //if user has contrib key, he already has access to premium features, currently there is only
-      //one extended feature
+      //if user has contrib key, he already has access to premium features,
       message = TextUtils.concat(message, " ",
           getString(R.string.dialog_contrib_reminder_gain_access),
           linefeed, featureList);
       if (!feature.isExtended()) {
-        String pro = getString(R.string.dialog_contrib_extended_gain_access);
-        CharSequence extendedList = Utils.getContribFeatureLabelsAsFormattedList(ctx, feature, LicenceHandler.LicenceStatus.EXTENDED);
-        message = TextUtils.concat(message, linefeed, pro, linefeed, extendedList);
+        if (LicenceHandler.HAS_EXTENDED) {
+          String pro = getString(R.string.dialog_contrib_extended_gain_access);
+          CharSequence extendedList = Utils.getContribFeatureLabelsAsFormattedList(ctx, feature, LicenceHandler.LicenceStatus.EXTENDED);
+          message = TextUtils.concat(message, linefeed, pro, linefeed, extendedList);
+        }
         builder.setNegativeButton(R.string.dialog_contrib_buy_premium, this);
       }
     }
