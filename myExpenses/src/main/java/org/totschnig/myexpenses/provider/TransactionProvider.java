@@ -168,7 +168,7 @@ public class TransactionProvider extends ContentProvider {
   //we do not want the cursor to be reloaded when a transaction is added
   //hence we access it through a different URI
   public static final Uri ACCOUNTS_BASE_URI =
-      Uri.parse("content://" + AUTHORITY + "/accounts/base");
+      Uri.parse("content://" + AUTHORITY + "/accountsbase");
   public static final Uri ACCOUNTS_AGGREGATE_URI =
       Uri.parse("content://" + AUTHORITY + "/accounts/aggregates");
   public static final Uri TRANSACTIONS_URI =
@@ -1440,7 +1440,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "categories", CATEGORIES);
     URI_MATCHER.addURI(AUTHORITY, "categories/#", CATEGORY_ID);
     URI_MATCHER.addURI(AUTHORITY, "accounts", ACCOUNTS);
-    URI_MATCHER.addURI(AUTHORITY, "accounts/base", ACCOUNTS_BASE);
+    URI_MATCHER.addURI(AUTHORITY, "accountsbase", ACCOUNTS_BASE);
     URI_MATCHER.addURI(AUTHORITY, "accounts/#", ACCOUNT_ID);
     URI_MATCHER.addURI(AUTHORITY, "payees", PAYEES);
     URI_MATCHER.addURI(AUTHORITY, "payees/#", PAYEE_ID);
