@@ -38,6 +38,7 @@ public class DatabaseConstants {
   private static String MONTH;
   private static String THIS_YEAR_OF_WEEK_START;
   private static String THIS_WEEK;
+  private static String THIS_MONTH;
   private static String WEEK_START;
   private static String WEEK_END;
   private static String COUNT_FROM_WEEK_START_ZERO;
@@ -64,9 +65,10 @@ public class DatabaseConstants {
     WEEK_END = "strftime('%s',date,'unixepoch','weekday " + nextWeekEndSqlite + "')";
     WEEK  = "CAST(strftime('%W',date,'unixepoch','localtime','weekday " + nextWeekEndSqlite + "', '-6 day') AS integer)"; //calculated for the beginning of the week
     MONTH = "CAST(strftime('%m',date,'unixepoch','localtime','-" + monthDelta + " day') AS integer)";
-    THIS_WEEK  = "CAST(strftime('%W','now','localtime','weekday " + nextWeekEndSqlite + "', '-6 day') AS integer)"; 
+    THIS_WEEK  = "CAST(strftime('%W','now','localtime','weekday " + nextWeekEndSqlite + "', '-6 day') AS integer)";
+    THIS_MONTH = "CAST(strftime('%m','now','localtime','-" + monthDelta + " day') AS integer)";
     COUNT_FROM_WEEK_START_ZERO = "strftime('%%s','%d-01-01','utc','weekday 1', 'weekday " + nextWeekStartsSqlite + "', '" +
-        "-7 day" + 
+        "-7 day" +
         "' ,'+%d day')";
     isLocalized = true;
   }
@@ -82,7 +84,6 @@ public class DatabaseConstants {
   public static final String THIS_DAY   = "CAST(strftime('%j','now','localtime') AS integer)";
   public static final String DAY   = "CAST(strftime('%j',date,'unixepoch','localtime') AS integer)";
   public static final String THIS_YEAR  = "CAST(strftime('%Y','now','localtime') AS integer)";
-  public static final String THIS_MONTH = "CAST(strftime('%m','now','localtime') AS integer)";
   public static final String KEY_DATE = "date";
   public static final String KEY_AMOUNT = "amount";
   public static final String KEY_COMMENT = "comment";
@@ -310,7 +311,7 @@ public class DatabaseConstants {
       " END AS " + KEY_TRANSFER_AMOUNT;
 
   public static final Long SPLIT_CATID = 0L;
-  
+
   public static final String WHERE_NOT_SPLIT =
       "(" + KEY_CATID + " IS null OR " + KEY_CATID + " != " + SPLIT_CATID + ")";
   public static final String WHERE_NOT_SPLIT_PART =
@@ -324,19 +325,19 @@ public class DatabaseConstants {
   public static final String WHERE_EXPENSE = KEY_AMOUNT + "<0 AND " + WHERE_TRANSACTION;
   public static final String WHERE_TRANSFER =
       WHERE_NOT_SPLIT + " AND " + WHERE_NOT_VOID + " AND " + KEY_TRANSFER_PEER + " is not null";
-  public static final String INCOME_SUM = 
+  public static final String INCOME_SUM =
     "sum(CASE WHEN " + WHERE_INCOME + " THEN " + KEY_AMOUNT + " ELSE 0 END) AS " + KEY_SUM_INCOME;
-  public static final String EXPENSE_SUM = 
+  public static final String EXPENSE_SUM =
       "abs(sum(CASE WHEN " + WHERE_EXPENSE + " THEN " + KEY_AMOUNT + " ELSE 0 END)) AS " + KEY_SUM_EXPENSES;
-  public static final String TRANSFER_SUM = 
+  public static final String TRANSFER_SUM =
       "sum(CASE WHEN " + WHERE_TRANSFER + " THEN " + KEY_AMOUNT + " ELSE 0 END) AS " + KEY_SUM_TRANSFERS;
-  public static final String HAS_CLEARED = 
+  public static final String HAS_CLEARED =
       "(SELECT EXISTS(SELECT 1 FROM " + TABLE_TRANSACTIONS + " WHERE "
           + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + " AND " + KEY_CR_STATUS + " = '" + CrStatus.CLEARED.name() + "' LIMIT 1)) AS " + KEY_HAS_CLEARED;
-  public static final String HAS_EXPORTED = 
+  public static final String HAS_EXPORTED =
       "(SELECT EXISTS(SELECT 1 FROM " + TABLE_TRANSACTIONS + " WHERE "
           + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + " AND " + KEY_STATUS + " = " + STATUS_EXPORTED + " LIMIT 1)) AS " + KEY_HAS_EXPORTED;
-  public static final String HAS_FUTURE = 
+  public static final String HAS_FUTURE =
       "(SELECT EXISTS(SELECT 1 FROM " + TABLE_TRANSACTIONS + " WHERE "
           + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + " AND " + KEY_DATE + " > strftime('%s','now')  LIMIT 1)) AS " + KEY_HAS_FUTURE;
   public static final String SELECT_AMOUNT_SUM = "SELECT coalesce(sum(" + KEY_AMOUNT + "),0) FROM "
@@ -393,6 +394,11 @@ public class DatabaseConstants {
   public static String getThisWeek() {
     ensureLocalized();
     return THIS_WEEK;
+  }
+
+  public static String getThisMonth() {
+    ensureLocalized();
+    return THIS_MONTH;
   }
 
   public static String getWeekStart() {

@@ -109,12 +109,12 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORI
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.THIS_DAY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.THIS_MONTH;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.THIS_YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getMonth;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.getThisMonth;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getThisWeek;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getThisYearOfWeekStart;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getWeek;
@@ -652,7 +652,7 @@ public class CategoryList extends SortableListFragment implements
               new String[]{
                       getThisYearOfWeekStart() + " AS " + KEY_THIS_YEAR_OF_WEEK_START,
                       THIS_YEAR + " AS " + KEY_THIS_YEAR,
-                      THIS_MONTH + " AS " + KEY_THIS_MONTH,
+                      getThisMonth() + " AS " + KEY_THIS_MONTH,
                       getThisWeek() + " AS " + KEY_THIS_WEEK,
                       THIS_DAY + " AS " + KEY_THIS_DAY
               }
