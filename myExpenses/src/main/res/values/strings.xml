@@ -655,5 +655,6 @@
     <string name="progress_dialog_checking_sync_backend">Verifying backend</string>
     <string name="template">Template</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Cloud synchronization</string>
+    <string name="licence_status">Your licence status</string>
 </resources>
 

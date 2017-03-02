@@ -603,32 +603,36 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     }
 
     private void configureContribPrefs() {
-      Preference pref1 = findPreference(PrefKey.REQUEST_LICENCE.getKey()),
-          pref2 = findPreference(PrefKey.CONTRIB_PURCHASE.getKey());
+      Preference requestLicencePref = findPreference(PrefKey.REQUEST_LICENCE.getKey()),
+          contribPurchasePref = findPreference(PrefKey.CONTRIB_PURCHASE.getKey());
+      String contribPurchaseTitle, contribPurchaseSummary;
       if (MyApplication.getInstance().getLicenceHandler().isExtendedEnabled()) {
         PreferenceCategory cat = ((PreferenceCategory) findPreference(PrefKey.CATEGORY_CONTRIB.getKey()));
-        if (Utils.IS_FLAVOURED) {
-          getPreferenceScreen().removePreference(cat);
-        } else {
-          cat.removePreference(pref1);
-          cat.removePreference(pref2);
+        if (requestLicencePref != null) {
+          cat.removePreference(requestLicencePref);
         }
+        contribPurchaseTitle = getString(R.string.licence_status) + ": " + getString(R.string.extended_key);
+        contribPurchaseSummary = getString(R.string.thank_you);
       } else {
-        if (pref1 != null) {
-          pref1.setOnPreferenceClickListener(this);
-          pref1.setSummary(getString(R.string.pref_request_licence_summary, Secure.getString(getActivity().getContentResolver(), Secure.ANDROID_ID)));
+        if (requestLicencePref != null) {
+          requestLicencePref.setOnPreferenceClickListener(this);
+          requestLicencePref.setSummary(getString(R.string.pref_request_licence_summary, Secure.getString(getActivity().getContentResolver(), Secure.ANDROID_ID)));
         }
-        if (pref2 != null) {//if a user replaces a valid key with an invalid key, we might run into that uncommon situation
-          int baseTitle = MyApplication.getInstance().getLicenceHandler().isContribEnabled() ?
-              R.string.pref_contrib_purchase_title_upgrade : R.string.pref_contrib_purchase_title;
+        if (MyApplication.getInstance().getLicenceHandler().isContribEnabled()) {
+          contribPurchaseTitle = getString(R.string.licence_status) + ": " + getString(R.string.contrib_key);
+          contribPurchaseSummary = getString(R.string.pref_contrib_purchase_title_upgrade);
+        } else {
+          int baseTitle = R.string.pref_contrib_purchase_title;
+          contribPurchaseTitle = getString(baseTitle);
           if (Utils.IS_FLAVOURED) {
-            pref2.setTitle(getString(baseTitle) + " (" + getString(R.string.pref_contrib_purchase_title_in_app) + ")");
-          } else {
-            pref2.setTitle(baseTitle);
+            contribPurchaseTitle += " (" + getString(R.string.pref_contrib_purchase_title_in_app) + ")";
           }
-          pref2.setOnPreferenceClickListener(this);
+          contribPurchaseSummary = getString(R.string.pref_contrib_purchase_summary);
         }
+        contribPurchasePref.setOnPreferenceClickListener(this);
       }
+      contribPurchasePref.setSummary(contribPurchaseSummary);
+      contribPurchasePref.setTitle(contribPurchaseTitle);
     }
 
     private void setProtectionDependentsState() {
