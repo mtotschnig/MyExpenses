@@ -138,7 +138,7 @@ public class MyApplication extends MultiDexApplication implements
 
   @Override
   public void onCreate() {
-    if (BuildConfig.DEBUG) {
+    if (BuildConfig.DEBUG && !instrumentationTest) {
       enableStrictMode();
     }
     super.onCreate();
