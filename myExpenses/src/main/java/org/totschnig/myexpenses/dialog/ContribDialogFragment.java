@@ -18,7 +18,6 @@ package org.totschnig.myexpenses.dialog;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
@@ -29,7 +28,6 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.util.LicenceHandler;
-import org.totschnig.myexpenses.util.Utils;
 
 import java.io.Serializable;
 
@@ -55,27 +53,19 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     Activity ctx = getActivity();
-    Resources res = getResources();
-    CharSequence featureDescription;
-    if (feature.hasTrial()) {
-      featureDescription = Html.fromHtml(feature.buildFullInfoString(ctx));
-    } else {
-      featureDescription = getText(res.getIdentifier("contrib_feature_" + feature + "_description", "string", ctx.getPackageName()));
-    }
+    CharSequence featureDescription = feature.buildFullInfoString(ctx);
+
     AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
     CharSequence
-        linefeed = Html.fromHtml("<br><br>"),
+        linefeed = Html.fromHtml("<br>"),
         removePhrase = feature.buildRemoveLimitation(getActivity(), true),
-        message = TextUtils.concat(
-            featureDescription, " ",
-            removePhrase);
+        message = TextUtils.concat(featureDescription, linefeed, removePhrase);
     boolean isContrib = MyApplication.getInstance().getLicenceHandler().isContribEnabled();
-    if (!isContrib) {
+    /*if (!isContrib) {
       CharSequence featureList = Utils.getContribFeatureLabelsAsFormattedList(ctx, feature,
           feature.isExtended() ? null : LicenceHandler.LicenceStatus.CONTRIB); //if feature is extended, we list all features
       //if user has contrib key, he already has access to premium features,
-      message = TextUtils.concat(message, " ",
-          getString(R.string.dialog_contrib_reminder_gain_access),
+      message = TextUtils.concat(message,
           linefeed, featureList);
       if (!feature.isExtended()) {
         if (LicenceHandler.HAS_EXTENDED) {
@@ -85,7 +75,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
         }
         builder.setNegativeButton(R.string.dialog_contrib_buy_premium, this);
       }
-    }
+    }*/
     builder
         .setTitle(feature.isExtended() ? R.string.dialog_title_extended_feature : R.string.dialog_title_contrib_feature)
         .setMessage(message)

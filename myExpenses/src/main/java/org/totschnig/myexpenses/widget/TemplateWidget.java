@@ -228,7 +228,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
     String message = context.getString(
         R.string.dialog_contrib_premium_feature,
         context.getString(R.string.contrib_feature_template_widget_label)) +
-        ContribFeature.TEMPLATE_WIDGET.buildUsagesString(context);
+        ContribFeature.TEMPLATE_WIDGET.buildUsagesLefString(context);
     Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     if (ContribFeature.TEMPLATE_WIDGET.usagesLeft() == 0) {
       updateWidgets(context, TemplateWidget.class);
