@@ -205,11 +205,11 @@ public enum ContribFeature {
         extended ? R.string.extended_key : R.string.contrib_key);
   }
 
-  public String buildUsagesLefString(Context ctx) {
+  public CharSequence buildUsagesLefString(Context ctx) {
     int usagesLeft = usagesLeft();
     return usagesLeft > 0 ?
         ctx.getResources().getQuantityString(R.plurals.dialog_contrib_usage_count, usagesLeft, usagesLeft) :
-        ctx.getString(R.string.dialog_contrib_no_usages_left);
+        ctx.getText(R.string.dialog_contrib_usage_count);
   }
 
   public String buildUsageLimitString(Context context) {

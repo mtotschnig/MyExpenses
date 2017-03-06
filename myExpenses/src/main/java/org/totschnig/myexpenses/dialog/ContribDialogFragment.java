@@ -15,13 +15,18 @@
 
 package org.totschnig.myexpenses.dialog;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -50,9 +55,12 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     feature = (ContribFeature) bundle.getSerializable(ContribInfoDialogActivity.KEY_FEATURE);
   }
 
+  @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     Activity ctx = getActivity();
+    @SuppressLint("InflateParams")
+    final View view = LayoutInflater.from(ctx).inflate(R.layout.help_dialog, null);
     CharSequence featureDescription = feature.buildFullInfoString(ctx);
 
     AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
@@ -76,9 +84,11 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
         builder.setNegativeButton(R.string.dialog_contrib_buy_premium, this);
       }
     }*/
+    ((TextView) view.findViewById(R.id.feature_info)).setText(message);
+    ((TextView) view.findViewById(R.id.usages_left)).setText(feature.buildUsagesLefString(ctx));
     builder
         .setTitle(feature.isExtended() ? R.string.dialog_title_extended_feature : R.string.dialog_title_contrib_feature)
-        .setMessage(message)
+        .setView(view)
         .setNeutralButton(R.string.dialog_contrib_no, this)
         .setIcon(R.mipmap.ic_launcher_alt);
     if (LicenceHandler.HAS_EXTENDED) {
