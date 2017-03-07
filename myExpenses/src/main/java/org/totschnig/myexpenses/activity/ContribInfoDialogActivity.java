@@ -20,8 +20,8 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
     setTheme(MyApplication.getThemeIdTranslucent());
+    super.onCreate(savedInstanceState);
     ContribFeature f = (ContribFeature) getIntent().getSerializableExtra(KEY_FEATURE);
     sequenceCount = getIntent().getLongExtra(
         ContribInfoDialogFragment.KEY_SEQUENCE_COUNT, -1);
