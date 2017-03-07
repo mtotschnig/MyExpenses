@@ -26,6 +26,7 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -37,9 +38,10 @@ import org.totschnig.myexpenses.util.LicenceHandler;
 import java.io.Serializable;
 
 public class ContribDialogFragment extends CommitSafeDialogFragment implements DialogInterface.OnClickListener {
-  ContribFeature feature;
+  private ContribFeature feature;
+  RadioButton contribButton, extendedButton;
 
-  public static final ContribDialogFragment newInstance(ContribFeature feature, Serializable tag) {
+  public static ContribDialogFragment newInstance(ContribFeature feature, Serializable tag) {
     ContribDialogFragment dialogFragment = new ContribDialogFragment();
     Bundle bundle = new Bundle();
     bundle.putSerializable(ContribInfoDialogActivity.KEY_FEATURE, feature);
@@ -60,7 +62,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     Activity ctx = getActivity();
     @SuppressLint("InflateParams")
-    final View view = LayoutInflater.from(ctx).inflate(R.layout.help_dialog, null);
+    final View view = LayoutInflater.from(ctx).inflate(R.layout.contrib_dialog, null);
     CharSequence featureDescription = feature.buildFullInfoString(ctx);
 
     AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
@@ -86,6 +88,10 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     }*/
     ((TextView) view.findViewById(R.id.feature_info)).setText(message);
     ((TextView) view.findViewById(R.id.usages_left)).setText(feature.buildUsagesLefString(ctx));
+    contribButton = (RadioButton) view.findViewById(R.id.contrib_button);
+    extendedButton = (RadioButton) view.findViewById(R.id.extended_button);
+    contribButton.setOnClickListener(v -> extendedButton.setChecked(false));
+    extendedButton.setOnClickListener(v -> contribButton.setChecked(false));
     builder
         .setTitle(feature.isExtended() ? R.string.dialog_title_extended_feature : R.string.dialog_title_contrib_feature)
         .setView(view)

@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses.model;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
@@ -205,16 +206,16 @@ public enum ContribFeature {
         extended ? R.string.extended_key : R.string.contrib_key);
   }
 
+  @SuppressLint("DefaultLocale")
   public CharSequence buildUsagesLefString(Context ctx) {
     int usagesLeft = usagesLeft();
-    return usagesLeft > 0 ?
-        ctx.getResources().getQuantityString(R.plurals.dialog_contrib_usage_count, usagesLeft, usagesLeft) :
-        ctx.getText(R.string.dialog_contrib_usage_count);
+    return ctx.getText(R.string.dialog_contrib_usage_count) + " : " +
+        String.format("%d/%d", usagesLeft, USAGES_LIMIT);
   }
 
   public String buildUsageLimitString(Context context) {
     String currentLicence = getCurrentLicence(context);
-    return context.getString(R.string.dialog_contrib_usage_limit, currentLicence);
+    return context.getString(R.string.dialog_contrib_usage_limit, USAGES_LIMIT, currentLicence);
   }
 
   @NonNull

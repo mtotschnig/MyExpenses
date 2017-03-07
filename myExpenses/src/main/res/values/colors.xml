@@ -52,4 +52,7 @@
     <color name="material_grey_400">#BDBDBD</color>
     <color name="my_material_deep_teal_200">#ff80cbc4</color>
     <color name="my_material_deep_teal_800">#ff00695C</color>
+
+    <color name="premium_licence">#FF83D391</color>
+    <color name="extended_licence">#FFC5DB6A</color>
 </resources>

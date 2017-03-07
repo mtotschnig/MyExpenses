@@ -228,6 +228,7 @@
         <activity
             android:name=".activity.ContribInfoDialogActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
+
         <activity android:name=".activity.ManageCurrencies"
                   android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge">
             <intent-filter>

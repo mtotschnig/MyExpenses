@@ -97,7 +97,7 @@
     <string name="dialog_contrib_text_1"><i>My Expenses</i> is offered ad free and open source.</string>
     <string name="dialog_contrib_text_2">Please contribute by purchasing %s.</string>
     <string name="dialog_contrib_usage_count">Free usages left</string>
-    <string name="dialog_contrib_usage_limit">You can use it up to 10 times with your current licence status (%s).</string>
+    <string name="dialog_contrib_usage_limit">You can use it up to %1$d times with your current licence status (%2$s).</string>
     <string name="dialog_contrib_usage_limit_synchronization">You can use it for %1$d days with your current licence status (%2$s).</string>
     <string name="dialog_contrib_buy_premium">Buy PREMIUM</string>
     <string name="dialog_contrib_buy_extended">Buy EXTENDED</string>
