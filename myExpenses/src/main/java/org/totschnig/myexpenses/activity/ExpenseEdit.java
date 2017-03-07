@@ -170,21 +170,16 @@ public class ExpenseEdit extends AmountActivity implements
   private static final String PREFKEY_TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET = "transferLastTransferAccountFromWidget";
   private static final String PREFKEY_SPLIT_LAST_ACCOUNT_FROM_WIDGET = "splitLastAccountFromWidget";
   public static final int EXCHANGE_RATE_FRACTION_DIGITS = 5;
+  private static int INPUT_EXCHANGE_RATE = 1;
+  private static int INPUT_AMOUNT = 2;
+  private static int INPUT_TRANSFER_AMOUNT = 3;
+  private int[] lastExchangeRateRelevantInputs = {INPUT_EXCHANGE_RATE, INPUT_AMOUNT};
   private static final BigDecimal nullValue = new BigDecimal(0);
   private Button mDateButton;
   private Button mTimeButton;
   private EditText mCommentText, mTitleText, mReferenceNumberText;
   private AmountEditText mTransferAmountText, mExchangeRate1Text, mExchangeRate2Text;
-  /**
-   * stores the field for which user has last provided the amount, needed to decide which field to
-   * update if user changes exchange rate
-   */
-  private AmountEditText userProvidedAmountField;
-  /**
-   * when user updates an amount, if he has entered exchange rate manually before, we update the other amount
-   * otherwise we update exchange rates
-   */
-  boolean userHasProvidedExchangeRate;
+
   private Button mCategoryButton, mPlanButton;
   private SpinnerHelper mMethodSpinner, mAccountSpinner, mTransferAccountSpinner, mStatusSpinner,
       mOperationTypeSpinner, mReccurenceSpinner;
@@ -1048,7 +1043,7 @@ public class ExpenseEdit extends AmountActivity implements
       case 1:
         mType = INCOME;
     }
-    if (signum != 0 ) {
+    if (signum != 0) {
       mAmountText.setAmount(amount);
     }
     mAmountText.requestFocus();
@@ -1194,7 +1189,7 @@ public class ExpenseEdit extends AmountActivity implements
       if (mPlan == null) {
         if (mReccurenceSpinner.getSelectedItemPosition() > 0) {
           mPlan = new Plan(
-             mCalendar,
+              mCalendar,
               ((Plan.Recurrence) mReccurenceSpinner.getSelectedItem()).toRrule(mCalendar),
               ((Template) mTransaction).getTitle(),
               description);
@@ -1339,8 +1334,7 @@ public class ExpenseEdit extends AmountActivity implements
     public void onChange(boolean selfChange) {
       if (mIsResumed) {
         refreshPlanData();
-      }
-      else {
+      } else {
         mPlanUpdateNeeded = true;
       }
     }
@@ -1616,7 +1610,7 @@ public class ExpenseEdit extends AmountActivity implements
     switch (parent.getId()) {
       case R.id.Recurrence:
         int visibility = View.GONE;
-        if (id > 0)  {
+        if (id > 0) {
           if (ContextCompat.checkSelfPermission(ExpenseEdit.this,
               Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
             if (PrefKey.NEW_PLAN_ENABLED.getBoolean(true)) {
@@ -1782,27 +1776,27 @@ public class ExpenseEdit extends AmountActivity implements
     }
     Long sequenceCount = (Long) result;
     if (sequenceCount < 0L) {
-        String errorMsg;
-        switch (sequenceCount.intValue()) {
-          case DbWriteFragment.ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE:
-            errorMsg = getString(R.string.external_storage_unavailable);
-            break;
-          case DbWriteFragment.ERROR_PICTURE_SAVE_UNKNOWN:
-            errorMsg = "Error while saving picture";
-            break;
-          case DbWriteFragment.ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE:
-            mReccurenceSpinner.setSelection(0);
-            mTransaction.originTemplate = null;
-            errorMsg = "Recurring transactions are not available, because calendar integration is not functional on this device.";
-            break;
-          default:
-            //possibly the selected category has been deleted
-            mCatId = null;
-            mCategoryButton.setText(R.string.select);
+      String errorMsg;
+      switch (sequenceCount.intValue()) {
+        case DbWriteFragment.ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE:
+          errorMsg = getString(R.string.external_storage_unavailable);
+          break;
+        case DbWriteFragment.ERROR_PICTURE_SAVE_UNKNOWN:
+          errorMsg = "Error while saving picture";
+          break;
+        case DbWriteFragment.ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE:
+          mReccurenceSpinner.setSelection(0);
+          mTransaction.originTemplate = null;
+          errorMsg = "Recurring transactions are not available, because calendar integration is not functional on this device.";
+          break;
+        default:
+          //possibly the selected category has been deleted
+          mCatId = null;
+          mCategoryButton.setText(R.string.select);
 
-            errorMsg = "Error while saving transaction";
-        }
-        Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show();
+          errorMsg = "Error while saving transaction";
+      }
+      Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show();
       mCreateNew = false;
     } else {
       if (mRecordTemplateWidget) {
@@ -2234,13 +2228,16 @@ public class ExpenseEdit extends AmountActivity implements
     @Override
     public void afterTextChanged(Editable s) {
       if (isProcessingLinkedAmountInputs) return;
-      userProvidedAmountField = isMain ? mAmountText : mTransferAmountText;
-      AmountEditText other = isMain ? mTransferAmountText : mAmountText;
+      int currentFocus = isMain ? INPUT_AMOUNT : INPUT_TRANSFER_AMOUNT;
       isProcessingLinkedAmountInputs = true;
       if (mTransaction instanceof Template) {
-        other.setText("");
+        (isMain ? mTransferAmountText : mAmountText).setText("");
       } else {
-        if (userHasProvidedExchangeRate) {
+        if (lastExchangeRateRelevantInputs[0] != currentFocus) {
+          lastExchangeRateRelevantInputs[1] = lastExchangeRateRelevantInputs[0];
+          lastExchangeRateRelevantInputs[0] = currentFocus;
+        }
+        if (lastExchangeRateRelevantInputs[1] == INPUT_EXCHANGE_RATE) {
           BigDecimal input = validateAmountInput(isMain ? mAmountText : mTransferAmountText, false);
           BigDecimal exchangeRate = validateAmountInput(isMain ? mExchangeRate1Text : mExchangeRate2Text, false);
           BigDecimal result = exchangeRate != null && input != null ? input.multiply(exchangeRate) : new BigDecimal(0);
@@ -2267,24 +2264,41 @@ public class ExpenseEdit extends AmountActivity implements
     public void afterTextChanged(Editable s) {
       if (isProcessingLinkedAmountInputs) return;
       isProcessingLinkedAmountInputs = true;
-      userHasProvidedExchangeRate = true;
+      if (lastExchangeRateRelevantInputs[0] != INPUT_EXCHANGE_RATE) {
+        lastExchangeRateRelevantInputs[1] = lastExchangeRateRelevantInputs[0];
+        lastExchangeRateRelevantInputs[0] = INPUT_EXCHANGE_RATE;
+      }
       BigDecimal inputRate = validateAmountInput(
           isMain ? mExchangeRate1Text : mExchangeRate2Text, false);
       if (inputRate == null) inputRate = nullValue;
-      BigDecimal inverseInputRate = inputRate.compareTo(nullValue) != 0 ?
-          new BigDecimal(1).divide(inputRate, EXCHANGE_RATE_FRACTION_DIGITS, RoundingMode.DOWN) :
-          nullValue;
+      BigDecimal inverseInputRate = calculateInverse(inputRate);
       (isMain ? mExchangeRate2Text : mExchangeRate1Text).setAmount(inverseInputRate);
 
-      if (userProvidedAmountField != null) {
-        BigDecimal input = validateAmountInput(userProvidedAmountField, false);
-        boolean mainProvided = userProvidedAmountField.equals(mAmountText);
-        AmountEditText other = mainProvided ? mTransferAmountText : mAmountText;
-        other.setAmount(input != null ? input.multiply(
-            mainProvided == isMain ? inputRate : inverseInputRate) : nullValue);
+
+      AmountEditText constant, variable;
+      boolean mainProvided;
+      if (lastExchangeRateRelevantInputs[1] == INPUT_AMOUNT) {
+        constant = mAmountText;
+        variable = mTransferAmountText;
+        mainProvided = true;
+      } else {
+        constant = mTransferAmountText;
+        variable = mAmountText;
+        mainProvided = false;
+      }
+      BigDecimal input = validateAmountInput(constant, false);
+      if (input != null) {
+        variable.setAmount(input.multiply(
+            mainProvided == isMain ? inputRate : inverseInputRate));
       }
       isProcessingLinkedAmountInputs = false;
     }
+  }
+
+  private BigDecimal calculateInverse(BigDecimal input) {
+    return input.compareTo(nullValue) != 0 ?
+        new BigDecimal(1).divide(input, EXCHANGE_RATE_FRACTION_DIGITS, RoundingMode.DOWN) :
+        nullValue;
   }
 
   @Override
