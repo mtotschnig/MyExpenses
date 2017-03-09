@@ -227,8 +227,7 @@ public enum ContribFeature {
   }
 
   public CharSequence buildRemoveLimitation(Context ctx, boolean asHTML) {
-    int resId = LicenceHandler.HAS_EXTENDED && isExtended() ? R.string.dialog_contrib_reminder_remove_limitation_extended :
-        R.string.dialog_contrib_reminder_remove_limitation;
+    int resId = R.string.dialog_contrib_reminder_remove_limitation;
     return asHTML ? ctx.getText(resId) : ctx.getString(resId);
   }
 

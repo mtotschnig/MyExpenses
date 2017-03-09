@@ -28,7 +28,6 @@ import android.widget.Toast;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.ContribInfoDialogFragment;
 import org.totschnig.myexpenses.dialog.HelpDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.util.HashLicenceHandler;
@@ -80,7 +79,7 @@ public class CommonCommands {
       }
       break;
     case R.id.CONTRIB_INFO_COMMAND:
-      CommonCommands.showContribInfoDialog((FragmentActivity) ctx,-1);
+      CommonCommands.showContribDialog(ctx, null, null);
       return true;
     case R.id.WEB_COMMAND:
       i = new Intent(Intent.ACTION_VIEW);
@@ -134,17 +133,14 @@ public class CommonCommands {
     }
    return false;
   }
-  public static void showContribDialog(Activity ctx,ContribFeature feature, Serializable tag) {
+
+  static void showContribDialog(Activity ctx, ContribFeature feature, Serializable tag) {
     Intent i = new Intent(ctx,ContribInfoDialogActivity.class);
     i.putExtra(ContribInfoDialogActivity.KEY_FEATURE, feature);
-    i.putExtra(ContribInfoDialogActivity.KEY_TAG,tag);
-    ctx.startActivityForResult(i,ProtectionDelegate.CONTRIB_REQUEST);
+    i.putExtra(ContribInfoDialogActivity.KEY_TAG, tag);
+    ctx.startActivityForResult(i, ProtectionDelegate.CONTRIB_REQUEST);
   }
-  public static void showContribInfoDialog(FragmentActivity ctx,long sequenceCount) {
-    Intent i = new Intent(ctx,ContribInfoDialogActivity.class);
-    i.putExtra(ContribInfoDialogFragment.KEY_SEQUENCE_COUNT, sequenceCount);
-    ctx.startActivityForResult(i,0);
-  }
+
   /**
    * retrieve information about the current version
    * @return concatenation of versionName, versionCode and buildTime

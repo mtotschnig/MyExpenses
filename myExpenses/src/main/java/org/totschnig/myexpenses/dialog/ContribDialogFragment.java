@@ -65,22 +65,31 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     Activity ctx = getActivity();
     @SuppressLint("InflateParams")
     final View view = LayoutInflater.from(ctx).inflate(R.layout.contrib_dialog, null);
-    CharSequence featureDescription = feature.buildFullInfoString(ctx);
-
+    TextView usagesLeftTextView = (TextView) view.findViewById(R.id.usages_left);
     AlertDialog.Builder builder = new AlertDialog.Builder(ctx,
         MyApplication.getThemeType().equals(MyApplication.ThemeType.dark) ?
             R.style.ContribDialogThemeDark : R.style.ContribDialogThemeLight);
-    CharSequence
-        linefeed = Html.fromHtml("<br>"),
-        removePhrase = feature.buildRemoveLimitation(getActivity(), true),
-        message = TextUtils.concat(featureDescription, linefeed, removePhrase);
-    boolean isContrib = MyApplication.getInstance().getLicenceHandler().isContribEnabled();
+    CharSequence message;
+    if (feature != null) {
+      CharSequence featureDescription = feature.buildFullInfoString(ctx),
+          linefeed = Html.fromHtml("<br>"),
+          removePhrase = feature.buildRemoveLimitation(getActivity(), true);
+      message = TextUtils.concat(featureDescription, linefeed, removePhrase);
+      usagesLeftTextView.setText(feature.buildUsagesLefString(ctx));
+    } else {
+      message = getText(R.string.dialog_contrib_text_2);
+      if (!Utils.IS_FLAVOURED) {
+        message = TextUtils.concat(getText(R.string.dialog_contrib_text_1), " ",
+            getText(R.string.dialog_contrib_text_2));
+      }
+      usagesLeftTextView.setVisibility(View.GONE);
+    }
     ((TextView) view.findViewById(R.id.feature_info)).setText(message);
-    ((TextView) view.findViewById(R.id.usages_left)).setText(feature.buildUsagesLefString(ctx));
+    boolean isContrib = MyApplication.getInstance().getLicenceHandler().isContribEnabled();
     boolean userCanChoose = true;
     contribButton = (RadioButton) view.findViewById(R.id.contrib_button);
     extendedButton = (RadioButton) view.findViewById(R.id.extended_button);
-    if (feature.isExtended()) {
+    if (isFeatureExtended() || (feature == null && isContrib)) {
       view.findViewById(R.id.contrib_feature_container).setVisibility(View.GONE);
       userCanChoose = false;
       extendedButton.setChecked(true);
@@ -90,11 +99,11 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     }
     if (LicenceHandler.HAS_EXTENDED) {
       String[] lines;
-      if (feature.isExtended() && !isContrib) {
+      if (isFeatureExtended() && !isContrib) {
         lines = Utils.getContribFeatureLabelsAsList(ctx, null);
       } else {
         String[] extendedFeatures = Utils.getContribFeatureLabelsAsList(ctx, LicenceHandler.LicenceStatus.EXTENDED);
-        lines = feature.isExtended() ? extendedFeatures : //user is Contrib
+        lines = feature == null || feature.isExtended()  ? extendedFeatures : //user is Contrib
             Utils.joinArrays(new String[]{getString(R.string.all_premium_key_features) + "\n+"},
                 extendedFeatures);
       }
@@ -106,7 +115,9 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
       userCanChoose = false;
     }
     builder
-        .setTitle(feature.isExtended() ? R.string.dialog_title_extended_feature : R.string.dialog_title_contrib_feature)
+        .setTitle(feature == null ? R.string.menu_contrib :
+            feature.isExtended() ? R.string.dialog_title_extended_feature :
+                R.string.dialog_title_contrib_feature)
         .setView(view)
         .setNegativeButton(R.string.dialog_contrib_no, this)
         .setIcon(R.mipmap.ic_launcher_alt)
@@ -118,6 +129,10 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
       dialog.setOnShowListener(new ButtonOnShowDisabler());
     }
     return dialog;
+  }
+
+  protected boolean isFeatureExtended() {
+    return feature != null && feature.isExtended();
   }
 
   @Override

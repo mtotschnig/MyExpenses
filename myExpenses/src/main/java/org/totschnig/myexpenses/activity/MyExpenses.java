@@ -67,7 +67,6 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.BalanceDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
-import org.totschnig.myexpenses.dialog.ContribInfoDialogFragment;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.dialog.ExportDialogFragment;
@@ -150,9 +149,9 @@ public class MyExpenses extends LaunchActivity implements
   public static final int TYPE_SPLIT = 2;
 
   public static final long TRESHOLD_REMIND_RATE = 47L;
-  public static final long TRESHOLD_REMIND_CONTRIB = 113L;
 
   public static final int ACCOUNTS_CURSOR = -1;
+  public static final String KEY_SEQUENCE_COUNT = "sequenceCount";
 
   private LoaderManager mManager;
 
@@ -466,7 +465,7 @@ public class MyExpenses extends LaunchActivity implements
     super.onActivityResult(requestCode, resultCode, intent);
     if (requestCode == EDIT_TRANSACTION_REQUEST && resultCode == RESULT_OK) {
       long nextReminder;
-      sequenceCount = intent.getLongExtra(ContribInfoDialogFragment.KEY_SEQUENCE_COUNT, 0);
+      sequenceCount = intent.getLongExtra(KEY_SEQUENCE_COUNT, 0);
       if (Utils.IS_FLAVOURED) {
         nextReminder =
             PrefKey.NEXT_REMINDER_RATE.getLong(TRESHOLD_REMIND_RATE);
@@ -474,14 +473,6 @@ public class MyExpenses extends LaunchActivity implements
           RemindRateDialogFragment f = new RemindRateDialogFragment();
           f.setCancelable(false);
           f.show(getSupportFragmentManager(), "REMIND_RATE");
-          return;
-        }
-      }
-      if (!MyApplication.getInstance().getLicenceHandler().isContribEnabled()) {
-        nextReminder =
-            PrefKey.NEXT_REMINDER_CONTRIB.getLong(TRESHOLD_REMIND_CONTRIB);
-        if (nextReminder != -1 && sequenceCount >= nextReminder) {
-          CommonCommands.showContribInfoDialog(this, sequenceCount);
           return;
         }
       }

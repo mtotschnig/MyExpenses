@@ -22,6 +22,10 @@ public abstract class LicenceHandler {
 
   public abstract boolean isExtendedEnabled();
 
+  public boolean isNoLongerUpgradeable() {
+    return isExtendedEnabled() || (isContribEnabled() && !HAS_EXTENDED);
+  }
+
   public final void refresh(boolean invalidate) {
     refreshDo();
     if (invalidate) {

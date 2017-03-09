@@ -167,7 +167,7 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
       return;
     }
     if (which == AlertDialog.BUTTON_POSITIVE)
-      ((MessageDialogListener) getActivity()).dispatchCommand(R.id.CONTRIB_INFO_COMMAND,null);
+      ((MessageDialogListener) getActivity()).dispatchCommand(R.id.CONTRIB_INFO_COMMAND, null);
   }
   public static class VersionInfo {
     private int code;

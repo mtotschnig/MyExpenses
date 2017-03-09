@@ -85,6 +85,7 @@ import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.ui.PreferenceDividerItemDecoration;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.FileUtils;
+import org.totschnig.myexpenses.util.LicenceHandler;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.AccountWidget;
@@ -606,19 +607,22 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       Preference requestLicencePref = findPreference(PrefKey.REQUEST_LICENCE.getKey()),
           contribPurchasePref = findPreference(PrefKey.CONTRIB_PURCHASE.getKey());
       String contribPurchaseTitle, contribPurchaseSummary;
-      if (MyApplication.getInstance().getLicenceHandler().isExtendedEnabled()) {
+      LicenceHandler licenceHandler = MyApplication.getInstance().getLicenceHandler();
+      if (licenceHandler.isNoLongerUpgradeable()) {
         PreferenceCategory cat = ((PreferenceCategory) findPreference(PrefKey.CATEGORY_CONTRIB.getKey()));
         if (requestLicencePref != null) {
           cat.removePreference(requestLicencePref);
         }
-        contribPurchaseTitle = getString(R.string.licence_status) + ": " + getString(R.string.extended_key);
+        contribPurchaseTitle = getString(R.string.licence_status) + ": " + getString(
+            licenceHandler.isExtendedEnabled() ? R.string.extended_key : R.string.contrib_key);
         contribPurchaseSummary = getString(R.string.thank_you);
       } else {
         if (requestLicencePref != null) {
           requestLicencePref.setOnPreferenceClickListener(this);
           requestLicencePref.setSummary(getString(R.string.pref_request_licence_summary, Secure.getString(getActivity().getContentResolver(), Secure.ANDROID_ID)));
         }
-        if (MyApplication.getInstance().getLicenceHandler().isContribEnabled()) {
+        boolean contribEnabled = licenceHandler.isContribEnabled();
+        if (contribEnabled) {
           contribPurchaseTitle = getString(R.string.licence_status) + ": " + getString(R.string.contrib_key);
           contribPurchaseSummary = getString(R.string.pref_contrib_purchase_title_upgrade);
         } else {
@@ -697,7 +701,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     public boolean onPreferenceClick(Preference preference) {
       if (preference.getKey().equals(PrefKey.CONTRIB_PURCHASE.getKey())) {
         if (MyApplication.getInstance().getLicenceHandler().isExtendedEnabled()) {
-          //showDialog(R.id.DONATE_DIALOG);//should not happen
+          //showDialog(R.id.DONATE_DIALOG);//currently nothing to do
         } else {
           Intent i = new Intent(getActivity(), ContribInfoDialogActivity.class);
           if (Utils.IS_FLAVOURED) {

@@ -83,7 +83,6 @@ import org.totschnig.myexpenses.adapter.OperationTypeAdapter;
 import org.totschnig.myexpenses.adapter.RecurrenceAdapter;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
-import org.totschnig.myexpenses.dialog.ContribInfoDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
 import org.totschnig.myexpenses.fragment.PlanMonthFragment;
@@ -127,6 +126,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import static org.totschnig.myexpenses.activity.MyExpenses.KEY_SEQUENCE_COUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
@@ -1842,7 +1842,7 @@ public class ExpenseEdit extends AmountActivity implements
         InputMethodManager im = (InputMethodManager) this.getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         im.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         Intent intent = new Intent();
-        intent.putExtra(ContribInfoDialogFragment.KEY_SEQUENCE_COUNT, sequenceCount);
+        intent.putExtra(KEY_SEQUENCE_COUNT, sequenceCount);
         setResult(RESULT_OK, intent);
         finish();
         //no need to call super after finish
