@@ -193,6 +193,8 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="buttonTint">@android:color/white</item>
     </style>
 
     <style name="FeatureList">
@@ -201,5 +203,19 @@
         <item name="android:paddingLeft">@dimen/general_padding</item>
         <item name="android:paddingRight">@dimen/general_padding</item>
         <item name="android:lineSpacingMultiplier">1.2</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
+
+    <style name="ContribDialogThemeLight" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+    </style>
+
+    <style name="ContribDialogThemeDark" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+    </style>
+
+    <style name="NegativeButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/material_grey</item>
+    </style>
+
 </resources>

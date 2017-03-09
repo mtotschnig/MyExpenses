@@ -656,5 +656,6 @@
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Cloud synchronization</string>
     <string name="licence_status">Your licence status</string>
     <string name="all_premium_key_features">All features of Premium Key</string>
+    <string name="upgrade_now">Upgrade now</string>
 </resources>
 

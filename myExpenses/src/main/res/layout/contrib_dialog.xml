@@ -50,7 +50,7 @@
                     android:orientation="vertical"
                     android:padding="@dimen/general_padding">
 
-                    <RadioButton
+                    <android.support.v7.widget.AppCompatRadioButton
                         android:id="@+id/contrib_button"
                         style="@style/SelectLicenceButton"
                         android:text="@string/contrib_key"/>
@@ -68,7 +68,7 @@
                     android:orientation="vertical"
                     android:padding="@dimen/general_padding">
 
-                    <RadioButton
+                    <android.support.v7.widget.AppCompatRadioButton
                         android:id="@+id/extended_button"
                         style="@style/SelectLicenceButton"
                         android:text="@string/extended_key"/>
