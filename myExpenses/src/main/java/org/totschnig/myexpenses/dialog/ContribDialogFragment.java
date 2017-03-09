@@ -34,6 +34,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.util.LicenceHandler;
+import org.totschnig.myexpenses.util.Utils;
 
 import java.io.Serializable;
 
@@ -88,6 +89,11 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     }*/
     ((TextView) view.findViewById(R.id.feature_info)).setText(message);
     ((TextView) view.findViewById(R.id.usages_left)).setText(feature.buildUsagesLefString(ctx));
+
+    ((TextView) view.findViewById(R.id.contrib_feature_list)).setText(
+        Utils.makeBulletList(ctx, Utils.getContribFeatureLabelsAsList(ctx, LicenceHandler.LicenceStatus.CONTRIB)));
+    ((TextView) view.findViewById(R.id.extended_feature_list)).setText(
+        Utils.makeBulletList(ctx, Utils.getContribFeatureLabelsAsList(ctx, LicenceHandler.LicenceStatus.EXTENDED)));
     contribButton = (RadioButton) view.findViewById(R.id.contrib_button);
     extendedButton = (RadioButton) view.findViewById(R.id.extended_button);
     contribButton.setOnClickListener(v -> extendedButton.setChecked(false));

@@ -55,11 +55,8 @@
                         android:text="@string/contrib_key"/>
 
                     <TextView
-                        android:paddingTop="@dimen/vertical_padding_paragraph"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Contrib feature list"
-                        />
+                        android:id="@+id/contrib_feature_list"
+                        style="@style/FeatureList"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -75,10 +72,8 @@
                         android:text="@string/extended_key"/>
 
                     <TextView
-                        android:paddingTop="@dimen/vertical_padding_paragraph"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Extended feature list"
+                        android:id="@+id/extended_feature_list"
+                        style="@style/FeatureList"
                         />
                 </LinearLayout>
             </LinearLayout>

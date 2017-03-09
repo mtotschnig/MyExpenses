@@ -30,6 +30,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.InsetDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -46,8 +47,12 @@ import android.support.v7.widget.AppCompatDrawableManager;
 import android.telephony.TelephonyManager;
 import android.text.Html;
 import android.text.InputFilter;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.IconMarginSpan;
 import android.util.Log;
 import android.util.SparseIntArray;
 import android.util.Xml;
@@ -59,6 +64,8 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
@@ -113,7 +120,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES;
  * Util class with helper methods
  *
  * @author Michael Totschnig
- *
  */
 public class Utils {
 
@@ -150,6 +156,7 @@ public class Utils {
 
   public enum Feature {
     ;
+
     public boolean isEnabled() {
       return true;
     }
@@ -161,27 +168,27 @@ public class Utils {
    */
   static final SparseIntArray colorPrimaryDarkMap = new SparseIntArray() {
     {
-      append(0xffF44336,0xffD32F2F);
-      append(0xffE91E63,0xffC2185B);
-      append(0xff9C27B0,0xff7B1FA2);
-      append(0xff673AB7,0xff512DA8);
-      append(0xff3F51B5,0xff303F9F);
-      append(0xff2196F3,0xff1976D2);
-      append(0xff03A9F4,0xff0288D1);
-      append(0xff00BCD4,0xff0097A7);
-      append(0xff009688,0xff00796B);
-      append(0xff4CAF50,0xff388E3C);
-      append(0xff8BC34A,0xff689F38);
-      append(0xffCDDC39,0xffAFB42B);
-      append(0xffFFEB3B,0xffFBC02D);
-      append(0xffFFC107,0xffFFA000);
-      append(0xffFF9800,0xffF57C00);
-      append(0xffFF5722,0xffE64A19);
-      append(0xff795548,0xff5D4037);
-      append(0xff9E9E9E,0xff616161);
-      append(0xff607D8B,0xff455A64);
-      append(0xff757575,0xff424242); //aggregate theme light 600 800
-      append(0xffBDBDBD,0xff757575); //aggregate theme dark  400 600
+      append(0xffF44336, 0xffD32F2F);
+      append(0xffE91E63, 0xffC2185B);
+      append(0xff9C27B0, 0xff7B1FA2);
+      append(0xff673AB7, 0xff512DA8);
+      append(0xff3F51B5, 0xff303F9F);
+      append(0xff2196F3, 0xff1976D2);
+      append(0xff03A9F4, 0xff0288D1);
+      append(0xff00BCD4, 0xff0097A7);
+      append(0xff009688, 0xff00796B);
+      append(0xff4CAF50, 0xff388E3C);
+      append(0xff8BC34A, 0xff689F38);
+      append(0xffCDDC39, 0xffAFB42B);
+      append(0xffFFEB3B, 0xffFBC02D);
+      append(0xffFFC107, 0xffFFA000);
+      append(0xffFF9800, 0xffF57C00);
+      append(0xffFF5722, 0xffE64A19);
+      append(0xff795548, 0xff5D4037);
+      append(0xff9E9E9E, 0xff616161);
+      append(0xff607D8B, 0xff455A64);
+      append(0xff757575, 0xff424242); //aggregate theme light 600 800
+      append(0xffBDBDBD, 0xff757575); //aggregate theme dark  400 600
     }
   };
 
@@ -211,11 +218,12 @@ public class Utils {
   }
 
   private static NumberFormat getNumberFormat() {
-    if (numberFormat==null) {
+    if (numberFormat == null) {
       initNumberFormat();
     }
     return numberFormat;
   }
+
   public static void setNumberFormat(NumberFormat in) {
     numberFormat = in;
   }
@@ -245,11 +253,11 @@ public class Utils {
         sortOrder = KEY_SORT_KEY + " ASC, " + sortOrder;
         break;
       case ProtectedFragmentActivity.SORT_ORDER_AMOUNT:
-        sortOrder =  "abs(" + KEY_AMOUNT + ") DESC, " + sortOrder;
+        sortOrder = "abs(" + KEY_AMOUNT + ") DESC, " + sortOrder;
         break;
       case ProtectedFragmentActivity.SORT_ORDER_NEXT_INSTANCE:
         sortOrder = null; //handled by PlanInfoCursorWrapper
-      //default is textColumn
+        //default is textColumn
     }
     return sortOrder;
   }
@@ -258,10 +266,9 @@ public class Utils {
    * <a href="http://www.ibm.com/developerworks/java/library/j-numberformat/">
    * http://www.ibm.com/developerworks/java/library/j-numberformat/</a>
    *
-   * @param strFloat
-   *          parsed as float with the number format defined in the locale
+   * @param strFloat parsed as float with the number format defined in the locale
    * @return the float retrieved from the string or null if parse did not
-   *         succeed
+   * succeed
    */
   public static BigDecimal validateNumber(DecimalFormat df, String strFloat) {
     ParsePosition pp;
@@ -335,8 +342,8 @@ public class Utils {
    * @param currency
    * @param separator
    * @return a Decimalformat with the number of fraction digits appropriate for
-   *         currency, and with the given separator, but without the currency
-   *         symbol appropriate for CSV and QIF export
+   * currency, and with the given separator, but without the currency
+   * symbol appropriate for CSV and QIF export
    */
   public static DecimalFormat getDecimalFormat(Currency currency, char separator) {
     DecimalFormat nf = new DecimalFormat();
@@ -371,8 +378,7 @@ public class Utils {
   /**
    * utility method that calls formatters for date
    *
-   * @param text
-   *          unixEpochAsString
+   * @param text unixEpochAsString
    * @return formated string
    */
   public static String convDateTime(String text, DateFormat format) {
@@ -398,8 +404,7 @@ public class Utils {
    * utility method that calls formatters for amount this method is called from
    * adapters that give us the amount as String
    *
-   * @param text
-   *          amount as String
+   * @param text     amount as String
    * @param currency
    * @return formated string
    */
@@ -476,7 +481,7 @@ public class Utils {
     } else {
       String permission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
       AcraHelper.report(new Exception("getExternalFilesDir returned null; " + permission + " : " +
-          ContextCompat.checkSelfPermission(MyApplication.getInstance(),permission)));
+          ContextCompat.checkSelfPermission(MyApplication.getInstance(), permission)));
       return null;
     }
   }
@@ -492,35 +497,35 @@ public class Utils {
    * @param prefix
    * @param addExtension
    * @return creates a file object in parentDir, with a timestamp appended to
-   *         prefix as name, if the file already exists it appends a numeric
-   *         postfix
+   * prefix as name, if the file already exists it appends a numeric
+   * postfix
    */
   public static DocumentFile timeStampedFile(DocumentFile parentDir, String prefix,
                                              String mimeType, boolean addExtension) {
     String now = new SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
         .format(new Date());
-    return newFile(parentDir,prefix + "-" + now,mimeType,addExtension);
+    return newFile(parentDir, prefix + "-" + now, mimeType, addExtension);
   }
 
   public static DocumentFile newFile(DocumentFile parentDir, String base,
-                                             String mimeType, boolean addExtension) {
+                                     String mimeType, boolean addExtension) {
     int postfix = 0;
     do {
       String name = base;
-      if (postfix>0) {
-        name += "_"+postfix;
+      if (postfix > 0) {
+        name += "_" + postfix;
       }
       if (addExtension) {
-        name+="."+mimeType.split("/")[1];
+        name += "." + mimeType.split("/")[1];
       }
-      if (parentDir.findFile(name)==null) {
+      if (parentDir.findFile(name) == null) {
         DocumentFile result = null;
         try {
           result = parentDir.createFile(mimeType, name);
           if (result == null) {
             AcraHelper.report(new Exception(String.format(
                 "createFile returned null: mimeType %s; name %s; parent %s",
-                mimeType,name,parentDir.getUri().toString())));
+                mimeType, name, parentDir.getUri().toString())));
           }
         } catch (SecurityException e) {
           AcraHelper.report(new Exception(String.format(
@@ -538,10 +543,10 @@ public class Utils {
     int postfix = 0;
     do {
       String name = base;
-      if (postfix>0) {
-        name += "_"+postfix;
+      if (postfix > 0) {
+        name += "_" + postfix;
       }
-      if (parentDir.findFile(name)==null) {
+      if (parentDir.findFile(name) == null) {
         return parentDir.createDirectory(name);
       }
       postfix++;
@@ -586,11 +591,10 @@ public class Utils {
   /**
    * create a File object for storage of picture data
    *
-   * @param temp
-   *          if true the returned file is suitable for temporary storage while
-   *          the user is editing the transaction if false the file will serve
-   *          as permanent storage,
-   *          care is taken that the file does not yet exist
+   * @param temp if true the returned file is suitable for temporary storage while
+   *             the user is editing the transaction if false the file will serve
+   *             as permanent storage,
+   *             care is taken that the file does not yet exist
    * @return a file on the external storage
    */
   public static File getOutputMediaFile(String fileName, boolean temp) {
@@ -598,7 +602,7 @@ public class Utils {
     // using Environment.getExternalStorageState() before doing this.
 
     File mediaStorageDir = temp ? getCacheDir() : getPictureDir();
-    if (mediaStorageDir==null) return null;
+    if (mediaStorageDir == null) return null;
     int postfix = 0;
     File result;
     do {
@@ -616,9 +620,9 @@ public class Utils {
     File outputMediaFile;
     if (MyApplication.getInstance().isProtected() && !temp) {
       outputMediaFile = getOutputMediaFile(fileName, false);
-      if (outputMediaFile==null) return null;
+      if (outputMediaFile == null) return null;
       return FileProvider.getUriForFile(MyApplication.getInstance(),
-                 "org.totschnig.myexpenses.fileprovider",
+          "org.totschnig.myexpenses.fileprovider",
           outputMediaFile);
     } else {
       outputMediaFile = getOutputMediaFile(fileName, temp);
@@ -629,36 +633,38 @@ public class Utils {
 
   public static String getPictureUriBase(boolean temp) {
     Uri sampleUri = getOutputMediaUri(temp);
-    if (sampleUri==null) return null;
+    if (sampleUri == null) return null;
     String uriString = sampleUri.toString();
-    return uriString.substring(0,uriString.lastIndexOf('/'));
+    return uriString.substring(0, uriString.lastIndexOf('/'));
   }
 
   private static String getOutputMediaFileName(String base, int postfix) {
-      if (postfix > 0) {
-        base+= "_" + postfix;
-      }
-      return base + ".jpg";
-  }
-    public static File getPictureDir() {
-        return getPictureDir(MyApplication.getInstance().isProtected());
+    if (postfix > 0) {
+      base += "_" + postfix;
     }
+    return base + ".jpg";
+  }
+
+  public static File getPictureDir() {
+    return getPictureDir(MyApplication.getInstance().isProtected());
+  }
+
   public static File getPictureDir(boolean secure) {
     File result;
     if (secure) {
-      result = new File (MyApplication.getInstance().getFilesDir(),
+      result = new File(MyApplication.getInstance().getFilesDir(),
           "images");
     } else {
       result = MyApplication.getInstance().getExternalFilesDir(
           Environment.DIRECTORY_PICTURES);
     }
-    if (result==null) return null;
+    if (result == null) return null;
     result.mkdir();
     return result.exists() ? result : null;
   }
 
   public static void share(Context ctx, ArrayList<Uri> fileUris, String target,
-      String mimeType) {
+                           String mimeType) {
     URI uri = null;
     Intent intent;
     String scheme = "mailto";
@@ -708,7 +714,7 @@ public class Utils {
       intent.setType(mimeType);
       if (uri != null) {
         String address = uri.getSchemeSpecificPart();
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[] { address });
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{address});
       }
       intent.putExtra(Intent.EXTRA_SUBJECT, R.string.export_expenses);
       if (!isIntentAvailable(ctx, intent)) {
@@ -742,17 +748,14 @@ public class Utils {
    * method queries the package manager for installed packages that can respond
    * to an intent with the specified action. If no suitable package is found,
    * this method returns false.
-   *
+   * <p>
    * From
    * http://android-developers.blogspot.fr/2009/01/can-i-use-this-intent.html
    *
-   * @param context
-   *          The application's environment.
-   * @param intent
-   *          The Intent action to check for availability.
-   *
+   * @param context The application's environment.
+   * @param intent  The Intent action to check for availability.
    * @return True if an Intent with the specified action can be sent and
-   *         responded to, false otherwise.
+   * responded to, false otherwise.
    */
   public static boolean isIntentAvailable(Context context, Intent intent) {
     final PackageManager packageManager = context.getPackageManager();
@@ -773,7 +776,7 @@ public class Utils {
 
     boolean rtnValue = false;
 
-    int[] rgb = { Color.red(color), Color.green(color), Color.blue(color) };
+    int[] rgb = {Color.red(color), Color.green(color), Color.blue(color)};
 
     int brightness = (int) Math.sqrt(rgb[0] * rgb[0] * .241 + rgb[1]
         * rgb[1] * .691 + rgb[2] * rgb[2] * .068);
@@ -790,6 +793,7 @@ public class Utils {
    * get a value from extras that could be either passed as String or a long extra
    * we need this method, to pass values from monkeyrunner, which is not able to pass long extras
    * if extras is null, defaultValue is returned
+   *
    * @param extras
    * @param key
    * @param defaultValue
@@ -799,7 +803,7 @@ public class Utils {
     if (extras == null) return defaultValue;
     String stringValue = extras.getString(key);
     if (TextUtils.isEmpty(stringValue)) {
-      return extras.getLong(key,defaultValue);
+      return extras.getLong(key, defaultValue);
     } else {
       return Long.parseLong(stringValue);
     }
@@ -818,16 +822,15 @@ public class Utils {
   @VisibleForTesting
   public static CharSequence getContribFeatureLabelsAsFormattedList(
       Context ctx, ContribFeature other) {
-    return getContribFeatureLabelsAsFormattedList(ctx,other, LicenceHandler.LicenceStatus.CONTRIB);
+    return getContribFeatureLabelsAsFormattedList(ctx, other, LicenceHandler.LicenceStatus.CONTRIB);
   }
+
   /**
-   * @param ctx
-   *          for retrieving resources
-   * @param other
-   *          if not null, all features except the one provided will be returned
-   * @param type if not null, only features of this type will be listed
+   * @param ctx   for retrieving resources
+   * @param other if not null, all features except the one provided will be returned
+   * @param type  if not null, only features of this type will be listed
    * @return construct a list of all contrib features to be included into a
-   *         TextView
+   * TextView
    */
   public static CharSequence getContribFeatureLabelsAsFormattedList(
       Context ctx, ContribFeature other, LicenceHandler.LicenceStatus type) {
@@ -858,6 +861,20 @@ public class Utils {
       }
     }
     return result;
+  }
+
+  public static String[] getContribFeatureLabelsAsList(Context ctx, LicenceHandler.LicenceStatus type) {
+    return Stream.of(EnumSet.allOf(ContribFeature.class))
+        .filter(feature -> type.equals(LicenceHandler.LicenceStatus.CONTRIB) != feature.isExtended())
+        .filter(feature -> IS_FLAVOURED || !feature.equals(ContribFeature.AD_FREE))
+        .map(feature -> {
+          String resName = "contrib_feature_" + feature.toString() + "_label";
+          int resId = ctx.getResources().getIdentifier(
+              resName, "string",
+              ctx.getPackageName());
+          return ctx.getText(resId);
+        })
+        .toArray(size -> new String[size]);
   }
 
   public static String md5(String s) {
@@ -952,7 +969,7 @@ public class Utils {
   }
 
   public static int importParties(ArrayList<String> partiesList,
-      GrisbiImportTask task) {
+                                  GrisbiImportTask task) {
     int total = 0;
     for (int i = 0; i < partiesList.size(); i++) {
       if (Payee.maybeWrite(partiesList.get(i)) != -1) {
@@ -971,7 +988,7 @@ public class Utils {
     long main_id, sub_id;
 
     int size = catTree.children().size();
-    for(int i = 0; i < size; i++) {
+    for (int i = 0; i < size; i++) {
       CategoryTree mainCat = catTree.children().valueAt(i);
       label = mainCat.getLabel();
       count++;
@@ -993,7 +1010,7 @@ public class Utils {
         }
       }
       int subSize = mainCat.children().size();
-      for(int j = 0; j < subSize; j++) {
+      for (int j = 0; j < subSize; j++) {
         label = mainCat.children().valueAt(j).getLabel();
         count++;
         sub_id = Category.write(0L, label, main_id);
@@ -1025,9 +1042,9 @@ public class Utils {
 
   /**
    * @return false if the configured folder is inside the application folder
-   *         that will be deleted upon app uninstall and hence user should be
-   *         warned about the situation, unless he already has opted to no
-   *         longer see this warning
+   * that will be deleted upon app uninstall and hence user should be
+   * warned about the situation, unless he already has opted to no
+   * longer see this warning
    */
   @SuppressLint("NewApi")
   public static boolean checkAppFolderWarning() {
@@ -1075,7 +1092,7 @@ public class Utils {
   }
 
   public static void configDecimalSeparator(final EditText editText,
-      final char decimalSeparator, final int fractionDigits) {
+                                            final char decimalSeparator, final int fractionDigits) {
     // mAmountText.setInputType(
     // InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
     // due to bug in Android platform
@@ -1135,12 +1152,12 @@ public class Utils {
   /**
    * @param str
    * @return a representation of str converted to lower case, Unicode
-   *         normalization applied and markers removed this allows
-   *         case-insentive comparison for non-ascii and non-latin strings works
-   *         only above Gingerbread, on Froyo only lower case transformation is
-   *         performed
+   * normalization applied and markers removed this allows
+   * case-insentive comparison for non-ascii and non-latin strings works
+   * only above Gingerbread, on Froyo only lower case transformation is
+   * performed
    */
-  @SuppressLint({ "NewApi", "DefaultLocale" })
+  @SuppressLint({"NewApi", "DefaultLocale"})
   public static String normalize(String str) {
     str = str.toLowerCase();
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
@@ -1179,7 +1196,7 @@ public class Utils {
   }
 
   public static Bitmap decodeSampledBitmapFromUri(Uri uri, int reqWidth,
-      int reqHeight) {
+                                                  int reqHeight) {
 
     // First decode with inJustDecodeBounds=true to check dimensions
     final BitmapFactory.Options options = new BitmapFactory.Options();
@@ -1232,7 +1249,7 @@ public class Utils {
   }
 
   public static int calculateInSampleSize(BitmapFactory.Options options,
-      int reqWidth, int reqHeight) {
+                                          int reqWidth, int reqHeight) {
     // Raw height and width of image
     final int height = options.outHeight;
     final int width = options.outWidth;
@@ -1258,21 +1275,19 @@ public class Utils {
   /**
    * filters out the '/' character and characters of type {@link java.lang.Character#SURROGATE} or
    * {@link java.lang.Character#OTHER_SYMBOL}, meant primarily to skip emojs
+   *
    * @param in
    * @return
    */
   public static String escapeForFileName(String in) {
-    return in.replace("/","").replaceAll("\\p{Cs}","").replaceAll("\\p{So}","");
+    return in.replace("/", "").replaceAll("\\p{Cs}", "").replaceAll("\\p{So}", "");
   }
 
   //http://stackoverflow.com/a/11072627/1199911
-  public static void selectSpinnerItemByValue(Spinner spnr, long value)
-  {
+  public static void selectSpinnerItemByValue(Spinner spnr, long value) {
     SimpleCursorAdapter adapter = (SimpleCursorAdapter) spnr.getAdapter();
-    for (int position = 0; position < adapter.getCount(); position++)
-    {
-      if(adapter.getItemId(position) == value)
-      {
+    for (int position = 0; position < adapter.getCount(); position++) {
+      if (adapter.getItemId(position) == value) {
         spnr.setSelection(position);
         return;
       }
@@ -1319,8 +1334,9 @@ public class Utils {
     }
     activeItem.setChecked(true);
   }
+
   public static String getSortOrderFromMenuItemId(int id) {
-    switch(id) {
+    switch (id) {
       case R.id.SORT_USAGES_COMMAND:
         return ProtectedFragmentActivity.SORT_ORDER_USAGES;
       case R.id.SORT_LAST_USED_COMMAND:
@@ -1375,12 +1391,17 @@ public class Utils {
     return null;
   }
 
-  //TODO TintContextWrapper is not public in Support library 23.3.0,
-  //need to find another solution
-  //maybe http://stackoverflow.com/a/37097656/1199911
   public static Bitmap getTintedBitmapForTheme(Context context, int drawableResId, int themeResId) {
+    Drawable d = getTintedDrawableForTheme(context, drawableResId, themeResId);
+    return drawableToBitmap(d);
+  }
+
+  private static Drawable getTintedDrawableForTheme(Context context, int drawableResId, int themeResId) {
     Context wrappedContext = new ContextThemeWrapper(context, themeResId);
-    Drawable d = AppCompatDrawableManager.get().getDrawable(wrappedContext, drawableResId);
+    return AppCompatDrawableManager.get().getDrawable(wrappedContext, drawableResId);
+  }
+
+  private static Bitmap drawableToBitmap(Drawable d) {
     Bitmap b = Bitmap.createBitmap(d.getIntrinsicWidth(),
         d.getIntrinsicHeight(),
         Bitmap.Config.ARGB_8888);
@@ -1407,6 +1428,7 @@ public class Utils {
   public static int compare(int lhs, int rhs) {
     return lhs < rhs ? -1 : (lhs == rhs ? 0 : 1);
   }
+
   // From Guava
   public static int indexOf(int[] array, int target) {
     return indexOf(array, target, 0, array.length);
@@ -1441,7 +1463,7 @@ public class Utils {
       default:
         // continue below to handle the general case
     }
-    for (int accum = 1;; k >>= 1) {
+    for (int accum = 1; ; k >>= 1) {
       switch (k) {
         case 0:
           return accum;
@@ -1453,4 +1475,21 @@ public class Utils {
       }
     }
   }
+
+  public static CharSequence makeBulletList(Context ctx, String... lines) {
+    InsetDrawable drawable = new InsetDrawable(
+        Utils.getTintedDrawableForTheme(ctx, R.drawable.ic_menu_done, R.style.ThemeDark), 0, 20, 0, 0);
+    Bitmap bitmap = drawableToBitmap(drawable);
+    Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 0.5),
+        (int) (bitmap.getHeight() * 0.5), true);
+    SpannableStringBuilder sb = new SpannableStringBuilder();
+    for (int i = 0; i < lines.length; i++) {
+      String line = lines[i];
+      Spannable spannable = new SpannableString(line + (i < lines.length - 1 ? "\n" : ""));
+      spannable.setSpan(new IconMarginSpan(scaledBitmap, 25), 0, line.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+      sb.append(spannable);
+    }
+    return sb;
+  }
+
 }

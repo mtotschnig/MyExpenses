@@ -193,6 +193,13 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textAllCaps">true</item>
-        <item name="android:paddingBottom">@dimen/vertical_padding_paragraph</item>
+    </style>
+
+    <style name="FeatureList">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">@dimen/general_padding</item>
+        <item name="android:paddingRight">@dimen/general_padding</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
     </style>
 </resources>
