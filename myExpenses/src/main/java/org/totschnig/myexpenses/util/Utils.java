@@ -864,9 +864,14 @@ public class Utils {
   }
 
   public static String[] getContribFeatureLabelsAsList(Context ctx, LicenceHandler.LicenceStatus type) {
-    return Stream.of(EnumSet.allOf(ContribFeature.class))
-        .filter(feature -> type.equals(LicenceHandler.LicenceStatus.CONTRIB) != feature.isExtended())
-        .filter(feature -> IS_FLAVOURED || !feature.equals(ContribFeature.AD_FREE))
+    Stream<ContribFeature> features = Stream.of(EnumSet.allOf(ContribFeature.class));
+    if (type != null) {
+      features =  features.filter(feature -> type.equals(LicenceHandler.LicenceStatus.CONTRIB) != feature.isExtended());
+    }
+    if (!IS_FLAVOURED) {
+      features = features.filter(feature -> !feature.equals(ContribFeature.AD_FREE));
+    }
+    return features
         .map(feature -> {
           String resName = "contrib_feature_" + feature.toString() + "_label";
           int resId = ctx.getResources().getIdentifier(

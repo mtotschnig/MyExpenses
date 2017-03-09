@@ -43,6 +43,7 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/contrib_feature_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/premium_licence"
@@ -60,6 +61,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/extended_feature_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/extended_licence"

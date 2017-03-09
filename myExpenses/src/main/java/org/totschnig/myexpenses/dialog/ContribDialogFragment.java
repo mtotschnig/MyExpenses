@@ -90,10 +90,27 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     ((TextView) view.findViewById(R.id.feature_info)).setText(message);
     ((TextView) view.findViewById(R.id.usages_left)).setText(feature.buildUsagesLefString(ctx));
 
-    ((TextView) view.findViewById(R.id.contrib_feature_list)).setText(
-        Utils.makeBulletList(ctx, Utils.getContribFeatureLabelsAsList(ctx, LicenceHandler.LicenceStatus.CONTRIB)));
-    ((TextView) view.findViewById(R.id.extended_feature_list)).setText(
-        Utils.makeBulletList(ctx, Utils.getContribFeatureLabelsAsList(ctx, LicenceHandler.LicenceStatus.EXTENDED)));
+    if (feature.isExtended()) {
+      view.findViewById(R.id.contrib_feature_container).setVisibility(View.GONE);
+    } else {
+      ((TextView) view.findViewById(R.id.contrib_feature_list)).setText(
+          Utils.makeBulletList(ctx, Utils.getContribFeatureLabelsAsList(ctx, LicenceHandler.LicenceStatus.CONTRIB)));
+    }
+    if (LicenceHandler.HAS_EXTENDED) {
+      String[] lines;
+      if (feature.isExtended() && !isContrib) {
+        lines = Utils.getContribFeatureLabelsAsList(ctx, null);
+      } else {
+        String[] extendedFeatures = Utils.getContribFeatureLabelsAsList(ctx, LicenceHandler.LicenceStatus.EXTENDED);
+        lines = feature.isExtended() ? extendedFeatures : //user is Contrib
+            Utils.joinArrays(new String[]{getString(R.string.all_premium_key_features) + "\n+"},
+                extendedFeatures);
+      }
+      ((TextView) view.findViewById(R.id.extended_feature_list)).setText(
+          Utils.makeBulletList(ctx, lines));
+    } else {
+      view.findViewById(R.id.extended_feature_container).setVisibility(View.GONE);
+    }
     contribButton = (RadioButton) view.findViewById(R.id.contrib_button);
     extendedButton = (RadioButton) view.findViewById(R.id.extended_button);
     contribButton.setOnClickListener(v -> extendedButton.setChecked(false));
