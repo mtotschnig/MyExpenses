@@ -226,9 +226,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
   }
 
   public static void showContribMessage(Context context) {
-    String message = context.getString(
-        R.string.dialog_contrib_premium_feature,
-        context.getString(R.string.contrib_feature_template_widget_label)) +
+    String message = ContribFeature.TEMPLATE_WIDGET.buildFullInfoString(context) + " " +
         ContribFeature.TEMPLATE_WIDGET.buildUsagesLefString(context);
     Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     if (ContribFeature.TEMPLATE_WIDGET.usagesLeft() == 0) {
@@ -248,9 +246,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
         for (int id : appWidgetIds) {
           AppWidgetProviderInfo appWidgetInfo = manager.getAppWidgetInfo(id);
           if (appWidgetInfo != null) {
-            String message = context.getString(
-                R.string.dialog_contrib_premium_feature,
-                context.getString(R.string.contrib_feature_template_widget_label)) +
+            String message = ContribFeature.TEMPLATE_WIDGET.buildFullInfoString(context) + " " +
                 context.getString(R.string.dialog_contrib_no_usages_left);
             RemoteViews updateViews = errorUpdate(context, message);
             Intent intent = new Intent(context, ContribInfoDialogActivity.class);

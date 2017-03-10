@@ -65,7 +65,6 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     Activity ctx = getActivity();
     @SuppressLint("InflateParams")
     final View view = LayoutInflater.from(ctx).inflate(R.layout.contrib_dialog, null);
-    TextView usagesLeftTextView = (TextView) view.findViewById(R.id.usages_left);
     AlertDialog.Builder builder = new AlertDialog.Builder(ctx,
         MyApplication.getThemeType().equals(MyApplication.ThemeType.dark) ?
             R.style.ContribDialogThemeDark : R.style.ContribDialogThemeLight);
@@ -75,14 +74,17 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
           linefeed = Html.fromHtml("<br>"),
           removePhrase = feature.buildRemoveLimitation(getActivity(), true);
       message = TextUtils.concat(featureDescription, linefeed, removePhrase);
-      usagesLeftTextView.setText(feature.buildUsagesLefString(ctx));
+      if (feature.hasTrial()) {
+        TextView usagesLeftTextView = (TextView) view.findViewById(R.id.usages_left);
+        usagesLeftTextView.setText(feature.buildUsagesLefString(ctx));
+        usagesLeftTextView.setVisibility(View.VISIBLE);
+      }
     } else {
       message = getText(R.string.dialog_contrib_text_2);
       if (!Utils.IS_FLAVOURED) {
         message = TextUtils.concat(getText(R.string.dialog_contrib_text_1), " ",
             getText(R.string.dialog_contrib_text_2));
       }
-      usagesLeftTextView.setVisibility(View.GONE);
     }
     ((TextView) view.findViewById(R.id.feature_info)).setText(message);
     boolean isContrib = MyApplication.getInstance().getLicenceHandler().isContribEnabled();
@@ -104,7 +106,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
       } else {
         String[] extendedFeatures = Utils.getContribFeatureLabelsAsList(ctx, LicenceHandler.LicenceStatus.EXTENDED);
         lines = feature == null || feature.isExtended()  ? extendedFeatures : //user is Contrib
-            Utils.joinArrays(new String[]{getString(R.string.all_premium_key_features) + "\n+"},
+            Utils.joinArrays(new String[]{getString(R.string.all_contrib_key_features) + "\n+"},
                 extendedFeatures);
       }
       ((TextView) view.findViewById(R.id.extended_feature_list)).setText(

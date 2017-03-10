@@ -19,6 +19,7 @@
             android:id="@+id/feature_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/vertical_padding_paragraph"
             android:textAppearance="?android:attr/textAppearanceMedium"/>
 
         <TextView
@@ -26,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/vertical_padding_paragraph"
-            android:paddingTop="@dimen/vertical_padding_paragraph"
+            android:visibility="gone"
             android:textAppearance="?android:attr/textAppearanceSmall"/>
 
         <android.support.v7.widget.CardView

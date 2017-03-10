@@ -25,14 +25,27 @@ import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.LicenceHandler;
-import org.totschnig.myexpenses.util.Utils;
 
 import java.util.Date;
 import java.util.Locale;
 
 public enum ContribFeature {
-  ACCOUNTS_UNLIMITED(false),
-  PLANS_UNLIMITED(false),
+  ACCOUNTS_UNLIMITED(false) {
+    private int FREE_ACCOUNTS = 5;
+    @Override
+    public String buildUsageLimitString(Context context) {
+      String currentLicence = getCurrentLicence(context);
+      return context.getString(R.string.dialog_contrib_usage_limit_accounts, FREE_ACCOUNTS, currentLicence);
+    }
+  },
+  PLANS_UNLIMITED(false){
+    private int FREE_PLANS = 5;
+    @Override
+    public String buildUsageLimitString(Context context) {
+      String currentLicence = getCurrentLicence(context);
+      return context.getString(R.string.dialog_contrib_usage_limit_plans, FREE_PLANS, currentLicence);
+    }
+  },
   SECURITY_QUESTION,
   SPLIT_TRANSACTION,
   DISTRIBUTION,
@@ -119,7 +132,7 @@ public enum ContribFeature {
   /**
    * how many times contrib features can be used for free
    */
-  public static final int USAGES_LIMIT = 10;
+  public static final int USAGES_LIMIT = 3;
 
   public String toString() {
     return name().toLowerCase(Locale.US);
@@ -172,7 +185,7 @@ public enum ContribFeature {
   }
 
   public String buildRequiresString(Context ctx) {
-    return ctx.getString(R.string.contrib_key_requires, buildKeyFullName(ctx, isExtended));
+    return ctx.getString(R.string.contrib_key_requires, buildKeyName(ctx, isExtended));
   }
 
   public int getLabelResIdOrThrow(Context ctx) {
@@ -194,16 +207,14 @@ public enum ContribFeature {
   }
 
   public CharSequence buildFullInfoString(Context ctx) {
-    return hasTrial ? Html.fromHtml(ctx.getString(
-        isExtended ? R.string.dialog_contrib_extended_feature : R.string.dialog_contrib_premium_feature,
-        "<i>" + ctx.getString(getLabelResIdOrThrow(ctx)) + "</i>") + " " +
-        buildUsageLimitString(ctx)) :
-        ctx.getText(ctx.getResources().getIdentifier("contrib_feature_" + name() + "_description", "string", ctx.getPackageName()));
+    return Html.fromHtml(ctx.getString(R.string.dialog_contrib_premium_feature,
+        "<i>" + ctx.getString(getLabelResIdOrThrow(ctx)) + "</i>",
+        buildKeyName(ctx, isExtended)) + " " +
+        buildUsageLimitString(ctx));
   }
 
-  public static String buildKeyFullName(Context ctx, boolean extended) {
-    return Utils.concatResStrings(ctx, " ", R.string.app_name,
-        extended ? R.string.extended_key : R.string.contrib_key);
+  public static String buildKeyName(Context ctx, boolean extended) {
+    return ctx.getString(extended ? R.string.extended_key : R.string.contrib_key);
   }
 
   @SuppressLint("DefaultLocale")
