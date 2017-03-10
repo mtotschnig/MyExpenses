@@ -30,8 +30,8 @@ ext {
     compileSdkVersion = 25
     buildToolsVersion = "25.0.2"
     minSdkVersion = 9
-    targetSdkVersion = 23
-    androidSupportLibraryVersion = "25.1.0"
+    targetSdkVersion = 25
+    androidSupportLibraryVersion = "25.2.0"
     espressoVersion = "2.2.2"
     androidSupportTestVersion = "0.5"
     daggerVersion = "2.5"
