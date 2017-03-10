@@ -71,9 +71,6 @@
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s premium ezaugarri bat da (%2$s).</string>
   <string name="dialog_contrib_text_1"><i>Nire Gastuak</i> doan eta libre eskaintzen da.</string>
-  <string name="dialog_contrib_buy_premium">Erosi PREMIUM</string>
-  <string name="dialog_contrib_buy_extended">Erosi HEDATUA</string>
-  <string name="dialog_contrib_upgrade_extended">Bertsio-berritu HEDATURA</string>
   <string name="dialog_export_delete">Ezabatu esportatutako transakzioak</string>
   <string name="dialog_export_not_yet_exported">Esportatu soilik oraindik esportatu ez diren transakzioak</string>
   <string name="dialog_password_activate_protection">Aktibatu pasahitz bidezko babesa</string>

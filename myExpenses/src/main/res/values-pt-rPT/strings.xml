@@ -71,9 +71,6 @@
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s é uma funcionalidade premium (%2$s).</string>
   <string name="dialog_contrib_text_1"><i>My Expenses</i> é oferecido sem anúncios e em código aberto.</string>
-  <string name="dialog_contrib_buy_premium">Comprar PREMIUM</string>
-  <string name="dialog_contrib_buy_extended">Comprar EXTENDED</string>
-  <string name="dialog_contrib_upgrade_extended">Atualizar para EXTENDED</string>
   <string name="dialog_export_delete">Eliminar transações exportadas</string>
   <string name="dialog_export_not_yet_exported">Exportar apenas as transações não exportadas</string>
   <string name="dialog_password_activate_protection">Ativar proteção por palavra-passe</string>

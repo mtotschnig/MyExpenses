@@ -71,9 +71,6 @@
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s е функция от Премиум вариант  (%2$s).</string>
   <string name="dialog_contrib_text_1"><i>Моите разходи</i> се предлага без реклами и с отворен код.</string>
-  <string name="dialog_contrib_buy_premium">Купи Премиум</string>
-  <string name="dialog_contrib_buy_extended">Купи Разширен</string>
-  <string name="dialog_contrib_upgrade_extended">Надстрой до Разширен</string>
   <string name="dialog_export_delete">Изтрии експортираните транзакции</string>
   <string name="dialog_export_not_yet_exported">Експорт само на транзакции, които не са били експортирани досега</string>
   <string name="dialog_password_activate_protection">Активиране на защита с парола</string>

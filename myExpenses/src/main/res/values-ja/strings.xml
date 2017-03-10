@@ -70,9 +70,6 @@
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s はプレミアム機能です (%2$s)。</string>
   <string name="dialog_contrib_text_1"><i>マイ エクスペンス</i> 広告なしのオープンソースで提供しています。</string>
-  <string name="dialog_contrib_buy_premium">プレミアムを購入</string>
-  <string name="dialog_contrib_buy_extended">拡張を購入</string>
-  <string name="dialog_contrib_upgrade_extended">拡張にアップグレードする</string>
   <string name="dialog_export_delete">エクスポートした取引を削除</string>
   <string name="dialog_export_not_yet_exported">まだエクスポートしていない取引のみエクスポート</string>
   <string name="dialog_password_activate_protection">パスワード保護を有効にする</string>

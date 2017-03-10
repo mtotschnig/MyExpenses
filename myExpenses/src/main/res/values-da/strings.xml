@@ -63,9 +63,6 @@
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s er en premium funktion (%2$s).</string>
   <string name="dialog_contrib_text_1"><i>Mine udgifter</i> er tilbudt annonce gratis og open source.</string>
-  <string name="dialog_contrib_buy_premium">Køb PREMIUM</string>
-  <string name="dialog_contrib_buy_extended">Køb UDVIDET</string>
-  <string name="dialog_contrib_upgrade_extended">Opgrader til UDVIDET</string>
   <string name="dialog_export_delete">Slet eksporterede posteringer</string>
   <string name="dialog_export_not_yet_exported">Eksporter kun posteringer der ikke blev eksporteret endnu</string>
   <string name="dialog_password_activate_protection">Aktivere beskyttelse med adgangskode</string>

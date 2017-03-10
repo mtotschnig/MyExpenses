@@ -71,9 +71,6 @@
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s είναι ένα αναβαθμισμένο χαρακτηριστικό (%2$s).</string>
   <string name="dialog_contrib_text_1"><i>Έξοδα μου</i> προσφέρεται δωρεάν και είναι ανοικτού κώδικα.</string>
-  <string name="dialog_contrib_buy_premium">Αγορά αναβάθμισης</string>
-  <string name="dialog_contrib_buy_extended">Αγορά εκτεταμένης λειτουργίας</string>
-  <string name="dialog_contrib_upgrade_extended">Αναβάθμιση σε εκτεταμένη λειτουργία</string>
   <string name="dialog_export_delete">Διαγράψετε εξαγόμενες συναλλαγές</string>
   <string name="dialog_export_not_yet_exported">Εξαγάγετε μόνο τις συναλλαγές που δεν έχει ακόμη εξαχθεί</string>
   <string name="dialog_password_activate_protection">Ενεργοποιήσετε την προστασία με κωδικό πρόσβασης</string>

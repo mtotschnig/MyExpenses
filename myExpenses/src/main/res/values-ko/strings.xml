@@ -69,9 +69,6 @@
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s - 프리미엄 기능입니다 (%2$s).</string>
   <string name="dialog_contrib_text_1"><i>My Expenses</i>는 광고가 없으며 소스 코드가 공개되어 있습니다.</string>
-  <string name="dialog_contrib_buy_premium">프리미엄 구매</string>
-  <string name="dialog_contrib_buy_extended">확장 기능 구매</string>
-  <string name="dialog_contrib_upgrade_extended">확장 기능으로 업그레이드</string>
   <string name="dialog_export_delete">내보낸 거래 내역 삭제</string>
   <string name="dialog_export_not_yet_exported">아직 내보내지 않은 거래 내역만 내보내기</string>
   <string name="dialog_password_activate_protection">암호 보안 사용하기</string>

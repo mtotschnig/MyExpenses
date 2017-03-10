@@ -71,9 +71,6 @@
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s ist eine Premium-Funktion (%2$s).</string>
   <string name="dialog_contrib_text_1"><i>Meine Ausgaben</i> wird Ihnen ohne Werbung und mit offenem Quellcode angeboten.</string>
-  <string name="dialog_contrib_buy_premium">PREMIUM kaufen</string>
-  <string name="dialog_contrib_buy_extended">ERWEITERT kaufen</string>
-  <string name="dialog_contrib_upgrade_extended">Upgrade auf ERWEITERT</string>
   <string name="dialog_export_delete">Buchungen nach dem Exportieren löschen</string>
   <string name="dialog_export_not_yet_exported">Nur Buchungen exportieren, die noch nicht exportiert wurden</string>
   <string name="dialog_password_activate_protection">Passwort-Schutz aktivieren</string>

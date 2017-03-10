@@ -71,9 +71,6 @@
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s katkı işlevidir (%2$s).</string>
   <string name="dialog_contrib_text_1"><i>Harcamalarım</i> ücretsiz ve özgür yazılım olarak sunulmuştur.</string>
-  <string name="dialog_contrib_buy_premium">PREMIUM satın al</string>
-  <string name="dialog_contrib_buy_extended">GENİŞLETİLMİŞ işlevleri satın al</string>
-  <string name="dialog_contrib_upgrade_extended">GENİŞLETİLMİŞE yükselt</string>
   <string name="dialog_export_delete">Dışa aktarılan muameleleri sil</string>
   <string name="dialog_export_not_yet_exported">Sadece henüz dışa aktarılmamış muameleleri aktar</string>
   <string name="dialog_password_activate_protection">Parola ile korumayı etkinleştir</string>

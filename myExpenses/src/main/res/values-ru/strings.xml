@@ -73,9 +73,6 @@
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s является премиум функцией (%2$s).</string>
   <string name="dialog_contrib_text_1"><i>Мои расходы</i> выпускается бесплатно и с открытым исходным кодом.</string>
-  <string name="dialog_contrib_buy_premium">Купить ПРЕМИУМ</string>
-  <string name="dialog_contrib_buy_extended">Купить расширенный ключ</string>
-  <string name="dialog_contrib_upgrade_extended">Повысить уровень до расширенного</string>
   <string name="dialog_export_delete">Удалить экспортированные операции</string>
   <string name="dialog_export_not_yet_exported">Экспортировать еще не экспортированные операции</string>
   <string name="dialog_password_activate_protection">Включить защиту паролем</string>
