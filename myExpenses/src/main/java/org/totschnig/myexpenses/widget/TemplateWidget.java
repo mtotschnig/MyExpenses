@@ -51,6 +51,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 
 import static android.appwidget.AppWidgetManager.INVALID_APPWIDGET_ID;
+import static org.totschnig.myexpenses.activity.ContribInfoDialogActivity.KEY_FEATURE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
 
 public class TemplateWidget extends AbstractWidget<Template> {
@@ -253,6 +254,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
                 context.getString(R.string.dialog_contrib_no_usages_left);
             RemoteViews updateViews = errorUpdate(context, message);
             Intent intent = new Intent(context, ContribInfoDialogActivity.class);
+            intent.putExtra(KEY_FEATURE, ContribFeature.TEMPLATE_WIDGET);
             updateViews.setOnClickPendingIntent(R.id.object_info,
                 PendingIntent.getActivity(context, 0, intent, 0));
             manager.updateAppWidget(id, updateViews);
