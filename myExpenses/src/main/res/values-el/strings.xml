@@ -33,11 +33,9 @@
   <string name="comment">Σημειώσεις</string>
   <string name="confirmation_dialog_dont_show_again">Να μην εμφανιστεί ξανά</string>
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Χωρίς διαφημίσεις</string>
-  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources">Ο αριθμός των λογαριασμών που μπορείτε να δημιουργήσετε με <i>Έξοδα μου</i> περιορίζεται σε 5.</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Απεριόριστος αριθμός λογαριασμών</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Επισυνάψτε εικόνα στην συναλλαγή</string>
   <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Κατανομή των συναλλαγών ανά κατηγορία</string>
-  <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">Ο αριθμός των σχεδίων που μπορείτε να δημιουργήσετε με <i>Έξοδα μου</i> περιορίζεται σε 3.</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Απεριόριστος αριθμός σχεδίων</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Εξαγάγετε τη λίστα συναλλαγών σε PDF</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Πρότυπο γραφικού στοιχείου</string>
@@ -70,20 +68,9 @@
   <string name="dialog_command_disabled_distribution">Συναλλαγές δεν έχουν καταχωρηθεί σε κατηγορίες σε αυτό το λογαριασμό.</string>
   <string name="dialog_contrib_no">Όχι ακόμα</string>
   <string name="dialog_contrib_no_usages_left">Δεν έχετε πια δωρεάν χρήσεις.</string>
-  <!--Placeholder: 1 is name of the feature-->
-  <string name="dialog_contrib_premium_feature">%1$s είναι ένα αναβαθμισμένο χαρακτηριστικό.</string>
-  <!--Placeholder: 1 is name of the feature-->
-  <string name="dialog_contrib_extended_feature">%1$s είναι ένα εκτεταμένο χαρακτηριστικό.</string>
-  <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
-  <string name="dialog_contrib_reminder_remove_limitation">Αφαιρέστε αυτόν τον περιορισμό αγοράζοντας %s.</string>
-  <string name="dialog_contrib_reminder_gain_access">Μπορείτε επίσης να αποκτήσετε απεριόριστη πρόσβαση σε τις ακόλουθες δυνατότητες:</string>
-  <string name="dialog_contrib_extended_gain_access">Επιπρόσθετα, τα ακόλουθα χαρακτηριστικά ξεκλειδώνουν αν αγοράσετε το κλειδί Εκτεταμένης λειτουργίας:</string>
+  <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
+  <string name="dialog_contrib_premium_feature">%1$s είναι ένα αναβαθμισμένο χαρακτηριστικό (%2$s).</string>
   <string name="dialog_contrib_text_1"><i>Έξοδα μου</i> προσφέρεται δωρεάν και είναι ανοικτού κώδικα.</string>
-  <string name="dialog_contrib_text_2">Παρακαλούμε για τη συνεισφορά σας με την εγκατάσταση %s.</string>
-  <plurals name="dialog_contrib_usage_count">
-    <item quantity="one">Έχετε μία δωρεάν χρήση ακόμη.</item>
-    <item quantity="other">Έχετε ακόμη %1$d δωρεάν χρήσεις.</item>
-  </plurals>
   <string name="dialog_contrib_buy_premium">Αγορά αναβάθμισης</string>
   <string name="dialog_contrib_buy_extended">Αγορά εκτεταμένης λειτουργίας</string>
   <string name="dialog_contrib_upgrade_extended">Αναβάθμιση σε εκτεταμένη λειτουργία</string>

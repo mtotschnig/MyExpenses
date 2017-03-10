@@ -33,11 +33,9 @@
   <string name="comment">Oharrak</string>
   <string name="confirmation_dialog_dont_show_again">Ez erakutsi berriro</string>
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Iragarkirik gabe</string>
-  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources"><i>Nire Gastuak</i> aplikazioarekin sortu dezakezun gehieneko kontu kopurua 5 da.</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Kontu kopuru mugagabea</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Erantsi irudia transakzioari</string>
   <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Transakzioen distribuzioa kategoriako</string>
-  <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources"><i>Nire Gastuak</i> aplikazioarekin sortu dezakezun gehieneko plan kopurua 3 da.</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Plan kopuru mugagabea</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Esportatu transakzio zerrenda PDFra</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Txantiloien trepeta</string>
@@ -70,20 +68,9 @@
   <string name="dialog_command_disabled_distribution">Ez da transakziorik lotu kategorietara kontu honetan.</string>
   <string name="dialog_contrib_no">Oraindik ez</string>
   <string name="dialog_contrib_no_usages_left">Ez dira doako erabilera gehiago geratzen.</string>
-  <!--Placeholder: 1 is name of the feature-->
-  <string name="dialog_contrib_premium_feature">%1$s premium ezaugarri bat da.</string>
-  <!--Placeholder: 1 is name of the feature-->
-  <string name="dialog_contrib_extended_feature">%1$s bertsio hedatuaren ezaugarri bat da.</string>
-  <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
-  <string name="dialog_contrib_reminder_remove_limitation">Ezabatu muga hau %s erosita.</string>
-  <string name="dialog_contrib_reminder_gain_access">Hurrengo ezaugarrietara mugagabeko sarbidea lortzen duzu ere:</string>
-  <string name="dialog_contrib_extended_gain_access">Hortaz gain, honako ezaugarri hauek desblokeatuko dira gako hedatua erosten baduzu:</string>
+  <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
+  <string name="dialog_contrib_premium_feature">%1$s premium ezaugarri bat da (%2$s).</string>
   <string name="dialog_contrib_text_1"><i>Nire Gastuak</i> doan eta libre eskaintzen da.</string>
-  <string name="dialog_contrib_text_2">Mesedez lagundu %s erosita.</string>
-  <plurals name="dialog_contrib_usage_count">
-    <item quantity="one">Doako erabilera bat geratzen zaizu</item>
-    <item quantity="other">Doako %1$d erabilera geratzen zaizkizu.</item>
-  </plurals>
   <string name="dialog_contrib_buy_premium">Erosi PREMIUM</string>
   <string name="dialog_contrib_buy_extended">Erosi HEDATUA</string>
   <string name="dialog_contrib_upgrade_extended">Bertsio-berritu HEDATURA</string>

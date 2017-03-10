@@ -29,11 +29,9 @@
   <string name="comment">附注</string>
   <string name="confirmation_dialog_dont_show_again">不再显示</string>
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">无广告</string>
-  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources">你可以在 <i>开支助手</i> 中创建账户的数目仅限5个.</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">帐户数量不限</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">将图像附加到交易项目</string>
   <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">每个类别的交易分布</string>
-  <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">你可以在 <i>开支助手</i> 中创建计划的数目仅限3个.</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">计划数量不限</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">导出交易记录清单成PDF</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">模板插件</string>
@@ -66,19 +64,9 @@
   <string name="dialog_command_disabled_distribution">在此帐户,没有交易被对应到类别中.</string>
   <string name="dialog_contrib_no">现在不要</string>
   <string name="dialog_contrib_no_usages_left">没有剩下的免费使用额</string>
-  <!--Placeholder: 1 is name of the feature-->
-  <string name="dialog_contrib_premium_feature">%1$s 是一项高级功能.</string>
-  <!--Placeholder: 1 is name of the feature-->
-  <string name="dialog_contrib_extended_feature">%1$s 是一个扩展功能</string>
-  <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
-  <string name="dialog_contrib_reminder_remove_limitation">通过购买 %s 移出该限制.</string>
-  <string name="dialog_contrib_reminder_gain_access">你也可以无限制地的使用以下特点:</string>
-  <string name="dialog_contrib_extended_gain_access">而且,如果你购买一个扩展密钥,你会解锁下面的功能:</string>
+  <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
+  <string name="dialog_contrib_premium_feature">%1$s 是一项高级功能 (%2$s).</string>
   <string name="dialog_contrib_text_1"><i>开支助手</i> 是无广告和开放源码的.</string>
-  <string name="dialog_contrib_text_2">请通过购买 %s 贡献.</string>
-  <plurals name="dialog_contrib_usage_count">
-    <item quantity="other">现在你拥有 %1$d 免费使用额</item>
-  </plurals>
   <string name="dialog_contrib_buy_premium">购买高级功能</string>
   <string name="dialog_contrib_buy_extended">购买扩展功能</string>
   <string name="dialog_contrib_upgrade_extended">升级到扩展功能</string>

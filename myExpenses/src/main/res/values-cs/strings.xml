@@ -20,10 +20,8 @@
   <string name="category">Kategorie</string>
   <string name="color">Barva</string>
   <string name="comment">Poznámky</string>
-  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources">Počet účtů, které lze vytvořit pomocí <i>Moje výdaje</i> je omezen na 5.</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Neomezený počet účtů</string>
   <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Rozdělení transakcí podle jednotlivých kategorií</string>
-  <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">Počet plánů, které lze vytvořit pomocí <i>Moje výdaje</i> je omezen na 3.</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Neomezený počet plánů</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Šablona widget</string>
   <string name="contrib_key">Klíč Contrib</string>
@@ -41,18 +39,9 @@
   <string name="dialog_command_disabled_distribution">Žádné transakce nebyly namapovány do kategorií v tomto účtu.</string>
   <string name="dialog_contrib_no">Zatím ne</string>
   <string name="dialog_contrib_no_usages_left">Nezbývá žádné použití zdarma.</string>
-  <!--Placeholder: 1 is name of the feature-->
-  <string name="dialog_contrib_premium_feature">%1$s je prémiová funkce.</string>
-  <!--Placeholder: 1 is name of the feature-->
-  <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
-  <string name="dialog_contrib_reminder_gain_access">Můžete také získat neomezený přístup k následujícím funkcím:</string>
+  <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
+  <string name="dialog_contrib_premium_feature">%1$s je prémiová funkce  (%2$s).</string>
   <string name="dialog_contrib_text_1"><i>Moje výdaje</i> nenabízí reklamu a mají otevřený vývoj.</string>
-  <string name="dialog_contrib_text_2">Prosím přispějte instalací %s.</string>
-  <plurals name="dialog_contrib_usage_count">
-    <item quantity="one">Máte jedno použití zdarma.</item>
-    <item quantity="few">Máte %1$d použití zdarma.</item>
-    <item quantity="other">Máte %1$d použití zdarma.</item>
-  </plurals>
   <string name="dialog_export_delete">Odstranit exportované transakce</string>
   <string name="dialog_export_not_yet_exported">Exportovat pouze transakce, které ještě nebyly exportovány.</string>
   <string name="dialog_password_activate_protection">Aktivovat ochranu heslem</string>

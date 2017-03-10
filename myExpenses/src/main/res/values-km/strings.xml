@@ -26,10 +26,8 @@
   <string name="color">ពណ៌</string>
   <string name="comment">សម្គាល់</string>
   <string name="confirmation_dialog_dont_show_again">សូម​កុំ​បង្ហាញ​ម្តង​ទៀត</string>
-  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources">ចំនួន​គណនី​ ដែល​អ្នក​អាច​បង្កើត​បានជាមួយ <i>ការចំណាយរបស់ខ្ញុំ</i> ត្រូវ​បាន​កំណត់ចំនួន 5។</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">ចំនួន​គណនី​គ្មាន​ដែន​កំណត់</string>
   <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">ការចែកចាយប្រតិបត្តិការផ្សេងៗ​តាមចំណាត់ថ្នាក់</string>
-  <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">ចំនួន​ផែនការ​​ ដែល​អ្នក​អាច​បង្កើតជាមួយ <i>ការចំណាយរបស់ខ្ញុំ</i> ត្រូវបាន​កំណត់​តែ 3 ប៉ុណ្ណោះ។</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">ចំនួន​ផែនការគ្មានដែន​កំណត់​</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">ប្រអប់​ធាតុពុម្ព</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
@@ -49,14 +47,8 @@
   <string name="dialog_command_disabled_distribution">គ្មាន​ប្រតិបត្តិការ​ណា​ បានភ្ជាប់​ នឹង​ថ្នាក់​ណាមួយ​ ក្នុង​គណនីនេះទេ។</string>
   <string name="dialog_contrib_no">នៅទេ</string>
   <string name="dialog_contrib_no_usages_left">គ្មាន​ការ​ប្រើប្រាស់​ដោយអត់​បង់ថ្លៃ​នៅសល់​ទេ។</string>
-  <!--Placeholder: 1 is name of the feature-->
-  <string name="dialog_contrib_premium_feature">%1$s គឺជា​លក្ខណៈពិសេស​ដែល​តម្រូវ​បង់​ប្រាក់។</string>
-  <!--Placeholder: 1 is name of the feature-->
-  <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
-  <string name="dialog_contrib_reminder_gain_access">អ្នក​អាច​ចូល​ទៅកាន់​ផ្នែក​ពិសេស​ដែលហាម​ឃាត់​ ដូចខាងក្រោម៖</string>
-  <plurals name="dialog_contrib_usage_count">
-    <item quantity="other">អ្នក​មាន​​ការ​ប្រើប្រាស់​មិនគិតថ្លៃ​នៅសល់ %1$d ។</item>
-  </plurals>
+  <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
+  <string name="dialog_contrib_premium_feature">%1$s គឺជា​លក្ខណៈពិសេស​ដែល​តម្រូវ​បង់​ប្រាក់។ (%2$s)</string>
   <string name="dialog_export_delete">លុបចោលប្រតិបតិ្តការដែលបាននាំចេញ</string>
   <string name="dialog_export_not_yet_exported">នាំចេញតែប្រតិបត្តិការណាដែលមិនទាន់បាននាំចេញនៅឡើយ</string>
   <string name="dialog_password_activate_protection">ធ្វើឱ្យសកម្មនូវការពារពាក្យសម្ងាត់</string>

@@ -20,10 +20,8 @@
   <string name="category">Kategória</string>
   <string name="color">Szín</string>
   <string name="comment">Megjegyzés</string>
-  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources">A <i>Kiadásaim</i> alap változatában maximum 5 számlát kezelhet.</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Korlátlan számú számla</string>
   <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">A tranzakciók kategóriánkénti eloszlása</string>
-  <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">A tervek száma a <i>Kiadásaim</i> alkalmazásban maximum 3 darab lehet.</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Korlátlan számú terv</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Sablon widget</string>
   <string name="contrib_key">Contrib Kulcs</string>
@@ -41,13 +39,9 @@
   <string name="dialog_command_disabled_distribution">Ebben a számlában nincs kategóriához rendelt tranzakció</string>
   <string name="dialog_contrib_no">Nem most</string>
   <string name="dialog_contrib_no_usages_left">Nincs több ingyenes számla lehetőség.</string>
-  <!--Placeholder: 1 is name of the feature-->
-  <string name="dialog_contrib_premium_feature">%1$s Prémium szolgáltatás.</string>
-  <!--Placeholder: 1 is name of the feature-->
-  <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
-  <string name="dialog_contrib_reminder_gain_access">Az alábbi szolgáltatások is elérhetővé válnak:</string>
+  <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
+  <string name="dialog_contrib_premium_feature">%1$s Prémium szolgáltatás (%2$s).</string>
   <string name="dialog_contrib_text_1"><i>Kiadásaim</i> reklám mentes és nyitott forráskódú.</string>
-  <string name="dialog_contrib_text_2">Kérjük, ha elégedett a termékkel, járuljon hozzá %s.</string>
   <string name="dialog_export_delete">Exportált tranzakciók törlése</string>
   <string name="dialog_export_not_yet_exported">A nem exportált tranzakciók exportálása</string>
   <string name="dialog_password_activate_protection">Jelszóvédelem aktiválása</string>

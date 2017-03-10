@@ -33,11 +33,9 @@
   <string name="comment">Notas</string>
   <string name="confirmation_dialog_dont_show_again">Não mostrar novamente</string>
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Sem anúncios</string>
-  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources">O número de contas que pode criar com o <i>My Expenses</i> está limitado a 5.</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Número ilimitado de contas</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Anexar imagem à transação</string>
   <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Distribuição de transações por categoria</string>
-  <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">O número de planos que pode criar com o <i>My Expenses</i> está limitado a 3.</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Número ilimitado de planos</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Exportar a lista de transações para PDF</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Widget de modelos</string>
@@ -70,20 +68,9 @@
   <string name="dialog_command_disabled_distribution">Não existem transações atribuídas a categorias nesta conta.</string>
   <string name="dialog_contrib_no">Ainda não</string>
   <string name="dialog_contrib_no_usages_left">Sem usos gratuitos restantes.</string>
-  <!--Placeholder: 1 is name of the feature-->
-  <string name="dialog_contrib_premium_feature">%1$s é uma funcionalidade premium.</string>
-  <!--Placeholder: 1 is name of the feature-->
-  <string name="dialog_contrib_extended_feature">%1$s é uma funcionalidade extended.</string>
-  <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
-  <string name="dialog_contrib_reminder_remove_limitation">Remova esta limitação ao adquirir %s.</string>
-  <string name="dialog_contrib_reminder_gain_access">Também obtém acesso sem restrições às seguintes funcionalidades:</string>
-  <string name="dialog_contrib_extended_gain_access">Adicionalmente, as seguintes funcionalidades são desbloqueadas se adquirir a chave Extended:</string>
+  <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
+  <string name="dialog_contrib_premium_feature">%1$s é uma funcionalidade premium (%2$s).</string>
   <string name="dialog_contrib_text_1"><i>My Expenses</i> é oferecido sem anúncios e em código aberto.</string>
-  <string name="dialog_contrib_text_2">Por favor contribua ao adquirir %s.</string>
-  <plurals name="dialog_contrib_usage_count">
-    <item quantity="one">Tem um uso gratuito restante.</item>
-    <item quantity="other">Tem %1$d usos gratuitos restantes.</item>
-  </plurals>
   <string name="dialog_contrib_buy_premium">Comprar PREMIUM</string>
   <string name="dialog_contrib_buy_extended">Comprar EXTENDED</string>
   <string name="dialog_contrib_upgrade_extended">Atualizar para EXTENDED</string>

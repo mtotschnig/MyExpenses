@@ -32,11 +32,9 @@
   <string name="comment">Noter</string>
   <string name="confirmation_dialog_dont_show_again">Vis ikke igen</string>
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Ingen annoncer</string>
-  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources">Med <i>Mine udgifter</i> kan du oprette op til 5 konti.</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Ubegrænset antal konti</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Vedhæft et billede til postering</string>
   <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Fordeling af posteringer pr. kategori</string>
-  <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">Med <i>Mine udgifter</i> kan du oprette op til 3 planer.</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Ubegrænset antal planer</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Udskriv posteringer som PDF</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Skabelon widget</string>
@@ -62,20 +60,9 @@
   <string name="dialog_command_disabled_distribution">På denne konto blev ingen posteringer henført til kategorier.</string>
   <string name="dialog_contrib_no">Ikke endnu</string>
   <string name="dialog_contrib_no_usages_left">Denne funktion kan ikke længere bruges gratis.</string>
-  <!--Placeholder: 1 is name of the feature-->
-  <string name="dialog_contrib_premium_feature">%1$s er en premium funktion.</string>
-  <!--Placeholder: 1 is name of the feature-->
-  <string name="dialog_contrib_extended_feature">%1$s er en funktion fra den udvidet version.</string>
-  <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
-  <string name="dialog_contrib_reminder_remove_limitation">Ophæv begrænsningen ved at købe %s</string>
-  <string name="dialog_contrib_reminder_gain_access">Du får ubegrænset adgang til følgende funktioner:</string>
-  <string name="dialog_contrib_extended_gain_access">Hvis du køber nøglen til den udvidede version få du tilgang til følgende funktioner:</string>
+  <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
+  <string name="dialog_contrib_premium_feature">%1$s er en premium funktion (%2$s).</string>
   <string name="dialog_contrib_text_1"><i>Mine udgifter</i> er tilbudt annonce gratis og open source.</string>
-  <string name="dialog_contrib_text_2">Yde et bidrag ved at købe %s.</string>
-  <plurals name="dialog_contrib_usage_count">
-    <item quantity="one">Du har en gratis skik venstre.</item>
-    <item quantity="other">Denne funktion kan anvendes %1$d gang endnu.</item>
-  </plurals>
   <string name="dialog_contrib_buy_premium">Køb PREMIUM</string>
   <string name="dialog_contrib_buy_extended">Køb UDVIDET</string>
   <string name="dialog_contrib_upgrade_extended">Opgrader til UDVIDET</string>

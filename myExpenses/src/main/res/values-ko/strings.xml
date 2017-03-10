@@ -32,11 +32,9 @@
   <string name="comment">메모</string>
   <string name="confirmation_dialog_dont_show_again">다시 보여주지 않음</string>
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">광고 없음</string>
-  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources"><i>My Expenses</i>에서 만들 수 있는 계좌의 개수는 최대 5개로 제한되어 있습니다.</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">개수 제한 없는 계좌</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">거래 내역에 이미지 첨부</string>
   <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">카테고리당 거래 내역의 분포</string>
-  <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources"><i>My Expenses</i>에서 만들 수 있는 재무 계획의 개수는 최대 3개로 제한되어 있습니다.</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">개수 제한 없는 재무 계획</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">거래 내역 목록을 PDF로 내보내기</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">템플릿 위젯</string>
@@ -68,19 +66,9 @@
   <string name="dialog_command_disabled_distribution">이 계좌의 카테고리에 배치할 거래 내역이 없습니다.</string>
   <string name="dialog_contrib_no">아직 아님</string>
   <string name="dialog_contrib_no_usages_left">무료 사용량이 소진되었습니다.</string>
-  <!--Placeholder: 1 is name of the feature-->
-  <string name="dialog_contrib_premium_feature">%1$s - 프리미엄 기능입니다.</string>
-  <!--Placeholder: 1 is name of the feature-->
-  <string name="dialog_contrib_extended_feature">%1$s 는 확장 기능입니다.</string>
-  <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
-  <string name="dialog_contrib_reminder_remove_limitation">%s를 구매하여 이 제한을 없애세요.</string>
-  <string name="dialog_contrib_reminder_gain_access">다음과 같은 기능에 제한 없이 접근할 수 있습니다:</string>
-  <string name="dialog_contrib_extended_gain_access">추가적으로, 확장 키를 구매하시면 다음 기능들을 잠금 해제할 수 있습니다.</string>
+  <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
+  <string name="dialog_contrib_premium_feature">%1$s - 프리미엄 기능입니다 (%2$s).</string>
   <string name="dialog_contrib_text_1"><i>My Expenses</i>는 광고가 없으며 소스 코드가 공개되어 있습니다.</string>
-  <string name="dialog_contrib_text_2">%s를 구매해서 개발에 기여해주세요.</string>
-  <plurals name="dialog_contrib_usage_count">
-    <item quantity="other">무료 사용량이 %1$d 남았습니다.</item>
-  </plurals>
   <string name="dialog_contrib_buy_premium">프리미엄 구매</string>
   <string name="dialog_contrib_buy_extended">확장 기능 구매</string>
   <string name="dialog_contrib_upgrade_extended">확장 기능으로 업그레이드</string>

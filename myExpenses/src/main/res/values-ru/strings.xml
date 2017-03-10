@@ -35,11 +35,9 @@
   <string name="comment">Заметки</string>
   <string name="confirmation_dialog_dont_show_again">Не показывать снова</string>
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Без рекламы</string>
-  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources">Количество счетов, которые можно создать с <i>Мои расходы</i> ограничено 5.</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Неограниченное количество счетов</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Присоединение изображения к операции</string>
   <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Распределение операций по категориям</string>
-  <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">Количество планов, которые можно создать с <i>Мои расходы</i> ограниченно 3.</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Неограниченное количество планов</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Экспорт списка операций в PDF</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Шаблон виджет</string>
@@ -72,22 +70,9 @@
   <string name="dialog_command_disabled_distribution">Нет операций, сопоставленных с категориями в этом счёте.</string>
   <string name="dialog_contrib_no">Не сейчас</string>
   <string name="dialog_contrib_no_usages_left">Нет бесплатных использований.</string>
-  <!--Placeholder: 1 is name of the feature-->
-  <string name="dialog_contrib_premium_feature">%1$s является премиум функцией.</string>
-  <!--Placeholder: 1 is name of the feature-->
-  <string name="dialog_contrib_extended_feature">%1$s является расширенной функцией.</string>
-  <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
-  <string name="dialog_contrib_reminder_remove_limitation">Убрать ограничение путем приобретения %s.</string>
-  <string name="dialog_contrib_reminder_gain_access">Вы получите неограниченный доступ к следующим функциям:</string>
-  <string name="dialog_contrib_extended_gain_access">Если вы приобрели расширенный ключ, дополнительно доступны следующие функции:</string>
+  <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
+  <string name="dialog_contrib_premium_feature">%1$s является премиум функцией (%2$s).</string>
   <string name="dialog_contrib_text_1"><i>Мои расходы</i> выпускается бесплатно и с открытым исходным кодом.</string>
-  <string name="dialog_contrib_text_2">Пожалуйста внесите вклад, установив %s.</string>
-  <plurals name="dialog_contrib_usage_count">
-    <item quantity="one"> У вас осталось одно бесплатное использование.</item>
-    <item quantity="few"> У вас осталось %1$d бесплатных использований.</item>
-    <item quantity="many"> У вас осталось %1$d бесплатных использований.</item>
-    <item quantity="other"> У вас осталось %1$d бесплатных использований.</item>
-  </plurals>
   <string name="dialog_contrib_buy_premium">Купить ПРЕМИУМ</string>
   <string name="dialog_contrib_buy_extended">Купить расширенный ключ</string>
   <string name="dialog_contrib_upgrade_extended">Повысить уровень до расширенного</string>

@@ -32,11 +32,9 @@
   <string name="comment">メモ</string>
   <string name="confirmation_dialog_dont_show_again">今後表示しない</string>
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">広告なし</string>
-  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources"><i>マイ エクスペンス</i> で作成できる勘定の数は 5 に制限されています。</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">無制限の勘定数</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">取引に画像を添付</string>
   <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">分類ごとの取引の分布</string>
-  <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources"><i>マイ エクスペンス</i> で作成できる計画の数は 3 に制限されています。</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">無制限の計画数</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">取引リストを PDF にエクスポート</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">テンプレート ウィジェット</string>
@@ -69,19 +67,9 @@
   <string name="dialog_command_disabled_distribution">この勘定の分類に配置する取引はありません。</string>
   <string name="dialog_contrib_no">いいえ、まだ</string>
   <string name="dialog_contrib_no_usages_left">無料の使用は残っていません。</string>
-  <!--Placeholder: 1 is name of the feature-->
-  <string name="dialog_contrib_premium_feature">%1$s はプレミアム機能です。</string>
-  <!--Placeholder: 1 is name of the feature-->
-  <string name="dialog_contrib_extended_feature">%1$s は拡張機能です。</string>
-  <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
-  <string name="dialog_contrib_reminder_remove_limitation">%s を購入するとこの制限が取り除かれます。</string>
-  <string name="dialog_contrib_reminder_gain_access">次の機能に無制限にアクセスすることができます:</string>
-  <string name="dialog_contrib_extended_gain_access">拡張キーを購入した場合、さらに次の機能のロックが解除されます:</string>
+  <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
+  <string name="dialog_contrib_premium_feature">%1$s はプレミアム機能です (%2$s)。</string>
   <string name="dialog_contrib_text_1"><i>マイ エクスペンス</i> 広告なしのオープンソースで提供しています。</string>
-  <string name="dialog_contrib_text_2">%s を購入して、貢献してください。</string>
-  <plurals name="dialog_contrib_usage_count">
-    <item quantity="other">%1$d の無料の使用が残っています。</item>
-  </plurals>
   <string name="dialog_contrib_buy_premium">プレミアムを購入</string>
   <string name="dialog_contrib_buy_extended">拡張を購入</string>
   <string name="dialog_contrib_upgrade_extended">拡張にアップグレードする</string>

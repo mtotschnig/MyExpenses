@@ -21,10 +21,8 @@
   <string name="color">පාට </string>
   <string name="comment">සටහන් </string>
   <string name="confirmation_dialog_dont_show_again">නැවත පෙන්වන්න එපා </string>
-  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources">ඔබට <i>මයි එක්ස්පෙන්සස්</i> හි නිර්මාණය කළහැකි ගිනුම් ගනන 5කි.</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">සීමා රහිත ගිණුම් ගණනක්</string>
   <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">කාණ්ඩයක ගනුදෙනු විභාජනය</string>
-  <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources"><i>මයි එක්ස්පෙන්සසි</i> හි ඔබට නිර්මාණය කළහැකි උපරිම  සැලසුම් ගණන 3කි.</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">සීමා රහිත ක්‍රම ගණනක්</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">විජට් අච්චුව </string>
   <string name="contrib_key">කොන්ට්‍රිබ් යතුර </string>
@@ -43,17 +41,9 @@
   <string name="dialog_command_disabled_distribution">ප්‍රබේධ සදහා වෙන්කළ ගනුදෙනු මෙම ගිණුමෙහි නොමැත </string>
   <string name="dialog_contrib_no">තවම නැත </string>
   <string name="dialog_contrib_no_usages_left">නිදහස් පාවිච්චි කිරීම් ඉතිරව නැත </string>
-  <!--Placeholder: 1 is name of the feature-->
-  <string name="dialog_contrib_premium_feature">%1$s පාරිතෝෂික අංගයකි </string>
-  <!--Placeholder: 1 is name of the feature-->
-  <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
-  <string name="dialog_contrib_reminder_gain_access">ඔබට පහත සදහන් අංග සදහාත් සීමාකිරීම් වලින් තොර පරිශීලන හැකියාව ලැබී ඇත </string>
+  <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
+  <string name="dialog_contrib_premium_feature">%1$s පාරිතෝෂික අංගයකි (%2$s)</string>
   <string name="dialog_contrib_text_1"><i>මයි එක්ස්පෙන්සස් </i> වෙළද දැන්වීම් වලින් තොර නිදහස් මෘදුකාංගයකි.</string>
-  <string name="dialog_contrib_text_2"> කරුනාකර මිලදීගෙන දායකවන්න %s.</string>
-  <plurals name="dialog_contrib_usage_count">
-    <item quantity="one">ඔබට එක නිදහස්  පවිච්චි කිරීමක්  ඉතිරිව ඇත </item>
-    <item quantity="other">ඔබට %1$d නිදහස්  පවිච්චි කිරීම්  ඉතිරිව ඇත </item>
-  </plurals>
   <string name="dialog_export_delete">අපනයනය කල ගනුදෙනු මකාදමන ලදී </string>
   <string name="dialog_export_not_yet_exported">අපනයන නොකළ ගනුදෙනු සියල්ල අපනයන කරන්න </string>
   <string name="dialog_password_activate_protection">මුරපද ආරක්ෂාව ක්‍රියාත්මක කරන්න </string>

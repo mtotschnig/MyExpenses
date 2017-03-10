@@ -27,10 +27,8 @@
   <string name="comment">ملاحظات</string>
   <string name="confirmation_dialog_dont_show_again">لا تظهر مرة أخرى</string>
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">بدون إعلانات</string>
-  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources">يمكنك انشاء فقط 5 حسابات لـ <i>مصروفاتي</i></string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">عدد حسابات غير محدود</string>
   <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">توزيع العمليات لكل تصنيف</string>
-  <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">عدد الخطط المسموح انشاؤها في <i>مصروفاتي</i> هي 3 فقط.</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">عدد غير محدود من الخطط</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">إستيراد ملف CSV</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
@@ -49,11 +47,8 @@
   <string name="dialog_command_disabled_distribution">لا يوجد عمليات معينة للتصنيفات لهذا الحساب.</string>
   <string name="dialog_contrib_no">ليس بعد</string>
   <string name="dialog_contrib_no_usages_left">انتهت فترة الاستعمال المجاني</string>
-  <!--Placeholder: 1 is name of the feature-->
-  <string name="dialog_contrib_premium_feature">%1$s هذه الخاصية تتطلب ميزات كاملة.</string>
-  <!--Placeholder: 1 is name of the feature-->
-  <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
-  <string name="dialog_contrib_reminder_gain_access">يمكنك أيضا الوصول الغير مقيد لهذه الميزات التالية:</string>
+  <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
+  <string name="dialog_contrib_premium_feature">%1$s هذه الخاصية تتطلب ميزات كاملة (%2$s).</string>
   <string name="dialog_export_delete">حذف العمليات المصدّرة</string>
   <string name="dialog_export_not_yet_exported">تصدير العمليات التي لم تصدّر بعد</string>
   <string name="dialog_password_activate_protection">تفعيل حماية كلمة المرور</string>

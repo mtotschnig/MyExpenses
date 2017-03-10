@@ -33,11 +33,9 @@
   <string name="comment">Notlar</string>
   <string name="confirmation_dialog_dont_show_again">Bir daha gösterme</string>
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Reklamsız</string>
-  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources"><i>Harcamalarım</i> ile oluşturabileceğiniz hesap sayısı 5 ile sınırlıdır.</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Sınırsız sayıda hesap</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Muameleye resim ekle</string>
   <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Muamelelerin kategori başına dağılımı</string>
-  <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources"><i>Harcamalarım</i> ile oluşturabileceğiniz plan sayısı 3 ile sınırlıdır.</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Sınırsız plan sayısı</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Muamele listesini PDF dosyasına aktar</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Şablon widget\'i</string>
@@ -70,20 +68,9 @@
   <string name="dialog_command_disabled_distribution">Bu hesapta hiçbir muamele kategorilendirilmemiştir.</string>
   <string name="dialog_contrib_no">Henüz değil</string>
   <string name="dialog_contrib_no_usages_left">Hiçbir ücretsiz kullanım kalmamıştır.</string>
-  <!--Placeholder: 1 is name of the feature-->
-  <string name="dialog_contrib_premium_feature">%1$s katkı işlevidir.</string>
-  <!--Placeholder: 1 is name of the feature-->
-  <string name="dialog_contrib_extended_feature">%1$s genişletilmiş bir işlevdir.</string>
-  <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
-  <string name="dialog_contrib_reminder_remove_limitation">Bu sınırlamayı kaldırmak için %s kurabilirsiniz.</string>
-  <string name="dialog_contrib_reminder_gain_access">Bu şekilde aşağıdaki özelliklere de sınırsız erişim elde edersiniz:</string>
-  <string name="dialog_contrib_extended_gain_access">Ek olarak, Genişletilmiş Anahtarı satın alırsanız aşağıdaki işlevlerin kilidi açılacaktır:</string>
+  <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
+  <string name="dialog_contrib_premium_feature">%1$s katkı işlevidir (%2$s).</string>
   <string name="dialog_contrib_text_1"><i>Harcamalarım</i> ücretsiz ve özgür yazılım olarak sunulmuştur.</string>
-  <string name="dialog_contrib_text_2">Lütfen %s unsurunu satın alarak katkıda bulunun.</string>
-  <plurals name="dialog_contrib_usage_count">
-    <item quantity="one">Ücretsiz bir kullanımınız kalmıştır.</item>
-    <item quantity="other">Ücretsiz %1$d kullanımınız kalmıştır.</item>
-  </plurals>
   <string name="dialog_contrib_buy_premium">PREMIUM satın al</string>
   <string name="dialog_contrib_buy_extended">GENİŞLETİLMİŞ işlevleri satın al</string>
   <string name="dialog_contrib_upgrade_extended">GENİŞLETİLMİŞE yükselt</string>

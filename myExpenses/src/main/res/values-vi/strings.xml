@@ -20,7 +20,6 @@
   <string name="category">Phân loại</string>
   <string name="color">Màu sắc</string>
   <string name="comment">Ghi chú</string>
-  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources">Số lượng tài khoản bạn có thể tạo trong <i>Chi Tiêu Của Tôi</i> bị giới hạn bởi 5 tài khoản.</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Số lượng không giới hạn các tài khoản</string>
   <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Tác động phân phối các giao dịch cho mỗi phân loại</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Unlimited number of plans</string>
@@ -34,16 +33,9 @@
   <!--User confirms that he wants to discard changes-->
   <string name="dialog_contrib_no">Vẫn chưa</string>
   <string name="dialog_contrib_no_usages_left">Hiện không còn thời hạn cho việc sử dụng miễn phí.</string>
-  <!--Placeholder: 1 is name of the feature-->
-  <string name="dialog_contrib_premium_feature">%1$s thuộc về tính năng nâng cao.</string>
-  <!--Placeholder: 1 is name of the feature-->
-  <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
-  <string name="dialog_contrib_reminder_gain_access">Bạn có thể tăng quyền hạn truy cập bằng những tiện ích sau:</string>
+  <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
+  <string name="dialog_contrib_premium_feature">%1$s thuộc về tính năng nâng cao (%2$s).</string>
   <string name="dialog_contrib_text_1"><i>Chi Tiêu Của Tôi</i> là một chương trình miễn phí và mã nguồn mở. </string>
-  <string name="dialog_contrib_text_2">Xin hãy đóng góp bằng cách sử dụng phiên bản trả phí %s</string>
-  <plurals name="dialog_contrib_usage_count">
-    <item quantity="other">Bạn còn %1$d phần sử dụng miễn phí còn lại.</item>
-  </plurals>
   <string name="dialog_export_delete">Xóa các giao dịch được xuất dữ liệu</string>
   <string name="dialog_export_not_yet_exported">Xuất dữ liệu về các giao dịch chưa được xuất</string>
   <string name="dialog_password_activate_protection">Bật tính năng bảo vệ mật khẩu</string>

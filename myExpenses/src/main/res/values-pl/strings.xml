@@ -28,11 +28,9 @@
   <string name="comment">Notatki</string>
   <string name="confirmation_dialog_dont_show_again">Nie pokazuj ponownie</string>
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Brak reklam</string>
-  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources">Ilość kont jakich możesz stworzyć z <i>Moje Wydatki</i> jest ograniczona do 5.</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Nieskończona ilość kont</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Dopinanie obrazów do transakcji</string>
   <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Dystrybucja tranakcji na kategorię.</string>
-  <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">Ilość planów jakich możesz stworzyć z <i>Moje Wydatki</i> jest ograniczona do 3.</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Nieograniczona ilość planów</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Eksport listy transakcji do PDF</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Szablon widget</string>
@@ -54,20 +52,9 @@
   <string name="dialog_command_disabled_distribution">Żadna z transakcji nie została zmapowana do kategorii na tym koncie.</string>
   <string name="dialog_contrib_no">Nie teraz</string>
   <string name="dialog_contrib_no_usages_left">Zabrakło darmowych użyć.</string>
-  <!--Placeholder: 1 is name of the feature-->
-  <string name="dialog_contrib_premium_feature">%1$s jest funkcją premium.</string>
-  <!--Placeholder: 1 is name of the feature-->
-  <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
-  <string name="dialog_contrib_reminder_remove_limitation">Usuń to ograniczenie instalując %s.</string>
-  <string name="dialog_contrib_reminder_gain_access">Dostajesz także nieograniczony dostęp do następujących funkcji:</string>
+  <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
+  <string name="dialog_contrib_premium_feature">%1$s jest funkcją premium (%2$s).</string>
   <string name="dialog_contrib_text_1"><i>Moje Wydatki</i> jest oferowany bez reklam i otwartoźródłowo.</string>
-  <string name="dialog_contrib_text_2">Proszę wspomóc nas instalując %s.</string>
-  <plurals name="dialog_contrib_usage_count">
-    <item quantity="one">Zostało Ci jedno darmowe użycie.</item>
-    <item quantity="few">Posiadasz jeszcze %1$d darmowych użyć.</item>
-    <item quantity="many">Posiadasz jeszcze %1$d darmowych użyć.</item>
-    <item quantity="other">Posiadasz jeszcze %1$d darmowych użyć.</item>
-  </plurals>
   <string name="dialog_export_delete">Usuń wyeksportowane transakcje</string>
   <string name="dialog_export_not_yet_exported">Transakcje tylko do eksportu nie zostały jeszcze eksportowane</string>
   <string name="dialog_password_activate_protection">Aktywuj zabezpieczenie hasłem</string>

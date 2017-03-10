@@ -20,11 +20,9 @@
   <string name="category">類別</string>
   <string name="color">顏色</string>
   <string name="comment">附註</string>
-  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources">你可以在 <i>開支助手</i> 中創建賬戶的數目僅限5個。</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">帳戶數量不限</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">將圖像附加到交易項目</string>
   <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">每個類別的交易分佈</string>
-  <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">你可以在 <i>開支助手</i> 中創建計劃的數目僅限3個。</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">計劃數量不限</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">匯出交易記錄清單成PDF</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">模板插件</string>
@@ -42,15 +40,9 @@
   <string name="dialog_command_disabled_distribution">在此帳戶，沒有交易被對應到類別中。</string>
   <string name="dialog_contrib_no">現在不要</string>
   <string name="dialog_contrib_no_usages_left">沒有剩下的免費使用額</string>
-  <!--Placeholder: 1 is name of the feature-->
-  <string name="dialog_contrib_premium_feature">%1$s 是一項高級功能。</string>
-  <!--Placeholder: 1 is name of the feature-->
-  <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
-  <string name="dialog_contrib_reminder_gain_access">你也可以無限制地的使用以下特點：</string>
+  <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
+  <string name="dialog_contrib_premium_feature">%1$s 是一項高級功能 (%2$s)。</string>
   <string name="dialog_contrib_text_1"><i>開支助手</i> 是無廣告和開放源碼的。</string>
-  <plurals name="dialog_contrib_usage_count">
-    <item quantity="other">現在你擁有 %1$d 免費使用額</item>
-  </plurals>
   <string name="dialog_export_delete">刪除已匯出的交易</string>
   <string name="dialog_export_not_yet_exported">只匯出尚未匯出的交易</string>
   <string name="dialog_password_activate_protection">啟用密碼保護</string>

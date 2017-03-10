@@ -34,11 +34,9 @@
   <string name="comment">Note</string>
   <string name="confirmation_dialog_dont_show_again">Nu arăta din nou</string>
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Fără reclame</string>
-  <string name="contrib_feature_accounts_unlimited_description" tools:ignore="UnusedResources">Numărul  conturilor pe care le puteţi crea cu <i>Cheltuielile Mele</i> este limitat la 5.</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Număr nelimitat de conturi</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Ataseaza imagine la tranzactie</string>
   <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Repartiţia tranzacţiilor pe categorie</string>
-  <string name="contrib_feature_plans_unlimited_description" tools:ignore="UnusedResources">Numărul de scadenţe pe care le puteţi crea cu<i>Cheltuielile Mele</i> este limitat la 3.</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Număr nelimitat de scadenţe</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Export listă tranzacţii în PDF</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Şablon widget</string>
@@ -65,18 +63,9 @@
   <string name="dialog_command_disabled_distribution">Nici o tranzacţie nu a fost atribuită în categoriile acestui cont</string>
   <string name="dialog_contrib_no">Nu încă</string>
   <string name="dialog_contrib_no_usages_left">Nu mai aveţi utilizare gratuită</string>
-  <!--Placeholder: 1 is name of the feature-->
-  <string name="dialog_contrib_premium_feature">%1$s  este o funcţionalitate premium.</string>
-  <!--Placeholder: 1 is name of the feature-->
-  <!--Placeholder is either "My Expenses Contrib Key" or "My Expenses Extended Key"-->
-  <string name="dialog_contrib_reminder_gain_access">Puteţi avea de asemenea acces nerestricţionat la următoarele funcţionalităţi</string>
+  <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
+  <string name="dialog_contrib_premium_feature">%1$s  este o funcţionalitate premium (%2$s).</string>
   <string name="dialog_contrib_text_1"><i>Cheltuielile Mele</i> este oferit fără publicitate şi open source.</string>
-  <string name="dialog_contrib_text_2">Vă rugăm să contribuiţi prin achiziţionarea %s.</string>
-  <plurals name="dialog_contrib_usage_count">
-    <item quantity="one">Aveţi o utilizare gratuită rămasă.</item>
-    <item quantity="few">Aveţi %1$d utilizari gratuite rămase.</item>
-    <item quantity="other">Aveţi %1$d utilizari gratuite rămase.</item>
-  </plurals>
   <string name="dialog_contrib_buy_premium">Cumpara PREMIUM</string>
   <string name="dialog_contrib_buy_extended">Cumpara EXTINS</string>
   <string name="dialog_contrib_upgrade_extended">Actualizeaza la EXTINS</string>
