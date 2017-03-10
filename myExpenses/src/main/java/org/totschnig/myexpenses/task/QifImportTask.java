@@ -262,8 +262,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
         publishProgress(
             MyApplication.getInstance()
                 .getString(R.string.qif_parse_failure_found_multiple_accounts) + " " +
-                MyApplication.getInstance()
-                    .getText(R.string.contrib_feature_accounts_unlimited_description) + " " +
+                ContribFeature.ACCOUNTS_UNLIMITED.buildUsageLimitString(MyApplication.getInstance()) +
                 ContribFeature.ACCOUNTS_UNLIMITED.buildRemoveLimitation(
                     MyApplication.getInstance(), false));
         break;
