@@ -17,8 +17,8 @@ public class DeepLinkActivity extends ProtectedFragmentActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
     setTheme(MyApplication.getThemeIdTranslucent());
+    super.onCreate(savedInstanceState);
     if (savedInstanceState == null) {
       if (Intent.ACTION_VIEW.equals(getIntent().getAction())) {
         Uri data = getIntent().getData();

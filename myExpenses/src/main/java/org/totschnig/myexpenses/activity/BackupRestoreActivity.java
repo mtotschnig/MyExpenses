@@ -51,8 +51,8 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
   public static final String FRAGMENT_TAG = "BACKUP_SOURCE";
 
   public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
     setTheme(MyApplication.getThemeIdTranslucent());
+    super.onCreate(savedInstanceState);
     if (savedInstanceState!=null) {
       return;
     }
