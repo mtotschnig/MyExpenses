@@ -159,6 +159,12 @@
                 android:dependency="@string/pref_auto_backup_key"
                 android:key="@string/pref_auto_backup_time_key"
                 android:title="@string/pref_auto_backup_time_title"/>
+
+            <org.totschnig.myexpenses.preference.AccountPreference
+                android:dependency="@string/pref_auto_backup_key"
+                android:key="@string/pref_auto_backup_cloud_key"
+                android:summary="@string/pref_backup_cloud_summary"
+                android:title="@string/pref_backup_cloud_title"/>
         </PreferenceScreen>
         <Preference
             android:key="@string/pref_restore_key"

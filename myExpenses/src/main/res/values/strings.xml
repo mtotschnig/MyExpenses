@@ -649,5 +649,8 @@
     <string name="licence_status">Your licence status</string>
     <string name="all_contrib_key_features">All features of Contrib Key</string>
     <string name="upgrade_now">Upgrade now</string>
+    <string name="pref_backup_cloud_title">Store on synchronization backend</string>
+    <string name="pref_backup_cloud_summary">In addition to local storage on the device, the backup file can be copied to a remote backend.</string>
+    <string name="auto_backup_cloud_create_backend">Create a synchronization backend from the main settings screen.</string>
 </resources>
 

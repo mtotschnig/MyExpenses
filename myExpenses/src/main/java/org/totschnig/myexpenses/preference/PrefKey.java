@@ -65,6 +65,7 @@ public enum PrefKey {
   AUTO_BACKUP(R.string.pref_auto_backup_key),
   AUTO_BACKUP_TIME(R.string.pref_auto_backup_time_key),
   AUTO_BACKUP_DIRTY("auto_backup_dirty"),
+  AUTO_BACUP_CLOUD(R.string.pref_auto_backup_cloud_key),
   UI_HOME_SCREEN_SHORTCUTS(R.string.pref_ui_home_screen_shortcuts_key),
   CALENDAR_PERMISSION_REQUESTED("calendar_permission_requested"),
   GROUP_WEEK_STARTS(R.string.pref_group_week_starts_key),
