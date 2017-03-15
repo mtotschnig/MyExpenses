@@ -840,7 +840,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         fragment = TimePreferenceDialogFragmentCompat.newInstance(key);
       } else if (preference instanceof PasswordPreference) {
         fragment = PasswordPreferenceDialogFragmentCompat.newInstance(key);
-      } else if (preference.getKey().equals(PrefKey.SECURITY_QUESTION.getKey())) {
+      } else if (key.equals(PrefKey.SECURITY_QUESTION.getKey())) {
         fragment = SecurityQuestionDialogFragmentCompat.newInstance(key);
       }
       if (fragment != null) {
