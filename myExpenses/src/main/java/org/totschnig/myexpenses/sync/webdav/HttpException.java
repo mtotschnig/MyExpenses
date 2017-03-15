@@ -47,6 +47,10 @@ public class HttpException extends Exception {
     mCode = code;
   }
 
+  public IOException toIOException() {
+    return getCause() instanceof IOException ? ((IOException) getCause()) : new IOException(this);
+  }
+
   public boolean isNetworkIssue() {
     return mCode == -1;
   }

@@ -152,23 +152,32 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
   @Override
   protected void saveUri(String fileName, Uri uri) throws IOException {
+    saveUriToFolder(fileName, uri, accountUuid);
+  }
+
+  private void saveUriToFolder(String fileName, Uri uri, String folder) throws IOException {
     try {
       InputStream in = MyApplication.getInstance().getContentResolver()
           .openInputStream(uri);
       if (in == null) {
         throw new IOException("Could not read " + uri.toString());
       }
-      webDavClient.upload(accountUuid, fileName, toByteArray(in),
+      webDavClient.upload(folder, fileName, toByteArray(in),
           MediaType.parse(MimeTypeMap.getSingleton().getMimeTypeFromExtension(
               getFileExtension(fileName))));
     } catch (HttpException e) {
-      throw e.getCause() instanceof IOException ? ((IOException) e.getCause()) : new IOException(e);
+      throw e.toIOException();
     }
   }
 
   @Override
   public void storeBackup(Uri uri) throws IOException {
-    //TODO
+    try {
+      webDavClient.mkCol("BACKUPS");
+    } catch (HttpException e) {
+      throw e.toIOException();
+    }
+    saveUriToFolder(uri.getLastPathSegment(), uri, "BACKUPS");
   }
 
   @Override

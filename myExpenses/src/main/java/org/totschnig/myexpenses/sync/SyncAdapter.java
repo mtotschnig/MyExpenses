@@ -153,7 +153,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         //TODO display notification
         e.printStackTrace();
       }
-      Log.i(TAG, "now storing " + autoBackupFileUri);
       return;
     }
 

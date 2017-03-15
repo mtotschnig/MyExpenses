@@ -80,10 +80,10 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
 
   @Override
   protected void saveUri(String fileName, Uri uri) throws IOException {
-    saveUriToFoler(fileName, uri, accountDir);
+    saveUriToFolder(fileName, uri, accountDir);
   }
 
-  private void saveUriToFoler(String fileName, Uri uri, File folder) throws IOException {
+  private void saveUriToFolder(String fileName, Uri uri, File folder) throws IOException {
     FileCopyUtils.copy(uri, Uri.fromFile(new File(folder, fileName)));
   }
 
@@ -95,7 +95,7 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
     if (!backupDir.isDirectory()) {
       throw new IOException("Unable to create directory for backups");
     }
-    saveUriToFoler(uri.getLastPathSegment(), uri, backupDir);
+    saveUriToFolder(uri.getLastPathSegment(), uri, backupDir);
   }
 
   @Override

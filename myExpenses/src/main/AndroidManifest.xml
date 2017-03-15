@@ -271,7 +271,7 @@
 
         <service android:name=".service.PlanNotificationClickHandler" />
 
-        <service android:name=".service.AutoBackupService" android:exported="false">
+        <service android:name=".service.AutoBackupService" android:exported="${debug}">
             <intent-filter>
                 <action android:name="org.totschnig.myexpenses.ACTION_SCHEDULE_AUTO_BACKUP" />
                 <action android:name="org.totschnig.myexpenses.ACTION_AUTO_BACKUP" />
