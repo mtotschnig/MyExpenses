@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceDialogFragmentCompat;
 import android.util.TypedValue;
 import android.view.View;
@@ -69,7 +68,7 @@ public class FontSizeDialogFragmentCompat extends PreferenceDialogFragmentCompat
   public static FontSizeDialogFragmentCompat newInstance(String key) {
     FontSizeDialogFragmentCompat fragment = new FontSizeDialogFragmentCompat();
     Bundle bundle = new Bundle(1);
-    bundle.putString("key", key);
+    bundle.putString(ARG_KEY, key);
     fragment.setArguments(bundle);
     return fragment;
   }

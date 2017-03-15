@@ -19,9 +19,6 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.util.Utils;
 
-/**
- * Created by privat on 14.11.15.
- */
 public class PasswordPreferenceDialogFragmentCompat extends PreferenceDialogFragmentCompat
     implements TextWatcher, CompoundButton.OnCheckedChangeListener {
 
@@ -133,7 +130,7 @@ public class PasswordPreferenceDialogFragmentCompat extends PreferenceDialogFrag
   public static PasswordPreferenceDialogFragmentCompat newInstance(String key) {
     PasswordPreferenceDialogFragmentCompat fragment = new PasswordPreferenceDialogFragmentCompat();
     Bundle bundle = new Bundle(1);
-    bundle.putString("key", key);
+    bundle.putString(ARG_KEY, key);
     fragment.setArguments(bundle);
     return fragment;
   }

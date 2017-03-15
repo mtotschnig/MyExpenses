@@ -6,9 +6,6 @@ import android.util.AttributeSet;
 
 import org.totschnig.myexpenses.R;
 
-/**
- * Created by privat on 08.11.15.
- */
 public class FontSizeDialogPreference extends IntegerDialogPreference {
   public FontSizeDialogPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
     super(context, attrs, defStyleAttr, defStyleRes);

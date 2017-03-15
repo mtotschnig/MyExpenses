@@ -35,7 +35,7 @@ public class TimePreferenceDialogFragmentCompat extends PreferenceDialogFragment
   public static TimePreferenceDialogFragmentCompat newInstance(String key) {
     TimePreferenceDialogFragmentCompat fragment = new TimePreferenceDialogFragmentCompat();
     Bundle bundle = new Bundle(1);
-    bundle.putString("key", key);
+    bundle.putString(ARG_KEY, key);
     fragment.setArguments(bundle);
     return fragment;
   }

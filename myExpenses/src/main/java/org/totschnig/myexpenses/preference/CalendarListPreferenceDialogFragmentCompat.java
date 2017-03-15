@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.ListPreference;
-import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceDialogFragmentCompat;
 import android.widget.Toast;
 
@@ -16,7 +15,6 @@ import com.android.calendar.CalendarContractCompat;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.MyPreferenceActivity;
 import org.totschnig.myexpenses.provider.DbUtils;
 
 /**
@@ -115,7 +113,7 @@ public class CalendarListPreferenceDialogFragmentCompat extends PreferenceDialog
   public static CalendarListPreferenceDialogFragmentCompat newInstance(String key) {
     CalendarListPreferenceDialogFragmentCompat fragment = new CalendarListPreferenceDialogFragmentCompat();
     Bundle bundle = new Bundle(1);
-    bundle.putString("key", key);
+    bundle.putString(ARG_KEY, key);
     fragment.setArguments(bundle);
     return fragment;
   }
