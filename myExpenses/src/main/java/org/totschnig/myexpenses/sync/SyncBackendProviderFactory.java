@@ -13,15 +13,15 @@ import org.totschnig.myexpenses.util.AcraHelper;
 
 public abstract class SyncBackendProviderFactory {
 
-  public static Optional<SyncBackendProvider> get(Context context, Account account, AccountManager accountManager) {
+  public static Optional<SyncBackendProvider> get(Context context, Account account) {
     return Stream.of(ServiceLoader.load(context))
-        .map(factory -> factory.from(context, account, accountManager))
+        .map(factory -> factory.from(context, account, AccountManager.get(context)))
         .filter(Optional::isPresent)
         .map(Optional::get)
         .findFirst();
   }
 
-  public final Optional<SyncBackendProvider> from(Context context, Account account, AccountManager accountManager) {
+  private Optional<SyncBackendProvider> from(Context context, Account account, AccountManager accountManager) {
     if (account.name.startsWith(getLabel())) {
       try {
         return Optional.of(_fromAccount(context, account, accountManager));
@@ -39,7 +39,7 @@ public abstract class SyncBackendProviderFactory {
 
   public abstract void startSetup(ManageSyncBackends activity);
 
-  public boolean isEnabled(Context context) {
+  boolean isEnabled(Context context) {
     return true;
   }
 }

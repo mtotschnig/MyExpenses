@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.fragment;
 
-import android.accounts.AccountManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
@@ -291,8 +290,8 @@ public class SyncBackendList extends Fragment implements
     public AccountMetaDataLoaderResult loadInBackground() {
       Optional<SyncBackendProvider> syncBackendProviderOptional = SyncBackendProviderFactory.get(
           getContext(),
-          GenericAccountService.GetAccount(accountName),
-          AccountManager.get(getContext()));
+          GenericAccountService.GetAccount(accountName)
+      );
       if (syncBackendProviderOptional.isPresent()) {
         return getRemoteAccountList(syncBackendProviderOptional.get());
       } else {

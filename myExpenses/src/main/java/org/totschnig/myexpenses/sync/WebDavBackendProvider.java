@@ -167,6 +167,11 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
+  public void storeBackup(Uri uri) throws IOException {
+    //TODO
+  }
+
+  @Override
   protected long getLastSequence() throws IOException {
     return filterDavResources(0)
         .map(davResource -> getSequenceFromFileName(davResource.fileName()))

@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.sync;
 
 import android.content.Context;
+import android.net.Uri;
 
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
@@ -29,6 +30,8 @@ public interface SyncBackendProvider {
   boolean setUp();
 
   void tearDown();
+
+  void storeBackup(Uri uri) throws IOException;
 
   class SyncParseException extends Exception {
     SyncParseException(Exception e) {

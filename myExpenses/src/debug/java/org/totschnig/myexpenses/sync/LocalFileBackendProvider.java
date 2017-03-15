@@ -40,6 +40,7 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
   @Override
   public boolean withAccount(Account account) {
     accountDir = new File(baseDir, account.uuid);
+    //noinspection ResultOfMethodCallIgnored
     accountDir.mkdir();
     if (accountDir.isDirectory()) {
       File metaData = new File(accountDir, ACCOUNT_METADATA_FILENAME);
@@ -79,7 +80,22 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
 
   @Override
   protected void saveUri(String fileName, Uri uri) throws IOException {
-    FileCopyUtils.copy(uri, Uri.fromFile(new File(accountDir, fileName)));
+    saveUriToFoler(fileName, uri, accountDir);
+  }
+
+  private void saveUriToFoler(String fileName, Uri uri, File folder) throws IOException {
+    FileCopyUtils.copy(uri, Uri.fromFile(new File(folder, fileName)));
+  }
+
+  @Override
+  public void storeBackup(Uri uri) throws IOException {
+    File backupDir = new File(baseDir, "BACKUPS");
+    //noinspection ResultOfMethodCallIgnored
+    backupDir.mkdir();
+    if (!backupDir.isDirectory()) {
+      throw new IOException("Unable to create directory for backups");
+    }
+    saveUriToFoler(uri.getLastPathSegment(), uri, backupDir);
   }
 
   @Override

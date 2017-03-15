@@ -560,8 +560,8 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         String syncAccountName = ((String) mExtra);
         Optional<SyncBackendProvider> syncBackendProviderOptional = SyncBackendProviderFactory.get(
             application,
-            GenericAccountService.GetAccount(syncAccountName),
-            AccountManager.get(application));
+            GenericAccountService.GetAccount(syncAccountName)
+        );
         if (!syncBackendProviderOptional.isPresent()) {
           return Result.FAILURE;
         }
@@ -617,8 +617,8 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         String syncAccountName = ((String) mExtra);
         Optional<SyncBackendProvider> syncBackendProviderOptional = SyncBackendProviderFactory.get(
             application,
-            GenericAccountService.GetAccount(syncAccountName),
-            AccountManager.get(application));
+            GenericAccountService.GetAccount(syncAccountName)
+        );
         if (!syncBackendProviderOptional.isPresent()) {
           //should not happen
           return Result.FAILURE;
