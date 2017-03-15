@@ -23,7 +23,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.task.GenericTask;
+import org.totschnig.myexpenses.util.BackupUtils;
 import org.totschnig.myexpenses.util.ContribUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
@@ -47,7 +47,7 @@ public class AutoBackupService extends WakefulIntentService {
 	protected void doWakefulWork(Intent intent) {
         String action = intent.getAction();
         if (ACTION_AUTO_BACKUP.equals(action)) {
-            Result result = GenericTask.doBackup();
+            Result result = BackupUtils.doBackup();
             if (result.success) {
                 int remaining = ContribFeature.AUTO_BACKUP.recordUsage();
                 if (remaining < 1) {

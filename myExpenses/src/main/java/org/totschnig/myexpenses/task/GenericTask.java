@@ -12,7 +12,6 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.RemoteException;
-import android.support.annotation.NonNull;
 import android.support.v4.provider.DocumentFile;
 import android.text.TextUtils;
 import android.util.Log;
@@ -35,7 +34,6 @@ import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.sync.GenericAccountService;
@@ -44,11 +42,11 @@ import org.totschnig.myexpenses.sync.SyncBackendProvider;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.BackupUtils;
 import org.totschnig.myexpenses.util.FileCopyUtils;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.util.ZipUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -317,7 +315,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         }
         return null;
       case TaskExecutionFragment.TASK_BACKUP:
-        return doBackup();
+        return BackupUtils.doBackup();
       case TaskExecutionFragment.TASK_BALANCE:
         Account.getInstanceFromDb((Long) ids[0]).balance((Boolean) mExtra);
         return null;
@@ -650,56 +648,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       return false;
     }
     return true;
-  }
-
-  @NonNull
-  public static Result doBackup() {
-    if (!Utils.isExternalStorageAvailable()) {
-      return new Result(false, R.string.external_storage_unavailable);
-    }
-    DocumentFile appDir = Utils.getAppDir();
-    if (appDir == null) {
-      return new Result(false, R.string.io_error_appdir_null);
-    }
-    if (!Utils.dirExistsAndIsWritable(appDir)) {
-      return new Result(false, R.string.app_dir_not_accessible,
-          FileUtils.getPath(MyApplication.getInstance(), appDir.getUri()));
-    }
-    DocumentFile backupFile = MyApplication.requireBackupFile(appDir);
-    if (backupFile == null) {
-      return new Result(false, R.string.io_error_backupdir_null);
-    }
-    File cacheDir = Utils.getCacheDir();
-    if (cacheDir == null) {
-      AcraHelper.report(new Exception(
-          MyApplication.getInstance().getString(R.string.io_error_cachedir_null)));
-      return new Result(false, R.string.io_error_cachedir_null);
-    }
-    Result result = DbUtils.backup(cacheDir);
-    String failureMessage = MyApplication.getInstance().getString(R.string.backup_failure,
-        FileUtils.getPath(MyApplication.getInstance(), backupFile.getUri()));
-    if (result.success) {
-      try {
-        ZipUtils.zipBackup(
-            cacheDir,
-            backupFile);
-        return new Result(
-            true,
-            R.string.backup_success,
-            backupFile.getUri());
-      } catch (IOException e) {
-        AcraHelper.report(e);
-        return new Result(
-            false,
-            failureMessage + " " + e.getMessage());
-      } finally {
-        MyApplication.getBackupDbFile(cacheDir).delete();
-        MyApplication.getBackupPrefFile(cacheDir).delete();
-      }
-    }
-    return new Result(
-        false,
-        failureMessage + " " + result.print(MyApplication.getInstance()));
   }
 
   private boolean checkImagePath(String lastPathSegment) {
