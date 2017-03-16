@@ -32,7 +32,7 @@ import java.util.regex.Pattern;
 import dagger.internal.Preconditions;
 
 abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
-
+  public static final String BACKUP_FOLDER_NAME = "BACKUP_FOLDER_NAME";
   static final String MIMETYPE_JSON = "application/json";
   static final String ACCOUNT_METADATA_FILENAME = "metadata.json";
   private static final Pattern FILE_PATTERN = Pattern.compile("_\\d+");
@@ -136,7 +136,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
       if (transactionChange.pictureUri() != null) {
         String newUri = transactionChange.uuid() + "_" +
             Uri.parse(transactionChange.pictureUri()).getLastPathSegment();
-        saveUri(newUri, Uri.parse(transactionChange.pictureUri()));
+        saveUriToAccountDir(newUri, Uri.parse(transactionChange.pictureUri()));
         changeSetToWrite.add(transactionChange.toBuilder().setPictureUri(newUri).build());
       } else {
         changeSetToWrite.add(transactionChange);
@@ -146,7 +146,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     return nextSequence;
   }
 
-  protected abstract void saveUri(String fileName, Uri uri) throws IOException;
+  protected abstract void saveUriToAccountDir(String fileName, Uri uri) throws IOException;
 
   String buildMetadata(Account account) {
     return gson.toJson(AccountMetaData.from(account));

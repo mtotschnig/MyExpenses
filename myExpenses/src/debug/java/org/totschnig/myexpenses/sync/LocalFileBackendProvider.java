@@ -26,7 +26,6 @@ import java.util.List;
 import dagger.internal.Preconditions;
 
 class LocalFileBackendProvider extends AbstractSyncBackendProvider {
-
   private File baseDir, accountDir;
 
   LocalFileBackendProvider(String filePath) {
@@ -79,7 +78,7 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  protected void saveUri(String fileName, Uri uri) throws IOException {
+  protected void saveUriToAccountDir(String fileName, Uri uri) throws IOException {
     saveUriToFolder(fileName, uri, accountDir);
   }
 
@@ -89,7 +88,7 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
 
   @Override
   public void storeBackup(Uri uri) throws IOException {
-    File backupDir = new File(baseDir, "BACKUPS");
+    File backupDir = new File(baseDir, BACKUP_FOLDER_NAME);
     //noinspection ResultOfMethodCallIgnored
     backupDir.mkdir();
     if (!backupDir.isDirectory()) {

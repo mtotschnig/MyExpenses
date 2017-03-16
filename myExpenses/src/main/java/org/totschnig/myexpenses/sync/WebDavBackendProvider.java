@@ -151,7 +151,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  protected void saveUri(String fileName, Uri uri) throws IOException {
+  protected void saveUriToAccountDir(String fileName, Uri uri) throws IOException {
     saveUriToFolder(fileName, uri, accountUuid);
   }
 
@@ -173,11 +173,11 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   @Override
   public void storeBackup(Uri uri) throws IOException {
     try {
-      webDavClient.mkCol("BACKUPS");
+      webDavClient.mkCol(BACKUP_FOLDER_NAME);
     } catch (HttpException e) {
       throw e.toIOException();
     }
-    saveUriToFolder(uri.getLastPathSegment(), uri, "BACKUPS");
+    saveUriToFolder(uri.getLastPathSegment(), uri, BACKUP_FOLDER_NAME);
   }
 
   @Override
