@@ -129,7 +129,7 @@ public class PlanExecutor extends IntentService {
             String title = account.label + " : " + template.getTitle();
             NotificationBuilderWrapper builder =
                 new NotificationBuilderWrapper(this)
-                    .setSmallIcon(R.drawable.ic_stat_planner)
+                    .setSmallIcon(R.drawable.ic_notification)
                     .setContentTitle(title)
                     .setContentText(content);
             if (template.isPlanExecutionAutomatic()) {

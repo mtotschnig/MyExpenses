@@ -39,7 +39,7 @@ public class PlanNotificationClickHandler extends IntentService {
     Bundle extras = intent.getExtras();
     String title = extras.getString(PlanExecutor.KEY_TITLE);
     NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-        .setSmallIcon(R.drawable.ic_stat_planner)
+        .setSmallIcon(R.drawable.ic_notification)
         .setContentTitle(title);
     int notificationId = extras.getInt(MyApplication.KEY_NOTIFICATION_ID);
     Long templateId = extras.getLong(DatabaseConstants.KEY_TEMPLATEID);

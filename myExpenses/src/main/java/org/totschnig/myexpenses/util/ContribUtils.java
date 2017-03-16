@@ -23,7 +23,7 @@ public class ContribUtils {
     contribIntent.putExtra(ContribInfoDialogActivity.KEY_FEATURE, feature);
     NotificationCompat.Builder builder =
         new NotificationCompat.Builder(context)
-            .setSmallIcon(R.drawable.ic_home_dark)
+            .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(notifTitle)
             .setContentText(content)
             .setContentIntent(PendingIntent.getActivity(context, 0, contribIntent, PendingIntent.FLAG_CANCEL_CURRENT))

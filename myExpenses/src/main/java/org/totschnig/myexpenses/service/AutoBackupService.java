@@ -74,7 +74,7 @@ public class AutoBackupService extends WakefulIntentService {
                 preferenceIntent.putExtra(MyPreferenceActivity.KEY_OPEN_PREF_KEY, PrefKey.APP_DIR.getKey());
                 NotificationCompat.Builder builder =
                     new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_home_dark)
+                        .setSmallIcon(R.drawable.ic_notification)
                         .setContentTitle(notifTitle)
                         .setContentText(content)
                         .setContentIntent(PendingIntent.getActivity(this, 0, preferenceIntent, PendingIntent.FLAG_CANCEL_CURRENT))
