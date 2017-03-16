@@ -112,11 +112,12 @@ dependencies {
     compile 'com.github.mtotschnig:Caldroid:master-SNAPSHOT'
     //noinspection GradleDynamicVersion
     compile 'com.commonsware.cwac:wakeful:1.0.+'
-    compile 'com.annimon:stream:1.1.2'
+    compile 'com.annimon:stream:1.1.6'
 
     // WebDAV
     compile 'com.squareup.okhttp3:okhttp:3.4.2'
 
+    //noinspection GradleCompatible
     compile 'com.android.support:multidex:1.0.1'
 
     compile 'org.apache.commons:commons-collections4:4.1'
