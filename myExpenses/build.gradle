@@ -53,6 +53,9 @@ android {
             manifestPlaceholders = [appName: "My Expenses Debug", debug: "true"]
             resValue "string", "content_authority", "org.totschnig.myexpenses.debug"
         }
+        forTest {
+            initWith release
+        }
     }
 
     lintOptions {
@@ -74,7 +77,7 @@ android {
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
     }
-    testBuildType "release"
+    testBuildType "forTest"
 }
 
 dependencies {
