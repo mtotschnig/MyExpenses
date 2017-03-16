@@ -40,6 +40,7 @@
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Esportazione dell\'elenco delle transazioni in PDF</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Widget modelli</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Importazione CSV</string>
+  <string name="licence_status_free">Gratuito</string>
   <string name="contrib_key">Chiave Contrib</string>
   <string name="extended_key">Chiave Ampliata</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
@@ -71,6 +72,7 @@
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s è una funzionalità speciale (%2$s).</string>
   <string name="dialog_contrib_text_1"><i>Le mie spese</i> è offerta senza pubblicità e open source.</string>
+  <string name="dialog_contrib_usage_limit_plans">Il tuo stato corrente della licenza (%2$s) consente di creare %1$d piani.</string>
   <string name="dialog_export_delete">Cancellare le transazioni esportate</string>
   <string name="dialog_export_not_yet_exported">Esportare solo le operazioni non ancora esportate</string>
   <string name="dialog_password_activate_protection">Attivare la protezione con password</string>
@@ -622,4 +624,6 @@
   <string name="progress_dialog_checking_sync_backend">Verificando il backend</string>
   <string name="template">Modello</string>
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sincronizzazione cloud</string>
+  <string name="licence_status">Il vostro stato della licenza</string>
+  <string name="all_contrib_key_features">Tutte le caratteristiche di Contrib chiave</string>
 </resources>

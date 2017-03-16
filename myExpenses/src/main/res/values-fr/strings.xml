@@ -40,6 +40,7 @@
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Export de la liste des opérations au format PDF</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Widget de modèles</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Import CSV</string>
+  <string name="licence_status_free">Gratuit</string>
   <string name="contrib_key">Clé Contrib</string>
   <string name="extended_key">Clé étendue</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
@@ -70,7 +71,14 @@
   <string name="dialog_contrib_no_usages_left">Il ne vous reste plus d\'utilisation gratuite.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s est une fonction Premium (%2$s).</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Enlevez cette limitation et accédez à plus de fonctions en mettant au niveau supérieur &lt;i&gt; Mes dépenses &lt;/ i&gt;.</string>
   <string name="dialog_contrib_text_1"><i>Mes dépenses</i> vous est offert sans publicité et open source.</string>
+  <string name="dialog_contrib_text_2">S'il vous plaît, contribuez par la mise à niveau &lt;i&gt; Mes dépenses &lt;/ i&gt; et avoir accès sans restriction aux caractéristiques suivantes:</string>
+  <string name="dialog_contrib_usage_count">Utilisations gratuites restantes</string>
+  <string name="dialog_contrib_usage_limit">Vous pouvez l\'utiliser jusqu\'à %1$d fois avec le statut de votre licence actuelle (%2$s).</string>
+  <string name="dialog_contrib_usage_limit_synchronization">Vous pouvez l\'utiliser encore %1$d jours avec la licence actuelle (%2$s).</string>
+  <string name="dialog_contrib_usage_limit_accounts">Votre statut de licence actuelle (%2$s) vous permet de créer %1$d comptes.</string>
+  <string name="dialog_contrib_usage_limit_plans">Votre statut de licence actuelle (%2$s) vous permet de créer %1$d échéances.</string>
   <string name="dialog_export_delete">Effacer les opérations exportées</string>
   <string name="dialog_export_not_yet_exported">Exporter uniquement les opérations qui n\'ont pas encore été exportées</string>
   <string name="dialog_password_activate_protection">Activer la protection par mot de passe</string>
@@ -281,7 +289,7 @@
   <string name="pref_checkbox_disabled">Désactivé</string>
   <string name="pref_contrib_purchase_summary">Acheter l\'accès aux fonctions Premium et étendues.</string>
   <string name="pref_contrib_purchase_title">Acheter la clé</string>
-  <string name="pref_contrib_purchase_title_upgrade">Faire évoluer la clé</string>
+  <string name="pref_contrib_purchase_title_upgrade">Mettre à niveau la clé</string>
   <string name="pref_contrib_purchase_title_in_app">Paiement dans l\'application</string>
   <string name="pref_custom_currency_title">Personnaliser les devises</string>
   <string name="pref_enter_licence_summary">Si vous avez reçu une clé, celle-ci déverrouille l\'accès aux fonctions Premium/étendues.</string>
@@ -622,4 +630,7 @@
   <string name="progress_dialog_checking_sync_backend">Vérification du backend</string>
   <string name="template">Modèle</string>
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Synchronisation dans le cloud</string>
+  <string name="licence_status">Votre statut de licence</string>
+  <string name="all_contrib_key_features">Toutes les fonctions de Contrib Key</string>
+  <string name="upgrade_now">Mettre à niveau maintenant</string>
 </resources>

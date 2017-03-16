@@ -40,6 +40,7 @@
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Muamele listesini PDF dosyasına aktar</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Şablon widget\'i</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV içe aktar</string>
+  <string name="licence_status_free">Ücretsiz</string>
   <string name="contrib_key">Katkı Anahtarı</string>
   <string name="extended_key">Genişletilmiş Anahtarı</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
@@ -70,7 +71,14 @@
   <string name="dialog_contrib_no_usages_left">Hiçbir ücretsiz kullanım kalmamıştır.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s katkı işlevidir (%2$s).</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Bu sınırlamayı kaldırıp daha fazla işleve erişmek için <i>Harcalamalarım</i>\'ı yükseltin.</string>
   <string name="dialog_contrib_text_1"><i>Harcamalarım</i> ücretsiz ve özgür yazılım olarak sunulmuştur.</string>
+  <string name="dialog_contrib_text_2">Lütfen <i>Harcamalarım</i>\'ı yükselterek katkıda bulunun ve aşağıdaki işlevlere sınırsız erişim elde edin:</string>
+  <string name="dialog_contrib_usage_count">Kalan ücretsiz kullanım</string>
+  <string name="dialog_contrib_usage_limit">Güncel lisans durumunuz (%2$s) ile bunu %1$d defa kullanabilirsiniz.</string>
+  <string name="dialog_contrib_usage_limit_synchronization">Güncel lisans durumunuz (%2$s) ile bunu %1$d gün kullanabilirsiniz.</string>
+  <string name="dialog_contrib_usage_limit_accounts">Güncel lisans durumunuz (%2$s) %1$d hesap oluşturmanıza izin vermektedir.</string>
+  <string name="dialog_contrib_usage_limit_plans">Güncel lisans durumunuz (%2$s) %1$d planlama oluşturmanıza izin vermektedir.</string>
   <string name="dialog_export_delete">Dışa aktarılan muameleleri sil</string>
   <string name="dialog_export_not_yet_exported">Sadece henüz dışa aktarılmamış muameleleri aktar</string>
   <string name="dialog_password_activate_protection">Parola ile korumayı etkinleştir</string>
@@ -622,4 +630,7 @@
   <string name="progress_dialog_checking_sync_backend">Arka ucu kontrol et</string>
   <string name="template">Şablon</string>
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Bulut eşleşmesi</string>
+  <string name="licence_status">Lisans durumunuz</string>
+  <string name="all_contrib_key_features">Katkı Anahtarının tüm işlevleri</string>
+  <string name="upgrade_now">Şimdi yükselt</string>
 </resources>

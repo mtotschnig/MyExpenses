@@ -40,6 +40,7 @@
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Exportar lista de transacciones a PDF</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Plantilla de widget</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Importar desde CSV</string>
+  <string name="licence_status_free">Gratis</string>
   <string name="contrib_key">Clave Contrib</string>
   <string name="extended_key">Clave Extendida</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
@@ -70,7 +71,14 @@
   <string name="dialog_contrib_no_usages_left">Límite de uso alcanzado.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s es una característica premium (%2$s).</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Elimine esta limitación y acceda a más características actualizando <i>Mis Gastos</i>.</string>
   <string name="dialog_contrib_text_1"><i>Mis Gastos</i> no tiene publicidad y es de código abierto.</string>
+  <string name="dialog_contrib_text_2">Por favor, contribuya actualizando <i>Mis Gastos</i> y obtenga acceso sin limitaciones a las siguientes características:</string>
+  <string name="dialog_contrib_usage_count">Usos gratuitos restantes</string>
+  <string name="dialog_contrib_usage_limit">Puede usarlo hasta %1$d veces con su actual licencia (%2$s).</string>
+  <string name="dialog_contrib_usage_limit_synchronization">Puede usarlo por %1$d días con su actual licencia (%2$s).</string>
+  <string name="dialog_contrib_usage_limit_accounts">Su actual licencia (%2$s) le permite crear %1$d cuentas.</string>
+  <string name="dialog_contrib_usage_limit_plans">Su licencia actual (%2$s) le permite crear %1$d proyectos.</string>
   <string name="dialog_export_delete">Borrar transacciones exportadas</string>
   <string name="dialog_export_not_yet_exported">Exportar sólo las transacciones aún no exportadas</string>
   <string name="dialog_password_activate_protection">Activar protección por contraseña</string>
@@ -247,14 +255,14 @@
   <string name="payer_or_payee">Acreedor/Ordenante</string>
   <string name="peer_transaction_deleted">Esta transferencia se contempla en una contrapartida (en la cuenta %1$s) que ha sido eliminada.</string>
   <!--Plan for future and recurring transactions-->
-  <string name="plan">Proyecto</string>
-  <string name="plan_automatic">automático</string>
+  <string name="plan">Proyección</string>
+  <string name="plan_automatic">Automático</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">Planificador de Mis Gastos</string>
   <string name="plan_event_deleted">El proyecto asociada a esta plantilla ha sido eliminado desde el calendario.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Ejecución del proyecto cancelada</string>
-  <string name="plan_manual">manual</string>
+  <string name="plan_manual">Manual</string>
   <string name="planner_create_calendar_failure">No se pudo crear un calendario de planificación local</string>
   <string name="planner_create_calendar_success">Calendario de planificación local creado con éxito</string>
   <!--payment methods-->
@@ -622,4 +630,7 @@
   <string name="progress_dialog_checking_sync_backend">Comprobación de servicio.</string>
   <string name="template">Plantilla</string>
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sincronización en la nube</string>
+  <string name="licence_status">Su licencia</string>
+  <string name="all_contrib_key_features">Todas las características de licencia Contrib</string>
+  <string name="upgrade_now">Actualice ahora</string>
 </resources>

@@ -39,6 +39,7 @@
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">取引リストを PDF にエクスポート</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">テンプレート ウィジェット</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV インポート</string>
+  <string name="licence_status_free">無料</string>
   <string name="contrib_key">貢献キー</string>
   <string name="extended_key">拡張キー</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
@@ -69,7 +70,14 @@
   <string name="dialog_contrib_no_usages_left">無料の使用は残っていません。</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s はプレミアム機能です (%2$s)。</string>
+  <string name="dialog_contrib_reminder_remove_limitation"><i>マイエクスペンス</i> をアップグレードすると、この制限を取り除き、より多くの機能にアクセスすることができます</string>
   <string name="dialog_contrib_text_1"><i>マイ エクスペンス</i> 広告なしのオープンソースで提供しています。</string>
+  <string name="dialog_contrib_text_2"><i>マイエクスペンス</i> をアップグレードすることで貢献して、次の機能に無制限にアクセスしてください:</string>
+  <string name="dialog_contrib_usage_count">無料の使用が残っています</string>
+  <string name="dialog_contrib_usage_limit">現在のライセンスステータス (%2$s) で %1$d 回まで使用できます。</string>
+  <string name="dialog_contrib_usage_limit_synchronization">現在のライセンスステータス (%2$s) で %1$d 日間使用できます。</string>
+  <string name="dialog_contrib_usage_limit_accounts">現在のライセンスステータス (%2$s) で %1$d アカウント作成できます。</string>
+  <string name="dialog_contrib_usage_limit_plans">現在のライセンスステータス (%2$s) で %1$d 計画作成できます。</string>
   <string name="dialog_export_delete">エクスポートした取引を削除</string>
   <string name="dialog_export_not_yet_exported">まだエクスポートしていない取引のみエクスポート</string>
   <string name="dialog_password_activate_protection">パスワード保護を有効にする</string>
@@ -613,4 +621,7 @@
   <string name="progress_dialog_checking_sync_backend">バックエンドの確認中</string>
   <string name="template">テンプレート</string>
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">クラウド同期</string>
+  <string name="licence_status">ライセンスステータス</string>
+  <string name="all_contrib_key_features">貢献キーのすべての機能</string>
+  <string name="upgrade_now">今すぐアップグレード</string>
 </resources>
