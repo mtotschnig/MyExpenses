@@ -71,7 +71,13 @@
   <string name="dialog_contrib_no_usages_left">Hai terminato i tuoi usi gratuiti.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s è una funzionalità speciale (%2$s).</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Rimuovere questa limitazione e accedere ad altre funzionalità aggiornando <i>Le mie spese</i>.</string>
   <string name="dialog_contrib_text_1"><i>Le mie spese</i> è offerta senza pubblicità e open source.</string>
+  <string name="dialog_contrib_text_2">Si prega di contribuire aggiornando <i>Le mie spese</i> e ottenere l\'accesso illimitato alle seguenti caratteristiche:</string>
+  <string name="dialog_contrib_usage_count">Usi gratuiti</string>
+  <string name="dialog_contrib_usage_limit">Si può usare fino a %1$d volte con il tuo stato corrente della licenza (%2$s).</string>
+  <string name="dialog_contrib_usage_limit_synchronization">È possibile utilizzarlo per il %1$d giorni con il tuo stato corrente della licenza (%2$s).</string>
+  <string name="dialog_contrib_usage_limit_accounts">Il tuo stato corrente della licenza (%2$s) consente di creare %1$d conti.</string>
   <string name="dialog_contrib_usage_limit_plans">Il tuo stato corrente della licenza (%2$s) consente di creare %1$d piani.</string>
   <string name="dialog_export_delete">Cancellare le transazioni esportate</string>
   <string name="dialog_export_not_yet_exported">Esportare solo le operazioni non ancora esportate</string>
@@ -83,7 +89,7 @@
   <string name="dialog_remind_no">No grazie</string>
   <string name="dialog_remind_rate_how_many_stars">Quante stelle daresti a <i>Le mie spese</i>?</string>
   <string name="dialog_remind_rate_1">Prenditi un momento per votare e rivedere <i>Le mie spese</i>.</string>
-  <string name="dialog_remind_rate_2">Le vostre osservazioni ci permettono di aggiungere continuamente miglioramenti e perfezionamenti.</string>
+  <string name="dialog_remind_rate_2">I tuoi commenti ci permettono di aggiungere continuamente miglioramenti e perfezionamenti.</string>
   <string name="dialog_remind_rate_1_suggest_improvement">Prenditi un momento per inviarci i tuoi suggerimenti per migliorarci.</string>
   <string name="dialog_remind_rate_yes">Vota ora</string>
   <string name="dialog_security_answer">Risposta</string>
@@ -133,7 +139,7 @@
   <string name="help_heading_whats_new">Novità</string>
   <string-array name="help_intro">
     <item>Tenere traccia delle tue spese e redditi.</item>
-    <item>Gestire direttamente sul vostro smartphone.</item>
+    <item>Gestire direttamente sul tuo smartphone.</item>
     <item>Esportarli in un programma di finanza Desktop come Grisbi, GnuCash, Quicken o MS Money.</item>
   </string-array>
   <!--%s is replaced with Android or Blackberry-->
@@ -141,7 +147,7 @@
   <string name="important_upgrade_information_heading">Informazioni importanti</string>
   <string name="import_select_transactions">Operazioni</string>
   <string name="income">Entrate</string>
-  <string name="invalid_number_format">Formato del numero non riconosciuto dal vostra regione. Uso %1$s</string>
+  <string name="invalid_number_format">Formato del numero non riconosciuto dal tua regione. Uso %1$s</string>
   <string name="label">Etichetta</string>
   <string name="licence_validation_failure">Impossible convalidare la chiave di licenza.</string>
   <string name="licence_validation_success">Chiave di licenza convalidata con successo</string>
@@ -394,7 +400,7 @@
   <!--%s is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Le mie spese, Gestione delle finanze personali per %s, http://www.myexpenses.mobi</string>
   <string name="template_create_success">Il modello \"%1$s\" è stato creato con successo</string>
-  <string name="thank_you">Grazie per il vostro sostegno!</string>
+  <string name="thank_you">Grazie per il tuo sostegno!</string>
   <string name="time">Ora</string>
   <string name="title">Titolo</string>
   <string name="total_cleared">Totale liquidato</string>
@@ -429,7 +435,7 @@
     <item quantity="other">%d categorie non sono state spostate, perché le stesse etichette sono già presenti nella destinazione.</item>
   </plurals>
   <string name="warning_delete_reconciled">L\'eliminazione delle transazioni riconciliate causerà le registrazioni a differire dal conto bancario.</string>
-  <string name="warning_balance_account">Si prega di confrontare il totale liquidato con il saldo finale nel vostro estratto conto bancario. Se si procede, le transazioni liquidate verranno contrassegnate come riconciliate.</string>
+  <string name="warning_balance_account">Si prega di confrontare il totale liquidato con il saldo finale nel tuo estratto conto bancario. Se si procede, le transazioni liquidate verranno contrassegnate come riconciliate.</string>
   <string name="warning_password_protected">App è protetto da password.</string>
   <string name="warning_widget_disabled">È necessario abilitare questo widget nelle impostazioni app.</string>
   <string name="warning_instantiate_template_from_widget_password_protected">La creazione rapida di modelli da questo widget funziona solo se si consente l\'immissione di dati da widget senza password nelle impostazioni app.</string>
@@ -537,7 +543,7 @@
   <string name="csv_import_no_mapping_found_for_amount">Si prega di mappare una colonna per importo, reddito o spesa.</string>
   <string name="menu_show_transactions">Visualizzare operazioni</string>
   <string name="pref_custom_decimal_format_title">Formato numero</string>
-  <string name="pref_custom_decimal_format_summary">Se non siete soddisfatti con il formato predefinito per le impostazioni internazionali, è possibile adattarlo alle vostre esigenze. Lasciare vuoto per ripristinare il formato predefinito.</string>
+  <string name="pref_custom_decimal_format_summary">Se non siete soddisfatti con il formato predefinito per le impostazioni internazionali, è possibile adattarlo alle proprie esigenze. Lasciare vuoto per ripristinare il formato predefinito.</string>
   <string name="licence_validation_upgrade_needed" tools:ignore="UnusedResources">Si prega di aggiornare Le mie spese Contrib alla versione 1.5.</string>
   <string name="pref_auto_backup_title">Attivare il backup automatico</string>
   <string name="pref_auto_backup_summary">Backup del database ogni giorno all\'ora specificata (solo se i dati sono cambiati)</string>
@@ -582,7 +588,7 @@
   <string name="pref_sort_order_next_instance">Istanza successiva</string>
   <string name="crash_dialog_title">Le mie spese ha avuto un problema</string>
   <string name="crash_dialog_text">Errore imprevisto durante l\'imposizione all\'applicazione di interrompere. Vi preghiamo di aiutarci a risolvere questo problema inviandoci i dati di errore, tutto ciò che dovete fare è fare clic su OK.</string>
-  <string name="crash_dialog_comment_prompt">È possibile aggiungere i vostri commenti sul problema riportato di seguito:</string>
+  <string name="crash_dialog_comment_prompt">È possibile aggiungere i tuoi commenti sul problema riportato di seguito:</string>
   <string name="synchronization">Sincronizzazione</string>
   <string name="synchronization_none">Nessuna sincronizzazione</string>
   <string name="hint_url">URL</string>
@@ -624,6 +630,10 @@
   <string name="progress_dialog_checking_sync_backend">Verificando il backend</string>
   <string name="template">Modello</string>
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sincronizzazione cloud</string>
-  <string name="licence_status">Il vostro stato della licenza</string>
+  <string name="licence_status">Il tuo stato della licenza</string>
   <string name="all_contrib_key_features">Tutte le caratteristiche di Contrib chiave</string>
+  <string name="upgrade_now">Aggiorna ora</string>
+  <string name="pref_backup_cloud_title">Conservare il backend di sincronizzazione</string>
+  <string name="pref_backup_cloud_summary">Oltre alla memoria locale del dispositivo, il file di backup può essere copiato su un backend remota.</string>
+  <string name="auto_backup_cloud_create_backend">Creare un backend di sincronizzazione dalla schermata impostazioni principali.</string>
 </resources>
