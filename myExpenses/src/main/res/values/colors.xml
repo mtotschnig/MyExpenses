@@ -50,6 +50,8 @@
 
     <color name="my_material_grey_600">#757575</color>
     <color name="material_grey_400">#BDBDBD</color>
+    <color name="my_material_grey_300">#ffe0e0e0</color>
+    <color name="material_grey_700">#ff616161</color>
     <color name="my_material_deep_teal_200">#ff80cbc4</color>
     <color name="my_material_deep_teal_800">#ff00695C</color>
 

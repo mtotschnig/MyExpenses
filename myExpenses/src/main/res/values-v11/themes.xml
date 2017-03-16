@@ -2,19 +2,23 @@
 <resources>
     <style name="ThemeDarkBase.V11">
         <item name="cardHighlightForeground">@drawable/card_foreground_dark</item>
+        <item name="android:activatedBackgroundIndicator">@drawable/activated_background_dark</item>
     </style>
     <style name="ThemeDark" parent="@style/ThemeDarkBase.V11"/>
 
     <style name="ThemeLightBase.V11">
         <item name="cardHighlightForeground">@drawable/card_foreground_light</item>
+        <item name="android:activatedBackgroundIndicator">@drawable/activated_background_light</item>
     </style>
     <style name="ThemeLight" parent="@style/ThemeLightBase.V11"/>
 
     <style name="ThemeDark.EditDialog" parent="ThemeDark.EditDialogBase">
         <item name="android:windowCloseOnTouchOutside">false</item>
+        <item name="android:activatedBackgroundIndicator">@drawable/activated_background_dark</item>
     </style>
 
     <style name="ThemeLight.EditDialog" parent="ThemeLight.EditDialogBase">
         <item name="android:windowCloseOnTouchOutside">false</item>
+        <item name="android:activatedBackgroundIndicator">@drawable/activated_background_light</item>
     </style>
 </resources>
