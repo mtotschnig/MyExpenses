@@ -107,7 +107,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
       VersionDialogFragment.newInstance(prev_version, showImportantUpgradeInfo)
           .show(getSupportFragmentManager(), "VERSION_INFO");
     } else {
-      if (ContribFeature.SYNCHRONIZATION.usagesLeft() < 1 &&
+      if (!ContribFeature.SYNCHRONIZATION.hasAccess() && ContribFeature.SYNCHRONIZATION.usagesLeft() < 1 &&
           !PrefKey.SYNC_UPSELL_NOTIFICATION_SHOWN.getBoolean(false)) {
         PrefKey.SYNC_UPSELL_NOTIFICATION_SHOWN.putBoolean(true);
         ContribUtils.showContribNotification(this, ContribFeature.SYNCHRONIZATION);
