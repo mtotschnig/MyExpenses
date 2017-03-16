@@ -47,6 +47,7 @@ public class GenericAccountService extends Service {
   public static final String KEY_SYNC_PROVIDER_USERNAME = "sync_provider_user_name";
   public static final int DEFAULT_SYNC_FREQUENCY_HOURS = 12;
   public static final int HOUR_IN_SECONDS = 3600;
+  public static final String KEY_BROKEN = "broken";
   private Authenticator mAuthenticator;
 
   /**
@@ -83,16 +84,17 @@ public class GenericAccountService extends Service {
 
   public static void updateAccountsIsSyncable() {
     boolean isSyncable = ContribFeature.SYNCHRONIZATION.hasAccess() || ContribFeature.SYNCHRONIZATION.usagesLeft() > 0;
+    AccountManager accountManager = (AccountManager) MyApplication.getInstance().getSystemService(ACCOUNT_SERVICE);
 
-    for (Account account : getAccountsAsArray()) {
-      if (isSyncable) {
-        activateSync(account);
-      } else {
-        ContentResolver.cancelSync(account, TransactionProvider.AUTHORITY);
-        ContentResolver.removePeriodicSync(account, TransactionProvider.AUTHORITY, Bundle.EMPTY);
-        ContentResolver.setIsSyncable(account, TransactionProvider.AUTHORITY, 0);
-      }
-    }
+    getAccountsAsStream()
+        .filter(account -> accountManager.getUserData(account, KEY_BROKEN) == null)
+        .forEach(account -> {
+          if (isSyncable) {
+            activateSync(account);
+          } else {
+            deactivateSync(account);
+          }
+        });
   }
 
   public static Account[] getAccountsAsArray() {
@@ -110,10 +112,22 @@ public class GenericAccountService extends Service {
   }
 
   public static void activateSync(Account account) {
-    ContentResolver.setSyncAutomatically(account, TransactionProvider.AUTHORITY, true);
-    ContentResolver.setIsSyncable(account, TransactionProvider.AUTHORITY, 1);
-    ContentResolver.addPeriodicSync(account, TransactionProvider.AUTHORITY, Bundle.EMPTY,
-        PrefKey.SYNC_FREQUCENCY.getInt(GenericAccountService.DEFAULT_SYNC_FREQUENCY_HOURS) * GenericAccountService.HOUR_IN_SECONDS);
+    if (ContentResolver.getIsSyncable(account, TransactionProvider.AUTHORITY) <= 0) {
+
+      ContentResolver.setSyncAutomatically(account, TransactionProvider.AUTHORITY, true);
+      ContentResolver.setIsSyncable(account, TransactionProvider.AUTHORITY, 1);
+      ContentResolver.addPeriodicSync(account, TransactionProvider.AUTHORITY, Bundle.EMPTY,
+          PrefKey.SYNC_FREQUCENCY.getInt(GenericAccountService.DEFAULT_SYNC_FREQUENCY_HOURS) * GenericAccountService.HOUR_IN_SECONDS);
+    }
+  }
+
+  public static void deactivateSync(Account account) {
+    if (ContentResolver.getIsSyncable(account, TransactionProvider.AUTHORITY) > 0) {
+      ContentResolver.cancelSync(account, TransactionProvider.AUTHORITY);
+      ContentResolver.setSyncAutomatically(account, TransactionProvider.AUTHORITY, false);
+      ContentResolver.removePeriodicSync(account, TransactionProvider.AUTHORITY, Bundle.EMPTY);
+      ContentResolver.setIsSyncable(account, TransactionProvider.AUTHORITY, 0);
+    }
   }
 
   public class Authenticator extends AbstractAccountAuthenticator {

@@ -21,7 +21,6 @@ import android.widget.ExpandableListView;
 import android.widget.Toast;
 
 import com.annimon.stream.Collectors;
-import com.annimon.stream.Optional;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.SyncBackendAdapter;
@@ -175,11 +174,16 @@ public class SyncBackendList extends Fragment implements
 
   private void requestSync(long packedPosition) {
     String syncAccountName = syncBackendAdapter.getSyncAccountName(packedPosition);
-    Bundle bundle = new Bundle();
-    bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-    bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-    ContentResolver.requestSync(GenericAccountService.GetAccount(syncAccountName),
-        TransactionProvider.AUTHORITY, bundle);
+    android.accounts.Account account = GenericAccountService.GetAccount(syncAccountName);
+    if (ContentResolver.getIsSyncable(account, TransactionProvider.AUTHORITY) > 0) {
+      Bundle bundle = new Bundle();
+      bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+      bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+      ContentResolver.requestSync(account,
+          TransactionProvider.AUTHORITY, bundle);
+    } else {
+      Toast.makeText(getContext(), "Backend is not ready to be synced", Toast.LENGTH_LONG).show();
+    }
   }
 
   public void reloadAccountList() {
@@ -255,17 +259,18 @@ public class SyncBackendList extends Fragment implements
     }
   }
 
+  //TODO replace by Exceptional
   private static class AccountMetaDataLoaderResult {
     private final List<AccountMetaData> result;
-    private final Exception error;
+    private final Throwable error;
 
-    AccountMetaDataLoaderResult(List<AccountMetaData> result, Exception error) {
+    AccountMetaDataLoaderResult(List<AccountMetaData> result, Throwable error) {
       this.result = result;
       this.error = error;
     }
 
 
-    public Exception getError() {
+    public Throwable getError() {
       return error;
     }
 
@@ -288,14 +293,12 @@ public class SyncBackendList extends Fragment implements
 
     @Override
     public AccountMetaDataLoaderResult loadInBackground() {
-      Optional<SyncBackendProvider> syncBackendProviderOptional = SyncBackendProviderFactory.get(
-          getContext(),
-          GenericAccountService.GetAccount(accountName)
-      );
-      if (syncBackendProviderOptional.isPresent()) {
-        return getRemoteAccountList(syncBackendProviderOptional.get());
-      } else {
-        return new AccountMetaDataLoaderResult(null, new Exception("Unable to get info for account " + accountName));
+      try {
+        return SyncBackendProviderFactory.get(getContext(), GenericAccountService.GetAccount(accountName))
+            .map(this::getRemoteAccountList)
+            .getOrThrow();
+      } catch (Throwable throwable) {
+        return new AccountMetaDataLoaderResult(null, throwable);
       }
     }
 

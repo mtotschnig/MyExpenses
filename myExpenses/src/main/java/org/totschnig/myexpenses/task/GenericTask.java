@@ -18,7 +18,6 @@ import android.util.Log;
 
 import com.android.calendar.CalendarContractCompat;
 import com.annimon.stream.Collectors;
-import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -558,16 +557,16 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       case TaskExecutionFragment.TASK_SYNC_LINK_SAVE: {
         //first get remote data for account
         String syncAccountName = ((String) mExtra);
-        Optional<SyncBackendProvider> syncBackendProviderOptional = SyncBackendProviderFactory.get(
-            application,
-            GenericAccountService.GetAccount(syncAccountName)
-        );
-        if (!syncBackendProviderOptional.isPresent()) {
+        SyncBackendProvider syncBackendProvider;
+        try {
+          syncBackendProvider = SyncBackendProviderFactory.get(application,
+              GenericAccountService.GetAccount(syncAccountName)).getOrThrow();
+        } catch (Throwable throwable) {
           return Result.FAILURE;
         }
         List<String> remoteUuidList;
         try {
-          List<AccountMetaData> remoteAccountList = syncBackendProviderOptional.get().getRemoteAccountList();
+          List<AccountMetaData> remoteAccountList = syncBackendProvider.getRemoteAccountList();
           if (remoteAccountList == null) {
             return Result.FAILURE;
           }
@@ -615,16 +614,15 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       case TaskExecutionFragment.TASK_SYNC_CHECK: {
         String accountUuid = (String) ids[0];
         String syncAccountName = ((String) mExtra);
-        Optional<SyncBackendProvider> syncBackendProviderOptional = SyncBackendProviderFactory.get(
-            application,
-            GenericAccountService.GetAccount(syncAccountName)
-        );
-        if (!syncBackendProviderOptional.isPresent()) {
-          //should not happen
+        SyncBackendProvider syncBackendProvider;
+        try {
+          syncBackendProvider = SyncBackendProviderFactory.get(application,
+              GenericAccountService.GetAccount(syncAccountName)).getOrThrow();
+        } catch (Throwable throwable) {
           return Result.FAILURE;
         }
         try {
-              if (Stream.of(syncBackendProviderOptional.get().getRemoteAccountList())
+              if (Stream.of(syncBackendProvider.getRemoteAccountList())
                   .anyMatch(metadata -> metadata.uuid().equals(accountUuid))) {
                 return new Result(false, Utils.concatResStrings(application, " ",
                     R.string.link_account_failure_2, R.string.link_account_failure_3)

@@ -19,12 +19,16 @@ package org.totschnig.myexpenses.sync;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.annotation.TargetApi;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.content.SyncResult;
 import android.database.Cursor;
@@ -35,14 +39,17 @@ import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.util.Pair;
 import android.util.Log;
 
 import com.annimon.stream.Collectors;
-import com.annimon.stream.Optional;
+import com.annimon.stream.Exceptional;
 import com.annimon.stream.Stream;
 
 import org.apache.commons.collections4.ListUtils;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ManageSyncBackends;
 import org.totschnig.myexpenses.export.CategoryInfo;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Payee;
@@ -131,14 +138,30 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     AccountManager accountManager = AccountManager.get(getContext());
 
-    Optional<SyncBackendProvider> backendProviderOptional = SyncBackendProviderFactory.get(
-        getContext(), account);
-    if (!backendProviderOptional.isPresent()) {
-      AcraHelper.report(new Exception("Could not find backend for account " + account.name));
+    Exceptional<SyncBackendProvider> backendProviderExceptional =
+        SyncBackendProviderFactory.get(getContext(), account);
+    SyncBackendProvider backend;
+    try {
+      backend = backendProviderExceptional.getOrThrow();
+    } catch (Throwable throwable) {
       syncResult.databaseError = true;
+      AcraHelper.report(throwable instanceof Exception ? ((Exception) throwable) : new Exception(throwable));
+      GenericAccountService.deactivateSync(account);
+      accountManager.setUserData(account, GenericAccountService.KEY_BROKEN, "1");
+      String content = "The backend could not be instantiated. Please try to delete and recreate it.";
+      Intent manageIntent = new Intent(getContext(), ManageSyncBackends.class);
+      NotificationCompat.Builder builder =
+          new NotificationCompat.Builder(getContext())
+              .setSmallIcon(R.drawable.ic_notification)
+              .setContentTitle("Synchronization backend deactivated")
+              .setContentText(content)
+              .setContentIntent(PendingIntent.getActivity(getContext(), 0, manageIntent, PendingIntent.FLAG_CANCEL_CURRENT))
+              .setStyle(new NotificationCompat.BigTextStyle().bigText(content));
+      Notification notification = builder.build();
+      notification.flags = Notification.FLAG_AUTO_CANCEL;
+      ((NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE)).notify(0,notification);
       return;
     }
-    SyncBackendProvider backend = backendProviderOptional.get();
     if (!backend.setUp()) {
       syncResult.stats.numIoExceptions++;
       syncResult.delayUntil = 300;
