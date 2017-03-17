@@ -14,6 +14,25 @@ public class NotificationBuilderWrapper {
   private Notification.Builder api23Builder;
   private NotificationCompat.Builder compatBuilder;
 
+  public static NotificationBuilderWrapper defaultBigTextStyleBuilder(
+      Context context, String title, String content) {
+    return new NotificationBuilderWrapper(context)
+        .setSmallIcon(R.drawable.ic_notification)
+        .setContentTitle(title)
+        .setBigContentText(content);
+  }
+
+  private NotificationBuilderWrapper setBigContentText(String content) {
+    setContentText(content);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+      api23Builder.setStyle(new Notification.BigTextStyle().bigText(content));
+    } else {
+      compatBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(content));
+    }
+    return this;
+  }
+
+
   public NotificationBuilderWrapper(Context context) {
     this.context = context;
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
