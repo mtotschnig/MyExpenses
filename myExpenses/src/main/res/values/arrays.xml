@@ -390,7 +390,7 @@
     </string-array>
 
     <integer-array name="version_codes">
-        <item>271</item>
+        <item>275</item>
         <item>268</item>
         <item>261</item>
         <item>257</item>
@@ -554,6 +554,10 @@
     <string-array name="version_more_info_276" tools:ignore="UnusedResources">
         <item>posts/1864894397105363</item>
         <item>ezWH2qMgNV5</item>
+    </string-array>
+    <string-array name="version_more_info_277" tools:ignore="UnusedResources">
+        <item>photos/a.1450395311888609.1073741827.1450391968555610/1872269629701173</item>
+        <item>P95T53b1Kyd</item>
     </string-array>
 
     <string-array name="comparison_operator_entries">
