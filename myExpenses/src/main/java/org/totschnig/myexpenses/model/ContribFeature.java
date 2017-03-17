@@ -29,6 +29,8 @@ import org.totschnig.myexpenses.util.LicenceHandler;
 import java.util.Date;
 import java.util.Locale;
 
+//TODO separate enum definition from handler
+//TODO use separate preferences object injected via DI
 public enum ContribFeature {
   ACCOUNTS_UNLIMITED(false) {
     private int FREE_ACCOUNTS = 5;
