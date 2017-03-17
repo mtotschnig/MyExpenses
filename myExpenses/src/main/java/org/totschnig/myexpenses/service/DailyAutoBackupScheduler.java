@@ -42,6 +42,8 @@ public class DailyAutoBackupScheduler {
     }
 
     public static void scheduleAutoBackup(Context context) {
+        //cancel existing one
+        cancelAutoBackup(context);
         AlarmManager service = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         PendingIntent pendingIntent = createPendingIntent(context);
         Date scheduledTime = getScheduledTime();
@@ -52,14 +54,15 @@ public class DailyAutoBackupScheduler {
         AlarmManager service = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         PendingIntent pendingIntent = createPendingIntent(context);
         service.cancel(pendingIntent);
+        pendingIntent.cancel();
     }
 
     private static PendingIntent createPendingIntent(Context context) {
         Intent intent = new Intent(GenericAlarmReceiver.SCHEDULED_BACKUP);
-        return PendingIntent.getBroadcast(context, -100, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        return PendingIntent.getBroadcast(context, -100, intent, PendingIntent.FLAG_ONE_SHOT);
     }
 
-    public static Date getScheduledTime() {
+    private static Date getScheduledTime() {
         int hhmm = PrefKey.AUTO_BACKUP_TIME.getInt(TimePreference.DEFAULT_VALUE);
         int hh = hhmm/100;
         int mm = hhmm - 100*hh;
