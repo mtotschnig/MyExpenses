@@ -10,7 +10,7 @@ android {
         applicationId "org.totschnig.myexpenses"
         minSdkVersion project.minSdkVersion
         targetSdkVersion project.targetSdkVersion
-        versionCode 271
+        versionCode 275
         versionName '2.7.7'
         multiDexEnabled true
 
