@@ -50,9 +50,8 @@
         android:supportsRtl="true">
 
         <activity
-            android:name=".activity.MyExpenses"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:label="${appName}">
+            android:name=".activity.SplashActivity"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -60,6 +59,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activity.MyExpenses"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:label="${appName}">
         </activity>
 
         <activity android:name=".activity.DeepLinkActivity"

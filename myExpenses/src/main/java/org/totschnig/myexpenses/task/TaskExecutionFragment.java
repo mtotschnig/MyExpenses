@@ -113,6 +113,8 @@ public class TaskExecutionFragment<T> extends Fragment {
    */
   public static final int TASK_SYNC_CHECK = 49;
 
+  public static final int TASK_INIT = 50;
+
   /**
    * Callback interface through which the fragment will report the task's
    * progress and results back to the Activity.
