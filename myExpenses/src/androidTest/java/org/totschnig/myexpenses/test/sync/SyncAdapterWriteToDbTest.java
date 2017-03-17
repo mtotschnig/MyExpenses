@@ -1,8 +1,11 @@
 package org.totschnig.myexpenses.test.sync;
 
 import android.content.ContentProviderOperation;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.test.mock.MockContext;
 
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 import org.totschnig.myexpenses.model.Account;
@@ -16,12 +19,15 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
+@RequiresApi(api = Build.VERSION_CODES.M)
 public class SyncAdapterWriteToDbTest {
   private SyncAdapter syncAdapter;
   private ArrayList<ContentProviderOperation> ops;
 
   @Before
   public void setup() {
+    Assume.assumeTrue(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M);
+
     syncAdapter = spy(new SyncAdapter(new MockContext(), true, true));
     when(syncAdapter.getAccount()).thenReturn(new Account());
     ops = new ArrayList<>();
