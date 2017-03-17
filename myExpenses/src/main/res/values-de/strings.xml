@@ -40,6 +40,7 @@
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Buchungsliste als PDF-Datei drucken</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Vorlagen Widget</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV import</string>
+  <string name="licence_status_free">Gratis</string>
   <string name="contrib_key">Contrib-Schlüssel</string>
   <string name="extended_key">Erweiterungsschlüssel</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
@@ -70,7 +71,14 @@
   <string name="dialog_contrib_no_usages_left">Diese Funktion kann nicht mehr gratis verwendet werden.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s ist eine Premium-Funktion (%2$s).</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Entfernen Sie diese Einschränkung und erhalten Sie Zugriff auf mehr Funktionen, indem Sie <i>Meine Ausgaben</i> upgraden.</string>
   <string name="dialog_contrib_text_1"><i>Meine Ausgaben</i> wird Ihnen ohne Werbung und mit offenem Quellcode angeboten.</string>
+  <string name="dialog_contrib_text_2">Bitte leisten Sie einen Beitrag durch ein Upgrade von <i>Meine Ausgaben</i> und erhalten Sie uneingeschränkten Zugriff auf die folgenden Funktionen:</string>
+  <string name="dialog_contrib_usage_count">Verbleibende Gratis Nutzungen</string>
+  <string name="dialog_contrib_usage_limit">Mit Ihrem aktuellen Lizenzstatus (%2$s) können Sie es %1$d mal verwenden.</string>
+  <string name="dialog_contrib_usage_limit_synchronization">Mit Ihrem aktuellen Lizenzstatus (%2$s) können Sie es %1$d Tage lang verwenden.</string>
+  <string name="dialog_contrib_usage_limit_accounts">Mit Ihrem aktuellen Lizenzstatus (%2$s) können Sie %1$d Konten anlegen.</string>
+  <string name="dialog_contrib_usage_limit_plans">Mit Ihrem aktuellen Lizenzstatus (%2$s) können Sie %1$d Pläne anlegen.</string>
   <string name="dialog_export_delete">Buchungen nach dem Exportieren löschen</string>
   <string name="dialog_export_not_yet_exported">Nur Buchungen exportieren, die noch nicht exportiert wurden</string>
   <string name="dialog_password_activate_protection">Passwort-Schutz aktivieren</string>
@@ -622,4 +630,11 @@
   <string name="progress_dialog_checking_sync_backend">Backend wird überprüft</string>
   <string name="template">Vorlage</string>
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Cloud-Synchronisierung</string>
+  <string name="licence_status">Ihre Lizenzstatus</string>
+  <string name="all_contrib_key_features">Alle Funktionen des Contrib Schlüssels</string>
+  <string name="upgrade_now">Jetzt upgraden</string>
+  <string name="pref_backup_cloud_title">Auf Synchronisierung-Backend speichern</string>
+  <string name="pref_backup_cloud_summary">Zusätzlich zur lokalen Speicherung auf dem Gerät kann die Sicherungsdatei auf ein entferntes Backend kopiert werden.</string>
+  <string name="auto_backup_cloud_create_backend">Erstellen Sie eine Synchronisierung Backend vom Hauptbildschirm der Einstellungen.</string>
+  <string name="auto_backup_cloud_failure">Beim Versuch, Backup-Datei %1$s auf Backend %2$s zu speichern, ist ein Fehler aufgetreten:</string>
 </resources>

@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_277">
+    <item>Automatische Sicherungen können auf Cloud-Backend gespeichert werden</item>
+  </string-array>
   <string-array name="whats_new_276">
     <item>Gerinfügige Verbesserungen</item>
   </string-array>
