@@ -40,8 +40,11 @@ import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Currency;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_CLEARED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_EXPORTED;
@@ -182,9 +185,9 @@ public class Account extends Model {
 
   public static final int DEFAULT_COLOR = 0xff009688;
 
-  static final HashMap<Long, Account> accounts = new HashMap<>();
+  protected static final Map<Long, Account> accounts =  Collections.synchronizedMap(new HashMap<>());
 
-  public static boolean isInstanceCached(long id) {
+  private static boolean isInstanceCached(long id) {
     return accounts.containsKey(id);
   }
 
@@ -202,13 +205,15 @@ public class Account extends Model {
    * @return Account object or null if no account with id exists in db
    */
   public static Account getInstanceFromDb(long id) {
+    Log.d("AccountArrayTest", "getInstanceFromDb called, accounts " + accounts.size());
     if (id < 0)
       return AggregateAccount.getInstanceFromDb(id);
     Account account;
     String selection = KEY_ROWID + " = ";
     if (id == 0) {
-      if (!accounts.isEmpty()) {
-        for (long _id : accounts.keySet()) {
+      Set<Long> ids = accounts.keySet();
+      synchronized (accounts) {
+        for (Long _id : ids) {
           if (_id > 0) {
             return accounts.get(_id);
           }

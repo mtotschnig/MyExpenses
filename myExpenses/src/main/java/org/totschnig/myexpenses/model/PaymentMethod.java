@@ -15,16 +15,6 @@
 
 package org.totschnig.myexpenses.model;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.provider.TransactionProvider;
-
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -32,6 +22,27 @@ import android.database.DatabaseUtils;
 import android.net.Uri;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
+
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.provider.TransactionProvider;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TEMPLATES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TRANSACTIONS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PREDEFINED_METHOD_NAME;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_METHODS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
 
 //TODO refactor to use autovalue
 public class PaymentMethod extends Model {
@@ -184,7 +195,7 @@ public class PaymentMethod extends Model {
     this.label = label;
   }
 
-  static final HashMap<Long,PaymentMethod> methods = new HashMap<>();
+  private static final Map<Long,PaymentMethod> methods = Collections.synchronizedMap(new HashMap<>());
   
   public Uri save() {
     Uri uri;
