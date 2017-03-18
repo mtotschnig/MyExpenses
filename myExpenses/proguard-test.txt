@@ -6,3 +6,6 @@
 -dontwarn org.junit.**
 -dontwarn android.support.test.runner.MonitoringInstrumentation
 -dontwarn org.mockito.**
+
+# Retrolambda
+-dontwarn java.lang.invoke.*
