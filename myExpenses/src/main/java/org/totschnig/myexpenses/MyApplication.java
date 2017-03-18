@@ -840,12 +840,15 @@ public class MyApplication extends MultiDexApplication implements
           .detectNetwork()   // or .detectAll() for all detectable problems
           .penaltyLog()
           .build());
-      StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+      StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder()
           .detectLeakedSqlLiteObjects()
           //.detectLeakedClosableObjects()
           .penaltyLog()
-          .penaltyDeath()
-          .build());
+          .penaltyDeath();
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+        builder.detectFileUriExposure();
+      }
+      StrictMode.setVmPolicy(builder.build());
     }
   }
 }
