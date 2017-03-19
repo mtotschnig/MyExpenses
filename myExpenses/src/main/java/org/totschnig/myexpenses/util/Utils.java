@@ -622,7 +622,7 @@ public class Utils {
       outputMediaFile = getOutputMediaFile(fileName, false);
       if (outputMediaFile == null) return null;
       return FileProvider.getUriForFile(MyApplication.getInstance(),
-          "org.totschnig.myexpenses.fileprovider",
+          MyApplication.getInstance().getPackageName() +".fileprovider",
           outputMediaFile);
     } else {
       outputMediaFile = getOutputMediaFile(fileName, temp);
