@@ -49,6 +49,7 @@ import org.acra.util.IOUtils;
 import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.di.AppModule;
 import org.totschnig.myexpenses.di.DaggerAppComponent;
+import org.totschnig.myexpenses.di.UiModule;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -105,6 +106,10 @@ public class MyApplication extends MultiDexApplication implements
   public final static String TAG = "MyExpenses";
 
   private boolean isLocked;
+
+  public AppComponent getAppComponent() {
+    return appComponent;
+  }
 
   public static void setInstrumentationTest(boolean instrumentationTest) {
     MyApplication.instrumentationTest = instrumentationTest;
@@ -179,7 +184,9 @@ public class MyApplication extends MultiDexApplication implements
   protected void attachBaseContext(Context base) {
     super.attachBaseContext(base);
     appComponent = DaggerAppComponent.builder()
-        .appModule(new AppModule(this)).build();
+        .appModule(new AppModule(this))
+        .uiModule(new UiModule())
+        .build();
     appComponent.inject(this);
     if (acraConfiguration != null) {
       ACRA.init(this, acraConfiguration);

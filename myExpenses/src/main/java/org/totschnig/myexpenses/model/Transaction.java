@@ -20,7 +20,6 @@ import android.content.ContentProviderResult;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -842,14 +841,6 @@ public class Transaction extends Model {
 
   public void setPictureUri(Uri pictureUriIn) {
     this.pictureUri = pictureUriIn;
-  }
-
-  public static Intent getViewIntent(Uri pictureUri) {
-    Intent intent = new Intent(Intent.ACTION_VIEW, pictureUri);
-    intent.putExtra(Intent.EXTRA_STREAM, pictureUri);
-    intent.setDataAndType(pictureUri, "image/jpeg");
-    intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-    return intent;
   }
 
   public static class ExternalStorageNotAvailableException extends IllegalStateException {

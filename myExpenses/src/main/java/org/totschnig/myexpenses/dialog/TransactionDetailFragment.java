@@ -18,6 +18,7 @@ package org.totschnig.myexpenses.dialog;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
@@ -39,8 +40,10 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
+import org.totschnig.myexpenses.activity.ImageViewIntentProvider;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.SplitPartAdapter;
 import org.totschnig.myexpenses.model.Account;
@@ -60,6 +63,8 @@ import org.totschnig.myexpenses.util.Utils;
 import java.io.File;
 import java.text.DateFormat;
 
+import javax.inject.Inject;
+
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_MAIN;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
@@ -69,6 +74,9 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
   Transaction mTransaction;
   SimpleCursorAdapter mAdapter;
   View mLayout;
+
+  @Inject
+  ImageViewIntentProvider imageViewIntentProvider;
 
   public static final TransactionDetailFragment newInstance(Long id) {
     TransactionDetailFragment dialogFragment = new TransactionDetailFragment();
@@ -86,6 +94,12 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
         new Long[]{getArguments().getLong(KEY_ROWID)},
         null,
         0);
+  }
+
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    MyApplication.getInstance().getAppComponent().inject(this);
   }
 
   @Override
@@ -163,7 +177,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
         ctx.startActivityForResult(i, ProtectedFragmentActivity.EDIT_TRANSACTION_REQUEST);
         break;
       case AlertDialog.BUTTON_NEUTRAL:
-        startActivity(Transaction.getViewIntent(mTransaction.getPictureUri()));
+        startActivity(imageViewIntentProvider.getViewIntent(ctx, mTransaction.getPictureUri()));
         break;
       case AlertDialog.BUTTON_NEGATIVE:
         dismiss();

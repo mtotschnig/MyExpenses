@@ -19,6 +19,7 @@ import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -28,24 +29,35 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ImageViewIntentProvider;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
-import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 
+import javax.inject.Inject;
+
 public class StaleImagesList extends ContextualActionBarFragment implements LoaderManager.LoaderCallbacks<Cursor> {
   SimpleCursorAdapter mAdapter;
   private Cursor mImagesCursor;
+
+  @Inject
+  ImageViewIntentProvider imageViewIntentProvider;
+
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    MyApplication.getInstance().getAppComponent().inject(this);
+  }
 
   @Override
   public boolean dispatchCommandMultiple(int command,
@@ -115,10 +127,9 @@ public class StaleImagesList extends ContextualActionBarFragment implements Load
       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         mImagesCursor.moveToPosition(position);
         startActivity(
-            Transaction.getViewIntent(
-                Uri.parse(
-                    mImagesCursor.getString(
-                        mImagesCursor.getColumnIndex(DatabaseConstants.KEY_PICTURE_URI)))));
+            imageViewIntentProvider.getViewIntent(getActivity(),
+                Uri.parse(mImagesCursor.getString(
+                    mImagesCursor.getColumnIndex(DatabaseConstants.KEY_PICTURE_URI)))));
       }
     });
     getLoaderManager().initLoader(0, null, this);

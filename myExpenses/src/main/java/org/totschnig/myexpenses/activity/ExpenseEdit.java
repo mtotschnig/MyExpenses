@@ -126,6 +126,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.inject.Inject;
+
 import static org.totschnig.myexpenses.activity.MyExpenses.KEY_SEQUENCE_COUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
@@ -239,6 +241,9 @@ public class ExpenseEdit extends AmountActivity implements
     transaction, transfer, split, templateCategory, templateTransfer, splitPartCategory, splitPartTransfer
   }
 
+  @Inject
+  ImageViewIntentProvider imageViewIntentProvider;
+
   @Override
   int getDiscardNewMessage() {
     return mTransaction instanceof Template ? R.string.dialog_confirm_discard_new_template :
@@ -249,6 +254,7 @@ public class ExpenseEdit extends AmountActivity implements
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.one_expense);
+    MyApplication.getInstance().getAppComponent().inject(this);
 
 
     mDateFormat = android.text.format.DateFormat.getDateFormat(this);
@@ -2129,7 +2135,7 @@ public class ExpenseEdit extends AmountActivity implements
         mPictureViewContainer.setVisibility(View.GONE);
         break;
       case R.id.VIEW_COMMAND:
-        startActivity(Transaction.getViewIntent(mPictureUri));
+        startActivity(imageViewIntentProvider.getViewIntent(this, mPictureUri));
         break;
       case R.id.CHANGE_COMMAND:
         startMediaChooserDo();
