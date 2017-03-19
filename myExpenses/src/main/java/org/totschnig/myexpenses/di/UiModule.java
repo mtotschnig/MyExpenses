@@ -1,7 +1,7 @@
 package org.totschnig.myexpenses.di;
 
 import org.totschnig.myexpenses.activity.ImageViewIntentProvider;
-import org.totschnig.myexpenses.activity.PlatformImageViewIntentProvider;
+import org.totschnig.myexpenses.activity.SystemImageViewIntentProvider;
 
 import javax.inject.Singleton;
 
@@ -13,6 +13,11 @@ public class UiModule {
   @Provides
   @Singleton
   ImageViewIntentProvider provideImageViewIntentProvider() {
-    return new PlatformImageViewIntentProvider();
+    try {
+      return (ImageViewIntentProvider) Class.forName(
+          "org.totschnig.myexpenses.activity.PlatformImageViewIntentProvider").newInstance();
+    } catch (Exception e) {
+      return new SystemImageViewIntentProvider();
+    }
   }
 }
