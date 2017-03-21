@@ -38,7 +38,8 @@ public abstract class LicenceHandler {
   final void invalidate() {
     Template.updateNewPlanEnabled();
     Account.updateNewAccountEnabled();
-    GenericAccountService.updateAccountsIsSyncable();
+    //TODO store context as field in LicenceHandler
+    GenericAccountService.updateAccountsIsSyncable(MyApplication.getInstance());
   }
 
   @VisibleForTesting

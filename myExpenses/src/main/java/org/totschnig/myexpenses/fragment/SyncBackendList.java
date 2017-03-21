@@ -117,7 +117,7 @@ public class SyncBackendList extends Fragment implements
   }
 
   protected List<String> getAccountList() {
-    return GenericAccountService.getAccountsAsStream()
+    return GenericAccountService.getAccountsAsStream(getActivity())
         .map(account -> account.name)
         .collect(Collectors.toList());
   }

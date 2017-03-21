@@ -49,7 +49,7 @@ public class GenericAlarmReceiver extends BroadcastReceiver {
     } else if (SCHEDULED_BACKUP.equals(action)) {
       requestAutoBackup(context);
     } else if (ACCOUNT_CHANGED.equals(action)) {
-      String[] accounts = GenericAccountService.getAccountsAsStream()
+      String[] accounts = GenericAccountService.getAccountsAsStream(context)
           .map(account -> account.name)
           .toArray(size -> new String[size]);
       ContentValues values = new ContentValues(1);

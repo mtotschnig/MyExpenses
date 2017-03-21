@@ -32,7 +32,6 @@ import android.util.Log;
 
 import com.annimon.stream.Stream;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -82,11 +81,11 @@ public class GenericAccountService extends Service {
     return mAuthenticator.getIBinder();
   }
 
-  public static void updateAccountsIsSyncable() {
+  public static void updateAccountsIsSyncable(Context context) {
     boolean isSyncable = ContribFeature.SYNCHRONIZATION.hasAccess() || ContribFeature.SYNCHRONIZATION.usagesLeft() > 0;
-    AccountManager accountManager = (AccountManager) MyApplication.getInstance().getSystemService(ACCOUNT_SERVICE);
+    AccountManager accountManager = AccountManager.get(context);
 
-    getAccountsAsStream()
+    getAccountsAsStream(context)
         .filter(account -> accountManager.getUserData(account, KEY_BROKEN) == null)
         .forEach(account -> {
           if (isSyncable) {
@@ -97,18 +96,17 @@ public class GenericAccountService extends Service {
         });
   }
 
-  public static Account[] getAccountsAsArray() {
-    AccountManager accountManager = (AccountManager) MyApplication.getInstance().getSystemService(ACCOUNT_SERVICE);
+  public static Account[] getAccountsAsArray(Context context) {
     try {
-      return accountManager.getAccountsByType(ACCOUNT_TYPE);
+      return AccountManager.get(context).getAccountsByType(ACCOUNT_TYPE);
     } catch (SecurityException e) {
       AcraHelper.report(e);
     }
     return new Account[0];
   }
 
-  public static Stream<Account> getAccountsAsStream() {
-    return Stream.of(getAccountsAsArray());
+  public static Stream<Account> getAccountsAsStream(Context context) {
+    return Stream.of(getAccountsAsArray(context));
   }
 
   public static void activateSync(Account account) {

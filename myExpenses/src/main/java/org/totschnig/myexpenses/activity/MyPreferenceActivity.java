@@ -235,7 +235,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       getFragment().setProtectionDependentsState();
       getFragment().configureContribPrefs();
     } else if (key.equals(PrefKey.SYNC_FREQUCENCY.getKey())) {
-      for (Account account : GenericAccountService.getAccountsAsArray()) {
+      for (Account account : GenericAccountService.getAccountsAsArray(this)) {
         ContentResolver.addPeriodicSync(account, TransactionProvider.AUTHORITY, Bundle.EMPTY,
             PrefKey.SYNC_FREQUCENCY.getInt(GenericAccountService.DEFAULT_SYNC_FREQUENCY_HOURS) * HOUR_IN_SECONDS);
       }
