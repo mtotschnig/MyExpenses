@@ -37,6 +37,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.RemoteException;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.util.Pair;
@@ -47,6 +48,7 @@ import com.annimon.stream.Exceptional;
 import com.annimon.stream.Stream;
 
 import org.apache.commons.collections4.ListUtils;
+import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
 import org.totschnig.myexpenses.export.CategoryInfo;
@@ -337,7 +339,17 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       if (c != null) {
         if (c.moveToFirst()) {
           do {
-            result.add(TransactionChange.create(c));
+            TransactionChange transactionChange = TransactionChange.create(c);
+            if (BuildConfig.DEBUG) {
+              transactionChange = transactionChange.toBuilder().setAppInstance(
+                  Settings.Secure.getString(getContext().getContentResolver(), Settings.Secure.ANDROID_ID)
+              ).build();
+            }
+            if (transactionChange.isEmpty()) {
+              Log.w(TAG,"found empty transaction change in changes table");
+              continue;
+            }
+            result.add(transactionChange);
           } while (c.moveToNext());
         }
         c.close();

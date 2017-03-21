@@ -13,9 +13,9 @@ import com.google.gson.TypeAdapter;
 
 import org.totschnig.myexpenses.util.TextUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.FULL_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
@@ -28,10 +28,29 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_UR
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TIMESTAMP;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_ACCOUNT_UUUID;
 
 @AutoValue
 public abstract class TransactionChange {
+
+  public static final String[] PROJECTION = new String[]{
+      KEY_TYPE,
+      KEY_UUID,
+      KEY_TIMESTAMP,
+      KEY_PARENT_UUID,
+      "NULLIF(TRIM(" + KEY_COMMENT + "),'') AS " + KEY_COMMENT,
+      KEY_DATE,
+      KEY_AMOUNT,
+      FULL_LABEL,
+      KEY_PAYEE_NAME,
+      TRANSFER_ACCOUNT_UUUID,
+      KEY_METHOD_LABEL,
+      KEY_CR_STATUS,
+      "NULLIF(TRIM(" + KEY_REFERENCE_NUMBER + "),'') AS " + KEY_REFERENCE_NUMBER,
+      KEY_PICTURE_URI
+  };
 
   public static TransactionChange create(Cursor cursor) {
     return AutoValue_TransactionChange.createFromCursor(cursor);
@@ -46,6 +65,9 @@ public abstract class TransactionChange {
   }
 
   public abstract Builder toBuilder();
+
+  @Nullable
+  public abstract String appInstance();
 
   @ColumnAdapter(ChangeTypeAdapter.class)
   public abstract Type type();
@@ -103,10 +125,17 @@ public abstract class TransactionChange {
   @Nullable
   public abstract List<TransactionChange> splitParts();
 
+  public boolean isEmpty() {
+    return parentUuid() == null && comment() == null && date() == null && amount() == null &&
+        label() == null && payeeName() == null && transferAccount() == null && methodLabel() == null &&
+        crStatus() == null && referenceNumber() == null && pictureUri() == null;
+  }
+
   public enum Type {
     created, updated, deleted;
 
     public static final String JOIN;
+
     static {
       JOIN = TextUtils.joinEnum(Type.class);
     }
@@ -130,22 +159,40 @@ public abstract class TransactionChange {
 
   @AutoValue.Builder
   public abstract static class Builder {
+    public abstract Builder setAppInstance(String value);
+
     public abstract Builder setType(Type value);
+
     public abstract Builder setUuid(String value);
+
     abstract String uuid();
+
     public abstract Builder setTimeStamp(Long value);
+
     public abstract Builder setParentUuid(String value);
+
     public abstract Builder setComment(String value);
+
     public abstract Builder setAmount(Long value);
+
     public abstract Builder setDate(Long value);
+
     public abstract Builder setLabel(String value);
+
     public abstract Builder setPayeeName(String value);
+
     public abstract Builder setTransferAccount(String value);
+
     public abstract Builder setMethodLabel(String value);
+
     public abstract Builder setCrStatus(String value);
+
     public abstract Builder setReferenceNumber(String value);
+
     public abstract Builder setPictureUri(String value);
+
     public abstract Builder setSplitParts(List<TransactionChange> value);
+
     public Builder setSplitPartsAndValidate(List<TransactionChange> value) {
       if (Stream.of(value).allMatch(value1 -> value1.parentUuid().equals(uuid()))) {
         return setSplitParts(value);
@@ -153,6 +200,7 @@ public abstract class TransactionChange {
         throw new IllegalStateException("parts parentUuid does not mactch parents uuid");
       }
     }
+
     public abstract TransactionChange build();
   }
 }

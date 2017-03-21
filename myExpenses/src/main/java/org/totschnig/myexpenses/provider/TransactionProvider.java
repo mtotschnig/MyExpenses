@@ -765,22 +765,7 @@ public class TransactionProvider extends ContentProvider {
         selectionArgs = new String[]{uri.getQueryParameter(KEY_ACCOUNTID), sequence};
         qb.setTables(VIEW_CHANGES_EXTENDED);
         if (projection == null) {
-          projection = new String[]{
-              KEY_TYPE,
-              KEY_UUID,
-              KEY_TIMESTAMP,
-              KEY_PARENT_UUID,
-              "NULLIF(TRIM(" + KEY_COMMENT + "),'') AS " + KEY_COMMENT,
-              KEY_DATE,
-              KEY_AMOUNT,
-              FULL_LABEL,
-              KEY_PAYEE_NAME,
-              TRANSFER_ACCOUNT_UUUID,
-              KEY_METHOD_LABEL,
-              KEY_CR_STATUS,
-              "NULLIF(TRIM(" + KEY_REFERENCE_NUMBER + "),'') AS " + KEY_REFERENCE_NUMBER,
-              KEY_PICTURE_URI
-          };
+          projection = TransactionChange.PROJECTION;
         }
         break;
     default:

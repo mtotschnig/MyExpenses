@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.sync;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
@@ -32,7 +33,8 @@ import java.util.regex.Pattern;
 import dagger.internal.Preconditions;
 
 abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
-  public static final String BACKUP_FOLDER_NAME = "BACKUPS";
+  private static final String TAG = "AbstractSyncBackendP";
+  static final String BACKUP_FOLDER_NAME = "BACKUPS";
   static final String MIMETYPE_JSON = "application/json";
   static final String ACCOUNT_METADATA_FILENAME = "metadata.json";
   private static final Pattern FILE_PATTERN = Pattern.compile("_\\d+");
@@ -62,6 +64,10 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     }
     List<TransactionChange> changeSetRead = new ArrayList<>();
     for (TransactionChange transactionChange : changes) {
+      if (transactionChange.isEmpty()) {
+        Log.w(TAG,"found empty transaction change in changes table");
+        continue;
+      }
       if (transactionChange.pictureUri() != null) {
         changeSetRead.add(transactionChange.toBuilder()
             .setPictureUri(ingestPictureUri(transactionChange.pictureUri())).build());
