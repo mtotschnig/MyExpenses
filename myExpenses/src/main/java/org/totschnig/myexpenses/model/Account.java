@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses.model;
 
+import android.accounts.AccountManager;
 import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -36,6 +37,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.CrStatusCriteria;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.sync.GenericAccountService;
+import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -263,6 +265,12 @@ public class Account extends Model {
     Account account = getInstanceFromDb(id);
     if (account == null) {
       return;
+    }
+    if (account.getSyncAccountName() != null) {
+      AccountManager accountManager = AccountManager.get(MyApplication.getInstance());
+      android.accounts.Account syncAccount = GenericAccountService.GetAccount(account.getSyncAccountName());
+      accountManager.setUserData(syncAccount, SyncAdapter.KEY_LAST_SYNCED_LOCAL(account.getId()), null);
+      accountManager.setUserData(syncAccount, SyncAdapter.KEY_LAST_SYNCED_REMOTE(account.getId()), null);
     }
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
     ops.add(account.updateTransferPeersForTransactionDelete(
