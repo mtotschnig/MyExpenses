@@ -4,4 +4,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+    <application>
+        <receiver android:name=".sync.SyncTrigger">
+            <!-- adb shell am broadcast -a TRIGGER_SYNC -e ACCOUNT accountName -->
+            <intent-filter>
+                <action android:name="TRIGGER_SYNC" />
+            </intent-filter>
+        </receiver>
+    </application>
 </manifest>
