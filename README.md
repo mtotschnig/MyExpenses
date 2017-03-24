@@ -58,8 +58,6 @@ Build
 ```
 git clone --depth 1 https://github.com/mtotschnig/MyExpenses.git
 cd MyExpenses
-git submodule init
-git submodule update
 export ANDROID_HOME={sdk-dir}
 ./gradlew build
 ```
