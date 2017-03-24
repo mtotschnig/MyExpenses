@@ -289,9 +289,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
               if (localChanges.size() > 0) {
                 lastSyncedRemote = backend.writeChangeSet(localChanges, getContext());
                 if (lastSyncedRemote != ChangeSet.FAILED) {
-                  provider.delete(TransactionProvider.CHANGES_URI,
-                      KEY_ACCOUNTID + " = ? AND " + KEY_SYNC_SEQUENCE_LOCAL + " <= ?",
-                      new String[]{String.valueOf(accountId), String.valueOf(lastSyncedLocal)});
+                  if (!BuildConfig.DEBUG) {
+                    // on debug build for auditing purposes, we keep changes in the table
+                    provider.delete(TransactionProvider.CHANGES_URI,
+                        KEY_ACCOUNTID + " = ? AND " + KEY_SYNC_SEQUENCE_LOCAL + " <= ?",
+                        new String[]{String.valueOf(accountId), String.valueOf(lastSyncedLocal)});
+                  }
                   accountManager.setUserData(account, lastLocalSyncKey, String.valueOf(lastSyncedLocal));
                   accountManager.setUserData(account, lastRemoteSyncKey, String.valueOf(lastSyncedRemote));
                 }
