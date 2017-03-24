@@ -22,7 +22,7 @@ import java.io.IOException;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class HttpException extends Exception {
+public class HttpException extends IOException {
   private int mCode;
 
   HttpException(Response response) {
@@ -45,10 +45,6 @@ public class HttpException extends Exception {
         code, message, request.method(), request.url().toString()),
         innerException);
     mCode = code;
-  }
-
-  public IOException toIOException() {
-    return getCause() instanceof IOException ? ((IOException) getCause()) : new IOException(this);
   }
 
   public boolean isNetworkIssue() {

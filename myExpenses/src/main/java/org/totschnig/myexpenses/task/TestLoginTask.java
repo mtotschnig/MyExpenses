@@ -3,13 +3,10 @@ package org.totschnig.myexpenses.task;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
-import org.totschnig.myexpenses.sync.webdav.HttpException;
-import org.totschnig.myexpenses.sync.webdav.InvalidCertificateException;
-import org.totschnig.myexpenses.sync.webdav.NotCompliantWebDavException;
-import org.totschnig.myexpenses.sync.webdav.UntrustedCertificateException;
 import org.totschnig.myexpenses.sync.webdav.WebDavClient;
 import org.totschnig.myexpenses.util.Result;
 
+import java.io.IOException;
 import java.security.cert.X509Certificate;
 
 public class TestLoginTask extends AsyncTask<Void, Void, Result> {
@@ -23,7 +20,6 @@ public class TestLoginTask extends AsyncTask<Void, Void, Result> {
   private String userName;
   private String password;
   private X509Certificate trustedCertificate;
-  private HttpException exception;
 
   TestLoginTask(TaskExecutionFragment taskExecutionFragment, Bundle args) {
     this.taskExecutionFragment = taskExecutionFragment;
@@ -39,7 +35,7 @@ public class TestLoginTask extends AsyncTask<Void, Void, Result> {
       WebDavClient client = new WebDavClient(url, userName, password, trustedCertificate);
       client.testLogin();
       return new Result(true);
-    } catch (UntrustedCertificateException | InvalidCertificateException | HttpException | NotCompliantWebDavException e) {
+    } catch (IOException e) {
       return new Result(false, 0, e);
     }
   }

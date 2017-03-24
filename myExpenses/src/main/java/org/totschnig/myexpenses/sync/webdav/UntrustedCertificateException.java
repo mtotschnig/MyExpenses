@@ -15,9 +15,10 @@
  */
 package org.totschnig.myexpenses.sync.webdav;
 
+import java.io.IOException;
 import java.security.cert.X509Certificate;
 
-public class UntrustedCertificateException extends Exception {
+public class UntrustedCertificateException extends IOException {
     private X509Certificate mCertificate;
 
     public UntrustedCertificateException(X509Certificate certificate) {

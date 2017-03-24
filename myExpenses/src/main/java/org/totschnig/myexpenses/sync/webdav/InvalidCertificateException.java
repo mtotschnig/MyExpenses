@@ -15,9 +15,10 @@
  */
 package org.totschnig.myexpenses.sync.webdav;
 
+import java.io.IOException;
 import java.security.cert.X509Certificate;
 
-public class InvalidCertificateException extends Exception {
+public class InvalidCertificateException extends IOException {
     private X509Certificate mCertificate;
 
     public InvalidCertificateException(X509Certificate certificate, Throwable innerException) {

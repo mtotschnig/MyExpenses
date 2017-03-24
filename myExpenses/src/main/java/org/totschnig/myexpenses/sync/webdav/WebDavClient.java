@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.util.AcraHelper;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.cert.CertPathValidatorException;
 import java.security.cert.X509Certificate;
@@ -236,12 +237,15 @@ public class WebDavClient {
     return mBaseUri.newBuilder().addPathSegment(folderName).addPathSegment(resourceName).build();
   }
 
-  public void testLogin() throws HttpException, UntrustedCertificateException, NotCompliantWebDavException {
+  public void testLogin() throws IOException {
     try {
-      DavResource baseResource = new DavResource(httpClient, mBaseUri);
+      LockableDavResource baseResource = new LockableDavResource(httpClient, mBaseUri);
       baseResource.options();
       if (!baseResource.capabilities.contains("2")) {
         throw new NotCompliantWebDavException(baseResource.capabilities.contains("1"));
+      }
+      if (!baseResource.exists()) {
+        throw new FileNotFoundException();
       }
     } catch (SSLHandshakeException e) {
       Throwable innerEx = e;
@@ -264,7 +268,7 @@ public class WebDavClient {
           throw new UntrustedCertificateException(cert);
         }
       }
-    } catch (IOException | at.bitfire.dav4android.exception.HttpException | DavException e) {
+    } catch (at.bitfire.dav4android.exception.HttpException | DavException e) {
       throw new HttpException(e);
     }
   }

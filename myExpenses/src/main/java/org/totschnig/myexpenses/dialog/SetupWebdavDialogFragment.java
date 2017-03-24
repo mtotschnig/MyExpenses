@@ -33,6 +33,7 @@ import org.totschnig.myexpenses.util.form.AbstractFormFieldValidator;
 import org.totschnig.myexpenses.util.form.FormFieldNotEmptyValidator;
 import org.totschnig.myexpenses.util.form.FormValidator;
 
+import java.io.FileNotFoundException;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.X509Certificate;
 
@@ -94,7 +95,7 @@ public class SetupWebdavDialogFragment extends CommitSafeDialogFragment {
     return alertDialog;
   }
 
-  public void onOkClick(View view) {
+  private void onOkClick(View view) {
     FormValidator validator = new FormValidator();
     validator.add(new FormFieldNotEmptyValidator(mEdtUrl));
     validator.add(new UrlValidator(mEdtUrl));
@@ -138,6 +139,8 @@ public class SetupWebdavDialogFragment extends CommitSafeDialogFragment {
         } else {
           mEdtUrl.setError(getString(R.string.validate_error_webdav_not_compliant));
         }
+      } else if (exception instanceof FileNotFoundException) {
+        mEdtUrl.setError(getString(R.string.validate_error_webdav_404));
       } else {
         //noinspection ThrowableResultOfMethodCallIgnored
         mEdtUrl.setError(getCause(exception).getMessage());

@@ -1,6 +1,8 @@
 package org.totschnig.myexpenses.sync.webdav;
 
-public class NotCompliantWebDavException extends Exception {
+import java.io.IOException;
+
+public class NotCompliantWebDavException extends IOException {
   public NotCompliantWebDavException(boolean fallbackToClass1) {
     this.fallbackToClass1 = fallbackToClass1;
   }
