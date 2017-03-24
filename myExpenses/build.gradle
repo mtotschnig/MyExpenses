@@ -42,16 +42,19 @@ android {
             //signingConfig signingConfigs.release
             manifestPlaceholders = [appName: "@string/app_name", debug: "false"]
             resValue "string", "content_authority", "org.totschnig.myexpenses"
+            resValue "string", "sync_account_type", "org.totschnig.myexpenses.sync"
         }
         beta {
             initWith release
             applicationIdSuffix ".beta"
             resValue "string", "content_authority", "org.totschnig.myexpenses.beta"
+            resValue "string", "sync_account_type", "org.totschnig.myexpenses.beta.sync"
         }
         debug {
             applicationIdSuffix ".debug"
             manifestPlaceholders = [appName: "My Expenses Debug", debug: "true"]
             resValue "string", "content_authority", "org.totschnig.myexpenses.debug"
+            resValue "string", "sync_account_type", "org.totschnig.myexpenses.debug.sync"
         }
         forTest {
             initWith release

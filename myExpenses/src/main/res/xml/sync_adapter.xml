@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:contentAuthority="@string/content_authority"
-    android:accountType="org.totschnig.myexpenses.sync"
+    android:accountType="@string/sync_account_type"
     android:allowParallelSyncs="false"
     android:isAlwaysSyncable="true"
     android:supportsUploading="true"
