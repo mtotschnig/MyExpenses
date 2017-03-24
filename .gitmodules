@@ -1,6 +1,0 @@
-[submodule "StickyListHeaders"]
-	path = StickyListHeaders
-	url = git://github.com/mtotschnig/StickyListHeaders.git
-[submodule "dav4android"]
-	path = dav4android
-	url = https://gitlab.com/bitfireAT/dav4android.git
