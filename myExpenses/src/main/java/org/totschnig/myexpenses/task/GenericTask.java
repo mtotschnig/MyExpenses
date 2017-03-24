@@ -568,13 +568,13 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         try {
           List<AccountMetaData> remoteAccountList = syncBackendProvider.getRemoteAccountList();
           if (remoteAccountList == null) {
-            return Result.FAILURE;
+            return new Result(false, "Unable to get account list from backend");
           }
           remoteUuidList = Stream.of(remoteAccountList)
                   .map(AccountMetaData::uuid)
                   .collect(Collectors.toList());
         } catch (IOException e) {
-          return Result.FAILURE;
+          return new Result(false, e.getMessage());
         }
         int requested = ids.length;
         c = cr.query(TransactionProvider.ACCOUNTS_URI,
@@ -587,7 +587,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
                 .toArray(size -> new String[size]),
             null);
         if (c == null) {
-          return Result.FAILURE;
+          return new Result(false, "Cursor is null");
         }
         int result = 0;
         if (c.moveToFirst()) {
