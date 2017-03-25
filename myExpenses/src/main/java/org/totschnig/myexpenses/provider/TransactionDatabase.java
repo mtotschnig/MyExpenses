@@ -91,7 +91,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_FROM_ADAPTER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TIMESTAMP;
@@ -114,6 +113,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_METHODS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INSTANCE_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_STALE_URIS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_SYNC_STATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_ALL;
@@ -243,9 +243,12 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_SORT_KEY + " integer, "
           + KEY_SYNC_ACCOUNT_NAME + " text, "
           + KEY_SYNC_SEQUENCE_LOCAL + " integer default 0,"
-          + KEY_SYNC_FROM_ADAPTER + " integer default 0,"
           + KEY_EXCLUDE_FROM_TOTALS + " boolean default 0, "
           + KEY_UUID + " text);";
+
+  private static final String SYNC_STATE_CREATE =
+      "CREATE TABLE " + TABLE_SYNC_STATE + " ("
+      + KEY_STATUS + " integer );";
 
   private static final String ACCOUNTS_UUID_INDEX_CREATE = "CREATE UNIQUE INDEX accounts_uuid ON "
       + TABLE_ACCOUNTS + "(" + KEY_UUID + ")";
@@ -433,7 +436,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
   private static final String SHOULD_WRITE_CHANGE_TEMPLATE = " EXISTS (SELECT 1 FROM " + TABLE_ACCOUNTS
       + " WHERE " + KEY_ROWID + " = %s." + KEY_ACCOUNTID + " AND " + KEY_SYNC_ACCOUNT_NAME + " IS NOT NULL AND "
-      + KEY_SYNC_SEQUENCE_LOCAL + " > 0 AND " + KEY_SYNC_FROM_ADAPTER + " = 0)";
+      + KEY_SYNC_SEQUENCE_LOCAL + " > 0) AND NOT EXISTS (SELECT 1 FROM " + TABLE_SYNC_STATE + ")";
 
   private static final String TRANSACTIONS_INSERT_TRIGGER_CREATE =
       "CREATE TRIGGER insert_change_log "
@@ -446,8 +449,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       "CREATE TRIGGER insert_after_update_change_log "
           + "AFTER UPDATE ON " + TABLE_TRANSACTIONS
           + " WHEN " + String.format(Locale.US, SHOULD_WRITE_CHANGE_TEMPLATE, "new")
-          + " AND (old." + KEY_STATUS + " = " + STATUS_UNCOMMITTED + " AND new." + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ")"
-          + " OR (old." + KEY_ACCOUNTID + " != new." + KEY_ACCOUNTID + " AND new." + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ")"
+          + " AND ((old." + KEY_STATUS + " = " + STATUS_UNCOMMITTED + " AND new." + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ")"
+          + " OR (old." + KEY_ACCOUNTID + " != new." + KEY_ACCOUNTID + " AND new." + KEY_STATUS + " != " + STATUS_UNCOMMITTED + "))"
           + INSERT_TRIGGER_ACTION;
 
   private static final String TRANSACTIONS_DELETE_AFTER_UPDATE_TRIGGER_CREATE =
@@ -601,6 +604,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL(CATEGORIES_CREATE);
     db.execSQL(ACCOUNTS_CREATE);
     db.execSQL(ACCOUNTS_UUID_INDEX_CREATE);
+    db.execSQL(SYNC_STATE_CREATE);
     db.execSQL("CREATE VIEW " + VIEW_EXTENDED + buildViewDefinitionExtended(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
     db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_EXTENDED + buildViewDefinitionExtended(TABLE_TEMPLATES));
     db.execSQL(ACCOUNTS_TRIGGER_CREATE);

@@ -2,7 +2,9 @@ package org.totschnig.myexpenses.sync;
 
 import android.content.Context;
 import android.net.Uri;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.annimon.stream.Optional;
@@ -10,6 +12,7 @@ import com.annimon.stream.Stream;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
@@ -39,11 +42,17 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   static final String ACCOUNT_METADATA_FILENAME = "metadata.json";
   private static final Pattern FILE_PATTERN = Pattern.compile("_\\d+");
   private Gson gson;
+  private Context context;
+  @Nullable
+  private String appInstance;
 
-  AbstractSyncBackendProvider() {
+  AbstractSyncBackendProvider(Context context) {
     gson = new GsonBuilder()
         .registerTypeAdapterFactory(AdapterFactory.create())
         .create();
+    if (BuildConfig.DEBUG) {
+      appInstance = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+    }
   }
 
   @Override
@@ -139,14 +148,19 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     long nextSequence = getLastSequence() + 1;
     List<TransactionChange> changeSetToWrite = new ArrayList<>();
     for (TransactionChange transactionChange : changeSet) {
+      TransactionChange mappedChange;
       if (transactionChange.pictureUri() != null) {
         String newUri = transactionChange.uuid() + "_" +
             Uri.parse(transactionChange.pictureUri()).getLastPathSegment();
         saveUriToAccountDir(newUri, Uri.parse(transactionChange.pictureUri()));
-        changeSetToWrite.add(transactionChange.toBuilder().setPictureUri(newUri).build());
+        mappedChange = transactionChange.toBuilder().setPictureUri(newUri).build();
       } else {
-        changeSetToWrite.add(transactionChange);
+        mappedChange = transactionChange;
       }
+      if (appInstance != null) {
+        mappedChange = mappedChange.toBuilder().setAppInstance(appInstance).build();
+      }
+      changeSetToWrite.add(mappedChange);
     }
     saveFileContents("_" + nextSequence + ".json", gson.toJson(changeSetToWrite), MIMETYPE_JSON);
     return nextSequence;

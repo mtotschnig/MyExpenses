@@ -38,10 +38,10 @@ public class SyncAdapterWriteToDbTest {
     TransactionChange change = TransactionChange.builder()
         .setType(TransactionChange.Type.created)
         .setUuid("any")
-        .setTimeStamp(System.currentTimeMillis())
+        .setCurrentTimeStamp()
         .setAmount(123L)
         .build();
-    syncAdapter.collectOperations(change, ops, -1);
+    syncAdapter.collectOperations(change, accountId, ops, -1);
     assertEquals(1, ops.size());
     assertTrue(ops.get(0).isInsert());
   }
@@ -51,10 +51,10 @@ public class SyncAdapterWriteToDbTest {
     TransactionChange change = TransactionChange.builder()
         .setType(TransactionChange.Type.updated)
         .setUuid("any")
-        .setTimeStamp(System.currentTimeMillis())
+        .setCurrentTimeStamp()
         .setAmount(123L)
         .build();
-    syncAdapter.collectOperations(change, ops, -1);
+    syncAdapter.collectOperations(change, accountId, ops, -1);
     assertEquals(1, ops.size());
     assertTrue(ops.get(0).isUpdate());
   }
@@ -64,9 +64,9 @@ public class SyncAdapterWriteToDbTest {
     TransactionChange change = TransactionChange.builder()
         .setType(TransactionChange.Type.deleted)
         .setUuid("any")
-        .setTimeStamp(System.currentTimeMillis())
+        .setCurrentTimeStamp()
         .build();
-    syncAdapter.collectOperations(change, ops, -1);
+    syncAdapter.collectOperations(change, accountId, ops, -1);
     assertEquals(1, ops.size());
     assertTrue(ops.get(0).isDelete());
   }

@@ -167,11 +167,6 @@ public class DatabaseConstants {
   public static final String KEY_SYNC_SEQUENCE_LOCAL = "sync_sequence_local";
   public static final String KEY_ACCOUNT_LABEL = "account_label";
   public static final String KEY_IS_SAME_CURRENCY = "is_same_currency";
-  /**
-   * This flag is set to true during changes written by sync adapter, and used to suspend triggers that
-   * write change log
-   */
-  public static final String KEY_SYNC_FROM_ADAPTER = "sync_from_adapter";
   public static final String KEY_TIMESTAMP = "timestamp";
 
   /**
@@ -201,6 +196,7 @@ public class DatabaseConstants {
 
   public static final String TABLE_TRANSACTIONS = "transactions";
   public static final String TABLE_ACCOUNTS = "accounts";
+  public static final String TABLE_SYNC_STATE = "_sync_state";
   public static final String TABLE_CATEGORIES = "categories";
   public static final String TABLE_METHODS = "paymentmethods";
   public static final String TABLE_ACCOUNTTYES_METHODS = "accounttype_paymentmethod";

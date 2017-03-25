@@ -20,7 +20,7 @@ class SyncAdapterBaseTest {
 
   @NonNull
   private TransactionChange.Builder buildWithTimestamp() {
-    return TransactionChange.builder().setTimeStamp(System.currentTimeMillis());
+    return TransactionChange.builder().setCurrentTimeStamp();
   }
 
   protected TransactionChange.Builder buildDeleted() {

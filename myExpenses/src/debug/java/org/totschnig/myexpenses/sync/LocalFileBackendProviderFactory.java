@@ -23,7 +23,7 @@ public class LocalFileBackendProviderFactory extends SyncBackendProviderFactory 
         hasPermission(Manifest.permission.READ_EXTERNAL_STORAGE))) {
       throw new IllegalStateException("LocalFileBackendProvider needs READ_EXTERNAL_STORAGE permission");
     }
-    return new LocalFileBackendProvider(accountManager.getUserData(account, GenericAccountService.KEY_SYNC_PROVIDER_URL));
+    return new LocalFileBackendProvider(context, accountManager.getUserData(account, GenericAccountService.KEY_SYNC_PROVIDER_URL));
   }
 
   @Override

@@ -28,6 +28,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.test.ProviderTestCase2;
 import android.text.TextUtils;
@@ -103,6 +104,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY_TYPE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME;
@@ -130,6 +132,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_METHODS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INSTANCE_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_STALE_URIS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_SYNC_STATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_SUM;
@@ -189,13 +192,13 @@ public class TransactionProvider extends ContentProvider {
       Uri.parse("content://" + AUTHORITY + "/accounttypes_methods");
   public static final Uri SQLITE_SEQUENCE_TRANSACTIONS_URI =
       Uri.parse("content://" + AUTHORITY + "/sqlite_sequence/" + TABLE_TRANSACTIONS);
-  public static final Uri PLAN_INSTANCE_STATUS_URI = 
+  public static final Uri PLAN_INSTANCE_STATUS_URI =
       Uri.parse("content://" + AUTHORITY + "/planinstance_transaction/");
   public static final Uri CURRENCIES_URI =
       Uri.parse("content://" + AUTHORITY + "/currencies");
   public static final Uri TRANSACTIONS_SUM_URI =
       Uri.parse("content://" + AUTHORITY + "/transactions/sumsForAccountsGroupedByType");
-  public static final Uri EVENT_CACHE_URI = 
+  public static final Uri EVENT_CACHE_URI =
       Uri.parse("content://" + AUTHORITY + "/eventcache");
   public static final Uri DEBUG_SCHEMA_URI =
       Uri.parse("content://" + AUTHORITY + "/debug_schema");
@@ -206,15 +209,16 @@ public class TransactionProvider extends ContentProvider {
   public static final Uri CHANGES_URI = Uri.parse("content://" + AUTHORITY + "/changes");
   /**
    * select info from DB without table, e.g. CategoryList#DATEINFO_CURSOR
+   * or set control flags like sync_state
    */
-  public static final Uri DUAL_URI = 
+  public static final Uri DUAL_URI =
       Uri.parse("content://" + AUTHORITY + "/dual");
   public static final String URI_SEGMENT_MOVE = "move";
   public static final String URI_SEGMENT_TOGGLE_CRSTATUS = "toggleCrStatus";
   public static final String URI_SEGMENT_UNDELETE = "undelete";
   public static final String URI_SEGMENT_INCREASE_USAGE = "increaseUsage";
   public static final String URI_SEGMENT_GROUPS = "groups";
-  public static final String URI_SEGMENT_CHANGE_FRACTION_DIGITS = "changeFractionDigits"; 
+  public static final String URI_SEGMENT_CHANGE_FRACTION_DIGITS = "changeFractionDigits";
   public static final String URI_SEGMENT_TYPE_FILTER = "typeFilter";
   public static final String URI_SEGMENT_LAST_EXCHANGE = "lastExchange";
   public static final String URI_SEGMENT_SWAP_SORT_KEY = "swapSortKey";
@@ -227,8 +231,10 @@ public class TransactionProvider extends ContentProvider {
   public static final String QUERY_PARAMETER_INIT = "init";
   public static final String QUERY_PARAMETER_CALLER_IS_SYNCADAPTER = "caller_is_syncadapter";
   public static final String QUERY_PARAMETER_MERGE_TRANSFERS = "mergeTransfers";
+  public static final String QUERY_PARAMETER_SYNC_BEGIN = "syncBegin";
+  public static final String QUERY_PARAMETER_SYNC_END = "syncEnd";
 
-  
+
   static final String TAG = "TransactionProvider";
 
   private static final UriMatcher URI_MATCHER;
@@ -272,7 +278,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int ACCOUNTS_SWAP_SORT_KEY = 40;
   private static final int MAPPED_TRANSFER_ACCOUNTS = 41;
   private static final int CHANGES = 42;
-  
+
 
   private boolean mDirty = false;
 
@@ -361,8 +367,8 @@ public class TransactionProvider extends ContentProvider {
       accountSelector = uri.getQueryParameter(KEY_ACCOUNTID);
       if (accountSelector == null) {
         accountSelector = uri.getQueryParameter(KEY_CURRENCY);
-        accountSelectionQuery = accountSelectionQueryOpeningBalance 
-            = KEY_CURRENCY + " = ? AND "+ KEY_EXCLUDE_FROM_TOTALS + " = 0"; 
+        accountSelectionQuery = accountSelectionQueryOpeningBalance
+            = KEY_CURRENCY + " = ? AND " + KEY_EXCLUDE_FROM_TOTALS + " = 0";
       } else {
         accountSelectionQuery = KEY_ACCOUNTID + " = ?";
         accountSelectionQueryOpeningBalance = KEY_ROWID + " = ?";
@@ -803,9 +809,11 @@ public class TransactionProvider extends ContentProvider {
   }
 
   @Override
-  public Uri insert(@NonNull Uri uri, ContentValues values) {
+  public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
     setDirty();
-    log(values.toString());
+    if (values != null) {
+      log(values.toString());
+    }
     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
     long id;
     String newUri;
@@ -871,6 +879,17 @@ public class TransactionProvider extends ContentProvider {
       id = db.insertOrThrow(TABLE_STALE_URIS, null, values);
       newUri = TABLE_STALE_URIS + "/" + id;
       break;
+    case DUAL: {
+      if ("1".equals(uri.getQueryParameter(QUERY_PARAMETER_SYNC_BEGIN))) {
+        values = new ContentValues(1);
+        values.put(KEY_STATUS, "1");
+        id = db.insertOrThrow(TABLE_SYNC_STATE, null, values);
+        newUri = TABLE_SYNC_STATE + "/" + id;
+      } else {
+        throw unknownUri(uri);
+      }
+      break;
+    }
     default:
       throw unknownUri(uri);
     }
@@ -883,7 +902,7 @@ public class TransactionProvider extends ContentProvider {
     } else if (uriMatch == ACCOUNTS) {
       notifyChange(ACCOUNTS_BASE_URI, false);
     }
-    return id >0 ? Uri.parse(newUri) : null;
+    return id > 0 ? Uri.parse(newUri) : null;
   }
 
   @Override
@@ -1018,8 +1037,16 @@ public class TransactionProvider extends ContentProvider {
       count = db.delete(TABLE_STALE_URIS, where, whereArgs);
       break;
     case CHANGES:
-        count = db.delete(TABLE_CHANGES, where, whereArgs);
-        break;
+      count = db.delete(TABLE_CHANGES, where, whereArgs);
+      break;
+    case DUAL: {
+      if ("1".equals(uri.getQueryParameter(QUERY_PARAMETER_SYNC_END))) {
+        count = db.delete(TABLE_SYNC_STATE, where, whereArgs);
+      } else {
+        throw unknownUri(uri);
+      }
+      break;
+    }
     default:
       throw unknownUri(uri);
     }
@@ -1051,7 +1078,7 @@ public class TransactionProvider extends ContentProvider {
       count = db.update(TABLE_TRANSACTIONS, values, where, whereArgs);
       break;
     case TRANSACTION_ID:
-      segment = uri.getPathSegments().get(1); 
+      segment = uri.getPathSegments().get(1);
       if (!TextUtils.isEmpty(where)) {
         whereString = " AND (" + where + ')';
       } else {
@@ -1071,7 +1098,7 @@ public class TransactionProvider extends ContentProvider {
       count = db.update(TABLE_ACCOUNTS, values, where, whereArgs);
       break;
     case ACCOUNT_ID:
-      segment = uri.getPathSegments().get(1); 
+      segment = uri.getPathSegments().get(1);
       if (!TextUtils.isEmpty(where)) {
         whereString = " AND (" + where + ')';
       } else {
@@ -1085,7 +1112,7 @@ public class TransactionProvider extends ContentProvider {
       count = db.update(TABLE_TEMPLATES, values, where, whereArgs);
       break;
     case TEMPLATE_ID:
-      segment = uri.getPathSegments().get(1); 
+      segment = uri.getPathSegments().get(1);
       if (!TextUtils.isEmpty(where)) {
         whereString = " AND (" + where + ')';
       } else {
@@ -1261,12 +1288,12 @@ public class TransactionProvider extends ContentProvider {
             db.execSQL("UPDATE " + TABLE_ACCOUNTS + " SET " + KEY_OPENING_BALANCE + "="
                 + KEY_OPENING_BALANCE+operation+factor+ " WHERE " + KEY_CURRENCY + "=?",
                 bindArgs);
-      
+
             db.execSQL("UPDATE " + TABLE_TRANSACTIONS + " SET " + KEY_AMOUNT + "="
                 + KEY_AMOUNT+operation+factor+ " WHERE " + KEY_ACCOUNTID
                 + " IN (SELECT " + DatabaseConstants.KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + "=?)",
                 bindArgs);
-      
+
             db.execSQL("UPDATE " + TABLE_TEMPLATES + " SET " + KEY_AMOUNT + "="
                 + KEY_AMOUNT+operation+factor+ " WHERE " + KEY_ACCOUNTID
                 + " IN (SELECT " + DatabaseConstants.KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + "=?)",

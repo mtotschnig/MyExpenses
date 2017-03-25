@@ -28,8 +28,8 @@ import dagger.internal.Preconditions;
 class LocalFileBackendProvider extends AbstractSyncBackendProvider {
   private File baseDir, accountDir;
 
-  LocalFileBackendProvider(String filePath) {
-    super();
+  LocalFileBackendProvider(Context context, String filePath) {
+    super(context);
     baseDir = new File(filePath);
     if (!baseDir.isDirectory()) {
       throw new RuntimeException("No directory " + filePath);

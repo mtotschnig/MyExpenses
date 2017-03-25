@@ -47,7 +47,8 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
    */
   private String accountUuid;
 
-  WebDavBackendProvider(android.accounts.Account account, AccountManager accountManager) throws SyncParseException {
+  WebDavBackendProvider(Context context, android.accounts.Account account, AccountManager accountManager) throws SyncParseException {
+    super(context);
     String url = accountManager.getUserData(account, GenericAccountService.KEY_SYNC_PROVIDER_URL);
     String userName = accountManager.getUserData(account, GenericAccountService.KEY_SYNC_PROVIDER_USERNAME);
     String password = accountManager.getPassword(account);

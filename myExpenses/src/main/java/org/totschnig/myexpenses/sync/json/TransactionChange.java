@@ -201,6 +201,10 @@ public abstract class TransactionChange {
       }
     }
 
+    public Builder setCurrentTimeStamp() {
+      return setTimeStamp(System.currentTimeMillis() / 1000);
+    }
+
     public abstract TransactionChange build();
   }
 }
