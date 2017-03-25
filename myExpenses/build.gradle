@@ -98,7 +98,7 @@ dependencies {
     compile 'com.gabrielittner.auto.value:auto-value-cursor-annotations:1.0.0'
     compile 'com.github.mtotschnig:StickyListHeaders:master-SNAPSHOT'
     compile 'com.pavelsikun:material-seekbar-preference:2.3.0'
-    compile 'com.gitlab.bitfireAT:dav4android:master-SNAPSHOT'
+    compile 'com.gitlab.mtotschn:dav4android:fbaa5b51'
     compile 'com.android.support:appcompat-v7:' + project.androidSupportLibraryVersion
     compile 'com.android.support:support-v4:' + project.androidSupportLibraryVersion
     compile 'com.android.support:recyclerview-v7:' + project.androidSupportLibraryVersion
