@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.v4.provider.DocumentFile;
 import android.text.TextUtils;
@@ -533,6 +534,13 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         Account account = Account.getInstanceFromDb(Account.findByUuid((String) ids[0]));
         String syncAccountName = (String) this.mExtra;
         account.setSyncAccountName(syncAccountName);
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+        bundle.putString(KEY_UUID, account.uuid);
+        bundle.putBoolean(SyncAdapter.KEY_RESET_REMOTE_ACCOUNT, true);
+        ContentResolver.requestSync(GenericAccountService.GetAccount(syncAccountName),
+                TransactionProvider.AUTHORITY, bundle);
         account.save();
         return Result.SUCCESS;
       }
