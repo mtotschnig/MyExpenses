@@ -14,7 +14,6 @@ import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 
 import com.commonsware.cwac.wakeful.WakefulIntentService;
 
@@ -54,18 +53,12 @@ public class GenericAlarmReceiver extends BroadcastReceiver {
           .toArray(size -> new String[size]);
       ContentValues values = new ContentValues(1);
       values.putNull(KEY_SYNC_ACCOUNT_NAME);
-      new AsyncTask<Void, Void, Void>() {
-        @Override
-        protected Void doInBackground(Void... params) {
-          String where = accounts.length > 0 ?
-              KEY_SYNC_ACCOUNT_NAME + " NOT " + WhereFilter.Operation.IN.getOp(accounts.length) :
-              null;
-          context.getContentResolver().update(TransactionProvider.ACCOUNTS_URI, values,
-              where, accounts);
-          return null;
-        }
-      }.execute();
-
+      //TODO active account objects are not updated when this code is run
+      String where = accounts.length > 0 ?
+          KEY_SYNC_ACCOUNT_NAME + " NOT " + WhereFilter.Operation.IN.getOp(accounts.length) :
+          null;
+      context.getContentResolver().update(TransactionProvider.ACCOUNTS_URI, values,
+          where, accounts);
     }
   }
 
