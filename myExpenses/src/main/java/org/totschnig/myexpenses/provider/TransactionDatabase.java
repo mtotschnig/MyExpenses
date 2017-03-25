@@ -125,8 +125,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 62;
-  public static final String DATABASE_NAME = "data";
+  public static final int DATABASE_VERSION = 63;
+  private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
   private static final String TAG = "TransactionDatabase";
@@ -1459,11 +1459,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       db.execSQL("ALTER TABLE accounts add column uuid text");
       db.execSQL("CREATE UNIQUE INDEX accounts_uuid ON accounts(uuid)");
       db.execSQL("CREATE TABLE changes ( account_id integer not null references accounts(_id) ON DELETE CASCADE,type text not null check (type in ('created','updated','deleted')), sync_sequence_local integer, uuid text, timestamp datetime DEFAULT (strftime('%s','now')), parent_uuid text, comment text, date datetime, amount integer, cat_id integer references categories(_id) ON DELETE SET NULL, payee_id integer references payee(_id) ON DELETE SET NULL, transfer_account integer references accounts(_id) ON DELETE SET NULL,method_id integer references paymentmethods(_id),cr_status text check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED','VOID')),number text, picture_id text)");
-      db.execSQL("CREATE TRIGGER insert_change_log AFTER INSERT ON transactions WHEN  EXISTS (SELECT 1 FROM accounts WHERE _id = new.account_id AND sync_account_name IS NOT NULL AND sync_sequence_local > 0 AND sync_from_adapter = 0) AND new.status != 2 BEGIN INSERT INTO changes(type,sync_sequence_local, uuid, parent_uuid, comment, date, amount, cat_id, account_id,payee_id, transfer_account, method_id,cr_status, number, picture_id) VALUES ('created', (SELECT sync_sequence_local FROM accounts WHERE _id = new.account_id), new.uuid, CASE WHEN new.parent_id IS NULL THEN NULL ELSE (SELECT uuid from transactions where _id = new.parent_id) END, new.comment, new.date, new.amount, new.cat_id, new.account_id, new.payee_id, new.transfer_account, new.method_id, new.cr_status, new.number, new.picture_id); END;");
-      db.execSQL("CREATE TRIGGER insert_after_update_change_log AFTER UPDATE ON transactions WHEN  EXISTS (SELECT 1 FROM accounts WHERE _id = new.account_id AND sync_account_name IS NOT NULL AND sync_sequence_local > 0 AND sync_from_adapter = 0) AND (old.status = 2 AND new.status != 2) OR (old.account_id != new.account_id AND new.status != 2) BEGIN INSERT INTO changes(type,sync_sequence_local, uuid, parent_uuid, comment, date, amount, cat_id, account_id,payee_id, transfer_account, method_id,cr_status, number, picture_id) VALUES ('created', (SELECT sync_sequence_local FROM accounts WHERE _id = new.account_id), new.uuid, CASE WHEN new.parent_id IS NULL THEN NULL ELSE (SELECT uuid from transactions where _id = new.parent_id) END, new.comment, new.date, new.amount, new.cat_id, new.account_id, new.payee_id, new.transfer_account, new.method_id, new.cr_status, new.number, new.picture_id); END;");
-      db.execSQL("CREATE TRIGGER delete_after_update_change_log AFTER UPDATE ON transactions WHEN  EXISTS (SELECT 1 FROM accounts WHERE _id = old.account_id AND sync_account_name IS NOT NULL AND sync_sequence_local > 0 AND sync_from_adapter = 0) AND old.account_id != new.account_id AND new.status != 2 BEGIN INSERT INTO changes(type,sync_sequence_local, account_id,uuid,parent_uuid) VALUES ('deleted', (SELECT sync_sequence_local FROM accounts WHERE _id = old.account_id), old.account_id, old.uuid, CASE WHEN old.parent_id IS NULL THEN NULL ELSE (SELECT uuid from transactions where _id = old.parent_id) END); END;");
-      db.execSQL("CREATE TRIGGER delete_change_log AFTER DELETE ON transactions WHEN  EXISTS (SELECT 1 FROM accounts WHERE _id = old.account_id AND sync_account_name IS NOT NULL AND sync_sequence_local > 0 AND sync_from_adapter = 0) AND old.status != 2 AND EXISTS (SELECT 1 FROM accounts WHERE _id = old.account_id) BEGIN INSERT INTO changes(type,sync_sequence_local, account_id,uuid,parent_uuid) VALUES ('deleted', (SELECT sync_sequence_local FROM accounts WHERE _id = old.account_id), old.account_id, old.uuid, CASE WHEN old.parent_id IS NULL THEN NULL ELSE (SELECT uuid from transactions where _id = old.parent_id) END); END;");
-      db.execSQL("CREATE TRIGGER update_change_log AFTER UPDATE ON transactions WHEN  EXISTS (SELECT 1 FROM accounts WHERE _id = old.account_id AND sync_account_name IS NOT NULL AND sync_sequence_local > 0 AND sync_from_adapter = 0) AND old.status != 2 AND new.status != 2 AND new.account_id = old.account_id AND new.transfer_peer IS old.transfer_peer BEGIN INSERT INTO changes(type,sync_sequence_local, uuid, account_id, parent_uuid, comment, date, amount, cat_id, payee_id, transfer_account, method_id, cr_status, number, picture_id) VALUES ('updated', (SELECT sync_sequence_local FROM accounts WHERE _id = old.account_id), new.uuid, new.account_id, CASE WHEN new.parent_id IS NULL THEN NULL ELSE (SELECT uuid from transactions where _id = new.parent_id) END, CASE WHEN old.comment = new.comment THEN NULL ELSE new.comment END, CASE WHEN old.date = new.date THEN NULL ELSE new.date END, CASE WHEN old.amount = new.amount THEN NULL ELSE new.amount END, CASE WHEN old.cat_id = new.cat_id THEN NULL ELSE new.cat_id END, CASE WHEN old.payee_id = new.payee_id THEN NULL ELSE new.payee_id END, CASE WHEN old.transfer_account = new.transfer_account THEN NULL ELSE new.transfer_account END, CASE WHEN old.method_id = new.method_id THEN NULL ELSE new.method_id END, CASE WHEN old.cr_status = new.cr_status THEN NULL ELSE new.cr_status END, CASE WHEN old.number = new.number THEN NULL ELSE new.number END, CASE WHEN old.picture_id = new.picture_id THEN NULL ELSE new.picture_id END); END;");
+      //createOrRefreshChangelogTriggers(db);
       db.execSQL("CREATE TRIGGER insert_increase_category_usage AFTER INSERT ON transactions WHEN new.cat_id IS NOT NULL AND new.cat_id != 0 BEGIN UPDATE categories SET usages = usages + 1, last_used = strftime('%s', 'now')  WHERE _id IN (new.cat_id , (SELECT parent_id FROM categories WHERE _id = new.cat_id)); END;");
       db.execSQL("CREATE TRIGGER update_increase_category_usage AFTER UPDATE ON transactions WHEN new.cat_id IS NOT NULL AND (old.cat_id IS NULL OR new.cat_id != old.cat_id) BEGIN UPDATE categories SET usages = usages + 1, last_used = strftime('%s', 'now')  WHERE _id IN (new.cat_id , (SELECT parent_id FROM categories WHERE _id = new.cat_id)); END;");
       db.execSQL("CREATE TRIGGER insert_increase_account_usage AFTER INSERT ON transactions WHEN new.parent_id IS NULL BEGIN UPDATE accounts SET usages = usages + 1, last_used = strftime('%s', 'now')  WHERE _id = new.account_id; END;");
@@ -1494,6 +1490,23 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     if (oldVersion < 62) {
       refreshViewsExtended(db);
     }
+    if (oldVersion < 63) {
+      db.execSQL("CREATE TABLE _sync_state (status integer)");
+      createOrRefreshChangelogTriggers(db);
+    }
+  }
+
+  private void createOrRefreshChangelogTriggers(SQLiteDatabase db) {
+    db.execSQL("DROP TRIGGER IF EXISTS insert_change_log");
+    db.execSQL("DROP TRIGGER IF EXISTS insert_after_update_change_log");
+    db.execSQL("DROP TRIGGER IF EXISTS delete_after_update_change_log");
+    db.execSQL("DROP TRIGGER IF EXISTS delete_change_log");
+    db.execSQL("DROP TRIGGER IF EXISTS update_change_log");
+    db.execSQL(TRANSACTIONS_INSERT_TRIGGER_CREATE);
+    db.execSQL(TRANSACTIONS_INSERT_AFTER_UPDATE_TRIGGER_CREATE);
+    db.execSQL(TRANSACTIONS_DELETE_AFTER_UPDATE_TRIGGER_CREATE);
+    db.execSQL(TRANSACTIONS_DELETE_TRIGGER_CREATE);
+    db.execSQL(TRANSACTIONS_UPDATE_TRIGGER_CREATE);
   }
 
   private void refreshViews1(SQLiteDatabase db) {
