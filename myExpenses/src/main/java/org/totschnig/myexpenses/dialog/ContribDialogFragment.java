@@ -24,7 +24,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RadioButton;
@@ -38,6 +37,8 @@ import org.totschnig.myexpenses.util.LicenceHandler;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.io.Serializable;
+
+import timber.log.Timber;
 
 public class ContribDialogFragment extends CommitSafeDialogFragment implements DialogInterface.OnClickListener, View.OnClickListener {
   private ContribFeature feature;
@@ -149,7 +150,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
       } else if (contribButton.isChecked()) {
         ctx.contribBuyDo(false);
       } else {
-        Log.w(MyApplication.TAG, "Neither premium nor extended button checked, should not happen");
+        Timber.w("Neither premium nor extended button checked, should not happen");
       }
     } else {
       //BUTTON_NEGATIV

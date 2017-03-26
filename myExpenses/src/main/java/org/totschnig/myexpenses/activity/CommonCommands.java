@@ -22,7 +22,6 @@ import android.net.Uri;
 import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
 import org.totschnig.myexpenses.BuildConfig;
@@ -35,6 +34,8 @@ import org.totschnig.myexpenses.util.LicenceHandler;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.io.Serializable;
+
+import timber.log.Timber;
 
 public class CommonCommands {
   private CommonCommands() {
@@ -155,7 +156,7 @@ public class CommonCommands {
       versionname = pi.versionName;
       //versiontime = ", " + R.string.installed + " " + sdf.format(new Date(pi.lastUpdateTime));
     } catch (Exception e) {
-      Log.e(MyApplication.TAG, "Package info not found", e);
+      Timber.e(e, "Package info not found");
     }
     String buildDate = BuildConfig.BUILD_DATE;
 
@@ -176,7 +177,7 @@ public class CommonCommands {
       PackageInfo pi = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0);
       version = pi.versionName;
     } catch (Exception e) {
-      Log.e("MyExpenses", "Package name not found", e);
+      Timber.e(e, "Package name not found");
     }
     return version;
   }
@@ -189,7 +190,7 @@ public class CommonCommands {
       PackageInfo pi = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0);
       version = pi.versionCode;
     } catch (Exception e) {
-      Log.e("MyExpenses", "Package name not found", e);
+      Timber.e(e, "Package name not found");
     }
     return version;
   }

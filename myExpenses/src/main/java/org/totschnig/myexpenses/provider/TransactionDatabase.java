@@ -31,7 +31,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 
 import com.android.calendar.CalendarContractCompat.Events;
 
@@ -56,6 +55,8 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Currency;
 import java.util.Locale;
+
+import timber.log.Timber;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL;
@@ -129,7 +130,6 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
-  private static final String TAG = "TransactionDatabase";
   /**
    * SQL statement for expenses TABLE
    * both transactions and transfers are stored in this table
@@ -690,8 +690,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   @Override
   public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     try {
-      Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
-          + newVersion + ".");
+      Timber.i("Upgrading database from version %d to %d", oldVersion, newVersion);
       if (oldVersion < 17) {
         db.execSQL("drop table accounts");
         db.execSQL("CREATE TABLE accounts (_id integer primary key autoincrement, label text not null, " +
@@ -757,7 +756,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           db.execSQL("INSERT INTO templates(comment,amount,cat_id,account_id,payee,transfer_peer,payment_method_id,title)" +
               " SELECT comment,amount,cat_id,account_id,payee,transfer_peer,payment_method_id,title FROM templates_old");
         } catch (SQLiteConstraintException e) {
-          Log.e(TAG, e.getLocalizedMessage());
+          Timber.e(e);
           //theoretically we could have entered duplicate titles for one account
           //we silently give up in that case (since this concerns only a narrowly distributed alpha version)
         }

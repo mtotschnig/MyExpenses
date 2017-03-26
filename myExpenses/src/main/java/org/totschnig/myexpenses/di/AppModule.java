@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.di;
 
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import org.acra.ReportingInteractionMode;
 import org.acra.config.ACRAConfiguration;
@@ -16,6 +15,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import timber.log.Timber;
 
 @Module
 public class AppModule {
@@ -45,7 +45,7 @@ public class AppModule {
           .setResDialogCommentPrompt(R.string.crash_dialog_comment_prompt)
           .build();
     } catch (ACRAConfigurationException e) {
-      Log.e("ACRA", "ACRA not initialized", e);
+      Timber.e(e, "ACRA not initialized");
       return null;
     }
   }

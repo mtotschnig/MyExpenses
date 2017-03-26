@@ -125,6 +125,8 @@ dependencies {
 
     compile 'org.apache.commons:commons-collections4:4.1'
 
+    compile 'com.jakewharton.timber:timber:4.5.1'
+
     androidTestCompile 'com.android.support.test.espresso:espresso-core:' + project.espressoVersion
     androidTestCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support:support-annotations:'  + project.androidSupportLibraryVersion

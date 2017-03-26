@@ -20,7 +20,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -53,6 +52,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+
+import timber.log.Timber;
 
 public class QifImportTask extends AsyncTask<Void, String, Void> {
   private final TaskExecutionFragment taskExecutionFragment;
@@ -125,8 +126,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
     try {
       parser.parse();
       long t1 = System.currentTimeMillis();
-      Log.i(MyApplication.TAG, "QIF Import: Parsing done in "
-          + TimeUnit.MILLISECONDS.toSeconds(t1 - t0) + "s");
+      Timber.i("QIF Import: Parsing done in %d s", TimeUnit.MILLISECONDS.toSeconds(t1 - t0));
       publishProgress(MyApplication.getInstance()
           .getString(
               R.string.qif_parse_result,
@@ -298,12 +298,10 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
     long t0 = System.currentTimeMillis();
     reduceTransfers(accounts);
     long t1 = System.currentTimeMillis();
-    Log.i(MyApplication.TAG, "QIF Import: Reducing transfers done in "
-        + TimeUnit.MILLISECONDS.toSeconds(t1 - t0) + "s");
+    Timber.i("QIF Import: Reducing transfers done in %d s", TimeUnit.MILLISECONDS.toSeconds(t1 - t0));
     convertUnknownTransfers(accounts);
     long t2 = System.currentTimeMillis();
-    Log.i(MyApplication.TAG, "QIF Import: Converting transfers done in "
-        + TimeUnit.MILLISECONDS.toSeconds(t2 - t1) + "s");
+    Timber.i("QIF Import: Converting transfers done in %d s", TimeUnit.MILLISECONDS.toSeconds(t2 - t1));
     int count = accounts.size();
     for (int i = 0; i < count; i++) {
       long t3 = System.currentTimeMillis();
@@ -320,9 +318,8 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
       // this might help GC
       account.transactions.clear();
       long t4 = System.currentTimeMillis();
-      Log.i(MyApplication.TAG,
-          "QIF Import: Inserting transactions for account " + i + "/" + count
-              + " done in " + TimeUnit.MILLISECONDS.toSeconds(t4 - t3) + "s");
+      Timber.i("QIF Import: Inserting transactions for account %d/%d done in %d s",
+          i, count, TimeUnit.MILLISECONDS.toSeconds(t4 - t3));
     }
   }
 

@@ -16,14 +16,12 @@
 
 package org.totschnig.myexpenses.widget;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE;
-
 import android.app.PendingIntent;
-import android.content.*;
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
-import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -37,6 +35,10 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
+
+import timber.log.Timber;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE;
 
 
 public class AccountWidget extends AbstractWidget<Account> {
@@ -67,7 +69,7 @@ public class AccountWidget extends AbstractWidget<Account> {
   @Override
   RemoteViews updateWidgetFrom(Context context,
                                int widgetId, int layoutId, Account a) {
-    Log.d("MyExpensesWidget", "updating account " + a.getId());
+    Timber.d("updating account %d", a.getId());
     RemoteViews updateViews = new RemoteViews(context.getPackageName(),
         layoutId);
     updateViews.setTextViewText(R.id.line1, a.label);
@@ -160,7 +162,7 @@ public class AccountWidget extends AbstractWidget<Account> {
 
   @Override
   public void onReceive(Context context, Intent intent) {
-    Log.d("AccountWidget", "onReceive intent " + intent);
+    Timber.d("onReceive intent " + intent);
     super.onReceive(context, intent);
   }
 }

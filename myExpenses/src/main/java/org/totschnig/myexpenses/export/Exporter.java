@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.export;
 
 import android.database.Cursor;
 import android.support.v4.provider.DocumentFile;
-import android.util.Log;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -28,6 +27,8 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import timber.log.Timber;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
@@ -87,7 +88,7 @@ public class Exporter {
   public Result export() throws IOException {
     MyApplication ctx = MyApplication.getInstance();
     DecimalFormat nfFormat = Utils.getDecimalFormat(account.currency, decimalSeparator);
-    Log.i("MyExpenses", "now starting export");
+    Timber.i("now starting export");
     //first we check if there are any exportable transactions
     String selection = KEY_ACCOUNTID + " = ? AND " + KEY_PARENTID + " is null";
     String[] selectionArgs = new String[]{String.valueOf(account.getId())};

@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.util;
 
-import android.util.Log;
 import android.util.SparseArray;
 
 import com.itextpdf.text.BaseColor;
@@ -17,6 +16,8 @@ import org.totschnig.myexpenses.BuildConfig;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import timber.log.Timber;
 
 public class LazyFontSelector {
   public enum FontType {
@@ -136,7 +137,7 @@ public class LazyFontSelector {
           }
         }
         if (!found && BuildConfig.DEBUG) {
-          Log.d("MyExpenses","Character " + c + " was not found in any fonts");
+          Timber.d("Character %c was not found in any fonts", c);
         }
       }
     }
@@ -146,7 +147,7 @@ public class LazyFontSelector {
   private BaseFont getBaseFont(int index) throws DocumentException, IOException {
     if (baseFonts.size()<index+1) {
       String file = files[index].getAbsolutePath();
-      Log.i("MyExpenses","now loading font file "+file);
+      Timber.i("now loading font file %s", file);
       BaseFont bf = BaseFont.createFont(file, BaseFont.IDENTITY_H,
           BaseFont.EMBEDDED);
       baseFonts.add(bf);

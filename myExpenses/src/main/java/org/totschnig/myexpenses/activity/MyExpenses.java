@@ -43,7 +43,6 @@ import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.text.ClipboardManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -656,7 +655,6 @@ public class MyExpenses extends LaunchActivity implements
         i = new Intent();
         i.setAction(Intent.ACTION_VIEW);
         Uri data = Uri.parse((String) tag);
-        Log.d("DEBUG", data.toString());
         i.setDataAndType(data, "application/pdf");
         if (!Utils.isIntentAvailable(this, i)) {
           Toast.makeText(this, R.string.no_app_handling_pdf_available, Toast.LENGTH_LONG).show();

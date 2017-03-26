@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.FileProvider;
-import android.util.Log;
 
 import com.android.calendar.CalendarContractCompat.Calendars;
 
@@ -36,6 +35,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
 import java.util.Map;
+
+import timber.log.Timber;
 
 public class RestoreTask extends AsyncTask<Void, Result, Result> {
   public static final String KEY_DIR_NAME_LEGACY = "dirNameLegacy";
@@ -239,8 +240,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
         } else if (val.getClass() == Boolean.class) {
           edit.putBoolean(key, backupPref.getBoolean(key, false));
         } else {
-          Log.i(MyApplication.TAG,
-              "Found: " + key + " of type " + val.getClass().getName());
+          Timber.i("Found: %s of type %s", key, val.getClass().getName());
         }
       }
       if (!oldLicenceKey.equals("")) {
@@ -273,7 +273,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
         cr.update(Template.CONTENT_URI,
             planValues, null, null);
       }
-      Log.i(MyApplication.TAG, "now emptying event cache");
+      Timber.i("now emptying event cache");
       cr.delete(
           TransactionProvider.EVENT_CACHE_URI, null, null);
 
@@ -304,7 +304,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
           if (backupImage.exists()) {
             File restoredImage = Utils.getOutputMediaFile(fileName.substring(0, fileName.lastIndexOf('.')), false);
             if (restoredImage == null || !FileCopyUtils.copy(backupImage, restoredImage)) {
-              Log.e(MyApplication.TAG, String.format("Could not restore file %s from backup", fromBackup.toString()));
+              Timber.e("Could not restore file %s from backup", fromBackup.toString());
             } else {
               restored = application.isProtected() ?
                   FileProvider.getUriForFile(application,
@@ -312,7 +312,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
                   Uri.fromFile(restoredImage);
             }
           } else {
-            Log.e(MyApplication.TAG, String.format("Could not restore file %s from backup", fromBackup.toString()));
+            Timber.e("Could not restore file %s from backup", fromBackup.toString());
           }
           if (restored != null) {
             uriValues.put(DatabaseConstants.KEY_PICTURE_URI, restored.toString());

@@ -11,23 +11,24 @@ import android.net.Uri;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.text.format.Time;
-import android.util.Log;
 
 import com.android.calendar.CalendarContractCompat.Events;
 import com.android.calendar.EventRecurrenceFormatter;
 import com.android.calendarcommon2.EventRecurrence;
 
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.Utils;
 
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+
+import timber.log.Timber;
 
 /**
  * @author Michael Totschnig
@@ -192,10 +193,8 @@ public class Plan extends Model implements Serializable {
           null,
           null);
     } else {
-      Log.w(MyApplication.TAG,
-          String.format(
-              "Attempt to delete event %d, which does not exist in calendar %s, has been blocked",
-              id,calendarId));
+      Timber.w("Attempt to delete event %d, which does not exist in calendar %s, has been blocked",
+              id, calendarId);
     }
     eventCursor.close();
   }

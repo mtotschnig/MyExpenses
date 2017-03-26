@@ -32,7 +32,6 @@ import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.test.ProviderTestCase2;
 import android.text.TextUtils;
-import android.util.Log;
 
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
@@ -61,6 +60,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Currency;
 import java.util.List;
+
+import timber.log.Timber;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.EXPENSE_SUM;
@@ -234,9 +235,6 @@ public class TransactionProvider extends ContentProvider {
   public static final String QUERY_PARAMETER_SYNC_BEGIN = "syncBegin";
   public static final String QUERY_PARAMETER_SYNC_END = "syncEnd";
 
-
-  static final String TAG = "TransactionProvider";
-
   private static final UriMatcher URI_MATCHER;
   //Basic tables
   private static final int TRANSACTIONS = 1;
@@ -308,7 +306,7 @@ public class TransactionProvider extends ContentProvider {
 
     Cursor c;
 
-    log("Query for URL: " + uri);
+    Timber.d("Query for URL: " + uri);
     String defaultOrderBy = null;
     String groupBy = null;
     String having = null;
@@ -469,8 +467,8 @@ public class TransactionProvider extends ContentProvider {
         //CAST(strftime('%Y',date) AS integer)
         //the accountId is used three times , once in the table subquery, twice in the KEY_INTERIM_BALANCE subquery
         //(first in the where clause, second in the subselect for the opening balance),
-        log("SelectionArgs before join : " + Arrays.toString(selectionArgs));
-        selectionArgs = Utils.joinArrays(
+      Timber.d("SelectionArgs before join : " + Arrays.toString(selectionArgs));
+      selectionArgs = Utils.joinArrays(
             accountArgs,
             selectionArgs);
         //selection is used in the inner table, needs to be set to null for outer query
@@ -572,7 +570,7 @@ public class TransactionProvider extends ContentProvider {
             sortOrder,
             null);
         c = db.rawQuery(sql, null);
-        log("Query : " + sql);
+        Timber.d("Query : " + sql);
 
         c.setNotificationUri(getContext().getContentResolver(), uri);
         return c;
@@ -784,8 +782,8 @@ public class TransactionProvider extends ContentProvider {
       @SuppressWarnings("deprecation")
       String qs = qb.buildQuery(projection, selection, null, groupBy,
           null, orderBy, limit);
-      log("Query : " + qs);
-      log("SelectionArgs : " + Arrays.toString(selectionArgs));
+      Timber.d("Query : " + qs);
+      Timber.d("SelectionArgs : " + Arrays.toString(selectionArgs));
     }
     //long startTime = System.nanoTime();
     c = qb.query(db, projection, selection, selectionArgs, groupBy, having, orderBy, limit);
@@ -812,7 +810,7 @@ public class TransactionProvider extends ContentProvider {
   public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
     setDirty();
     if (values != null) {
-      log(values.toString());
+      Timber.d(values.toString());
     }
     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
     long id;
@@ -908,7 +906,7 @@ public class TransactionProvider extends ContentProvider {
   @Override
   public int delete(@NonNull Uri uri, String where, String[] whereArgs) {
     setDirty();
-    log("Delete for URL: " + uri);
+    Timber.d("Delete for URL: " + uri);
     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
     int count;
     String whereString;
@@ -1403,7 +1401,7 @@ public class TransactionProvider extends ContentProvider {
   }
 
   private void notifyChange(Uri uri, boolean syncToNetwork) {
-    Log.d(TAG, "Notifying " + uri.toString() + " syncToNetwor " + syncToNetwork);
+    Timber.d("Notifying %s  syncToNetwork %s", uri.toString(), syncToNetwork ? "true" : "false");
     getContext().getContentResolver().notifyChange(uri, null, syncToNetwork);
   }
 
@@ -1494,12 +1492,6 @@ public class TransactionProvider extends ContentProvider {
       return mOpenHelper;
   }
 
-  private void log(String message) {
-    if (BuildConfig.DEBUG) {
-      Log.d(TAG,message);
-    }
-  }
-
   public Result backup(File backupDir) {
     File currentDb = new File(mOpenHelper.getReadableDatabase().getPath());
     mOpenHelper.close();
@@ -1515,7 +1507,7 @@ public class TransactionProvider extends ContentProvider {
         sharedPrefFile = new File("/dbdata/databases/" + application.getPackageName() + sharedPrefPath);
         if (!sharedPrefFile.exists()) {
           sharedPrefFile = new File(getInternalAppDir().getPath() + sharedPrefPath);
-          Log.d("DbUtils",sharedPrefFile.getPath());
+          Timber.d(sharedPrefFile.getPath());
           if (!sharedPrefFile.exists()) {
             final String message = "Unable to find shared preference file at " +
                 sharedPrefFile.getPath();

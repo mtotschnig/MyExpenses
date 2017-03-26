@@ -22,15 +22,15 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.util.AcraHelper;
 
 import java.util.HashMap;
+
+import timber.log.Timber;
 
 /**
  * This Fragment manages a single background task and retains
@@ -142,7 +142,7 @@ public class DbWriteFragment extends Fragment {
     protected Object doInBackground(Model... object) {
       long error = ERROR_UNKNOWN;
       if (object[0] == null) {
-        Log.w(MyApplication.TAG, "DbWriteFragment called from an activity that did not provide an object");
+        Timber.e("DbWriteFragment called from an activity that did not provide an object");
         return null;
       }
       Uri uri = null;

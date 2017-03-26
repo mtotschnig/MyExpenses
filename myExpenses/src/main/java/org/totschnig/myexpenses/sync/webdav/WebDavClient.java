@@ -17,7 +17,6 @@ package org.totschnig.myexpenses.sync.webdav;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.xmlpull.v1.XmlPullParser;
@@ -46,6 +45,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import timber.log.Timber;
 
 public class WebDavClient {
   private static final String TAG = "WebDavClient";
@@ -261,7 +261,7 @@ public class WebDavClient {
               .getCertificates()
               .get(0);
         } catch (Exception e2) {
-          Log.e(TAG, "Error extracting certificate..", e2);
+          Timber.e(e2, "Error extracting certificate..");
         }
 
         if (cert != null) {

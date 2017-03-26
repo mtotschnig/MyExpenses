@@ -25,7 +25,6 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.RemoteException;
-import android.util.Log;
 
 import com.android.calendar.CalendarContractCompat;
 
@@ -47,6 +46,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import hirondelle.date4j.DateTime;
+import timber.log.Timber;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.FULL_LABEL;
@@ -604,7 +604,7 @@ public class Transaction extends Model {
         throwExternalNotAvailable();
       }
       if (pictureUri.toString().startsWith(pictureUriBase)) {
-        Log.d("DEBUG", "got Uri in our home space, nothing todo");
+        Timber.d("got Uri in our home space, nothing todo");
       } else {
         pictureUriBase = Utils.getPictureUriBase(true);
         if (pictureUriBase == null) {

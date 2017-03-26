@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
@@ -34,9 +33,9 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import dagger.internal.Preconditions;
+import timber.log.Timber;
 
 abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
-  private static final String TAG = "AbstractSyncBackendP";
   static final String BACKUP_FOLDER_NAME = "BACKUPS";
   static final String MIMETYPE_JSON = "application/json";
   static final String ACCOUNT_METADATA_FILENAME = "metadata.json";
@@ -74,7 +73,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     List<TransactionChange> changeSetRead = new ArrayList<>();
     for (TransactionChange transactionChange : changes) {
       if (transactionChange.isEmpty()) {
-        Log.w(TAG,"found empty transaction change in changes table");
+        Timber.w("found empty transaction change in changes table");
         continue;
       }
       if (transactionChange.pictureUri() != null) {

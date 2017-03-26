@@ -11,9 +11,7 @@ package org.totschnig.myexpenses.export.qif;
 
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 
-import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Money;
 
 import java.math.BigDecimal;
@@ -24,7 +22,11 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.regex.Pattern;
 
-import static org.totschnig.myexpenses.export.qif.QifDateFormat.*;
+import timber.log.Timber;
+
+import static org.totschnig.myexpenses.export.qif.QifDateFormat.EU;
+import static org.totschnig.myexpenses.export.qif.QifDateFormat.US;
+import static org.totschnig.myexpenses.export.qif.QifDateFormat.YMD;
 
 /**
  * Created by IntelliJ IDEA.
@@ -75,7 +77,7 @@ public class QifUtils {
                 year = Integer.parseInt(chunks[2].trim());
             } catch (Exception e) {
                 //eat it
-                Log.e("QifUtils", "Unable to parse US date", e);
+                Timber.e(e, "Unable to parse US date");
             }
         } else if (format == EU) {
             try {
@@ -83,7 +85,7 @@ public class QifUtils {
                 month = Integer.parseInt(chunks[1].trim());
                 year = Integer.parseInt(chunks[2].trim());
             } catch (Exception e) {
-                Log.e("QifUtils", "Unable to parse EU date", e);
+                Timber.e(e, "Unable to parse EU date");
             }
         } else if (format == YMD) {
           try {
@@ -91,10 +93,10 @@ public class QifUtils {
             month = Integer.parseInt(chunks[1].trim());
             day = Integer.parseInt(chunks[2].trim());
           } catch (Exception e) {
-              Log.e("QifUtils", "Unable to parse YMD date", e);
+              Timber.e(e, "Unable to parse YMD date");
           }
         }  else {
-            Log.e("QifUtils", "Invalid date format specified");
+            Timber.e("Invalid date format specified");
             return new Date();
         }
 
@@ -164,7 +166,7 @@ public class QifUtils {
                     } catch (ParseException ignored) {
                         result = new BigDecimal(0);
                     }
-                    Log.e("QifUtils", "Could not parse money " + sMoney);
+                    Timber.e("Could not parse money %s", sMoney);
                 }
             } else {
                 result = new BigDecimal(0);

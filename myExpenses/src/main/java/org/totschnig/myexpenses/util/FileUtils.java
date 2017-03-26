@@ -30,7 +30,6 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.webkit.MimeTypeMap;
 
 import org.totschnig.myexpenses.BuildConfig;
@@ -39,6 +38,8 @@ import org.totschnig.myexpenses.dialog.DialogUtils;
 
 import java.io.File;
 import java.text.DecimalFormat;
+
+import timber.log.Timber;
 
 /**
  * @author Peli
@@ -49,10 +50,6 @@ public class FileUtils {
   private FileUtils() {
   } //private constructor to enforce Singleton pattern
 
-  /**
-   * TAG for log messages.
-   */
-  static final String TAG = "FileUtils";
   private static final boolean DEBUG = BuildConfig.DEBUG; // Set to true to enable logging
 
   public static final String MIME_TYPE_AUDIO = "audio/*";
@@ -251,17 +248,14 @@ public class FileUtils {
    */
   @TargetApi(Build.VERSION_CODES.KITKAT)
   public static String getPath(final Context context, final Uri uri) {
-
-    if (DEBUG)
-      Log.d(TAG + " File -",
+     Timber.d(" File -",
           "Authority: " + uri.getAuthority() +
               ", Fragment: " + uri.getFragment() +
               ", Port: " + uri.getPort() +
               ", Query: " + uri.getQuery() +
               ", Scheme: " + uri.getScheme() +
               ", Host: " + uri.getHost() +
-              ", Segments: " + uri.getPathSegments().toString()
-      );
+              ", Segments: " + uri.getPathSegments().toString());
 
     // DocumentProvider
     if (isDocumentUri(context, uri)) {
@@ -448,11 +442,10 @@ public class FileUtils {
    * @author paulburke
    */
   public static Bitmap getThumbnail(Context context, Uri uri, String mimeType) {
-    if (DEBUG)
-      Log.d(TAG, "Attempting to get thumbnail");
+      Timber.d("Attempting to get thumbnail");
 
     if (!isMediaUri(uri)) {
-      Log.e(TAG, "You can only retrieve thumbnails for images and videos.");
+      Timber.e("You can only retrieve thumbnails for images and videos.");
       return null;
     }
 
@@ -464,8 +457,7 @@ public class FileUtils {
         cursor = resolver.query(uri, null, null, null, null);
         if (cursor.moveToFirst()) {
           final int id = cursor.getInt(0);
-          if (DEBUG)
-            Log.d(TAG, "Got thumb ID: " + id);
+          Timber.d("Got thumb ID: " + id);
 
           if (mimeType.contains("video")) {
             bm = MediaStore.Video.Thumbnails.getThumbnail(
@@ -482,8 +474,7 @@ public class FileUtils {
           }
         }
       } catch (Exception e) {
-        if (DEBUG)
-          Log.e(TAG, "getThumbnail", e);
+        Timber.e(e, "getThumbnail");
       } finally {
         if (cursor != null)
           cursor.close();

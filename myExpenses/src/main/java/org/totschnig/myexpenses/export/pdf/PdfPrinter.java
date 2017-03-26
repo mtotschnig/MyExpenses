@@ -4,7 +4,6 @@ package org.totschnig.myexpenses.export.pdf;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.provider.DocumentFile;
-import android.util.Log;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -39,6 +38,8 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import timber.log.Timber;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL;
@@ -82,9 +83,9 @@ public class PdfPrinter {
 
   public Result print() throws IOException, DocumentException {
     long start = System.currentTimeMillis();
-    Log.d("MyExpenses", "Print start " + start);
+    Timber.d("Print start %d", start);
     PdfHelper helper = new PdfHelper();
-    Log.d("MyExpenses", "Helper created " + (System.currentTimeMillis() - start));
+    Timber.d("Helper created %d", (System.currentTimeMillis() - start));
     String selection;
     String[] selectionArgs;
     if (account.getId() < 0) {
@@ -125,15 +126,15 @@ public class PdfPrinter {
           FileUtils.getPath(MyApplication.getInstance(), destDir.getUri()));
     }
     PdfWriter.getInstance(document, Model.cr().openOutputStream(outputFile.getUri()));
-    Log.d("MyExpenses", "All setup " + (System.currentTimeMillis() - start));
+    Timber.d("All setup %d", (System.currentTimeMillis() - start));
     document.open();
-    Log.d("MyExpenses", "Document open " + (System.currentTimeMillis() - start));
+    Timber.d("Document open %d", (System.currentTimeMillis() - start));
     addMetaData(document);
-    Log.d("MyExpenses", "Metadata " + (System.currentTimeMillis() - start));
+    Timber.d("Metadata %d", (System.currentTimeMillis() - start));
     addHeader(document, helper);
-    Log.d("MyExpenses", "Header " + (System.currentTimeMillis() - start));
+    Timber.d("Header %d", (System.currentTimeMillis() - start));
     addTransactionList(document, transactionCursor, helper, filter);
-    Log.d("MyExpenses", "List " + (System.currentTimeMillis() - start));
+    Timber.d("List %d", (System.currentTimeMillis() - start));
     transactionCursor.close();
     document.close();
     return new Result(true, R.string.export_sdcard_success, outputFile.getUri());

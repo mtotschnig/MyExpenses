@@ -21,10 +21,8 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
 import org.apache.commons.csv.CSVRecord;
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.fragment.CsvImportDataFragment;
 import org.totschnig.myexpenses.model.AccountType;
@@ -34,6 +32,8 @@ import org.totschnig.myexpenses.util.Utils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import timber.log.Timber;
 
 /**
  * This Fragment manages a single background task and retains itself across
@@ -256,8 +256,9 @@ public class TaskExecutionFragment<T> extends Fragment {
     // Create and execute the background task.
     Bundle args = getArguments();
     int taskId = args.getInt(KEY_TASKID);
-    Log.i(MyApplication.TAG, "TaskExecutionFragment created for task " + taskId +
-        " with objects: " + Utils.printDebug((Object[]) args.getSerializable(KEY_OBJECT_IDS)));
+    //TODO Acra breadcrumbs
+    Timber.i("TaskExecutionFragment created for task %d with objects %s",
+        taskId, Utils.printDebug((Object[]) args.getSerializable(KEY_OBJECT_IDS)));
     try {
       switch (taskId) {
         case TASK_GRISBI_IMPORT:

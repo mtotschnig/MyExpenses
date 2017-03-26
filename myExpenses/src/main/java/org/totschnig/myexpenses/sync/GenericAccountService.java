@@ -28,7 +28,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.annimon.stream.Stream;
 
@@ -39,8 +38,9 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.AcraHelper;
 
+import timber.log.Timber;
+
 public class GenericAccountService extends Service {
-  private static final String TAG = GenericAccountService.class.getSimpleName();
   public static final String ACCOUNT_TYPE = BuildConfig.APPLICATION_ID + ".sync";
   public static final String KEY_SYNC_PROVIDER_LABEL = "sync_provider_label";
   public static final String KEY_SYNC_PROVIDER_URL = "sync_provider_url";
@@ -68,13 +68,13 @@ public class GenericAccountService extends Service {
 
   @Override
   public void onCreate() {
-    Log.i(TAG, "Service created");
+    Timber.i("Service created");
     mAuthenticator = new Authenticator(this);
   }
 
   @Override
   public void onDestroy() {
-    Log.i(TAG, "Service destroyed");
+    Timber.i("Service destroyed");
   }
 
   @Override

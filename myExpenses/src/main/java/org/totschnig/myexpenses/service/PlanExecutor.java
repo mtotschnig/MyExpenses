@@ -13,7 +13,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 
 import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Events;
@@ -33,6 +32,8 @@ import org.totschnig.myexpenses.util.NotificationBuilderWrapper;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.util.Date;
+
+import timber.log.Timber;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
@@ -69,20 +70,17 @@ public class PlanExecutor extends IntentService {
       return;
     }
     if (plannerCalendarId.equals("-1")) {
-      Log.i(MyApplication.TAG, "PlanExecutor: no planner set, nothing to do");
+      Timber.i("PlanExecutor: no planner set, nothing to do");
       return;
     }
     //we use an overlapping window of 5 minutes to prevent plans that are just created by the user while
     //we are running from falling through
     long instancesFrom = PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP.getLong(now - H24) - M5;
     if (now < instancesFrom) {
-      Log.i(MyApplication.TAG, "Broken system time? Cannot execute plans.");
+      Timber.i("Broken system time? Cannot execute plans.");
       return;
     }
-    Log.i(MyApplication.TAG, String.format(
-        "executing plans from %d to %d",
-        instancesFrom,
-        now));
+    Timber.i("executing plans from %d to %d", instancesFrom, now);
 
     Uri.Builder eventsUriBuilder = CalendarProviderProxy.INSTANCES_URI.buildUpon();
     ContentUris.appendId(eventsUriBuilder, instancesFrom);
@@ -110,11 +108,11 @@ public class PlanExecutor extends IntentService {
           long date = cursor.getLong(cursor.getColumnIndex(CalendarContractCompat.Instances.BEGIN));
           //2) check if they are part of a plan linked to a template
           //3) execute the template
-          Log.i(MyApplication.TAG, String.format("found instance %d of plan %d", instanceId, planId));
+          Timber.i("found instance %d of plan %d", instanceId, planId);
           //TODO if we have multiple Event instances for one plan, we should maybe cache the template objects
           Template template = Template.getInstanceForPlanIfInstanceIsOpen(planId, instanceId);
           if (template != null) {
-            Log.i(MyApplication.TAG, String.format("belongs to template %d", template.getId()));
+            Timber.i("belongs to template %d", template.getId());
             Notification notification;
             int notificationId = instanceId.hashCode();
             PendingIntent resultIntent;
@@ -190,7 +188,7 @@ public class PlanExecutor extends IntentService {
             }
             notificationManager.notify(notificationId, notification);
           } else {
-            Log.i(MyApplication.TAG, "Template.getInstanceForPlanIfInstanceIsOpen returned null, instance might already have been dealt with");
+            Timber.i("Template.getInstanceForPlanIfInstanceIsOpen returned null, instance might already have been dealt with");
           }
           cursor.moveToNext();
         }

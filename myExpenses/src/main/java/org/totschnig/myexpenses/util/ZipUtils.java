@@ -4,7 +4,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.provider.DocumentFile;
-import android.util.Log;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -16,10 +15,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
+
+import timber.log.Timber;
 
 
 public class ZipUtils {
@@ -176,7 +176,7 @@ public class ZipUtils {
       ZipInputStream zin = new ZipInputStream(fileIn);
       ZipEntry ze;
       while ((ze = zin.getNextEntry()) != null) {
-        Log.v("Decompress", "Unzipping " + ze.getName());
+        Timber.v("Unzipping " + ze.getName());
         File newFile = new File(dirOut,ze.getName());
         newFile.getParentFile().mkdirs();
         if(ze.isDirectory()) {
@@ -195,7 +195,7 @@ public class ZipUtils {
           }
           long endTime = System.currentTimeMillis();
 
-          Log.d("DEBUG","That took " + (endTime - startTime) + " milliseconds");
+          Timber.d("That took %d milliseconds", (endTime - startTime));
           zin.closeEntry();
           fout.close();
         }
@@ -203,7 +203,7 @@ public class ZipUtils {
       zin.close();
       return true;
     } catch(Exception e) {
-      Log.e("Decompress", "unzip", e);
+      Timber.e(e);
       return false;
     }
   }

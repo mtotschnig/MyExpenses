@@ -1,7 +1,5 @@
 package org.totschnig.myexpenses.util;
 
-import android.util.Log;
-
 import org.acra.ACRA;
 import org.acra.ErrorReporter;
 import org.totschnig.myexpenses.BuildConfig;
@@ -9,6 +7,8 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.provider.DbUtils;
 
 import java.util.Map;
+
+import timber.log.Timber;
 
 public class AcraHelper {
   private static final boolean DO_REPORT = Utils.IS_FLAVOURED && !BuildConfig.DEBUG
@@ -18,7 +18,7 @@ public class AcraHelper {
     if (DO_REPORT) {
       report(e, DbUtils.getSchemaDetails());
     } else {
-      Log.e(MyApplication.TAG, "Report", e);
+      Timber.e(e, "Report");
     }
   }
 
@@ -29,7 +29,7 @@ public class AcraHelper {
       errorReporter.handleSilentException(e);
       errorReporter.removeCustomData(key);
     } else {
-      Log.e(MyApplication.TAG, key + ": " + data);
+      Timber.e("%s: %s", key, data);
       report(e);
     }
   }
@@ -46,9 +46,9 @@ public class AcraHelper {
       }
     } else {
       for (Map.Entry<String, String> entry : customData.entrySet()) {
-        Log.e(MyApplication.TAG, entry.getKey() + ": " + entry.getValue());
+        Timber.e("%s: %s", entry.getKey(), entry.getValue());
       }
-      Log.e(MyApplication.TAG, "Report", e);
+      Timber.e(e);
     }
   }
 
@@ -56,7 +56,7 @@ public class AcraHelper {
     if (DO_REPORT) {
       ACRA.getErrorReporter().handleSilentException(e);
     } else {
-      Log.e(MyApplication.TAG, "Report", e);
+      Timber.e(e);
     }
   }
 

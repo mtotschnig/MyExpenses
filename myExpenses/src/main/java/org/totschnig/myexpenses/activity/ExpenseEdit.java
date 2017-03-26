@@ -48,7 +48,6 @@ import android.text.Editable;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -127,6 +126,8 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
+
+import timber.log.Timber;
 
 import static org.totschnig.myexpenses.activity.MyExpenses.KEY_SEQUENCE_COUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
@@ -1257,12 +1258,12 @@ public class ExpenseEdit extends AmountActivity implements
       String errorMsg;
       if (intent == null) {
         uri = mPictureUriTemp;
-        Log.d(MyApplication.TAG, "got result for PICTURE request, intent null, relying on stored output uri :" + mPictureUriTemp);
+        Timber.d("got result for PICTURE request, intent null, relying on stored output uri %s", mPictureUriTemp);
       } else if (intent.getData() != null) {
         uri = intent.getData();
-        Log.d(MyApplication.TAG, "got result for PICTURE request, found uri in intent data :" + uri.toString());
+        Timber.d("got result for PICTURE request, found uri in intent data %s", uri.toString());
       } else {
-        Log.d(MyApplication.TAG, "got result for PICTURE request, intent != null, getData() null, relying on stored output uri :" + mPictureUriTemp);
+        Timber.d("got result for PICTURE request, intent != null, getData() null, relying on stored output uri %s", mPictureUriTemp);
         uri = mPictureUriTemp;
       }
       if (uri != null) {
@@ -2162,7 +2163,7 @@ public class ExpenseEdit extends AmountActivity implements
       chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS,
           new Intent[]{camIntent});
     }
-    Log.d(MyApplication.TAG, "starting chooser for PICTURE_REQUEST with EXTRA_OUTPUT = " + outputMediaUri);
+    Timber.d("starting chooser for PICTURE_REQUEST with EXTRA_OUTPUT %s ", outputMediaUri);
     startActivityForResult(chooserIntent, ProtectedFragmentActivity.PICTURE_REQUEST_CODE);
   }
 

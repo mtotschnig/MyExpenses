@@ -16,18 +16,17 @@
 
 package org.totschnig.myexpenses.ui;
 
-import java.lang.reflect.Field;
-
-import org.totschnig.myexpenses.MyApplication;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ResourceCursorTreeAdapter;
 import android.widget.TextView;
+
+import java.lang.reflect.Field;
+
+import timber.log.Timber;
 
 /**
  * An easy adapter to map columns from a cursor to TextViews or ImageViews
@@ -199,7 +198,7 @@ public abstract class SimpleCursorTreeAdapter extends ResourceCursorTreeAdapter 
           field.setAccessible(true);
           field.set(this, false);
         } catch (Exception e) {
-          Log.e(MyApplication.TAG, e.getMessage());
+          Timber.e(e);
         }
     }
     

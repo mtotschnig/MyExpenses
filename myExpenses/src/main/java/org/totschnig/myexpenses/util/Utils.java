@@ -53,7 +53,6 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.IconMarginSpan;
-import android.util.Log;
 import android.util.SparseIntArray;
 import android.util.Xml;
 import android.view.ContextThemeWrapper;
@@ -110,6 +109,8 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+
+import timber.log.Timber;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED;
@@ -423,7 +424,7 @@ public class Utils {
     try {
       c = Currency.getInstance(strCurrency);
     } catch (IllegalArgumentException e) {
-      Log.e("MyExpenses", strCurrency + " is not defined in ISO 4217");
+      Timber.e("%s is not defined in ISO 4217", strCurrency);
       c = Currency.getInstance(Locale.getDefault());
     }
     return getSaveInstance(c);
@@ -999,7 +1000,7 @@ public class Utils {
       count++;
       main_id = Category.find(label, null);
       if (main_id != -1) {
-        Log.i("MyExpenses", "category with label" + label + " already defined");
+        Timber.i("category with label %s already defined", label);
       } else {
         main_id = Category.write(0L, label, null);
         if (main_id != -1) {
@@ -1009,8 +1010,7 @@ public class Utils {
           }
         } else {
           // this should not happen
-          Log.w("MyExpenses", "could neither retrieve nor store main category "
-              + label);
+          Timber.w("could neither retrieve nor store main category %s", label);
           continue;
         }
       }
@@ -1022,7 +1022,7 @@ public class Utils {
         if (sub_id != -1) {
           total++;
         } else {
-          Log.i("MyExpenses", "could not store sub category " + label);
+          Timber.i("could not store sub category %s", label);
         }
         if (task != null && count % 10 == 0) {
           task.publishProgress(count);

@@ -40,7 +40,6 @@ import android.os.RemoteException;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.util.Pair;
-import android.util.Log;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Exceptional;
@@ -73,6 +72,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import timber.log.Timber;
+
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
@@ -89,7 +90,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUE
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
-  private static final String TAG = "SyncAdapter";
   public static final int BATCH_SIZE = 100;
 
   public static String KEY_LAST_SYNCED_REMOTE(long accountId) {
@@ -134,7 +134,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     methodToId = new HashMap<>();
     accountUuidToId = new HashMap<>();
     String uuidFromExtras = extras.getString(KEY_UUID);
-    Log.i(TAG, "onPerformSync " + extras.toString());
+    Timber.i("onPerformSync " + extras.toString());
 
     AccountManager accountManager = AccountManager.get(getContext());
 
@@ -244,17 +244,17 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
           long lastSyncedRemote = Long.parseLong(getUserDataWithDefault(accountManager, account,
               lastRemoteSyncKey, "0"));
           dbAccount.set(org.totschnig.myexpenses.model.Account.getInstanceFromDb(accountId));
-          Log.i(TAG, "now syncing " + dbAccount.get().label);
+          Timber.i("now syncing " + dbAccount.get().label);
           if (uuidFromExtras != null && extras.getBoolean(KEY_RESET_REMOTE_ACCOUNT)) {
             if (!backend.resetAccountData(uuidFromExtras)) {
               syncResult.stats.numIoExceptions++;
-              Log.e(TAG, "error resetting account data");
+              Timber.e("error resetting account data");
             }
             continue;
           }
           if (!backend.withAccount(dbAccount.get())) {
             syncResult.stats.numIoExceptions++;
-            Log.e(TAG, "error withAccount");
+            Timber.e("error withAccount");
             continue;
           }
 
@@ -264,7 +264,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
               if (changeSetSince.isFailed()) {
                 syncResult.stats.numIoExceptions++;
-                Log.e(TAG, "error getting changeset");
+                Timber.e("error getting changeset");
                 continue;
               }
 
@@ -324,15 +324,15 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 }
               }
             } catch (IOException e) {
-              Log.e(TAG, "Error while syncing ", e);
+              Timber.e(e, "Error while syncing ");
               syncResult.stats.numIoExceptions++;
             } catch (RemoteException | OperationApplicationException | SQLiteException e) {
-              Log.e(TAG, "Error while syncing ", e);
+              Timber.e(e, "Error while syncing ");
               syncResult.databaseError = true;
               AcraHelper.report(e);
             } finally {
               if (!backend.unlock()) {
-                Log.e(TAG, "Unlocking backend failed");
+                Timber.e("Unlocking backend failed");
                 syncResult.stats.numIoExceptions++;
               }
             }

@@ -15,7 +15,6 @@ import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.v4.provider.DocumentFile;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.android.calendar.CalendarContractCompat;
 import com.annimon.stream.Collectors;
@@ -54,6 +53,8 @@ import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+
+import timber.log.Timber;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
@@ -358,12 +359,12 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
                 success = cr.delete(imageFileUri, null, null) > 0;
               }
               if (success) {
-                Log.d(MyApplication.TAG, "Successfully deleted file " + imageFileUri.toString());
+                Timber.d("Successfully deleted file %s");
               } else {
-                Log.e(MyApplication.TAG, "Unable to delete file " + imageFileUri.toString());
+                Timber.e("Unable to delete file " + imageFileUri.toString());
               }
             } else {
-              Log.d(MyApplication.TAG, imageFileUri.toString() + " not deleted since it might still be in use");
+              Timber.d("%s not deleted since it might still be in use", imageFileUri.toString());
             }
             cr.delete(staleImageUri, null, null);
           }
@@ -400,16 +401,16 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
                 }
               }
               if (success) {
-                Log.d(MyApplication.TAG, "Successfully moved file " + imageFileUri.toString());
+                Timber.d("Successfully moved file %s", imageFileUri.toString());
               }
             } else {
               success = true; //we do not move the file but remove its uri from the table
-              Log.d(MyApplication.TAG, imageFileUri.toString() + " not moved since it might still be in use");
+              Timber.d("%s not moved since it might still be in use", imageFileUri.toString());
             }
             if (success) {
               cr.delete(staleImageUri, null, null);
             } else {
-              Log.e(MyApplication.TAG, "Unable to move file " + imageFileUri.toString());
+              Timber.e( "Unable to move file %s", imageFileUri.toString());
             }
           }
           c.close();

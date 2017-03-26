@@ -32,7 +32,6 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -48,6 +47,8 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListen
 
 import java.util.ArrayList;
 
+import timber.log.Timber;
+
 public class VersionDialogFragment extends CommitSafeDialogFragment implements OnClickListener {
 
   private static final String KEY_FROM = "from";
@@ -62,17 +63,18 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
     dialogFragment.setCancelable(false);
     return dialogFragment;
   }
+
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     Bundle bundle = getArguments();
-    final Activity ctx  = getActivity();
+    final Activity ctx = getActivity();
     LayoutInflater li = LayoutInflater.from(ctx);
     int from = bundle.getInt(KEY_FROM);
     Resources res = getResources();
     int[] versionCodes = res.getIntArray(R.array.version_codes);
     String[] versionNames = res.getStringArray(R.array.version_names);
     final ArrayList<VersionInfo> versions = new ArrayList<>();
-    for (int i=0;i<versionCodes.length;i++) {
+    for (int i = 0; i < versionCodes.length; i++) {
       int code = versionCodes[i];
       if (from >= code) {
         break;
@@ -93,33 +95,34 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
         heading.setText(version.name);
         String[] changes = version.getChanges(ctx);
         ((TextView) row.findViewById(R.id.versionInfoChanges))
-          .setText(changes != null ? ("\u25b6 " + TextUtils.join("\n\u25b6 ",changes)) : "");
+            .setText(changes != null ? ("\u25b6 " + TextUtils.join("\n\u25b6 ", changes)) : "");
 
         TextView learn_more = (TextView) row.findViewById(R.id.versionInfoLearnMore);
-        final Resources res= ctx.getResources();
-        final int resId = res.getIdentifier("version_more_info_"+version.nameCondensed.replace(".", ""), "array", ctx.getPackageName());
-        if (resId ==0) {
+        final Resources res = ctx.getResources();
+        final int resId = res.getIdentifier("version_more_info_" + version.nameCondensed.replace(".", ""), "array", ctx.getPackageName());
+        if (resId == 0) {
           learn_more.setVisibility(View.GONE);
         } else {
           learn_more.setVisibility(View.VISIBLE);
           learn_more.setTag(resId);
           Spannable span = Spannable.Factory.getInstance().newSpannable(res.getString(R.string.learn_more));
           span.setSpan(new ClickableSpan() {
-              @Override
-              public void onClick(View v) {
-                PopupMenu popup = new PopupMenu(getActivity(), heading);
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public void onClick(View v) {
+              PopupMenu popup = new PopupMenu(getActivity(), heading);
+              popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 
-                  @Override
-                  public boolean onMenuItemClick(MenuItem item) {
-                    handleMenuClick(item.getItemId());
-                    return true;
-                  }
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                  handleMenuClick(item.getItemId());
+                  return true;
+                }
 
-                });
-                popup.inflate(R.menu.version_info);
-                popup.show();
-              }
+              });
+              popup.inflate(R.menu.version_info);
+              popup.show();
+            }
+
             /**
              * @param itemId
              * @throws NotFoundException
@@ -127,13 +130,13 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
             protected void handleMenuClick(final int itemId) throws NotFoundException {
               String[] postIds = res.getStringArray(resId);
               String uri = null;
-              switch(itemId) {
-              case R.id.facebook:
-                uri = "https://www.facebook.com/MyExpenses/" + postIds[0];
-                break;
-              case R.id.google:
-                uri = "https://plus.google.com/+MyexpensesMobi/posts/" + postIds[1];
-                break;
+              switch (itemId) {
+                case R.id.facebook:
+                  uri = "https://www.facebook.com/MyExpenses/" + postIds[0];
+                  break;
+                case R.id.google:
+                  uri = "https://plus.google.com/+MyexpensesMobi/posts/" + postIds[1];
+                  break;
               }
               Intent i = new Intent(Intent.ACTION_VIEW);
               i.setData(Uri.parse(uri));
@@ -153,40 +156,44 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
     }
 
     AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
-      .setTitle(getString(R.string.help_heading_whats_new))
-      .setIcon(R.mipmap.ic_myexpenses)
-      .setView(view)
-      .setNegativeButton(android.R.string.ok, this);
+        .setTitle(getString(R.string.help_heading_whats_new))
+        .setIcon(R.mipmap.ic_myexpenses)
+        .setView(view)
+        .setNegativeButton(android.R.string.ok, this);
     if (!MyApplication.getInstance().getLicenceHandler().isContribEnabled())
-      builder.setPositiveButton( R.string.menu_contrib, this);
+      builder.setPositiveButton(R.string.menu_contrib, this);
     return builder.create();
   }
+
   @Override
   public void onClick(DialogInterface dialog, int which) {
-    if (getActivity()==null) {
+    if (getActivity() == null) {
       return;
     }
     if (which == AlertDialog.BUTTON_POSITIVE)
       ((MessageDialogListener) getActivity()).dispatchCommand(R.id.CONTRIB_INFO_COMMAND, null);
   }
+
   public static class VersionInfo {
     private int code;
     private String name;
     private String nameCondensed;
+
     public VersionInfo(int code, String name) {
       super();
       this.code = code;
       this.name = name;
       this.nameCondensed = name.replace(".", "");
     }
+
     public String[] getChanges(Context ctx) {
-      Resources res= ctx.getResources();
-      int resId = res.getIdentifier("whats_new_"+nameCondensed, "array", ctx.getPackageName());//new based on name
+      Resources res = ctx.getResources();
+      int resId = res.getIdentifier("whats_new_" + nameCondensed, "array", ctx.getPackageName());//new based on name
       if (resId == 0) {
-        resId = res.getIdentifier("whats_new_"+code, "array", ctx.getPackageName());//legacy based on code
+        resId = res.getIdentifier("whats_new_" + code, "array", ctx.getPackageName());//legacy based on code
       }
       if (resId == 0) {
-        Log.e(MyApplication.TAG, "missing change log entry for version " + code);
+        Timber.e("missing change log entry for version %d", code);
         return null;
       } else {
         return res.getStringArray(resId);

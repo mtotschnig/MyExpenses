@@ -26,7 +26,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.annotation.VisibleForTesting;
-import android.util.Log;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -207,7 +206,6 @@ public class Account extends Model {
    * @return Account object or null if no account with id exists in db
    */
   public static Account getInstanceFromDb(long id) {
-    Log.d("AccountArrayTest", "getInstanceFromDb called, accounts " + accounts.size());
     if (id < 0)
       return AggregateAccount.getInstanceFromDb(id);
     Account account;
@@ -329,7 +327,6 @@ public class Account extends Model {
 
   protected void extract(Cursor c) {
     this.setId(c.getLong(c.getColumnIndexOrThrow(KEY_ROWID)));
-    Log.d("DEBUG", "extracting account from cursor with id " + getId());
     this.label = c.getString(c.getColumnIndexOrThrow(KEY_LABEL));
     this.description = c.getString(c.getColumnIndexOrThrow(KEY_DESCRIPTION));
     this.currency = Utils.getSaveInstance(c.getString(c.getColumnIndexOrThrow(KEY_CURRENCY)));

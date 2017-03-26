@@ -1,6 +1,8 @@
 package org.totschnig.myexpenses.task;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.v4.provider.DocumentFile;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.export.pdf.PdfPrinter;
@@ -10,10 +12,9 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.support.v4.provider.DocumentFile;
-import android.util.Log;
+import timber.log.Timber;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 public class PrintTask extends AsyncTask<Void, String, Result> {
   private final TaskExecutionFragment taskExecutionFragment;
@@ -49,16 +50,16 @@ public class PrintTask extends AsyncTask<Void, String, Result> {
     Account account;
     DocumentFile appDir = Utils.getAppDir();
     if (appDir == null) {
-      return new Result(false,R.string.external_storage_unavailable);
+      return new Result(false, R.string.external_storage_unavailable);
     }
     account = Account.getInstanceFromDb(accountId);
     try {
       return new PdfPrinter(account, appDir, filter).print();
     } catch (Exception e) {
-      Log.e("DEBUG","Error while printing",e);
+      Timber.e(e, "Error while printing");
       return new Result(false,
           R.string.export_sdcard_failure,
-          appDir.getName(),e.getMessage());
+          appDir.getName(), e.getMessage());
     }
   }
 }

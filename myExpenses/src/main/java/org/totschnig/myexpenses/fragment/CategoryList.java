@@ -30,7 +30,6 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.util.TypedValue;
 import android.view.ContextMenu;
@@ -84,6 +83,8 @@ import org.totschnig.myexpenses.util.Utils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
+
+import timber.log.Timber;
 
 import static org.totschnig.myexpenses.activity.AmountActivity.EXPENSE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.DAY;
@@ -871,8 +872,7 @@ public class CategoryList extends SortableListFragment implements
       try {
         mAdapter.setChildrenCursor(id, null);
       } catch (NullPointerException e) {
-        Log.w("TAG", "Adapter expired, try again on the next query: "
-            + e.getMessage());
+        Timber.w(e, "Adapter expired, try again on the next query: ");
       }
     }
   }

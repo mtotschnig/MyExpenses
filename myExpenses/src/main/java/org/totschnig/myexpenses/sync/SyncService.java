@@ -19,7 +19,8 @@ package org.totschnig.myexpenses.sync;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.util.Log;
+
+import timber.log.Timber;
 
 /** Service to handle sync requests.
  *
@@ -33,8 +34,6 @@ import android.util.Log;
  * OS on request.
  */
 public class SyncService extends Service {
-    private static final String TAG = "SyncService";
-
     private static final Object sSyncAdapterLock = new Object();
     private static SyncAdapter sSyncAdapter = null;
 
@@ -44,7 +43,7 @@ public class SyncService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.i(TAG, "Service created");
+        Timber.i("Service created");
         synchronized (sSyncAdapterLock) {
             if (sSyncAdapter == null) {
                 sSyncAdapter = new SyncAdapter(getApplicationContext(), true);
@@ -58,7 +57,7 @@ public class SyncService extends Service {
      */
     public void onDestroy() {
         super.onDestroy();
-        Log.i(TAG, "Service destroyed");
+        Timber.i("Service destroyed");
     }
 
     /**

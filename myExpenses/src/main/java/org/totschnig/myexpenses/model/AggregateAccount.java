@@ -2,11 +2,12 @@ package org.totschnig.myexpenses.model;
 
 import android.database.Cursor;
 import android.net.Uri;
-import android.util.Log;
 
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+
+import timber.log.Timber;
 
 public class AggregateAccount extends Account {
   final static String GROUPING_PREF_PREFIX = "AGGREGATE_GROUPING_";
@@ -33,7 +34,7 @@ public class AggregateAccount extends Account {
     if (aa != null) {
       return aa;
     }
-    Log.w(MyApplication.TAG, "did not find Aggregate Account in cache, will construct it from DB");
+    Timber.w("did not find Aggregate Account in cache, will construct it from DB");
     Cursor c = cr().query(
         TransactionProvider.ACCOUNTS_AGGREGATE_URI.buildUpon().appendPath(String.valueOf(0 - id)).build(),
         null, null, null, null);

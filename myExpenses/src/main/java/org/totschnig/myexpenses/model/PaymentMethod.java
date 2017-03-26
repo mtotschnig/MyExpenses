@@ -21,7 +21,6 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.net.Uri;
 import android.support.annotation.VisibleForTesting;
-import android.util.Log;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -31,6 +30,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import timber.log.Timber;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
@@ -140,7 +141,7 @@ public class PaymentMethod extends Model {
         try {
           method.addAccountType(AccountType.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_TYPE))));
         } catch (IllegalArgumentException ex) { 
-          Log.w("MyExpenses","Found unknown account type in database");
+          Timber.e(ex, "Found unknown account type in database");
         }
         c.moveToNext();
       }
