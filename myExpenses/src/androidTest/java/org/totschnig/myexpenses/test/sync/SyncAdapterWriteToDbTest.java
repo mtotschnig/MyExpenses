@@ -41,7 +41,7 @@ public class SyncAdapterWriteToDbTest {
         .setCurrentTimeStamp()
         .setAmount(123L)
         .build();
-    syncAdapter.collectOperations(change, accountId, ops, -1);
+    syncAdapter.collectOperations(change, 0, ops, -1);
     assertEquals(1, ops.size());
     assertTrue(ops.get(0).isInsert());
   }
@@ -54,7 +54,7 @@ public class SyncAdapterWriteToDbTest {
         .setCurrentTimeStamp()
         .setAmount(123L)
         .build();
-    syncAdapter.collectOperations(change, accountId, ops, -1);
+    syncAdapter.collectOperations(change, 0, ops, -1);
     assertEquals(1, ops.size());
     assertTrue(ops.get(0).isUpdate());
   }
@@ -66,7 +66,7 @@ public class SyncAdapterWriteToDbTest {
         .setUuid("any")
         .setCurrentTimeStamp()
         .build();
-    syncAdapter.collectOperations(change, accountId, ops, -1);
+    syncAdapter.collectOperations(change, 0, ops, -1);
     assertEquals(1, ops.size());
     assertTrue(ops.get(0).isDelete());
   }
