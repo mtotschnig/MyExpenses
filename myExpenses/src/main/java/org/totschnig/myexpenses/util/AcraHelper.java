@@ -10,6 +10,7 @@ import java.util.Map;
 
 import timber.log.Timber;
 
+//TODO move to Timber
 public class AcraHelper {
   private static final boolean DO_REPORT = Utils.IS_FLAVOURED && !BuildConfig.DEBUG
       && !MyApplication.isInstrumentationTest();
