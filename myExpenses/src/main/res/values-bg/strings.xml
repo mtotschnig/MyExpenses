@@ -40,6 +40,7 @@
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Експортиране в PDF на списък транзакции</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Шаблон на уиджет</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Импорт от CSV</string>
+  <string name="licence_status_free">Безплатен</string>
   <string name="contrib_key">ключ за Премиум вариант</string>
   <string name="extended_key">ключ за Разширен вариант</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
@@ -70,7 +71,14 @@
   <string name="dialog_contrib_no_usages_left">Няма свободни употреби.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s е функция от Премиум вариант  (%2$s).</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Премахнете тези ограничения и получете повече възможности чрез надстройка на <i>Моите разходи</i>.</string>
   <string name="dialog_contrib_text_1"><i>Моите разходи</i> се предлага без реклами и с отворен код.</string>
+  <string name="dialog_contrib_text_2">Моля, допринесете за развитието на <i>Моите разходи</i> като надстроите и получете неограничен достъп до следните възможности:</string>
+  <string name="dialog_contrib_usage_count">Оставащи безплатни употреби</string>
+  <string name="dialog_contrib_usage_limit">Със сегашния лиценз (%2$s) може да използвате още %1$d пъти.</string>
+  <string name="dialog_contrib_usage_limit_synchronization">Със сегашния Ви лиценз (%2$s) може да използвате  още %1$d дни.</string>
+  <string name="dialog_contrib_usage_limit_accounts">При сегашния Ви лиценз (%2$s) може да създадете до %1$d сметки.</string>
+  <string name="dialog_contrib_usage_limit_plans">При сегашния Ви лиценз (%2$s) може да създадете до %1$d плана.</string>
   <string name="dialog_export_delete">Изтрии експортираните транзакции</string>
   <string name="dialog_export_not_yet_exported">Експорт само на транзакции, които не са били експортирани досега</string>
   <string name="dialog_password_activate_protection">Активиране на защита с парола</string>
@@ -622,4 +630,11 @@
   <string name="progress_dialog_checking_sync_backend">Проверка на отдалеченото място за съхранение</string>
   <string name="template">Темплейт</string>
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">синхронизация чрез облак</string>
+  <string name="licence_status">Вашият лиценз</string>
+  <string name="all_contrib_key_features">Всички възможности според лиценза</string>
+  <string name="upgrade_now">Надстройте сега</string>
+  <string name="pref_backup_cloud_title">Запазване на отдалечено място</string>
+  <string name="pref_backup_cloud_summary">Освен локално - в това устройство, бекъп файлът може да бъде запазен и на отдалечено място.</string>
+  <string name="auto_backup_cloud_create_backend">Задаване на отдалечено място за съхранение от основния екран на менюто Настройки</string>
+  <string name="auto_backup_cloud_failure">Възникна грешка при опит за запис на бекъп файла %1$s на отдалеченото място %2$s:</string>
 </resources>

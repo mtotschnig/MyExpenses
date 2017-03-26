@@ -602,6 +602,7 @@
   <string name="validate_error_not_empty">Darf nicht leer sein</string>
   <string name="validate_error_webdav_invalid_certificate">Dem Zertifikat konnte nicht vertraut werden. Es scheint ungültig.</string>
   <string name="validate_error_webdav_not_compliant">Die URL verweist nicht auf eine WebDAV-Ressource.</string>
+  <string name="validate_error_webdav_404">Die URL existiert nicht auf dem Server.</string>
   <string name="url_not_valid">URL nicht gültig</string>
   <string name="menu_sync_unlink">Synchronisierung stoppen</string>
   <string name="menu_sync_link">Synchronisierung starten</string>

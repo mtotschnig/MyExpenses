@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string-array name="whats_new_277">
+    <item>自動バックアップはクラウドバックエンドに保存できます</item>
+  </string-array>
   <string-array name="whats_new_276">
     <item>マイナーな改善</item>
   </string-array>
