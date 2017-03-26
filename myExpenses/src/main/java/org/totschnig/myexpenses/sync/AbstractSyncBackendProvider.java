@@ -73,7 +73,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     List<TransactionChange> changeSetRead = new ArrayList<>();
     for (TransactionChange transactionChange : changes) {
       if (transactionChange.isEmpty()) {
-        Timber.w("found empty transaction change in changes table");
+        Timber.w("found empty transaction change in json");
         continue;
       }
       if (transactionChange.pictureUri() != null) {
