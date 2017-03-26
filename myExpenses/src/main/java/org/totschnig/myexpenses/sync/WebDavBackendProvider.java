@@ -121,6 +121,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
     return webDavClient.getResource(accountUuid, FALLBACK_LOCK_FILENAME);
   }
 
+  @NonNull
   @Override
   public ChangeSet getChangeSetSince(long sequenceNumber, Context context) throws IOException {
     return merge(filterDavResources(sequenceNumber).map(this::getChangeSetFromDavResource))

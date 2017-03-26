@@ -269,12 +269,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
               }
 
               List<TransactionChange> remoteChanges;
-              if (changeSetSince != null) {
-                lastSyncedRemote = changeSetSince.sequenceNumber;
-                remoteChanges = changeSetSince.changes;
-              } else {
-                remoteChanges = new ArrayList<>();
-              }
+              lastSyncedRemote = changeSetSince.sequenceNumber;
+              remoteChanges = changeSetSince.changes;
 
               List<TransactionChange> localChanges = new ArrayList<>();
               long sequenceToTest = lastSyncedLocal + 1;

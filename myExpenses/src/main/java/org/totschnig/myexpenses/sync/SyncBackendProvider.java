@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.sync;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
@@ -19,6 +20,7 @@ public interface SyncBackendProvider {
 
   boolean lock();
 
+  @NonNull
   ChangeSet getChangeSetSince(long sequenceNumber, Context context) throws IOException;
 
   long writeChangeSet(List<TransactionChange> changeSet, Context context) throws IOException;

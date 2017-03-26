@@ -115,6 +115,7 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
     return true;
   }
 
+  @NonNull
   @Override
   public ChangeSet getChangeSetSince(long sequenceNumber, Context context) throws IOException {
     List<ChangeSet> changeSets = new ArrayList<>();
