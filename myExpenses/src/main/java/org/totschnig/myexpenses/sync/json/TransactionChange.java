@@ -126,9 +126,9 @@ public abstract class TransactionChange {
   public abstract List<TransactionChange> splitParts();
 
   public boolean isEmpty() {
-    return parentUuid() == null && comment() == null && date() == null && amount() == null &&
+    return isCreateOrUpdate() && comment() == null && date() == null && amount() == null &&
         label() == null && payeeName() == null && transferAccount() == null && methodLabel() == null &&
-        crStatus() == null && referenceNumber() == null && pictureUri() == null;
+        crStatus() == null && referenceNumber() == null && pictureUri() == null && splitParts() == null;
   }
 
   public enum Type {
