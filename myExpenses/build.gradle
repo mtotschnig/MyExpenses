@@ -8,7 +8,11 @@ android {
 
     defaultConfig {
         applicationId "org.totschnig.myexpenses"
-        minSdkVersion project.minSdkVersion
+        if (gradle.startParameter.taskNames.contains(":app:assembleDebug")) {
+            minSdkVersion 21
+        }else {
+            minSdkVersion project.minSdkVersion
+        }
         targetSdkVersion project.targetSdkVersion
         versionCode 276
         versionName '2.7.7.1'
