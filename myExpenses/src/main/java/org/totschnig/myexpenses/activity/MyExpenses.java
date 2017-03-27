@@ -96,15 +96,18 @@ import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.AcraHelper;
-import org.totschnig.myexpenses.util.AdHandler;
+import org.totschnig.myexpenses.util.ads.AdHandler;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.ads.AdHandlerFactory;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Locale;
+
+import javax.inject.Inject;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
@@ -162,6 +165,9 @@ public class MyExpenses extends LaunchActivity implements
   private ViewPager myPager;
   private long mAccountId = 0;
   private int mAccountCount = 0;
+
+  @Inject
+  protected AdHandlerFactory adHandlerFactory;
   private AdHandler adHandler;
   private Toolbar mToolbar;
   private String mCurrentBalance;
@@ -203,6 +209,7 @@ public class MyExpenses extends LaunchActivity implements
   @Override
   public void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeId());
+    MyApplication.getInstance().getAppComponent().inject(this);
     Resources.Theme theme = getTheme();
     TypedValue value = new TypedValue();
     theme.resolveAttribute(R.attr.colorAggregate, value, true);
@@ -221,7 +228,7 @@ public class MyExpenses extends LaunchActivity implements
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    adHandler = new AdHandler(this);
+    adHandler = adHandlerFactory.create((ViewGroup) findViewById(R.id.adContainer));
     adHandler.init();
 
     mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
