@@ -601,6 +601,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     }
 
     private void showPreference(String prefKey) {
+      //noinspection RestrictedApi
       findPreference(prefKey).performClick();
     }
 

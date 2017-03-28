@@ -1399,6 +1399,7 @@ public class Utils {
 
   private static Drawable getTintedDrawableForTheme(Context context, int drawableResId, int themeResId) {
     Context wrappedContext = new ContextThemeWrapper(context, themeResId);
+    //noinspection RestrictedApi
     return AppCompatDrawableManager.get().getDrawable(wrappedContext, drawableResId);
   }
 
