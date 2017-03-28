@@ -248,14 +248,13 @@ public class FileUtils {
    */
   @TargetApi(Build.VERSION_CODES.KITKAT)
   public static String getPath(final Context context, final Uri uri) {
-     Timber.d(" File -",
-          "Authority: " + uri.getAuthority() +
-              ", Fragment: " + uri.getFragment() +
-              ", Port: " + uri.getPort() +
-              ", Query: " + uri.getQuery() +
-              ", Scheme: " + uri.getScheme() +
-              ", Host: " + uri.getHost() +
-              ", Segments: " + uri.getPathSegments().toString());
+    Timber.d("Authority: " + uri.getAuthority() +
+        ", Fragment: " + uri.getFragment() +
+        ", Port: " + uri.getPort() +
+        ", Query: " + uri.getQuery() +
+        ", Scheme: " + uri.getScheme() +
+        ", Host: " + uri.getHost() +
+        ", Segments: " + uri.getPathSegments().toString());
 
     // DocumentProvider
     if (isDocumentUri(context, uri)) {
@@ -442,7 +441,7 @@ public class FileUtils {
    * @author paulburke
    */
   public static Bitmap getThumbnail(Context context, Uri uri, String mimeType) {
-      Timber.d("Attempting to get thumbnail");
+    Timber.d("Attempting to get thumbnail");
 
     if (!isMediaUri(uri)) {
       Timber.e("You can only retrieve thumbnails for images and videos.");

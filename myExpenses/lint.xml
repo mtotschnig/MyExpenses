@@ -21,4 +21,7 @@
         <ignore path="src/main/res/layout/more_info.xml" />
     </issue>
     <issue id="HardwareIds" severity="ignore" />
+    <issue id="LogNotTimber">
+        <ignore path="src/androidTest" />
+    </issue>
 </lint>

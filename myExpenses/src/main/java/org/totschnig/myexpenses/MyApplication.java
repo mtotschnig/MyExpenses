@@ -585,7 +585,7 @@ public class MyApplication extends MultiDexApplication implements
                                            long templateId) {
     Uri uri = getContentResolver().insert(Events.CONTENT_URI, eventValues);
     long planId = ContentUris.parseId(uri);
-    Timber.i("event copied with new id: ", planId);
+    Timber.i("event copied with new id %d ", planId);
     ContentValues planValues = new ContentValues();
     planValues.put(DatabaseConstants.KEY_PLANID, planId);
     int updated = getContentResolver().update(
@@ -729,7 +729,7 @@ public class MyApplication extends MultiDexApplication implements
       if (c != null) {
         if (c.moveToFirst()) {
           mPlannerCalendarId = c.getString(0);
-          Timber.d(String.format("restorePlaner: found calendar with id %s", mPlannerCalendarId));
+          Timber.d("restorePlaner: found calendar with id %s", mPlannerCalendarId);
           PrefKey.PLANNER_CALENDAR_ID.putString(mPlannerCalendarId);
           ContentValues planValues = new ContentValues(), eventValues = new ContentValues();
           eventValues.put(Events.CALENDAR_ID,

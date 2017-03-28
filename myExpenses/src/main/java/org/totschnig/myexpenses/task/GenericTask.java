@@ -359,7 +359,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
                 success = cr.delete(imageFileUri, null, null) > 0;
               }
               if (success) {
-                Timber.d("Successfully deleted file %s");
+                Timber.d("Successfully deleted file %s", imageFileUri.toString());
               } else {
                 Timber.e("Unable to delete file " + imageFileUri.toString());
               }

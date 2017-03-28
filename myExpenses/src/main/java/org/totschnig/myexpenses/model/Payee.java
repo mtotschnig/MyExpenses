@@ -63,7 +63,7 @@ public class Payee extends Model {
       Uri uri = new Payee(0L,name).save();
       if (uri == null) {
         //TODO report to ACRA
-        Timber.e("unable to save party ", name);
+        Timber.e("unable to save party %s", name);
         return null;
       } else {
         return Long.valueOf(uri.getLastPathSegment());
