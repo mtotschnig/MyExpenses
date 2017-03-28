@@ -19,6 +19,7 @@ android {
         multiDexEnabled true
 
         buildConfigField "String", "BUILD_DATE", "\"" + getDate() + "\""
+        buildConfigField "String", "DISTRIBUTION", "\"GITHUB\""
         testInstrumentationRunner "org.totschnig.myexpenses.MyTestRunner"
         testProguardFile "proguard-test.txt"
 

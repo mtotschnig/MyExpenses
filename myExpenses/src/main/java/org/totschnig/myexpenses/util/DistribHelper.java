@@ -54,8 +54,12 @@ public class DistribHelper {
     return !isBlackberry();
   }
 
-  public static Distribution getDistribution() {
+  private static Distribution getDistribution() {
     return Distribution.valueOf(BuildConfig.DISTRIBUTION);
+  }
+
+  public static String getDistributionAsString() {
+    return getDistribution().toString();
   }
 
   public static boolean isBlackberry() {

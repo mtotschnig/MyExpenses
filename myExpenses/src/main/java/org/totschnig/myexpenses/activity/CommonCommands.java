@@ -161,7 +161,7 @@ public class CommonCommands {
     }
     String buildDate = BuildConfig.BUILD_DATE;
 
-    final String flavor = DistribHelper.getDistribution().toString();
+    final String flavor = DistribHelper.getDistributionAsString();
     String installer = ctx.getPackageManager()
         .getInstallerPackageName(ctx.getPackageName());
     installer = TextUtils.isEmpty(installer) ?
