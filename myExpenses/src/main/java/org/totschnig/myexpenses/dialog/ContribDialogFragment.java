@@ -33,6 +33,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.LicenceHandler;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -82,7 +83,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
       }
     } else {
       message = getText(R.string.dialog_contrib_text_2);
-      if (!Utils.IS_FLAVOURED) {
+      if (DistribHelper.isGithub()) {
         message = TextUtils.concat(getText(R.string.dialog_contrib_text_1), " ",
             getText(R.string.dialog_contrib_text_2));
       }

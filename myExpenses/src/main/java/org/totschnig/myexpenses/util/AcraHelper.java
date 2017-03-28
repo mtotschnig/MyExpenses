@@ -12,7 +12,7 @@ import timber.log.Timber;
 
 //TODO move to Timber
 public class AcraHelper {
-  private static final boolean DO_REPORT = Utils.IS_FLAVOURED && !BuildConfig.DEBUG
+  private static final boolean DO_REPORT = !DistribHelper.isGithub() && !BuildConfig.DEBUG
       && !MyApplication.isInstrumentationTest();
 
   public static void reportWithDbSchema(Exception e) {

@@ -60,7 +60,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.BalanceDialogFragment;
@@ -96,10 +95,11 @@ import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.AcraHelper;
-import org.totschnig.myexpenses.util.ads.AdHandler;
+import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.ads.AdHandler;
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory;
 
 import java.io.Serializable;
@@ -472,7 +472,7 @@ public class MyExpenses extends LaunchActivity implements
     if (requestCode == EDIT_TRANSACTION_REQUEST && resultCode == RESULT_OK) {
       long nextReminder;
       sequenceCount = intent.getLongExtra(KEY_SEQUENCE_COUNT, 0);
-      if (Utils.IS_FLAVOURED) {
+      if (!DistribHelper.isGithub()) {
         nextReminder =
             PrefKey.NEXT_REMINDER_RATE.getLong(TRESHOLD_REMIND_RATE);
         if (nextReminder != -1 && sequenceCount >= nextReminder) {
@@ -651,7 +651,7 @@ public class MyExpenses extends LaunchActivity implements
       case R.id.SHARE_COMMAND:
         i = new Intent();
         i.setAction(Intent.ACTION_SEND);
-        i.putExtra(Intent.EXTRA_TEXT, getString(R.string.tell_a_friend_message, BuildConfig.PLATTFORM));
+        i.putExtra(Intent.EXTRA_TEXT, getString(R.string.tell_a_friend_message, DistribHelper.getPlatform()));
         i.setType("text/plain");
         startActivity(Intent.createChooser(i, getResources().getText(R.string.menu_share)));
         return true;

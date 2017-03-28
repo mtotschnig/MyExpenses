@@ -29,7 +29,7 @@ public class UiModule {
   AdHandlerFactory provideAdHandlerFactory() {
     try {
       return (AdHandlerFactory) Class.forName(
-          "org.totschnig.myexpenses.util.ads.PlatformAdHandler").newInstance();
+          "org.totschnig.myexpenses.util.ads.PlatformAdHandlerFactory").newInstance();
     } catch (Exception e) {
       return adContainer -> new AdHandler(adContainer) {
         public void init() {

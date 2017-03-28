@@ -66,7 +66,6 @@ import android.widget.Toast;
 
 import com.annimon.stream.Stream;
 
-import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -123,9 +122,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES;
  * @author Michael Totschnig
  */
 public class Utils {
-
-  public static final boolean IS_FLAVOURED = !TextUtils.isEmpty(BuildConfig.FLAVOR);
-  public static final boolean IS_ANDROID = BuildConfig.PLATTFORM.equals("Android");
 
   public static Currency getLocalCurrency() {
     Currency result = null;
@@ -838,7 +834,7 @@ public class Utils {
     CharSequence result = "", linefeed = Html.fromHtml("<br>");
     for (ContribFeature f : EnumSet.allOf(ContribFeature.class)) {
       if (!f.equals(other) &&
-          (!f.equals(ContribFeature.AD_FREE) || IS_FLAVOURED)) {
+          (!f.equals(ContribFeature.AD_FREE) || !DistribHelper.isGithub())) {
         if (type != null &&
             ((f.isExtended() && !type.equals(LicenceHandler.LicenceStatus.EXTENDED)) ||
                 (!f.isExtended() && type.equals(LicenceHandler.LicenceStatus.EXTENDED)))) {
@@ -869,7 +865,7 @@ public class Utils {
     if (type != null) {
       features =  features.filter(feature -> type.equals(LicenceHandler.LicenceStatus.CONTRIB) != feature.isExtended());
     }
-    if (!IS_FLAVOURED) {
+    if (DistribHelper.isGithub()) {
       features = features.filter(feature -> !feature.equals(ContribFeature.AD_FREE));
     }
     return features
@@ -1423,10 +1419,6 @@ public class Utils {
     } else {
       manager.initLoader(loaderId, args, callback);
     }
-  }
-
-  public static final boolean shouldUseAndroidPlatformCalendar() {
-    return IS_ANDROID;
   }
 
   //Integer compare is API 19

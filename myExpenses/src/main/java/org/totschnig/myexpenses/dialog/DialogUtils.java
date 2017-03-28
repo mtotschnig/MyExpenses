@@ -61,6 +61,7 @@ import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.util.Arrays;
@@ -86,7 +87,7 @@ public class DialogUtils {
          public void onClick(DialogInterface dialog, int id) {
            ctx.dismissDialog(R.id.FTP_DIALOG);
            Intent intent = new Intent(Intent.ACTION_VIEW);
-           intent.setData(Uri.parse(MyApplication.getMarketPrefix() + "org.totschnig.sendwithftp"));
+           intent.setData(Uri.parse(DistribHelper.getMarketPrefix() + "org.totschnig.sendwithftp"));
            if (Utils.isIntentAvailable(ctx,intent)) {
              ctx.startActivity(intent);
            } else {

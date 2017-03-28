@@ -30,12 +30,12 @@ import android.widget.CompoundButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.CommonCommands;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.util.DistribHelper;
 
 public class WelcomeDialogFragment extends CommitSafeDialogFragment
     implements DialogInterface.OnClickListener {
@@ -89,7 +89,8 @@ public class WelcomeDialogFragment extends CommitSafeDialogFragment
     LayoutInflater li = LayoutInflater.from(ctx);
     //noinspection InflateParams
     View view = li.inflate(R.layout.welcome_dialog, null);
-    ((TextView) view.findViewById(R.id.help_leading)).setText(getString(R.string.help_leading, BuildConfig.PLATTFORM));
+    ((TextView) view.findViewById(R.id.help_leading)).setText(getString(R.string.help_leading,
+        DistribHelper.getPlatform()));
     mProgress = (ProgressBar) view.findViewById(R.id.progress);
     //noinspection SetTextI18n
     ((TextView) view.findViewById(R.id.help_intro))

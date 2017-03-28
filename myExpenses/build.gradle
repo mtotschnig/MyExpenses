@@ -10,7 +10,7 @@ android {
         applicationId "org.totschnig.myexpenses"
         if (gradle.startParameter.taskNames.contains(":app:assembleDebug")) {
             minSdkVersion 21
-        }else {
+        } else {
             minSdkVersion project.minSdkVersion
         }
         targetSdkVersion project.targetSdkVersion
@@ -18,7 +18,6 @@ android {
         versionName '2.7.7.1'
         multiDexEnabled true
 
-        buildConfigField "String", "PLATTFORM", "\"Android\""
         buildConfigField "String", "BUILD_DATE", "\"" + getDate() + "\""
         testInstrumentationRunner "org.totschnig.myexpenses.MyTestRunner"
         testProguardFile "proguard-test.txt"
@@ -87,6 +86,14 @@ android {
     testBuildType "forTest"
 }
 
+List supportCompile = ['com.android.support:appcompat-v7:' + project.androidSupportLibraryVersion,
+                       'com.android.support:support-v4:' + project.androidSupportLibraryVersion,
+                       'com.android.support:recyclerview-v7:' + project.androidSupportLibraryVersion,
+                       'com.android.support:cardview-v7:' + project.androidSupportLibraryVersion,
+                       'com.android.support:design:' + project.androidSupportLibraryVersion,
+                       'com.android.support:gridlayout-v7:' + project.androidSupportLibraryVersion,
+                       'com.android.support:preference-v14:' + project.androidSupportLibraryVersion]
+
 dependencies {
     apt 'com.google.dagger:dagger-compiler:' + project.daggerVersion
     compile 'com.google.dagger:dagger:' + project.daggerVersion
@@ -102,14 +109,9 @@ dependencies {
     compile 'com.gabrielittner.auto.value:auto-value-cursor-annotations:1.0.0'
     compile 'com.github.mtotschnig:StickyListHeaders:master-SNAPSHOT'
     compile 'com.pavelsikun:material-seekbar-preference:2.3.0'
-    compile 'com.gitlab.mtotschn:dav4android:fbaa5b51'
-    compile 'com.android.support:appcompat-v7:' + project.androidSupportLibraryVersion
-    compile 'com.android.support:support-v4:' + project.androidSupportLibraryVersion
-    compile 'com.android.support:recyclerview-v7:' + project.androidSupportLibraryVersion
-    compile 'com.android.support:cardview-v7:' + project.androidSupportLibraryVersion
-    compile 'com.android.support:design:' + project.androidSupportLibraryVersion
-    compile 'com.android.support:gridlayout-v7:' + project.androidSupportLibraryVersion
-    compile 'com.android.support:preference-v14:' + "23.1.1"
+    compile('com.gitlab.mtotschn:dav4android:fbaa5b51') {
+        exclude group: "com.android.support", module: "support-annotations"
+    }
     compile 'com.itextpdf:itextg:5.5.10'
     compile 'ch.acra:acra:4.9.2'
     compile 'org.apache.commons:commons-lang3:3.4'
@@ -131,9 +133,11 @@ dependencies {
 
     compile 'com.jakewharton.timber:timber:4.5.1'
 
+    compile supportCompile
+
     androidTestCompile 'com.android.support.test.espresso:espresso-core:' + project.espressoVersion
     androidTestCompile 'junit:junit:4.12'
-    androidTestCompile 'com.android.support:support-annotations:'  + project.androidSupportLibraryVersion
+    androidTestCompile 'com.android.support:support-annotations:' + project.androidSupportLibraryVersion
     androidTestCompile 'com.android.support.test:runner:' + project.androidSupportTestVersion
     androidTestCompile 'com.android.support.test:rules:' + project.androidSupportTestVersion
     androidTestCompile 'com.android.support.test.espresso:espresso-intents:' + project.espressoVersion

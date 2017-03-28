@@ -108,6 +108,7 @@ import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter.CursorToStringConverter;
 import org.totschnig.myexpenses.ui.SpinnerHelper;
 import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.FilterCursorWrapper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
@@ -631,7 +632,7 @@ public class ExpenseEdit extends AmountActivity implements
           public void onClick(View view) {
             if (mPlan == null) {
               showDialog(DATE_DIALOG_ID);
-            } else if (Utils.IS_ANDROID) {
+            } else if (DistribHelper.shouldUseAndroidPlatformCalendar()) {
               launchPlanView();
             }
           }

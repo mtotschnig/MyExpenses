@@ -84,6 +84,7 @@ import org.totschnig.myexpenses.sync.ServiceLoader;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.ui.PreferenceDividerItemDecoration;
 import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.LicenceHandler;
 import org.totschnig.myexpenses.util.Utils;
@@ -628,7 +629,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         } else {
           int baseTitle = R.string.pref_contrib_purchase_title;
           contribPurchaseTitle = getString(baseTitle);
-          if (Utils.IS_FLAVOURED) {
+          if (!DistribHelper.isGithub()) {
             contribPurchaseTitle += " (" + getString(R.string.pref_contrib_purchase_title_in_app) + ")";
           }
           contribPurchaseSummary = getString(R.string.pref_contrib_purchase_summary);
@@ -704,10 +705,10 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
           //showDialog(R.id.DONATE_DIALOG);//currently nothing to do
         } else {
           Intent i = new Intent(getActivity(), ContribInfoDialogActivity.class);
-          if (Utils.IS_FLAVOURED) {
-            startActivity(i);
-          } else {
+          if (DistribHelper.isGithub()) {
             startActivityForResult(i, CONTRIB_PURCHASE_REQUEST);
+          } else {
+            startActivity(i);
           }
         }
         return true;

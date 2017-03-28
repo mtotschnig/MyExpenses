@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.util;
 
 import android.support.annotation.VisibleForTesting;
 
-import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Template;
@@ -10,7 +9,7 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 
 public abstract class LicenceHandler {
-  public static boolean HAS_EXTENDED = !BuildConfig.FLAVOR.equals("blackberry");
+  public static boolean HAS_EXTENDED = !DistribHelper.isBlackberry();
 
   public void init() {
     if (PrefKey.CURRENT_VERSION.getInt(-1) != -1) {

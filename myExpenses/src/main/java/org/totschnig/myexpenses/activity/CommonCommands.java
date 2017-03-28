@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.HelpDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.HashLicenceHandler;
 import org.totschnig.myexpenses.util.LicenceHandler;
 import org.totschnig.myexpenses.util.Utils;
@@ -46,7 +47,7 @@ public class CommonCommands {
     switch(command) {
     case R.id.RATE_COMMAND:
       i = new Intent(Intent.ACTION_VIEW);
-      i.setData(Uri.parse(MyApplication.getMarketSelfUri()));
+      i.setData(Uri.parse(DistribHelper.getMarketSelfUri()));
       if (Utils.isIntentAvailable(ctx,i)) {
         ctx.startActivity(i);
       } else {
@@ -160,8 +161,7 @@ public class CommonCommands {
     }
     String buildDate = BuildConfig.BUILD_DATE;
 
-    final String flavor = TextUtils.isEmpty(BuildConfig.FLAVOR) ?
-        "" : " " + BuildConfig.FLAVOR;
+    final String flavor = DistribHelper.getDistribution().toString();
     String installer = ctx.getPackageManager()
         .getInstallerPackageName(ctx.getPackageName());
     installer = TextUtils.isEmpty(installer) ?

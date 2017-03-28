@@ -806,23 +806,6 @@ public class MyApplication extends MultiDexApplication implements
         restoredPlansCount);
   }
 
-  public static String getMarketPrefix() {
-    switch (BuildConfig.FLAVOR) {
-      case "amazon":
-        return "amzn://apps/android?p=";
-      default:
-        return "market://details?id=";
-    }
-  }
-
-  public static String getMarketSelfUri() {
-    if (BuildConfig.FLAVOR.equals("blackberry")) {
-      return "appworld://content/54472888";
-    } else {
-      return getMarketPrefix() + "org.totschnig.myexpenses";
-    }
-  }
-
   public static void markDataDirty() {
     boolean persistedDirty = PrefKey.AUTO_BACKUP_DIRTY.getBoolean(true);
     if (!persistedDirty) {

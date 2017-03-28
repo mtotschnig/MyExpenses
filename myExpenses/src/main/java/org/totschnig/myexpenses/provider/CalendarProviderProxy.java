@@ -13,7 +13,7 @@ import com.android.calendar.CalendarContractCompat;
 import com.android.calendarcommon2.EventRecurrence;
 
 import org.totschnig.myexpenses.BuildConfig;
-import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.DistribHelper;
 
 import java.util.TimeZone;
 
@@ -61,7 +61,7 @@ public class CalendarProviderProxy extends ContentProvider {
         }
         long startMilliseconds = Long.parseLong(uri.getPathSegments().get(2));
         long endMilliseconds = Long.parseLong(uri.getPathSegments().get(3));
-        if (Utils.shouldUseAndroidPlatformCalendar()) {
+        if (DistribHelper.shouldUseAndroidPlatformCalendar()) {
           //Instances.Content_URI returns events that fall totally or partially in a given range
           //we additionally select only instances where the begin is inside the range
           //because we want to deal with each instance only once

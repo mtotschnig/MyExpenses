@@ -16,6 +16,7 @@ import android.support.v4.view.ViewPager;
 import android.widget.AdapterView;
 import android.widget.Button;
 
+import org.junit.Assume;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,7 +30,7 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
-import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.DistribHelper;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
@@ -84,7 +85,7 @@ public final class MyExpensesTest extends MyExpensesTestBase {
 
   @Test
   public void ratingDialogIsShown() {
-    if (!Utils.IS_FLAVOURED) return;
+    Assume.assumeTrue(!DistribHelper.isGithub())
     PrefKey.NEXT_REMINDER_RATE.remove();
     stubExpenseEditIntentWithSequenceCount(MyExpenses.TRESHOLD_REMIND_RATE + 1);
     onView(withId(R.id.CREATE_COMMAND)).perform(click());

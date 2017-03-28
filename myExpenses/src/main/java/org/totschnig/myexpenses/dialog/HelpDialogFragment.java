@@ -42,7 +42,7 @@ import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.AcraHelper;
-import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.DistribHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -325,9 +325,9 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
   private boolean shouldSkip(String component) {
     switch (component) {
       case "form_plan_help_text_advanced":
-        return !Utils.shouldUseAndroidPlatformCalendar();
+        return !DistribHelper.shouldUseAndroidPlatformCalendar();
       case "help_ManageSyncBackends_drive":
-        return !Utils.IS_FLAVOURED;
+        return DistribHelper.isGithub();
     }
     return false;
   }
