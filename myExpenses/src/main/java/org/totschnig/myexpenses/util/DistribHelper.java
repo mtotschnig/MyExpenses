@@ -4,7 +4,7 @@ import org.totschnig.myexpenses.BuildConfig;
 
 public class DistribHelper {
 
-  private enum Distribution {
+  public enum Distribution {
     PLAY,
     AMAZON {
       @Override
@@ -54,7 +54,7 @@ public class DistribHelper {
     return !isBlackberry();
   }
 
-  private static Distribution getDistribution() {
+  public static Distribution getDistribution() {
     return Distribution.valueOf(BuildConfig.DISTRIBUTION);
   }
 
