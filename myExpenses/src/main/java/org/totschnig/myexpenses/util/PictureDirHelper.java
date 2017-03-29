@@ -30,9 +30,7 @@ public class PictureDirHelper {
     int postfix = 0;
     File result;
     do {
-      result = new File(mediaStorageDir, getOutputMediaFileName(
-          fileName,
-          postfix));
+      result = new File(mediaStorageDir, getOutputMediaFileName(fileName, postfix));
       postfix++;
     } while (result.exists());
     return result;
@@ -41,18 +39,16 @@ public class PictureDirHelper {
   public static Uri getOutputMediaUri(boolean temp) {
     String fileName = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US)
         .format(new Date());
-    File outputMediaFile;
-    if (MyApplication.getInstance().isProtected() && !temp) {
-      outputMediaFile = getOutputMediaFile(fileName, false);
-      if (outputMediaFile == null) return null;
-      return FileProvider.getUriForFile(MyApplication.getInstance(),
-          MyApplication.getInstance().getPackageName() +".fileprovider",
-          outputMediaFile);
-    } else {
-      outputMediaFile = getOutputMediaFile(fileName, temp);
-      if (outputMediaFile == null) return null;
-      return Uri.fromFile(outputMediaFile);
-    }
+    File outputMediaFile = getOutputMediaFile(fileName, temp);
+    if (outputMediaFile == null) return null;
+    return temp ? Uri.fromFile(outputMediaFile) :
+        getContentUriForFile(outputMediaFile);
+  }
+
+  private static Uri getContentUriForFile(File file) {
+    return FileProvider.getUriForFile(MyApplication.getInstance(),
+    MyApplication.getInstance().getPackageName() +".fileprovider",
+        file);
   }
 
   public static String getPictureUriBase(boolean temp) {
@@ -69,21 +65,28 @@ public class PictureDirHelper {
     return base + ".jpg";
   }
 
-  public static File getPictureDir() {
+  private static File getPictureDir() {
     return getPictureDir(MyApplication.getInstance().isProtected());
   }
 
   public static File getPictureDir(boolean secure) {
     File result;
     if (secure) {
-      result = new File(MyApplication.getInstance().getFilesDir(),
-          "images");
+      result = new File(MyApplication.getInstance().getFilesDir(), "images");
     } else {
-      result = MyApplication.getInstance().getExternalFilesDir(
-          Environment.DIRECTORY_PICTURES);
+      result = MyApplication.getInstance().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
     }
     if (result == null) return null;
     result.mkdir();
     return result.exists() ? result : null;
+  }
+
+  public static Uri ensureContentUri(Uri pictureUri) {
+    switch(pictureUri.getScheme()) {
+      case "file": return getContentUriForFile(new File(pictureUri.getPath()));
+      case "content": return pictureUri;
+      default: throw new IllegalStateException(String.format(
+          "Unable to handle scheme of uri %s", pictureUri));
+    }
   }
 }
