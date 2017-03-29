@@ -662,8 +662,9 @@ public class MyExpenses extends LaunchActivity implements
       case R.id.OPEN_PDF_COMMAND:
         i = new Intent();
         i.setAction(Intent.ACTION_VIEW);
-        Uri data = Uri.parse((String) tag);
+        Uri data = AppDirHelper.ensureContentUri(Uri.parse((String) tag));
         i.setDataAndType(data, "application/pdf");
+        i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         if (!Utils.isIntentAvailable(this, i)) {
           Toast.makeText(this, R.string.no_app_handling_pdf_available, Toast.LENGTH_LONG).show();
         } else {
