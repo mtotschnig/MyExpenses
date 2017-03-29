@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.sync.json.Utils;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.FileCopyUtils;
+import org.totschnig.myexpenses.util.PictureDirHelper;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -87,7 +88,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   }
 
   private String ingestPictureUri(String relativeUri) throws IOException {
-    Uri homeUri = org.totschnig.myexpenses.util.Utils.getOutputMediaUri(false);
+    Uri homeUri = PictureDirHelper.getOutputMediaUri(false);
     if (homeUri == null) {
       throw new IOException("Unable to write picture");
     }

@@ -35,8 +35,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.FileCopyUtils;
+import org.totschnig.myexpenses.util.PictureDirHelper;
 import org.totschnig.myexpenses.util.TextUtils;
-import org.totschnig.myexpenses.util.Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -599,19 +599,19 @@ public class Transaction extends Model {
 
   protected void savePicture(ContentValues initialValues) {
     if (pictureUri != null) {
-      String pictureUriBase = Utils.getPictureUriBase(false);
+      String pictureUriBase = PictureDirHelper.getPictureUriBase(false);
       if (pictureUriBase == null) {
         throwExternalNotAvailable();
       }
       if (pictureUri.toString().startsWith(pictureUriBase)) {
         Timber.d("got Uri in our home space, nothing todo");
       } else {
-        pictureUriBase = Utils.getPictureUriBase(true);
+        pictureUriBase = PictureDirHelper.getPictureUriBase(true);
         if (pictureUriBase == null) {
           throwExternalNotAvailable();
         }
         boolean isInTempFolder = pictureUri.toString().startsWith(pictureUriBase);
-        Uri homeUri = Utils.getOutputMediaUri(false);
+        Uri homeUri = PictureDirHelper.getOutputMediaUri(false);
         if (homeUri == null) {
           throwExternalNotAvailable();
         }

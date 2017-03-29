@@ -49,6 +49,7 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.PictureDirHelper;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.io.File;
@@ -1243,7 +1244,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       }
 
       if (oldVersion < 51) {
-        File pictureDir = Utils.getPictureDir(false);
+        File pictureDir = PictureDirHelper.getPictureDir(false);
         //fallback if not mounted
         if (pictureDir == null) {
           pictureDir = new File(

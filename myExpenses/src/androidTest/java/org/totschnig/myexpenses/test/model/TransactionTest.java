@@ -29,7 +29,7 @@ import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.PictureDirHelper;
 
 import java.util.Date;
 
@@ -60,7 +60,7 @@ public class TransactionTest extends ModelTest {
     assert op1 != null;
     op1.setAmount(new Money(mAccount1.currency, 100L));
     op1.comment = "test transaction";
-    op1.setPictureUri(Utils.getOutputMediaUri(false));//we need an uri that is considered "home"
+    op1.setPictureUri(PictureDirHelper.getOutputMediaUri(false));//we need an uri that is considered "home"
     op1.payee = payee;
     op1.save();
     assertTrue(op1.getId() > 0);
@@ -87,7 +87,7 @@ public class TransactionTest extends ModelTest {
     assert op != null;
     op.setAmount(new Money(mAccount1.currency, (long) 100));
     op.comment = "test transfer";
-    op.setPictureUri(Utils.getOutputMediaUri(false));
+    op.setPictureUri(PictureDirHelper.getOutputMediaUri(false));
     op.save();
     assertTrue(op.getId() > 0);
     Transaction restored = Transaction.getInstanceFromDb(op.getId());
@@ -110,7 +110,7 @@ public class TransactionTest extends ModelTest {
     assert op1 != null;
     op1.setAmount(new Money(mAccount1.currency, 100L));
     op1.comment = "test transaction";
-    op1.setPictureUri(Utils.getOutputMediaUri(false));
+    op1.setPictureUri(PictureDirHelper.getOutputMediaUri(false));
     op1.setDate(new Date(System.currentTimeMillis() - 1003900000));
     op1.save();
     assertTrue(op1.getId() > 0);

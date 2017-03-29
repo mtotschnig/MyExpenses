@@ -110,6 +110,7 @@ import org.totschnig.myexpenses.ui.SpinnerHelper;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.FilterCursorWrapper;
+import org.totschnig.myexpenses.util.PictureDirHelper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.TemplateWidget;
@@ -2170,7 +2171,7 @@ public class ExpenseEdit extends AmountActivity implements
 
   private Uri getCameraUri() {
     if (mPictureUriTemp == null) {
-      mPictureUriTemp = Utils.getOutputMediaUri(true);
+      mPictureUriTemp = PictureDirHelper.getOutputMediaUri(true);
     }
     return mPictureUriTemp;
   }
