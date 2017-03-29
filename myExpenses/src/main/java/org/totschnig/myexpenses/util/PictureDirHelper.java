@@ -47,7 +47,7 @@ public class PictureDirHelper {
 
   private static Uri getContentUriForFile(File file) {
     return FileProvider.getUriForFile(MyApplication.getInstance(),
-    MyApplication.getInstance().getPackageName() +".fileprovider",
+        MyApplication.getInstance().getPackageName() + ".fileprovider",
         file);
   }
 
@@ -82,11 +82,14 @@ public class PictureDirHelper {
   }
 
   public static Uri ensureContentUri(Uri pictureUri) {
-    switch(pictureUri.getScheme()) {
-      case "file": return getContentUriForFile(new File(pictureUri.getPath()));
-      case "content": return pictureUri;
-      default: throw new IllegalStateException(String.format(
-          "Unable to handle scheme of uri %s", pictureUri));
+    switch (pictureUri.getScheme()) {
+      case "file":
+        return getContentUriForFile(new File(pictureUri.getPath()));
+      case "content":
+        return pictureUri;
+      default:
+        throw new IllegalStateException(String.format(
+            "Unable to handle scheme of uri %s", pictureUri));
     }
   }
 }
