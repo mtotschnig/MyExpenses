@@ -97,6 +97,7 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -1021,7 +1022,7 @@ public class TransactionList extends ContextualActionBarFragment implements
         return true;
       case R.id.PRINT_COMMAND:
         MyExpenses ctx = (MyExpenses) getActivity();
-        Result appDirStatus = Utils.checkAppDir();
+        Result appDirStatus = AppDirHelper.checkAppDir();
         if (hasItems) {
           if (appDirStatus.success) {
             ctx.contribFeatureRequested(ContribFeature.PRINT, null);

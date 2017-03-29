@@ -13,14 +13,14 @@ import java.io.IOException;
 public class BackupUtils {
   @NonNull
   public static Result doBackup() {
-    if (!Utils.isExternalStorageAvailable()) {
+    if (!AppDirHelper.isExternalStorageAvailable()) {
       return new Result(false, R.string.external_storage_unavailable);
     }
-    DocumentFile appDir = Utils.getAppDir();
+    DocumentFile appDir = AppDirHelper.getAppDir();
     if (appDir == null) {
       return new Result(false, R.string.io_error_appdir_null);
     }
-    if (!Utils.dirExistsAndIsWritable(appDir)) {
+    if (!AppDirHelper.dirExistsAndIsWritable(appDir)) {
       return new Result(false, R.string.app_dir_not_accessible,
           FileUtils.getPath(MyApplication.getInstance(), appDir.getUri()));
     }
@@ -28,7 +28,7 @@ public class BackupUtils {
     if (backupFile == null) {
       return new Result(false, R.string.io_error_backupdir_null);
     }
-    File cacheDir = Utils.getCacheDir();
+    File cacheDir = AppDirHelper.getCacheDir();
     if (cacheDir == null) {
       AcraHelper.report(new Exception(
           MyApplication.getInstance().getString(R.string.io_error_cachedir_null)));

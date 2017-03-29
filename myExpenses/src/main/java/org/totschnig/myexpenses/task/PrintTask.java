@@ -9,8 +9,8 @@ import org.totschnig.myexpenses.export.pdf.PdfPrinter;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
+import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.Result;
-import org.totschnig.myexpenses.util.Utils;
 
 import timber.log.Timber;
 
@@ -48,7 +48,7 @@ public class PrintTask extends AsyncTask<Void, String, Result> {
   @Override
   protected Result doInBackground(Void... ignored) {
     Account account;
-    DocumentFile appDir = Utils.getAppDir();
+    DocumentFile appDir = AppDirHelper.getAppDir();
     if (appDir == null) {
       return new Result(false, R.string.external_storage_unavailable);
     }

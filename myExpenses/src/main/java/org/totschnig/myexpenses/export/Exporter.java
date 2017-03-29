@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
+import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
@@ -106,7 +107,7 @@ public class Exporter {
       return new Result(false, R.string.no_exportable_expenses);
     }
     //then we check if the destDir is writable
-    DocumentFile outputFile = Utils.newFile(
+    DocumentFile outputFile = AppDirHelper.newFile(
         destDir,
         fileName,
         format.getMimeType(), true);

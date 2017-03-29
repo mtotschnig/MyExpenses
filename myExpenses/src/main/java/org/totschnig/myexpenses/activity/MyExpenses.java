@@ -95,6 +95,7 @@ import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Result;
@@ -570,7 +571,7 @@ public class MyExpenses extends LaunchActivity implements
       case R.id.RESET_COMMAND:
         tl = getCurrentFragment();
         if (tl != null && tl.hasItems) {
-          Result appDirStatus = Utils.checkAppDir();
+          Result appDirStatus = AppDirHelper.checkAppDir();
           if (appDirStatus.success) {
             ExportDialogFragment.newInstance(mAccountId, tl.isFiltered())
                 .show(this.getSupportFragmentManager(), "WARNING_RESET");
@@ -1014,7 +1015,7 @@ public class MyExpenses extends LaunchActivity implements
           MessageDialogFragment f = MessageDialogFragment.newInstance(
               0,
               getString(result.getMessage(), FileUtils.getPath(this, (Uri) result.extra[0])),
-              new MessageDialogFragment.Button(R.string.menu_open, R.id.OPEN_PDF_COMMAND, ((Uri) result.extra[0]).toString()),
+              new MessageDialogFragment.Button(R.string.menu_open, R.id.OPEN_PDF_COMMAND, result.extra[0].toString()),
               null,
               MessageDialogFragment.Button.nullButton(android.R.string.cancel));
           f.setCancelable(false);

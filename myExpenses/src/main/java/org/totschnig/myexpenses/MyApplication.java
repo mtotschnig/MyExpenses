@@ -57,9 +57,9 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.LicenceHandler;
 import org.totschnig.myexpenses.util.Result;
-import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.AccountWidget;
 import org.totschnig.myexpenses.widget.TemplateWidget;
@@ -323,7 +323,7 @@ public class MyApplication extends MultiDexApplication implements
   }
 
   public static DocumentFile requireBackupFile(@NonNull DocumentFile appDir) {
-    return Utils.timeStampedFile(appDir, "backup", "application/zip", false);
+    return AppDirHelper.timeStampedFile(appDir, "backup", "application/zip", false);
   }
 
   public static File getBackupDbFile(File backupDir) {

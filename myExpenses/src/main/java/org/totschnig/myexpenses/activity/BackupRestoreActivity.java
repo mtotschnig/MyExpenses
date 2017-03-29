@@ -32,6 +32,7 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
@@ -58,7 +59,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
     }
     String action = getIntent().getAction();
     if (action != null && action.equals("myexpenses.intent.backup")) {
-      Result appDirStatus = Utils.checkAppDir();
+      Result appDirStatus = AppDirHelper.checkAppDir();
       if (!appDirStatus.success) {
         abort(appDirStatus.print(this));
         return;
@@ -66,14 +67,14 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
       MessageDialogFragment.newInstance(
           R.string.menu_backup,
           getString(R.string.warning_backup,
-              FileUtils.getPath(this, Utils.getAppDir().getUri())),
+              FileUtils.getPath(this, AppDirHelper.getAppDir().getUri())),
           new MessageDialogFragment.Button(android.R.string.yes,
               R.id.BACKUP_COMMAND, null), null,
           MessageDialogFragment.Button.noButton())
           .show(getSupportFragmentManager(), "BACKUP");
     } else {
       if (getIntent().getBooleanExtra("legacy", false)) {
-        Result appDirStatus = Utils.checkAppDir();
+        Result appDirStatus = AppDirHelper.checkAppDir();
         if (appDirStatus.success) {
           openBrowse();
         } else {
@@ -130,7 +131,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
       return true;
     switch (command) {
       case R.id.BACKUP_COMMAND:
-        if (Utils.checkAppFolderWarning()) {
+        if (AppDirHelper.checkAppFolderWarning()) {
           doBackup();
         } else {
           Bundle b = new Bundle();
@@ -152,7 +153,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
   }
 
   protected void doBackup() {
-    Result appDirStatus = Utils.checkAppDir();//TODO this check leads to strict mode violation, can we get rid of it ?
+    Result appDirStatus = AppDirHelper.checkAppDir();//TODO this check leads to strict mode violation, can we get rid of it ?
     if (appDirStatus.success) {
       startTaskExecution(TaskExecutionFragment.TASK_BACKUP, null, null,
           R.string.menu_backup);
@@ -226,7 +227,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
    */
   public void onSourceSelected(String dirOrFile, int restorePlanStrategie) {
     if (dirOrFile.endsWith(".zip")) {
-      showRestoreDialog(Uri.fromFile(new File(Utils.getAppDir().getUri().getPath(), dirOrFile)),
+      showRestoreDialog(Uri.fromFile(new File(AppDirHelper.getAppDir().getUri().getPath(), dirOrFile)),
           restorePlanStrategie);
     } else {
       showRestoreDialog(dirOrFile);
@@ -264,7 +265,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
 
   // inspired by Financisto
   public static String[] listBackups() {
-    DocumentFile appDir = Utils.getAppDir();
+    DocumentFile appDir = AppDirHelper.getAppDir();
     if (appDir.getUri().getScheme().equals("file")) {
       String[] files = new File(appDir.getUri().getPath()).list(new FilenameFilter() {
         @Override

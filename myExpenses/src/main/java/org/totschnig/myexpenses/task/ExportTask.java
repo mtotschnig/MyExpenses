@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
+import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
@@ -133,13 +134,13 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
     }
     Account account;
     DocumentFile destDir;
-    DocumentFile appDir = Utils.getAppDir();
+    DocumentFile appDir = AppDirHelper.getAppDir();
     if (appDir == null) {
       publishProgress(MyApplication.getInstance().getString(R.string.external_storage_unavailable));
       return(null);
     }
     if (accountIds.length > 1) {
-      destDir = Utils.newDirectory(appDir, fileName);
+      destDir = AppDirHelper.newDirectory(appDir, fileName);
     } else {
       destDir = appDir;
     }

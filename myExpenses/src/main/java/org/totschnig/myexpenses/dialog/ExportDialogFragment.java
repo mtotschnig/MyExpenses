@@ -53,6 +53,7 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.task.ExportTask;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -371,7 +372,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
     boolean deleteP = deleteCB.isChecked();
     boolean notYetExportedP = notYetExportedCB.isChecked();
     String fileName = fileNameET.getText().toString();
-    Result appDirStatus = Utils.checkAppDir();
+    Result appDirStatus = AppDirHelper.checkAppDir();
     if (appDirStatus.success) {
       Bundle b = new Bundle();
       b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
@@ -390,7 +391,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
       b.putString(TaskExecutionFragment.KEY_ENCODING, encoding);
       b.putInt(ExportTask.KEY_EXPORT_HANDLE_DELETED, handleDeleted);
       b.putString(ExportTask.KEY_FILE_NAME, fileName);
-      if (Utils.checkAppFolderWarning()) {
+      if (AppDirHelper.checkAppFolderWarning()) {
         ((ConfirmationDialogListener) getActivity())
             .onPositive(b);
       } else {

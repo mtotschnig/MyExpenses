@@ -24,10 +24,10 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.FileCopyUtils;
 import org.totschnig.myexpenses.util.PictureDirHelper;
 import org.totschnig.myexpenses.util.Result;
-import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.ZipUtils;
 
 import java.io.File;
@@ -88,7 +88,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
     final MyApplication application = MyApplication.getInstance();
     ContentResolver cr = application.getContentResolver();
     if (fileUri != null) {
-      workingDir = Utils.getCacheDir();
+      workingDir = AppDirHelper.getCacheDir();
       if (workingDir == null) {
         return new Result(false, R.string.external_storage_unavailable);
       }
@@ -114,7 +114,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
             e.getMessage());
       }
     } else {
-      workingDir = new File(Utils.getAppDir().getUri().getPath(), dirNameLegacy);
+      workingDir = new File(AppDirHelper.getAppDir().getUri().getPath(), dirNameLegacy);
     }
     File backupFile = MyApplication.getBackupDbFile(workingDir);
     File backupPrefFile = MyApplication.getBackupPrefFile(workingDir);

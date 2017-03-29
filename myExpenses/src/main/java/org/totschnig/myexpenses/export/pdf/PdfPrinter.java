@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
+import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.LazyFontSelector;
 import org.totschnig.myexpenses.util.PdfHelper;
@@ -102,7 +103,7 @@ public class PdfPrinter {
     }
     Cursor transactionCursor;
     String fileName = account.label.replaceAll("\\W", "");
-    DocumentFile outputFile = Utils.timeStampedFile(
+    DocumentFile outputFile = AppDirHelper.timeStampedFile(
         destDir,
         fileName,
         "application/pdf", false);

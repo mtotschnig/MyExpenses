@@ -41,6 +41,7 @@ import org.totschnig.myexpenses.sync.SyncBackendProvider;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.BackupUtils;
 import org.totschnig.myexpenses.util.FileCopyUtils;
 import org.totschnig.myexpenses.util.FileUtils;
@@ -417,7 +418,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         }
         return null;
       case TaskExecutionFragment.TASK_EXPORT_CATEGRIES:
-        DocumentFile appDir = Utils.getAppDir();
+        DocumentFile appDir = AppDirHelper.getAppDir();
         String fullLabel =
             " CASE WHEN " +
                 KEY_PARENTID +
@@ -432,7 +433,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           return new Result(false, R.string.external_storage_unavailable);
         }
         String fileName = "categories";
-        DocumentFile outputFile = Utils.timeStampedFile(
+        DocumentFile outputFile = AppDirHelper.timeStampedFile(
             appDir,
             fileName,
             "text/qif", false);

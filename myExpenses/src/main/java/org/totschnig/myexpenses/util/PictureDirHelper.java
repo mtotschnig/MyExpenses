@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.util;
 
 import android.net.Uri;
 import android.os.Environment;
-import android.support.v4.content.FileProvider;
 
 import org.totschnig.myexpenses.MyApplication;
 
@@ -10,6 +9,8 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import static org.totschnig.myexpenses.util.AppDirHelper.getContentUriForFile;
 
 public class PictureDirHelper {
   /**
@@ -25,7 +26,7 @@ public class PictureDirHelper {
     // To be safe, you should check that the SDCard is mounted
     // using Environment.getExternalStorageState() before doing this.
 
-    File mediaStorageDir = temp ? Utils.getCacheDir() : getPictureDir();
+    File mediaStorageDir = temp ? AppDirHelper.getCacheDir() : getPictureDir();
     if (mediaStorageDir == null) return null;
     int postfix = 0;
     File result;
@@ -45,11 +46,6 @@ public class PictureDirHelper {
         getContentUriForFile(outputMediaFile);
   }
 
-  private static Uri getContentUriForFile(File file) {
-    return FileProvider.getUriForFile(MyApplication.getInstance(),
-        MyApplication.getInstance().getPackageName() + ".fileprovider",
-        file);
-  }
 
   public static String getPictureUriBase(boolean temp) {
     Uri sampleUri = getOutputMediaUri(temp);
@@ -81,15 +77,4 @@ public class PictureDirHelper {
     return result.exists() ? result : null;
   }
 
-  public static Uri ensureContentUri(Uri pictureUri) {
-    switch (pictureUri.getScheme()) {
-      case "file":
-        return getContentUriForFile(new File(pictureUri.getPath()));
-      case "content":
-        return pictureUri;
-      default:
-        throw new IllegalStateException(String.format(
-            "Unable to handle scheme of uri %s", pictureUri));
-    }
-  }
 }
