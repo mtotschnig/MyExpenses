@@ -35,7 +35,7 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Result;
-import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.ShareUtils;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -200,7 +200,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
           if (PrefKey.PERFORM_SHARE.getBoolean(false)) {
             ArrayList<Uri> uris = new ArrayList<>();
             uris.add(backupFileUri);
-            Utils.share(this, uris,
+            ShareUtils.share(this, uris,
                 PrefKey.SHARE_TARGET.getString("").trim(),
                 "application/zip");
           }

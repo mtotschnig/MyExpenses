@@ -33,11 +33,11 @@ import android.graphics.drawable.InsetDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v4.provider.DocumentFile;
 import android.support.v7.widget.AppCompatDrawableManager;
 import android.telephony.TelephonyManager;
 import android.text.Html;
@@ -57,7 +57,6 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.annimon.stream.Stream;
 
@@ -77,7 +76,6 @@ import org.totschnig.myexpenses.task.GrisbiImportTask;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.xml.sax.SAXException;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -275,28 +273,6 @@ public class Utils {
     }
   }
 
-  public static URI validateUri(String target) {
-    boolean targetParsable;
-    URI uri = null;
-    if (!target.equals("")) {
-      try {
-        uri = new URI(target);
-        String scheme = uri.getScheme();
-        // strangely for mailto URIs getHost returns null,
-        // so we make sure that mailto URIs handled as valid
-        targetParsable = scheme != null
-            && (scheme.equals("mailto") || uri.getHost() != null);
-      } catch (URISyntaxException e1) {
-        targetParsable = false;
-      }
-      if (!targetParsable) {
-        return null;
-      }
-      return uri;
-    }
-    return null;
-  }
-
   /**
    * formats an amount with a currency
    *
@@ -440,87 +416,6 @@ public class Utils {
    */
   public static String convAmount(Long amount, Currency currency) {
     return formatCurrency(new Money(currency, amount));
-  }
-
-
-  /** Create a File for saving an image or video */
-  // Source
-  // http://developer.android.com/guide/topics/media/camera.html#saving-media
-
-  public static void share(Context ctx, ArrayList<Uri> fileUris, String target,
-                           String mimeType) {
-    URI uri = null;
-    Intent intent;
-    String scheme = "mailto";
-    boolean multiple = fileUris.size() > 1;
-    if (!target.equals("")) {
-      uri = Utils.validateUri(target);
-      if (uri == null) {
-        Toast.makeText(ctx, ctx.getString(R.string.ftp_uri_malformed, target),
-            Toast.LENGTH_LONG).show();
-        return;
-      }
-      scheme = uri.getScheme();
-    }
-    // if we get a String that does not include a scheme,
-    // we interpret it as a mail address
-    if (scheme == null) {
-      scheme = "mailto";
-    }
-    if (scheme.equals("ftp")) {
-      if (multiple) {
-        Toast.makeText(ctx,
-            "sending multiple file through ftp is not supported",
-            Toast.LENGTH_LONG).show();
-        return;
-      }
-      intent = new Intent(android.content.Intent.ACTION_SENDTO);
-      intent.putExtra(Intent.EXTRA_STREAM, fileUris.get(0));
-      intent.setDataAndType(android.net.Uri.parse(target), mimeType);
-      if (!isIntentAvailable(ctx, intent)) {
-        Toast.makeText(ctx, R.string.no_app_handling_ftp_available,
-            Toast.LENGTH_LONG).show();
-        return;
-      }
-      ctx.startActivity(intent);
-    } else if (scheme.equals("mailto")) {
-      if (multiple) {
-        intent = new Intent(android.content.Intent.ACTION_SEND_MULTIPLE);
-        ArrayList<Uri> uris = new ArrayList<>();
-        for (Uri fileUri : fileUris) {
-          uris.add(fileUri);
-        }
-        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
-      } else {
-        intent = new Intent(android.content.Intent.ACTION_SEND);
-        intent.putExtra(Intent.EXTRA_STREAM, fileUris.get(0));
-      }
-      intent.setType(mimeType);
-      if (uri != null) {
-        String address = uri.getSchemeSpecificPart();
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{address});
-      }
-      intent.putExtra(Intent.EXTRA_SUBJECT, R.string.export_expenses);
-      if (!isIntentAvailable(ctx, intent)) {
-        Toast.makeText(ctx, R.string.no_app_handling_email_available,
-            Toast.LENGTH_LONG).show();
-        return;
-      }
-      // if we got mail address, we launch the default application
-      // if we are called without target, we launch the chooser
-      // in order to make action more explicit
-      if (uri != null) {
-        ctx.startActivity(intent);
-      } else {
-        ctx.startActivity(Intent.createChooser(intent,
-            ctx.getString(R.string.share_sending)));
-      }
-    } else {
-      Toast.makeText(ctx,
-          ctx.getString(R.string.share_scheme_not_supported, scheme),
-          Toast.LENGTH_LONG).show();
-      return;
-    }
   }
 
   public static void setBackgroundFilter(View v, int c) {

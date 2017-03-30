@@ -88,6 +88,7 @@ import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.LicenceHandler;
+import org.totschnig.myexpenses.util.ShareUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.AccountWidget;
@@ -658,7 +659,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         String target = (String) value;
         URI uri;
         if (!target.equals("")) {
-          uri = Utils.validateUri(target);
+          uri = ShareUtils.validateUri(target);
           if (uri == null) {
             Toast.makeText(getActivity(), getString(R.string.ftp_uri_malformed, target), Toast.LENGTH_LONG).show();
             return false;

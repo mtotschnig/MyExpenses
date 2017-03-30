@@ -48,7 +48,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Result;
-import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.ShareUtils;
 
 import java.util.ArrayList;
 
@@ -334,7 +334,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
           if (PrefKey.PERFORM_SHARE.getBoolean(false)) {
             ArrayList<Uri> uris = new ArrayList<>();
             uris.add(uri);
-            Utils.share(this, uris,
+            ShareUtils.share(this, uris,
                 PrefKey.SHARE_TARGET.getString("").trim(),
                 "text/qif");
           }
