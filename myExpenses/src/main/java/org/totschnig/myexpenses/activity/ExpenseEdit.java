@@ -132,6 +132,9 @@ import javax.inject.Inject;
 import timber.log.Timber;
 
 import static org.totschnig.myexpenses.activity.MyExpenses.KEY_SEQUENCE_COUNT;
+import static org.totschnig.myexpenses.activity.MyExpenses.TYPE_SPLIT;
+import static org.totschnig.myexpenses.activity.MyExpenses.TYPE_TRANSACTION;
+import static org.totschnig.myexpenses.activity.MyExpenses.TYPE_TRANSFER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
@@ -451,11 +454,11 @@ public class ExpenseEdit extends AmountActivity implements
             R.string.progress_dialog_loading);
       }
     } else {
-      mOperationType = getIntent().getIntExtra(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_TRANSACTION);
+      mOperationType = getIntent().getIntExtra(MyApplication.KEY_OPERATION_TYPE, TYPE_TRANSACTION);
       if (!isValidType(mOperationType)) {
-        mOperationType = MyExpenses.TYPE_TRANSACTION;
+        mOperationType = TYPE_TRANSACTION;
       }
-      if (mOperationType == MyExpenses.TYPE_SPLIT && !ContribFeature.SPLIT_TRANSACTION.hasAccess() &&
+      if (mOperationType == TYPE_SPLIT && !ContribFeature.SPLIT_TRANSACTION.hasAccess() &&
           ContribFeature.SPLIT_TRANSACTION.usagesLeft() < 1) {
         Toast.makeText(this, ContribFeature.SPLIT_TRANSACTION.buildRequiresString(this),
             Toast.LENGTH_LONG).show();
@@ -469,10 +472,10 @@ public class ExpenseEdit extends AmountActivity implements
       mOperationTypeSpinner = new SpinnerHelper(spinner);
       spinner.setVisibility(View.VISIBLE);
       List<Integer> allowedOperationTypes = new ArrayList<>();
-      allowedOperationTypes.add(MyExpenses.TYPE_TRANSACTION);
-      allowedOperationTypes.add(MyExpenses.TYPE_TRANSFER);
+      allowedOperationTypes.add(TYPE_TRANSACTION);
+      allowedOperationTypes.add(TYPE_TRANSFER);
       if (!isNewTemplate && parentId == 0) {
-        allowedOperationTypes.add(MyExpenses.TYPE_SPLIT);
+        allowedOperationTypes.add(TYPE_SPLIT);
       }
       mOperationTypeAdapter = new OperationTypeAdapter(this, allowedOperationTypes,
           isNewTemplate, parentId != 0);
@@ -484,7 +487,7 @@ public class ExpenseEdit extends AmountActivity implements
         mTransaction = Template.getTypedNewInstance(mOperationType, accountId);
       } else {
         switch (mOperationType) {
-          case MyExpenses.TYPE_TRANSACTION:
+          case TYPE_TRANSACTION:
             if (accountId == 0L) {
               accountId = MyApplication.getInstance().getSettings()
                   .getLong(PREFKEY_TRANSACTION_LAST_ACCOUNT_FROM_WIDGET, 0L);
@@ -493,7 +496,7 @@ public class ExpenseEdit extends AmountActivity implements
                 Transaction.getNewInstance(accountId) :
                 SplitPartCategory.getNewInstance(accountId, parentId);
             break;
-          case MyExpenses.TYPE_TRANSFER:
+          case TYPE_TRANSFER:
             Long transfer_account = 0L;
             if (accountId == 0L) {
               accountId = MyApplication.getInstance().getSettings()
@@ -505,7 +508,7 @@ public class ExpenseEdit extends AmountActivity implements
                 Transfer.getNewInstance(accountId, transfer_account) :
                 SplitPartTransfer.getNewInstance(accountId, parentId, transfer_account);
             break;
-          case MyExpenses.TYPE_SPLIT:
+          case TYPE_SPLIT:
             if (accountId == 0L) {
               accountId = MyApplication.getInstance().getSettings()
                   .getLong(PREFKEY_SPLIT_LAST_ACCOUNT_FROM_WIDGET, 0L);
@@ -572,7 +575,7 @@ public class ExpenseEdit extends AmountActivity implements
         }
       });
     }
-    if (mOperationType == MyExpenses.TYPE_TRANSFER) {
+    if (mOperationType == TYPE_TRANSFER) {
       mAmountText.addTextChangedListener(new LinkedTransferAmountTextWatcher(true));
       mTransferAmountText.addTextChangedListener(new LinkedTransferAmountTextWatcher(false));
     }
@@ -584,7 +587,7 @@ public class ExpenseEdit extends AmountActivity implements
     if (isSplitPart()) {
       disableAccountSpinner();
     }
-    mIsMainTransactionOrTemplate = mOperationType != MyExpenses.TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory);
+    mIsMainTransactionOrTemplate = mOperationType != TYPE_TRANSFER && !(mTransaction instanceof SplitPartCategory);
 
     if (mIsMainTransactionOrTemplate) {
 
@@ -603,7 +606,7 @@ public class ExpenseEdit extends AmountActivity implements
     if (categoryContainer == null)
       categoryContainer = findViewById(R.id.Category);
     TextView accountLabelTv = (TextView) findViewById(R.id.AccountLabel);
-    if (mOperationType == MyExpenses.TYPE_TRANSFER) {
+    if (mOperationType == TYPE_TRANSFER) {
       mTypeButton.setVisibility(View.GONE);
       categoryContainer.setVisibility(View.GONE);
       View accountContainer = findViewById(R.id.TransferAccountRow);
@@ -643,9 +646,9 @@ public class ExpenseEdit extends AmountActivity implements
       setTitle(
           getString(mTransaction.getId() == 0 ? R.string.menu_create_template : R.string.menu_edit_template)
               + " ("
-              + getString(mOperationType == MyExpenses.TYPE_TRANSFER ? R.string.transfer : R.string.transaction)
+              + getString(mOperationType == TYPE_TRANSFER ? R.string.transfer : R.string.transaction)
               + ")");
-      helpVariant = mOperationType == MyExpenses.TYPE_TRANSFER ?
+      helpVariant = mOperationType == TYPE_TRANSFER ?
           HelpVariant.templateTransfer : HelpVariant.templateCategory;
     } else if (mTransaction instanceof SplitTransaction) {
       setTitle(mNewInstance ? R.string.menu_create_split : R.string.menu_edit_split);
@@ -750,12 +753,12 @@ public class ExpenseEdit extends AmountActivity implements
     configurePlan();
 
 
-    if (mType == INCOME && mOperationType == MyExpenses.TYPE_TRANSFER) {
+    if (mType == INCOME && mOperationType == TYPE_TRANSFER) {
       switchAccountViews();
     }
 
     setCategoryButton();
-    if (mOperationType != MyExpenses.TYPE_TRANSFER) {
+    if (mOperationType != TYPE_TRANSFER) {
       mCategoryButton.setOnClickListener(new View.OnClickListener() {
         public void onClick(View view) {
           startSelectCategory();
@@ -842,7 +845,7 @@ public class ExpenseEdit extends AmountActivity implements
               .setIcon(R.drawable.ic_action_save_new),
           MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
     }
-    if (mOperationType == MyExpenses.TYPE_TRANSFER) {
+    if (mOperationType == TYPE_TRANSFER) {
       MenuItemCompat.setShowAsAction(
           menu.add(Menu.NONE, R.id.INVERT_TRANSFER_COMMAND, 0, R.string.menu_invert_transfer)
               .setIcon(R.drawable.ic_menu_move), MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
@@ -906,7 +909,7 @@ public class ExpenseEdit extends AmountActivity implements
     }
     Intent i = new Intent(this, ExpenseEdit.class);
     forwardDataEntryFromWidget(i);
-    i.putExtra(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_TRANSACTION);
+    i.putExtra(MyApplication.KEY_OPERATION_TYPE, TYPE_TRANSACTION);
     i.putExtra(KEY_ACCOUNTID, account.getId());
     i.putExtra(KEY_PARENTID, mTransaction.getId());
     startActivityForResult(i, EDIT_SPLIT_REQUEST);
@@ -1089,14 +1092,14 @@ public class ExpenseEdit extends AmountActivity implements
       if (getIntent().getBooleanExtra(AbstractWidget.EXTRA_START_FROM_WIDGET, false)) {
         SharedPreferences.Editor editor = MyApplication.getInstance().getSettings().edit();
         switch (mOperationType) {
-          case MyExpenses.TYPE_TRANSACTION:
+          case TYPE_TRANSACTION:
             editor.putLong(PREFKEY_TRANSACTION_LAST_ACCOUNT_FROM_WIDGET, mTransaction.accountId);
             break;
-          case MyExpenses.TYPE_TRANSFER:
+          case TYPE_TRANSFER:
             editor.putLong(PREFKEY_TRANSFER_LAST_ACCOUNT_FROM_WIDGET, mTransaction.accountId);
             editor.putLong(PREFKEY_TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET, mTransaction.transfer_account);
             break;
-          case MyExpenses.TYPE_SPLIT:
+          case TYPE_SPLIT:
             editor.putLong(PREFKEY_SPLIT_LAST_ACCOUNT_FROM_WIDGET, mTransaction.accountId);
         }
         editor.apply();
@@ -1140,7 +1143,7 @@ public class ExpenseEdit extends AmountActivity implements
       mTransaction.setDate(mCalendar.getTime());
     }
 
-    if (mOperationType == MyExpenses.TYPE_TRANSACTION) {
+    if (mOperationType == TYPE_TRANSACTION) {
       mTransaction.setCatId(mCatId);
     }
     if (mIsMainTransactionOrTemplate) {
@@ -1149,7 +1152,7 @@ public class ExpenseEdit extends AmountActivity implements
       mTransaction.methodId = (selected != AdapterView.INVALID_ROW_ID && selected > 0) ?
           selected : null;
     }
-    if (mOperationType == MyExpenses.TYPE_TRANSFER) {
+    if (mOperationType == TYPE_TRANSFER) {
       mTransaction.transfer_account = mTransferAccountSpinner.getSelectedItemId();
       final Account transferAccount = Account.getInstanceFromDb(mTransferAccountSpinner
           .getSelectedItemId());
@@ -1417,7 +1420,7 @@ public class ExpenseEdit extends AmountActivity implements
         outState.putLong(KEY_ACCOUNTID, accountId);
       }
     }
-    if (mOperationType == MyExpenses.TYPE_TRANSFER) {
+    if (mOperationType == TYPE_TRANSFER) {
       outState.putLong(KEY_TRANSFER_ACCOUNT, mTransferAccountSpinner.getSelectedItemId());
     }
   }
@@ -1523,12 +1526,12 @@ public class ExpenseEdit extends AmountActivity implements
           }
         }
         if (mTransaction instanceof SplitTransaction) {
-          mOperationType = MyExpenses.TYPE_SPLIT;
+          mOperationType = TYPE_SPLIT;
         } else if (mTransaction instanceof Template) {
-          mOperationType = ((Template) mTransaction).isTransfer() ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
+          mOperationType = ((Template) mTransaction).isTransfer() ? TYPE_TRANSFER : TYPE_TRANSACTION;
           mPlan = ((Template) mTransaction).getPlan();
         } else {
-          mOperationType = mTransaction instanceof Transfer ? MyExpenses.TYPE_TRANSFER : MyExpenses.TYPE_TRANSACTION;
+          mOperationType = mTransaction instanceof Transfer ? TYPE_TRANSFER : TYPE_TRANSACTION;
         }
         if (mPictureUri == null) { // we might have received a picture in onActivityResult before
           // arriving here, in this case it takes precedence
@@ -1667,10 +1670,10 @@ public class ExpenseEdit extends AmountActivity implements
       case R.id.OperationType:
         int newType = ((Integer) mOperationTypeSpinner.getItemAtPosition(position));
         if (newType != mOperationType && isValidType(newType)) {
-          if (newType == MyExpenses.TYPE_TRANSFER && !checkTransferEnabled(getCurrentAccount())) {
+          if (newType == TYPE_TRANSFER && !checkTransferEnabled(getCurrentAccount())) {
             //reset to previous
             resetOperationType();
-          } else if (newType == MyExpenses.TYPE_SPLIT) {
+          } else if (newType == TYPE_SPLIT) {
             resetOperationType();
             contribFeatureRequested(ContribFeature.SPLIT_TRANSACTION, null);
           } else {
@@ -1686,15 +1689,15 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   private boolean isValidType(int type) {
-    return type == MyExpenses.TYPE_SPLIT || type == MyExpenses.TYPE_TRANSACTION ||
-        type == MyExpenses.TYPE_TRANSFER;
+    return type == TYPE_SPLIT || type == TYPE_TRANSACTION ||
+        type == TYPE_TRANSFER;
   }
 
   private void updateAccount(Account account) {
     didUserSetAccount = true;
     mTransaction.accountId = account.getId();
     setAccountLabel(account);
-    if (mOperationType == MyExpenses.TYPE_TRANSFER) {
+    if (mOperationType == TYPE_TRANSFER) {
       mTransferAccountSpinner.setSelection(setTransferAccountFilterMap());
       mTransaction.transfer_account = mTransferAccountSpinner.getSelectedItemId();
       configureTransferInput();
@@ -1760,7 +1763,7 @@ public class ExpenseEdit extends AmountActivity implements
     restartIntent.putExtra(MyApplication.KEY_OPERATION_TYPE, newType);
     syncStateAndValidate(false);
     restartIntent.putExtra(KEY_CACHED_DATA, mTransaction);
-    if (mOperationType != MyExpenses.TYPE_SPLIT && newType != MyExpenses.TYPE_SPLIT) {
+    if (mOperationType != TYPE_SPLIT && newType != TYPE_SPLIT) {
       restartIntent.putExtra(KEY_CACHED_RECURRENCE, ((Plan.Recurrence) mReccurenceSpinner.getSelectedItem()));
     }
     if (mTransaction.getPictureUri() != null) {
@@ -1814,7 +1817,7 @@ public class ExpenseEdit extends AmountActivity implements
       }
       if (mCreateNew) {
         mCreateNew = false;
-        if (mOperationType == MyExpenses.TYPE_SPLIT) {
+        if (mOperationType == TYPE_SPLIT) {
           mTransaction = SplitTransaction.getNewInstance(mTransaction.accountId);
           mRowId = mTransaction.getId();
           findSplitPartList().updateParent(mRowId);
@@ -1831,13 +1834,13 @@ public class ExpenseEdit extends AmountActivity implements
         mNewInstance = true;
         mClone = false;
         switch (mOperationType) {
-          case MyExpenses.TYPE_TRANSACTION:
+          case TYPE_TRANSACTION:
             setTitle(R.string.menu_create_transaction);
             break;
-          case MyExpenses.TYPE_TRANSFER:
+          case TYPE_TRANSFER:
             setTitle(R.string.menu_create_transfer);
             break;
-          case MyExpenses.TYPE_SPLIT:
+          case TYPE_SPLIT:
             setTitle(R.string.menu_create_split);
             break;
         }
@@ -1930,6 +1933,11 @@ public class ExpenseEdit extends AmountActivity implements
         break;
       case ACCOUNTS_CURSOR:
         mAccountsAdapter.swapCursor(data);
+        if (data.getCount() == 1 && mOperationType == TYPE_TRANSFER) {
+          Toast.makeText(this, R.string.dialog_command_disabled_insert_transfer, Toast.LENGTH_LONG).show();
+          finish();
+          return;
+        }
         mAccounts = new Account[data.getCount()];
         if (mSavedInstance) {
           mTransaction.accountId = mAccountId;
@@ -1957,7 +1965,7 @@ public class ExpenseEdit extends AmountActivity implements
           mTransaction.accountId = mAccounts[0].getId();
           setAccountLabel(mAccounts[0]);
         }
-        if (mOperationType == MyExpenses.TYPE_TRANSFER) {
+        if (mOperationType == TYPE_TRANSFER) {
           mTransferAccountCursor = new FilterCursorWrapper(data);
           int selectedPosition = setTransferAccountFilterMap();
           mTransferAccountsAdapter.swapCursor(mTransferAccountCursor);
@@ -2060,7 +2068,7 @@ public class ExpenseEdit extends AmountActivity implements
     if (feature == ContribFeature.ATTACH_PICTURE) {
       startMediaChooserDo();
     } else if (feature == ContribFeature.SPLIT_TRANSACTION) {
-      restartWithType(MyExpenses.TYPE_SPLIT);
+      restartWithType(TYPE_SPLIT);
     }
   }
 
