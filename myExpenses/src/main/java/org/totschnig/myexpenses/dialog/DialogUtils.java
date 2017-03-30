@@ -443,7 +443,11 @@ public class DialogUtils {
     Intent intent = new Intent(Intent.ACTION_GET_CONTENT);//TODO implement preference that allows to use ACTION_OPEN_DOCUMENT
     intent.addCategory(Intent.CATEGORY_OPENABLE);
 
-    intent.setDataAndType(uri,"*/*");
+    if (!Utils.hasApiLevel(Build.VERSION_CODES.KITKAT)) {
+      //this does not seem to have any affect in Storage Access Framework's file picker,
+      //on Nougat it even can lead to FileURIExposedException if the uri passed is of scheme file
+      intent.setDataAndType(uri,"*/*");
+    }
 
     try {
       fragment.startActivityForResult(intent, ProtectedFragmentActivity.IMPORT_FILENAME_REQUESTCODE);
