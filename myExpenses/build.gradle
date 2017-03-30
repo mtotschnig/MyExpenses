@@ -45,24 +45,23 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
             //signingConfig signingConfigs.release
             manifestPlaceholders = [appName: "@string/app_name", debug: "false"]
-            resValue "string", "content_authority", "org.totschnig.myexpenses"
-            resValue "string", "sync_account_type", "org.totschnig.myexpenses.sync"
         }
         beta {
             initWith release
             applicationIdSuffix ".beta"
-            resValue "string", "content_authority", "org.totschnig.myexpenses.beta"
-            resValue "string", "sync_account_type", "org.totschnig.myexpenses.beta.sync"
         }
         debug {
             applicationIdSuffix ".debug"
             manifestPlaceholders = [appName: "My Expenses Debug", debug: "true"]
-            resValue "string", "content_authority", "org.totschnig.myexpenses.debug"
-            resValue "string", "sync_account_type", "org.totschnig.myexpenses.debug.sync"
         }
         forTest {
             initWith release
         }
+    }
+
+    buildTypes.each { type ->
+        type.resValue 'string', 'application_id', defaultConfig.applicationId + type.applicationIdSuffix
+        type.resValue "string", 'sync_account_type', defaultConfig.applicationId + type.applicationIdSuffix + ".sync"
     }
 
     lintOptions {
@@ -166,6 +165,41 @@ configurations.compile.dependencies.each { compileDependency ->
     println "Excluding compile dependency: ${compileDependency.getName()}"
     configurations.androidTestCompile.dependencies.each { androidTestCompileDependency ->
         configurations.androidTestCompile.exclude module: "${compileDependency.getName()}"
+    }
+}
+
+//workaround for https://code.google.com/p/android/issues/detail?id=225754
+// add support for placeholders in resource files
+def replacePlaceholdersInFile(basePath, fileName, placeholders) {
+    def file = new File(basePath, fileName);
+
+    if (!file.exists()) {
+        logger.quiet("Unable to replace placeholders in " + file.toString() + ". File cannot be found.")
+        return;
+    }
+
+    logger.debug("Replacing placeholders in " + file.toString())
+    logger.debug("Placeholders: " + placeholders.toString())
+
+    def content = file.getText('UTF-8')
+
+    placeholders.each { entry ->
+        content = content.replaceAll("\\\$\\{${entry.key}\\}", entry.value)
+    }
+
+    file.write(content, 'UTF-8')
+}
+
+afterEvaluate {
+    android.applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            output.processResources.doFirst {
+                // prepare placeholder map from manifestPlaceholders including applicationId placeholder
+                def placeholders = variant.mergedFlavor.manifestPlaceholders + [applicationId: variant.applicationId]
+
+                replacePlaceholdersInFile(resDir, 'xml/shortcuts.xml', placeholders)
+            }
+        }
     }
 }
 

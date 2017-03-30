@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.util;
 
+import android.content.Context;
 import android.provider.Settings;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -8,6 +9,10 @@ import org.totschnig.myexpenses.preference.PrefKey;
 public class HashLicenceHandler extends LicenceHandler {
   private LicenceStatus contribEnabled = null;
   private boolean contribEnabledInitialized = false;
+
+  public HashLicenceHandler(Context context) {
+    super(context);
+  }
 
   @Override
   public boolean isContribEnabled() {

@@ -60,6 +60,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
             </intent-filter>
+            <meta-data android:name="android.app.shortcuts"
+                       android:resource="@xml/shortcuts" />
         </activity>
 
         <activity android:name=".activity.DeepLinkActivity"
@@ -82,10 +84,8 @@
             tools:ignore="UnusedAttribute">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.totschnig.myexpenses.activity.MyExpenses" />
@@ -227,7 +227,11 @@
 
         <activity
             android:name=".activity.ContribInfoDialogActivity"
-            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+            android:theme="@style/Theme.AppCompat.Light.Dialog">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
 
         <activity android:name=".activity.ManageCurrencies"
                   android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge">
@@ -328,7 +332,7 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_info_accounts" />
         </receiver>
-        
+
         <receiver
             android:name="org.totschnig.myexpenses.widget.TemplateWidget"
             android:label="@string/widget_title_templates" >

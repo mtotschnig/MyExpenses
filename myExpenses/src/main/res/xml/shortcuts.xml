@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android"
+           xmlns:tools="http://schemas.android.com/tools"
+           tools:targetApi="n_mr1">
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_menu_add_shortcut"
+        android:shortcutId="transaction"
+        android:shortcutShortLabel="@string/menu_create_transaction">
+        <intent
+            android:action="android.intent.action.MAIN"
+            android:targetClass="org.totschnig.myexpenses.activity.ExpenseEdit"
+            android:targetPackage="${applicationId}"/>
+    </shortcut>
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_menu_forward_shortcut"
+        android:shortcutId="transfer"
+        android:shortcutShortLabel="@string/menu_create_transfer">
+        <intent
+            android:action="android.intent.action.MAIN"
+            android:targetClass="org.totschnig.myexpenses.activity.ExpenseEdit"
+            android:targetPackage="${applicationId}">
+            <extra
+                android:name="operationType"
+                android:value="1"/>
+        </intent>
+    </shortcut>
+</shortcuts>
+

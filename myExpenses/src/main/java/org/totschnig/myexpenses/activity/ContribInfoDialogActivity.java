@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -13,6 +14,13 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
     implements MessageDialogListener {
   public final static String KEY_FEATURE = "feature";
   public static final String KEY_TAG = "tag";
+
+  public static Intent getIntentFor(Context context, ContribFeature feature) {
+    Intent intent = new Intent(context, ContribInfoDialogActivity.class);
+    intent.setAction(Intent.ACTION_MAIN);
+    intent.putExtra(KEY_FEATURE, ContribFeature.SPLIT_TRANSACTION);
+    return intent;
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

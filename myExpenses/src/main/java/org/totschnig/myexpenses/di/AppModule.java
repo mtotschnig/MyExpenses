@@ -28,7 +28,7 @@ public class AppModule {
   @Provides
   @Singleton
   LicenceHandler providesLicenceHandler() {
-    return new HashLicenceHandler();
+    return new HashLicenceHandler(application);
   }
 
   @Provides

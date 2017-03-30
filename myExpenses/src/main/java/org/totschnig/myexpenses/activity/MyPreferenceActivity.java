@@ -89,6 +89,7 @@ import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.LicenceHandler;
 import org.totschnig.myexpenses.util.ShareUtils;
+import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.AccountWidget;
@@ -342,23 +343,24 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
           Bundle extras = new Bundle();
           extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
           extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
-          int nameId = 0, iconId = 0;
+          int nameId = 0, iconId = 0, operationType = 0;
           if (preference.getKey().equals(PrefKey.SHORTCUT_CREATE_TRANSACTION.getKey())) {
             nameId = R.string.transaction;
             iconId = R.drawable.shortcut_create_transaction_icon;
+            operationType = MyExpenses.TYPE_TRANSACTION;
           }
           if (preference.getKey().equals(PrefKey.SHORTCUT_CREATE_TRANSFER.getKey())) {
-            extras.putInt(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_TRANSFER);
             nameId = R.string.transfer;
             iconId = R.drawable.shortcut_create_transfer_icon;
+            operationType = MyExpenses.TYPE_TRANSFER;
           }
           if (preference.getKey().equals(PrefKey.SHORTCUT_CREATE_SPLIT.getKey())) {
-            extras.putInt(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_SPLIT);
             nameId = R.string.split_transaction;
             iconId = R.drawable.shortcut_create_split_icon;
+            operationType = MyExpenses.TYPE_SPLIT;
           }
           if (nameId != 0) {
-            addShortcut(ExpenseEdit.class.getName(), nameId, iconId, extras);
+            addShortcut(nameId, iconId, operationType);
             return true;
           }
           return false;
@@ -798,11 +800,9 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
 
     // credits Financisto
     // src/ru/orangesoftware/financisto/activity/PreferencesActivity.java
-    private void addShortcut(String activity, int nameId, int iconId, Bundle extra) {
-      Intent shortcutIntent = createShortcutIntent(activity);
-      if (extra != null) {
-        shortcutIntent.putExtras(extra);
-      }
+    private void addShortcut(int nameId, int iconId, int operationType) {
+      Intent shortcutIntent = ShortcutHelper.createIntentForNewTransaction(getContext(), operationType);
+
       Intent intent = new Intent();
       intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
       intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(nameId));
@@ -815,15 +815,6 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       } else {
         Toast.makeText(getActivity(), getString(R.string.pref_shortcut_not_added), Toast.LENGTH_LONG).show();
       }
-    }
-
-    private Intent createShortcutIntent(String activity) {
-      Intent shortcutIntent = new Intent();
-      shortcutIntent.setComponent(new ComponentName(getActivity().getPackageName(), activity));
-      shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-      shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-      shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-      return shortcutIntent;
     }
 
     @Override
