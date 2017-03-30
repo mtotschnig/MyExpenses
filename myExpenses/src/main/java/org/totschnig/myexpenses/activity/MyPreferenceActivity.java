@@ -358,7 +358,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
             iconId = R.drawable.shortcut_create_split_icon;
           }
           if (nameId != 0) {
-            addShortcut(".activity.ExpenseEdit", nameId, iconId, extras);
+            addShortcut(ExpenseEdit.class.getName(), nameId, iconId, extras);
             return true;
           }
           return false;
