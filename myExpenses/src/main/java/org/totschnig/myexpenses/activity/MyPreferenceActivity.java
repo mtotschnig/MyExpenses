@@ -659,7 +659,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         String target = (String) value;
         URI uri;
         if (!target.equals("")) {
-          uri = ShareUtils.validateUri(target);
+          uri = ShareUtils.parseUri(target);
           if (uri == null) {
             Toast.makeText(getActivity(), getString(R.string.ftp_uri_malformed, target), Toast.LENGTH_LONG).show();
             return false;

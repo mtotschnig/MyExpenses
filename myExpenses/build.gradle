@@ -152,6 +152,7 @@ dependencies {
     androidTestCompile 'com.crittercism.dexmaker:dexmaker-mockito:1.4'
 
     testCompile 'junit:junit:4.12'
+    testCompile 'pl.pragmatists:JUnitParams:1.0.5'
 }
 def getDate() {
     def date = new Date()

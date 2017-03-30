@@ -11,7 +11,6 @@ import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;

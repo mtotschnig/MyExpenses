@@ -85,7 +85,7 @@ public final class MyExpensesTest extends MyExpensesTestBase {
 
   @Test
   public void ratingDialogIsShown() {
-    Assume.assumeTrue(!DistribHelper.isGithub())
+    Assume.assumeTrue(!DistribHelper.isGithub());
     PrefKey.NEXT_REMINDER_RATE.remove();
     stubExpenseEditIntentWithSequenceCount(MyExpenses.TRESHOLD_REMIND_RATE + 1);
     onView(withId(R.id.CREATE_COMMAND)).perform(click());
