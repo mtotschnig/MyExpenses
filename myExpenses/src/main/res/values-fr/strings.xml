@@ -638,4 +638,5 @@
   <string name="pref_backup_cloud_summary">Outre le stockage local sur le périphérique, le fichier de sauvegarde peut être copié sur un serveur distant.</string>
   <string name="auto_backup_cloud_create_backend">Créer un paramètre de synchronisation à partir de l\'écran principal des réglages.</string>
   <string name="auto_backup_cloud_failure">Une erreur est survenue lors de la tentative de stocker le fichier de sauvegarde %1$s sur le backend %2$s:</string>
+  <string name="home_screen_shortcuts_nougate_info">Les raccourcis peuvent être ajoutés en appuyant longuement sur l\'icône de l\'application sur l\'écran d\'accueil.</string>
 </resources>
