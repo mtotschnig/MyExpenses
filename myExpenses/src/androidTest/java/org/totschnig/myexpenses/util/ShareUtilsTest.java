@@ -1,14 +1,11 @@
 package org.totschnig.myexpenses.util;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.annimon.stream.Stream;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -20,13 +17,6 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
 public class ShareUtilsTest  {
-
-  private Context targetContext;
-
-  @Before
-  public void setUp() throws Exception {
-    targetContext = InstrumentationRegistry.getTargetContext();
-  }
 
   @Test
   public void shouldConvertSingleFileUri() {
