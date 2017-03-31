@@ -7,9 +7,14 @@ import android.os.Bundle;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
+import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 
 public class ShortcutHelper {
+  public static Intent createIntentForNewSplit(Context context) {
+    return createIntentForNewTransaction(context, MyExpenses.TYPE_SPLIT);
+  }
+
   public static Intent createIntentForNewTransaction(Context context, int operationType) {
     Intent intent = new Intent();
     intent.setAction(Intent.ACTION_MAIN);

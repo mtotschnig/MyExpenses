@@ -12,7 +12,6 @@ import android.support.annotation.VisibleForTesting;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
-import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Template;
@@ -68,7 +67,7 @@ public abstract class LicenceHandler {
 
     Intent intent = null;
     if (isContribEnabled()) {
-      intent = ShortcutHelper.createIntentForNewTransaction(context, MyExpenses.TYPE_SPLIT);
+      intent = ShortcutHelper.createIntentForNewSplit(context);
     } else {
       intent = ContribInfoDialogActivity.getIntentFor(context, ContribFeature.SPLIT_TRANSACTION);
     }
