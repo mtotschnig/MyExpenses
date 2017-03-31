@@ -593,6 +593,7 @@
   <string name="validate_error_not_empty">空にできません</string>
   <string name="validate_error_webdav_invalid_certificate">証明書を信頼できませんでした。 無効のようです。</string>
   <string name="validate_error_webdav_not_compliant">URL は WebDAV リソースを指していません。</string>
+  <string name="validate_error_webdav_404">URL がサーバーに存在しません</string>
   <string name="url_not_valid">URL が無効です</string>
   <string name="menu_sync_unlink">同期を停止</string>
   <string name="menu_sync_link">同期を開始</string>

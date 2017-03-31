@@ -602,6 +602,7 @@
   <string name="validate_error_not_empty">Boş olmamalı</string>
   <string name="validate_error_webdav_invalid_certificate">Bu sertifikaya güvenilemedi. Geçersiz gibi görünüyor.</string>
   <string name="validate_error_webdav_not_compliant">Bağlantı bir WebDAV kaynağına işaret etmemektedir.</string>
+  <string name="validate_error_webdav_404">Bağlantı (URL) sunucuda mevcut değildir.</string>
   <string name="url_not_valid">Geçersiz bağlantı</string>
   <string name="menu_sync_unlink">Eşleşmeyi durdur</string>
   <string name="menu_sync_link">Eşleşmeyi başlat</string>
