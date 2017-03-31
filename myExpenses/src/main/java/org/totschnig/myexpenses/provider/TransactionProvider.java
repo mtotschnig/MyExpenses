@@ -1141,14 +1141,9 @@ public class TransactionProvider extends ContentProvider {
       if (label != null) {
         String selection;
         String[] selectionArgs;
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
-          selection = "label = ? and ((parent_id is null and (select parent_id from categories where _id = ?) is null) or parent_id = (select parent_id from categories where _id = ?))";
-          selectionArgs = new String[]{label, segment, segment};
-        } else {
-          //this syntax crashes on 2.1, maybe 2.2
-          selection = "label = ? and parent_id is (select parent_id from categories where _id = ?)";
-          selectionArgs = new String[]{label, segment};
-        }
+        //this syntax crashes on 2.1, maybe 2.2
+        selection = "label = ? and parent_id is (select parent_id from categories where _id = ?)";
+        selectionArgs = new String[]{label, segment};
         c = db.query(TABLE_CATEGORIES, new String[]{KEY_ROWID}, selection, selectionArgs, null, null, null);
         if (c.getCount() != 0) {
           c.moveToFirst();

@@ -9,4 +9,8 @@
         <item name="android:textSize">?textSizeSmall</item>
     </style>
 
+    <style name="SelectLicenceButton" parent="SelectLicenceButtonBase">
+        <item name="android:textAllCaps">true</item>
+    </style>
+
 </resources>

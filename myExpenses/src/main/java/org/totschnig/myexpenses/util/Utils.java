@@ -799,16 +799,10 @@ public class Utils {
    * @param str
    * @return a representation of str converted to lower case, Unicode
    * normalization applied and markers removed this allows
-   * case-insentive comparison for non-ascii and non-latin strings works
-   * only above Gingerbread, on Froyo only lower case transformation is
-   * performed
+   * case-insentive comparison for non-ascii and non-latin strings
    */
-  @SuppressLint({"NewApi", "DefaultLocale"})
   public static String normalize(String str) {
     str = str.toLowerCase();
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
-      return str;
-    }
     // Credits: http://stackoverflow.com/a/3322174/1199911
     return Normalizer.normalize(str, Normalizer.Form.NFD).replaceAll("\\p{M}",
         "");

@@ -189,12 +189,15 @@
         <item name="android:text">=</item>
     </style>
 
-    <style name="SelectLicenceButton">
+    <style name="SelectLicenceButtonBase">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textAllCaps">true</item>
         <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">bold</item>
         <item name="buttonTint">@android:color/white</item>
+    </style>
+
+    <style name="SelectLicenceButton" parent="SelectLicenceButtonBase">
     </style>
 
     <style name="FeatureList">
