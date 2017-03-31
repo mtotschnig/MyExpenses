@@ -42,7 +42,7 @@ public class CommonCommands {
   private CommonCommands() {
   }
 
-  static boolean dispatchCommand(Activity ctx, int command, Object tag) {
+  public static boolean dispatchCommand(Activity ctx, int command, Object tag) {
     Intent i;
     switch(command) {
     case R.id.RATE_COMMAND:
@@ -136,7 +136,7 @@ public class CommonCommands {
    return false;
   }
 
-  static void showContribDialog(Activity ctx, ContribFeature feature, Serializable tag) {
+  public static void showContribDialog(Activity ctx, ContribFeature feature, Serializable tag) {
     Intent i = ContribInfoDialogActivity.getIntentFor(ctx, feature);
     i.putExtra(ContribInfoDialogActivity.KEY_TAG, tag);
     ctx.startActivityForResult(i, ProtectionDelegate.CONTRIB_REQUEST);

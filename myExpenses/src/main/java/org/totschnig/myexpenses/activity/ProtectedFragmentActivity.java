@@ -421,7 +421,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     }
   }
 
-  protected boolean calendarPermissionPermanentlyDeclined() {
+  public boolean calendarPermissionPermanentlyDeclined() {
     String permission = Manifest.permission.WRITE_CALENDAR;
     return PrefKey.CALENDAR_PERMISSION_REQUESTED.getBoolean(false) &&
         (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_DENIED) &&
