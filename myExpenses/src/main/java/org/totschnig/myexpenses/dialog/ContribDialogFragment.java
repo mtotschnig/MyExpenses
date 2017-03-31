@@ -129,8 +129,8 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
         .setPositiveButton(R.string.upgrade_now, this);
     AlertDialog dialog = builder.create();
     if (userCanChoose) {
-      contribButton.setOnClickListener(this);
-      extendedButton.setOnClickListener(this);
+      view.findViewById(R.id.contrib_feature_container).setOnClickListener(this);
+      view.findViewById(R.id.extended_feature_container).setOnClickListener(this);
       dialog.setOnShowListener(new ButtonOnShowDisabler());
     }
     return dialog;
@@ -171,7 +171,17 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
 
   @Override
   public void onClick(View v) {
-    (v.equals(contribButton) ? extendedButton : contribButton).setChecked(false);
+    RadioButton self, other;
+    if (v.getId() == R.id.contrib_feature_container) {
+      other = extendedButton;
+      self = contribButton;
+    }
+    else {
+      other = contribButton;
+      self = extendedButton;
+    }
+    self.setChecked(true);
+    other.setChecked(false);
     ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
   }
 }
