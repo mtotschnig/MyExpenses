@@ -7,6 +7,7 @@ import org.totschnig.myexpenses.R;
 // they can be referenced from preferences.xml, and thus we
 // can guarantee the referential integrity
 public enum PrefKey {
+  ROOT_SCREEN(R.string.pref_root_screen_key),
   CATEGORIES_SORT_BY_USAGES_LEGACY(R.string.pref_categories_sort_by_usages_key),
   SORT_ORDER_LEGACY(R.string.pref_sort_order_key),
   SORT_ORDER_TEMPLATES("sort_order_templates"),
@@ -25,6 +26,7 @@ public enum PrefKey {
   REQUEST_LICENCE(R.string.pref_request_licence_key),
   ENTER_LICENCE(R.string.pref_enter_licence_key),
   PERFORM_PROTECTION(R.string.pref_perform_protection_key),
+  PERFORM_PROTECTION_SCREEN(R.string.pref_screen_protection_key),
   SET_PASSWORD(R.string.pref_set_password_key),
   SECURITY_ANSWER(R.string.pref_security_answer_key),
   SECURITY_QUESTION(R.string.pref_security_question_key),
@@ -66,14 +68,17 @@ public enum PrefKey {
   AUTO_BACKUP_TIME(R.string.pref_auto_backup_time_key),
   AUTO_BACKUP_DIRTY("auto_backup_dirty"),
   AUTO_BACUP_CLOUD(R.string.pref_auto_backup_cloud_key),
+  AUTO_BACKUP_INFO(R.string.pref_auto_backup_info_key),
   UI_HOME_SCREEN_SHORTCUTS(R.string.pref_ui_home_screen_shortcuts_key),
   CALENDAR_PERMISSION_REQUESTED("calendar_permission_requested"),
+  GROUPING_START_SCREEN(R.string.pref_grouping_start_key),
   GROUP_WEEK_STARTS(R.string.pref_group_week_starts_key),
   GROUP_MONTH_STARTS(R.string.pref_group_month_starts_key),
   NEW_PLAN_ENABLED("new_plan_enabled"),
   NEW_ACCOUNT_ENABLED("new_account_enabled"),
   SYNC_FREQUCENCY(R.string.pref_sync_frequency_key),
-  SYNC_UPSELL_NOTIFICATION_SHOWN("sync_upsell_notification_shown");
+  SYNC_UPSELL_NOTIFICATION_SHOWN("sync_upsell_notification_shown"),
+  MANAGE_SYNC_BACKENDS(R.string.pref_manage_sync_backends_key);
 
   private int resId = 0;
   private String key = null;

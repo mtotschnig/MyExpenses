@@ -15,7 +15,7 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="pref_root_screen">pref_root</string>
+    <string name="pref_root_screen_key">pref_root</string>
     <string name="pref_category_export_key">category_export</string>
     <string name="pref_category_contrib_key">category_contrib</string>
     <string name="pref_category_manage_key">category_manage</string>
@@ -59,13 +59,13 @@
     <string name="pref_protection_enable_data_entry_from_widget_key">enable_data_entry_from_widget</string>
     <string name="pref_account_grouping_key">account_grouping</string>
     <string name="pref_manage_stale_images_key">manage_stale_images</string>
-    <string name="pref_screen_protection">screen_protection</string>
+    <string name="pref_screen_protection_key">screen_protection</string>
     <string name="pref_import_qif_key">import_qif</string>
     <string name="pref_import_csv_key">import_csv</string>
     <string name="pref_import_csv_header_to_field_map_key">import_csv_header_to_field_map</string>
     <string name="pref_custom_decimal_format_key">custom_decimal_format</string>
     <string name="pref_ui_home_screen_shortcuts_key">ui_home_screen_shortcuts</string>
-    <string name="pref_grouping_start">grouping_start</string>
+    <string name="pref_grouping_start_key">grouping_start</string>
     <string name="pref_group_week_starts_key">group_week_start</string>
     <string name="pref_group_month_starts_key">group_month_start</string>
     <string name="pref_sync_frequency_key">sync_frequency</string>

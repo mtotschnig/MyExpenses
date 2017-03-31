@@ -91,7 +91,7 @@
             android:key="@string/pref_template_click_default_key"
             android:title="@string/pref_template_click_default_summary"/>
         <PreferenceScreen
-            android:key="@string/pref_grouping_start"
+            android:key="@string/pref_grouping_start_key"
             android:title="@string/pref_grouping_periods">
             <org.totschnig.myexpenses.preference.ListPreferenceShowSummary
                 android:key="@string/pref_group_week_starts_key"
@@ -217,7 +217,7 @@
 
     <PreferenceCategory android:title="@string/pref_category_title_security">
         <PreferenceScreen
-            android:key="@string/pref_screen_protection"
+            android:key="@string/pref_screen_protection_key"
             android:title="@string/pref_perform_protection_title">
             <org.totschnig.myexpenses.preference.PasswordPreference
                 android:key="@string/pref_perform_protection_key"

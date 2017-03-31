@@ -247,7 +247,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
   public boolean onPreferenceStartScreen(PreferenceFragmentCompat preferenceFragmentCompat,
                                          PreferenceScreen preferenceScreen) {
     final String key = preferenceScreen.getKey();
-    if (key.equals(getString(R.string.pref_screen_protection)) &&
+    if (key.equals(PrefKey.PERFORM_PROTECTION_SCREEN.getKey()) &&
         MyApplication.getInstance().isProtected()) {
       DialogUtils.showPasswordDialog(this, DialogUtils.passwordDialog(this, true), false,
           new DialogUtils.PasswordDialogUnlockedCallback() {
