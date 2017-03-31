@@ -23,6 +23,7 @@ import android.content.ContentValues;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.annotation.VisibleForTesting;
@@ -38,6 +39,7 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.util.ArrayList;
@@ -280,6 +282,7 @@ public class Account extends Model {
     cr().applyBatch(TransactionProvider.AUTHORITY, ops);
     accounts.remove(id);
     updateNewAccountEnabled();
+    updateTransferShortcut();
   }
 
   /**
@@ -584,6 +587,7 @@ public class Account extends Model {
     }
     Money.ensureFractionDigitsAreCached(currency);
     updateNewAccountEnabled();
+    updateTransferShortcut();
     return uri;
   }
 
@@ -765,6 +769,12 @@ public class Account extends Model {
       }
     }
     PrefKey.NEW_ACCOUNT_ENABLED.putBoolean(newAccountEnabled);
+  }
+
+  private static void updateTransferShortcut() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+      ShortcutHelper.configureTransferShortcut(MyApplication.getInstance(), count(null, null) > 1);
+    }
   }
 
   public Uri getExtendedUriForTransactionList() {

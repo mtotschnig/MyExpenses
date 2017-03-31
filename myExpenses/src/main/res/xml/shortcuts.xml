@@ -12,20 +12,5 @@
             android:targetClass="org.totschnig.myexpenses.activity.ExpenseEdit"
             android:targetPackage="${applicationId}"/>
     </shortcut>
-
-    <shortcut
-        android:enabled="true"
-        android:icon="@drawable/ic_menu_forward_shortcut"
-        android:shortcutId="transfer"
-        android:shortcutShortLabel="@string/menu_create_transfer">
-        <intent
-            android:action="android.intent.action.MAIN"
-            android:targetClass="org.totschnig.myexpenses.activity.ExpenseEdit"
-            android:targetPackage="${applicationId}">
-            <extra
-                android:name="operationType"
-                android:value="1"/>
-        </intent>
-    </shortcut>
 </shortcuts>
 
