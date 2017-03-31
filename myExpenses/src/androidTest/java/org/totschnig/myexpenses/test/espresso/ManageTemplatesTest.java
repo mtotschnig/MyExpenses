@@ -27,7 +27,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFro
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.anything;
-import static org.totschnig.myexpenses.test.util.Matchers.inToast;
+import static org.totschnig.myexpenses.testutils.Matchers.inToast;
 
 //TODO test CAB actions
 public class ManageTemplatesTest {

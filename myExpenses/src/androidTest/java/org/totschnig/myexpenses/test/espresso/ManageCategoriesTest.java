@@ -12,7 +12,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.model.Category;
-import org.totschnig.myexpenses.test.util.Matchers;
+import org.totschnig.myexpenses.testutils.Matchers;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -20,7 +20,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.greaterThan;
-import static org.totschnig.myexpenses.test.util.Espresso.openActionBarOverflowOrOptionsMenu;
+import static org.totschnig.myexpenses.testutils.Espresso.openActionBarOverflowOrOptionsMenu;
 
 public class ManageCategoriesTest {
 

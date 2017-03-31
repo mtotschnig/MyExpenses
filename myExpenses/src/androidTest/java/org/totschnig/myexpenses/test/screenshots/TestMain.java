@@ -11,7 +11,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.CommonCommands;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.test.util.Fixture;
+import org.totschnig.myexpenses.testutils.Fixture;
 
 import java.util.Currency;
 import java.util.Locale;

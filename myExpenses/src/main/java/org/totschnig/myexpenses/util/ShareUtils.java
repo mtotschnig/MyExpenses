@@ -64,7 +64,7 @@ public class ShareUtils {
   }
 
   @VisibleForTesting
-  static Intent buildIntent(List<Uri> fileUris, String mimeType, @Nullable String emailAddress) {
+  public static Intent buildIntent(List<Uri> fileUris, String mimeType, @Nullable String emailAddress) {
     Intent intent;
     if (fileUris.size() > 1) {
       intent = new Intent(Intent.ACTION_SEND_MULTIPLE);

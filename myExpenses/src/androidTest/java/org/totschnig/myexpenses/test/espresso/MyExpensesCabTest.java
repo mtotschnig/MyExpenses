@@ -55,7 +55,7 @@ import static org.hamcrest.Matchers.both;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.totschnig.myexpenses.test.util.Matchers.withListSize;
+import static org.totschnig.myexpenses.testutils.Matchers.withListSize;
 
 
 @RunWith(AndroidJUnit4.class)

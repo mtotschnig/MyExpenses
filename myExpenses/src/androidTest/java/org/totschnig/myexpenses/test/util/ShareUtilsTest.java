@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.util;
+package org.totschnig.myexpenses.test.util;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -8,6 +8,8 @@ import com.annimon.stream.Stream;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.totschnig.myexpenses.util.AppDirHelper;
+import org.totschnig.myexpenses.util.ShareUtils;
 
 import java.util.Arrays;
 import java.util.Collections;

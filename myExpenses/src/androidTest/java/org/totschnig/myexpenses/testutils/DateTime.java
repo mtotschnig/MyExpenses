@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.test.util;
+package org.totschnig.myexpenses.testutils;
 
 import java.util.Calendar;
 import java.util.Date;

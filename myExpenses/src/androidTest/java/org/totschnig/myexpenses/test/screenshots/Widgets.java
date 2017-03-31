@@ -8,7 +8,7 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.AccountType;
-import org.totschnig.myexpenses.test.R;
+import org.totschnig.myexpenses.fortest.test.R;
 
 import org.junit.Ignore;
 import android.content.Context;

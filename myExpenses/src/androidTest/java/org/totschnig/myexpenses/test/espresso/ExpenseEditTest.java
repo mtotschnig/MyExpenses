@@ -16,7 +16,7 @@ import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.test.util.Matchers;
+import org.totschnig.myexpenses.testutils.Matchers;
 
 import java.util.Currency;
 
@@ -29,7 +29,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVi
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertEquals;
-import static org.totschnig.myexpenses.test.util.Matchers.inToast;
+import static org.totschnig.myexpenses.testutils.Matchers.inToast;
 
 public class ExpenseEditTest {
 

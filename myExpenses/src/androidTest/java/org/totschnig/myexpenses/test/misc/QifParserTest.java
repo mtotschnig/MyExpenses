@@ -11,7 +11,7 @@ package org.totschnig.myexpenses.test.misc;
 
 import android.test.AndroidTestCase;
 import org.totschnig.myexpenses.export.qif.*;
-import org.totschnig.myexpenses.test.util.DateTime;
+import org.totschnig.myexpenses.testutils.DateTime;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;

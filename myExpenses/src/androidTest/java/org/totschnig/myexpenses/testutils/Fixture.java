@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.test.util;
+package org.totschnig.myexpenses.testutils;
 
 import java.io.File;
 import java.io.InputStream;
@@ -14,7 +14,7 @@ import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.*;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
-import org.totschnig.myexpenses.test.R;
+import org.totschnig.myexpenses.fortest.test.R;
 import org.totschnig.myexpenses.util.CategoryTree;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;

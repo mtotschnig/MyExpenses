@@ -35,7 +35,7 @@ import org.totschnig.myexpenses.util.DistribHelper;
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static org.totschnig.myexpenses.activity.MyExpenses.KEY_SEQUENCE_COUNT;
-import static org.totschnig.myexpenses.test.util.Espresso.openActionBarOverflowOrOptionsMenu;
+import static org.totschnig.myexpenses.testutils.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
