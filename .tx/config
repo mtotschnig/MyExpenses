@@ -17,7 +17,7 @@ source_lang = en
 source_file = myExpenses/src/main/res/values/strings_acra.xml
 file_filter = myExpenses/src/main/res/values-<lang>/strings_acra.xml
 
-[my-expenses.upgrade]
+[my-expenses.upgradeV2]
 source_lang = en
 source_file = myExpenses/src/main/res/values/upgrade.xml
 file_filter = myExpenses/src/main/res/values-<lang>/upgrade.xml
