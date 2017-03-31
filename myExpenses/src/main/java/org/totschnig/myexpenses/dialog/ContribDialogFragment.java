@@ -41,14 +41,16 @@ import java.io.Serializable;
 
 import timber.log.Timber;
 
+import static org.totschnig.myexpenses.activity.ContribInfoDialogActivity.KEY_FEATURE;
+
 public class ContribDialogFragment extends CommitSafeDialogFragment implements DialogInterface.OnClickListener, View.OnClickListener {
   private ContribFeature feature;
   RadioButton contribButton, extendedButton;
 
-  public static ContribDialogFragment newInstance(ContribFeature feature, Serializable tag) {
+  public static ContribDialogFragment newInstance(String feature, Serializable tag) {
     ContribDialogFragment dialogFragment = new ContribDialogFragment();
     Bundle bundle = new Bundle();
-    bundle.putSerializable(ContribInfoDialogActivity.KEY_FEATURE, feature);
+    bundle.putString(KEY_FEATURE, feature);
     bundle.putSerializable(ContribInfoDialogActivity.KEY_TAG, tag);
     dialogFragment.setArguments(bundle);
     return dialogFragment;
@@ -57,8 +59,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    final Bundle bundle = getArguments();
-    feature = (ContribFeature) bundle.getSerializable(ContribInfoDialogActivity.KEY_FEATURE);
+    feature = ContribFeature.valueOf(getArguments().getString(KEY_FEATURE));
   }
 
   @NonNull

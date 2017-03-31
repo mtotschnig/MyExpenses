@@ -19,18 +19,20 @@ public class ContribUtils {
     CharSequence content = android.text.TextUtils.concat(
         context.getText(feature.getLimitReachedWarningResIdOrThrow(context)), " ",
         feature.buildRemoveLimitation(context, true));
-    Intent contribIntent = new Intent(context, ContribInfoDialogActivity.class);
-    contribIntent.putExtra(ContribInfoDialogActivity.KEY_FEATURE, feature);
+
+    Intent contribIntent = ContribInfoDialogActivity.getIntentFor(context, feature);
     NotificationCompat.Builder builder =
         new NotificationCompat.Builder(context)
             .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(notifTitle)
             .setContentText(content)
-            .setContentIntent(PendingIntent.getActivity(context, 0, contribIntent, PendingIntent.FLAG_CANCEL_CURRENT))
+            .setContentIntent(PendingIntent.getActivity(context, 0, contribIntent,
+                PendingIntent.FLAG_CANCEL_CURRENT))
             .setStyle(new NotificationCompat.BigTextStyle().bigText(content));
     Notification notification = builder.build();
     notification.flags = Notification.FLAG_AUTO_CANCEL;
-    ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE)).notify(0,notification);
+    ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE))
+        .notify(0,notification);
 
   }
 }

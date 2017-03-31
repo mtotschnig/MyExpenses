@@ -18,7 +18,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
   public static Intent getIntentFor(Context context, ContribFeature feature) {
     Intent intent = new Intent(context, ContribInfoDialogActivity.class);
     intent.setAction(Intent.ACTION_MAIN);
-    intent.putExtra(KEY_FEATURE, ContribFeature.SPLIT_TRANSACTION);
+    intent.putExtra(KEY_FEATURE, feature.name());
     return intent;
   }
 
@@ -26,11 +26,10 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
   protected void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeIdTranslucent());
     super.onCreate(savedInstanceState);
-    ContribFeature f = (ContribFeature) getIntent().getSerializableExtra(KEY_FEATURE);
 
     if (savedInstanceState == null) {
-      ContribDialogFragment.newInstance(
-          f, getIntent().getSerializableExtra(KEY_TAG))
+      ContribDialogFragment.newInstance(getIntent().getStringExtra(KEY_FEATURE),
+          getIntent().getSerializableExtra(KEY_TAG))
           .show(getSupportFragmentManager(), "CONTRIB");
     }
   }
@@ -45,11 +44,11 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
   }
 
   public void finish(boolean canceled) {
-    final ContribFeature feature = (ContribFeature) getIntent().getSerializableExtra(KEY_FEATURE);
-    if (feature != null) {
-      int usagesLeft = feature.usagesLeft();
+    String featureStringFromExtra = getIntent().getStringExtra(KEY_FEATURE);
+    if (featureStringFromExtra != null) {
+      int usagesLeft = ContribFeature.valueOf(featureStringFromExtra).usagesLeft();
       Intent i = new Intent();
-      i.putExtra(KEY_FEATURE, feature);
+      i.putExtra(KEY_FEATURE, featureStringFromExtra);
       i.putExtra(KEY_TAG, getIntent().getSerializableExtra(KEY_TAG));
       if (!canceled && usagesLeft > 0) {
         setResult(RESULT_OK, i);

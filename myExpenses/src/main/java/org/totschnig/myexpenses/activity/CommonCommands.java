@@ -137,8 +137,7 @@ public class CommonCommands {
   }
 
   static void showContribDialog(Activity ctx, ContribFeature feature, Serializable tag) {
-    Intent i = new Intent(ctx,ContribInfoDialogActivity.class);
-    i.putExtra(ContribInfoDialogActivity.KEY_FEATURE, feature);
+    Intent i = ContribInfoDialogActivity.getIntentFor(ctx, feature);
     i.putExtra(ContribInfoDialogActivity.KEY_TAG, tag);
     ctx.startActivityForResult(i, ProtectionDelegate.CONTRIB_REQUEST);
   }

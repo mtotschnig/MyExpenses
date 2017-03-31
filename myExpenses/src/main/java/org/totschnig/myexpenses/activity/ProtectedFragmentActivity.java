@@ -67,6 +67,7 @@ import org.totschnig.myexpenses.widget.AbstractWidget;
 
 import java.io.Serializable;
 
+import static org.totschnig.myexpenses.activity.ContribInfoDialogActivity.KEY_FEATURE;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
 
 /**
@@ -374,13 +375,12 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
                                   Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
     if (requestCode == ProtectionDelegate.CONTRIB_REQUEST && intent != null) {
+      ContribFeature contribFeature = ContribFeature.valueOf(intent.getStringExtra(KEY_FEATURE));
       if (resultCode == RESULT_OK) {
-        ((ContribIFace) this).contribFeatureCalled(
-            (ContribFeature) intent.getSerializableExtra(ContribInfoDialogActivity.KEY_FEATURE),
+        ((ContribIFace) this).contribFeatureCalled(contribFeature,
             intent.getSerializableExtra(ContribInfoDialogActivity.KEY_TAG));
       } else if (resultCode == RESULT_CANCELED) {
-        ((ContribIFace) this).contribFeatureNotCalled(
-            (ContribFeature) intent.getSerializableExtra(ContribInfoDialogActivity.KEY_FEATURE));
+        ((ContribIFace) this).contribFeatureNotCalled(contribFeature);
       }
     }
   }
