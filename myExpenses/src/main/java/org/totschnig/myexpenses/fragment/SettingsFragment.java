@@ -201,8 +201,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
             categoryManage.addPreference(prefStaleImages);
         }
       }.execute();
-
-      findPreference(UI_HOME_SCREEN_SHORTCUTS).setOnPreferenceClickListener(this);
     }
     //SHORTCUTS screen
     else if (rootKey.equals(UI_HOME_SCREEN_SHORTCUTS.getKey())) {
