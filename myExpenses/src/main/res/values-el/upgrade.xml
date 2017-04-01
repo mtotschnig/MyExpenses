@@ -46,6 +46,9 @@
     <item>Εισαγωγή CSV</item>
     <item>Κορεάτικη μετάφραση</item>
   </string-array>
+  <string-array name="whats_new_249">
+    <item>Εξαγωγή κατηγοριών σε QIF μορφότυπο</item>
+  </string-array>
   <string-array name="whats_new_246">
     <item>Οι συναλλαγές τώρα μπορούν να οριστούν ως \"άκυρες\"</item>
   </string-array>

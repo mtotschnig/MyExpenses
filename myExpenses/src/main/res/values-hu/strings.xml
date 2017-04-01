@@ -2,14 +2,19 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Számla</string>
   <!--Label in form for payment method, where user checks for which account types the method is applicable-->
+  <string name="account_types">Számlák</string>
   <string name="account_type_asset">Forgóeszköz számla</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
+  <string name="account_type_asset_plural">Forgóeszköz számlák</string>
   <string name="account_type_bank">Bankszámla</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
+  <string name="account_type_bank_plural">Bankszámlák</string>
   <string name="account_type_cash">Készpénz számla</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
+  <string name="account_type_cash_plural">Készpénz számlák</string>
   <string name="account_type_ccard">Hitelkártya</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
+  <string name="account_type_ccard_plural">Hitelkártyák</string>
   <string name="account_type_liability">Megtakarítási számla</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="already_defined">%1$s már létezik</string>
@@ -20,10 +25,13 @@
   <string name="category">Kategória</string>
   <string name="color">Szín</string>
   <string name="comment">Megjegyzés</string>
+  <string name="confirmation_dialog_dont_show_again">Ne mutasd újra</string>
+  <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Hirdetések kikapcsolása</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Korlátlan számú számla</string>
   <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">A tranzakciók kategóriánkénti eloszlása</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Korlátlan számú terv</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Sablon widget</string>
+  <string name="licence_status_free">Ingyenes</string>
   <string name="contrib_key">Contrib Kulcs</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">Ehhez a %s használata szükséges.</string>

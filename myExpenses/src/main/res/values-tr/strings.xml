@@ -638,4 +638,5 @@
   <string name="pref_backup_cloud_summary">Cihazdaki yerel stoklamaya ek olarak, yedekleme dosyası uzaktaki bir arka uca kopyalanabilir.</string>
   <string name="auto_backup_cloud_create_backend">Ana ayarlar ekranından bir eşleşme arka ucu oluştur.</string>
   <string name="auto_backup_cloud_failure">%1$s dosyasının %2$s arka ucuna kaydedilmesi sırasında bir hata meydana geldi:</string>
+  <string name="home_screen_shortcuts_nougate_info">Kısayollar ana ekrandaki uygulama ikonuna uzunca dokunarak eklenebilir.</string>
 </resources>

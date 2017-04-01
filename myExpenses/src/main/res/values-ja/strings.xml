@@ -629,4 +629,5 @@
   <string name="pref_backup_cloud_summary">デバイスのローカルストレージに加えて、バックアップファイルをリモートバックエンドにコピーすることができます。</string>
   <string name="auto_backup_cloud_create_backend">メイン設定画面から同期バックエンドを作成します。</string>
   <string name="auto_backup_cloud_failure">バックアップファイル %1$s をバックエンド %2$s に保存しようとしているときにエラーが発生しました:</string>
+  <string name="home_screen_shortcuts_nougate_info">ショートカットは、ホーム画面のアプリアイコンを長押しして追加することができます。</string>
 </resources>

@@ -18,6 +18,12 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_278">
+    <item>Accesos directos a la aplicación para Android 7.1</item>
+  </string-array>
+  <string-array name="whats_new_277">
+    <item>Las copias de seguridad automáticas se pueden guardar en los servicios de nube</item>
+  </string-array>
   <string-array name="whats_new_276">
     <item>Pequeñas mejoras</item>
   </string-array>
@@ -52,7 +58,7 @@
   <string-array name="whats_new_264">
     <item>Se pueden buscar pantallas de categorías</item>
     <item>El saldo de la cuenta puede copiarse al portapapeles</item>
-    <item>Se puede pegar en la calculadora desde el portapapeles</item>
+    <item>Pegar en la calculadora desde el portapapeles</item>
     <item>Ayuda para formatear fecha en el cuadro de diálogo de exportación</item>
   </string-array>
   <string-array name="whats_new_263">
@@ -75,7 +81,7 @@
   </string-array>
   <string-array name="whats_new_250">
     <item>Importación a CSV</item>
-    <item>Traducción a Coreano</item>
+    <item>Traducción a coreano</item>
   </string-array>
   <string-array name="whats_new_249">
     <item>Exportación de categorías a QIF</item>

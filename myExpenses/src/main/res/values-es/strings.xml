@@ -602,6 +602,7 @@
   <string name="validate_error_not_empty">No puede estar vacío</string>
   <string name="validate_error_webdav_invalid_certificate">No se pudo confirmar el certificado. Parecer ser inválido.</string>
   <string name="validate_error_webdav_not_compliant">La dirección web no señala a una fuente de WebDAV.</string>
+  <string name="validate_error_webdav_404">La dirección URL no existe en el servidor.</string>
   <string name="url_not_valid">Dirección web no válida</string>
   <string name="menu_sync_unlink">Parar sincronización</string>
   <string name="menu_sync_link">Comenzar sincronización</string>
@@ -633,4 +634,9 @@
   <string name="licence_status">Su licencia</string>
   <string name="all_contrib_key_features">Todas las características de licencia Contrib</string>
   <string name="upgrade_now">Actualice ahora</string>
+  <string name="pref_backup_cloud_title">Guardar con el servicio de sincronización</string>
+  <string name="pref_backup_cloud_summary">Además del almacenamiento local del dispositivo, la copia de seguridad puede copiarse a un servicio remoto.</string>
+  <string name="auto_backup_cloud_create_backend">Crear un servicio de sincronización desde la pantalla de configuración principal.</string>
+  <string name="auto_backup_cloud_failure">Ha ocurrido un error al intentar almacenar la copia de seguridad %1$s en el servicio %2$s:</string>
+  <string name="home_screen_shortcuts_nougate_info">Se pueden añadir accesos directos con una pulsación larga en el icono de la aplicación desde la Pantalla Inicio.</string>
 </resources>
