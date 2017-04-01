@@ -122,7 +122,7 @@ versions:
         Android 7.1 için uygulama kısayolları.
       ja: |
         Android 7.1 用アプリショートカット.
--
+  -
     - 2.7.7
     - "2017-03-18"
     -
@@ -144,7 +144,7 @@ versions:
         Auto sandar boleh disimpan dalam bahagian belakang awan.
       ja: |
         自動バックアップはクラウドバックエンドに保存できます.
--
+  -
     - 2.7.6
     - "2017-02-28"
     -
@@ -166,7 +166,7 @@ versions:
         Penambahbaikan kecil.
       ja: |
         マイナーな改善.
--
+  -
     - 2.7.5
     - "2017-02-10"
     -
@@ -190,7 +190,7 @@ versions:
         Penyegerakan merentasi peranti melalui perkhidmatan awan.
       ja: |
         クラウドサービスを介したデバイス間の同期.
--
+  -
     - 2.7.1
     - "2016-08-15"
     -
