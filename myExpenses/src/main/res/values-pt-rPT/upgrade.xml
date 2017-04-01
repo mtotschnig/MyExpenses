@@ -63,47 +63,5 @@
     <item>Melhorada a disposição em tablets</item>
     <item>Suporte para Samsung Knox</item>
   </string-array>
-  <string-array name="whats_new_251">
-    <item>Formato numérico configurável</item>
-    <item>Tradução em dinamarquês</item>
-  </string-array>
-  <string-array name="whats_new_250">
-    <item>Importação CSV</item>
-    <item>Tradução em coreano</item>
-  </string-array>
-  <string-array name="whats_new_249">
-    <item>Exportar categorias para QIF</item>
-    <item>Exibir somas agregadas no widget do ecrã inicial</item>
-  </string-array>
-  <string-array name="whats_new_248">
-    <item>O estado das transações clonadas é reiniciado para não reconciliada</item>
-    <item>Método de restauro alternativo para dispositivos sem gestor de ficheiros</item>
-  </string-array>
-  <string-array name="whats_new_247">
-    <item>O comando Clonar abre o formulário de edição</item>
-  </string-array>
-  <string-array name="whats_new_246">
-    <item>As transações podem ser definidas para o estado \"Nula\"</item>
-  </string-array>
-  <string-array name="whats_new_245">
-    <item>A funcionalidade de exportar e reiniciar pode agora ser aplicada a transações que correspondem ao filtro de pesquisa</item>
-  </string-array>
-  <string-array name="whats_new_244">
-    <item>Filtro de pesquisa para duração</item>
-    <item>Filtros para método, beneficiário, estado e categoria permitem agora múltipla seleção</item>
-    <item>Tradução em basco</item>
-  </string-array>
-  <string-array name="whats_new_243">
-    <item>Se a aplicação estiver protegida por palavra-passe, as imagens são armazenadas de forma segura no armazenamento interno</item>
-  </string-array>
-  <string-array name="whats_new_242">
-    <item>Anexar imagem à transação</item>
-  </string-array>
-  <string-array name="whats_new_241">
-    <item>Gráfico circular com distribuição por categorias</item>
-  </string-array>
-  <string-array name="whats_new_240">
-    <item>Transformar transações normais em transações divididas</item>
-  </string-array>
     <string name="bug_fixes">Correções de erros</string>
 </resources>

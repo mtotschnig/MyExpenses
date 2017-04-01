@@ -75,47 +75,5 @@
     <item>タブレットレイアウトの改善</item>
     <item>Samsung Knox のサポート</item>
   </string-array>
-  <string-array name="whats_new_251">
-    <item>設定可能な数値書式</item>
-    <item>デンマーク語翻訳</item>
-  </string-array>
-  <string-array name="whats_new_250">
-    <item>CSV インポート</item>
-    <item>韓国語翻訳</item>
-  </string-array>
-  <string-array name="whats_new_249">
-    <item>QIF に分類をエクスポート</item>
-    <item>ホーム画面ウィジェットに集計した合計を表示</item>
-  </string-array>
-  <string-array name="whats_new_248">
-    <item>複製された取引のステータスを未照合にリセットします</item>
-    <item>ファイルマネージャーのないデバイス用の代替の復元方法</item>
-  </string-array>
-  <string-array name="whats_new_247">
-    <item>複製コマンドで編集フォームを開きます</item>
-  </string-array>
-  <string-array name="whats_new_246">
-    <item>取引のステータスを \"無効\" にセットできます</item>
-  </string-array>
-  <string-array name="whats_new_245">
-    <item>エクスポートおよびリセット機能が、検索フィルターに一致する取引に適用できるようになりました</item>
-  </string-array>
-  <string-array name="whats_new_244">
-    <item>期間の検索フィルター</item>
-    <item>方法、支払先、ステータス、および分類のフィルターが、複数選択できるようになりました</item>
-    <item>バスク翻訳</item>
-  </string-array>
-  <string-array name="whats_new_243">
-    <item>アプリケーションがパスワード保護されている場合、画像は内部ストレージに安全に格納されます</item>
-  </string-array>
-  <string-array name="whats_new_242">
-    <item>取引に写真を添付</item>
-  </string-array>
-  <string-array name="whats_new_241">
-    <item>分類ごとの分布を可視化する円グラフ</item>
-  </string-array>
-  <string-array name="whats_new_240">
-    <item>通常の処理を分割処理に変換します</item>
-  </string-array>
     <string name="bug_fixes">バグ修正</string>
 </resources>

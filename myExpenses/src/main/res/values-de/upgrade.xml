@@ -75,47 +75,5 @@
     <item>Verbessertes Layout für Tablets</item>
     <item>Unterstützung für Samsung Knox</item>
   </string-array>
-  <string-array name="whats_new_251">
-    <item>Konfigurierbares Zahlenformat</item>
-    <item>Dänische Übersetzung</item>
-  </string-array>
-  <string-array name="whats_new_250">
-    <item>Import CSV</item>
-    <item>Koreanische Übersetzung</item>
-  </string-array>
-  <string-array name="whats_new_249">
-    <item>Exportieren von Kategorien zu QIF</item>
-    <item>Anzeige der Gesamtsummen im Start-Bildschirm Widget</item>
-  </string-array>
-  <string-array name="whats_new_248">
-    <item>Der Status der geklonten Buchungen wird auf nicht abgestimmt zurückgesetzt</item>
-    <item>Alternative Methode der Widerherstellung von Sicherungskopien für Geräte ohne Datei-Manager</item>
-  </string-array>
-  <string-array name="whats_new_247">
-    <item>Der Befehl Klonen öffnet das Bearbeitungsformular</item>
-  </string-array>
-  <string-array name="whats_new_246">
-    <item>Buchungen können als \"ungültig\" gekennzeichnet werden</item>
-  </string-array>
-  <string-array name="whats_new_245">
-    <item>Die Funktion \"Exportieren und zurücksetzen\" kann jetzt auf Buchungen, die durch Suchfilter ausgewählt werden, eingeschränkt werden</item>
-  </string-array>
-  <string-array name="whats_new_244">
-    <item>Suchfilter für Dauer</item>
-    <item>Filter für Methode, Zahlungsempfänger, Status und Kategorie lässt nun Mehrfachauswahl zu</item>
-    <item>Baskische Übersetzung</item>
-  </string-array>
-  <string-array name="whats_new_243">
-    <item>Wenn die Anwendung passwortgeschützt ist, werden Bilder nun sicher im internen Speicher gespeichert</item>
-  </string-array>
-  <string-array name="whats_new_242">
-    <item>Bildanhänge für Buchungen</item>
-  </string-array>
-  <string-array name="whats_new_241">
-    <item>Kreisdiagramm zeigt Verteilung pro Kategorie</item>
-  </string-array>
-  <string-array name="whats_new_240">
-    <item>Normale Buchungen in Splittbuchungen verwandeln</item>
-  </string-array>
     <string name="bug_fixes">Bugs behoben</string>
 </resources>

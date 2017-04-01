@@ -44,47 +44,5 @@
     <item>Aspect de tableta îmbunătăţit</item>
     <item>Suport pentru Samsung Knox</item>
   </string-array>
-  <string-array name="whats_new_251">
-    <item>Formatul numărului configurabil</item>
-    <item>Traducere Daneză</item>
-  </string-array>
-  <string-array name="whats_new_250">
-    <item>Import CSV </item>
-    <item>Traducere Coreeană </item>
-  </string-array>
-  <string-array name="whats_new_249">
-    <item>Export categorii catre QIF</item>
-    <item>Afișează sumele agregate în ecranul de start widget</item>
-  </string-array>
-  <string-array name="whats_new_248">
-    <item>Statusul tranzacţiilor clonate este resetat la neconciliat</item>
-    <item>Metoda Alternativă de restabilire pentru dispozitive fără manager fişiere</item>
-  </string-array>
-  <string-array name="whats_new_247">
-    <item>Comanda Cloneaza  deschide formularul de editare</item>
-  </string-array>
-  <string-array name="whats_new_246">
-    <item>Tranzacţiile poate fi setate la starea \"Gol\"</item>
-  </string-array>
-  <string-array name="whats_new_245">
-    <item>Funcţionalitatile Export si reset pot fi aplicate la operaţiunile de Filtrare cautare</item>
-  </string-array>
-  <string-array name="whats_new_244">
-    <item>Filtru de cautare pentru durata</item>
-    <item>Filtre pentru metoda, beneficiar, statutul şi categoria acum permite selectarea multipla</item>
-    <item>Bască Traducere</item>
-  </string-array>
-  <string-array name="whats_new_243">
-    <item>Daca aplicatia este parolata, imaginile sunt stocate în siguranţă în stocare internă</item>
-  </string-array>
-  <string-array name="whats_new_242">
-    <item>Ataşaţi imagine la tranzacţie</item>
-  </string-array>
-  <string-array name="whats_new_241">
-    <item>Diagrama Pie vizualizeaza distribuţia pe categorii</item>
-  </string-array>
-  <string-array name="whats_new_240">
-    <item>Transformă tranzacţia normală în tranzacţie repartizată</item>
-  </string-array>
     <string name="bug_fixes">Bug fixat</string>
 </resources>

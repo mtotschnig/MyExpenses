@@ -453,54 +453,6 @@
     </string-array>
 
     <!-- first member is Facebook post id, second Google+ post id -->
-    <string-array name="version_more_info_240" tools:ignore="UnusedResources">
-        <item>posts/1508659049395568</item>
-        <item>eeAevd25T73</item>
-    </string-array>
-    <string-array name="version_more_info_242" tools:ignore="UnusedResources">
-        <item>photos/a.1450395311888609.1073741827.1450391968555610/1549092402018899</item>
-        <item>SHZ6XMNUNkT</item>
-    </string-array>
-    <string-array name="version_more_info_243" tools:ignore="UnusedResources">
-        <item>posts/1552400511688088</item>
-        <item>XBQX31Sqvi8</item>
-    </string-array>
-    <string-array name="version_more_info_244" tools:ignore="UnusedResources">
-        <item>posts/1559432147651591</item>
-        <item>gb5JD8PkZVS</item>
-    </string-array>
-    <string-array name="version_more_info_245" tools:ignore="UnusedResources">
-        <item>photos/a.1450395311888609.1073741827.1450391968555610/1565450997049706</item>
-        <item>Za61biN2Z5C</item>
-    </string-array>
-    <string-array name="version_more_info_246" tools:ignore="UnusedResources">
-        <item>posts/1569857569942382</item>
-        <item>MrJnmGgPgQp</item>
-    </string-array>
-    <string-array name="version_more_info_247" tools:ignore="UnusedResources">
-        <item>posts/1575971895997616</item>
-        <item>P3hSfKVpXHh</item>
-    </string-array>
-    <string-array name="version_more_info_248" tools:ignore="UnusedResources">
-        <item>posts/1576983852563087</item>
-        <item>S7R3WXofPZi</item>
-    </string-array>
-    <string-array name="version_more_info_249" tools:ignore="UnusedResources">
-        <item>posts/1582359712025501</item>
-        <item>97gqDvJJq43</item>
-    </string-array>
-    <string-array name="version_more_info_250" tools:ignore="UnusedResources">
-        <item>posts/1647021015559370</item>
-        <item>N8CLscuzGxF</item>
-    </string-array>
-    <string-array name="version_more_info_251" tools:ignore="UnusedResources">
-        <item>photos/a.1450395311888609.1073741827.1450391968555610/1648355755425896</item>
-        <item>TjKFKHh2MU3</item>
-    </string-array>
-    <string-array name="version_more_info_252" tools:ignore="UnusedResources">
-        <item>photos/a.1450395311888609.1073741827.1450391968555610/1652776838317121</item>
-        <item>MWJnKRVgbQR</item>
-    </string-array>
     <string-array name="version_more_info_260" tools:ignore="UnusedResources">
         <item>photos/a.1450395311888609.1073741827.1450391968555610/1674812282780243</item>
         <item>Hg7sTEPwLb4</item>

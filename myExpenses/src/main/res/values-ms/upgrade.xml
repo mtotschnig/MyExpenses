@@ -72,47 +72,5 @@
     <item>Bentangan tablet ditambahbaik</item>
     <item>Sokongan untuk Samsung Knox</item>
   </string-array>
-  <string-array name="whats_new_251">
-    <item>Format nombor boleh dikonfigur</item>
-    <item>Terjemahan bahasa Belanda</item>
-  </string-array>
-  <string-array name="whats_new_250">
-    <item>Import CSV</item>
-    <item>Terjemahan bahasa Korea</item>
-  </string-array>
-  <string-array name="whats_new_249">
-    <item>Eksport kategori ke QIF</item>
-    <item>Papar hasil tambah agregat dalam widjet skrin rumah</item>
-  </string-array>
-  <string-array name="whats_new_248">
-    <item>Status transaksi diklon adalah ditetap semula kepada tidak boleh dikembalikan</item>
-    <item>Kaedah pemulihan alternatif bagi peranti tanpa pengurus fail</item>
-  </string-array>
-  <string-array name="whats_new_247">
-    <item>Perintah klon membuka borang penyuntingan</item>
-  </string-array>
-  <string-array name="whats_new_246">
-    <item>Transaksi boleh ditetapkan dalam keadaan \"Tidak Sah\"</item>
-  </string-array>
-  <string-array name="whats_new_245">
-    <item>Kefungsian eksport dan tetap semula kini boleh dilaksana ke transaksi yang dipadankan dengan penapis gelintar</item>
-  </string-array>
-  <string-array name="whats_new_244">
-    <item>Gelintar penapis untuk tempoh</item>
-    <item>Tapis kaedah, penerima, status dan kategori sekarang untuk membenarkan pemilihan berbilang</item>
-    <item>Terjemahan Basque</item>
-  </string-array>
-  <string-array name="whats_new_243">
-    <item>Jika aplikasi dilindungi kata laluan, gambar disimpan secara selamat di dalam storan luaran</item>
-  </string-array>
-  <string-array name="whats_new_242">
-    <item>Lampir gambar ke dalam transaksi</item>
-  </string-array>
-  <string-array name="whats_new_241">
-    <item>Carta pai mengvisualkan agihan per katagori</item>
-  </string-array>
-  <string-array name="whats_new_240">
-    <item>Ubah transaksi bias menjadi transaksi pisah</item>
-  </string-array>
     <string name="bug_fixes">Pembaikan pepijat</string>
 </resources>

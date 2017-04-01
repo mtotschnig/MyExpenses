@@ -125,10 +125,6 @@
     <string name="io_error_cachedir_null">Cache directory not found</string>
     <string name="account_list_not_yet_loaded">Account list not yet loaded. Please try again</string>
 
-    <string-array name="whats_new_252" tools:ignore="UnusedResources">
-        <item>@string/pref_auto_backup_title</item>
-    </string-array>
-
     <string name="calculator_operator_plus">+</string>
     <string name="calculator_operator_minus">−</string>
     <string name="calculator_operator_multiply">×</string>

@@ -72,47 +72,5 @@
     <item>Migliore layout tablet</item>
     <item>Supporto per Samsung Knox</item>
   </string-array>
-  <string-array name="whats_new_251">
-    <item>Formato numero configurabile</item>
-    <item>Traduzione in danese</item>
-  </string-array>
-  <string-array name="whats_new_250">
-    <item>Importazione CSV</item>
-    <item>Traduzione in coreano</item>
-  </string-array>
-  <string-array name="whats_new_249">
-    <item>Esportare le categorie a QIF</item>
-    <item>Visualizza somme complessivi in widget di schermata iniziale</item>
-  </string-array>
-  <string-array name="whats_new_248">
-    <item>Lo stato delle transazioni clonate viene reimpostato a non riconciliati</item>
-    <item>Alternative metodo di ripristino per dispositivi senza file manager</item>
-  </string-array>
-  <string-array name="whats_new_247">
-    <item>Clone comando apre modifica forma</item>
-  </string-array>
-  <string-array name="whats_new_246">
-    <item>Le transazioni possono essere impostate per stato \"invalido\"</item>
-  </string-array>
-  <string-array name="whats_new_245">
-    <item>La funzionalità \"Esportare e reinizializzare\" ora può essere applicato alle transazioni rilevate dal filtro di ricerca</item>
-  </string-array>
-  <string-array name="whats_new_244">
-    <item>Filtro di ricerca per la durata</item>
-    <item>Filtri per metodo, beneficiario, status e categoria ora consentono la selezione multipla</item>
-    <item>Traduzione basco</item>
-  </string-array>
-  <string-array name="whats_new_243">
-    <item>Se l\'applicazione è protetto da password, le immagini sono memorizzate in modo sicuro nella memoria interna</item>
-  </string-array>
-  <string-array name="whats_new_242">
-    <item>Allegare immagine per transazione</item>
-  </string-array>
-  <string-array name="whats_new_241">
-    <item>Grafico a torta visualizzando la distribuzione per categoria</item>
-  </string-array>
-  <string-array name="whats_new_240">
-    <item>Trasformare normali operazione nella operazione frazionate</item>
-  </string-array>
     <string name="bug_fixes">Correzione di errori</string>
 </resources>

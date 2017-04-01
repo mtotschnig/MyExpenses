@@ -60,47 +60,5 @@
     <item>Hobetutako tabletarako antolaketa</item>
     <item>Samsung Knox euskarria</item>
   </string-array>
-  <string-array name="whats_new_251">
-    <item>Zenbaki formatu konfiguragarria</item>
-    <item>Danierara itzulpena</item>
-  </string-array>
-  <string-array name="whats_new_250">
-    <item>CSV inportazioa</item>
-    <item>Korearrera itzulpena</item>
-  </string-array>
-  <string-array name="whats_new_249">
-    <item>Esportatu kategoriak QIF fitxategira</item>
-    <item>Bistaratu pilatutako baturak hasiera pantailako trepetan</item>
-  </string-array>
-  <string-array name="whats_new_248">
-    <item>Klonatutako transakzioen egoera berdinkatu gabe gisa ezartzen da</item>
-    <item>Ordezko berreskuratze metodoa fitxategi kudeatzailerik gabeko gailuentzat</item>
-  </string-array>
-  <string-array name="whats_new_247">
-    <item>Klonatu komandoak edizio formularioa irekitzen du</item>
-  </string-array>
-  <string-array name="whats_new_246">
-    <item>Transakzioak \"Indargabetua\" egoeran ezarri daitezke</item>
-  </string-array>
-  <string-array name="whats_new_245">
-    <item>Esportatu eta leheneratu funtzioak bilaketa iragazkiarekin bat datozen transakzioetan aplikatu daitezke orain</item>
-  </string-array>
-  <string-array name="whats_new_244">
-    <item>Iraupenerako bilaketa iragazkia</item>
-    <item>Metodoa, ordaintzailea, egoera eta kategoriaren arabera bilatzeko iragazkiek hainbat aukera onartzen dituzte orain</item>
-    <item>Euskarara itzulpena!</item>
-  </string-array>
-  <string-array name="whats_new_243">
-    <item>Aplikazioa pasahitzez babestuta badago, irudiak barne biltegiratzean gordeko dira modu seguruan</item>
-  </string-array>
-  <string-array name="whats_new_242">
-    <item>Erantsi irudia transakzioari</item>
-  </string-array>
-  <string-array name="whats_new_241">
-    <item>Tarta diagrama kategoriako distribuzioa bistaratzeko</item>
-  </string-array>
-  <string-array name="whats_new_240">
-    <item>Bihurtu transakzio arrunta banatutako transakzioan</item>
-  </string-array>
     <string name="bug_fixes">Konpondutako akatsak</string>
 </resources>

@@ -18,42 +18,5 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
-  <string-array name="whats_new_250">
-    <item>Import CSV</item>
-  </string-array>
-  <string-array name="whats_new_249">
-    <item>Eksport kategorii do formatu QIF</item>
-    <item>Wyświetl agregację sum na ekranie głównym</item>
-  </string-array>
-  <string-array name="whats_new_248">
-    <item>Status transakcji sklonowanych zostaje zresetowany do nieuzgodnionego</item>
-    <item>Alternatywny sposób odzyskania danych dla urządzeń bez menadżera plików</item>
-  </string-array>
-  <string-array name="whats_new_247">
-    <item>Polecenie klonowania otwiera formularz edycji</item>
-  </string-array>
-  <string-array name="whats_new_246">
-    <item>Transakcje mogą zostać oznaczone jako \"Anulowane\"</item>
-  </string-array>
-  <string-array name="whats_new_245">
-    <item>Funkcja eksportu i resetu może teraz być zastosowana to transakcji pasujących do filtru wyszukiwania</item>
-  </string-array>
-  <string-array name="whats_new_244">
-    <item>Filtr wyszukiwania dla czasu trwania</item>
-    <item>Filtry dla metod, płatników, statusu i kategorii pozwalają teraz na wielokrotne zaznaczanie</item>
-    <item>Tłumaczenie Baskijskie</item>
-  </string-array>
-  <string-array name="whats_new_243">
-    <item>Jeżeli aplikacja jest zabezpieczona hasłem, obrazki są przechowywane wewnętrznie w bezpieczny sposób</item>
-  </string-array>
-  <string-array name="whats_new_242">
-    <item>Dopnij obraz do transakcji</item>
-  </string-array>
-  <string-array name="whats_new_241">
-    <item>Wykres kołowy pokazujący rozkład na kategorie</item>
-  </string-array>
-  <string-array name="whats_new_240">
-    <item>Zamień normalną transakcję w transakcję z podziałem</item>
-  </string-array>
-    <string name="bug_fixes">Poprawki błędów</string>
+  <string name="bug_fixes">Poprawki błędów</string>
 </resources>

@@ -72,47 +72,5 @@
     <item>Подобрен изглед на таблет</item>
     <item>Подръжка на Samsung Knox</item>
   </string-array>
-  <string-array name="whats_new_251">
-    <item>Канфигуриране на формата на цифрите</item>
-    <item>Превод на датски</item>
-  </string-array>
-  <string-array name="whats_new_250">
-    <item>Импорт от CSV файл</item>
-    <item>Превод на корейски</item>
-  </string-array>
-  <string-array name="whats_new_249">
-    <item>Експорт на категории в QIF файл</item>
-    <item>Уиджета на начален екран показва общи суми</item>
-  </string-array>
-  <string-array name="whats_new_248">
-    <item>Статусът на клонирани транзакции се връща в несъгласувани</item>
-    <item>Допълнителен начин на възстановяване за устройства без файлов мениджър</item>
-  </string-array>
-  <string-array name="whats_new_247">
-    <item>Командата Клониране отваря бланка за редактиране</item>
-  </string-array>
-  <string-array name="whats_new_246">
-    <item>Транзакцията може да бъде отбелязана като \"не отчитай\"</item>
-  </string-array>
-  <string-array name="whats_new_245">
-    <item>Функцията Експорт и нулиране сега може да се приложи за транзакции, избрани с филтър</item>
-  </string-array>
-  <string-array name="whats_new_244">
-    <item>Филтър за период от време</item>
-    <item>Филтрите за начин на плащане, платец, статус и категория сега позволяват едновременен избор</item>
-    <item>Превод на баскски език</item>
-  </string-array>
-  <string-array name="whats_new_243">
-    <item>Ако приложението е защитено с парола, изображенията се съхраняват във вътрешно защитено хранилище</item>
-  </string-array>
-  <string-array name="whats_new_242">
-    <item>Прикачване на изображение към транзакцията</item>
-  </string-array>
-  <string-array name="whats_new_241">
-    <item>Показва графично разпределение по категория</item>
-  </string-array>
-  <string-array name="whats_new_240">
-    <item>Преобразуване на нормална транзакция в разпределена</item>
-  </string-array>
     <string name="bug_fixes">Поправени грешки</string>
 </resources>

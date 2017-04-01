@@ -75,47 +75,5 @@
     <item>Mejor diseño de tableta</item>
     <item>Soporte para Samsung Knox</item>
   </string-array>
-  <string-array name="whats_new_251">
-    <item>Formato de número configurable</item>
-    <item>Traducción a danés</item>
-  </string-array>
-  <string-array name="whats_new_250">
-    <item>Importación a CSV</item>
-    <item>Traducción a coreano</item>
-  </string-array>
-  <string-array name="whats_new_249">
-    <item>Exportación de categorías a QIF</item>
-    <item>Visualizar sumas acumuladas en el widget de la pantalla de inicio</item>
-  </string-array>
-  <string-array name="whats_new_248">
-    <item>Se restablece el estado de las transacciones copiadas a reconciliadas</item>
-    <item>Alternativa al método de restaurar para dispositivos sin administrador de archivos</item>
-  </string-array>
-  <string-array name="whats_new_247">
-    <item>El comando de copiado abre el formulario de edición</item>
-  </string-array>
-  <string-array name="whats_new_246">
-    <item>Las transacciones se pueden establecer con estado de \"Inválida\"</item>
-  </string-array>
-  <string-array name="whats_new_245">
-    <item>La función \"Exportar y restablecer\" ahora puede ser aplicada a las transacciones coincidentes por filtro de búsqueda</item>
-  </string-array>
-  <string-array name="whats_new_244">
-    <item>Filtro de búsqueda por duración</item>
-    <item>Los filtros por método, acreedor, estado y categoría ahora permiten selección múltiple</item>
-    <item>Traducción a eusquera</item>
-  </string-array>
-  <string-array name="whats_new_243">
-    <item>Si la aplicación está protegida por contraseña, las fotos se almacenarán en el almacenamiento interno</item>
-  </string-array>
-  <string-array name="whats_new_242">
-    <item>Adjuntar imagen a la transacción</item>
-  </string-array>
-  <string-array name="whats_new_241">
-    <item>Diagrama circular de la distribución por categoría</item>
-  </string-array>
-  <string-array name="whats_new_240">
-    <item>Transformar la transacción normal en transacción dividida</item>
-  </string-array>
     <string name="bug_fixes">Corrección de errores</string>
 </resources>

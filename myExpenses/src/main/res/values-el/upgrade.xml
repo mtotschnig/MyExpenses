@@ -38,19 +38,5 @@
     <item>Βελτίωση εμφάνισης σε ταμπλέτες</item>
     <item>Υποστήριξη Samsung Knox</item>
   </string-array>
-  <string-array name="whats_new_251">
-    <item>Ρυθμιζόμενος τρόπος εμφάνισης αριθμός</item>
-    <item>Δανέζικη μετάφραση</item>
-  </string-array>
-  <string-array name="whats_new_250">
-    <item>Εισαγωγή CSV</item>
-    <item>Κορεάτικη μετάφραση</item>
-  </string-array>
-  <string-array name="whats_new_249">
-    <item>Εξαγωγή κατηγοριών σε QIF μορφότυπο</item>
-  </string-array>
-  <string-array name="whats_new_246">
-    <item>Οι συναλλαγές τώρα μπορούν να οριστούν ως \"άκυρες\"</item>
-  </string-array>
-  <string name="bug_fixes">Διορθώσεις σφαλμάτων</string>
+    <string name="bug_fixes">Διορθώσεις σφαλμάτων</string>
 </resources>

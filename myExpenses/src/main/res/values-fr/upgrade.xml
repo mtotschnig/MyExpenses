@@ -75,47 +75,5 @@
     <item>Présentation améliorée pour les tablettes</item>
     <item>Support pour Samsung Knox</item>
   </string-array>
-  <string-array name="whats_new_251">
-    <item>Format de nombre configurable</item>
-    <item>Traduction en danois</item>
-  </string-array>
-  <string-array name="whats_new_250">
-    <item>Importation CSV</item>
-    <item>Traduction en coréen</item>
-  </string-array>
-  <string-array name="whats_new_249">
-    <item>Export des catégories au format QIF</item>
-    <item>Afficher les sommes globales dans le widget de l\'écran d\'accueil</item>
-  </string-array>
-  <string-array name="whats_new_248">
-    <item>Le statut des opérations clonées est réinitialisé à non rapproché</item>
-    <item>Autre méthode de restauration pour les appareils sans gestionnaire de fichiers</item>
-  </string-array>
-  <string-array name="whats_new_247">
-    <item>La commande de clonage ouvre le formulaire d\'édition</item>
-  </string-array>
-  <string-array name="whats_new_246">
-    <item>Les opérations peuvent être mises en état « invalide »</item>
-  </string-array>
-  <string-array name="whats_new_245">
-    <item>La fonction \"Exporter et réinitialiser\" peut maintenant être appliquée aux opérations correspondantes des filtres de recherche</item>
-  </string-array>
-  <string-array name="whats_new_244">
-    <item>Filtre de recherche pour une durée</item>
-    <item>Les filtres de méthode, bénéficiaire, statut et catégorie sont maintenant permis pour la sélection multiple</item>
-    <item>Traduction en basque</item>
-  </string-array>
-  <string-array name="whats_new_243">
-    <item>Si l\'application est protégée par mot de passe, les photos seront stockées en toute sécurité dans le stockage interne</item>
-  </string-array>
-  <string-array name="whats_new_242">
-    <item>Lier une image avec une transaction</item>
-  </string-array>
-  <string-array name="whats_new_241">
-    <item>Diagramme en secteurs de la répartition par catégorie</item>
-  </string-array>
-  <string-array name="whats_new_240">
-    <item>Transformer une opération normale en ventilée</item>
-  </string-array>
     <string name="bug_fixes">Corrections des erreurs</string>
 </resources>

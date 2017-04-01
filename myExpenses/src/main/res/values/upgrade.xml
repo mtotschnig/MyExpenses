@@ -75,47 +75,5 @@
     <item>Improved tablet layout</item>
     <item>Support for Samsung Knox</item>
   </string-array>
-  <string-array name="whats_new_251">
-    <item>Configurable number format</item>
-    <item>Danish translation</item>
-  </string-array>
-  <string-array name="whats_new_250">
-    <item>CSV import</item>
-    <item>Korean translation</item>
-  </string-array>
-  <string-array name="whats_new_249">
-    <item>Export categories to QIF</item>
-    <item>Display aggregate sums in home screen widget</item>
-  </string-array>
-  <string-array name="whats_new_248">
-    <item>The status of cloned transactions is reset to unreconciled</item>
-    <item>Alternative restore method for devices without file manager</item>
-  </string-array>
-  <string-array name="whats_new_247">
-    <item>Clone command opens editing form</item>
-  </string-array>
-  <string-array name="whats_new_246">
-    <item>Transactions can be set to state "Void"</item>
-  </string-array>
-  <string-array name="whats_new_245">
-    <item>Export and reset functionality can now be applied to transactions matched by search filter</item>
-  </string-array>
-  <string-array name="whats_new_244">
-    <item>Search filter for duration</item>
-    <item>Filters for method, payee, status and category now allow multiple selection</item>
-    <item>Basque translation</item>
-  </string-array>
-  <string-array name="whats_new_243">
-    <item>If application is password protected, pictures are stored securely in internal storage</item>
-  </string-array>
-  <string-array name="whats_new_242">
-    <item>Attach picture to transaction</item>
-  </string-array>
-  <string-array name="whats_new_241">
-    <item>Pie chart visualizing distribution per category</item>
-  </string-array>
-  <string-array name="whats_new_240">
-    <item>Transform normal transaction into split transaction</item>
-  </string-array>
     <string name="bug_fixes">Bug fixes</string>
 </resources>
