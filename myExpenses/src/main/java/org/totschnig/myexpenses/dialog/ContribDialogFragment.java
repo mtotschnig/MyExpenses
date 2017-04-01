@@ -21,6 +21,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.text.TextUtils;
@@ -44,8 +45,9 @@ import timber.log.Timber;
 import static org.totschnig.myexpenses.activity.ContribInfoDialogActivity.KEY_FEATURE;
 
 public class ContribDialogFragment extends CommitSafeDialogFragment implements DialogInterface.OnClickListener, View.OnClickListener {
+  @Nullable
   private ContribFeature feature;
-  RadioButton contribButton, extendedButton;
+  private RadioButton contribButton, extendedButton;
 
   public static ContribDialogFragment newInstance(String feature, Serializable tag) {
     ContribDialogFragment dialogFragment = new ContribDialogFragment();
@@ -59,7 +61,10 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    feature = ContribFeature.valueOf(getArguments().getString(KEY_FEATURE));
+    String featureStringExtra = getArguments().getString(KEY_FEATURE);
+    if (featureStringExtra != null) {
+      feature = ContribFeature.valueOf(featureStringExtra);
+    }
   }
 
   @NonNull
