@@ -107,6 +107,118 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 2.7.8
+    - "2017-04-01"
+    -
+      en: |
+        App Shortcuts for Android 7.1.
+      fr: |
+        Raccourcis application pour Android 7.1.
+      de: |
+        App Verknüpfungen für Android 7.1.
+      es: |
+        Accesos directos a la aplicación para Android 7.1.
+      tr: |
+        Android 7.1 için uygulama kısayolları.
+      ja: |
+        Android 7.1 用アプリショートカット.
+-
+    - 2.7.7
+    - "2017-03-18"
+    -
+      en: |
+        Auto backups can be stored on cloud backend.
+      fr: |
+        Les sauvegardes automatiques peuvent être stockées sur un serveur cloud.
+      de: |
+        Automatische Sicherungen können auf Cloud-Backend gespeichert werden.
+      it: |
+        I backup automatici possono essere memorizzati su backend cloud.
+      es: |
+        Las copias de seguridad automáticas se pueden guardar en los servicios de nube.
+      tr: |
+        Otomatik yedeklemeler bulut arka ucunda stoklanabilir.
+      bg: |
+        Автоматичните бекъпи могат да се записват на  отдалечено облачно място.
+      ms: |
+        Auto sandar boleh disimpan dalam bahagian belakang awan.
+      ja: |
+        自動バックアップはクラウドバックエンドに保存できます.
+-
+    - 2.7.6
+    - "2017-02-28"
+    -
+      en: |
+        Minor improvements.
+      fr: |
+        Améliorations mineures.
+      de: |
+        Gerinfügige Verbesserungen.
+      it: |
+        Piccoli miglioramenti.
+      es: |
+        Pequeñas mejoras.
+      tr: |
+        Küçük iyileştirmeler.
+      bg: |
+        Малки подобрения.
+      ms: |
+        Penambahbaikan kecil.
+      ja: |
+        マイナーな改善.
+-
+    - 2.7.5
+    - "2017-02-10"
+    -
+      en: |
+        Synchronization across devices via cloud services.
+      fr: |
+        Synchronisation à travers les dispositifs via les services dans les nuages.
+      de: |
+        Synchronisierung zwischen mehreren Geräten über Cloud-Dienste.
+      it: |
+        Sincronizzare tra dispositivi attraverso i servizi cloud.
+      es: |
+        Sincronización entre varios dispositivos vía servicios en la nube.
+      tr: |
+        Cihazlar arası bulut hizmetleri ile eşleşme.
+      el: |
+        Συγχρονισμό μεταξύ συσκευών μέσω υπηρεσιών σύννεφου.
+      bg: |
+        Синхронизиране между няколко устройства чрез облачни услуги.
+      ms: |
+        Penyegerakan merentasi peranti melalui perkhidmatan awan.
+      ja: |
+        クラウドサービスを介したデバイス間の同期.
+-
+    - 2.7.1
+    - "2016-08-15"
+    -
+      en: |
+        Problems with plans on Samsung devices are fixed. Edit transactions from distribution screen.
+      fr: |
+        Problèmes avec les plans sur les appareils de Samsung sont résolus. Modifier les transactions à partir de l’écran de la distribution.
+      de: |
+        Probleme mit Plänen auf Samsung-Geräten behoben. Buchungen können von der Verteilungsansicht aus bearbeitet werden..
+      it: |
+        Risolti i problemi con i programmi su dispositivi Samsung. Modifica transazioni dalla schermata di distribuzione.
+      es: |
+        Se han resuelto problemas en los proyectos con dispositivos Samsung. Editar transacciones desde la pantalla de distribución.
+      pt: |
+        Problemas com planos em dispositivos Samsung são resolvidos. Editar transações da tela de distribuição.
+      tr: |
+        Samsung cihazlarında planlamalar ile ilgili sorunlar giderildi. Dağıtım ekranında mumaleleri düzenleme.
+      eu: |
+        Planekin Samsung gailuetan zeuden arazoak konpòndu dira. Editatu transakzioak distribuzioaren pantailatik.
+      bg: |
+        Отстранени проблеми с плановете на устройства Samsung. Редактиране на транзакцията на екрана за разпределение.
+      ru: |
+        Исправлены проблемы с планами на устройствах Samsung. Редактирование операций с экрана распределения.
+      ms: |
+        Masalah plan pada peranti Samsung telah dibaiki. Sunting transaksi dari skrin pengagihan.
+      ja: |
+        Samsung デバイスで計画の問題が修正されます. 分布画面から取引の編集.
+  -
     - 2.7.0
     - "2016-06-18"
     -
@@ -412,6 +524,8 @@ versions:
         Автоматичен бекъп
       fr: |
         Auto-backup
+      ar: |
+        نسخ احتياطي آلي
   -
     - 2.5.1
     - "2015-08-30"
@@ -425,21 +539,25 @@ versions:
       it: |
         Formato numero configurabile. Traduzione in danese.
       es: |
-        Formato de número configurable. Traducción en danés.
+        Formato de número configurable. Traducción a danés.
       pt: |
         Formato de número configurável. Dinamarquês Tradução.
       tr: |
         Yapılandırılabilir sayı biçimi. Danca tercüme.
+      el: |
+        Ρυθμιζόμενος τρόπος εμφάνισης αριθμός. Δανέζικη μετάφραση.
+      eu: |
+        Zenbaki formatu konfiguragarria. Danierara itzulpena.
+      bg: |
+        Канфигуриране на формата на цифрите. Превод на датски.
+      ru: |
+        Настраиваемый числовой формат. Датский Перевод.
       ms: |
         Format nombor boleh dikonfigur. Terjemahan bahasa Belanda.
       ja: |
         設定可能な数値書式. デンマーク語翻訳.
       ro: |
         Formatul numărului configurabil. Traducere Daneză.
-      eu: |
-        Zenbaki formatu konfiguragarria. Danierara itzulpena.
-      bg: |
-        Канфигуриране на формата на цифрите. Превод на датски.
   -
     - 2.5.0
     - "2015-08-26"
@@ -453,21 +571,25 @@ versions:
       it: |
         Importazione CSV. Traduzione in coreano.
       es: |
-        Importación de CSV. Traducción de Coreano.
+        Importación a CSV. Traducción a coreano.
       pt: |
         Importar de CSV. Coreano Tradução.
       tr: |
         CSV içe aktarımı. Korece tercüme.
+      el: |
+        Εισαγωγή CSV. Κορεάτικη μετάφραση.
+      eu: |
+        CSV inportazioa. Korearrera itzulpena.
+      bg: |
+        Импорт от CSV файл. Превод на корейски.
+      ru: |
+        Импорт CSV. Перевод на Корейский.
       ms: |
         Import CSV. Terjemahan bahasa Korea.
       ja: |
         CSV インポート. 韓国語翻訳.
       ro: |
         Import CSV . Traducere Coreeană .
-      eu: |
-        CSV inportazioa. Korearrera itzulpena.
-      bg: |
-        Импорт от CSV файл. Превод на корейски.
   -
     - 2.4.9
     - "2015-06-15"
@@ -498,6 +620,8 @@ versions:
         Export categorii catre QIF. Afișează sumele agregate în ecranul de start widget.
       pl: |
         Eksport kategorii do formatu QIF. Wyświetl agregację sum na ekranie głównym.
+      ru: |
+        Экспорт категорий в QIF. Отображение общих сумм в виджете на главном экране.
   -
     - 2.4.8
     - "2015-06-04"
@@ -528,6 +652,8 @@ versions:
         Statusul tranzacţiilor clonate este resetat la neconciliat. Metoda Alternativă de restabilire pentru dispozitive fără manager fişiere.
       pl: |
         Status transakcji sklonowanych zostaje zresetowany do nieuzgodnionego. Alternatywny sposób odzyskania danych dla urządzeń bez menadżera plików.
+      ru: |
+        Статус клонированной операций сбрасывается на несогласованная. Альтернативный метод восстановления для устройств без файлового менеджера.
   -
     - 2.4.7
     - "2015-06-01"
@@ -558,6 +684,8 @@ versions:
         Comanda Cloneaza  deschide formularul de editare.
       pl: |
         Polecenie klonowania otwiera formularz edycji.
+      ru: |
+        Команда клонировать открывает форму редактирования.
   -
     - 2.4.6
     - "2015-05-16"
@@ -588,6 +716,10 @@ versions:
         Tranzacţiile poate fi setate la starea "Gol".
       pl: |
         Transakcje mogą zostać oznaczone jako "Anulowane".
+      el: |
+        Οι συναλλαγές τώρα μπορούν να οριστούν ως "άκυρες".
+      ru: |
+        Операциям можно присвоить состояние «Пустая».
   -
     - 2.4.5
     - "2015-05-04"
@@ -618,6 +750,8 @@ versions:
         Funcţionalitatile Export si reset pot fi aplicate la operaţiunile de Filtrare cautare.
       pl: |
         Funkcja eksportu i resetu może teraz być zastosowana to transakcji pasujących do filtru wyszukiwania.
+      ru: |
+        Функции экспорта и сброса теперь могут применяться к операциям, соответствующим критериям поиска.
   -
     - 2.4.4
     - "2015-04-21"
@@ -648,6 +782,8 @@ versions:
         Filtru de cautare pentru durata. Filtre pentru metoda, beneficiar, statutul şi categoria acum permite selectarea multipla. Bască Traducere.
       pl: |
         Filtr wyszukiwania dla czasu trwania. Filtry dla metod, płatników, statusu i kategorii pozwalają teraz na wielokrotne zaznaczanie. Tłumaczenie Baskijskie.
+      ru: |
+        Фильтр поиска по длительности. Фильтры по методу, получателю, статусу и категории теперь поддерживают множественный выбор. Баскский перевод.
   -
     - 2.4.3
     - "2015-04-03"
@@ -678,7 +814,8 @@ versions:
         Daca aplicatia este parolata, imaginile sunt stocate în siguranţă în stocare internă.
       pl: |
         Jeżeli aplikacja jest zabezpieczona hasłem, obrazki są przechowywane wewnętrznie w bezpieczny sposób.
-
+      ru: |
+        Если приложение защищено паролем, изображения надежно хранятся во внутренней памяти.
   -
     - 2.4.2
     - "2015-03-26"
@@ -709,6 +846,8 @@ versions:
         Ataşaţi imagine la tranzacţie.
       pl: |
         Dopnij obraz do transakcji.
+      ru: |
+        Прикрепить изображение к операции.
   -
     - 2.4.1
     - "2015-02-23"
@@ -739,6 +878,8 @@ versions:
         Diagrama Pie vizualizeaza distribuţia pe categorii.
       pl: |
         Wykres kołowy pokazujący rozkład na kategorie.
+      ru: |
+        Круговая диаграмма распределения по категориям.
   -
     - 2.4.0
     - "2014-12-16"
@@ -769,6 +910,8 @@ versions:
         Преобразуване на нормална транзакция в разпределена.
       pl: |
         Zamień normalną transakcję w transakcję z podziałem.
+      ru: |
+        Преобразование обычной операции в разделенную.
   -
     - 2.3.9
     - "2014-12-04"
