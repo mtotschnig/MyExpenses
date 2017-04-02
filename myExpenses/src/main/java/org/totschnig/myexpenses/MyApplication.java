@@ -60,7 +60,6 @@ import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.LicenceHandler;
 import org.totschnig.myexpenses.util.Result;
-import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.AccountWidget;
 import org.totschnig.myexpenses.widget.TemplateWidget;
@@ -161,9 +160,6 @@ public class MyApplication extends MultiDexApplication implements
       getSettings().registerOnSharedPreferenceChangeListener(this);
       initPlannerInternal(60000);
       registerWidgetObservers();
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-        ShortcutHelper.initTransferShortcut(this);
-      }
     }
     if (BuildConfig.DEBUG) {
       Timber.plant(new Timber.DebugTree());

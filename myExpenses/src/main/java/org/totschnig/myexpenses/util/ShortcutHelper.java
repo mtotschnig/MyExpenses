@@ -10,8 +10,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 
-import com.annimon.stream.Stream;
-
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
@@ -86,13 +84,5 @@ public class ShortcutHelper {
         .build();
     shortcutManager.addDynamicShortcuts(Collections.singletonList(shortcut));
 
-  }
-
-  @RequiresApi(api = Build.VERSION_CODES.N_MR1)
-  public static void initTransferShortcut(Context context) {
-    if (Stream.of(context.getSystemService(ShortcutManager.class).getDynamicShortcuts())
-        .noneMatch(shortcutInfo -> shortcutInfo.getId().equals("transfer"))) {
-      configureTransferShortcut(context, false);
-    }
   }
 }

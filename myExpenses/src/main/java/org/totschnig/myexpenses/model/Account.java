@@ -771,7 +771,7 @@ public class Account extends Model {
     PrefKey.NEW_ACCOUNT_ENABLED.putBoolean(newAccountEnabled);
   }
 
-  private static void updateTransferShortcut() {
+  public static void updateTransferShortcut() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
       ShortcutHelper.configureTransferShortcut(MyApplication.getInstance(), count(null, null) > 1);
     }
