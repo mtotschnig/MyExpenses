@@ -602,6 +602,7 @@
   <string name="validate_error_not_empty">Non deve essere vuoto</string>
   <string name="validate_error_webdav_invalid_certificate">Il certificato potrebbe non essere attendibile. Sembra non valido.</string>
   <string name="validate_error_webdav_not_compliant">L\'URL non punta a una risorsa WebDAV.</string>
+  <string name="validate_error_webdav_404">URL inesistente sul server.</string>
   <string name="url_not_valid">URL non valido</string>
   <string name="menu_sync_unlink">Interrompere la sincronizzazione</string>
   <string name="menu_sync_link">Avviare la sincronizzazione.</string>
@@ -636,4 +637,6 @@
   <string name="pref_backup_cloud_title">Conservare il backend di sincronizzazione</string>
   <string name="pref_backup_cloud_summary">Oltre alla memoria locale del dispositivo, il file di backup può essere copiato su un backend remota.</string>
   <string name="auto_backup_cloud_create_backend">Creare un backend di sincronizzazione dalla schermata impostazioni principali.</string>
+  <string name="auto_backup_cloud_failure">Si e\' verificato un errore durante il backup file %1$s sul backend %2$s:</string>
+  <string name="home_screen_shortcuts_nougate_info">Le scorciatoie possono essere aggiunte premendo a lungo sull\'icona dell\'applicazione nella schermata Home.</string>
 </resources>

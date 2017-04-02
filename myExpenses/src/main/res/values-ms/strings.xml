@@ -593,6 +593,7 @@
   <string name="validate_error_not_empty">Tidak boleh kosong</string>
   <string name="validate_error_webdav_invalid_certificate">Sijil tidak dipercayai. Ia kelihatan tidak sah.</string>
   <string name="validate_error_webdav_not_compliant">URL tidak menuju ke sumber WebDAV.</string>
+  <string name="validate_error_webdav_404">URL tidak wujud dalam pelayan.</string>
   <string name="url_not_valid">URL tidak sah</string>
   <string name="menu_sync_unlink">Henti menyegerak</string>
   <string name="menu_sync_link">Mula menyegerak</string>
@@ -628,4 +629,5 @@
   <string name="pref_backup_cloud_summary">Selain dari storan setempat dalam peranti, fail sandar juga boleh disalin ke dalam bahagian belakang jauh.</string>
   <string name="auto_backup_cloud_create_backend">Cipta bahagian belakang penyegerakan melalui skrin tetapan utama.</string>
   <string name="auto_backup_cloud_failure">Satu ralat berlaku ketika cuba menyimpan fail sandar %1$s pada bahagian belakang %2$s:</string>
+  <string name="home_screen_shortcuts_nougate_info">Pintasan boleh ditambah dengan mengetik-lama pada ikon apl di Skrin Rumah.</string>
 </resources>
