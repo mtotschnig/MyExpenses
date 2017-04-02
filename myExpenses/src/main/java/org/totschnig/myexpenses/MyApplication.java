@@ -159,8 +159,6 @@ public class MyApplication extends MultiDexApplication implements
     if (!ACRA.isACRASenderServiceProcess() && !isSyncService()) {
       // sets up mSettings
       getSettings().registerOnSharedPreferenceChangeListener(this);
-      //TODO do in background and present to user a splash screen while database is set up
-      licenceHandler.init();
       initPlannerInternal(60000);
       registerWidgetObservers();
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {

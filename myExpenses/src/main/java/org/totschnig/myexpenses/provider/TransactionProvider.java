@@ -27,6 +27,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
@@ -234,6 +235,9 @@ public class TransactionProvider extends ContentProvider {
   public static final String QUERY_PARAMETER_MERGE_TRANSFERS = "mergeTransfers";
   public static final String QUERY_PARAMETER_SYNC_BEGIN = "syncBegin";
   public static final String QUERY_PARAMETER_SYNC_END = "syncEnd";
+  public static final String METHOD_INIT = "init";
+
+  static final String TAG = "TransactionProvider";
 
   private static final UriMatcher URI_MATCHER;
   //Basic tables
@@ -1426,6 +1430,15 @@ public class TransactionProvider extends ContentProvider {
     } finally {
       db.endTransaction();
     }
+  }
+
+  @Nullable
+  @Override
+  public Bundle call(@NonNull String method, @Nullable String arg, @Nullable Bundle extras) {
+    if (method.equals(METHOD_INIT)) {
+      mOpenHelper.getReadableDatabase();
+    }
+    return null;
   }
 
   static {
