@@ -43,6 +43,7 @@ public class ShortcutHelper {
     extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
     extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
     extras.putInt(MyApplication.KEY_OPERATION_TYPE, operationType);
+    extras.putBoolean(ExpenseEdit.KEY_AUTOFILL_MAY_SET_ACCOUNT, true);
     intent.putExtras(extras);
     return intent;
   }

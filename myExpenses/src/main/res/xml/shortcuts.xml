@@ -10,7 +10,9 @@
         <intent
             android:action="android.intent.action.MAIN"
             android:targetClass="org.totschnig.myexpenses.activity.ExpenseEdit"
-            android:targetPackage="${applicationId}"/>
+            android:targetPackage="${applicationId}">
+            <extra android:name="autoFillMaySetAccount" android:value="true" />
+        </intent>
     </shortcut>
 </shortcuts>
 
