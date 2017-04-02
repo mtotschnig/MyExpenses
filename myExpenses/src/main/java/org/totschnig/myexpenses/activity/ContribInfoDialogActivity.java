@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.dialog.ContribDialogFragment;
@@ -14,6 +15,7 @@ import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.ShortcutHelper;
 
 import java.io.Serializable;
+
 
 /**
  * Manages the dialog shown to user when they request usage of a premium functionality or click on
@@ -28,10 +30,12 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
   public final static String KEY_FEATURE = "feature";
   public static final String KEY_TAG = "tag";
 
-  public static Intent getIntentFor(Context context, ContribFeature feature) {
+  public static Intent getIntentFor(Context context, @Nullable ContribFeature feature) {
     Intent intent = new Intent(context, ContribInfoDialogActivity.class);
     intent.setAction(Intent.ACTION_MAIN);
-    intent.putExtra(KEY_FEATURE, feature.name());
+    if (feature != null) {
+      intent.putExtra(KEY_FEATURE, feature.name());
+    }
     return intent;
   }
 

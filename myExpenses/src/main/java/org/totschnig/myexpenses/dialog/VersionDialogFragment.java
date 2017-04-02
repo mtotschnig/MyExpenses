@@ -25,6 +25,7 @@ import android.content.res.Resources;
 import android.content.res.Resources.NotFoundException;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.text.Spannable;
@@ -54,7 +55,7 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
   private static final String KEY_FROM = "from";
   private static final String KEY_WITH_IMPORTANT_UPGRADE_INFO = "withImportantUpgradeInfo";
 
-  public static final VersionDialogFragment newInstance(int from, boolean withImportantUpgradeInfo) {
+  public static VersionDialogFragment newInstance(int from, boolean withImportantUpgradeInfo) {
     VersionDialogFragment dialogFragment = new VersionDialogFragment();
     Bundle bundle = new Bundle();
     bundle.putInt(KEY_FROM, from);
@@ -64,6 +65,7 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
     return dialogFragment;
   }
 
+  @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     Bundle bundle = getArguments();

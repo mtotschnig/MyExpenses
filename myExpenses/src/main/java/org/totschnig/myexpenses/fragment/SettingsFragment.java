@@ -465,7 +465,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       if (MyApplication.getInstance().getLicenceHandler().isExtendedEnabled()) {
         //showDialog(R.id.DONATE_DIALOG);//currently nothing to do
       } else {
-        Intent i = new Intent(getActivity(), ContribInfoDialogActivity.class);
+        Intent i = ContribInfoDialogActivity.getIntentFor(getActivity(), null);
         if (DistribHelper.isGithub()) {
           startActivityForResult(i, CONTRIB_PURCHASE_REQUEST);
         } else {

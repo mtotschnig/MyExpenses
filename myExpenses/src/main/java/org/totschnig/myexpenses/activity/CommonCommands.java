@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.net.Uri;
 import android.provider.Settings;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.widget.Toast;
@@ -136,7 +137,7 @@ public class CommonCommands {
    return false;
   }
 
-  public static void showContribDialog(Activity ctx, ContribFeature feature, Serializable tag) {
+  public static void showContribDialog(Activity ctx, @Nullable ContribFeature feature, Serializable tag) {
     Intent i = ContribInfoDialogActivity.getIntentFor(ctx, feature);
     i.putExtra(ContribInfoDialogActivity.KEY_TAG, tag);
     ctx.startActivityForResult(i, ProtectionDelegate.CONTRIB_REQUEST);
