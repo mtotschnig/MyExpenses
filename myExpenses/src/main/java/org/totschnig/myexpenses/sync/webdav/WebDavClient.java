@@ -34,6 +34,7 @@ import javax.net.ssl.SSLHandshakeException;
 
 import at.bitfire.dav4android.BasicDigestAuthHandler;
 import at.bitfire.dav4android.DavResource;
+import at.bitfire.dav4android.UrlUtils;
 import at.bitfire.dav4android.XmlUtils;
 import at.bitfire.dav4android.exception.DavException;
 import at.bitfire.dav4android.property.DisplayName;
@@ -68,7 +69,8 @@ public class WebDavClient {
     OkHttpClient.Builder builder = new OkHttpClient.Builder();
 
     if (userName != null && password != null) {
-      BasicDigestAuthHandler authHandler = new BasicDigestAuthHandler(mBaseUri.host(), userName, password);
+      BasicDigestAuthHandler authHandler = new BasicDigestAuthHandler(
+          UrlUtils.hostToDomain(mBaseUri.host()), userName, password);
       builder.authenticator(authHandler).addNetworkInterceptor(authHandler);
     }
 
