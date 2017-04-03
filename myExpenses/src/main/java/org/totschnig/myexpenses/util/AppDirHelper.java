@@ -144,6 +144,16 @@ public class AppDirHelper {
     if (appDir == null) {
       return new Result(false, R.string.io_error_appdir_null);
     }
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+      Uri uri = appDir.getUri();
+      if ("file".equals(uri.getScheme())) {
+        try {
+          getContentUriForFile(new File(uri.getPath()));
+        } catch (IllegalArgumentException e) {
+          return new Result(false, R.string.app_dir_not_compatible_with_nougat, uri);
+        }
+      }
+    }
     return dirExistsAndIsWritable(appDir) ?
         new Result(true) : new Result(false, R.string.app_dir_not_accessible,
         FileUtils.getPath(MyApplication.getInstance(), appDir.getUri()));
@@ -161,7 +171,9 @@ public class AppDirHelper {
           try {
             uri = getContentUriForFile(new File(uri.getPath()));
           } catch (IllegalArgumentException e) {
-            AcraHelper.report(e);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+              throw new IllegalStateException("On Nougat, falling back to file uri won't work", e);
+            }
           }
           break;
         case "content":
