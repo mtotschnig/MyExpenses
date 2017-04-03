@@ -9,6 +9,8 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.sync.GenericAccountService;
+import org.totschnig.myexpenses.widget.AbstractWidget;
+import org.totschnig.myexpenses.widget.TemplateWidget;
 
 public abstract class LicenceHandler {
   public static boolean HAS_EXTENDED = !DistribHelper.isBlackberry();
@@ -49,6 +51,7 @@ public abstract class LicenceHandler {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
       ShortcutHelper.configureSplitShortcut(context, isContribEnabled());
     }
+    AbstractWidget.updateWidgets(context, TemplateWidget.class);
   }
 
   @VisibleForTesting
