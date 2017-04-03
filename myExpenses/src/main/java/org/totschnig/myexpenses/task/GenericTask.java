@@ -630,6 +630,8 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           syncBackendProvider = SyncBackendProviderFactory.get(application,
               GenericAccountService.GetAccount(syncAccountName)).getOrThrow();
         } catch (Throwable throwable) {
+          AcraHelper.report(new Exception(String.format("Unable to get sync backend provider for %s",
+              syncAccountName), throwable));
           return Result.FAILURE;
         }
         try {
