@@ -155,15 +155,23 @@ public class AppDirHelper {
   }
 
   public static Uri ensureContentUri(Uri uri) {
-    switch (uri.getScheme()) {
-      case "file":
-        return getContentUriForFile(new File(uri.getPath()));
-      case "content":
-        return uri;
-      default:
-        throw new IllegalStateException(String.format(
-            "Unable to handle scheme of uri %s", uri));
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      switch (uri.getScheme()) {
+        case "file":
+          try {
+            uri = getContentUriForFile(new File(uri.getPath()));
+          } catch (IllegalArgumentException e) {
+            AcraHelper.report(e);
+          }
+          break;
+        case "content":
+          break;
+        default:
+          AcraHelper.report(new IllegalStateException(String.format(
+              "Unable to handle scheme of uri %s", uri)));
+      }
     }
+    return uri;
   }
 
   static Uri getContentUriForFile(File file) {

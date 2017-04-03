@@ -9,7 +9,6 @@
 package org.totschnig.myexpenses.activity;
 
 import android.os.Bundle;
-import android.view.Menu;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -17,12 +16,6 @@ import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.fragment.FolderList;
 
-/**
- * Created by IntelliJ IDEA.
- * User: denis.solonenko
- * Date: 12/23/11 12:53 AM
- *
- */
 public class FolderBrowser extends ProtectedFragmentActivity implements
     EditTextDialogListener {
 

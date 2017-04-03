@@ -825,7 +825,7 @@ public class MyApplication extends MultiDexApplication implements
           //.detectLeakedClosableObjects()
           .penaltyLog()
           .penaltyDeath();
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         builder.detectFileUriExposure();
       }
       StrictMode.setVmPolicy(builder.build());
