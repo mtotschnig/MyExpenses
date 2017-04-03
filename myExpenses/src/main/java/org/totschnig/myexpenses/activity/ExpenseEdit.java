@@ -2161,7 +2161,7 @@ public class ExpenseEdit extends AmountActivity implements
   public void startMediaChooserDo() {
 
     Uri outputMediaUri = getCameraUri();
-    Intent gallIntent = new Intent(Utils.getContentIntentAction());
+    Intent gallIntent = new Intent(PictureDirHelper.getContentIntentAction());
     gallIntent.setType("image/*");
     Intent chooserIntent = Intent.createChooser(gallIntent, null);
 
