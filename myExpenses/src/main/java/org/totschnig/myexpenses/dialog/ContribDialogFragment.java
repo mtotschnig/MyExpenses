@@ -135,7 +135,9 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     AlertDialog dialog = builder.create();
     if (userCanChoose) {
       view.findViewById(R.id.contrib_feature_container).setOnClickListener(this);
+      contribButton.setOnClickListener(this);
       view.findViewById(R.id.extended_feature_container).setOnClickListener(this);
+      extendedButton.setOnClickListener(this);
       dialog.setOnShowListener(new ButtonOnShowDisabler());
     }
     return dialog;
@@ -177,7 +179,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
   @Override
   public void onClick(View v) {
     RadioButton self, other;
-    if (v.getId() == R.id.contrib_feature_container) {
+    if (v.getId() == R.id.contrib_feature_container || v.getId() == R.id.contrib_button) {
       other = extendedButton;
       self = contribButton;
     }
