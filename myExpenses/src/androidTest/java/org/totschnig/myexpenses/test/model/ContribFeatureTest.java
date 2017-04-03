@@ -5,15 +5,11 @@ import junit.framework.Assert;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.util.LicenceHandler;
-import org.totschnig.myexpenses.util.Utils;
 
 import static org.totschnig.myexpenses.model.ContribFeature.USAGES_LIMIT;
 
 public class ContribFeatureTest extends ModelTest  {
-  
-  public void testFormattedList() {
-    Assert.assertNotNull(Utils.getContribFeatureLabelsAsFormattedList(getContext(), null));
-  }
+
   public void testRecordUsage() {
     ContribFeature feature = ContribFeature.ATTACH_PICTURE;
     MyApplication app = (MyApplication) getContext().getApplicationContext();

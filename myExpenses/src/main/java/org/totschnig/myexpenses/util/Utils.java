@@ -22,7 +22,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
 import android.content.res.ColorStateList;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -33,13 +32,11 @@ import android.graphics.drawable.InsetDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.AppCompatDrawableManager;
 import android.telephony.TelephonyManager;
-import android.text.Html;
 import android.text.InputFilter;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -493,50 +490,6 @@ public class Utils {
   @SuppressLint("DefaultLocale")
   public static String toLocalizedString(int i) {
     return String.format("%d", i);
-  }
-
-  @VisibleForTesting
-  public static CharSequence getContribFeatureLabelsAsFormattedList(
-      Context ctx, ContribFeature other) {
-    return getContribFeatureLabelsAsFormattedList(ctx, other, LicenceHandler.LicenceStatus.CONTRIB);
-  }
-
-  /**
-   * @param ctx   for retrieving resources
-   * @param other if not null, all features except the one provided will be returned
-   * @param type  if not null, only features of this type will be listed
-   * @return construct a list of all contrib features to be included into a
-   * TextView
-   */
-  public static CharSequence getContribFeatureLabelsAsFormattedList(
-      Context ctx, ContribFeature other, LicenceHandler.LicenceStatus type) {
-    CharSequence result = "", linefeed = Html.fromHtml("<br>");
-    for (ContribFeature f : EnumSet.allOf(ContribFeature.class)) {
-      if (!f.equals(other) &&
-          (!f.equals(ContribFeature.AD_FREE) || !DistribHelper.isGithub())) {
-        if (type != null &&
-            ((f.isExtended() && !type.equals(LicenceHandler.LicenceStatus.EXTENDED)) ||
-                (!f.isExtended() && type.equals(LicenceHandler.LicenceStatus.EXTENDED)))) {
-          continue;
-        }
-        String resName = "contrib_feature_" + f.toString() + "_label";
-        int resId = ctx.getResources().getIdentifier(
-            resName, "string",
-            ctx.getPackageName());
-        if (resId == 0) {
-          AcraHelper.report(new Resources.NotFoundException(resName));
-          continue;
-        }
-        if (!result.equals("")) {
-          result = TextUtils.concat(result, linefeed);
-        }
-        result = TextUtils.concat(
-            result,
-            "\u25b6 ",
-            ctx.getText(resId));
-      }
-    }
-    return result;
   }
 
   public static String[] getContribFeatureLabelsAsList(Context ctx, LicenceHandler.LicenceStatus type) {
