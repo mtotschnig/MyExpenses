@@ -1,5 +1,7 @@
 package org.totschnig.myexpenses.util;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
 
@@ -77,4 +79,8 @@ public class PictureDirHelper {
     return result.exists() ? result : null;
   }
 
+  @SuppressLint("InlinedApi")
+  public static String getContentIntentAction() {
+    return Intent.ACTION_GET_CONTENT;
+  }
 }

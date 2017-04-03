@@ -33,7 +33,6 @@ import android.graphics.drawable.InsetDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
@@ -80,8 +79,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
@@ -827,12 +824,6 @@ public class Utils {
       result += (object == null ? "null" : object.toString());
     }
     return result;
-  }
-
-  @SuppressLint("InlinedApi")
-  public static String getContentIntentAction() {
-    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT ? Intent.ACTION_OPEN_DOCUMENT
-        : Intent.ACTION_GET_CONTENT;
   }
 
   public static Bitmap decodeSampledBitmapFromUri(Uri uri, int reqWidth,
