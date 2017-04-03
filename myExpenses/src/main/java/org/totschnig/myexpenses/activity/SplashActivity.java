@@ -17,7 +17,8 @@ public class SplashActivity extends ProtectedFragmentActivity {
 
   @Override
   public void onPostExecute(int taskId, Object o) {
-    super.onPostExecute(taskId, o);Intent intent = new Intent(this, MyExpenses.class);
+    super.onPostExecute(taskId, o);
+    Intent intent = new Intent(this, MyExpenses.class);
     startActivity(intent);
     finish();
   }
