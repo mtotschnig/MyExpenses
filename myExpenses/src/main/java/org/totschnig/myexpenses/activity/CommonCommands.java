@@ -116,7 +116,7 @@ public class CommonCommands {
       return true;
       case R.id.VERIFY_LICENCE_COMMAND:
         HashLicenceHandler licenceHandler = (HashLicenceHandler) MyApplication.getInstance().getLicenceHandler();
-        LicenceHandler.LicenceStatus licenceStatus = licenceHandler.verifyLicenceKey();
+        LicenceHandler.LicenceStatus licenceStatus = licenceHandler.updateLicenceKey();
         if (licenceStatus != null) {
           Toast.makeText(ctx,
               Utils.concatResStrings(ctx, " ",
@@ -127,7 +127,7 @@ public class CommonCommands {
         } else {
           Toast.makeText(ctx, R.string.licence_validation_failure, Toast.LENGTH_LONG).show();
         }
-        licenceHandler.refresh(true);
+        licenceHandler.update();
         return true;
     case android.R.id.home:
       ctx.setResult(FragmentActivity.RESULT_CANCELED);

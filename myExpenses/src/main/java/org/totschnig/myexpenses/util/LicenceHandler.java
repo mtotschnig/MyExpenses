@@ -7,7 +7,6 @@ import android.support.annotation.VisibleForTesting;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Template;
-import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.TemplateWidget;
@@ -20,13 +19,6 @@ public abstract class LicenceHandler {
     this.context = context;
   }
 
-
-  public void init() {
-    if (PrefKey.CURRENT_VERSION.getInt(-1) != -1) {
-      refresh(true);
-    }
-  }
-
   public abstract boolean isContribEnabled();
 
   public abstract boolean isExtendedEnabled();
@@ -35,16 +27,9 @@ public abstract class LicenceHandler {
     return isExtendedEnabled() || (isContribEnabled() && !HAS_EXTENDED);
   }
 
-  public final void refresh(boolean invalidate) {
-    refreshDo();
-    if (invalidate) {
-      invalidate();
-    }
-  }
+  public abstract void init();
 
-  protected abstract void refreshDo();
-
-  final void invalidate() {
+  public final void update() {
     Template.updateNewPlanEnabled();
     Account.updateNewAccountEnabled();
     GenericAccountService.updateAccountsIsSyncable(context);
@@ -54,17 +39,24 @@ public abstract class LicenceHandler {
     AbstractWidget.updateWidgets(context, TemplateWidget.class);
   }
 
+  public void reset() {
+    init();
+    update();
+  }
+
   @VisibleForTesting
   public void setLockState(boolean locked) {
     if (MyApplication.isInstrumentationTest()) {
       setLockStateDo(locked);
+      update();
     } else {
       throw new UnsupportedOperationException();
     }
   }
 
   protected abstract void setLockStateDo(boolean locked);
-  
+
+
   public enum LicenceStatus {
     CONTRIB, EXTENDED
   }

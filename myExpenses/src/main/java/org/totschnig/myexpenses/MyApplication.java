@@ -192,6 +192,7 @@ public class MyApplication extends MultiDexApplication implements
     if (acraConfiguration != null) {
       ACRA.init(this, acraConfiguration);
     }
+    licenceHandler.init();
   }
 
   private void registerWidgetObservers() {

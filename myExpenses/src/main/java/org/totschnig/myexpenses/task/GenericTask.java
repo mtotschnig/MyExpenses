@@ -652,7 +652,9 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           //on Gingerbread we just accept that db is initialized with first request
           cr.call(TransactionProvider.DUAL_URI, TransactionProvider.METHOD_INIT, null, null);
         }
-        application.getLicenceHandler().init();
+        if (PrefKey.CURRENT_VERSION.getInt(-1) != -1) {
+          application.getLicenceHandler().update();
+        }
         Account.updateTransferShortcut();
       }
     }

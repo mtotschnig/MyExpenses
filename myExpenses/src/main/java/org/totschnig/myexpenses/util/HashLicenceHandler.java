@@ -8,7 +8,6 @@ import org.totschnig.myexpenses.preference.PrefKey;
 
 public class HashLicenceHandler extends LicenceHandler {
   private LicenceStatus contribEnabled = null;
-  private boolean contribEnabledInitialized = false;
 
   public HashLicenceHandler(Context context) {
     super(context);
@@ -16,26 +15,17 @@ public class HashLicenceHandler extends LicenceHandler {
 
   @Override
   public boolean isContribEnabled() {
-    ensureInitialized();
     return contribEnabled != null;
-  }
-
-  protected void ensureInitialized() {
-    if (!contribEnabledInitialized) {
-      contribEnabled = verifyLicenceKey();
-      contribEnabledInitialized = true;
-    }
   }
 
   @Override
   public boolean isExtendedEnabled() {
-    ensureInitialized();
     return contribEnabled == LicenceStatus.EXTENDED;
   }
 
   @Override
-  public void refreshDo() {
-    this.contribEnabledInitialized = false;
+  public void init() {
+    updateLicenceKey();
   }
 
   @Override
@@ -43,19 +33,21 @@ public class HashLicenceHandler extends LicenceHandler {
     contribEnabled = locked ? null : LicenceStatus.CONTRIB;
   }
 
-  public LicenceStatus verifyLicenceKey() {
+  public LicenceStatus updateLicenceKey() {
     String key = PrefKey.ENTER_LICENCE.getString("");
-    String secret= MyApplication.CONTRIB_SECRET;
-    String extendedSecret = secret+"_EXTENDED";
+    String secret = MyApplication.CONTRIB_SECRET;
+    String extendedSecret = secret + "_EXTENDED";
     String androidId = Settings.Secure.getString(MyApplication.getInstance()
         .getContentResolver(), Settings.Secure.ANDROID_ID);
     String s = androidId + extendedSecret;
     Long l = (s.hashCode() & 0x00000000ffffffffL);
     if (l.toString().equals(key)) {
-      return LicenceStatus.EXTENDED;
+      contribEnabled = LicenceStatus.EXTENDED;
+    } else {
+      s = androidId + secret;
+      l = (s.hashCode() & 0x00000000ffffffffL);
+      contribEnabled = l.toString().equals(key) ? LicenceStatus.CONTRIB : null;
     }
-    s = androidId + secret;
-    l = (s.hashCode() & 0x00000000ffffffffL);
-    return l.toString().equals(key) ? LicenceStatus.CONTRIB : null;
+    return contribEnabled;
   }
 }
