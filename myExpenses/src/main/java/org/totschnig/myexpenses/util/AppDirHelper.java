@@ -148,7 +148,7 @@ public class AppDirHelper {
       Uri uri = appDir.getUri();
       if ("file".equals(uri.getScheme())) {
         try {
-          getContentUriForFile(new File(uri.getPath()));
+          getContentUriForFile(new File(new File(uri.getPath()), "test"));
         } catch (IllegalArgumentException e) {
           return new Result(false, R.string.app_dir_not_compatible_with_nougat, uri);
         }
