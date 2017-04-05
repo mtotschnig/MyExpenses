@@ -2,6 +2,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 
+def getPropertyIfDefined(property) {
+    if (project.hasProperty(property)) {
+        return "\"" + project.ext.properties[property] + "\""
+    }
+    return "\"\""
+}
+
 android {
     compileSdkVersion project.compileSdkVersion
     buildToolsVersion project.buildToolsVersion
@@ -20,6 +27,9 @@ android {
 
         buildConfigField "String", "BUILD_DATE", "\"" + getDate() + "\""
         buildConfigField "String", "DISTRIBUTION", "\"GITHUB\""
+        buildConfigField "String", "ACRA_FORM_URI", getPropertyIfDefined("ACRA_FORM_URI")
+        buildConfigField "String", "ACRA_FORM_URI_BASIC_AUTH_LOGIN", getPropertyIfDefined("ACRA_FORM_URI_BASIC_AUTH_LOGIN")
+        buildConfigField "String", "ACRA_FORM_URI_BASIC_AUTH_PASSWORD", getPropertyIfDefined("ACRA_FORM_URI_BASIC_AUTH_PASSWORD")
         testInstrumentationRunner "org.totschnig.myexpenses.MyTestRunner"
         testProguardFile "proguard-test.txt"
 
