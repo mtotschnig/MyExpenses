@@ -40,8 +40,9 @@ public class AppModule {
   ACRAConfiguration providesAcraConfiguration() {
     if (MyApplication.isInstrumentationTest()) return null;
     try {
+      ConfigurationBuilder configurationBuilder = new ConfigurationBuilder(application);
       if (DistribHelper.isGithub()) {
-        return new ConfigurationBuilder(application)
+        return configurationBuilder
             .setReportingInteractionMode(ReportingInteractionMode.DIALOG)
             .setMailTo("bug-reports@myexpenses.mobi")
             .setResDialogText(R.string.crash_dialog_text)
@@ -49,7 +50,7 @@ public class AppModule {
             .setResDialogCommentPrompt(R.string.crash_dialog_comment_prompt)
             .build();
       } else {
-        return new ConfigurationBuilder(application)
+        return configurationBuilder
             .setFormUri(BuildConfig.ACRA_FORM_URI)
             .setReportType(HttpSender.Type.JSON)
             .setHttpMethod(HttpSender.Method.PUT)
