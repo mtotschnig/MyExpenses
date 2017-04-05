@@ -59,6 +59,7 @@ public class HelpTest extends android.test.InstrumentationTestCase {
   public void testHelpStringResExists() {
     String pack = context.getPackageName();
     int menuItemsIdentifier;
+    //TODO complete with new activities
     Class<?>[] activities = new Class<?>[] {
         ManageParties.class,
         MethodEdit.class,
@@ -113,11 +114,13 @@ public class HelpTest extends android.test.InstrumentationTestCase {
       }
     }
   }
+
   public void testVersionCodes() {
     Context ctx =  getInstrumentation().getTargetContext();
     Resources res = ctx.getResources();
     int[] versionCodes = res.getIntArray(R.array.version_codes);
     String[] versionNames = res.getStringArray(R.array.version_names);
+    Assert.assertEquals(versionCodes.length, versionNames.length);
     for (int i=0;i<versionCodes.length;i++) {
       Assert.assertNotNull("Could not get changes for version " + versionNames[i],
           new VersionDialogFragment.VersionInfo(versionCodes[i], versionNames[i]).getChanges(ctx));
@@ -151,6 +154,7 @@ public class HelpTest extends android.test.InstrumentationTestCase {
       }
     }
   }
+  
   private boolean resolveStringOrArray(String resString) {
     if (resources.getIdentifier(resString,"array",context.getPackageName()) != 0 )
       return true;
