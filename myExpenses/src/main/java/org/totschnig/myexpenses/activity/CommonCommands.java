@@ -45,75 +45,75 @@ public class CommonCommands {
 
   public static boolean dispatchCommand(Activity ctx, int command, Object tag) {
     Intent i;
-    switch(command) {
-    case R.id.RATE_COMMAND:
-      i = new Intent(Intent.ACTION_VIEW);
-      i.setData(Uri.parse(DistribHelper.getMarketSelfUri()));
-      if (Utils.isIntentAvailable(ctx,i)) {
+    switch (command) {
+      case R.id.RATE_COMMAND:
+        i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(DistribHelper.getMarketSelfUri()));
+        if (Utils.isIntentAvailable(ctx, i)) {
+          ctx.startActivity(i);
+        } else {
+          Toast.makeText(
+              ctx,
+              R.string.error_accessing_market,
+              Toast.LENGTH_LONG)
+              .show();
+        }
+        return true;
+      case R.id.SETTINGS_COMMAND:
+        i = new Intent(ctx, MyPreferenceActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        if (tag != null) {
+          i.putExtra(MyPreferenceActivity.KEY_OPEN_PREF_KEY, (String) tag);
+        }
+        ctx.startActivityForResult(i, ProtectedFragmentActivity.PREFERENCES_REQUEST);
+        return true;
+      case R.id.FEEDBACK_COMMAND:
+        i = new Intent(android.content.Intent.ACTION_SEND);
+        i.setType("plain/text");
+        i.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{MyApplication.FEEDBACK_EMAIL});
+        i.putExtra(android.content.Intent.EXTRA_SUBJECT,
+            "[" + ctx.getString(R.string.app_name) + "] Feedback"
+        );
+        i.putExtra(android.content.Intent.EXTRA_TEXT, getVersionInfo(ctx) + "\n" + ctx.getString(R.string.feedback_email_message));
+        if (!Utils.isIntentAvailable(ctx, i)) {
+          Toast.makeText(ctx, R.string.no_app_handling_email_available, Toast.LENGTH_LONG).show();
+        } else {
+          ctx.startActivity(i);
+        }
+        break;
+      case R.id.CONTRIB_INFO_COMMAND:
+        CommonCommands.showContribDialog(ctx, null, null);
+        return true;
+      case R.id.WEB_COMMAND:
+        i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(ctx.getString(R.string.website)));
         ctx.startActivity(i);
-      } else {
-        Toast.makeText(
-            ctx,
-            R.string.error_accessing_market,
-            Toast.LENGTH_LONG)
-          .show();
-      }
-      return true;
-    case R.id.SETTINGS_COMMAND:
-      i = new Intent(ctx, MyPreferenceActivity.class);
-      i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-      if (tag != null) {
-        i.putExtra(MyPreferenceActivity.KEY_OPEN_PREF_KEY,(String) tag);
-      }
-      ctx.startActivityForResult(i,ProtectedFragmentActivity.PREFERENCES_REQUEST);
-      return true;
-    case R.id.FEEDBACK_COMMAND:
-      i = new Intent(android.content.Intent.ACTION_SEND);
-      i.setType("plain/text");
-      i.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{ MyApplication.FEEDBACK_EMAIL });
-      i.putExtra(android.content.Intent.EXTRA_SUBJECT,
-          "[" + ctx.getString(R.string.app_name) + "] Feedback"
-      );
-      i.putExtra(android.content.Intent.EXTRA_TEXT, getVersionInfo(ctx) + "\n" + ctx.getString(R.string.feedback_email_message));
-      if (!Utils.isIntentAvailable(ctx,i)) {
-        Toast.makeText(ctx,R.string.no_app_handling_email_available, Toast.LENGTH_LONG).show();
-      } else {
-        ctx.startActivity(i);
-      }
-      break;
-    case R.id.CONTRIB_INFO_COMMAND:
-      CommonCommands.showContribDialog(ctx, null, null);
-      return true;
-    case R.id.WEB_COMMAND:
-      i = new Intent(Intent.ACTION_VIEW);
-      i.setData(Uri.parse(ctx.getString(R.string.website)));
-      ctx.startActivity(i);
-      return true;
-    case R.id.HELP_COMMAND:
-      i = new Intent(ctx,Help.class);
-      i.putExtra(HelpDialogFragment.KEY_VARIANT,
-          tag != null ? (Enum<?>) tag : ((ProtectedFragmentActivity)ctx).helpVariant);
-      //for result is needed since it allows us to inspect the calling activity
-      ctx.startActivityForResult(i,0);
-      return true;
-    case R.id.REQUEST_LICENCE_COMMAND:
-      String androidId = Settings.Secure.getString(ctx.getContentResolver(), Settings.Secure.ANDROID_ID);
-      i = new Intent(android.content.Intent.ACTION_SEND);
-      i.setType("plain/text");
-      i.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{MyApplication.FEEDBACK_EMAIL});
-      i.putExtra(android.content.Intent.EXTRA_SUBJECT,
-          "[" + ctx.getString(R.string.app_name) + "] " + ctx.getString(R.string.contrib_key));
-      String extraText = ctx.getString(R.string.request_licence_mail_head, androidId);
-      if (tag != null) {
-        extraText += " \n\n[" + ctx.getString(R.string.paypal_transaction_id) + ": " + tag +  "]";
-      }
-      i.putExtra(android.content.Intent.EXTRA_TEXT, extraText);
-      if (!Utils.isIntentAvailable(ctx, i)) {
-        Toast.makeText(ctx, R.string.no_app_handling_email_available, Toast.LENGTH_LONG).show();
-      } else {
-        ctx.startActivity(i);
-      }
-      return true;
+        return true;
+      case R.id.HELP_COMMAND:
+        i = new Intent(ctx, Help.class);
+        i.putExtra(HelpDialogFragment.KEY_VARIANT,
+            tag != null ? (Enum<?>) tag : ((ProtectedFragmentActivity) ctx).helpVariant);
+        //for result is needed since it allows us to inspect the calling activity
+        ctx.startActivityForResult(i, 0);
+        return true;
+      case R.id.REQUEST_LICENCE_COMMAND:
+        String androidId = Settings.Secure.getString(ctx.getContentResolver(), Settings.Secure.ANDROID_ID);
+        i = new Intent(android.content.Intent.ACTION_SEND);
+        i.setType("plain/text");
+        i.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{MyApplication.FEEDBACK_EMAIL});
+        i.putExtra(android.content.Intent.EXTRA_SUBJECT,
+            "[" + ctx.getString(R.string.app_name) + "] " + ctx.getString(R.string.contrib_key));
+        String extraText = ctx.getString(R.string.request_licence_mail_head, androidId);
+        if (tag != null) {
+          extraText += " \n\n[" + ctx.getString(R.string.paypal_transaction_id) + ": " + tag + "]";
+        }
+        i.putExtra(android.content.Intent.EXTRA_TEXT, extraText);
+        if (!Utils.isIntentAvailable(ctx, i)) {
+          Toast.makeText(ctx, R.string.no_app_handling_email_available, Toast.LENGTH_LONG).show();
+        } else {
+          ctx.startActivity(i);
+        }
+        return true;
       case R.id.VERIFY_LICENCE_COMMAND:
         HashLicenceHandler licenceHandler = (HashLicenceHandler) MyApplication.getInstance().getLicenceHandler();
         LicenceHandler.LicenceStatus licenceStatus = licenceHandler.updateLicenceKey();
@@ -129,12 +129,12 @@ public class CommonCommands {
         }
         licenceHandler.update();
         return true;
-    case android.R.id.home:
-      ctx.setResult(FragmentActivity.RESULT_CANCELED);
-      ctx.finish();
-      return true;
+      case android.R.id.home:
+        ctx.setResult(FragmentActivity.RESULT_CANCELED);
+        ctx.finish();
+        return true;
     }
-   return false;
+    return false;
   }
 
   public static void showContribDialog(Activity ctx, @Nullable ContribFeature feature, Serializable tag) {
@@ -145,6 +145,7 @@ public class CommonCommands {
 
   /**
    * retrieve information about the current version
+   *
    * @return concatenation of versionName, versionCode and buildTime
    * buildTime is automatically stored in property file during build process
    */
@@ -166,8 +167,9 @@ public class CommonCommands {
         .getInstallerPackageName(ctx.getPackageName());
     installer = TextUtils.isEmpty(installer) ?
         "" : " " + installer;
-    return versionname + version  + buildDate + flavor + installer;
+    return versionname + version + buildDate + flavor + installer;
   }
+
   /**
    * @return version name
    */
@@ -181,6 +183,7 @@ public class CommonCommands {
     }
     return version;
   }
+
   /**
    * @return version number (versionCode)
    */

@@ -15,11 +15,11 @@
 
 package org.totschnig.myexpenses.activity;
 
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.dialog.HelpDialogFragment;
-
 import android.content.ComponentName;
 import android.os.Bundle;
+
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.dialog.HelpDialogFragment;
 
 public class Help extends ProtectedFragmentActivity {
 
@@ -41,6 +41,6 @@ public class Help extends ProtectedFragmentActivity {
       }
     }
     Enum<?> variant = (Enum<?>) getIntent().getSerializableExtra(HelpDialogFragment.KEY_VARIANT);
-    HelpDialogFragment.newInstance(context,variant).show(getSupportFragmentManager(),"HELP");
+    HelpDialogFragment.newInstance(context, variant).show(getSupportFragmentManager(), "HELP");
   }
 }
