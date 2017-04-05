@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 
@@ -13,6 +14,12 @@ public class SplashActivity extends ProtectedFragmentActivity {
     super.onCreate(savedInstanceState);
 
     startTaskExecution(TaskExecutionFragment.TASK_INIT, null, null, 0);
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    //No menu needed here. Otherwise, some unusual input might call Help
+    return false;
   }
 
   @Override
