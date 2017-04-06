@@ -45,8 +45,8 @@ public class ZipUtils {
     /*
      * add the folder to the zip
      */
-    addFileToZip("", MyApplication.getBackupDbFile(cacheDir), zip);
-    addFileToZip("", MyApplication.getBackupPrefFile(cacheDir), zip);
+    addFileToZip("", BackupUtils.getBackupDbFile(cacheDir), zip);
+    addFileToZip("", BackupUtils.getBackupPrefFile(cacheDir), zip);
     Cursor c= MyApplication.getInstance().getContentResolver()
         .query(TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter(
                 TransactionProvider.QUERY_PARAMETER_DISTINCT,"1").build(),

@@ -25,6 +25,7 @@ import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.AppDirHelper;
+import org.totschnig.myexpenses.util.BackupUtils;
 import org.totschnig.myexpenses.util.FileCopyUtils;
 import org.totschnig.myexpenses.util.PictureDirHelper;
 import org.totschnig.myexpenses.util.Result;
@@ -116,19 +117,19 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
     } else {
       workingDir = new File(AppDirHelper.getAppDir().getUri().getPath(), dirNameLegacy);
     }
-    File backupFile = MyApplication.getBackupDbFile(workingDir);
-    File backupPrefFile = MyApplication.getBackupPrefFile(workingDir);
+    File backupFile = BackupUtils.getBackupDbFile(workingDir);
+    File backupPrefFile = BackupUtils.getBackupPrefFile(workingDir);
     if (!backupFile.exists()) {
       return new Result(
           false,
           R.string.restore_backup_file_not_found,
-          MyApplication.BACKUP_DB_FILE_NAME, workingDir);
+          BackupUtils.BACKUP_DB_FILE_NAME, workingDir);
     }
     if (!backupPrefFile.exists()) {
       return new Result(
           false,
           R.string.restore_backup_file_not_found,
-          MyApplication.BACKUP_PREF_FILE_NAME,
+          BackupUtils.BACKUP_PREF_FILE_NAME,
           workingDir);
     }
 

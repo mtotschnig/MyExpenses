@@ -29,11 +29,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.StrictMode;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
 import android.support.multidex.MultiDexApplication;
-import android.support.v4.provider.DocumentFile;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.preference.PreferenceManager;
 import android.text.TextUtils;
@@ -57,7 +55,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.util.AcraHelper;
-import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.LicenceHandler;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.widget.AbstractWidget;
@@ -90,9 +87,6 @@ public class MyApplication extends MultiDexApplication implements
   public static final String INVALID_CALENDAR_ID = "-1";
   private SharedPreferences mSettings;
   private static MyApplication mSelf;
-
-  public static final String BACKUP_DB_FILE_NAME = "BACKUP";
-  public static final String BACKUP_PREF_FILE_NAME = "BACKUP_PREF";
 
   public static final String KEY_NOTIFICATION_ID = "notification_id";
   public static final String KEY_OPERATION_TYPE = "operationType";
@@ -319,18 +313,6 @@ public class MyApplication extends MultiDexApplication implements
       getResources().updateConfiguration(config,
           getResources().getDisplayMetrics());
     }
-  }
-
-  public static DocumentFile requireBackupFile(@NonNull DocumentFile appDir) {
-    return AppDirHelper.timeStampedFile(appDir, "backup", "application/zip", false);
-  }
-
-  public static File getBackupDbFile(File backupDir) {
-    return new File(backupDir, BACKUP_DB_FILE_NAME);
-  }
-
-  public static File getBackupPrefFile(File backupDir) {
-    return new File(backupDir, BACKUP_PREF_FILE_NAME);
   }
 
   public long getLastPause() {

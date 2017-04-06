@@ -11,6 +11,9 @@ import java.io.File;
 import java.io.IOException;
 
 public class BackupUtils {
+  public static final String BACKUP_DB_FILE_NAME = "BACKUP";
+  public static final String BACKUP_PREF_FILE_NAME = "BACKUP_PREF";
+
   @NonNull
   public static Result doBackup() {
     if (!AppDirHelper.isExternalStorageAvailable()) {
@@ -24,7 +27,7 @@ public class BackupUtils {
       return new Result(false, R.string.app_dir_not_accessible,
           FileUtils.getPath(MyApplication.getInstance(), appDir.getUri()));
     }
-    DocumentFile backupFile = MyApplication.requireBackupFile(appDir);
+    DocumentFile backupFile = requireBackupFile(appDir);
     if (backupFile == null) {
       return new Result(false, R.string.io_error_backupdir_null);
     }
@@ -52,12 +55,24 @@ public class BackupUtils {
             false,
             failureMessage + " " + e.getMessage());
       } finally {
-        MyApplication.getBackupDbFile(cacheDir).delete();
-        MyApplication.getBackupPrefFile(cacheDir).delete();
+        getBackupDbFile(cacheDir).delete();
+        getBackupPrefFile(cacheDir).delete();
       }
     }
     return new Result(
         false,
         failureMessage + " " + result.print(MyApplication.getInstance()));
+  }
+
+  public static DocumentFile requireBackupFile(@NonNull DocumentFile appDir) {
+    return AppDirHelper.timeStampedFile(appDir, "backup", "application/zip", false);
+  }
+
+  public static File getBackupDbFile(File backupDir) {
+    return new File(backupDir, BACKUP_DB_FILE_NAME);
+  }
+
+  public static File getBackupPrefFile(File backupDir) {
+    return new File(backupDir, BACKUP_PREF_FILE_NAME);
   }
 }

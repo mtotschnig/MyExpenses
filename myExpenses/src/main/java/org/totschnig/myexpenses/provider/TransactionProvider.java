@@ -26,7 +26,6 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -51,6 +50,7 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.BackupUtils;
 import org.totschnig.myexpenses.util.FileCopyUtils;
 import org.totschnig.myexpenses.util.PlanInfoCursorWrapper;
 import org.totschnig.myexpenses.util.Result;
@@ -1505,9 +1505,9 @@ public class TransactionProvider extends ContentProvider {
     mOpenHelper.close();
     try {
       File backupPrefFile, sharedPrefFile;
-      Result result = backupDb(new File(backupDir, MyApplication.BACKUP_DB_FILE_NAME), currentDb);
+      Result result = backupDb(new File(backupDir, BackupUtils.BACKUP_DB_FILE_NAME), currentDb);
       if (result.success) {
-        backupPrefFile = new File(backupDir, MyApplication.BACKUP_PREF_FILE_NAME);
+        backupPrefFile = new File(backupDir, BackupUtils.BACKUP_PREF_FILE_NAME);
         // Samsung has special path on some devices
         // http://stackoverflow.com/questions/5531289/copy-the-shared-preferences-xml-file-from-data-on-samsung-device-failed
         final MyApplication application = MyApplication.getInstance();
