@@ -67,11 +67,8 @@ import org.totschnig.myexpenses.util.Utils;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Util class with helper methods
- * @author Michael Totschnig
- *
- */
+import timber.log.Timber;
+
 public class DialogUtils {
   private DialogUtils() {
   }
@@ -82,32 +79,32 @@ public class DialogUtils {
    */
   public static Dialog sendWithFTPDialog(final Activity ctx) {
     return new AlertDialog.Builder(ctx)
-    .setMessage(R.string.no_app_handling_ftp_available)
-    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-         public void onClick(DialogInterface dialog, int id) {
-           ctx.dismissDialog(R.id.FTP_DIALOG);
-           Intent intent = new Intent(Intent.ACTION_VIEW);
-           intent.setData(Uri.parse(DistribHelper.getMarketPrefix() + "org.totschnig.sendwithftp"));
-           if (Utils.isIntentAvailable(ctx,intent)) {
-             ctx.startActivity(intent);
-           } else {
-             Toast.makeText(
-                 ctx.getBaseContext(),
-                 R.string.error_accessing_market,
-                 Toast.LENGTH_LONG)
-               .show();
-           }
-         }
-      })
-    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-      public void onClick(DialogInterface dialog, int id) {
-        ctx.dismissDialog(R.id.FTP_DIALOG);
-      }
-    }).create();
+        .setMessage(R.string.no_app_handling_ftp_available)
+        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int id) {
+            ctx.dismissDialog(R.id.FTP_DIALOG);
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(DistribHelper.getMarketPrefix() + "org.totschnig.sendwithftp"));
+            if (Utils.isIntentAvailable(ctx, intent)) {
+              ctx.startActivity(intent);
+            } else {
+              Toast.makeText(
+                  ctx.getBaseContext(),
+                  R.string.error_accessing_market,
+                  Toast.LENGTH_LONG)
+                  .show();
+            }
+          }
+        })
+        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int id) {
+            ctx.dismissDialog(R.id.FTP_DIALOG);
+          }
+        }).create();
   }
 
   public static void showPasswordDialog(final Activity ctx, AlertDialog dialog, boolean hideWindow,
-      PasswordDialogUnlockedCallback callback) {
+                                        PasswordDialogUnlockedCallback callback) {
     if (hideWindow) {
       ctx.findViewById(android.R.id.content).setVisibility(View.GONE);
       if (ctx instanceof AppCompatActivity) {
@@ -117,7 +114,7 @@ public class DialogUtils {
     }
     dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     dialog.show();
-    if (callback==null) {
+    if (callback == null) {
       callback = new PasswordDialogUnlockedCallback() {
         @Override
         public void onPasswordDialogUnlocked() {
@@ -125,12 +122,12 @@ public class DialogUtils {
           ctx.findViewById(android.R.id.content).setVisibility(View.VISIBLE);
           if (ctx instanceof AppCompatActivity) {
             final ActionBar actionBar = ((AppCompatActivity) ctx).getSupportActionBar();
-            if (actionBar!= null) actionBar.show();
+            if (actionBar != null) actionBar.show();
           }
         }
       };
     }
-    PasswordDialogListener passwordDialogListener = new PasswordDialogListener(ctx,dialog, callback);
+    PasswordDialogListener passwordDialogListener = new PasswordDialogListener(ctx, dialog, callback);
     Button b = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
     if (b != null)
       b.setOnClickListener(passwordDialogListener);
@@ -138,6 +135,7 @@ public class DialogUtils {
     if (b != null)
       b.setOnClickListener(passwordDialogListener);
   }
+
   public static AlertDialog passwordDialog(final Activity ctx, final boolean cancelable) {
     final String securityQuestion = PrefKey.SECURITY_QUESTION.getString("");
     LayoutInflater li = LayoutInflater.from(ctx);
@@ -145,25 +143,27 @@ public class DialogUtils {
     View view = li.inflate(R.layout.password_check, null);
     view.findViewById(R.id.password).setTag(Boolean.valueOf(false));
     AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
-      .setTitle(R.string.password_prompt)
-      .setView(view)
-      .setOnCancelListener(new DialogInterface.OnCancelListener() {
-        @Override
-        public void onCancel(DialogInterface dialog) {
-          if (cancelable) {
-            dialog.dismiss();
-          } else {
-            ctx.moveTaskToBack(true);
+        .setTitle(R.string.password_prompt)
+        .setView(view)
+        .setOnCancelListener(new DialogInterface.OnCancelListener() {
+          @Override
+          public void onCancel(DialogInterface dialog) {
+            if (cancelable) {
+              dialog.dismiss();
+            } else {
+              ctx.moveTaskToBack(true);
+            }
           }
-        }
-      });
+        });
     if (ContribFeature.SECURITY_QUESTION.hasAccess() && !securityQuestion.equals("")) {
       builder.setNeutralButton(R.string.password_lost, new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int id) {}
+        public void onClick(DialogInterface dialog, int id) {
+        }
       });
     }
     builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-      public void onClick(DialogInterface dialog, int id) {}
+      public void onClick(DialogInterface dialog, int id) {
+      }
     });
     if (cancelable) {
       builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -181,6 +181,7 @@ public class DialogUtils {
     Uri mUri = data.getData();
     String errorMsg;
     if (mUri != null) {
+      Timber.d(mUri.toString());
       Context context = MyApplication.getInstance();
       mFilename.setError(null);
       String displayName = getDisplayName(mUri);
@@ -190,17 +191,17 @@ public class DialogUtils {
         //SecurityException raised during getDisplayName
         errorMsg = "Error while retrieving document";
         mFilename.setError(errorMsg);
-        Toast.makeText(context,errorMsg,Toast.LENGTH_LONG).show();
+        Toast.makeText(context, errorMsg, Toast.LENGTH_LONG).show();
       } else {
         String type = context.getContentResolver().getType(mUri);
         if (type != null) {
           String[] typeParts = type.split("/");
-          if (typeParts.length==0 ||
+          if (typeParts.length == 0 ||
               !checker.checkTypeParts(typeParts)) {
             mUri = null;
             errorMsg = context.getString(R.string.import_source_select_error, typeName);
             mFilename.setError(errorMsg);
-            Toast.makeText(context,errorMsg,Toast.LENGTH_LONG).show();
+            Toast.makeText(context, errorMsg, Toast.LENGTH_LONG).show();
           }
         }
       }
@@ -217,15 +218,18 @@ public class DialogUtils {
     }
     return mUri;
   }
+
   public interface UriTypePartChecker {
     boolean checkTypeParts(String[] typeParts);
   }
+
   public static boolean checkTypePartsDefault(String[] typeParts) {
     return typeParts[0].equals("*") ||
         typeParts[0].equals("text") ||
         typeParts[0].equals("application");
   }
   //https://developer.android.com/guide/topics/providers/document-provider.html
+
   /**
    * @return display name for document stored at mUri.
    * Returns null if accessing mUri raises {@link SecurityException}
@@ -254,8 +258,8 @@ public class DialogUtils {
                 }
               }
             }
-          } catch (Exception e) {}
-          finally {
+          } catch (Exception e) {
+          } finally {
             cursor.close();
           }
         }
@@ -267,7 +271,7 @@ public class DialogUtils {
     }
     List<String> filePathSegments = uri.getPathSegments();
     if (!filePathSegments.isEmpty()) {
-      return filePathSegments.get(filePathSegments.size()-1);
+      return filePathSegments.get(filePathSegments.size() - 1);
     } else {
       return "UNKNOWN";
     }
@@ -281,12 +285,14 @@ public class DialogUtils {
     private final AlertDialog dialog;
     private final Activity ctx;
     private final PasswordDialogUnlockedCallback callback;
+
     public PasswordDialogListener(Activity ctx, AlertDialog dialog,
-        PasswordDialogUnlockedCallback callback) {
-        this.dialog = dialog;
-        this.ctx = ctx;
-        this.callback = callback;
+                                  PasswordDialogUnlockedCallback callback) {
+      this.dialog = dialog;
+      this.ctx = ctx;
+      this.callback = callback;
     }
+
     @Override
     public void onClick(View v) {
       final SharedPreferences settings = MyApplication.getInstance().getSettings();
@@ -313,7 +319,7 @@ public class DialogUtils {
           callback.onPasswordDialogUnlocked();
           if (isInSecurityQuestion) {
             PrefKey.PERFORM_PROTECTION.putBoolean(false);
-            Toast.makeText(ctx.getBaseContext(),R.string.password_disabled_reenable, Toast.LENGTH_LONG).show();
+            Toast.makeText(ctx.getBaseContext(), R.string.password_disabled_reenable, Toast.LENGTH_LONG).show();
             dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setText(R.string.password_lost);
             dialog.setTitle(R.string.password_prompt);
             input.setTag(Boolean.valueOf(false));
@@ -362,14 +368,15 @@ public class DialogUtils {
 
   public interface CalendarRestoreStrategyChangedListener {
     void onCheckedChanged();
+
     void onCalendarPermissionDenied();
   }
 
   public static Spinner configureDateFormat(View view, Context context, String prefName) {
     Spinner spinner = (Spinner) view.findViewById(R.id.DateFormat);
     ArrayAdapter<QifDateFormat> dateFormatAdapter =
-            new ArrayAdapter<>(
-                    context, android.R.layout.simple_spinner_item, QifDateFormat.values());
+        new ArrayAdapter<>(
+            context, android.R.layout.simple_spinner_item, QifDateFormat.values());
     dateFormatAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
     spinner.setAdapter(dateFormatAdapter);
     QifDateFormat qdf;
@@ -410,8 +417,8 @@ public class DialogUtils {
       View view, Context context, AdapterView.OnItemSelectedListener listener) {
     Spinner spinner = (Spinner) view.findViewById(R.id.Currency);
     ArrayAdapter<CurrencyEnum> curAdapter = new ArrayAdapter<>(
-            context, android.R.layout.simple_spinner_item, android.R.id.text1,
-            CurrencyEnum.sortedValues());
+        context, android.R.layout.simple_spinner_item, android.R.id.text1,
+        CurrencyEnum.sortedValues());
     curAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
     spinner.setAdapter(curAdapter);
     spinner.setOnItemSelectedListener(listener);
@@ -440,7 +447,7 @@ public class DialogUtils {
   }
 
   public static void openBrowse(Uri uri, Fragment fragment) {
-    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);//TODO implement preference that allows to use ACTION_OPEN_DOCUMENT
+    Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);//TODO implement preference that allows to use ACTION_OPEN_DOCUMENT
     intent.addCategory(Intent.CATEGORY_OPENABLE);
 
     if (Utils.hasApiLevel(Build.VERSION_CODES.KITKAT)) {
@@ -448,7 +455,7 @@ public class DialogUtils {
     } else {
       //setting uri does not have any affect in Storage Access Framework's file picker,
       //on Nougat it even can lead to FileURIExposedException if the uri passed is of scheme file
-      intent.setDataAndType(uri,"*/*");
+      intent.setDataAndType(uri, "*/*");
     }
 
     try {
@@ -456,10 +463,10 @@ public class DialogUtils {
     } catch (ActivityNotFoundException e) {
       // No compatible file manager was found.
       Toast.makeText(fragment.getActivity(), R.string.no_filemanager_installed, Toast.LENGTH_SHORT).show();
-    } catch(SecurityException ex) {
+    } catch (SecurityException ex) {
       Toast.makeText(fragment.getActivity(),
           String.format(
-              "Sorry, this destination does not accept %s request. Please select a different one.",intent.getAction()),
+              "Sorry, this destination does not accept %s request. Please select a different one.", intent.getAction()),
           Toast.LENGTH_SHORT)
           .show();
     }

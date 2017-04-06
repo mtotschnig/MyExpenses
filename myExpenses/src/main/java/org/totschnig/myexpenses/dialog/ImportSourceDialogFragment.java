@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
@@ -114,9 +113,11 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
   public void onClick(View v) {
    DialogUtils.openBrowse(mUri, this);
   }
+
   protected boolean isReady() {
     return mUri != null;
   }
+
   protected void setButtonState() {
     ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(isReady());
   }
