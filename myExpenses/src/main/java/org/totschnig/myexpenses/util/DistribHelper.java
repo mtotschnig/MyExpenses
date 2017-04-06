@@ -1,6 +1,10 @@
 package org.totschnig.myexpenses.util;
 
+import android.content.Context;
+
 import org.totschnig.myexpenses.BuildConfig;
+
+import java.util.Locale;
 
 public class DistribHelper {
 
@@ -76,5 +80,30 @@ public class DistribHelper {
 
   public static boolean isGithub() {
     return getDistribution().equals(Distribution.GITHUB);
+  }
+
+  /**
+   * retrieve information about the current version
+   *
+   * @return concatenation of versionName, versionCode and buildTime
+   * buildTime is automatically stored in property file during build process
+   */
+  public static String getVersionInfo(Context ctx) {
+    String version = "(revision " + getVersionNumber() + ")";
+    String versionname = BuildConfig.VERSION_NAME;
+    String buildDate = BuildConfig.BUILD_DATE;
+
+    final String flavor = getDistributionAsString();
+    String installer = ctx.getPackageManager()
+        .getInstallerPackageName(ctx.getPackageName());
+    return String.format(Locale.ROOT, "%s %s %s %s %s",
+        versionname, version, buildDate, flavor, installer);
+  }
+
+  /**
+   * @return version number (versionCode)
+   */
+  public static int getVersionNumber() {
+    return BuildConfig.VERSION_CODE;
   }
 }

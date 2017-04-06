@@ -8,10 +8,10 @@ import junit.framework.Assert;
 
 import org.junit.Ignore;
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.activity.CommonCommands;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.testutils.Fixture;
+import org.totschnig.myexpenses.util.DistribHelper;
 
 import java.util.Currency;
 import java.util.Locale;
@@ -180,7 +180,7 @@ public class TestMain extends ActivityInstrumentationTestCase2<MyExpenses> {
 
     getActivity();
     Fixture.setup(getInstrumentation(), locale, defaultCurrency);
-    int current_version = CommonCommands.getVersionNumber(getActivity());
+    int current_version = DistribHelper.getVersionNumber();
     pref.edit()
         .putLong(PrefKey.CURRENT_ACCOUNT.getKey(), Fixture.getAccount3().getId())
         .putInt(PrefKey.CURRENT_VERSION.getKey(), current_version)

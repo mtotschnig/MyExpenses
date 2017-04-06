@@ -164,7 +164,9 @@ dependencies {
 
     testCompile 'junit:junit:4.12'
     testCompile 'pl.pragmatists:JUnitParams:1.0.5'
+    testCompile 'org.mockito:mockito-core:1.10.19'
 }
+
 def getDate() {
     def date = new Date()
     def formattedDate = date.format('yyyyMMdd-HHmm')

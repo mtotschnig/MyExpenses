@@ -32,7 +32,6 @@ import android.widget.TextView;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.CommonCommands;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.DistribHelper;
@@ -152,7 +151,7 @@ public class WelcomeDialogFragment extends CommitSafeDialogFragment
 
   @Override
   public void onClick(DialogInterface dialog, int which) {
-    int current_version = CommonCommands.getVersionNumber(getActivity());
+    int current_version = DistribHelper.getVersionNumber();
     PrefKey.CURRENT_VERSION.putInt(current_version);
     PrefKey.FIRST_INSTALL_VERSION.putInt(current_version);
   }

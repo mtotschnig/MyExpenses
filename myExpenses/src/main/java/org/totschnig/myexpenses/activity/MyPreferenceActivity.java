@@ -48,6 +48,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
 import org.totschnig.myexpenses.sync.GenericAccountService;
+import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.AccountWidget;
@@ -163,7 +164,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         LayoutInflater li = LayoutInflater.from(this);
         //noinspection InflateParams
         View view = li.inflate(R.layout.more_info, null);
-        ((TextView) view.findViewById(R.id.aboutVersionCode)).setText(CommonCommands.getVersionInfo(this));
+        ((TextView) view.findViewById(R.id.aboutVersionCode)).setText(DistribHelper.getVersionInfo(this));
         return new AlertDialog.Builder(this)
             .setTitle(R.string.pref_more_info_dialog_title)
             .setView(view)
