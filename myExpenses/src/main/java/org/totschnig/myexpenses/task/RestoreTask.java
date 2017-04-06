@@ -223,16 +223,21 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       //getSharedPreferences does not allow to access file if it not in private data directory
       //hence we copy it there first
       //upon application install does not exist yet
-      String oldLicenceKey = PrefKey.ENTER_LICENCE.getString("");
 
       application.getSettings()
           .unregisterOnSharedPreferenceChangeListener(application);
-      Editor edit = application.getSettings().edit().clear();
-      String key;
-      Object val;
+
+      Editor edit = application.getSettings().edit();
+      for(Map.Entry<String,?> entry : application.getSettings().getAll().entrySet()) {
+        String key = entry.getKey();
+        if (!key.equals(PrefKey.ENTER_LICENCE.getKey()) && !key.startsWith("acra")) {
+          edit.remove(key);
+        }
+      }
+
       for (Map.Entry<String, ?> entry : backupPref.getAll().entrySet()) {
-        key = entry.getKey();
-        val = entry.getValue();
+        String key = entry.getKey();
+        Object val = entry.getValue();
         if (val.getClass() == Long.class) {
           edit.putLong(key, backupPref.getLong(key, 0));
         } else if (val.getClass() == Integer.class) {
@@ -245,9 +250,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
           Timber.i("Found: %s of type %s", key, val.getClass().getName());
         }
       }
-      if (!oldLicenceKey.equals("")) {
-        edit.putString(PrefKey.ENTER_LICENCE.getKey(), oldLicenceKey);
-      }
+
       if (restorePlanStrategy == R.id.restore_calendar_handling_configured) {
         edit.putString(PrefKey.PLANNER_CALENDAR_PATH.getKey(), currentPlannerPath);
         edit.putString(PrefKey.PLANNER_CALENDAR_ID.getKey(), currentPlannerId);
