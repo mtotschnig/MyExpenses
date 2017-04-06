@@ -18,6 +18,7 @@ package org.totschnig.myexpenses.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -27,12 +28,15 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.HelpDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.HashLicenceHandler;
 import org.totschnig.myexpenses.util.LicenceHandler;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.io.Serializable;
+import java.util.Locale;
+
+import static org.totschnig.myexpenses.util.DistribHelper.getMarketSelfUri;
+import static org.totschnig.myexpenses.util.DistribHelper.getVersionInfo;
 
 public class CommonCommands {
   private CommonCommands() {
@@ -43,7 +47,7 @@ public class CommonCommands {
     switch (command) {
       case R.id.RATE_COMMAND:
         i = new Intent(Intent.ACTION_VIEW);
-        i.setData(Uri.parse(DistribHelper.getMarketSelfUri()));
+        i.setData(Uri.parse(getMarketSelfUri()));
         if (Utils.isIntentAvailable(ctx, i)) {
           ctx.startActivity(i);
         } else {
@@ -69,7 +73,11 @@ public class CommonCommands {
         i.putExtra(android.content.Intent.EXTRA_SUBJECT,
             "[" + ctx.getString(R.string.app_name) + "] Feedback"
         );
-        i.putExtra(android.content.Intent.EXTRA_TEXT, DistribHelper.getVersionInfo(ctx) + "\n" + ctx.getString(R.string.feedback_email_message));
+        String messageBody = String.format(Locale.ROOT,
+            "APP_VERSION:%s\nANDROID_VERSION:%s\nBRAND:%s\nMODEL:%s\n\n%s\n\n",
+            getVersionInfo(ctx), Build.VERSION.RELEASE, Build.BRAND, Build.MODEL,
+            ctx.getString(R.string.feedback_email_message));
+        i.putExtra(android.content.Intent.EXTRA_TEXT, messageBody);
         if (!Utils.isIntentAvailable(ctx, i)) {
           Toast.makeText(ctx, R.string.no_app_handling_email_available, Toast.LENGTH_LONG).show();
         } else {
