@@ -18,7 +18,9 @@ import java.io.IOException;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class AppDirHelper {
   /**
@@ -93,15 +95,16 @@ public class AppDirHelper {
         DocumentFile result = null;
         try {
           result = parentDir.createFile(mimeType, name);
-          if (result == null) {
-            AcraHelper.report(new Exception(String.format(
-                "createFile returned null: mimeType %s; name %s; parent %s",
-                mimeType, name, parentDir.getUri().toString())));
+          if (result == null || !result.canWrite()) {
+            String message= result == null ? "createFile returned null" : "createFile returned unwritable file";
+            Map<String, String> customData = new HashMap<>();
+            customData.put("mimeType", mimeType);
+            customData.put("name", name);
+            customData.put("parent", parentDir.getUri().toString());
+            AcraHelper.report(new Exception(message), customData);
           }
         } catch (SecurityException e) {
-          AcraHelper.report(new Exception(String.format(
-              "createFile threw SecurityException: mimeType %s; name %s; parent %s",
-              mimeType, name, parentDir.getUri().toString())));
+          AcraHelper.report(e);
         }
         return result;
       }
