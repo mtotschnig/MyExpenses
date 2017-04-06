@@ -1,0 +1,127 @@
+package org.totschnig.myexpenses.util;
+
+
+import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Binder;
+import android.support.v4.app.ActivityCompat;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.DialogUtils;
+
+import timber.log.Timber;
+
+public class ImportFileResultHandler {
+
+  private ImportFileResultHandler() {
+  }
+
+  public static Uri handleFilenameRequestResult(FileNameHostFragment hostFragment, Intent data) {
+    Uri uri = data.getData();
+    String errorMsg;
+    Context context = hostFragment.getContext();
+    EditText fileNameEditText = hostFragment.getFilenameEditText();
+    if (uri != null) {
+      Timber.d(uri.toString());
+      fileNameEditText.setError(null);
+      String displayName = DialogUtils.getDisplayName(uri);
+      fileNameEditText.setText(displayName);
+      if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)
+          == PackageManager.PERMISSION_GRANTED ||
+          context.checkUriPermission(uri, Binder.getCallingPid(), Binder.getCallingUid(),
+              Intent.FLAG_GRANT_READ_URI_PERMISSION) == PackageManager.PERMISSION_GRANTED) {
+        if (displayName == null) {
+          uri = null;
+          //SecurityException raised during getDisplayName
+          errorMsg = "Error while retrieving document";
+          handleError(errorMsg, context, fileNameEditText);
+        } else {
+          String type = context.getContentResolver().getType(uri);
+          if (type != null) {
+            String[] typeParts = type.split("/");
+            if (typeParts.length == 0 ||
+                !hostFragment.checkTypeParts(typeParts)) {
+              uri = null;
+              errorMsg = context.getString(R.string.import_source_select_error, hostFragment.getTypeName());
+              handleError(errorMsg, context, fileNameEditText);
+            }
+          }
+        }
+      } else {
+        uri = null;
+        errorMsg = context.getString(R.string.import_source_select_not_readable);
+        handleError(errorMsg, context, fileNameEditText);
+      }
+
+/*      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && uri != null) {
+        final int takeFlags = data.getFlags()
+            & Intent.FLAG_GRANT_READ_URI_PERMISSION;
+        try {
+          //this probably will not succeed as long as we stick to ACTION_GET_CONTENT
+            context.getContentResolver().takePersistableUriPermission(uri, takeFlags);
+        } catch (SecurityException e) {
+          //Utils.reportToAcra(e);
+        }
+      }*/
+    }
+    return uri;
+  }
+
+  private static void handleError(String errorMsg, Context context, EditText fileNameEditText) {
+    fileNameEditText.setError(errorMsg);
+    Toast.makeText(context, errorMsg, Toast.LENGTH_LONG).show();
+  }
+
+  public static boolean checkTypePartsDefault(String[] typeParts) {
+    return typeParts[0].equals("*") ||
+        typeParts[0].equals("text") ||
+        typeParts[0].equals("application");
+  }
+
+  public static void maybePersistUri(FileNameHostFragment hostFragment) {
+    if (!FileUtils.isDocumentUri(hostFragment.getContext(), hostFragment.getUri())) {
+      MyApplication.getInstance().getSettings().edit()
+          .putString(hostFragment.getPrefKey(), hostFragment.getUri().toString())
+          .apply();
+    }
+  }
+
+  public static void handleFileNameHostOnResume(FileNameHostFragment hostFragment) {
+    if (hostFragment.getUri() == null) {
+      String restoredUriString = MyApplication.getInstance().getSettings()
+          .getString(hostFragment.getPrefKey(), "");
+      if (!restoredUriString.equals("")) {
+        Uri restoredUri = Uri.parse(restoredUriString);
+        if (!FileUtils.isDocumentUri(hostFragment.getContext(), restoredUri)) {
+          String displayName = DialogUtils.getDisplayName(restoredUri);
+          if (displayName != null) {
+            hostFragment.setUri(restoredUri);
+            hostFragment.getFilenameEditText().setText(displayName);
+          }
+        }
+      }
+    }
+  }
+
+  public interface FileNameHostFragment {
+    String getPrefKey();
+
+    Uri getUri();
+
+    void setUri(Uri uri);
+
+    EditText getFilenameEditText();
+
+    boolean checkTypeParts(String[] typeParts);
+
+    String getTypeName();
+
+    Context getContext();
+  }
+}

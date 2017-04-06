@@ -67,8 +67,6 @@ import org.totschnig.myexpenses.util.Utils;
 import java.util.Arrays;
 import java.util.List;
 
-import timber.log.Timber;
-
 public class DialogUtils {
   private DialogUtils() {
   }
@@ -176,58 +174,6 @@ public class DialogUtils {
     return builder.create();
   }
 
-  public static Uri handleFilenameRequestResult(
-      Intent data, EditText mFilename, String typeName, UriTypePartChecker checker) {
-    Uri mUri = data.getData();
-    String errorMsg;
-    if (mUri != null) {
-      Timber.d(mUri.toString());
-      Context context = MyApplication.getInstance();
-      mFilename.setError(null);
-      String displayName = getDisplayName(mUri);
-      mFilename.setText(displayName);
-      if (displayName == null) {
-        mUri = null;
-        //SecurityException raised during getDisplayName
-        errorMsg = "Error while retrieving document";
-        mFilename.setError(errorMsg);
-        Toast.makeText(context, errorMsg, Toast.LENGTH_LONG).show();
-      } else {
-        String type = context.getContentResolver().getType(mUri);
-        if (type != null) {
-          String[] typeParts = type.split("/");
-          if (typeParts.length == 0 ||
-              !checker.checkTypeParts(typeParts)) {
-            mUri = null;
-            errorMsg = context.getString(R.string.import_source_select_error, typeName);
-            mFilename.setError(errorMsg);
-            Toast.makeText(context, errorMsg, Toast.LENGTH_LONG).show();
-          }
-        }
-      }
-/*      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && mUri != null) {
-        final int takeFlags = data.getFlags()
-            & Intent.FLAG_GRANT_READ_URI_PERMISSION;
-        try {
-          //this probably will not succeed as long as we stick to ACTION_GET_CONTENT
-            context.getContentResolver().takePersistableUriPermission(mUri, takeFlags);
-        } catch (SecurityException e) {
-          //Utils.reportToAcra(e);
-        }
-      }*/
-    }
-    return mUri;
-  }
-
-  public interface UriTypePartChecker {
-    boolean checkTypeParts(String[] typeParts);
-  }
-
-  public static boolean checkTypePartsDefault(String[] typeParts) {
-    return typeParts[0].equals("*") ||
-        typeParts[0].equals("text") ||
-        typeParts[0].equals("application");
-  }
   //https://developer.android.com/guide/topics/providers/document-provider.html
 
   /**
@@ -447,7 +393,7 @@ public class DialogUtils {
   }
 
   public static void openBrowse(Uri uri, Fragment fragment) {
-    Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);//TODO implement preference that allows to use ACTION_OPEN_DOCUMENT
+    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);//TODO implement preference that allows to use ACTION_OPEN_DOCUMENT
     intent.addCategory(Intent.CATEGORY_OPENABLE);
 
     if (Utils.hasApiLevel(Build.VERSION_CODES.KITKAT)) {
@@ -457,6 +403,8 @@ public class DialogUtils {
       //on Nougat it even can lead to FileURIExposedException if the uri passed is of scheme file
       intent.setDataAndType(uri, "*/*");
     }
+
+    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
     try {
       fragment.startActivityForResult(intent, ProtectedFragmentActivity.IMPORT_FILENAME_REQUESTCODE);

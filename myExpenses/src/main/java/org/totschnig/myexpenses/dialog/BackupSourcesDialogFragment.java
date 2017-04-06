@@ -40,7 +40,7 @@ public class BackupSourcesDialogFragment extends ImportSourceDialogFragment
   }
 
   @Override
-  String getTypeName() {
+  public String getTypeName() {
     return "Zip";
   }
   @Override

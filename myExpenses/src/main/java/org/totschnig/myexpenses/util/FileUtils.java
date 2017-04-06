@@ -29,12 +29,10 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.support.v4.app.Fragment;
 import android.webkit.MimeTypeMap;
+import android.widget.EditText;
 
 import org.totschnig.myexpenses.BuildConfig;
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.dialog.DialogUtils;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -330,31 +328,6 @@ public class FileUtils {
     return isKitKat && DocumentsContract.isDocumentUri(context, uri);
   }
 
-  public static <T extends Fragment & FileNameHost> void maybePersistUri(T context) {
-    if (!isDocumentUri(context.getActivity(), context.getUri())) {
-      MyApplication.getInstance().getSettings().edit()
-          .putString(context.getPrefKey(), context.getUri().toString())
-          .apply();
-    }
-  }
-
-  public static <T extends Fragment & FileNameHost> void handleFileNameHostOnResume(T context) {
-    if (context.getUri() == null) {
-      String restoredUriString = MyApplication.getInstance().getSettings()
-          .getString(context.getPrefKey(), "");
-      if (!restoredUriString.equals("")) {
-        Uri restoredUri = Uri.parse(restoredUriString);
-        if (!FileUtils.isDocumentUri(context.getActivity(), restoredUri)) {
-          String displayName = DialogUtils.getDisplayName(restoredUri);
-          if (displayName != null) {
-            context.setUri(restoredUri);
-            context.setFilename(displayName);
-          }
-        }
-      }
-    }
-  }
-
   /**
    * Convert Uri into File, if possible.
    *
@@ -540,13 +513,4 @@ public class FileUtils {
 //    return intent;
 //  }
 
-  public interface FileNameHost {
-    String getPrefKey();
-
-    Uri getUri();
-
-    void setUri(Uri uri);
-
-    void setFilename(String filename);
-  }
 }

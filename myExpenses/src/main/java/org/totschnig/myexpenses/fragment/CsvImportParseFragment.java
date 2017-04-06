@@ -36,7 +36,7 @@ import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
-import org.totschnig.myexpenses.util.FileUtils;
+import org.totschnig.myexpenses.util.ImportFileResultHandler;
 import org.totschnig.myexpenses.util.Utils;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
@@ -46,8 +46,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 
 public class CsvImportParseFragment extends Fragment implements View.OnClickListener,
-    DialogUtils.UriTypePartChecker, LoaderManager.LoaderCallbacks<Cursor>,
-    AdapterView.OnItemSelectedListener, FileUtils.FileNameHost {
+    LoaderManager.LoaderCallbacks<Cursor>, AdapterView.OnItemSelectedListener, ImportFileResultHandler.FileNameHostFragment {
   static final String PREFKEY_IMPORT_CSV_DATE_FORMAT = "import_csv_date_format";
   static final String PREFKEY_IMPORT_CSV_ENCODING = "import_csv_encoding";
   static final String PREFKEY_IMPORT_CSV_DELIMITER = "import_csv_delimiter";
@@ -70,8 +69,8 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
   }
 
   @Override
-  public void setFilename(String filename) {
-    mFilename.setText(filename);
+  public EditText getFilenameEditText() {
+    return mFilename;
   }
 
   private EditText mFilename;
@@ -122,7 +121,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
     if (requestCode == ProtectedFragmentActivity.IMPORT_FILENAME_REQUESTCODE) {
       if (resultCode == Activity.RESULT_OK && data != null) {
-        setUri(DialogUtils.handleFilenameRequestResult(data, mFilename, "CSV", this));
+        setUri(ImportFileResultHandler.handleFilenameRequestResult(this, data));
       }
     }
   }
@@ -130,7 +129,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
   @Override
   public void onResume() {
     super.onResume();
-    FileUtils.handleFileNameHostOnResume(this);
+    ImportFileResultHandler.handleFileNameHostOnResume(this);
   }
 
   @Override
@@ -170,7 +169,12 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
 
   @Override
   public boolean checkTypeParts(String[] typeParts) {
-    return DialogUtils.checkTypePartsDefault(typeParts);
+    return ImportFileResultHandler.checkTypePartsDefault(typeParts);
+  }
+
+  @Override
+  public String getTypeName() {
+    return "CSV";
   }
 
   @Override
@@ -196,7 +200,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
             .putString(PREFKEY_IMPORT_CSV_ENCODING, encoding)
             .putString(PREFKEY_IMPORT_CSV_DATE_FORMAT, format.name())
             .apply();
-        FileUtils.maybePersistUri(this);
+        ImportFileResultHandler.maybePersistUri(this);
         TaskExecutionFragment taskExecutionFragment =
             TaskExecutionFragment.newInstanceCSVParse(
                 mUri, delimiter.charAt(0), encoding);

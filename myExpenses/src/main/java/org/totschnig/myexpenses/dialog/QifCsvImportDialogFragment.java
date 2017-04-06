@@ -77,7 +77,7 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
   }
 
   @Override
-  String getTypeName() {
+  public String getTypeName() {
     return getFormat().name();
   }
 

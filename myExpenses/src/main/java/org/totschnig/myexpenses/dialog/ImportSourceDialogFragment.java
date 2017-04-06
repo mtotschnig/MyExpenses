@@ -15,11 +15,10 @@ import android.widget.EditText;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
-import org.totschnig.myexpenses.util.FileUtils;
+import org.totschnig.myexpenses.util.ImportFileResultHandler;
 
 public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragment
-    implements OnClickListener, DialogInterface.OnClickListener, DialogUtils.UriTypePartChecker,
-    FileUtils.FileNameHost {
+    implements OnClickListener, DialogInterface.OnClickListener, ImportFileResultHandler.FileNameHostFragment {
 
   protected EditText mFilename;
 
@@ -33,8 +32,8 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
   }
 
   @Override
-  public void setFilename(String filename) {
-    mFilename.setText(filename);
+  public EditText getFilenameEditText() {
+    return mFilename;
   }
 
   protected Uri mUri;
@@ -44,9 +43,8 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
   }
   abstract int getLayoutId();
   abstract String getLayoutTitle();
-  abstract String getTypeName();
   public boolean checkTypeParts(String[] typeParts) {
-   return DialogUtils.checkTypePartsDefault(typeParts);
+   return ImportFileResultHandler.checkTypePartsDefault(typeParts);
   }
 
   @Override
@@ -85,11 +83,10 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
     if (requestCode == ProtectedFragmentActivity.IMPORT_FILENAME_REQUESTCODE) {
       if (resultCode == Activity.RESULT_OK && data != null) {
-        mUri = DialogUtils.handleFilenameRequestResult(data, mFilename, getTypeName(), this);
+        mUri = ImportFileResultHandler.handleFilenameRequestResult(this, data);
       }
     }
   }
-
 
   @Override
   public void onClick(DialogInterface dialog, int id) {
@@ -100,13 +97,13 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
   @Override
   public void onResume() {
     super.onResume();
-    FileUtils.handleFileNameHostOnResume(this);
+    ImportFileResultHandler.handleFileNameHostOnResume(this);
     setButtonState();
   }
 
   //we cannot persist document Uris because we use ACTION_GET_CONTENT instead of ACTION_OPEN_DOCUMENT
   protected void maybePersistUri() {
-    FileUtils.maybePersistUri(this);
+    ImportFileResultHandler.maybePersistUri(this);
   }
 
   @Override

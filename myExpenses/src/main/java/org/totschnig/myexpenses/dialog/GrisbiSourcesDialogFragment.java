@@ -23,7 +23,7 @@ DialogInterface.OnClickListener {
   }
 
   @Override
-  String getTypeName() {
+  public String getTypeName() {
     return "Grisbi XML";
   }
   @Override
