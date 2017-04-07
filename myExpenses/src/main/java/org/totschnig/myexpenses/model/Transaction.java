@@ -34,6 +34,8 @@ import org.totschnig.myexpenses.provider.CalendarProviderProxy;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.FileCopyUtils;
 import org.totschnig.myexpenses.util.PictureDirHelper;
 import org.totschnig.myexpenses.util.TextUtils;
@@ -320,10 +322,20 @@ public class Transaction extends Model {
     t.comment = DbUtils.getString(c, KEY_COMMENT);
     t.referenceNumber = DbUtils.getString(c, KEY_REFERENCE_NUMBER);
     t.label = DbUtils.getString(c, KEY_LABEL);
+
     int pictureUriColumnIndex = c.getColumnIndexOrThrow(KEY_PICTURE_URI);
-    t.pictureUri = c.isNull(pictureUriColumnIndex) ?
-        null :
-        Uri.parse(c.getString(pictureUriColumnIndex));
+    if (!c.isNull(pictureUriColumnIndex)) {
+      Uri parsedUri = Uri.parse(c.getString(pictureUriColumnIndex));
+      if("file".equals(parsedUri.getScheme())) { // Upgrade from legacy uris
+        try {
+          parsedUri = AppDirHelper.getContentUriForFile(new File(parsedUri.getPath()));
+        } catch (Exception e) {
+          AcraHelper.report(e);
+        }
+      }
+      t.setPictureUri(parsedUri);
+    }
+
     t.status = c.getInt(c.getColumnIndexOrThrow(KEY_STATUS));
     Long originTemplateId = getLongOrNull(c, KEY_TEMPLATEID);
     t.originTemplate = originTemplateId == null ? null : Template.getInstanceFromDb(originTemplateId);
@@ -621,7 +633,7 @@ public class Transaction extends Model {
               setPictureUri(homeUri);
             } else {
               //fallback
-              copyPictureHelper(isInTempFolder, homeUri);
+              copyPictureHelper(true, homeUri);
             }
           } else {
             copyPictureHelper(isInTempFolder, homeUri);

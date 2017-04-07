@@ -189,10 +189,15 @@ public class AppDirHelper {
     return uri;
   }
 
-  static Uri getContentUriForFile(File file) {
+  public static Uri getContentUriForFile(File file) {
     return FileProvider.getUriForFile(MyApplication.getInstance(),
-        MyApplication.getInstance().getPackageName() + ".fileprovider",
+        getFileProviderAuthority(),
         file);
+  }
+
+  @NonNull
+  public static String getFileProviderAuthority() {
+    return MyApplication.getInstance().getPackageName() + ".fileprovider";
   }
 
   /**

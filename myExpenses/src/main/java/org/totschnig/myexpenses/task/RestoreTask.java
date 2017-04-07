@@ -312,10 +312,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
             if (restoredImage == null || !FileCopyUtils.copy(backupImage, restoredImage)) {
               Timber.e("Could not restore file %s from backup", fromBackup.toString());
             } else {
-              restored = application.isProtected() ?
-                  FileProvider.getUriForFile(application,
-                      "org.totschnig.myexpenses.fileprovider", restoredImage) :
-                  Uri.fromFile(restoredImage);
+              restored = AppDirHelper.getContentUriForFile(restoredImage);
             }
           } else {
             Timber.e("Could not restore file %s from backup", fromBackup.toString());
