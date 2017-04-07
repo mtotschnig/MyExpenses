@@ -1538,13 +1538,11 @@ public class ExpenseEdit extends AmountActivity implements
           // arriving here, in this case it takes precedence
           mPictureUri = mTransaction.getPictureUri();
           if (mPictureUri != null) {
-            boolean doShowPicture = true;
-            if (isFileAndNotExists(mTransaction.getPictureUri())) {
-              Toast.makeText(this, R.string.image_deleted, Toast.LENGTH_SHORT).show();
-              doShowPicture = false;
-            }
-            if (doShowPicture) {
+            if (PictureDirHelper.doesPictureExist(mTransaction.getPictureUri())) {
               setPicture();
+            } else {
+              mPictureUri = null;
+              Toast.makeText(this, R.string.image_deleted, Toast.LENGTH_SHORT).show();
             }
           }
         }
