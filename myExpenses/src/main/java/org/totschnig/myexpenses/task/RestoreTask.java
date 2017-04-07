@@ -302,6 +302,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       if (c.moveToFirst()) {
         do {
           ContentValues uriValues = new ContentValues();
+          int rowId = c.getInt(0);
           Uri fromBackup = Uri.parse(c.getString(1));
           String fileName = fromBackup.getLastPathSegment();
           File backupImage = new File(backupPictureDir, fileName);
@@ -327,7 +328,8 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
           cr.update(
               TransactionProvider.TRANSACTIONS_URI,
               uriValues,
-              DatabaseConstants.KEY_PICTURE_URI + " = " + c.getInt(0), null);
+              DatabaseConstants.KEY_ROWID + " = ?",
+              new String[]{String.valueOf(rowId)});
         } while (c.moveToNext());
       }
       c.close();
