@@ -1,13 +1,9 @@
 package org.totschnig.myexpenses.util;
 
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Binder;
-import android.support.v4.app.ActivityCompat;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -32,10 +28,7 @@ public class ImportFileResultHandler {
       fileNameEditText.setError(null);
       String displayName = DialogUtils.getDisplayName(uri);
       fileNameEditText.setText(displayName);
-      if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)
-          == PackageManager.PERMISSION_GRANTED ||
-          context.checkUriPermission(uri, Binder.getCallingPid(), Binder.getCallingUid(),
-              Intent.FLAG_GRANT_READ_URI_PERMISSION) == PackageManager.PERMISSION_GRANTED) {
+      if (PermissionHelper.canReadUri(uri, context)) {
         if (displayName == null) {
           uri = null;
           //SecurityException raised during getDisplayName
