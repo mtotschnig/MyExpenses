@@ -4,12 +4,15 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import org.totschnig.myexpenses.MyApplication;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import static org.totschnig.myexpenses.util.AppDirHelper.getContentUriForFile;
@@ -24,11 +27,11 @@ public class PictureDirHelper {
    *             care is taken that the file does not yet exist
    * @return a file on the external storage
    */
-  public static File getOutputMediaFile(String fileName, boolean temp) {
+  public static File getOutputMediaFile(String fileName, boolean temp, boolean secure) {
     // To be safe, you should check that the SDCard is mounted
     // using Environment.getExternalStorageState() before doing this.
 
-    File mediaStorageDir = temp ? AppDirHelper.getCacheDir() : getPictureDir();
+    File mediaStorageDir = temp ? AppDirHelper.getCacheDir() : getPictureDir(secure);
     if (mediaStorageDir == null) return null;
     int postfix = 0;
     File result;
@@ -40,9 +43,13 @@ public class PictureDirHelper {
   }
 
   public static Uri getOutputMediaUri(boolean temp) {
+    return getOutputMediaUri(temp, MyApplication.getInstance().isProtected());
+  }
+
+  public static Uri getOutputMediaUri(boolean temp, boolean secure) {
     String fileName = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US)
         .format(new Date());
-    File outputMediaFile = getOutputMediaFile(fileName, temp);
+    File outputMediaFile = getOutputMediaFile(fileName, temp, secure);
     if (outputMediaFile == null) return null;
     return temp ? Uri.fromFile(outputMediaFile) :
         getContentUriForFile(outputMediaFile);
@@ -63,10 +70,6 @@ public class PictureDirHelper {
     return base + ".jpg";
   }
 
-  private static File getPictureDir() {
-    return getPictureDir(MyApplication.getInstance().isProtected());
-  }
-
   public static File getPictureDir(boolean secure) {
     File result;
     if (secure) {
@@ -82,5 +85,32 @@ public class PictureDirHelper {
   @SuppressLint("InlinedApi")
   public static String getContentIntentAction() {
     return Intent.ACTION_GET_CONTENT;
+  }
+
+  /**
+   * @param pictureUri
+   * @return
+   */
+  public static boolean doesPictureExist(Uri pictureUri) throws IllegalArgumentException {
+    return getFileForUri(pictureUri).exists();
+  }
+
+  @VisibleForTesting
+  @NonNull
+  public static File getFileForUri(Uri pictureUri) throws IllegalArgumentException {
+    Preconditions.checkArgument("authority", AppDirHelper.getFileProviderAuthority(),
+        pictureUri.getAuthority());
+    List<String> pathSegments = pictureUri.getPathSegments();
+    //TODO create unit test for checking if this logic is in sync with image_path.xml
+    String pathDomain = pathSegments.get(0);
+    switch (pathDomain) {
+      case "external-files":
+        Preconditions.checkArgument("directory", Environment.DIRECTORY_PICTURES, pathSegments.get(1));
+        return new File(getPictureDir(false), pathSegments.get(2));
+      case "images":
+        return new File(getPictureDir(true), pathSegments.get(1));
+      default:
+        throw new IllegalArgumentException(String.format(Locale.ROOT, "Unable to handle %s", pathDomain));
+    }
   }
 }

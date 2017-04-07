@@ -308,7 +308,8 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
           File backupImage = new File(backupPictureDir, fileName);
           Uri restored = null;
           if (backupImage.exists()) {
-            File restoredImage = PictureDirHelper.getOutputMediaFile(fileName.substring(0, fileName.lastIndexOf('.')), false);
+            File restoredImage = PictureDirHelper.getOutputMediaFile(
+                fileName.substring(0, fileName.lastIndexOf('.')), false, application.isProtected());
             if (restoredImage == null || !FileCopyUtils.copy(backupImage, restoredImage)) {
               Timber.e("Could not restore file %s from backup", fromBackup.toString());
             } else {

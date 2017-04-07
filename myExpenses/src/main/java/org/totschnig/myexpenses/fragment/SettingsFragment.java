@@ -540,7 +540,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     if (AppDirHelper.isExternalStorageAvailable()) {
       DocumentFile appDir = AppDirHelper.getAppDir();
       if (appDir != null) {
-        if (AppDirHelper.dirExistsAndIsWritable(appDir)) {
+        if (AppDirHelper.existsAndIsWritable(appDir)) {
           pref.setSummary(FileUtils.getPath(getActivity(), appDir.getUri()));
         } else {
           pref.setSummary(getString(R.string.app_dir_not_accessible,

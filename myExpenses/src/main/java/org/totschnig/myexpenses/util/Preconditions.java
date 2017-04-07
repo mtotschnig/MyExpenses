@@ -23,6 +23,13 @@ public class Preconditions {
     }
   }
 
+  public static void checkArgument(String argLabel, Object expected, Object actual) {
+    if (!expected.equals(actual)) {
+      throw new IllegalArgumentException(String.format("Expected %s to be %s, got %s",
+          argLabel, expected, actual));
+    }
+  }
+
   public static void checkArgument(boolean expression, @Nullable Object errorMessage) {
     if (!expression) {
       throw new IllegalArgumentException(String.valueOf(errorMessage));

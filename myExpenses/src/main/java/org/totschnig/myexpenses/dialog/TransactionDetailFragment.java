@@ -17,19 +17,19 @@ package org.totschnig.myexpenses.dialog;
 
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -58,9 +58,10 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
+import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.PictureDirHelper;
 import org.totschnig.myexpenses.util.Utils;
 
-import java.io.File;
 import java.text.DateFormat;
 
 import javax.inject.Inject;
@@ -197,11 +198,15 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     boolean doShowPicture = false;
     if (mTransaction.getPictureUri() != null) {
       doShowPicture = true;
-      if (mTransaction.getPictureUri().getScheme().equals("file")) {
-        if (!new File(mTransaction.getPictureUri().getPath()).exists()) {
+      try {
+        if (!PictureDirHelper.doesPictureExist(mTransaction.getPictureUri())) {
           Toast.makeText(getActivity(), R.string.image_deleted, Toast.LENGTH_SHORT).show();
           doShowPicture = false;
         }
+      } catch (IllegalArgumentException e) {
+        AcraHelper.report(e);
+        Toast.makeText(getActivity(), "Unable to handle image " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        doShowPicture = false;
       }
     }
     AlertDialog dlg = (AlertDialog) getDialog();
