@@ -35,6 +35,7 @@ import java.util.Date;
 
 import timber.log.Timber;
 
+import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
@@ -48,7 +49,7 @@ public class PlanExecutor extends IntentService {
   //production: 21600000 6* 60 * 60 * 1000 6 hours; for testing: 60000 1 minute
   public static final long INTERVAL = BuildConfig.DEBUG ? 60000 : 21600000;
   private static final long H24 = 24 * 60 * 60 * 1000;
-  private static final long M5 = 5 * 60 * 1000;
+  private static final long OVERLAPPING_WINDOW = (BuildConfig.DEBUG ? 1 : 5) * 60 * 1000;
 
   public PlanExecutor() {
     super("PlanExexcutor");
@@ -75,7 +76,7 @@ public class PlanExecutor extends IntentService {
     }
     //we use an overlapping window of 5 minutes to prevent plans that are just created by the user while
     //we are running from falling through
-    long instancesFrom = PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP.getLong(now - H24) - M5;
+    long instancesFrom = PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP.getLong(now - H24) - OVERLAPPING_WINDOW;
     if (now < instancesFrom) {
       Timber.i("Broken system time? Cannot execute plans.");
       return;
@@ -139,7 +140,7 @@ public class PlanExecutor extends IntentService {
                     .putExtra(KEY_ROWID, template.accountId)
                     .putExtra(KEY_TRANSACTIONID, t.getId());
                 resultIntent = PendingIntent.getActivity(this, notificationId, displayIntent,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
+                    FLAG_UPDATE_CURRENT);
                 builder.setContentIntent(resultIntent);
               } else {
                 builder.setContentText(getString(R.string.save_transaction_error));
@@ -158,13 +159,13 @@ public class PlanExecutor extends IntentService {
                   android.R.drawable.ic_menu_close_clear_cancel,
                   R.drawable.ic_menu_close_clear_cancel,
                   getString(android.R.string.cancel),
-                  PendingIntent.getService(this, notificationId, cancelIntent, 0));
+                  PendingIntent.getService(this, notificationId, cancelIntent, FLAG_UPDATE_CURRENT));
               Intent editIntent = new Intent(this, ExpenseEdit.class)
                   .putExtra(MyApplication.KEY_NOTIFICATION_ID, notificationId)
                   .putExtra(KEY_TEMPLATEID, template.getId())
                   .putExtra(KEY_INSTANCEID, instanceId)
                   .putExtra(KEY_DATE, date);
-              resultIntent = PendingIntent.getActivity(this, notificationId, editIntent, 0);
+              resultIntent = PendingIntent.getActivity(this, notificationId, editIntent, FLAG_UPDATE_CURRENT);
               builder.addAction(
                   android.R.drawable.ic_menu_edit,
                   R.drawable.ic_menu_edit,
@@ -173,7 +174,7 @@ public class PlanExecutor extends IntentService {
               Intent applyIntent = new Intent(this, PlanNotificationClickHandler.class);
               applyIntent.setAction(ACTION_APPLY)
                   .putExtra(MyApplication.KEY_NOTIFICATION_ID, notificationId)
-                  .putExtra("title", title)
+                  .putExtra(KEY_TITLE, title)
                   .putExtra(KEY_TEMPLATEID, template.getId())
                   .putExtra(KEY_INSTANCEID, instanceId)
                   .putExtra(KEY_DATE, date);
@@ -181,7 +182,7 @@ public class PlanExecutor extends IntentService {
                   android.R.drawable.ic_menu_save,
                   R.drawable.ic_menu_save,
                   getString(R.string.menu_apply_template),
-                  PendingIntent.getService(this, notificationId, applyIntent, 0));
+                  PendingIntent.getService(this, notificationId, applyIntent, FLAG_UPDATE_CURRENT));
               builder.setContentIntent(resultIntent);
               notification = builder.build();
               notification.flags |= Notification.FLAG_NO_CLEAR;
