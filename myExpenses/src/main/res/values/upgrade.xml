@@ -18,8 +18,8 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
-  <string-array name="whats_new_2783">
-    <item>@string/bug_fixes</item>
+  <string-array name="whats_new_279">
+    <item>Minor improvements</item>
   </string-array>
   <string-array name="whats_new_278">
     <item>App Shortcuts for Android 7.1</item>
