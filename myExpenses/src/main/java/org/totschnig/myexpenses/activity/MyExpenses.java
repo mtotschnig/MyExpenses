@@ -648,7 +648,7 @@ public class MyExpenses extends LaunchActivity implements
             TaskExecutionFragment.TASK_DELETE_ACCOUNT,
             new Long[]{(Long) tag},
             null,
-            0);
+            R.string.progress_dialog_deleting);
         return true;
       case R.id.SHARE_COMMAND:
         i = new Intent();
@@ -677,9 +677,7 @@ public class MyExpenses extends LaunchActivity implements
         return true;
       case R.id.EDIT_ACCOUNT_COMMAND:
         closeDrawer();
-        int position = (Integer) tag;
-        mAccountsCursor.moveToPosition(position);
-        long accountId = mAccountsCursor.getLong(columnIndexRowId);
+        long accountId = (Long) tag;
         if (accountId > 0) { //do nothing if accidentally we are positioned at an aggregate account
           i = new Intent(this, AccountEdit.class);
           i.putExtra(KEY_ROWID, accountId);
@@ -688,9 +686,7 @@ public class MyExpenses extends LaunchActivity implements
         return true;
       case R.id.DELETE_ACCOUNT_COMMAND:
         closeDrawer();
-        position = (Integer) tag;
-        mAccountsCursor.moveToPosition(position);
-        accountId = mAccountsCursor.getLong(columnIndexRowId);
+        accountId = (Long) tag;
         //do nothing if accidentally we are positioned at an aggregate account or try to delete the last account
         if (mAccountsCursor.getCount() > 1 && accountId > 0) {
           MessageDialogFragment.newInstance(
@@ -1222,7 +1218,7 @@ public class MyExpenses extends LaunchActivity implements
               @Override
               public boolean onMenuItemClick(MenuItem item) {
                 return handleSwap(item.getItemId(), position) ||
-                    dispatchCommand(item.getItemId(), position);
+                    dispatchCommand(item.getItemId(), rowId);
               }
 
               private boolean handleSwap(int itemId, int position) {
