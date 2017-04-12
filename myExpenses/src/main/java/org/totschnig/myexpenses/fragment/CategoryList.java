@@ -78,11 +78,14 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorTreeAdapter;
+import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
+
+import javax.inject.Inject;
 
 import timber.log.Timber;
 
@@ -159,10 +162,14 @@ public class CategoryList extends SortableListFragment implements
 
   String mFilter;
 
+  @Inject
+  CurrencyFormatter currencyFormatter;
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
+    MyApplication.getInstance().getAppComponent().inject(this);
   }
 
   @Override
@@ -580,7 +587,7 @@ public class CategoryList extends SortableListFragment implements
       switch (v.getId()) {
         case R.id.amount:
           v.setTextColor(Long.valueOf(text) < 0 ? colorExpense : colorIncome);
-          text = Utils.convAmount(text, mAccount.currency);
+          text = currencyFormatter.convAmount(text, mAccount.currency);
       }
       super.setViewText(v, text);
     }
@@ -1124,7 +1131,7 @@ public class CategoryList extends SortableListFragment implements
   private void updateSum(String prefix, TextView tv, long amount) {
     if (tv != null) {
       //noinspection SetTextI18n
-      tv.setText(prefix + Utils.formatCurrency(
+      tv.setText(prefix + currencyFormatter.formatCurrency(
           new Money(mAccount.currency, amount)));
     }
   }

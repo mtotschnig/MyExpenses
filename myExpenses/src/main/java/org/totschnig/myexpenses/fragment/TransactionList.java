@@ -98,8 +98,11 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.AppDirHelper;
+import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
+
+import javax.inject.Inject;
 
 import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
@@ -194,6 +197,9 @@ public class TransactionList extends ContextualActionBarFragment implements
   private String mCurrency;
   private Long mOpeningBalance;
 
+  @Inject
+  CurrencyFormatter currencyFormatter;
+
   public static Fragment newInstance(long accountId) {
     TransactionList pageFragment = new TransactionList();
     Bundle bundle = new Bundle();
@@ -216,6 +222,7 @@ public class TransactionList extends ContextualActionBarFragment implements
     mCurrency = mAccount.currency.getCurrencyCode();
     mOpeningBalance = mAccount.openingBalance.getAmountMinor();
     MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
+    MyApplication.getInstance().getAppComponent().inject(this);
   }
 
   private void setAdapter() {
@@ -614,7 +621,7 @@ public class TransactionList extends ContextualActionBarFragment implements
 
     public MyGroupedAdapter(Context context, int layout, Cursor c, String[] from,
                             int[] to, int flags) {
-      super(mAccount, context, layout, c, from, to, flags);
+      super(mAccount, context, layout, c, from, to, flags, currencyFormatter);
       inflater = LayoutInflater.from(getActivity());
     }
 
@@ -693,15 +700,15 @@ public class TransactionList extends ContextualActionBarFragment implements
     @SuppressLint("SetTextI18n")
     private void fillSums(HeaderViewHolder holder, Cursor mGroupingCursor) {
       Long sumExpense = DbUtils.getLongOr0L(mGroupingCursor, columnIndexGroupSumExpense);
-      holder.sumExpense.setText("- " + Utils.convAmount(
+      holder.sumExpense.setText("- " + currencyFormatter.convAmount(
           sumExpense,
           mAccount.currency));
       Long sumIncome = DbUtils.getLongOr0L(mGroupingCursor, columnIndexGroupSumIncome);
-      holder.sumIncome.setText("+ " + Utils.convAmount(
+      holder.sumIncome.setText("+ " + currencyFormatter.convAmount(
           sumIncome,
           mAccount.currency));
       Long sumTransfer = DbUtils.getLongOr0L(mGroupingCursor, columnIndexGroupSumTransfer);
-      holder.sumTransfer.setText(Transfer.BI_ARROW + " " + Utils.convAmount(
+      holder.sumTransfer.setText(Transfer.BI_ARROW + " " + currencyFormatter.convAmount(
           sumTransfer,
           mAccount.currency));
       Long delta = sumIncome - sumExpense + sumTransfer;
@@ -710,10 +717,10 @@ public class TransactionList extends ContextualActionBarFragment implements
         Long previousBalance = interimBalance - delta;
         holder.interimBalance.setText(
             String.format("%s %s %s = %s",
-                Utils.convAmount(previousBalance, mAccount.currency),
+                currencyFormatter.convAmount(previousBalance, mAccount.currency),
                 Long.signum(delta) > -1 ? "+" : "-",
-                Utils.convAmount(Math.abs(delta), mAccount.currency),
-                Utils.convAmount(interimBalance, mAccount.currency)));
+                currencyFormatter.convAmount(Math.abs(delta), mAccount.currency),
+                currencyFormatter.convAmount(interimBalance, mAccount.currency)));
       }
     }
 

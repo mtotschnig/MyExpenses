@@ -14,7 +14,7 @@ import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
-import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.CurrencyFormatter;
 
 import java.util.Currency;
 
@@ -37,8 +37,11 @@ public final class SplitPartAdapter extends SimpleCursorAdapter {
   Currency currency;
   boolean insideFragment;
 
+  private CurrencyFormatter currencyFormatter;
+
   public SplitPartAdapter(Context context, int layout, Cursor c,
-      String[] from, int[] to, int flags, Currency currency) {
+                          String[] from, int[] to, int flags, Currency currency,
+                          CurrencyFormatter currencyFormatter) {
     super(context, layout, c, from, to, flags);
     if (context instanceof MyExpenses) {
       insideFragment = true;
@@ -50,6 +53,7 @@ public final class SplitPartAdapter extends SimpleCursorAdapter {
     theme.resolveAttribute(R.attr.colorIncome,color, true);
     colorIncome = color.data;
     this.currency = currency;
+    this.currencyFormatter = currencyFormatter;
   }
 
   /* (non-Javadoc)
@@ -60,7 +64,7 @@ public final class SplitPartAdapter extends SimpleCursorAdapter {
   public void setViewText(TextView v, String text) {
     switch (v.getId()) {
     case R.id.amount:
-      text = Utils.convAmount(text, currency);
+      text = currencyFormatter.convAmount(text, currency);
     }
     super.setViewText(v, text);
   }

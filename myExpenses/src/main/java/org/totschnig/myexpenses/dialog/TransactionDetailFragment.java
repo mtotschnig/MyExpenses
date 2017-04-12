@@ -59,8 +59,8 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.PictureDirHelper;
-import org.totschnig.myexpenses.util.Utils;
 
 import java.text.DateFormat;
 
@@ -78,6 +78,9 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
 
   @Inject
   ImageViewIntentProvider imageViewIntentProvider;
+
+  @Inject
+  CurrencyFormatter currencyFormatter;
 
   public static final TransactionDetailFragment newInstance(Long id) {
     TransactionDetailFragment dialogFragment = new TransactionDetailFragment();
@@ -243,7 +246,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
 
       // Now create a simple cursor adapter and set it to display
       mAdapter = new SplitPartAdapter(ctx, R.layout.split_part_row, null, from, to, 0,
-          mTransaction.getAmount().getCurrency());
+          mTransaction.getAmount().getCurrency(), currencyFormatter);
       lv.setAdapter(mAdapter);
       lv.setEmptyView(emptyView);
 
@@ -348,6 +351,6 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
 
   @NonNull
   private String formatCurrencyAbs(Money money) {
-    return Utils.formatCurrency(money.getAmountMajor().abs(), money.getCurrency());
+    return currencyFormatter.formatCurrency(money.getAmountMajor().abs(), money.getCurrency());
   }
 }

@@ -15,19 +15,6 @@
 
 package org.totschnig.myexpenses.fragment;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
-
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ExpenseEdit;
-import org.totschnig.myexpenses.activity.MyExpenses;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
-import org.totschnig.myexpenses.adapter.SplitPartAdapter;
-import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.Money;
-import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.task.TaskExecutionFragment;
-import org.totschnig.myexpenses.util.Utils;
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -39,18 +26,39 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ExpenseEdit;
+import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.adapter.SplitPartAdapter;
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.util.CurrencyFormatter;
+import org.totschnig.myexpenses.util.Utils;
+
+import javax.inject.Inject;
 
 import icepick.Icepick;
 import icepick.State;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_MAIN;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 //TODO: consider moving to ListFragment
 public class SplitPartList extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -66,6 +74,9 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
 
   @State
   long accountId;
+
+  @Inject
+  CurrencyFormatter currencyFormatter;
 
   public static SplitPartList newInstance(Long parentId, Long accountId) {
     SplitPartList f = new SplitPartList(); 
@@ -86,6 +97,7 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
     } else {
       Icepick.restoreInstanceState(this, savedInstanceState);
     }
+    MyApplication.getInstance().getAppComponent().inject(this);
   }
 
   @Override
@@ -112,7 +124,7 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
     // Now create a simple cursor adapter and set it to display
     final Account account = Account.getInstanceFromDb(accountId);
     mAdapter = new SplitPartAdapter(ctx, R.layout.split_part_row, null, from, to, 0,
-        account.currency);
+        account.currency, currencyFormatter);
     lv.setAdapter(mAdapter);
     lv.setEmptyView(emptyView);
     lv.setOnItemClickListener(new OnItemClickListener() {
@@ -205,7 +217,7 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
       return;
     unsplitAmount.setAmountMinor(unsplitAmount.getAmountMinor()-transactionSum);
     if (balanceTv != null)
-      balanceTv.setText(Utils.formatCurrency(unsplitAmount));
+      balanceTv.setText(currencyFormatter.formatCurrency(unsplitAmount));
   }
 
   public boolean splitComplete() {

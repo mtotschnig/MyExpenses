@@ -27,6 +27,7 @@ import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
+import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.text.DateFormat;
@@ -57,9 +58,11 @@ public class TransactionAdapter extends SimpleCursorAdapter {
   boolean insideFragment;
   protected int monthStart =
       Integer.parseInt(PrefKey.GROUP_MONTH_STARTS.getString("1"));
+  private CurrencyFormatter currencyFormatter;
 
-  public TransactionAdapter(Account account, Grouping grouping, Context context, int layout, Cursor c, String[] from,
-      int[] to, int flags) {
+  protected TransactionAdapter(Account account, Grouping grouping, Context context, int layout,
+                               Cursor c, String[] from, int[] to, int flags,
+                               CurrencyFormatter currencyFormatter) {
     super(context, layout, c, from, to, flags);
     if (context instanceof ManageCategories) {
       insideFragment = true;
@@ -71,11 +74,12 @@ public class TransactionAdapter extends SimpleCursorAdapter {
     mGroupingOverride = grouping;
     dateEms = android.text.format.DateFormat.is24HourFormat(context) ? 3 : 4;
     localizedTimeFormat = android.text.format.DateFormat.getTimeFormat(context);
+    this.currencyFormatter = currencyFormatter;
     refreshDateFormat();
   }
   public TransactionAdapter(Account account, Context context, int layout, Cursor c, String[] from,
-      int[] to, int flags) {
-    this(account, null, context, layout, c, from, to, flags);
+      int[] to, int flags, CurrencyFormatter currencyFormatter) {
+    this(account, null, context, layout, c, from, to, flags, currencyFormatter);
   }
   @Override
   public View newView(Context context, Cursor cursor, ViewGroup parent) {
@@ -110,7 +114,7 @@ public class TransactionAdapter extends SimpleCursorAdapter {
       text = Utils.convDateTime(text,itemDateFormat);
       break;
     case R.id.amount:
-      text = Utils.convAmount(text,mAccount.currency);
+      text = currencyFormatter.convAmount(text,mAccount.currency);
     }
     super.setViewText(v, text);
   }

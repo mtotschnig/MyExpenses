@@ -49,6 +49,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
@@ -64,10 +65,13 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
+import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+
+import javax.inject.Inject;
 
 import icepick.Icepick;
 import icepick.State;
@@ -118,11 +122,15 @@ public class TemplatesList extends SortableListFragment {
   @State
   boolean repairTriggered = false;
 
+  @Inject
+  CurrencyFormatter currencyFormatter;
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
     Icepick.restoreInstanceState(this, savedInstanceState);
+    MyApplication.getInstance().getAppComponent().inject(this);
   }
 
   @Override public void onSaveInstanceState(Bundle outState) {
@@ -422,7 +430,8 @@ public class TemplatesList extends SortableListFragment {
       TextView tv1 = (TextView) convertView.findViewById(R.id.amount);
       long amount = c.getLong(columnIndexAmount);
       tv1.setTextColor(amount < 0 ? colorExpense : colorIncome);
-      tv1.setText(Utils.convAmount(amount, Utils.getSaveInstance(c.getString(columnIndexCurrency))));
+      tv1.setText(currencyFormatter.convAmount(amount,
+          Utils.getSaveInstance(c.getString(columnIndexCurrency))));
       int color = c.getInt(columnIndexColor);
       convertView.findViewById(R.id.colorAccount).setBackgroundColor(color);
       TextView tv2 = (TextView) convertView.findViewById(R.id.category);

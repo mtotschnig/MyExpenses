@@ -16,20 +16,21 @@
 package org.totschnig.myexpenses.dialog;
 
 
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.TransactionAdapter;
 import org.totschnig.myexpenses.model.Account;
@@ -37,7 +38,10 @@ import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
+import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.Utils;
+
+import javax.inject.Inject;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
@@ -63,7 +67,10 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
   SimpleCursorAdapter mAdapter;
   ListView mListView;
   boolean isMain;
-  
+
+  @Inject
+  CurrencyFormatter currencyFormatter;
+
   public static final TransactionListDialogFragment newInstance(
       Long account_id, long cat_id, boolean isMain, Grouping grouping, String groupingClause, String label) {
     TransactionListDialogFragment dialogFragment = new TransactionListDialogFragment();
@@ -72,29 +79,31 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
     bundle.putLong(KEY_CATID, cat_id);
     bundle.putString(KEY_GROUPING_CLAUSE, groupingClause);
     bundle.putSerializable(KEY_GROUPING, grouping);
-    bundle.putString(KEY_LABEL,label);
+    bundle.putString(KEY_LABEL, label);
     bundle.putBoolean(KEY_IS_MAIN, isMain);
     dialogFragment.setArguments(bundle);
     return dialogFragment;
   }
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     mAccount = Account.getInstanceFromDb(getArguments().getLong(KEY_ACCOUNTID));
     isMain = getArguments().getBoolean(KEY_IS_MAIN);
-    
+    MyApplication.getInstance().getAppComponent().inject(this);
   }
+
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     //Context wrappedCtx = DialogUtils.wrapContext2(getActivity());
-    
+
     mListView = new ListView(getActivity());
     mListView.setScrollBarStyle(ListView.SCROLLBARS_OUTSIDE_INSET);
     // Create an array to specify the fields we want to display in the list
-    String[] from = new String[]{KEY_LABEL_MAIN,KEY_DATE,KEY_AMOUNT};
+    String[] from = new String[]{KEY_LABEL_MAIN, KEY_DATE, KEY_AMOUNT};
 
     // and an array of the fields we want to bind those fields to 
-    int[] to = new int[]{R.id.category,R.id.date,R.id.amount};
+    int[] to = new int[]{R.id.category, R.id.date, R.id.amount};
     mAdapter = new TransactionAdapter(
         mAccount,
         (Grouping) getArguments().getSerializable(KEY_GROUPING),
@@ -103,13 +112,13 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
         null,
         from,
         to,
-        0) {
-          @Override
-          protected CharSequence getCatText(CharSequence catText,
-              String label_sub) {
-            return (isMain && label_sub != null) ? label_sub : "";
-          }
-      };
+        0, currencyFormatter) {
+      @Override
+      protected CharSequence getCatText(CharSequence catText,
+                                        String label_sub) {
+        return (isMain && label_sub != null) ? label_sub : "";
+      }
+    };
     mListView.setAdapter(mAdapter);
     getLoaderManager().initLoader(TRANSACTION_CURSOR, null, this);
     getLoaderManager().initLoader(SUM_CURSOR, null, this);
@@ -128,16 +137,17 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
 //    View titleView = LayoutInflater.from(getActivity()).inflate(R.layout.transaction_list_dialog_title, null);
 //    ((TextView) titleView.findViewById(R.id.label)).setText(getArguments().getString(KEY_LABEL));
 //    ((TextView) titleView.findViewById(R.id.amount)).setText("TBF");
-    
+
     return new AlertDialog.Builder(getActivity())
-      .setTitle(getArguments().getString(KEY_LABEL))
-      .setView(mListView)
-      .setPositiveButton(android.R.string.ok,null)
-      .create();
+        .setTitle(getArguments().getString(KEY_LABEL))
+        .setView(mListView)
+        .setPositiveButton(android.R.string.ok, null)
+        .create();
   }
+
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle arg1) {
-    String selection,accountSelect;
+    String selection, accountSelect;
     String[] selectionArgs;
     String catSelect = String.valueOf(getArguments().getLong(KEY_CATID));
     if (mAccount.getId() < 0) {
@@ -152,9 +162,9 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
     selection += " AND " + KEY_CATID + " IN (SELECT " + DatabaseConstants.KEY_ROWID + " FROM "
         + TABLE_CATEGORIES + " WHERE " + KEY_PARENTID + " = ? OR "
         + KEY_ROWID + " = ?)";
-    selectionArgs = new String[]{accountSelect,catSelect,catSelect};
+    selectionArgs = new String[]{accountSelect, catSelect, catSelect};
     String groupingClause = getArguments().getString(KEY_GROUPING_CLAUSE);
-    if (groupingClause!= null) {
+    if (groupingClause != null) {
       selection += " AND " + groupingClause;
     }
     switch (id) {
@@ -164,7 +174,7 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
             selectionArgs, null);
       case SUM_CURSOR:
         return new CursorLoader(getActivity(),
-            Transaction.EXTENDED_URI, new String[] {"sum(" + KEY_AMOUNT + ")"}, selection,
+            Transaction.EXTENDED_URI, new String[]{"sum(" + KEY_AMOUNT + ")"}, selection,
             selectionArgs, null);
     }
     return null;
@@ -178,12 +188,12 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
         break;
       case SUM_CURSOR:
         cursor.moveToFirst();
-        String title = getArguments().getString(KEY_LABEL) + TABS + Utils.convAmount(
-            cursor.getString(0),
-            mAccount.currency);
+        String title = getArguments().getString(KEY_LABEL) + TABS +
+            currencyFormatter.convAmount(cursor.getString(0), mAccount.currency);
         getDialog().setTitle(title);
     }
   }
+
   @Override
   public void onLoaderReset(Loader<Cursor> loader) {
     switch (loader.getId()) {

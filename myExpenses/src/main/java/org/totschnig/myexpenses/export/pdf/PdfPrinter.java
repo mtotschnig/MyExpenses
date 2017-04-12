@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.util.AppDirHelper;
+import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.LazyFontSelector;
 import org.totschnig.myexpenses.util.PdfHelper;
@@ -39,6 +40,8 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import javax.inject.Inject;
 
 import timber.log.Timber;
 
@@ -72,17 +75,20 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 
 public class PdfPrinter {
   private Account account;
-  DocumentFile destDir;
-  WhereFilter filter;
+  private DocumentFile destDir;
+  private WhereFilter filter;
+
+  @Inject
+  CurrencyFormatter currencyFormatter;
 
   public PdfPrinter(Account account, DocumentFile destDir, WhereFilter filter) {
     this.account = account;
     this.destDir = destDir;
     this.filter = filter;
-
   }
 
   public Result print() throws IOException, DocumentException {
+    MyApplication.getInstance().getAppComponent().inject(this);
     long start = System.currentTimeMillis();
     Timber.d("Print start %d", start);
     PdfHelper helper = new PdfHelper();
@@ -176,7 +182,7 @@ public class PdfPrinter {
         java.text.DateFormat.getDateInstance(java.text.DateFormat.FULL).format(new Date()), LazyFontSelector.FontType.BOLD));
     preface.addCell(helper.printToCell(
         MyApplication.getInstance().getString(R.string.current_balance) + " : " +
-            Utils.formatCurrency(new Money(account.currency, currentBalance)), LazyFontSelector.FontType.BOLD));
+            currencyFormatter.formatCurrency(new Money(account.currency, currentBalance)), LazyFontSelector.FontType.BOLD));
 
     document.add(preface);
     Paragraph empty = new Paragraph();
@@ -298,24 +304,24 @@ public class PdfPrinter {
         Long interimBalance = DbUtils.getLongOr0L(groupCursor, columIndexGroupSumInterim);
         Long previousBalance = interimBalance - delta;
         cell = helper.printToCell(String.format("%s %s %s = %s",
-            Utils.convAmount(previousBalance, account.currency),
+            currencyFormatter.convAmount(previousBalance, account.currency),
             Long.signum(delta) > -1 ? "+" : "-",
-            Utils.convAmount(Math.abs(delta), account.currency),
-            Utils.convAmount(interimBalance, account.currency)), LazyFontSelector.FontType.HEADER);
+            currencyFormatter.convAmount(Math.abs(delta), account.currency),
+            currencyFormatter.convAmount(interimBalance, account.currency)), LazyFontSelector.FontType.HEADER);
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         table.addCell(cell);
         document.add(table);
         table = helper.newTable(3);
         table.setWidthPercentage(100f);
-        cell = helper.printToCell("+ " + Utils.convAmount(sumIncome,
+        cell = helper.printToCell("+ " + currencyFormatter.convAmount(sumIncome,
             account.currency), LazyFontSelector.FontType.NORMAL);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(cell);
-        cell = helper.printToCell("- " + Utils.convAmount(sumExpense,
+        cell = helper.printToCell("- " + currencyFormatter.convAmount(sumExpense,
             account.currency), LazyFontSelector.FontType.NORMAL);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(cell);
-        cell = helper.printToCell(Transfer.BI_ARROW + " " + Utils.convAmount(
+        cell = helper.printToCell(Transfer.BI_ARROW + " " + currencyFormatter.convAmount(
             DbUtils.getLongOr0L(groupCursor, columnIndexGroupSumTransfer),
             account.currency), LazyFontSelector.FontType.NORMAL);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -361,7 +367,7 @@ public class PdfPrinter {
             } else {
               splitText = Category.NO_CATEGORY_ASSIGNED_LABEL;
             }
-            splitText += " " + Utils.convAmount(splits.getLong(
+            splitText += " " + currencyFormatter.convAmount(splits.getLong(
                 splits.getColumnIndexOrThrow(KEY_AMOUNT)), account.currency);
             String splitComment = DbUtils.getString(splits, KEY_COMMENT);
             if (splitComment != null && splitComment.length() > 0) {
@@ -407,7 +413,7 @@ public class PdfPrinter {
       } else {
         t = amount < 0 ? LazyFontSelector.FontType.EXPENSE : LazyFontSelector.FontType.INCOME;
       }
-      cell = helper.printToCell(Utils.convAmount(amount, account.currency), t);
+      cell = helper.printToCell(currencyFormatter.convAmount(amount, account.currency), t);
       cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
       table.addCell(cell);
       String comment = transactionCursor.getString(columnIndexComment);

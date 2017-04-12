@@ -183,35 +183,6 @@ public class Utils {
     return Build.VERSION.SDK_INT >= checkVersion;
   }
 
-  private static NumberFormat numberFormat;
-
-  private static void initNumberFormat() {
-    String prefFormat = PrefKey.CUSTOM_DECIMAL_FORMAT.getString("");
-    if (!prefFormat.equals("")) {
-      DecimalFormat nf = new DecimalFormat();
-      try {
-        nf.applyLocalizedPattern(prefFormat);
-        numberFormat = nf;
-      } catch (IllegalArgumentException e) {
-        //fallback to default currency instance
-        numberFormat = NumberFormat.getCurrencyInstance();
-      }
-    } else {
-      numberFormat = NumberFormat.getCurrencyInstance();
-    }
-  }
-
-  private static NumberFormat getNumberFormat() {
-    if (numberFormat == null) {
-      initNumberFormat();
-    }
-    return numberFormat;
-  }
-
-  public static void setNumberFormat(NumberFormat in) {
-    numberFormat = in;
-  }
-
   public static char getDefaultDecimalSeparator() {
     char sep = '.';
     NumberFormat nfDLocal = NumberFormat.getNumberInstance();
@@ -265,31 +236,6 @@ public class Utils {
     } else {
       return n;
     }
-  }
-
-  /**
-   * formats an amount with a currency
-   *
-   * @param money
-   * @return formated string
-   */
-  public static String formatCurrency(Money money) {
-    BigDecimal amount = money.getAmountMajor();
-    Currency currency = money.getCurrency();
-    return formatCurrency(amount, currency);
-  }
-
-  public static String formatCurrency(BigDecimal amount, Currency currency) {
-    NumberFormat nf = getNumberFormat();
-    int fractionDigits = Money.getFractionDigits(currency);
-    nf.setCurrency(currency);
-    if (fractionDigits <= 3) {
-      nf.setMinimumFractionDigits(fractionDigits);
-      nf.setMaximumFractionDigits(fractionDigits);
-    } else {
-      nf.setMaximumFractionDigits(fractionDigits);
-    }
-    return nf.format(amount);
   }
 
   public static Date dateFromSQL(String dateString) {
@@ -362,24 +308,6 @@ public class Utils {
     return format.format(date);
   }
 
-  /**
-   * utility method that calls formatters for amount this method is called from
-   * adapters that give us the amount as String
-   *
-   * @param text     amount as String
-   * @param currency
-   * @return formated string
-   */
-  public static String convAmount(String text, Currency currency) {
-    Long amount;
-    try {
-      amount = Long.valueOf(text);
-    } catch (NumberFormatException e) {
-      amount = 0L;
-    }
-    return convAmount(amount, currency);
-  }
-
   public static Currency getSaveInstance(String strCurrency) {
     Currency c;
     try {
@@ -398,18 +326,6 @@ public class Utils {
     } catch (IllegalArgumentException e) {
       return Currency.getInstance("EUR");
     }
-  }
-
-  /**
-   * utility method that calls formatters for amount this method can be called
-   * directly with Long values retrieved from db
-   *
-   * @param amount
-   * @param currency
-   * @return formated string
-   */
-  public static String convAmount(Long amount, Currency currency) {
-    return formatCurrency(new Money(currency, amount));
   }
 
   public static void setBackgroundFilter(View v, int c) {

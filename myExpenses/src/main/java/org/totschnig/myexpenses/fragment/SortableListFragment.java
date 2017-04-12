@@ -5,16 +5,12 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.SubMenu;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.Utils;
 
-/**
- * Created by michaeltotschnig on 10.02.16.
- */
 public abstract class SortableListFragment extends ContextualActionBarFragment
     implements LoaderManager.LoaderCallbacks<Cursor> {
 
