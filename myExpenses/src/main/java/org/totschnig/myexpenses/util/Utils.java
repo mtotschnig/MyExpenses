@@ -312,7 +312,7 @@ public class Utils {
     DecimalFormatSymbols symbols = new DecimalFormatSymbols();
     symbols.setDecimalSeparator(separator);
     nf.setDecimalFormatSymbols(symbols);
-    int fractionDigits = currency.getDefaultFractionDigits();
+    int fractionDigits = Money.getFractionDigits(currency);
     if (fractionDigits != -1) {
       nf.setMinimumFractionDigits(fractionDigits);
       nf.setMaximumFractionDigits(fractionDigits);
