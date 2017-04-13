@@ -102,7 +102,6 @@
   <string name="dialog_title_extended_feature">Функция от Разширен вариант</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
-  <string name="dialog_title_set_fraction_digits">Задайте броя цифри след десетичния знак</string>
   <string name="dialog_title_template_title">Задайте заглавие</string>
   <string name="dialog_title_warning_delete_account">Да изтрия ли сметката?</string>
   <string name="dialog_title_warning_delete_main_category">Да изтрия ли основната категория?</string>

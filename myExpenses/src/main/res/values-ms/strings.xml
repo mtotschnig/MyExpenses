@@ -101,7 +101,6 @@
   <string name="dialog_title_extended_feature">Fitur lanjutan</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
-  <string name="dialog_title_set_fraction_digits">Tetapkan bilangan digit pecahan</string>
   <string name="dialog_title_template_title">Tetapkan tajuk</string>
   <string name="dialog_title_warning_delete_account">Padam akaun?</string>
   <string name="dialog_title_warning_delete_main_category">Padam kategori utama?</string>

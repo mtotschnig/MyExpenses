@@ -102,7 +102,6 @@
   <string name="dialog_title_extended_feature">Εκτεταμένη λειτουργία</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
-  <string name="dialog_title_set_fraction_digits">Ορίστε τον αριθμό των κλασματικών ψηφίων</string>
   <string name="dialog_title_template_title">Ρυθμίστε τον τίτλο</string>
   <string name="dialog_title_warning_delete_account">Διαγραφή λογαριασμού;</string>
   <string name="dialog_title_warning_delete_main_category">Διαγραφή κύριας κατηγορίας;</string>
@@ -598,6 +597,7 @@
   <string name="validate_error_not_empty">Δεν πρέπει να είναι κενό</string>
   <string name="validate_error_webdav_invalid_certificate">Το πιστοποιητικό δεν μπορεί να επαληθευτεί. Φαίνεται άκυρο.</string>
   <string name="validate_error_webdav_not_compliant">Η διεύθυνση URL δεν κατευθύνει σε έναν πόρο WebDAV.</string>
+  <string name="validate_error_webdav_404">Το URL δεν υπάρχει στον εξυπηρετητή</string>
   <string name="url_not_valid">Η διεύθυνση URL δεν είναι έγκυρη</string>
   <string name="menu_sync_unlink">Διακοπή συγχρονισμού</string>
   <string name="menu_sync_link">Έναρξη συγχρονισμού</string>
@@ -616,4 +616,8 @@
   <string name="warning_synchronization_folder_usage">Αυτός ο φάκελος χρησιμοποιείται για το συγχρονισμό δεδομένων μεταξύ εγκαταστάσεων του Έξοδά μου σε διαφορετικές συσκευές. Παρακαλώ μην τροποποιήσετε οτιδήποτε από τα περιεχόμενά του χειροκίνητα.</string>
   <string name="link_account_failure_3">Η διένεξη μπορεί να επιλυθεί χειροκίνητα από το μενού περιβάλλοντος της καταχώρησης.</string>
   <string name="template">Πρότυπο</string>
+  <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Συγχρονισμός σύννεφου</string>
+  <string name="licence_status">Η κατάσταση της άδειάς σας</string>
+  <string name="all_contrib_key_features">Όλα οι δυνατότητες ενός Contrib κλειδιού</string>
+  <string name="upgrade_now">Αναβαθμίστε τώρα</string>
 </resources>

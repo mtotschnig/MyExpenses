@@ -75,7 +75,6 @@
   <string name="dialog_title_contrib_feature">Premium opcija</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
-  <string name="dialog_title_set_fraction_digits">Odredi broj razlomačkih znamenki</string>
   <string name="dialog_title_template_title">Odaberi naslov</string>
   <string name="dialog_title_warning_delete_account">Izbriši račun?</string>
   <string name="dialog_title_warning_delete_main_category">Izbrišu osnovnu kategoriju?</string>

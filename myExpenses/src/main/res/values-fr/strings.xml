@@ -102,7 +102,6 @@
   <string name="dialog_title_extended_feature">Fonction étendue</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
-  <string name="dialog_title_set_fraction_digits">Définir le nombre de décimales</string>
   <string name="dialog_title_template_title">Définir le titre</string>
   <string name="dialog_title_warning_delete_account">Effacer le compte?</string>
   <string name="dialog_title_warning_delete_main_category">Effacer la catégorie principale</string>

@@ -101,7 +101,6 @@
   <string name="dialog_title_extended_feature">拡張機能</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
-  <string name="dialog_title_set_fraction_digits">小数の桁数を設定</string>
   <string name="dialog_title_template_title">タイトル/科目を設定</string>
   <string name="dialog_title_warning_delete_account">勘定を削除しますか?</string>
   <string name="dialog_title_warning_delete_main_category">主分類を削除しますか?</string>

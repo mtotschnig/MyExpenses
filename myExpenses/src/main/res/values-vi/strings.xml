@@ -101,7 +101,6 @@
   <string name="dialog_title_extended_feature">Tính năng mở rộng</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
-  <string name="dialog_title_set_fraction_digits">Đặt số các chữ số thập phân</string>
   <string name="dialog_title_template_title">Đặt tiêu đề</string>
   <string name="dialog_title_warning_delete_account">Xóa tài khoản?</string>
   <string name="dialog_title_warning_delete_main_category">Xoá danh mục chính?</string>
