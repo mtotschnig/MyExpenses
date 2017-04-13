@@ -1,7 +1,11 @@
 package org.totschnig.myexpenses.util;
 
+import android.content.ContentResolver;
+
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -16,13 +20,33 @@ import hugo.weaving.DebugLog;
 public class CurrencyFormatter {
 
   private static CurrencyFormatter INSTANCE = new CurrencyFormatter();
+
   public static CurrencyFormatter instance() {
     return INSTANCE;
   }
 
-  private CurrencyFormatter() {}
+  private CurrencyFormatter() {
+  }
 
-  private Map<Currency,NumberFormat> numberFormats = new HashMap<>();
+  private Map<String, NumberFormat> numberFormats = new HashMap<>();
+
+  public void invalidate(String currency) {
+    numberFormats.remove(currency);
+    notifyUris();
+  }
+
+  public void invalidateAll() {
+    numberFormats.clear();
+    notifyUris();
+  }
+
+  private void notifyUris() {
+    ContentResolver contentResolver = MyApplication.getInstance().getContentResolver();
+    contentResolver.notifyChange(TransactionProvider.TEMPLATES_URI, null, false);
+    contentResolver.notifyChange(TransactionProvider.TRANSACTIONS_URI, null, false);
+    contentResolver.notifyChange(TransactionProvider.ACCOUNTS_URI, null, false);
+    contentResolver.notifyChange(TransactionProvider.UNCOMMITTED_URI, null, false);
+  }
 
   private NumberFormat initNumberFormat() {
     String prefFormat = PrefKey.CUSTOM_DECIMAL_FORMAT.getString("");
@@ -38,8 +62,8 @@ public class CurrencyFormatter {
     return NumberFormat.getCurrencyInstance();
   }
 
-  private  NumberFormat getNumberFormat(Currency currency) {
-    NumberFormat numberFormat = numberFormats.get(currency);
+  private NumberFormat getNumberFormat(Currency currency) {
+    NumberFormat numberFormat = numberFormats.get(currency.getCurrencyCode());
     if (numberFormat == null) {
       numberFormat = initNumberFormat();
       int fractionDigits = Money.getFractionDigits(currency);
@@ -56,7 +80,7 @@ public class CurrencyFormatter {
         decimalFormatSymbols.setCurrencySymbol(currencySymbol);
         ((DecimalFormat) numberFormat).setDecimalFormatSymbols(decimalFormatSymbols);
       }
-      numberFormats.put(currency, numberFormat);
+      numberFormats.put(currency.getCurrencyCode(), numberFormat);
     }
     return numberFormat;
   }

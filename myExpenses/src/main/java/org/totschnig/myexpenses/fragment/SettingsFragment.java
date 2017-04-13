@@ -58,6 +58,7 @@ import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.ui.PreferenceDividerItemDecoration;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.AppDirHelper;
+import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.LicenceHandler;
@@ -438,13 +439,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       }
     } else if (matches(pref, CUSTOM_DECIMAL_FORMAT)) {
       if (TextUtils.isEmpty((String) value)) {
-        //Utils.setNumberFormat(NumberFormat.getCurrencyInstance());
+        CurrencyFormatter.instance().invalidateAll();
         return true;
       }
       try {
         DecimalFormat nf = new DecimalFormat();
         nf.applyLocalizedPattern(((String) value));
-        //Utils.setNumberFormat(nf);
+        CurrencyFormatter.instance().invalidateAll();
       } catch (IllegalArgumentException e) {
         Toast.makeText(getActivity(), R.string.number_format_illegal, Toast.LENGTH_LONG).show();
         return false;

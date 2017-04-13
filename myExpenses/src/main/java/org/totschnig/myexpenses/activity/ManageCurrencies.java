@@ -10,8 +10,8 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Money;
-import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.util.Currency;
@@ -51,7 +51,8 @@ public class ManageCurrencies extends ProtectedFragmentActivity implements
 
   private void handleSymbolUpdate(String symbol) {
     if (Money.storeCustomSymbol(currency, symbol)) {
-      refresh();
+      CurrencyFormatter.instance().invalidate(currency);
+      refreshList();
     }
   }
 
@@ -77,12 +78,18 @@ public class ManageCurrencies extends ProtectedFragmentActivity implements
         ConfirmationDialogFragment.newInstance(b)
             .show(getSupportFragmentManager(), "CHANGE_FRACTION_DIGITS");
       } else {
-        apply();
+        updateFractionDigitsImmediate();
       }
     }
   }
 
-  protected void changeFractionDigitsDo() {
+  private void updateFractionDigitsImmediate() {
+    Money.storeCustomFractionDigits(currency, numberFractionDigits);
+    CurrencyFormatter.instance().invalidate(currency);
+    refreshList();
+  }
+
+  protected void updateFractionDigitsAsyncWithDatabaseUpdate() {
     startTaskExecution(TaskExecutionFragment.TASK_CHANGE_FRACTION_DIGITS,
         new String[]{currency}, numberFractionDigits, R.string.progress_dialog_saving);
   }
@@ -91,7 +98,7 @@ public class ManageCurrencies extends ProtectedFragmentActivity implements
   public void onPostExecute(int taskId, Object o) {
     super.onPostExecute(taskId, o);
     Toast.makeText(this, getString(R.string.change_fraction_digits_result, (Integer) o, currency), Toast.LENGTH_LONG).show();
-    refresh();
+    refreshList();
   }
 
   @Override
@@ -104,9 +111,9 @@ public class ManageCurrencies extends ProtectedFragmentActivity implements
   @Override
   public void onPositive(Bundle args, boolean checked) {
     if (checked) {
-      changeFractionDigitsDo();
+      updateFractionDigitsAsyncWithDatabaseUpdate();
     } else {
-      apply();
+      updateFractionDigitsImmediate();
     }
   }
 
@@ -118,16 +125,7 @@ public class ManageCurrencies extends ProtectedFragmentActivity implements
   public void onDismissOrCancel(Bundle args) {
   }
 
-  private void apply() {
-    Money.storeCustomFractionDigits(currency, numberFractionDigits);
-    getContentResolver().notifyChange(TransactionProvider.TEMPLATES_URI, null, false);
-    getContentResolver().notifyChange(TransactionProvider.TRANSACTIONS_URI, null, false);
-    getContentResolver().notifyChange(TransactionProvider.ACCOUNTS_URI, null, false);
-    getContentResolver().notifyChange(TransactionProvider.UNCOMMITTED_URI, null, false);
-    refresh();
-  }
-
-  private void refresh() {
+  private void refreshList() {
     ((ArrayAdapter) ((ListFragment) getSupportFragmentManager().findFragmentById(R.id.currency_list))
         .getListAdapter()).notifyDataSetChanged();
   }
