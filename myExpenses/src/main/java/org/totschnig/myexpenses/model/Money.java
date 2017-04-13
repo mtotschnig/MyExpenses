@@ -139,4 +139,10 @@ public class Money implements Serializable {
   public static String getCustomSymbol(@NonNull Currency currency) {
     return null;
   }
+
+  @NonNull
+  public static String getSymbol(@NonNull Currency currency) {
+    String custom = getCustomSymbol(currency);
+    return custom != null ? custom : currency.getSymbol();
+  }
 }
