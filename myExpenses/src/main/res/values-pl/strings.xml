@@ -406,7 +406,7 @@
   <string name="warning_restore">Baza danych oraz preferencje zostaną przywrócone z kopii zapasowej (%1$s). Bieżące dane zostaną usunięte. Czy chcesz kontynuować?</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Aktualnie wybrany folder dla kopii zapasowych i eksportów zostanie automatycznie usunięty przez system Android jeżeli odinstalujesz Moje Wydatki. Może temu zapobiec poprzez wybranie innego folderu z ekranu Ustawień.</string>
   <string name="warning_splitpartcategory_context">Przelewy które są częścią podziału mogą być tylko edytowane w kontekście podziału.</string>
-  <string name="warning_fraction_digits_out_of_range">Proszę wybrać cyfrę pomiędzy 0 a 8</string>
+  <string name="validation_error_number_out_of_range">Proszę wybrać cyfrę pomiędzy %1$d a %2$d</string>
   <string name="import_categories_success">Kategorie %1$s zostały zaimportowane pomyślnie</string>
   <string name="import_parties_success">Partie %1$s zostały zaimportowane pomyślnie</string>
   <string name="import_accounts_success">%1$s kont pomyślnie zaimportowano</string>

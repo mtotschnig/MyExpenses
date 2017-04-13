@@ -41,14 +41,11 @@ public class ManageCurrencies extends ProtectedFragmentActivity implements
   public void onFinishCurrencyEdit(String currency, String symbol, int numberFractionDigits) {
     this.currency = currency;
     handleSymbolUpdate(symbol);
-    try {
-      this.numberFractionDigits = numberFractionDigits;
-      if (this.numberFractionDigits < 0 || this.numberFractionDigits > 8) {
-        throw new IllegalArgumentException();
-      }
+    this.numberFractionDigits = numberFractionDigits;
+    if (this.numberFractionDigits < 0 || this.numberFractionDigits > 8) {
+      Toast.makeText(this, getString(R.string.validation_error_number_out_of_range, 0, 8), Toast.LENGTH_LONG).show();
+    } else {
       handleFractionDigitsUpdate();
-    } catch (IllegalArgumentException e) {
-      Toast.makeText(this, R.string.warning_fraction_digits_out_of_range, Toast.LENGTH_LONG).show();
     }
   }
 

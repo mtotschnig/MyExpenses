@@ -446,7 +446,7 @@
   <string name="warning_restore">Βάση δεδομένων και προτιμήσεις θα ανακτηθούν από τη δημιουργία αντιγράφων (%1$s). Τα τρέχοντα δεδομένα θα διαγραφούν. Θέλετε να συνεχίσετε;</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Ο τρέχων επιλεγμένος φάκελος για αντίγραφα ασφαλείας και εξαγωγές θα διαγραφεί αυτόματα από το Android αν απεγκαταστήσετε το «Τα έξοδά μου». Μπορείτε να αποτρέψετε ένα τέτοιο ενδεχόμενο, επιλέγοντας ένα διαφορετικό φάκελο από την οθόνη Ρυθμίσεις.</string>
   <string name="warning_splitpartcategory_context">Μεταφορές που αποτελούν μέρος διαχωρισμού μπορούν να τύχουν επεξεργασίας μόνο στο πλαίσιο της διαίρεσης.</string>
-  <string name="warning_fraction_digits_out_of_range">Παρακαλώ να ορίσετε έναν αριθμό μεταξύ 0 και 8</string>
+  <string name="validation_error_number_out_of_range">Παρακαλώ να ορίσετε έναν αριθμό μεταξύ %1$d και %2$d</string>
   <string name="warning_change_fraction_digits_1">Τα ποσά στην βάση δεδομένων πρέπει να ενημερωθούν ώστε να ταιριάζουν με το νέο αριθμό δεκαδικών ψηφίων</string>
   <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Εάν δεν γίνει ενημέρωση ποσών, θα εμφανίζονται πολλαπλασιασμένα με %d μετά την αλλαγή</string>
   <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Εάν δεν γίνει ενημέρωση ποσών, θα εμφανίζονται διαιρεμένα με %d μετά την αλλαγή</string>

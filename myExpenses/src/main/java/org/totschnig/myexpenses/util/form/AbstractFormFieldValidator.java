@@ -22,56 +22,63 @@ import android.view.ViewParent;
 import android.widget.TextView;
 
 public abstract class AbstractFormFieldValidator {
-    protected Context context;
-    protected TextView[] fields;
+  protected Context context;
+  protected TextView[] fields;
 
-    public AbstractFormFieldValidator(TextView field) {
-        this.context = field.getContext();
-        this.fields = new TextView[]{field};
+  public AbstractFormFieldValidator(TextView field) {
+    this.context = field.getContext();
+    this.fields = new TextView[]{field};
+  }
+
+  public AbstractFormFieldValidator(TextView... fields) {
+    this.context = fields[0].getContext();
+    this.fields = fields;
+  }
+
+  public void clear() {
+    for (TextView field : fields) {
+      setError(field, null);
     }
+  }
 
-    public AbstractFormFieldValidator(TextView... fields) {
-        this.context = fields[0].getContext();
-        this.fields = fields;
-    }
+  public boolean validate() {
+    boolean valid = isValid();
 
-    public void clear() {
-        for (TextView field : fields) {
-            setError(field, null);
-        }
-    }
-
-    public boolean validate() {
-        boolean valid = isValid();
-
-        for (TextView field : fields) {
-            if (!valid) {
-                String error = (String) field.getError();
-                if (error == null) {
-                    error = "";
-                } else {
-                    error += "\n\n";
-                }
-
-                error += context.getString(getMessage());
-
-                setError(field, error);
-            }
-        }
-
-        return valid;
-    }
-
-    protected abstract int getMessage();
-
-    protected abstract boolean isValid();
-
-    private static void setError(TextView field, String error) {
-        ViewParent parent = field.getParent();
-        if (parent instanceof TextInputLayout) {
-            ((TextInputLayout) parent).setError(error);
+    for (TextView field : fields) {
+      if (!valid) {
+        String error = (String) field.getError();
+        if (error == null) {
+          error = "";
         } else {
-            field.setError(error);
+          error += "\n\n";
         }
+
+        Object[] formatArgs = getMessageFormatArgs();
+        int message = getMessage();
+        error += (formatArgs == null ? context.getString(message) :
+            context.getString(message, formatArgs));
+
+        setError(field, error);
+      }
     }
+
+    return valid;
+  }
+
+  protected abstract int getMessage();
+
+  protected Object[] getMessageFormatArgs() {
+    return null;
+  }
+
+  protected abstract boolean isValid();
+
+  private static void setError(TextView field, String error) {
+    ViewParent parent = field.getParent();
+    if (parent instanceof TextInputLayout) {
+      ((TextInputLayout) parent).setError(error);
+    } else {
+      field.setError(error);
+    }
+  }
 }

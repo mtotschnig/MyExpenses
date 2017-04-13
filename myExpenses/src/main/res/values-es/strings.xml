@@ -448,7 +448,7 @@
   <string name="warning_restore">La base de datos y preferencias serán restauradas desde el archivo \"%1$s\". Los datos actuales serán eliminados, ¿quiere continuar?</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">La carpeta seleccionada actualmente para copias de seguridad y exportaciones será eliminada automáticamente por Android si desinstala Mis Gastos. Podrá evitarlo, al seleccionar una carpeta diferente desde la pantalla de configuración.</string>
   <string name="warning_splitpartcategory_context">Las transferencias que forman parte de una división sólo podrán ser editadas en el contexto de la división.</string>
-  <string name="warning_fraction_digits_out_of_range">Por favor, introduzca un número entre 0 y 8</string>
+  <string name="validation_error_number_out_of_range">Por favor, introduzca un número entre %1$d y %2$d</string>
   <string name="warning_change_fraction_digits_1">Las cantidades en la base de datos necesitan ser actualizadas con el fin de coincidir con el nuevo número de dígitos fraccionados.</string>
   <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Si no se actualizan los importes, se mostrarán como multiplicados por %d después del cambio.</string>
   <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Si no se actualizan los importes, se mostrarán como divididos por %d después del cambio.</string>

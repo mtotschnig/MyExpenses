@@ -439,7 +439,7 @@
   <string name="warning_restore">ファイル  \"%1$s\" から、データベースとプリファレンスが復元されます。現在のデータは削除されます。続行しますか?</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">マイ エクスペンス をアンインストールした場合、バックアップとエクスポート用に現在選択されているフォルダは自動的に Android によって削除されます。 設定画面から別のフォルダを選択することで、これを防止することができます。</string>
   <string name="warning_splitpartcategory_context">振替は分割の一部で、分割のコンテキストでのみ編集することができます。</string>
-  <string name="warning_fraction_digits_out_of_range">0 から 8 の間で数を設定してください。</string>
+  <string name="validation_error_number_out_of_range">%1$d から %2$d の間で数を設定してください。</string>
   <string name="warning_change_fraction_digits_1">新しい小数桁の数に一致させるため、データベース内の金額を更新する必要があります。</string>
   <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">金額が更新されていない場合は、変更後 %d を掛けたように表示されます。</string>
   <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">金額が更新されていない場合は、変更後 %d で割ったように表示されます。</string>

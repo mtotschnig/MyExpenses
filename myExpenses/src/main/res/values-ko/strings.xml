@@ -429,7 +429,7 @@
   <string name="warning_restore">데이터베이스와 설정값은 \"%1$s\" 파일로부터 복원될 것입니다. 현재의 데이터는 삭제됩니다. 계속 진행할까요?</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">My Expenses 앱을 제거하게 되면 백업과 내보내기를 위해 선택된 현재의 폴더는 자동적으로 삭제됩니다. 설정 화면에서 다른 폴더를 선택하여 이것을 예방할 수 있습니다.</string>
   <string name="warning_splitpartcategory_context">분할 거래의 일부분인 이체 내역은 분할 거래의 맥락에서만 편집될 수 있습니다.</string>
-  <string name="warning_fraction_digits_out_of_range">0과 8 사이의 숫자를 설정하세요</string>
+  <string name="validation_error_number_out_of_range">%1$d과 %2$d 사이의 숫자를 설정하세요</string>
   <string name="import_categories_success">%1$s 카테고리를 성공적으로 가져왔습니다</string>
   <string name="import_parties_success">%1$s 구성원을 성공적으로 가져왔습니다</string>
   <string name="import_accounts_success">%1$s 계좌를 성공적으로 가져왔습니다</string>

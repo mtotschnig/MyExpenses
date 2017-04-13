@@ -21,28 +21,33 @@ import android.widget.TextView;
 import org.totschnig.myexpenses.R;
 
 public class NumberRangeValidator extends AbstractFormFieldValidator {
-	private final int min;
-	private final int max;
+  private final int min;
+  private final int max;
 
-	public NumberRangeValidator(TextView field, int min, int max) {
-		super(field);
-		this.min = min;
-		this.max = max;
-	}
+  public NumberRangeValidator(TextView field, int min, int max) {
+    super(field);
+    this.min = min;
+    this.max = max;
+  }
 
-	@Override
-	public int getMessage() {
-		return R.string.warning_fraction_digits_out_of_range;
-	}
+  @Override
+  public int getMessage() {
+    return R.string.validation_error_number_out_of_range;
+  }
 
-	@Override
-	public boolean isValid() {
-		try {
-			int input = Integer.parseInt(fields[0].getText().toString().trim());
-			return input >= min && input <= max;
-		} catch (NumberFormatException e) {
-			return false;
-		}
+  @Override
+  protected Object[] getMessageFormatArgs() {
+    return new Object[]{min, max};
+  }
 
-	}
+  @Override
+  public boolean isValid() {
+    try {
+      int input = Integer.parseInt(fields[0].getText().toString().trim());
+      return input >= min && input <= max;
+    } catch (NumberFormatException e) {
+      return false;
+    }
+
+  }
 }

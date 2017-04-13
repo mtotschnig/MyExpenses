@@ -448,7 +448,7 @@
   <string name="warning_restore">La base de données et les paramètres seront restaurés à partir du fichier \"%1$s\". Les données actuelles seront supprimées. Voulez-vous continuer?</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Le dossier actuellement sélectionné pour les sauvegardes et les exportations est automatiquement supprimé par Android si vous désinstallez Mes dépenses. Vous pouvez l\'empêcher en sélectionnant un dossier différent dans l\'écran Paramètres.</string>
   <string name="warning_splitpartcategory_context">Les transferts qui font partie d\'une opération ventilée ne peuvent être modifiés que dans celle-ci.</string>
-  <string name="warning_fraction_digits_out_of_range">Définissez une décimale entre 0 et 8</string>
+  <string name="validation_error_number_out_of_range">Définissez une décimale entre %1$d et %2$d</string>
   <string name="warning_change_fraction_digits_1">Les montants dans la base de données doivent être mis à jour afin de correspondre au nouveau nombre de chiffres de fraction.</string>
   <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Si les montants ne sont pas mis à jour, ils seront affichés comme multipliés par %d après le changement.</string>
   <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Si les montants ne sont pas mis à jour, ils seront affichés comme divisés par %d après le changement.</string>

@@ -405,7 +405,7 @@
   <string name="warning_restore">Podaci i preferencije će biti obnovljene sa \"%1$s\". Sadašnji podaci bit će obrisani. Želite li nastaviti?</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Odabrana mapa za sigurnosne kopije i eksporte će biti izbrisana od strane Androida prilikom deinstalacije My Expenses-a. Ovo možete izbjeći odabirom druge mape unutar zaslona s postavkama.</string>
   <string name="warning_splitpartcategory_context">Doznake koje su dio odvojene transakciju mogu biti uređene samo u kontekstu odvojene transakcije.</string>
-  <string name="warning_fraction_digits_out_of_range">Molimo odaberite broj između 0 i 8</string>
+  <string name="validation_error_number_out_of_range">Molimo odaberite broj između %1$d i %2$d</string>
   <string name="import_categories_success">%1$s kategorije uspješno unesene</string>
   <string name="import_parties_success">%1$s stranke uspješno unesene</string>
   <string name="import_accounts_success">%1$s računi uspješno uneseni</string>

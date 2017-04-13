@@ -428,7 +428,7 @@ Tradus de DD</string>
   <string name="warning_restore">Baza de date si preferinţele  vor fi restaurate din fişierul \"%1$s\". Datele actuale vor fi şterse. Doriţi să continuaţi?</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Folderul selectat pentru backup-uri şi exporturile vor fi şterse automat de Android dacă dezinstalați Cheltuielile Mele.  Puteţi preveni acest lucru selectând un alt folder din ecranul Setări.</string>
   <string name="warning_splitpartcategory_context">Transferurile care fac parte dintr-o repartizare pot fi editate numai în contextul repartizării.</string>
-  <string name="warning_fraction_digits_out_of_range">Setează un număr între 0 şi 8, te rog</string>
+  <string name="validation_error_number_out_of_range">Setează un număr între %1$d şi %2$d, te rog</string>
   <string name="import_categories_success">%1$s categorii importate</string>
   <string name="import_parties_success">%1$s  terţi importaţi</string>
   <string name="import_accounts_success">%1$s conturi importate</string>

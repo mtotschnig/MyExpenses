@@ -463,7 +463,7 @@
     <string name="warning_restore">Database and preferences will be restored from file \"%1$s\". The current data will be deleted. Do you want to continue?</string>
     <string name="warning_app_folder_will_be_deleted_upon_uninstall">The currently selected folder for backups and exports will be automatically deleted by Android if you uninstall My Expenses. You can prevent this from happening by selecting a different folder from the Settings screen.</string>
     <string name="warning_splitpartcategory_context">Transfers that are part of a split can only be edited in the context of the split.</string>
-    <string name="warning_fraction_digits_out_of_range">Please set a number between 0 and 8</string>
+    <string name="validation_error_number_out_of_range">Please set a number between %1$d and %2$d</string>
     <string name="warning_change_fraction_digits_1">Amounts in the database need to be updated in order to match the new number of fraction digits.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">If amounts are not updated, they will be displayed as multiplied by %d after the change.</string>
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">If amounts are not updated, they will be displayed as divided by %d after the change.</string>
