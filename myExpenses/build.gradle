@@ -32,7 +32,7 @@ android {
             minSdkVersion project.minSdkVersion
         }
         targetSdkVersion project.targetSdkVersion
-        versionCode 284
+        versionCode 285
         versionName '2.7.9'
         multiDexEnabled true
 
