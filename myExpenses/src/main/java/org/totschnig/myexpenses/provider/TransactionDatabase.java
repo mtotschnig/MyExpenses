@@ -49,6 +49,7 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.PictureDirHelper;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -1211,7 +1212,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
                 templateValues.put("uuid", t.getUuid());
                 long templateId = c.getLong(c.getColumnIndex("_id"));
                 long planId = c.getLong(c.getColumnIndex("plan_id"));
-                eventValues.put(Events.DESCRIPTION, t.compileDescription(mCtx));
+                eventValues.put(Events.DESCRIPTION, t.compileDescription(mCtx, CurrencyFormatter.instance()));
                 db.update("templates", templateValues, "_id = " + templateId, null);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
                   try {

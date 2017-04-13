@@ -18,8 +18,8 @@
 
 package org.totschnig.myexpenses.provider.filter;
 
-import java.math.BigDecimal;
-import java.util.Currency;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -27,10 +27,10 @@ import org.totschnig.myexpenses.activity.AmountActivity;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.filter.WhereFilter.Operation;
-import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.CurrencyFormatter;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import java.math.BigDecimal;
+import java.util.Currency;
 
 public class AmountCriteria extends Criteria {
   private boolean type;
@@ -61,7 +61,7 @@ public class AmountCriteria extends Criteria {
   public String prettyPrint() {
     String result = MyApplication.getInstance().getString(
         type == AmountActivity.EXPENSE ? R.string.expense : R.string.income) + " ";
-    String amount1 = Utils.formatCurrency(new Money(currency,origValue1.abs()));
+    String amount1 = CurrencyFormatter.instance().formatCurrency(new Money(currency,origValue1.abs()));
     switch (origOperation) {
     case EQ:
       result += "= " + amount1;
@@ -73,7 +73,7 @@ public class AmountCriteria extends Criteria {
       result += "≤ " + amount1;
       break;
     case BTW:
-      String amount2 = Utils.formatCurrency(new Money(currency,origValue2.abs()));
+      String amount2 = CurrencyFormatter.instance().formatCurrency(new Money(currency,origValue2.abs()));
       result += MyApplication.getInstance().getString(R.string.between_and,amount1,amount2);
     }
     return result;

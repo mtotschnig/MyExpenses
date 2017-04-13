@@ -34,7 +34,7 @@ import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.CurrencyFormatter;
 
 import timber.log.Timber;
 
@@ -74,7 +74,7 @@ public class AccountWidget extends AbstractWidget<Account> {
         layoutId);
     updateViews.setTextViewText(R.id.line1, a.label);
     updateViews.setTextViewText(R.id.note,
-        Utils.formatCurrency(mCurrentBalance));
+        CurrencyFormatter.instance().formatCurrency(mCurrentBalance));
 //    updateViews.setTextColor(R.id.note, context.getResources().getColor(
 //        balance.getAmountMinor() < 0 ? R.color.colorExpenseDark : R.color.colorIncomeDark));
     setBackgroundColorSave(updateViews, R.id.divider3, a.color);

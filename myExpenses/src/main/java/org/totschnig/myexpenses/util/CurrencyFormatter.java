@@ -13,6 +13,13 @@ import hugo.weaving.DebugLog;
 
 public class CurrencyFormatter {
 
+  private static CurrencyFormatter INSTANCE = new CurrencyFormatter();
+  public static CurrencyFormatter instance() {
+    return INSTANCE;
+  }
+
+  private CurrencyFormatter() {}
+
   private  NumberFormat numberFormat;
 
   private void initNumberFormat() {

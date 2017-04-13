@@ -47,7 +47,7 @@ import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.CurrencyFormatter;
 
 import timber.log.Timber;
 
@@ -139,7 +139,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
     RemoteViews updateViews = new RemoteViews(context.getPackageName(),
         layoutId);
     updateViews.setTextViewText(R.id.line1,
-        t.getTitle() + " : " + Utils.formatCurrency(t.getAmount()));
+        t.getTitle() + " : " + CurrencyFormatter.instance().formatCurrency(t.getAmount()));
     String commentSeparator = " / ";
     SpannableStringBuilder description = new SpannableStringBuilder(t.isTransfer() ?
         Transfer.getIndicatorPrefixForLabel(t.getAmount().getAmountMinor()) + t.label :

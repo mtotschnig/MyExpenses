@@ -108,6 +108,7 @@ import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter.CursorToStringConverter;
 import org.totschnig.myexpenses.ui.SpinnerHelper;
 import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.FilterCursorWrapper;
 import org.totschnig.myexpenses.util.PermissionHelper;
@@ -219,7 +220,6 @@ public class ExpenseEdit extends AmountActivity implements
    */
   private int mOperationType;
 
-
   static final int DATE_DIALOG_ID = 0;
   static final int TIME_DIALOG_ID = 1;
 
@@ -250,6 +250,8 @@ public class ExpenseEdit extends AmountActivity implements
 
   @Inject
   ImageViewIntentProvider imageViewIntentProvider;
+  @Inject
+  CurrencyFormatter currencyFormatter;
 
   @Override
   int getDiscardNewMessage() {
@@ -1198,7 +1200,7 @@ public class ExpenseEdit extends AmountActivity implements
         validP = false;
       }
       ((Template) mTransaction).setTitle(title);
-      String description = ((Template) mTransaction).compileDescription(ExpenseEdit.this);
+      String description = ((Template) mTransaction).compileDescription(ExpenseEdit.this, currencyFormatter);
       if (mPlan == null) {
         if (mReccurenceSpinner.getSelectedItemPosition() > 0) {
           mPlan = new Plan(
@@ -1223,7 +1225,7 @@ public class ExpenseEdit extends AmountActivity implements
                       getString(R.string.menu_create_template) : mTransaction.comment) : mLabel) : mTransaction.payee;
           mTransaction.originTemplate = new Template(mTransaction, title);
           mTransaction.originTemplate.setPlanExecutionAutomatic(true);
-          String description = mTransaction.originTemplate.compileDescription(ExpenseEdit.this);
+          String description = mTransaction.originTemplate.compileDescription(ExpenseEdit.this, currencyFormatter);
           mTransaction.originTemplate.setPlan(new Plan(
               mCalendar,
               ((Plan.Recurrence) mReccurenceSpinner.getSelectedItem()).toRrule(mCalendar),

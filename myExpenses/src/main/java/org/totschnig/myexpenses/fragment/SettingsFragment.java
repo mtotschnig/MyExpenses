@@ -438,13 +438,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       }
     } else if (matches(pref, CUSTOM_DECIMAL_FORMAT)) {
       if (TextUtils.isEmpty((String) value)) {
-        Utils.setNumberFormat(NumberFormat.getCurrencyInstance());
+        //Utils.setNumberFormat(NumberFormat.getCurrencyInstance());
         return true;
       }
       try {
         DecimalFormat nf = new DecimalFormat();
         nf.applyLocalizedPattern(((String) value));
-        Utils.setNumberFormat(nf);
+        //Utils.setNumberFormat(nf);
       } catch (IllegalArgumentException e) {
         Toast.makeText(getActivity(), R.string.number_format_illegal, Toast.LENGTH_LONG).show();
         return false;

@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.fortest.test.R;
 import org.totschnig.myexpenses.util.CategoryTree;
+import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -212,7 +213,7 @@ public class Fixture {
         Calendar.getInstance(),
         "FREQ=WEEKLY;COUNT=10;WKST=SU",
         template.getTitle(),
-        template.compileDescription(appContext))
+        template.compileDescription(appContext, CurrencyFormatter.instance()))
       .save();
     template.planId = ContentUris.parseId(planUri);
     Uri templateuri = template.save();

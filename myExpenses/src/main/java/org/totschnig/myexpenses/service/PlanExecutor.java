@@ -28,8 +28,8 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.CalendarProviderProxy;
 import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper;
-import org.totschnig.myexpenses.util.Utils;
 
 import java.util.Date;
 
@@ -124,7 +124,7 @@ public class PlanExecutor extends IntentService {
             if (!content.equals("")) {
               content += " : ";
             }
-            content += Utils.formatCurrency(template.getAmount());
+            content += CurrencyFormatter.instance().formatCurrency(template.getAmount());
             String title = account.label + " : " + template.getTitle();
             NotificationBuilderWrapper builder =
                 new NotificationBuilderWrapper(this)

@@ -14,6 +14,6 @@ public class UtilsModule {
   @Provides
   @Singleton
   CurrencyFormatter provideCurrencyFormatter() {
-    return new CurrencyFormatter();
+    return CurrencyFormatter.instance();
   }
 }

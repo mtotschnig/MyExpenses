@@ -27,6 +27,7 @@ import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.util.Currency;
@@ -320,11 +321,11 @@ public class Template extends Transaction {
     return countAll(CONTENT_URI);
   }
 
-  public String compileDescription(Context ctx) {
+  public String compileDescription(Context ctx, CurrencyFormatter currencyFormatter) {
     StringBuilder sb = new StringBuilder();
     sb.append(ctx.getString(R.string.amount));
     sb.append(" : ");
-    sb.append(Utils.formatCurrency(amount));
+    sb.append(currencyFormatter.formatCurrency(amount));
     sb.append("\n");
     if (getCatId() != null && getCatId() > 0) {
       sb.append(ctx.getString(R.string.category));
