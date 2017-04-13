@@ -493,6 +493,10 @@
         <item>photos/a.1450395311888609.1073741827.1450391968555610/1878781945716608</item>
         <item>PkJQQPgqJdZ</item>
     </string-array>
+    <string-array name="version_more_info_279" tools:ignore="UnusedResources">
+        <item>videos/1885586188369517</item>
+        <item>ftiKBPquoSh</item>
+    </string-array>
 
     <string-array name="comparison_operator_entries">
         <item>@string/comparison_operator_equal</item>
