@@ -53,7 +53,8 @@ public class DateCalculationTest extends ProviderTestCase2<TransactionProvider> 
   }
 
   public void testDateCalculationsForWeekGroupsWithAllWeekDaysForAllTimeZoneOffsets() throws InterruptedException {
-    for (int i = -11; i <= 13; i++) {
+    int[] timezones = {-11, -7, -3, 0, 4, 8, 12};
+    for (int i: timezones) {
       Log.d("DEBUG", "now setting timezone with offset " + i);
       AlarmManager am = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
       int rawOffset = i * 60 * 60 * 1000;
