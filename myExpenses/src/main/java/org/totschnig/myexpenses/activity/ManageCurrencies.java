@@ -8,8 +8,6 @@ import android.widget.Toast;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
-import org.totschnig.myexpenses.dialog.EditTextDialog;
-import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -21,17 +19,17 @@ import java.util.Currency;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 
 public class ManageCurrencies extends ProtectedFragmentActivity implements
-    EditTextDialogListener, ConfirmationDialogFragment.ConfirmationDialogCheckedListener {
+    ConfirmationDialogFragment.ConfirmationDialogCheckedListener {
 
-  private static final String KEY_RESULT = "result";
-  String mCurrency;
-  int mResult;
+  private static final String KEY_NUMBER_FRACTION_DIGITS = "number_fraction_digtis";
+  String currency;
+  int numberFractionDigits;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     if (savedInstanceState != null) {
-      mCurrency = savedInstanceState.getString(KEY_CURRENCY);
-      mResult = savedInstanceState.getInt(KEY_RESULT);
+      currency = savedInstanceState.getString(KEY_CURRENCY);
+      numberFractionDigits = savedInstanceState.getInt(KEY_NUMBER_FRACTION_DIGITS);
     }
     setTheme(MyApplication.getThemeIdEditDialog());
     super.onCreate(savedInstanceState);
@@ -40,64 +38,70 @@ public class ManageCurrencies extends ProtectedFragmentActivity implements
     getSupportActionBar().setTitle(R.string.pref_custom_currency_title);
   }
 
-  @Override
-  public void onFinishEditDialog(Bundle args) {
-    mCurrency = args.getString(KEY_CURRENCY);
+  public void onFinishCurrencyEdit(String currency, String symbol, int numberFractionDigits) {
+    this.currency = currency;
+    handleSymbolUpdate(symbol);
     try {
-      mResult = Integer.parseInt(args.getString(EditTextDialog.KEY_RESULT));
-      if (mResult < 0 || mResult > 8) {
+      this.numberFractionDigits = numberFractionDigits;
+      if (this.numberFractionDigits < 0 || this.numberFractionDigits > 8) {
         throw new IllegalArgumentException();
       }
-      int oldValue = Money.getFractionDigits(Currency.getInstance(mCurrency));
-      if (oldValue != mResult) {
-        if (Account.count(KEY_CURRENCY + "=?", new String[]{mCurrency}) > 0) {
-          String message = getString(R.string.warning_change_fraction_digits_1);
-          int delta = oldValue - mResult;
-          message += " " + getString(
-              delta > 0 ? R.string.warning_change_fraction_digits_2_multiplied :
-                  R.string.warning_change_fraction_digits_2_divided,
-              Utils.pow(10, Math.abs(delta)));
-          if (delta > 0) {
-            message += " " + getString(R.string.warning_change_fraction_digits_3);
-          }
-          Bundle b = new Bundle();
-          b.putInt(ConfirmationDialogFragment.KEY_TITLE,
-              R.string.dialog_title_information);
-          b.putString(ConfirmationDialogFragment.KEY_MESSAGE, message);
-          b.putInt(ConfirmationDialogFragment.KEY_CHECKBOX_LABEL,
-              R.string.warning_change_fraction_digits_checkbox_label);
-          ConfirmationDialogFragment.newInstance(b)
-              .show(getSupportFragmentManager(), "CHANGE_FRACTION_DIGITS");
-        } else {
-          apply();
-        }
-      }
+      handleFractionDigitsUpdate();
     } catch (IllegalArgumentException e) {
       Toast.makeText(this, R.string.warning_fraction_digits_out_of_range, Toast.LENGTH_LONG).show();
     }
   }
 
-  protected void changeFractionDigitsDo() {
-    startTaskExecution(TaskExecutionFragment.TASK_CHANGE_FRACTION_DIGITS,
-        new String[]{mCurrency}, mResult, R.string.progress_dialog_saving);
+  private void handleSymbolUpdate(String symbol) {
+    if (Money.storeCustomSymbol(currency, symbol)) {
+      refresh();
+    }
   }
 
-  @Override
-  public void onCancelEditDialog() {
+  private void handleFractionDigitsUpdate() {
+    int oldValue = Money.getFractionDigits(Currency.getInstance(this.currency));
+    if (oldValue != this.numberFractionDigits) {
+      if (Account.count(KEY_CURRENCY + "=?", new String[]{this.currency}) > 0) {
+        String message = getString(R.string.warning_change_fraction_digits_1);
+        int delta = oldValue - this.numberFractionDigits;
+        message += " " + getString(
+            delta > 0 ? R.string.warning_change_fraction_digits_2_multiplied :
+                R.string.warning_change_fraction_digits_2_divided,
+            Utils.pow(10, Math.abs(delta)));
+        if (delta > 0) {
+          message += " " + getString(R.string.warning_change_fraction_digits_3);
+        }
+        Bundle b = new Bundle();
+        b.putInt(ConfirmationDialogFragment.KEY_TITLE,
+            R.string.dialog_title_information);
+        b.putString(ConfirmationDialogFragment.KEY_MESSAGE, message);
+        b.putInt(ConfirmationDialogFragment.KEY_CHECKBOX_LABEL,
+            R.string.warning_change_fraction_digits_checkbox_label);
+        ConfirmationDialogFragment.newInstance(b)
+            .show(getSupportFragmentManager(), "CHANGE_FRACTION_DIGITS");
+      } else {
+        apply();
+      }
+    }
+  }
+
+  protected void changeFractionDigitsDo() {
+    startTaskExecution(TaskExecutionFragment.TASK_CHANGE_FRACTION_DIGITS,
+        new String[]{currency}, numberFractionDigits, R.string.progress_dialog_saving);
   }
 
   @Override
   public void onPostExecute(int taskId, Object o) {
     super.onPostExecute(taskId, o);
-    Toast.makeText(this, getString(R.string.change_fraction_digits_result, (Integer) o, mCurrency), Toast.LENGTH_LONG).show();
+    Toast.makeText(this, getString(R.string.change_fraction_digits_result, (Integer) o, currency), Toast.LENGTH_LONG).show();
     refresh();
   }
 
   @Override
   protected void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
-    outState.putString(KEY_CURRENCY, mCurrency);
-    outState.putInt(KEY_RESULT, mResult);
+    outState.putString(KEY_CURRENCY, currency);
+    outState.putInt(KEY_NUMBER_FRACTION_DIGITS, numberFractionDigits);
   }
 
   @Override
@@ -118,7 +122,7 @@ public class ManageCurrencies extends ProtectedFragmentActivity implements
   }
 
   private void apply() {
-    Money.storeCustomFractionDigits(mCurrency, mResult);
+    Money.storeCustomFractionDigits(currency, numberFractionDigits);
     getContentResolver().notifyChange(TransactionProvider.TEMPLATES_URI, null, false);
     getContentResolver().notifyChange(TransactionProvider.TRANSACTIONS_URI, null, false);
     getContentResolver().notifyChange(TransactionProvider.ACCOUNTS_URI, null, false);

@@ -27,6 +27,7 @@ import java.util.Currency;
 
 public class Money implements Serializable {
   public static final String KEY_CUSTOM_FRACTION_DIGITS = "CustomFractionDigits";
+  public static final String KEY_CUSTOM_CURRENCY_SYMBOL = "CustomCurrencySymbol";
   private Currency currency;
   private Long amountMinor;
   private int fractionDigits;
@@ -136,13 +137,23 @@ public class Money implements Serializable {
   }
 
   @Nullable
-  public static String getCustomSymbol(@NonNull Currency currency) {
-    return null;
+  public static String getCustomSymbol(@NonNull Currency currencyCode) {
+    return MyApplication.getInstance().getSettings()
+        .getString(currencyCode + KEY_CUSTOM_CURRENCY_SYMBOL, null);
   }
 
   @NonNull
   public static String getSymbol(@NonNull Currency currency) {
     String custom = getCustomSymbol(currency);
     return custom != null ? custom : currency.getSymbol();
+  }
+
+  public static boolean storeCustomSymbol(String currencyCode, String symbol) {
+    if (!Currency.getInstance(currencyCode).getSymbol().equals(symbol)) {
+      MyApplication.getInstance().getSettings().edit()
+          .putString(currencyCode + KEY_CUSTOM_CURRENCY_SYMBOL, symbol).apply();
+      return true;
+    }
+    return false;
   }
 }
