@@ -26,8 +26,8 @@ import java.math.RoundingMode;
 import java.util.Currency;
 
 public class Money implements Serializable {
-  public static final String KEY_CUSTOM_FRACTION_DIGITS = "CustomFractionDigits";
-  public static final String KEY_CUSTOM_CURRENCY_SYMBOL = "CustomCurrencySymbol";
+  private static final String KEY_CUSTOM_FRACTION_DIGITS = "CustomFractionDigits";
+  private static final String KEY_CUSTOM_CURRENCY_SYMBOL = "CustomCurrencySymbol";
   private Currency currency;
   private Long amountMinor;
   private int fractionDigits;
