@@ -462,6 +462,7 @@
   <string name="import_parties_none">Keine Parteien importiert</string>
   <string name="import_transactions_none">Keine Buchungen in das Konto %1$s importiert</string>
   <string name="import_source_select_error">Bitte wählen Sie eine Datei des Typs %1$s</string>
+  <string name="import_source_select_not_readable">Datei kann nicht gelesen werden. Bitte wählen Sie aus einer anderen Quelle.</string>
   <string name="menu_categories_setup_default">Standard Kategorien einrichten</string>
   <string name="menu_create_folder">Neuer Ordner</string>
   <!--This string is used for navigating up in the folder browser-->
@@ -474,6 +475,7 @@
   <string name="widget_title_accounts">Meine Konten</string>
   <string name="widget_title_templates">Meine Vorlagen</string>
   <string name="app_dir_not_accessible">Der aktuell ausgewählte Ordner für Sicherungen und Exporte (%1$s) ist nicht zugänglich. Bitte wählen Sie einen anderen.</string>
+  <string name="app_dir_not_compatible_with_nougat">Die aktuell konfigurierte URI für Backups und Exporte (%1$s) wird unter Android Nougat nicht unterstützt. Bitte wählen Sie erneut einen Ordner aus.</string>
   <string name="search_amount">Suche nach Betrag</string>
   <string name="search_category">Suche nach Kategorie</string>
   <string name="search_comment">Suche nach Notizen</string>
@@ -638,4 +640,6 @@
   <string name="auto_backup_cloud_create_backend">Erstellen Sie eine Synchronisierung Backend vom Hauptbildschirm der Einstellungen.</string>
   <string name="auto_backup_cloud_failure">Beim Versuch, Backup-Datei %1$s auf Backend %2$s zu speichern, ist ein Fehler aufgetreten:</string>
   <string name="home_screen_shortcuts_nougate_info">Verknüfpungen können durch langes Antippen des App-Icons auf dem Start-Bildschirm hinzugefügt werden.</string>
+  <string name="currency_symbol">Währungssymbol</string>
+  <string name="number_of_fraction_digits">Nachkommastellen</string>
 </resources>

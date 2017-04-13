@@ -288,7 +288,7 @@
   <string name="pref_checkbox_disabled">Désactivé</string>
   <string name="pref_contrib_purchase_summary">Acheter l\'accès aux fonctions Premium et étendues.</string>
   <string name="pref_contrib_purchase_title">Acheter la clé</string>
-  <string name="pref_contrib_purchase_title_upgrade">Mettre à niveau la clé</string>
+  <string name="pref_contrib_purchase_title_upgrade">Mettre la clé à niveau</string>
   <string name="pref_contrib_purchase_title_in_app">Paiement dans l\'application</string>
   <string name="pref_custom_currency_title">Personnaliser les devises</string>
   <string name="pref_enter_licence_summary">Si vous avez reçu une clé, celle-ci déverrouille l\'accès aux fonctions Premium/étendues.</string>
@@ -462,6 +462,7 @@
   <string name="import_parties_none">Aucun tiers importé</string>
   <string name="import_transactions_none">Aucune opération importée dans le compte %1$s</string>
   <string name="import_source_select_error">Veuillez fournir un fichier de type %1$s</string>
+  <string name="import_source_select_not_readable">Impossible de lire le fichier. Veuillez en sélectionner un d\'une autre source</string>
   <string name="menu_categories_setup_default">Charger les catégories par défaut</string>
   <string name="menu_create_folder">Nouveau dossier</string>
   <!--This string is used for navigating up in the folder browser-->
@@ -474,6 +475,7 @@
   <string name="widget_title_accounts">Mes comptes</string>
   <string name="widget_title_templates">Mes modèles</string>
   <string name="app_dir_not_accessible">Le dossier actuellement sélectionné pour les sauvegardes et les exportations (%1$s) n\'est pas accessible. Veuillez en choisir un autre.</string>
+  <string name="app_dir_not_compatible_with_nougat">La présente URI configurée pour les saivegardes et les exportations (%1$s) n\'est pas supportée par Android Nougat. Veuillez encore sélectionner un répertoire. </string>
   <string name="search_amount">Recherche de montant</string>
   <string name="search_category">Recherche de catégorie</string>
   <string name="search_comment">Recherche par commentaires</string>
@@ -638,4 +640,6 @@
   <string name="auto_backup_cloud_create_backend">Créer un paramètre de synchronisation à partir de l\'écran principal des réglages.</string>
   <string name="auto_backup_cloud_failure">Une erreur est survenue lors de la tentative de stocker le fichier de sauvegarde %1$s sur le backend %2$s:</string>
   <string name="home_screen_shortcuts_nougate_info">Les raccourcis peuvent être ajoutés en appuyant longuement sur l\'icône de l\'application sur l\'écran d\'accueil.</string>
+  <string name="currency_symbol">Symbole de devise</string>
+  <string name="number_of_fraction_digits">Nombre de décimales</string>
 </resources>
