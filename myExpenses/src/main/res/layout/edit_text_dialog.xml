@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingLeft="@dimen/padding_input_dialog_side"
+    android:paddingRight="@dimen/padding_input_dialog_side"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- margin is smaller than padding_dialog to correct for edittext padding-->
     <EditText
         android:id="@+id/EditTextDialogInput"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:imeOptions="actionDone"
         android:inputType="text">
 

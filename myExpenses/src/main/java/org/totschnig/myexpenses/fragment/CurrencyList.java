@@ -3,18 +3,15 @@ package org.totschnig.myexpenses.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ListFragment;
-import android.text.InputType;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.EditTextDialog;
+import org.totschnig.myexpenses.dialog.EditCurrencyDialog;
 import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.Money;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
 
 import java.util.Currency;
 import java.util.Locale;
@@ -63,13 +60,8 @@ public class CurrencyList extends ListFragment {
     super.onListItemClick(l, v, position, id);
     CurrencyEnum item = sortedValues[position];
     try {
-      Currency c = Currency.getInstance(item.name());
-      Bundle args = new Bundle();
-      args.putString(EditTextDialog.KEY_DIALOG_TITLE, getString(R.string.dialog_title_set_fraction_digits));
-      args.putString(DatabaseConstants.KEY_CURRENCY, item.name());
-      args.putString(EditTextDialog.KEY_VALUE, String.valueOf(String.valueOf(Money.getFractionDigits(c))));
-      args.putInt(EditTextDialog.KEY_INPUT_TYPE, InputType.TYPE_CLASS_NUMBER);
-      EditTextDialog.newInstance(args).show(getFragmentManager(), "SET_FRACTION_DIGITS");
+      Currency.getInstance(item.name());
+      EditCurrencyDialog.newInstance(item.name()).show(getFragmentManager(), "SET_FRACTION_DIGITS");
     } catch (IllegalArgumentException e) {
       // "not supported by your OS";
     }

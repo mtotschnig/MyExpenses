@@ -117,7 +117,6 @@
     <string name="dialog_title_extended_feature">Extended feature</string>
     <!-- the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢ -->
-    <string name="dialog_title_set_fraction_digits">Set the number of fraction digits</string>
     <string name="dialog_title_template_title">Set the title</string>
     <string name="dialog_title_warning_delete_account">Delete account?</string>
     <string name="dialog_title_warning_delete_main_category">Delete main category?</string>
@@ -657,5 +656,7 @@
     <string name="auto_backup_cloud_create_backend">Create a synchronization backend from the main settings screen.</string>
     <string name="auto_backup_cloud_failure">An error occurred while trying to store backup file %1$s on backend %2$s:</string>
     <string name="home_screen_shortcuts_nougate_info">Shortcuts can be added by long-tapping the app icon on the Home Screen.</string>
+    <string name="currency_symbol">Currency symbol</string>
+    <string name="number_of_fraction_digits">Number of fraction digits</string>
 </resources>
 

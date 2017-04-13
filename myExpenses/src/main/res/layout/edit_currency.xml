@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:paddingLeft="@dimen/padding_input_dialog_side"
+              android:paddingRight="@dimen/padding_input_dialog_side"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <!-- symbol -->
+    <android.support.design.widget.TextInputLayout
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/edt_currency_symbol"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="@string/currency_symbol"
+            android:inputType="text"
+            android:maxLines="1"/>
+    </android.support.design.widget.TextInputLayout>
+    <!-- fraction digits -->
+    <android.support.design.widget.TextInputLayout
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/edt_number_fraction_digits"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="@string/number_of_fraction_digits"
+            android:inputType="number"
+            android:maxLines="1"/>
+    </android.support.design.widget.TextInputLayout>
+</LinearLayout>
