@@ -15,6 +15,9 @@
 
 package org.totschnig.myexpenses.model;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import org.totschnig.myexpenses.MyApplication;
 
 import java.io.Serializable;
@@ -130,5 +133,10 @@ public class Money implements Serializable {
 
   public static void ensureFractionDigitsAreCached(Currency currency) {
     storeCustomFractionDigits(currency.getCurrencyCode(), getFractionDigits(currency));
+  }
+
+  @Nullable
+  public static String getCustomSymbol(@NonNull Currency currency) {
+    return null;
   }
 }

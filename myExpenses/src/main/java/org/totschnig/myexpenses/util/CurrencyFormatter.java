@@ -8,6 +8,8 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.Currency;
+import java.util.HashMap;
+import java.util.Map;
 
 import hugo.weaving.DebugLog;
 
@@ -20,35 +22,44 @@ public class CurrencyFormatter {
 
   private CurrencyFormatter() {}
 
-  private  NumberFormat numberFormat;
+  private Map<Currency,NumberFormat> numberFormats = new HashMap<>();
 
-  private void initNumberFormat() {
+  private NumberFormat initNumberFormat() {
     String prefFormat = PrefKey.CUSTOM_DECIMAL_FORMAT.getString("");
     if (!prefFormat.equals("")) {
       DecimalFormat nf = new DecimalFormat();
       try {
         nf.applyLocalizedPattern(prefFormat);
-        numberFormat = nf;
-      } catch (IllegalArgumentException e) {
+        return nf;
+      } catch (IllegalArgumentException ignored) {
         //fallback to default currency instance
-        numberFormat = NumberFormat.getCurrencyInstance();
       }
-    } else {
-      numberFormat = NumberFormat.getCurrencyInstance();
     }
+    return NumberFormat.getCurrencyInstance();
   }
 
-  private  NumberFormat getNumberFormat() {
+  private  NumberFormat getNumberFormat(Currency currency) {
+    NumberFormat numberFormat = numberFormats.get(currency);
     if (numberFormat == null) {
-      initNumberFormat();
+      numberFormat = initNumberFormat();
+      int fractionDigits = Money.getFractionDigits(currency);
+      numberFormat.setCurrency(currency);
+      if (fractionDigits <= 3) {
+        numberFormat.setMinimumFractionDigits(fractionDigits);
+        numberFormat.setMaximumFractionDigits(fractionDigits);
+      } else {
+        numberFormat.setMaximumFractionDigits(fractionDigits);
+      }
+      String currencySymbol = Money.getCustomSymbol(currency);
+      if (currencySymbol != null) {
+        DecimalFormatSymbols decimalFormatSymbols = ((DecimalFormat) numberFormat).getDecimalFormatSymbols();
+        decimalFormatSymbols.setCurrencySymbol(currencySymbol);
+        ((DecimalFormat) numberFormat).setDecimalFormatSymbols(decimalFormatSymbols);
+      }
+      numberFormats.put(currency, numberFormat);
     }
     return numberFormat;
   }
-
-  public  void setNumberFormat(NumberFormat in) {
-    numberFormat = in;
-  }
-
 
   /**
    * formats an amount with a currency
@@ -64,19 +75,7 @@ public class CurrencyFormatter {
 
   @DebugLog
   public String formatCurrency(BigDecimal amount, Currency currency) {
-    NumberFormat nf = getNumberFormat();
-    int fractionDigits = Money.getFractionDigits(currency);
-    nf.setCurrency(currency);
-    DecimalFormatSymbols decimalFormatSymbols = ((DecimalFormat) nf).getDecimalFormatSymbols();
-    decimalFormatSymbols.setCurrencySymbol("₨");
-    ((DecimalFormat) nf).setDecimalFormatSymbols(decimalFormatSymbols);
-    if (fractionDigits <= 3) {
-      nf.setMinimumFractionDigits(fractionDigits);
-      nf.setMaximumFractionDigits(fractionDigits);
-    } else {
-      nf.setMaximumFractionDigits(fractionDigits);
-    }
-    return nf.format(amount);
+    return getNumberFormat(currency).format(amount);
   }
 
   /**
