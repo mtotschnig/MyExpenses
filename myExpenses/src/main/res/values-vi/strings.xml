@@ -2,67 +2,120 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Tài khoản</string>
   <!--Label in form for payment method, where user checks for which account types the method is applicable-->
-  <string name="account_type_asset">Tài khoản tài sản</string>
+  <string name="account_types">Loại tài khoản</string>
+  <string name="account_type_asset">Tài khoản dạng tài sản</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
+  <string name="account_type_asset_plural">Tài khoản dạng tài sản</string>
   <string name="account_type_bank">Tài khoản ngân hàng</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
+  <string name="account_type_bank_plural">Tài khoản ngân hàng</string>
   <string name="account_type_cash">Tài khoản tiền mặt</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
+  <string name="account_type_cash_plural">Tài khoản tiền mặt</string>
   <string name="account_type_ccard">Thẻ tín dụng</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_liability">Nợ phải trả</string>
+  <string name="account_type_ccard_plural">Thẻ tín dụng</string>
+  <string name="account_type_liability">Tải khoản nghĩa vụ nợ</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
+  <string name="account_type_liability_plural">Tải khoản nghĩa vụ nợ</string>
   <string name="already_defined">%1$s đã được xác định</string>
   <string name="amount">Số lượng</string>
-  <string name="app_name">Chi Tiêu Của Tôi</string>
-  <string name="backup_failure">Xảy ra lỗi khi sao lưu vào thẻ nhớ (%1$s).</string>
-  <string name="backup_success">Đã ghi dữ liệu về cơ sở dữ liệu và tùy biến thành công vào thẻ nhớ (%1$s).</string>
+  <string name="app_name">Quản lý chi tiêu</string>
+  <string name="backup_failure">Xảy ra lỗi khi sao lưu vào \"%1$s\".</string>
+  <string name="backup_success">Đã ghi dữ liệu về cơ sở dữ liệu và tùy biến thành công vào \"%1$s\".</string>
   <string name="category">Phân loại</string>
+  <string name="split_transaction_error">Không thể phân tách giao dịch.</string>
+  <plurals name="split_transaction_success">
+    <item quantity="other">%1$d giao dịch đã được phân tách.</item>
+  </plurals>
   <string name="color">Màu sắc</string>
   <string name="comment">Ghi chú</string>
+  <string name="confirmation_dialog_dont_show_again">Không hiện lại</string>
+  <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Không quảng cáo</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Số lượng không giới hạn các tài khoản</string>
-  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Tác động phân phối các giao dịch cho mỗi phân loại</string>
-  <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Unlimited number of plans</string>
+  <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Chèn ảnh vào giao dịch</string>
+  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Giao dịch phân loại theo danh mục</string>
+  <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Tạo các kế hoạch với số lượng không giới hạn</string>
+  <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Xuất danh sách giao dịch sang dạng PDF</string>
+  <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Tiện ích cho bản mẫu</string>
+  <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Nhập CSV</string>
+  <string name="licence_status_free">Miễn phí</string>
+  <string name="contrib_key">Bản Contrib</string>
+  <string name="extended_key">Bản Extended</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
-  <string name="contrib_key_requires">Yêu cầu sử dụng %s.</string>
+  <string name="contrib_key_requires">Yêu cầu %1$s.</string>
   <string name="currency">Tiền tệ</string>
   <string name="current_balance">Trạng thái cân bằng hiện tại</string>
   <string name="date">Ngày tháng</string>
-  <string name="default_account_description">Tài khỏa này đã được cài đặt tự động trong suốt quá trình cài đặt</string>
+  <string name="date_format">Định dạng ngày tháng</string>
+  <string name="date_format_illegal">Định dạng ngày tháng không hợp lệ</string>
+  <string name="number_format_illegal">Định dạng số không hợp lệ</string>
+  <string name="decimal_separator">Dấu thập phân</string>
+  <string name="default_account_description">Tài khoản này được lập tự động trong quá trình cài đặt</string>
+  <string name="default_account_name">Ngân quỹ</string>
   <string name="description">Mô tả</string>
+  <string name="dialog_balance_delete">Xoá các giao dịch đã đối chiếu</string>
   <!--User confirms that he wants to discard changes-->
+  <string name="dialog_confirm_button_discard">Huỷ bỏ</string>
+  <string name="dialog_confirm_discard_changes">Huỷ bỏ thay đổi?</string>
+  <string name="dialog_confirm_discard_new_transaction">Huỷ bỏ giao dịch mới?</string>
+  <string name="dialog_confirm_discard_new_template">Huỷ bỏ bản mẫu mới?</string>
+  <string name="dialog_confirm_discard_new_account">Huỷ bỏ tải khoản mới?</string>
+  <string name="dialog_confirm_discard_new_method">Huỷ bỏ phương thức chi trả mới?</string>
+  <string name="dialog_command_disabled_balance">Không có giao dịch nào đã phê duyệt đề đối chiếu</string>
+  <string name="dialog_command_disabled_insert_transfer">Việc chuyển khoản yêu cầu tài khoản thứ hai.</string>
+  <string name="dialog_command_disabled_reset_account">Không có giao dịch để xuất.</string>
+  <string name="dialog_command_disabled_distribution">Không có giao dịch nào được cho phân loại trong tài khoản này.</string>
   <string name="dialog_contrib_no">Vẫn chưa</string>
   <string name="dialog_contrib_no_usages_left">Hiện không còn thời hạn cho việc sử dụng miễn phí.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
-  <string name="dialog_contrib_premium_feature">%1$s thuộc về tính năng nâng cao (%2$s).</string>
-  <string name="dialog_contrib_text_1"><i>Chi Tiêu Của Tôi</i> là một chương trình miễn phí và mã nguồn mở. </string>
-  <string name="dialog_export_delete">Xóa các giao dịch được xuất dữ liệu</string>
-  <string name="dialog_export_not_yet_exported">Xuất dữ liệu về các giao dịch chưa được xuất</string>
-  <string name="dialog_password_activate_protection">Bật tính năng bảo vệ mật khẩu</string>
+  <string name="dialog_contrib_premium_feature">%1$s là tính năng trả phí (%2$s).</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Loại bỏ sự giới hạn này và sử dụng nhiều tính năng hơn bằng cách nâng cấp <i>Quản lý chi tiêu</i></string>
+  <string name="dialog_contrib_text_1"><i>Quản lý chi tiêu</i> là một chương trình miễn phí và mã nguồn mở. </string>
+  <string name="dialog_contrib_text_2">Xin hãy đóng góp bằng cách nâng cấp <i>Quản lý chi tiêu</i> và sử dụng không giới hạn các tính năng sau:</string>
+  <string name="dialog_contrib_usage_count">Lần sử dụng miễn phí còn lại</string>
+  <string name="dialog_contrib_usage_limit">Bạn có thể dùng nó tối đa %1$d lần với bản quyền hiện tại (%2$s).</string>
+  <string name="dialog_contrib_usage_limit_synchronization">Bạn có thể dùng nó trong %1$d ngày với bản quyền hiện tại (%2$s).</string>
+  <string name="dialog_contrib_usage_limit_accounts">Bản quyền hiện tại của bạn (%2$s) cho phép bạn tạo %1$d tài khoản.</string>
+  <string name="dialog_contrib_usage_limit_plans">Bản quyền hiện tại của bạn (%2$s) cho phép bạn tạo %1$d kế hoạch.</string>
+  <string name="dialog_export_delete">Xóa các giao dịch đã được xuất</string>
+  <string name="dialog_export_not_yet_exported">Xuất các giao dịch chưa được xuất</string>
+  <string name="dialog_password_activate_protection">Cài mật khẩu</string>
   <string name="dialog_password_change_password">Thay đổi mật khẩu</string>
   <string name="dialog_password_new_password">Mật khẩu mới</string>
   <string name="dialog_password_new_password_confirmation">Mật khẩu mới (xác nhận)</string>
   <string name="dialog_remind_later">Để sau</string>
-  <string name="dialog_remind_no">Không cảm ơn</string>
+  <string name="dialog_remind_no">Không, cảm ơn</string>
+  <string name="dialog_remind_rate_how_many_stars">Bạn sẽ đánh giá Quản lý chi tiêu bao nhiêu sao?</string>
   <string name="dialog_remind_rate_1">Xin dành chút thời gian để xếp hạng và xem các nhận xét về Chi Tiêu Của Tôi.</string>
   <string name="dialog_remind_rate_2">Các bình luận của bạn sẽ giúp chúng tôi cải thiện chất lượng dịch vụ về sản phẩm tốt hơn.</string>
+  <string name="dialog_remind_rate_1_suggest_improvement">Vui lòng dành ít phút để gửi cho chúng tôi những ý kiến của bạn để cải thiện ứng dụng.</string>
   <string name="dialog_remind_rate_yes">Xếp hạng ngay</string>
   <string name="dialog_security_answer">Trả lời</string>
   <string name="dialog_security_question">Câu hỏi</string>
+  <string name="dialog_title_attention">Chú ý</string>
+  <string name="dialog_title_information">Thông tin</string>
   <!--%1$s is replace with account label-->
-  <string name="dialog_title_contrib_feature">Tính năng nâng cao</string>
+  <string name="dialog_title_balance_account">Số dư %1$s</string>
+  <string name="dialog_title_contrib_feature">Tính năng trả phí</string>
+  <string name="dialog_title_extended_feature">Tính năng mở rộng</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
+  <string name="dialog_title_set_fraction_digits">Đặt số các chữ số thập phân</string>
   <string name="dialog_title_template_title">Đặt tiêu đề</string>
   <string name="dialog_title_warning_delete_account">Xóa tài khoản?</string>
+  <string name="dialog_title_warning_delete_main_category">Xoá danh mục chính?</string>
+  <string name="dialog_title_warning_delete_template">Xoá bản mẫu?</string>
+  <string name="dialog_title_warning_delete_transaction">Xoá giao dịch?</string>
   <string name="dialog_title_welcome">Chào mừng!</string>
+  <string name="donate_dialog_text">Xin hãy đóng góp qua PayPal hoặc Bitcoin, sau đó yêu cầu một mã nâng cấp từ màn hình cài đặt.</string>
   <string name="expense">Chi tiêu</string>
   <string name="export_expenses">Xuất dữ liệu chi tiêu</string>
   <!--1$s is replaced with path to file, 2$s with error message-->
-  <string name="export_sdcard_failure">Xảy ra lỗi khi xuất dữ liệu chi tiêu vào thẻ nhớ %1$s: %2$s</string>
+  <string name="export_sdcard_failure">Xảy ra lỗi khi xuất dữ liệu chi tiêu vào tập tin %1$s: %2$s</string>
   <!--1$s is replaced with path to file-->
   <string name="export_sdcard_success">Dữ liệu về chi tiêu đã được xuất ra tập tin %1$s</string>
-  <string name="external_storage_unavailable">Dữ liệu ngoại vi (thẻ nhớ) hiện không thể truy cập</string>
+  <string name="external_storage_unavailable">Bộ nhớ ngoài (thẻ nhớ) không sẵn có</string>
   <string name="feedback">Phản hồi</string>
   <string name="feedback_email_message">Gửi phản hồi của bạn, bằng tiếng Anh, Pháp hoặc tiếng Đức!</string>
   <string name="ftp_uri_malformed">URI lỗi %1$s</string>
@@ -72,17 +125,17 @@
   <string name="grouping_day">Ngày</string>
   <string name="grouping_last_week">Tuần rồi</string>
   <string name="grouping_month">Tháng</string>
-  <string name="grouping_none">Gõ bỏ khỏi nhóm</string>
+  <string name="grouping_none">Không nằm trong nhóm</string>
   <string name="grouping_this_week">Tuần này</string>
   <string name="grouping_today">Hôm nay</string>
   <string name="grouping_week">Tuần</string>
   <string name="grouping_year">Năm</string>
   <string name="grouping_yesterday">Hôm qua</string>
-  <string name="help_button_rate">Xếp hạng hoặc xem sơ lược</string>
+  <string name="help_button_rate">Xếp hạng hoặc xem đánh giá</string>
   <string name="help_contextuel_help">Vui lòng đọc thêm thông tin về các tính năng hiện có thông qua phần menu trợ giúp.</string>
-  <string name="help_heading_credits">Tín dụng</string>
+  <string name="help_heading_credits">Lời tri ân</string>
   <string name="help_heading_license">Giấy phép</string>
-  <string name="help_heading_whats_new">Những phần mới</string>
+  <string name="help_heading_whats_new">Có gì mới</string>
   <string-array name="help_intro">
     <item>Giữ chi tiêu và thu nhập của bạn theo cách mà bạn muốn.</item>
     <item>Quản lý tài chính thông qua điện thoại của bạn.</item>
@@ -91,19 +144,28 @@
   <!--%s is replaced with Android or Blackberry-->
   <string name="help_leading">Cảm ơn bạn đã cài đặt <i>Chi Tiêu Của Tôi</i> dành cho %s.</string>
   <string name="important_upgrade_information_heading">Thông tin quan trọng</string>
+  <string name="import_select_transactions">Các giao dịch</string>
   <string name="income">Thu nhập</string>
   <string name="invalid_number_format">Định dạng thập phân không được nhận diện bởi hệ thống ngôn ngữ của bạn. Xin sử dụng %1$s</string>
   <string name="label">Nhãn</string>
-  <string name="licence_validation_failure">Không thể phân tích khóa bản quyền.</string>
+  <string name="licence_validation_failure">Không thể xác minh khóa bản quyền.</string>
+  <string name="licence_validation_success">Khoá bản quyền đã được xác minh</string>
+  <string name="licence_validation_premium">Các tính năng trả phí đã được mở khoá.</string>
+  <string name="licence_validation_extended">Các tính năng mở rộng đã được mở khoá.</string>
   <string name="menu_aggregates">Tổng cộng</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
+  <string name="menu_apply_template">Áp dụng</string>
   <string name="menu_back">Quay lại</string>
   <string name="menu_backup">Sao lưu</string>
   <!--Balance: compare cleared balance in app with balance on statement received from bank-->
+  <string name="menu_balance">Số dư tài khoản</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
+  <string name="menu_cancel_plan_instance">Huỷ bỏ</string>
   <string name="menu_clone_transaction">Sao y</string>
-  <string name="menu_contrib">Cống hiến</string>
+  <string name="menu_contrib">Đóng góp</string>
   <string name="menu_create_account">Tài khoản mới</string>
+  <string name="menu_create_instance_edit">Áp dụng và sửa</string>
+  <string name="menu_create_instance_save">Áp dụng và lưu</string>
   <string name="menu_create_main_cat">Phân loại chính mới</string>
   <string name="menu_create_method">Phương pháp chi trả mới</string>
   <string name="menu_create_party">Hội mới</string>
@@ -112,6 +174,7 @@
   <string name="menu_create_split_part_transfer">Phần chuyển đổi phân tách mới</string>
   <string name="menu_create_sub_cat">Phân loại phụ thuộc</string>
   <string name="menu_create_template">Mẫu mới</string>
+  <string name="menu_create_template_from_transaction">Lưu như bản mẫu</string>
   <string name="menu_create_template_for_transaction">Mẫu giao dịch mới</string>
   <string name="menu_create_template_for_transfer">Mẫu truyền đổi mới</string>
   <string name="menu_create_transaction">Giao dịch mới</string>
@@ -122,36 +185,57 @@
   <string name="menu_edit_account">Chỉnh sửa tài khoản</string>
   <string name="menu_edit_cat">Chỉnh sửa phân loại</string>
   <string name="menu_edit_method">Chỉnh sửa phương thức chi trả</string>
-  <string name="menu_edit_party">Chỉnh sửa hội</string>
+  <string name="menu_edit_party">Chỉnh sửa đối tượng giao dịch</string>
+  <string name="menu_edit_plan_instance">Chỉnh sửa sự xuất hiện của kế hoạch một lần</string>
   <string name="menu_edit_split">Chỉnh sửa phần phân tách</string>
   <string name="menu_edit_split_part_category">Chỉnh sửa phần phân loại phân tách</string>
   <string name="menu_edit_split_part_transfer">Chỉnh sửa phần được phân tách chuyển đổi</string>
   <string name="menu_edit_template">Chỉnh sửa mẫu</string>
   <string name="menu_edit_transaction">Chỉnh sửa giao dịch</string>
-  <string name="menu_edit_transfer">Chỉnh sửa Truyền Đổi</string>
+  <string name="menu_edit_transfer">Chỉnh sửa chuyển khoản</string>
+  <string name="menu_exclude_from_totals">Không tính vào tổng số</string>
   <string name="menu_forward">Tiếp theo</string>
   <string name="menu_grouping">Gom nhóm</string>
   <string name="menu_help">Trợ giúp</string>
   <!--This command inverts the direction of a transfer-->
+  <string name="menu_invert_transfer">Đảo lại</string>
+  <string name="menu_manage_plans">Bản mẫu và kế hoạch</string>
+  <string name="menu_open">Mở</string>
   <string name="menu_import">Nhập dữ liệu</string>
+  <string name="menu_print">In</string>
   <string name="menu_reset">Xuất dữ liệu và cài đặt lại</string>
   <string name="menu_reset_all">Xuất dữ liệu và cài đặt lại tất cả</string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
+  <string name="menu_reset_plan_instance">Cài đặt lại</string>
   <string name="menu_save">Lưu</string>
   <string name="menu_save_and_new">Lưu và tạo mới</string>
+  <string name="menu_search">Tìm kiếm</string>
   <string name="menu_settings">Thiết lập</string>
-  <string name="method">Phương pháp</string>
+  <string name="menu_share">Chia sẻ</string>
+  <string name="menu_split_transaction">Chuyển thành dạng phân tách</string>
+  <string name="method">Cách thức</string>
   <string name="no_amount_given">Bạn vẫn chưa điền vào số lượng</string>
   <string name="no_app_handling_email_available">Không có ứng dụng nào hiện có để xử lý email</string>
   <string name="no_app_handling_ftp_available">Hiện không có ứng dụng xử lý ftp. Cài đặt <i>Send With FTP</i>?</string>
+  <string name="no_app_handling_pdf_available">Không có ứng dụng để xử lý PDF.</string>
   <string name="no_categories">Không có phân loại nào.</string>
-  <string name="no_expenses">Không có Chi Tiêu nào!</string>
-  <string name="no_exportable_expenses">Hiện không có giao dịch nào mà vẫn chưa được xuất dữ liệu.</string>
+  <string name="no_expenses">Chưa có giao dịch nào!</string>
+  <string name="no_exportable_expenses">Hiện không có giao dịch nào mà vẫn chưa được xuất ra.</string>
+  <string name="no_filemanager_installed">Không có trình quản lý tập tin nào được cài đặt</string>
+  <string name="no_calendar_app_installed">Không có ứng dụng để chỉnh sửa sự kiện trong lịch.</string>
   <string name="no_mapped_transactions">Không có giao dịch nào được cho vào phần phân loại trong suốt giai đoạn này.</string>
+  <string name="no_methods">Không có phương thức chi trả.</string>
   <string name="no_parties">Không có nhóm nào</string>
   <string name="no_split_parts">Không có phần nào được tách</string>
   <string name="no_templates">Không có mẫu nào</string>
   <string name="no_title_given">Bạn vẫn chưa điền vào tiêu đề</string>
+  <plurals name="not_deletable_mapped_transactions">
+    <item quantity="other">%1$d đối tượng đã được liên kết với các giao dịch và không thể bị xoá.</item>
+  </plurals>
+  <plurals name="not_deletable_mapped_templates">
+    <item quantity="other">%1$d đối tượng đã được liên kết với các bản mẫu và không thể bị xoá.</item>
+  </plurals>
+  <string name="numbered">được đánh số</string>
   <string name="opening_balance">Mở trạng thái cân bằng</string>
   <string name="parse_error_file_not_found">Không thể tìm thấy tập tin %1$s</string>
   <string name="parse_error_grisbi_version_not_supported">Không hỗ trợ phiên bản tập tin Grisbi: %1$s</string>
@@ -163,11 +247,16 @@
   <string name="password_not_valid">Mật khẩu không hợp lệ. Xin thử lại lần nữa!</string>
   <string name="password_prompt">Điền vào mật khẩu của bạn</string>
   <string name="password_security_answer_not_valid">Câu trả lời sai. Thử lại lần nữa!</string>
-  <string name="payee">Người được trả tiền</string>
+  <string name="payee">Người được trả</string>
   <string name="payer">Người trả</string>
+  <string name="payer_or_payee">Người nhận trả/Người trả</string>
   <string name="peer_transaction_deleted">Phần giao dịch này có tham chiếu tới tài khoản điều chỉnh (tài khoản %1$s) đã bị xóa</string>
   <!--Plan for future and recurring transactions-->
+  <string name="plan">Kế hoạch</string>
+  <string name="plan_automatic">tự động</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
+  <string name="plan_calendar_name">Bộ lập kế hoạch của Quản lý chi tiêu</string>
+  <string name="plan_event_deleted">Kế hoạch gắn với bản mẫu này đã bị xoá khỏi lịch.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <!--payment methods-->
   <string name="pm_cheque">Séc</string>
@@ -270,6 +359,7 @@
   <!--Move an account up in the account list-->
   <!--Move an account down in the account list-->
   <!--Label for column where user can check rows to be discarded from import-->
+  <string name="cvs_import_discard">Huỷ bỏ</string>
   <string name="switch_on_text">Bật</string>
   <string name="switch_off_text">Tắt</string>
   <string name="menu_move">Di chuyển</string>
