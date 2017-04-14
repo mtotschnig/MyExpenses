@@ -59,7 +59,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
     }
     String action = getIntent().getAction();
     if (action != null && action.equals("myexpenses.intent.backup")) {
-      Result appDirStatus = AppDirHelper.checkAppDir();
+      Result appDirStatus = AppDirHelper.checkAppDir(this);
       if (!appDirStatus.success) {
         abort(appDirStatus.print(this));
         return;
@@ -67,14 +67,14 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
       MessageDialogFragment.newInstance(
           R.string.menu_backup,
           getString(R.string.warning_backup,
-              FileUtils.getPath(this, AppDirHelper.getAppDir().getUri())),
+              FileUtils.getPath(this, AppDirHelper.getAppDir(this).getUri())),
           new MessageDialogFragment.Button(android.R.string.yes,
               R.id.BACKUP_COMMAND, null), null,
           MessageDialogFragment.Button.noButton())
           .show(getSupportFragmentManager(), "BACKUP");
     } else {
       if (getIntent().getBooleanExtra("legacy", false)) {
-        Result appDirStatus = AppDirHelper.checkAppDir();
+        Result appDirStatus = AppDirHelper.checkAppDir(this);
         if (appDirStatus.success) {
           openBrowse();
         } else {
@@ -131,7 +131,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
       return true;
     switch (command) {
       case R.id.BACKUP_COMMAND:
-        if (AppDirHelper.checkAppFolderWarning()) {
+        if (AppDirHelper.checkAppFolderWarning(this)) {
           doBackup();
         } else {
           Bundle b = new Bundle();
@@ -153,7 +153,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
   }
 
   protected void doBackup() {
-    Result appDirStatus = AppDirHelper.checkAppDir();//TODO this check leads to strict mode violation, can we get rid of it ?
+    Result appDirStatus = AppDirHelper.checkAppDir(this);//TODO this check leads to strict mode violation, can we get rid of it ?
     if (appDirStatus.success) {
       startTaskExecution(TaskExecutionFragment.TASK_BACKUP, null, null,
           R.string.menu_backup);
@@ -227,7 +227,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
    */
   public void onSourceSelected(String dirOrFile, int restorePlanStrategie) {
     if (dirOrFile.endsWith(".zip")) {
-      showRestoreDialog(Uri.fromFile(new File(AppDirHelper.getAppDir().getUri().getPath(), dirOrFile)),
+      showRestoreDialog(Uri.fromFile(new File(AppDirHelper.getAppDir(this).getUri().getPath(), dirOrFile)),
           restorePlanStrategie);
     } else {
       showRestoreDialog(dirOrFile);
@@ -264,8 +264,8 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
   }
 
   // inspired by Financisto
-  public static String[] listBackups() {
-    DocumentFile appDir = AppDirHelper.getAppDir();
+  public String[] listBackups() {
+    DocumentFile appDir = AppDirHelper.getAppDir(this);
     if (appDir.getUri().getScheme().equals("file")) {
       String[] files = new File(appDir.getUri().getPath()).list(new FilenameFilter() {
         @Override

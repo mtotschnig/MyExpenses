@@ -1,13 +1,10 @@
 package org.totschnig.myexpenses.task;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.v4.provider.DocumentFile;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -25,11 +22,14 @@ import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.support.v4.provider.DocumentFile;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
   public static final String KEY_DECIMAL_SEPARATOR = "export_decimal_separator";
@@ -116,6 +116,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
   @Override
   protected ArrayList<Uri> doInBackground(Void... ignored) {
     Long[] accountIds;
+    MyApplication application = MyApplication.getInstance();
     if (accountId > 0L) {
         accountIds = new Long[] {accountId};
     } else {
@@ -125,7 +126,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
         selection = DatabaseConstants.KEY_CURRENCY + " = ?";
         selectionArgs = new String[]{currency};
       }
-      Cursor c = MyApplication.getInstance().getContentResolver().query(TransactionProvider.ACCOUNTS_URI,
+      Cursor c = application.getContentResolver().query(TransactionProvider.ACCOUNTS_URI,
           new String[] {KEY_ROWID}, selection, selectionArgs, null);
       accountIds = DbUtils.getLongArrayFromCursor(c, KEY_ROWID);
       if (c != null) {
@@ -134,9 +135,9 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
     }
     Account account;
     DocumentFile destDir;
-    DocumentFile appDir = AppDirHelper.getAppDir();
+    DocumentFile appDir = AppDirHelper.getAppDir(application);
     if (appDir == null) {
-      publishProgress(MyApplication.getInstance().getString(R.string.external_storage_unavailable));
+      publishProgress(application.getString(R.string.external_storage_unavailable));
       return(null);
     }
     if (accountIds.length > 1) {
@@ -158,10 +159,10 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
             notYetExportedP, dateFormat, decimalSeparator, encoding).export();
         String progressMsg;
         if (result.success) {
-          progressMsg = MyApplication.getInstance().getString(result.getMessage(),
-              FileUtils.getPath(MyApplication.getInstance(), (Uri) result.extra[0]));
+          progressMsg = application.getString(result.getMessage(),
+              FileUtils.getPath(application, (Uri) result.extra[0]));
         } else {
-          progressMsg = MyApplication.getInstance().getString(result.getMessage(),result.extra);
+          progressMsg = application.getString(result.getMessage(),result.extra);
         }
         publishProgress("... " + progressMsg);
         if (result.success) {
@@ -171,7 +172,7 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
           successfullyExported.add(account);
         }
       } catch (IOException e) {
-        publishProgress("... " + MyApplication.getInstance().getString(
+        publishProgress("... " + application.getString(
             R.string.export_sdcard_failure,
             appDir.getName(),
             e.getMessage()));

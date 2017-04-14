@@ -1,7 +1,9 @@
 package org.totschnig.myexpenses.test.util;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.annimon.stream.Stream;
@@ -34,8 +36,9 @@ public class ShareUtilsTest  {
   @Test
   public void shouldConvertMultipleFileUris() {
     String mimeType = "text/plain";
-    Uri testFile1Uri = AppDirHelper.getAppDir().createFile(mimeType,"testFile1").getUri();
-    Uri testFile2Uri = AppDirHelper.getAppDir().createFile(mimeType,"testFile1").getUri();
+    Context context = InstrumentationRegistry.getTargetContext();
+    Uri testFile1Uri = AppDirHelper.getAppDir(context).createFile(mimeType,"testFile1").getUri();
+    Uri testFile2Uri = AppDirHelper.getAppDir(context).createFile(mimeType,"testFile1").getUri();
     List<Uri> fileUris = Arrays.asList(testFile1Uri, testFile2Uri);
     Stream.of(fileUris).forEach(this::assertFileScheme);
     Intent intent = ShareUtils.buildIntent(fileUris, mimeType, null);

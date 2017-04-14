@@ -1029,7 +1029,7 @@ public class TransactionList extends ContextualActionBarFragment implements
         return true;
       case R.id.PRINT_COMMAND:
         MyExpenses ctx = (MyExpenses) getActivity();
-        Result appDirStatus = AppDirHelper.checkAppDir();
+        Result appDirStatus = AppDirHelper.checkAppDir(ctx);
         if (hasItems) {
           if (appDirStatus.success) {
             ctx.contribFeatureRequested(ContribFeature.PRINT, null);

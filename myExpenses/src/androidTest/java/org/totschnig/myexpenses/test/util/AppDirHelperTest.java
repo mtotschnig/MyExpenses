@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.test.util;
 
 
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Test;
@@ -13,6 +14,6 @@ import static org.junit.Assert.assertTrue;
 public class AppDirHelperTest {
   @Test
   public void shouldValidateDefaultAppDir() {
-    assertTrue(AppDirHelper.checkAppDir().success);
+    assertTrue(AppDirHelper.checkAppDir(InstrumentationRegistry.getTargetContext()).success);
   }
 }

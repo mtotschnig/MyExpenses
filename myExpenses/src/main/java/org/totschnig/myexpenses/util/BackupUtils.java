@@ -16,16 +16,17 @@ public class BackupUtils {
 
   @NonNull
   public static Result doBackup() {
+    MyApplication application = MyApplication.getInstance();
     if (!AppDirHelper.isExternalStorageAvailable()) {
       return new Result(false, R.string.external_storage_unavailable);
     }
-    DocumentFile appDir = AppDirHelper.getAppDir();
+    DocumentFile appDir = AppDirHelper.getAppDir(application);
     if (appDir == null) {
       return new Result(false, R.string.io_error_appdir_null);
     }
     if (!AppDirHelper.existsAndIsWritable(appDir)) {
       return new Result(false, R.string.app_dir_not_accessible,
-          FileUtils.getPath(MyApplication.getInstance(), appDir.getUri()));
+          FileUtils.getPath(application, appDir.getUri()));
     }
     DocumentFile backupFile = requireBackupFile(appDir);
     if (backupFile == null) {
@@ -34,12 +35,12 @@ public class BackupUtils {
     File cacheDir = AppDirHelper.getCacheDir();
     if (cacheDir == null) {
       AcraHelper.report(new Exception(
-          MyApplication.getInstance().getString(R.string.io_error_cachedir_null)));
+          application.getString(R.string.io_error_cachedir_null)));
       return new Result(false, R.string.io_error_cachedir_null);
     }
     Result result = DbUtils.backup(cacheDir);
-    String failureMessage = MyApplication.getInstance().getString(R.string.backup_failure,
-        FileUtils.getPath(MyApplication.getInstance(), backupFile.getUri()));
+    String failureMessage = application.getString(R.string.backup_failure,
+        FileUtils.getPath(application, backupFile.getUri()));
     if (result.success) {
       try {
         ZipUtils.zipBackup(
@@ -61,7 +62,7 @@ public class BackupUtils {
     }
     return new Result(
         false,
-        failureMessage + " " + result.print(MyApplication.getInstance()));
+        failureMessage + " " + result.print(application));
   }
 
   public static DocumentFile requireBackupFile(@NonNull DocumentFile appDir) {

@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.util;
 
 import android.Manifest;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -26,8 +27,9 @@ public class AppDirHelper {
   /**
    * @return the directory user has configured in the settings, if not configured yet
    * returns {@link android.content.ContextWrapper#getExternalFilesDir(String)} with argument null
+   * @param context
    */
-  public static DocumentFile getAppDir() {
+  public static DocumentFile getAppDir(Context context) {
     String prefString = PrefKey.APP_DIR.getString(null);
     if (prefString != null) {
       Uri pref = Uri.parse(prefString);
@@ -41,20 +43,20 @@ public class AppDirHelper {
       } else {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
           //this will return null, if called on a pre-Lolipop device
-          DocumentFile documentFile = DocumentFile.fromTreeUri(MyApplication.getInstance(), pref);
+          DocumentFile documentFile = DocumentFile.fromTreeUri(context, pref);
           if (existsAndIsWritable(documentFile)) {
             return documentFile;
           }
         }
       }
     }
-    File externalFilesDir = MyApplication.getInstance().getExternalFilesDir(null);
+    File externalFilesDir = context.getExternalFilesDir(null);
     if (externalFilesDir != null) {
       return DocumentFile.fromFile(externalFilesDir);
     } else {
       String permission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
       AcraHelper.report(new Exception("getExternalFilesDir returned null; " + permission + " : " +
-          ContextCompat.checkSelfPermission(MyApplication.getInstance(), permission)));
+          ContextCompat.checkSelfPermission(context, permission)));
       return null;
     }
   }
@@ -139,11 +141,11 @@ public class AppDirHelper {
     return state;
   }
 
-  public static Result checkAppDir() {
+  public static Result checkAppDir(Context context) {
     if (!isExternalStorageAvailable()) {
       return new Result(false, R.string.external_storage_unavailable);
     }
-    DocumentFile appDir = getAppDir();
+    DocumentFile appDir = getAppDir(context);
     if (appDir == null) {
       return new Result(false, R.string.io_error_appdir_null);
     }
@@ -159,7 +161,7 @@ public class AppDirHelper {
     }
     return existsAndIsWritable(appDir) ? new Result(true) :
         new Result(false, R.string.app_dir_not_accessible,
-            FileUtils.getPath(MyApplication.getInstance(), appDir.getUri()));
+            FileUtils.getPath(context, appDir.getUri()));
   }
 
   @NonNull
@@ -206,17 +208,16 @@ public class AppDirHelper {
    * warned about the situation, unless he already has opted to no
    * longer see this warning
    */
-  public static boolean checkAppFolderWarning() {
+  public static boolean checkAppFolderWarning(Context context) {
     if (PrefKey.APP_FOLDER_WARNING_SHOWN.getBoolean(false)) {
       return true;
     }
     try {
-      DocumentFile configuredDir = getAppDir();
+      DocumentFile configuredDir = getAppDir(context);
       if (configuredDir == null) {
         return true;
       }
-      File externalFilesDir = MyApplication.getInstance().getExternalFilesDir(
-          null);
+      File externalFilesDir =context.getExternalFilesDir(null);
       if (externalFilesDir == null) {
         return true;
       }

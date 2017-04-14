@@ -419,7 +419,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         }
         return null;
       case TaskExecutionFragment.TASK_EXPORT_CATEGRIES:
-        DocumentFile appDir = AppDirHelper.getAppDir();
+        DocumentFile appDir = AppDirHelper.getAppDir(application);
         String fullLabel =
             " CASE WHEN " +
                 KEY_PARENTID +

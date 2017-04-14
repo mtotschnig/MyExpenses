@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.provider.DocumentFile;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.export.pdf.PdfPrinter;
 import org.totschnig.myexpenses.fragment.TransactionList;
@@ -48,7 +49,7 @@ public class PrintTask extends AsyncTask<Void, String, Result> {
   @Override
   protected Result doInBackground(Void... ignored) {
     Account account;
-    DocumentFile appDir = AppDirHelper.getAppDir();
+    DocumentFile appDir = AppDirHelper.getAppDir(MyApplication.getInstance());
     if (appDir == null) {
       return new Result(false, R.string.external_storage_unavailable);
     }

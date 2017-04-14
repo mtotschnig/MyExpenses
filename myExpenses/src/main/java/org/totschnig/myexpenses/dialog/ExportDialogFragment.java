@@ -372,7 +372,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
     boolean deleteP = deleteCB.isChecked();
     boolean notYetExportedP = notYetExportedCB.isChecked();
     String fileName = fileNameET.getText().toString();
-    Result appDirStatus = AppDirHelper.checkAppDir();
+    Result appDirStatus = AppDirHelper.checkAppDir(getActivity());
     if (appDirStatus.success) {
       Bundle b = new Bundle();
       b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
@@ -391,7 +391,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
       b.putString(TaskExecutionFragment.KEY_ENCODING, encoding);
       b.putInt(ExportTask.KEY_EXPORT_HANDLE_DELETED, handleDeleted);
       b.putString(ExportTask.KEY_FILE_NAME, fileName);
-      if (AppDirHelper.checkAppFolderWarning()) {
+      if (AppDirHelper.checkAppFolderWarning(getActivity())) {
         ((ConfirmationDialogListener) getActivity())
             .onPositive(b);
       } else {

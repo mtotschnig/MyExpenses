@@ -576,7 +576,7 @@ public class MyExpenses extends LaunchActivity implements
       case R.id.RESET_COMMAND:
         tl = getCurrentFragment();
         if (tl != null && tl.hasItems) {
-          Result appDirStatus = AppDirHelper.checkAppDir();
+          Result appDirStatus = AppDirHelper.checkAppDir(this);
           if (appDirStatus.success) {
             ExportDialogFragment.newInstance(mAccountId, tl.isFiltered())
                 .show(this.getSupportFragmentManager(), "WARNING_RESET");

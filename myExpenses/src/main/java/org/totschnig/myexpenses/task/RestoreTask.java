@@ -115,7 +115,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
             e.getMessage());
       }
     } else {
-      workingDir = new File(AppDirHelper.getAppDir().getUri().getPath(), dirNameLegacy);
+      workingDir = new File(AppDirHelper.getAppDir(application).getUri().getPath(), dirNameLegacy);
     }
     File backupFile = BackupUtils.getBackupDbFile(workingDir);
     File backupPrefFile = BackupUtils.getBackupPrefFile(workingDir);
