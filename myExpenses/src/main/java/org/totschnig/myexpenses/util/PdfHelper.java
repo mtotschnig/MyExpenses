@@ -59,7 +59,8 @@ public class PdfHelper {
           public boolean accept(File dir, String filename) {
             return filename.endsWith("ttf") //NotoSans*-Regular.otf files found not to work:
                                             //BaseFont.charExists finds chars that are not visible in PDF
-                && !filename.equals("NotoColorEmoji.ttf");//know not to work
+                && !filename.contains("ColorEmoji");//NotoColorEmoji.ttf and SamsungColorEmoji.ttf
+                                                    //are known not to work
 
           }
         });
