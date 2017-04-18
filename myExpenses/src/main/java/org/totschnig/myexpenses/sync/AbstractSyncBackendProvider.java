@@ -29,8 +29,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.regex.Pattern;
 
 import dagger.internal.Preconditions;
@@ -71,31 +71,38 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     if (changes == null || changes.size() == 0) {
       return ChangeSet.failed;
     }
-    List<TransactionChange> changeSetRead = new ArrayList<>();
-    for (TransactionChange transactionChange : changes) {
+    for (ListIterator<TransactionChange> iterator = changes.listIterator(); iterator.hasNext(); ) {
+      TransactionChange transactionChange = iterator.next();
       if (transactionChange.isEmpty()) {
         Timber.w("found empty transaction change in json");
-        continue;
-      }
-      if (transactionChange.pictureUri() != null) {
-        changeSetRead.add(transactionChange.toBuilder()
-            .setPictureUri(ingestPictureUri(transactionChange.pictureUri())).build());
+        iterator.remove();
       } else {
-        changeSetRead.add(transactionChange);
+        iterator.set(mapPictureDuringRead(transactionChange));
+        if (transactionChange.splitParts() != null) {
+          for (ListIterator<TransactionChange> jterator = transactionChange.splitParts().listIterator();
+               jterator.hasNext(); ) {
+            TransactionChange splitPart = jterator.next();
+            jterator.set(mapPictureDuringRead(splitPart));
+          }
+        }
       }
     }
-    return ChangeSet.create(sequenceNumber, changeSetRead);
+
+    return ChangeSet.create(sequenceNumber, changes);
   }
 
-  private String ingestPictureUri(String relativeUri) throws IOException {
-    Uri homeUri = PictureDirHelper.getOutputMediaUri(false);
-    if (homeUri == null) {
-      throw new IOException("Unable to write picture");
+  private TransactionChange mapPictureDuringRead(TransactionChange transactionChange) throws IOException {
+    if (transactionChange.pictureUri() != null) {
+      Uri homeUri = PictureDirHelper.getOutputMediaUri(false);
+      if (homeUri == null) {
+        throw new IOException("Unable to write picture");
+      }
+      FileCopyUtils.copy(getInputStreamForPicture(transactionChange.pictureUri()),
+          MyApplication.getInstance().getContentResolver()
+              .openOutputStream(homeUri));
+      return transactionChange.toBuilder().setPictureUri(homeUri.toString()).build();
     }
-    FileCopyUtils.copy(getInputStreamForPicture(relativeUri),
-        MyApplication.getInstance().getContentResolver()
-        .openOutputStream(homeUri));
-    return homeUri.toString();
+    return transactionChange;
   }
 
   @NonNull
@@ -143,26 +150,34 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     return (dotIndex == -1) ? "" : fileName.substring(dotIndex + 1);
   }
 
+
+  private TransactionChange mapPictureDuringWrite(TransactionChange transactionChange) throws IOException {
+    if (transactionChange.pictureUri() != null) {
+      String newUri = transactionChange.uuid() + "_" +
+          Uri.parse(transactionChange.pictureUri()).getLastPathSegment();
+      saveUriToAccountDir(newUri, Uri.parse(transactionChange.pictureUri()));
+      return transactionChange.toBuilder().setPictureUri(newUri).build();
+    } else {
+      return transactionChange;
+    }
+  };
+
   @Override
   public long writeChangeSet(List<TransactionChange> changeSet, Context context) throws IOException {
     long nextSequence = getLastSequence() + 1;
-    List<TransactionChange> changeSetToWrite = new ArrayList<>();
-    for (TransactionChange transactionChange : changeSet) {
-      TransactionChange mappedChange;
-      if (transactionChange.pictureUri() != null) {
-        String newUri = transactionChange.uuid() + "_" +
-            Uri.parse(transactionChange.pictureUri()).getLastPathSegment();
-        saveUriToAccountDir(newUri, Uri.parse(transactionChange.pictureUri()));
-        mappedChange = transactionChange.toBuilder().setPictureUri(newUri).build();
-      } else {
-        mappedChange = transactionChange;
-      }
+    for (int i = 0; i < changeSet.size(); i++) {
+      TransactionChange mappedChange = mapPictureDuringWrite(changeSet.get(i));
       if (appInstance != null) {
         mappedChange = mappedChange.toBuilder().setAppInstance(appInstance).build();
       }
-      changeSetToWrite.add(mappedChange);
+      if (mappedChange.splitParts() != null) {
+        for (int j = 0; j < mappedChange.splitParts().size(); j++) {
+          mappedChange.splitParts().set(j, mapPictureDuringWrite(mappedChange.splitParts().get(j)));
+        }
+      }
+      changeSet.set(i, mappedChange);
     }
-    saveFileContents("_" + nextSequence + ".json", gson.toJson(changeSetToWrite), MIMETYPE_JSON);
+    saveFileContents("_" + nextSequence + ".json", gson.toJson(changeSet), MIMETYPE_JSON);
     return nextSequence;
   }
 
