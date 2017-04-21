@@ -34,6 +34,8 @@ import org.totschnig.myexpenses.util.ContribUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
+import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP;
+
 public class AutoBackupService extends WakefulIntentService {
 
 	private static final String TAG = AutoBackupService.class.getSimpleName();
@@ -69,9 +71,9 @@ public class AutoBackupService extends WakefulIntentService {
                 }
             } else {
                 String notifTitle = Utils.concatResStrings(this, " ", R.string.app_name, R.string.contrib_feature_auto_backup_label);
-                String content = result.print(this);
+                AUTO_BACKUP.putBoolean(false);
+                String content = result.print(this) + " " + getString(R.string.warning_auto_backup_deactivated);
                 Intent preferenceIntent = new Intent(this, MyPreferenceActivity.class);
-                preferenceIntent.putExtra(MyPreferenceActivity.KEY_OPEN_PREF_KEY, PrefKey.APP_DIR.getKey());
                 NotificationCompat.Builder builder =
                     new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_notification)

@@ -658,5 +658,6 @@
     <string name="home_screen_shortcuts_nougate_info">Shortcuts can be added by long-tapping the app icon on the Home Screen.</string>
     <string name="currency_symbol">Currency symbol</string>
     <string name="number_of_fraction_digits">Number of fraction digits</string>
+    <string name="warning_auto_backup_deactivated">Auto-backup has been deactivated. You can turn it on again from the settings after solving the problem (e.g. selecting a different folder for backups).</string>
 </resources>
 
