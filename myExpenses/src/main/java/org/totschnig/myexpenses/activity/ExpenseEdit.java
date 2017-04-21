@@ -266,7 +266,7 @@ public class ExpenseEdit extends AmountActivity implements
     MyApplication.getInstance().getAppComponent().inject(this);
 
 
-    mDateFormat = android.text.format.DateFormat.getDateFormat(this);
+    mDateFormat = Utils.getDateFormatSafe(this);
     mTimeFormat = android.text.format.DateFormat.getTimeFormat(this);
 
     setupToolbar();

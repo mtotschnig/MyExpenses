@@ -25,6 +25,7 @@ import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.LicenceHandler;
+import org.totschnig.myexpenses.util.Utils;
 
 import java.util.Date;
 import java.util.Locale;
@@ -105,7 +106,7 @@ public enum ContribFeature {
         return ctx.getString(R.string.warning_synchronization_limit_reached);
       } else {
         return ctx.getString(R.string.warning_synchronization_limited_trial,
-            android.text.format.DateFormat.getDateFormat(ctx).format(new Date(endOfTrial)));
+            Utils.getDateFormatSafe(ctx).format(new Date(endOfTrial)));
       }
     }
 

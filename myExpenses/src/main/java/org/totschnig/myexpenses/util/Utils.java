@@ -494,12 +494,26 @@ public class Utils {
     return true;
   }
 
+  public static DateFormat getDateFormatSafe(Context context) {
+    try {
+      return android.text.format.DateFormat.getDateFormat(context);
+    } catch (Exception e) {
+      AcraHelper.report(e);
+      //java.lang.SecurityException: Requires READ_PHONE_STATE observed on HUAWEI Y625-U13
+      return java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT);
+    }
+  }
+
   public static DateFormat localizedYearlessDateFormat() {
     Locale l = Locale.getDefault();
-    final String contextPattern = ((SimpleDateFormat) android.text.format.DateFormat.getDateFormat(
-        MyApplication.getInstance())).toPattern();
-    String yearlessPattern = contextPattern.replaceAll("\\W?[Yy]+\\W?", "");
-    return new SimpleDateFormat(yearlessPattern, l);
+    DateFormat dateFormat = getDateFormatSafe(MyApplication.getInstance());
+    if (dateFormat instanceof SimpleDateFormat) {
+      final String contextPattern = ((SimpleDateFormat) dateFormat).toPattern();
+      String yearlessPattern = contextPattern.replaceAll("\\W?[Yy]+\\W?", "");
+      return new SimpleDateFormat(yearlessPattern, l);
+    } else {
+      return dateFormat;
+    }
   }
 
   public static Result analyzeGrisbiFileWithSAX(InputStream is) {
