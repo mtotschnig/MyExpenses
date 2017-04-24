@@ -4,7 +4,7 @@
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * 
+ *
  * Contributors:
  *     Denis Solonenko - initial API and implementation
  ******************************************************************************/
@@ -38,56 +38,56 @@ import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP;
 
 public class AutoBackupService extends WakefulIntentService {
 
-	private static final String TAG = AutoBackupService.class.getSimpleName();
-    public static final String ACTION_AUTO_BACKUP = "org.totschnig.myexpenses.ACTION_AUTO_BACKUP";
-    public static final String ACTION_SCHEDULE_AUTO_BACKUP = "org.totschnig.myexpenses.ACTION_SCHEDULE_AUTO_BACKUP";
+  private static final String TAG = AutoBackupService.class.getSimpleName();
+  public static final String ACTION_AUTO_BACKUP = "org.totschnig.myexpenses.ACTION_AUTO_BACKUP";
+  public static final String ACTION_SCHEDULE_AUTO_BACKUP = "org.totschnig.myexpenses.ACTION_SCHEDULE_AUTO_BACKUP";
 
-    public AutoBackupService() {
-        super(TAG);
-    }
+  public AutoBackupService() {
+    super(TAG);
+  }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-    }
+  @Override
+  public void onCreate() {
+    super.onCreate();
+  }
 
-    @Override
-	protected void doWakefulWork(Intent intent) {
-        String action = intent.getAction();
-        if (ACTION_AUTO_BACKUP.equals(action)) {
-            Result result = BackupUtils.doBackup();
-            if (result.success) {
-                int remaining = ContribFeature.AUTO_BACKUP.recordUsage();
-                if (remaining < 1) {
-                    ContribUtils.showContribNotification(this, ContribFeature.AUTO_BACKUP);
-                }
-                String syncAccount = PrefKey.AUTO_BACUP_CLOUD.getString(AccountPreference.SYNCHRONIZATION_NONE);
-                if (!syncAccount.equals(AccountPreference.SYNCHRONIZATION_NONE)) {
-                    Bundle bundle = new Bundle();
-                    bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-                    bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-                    bundle.putString(SyncAdapter.KEY_UPLOAD_AUTO_BACKUP, result.extra[0].toString());
-                    ContentResolver.requestSync(GenericAccountService.GetAccount(syncAccount), TransactionProvider.AUTHORITY, bundle);
-                }
-            } else {
-                String notifTitle = Utils.concatResStrings(this, " ", R.string.app_name, R.string.contrib_feature_auto_backup_label);
-                AUTO_BACKUP.putBoolean(false);
-                String content = result.print(this) + " " + getString(R.string.warning_auto_backup_deactivated);
-                Intent preferenceIntent = new Intent(this, MyPreferenceActivity.class);
-                NotificationCompat.Builder builder =
-                    new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_notification)
-                        .setContentTitle(notifTitle)
-                        .setContentText(content)
-                        .setContentIntent(PendingIntent.getActivity(this, 0, preferenceIntent, PendingIntent.FLAG_CANCEL_CURRENT))
-                        .setStyle(new NotificationCompat.BigTextStyle().bigText(content));
-                Notification notification = builder.build();
-                notification.flags = Notification.FLAG_AUTO_CANCEL;
-                ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).notify(0,notification);
-            }
-        }  else if (ACTION_SCHEDULE_AUTO_BACKUP.equals(action)) {
-            DailyAutoBackupScheduler.updateAutoBackupAlarms(this);
+  @Override
+  protected void doWakefulWork(Intent intent) {
+    String action = intent.getAction();
+    if (ACTION_AUTO_BACKUP.equals(action)) {
+      Result result = BackupUtils.doBackup();
+      if (result.success) {
+        int remaining = ContribFeature.AUTO_BACKUP.recordUsage();
+        if (remaining < 1) {
+          ContribUtils.showContribNotification(this, ContribFeature.AUTO_BACKUP);
         }
+        String syncAccount = PrefKey.AUTO_BACUP_CLOUD.getString(AccountPreference.SYNCHRONIZATION_NONE);
+        if (!syncAccount.equals(AccountPreference.SYNCHRONIZATION_NONE)) {
+          Bundle bundle = new Bundle();
+          bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+          bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+          bundle.putString(SyncAdapter.KEY_UPLOAD_AUTO_BACKUP, result.extra[0].toString());
+          ContentResolver.requestSync(GenericAccountService.GetAccount(syncAccount), TransactionProvider.AUTHORITY, bundle);
+        }
+      } else {
+        String notifTitle = Utils.concatResStrings(this, " ", R.string.app_name, R.string.contrib_feature_auto_backup_label);
+        AUTO_BACKUP.putBoolean(false);
+        String content = result.print(this) + " " + getString(R.string.warning_auto_backup_deactivated);
+        Intent preferenceIntent = new Intent(this, MyPreferenceActivity.class);
+        NotificationCompat.Builder builder =
+            new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentTitle(notifTitle)
+                .setContentText(content)
+                .setContentIntent(PendingIntent.getActivity(this, 0, preferenceIntent, PendingIntent.FLAG_CANCEL_CURRENT))
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(content));
+        Notification notification = builder.build();
+        notification.flags = Notification.FLAG_AUTO_CANCEL;
+        ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).notify(0, notification);
+      }
+    } else if (ACTION_SCHEDULE_AUTO_BACKUP.equals(action)) {
+      DailyAutoBackupScheduler.updateAutoBackupAlarms(this);
     }
+  }
 
 }
