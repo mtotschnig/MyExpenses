@@ -1940,7 +1940,7 @@ public class ExpenseEdit extends AmountActivity implements
           return;
         }
         mAccounts = new Account[data.getCount()];
-        if (mSavedInstance) {
+        if (didUserSetAccount) {
           mTransaction.accountId = mAccountId;
           mTransaction.transfer_account = mTransferAccountId;
         }
