@@ -332,7 +332,7 @@ public class TransactionProvider extends ContentProvider {
       }
       if (uri.getQueryParameter(QUERY_PARAMETER_MERGE_TRANSFERS) != null) {
         String mergeTransferSelection = KEY_TRANSFER_PEER + " IS NULL OR " + IS_SAME_CURRENCY +
-            " != 1 OR " + KEY_AMOUNT + " > 0";
+            " != 1 OR " + KEY_AMOUNT + " < 0";
         selection = selection == null ? mergeTransferSelection :
             selection + " AND (" + mergeTransferSelection + ")";
       }
