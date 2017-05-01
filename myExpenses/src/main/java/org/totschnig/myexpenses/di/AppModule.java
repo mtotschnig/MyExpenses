@@ -1,5 +1,7 @@
 package org.totschnig.myexpenses.di;
 
+import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import org.acra.ReportingInteractionMode;
@@ -13,6 +15,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.HashLicenceHandler;
 import org.totschnig.myexpenses.util.LicenceHandler;
+import org.totschnig.myexpenses.util.tracking.Tracker;
 
 import javax.inject.Singleton;
 
@@ -48,7 +51,7 @@ public class AppModule {
             .setFormUriBasicAuthLogin(BuildConfig.ACRA_FORM_URI_BASIC_AUTH_LOGIN)
             .setFormUriBasicAuthPassword(BuildConfig.ACRA_FORM_URI_BASIC_AUTH_PASSWORD)
             .setLogcatArguments("-t", "250", "-v", "long", "ActivityManager:I", "MyExpenses:V", "*:S")
-            .setExcludeMatchingSharedPreferencesKeys("planner_calendar_path","password");
+            .setExcludeMatchingSharedPreferencesKeys("planner_calendar_path", "password");
       } else {
         configurationBuilder.setReportingInteractionMode(ReportingInteractionMode.DIALOG)
             .setMailTo("bug-reports@myexpenses.mobi")
@@ -60,6 +63,26 @@ public class AppModule {
     } catch (ACRAConfigurationException e) {
       Timber.e(e, "ACRA not initialized");
       return null;
+    }
+  }
+
+  @Provides
+  Tracker provideTracker() {
+    try {
+      return (Tracker) Class.forName(
+          "org.totschnig.myexpenses.util.tracking.PlatformTracker").newInstance();
+    } catch (Exception e) {
+      return new Tracker() {
+        @Override
+        public void init(Context context) {
+          //noop
+        }
+
+        @Override
+        public void logEvent(String eventName, Bundle params) {
+          //noop
+        }
+      };
     }
   }
 }

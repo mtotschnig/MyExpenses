@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.di;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
 import org.totschnig.myexpenses.export.pdf.PdfPrinter;
@@ -24,6 +25,8 @@ public interface AppComponent {
   void inject(ExpenseEdit expenseEdit);
 
   void inject(MyExpenses myExpenses);
+
+  void inject(ProtectedFragmentActivity protectedFragmentActivity);
 
   void inject(TransactionDetailFragment transactionDetailFragment);
 

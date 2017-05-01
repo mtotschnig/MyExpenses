@@ -64,9 +64,12 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 
 import java.io.Serializable;
+
+import javax.inject.Inject;
 
 import static org.totschnig.myexpenses.activity.ContribInfoDialogActivity.KEY_FEATURE;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
@@ -108,6 +111,9 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   protected ColorStateList textColorSecondary;
   protected FloatingActionButton floatingActionButton;
 
+  @Inject
+  protected Tracker tracker;
+
   public int getColorIncome() {
     return colorIncome;
   }
@@ -120,10 +126,10 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     return textColorSecondary;
   }
 
-
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    MyApplication.getInstance().getAppComponent().inject(this);
     if (PrefKey.PERFORM_PROTECTION.getBoolean(false)) {
       getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
           WindowManager.LayoutParams.FLAG_SECURE);
@@ -138,6 +144,8 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     colorIncome = color.data;
     TypedArray themeArray = theme.obtainStyledAttributes(new int[] {android.R.attr.textColorSecondary});
     textColorSecondary = themeArray.getColorStateList(0);
+
+    tracker.init(this);
   }
 
   @Override
@@ -231,6 +239,10 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
+    Bundle bundle = new Bundle();
+    String fullResourceName = getResources().getResourceName(item.getItemId());
+    bundle.putString("item_id", fullResourceName.substring(fullResourceName.indexOf('/') + 1));
+    tracker.logEvent("select_menu", bundle);
     if (dispatchCommand(item.getItemId(), null)) {
       return true;
     }
