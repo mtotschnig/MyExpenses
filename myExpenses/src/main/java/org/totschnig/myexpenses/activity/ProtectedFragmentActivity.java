@@ -480,4 +480,8 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   public void onDismissOrCancel(Bundle args) {
 
   }
+
+  public void setTrackingEnabled(boolean enabled) {
+    tracker.setEnabled(enabled);
+  }
 }

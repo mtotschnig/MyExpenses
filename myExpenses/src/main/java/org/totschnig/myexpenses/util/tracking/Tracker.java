@@ -5,5 +5,8 @@ import android.os.Bundle;
 
 public interface Tracker {
   void init(Context context);
+
   void logEvent(String eventName, Bundle params);
+
+  void setEnabled(boolean enabled);
 }

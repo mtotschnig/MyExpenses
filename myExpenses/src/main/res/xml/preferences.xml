@@ -312,5 +312,10 @@
             android:key="@string/pref_planner_calendar_id_key"
             android:summary="@string/pref_planning_calendar_summary"
             android:title="@string/pref_planning_calendar_title"/>
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="@string/pref_tracking_key"
+            android:summary="@string/pref_tracking_summary"
+            android:title="@string/pref_tracking_title"/>
     </PreferenceCategory>
 </PreferenceScreen> 

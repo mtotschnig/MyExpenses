@@ -82,6 +82,11 @@ public class AppModule {
         public void logEvent(String eventName, Bundle params) {
           //noop
         }
+
+        @Override
+        public void setEnabled(boolean enabled) {
+          //noop
+        }
       };
     }
   }

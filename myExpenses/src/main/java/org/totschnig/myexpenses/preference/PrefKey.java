@@ -78,7 +78,8 @@ public enum PrefKey {
   NEW_ACCOUNT_ENABLED("new_account_enabled"),
   SYNC_FREQUCENCY(R.string.pref_sync_frequency_key),
   SYNC_UPSELL_NOTIFICATION_SHOWN("sync_upsell_notification_shown"),
-  MANAGE_SYNC_BACKENDS(R.string.pref_manage_sync_backends_key);
+  MANAGE_SYNC_BACKENDS(R.string.pref_manage_sync_backends_key),
+  TRACKING(R.string.pref_tracking_key);
 
   private int resId = 0;
   private String key = null;

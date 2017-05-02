@@ -202,6 +202,14 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
             categoryManage.addPreference(prefStaleImages);
         }
       }.execute();
+
+      pref = findPreference(TRACKING);
+      try {
+        Class.forName("org.totschnig.myexpenses.util.tracking.PlatformTracker");
+      } catch (ClassNotFoundException e) {
+        pref.setEnabled(false);
+      }
+      pref.setOnPreferenceChangeListener(this);
     }
     //SHORTCUTS screen
     else if (rootKey.equals(UI_HOME_SCREEN_SHORTCUTS.getKey())) {
@@ -450,6 +458,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         Toast.makeText(getActivity(), R.string.number_format_illegal, Toast.LENGTH_LONG).show();
         return false;
       }
+    } else if (matches(pref, TRACKING)) {
+      ((ProtectedFragmentActivity) getActivity()).setTrackingEnabled((boolean) value);
     }
     return true;
   }
