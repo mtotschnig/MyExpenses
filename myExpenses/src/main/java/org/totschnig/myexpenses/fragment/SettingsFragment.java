@@ -557,6 +557,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
           pref.setSummary(getString(R.string.app_dir_not_accessible,
               FileUtils.getPath(MyApplication.getInstance(), appDir.getUri())));
         }
+      } else {
+        pref.setSummary(R.string.io_error_appdir_null);
       }
     } else {
       pref.setSummary(R.string.external_storage_unavailable);
