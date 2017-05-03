@@ -80,7 +80,7 @@ public class AppModule {
 
         @Override
         public void logEvent(String eventName, Bundle params) {
-          //noop
+          Timber.d("Event %s (%s)", eventName, params);
         }
 
         @Override
