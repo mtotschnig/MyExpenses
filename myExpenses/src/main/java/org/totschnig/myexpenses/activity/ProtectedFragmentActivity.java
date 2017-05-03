@@ -74,9 +74,6 @@ import javax.inject.Inject;
 import static org.totschnig.myexpenses.activity.ContribInfoDialogActivity.KEY_FEATURE;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
 
-/**
- * @author Michael Totschnig
- */
 public abstract class ProtectedFragmentActivity extends AppCompatActivity
     implements MessageDialogListener, OnSharedPreferenceChangeListener,
     ConfirmationDialogFragment.ConfirmationDialogListener,
@@ -129,7 +126,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    MyApplication.getInstance().getAppComponent().inject(this);
+    injectDependencies();
     if (PrefKey.PERFORM_PROTECTION.getBoolean(false)) {
       getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
           WindowManager.LayoutParams.FLAG_SECURE);
@@ -146,6 +143,10 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     textColorSecondary = themeArray.getColorStateList(0);
 
     tracker.init(this);
+  }
+
+  protected void injectDependencies() {
+    MyApplication.getInstance().getAppComponent().inject(this);
   }
 
   @Override

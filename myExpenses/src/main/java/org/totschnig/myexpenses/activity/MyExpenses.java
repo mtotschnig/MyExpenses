@@ -141,8 +141,6 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_PRINT;
  * This is the main activity where all expenses are listed
  * From the menu subactivities (Insert, Reset, SelectAccount, Help, Settings)
  * are called
- *
- * @author Michael Totschnig
  */
 public class MyExpenses extends LaunchActivity implements
     OnPageChangeListener, LoaderManager.LoaderCallbacks<Cursor>,
@@ -207,15 +205,14 @@ public class MyExpenses extends LaunchActivity implements
   @Inject
   CurrencyFormatter currencyFormatter;
 
-
-  /* (non-Javadoc)
-   * Called when the activity is first created.
-   * @see android.app.Activity#onCreate(android.os.Bundle)
-   */
+  @Override
+  protected void injectDependencies() {
+    MyApplication.getInstance().getAppComponent().inject(this);
+  }
+  
   @Override
   public void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeId());
-    MyApplication.getInstance().getAppComponent().inject(this);
     Resources.Theme theme = getTheme();
     TypedValue value = new TypedValue();
     theme.resolveAttribute(R.attr.colorAggregate, value, true);

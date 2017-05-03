@@ -260,11 +260,14 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   @Override
+  protected void injectDependencies() {
+    MyApplication.getInstance().getAppComponent().inject(this);
+  }
+
+  @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.one_expense);
-    MyApplication.getInstance().getAppComponent().inject(this);
-
 
     mDateFormat = Utils.getDateFormatSafe(this);
     mTimeFormat = android.text.format.DateFormat.getTimeFormat(this);
