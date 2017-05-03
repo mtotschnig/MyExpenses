@@ -114,6 +114,7 @@ import org.totschnig.myexpenses.util.FilterCursorWrapper;
 import org.totschnig.myexpenses.util.PermissionHelper;
 import org.totschnig.myexpenses.util.PictureDirHelper;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.TemplateWidget;
 
@@ -1763,6 +1764,9 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   private void restartWithType(int newType) {
+    Bundle bundle = new Bundle();
+    bundle.putInt(Tracker.EVENT_PARAM_OPERATION_TYPE, newType);
+    logEvent(Tracker.EVENT_SELECT_OPERATION_TYPE, bundle);
     cleanup();
     Intent restartIntent = getIntent();
     restartIntent.putExtra(MyApplication.KEY_OPERATION_TYPE, newType);

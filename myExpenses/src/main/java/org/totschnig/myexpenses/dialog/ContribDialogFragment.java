@@ -37,6 +37,7 @@ import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.LicenceHandler;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.tracking.Tracker;
 
 import java.io.Serializable;
 
@@ -163,6 +164,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
       }
     } else {
       //BUTTON_NEGATIV
+      ctx.logEvent(Tracker.EVENT_CONTRIB_DIALOG_NEGATIVE, null);
       ctx.finish(false);
     }
   }
@@ -170,10 +172,10 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
   @Override
   public void onCancel(DialogInterface dialog) {
     ContribInfoDialogActivity ctx = (ContribInfoDialogActivity) getActivity();
-    if (ctx == null) {
-      return;
+    if (ctx != null) {
+      ctx.logEvent(Tracker.EVENT_CONTRIB_DIALOG_CANCEL, null);
+      ctx.finish(true);
     }
-    ctx.finish(true);
   }
 
   @Override

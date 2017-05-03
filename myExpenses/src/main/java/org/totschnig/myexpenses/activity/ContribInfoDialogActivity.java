@@ -13,6 +13,8 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListen
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.ShortcutHelper;
+import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.tracking.Tracker;
 
 import java.io.Serializable;
 
@@ -52,6 +54,9 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
   }
 
   public void contribBuyDo(boolean extended) {
+    Bundle bundle = new Bundle(1);
+    bundle.putBoolean(Tracker.EVENT_PARAM_EXTENDED, extended);
+    logEvent(Tracker.EVENT_CONTRIB_DIALOG_BUY, bundle);
     DonateDialogFragment.newInstance(extended).show(getSupportFragmentManager(), "CONTRIB");
   }
 

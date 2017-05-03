@@ -242,8 +242,8 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   public boolean onOptionsItemSelected(MenuItem item) {
     Bundle bundle = new Bundle();
     String fullResourceName = getResources().getResourceName(item.getItemId());
-    bundle.putString("item_id", fullResourceName.substring(fullResourceName.indexOf('/') + 1));
-    tracker.logEvent("select_menu", bundle);
+    bundle.putString(Tracker.EVENT_PARAM_ITEM_ID, fullResourceName.substring(fullResourceName.indexOf('/') + 1));
+    logEvent(Tracker.EVENT_SELECT_MENU, bundle);
     if (dispatchCommand(item.getItemId(), null)) {
       return true;
     }
@@ -484,5 +484,9 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   public void setTrackingEnabled(boolean enabled) {
     tracker.setEnabled(enabled);
+  }
+
+  public void logEvent(String event, Bundle params) {
+    tracker.logEvent(event, params);
   }
 }
