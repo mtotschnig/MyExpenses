@@ -1,4 +1,4 @@
-image: registry.yourdomain.com/your-group/your-project:latest
+image: registry.gitlab.com/mtotschn/myexpenses:latest
 
 before_script:
   - chmod +x ./gradlew
