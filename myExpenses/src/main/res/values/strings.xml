@@ -661,5 +661,6 @@
     <string name="warning_auto_backup_deactivated">Auto-backup has been deactivated. You can turn it on again from the settings after solving the problem (e.g. selecting a different folder for backups).</string>
     <string name="pref_tracking_summary">Allow us to collect anonymous data about usage patterns that helps us plan improvements.</string>
     <string name="pref_tracking_title">Usage data collection</string>
+    <string name="sync_database_error">A database error occurred during synchronization.</string>
 </resources>
 

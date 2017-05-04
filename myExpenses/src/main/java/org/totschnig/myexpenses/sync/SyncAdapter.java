@@ -38,6 +38,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.util.Pair;
 
@@ -62,6 +63,7 @@ import org.totschnig.myexpenses.sync.json.ChangeSet;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper;
+import org.totschnig.myexpenses.util.Utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -99,6 +101,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   private Map<String, Long> payeeToId;
   private Map<String, Long> methodToId;
   private Map<String, Long> accountUuidToId;
+
   public SyncAdapter(Context context, boolean autoInitialize) {
     super(context, autoInitialize);
   }
@@ -144,18 +147,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       AcraHelper.report(throwable instanceof Exception ? ((Exception) throwable) : new Exception(throwable));
       GenericAccountService.deactivateSync(account);
       accountManager.setUserData(account, GenericAccountService.KEY_BROKEN, "1");
-      String content = String.format(Locale.ROOT,
-          "The backend could not be instantiated.Reason: %s. Please try to delete and recreate it.",
-          throwable.getMessage());
-      Intent manageIntent = new Intent(getContext(), ManageSyncBackends.class);
-      NotificationBuilderWrapper builder =
-          NotificationBuilderWrapper.defaultBigTextStyleBuilder(
-              getContext(), "Synchronization backend deactivated", content)
-              .setContentIntent(PendingIntent.getActivity(
-                  getContext(), 0, manageIntent, PendingIntent.FLAG_CANCEL_CURRENT));
-      Notification notification = builder.build();
-      notification.flags = Notification.FLAG_AUTO_CANCEL;
-      ((NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE)).notify(0, notification);
+      notifyUser("Synchronization backend deactivated",
+          String.format(Locale.ROOT,
+              "The backend could not be instantiated. Reason: %s. Please try to delete and recreate it.",
+              throwable.getMessage()),
+          new Intent(getContext(), ManageSyncBackends.class));
+
       return;
     }
     if (!backend.setUp()) {
@@ -169,18 +166,15 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       try {
         backend.storeBackup(Uri.parse(autoBackupFileUri));
       } catch (IOException e) {
-        String content = getContext().getString(
-            R.string.auto_backup_cloud_failure, autoBackupFileUri, account.name)
-            + " " + e.getMessage();
-        Notification notification = NotificationBuilderWrapper.defaultBigTextStyleBuilder(
-            getContext(), getContext().getString(R.string.pref_auto_backup_title), content).build();
-        notification.flags = Notification.FLAG_AUTO_CANCEL;
-        ((NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE)).notify(0, notification);
+        notifyUser(getContext().getString(R.string.pref_auto_backup_title),
+            getContext().getString(R.string.auto_backup_cloud_failure, autoBackupFileUri, account.name)
+                + " " + e.getMessage(),
+            null);
       }
       return;
     }
 
-    Cursor c;
+    Cursor cursor;
 
 
     String[] selectionArgs;
@@ -193,44 +187,45 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
     String[] projection = {KEY_ROWID};
     try {
-      c = provider.query(TransactionProvider.ACCOUNTS_URI, projection,
+      cursor = provider.query(TransactionProvider.ACCOUNTS_URI, projection,
           selection + " AND " + KEY_SYNC_SEQUENCE_LOCAL + " = 0", selectionArgs, null);
     } catch (RemoteException e) {
       syncResult.databaseError = true;
-      AcraHelper.report(e);
+      notifyDatabaseError(e);
       return;
     }
-    if (c == null) {
+    if (cursor == null) {
       syncResult.databaseError = true;
-      AcraHelper.report("Cursor is null");
+      Exception exception = new Exception("Cursor is null");
+      notifyDatabaseError(exception);
       return;
     }
-    if (c.moveToFirst()) {
+    if (cursor.moveToFirst()) {
       do {
-        long accountId = c.getLong(0);
+        long accountId = cursor.getLong(0);
         try {
           provider.update(buildInitializationUri(accountId), new ContentValues(0), null, null);
         } catch (RemoteException e) {
           syncResult.databaseError = true;
-          AcraHelper.report(e);
+          notifyDatabaseError(e);
           return;
         }
-      } while (c.moveToNext());
+      } while (cursor.moveToNext());
     }
 
 
     try {
-      c = provider.query(TransactionProvider.ACCOUNTS_URI, projection, selection, selectionArgs,
+      cursor = provider.query(TransactionProvider.ACCOUNTS_URI, projection, selection, selectionArgs,
           null);
     } catch (RemoteException e) {
       syncResult.databaseError = true;
-      AcraHelper.report(e);
+      notifyDatabaseError(e);
       return;
     }
-    if (c != null) {
-      if (c.moveToFirst()) {
+    if (cursor != null) {
+      if (cursor.moveToFirst()) {
         do {
-          long accountId = c.getLong(0);
+          long accountId = cursor.getLong(0);
 
           String lastLocalSyncKey = KEY_LAST_SYNCED_LOCAL(accountId);
           String lastRemoteSyncKey = KEY_LAST_SYNCED_REMOTE(accountId);
@@ -321,7 +316,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             } catch (RemoteException | OperationApplicationException | SQLiteException e) {
               Timber.e(e, "Error while syncing ");
               syncResult.databaseError = true;
-              AcraHelper.report(e);
             } finally {
               if (!backend.unlock()) {
                 Timber.e("Unlocking backend failed");
@@ -329,14 +323,32 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
               }
             }
           } else {
-            //TODO syncResult.delayUntil = ???
             syncResult.stats.numIoExceptions++;
           }
-        } while (c.moveToNext());
+        } while (cursor.moveToNext());
       }
-      c.close();
+      cursor.close();
     }
     backend.tearDown();
+  }
+
+  private void notifyUser(String title, String content, @Nullable Intent intent) {
+    NotificationBuilderWrapper builder =
+        NotificationBuilderWrapper.defaultBigTextStyleBuilder(
+            getContext(), title, content);
+    if (intent != null) {
+      builder.setContentIntent(PendingIntent.getActivity(
+          getContext(), 0, intent, PendingIntent.FLAG_CANCEL_CURRENT));
+    }
+    Notification notification = builder.build();
+    notification.flags = Notification.FLAG_AUTO_CANCEL;
+    ((NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE)).notify(0, notification);
+  }
+
+  private void notifyDatabaseError(Exception e) {
+    AcraHelper.report(e);
+    notifyUser(Utils.concatResStrings(getContext(), " ", R.string.app_name, R.string.synchronization),
+        getContext().getString(R.string.sync_database_error) + " " + e.getMessage(), null);
   }
 
   private List<TransactionChange> getLocalChanges(ContentProviderClient provider, long accountId,
@@ -421,7 +433,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         .forEach(change -> collectOperations(change, accountId, ops, -1));
     ops.add(ContentProviderOperation.newDelete(
         TransactionProvider.DUAL_URI.buildUpon()
-            .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_SYNC_END  , "1").build())
+            .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_SYNC_END, "1").build())
         .build());
     ContentProviderResult[] contentProviderResults = provider.applyBatch(ops);
     int opsSize = ops.size();
