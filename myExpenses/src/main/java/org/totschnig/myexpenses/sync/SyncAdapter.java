@@ -91,26 +91,14 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
   public static final int BATCH_SIZE = 100;
-
-  public static String KEY_LAST_SYNCED_REMOTE(long accountId) {
-    return "last_synced_remote_" + accountId;
-  }
-
-  public static final String KEY_LAST_SYNCED_LOCAL(long accountId) {
-    return "last_synced_local_" + accountId;
-  }
-
   public static final String KEY_RESET_REMOTE_ACCOUNT = "reset_remote_account";
   public static final String KEY_UPLOAD_AUTO_BACKUP = "upload_auto_backup";
-
+  private static final ThreadLocal<org.totschnig.myexpenses.model.Account>
+      dbAccount = new ThreadLocal<>();
   private Map<String, Long> categoryToId;
   private Map<String, Long> payeeToId;
   private Map<String, Long> methodToId;
   private Map<String, Long> accountUuidToId;
-
-  private static final ThreadLocal<org.totschnig.myexpenses.model.Account>
-      dbAccount = new ThreadLocal<>();
-
   public SyncAdapter(Context context, boolean autoInitialize) {
     super(context, autoInitialize);
   }
@@ -118,6 +106,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   public SyncAdapter(Context context, boolean autoInitialize, boolean allowParallelSyncs) {
     super(context, autoInitialize, allowParallelSyncs);
+  }
+
+  public static String KEY_LAST_SYNCED_REMOTE(long accountId) {
+    return "last_synced_remote_" + accountId;
+  }
+
+  public static final String KEY_LAST_SYNCED_LOCAL(long accountId) {
+    return "last_synced_local_" + accountId;
   }
 
   private String getUserDataWithDefault(AccountManager accountManager, Account account,
@@ -155,11 +151,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       NotificationBuilderWrapper builder =
           NotificationBuilderWrapper.defaultBigTextStyleBuilder(
               getContext(), "Synchronization backend deactivated", content)
-          .setContentIntent(PendingIntent.getActivity(
-              getContext(), 0, manageIntent, PendingIntent.FLAG_CANCEL_CURRENT));
+              .setContentIntent(PendingIntent.getActivity(
+                  getContext(), 0, manageIntent, PendingIntent.FLAG_CANCEL_CURRENT));
       Notification notification = builder.build();
       notification.flags = Notification.FLAG_AUTO_CANCEL;
-      ((NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE)).notify(0,notification);
+      ((NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE)).notify(0, notification);
       return;
     }
     if (!backend.setUp()) {
@@ -177,9 +173,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             R.string.auto_backup_cloud_failure, autoBackupFileUri, account.name)
             + " " + e.getMessage();
         Notification notification = NotificationBuilderWrapper.defaultBigTextStyleBuilder(
-            getContext(),getContext().getString(R.string.pref_auto_backup_title), content).build();
+            getContext(), getContext().getString(R.string.pref_auto_backup_title), content).build();
         notification.flags = Notification.FLAG_AUTO_CANCEL;
-        ((NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE)).notify(0,notification);
+        ((NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE)).notify(0, notification);
       }
       return;
     }
@@ -191,20 +187,20 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     String selection = KEY_SYNC_ACCOUNT_NAME + " = ?";
     if (uuidFromExtras != null) {
       selection += " AND " + KEY_UUID + " = ?";
-      selectionArgs = new String[] {account.name, uuidFromExtras};
+      selectionArgs = new String[]{account.name, uuidFromExtras};
     } else {
-      selectionArgs = new String[] {account.name};
+      selectionArgs = new String[]{account.name};
     }
     String[] projection = {KEY_ROWID};
     try {
       c = provider.query(TransactionProvider.ACCOUNTS_URI, projection,
-          selection + " AND "  + KEY_SYNC_SEQUENCE_LOCAL + " = 0", selectionArgs, null);
+          selection + " AND " + KEY_SYNC_SEQUENCE_LOCAL + " = 0", selectionArgs, null);
     } catch (RemoteException e) {
       syncResult.databaseError = true;
       AcraHelper.report(e);
       return;
     }
-    if (c==null) {
+    if (c == null) {
       syncResult.databaseError = true;
       AcraHelper.report("Cursor is null");
       return;
