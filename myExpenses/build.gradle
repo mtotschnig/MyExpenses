@@ -69,10 +69,6 @@ android {
             manifestPlaceholders = [appName: "@string/app_name", debug: "false"]
             applicationIdSuffix ""
         }
-        beta {
-            initWith release
-            applicationIdSuffix ".beta"
-        }
         debug {
             applicationIdSuffix ".debug"
             manifestPlaceholders = [appName: "My Expenses Debug", debug: "true"]
