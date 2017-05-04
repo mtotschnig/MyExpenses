@@ -464,7 +464,7 @@ public class MyApplication extends MultiDexApplication implements
     }
     if (c.moveToFirst()) {
       plannerCalendarId = String.valueOf(c.getLong(0));
-      Timber.i("found a preexisting calendar %d " + plannerCalendarId);
+      Timber.i("found a preexisting calendar %s ", plannerCalendarId);
       c.close();
     } else {
       c.close();
@@ -498,7 +498,7 @@ public class MyApplication extends MultiDexApplication implements
             "Inserting planner calendar failed, last path segment is %s", plannerCalendarId)));
         return INVALID_CALENDAR_ID;
       }
-      Timber.i("successfully set up new calendar: %s" + plannerCalendarId);
+      Timber.i("successfully set up new calendar: %s", plannerCalendarId);
     }
     if (persistToSharedPref) {
       // onSharedPreferenceChanged should now trigger initPlanner
@@ -646,7 +646,7 @@ public class MyApplication extends MultiDexApplication implements
                 if (eventCursor.moveToFirst()) {
                   copyEventData(eventCursor, eventValues);
                   if (insertEventAndUpdatePlan(eventValues, templateId)) {
-                    Timber.i("updated plan id in template %d" + templateId);
+                    Timber.i("updated plan id in template %d", templateId);
                     int deleted = cr.delete(eventUri, null, null);
                     Timber.i("deleted old event %d", deleted);
                   }

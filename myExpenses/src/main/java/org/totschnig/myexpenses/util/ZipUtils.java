@@ -176,7 +176,7 @@ public class ZipUtils {
       ZipInputStream zin = new ZipInputStream(fileIn);
       ZipEntry ze;
       while ((ze = zin.getNextEntry()) != null) {
-        Timber.v("Unzipping " + ze.getName());
+        Timber.v("Unzipping %s", ze.getName());
         File newFile = new File(dirOut,ze.getName());
         newFile.getParentFile().mkdirs();
         if(ze.isDirectory()) {

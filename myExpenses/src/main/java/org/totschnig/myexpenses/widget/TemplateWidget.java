@@ -49,8 +49,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 
-import timber.log.Timber;
-
 import static android.appwidget.AppWidgetManager.INVALID_APPWIDGET_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
 
@@ -135,7 +133,6 @@ public class TemplateWidget extends AbstractWidget<Template> {
   @Override
   RemoteViews updateWidgetFrom(Context context, int widgetId, int layoutId,
                                Template t) {
-    Timber.d("updating template " + t.getId());
     RemoteViews updateViews = new RemoteViews(context.getPackageName(),
         layoutId);
     updateViews.setTextViewText(R.id.line1,
@@ -179,7 +176,6 @@ public class TemplateWidget extends AbstractWidget<Template> {
 
   @Override
   public void onReceive(Context context, Intent intent) {
-    Timber.d("onReceive intent " + intent);
     String action = intent.getAction();
     if (WIDGET_INSTANCE_SAVE_ACTION.equals(action)) {
       if (MyApplication.getInstance().shouldLock(null)) {
@@ -217,9 +213,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
 
   @Override
   public void onEnabled(Context context) {
-    Timber.d("onEnabled");
     if (!ContribFeature.TEMPLATE_WIDGET.hasAccess()) {
-      Timber.d("not contrib enabled");
       showContribMessage(context);
     }
     super.onEnabled(context);
@@ -237,12 +231,9 @@ public class TemplateWidget extends AbstractWidget<Template> {
   @Override
   protected void updateWidgets(Context context, AppWidgetManager manager,
                                int[] appWidgetIds, String action) {
-    Timber.d("updating TemplateWidget");
     if (!isProtected() && !ContribFeature.TEMPLATE_WIDGET.hasAccess()) {
-      Timber.d("not contrib enabled");
       int usagesLeft = ContribFeature.TEMPLATE_WIDGET.usagesLeft();
       if (usagesLeft < 1) {
-        Timber.d("no usages left");
         for (int id : appWidgetIds) {
           AppWidgetProviderInfo appWidgetInfo = manager.getAppWidgetInfo(id);
           if (appWidgetInfo != null) {

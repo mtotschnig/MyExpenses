@@ -36,8 +36,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 
-import timber.log.Timber;
-
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE;
 
 
@@ -69,7 +67,6 @@ public class AccountWidget extends AbstractWidget<Account> {
   @Override
   RemoteViews updateWidgetFrom(Context context,
                                int widgetId, int layoutId, Account a) {
-    Timber.d("updating account %d", a.getId());
     RemoteViews updateViews = new RemoteViews(context.getPackageName(),
         layoutId);
     updateViews.setTextViewText(R.id.line1, a.label);
@@ -162,7 +159,6 @@ public class AccountWidget extends AbstractWidget<Account> {
 
   @Override
   public void onReceive(Context context, Intent intent) {
-    Timber.d("onReceive intent " + intent);
     super.onReceive(context, intent);
   }
 }

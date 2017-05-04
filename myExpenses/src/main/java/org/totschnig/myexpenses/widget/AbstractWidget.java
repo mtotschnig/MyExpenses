@@ -20,10 +20,6 @@ import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.Utils;
 
-import java.util.Arrays;
-
-import timber.log.Timber;
-
 import static android.appwidget.AppWidgetManager.INVALID_APPWIDGET_ID;
 
 public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider {
@@ -80,7 +76,6 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
 
   protected void updateWidgets(Context context, AppWidgetManager manager, int[] appWidgetIds,
                                String action) {
-    Timber.d("updateWidgets " + Arrays.toString(appWidgetIds) + " -> " + (action != null ? action : ""));
     boolean isProtected = isProtected();
     for (int id : appWidgetIds) {
       AppWidgetProviderInfo appWidgetInfo = manager.getAppWidgetInfo(id);
@@ -91,7 +86,6 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
         } else {
           int layoutId = appWidgetInfo.initialLayout;
           long objectId = loadForWidget(context, id);
-          Timber.d("loaded object id " + objectId);
           remoteViews = buildUpdate(context, id, layoutId, objectId, action);
         }
         manager.updateAppWidget(id, remoteViews);
@@ -101,7 +95,6 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
 
   @Override
   public void onReceive(Context context, Intent intent) {
-    Timber.d("onReceive intent " + intent);
     String action = intent.getAction();
     if (WIDGET_NEXT_ACTION.equals(action) || WIDGET_PREVIOUS_ACTION.equals(action)) {
       int widgetId = intent.getIntExtra(WIDGET_ID, INVALID_APPWIDGET_ID);
@@ -139,15 +132,11 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
 
   RemoteViews buildUpdate(Context context,
                           int widgetId, int layoutId, long objectId, String action) {
-    Timber.d(action);
     Cursor c = getCursor(context);
     T o;
     try {
       int count = c.getCount();
-      Timber.d("count " + count);
       if (count > 0) {
-        Timber.d("buildUpdateForOther " + widgetId
-            + " -> " + objectId);
         if (count == 1 || objectId == -1) {
           if (c.moveToNext()) {
             o = getObject(c);
@@ -155,14 +144,10 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
           }
         } else {
           boolean found = false;
-          Timber.d("looking for " + objectId);
           while (c.moveToNext()) {
             o = getObject(c);
-            Timber.d("looking at " + o.getId());
             if (o.getId() == objectId) {
               found = true;
-              Timber.d("buildUpdateForOther found -> "
-                  + objectId);
               if (action.equals(WIDGET_NEXT_ACTION)) {
                 continue;
               }
@@ -173,15 +158,12 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
               return updateWidgetFrom(context, widgetId, layoutId, o);
             } else {
               if (found) {
-                Timber.d("buildUpdateForOther building update for -> " + o.getId());
                 return updateWidgetFrom(context, widgetId, layoutId, o);
               }
             }
           }
           c.moveToFirst();
           o = getObject(c);
-          Timber.d("buildUpdateForOther not found, taking the first one -> "
-                  + o.getId());
           return updateWidgetFrom(context, widgetId, layoutId, o);
         }
       }
@@ -211,9 +193,7 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
   }
 
   protected void setBackgroundColorSave(RemoteViews updateViews, int res, int color) {
-//    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO) {
     updateViews.setInt(res, "setBackgroundColor", color);
-//    }
   }
 
   //http://stackoverflow.com/a/35633411/1199911

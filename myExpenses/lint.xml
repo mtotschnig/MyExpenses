@@ -23,5 +23,7 @@
     <issue id="HardwareIds" severity="ignore" />
     <issue id="LogNotTimber">
         <ignore path="src/androidTest" />
+        <ignore path="src/main/java/com/android/calendarcommon2/EventRecurrence.java" />
+        <ignore path="src/main/java/org/totschnig/myexpenses/ui/FragmentPagerAdapter.java" />
     </issue>
 </lint>
