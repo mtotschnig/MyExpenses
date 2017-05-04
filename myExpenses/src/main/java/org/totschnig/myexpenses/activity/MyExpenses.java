@@ -735,7 +735,7 @@ public class MyExpenses extends LaunchActivity implements
   }
 
   public void finishActionMode() {
-    if (mCurrentPosition != -1 && Build.VERSION.SDK_INT >= 11) {
+    if (mCurrentPosition != -1 && Utils.hasApiLevel(Build.VERSION_CODES.HONEYCOMB)) {
       ContextualActionBarFragment f =
           (ContextualActionBarFragment) getSupportFragmentManager().findFragmentByTag(
               mViewPagerAdapter.getFragmentName(mCurrentPosition));

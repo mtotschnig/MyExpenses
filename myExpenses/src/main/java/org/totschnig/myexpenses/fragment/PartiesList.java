@@ -15,16 +15,6 @@
 
 package org.totschnig.myexpenses.fragment;
 
-import java.util.ArrayList;
-
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
-import org.totschnig.myexpenses.dialog.EditTextDialog;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.task.TaskExecutionFragment;
-import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
-
 import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.os.Build;
@@ -37,9 +27,20 @@ import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.ListView;
 import android.widget.Toast;
+
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.dialog.EditTextDialog;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
+import org.totschnig.myexpenses.util.Utils;
+
+import java.util.ArrayList;
 
 public class PartiesList extends ContextualActionBarFragment implements LoaderManager.LoaderCallbacks<Cursor> {
   SimpleCursorAdapter mAdapter;
@@ -127,8 +128,8 @@ public class PartiesList extends ContextualActionBarFragment implements LoaderMa
 
     // Now create a simple cursor adapter and set it to display
     mAdapter = new SimpleCursorAdapter(
-        getActivity(), 
-        Build.VERSION.SDK_INT >= 11 ?
+        getActivity(),
+        Utils.hasApiLevel(Build.VERSION_CODES.HONEYCOMB) ?
             android.R.layout.simple_list_item_activated_1 :
             android.R.layout.simple_list_item_1,
         null,

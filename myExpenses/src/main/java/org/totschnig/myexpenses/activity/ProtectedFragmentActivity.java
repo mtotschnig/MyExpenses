@@ -203,7 +203,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     super.onResume();
     if (scheduledRestart) {
       scheduledRestart = false;
-      if (android.os.Build.VERSION.SDK_INT >= 11)
+      if (Utils.hasApiLevel(Build.VERSION_CODES.HONEYCOMB))
         recreate();
       else {
         Intent intent = getIntent();
@@ -410,7 +410,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   @Override
   public void setTitle(CharSequence title) {
     super.setTitle(title);
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+    if (!Utils.hasApiLevel(Build.VERSION_CODES.HONEYCOMB)) {
       getSupportActionBar().setTitle(title);
     }
   }

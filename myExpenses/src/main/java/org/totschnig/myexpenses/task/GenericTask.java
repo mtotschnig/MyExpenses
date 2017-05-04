@@ -648,7 +648,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         }
       }
       case TaskExecutionFragment.TASK_INIT: {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+        if (Utils.hasApiLevel(Build.VERSION_CODES.HONEYCOMB)) {
           //on Gingerbread we just accept that db is initialized with first request
           cr.call(TransactionProvider.DUAL_URI, TransactionProvider.METHOD_INIT, null, null);
         }

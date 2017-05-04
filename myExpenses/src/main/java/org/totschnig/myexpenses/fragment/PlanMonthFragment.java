@@ -138,7 +138,7 @@ public class PlanMonthFragment extends CaldroidFragment
   public void onStart() {
     super.onStart();
 
-    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
+    if (Utils.hasApiLevel(Build.VERSION_CODES.GINGERBREAD_MR1)) {
       int dialogHeight = getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ?
           (int) getResources().getDimension(R.dimen.plan_month_dialog_height) : ViewGroup.LayoutParams.MATCH_PARENT;
 
@@ -482,7 +482,7 @@ public class PlanMonthFragment extends CaldroidFragment
       GradientDrawable todaySelected =
           (GradientDrawable) getResources().getDrawable(todayDrawable).mutate();
       todaySelected.setColor(accountColor);
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+      if (Utils.hasApiLevel(Build.VERSION_CODES.HONEYCOMB)) {
         //noinspection InlinedApi
         stateListDrawable.addState(new int[]{android.R.attr.state_activated},
             new ColorDrawable(getContext().getResources().getColor(R.color.appDefault)));
