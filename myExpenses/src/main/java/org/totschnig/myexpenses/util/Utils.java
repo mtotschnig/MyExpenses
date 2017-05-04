@@ -679,9 +679,10 @@ public class Utils {
    * @param str
    * @return a representation of str converted to lower case, Unicode
    * normalization applied and markers removed this allows
-   * case-insentive comparison for non-ascii and non-latin strings
+   * case-insensitive comparison for non-ascii and non-latin strings
    */
   public static String normalize(String str) {
+    //noinspection DefaultLocale
     str = str.toLowerCase();
     // Credits: http://stackoverflow.com/a/3322174/1199911
     return Normalizer.normalize(str, Normalizer.Form.NFD).replaceAll("\\p{M}",

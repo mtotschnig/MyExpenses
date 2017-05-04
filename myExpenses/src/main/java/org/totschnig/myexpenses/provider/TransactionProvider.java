@@ -310,7 +310,7 @@ public class TransactionProvider extends ContentProvider {
 
     Cursor c;
 
-    Timber.d("Query for URL: " + uri);
+    Timber.d("Query for URL: %s", uri);
     String defaultOrderBy = null;
     String groupBy = null;
     String having = null;
@@ -471,7 +471,7 @@ public class TransactionProvider extends ContentProvider {
         //CAST(strftime('%Y',date) AS integer)
         //the accountId is used three times , once in the table subquery, twice in the KEY_INTERIM_BALANCE subquery
         //(first in the where clause, second in the subselect for the opening balance),
-      Timber.d("SelectionArgs before join : " + Arrays.toString(selectionArgs));
+      Timber.d("SelectionArgs before join : %s", Arrays.toString(selectionArgs));
       selectionArgs = Utils.joinArrays(
             accountArgs,
             selectionArgs);
@@ -574,7 +574,7 @@ public class TransactionProvider extends ContentProvider {
             sortOrder,
             null);
         c = db.rawQuery(sql, null);
-        Timber.d("Query : " + sql);
+        Timber.d("Query : %s", sql);
 
         c.setNotificationUri(getContext().getContentResolver(), uri);
         return c;
@@ -786,8 +786,8 @@ public class TransactionProvider extends ContentProvider {
       @SuppressWarnings("deprecation")
       String qs = qb.buildQuery(projection, selection, null, groupBy,
           null, orderBy, limit);
-      Timber.d("Query : " + qs);
-      Timber.d("SelectionArgs : " + Arrays.toString(selectionArgs));
+      Timber.d("Query : %s", qs);
+      Timber.d("SelectionArgs : %s", Arrays.toString(selectionArgs));
     }
     //long startTime = System.nanoTime();
     c = qb.query(db, projection, selection, selectionArgs, groupBy, having, orderBy, limit);
@@ -910,7 +910,7 @@ public class TransactionProvider extends ContentProvider {
   @Override
   public int delete(@NonNull Uri uri, String where, String[] whereArgs) {
     setDirty();
-    Timber.d("Delete for URL: " + uri);
+    Timber.d("Delete for URL: %s", uri);
     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
     int count;
     String whereString;

@@ -134,7 +134,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     methodToId = new HashMap<>();
     accountUuidToId = new HashMap<>();
     String uuidFromExtras = extras.getString(KEY_UUID);
-    Timber.i("onPerformSync " + extras.toString());
+    Timber.i("onPerformSync %s", extras);
 
     AccountManager accountManager = AccountManager.get(getContext());
 
@@ -244,7 +244,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
           long lastSyncedRemote = Long.parseLong(getUserDataWithDefault(accountManager, account,
               lastRemoteSyncKey, "0"));
           dbAccount.set(org.totschnig.myexpenses.model.Account.getInstanceFromDb(accountId));
-          Timber.i("now syncing " + dbAccount.get().label);
+          Timber.i("now syncing %s", dbAccount.get().label);
           if (uuidFromExtras != null && extras.getBoolean(KEY_RESET_REMOTE_ACCOUNT)) {
             if (!backend.resetAccountData(uuidFromExtras)) {
               syncResult.stats.numIoExceptions++;

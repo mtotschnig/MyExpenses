@@ -30,7 +30,6 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.webkit.MimeTypeMap;
-import android.widget.EditText;
 
 import org.totschnig.myexpenses.BuildConfig;
 
@@ -246,13 +245,9 @@ public class FileUtils {
    */
   @TargetApi(Build.VERSION_CODES.KITKAT)
   public static String getPath(final Context context, final Uri uri) {
-    Timber.d("Authority: " + uri.getAuthority() +
-        ", Fragment: " + uri.getFragment() +
-        ", Port: " + uri.getPort() +
-        ", Query: " + uri.getQuery() +
-        ", Scheme: " + uri.getScheme() +
-        ", Host: " + uri.getHost() +
-        ", Segments: " + uri.getPathSegments().toString());
+    Timber.d("Authority: %s, Fragment: %s, Port: %s, Query: %s, Scheme: %s, Host: %s, Segments: %s",
+        uri.getAuthority(), uri.getFragment(), uri.getPort(), uri.getQuery(), uri.getScheme(), uri.getHost(),
+        uri.getPathSegments().toString());
 
     // DocumentProvider
     if (isDocumentUri(context, uri)) {
@@ -429,7 +424,7 @@ public class FileUtils {
         cursor = resolver.query(uri, null, null, null, null);
         if (cursor.moveToFirst()) {
           final int id = cursor.getInt(0);
-          Timber.d("Got thumb ID: " + id);
+          Timber.d("Got thumb ID: %d", id);
 
           if (mimeType.contains("video")) {
             bm = MediaStore.Video.Thumbnails.getThumbnail(
