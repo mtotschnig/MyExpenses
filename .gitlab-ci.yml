@@ -3,29 +3,16 @@ image: registry.gitlab.com/mtotschn/myexpenses:latest
 before_script:
   - chmod +x ./gradlew
 
-stages:
-  - build
-  - test
-
 build:
-  stage: build
   script:
+    - ./gradlew check
+    - wget --quiet --output-document=android-wait-for-emulator https://raw.githubusercontent.com/travis-ci/travis-cookbooks/0f497eb71291b52a703143c5cd63a217c8766dc9/community-cookbooks/android-sdk/files/default/android-wait-for-emulator
+    - chmod +x android-wait-for-emulator
+    - ${ANDROID_HOME}/tools/emulator64-x86 -avd test -no-window -no-audio &
+    - ./android-wait-for-emulator
+    - ${ANDROID_HOME}/platform-tools/adb shell input keyevent 82
+    - ./gradlew connectedForTestAndroidTest
     - ./gradlew assembleDebug
   artifacts:
     paths:
     - app/build/outputs/
-
-unitTests:
-  stage: test
-  script:
-    - ./gradlew test
-
-#functionalTests:
-#  stage: test
-#  script:
-#    - wget --quiet --output-document=android-wait-for-emulator https://raw.githubusercontent.com/travis-ci/travis-cookbooks/0f497eb71291b52a703143c5cd63a217c8766dc9/community-cookbooks/android-sdk/files/default/android-wait-for-emulator
-#    - chmod +x android-wait-for-emulator
-#    - ${ANDROID_HOME}/tools/emulator64-x86 -avd test -no-window -no-audio &
-#    - ./android-wait-for-emulator
-#    - ${ANDROID_HOME}/platform-tools/adb shell input keyevent 82
-#    - ./gradlew cAT
