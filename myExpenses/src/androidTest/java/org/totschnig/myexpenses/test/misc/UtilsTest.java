@@ -67,5 +67,8 @@ public class UtilsTest extends TestCase {
     sbap.writeToParcel(p, 0);
     p.setDataPosition(0);
     assertEquals(sbap, SparseBooleanArrayParcelable.CREATOR.createFromParcel(p));
+	if (p != null) {
+		p.recycle();
+	}
   }
 }
