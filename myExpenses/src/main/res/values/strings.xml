@@ -478,7 +478,7 @@
     <string name="import_parties_none">No parties imported</string>
     <string name="import_transactions_none">No transactions imported into account %1$s</string>
     <string name="import_source_select_error">Please provide a file of type %1$s</string>
-    <string name="import_source_select_not_readable">Unabe to read file. Please select from a different source.</string>
+    <string name="import_source_select_not_readable">Unable to read file. Please select from a different source.</string>
     <string name="menu_categories_setup_default">Setup default categories</string>
     <string name="menu_create_folder">New folder</string>
     <!-- This string is used for navigating up in the folder browser -->
