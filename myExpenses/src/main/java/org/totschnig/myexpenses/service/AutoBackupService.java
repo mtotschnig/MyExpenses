@@ -35,6 +35,7 @@ import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP;
+import static org.totschnig.myexpenses.util.NotificationBuilderWrapper.NOTIFICATION_AUTO_BACKUP;
 
 public class AutoBackupService extends WakefulIntentService {
 
@@ -83,7 +84,8 @@ public class AutoBackupService extends WakefulIntentService {
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(content));
         Notification notification = builder.build();
         notification.flags = Notification.FLAG_AUTO_CANCEL;
-        ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).notify(0, notification);
+        ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).notify(
+            NOTIFICATION_AUTO_BACKUP, notification);
       }
     } else if (ACTION_SCHEDULE_AUTO_BACKUP.equals(action)) {
       DailyAutoBackupScheduler.updateAutoBackupAlarms(this);

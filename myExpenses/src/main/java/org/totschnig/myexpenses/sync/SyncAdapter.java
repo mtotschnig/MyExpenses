@@ -74,6 +74,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
+import static org.totschnig.myexpenses.util.NotificationBuilderWrapper.NOTIFICATION_SYNC;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
   public static final int BATCH_SIZE = 100;
@@ -318,8 +319,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     backend.tearDown();
   }
 
-  private void
-
   private void notifyUser(String title, String content, @Nullable Intent intent) {
     NotificationBuilderWrapper builder = NotificationBuilderWrapper.defaultBigTextStyleBuilder(
             getContext(), title, content);
@@ -329,7 +328,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
     Notification notification = builder.build();
     notification.flags = Notification.FLAG_AUTO_CANCEL;
-    ((NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE)).notify(0, notification);
+    ((NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE)).notify(
+        NOTIFICATION_SYNC, notification);
   }
 
   private void notifyIoException(int resId) {

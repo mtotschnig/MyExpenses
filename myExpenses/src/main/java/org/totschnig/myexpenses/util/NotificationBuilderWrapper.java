@@ -10,6 +10,9 @@ import android.support.v4.app.NotificationCompat;
 import org.totschnig.myexpenses.R;
 
 public class NotificationBuilderWrapper {
+  public static int NOTIFICATION_SYNC = -1;
+  public static int NOTIFICATION_AUTO_BACKUP = -2;
+  public static int NOTIFICATION_CONTRIB = -3;
   private Context context;
   private Notification.Builder api23Builder;
   private NotificationCompat.Builder compatBuilder;
