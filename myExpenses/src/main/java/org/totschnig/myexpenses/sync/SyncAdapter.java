@@ -58,6 +58,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import hugo.weaving.DebugLog;
 import timber.log.Timber;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
@@ -86,7 +87,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   private Map<String, Long> payeeToId;
   private Map<String, Long> methodToId;
   private Map<String, Long> accountUuidToId;
-  private StringBuilder notificationContent = new StringBuilder();
+  private StringBuilder notificationContent;
 
   public SyncAdapter(Context context, boolean autoInitialize) {
     super(context, autoInitialize);
@@ -120,6 +121,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     accountUuidToId = new HashMap<>();
     String uuidFromExtras = extras.getString(KEY_UUID);
     Timber.i("onPerformSync %s", extras);
+    notificationContent = new StringBuilder();
 
     AccountManager accountManager = AccountManager.get(getContext());
 
@@ -331,6 +333,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     notifyUser(getNotificationTitle(), notificationContent.toString(), null);
   }
 
+  @DebugLog
   private void notifyUser(String title, String content, @Nullable Intent intent) {
     NotificationBuilderWrapper builder = NotificationBuilderWrapper.defaultBigTextStyleBuilder(
             getContext(), title, content);
