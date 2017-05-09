@@ -669,5 +669,7 @@
     <string name="sync_io_exception_syncing">Error while syncing changes with server.</string>
     <string name="sync_io_exception_unlocking">Error while removing lock from remote backend.</string>
     <string name="sync_io_exception_locking">Remote backend is locked or cannot be locked.</string>
+    <string name="synchronization_start">Starting synchronization for account %s.</string>
+    <string name="synchronization_end_success">Successfully completed.</string>
 </resources>
 

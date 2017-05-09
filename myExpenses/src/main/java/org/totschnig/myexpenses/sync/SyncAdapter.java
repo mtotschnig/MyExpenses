@@ -86,6 +86,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   private Map<String, Long> payeeToId;
   private Map<String, Long> methodToId;
   private Map<String, Long> accountUuidToId;
+  private StringBuilder notificationContent = new StringBuilder();
 
   public SyncAdapter(Context context, boolean autoInitialize) {
     super(context, autoInitialize);
@@ -221,7 +222,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
           long lastSyncedRemote = Long.parseLong(getUserDataWithDefault(accountManager, account,
               lastRemoteSyncKey, "0"));
           dbAccount.set(org.totschnig.myexpenses.model.Account.getInstanceFromDb(accountId));
-          Timber.i("now syncing %s", dbAccount.get().label);
+          appendToNotification(getContext().getString(R.string.synchronization_start, dbAccount.get().label), true);
           if (uuidFromExtras != null && extras.getBoolean(KEY_RESET_REMOTE_ACCOUNT)) {
             if (!backend.resetAccountData(uuidFromExtras)) {
               syncResult.stats.numIoExceptions++;
@@ -303,9 +304,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
               syncResult.databaseError = true;
               notifyDatabaseError(e);
             } finally {
-              if (!backend.unlock()) {
+              if (backend.unlock()) {
+                appendToNotification(getContext().getString(R.string.synchronization_end_success), false);
+              } else {
                 notifyIoException(R.string.sync_io_exception_unlocking);
                 syncResult.stats.numIoExceptions++;
+
               }
             }
           } else {
@@ -317,6 +321,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       cursor.close();
     }
     backend.tearDown();
+  }
+
+  private void appendToNotification(String content, boolean newLine) {
+    if (notificationContent.length() > 0) {
+      notificationContent.append(newLine ? "\n" : " ");
+    }
+    notificationContent.append(content);
+    notifyUser(getNotificationTitle(), notificationContent.toString(), null);
   }
 
   private void notifyUser(String title, String content, @Nullable Intent intent) {
@@ -333,13 +345,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   }
 
   private void notifyIoException(int resId) {
-    notifyUser(getNotificationTitle(), getContext().getString(resId), null);
+    appendToNotification(getContext().getString(resId), true);
   }
 
   private void notifyDatabaseError(Exception e) {
     AcraHelper.report(e);
-    notifyUser(getNotificationTitle(),
-        getContext().getString(R.string.sync_database_error) + " " + e.getMessage(), null);
+    appendToNotification(getContext().getString(R.string.sync_database_error) + " " + e.getMessage(), true);
   }
 
   private String getNotificationTitle() {
