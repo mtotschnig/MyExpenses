@@ -3,8 +3,10 @@ package org.totschnig.myexpenses.fragment;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
@@ -18,10 +20,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.annimon.stream.Collectors;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.SyncBackendAdapter;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
@@ -41,6 +45,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static android.support.design.widget.BaseTransientBottomBar.LENGTH_INDEFINITE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 
@@ -52,6 +57,8 @@ public class SyncBackendList extends Fragment implements
   private SyncBackendAdapter syncBackendAdapter;
   private LoaderManager mManager;
   private ExpandableListView listView;
+  private int metadataLoadingCount = 0;
+  private Snackbar snackbar;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,6 +77,14 @@ public class SyncBackendList extends Fragment implements
     listView.setAdapter(syncBackendAdapter);
     listView.setEmptyView(emptyView);
     listView.setOnGroupExpandListener(this);
+    snackbar = Snackbar.make(listView, "Loading available accounts from backend.", LENGTH_INDEFINITE);
+    if (MyApplication.getThemeType().equals(MyApplication.ThemeType.dark)) {
+      //Workaround for https://issuetracker.google.com/issues/37120757
+      View snackbarView = snackbar.getView();
+      snackbarView.setBackgroundColor(Color.WHITE);
+      TextView textView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
+      textView.setTextColor(Color.BLACK);
+    }
     mManager.initLoader(ACCOUNT_CURSOR, null, new LocalAccountInfoCallbacks());
     registerForContextMenu(listView);
     return v;
@@ -197,6 +212,10 @@ public class SyncBackendList extends Fragment implements
   @Override
   public void onGroupExpand(int groupPosition) {
     if (!syncBackendAdapter.hasAccountMetdata(groupPosition)) {
+      metadataLoadingCount++;
+      if (!snackbar.isShownOrQueued()) {
+        snackbar.show();
+      }
       Utils.requireLoader(mManager, groupPosition, null, new AccountMetaDataLoaderCallbacks());
     }
   }
@@ -245,6 +264,10 @@ public class SyncBackendList extends Fragment implements
     @Override
     public void onLoadFinished(Loader<AccountMetaDataLoaderResult> loader,
                                AccountMetaDataLoaderResult result) {
+      metadataLoadingCount--;
+      if (metadataLoadingCount == 0) {
+        snackbar.dismiss();
+      }
       if (result.getResult() != null) {
         syncBackendAdapter.setAccountMetadata(loader.getId(), result.getResult());
       } else {

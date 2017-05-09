@@ -14,21 +14,31 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical">
-  <ExpandableListView
-      android:id="@+id/list"
-      android:layout_width="fill_parent"
-      android:layout_height="0dp"
-      android:layout_weight="1"
-      android:layout_marginRight="@dimen/margin_list"
-      android:layout_marginLeft="@dimen/margin_list"/>
-  <TextView android:id="@+id/empty"
-      android:gravity="center"
-      android:layout_width="fill_parent"
-      android:layout_height="0dp"
-      android:layout_weight="1"
-      android:text="@string/no_sync_backends"/>
-</LinearLayout>
+<android.support.design.widget.CoordinatorLayout
+    android:id="@+id/myCoordinatorLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="fill_parent"
+                  android:layout_height="fill_parent"
+                  android:orientation="vertical">
+
+        <ExpandableListView
+            android:id="@+id/list"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="@dimen/margin_list"
+            android:layout_marginRight="@dimen/margin_list"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/empty"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/no_sync_backends"/>
+    </LinearLayout>
+</android.support.design.widget.CoordinatorLayout>
