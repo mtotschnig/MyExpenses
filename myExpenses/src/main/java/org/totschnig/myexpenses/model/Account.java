@@ -43,9 +43,11 @@ import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Currency;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -259,6 +261,15 @@ public class Account extends Model {
    */
   public static void clear() {
     accounts.clear();
+  }
+
+  public static void checkSyncAccounts(String[] validAccounts) {
+    List<String> validAccountNames = Arrays.asList(validAccounts);
+    for (Account account: accounts.values()) {
+      if (validAccountNames.indexOf(account.syncAccountName) == -1) {
+        account.syncAccountName = null;
+      }
+    }
   }
 
   public static void delete(long id) throws RemoteException, OperationApplicationException {

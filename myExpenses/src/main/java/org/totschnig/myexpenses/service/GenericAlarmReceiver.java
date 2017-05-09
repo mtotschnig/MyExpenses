@@ -18,6 +18,7 @@ import android.content.Intent;
 import com.commonsware.cwac.wakeful.WakefulIntentService;
 
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.sync.GenericAccountService;
@@ -53,12 +54,12 @@ public class GenericAlarmReceiver extends BroadcastReceiver {
           .toArray(size -> new String[size]);
       ContentValues values = new ContentValues(1);
       values.putNull(KEY_SYNC_ACCOUNT_NAME);
-      //TODO active account objects are not updated when this code is run
       String where = accounts.length > 0 ?
           KEY_SYNC_ACCOUNT_NAME + " NOT " + WhereFilter.Operation.IN.getOp(accounts.length) :
           null;
       context.getContentResolver().update(TransactionProvider.ACCOUNTS_URI, values,
           where, accounts);
+      Account.checkSyncAccounts(accounts);
     }
   }
 
