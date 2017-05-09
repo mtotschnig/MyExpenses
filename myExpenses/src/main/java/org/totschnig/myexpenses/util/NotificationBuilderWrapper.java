@@ -20,7 +20,7 @@ public class NotificationBuilderWrapper {
   public static NotificationBuilderWrapper defaultBigTextStyleBuilder(
       Context context, String title, String content) {
     return new NotificationBuilderWrapper(context)
-        .setSmallIcon(R.drawable.ic_notification)
+        .setSmallIcon(R.drawable.ic_stat_notification_sigma)
         .setContentTitle(title)
         .setBigContentText(content);
   }

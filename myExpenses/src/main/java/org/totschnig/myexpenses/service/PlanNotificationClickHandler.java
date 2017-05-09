@@ -1,14 +1,5 @@
 package org.totschnig.myexpenses.service;
 
-import java.util.Date;
-
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.MyExpenses;
-import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.TransactionProvider;
-
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -18,6 +9,15 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.TransactionProvider;
+
+import java.util.Date;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
@@ -39,7 +39,7 @@ public class PlanNotificationClickHandler extends IntentService {
     Bundle extras = intent.getExtras();
     String title = extras.getString(PlanExecutor.KEY_TITLE);
     NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-        .setSmallIcon(R.drawable.ic_notification)
+        .setSmallIcon(R.drawable.ic_stat_notification_sigma)
         .setContentTitle(title);
     int notificationId = extras.getInt(MyApplication.KEY_NOTIFICATION_ID);
     Long templateId = extras.getLong(DatabaseConstants.KEY_TEMPLATEID);

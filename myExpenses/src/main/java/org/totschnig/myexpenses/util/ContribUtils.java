@@ -25,7 +25,7 @@ public class ContribUtils {
     Intent contribIntent = ContribInfoDialogActivity.getIntentFor(context, feature);
     NotificationCompat.Builder builder =
         new NotificationCompat.Builder(context)
-            .setSmallIcon(R.drawable.ic_notification)
+            .setSmallIcon(R.drawable.ic_stat_notification_sigma)
             .setContentTitle(notifTitle)
             .setContentText(content)
             .setContentIntent(PendingIntent.getActivity(context, 0, contribIntent,
