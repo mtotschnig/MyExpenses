@@ -662,5 +662,12 @@
     <string name="pref_tracking_summary">Allow us to collect anonymous data about usage patterns that helps us plan improvements.</string>
     <string name="pref_tracking_title">Usage data collection</string>
     <string name="sync_database_error">A database error occurred during synchronization.</string>
+    <string name="sync_io_error_cannot_connect">Cannot connect to synchronization backend. Will try again later.</string>
+    <string name="sync_io_exception_reset_account_data">Error while resetting remote account.</string>
+    <string name="sync_io_exception_setup_remote_account">Error while setting up remote account.</string>
+    <string name="sync_io_exception_reading_change_set">Error while reading changes from backend.</string>
+    <string name="sync_io_exception_syncing">Error while syncing changes with server.</string>
+    <string name="sync_io_exception_unlocking">Error while removing lock from remote backend.</string>
+    <string name="sync_io_exception_locking">Remote backend is locked or cannot be locked.</string>
 </resources>
 
