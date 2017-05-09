@@ -671,5 +671,6 @@
     <string name="sync_io_exception_locking">Remote backend is locked or cannot be locked.</string>
     <string name="synchronization_start">Starting synchronization for account %s.</string>
     <string name="synchronization_end_success">Successfully completed.</string>
+    <string name="pref_webdav_timeout_title">WebDAV Timeout</string>
 </resources>
 

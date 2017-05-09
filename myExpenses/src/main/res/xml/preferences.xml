@@ -317,5 +317,13 @@
             android:key="@string/pref_tracking_key"
             android:summary="@string/pref_tracking_summary"
             android:title="@string/pref_tracking_title"/>
+        <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat
+            android:defaultValue="10"
+            android:key="@string/pref_webdav_timeout_key"
+            android:title="@string/pref_webdav_timeout_title"
+            my:msbp_interval="1"
+            my:msbp_maxValue="60"
+            my:msbp_measurementUnit=" s"
+            my:msbp_minValue="5"/>
     </PreferenceCategory>
 </PreferenceScreen> 

@@ -79,7 +79,8 @@ public enum PrefKey {
   SYNC_FREQUCENCY(R.string.pref_sync_frequency_key),
   SYNC_UPSELL_NOTIFICATION_SHOWN("sync_upsell_notification_shown"),
   MANAGE_SYNC_BACKENDS(R.string.pref_manage_sync_backends_key),
-  TRACKING(R.string.pref_tracking_key);
+  TRACKING(R.string.pref_tracking_key),
+  WEBDAV_TIMEOUT(R.string.pref_webdav_timeout_key);
 
   private int resId = 0;
   private String key = null;

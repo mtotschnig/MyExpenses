@@ -18,6 +18,7 @@ package org.totschnig.myexpenses.sync.webdav;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -28,6 +29,7 @@ import java.security.cert.CertPathValidatorException;
 import java.security.cert.X509Certificate;
 import java.util.Locale;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLHandshakeException;
@@ -67,6 +69,12 @@ public class WebDavClient {
     mBaseUri = HttpUrl.parse(baseUrl);
 
     OkHttpClient.Builder builder = new OkHttpClient.Builder();
+
+    int timeout = PrefKey.WEBDAV_TIMEOUT.getInt(10);
+
+    builder.connectTimeout(timeout, TimeUnit.SECONDS);
+    builder.readTimeout(timeout, TimeUnit.SECONDS);
+    builder.writeTimeout(timeout, TimeUnit.SECONDS);
 
     if (userName != null && password != null) {
       BasicDigestAuthHandler authHandler = new BasicDigestAuthHandler(
