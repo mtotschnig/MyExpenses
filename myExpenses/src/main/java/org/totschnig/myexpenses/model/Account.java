@@ -20,6 +20,7 @@ import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.net.Uri;
@@ -263,10 +264,20 @@ public class Account extends Model {
     accounts.clear();
   }
 
-  public static void checkSyncAccounts(String[] validAccounts) {
+  public static void checkSyncAccounts(Context context) {
+    String[] validAccounts = GenericAccountService.getAccountsAsStream(context)
+        .map(account -> account.name)
+        .toArray(size -> new String[size]);
+    ContentValues values = new ContentValues(1);
+    values.putNull(KEY_SYNC_ACCOUNT_NAME);
+    String where = validAccounts.length > 0 ?
+        KEY_SYNC_ACCOUNT_NAME + " NOT " + WhereFilter.Operation.IN.getOp(validAccounts.length) :
+        null;
+    context.getContentResolver().update(TransactionProvider.ACCOUNTS_URI, values,
+        where, validAccounts);
     List<String> validAccountNames = Arrays.asList(validAccounts);
     for (Account account: accounts.values()) {
-      if (validAccountNames.indexOf(account.syncAccountName) == -1) {
+      if (account.syncAccountName != null && validAccountNames.indexOf(account.syncAccountName) == -1) {
         account.syncAccountName = null;
       }
     }

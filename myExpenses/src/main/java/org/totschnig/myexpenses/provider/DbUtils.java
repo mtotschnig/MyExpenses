@@ -16,10 +16,12 @@
 package org.totschnig.myexpenses.provider;
 
 import android.Manifest;
+import android.accounts.AccountManager;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -35,6 +37,8 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
 import org.totschnig.myexpenses.service.PlanExecutor;
+import org.totschnig.myexpenses.sync.GenericAccountService;
+import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.Result;
 
@@ -43,6 +47,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_END;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_START;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getCountFromWeekStartZero;
@@ -54,6 +60,7 @@ public class DbUtils {
 
   public static Result backup(File backupDir) {
     cacheEventData();
+    cacheSyncState();
     ContentResolver resolver = MyApplication.getInstance().getContentResolver();
     ContentProviderClient client = resolver.acquireContentProviderClient(TransactionProvider.AUTHORITY);
     TransactionProvider provider = (TransactionProvider) client.getLocalContentProvider();
@@ -176,6 +183,30 @@ public class DbUtils {
     }
     c.close();
     return data;
+  }
+
+  private static void cacheSyncState() {
+    AccountManager accountManager = AccountManager.get(MyApplication.getInstance());
+    ContentResolver cr = MyApplication.getInstance().getContentResolver();
+    String[] projection = {KEY_ROWID, KEY_SYNC_ACCOUNT_NAME};
+    Cursor cursor = cr.query(TransactionProvider.ACCOUNTS_URI, projection,
+        KEY_SYNC_ACCOUNT_NAME + " IS NOT null", null, null);
+    SharedPreferences.Editor editor = MyApplication.getInstance().getSettings().edit();
+    if (cursor != null) {
+      if (cursor.moveToFirst()) {
+        do {
+          long accountId = cursor.getLong(0);
+          String accountName = cursor.getString(1);
+          String localKey = SyncAdapter.KEY_LAST_SYNCED_LOCAL(accountId);
+          String remoteKey = SyncAdapter.KEY_LAST_SYNCED_REMOTE(accountId);
+          android.accounts.Account account = GenericAccountService.GetAccount(accountName);
+          editor.putString(localKey, accountManager.getUserData(account, localKey));
+          editor.putString(remoteKey, accountManager.getUserData(account, remoteKey));
+        } while (cursor.moveToNext());
+        editor.apply();
+      }
+      cursor.close();
+    }
   }
 
   private static void cacheEventData() {

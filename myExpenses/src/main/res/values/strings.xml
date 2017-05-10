@@ -672,5 +672,7 @@
     <string name="synchronization_start">Starting synchronization for account %s.</string>
     <string name="synchronization_end_success">Successfully completed.</string>
     <string name="pref_webdav_timeout_title">WebDAV Timeout</string>
+    <string name="sync_state_restored">Sync state was restored for %d accounts.</string>
+    <string name="sync_state_could_not_be_restored">Sync state could not be restored for %d accounts.</string>
 </resources>
 

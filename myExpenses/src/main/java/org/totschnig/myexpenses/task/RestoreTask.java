@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.task;
 
+import android.accounts.AccountManager;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.SharedPreferences;
@@ -10,19 +11,24 @@ import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 
 import com.android.calendar.CalendarContractCompat.Calendars;
+import com.annimon.stream.Collectors;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.BackupRestoreActivity;
+import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.sync.GenericAccountService;
+import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.BackupUtils;
@@ -35,10 +41,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import timber.log.Timber;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 
 public class RestoreTask extends AsyncTask<Void, Result, Result> {
   public static final String KEY_DIR_NAME_LEGACY = "dirNameLegacy";
@@ -331,10 +341,63 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
         } while (c.moveToNext());
       }
       c.close();
-      return new Result(true);
+      Result restoreSyncStateResult = restoreSyncState();
+      if (restoreSyncStateResult != null) {
+        publishProgress(restoreSyncStateResult);
+      }
+      return Result.SUCCESS;
     } else {
       return new Result(false, R.string.restore_db_failure);
     }
+  }
+
+  @Nullable
+  private Result restoreSyncState() {
+    Result result = null;
+    MyApplication application = MyApplication.getInstance();
+    AccountManager accountManager = AccountManager.get(application);
+    List<String> accounts = GenericAccountService.getAccountsAsStream(application)
+        .map(account -> account.name)
+        .collect(Collectors.toList());
+    ContentResolver cr = application.getContentResolver();
+    String[] projection = {KEY_ROWID, KEY_SYNC_ACCOUNT_NAME};
+    Cursor cursor = cr.query(TransactionProvider.ACCOUNTS_URI, projection,
+        KEY_SYNC_ACCOUNT_NAME + " IS NOT null", null, null);
+    SharedPreferences sharedPreferences = application.getSettings();
+    Editor editor = sharedPreferences.edit();
+    if (cursor != null) {
+      if (cursor.moveToFirst()) {
+        int restored = 0, failed = 0;
+        do {
+          long accountId = cursor.getLong(0);
+          String accountName = cursor.getString(1);
+          String localKey = SyncAdapter.KEY_LAST_SYNCED_LOCAL(accountId);
+          String remoteKey = SyncAdapter.KEY_LAST_SYNCED_REMOTE(accountId);
+          if (accounts.indexOf(accountName) > -1) {
+            android.accounts.Account account = GenericAccountService.GetAccount(accountName);
+            accountManager.setUserData(account, localKey, sharedPreferences.getString(localKey, null));
+            accountManager.setUserData(account, remoteKey, sharedPreferences.getString(remoteKey, null));
+            restored++;
+          } else {
+            failed++;
+          }
+          editor.remove(localKey);
+          editor.remove(remoteKey);
+        } while (cursor.moveToNext());
+        editor.apply();
+        String message = "";
+        if (restored > 0) {
+          message += application.getString(R.string.sync_state_restored, restored);
+        }
+        if (failed > 0) {
+          message += application.getString(R.string.sync_state_could_not_be_restored, failed);
+        }
+        result = new Result(true, message);
+        Account.checkSyncAccounts(application);
+      }
+      cursor.close();
+    }
+    return result;
   }
 
   private void registerAsStale(boolean secure) {
