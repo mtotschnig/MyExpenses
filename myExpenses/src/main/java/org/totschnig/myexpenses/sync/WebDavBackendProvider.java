@@ -98,20 +98,36 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
     return true;
   }
 
+
+  @Override
+  protected String getExistingLockToken() throws IOException {
+    LockableDavResource lockfile = getLockFile();
+      if (lockfile.exists()) {
+        try {
+          return lockfile.get("text/plain").string();
+        } catch (at.bitfire.dav4android.exception.HttpException | DavException e) {
+          throw new IOException(e);
+        }
+      } else {
+        return null;
+      }
+  }
+
+  @Override
+  protected boolean writeLockToken(String lockToken) throws IOException {
+    LockableDavResource lockfile = getLockFile();
+    try {
+      lockfile.put(RequestBody.create(MediaType.parse("text/plain; charset=utf-8"), lockToken), null, false);
+      return true;
+    } catch (at.bitfire.dav4android.exception.HttpException e) {
+      throw new IOException(e);
+    }
+  }
+
   @Override
   public boolean lock() {
     if (fallbackToClass1) {
-      LockableDavResource lockfile = getLockFile();
-      try {
-        if (lockfile.exists()) {
-          return false;
-        } else {
-          lockfile.put(RequestBody.create(MediaType.parse("text/plain; charset=utf-8"), ""), null, false);
-          return true;
-        }
-      } catch (IOException | at.bitfire.dav4android.exception.HttpException e) {
-        return false;
-      }
+      return super.lock();
     } else {
       return webDavClient.lock(accountUuid);
     }
@@ -140,6 +156,12 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   private Stream<DavResource> filterDavResources(long sequenceNumber) throws IOException {
     return Stream.of(webDavClient.getFolderMembers(accountUuid))
         .filter(davResource -> isNewerJsonFile(sequenceNumber, davResource.fileName()));
+  }
+
+  @NonNull
+  @Override
+  protected String getSharedPreferencesName() {
+    return "webdav_backend";
   }
 
   @NonNull

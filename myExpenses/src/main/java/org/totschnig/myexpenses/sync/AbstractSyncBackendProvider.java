@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.sync;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -15,6 +16,7 @@ import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.sync.json.AdapterFactory;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
@@ -37,10 +39,15 @@ import dagger.internal.Preconditions;
 import timber.log.Timber;
 
 abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
+  protected static final String KEY_LOCK_TOKEN = "lockToken";
   static final String BACKUP_FOLDER_NAME = "BACKUPS";
   static final String MIMETYPE_JSON = "application/json";
   static final String ACCOUNT_METADATA_FILENAME = "metadata.json";
   private static final Pattern FILE_PATTERN = Pattern.compile("_\\d+");
+  private static final String KEY_OWNED_BY_US = "ownedByUs";
+  private static final String KEY_TIMESTAMP = "timestamp";
+  private static final long LOCK_TIMEOUT = BuildConfig.DEBUG ? 60 * 1000 : 30 * 60 * 1000;
+  protected SharedPreferences sharedPreferences;
   private Gson gson;
   private Context context;
   @Nullable
@@ -53,7 +60,11 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     if (BuildConfig.DEBUG) {
       appInstance = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
     }
+    sharedPreferences = context.getSharedPreferences(getSharedPreferencesName(), 0);
   }
+
+  @NonNull
+  protected abstract String getSharedPreferencesName();
 
   @Override
   public boolean setUp() {
@@ -204,5 +215,41 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     } catch (IOException e) {
       AcraHelper.report(e);
     }
+  }
+
+  protected abstract String getExistingLockToken() throws IOException;
+
+  protected abstract boolean writeLockToken(String lockToken) throws IOException;
+
+  @Override
+  public boolean lock() {
+    try {
+      String existingLockTocken = getExistingLockToken();
+      if (existingLockTocken == null || shouldOverrideLock(existingLockTocken)) {
+        String lockToken = Model.generateUuid();
+        writeLockToken(lockToken);
+        saveLockTokenToPreferences(lockToken, System.currentTimeMillis(), true);
+        return true;
+      }
+    } catch (IOException e) {
+      Timber.e(e);
+    }
+    return false;
+  }
+
+  private boolean shouldOverrideLock(String locktoken) {
+    long now = System.currentTimeMillis();
+    if (locktoken.equals(sharedPreferences.getString(KEY_LOCK_TOKEN, ""))) {
+      return sharedPreferences.getBoolean(KEY_OWNED_BY_US, false) ||
+          now - sharedPreferences.getLong(KEY_TIMESTAMP, 0) > LOCK_TIMEOUT;
+    } else {
+      saveLockTokenToPreferences(locktoken, now, false);
+      return false;
+    }
+  }
+
+  private void saveLockTokenToPreferences(String locktoken, long timestamp, boolean ownedByUs) {
+    sharedPreferences.edit().putString(GoogleDriveBackendProvider.KEY_LOCK_TOKEN, locktoken).putLong(KEY_TIMESTAMP, timestamp)
+        .putBoolean(KEY_OWNED_BY_US, ownedByUs).apply();
   }
 }

@@ -73,6 +73,12 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
 
   @NonNull
   @Override
+  protected String getSharedPreferencesName() {
+    return "local_file_backend"; // currently not used
+  }
+
+  @NonNull
+  @Override
   protected InputStream getInputStreamForPicture(String relativeUri) throws IOException {
     return new FileInputStream(new File(accountDir, relativeUri));
   }
@@ -151,6 +157,16 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
   void saveFileContents(String fileName, String fileContents, String mimeType) throws IOException {
     Preconditions.checkNotNull(accountDir);
     saveFileContents(new File(accountDir, fileName), fileContents);
+  }
+
+  @Override
+  protected String getExistingLockToken() throws IOException {
+    return null;
+  }
+
+  @Override
+  protected boolean writeLockToken(String lockToken) throws IOException {
+    return false;
   }
 
   private void saveFileContents(File file, String fileContents) throws IOException {
