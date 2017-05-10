@@ -249,7 +249,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   }
 
   private void saveLockTokenToPreferences(String locktoken, long timestamp, boolean ownedByUs) {
-    sharedPreferences.edit().putString(GoogleDriveBackendProvider.KEY_LOCK_TOKEN, locktoken).putLong(KEY_TIMESTAMP, timestamp)
+    sharedPreferences.edit().putString(KEY_LOCK_TOKEN, locktoken).putLong(KEY_TIMESTAMP, timestamp)
         .putBoolean(KEY_OWNED_BY_US, ownedByUs).apply();
   }
 }
