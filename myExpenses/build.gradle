@@ -13,11 +13,15 @@ apply plugin: 'android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.jakewharton.hugo'
 
+def quote(String input) {
+    return "\"" + input + "\""
+}
+
 def getPropertyIfDefined(property) {
     if (project.hasProperty(property)) {
-        return "\"" + project.ext.properties[property] + "\""
+        return project.ext.properties[property]
     }
-    return "\"\""
+    return ""
 }
 
 android {
@@ -38,9 +42,9 @@ android {
 
         buildConfigField "String", "BUILD_DATE", "\"" + getDate() + "\""
         buildConfigField "String", "DISTRIBUTION", "\"GITHUB\""
-        buildConfigField "String", "ACRA_FORM_URI", getPropertyIfDefined("ACRA_FORM_URI")
-        buildConfigField "String", "ACRA_FORM_URI_BASIC_AUTH_LOGIN", getPropertyIfDefined("ACRA_FORM_URI_BASIC_AUTH_LOGIN")
-        buildConfigField "String", "ACRA_FORM_URI_BASIC_AUTH_PASSWORD", getPropertyIfDefined("ACRA_FORM_URI_BASIC_AUTH_PASSWORD")
+        buildConfigField "String", "ACRA_FORM_URI", quote(getPropertyIfDefined("ACRA_FORM_URI"))
+        buildConfigField "String", "ACRA_FORM_URI_BASIC_AUTH_LOGIN", quote(getPropertyIfDefined("ACRA_FORM_URI_BASIC_AUTH_LOGIN"))
+        buildConfigField "String", "ACRA_FORM_URI_BASIC_AUTH_PASSWORD", quote(getPropertyIfDefined("ACRA_FORM_URI_BASIC_AUTH_PASSWORD"))
         testInstrumentationRunner "org.totschnig.myexpenses.MyTestRunner"
         testProguardFile "proguard-test.txt"
 

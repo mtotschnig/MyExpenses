@@ -22,13 +22,14 @@ public final class MyTestRunner extends AndroidJUnitRunner {
   @SuppressLint("NewApi")
   public void onStart() {
     if (!ANIMATION_SETTINGS_MANUALLY_CHECKED) {
+      boolean isJellyBean = Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN);
       boolean isJellyBeanMr1 = Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN_MR1);
-      String[] criticalSettings = new String[isJellyBeanMr1 ? 3 : 2];
+      String[] criticalSettings = new String[isJellyBean ? 3 : 2];
       criticalSettings[0] = isJellyBeanMr1 ? Settings.Global.TRANSITION_ANIMATION_SCALE :
           Settings.System.TRANSITION_ANIMATION_SCALE;
       criticalSettings[1] = isJellyBeanMr1 ? Settings.Global.WINDOW_ANIMATION_SCALE :
           Settings.System.WINDOW_ANIMATION_SCALE;
-      if (Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN)) {
+      if (isJellyBean) {
         //noinspection InlinedApi
         criticalSettings[2] = isJellyBeanMr1 ? Settings.Global.ANIMATOR_DURATION_SCALE :
             Settings.System.ANIMATOR_DURATION_SCALE;

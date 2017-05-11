@@ -48,7 +48,7 @@ public class MessageDialogFragment extends CommitSafeDialogFragment implements O
     }
 
     public static final Button noButton() {
-     return nullButton(android.R.string.no);
+     return nullButton(android.R.string.cancel);
     }
 
     public static final Button okButton() {

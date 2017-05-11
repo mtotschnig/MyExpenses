@@ -3,11 +3,14 @@ package org.totschnig.myexpenses.test.util;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.annimon.stream.Stream;
 
+import org.junit.Assume;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.totschnig.myexpenses.util.AppDirHelper;
@@ -22,10 +25,15 @@ import static org.junit.Assert.assertEquals;
 @RunWith(AndroidJUnit4.class)
 public class ShareUtilsTest  {
 
+  @Before
+  public void setup() {
+    Assume.assumeTrue(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP);
+  }
+
   @Test
   public void shouldConvertSingleFileUri() {
     String mimeType = "text/plain";
-    Uri testFileUri = AppDirHelper.getAppDir().createFile(mimeType,"testFile").getUri();
+    Uri testFileUri = AppDirHelper.getAppDir(InstrumentationRegistry.getTargetContext()).createFile(mimeType,"testFile").getUri();
     assertFileScheme(testFileUri);
     List<Uri> fileUris = Collections.singletonList(testFileUri);
     Intent intent = ShareUtils.buildIntent(fileUris, mimeType, null);
