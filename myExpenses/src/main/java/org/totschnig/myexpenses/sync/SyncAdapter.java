@@ -239,6 +239,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
           }
 
           if (backend.lock()) {
+            boolean completedWithoutError = false;
+            int successRemote2Local = 0, successLocal2Remote = 0;
             try {
               ChangeSet changeSetSince = backend.getChangeSetSince(lastSyncedRemote, getContext());
 
@@ -265,53 +267,58 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 }
               }
 
-              if (localChanges.size() == 0 && remoteChanges.size() == 0) {
-                continue;
-              }
+              if (localChanges.size() > 0 || remoteChanges.size() > 0) {
 
-              if (localChanges.size() > 0) {
-                localChanges = collectSplits(localChanges);
-              }
+                if (localChanges.size() > 0) {
+                  localChanges = collectSplits(localChanges);
+                }
 
-              Pair<List<TransactionChange>, List<TransactionChange>> mergeResult =
-                  mergeChangeSets(localChanges, remoteChanges);
-              localChanges = mergeResult.first;
-              remoteChanges = mergeResult.second;
+                Pair<List<TransactionChange>, List<TransactionChange>> mergeResult =
+                    mergeChangeSets(localChanges, remoteChanges);
+                localChanges = mergeResult.first;
+                remoteChanges = mergeResult.second;
 
-              if (remoteChanges.size() > 0) {
-                writeRemoteChangesToDb(provider,
-                    Stream.of(remoteChanges).filter(change -> !(change.isCreate() && uuidExists(change.uuid()))).toList(),
-                    accountId);
-                accountManager.setUserData(account, lastRemoteSyncKey, String.valueOf(lastSyncedRemote));
-              }
-
-
-              if (localChanges.size() > 0) {
-                lastSyncedRemote = backend.writeChangeSet(localChanges, getContext());
-                if (lastSyncedRemote != ChangeSet.FAILED) {
-                  if (!BuildConfig.DEBUG) {
-                    // on debug build for auditing purposes, we keep changes in the table
-                    provider.delete(TransactionProvider.CHANGES_URI,
-                        KEY_ACCOUNTID + " = ? AND " + KEY_SYNC_SEQUENCE_LOCAL + " <= ?",
-                        new String[]{String.valueOf(accountId), String.valueOf(lastSyncedLocal)});
-                  }
-                  accountManager.setUserData(account, lastLocalSyncKey, String.valueOf(lastSyncedLocal));
+                if (remoteChanges.size() > 0) {
+                  remoteChanges = Stream.of(remoteChanges).filter(change -> !(change.isCreate() && uuidExists(change.uuid()))).toList();
+                  writeRemoteChangesToDb(provider, remoteChanges, accountId);
                   accountManager.setUserData(account, lastRemoteSyncKey, String.valueOf(lastSyncedRemote));
+                  successRemote2Local = remoteChanges.size();
+                }
+
+
+                if (localChanges.size() > 0) {
+                  lastSyncedRemote = backend.writeChangeSet(localChanges, getContext());
+                  if (lastSyncedRemote != ChangeSet.FAILED) {
+                    if (!BuildConfig.DEBUG) {
+                      // on debug build for auditing purposes, we keep changes in the table
+                      provider.delete(TransactionProvider.CHANGES_URI,
+                          KEY_ACCOUNTID + " = ? AND " + KEY_SYNC_SEQUENCE_LOCAL + " <= ?",
+                          new String[]{String.valueOf(accountId), String.valueOf(lastSyncedLocal)});
+                    }
+                    accountManager.setUserData(account, lastLocalSyncKey, String.valueOf(lastSyncedLocal));
+                    accountManager.setUserData(account, lastRemoteSyncKey, String.valueOf(lastSyncedRemote));
+                    successLocal2Remote = localChanges.size();
+                  }
                 }
               }
+              completedWithoutError = true;
             } catch (IOException e) {
               syncResult.stats.numIoExceptions++;
               notifyIoException(R.string.sync_io_exception_syncing);
             } catch (RemoteException | OperationApplicationException | SQLiteException e) {
               syncResult.databaseError = true;
               notifyDatabaseError(e);
+            } catch (Exception e) {
+              appendToNotification("ERROR: " + e.getMessage(), true);
             } finally {
-              if (backend.unlock()) {
-                appendToNotification(getContext().getString(R.string.synchronization_end_success), false);
-              } else {
+              if (successLocal2Remote > 0 || successRemote2Local > 0) {
+                appendToNotification(getContext().getString(R.string.synchronization_end_success, successRemote2Local, successLocal2Remote), false);
+              } else if (completedWithoutError) {
+                appendToNotification(getContext().getString(R.string.synchronization_end_success_none), false);
+              }
+              if (!backend.unlock()) {
                 notifyIoException(R.string.sync_io_exception_unlocking);
                 syncResult.stats.numIoExceptions++;
-
               }
             }
           } else {
@@ -336,7 +343,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   @DebugLog
   private void notifyUser(String title, String content, @Nullable Intent intent) {
     NotificationBuilderWrapper builder = NotificationBuilderWrapper.defaultBigTextStyleBuilder(
-            getContext(), title, content);
+        getContext(), title, content);
     if (intent != null) {
       builder.setContentIntent(PendingIntent.getActivity(
           getContext(), 0, intent, PendingIntent.FLAG_CANCEL_CURRENT));
