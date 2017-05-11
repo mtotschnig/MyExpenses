@@ -149,11 +149,13 @@ public class MyApplication extends MultiDexApplication implements
     } catch (Throwable ignore) {
     }
     mSelf = this;
-    if (!ACRA.isACRASenderServiceProcess() && !isSyncService()) {
-      // sets up mSettings
-      getSettings().registerOnSharedPreferenceChangeListener(this);
-      initPlannerInternal(60000);
-      registerWidgetObservers();
+    if (!ACRA.isACRASenderServiceProcess()) {
+      if (!isSyncService()) {
+        // sets up mSettings
+        getSettings().registerOnSharedPreferenceChangeListener(this);
+        initPlannerInternal(60000);
+        registerWidgetObservers();
+      }
       licenceHandler.init();
     }
   }
