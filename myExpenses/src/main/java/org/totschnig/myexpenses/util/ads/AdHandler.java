@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.util.ads;
 
+import android.view.View;
 import android.view.ViewGroup;
 
 public abstract class AdHandler {
@@ -26,5 +27,8 @@ public abstract class AdHandler {
 
   public void onPause() {
 
+  }
+  protected final void hide() {
+    adContainer.setVisibility(View.GONE);
   }
 }

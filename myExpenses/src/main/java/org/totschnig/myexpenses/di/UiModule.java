@@ -1,7 +1,5 @@
 package org.totschnig.myexpenses.di;
 
-import android.view.View;
-
 import org.totschnig.myexpenses.activity.ImageViewIntentProvider;
 import org.totschnig.myexpenses.activity.SystemImageViewIntentProvider;
 import org.totschnig.myexpenses.util.ads.AdHandler;
@@ -24,6 +22,7 @@ public class UiModule {
       return new SystemImageViewIntentProvider();
     }
   }
+
   @Provides
   @Singleton
   AdHandlerFactory provideAdHandlerFactory() {
@@ -33,7 +32,7 @@ public class UiModule {
     } catch (Exception e) {
       return adContainer -> new AdHandler(adContainer) {
         public void init() {
-          adContainer.setVisibility(View.GONE);
+          hide();
         }
       };
     }
