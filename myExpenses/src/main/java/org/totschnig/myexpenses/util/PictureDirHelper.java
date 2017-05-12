@@ -110,6 +110,7 @@ public class PictureDirHelper {
       case "images":
         return new File(getPictureDir(true), pathSegments.get(1));
       default:
+        //we are deliberately ignoring files from cache dirs here, since they are not supposed to be persisted
         throw new IllegalArgumentException(String.format(Locale.ROOT, "Unable to handle %s", pathDomain));
     }
   }
