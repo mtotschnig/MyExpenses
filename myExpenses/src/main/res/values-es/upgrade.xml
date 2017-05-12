@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_279">
+    <item>Los símbolos de moneda se pueden configurar</item>
+  </string-array>
   <string-array name="whats_new_278">
     <item>Accesos directos a la aplicación para Android 7.1</item>
   </string-array>

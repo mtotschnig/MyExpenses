@@ -546,7 +546,7 @@
   <string name="pref_custom_decimal_format_title">Zahlenformat</string>
   <string name="pref_custom_decimal_format_summary">Wenn Sie mit dem Standardformat für Ihr Gebietsschema nicht zufrieden sind, können Sie es an Ihre Bedürfnisse anpassen. Leer lassen, um das Standardformat wiederherzustellen. </string>
   <string name="licence_validation_upgrade_needed" tools:ignore="UnusedResources">Bitte aktualisieren Sie Meine Ausgaben Contrib auf Version 1.5.</string>
-  <string name="pref_auto_backup_title">Automatisches Backup aktivieren</string>
+  <string name="pref_auto_backup_title">Automatisches Backup</string>
   <string name="pref_auto_backup_summary">Sichere Datenbank täglich zur angegebenen Zeit (nur wenn sich die Daten verändert haben)</string>
   <string name="pref_auto_backup_time_title">Zeit für automatische Sicherung</string>
   <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Nach %d erfolgreichen automatischen Sicherungen wird automatische Sicherung deaktiviert werden.</string>

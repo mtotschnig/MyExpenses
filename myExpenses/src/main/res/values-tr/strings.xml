@@ -462,6 +462,7 @@
   <string name="import_parties_none">İçe aktarılan bölüm yok</string>
   <string name="import_transactions_none">Hiçbir muamele %1$s hesabına aktarılmadı</string>
   <string name="import_source_select_error">Lütfen %1$s tipinde bir dosya verin</string>
+  <string name="import_source_select_not_readable">Dosya okunamadı. Lütfen başka bir kaynaktan seçin.</string>
   <string name="menu_categories_setup_default">Varsayılan kategorileri kur</string>
   <string name="menu_create_folder">Yeni klasör</string>
   <!--This string is used for navigating up in the folder browser-->
@@ -474,6 +475,7 @@
   <string name="widget_title_accounts">Hesaplarım</string>
   <string name="widget_title_templates">Şablonlarım</string>
   <string name="app_dir_not_accessible">Yedeklemeler ve dışa aktarmalar için güncel olarak seçilmiş klasöre (%1$s) erişilemiyor. Lütfen başka bir klasör seçin.</string>
+  <string name="app_dir_not_compatible_with_nougat">Yedeklemeler ve dışa aktarmalar için güncel olarak yapılandırılmış URI (%1$s) Android Nougat tarafından desteklenmemektedir. Lütfen bir defa daha bir klasör seçin.</string>
   <string name="search_amount">Meblağ ara</string>
   <string name="search_category">Kategori ara</string>
   <string name="search_comment">Not ara</string>
@@ -638,4 +640,6 @@
   <string name="auto_backup_cloud_create_backend">Ana ayarlar ekranından bir eşleşme arka ucu oluştur.</string>
   <string name="auto_backup_cloud_failure">%1$s dosyasının %2$s arka ucuna kaydedilmesi sırasında bir hata meydana geldi:</string>
   <string name="home_screen_shortcuts_nougate_info">Kısayollar ana ekrandaki uygulama ikonuna uzunca dokunarak eklenebilir.</string>
+  <string name="currency_symbol">Para birimi sembolü</string>
+  <string name="number_of_fraction_digits">Kesir basamakları sayısı</string>
 </resources>
