@@ -81,6 +81,15 @@ public class NotificationBuilderWrapper {
     return this;
   }
 
+  public NotificationBuilderWrapper setDeleteIntent(PendingIntent deleteIntent) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+      api23Builder.setDeleteIntent(deleteIntent);
+    } else {
+      compatBuilder.setDeleteIntent(deleteIntent);
+    }
+    return this;
+  }
+
   public NotificationBuilderWrapper setAutoCancel(boolean autoCancel) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
       api23Builder.setAutoCancel(autoCancel);

@@ -289,6 +289,8 @@
 
         <service android:name=".service.PlanNotificationClickHandler" />
 
+        <service android:name=".service.SyncNotificationDismissHandler" />
+
         <activity android:name=".activity.SimpleToastActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
