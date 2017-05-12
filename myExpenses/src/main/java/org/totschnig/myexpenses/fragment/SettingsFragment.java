@@ -277,6 +277,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       }
       startPref.setEntries(daysEntries);
       startPref.setEntryValues(daysValues);
+    } else if (rootKey.equals(DEBUG_SCREEN.getKey())) {
+      findPreference(DEBUG_LOGGING).setOnPreferenceChangeListener(this);
     }
   }
 
@@ -460,6 +462,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       }
     } else if (matches(pref, TRACKING)) {
       ((ProtectedFragmentActivity) getActivity()).setTrackingEnabled((boolean) value);
+    } else if (matches(pref, DEBUG_LOGGING)) {
+      MyApplication.getInstance().setupLogging();
     }
     return true;
   }

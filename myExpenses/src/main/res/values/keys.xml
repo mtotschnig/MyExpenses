@@ -72,6 +72,8 @@
     <string name="pref_manage_sync_backends_key">manage_sync_backends</string>
     <string name="pref_tracking_key">tracking</string>
     <string name="pref_webdav_timeout_key">sync_webdav_timeout</string>
+    <string name="pref_debug_key">debug</string>
+    <string name="pref_debug_logging_key">debug_logging</string>
 
     <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
   <string name="help_licence_financisto">CalculatorInput, QifParser, FolderBrowser, HomeScreenWidgets, WhereFilter and AutoBackupService inspired by https://launchpad.net/financisto ,

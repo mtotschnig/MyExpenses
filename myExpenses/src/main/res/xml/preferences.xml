@@ -152,8 +152,8 @@
             android:key="@string/pref_auto_backup_key"
             android:title="@string/pref_auto_backup_title">
             <Preference
-                android:key="@string/pref_auto_backup_info_key"
                 style="?preferenceInformationStyle"
+                android:key="@string/pref_auto_backup_info_key"
                 android:summary="@string/pref_auto_backup_summary"/>
             <org.totschnig.myexpenses.preference.TimePreference
                 android:dependency="@string/pref_auto_backup_key"
@@ -325,5 +325,13 @@
             my:msbp_maxValue="60"
             my:msbp_measurementUnit=" s"
             my:msbp_minValue="5"/>
+        <PreferenceScreen
+            android:key="@string/pref_debug_key"
+            android:title="Debug">
+
+            <SwitchPreferenceCompat
+                android:key="@string/pref_debug_logging_key"
+                android:summary="Write debugging information into system log" />
+        </PreferenceScreen>
     </PreferenceCategory>
 </PreferenceScreen> 
