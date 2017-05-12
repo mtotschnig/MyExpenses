@@ -36,6 +36,7 @@ import java.util.Date;
 public class TransactionTest extends ModelTest {
   private Account mAccount1;
   private Account mAccount2;
+  private Account mAccount3;
 
   @Override
   protected void setUp() throws Exception {
@@ -44,6 +45,8 @@ public class TransactionTest extends ModelTest {
     mAccount1.save();
     mAccount2 = new Account("TestAccount 2", 100, "Secondary account");
     mAccount2.save();
+    mAccount3 = new Account("TestAccount 3", 100, "Secondary account");
+    mAccount3.save();
   }
 
   @Override
@@ -100,6 +103,26 @@ public class TransactionTest extends ModelTest {
     Transaction.delete(op.getId(), false);
     assertNull("Transaction deleted, but can still be retrieved", Transaction.getInstanceFromDb(op.getId()));
     assertNull("Transfer delete should delete peer, but peer can still be retrieved", Transaction.getInstanceFromDb(peer.getId()));
+  }
+
+  public void testTransferChangeAccounts() {
+    Transfer op = Transfer.getNewInstance(mAccount1.getId(), mAccount2.getId());
+    assertNotNull(op);
+    op.setAmount(new Money(mAccount1.currency, (long) 100));
+    op.comment = "test transfer";
+    assertNotNull(op.save());
+    op.accountId = mAccount2.getId();
+    op.transfer_account = mAccount3.getId();
+    op.save();
+    assertNotNull(op.save());
+    Transaction restored = Transaction.getInstanceFromDb(op.getId());
+    assertEquals(restored.accountId, mAccount2.getId());
+    assertEquals(restored.transfer_account, mAccount3.getId());
+    assertEquals(restored.uuid, op.uuid);
+    Transaction peer = Transaction.getInstanceFromDb(op.transfer_peer);
+    assertEquals(peer.accountId, mAccount3.getId());
+    assertEquals(peer.transfer_account, mAccount2.getId());
+    assertEquals(peer.uuid, op.uuid);
   }
 
   /**

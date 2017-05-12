@@ -140,6 +140,14 @@ public class Transfer extends Transaction {
           .build());
       addOriginPlanInstance(ops);
     } else {
+      //we set the transfer peers uuid to null initially to prevent violation of unique index which
+      //happens if the account after update is identical to transfer_account before update
+      ContentValues uuidNullValues = new ContentValues(1);
+      uuidNullValues.putNull(KEY_UUID);
+      Uri transferUri = uri.buildUpon().appendPath(String.valueOf(transfer_peer)).build();
+      ops.add(ContentProviderOperation
+          .newUpdate(transferUri)
+          .withValues(uuidNullValues).build());
       ops.add(ContentProviderOperation
           .newUpdate(uri.buildUpon().appendPath(String.valueOf(getId())).build())
           .withValues(initialValues).build());
@@ -150,8 +158,9 @@ public class Transfer extends Transaction {
       transferValues.put(KEY_ACCOUNTID, transfer_account);
       //the account from which is transfered could also have been altered
       transferValues.put(KEY_TRANSFER_ACCOUNT,accountId);
+      transferValues.put(KEY_UUID, uuid);
       ops.add(ContentProviderOperation
-          .newUpdate(uri.buildUpon().appendPath(String.valueOf(transfer_peer)).build())
+          .newUpdate(transferUri)
           .withValues(transferValues).build());
     }
     return ops;
