@@ -48,6 +48,7 @@ tr:
       ad_free: Reklamsız
       csv_import: CSV içe aktar
       auto_backup: Otomatik yedekleme
+      cloud_sync: Bulut eşleşmesi
     extended-label: Genişletilmiş
     licence-howto-buy:
       deprecated: |
@@ -78,3 +79,5 @@ tr:
     Writing USB storage: QIF ve CSV dışa aktarmaları ve yedekleme dosyalarının saklanması
   permissions-internet: |
     Ağ iletişimi: kullanıcı tarafından uygulama tercihlerinde devre dışı bırakılmadıysa, çökme raporları otomatik olarak geliştiricilere gönderilir.
+  permissions-accounts: |
+    Hesaplar: bulut hizmetleriyle cihazlar arası eşleştirme

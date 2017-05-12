@@ -107,6 +107,22 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 2.7.9
+    - "2017-04-14"
+    -
+      en: |
+        Currency symbols can be configured.
+      fr: |
+        Les symboles des devises peuvent être configurés.
+      de: |
+        Währungssymbole können konfiguriert werden.
+      es: |
+        Los símbolos de moneda se pueden configurar.
+      tr: |
+        Para birimi sembolleri yapılandırılabilir.
+      ja: |
+        通貨記号を設定できます.
+  -
     - 2.7.8
     - "2017-04-01"
     -
