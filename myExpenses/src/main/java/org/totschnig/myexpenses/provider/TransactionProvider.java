@@ -895,7 +895,7 @@ public class TransactionProvider extends ContentProvider {
     default:
       throw unknownUri(uri);
     }
-    notifyChange(uri, callerIsNotSyncAdatper(uri));
+    notifyChange(uri, uriMatch == TRANSACTIONS && callerIsNotSyncAdatper(uri));
     //the accounts cursor contains aggregates about transactions
     //we need to notify it when transactions change
     if (uriMatch == TRANSACTIONS) {
@@ -1400,7 +1400,7 @@ public class TransactionProvider extends ContentProvider {
   }
 
   private void notifyChange(Uri uri, boolean syncToNetwork) {
-    Timber.d("Notifying %s  syncToNetwork %s", uri.toString(), syncToNetwork ? "true" : "false");
+    Timber.i("Notifying %s  syncToNetwork %s", uri.toString(), syncToNetwork ? "true" : "false");
     getContext().getContentResolver().notifyChange(uri, null, syncToNetwork);
   }
 
