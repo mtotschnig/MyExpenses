@@ -322,80 +322,80 @@ public class TransactionProvider extends ContentProvider {
     String accountSelector;
     int uriMatch = URI_MATCHER.match(uri);
     switch (uriMatch) {
-    case TRANSACTIONS:
-      boolean extended = uri.getQueryParameter(QUERY_PARAMETER_EXTENDED) != null;
-      qb.setTables(extended ? VIEW_EXTENDED : VIEW_COMMITTED);
-      if (uri.getQueryParameter(QUERY_PARAMETER_DISTINCT) != null) {
-        qb.setDistinct(true);
-      }
-      defaultOrderBy = KEY_DATE + " DESC";
-      if (projection == null) {
-        projection = extended ? Transaction.PROJECTION_EXTENDED : Transaction.PROJECTION_BASE;
-      }
-      if (uri.getQueryParameter(QUERY_PARAMETER_MERGE_TRANSFERS) != null) {
-        String mergeTransferSelection = KEY_TRANSFER_PEER + " IS NULL OR " + IS_SAME_CURRENCY +
-            " != 1 OR " + KEY_AMOUNT + " < 0";
-        selection = selection == null ? mergeTransferSelection :
-            selection + " AND (" + mergeTransferSelection + ")";
-      }
-      break;
-    case UNCOMMITTED:
-      qb.setTables(VIEW_UNCOMMITTED);
-      defaultOrderBy = KEY_DATE + " DESC";
-      if (projection == null)
-        projection = Transaction.PROJECTION_BASE;
-      break;
-    case TRANSACTION_ID:
-      qb.setTables(VIEW_ALL);
-      qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
-      break;
-    case TRANSACTIONS_SUMS:
-      accountSelector = uri.getQueryParameter(KEY_ACCOUNTID);
-      if (accountSelector == null) {
-        accountSelector = uri.getQueryParameter(KEY_CURRENCY);
-        accountSelectionQuery = " IN " +
-            "(SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +
-          KEY_EXCLUDE_FROM_TOTALS + "=0)";
-      } else {
-        accountSelectionQuery = " = ?";
-      }
-      qb.setTables(VIEW_COMMITTED);
-      projection = new String[] {"amount>0 as " + KEY_TYPE,"abs(sum(amount)) as  " + KEY_SUM};
-      groupBy = KEY_TYPE;
-      qb.appendWhere(WHERE_TRANSACTION);
-      qb.appendWhere(" AND " + KEY_ACCOUNTID + accountSelectionQuery);
-      selectionArgs = new String[]{accountSelector};
-      break;
-    case TRANSACTIONS_GROUPS:
-      String accountSelectionQueryOpeningBalance;
-      accountSelector = uri.getQueryParameter(KEY_ACCOUNTID);
-      if (accountSelector == null) {
-        accountSelector = uri.getQueryParameter(KEY_CURRENCY);
-        accountSelectionQuery = accountSelectionQueryOpeningBalance
-            = KEY_CURRENCY + " = ? AND " + KEY_EXCLUDE_FROM_TOTALS + " = 0";
-      } else {
-        accountSelectionQuery = KEY_ACCOUNTID + " = ?";
-        accountSelectionQueryOpeningBalance = KEY_ROWID + " = ?";
-      }
-      boolean isFiltered = uri.getQueryParameter(QUERY_PARAMETER_IS_FILTERED)!=null;
+      case TRANSACTIONS:
+        boolean extended = uri.getQueryParameter(QUERY_PARAMETER_EXTENDED) != null;
+        qb.setTables(extended ? VIEW_EXTENDED : VIEW_COMMITTED);
+        if (uri.getQueryParameter(QUERY_PARAMETER_DISTINCT) != null) {
+          qb.setDistinct(true);
+        }
+        defaultOrderBy = KEY_DATE + " DESC";
+        if (projection == null) {
+          projection = extended ? Transaction.PROJECTION_EXTENDED : Transaction.PROJECTION_BASE;
+        }
+        if (uri.getQueryParameter(QUERY_PARAMETER_MERGE_TRANSFERS) != null) {
+          String mergeTransferSelection = KEY_TRANSFER_PEER + " IS NULL OR " + IS_SAME_CURRENCY +
+              " != 1 OR " + KEY_AMOUNT + " < 0";
+          selection = selection == null ? mergeTransferSelection :
+              selection + " AND (" + mergeTransferSelection + ")";
+        }
+        break;
+      case UNCOMMITTED:
+        qb.setTables(VIEW_UNCOMMITTED);
+        defaultOrderBy = KEY_DATE + " DESC";
+        if (projection == null)
+          projection = Transaction.PROJECTION_BASE;
+        break;
+      case TRANSACTION_ID:
+        qb.setTables(VIEW_ALL);
+        qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
+        break;
+      case TRANSACTIONS_SUMS:
+        accountSelector = uri.getQueryParameter(KEY_ACCOUNTID);
+        if (accountSelector == null) {
+          accountSelector = uri.getQueryParameter(KEY_CURRENCY);
+          accountSelectionQuery = " IN " +
+              "(SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +
+              KEY_EXCLUDE_FROM_TOTALS + "=0)";
+        } else {
+          accountSelectionQuery = " = ?";
+        }
+        qb.setTables(VIEW_COMMITTED);
+        projection = new String[]{"amount>0 as " + KEY_TYPE, "abs(sum(amount)) as  " + KEY_SUM};
+        groupBy = KEY_TYPE;
+        qb.appendWhere(WHERE_TRANSACTION);
+        qb.appendWhere(" AND " + KEY_ACCOUNTID + accountSelectionQuery);
+        selectionArgs = new String[]{accountSelector};
+        break;
+      case TRANSACTIONS_GROUPS:
+        String accountSelectionQueryOpeningBalance;
+        accountSelector = uri.getQueryParameter(KEY_ACCOUNTID);
+        if (accountSelector == null) {
+          accountSelector = uri.getQueryParameter(KEY_CURRENCY);
+          accountSelectionQuery = accountSelectionQueryOpeningBalance
+              = KEY_CURRENCY + " = ? AND " + KEY_EXCLUDE_FROM_TOTALS + " = 0";
+        } else {
+          accountSelectionQuery = KEY_ACCOUNTID + " = ?";
+          accountSelectionQueryOpeningBalance = KEY_ROWID + " = ?";
+        }
+        boolean isFiltered = uri.getQueryParameter(QUERY_PARAMETER_IS_FILTERED) != null;
 
-      Grouping group;
-      try {
-        group = Grouping.valueOf(uri.getPathSegments().get(2));
-      } catch (IllegalArgumentException e) {
-        group = Grouping.NONE;
-      }
-      String yearExpression;
-      switch (group) {
-        case WEEK:
-          yearExpression = getYearOfWeekStart();
-          break;
-        case MONTH:
-          yearExpression = getYearOfMonthStart();
-          break;
-        default:
-          yearExpression = YEAR;
-      }
+        Grouping group;
+        try {
+          group = Grouping.valueOf(uri.getPathSegments().get(2));
+        } catch (IllegalArgumentException e) {
+          group = Grouping.NONE;
+        }
+        String yearExpression;
+        switch (group) {
+          case WEEK:
+            yearExpression = getYearOfWeekStart();
+            break;
+          case MONTH:
+            yearExpression = getYearOfMonthStart();
+            break;
+          default:
+            yearExpression = YEAR;
+        }
 //      String secondColumnAlias = " AS " + KEY_SECOND_GROUP;
 //      if (group.equals(Grouping.NONE)) {
 //        qb.setTables(VIEW_COMMITTED);
@@ -414,26 +414,26 @@ public class TransactionProvider extends ContentProvider {
 //        };
 //      } else {
         String subGroupBy = KEY_YEAR + "," + KEY_SECOND_GROUP;
-        String secondDef ="";
+        String secondDef = "";
 
-        switch(group) {
-        case NONE:
-          yearExpression = "1";
-          secondDef = "1";
-          break;
-        case DAY:
-          secondDef = DAY;
-          break;
-        case WEEK:
-          secondDef = getWeek();
-          break;
-        case MONTH:
-          secondDef = getMonth();
-          break;
-        case YEAR:
-          secondDef = "1";
-          subGroupBy = KEY_YEAR;
-          break;
+        switch (group) {
+          case NONE:
+            yearExpression = "1";
+            secondDef = "1";
+            break;
+          case DAY:
+            secondDef = DAY;
+            break;
+          case WEEK:
+            secondDef = getWeek();
+            break;
+          case MONTH:
+            secondDef = getMonth();
+            break;
+          case YEAR:
+            secondDef = "1";
+            subGroupBy = KEY_YEAR;
+            break;
         }
         qb.setTables("(SELECT "
             + yearExpression + " AS " + KEY_YEAR + ","
@@ -444,169 +444,169 @@ public class TransactionProvider extends ContentProvider {
             + MAPPED_CATEGORIES
             + " FROM " + VIEW_EXTENDED
             + " WHERE " + accountSelectionQuery
-            + (selection!=null ? " AND " + selection : "")
+            + (selection != null ? " AND " + selection : "")
             + " GROUP BY " + subGroupBy + ") AS t");
-      projection = new String[7];
-      projection[0] = KEY_YEAR;
-      projection[1] = KEY_SECOND_GROUP;
-      projection[2] = KEY_SUM_INCOME;
-      projection[3] = KEY_SUM_EXPENSES;
-      projection[4] = KEY_SUM_TRANSFERS;
-      projection[5] = KEY_MAPPED_CATEGORIES;
-      String[] accountArgs;
-      if (!isFiltered) {
-        String openingBalanceSubQuery =
-            "(SELECT sum(" + KEY_OPENING_BALANCE + ") FROM " + TABLE_ACCOUNTS + " WHERE " + accountSelectionQueryOpeningBalance + ")";
-        String deltaExpr = "(SELECT sum(amount) FROM "
-            + VIEW_EXTENDED
-            + " WHERE " + accountSelectionQuery + " AND " + WHERE_NOT_SPLIT + " AND " + WHERE_NOT_VOID
-            + " AND (" + yearExpression + " < " + KEY_YEAR + " OR "
-            + "(" + yearExpression + " = " + KEY_YEAR + " AND "
-            + secondDef + " <= " + KEY_SECOND_GROUP + ")))";
-        projection[6] = openingBalanceSubQuery + " + " + deltaExpr + " AS " + KEY_INTERIM_BALANCE;
-        accountArgs = new String[]{accountSelector,accountSelector,accountSelector};
-      } else {
-        projection[6] = "0 AS " + KEY_INTERIM_BALANCE;//ignored
-        accountArgs = new String[]{accountSelector};
-      }
+        projection = new String[7];
+        projection[0] = KEY_YEAR;
+        projection[1] = KEY_SECOND_GROUP;
+        projection[2] = KEY_SUM_INCOME;
+        projection[3] = KEY_SUM_EXPENSES;
+        projection[4] = KEY_SUM_TRANSFERS;
+        projection[5] = KEY_MAPPED_CATEGORIES;
+        String[] accountArgs;
+        if (!isFiltered) {
+          String openingBalanceSubQuery =
+              "(SELECT sum(" + KEY_OPENING_BALANCE + ") FROM " + TABLE_ACCOUNTS + " WHERE " + accountSelectionQueryOpeningBalance + ")";
+          String deltaExpr = "(SELECT sum(amount) FROM "
+              + VIEW_EXTENDED
+              + " WHERE " + accountSelectionQuery + " AND " + WHERE_NOT_SPLIT + " AND " + WHERE_NOT_VOID
+              + " AND (" + yearExpression + " < " + KEY_YEAR + " OR "
+              + "(" + yearExpression + " = " + KEY_YEAR + " AND "
+              + secondDef + " <= " + KEY_SECOND_GROUP + ")))";
+          projection[6] = openingBalanceSubQuery + " + " + deltaExpr + " AS " + KEY_INTERIM_BALANCE;
+          accountArgs = new String[]{accountSelector, accountSelector, accountSelector};
+        } else {
+          projection[6] = "0 AS " + KEY_INTERIM_BALANCE;//ignored
+          accountArgs = new String[]{accountSelector};
+        }
         defaultOrderBy = KEY_YEAR + " DESC," + KEY_SECOND_GROUP + " DESC";
         //CAST(strftime('%Y',date) AS integer)
         //the accountId is used three times , once in the table subquery, twice in the KEY_INTERIM_BALANCE subquery
         //(first in the where clause, second in the subselect for the opening balance),
-      Timber.d("SelectionArgs before join : %s", Arrays.toString(selectionArgs));
-      selectionArgs = Utils.joinArrays(
+        Timber.d("SelectionArgs before join : %s", Arrays.toString(selectionArgs));
+        selectionArgs = Utils.joinArrays(
             accountArgs,
             selectionArgs);
         //selection is used in the inner table, needs to be set to null for outer query
-        selection=null;
-      //}
-      break;
-    case CATEGORIES:
-      qb.setTables(TABLE_CATEGORIES);
-      qb.appendWhere(KEY_ROWID+ " != " + SPLIT_CATID);
-      if (projection == null) {
-        projection = Category.PROJECTION;
-      }
-      defaultOrderBy = Utils.defaultOrderBy(KEY_LABEL, PrefKey.SORT_ORDER_CATEGORIES);
-      break;
-    case CATEGORY_ID:
-      qb.setTables(TABLE_CATEGORIES);
-      qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
-      break;
-    case ACCOUNTS:
-    case ACCOUNTS_BASE:
-      qb.setTables(TABLE_ACCOUNTS);
-      boolean mergeCurrencyAggregates = uri.getQueryParameter(QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES) != null;
-      defaultOrderBy =  Utils.defaultOrderBy(KEY_LABEL, PrefKey.SORT_ORDER_ACCOUNTS);
-      if (mergeCurrencyAggregates) {
-        if (projection != null)
-          throw new IllegalArgumentException(
-              "When calling accounts cursor with mergeCurrencyAggregates, projection is ignored ");
-        @SuppressWarnings("deprecation")
-        String accountSubquery = qb.buildQuery(Account.PROJECTION_FULL, selection, null, groupBy,
-            null, null, null);
-        qb.setTables("(SELECT " +
-            KEY_ROWID + "," +
-            KEY_CURRENCY + "," +
-            KEY_OPENING_BALANCE + "," +
-            KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM +
+        selection = null;
+        //}
+        break;
+      case CATEGORIES:
+        qb.setTables(TABLE_CATEGORIES);
+        qb.appendWhere(KEY_ROWID + " != " + SPLIT_CATID);
+        if (projection == null) {
+          projection = Category.PROJECTION;
+        }
+        defaultOrderBy = Utils.defaultOrderBy(KEY_LABEL, PrefKey.SORT_ORDER_CATEGORIES);
+        break;
+      case CATEGORY_ID:
+        qb.setTables(TABLE_CATEGORIES);
+        qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
+        break;
+      case ACCOUNTS:
+      case ACCOUNTS_BASE:
+        qb.setTables(TABLE_ACCOUNTS);
+        boolean mergeCurrencyAggregates = uri.getQueryParameter(QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES) != null;
+        defaultOrderBy = Utils.defaultOrderBy(KEY_LABEL, PrefKey.SORT_ORDER_ACCOUNTS);
+        if (mergeCurrencyAggregates) {
+          if (projection != null)
+            throw new IllegalArgumentException(
+                "When calling accounts cursor with mergeCurrencyAggregates, projection is ignored ");
+          @SuppressWarnings("deprecation")
+          String accountSubquery = qb.buildQuery(Account.PROJECTION_FULL, selection, null, groupBy,
+              null, null, null);
+          qb.setTables("(SELECT " +
+              KEY_ROWID + "," +
+              KEY_CURRENCY + "," +
+              KEY_OPENING_BALANCE + "," +
+              KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM +
               " AND " + WHERE_NOT_SPLIT +
               " AND " + WHERE_IN_PAST + " ) AS " + KEY_CURRENT_BALANCE + ", " +
-            KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM +
+              KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM +
               " AND " + WHERE_NOT_SPLIT + " ) AS " + KEY_TOTAL + ", " +
-            "(" + SELECT_AMOUNT_SUM + " AND " + WHERE_EXPENSE + ") AS " + KEY_SUM_EXPENSES + "," +
-            "(" + SELECT_AMOUNT_SUM + " AND " + WHERE_INCOME + ") AS " + KEY_SUM_INCOME + ", " +
+              "(" + SELECT_AMOUNT_SUM + " AND " + WHERE_EXPENSE + ") AS " + KEY_SUM_EXPENSES + "," +
+              "(" + SELECT_AMOUNT_SUM + " AND " + WHERE_INCOME + ") AS " + KEY_SUM_INCOME + ", " +
               HAS_EXPORTED + ", " +
               HAS_FUTURE +
-            " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_EXCLUDE_FROM_TOTALS + " = 0) as t");
-        groupBy = "currency";
-        having = "count(*) > 1";
-        projection = new String[] {
-            "0 - (SELECT " + KEY_ROWID + " FROM " + TABLE_CURRENCIES
-                + " WHERE code = currency)  AS " + KEY_ROWID,//we use negative ids for aggregate accounts
-            KEY_CURRENCY + " AS " + KEY_LABEL,
+              " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_EXCLUDE_FROM_TOTALS + " = 0) as t");
+          groupBy = "currency";
+          having = "count(*) > 1";
+          projection = new String[]{
+              "0 - (SELECT " + KEY_ROWID + " FROM " + TABLE_CURRENCIES
+                  + " WHERE code = currency)  AS " + KEY_ROWID,//we use negative ids for aggregate accounts
+              KEY_CURRENCY + " AS " + KEY_LABEL,
+              "'' AS " + KEY_DESCRIPTION,
+              "sum(" + KEY_OPENING_BALANCE + ") AS " + KEY_OPENING_BALANCE,
+              KEY_CURRENCY,
+              "-1 AS " + KEY_COLOR,
+              "'NONE' AS " + KEY_GROUPING,
+              "'AGGREGATE' AS " + KEY_TYPE,
+              "0 AS " + KEY_SORT_KEY,
+              "0 AS " + KEY_EXCLUDE_FROM_TOTALS,
+              "max(" + KEY_HAS_EXPORTED + ") AS " + KEY_HAS_EXPORTED,
+              "null AS " + KEY_SYNC_ACCOUNT_NAME,
+              "null AS " + KEY_UUID,
+              "sum(" + KEY_CURRENT_BALANCE + ") AS " + KEY_CURRENT_BALANCE,
+              "sum(" + KEY_SUM_INCOME + ") AS " + KEY_SUM_INCOME,
+              "sum(" + KEY_SUM_EXPENSES + ") AS " + KEY_SUM_EXPENSES,
+              "0 AS " + KEY_SUM_TRANSFERS,
+              "sum(" + KEY_TOTAL + ") AS " + KEY_TOTAL,
+              "0 AS " + KEY_CLEARED_TOTAL, //we do not calculate cleared and reconciled totals for aggregate accounts
+              "0 AS " + KEY_RECONCILED_TOTAL,
+              "0 AS " + KEY_USAGES,
+              "1 AS " + KEY_IS_AGGREGATE,
+              "max(" + KEY_HAS_FUTURE + ") AS " + KEY_HAS_FUTURE,
+              "0 AS " + KEY_HAS_CLEARED,
+              "0 AS " + KEY_SORT_KEY_TYPE,
+              "0 AS " + KEY_LAST_USED}; //ignored
+          @SuppressWarnings("deprecation")
+          String currencySubquery = qb.buildQuery(projection, null, null, groupBy, having, null, null);
+          String grouping = "";
+          AccountGrouping accountGrouping;
+          try {
+            accountGrouping = AccountGrouping.valueOf(
+                PrefKey.ACCOUNT_GROUPING.getString("TYPE"));
+          } catch (IllegalArgumentException e) {
+            accountGrouping = AccountGrouping.TYPE;
+          }
+          switch (accountGrouping) {
+            case CURRENCY:
+              grouping = KEY_CURRENCY + "," + KEY_IS_AGGREGATE;
+              break;
+            case TYPE:
+              grouping = KEY_IS_AGGREGATE + "," + KEY_SORT_KEY_TYPE;
+              break;
+            case NONE:
+              //real accounts should come first, then aggregate accounts
+              grouping = KEY_IS_AGGREGATE;
+          }
+          sortOrder = grouping + "," + defaultOrderBy;
+          String sql = qb.buildUnionQuery(
+              new String[]{accountSubquery, currencySubquery},
+              sortOrder,
+              null);
+          c = db.rawQuery(sql, null);
+          Timber.d("Query : %s", sql);
+
+          c.setNotificationUri(getContext().getContentResolver(), uri);
+          return c;
+        }
+        if (projection == null)
+          projection = Account.PROJECTION_BASE;
+        break;
+      case AGGREGATE_ID:
+        String currencyId = uri.getPathSegments().get(2);
+        qb.setTables(TABLE_CURRENCIES);
+        projection = new String[]{
+            "0 - " + KEY_ROWID + "  AS " + KEY_ROWID,//we use negative ids for aggregate accounts
+            KEY_CODE + " AS " + KEY_LABEL,
             "'' AS " + KEY_DESCRIPTION,
-            "sum(" + KEY_OPENING_BALANCE + ") AS " + KEY_OPENING_BALANCE,
-            KEY_CURRENCY,
+            "(select sum(" + KEY_OPENING_BALANCE
+                + ") from " + TABLE_ACCOUNTS + " where " + KEY_CURRENCY + " = " + KEY_CODE + ") AS " + KEY_OPENING_BALANCE,
+            KEY_CODE + " AS " + KEY_CURRENCY,
             "-1 AS " + KEY_COLOR,
             "'NONE' AS " + KEY_GROUPING,
             "'AGGREGATE' AS " + KEY_TYPE,
-            "0 AS " + KEY_SORT_KEY,
+            "-1 AS " + KEY_SORT_KEY,
             "0 AS " + KEY_EXCLUDE_FROM_TOTALS,
-            "max(" + KEY_HAS_EXPORTED + ") AS " + KEY_HAS_EXPORTED,
             "null AS " + KEY_SYNC_ACCOUNT_NAME,
-            "null AS " + KEY_UUID,
-            "sum(" + KEY_CURRENT_BALANCE + ") AS " + KEY_CURRENT_BALANCE,
-            "sum(" + KEY_SUM_INCOME + ") AS " + KEY_SUM_INCOME,
-            "sum(" + KEY_SUM_EXPENSES + ") AS " + KEY_SUM_EXPENSES,
-            "0 AS " + KEY_SUM_TRANSFERS,
-            "sum(" + KEY_TOTAL + ") AS " + KEY_TOTAL,
-            "0 AS " + KEY_CLEARED_TOTAL, //we do not calculate cleared and reconciled totals for aggregate accounts
-            "0 AS " + KEY_RECONCILED_TOTAL,
-            "0 AS " + KEY_USAGES,
-            "1 AS " + KEY_IS_AGGREGATE,
-            "max(" + KEY_HAS_FUTURE + ") AS " + KEY_HAS_FUTURE,
-            "0 AS " + KEY_HAS_CLEARED,
-            "0 AS " + KEY_SORT_KEY_TYPE,
-            "0 AS " + KEY_LAST_USED}; //ignored
-        @SuppressWarnings("deprecation")
-        String currencySubquery = qb.buildQuery(projection, null, null, groupBy, having, null, null);
-        String grouping="";
-        AccountGrouping accountGrouping;
-        try {
-          accountGrouping = AccountGrouping.valueOf(
-              PrefKey.ACCOUNT_GROUPING.getString("TYPE"));
-        } catch (IllegalArgumentException e) {
-          accountGrouping = AccountGrouping.TYPE;
-        }
-        switch (accountGrouping) {
-        case CURRENCY:
-          grouping = KEY_CURRENCY + "," + KEY_IS_AGGREGATE;
-          break;
-        case TYPE:
-          grouping = KEY_IS_AGGREGATE + "," + KEY_SORT_KEY_TYPE;
-          break;
-        case NONE:
-          //real accounts should come first, then aggregate accounts
-          grouping = KEY_IS_AGGREGATE;
-        }
-        sortOrder = grouping + "," + defaultOrderBy;
-        String sql = qb.buildUnionQuery(
-            new String[] {accountSubquery,currencySubquery},
-            sortOrder,
-            null);
-        c = db.rawQuery(sql, null);
-        Timber.d("Query : %s", sql);
-
-        c.setNotificationUri(getContext().getContentResolver(), uri);
-        return c;
-      }
-      if (projection == null)
-        projection = Account.PROJECTION_BASE;
-      break;
-    case AGGREGATE_ID:
-      String currencyId = uri.getPathSegments().get(2);
-      qb.setTables(TABLE_CURRENCIES);
-      projection = new String[] {
-          "0 - " + KEY_ROWID + "  AS " + KEY_ROWID,//we use negative ids for aggregate accounts
-          KEY_CODE + " AS " + KEY_LABEL,
-          "'' AS " + KEY_DESCRIPTION,
-          "(select sum(" + KEY_OPENING_BALANCE
-              + ") from " + TABLE_ACCOUNTS + " where " + KEY_CURRENCY + " = " + KEY_CODE + ") AS " + KEY_OPENING_BALANCE,
-          KEY_CODE + " AS " + KEY_CURRENCY,
-          "-1 AS " + KEY_COLOR,
-          "'NONE' AS " + KEY_GROUPING,
-          "'AGGREGATE' AS " + KEY_TYPE,
-          "-1 AS " + KEY_SORT_KEY,
-          "0 AS " + KEY_EXCLUDE_FROM_TOTALS,
-          "null AS " + KEY_SYNC_ACCOUNT_NAME,
-          "null AS " + KEY_UUID};
-      qb.appendWhere(KEY_ROWID + "=" + currencyId);
-      break;
-    case ACCOUNT_ID:
-      qb.setTables(TABLE_ACCOUNTS);
-      qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
-      break;
+            "null AS " + KEY_UUID};
+        qb.appendWhere(KEY_ROWID + "=" + currencyId);
+        break;
+      case ACCOUNT_ID:
+        qb.setTables(TABLE_ACCOUNTS);
+        qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
+        break;
 //    case AGGREGATES:
 //      //we calculate the aggregates by taking in account the split parts instead of the split transactions,
 //      //thus we can ignore split parts that are transfers
@@ -630,141 +630,141 @@ public class TransactionProvider extends ContentProvider {
 //          "sum(sum_expenses) as sum_expenses",
 //          "sum(current_balance) as current_balance"};
 //      break;
-    case AGGREGATES_COUNT:
-      qb.setTables(TABLE_ACCOUNTS);
-      groupBy = "currency";
-      having = "count(*) > 1";
-      projection = new String[] {"count(*)"};
-      break;
-    case PAYEES:
-      qb.setTables(TABLE_PAYEES);
-      defaultOrderBy = KEY_PAYEE_NAME;
-      if (projection == null)
-        projection = Payee.PROJECTION;
-      break;
-    case MAPPED_PAYEES:
-      qb.setTables(TABLE_PAYEES  + " JOIN " + TABLE_TRANSACTIONS+ " ON (" + KEY_PAYEEID + " = " + TABLE_PAYEES + "." + KEY_ROWID + ")");
-      projection = new String[] {"DISTINCT " + TABLE_PAYEES + "." + KEY_ROWID,KEY_PAYEE_NAME + " AS " + KEY_LABEL};
-      defaultOrderBy = KEY_PAYEE_NAME;
-      break;
-    case MAPPED_TRANSFER_ACCOUNTS:
-      qb.setTables(TABLE_ACCOUNTS  + " JOIN " + TABLE_TRANSACTIONS+ " ON (" + KEY_TRANSFER_ACCOUNT + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + ")");
-      projection = new String[] {"DISTINCT " + TABLE_ACCOUNTS + "." + KEY_ROWID, KEY_LABEL};
-      defaultOrderBy = KEY_LABEL;
-      break;
-    case METHODS:
-      qb.setTables(TABLE_METHODS);
-      if (projection == null) {
-        projection = PaymentMethod.PROJECTION(getContext());
-      }
-      defaultOrderBy = PaymentMethod.localizedLabelSqlColumn(getContext()) + " COLLATE LOCALIZED";
-      break;
-    case MAPPED_METHODS:
-      String localizedLabel = PaymentMethod.localizedLabelSqlColumn(getContext());
-      qb.setTables(TABLE_METHODS  + " JOIN " + TABLE_TRANSACTIONS+ " ON (" + KEY_METHODID + " = " + TABLE_METHODS + "." + KEY_ROWID + ")");
-      projection = new String[] {"DISTINCT " + TABLE_METHODS + "." + KEY_ROWID,localizedLabel+ " AS "+KEY_LABEL};
-      defaultOrderBy = localizedLabel + " COLLATE LOCALIZED";
-      break;
-    case METHOD_ID:
-      qb.setTables(TABLE_METHODS);
-      if (projection == null)
-        projection = PaymentMethod.PROJECTION(getContext());
-      qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
-      break;
-    case METHODS_FILTERED:
-      localizedLabel = PaymentMethod.localizedLabelSqlColumn(getContext());
-      qb.setTables(TABLE_METHODS + " JOIN " + TABLE_ACCOUNTTYES_METHODS + " ON (" + KEY_ROWID + " = " + KEY_METHODID + ")");
-      projection =  new String[] {KEY_ROWID,localizedLabel+ " AS "+KEY_LABEL,KEY_IS_NUMBERED};
-      String paymentType = uri.getPathSegments().get(2);
-      if (paymentType.equals("1")) {
-        selection = TABLE_METHODS + ".type > -1";
-      } else if (paymentType.equals("-1")) {
-        selection = TABLE_METHODS + ".type < 1";
-      } else {
-        throw new IllegalArgumentException("Unknown paymentType " + paymentType);
-      }
-      String accountType = uri.getPathSegments().get(3);
-      try {
-        AccountType.valueOf(accountType);
-      } catch (IllegalArgumentException e) {
-        throw new IllegalArgumentException("Unknown accountType " + accountType);
-      }
-      selection += " and " + TABLE_ACCOUNTTYES_METHODS + ".type = ?";
-      selectionArgs = new String[] {accountType};
-      defaultOrderBy = localizedLabel+ " COLLATE LOCALIZED";
-      break;
-    case ACCOUNTTYPES_METHODS:
-      qb.setTables(TABLE_ACCOUNTTYES_METHODS);
-      break;
-    case TEMPLATES:
-      qb.setTables(VIEW_TEMPLATES_EXTENDED);
-      defaultOrderBy =  Utils.defaultOrderBy(KEY_TITLE, PrefKey.SORT_ORDER_TEMPLATES);
-      if (projection == null)
-        projection = Template.PROJECTION_EXTENDED;
-      break;
-    case TEMPLATE_ID:
-      qb.setTables(VIEW_TEMPLATES_EXTENDED);
-      qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
-      if (projection == null)
-        projection = Template.PROJECTION_EXTENDED;
-      break;
-    case SQLITE_SEQUENCE_TABLE:
-      qb.setTables("SQLITE_SEQUENCE");
-      projection = new String[] {"seq"};
-      selection = "name = ?";
-      selectionArgs = new String[] {uri.getPathSegments().get(1)};
-      break;
-    case PLANINSTANCE_TRANSACTION_STATUS:
-      qb.setTables(TABLE_PLAN_INSTANCE_STATUS);
-      break;
-    //only called from unit test
-    case CURRENCIES:
-      qb.setTables(TABLE_CURRENCIES);
-      break;
-    case DUAL:
-      qb.setTables("sqlite_master");
-      return qb.query(db, projection, selection, selectionArgs, null,
-          null, null,"1");
-    case EVENT_CACHE:
-      qb.setTables(TABLE_EVENT_CACHE);
-      break;
-    case DEBUG_SCHEMA:
-      qb.setTables("sqlite_master");
-      return qb.query(
-          db,
-          new String[]{"name","sql"},
-          "type = 'table'",
-          null,null,null,null);
-    case STALE_IMAGES:
-      qb.setTables(TABLE_STALE_URIS);
-      if (projection == null)
-        projection = new String[] {"rowid as _id",KEY_PICTURE_URI};
-      break;
-    case STALE_IMAGES_ID:
-      qb.setTables(TABLE_STALE_URIS);
-      qb.appendWhere("rowid = " + uri.getPathSegments().get(1));
-      projection = new String[] {KEY_PICTURE_URI};
-      break;
-    case TRANSACTIONS_LASTEXCHANGE:
-      String currency1 = uri.getPathSegments().get(2);
-      String currency2 = uri.getPathSegments().get(3);
-      selection = "(SELECT " + KEY_CURRENCY + " FROM " + TABLE_ACCOUNTS +
-          " WHERE " + KEY_ROWID + " = " + KEY_ACCOUNTID + ") = ? AND " +
-          "(SELECT " + KEY_CURRENCY + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = " +
-              "(SELECT " + KEY_ACCOUNTID + " FROM " + TABLE_TRANSACTIONS + " WHERE " +  KEY_ROWID +
-              " = " + VIEW_COMMITTED + "." + KEY_TRANSFER_PEER + ")) = ?";
-      selectionArgs = new String[] {currency1, currency2};
-      projection = new String[] {
-          "'" + currency1 + "'", // we pass the currency codes back so that the receiver
-          "'" + currency2 + "'", // can check if the data is still relevant for him
-          "abs(" + KEY_AMOUNT + ")",
-          "abs((SELECT " + KEY_AMOUNT + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_ROWID +
-              " = " + VIEW_COMMITTED + "." + KEY_TRANSFER_PEER + "))"
-      };
-      sortOrder = KEY_DATE + " DESC";
-      limit = "1";
-      qb.setTables(VIEW_COMMITTED);
-      break;
+      case AGGREGATES_COUNT:
+        qb.setTables(TABLE_ACCOUNTS);
+        groupBy = "currency";
+        having = "count(*) > 1";
+        projection = new String[]{"count(*)"};
+        break;
+      case PAYEES:
+        qb.setTables(TABLE_PAYEES);
+        defaultOrderBy = KEY_PAYEE_NAME;
+        if (projection == null)
+          projection = Payee.PROJECTION;
+        break;
+      case MAPPED_PAYEES:
+        qb.setTables(TABLE_PAYEES + " JOIN " + TABLE_TRANSACTIONS + " ON (" + KEY_PAYEEID + " = " + TABLE_PAYEES + "." + KEY_ROWID + ")");
+        projection = new String[]{"DISTINCT " + TABLE_PAYEES + "." + KEY_ROWID, KEY_PAYEE_NAME + " AS " + KEY_LABEL};
+        defaultOrderBy = KEY_PAYEE_NAME;
+        break;
+      case MAPPED_TRANSFER_ACCOUNTS:
+        qb.setTables(TABLE_ACCOUNTS + " JOIN " + TABLE_TRANSACTIONS + " ON (" + KEY_TRANSFER_ACCOUNT + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + ")");
+        projection = new String[]{"DISTINCT " + TABLE_ACCOUNTS + "." + KEY_ROWID, KEY_LABEL};
+        defaultOrderBy = KEY_LABEL;
+        break;
+      case METHODS:
+        qb.setTables(TABLE_METHODS);
+        if (projection == null) {
+          projection = PaymentMethod.PROJECTION(getContext());
+        }
+        defaultOrderBy = PaymentMethod.localizedLabelSqlColumn(getContext()) + " COLLATE LOCALIZED";
+        break;
+      case MAPPED_METHODS:
+        String localizedLabel = PaymentMethod.localizedLabelSqlColumn(getContext());
+        qb.setTables(TABLE_METHODS + " JOIN " + TABLE_TRANSACTIONS + " ON (" + KEY_METHODID + " = " + TABLE_METHODS + "." + KEY_ROWID + ")");
+        projection = new String[]{"DISTINCT " + TABLE_METHODS + "." + KEY_ROWID, localizedLabel + " AS " + KEY_LABEL};
+        defaultOrderBy = localizedLabel + " COLLATE LOCALIZED";
+        break;
+      case METHOD_ID:
+        qb.setTables(TABLE_METHODS);
+        if (projection == null)
+          projection = PaymentMethod.PROJECTION(getContext());
+        qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
+        break;
+      case METHODS_FILTERED:
+        localizedLabel = PaymentMethod.localizedLabelSqlColumn(getContext());
+        qb.setTables(TABLE_METHODS + " JOIN " + TABLE_ACCOUNTTYES_METHODS + " ON (" + KEY_ROWID + " = " + KEY_METHODID + ")");
+        projection = new String[]{KEY_ROWID, localizedLabel + " AS " + KEY_LABEL, KEY_IS_NUMBERED};
+        String paymentType = uri.getPathSegments().get(2);
+        if (paymentType.equals("1")) {
+          selection = TABLE_METHODS + ".type > -1";
+        } else if (paymentType.equals("-1")) {
+          selection = TABLE_METHODS + ".type < 1";
+        } else {
+          throw new IllegalArgumentException("Unknown paymentType " + paymentType);
+        }
+        String accountType = uri.getPathSegments().get(3);
+        try {
+          AccountType.valueOf(accountType);
+        } catch (IllegalArgumentException e) {
+          throw new IllegalArgumentException("Unknown accountType " + accountType);
+        }
+        selection += " and " + TABLE_ACCOUNTTYES_METHODS + ".type = ?";
+        selectionArgs = new String[]{accountType};
+        defaultOrderBy = localizedLabel + " COLLATE LOCALIZED";
+        break;
+      case ACCOUNTTYPES_METHODS:
+        qb.setTables(TABLE_ACCOUNTTYES_METHODS);
+        break;
+      case TEMPLATES:
+        qb.setTables(VIEW_TEMPLATES_EXTENDED);
+        defaultOrderBy = Utils.defaultOrderBy(KEY_TITLE, PrefKey.SORT_ORDER_TEMPLATES);
+        if (projection == null)
+          projection = Template.PROJECTION_EXTENDED;
+        break;
+      case TEMPLATE_ID:
+        qb.setTables(VIEW_TEMPLATES_EXTENDED);
+        qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
+        if (projection == null)
+          projection = Template.PROJECTION_EXTENDED;
+        break;
+      case SQLITE_SEQUENCE_TABLE:
+        qb.setTables("SQLITE_SEQUENCE");
+        projection = new String[]{"seq"};
+        selection = "name = ?";
+        selectionArgs = new String[]{uri.getPathSegments().get(1)};
+        break;
+      case PLANINSTANCE_TRANSACTION_STATUS:
+        qb.setTables(TABLE_PLAN_INSTANCE_STATUS);
+        break;
+      //only called from unit test
+      case CURRENCIES:
+        qb.setTables(TABLE_CURRENCIES);
+        break;
+      case DUAL:
+        qb.setTables("sqlite_master");
+        return qb.query(db, projection, selection, selectionArgs, null,
+            null, null, "1");
+      case EVENT_CACHE:
+        qb.setTables(TABLE_EVENT_CACHE);
+        break;
+      case DEBUG_SCHEMA:
+        qb.setTables("sqlite_master");
+        return qb.query(
+            db,
+            new String[]{"name", "sql"},
+            "type = 'table'",
+            null, null, null, null);
+      case STALE_IMAGES:
+        qb.setTables(TABLE_STALE_URIS);
+        if (projection == null)
+          projection = new String[]{"rowid as _id", KEY_PICTURE_URI};
+        break;
+      case STALE_IMAGES_ID:
+        qb.setTables(TABLE_STALE_URIS);
+        qb.appendWhere("rowid = " + uri.getPathSegments().get(1));
+        projection = new String[]{KEY_PICTURE_URI};
+        break;
+      case TRANSACTIONS_LASTEXCHANGE:
+        String currency1 = uri.getPathSegments().get(2);
+        String currency2 = uri.getPathSegments().get(3);
+        selection = "(SELECT " + KEY_CURRENCY + " FROM " + TABLE_ACCOUNTS +
+            " WHERE " + KEY_ROWID + " = " + KEY_ACCOUNTID + ") = ? AND " +
+            "(SELECT " + KEY_CURRENCY + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = " +
+            "(SELECT " + KEY_ACCOUNTID + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_ROWID +
+            " = " + VIEW_COMMITTED + "." + KEY_TRANSFER_PEER + ")) = ?";
+        selectionArgs = new String[]{currency1, currency2};
+        projection = new String[]{
+            "'" + currency1 + "'", // we pass the currency codes back so that the receiver
+            "'" + currency2 + "'", // can check if the data is still relevant for him
+            "abs(" + KEY_AMOUNT + ")",
+            "abs((SELECT " + KEY_AMOUNT + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_ROWID +
+                " = " + VIEW_COMMITTED + "." + KEY_TRANSFER_PEER + "))"
+        };
+        sortOrder = KEY_DATE + " DESC";
+        limit = "1";
+        qb.setTables(VIEW_COMMITTED);
+        break;
       case CHANGES:
         String sequence = uri.getQueryParameter(KEY_SYNC_SEQUENCE_LOCAL);
         selection = KEY_ACCOUNTID + " = ? AND " + KEY_SYNC_SEQUENCE_LOCAL + " = ?";
@@ -774,8 +774,8 @@ public class TransactionProvider extends ContentProvider {
           projection = TransactionChange.PROJECTION;
         }
         break;
-    default:
-      throw unknownUri(uri);
+      default:
+        throw unknownUri(uri);
     }
     String orderBy;
     if (TextUtils.isEmpty(sortOrder)) {
@@ -823,79 +823,79 @@ public class TransactionProvider extends ContentProvider {
     String newUri;
     int uriMatch = URI_MATCHER.match(uri);
     switch (uriMatch) {
-    case TRANSACTIONS:
-      id = db.insertOrThrow(TABLE_TRANSACTIONS, null, values);
-      newUri = TRANSACTIONS_URI + "/" + id;
-      break;
-    case ACCOUNTS:
-      id = db.insertOrThrow(TABLE_ACCOUNTS, null, values);
-      newUri = ACCOUNTS_URI + "/" + id;
-      break;
-    case METHODS:
-      id = db.insertOrThrow(TABLE_METHODS, null, values);
-      newUri = METHODS_URI + "/" + id;
-      break;
-    case ACCOUNTTYPES_METHODS:
-      id = db.insertOrThrow(TABLE_ACCOUNTTYES_METHODS,null,values);
-      //we are not interested in accessing individual entries in this table, but have to return a uri
-      newUri = ACCOUNTTYPES_METHODS_URI + "/" + id;
-      break;
-    case TEMPLATES:
-      id = db.insertOrThrow(TABLE_TEMPLATES, null, values);
-      newUri = TEMPLATES_URI + "/" + id;
-      break;
-    case CATEGORIES:
-      //for categories we can not rely on the unique constraint, since it does not work for parent_id is null
-      Long parentId = values.getAsLong(KEY_PARENTID);
-      String label = values.getAsString(KEY_LABEL);
-      String selection;
-      String[] selectionArgs;
-      if (parentId == null) {
-        selection = KEY_PARENTID + " is null";
-        selectionArgs = new String[]{label};
-      } else {
-        selection = KEY_PARENTID + " = ?";
-        selectionArgs = new String[]{String.valueOf(parentId),label};
-      }
-      selection += " and " + KEY_LABEL + " = ?";
-      Cursor mCursor = db.query(TABLE_CATEGORIES, new String []{KEY_ROWID}, selection, selectionArgs, null, null, null);
-      if (mCursor.getCount() != 0) {
+      case TRANSACTIONS:
+        id = db.insertOrThrow(TABLE_TRANSACTIONS, null, values);
+        newUri = TRANSACTIONS_URI + "/" + id;
+        break;
+      case ACCOUNTS:
+        id = db.insertOrThrow(TABLE_ACCOUNTS, null, values);
+        newUri = ACCOUNTS_URI + "/" + id;
+        break;
+      case METHODS:
+        id = db.insertOrThrow(TABLE_METHODS, null, values);
+        newUri = METHODS_URI + "/" + id;
+        break;
+      case ACCOUNTTYPES_METHODS:
+        id = db.insertOrThrow(TABLE_ACCOUNTTYES_METHODS, null, values);
+        //we are not interested in accessing individual entries in this table, but have to return a uri
+        newUri = ACCOUNTTYPES_METHODS_URI + "/" + id;
+        break;
+      case TEMPLATES:
+        id = db.insertOrThrow(TABLE_TEMPLATES, null, values);
+        newUri = TEMPLATES_URI + "/" + id;
+        break;
+      case CATEGORIES:
+        //for categories we can not rely on the unique constraint, since it does not work for parent_id is null
+        Long parentId = values.getAsLong(KEY_PARENTID);
+        String label = values.getAsString(KEY_LABEL);
+        String selection;
+        String[] selectionArgs;
+        if (parentId == null) {
+          selection = KEY_PARENTID + " is null";
+          selectionArgs = new String[]{label};
+        } else {
+          selection = KEY_PARENTID + " = ?";
+          selectionArgs = new String[]{String.valueOf(parentId), label};
+        }
+        selection += " and " + KEY_LABEL + " = ?";
+        Cursor mCursor = db.query(TABLE_CATEGORIES, new String[]{KEY_ROWID}, selection, selectionArgs, null, null, null);
+        if (mCursor.getCount() != 0) {
+          mCursor.close();
+          throw new SQLiteConstraintException();
+        }
         mCursor.close();
-        throw new SQLiteConstraintException();
+        id = db.insertOrThrow(TABLE_CATEGORIES, null, values);
+        newUri = CATEGORIES_URI + "/" + id;
+        break;
+      case PAYEES:
+        id = db.insertOrThrow(TABLE_PAYEES, null, values);
+        newUri = PAYEES_URI + "/" + id;
+        break;
+      case PLANINSTANCE_TRANSACTION_STATUS:
+        id = db.insertOrThrow(TABLE_PLAN_INSTANCE_STATUS, null, values);
+        newUri = PLAN_INSTANCE_STATUS_URI + "/" + id;
+        break;
+      case EVENT_CACHE:
+        id = db.insertOrThrow(TABLE_EVENT_CACHE, null, values);
+        newUri = EVENT_CACHE_URI + "/" + id;
+        break;
+      case STALE_IMAGES:
+        id = db.insertOrThrow(TABLE_STALE_URIS, null, values);
+        newUri = TABLE_STALE_URIS + "/" + id;
+        break;
+      case DUAL: {
+        if ("1".equals(uri.getQueryParameter(QUERY_PARAMETER_SYNC_BEGIN))) {
+          values = new ContentValues(1);
+          values.put(KEY_STATUS, "1");
+          id = db.insertOrThrow(TABLE_SYNC_STATE, null, values);
+          newUri = TABLE_SYNC_STATE + "/" + id;
+        } else {
+          throw unknownUri(uri);
+        }
+        break;
       }
-      mCursor.close();
-      id = db.insertOrThrow(TABLE_CATEGORIES, null, values);
-      newUri = CATEGORIES_URI + "/" + id;
-      break;
-    case PAYEES:
-      id = db.insertOrThrow(TABLE_PAYEES, null, values);
-      newUri = PAYEES_URI + "/" + id;
-      break;
-    case PLANINSTANCE_TRANSACTION_STATUS:
-      id = db.insertOrThrow(TABLE_PLAN_INSTANCE_STATUS, null, values);
-      newUri = PLAN_INSTANCE_STATUS_URI + "/" + id;
-      break;
-    case EVENT_CACHE:
-      id = db.insertOrThrow(TABLE_EVENT_CACHE, null, values);
-      newUri = EVENT_CACHE_URI + "/" + id;
-      break;
-    case STALE_IMAGES:
-      id = db.insertOrThrow(TABLE_STALE_URIS, null, values);
-      newUri = TABLE_STALE_URIS + "/" + id;
-      break;
-    case DUAL: {
-      if ("1".equals(uri.getQueryParameter(QUERY_PARAMETER_SYNC_BEGIN))) {
-        values = new ContentValues(1);
-        values.put(KEY_STATUS, "1");
-        id = db.insertOrThrow(TABLE_SYNC_STATE, null, values);
-        newUri = TABLE_SYNC_STATE + "/" + id;
-      } else {
+      default:
         throw unknownUri(uri);
-      }
-      break;
-    }
-    default:
-      throw unknownUri(uri);
     }
     notifyChange(uri, uriMatch == TRANSACTIONS && callerIsNotSyncAdatper(uri));
     //the accounts cursor contains aggregates about transactions
@@ -919,140 +919,140 @@ public class TransactionProvider extends ContentProvider {
     String segment;
     int uriMatch = URI_MATCHER.match(uri);
     switch (uriMatch) {
-    case TRANSACTIONS:
-      count = db.delete(TABLE_TRANSACTIONS, where, whereArgs);
-      break;
-    case TRANSACTION_ID:
-      //maybe TODO ?: where and whereArgs are ignored
-      segment = uri.getPathSegments().get(1);
-      //when we are deleting a transfer whose peer is part of a split, we cannot the delete the peer,
-      //because the split would be left in an invalid state, hence we transform the peer to a normal split part
-      //first we find out the account label
-      db.beginTransaction();
-      try {
-        Cursor c = db.query(
-            TABLE_ACCOUNTS,
-            new String []{KEY_LABEL},
-            KEY_ROWID + " = (SELECT " + KEY_ACCOUNTID + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_ROWID + " = ?)",
-            new String[] {segment},
-            null, null, null);
-        c.moveToFirst();
-        //cursor should not be empty, but has been observed to be (bug report 67a7942fe8b6c9c96859b226767a9000)
-        String accountLabel = c.moveToFirst() ? c.getString(0) : "UNKNOWN";
-        c.close();
-        ContentValues args = new ContentValues();
-        args.put(KEY_COMMENT, getContext().getString(R.string.peer_transaction_deleted,accountLabel));
-        args.putNull(KEY_TRANSFER_ACCOUNT);
-        args.putNull(KEY_TRANSFER_PEER);
-        db.update(TABLE_TRANSACTIONS,
-            args,
-            KEY_TRANSFER_PEER + " = ? AND " + KEY_PARENTID + " IS NOT null",
-            new String[] {segment});
-        //we delete the transaction, its children and its transfer peer, and transfer peers of its children
-        if (uri.getQueryParameter(QUERY_PARAMETER_MARK_VOID) == null) {
-          //we delete the parent separately, so that the changes trigger can correctly record the parent uuid
-          count = db.delete(TABLE_TRANSACTIONS, WHERE_DEPENDENT, new String[] {segment, segment});
-          count += db.delete(TABLE_TRANSACTIONS, WHERE_SELF_OR_PEER, new String[] {segment, segment});
-        } else {
-          ContentValues v = new ContentValues();
-          v.put(KEY_CR_STATUS, Transaction.CrStatus.VOID.name());
-          count = db.update(TABLE_TRANSACTIONS, v, WHERE_SELF_OR_DEPENDENT, new String[] {segment, segment, segment});
+      case TRANSACTIONS:
+        count = db.delete(TABLE_TRANSACTIONS, where, whereArgs);
+        break;
+      case TRANSACTION_ID:
+        //maybe TODO ?: where and whereArgs are ignored
+        segment = uri.getPathSegments().get(1);
+        //when we are deleting a transfer whose peer is part of a split, we cannot the delete the peer,
+        //because the split would be left in an invalid state, hence we transform the peer to a normal split part
+        //first we find out the account label
+        db.beginTransaction();
+        try {
+          Cursor c = db.query(
+              TABLE_ACCOUNTS,
+              new String[]{KEY_LABEL},
+              KEY_ROWID + " = (SELECT " + KEY_ACCOUNTID + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_ROWID + " = ?)",
+              new String[]{segment},
+              null, null, null);
+          c.moveToFirst();
+          //cursor should not be empty, but has been observed to be (bug report 67a7942fe8b6c9c96859b226767a9000)
+          String accountLabel = c.moveToFirst() ? c.getString(0) : "UNKNOWN";
+          c.close();
+          ContentValues args = new ContentValues();
+          args.put(KEY_COMMENT, getContext().getString(R.string.peer_transaction_deleted, accountLabel));
+          args.putNull(KEY_TRANSFER_ACCOUNT);
+          args.putNull(KEY_TRANSFER_PEER);
+          db.update(TABLE_TRANSACTIONS,
+              args,
+              KEY_TRANSFER_PEER + " = ? AND " + KEY_PARENTID + " IS NOT null",
+              new String[]{segment});
+          //we delete the transaction, its children and its transfer peer, and transfer peers of its children
+          if (uri.getQueryParameter(QUERY_PARAMETER_MARK_VOID) == null) {
+            //we delete the parent separately, so that the changes trigger can correctly record the parent uuid
+            count = db.delete(TABLE_TRANSACTIONS, WHERE_DEPENDENT, new String[]{segment, segment});
+            count += db.delete(TABLE_TRANSACTIONS, WHERE_SELF_OR_PEER, new String[]{segment, segment});
+          } else {
+            ContentValues v = new ContentValues();
+            v.put(KEY_CR_STATUS, Transaction.CrStatus.VOID.name());
+            count = db.update(TABLE_TRANSACTIONS, v, WHERE_SELF_OR_DEPENDENT, new String[]{segment, segment, segment});
+          }
+          db.setTransactionSuccessful();
+        } finally {
+          db.endTransaction();
         }
-        db.setTransactionSuccessful();
-      }    finally {
-        db.endTransaction();
+        break;
+      case TEMPLATES:
+        count = db.delete(TABLE_TEMPLATES, where, whereArgs);
+        break;
+      case TEMPLATE_ID:
+        segment = uri.getPathSegments().get(1);
+        if (!TextUtils.isEmpty(where)) {
+          whereString = " AND (" + where + ')';
+        } else {
+          whereString = "";
+        }
+        count = db.delete(TABLE_TEMPLATES, "_id=" + segment + whereString,
+            whereArgs);
+        break;
+      case ACCOUNTTYPES_METHODS:
+        count = db.delete(TABLE_ACCOUNTTYES_METHODS, where, whereArgs);
+        break;
+      case ACCOUNTS:
+        count = db.delete(TABLE_ACCOUNTS, where, whereArgs);
+        break;
+      case ACCOUNT_ID:
+        segment = uri.getPathSegments().get(1);
+        if (!TextUtils.isEmpty(where)) {
+          whereString = " AND (" + where + ')';
+        } else {
+          whereString = "";
+        }
+        count = db.delete(TABLE_ACCOUNTS, "_id=" + segment + whereString,
+            whereArgs);
+        //update aggregate cursor
+        //getContext().getContentResolver().notifyChange(AGGREGATES_URI, null);
+        break;
+      case CATEGORIES:
+        count = db.delete(TABLE_CATEGORIES, where, whereArgs);
+        break;
+      case CATEGORY_ID:
+        segment = uri.getPathSegments().get(1);
+        if (!TextUtils.isEmpty(where)) {
+          whereString = " AND (" + where + ')';
+        } else {
+          whereString = "";
+        }
+        count = db.delete(TABLE_CATEGORIES, "_id=" + segment + whereString,
+            whereArgs);
+        break;
+      case PAYEE_ID:
+        segment = uri.getPathSegments().get(1);
+        if (!TextUtils.isEmpty(where)) {
+          whereString = " AND (" + where + ')';
+        } else {
+          whereString = "";
+        }
+        count = db.delete(TABLE_PAYEES, "_id=" + segment + whereString,
+            whereArgs);
+        break;
+      case METHOD_ID:
+        segment = uri.getPathSegments().get(1);
+        if (!TextUtils.isEmpty(where)) {
+          whereString = " AND (" + where + ')';
+        } else {
+          whereString = "";
+        }
+        count = db.delete(TABLE_METHODS, "_id=" + segment + whereString,
+            whereArgs);
+        break;
+      case PLANINSTANCE_TRANSACTION_STATUS:
+        count = db.delete(TABLE_PLAN_INSTANCE_STATUS, where, whereArgs);
+        break;
+      case EVENT_CACHE:
+        count = db.delete(TABLE_EVENT_CACHE, where, whereArgs);
+        break;
+      case STALE_IMAGES_ID:
+        segment = uri.getPathSegments().get(1);
+        count = db.delete(TABLE_STALE_URIS, "rowid=" + segment, null);
+        break;
+      case STALE_IMAGES:
+        count = db.delete(TABLE_STALE_URIS, where, whereArgs);
+        break;
+      case CHANGES:
+        count = db.delete(TABLE_CHANGES, where, whereArgs);
+        break;
+      case DUAL: {
+        if ("1".equals(uri.getQueryParameter(QUERY_PARAMETER_SYNC_END))) {
+          count = db.delete(TABLE_SYNC_STATE, where, whereArgs);
+        } else {
+          throw unknownUri(uri);
+        }
+        break;
       }
-      break;
-    case TEMPLATES:
-      count = db.delete(TABLE_TEMPLATES, where, whereArgs);
-      break;
-    case TEMPLATE_ID:
-      segment = uri.getPathSegments().get(1);
-      if (!TextUtils.isEmpty(where)) {
-        whereString = " AND (" + where + ')';
-      } else {
-        whereString = "";
-      }
-      count = db.delete(TABLE_TEMPLATES, "_id=" + segment + whereString,
-          whereArgs);
-      break;
-    case ACCOUNTTYPES_METHODS:
-      count = db.delete(TABLE_ACCOUNTTYES_METHODS, where, whereArgs);
-      break;
-    case ACCOUNTS:
-      count = db.delete(TABLE_ACCOUNTS, where, whereArgs);
-      break;
-    case ACCOUNT_ID:
-      segment = uri.getPathSegments().get(1);
-      if (!TextUtils.isEmpty(where)) {
-        whereString = " AND (" + where + ')';
-      } else {
-        whereString = "";
-      }
-      count = db.delete(TABLE_ACCOUNTS, "_id=" + segment + whereString,
-          whereArgs);
-      //update aggregate cursor
-      //getContext().getContentResolver().notifyChange(AGGREGATES_URI, null);
-      break;
-    case CATEGORIES:
-      count = db.delete(TABLE_CATEGORIES, where, whereArgs);
-      break;
-    case CATEGORY_ID:
-      segment = uri.getPathSegments().get(1);
-      if (!TextUtils.isEmpty(where)) {
-        whereString = " AND (" + where + ')';
-      } else {
-        whereString = "";
-      }
-      count = db.delete(TABLE_CATEGORIES, "_id=" + segment + whereString,
-          whereArgs);
-      break;
-    case PAYEE_ID:
-      segment = uri.getPathSegments().get(1);
-      if (!TextUtils.isEmpty(where)) {
-        whereString = " AND (" + where + ')';
-      } else {
-        whereString = "";
-      }
-      count = db.delete(TABLE_PAYEES, "_id=" + segment + whereString,
-          whereArgs);
-      break;
-    case METHOD_ID:
-      segment = uri.getPathSegments().get(1);
-      if (!TextUtils.isEmpty(where)) {
-        whereString = " AND (" + where + ')';
-      } else {
-        whereString = "";
-      }
-      count = db.delete(TABLE_METHODS, "_id=" + segment + whereString,
-          whereArgs);
-      break;
-    case PLANINSTANCE_TRANSACTION_STATUS:
-      count = db.delete(TABLE_PLAN_INSTANCE_STATUS, where, whereArgs);
-      break;
-    case EVENT_CACHE:
-      count = db.delete(TABLE_EVENT_CACHE, where, whereArgs);
-      break;
-    case STALE_IMAGES_ID:
-      segment = uri.getPathSegments().get(1);
-      count = db.delete(TABLE_STALE_URIS, "rowid=" + segment,null);
-      break;
-    case STALE_IMAGES:
-      count = db.delete(TABLE_STALE_URIS, where, whereArgs);
-      break;
-    case CHANGES:
-      count = db.delete(TABLE_CHANGES, where, whereArgs);
-      break;
-    case DUAL: {
-      if ("1".equals(uri.getQueryParameter(QUERY_PARAMETER_SYNC_END))) {
-        count = db.delete(TABLE_SYNC_STATE, where, whereArgs);
-      } else {
+      default:
         throw unknownUri(uri);
-      }
-      break;
-    }
-    default:
-      throw unknownUri(uri);
     }
     if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTION_ID) {
       notifyChange(TRANSACTIONS_URI, callerIsNotSyncAdatper(uri));
@@ -1078,310 +1078,310 @@ public class TransactionProvider extends ContentProvider {
     int uriMatch = URI_MATCHER.match(uri);
     Cursor c;
     switch (uriMatch) {
-    case TRANSACTIONS:
-      count = db.update(TABLE_TRANSACTIONS, values, where, whereArgs);
-      break;
-    case TRANSACTION_ID:
-      segment = uri.getPathSegments().get(1);
-      if (!TextUtils.isEmpty(where)) {
-        whereString = " AND (" + where + ')';
-      } else {
-        whereString = "";
-      }
-      count = db.update(TABLE_TRANSACTIONS, values, "_id=" + segment + whereString,
-          whereArgs);
-      break;
-    case TRANSACTION_UNDELETE:
-      segment = uri.getPathSegments().get(1);
-      whereArgs = new String[] {segment,segment, segment};
-      ContentValues v = new ContentValues();
-      v.put(KEY_CR_STATUS, Transaction.CrStatus.UNRECONCILED.name());
-      count = db.update(TABLE_TRANSACTIONS, v, WHERE_SELF_OR_DEPENDENT, whereArgs);
-      break;
-    case ACCOUNTS:
-      count = db.update(TABLE_ACCOUNTS, values, where, whereArgs);
-      break;
-    case ACCOUNT_ID:
-      segment = uri.getPathSegments().get(1);
-      if (!TextUtils.isEmpty(where)) {
-        whereString = " AND (" + where + ')';
-      } else {
-        whereString = "";
-      }
-      count = db.update(TABLE_ACCOUNTS, values, "_id=" + segment + whereString,
-          whereArgs);
-      break;
-    case TEMPLATES:
-      //TODO should not support bulk update of categories
-      count = db.update(TABLE_TEMPLATES, values, where, whereArgs);
-      break;
-    case TEMPLATE_ID:
-      segment = uri.getPathSegments().get(1);
-      if (!TextUtils.isEmpty(where)) {
-        whereString = " AND (" + where + ')';
-      } else {
-        whereString = "";
-      }
-      count = db.update(TABLE_TEMPLATES, values, "_id=" + segment + whereString,
-            whereArgs);
-      break;
-    case PAYEE_ID:
-      segment = uri.getPathSegments().get(1);
-      if (!TextUtils.isEmpty(where)) {
-        whereString = " AND (" + where + ')';
-      } else {
-        whereString = "";
-      }
-      count = db.update(TABLE_PAYEES, values, "_id=" + segment + whereString,
-            whereArgs);
-      notifyChange(TRANSACTIONS_URI, false);
-      break;
-    case CATEGORIES:
-      throw new UnsupportedOperationException("Bulk update of categories is not supported");
-    case CATEGORY_ID:
-      if (values.containsKey(KEY_LABEL) && values.containsKey(KEY_PARENTID))
-        throw new UnsupportedOperationException("Simultaneous update of label and parent is not supported");
-      segment = uri.getPathSegments().get(1);
-      //for categories we can not rely on the unique constraint, since it does not work for parent_id is null
-      String label = values.getAsString(KEY_LABEL);
-      if (label != null) {
-        String selection;
-        String[] selectionArgs;
-        //this syntax crashes on 2.1, maybe 2.2
-        selection = "label = ? and parent_id is (select parent_id from categories where _id = ?)";
-        selectionArgs = new String[]{label, segment};
-        c = db.query(TABLE_CATEGORIES, new String[]{KEY_ROWID}, selection, selectionArgs, null, null, null);
-        if (c.getCount() != 0) {
-          c.moveToFirst();
-          if (c.getLong(0) == Long.valueOf(segment)) {
-            //silently do nothing if we try to update with the same value
-            c.close();
-            return 0;
-          }
-          c.close();
-          throw new SQLiteConstraintException();
-        }
-        c.close();
+      case TRANSACTIONS:
+        count = db.update(TABLE_TRANSACTIONS, values, where, whereArgs);
+        break;
+      case TRANSACTION_ID:
+        segment = uri.getPathSegments().get(1);
         if (!TextUtils.isEmpty(where)) {
           whereString = " AND (" + where + ')';
         } else {
           whereString = "";
         }
-        count = db.update(TABLE_CATEGORIES, values, "_id = " + segment + whereString,
+        count = db.update(TABLE_TRANSACTIONS, values, "_id=" + segment + whereString,
             whereArgs);
         break;
-      }
-      if (values.containsKey(KEY_PARENTID)) {
-        Long newParent = values.getAsLong(KEY_PARENTID);
-        String selection;
-        String[] selectionArgs;
-        selection = "label = (SELECT label FROM categories WHERE _id =?) and parent_id is " + newParent;
-        selectionArgs = new String[]{segment};
-        c = db.query(TABLE_CATEGORIES, new String[]{KEY_ROWID}, selection, selectionArgs, null, null, null);
-        if (c.getCount() != 0) {
-          c.moveToFirst();
-          if (c.getLong(0) == Long.valueOf(segment)) {
-            //silently do nothing if we try to update with the same value
-            c.close();
-            return 0;
-          }
-          c.close();
-          throw new SQLiteConstraintException();
-        }
-        c.close();
+      case TRANSACTION_UNDELETE:
+        segment = uri.getPathSegments().get(1);
+        whereArgs = new String[]{segment, segment, segment};
+        ContentValues v = new ContentValues();
+        v.put(KEY_CR_STATUS, Transaction.CrStatus.UNRECONCILED.name());
+        count = db.update(TABLE_TRANSACTIONS, v, WHERE_SELF_OR_DEPENDENT, whereArgs);
+        break;
+      case ACCOUNTS:
+        count = db.update(TABLE_ACCOUNTS, values, where, whereArgs);
+        break;
+      case ACCOUNT_ID:
+        segment = uri.getPathSegments().get(1);
         if (!TextUtils.isEmpty(where)) {
           whereString = " AND (" + where + ')';
         } else {
           whereString = "";
         }
-        count = db.update(TABLE_CATEGORIES, values, "_id = " + segment + whereString,
+        count = db.update(TABLE_ACCOUNTS, values, "_id=" + segment + whereString,
             whereArgs);
         break;
-      }
-      return 0;//nothing to do
-    case METHOD_ID:
-      segment = uri.getPathSegments().get(1);
-      if (!TextUtils.isEmpty(where)) {
-        whereString = " AND (" + where + ')';
-      } else {
-        whereString = "";
-      }
-      count = db.update(TABLE_METHODS, values, "_id=" + segment + whereString,
-          whereArgs);
-      break;
-    case TEMPLATES_INCREASE_USAGE:
-      segment = uri.getPathSegments().get(1);
-      db.execSQL("UPDATE " + TABLE_TEMPLATES + " SET " + KEY_USAGES + " = " + KEY_USAGES + " + 1, " +
-          KEY_LAST_USED + " = strftime('%s', 'now') WHERE " + KEY_ROWID + " = " + segment);
-      count = 1;
-      break;
-    //   when we move a transaction to a new target we apply two checks
-    //1) we do not move a transfer to its own transfer_account
-    //2) we check if the transactions method_id is also available in the target account, if not we set it to null
-    case TRANSACTION_MOVE:
-      segment = uri.getPathSegments().get(1);
-      String target = uri.getPathSegments().get(3);
-      db.execSQL("UPDATE " + TABLE_TRANSACTIONS +
-          " SET " +
-            KEY_ACCOUNTID + " = ?, " +
-            KEY_METHODID + " = " +
-                " CASE " +
-                    " WHEN exists " +
-                        " (SELECT 1 FROM " + TABLE_ACCOUNTTYES_METHODS +
-                            " WHERE " + KEY_TYPE + " = " +
-                                " (SELECT " + KEY_TYPE + " FROM " + TABLE_ACCOUNTS +
-                                    " WHERE " + DatabaseConstants.KEY_ROWID + " = ?) " +
-                                    " AND " + KEY_METHODID + " = " + TABLE_TRANSACTIONS + "." + KEY_METHODID + ")" +
-                    " THEN " + KEY_METHODID +
-                    " ELSE null " +
-                " END " +
-            " WHERE " + DatabaseConstants.KEY_ROWID + " = ? " +
-            " AND ( " + KEY_TRANSFER_ACCOUNT + " IS NULL OR " + KEY_TRANSFER_ACCOUNT + "  != ? )",
-          new String[]{target,target,segment,target});
-      count=1;
-      break;
-    case PLANINSTANCE_TRANSACTION_STATUS:
-      count = db.update(TABLE_PLAN_INSTANCE_STATUS, values, where, whereArgs);
-      break;
-    case TRANSACTION_TOGGLE_CRSTATUS:
-      segment = uri.getPathSegments().get(1);
-      db.execSQL("UPDATE " + TABLE_TRANSACTIONS +
-          " SET " + KEY_CR_STATUS +
-          " = CASE " + KEY_CR_STATUS +
-              " WHEN '" + "CLEARED" + "'" +
-              " THEN '" + "UNRECONCILED" + "'" +
-              " WHEN '" + "UNRECONCILED" + "'" +
-              " THEN '" + "CLEARED" + "'" +
-              " ELSE "  + KEY_CR_STATUS +
-            " END" +
-          " WHERE " + DatabaseConstants.KEY_ROWID + " = ? ",
-          new String[]{segment});
-      count = 1;
-      break;
-    case CURRENCIES_CHANGE_FRACTION_DIGITS:
-      synchronized (MyApplication.getInstance()) {
-        db.beginTransaction();
-        try {
-          List<String> segments = uri.getPathSegments();
-          segment = segments.get(2);
-          String[] bindArgs = new String[] {segment};
-          int oldValue = Money.getFractionDigits(Currency.getInstance(segment));
-          int newValue = Integer.parseInt(segments.get(3));
-          if (oldValue==newValue) {
-            return 0;
-          }
-          c = db.query(
-              TABLE_ACCOUNTS,
-              new String[]{"count(*)"},
-              KEY_CURRENCY +"=?",
-              bindArgs, null, null, null);
-          count = 0;
+      case TEMPLATES:
+        //TODO should not support bulk update of categories
+        count = db.update(TABLE_TEMPLATES, values, where, whereArgs);
+        break;
+      case TEMPLATE_ID:
+        segment = uri.getPathSegments().get(1);
+        if (!TextUtils.isEmpty(where)) {
+          whereString = " AND (" + where + ')';
+        } else {
+          whereString = "";
+        }
+        count = db.update(TABLE_TEMPLATES, values, "_id=" + segment + whereString,
+            whereArgs);
+        break;
+      case PAYEE_ID:
+        segment = uri.getPathSegments().get(1);
+        if (!TextUtils.isEmpty(where)) {
+          whereString = " AND (" + where + ')';
+        } else {
+          whereString = "";
+        }
+        count = db.update(TABLE_PAYEES, values, "_id=" + segment + whereString,
+            whereArgs);
+        notifyChange(TRANSACTIONS_URI, false);
+        break;
+      case CATEGORIES:
+        throw new UnsupportedOperationException("Bulk update of categories is not supported");
+      case CATEGORY_ID:
+        if (values.containsKey(KEY_LABEL) && values.containsKey(KEY_PARENTID))
+          throw new UnsupportedOperationException("Simultaneous update of label and parent is not supported");
+        segment = uri.getPathSegments().get(1);
+        //for categories we can not rely on the unique constraint, since it does not work for parent_id is null
+        String label = values.getAsString(KEY_LABEL);
+        if (label != null) {
+          String selection;
+          String[] selectionArgs;
+          //this syntax crashes on 2.1, maybe 2.2
+          selection = "label = ? and parent_id is (select parent_id from categories where _id = ?)";
+          selectionArgs = new String[]{label, segment};
+          c = db.query(TABLE_CATEGORIES, new String[]{KEY_ROWID}, selection, selectionArgs, null, null, null);
           if (c.getCount() != 0) {
             c.moveToFirst();
-            count=c.getInt(0);
-          }
-          c.close();
-          if (count!=0) {
-            String operation = oldValue<newValue?"*":"/";
-            int factor = (int) Math.pow(10,Math.abs(oldValue-newValue));
-            db.execSQL("UPDATE " + TABLE_ACCOUNTS + " SET " + KEY_OPENING_BALANCE + "="
-                + KEY_OPENING_BALANCE+operation+factor+ " WHERE " + KEY_CURRENCY + "=?",
-                bindArgs);
-
-            db.execSQL("UPDATE " + TABLE_TRANSACTIONS + " SET " + KEY_AMOUNT + "="
-                + KEY_AMOUNT+operation+factor+ " WHERE " + KEY_ACCOUNTID
-                + " IN (SELECT " + DatabaseConstants.KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + "=?)",
-                bindArgs);
-
-            db.execSQL("UPDATE " + TABLE_TEMPLATES + " SET " + KEY_AMOUNT + "="
-                + KEY_AMOUNT+operation+factor+ " WHERE " + KEY_ACCOUNTID
-                + " IN (SELECT " + DatabaseConstants.KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + "=?)",
-                bindArgs);
-          }
-          Money.storeCustomFractionDigits(segment, newValue);
-          db.setTransactionSuccessful();
-          //force accounts to be refetched,since amountMinor of their opening balance has changed
-          Account.clear();
-        } finally {
-          db.endTransaction();
-        }
-      }
-      break;
-    case ACCOUNTS_SWAP_SORT_KEY:
-      String sortKey1 = uri.getPathSegments().get(2);
-      String sortKey2 = uri.getPathSegments().get(3);
-      db.execSQL("UPDATE " + TABLE_ACCOUNTS + " SET " + KEY_SORT_KEY + " = CASE " + KEY_SORT_KEY +
-          " WHEN ? THEN ? WHEN ? THEN ? END WHERE " + KEY_SORT_KEY + " in (?,?);",
-          new String[] {sortKey1, sortKey2, sortKey2, sortKey1, sortKey1, sortKey2 });
-      count = 2;
-      break;
-    case CHANGES:
-      if ("1".equals(uri.getQueryParameter(QUERY_PARAMETER_INIT))) {
-        String[] accountIdBindArgs = {uri.getQueryParameter(KEY_ACCOUNTID)};
-        db.beginTransaction();
-        try {
-          db.delete(TABLE_CHANGES, KEY_ACCOUNTID + " = ?", accountIdBindArgs);
-          c = db.query(TABLE_TRANSACTIONS, new String[]{KEY_ROWID}, KEY_UUID + " IS NULL AND ("
-              + KEY_TRANSFER_PEER + " IS NULL OR " + KEY_ROWID + " < " + KEY_TRANSFER_PEER + ")", null, null, null, null);
-          if (c.moveToFirst()) {
-            while (!c.isAfterLast()) {
-              String idString = c.getString(0);
-              db.execSQL("UPDATE " + TABLE_TRANSACTIONS + " SET " + KEY_UUID + " = ? WHERE " + KEY_ROWID + " = ? OR " + KEY_TRANSFER_PEER + " = ?",
-                new String[] {Model.generateUuid(), idString, idString});
-              c.moveToNext();
+            if (c.getLong(0) == Long.valueOf(segment)) {
+              //silently do nothing if we try to update with the same value
+              c.close();
+              return 0;
             }
+            c.close();
+            throw new SQLiteConstraintException();
           }
           c.close();
-          db.execSQL("INSERT INTO " + TABLE_CHANGES + "("
-              + KEY_TYPE + ", "
-              + KEY_SYNC_SEQUENCE_LOCAL + ", "
-              + KEY_UUID + ", "
-              + KEY_PARENT_UUID + ", "
-              + KEY_COMMENT + ", "
-              + KEY_DATE + ", "
-              + KEY_AMOUNT + ", "
-              + KEY_CATID + ", "
-              + KEY_ACCOUNTID + ","
-              + KEY_PAYEEID + ", "
-              + KEY_TRANSFER_ACCOUNT + ", "
-              + KEY_METHODID + ","
-              + KEY_CR_STATUS + ", "
-              + KEY_REFERENCE_NUMBER + ", "
-              + KEY_PICTURE_URI
-              + ") SELECT "
-              + "'" + TransactionChange.Type.created.name() + "', "
-              + " 1, "
-              + KEY_UUID  + ", "
-              + "CASE WHEN " + KEY_PARENTID + " IS NULL THEN NULL ELSE " +
-                      "(SELECT " + KEY_UUID + " FROM " + TABLE_TRANSACTIONS + " parent where "
-                      + KEY_ROWID + " = " + TABLE_TRANSACTIONS + "." + KEY_PARENTID + ") END, "
-              + KEY_COMMENT + ", "
-              + KEY_DATE + ", "
-              + KEY_AMOUNT + ", "
-              + KEY_CATID + ", "
-              + KEY_ACCOUNTID + ", "
-              + KEY_PAYEEID + ", "
-              + KEY_TRANSFER_ACCOUNT + ", "
-              + KEY_METHODID + ","
-              + KEY_CR_STATUS + ", "
-              + KEY_REFERENCE_NUMBER + ", "
-              + KEY_PICTURE_URI
-              + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_ACCOUNTID + " = ?",
-              accountIdBindArgs);
-          ContentValues currentSyncIncrease = new ContentValues(1);
-          currentSyncIncrease.put(KEY_SYNC_SEQUENCE_LOCAL, 1);
-          db.update(TABLE_ACCOUNTS, currentSyncIncrease, KEY_ROWID + " = ?", accountIdBindArgs);
-          db.setTransactionSuccessful();
-        } finally {
-          db.endTransaction();
+          if (!TextUtils.isEmpty(where)) {
+            whereString = " AND (" + where + ')';
+          } else {
+            whereString = "";
+          }
+          count = db.update(TABLE_CATEGORIES, values, "_id = " + segment + whereString,
+              whereArgs);
+          break;
         }
+        if (values.containsKey(KEY_PARENTID)) {
+          Long newParent = values.getAsLong(KEY_PARENTID);
+          String selection;
+          String[] selectionArgs;
+          selection = "label = (SELECT label FROM categories WHERE _id =?) and parent_id is " + newParent;
+          selectionArgs = new String[]{segment};
+          c = db.query(TABLE_CATEGORIES, new String[]{KEY_ROWID}, selection, selectionArgs, null, null, null);
+          if (c.getCount() != 0) {
+            c.moveToFirst();
+            if (c.getLong(0) == Long.valueOf(segment)) {
+              //silently do nothing if we try to update with the same value
+              c.close();
+              return 0;
+            }
+            c.close();
+            throw new SQLiteConstraintException();
+          }
+          c.close();
+          if (!TextUtils.isEmpty(where)) {
+            whereString = " AND (" + where + ')';
+          } else {
+            whereString = "";
+          }
+          count = db.update(TABLE_CATEGORIES, values, "_id = " + segment + whereString,
+              whereArgs);
+          break;
+        }
+        return 0;//nothing to do
+      case METHOD_ID:
+        segment = uri.getPathSegments().get(1);
+        if (!TextUtils.isEmpty(where)) {
+          whereString = " AND (" + where + ')';
+        } else {
+          whereString = "";
+        }
+        count = db.update(TABLE_METHODS, values, "_id=" + segment + whereString,
+            whereArgs);
+        break;
+      case TEMPLATES_INCREASE_USAGE:
+        segment = uri.getPathSegments().get(1);
+        db.execSQL("UPDATE " + TABLE_TEMPLATES + " SET " + KEY_USAGES + " = " + KEY_USAGES + " + 1, " +
+            KEY_LAST_USED + " = strftime('%s', 'now') WHERE " + KEY_ROWID + " = " + segment);
         count = 1;
-      } else {
+        break;
+      //   when we move a transaction to a new target we apply two checks
+      //1) we do not move a transfer to its own transfer_account
+      //2) we check if the transactions method_id is also available in the target account, if not we set it to null
+      case TRANSACTION_MOVE:
+        segment = uri.getPathSegments().get(1);
+        String target = uri.getPathSegments().get(3);
+        db.execSQL("UPDATE " + TABLE_TRANSACTIONS +
+                " SET " +
+                KEY_ACCOUNTID + " = ?, " +
+                KEY_METHODID + " = " +
+                " CASE " +
+                " WHEN exists " +
+                " (SELECT 1 FROM " + TABLE_ACCOUNTTYES_METHODS +
+                " WHERE " + KEY_TYPE + " = " +
+                " (SELECT " + KEY_TYPE + " FROM " + TABLE_ACCOUNTS +
+                " WHERE " + DatabaseConstants.KEY_ROWID + " = ?) " +
+                " AND " + KEY_METHODID + " = " + TABLE_TRANSACTIONS + "." + KEY_METHODID + ")" +
+                " THEN " + KEY_METHODID +
+                " ELSE null " +
+                " END " +
+                " WHERE " + DatabaseConstants.KEY_ROWID + " = ? " +
+                " AND ( " + KEY_TRANSFER_ACCOUNT + " IS NULL OR " + KEY_TRANSFER_ACCOUNT + "  != ? )",
+            new String[]{target, target, segment, target});
+        count = 1;
+        break;
+      case PLANINSTANCE_TRANSACTION_STATUS:
+        count = db.update(TABLE_PLAN_INSTANCE_STATUS, values, where, whereArgs);
+        break;
+      case TRANSACTION_TOGGLE_CRSTATUS:
+        segment = uri.getPathSegments().get(1);
+        db.execSQL("UPDATE " + TABLE_TRANSACTIONS +
+                " SET " + KEY_CR_STATUS +
+                " = CASE " + KEY_CR_STATUS +
+                " WHEN '" + "CLEARED" + "'" +
+                " THEN '" + "UNRECONCILED" + "'" +
+                " WHEN '" + "UNRECONCILED" + "'" +
+                " THEN '" + "CLEARED" + "'" +
+                " ELSE " + KEY_CR_STATUS +
+                " END" +
+                " WHERE " + DatabaseConstants.KEY_ROWID + " = ? ",
+            new String[]{segment});
+        count = 1;
+        break;
+      case CURRENCIES_CHANGE_FRACTION_DIGITS:
+        synchronized (MyApplication.getInstance()) {
+          db.beginTransaction();
+          try {
+            List<String> segments = uri.getPathSegments();
+            segment = segments.get(2);
+            String[] bindArgs = new String[]{segment};
+            int oldValue = Money.getFractionDigits(Currency.getInstance(segment));
+            int newValue = Integer.parseInt(segments.get(3));
+            if (oldValue == newValue) {
+              return 0;
+            }
+            c = db.query(
+                TABLE_ACCOUNTS,
+                new String[]{"count(*)"},
+                KEY_CURRENCY + "=?",
+                bindArgs, null, null, null);
+            count = 0;
+            if (c.getCount() != 0) {
+              c.moveToFirst();
+              count = c.getInt(0);
+            }
+            c.close();
+            if (count != 0) {
+              String operation = oldValue < newValue ? "*" : "/";
+              int factor = (int) Math.pow(10, Math.abs(oldValue - newValue));
+              db.execSQL("UPDATE " + TABLE_ACCOUNTS + " SET " + KEY_OPENING_BALANCE + "="
+                      + KEY_OPENING_BALANCE + operation + factor + " WHERE " + KEY_CURRENCY + "=?",
+                  bindArgs);
+
+              db.execSQL("UPDATE " + TABLE_TRANSACTIONS + " SET " + KEY_AMOUNT + "="
+                      + KEY_AMOUNT + operation + factor + " WHERE " + KEY_ACCOUNTID
+                      + " IN (SELECT " + DatabaseConstants.KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + "=?)",
+                  bindArgs);
+
+              db.execSQL("UPDATE " + TABLE_TEMPLATES + " SET " + KEY_AMOUNT + "="
+                      + KEY_AMOUNT + operation + factor + " WHERE " + KEY_ACCOUNTID
+                      + " IN (SELECT " + DatabaseConstants.KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + "=?)",
+                  bindArgs);
+            }
+            Money.storeCustomFractionDigits(segment, newValue);
+            db.setTransactionSuccessful();
+            //force accounts to be refetched,since amountMinor of their opening balance has changed
+            Account.clear();
+          } finally {
+            db.endTransaction();
+          }
+        }
+        break;
+      case ACCOUNTS_SWAP_SORT_KEY:
+        String sortKey1 = uri.getPathSegments().get(2);
+        String sortKey2 = uri.getPathSegments().get(3);
+        db.execSQL("UPDATE " + TABLE_ACCOUNTS + " SET " + KEY_SORT_KEY + " = CASE " + KEY_SORT_KEY +
+                " WHEN ? THEN ? WHEN ? THEN ? END WHERE " + KEY_SORT_KEY + " in (?,?);",
+            new String[]{sortKey1, sortKey2, sortKey2, sortKey1, sortKey1, sortKey2});
+        count = 2;
+        break;
+      case CHANGES:
+        if ("1".equals(uri.getQueryParameter(QUERY_PARAMETER_INIT))) {
+          String[] accountIdBindArgs = {uri.getQueryParameter(KEY_ACCOUNTID)};
+          db.beginTransaction();
+          try {
+            db.delete(TABLE_CHANGES, KEY_ACCOUNTID + " = ?", accountIdBindArgs);
+            c = db.query(TABLE_TRANSACTIONS, new String[]{KEY_ROWID}, KEY_UUID + " IS NULL AND ("
+                + KEY_TRANSFER_PEER + " IS NULL OR " + KEY_ROWID + " < " + KEY_TRANSFER_PEER + ")", null, null, null, null);
+            if (c.moveToFirst()) {
+              while (!c.isAfterLast()) {
+                String idString = c.getString(0);
+                db.execSQL("UPDATE " + TABLE_TRANSACTIONS + " SET " + KEY_UUID + " = ? WHERE " + KEY_ROWID + " = ? OR " + KEY_TRANSFER_PEER + " = ?",
+                    new String[]{Model.generateUuid(), idString, idString});
+                c.moveToNext();
+              }
+            }
+            c.close();
+            db.execSQL("INSERT INTO " + TABLE_CHANGES + "("
+                    + KEY_TYPE + ", "
+                    + KEY_SYNC_SEQUENCE_LOCAL + ", "
+                    + KEY_UUID + ", "
+                    + KEY_PARENT_UUID + ", "
+                    + KEY_COMMENT + ", "
+                    + KEY_DATE + ", "
+                    + KEY_AMOUNT + ", "
+                    + KEY_CATID + ", "
+                    + KEY_ACCOUNTID + ","
+                    + KEY_PAYEEID + ", "
+                    + KEY_TRANSFER_ACCOUNT + ", "
+                    + KEY_METHODID + ","
+                    + KEY_CR_STATUS + ", "
+                    + KEY_REFERENCE_NUMBER + ", "
+                    + KEY_PICTURE_URI
+                    + ") SELECT "
+                    + "'" + TransactionChange.Type.created.name() + "', "
+                    + " 1, "
+                    + KEY_UUID + ", "
+                    + "CASE WHEN " + KEY_PARENTID + " IS NULL THEN NULL ELSE " +
+                    "(SELECT " + KEY_UUID + " FROM " + TABLE_TRANSACTIONS + " parent where "
+                    + KEY_ROWID + " = " + TABLE_TRANSACTIONS + "." + KEY_PARENTID + ") END, "
+                    + KEY_COMMENT + ", "
+                    + KEY_DATE + ", "
+                    + KEY_AMOUNT + ", "
+                    + KEY_CATID + ", "
+                    + KEY_ACCOUNTID + ", "
+                    + KEY_PAYEEID + ", "
+                    + KEY_TRANSFER_ACCOUNT + ", "
+                    + KEY_METHODID + ","
+                    + KEY_CR_STATUS + ", "
+                    + KEY_REFERENCE_NUMBER + ", "
+                    + KEY_PICTURE_URI
+                    + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_ACCOUNTID + " = ?",
+                accountIdBindArgs);
+            ContentValues currentSyncIncrease = new ContentValues(1);
+            currentSyncIncrease.put(KEY_SYNC_SEQUENCE_LOCAL, 1);
+            db.update(TABLE_ACCOUNTS, currentSyncIncrease, KEY_ROWID + " = ?", accountIdBindArgs);
+            db.setTransactionSuccessful();
+          } finally {
+            db.endTransaction();
+          }
+          count = 1;
+        } else {
+          throw unknownUri(uri);
+        }
+        break;
+      default:
         throw unknownUri(uri);
-      }
-      break;
-    default:
-      throw unknownUri(uri);
     }
     if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTION_ID ||
         uriMatch == CURRENCIES_CHANGE_FRACTION_DIGITS || uriMatch == TRANSACTION_UNDELETE ||
@@ -1391,7 +1391,7 @@ public class TransactionProvider extends ContentProvider {
       notifyChange(UNCOMMITTED_URI, false);
       notifyChange(CATEGORIES_URI, false);
     } else if (
-        //we do not need to refresh cursors on the usage counters
+      //we do not need to refresh cursors on the usage counters
         uriMatch != TEMPLATES_INCREASE_USAGE) {
       notifyChange(uri, false);
     }
@@ -1411,10 +1411,10 @@ public class TransactionProvider extends ContentProvider {
   }
 
   /**
-  * Apply the given set of {@link ContentProviderOperation}, executing inside
-  * a {@link SQLiteDatabase} transaction. All changes will be rolled back if
-  * any single one fails.
-  */
+   * Apply the given set of {@link ContentProviderOperation}, executing inside
+   * a {@link SQLiteDatabase} transaction. All changes will be rolled back if
+   * any single one fails.
+   */
   @NonNull
   @Override
   public ContentProviderResult[] applyBatch(@NonNull ArrayList<ContentProviderOperation> operations)
@@ -1431,9 +1431,9 @@ public class TransactionProvider extends ContentProvider {
           Map<String, String> customData = new HashMap<>();
           for (int j = 0; j < numOperations; j++) {
             customData.put("i", String.valueOf(i));
-            customData.put("operation"+j,operations.get(j).toString());
+            customData.put("operation" + j, operations.get(j).toString());
           }
-          AcraHelper.report(e,customData);
+          AcraHelper.report(e, customData);
           throw e;
         }
       }
@@ -1494,7 +1494,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "debug_schema", DEBUG_SCHEMA);
     URI_MATCHER.addURI(AUTHORITY, "stale_images", STALE_IMAGES);
     URI_MATCHER.addURI(AUTHORITY, "stale_images/#", STALE_IMAGES_ID);
-    URI_MATCHER.addURI(AUTHORITY, "accounts/"+ URI_SEGMENT_SWAP_SORT_KEY + "/#/#", ACCOUNTS_SWAP_SORT_KEY);
+    URI_MATCHER.addURI(AUTHORITY, "accounts/" + URI_SEGMENT_SWAP_SORT_KEY + "/#/#", ACCOUNTS_SWAP_SORT_KEY);
     URI_MATCHER.addURI(AUTHORITY, "transfer_account_transactions", MAPPED_TRANSFER_ACCOUNTS);
     URI_MATCHER.addURI(AUTHORITY, "changes", CHANGES);
   }
@@ -1509,7 +1509,7 @@ public class TransactionProvider extends ContentProvider {
    */
   @VisibleForTesting
   public TransactionDatabase getOpenHelperForTest() {
-      return mOpenHelper;
+    return mOpenHelper;
   }
 
   public Result backup(File backupDir) {
@@ -1523,7 +1523,7 @@ public class TransactionProvider extends ContentProvider {
         // Samsung has special path on some devices
         // http://stackoverflow.com/questions/5531289/copy-the-shared-preferences-xml-file-from-data-on-samsung-device-failed
         final MyApplication application = MyApplication.getInstance();
-        String sharedPrefPath =  "/shared_prefs/" + application.getPackageName() + "_preferences.xml";
+        String sharedPrefPath = "/shared_prefs/" + application.getPackageName() + "_preferences.xml";
         sharedPrefFile = new File("/dbdata/databases/" + application.getPackageName() + sharedPrefPath);
         if (!sharedPrefFile.exists()) {
           sharedPrefFile = new File(getInternalAppDir().getPath() + sharedPrefPath);
@@ -1532,7 +1532,7 @@ public class TransactionProvider extends ContentProvider {
             final String message = "Unable to find shared preference file at " +
                 sharedPrefFile.getPath();
             AcraHelper.report(new Exception(message));
-            return new Result(false,message);
+            return new Result(false, message);
           }
         }
         if (FileCopyUtils.copy(sharedPrefFile, backupPrefFile)) {
@@ -1552,10 +1552,10 @@ public class TransactionProvider extends ContentProvider {
       if (FileCopyUtils.copy(currentDb, backupDb)) {
         return new Result(true);
       }
-      return new Result(false,String.format(
-          "Error while copying %s to %s",currentDb.getPath(),backupDb.getPath()));
+      return new Result(false, String.format(
+          "Error while copying %s to %s", currentDb.getPath(), backupDb.getPath()));
     }
-    return new Result(false,"Could not find database at " + currentDb.getPath());
+    return new Result(false, "Could not find database at " + currentDb.getPath());
   }
 
   private File getInternalAppDir() {
