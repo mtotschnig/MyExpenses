@@ -60,7 +60,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Currency;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import timber.log.Timber;
 
@@ -1423,7 +1425,17 @@ public class TransactionProvider extends ContentProvider {
       final int numOperations = operations.size();
       final ContentProviderResult[] results = new ContentProviderResult[numOperations];
       for (int i = 0; i < numOperations; i++) {
-        results[i] = operations.get(i).apply(this, results, i);
+        try {
+          results[i] = operations.get(i).apply(this, results, i);
+        } catch (Exception e) {
+          Map<String, String> customData = new HashMap<>();
+          for (int j = 0; j < numOperations; j++) {
+            customData.put("i", String.valueOf(i));
+            customData.put("operation"+j,operations.get(j).toString());
+          }
+          AcraHelper.report(e,customData);
+          throw e;
+        }
       }
       db.setTransactionSuccessful();
       return results;
