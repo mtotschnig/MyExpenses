@@ -12,6 +12,7 @@ import android.widget.TextView;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
@@ -96,7 +97,7 @@ public final class SplitPartAdapter extends SimpleCursorAdapter {
     }*/
     String catText = tv2.getText().toString();
     if (DbUtils.getLongOrNull(c,KEY_TRANSFER_PEER) != null) {
-      catText = ((amount < 0) ? "=&gt; " : "&lt;= ") + catText;
+      catText = Transfer.getIndicatorPrefixForLabel(amount) + catText;
     } else {
       Long catId = DbUtils.getLongOrNull(c,KEY_CATID);
       if (catId == null) {
