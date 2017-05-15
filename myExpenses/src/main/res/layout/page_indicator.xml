@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.rd.PageIndicatorView
+<View
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:attrs="http://schemas.android.com/apk/res-auto"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_centerInParent="true"
-    android:id="@+id/pageIndicatorView"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    attrs:piv_animationType="slide"
-    attrs:piv_interactiveAnimation="true"
-    attrs:piv_viewPager="@id/viewpager"
     tools:showIn="@layout/onboarding"/>
