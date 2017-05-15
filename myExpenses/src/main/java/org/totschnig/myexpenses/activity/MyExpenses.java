@@ -37,7 +37,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
@@ -218,15 +217,7 @@ public class MyExpenses extends LaunchActivity implements
     theme.resolveAttribute(R.attr.colorAggregate, value, true);
     colorAggregate = value.data;
     int prev_version = PrefKey.CURRENT_VERSION.getInt(-1);
-    if (prev_version == -1) {
-      //prevent preference change listener from firing when preference file is created
-      if (MyApplication.isInstrumentationTest()) {
-        PreferenceManager.setDefaultValues(this, MyApplication.getTestId(), Context.MODE_PRIVATE,
-            R.xml.preferences, true);
-      } else {
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-      }
-    }
+
 
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);

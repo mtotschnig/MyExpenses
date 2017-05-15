@@ -162,6 +162,8 @@ dependencies {
 
     compile 'com.jakewharton.timber:timber:4.5.1'
 
+    compile 'com.romandanylyk:pageindicatorview:0.1.2'
+
     compile supportCompile
 
     androidTestCompile 'com.android.support.test.espresso:espresso-core:' + project.espressoVersion
