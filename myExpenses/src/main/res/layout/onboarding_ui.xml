@@ -55,8 +55,8 @@
     <TextView
         android:id="@+id/font_size"
         android:onClick="openFontSizeDialog"
-        style="@style/Base.Widget.AppCompat.Spinner"
-        android:entries="@array/pref_ui_theme_entries"
+        style="?attr/spinnerStyle"
+        android:textAppearance="?android:textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

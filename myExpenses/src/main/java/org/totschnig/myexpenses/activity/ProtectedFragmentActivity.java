@@ -203,15 +203,20 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     super.onResume();
     if (scheduledRestart) {
       scheduledRestart = false;
-      if (android.os.Build.VERSION.SDK_INT >= 11)
-        recreate();
-      else {
-        Intent intent = getIntent();
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-      }
+      recreate();
     } else {
       pwDialog = getProtection().hanldeOnResume(pwDialog);
+    }
+  }
+
+  @Override
+  public void recreate() {
+    if (android.os.Build.VERSION.SDK_INT >= 11) {
+      super.recreate();
+    } else {
+      Intent intent = getIntent();
+      intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+      startActivity(intent);
     }
   }
 
