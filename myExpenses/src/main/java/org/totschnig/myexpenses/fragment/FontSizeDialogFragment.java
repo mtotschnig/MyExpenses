@@ -22,13 +22,13 @@ public class FontSizeDialogFragment extends DialogFragment {
         .setSingleChoiceItems(new FontSizeAdapter(getActivity()), selectedIndex, (dialog, which) -> {
           PrefKey.UI_FONTSIZE.putInt(which);
           dismiss();
-          ((ProtectedFragmentActivity) getActivity()).recreate();
+          ((ProtectedFragmentActivity) getActivity()).recreateBackport();
         })
         .setNegativeButton(android.R.string.cancel, null)
         .create();
   }
 
-  public static FontSizeDialogFragment newInstance(String key) {
+  public static FontSizeDialogFragment newInstance() {
     return new FontSizeDialogFragment();
   }
 }

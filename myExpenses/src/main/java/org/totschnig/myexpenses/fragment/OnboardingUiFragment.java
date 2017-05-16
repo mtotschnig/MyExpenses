@@ -48,7 +48,7 @@ public class OnboardingUiFragment extends Fragment {
       setContentDescriptonToThemeSwitch(buttonView, isChecked);
       PrefKey.UI_THEME_KEY.putString(
           (isChecked ? MyApplication.ThemeType.light : MyApplication.ThemeType.dark).name());
-      ((ProtectedFragmentActivity) getActivity()).recreate();
+      ((ProtectedFragmentActivity) getActivity()).recreateBackport();
     });
     return view;
   }

@@ -203,14 +203,13 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     super.onResume();
     if (scheduledRestart) {
       scheduledRestart = false;
-      recreate();
+      recreateBackport();
     } else {
       pwDialog = getProtection().hanldeOnResume(pwDialog);
     }
   }
 
-  @Override
-  public void recreate() {
+  public void recreateBackport() {
     if (android.os.Build.VERSION.SDK_INT >= 11) {
       super.recreate();
     } else {

@@ -39,7 +39,7 @@ public class OnboardingActivity extends ProtectedFragmentActivity {
   }
 
   public void openFontSizeDialog(View view) {
-    FontSizeDialogFragment.newInstance("ignored").show(getSupportFragmentManager(), "ignored");
+    FontSizeDialogFragment.newInstance().show(getSupportFragmentManager(), "FONT_SIZE");
   }
 
   private class MyPagerAdapter extends FragmentPagerAdapter {
