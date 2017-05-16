@@ -28,8 +28,13 @@ public class FontSizeAdapter extends ArrayAdapter<String> {
   @Override
   public View getView(int position, View convertView, ViewGroup parent) {
     TextView row = (TextView) super.getView(position, convertView, parent);
+    updateTextView(row, position, getContext());
+    return row;
+  }
+
+  public static void updateTextView(TextView textView, int value, Context context) {
     int size;
-    switch (position) {
+    switch (value) {
       case 1:
         size = R.dimen.textSizeMediumS1;
         break;
@@ -42,7 +47,6 @@ public class FontSizeAdapter extends ArrayAdapter<String> {
       default:
         size = R.dimen.textSizeMediumBase;
     }
-    row.setTextSize(TypedValue.COMPLEX_UNIT_PX, getContext().getResources().getDimensionPixelSize(size));
-    return row;
+    textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, context.getResources().getDimensionPixelSize(size));
   }
 }

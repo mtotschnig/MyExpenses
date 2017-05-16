@@ -221,4 +221,10 @@
         <item name="android:textColor">@color/material_grey</item>
     </style>
 
+    <style name="OnboardingInputLabel">
+        <item name="android:textAppearance">@style/MyTextAppearanceMedium</item>
+        <item name="android:textColor">?android:textColorSecondary</item>
+        <item name="android:layout_marginBottom">5dp</item>
+    </style>
+
 </resources>

@@ -675,5 +675,7 @@
     <string name="pref_webdav_timeout_title">WebDAV Timeout</string>
     <string name="sync_state_restored">Sync state was restored for %d accounts.</string>
     <string name="sync_state_could_not_be_restored">Sync state could not be restored for %d accounts.</string>
+    <string name="onboarding_title">Welcome to My Expenses!</string>
+    <string name="onboarding_ui_title">My Expenses adapts to your preference:</string>
 </resources>
 

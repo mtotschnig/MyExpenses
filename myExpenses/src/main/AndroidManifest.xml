@@ -64,7 +64,7 @@
         </activity>
 
         <activity android:name=".activity.OnboardingActivity"
-                  android:label="@string/dialog_title_welcome"
+                  android:label="@string/onboarding_title"
                   android:theme="@style/Theme.AppCompat.Light.NoActionBar"
                   android:exported="true">
 
