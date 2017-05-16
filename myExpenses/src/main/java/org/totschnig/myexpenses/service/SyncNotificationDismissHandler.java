@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.service;
 
+import android.accounts.Account;
 import android.app.IntentService;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -22,11 +23,14 @@ public class SyncNotificationDismissHandler extends IntentService {
 
   @Override
   protected void onHandleIntent(Intent intent) {
-    Bundle bundle = new Bundle();
-    bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-    bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-    bundle.putBoolean(SyncAdapter.KEY_NOTIFICATION_CANCELLED, true);
-    ContentResolver.requestSync(GenericAccountService.GetAccount(intent.getStringExtra(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)),
-        TransactionProvider.AUTHORITY, bundle);
+    Account account = GenericAccountService.GetAccount(
+        intent.getStringExtra(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME));
+    if (!ContentResolver.isSyncActive(account, TransactionProvider.AUTHORITY)) {
+      Bundle bundle = new Bundle();
+      bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+      bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+      bundle.putBoolean(SyncAdapter.KEY_NOTIFICATION_CANCELLED, true);
+      ContentResolver.requestSync(account, TransactionProvider.AUTHORITY, bundle);
+    }
   }
 }
