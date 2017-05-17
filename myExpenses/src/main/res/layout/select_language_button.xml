@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    android:id="@+id/actionbar_notifcation_textview"
+    style="?actionButtonStyle"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:foreground="@drawable/circle"
+    android:foregroundGravity="center"
+    android:textAllCaps="true"
+    android:textSize="18dp"
+    android:padding="0dp"
+    android:focusable="true"
+    android:textColor="?colorControlNormal"/>

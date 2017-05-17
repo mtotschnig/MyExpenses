@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
@@ -39,7 +41,33 @@ public class OnboardingUiFragment extends Fragment {
   @Override
   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
     super.onCreateOptionsMenu(menu, inflater);
-    MenuItemCompat.setShowAsAction(menu.add("EN"), MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
+    inflater.inflate(R.menu.onboarding_ui, menu);
+    MenuItem menuItem = menu.findItem(R.id.language);
+    View actionView = MenuItemCompat.getActionView(menuItem);
+    String uiLanguage = PrefKey.UI_LANGUAGE.getString("default");
+    ((TextView) actionView).setText(MyApplication.getInstance().getUserPreferedLocale().getLanguage());
+    actionView.setOnClickListener(v -> {
+      final PopupMenu subMenu = new PopupMenu(getActivity(), actionView);
+      String[] entries = getResources().getStringArray(R.array.pref_ui_language_entries);
+      for (int i = 0; i < entries.length; i++) {
+        subMenu.getMenu().add(Menu.NONE, i, Menu.NONE, entries[i]);
+      }
+      subMenu.setOnMenuItemClickListener(item -> {
+        String[] values = getResources().getStringArray(R.array.pref_ui_language_values);
+        String newValue = values[item.getItemId()];
+        if (!uiLanguage.equals(newValue)) {
+          PrefKey.UI_LANGUAGE.putString(newValue);
+          recreate();
+        }
+        return true;
+      });
+      subMenu.show();
+    });
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    return true;
   }
 
   @Nullable
