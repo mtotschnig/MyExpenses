@@ -24,6 +24,7 @@ public class OnboardingUiFragment extends Fragment {
 
   private TextView fontSizeDisplayNameTextView;
   private int fontScale;
+  private SeekBar fontSizeSeekBar;
 
   public static OnboardingUiFragment newInstance() {
     return new OnboardingUiFragment();
@@ -47,8 +48,8 @@ public class OnboardingUiFragment extends Fragment {
     View view = inflater.inflate(R.layout.onboarding_ui, container, false);
     fontSizeDisplayNameTextView = ((TextView) view.findViewById(R.id.font_size_display_name));
     fontScale = PrefKey.UI_FONTSIZE.getInt(0);
-    SeekBar fontSizeSeekBark = (SeekBar) view.findViewById(R.id.font_size);
-    fontSizeSeekBark.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+    fontSizeSeekBar = (SeekBar) view.findViewById(R.id.font_size);
+    fontSizeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
       @Override
       public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         updateFontSizeDisplayName(progress);
@@ -61,14 +62,15 @@ public class OnboardingUiFragment extends Fragment {
 
       @Override
       public void onStopTrackingTouch(SeekBar seekBar) {
-        int newValue = seekBar.getProgress();
-        if (fontScale != newValue) {
-          PrefKey.UI_FONTSIZE.putInt(newValue);
-          recreate();
-        }
+        onFontSizeSet();
       }
     });
-    fontSizeSeekBark.setProgress(fontScale);
+    fontSizeSeekBar.setProgress(fontScale);
+    fontSizeSeekBar.setOnFocusChangeListener((v, hasFocus) -> {
+      if (!hasFocus) {
+        onFontSizeSet();
+      }
+    });
 
     updateFontSizeDisplayName(fontScale);
     SwitchCompat themeSwitch = (SwitchCompat) view.findViewById(R.id.theme);
@@ -81,6 +83,14 @@ public class OnboardingUiFragment extends Fragment {
       recreate();
     });
     return view;
+  }
+
+  private void onFontSizeSet() {
+    int newValue = fontSizeSeekBar.getProgress();
+    if (fontScale != newValue) {
+      PrefKey.UI_FONTSIZE.putInt(newValue);
+      recreate();
+    }
   }
 
   private void recreate() {

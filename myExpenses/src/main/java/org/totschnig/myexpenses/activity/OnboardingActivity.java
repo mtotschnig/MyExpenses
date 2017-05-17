@@ -17,13 +17,16 @@ import org.totschnig.myexpenses.fragment.OnboardingDataFragment;
 import org.totschnig.myexpenses.fragment.OnboardingUiFragment;
 
 public class OnboardingActivity extends ProtectedFragmentActivity {
+
+  private ViewPager pager;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeId());
     super.onCreate(savedInstanceState);
     setContentView(R.layout.onboarding);
     setupToolbar(false);
-    ViewPager pager = (ViewPager) findViewById(R.id.viewpager);
+    pager = (ViewPager) findViewById(R.id.viewpager);
     pager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
     if (MyApplication.isInstrumentationTest()) {
       PreferenceManager.setDefaultValues(this, MyApplication.getTestId(), Context.MODE_PRIVATE,
@@ -40,6 +43,10 @@ public class OnboardingActivity extends ProtectedFragmentActivity {
 
   public void openFontSizeDialog(View view) {
     FontSizeDialogFragment.newInstance().show(getSupportFragmentManager(), "FONT_SIZE");
+  }
+
+  public void navigate_next(View view) {
+    pager.setCurrentItem(1, true);
   }
 
   private class MyPagerAdapter extends FragmentPagerAdapter {

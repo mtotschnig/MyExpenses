@@ -32,9 +32,10 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_gravity="center"
-            android:onClick="doSomething"
+            android:onClick="navigate_next"
+            android:focusable="true"
             android:contentDescription="@string/menu_forward"
             app:srcCompat="@drawable/ic_navigate_next"/>
-        
+
     </RelativeLayout>
 </LinearLayout>
