@@ -6,12 +6,16 @@
               android:layout_height="match_parent"
               android:orientation="vertical"
               android:padding="@dimen/padding_form"
-              android:weightSum="1">
+              android:weightSum="0.6">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.05"/>
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.6"
+        android:layout_weight="0.2"
         android:contentDescription="@string/app_name"
         android:src="@mipmap/ic_myexpenses"/>
 
@@ -26,7 +30,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:text="@string/onboarding_ui_title"
-        android:textAppearance="@style/MyTextAppearanceMedium"/>
+        android:textAppearance="?android:textAppearanceMedium"/>
 
     <View
         android:layout_width="match_parent"
@@ -34,10 +38,10 @@
         android:layout_weight="0.1"/>
 
     <TextView
-        android:labelFor="@+id/theme"
         style="@style/OnboardingInputLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:labelFor="@+id/theme"
         android:text="@string/pref_ui_theme_title"/>
 
     <LinearLayout
@@ -46,6 +50,7 @@
         android:layout_gravity="center_horizontal">
 
         <TextView
+            style="@style/onboarding_display_property"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -66,12 +71,13 @@
             tools:ignore="UnusedAttribute"/>
 
         <TextView
+            style="@style/onboarding_display_property"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
-            android:text="@string/pref_ui_theme_light"/>
+            android:text="@string/pref_ui_theme_light" />
     </LinearLayout>
 
     <View
@@ -80,10 +86,10 @@
         android:layout_weight="0.1"/>
 
     <TextView
-        android:labelFor="@+id/fontSize"
         style="@style/OnboardingInputLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:labelFor="@+id/fontSize"
         android:text="@string/pref_ui_fontsize_title"/>
 
     <SeekBar
@@ -95,15 +101,16 @@
         />
 
     <TextView
+        style="@style/onboarding_display_property"
         android:id="@+id/font_size_display_name"
-        tools:text="System standard"
+        android:layout_width="wrap_content"
+        android:layout_height="30sp"
         android:layout_gravity="center"
         android:gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="30sp"/>
+        tools:text="System standard"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.1"/>
+        android:layout_weight="0.05"/>
 </LinearLayout>

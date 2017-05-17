@@ -10,4 +10,6 @@
     attrs:piv_animationType="slide"
     attrs:piv_interactiveAnimation="true"
     attrs:piv_viewPager="@id/viewpager"
+    attrs:piv_selectedColor="?android:textColorPrimary"
+    attrs:piv_unselectedColor="?android:textColorSecondary"
     tools:showIn="@layout/onboarding"/>

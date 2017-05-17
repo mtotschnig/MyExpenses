@@ -36,16 +36,16 @@ public class FontSizeAdapter extends ArrayAdapter<String> {
     int size;
     switch (value) {
       case 1:
-        size = R.dimen.textSizeMediumS1;
+        size = R.dimen.textSizeSmallS1;
         break;
       case 2:
-        size = R.dimen.textSizeMediumS2;
+        size = R.dimen.textSizeSmallS2;
         break;
       case 3:
-        size = R.dimen.textSizeMediumS3;
+        size = R.dimen.textSizeSmallS3;
         break;
       default:
-        size = R.dimen.textSizeMediumBase;
+        size = R.dimen.textSizeSmallBase;
     }
     textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, context.getResources().getDimensionPixelSize(size));
   }

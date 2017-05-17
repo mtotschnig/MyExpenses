@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <include layout="@layout/toolbar"/>
@@ -17,19 +18,23 @@
     </android.support.v4.view.ViewPager>
 
     <RelativeLayout
-        android:layout_margin="@dimen/general_padding"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/general_padding">
 
         <include layout="@layout/page_indicator"/>
 
-        <TextView
+        <ImageView
+            android:id="@+id/navigation"
+            style="?actionButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:text=">"
-            tools:ignore="HardcodedText"/>
-
+            android:layout_gravity="center"
+            android:onClick="doSomething"
+            android:contentDescription="@string/menu_forward"
+            app:srcCompat="@drawable/ic_navigate_next"/>
+        
     </RelativeLayout>
 </LinearLayout>
