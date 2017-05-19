@@ -7,7 +7,6 @@ import org.totschnig.myexpenses.util.Utils;
 
 import java.text.Collator;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Currency;
 
 /**
@@ -198,15 +197,12 @@ public enum CurrencyEnum {
 
   public static CurrencyEnum[] sortedValues() {
     CurrencyEnum[] result = values();
-    final Collator collator = Collator.getInstance();
     if (Utils.hasApiLevel(Build.VERSION_CODES.KITKAT)) {
-      Arrays.sort(result, new Comparator<CurrencyEnum>() {
-        @Override
-        public int compare(CurrencyEnum lhs, CurrencyEnum rhs) {
-          int classCompare = Utils.compare(lhs.sortClass(), rhs.sortClass());
-          return classCompare == 0 ?
-              collator.compare(lhs.toString(), rhs.toString()) : classCompare;
-        }
+      final Collator collator = Collator.getInstance();
+      Arrays.sort(result, (lhs, rhs) -> {
+        int classCompare = Utils.compare(lhs.sortClass(), rhs.sortClass());
+        return classCompare == 0 ?
+            collator.compare(lhs.toString(), rhs.toString()) : classCompare;
       });
     }
     return result;

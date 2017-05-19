@@ -103,8 +103,8 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
     mAccountsAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
     mAccountSpinner.setAdapter(mAccountsAdapter);
     mAccountSpinner.setOnItemSelectedListener(this);
-    mCurrencySpinner = DialogUtils.configureCurrencySpinner(view, wrappedCtx, this);
-    mTypeSpinner = DialogUtils.configureTypeSpinner(view, wrappedCtx);
+    mCurrencySpinner = DialogUtils.configureCurrencySpinner(view, this);
+    mTypeSpinner = DialogUtils.configureTypeSpinner(view);
     mTypeSpinner.setOnItemSelectedListener(this);
     getLoaderManager().initLoader(0, null, this);
     view.findViewById(R.id.btn_browse).setOnClickListener(this);

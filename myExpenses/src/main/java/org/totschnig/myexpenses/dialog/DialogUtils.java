@@ -54,6 +54,8 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.activity.ProtectionDelegate;
+import org.totschnig.myexpenses.adapter.ColorAdapter;
+import org.totschnig.myexpenses.adapter.CurrencyAdapter;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
@@ -360,12 +362,9 @@ public class DialogUtils {
   }
 
   public static Spinner configureCurrencySpinner(
-      View view, Context context, AdapterView.OnItemSelectedListener listener) {
+      View view, AdapterView.OnItemSelectedListener listener) {
     Spinner spinner = (Spinner) view.findViewById(R.id.Currency);
-    ArrayAdapter<CurrencyEnum> curAdapter = new ArrayAdapter<>(
-        context, android.R.layout.simple_spinner_item, android.R.id.text1,
-        CurrencyEnum.sortedValues());
-    curAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+    CurrencyAdapter curAdapter = new CurrencyAdapter(view.getContext());
     spinner.setAdapter(curAdapter);
     spinner.setOnItemSelectedListener(listener);
     spinner.setSelection(curAdapter.getPosition(CurrencyEnum.valueOf(
@@ -373,23 +372,23 @@ public class DialogUtils {
     return spinner;
   }
 
-  public static Spinner configureTypeSpinner(Activity context) {
-    Spinner spinner = (Spinner) context.findViewById(R.id.AccountType);
-    configureTypeSpinner(spinner, context);
-    return spinner;
-  }
-
-  public static Spinner configureTypeSpinner(View view, Context context) {
-    Spinner spinner = (Spinner) view.findViewById(R.id.AccountType);
-    configureTypeSpinner(spinner, context);
-    return spinner;
-  }
-
-  private static void configureTypeSpinner(Spinner spinner, Context context) {
+  public static Spinner configureTypeSpinner(View view) {
+    Spinner spinner = view instanceof Spinner ? (Spinner) view :
+        (Spinner) view.findViewById(R.id.AccountType);
     ArrayAdapter<AccountType> typAdapter = new ArrayAdapter<>(
-        context, android.R.layout.simple_spinner_item, android.R.id.text1, AccountType.values());
+        spinner.getContext(), android.R.layout.simple_spinner_item, android.R.id.text1, AccountType.values());
     typAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
     spinner.setAdapter(typAdapter);
+    return spinner;
+  }
+
+  public static Spinner configureColorSpinner(View view, int selectedColor) {
+    Spinner spinner = view instanceof Spinner ? (Spinner) view :
+        (Spinner) view.findViewById(R.id.Color);
+    ColorAdapter adapter = new ColorAdapter(view.getContext(), selectedColor);
+    spinner.setAdapter(adapter);
+    spinner.setSelection(adapter.getPosition(selectedColor));
+    return spinner;
   }
 
   public static void openBrowse(Uri uri, Fragment fragment) {

@@ -172,7 +172,7 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
 
     mEncodingSpinner = DialogUtils.configureEncoding(view, wrappedCtx, PREFKEY_IMPORT_ENCODING);
 
-    mCurrencySpinner = DialogUtils.configureCurrencySpinner(view, wrappedCtx, this);
+    mCurrencySpinner = DialogUtils.configureCurrencySpinner(view, this);
     view.findViewById(R.id.AccountType).setVisibility(View.GONE);//QIF data should specify type
   }
 
