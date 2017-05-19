@@ -15,7 +15,7 @@
         />
 
     <include
-        layout="@layout/onboarding_ui_inner"
+        layout="@layout/onboarding_data_inner"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"

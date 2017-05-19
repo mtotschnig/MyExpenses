@@ -12,8 +12,8 @@
         android:layout_weight="0.1"/>
 
     <ImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
         android:layout_gravity="center"
         android:contentDescription="@string/app_name"
         android:src="@mipmap/ic_myexpenses"/>
@@ -24,11 +24,12 @@
         android:layout_weight="0.1"/>
 
     <TextView
+        android:id="@+id/onboarding_lead"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:text="@string/onboarding_ui_title"
+        tools:text="@string/onboarding_ui_title"
         android:textAppearance="?android:textAppearanceMedium"/>
 
     <View

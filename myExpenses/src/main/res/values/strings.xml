@@ -677,5 +677,6 @@
     <string name="sync_state_could_not_be_restored">Sync state could not be restored for %d accounts.</string>
     <string name="onboarding_title">Welcome to My Expenses!</string>
     <string name="onboarding_ui_title">My Expenses adapts to your preference:</string>
+    <string name="onboarding_data_title">Let us set up your first account:</string>
 </resources>
 

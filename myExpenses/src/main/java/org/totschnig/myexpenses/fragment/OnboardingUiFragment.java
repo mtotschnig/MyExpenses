@@ -65,15 +65,12 @@ public class OnboardingUiFragment extends Fragment {
     });
   }
 
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-    return true;
-  }
-
   @Nullable
   @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.onboarding_ui, container, false);
+
+    //fontsize
     fontSizeDisplayNameTextView = ((TextView) view.findViewById(R.id.font_size_display_name));
     fontScale = PrefKey.UI_FONTSIZE.getInt(0);
     fontSizeSeekBar = (SeekBar) view.findViewById(R.id.font_size);
@@ -101,6 +98,8 @@ public class OnboardingUiFragment extends Fragment {
     });
 
     updateFontSizeDisplayName(fontScale);
+
+    //theme
     SwitchCompat themeSwitch = (SwitchCompat) view.findViewById(R.id.theme);
     boolean isLight = MyApplication.getThemeType().equals(MyApplication.ThemeType.light);
     themeSwitch.setChecked(isLight);
@@ -110,6 +109,9 @@ public class OnboardingUiFragment extends Fragment {
           (isChecked ? MyApplication.ThemeType.light : MyApplication.ThemeType.dark).name());
       recreate();
     });
+
+    //lead
+    ((TextView) view.findViewById(R.id.onboarding_lead)).setText(R.string.onboarding_ui_title);
     return view;
   }
 

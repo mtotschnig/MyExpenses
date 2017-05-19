@@ -30,10 +30,7 @@
         android:layout_gravity="center_vertical"
         android:layout_weight="2"
         android:digits="١٢٣٤٥٦٧٨٩۱۲۳۴۵۶۷۸۹1234567890,.٫"
-        android:inputType="numberDecimal">
-
-        <requestFocus/>
-    </org.totschnig.myexpenses.ui.AmountEditText>
+        android:inputType="numberDecimal"/>
 
     <include layout="@layout/calc_icon"/>
 </LinearLayout>
