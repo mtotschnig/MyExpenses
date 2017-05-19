@@ -3,19 +3,23 @@ package org.totschnig.myexpenses.adapter;
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
+import android.widget.BaseAdapter;
 
 import org.totschnig.myexpenses.R;
 
 import java.util.ArrayList;
 
-public class ColorAdapter extends ArrayAdapter<Integer> {
+public class ColorAdapter extends BaseAdapter {
+  private ArrayList<Integer> colors;
+  private Context context;
+  private LayoutInflater layoutInflater;
   public ColorAdapter(Context context, int selectedColor) {
-    super(context, android.R.layout.simple_spinner_item, setupColors(context.getResources(), selectedColor));
-    setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    this.context = context;
+    this.layoutInflater = LayoutInflater.from(context);
+    colors = setupColors(context.getResources(), selectedColor);
   }
 
   private static ArrayList<Integer> setupColors(Resources resources, int selectedColor) {
@@ -45,24 +49,48 @@ public class ColorAdapter extends ArrayAdapter<Integer> {
     return colors;
   }
 
+  @Override
+  public int getCount() {
+    return colors.size();
+  }
+
+  @Override
+  public Object getItem(int position) {
+    return colors.get(position);
+  }
+
+  @Override
+  public long getItemId(int position) {
+    return position;
+  }
+
   @NonNull
   @Override
   public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-    TextView tv = (TextView) super.getView(position, convertView, parent);
-    setColor(tv, getItem(position));
-    return tv;
+    View view;
+    if (convertView == null) {
+      view = layoutInflater.inflate(R.layout.color_spinner_item, parent, false);
+    } else {
+      view = convertView;
+    }
+    Integer color =  (Integer) getItem(position);
+    if (color != null) {
+      view.setBackgroundColor(color);
+    }
+    return view;
   }
 
   @Override
   public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
-    TextView tv = (TextView) super.getDropDownView(position, convertView, parent);
-    setColor(tv, getItem(position));
-    return tv;
+    View view = layoutInflater.inflate(R.layout.color_spinner_dropdown_item, parent, false);
+    Integer color =  (Integer) getItem(position);
+    if (color != null) {
+      view.findViewById(R.id.color).setBackgroundColor(color);
+    }
+    return view;
   }
 
-  private void setColor(TextView tv, int color) {
-    tv.setBackgroundColor(color);
-    tv.setText("");
-    tv.setContentDescription(getContext().getString(R.string.color));
+  public int getPosition(int selectedColor) {
+    return colors.indexOf(selectedColor);
   }
 }
