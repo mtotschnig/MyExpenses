@@ -2,38 +2,20 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:weightSum="0.3"
+    android:orientation="horizontal"
+    android:gravity="center"
     tools:showIn="@layout/onboarding_ui">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.1"/>
-
-    <ImageView
-        android:layout_width="96dp"
-        android:layout_height="96dp"
-        android:layout_gravity="center"
-        android:contentDescription="@string/app_name"
-        android:src="@mipmap/ic_myexpenses"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.1"/>
-
-    <TextView
-        android:id="@+id/onboarding_lead"
-        android:layout_width="wrap_content"
+    <include
+        layout="@layout/onboarding_lead_image"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        tools:text="@string/onboarding_ui_title"
-        android:textAppearance="?android:textAppearanceMedium"/>
+        android:layout_weight="1"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.1"/>
+    <include
+        layout="@layout/onboarding_lead_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"/>
+
 </LinearLayout>

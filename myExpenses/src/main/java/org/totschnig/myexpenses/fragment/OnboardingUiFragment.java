@@ -40,7 +40,6 @@ public class OnboardingUiFragment extends Fragment {
 
   @Override
   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-    super.onCreateOptionsMenu(menu, inflater);
     inflater.inflate(R.menu.onboarding_ui, menu);
     MenuItem menuItem = menu.findItem(R.id.language);
     View actionView = MenuItemCompat.getActionView(menuItem);

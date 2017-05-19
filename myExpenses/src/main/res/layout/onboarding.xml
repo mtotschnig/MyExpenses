@@ -10,11 +10,11 @@
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_marginLeft="@dimen/padding_form"
         android:layout_marginRight="@dimen/padding_form"
-        android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="0dp"/>
+        android:layout_weight="1"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -25,17 +25,29 @@
         <include layout="@layout/page_indicator"/>
 
         <ImageView
-            android:id="@+id/navigation"
+            android:id="@+id/navigation_next"
             style="?actionButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_gravity="center"
-            android:onClick="navigate_next"
-            android:focusable="true"
             android:contentDescription="@string/menu_forward"
+            android:focusable="true"
+            android:onClick="navigate_next"
             app:srcCompat="@drawable/ic_navigate_next"/>
+
+        <Button
+            android:id="@+id/navigation_finish"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:onClick="finishOnboarding"
+            android:text="@string/onboarding_get_started"
+            android:visibility="gone"
+            />
 
     </RelativeLayout>
 </LinearLayout>

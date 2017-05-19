@@ -15,10 +15,13 @@ import org.totschnig.myexpenses.fragment.OnboardingDataFragment;
 import org.totschnig.myexpenses.fragment.OnboardingUiFragment;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
 
-public class OnboardingActivity extends ProtectedFragmentActivity {
+
+public class OnboardingActivity extends ProtectedFragmentActivity implements ViewPager.OnPageChangeListener {
 
   private ViewPager pager;
   private MyPagerAdapter pagerAdapter;
+  private View navigationNext;
+  private View navigationFinish;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,10 @@ public class OnboardingActivity extends ProtectedFragmentActivity {
     } else {
       PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
     }
+    pager.addOnPageChangeListener(this);
+
+    navigationNext = findViewById(R.id.navigation_next);
+    navigationFinish = findViewById(R.id.navigation_finish);
   }
 
   @Override
@@ -59,6 +66,26 @@ public class OnboardingActivity extends ProtectedFragmentActivity {
   public void showMoreOptions(View view) {
     ((OnboardingDataFragment) getSupportFragmentManager().findFragmentByTag(
         pagerAdapter.getFragmentName(1))).showMoreOptions(view);
+  }
+
+  public void finishOnboarding(View view) {
+
+  }
+
+  @Override
+  public void onPageScrolled(int i, float v, int i1) {
+
+  }
+
+  @Override
+  public void onPageSelected(int i) {
+    navigationNext.setVisibility(i==0 ? View.VISIBLE : View.GONE);
+    navigationFinish.setVisibility(i==1 ? View.VISIBLE : View.GONE);
+  }
+
+  @Override
+  public void onPageScrollStateChanged(int i) {
+
   }
 
   private class MyPagerAdapter extends FragmentPagerAdapter {
