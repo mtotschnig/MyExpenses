@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,6 +14,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.fragment.OnboardingDataFragment;
 import org.totschnig.myexpenses.fragment.OnboardingUiFragment;
+import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
 
 
@@ -69,7 +71,7 @@ public class OnboardingActivity extends ProtectedFragmentActivity implements Vie
   }
 
   public void finishOnboarding(View view) {
-
+    startDbWriteTask(false);
   }
 
   @Override
@@ -88,6 +90,22 @@ public class OnboardingActivity extends ProtectedFragmentActivity implements Vie
 
   }
 
+  @Override
+  public Model getObject() {
+    return ((OnboardingDataFragment) getSupportFragmentManager().findFragmentByTag(
+        pagerAdapter.getFragmentName(1))).buildAccount();
+  }
+
+  @Override
+  public void onPostExecute(Object result) {
+    if (result != null) {
+      Intent intent = new Intent(this, MyExpenses.class);
+      startActivity(intent);
+      finish();
+    } else {
+      //inform user
+    }
+  }
   private class MyPagerAdapter extends FragmentPagerAdapter {
 
     public MyPagerAdapter(FragmentManager fm) {

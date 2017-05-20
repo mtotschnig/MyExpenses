@@ -213,7 +213,7 @@ public class AccountEdit extends AmountActivity implements
     try {
       mAccount.setCurrency(currency);
     } catch (IllegalArgumentException e) {
-      Toast.makeText(this, currency + " not supported by your OS. Please select a different currency.", Toast.LENGTH_LONG).show();
+      Toast.makeText(this, getString(R.string.currency_not_supported, currency), Toast.LENGTH_LONG).show();
       return;
     }
 

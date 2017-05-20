@@ -15,8 +15,12 @@
 
 package org.totschnig.myexpenses.activity;
 
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.ui.AmountEditText;
@@ -24,12 +28,8 @@ import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.TextView;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 
@@ -89,16 +89,20 @@ public abstract class AmountActivity extends EditActivity {
   }
 
   protected BigDecimal validateAmountInput(AmountEditText input, boolean showToUser) {
+    return validateAmoutInput(this, input, showToUser);
+  }
+
+  public static BigDecimal validateAmoutInput(Context context, AmountEditText input, boolean showToUser) {
     String strAmount = input.getText().toString();
     if (strAmount.equals("")) {
       if (showToUser)
-        input.setError(getString(R.string.no_amount_given));
+        input.setError(context.getString(R.string.no_amount_given));
       return null;
     }
     BigDecimal amount = Utils.validateNumber(input.getNumberFormat(), strAmount);
     if (amount == null) {
       if (showToUser)
-        input.setError(getString(R.string.invalid_number_format, input.getNumberFormat().format
+        input.setError(context.getString(R.string.invalid_number_format, input.getNumberFormat().format
             (11.11)));
       return null;
     }
@@ -138,13 +142,7 @@ public abstract class AmountActivity extends EditActivity {
   }
   protected void setupListeners() {
     mAmountText.addTextChangedListener(this);
-    mTypeButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-      @Override
-      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        onTypeChanged(isChecked);
-      }
-    });
+    mTypeButton.setOnCheckedChangeListener((buttonView, isChecked) -> onTypeChanged(isChecked));
   }
   protected void linkInputsWithLabels() {
     linkInputWithLabel(mAmountText, mAmountLabel);
