@@ -4,6 +4,7 @@ import android.accounts.AccountManager;
 import android.accounts.AccountManagerFuture;
 import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
+import android.annotation.TargetApi;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.OperationApplicationException;
@@ -650,7 +651,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       case TaskExecutionFragment.TASK_INIT: {
         if (Utils.hasApiLevel(Build.VERSION_CODES.HONEYCOMB)) {
           //on Gingerbread we just accept that db is initialized with first request
-          cr.call(TransactionProvider.DUAL_URI, TransactionProvider.METHOD_INIT, null, null);
+          initDbHoneyComb(cr);
         }
         if (PrefKey.CURRENT_VERSION.getInt(-1) != -1) {
           application.getLicenceHandler().update();
@@ -659,6 +660,11 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       }
     }
     return null;
+  }
+
+  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+  private void initDbHoneyComb(ContentResolver cr) {
+    cr.call(TransactionProvider.DUAL_URI, TransactionProvider.METHOD_INIT, null, null);
   }
 
   private boolean deleteAccount(Long anId) {

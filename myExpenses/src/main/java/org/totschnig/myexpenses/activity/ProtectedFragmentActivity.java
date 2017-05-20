@@ -211,12 +211,17 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   public void recreateBackport() {
     if (Utils.hasApiLevel(Build.VERSION_CODES.HONEYCOMB)) {
-      super.recreate();
+      recreateHoneyComb();
     } else {
       Intent intent = getIntent();
       intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
       startActivity(intent);
     }
+  }
+
+  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+  private void recreateHoneyComb() {
+    super.recreate();
   }
 
   @Override
