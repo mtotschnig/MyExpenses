@@ -71,7 +71,6 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
-import org.totschnig.myexpenses.dialog.WelcomeDialogFragment;
 import org.totschnig.myexpenses.fragment.ContextualActionBarFragment;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
@@ -198,7 +197,6 @@ public class MyExpenses extends LaunchActivity implements
   boolean indexesCalculated = false;
   private long idFromNotification = 0;
   private String mExportFormat = null;
-  public boolean setupComplete;
   private AccountGrouping mAccountGrouping;
 
   @Inject
@@ -351,11 +349,6 @@ public class MyExpenses extends LaunchActivity implements
 
     requireFloatingActionButtonWithContentDescription(Utils.concatResStrings(this, ". ",
         R.string.menu_create_transaction, R.string.menu_create_transfer, R.string.menu_create_split));
-    if (prev_version == -1) {
-      getSupportActionBar().hide();
-      initialSetup();
-      return;
-    }
     if (savedInstanceState != null) {
       mExportFormat = savedInstanceState.getString("exportFormat");
       mAccountId = savedInstanceState.getLong(KEY_ACCOUNTID, 0L);
@@ -375,22 +368,10 @@ public class MyExpenses extends LaunchActivity implements
         }
       }
     }
-    if (mAccountId == 0)
+    if (mAccountId == 0) {
       mAccountId = PrefKey.CURRENT_ACCOUNT.getLong(0L);
-    setup();
-  }
-
-  private void initialSetup() {
-    FragmentManager fm = getSupportFragmentManager();
-    if (fm.findFragmentByTag(ProtectionDelegate.ASYNC_TAG) == null) {
-      fm.beginTransaction()
-          .add(WelcomeDialogFragment.newInstance(), "WELCOME")
-          .add(TaskExecutionFragment.newInstance(
-              TaskExecutionFragment.TASK_REQUIRE_ACCOUNT, new Long[]{0L}, null),
-              ProtectionDelegate.ASYNC_TAG)
-          .commit();
-      setupComplete = false;
     }
+    setup();
   }
 
   private void setup() {
@@ -586,19 +567,6 @@ public class MyExpenses extends LaunchActivity implements
       case R.id.BACKUP_COMMAND:
         startActivity(new Intent("myexpenses.intent.backup"));
         return true;
-/*    case R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND:
-      if ((Boolean) tag) {
-        if (MyApplication.backupRestore()) {
-          //if we have successfully restored, we relaunch in order to force password check if needed
-          i = getBaseContext().getPackageManager()
-              .getLaunchIntentForPackage( getBaseContext().getPackageName() );
-          i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-          startActivity(i);
-          break;
-        }
-      }
-      initialSetup();
-      return true;*/
       case R.id.REMIND_NO_RATE_COMMAND:
         PrefKey.NEXT_REMINDER_RATE.putLong(-1);
         return true;
@@ -979,17 +947,6 @@ public class MyExpenses extends LaunchActivity implements
         msg = successCount == 0 ? getString(R.string.split_transaction_error) :
             getResources().getQuantityString(R.plurals.split_transaction_success, successCount, successCount);
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
-        break;
-      case TaskExecutionFragment.TASK_REQUIRE_ACCOUNT:
-        setupComplete = true;
-        getSupportActionBar().show();
-        FragmentManager fm = getSupportFragmentManager();
-        setup();
-        WelcomeDialogFragment wdf =
-            ((WelcomeDialogFragment) fm.findFragmentByTag("WELCOME"));
-        if (wdf != null) {
-          wdf.setSetupComplete();
-        }
         break;
       case TaskExecutionFragment.TASK_EXPORT:
         ArrayList<Uri> files = (ArrayList<Uri>) o;

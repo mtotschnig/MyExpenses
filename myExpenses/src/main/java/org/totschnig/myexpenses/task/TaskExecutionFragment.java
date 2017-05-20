@@ -59,7 +59,6 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_INSTANTIATE_TRANSACTION = 2;
   public static final int TASK_INSTANTIATE_TEMPLATE = 3;
   public static final int TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE = 4;
-  public static final int TASK_REQUIRE_ACCOUNT = 5;
   public static final int TASK_DELETE_TRANSACTION = 6;
   public static final int TASK_DELETE_ACCOUNT = 7;
   public static final int TASK_DELETE_PAYMENT_METHODS = 8;

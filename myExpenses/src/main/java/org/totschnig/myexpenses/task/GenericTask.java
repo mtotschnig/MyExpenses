@@ -177,15 +177,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         return successCount;
       case TaskExecutionFragment.TASK_INSTANTIATE_PLAN:
         return Plan.getInstanceFromDb((Long) ids[0]);
-      case TaskExecutionFragment.TASK_REQUIRE_ACCOUNT: {
-        Account account = Account.getInstanceFromDb(0);
-        if (account == null) {
-          account = new Account(application.getString(R.string.default_account_name), 0,
-              application.getString(R.string.default_account_description));
-          account.save();
-        }
-        return account;
-      }
       case TaskExecutionFragment.TASK_DELETE_TRANSACTION:
         try {
           for (long id : (Long[]) ids) {
