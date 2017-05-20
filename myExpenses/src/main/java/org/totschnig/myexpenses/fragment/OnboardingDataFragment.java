@@ -20,13 +20,17 @@ import org.totschnig.myexpenses.ui.AmountEditText;
 
 import java.math.BigDecimal;
 
+import icepick.Icepick;
+import icepick.State;
+
 
 public class OnboardingDataFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
-  private View moreOptionsContainer;
+  private View moreOptionsContainer, moreOptionsButton;
   private Spinner currencySpinner;
   private Spinner accountTypeSpinner;
   private Spinner colorSpinner;
+  @State boolean moreOptionsShown = false;
 
   public static OnboardingDataFragment newInstance() {
     return new OnboardingDataFragment();
@@ -36,6 +40,13 @@ public class OnboardingDataFragment extends Fragment implements AdapterView.OnIt
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
+    Icepick.restoreInstanceState(this, savedInstanceState);
+  }
+
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    Icepick.saveInstanceState(this, outState);
   }
 
   @Override
@@ -69,11 +80,20 @@ public class OnboardingDataFragment extends Fragment implements AdapterView.OnIt
     colorSpinner = DialogUtils.configureColorSpinner(view, Account.DEFAULT_COLOR);
 
     moreOptionsContainer = view.findViewById(R.id.MoreOptionsContainer);
+    moreOptionsButton = view.findViewById(R.id.MoreOptionsButton);
+    if (moreOptionsShown) {
+      showMoreOptions();
+    }
     return view;
   }
 
   public void showMoreOptions(View view) {
-    view.setVisibility(View.GONE);
+    moreOptionsShown = true;
+    showMoreOptions();
+  }
+
+  private void showMoreOptions() {
+    moreOptionsButton.setVisibility(View.GONE);
     moreOptionsContainer.setVisibility(View.VISIBLE);
   }
 
