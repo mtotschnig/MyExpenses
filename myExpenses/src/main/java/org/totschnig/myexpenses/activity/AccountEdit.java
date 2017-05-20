@@ -251,8 +251,9 @@ public class AccountEdit extends AmountActivity implements
         break;
       case R.id.Currency:
         try {
+          String currency = ((CurrencyEnum) mCurrencySpinner.getSelectedItem()).name();
           mAmountText.setFractionDigits(Money.getFractionDigits(
-              Currency.getInstance(CurrencyEnum.values()[position].name())));
+              Currency.getInstance(currency)));
         } catch (IllegalArgumentException e) {
           //will be reported to user when he tries so safe
         }
