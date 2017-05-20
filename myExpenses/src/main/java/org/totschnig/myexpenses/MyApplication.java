@@ -807,22 +807,20 @@ public class MyApplication extends MultiDexApplication implements
   }
 
   private void enableStrictMode() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-      StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-          .detectDiskReads()
-          .detectDiskWrites()
-          .detectNetwork()   // or .detectAll() for all detectable problems
-          .penaltyLog()
-          .build());
-      StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder()
-          .detectLeakedSqlLiteObjects()
-          //.detectLeakedClosableObjects()
-          .penaltyLog()
-          .penaltyDeath();
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        builder.detectFileUriExposure();
-      }
-      StrictMode.setVmPolicy(builder.build());
+    StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+        .detectDiskReads()
+        .detectDiskWrites()
+        .detectNetwork()   // or .detectAll() for all detectable problems
+        .penaltyLog()
+        .build());
+    StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder()
+        .detectLeakedSqlLiteObjects()
+        //.detectLeakedClosableObjects()
+        .penaltyLog()
+        .penaltyDeath();
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      builder.detectFileUriExposure();
     }
+    StrictMode.setVmPolicy(builder.build());
   }
 }

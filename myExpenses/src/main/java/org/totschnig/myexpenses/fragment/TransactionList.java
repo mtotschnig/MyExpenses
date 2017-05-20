@@ -286,7 +286,7 @@ public class TransactionList extends ContextualActionBarFragment implements
     View v = inflater.inflate(R.layout.expenses_list, container, false);
     //TODO check if still needed with Appcompat
     //work around the problem that the view pager does not display its background correctly with Sherlock
-    if (Build.VERSION.SDK_INT < 11) {
+    if (!Utils.hasApiLevel(Build.VERSION_CODES.HONEYCOMB)) {
       v.setBackgroundColor(ctx.getResources().getColor(
           PrefKey.UI_THEME_KEY.getString("dark").equals("light")
               ? android.R.color.white : android.R.color.black));

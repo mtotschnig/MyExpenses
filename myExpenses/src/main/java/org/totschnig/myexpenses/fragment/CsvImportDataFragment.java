@@ -313,7 +313,7 @@ public class CsvImportDataFragment extends Fragment {
                                                    int viewType) {
       // create a new view
       LinearLayout v = new LinearLayout(parent.getContext());
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+      if (Utils.hasApiLevel(Build.VERSION_CODES.HONEYCOMB)) {
         v.setBackgroundResource(R.drawable.csv_import_row_background);
       }
       View cell = new CheckBox(parent.getContext());
@@ -348,7 +348,7 @@ public class CsvImportDataFragment extends Fragment {
       // - replace the contents of the view with that element
       boolean isDiscarded = discardedRows.get(position, false);
       boolean isHeader = position == 0 && firstLineIsHeader;
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+      if (Utils.hasApiLevel(Build.VERSION_CODES.HONEYCOMB)) {
         holder.row.setActivated(isDiscarded && !isHeader);
       }
       final CSVRecord record = mDataset.get(position);

@@ -990,7 +990,7 @@ public class ExpenseEdit extends AmountActivity implements
             datePickerDialog.getDatePicker().setFirstDayOfWeek(startOfWeek);
           } else {
             try {
-              if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB_MR1) {
+              if (Utils.hasApiLevel(Build.VERSION_CODES.HONEYCOMB_MR1)) {
                 CalendarView calendarView = datePickerDialog.getDatePicker().getCalendarView();
                 calendarView.setFirstDayOfWeek(startOfWeek);
               }
