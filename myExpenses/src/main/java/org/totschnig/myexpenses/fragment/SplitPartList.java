@@ -47,6 +47,7 @@ import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
+import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 
 import javax.inject.Inject;
@@ -145,7 +146,7 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
   }
 
   public void updateFabColor(int color) {
-    Utils.setBackgroundTintListOnFab(fab,color);
+    UiUtils.setBackgroundTintListOnFab(fab,color);
   }
 
   @Override

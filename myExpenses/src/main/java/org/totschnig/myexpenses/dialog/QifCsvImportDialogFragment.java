@@ -25,6 +25,7 @@ import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.ExportFormat;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
+import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
@@ -144,7 +145,7 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
     });
     mAccountsCursor = new MergeCursor(new Cursor[]{extras, data});
     mAccountsAdapter.swapCursor(mAccountsCursor);
-    Utils.selectSpinnerItemByValue(mAccountSpinner, accountId);
+    UiUtils.selectSpinnerItemByValue(mAccountSpinner, accountId);
   }
 
   @Override

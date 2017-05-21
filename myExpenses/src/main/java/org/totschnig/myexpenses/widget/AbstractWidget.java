@@ -18,7 +18,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.UiUtils;
 
 import static android.appwidget.AppWidgetManager.INVALID_APPWIDGET_ID;
 
@@ -199,7 +199,7 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
   //http://stackoverflow.com/a/35633411/1199911
   protected void setImageViewVectorDrawable(Context context, RemoteViews remoteViews,
                                             int viewId, int resId) {
-    remoteViews.setImageViewBitmap(viewId, Utils.getTintedBitmapForTheme(context, resId,
+    remoteViews.setImageViewBitmap(viewId, UiUtils.getTintedBitmapForTheme(context, resId,
         R.style.ThemeDark));
   }
 }

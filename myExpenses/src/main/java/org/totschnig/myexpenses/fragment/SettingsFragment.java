@@ -64,6 +64,7 @@ import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.LicenceHandler;
 import org.totschnig.myexpenses.util.ShareUtils;
 import org.totschnig.myexpenses.util.ShortcutHelper;
+import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 
@@ -578,7 +579,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     Intent intent = new Intent();
     intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
     intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(nameId));
-    intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, Utils.getTintedBitmapForTheme(getActivity(), iconId, R.style.ThemeDark));
+    intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, UiUtils.getTintedBitmapForTheme(getActivity(), iconId, R.style.ThemeDark));
     intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
 
     if (Utils.isIntentReceiverAvailable(getActivity(), intent)) {

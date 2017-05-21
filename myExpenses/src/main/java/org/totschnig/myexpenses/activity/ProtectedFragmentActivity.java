@@ -63,6 +63,7 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.Result;
+import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.widget.AbstractWidget;
@@ -158,7 +159,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     if (!requireFloatingActionButtonWithContentDescription(getString(fabDescription))) return;
     TypedValue color = new TypedValue();
     getTheme().resolveAttribute(R.attr.colorControlActivated, color, true);
-    Utils.setBackgroundTintListOnFab(floatingActionButton, color.data);
+    UiUtils.setBackgroundTintListOnFab(floatingActionButton, color.data);
   }
 
   protected boolean requireFloatingActionButtonWithContentDescription(String fabDescription) {

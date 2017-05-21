@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,7 +14,6 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.AccountEdit;
@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.ui.AmountEditText;
+import org.totschnig.myexpenses.util.UiUtils;
 
 import java.math.BigDecimal;
 import java.util.Currency;
@@ -52,7 +53,7 @@ public class OnboardingDataFragment extends Fragment implements AdapterView.OnIt
   private Spinner accountTypeSpinner;
   private Spinner colorSpinner;
   @State boolean moreOptionsShown = false;
-  private int defaultCurrencyPosition;
+  private int lastSelectedCurrencyPosition;
 
   public static OnboardingDataFragment newInstance() {
     return new OnboardingDataFragment();
@@ -94,7 +95,6 @@ public class OnboardingDataFragment extends Fragment implements AdapterView.OnIt
 
     //currency
     currencySpinner = DialogUtils.configureCurrencySpinner(view, this);
-    defaultCurrencyPosition = currencySpinner.getSelectedItemPosition();
 
     //type
     accountTypeSpinner = DialogUtils.configureTypeSpinner(view);
@@ -126,9 +126,13 @@ public class OnboardingDataFragment extends Fragment implements AdapterView.OnIt
         try {
           Currency instance = Currency.getInstance(currency);
           amountEditText.setFractionDigits(Money.getFractionDigits(instance));
+          lastSelectedCurrencyPosition = position;
         } catch (IllegalArgumentException e) {
-          Toast.makeText(getActivity(), getString(R.string.currency_not_supported, currency), Toast.LENGTH_LONG).show();
-          currencySpinner.setSelection(defaultCurrencyPosition);
+          Snackbar snackbar = Snackbar.make(
+              parent, getString(R.string.currency_not_supported, currency), Snackbar.LENGTH_LONG);
+          UiUtils.configureSnackbarForDarkTheme(snackbar);
+          snackbar.show();
+          currencySpinner.setSelection(lastSelectedCurrencyPosition);
         }
         break;
     }
