@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
@@ -16,6 +17,8 @@ import org.totschnig.myexpenses.fragment.OnboardingDataFragment;
 import org.totschnig.myexpenses.fragment.OnboardingUiFragment;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
+import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.UiUtils;
 
 
 public class OnboardingActivity extends ProtectedFragmentActivity implements ViewPager.OnPageChangeListener {
@@ -98,12 +101,17 @@ public class OnboardingActivity extends ProtectedFragmentActivity implements Vie
 
   @Override
   public void onPostExecute(Object result) {
+    super.onPostExecute(result);
     if (result != null) {
       Intent intent = new Intent(this, MyExpenses.class);
       startActivity(intent);
       finish();
     } else {
-      //inform user
+      String message = "Unknown error while setting up account";
+      AcraHelper.report(message);
+      Snackbar snackbar = Snackbar.make(pager, message, Snackbar.LENGTH_LONG);
+      UiUtils.configureSnackbarForDarkTheme(snackbar);
+      snackbar.show();
     }
   }
   private class MyPagerAdapter extends FragmentPagerAdapter {
