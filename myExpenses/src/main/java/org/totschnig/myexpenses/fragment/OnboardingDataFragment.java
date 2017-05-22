@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.AccountEdit;
+import org.totschnig.myexpenses.adapter.CurrencyAdapter;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
@@ -32,6 +33,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import icepick.Icepick;
 import icepick.State;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 
 
 public class OnboardingDataFragment extends Fragment implements AdapterView.OnItemSelectedListener {
@@ -69,6 +72,7 @@ public class OnboardingDataFragment extends Fragment implements AdapterView.OnIt
   @Override
   public void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
+    outState.putSerializable(KEY_CURRENCY, ((CurrencyEnum) currencySpinner.getSelectedItem()));
     Icepick.saveInstanceState(this, outState);
   }
 
@@ -106,6 +110,15 @@ public class OnboardingDataFragment extends Fragment implements AdapterView.OnIt
       showMoreOptions();
     }
     return view;
+  }
+
+  @Override
+  public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+    super.onViewStateRestored(savedInstanceState);
+    if (savedInstanceState != null) {
+      currencySpinner.setSelection(((CurrencyAdapter) currencySpinner.getAdapter())
+          .getPosition((CurrencyEnum) savedInstanceState.get(KEY_CURRENCY)));
+    }
   }
 
   public void showMoreOptions(View view) {
