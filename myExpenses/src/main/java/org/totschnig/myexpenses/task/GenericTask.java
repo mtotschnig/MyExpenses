@@ -644,9 +644,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           //on Gingerbread we just accept that db is initialized with first request
           initDbHoneyComb(cr);
         }
-        if (PrefKey.CURRENT_VERSION.getInt(-1) != -1) {
-          application.getLicenceHandler().update();
-        }
+        application.getLicenceHandler().update();
         Account.updateTransferShortcut();
       }
     }
