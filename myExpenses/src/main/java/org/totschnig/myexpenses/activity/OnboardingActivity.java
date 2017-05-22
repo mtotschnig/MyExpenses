@@ -16,25 +16,33 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.fragment.OnboardingDataFragment;
 import org.totschnig.myexpenses.fragment.OnboardingUiFragment;
 import org.totschnig.myexpenses.model.Model;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
 import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.UiUtils;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 public class OnboardingActivity extends ProtectedFragmentActivity implements ViewPager.OnPageChangeListener {
 
-  private ViewPager pager;
+  @BindView(R.id.viewpager)
+  ViewPager pager;
   private MyPagerAdapter pagerAdapter;
-  private View navigationNext;
-  private View navigationFinish;
+  @BindView(R.id.navigation_next)
+  View navigationNext;
+  @BindView(R.id.navigation_finish)
+  View navigationFinish;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeId());
     super.onCreate(savedInstanceState);
     setContentView(R.layout.onboarding);
+    ButterKnife.bind(this);
     setupToolbar(false);
-    pager = (ViewPager) findViewById(R.id.viewpager);
     pagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
     pager.setAdapter(pagerAdapter);
     if (MyApplication.isInstrumentationTest()) {
@@ -44,9 +52,6 @@ public class OnboardingActivity extends ProtectedFragmentActivity implements Vie
       PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
     }
     pager.addOnPageChangeListener(this);
-
-    navigationNext = findViewById(R.id.navigation_next);
-    navigationFinish = findViewById(R.id.navigation_finish);
   }
 
   @Override
@@ -103,6 +108,9 @@ public class OnboardingActivity extends ProtectedFragmentActivity implements Vie
   public void onPostExecute(Object result) {
     super.onPostExecute(result);
     if (result != null) {
+      int current_version = DistribHelper.getVersionNumber();
+      PrefKey.CURRENT_VERSION.putInt(current_version);
+      PrefKey.FIRST_INSTALL_VERSION.putInt(current_version);
       Intent intent = new Intent(this, MyExpenses.class);
       startActivity(intent);
       finish();
@@ -116,11 +124,11 @@ public class OnboardingActivity extends ProtectedFragmentActivity implements Vie
   }
   private class MyPagerAdapter extends FragmentPagerAdapter {
 
-    public MyPagerAdapter(FragmentManager fm) {
+    MyPagerAdapter(FragmentManager fm) {
       super(fm);
     }
 
-    public String getFragmentName(int currentPosition) {
+    String getFragmentName(int currentPosition) {
       return FragmentPagerAdapter.makeFragmentName(R.id.viewpager, getItemId(currentPosition));
     }
 

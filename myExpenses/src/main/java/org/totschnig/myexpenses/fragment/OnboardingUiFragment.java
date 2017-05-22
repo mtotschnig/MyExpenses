@@ -22,11 +22,18 @@ import org.totschnig.myexpenses.adapter.FontSizeAdapter;
 import org.totschnig.myexpenses.preference.FontSizeDialogPreference;
 import org.totschnig.myexpenses.preference.PrefKey;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class OnboardingUiFragment extends Fragment {
 
-  private TextView fontSizeDisplayNameTextView;
+
+  @BindView(R.id.font_size_display_name)
+  TextView fontSizeDisplayNameTextView;
+  @BindView(R.id.font_size)
+  SeekBar fontSizeSeekBar;
+
   private int fontScale;
-  private SeekBar fontSizeSeekBar;
 
   public static OnboardingUiFragment newInstance() {
     return new OnboardingUiFragment();
@@ -68,11 +75,10 @@ public class OnboardingUiFragment extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.onboarding_ui, container, false);
+    ButterKnife.bind(this, view);
 
     //fontsize
-    fontSizeDisplayNameTextView = ((TextView) view.findViewById(R.id.font_size_display_name));
     fontScale = PrefKey.UI_FONTSIZE.getInt(0);
-    fontSizeSeekBar = (SeekBar) view.findViewById(R.id.font_size);
     fontSizeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
       @Override
       public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
