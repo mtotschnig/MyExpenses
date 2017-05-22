@@ -387,7 +387,6 @@ public class DialogUtils {
         (Spinner) view.findViewById(R.id.Color);
     ColorAdapter adapter = new ColorAdapter(view.getContext(), selectedColor);
     spinner.setAdapter(adapter);
-    spinner.setSelection(adapter.getPosition(selectedColor));
     return spinner;
   }
 

@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.AccountEdit;
+import org.totschnig.myexpenses.adapter.ColorAdapter;
 import org.totschnig.myexpenses.adapter.CurrencyAdapter;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.model.Account;
@@ -95,6 +96,7 @@ public class OnboardingDataFragment extends Fragment implements AdapterView.OnIt
     //amount
     amountEditText.setFractionDigits(2);
     amountEditText.setAmount(BigDecimal.ZERO);
+    typeButton.setChecked(true);
     view.findViewById(R.id.Calculator).setVisibility(View.GONE);
 
     //currency
@@ -104,7 +106,9 @@ public class OnboardingDataFragment extends Fragment implements AdapterView.OnIt
     accountTypeSpinner = DialogUtils.configureTypeSpinner(view);
 
     //color
-    colorSpinner = DialogUtils.configureColorSpinner(view, Account.DEFAULT_COLOR);
+    int selected = Account.DEFAULT_COLOR;
+    colorSpinner = DialogUtils.configureColorSpinner(view, selected);
+    colorSpinner.setSelection(((ColorAdapter) colorSpinner.getAdapter()).getPosition(selected));
 
     if (moreOptionsShown) {
       showMoreOptions();

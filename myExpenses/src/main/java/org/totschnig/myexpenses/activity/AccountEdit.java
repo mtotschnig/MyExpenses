@@ -28,13 +28,13 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.adapter.ColorAdapter;
 import org.totschnig.myexpenses.adapter.CurrencyAdapter;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
@@ -69,10 +69,9 @@ public class AccountEdit extends AmountActivity implements
   private static final String OPENINTENTS_PICK_COLOR_ACTION = "org.openintents.action.PICK_COLOR";
   private EditText mLabelText;
   private EditText mDescriptionText;
-  Spinner mColorSpinner;
+  SpinnerHelper mColorSpinner;
   private SpinnerHelper mCurrencySpinner, mAccountTypeSpinner, mSyncSpinner;
   private Account mAccount;
-  private ArrayAdapter<Integer> mColAdapter;
   private ArrayAdapter<CurrencyEnum> currencyAdapter;
 
   private void requireAccount() {
@@ -137,7 +136,7 @@ public class AccountEdit extends AmountActivity implements
 
     mAccountTypeSpinner = new SpinnerHelper(DialogUtils.configureTypeSpinner(findViewById(R.id.AccountType)));
 
-    mColorSpinner = DialogUtils.configureColorSpinner(findViewById(R.id.Color), mAccount.color);
+    mColorSpinner = new SpinnerHelper(DialogUtils.configureColorSpinner(findViewById(R.id.Color), mAccount.color));
 
     mSyncSpinner = new SpinnerHelper(findViewById(R.id.Sync));
     configureSyncBackendAdapter();
@@ -195,7 +194,7 @@ public class AccountEdit extends AmountActivity implements
     mCurrencySpinner.setSelection(currencyAdapter.getPosition(
         CurrencyEnum.valueOf(mAccount.currency.getCurrencyCode())));
     mAccountTypeSpinner.setSelection(mAccount.type.ordinal());
-    mColorSpinner.setSelection(mColAdapter.getPosition(mAccount.color));
+    mColorSpinner.setSelection(((ColorAdapter) mColorSpinner.getAdapter()).getPosition(mAccount.color));
   }
 
   /**
@@ -377,7 +376,7 @@ public class AccountEdit extends AmountActivity implements
     super.linkInputsWithLabels();
     linkInputWithLabel(mLabelText, findViewById(R.id.LabelLabel));
     linkInputWithLabel(mDescriptionText, findViewById(R.id.DescriptionLabel));
-    linkInputWithLabel(mColorSpinner, findViewById(R.id.ColorLabel));
+    linkInputWithLabel(mColorSpinner.getSpinner(), findViewById(R.id.ColorLabel));
     linkInputWithLabel(mAccountTypeSpinner.getSpinner(), findViewById(R.id.AccountTypeLabel));
     linkInputWithLabel(mCurrencySpinner.getSpinner(), findViewById(R.id.CurrencyLabel));
     linkInputWithLabel(mSyncSpinner.getSpinner(), findViewById(R.id.SyncLabel));
