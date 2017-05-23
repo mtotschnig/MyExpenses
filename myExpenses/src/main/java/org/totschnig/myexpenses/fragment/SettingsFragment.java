@@ -75,6 +75,8 @@ import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.RESTORE_REQUEST;
+import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.RESULT_RESTORE_OK;
 import static org.totschnig.myexpenses.preference.PrefKey.*;
 
 public class SettingsFragment extends PreferenceFragmentCompat implements
@@ -82,7 +84,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     Preference.OnPreferenceClickListener {
 
   private long pickFolderRequestStart;
-  private static final int RESTORE_REQUEST = 1;
   private static final int PICK_FOLDER_REQUEST = 2;
   private static final int CONTRIB_PURCHASE_REQUEST = 3;
   private static final int PICK_FOLDER_REQUEST_LEGACY = 4;
@@ -638,7 +639,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   @Override
   public void onActivityResult(int requestCode, int resultCode,
                                Intent intent) {
-    if (requestCode == RESTORE_REQUEST && resultCode == Activity.RESULT_FIRST_USER) {
+    if (requestCode == RESTORE_REQUEST && resultCode == RESULT_RESTORE_OK) {
       getActivity().setResult(resultCode);
       getActivity().finish();
     } else if (requestCode == PICK_FOLDER_REQUEST) {

@@ -2,10 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:title="@string/synchronization"
-        android:id="@+id/Sync"
+        android:title="@string/pref_restore_title"
         android:icon="@drawable/ic_account_circle"
         app:showAsAction="always">
-        <menu />
+        <menu>
+            <item
+                android:title="@string/onboarding_restore_from_cloud"
+                android:id="@+id/SetupFromRemote"/>
+            <item
+                android:title="@string/onboarding_restore_from_local"
+                android:id="@+id/SetupFromLocal"/>
+        </menu>
     </item>
 </menu>

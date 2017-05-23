@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.util;
 
 import android.annotation.SuppressLint;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -25,6 +26,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.InsetDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
 import android.telephony.TelephonyManager;
 import android.text.Spannable;
@@ -751,6 +753,11 @@ public class Utils {
       sb.append(spannable);
     }
     return sb;
+  }
+
+  public static String getSimpleClassNameFromComponentName(@NonNull ComponentName componentName) {
+    String className = componentName.getShortClassName();
+    return className.substring(className.lastIndexOf(".") + 1);
   }
 
 }

@@ -93,6 +93,8 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   public static final int PICTURE_REQUEST_CODE = 14;
   public static final int IMPORT_FILENAME_REQUESTCODE = 15;
   public static final int SYNC_BACKEND_SETUP_REQUEST = 16;
+  public static final int RESTORE_REQUEST = 17;
+  public static final int CONTRIB_REQUEST = 18;
   public static final String SAVE_TAG = "SAVE_TASK";
   public static final String SORT_ORDER_USAGES = "USAGES";
   public static final String SORT_ORDER_LAST_USED = "LAST_USED";
@@ -100,6 +102,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   public static final String SORT_ORDER_TITLE = "TITLE";
   public static final String SORT_ORDER_CUSTOM = "CUSTOM";
   public static final String SORT_ORDER_NEXT_INSTANCE = "NEXT_INSTANCE";
+  public static final int RESULT_RESTORE_OK = RESULT_FIRST_USER + 1;
   private AlertDialog pwDialog;
   private ProtectionDelegate protection;
   private boolean scheduledRestart = false;
@@ -251,11 +254,14 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     Bundle bundle = new Bundle();
-    String fullResourceName = getResources().getResourceName(item.getItemId());
-    bundle.putString(Tracker.EVENT_PARAM_ITEM_ID, fullResourceName.substring(fullResourceName.indexOf('/') + 1));
-    logEvent(Tracker.EVENT_SELECT_MENU, bundle);
-    if (dispatchCommand(item.getItemId(), null)) {
-      return true;
+    int itemId = item.getItemId();
+    if (itemId != 0) {
+      String fullResourceName = getResources().getResourceName(itemId);
+      bundle.putString(Tracker.EVENT_PARAM_ITEM_ID, fullResourceName.substring(fullResourceName.indexOf('/') + 1));
+      logEvent(Tracker.EVENT_SELECT_MENU, bundle);
+      if (dispatchCommand(itemId, null)) {
+        return true;
+      }
     }
     return super.onOptionsItemSelected(item);
   }
@@ -398,7 +404,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   protected void onActivityResult(int requestCode, int resultCode,
                                   Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
-    if (requestCode == ProtectionDelegate.CONTRIB_REQUEST && intent != null) {
+    if (requestCode == CONTRIB_REQUEST && intent != null) {
       ContribFeature contribFeature = ContribFeature.valueOf(intent.getStringExtra(KEY_FEATURE));
       if (resultCode == RESULT_OK) {
         ((ContribIFace) this).contribFeatureCalled(contribFeature,
@@ -406,6 +412,12 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
       } else if (resultCode == RESULT_CANCELED) {
         ((ContribIFace) this).contribFeatureNotCalled(contribFeature);
       }
+    }
+    if ((requestCode == PREFERENCES_REQUEST || requestCode == RESTORE_REQUEST) && resultCode == RESULT_RESTORE_OK) {
+      Intent i = new Intent(this, MyExpenses.class);
+      i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+      finish();
+      startActivity(i);
     }
   }
 

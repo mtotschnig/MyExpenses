@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -7,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -35,6 +37,7 @@ import butterknife.ButterKnife;
 import icepick.Icepick;
 import icepick.State;
 
+import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.RESTORE_REQUEST;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 
 
@@ -82,9 +85,20 @@ public class OnboardingDataFragment extends Fragment implements AdapterView.OnIt
     inflater.inflate(R.menu.onboarding_data, menu);
   }
 
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case R.id.SetupFromLocal:
+        getActivity().startActivityForResult(new Intent("myexpenses.intent.restore"), RESTORE_REQUEST);
+        return true;
+    }
+    return false;
+  }
+
   @Nullable
   @Override
-  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                           @Nullable Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.onboarding_data, container, false);
     ButterKnife.bind(this, view);
     //lead

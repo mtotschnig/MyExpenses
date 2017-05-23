@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses.activity;
 
+import android.content.ComponentName;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -36,12 +37,15 @@ import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.ShareUtils;
+import org.totschnig.myexpenses.util.Utils;
 
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+
+import timber.log.Timber;
 
 import static org.totschnig.myexpenses.task.RestoreTask.KEY_DIR_NAME_LEGACY;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_RESTORE;
@@ -51,9 +55,17 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
   public static final String KEY_RESTORE_PLAN_STRATEGY = "restorePlanStrategy";
   public static final String FRAGMENT_TAG = "BACKUP_SOURCE";
 
+  private boolean calledFromOnboarding = false;
+
   public void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeIdTranslucent());
     super.onCreate(savedInstanceState);
+    ComponentName callingActivity = getCallingActivity();
+    if (callingActivity != null && Utils.getSimpleClassNameFromComponentName(callingActivity)
+        .equals(OnboardingActivity.class.getSimpleName())) {
+      calledFromOnboarding = true;
+      Timber.i("Called from onboarding");
+    }
     if (savedInstanceState!=null) {
       return;
     }
@@ -94,18 +106,23 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
   }
 
   private void showRestoreDialog(Uri fileUri, int restorePlanStrategie) {
-    Bundle b = new Bundle();
-    b.putInt(ConfirmationDialogFragment.KEY_TITLE, R.string.pref_restore_title);
-    b.putString(
+    Bundle bundle = buildRestoreArgs(fileUri, restorePlanStrategie);
+    bundle.putInt(ConfirmationDialogFragment.KEY_TITLE, R.string.pref_restore_title);
+    bundle.putString(
         ConfirmationDialogFragment.KEY_MESSAGE,
         getString(R.string.warning_restore,
             DialogUtils.getDisplayName(fileUri)));
-    b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+    bundle.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
         R.id.RESTORE_COMMAND);
-    b.putInt(KEY_RESTORE_PLAN_STRATEGY, restorePlanStrategie);
-    b.putParcelable(TaskExecutionFragment.KEY_FILE_PATH, fileUri);
-    ConfirmationDialogFragment.newInstance(b).show(getSupportFragmentManager(),
+    ConfirmationDialogFragment.newInstance(bundle).show(getSupportFragmentManager(),
         "RESTORE");
+  }
+
+  private Bundle buildRestoreArgs(Uri fileUri, int restorePlanStrategie) {
+    Bundle bundle = new Bundle();
+    bundle.putInt(KEY_RESTORE_PLAN_STRATEGY, restorePlanStrategie);
+    bundle.putParcelable(TaskExecutionFragment.KEY_FILE_PATH, fileUri);
+    return bundle;
   }
 
   /**
@@ -184,7 +201,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
           MyApplication.getInstance().resetLastPause();
           MyApplication.getInstance().shouldLock(this);
 
-          setResult(RESULT_FIRST_USER);
+          setResult(RESULT_RESTORE_OK);
         }
         break;
       case TaskExecutionFragment.TASK_BACKUP:
@@ -216,7 +233,11 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
   }
 
   public void onSourceSelected(Uri mUri, int restorePlanStrategie) {
-    showRestoreDialog(mUri, restorePlanStrategie);
+    if (calledFromOnboarding) {
+      doRestore(buildRestoreArgs(mUri, restorePlanStrategie));
+    } else {
+      showRestoreDialog(mUri, restorePlanStrategie);
+    }
   }
 
   /**
@@ -241,13 +262,17 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
         doBackup();
         break;
       case R.id.RESTORE_COMMAND:
-        getSupportFragmentManager()
-            .beginTransaction()
-            .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_RESTORE), ProtectionDelegate.ASYNC_TAG)
-            .add(ProgressDialogFragment.newInstance(R.string.pref_restore_title),
-                ProtectionDelegate.PROGRESS_TAG).commit();
+        doRestore(args);
         break;
     }
+  }
+
+  private void doRestore(Bundle args) {
+    getSupportFragmentManager()
+        .beginTransaction()
+        .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_RESTORE), ProtectionDelegate.ASYNC_TAG)
+        .add(ProgressDialogFragment.newInstance(R.string.pref_restore_title),
+            ProtectionDelegate.PROGRESS_TAG).commit();
   }
 
   public void openBrowse() {

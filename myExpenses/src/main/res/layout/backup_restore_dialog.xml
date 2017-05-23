@@ -19,7 +19,14 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/padding_dialog_side"
-        android:paddingRight="@dimen/padding_dialog_side">
+        android:paddingRight="@dimen/padding_dialog_side"
+        android:shrinkColumns="*"
+        android:stretchColumns="*">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/pref_restore_summary"/>
 
         <include layout="@layout/filename"/>
 
