@@ -287,7 +287,7 @@ public class DialogUtils {
     String calendarPath = PrefKey.PLANNER_CALENDAR_PATH.getString("");
     RadioButton configured = (RadioButton) view.findViewById(R.id.restore_calendar_handling_configured);
     if ((calendarId.equals("-1")) || calendarPath.equals("")) {
-      configured.setEnabled(false);
+      configured.setVisibility(View.GONE);
     } else {
       //noinspection SetTextI18n
       configured.setText(configured.getText() + " (" + calendarPath + ")");
