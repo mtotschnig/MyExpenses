@@ -908,7 +908,7 @@ public class MyExpenses extends LaunchActivity implements
         }
         if (mAccountsCursor.moveToFirst()) {
           int position = 0;
-          while (mAccountsCursor.isAfterLast() == false) {
+          while (!mAccountsCursor.isAfterLast()) {
             long accountId = mAccountsCursor.getLong(columnIndexRowId);
             if (accountId == mAccountId) {
               position = mAccountsCursor.getPosition();

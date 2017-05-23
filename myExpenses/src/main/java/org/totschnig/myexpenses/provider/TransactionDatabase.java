@@ -128,7 +128,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 63;
+  public static final int DATABASE_VERSION = 64;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -1491,9 +1491,16 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     if (oldVersion < 62) {
       refreshViewsExtended(db);
     }
+
     if (oldVersion < 63) {
       db.execSQL("CREATE TABLE _sync_state (status integer)");
       createOrRefreshChangelogTriggers(db);
+    }
+
+    if (oldVersion < 64) {
+      ContentValues initialValues = new ContentValues();
+      initialValues.put("code", CurrencyEnum.BYN.name());
+      db.insert("currency", null, initialValues);
     }
   }
 
