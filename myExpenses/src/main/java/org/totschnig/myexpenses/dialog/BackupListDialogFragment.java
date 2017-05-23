@@ -1,20 +1,20 @@
 package org.totschnig.myexpenses.dialog;
 
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.BackupRestoreActivity;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
-import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
-
-import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.BackupRestoreActivity;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 
 public class BackupListDialogFragment extends CommitSafeDialogFragment
     implements DialogInterface.OnClickListener,DialogUtils.CalendarRestoreStrategyChangedListener {
@@ -33,7 +33,6 @@ public class BackupListDialogFragment extends CommitSafeDialogFragment
     selectBackupSpinner = ((Spinner) view.findViewById(R.id.select_backup));
     selectBackupSpinner.setAdapter(adapter);
     adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-    mRestorePlanStrategie = DialogUtils.configureCalendarRestoreStrategy(view);
     mRestorePlanStrategie = DialogUtils.configureCalendarRestoreStrategy(view);
     if (mRestorePlanStrategie != null) {
       mCalendarRestoreButtonCheckedChangeListener =
