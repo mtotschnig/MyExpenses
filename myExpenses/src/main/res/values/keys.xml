@@ -80,6 +80,8 @@
     licensed under GPL v2.0 .</string>
   <string name="help_licence_stickylistheaders">StickyListHeaders from http://emilsjolander.github.io/StickyListHeaders,
     licensed under Apache License, Version 2.0 .</string>
+  <string name="help_licence_simpledialogfragments">SimpleDialogFragments from https://github.com/eltos/SimpleDialogFragments,
+    licensed under Apache License, Version 2.0 .</string>
   <string name="help_licence_mpandroidchart">MPAndroidChart from https://github.com/PhilJay/MPAndroidChart,
     licensed under Apache License, Version 2.0 .</string>
   <string name="help_licence_grisbi">Category definitions from http://www.grisbi.org,
