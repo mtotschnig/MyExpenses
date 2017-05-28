@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.activity;
 
 import android.app.ProgressDialog;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -85,6 +86,7 @@ import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.CommentCriteria;
@@ -958,6 +960,10 @@ public class MyExpenses extends LaunchActivity implements
         Toast.makeText(getBaseContext(), R.string.template_create_error, Toast.LENGTH_LONG).show();
       } else {
         Toast.makeText(getBaseContext(), getString(R.string.template_create_success, label), Toast.LENGTH_LONG).show();
+        // show template edit activity
+        Intent i = new Intent(this, ExpenseEdit.class);
+        i.putExtra(DatabaseConstants.KEY_TEMPLATEID, ContentUris.parseId(uri));
+        startActivity(i);
       }
 
       finishActionMode();
