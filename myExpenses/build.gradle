@@ -148,6 +148,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.PhilJay:MPAndroidChart:bd75e6c'
     compile 'com.github.mtotschnig:Caldroid:master-SNAPSHOT'
+    compile 'com.github.eltos:simpledialogfragment-api9:2.1'
     //noinspection GradleDynamicVersion
     compile 'com.commonsware.cwac:wakeful:1.0.+'
     compile 'com.annimon:stream:1.1.6'

@@ -116,13 +116,29 @@
                 <TextView
                     android:id="@+id/ColorLabel"
                     style="@style/form_label.compat"
-                    android:labelFor="@+id/Color"
+                    android:labelFor="@+id/ColorIndicator"
                     android:text="@string/color"/>
 
-                <Spinner
-                    android:id="@+id/Color"
+                <View
+                    android:id="@+id/ColorIndicator"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="center_vertical"
-                    android:prompt="@string/color"/>
+                    android:focusable="true"
+                    android:onClick="editAccountColor"
+                    />
+
+                <ImageView
+                    android:id="@+id/ColorEdit"
+                    style="?actionButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/menu_edit"
+                    android:focusable="true"
+                    android:onClick="editAccountColor"
+                    app:srcCompat="@drawable/ic_menu_edit" />
+
             </TableRow>
 
             <TableRow>

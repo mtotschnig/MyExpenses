@@ -18,19 +18,17 @@ package org.totschnig.myexpenses.activity;
 import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.view.MenuItemCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.annimon.stream.Collectors;
@@ -53,8 +51,10 @@ import org.totschnig.myexpenses.util.Result;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Currency;
+
+import eltos.simpledialogfragment.SimpleDialog;
+import eltos.simpledialogfragment.color.SimpleColorDialog;
 
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_CHECK;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_UNLINK;
@@ -66,15 +66,14 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_TOGGLE_EX
  * @author Michael Totschnig
  */
 public class AccountEdit extends AmountActivity implements
-    OnItemSelectedListener, ContribIFace {
-  private static final String OPENINTENTS_COLOR_EXTRA = "org.openintents.extra.COLOR";
-  private static final String OPENINTENTS_PICK_COLOR_ACTION = "org.openintents.action.PICK_COLOR";
+    OnItemSelectedListener, ContribIFace, SimpleDialog.OnDialogResultListener {
+
+  private static final String ACCOUNT_COLOR_DIALOG = "editColorDialog";
   private EditText mLabelText;
   private EditText mDescriptionText;
-  private SpinnerHelper mCurrencySpinner, mAccountTypeSpinner, mColorSpinner, mSyncSpinner;
+  private SpinnerHelper mCurrencySpinner, mAccountTypeSpinner, mSyncSpinner;
+  private View mColorIndicator;
   private Account mAccount;
-  private ArrayList<Integer> mColors;
-  private ArrayAdapter<Integer> mColAdapter;
   private ArrayAdapter<CurrencyEnum> currencyAdapter;
 
   private void requireAccount() {
@@ -142,60 +141,8 @@ public class AccountEdit extends AmountActivity implements
 
     mAccountTypeSpinner = new SpinnerHelper(DialogUtils.configureTypeSpinner(this));
 
-    mColorSpinner = new SpinnerHelper(findViewById(R.id.Color));
-    mColors = new ArrayList<>();
-    Resources r = getResources();
-    mColors.add(r.getColor(R.color.material_red));
-    mColors.add(r.getColor(R.color.material_pink));
-    mColors.add(r.getColor(R.color.material_purple));
-    mColors.add(r.getColor(R.color.material_deep_purple));
-    mColors.add(r.getColor(R.color.material_indigo));
-    mColors.add(r.getColor(R.color.material_blue));
-    mColors.add(r.getColor(R.color.material_light_blue));
-    mColors.add(r.getColor(R.color.material_cyan));
-    mColors.add(r.getColor(R.color.material_teal));
-    mColors.add(r.getColor(R.color.material_green));
-    mColors.add(r.getColor(R.color.material_light_green));
-    mColors.add(r.getColor(R.color.material_lime));
-    mColors.add(r.getColor(R.color.material_yellow));
-    mColors.add(r.getColor(R.color.material_amber));
-    mColors.add(r.getColor(R.color.material_orange));
-    mColors.add(r.getColor(R.color.material_deep_orange));
-    mColors.add(r.getColor(R.color.material_brown));
-    mColors.add(r.getColor(R.color.material_grey));
-    mColors.add(r.getColor(R.color.material_blue_grey));
-
-    if (mColors.indexOf(mAccount.color) == -1)
-      mColors.add(mAccount.color);
-
-    mColAdapter = new ArrayAdapter<Integer>(this,
-        android.R.layout.simple_spinner_item, mColors) {
-      @Override
-      public View getView(int position, View convertView, ViewGroup parent) {
-        TextView tv = (TextView) super.getView(position, convertView, parent);
-        if (mColors.get(position) != 0)
-          setColor(tv, mColors.get(position));
-        else
-          setColor(tv, mAccount.color);
-        return tv;
-      }
-
-      @Override
-      public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        TextView tv = (TextView) super.getDropDownView(position, convertView, parent);
-        if (mColors.get(position) != 0)
-          setColor(tv, mColors.get(position));
-        return tv;
-      }
-
-      public void setColor(TextView tv, int color) {
-        tv.setBackgroundColor(color);
-        tv.setText("");
-        tv.setContentDescription(getString(R.string.color));
-      }
-    };
-    mColAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    mColorSpinner.setAdapter(mColAdapter);
+    mColorIndicator = findViewById(R.id.ColorIndicator);
+    mColorIndicator.setBackgroundColor(mAccount.color);
 
     mSyncSpinner = new SpinnerHelper(findViewById(R.id.Sync));
     configureSyncBackendAdapter();
@@ -205,15 +152,6 @@ public class AccountEdit extends AmountActivity implements
 
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
-    if (requestCode == PICK_COLOR_REQUEST && resultCode == RESULT_OK) {
-      mAccount.color = data.getExtras().getInt(OPENINTENTS_COLOR_EXTRA);
-      if (mColors.indexOf(mAccount.color) == -1) {
-        final int lastButOne = mColors.size() - 1;
-        mColors.add(lastButOne, mAccount.color);
-        mColorSpinner.setSelection(lastButOne, true);
-        mColAdapter.notifyDataSetChanged();
-      }
-    }
     if (requestCode == PREFERENCES_REQUEST) {
       configureSyncBackendAdapter();
     }
@@ -262,8 +200,7 @@ public class AccountEdit extends AmountActivity implements
     mCurrencySpinner.setSelection(currencyAdapter.getPosition(
         CurrencyEnum.valueOf(mAccount.currency.getCurrencyCode())));
     mAccountTypeSpinner.setSelection(mAccount.type.ordinal());
-    int selected = mColors.indexOf(mAccount.color);
-    mColorSpinner.setSelection(selected);
+    mColorIndicator.setBackgroundColor(mAccount.color);
 
   }
 
@@ -315,9 +252,6 @@ public class AccountEdit extends AmountActivity implements
                              long id) {
     setDirty(true);
     switch (parent.getId()) {
-      case R.id.Color:
-        if (mColors.get(position) != 0) mAccount.color = mColors.get(position);
-        break;
       case R.id.Currency:
         try {
           mAmountText.setFractionDigits(Money.getFractionDigits(
@@ -434,7 +368,6 @@ public class AccountEdit extends AmountActivity implements
     super.setupListeners();
     mLabelText.addTextChangedListener(this);
     mDescriptionText.addTextChangedListener(this);
-    mColorSpinner.setOnItemSelectedListener(this);
     mAccountTypeSpinner.setOnItemSelectedListener(this);
     mCurrencySpinner.setOnItemSelectedListener(this);
     mSyncSpinner.setOnItemSelectedListener(this);
@@ -445,7 +378,7 @@ public class AccountEdit extends AmountActivity implements
     super.linkInputsWithLabels();
     linkInputWithLabel(mLabelText, findViewById(R.id.LabelLabel));
     linkInputWithLabel(mDescriptionText, findViewById(R.id.DescriptionLabel));
-    linkInputWithLabel(mColorSpinner.getSpinner(), findViewById(R.id.ColorLabel));
+    linkInputWithLabel(mColorIndicator, findViewById(R.id.ColorLabel));
     linkInputWithLabel(mAccountTypeSpinner.getSpinner(), findViewById(R.id.AccountTypeLabel));
     linkInputWithLabel(mCurrencySpinner.getSpinner(), findViewById(R.id.CurrencyLabel));
     linkInputWithLabel(mSyncSpinner.getSpinner(), findViewById(R.id.SyncLabel));
@@ -484,5 +417,22 @@ public class AccountEdit extends AmountActivity implements
         MessageDialogFragment.Button.okButton(),
         null)
         .show(getSupportFragmentManager(), "SYNC_HELP");
+  }
+
+  public void editAccountColor(View view) {
+    SimpleColorDialog.build()
+            .allowCustom(true)
+            .colorPreset(mAccount.color)
+            .show(this, ACCOUNT_COLOR_DIALOG);
+  }
+
+  @Override
+  public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
+    if (ACCOUNT_COLOR_DIALOG.equals(dialogTag) && which == BUTTON_POSITIVE){
+      mAccount.color = extras.getInt(SimpleColorDialog.COLOR);
+      mColorIndicator.setBackgroundColor(mAccount.color);
+      return true;
+    }
+    return false;
   }
 }
