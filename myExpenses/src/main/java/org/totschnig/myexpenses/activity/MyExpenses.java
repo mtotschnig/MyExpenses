@@ -26,6 +26,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
@@ -65,8 +66,6 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.BalanceDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
-import org.totschnig.myexpenses.dialog.EditTextDialog;
-import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.dialog.ExportDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
@@ -112,6 +111,8 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
+import eltos.simpledialogfragment.SimpleDialog;
+import eltos.simpledialogfragment.input.SimpleInputDialog;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
@@ -144,8 +145,8 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_PRINT;
  */
 public class MyExpenses extends LaunchActivity implements
     OnPageChangeListener, LoaderManager.LoaderCallbacks<Cursor>,
-    EditTextDialogListener, ConfirmationDialogFragment.ConfirmationDialogCheckedListener,
-    ConfirmationDialogListener, ContribIFace {
+    ConfirmationDialogFragment.ConfirmationDialogCheckedListener,
+    ConfirmationDialogListener, ContribIFace, SimpleDialog.OnDialogResultListener {
 
   public static final int TYPE_TRANSACTION = 0;
   public static final int TYPE_TRANSFER = 1;
@@ -949,26 +950,25 @@ public class MyExpenses extends LaunchActivity implements
   }
 
   @Override
-  public void onFinishEditDialog(Bundle args) {
-    String result = args.getString(EditTextDialog.KEY_RESULT);
-    switch (args.getInt(EditTextDialog.KEY_REQUEST_CODE)) {
-      case TEMPLATE_TITLE_REQUEST:
-        if ((new Template(Transaction.getInstanceFromDb(args.getLong(KEY_ROWID)), result)).save() == null) {
-          Toast.makeText(getBaseContext(), "Error while saving template", Toast.LENGTH_LONG).show();
-        } else {
-          Toast.makeText(getBaseContext(), getString(R.string.template_create_success, result), Toast.LENGTH_LONG).show();
-        }
-        finishActionMode();
-        break;
-      case FILTER_COMMENT_REQUEST:
-        addFilterCriteria(R.id.FILTER_COMMENT_COMMAND, new CommentCriteria(result));
-        break;
-    }
-  }
+  public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
+    if (TransactionList.NEW_TEMPLATE_DIALOG.equals(dialogTag) && which == BUTTON_POSITIVE){
+      String label = extras.getString(SimpleInputDialog.TEXT);
+      Uri uri = new Template(Transaction.getInstanceFromDb(extras.getLong(KEY_ROWID)), label).save();
+      if (uri == null){
+        Toast.makeText(getBaseContext(), R.string.template_create_error, Toast.LENGTH_LONG).show();
+      } else {
+        Toast.makeText(getBaseContext(), getString(R.string.template_create_success, label), Toast.LENGTH_LONG).show();
+      }
 
-  @Override
-  public void onCancelEditDialog() {
-    finishActionMode();
+      finishActionMode();
+      return true;
+    }
+    if (TransactionList.FILTER_COMMENT_DIALOG.equals(dialogTag) && which == BUTTON_POSITIVE){
+      addFilterCriteria(R.id.FILTER_COMMENT_COMMAND,
+              new CommentCriteria(extras.getString(SimpleInputDialog.TEXT)));
+      return true;
+    }
+    return false;
   }
 
   @Override

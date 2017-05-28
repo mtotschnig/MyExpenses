@@ -19,9 +19,11 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SwitchCompat;
+import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 import android.view.Menu;
@@ -35,8 +37,6 @@ import android.widget.Toast;
 import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.EditTextDialog;
-import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectMainCategoryDialogFragment;
 import org.totschnig.myexpenses.fragment.CategoryList;
@@ -52,6 +52,8 @@ import org.totschnig.myexpenses.util.ShareUtils;
 
 import java.util.ArrayList;
 
+import eltos.simpledialogfragment.input.SimpleInputDialog;
+
 /**
  * SelectCategory activity allows to select categories while editing a transaction
  * and also managing (creating, deleting, importing)
@@ -59,7 +61,10 @@ import java.util.ArrayList;
  * @author Michael Totschnig
  */
 public class ManageCategories extends ProtectedFragmentActivity implements
-    EditTextDialogListener, SelectMainCategoryDialogFragment.CategorySelectedListener {
+    SimpleInputDialog.OnDialogResultListener, SelectMainCategoryDialogFragment.CategorySelectedListener {
+
+  private static final String DIALOG_NEW_CATEGORY = "dialogNewCat";
+  private static final String DIALOG_EDIT_CATEGORY = "dialogEditCat";
 
   public enum HelpVariant {
     manage, distribution, select_mapping, select_filter
@@ -209,14 +214,17 @@ public class ManageCategories extends ProtectedFragmentActivity implements
    */
   public void createCat(Long parentId) {
     Bundle args = new Bundle();
-    int dialogTitle;
     if (parentId != null) {
       args.putLong(DatabaseConstants.KEY_PARENTID, parentId);
-      dialogTitle = R.string.menu_create_sub_cat;
-    } else
-      dialogTitle = R.string.menu_create_main_cat;
-    args.putString(EditTextDialog.KEY_DIALOG_TITLE, getString(dialogTitle));
-    EditTextDialog.newInstance(args).show(getSupportFragmentManager(), "CREATE_CATEGORY");
+    }
+    SimpleInputDialog.build()
+            .title(parentId == null ? R.string.menu_create_main_cat : R.string.menu_create_sub_cat)
+            .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
+            .hint(R.string.label)
+            .pos(R.string.add)
+            .neut()
+            .extra(args)
+            .show(this, DIALOG_NEW_CATEGORY);
   }
 
   /**
@@ -229,9 +237,15 @@ public class ManageCategories extends ProtectedFragmentActivity implements
   public void editCat(String label, Long catId) {
     Bundle args = new Bundle();
     args.putLong(DatabaseConstants.KEY_ROWID, catId);
-    args.putString(EditTextDialog.KEY_DIALOG_TITLE, getString(R.string.menu_edit_cat));
-    args.putString(EditTextDialog.KEY_VALUE, label);
-    EditTextDialog.newInstance(args).show(getSupportFragmentManager(), "EDIT_CATEGORY");
+    SimpleInputDialog.build()
+            .title(R.string.menu_edit_cat)
+            .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
+            .hint(R.string.label)
+            .text(label)
+            .pos(R.string.menu_save)
+            .neut()
+            .extra(args)
+            .show(this, DIALOG_EDIT_CATEGORY);
   }
 
   /**
@@ -263,16 +277,22 @@ public class ManageCategories extends ProtectedFragmentActivity implements
   }
 
   @Override
-  public void onFinishEditDialog(Bundle args) {
-    Long parentId;
-    if ((parentId = args.getLong(DatabaseConstants.KEY_PARENTID)) == 0L)
-      parentId = null;
-    mCategory = new Category(
-        args.getLong(DatabaseConstants.KEY_ROWID),
-        args.getString(EditTextDialog.KEY_RESULT),
-        parentId);
-    startDbWriteTask(false);
-    finishActionMode();
+  public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
+    if ((DIALOG_NEW_CATEGORY.equals(dialogTag) || DIALOG_EDIT_CATEGORY.equals(dialogTag))
+            && which == BUTTON_POSITIVE){
+      Long parentId = null;
+      if (extras.containsKey(DatabaseConstants.KEY_PARENTID)) {
+        parentId = extras.getLong(DatabaseConstants.KEY_PARENTID);
+      }
+      mCategory = new Category(
+              extras.getLong(DatabaseConstants.KEY_ROWID),
+              extras.getString(SimpleInputDialog.TEXT),
+              parentId);
+      startDbWriteTask(false);
+      finishActionMode();
+      return true;
+    }
+    return false;
   }
 
   @Override
@@ -284,11 +304,6 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         ArrayUtils.toObject(args.getLongArray(TaskExecutionFragment.KEY_OBJECT_IDS)),
         target == 0L ? null : target,
         R.string.progress_dialog_saving);
-  }
-
-  @Override
-  public void onCancelEditDialog() {
-    finishActionMode();
   }
 
   private void finishActionMode() {
