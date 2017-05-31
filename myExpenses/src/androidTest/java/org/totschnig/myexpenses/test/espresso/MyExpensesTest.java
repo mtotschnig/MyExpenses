@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.test.espresso;
 
 import android.app.Activity;
 import android.app.Instrumentation;
+import android.content.Context;
 import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.os.Bundle;
@@ -34,8 +35,6 @@ import org.totschnig.myexpenses.util.DistribHelper;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
-import static org.totschnig.myexpenses.activity.MyExpenses.KEY_SEQUENCE_COUNT;
-import static org.totschnig.myexpenses.testutils.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -57,6 +56,8 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertTrue;
+import static org.totschnig.myexpenses.activity.MyExpenses.KEY_SEQUENCE_COUNT;
+import static org.totschnig.myexpenses.testutils.Espresso.openActionBarOverflowOrOptionsMenu;
 
 @RunWith(AndroidJUnit4.class)
 public final class MyExpensesTest extends MyExpensesTestBase {
@@ -221,6 +222,45 @@ public final class MyExpensesTest extends MyExpensesTestBase {
     onView(withId(android.R.id.content));
     assertNotNull(Account.getInstanceFromDb(account1.getId()));
     Account.delete(account1.getId());
+  }
+
+  @Test
+  public void deleteConfirmationDialogShowsLabelOfAccountToBeDeleted() throws RemoteException, OperationApplicationException {
+    Context context = mActivityRule.getActivity();
+    String label1 = "Some first account";
+    String label2 = "Another second account";
+    Account account1 = new Account(label1, 0, "");
+    account1.save();
+    Account account2 = new Account(label2, 0, "");
+    account2.save();
+
+    //we try to delete acccount 1
+    onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
+    onData(CursorMatchers.withRowLong(DatabaseConstants.KEY_ROWID, account1.getId()))
+        .inAdapterView(allOf(isAssignableFrom(AdapterView.class),
+            isDescendantOfA(withId(R.id.left_drawer)),
+            isDisplayed()))
+        .onChildView(withId(R.id.account_menu)).perform(click());
+    onView(withText(R.string.menu_delete)).perform(click());
+    onView(withText(context.getString(R.string.warning_delete_account, label1))).check(matches(isDisplayed()));
+    onView(allOf(
+        isAssignableFrom(Button.class),
+        withText(android.R.string.cancel))).perform(click());
+
+    //we try to delete acccount 2
+    onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
+    onData(CursorMatchers.withRowLong(DatabaseConstants.KEY_ROWID, account2.getId()))
+        .inAdapterView(allOf(isAssignableFrom(AdapterView.class),
+            isDescendantOfA(withId(R.id.left_drawer)),
+            isDisplayed()))
+        .onChildView(withId(R.id.account_menu)).perform(click());
+    onView(withText(R.string.menu_delete)).perform(click());
+    onView(withText(context.getString(R.string.warning_delete_account, label2))).check(matches(isDisplayed()));
+    onView(allOf(
+        isAssignableFrom(Button.class),
+        withText(android.R.string.cancel))).perform(click());
+    Account.delete(account1.getId());
+    Account.delete(account2.getId());
   }
 
   @Test
