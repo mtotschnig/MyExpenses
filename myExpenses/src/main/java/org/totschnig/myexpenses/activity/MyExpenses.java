@@ -692,7 +692,7 @@ public class MyExpenses extends LaunchActivity implements
         if (mAccountsCursor.getCount() > 1 && accountId > 0) {
           MessageDialogFragment.newInstance(
               R.string.dialog_title_warning_delete_account,
-              getString(R.string.warning_delete_account, mAccountsCursor.getString(columnIndexLabel)),
+              getString(R.string.warning_delete_account, Account.getInstanceFromDb(accountId).label),
               new MessageDialogFragment.Button(R.string.menu_delete, R.id.DELETE_ACCOUNT_COMMAND_DO,
                   accountId),
               null,
