@@ -57,6 +57,7 @@ import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.LicenceHandler;
 import org.totschnig.myexpenses.util.Result;
+import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.AccountWidget;
 import org.totschnig.myexpenses.widget.TemplateWidget;
@@ -803,20 +804,17 @@ public class MyApplication extends MultiDexApplication implements
   }
 
   private void enableStrictMode() {
-    StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-        .detectDiskReads()
-        .detectDiskWrites()
-        .detectNetwork()   // or .detectAll() for all detectable problems
-        .penaltyLog()
-        .build());
-    StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder()
-        .detectLeakedSqlLiteObjects()
-        //.detectLeakedClosableObjects()
-        .penaltyLog()
-        .penaltyDeath();
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      builder.detectFileUriExposure();
+    StrictMode.ThreadPolicy.Builder threadPolicyBuilder = new StrictMode.ThreadPolicy.Builder()
+        .detectAll()
+        .penaltyLog();
+    if (Utils.hasApiLevel(Build.VERSION_CODES.HONEYCOMB)) {
+      threadPolicyBuilder.penaltyFlashScreen();
     }
-    StrictMode.setVmPolicy(builder.build());
+    StrictMode.setThreadPolicy(threadPolicyBuilder.build());
+    StrictMode.VmPolicy.Builder vmPolicyBuilder = new StrictMode.VmPolicy.Builder()
+        .detectAll()
+        .penaltyDeath()
+        .penaltyLog();
+    StrictMode.setVmPolicy(vmPolicyBuilder.build());
   }
 }
