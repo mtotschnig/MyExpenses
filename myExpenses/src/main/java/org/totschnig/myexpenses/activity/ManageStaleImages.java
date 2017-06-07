@@ -15,22 +15,10 @@
 
 package org.totschnig.myexpenses.activity;
 
-import android.database.Cursor;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.widget.Button;
-import android.widget.Toast;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.EditTextDialog;
-import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
-import org.totschnig.myexpenses.fragment.ContextualActionBarFragment;
-import org.totschnig.myexpenses.fragment.DbWriteFragment;
-import org.totschnig.myexpenses.model.Model;
-import org.totschnig.myexpenses.model.Payee;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
 
 public class ManageStaleImages extends ProtectedFragmentActivity  {
   @Override

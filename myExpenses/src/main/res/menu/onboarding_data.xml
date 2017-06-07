@@ -8,7 +8,9 @@
         <menu>
             <item
                 android:title="@string/onboarding_restore_from_cloud"
-                android:id="@+id/SetupFromRemote"/>
+                android:id="@+id/SetupFromRemote">
+                <menu/>
+            </item>
             <item
                 android:title="@string/onboarding_restore_from_local"
                 android:id="@+id/SetupFromLocal"/>

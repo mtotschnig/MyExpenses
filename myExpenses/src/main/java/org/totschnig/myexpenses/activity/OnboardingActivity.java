@@ -26,7 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class OnboardingActivity extends ProtectedFragmentActivity implements ViewPager.OnPageChangeListener {
+public class OnboardingActivity extends SyncBackendSetupActivity implements ViewPager.OnPageChangeListener {
 
   @BindView(R.id.viewpager)
   ViewPager pager;

@@ -19,18 +19,23 @@ import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.AccountEdit;
+import org.totschnig.myexpenses.activity.SyncBackendSetupActivity;
 import org.totschnig.myexpenses.adapter.ColorAdapter;
 import org.totschnig.myexpenses.adapter.CurrencyAdapter;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.sync.ServiceLoader;
+import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.ui.AmountEditText;
 import org.totschnig.myexpenses.util.UiUtils;
 
 import java.math.BigDecimal;
 import java.util.Currency;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -61,6 +66,7 @@ public class OnboardingDataFragment extends Fragment implements AdapterView.OnIt
   private Spinner colorSpinner;
   @State boolean moreOptionsShown = false;
   private int lastSelectedCurrencyPosition;
+  private List<SyncBackendProviderFactory> backendProviders;
 
   public static OnboardingDataFragment newInstance() {
     return new OnboardingDataFragment();
@@ -69,6 +75,7 @@ public class OnboardingDataFragment extends Fragment implements AdapterView.OnIt
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    backendProviders = ServiceLoader.load(getContext());
     setHasOptionsMenu(true);
     Icepick.restoreInstanceState(this, savedInstanceState);
   }
@@ -83,6 +90,8 @@ public class OnboardingDataFragment extends Fragment implements AdapterView.OnIt
   @Override
   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
     inflater.inflate(R.menu.onboarding_data, menu);
+    ((SyncBackendSetupActivity) getActivity()).addSyncProviderMenuEntries(
+        menu.findItem(R.id.SetupFromRemote).getSubMenu(), backendProviders);
   }
 
   @Override
@@ -91,6 +100,14 @@ public class OnboardingDataFragment extends Fragment implements AdapterView.OnIt
       case R.id.SetupFromLocal:
         getActivity().startActivityForResult(new Intent("myexpenses.intent.restore"), RESTORE_REQUEST);
         return true;
+    }
+    ContribFeature.SYNCHRONIZATION.recordUsage();
+    SyncBackendProviderFactory syncBackendProviderFactory =
+        ((SyncBackendSetupActivity) getActivity()).getSyncBackendProviderFactoryById(
+            backendProviders, item.getItemId());
+    if (syncBackendProviderFactory != null) {
+      syncBackendProviderFactory.startSetup(getActivity());
+      return true;
     }
     return false;
   }
