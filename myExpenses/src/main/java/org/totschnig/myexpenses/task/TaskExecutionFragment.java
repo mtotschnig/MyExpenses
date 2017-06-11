@@ -114,6 +114,8 @@ public class TaskExecutionFragment<T> extends Fragment {
 
   public static final int TASK_INIT = 50;
 
+  public static final int TASK_FETCH_SYNC_ACCOUNT_DATA = 51;
+
   /**
    * Callback interface through which the fragment will report the task's
    * progress and results back to the Activity.
@@ -287,7 +289,10 @@ public class TaskExecutionFragment<T> extends Fragment {
           new TestLoginTask(this, args).execute();
           break;
         case TASK_CREATE_SYNC_ACCOUNT:
-          new CreateSyncAccountTask(this, args).execute();
+          new SyncAccountTask(this, args, true).execute();
+          break;
+        case TASK_FETCH_SYNC_ACCOUNT_DATA:
+          new SyncAccountTask(this, args, false).execute();
           break;
         default:
           new GenericTask<T>(this, taskId, args.getSerializable(KEY_EXTRA))

@@ -319,7 +319,7 @@ public class SyncBackendList extends Fragment implements
 
     private AccountMetaDataLoaderResult getRemoteAccountList(SyncBackendProvider provider) {
       try {
-        return new AccountMetaDataLoaderResult(provider.getRemoteAccountList(), null);
+        return new AccountMetaDataLoaderResult(provider.getRemoteAccountList().collect(Collectors.toList()), null);
       } catch (IOException e) {
         return new AccountMetaDataLoaderResult(null, e);
       }

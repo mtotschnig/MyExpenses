@@ -9,8 +9,12 @@ import android.view.SubMenu;
 import android.widget.Toast;
 
 import org.totschnig.myexpenses.dialog.EditTextDialog;
+import org.totschnig.myexpenses.dialog.SetupWebdavDialogFragment;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.sync.WebDavBackendProviderFactory;
+import org.totschnig.myexpenses.task.SyncAccountTask;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.util.Result;
 
 import java.io.File;
 import java.util.List;
@@ -20,6 +24,9 @@ import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_SYNC_PROVI
 import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_SYNC_PROVIDER_USERNAME;
 import static org.totschnig.myexpenses.sync.WebDavBackendProvider.KEY_WEB_DAV_CERTIFICATE;
 import static org.totschnig.myexpenses.sync.WebDavBackendProvider.KEY_WEB_DAV_FALLBACK_TO_CLASS1;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_FETCH_SYNC_ACCOUNT_DATA;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_WEBDAV_TEST_LOGIN;
 
 public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
     implements EditTextDialog.EditTextDialogListener {
@@ -69,8 +76,46 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
     }
   }
 
+  protected void createAccount(String accountName, String password, Bundle bundle) {
+    Bundle args = new Bundle();
+    args.putString(AccountManager.KEY_ACCOUNT_NAME, accountName);
+    args.putString(AccountManager.KEY_PASSWORD, password);
+    args.putParcelable(AccountManager.KEY_USERDATA, bundle);
+    args.putBoolean(SyncAccountTask.KEY_RETURN_REMOTE_DATA_LIST, createAccountTaskShouldReturnDataList());
+    getSupportFragmentManager()
+        .beginTransaction()
+        .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_CREATE_SYNC_ACCOUNT), ProtectionDelegate.ASYNC_TAG)
+        .commit();
+  }
+
+  public void fetchAccountData(String accountName) {
+    Bundle args = new Bundle();
+    args.putString(AccountManager.KEY_ACCOUNT_NAME, accountName);
+    args.putBoolean(SyncAccountTask.KEY_RETURN_REMOTE_DATA_LIST, createAccountTaskShouldReturnDataList());
+    getSupportFragmentManager()
+        .beginTransaction()
+        .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_FETCH_SYNC_ACCOUNT_DATA), ProtectionDelegate.ASYNC_TAG)
+        .commit();
+  }
+
+  protected boolean createAccountTaskShouldReturnDataList() {
+    return false;
+  }
+
   public void onCancelEditDialog() {
 
+  }
+
+  @Override
+  public void onPostExecute(int taskId, Object o) {
+    super.onPostExecute(taskId, o);
+    Result result = (Result) o;
+    switch (taskId) {
+      case TASK_WEBDAV_TEST_LOGIN: {
+        getWebdavFragment().onTestLoginResult(result);
+        break;
+      }
+    }
   }
 
   public void addSyncProviderMenuEntries(SubMenu subMenu, List<SyncBackendProviderFactory> backendProviders) {
@@ -88,5 +133,10 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
       }
     }
     return null;
+  }
+
+  protected SetupWebdavDialogFragment getWebdavFragment() {
+    return (SetupWebdavDialogFragment) getSupportFragmentManager().findFragmentByTag(
+        WebDavBackendProviderFactory.WEBDAV_SETUP);
   }
 }

@@ -13,6 +13,7 @@ import android.view.View;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.RestoreFromCloudDialogFragment;
 import org.totschnig.myexpenses.fragment.OnboardingDataFragment;
 import org.totschnig.myexpenses.fragment.OnboardingUiFragment;
 import org.totschnig.myexpenses.model.Model;
@@ -20,10 +21,16 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.DistribHelper;
+import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.UiUtils;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_FETCH_SYNC_ACCOUNT_DATA;
 
 
 public class OnboardingActivity extends SyncBackendSetupActivity implements ViewPager.OnPageChangeListener {
@@ -122,6 +129,46 @@ public class OnboardingActivity extends SyncBackendSetupActivity implements View
       snackbar.show();
     }
   }
+
+  @Override
+  protected boolean createAccountTaskShouldReturnDataList() {
+    return true;
+  }
+
+  @Override
+  public void onPostExecute(int taskId, Object o) {
+    super.onPostExecute(taskId, o);
+    Result result = (Result) o;
+    switch (taskId) {
+      case TASK_CREATE_SYNC_ACCOUNT:
+      case TASK_FETCH_SYNC_ACCOUNT_DATA: {
+        String message;
+        if (result.success) {
+          invalidateOptionsMenu();
+          if (result.extra != null) {
+            List<String> backupList = (List<String>) result.extra[1];
+            List<String> syncAccountList = (List<String>) result.extra[2];
+            if (backupList.size() > 0 || syncAccountList.size() > 0) {
+              RestoreFromCloudDialogFragment.newInstance(backupList, syncAccountList)
+                  .show(getSupportFragmentManager(), "RESTORE_FROM_CLOUD");
+              break;
+            } else {
+              message = "Neither backups nor sync accounts found";
+            }
+          } else {
+            message = "Unable to retrieve information from sync backend";
+          }
+        } else {
+          message = "Unable to set up account";
+        }
+        Snackbar snackbar = Snackbar.make(pager, message, Snackbar.LENGTH_LONG);
+        UiUtils.configureSnackbarForDarkTheme(snackbar);
+        snackbar.show();
+        break;
+      }
+    }
+  }
+
   private class MyPagerAdapter extends FragmentPagerAdapter {
 
     MyPagerAdapter(FragmentManager fm) {

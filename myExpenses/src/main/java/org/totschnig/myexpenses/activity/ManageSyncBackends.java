@@ -10,7 +10,6 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectUnSyncedAccountDialogFragment;
-import org.totschnig.myexpenses.dialog.SetupWebdavDialogFragment;
 import org.totschnig.myexpenses.fragment.SyncBackendList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.ContribFeature;
@@ -19,7 +18,6 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.sync.ServiceLoader;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
-import org.totschnig.myexpenses.sync.WebDavBackendProviderFactory;
 import org.totschnig.myexpenses.util.Result;
 
 import java.io.Serializable;
@@ -138,7 +136,7 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
       case TASK_CREATE_SYNC_ACCOUNT: {
         if (result.success) {
           getListFragment().reloadAccountList();
-          if (result.extra != null) {
+          if (((Integer) result.extra[1]) > 0) {
             showSelectUnsyncedAccount((String) result.extra[0]);
           }
         }
@@ -176,11 +174,6 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
 
   private SyncBackendList getListFragment() {
     return (SyncBackendList) getSupportFragmentManager().findFragmentById(R.id.backend_list);
-  }
-
-  private SetupWebdavDialogFragment getWebdavFragment() {
-    return (SetupWebdavDialogFragment) getSupportFragmentManager().findFragmentByTag(
-        WebDavBackendProviderFactory.WEBDAV_SETUP);
   }
 
   @Override

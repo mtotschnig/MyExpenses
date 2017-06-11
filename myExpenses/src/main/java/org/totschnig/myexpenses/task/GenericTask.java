@@ -569,11 +569,11 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         }
         List<String> remoteUuidList;
         try {
-          List<AccountMetaData> remoteAccountList = syncBackendProvider.getRemoteAccountList();
-          if (remoteAccountList == null) {
+          Stream<AccountMetaData> remoteAccounStream = syncBackendProvider.getRemoteAccountList();
+          if (remoteAccounStream == null) {
             return new Result(false, "Unable to get account list from backend");
           }
-          remoteUuidList = Stream.of(remoteAccountList)
+          remoteUuidList = remoteAccounStream
                   .map(AccountMetaData::uuid)
                   .collect(Collectors.toList());
         } catch (IOException e) {
@@ -627,7 +627,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           return Result.FAILURE;
         }
         try {
-              if (Stream.of(syncBackendProvider.getRemoteAccountList())
+              if (syncBackendProvider.getRemoteAccountList()
                   .anyMatch(metadata -> metadata.uuid().equals(accountUuid))) {
                 return new Result(false, Utils.concatResStrings(application, " ",
                     R.string.link_account_failure_2, R.string.link_account_failure_3)

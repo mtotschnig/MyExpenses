@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
+import com.annimon.stream.Stream;
+
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
@@ -27,13 +29,16 @@ public interface SyncBackendProvider {
 
   boolean unlock();
 
-  List<AccountMetaData> getRemoteAccountList() throws IOException;
+  Stream<AccountMetaData> getRemoteAccountList() throws IOException;
 
   boolean setUp();
 
   void tearDown();
 
   void storeBackup(Uri uri) throws IOException;
+
+  @NonNull
+  List<String> getStoredBackups();
 
   class SyncParseException extends Exception {
     SyncParseException(Exception e) {

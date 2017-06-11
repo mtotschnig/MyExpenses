@@ -16,7 +16,6 @@
 package org.totschnig.myexpenses.activity;
 
 import android.Manifest;
-import android.accounts.AccountManager;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
@@ -73,7 +72,6 @@ import java.io.Serializable;
 import javax.inject.Inject;
 
 import static org.totschnig.myexpenses.activity.ContribInfoDialogActivity.KEY_FEATURE;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
 
 public abstract class ProtectedFragmentActivity extends AppCompatActivity
     implements MessageDialogListener, OnSharedPreferenceChangeListener,
@@ -476,18 +474,6 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
           new String[]{Manifest.permission.WRITE_CALENDAR},
           ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR);
     }
-  }
-
-
-  protected void createAccount(String accountName, String password, Bundle bundle) {
-    Bundle args = new Bundle();
-    args.putString(AccountManager.KEY_ACCOUNT_NAME, accountName);
-    args.putString(AccountManager.KEY_PASSWORD, password);
-    args.putParcelable(AccountManager.KEY_USERDATA, bundle);
-    getSupportFragmentManager()
-        .beginTransaction()
-        .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_CREATE_SYNC_ACCOUNT), ProtectionDelegate.ASYNC_TAG)
-        .commit();
   }
 
   @Override

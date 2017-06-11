@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -28,6 +29,7 @@ import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.ServiceLoader;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.ui.AmountEditText;
@@ -90,8 +92,17 @@ public class OnboardingDataFragment extends Fragment implements AdapterView.OnIt
   @Override
   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
     inflater.inflate(R.menu.onboarding_data, menu);
+    SubMenu subMenu = menu.findItem(R.id.SetupFromRemote).getSubMenu();
     ((SyncBackendSetupActivity) getActivity()).addSyncProviderMenuEntries(
-        menu.findItem(R.id.SetupFromRemote).getSubMenu(), backendProviders);
+        subMenu, backendProviders);
+  }
+
+  @Override
+  public void onPrepareOptionsMenu(Menu menu) {
+    super.onPrepareOptionsMenu(menu);
+    SubMenu subMenu = menu.findItem(R.id.SetupFromRemote).getSubMenu();
+    GenericAccountService.getAccountsAsStream(getActivity()).forEach(
+        account -> subMenu.add(Menu.NONE, Menu.NONE, Menu.NONE, account.name));
   }
 
   @Override
@@ -108,6 +119,9 @@ public class OnboardingDataFragment extends Fragment implements AdapterView.OnIt
     if (syncBackendProviderFactory != null) {
       syncBackendProviderFactory.startSetup(getActivity());
       return true;
+    }
+    if (item.getItemId() ==  Menu.NONE) {
+      ((SyncBackendSetupActivity) getActivity()).fetchAccountData(item.getTitle().toString());
     }
     return false;
   }
