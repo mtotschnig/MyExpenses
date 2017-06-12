@@ -7,41 +7,32 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
-import android.widget.RadioButton;
-import android.widget.Spinner;
+import android.widget.ListView;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.ui.MultiSpinner;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class RestoreFromCloudDialogFragment extends CommitSafeDialogFragment
     implements DialogInterface.OnClickListener {
   private static final String KEY_BACKUP_LIST = "backupList";
   private static final String KEY_SYNC_ACCOUNT_LIST = "syncAccountList";
-  @BindView(R.id.restore_from_backup_button)
-  protected RadioButton fromBackupButton;
-  @BindView(R.id.restore_from_sync_accounts_button)
-  protected RadioButton fromSyncAccountButton;
+  @BindView(R.id.tabs)
+  protected TabLayout tabLayout;
   @BindView(R.id.backup_list)
-  protected Spinner backupListSpinner;
+  protected ListView backupList;
   @BindView(R.id.sync_account_list)
-  protected MultiSpinner syncAccountListSpinner;
-  @BindView(R.id.restore_from_backup_container)
-  protected ViewGroup backupListContainer;
-  @BindView(R.id.restore_from_sync_account_container)
-  protected ViewGroup syncAccountListContainer;
-
+  protected ListView syncAccountList;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,16 +49,34 @@ public class RestoreFromCloudDialogFragment extends CommitSafeDialogFragment
     ArrayList<String> backups = getArguments().getStringArrayList(KEY_BACKUP_LIST);
     ArrayList<String> syncAccounts = getArguments().getStringArrayList(KEY_SYNC_ACCOUNT_LIST);
     if (backups != null && backups.size() > 0) {
-      backupListSpinner.setAdapter(new ArrayAdapter<>(getActivity(),
-          android.R.layout.simple_spinner_item, backups));
+      backupList.setAdapter(new ArrayAdapter<>(getActivity(),
+          android.R.layout.simple_list_item_single_choice, backups));
+      backupList.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
     } else {
-      backupListContainer.setVisibility(View.GONE);
+      tabLayout.removeTabAt(0);
     }
     if (syncAccounts != null && syncAccounts.size() > 0) {
-      syncAccountListSpinner.setItems(syncAccounts, "TODO", null);
+      syncAccountList.setAdapter(new ArrayAdapter<>(getActivity(),
+          android.R.layout.simple_list_item_multiple_choice, syncAccounts));
     } else {
-      syncAccountListContainer.setVisibility(View.GONE);
+      tabLayout.removeTabAt(1);
     }
+    tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+      @Override
+      public void onTabSelected(TabLayout.Tab tab) {
+        getContentForPosition(tab.getPosition()).setVisibility(View.VISIBLE);
+      }
+
+      @Override
+      public void onTabUnselected(TabLayout.Tab tab) {
+        getContentForPosition(tab.getPosition()).setVisibility(View.GONE);
+      }
+
+      @Override
+      public void onTabReselected(TabLayout.Tab tab) {
+
+      }
+    });
 
     final AlertDialog dialog = new AlertDialog.Builder(ctx)
         .setTitle(R.string.onboarding_restore_from_cloud)
@@ -79,21 +88,17 @@ public class RestoreFromCloudDialogFragment extends CommitSafeDialogFragment
     return dialog;
   }
 
+  private ListView getContentForPosition(int position) {
+    if (position == 0) {
+      return backupList;
+    } else {
+      return syncAccountList;
+    }
+  }
+
   @Override
   public void onClick(DialogInterface dialog, int which) {
 
-  }
-
-  @OnClick({ R.id.restore_from_backup_button })
-  public void handleFromBackupCheck(RadioButton button) {
-    fromSyncAccountButton.setChecked(false);
-    enableSubmit();
-  }
-
-  @OnClick({ R.id.restore_from_sync_accounts_button })
-  public void handleFromSynchAccountCheck(RadioButton button) {
-    fromBackupButton.setChecked(false);
-    enableSubmit();
   }
 
   private void enableSubmit() {
