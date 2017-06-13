@@ -18,7 +18,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
+
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.OnboardingActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +42,15 @@ public class RestoreFromCloudDialogFragment extends CommitSafeDialogFragment
   @BindView(R.id.sync_account_list)
   protected ListView syncAccountList;
 
+  public static RestoreFromCloudDialogFragment newInstance(List<String> backupList, List<String> syncAccountList) {
+    Bundle arguments = new Bundle(2);
+    arguments.putStringArrayList(KEY_BACKUP_LIST, new ArrayList<>(backupList));
+    arguments.putStringArrayList(KEY_SYNC_ACCOUNT_LIST, new ArrayList<>(syncAccountList));
+    RestoreFromCloudDialogFragment fragment = new RestoreFromCloudDialogFragment();
+    fragment.setArguments(arguments);
+    return fragment;
+  }
+
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -50,8 +63,8 @@ public class RestoreFromCloudDialogFragment extends CommitSafeDialogFragment
     @SuppressLint("InflateParams")
     final View view = LayoutInflater.from(ctx).inflate(R.layout.restore_from_cloud, null);
     ButterKnife.bind(this, view);
-    ArrayList<String> backups = getArguments().getStringArrayList(KEY_BACKUP_LIST);
-    ArrayList<String> syncAccounts = getArguments().getStringArrayList(KEY_SYNC_ACCOUNT_LIST);
+    ArrayList<String> backups = getBackups();
+    ArrayList<String> syncAccounts = getSyncAccounts();
     if (backups != null && backups.size() > 0) {
       backupList.setAdapter(new ArrayAdapter<>(getActivity(),
           android.R.layout.simple_list_item_single_choice, backups));
@@ -97,6 +110,10 @@ public class RestoreFromCloudDialogFragment extends CommitSafeDialogFragment
     return dialog;
   }
 
+  private ArrayList<String> getBackups() {
+    return getArguments().getStringArrayList(KEY_BACKUP_LIST);
+  }
+
   private ListView getContentForPosition(int position) {
     if (position == 0) {
       return backupList;
@@ -107,7 +124,22 @@ public class RestoreFromCloudDialogFragment extends CommitSafeDialogFragment
 
   @Override
   public void onClick(DialogInterface dialog, int which) {
+    ArrayList<String> backups = getBackups();
+    ArrayList<String> syncAccounts = getSyncAccounts();
+    if (which == AlertDialog.BUTTON_POSITIVE) {
+      OnboardingActivity activity = (OnboardingActivity) getActivity();
+      if (tabLayout.getSelectedTabPosition() == 0) {
+        activity.restoreFromBackup(backups.get(backupList.getCheckedItemPosition()));
+      } else {
+        activity.restoreFromSyncAccounts(Stream.of(syncAccounts)
+            .filterIndexed((index, value) -> syncAccountList.isItemChecked(index))
+            .collect(Collectors.toList()));
+      }
+    }
+  }
 
+  private ArrayList<String> getSyncAccounts() {
+    return getArguments().getStringArrayList(KEY_SYNC_ACCOUNT_LIST);
   }
 
   private void configureSubmit(ListView activeList) {
@@ -124,15 +156,6 @@ public class RestoreFromCloudDialogFragment extends CommitSafeDialogFragment
       }
     }
     ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(enabled);
-  }
-
-  public static RestoreFromCloudDialogFragment newInstance(List<String> backupList, List<String> syncAccountList) {
-    Bundle arguments = new Bundle(2);
-    arguments.putStringArrayList(KEY_BACKUP_LIST, new ArrayList<>(backupList));
-    arguments.putStringArrayList(KEY_SYNC_ACCOUNT_LIST, new ArrayList<>(syncAccountList));
-    RestoreFromCloudDialogFragment fragment = new RestoreFromCloudDialogFragment();
-    fragment.setArguments(arguments);
-    return fragment;
   }
 
   @Override

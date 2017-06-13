@@ -28,7 +28,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import icepick.Icepick;
+import icepick.State;
 
+import static android.text.TextUtils.join;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_FETCH_SYNC_ACCOUNT_DATA;
 
@@ -42,11 +45,13 @@ public class OnboardingActivity extends SyncBackendSetupActivity implements View
   View navigationNext;
   @BindView(R.id.navigation_finish)
   View navigationFinish;
+  @State String accountName;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeId());
     super.onCreate(savedInstanceState);
+    Icepick.restoreInstanceState(this, savedInstanceState);
     setContentView(R.layout.onboarding);
     ButterKnife.bind(this);
     setupToolbar(false);
@@ -65,6 +70,12 @@ public class OnboardingActivity extends SyncBackendSetupActivity implements View
   public boolean onCreateOptionsMenu(Menu menu) {
     //skip Help
     return true;
+  }
+
+  @Override
+  protected void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    Icepick.saveInstanceState(this, outState);
   }
 
   public void navigate_next(View view) {
@@ -124,10 +135,14 @@ public class OnboardingActivity extends SyncBackendSetupActivity implements View
     } else {
       String message = "Unknown error while setting up account";
       AcraHelper.report(message);
-      Snackbar snackbar = Snackbar.make(pager, message, Snackbar.LENGTH_LONG);
-      UiUtils.configureSnackbarForDarkTheme(snackbar);
-      snackbar.show();
+      showSnackbar(message);
     }
+  }
+
+  private void showSnackbar(String message) {
+    Snackbar snackbar = Snackbar.make(pager, message, Snackbar.LENGTH_LONG);
+    UiUtils.configureSnackbarForDarkTheme(snackbar);
+    snackbar.show();
   }
 
   @Override
@@ -146,6 +161,7 @@ public class OnboardingActivity extends SyncBackendSetupActivity implements View
         if (result.success) {
           invalidateOptionsMenu();
           if (result.extra != null) {
+            accountName = (String) result.extra[0];
             List<String> backupList = (List<String>) result.extra[1];
             List<String> syncAccountList = (List<String>) result.extra[2];
             if (backupList.size() > 0 || syncAccountList.size() > 0) {
@@ -161,12 +177,18 @@ public class OnboardingActivity extends SyncBackendSetupActivity implements View
         } else {
           message = "Unable to set up account";
         }
-        Snackbar snackbar = Snackbar.make(pager, message, Snackbar.LENGTH_LONG);
-        UiUtils.configureSnackbarForDarkTheme(snackbar);
-        snackbar.show();
+        showSnackbar(message);
         break;
       }
     }
+  }
+
+  public void restoreFromBackup(String backup) {
+    showSnackbar(accountName + " " + backup);//TODO
+  }
+
+  public void restoreFromSyncAccounts(List<String> syncAccounts) {
+    showSnackbar(accountName + " " + join("- ", syncAccounts.toArray()));//TODO
   }
 
   private class MyPagerAdapter extends FragmentPagerAdapter {
