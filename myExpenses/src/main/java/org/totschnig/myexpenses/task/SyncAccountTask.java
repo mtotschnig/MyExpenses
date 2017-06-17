@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import com.annimon.stream.Collectors;
 
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.SyncBackendProvider;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
@@ -50,6 +51,7 @@ public class SyncAccountTask extends AsyncTask<Void, Void, Result> {
     Account account = GenericAccountService.GetAccount(accountName);
     if (create) {
       AccountManager accountManager = AccountManager.get(MyApplication.getInstance());
+      ContribFeature.SYNCHRONIZATION.recordUsage();
       if (accountManager.addAccountExplicitly(account, null, userData)) {
         accountManager.setPassword(account, password);
         GenericAccountService.activateSync(account);

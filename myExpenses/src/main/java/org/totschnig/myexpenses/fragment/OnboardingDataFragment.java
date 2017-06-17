@@ -112,7 +112,6 @@ public class OnboardingDataFragment extends Fragment implements AdapterView.OnIt
         getActivity().startActivityForResult(new Intent("myexpenses.intent.restore"), RESTORE_REQUEST);
         return true;
     }
-    ContribFeature.SYNCHRONIZATION.recordUsage();
     SyncBackendProviderFactory syncBackendProviderFactory =
         ((SyncBackendSetupActivity) getActivity()).getSyncBackendProviderFactoryById(
             backendProviders, item.getItemId());

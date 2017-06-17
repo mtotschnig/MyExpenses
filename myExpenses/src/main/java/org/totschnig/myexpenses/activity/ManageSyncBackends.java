@@ -200,7 +200,6 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
   @Override
   public void contribFeatureCalled(ContribFeature feature, Serializable tag) {
     if (tag instanceof Integer) {
-      feature.recordUsage();
       SyncBackendProviderFactory syncBackendProviderFactory =
           getSyncBackendProviderFactoryById(backendProviders, (Integer) tag);
       if (syncBackendProviderFactory != null) {
