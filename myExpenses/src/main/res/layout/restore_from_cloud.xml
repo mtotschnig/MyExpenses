@@ -10,25 +10,13 @@
         android:id="@id/tabs"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <android.support.design.widget.TabItem
-            android:id="@+id/restore_from_backup_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="From Backup"/>
-
-        <android.support.design.widget.TabItem
-            android:id="@+id/restore_from_sync_accounts_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="From Sync accounts"/>
-    </android.support.design.widget.TabLayout>
+        android:orientation="vertical"/>
 
     <ListView
         android:id="@+id/backup_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
 
     <ListView
         android:id="@+id/sync_account_list"

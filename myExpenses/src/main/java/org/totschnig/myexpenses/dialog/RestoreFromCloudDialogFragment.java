@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.design.widget.TabLayout.Tab;
 import android.support.v7.app.AlertDialog;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.annimon.stream.Collectors;
@@ -70,35 +72,33 @@ public class RestoreFromCloudDialogFragment extends CommitSafeDialogFragment
           android.R.layout.simple_list_item_single_choice, backups));
       backupList.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
       backupList.setOnItemClickListener(this);
-    } else {
-      tabLayout.removeTabAt(0);
+      tabLayout.addTab(tabLayout.newTab().setText("From backup").setTag(backupList));
     }
     if (syncAccounts != null && syncAccounts.size() > 0) {
       syncAccountList.setAdapter(new ArrayAdapter<>(getActivity(),
           android.R.layout.simple_list_item_multiple_choice, syncAccounts));
       syncAccountList.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
       syncAccountList.setOnItemClickListener(this);
-    } else {
-      tabLayout.removeTabAt(1);
+      tabLayout.addTab(tabLayout.newTab().setText("From Sync accounts").setTag(syncAccountList));
     }
     tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
       @Override
-      public void onTabSelected(TabLayout.Tab tab) {
-        ListView listView = getContentForPosition(tab.getPosition());
-        listView.setVisibility(View.VISIBLE);
-        configureSubmit(listView);
+      public void onTabSelected(Tab tab) {
+        setTabVisibility(tab, View.VISIBLE);
+        configureSubmit(getContentForTab(tab));
       }
 
       @Override
-      public void onTabUnselected(TabLayout.Tab tab) {
-        getContentForPosition(tab.getPosition()).setVisibility(View.GONE);
+      public void onTabUnselected(Tab tab) {
+        setTabVisibility(tab, View.GONE);
       }
 
       @Override
-      public void onTabReselected(TabLayout.Tab tab) {
+      public void onTabReselected(Tab tab) {
 
       }
     });
+    setTabVisibility(tabLayout.getTabAt(0), View.VISIBLE);
 
     final AlertDialog dialog = new AlertDialog.Builder(ctx)
         .setTitle(R.string.onboarding_restore_from_cloud)
@@ -114,35 +114,20 @@ public class RestoreFromCloudDialogFragment extends CommitSafeDialogFragment
     return getArguments().getStringArrayList(KEY_BACKUP_LIST);
   }
 
-  private ListView getContentForPosition(int position) {
-    if (position == 0) {
-      return backupList;
-    } else {
-      return syncAccountList;
-    }
+  private void setTabVisibility(Tab tab, int visibility) {
+    ListView listView = getContentForTab(tab);
+    listView.setVisibility(visibility);
   }
 
-  @Override
-  public void onClick(DialogInterface dialog, int which) {
-    ArrayList<String> backups = getBackups();
-    ArrayList<String> syncAccounts = getSyncAccounts();
-    if (which == AlertDialog.BUTTON_POSITIVE) {
-      OnboardingActivity activity = (OnboardingActivity) getActivity();
-      if (tabLayout.getSelectedTabPosition() == 0) {
-        activity.restoreFromBackup(backups.get(backupList.getCheckedItemPosition()));
-      } else {
-        activity.restoreFromSyncAccounts(Stream.of(syncAccounts)
-            .filterIndexed((index, value) -> syncAccountList.isItemChecked(index))
-            .collect(Collectors.toList()));
-      }
-    }
-  }
-
-  private ArrayList<String> getSyncAccounts() {
-    return getArguments().getStringArrayList(KEY_SYNC_ACCOUNT_LIST);
+  private ListView getContentForTab(Tab tab) {
+    return (ListView) tab.getTag();
   }
 
   private void configureSubmit(ListView activeList) {
+    Button button = ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE);
+    if (button == null) {
+      return;
+    }
     boolean enabled = false;
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
       enabled = activeList.getCheckedItemCount() > 0;
@@ -155,7 +140,31 @@ public class RestoreFromCloudDialogFragment extends CommitSafeDialogFragment
         }
       }
     }
-    ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(enabled);
+    button.setEnabled(enabled);
+  }
+
+  @Override
+  public void onClick(DialogInterface dialog, int which) {
+    ArrayList<String> backups = getBackups();
+    ArrayList<String> syncAccounts = getSyncAccounts();
+    if (which == AlertDialog.BUTTON_POSITIVE) {
+      OnboardingActivity activity = (OnboardingActivity) getActivity();
+      ListView contentForTab = getContentForTab(tabLayout.getTabAt(tabLayout.getSelectedTabPosition()));
+      switch (contentForTab.getId()) {
+        case R.id.backup_list:
+          activity.restoreFromBackup(backups.get(backupList.getCheckedItemPosition()));
+          break;
+        case R.id.sync_account_list:
+          activity.restoreFromSyncAccounts(Stream.of(syncAccounts)
+              .filterIndexed((index, value) -> syncAccountList.isItemChecked(index))
+              .collect(Collectors.toList()));
+          break;
+      }
+    }
+  }
+
+  private ArrayList<String> getSyncAccounts() {
+    return getArguments().getStringArrayList(KEY_SYNC_ACCOUNT_LIST);
   }
 
   @Override
