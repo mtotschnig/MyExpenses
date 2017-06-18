@@ -115,6 +115,7 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_INIT = 50;
 
   public static final int TASK_FETCH_SYNC_ACCOUNT_DATA = 51;
+  public static final int TASK_RESTORE_FROM_SYNC_ACCOUNTS = 52;
 
   /**
    * Callback interface through which the fragment will report the task's

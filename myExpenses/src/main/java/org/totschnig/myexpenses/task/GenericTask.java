@@ -15,6 +15,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.RemoteException;
+import android.support.annotation.Nullable;
 import android.support.v4.provider.DocumentFile;
 import android.text.TextUtils;
 
@@ -54,6 +55,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -560,11 +562,8 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       case TaskExecutionFragment.TASK_SYNC_LINK_SAVE: {
         //first get remote data for account
         String syncAccountName = ((String) mExtra);
-        SyncBackendProvider syncBackendProvider;
-        try {
-          syncBackendProvider = SyncBackendProviderFactory.get(application,
-              GenericAccountService.GetAccount(syncAccountName)).getOrThrow();
-        } catch (Throwable throwable) {
+        SyncBackendProvider syncBackendProvider =  getSyncBackendProviderFromExtra();
+        if (syncBackendProvider == null) {
           return Result.FAILURE;
         }
         List<String> remoteUuidList;
@@ -616,14 +615,8 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       }
       case TaskExecutionFragment.TASK_SYNC_CHECK: {
         String accountUuid = (String) ids[0];
-        String syncAccountName = ((String) mExtra);
-        SyncBackendProvider syncBackendProvider;
-        try {
-          syncBackendProvider = SyncBackendProviderFactory.get(application,
-              GenericAccountService.GetAccount(syncAccountName)).getOrThrow();
-        } catch (Throwable throwable) {
-          AcraHelper.report(new Exception(String.format("Unable to get sync backend provider for %s",
-              syncAccountName), throwable));
+        SyncBackendProvider syncBackendProvider =  getSyncBackendProviderFromExtra();
+        if (syncBackendProvider == null) {
           return Result.FAILURE;
         }
         try {
@@ -647,8 +640,51 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         application.getLicenceHandler().update();
         Account.updateTransferShortcut();
       }
+      case TaskExecutionFragment.TASK_RESTORE_FROM_SYNC_ACCOUNTS: {
+        String syncAccountName = ((String) mExtra);
+        SyncBackendProvider syncBackendProvider =  getSyncBackendProviderFromExtra();
+        if (syncBackendProvider == null) {
+          return Result.FAILURE;
+        }
+        try {
+          List<String> accountList = Arrays.asList((String[]) ids);
+          int numberOfRestoredAccounts = syncBackendProvider.getRemoteAccountList()
+              .filter(accountMetaData -> accountList.contains(accountMetaData.label()))
+              .map(AccountMetaData::toAccount)
+              .mapToInt(account -> {
+                account.setSyncAccountName(syncAccountName);
+                return account.save() == null ? 0 : 1;
+              })
+              .sum();
+          if (numberOfRestoredAccounts == 0) {
+            return Result.FAILURE;
+          } else {
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+            bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+            ContentResolver.requestSync(GenericAccountService.GetAccount(syncAccountName),
+                TransactionProvider.AUTHORITY, bundle);
+            return new Result(true);
+          }
+        } catch (IOException e) {
+          return Result.FAILURE;
+        }
+      }
     }
     return null;
+  }
+
+  @Nullable
+  private SyncBackendProvider getSyncBackendProviderFromExtra() {
+    String syncAccountName = ((String) mExtra);
+    try {
+      return SyncBackendProviderFactory.get(MyApplication.getInstance(),
+          GenericAccountService.GetAccount(syncAccountName)).getOrThrow();
+    } catch (Throwable throwable) {
+      AcraHelper.report(new Exception(String.format("Unable to get sync backend provider for %s",
+          syncAccountName), throwable));
+      return null;
+    }
   }
 
   @TargetApi(Build.VERSION_CODES.HONEYCOMB)

@@ -18,6 +18,7 @@ import org.totschnig.myexpenses.fragment.OnboardingDataFragment;
 import org.totschnig.myexpenses.fragment.OnboardingUiFragment;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.DistribHelper;
@@ -34,6 +35,7 @@ import icepick.State;
 import static android.text.TextUtils.join;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_FETCH_SYNC_ACCOUNT_DATA;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_RESTORE_FROM_SYNC_ACCOUNTS;
 
 
 public class OnboardingActivity extends SyncBackendSetupActivity implements ViewPager.OnPageChangeListener {
@@ -126,17 +128,21 @@ public class OnboardingActivity extends SyncBackendSetupActivity implements View
   public void onPostExecute(Object result) {
     super.onPostExecute(result);
     if (result != null) {
-      int current_version = DistribHelper.getVersionNumber();
-      PrefKey.CURRENT_VERSION.putInt(current_version);
-      PrefKey.FIRST_INSTALL_VERSION.putInt(current_version);
-      Intent intent = new Intent(this, MyExpenses.class);
-      startActivity(intent);
-      finish();
+      getStarted();
     } else {
       String message = "Unknown error while setting up account";
       AcraHelper.report(message);
       showSnackbar(message);
     }
+  }
+
+  private void getStarted() {
+    int current_version = DistribHelper.getVersionNumber();
+    PrefKey.CURRENT_VERSION.putInt(current_version);
+    PrefKey.FIRST_INSTALL_VERSION.putInt(current_version);
+    Intent intent = new Intent(this, MyExpenses.class);
+    startActivity(intent);
+    finish();
   }
 
   private void showSnackbar(String message) {
@@ -180,6 +186,12 @@ public class OnboardingActivity extends SyncBackendSetupActivity implements View
         showSnackbar(message);
         break;
       }
+      case TASK_RESTORE_FROM_SYNC_ACCOUNTS: {
+        if (result.success) {
+          getStarted();
+        }
+        break;
+      }
     }
   }
 
@@ -188,7 +200,8 @@ public class OnboardingActivity extends SyncBackendSetupActivity implements View
   }
 
   public void restoreFromSyncAccounts(List<String> syncAccounts) {
-    showSnackbar(accountName + " " + join("- ", syncAccounts.toArray()));//TODO
+    startTaskExecution(TaskExecutionFragment.TASK_RESTORE_FROM_SYNC_ACCOUNTS,
+        syncAccounts.toArray(new String[syncAccounts.size()]), accountName, R.string.pref_restore_title);
   }
 
   private class MyPagerAdapter extends FragmentPagerAdapter {
