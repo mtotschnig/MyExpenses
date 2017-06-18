@@ -152,10 +152,10 @@ public class RestoreFromCloudDialogFragment extends CommitSafeDialogFragment
       ListView contentForTab = getContentForTab(tabLayout.getTabAt(tabLayout.getSelectedTabPosition()));
       switch (contentForTab.getId()) {
         case R.id.backup_list:
-          activity.restoreFromBackup(backups.get(backupList.getCheckedItemPosition()));
+          activity.setupFromBackup(backups.get(backupList.getCheckedItemPosition()));
           break;
         case R.id.sync_account_list:
-          activity.restoreFromSyncAccounts(Stream.of(syncAccounts)
+          activity.setupFromSyncAccounts(Stream.of(syncAccounts)
               .filterIndexed((index, value) -> syncAccountList.isItemChecked(index))
               .collect(Collectors.toList()));
           break;

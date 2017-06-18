@@ -640,7 +640,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         application.getLicenceHandler().update();
         Account.updateTransferShortcut();
       }
-      case TaskExecutionFragment.TASK_RESTORE_FROM_SYNC_ACCOUNTS: {
+      case TaskExecutionFragment.TASK_SETUP_FROM_SYNC_ACCOUNTS: {
         String syncAccountName = ((String) mExtra);
         SyncBackendProvider syncBackendProvider =  getSyncBackendProviderFromExtra();
         if (syncBackendProvider == null) {

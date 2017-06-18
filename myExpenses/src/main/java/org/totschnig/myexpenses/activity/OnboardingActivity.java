@@ -35,7 +35,7 @@ import icepick.State;
 import static android.text.TextUtils.join;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_FETCH_SYNC_ACCOUNT_DATA;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_RESTORE_FROM_SYNC_ACCOUNTS;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SETUP_FROM_SYNC_ACCOUNTS;
 
 
 public class OnboardingActivity extends SyncBackendSetupActivity implements ViewPager.OnPageChangeListener {
@@ -186,7 +186,7 @@ public class OnboardingActivity extends SyncBackendSetupActivity implements View
         showSnackbar(message);
         break;
       }
-      case TASK_RESTORE_FROM_SYNC_ACCOUNTS: {
+      case TASK_SETUP_FROM_SYNC_ACCOUNTS: {
         if (result.success) {
           getStarted();
         }
@@ -195,12 +195,12 @@ public class OnboardingActivity extends SyncBackendSetupActivity implements View
     }
   }
 
-  public void restoreFromBackup(String backup) {
+  public void setupFromBackup(String backup) {
     showSnackbar(accountName + " " + backup);//TODO
   }
 
-  public void restoreFromSyncAccounts(List<String> syncAccounts) {
-    startTaskExecution(TaskExecutionFragment.TASK_RESTORE_FROM_SYNC_ACCOUNTS,
+  public void setupFromSyncAccounts(List<String> syncAccounts) {
+    startTaskExecution(TaskExecutionFragment.TASK_SETUP_FROM_SYNC_ACCOUNTS,
         syncAccounts.toArray(new String[syncAccounts.size()]), accountName, R.string.pref_restore_title);
   }
 
