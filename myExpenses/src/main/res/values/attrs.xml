@@ -27,7 +27,7 @@
     <attr name="colorControlInverse" />
     <attr name="preferenceCategoryTextAppearance" format="reference" />
     <attr name="textSizeSmall" format="dimension" />
+    <attr name="textSizeNormal" format="dimension" />
     <attr name="textSizeMedium" format="dimension" />
     <attr name="textSizeLarge" format="dimension" />
-    <attr name="textSizeSubhead" format="dimension" />
 </resources>

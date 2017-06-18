@@ -2,7 +2,7 @@
 <resources>
 
     <style name="MyTextAppearanceSubhead" parent="@style/TextAppearance.AppCompat.Subhead">
-        <item name="android:textSize">?textSizeSubhead</item>
+        <item name="android:textSize">?textSizeNormal</item>
     </style>
 
     <style name="MyPreference_TextAppearanceMaterialBody2" parent="@style/Preference_TextAppearanceMaterialBody2">

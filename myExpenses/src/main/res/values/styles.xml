@@ -79,6 +79,10 @@
         <item name="android:background">?android:attr/listDivider</item>
     </style>
 
+    <style name="MyTextAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textSize">?textSizeNormal</item>
+    </style>
+
     <style name="MyTextAppearanceLarge" parent="@android:style/TextAppearance.Large">
         <item name="android:textSize">?textSizeLarge</item>
     </style>
@@ -231,5 +235,4 @@
         <item name="android:textAppearance">?android:textAppearanceSmall</item>
         <item name="android:textColor">?android:textColorPrimary</item>
     </style>
-
 </resources>
