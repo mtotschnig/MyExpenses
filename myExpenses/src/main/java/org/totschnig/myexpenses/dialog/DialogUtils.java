@@ -275,7 +275,7 @@ public class DialogUtils {
   }
 
   public static RadioGroup.OnCheckedChangeListener buildCalendarRestoreStrategyChangedListener(
-      final ProtectedFragmentActivity context, final CalendarRestoreStrategyChangedListener listener) {
+      final Activity context, final CalendarRestoreStrategyChangedListener listener) {
     return (group, checkedId) -> {
       if (checkedId == R.id.restore_calendar_handling_backup ||
           checkedId == R.id.restore_calendar_handling_configured) {

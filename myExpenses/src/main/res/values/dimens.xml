@@ -9,7 +9,7 @@
     <dimen name="margin_list_expandable">22dp</dimen>
     <!-- smaller than padding_dialog_side to correct for edittext padding-->
     <dimen name="padding_input_dialog_side">20dp</dimen>
-    <dimen name="padding_dialog_side">24dp</dimen>
+    <dimen name="padding_dialog_side">16dp</dimen>
     <dimen name="padding_dialog_content_top">20dp</dimen>
     <dimen name="thumbnail_size">48dp</dimen>
     <dimen name="thumbnail_size_grid">96dp</dimen>

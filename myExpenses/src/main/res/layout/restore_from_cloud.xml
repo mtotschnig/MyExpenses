@@ -12,16 +12,39 @@
         android:layout_height="match_parent"
         android:orientation="vertical"/>
 
-    <ListView
+    <LinearLayout
         android:id="@+id/backup_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"/>
+        android:orientation="vertical"
+        android:visibility="gone">
 
-    <ListView
+        <ListView
+            android:id="@id/list"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="0dp"/>
+
+        <include
+            layout="@layout/backup_restore_calendar"
+            android:layout_marginRight="@dimen/padding_dialog_side"
+            android:layout_marginLeft="@dimen/padding_dialog_side"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/sync_account_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"/>
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ListView
+            android:id="@id/list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
 
 </LinearLayout>

@@ -36,8 +36,7 @@ public class BackupListDialogFragment extends CommitSafeDialogFragment
     mRestorePlanStrategie = DialogUtils.configureCalendarRestoreStrategy(view);
     if (mRestorePlanStrategie != null) {
       mCalendarRestoreButtonCheckedChangeListener =
-          DialogUtils.buildCalendarRestoreStrategyChangedListener(
-              (ProtectedFragmentActivity) getActivity(), this);
+          DialogUtils.buildCalendarRestoreStrategyChangedListener(getActivity(), this);
       mRestorePlanStrategie.setOnCheckedChangeListener(mCalendarRestoreButtonCheckedChangeListener);
     }
     return new AlertDialog.Builder(getActivity())
