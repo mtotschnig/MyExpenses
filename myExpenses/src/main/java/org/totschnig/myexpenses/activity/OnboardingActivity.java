@@ -18,6 +18,8 @@ import org.totschnig.myexpenses.fragment.OnboardingDataFragment;
 import org.totschnig.myexpenses.fragment.OnboardingUiFragment;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.task.RestoreTask;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
 import org.totschnig.myexpenses.util.AcraHelper;
@@ -195,8 +197,18 @@ public class OnboardingActivity extends SyncBackendSetupActivity implements View
     }
   }
 
-  public void setupFromBackup(String backup) {
-    showSnackbar(accountName + " " + backup);//TODO
+  @Override
+  protected void onPostRestoreTask(Result result) {
+    super.onPostRestoreTask(result);
+    restartAfterRestore();
+  }
+
+  public void setupFromBackup(String backup, int restorePlanStrategie) {
+    Bundle arguments = new Bundle(3);
+    arguments.putString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME, accountName);
+    arguments.putString(RestoreTask.KEY_BACKUP_FROM_SYNC, backup);
+    arguments.putInt(RestoreTask.KEY_RESTORE_PLAN_STRATEGY, restorePlanStrategie);
+    doRestore(arguments);
   }
 
   public void setupFromSyncAccounts(List<String> syncAccounts) {

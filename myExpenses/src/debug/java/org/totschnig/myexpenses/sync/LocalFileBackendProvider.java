@@ -111,6 +111,11 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
+  public InputStream getInputStreamForBackup(String backupFile) throws FileNotFoundException {
+    return new FileInputStream(new File(new File(baseDir, BACKUP_FOLDER_NAME), backupFile));
+  }
+
+  @Override
   protected long getLastSequence() {
     return Stream.of(filterFiles(0))
         .map(file -> getSequenceFromFileName(file.getName()))

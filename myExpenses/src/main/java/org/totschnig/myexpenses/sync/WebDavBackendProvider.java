@@ -203,6 +203,11 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
+  public InputStream getInputStreamForBackup(String backupFile) throws IOException {
+    return null;
+  }
+
+  @Override
   protected long getLastSequence() throws IOException {
     return filterDavResources(0)
         .map(davResource -> getSequenceFromFileName(davResource.fileName()))

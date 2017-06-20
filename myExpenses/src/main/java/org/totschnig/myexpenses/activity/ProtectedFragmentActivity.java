@@ -72,6 +72,7 @@ import java.io.Serializable;
 import javax.inject.Inject;
 
 import static org.totschnig.myexpenses.activity.ContribInfoDialogActivity.KEY_FEATURE;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_RESTORE;
 
 public abstract class ProtectedFragmentActivity extends AppCompatActivity
     implements MessageDialogListener, OnSharedPreferenceChangeListener,
@@ -141,7 +142,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     colorExpense = color.data;
     theme.resolveAttribute(R.attr.colorIncome, color, true);
     colorIncome = color.data;
-    TypedArray themeArray = theme.obtainStyledAttributes(new int[] {android.R.attr.textColorSecondary});
+    TypedArray themeArray = theme.obtainStyledAttributes(new int[]{android.R.attr.textColorSecondary});
     textColorSecondary = themeArray.getColorStateList(0);
 
     tracker.init(this);
@@ -300,7 +301,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
       case TaskExecutionFragment.TASK_DELETE_CATEGORY:
       case TaskExecutionFragment.TASK_DELETE_PAYEES:
       case TaskExecutionFragment.TASK_DELETE_TEMPLATES:
-      case TaskExecutionFragment.TASK_UNDELETE_TRANSACTION:
+      case TaskExecutionFragment.TASK_UNDELETE_TRANSACTION: {
         Result result = (Result) o;
         if (!result.success) {
           Toast.makeText(this,
@@ -308,13 +309,36 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
               Toast.LENGTH_LONG).show();
         }
         break;
-      case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2:
+      }
+      case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2: {
         TransactionDetailFragment tdf = (TransactionDetailFragment)
             getSupportFragmentManager().findFragmentByTag(TransactionDetailFragment.class.getName());
         if (tdf != null) {
           tdf.fillData((Transaction) o);
         }
         break;
+      }
+      case TASK_RESTORE: {
+        onPostRestoreTask(((Result) o));
+        break;
+      }
+    }
+  }
+
+  protected void onPostRestoreTask(Result result) {
+    String msg = result.print(this);
+    if (msg != null) {
+      Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
+    }
+    if (result.success) {
+      MyApplication.getInstance().getLicenceHandler().reset();
+      // if the backup is password protected, we want to force the password
+      // check
+      // is it not enough to set mLastPause to zero, since it would be
+      // overwritten by the callings activity onpause
+      // hence we need to set isLocked if necessary
+      MyApplication.getInstance().resetLastPause();
+      MyApplication.getInstance().shouldLock(this);
     }
   }
 
@@ -412,11 +436,15 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
       }
     }
     if ((requestCode == PREFERENCES_REQUEST || requestCode == RESTORE_REQUEST) && resultCode == RESULT_RESTORE_OK) {
-      Intent i = new Intent(this, MyExpenses.class);
-      i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-      finish();
-      startActivity(i);
+      restartAfterRestore();
     }
+  }
+
+  protected void restartAfterRestore() {
+    Intent i = new Intent(this, MyExpenses.class);
+    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    finish();
+    startActivity(i);
   }
 
   public void contribFeatureRequested(@NonNull ContribFeature feature, Serializable tag) {
@@ -479,6 +507,14 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   @Override
   public void onPositive(Bundle args) {
     dispatchCommand(args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE), null);
+  }
+
+  protected void doRestore(Bundle args) {
+    getSupportFragmentManager()
+        .beginTransaction()
+        .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_RESTORE), ProtectionDelegate.ASYNC_TAG)
+        .add(ProgressDialogFragment.newInstance(R.string.pref_restore_title),
+            ProtectionDelegate.PROGRESS_TAG).commit();
   }
 
   @Override

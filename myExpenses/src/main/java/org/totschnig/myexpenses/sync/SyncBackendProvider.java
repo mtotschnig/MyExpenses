@@ -11,7 +11,9 @@ import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 public interface SyncBackendProvider {
@@ -39,6 +41,8 @@ public interface SyncBackendProvider {
 
   @NonNull
   List<String> getStoredBackups();
+
+  InputStream getInputStreamForBackup(String backupFile) throws IOException;
 
   class SyncParseException extends Exception {
     SyncParseException(Exception e) {

@@ -30,8 +30,8 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
-import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.task.RestoreTask;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.FileUtils;
@@ -48,11 +48,9 @@ import java.util.Comparator;
 import timber.log.Timber;
 
 import static org.totschnig.myexpenses.task.RestoreTask.KEY_DIR_NAME_LEGACY;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_RESTORE;
 
 public class BackupRestoreActivity extends ProtectedFragmentActivity
     implements ConfirmationDialogListener {
-  public static final String KEY_RESTORE_PLAN_STRATEGY = "restorePlanStrategy";
   public static final String FRAGMENT_TAG = "BACKUP_SOURCE";
 
   private boolean calledFromOnboarding = false;
@@ -120,7 +118,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
 
   private Bundle buildRestoreArgs(Uri fileUri, int restorePlanStrategie) {
     Bundle bundle = new Bundle();
-    bundle.putInt(KEY_RESTORE_PLAN_STRATEGY, restorePlanStrategie);
+    bundle.putInt(RestoreTask.KEY_RESTORE_PLAN_STRATEGY, restorePlanStrategie);
     bundle.putParcelable(TaskExecutionFragment.KEY_FILE_PATH, fileUri);
     return bundle;
   }
@@ -186,25 +184,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
     super.onPostExecute(taskId, result);
     Result r = (Result) result;
     switch (taskId) {
-      case TASK_RESTORE:
-        String msg = r.print(this);
-        if (msg != null) {
-          Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
-        }
-        if (r.success) {
-          MyApplication.getInstance().getLicenceHandler().reset();
-          // if the backup is password protected, we want to force the password
-          // check
-          // is it not enough to set mLastPause to zero, since it would be
-          // overwritten by the callings activity onpause
-          // hence we need to set isLocked if necessary
-          MyApplication.getInstance().resetLastPause();
-          MyApplication.getInstance().shouldLock(this);
-
-          setResult(RESULT_RESTORE_OK);
-        }
-        break;
-      case TaskExecutionFragment.TASK_BACKUP:
+      case TaskExecutionFragment.TASK_BACKUP: {
         if (!r.success) {
           Toast.makeText(getBaseContext(),
               r.print(this), Toast.LENGTH_LONG)
@@ -222,6 +202,17 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
                 "application/zip");
           }
         }
+        finish();
+        break;
+      }
+    }
+  }
+
+  @Override
+  protected void onPostRestoreTask(Result result) {
+    super.onPostRestoreTask(result);
+    if (result.success) {
+      setResult(RESULT_RESTORE_OK);
     }
     finish();
   }
@@ -265,14 +256,6 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
         doRestore(args);
         break;
     }
-  }
-
-  private void doRestore(Bundle args) {
-    getSupportFragmentManager()
-        .beginTransaction()
-        .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_RESTORE), ProtectionDelegate.ASYNC_TAG)
-        .add(ProgressDialogFragment.newInstance(R.string.pref_restore_title),
-            ProtectionDelegate.PROGRESS_TAG).commit();
   }
 
   public void openBrowse() {
