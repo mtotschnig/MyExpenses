@@ -167,7 +167,7 @@ public class OnboardingActivity extends SyncBackendSetupActivity implements View
       case TASK_FETCH_SYNC_ACCOUNT_DATA: {
         String message;
         if (result.success) {
-          invalidateOptionsMenu();
+          supportInvalidateOptionsMenu();
           if (result.extra != null) {
             accountName = (String) result.extra[0];
             List<String> backupList = (List<String>) result.extra[1];
