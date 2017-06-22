@@ -105,7 +105,7 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
 
   @NonNull
   @Override
-  public List<String> getStoredBackups() {
+  public List<String> getStoredBackups() throws IOException {
     String[] list = new File(baseDir, BACKUP_FOLDER_NAME).list();
     return list != null ? Arrays.asList(list) : new ArrayList<>();
   }

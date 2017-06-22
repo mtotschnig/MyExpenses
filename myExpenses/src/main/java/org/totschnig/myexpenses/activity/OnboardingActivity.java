@@ -34,7 +34,6 @@ import butterknife.ButterKnife;
 import icepick.Icepick;
 import icepick.State;
 
-import static android.text.TextUtils.join;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_FETCH_SYNC_ACCOUNT_DATA;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SETUP_FROM_SYNC_ACCOUNTS;
@@ -200,7 +199,9 @@ public class OnboardingActivity extends SyncBackendSetupActivity implements View
   @Override
   protected void onPostRestoreTask(Result result) {
     super.onPostRestoreTask(result);
-    restartAfterRestore();
+    if (result.success) {
+      restartAfterRestore();
+    }
   }
 
   public void setupFromBackup(String backup, int restorePlanStrategie) {
