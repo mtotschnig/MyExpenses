@@ -37,6 +37,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.ImportFileResultHandler;
+import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
@@ -103,8 +104,8 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
     mAccountsAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
     mAccountSpinner.setAdapter(mAccountsAdapter);
     mAccountSpinner.setOnItemSelectedListener(this);
-    mCurrencySpinner = DialogUtils.configureCurrencySpinner(view, wrappedCtx, this);
-    mTypeSpinner = DialogUtils.configureTypeSpinner(view, wrappedCtx);
+    mCurrencySpinner = DialogUtils.configureCurrencySpinner(view, this);
+    mTypeSpinner = DialogUtils.configureTypeSpinner(view);
     mTypeSpinner.setOnItemSelectedListener(this);
     getLoaderManager().initLoader(0, null, this);
     view.findViewById(R.id.btn_browse).setOnClickListener(this);
@@ -251,7 +252,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
     });
     mAccountsCursor = new MergeCursor(new Cursor[]{extras, data});
     mAccountsAdapter.swapCursor(mAccountsCursor);
-    Utils.selectSpinnerItemByValue(mAccountSpinner, accountId);
+    UiUtils.selectSpinnerItemByValue(mAccountSpinner, accountId);
   }
 
   @Override

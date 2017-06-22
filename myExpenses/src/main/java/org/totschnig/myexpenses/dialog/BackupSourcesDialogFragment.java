@@ -29,8 +29,7 @@ public class BackupSourcesDialogFragment extends ImportSourceDialogFragment
     mRestorePlanStrategie = DialogUtils.configureCalendarRestoreStrategy(view);
     if (mRestorePlanStrategie != null) {
       mCalendarRestoreButtonCheckedChangeListener =
-          DialogUtils.buildCalendarRestoreStrategyChangedListener(
-              (ProtectedFragmentActivity) getActivity(), this);
+          DialogUtils.buildCalendarRestoreStrategyChangedListener(getActivity(), this);
       mRestorePlanStrategie.setOnCheckedChangeListener(mCalendarRestoreButtonCheckedChangeListener);
     }
   }
@@ -72,8 +71,7 @@ public class BackupSourcesDialogFragment extends ImportSourceDialogFragment
   @Override
   protected boolean isReady() {
     if (super.isReady()) {
-      return mRestorePlanStrategie == null ? true :
-          mRestorePlanStrategie.getCheckedRadioButtonId() != -1;
+      return mRestorePlanStrategie == null || mRestorePlanStrategie.getCheckedRadioButtonId() != -1;
     } else {
       return false;
     }

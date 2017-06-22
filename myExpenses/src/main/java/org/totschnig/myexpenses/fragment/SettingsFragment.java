@@ -64,6 +64,7 @@ import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.LicenceHandler;
 import org.totschnig.myexpenses.util.ShareUtils;
 import org.totschnig.myexpenses.util.ShortcutHelper;
+import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 
@@ -74,6 +75,8 @@ import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.RESTORE_REQUEST;
+import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.RESULT_RESTORE_OK;
 import static org.totschnig.myexpenses.preference.PrefKey.*;
 
 public class SettingsFragment extends PreferenceFragmentCompat implements
@@ -81,7 +84,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     Preference.OnPreferenceClickListener {
 
   private long pickFolderRequestStart;
-  private static final int RESTORE_REQUEST = 1;
   private static final int PICK_FOLDER_REQUEST = 2;
   private static final int CONTRIB_PURCHASE_REQUEST = 3;
   private static final int PICK_FOLDER_REQUEST_LEGACY = 4;
@@ -578,7 +580,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     Intent intent = new Intent();
     intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
     intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(nameId));
-    intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, Utils.getTintedBitmapForTheme(getActivity(), iconId, R.style.ThemeDark));
+    intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, UiUtils.getTintedBitmapForTheme(getActivity(), iconId, R.style.ThemeDark));
     intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
 
     if (Utils.isIntentReceiverAvailable(getActivity(), intent)) {
@@ -637,7 +639,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   @Override
   public void onActivityResult(int requestCode, int resultCode,
                                Intent intent) {
-    if (requestCode == RESTORE_REQUEST && resultCode == Activity.RESULT_FIRST_USER) {
+    if (requestCode == RESTORE_REQUEST && resultCode == RESULT_RESTORE_OK) {
       getActivity().setResult(resultCode);
       getActivity().finish();
     } else if (requestCode == PICK_FOLDER_REQUEST) {

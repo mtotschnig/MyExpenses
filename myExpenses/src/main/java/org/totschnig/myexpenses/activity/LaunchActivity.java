@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.activity;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
@@ -142,24 +141,6 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
           }
         }
         break;
-    }
-  }
-
-  /* (non-Javadoc)
-     * @see android.support.v4.app.FragmentActivity#onActivityResult(int, int, android.content.Intent)
-     * The Preferences activity can be launched from activities of this subclass and we handle here
-     * the need to restart if the restore command has been called
-     */
-  @Override
-  protected void onActivityResult(int requestCode, int resultCode,
-                                  Intent intent) {
-    super.onActivityResult(requestCode, resultCode, intent);
-    //configButtons();
-    if (requestCode == PREFERENCES_REQUEST && resultCode == RESULT_FIRST_USER) {
-      Intent i = new Intent(this, MyExpenses.class);
-      i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-      finish();
-      startActivity(i);
     }
   }
 }

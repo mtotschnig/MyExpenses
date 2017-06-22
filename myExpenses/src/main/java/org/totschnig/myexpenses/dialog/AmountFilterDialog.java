@@ -12,6 +12,7 @@ import org.totschnig.myexpenses.model.Money;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import org.totschnig.myexpenses.provider.filter.AmountCriteria;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
+import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 
 import android.app.Dialog;
@@ -73,8 +74,8 @@ public class AmountFilterDialog extends CommitSafeDialogFragment implements OnCl
     mAmount2Text = (EditText) view.findViewById(R.id.amount2);
     int fractionDigits = Money.getFractionDigits(
         (Currency) getArguments().getSerializable(KEY_CURRENCY));
-    Utils.configDecimalSeparator(mAmount1Text, decimalSeparator, fractionDigits);
-    Utils.configDecimalSeparator(mAmount2Text, decimalSeparator, fractionDigits);
+    UiUtils.configDecimalSeparator(mAmount1Text, decimalSeparator, fractionDigits);
+    UiUtils.configDecimalSeparator(mAmount2Text, decimalSeparator, fractionDigits);
 
     return new AlertDialog.Builder(ctx)
       .setTitle(R.string.search_amount)

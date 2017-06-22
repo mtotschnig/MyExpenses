@@ -4,12 +4,12 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
 
 import com.annimon.stream.Exceptional;
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 
-import org.totschnig.myexpenses.activity.ManageSyncBackends;
 import org.totschnig.myexpenses.sync.SyncBackendProvider.SyncParseException;
 
 public abstract class SyncBackendProviderFactory {
@@ -35,9 +35,11 @@ public abstract class SyncBackendProviderFactory {
 
   public abstract String getLabel();
 
-  public abstract void startSetup(ManageSyncBackends activity);
+  public abstract void startSetup(FragmentActivity activity);
 
   boolean isEnabled(Context context) {
     return true;
   }
+
+  public abstract int getId();
 }

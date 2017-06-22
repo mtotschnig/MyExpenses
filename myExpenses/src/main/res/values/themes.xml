@@ -42,7 +42,8 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="textSizeSmall">@dimen/textSizeSmallBase</item>
         <item name="textSizeMedium">@dimen/textSizeMediumBase</item>
         <item name="textSizeLarge">@dimen/textSizeLargeBase</item>
-        <item name="textSizeSubhead">@dimen/textSizeSubheadBase</item>
+        <item name="textSizeNormal">@dimen/textSizeNormalBase</item>
+        <item name="android:textAppearance">@style/MyTextAppearance</item>
         <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge</item>
         <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium</item>
         <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall</item>
@@ -71,7 +72,8 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="textSizeSmall">@dimen/textSizeSmallBase</item>
         <item name="textSizeMedium">@dimen/textSizeMediumBase</item>
         <item name="textSizeLarge">@dimen/textSizeLargeBase</item>
-        <item name="textSizeSubhead">@dimen/textSizeSubheadBase</item>
+        <item name="textSizeNormal">@dimen/textSizeNormalBase</item>
+        <item name="android:textAppearance">@style/MyTextAppearance</item>
         <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge</item>
         <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium</item>
         <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall</item>
@@ -90,7 +92,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="textSizeSmall">@dimen/textSizeSmallS1</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS1</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS1</item>
-        <item name="textSizeSubhead">@dimen/textSizeSubheadS1</item>
+        <item name="textSizeNormal">@dimen/textSizeNormalS1</item>
     </style>
     <style name="ThemeDark.s1" parent="@style/ThemeDark.s1Base" />
 
@@ -101,7 +103,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="textSizeSmall">@dimen/textSizeSmallS1</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS1</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS1</item>
-        <item name="textSizeSubhead">@dimen/textSizeSubheadS1</item>
+        <item name="textSizeNormal">@dimen/textSizeNormalS1</item>
     </style>
     <style name="ThemeLight.s1" parent="@style/ThemeLight.s1Base" />
 
@@ -112,7 +114,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="textSizeSmall">@dimen/textSizeSmallS2</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS2</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS2</item>
-        <item name="textSizeSubhead">@dimen/textSizeSubheadS2</item>
+        <item name="textSizeNormal">@dimen/textSizeNormalS2</item>
     </style>
     <style name="ThemeDark.s2" parent="@style/ThemeDark.s2Base" />
 
@@ -123,7 +125,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="textSizeSmall">@dimen/textSizeSmallS2</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS2</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS2</item>
-        <item name="textSizeSubhead">@dimen/textSizeSubheadS2</item>
+        <item name="textSizeNormal">@dimen/textSizeNormalS2</item>
     </style>
     <style name="ThemeLight.s2" parent="@style/ThemeLight.s2Base" />
 
@@ -134,7 +136,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="textSizeSmall">@dimen/textSizeSmallS3</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS3</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS3</item>
-        <item name="textSizeSubhead">@dimen/textSizeSubheadS3</item>
+        <item name="textSizeNormal">@dimen/textSizeNormalS3</item>
     </style>
     <style name="ThemeDark.s3" parent="@style/ThemeDark.s3Base" />
 
@@ -145,7 +147,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="textSizeSmall">@dimen/textSizeSmallS3</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS3</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS3</item>
-        <item name="textSizeSubhead">@dimen/textSizeSubheadS3</item>
+        <item name="textSizeNormal">@dimen/textSizeNormalS3</item>
     </style>
     <style name="ThemeLight.s3" parent="@style/ThemeLight.s3Base" />
 
@@ -158,6 +160,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="textSizeSmall">@dimen/textSizeSmallBase</item>
         <item name="textSizeMedium">@dimen/textSizeMediumBase</item>
         <item name="textSizeLarge">@dimen/textSizeLargeBase</item>
+        <item name="textSizeNormal">@dimen/textSizeNormalBase</item>
         <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge</item>
         <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium</item>
         <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall</item>
@@ -178,6 +181,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="textSizeSmall">@dimen/textSizeSmallBase</item>
         <item name="textSizeMedium">@dimen/textSizeMediumBase</item>
         <item name="textSizeLarge">@dimen/textSizeLargeBase</item>
+        <item name="textSizeNormal">@dimen/textSizeNormalBase</item>
         <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge</item>
         <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium</item>
         <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall</item>
@@ -193,36 +197,42 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="textSizeSmall">@dimen/textSizeSmallS1</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS1</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS1</item>
+        <item name="textSizeNormal">@dimen/textSizeNormalS1</item>
     </style>
 
     <style name="ThemeLight.EditDialog.s1">
         <item name="textSizeSmall">@dimen/textSizeSmallS1</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS1</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS1</item>
+        <item name="textSizeNormal">@dimen/textSizeNormalS1</item>
     </style>
 
     <style name="ThemeDark.EditDialog.s2">
         <item name="textSizeSmall">@dimen/textSizeSmallS2</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS2</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS2</item>
+        <item name="textSizeNormal">@dimen/textSizeNormalS2</item>
     </style>
 
     <style name="ThemeLight.EditDialog.s2">
         <item name="textSizeSmall">@dimen/textSizeSmallS2</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS2</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS2</item>
+        <item name="textSizeNormal">@dimen/textSizeNormalS2</item>
     </style>
 
     <style name="ThemeDark.EditDialog.s3">
         <item name="textSizeSmall">@dimen/textSizeSmallS3</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS3</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS3</item>
+        <item name="textSizeNormal">@dimen/textSizeNormalS3</item>
     </style>
 
     <style name="ThemeLight.EditDialog.s3">
         <item name="textSizeSmall">@dimen/textSizeSmallS3</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS3</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS3</item>
+        <item name="textSizeNormal">@dimen/textSizeNormalS3</item>
     </style>
 
     <style name="ThemeLight.Translucent">
@@ -234,6 +244,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="textSizeSmall">@dimen/textSizeSmallBase</item>
         <item name="textSizeMedium">@dimen/textSizeMediumBase</item>
         <item name="textSizeLarge">@dimen/textSizeLargeBase</item>
+        <item name="textSizeNormal">@dimen/textSizeNormalBase</item>
         <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge</item>
         <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium</item>
         <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall</item>
@@ -248,6 +259,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="textSizeSmall">@dimen/textSizeSmallBase</item>
         <item name="textSizeMedium">@dimen/textSizeMediumBase</item>
         <item name="textSizeLarge">@dimen/textSizeLargeBase</item>
+        <item name="textSizeNormal">@dimen/textSizeNormalBase</item>
         <item name="android:textAppearanceLarge">@style/MyTextAppearanceLarge</item>
         <item name="android:textAppearanceMedium">@style/MyTextAppearanceMedium</item>
         <item name="android:textAppearanceSmall">@style/MyTextAppearanceSmall</item>
@@ -258,36 +270,42 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="textSizeSmall">@dimen/textSizeSmallS1</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS1</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS1</item>
+        <item name="textSizeNormal">@dimen/textSizeNormalS1</item>
     </style>
 
     <style name="ThemeDark.Translucent.s1">
         <item name="textSizeSmall">@dimen/textSizeSmallS1</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS1</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS1</item>
+        <item name="textSizeNormal">@dimen/textSizeNormalS1</item>
     </style>
 
     <style name="ThemeLight.Translucent.s2">
         <item name="textSizeSmall">@dimen/textSizeSmallS2</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS2</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS2</item>
+        <item name="textSizeNormal">@dimen/textSizeNormalS2</item>
     </style>
 
     <style name="ThemeDark.Translucent.s2">
         <item name="textSizeSmall">@dimen/textSizeSmallS2</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS2</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS2</item>
+        <item name="textSizeNormal">@dimen/textSizeNormalS2</item>
     </style>
 
     <style name="ThemeLight.Translucent.s3">
         <item name="textSizeSmall">@dimen/textSizeSmallS3</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS3</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS3</item>
+        <item name="textSizeNormal">@dimen/textSizeNormalS3</item>
     </style>
 
     <style name="ThemeDark.Translucent.s3">
         <item name="textSizeSmall">@dimen/textSizeSmallS3</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS3</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS3</item>
+        <item name="textSizeNormal">@dimen/textSizeNormalS3</item>
     </style>
 
     <style name="ThemeDark.TranslucentNoTitleBar">

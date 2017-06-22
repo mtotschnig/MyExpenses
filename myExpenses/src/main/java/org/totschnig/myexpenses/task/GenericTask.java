@@ -4,6 +4,7 @@ import android.accounts.AccountManager;
 import android.accounts.AccountManagerFuture;
 import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
+import android.annotation.TargetApi;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.OperationApplicationException;
@@ -14,6 +15,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.RemoteException;
+import android.support.annotation.Nullable;
 import android.support.v4.provider.DocumentFile;
 import android.text.TextUtils;
 
@@ -53,6 +55,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -176,15 +179,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         return successCount;
       case TaskExecutionFragment.TASK_INSTANTIATE_PLAN:
         return Plan.getInstanceFromDb((Long) ids[0]);
-      case TaskExecutionFragment.TASK_REQUIRE_ACCOUNT: {
-        Account account = Account.getInstanceFromDb(0);
-        if (account == null) {
-          account = new Account(application.getString(R.string.default_account_name), 0,
-              application.getString(R.string.default_account_description));
-          account.save();
-        }
-        return account;
-      }
       case TaskExecutionFragment.TASK_DELETE_TRANSACTION:
         try {
           for (long id : (Long[]) ids) {
@@ -568,20 +562,17 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       case TaskExecutionFragment.TASK_SYNC_LINK_SAVE: {
         //first get remote data for account
         String syncAccountName = ((String) mExtra);
-        SyncBackendProvider syncBackendProvider;
-        try {
-          syncBackendProvider = SyncBackendProviderFactory.get(application,
-              GenericAccountService.GetAccount(syncAccountName)).getOrThrow();
-        } catch (Throwable throwable) {
+        SyncBackendProvider syncBackendProvider =  getSyncBackendProviderFromExtra();
+        if (syncBackendProvider == null) {
           return Result.FAILURE;
         }
         List<String> remoteUuidList;
         try {
-          List<AccountMetaData> remoteAccountList = syncBackendProvider.getRemoteAccountList();
-          if (remoteAccountList == null) {
+          Stream<AccountMetaData> remoteAccounStream = syncBackendProvider.getRemoteAccountList();
+          if (remoteAccounStream == null) {
             return new Result(false, "Unable to get account list from backend");
           }
-          remoteUuidList = Stream.of(remoteAccountList)
+          remoteUuidList = remoteAccounStream
                   .map(AccountMetaData::uuid)
                   .collect(Collectors.toList());
         } catch (IOException e) {
@@ -624,18 +615,12 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       }
       case TaskExecutionFragment.TASK_SYNC_CHECK: {
         String accountUuid = (String) ids[0];
-        String syncAccountName = ((String) mExtra);
-        SyncBackendProvider syncBackendProvider;
-        try {
-          syncBackendProvider = SyncBackendProviderFactory.get(application,
-              GenericAccountService.GetAccount(syncAccountName)).getOrThrow();
-        } catch (Throwable throwable) {
-          AcraHelper.report(new Exception(String.format("Unable to get sync backend provider for %s",
-              syncAccountName), throwable));
+        SyncBackendProvider syncBackendProvider =  getSyncBackendProviderFromExtra();
+        if (syncBackendProvider == null) {
           return Result.FAILURE;
         }
         try {
-              if (Stream.of(syncBackendProvider.getRemoteAccountList())
+              if (syncBackendProvider.getRemoteAccountList()
                   .anyMatch(metadata -> metadata.uuid().equals(accountUuid))) {
                 return new Result(false, Utils.concatResStrings(application, " ",
                     R.string.link_account_failure_2, R.string.link_account_failure_3)
@@ -650,15 +635,61 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       case TaskExecutionFragment.TASK_INIT: {
         if (Utils.hasApiLevel(Build.VERSION_CODES.HONEYCOMB)) {
           //on Gingerbread we just accept that db is initialized with first request
-          cr.call(TransactionProvider.DUAL_URI, TransactionProvider.METHOD_INIT, null, null);
+          initDbHoneyComb(cr);
         }
-        if (PrefKey.CURRENT_VERSION.getInt(-1) != -1) {
-          application.getLicenceHandler().update();
-        }
+        application.getLicenceHandler().update();
         Account.updateTransferShortcut();
+      }
+      case TaskExecutionFragment.TASK_SETUP_FROM_SYNC_ACCOUNTS: {
+        String syncAccountName = ((String) mExtra);
+        SyncBackendProvider syncBackendProvider =  getSyncBackendProviderFromExtra();
+        if (syncBackendProvider == null) {
+          return Result.FAILURE;
+        }
+        try {
+          List<String> accountList = Arrays.asList((String[]) ids);
+          int numberOfRestoredAccounts = syncBackendProvider.getRemoteAccountList()
+              .filter(accountMetaData -> accountList.contains(accountMetaData.label()))
+              .map(AccountMetaData::toAccount)
+              .mapToInt(account -> {
+                account.setSyncAccountName(syncAccountName);
+                return account.save() == null ? 0 : 1;
+              })
+              .sum();
+          if (numberOfRestoredAccounts == 0) {
+            return Result.FAILURE;
+          } else {
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+            bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+            ContentResolver.requestSync(GenericAccountService.GetAccount(syncAccountName),
+                TransactionProvider.AUTHORITY, bundle);
+            return new Result(true);
+          }
+        } catch (IOException e) {
+          return Result.FAILURE;
+        }
       }
     }
     return null;
+  }
+
+  @Nullable
+  private SyncBackendProvider getSyncBackendProviderFromExtra() {
+    String syncAccountName = ((String) mExtra);
+    try {
+      return SyncBackendProviderFactory.get(MyApplication.getInstance(),
+          GenericAccountService.GetAccount(syncAccountName)).getOrThrow();
+    } catch (Throwable throwable) {
+      AcraHelper.report(new Exception(String.format("Unable to get sync backend provider for %s",
+          syncAccountName), throwable));
+      return null;
+    }
+  }
+
+  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+  private void initDbHoneyComb(ContentResolver cr) {
+    cr.call(TransactionProvider.DUAL_URI, TransactionProvider.METHOD_INIT, null, null);
   }
 
   private boolean deleteAccount(Long anId) {

@@ -143,7 +143,7 @@ public class CommonCommands {
   public static void showContribDialog(Activity ctx, @Nullable ContribFeature feature, Serializable tag) {
     Intent i = ContribInfoDialogActivity.getIntentFor(ctx, feature);
     i.putExtra(ContribInfoDialogActivity.KEY_TAG, tag);
-    ctx.startActivityForResult(i, ProtectionDelegate.CONTRIB_REQUEST);
+    ctx.startActivityForResult(i, ProtectedFragmentActivity.CONTRIB_REQUEST);
   }
 
 }

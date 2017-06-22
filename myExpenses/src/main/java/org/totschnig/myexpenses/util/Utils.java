@@ -16,43 +16,28 @@
 package org.totschnig.myexpenses.util;
 
 import android.annotation.SuppressLint;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v7.widget.AppCompatDrawableManager;
 import android.telephony.TelephonyManager;
-import android.text.InputFilter;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.IconMarginSpan;
-import android.util.SparseIntArray;
 import android.util.Xml;
-import android.view.ContextThemeWrapper;
 import android.view.MenuItem;
 import android.view.SubMenu;
-import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
-import android.widget.Spinner;
 
 import com.annimon.stream.Stream;
 
@@ -69,10 +54,8 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.task.GrisbiImportTask;
-import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.xml.sax.SAXException;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -110,6 +93,9 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES;
  */
 public class Utils {
 
+  private Utils() {
+  }
+
   public static Currency getLocalCurrency() {
     Currency result = null;
     TelephonyManager telephonyManager = (TelephonyManager) MyApplication.getInstance()
@@ -144,39 +130,6 @@ public class Utils {
     public boolean isEnabled() {
       return true;
     }
-  }
-
-  /*
-  from https://www.google.com/design/spec/style/color.html#color-color-palette
-  maps the 500 color to the 700 color
-   */
-  static final SparseIntArray colorPrimaryDarkMap = new SparseIntArray() {
-    {
-      append(0xffF44336, 0xffD32F2F);
-      append(0xffE91E63, 0xffC2185B);
-      append(0xff9C27B0, 0xff7B1FA2);
-      append(0xff673AB7, 0xff512DA8);
-      append(0xff3F51B5, 0xff303F9F);
-      append(0xff2196F3, 0xff1976D2);
-      append(0xff03A9F4, 0xff0288D1);
-      append(0xff00BCD4, 0xff0097A7);
-      append(0xff009688, 0xff00796B);
-      append(0xff4CAF50, 0xff388E3C);
-      append(0xff8BC34A, 0xff689F38);
-      append(0xffCDDC39, 0xffAFB42B);
-      append(0xffFFEB3B, 0xffFBC02D);
-      append(0xffFFC107, 0xffFFA000);
-      append(0xffFF9800, 0xffF57C00);
-      append(0xffFF5722, 0xffE64A19);
-      append(0xff795548, 0xff5D4037);
-      append(0xff9E9E9E, 0xff616161);
-      append(0xff607D8B, 0xff455A64);
-      append(0xff757575, 0xff424242); //aggregate theme light 600 800
-      append(0xffBDBDBD, 0xff757575); //aggregate theme dark  400 600
-    }
-  };
-
-  private Utils() {
   }
 
   public static boolean hasApiLevel(int checkVersion) {
@@ -328,10 +281,6 @@ public class Utils {
     }
   }
 
-  public static void setBackgroundFilter(View v, int c) {
-    v.getBackground().setColorFilter(c, PorterDuff.Mode.MULTIPLY);
-  }
-
   /**
    * Indicates whether the specified action can be used as an intent. This
    * method queries the package manager for installed packages that can respond
@@ -359,25 +308,6 @@ public class Utils {
     return !list.isEmpty();
   }
 
-  public static boolean isBrightColor(int color) {
-    if (android.R.color.transparent == color)
-      return true;
-
-    boolean rtnValue = false;
-
-    int[] rgb = {Color.red(color), Color.green(color), Color.blue(color)};
-
-    int brightness = (int) Math.sqrt(rgb[0] * rgb[0] * .241 + rgb[1]
-        * rgb[1] * .691 + rgb[2] * rgb[2] * .068);
-
-    // color is light
-    if (brightness >= 200) {
-      rtnValue = true;
-    }
-
-    return rtnValue;
-  }
-
   /**
    * get a value from extras that could be either passed as String or a long extra
    * we need this method, to pass values from monkeyrunner, which is not able to pass long extras
@@ -396,11 +326,6 @@ public class Utils {
     } else {
       return Long.parseLong(stringValue);
     }
-  }
-
-  public static int get700Tint(int color) {
-    int found = colorPrimaryDarkMap.get(color);
-    return found != 0 ? found : color;
   }
 
   @SuppressLint("DefaultLocale")
@@ -617,64 +542,6 @@ public class Utils {
     return a;
   }
 
-  public static void configDecimalSeparator(final EditText editText,
-                                            final char decimalSeparator, final int fractionDigits) {
-    // mAmountText.setInputType(
-    // InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
-    // due to bug in Android platform
-    // http://code.google.com/p/android/issues/detail?id=2626
-    // the soft keyboard if it occupies full screen in horizontal orientation
-    // does not display the , as comma separator
-    // TODO we should take into account the arab separator as well
-    final char otherSeparator = decimalSeparator == '.' ? ',' : '.';
-    editText.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
-    editText.setFilters(new InputFilter[]{new InputFilter() {
-      @Override
-      public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart,
-                                 int dend) {
-        int separatorPositionInDest = dest.toString().indexOf(decimalSeparator);
-        char[] v = new char[end - start];
-        TextUtils.getChars(source, start, end, v, 0);
-        String input = new String(v).replace(otherSeparator, decimalSeparator);
-        if (fractionDigits == 0 || separatorPositionInDest != -1 || dest.length() - dend > fractionDigits) {
-          input = input.replace(String.valueOf(decimalSeparator), "");
-        } else {
-          int separatorPositionInSource = input.lastIndexOf(decimalSeparator);
-          if (separatorPositionInSource != -1) {
-            //we make sure there is only one separator in the input and after the separator we do not use
-            //more minor digits as allowed
-            int existingMinorUnits = dest.length() - dend;
-            int additionalAllowedMinorUnits = fractionDigits - existingMinorUnits;
-            int additionalPossibleMinorUnits = input.length() - separatorPositionInSource - 1;
-            int extractMinorUnits = additionalPossibleMinorUnits >= additionalAllowedMinorUnits ?
-                additionalAllowedMinorUnits : additionalPossibleMinorUnits;
-            input = input.substring(0, separatorPositionInSource).replace(String.valueOf
-                (decimalSeparator), "") +
-                decimalSeparator + (extractMinorUnits > 0 ?
-                input.substring(separatorPositionInSource + 1,
-                    separatorPositionInSource + 1 + extractMinorUnits) :
-                "");
-          }
-        }
-        if (fractionDigits == 0) {
-          return input;
-        }
-        if (separatorPositionInDest != -1 &&
-            dend > separatorPositionInDest && dstart > separatorPositionInDest) {
-          int existingMinorUnits = dest.length() - (separatorPositionInDest + 1);
-          int remainingMinorUnits = fractionDigits - existingMinorUnits;
-          if (remainingMinorUnits < 1) {
-            return "";
-          }
-          return input.length() > remainingMinorUnits ? input.substring(0, remainingMinorUnits) :
-              input;
-        } else {
-          return input;
-        }
-      }
-    }, new InputFilter.LengthFilter(16)});
-  }
-
   /**
    * @param str
    * @return a representation of str converted to lower case, Unicode
@@ -710,83 +577,6 @@ public class Utils {
     return result;
   }
 
-  public static Bitmap decodeSampledBitmapFromUri(Uri uri, int reqWidth,
-                                                  int reqHeight) {
-
-    // First decode with inJustDecodeBounds=true to check dimensions
-    final BitmapFactory.Options options = new BitmapFactory.Options();
-    options.inJustDecodeBounds = true;
-
-    if (uri.getScheme().equals("file")) {
-      String filePath = uri.getPath();
-      BitmapFactory.decodeFile(filePath, options);
-
-      // Calculate inSampleSize
-      options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-
-      // Decode bitmap with inSampleSize set
-      options.inJustDecodeBounds = false;
-      return BitmapFactory.decodeFile(filePath, options);
-    } else {
-      InputStream is = null;
-      try {
-        is = MyApplication.getInstance().getContentResolver()
-            .openInputStream(uri);
-        BitmapFactory.decodeStream(is, null, options);
-        // Calculate inSampleSize
-        options.inSampleSize = calculateInSampleSize(options, reqWidth,
-            reqHeight);
-
-        // Decode bitmap with inSampleSize set
-        options.inJustDecodeBounds = false;
-        is.close();
-        is = MyApplication.getInstance().getContentResolver()
-            .openInputStream(uri);
-        return BitmapFactory.decodeStream(is, null, options);
-      } catch (FileNotFoundException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      } catch (IOException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      } finally {
-        if (is != null) {
-          try {
-            is.close();
-          } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-          }
-        }
-      }
-    }
-    return null;
-  }
-
-  public static int calculateInSampleSize(BitmapFactory.Options options,
-                                          int reqWidth, int reqHeight) {
-    // Raw height and width of image
-    final int height = options.outHeight;
-    final int width = options.outWidth;
-    int inSampleSize = 1;
-
-    if (height > reqHeight || width > reqWidth) {
-
-      final int halfHeight = height / 2;
-      final int halfWidth = width / 2;
-
-      // Calculate the largest inSampleSize value that is a power of 2 and keeps
-      // both
-      // height and width larger than the requested height and width.
-      while ((halfHeight / inSampleSize) > reqHeight
-          && (halfWidth / inSampleSize) > reqWidth) {
-        inSampleSize *= 2;
-      }
-    }
-
-    return inSampleSize;
-  }
-
   /**
    * filters out the '/' character and characters of type {@link java.lang.Character#SURROGATE} or
    * {@link java.lang.Character#OTHER_SYMBOL}, meant primarily to skip emojs
@@ -796,24 +586,6 @@ public class Utils {
    */
   public static String escapeForFileName(String in) {
     return in.replace("/", "").replaceAll("\\p{Cs}", "").replaceAll("\\p{So}", "");
-  }
-
-  //http://stackoverflow.com/a/11072627/1199911
-  public static void selectSpinnerItemByValue(Spinner spnr, long value) {
-    SimpleCursorAdapter adapter = (SimpleCursorAdapter) spnr.getAdapter();
-    for (int position = 0; position < adapter.getCount(); position++) {
-      if (adapter.getItemId(position) == value) {
-        spnr.setSelection(position);
-        return;
-      }
-    }
-  }
-
-  @SuppressLint("NewApi")
-  public static void setBackgroundTintListOnFab(FloatingActionButton fab, int color) {
-    fab.setBackgroundTintList(ColorStateList.valueOf(color));
-    DrawableCompat.setTint(fab.getDrawable(), isBrightColor(color) ? Color.BLACK : Color.WHITE);
-    fab.invalidate();
   }
 
   public static int getFirstDayOfWeek(Locale locale) {
@@ -906,27 +678,6 @@ public class Utils {
     return null;
   }
 
-  public static Bitmap getTintedBitmapForTheme(Context context, int drawableResId, int themeResId) {
-    Drawable d = getTintedDrawableForTheme(context, drawableResId, themeResId);
-    return drawableToBitmap(d);
-  }
-
-  private static Drawable getTintedDrawableForTheme(Context context, int drawableResId, int themeResId) {
-    Context wrappedContext = new ContextThemeWrapper(context, themeResId);
-    //noinspection RestrictedApi
-    return AppCompatDrawableManager.get().getDrawable(wrappedContext, drawableResId);
-  }
-
-  private static Bitmap drawableToBitmap(Drawable d) {
-    Bitmap b = Bitmap.createBitmap(d.getIntrinsicWidth(),
-        d.getIntrinsicHeight(),
-        Bitmap.Config.ARGB_8888);
-    Canvas c = new Canvas(b);
-    d.setBounds(0, 0, c.getWidth(), c.getHeight());
-    d.draw(c);
-    return b;
-  }
-
   public static void requireLoader(LoaderManager manager, int loaderId, Bundle args,
                                    LoaderManager.LoaderCallbacks callback) {
     if (manager.getLoader(loaderId) != null && !manager.getLoader(loaderId).isReset()) {
@@ -990,8 +741,8 @@ public class Utils {
 
   public static CharSequence makeBulletList(Context ctx, String... lines) {
     InsetDrawable drawable = new InsetDrawable(
-        Utils.getTintedDrawableForTheme(ctx, R.drawable.ic_menu_done, R.style.ThemeDark), 0, 20, 0, 0);
-    Bitmap bitmap = drawableToBitmap(drawable);
+        UiUtils.getTintedDrawableForTheme(ctx, R.drawable.ic_menu_done, R.style.ThemeDark), 0, 20, 0, 0);
+    Bitmap bitmap = UiUtils.drawableToBitmap(drawable);
     Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 0.5),
         (int) (bitmap.getHeight() * 0.5), true);
     SpannableStringBuilder sb = new SpannableStringBuilder();
@@ -1002,6 +753,11 @@ public class Utils {
       sb.append(spannable);
     }
     return sb;
+  }
+
+  public static String getSimpleClassNameFromComponentName(@NonNull ComponentName componentName) {
+    String className = componentName.getShortClassName();
+    return className.substring(className.lastIndexOf(".") + 1);
   }
 
 }

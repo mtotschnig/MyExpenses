@@ -327,9 +327,14 @@ public class Account extends Model {
 
   public Account(String label, Currency currency, long openingBalance, String description,
                  AccountType type, int color) {
+    this(label, currency, new Money(currency, openingBalance), description, type, color);
+  }
+
+  public Account(String label, Currency currency, Money openingBalance, String description,
+                 AccountType type, int color) {
     this.label = label;
     this.currency = currency;
-    this.openingBalance = new Money(currency, openingBalance);
+    this.openingBalance = openingBalance;
     this.description = description;
     this.type = type;
     this.grouping = Grouping.NONE;

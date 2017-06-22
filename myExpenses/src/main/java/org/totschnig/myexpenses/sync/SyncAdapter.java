@@ -174,8 +174,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     Cursor cursor;
-
-
     String[] selectionArgs;
     String selection = KEY_SYNC_ACCOUNT_NAME + " = ?";
     if (uuidFromExtras != null) {
@@ -204,6 +202,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         long accountId = cursor.getLong(0);
         try {
           provider.update(buildInitializationUri(accountId), new ContentValues(0), null, null);
+          //make sure user data did not stick around after a user might have cleared data
+          accountManager.setUserData(account, KEY_LAST_SYNCED_LOCAL(accountId), null);
+          accountManager.setUserData(account, KEY_LAST_SYNCED_REMOTE(accountId), null);
         } catch (RemoteException e) {
           syncResult.databaseError = true;
           notifyDatabaseError(e, account);

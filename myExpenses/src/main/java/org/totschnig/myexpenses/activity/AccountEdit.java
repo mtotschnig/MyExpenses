@@ -18,25 +18,24 @@ package org.totschnig.myexpenses.activity;
 import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.adapter.ColorAdapter;
+import org.totschnig.myexpenses.adapter.CurrencyAdapter;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.Account;
@@ -53,7 +52,6 @@ import org.totschnig.myexpenses.util.Result;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Currency;
 
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_CHECK;
@@ -71,10 +69,9 @@ public class AccountEdit extends AmountActivity implements
   private static final String OPENINTENTS_PICK_COLOR_ACTION = "org.openintents.action.PICK_COLOR";
   private EditText mLabelText;
   private EditText mDescriptionText;
-  private SpinnerHelper mCurrencySpinner, mAccountTypeSpinner, mColorSpinner, mSyncSpinner;
+  SpinnerHelper mColorSpinner;
+  private SpinnerHelper mCurrencySpinner, mAccountTypeSpinner, mSyncSpinner;
   private Account mAccount;
-  private ArrayList<Integer> mColors;
-  private ArrayAdapter<Integer> mColAdapter;
   private ArrayAdapter<CurrencyEnum> currencyAdapter;
 
   private void requireAccount() {
@@ -134,68 +131,12 @@ public class AccountEdit extends AmountActivity implements
     mAmountText.setFractionDigits(Money.getFractionDigits(mAccount.currency));
 
     mCurrencySpinner = new SpinnerHelper(findViewById(R.id.Currency));
-    currencyAdapter = new ArrayAdapter<>(
-        this, android.R.layout.simple_spinner_item,
-        android.R.id.text1, CurrencyEnum.sortedValues());
-    currencyAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+    currencyAdapter = new CurrencyAdapter(this);
     mCurrencySpinner.setAdapter(currencyAdapter);
 
-    mAccountTypeSpinner = new SpinnerHelper(DialogUtils.configureTypeSpinner(this));
+    mAccountTypeSpinner = new SpinnerHelper(DialogUtils.configureTypeSpinner(findViewById(R.id.AccountType)));
 
-    mColorSpinner = new SpinnerHelper(findViewById(R.id.Color));
-    mColors = new ArrayList<>();
-    Resources r = getResources();
-    mColors.add(r.getColor(R.color.material_red));
-    mColors.add(r.getColor(R.color.material_pink));
-    mColors.add(r.getColor(R.color.material_purple));
-    mColors.add(r.getColor(R.color.material_deep_purple));
-    mColors.add(r.getColor(R.color.material_indigo));
-    mColors.add(r.getColor(R.color.material_blue));
-    mColors.add(r.getColor(R.color.material_light_blue));
-    mColors.add(r.getColor(R.color.material_cyan));
-    mColors.add(r.getColor(R.color.material_teal));
-    mColors.add(r.getColor(R.color.material_green));
-    mColors.add(r.getColor(R.color.material_light_green));
-    mColors.add(r.getColor(R.color.material_lime));
-    mColors.add(r.getColor(R.color.material_yellow));
-    mColors.add(r.getColor(R.color.material_amber));
-    mColors.add(r.getColor(R.color.material_orange));
-    mColors.add(r.getColor(R.color.material_deep_orange));
-    mColors.add(r.getColor(R.color.material_brown));
-    mColors.add(r.getColor(R.color.material_grey));
-    mColors.add(r.getColor(R.color.material_blue_grey));
-
-    if (mColors.indexOf(mAccount.color) == -1)
-      mColors.add(mAccount.color);
-
-    mColAdapter = new ArrayAdapter<Integer>(this,
-        android.R.layout.simple_spinner_item, mColors) {
-      @Override
-      public View getView(int position, View convertView, ViewGroup parent) {
-        TextView tv = (TextView) super.getView(position, convertView, parent);
-        if (mColors.get(position) != 0)
-          setColor(tv, mColors.get(position));
-        else
-          setColor(tv, mAccount.color);
-        return tv;
-      }
-
-      @Override
-      public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        TextView tv = (TextView) super.getDropDownView(position, convertView, parent);
-        if (mColors.get(position) != 0)
-          setColor(tv, mColors.get(position));
-        return tv;
-      }
-
-      public void setColor(TextView tv, int color) {
-        tv.setBackgroundColor(color);
-        tv.setText("");
-        tv.setContentDescription(getString(R.string.color));
-      }
-    };
-    mColAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    mColorSpinner.setAdapter(mColAdapter);
+    mColorSpinner = new SpinnerHelper(DialogUtils.configureColorSpinner(findViewById(R.id.Color), mAccount.color));
 
     mSyncSpinner = new SpinnerHelper(findViewById(R.id.Sync));
     configureSyncBackendAdapter();
@@ -205,15 +146,6 @@ public class AccountEdit extends AmountActivity implements
 
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
-    if (requestCode == PICK_COLOR_REQUEST && resultCode == RESULT_OK) {
-      mAccount.color = data.getExtras().getInt(OPENINTENTS_COLOR_EXTRA);
-      if (mColors.indexOf(mAccount.color) == -1) {
-        final int lastButOne = mColors.size() - 1;
-        mColors.add(lastButOne, mAccount.color);
-        mColorSpinner.setSelection(lastButOne, true);
-        mColAdapter.notifyDataSetChanged();
-      }
-    }
     if (requestCode == PREFERENCES_REQUEST) {
       configureSyncBackendAdapter();
     }
@@ -262,9 +194,7 @@ public class AccountEdit extends AmountActivity implements
     mCurrencySpinner.setSelection(currencyAdapter.getPosition(
         CurrencyEnum.valueOf(mAccount.currency.getCurrencyCode())));
     mAccountTypeSpinner.setSelection(mAccount.type.ordinal());
-    int selected = mColors.indexOf(mAccount.color);
-    mColorSpinner.setSelection(selected);
-
+    mColorSpinner.setSelection(((ColorAdapter) mColorSpinner.getAdapter()).getPosition(mAccount.color));
   }
 
   /**
@@ -282,7 +212,7 @@ public class AccountEdit extends AmountActivity implements
     try {
       mAccount.setCurrency(currency);
     } catch (IllegalArgumentException e) {
-      Toast.makeText(this, currency + " not supported by your OS. Please select a different currency.", Toast.LENGTH_LONG).show();
+      Toast.makeText(this, getString(R.string.currency_not_supported, currency), Toast.LENGTH_LONG).show();
       return;
     }
 
@@ -316,12 +246,13 @@ public class AccountEdit extends AmountActivity implements
     setDirty(true);
     switch (parent.getId()) {
       case R.id.Color:
-        if (mColors.get(position) != 0) mAccount.color = mColors.get(position);
+        mAccount.color = (int) parent.getSelectedItem();
         break;
       case R.id.Currency:
         try {
+          String currency = ((CurrencyEnum) mCurrencySpinner.getSelectedItem()).name();
           mAmountText.setFractionDigits(Money.getFractionDigits(
-              Currency.getInstance(CurrencyEnum.values()[position].name())));
+              Currency.getInstance(currency)));
         } catch (IllegalArgumentException e) {
           //will be reported to user when he tries so safe
         }
@@ -485,4 +416,5 @@ public class AccountEdit extends AmountActivity implements
         null)
         .show(getSupportFragmentManager(), "SYNC_HELP");
   }
+
 }

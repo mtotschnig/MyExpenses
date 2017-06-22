@@ -54,6 +54,8 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.activity.ProtectionDelegate;
+import org.totschnig.myexpenses.adapter.ColorAdapter;
+import org.totschnig.myexpenses.adapter.CurrencyAdapter;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
@@ -78,27 +80,21 @@ public class DialogUtils {
   public static Dialog sendWithFTPDialog(final Activity ctx) {
     return new AlertDialog.Builder(ctx)
         .setMessage(R.string.no_app_handling_ftp_available)
-        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int id) {
-            ctx.dismissDialog(R.id.FTP_DIALOG);
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse(DistribHelper.getMarketPrefix() + "org.totschnig.sendwithftp"));
-            if (Utils.isIntentAvailable(ctx, intent)) {
-              ctx.startActivity(intent);
-            } else {
-              Toast.makeText(
-                  ctx.getBaseContext(),
-                  R.string.error_accessing_market,
-                  Toast.LENGTH_LONG)
-                  .show();
-            }
+        .setPositiveButton(android.R.string.yes, (dialog, id) -> {
+          ctx.dismissDialog(R.id.FTP_DIALOG);
+          Intent intent = new Intent(Intent.ACTION_VIEW);
+          intent.setData(Uri.parse(DistribHelper.getMarketPrefix() + "org.totschnig.sendwithftp"));
+          if (Utils.isIntentAvailable(ctx, intent)) {
+            ctx.startActivity(intent);
+          } else {
+            Toast.makeText(
+                ctx.getBaseContext(),
+                R.string.error_accessing_market,
+                Toast.LENGTH_LONG)
+                .show();
           }
         })
-        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int id) {
-            ctx.dismissDialog(R.id.FTP_DIALOG);
-          }
-        }).create();
+        .setNegativeButton(android.R.string.no, (dialog, id) -> ctx.dismissDialog(R.id.FTP_DIALOG)).create();
   }
 
   public static void showPasswordDialog(final Activity ctx, AlertDialog dialog, boolean hideWindow,
@@ -113,15 +109,12 @@ public class DialogUtils {
     dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     dialog.show();
     if (callback == null) {
-      callback = new PasswordDialogUnlockedCallback() {
-        @Override
-        public void onPasswordDialogUnlocked() {
-          MyApplication.getInstance().setLocked(false);
-          ctx.findViewById(android.R.id.content).setVisibility(View.VISIBLE);
-          if (ctx instanceof AppCompatActivity) {
-            final ActionBar actionBar = ((AppCompatActivity) ctx).getSupportActionBar();
-            if (actionBar != null) actionBar.show();
-          }
+      callback = () -> {
+        MyApplication.getInstance().setLocked(false);
+        ctx.findViewById(android.R.id.content).setVisibility(View.VISIBLE);
+        if (ctx instanceof AppCompatActivity) {
+          final ActionBar actionBar = ((AppCompatActivity) ctx).getSupportActionBar();
+          if (actionBar != null) actionBar.show();
         }
       };
     }
@@ -143,33 +136,21 @@ public class DialogUtils {
     AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
         .setTitle(R.string.password_prompt)
         .setView(view)
-        .setOnCancelListener(new DialogInterface.OnCancelListener() {
-          @Override
-          public void onCancel(DialogInterface dialog) {
-            if (cancelable) {
-              dialog.dismiss();
-            } else {
-              ctx.moveTaskToBack(true);
-            }
+        .setOnCancelListener(dialog -> {
+          if (cancelable) {
+            dialog.dismiss();
+          } else {
+            ctx.moveTaskToBack(true);
           }
         });
     if (ContribFeature.SECURITY_QUESTION.hasAccess() && !securityQuestion.equals("")) {
-      builder.setNeutralButton(R.string.password_lost, new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int id) {
-        }
+      builder.setNeutralButton(R.string.password_lost, (dialog, id) -> {
       });
     }
-    builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-      public void onClick(DialogInterface dialog, int id) {
-      }
+    builder.setPositiveButton(android.R.string.ok, (dialog, id) -> {
     });
     if (cancelable) {
-      builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-          dialog.dismiss();
-        }
-      });
+      builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> dialog.dismiss());
     }
     return builder.create();
   }
@@ -285,7 +266,7 @@ public class DialogUtils {
     String calendarPath = PrefKey.PLANNER_CALENDAR_PATH.getString("");
     RadioButton configured = (RadioButton) view.findViewById(R.id.restore_calendar_handling_configured);
     if ((calendarId.equals("-1")) || calendarPath.equals("")) {
-      configured.setEnabled(false);
+      configured.setVisibility(View.GONE);
     } else {
       //noinspection SetTextI18n
       configured.setText(configured.getText() + " (" + calendarPath + ")");
@@ -294,21 +275,18 @@ public class DialogUtils {
   }
 
   public static RadioGroup.OnCheckedChangeListener buildCalendarRestoreStrategyChangedListener(
-      final ProtectedFragmentActivity context, final CalendarRestoreStrategyChangedListener listener) {
-    return new RadioGroup.OnCheckedChangeListener() {
-      @Override
-      public void onCheckedChanged(RadioGroup group, int checkedId) {
-        if (checkedId == R.id.restore_calendar_handling_backup ||
-            checkedId == R.id.restore_calendar_handling_configured) {
-          if (ContextCompat.checkSelfPermission(context,
-              Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(context,
-                new String[]{Manifest.permission.WRITE_CALENDAR},
-                ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR);
-          }
+      final Activity context, final CalendarRestoreStrategyChangedListener listener) {
+    return (group, checkedId) -> {
+      if (checkedId == R.id.restore_calendar_handling_backup ||
+          checkedId == R.id.restore_calendar_handling_configured) {
+        if (ContextCompat.checkSelfPermission(context,
+            Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_DENIED) {
+          ActivityCompat.requestPermissions(context,
+              new String[]{Manifest.permission.WRITE_CALENDAR},
+              ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR);
         }
-        listener.onCheckedChanged();
       }
+      listener.onCheckedChanged();
     };
   }
 
@@ -360,12 +338,9 @@ public class DialogUtils {
   }
 
   public static Spinner configureCurrencySpinner(
-      View view, Context context, AdapterView.OnItemSelectedListener listener) {
+      View view, AdapterView.OnItemSelectedListener listener) {
     Spinner spinner = (Spinner) view.findViewById(R.id.Currency);
-    ArrayAdapter<CurrencyEnum> curAdapter = new ArrayAdapter<>(
-        context, android.R.layout.simple_spinner_item, android.R.id.text1,
-        CurrencyEnum.sortedValues());
-    curAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+    CurrencyAdapter curAdapter = new CurrencyAdapter(view.getContext());
     spinner.setAdapter(curAdapter);
     spinner.setOnItemSelectedListener(listener);
     spinner.setSelection(curAdapter.getPosition(CurrencyEnum.valueOf(
@@ -373,23 +348,22 @@ public class DialogUtils {
     return spinner;
   }
 
-  public static Spinner configureTypeSpinner(Activity context) {
-    Spinner spinner = (Spinner) context.findViewById(R.id.AccountType);
-    configureTypeSpinner(spinner, context);
-    return spinner;
-  }
-
-  public static Spinner configureTypeSpinner(View view, Context context) {
-    Spinner spinner = (Spinner) view.findViewById(R.id.AccountType);
-    configureTypeSpinner(spinner, context);
-    return spinner;
-  }
-
-  private static void configureTypeSpinner(Spinner spinner, Context context) {
+  public static Spinner configureTypeSpinner(View view) {
+    Spinner spinner = view instanceof Spinner ? (Spinner) view :
+        (Spinner) view.findViewById(R.id.AccountType);
     ArrayAdapter<AccountType> typAdapter = new ArrayAdapter<>(
-        context, android.R.layout.simple_spinner_item, android.R.id.text1, AccountType.values());
+        spinner.getContext(), android.R.layout.simple_spinner_item, android.R.id.text1, AccountType.values());
     typAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
     spinner.setAdapter(typAdapter);
+    return spinner;
+  }
+
+  public static Spinner configureColorSpinner(View view, int selectedColor) {
+    Spinner spinner = view instanceof Spinner ? (Spinner) view :
+        (Spinner) view.findViewById(R.id.Color);
+    ColorAdapter adapter = new ColorAdapter(view.getContext(), selectedColor);
+    spinner.setAdapter(adapter);
+    return spinner;
   }
 
   public static void openBrowse(Uri uri, Fragment fragment) {

@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.NotificationManager;
@@ -991,8 +992,7 @@ public class ExpenseEdit extends AmountActivity implements
           } else {
             try {
               if (Utils.hasApiLevel(Build.VERSION_CODES.HONEYCOMB_MR1)) {
-                CalendarView calendarView = datePickerDialog.getDatePicker().getCalendarView();
-                calendarView.setFirstDayOfWeek(startOfWeek);
+                setFirstDayOfWeek(datePickerDialog, startOfWeek);
               }
             } catch (UnsupportedOperationException e) {/*Nothing left tod do*/}
           }
@@ -1008,6 +1008,12 @@ public class ExpenseEdit extends AmountActivity implements
         );
     }
     return null;
+  }
+
+  @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
+  private void setFirstDayOfWeek(DatePickerDialog datePickerDialog, int startOfWeek) {
+    CalendarView calendarView = datePickerDialog.getDatePicker().getCalendarView();
+    calendarView.setFirstDayOfWeek(startOfWeek);
   }
 
   private static boolean isBrokenSamsungDevice() {

@@ -67,7 +67,6 @@
     <string name="date_format_illegal">Illegal date format</string>
     <string name="number_format_illegal">Illegal number format</string>
     <string name="decimal_separator">Decimal separator</string>
-    <string name="default_account_description">This account was set up automatically during installation</string>
     <string name="default_account_name">Budget Book</string>
     <string name="description">Description</string>
     <string name="dialog_balance_delete">Delete reconciled transactions</string>
@@ -151,13 +150,6 @@
     <string name="help_heading_credits">Credits</string>
     <string name="help_heading_license">License</string>
     <string name="help_heading_whats_new">What\'s new</string>
-    <string-array name="help_intro">
-        <item>Keep track of your expenses and incomes.</item>
-        <item>Manage them directly on your smartphone.</item>
-        <item>Export them into a Desktop finance program like Grisbi, GnuCash, Quicken or MS Money.</item>
-    </string-array>
-    <!-- %s is replaced with Android or Blackberry -->
-    <string name="help_leading">Thanks for installing <i>My Expenses</i> for %s.</string>
     <string name="important_upgrade_information_heading">Important information</string>
     <string name="import_select_transactions">Transactions</string>
     <string name="income">Income</string>
@@ -675,5 +667,12 @@
     <string name="pref_webdav_timeout_title">WebDAV Timeout</string>
     <string name="sync_state_restored">Sync state was restored for %d accounts.</string>
     <string name="sync_state_could_not_be_restored">Sync state could not be restored for %d accounts.</string>
+    <string name="onboarding_title">Welcome to My Expenses!</string>
+    <string name="onboarding_ui_title">My Expenses adapts to your preference:</string>
+    <string name="onboarding_data_title">Let us set up your first account:</string>
+    <string name="onboarding_get_started">Get started</string>
+    <string name="onboarding_more_options">More Options</string>
+    <string name="onboarding_restore_from_cloud">Restore from cloud synchronization</string>
+    <string name="onboarding_restore_from_local">Restore local backup file</string>
 </resources>
 

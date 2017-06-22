@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 
 public class SplashActivity extends ProtectedFragmentActivity {
@@ -12,8 +13,13 @@ public class SplashActivity extends ProtectedFragmentActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
-    startTaskExecution(TaskExecutionFragment.TASK_INIT, null, null, 0);
+    if (PrefKey.CURRENT_VERSION.getInt(-1) == -1) {
+      Intent intent = new Intent(this, OnboardingActivity.class);
+      startActivity(intent);
+      finish();
+    } else {
+      startTaskExecution(TaskExecutionFragment.TASK_INIT, null, null, 0);
+    }
   }
 
   @Override

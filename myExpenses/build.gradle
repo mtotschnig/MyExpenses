@@ -9,7 +9,6 @@ buildscript {
 }
 
 apply plugin: 'com.android.application'
-apply plugin: 'android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.jakewharton.hugo'
 
@@ -124,17 +123,19 @@ List supportCompile = ['com.android.support:appcompat-v7:' + project.androidSupp
                        'com.android.support:preference-v14:' + project.androidSupportLibraryVersion]
 
 dependencies {
-    apt 'com.google.dagger:dagger-compiler:' + project.daggerVersion
+    compile 'com.jakewharton:butterknife:8.6.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
+    annotationProcessor 'com.google.dagger:dagger-compiler:' + project.daggerVersion
     compile 'com.google.dagger:dagger:' + project.daggerVersion
     provided 'javax.annotation:jsr250-api:1.0'
     compile 'frankiesardo:icepick:3.2.0'
-    apt 'frankiesardo:icepick-processor:3.2.0'
+    provided 'frankiesardo:icepick-processor:3.2.0'
     compile 'com.google.code.gson:gson:2.8.0'
     provided 'com.google.auto.value:auto-value:1.4'
-    apt 'com.google.auto.value:auto-value:1.4'
-    apt 'com.ryanharter.auto.value:auto-value-gson:0.4.6'
+    annotationProcessor 'com.google.auto.value:auto-value:1.4'
+    annotationProcessor 'com.ryanharter.auto.value:auto-value-gson:0.4.6'
     provided 'com.ryanharter.auto.value:auto-value-gson:0.4.6'
-    apt 'com.gabrielittner.auto.value:auto-value-cursor:1.0.1'
+    annotationProcessor 'com.gabrielittner.auto.value:auto-value-cursor:1.0.1'
     compile 'com.gabrielittner.auto.value:auto-value-cursor-annotations:1.0.0'
     compile 'com.github.mtotschnig:StickyListHeaders:master-SNAPSHOT'
     compile 'com.github.mtotschnig:MaterialSeekBarPreference:improvement~align-with-layout-specific-to-each-level-SNAPSHOT'
@@ -161,6 +162,8 @@ dependencies {
     compile 'org.apache.commons:commons-collections4:4.1'
 
     compile 'com.jakewharton.timber:timber:4.5.1'
+
+    compile 'com.romandanylyk:pageindicatorview:0.1.2'
 
     compile supportCompile
 

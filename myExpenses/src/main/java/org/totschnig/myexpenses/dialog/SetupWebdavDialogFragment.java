@@ -17,8 +17,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ManageSyncBackends;
 import org.totschnig.myexpenses.activity.ProtectionDelegate;
+import org.totschnig.myexpenses.activity.SyncBackendSetupActivity;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.WebDavBackendProvider;
 import org.totschnig.myexpenses.sync.webdav.CertificateHelper;
@@ -165,7 +165,7 @@ public class SetupWebdavDialogFragment extends CommitSafeDialogFragment {
   }
 
   private void finish(Bundle data) {
-    ((ManageSyncBackends) getActivity()).onFinishWebDavSetup(data);
+    ((SyncBackendSetupActivity) getActivity()).onFinishWebDavSetup(data);
     dismiss();
   }
 

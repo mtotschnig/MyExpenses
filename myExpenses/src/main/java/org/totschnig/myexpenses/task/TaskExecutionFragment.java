@@ -59,7 +59,6 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_INSTANTIATE_TRANSACTION = 2;
   public static final int TASK_INSTANTIATE_TEMPLATE = 3;
   public static final int TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE = 4;
-  public static final int TASK_REQUIRE_ACCOUNT = 5;
   public static final int TASK_DELETE_TRANSACTION = 6;
   public static final int TASK_DELETE_ACCOUNT = 7;
   public static final int TASK_DELETE_PAYMENT_METHODS = 8;
@@ -114,6 +113,9 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_SYNC_CHECK = 49;
 
   public static final int TASK_INIT = 50;
+
+  public static final int TASK_FETCH_SYNC_ACCOUNT_DATA = 51;
+  public static final int TASK_SETUP_FROM_SYNC_ACCOUNTS = 52;
 
   /**
    * Callback interface through which the fragment will report the task's
@@ -288,7 +290,10 @@ public class TaskExecutionFragment<T> extends Fragment {
           new TestLoginTask(this, args).execute();
           break;
         case TASK_CREATE_SYNC_ACCOUNT:
-          new CreateSyncAccountTask(this, args).execute();
+          new SyncAccountTask(this, args, true).execute();
+          break;
+        case TASK_FETCH_SYNC_ACCOUNT_DATA:
+          new SyncAccountTask(this, args, false).execute();
           break;
         default:
           new GenericTask<T>(this, taskId, args.getSerializable(KEY_EXTRA))

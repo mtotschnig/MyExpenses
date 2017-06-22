@@ -79,6 +79,10 @@
         <item name="android:background">?android:attr/listDivider</item>
     </style>
 
+    <style name="MyTextAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textSize">?textSizeNormal</item>
+    </style>
+
     <style name="MyTextAppearanceLarge" parent="@android:style/TextAppearance.Large">
         <item name="android:textSize">?textSizeLarge</item>
     </style>
@@ -221,4 +225,14 @@
         <item name="android:textColor">@color/material_grey</item>
     </style>
 
+    <style name="OnboardingInputLabel">
+        <item name="android:textAppearance">?android:textAppearanceMedium</item>
+        <item name="android:textColor">?android:textColorSecondary</item>
+        <item name="android:layout_marginBottom">5dp</item>
+    </style>
+
+    <style name="onboarding_display_property">
+        <item name="android:textAppearance">?android:textAppearanceSmall</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
+    </style>
 </resources>

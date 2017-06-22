@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.fragment;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -20,12 +19,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.annimon.stream.Collectors;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.SyncBackendAdapter;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
@@ -38,6 +35,7 @@ import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.SyncBackendProvider;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
+import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.io.IOException;
@@ -78,13 +76,7 @@ public class SyncBackendList extends Fragment implements
     listView.setEmptyView(emptyView);
     listView.setOnGroupExpandListener(this);
     snackbar = Snackbar.make(listView, "Loading available accounts from backend.", LENGTH_INDEFINITE);
-    if (MyApplication.getThemeType().equals(MyApplication.ThemeType.dark)) {
-      //Workaround for https://issuetracker.google.com/issues/37120757
-      View snackbarView = snackbar.getView();
-      snackbarView.setBackgroundColor(Color.WHITE);
-      TextView textView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
-      textView.setTextColor(Color.BLACK);
-    }
+    UiUtils.configureSnackbarForDarkTheme(snackbar);
     mManager.initLoader(ACCOUNT_CURSOR, null, new LocalAccountInfoCallbacks());
     registerForContextMenu(listView);
     return v;
@@ -327,7 +319,7 @@ public class SyncBackendList extends Fragment implements
 
     private AccountMetaDataLoaderResult getRemoteAccountList(SyncBackendProvider provider) {
       try {
-        return new AccountMetaDataLoaderResult(provider.getRemoteAccountList(), null);
+        return new AccountMetaDataLoaderResult(provider.getRemoteAccountList().collect(Collectors.toList()), null);
       } catch (IOException e) {
         return new AccountMetaDataLoaderResult(null, e);
       }

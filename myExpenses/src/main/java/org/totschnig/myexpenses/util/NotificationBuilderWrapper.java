@@ -102,7 +102,7 @@ public class NotificationBuilderWrapper {
   public NotificationBuilderWrapper addAction(int iconCompat, int iconApi23, String title, PendingIntent intent) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
       api23Builder.addAction(new Notification.Action.Builder(
-          Icon.createWithBitmap(Utils.getTintedBitmapForTheme(context, iconApi23, R.style.ThemeLight)),
+          Icon.createWithBitmap(UiUtils.getTintedBitmapForTheme(context, iconApi23, R.style.ThemeLight)),
           title, intent).build());
     } else {
       compatBuilder.addAction(iconCompat, title, intent);

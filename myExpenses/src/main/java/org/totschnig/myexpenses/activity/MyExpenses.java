@@ -37,7 +37,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
@@ -72,7 +71,6 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
-import org.totschnig.myexpenses.dialog.WelcomeDialogFragment;
 import org.totschnig.myexpenses.fragment.ContextualActionBarFragment;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
@@ -101,6 +99,7 @@ import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.ShareUtils;
+import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.ads.AdHandler;
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory;
@@ -199,7 +198,6 @@ public class MyExpenses extends LaunchActivity implements
   boolean indexesCalculated = false;
   private long idFromNotification = 0;
   private String mExportFormat = null;
-  public boolean setupComplete;
   private AccountGrouping mAccountGrouping;
 
   @Inject
@@ -218,15 +216,7 @@ public class MyExpenses extends LaunchActivity implements
     theme.resolveAttribute(R.attr.colorAggregate, value, true);
     colorAggregate = value.data;
     int prev_version = PrefKey.CURRENT_VERSION.getInt(-1);
-    if (prev_version == -1) {
-      //prevent preference change listener from firing when preference file is created
-      if (MyApplication.isInstrumentationTest()) {
-        PreferenceManager.setDefaultValues(this, MyApplication.getTestId(), Context.MODE_PRIVATE,
-            R.xml.preferences, true);
-      } else {
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-      }
-    }
+
 
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
@@ -360,11 +350,6 @@ public class MyExpenses extends LaunchActivity implements
 
     requireFloatingActionButtonWithContentDescription(Utils.concatResStrings(this, ". ",
         R.string.menu_create_transaction, R.string.menu_create_transfer, R.string.menu_create_split));
-    if (prev_version == -1) {
-      getSupportActionBar().hide();
-      initialSetup();
-      return;
-    }
     if (savedInstanceState != null) {
       mExportFormat = savedInstanceState.getString("exportFormat");
       mAccountId = savedInstanceState.getLong(KEY_ACCOUNTID, 0L);
@@ -384,22 +369,10 @@ public class MyExpenses extends LaunchActivity implements
         }
       }
     }
-    if (mAccountId == 0)
+    if (mAccountId == 0) {
       mAccountId = PrefKey.CURRENT_ACCOUNT.getLong(0L);
-    setup();
-  }
-
-  private void initialSetup() {
-    FragmentManager fm = getSupportFragmentManager();
-    if (fm.findFragmentByTag(ProtectionDelegate.ASYNC_TAG) == null) {
-      fm.beginTransaction()
-          .add(WelcomeDialogFragment.newInstance(), "WELCOME")
-          .add(TaskExecutionFragment.newInstance(
-              TaskExecutionFragment.TASK_REQUIRE_ACCOUNT, new Long[]{0L}, null),
-              ProtectionDelegate.ASYNC_TAG)
-          .commit();
-      setupComplete = false;
     }
+    setup();
   }
 
   private void setup() {
@@ -595,19 +568,6 @@ public class MyExpenses extends LaunchActivity implements
       case R.id.BACKUP_COMMAND:
         startActivity(new Intent("myexpenses.intent.backup"));
         return true;
-/*    case R.id.HANDLE_RESTORE_ON_INSTALL_COMMAND:
-      if ((Boolean) tag) {
-        if (MyApplication.backupRestore()) {
-          //if we have successfully restored, we relaunch in order to force password check if needed
-          i = getBaseContext().getPackageManager()
-              .getLaunchIntentForPackage( getBaseContext().getPackageName() );
-          i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-          startActivity(i);
-          break;
-        }
-      }
-      initialSetup();
-      return true;*/
       case R.id.REMIND_NO_RATE_COMMAND:
         PrefKey.NEXT_REMINDER_RATE.putLong(-1);
         return true;
@@ -858,15 +818,15 @@ public class MyExpenses extends LaunchActivity implements
       window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
       //noinspection InlinedApi
       window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-      int color700 = Utils.get700Tint(color);
+      int color700 = UiUtils.get700Tint(color);
       window.setStatusBarColor(color700);
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         //noinspection InlinedApi
         getWindow().getDecorView().setSystemUiVisibility(
-            Utils.isBrightColor(color700) ? View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR : 0);
+            UiUtils.isBrightColor(color700) ? View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR : 0);
       }
     }
-    Utils.setBackgroundTintListOnFab(floatingActionButton, color);
+    UiUtils.setBackgroundTintListOnFab(floatingActionButton, color);
     mAccountId = newAccountId;
     setBalance();
     mDrawerList.setItemChecked(position, true);
@@ -988,17 +948,6 @@ public class MyExpenses extends LaunchActivity implements
         msg = successCount == 0 ? getString(R.string.split_transaction_error) :
             getResources().getQuantityString(R.plurals.split_transaction_success, successCount, successCount);
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
-        break;
-      case TaskExecutionFragment.TASK_REQUIRE_ACCOUNT:
-        setupComplete = true;
-        getSupportActionBar().show();
-        FragmentManager fm = getSupportFragmentManager();
-        setup();
-        WelcomeDialogFragment wdf =
-            ((WelcomeDialogFragment) fm.findFragmentByTag("WELCOME"));
-        if (wdf != null) {
-          wdf.setSetupComplete();
-        }
         break;
       case TaskExecutionFragment.TASK_EXPORT:
         ArrayList<Uri> files = (ArrayList<Uri>) o;

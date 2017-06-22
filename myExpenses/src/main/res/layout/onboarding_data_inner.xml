@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:showIn="@layout/onboarding_data">
+
+        <TextView
+            style="@style/OnboardingInputLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:labelFor="@+id/Label"
+            android:text="@string/label"/>
+
+        <EditText
+            android:id="@+id/Label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:inputType="text"/>
+
+        <TextView
+            style="@style/OnboardingInputLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:labelFor="@+id/Amount"
+            android:text="@string/opening_balance"/>
+
+        <include
+            layout="@layout/amount_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            style="@style/OnboardingInputLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:labelFor="@+id/Currency"
+            android:text="@string/currency"/>
+
+        <Spinner
+            android:id="@+id/Currency"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:prompt="@string/currency"/>
+
+        <Button
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:id="@+id/MoreOptionsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:onClick="showMoreOptions"
+            android:text="@string/onboarding_more_options"
+            />
+
+        <LinearLayout
+            android:id="@+id/MoreOptionsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                style="@style/OnboardingInputLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:labelFor="@+id/Description"
+                android:text="@string/description"/>
+
+            <EditText
+                android:id="@+id/Description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:inputType="text"/>
+
+            <TextView
+                style="@style/OnboardingInputLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:labelFor="@+id/AccountType"
+                android:text="@string/type"/>
+
+            <Spinner
+                android:id="@+id/AccountType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:prompt="@string/type"/>
+
+            <TextView
+                style="@style/OnboardingInputLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:labelFor="@+id/Color"
+                android:text="@string/color"/>
+
+            <Spinner
+                android:id="@+id/Color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:prompt="@string/color"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

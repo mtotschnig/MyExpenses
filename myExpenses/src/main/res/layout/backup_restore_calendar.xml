@@ -20,14 +20,20 @@
 
         <RadioButton
             android:id="@+id/restore_calendar_handling_backup"
-            android:text="@string/restore_calendar_handling_backup"/>
+            android:text="@string/restore_calendar_handling_backup"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
 
         <RadioButton
             android:id="@+id/restore_calendar_handling_configured"
-            android:text="@string/restore_calendar_handling_configured"/>
+            android:text="@string/restore_calendar_handling_configured"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
 
         <RadioButton
             android:id="@+id/restore_calendar_handling_ignore"
-            android:text="@string/restore_calendar_handling_ignore"/>
+            android:text="@string/restore_calendar_handling_ignore"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"/>
     </RadioGroup>
 </TableRow>

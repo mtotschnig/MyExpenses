@@ -16,7 +16,6 @@
 package org.totschnig.myexpenses.activity;
 
 import android.Manifest;
-import android.accounts.AccountManager;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
@@ -63,6 +62,7 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.Result;
+import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.widget.AbstractWidget;
@@ -72,7 +72,7 @@ import java.io.Serializable;
 import javax.inject.Inject;
 
 import static org.totschnig.myexpenses.activity.ContribInfoDialogActivity.KEY_FEATURE;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_RESTORE;
 
 public abstract class ProtectedFragmentActivity extends AppCompatActivity
     implements MessageDialogListener, OnSharedPreferenceChangeListener,
@@ -92,6 +92,8 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   public static final int PICTURE_REQUEST_CODE = 14;
   public static final int IMPORT_FILENAME_REQUESTCODE = 15;
   public static final int SYNC_BACKEND_SETUP_REQUEST = 16;
+  public static final int RESTORE_REQUEST = 17;
+  public static final int CONTRIB_REQUEST = 18;
   public static final String SAVE_TAG = "SAVE_TASK";
   public static final String SORT_ORDER_USAGES = "USAGES";
   public static final String SORT_ORDER_LAST_USED = "LAST_USED";
@@ -99,6 +101,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   public static final String SORT_ORDER_TITLE = "TITLE";
   public static final String SORT_ORDER_CUSTOM = "CUSTOM";
   public static final String SORT_ORDER_NEXT_INSTANCE = "NEXT_INSTANCE";
+  public static final int RESULT_RESTORE_OK = RESULT_FIRST_USER + 1;
   private AlertDialog pwDialog;
   private ProtectionDelegate protection;
   private boolean scheduledRestart = false;
@@ -139,7 +142,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     colorExpense = color.data;
     theme.resolveAttribute(R.attr.colorIncome, color, true);
     colorIncome = color.data;
-    TypedArray themeArray = theme.obtainStyledAttributes(new int[] {android.R.attr.textColorSecondary});
+    TypedArray themeArray = theme.obtainStyledAttributes(new int[]{android.R.attr.textColorSecondary});
     textColorSecondary = themeArray.getColorStateList(0);
 
     tracker.init(this);
@@ -158,7 +161,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     if (!requireFloatingActionButtonWithContentDescription(getString(fabDescription))) return;
     TypedValue color = new TypedValue();
     getTheme().resolveAttribute(R.attr.colorControlActivated, color, true);
-    Utils.setBackgroundTintListOnFab(floatingActionButton, color.data);
+    UiUtils.setBackgroundTintListOnFab(floatingActionButton, color.data);
   }
 
   protected boolean requireFloatingActionButtonWithContentDescription(String fabDescription) {
@@ -203,16 +206,25 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     super.onResume();
     if (scheduledRestart) {
       scheduledRestart = false;
-      if (Utils.hasApiLevel(Build.VERSION_CODES.HONEYCOMB))
-        recreate();
-      else {
-        Intent intent = getIntent();
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-      }
+      recreateBackport();
     } else {
       pwDialog = getProtection().hanldeOnResume(pwDialog);
     }
+  }
+
+  public void recreateBackport() {
+    if (Utils.hasApiLevel(Build.VERSION_CODES.HONEYCOMB)) {
+      recreateHoneyComb();
+    } else {
+      Intent intent = getIntent();
+      intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+      startActivity(intent);
+    }
+  }
+
+  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+  private void recreateHoneyComb() {
+    super.recreate();
   }
 
   @Override
@@ -241,11 +253,14 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     Bundle bundle = new Bundle();
-    String fullResourceName = getResources().getResourceName(item.getItemId());
-    bundle.putString(Tracker.EVENT_PARAM_ITEM_ID, fullResourceName.substring(fullResourceName.indexOf('/') + 1));
-    logEvent(Tracker.EVENT_SELECT_MENU, bundle);
-    if (dispatchCommand(item.getItemId(), null)) {
-      return true;
+    int itemId = item.getItemId();
+    if (itemId != 0) {
+      String fullResourceName = getResources().getResourceName(itemId);
+      bundle.putString(Tracker.EVENT_PARAM_ITEM_ID, fullResourceName.substring(fullResourceName.indexOf('/') + 1));
+      logEvent(Tracker.EVENT_SELECT_MENU, bundle);
+      if (dispatchCommand(itemId, null)) {
+        return true;
+      }
     }
     return super.onOptionsItemSelected(item);
   }
@@ -286,7 +301,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
       case TaskExecutionFragment.TASK_DELETE_CATEGORY:
       case TaskExecutionFragment.TASK_DELETE_PAYEES:
       case TaskExecutionFragment.TASK_DELETE_TEMPLATES:
-      case TaskExecutionFragment.TASK_UNDELETE_TRANSACTION:
+      case TaskExecutionFragment.TASK_UNDELETE_TRANSACTION: {
         Result result = (Result) o;
         if (!result.success) {
           Toast.makeText(this,
@@ -294,13 +309,36 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
               Toast.LENGTH_LONG).show();
         }
         break;
-      case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2:
+      }
+      case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2: {
         TransactionDetailFragment tdf = (TransactionDetailFragment)
             getSupportFragmentManager().findFragmentByTag(TransactionDetailFragment.class.getName());
         if (tdf != null) {
           tdf.fillData((Transaction) o);
         }
         break;
+      }
+      case TASK_RESTORE: {
+        onPostRestoreTask(((Result) o));
+        break;
+      }
+    }
+  }
+
+  protected void onPostRestoreTask(Result result) {
+    String msg = result.print(this);
+    if (msg != null) {
+      Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
+    }
+    if (result.success) {
+      MyApplication.getInstance().getLicenceHandler().reset();
+      // if the backup is password protected, we want to force the password
+      // check
+      // is it not enough to set mLastPause to zero, since it would be
+      // overwritten by the callings activity onpause
+      // hence we need to set isLocked if necessary
+      MyApplication.getInstance().resetLastPause();
+      MyApplication.getInstance().shouldLock(this);
     }
   }
 
@@ -388,7 +426,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   protected void onActivityResult(int requestCode, int resultCode,
                                   Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
-    if (requestCode == ProtectionDelegate.CONTRIB_REQUEST && intent != null) {
+    if (requestCode == CONTRIB_REQUEST && intent != null) {
       ContribFeature contribFeature = ContribFeature.valueOf(intent.getStringExtra(KEY_FEATURE));
       if (resultCode == RESULT_OK) {
         ((ContribIFace) this).contribFeatureCalled(contribFeature,
@@ -397,6 +435,16 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
         ((ContribIFace) this).contribFeatureNotCalled(contribFeature);
       }
     }
+    if ((requestCode == PREFERENCES_REQUEST || requestCode == RESTORE_REQUEST) && resultCode == RESULT_RESTORE_OK) {
+      restartAfterRestore();
+    }
+  }
+
+  protected void restartAfterRestore() {
+    Intent i = new Intent(this, MyExpenses.class);
+    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    finish();
+    startActivity(i);
   }
 
   public void contribFeatureRequested(@NonNull ContribFeature feature, Serializable tag) {
@@ -456,21 +504,17 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     }
   }
 
-
-  protected void createAccount(String accountName, String password, Bundle bundle) {
-    Bundle args = new Bundle();
-    args.putString(AccountManager.KEY_ACCOUNT_NAME, accountName);
-    args.putString(AccountManager.KEY_PASSWORD, password);
-    args.putParcelable(AccountManager.KEY_USERDATA, bundle);
-    getSupportFragmentManager()
-        .beginTransaction()
-        .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_CREATE_SYNC_ACCOUNT), ProtectionDelegate.ASYNC_TAG)
-        .commit();
-  }
-
   @Override
   public void onPositive(Bundle args) {
     dispatchCommand(args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE), null);
+  }
+
+  protected void doRestore(Bundle args) {
+    getSupportFragmentManager()
+        .beginTransaction()
+        .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_RESTORE), ProtectionDelegate.ASYNC_TAG)
+        .add(ProgressDialogFragment.newInstance(R.string.pref_restore_title),
+            ProtectionDelegate.PROGRESS_TAG).commit();
   }
 
   @Override

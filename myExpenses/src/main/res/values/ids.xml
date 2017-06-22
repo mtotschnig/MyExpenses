@@ -133,4 +133,7 @@
   <item name="SYNC_LINK_COMMAND_LOCAL" type="id"/>
   <item name="SYNCED_TO_OTHER_COMMAND" type="id"/>
   <item name="SYNC_REMOVE_BACKEND_COMMAND" type="id"/>
+  <item name="SYNC_BACKEND_LOCAL" type="id"/>
+  <item name="SYNC_BACKEND_WEBDAV" type="id"/>
+  <item name="SYNC_BACKEND_DRIVE" type="id"/>
 </resources>

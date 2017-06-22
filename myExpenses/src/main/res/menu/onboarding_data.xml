@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:title="@string/pref_restore_title"
+        android:id="@+id/SetupMain"
+        android:icon="@drawable/ic_account_circle"
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:title="@string/onboarding_restore_from_cloud"
+                android:id="@+id/SetupFromRemote">
+                <menu/>
+            </item>
+            <item
+                android:title="@string/onboarding_restore_from_local"
+                android:id="@+id/SetupFromLocal"/>
+        </menu>
+    </item>
+</menu>

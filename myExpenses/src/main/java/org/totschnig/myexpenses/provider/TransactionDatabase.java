@@ -35,12 +35,9 @@ import android.support.v4.content.ContextCompat;
 import com.android.calendar.CalendarContractCompat.Events;
 
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.Grouping;
-import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Plan;
@@ -55,7 +52,6 @@ import org.totschnig.myexpenses.util.Utils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.Currency;
 import java.util.Locale;
 
 import timber.log.Timber;
@@ -610,7 +606,6 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL("CREATE VIEW " + VIEW_EXTENDED + buildViewDefinitionExtended(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
     db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_EXTENDED + buildViewDefinitionExtended(TABLE_TEMPLATES));
     db.execSQL(ACCOUNTS_TRIGGER_CREATE);
-    insertDefaultAccount(db);
     db.execSQL(ACCOUNTTYE_METHOD_CREATE);
     insertDefaultPaymentMethods(db);
     db.execSQL(CURRENCY_CREATE);
@@ -665,21 +660,6 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       initialValues.put(KEY_TYPE, "BANK");
       db.insert(TABLE_ACCOUNTTYES_METHODS, null, initialValues);
     }
-  }
-
-  private void insertDefaultAccount(SQLiteDatabase db) {
-    ContentValues initialValues = new ContentValues();
-    initialValues.put(KEY_LABEL, mCtx.getString(R.string.default_account_name));
-    initialValues.put(KEY_OPENING_BALANCE, 0);
-    initialValues.put(KEY_DESCRIPTION, mCtx.getString(R.string.default_account_description));
-    Currency localCurrency = Utils.getLocalCurrency();
-    initialValues.put(KEY_CURRENCY, localCurrency.getCurrencyCode());
-    initialValues.put(KEY_TYPE, AccountType.CASH.name());
-    initialValues.put(KEY_GROUPING, Grouping.NONE.name());
-    initialValues.put(KEY_COLOR, Account.DEFAULT_COLOR);
-    initialValues.put(KEY_UUID, Model.generateUuid());
-    db.insert(TABLE_ACCOUNTS, null, initialValues);
-    Money.ensureFractionDigitsAreCached(localCurrency);
   }
 
   /*

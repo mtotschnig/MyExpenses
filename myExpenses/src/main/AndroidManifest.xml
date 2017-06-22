@@ -38,7 +38,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
 
-    <uses-sdk tools:overrideLibrary="android.support.v14.preference" />
+    <uses-sdk tools:overrideLibrary="android.support.v14.preference, com.rd.pageindicatorview" />
 
     <application
         tools:replace="android:label"
@@ -62,6 +62,13 @@
             </intent-filter>
             <meta-data android:name="android.app.shortcuts"
                        android:resource="@xml/shortcuts" />
+        </activity>
+
+        <activity android:name=".activity.OnboardingActivity"
+                  android:label="@string/onboarding_title"
+                  android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+                  android:exported="true">
+
         </activity>
 
         <activity

@@ -47,6 +47,7 @@ import org.totschnig.myexpenses.provider.CalendarProviderProxy;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.util.ArrayList;
@@ -452,16 +453,16 @@ public class PlanMonthFragment extends CaldroidFragment
       if (dateTime2InstanceMap.get(dateTime) != null) {
         state.setVisibility(View.VISIBLE);
         Long transactionId = instance2TransactionMap.get(dateTime2InstanceMap.get(dateTime));
-        boolean brightColor = Utils.isBrightColor(getArguments().getInt(DatabaseConstants.KEY_COLOR));
+        boolean brightColor = UiUtils.isBrightColor(getArguments().getInt(DatabaseConstants.KEY_COLOR));
         int themeResId = brightColor ? R.style.ThemeLight : R.style.ThemeDark;
         if (transactionId == null) {
-          state.setImageBitmap(Utils.getTintedBitmapForTheme(getContext(), R.drawable.ic_stat_open, themeResId));
+          state.setImageBitmap(UiUtils.getTintedBitmapForTheme(getContext(), R.drawable.ic_stat_open, themeResId));
           framelayout.setContentDescription(getString(R.string.plan_instance_state_open));
         } else if (transactionId == 0L) {
-          state.setImageBitmap(Utils.getTintedBitmapForTheme(getContext(), R.drawable.ic_stat_cancelled, themeResId));
+          state.setImageBitmap(UiUtils.getTintedBitmapForTheme(getContext(), R.drawable.ic_stat_cancelled, themeResId));
           framelayout.setContentDescription(getString(R.string.plan_instance_state_cancelled));
         } else {
-          state.setImageBitmap(Utils.getTintedBitmapForTheme(getContext(), R.drawable.ic_stat_applied, themeResId));
+          state.setImageBitmap(UiUtils.getTintedBitmapForTheme(getContext(), R.drawable.ic_stat_applied, themeResId));
           framelayout.setContentDescription(getString(R.string.plan_instance_state_applied));
         }
 

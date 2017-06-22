@@ -20,6 +20,7 @@ import android.os.Bundle;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.dialog.HelpDialogFragment;
+import org.totschnig.myexpenses.util.Utils;
 
 public class Help extends ProtectedFragmentActivity {
 
@@ -33,9 +34,7 @@ public class Help extends ProtectedFragmentActivity {
     if (context == null) {
       ComponentName callingActivity = getCallingActivity();
       if (callingActivity != null) {
-        context = callingActivity.getShortClassName();
-        //trim leading .
-        context = context.substring(context.lastIndexOf(".") + 1);
+        context = Utils.getSimpleClassNameFromComponentName(callingActivity);
       } else {
         context = "MyExpenses";
       }

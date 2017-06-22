@@ -1,20 +1,15 @@
 package org.totschnig.myexpenses.activity;
 
-import android.accounts.AccountManager;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.SubMenu;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.Toast;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
-import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.SelectUnSyncedAccountDialogFragment;
-import org.totschnig.myexpenses.dialog.SetupWebdavDialogFragment;
 import org.totschnig.myexpenses.fragment.SyncBackendList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.ContribFeature;
@@ -23,18 +18,11 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.sync.ServiceLoader;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
-import org.totschnig.myexpenses.sync.WebDavBackendProviderFactory;
 import org.totschnig.myexpenses.util.Result;
 
-import java.io.File;
 import java.io.Serializable;
 import java.util.List;
 
-import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_SYNC_PROVIDER_LABEL;
-import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_SYNC_PROVIDER_URL;
-import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_SYNC_PROVIDER_USERNAME;
-import static org.totschnig.myexpenses.sync.WebDavBackendProvider.KEY_WEB_DAV_CERTIFICATE;
-import static org.totschnig.myexpenses.sync.WebDavBackendProvider.KEY_WEB_DAV_FALLBACK_TO_CLASS1;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_LINK_LOCAL;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_LINK_REMOTE;
@@ -43,8 +31,7 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_REMO
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_UNLINK;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_WEBDAV_TEST_LOGIN;
 
-public class ManageSyncBackends extends ProtectedFragmentActivity implements
-    EditTextDialog.EditTextDialogListener, ContribIFace {
+public class ManageSyncBackends extends SyncBackendSetupActivity implements ContribIFace {
 
   private static final String KEY_PACKED_POSITION = "packedPosition";
   private Account newAccount;
@@ -67,72 +54,17 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     getMenuInflater().inflate(R.menu.sync_backend, menu);
-    SubMenu createSubMenu = menu.findItem(R.id.CREATE_COMMAND).getSubMenu();
-    for (int i = 0, backendProvidersSize = backendProviders.size(); i < backendProvidersSize; i++) {
-      createSubMenu.add(Menu.NONE, i, Menu.NONE, backendProviders.get(i).getLabel());
-    }
+    addSyncProviderMenuEntries(menu.findItem(R.id.CREATE_COMMAND).getSubMenu(), backendProviders);
     return super.onCreateOptionsMenu(menu);
   }
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    if (item.getItemId() < backendProviders.size()) {
+    if (getSyncBackendProviderFactoryById(backendProviders, item.getItemId()) != null) {
       contribFeatureRequested(ContribFeature.SYNCHRONIZATION, item.getItemId());
       return true;
     }
     return super.onOptionsItemSelected(item);
-  }
-
-  //LocalFileBackend
-  @Override
-  public void onFinishEditDialog(Bundle args) {
-    String filePath = args.getString(EditTextDialog.KEY_RESULT);
-    File baseFolder = new File(filePath);
-    if (!baseFolder.isDirectory()) {
-      Toast.makeText(this, "No directory " + filePath, Toast.LENGTH_SHORT).show();
-      return;
-    }
-    String accountName = args.getString(KEY_SYNC_PROVIDER_LABEL) + " - "
-        + filePath;
-    Bundle bundle = new Bundle(1);
-    bundle.putString(KEY_SYNC_PROVIDER_URL, filePath);
-    createAccount(accountName, null, bundle);
-  }
-
-  //WebDav
-  public void onFinishWebDavSetup(Bundle data) {
-    String userName = data.getString(AccountManager.KEY_ACCOUNT_NAME);
-    String password = data.getString(AccountManager.KEY_PASSWORD);
-    String url = data.getString(KEY_SYNC_PROVIDER_URL);
-    String certificate = data.getString(KEY_WEB_DAV_CERTIFICATE);
-    String accountName = WebDavBackendProviderFactory.LABEL + " - " + url;
-
-    Bundle bundle = new Bundle();
-    bundle.putString(KEY_SYNC_PROVIDER_URL, url);
-    bundle.putString(KEY_SYNC_PROVIDER_USERNAME, userName);
-    if (certificate != null) {
-      bundle.putString(KEY_WEB_DAV_CERTIFICATE, certificate);
-    }
-    if (data.getBoolean(KEY_WEB_DAV_FALLBACK_TO_CLASS1)) {
-      bundle.putString(KEY_WEB_DAV_FALLBACK_TO_CLASS1, "1");
-    }
-    createAccount(accountName, password, bundle);
-  }
-
-  //Google Drive
-  @Override
-  protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-    super.onActivityResult(requestCode, resultCode, intent);
-    if (requestCode == SYNC_BACKEND_SETUP_REQUEST && resultCode == RESULT_OK && intent != null) {
-        createAccount(intent.getStringExtra(AccountManager.KEY_ACCOUNT_NAME), null,
-            intent.getBundleExtra(AccountManager.KEY_USERDATA));
-      return;
-    }
-  }
-
-  @Override
-  public void onCancelEditDialog() {
-
   }
 
   @Override
@@ -204,7 +136,7 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
       case TASK_CREATE_SYNC_ACCOUNT: {
         if (result.success) {
           getListFragment().reloadAccountList();
-          if (result.extra != null) {
+          if (((Integer) result.extra[1]) > 0) {
             showSelectUnsyncedAccount((String) result.extra[0]);
           }
         }
@@ -244,11 +176,6 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
     return (SyncBackendList) getSupportFragmentManager().findFragmentById(R.id.backend_list);
   }
 
-  private SetupWebdavDialogFragment getWebdavFragment() {
-    return (SetupWebdavDialogFragment) getSupportFragmentManager().findFragmentByTag(
-        WebDavBackendProviderFactory.WEBDAV_SETUP);
-  }
-
   @Override
   public boolean onContextItemSelected(MenuItem item) {
     switch (item.getItemId()) {
@@ -266,11 +193,6 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
   }
 
   @Override
-  public void onPostExecute(Object result) {
-    super.onPostExecute(result);
-  }
-
-  @Override
   public Model getObject() {
     return newAccount;
   }
@@ -278,8 +200,11 @@ public class ManageSyncBackends extends ProtectedFragmentActivity implements
   @Override
   public void contribFeatureCalled(ContribFeature feature, Serializable tag) {
     if (tag instanceof Integer) {
-      feature.recordUsage();
-      backendProviders.get((Integer) tag).startSetup(this);
+      SyncBackendProviderFactory syncBackendProviderFactory =
+          getSyncBackendProviderFactoryById(backendProviders, (Integer) tag);
+      if (syncBackendProviderFactory != null) {
+        syncBackendProviderFactory.startSetup(this);
+      }
     }
   }
 

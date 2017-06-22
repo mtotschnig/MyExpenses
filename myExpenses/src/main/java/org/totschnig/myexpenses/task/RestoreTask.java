@@ -19,7 +19,6 @@ import com.annimon.stream.Collectors;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.BackupRestoreActivity;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -29,6 +28,8 @@ import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.SyncAdapter;
+import org.totschnig.myexpenses.sync.SyncBackendProvider;
+import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.BackupUtils;
@@ -52,19 +53,26 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOU
 
 public class RestoreTask extends AsyncTask<Void, Result, Result> {
   public static final String KEY_DIR_NAME_LEGACY = "dirNameLegacy";
+  public static final String KEY_BACKUP_FROM_SYNC = "backupFromSync";
+  public static final String KEY_RESTORE_PLAN_STRATEGY = "restorePlanStrategy";
   private final TaskExecutionFragment taskExecutionFragment;
   private int restorePlanStrategy;
   private Uri fileUri;
   private String dirNameLegacy;
+  private String syncAccountName, backupFromSync;
 
   RestoreTask(TaskExecutionFragment taskExecutionFragment, Bundle b) {
     this.taskExecutionFragment = taskExecutionFragment;
     this.fileUri = b.getParcelable(TaskExecutionFragment.KEY_FILE_PATH);
     if (fileUri == null) {
-      this.dirNameLegacy = b.getString(KEY_DIR_NAME_LEGACY);
+      this.syncAccountName = b.getString(KEY_SYNC_ACCOUNT_NAME);
+      if (syncAccountName == null) {
+        this.dirNameLegacy = b.getString(KEY_DIR_NAME_LEGACY);
+      } else {
+        this.backupFromSync = b.getString(KEY_BACKUP_FROM_SYNC);
+      }
     }
-    this.restorePlanStrategy = b.getInt(
-        BackupRestoreActivity.KEY_RESTORE_PLAN_STRATEGY);
+    this.restorePlanStrategy = b.getInt(KEY_RESTORE_PLAN_STRATEGY);
   }
 
   /*
@@ -98,13 +106,37 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
     String currentPlannerId = null, currentPlannerPath = null;
     final MyApplication application = MyApplication.getInstance();
     ContentResolver cr = application.getContentResolver();
-    if (fileUri != null) {
+    if (dirNameLegacy != null) {
+      workingDir = new File(AppDirHelper.getAppDir(application).getUri().getPath(), dirNameLegacy);
+    } else {
       workingDir = AppDirHelper.getCacheDir();
       if (workingDir == null) {
         return new Result(false, R.string.external_storage_unavailable);
       }
       try {
-        InputStream is = cr.openInputStream(fileUri);
+        InputStream is;
+        SyncBackendProvider syncBackendProvider;
+        if (syncAccountName != null) {
+          try {
+            syncBackendProvider = SyncBackendProviderFactory.get(MyApplication.getInstance(),
+            GenericAccountService.GetAccount(syncAccountName)).getOrThrow();
+          } catch (Throwable throwable) {
+            String errorMessage = String.format("Unable to get sync backend provider for %s",
+                syncAccountName);
+            AcraHelper.report(new Exception(errorMessage, throwable));
+            return new Result(false, errorMessage);
+          }
+          try {
+            is = syncBackendProvider.getInputStreamForBackup(backupFromSync);
+          } catch (IOException e) {
+            return new Result(false, "Unabble to open backup file");
+          }
+        } else {
+          is = cr.openInputStream(fileUri);
+        }
+        if (is == null) {
+          return new Result(false, "Unabble to open backup file");
+        }
         boolean zipResult = ZipUtils.unzip(is, workingDir);
         try {
           is.close();
@@ -124,8 +156,6 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
             R.string.parse_error_other_exception,
             e.getMessage());
       }
-    } else {
-      workingDir = new File(AppDirHelper.getAppDir(application).getUri().getPath(), dirNameLegacy);
     }
     File backupFile = BackupUtils.getBackupDbFile(workingDir);
     File backupPrefFile = BackupUtils.getBackupPrefFile(workingDir);

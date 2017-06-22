@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
-import com.annimon.stream.Collectors;
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 
@@ -21,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import dagger.internal.Preconditions;
@@ -103,6 +103,18 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
     saveUriToFolder(uri.getLastPathSegment(), uri, backupDir);
   }
 
+  @NonNull
+  @Override
+  public List<String> getStoredBackups() throws IOException {
+    String[] list = new File(baseDir, BACKUP_FOLDER_NAME).list();
+    return list != null ? Arrays.asList(list) : new ArrayList<>();
+  }
+
+  @Override
+  public InputStream getInputStreamForBackup(String backupFile) throws FileNotFoundException {
+    return new FileInputStream(new File(new File(baseDir, BACKUP_FOLDER_NAME), backupFile));
+  }
+
   @Override
   protected long getLastSequence() {
     return Stream.of(filterFiles(0))
@@ -177,13 +189,12 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  public List<AccountMetaData> getRemoteAccountList() {
+  public Stream<AccountMetaData> getRemoteAccountList() {
     return Stream.of(baseDir.listFiles(File::isDirectory))
         .map(directory -> new File(directory, ACCOUNT_METADATA_FILENAME))
         .filter(File::exists)
         .map(this::getAccountMetaDataFromFile)
         .filter(Optional::isPresent)
-        .map(Optional::get)
-        .collect(Collectors.toList());
+        .map(Optional::get);
   }
 }

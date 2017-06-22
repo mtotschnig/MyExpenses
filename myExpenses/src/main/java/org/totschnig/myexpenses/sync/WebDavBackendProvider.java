@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.webkit.MimeTypeMap;
 
-import com.annimon.stream.Collectors;
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 
@@ -196,6 +195,23 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
     saveUriToFolder(uri.getLastPathSegment(), uri, BACKUP_FOLDER_NAME);
   }
 
+  @NonNull
+  @Override
+  public List<String> getStoredBackups() throws IOException {
+    return Stream.of(webDavClient.getFolderMembers(BACKUP_FOLDER_NAME))
+        .map(DavResource::fileName)
+        .toList();
+  }
+
+  @Override
+  public InputStream getInputStreamForBackup(String backupFile) throws IOException {
+    try {
+      return webDavClient.getResource(BACKUP_FOLDER_NAME, backupFile).get("*/* ").byteStream();
+    } catch (at.bitfire.dav4android.exception.HttpException | DavException e) {
+      throw new IOException(e);
+    }
+  }
+
   @Override
   protected long getLastSequence() throws IOException {
     return filterDavResources(0)
@@ -229,7 +245,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  public List<AccountMetaData> getRemoteAccountList() throws IOException {
+  public Stream<AccountMetaData> getRemoteAccountList() throws IOException {
     return Stream.of(webDavClient.getFolderMembers(null))
         .filter(LockableDavResource::isCollection)
         .map(davResource -> webDavClient.getResource(davResource.location, ACCOUNT_METADATA_FILENAME))
@@ -242,8 +258,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
         })
         .map(this::getAccountMetaDataFromDavResource)
         .filter(Optional::isPresent)
-        .map(Optional::get)
-        .collect(Collectors.toList());
+        .map(Optional::get);
   }
 
   private Optional<AccountMetaData> getAccountMetaDataFromDavResource(LockableDavResource lockableDavResource) {

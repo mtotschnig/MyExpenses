@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.AppCompatEditText;
 import android.util.AttributeSet;
 
+import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.math.BigDecimal;
@@ -49,7 +50,7 @@ public class AmountEditText extends AppCompatEditText {
     }
     numberFormat = new DecimalFormat(pattern,symbols);
     numberFormat.setGroupingUsed(false);
-    Utils.configDecimalSeparator(this, decimalSeparator,fractionDigits);
+    UiUtils.configDecimalSeparator(this, decimalSeparator,fractionDigits);
     //if the new configuration has less fraction digits, we might have to truncate the input
     if (this.fractionDigits != -1 && this.fractionDigits > fractionDigits) {
       String currentText = getText().toString();
