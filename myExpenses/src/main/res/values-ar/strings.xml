@@ -38,7 +38,6 @@
   <string name="date_format">صيغة التاريخ</string>
   <string name="date_format_illegal">تنسيق التاريخ غير صحيح</string>
   <string name="decimal_separator">فاصلة عشرية</string>
-  <string name="default_account_description">هذا الحساب تم انشاؤه تلقائيا خلال التثبيت</string>
   <string name="description">الوصف</string>
   <!--User confirms that he wants to discard changes-->
   <string name="dialog_confirm_button_discard">تجاهل</string>
@@ -102,13 +101,6 @@
   <string name="help_heading_credits">النقاط</string>
   <string name="help_heading_license">الترخيص</string>
   <string name="help_heading_whats_new">آخر الاخبار</string>
-  <string-array name="help_intro">
-    <item>قم بتتبع مصاريفك والدخل الخاص بك.</item>
-    <item>إدارتهم مباشرة من خلال جهازك الذكي.</item>
-    <item>تصديرهم لبرامج إدارة الموارد المالية مثل Grisbi, GnuCash, Quicken, MS Money.</item>
-  </string-array>
-  <!--%s is replaced with Android or Blackberry-->
-  <string name="help_leading">شكرا لتثبيتك تطبيق <i>مصروفاتي</i>لا %s.</string>
   <string name="important_upgrade_information_heading">معلومات مهمة</string>
   <string name="import_select_transactions">العمليات</string>
   <string name="income">الدخل</string>
@@ -231,7 +223,7 @@
   <string name="pref_checkbox_disabled">معطل</string>
   <string name="pref_contrib_purchase_title_in_app">الشراء داخل التطبيق</string>
   <string name="pref_custom_currency_title">تخصيص العملات</string>
-  <string name="pref_enter_licence_title">أدخل المفتاح</string>
+  <string name="pref_enter_licence_title" tools:ignore="UnusedResources">أدخل المفتاح</string>
   <string name="pref_export_format_title">تنسيق البيانات</string>
   <string name="pref_follow_gplus_title">متابعة مصروفاتي على قوقل بلس</string>
   <string name="pref_import_from_grisbi_summary">استيراد التصنيفات والأطراف  Grisbi XML </string>

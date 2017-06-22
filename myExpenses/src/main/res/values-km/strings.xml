@@ -38,7 +38,6 @@
   <string name="date_format">ទ្រង់ទ្រាយ​កាល​បរិច្ឆេទ</string>
   <string name="date_format_illegal">ខុសទ្រង់ទ្រាយ​កាល​បរិច្ឆេទ</string>
   <string name="decimal_separator">កាត់ខ្ទង់ទសភាគ</string>
-  <string name="default_account_description">គណនី​នេះ​ត្រូវបាន​រៀប​ចំ​ដោយ​ស្វ័យ​ប្រវត្តិ​ ក្នុងពេល​បញ្ចូលកម្មវិធី</string>
   <string name="description">ការពិពណ៌នា</string>
   <string name="dialog_balance_delete">លុបប្រតិបត្តិការផ្សះផ្សា</string>
   <!--User confirms that he wants to discard changes-->
@@ -102,13 +101,6 @@
   <string name="help_heading_credits">ក្រេឌីត</string>
   <string name="help_heading_license">អាជ្ញាបណ្ណ</string>
   <string name="help_heading_whats_new">អ្វីៗថ្មីៗ</string>
-  <string-array name="help_intro">
-    <item>រក្សាដាន នៃការចំណាយ និងប្រាក់ចំណូល របស់អ្នក។</item>
-    <item>គ្រប់គ្រង ដោយផ្ទាល់នៅលើទូរស័ព្ទ​ដៃ​របស់អ្នក។</item>
-    <item>នាំចេញ ទៅក្នុងកម្មវិធីហិរញ្ញវត្ថុលើ Desktop ដូចជា Grisbi, GnuCash, Quicken ឬក៏ MS Money។</item>
-  </string-array>
-  <!--%s is replaced with Android or Blackberry-->
-  <string name="help_leading">អរគុណ​ចំពោះការបញ្ចូល <i>My Expenses</i> លើ​ %s។</string>
   <string name="important_upgrade_information_heading">ព័ត៌​មាន​សំខាន់</string>
   <string name="import_select_transactions">ប្រតិបត្តិការ</string>
   <string name="income">ចំណូល</string>

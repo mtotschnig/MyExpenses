@@ -49,7 +49,6 @@
   <string name="date_format">Datoformat</string>
   <string name="date_format_illegal">Ugyldigt datoformat</string>
   <string name="decimal_separator">Decimalkomma</string>
-  <string name="default_account_description">Denne konto blev oprettet automatisk ved installationen</string>
   <string name="default_account_name">Budgetbog</string>
   <string name="description">Beskrivelse</string>
   <string name="dialog_balance_delete">Slet afstemte posteringer</string>
@@ -120,13 +119,6 @@
   <string name="help_heading_credits">Credits</string>
   <string name="help_heading_license">Licens</string>
   <string name="help_heading_whats_new">Hvad er nyt</string>
-  <string-array name="help_intro">
-    <item>Holde styr på dine udgifter og indtægter.</item>
-    <item>Administrere dem direkte på din smartphone.</item>
-    <item>Eksportere dem til en Desktop økonomiprogramm ligesom Grisbi, GnuCash, Quicken eller MS Money.</item>
-  </string-array>
-  <!--%s is replaced with Android or Blackberry-->
-  <string name="help_leading">Tak for at installere <i>Mine udgifter</i> til %s.</string>
   <string name="important_upgrade_information_heading">Vigtige oplysninger</string>
   <string name="import_select_transactions">Posteringer</string>
   <string name="income">Indkomst</string>
@@ -273,8 +265,8 @@
   <string name="pref_contrib_purchase_title_upgrade">Opgrader produktnøglen</string>
   <string name="pref_contrib_purchase_title_in_app">In-app-betaling</string>
   <string name="pref_custom_currency_title">Ændre valutaer</string>
-  <string name="pref_enter_licence_summary">Hvis du har modtaget en nøgle, kan du få adgang til premium/avancerede funktionerne.</string>
-  <string name="pref_enter_licence_title">Indtast nøgle</string>
+  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Hvis du har modtaget en nøgle, kan du få adgang til premium/avancerede funktionerne.</string>
+  <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Indtast nøgle</string>
   <string name="pref_export_format_title">Dataformat</string>
   <string name="pref_follow_gplus_title">Følg Mine Udgifter på Google +</string>
   <string name="pref_import_from_grisbi_summary">Importere kategorier og parterne fra Grisbi XML fil</string>
@@ -418,7 +410,7 @@
   <string name="warning_restore">Databasen og indstillinger gendannes fra filen \"%1$s\". De aktuelle data slettes. Vil du fortsætte?</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Den aktuelt valgte mappe til sikkerhedskopier og eksport slettes automatisk af Android, hvis du fjerner Mine Udgifter. Du kan forhindre dette i at ske ved at vælge en anden mappe i skærmbilledet indstillinger.</string>
   <string name="warning_splitpartcategory_context">Overførsler, der er del af en splittet postering kan kun redigeres i forbindelse med opsplitningen.</string>
-  <string name="validation_error_number_out_of_range">Angiv et tal mellem %1$d og %2$d</string>
+  <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Angiv et tal mellem %1$d og %2$d</string>
   <string name="import_categories_success">%1$s kategorier importeret</string>
   <string name="import_parties_success">%1$s parter importeret</string>
   <string name="import_accounts_success">%1$s regnskaber importeret</string>

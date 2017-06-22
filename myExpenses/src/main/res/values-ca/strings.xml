@@ -40,7 +40,6 @@
   <string name="date_format">Format de la data</string>
   <string name="date_format_illegal">El format de data no és vàlid</string>
   <string name="decimal_separator">Separador decimal</string>
-  <string name="default_account_description">Aquest compte s\'ha configurat automàticament a l\'instal·lació.</string>
   <string name="description">Descripció</string>
   <string name="dialog_balance_delete">Elimina les transaccions conciliades</string>
   <!--User confirms that he wants to discard changes-->
@@ -107,13 +106,6 @@
   <string name="help_heading_credits">Crèdits</string>
   <string name="help_heading_license">Llicència</string>
   <string name="help_heading_whats_new">Novetats</string>
-  <string-array name="help_intro">
-    <item>Mantingueu un registre de les vostres despeses i ingressos.</item>
-    <item>Administreu directament en el seu telèfon intel·ligent.</item>
-    <item>Exportaeu a un programa de finançament d\'escriptori com Grisbi, GnuCash, Quicken o MS Money.</item>
-  </string-array>
-  <!--%s is replaced with Android or Blackberry-->
-  <string name="help_leading">Gràcies per provar <i>Les meves despeses</i> per a %s.</string>
   <string name="important_upgrade_information_heading">Informació important</string>
   <string name="import_select_transactions">Transaccions</string>
   <string name="income">ingrés</string>
@@ -233,8 +225,8 @@
   <string name="pref_category_title_more_information">Més informació</string>
   <string name="pref_category_title_security">Seguretat</string>
   <string name="pref_category_title_ui">Interfície d\'usuari</string>
-  <string name="pref_enter_licence_summary">Si heu rebut una clau, podeu accedir a les funcions avançades.</string>
-  <string name="pref_enter_licence_title">Entreu la clau</string>
+  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Si heu rebut una clau, podeu accedir a les funcions avançades.</string>
+  <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Entreu la clau</string>
   <string name="pref_export_format_title">Format de les dades</string>
   <string name="pref_follow_gplus_title">Segueix Les meves despeses a Google+</string>
   <string name="pref_import_from_grisbi_summary">Importeu les categories i els tercers de Grisbi XML.</string>

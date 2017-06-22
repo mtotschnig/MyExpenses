@@ -52,7 +52,6 @@
   <string name="date_format_illegal">Μορφή ημερομηνίας παράνομη</string>
   <string name="number_format_illegal">Λανθασμένη μορφή αριθμού</string>
   <string name="decimal_separator">Διαχωριστικό δεκαδικών</string>
-  <string name="default_account_description">Αυτός ο λογαριασμός έχει οριστεί αυτόματα κατά την εγκατάσταση</string>
   <string name="default_account_name">Βιβλίο προϋπολογισμού</string>
   <string name="description">περιγραφή</string>
   <string name="dialog_balance_delete">Διαγραφή διακανονισμένων συναλλαγών</string>
@@ -75,10 +74,10 @@
   <string name="dialog_contrib_text_1"><i>Έξοδα μου</i> προσφέρεται δωρεάν και είναι ανοικτού κώδικα.</string>
   <string name="dialog_contrib_text_2">Παρακαλώ συνεισφέρετε αναβαθμίζοντας το <i>Έξοδά μου</i> και αποκτήσετε απεριόριστη πρόσβαση στις παρακάτω δυνατότητες</string>
   <string name="dialog_contrib_usage_count">Εναπομείνουσες ελεύθερες χρήσεις</string>
-  <string name="dialog_contrib_usage_limit">Μπορείτε να το χρησιμοποιήσετε μέχρι %1$d φορές με την τωρινή σας άδεια (%2$s).</string>
-  <string name="dialog_contrib_usage_limit_synchronization">Μπορείτε να το χρησιμοποιήσετε για %1$d ημέρες με την τωρινή σας άδεια (%2$s).</string>
-  <string name="dialog_contrib_usage_limit_accounts">Η άδεια που κατέχετε (%2$s) σας επιτρέπει να δημιουργήσετε %1$d λογαριασμούς</string>
-  <string name="dialog_contrib_usage_limit_plans">Η άδεια που κατέχετε (%2$s) σας επιτρέπει να δημιουργήσετε %1$d πλάνα</string>
+  <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Μπορείτε να το χρησιμοποιήσετε μέχρι %1$d φορές με την τωρινή σας άδεια (%2$s).</string>
+  <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Μπορείτε να το χρησιμοποιήσετε για %1$d ημέρες με την τωρινή σας άδεια (%2$s).</string>
+  <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Η άδεια που κατέχετε (%2$s) σας επιτρέπει να δημιουργήσετε %1$d λογαριασμούς</string>
+  <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Η άδεια που κατέχετε (%2$s) σας επιτρέπει να δημιουργήσετε %1$d πλάνα</string>
   <string name="dialog_export_delete">Διαγράψετε εξαγόμενες συναλλαγές</string>
   <string name="dialog_export_not_yet_exported">Εξαγάγετε μόνο τις συναλλαγές που δεν έχει ακόμη εξαχθεί</string>
   <string name="dialog_password_activate_protection">Ενεργοποιήσετε την προστασία με κωδικό πρόσβασης</string>
@@ -136,13 +135,6 @@
   <string name="help_heading_credits">Πιστώσεις</string>
   <string name="help_heading_license">Άδεια</string>
   <string name="help_heading_whats_new">Τι νέο υπάρχει</string>
-  <string-array name="help_intro">
-    <item>Παρακολουθήστε τα έξοδα και εισοδηματά σας.</item>
-    <item>Διαχειριστείτε τα απευθείας στο smartphone σας.</item>
-    <item>Κάνετε εξαγωγή τους σε ένα πρόγραμμα υπολογιστών γραφείου οικονομικών όπως Grisbi, GnuCash, Quicken ή MS Money.</item>
-  </string-array>
-  <!--%s is replaced with Android or Blackberry-->
-  <string name="help_leading">Ευχαριστώ για την εγκατάσταση <i>Έξοδα μου</i> για το %s.</string>
   <string name="important_upgrade_information_heading">Σημαντικές πληροφορίες</string>
   <string name="import_select_transactions">Συναλλαγές</string>
   <string name="income">Εισόδημα</string>
@@ -291,8 +283,8 @@
   <string name="pref_contrib_purchase_title_upgrade">Κλειδί αναβάθμισης</string>
   <string name="pref_contrib_purchase_title_in_app">Αγορά εντός της εφαρμογής</string>
   <string name="pref_custom_currency_title">Προσαρμογή νομισμάτων</string>
-  <string name="pref_enter_licence_summary">Εάν λάβατε ένα κλειδί, έχετε πρόσβαση σε αναβαθμισμένα/εκτεταμένα χαρακτηριστικά.</string>
-  <string name="pref_enter_licence_title">Εισάγετε το κλειδί</string>
+  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Εάν λάβατε ένα κλειδί, έχετε πρόσβαση σε αναβαθμισμένα/εκτεταμένα χαρακτηριστικά.</string>
+  <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Εισάγετε το κλειδί</string>
   <string name="pref_export_format_title"> Μορφή δεδομένων</string>
   <string name="pref_follow_gplus_title">Παρακολουθήστε τα \"Έξοδά μου\" στο Google +</string>
   <string name="pref_import_from_grisbi_summary">Κάνετε εισαγωγή κατηγοριών και μερών Grisbi XML.</string>
@@ -445,7 +437,7 @@
   <string name="warning_restore">Βάση δεδομένων και προτιμήσεις θα ανακτηθούν από τη δημιουργία αντιγράφων (%1$s). Τα τρέχοντα δεδομένα θα διαγραφούν. Θέλετε να συνεχίσετε;</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Ο τρέχων επιλεγμένος φάκελος για αντίγραφα ασφαλείας και εξαγωγές θα διαγραφεί αυτόματα από το Android αν απεγκαταστήσετε το «Τα έξοδά μου». Μπορείτε να αποτρέψετε ένα τέτοιο ενδεχόμενο, επιλέγοντας ένα διαφορετικό φάκελο από την οθόνη Ρυθμίσεις.</string>
   <string name="warning_splitpartcategory_context">Μεταφορές που αποτελούν μέρος διαχωρισμού μπορούν να τύχουν επεξεργασίας μόνο στο πλαίσιο της διαίρεσης.</string>
-  <string name="validation_error_number_out_of_range">Παρακαλώ να ορίσετε έναν αριθμό μεταξύ %1$d και %2$d</string>
+  <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Παρακαλώ να ορίσετε έναν αριθμό μεταξύ %1$d και %2$d</string>
   <string name="warning_change_fraction_digits_1">Τα ποσά στην βάση δεδομένων πρέπει να ενημερωθούν ώστε να ταιριάζουν με το νέο αριθμό δεκαδικών ψηφίων</string>
   <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Εάν δεν γίνει ενημέρωση ποσών, θα εμφανίζονται πολλαπλασιασμένα με %d μετά την αλλαγή</string>
   <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Εάν δεν γίνει ενημέρωση ποσών, θα εμφανίζονται διαιρεμένα με %d μετά την αλλαγή</string>

@@ -52,7 +52,6 @@
   <string name="date_format_illegal">Неправилен формат на датата</string>
   <string name="number_format_illegal">Неправилен формат на числата</string>
   <string name="decimal_separator">Десетичен разделител</string>
-  <string name="default_account_description">Тази сметка е създадена автоматично по време на инсталацията</string>
   <string name="default_account_name">Бюджетна книга</string>
   <string name="description">Описание</string>
   <string name="dialog_balance_delete">Изтрийте изравнени транзакции</string>
@@ -75,10 +74,10 @@
   <string name="dialog_contrib_text_1"><i>Моите разходи</i> се предлага без реклами и с отворен код.</string>
   <string name="dialog_contrib_text_2">Моля, допринесете за развитието на <i>Моите разходи</i> като надстроите и получете неограничен достъп до следните възможности:</string>
   <string name="dialog_contrib_usage_count">Оставащи безплатни употреби</string>
-  <string name="dialog_contrib_usage_limit">Със сегашния лиценз (%2$s) може да използвате още %1$d пъти.</string>
-  <string name="dialog_contrib_usage_limit_synchronization">Със сегашния Ви лиценз (%2$s) може да използвате  още %1$d дни.</string>
-  <string name="dialog_contrib_usage_limit_accounts">При сегашния Ви лиценз (%2$s) може да създадете до %1$d сметки.</string>
-  <string name="dialog_contrib_usage_limit_plans">При сегашния Ви лиценз (%2$s) може да създадете до %1$d плана.</string>
+  <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Със сегашния лиценз (%2$s) може да използвате още %1$d пъти.</string>
+  <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Със сегашния Ви лиценз (%2$s) може да използвате  още %1$d дни.</string>
+  <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">При сегашния Ви лиценз (%2$s) може да създадете до %1$d сметки.</string>
+  <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">При сегашния Ви лиценз (%2$s) може да създадете до %1$d плана.</string>
   <string name="dialog_export_delete">Изтрии експортираните транзакции</string>
   <string name="dialog_export_not_yet_exported">Експорт само на транзакции, които не са били експортирани досега</string>
   <string name="dialog_password_activate_protection">Активиране на защита с парола</string>
@@ -136,13 +135,6 @@
   <string name="help_heading_credits">Кредити</string>
   <string name="help_heading_license">Лиценз</string>
   <string name="help_heading_whats_new">Какво ново</string>
-  <string-array name="help_intro">
-    <item>Следите вашите разходи и приходи.</item>
-    <item>Управлявайте директно на вашия смартфон.</item>
-    <item>Експортирайте ги във финансова програма на персоналния си компютър, като Grisbi, GnuCash, Quicken или MS пари.</item>
-  </string-array>
-  <!--%s is replaced with Android or Blackberry-->
-  <string name="help_leading">Благодаря Ви, че инсталирахте <i>Моите разходи</i> за %s.</string>
   <string name="important_upgrade_information_heading">Важна информация</string>
   <string name="import_select_transactions">Транзакции</string>
   <string name="income">Приход</string>
@@ -291,8 +283,8 @@
   <string name="pref_contrib_purchase_title_upgrade">Надстройте ключ</string>
   <string name="pref_contrib_purchase_title_in_app">Плащане в приложението</string>
   <string name="pref_custom_currency_title">Персонализирайте валути</string>
-  <string name="pref_enter_licence_summary">Ако сте получили ключ, получавате достъп до премийните/разширените функции.</string>
-  <string name="pref_enter_licence_title">Въведете ключ</string>
+  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Ако сте получили ключ, получавате достъп до премийните/разширените функции.</string>
+  <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Въведете ключ</string>
   <string name="pref_export_format_title">Формат на датата</string>
   <string name="pref_follow_gplus_title">Последвайте Моите разходи в Google+</string>
   <string name="pref_import_from_grisbi_summary">Импорт на категории и страни от Grisbi XML файл</string>
@@ -447,7 +439,7 @@
   <string name="warning_restore">База данни и предпочитания ще бъдат възстановени от файл \"%1$s\". Текущите данни ще бъдат изтрити. Искате ли да продължите?</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Текущо избраната папка за бекъп и експорт ще се изтрие автоматично от Андроид, ако деинсталирате Моите разходи. Може да избегнете това, като изберете различна папка от Настройки.</string>
   <string name="warning_splitpartcategory_context">Трансферите, които са част от разпределяне, могат да се редактират само в контекста на разпределянето.</string>
-  <string name="validation_error_number_out_of_range">Моля задайте число между %1$d и %2$d</string>
+  <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Моля задайте число между %1$d и %2$d</string>
   <string name="warning_change_fraction_digits_1">Сумите в базата данни трябва да бъдат обновени, за да отговарят на новия брой дробни цифри.</string>
   <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Ако сумите не бъдат обновени, след промяната ще бъдат показвани като умножени по %d.</string>
   <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Ако сумите не бъдат обновени, след промяната ще бъдат показвани като разделени на %d.</string>
@@ -462,6 +454,7 @@
   <string name="import_parties_none">Не са импортирани страни</string>
   <string name="import_transactions_none">Не са импортирани транзакции в сметка %1$s</string>
   <string name="import_source_select_error">Моля, изберете файл от тип %1$s</string>
+  <string name="import_source_select_not_readable">Невъзможно четене на файла. Моля, изберете друг източник.</string>
   <string name="menu_categories_setup_default">Въведи готови категории</string>
   <string name="menu_create_folder">Нова папка</string>
   <!--This string is used for navigating up in the folder browser-->
@@ -474,6 +467,7 @@
   <string name="widget_title_accounts">Моите сметки</string>
   <string name="widget_title_templates">Моите шаблони</string>
   <string name="app_dir_not_accessible">Посочената за бекъп и експорт папка (%1$s) не е достъпна. Моля, изберете друга.</string>
+  <string name="app_dir_not_compatible_with_nougat">Зададения за бекъп и експорт URL (%1$s)  е недостъпен за Android Nougat. Моля, изберете папка отново.</string>
   <string name="search_amount">Търсене на сума</string>
   <string name="search_category">Търсене на категория</string>
   <string name="search_comment">Търсене на бележка</string>
@@ -601,6 +595,7 @@
   <string name="validate_error_not_empty">Трябва да не е празно</string>
   <string name="validate_error_webdav_invalid_certificate">На този сертификат не може да се довери. Изглежда е невалиден.</string>
   <string name="validate_error_webdav_not_compliant">Този URL не е WebDAV ресурс.</string>
+  <string name="validate_error_webdav_404">Посоченият URL не съществува на сървъра.</string>
   <string name="url_not_valid">Невалиден URL</string>
   <string name="menu_sync_unlink">Спри синхронизирането</string>
   <string name="menu_sync_link">Започни синхронизиране</string>
@@ -636,4 +631,24 @@
   <string name="pref_backup_cloud_summary">Освен локално - в това устройство, бекъп файлът може да бъде запазен и на отдалечено място.</string>
   <string name="auto_backup_cloud_create_backend">Задаване на отдалечено място за съхранение от основния екран на менюто Настройки</string>
   <string name="auto_backup_cloud_failure">Възникна грешка при опит за запис на бекъп файла %1$s на отдалеченото място %2$s:</string>
+  <string name="home_screen_shortcuts_nougate_info">Може да се добавят шорткъти чрез продължително натискане върху иконата на приложението на начален екран.</string>
+  <string name="currency_symbol">Знак за валута</string>
+  <string name="number_of_fraction_digits">Брой дробни символи (цифри след десетичния знак)</string>
+  <string name="warning_auto_backup_deactivated">Автоматичния бекъп е деактивиран. Може да го включите отново от Настройки след разрешаване на проблема (напр. изберете друга папка за записване на бекъпите)</string>
+  <string name="pref_tracking_summary">Разрешете ни да събираме анонимни данни относно начина на употреба, което ще ни помогне да планираме подобрения.</string>
+  <string name="pref_tracking_title">Събиране на данни за употреба на приложението</string>
+  <string name="sync_database_error">Възникна грешка в базата данни при синхронизиране.</string>
+  <string name="sync_io_error_cannot_connect">Неуспешен опит за връзка с отдалечено място за съхранение. Ще опитаме отново по-късно.</string>
+  <string name="sync_io_exception_reset_account_data">Грешка при нулиране на отдалечена сметка.</string>
+  <string name="sync_io_exception_setup_remote_account">Грешка при установяване на отдалечена сметка.</string>
+  <string name="sync_io_exception_reading_change_set">Грешка при четене на промени от отдалеченото място за съхранение.</string>
+  <string name="sync_io_exception_syncing">Грешка при синхронизиране на промените със сървъра.</string>
+  <string name="sync_io_exception_unlocking">Грешка при опит за отключване на отдалеченото място за съхранение.</string>
+  <string name="sync_io_exception_locking">Отдалеченото място за съхранение или е заключено, или не може да се отключи.</string>
+  <string name="synchronization_start">Започва синхронизиране на сметка %s.</string>
+  <string name="synchronization_end_success">Записани са %1$d промени в локалната база данни. Записани са %2$d локални промени в отдалечената база данни.</string>
+  <string name="synchronization_end_success_none">Няма промени, които да се синхронизират.</string>
+  <string name="pref_webdav_timeout_title">WebDAV таймаут</string>
+  <string name="sync_state_restored">Възстановена е синхронизацията на %d сметки.</string>
+  <string name="sync_state_could_not_be_restored">Не може да се възстанови синхронизацията на %d сметки.</string>
 </resources>

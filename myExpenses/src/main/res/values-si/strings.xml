@@ -34,7 +34,6 @@
   <string name="date_format">දින ආකෘතිය </string>
   <string name="date_format_illegal">නීතිමය නොවන දින ආකෘතිය </string>
   <string name="decimal_separator">දශම ස්ථාන වෙන්කිර්මේ උපකරණය </string>
-  <string name="default_account_description"> ස්ථාපන ක්‍රියාවලියේදී මෙම ගිණුම ඉබේ පිහිටන ලදී </string>
   <string name="description">විස්තරය </string>
   <!--User confirms that he wants to discard changes-->
   <string name="dialog_command_disabled_reset_account">අපනයන සදහා ගනුදෙනු නොමැත </string>
@@ -94,13 +93,6 @@
   <string name="help_heading_credits">ස්තුති  ප්‍රකාශ කිරම් </string>
   <string name="help_heading_license">බලපත්‍රය </string>
   <string name="help_heading_whats_new">කුමක්ද අලුත් </string>
-  <string-array name="help_intro">
-    <item>ඔබගේ වියදම් සහ අදායම් අකණ්ඩව පරික්ෂා කිරීම  </item>
-    <item>ස්මාර්ට් ජංගම දුරකථනය හරහා මනා කළමනාකරණය </item>
-    <item>ග්රිස්බි, නු කෑෂ් , කුඉකන් හෝ එම එස් මනි වැනි ඩෙක්ස්ටොප් මුල්‍ය වැඩසටහන් වලට අපනයන </item>
-  </string-array>
-  <!--%s is replaced with Android or Blackberry-->
-  <string name="help_leading"> <i>මයි එක්ස්පෙන්සස්</i> %s පිහිටුවීම නිසා ස්තුත්යි   </string>
   <string name="important_upgrade_information_heading">වැදගත් තොරතුරු </string>
   <string name="import_select_transactions">ගනුදෙනු </string>
   <string name="income">ආදායම</string>
@@ -231,7 +223,7 @@
   <string name="pref_category_title_ui">පාවිච්චි කරන්නාගේ අතුරු මුහුණත </string>
   <string name="pref_checkbox_enabled">පවරනවා</string>
   <string name="pref_checkbox_disabled">අබල කරනවා</string>
-  <string name="pref_enter_licence_title">යතුර ඇතුළු කරන්න </string>
+  <string name="pref_enter_licence_title" tools:ignore="UnusedResources">යතුර ඇතුළු කරන්න </string>
   <string name="pref_export_format_title">දත්ත ආකෘතිය</string>
   <string name="pref_follow_gplus_title">google + වලින් මයි එක්ස්පෙන්සස් පිළිපදින්න </string>
   <string name="pref_import_from_grisbi_summary">පක්ෂ සහ වර්ග ග්රිස්බි හි  XML ලිපිගොනුවෙන් ආනයනය කරන්න </string>

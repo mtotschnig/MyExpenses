@@ -51,7 +51,6 @@
   <string name="date_format_illegal">Formato de data inválido</string>
   <string name="number_format_illegal">Formato numérico inválido</string>
   <string name="decimal_separator">Separador decimal</string>
-  <string name="default_account_description">Esta conta foi criada automaticamente durante a instalação</string>
   <string name="default_account_name">Livro de orçamento</string>
   <string name="description">Descrição</string>
   <string name="dialog_balance_delete">Eliminar transações reconciliadas</string>
@@ -128,13 +127,6 @@
   <string name="help_heading_credits">Créditos</string>
   <string name="help_heading_license">Licença</string>
   <string name="help_heading_whats_new">O que há de novo</string>
-  <string-array name="help_intro">
-    <item>Mantenha o controlo das suas despesas e rendimentos.</item>
-    <item>Gestão direta no seu smartphone.</item>
-    <item>Exportação para um programa de finanças como o Grisbi, GnuCash, Quicken ou MS Money.</item>
-  </string-array>
-  <!--%s is replaced with Android or Blackberry-->
-  <string name="help_leading">Obrigado por instalar o <i>My Expenses</i> para %s.</string>
   <string name="important_upgrade_information_heading">Informação importante</string>
   <string name="import_select_transactions">Transações</string>
   <string name="income">Receitas</string>
@@ -283,8 +275,8 @@
   <string name="pref_contrib_purchase_title_upgrade">Chave de atualização</string>
   <string name="pref_contrib_purchase_title_in_app">Compra na aplicação</string>
   <string name="pref_custom_currency_title">Personalizar moedas</string>
-  <string name="pref_enter_licence_summary">Se recebeu uma chave, obtenha acesso a funcionalidades premium/extended.</string>
-  <string name="pref_enter_licence_title">Introduza a chave</string>
+  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Se recebeu uma chave, obtenha acesso a funcionalidades premium/extended.</string>
+  <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Introduza a chave</string>
   <string name="pref_export_format_title">Formato de data</string>
   <string name="pref_follow_gplus_title">Siga o My Expenses no Google+</string>
   <string name="pref_import_from_grisbi_summary">Importar categorias e participantes do ficheiro XML do Grisbi</string>
@@ -439,7 +431,7 @@ Traduzido por Sérgio Marques</string>
   <string name="warning_restore">A base de dados e as preferências serão restauradas a partir do ficheiro \"%1$s\". Os dados atuais serão eliminados. Pretende continuar?</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">A pasta para cópias de segurança e exportações atualmente selecionada será eliminada automaticamente pelo Android se desinstalar o My Expenses. Pode prevenir isso de acontecer ao selecionar uma pasta diferente no ecrã de Definições.</string>
   <string name="warning_splitpartcategory_context">Transferências que fazem parte de uma divisão apenas podem ser editadas no contexto da divisão.</string>
-  <string name="validation_error_number_out_of_range">Defina um número entre %1$d e %2$d</string>
+  <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Defina um número entre %1$d e %2$d</string>
   <string name="warning_change_fraction_digits_1">As quantias na base de dados precisam de ser atualizadas para corresponderem com o novo número de dígitos fracionários.</string>
   <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Se as quantias não forem atualizadas, as mesmas serão exibidas multiplicadas por %d após a alteração.</string>
   <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Se as quantias não forem atualizadas, as mesmas serão exibidas divididas por %d após a alteração.</string>

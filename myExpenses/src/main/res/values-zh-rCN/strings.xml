@@ -47,7 +47,6 @@
   <string name="date_format_illegal">日期格式错误</string>
   <string name="number_format_illegal">非法数字格式</string>
   <string name="decimal_separator">十进制分割符</string>
-  <string name="default_account_description">此帐户是在安装过程中被自动设置的</string>
   <string name="default_account_name">预算册</string>
   <string name="description">描述</string>
   <string name="dialog_balance_delete">删除已校对的交易</string>
@@ -124,13 +123,6 @@
   <string name="help_heading_credits">信用</string>
   <string name="help_heading_license">许可</string>
   <string name="help_heading_whats_new">最新消息</string>
-  <string-array name="help_intro">
-    <item>追踪你的开支和收入.</item>
-    <item>直接使用你的智能手机管理它们.</item>
-    <item>导出它们到理财程式,例如Grisbi、GnuCash、Quicken或MS Money.</item>
-  </string-array>
-  <!--%s is replaced with Android or Blackberry-->
-  <string name="help_leading">感谢你安装<i>开支助手</i>%s版.</string>
   <string name="important_upgrade_information_heading">重要资讯</string>
   <string name="import_select_transactions">交易</string>
   <string name="income">收入</string>
@@ -265,8 +257,8 @@
   <string name="pref_contrib_purchase_title">购买密钥</string>
   <string name="pref_contrib_purchase_title_upgrade">升级密钥</string>
   <string name="pref_custom_currency_title">自定义货币</string>
-  <string name="pref_enter_licence_summary">如果你收到密钥,获取高级或扩展功能</string>
-  <string name="pref_enter_licence_title">输入密钥</string>
+  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">如果你收到密钥,获取高级或扩展功能</string>
+  <string name="pref_enter_licence_title" tools:ignore="UnusedResources">输入密钥</string>
   <string name="pref_export_format_title">日期格式</string>
   <string name="pref_follow_gplus_title">跟随在 Google+ 的 开支助手</string>
   <string name="pref_import_from_grisbi_summary">导入类别 和贸易伙伴.</string>

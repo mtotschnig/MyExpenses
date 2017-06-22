@@ -51,7 +51,6 @@
   <string name="date_format_illegal">Format tarikh tidak sah</string>
   <string name="number_format_illegal">Format nombor tidak sah</string>
   <string name="decimal_separator">Pemisah perpuluhan</string>
-  <string name="default_account_description">Akaun ini telah dipasang secara automatik ketika pemasangan</string>
   <string name="default_account_name">Buku Bajet</string>
   <string name="description">Keterangan</string>
   <string name="dialog_balance_delete">Padam transaksi tersesuai</string>
@@ -74,10 +73,10 @@
   <string name="dialog_contrib_text_1"><i>Perbelanjaan Saya</i> ditawarkan secara bebas iklan dan merupakan sumber terbuka.</string>
   <string name="dialog_contrib_text_2">Berilah sumbangan dalam bentuk derma dengan menatar <i>Perbelanjaan Saya</i> dan peroleh capaian tanpa had fitur-fitur berikut:</string>
   <string name="dialog_contrib_usage_count">Penggunaan percuma berbaki</string>
-  <string name="dialog_contrib_usage_limit">Anda boleh guna sehingga %1$d kali dengan status lesen semasa anda (%2$s).</string>
-  <string name="dialog_contrib_usage_limit_synchronization">Anda boleh guna sehingga %1$d hari dengan status lesen semasa anda (%2$s).</string>
-  <string name="dialog_contrib_usage_limit_accounts">Status lesen semasa anda (%2$s) membolehkan anda cipta sehingga %1$d akaun.</string>
-  <string name="dialog_contrib_usage_limit_plans">Status lesen semasa anda (%2$s) membolehkan anda cipta sehingga %1$d plan.</string>
+  <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Anda boleh guna sehingga %1$d kali dengan status lesen semasa anda (%2$s).</string>
+  <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Anda boleh guna sehingga %1$d hari dengan status lesen semasa anda (%2$s).</string>
+  <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Status lesen semasa anda (%2$s) membolehkan anda cipta sehingga %1$d akaun.</string>
+  <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Status lesen semasa anda (%2$s) membolehkan anda cipta sehingga %1$d plan.</string>
   <string name="dialog_export_delete">Padam transaksi dieksport</string>
   <string name="dialog_export_not_yet_exported">Hanya eksport transaksi yang belum dieksport</string>
   <string name="dialog_password_activate_protection">Aktifkan perlindungan kata laluan</string>
@@ -135,13 +134,6 @@
   <string name="help_heading_credits">Penghargaan</string>
   <string name="help_heading_license">Lesen</string>
   <string name="help_heading_whats_new">Apa yang terbaharu</string>
-  <string-array name="help_intro">
-    <item>Urus perbelanjaan dan pendapatan anda.</item>
-    <item>Urus ia secara terus dalam telefon pintar anda.</item>
-    <item>Eksport ia ke dalam program kewangan Desktop seperti Grisbi, GnuCash, Quicken atau MS Money.</item>
-  </string-array>
-  <!--%s is replaced with Android or Blackberry-->
-  <string name="help_leading">Terima kasih kerana memasang <i>Perbelanjaan Saya</i> %s.</string>
   <string name="important_upgrade_information_heading">Maklumat penting</string>
   <string name="import_select_transactions">Transaksi</string>
   <string name="income">Pendapatan</string>
@@ -288,8 +280,8 @@
   <string name="pref_contrib_purchase_title_upgrade">Kunci tatar</string>
   <string name="pref_contrib_purchase_title_in_app">Pembayaran In-App</string>
   <string name="pref_custom_currency_title">Suaikan matawang</string>
-  <string name="pref_enter_licence_summary">Jika anda menerima kunci, dapatkan capaian ke fitur premium/lanjutan.</string>
-  <string name="pref_enter_licence_title">Masukkan kunci</string>
+  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Jika anda menerima kunci, dapatkan capaian ke fitur premium/lanjutan.</string>
+  <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Masukkan kunci</string>
   <string name="pref_export_format_title">Format data</string>
   <string name="pref_follow_gplus_title">Ikut Perbelanjaan Saya pada Google+</string>
   <string name="pref_import_from_grisbi_summary">Import kategori dan pihak dari fail XML Grisbi</string>
@@ -438,7 +430,7 @@
   <string name="warning_restore">Pangkalan data dan keutamaan akan dipulih dari fail \"%1$s\". Data semasa akan dipadam, Anda mahu teruskan?</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Folder terpilih semasa untuk sandar dan eksport akan dipadam secara automatik oleh Android jika anda menyahpasang Perbelanjaan Saya. Anda boleh hindari ia dari berlaku dengan memilih folder yang berlainan dari skrin tetapan.</string>
   <string name="warning_splitpartcategory_context">Pemindahan adalah sebahagian dari pisah yang boleh disunting dalam konteks pisah.</string>
-  <string name="validation_error_number_out_of_range">Sila tetapkan nombor diantara %1$d hingga %2$d</string>
+  <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Sila tetapkan nombor diantara %1$d hingga %2$d</string>
   <string name="warning_change_fraction_digits_1">Amaun dalam pangkalan data perlu dikemaskini untuk dipadanakn dengan bilangan baharu digit pecahan.</string>
   <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Jika amaun tidak dikemaskinikan, ia akan dipapar sebagai gandaan %d selepas perubahan.</string>
   <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Jika amaun tidak dikemaskinikan, ia akan dipapar sebagai per %d selepas perubahan.</string>

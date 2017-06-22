@@ -52,7 +52,6 @@
   <string name="date_format_illegal">Format de date incorrect</string>
   <string name="number_format_illegal">Format de nombre illégal</string>
   <string name="decimal_separator">Séparateur décimal</string>
-  <string name="default_account_description">Ce compte a été créé automatiquement lors de l\'installation</string>
   <string name="default_account_name">Livre de budget</string>
   <string name="description">Description</string>
   <string name="dialog_balance_delete">Supprimer les transactions rapprochées</string>
@@ -75,10 +74,10 @@
   <string name="dialog_contrib_text_1"><i>Mes dépenses</i> vous est offert sans publicité et open source.</string>
   <string name="dialog_contrib_text_2">S\'il vous plaît, contribuez par la mise à niveau de <i>Mes dépenses</i> et vous aurez accès sans restriction aux caractéristiques suivantes:</string>
   <string name="dialog_contrib_usage_count">Utilisations gratuites restantes</string>
-  <string name="dialog_contrib_usage_limit">Vous pouvez l\'utiliser jusqu\'à %1$d fois avec le statut de votre licence actuelle (%2$s).</string>
-  <string name="dialog_contrib_usage_limit_synchronization">Vous pouvez l\'utiliser encore %1$d jours avec la licence actuelle (%2$s).</string>
-  <string name="dialog_contrib_usage_limit_accounts">Votre statut de licence actuelle (%2$s) vous permet de créer %1$d comptes.</string>
-  <string name="dialog_contrib_usage_limit_plans">Votre statut de licence actuelle (%2$s) vous permet de créer %1$d échéances.</string>
+  <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Vous pouvez l\'utiliser jusqu\'à %1$d fois avec le statut de votre licence actuelle (%2$s).</string>
+  <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Vous pouvez l\'utiliser encore %1$d jours avec la licence actuelle (%2$s).</string>
+  <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Votre statut de licence actuelle (%2$s) vous permet de créer %1$d comptes.</string>
+  <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Votre statut de licence actuelle (%2$s) vous permet de créer %1$d échéances.</string>
   <string name="dialog_export_delete">Effacer les opérations exportées</string>
   <string name="dialog_export_not_yet_exported">Exporter uniquement les opérations qui n\'ont pas encore été exportées</string>
   <string name="dialog_password_activate_protection">Activer la protection par mot de passe</string>
@@ -136,13 +135,6 @@
   <string name="help_heading_credits">Générique</string>
   <string name="help_heading_license">Licence</string>
   <string name="help_heading_whats_new">Nouveautés</string>
-  <string-array name="help_intro">
-    <item>Gardez une trace de vos dépenses et revenus.</item>
-    <item>Gérez-les directement sur votre smartphone.</item>
-    <item>Exportez-les vers un logiciel de finance, tel que Grisbi, Gnucash, Quicken ou MS Money.</item>
-  </string-array>
-  <!--%s is replaced with Android or Blackberry-->
-  <string name="help_leading">Merci d\'essayer <i>Mes dépenses</i> pour %s.</string>
   <string name="important_upgrade_information_heading">Information importante</string>
   <string name="import_select_transactions">Opérations</string>
   <string name="income">Revenu</string>
@@ -291,8 +283,8 @@
   <string name="pref_contrib_purchase_title_upgrade">Mettre la clé à niveau</string>
   <string name="pref_contrib_purchase_title_in_app">Paiement dans l\'application</string>
   <string name="pref_custom_currency_title">Personnaliser les devises</string>
-  <string name="pref_enter_licence_summary">Si vous avez reçu une clé, celle-ci déverrouille l\'accès aux fonctions Premium/étendues.</string>
-  <string name="pref_enter_licence_title">Saisir la clé</string>
+  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Si vous avez reçu une clé, celle-ci déverrouille l\'accès aux fonctions Premium/étendues.</string>
+  <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Saisir la clé</string>
   <string name="pref_export_format_title">Format de données</string>
   <string name="pref_follow_gplus_title">Suivez Mes Dépenses sur Google+</string>
   <string name="pref_import_from_grisbi_summary">Importer les catégories (et tiers) à partir de Grisbi XML</string>
@@ -447,7 +439,7 @@
   <string name="warning_restore">La base de données et les paramètres seront restaurés à partir du fichier \"%1$s\". Les données actuelles seront supprimées. Voulez-vous continuer?</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Le dossier actuellement sélectionné pour les sauvegardes et les exportations est automatiquement supprimé par Android si vous désinstallez Mes dépenses. Vous pouvez l\'empêcher en sélectionnant un dossier différent dans l\'écran Paramètres.</string>
   <string name="warning_splitpartcategory_context">Les transferts qui font partie d\'une opération ventilée ne peuvent être modifiés que dans celle-ci.</string>
-  <string name="validation_error_number_out_of_range">Définissez une décimale entre %1$d et %2$d</string>
+  <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Définissez une décimale entre %1$d et %2$d</string>
   <string name="warning_change_fraction_digits_1">Les montants dans la base de données doivent être mis à jour afin de correspondre au nouveau nombre de chiffres de fraction.</string>
   <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Si les montants ne sont pas mis à jour, ils seront affichés comme multipliés par %d après le changement.</string>
   <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Si les montants ne sont pas mis à jour, ils seront affichés comme divisés par %d après le changement.</string>
@@ -475,7 +467,7 @@
   <string name="widget_title_accounts">Mes comptes</string>
   <string name="widget_title_templates">Mes modèles</string>
   <string name="app_dir_not_accessible">Le dossier actuellement sélectionné pour les sauvegardes et les exportations (%1$s) n\'est pas accessible. Veuillez en choisir un autre.</string>
-  <string name="app_dir_not_compatible_with_nougat">La présente URI configurée pour les saivegardes et les exportations (%1$s) n\'est pas supportée par Android Nougat. Veuillez encore sélectionner un répertoire. </string>
+  <string name="app_dir_not_compatible_with_nougat">La présente URI configurée pour les sauvegardes et les exportations (%1$s) n\'est pas supportée par Android Nougat. Veuillez encore sélectionner un répertoire. </string>
   <string name="search_amount">Recherche de montant</string>
   <string name="search_category">Recherche de catégorie</string>
   <string name="search_comment">Recherche par commentaires</string>
@@ -642,4 +634,21 @@
   <string name="home_screen_shortcuts_nougate_info">Les raccourcis peuvent être ajoutés en appuyant longuement sur l\'icône de l\'application sur l\'écran d\'accueil.</string>
   <string name="currency_symbol">Symbole de devise</string>
   <string name="number_of_fraction_digits">Nombre de décimales</string>
+  <string name="warning_auto_backup_deactivated">La sauvegarde automatique a été désactivée. Vous pouvez l\'activer à nouveau à partir des paramètres après avoir résolu le problème (par exemple, sélectionner un autre dossier pour les sauvegardes).</string>
+  <string name="pref_tracking_summary">Permettez-nous de collecter des données anonymes sur les modes d\'utilisation qui nous aident à planifier les améliorations.</string>
+  <string name="pref_tracking_title">Collecte de données d\'utilisation</string>
+  <string name="sync_database_error">Une erreur de base de données s\'est produite lors de la synchronisation.</string>
+  <string name="sync_io_error_cannot_connect">Impossible de se connecter au serveur de synchronisation. Réessayer plus tard.</string>
+  <string name="sync_io_exception_reset_account_data">Erreur lors de la réinitialisation du compte distant.</string>
+  <string name="sync_io_exception_setup_remote_account">Erreur lors de la configuration du compte distant.</string>
+  <string name="sync_io_exception_reading_change_set">Erreur lors de la lecture des modifications depuis le serveur.</string>
+  <string name="sync_io_exception_syncing">Erreur lors de la synchronisation des modifications avec le serveur.</string>
+  <string name="sync_io_exception_unlocking">Erreur lors de la suppression du verrouillage du serveur à distance.</string>
+  <string name="sync_io_exception_locking">Le serveur à distance est verrouillé ou ne peut pas être verrouillé.</string>
+  <string name="synchronization_start">Démarrage de la synchronisation pour le compte %s.</string>
+  <string name="synchronization_end_success">Les modifications à distance %1$d ont été écrites dans la base de données locale. Les changements locaux %2$d ont été écrits sur un serveur à distance.</string>
+  <string name="synchronization_end_success_none">Aucune modification à synchroniser.</string>
+  <string name="pref_webdav_timeout_title">Expiration du délai WebDAV</string>
+  <string name="sync_state_restored">L\'état de synchronisation a été restauré pour %d comptes.</string>
+  <string name="sync_state_could_not_be_restored">L\'état de synchronisation n\'a pas pu être restauré pour %d comptes.</string>
 </resources>

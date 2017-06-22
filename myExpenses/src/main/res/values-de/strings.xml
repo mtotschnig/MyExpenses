@@ -52,7 +52,6 @@
   <string name="date_format_illegal">Unzulässiges Datumsformat</string>
   <string name="number_format_illegal">Ungültiges Zahlenformat</string>
   <string name="decimal_separator">Dezimaltrennzeichen</string>
-  <string name="default_account_description">Dieses Konto wurde während der Installation automatisch eingerichtet.</string>
   <string name="default_account_name">Haushaltsbuch</string>
   <string name="description">Beschreibung</string>
   <string name="dialog_balance_delete">Abgestimmte Buchungen löschen</string>
@@ -75,10 +74,10 @@
   <string name="dialog_contrib_text_1"><i>Meine Ausgaben</i> wird Ihnen ohne Werbung und mit offenem Quellcode angeboten.</string>
   <string name="dialog_contrib_text_2">Bitte leisten Sie einen Beitrag durch ein Upgrade von <i>Meine Ausgaben</i> und erhalten Sie uneingeschränkten Zugriff auf die folgenden Funktionen:</string>
   <string name="dialog_contrib_usage_count">Verbleibende Gratis Nutzungen</string>
-  <string name="dialog_contrib_usage_limit">Mit Ihrem aktuellen Lizenzstatus (%2$s) können Sie es %1$d mal verwenden.</string>
-  <string name="dialog_contrib_usage_limit_synchronization">Mit Ihrem aktuellen Lizenzstatus (%2$s) können Sie es %1$d Tage lang verwenden.</string>
-  <string name="dialog_contrib_usage_limit_accounts">Mit Ihrem aktuellen Lizenzstatus (%2$s) können Sie %1$d Konten anlegen.</string>
-  <string name="dialog_contrib_usage_limit_plans">Mit Ihrem aktuellen Lizenzstatus (%2$s) können Sie %1$d Pläne anlegen.</string>
+  <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Mit Ihrem aktuellen Lizenzstatus (%2$s) können Sie es %1$d mal verwenden.</string>
+  <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Mit Ihrem aktuellen Lizenzstatus (%2$s) können Sie es %1$d Tage lang verwenden.</string>
+  <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Mit Ihrem aktuellen Lizenzstatus (%2$s) können Sie %1$d Konten anlegen.</string>
+  <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Mit Ihrem aktuellen Lizenzstatus (%2$s) können Sie %1$d Pläne anlegen.</string>
   <string name="dialog_export_delete">Buchungen nach dem Exportieren löschen</string>
   <string name="dialog_export_not_yet_exported">Nur Buchungen exportieren, die noch nicht exportiert wurden</string>
   <string name="dialog_password_activate_protection">Passwort-Schutz aktivieren</string>
@@ -136,13 +135,6 @@
   <string name="help_heading_credits">Abspann</string>
   <string name="help_heading_license">Lizenz</string>
   <string name="help_heading_whats_new">Neue Funktionen</string>
-  <string-array name="help_intro">
-    <item>Halten Sie über Ihre Einnahmen und Ausgaben Buch.</item>
-    <item>Verwalten Sie diese direkt auf Ihrem Smartphone.</item>
-    <item>Exportieren Sie diese in ein Desktop-Finanzprogrammm (Grisbi, Gnucash, Quicken oder MS Money).</item>
-  </string-array>
-  <!--%s is replaced with Android or Blackberry-->
-  <string name="help_leading">Danke fürs Ausprobieren von <i>Meine Ausgaben</i> für %s.</string>
   <string name="important_upgrade_information_heading">Wichtige Information</string>
   <string name="import_select_transactions">Buchungen</string>
   <string name="income">Einnahme</string>
@@ -291,8 +283,8 @@
   <string name="pref_contrib_purchase_title_upgrade">Schlüssel erweitern</string>
   <string name="pref_contrib_purchase_title_in_app">In-App Bezahlung</string>
   <string name="pref_custom_currency_title">Anpassen von Währungen</string>
-  <string name="pref_enter_licence_summary">Wenn Sie einen Schlüssel erhalten haben, können Sie hier Premium/erweiterte Funktionen freischalten.</string>
-  <string name="pref_enter_licence_title">Schlüssel eingeben</string>
+  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Wenn Sie einen Schlüssel erhalten haben, können Sie hier Premium/erweiterte Funktionen freischalten.</string>
+  <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Schlüssel eingeben</string>
   <string name="pref_export_format_title">Datenformat</string>
   <string name="pref_follow_gplus_title">Meine Ausgaben auf Google+ folgen</string>
   <string name="pref_import_from_grisbi_summary">Kategorien und Parteien aus Grisbi XML importieren.</string>
@@ -345,7 +337,7 @@
   <string name="pref_shortcut_not_added">Es steht kein Start-Bildschirm zur Verfügung, der Verknüpfungen akzeptiert.</string>
   <string name="pref_shortcut_summary">Fügt die Verknüpfung dem Start-Bildschirm hinzu.</string>
   <string name="pref_template_click_default_summary">Beim kurzen Tippen auf Eintrag in der Vorlagenliste</string>
-  <string name="pref_ui_fontsize_title">Schrift vergrößern</string>
+  <string name="pref_ui_fontsize_title">Schriftgröße</string>
   <string name="pref_ui_home_screen_shortcuts">Verknüpfungen für den Start-Bildschirm</string>
   <string name="pref_ui_language_default">System-Standard</string>
   <!--Title of the preference for selecting the UI language-->
@@ -447,7 +439,7 @@
   <string name="warning_restore">Datenbank und Einstellungen werden aus dem Backup (%1$s) wiederhergestellt. Aktuelle Daten werden gelöscht. Möchten Sie fortfahren?</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Der aktuell ausgewählte Ordner für Sicherungskopien und Exporte wird von Android automatisch gelöscht wenn Sie meine Ausgaben deinstallieren. Sie können dies verhindern, indem Sie einen anderen Ordner in den Einstellungen auswählen.</string>
   <string name="warning_splitpartcategory_context">Umbuchungen, die Teil einer mehrteiligen Buchung sind, können nur im Kontext der mehrteiligen Buchung geändert werden.</string>
-  <string name="validation_error_number_out_of_range">Bitte eine Zahl zwischen %1$d und %2$d angeben</string>
+  <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Bitte eine Zahl zwischen %1$d und %2$d angeben</string>
   <string name="warning_change_fraction_digits_1">Beträge in der Datenbank müssen aktualisiert werden, um mit der neuen Anzahl der Nachkommastellen übereinzustimmen.</string>
   <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Wenn Beträge nicht aktualisiert werden, erscheinen diese nach der Änderung als multipliziert mit %d.</string>
   <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Wenn Beträge nicht aktualisiert werden, erscheinen diese nach der Änderung als dividiert durch %d.</string>

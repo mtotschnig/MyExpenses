@@ -53,7 +53,6 @@
   <string name="date_format_illegal">Неправильный формат даты</string>
   <string name="number_format_illegal">Неправильный формат числа</string>
   <string name="decimal_separator">Десятичный разделитель</string>
-  <string name="default_account_description">Этот счёт установлен автоматически при установке.</string>
   <string name="default_account_name">Финансовая смета</string>
   <string name="description">Описание</string>
   <string name="dialog_balance_delete">Удалить согласованные операции</string>
@@ -130,13 +129,6 @@
   <string name="help_heading_credits">Создатели</string>
   <string name="help_heading_license">Лицензия</string>
   <string name="help_heading_whats_new">Что нового</string>
-  <string-array name="help_intro">
-    <item>Следите за своими расходами и доходами.</item>
-    <item>Управляйте ими непосредственно на вашем смартфоне.</item>
-    <item>Экспортируйте их в финансовые программы, такие как Grisbi, GnuCash, Quicken или MS Money.</item>
-  </string-array>
-  <!--%s is replaced with Android or Blackberry-->
-  <string name="help_leading">Спасибо за установку <i>Мои расходы</i> для %s.</string>
   <string name="important_upgrade_information_heading">Важная информация</string>
   <string name="import_select_transactions">Операция</string>
   <string name="income">Прибыль</string>
@@ -288,8 +280,8 @@
   <string name="pref_contrib_purchase_title_upgrade">Повысить уровень ключа</string>
   <string name="pref_contrib_purchase_title_in_app">в-App платежей</string>
   <string name="pref_custom_currency_title">Настроить курс обмена</string>
-  <string name="pref_enter_licence_summary">Если вы получили ключ, получите доступ к премиум функциям.</string>
-  <string name="pref_enter_licence_title">Ввести ключ</string>
+  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Если вы получили ключ, получите доступ к премиум функциям.</string>
+  <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Ввести ключ</string>
   <string name="pref_export_format_title">Формат даты</string>
   <string name="pref_follow_gplus_title">Следить за Мои расходы в Google+</string>
   <string name="pref_import_from_grisbi_summary">Импорт категорий и участников из Grisbi XML файла</string>

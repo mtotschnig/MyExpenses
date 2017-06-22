@@ -40,7 +40,6 @@
   <string name="date_format">Format datuma</string>
   <string name="date_format_illegal">Nedozvoljeni format datuma</string>
   <string name="decimal_separator">Decimalni djelitelj</string>
-  <string name="default_account_description">Račun je kreiran automatski tijekom instalacije</string>
   <string name="default_account_name">Proračunska knjiga</string>
   <string name="description">Opis</string>
   <string name="dialog_balance_delete">Izbriši usklađene transakcije</string>
@@ -109,13 +108,6 @@
   <string name="help_heading_credits">Zasluge</string>
   <string name="help_heading_license">Dozvola</string>
   <string name="help_heading_whats_new">Što je novo</string>
-  <string-array name="help_intro">
-    <item>Pratite svoje troškove i prihode.</item>
-    <item>Upravljajte njima direktno putem smartphonea.</item>
-    <item>Eksportirajte ih u Desktop financijske programe kao što su Grisbi, GnuCash, Quicken ili MS Money.</item>
-  </string-array>
-  <!--%s is replaced with Android or Blackberry-->
-  <string name="help_leading">Zahvaljujemo na instalaciji  <i>My Expenses</i> za %s.</string>
   <string name="important_upgrade_information_heading">Važne informacije</string>
   <string name="import_select_transactions">Transakcije</string>
   <string name="income">Prihod</string>
@@ -259,8 +251,8 @@
   <string name="pref_contrib_purchase_title">Kupi Ključ</string>
   <string name="pref_contrib_purchase_title_in_app">plaćanje unutar aplikacije</string>
   <string name="pref_custom_currency_title">Prilagodi valute</string>
-  <string name="pref_enter_licence_summary">Ako ste primili Ključ, omogućen je pristup premium opcijama.</string>
-  <string name="pref_enter_licence_title">Unesi ključ</string>
+  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Ako ste primili Ključ, omogućen je pristup premium opcijama.</string>
+  <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Unesi ključ</string>
   <string name="pref_export_format_title">Format podataka</string>
   <string name="pref_follow_gplus_title">Prati My Expenses na Google+</string>
   <string name="pref_import_from_grisbi_summary">Unesi kategorije i stranke iz Grisbi XML file-a</string>
@@ -404,7 +396,7 @@
   <string name="warning_restore">Podaci i preferencije će biti obnovljene sa \"%1$s\". Sadašnji podaci bit će obrisani. Želite li nastaviti?</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Odabrana mapa za sigurnosne kopije i eksporte će biti izbrisana od strane Androida prilikom deinstalacije My Expenses-a. Ovo možete izbjeći odabirom druge mape unutar zaslona s postavkama.</string>
   <string name="warning_splitpartcategory_context">Doznake koje su dio odvojene transakciju mogu biti uređene samo u kontekstu odvojene transakcije.</string>
-  <string name="validation_error_number_out_of_range">Molimo odaberite broj između %1$d i %2$d</string>
+  <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Molimo odaberite broj između %1$d i %2$d</string>
   <string name="import_categories_success">%1$s kategorije uspješno unesene</string>
   <string name="import_parties_success">%1$s stranke uspješno unesene</string>
   <string name="import_accounts_success">%1$s računi uspješno uneseni</string>

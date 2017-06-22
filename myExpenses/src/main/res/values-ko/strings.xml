@@ -50,7 +50,6 @@
   <string name="date_format_illegal">올바르지 않은 날짜 형식</string>
   <string name="number_format_illegal">올바르지 않은 숫자 형식</string>
   <string name="decimal_separator">십진법 구분 기호</string>
-  <string name="default_account_description">이 계좌는 설치 도중 자동적으로 설정되었습니다.</string>
   <string name="default_account_name">예산안</string>
   <string name="description">설명</string>
   <string name="dialog_balance_delete">수지 결산을 맞춘 거래 내역 삭제</string>
@@ -126,13 +125,6 @@
   <string name="help_heading_credits">공로</string>
   <string name="help_heading_license">라이센스</string>
   <string name="help_heading_whats_new">새로운 기능</string>
-  <string-array name="help_intro">
-    <item>수입과 지출을 기록하세요.</item>
-    <item>스마트폰에서 곧바로 관리하세요.</item>
-    <item>컴퓨터용 금융 프로그램인 Grisbi, GnuCash, Quicken 또는 MS Money로 내보내세요.</item>
-  </string-array>
-  <!--%s is replaced with Android or Blackberry-->
-  <string name="help_leading">내 지출 (%s) 를 설치해 주셔서 감사합니다.</string>
   <string name="important_upgrade_information_heading">중요한 정보</string>
   <string name="import_select_transactions">거래 내역</string>
   <string name="income">수입</string>
@@ -279,8 +271,8 @@
   <string name="pref_contrib_purchase_title_upgrade">키 업그레이드</string>
   <string name="pref_contrib_purchase_title_in_app">인앱 결제</string>
   <string name="pref_custom_currency_title">화폐 단위 설정</string>
-  <string name="pref_enter_licence_summary">기부 확인 키를 받으셨다면 프리미엄 기능을 사용하세요.</string>
-  <string name="pref_enter_licence_title">기부 확인 키 입력</string>
+  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">기부 확인 키를 받으셨다면 프리미엄 기능을 사용하세요.</string>
+  <string name="pref_enter_licence_title" tools:ignore="UnusedResources">기부 확인 키 입력</string>
   <string name="pref_export_format_title">데이터 형식</string>
   <string name="pref_follow_gplus_title">Google+에서 My Expenses 팔로우</string>
   <string name="pref_import_from_grisbi_summary">Grisbi XML 파일에서 카테고리와 구성원 가져오기</string>
@@ -428,7 +420,7 @@
   <string name="warning_restore">데이터베이스와 설정값은 \"%1$s\" 파일로부터 복원될 것입니다. 현재의 데이터는 삭제됩니다. 계속 진행할까요?</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">My Expenses 앱을 제거하게 되면 백업과 내보내기를 위해 선택된 현재의 폴더는 자동적으로 삭제됩니다. 설정 화면에서 다른 폴더를 선택하여 이것을 예방할 수 있습니다.</string>
   <string name="warning_splitpartcategory_context">분할 거래의 일부분인 이체 내역은 분할 거래의 맥락에서만 편집될 수 있습니다.</string>
-  <string name="validation_error_number_out_of_range">%1$d과 %2$d 사이의 숫자를 설정하세요</string>
+  <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">%1$d과 %2$d 사이의 숫자를 설정하세요</string>
   <string name="import_categories_success">%1$s 카테고리를 성공적으로 가져왔습니다</string>
   <string name="import_parties_success">%1$s 구성원을 성공적으로 가져왔습니다</string>
   <string name="import_accounts_success">%1$s 계좌를 성공적으로 가져왔습니다</string>

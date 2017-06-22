@@ -45,13 +45,12 @@
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">Yêu cầu %1$s.</string>
   <string name="currency">Tiền tệ</string>
-  <string name="current_balance">Trạng thái cân bằng hiện tại</string>
+  <string name="current_balance">Số dư</string>
   <string name="date">Ngày tháng</string>
   <string name="date_format">Định dạng ngày tháng</string>
   <string name="date_format_illegal">Định dạng ngày tháng không hợp lệ</string>
   <string name="number_format_illegal">Định dạng số không hợp lệ</string>
   <string name="decimal_separator">Dấu thập phân</string>
-  <string name="default_account_description">Tài khoản này được lập tự động trong quá trình cài đặt</string>
   <string name="default_account_name">Ngân quỹ</string>
   <string name="description">Mô tả</string>
   <string name="dialog_balance_delete">Xoá các giao dịch đã đối chiếu</string>
@@ -62,7 +61,7 @@
   <string name="dialog_confirm_discard_new_template">Huỷ bỏ bản mẫu mới?</string>
   <string name="dialog_confirm_discard_new_account">Huỷ bỏ tải khoản mới?</string>
   <string name="dialog_confirm_discard_new_method">Huỷ bỏ phương thức chi trả mới?</string>
-  <string name="dialog_command_disabled_balance">Không có giao dịch nào đã phê duyệt đề đối chiếu</string>
+  <string name="dialog_command_disabled_balance">Không có giao dịch nào đã bù trừ đề đối chiếu</string>
   <string name="dialog_command_disabled_insert_transfer">Việc chuyển khoản yêu cầu tài khoản thứ hai.</string>
   <string name="dialog_command_disabled_reset_account">Không có giao dịch để xuất.</string>
   <string name="dialog_command_disabled_distribution">Không có giao dịch nào được cho phân loại trong tài khoản này.</string>
@@ -74,10 +73,10 @@
   <string name="dialog_contrib_text_1"><i>Quản lý chi tiêu</i> là một chương trình miễn phí và mã nguồn mở. </string>
   <string name="dialog_contrib_text_2">Xin hãy đóng góp bằng cách nâng cấp <i>Quản lý chi tiêu</i> và sử dụng không giới hạn các tính năng sau:</string>
   <string name="dialog_contrib_usage_count">Lần sử dụng miễn phí còn lại</string>
-  <string name="dialog_contrib_usage_limit">Bạn có thể dùng nó tối đa %1$d lần với bản quyền hiện tại (%2$s).</string>
-  <string name="dialog_contrib_usage_limit_synchronization">Bạn có thể dùng nó trong %1$d ngày với bản quyền hiện tại (%2$s).</string>
-  <string name="dialog_contrib_usage_limit_accounts">Bản quyền hiện tại của bạn (%2$s) cho phép bạn tạo %1$d tài khoản.</string>
-  <string name="dialog_contrib_usage_limit_plans">Bản quyền hiện tại của bạn (%2$s) cho phép bạn tạo %1$d kế hoạch.</string>
+  <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Bạn có thể dùng nó tối đa %1$d lần với bản quyền hiện tại (%2$s).</string>
+  <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Bạn có thể dùng nó trong %1$d ngày với bản quyền hiện tại (%2$s).</string>
+  <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Bản quyền hiện tại của bạn (%2$s) cho phép bạn tạo %1$d tài khoản.</string>
+  <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Bản quyền hiện tại của bạn (%2$s) cho phép bạn tạo %1$d kế hoạch.</string>
   <string name="dialog_export_delete">Xóa các giao dịch đã được xuất</string>
   <string name="dialog_export_not_yet_exported">Xuất các giao dịch chưa được xuất</string>
   <string name="dialog_password_activate_protection">Cài mật khẩu</string>
@@ -108,7 +107,7 @@
   <string name="dialog_title_warning_delete_transaction">Xoá giao dịch?</string>
   <string name="dialog_title_welcome">Chào mừng!</string>
   <string name="donate_dialog_text">Xin hãy đóng góp qua PayPal hoặc Bitcoin, sau đó yêu cầu một mã nâng cấp từ màn hình cài đặt.</string>
-  <string name="expense">Chi tiêu</string>
+  <string name="expense">Chi</string>
   <string name="export_expenses">Xuất dữ liệu chi tiêu</string>
   <!--1$s is replaced with path to file, 2$s with error message-->
   <string name="export_sdcard_failure">Xảy ra lỗi khi xuất dữ liệu chi tiêu vào tập tin %1$s: %2$s</string>
@@ -135,16 +134,9 @@
   <string name="help_heading_credits">Lời tri ân</string>
   <string name="help_heading_license">Giấy phép</string>
   <string name="help_heading_whats_new">Có gì mới</string>
-  <string-array name="help_intro">
-    <item>Giữ chi tiêu và thu nhập của bạn theo cách mà bạn muốn.</item>
-    <item>Quản lý tài chính thông qua điện thoại của bạn.</item>
-    <item>Xuất sang các định dạng dữ liệu khác chẳng hạn như Grisbi, GnuCash, Quicken hoặc MS Money.</item>
-  </string-array>
-  <!--%s is replaced with Android or Blackberry-->
-  <string name="help_leading">Cảm ơn bạn đã cài đặt <i>Chi Tiêu Của Tôi</i> dành cho %s.</string>
   <string name="important_upgrade_information_heading">Thông tin quan trọng</string>
   <string name="import_select_transactions">Các giao dịch</string>
-  <string name="income">Thu nhập</string>
+  <string name="income">Thu</string>
   <string name="invalid_number_format">Định dạng thập phân không được nhận diện bởi hệ thống ngôn ngữ của bạn. Xin sử dụng %1$s</string>
   <string name="label">Nhãn</string>
   <string name="licence_validation_failure">Không thể xác minh khóa bản quyền.</string>
@@ -157,7 +149,7 @@
   <string name="menu_back">Quay lại</string>
   <string name="menu_backup">Sao lưu</string>
   <!--Balance: compare cleared balance in app with balance on statement received from bank-->
-  <string name="menu_balance">Số dư tài khoản</string>
+  <string name="menu_balance">Cân bằng số dư</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
   <string name="menu_cancel_plan_instance">Huỷ bỏ</string>
   <string name="menu_clone_transaction">Sao y</string>
@@ -235,7 +227,7 @@
     <item quantity="other">%1$d đối tượng đã được liên kết với các bản mẫu và không thể bị xoá.</item>
   </plurals>
   <string name="numbered">được đánh số</string>
-  <string name="opening_balance">Mở trạng thái cân bằng</string>
+  <string name="opening_balance">Khoản cân đối</string>
   <string name="parse_error_file_not_found">Không thể tìm thấy tập tin %1$s</string>
   <string name="parse_error_grisbi_version_not_supported">Không hỗ trợ phiên bản tập tin Grisbi: %1$s</string>
   <string name="parse_error_no_data_found">Không tìm thấy dữ liệu có thể nhập vào từ tập tin.</string>
@@ -288,8 +280,8 @@
   <string name="pref_contrib_purchase_title_upgrade">Nâng cấp khóa</string>
   <string name="pref_contrib_purchase_title_in_app">Mua hàng trong ứng dụng</string>
   <string name="pref_custom_currency_title">Tùy chỉnh các loại tiền tệ</string>
-  <string name="pref_enter_licence_summary">Nếu bạn đã nhận một khóa, hãy nâng cấp lên các tính năng trả phí và mở rộng.</string>
-  <string name="pref_enter_licence_title">Nhập khóa</string>
+  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Nếu bạn đã nhận một khóa, hãy nâng cấp lên các tính năng trả phí và mở rộng.</string>
+  <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Nhập khóa</string>
   <string name="pref_export_format_title">Định dạng dữ liệu</string>
   <string name="pref_follow_gplus_title">Theo dõi My Expenses trên Google+</string>
   <string name="pref_import_from_grisbi_summary">Nhập các phân loại (và các nhóm) Grisbi XML</string>
@@ -343,6 +335,7 @@ Dịch bởi Phan Anh và Hiếu Văn</string>
   <string name="pref_shortcut_added">Phím tắt đã được thêm vào màn hình chính</string>
   <string name="pref_shortcut_not_added">Không có màn hình chính nào có sẵn mà chấp nhận phím tắt.</string>
   <string name="pref_shortcut_summary">Thêm phím tắt vào màn hình chính.</string>
+  <string name="pref_template_click_default_summary">Trong lúc nhấn vào đối tượng trong danh sách bản mẫu</string>
   <string name="pref_ui_fontsize_title">Cỡ phông</string>
   <string name="pref_ui_home_screen_shortcuts">Phím tắt màn hình chính</string>
   <string name="pref_ui_language_default">Mặc định hệ thống</string>
@@ -357,13 +350,17 @@ Dịch bởi Phan Anh và Hiếu Văn</string>
   <string name="progress_dialog_loading">Đang tải đối tượng từ cơ sở dữ liệu</string>
   <string name="progress_dialog_printing">Đang tạo tập tin PDF</string>
   <string name="progress_dialog_saving">Đang lưu đối tượng vào cơ sở dữ liệu</string>
+  <string name="qif_parse_result">Đã phân tích : %1$s tài khoản; %2$s danh mục và %3$s bên giao dịch</string>
   <string name="qif_parse_failure_found_multiple_accounts">Phát hiện nhiều tài khoản trong tập tin QIF.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Không thể ghép chúng vào tài khoản hiện có.</string>
+  <string name="reference_number">Số tham chiếu</string>
   <string name="request_licence_mail_head">Hãy gửi cho tôi một khóa cho Android-Id %1$s.</string>
   <string name="restore_db_failure">Xảy ra lỗi khi khôi phục cơ sở dữ liệu</string>
   <string name="restore_db_success">Cơ sở dữ liệu đã được phục hồi từ phần sao lưu</string>
   <string name="restore_no_backup_found">Không tìm thấy bản sao lưu nào.</string>
   <string name="restore_preferences_failure">Xảy ra lỗi khi khôi phục phần tùy biến</string>
+  <string name="restore_backup_archive_not_valid">Bản lưu trữ %1$s không hợp lệ</string>
+  <string name="restore_backup_file_not_found">Không tìm thấy tập tin %1$s trong tập lưu trữ \"%2$s\"</string>
   <string name="restore_preferences_success">Tùy biến đã được phục hồi từ phần sao lưu.</string>
   <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d kế hoạch đã được khôi phục từ bản sao lưu</string>
   <string name="save_transaction_and_new_success">Đã lưu thành công giao dịch</string>
@@ -382,8 +379,8 @@ Dịch bởi Phan Anh và Hiếu Văn</string>
   <string name="split_transaction">Tách giao dịch</string>
   <string name="status">Trạng thái</string>
   <string name="status_cleared">đã dọn xong</string>
-  <string name="status_reconciled">đã hòa hợp</string>
-  <string name="status_uncreconciled">chưa hòa hợp</string>
+  <string name="status_reconciled">đã đối chiếu</string>
+  <string name="status_uncreconciled">chưa đối chiếu</string>
   <string name="status_void">trống</string>
   <string name="subcategory">Phân loại phụ thuộc</string>
   <string name="sum_expenses">Chi tiêu</string>
@@ -395,6 +392,8 @@ Dịch bởi Phan Anh và Hiếu Văn</string>
   <string name="thank_you">Xin cảm ơn về sự hỗ trợ của bạn!</string>
   <string name="time">Thời gian</string>
   <string name="title">Tiêu đề</string>
+  <string name="total_cleared">Tổng số đã bù trừ</string>
+  <string name="total_reconciled">Khoản đã đối chiếu</string>
   <string name="transaction">Giao dịch</string>
   <string name="transfer">Truyền đổi</string>
   <string name="transfer_from_account">Từ</string>
@@ -416,8 +415,14 @@ Dịch bởi Phan Anh và Hiếu Văn</string>
   <plurals name="move_category_success">
     <item quantity="other">%d danh mục đã được di chuyển thành công.</item>
   </plurals>
+  <plurals name="move_category_failure">
+    <item quantity="other">%d danh mục không được di chuyển vì nhãn tương tự đã tồn tại trong mục tiêu.</item>
+  </plurals>
+  <string name="warning_delete_reconciled">Xoá giao dịch đã đối chiếu sẽ khiến thống kê của bạn khác đi so với của ngân hàng.</string>
+  <string name="warning_balance_account">Xin hãy đối chiếu số tiền đã thanh toán bù trừ với khoản tiền hiện tại trong giấy xác nhận của ngân hàng. Nếu bạn tiếp tục, giao dịch đã bù trừ sẽ được đánh dấu là đã đối chiếu.</string>
   <string name="warning_password_protected">Ứng dụng được bảo vệ bởi mật khẩu.</string>
   <string name="warning_widget_disabled">Bạn cần kích hoạt tiện ích này trong cài đặt của ứng dụng.</string>
+  <string name="warning_instantiate_template_from_widget_password_protected">Thuyết minh nhanh về các bản mẫu từ tiện ích này chỉ hoạt động nếu bạn cho phép hiện các mục dữ liệu từ tiện ích, với việc không đặt mật khẩu trong cài đặt ứng dụng.</string>
   <string name="warning_password_contrib">Đặt một câu hỏi an ninh để khóa lại ứng dụng, trong trường hợp bạn quên mật khẩu</string>
   <string name="warning_password_no_contrib">Nếu bạn đặt một mật khẩu, hãy cẩn thẩn và đừng quên. Bạn sẽ không thể phục hồi lại được, trừ khi bạn đặt một câu hỏi an ninh.</string>
   <string name="warning_reset_account">Tất cả giao dịch của tài khoản này sẽ được xuất trong tập tin trên thẻ nhớ và bị xóa. Bạn có thực sự muốn tiếp tục?</string>
@@ -433,6 +438,7 @@ Dịch bởi Phan Anh và Hiếu Văn</string>
   <!--This string is used for navigating up in the folder browser-->
   <!--Move an account up in the account list-->
   <!--Move an account down in the account list-->
+  <string name="export_handle_deleted_update_balance">Cập nhật khoản cân đối</string>
   <!--Label for column where user can check rows to be discarded from import-->
   <string name="cvs_import_discard">Huỷ bỏ</string>
   <string name="switch_on_text">Bật</string>

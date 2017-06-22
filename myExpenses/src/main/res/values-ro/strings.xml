@@ -52,7 +52,6 @@
   <string name="date_format_illegal">Format date incorect</string>
   <string name="number_format_illegal">Format numar incorect</string>
   <string name="decimal_separator">Separator zecimal</string>
-  <string name="default_account_description">Acest cont a fost creat automat în timpul instalării</string>
   <string name="default_account_name">Carte Buget</string>
   <string name="description">Descriere</string>
   <string name="dialog_balance_delete">Şterge tranzacţiile decontate</string>
@@ -123,13 +122,6 @@
   <string name="help_heading_credits">Generic</string>
   <string name="help_heading_license">Licenţă</string>
   <string name="help_heading_whats_new">Noutăţi</string>
-  <string-array name="help_intro">
-    <item>Urmăriţi cheltuielile şi veniturile dvs.</item>
-    <item>Gestionaţi-le direct pe smartphone-ul dvs.</item>
-    <item>Exportaţi-le într-un program de  finanţe de tip desktop ca Grisbi, GnuCash, Quicken or MS Money.</item>
-  </string-array>
-  <!--%s is replaced with Android or Blackberry-->
-  <string name="help_leading">Vă mulţumim pentru instalarea <i>Cheltuielile Mele</i> pentru %s.</string>
   <string name="important_upgrade_information_heading">Informaţii importante</string>
   <string name="import_select_transactions">Tranzacţii</string>
   <string name="income">Venituri</string>
@@ -277,8 +269,8 @@
   <string name="pref_contrib_purchase_title">Cumpăraţi Cheie</string>
   <string name="pref_contrib_purchase_title_in_app">In-App plată</string>
   <string name="pref_custom_currency_title">Personalizează valutele</string>
-  <string name="pref_enter_licence_summary">Dacă aţi primit o cheie, veţi avea acces la funcţionalităţile premium/extinse.</string>
-  <string name="pref_enter_licence_title">Introduceţi cheia</string>
+  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Dacă aţi primit o cheie, veţi avea acces la funcţionalităţile premium/extinse.</string>
+  <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Introduceţi cheia</string>
   <string name="pref_export_format_title">Format date</string>
   <string name="pref_follow_gplus_title">Urmăreşte Cheltuielile Mele pe Google +</string>
   <string name="pref_import_from_grisbi_summary">Import categorii şi terţi din fişier Grisbi XML</string>
@@ -427,7 +419,7 @@ Tradus de DD</string>
   <string name="warning_restore">Baza de date si preferinţele  vor fi restaurate din fişierul \"%1$s\". Datele actuale vor fi şterse. Doriţi să continuaţi?</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Folderul selectat pentru backup-uri şi exporturile vor fi şterse automat de Android dacă dezinstalați Cheltuielile Mele.  Puteţi preveni acest lucru selectând un alt folder din ecranul Setări.</string>
   <string name="warning_splitpartcategory_context">Transferurile care fac parte dintr-o repartizare pot fi editate numai în contextul repartizării.</string>
-  <string name="validation_error_number_out_of_range">Setează un număr între %1$d şi %2$d, te rog</string>
+  <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Setează un număr între %1$d şi %2$d, te rog</string>
   <string name="import_categories_success">%1$s categorii importate</string>
   <string name="import_parties_success">%1$s  terţi importaţi</string>
   <string name="import_accounts_success">%1$s conturi importate</string>

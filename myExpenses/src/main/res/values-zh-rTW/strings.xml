@@ -33,7 +33,6 @@
   <string name="date">日期</string>
   <string name="date_format">日期格式</string>
   <string name="date_format_illegal">日期格式錯誤</string>
-  <string name="default_account_description">此帳戶是在安裝過程中被自動設定的</string>
   <string name="description">描述</string>
   <!--User confirms that he wants to discard changes-->
   <string name="dialog_command_disabled_reset_account">沒有交易可被匯出。</string>
@@ -92,13 +91,6 @@
   <string name="help_heading_credits">信用</string>
   <string name="help_heading_license">許可</string>
   <string name="help_heading_whats_new">最新消息</string>
-  <string-array name="help_intro">
-    <item>追踪你的開支和收入。</item>
-    <item>直接使用你的智能手機管理它們。</item>
-    <item>匯出它們到理財程式，例如Grisbi、GnuCash、Quicken或MS Money。</item>
-  </string-array>
-  <!--%s is replaced with Android or Blackberry-->
-  <string name="help_leading">感謝你安裝<i>開支助手</i>%s版。</string>
   <string name="important_upgrade_information_heading">重要資訊</string>
   <string name="income">收入</string>
   <string name="invalid_number_format">十進制格式不能被辨認。請使用 %1$s</string>
