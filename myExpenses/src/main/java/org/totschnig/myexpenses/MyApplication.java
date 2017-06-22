@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.ContentResolver;
@@ -807,6 +808,7 @@ public class MyApplication extends MultiDexApplication implements
     }
   }
 
+  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   private void enableStrictMode() {
     StrictMode.ThreadPolicy.Builder threadPolicyBuilder = new StrictMode.ThreadPolicy.Builder()
         .detectAll()
