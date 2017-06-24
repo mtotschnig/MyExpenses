@@ -40,7 +40,6 @@ import icepick.Icepick;
 import icepick.State;
 import timber.log.Timber;
 
-import static org.totschnig.myexpenses.activity.DriveSetupActivity.REQUEST_CODE_RESOLUTION;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_FETCH_SYNC_ACCOUNT_DATA;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SETUP_FROM_SYNC_ACCOUNTS;
@@ -48,6 +47,7 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SETUP_FRO
 
 public class OnboardingActivity extends SyncBackendSetupActivity implements ViewPager.OnPageChangeListener {
 
+  private static final int REQUEST_CODE_RESOLUTION = 1;
   @BindView(R.id.viewpager)
   ViewPager pager;
   private MyPagerAdapter pagerAdapter;
