@@ -188,6 +188,7 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
     out.close();
   }
 
+  @NonNull
   @Override
   public Stream<AccountMetaData> getRemoteAccountList() {
     return Stream.of(baseDir.listFiles(File::isDirectory))

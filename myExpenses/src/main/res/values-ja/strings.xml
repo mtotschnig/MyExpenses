@@ -629,7 +629,8 @@
   <string name="pref_tracking_summary">改善の計画に役立つ使用パターンに関する匿名データを収集することができるようにします。</string>
   <string name="pref_tracking_title">利用状況データの収集</string>
   <string name="sync_database_error">同期中にデータベースエラーが発生しました。</string>
-  <string name="sync_io_error_cannot_connect">同期バックエンドに接続できません。 後で再試行します。</string>
+  <string name="sync_io_error_cannot_connect">同期バックエンドに接続できません。</string>
+  <string name="sync_error_will_try_again_later">後で再試行します。</string>
   <string name="sync_io_exception_reset_account_data">リモートアカウントをリセット中にエラーが発生しました。</string>
   <string name="sync_io_exception_setup_remote_account">リモートアカウントを設定中にエラーが発生しました。</string>
   <string name="sync_io_exception_reading_change_set">バックエンドから変更の読み取り中にエラーが発生しました。</string>

@@ -4,7 +4,6 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 
 import com.annimon.stream.Collectors;
 
@@ -59,27 +58,30 @@ public class SyncAccountTask extends AsyncTask<Void, Void, Result> {
         return Result.FAILURE;
       }
     }
-    return new Result(true, 0, buildResultExtra());
+    return buildResult();
   }
 
-  @Nullable
-  private Object[] buildResultExtra() {
+  private Result buildResult() {
     if (shouldReturnRemoteDataList) {
       SyncBackendProvider syncBackendProvider;
-      List<String> syncAccounts;
+      List<AccountMetaData> syncAccounts;
       List<String> backups;
       try {
         syncBackendProvider = SyncBackendProviderFactory.get(taskExecutionFragment.getActivity(),
             GenericAccountService.GetAccount(accountName)).getOrThrow();
-        syncAccounts = syncBackendProvider.getRemoteAccountList().map(AccountMetaData::label).collect(Collectors.toList());
+        Result result = syncBackendProvider.setUp();
+        if (!result.success) {
+          return result;
+        }
+        syncAccounts = syncBackendProvider.getRemoteAccountList().collect(Collectors.toList());
         backups = syncBackendProvider.getStoredBackups();
       } catch (Throwable throwable) {
-        return null;
+        return new Result(false, throwable.getMessage());
       }
-      return new Object[]{accountName, backups, syncAccounts};
+      return new Result(true, 0, accountName, backups, syncAccounts);
     } else {
-      return new Object[]{accountName, org.totschnig.myexpenses.model.Account.count(
-          KEY_SYNC_ACCOUNT_NAME + " IS NULL", null)};
+      return new Result(true, 0, accountName, org.totschnig.myexpenses.model.Account.count(
+          KEY_SYNC_ACCOUNT_NAME + " IS NULL", null));
     }
   }
 

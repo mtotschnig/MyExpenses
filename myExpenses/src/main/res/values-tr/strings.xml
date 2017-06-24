@@ -638,7 +638,8 @@
   <string name="pref_tracking_summary">Geliştirme planlamamıza yardımcı olan kullanım modelleri hakkında anonim veriler toplamamıza izin verin.</string>
   <string name="pref_tracking_title">Kullanım hakkında veri toplama</string>
   <string name="sync_database_error">Eşleşme sırasında bir veritabanı hatası meydana geldi.</string>
-  <string name="sync_io_error_cannot_connect">Eşleşme arka ucuna bağlanılamadı. Daha sonra tekrar denenecektir.</string>
+  <string name="sync_io_error_cannot_connect">Eşleşme arka ucuna bağlanılamadı.</string>
+  <string name="sync_error_will_try_again_later">Daha sonra tekrar denenecektir.</string>
   <string name="sync_io_exception_reset_account_data">Uzaktaki hesabın sıfırlanması sırasında hata.</string>
   <string name="sync_io_exception_setup_remote_account">Uzaktaki hesabın ayarlanması sırasında hata.</string>
   <string name="sync_io_exception_reading_change_set">Değişiklikler arka uçtan okunurken hata oluştu.</string>

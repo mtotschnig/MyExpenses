@@ -129,13 +129,13 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
           try {
             is = syncBackendProvider.getInputStreamForBackup(backupFromSync);
           } catch (IOException e) {
-            return new Result(false, "Unabble to open backup file");
+            return new Result(false, e.getMessage());
           }
         } else {
           is = cr.openInputStream(fileUri);
         }
         if (is == null) {
-          return new Result(false, "Unabble to open backup file");
+          return new Result(false, "Unable to open backup file");
         }
         boolean zipResult = ZipUtils.unzip(is, workingDir);
         try {

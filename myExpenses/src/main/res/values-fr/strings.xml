@@ -638,7 +638,8 @@
   <string name="pref_tracking_summary">Permettez-nous de collecter des données anonymes sur les modes d\'utilisation qui nous aident à planifier les améliorations.</string>
   <string name="pref_tracking_title">Collecte de données d\'utilisation</string>
   <string name="sync_database_error">Une erreur de base de données s\'est produite lors de la synchronisation.</string>
-  <string name="sync_io_error_cannot_connect">Impossible de se connecter au serveur de synchronisation. Réessayer plus tard.</string>
+  <string name="sync_io_error_cannot_connect">Impossible de se connecter au serveur de synchronisation.</string>
+  <string name="sync_error_will_try_again_later">Nous réessayerons plus tard.</string>
   <string name="sync_io_exception_reset_account_data">Erreur lors de la réinitialisation du compte distant.</string>
   <string name="sync_io_exception_setup_remote_account">Erreur lors de la configuration du compte distant.</string>
   <string name="sync_io_exception_reading_change_set">Erreur lors de la lecture des modifications depuis le serveur.</string>

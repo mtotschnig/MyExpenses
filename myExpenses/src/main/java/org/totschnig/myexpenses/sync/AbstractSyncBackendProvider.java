@@ -25,6 +25,7 @@ import org.totschnig.myexpenses.sync.json.Utils;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.FileCopyUtils;
 import org.totschnig.myexpenses.util.PictureDirHelper;
+import org.totschnig.myexpenses.util.Result;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -54,6 +55,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   private String appInstance;
 
   AbstractSyncBackendProvider(Context context) {
+    this.context = context;
     gson = new GsonBuilder()
         .registerTypeAdapterFactory(AdapterFactory.create())
         .create();
@@ -67,8 +69,8 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   protected abstract String getSharedPreferencesName();
 
   @Override
-  public boolean setUp() {
-   return true;
+  public Result setUp() {
+   return Result.SUCCESS;
   }
 
   @Override
@@ -251,5 +253,9 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   private void saveLockTokenToPreferences(String locktoken, long timestamp, boolean ownedByUs) {
     sharedPreferences.edit().putString(KEY_LOCK_TOKEN, locktoken).putLong(KEY_TIMESTAMP, timestamp)
         .putBoolean(KEY_OWNED_BY_US, ownedByUs).apply();
+  }
+
+  Context getContext() {
+    return context;
   }
 }

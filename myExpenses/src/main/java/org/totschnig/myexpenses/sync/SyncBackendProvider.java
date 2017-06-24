@@ -10,6 +10,7 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
+import org.totschnig.myexpenses.util.Result;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,9 +31,10 @@ public interface SyncBackendProvider {
 
   boolean unlock();
 
+  @NonNull
   Stream<AccountMetaData> getRemoteAccountList() throws IOException;
 
-  boolean setUp();
+  Result setUp();
 
   void tearDown();
 

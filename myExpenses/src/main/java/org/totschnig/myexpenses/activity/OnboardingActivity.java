@@ -1,7 +1,9 @@
 package org.totschnig.myexpenses.activity;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -11,6 +13,8 @@ import android.support.v7.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.View;
 
+import com.annimon.stream.Stream;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.RestoreFromCloudDialogFragment;
@@ -19,6 +23,7 @@ import org.totschnig.myexpenses.fragment.OnboardingUiFragment;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.task.RestoreTask;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
@@ -33,7 +38,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import icepick.Icepick;
 import icepick.State;
+import timber.log.Timber;
 
+import static org.totschnig.myexpenses.activity.DriveSetupActivity.REQUEST_CODE_RESOLUTION;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_FETCH_SYNC_ACCOUNT_DATA;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SETUP_FROM_SYNC_ACCOUNTS;
@@ -164,27 +171,29 @@ public class OnboardingActivity extends SyncBackendSetupActivity implements View
     switch (taskId) {
       case TASK_CREATE_SYNC_ACCOUNT:
       case TASK_FETCH_SYNC_ACCOUNT_DATA: {
-        String message;
         if (result.success) {
           supportInvalidateOptionsMenu();
-          if (result.extra != null) {
-            accountName = (String) result.extra[0];
-            List<String> backupList = (List<String>) result.extra[1];
-            List<String> syncAccountList = (List<String>) result.extra[2];
-            if (backupList.size() > 0 || syncAccountList.size() > 0) {
-              RestoreFromCloudDialogFragment.newInstance(backupList, syncAccountList)
-                  .show(getSupportFragmentManager(), "RESTORE_FROM_CLOUD");
-              break;
-            } else {
-              message = "Neither backups nor sync accounts found";
-            }
+          accountName = (String) result.extra[0];
+          List<String> backupList = (List<String>) result.extra[1];
+          List<AccountMetaData> syncAccountList = (List<AccountMetaData>) result.extra[2];
+          if (backupList.size() > 0 || syncAccountList.size() > 0) {
+            RestoreFromCloudDialogFragment.newInstance(backupList, syncAccountList)
+                .show(getSupportFragmentManager(), "RESTORE_FROM_CLOUD");
+            break;
           } else {
-            message = "Unable to retrieve information from sync backend";
+            showSnackbar("Neither backups nor sync accounts found");
           }
         } else {
-          message = "Unable to set up account";
+          if (result.extra[0] instanceof PendingIntent) {
+            try {
+              startIntentSenderForResult(((PendingIntent) result.extra[0]).getIntentSender(), REQUEST_CODE_RESOLUTION, null, 0, 0, 0);
+            } catch (IntentSender.SendIntentException e) {
+              Timber.e(e, "Exception while starting resolution activity");
+            }
+          } else {
+            showSnackbar("Unable to set up account");
+          }
         }
-        showSnackbar(message);
         break;
       }
       case TASK_SETUP_FROM_SYNC_ACCOUNTS: {
@@ -193,6 +202,18 @@ public class OnboardingActivity extends SyncBackendSetupActivity implements View
         }
         break;
       }
+    }
+  }
+
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    switch (requestCode) {
+      case REQUEST_CODE_RESOLUTION:
+        showSnackbar("Please try again");
+        break;
+      default:
+        super.onActivityResult(requestCode, resultCode, data);
+        break;
     }
   }
 
@@ -212,9 +233,10 @@ public class OnboardingActivity extends SyncBackendSetupActivity implements View
     doRestore(arguments);
   }
 
-  public void setupFromSyncAccounts(List<String> syncAccounts) {
+  public void setupFromSyncAccounts(List<AccountMetaData> syncAccounts) {
     startTaskExecution(TaskExecutionFragment.TASK_SETUP_FROM_SYNC_ACCOUNTS,
-        syncAccounts.toArray(new String[syncAccounts.size()]), accountName, R.string.pref_restore_title);
+        Stream.of(syncAccounts).map(AccountMetaData::uuid).toArray(size -> new String[size]),
+        accountName, R.string.pref_restore_title);
   }
 
   private class MyPagerAdapter extends FragmentPagerAdapter {

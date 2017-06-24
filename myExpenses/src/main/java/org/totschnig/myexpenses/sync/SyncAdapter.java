@@ -154,10 +154,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
       return;
     }
-    if (!backend.setUp()) {
+    if (!backend.setUp().success) {
       syncResult.stats.numIoExceptions++;
       syncResult.delayUntil = 300;
-      notifyIoException(R.string.sync_io_error_cannot_connect, account);
+      appendToNotification(Utils.concatResStrings(getContext(), " ",
+          R.string.sync_io_error_cannot_connect, R.string.sync_error_will_try_again_later), account, true);
       return;
     }
 
@@ -212,7 +213,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         }
       } while (cursor.moveToNext());
     }
-
+    cursor.close();
 
     try {
       cursor = provider.query(TransactionProvider.ACCOUNTS_URI, projection, selection, selectionArgs,

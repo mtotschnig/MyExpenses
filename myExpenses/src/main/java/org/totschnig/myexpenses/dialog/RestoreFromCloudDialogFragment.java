@@ -26,6 +26,7 @@ import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.OnboardingActivity;
+import org.totschnig.myexpenses.sync.json.AccountMetaData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,10 +47,10 @@ public class RestoreFromCloudDialogFragment extends CommitSafeDialogFragment
   private RadioGroup restorePlanStrategie;
   private RadioGroup.OnCheckedChangeListener calendarRestoreButtonCheckedChangeListener;
 
-  public static RestoreFromCloudDialogFragment newInstance(List<String> backupList, List<String> syncAccountList) {
+  public static RestoreFromCloudDialogFragment newInstance(List<String> backupList, List<AccountMetaData> syncAccountList) {
     Bundle arguments = new Bundle(2);
     arguments.putStringArrayList(KEY_BACKUP_LIST, new ArrayList<>(backupList));
-    arguments.putStringArrayList(KEY_SYNC_ACCOUNT_LIST, new ArrayList<>(syncAccountList));
+    arguments.putParcelableArrayList(KEY_SYNC_ACCOUNT_LIST, new ArrayList<>(syncAccountList));
     RestoreFromCloudDialogFragment fragment = new RestoreFromCloudDialogFragment();
     fragment.setArguments(arguments);
     return fragment;
@@ -63,7 +64,7 @@ public class RestoreFromCloudDialogFragment extends CommitSafeDialogFragment
     final View view = LayoutInflater.from(ctx).inflate(R.layout.restore_from_cloud, null);
     ButterKnife.bind(this, view);
     ArrayList<String> backups = getBackups();
-    ArrayList<String> syncAccounts = getSyncAccounts();
+    ArrayList<AccountMetaData> syncAccounts = getSyncAccounts();
     if (backups != null && backups.size() > 0) {
       ListView backupList = findListView(backupListContainer);
       backupList.setAdapter(new ArrayAdapter<>(getActivity(),
@@ -116,10 +117,6 @@ public class RestoreFromCloudDialogFragment extends CommitSafeDialogFragment
     return dialog;
   }
 
-  private ArrayList<String> getBackups() {
-    return getArguments().getStringArrayList(KEY_BACKUP_LIST);
-  }
-
   private void setTabVisibility(Tab tab, int visibility) {
     LinearLayout list = getContentForTab(tab);
     list.setVisibility(visibility);
@@ -167,7 +164,7 @@ public class RestoreFromCloudDialogFragment extends CommitSafeDialogFragment
   @Override
   public void onClick(DialogInterface dialog, int which) {
     ArrayList<String> backups = getBackups();
-    ArrayList<String> syncAccounts = getSyncAccounts();
+    ArrayList<AccountMetaData> syncAccounts = getSyncAccounts();
     if (which == AlertDialog.BUTTON_POSITIVE) {
       OnboardingActivity activity = (OnboardingActivity) getActivity();
       LinearLayout contentForTab = getActiveContent();
@@ -185,8 +182,12 @@ public class RestoreFromCloudDialogFragment extends CommitSafeDialogFragment
     }
   }
 
-  private ArrayList<String> getSyncAccounts() {
-    return getArguments().getStringArrayList(KEY_SYNC_ACCOUNT_LIST);
+  private ArrayList<AccountMetaData> getSyncAccounts() {
+    return getArguments().getParcelableArrayList(KEY_SYNC_ACCOUNT_LIST);
+  }
+
+  private ArrayList<String> getBackups() {
+    return getArguments().getStringArrayList(KEY_BACKUP_LIST);
   }
 
   @Override

@@ -166,8 +166,17 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   @NonNull
   @Override
   protected InputStream getInputStreamForPicture(String relativeUri) throws IOException {
+    return getInputStream(accountUuid, relativeUri);
+  }
+
+  @Override
+  public InputStream getInputStreamForBackup(String backupFile) throws IOException {
+    return getInputStream(BACKUP_FOLDER_NAME, backupFile);
+  }
+
+  private InputStream getInputStream(String folderName, String resourceName) throws IOException {
     try {
-      return webDavClient.getResource(accountUuid, relativeUri).get("*/* ").byteStream();
+      return webDavClient.getResource(folderName, resourceName).get("*/*").byteStream();
     } catch (at.bitfire.dav4android.exception.HttpException | DavException e) {
       throw new IOException(e);
     }
@@ -204,15 +213,6 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  public InputStream getInputStreamForBackup(String backupFile) throws IOException {
-    try {
-      return webDavClient.getResource(BACKUP_FOLDER_NAME, backupFile).get("*/* ").byteStream();
-    } catch (at.bitfire.dav4android.exception.HttpException | DavException e) {
-      throw new IOException(e);
-    }
-  }
-
-  @Override
   protected long getLastSequence() throws IOException {
     return filterDavResources(0)
         .map(davResource -> getSequenceFromFileName(davResource.fileName()))
@@ -244,6 +244,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
     }
   }
 
+  @NonNull
   @Override
   public Stream<AccountMetaData> getRemoteAccountList() throws IOException {
     return Stream.of(webDavClient.getFolderMembers(null))
