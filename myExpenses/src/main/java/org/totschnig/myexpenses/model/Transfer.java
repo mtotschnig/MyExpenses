@@ -43,9 +43,9 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
  */
 public class Transfer extends Transaction {
 
-  public static String RIGHT_ARROW = "▶";
-  public static String LEFT_ARROW = "◀";
-  public static String BI_ARROW = "⇄";
+  public static final String RIGHT_ARROW = "▶";
+  public static final String LEFT_ARROW = "◀";
+  public static final String BI_ARROW = "⇄";
 
   
   public Transfer(long accountId, Long amount) {
