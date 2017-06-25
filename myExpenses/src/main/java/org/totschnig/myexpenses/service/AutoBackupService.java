@@ -54,6 +54,9 @@ public class AutoBackupService extends WakefulIntentService {
 
   @Override
   protected void doWakefulWork(Intent intent) {
+    if (intent == null) {
+      return;
+    }
     String action = intent.getAction();
     if (ACTION_AUTO_BACKUP.equals(action)) {
       Result result = BackupUtils.doBackup();
