@@ -801,11 +801,8 @@ public class MyApplication extends MultiDexApplication implements
   }
 
   public static void markDataDirty() {
-    boolean persistedDirty = PrefKey.AUTO_BACKUP_DIRTY.getBoolean(true);
-    if (!persistedDirty) {
-      PrefKey.AUTO_BACKUP_DIRTY.putBoolean(true);
-      DailyAutoBackupScheduler.updateAutoBackupAlarms(mSelf);
-    }
+    PrefKey.AUTO_BACKUP_DIRTY.putBoolean(true);
+    DailyAutoBackupScheduler.updateAutoBackupAlarms(mSelf);
   }
 
   @TargetApi(Build.VERSION_CODES.HONEYCOMB)
