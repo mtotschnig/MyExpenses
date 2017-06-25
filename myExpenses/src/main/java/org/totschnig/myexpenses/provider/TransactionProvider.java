@@ -283,7 +283,6 @@ public class TransactionProvider extends ContentProvider {
   private static final int MAPPED_TRANSFER_ACCOUNTS = 41;
   private static final int CHANGES = 42;
 
-
   private boolean mDirty = false;
 
   @Override
