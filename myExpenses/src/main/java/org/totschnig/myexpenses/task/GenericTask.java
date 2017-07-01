@@ -636,6 +636,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         }
         application.getLicenceHandler().update();
         Account.updateTransferShortcut();
+        return null;
       }
       case TaskExecutionFragment.TASK_SETUP_FROM_SYNC_ACCOUNTS: {
         String syncAccountName = ((String) mExtra);
