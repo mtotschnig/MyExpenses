@@ -38,6 +38,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
@@ -67,7 +68,6 @@ import org.totschnig.myexpenses.adapter.TransactionAdapter;
 import org.totschnig.myexpenses.dialog.AmountFilterDialog;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.DateFilterDialog;
-import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectCrStatusDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectMethodDialogFragment;
@@ -104,6 +104,7 @@ import org.totschnig.myexpenses.util.Utils;
 
 import javax.inject.Inject;
 
+import eltos.simpledialogfragment.input.SimpleInputDialog;
 import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
@@ -151,6 +152,9 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
 //TODO: consider moving to ListFragment
 public class TransactionList extends ContextualActionBarFragment implements
     LoaderManager.LoaderCallbacks<Cursor>, OnHeaderClickListener, SharedPreferences.OnSharedPreferenceChangeListener {
+
+  public static final String NEW_TEMPLATE_DIALOG = "dialogNewTempl";
+  public static final String FILTER_COMMENT_DIALOG = "dialogFilterCom";
 
   protected int getMenuResource() {
     return R.menu.transactionlist_context;
@@ -431,10 +435,15 @@ public class TransactionList extends ContextualActionBarFragment implements
           label = mTransactionsCursor.getString(columnIndexLabelMain);
         Bundle args = new Bundle();
         args.putLong(KEY_ROWID, acmi.id);
-        args.putString(EditTextDialog.KEY_DIALOG_TITLE, getString(R.string.dialog_title_template_title));
-        args.putString(EditTextDialog.KEY_VALUE, label);
-        args.putInt(EditTextDialog.KEY_REQUEST_CODE, ProtectedFragmentActivity.TEMPLATE_TITLE_REQUEST);
-        EditTextDialog.newInstance(args).show(ctx.getSupportFragmentManager(), "TEMPLATE_TITLE");
+        SimpleInputDialog.build()
+                .title(R.string.dialog_title_template_title)
+                .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
+                .hint(R.string.label)
+                .text(label)
+                .extra(args)
+                .pos(R.string.add)
+                .neut()
+                .show(this, NEW_TEMPLATE_DIALOG);
         return true;
     }
     return super.dispatchCommandSingle(command, info);
@@ -997,10 +1006,11 @@ public class TransactionList extends ContextualActionBarFragment implements
         return true;
       case R.id.FILTER_COMMENT_COMMAND:
         if (!removeFilter(command)) {
-          Bundle args = new Bundle();
-          args.putInt(EditTextDialog.KEY_REQUEST_CODE, ProtectedFragmentActivity.FILTER_COMMENT_REQUEST);
-          args.putString(EditTextDialog.KEY_DIALOG_TITLE, getString(R.string.search_comment));
-          EditTextDialog.newInstance(args).show(getActivity().getSupportFragmentManager(), "COMMENT_FILTER");
+          SimpleInputDialog.build()
+                  .title(R.string.search_comment)
+                  .pos(R.string.menu_search)
+                  .neut()
+                  .show(this, FILTER_COMMENT_DIALOG);
         }
         return true;
       case R.id.FILTER_STATUS_COMMAND:

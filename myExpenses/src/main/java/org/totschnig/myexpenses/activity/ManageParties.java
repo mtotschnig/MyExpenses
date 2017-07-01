@@ -16,19 +16,23 @@
 package org.totschnig.myexpenses.activity;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.text.InputType;
 import android.widget.Toast;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.EditTextDialog;
-import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener;
 import org.totschnig.myexpenses.fragment.ContextualActionBarFragment;
+import org.totschnig.myexpenses.fragment.PartiesList;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 
+import eltos.simpledialogfragment.input.SimpleInputDialog;
+
 public class ManageParties extends ProtectedFragmentActivity implements
-    EditTextDialogListener {
+    SimpleInputDialog.OnDialogResultListener {
+  private static final String DIALOG_NEW_PARTY = "dialogNewParty";
   Payee mParty;
 
   @Override
@@ -44,29 +48,34 @@ public class ManageParties extends ProtectedFragmentActivity implements
   @Override
   public boolean dispatchCommand(int command, Object tag) {
     if (command == R.id.CREATE_COMMAND) {
-      Bundle args = new Bundle();
-      args.putString(EditTextDialog.KEY_DIALOG_TITLE, getString(R.string.menu_create_party));
-      EditTextDialog.newInstance(args).show(getSupportFragmentManager(), "CREATE_PARTY");
+      SimpleInputDialog.build()
+              .title(R.string.menu_create_party)
+              .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
+              .hint(R.string.label)
+              .pos(R.string.add)
+              .neut()
+              .show(this, DIALOG_NEW_PARTY);
       return true;
     }
     return super.dispatchCommand(command, tag);
    }
   @Override
-  public void onFinishEditDialog(Bundle args) {
-    mParty = new Payee(
-        args.getLong(DatabaseConstants.KEY_ROWID),
-        args.getString(EditTextDialog.KEY_RESULT));
-    startDbWriteTask(false);
-    finishActionMode();
+  public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
+    if ((DIALOG_NEW_PARTY.equals(dialogTag) || PartiesList.DIALOG_EDIT_PARTY.equals(dialogTag))
+            && which == BUTTON_POSITIVE){
+      mParty = new Payee(
+              extras.getLong(DatabaseConstants.KEY_ROWID),
+              extras.getString(SimpleInputDialog.TEXT));
+      startDbWriteTask(false);
+      finishActionMode();
+      return true;
+    }
+    return false;
   }
   private void finishActionMode() {
     ContextualActionBarFragment listFragment = ((ContextualActionBarFragment) getSupportFragmentManager().findFragmentById(R.id.parties_list));
     if (listFragment != null)
       listFragment.finishActionMode();
-  }
-  @Override
-  public void onCancelEditDialog() {
-    finishActionMode();
   }
   @Override
   public void onPostExecute(Object result) {
