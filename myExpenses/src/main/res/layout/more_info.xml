@@ -49,6 +49,10 @@
         <TextView
             style="@style/about_text"
             android:text="@string/help_licence_stickylistheaders"/>
+        
+        <TextView
+            style="@style/about_text"
+            android:text="@string/help_licence_simpledialogfragments"/>
 
         <TextView
             style="@style/about_text"

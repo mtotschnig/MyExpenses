@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.text.InputType;
 import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -33,7 +34,6 @@ import android.widget.Toast;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
-import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
@@ -42,7 +42,10 @@ import org.totschnig.myexpenses.util.Utils;
 
 import java.util.ArrayList;
 
+import eltos.simpledialogfragment.input.SimpleInputDialog;
+
 public class PartiesList extends ContextualActionBarFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+  public static final String DIALOG_EDIT_PARTY = "dialogEditParty";
   SimpleCursorAdapter mAdapter;
   private Cursor mPartiesCursor;
   @Override
@@ -52,9 +55,16 @@ public class PartiesList extends ContextualActionBarFragment implements LoaderMa
     case R.id.EDIT_COMMAND:
       Bundle args = new Bundle();
       args.putLong(DatabaseConstants.KEY_ROWID, menuInfo.id);
-      args.putString(EditTextDialog.KEY_DIALOG_TITLE, getString(R.string.menu_edit_party));
-      args.putString(EditTextDialog.KEY_VALUE,mPartiesCursor.getString(mPartiesCursor.getColumnIndex(DatabaseConstants.KEY_PAYEE_NAME)));
-      EditTextDialog.newInstance(args).show(getActivity().getSupportFragmentManager(), "EDIT_PARTY");
+      String name = mPartiesCursor.getString(mPartiesCursor.getColumnIndex(DatabaseConstants.KEY_PAYEE_NAME));
+      SimpleInputDialog.build()
+              .title(R.string.menu_edit_party)
+              .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
+              .hint(R.string.label)
+              .text(name)
+              .pos(R.string.menu_save)
+              .neut()
+              .extra(args)
+              .show(this, DIALOG_EDIT_PARTY);
       return true;
     }
     return super.dispatchCommandSingle(command, info);
