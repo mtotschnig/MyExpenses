@@ -102,12 +102,7 @@
                 android:labelFor="@+id/Color"
                 android:text="@string/color"/>
 
-            <Spinner
-                android:id="@+id/Color"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:prompt="@string/color"/>
+            <include layout="@layout/color_input"/>
         </LinearLayout>
 
     </LinearLayout>

@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -21,12 +22,10 @@ import android.widget.TextView;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.AccountEdit;
 import org.totschnig.myexpenses.activity.SyncBackendSetupActivity;
-import org.totschnig.myexpenses.adapter.ColorAdapter;
 import org.totschnig.myexpenses.adapter.CurrencyAdapter;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
-import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.sync.GenericAccountService;
@@ -41,14 +40,18 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import eltos.simpledialogfragment.SimpleDialog;
+import eltos.simpledialogfragment.color.SimpleColorDialog;
 import icepick.Icepick;
 import icepick.State;
 
+import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.ACCOUNT_COLOR_DIALOG;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.RESTORE_REQUEST;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 
 
-public class OnboardingDataFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class OnboardingDataFragment extends Fragment implements AdapterView.OnItemSelectedListener,
+    SimpleDialog.OnDialogResultListener {
 
   @BindView(R.id.MoreOptionsContainer)
   View moreOptionsContainer;
@@ -62,11 +65,13 @@ public class OnboardingDataFragment extends Fragment implements AdapterView.OnIt
   CompoundButton typeButton;
   @BindView(R.id.Amount)
   AmountEditText amountEditText;
+  @BindView(R.id.ColorIndicator)
+  View colorIndicator;
 
   private Spinner currencySpinner;
   private Spinner accountTypeSpinner;
-  private Spinner colorSpinner;
   @State boolean moreOptionsShown = false;
+  @State int accountColor = Account.DEFAULT_COLOR;
   private int lastSelectedCurrencyPosition;
   private List<SyncBackendProviderFactory> backendProviders;
 
@@ -150,9 +155,7 @@ public class OnboardingDataFragment extends Fragment implements AdapterView.OnIt
     accountTypeSpinner = DialogUtils.configureTypeSpinner(view);
 
     //color
-    int selected = Account.DEFAULT_COLOR;
-    colorSpinner = DialogUtils.configureColorSpinner(view, selected);
-    colorSpinner.setSelection(((ColorAdapter) colorSpinner.getAdapter()).getPosition(selected));
+    colorIndicator.setBackgroundColor(accountColor);
 
     if (moreOptionsShown) {
       showMoreOptions();
@@ -218,6 +221,23 @@ public class OnboardingDataFragment extends Fragment implements AdapterView.OnIt
     Currency instance = Currency.getInstance(((CurrencyEnum) currencySpinner.getSelectedItem()).name());
     return new Account(label, instance, new Money(instance, openingBalance),
         descriptionEditText.getText().toString(),
-        (AccountType) accountTypeSpinner.getSelectedItem(), (Integer) colorSpinner.getSelectedItem());
+        (AccountType) accountTypeSpinner.getSelectedItem(), accountColor);
+  }
+
+  public void editAccountColor() {
+    SimpleColorDialog.build()
+        .allowCustom(true)
+        .colorPreset(accountColor)
+        .show(this, ACCOUNT_COLOR_DIALOG);
+  }
+
+  @Override
+  public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
+    if (ACCOUNT_COLOR_DIALOG.equals(dialogTag) && which == BUTTON_POSITIVE) {
+      accountColor = extras.getInt(SimpleColorDialog.COLOR);
+      colorIndicator.setBackgroundColor(accountColor);
+      return true;
+    }
+    return false;
   }
 }

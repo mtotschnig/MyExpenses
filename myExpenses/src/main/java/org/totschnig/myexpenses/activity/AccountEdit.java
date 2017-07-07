@@ -35,7 +35,6 @@ import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.adapter.ColorAdapter;
 import org.totschnig.myexpenses.adapter.CurrencyAdapter;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
@@ -70,7 +69,6 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_TOGGLE_EX
 public class AccountEdit extends AmountActivity implements
     OnItemSelectedListener, ContribIFace, SimpleDialog.OnDialogResultListener {
 
-  private static final String ACCOUNT_COLOR_DIALOG = "editColorDialog";
   private EditText mLabelText;
   private EditText mDescriptionText;
 
@@ -142,7 +140,6 @@ public class AccountEdit extends AmountActivity implements
     mAccountTypeSpinner = new SpinnerHelper(DialogUtils.configureTypeSpinner(findViewById(R.id.AccountType)));
 
     mColorIndicator = findViewById(R.id.ColorIndicator);
-    mColorIndicator.setBackgroundColor(mAccount.color);
 
     mSyncSpinner = new SpinnerHelper(findViewById(R.id.Sync));
     configureSyncBackendAdapter();
@@ -408,8 +405,9 @@ public class AccountEdit extends AmountActivity implements
   }
 
   public void syncHelp(View view) {
-   showHelp(getString(R.string.form_synchronization_help_text_add));
+    showHelp(getString(R.string.form_synchronization_help_text_add));
   }
+
   private void showHelp(String message) {
     MessageDialogFragment.newInstance(
         0,
@@ -422,14 +420,14 @@ public class AccountEdit extends AmountActivity implements
 
   public void editAccountColor(View view) {
     SimpleColorDialog.build()
-            .allowCustom(true)
-            .colorPreset(mAccount.color)
-            .show(this, ACCOUNT_COLOR_DIALOG);
+        .allowCustom(true)
+        .colorPreset(mAccount.color)
+        .show(this, ACCOUNT_COLOR_DIALOG);
   }
 
   @Override
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
-    if (ACCOUNT_COLOR_DIALOG.equals(dialogTag) && which == BUTTON_POSITIVE){
+    if (ACCOUNT_COLOR_DIALOG.equals(dialogTag) && which == BUTTON_POSITIVE) {
       mAccount.color = extras.getInt(SimpleColorDialog.COLOR);
       mColorIndicator.setBackgroundColor(mAccount.color);
       return true;

@@ -119,26 +119,7 @@
                     android:labelFor="@+id/ColorIndicator"
                     android:text="@string/color"/>
 
-                <View
-                    android:id="@+id/ColorIndicator"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center_vertical"
-                    android:focusable="true"
-                    android:onClick="editAccountColor"
-                    />
-
-                <ImageView
-                    android:id="@+id/ColorEdit"
-                    style="?actionButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:contentDescription="@string/menu_edit"
-                    android:focusable="true"
-                    android:onClick="editAccountColor"
-                    app:srcCompat="@drawable/ic_menu_edit" />
-
+                <include layout="@layout/color_input"/>
             </TableRow>
 
             <TableRow>
@@ -156,32 +137,33 @@
                     <Spinner
                         android:id="@+id/Sync"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:prompt="@string/synchronization"/>
 
                     <ImageView
                         android:id="@+id/SyncUnlink"
                         style="?actionButtonStyle"
-                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:contentDescription="@string/menu_sync_unlink"
                         android:focusable="true"
                         android:onClick="syncUnlink"
-                        app:srcCompat="@drawable/ic_action_sync_unlink" />
+                        android:visibility="gone"
+                        app:srcCompat="@drawable/ic_action_sync_unlink"/>
+
                     <ImageView
                         android:id="@+id/SyncHelp"
                         style="?actionButtonStyle"
-                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:contentDescription="@string/menu_help"
                         android:focusable="true"
                         android:onClick="syncHelp"
-                        app:srcCompat="@drawable/ic_menu_help" />
+                        android:visibility="gone"
+                        app:srcCompat="@drawable/ic_menu_help"/>
                 </LinearLayout>
             </TableRow>
 
