@@ -329,13 +329,8 @@ public class MyExpenses extends LaunchActivity implements
     }
     activeItem.setChecked(true);
 
-    accountsMenu.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-      @Override
-      public boolean onMenuItemClick(MenuItem item) {
-        return handleSortOption(item) || handleAccountsGrouping(item) ||
-            dispatchCommand(item.getItemId(), null);
-      }
-    });
+    accountsMenu.setOnMenuItemClickListener(item -> handleSortOption(item) || handleAccountsGrouping(item) ||
+        dispatchCommand(item.getItemId(), null));
 
     mDrawerList.setAdapter(mDrawerListAdapter);
     mDrawerList.setAreHeadersSticky(false);
