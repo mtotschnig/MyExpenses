@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.android.setupwizardlib.SetupWizardLayout
+    android:id="@+id/setup_wizard_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout="@layout/suw_template"
+    app:suwBackgroundTile="@drawable/bg_tile_teal">
+
+    <LinearLayout style="@style/SuwContentFrame"
+                  xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:orientation="vertical"
+        >
+
+        <TextView
+            style="@style/OnboardingInputLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/suw_description_margin_top"
+            android:labelFor="@+id/theme"
+            android:text="@string/pref_ui_theme_title"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+            <TextView
+                style="@style/onboarding_display_property"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:text="@string/pref_ui_theme_dark"/>
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/theme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/pref_ui_theme_title"
+                android:minHeight="@dimen/accessibility_clickable_minimum"
+                android:minWidth="@dimen/accessibility_clickable_minimum"
+                android:switchMinWidth="0dp"
+                app:switchTextAppearance="@style/SwitchTextAppearance"
+                tools:ignore="UnusedAttribute"/>
+
+            <TextView
+                style="@style/onboarding_display_property"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:text="@string/pref_ui_theme_light"/>
+        </LinearLayout>
+
+        <TextView
+            style="@style/OnboardingInputLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/suw_description_margin_top"
+            android:labelFor="@+id/fontSize"
+            android:text="@string/pref_ui_fontsize_title"/>
+
+        <SeekBar
+            android:id="@+id/font_size"
+            style="@style/Widget.AppCompat.SeekBar.Discrete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="3"
+            />
+
+        <TextView
+            android:id="@+id/font_size_display_name"
+            style="@style/onboarding_display_property"
+            android:layout_width="wrap_content"
+            android:layout_height="30sp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            tools:text="System standard"/>
+    </LinearLayout>
+</com.android.setupwizardlib.SetupWizardLayout>

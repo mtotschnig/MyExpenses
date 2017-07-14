@@ -1,0 +1,35 @@
+/**
+ * Build the file with local dependencies. This is typically the build file you want to use when
+ * building from the Android source tree. The difference between this and standalone.gradle is that
+ * this will build the dependencies like support libraries from source, whereas standalone.gradle
+ * will get it from maven central.
+ *
+ * For example, you can include the following in your settings.gradle file:
+ *      include ':setup-wizard-lib'
+ *      project(':setup-wizard-lib').projectDir = new File(PATH_TO_THIS_DIRECTORY)
+ *
+ * And then you can include the :setup-wizard-lib project as one of your dependencies
+ *      dependencies {
+ *          compile project(path: ':setup-wizard-lib', configuration: 'icsCompatRelease')
+ *      }
+ */
+
+ext {
+    // For builds in the Android tree we want to build the dependencies from source for reproducible
+    // builds. To add a dependency, you want to specify something like this:
+    //      ext {
+    //          deps = ['project-name': project(':project-path')]
+    //      }
+    //
+    // And then in rules.gradle you can reference the dependency by
+    //      dependencies {
+    //          compile deps['project-name']
+    //      }
+    //
+    deps = [
+        'support-appcompat-v7': project(':support-appcompat-v7'),
+        'support-recyclerview-v7': project(':support-recyclerview-v7')
+    ]
+}
+
+apply from: 'rules.gradle'

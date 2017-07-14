@@ -4,6 +4,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -12,6 +14,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.annimon.stream.Stream;
 
@@ -45,26 +49,22 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_FETCH_SYN
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SETUP_FROM_SYNC_ACCOUNTS;
 
 
-public class OnboardingActivity extends SyncBackendSetupActivity implements ViewPager.OnPageChangeListener {
+public class OnboardingActivity extends SyncBackendSetupActivity {
 
   private static final int REQUEST_CODE_RESOLUTION = 1;
   @BindView(R.id.viewpager)
   ViewPager pager;
   private MyPagerAdapter pagerAdapter;
-  @BindView(R.id.navigation_next)
-  View navigationNext;
-  @BindView(R.id.navigation_finish)
-  View navigationFinish;
   @State String accountName;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    setTheme(MyApplication.getThemeId());
+    setTheme(MyApplication.getThemeIdOnboarding());
     super.onCreate(savedInstanceState);
     Icepick.restoreInstanceState(this, savedInstanceState);
     setContentView(R.layout.onboarding);
     ButterKnife.bind(this);
-    setupToolbar(false);
+    //setupToolbar(false);
     pagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
     pager.setAdapter(pagerAdapter);
     if (MyApplication.isInstrumentationTest()) {
@@ -73,7 +73,23 @@ public class OnboardingActivity extends SyncBackendSetupActivity implements View
     } else {
       PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
     }
-    pager.addOnPageChangeListener(this);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+      pager.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+    }
+
+  }
+
+  @Override
+  protected void onPostCreate(Bundle savedInstanceState) {
+    super.onPostCreate(savedInstanceState);
+
+    final Window window = getWindow();
+    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS |
+        WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN |
+        WindowManager.LayoutParams.FLAG_LAYOUT_INSET_DECOR);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      window.setStatusBarColor(Color.TRANSPARENT);
+    }
   }
 
   @Override
@@ -88,7 +104,7 @@ public class OnboardingActivity extends SyncBackendSetupActivity implements View
     Icepick.saveInstanceState(this, outState);
   }
 
-  public void navigate_next(View view) {
+  public void navigate_next() {
     pager.setCurrentItem(1, true);
   }
 
@@ -110,24 +126,8 @@ public class OnboardingActivity extends SyncBackendSetupActivity implements View
         pagerAdapter.getFragmentName(1));
   }
 
-  public void finishOnboarding(View view) {
+  public void finishOnboarding() {
     startDbWriteTask(false);
-  }
-
-  @Override
-  public void onPageScrolled(int i, float v, int i1) {
-
-  }
-
-  @Override
-  public void onPageSelected(int i) {
-    navigationNext.setVisibility(i==0 ? View.VISIBLE : View.GONE);
-    navigationFinish.setVisibility(i==1 ? View.VISIBLE : View.GONE);
-  }
-
-  @Override
-  public void onPageScrollStateChanged(int i) {
-
   }
 
   @Override

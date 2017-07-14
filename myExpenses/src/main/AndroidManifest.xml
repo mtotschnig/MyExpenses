@@ -66,7 +66,7 @@
 
         <activity android:name=".activity.OnboardingActivity"
                   android:label="@string/onboarding_title"
-                  android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+                  android:theme="@style/SuwThemeMaterial.Light"
                   android:exported="true">
 
         </activity>

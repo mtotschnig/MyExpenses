@@ -6,17 +6,20 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.SwitchCompat;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.android.setupwizardlib.SetupWizardLayout;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.OnboardingActivity;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.FontSizeAdapter;
 import org.totschnig.myexpenses.preference.FontSizeDialogPreference;
@@ -26,12 +29,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class OnboardingUiFragment extends Fragment {
-
-
   @BindView(R.id.font_size_display_name)
   TextView fontSizeDisplayNameTextView;
   @BindView(R.id.font_size)
   SeekBar fontSizeSeekBar;
+  @BindView(R.id.setup_wizard_layout)
+  SetupWizardLayout setupWizardLayout;
 
   private int fontScale;
 
@@ -39,16 +42,9 @@ public class OnboardingUiFragment extends Fragment {
     return new OnboardingUiFragment();
   }
 
-  @Override
-  public void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setHasOptionsMenu(true);
-  }
-
-  @Override
-  public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-    inflater.inflate(R.menu.onboarding_ui, menu);
-    MenuItem menuItem = menu.findItem(R.id.language);
+  public void createLanguageMenu(Toolbar toolbar) {
+    toolbar.inflateMenu(R.menu.onboarding_ui);
+    MenuItem menuItem = toolbar.getMenu().findItem(R.id.language);
     View actionView = MenuItemCompat.getActionView(menuItem);
     String uiLanguage = PrefKey.UI_LANGUAGE.getString("default");
     ((TextView) actionView).setText(MyApplication.getInstance().getUserPreferedLocale().getLanguage());
@@ -74,7 +70,7 @@ public class OnboardingUiFragment extends Fragment {
   @Nullable
   @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.onboarding_ui, container, false);
+    View view = inflater.inflate(R.layout.onboarding_wizzard_1, container, false);
     ButterKnife.bind(this, view);
 
     //fontsize
@@ -116,7 +112,27 @@ public class OnboardingUiFragment extends Fragment {
     });
 
     //lead
-    ((TextView) view.findViewById(R.id.onboarding_lead)).setText(R.string.onboarding_ui_title);
+    setupWizardLayout.setHeaderText(R.string.onboarding_ui_title);
+    setupWizardLayout.setIllustration(R.drawable.bg_setup_header, R.drawable.bg_header_horizontal_tile);
+
+
+    final ViewGroup navParent = (ViewGroup) view.findViewById(R.id.suw_layout_navigation_bar)
+        .getParent();
+    View customNav = inflater.inflate(R.layout.onboarding_navigation,
+        navParent, false);
+    createLanguageMenu((Toolbar) customNav.findViewById(R.id.onboaring_menu));
+    customNav.findViewById(R.id.suw_navbar_next).setOnClickListener(v -> ((OnboardingActivity) getActivity()).navigate_next());
+
+
+    // Swap our custom navigation bar into place
+    for (int i = 0; i < navParent.getChildCount(); i++) {
+      if (navParent.getChildAt(i).getId() == R.id.suw_layout_navigation_bar) {
+        navParent.removeViewAt(i);
+        navParent.addView(customNav, i);
+        break;
+      }
+    }
+
     return view;
   }
 

@@ -250,6 +250,10 @@ public class MyApplication extends MultiDexApplication implements
     return getThemeId("Translucent");
   }
 
+  public static int getThemeIdOnboarding() {
+    return getThemeId("Onboarding");
+  }
+
   public LicenceHandler getLicenceHandler() {
     return licenceHandler;
   }

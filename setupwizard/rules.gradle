@@ -1,0 +1,108 @@
+/**
+ * Base rules for building setup wizard library. This build file is not used directly but rather
+ * included in scripts like build.gradle or standalone.gradle using 'apply from'.
+ *
+ * This allows the dependencies to be configured so that for builds in the Android tree, the
+ * dependencies like support library is built directly from source, while for standalone builds they
+ * will be fetched from maven central.
+ */
+
+apply plugin: 'com.android.library'
+
+android {
+
+    publishNonDefault true
+
+    sourceSets {
+        main {
+            manifest.srcFile 'main/AndroidManifest.xml'
+            java.srcDirs = ['main/src']
+            resources.srcDirs = ['main/src']
+            res.srcDirs = ['main/res']
+        }
+
+        productFlavors {
+            // Platform version that will not include the compatibility libraries
+            platform {
+                minSdkVersion 21
+            }
+
+            // Compatibility build that provides the L layout for SDK versions ICS+
+            icsCompat {
+                minSdkVersion 14
+                dependencies {
+                    // Read the dependencies from the "deps" map in the extra properties.
+                    //
+                    // For builds in the Android tree we want to build the dependencies from source
+                    // for reproducible builds, for example in build.gradle define something like
+                    // this:
+                    //      ext {
+                    //          deps = ['project-name': project(':project-path')]
+                    //      }
+                    //
+                    // For standalone project clients, since the source may not be available, we
+                    // fetch the dependencies from maven. For example in standalone.gradle define
+                    // something like this:
+                    //      ext {
+                    //          deps = ['project-name': 'com.example.group:project-name:1.0.0']
+                    //      }
+                    //
+                    icsCompatCompile deps['support-appcompat-v7']
+                }
+            }
+
+            // Compatibility build that provides the L layout for SDK versions Eclair MR1+
+            eclairMr1Compat {
+                minSdkVersion 7
+                dependencies {
+                    eclairMr1CompatCompile deps['support-appcompat-v7']
+                }
+            }
+
+            // This build depends on any support library that setup wizard library integrates with,
+            // including RecyclerView, AppCompat, and possibly Design support library in the future.
+            fullSupport {
+                minSdkVersion 7
+                dependencies {
+                    fullSupportCompile deps['support-appcompat-v7']
+                    fullSupportCompile deps['support-recyclerview-v7']
+                }
+            }
+        }
+
+        platform {
+            java.srcDirs = ['platform/src']
+            res.srcDirs = ['platform/res']
+        }
+
+        icsCompat {
+            java.srcDirs = ['eclair-mr1/src']
+            res.srcDirs = ['eclair-mr1/res']
+        }
+
+        eclairMr1Compat {
+            java.srcDirs = ['eclair-mr1/src']
+            res.srcDirs = ['eclair-mr1/res']
+        }
+
+        fullSupport {
+            java.srcDirs = ['eclair-mr1/src', 'full-support/src']
+            res.srcDirs = ['eclair-mr1/res', 'full-support/res']
+        }
+
+        androidTest {
+            manifest.srcFile 'test/AndroidManifest.xml'
+            java.srcDirs = ['test/src']
+            res.srcDirs = ['test/res']
+        }
+
+        androidTestEclairMr1Compat {
+            java.srcDirs = ['eclair-mr1/test/src']
+        }
+
+        androidTestFullSupport {
+            java.srcDirs = ['full-support/test/src', 'eclair-mr1/test/src']
+            res.srcDirs = ['full-support/test/res']
+        }
+    }
+}

@@ -228,7 +228,8 @@
     <style name="OnboardingInputLabel">
         <item name="android:textAppearance">?android:textAppearanceMedium</item>
         <item name="android:textColor">?android:textColorSecondary</item>
-        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_marginTop">@dimen/suw_description_margin_top</item>
+        <item name="android:layout_marginBottom">@dimen/suw_description_margin_bottom</item>
     </style>
 
     <style name="onboarding_display_property">
