@@ -34,10 +34,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 import dagger.internal.Preconditions;
 import timber.log.Timber;
+
+import static org.totschnig.myexpenses.sync.SyncAdapter.LOCK_TIMEOUT_MINUTES;
 
 abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   protected static final String KEY_LOCK_TOKEN = "lockToken";
@@ -47,7 +50,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   private static final Pattern FILE_PATTERN = Pattern.compile("_\\d+");
   private static final String KEY_OWNED_BY_US = "ownedByUs";
   private static final String KEY_TIMESTAMP = "timestamp";
-  private static final long LOCK_TIMEOUT = BuildConfig.DEBUG ? 60 * 1000 : 30 * 60 * 1000;
+  private static final long LOCK_TIMEOUT_MILLIS = TimeUnit.MINUTES.toMillis(LOCK_TIMEOUT_MINUTES);
   protected SharedPreferences sharedPreferences;
   private Gson gson;
   private Context context;
@@ -243,7 +246,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     long now = System.currentTimeMillis();
     if (locktoken.equals(sharedPreferences.getString(KEY_LOCK_TOKEN, ""))) {
       return sharedPreferences.getBoolean(KEY_OWNED_BY_US, false) ||
-          now - sharedPreferences.getLong(KEY_TIMESTAMP, 0) > LOCK_TIMEOUT;
+          now - sharedPreferences.getLong(KEY_TIMESTAMP, 0) > LOCK_TIMEOUT_MILLIS;
     } else {
       saveLockTokenToPreferences(locktoken, now, false);
       return false;

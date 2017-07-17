@@ -59,6 +59,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import hugo.weaving.DebugLog;
 import timber.log.Timber;
@@ -86,6 +87,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   public static final String KEY_NOTIFICATION_CANCELLED = "notification_cancelled";
   private static final ThreadLocal<org.totschnig.myexpenses.model.Account>
       dbAccount = new ThreadLocal<>();
+  public static final int LOCK_TIMEOUT_MINUTES = BuildConfig.DEBUG ? 1 : 30;
+  private static final long IO_DEFAULT_DELAY_SECONDS = TimeUnit.MINUTES.toSeconds(5);
+  private static final long IO_LOCK_DELAY_SECONDS = TimeUnit.MINUTES.toSeconds(LOCK_TIMEOUT_MINUTES);
   private Map<String, Long> categoryToId;
   private Map<String, Long> payeeToId;
   private Map<String, Long> methodToId;
@@ -156,7 +160,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
     if (!backend.setUp().success) {
       syncResult.stats.numIoExceptions++;
-      syncResult.delayUntil = 300;
+      syncResult.delayUntil = IO_DEFAULT_DELAY_SECONDS;
       appendToNotification(Utils.concatResStrings(getContext(), " ",
           R.string.sync_io_error_cannot_connect, R.string.sync_error_will_try_again_later), account, true);
       return;
@@ -240,12 +244,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
           if (uuidFromExtras != null && extras.getBoolean(KEY_RESET_REMOTE_ACCOUNT)) {
             if (!backend.resetAccountData(uuidFromExtras)) {
               syncResult.stats.numIoExceptions++;
+              syncResult.delayUntil = IO_DEFAULT_DELAY_SECONDS;
               notifyIoException(R.string.sync_io_exception_reset_account_data, account);
             }
             continue;
           }
           if (!backend.withAccount(dbAccount.get())) {
             syncResult.stats.numIoExceptions++;
+            syncResult.delayUntil = IO_DEFAULT_DELAY_SECONDS;
             notifyIoException(R.string.sync_io_exception_setup_remote_account, account);
             continue;
           }
@@ -258,6 +264,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
               if (changeSetSince.isFailed()) {
                 syncResult.stats.numIoExceptions++;
+                syncResult.delayUntil = IO_DEFAULT_DELAY_SECONDS;
                 notifyIoException(R.string.sync_io_exception_reading_change_set, account);
                 continue;
               }
@@ -316,6 +323,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
               completedWithoutError = true;
             } catch (IOException e) {
               syncResult.stats.numIoExceptions++;
+              syncResult.delayUntil = IO_DEFAULT_DELAY_SECONDS;
               notifyIoException(R.string.sync_io_exception_syncing, account);
             } catch (RemoteException | OperationApplicationException | SQLiteException e) {
               syncResult.databaseError = true;
@@ -331,11 +339,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
               if (!backend.unlock()) {
                 notifyIoException(R.string.sync_io_exception_unlocking, account);
                 syncResult.stats.numIoExceptions++;
+                syncResult.delayUntil = IO_LOCK_DELAY_SECONDS;
               }
             }
           } else {
             notifyIoException(R.string.sync_io_exception_locking, account);
             syncResult.stats.numIoExceptions++;
+            syncResult.delayUntil = IO_LOCK_DELAY_SECONDS;
           }
         } while (cursor.moveToNext());
       }
