@@ -59,7 +59,6 @@
 
         <org.totschnig.myexpenses.preference.ListPreferenceShowSummary
             android:defaultValue="default"
-            android:entries="@array/pref_ui_language_entries"
             android:entryValues="@array/pref_ui_language_values"
             android:key="@string/pref_ui_language_key"
             android:title="@string/pref_ui_language_title"/>

@@ -54,7 +54,7 @@ public class OnboardingUiFragment extends Fragment {
     ((TextView) actionView).setText(MyApplication.getInstance().getUserPreferedLocale().getLanguage());
     actionView.setOnClickListener(v -> {
       final PopupMenu subMenu = new PopupMenu(getActivity(), actionView);
-      String[] entries = getResources().getStringArray(R.array.pref_ui_language_entries);
+      String[] entries = SettingsFragment.getLocaleArray(getContext());
       for (int i = 0; i < entries.length; i++) {
         subMenu.getMenu().add(Menu.NONE, i, Menu.NONE, entries[i]);
       }

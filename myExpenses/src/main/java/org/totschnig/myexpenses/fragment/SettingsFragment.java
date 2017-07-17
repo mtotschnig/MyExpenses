@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -212,6 +213,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         pref.setEnabled(false);
       }
       pref.setOnPreferenceChangeListener(this);
+
+      ListPreference languagePref = ((ListPreference) findPreference(UI_LANGUAGE));
+      languagePref.setEntries(getLocaleArray(getContext()));
     }
     //SHORTCUTS screen
     else if (rootKey.equals(UI_HOME_SCREEN_SHORTCUTS.getKey())) {
@@ -281,6 +285,22 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       startPref.setEntryValues(daysValues);
     } else if (rootKey.equals(DEBUG_SCREEN.getKey())) {
       findPreference(DEBUG_LOGGING).setOnPreferenceChangeListener(this);
+    }
+  }
+
+  public static String[] getLocaleArray(Context context) {
+    return Stream.of(context.getResources().getStringArray(R.array.pref_ui_language_values))
+        .map(localeString -> getLocaleDisplayName(context, localeString)).toArray(size -> new String[size]);
+  }
+
+  private static CharSequence getLocaleDisplayName(Context context, CharSequence localeString) {
+    if (localeString.equals("default")) {
+      return context.getString(R.string.pref_ui_language_default);
+    } else {
+      String[] localeParts = localeString.toString().split("-");
+      Locale locale = localeParts.length == 2 ?
+          new Locale(localeParts[0], localeParts[1]) : new Locale(localeParts[0]);
+      return locale.getDisplayName(locale);
     }
   }
 

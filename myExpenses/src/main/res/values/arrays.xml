@@ -30,66 +30,35 @@
         <item>@string/pref_ui_theme_light</item>
     </string-array>
 
-
-    <string-array name="pref_ui_language_entries">
-        <item>@string/pref_ui_language_default</item>
-        <item>العربية</item>
-        <item>български</item>
-        <item>català</item>
-        <item>čeština</item>
-        <item>Dansk</item>
-        <item>Deutsch</item>
-        <item>English</item>
-        <item>Ελληνικά</item>
-        <item>español</item>
-        <item>euskara</item>
-        <item>français</item>
-        <item>hrvatski</item>
-        <item>magyar</item>
-        <item>italiano</item>
-        <item>日本語</item>
-        <item>ខ្មែរ (Khmer)</item>
-        <item>한국어</item>
-        <item>Bahasa Melayu</item>
-        <item>polski</item>
-        <item>português (Brasil)</item>
-        <item>português (Portugal)</item>
-        <item>română</item>
-        <item>русский</item>
-        <item>සිංහල (Sinhala)</item>
-        <item>Türkçe</item>
-        <item>Tiếng Việt</item>
-        <item>中文 (简体)</item>
-        <item>中文 (繁體)</item>
-    </string-array>
     <string-array name="pref_ui_language_values">
         <item>default</item>
         <item>ar</item>
-        <item>bg-BG</item>
-        <item>ca-ES</item>
-        <item>cs-CZ</item>
-        <item>da-DK</item>
-        <item>de-DE</item>
-        <item>en-US</item>
-        <item>el-GR</item>
-        <item>es-ES</item>
-        <item>eu-ES</item>
-        <item>fr-FR</item>
-        <item>hr-HR</item>
-        <item>hu-HU</item>
-        <item>it-IT</item>
-        <item>ja-JP</item>
-        <item>km-KH</item>
-        <item>ko-KR</item>
-        <item>ms-MY</item>
-        <item>pl-PL</item>
+        <item>bg</item>
+        <item>ca</item>
+        <item>cs</item>
+        <item>da</item>
+        <item>de</item>
+        <item>en</item>
+        <item>el</item>
+        <item>es</item>
+        <item>eu</item>
+        <item>fr</item>
+        <item>hr</item>
+        <item>hu</item>
+        <item>he</item>
+        <item>it</item>
+        <item>ja</item>
+        <item>km</item>
+        <item>ko</item>
+        <item>ms</item>
+        <item>pl</item>
         <item>pt-BR</item>
         <item>pt-PT</item>
-        <item>ro-RO</item>
-        <item>ru-RU</item>
-        <item>si-LK</item>
-        <item>tr-TR</item>
-        <item>vi-VN</item>
+        <item>ro</item>
+        <item>ru</item>
+        <item>si</item>
+        <item>tr</item>
+        <item>vi</item>
         <item>zh-CN</item>
         <item>zh-TW</item>
     </string-array>
