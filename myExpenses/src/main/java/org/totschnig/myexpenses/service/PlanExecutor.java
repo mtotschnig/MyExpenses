@@ -50,6 +50,7 @@ public class PlanExecutor extends IntentService {
   public static final long INTERVAL = BuildConfig.DEBUG ? 60000 : 21600000;
   private static final long H24 = 24 * 60 * 60 * 1000;
   private static final long OVERLAPPING_WINDOW = (BuildConfig.DEBUG ? 1 : 5) * 60 * 1000;
+  public static final String TAG = PlanExecutor.class.getSimpleName();
 
   public PlanExecutor() {
     super("PlanExexcutor");
@@ -61,27 +62,28 @@ public class PlanExecutor extends IntentService {
     long now = System.currentTimeMillis();
     if (ContextCompat.checkSelfPermission(this,
         Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+      log("Calendar permission not granted");
       return;
     }
     try {
       plannerCalendarId = MyApplication.getInstance().checkPlanner();
     } catch (Exception e) {
-      //has been reported to fail (report 9bc4e977220f559fcd8a204195bcf47f)
+      log(e);
       AcraHelper.report(e);
       return;
     }
     if (plannerCalendarId.equals("-1")) {
-      Timber.i("PlanExecutor: no planner set, nothing to do");
+      log("no planner set, nothing to do");
       return;
     }
     //we use an overlapping window of 5 minutes to prevent plans that are just created by the user while
     //we are running from falling through
     long instancesFrom = PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP.getLong(now - H24) - OVERLAPPING_WINDOW;
     if (now < instancesFrom) {
-      Timber.i("Broken system time? Cannot execute plans.");
+      log("Broken system time? Cannot execute plans.");
       return;
     }
-    Timber.i("executing plans from %d to %d", instancesFrom, now);
+    log("executing plans from %d to %d", instancesFrom, now);
 
     Uri.Builder eventsUriBuilder = CalendarProviderProxy.INSTANCES_URI.buildUpon();
     ContentUris.appendId(eventsUriBuilder, instancesFrom);
@@ -109,11 +111,11 @@ public class PlanExecutor extends IntentService {
           long date = cursor.getLong(cursor.getColumnIndex(CalendarContractCompat.Instances.BEGIN));
           //2) check if they are part of a plan linked to a template
           //3) execute the template
-          Timber.i("found instance %d of plan %d", instanceId, planId);
+          log("found instance %d of plan %d", instanceId, planId);
           //TODO if we have multiple Event instances for one plan, we should maybe cache the template objects
           Template template = Template.getInstanceForPlanIfInstanceIsOpen(planId, instanceId);
           if (template != null) {
-            Timber.i("belongs to template %d", template.getId());
+            log("belongs to template %d", template.getId());
             Notification notification;
             int notificationId = instanceId.hashCode();
             PendingIntent resultIntent;
@@ -189,7 +191,7 @@ public class PlanExecutor extends IntentService {
             }
             notificationManager.notify(notificationId, notification);
           } else {
-            Timber.i("Template.getInstanceForPlanIfInstanceIsOpen returned null, instance might already have been dealt with");
+            log("Template.getInstanceForPlanIfInstanceIsOpen returned null, instance might already have been dealt with");
           }
           cursor.moveToNext();
         }
@@ -201,6 +203,14 @@ public class PlanExecutor extends IntentService {
 
     setAlarm(this, now + INTERVAL);
 
+  }
+
+  private void log(Exception e) {
+    Timber.tag(TAG).e(e);
+  }
+
+  private void log(String message, Object... args) {
+    Timber.tag(TAG).i(message, args);
   }
 
   public static void setAlarm(Context ctx, long when) {

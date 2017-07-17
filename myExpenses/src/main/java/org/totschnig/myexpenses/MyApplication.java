@@ -55,10 +55,12 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
 import org.totschnig.myexpenses.service.PlanExecutor;
+import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.LicenceHandler;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.log.TagFilterFileLoggingTree;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.AccountWidget;
 import org.totschnig.myexpenses.widget.TemplateWidget;
@@ -151,6 +153,7 @@ public class MyApplication extends MultiDexApplication implements
     } catch (Throwable ignore) {
     }
     mSelf = this;
+    setupLogging();
     if (!ACRA.isACRASenderServiceProcess()) {
       if (!isSyncService()) {
         // sets up mSettings
@@ -159,7 +162,6 @@ public class MyApplication extends MultiDexApplication implements
         registerWidgetObservers();
       }
       licenceHandler.init();
-      setupLogging();
     }
   }
 
@@ -195,6 +197,8 @@ public class MyApplication extends MultiDexApplication implements
     Timber.uprootAll();
     if (PrefKey.DEBUG_LOGGING.getBoolean(BuildConfig.DEBUG)) {
       Timber.plant(new Timber.DebugTree());
+      Timber.plant(new TagFilterFileLoggingTree(this, PlanExecutor.TAG));
+      Timber.plant(new TagFilterFileLoggingTree(this, SyncAdapter.TAG));
     }
   }
 

@@ -95,6 +95,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   private Map<String, Long> methodToId;
   private Map<String, Long> accountUuidToId;
   private SparseArray<StringBuilder> notificationContent = new SparseArray<>();
+  public static final String TAG = SyncAdapter.class.getSimpleName();
 
   public SyncAdapter(Context context, boolean autoInitialize) {
     super(context, autoInitialize);
@@ -365,6 +366,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
   @DebugLog
   private void notifyUser(String title, String content, @Nullable Account account, @Nullable Intent intent) {
+    Timber.tag(TAG).i(content);
     NotificationBuilderWrapper builder = NotificationBuilderWrapper.defaultBigTextStyleBuilder(
         getContext(), title, content);
     if (intent != null) {
