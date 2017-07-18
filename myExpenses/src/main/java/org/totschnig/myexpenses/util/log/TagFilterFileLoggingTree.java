@@ -3,12 +3,12 @@ package org.totschnig.myexpenses.util.log;
 import android.content.Context;
 import android.util.Log;
 
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.charset.Charset;
 
 import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 import ch.qos.logback.classic.spi.ILoggingEvent;
@@ -20,11 +20,12 @@ import timber.log.Timber;
 
 //Credits: http://www.sureshjoshi.com/mobile/file-logging-in-android-with-timber/
 public class TagFilterFileLoggingTree extends Timber.DebugTree {
-  private static Logger mLogger = LoggerFactory.getLogger(TagFilterFileLoggingTree.class);
+  private final Logger logger;
   private final String tag;
 
   public TagFilterFileLoggingTree(Context context, String tag) {
     this.tag = tag;
+    this.logger = (Logger) LoggerFactory.getLogger(tag);
     final String logDirectory = context.getExternalFilesDir(null) + "/logs";
     configureLogger(logDirectory);
   }
@@ -33,7 +34,6 @@ public class TagFilterFileLoggingTree extends Timber.DebugTree {
     // reset the default context (which may already have been initialized)
     // since we want to reconfigure it
     LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
-    loggerContext.reset();
 
     RollingFileAppender<ILoggingEvent> rollingFileAppender = new RollingFileAppender<>();
     rollingFileAppender.setContext(loggerContext);
@@ -64,9 +64,8 @@ public class TagFilterFileLoggingTree extends Timber.DebugTree {
 
     // add the newly created appenders to the root logger;
     // qualify Logger to disambiguate from org.slf4j.Logger
-    ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
-    root.setLevel(Level.DEBUG);
-    root.addAppender(rollingFileAppender);
+    logger.setLevel(Level.DEBUG);
+    logger.addAppender(rollingFileAppender);
 
     // print any status messages (warnings, etc) encountered in logback config
     StatusPrinter.print(loggerContext);
@@ -81,18 +80,18 @@ public class TagFilterFileLoggingTree extends Timber.DebugTree {
   protected void log(int priority, String tag, String message, Throwable t) {
     switch (priority) {
       case Log.VERBOSE:
-        mLogger.trace(message);
+        logger.trace(message);
       case Log.DEBUG:
-        mLogger.debug(message);
+        logger.debug(message);
         break;
       case Log.INFO:
-        mLogger.info(message);
+        logger.info(message);
         break;
       case Log.WARN:
-        mLogger.warn(message);
+        logger.warn(message);
         break;
       case Log.ERROR:
-        mLogger.error(message);
+        logger.error(message);
         break;
     }
   }

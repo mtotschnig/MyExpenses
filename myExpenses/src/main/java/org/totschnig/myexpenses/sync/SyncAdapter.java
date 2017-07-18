@@ -95,7 +95,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   private Map<String, Long> methodToId;
   private Map<String, Long> accountUuidToId;
   private SparseArray<StringBuilder> notificationContent = new SparseArray<>();
-  public static final String TAG = SyncAdapter.class.getSimpleName();
+  public static final String TAG = "SyncAdapter";
 
   public SyncAdapter(Context context, boolean autoInitialize) {
     super(context, autoInitialize);

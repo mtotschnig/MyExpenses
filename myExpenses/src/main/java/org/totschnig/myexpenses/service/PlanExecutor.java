@@ -50,7 +50,7 @@ public class PlanExecutor extends IntentService {
   public static final long INTERVAL = BuildConfig.DEBUG ? 60000 : 21600000;
   private static final long H24 = 24 * 60 * 60 * 1000;
   private static final long OVERLAPPING_WINDOW = (BuildConfig.DEBUG ? 1 : 5) * 60 * 1000;
-  public static final String TAG = PlanExecutor.class.getSimpleName();
+  public static final String TAG = "PlanExecutor";
 
   public PlanExecutor() {
     super("PlanExexcutor");
