@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Grisbi_categ>
+<Category Nb="1" Na="הכנסה אחרת"/>
+<Sub_category Nbc="1" Nb="1" Na="דמי אבטלה"/>
+<Sub_category Nbc="1" Nb="2" Na="קצבת משפחה"/>
+<Sub_category Nbc="1" Nb="3" Na="זיכוי מס"/>
+<Sub_category Nbc="1" Nb="4" Na="הימורים"/>
+<Sub_category Nbc="1" Nb="5" Na="ביטוח הדדי"/>
+<Sub_category Nbc="1" Nb="6" Na="ביטוח לאומי"/>
+<Category Nb="2" Na="פרישה לגמלאות"/>
+<Sub_category Nbc="2" Nb="1" Na="קרן פנסיה"/>
+<Sub_category Nbc="2" Nb="2" Na="פנסיה"/>
+<Sub_category Nbc="2" Nb="3" Na="פנסיה משלימה"/>
+<Category Nb="3" Na="הכנסה מהשקעה"/>
+<Sub_category Nbc="3" Nb="1" Na="דיבידנד"/>
+<Sub_category Nbc="3" Nb="2" Na="ריבית"/>
+<Sub_category Nbc="3" Nb="3" Na="רווח הון"/>
+<Category Nb="4" Na="שכר"/>
+<Sub_category Nbc="4" Nb="1" Na="שעות נוספות"/>
+<Sub_category Nbc="4" Nb="2" Na="קצבת שארים"/>
+<Sub_category Nbc="4" Nb="3" Na="פרמיות שונות"/>
+<Sub_category Nbc="4" Nb="4" Na="מס הצלחה"/>
+<Sub_category Nbc="4" Nb="5" Na="שכר נטו"/>
+<Category Nb="5" Na="הכנסות שונות"/>
+<Sub_category Nbc="5" Nb="1" Na="מתנות"/>
+<Sub_category Nbc="5" Nb="2" Na="החזרים כספיים"/>
+<Sub_category Nbc="5" Nb="3" Na="מכירות יד שניה"/>
+<Category Nb="6" Na="מזון"/>
+<Sub_category Nbc="6" Nb="1" Na="בר"/>
+<Sub_category Nbc="6" Nb="2" Na="אופה"/>
+<Sub_category Nbc="6" Nb="3" Na="קנטינה"/>
+<Sub_category Nbc="6" Nb="4" Na="ממתקים"/>
+<Sub_category Nbc="6" Nb="5" Na="שונות"/>
+<Sub_category Nbc="6" Nb="6" Na="מכולת"/>
+<Sub_category Nbc="6" Nb="7" Na="מסעדה"/>
+<Sub_category Nbc="6" Nb="8" Na="שרות עצמי"/>
+<Sub_category Nbc="6" Nb="9" Na="סופר מרקט"/>
+<Category Nb="7" Na="חיות מחמד"/>
+<Sub_category Nbc="7" Nb="1" Na="מזון"/>
+<Sub_category Nbc="7" Nb="2" Na="אספקות שונות"/>
+<Sub_category Nbc="7" Nb="3" Na="מטפלת"/>
+<Sub_category Nbc="7" Nb="4" Na="מנתח ווטרינרי"/>
+<Category Nb="8" Na="ביטוח"/>
+<Sub_category Nbc="8" Nb="1" Na="רכב"/>
+<Sub_category Nbc="8" Nb="2" Na="בריאות"/>
+<Sub_category Nbc="8" Nb="3" Na="בית"/>
+<Sub_category Nbc="8" Nb="4" Na="נאמנות אזרחית"/>
+<Sub_category Nbc="8" Nb="5" Na="חיים"/>
+<Category Nb="9" Na="רכב"/>
+<Sub_category Nbc="9" Nb="1" Na="דלק"/>
+<Sub_category Nbc="9" Nb="2" Na="תיקונים"/>
+<Sub_category Nbc="9" Nb="3" Na="תחזוקה"/>
+<Sub_category Nbc="9" Nb="4" Na="חנייה"/>
+<Sub_category Nbc="9" Nb="5" Na="קנסות"/>
+<Category Nb="11" Na="מתנות"/>
+<Category Nb="12" Na="ילדים"/>
+<Sub_category Nbc="12" Nb="1" Na="אחות"/>
+<Sub_category Nbc="12" Nb="2" Na="שונות"/>
+<Sub_category Nbc="12" Nb="3" Na="לימודים"/>
+<Category Nb="13" Na="לימודים"/>
+<Sub_category Nbc="13" Nb="1" Na="שיעורים"/>
+<Sub_category Nbc="13" Nb="2" Na="שכר לימוד"/>
+<Sub_category Nbc="13" Nb="3" Na="ספרים"/>
+<Category Nb="14" Na="שונות"/>
+<Sub_category Nbc="14" Nb="1" Na="מתנות"/>
+<Category Nb="15" Na="הוצאות מימון"/>
+<Sub_category Nbc="15" Nb="1" Na="שונות"/>
+<Sub_category Nbc="15" Nb="2" Na="עמלות בנק"/>
+<Sub_category Nbc="15" Nb="3" Na="הלוואה/משכנתה"/>
+<Sub_category Nbc="15" Nb="4" Na="חיובים"/>
+<Sub_category Nbc="15" Nb="5" Na="החזר כספי"/>
+<Category Nb="16" Na="הוצאות מקצועיות"/>
+<Sub_category Nbc="16" Nb="1" Na="לא ניתן לקבל החזיר"/>
+<Sub_category Nbc="16" Nb="2" Na="ניתן לקבל החזר"/>
+<Category Nb="17" Na="מיסים"/>
+<Sub_category Nbc="17" Nb="1" Na="שונות"/>
+<Sub_category Nbc="17" Nb="2" Na="הכנסה"/>
+<Sub_category Nbc="17" Nb="3" Na="ארץ"/>
+<Category Nb="18" Na="דיור"/>
+<Sub_category Nbc="18" Nb="1" Na="מלון"/>
+<Sub_category Nbc="18" Nb="2" Na="שכירות"/>
+<Sub_category Nbc="18" Nb="3" Na="טלביזיה"/>
+<Sub_category Nbc="18" Nb="4" Na="ריהוט"/>
+<Sub_category Nbc="18" Nb="5" Na="חיובים"/>
+<Sub_category Nbc="18" Nb="6" Na="undefined"/>
+<Sub_category Nbc="18" Nb="7" Na="תפאורה"/>
+<Sub_category Nbc="18" Nb="8" Na="מים"/>
+<Sub_category Nbc="18" Nb="9" Na="חשמל"/>
+<Sub_category Nbc="18" Nb="10" Na="מוצרים לבנים"/>
+<Sub_category Nbc="18" Nb="11" Na="ציוד"/>
+<Sub_category Nbc="18" Nb="12" Na="גז"/>
+<Sub_category Nbc="18" Nb="13" Na="גן"/>
+<Sub_category Nbc="18" Nb="14" Na="אב בית"/>
+<Sub_category Nbc="18" Nb="15" Na="טלפון"/>
+<Sub_category Nbc="18" Nb="16" Na="טלפון נייד"/>
+<Category Nb="19" Na="פנאי"/>
+<Sub_category Nbc="19" Nb="1" Na="סנוקר"/>
+<Sub_category Nbc="19" Nb="2" Na="באוליניג"/>
+<Sub_category Nbc="19" Nb="3" Na="סרטים"/>
+<Sub_category Nbc="19" Nb="4" Na="מועדון לילה"/>
+<Sub_category Nbc="19" Nb="5" Na="זה"/>
+<Sub_category Nbc="19" Nb="6" Na="משחקים"/>
+<Sub_category Nbc="19" Nb="7" Na="ספרים"/>
+<Sub_category Nbc="19" Nb="8" Na="פארקים"/>
+<Sub_category Nbc="19" Nb="9" Na="קונצרטים"/>
+<Sub_category Nbc="19" Nb="10" Na="ספורט"/>
+<Sub_category Nbc="19" Nb="11" Na="וידאו"/>
+<Sub_category Nbc="19" Nb="12" Na="נסיעות"/>
+<Sub_category Nbc="19" Nb="13" Na="ציוד"/>
+<Sub_category Nbc="19" Nb="14" Na="מוזאונים/תערוכות"/>
+<Category Nb="20" Na="הלוואה/משכנתה"/>
+<Sub_category Nbc="20" Nb="1" Na="עיר בירה"/>
+<Category Nb="21" Na="בריאות"/>
+<Sub_category Nbc="21" Nb="1" Na="ביטוח"/>
+<Sub_category Nbc="21" Nb="2" Na="רופא שיניים"/>
+<Sub_category Nbc="21" Nb="3" Na="בית חולים"/>
+<Sub_category Nbc="21" Nb="4" Na="Kinesitherapist"/>
+<Sub_category Nbc="21" Nb="5" Na="רופא"/>
+<Sub_category Nbc="21" Nb="6" Na="רופא עינים"/>
+<Sub_category Nbc="21" Nb="7" Na="אוסטיאופת"/>
+<Sub_category Nbc="21" Nb="8" Na="כימאי"/>
+<Sub_category Nbc="21" Nb="9" Na="ביטוח לאומי"/>
+<Category Nb="22" Na="מטפל"/>
+<Sub_category Nbc="22" Nb="1" Na="מעצב שיער"/>
+<Sub_category Nbc="22" Nb="2" Na="הלבשה"/>
+<Category Nb="23" Na="תחבורה"/>
+<Sub_category Nbc="23" Nb="1" Na="אוטובוס"/>
+<Sub_category Nbc="23" Nb="2" Na="רַכֶּבֶת תַחְתִית"/>
+<Sub_category Nbc="23" Nb="3" Na="אגרה"/>
+<Sub_category Nbc="23" Nb="4" Na="רכבת"/>
+<Sub_category Nbc="23" Nb="5" Na="חשמלית"/>
+<Sub_category Nbc="23" Nb="6" Na="נסיעות"/>
+<Sub_category Nbc="23" Nb="7" Na="אוויר"/>
+<Category Nb="24" Na="חגים"/>
+<Sub_category Nbc="24" Nb="1" Na="דיור"/>
+<Sub_category Nbc="24" Nb="2" Na="ביקורים"/>
+<Sub_category Nbc="24" Nb="3" Na="נסיעות"/></Grisbi_categ>

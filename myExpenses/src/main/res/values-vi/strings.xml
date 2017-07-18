@@ -298,9 +298,9 @@
   <string name="pref_manage_methods_title">Phương thức chi trả</string>
   <string name="pref_manage_parties_summary">Thêm, chỉnh sửa và xóa các hội (người trả và người nhận tiền).</string>
   <string name="pref_manage_parties_title">Các nhóm</string>
-  <string name="pref_manage_sync_backends_title">Backend đồng bộ</string>
+  <string name="pref_manage_sync_backends_title">Phụ trợ đồng bộ</string>
   <!--%s will be replaced with list of backends-->
-  <string name="pref_manage_sync_backends_summary">Thêm backand cho việc đồng bộ các tài khoản (%s).</string>
+  <string name="pref_manage_sync_backends_summary">Thêm phụ trợ cho việc đồng bộ các tài khoản (%s).</string>
   <string name="pref_more_info_dialog_summary">
 
 Dịch bởi Phan Anh và Hiếu Văn</string>
@@ -428,27 +428,198 @@ Dịch bởi Phan Anh và Hiếu Văn</string>
   <string name="warning_reset_account">Tất cả giao dịch của tài khoản này sẽ được xuất trong tập tin trên thẻ nhớ và bị xóa. Bạn có thực sự muốn tiếp tục?</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Tất cả giao dịch của tài khoản%1$s này sẽ được xuất trong tập tin %1$s trên thẻ nhớ và bị xóa. Bạn có thực sự muốn tiếp tục?</string>
+  <string name="warning_reset_account_matched">Nếu bạn tiếp tục, các giao dịch nằm trong bộ lọc hiện tại sẽ bị xoá khỏi cơ sở dữ liệu và không thể khôi phục.</string>
   <string name="warning_restore">Cơ sở dữ liệu và tùy biến sẽ được phục hồi từ thẻ nhớ (%1$s). Dữ liệu hiện tại sẽ bị xóa. Bạn có muốn tiếp tục hay không?</string>
+  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Thư mục đang được chọn để chứa các bản sao lưu và xuất ra sẽ bị xoá bởi Android nếu bạn gỡ cài đặt Quản lý chi tiêu. Bạn có thể ngăn chặn điều này bằng cách chọn một thư mục chứa khác từ màn hình cài đặt.</string>
   <string name="warning_splitpartcategory_context">Các thao tác truyền đổi là một phần của việc phân tách có thể được chỉnh sửa và xóa trong phần ngữ cảnh của phân tách.</string>
+  <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Vui lòng chọn một số trong khoảng %1$d và %2$d</string>
+  <string name="warning_change_fraction_digits_1">Số tiền trong cơ sở dữ liệu cần được cập nhật để khớp với số lượng các chữ số thập phân.</string>
+  <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Nếu số tiền không được cập nhật, nó sẽ hiển thị dưới dạng được nhân lên %d lần sau khi thay đổi.</string>
+  <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Nếu số tiền không được cập nhật, nó sẽ được hiển thị dưới dạng được chia đi %d lần sau khi thay đổi.</string>
+  <string name="warning_change_fraction_digits_3">Nếu số tiền được cập nhật, bạn sẽ mất các thông tin về phần thập phân của số tiền các giao dịch đó.</string>
+  <string name="warning_change_fraction_digits_checkbox_label">Cập nhật các số tiền</string>
   <string name="import_categories_success">%1$s phân loại đã được nhập dữ liệu thành công</string>
   <string name="import_parties_success">%1$s nhóm đã được nhập dữ liệu thành công</string>
+  <string name="import_accounts_success">%1$s tài khoản đã được nhập thành công</string>
+  <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d giao dịch đã được nhập vào tài khoản %2$s</string>
   <string name="import_accounts_none">Không có tài khoản nào được nhập</string>
   <string name="import_categories_none">Không có danh mục nào được nhập</string>
   <string name="import_parties_none">Không có bên giao dịch nào được nhập</string>
+  <string name="import_transactions_none">Không có giao dịch nào được nhập vào tài khoản %1$s</string>
+  <string name="import_source_select_error">Hãy cung cấp một tập tin dạng %1$s</string>
+  <string name="import_source_select_not_readable">Không thể đọc tập tin. Vui lòng chọn một tập tin khác.</string>
+  <string name="menu_categories_setup_default">Thiết lập các danh mục mặc định</string>
+  <string name="menu_create_folder">Thư mục mới</string>
   <!--This string is used for navigating up in the folder browser-->
+  <string name="menu_up">Lên</string>
   <!--Move an account up in the account list-->
+  <string name="menu_sort_up">Lên</string>
   <!--Move an account down in the account list-->
+  <string name="menu_sort_down">Xuống</string>
+  <string name="create_new_folder_fail">Không thể tạo thư mục</string>
+  <string name="widget_title_accounts">Tài khoản của tôi</string>
+  <string name="widget_title_templates">Bản mẫu của tôi</string>
+  <string name="app_dir_not_accessible">Thư mục được chọn hiện tại cho sao lưu và xuất ra (%1$s) không thể truy nhập được. Vui lòng chọn một cái khác.</string>
+  <string name="app_dir_not_compatible_with_nougat">URI đang được thiết lập cho sao lưu và xuất (%1$s) không được hỗ trợ trong Android Nougat. Vui lòng chọn lại thư mục khác.</string>
+  <string name="search_amount">Tìm dựa vào số tiền</string>
+  <string name="search_category">Tìm dựa vào danh mục</string>
+  <string name="search_comment">Tìm dựa vào ghi chú</string>
+  <string name="search_date">Tìm dựa vào ngày</string>
+  <string name="search_status">Tìm dựa vào trạng thái</string>
+  <string name="search_payee">Tìm dựa vào người nhận/người trả</string>
+  <string name="search_method">Tìm dựa vào phương thức chi trả</string>
+  <string name="and">và</string>
+  <string name="between_and">giữa %1$s và %2$s</string>
+  <string name="before">trước %s</string>
+  <string name="after">sau %s</string>
+  <string name="comparison_operator_equal">bằng với</string>
+  <string name="comparison_operator_greater_than">lớn hơn</string>
+  <string name="comparison_operator_lesser_than">nhỏ hơn</string>
+  <string name="comparison_operator_between">trong khoảng</string>
+  <string name="comparison_operator_date_before">trước</string>
+  <string name="comparison_operator_date_after">sau</string>
+  <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Khuyến mãi đặc biệt với AppGratis: Các tính năng trả phí được mở khoá miễn phí.</string>
+  <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Giao dịch thất bại hoặc đã bị huỷ bỏ</string>
+  <string name="hint_auto_fill">Liệu số tiền, danh mục và ghi chú có nên được điền tự động dựa vào giao dịch gần nhất đối với cùng người nhận/người gửi ? Bạn luôn luôn có thể thay đổi lựa chọn này trong mục cài đặt.</string>
+  <string name="yes">Được</string>
+  <string name="no">Không</string>
+  <string name="hint_template_click">Nhấn vào một mục trên danh sách này sẽ trình bày bản mẫu đó ra và sẽ lưu luôn hoặc vào phần sửa đổi, nơi mà bạn có thể chỉnh sửa nó trước khi lưu. Bạn luôn có thể thực hiện cả hai hành động qua một lần nhấn giữ, và thay đổi mặc định trong cài đặt.</string>
+  <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d tài khoản với loại tiền %2$s đã được cập nhật.</string>
+  <string name="learn_more">Tìm hiểu thêm</string>
+  <string name="import_source_file">Tập tin</string>
+  <string name="restore_calendar_handling">Xử lý dữ liệu lịch</string>
+  <string name="restore_calendar_handling_configured">Khôi phục kế hoạch tới lịch được thiết lập hiện tại</string>
+  <string name="restore_calendar_handling_backup">Khôi phục kế hoạch vào lịch được đặt trong bản sao lưu nếu có sẵn</string>
+  <string name="restore_calendar_handling_ignore">Không khôi phục các kế hoạch</string>
+  <string name="restore_not_possible_target_calendar_missing">Lịch %s đặt trong bản sao lưu không tồn tại. Việc khôi phục đã bị ngừng.</string>
+  <string name="restore_not_possible_local_calendar_missing">Lịch kế hoạch hiện tại không sẵn có.</string>
+  <string name="menu_view_picture">Xem ảnh</string>
+  <string name="menu_delete_picture">Xoá ảnh</string>
+  <string name="menu_change_picture">Đính kèm ảnh khác</string>
+  <string name="menu_distribution_show_pie_char">Hiện biểu đồ tròn</string>
+  <string name="menu_distribution_aggreate">Gộp chi tiêu và thu nhập</string>
+  <string name="pref_manage_stale_images_title">Ảnh mất hiệu lực</string>
+  <string name="pref_manage_stale_images_summary">Xử lý hình ảnh còn dư từ các giao dịch đã bị xoá</string>
+  <string name="menu_select_categories">Chọn các danh mục được đánh dấu</string>
+  <string name="image_deleted">Ảnh đã bị xoá</string>
+  <string name="transaction_deleted">Giao dịch đã bị xoá</string>
+  <string name="dialog_export_applied_to_filter">Chỉ các giao dịch khớp bộ lọc hiện tại sẽ được tính đến</string>
+  <string name="export_handle_deleted_create_helper">Tạo giao dịch hỗ trợ</string>
   <string name="export_handle_deleted_update_balance">Cập nhật khoản cân đối</string>
+  <string name="file_name">Tên tập tin</string>
+  <string name="folder_name">Tên thư mục</string>
+  <string name="mark_void_instead_of_delete">Không xoá giao dịch, mà đánh dấu nó là trống</string>
+  <string name="menu_undelete_transaction">Hoàn tác xoá</string>
+  <string name="slash_forbidden_in_filename">Ký tự / không được dùng trong tên tập tin</string>
+  <string name="io_error_unable_to_create_file">Không thể tạo tập tin %1$s trong thư mục %2$s</string>
+  <string name="menu_categories_export">Xuất ra dạng QIF</string>
+  <string name="pref_csv_import_delimiter">Dấu phân tách</string>
+  <string name="csv_import_preview">xem trước</string>
+  <string name="menu_parse">Phân tích</string>
   <!--Label for column where user can check rows to be discarded from import-->
   <string name="cvs_import_discard">Huỷ bỏ</string>
+  <string name="csv_import_field_mapped_more_than_once">%s được ánh xạ nhiều hơn một lần.</string>
+  <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d bản ghi không thể nhập được.</string>
+  <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d bản ghi bị huỷ bỏ.</string>
+  <string name="csv_import_subcategory_requires_category">Nếu bạn ánh xạ các danh mục con, bạn cũng phải ánh xạ các danh mục.</string>
+  <string name="cvs_import_set_first_line_as_header">Có nên coi dòng đầu như dòng đầu trang cố định (header) ?</string>
+  <string name="csv_import_delimiter_comma">Dấu phẩy</string>
+  <string name="csv_import_delimiter_semicolon">Dấu chấm phẩy</string>
+  <string name="csv_import_delimiter_tab">Tab</string>
+  <string name="csv_import_no_mapping_found_for_amount">Vui lòng ánh xạ một cột tới số tiền, thu nhập hoặc chi tiêu.</string>
+  <string name="menu_show_transactions">Hiện các giao dịch</string>
+  <string name="pref_custom_decimal_format_title">Định dạng số</string>
+  <string name="pref_custom_decimal_format_summary">Nếu bạn cảm thấy chưa thoả mãn với định dạng mặc định cho vùng miền của bạn, thay đổi nó sao cho vừa ý bạn. Để trống để quay về dạng mặc định.</string>
+  <string name="licence_validation_upgrade_needed" tools:ignore="UnusedResources">Vui lòng nâng cấp Quản lý chi tiêu bản Đóng góp lên phiên bản 1.5.</string>
+  <string name="pref_auto_backup_title">Tự động sao lưu</string>
+  <string name="pref_auto_backup_summary">Sao lưu cơ sở dữ liệu tại một thời điểm nhất định (nếu dữ liệu có sự thay đổi).</string>
+  <string name="pref_auto_backup_time_title">Thời điểm tự động sao lưu</string>
+  <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Sau %d lần sao lưu tự động thành công, chức năng tự sao lưu sẽ bị vô hiệu hoá</string>
+  <string name="warning_auto_backup_limit_reached">Đã đạt giới hạn số lần sao lưu tự động miễn phí.</string>
+  <string name="button_request_calendar_access" tools:ignore="UnusedResources">Cấp phép truy cập</string>
   <string name="switch_on_text">Bật</string>
   <string name="switch_off_text">Tắt</string>
   <string name="menu_move">Di chuyển</string>
+  <string name="dialog_title_select_target">Chọn mục tiêu</string>
+  <string name="transform_subcategory_to_main">Chuyển đổi thành danh mục chính</string>
   <string name="preferences_week_start_day_title">Tuần bắt đầu vào</string>
+  <string name="preferences_month_start_date_title">Tháng bắt đầu vào</string>
   <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
+  <string name="pref_grouping_periods">Chu kỳ gộp nhóm</string>
+  <string name="exchange_rate">Tỷ giá</string>
+  <string name="date_format_hour">Giờ</string>
+  <string name="date_format_minute">Phút</string>
+  <string name="copied_to_clipboard">Đã chép tới khay nhớ tạm</string>
+  <string name="menu_sort">Sắp xếp theo</string>
+  <string name="pref_sort_order_last_used">Sử dụng lần cuối</string>
+  <string name="pref_sort_order_custom">Tuỳ ch</string>
+  <string name="dialog_info_custom_sort">Sử dụng các lệnh lên và xuống trong menu ngữ cảnh của từng mục để thay đổi vị trí sắp xếp của nó.</string>
   <string name="content_description_calculator">Máy tính hỗ trợ</string>
   <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <string name="plan_instance_state_open">hoạt động</string>
   <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
+  <string name="plan_instance_state_cancelled">bị huỷ</string>
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <string name="plan_instance_state_applied">được áp dụng</string>
+  <string name="progress_dialog_updating_split_parts">Đang cập nhật các phần bị tách</string>
+  <string name="content_description_calculator_clear_button">Đặt lại</string>
+  <string name="content_description_calculator_delete_button">Xoá chữ số cuối cùng</string>
+  <string name="paypal_transaction_id">ID giao dịch PayPal</string>
+  <string name="paypal_callback_info">Giao dịch của bạn đã hoàn tất và biên lai mua hàng của bạn đã được gửi qua email cho bạn. Bạn có thể đăng nhập vào tài khoản của bạn tại www.paypal.com để xem chi tiết giao dịch này.</string>
+  <string name="paypal_callback_later_clicked_info">Từ màn hình cài đặt, bạn có thể yêu cầu một mã mở khoá.</string>
+  <string name="search_transfer">Tìm các khoản chuyển</string>
   <!--Sort plans (recurring transactions) by the next instance-->
+  <string name="pref_sort_order_next_instance">Lần tiếp theo</string>
+  <string name="crash_dialog_title">Quản lý chi tiêu đã dừng đột ngột</string>
+  <string name="crash_dialog_text">Đã xảy ra lỗi không mong muốn buộc ứng dụng phải ngừng. Xin hãy giúp chúng tôi khắc phục sự cố này bằng cách gửi dữ liệu lỗi, tất cả những gì bạn cần làm là nhấn OK.</string>
+  <string name="crash_dialog_comment_prompt">Bạn có thể thêm ý kiến ​​của bạn về vấn đề vừa rồi dưới đây:</string>
+  <string name="synchronization">Đồng bộ hóa</string>
+  <string name="synchronization_none">Không đồng bộ hóa</string>
+  <string name="hint_url">URL</string>
+  <string name="description_webdav_url">Vui lòng nhập URL dẫn tới một thư mục đặc biệt trên máy chủ WebDAV của bạn. Quản lý chi tiêu sẽ lưu trữ dữ liệu bên trong thư mục này, nó sẽ không gây ảnh hưởng tới bất cứ thứ gì bên ngoài thư mục đó.</string>
+  <string name="description_webdav_trust_certificate">Trang web này sử dụng một chứng chỉ mà Android không tin cậy.</string>
+  <string name="hint_user_name">Tên người dùng</string>
+  <string name="hint_password">Mật khẩu</string>
+  <string name="label_trust_certificate">Tin cậy chứng chỉ này</string>
+  <string name="no_sync_backends">Không có phụ trợ đồng bộ hóa</string>
+  <string name="menu_create_sync_backend">Phụ trợ đồng bộ hóa mới</string>
+  <string name="validate_error_not_empty">Không được để trống</string>
+  <string name="validate_error_webdav_invalid_certificate">Chứng chỉ không đáng tin cậy. Nó có vẻ không hợp lệ.</string>
+  <string name="validate_error_webdav_not_compliant">URL không trỏ đến tài nguyên WebDAV.</string>
+  <string name="validate_error_webdav_404">URL không tồn tại trên máy chủ.</string>
+  <string name="url_not_valid">URL không hợp lệ</string>
+  <string name="menu_sync_unlink">Dừng đồng bộ hóa</string>
+  <string name="menu_sync_link">Bắt đầu đồng bộ hóa</string>
+  <string name="menu_sync_download">Tải xuống và đồng bộ hóa</string>
+  <string name="menu_sync_now">Đồng bộ hóa ngay bây giờ</string>
+  <string name="pref_sync_frequency_title">Tần suất đồng bộ hóa</string>
+  <string name="pref_sync_frequency_summary">Dữ liệu nên được đồng bộ hoá mỗi mấy giờ</string>
+  <string name="dialog_command_sync_link_remote">Tải xuống từ bên ng</string>
+  <string name="dialog_command_sync_link_local">Tải lên từ nội bộ</string>
+  <string name="menu_remove">Xoá</string>
+  <string name="link_account_failure_2">Một tài khoản có cùng uuid đã tồn tại trên phần phụ trợ bên ngoài.</string>
+  <string name="link_account_failure_3">Mâu thuẫn có thể được giải quyết bằng tay từ trình đơn ngữ cảnh của mục nhập.</string>
+  <string name="progress_dialog_checking_sync_backend">Đang xác minh phần phụ trợ</string>
+  <string name="template">Bản mẫu</string>
+  <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Đồng bộ hoá đám mây</string>
+  <string name="licence_status">Tình trạng giấy phép của bạn</string>
+  <string name="all_contrib_key_features">Tất cả các tính năng của Khóa đóng góp</string>
+  <string name="upgrade_now">Nâng cấp ngay bây giờ</string>
+  <string name="currency_symbol">Ký hiệu tiền tệ</string>
+  <string name="number_of_fraction_digits">Số chữ số thập phân</string>
+  <string name="pref_tracking_summary">Cho phép chúng tôi thu thập dữ liệu ẩn danh về thói quen sử dụng, giúp chúng tôi cải tiến ứng dụng.</string>
+  <string name="pref_tracking_title">Thu thập dữ liệu sử dụng</string>
+  <string name="sync_database_error">Đã xảy ra lỗi cơ sở dữ liệu khi đồng bộ hóa.</string>
+  <string name="sync_io_error_cannot_connect">Không thể kết nối tới phần phụ trợ đồng bộ.</string>
+  <string name="sync_error_will_try_again_later">Sẽ thử lại sau.</string>
+  <string name="sync_io_exception_reset_account_data">Lỗi khi đặt lại tài khoản bên ngoài.</string>
+  <string name="sync_io_exception_setup_remote_account">Lỗi trong khi thiết lập tài khoản bên ngoài.</string>
+  <string name="sync_io_exception_reading_change_set">Lỗi trong khi đọc các thay đổi từ phụ trợ.</string>
+  <string name="sync_io_exception_syncing">Lỗi trong khi đồng bộ hóa các thay đổi với máy chủ.</string>
+  <string name="sync_io_exception_unlocking">Lỗi khi bỏ khoá phần phụ trợ từ xa.</string>
+  <string name="sync_io_exception_locking">Phụ trợ bên ngoài bị khóa hoặc không thể bị khóa.</string>
+  <string name="synchronization_start">Bắt đầu đồng bộ hóa cho tài khoản %s.</string>
+  <string name="synchronization_end_success_none">Không có thay đổi nào để đồng bộ.</string>
+  <string name="sync_state_restored">Trạng thái đồng bộ hóa đã được khôi phục cho %d tài khoản.</string>
+  <string name="sync_state_could_not_be_restored">Không thể khôi phục trạng thái đồng bộ hóa cho %d tài khoản.</string>
 </resources>

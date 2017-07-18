@@ -441,7 +441,7 @@ public class TransactionList extends ContextualActionBarFragment implements
                 .hint(R.string.label)
                 .text(label)
                 .extra(args)
-                .pos(R.string.add)
+                .pos(R.string.dialog_button_add)
                 .neut()
                 .show(this, NEW_TEMPLATE_DIALOG);
         return true;

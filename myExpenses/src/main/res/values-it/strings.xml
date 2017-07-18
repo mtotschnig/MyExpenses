@@ -454,6 +454,7 @@
   <string name="import_parties_none">Nessun beneficiario importato</string>
   <string name="import_transactions_none">Nessuna transazione importata nel conto %1$s</string>
   <string name="import_source_select_error">Si prega di fornire un file di tipo %1$s</string>
+  <string name="import_source_select_not_readable">Impossibile leggere il file. Selezionalo da una fonte diversa.</string>
   <string name="menu_categories_setup_default">Installazione categorie standard</string>
   <string name="menu_create_folder">Nuova cartella</string>
   <!--This string is used for navigating up in the folder browser-->
@@ -466,6 +467,7 @@
   <string name="widget_title_accounts">I miei conti</string>
   <string name="widget_title_templates">I miei modelli</string>
   <string name="app_dir_not_accessible">La cartella selezionata per i backup e le esportazioni (%1$s) non è accessibile. Si prega di selezionarne un\'altra.</string>
+  <string name="app_dir_not_compatible_with_nougat">L\'URI correntemente configurato per i backup e le esportazioni (%1$s) non è supportato in Android Nougat. Seleziona nuovamente una cartella.</string>
   <string name="search_amount">Cerca per importo</string>
   <string name="search_category">Cerca per categoria</string>
   <string name="search_comment">Cerca per note</string>
@@ -630,4 +632,15 @@
   <string name="auto_backup_cloud_create_backend">Creare un backend di sincronizzazione dalla schermata impostazioni principali.</string>
   <string name="auto_backup_cloud_failure">Si e\' verificato un errore durante il backup file %1$s sul backend %2$s:</string>
   <string name="home_screen_shortcuts_nougate_info">Le scorciatoie possono essere aggiunte premendo a lungo sull\'icona dell\'applicazione nella schermata Home.</string>
+  <string name="currency_symbol">Simbolo di valuta</string>
+  <string name="number_of_fraction_digits">Numero di decimali</string>
+  <string name="warning_auto_backup_deactivated">Il backup automatico è stato disattivato. Puoi riaccenderlo nuovamente dalle impostazioni dopo aver risolto il problema (ad esempio selezionando una cartella diversa per i backup).</string>
+  <string name="pref_tracking_summary">Consenti di raccogliere dati anonimi sui modelli di utilizzo che ci aiutano a pianificare miglioramenti.</string>
+  <string name="pref_tracking_title">Raccolta dati di utilizzo</string>
+  <string name="sync_database_error">Si è verificato un errore di database durante la sincronizzazione.</string>
+  <string name="sync_io_error_cannot_connect">Impossibile connettersi al back-end di sincronizzazione.</string>
+  <string name="sync_error_will_try_again_later">Verrà effettuato un nuovo tentativo più tardi.</string>
+  <string name="sync_io_exception_reset_account_data">Errore durante il ripristino dell\'account remoto.</string>
+  <string name="sync_io_exception_setup_remote_account">Errore durante l\'impostazione dell\'account remoto.</string>
+  <string name="sync_io_exception_reading_change_set">Errore durante la lettura delle modifiche dal backend.</string>
 </resources>

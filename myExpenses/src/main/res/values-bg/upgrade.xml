@@ -18,6 +18,12 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_279">
+    <item>Може да се задават знаци за валута</item>
+  </string-array>
+  <string-array name="whats_new_278">
+    <item>Шорткъти на приложението за Андроид 7.1</item>
+  </string-array>
   <string-array name="whats_new_277">
     <item>Автоматичните бекъпи могат да се записват на  отдалечено облачно място</item>
   </string-array>

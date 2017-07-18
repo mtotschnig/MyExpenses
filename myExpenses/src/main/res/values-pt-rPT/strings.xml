@@ -572,4 +572,12 @@ Traduzido por Sérgio Marques</string>
   <string name="crash_dialog_title">O My Expenses falhou</string>
   <string name="crash_dialog_text">Ocorreu um erro inesperado forçando a aplicação a parar. Por favor ajude-nos a corrigir isto ao enviar-nos os dados do erro, tudo o que tem que fazer é clicar em OK.</string>
   <string name="crash_dialog_comment_prompt">Pode adicionar os seus comentários sobre o problema em baixo:</string>
+  <string name="hint_user_name">Nome de utilizador</string>
+  <string name="hint_password">Palavra-passe</string>
+  <string name="label_trust_certificate">Confiar neste certificado</string>
+  <string name="menu_sync_unlink">Parar sincronização</string>
+  <string name="menu_sync_link">Iniciar sincronização</string>
+  <string name="menu_sync_download">Transferir e sincronizar</string>
+  <string name="menu_sync_now">Sincronizar agora</string>
+  <string name="menu_remove">Remover</string>
 </resources>

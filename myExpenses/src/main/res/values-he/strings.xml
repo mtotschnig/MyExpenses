@@ -1,0 +1,657 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <string name="account">חשבון</string>
+  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
+  <string name="account_types">סוגי חשבון</string>
+  <string name="account_type_asset">חשבון הנכס</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
+  <string name="account_type_asset_plural">חשבונות הנכס</string>
+  <string name="account_type_bank">חשבון בנק</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
+  <string name="account_type_bank_plural">חשבונות בנק</string>
+  <string name="account_type_cash">חשבון במזומן</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
+  <string name="account_type_cash_plural">חשבונות במזומן</string>
+  <string name="account_type_ccard">כרטיס אשראי</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
+  <string name="account_type_ccard_plural">כרטיסי אשראי</string>
+  <string name="account_type_liability">חשבון התחייבויות</string>
+  <!--Plural form to be used in account list where accounts are grouped by type-->
+  <string name="account_type_liability_plural">חשבונות התחייבויות</string>
+  <string name="already_defined">%1$sכבר מוגדר</string>
+  <string name="amount">כמות</string>
+  <string name="app_name">ההוצאות שלי</string>
+  <string name="backup_failure">גיבוי ל- \"%1$s\" נכשל</string>
+  <string name="backup_success">מסד הנתונים וההעדפות נכתבים בהצלחה ל- \"%1$s\".</string>
+  <string name="category">קטגוריה</string>
+  <string name="split_transaction_error">לא ניתן היה לשנות את העסקה לפיצול.</string>
+  <plurals name="split_transaction_success">
+    <item quantity="one">העסקה השתנתה בהצלחה לפצל.</item>
+    <item quantity="other">%1$d עסקאות השתנו בהצלחה לפיצולים.</item>
+  </plurals>
+  <string name="color">צבע</string>
+  <string name="comment">הערות</string>
+  <string name="confirmation_dialog_dont_show_again">אל תציג שוב</string>
+  <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">ללא פרסומות</string>
+  <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">מספר חשבונות בלתי מוגבל</string>
+  <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">צרף תמונה לעסקה</string>
+  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">התפלגות העסקאות לפי קטגוריה</string>
+  <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">מספר תוכניות בלתי מוגבל</string>
+  <string name="contrib_feature_print_label" tools:ignore="UnusedResources">ייצא רשימת עסקאות ל- PDF</string>
+  <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">תבנית widget</string>
+  <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">ייבוא CSV</string>
+  <string name="licence_status_free">חופשי</string>
+  <string name="contrib_key">מפתח Contrib</string>
+  <string name="extended_key">מפתח מורחב</string>
+  <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
+  <string name="contrib_key_requires">דורש %1$s.</string>
+  <string name="currency">מטבע</string>
+  <string name="current_balance">מאזן נוכחי</string>
+  <string name="date">תאריך</string>
+  <string name="date_format">מבנה תאריך</string>
+  <string name="date_format_illegal">מבנה תאריך לא חוקי</string>
+  <string name="number_format_illegal">פורמט מספר לא חוקי</string>
+  <string name="decimal_separator">מפריד עשרוני</string>
+  <string name="default_account_name">ספר התקציה</string>
+  <string name="description">תאור</string>
+  <string name="dialog_balance_delete">מחק עסקאות reconciled תואמות</string>
+  <!--User confirms that he wants to discard changes-->
+  <string name="dialog_confirm_button_discard">למחוק</string>
+  <string name="dialog_confirm_discard_changes">למחוק שינויים?</string>
+  <string name="dialog_confirm_discard_new_transaction">למחוק עסקאות חדשות?</string>
+  <string name="dialog_confirm_discard_new_template">למחוק תבנית חדשה?</string>
+  <string name="dialog_confirm_discard_new_account">למחוק חשבון חדש?</string>
+  <string name="dialog_confirm_discard_new_method">למחוק שיטת תשלום חדשה?</string>
+  <string name="dialog_command_disabled_balance">אין עסקאות מסולקות שיש ליישב reconciled.</string>
+  <string name="dialog_command_disabled_insert_transfer">עסקאות העברה דורשות חשבון שני.</string>
+  <string name="dialog_command_disabled_reset_account">אין עסקאות לייצוא.</string>
+  <string name="dialog_command_disabled_distribution">לא בוצעו עסקאות ממופות לקטגוריות בחשבון זה.</string>
+  <string name="dialog_contrib_no">עדיין לא</string>
+  <string name="dialog_contrib_no_usages_left">לא נשארו עוד שימושים בחינם.</string>
+  <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
+  <string name="dialog_contrib_premium_feature">%1$s היא תכונת פרימיום (%2$s).</string>
+  <string name="dialog_contrib_reminder_remove_limitation">הסר הגבלה זו וגישה לתכונות נוספות על-ידי שדרוג<i>My Expenses</i>.</string>
+  <string name="dialog_contrib_text_1"><i>My Expenses</i>מוצאת ללא פרסומות וכקוד פתוח.</string>
+  <string name="dialog_contrib_text_2">אנא תרמו על ידי שדרוג <i>My Expenses</i> ולקבל גישה בלתי מוגבלת לתכונות הבאות:</string>
+  <string name="dialog_contrib_usage_count">נותרו שימושים בחינם</string>
+  <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">אתה יכול להשתמש בזה עד %1$dפעמים במצב הנוכחי של רשיונך (%2$s).</string>
+  <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">אתה יכול להשתמש בזה ל- %1$dימים במצב הנוכחי של רשיונך (%2$s).</string>
+  <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">המצב הנוכחי של רשיונך (%2$s) מאפשר לך ליצור %1$dחשבונות</string>
+  <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">המצב הנוכחי של רשיונך (%2$s)מאפש רך ליצור%1$dתוכניות.</string>
+  <string name="dialog_export_delete">מחק עסקאות שיוצאו</string>
+  <string name="dialog_export_not_yet_exported">יצא רק עשקאות שלא יוצאו עדיין</string>
+  <string name="dialog_password_activate_protection">הפעל הגנה באמצעות סיסמה</string>
+  <string name="dialog_password_change_password">שנה סיסמה</string>
+  <string name="dialog_password_new_password">סיסמה חדשה</string>
+  <string name="dialog_password_new_password_confirmation">סיסמה חדשה (אישור)</string>
+  <string name="dialog_remind_later">מאוחר יותר</string>
+  <string name="dialog_remind_no">לא תודה</string>
+  <string name="dialog_remind_rate_how_many_stars">כמה כוכבים תעניק לאפליקציה My Expenses?</string>
+  <string name="dialog_remind_rate_1">הקדש בבקשהרגע כדי לדרג ולבדוק את האפליקציה My Expenses.</string>
+  <string name="dialog_remind_rate_2">ההערות שלך מאפשרות לנו להוסיף שיפורים ושיפורים.</string>
+  <string name="dialog_remind_rate_1_suggest_improvement">הקדש מספר דקות כדי לשלוח לנו את ההצעות שלך לשיפור.</string>
+  <string name="dialog_remind_rate_yes">דרג עכשיו</string>
+  <string name="dialog_security_answer">תשובה</string>
+  <string name="dialog_security_question">שאלה</string>
+  <string name="dialog_title_attention">תשומת לב</string>
+  <string name="dialog_title_information">מידע</string>
+  <!--%1$s is replace with account label-->
+  <string name="dialog_title_balance_account">מאזן %1$s</string>
+  <string name="dialog_title_contrib_feature">תכונת פרימיום</string>
+  <string name="dialog_title_extended_feature">תכונה מורחבת</string>
+  <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
+    e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
+  <string name="dialog_title_template_title">הגדר את הכותרת</string>
+  <string name="dialog_title_warning_delete_account">האם למחוק חשבון?</string>
+  <string name="dialog_title_warning_delete_main_category">האם למחוק את קטגוריה הראשית?</string>
+  <string name="dialog_title_warning_delete_template">האם למחוק תבנית?</string>
+  <string name="dialog_title_warning_delete_transaction">האם למחוק את העסקה?</string>
+  <string name="dialog_title_welcome">ברוך הבא!</string>
+  <string name="donate_dialog_text">אנא תתרום באמצעות PayPal או Bitcoin, ולאחר מכן בקש מפתח ממסך ההגדרות.</string>
+  <string name="expense">הוצאה</string>
+  <string name="export_expenses">יצוא הוצאות</string>
+  <!--1$s is replaced with path to file, 2$s with error message-->
+  <string name="export_sdcard_failure">יצוא קובץ \"%1$s\" נכשל %2$s</string>
+  <!--1$s is replaced with path to file-->
+  <string name="export_sdcard_success">הנתונים יוצאו בהצלחה לקובץ \"%1$s\"</string>
+  <string name="external_storage_unavailable">אחסון חיצוני (sdcard) אינו זמין</string>
+  <string name="feedback">משוב</string>
+  <string name="feedback_email_message">שלח את המשוב שלך, באנגלית, בצרפתית או בגרמנית, בבקשה!</string>
+  <string name="ftp_uri_malformed">כתובת אתר לא נכונה %1$s</string>
+  <string name="grisbi_import_categories_loading">טוען קטגוריות מ- %1$s</string>
+  <string name="grisbi_import_default_source">קטגוריות ברירת מחדל באנגלית</string>
+  <string name="grisbi_import_parties_loading">טוען צדדים מ- %1$s</string>
+  <string name="grouping_day">יום</string>
+  <string name="grouping_last_week">שבוע שעבר</string>
+  <string name="grouping_month">חודש</string>
+  <string name="grouping_none">לא מקובצים</string>
+  <string name="grouping_this_week">השבוע</string>
+  <string name="grouping_today">היום</string>
+  <string name="grouping_week">שבוע</string>
+  <string name="grouping_year">שנה</string>
+  <string name="grouping_yesterday">אתמול</string>
+  <string name="help_button_rate">דרג או בדוק</string>
+  <string name="help_contextuel_help">לקבלת מידע נוסף על הפונקציונליות הזמינה, עיין בסעיף תפריט העזרה.</string>
+  <string name="help_heading_credits">נקודות זכות</string>
+  <string name="help_heading_license">רשיון</string>
+  <string name="help_heading_whats_new">מה חדש?</string>
+  <string name="important_upgrade_information_heading">מידע חשוב</string>
+  <string name="import_select_transactions">עסקאות</string>
+  <string name="income">הכנסה</string>
+  <string name="invalid_number_format">תבנית עשרונית לא מזוהה לפי האזור שלך. השתמש ב- %1$s</string>
+  <string name="label">תווית</string>
+  <string name="licence_validation_failure">לא ניתן לאמת מפתח רישיון.</string>
+  <string name="licence_validation_success">מפתח הרישיון אומת בהצלחה:</string>
+  <string name="licence_validation_premium">תכונות פרימיום פתוחות.</string>
+  <string name="licence_validation_extended">תכונות מורחבות בוטלו.</string>
+  <string name="menu_aggregates">סה\"כ</string>
+  <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
+  <string name="menu_apply_template">ישם</string>
+  <string name="menu_back">חזרה </string>
+  <string name="menu_backup">גיבוי</string>
+  <!--Balance: compare cleared balance in app with balance on statement received from bank-->
+  <string name="menu_balance">מאזן את החשבון</string>
+  <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
+  <string name="menu_cancel_plan_instance">בטל</string>
+  <string name="menu_clone_transaction">שכפל</string>
+  <string name="menu_contrib">לתרום</string>
+  <string name="menu_create_account">חשבון חדש</string>
+  <string name="menu_create_instance_edit">החל וערוך</string>
+  <string name="menu_create_instance_save">החל ושמור</string>
+  <string name="menu_create_main_cat">קטקוריה ראשית חדשה</string>
+  <string name="menu_create_method">שיטת תשלום חדשה</string>
+  <string name="menu_create_party">חלק מפוצל חדש</string>
+  <string name="menu_create_split">פיצול חדש</string>
+  <string name="menu_create_split_part_category">קטגוריה חדשה מפוצלת</string>
+  <string name="menu_create_split_part_transfer">העברה חדשה מפוצלת</string>
+  <string name="menu_create_sub_cat">תת קטגוריה חדשה</string>
+  <string name="menu_create_template">תבנית חדשה</string>
+  <string name="menu_create_template_from_transaction">שמור כתבנית</string>
+  <string name="menu_create_template_for_transaction">תבנית עסקה חדשה</string>
+  <string name="menu_create_template_for_transfer">תבנית העברה חדשה</string>
+  <string name="menu_create_transaction">עסקה חדשה</string>
+  <string name="menu_create_transfer">העברה חדשה</string>
+  <string name="menu_delete">מחק</string>
+  <string name="menu_distribution">הפצה</string>
+  <string name="menu_edit">ערוך</string>
+  <string name="menu_edit_account">ערוך חשבון</string>
+  <string name="menu_edit_cat">ערוך קטגוריה</string>
+  <string name="menu_edit_method">ערוך שיטת תשלום</string>
+  <string name="menu_edit_party">ערוך חלק</string>
+  <string name="menu_edit_plan_instance">ערוך אירוע חד פעמי</string>
+  <string name="menu_edit_split">ערוך פיצול</string>
+  <string name="menu_edit_split_part_category">ערוך חלק מפוצל בקטגוריה</string>
+  <string name="menu_edit_split_part_transfer">ערוך חלק מפוצל בהעברה</string>
+  <string name="menu_edit_template">ערוך תבנית</string>
+  <string name="menu_edit_transaction">ערוך את העסקה</string>
+  <string name="menu_edit_transfer">ערוך את ההעברה</string>
+  <string name="menu_exclude_from_totals">אל תכלול בסיכום</string>
+  <string name="menu_forward">קדימה</string>
+  <string name="menu_grouping">קיבוץ לקבוצה</string>
+  <string name="menu_help">עזרה</string>
+  <!--This command inverts the direction of a transfer-->
+  <string name="menu_invert_transfer">הפוך</string>
+  <string name="menu_manage_plans">תבניות ותוכניות</string>
+  <string name="menu_open">פתח</string>
+  <string name="menu_import">יבא</string>
+  <string name="menu_print">הדפס</string>
+  <string name="menu_reset">יצא ואפס</string>
+  <string name="menu_reset_all">יצא ואפס הכול</string>
+  <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
+  <string name="menu_reset_plan_instance">אפס - Reset</string>
+  <string name="menu_save">שמור</string>
+  <string name="menu_save_and_new">שמור וחדש</string>
+  <string name="menu_search">חיפוש</string>
+  <string name="menu_settings">הגדרות</string>
+  <string name="menu_share">ספר לחבר</string>
+  <string name="menu_split_transaction">הפוך למפוצל</string>
+  <string name="method">שיטה</string>
+  <string name="no_amount_given">לא הזנת סכום כלשהו.</string>
+  <string name="no_app_handling_email_available">אין ישום המטפל בדוא\"ל.</string>
+  <string name="no_app_handling_ftp_available">אין ישום זמין המטפל ב- FTP . האם להתקין <i>שלח עם FTP</i>?</string>
+  <string name="no_app_handling_pdf_available">אין אפליקציה זמינה המטפלת בקבצי PDF.</string>
+  <string name="no_categories">אין קטגוריות</string>
+  <string name="no_expenses">איין עדין הוצאות!</string>
+  <string name="no_exportable_expenses">אין עסקאות שטרם יוצאו.</string>
+  <string name="no_filemanager_installed">לא נמצאה אפליקציה לניהול קבצים</string>
+  <string name="no_calendar_app_installed">לא נמצאה אפליקציה לעריכת אירוע ביומן.</string>
+  <string name="no_mapped_transactions">במהלך תקופה זו לא היו עסקאות ממופות לקטגוריות.</string>
+  <string name="no_methods">אין שיטת תשלום</string>
+  <string name="no_parties">אין חלקים מפוצלים</string>
+  <string name="no_split_parts">אין חלק מפוצל</string>
+  <string name="no_templates">אין תבניות</string>
+  <string name="no_title_given">לא הוכנסה כותרת כל שהיא</string>
+  <plurals name="not_deletable_mapped_transactions">
+    <item quantity="one">האובייקט שנבחר ממופה לעסקה ולא ניתן למחוק אותו.</item>
+    <item quantity="other">%1$d אובייקטים  ממופים לעסקאות ולא ניתן למחוק אותם.</item>
+  </plurals>
+  <plurals name="not_deletable_mapped_templates">
+    <item quantity="one">האובייקט שנבחר ממופה לתבנית ולא ניתן למחוק אותו.</item>
+    <item quantity="other">אובייקטים %1$d ממופים לתבניות ולא ניתן למחוק אותם.</item>
+  </plurals>
+  <string name="numbered">ממוספר</string>
+  <string name="opening_balance">מאזן פתיחה</string>
+  <string name="parse_error_file_not_found">לא ניתן למצוא את הקובץ%1$s</string>
+  <string name="parse_error_grisbi_version_not_supported">גירסת קובץ Grisbi לא נתמכת:%1$s</string>
+  <string name="parse_error_no_data_found">לא נמצאו נתונים ניתנים לייבוא בקובץ.</string>
+  <string name="parse_error_other_exception">אירעה שגיעה: %1$s</string>
+  <string name="parse_error_parse_exception">לא ניתן לנתח את הקובץ</string>
+  <string name="password_disabled_reenable">הגנת הסיסמה הושבתה. תוכל להפעיל אותה מחדש בהגדרות.</string>
+  <string name="password_lost">סיסמה אבדה</string>
+  <string name="password_not_valid">הסיסימא אינה תקפה. נסה שוב!</string>
+  <string name="password_prompt">הכנס את הסיסמה שלך</string>
+  <string name="password_security_answer_not_valid">תשובה שגויה! נסה שוב!</string>
+  <string name="payee">מקבל התשלום</string>
+  <string name="payer">המשלם</string>
+  <string name="payer_or_payee">מקבל התשלום/המשלם</string>
+  <string name="peer_transaction_deleted">עסקה זו מתייחסת לכתובת נגדית (חשבון%1$s) שנמחק</string>
+  <!--Plan for future and recurring transactions-->
+  <string name="plan">תוכנית</string>
+  <string name="plan_automatic">אוטומטי</string>
+  <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
+  <string name="plan_calendar_name">מתכנן ההוצאות שלי</string>
+  <string name="plan_event_deleted">התוכנית המשויכת לתבנית זו נמחקה מהיומן.</string>
+  <!--This message is shown, after a user decides to not apply a manual plan-->
+  <string name="plan_execution_canceled">ביצוע התוכנית בוטל</string>
+  <string name="plan_manual">ידנית</string>
+  <string name="planner_create_calendar_failure">לא ניתן ליצור יומן תכנון מקומי</string>
+  <string name="planner_create_calendar_success">יומן תכנון מקומי יוצר בהצלחה</string>
+  <!--payment methods-->
+  <string name="pm_cheque">המחאה</string>
+  <string name="pm_creditcard">כרטיס אשראי</string>
+  <string name="pm_deposit">הפקדה</string>
+  <string name="pm_directdebit">חיוב ישיר</string>
+  <string name="pm_type_credit">זכות</string>
+  <string name="pm_type_debit">חובה</string>
+  <string name="pm_type_neutral">ניטראלי</string>
+  <string name="pref_app_dir_title">תיקייה לגיבויים ולייצוא</string>
+  <string name="pref_auto_fill_title">מילוי אוטומטי של עסקאות</string>
+  <string name="pref_auto_fill_summary">מלא סכום, קטגוריה והערה מהעסקה האחרונה עבור אותו מקבל תשלום / המשלם</string>
+  <string name="pref_backup_summary">צור גיבוי של מסד נתונים והעדפות.</string>
+  <string name="pref_sort_order_usages">ספירת שימושים</string>
+  <string name="pref_category_title_advanced">מתקדם</string>
+  <string name="pref_category_title_export">יצוא</string>
+  <string name="pref_category_title_import">יבוא</string>
+  <string name="pref_category_title_manage">ניהול</string>
+  <string name="pref_category_title_more_information">מידע נוסף</string>
+  <string name="pref_category_title_security">בטחון</string>
+  <string name="pref_category_title_ui">ממשק משתמש</string>
+  <string name="pref_checkbox_enabled">מופעל</string>
+  <string name="pref_checkbox_disabled">מושבת</string>
+  <string name="pref_contrib_purchase_summary">רכישת גישה לתכונות פרמיום מורחבות.</string>
+  <string name="pref_contrib_purchase_title">מפתח רכישה</string>
+  <string name="pref_contrib_purchase_title_upgrade">מפתח לשדרוג</string>
+  <string name="pref_contrib_purchase_title_in_app">תשלום מתוך האפליקציה</string>
+  <string name="pref_custom_currency_title">התאמה אישית של מטבעות</string>
+  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">אם קיבלת מפתח, קבל גישה לתכונות פרימיום / מורחבות.</string>
+  <string name="pref_enter_licence_title" tools:ignore="UnusedResources">הכנס מפתח</string>
+  <string name="pref_export_format_title">פורמט נתונים</string>
+  <string name="pref_follow_gplus_title">אקוב אחר האפליקציה My Expenses ב- Google+</string>
+  <string name="pref_import_from_grisbi_summary">ייבוא קטגוריות וקבוצות מקובץ XML של Grisbi</string>
+  <string name="pref_import_from_grisbi_title">יבא מ- Grisbi</string>
+  <!--%s is replaced with QIF or CSV-->
+  <string name="pref_import_summary">ייבוא עסקאות, קטגוריות וקבוצות מקובץ%s</string>
+  <!--%s is replaced with QIF or CSV-->
+  <string name="pref_import_title">%sיובא</string>
+  <string name="pref_like_facebook_title">עשה לנו לייק בפייסבוק</string>
+  <string name="pref_manage_accounts_title">חשבונות</string>
+  <string name="pref_manage_categories_summary">הוסף, ערוך, מחק קטגוריות.</string>
+  <string name="pref_manage_categories_title">קטגוריות</string>
+  <string name="pref_manage_methods_summary">צור וערוך אמצעי תשלום וקשר אותם לסוגי חשבונות.</string>
+  <string name="pref_manage_methods_title">שיטות תשלום</string>
+  <string name="pref_manage_parties_summary">הוסף, ערוך, מחק חלקים (משלמים ומקבלי תשלום).</string>
+  <string name="pref_manage_parties_title">צדדים</string>
+  <string name="pref_manage_sync_backends_title">סנכרון backends</string>
+  <!--%s will be replaced with list of backends-->
+  <string name="pref_manage_sync_backends_summary">הוספת backenders לסנכרון חשבונות (%s).</string>
+  <string name="pref_more_info_dialog_summary">
+
+&lt;! - זה ריק לאנגלית ונותן קרדיט למתרגמים בשפות אחרות -&gt;</string>
+  <!--this is empty for English and gives credit to translators in the other languages-->
+  <string name="pref_more_info_dialog_title">רישיון &amp; amp; נקודות זכות</string>
+  <string name="pref_password_not_equal">סיסמאות אינן תואמות</string>
+  <string name="pref_perform_protection_summary">האם כניסה והפעלת אפליקציה צריכה להיות מוגנת?</string>
+  <string name="pref_perform_protection_title">הגנה בסיסמה</string>
+  <string name="pref_perform_share_title">שתף את היצוא ואת הגיבויים</string>
+  <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
+  <string name="pref_planning_calendar_create_local">צור יומן תכנון מקומי חדש</string>
+  <string name="pref_planning_calendar_summary">בחר את היומן שבו מאוחסנות תוכניות לעסקאות עתידיות וחוזרות</string>
+  <string name="pref_planning_calendar_title">תכנון לוח השנה</string>
+  <string name="pref_protection_delay_seconds_summary">שניות ללא פעילות לפני שהיישום יינעל על ידי סיסמה.</string>
+  <string name="pref_protection_delay_seconds_title">עיכוב ללא פעילות עד להגנה</string>
+  <string name="pref_protection_enable_data_entry_from_widget_title">הזנת נתונים מווידג\'טים וקיצורי דרך</string>
+  <string name="pref_protection_enable_data_entry_from_widget_summary_on">מותרת ללא סיסמה.</string>
+  <string name="pref_protection_enable_data_entry_from_widget_summary_off">נדרשת סיסמה</string>
+  <string name="pref_qif_export_file_encoding_title">קידוד תווים</string>
+  <string name="pref_request_licence_summary">אם תרמת, בקש מפתח עבור Android-Id %1$s בדוא\"ל.</string>
+  <string name="pref_request_licence_title">בקש מפתח</string>
+  <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
+  <string name="pref_restore_alternative">חלופה</string>
+  <string name="pref_restore_alternative_summary">השתמש בשיטה חלופית זו אם אין מנהל קבצים מותקן במכשיר או אם אתה משחזר גיבוי בפורמט מורשת (legacy).</string>
+  <string name="pref_restore_summary">בחר גיבוי לשחזור מסד נתונים והעדפות.</string>
+  <string name="pref_restore_title">שחזר</string>
+  <string name="pref_security_question_summary">מאפשר לך לבטל את הנעילה של האפליקציה, אם שכחת את הסיסמה.</string>
+  <string name="pref_security_question_title">שאלת בטחון</string>
+  <string name="pref_send_feedback_title">שלח משוב</string>
+  <string name="pref_share_target_summary">השאר ריק אם אתה רוצה לבחור בין אפליקציות מתאימות (דוא\"ל, Dropbox, Google Docs, ...), או לספק כתובת אתר באחת התוכניות הנתמכות.</string>
+  <string name="pref_share_target_title">העלה כתובת אתר</string>
+  <string name="pref_shortcut_added">קיצור דרך נוסף למסך הבית</string>
+  <string name="pref_shortcut_not_added">אין במסך הבית מקום זמין לקבלת קיצורי דרך.</string>
+  <string name="pref_shortcut_summary">הוסף את קיצור הדרך למסך הבית.</string>
+  <string name="pref_template_click_default_summary">בלחיצה קצרה על הרשומה ברשימת התבניות</string>
+  <string name="pref_ui_fontsize_title">גוגל גופן</string>
+  <string name="pref_ui_home_screen_shortcuts">קיצורי דרך מסך הבית</string>
+  <string name="pref_ui_language_default">ברירת מחדל של המערכת</string>
+  <!--Title of the preference for selecting the UI language-->
+  <string name="pref_ui_language_title">שפה</string>
+  <string name="pref_ui_theme_dark">חשוך</string>
+  <string name="pref_ui_theme_light">מואר</string>
+  <string name="pref_ui_theme_title">נושא</string>
+  <string name="pref_visit_website_summary">רשימת עדכונים ושאלות נפוצות</string>
+  <string name="pref_visit_website_title">בקר האתר</string>
+  <string name="progress_dialog_deleting">מחיקת אובייקטים</string>
+  <string name="progress_dialog_loading">טוען אובייקט ממסד הנתונים</string>
+  <string name="progress_dialog_printing">מיצר קובץ PDF</string>
+  <string name="progress_dialog_saving">שומר אובייקט למסד הנתונים</string>
+  <string name="qif_parse_result">מנותח:%1$sחשבונות; %2$s קטגוריות %3$sוחלקים</string>
+  <string name="qif_parse_failure_found_multiple_accounts">נמצאו מספר חשבונות בקובץ QIF.</string>
+  <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">לא ניתן למזג אותם בחשבון קיים.</string>
+  <string name="reference_number">מספר סימוכין</string>
+  <string name="request_licence_mail_head">שלח לי מפתח ל- Android-Id %1$s.</string>
+  <string name="restore_db_failure">שחזור בסיס הנתונים נכשל.</string>
+  <string name="restore_db_success">מסד הנתונים שוחזר מהגיבוי.</string>
+  <string name="restore_no_backup_found">לא נמצא גיבוי.</string>
+  <string name="restore_preferences_failure">שחזור ההעדפות נכשל</string>
+  <string name="restore_backup_archive_not_valid">הארכיון %1$s אינו חוקי</string>
+  <string name="restore_backup_file_not_found">קובץ %1$sלא נמצא בארכיון \"%2$s\"</string>
+  <string name="restore_preferences_success">ההעדפות שוחזרו מהגיבוי.</string>
+  <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d התוכניות שוחזרו מהגיבוי</string>
+  <string name="save_transaction_and_new_success">נשמר בהצלחה</string>
+  <string name="save_transaction_error">לא ניתן היה לשמור עסקה חדשה מהתבנית.</string>
+  <plurals name="save_transaction_from_template_success">
+    <item quantity="one">עסקה חדשה נשמרה בהצלחה מתבנית.</item>
+    <item quantity="other">%1$d עסקאות חדשות נשמרו בהצלחה מתבניות.</item>
+  </plurals>
+  <string name="save_transaction_template_deleted">התבנית נמחקה</string>
+  <string name="select">בחר</string>
+  <string name="select_category">בחר קטגוריה</string>
+  <string name="menu_select_category">בחר קטגוריה זו</string>
+  <string name="menu_select_folder">בחר תיקייה זו</string>
+  <string name="share_scheme_not_supported">תכנית%1$s אינה נתמכת</string>
+  <string name="share_sending">שלח קובץ ייצוא</string>
+  <string name="split_parts_heading">חלקים מפוצלים</string>
+  <string name="split_transaction">עסקה מפוצלת</string>
+  <string name="status">מצב</string>
+  <string name="status_cleared">בוצע cleared</string>
+  <string name="status_reconciled">מתאים לדף החשבון בבנק reconciled</string>
+  <string name="status_uncreconciled">אינו מתאים לדף החשבון בבנק unreconciled</string>
+  <string name="status_void">מבוטל</string>
+  <string name="subcategory">תת קטגוריה</string>
+  <string name="sum_expenses">הוצאות</string>
+  <string name="sum_income">הכנסה</string>
+  <string name="sum_transfer">העברות</string>
+  <!--%s is replaced with Android or Blackberry-->
+  <string name="tell_a_friend_message">בדוק את האפליקציה My Expenses, מנהל כספים אישי עבור%s, מ- http://www.myexpenses.mobi</string>
+  <string name="template_create_success">התבנית \"%1$s\" נוצרה בהצלחה</string>
+  <string name="thank_you">תודה על תמיכתך!</string>
+  <string name="time">זמן</string>
+  <string name="title">כותרת</string>
+  <string name="total_cleared">סה\"כ מבוצע Cleared</string>
+  <string name="total_reconciled">סהכ\"כ מאומת Reconciled עם הצהרת הבנק</string>
+  <string name="transaction">עסקה</string>
+  <string name="transfer">העברה</string>
+  <string name="transfer_from_account">מ-</string>
+  <string name="transfer_to_account">אל</string>
+  <string name="type">סוג</string>
+  <string name="unsplit_amount">סכום לא מפוצל</string>
+  <string name="unsplit_amount_greater_than_zero">יש עדיין כסכום שנותר לא מפוצל.</string>
+  <string name="warning_backup">מסד הנתונים וההעדפות יישמרו ל- \"%1$s\". האם אתה רוצה להמשיך?</string>
+  <string name="warning_delete_account">חשבון \"%1$s\" יימחק עם כל העסקאות שלו.</string>
+  <plurals name="warning_delete_main_category">
+    <item quantity="one">לקטגוריה אחת שנבחרה יש קטגוריות משנה, שיימחקו גם כן.</item>
+    <item quantity="other">%1$d קטגוריות נבחרות  יש קטגוריות משנה, שיימחק גם כן.</item>
+  </plurals>
+  <plurals name="warning_delete_template">
+    <item quantity="one">התבנית שנבחרה תימחק.</item>
+    <item quantity="other">%1$d תבניות שנבחרו  יימחקו.</item>
+  </plurals>
+  <plurals name="warning_delete_transaction">
+    <item quantity="one">העסקה שנבחרה תימחק.</item>
+    <item quantity="other">%1$dעיסקאות שנבחרו  יימחקו.</item>
+  </plurals>
+  <plurals name="move_category_success">
+    <item quantity="one">קטגוריה אחת הועברה בהצלחה.</item>
+    <item quantity="other">%d קטגוריות הועברו בהצלחה.</item>
+  </plurals>
+  <plurals name="move_category_failure">
+    <item quantity="one">קטגוריה אחת לא הועברה, כי אותה תווית כבר קיימת ביעד.</item>
+    <item quantity="other">%d קטגוריות לא הועברו, מכיוון שתווית זהה כבר קיימת ביעד.</item>
+  </plurals>
+  <string name="warning_delete_reconciled">מחיקת עסקאות שהושלמו תגרום לרשומות שלך להיות שונות מהצהרת הבנק.</string>
+  <string name="warning_balance_account">השווה את הסכום הכולל שסומן cleared עם יתרת הסיום בהצהרת הבנק שלך. אם תמשיך, עסקאות מסומנות יסומנו reconciled.</string>
+  <string name="warning_password_protected">האפליקציה מוגנת בסיסמה</string>
+  <string name="warning_widget_disabled">עליך להפעיל את הווידג\'ט בהגדרות האפליקציה.</string>
+  <string name="warning_instantiate_template_from_widget_password_protected">הפעלה מהירה של תבניות מווידג\'ט זה פועלת רק אם אתה מאפשר הזנת נתונים מווידג\'טים ללא סיסמה בהגדרות האפליקציה.</string>
+  <string name="warning_password_contrib">הגדרת שאלת אבטחה מאפשרת לך לבטל את נעילת האפליקציה, למקרה שתשכח את הסיסמה.</string>
+  <string name="warning_password_no_contrib">אם תגדיר סיסמה, הקפד לא לשכוח אותה. לא תוכל לשחזר אותה, אלא אם תגדיר שאלת אבטחה.</string>
+  <string name="warning_reset_account">אם תמשיך, כל העסקאות בחשבון זה יימחקו ממסד הנתונים ולא ניתן לשחזר אותן.</string>
+  <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
+  <string name="warning_reset_account_all">אם תמשיך, עבור כל החשבונות%1$s, עסקאות יימחקו ממסד הנתונים ולא ניתן לשחזר אותן.</string>
+  <string name="warning_reset_account_matched">אם תמשיך, עסקאות התואמות את המסנן הנוכחי יימחקו ממסד הנתונים ולא ניתן לשחזר אותן.</string>
+  <string name="warning_restore">אם תמשיך, עסקאות התואמות את המסנן הנוכחי יישוחזרו ממסד הנתונים וההעדפות מקובץ \"%1$s\". הנתונים הנוכחיים יימחקו. האם אתה רוצה להמשיך? </string>
+  <string name="warning_app_folder_will_be_deleted_upon_uninstall">התיקיה שנבחרה עבור גיבויים ויצוא תימחק אוטומטית על ידי Android אם תסיר את אפליקציית  My Expenses. תוכל למנוע זאת על ידי בחירה בתיקייה אחרת ממסך ההגדרות.</string>
+  <string name="warning_splitpartcategory_context">העברות, שהן חלק מפיצול, ניתנות לעריכה רק בהקשר של הפיצול.</string>
+  <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">אנא הגדר מספר בין %1$dו- %2$d</string>
+  <string name="warning_change_fraction_digits_1">סכומים בבסיס הנתונים צריכים להיות מעודכנים על מנת להתאים את המספר החדש של ספרות חלקיות.</string>
+  <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">אם הסכומים אינם מעודכנים, הם יוצגו כמוכפלות ב- %d לאחר השינוי.</string>
+  <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">אם הסכומים אינם מעודכנים, הם יוצגו בחלוקה ב- %d לאחר השינוי.</string>
+  <string name="warning_change_fraction_digits_3">אם הסכומים מעודכנים, תאבד את המידע על החלק החלקי שלהם.</string>
+  <string name="warning_change_fraction_digits_checkbox_label">עדכן סכומים במסד הנתונים</string>
+  <string name="import_categories_success">%1$s קטגוריותיובאו בהצלחה</string>
+  <string name="import_parties_success">%1$sעסקעות יובאו בהצלחה</string>
+  <string name="import_accounts_success">%1$s חשבונות יובאו בהצלחה</string>
+  <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d עסקעות יובאו בהצלחה לחשבון %2$s</string>
+  <string name="import_accounts_none">לא יובאו חשבונות</string>
+  <string name="import_categories_none">לא יובאו קטגוריות</string>
+  <string name="import_parties_none">לא יובאו חלקים מפוצלים</string>
+  <string name="import_transactions_none">לא יובאו עסקאות לחשבון %1$s</string>
+  <string name="import_source_select_error">אנא ספק  קובץ מסוג %1$s</string>
+  <string name="import_source_select_not_readable">לא ניתן לקרוא את הקובץ. בחר ממקור אחר.</string>
+  <string name="menu_categories_setup_default">הגדר קטגוריות ברירת מחדל</string>
+  <string name="menu_create_folder">תקייה חדשה</string>
+  <!--This string is used for navigating up in the folder browser-->
+  <string name="menu_up">למעלה</string>
+  <!--Move an account up in the account list-->
+  <string name="menu_sort_up">למעלה</string>
+  <!--Move an account down in the account list-->
+  <string name="menu_sort_down">למטה</string>
+  <string name="create_new_folder_fail">נכשל ליצור תיקייה</string>
+  <string name="widget_title_accounts">החשבונות שלי</string>
+  <string name="widget_title_templates">התבניות שלי</string>
+  <string name="app_dir_not_accessible">התיקיה הנוכחית שנבחרה לגיבויים ולייצוא (%1$s) אינה נגישה. בחר אחת אחרת.</string>
+  <string name="app_dir_not_compatible_with_nougat">URI המוגדר כעת לגיבויים ולייצוא (%1$s) אינו נתמך תחת Android Nougat. בחר שוב תיקייה.</string>
+  <string name="search_amount">חפש סכום</string>
+  <string name="search_category">חפש קטגוריה</string>
+  <string name="search_comment">חפש הערה</string>
+  <string name="search_date">חפש תאריך</string>
+  <string name="search_status">חפש סטטוס</string>
+  <string name="search_payee">חפש משלם/מקבל התשלום</string>
+  <string name="search_method">חפש שיטה</string>
+  <string name="and">ו</string>
+  <string name="between_and">בין %1$s ו- %2$s</string>
+  <string name="before">לפני %s</string>
+  <string name="after">אחרי %s</string>
+  <string name="comparison_operator_equal">שווה ל-</string>
+  <string name="comparison_operator_greater_than">גדול מ-</string>
+  <string name="comparison_operator_lesser_than">קטן מ-</string>
+  <string name="comparison_operator_between">בין</string>
+  <string name="comparison_operator_date_before">לפני</string>
+  <string name="comparison_operator_date_after">אחרי</string>
+  <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">הצעה מיוחדת היום עם AppGratis:  תכונות פרימיום פתוחות בחינם.</string>
+  <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">הרכישה נכשלה או בוטלה.</string>
+  <string name="hint_auto_fill">האם הסכום, הקטגוריה וההערה ימולאו באופן אוטומטי מהעסקה האחרונה עבור אותו מקבל התשלום/ משלם? תוכל תמיד לשנות התנהגות זו מההגדרות.</string>
+  <string name="yes">כן</string>
+  <string name="no">לא</string>
+  <string name="hint_template_click">הקשה קצרה על רשומה ברשימה זו תייצר את התבנית וגם תשמור אותה מיידית או תזין את טופס העריכה שלה, שבו תוכל לשנות אותה לפני השמירה. אתה תמיד יכול לגשת לשתי הפעולות באמצעות הקשה ארוכה, ולשנות את ברירת המחדל בהגדרות.</string>
+  <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d חשבון עם מטבע %2$sעודכן.</string>
+  <string name="learn_more">למד עוד</string>
+  <string name="import_source_file">קובץ</string>
+  <string name="restore_calendar_handling">טיפול בנתונים בלוח השנה</string>
+  <string name="restore_calendar_handling_configured">שחזר תוכניות ליומן שהוגדר כעת</string>
+  <string name="restore_calendar_handling_backup">שחזור תוכניות ליומן, מוגדר בגיבוי אם זמין</string>
+  <string name="restore_calendar_handling_ignore">אל תשחזר תוכניות</string>
+  <string name="restore_not_possible_target_calendar_missing">היומן %s המוגדר בארכיון הגיבוי אינו קיים באופן מקומי. השחזור בוטל.</string>
+  <string name="restore_not_possible_local_calendar_missing">לוח התכנון הנוכחי אינו זמין.</string>
+  <string name="menu_view_picture">צפה בתמונה</string>
+  <string name="menu_delete_picture">מחק תמונה</string>
+  <string name="menu_change_picture">הצמד תמונה אחרת</string>
+  <string name="menu_distribution_show_pie_char">הצג תרשים עוגה</string>
+  <string name="menu_distribution_aggreate">הוצאות והכנסות מצטברות</string>
+  <string name="pref_manage_stale_images_title">תמונות לא ברורות</string>
+  <string name="pref_manage_stale_images_summary">ניהול תמונות שנותרו מעסקאות שנמחקו</string>
+  <string name="menu_select_categories">בחר קטגוריות מסומנות</string>
+  <string name="image_deleted">תמונה נמחקה</string>
+  <string name="transaction_deleted">עסקה נמחקה</string>
+  <string name="dialog_export_applied_to_filter">רק עסקאות התואמות את המסנן הנוכחי ייחשבו.</string>
+  <string name="export_handle_deleted_create_helper">צור עסקה לעזרה</string>
+  <string name="export_handle_deleted_update_balance">עדכון יתרת פתיחה</string>
+  <string name="file_name">שם קובץ</string>
+  <string name="folder_name">שם תיקייה</string>
+  <string name="mark_void_instead_of_delete">אל תמחק את הפעולה, סמן באותה כמבוטלת.</string>
+  <string name="menu_undelete_transaction">בטל מחיקה</string>
+  <string name="slash_forbidden_in_filename">הסימן / אינו מותר בשמות קבצים</string>
+  <string name="io_error_unable_to_create_file">לא ניתן ליצור קובץ %1$s בתיקייה %2$s</string>
+  <string name="menu_categories_export">יצא ל- QIF</string>
+  <string name="pref_csv_import_delimiter">תוחם - מציב גבול</string>
+  <string name="csv_import_preview">תצוגה מקדימה</string>
+  <string name="menu_parse">ביטוי</string>
+  <!--Label for column where user can check rows to be discarded from import-->
+  <string name="cvs_import_discard">להשליך</string>
+  <string name="csv_import_field_mapped_more_than_once">%s משוייך יחותר מפעם אחת.</string>
+  <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d רשומות לא ניתנות ליבוא..</string>
+  <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d רשומות נמחקו</string>
+  <string name="csv_import_subcategory_requires_category">אם אתה ממפה קטגוריית משנה, עליך גם למפות את הקטגוריה.</string>
+  <string name="cvs_import_set_first_line_as_header">האם יש להתייחס לקו הראשון כאל שורת כותרת?</string>
+  <string name="csv_import_delimiter_comma">פסיק</string>
+  <string name="csv_import_delimiter_semicolon">פסיק נקודה</string>
+  <string name="csv_import_delimiter_tab">לשונית</string>
+  <string name="csv_import_no_mapping_found_for_amount">נא למפות עמודה אחת לסכום, הכנסה או הוצאה.</string>
+  <string name="menu_show_transactions">הצג עסקאות</string>
+  <string name="pref_custom_decimal_format_title">מבנה מספר</string>
+  <string name="pref_custom_decimal_format_summary">אם אינך מרוצה מתבנית ברירת המחדל עבור האזור שלך, התאם אותו לצרכיך. השאר ריק כדי לשחזר את פורמט ברירת המחדל.</string>
+  <string name="licence_validation_upgrade_needed" tools:ignore="UnusedResources">שדרג את האפיקציה My Expenses לגירסה 1.5.</string>
+  <string name="pref_auto_backup_title">גיבוי אוטומטי</string>
+  <string name="pref_auto_backup_summary">אנא שדרג את ההוצאות שלי Contrib כדי גיבוי מסד נתונים יומי בשעה שצוין (רק אם הנתונים השתנו).Version גרסה</string>
+  <string name="pref_auto_backup_time_title">זמן גיבוי אוטומטי</string>
+  <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">לאחר %d גיבויים אוטומטיים מוצלחים, גיבוי אוטומטי יופסק.</string>
+  <string name="warning_auto_backup_limit_reached">המגבלה של גיבויים אוטומטיים מוצלחים בחינם הושגה.</string>
+  <string name="calendar_permission_required"><i>Me Expenses</i> צרכה רשות לגשת ליומן שלך, על מנת ליצור תוכניות עבור עסקאות עתידיות חוזרות.</string>
+  <string name="button_request_calendar_access" tools:ignore="UnusedResources">זכה בגישה</string>
+  <string name="switch_on_text">מופעל</string>
+  <string name="switch_off_text">מופסק</string>
+  <string name="menu_move">העבר</string>
+  <string name="dialog_title_select_target">בחר מטרה</string>
+  <string name="transform_subcategory_to_main">להפוך לקטגוריה הראשית</string>
+  <string name="preferences_week_start_day_title">שבוע מתחיל ב-</string>
+  <string name="preferences_month_start_date_title">חודש מתחיל ב-</string>
+  <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
+  <string name="pref_grouping_periods">קבץ תקופות לקבוצות</string>
+  <string name="exchange_rate">שער חליפין</string>
+  <string name="date_format_hour">שעה</string>
+  <string name="date_format_minute">דקה</string>
+  <string name="copied_to_clipboard">הועתק ללוח</string>
+  <string name="menu_sort">מיין לפי</string>
+  <string name="pref_sort_order_last_used">נעשה בו שימוש לאחרונה</string>
+  <string name="pref_sort_order_custom">מותאם אישית</string>
+  <string name="dialog_info_custom_sort">השתמש בפקודות מעלה ומטה בתפריט ההקשר של כל פריט כדי לשנות את מיקום המיון שלו.</string>
+  <string name="content_description_calculator">מחשבון</string>
+  <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <string name="plan_instance_state_open">פתח</string>
+  <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
+  <string name="plan_instance_state_cancelled">מבוטל</string>
+  <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <string name="plan_instance_state_applied">הוחל</string>
+  <string name="progress_dialog_updating_split_parts">מעדכן חלקים מפוצלים</string>
+  <string name="warning_cannot_move_split_transaction">לא ניתן להעביר את העסקה המפוצלת הזו לחשבון %1$s משום שישנם חלקי העברה המתייחסים לחשבון זה.</string>
+  <string name="content_description_calculator_clear_button">אפס הכול</string>
+  <string name="content_description_calculator_delete_button">מחק הסיפרה האחרונה</string>
+  <string name="paypal_transaction_id">מזהה ID עסקה Paypal</string>
+  <string name="paypal_callback_info">העסקה שלך הושלמה, וקבלה עבור הרכישה שלך נשלחה אליך בדוא\"ל. תוכל להיכנס לחשבון שלך בכתובת www.paypal.com כדי להציג פרטים על עסקה זו.</string>
+  <string name="paypal_callback_later_clicked_info">ממסך ההגדרות, תוכל לבקש מפתח בכל עת.</string>
+  <string name="search_transfer">חפש עסקה</string>
+  <!--Sort plans (recurring transactions) by the next instance-->
+  <string name="pref_sort_order_next_instance">במקרה הבא</string>
+  <string name="crash_dialog_title">האפליקציה My Expenses קרסה</string>
+  <string name="crash_dialog_text">אירעה שגיאה בלתי צפויה ביישום שגרמה לסגירתו. אנא עזור לנו לתקן זאת על ידי שליחת נתוני שגיאה, כל שעליך לעשות הוא ללחוץ על אישור.</string>
+  <string name="crash_dialog_comment_prompt">תוכל להוסיף את הערותיך לגבי הבעיה שבהמשך:</string>
+  <string name="synchronization">סנכרון</string>
+  <string name="synchronization_none">סנכרון לא מתבצע</string>
+  <string name="hint_url">כתובת אתר</string>
+  <string name="description_webdav_url">הזן את כתובת האתר לתיקיה מיוחדת בשרת WebDAV.  האפליקציה My Expenses  תאחסןאת הנתונים שלה בתוך התיקיה הזו, היא לא תיגע בשום דבר מחוץ לה.</string>
+  <string name="description_webdav_trust_certificate">האתר משתמש בתעודה  certificate , שאינה מהימנה על ידי Android.</string>
+  <string name="hint_user_name">שם משתמש</string>
+  <string name="hint_password">סיסמה</string>
+  <string name="label_trust_certificate">סמוך על תעודת אישור זו</string>
+  <string name="no_sync_backends">אין סינכרון backends</string>
+  <string name="menu_create_sync_backend">סינכרון חדש backend</string>
+  <string name="validate_error_not_empty">אסור שיהיה ריק</string>
+  <string name="validate_error_webdav_invalid_certificate">לא ניתן לסמוך על האישור. זה נראה לא חוקי.</string>
+  <string name="validate_error_webdav_not_compliant">כתובת האתר אינה מצביעה על משאב WebDAV.</string>
+  <string name="validate_error_webdav_404">כתובת האתר אינה קיימת בשרת.</string>
+  <string name="url_not_valid">כתובת האתר אינה חוקית</string>
+  <string name="menu_sync_unlink">הפסק סנכרון</string>
+  <string name="menu_sync_link">התחל סנכרון</string>
+  <string name="menu_sync_download">הורד וסנכרן</string>
+  <string name="menu_sync_now">סנכרן עכשיו</string>
+  <string name="pref_sync_frequency_title">תדירות סינכרון</string>
+  <string name="pref_sync_frequency_summary">באיזו תדירות יש לסנכרן נתונים (בשעות)</string>
+  <string name="dialog_confirm_sync_unlink">אם תבטל את הקישור של חשבון זה מ- %s, מצב הסינכרון יאבד. קשר אותם שוב מאוחר יותר, נדרש לבצע שוב סנכרון מלא.</string>
+  <string name="dialog_sync_link">חשבון עם %s קיים הן במסד הנתונים המקומי והן ב- backend המרוחק. כאשר אתה מקשר את שניהם, אתה צריך להחליט, אם, בתחילה, אתה רוצה להעלות נתונים מקומיים על backend המרוחק או להוריד נתונים מרוחקים למסד הנתונים המקומי.</string>
+  <string name="dialog_command_sync_link_remote">הורד מרחוק</string>
+  <string name="dialog_command_sync_link_local">העלה ממקומי</string>
+  <string name="dialog_synced_to_other">חשבון עם uuid %sכבר קיים במסד הנתונים המקומי והוא מקושר ל- backend מרוחק אחר.</string>
+  <string name="menu_remove">הסר</string>
+  <string name="dialog_confirm_sync_remove_backend">Backend מרחוק %s יוסר. פעולה זו לא תשפיע על נתונים המאוחסנים מקומית או מרחוק, אך מצב הסינכרון הולך לאיבוד. האם אתה רוצה להמשיך?</string>
+  <string name="dialog_confirm_sync_link_local">נתונים מרוחקים עבור החשבון הזה יימחקו. ודא שאין התקנים אחרים מקושרים אליו.</string>
+  <string name="dialog_confirm_sync_link_remote">נתונים מקומיים עבור החשבון הזה יימחקו.</string>
+  <string name="warning_synchronization_limited_trial">ניתן לבדוק את תכונת הסנכרון עד %s .</string>
+  <string name="warning_synchronization_limit_reached">תקופת הניסיון לבדיקת תכונת הסנכרון הסתיימה.</string>
+  <string name="warning_synchronization_folder_usage">תיקייה זו משמשת לסנכרון נתונים בין התקנות של האפליקציה My Expenses במכשירים שונים. נא לא לשנות את התוכן שלו באופן ידני.</string>
+  <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">התיקייה שבחרת מסומנת לחשבון אחד של backend קיים. עליך לבחור את תיקיית האב כדי לעשות שימוש חוזר ב- backend זה.</string>
+  <string name="select_unsynced_accounts">בחר חשבונות לסנכרון עם backend זה</string>
+  <string name="link_account_success" tools:ignore="PluralsCandidate">%d חשבונות הוגדרו להיות מסונכרנים עם backend.</string>
+  <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d לא ניתן להגדיר את החשבונות כדי לסנכרן עם backend.</string>
+  <string name="link_account_failure_2">חשבון עם אותו משתמש uuid כבר קיים על ה-backend המרוחק..</string>
+  <string name="link_account_failure_3">ניתן לפתור את אי ההתאמה באופן ידני מתפריט ההקשר של הכניסה.</string>
+  <string name="progress_dialog_checking_sync_backend">מאמת backend</string>
+  <string name="template">תבנית</string>
+  <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">סנכרון לענן</string>
+  <string name="licence_status">מצב הרשיון שלך</string>
+  <string name="all_contrib_key_features">כל התכונות של מפתח Contrib</string>
+  <string name="upgrade_now">שדרג עכשיו</string>
+  <string name="pref_backup_cloud_title">אחסן על סנכרון backend</string>
+  <string name="pref_backup_cloud_summary">בנוסף לאחסון מקומי בהתקן, ניתן להעתיק את קובץ הגיבוי אל ממשק מרוחק.</string>
+  <string name="auto_backup_cloud_create_backend">יצירת backend סינכרון ממסך ההגדרות הראשי.</string>
+  <string name="auto_backup_cloud_failure">אירעה שגיאה בעת ניסיון לאחסן קובץ גיבוי %1$s על backend %2$s:</string>
+  <string name="home_screen_shortcuts_nougate_info">קיצורי דרך ניתן להוסיף על ידי הקשה ארוכה על סמל היישום במסך הבית.</string>
+  <string name="currency_symbol">סמל המטבע</string>
+  <string name="number_of_fraction_digits">מספר ספרות עשרוניות</string>
+  <string name="warning_auto_backup_deactivated">הגיבוי האוטומטי הושבת. תוכל להפעיל אותו שוב מההגדרות לאחר פתרון הבעיה (למשל, בחירת תיקיה אחרת לגיבויים).</string>
+  <string name="pref_tracking_summary">אפשר לנו לאסוף נתונים אנונימיים על דפוסי שימוש המסייעים לנו לתכנן שיפורים.</string>
+  <string name="pref_tracking_title">איסוף נתוני שימוש</string>
+  <string name="sync_database_error">אירעה שגיאת מסד נתונים במהלך הסנכרון.</string>
+  <string name="sync_io_error_cannot_connect">לא ניתן להתחבר לסנכרון beckend.</string>
+  <string name="sync_error_will_try_again_later">ינסה שוב מאוחר יותר.</string>
+  <string name="sync_io_exception_reset_account_data">שגיאה בעת איפוס חשבון מרוחק.</string>
+  <string name="sync_io_exception_setup_remote_account">שגיאה בעת הגדרת חשבון מרוחק.</string>
+  <string name="sync_io_exception_reading_change_set">שגיאה בעת קריאת שינויים מ- backend.</string>
+  <string name="sync_io_exception_syncing">שגיאה בעת סינכרון השינויים עם השרת.</string>
+  <string name="sync_io_exception_unlocking">שגיאה בעת הסרת נעילה מן backend מרוחק.</string>
+  <string name="sync_io_exception_locking">Backend מרוחק נעול או לא ניתן לנעול.</string>
+  <string name="synchronization_start">התחל סנכרון מחשבון %s.</string>
+  <string name="synchronization_end_success">%1$d שינויים מרוחקים נכתבו למסד הנתונים המקומי. %2$d שינויים מקומיים נכתבו ל- backend מרוחק.</string>
+  <string name="synchronization_end_success_none">אין שינויים לסנכרון.</string>
+  <string name="pref_webdav_timeout_title">פסק זמן של WebDAV</string>
+  <string name="sync_state_restored">מצב הסינכרון שוחזר עבור %d חשבונות.</string>
+  <string name="sync_state_could_not_be_restored">לא ניתן לשחזר את מצב הסנכרון עבור %d חשבונות.</string>
+</resources>

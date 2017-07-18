@@ -668,14 +668,13 @@
     <string name="pref_webdav_timeout_title">WebDAV Timeout</string>
     <string name="sync_state_restored">Sync state was restored for %d accounts.</string>
     <string name="sync_state_could_not_be_restored">Sync state could not be restored for %d accounts.</string>
-    <string name="onboarding_title">Welcome to My Expenses!</string>
-    <string name="onboarding_ui_title">My Expenses adapts to your preference:</string>
-    <string name="onboarding_data_title">Let us set up your first account:</string>
+    <string name="onboarding_ui_title">My Expenses adapts to your preference</string>
+    <string name="onboarding_data_title">Let us set up your first account</string>
     <string name="onboarding_get_started">Get started</string>
     <string name="onboarding_more_options">More Options</string>
     <string name="onboarding_restore_from_cloud">Restore from cloud synchronization</string>
     <string name="onboarding_restore_from_local">Restore local backup file</string>
-    <string name="add">Add</string>
+    <string name="dialog_button_add">Add</string>
     <string name="template_create_error">Error while saving template</string>
 </resources>
 

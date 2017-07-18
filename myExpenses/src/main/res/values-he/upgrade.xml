@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<!DOCTYPE resources [
+  <!ENTITY app_name "My Expenses">
+]>
+<resources>
+  <string-array name="whats_new_279">
+    <item>סמלי המטבע ניתנים להגדרה</item>
+  </string-array>
+  <string-array name="whats_new_278">
+    <item>קיצורי דרך עבור אנדרואיד 7.1</item>
+  </string-array>
+  <string-array name="whats_new_277">
+    <item>גיבויים אוטומטיים ניתן לאחסן על ענן backend</item>
+  </string-array>
+  <string-array name="whats_new_276">
+    <item>שיפורים קלים</item>
+  </string-array>
+  <string-array name="whats_new_275">
+    <item>סנכרון בין מכשירים באמצעות שירותי ענן</item>
+  </string-array>
+  <string-array name="whats_new_271">
+    <item>בעיות בתוכניות בהתקני Samsung מתוקנות</item>
+    <item>ערוך עסקאות ממסך הפצה</item>
+  </string-array>
+  <string-array name="whats_new_270">
+    <item>סמל מפעיל חדש</item>
+    <item>חפש העברות</item>
+    <item>מיין תוכניות לפי המופע הבא</item>
+  </string-array>
+  <string-array name="whats_new_269">
+    <item>טופס העסקה מאפשר ליצור הישנות ישירה</item>
+  </string-array>
+  <string-array name="whats_new_268">
+    <item>ההתקנה של עסקאות חוזרות ועתידיות נעשה קל יותר.</item>
+  </string-array>
+  <string-array name="whats_new_267">
+    <item>תרגום סינית פשוטה</item>
+    <item>טיפול משופר במופעי תוכניות</item>
+  </string-array>
+  <string-array name="whats_new_266">
+    <item>סמלי תפריט חדש</item>
+  </string-array>
+  <string-array name="whats_new_265">
+    <item>מיון תבניות, קטגוריות וחשבונות נעשה קל יותר</item>
+  </string-array>
+  <string-array name="whats_new_264">
+    <item>ניתן לחפש את מסך הקטגוריות</item>
+    <item>ניתן להעתיק את יתרת החשבון ללוח</item>
+    <item>הדבק לתוך מחשבון מתוך הלוח</item>
+    <item>עזרה לפורמט תאריך בתיבת הדו-שיח לייצוא</item>
+  </string-array>
+  <string-array name="whats_new_263">
+    <item>העברות בין חשבונות עם מטבעות שונים</item>
+  </string-array>
+  <string-array name="whats_new_262">
+    <item>ימים שבהם ניתן להגדיר את תצוגת השבוע והחודש</item>
+  </string-array>
+  <string-array name="whats_new_261">
+    <item>ניתן להעביר קטגוריות</item>
+  </string-array>
+  <string-array name="whats_new_260">
+    <item>עיצוב חומר</item>
+    <item>פריסת טבלט משופרת</item>
+    <item>תמיכה עבור Samsung Knox</item>
+  </string-array>
+    <string name="bug_fixes">תיקוני באגים</string>
+</resources>

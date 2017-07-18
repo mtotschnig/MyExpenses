@@ -635,4 +635,21 @@
   <string name="currency_symbol">Símbolo de moneda</string>
   <string name="number_of_fraction_digits">Número de dígitos de fracción</string>
   <string name="warning_auto_backup_deactivated">La copia de seguridad automática ha sido desactivada. Puede volver a activarla desde configuración, una vez el problema haya sido resuelto (por ejemplo, seleccionando una carpeta diferente para las copias de seguridad).</string>
+  <string name="pref_tracking_summary">Permitir recolectar datos anónimos de patrones de uso para ayudarnos en futuras mejoras.</string>
+  <string name="pref_tracking_title">Recopilación de uso de datos</string>
+  <string name="sync_database_error">Ocurrió un error en la base de datos durante la sincronización.</string>
+  <string name="sync_io_error_cannot_connect">No se pudo conectar con el servicio de sincronización.</string>
+  <string name="sync_error_will_try_again_later">Inténtelo de nuevo más tarde.</string>
+  <string name="sync_io_exception_reset_account_data">Error al reconfigurar la cuenta remota.</string>
+  <string name="sync_io_exception_setup_remote_account">Error al configurar la cuenta remota.</string>
+  <string name="sync_io_exception_reading_change_set">Error al leer los cambios desde el servicio.</string>
+  <string name="sync_io_exception_syncing">Error al sincronizar los cambios con el servidor.</string>
+  <string name="sync_io_exception_unlocking">Error al eliminar el bloqueo desde el servicio remoto.</string>
+  <string name="sync_io_exception_locking">El servicio remoto está bloqueado y no se puede desbloquear.</string>
+  <string name="synchronization_start">Comenzando la sincronización de la cuenta %s.</string>
+  <string name="synchronization_end_success">Los cambios remotos de %1$d se han escrito en la base de datos local. Los cambios locales de %2$d se han escrito en el servicio remoto. </string>
+  <string name="synchronization_end_success_none">No hay cambios para sincronizar.</string>
+  <string name="pref_webdav_timeout_title">Límite de tiempo de WebDAV</string>
+  <string name="sync_state_restored">Se restauró el estado de sincronización para %d cuentas.</string>
+  <string name="sync_state_could_not_be_restored">No se pudo restaurar el estado de sincronización para %d cuentas.</string>
 </resources>

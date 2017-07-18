@@ -221,7 +221,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
             .title(parentId == null ? R.string.menu_create_main_cat : R.string.menu_create_sub_cat)
             .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
             .hint(R.string.label)
-            .pos(R.string.add)
+            .pos(R.string.dialog_button_add)
             .neut()
             .extra(args)
             .show(this, DIALOG_NEW_CATEGORY);
