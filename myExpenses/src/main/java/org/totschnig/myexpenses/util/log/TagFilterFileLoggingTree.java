@@ -31,8 +31,7 @@ public class TagFilterFileLoggingTree extends Timber.DebugTree {
   }
 
   private void configureLogger(String logDirectory) {
-    // reset the default context (which may already have been initialized)
-    // since we want to reconfigure it
+
     LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
 
     RollingFileAppender<ILoggingEvent> rollingFileAppender = new RollingFileAppender<>();
@@ -61,9 +60,7 @@ public class TagFilterFileLoggingTree extends Timber.DebugTree {
     rollingFileAppender.setRollingPolicy(rollingPolicy);
     rollingFileAppender.setEncoder(encoder);
     rollingFileAppender.start();
-
-    // add the newly created appenders to the root logger;
-    // qualify Logger to disambiguate from org.slf4j.Logger
+    
     logger.setLevel(Level.DEBUG);
     logger.addAppender(rollingFileAppender);
 
