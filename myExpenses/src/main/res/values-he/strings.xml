@@ -304,9 +304,7 @@
   <string name="pref_manage_sync_backends_title">סנכרון backends</string>
   <!--%s will be replaced with list of backends-->
   <string name="pref_manage_sync_backends_summary">הוספת backenders לסנכרון חשבונות (%s).</string>
-  <string name="pref_more_info_dialog_summary">
-
-&lt;! - זה ריק לאנגלית ונותן קרדיט למתרגמים בשפות אחרות -&gt;</string>
+  <string name="pref_more_info_dialog_summary">תורגם לעברית ע\"י צבי  פנחסוביץ</string>
   <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">רישיון &amp; amp; נקודות זכות</string>
   <string name="pref_password_not_equal">סיסמאות אינן תואמות</string>
