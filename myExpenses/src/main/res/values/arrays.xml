@@ -359,6 +359,7 @@
     </string-array>
 
     <integer-array name="version_codes">
+        <item>287</item>
         <item>285</item>
         <item>279</item>
         <item>275</item>
@@ -378,6 +379,7 @@
         <item>222</item>
     </integer-array>
     <string-array name="version_names">
+        <item>2.8.0</item>
         <item>2.7.9</item>
         <item>2.7.8</item>
         <item>2.7.7</item>
@@ -395,6 +397,11 @@
         <item>2.6.2</item>
         <item>2.6.1</item>
         <item>2.6.0</item>
+    </string-array>
+
+    <string-array name="contributors_280">
+        <item>Zvi  P.</item>
+        <item>eltos</item>
     </string-array>
 
     <!-- first member is Facebook post id, second Google+ post id -->

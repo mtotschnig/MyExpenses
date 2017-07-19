@@ -198,7 +198,19 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
         Timber.e("missing change log entry for version %d", code);
         return null;
       } else {
-        return res.getStringArray(resId);
+        String[] changesArray = res.getStringArray(resId);
+        resId = res.getIdentifier("contributors_" + nameCondensed, "array", ctx.getPackageName());
+        if (resId != 0) {
+          String[] contributorArray = res.getStringArray(resId);
+          String[] resultArray = new String[changesArray.length];
+          for (int i = 0; i < changesArray.length; i++) {
+            resultArray[i] = changesArray[i] +
+                (TextUtils.isEmpty(contributorArray[i]) ? "" :
+                    (" (" + ctx.getString(R.string.contributed_by, contributorArray[i]) + ")" ));
+          }
+          return resultArray;
+        }
+        return changesArray;
       }
     }
   }

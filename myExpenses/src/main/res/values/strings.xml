@@ -676,5 +676,6 @@
     <string name="onboarding_restore_from_local">Restore local backup file</string>
     <string name="dialog_button_add">Add</string>
     <string name="template_create_error">Error while saving template</string>
+    <string name="contributed_by">Contributed by %s</string>
 </resources>
 
