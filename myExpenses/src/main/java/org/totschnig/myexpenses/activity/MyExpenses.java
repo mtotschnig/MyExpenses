@@ -218,8 +218,6 @@ public class MyExpenses extends LaunchActivity implements
     TypedValue value = new TypedValue();
     theme.resolveAttribute(R.attr.colorAggregate, value, true);
     colorAggregate = value.data;
-    int prev_version = PrefKey.CURRENT_VERSION.getInt(-1);
-
 
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);

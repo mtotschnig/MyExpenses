@@ -4,4 +4,5 @@
     <issue id="GradleDependency" severity="ignore" />
     <issue id="MissingTranslation" severity="ignore" />
     <issue id="RtlEnabled" severity="ignore" />
-</lint>
+    <issue id="ResourceType" severity="ignore" />
+ </lint>
