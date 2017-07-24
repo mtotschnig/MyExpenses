@@ -19,7 +19,7 @@ import com.android.setupwizardlib.SetupWizardLayout;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.OnboardingActivity;
+import org.totschnig.myexpenses.activity.SplashActivity;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.FontSizeAdapter;
 import org.totschnig.myexpenses.preference.FontSizeDialogPreference;
@@ -121,7 +121,7 @@ public class OnboardingUiFragment extends Fragment {
     View customNav = inflater.inflate(R.layout.onboarding_navigation,
         navParent, false);
     createLanguageMenu((Toolbar) customNav.findViewById(R.id.onboaring_menu));
-    customNav.findViewById(R.id.suw_navbar_next).setOnClickListener(v -> ((OnboardingActivity) getActivity()).navigate_next());
+    customNav.findViewById(R.id.suw_navbar_next).setOnClickListener(v -> ((SplashActivity) getActivity()).navigate_next());
 
 
     // Swap our custom navigation bar into place

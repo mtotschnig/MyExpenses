@@ -23,7 +23,7 @@ import com.android.setupwizardlib.SetupWizardLayout;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.AccountEdit;
-import org.totschnig.myexpenses.activity.OnboardingActivity;
+import org.totschnig.myexpenses.activity.SplashActivity;
 import org.totschnig.myexpenses.activity.SyncBackendSetupActivity;
 import org.totschnig.myexpenses.adapter.CurrencyAdapter;
 import org.totschnig.myexpenses.dialog.DialogUtils;
@@ -173,7 +173,7 @@ public class OnboardingDataFragment extends Fragment implements AdapterView.OnIt
     Button nextButton = (Button) customNav.findViewById(R.id.suw_navbar_next);
     nextButton.setText(R.string.onboarding_get_started);
 
-    nextButton.setOnClickListener(v -> ((OnboardingActivity) getActivity()).finishOnboarding());
+    nextButton.setOnClickListener(v -> ((SplashActivity) getActivity()).finishOnboarding());
 
 
     // Swap our custom navigation bar into place
