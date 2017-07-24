@@ -18,6 +18,7 @@ package org.totschnig.myexpenses.activity;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -60,6 +61,7 @@ import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.ui.ContextWrapper;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.UiUtils;
@@ -136,7 +138,6 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
           WindowManager.LayoutParams.FLAG_SECURE);
     }
     MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
-    setLanguage();
     Resources.Theme theme = getTheme();
     TypedValue color = new TypedValue();
     theme.resolveAttribute(R.attr.colorExpense, color, true);
@@ -147,6 +148,11 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     textColorSecondary = themeArray.getColorStateList(0);
 
     tracker.init(this);
+  }
+
+  @Override
+  protected void attachBaseContext(Context newBase) {
+    super.attachBaseContext(ContextWrapper.wrap(newBase, MyApplication.getUserPreferedLocale()));
   }
 
   protected void injectDependencies() {
@@ -341,10 +347,6 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
       MyApplication.getInstance().resetLastPause();
       MyApplication.getInstance().shouldLock(this);
     }
-  }
-
-  protected void setLanguage() {
-    MyApplication.getInstance().setLanguage();
   }
 
   @Override
