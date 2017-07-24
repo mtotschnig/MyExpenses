@@ -64,13 +64,6 @@
                        android:resource="@xml/shortcuts" />
         </activity>
 
-        <activity android:name=".activity.OnboardingActivity"
-                  android:label="@string/onboarding_title"
-                  android:theme="@style/SuwThemeMaterial.Light"
-                  android:exported="true">
-
-        </activity>
-
         <activity
             android:name=".activity.MyExpenses"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
