@@ -137,7 +137,7 @@ public class MyApplication extends MultiDexApplication implements
    * we store the systemLocale if the user wants to come back to it after having
    * tried a different locale;
    */
-  private Locale systemLocale = Locale.getDefault();
+  private static Locale systemLocale = Locale.getDefault();
 
   @Override
   public void onCreate() {
@@ -254,6 +254,10 @@ public class MyApplication extends MultiDexApplication implements
     return getThemeId("Translucent");
   }
 
+  public static int getThemeIdOnboarding() {
+    return getThemeId("Onboarding");
+  }
+
   public LicenceHandler getLicenceHandler() {
     return licenceHandler;
   }
@@ -303,11 +307,7 @@ public class MyApplication extends MultiDexApplication implements
     systemLocale = newConfig.locale;
   }
 
-  public void setLanguage() {
-    setLanguage(getUserPreferedLocale());
-  }
-
-  public Locale getUserPreferedLocale() {
+  public static Locale getUserPreferedLocale() {
     String language = PrefKey.UI_LANGUAGE.getString("default");
     Locale l;
     if (language.equals("default")) {
@@ -319,17 +319,6 @@ public class MyApplication extends MultiDexApplication implements
       l = new Locale(language);
     }
     return l;
-  }
-
-  public void setLanguage(Locale locale) {
-    if (!Locale.getDefault().equals(locale)) {
-      Locale.setDefault(locale);
-      Configuration config = new Configuration();
-      config.locale = locale;
-      config.fontScale = getResources().getConfiguration().fontScale;
-      getResources().updateConfiguration(config,
-          getResources().getDisplayMetrics());
-    }
   }
 
   public long getLastPause() {

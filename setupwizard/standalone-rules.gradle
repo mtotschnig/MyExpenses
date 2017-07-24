@@ -1,0 +1,34 @@
+/**
+ * Include this gradle file if you are building against this as a standalone gradle library project,
+ * but are defining the compile SDK version and build tools version at the top-level.
+ *
+ * For example, you can include the following in your settings.gradle file:
+ *      include ':setup-wizard-lib'
+ *      project(':setup-wizard-lib').projectDir = new File(PATH_TO_THIS_DIRECTORY)
+ *      project(':setup-wizard-lib').buildFileName = 'standalone-rules.gradle'
+ *
+ * And then you can include the :setup-wizard-lib project as one of your dependencies
+ *      dependencies {
+ *          compile project(path: ':setup-wizard-lib', configuration: 'icsCompatRelease')
+ *      }
+ */
+
+ext {
+    // For standalone project clients, since the source may not be available, we fetch the
+    // dependencies from maven. To add a dependency, you want to specify something like this:
+    //      ext {
+    //          deps = ['project-name': 'com.example.group:project-name:1.0.0']
+    //      }
+    //
+    // And then in rules.gradle you can reference the dependency by
+    //      dependencies {
+    //          compile deps['project-name']
+    //      }
+    //
+    deps = [
+        'support-appcompat-v7': 'com.android.support:appcompat-v7:22.2.1',
+        'support-recyclerview-v7': 'com.android.support:recyclerview-v7:22.2.1'
+    ]
+}
+
+apply from: 'rules.gradle'

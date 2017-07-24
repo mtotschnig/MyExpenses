@@ -60,7 +60,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
     super.onCreate(savedInstanceState);
     ComponentName callingActivity = getCallingActivity();
     if (callingActivity != null && Utils.getSimpleClassNameFromComponentName(callingActivity)
-        .equals(OnboardingActivity.class.getSimpleName())) {
+        .equals(SplashActivity.class.getSimpleName())) {
       calledFromOnboarding = true;
       Timber.i("Called from onboarding");
     }

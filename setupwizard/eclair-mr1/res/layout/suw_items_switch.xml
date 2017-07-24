@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (C) 2016 The Android Open Source Project
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/SuwItemContainer.Verbose"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="horizontal">
+
+    <FrameLayout
+        android:id="@+id/suw_items_icon_container"
+        android:layout_width="@dimen/suw_items_icon_container_width"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:gravity="start">
+
+        <ImageView
+            android:id="@+id/suw_items_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:ignore="ContentDescription" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/suw_items_verbose_padding_bottom_extra"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <com.android.setupwizardlib.view.RichTextView
+            android:id="@+id/suw_items_title"
+            style="@style/SuwItemTitle.Verbose"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:textAlignment="viewStart"
+            tools:ignore="UnusedAttribute" />
+
+        <com.android.setupwizardlib.view.RichTextView
+            android:id="@+id/suw_items_summary"
+            style="@style/SuwItemSummary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:textAlignment="viewStart"
+            android:visibility="gone"
+            tools:ignore="UnusedAttribute" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.SwitchCompat
+        android:id="@+id/suw_items_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical" />
+
+</LinearLayout>

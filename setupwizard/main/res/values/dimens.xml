@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (C) 2015 The Android Open Source Project
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<resources>
+
+    <!-- General -->
+    <dimen name="suw_layout_margin_sides">40dp</dimen>
+    <dimen name="suw_glif_margin_sides">24dp</dimen>
+    <dimen name="suw_glif_margin_top">48dp</dimen>
+
+    <!-- Content styles -->
+    <dimen name="suw_check_box_line_spacing_extra">4sp</dimen>
+    <dimen name="suw_check_box_margin_bottom">12dp</dimen>
+    <dimen name="suw_check_box_margin_start">1dp</dimen>
+    <dimen name="suw_check_box_margin_top">24dp</dimen>
+    <dimen name="suw_check_box_padding_start">15dp</dimen>
+    <dimen name="suw_check_box_text_size">16sp</dimen>
+
+    <dimen name="suw_content_frame_padding_top">0dp</dimen>
+    <dimen name="suw_content_frame_padding_bottom">16dp</dimen>
+
+    <dimen name="suw_description_margin_top">24dp</dimen>
+    <dimen name="suw_description_margin_bottom">12dp</dimen>
+    <dimen name="suw_description_margin_bottom_lists">24dp</dimen>
+    <dimen name="suw_description_line_spacing_extra">4sp</dimen>
+    <dimen name="suw_description_text_size">16sp</dimen>
+
+    <dimen name="suw_description_glif_margin_top">3dp</dimen>
+    <dimen name="suw_description_glif_margin_bottom_lists">24dp</dimen>
+
+    <!-- Margin on the start to offset for margin in the drawable -->
+    <dimen name="suw_radio_button_margin_start">-6dp</dimen>
+    <dimen name="suw_radio_button_margin_top">0dp</dimen>
+    <dimen name="suw_radio_button_margin_bottom">12dp</dimen>
+    <dimen name="suw_radio_button_padding_start">18dp</dimen>
+    <dimen name="suw_radio_button_line_spacing_extra">5sp</dimen>
+
+    <!-- Card layout (for tablets) -->
+    <dimen name="suw_card_corner_radius">2dp</dimen>
+    <dimen name="suw_card_elevation">5dp</dimen>
+    <dimen name="suw_card_land_header_text_margin_top">128dp</dimen>
+    <dimen name="suw_card_port_margin_sides">56dp</dimen>
+
+    <dimen name="suw_card_title_padding_end">0dp</dimen>
+    <dimen name="suw_card_title_padding_start">0dp</dimen>
+    <dimen name="suw_card_title_padding_top">16dp</dimen>
+    <dimen name="suw_card_title_padding_bottom">28dp</dimen>
+
+    <dimen name="suw_tablet_illustration_height">256dp</dimen>
+
+    <!-- Decor view (illustration or the header without illustration) -->
+    <dimen name="suw_decor_padding_top">0dp</dimen>
+
+    <!-- GLIF card layout (for tablets) -->
+    <dimen name="suw_glif_card_elevation">5dp</dimen>
+    <dimen name="suw_glif_card_width">560dp</dimen>
+    <dimen name="suw_glif_card_height">672dp</dimen>
+
+    <!-- Header layout (for phones) -->
+    <dimen name="suw_title_area_elevation">3dp</dimen>
+    <!-- Hack to force the header (and its shadow) to be drawn on top of the list contents -->
+    <dimen name="suw_header_elevation_hack">1dp</dimen>
+
+    <dimen name="suw_header_title_size">24sp</dimen>
+    <dimen name="suw_header_title_margin_bottom">16dp</dimen>
+    <dimen name="suw_header_title_padding_top">16dp</dimen>
+    <dimen name="suw_header_title_padding_bottom">2dp</dimen>
+    <!-- This is the extra spacing required to make the leading exactly 32sp -->
+    <dimen name="suw_header_title_line_spacing_extra">3.67sp</dimen>
+
+    <dimen name="suw_glif_header_title_margin_top">15dp</dimen>
+    <dimen name="suw_glif_header_title_margin_bottom">2dp</dimen>
+
+    <dimen name="suw_glif_icon_max_height">32dp</dimen>
+
+    <!-- Illustration -->
+    <item name="suw_illustration_aspect_ratio" format="float" type="dimen">2.22</item>
+
+    <!-- Items -->
+    <dimen name="suw_items_icon_container_width">48dp</dimen>
+    <dimen name="suw_items_padding_vertical">15dp</dimen>
+    <dimen name="suw_items_verbose_padding_vertical">20dp</dimen>
+
+    <dimen name="suw_items_icon_divider_inset">88dp</dimen>
+    <dimen name="suw_items_text_divider_inset">40dp</dimen>
+
+    <dimen name="suw_items_glif_icon_divider_inset">72dp</dimen>
+    <dimen name="suw_items_glif_text_divider_inset">24dp</dimen>
+
+    <!-- Extra padding in the bottom to compensate for difference between descent and (top) internal leading -->
+    <dimen name="suw_items_padding_bottom_extra">1dp</dimen>
+    <dimen name="suw_items_verbose_padding_bottom_extra">0dp</dimen>
+    <dimen name="suw_items_preferred_height">56dp</dimen>
+
+    <!-- Navigation bar -->
+    <dimen name="suw_navbar_button_drawable_padding">6dp</dimen>
+    <dimen name="suw_navbar_button_padding_sides">10dp</dimen>
+    <dimen name="suw_navbar_height">56dp</dimen>
+    <dimen name="suw_navbar_ic_intrinsic_size">24dp</dimen>
+    <dimen name="suw_navbar_padding_sides">24dp</dimen>
+    <dimen name="suw_navbar_text_size">16sp</dimen>
+
+    <!-- Progress bar -->
+    <!-- The margin to compensate for the padding built-in to the widget itself -->
+    <dimen name="suw_progress_bar_margin_vertical">-7dp</dimen>
+    <dimen name="suw_glif_progress_bar_margin_vertical">7dp</dimen>
+
+</resources>

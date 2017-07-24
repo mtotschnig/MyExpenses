@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (C) 2015 The Android Open Source Project
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<resources>
+
+    <!-- Content styles -->
+
+    <style name="TextAppearance.SuwDescription" parent="android:TextAppearance.Material.Medium">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:textSize">@dimen/suw_description_text_size</item>
+    </style>
+
+    <!-- Card layout (for tablets) -->
+
+    <style name="TextAppearance.SuwCardTitle" parent="@android:style/TextAppearance.Material.Display1">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <!-- GLIF Card layout (for tablets) -->
+
+    <style name="SuwGlifCardBackground">
+        <item name="android:background">?android:attr/colorPrimary</item>
+    </style>
+
+    <!-- Items styles -->
+
+    <style name="SuwItemContainer">
+        <item name="android:minHeight">?android:attr/listPreferredItemHeight</item>
+        <item name="android:paddingBottom">@dimen/suw_items_padding_vertical</item>
+        <item name="android:paddingEnd">?android:attr/listPreferredItemPaddingEnd</item>
+        <item name="android:paddingStart">?android:attr/listPreferredItemPaddingStart</item>
+        <item name="android:paddingTop">@dimen/suw_items_padding_vertical</item>
+    </style>
+
+    <style name="SuwItemTitle">
+        <item name="android:textAppearance">?android:attr/textAppearanceListItem</item>
+    </style>
+
+    <style name="SuwItemSummary">
+        <item name="android:textAppearance">?android:attr/textAppearanceListItemSmall</item>
+    </style>
+
+    <!-- Button styles -->
+
+    <style name="SuwButtonItem" />
+
+    <style name="SuwButtonItem.Colored">
+        <item name="android:buttonStyle">@android:style/Widget.Material.Button</item>
+        <item name="android:colorButtonNormal">?android:attr/colorAccent</item>
+        <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
+    </style>
+
+    <!-- Navigation bar styles -->
+
+    <style name="SuwNavBarButtonStyle" parent="@android:style/Widget.Material.Button.Borderless">
+        <item name="android:background">?attr/suwNavBarButtonBackground</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:paddingLeft">@dimen/suw_navbar_button_padding_sides</item>
+        <item name="android:paddingRight">@dimen/suw_navbar_button_padding_sides</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">?attr/suwNavBarTextColor</item>
+        <item name="android:textSize">@dimen/suw_navbar_text_size</item>
+    </style>
+
+    <style name="SuwNavBarThemeDark" parent="SuwNavBarTheme">
+        <item name="suwNavBarBackgroundColor">@color/suw_navbar_bg_dark</item>
+        <item name="suwNavBarButtonBackground">@drawable/suw_navbar_btn_bg</item>
+    </style>
+
+    <style name="SuwNavBarThemeLight" parent="SuwNavBarTheme">
+        <item name="suwNavBarBackgroundColor">@color/suw_navbar_bg_light</item>
+        <item name="suwNavBarButtonBackground">@drawable/suw_navbar_btn_bg</item>
+    </style>
+
+</resources>

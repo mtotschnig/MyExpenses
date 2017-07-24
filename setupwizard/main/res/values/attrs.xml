@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (C) 2015 The Android Open Source Project
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<resources>
+
+    <!-- Theme attributes -->
+    <attr name="suwLayoutTheme" format="reference" />
+    <attr name="suwMarginSides" format="dimension|reference" />
+
+    <attr name="suwCardBackground" format="color|reference" />
+    <attr name="suwDividerCondition">
+        <enum name="either" value="0" />
+        <enum name="both" value="1" />
+    </attr>
+    <attr name="suwListItemIconColor" format="color" />
+    <attr name="suwNavBarBackgroundColor" format="color" />
+    <attr name="suwNavBarButtonBackground" format="color|reference" />
+    <attr name="suwNavBarTextColor" format="color" />
+    <attr name="suwNavBarTheme" format="reference" />
+
+    <!-- Custom view attributes -->
+    <attr name="suwHeader" format="reference" />
+    <attr name="suwHeaderText" format="string" localization="suggested" />
+    <attr name="suwDividerInset" format="dimension|reference" />
+    <attr name="suwItemDescriptionStyle" format="reference" />
+
+    <declare-styleable name="SuwIllustration">
+        <attr name="suwAspectRatio" format="float" />
+    </declare-styleable>
+
+    <declare-styleable name="SuwStickyHeaderListView">
+        <attr name="suwHeader" />
+    </declare-styleable>
+
+    <declare-styleable name="SuwHeaderRecyclerView">
+        <attr name="suwHeader" />
+    </declare-styleable>
+
+    <declare-styleable name="SuwGlifLayout">
+        <attr name="android:icon" />
+        <attr name="android:colorPrimary" />
+        <attr name="suwHeaderColor" format="reference|color" />
+        <attr name="suwHeaderText" />
+    </declare-styleable>
+
+    <declare-styleable name="SuwGlifListLayout">
+        <attr name="android:entries" />
+        <attr name="suwDividerInset" />
+    </declare-styleable>
+
+    <declare-styleable name="SuwStatusBarBackgroundLayout">
+        <attr name="suwStatusBarBackground" format="color|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="SuwMaxSizeFrameLayout">
+        <attr name="android:height" />
+        <attr name="android:width" />
+    </declare-styleable>
+
+    <declare-styleable name="SuwSetupWizardLayout">
+        <attr name="suwBackground" format="color|reference" />
+        <attr name="suwBackgroundTile" format="color|reference" />
+        <attr name="suwHeaderText" />
+        <attr name="suwDecorPaddingTop" format="dimension|reference" />
+        <attr name="suwIllustration" format="color|reference" />
+        <attr name="suwIllustrationAspectRatio" format="float|reference" />
+        <attr name="suwIllustrationHorizontalTile" format="color|reference" />
+        <attr name="suwIllustrationImage" format="color|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="SuwTemplateLayout">
+        <attr name="android:layout" />
+        <attr name="suwContainer" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="SuwSetupWizardListLayout">
+        <attr name="suwDividerInset" />
+    </declare-styleable>
+
+    <declare-styleable name="SuwSetupWizardItemsLayout">
+        <attr name="android:entries" />
+    </declare-styleable>
+
+    <declare-styleable name="SuwAbstractItem">
+        <attr name="android:id" />
+    </declare-styleable>
+
+    <declare-styleable name="SuwItem">
+        <attr name="android:enabled" />
+        <attr name="android:icon" />
+        <attr name="android:layout" />
+        <attr name="android:summary" />
+        <attr name="android:title" />
+        <attr name="android:visible" />
+    </declare-styleable>
+
+    <declare-styleable name="SuwDividerItemDecoration">
+        <attr name="android:listDivider" />
+        <attr name="android:dividerHeight" />
+        <attr name="suwDividerCondition" />
+    </declare-styleable>
+
+    <declare-styleable name="SuwButtonItem">
+        <attr name="android:buttonStyle" />
+        <attr name="android:enabled" />
+        <attr name="android:text" />
+        <attr name="android:theme" />
+    </declare-styleable>
+
+</resources>

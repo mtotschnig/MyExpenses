@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="ExtraTranslation" severity="ignore" />
+    <issue id="GradleDependency" severity="ignore" />
+    <issue id="MissingTranslation" severity="ignore" />
+    <issue id="RtlEnabled" severity="ignore" />
+</lint>

@@ -2,10 +2,10 @@
 <android.support.v4.widget.DrawerLayout
     android:id="@+id/drawer_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:ignore="InconsistentLayout"
-    xmlns:tools="http://schemas.android.com/tools">
+    tools:ignore="InconsistentLayout">
     <!-- The main content view -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +17,8 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        <include layout="@layout/viewpager_main"/>
+
+            <include layout="@layout/viewpager_main"/>
 
             <include layout="@layout/floating_action_button"/>
         </FrameLayout>

@@ -6,21 +6,24 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
+
+import com.android.setupwizardlib.SetupWizardLayout;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.AccountEdit;
+import org.totschnig.myexpenses.activity.SplashActivity;
 import org.totschnig.myexpenses.activity.SyncBackendSetupActivity;
 import org.totschnig.myexpenses.adapter.CurrencyAdapter;
 import org.totschnig.myexpenses.dialog.DialogUtils;
@@ -67,11 +70,15 @@ public class OnboardingDataFragment extends Fragment implements AdapterView.OnIt
   AmountEditText amountEditText;
   @BindView(R.id.ColorIndicator)
   View colorIndicator;
+  @BindView(R.id.setup_wizard_layout)
+  SetupWizardLayout setupWizardLayout;
 
   private Spinner currencySpinner;
   private Spinner accountTypeSpinner;
-  @State boolean moreOptionsShown = false;
-  @State int accountColor = Account.DEFAULT_COLOR;
+  @State
+  boolean moreOptionsShown = false;
+  @State
+  int accountColor = Account.DEFAULT_COLOR;
   private int lastSelectedCurrencyPosition;
   private List<SyncBackendProviderFactory> backendProviders;
 
@@ -83,7 +90,6 @@ public class OnboardingDataFragment extends Fragment implements AdapterView.OnIt
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     backendProviders = ServiceLoader.load(getContext());
-    setHasOptionsMenu(true);
     Icepick.restoreInstanceState(this, savedInstanceState);
   }
 
@@ -94,28 +100,22 @@ public class OnboardingDataFragment extends Fragment implements AdapterView.OnIt
     Icepick.saveInstanceState(this, outState);
   }
 
-  @Override
-  public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-    inflater.inflate(R.menu.onboarding_data, menu);
+  public void createRestoreMenu(Toolbar toolbar) {
+    toolbar.inflateMenu(R.menu.onboarding_data);
+    Menu menu = toolbar.getMenu();
     SubMenu subMenu = menu.findItem(R.id.SetupFromRemote).getSubMenu();
+    subMenu.clear();
     ((SyncBackendSetupActivity) getActivity()).addSyncProviderMenuEntries(
         subMenu, backendProviders);
-  }
-
-  @Override
-  public void onPrepareOptionsMenu(Menu menu) {
-    super.onPrepareOptionsMenu(menu);
-    SubMenu subMenu = menu.findItem(R.id.SetupFromRemote).getSubMenu();
     GenericAccountService.getAccountsAsStream(getActivity()).forEach(
         account -> subMenu.add(Menu.NONE, Menu.NONE, Menu.NONE, account.name));
+    toolbar.setOnMenuItemClickListener(this::onRestoreMenuItemSelected);
   }
 
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-    switch (item.getItemId()) {
-      case R.id.SetupFromLocal:
-        getActivity().startActivityForResult(new Intent("myexpenses.intent.restore"), RESTORE_REQUEST);
-        return true;
+  private boolean onRestoreMenuItemSelected(MenuItem item) {
+    if (item.getItemId() == R.id.SetupFromLocal) {
+      getActivity().startActivityForResult(new Intent("myexpenses.intent.restore"), RESTORE_REQUEST);
+      return true;
     }
     SyncBackendProviderFactory syncBackendProviderFactory =
         ((SyncBackendSetupActivity) getActivity()).getSyncBackendProviderFactoryById(
@@ -124,8 +124,9 @@ public class OnboardingDataFragment extends Fragment implements AdapterView.OnIt
       syncBackendProviderFactory.startSetup(getActivity());
       return true;
     }
-    if (item.getItemId() ==  Menu.NONE) {
+    if (item.getItemId() == Menu.NONE) {
       ((SyncBackendSetupActivity) getActivity()).fetchAccountData(item.getTitle().toString());
+      return true;
     }
     return false;
   }
@@ -134,10 +135,8 @@ public class OnboardingDataFragment extends Fragment implements AdapterView.OnIt
   @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                            @Nullable Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.onboarding_data, container, false);
+    View view = inflater.inflate(R.layout.onboarding_wizzard_2, container, false);
     ButterKnife.bind(this, view);
-    //lead
-    ((TextView) view.findViewById(R.id.onboarding_lead)).setText(R.string.onboarding_data_title);
 
     //label
     labelEditText.setText(R.string.default_account_name);
@@ -159,6 +158,31 @@ public class OnboardingDataFragment extends Fragment implements AdapterView.OnIt
 
     if (moreOptionsShown) {
       showMoreOptions();
+    }
+
+    //lead
+    setupWizardLayout.setHeaderText(R.string.onboarding_data_title);
+    setupWizardLayout.setIllustration(R.drawable.bg_setup_header, R.drawable.bg_header_horizontal_tile);
+
+
+    final ViewGroup navParent = (ViewGroup) view.findViewById(R.id.suw_layout_navigation_bar)
+        .getParent();
+    View customNav = inflater.inflate(R.layout.onboarding_navigation,
+        navParent, false);
+    createRestoreMenu((Toolbar) customNav.findViewById(R.id.onboaring_menu));
+    Button nextButton = (Button) customNav.findViewById(R.id.suw_navbar_next);
+    nextButton.setText(R.string.onboarding_get_started);
+
+    nextButton.setOnClickListener(v -> ((SplashActivity) getActivity()).finishOnboarding());
+
+
+    // Swap our custom navigation bar into place
+    for (int i = 0; i < navParent.getChildCount(); i++) {
+      if (navParent.getChildAt(i).getId() == R.id.suw_layout_navigation_bar) {
+        navParent.removeViewAt(i);
+        navParent.addView(customNav, i);
+        break;
+      }
     }
     return view;
   }

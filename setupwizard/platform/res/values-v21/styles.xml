@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (C) 2015 The Android Open Source Project
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<!-- These styles are only included in the platform build, to make sure that they do not
+     override the corresponding styles in the compatibility build. -->
+<resources>
+
+    <!-- General styles -->
+
+    <!-- These themes should only be used in platform builds because support libraries'
+         FragmentActivity and AppCompatActivity expects the activity theme to inherit from
+         Theme.AppCompat. -->
+    <style name="SuwThemeMaterial" parent="android:Theme.Material.NoActionBar">
+        <item name="android:colorAccent">@color/suw_color_accent_dark</item>
+        <item name="android:indeterminateTint">@color/suw_progress_bar_color_dark</item>
+        <!-- Specify the indeterminateTintMode to work around a bug in Lollipop -->
+        <item name="android:indeterminateTintMode">src_in</item>
+        <item name="android:listPreferredItemHeight">@dimen/suw_items_preferred_height</item>
+        <item name="android:listPreferredItemPaddingEnd">?attr/suwMarginSides</item>
+        <item name="android:listPreferredItemPaddingStart">?attr/suwMarginSides</item>
+        <item name="android:navigationBarColor">@android:color/black</item>
+        <item name="android:statusBarColor">@android:color/black</item>
+        <item name="android:textAppearanceListItemSmall">@android:style/TextAppearance.Material.Body1</item>
+        <item name="android:textColorLink">@color/suw_link_color_dark</item>
+        <item name="android:windowAnimationStyle">@style/Animation.SuwWindowAnimation</item>
+        <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+
+        <item name="suwCardBackground">@drawable/suw_card_bg</item>
+        <item name="suwItemDescriptionStyle">@style/SuwItemContainer.Description</item>
+        <item name="suwListItemIconColor">@color/suw_list_item_icon_color_dark</item>
+        <item name="suwMarginSides">@dimen/suw_layout_margin_sides</item>
+        <item name="suwNavBarTheme">@style/SuwNavBarThemeDark</item>
+    </style>
+
+    <style name="SuwThemeMaterial.Light" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:colorAccent">@color/suw_color_accent_light</item>
+        <item name="android:indeterminateTint">@color/suw_progress_bar_color_light</item>
+        <!-- Specify the indeterminateTintMode to work around a bug in Lollipop -->
+        <item name="android:indeterminateTintMode">src_in</item>
+        <item name="android:listPreferredItemHeight">@dimen/suw_items_preferred_height</item>
+        <item name="android:listPreferredItemPaddingEnd">?attr/suwMarginSides</item>
+        <item name="android:listPreferredItemPaddingStart">?attr/suwMarginSides</item>
+        <item name="android:navigationBarColor">@android:color/black</item>
+        <item name="android:statusBarColor">@android:color/black</item>
+        <item name="android:textAppearanceListItemSmall">@android:style/TextAppearance.Material.Body1</item>
+        <item name="android:textColorLink">@color/suw_link_color_light</item>
+        <item name="android:windowAnimationStyle">@style/Animation.SuwWindowAnimation</item>
+        <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+
+        <item name="suwCardBackground">@drawable/suw_card_bg</item>
+        <item name="suwItemDescriptionStyle">@style/SuwItemContainer.Description</item>
+        <item name="suwListItemIconColor">@color/suw_list_item_icon_color_light</item>
+        <item name="suwMarginSides">@dimen/suw_layout_margin_sides</item>
+        <item name="suwNavBarTheme">@style/SuwNavBarThemeLight</item>
+    </style>
+
+    <!-- Placeholder for GLIF dark theme, colors are not updated yet -->
+    <style name="SuwThemeGlif" parent="android:Theme.Material.NoActionBar">
+        <item name="android:colorAccent">@color/suw_color_accent_glif_dark</item>
+        <item name="android:colorPrimary">@color/suw_color_accent_glif_light</item>
+        <item name="android:indeterminateTint">?android:attr/colorPrimary</item>
+        <!-- Specify the indeterminateTintMode to work around a bug in Lollipop -->
+        <item name="android:indeterminateTintMode">src_in</item>
+        <item name="android:listPreferredItemHeight">@dimen/suw_items_preferred_height</item>
+        <item name="android:listPreferredItemPaddingEnd">?attr/suwMarginSides</item>
+        <item name="android:listPreferredItemPaddingStart">?attr/suwMarginSides</item>
+        <item name="android:navigationBarColor">@android:color/black</item>
+        <item name="android:statusBarColor">?android:attr/colorPrimary</item>
+        <item name="android:textAppearanceListItem">@style/TextAppearance.SuwGlifItemTitle</item>
+        <item name="android:textAppearanceListItemSmall">@style/TextAppearance.SuwGlifItemSummary</item>
+        <item name="android:textColorLink">@color/suw_link_color_light</item>
+        <item name="android:windowAnimationStyle">@style/Animation.SuwWindowAnimation</item>
+        <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+
+        <item name="suwItemDescriptionStyle">@style/SuwItemContainer.Description.Glif</item>
+        <item name="suwListItemIconColor">@color/suw_list_item_icon_color_dark</item>
+        <item name="suwMarginSides">@dimen/suw_glif_margin_sides</item>
+    </style>
+
+    <style name="SuwThemeGlif.Light" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:colorAccent">@color/suw_color_accent_glif_dark</item>
+        <item name="android:colorPrimary">@color/suw_color_accent_glif_light</item>
+        <item name="android:indeterminateTint">?android:attr/colorPrimary</item>
+        <!-- Specify the indeterminateTintMode to work around a bug in Lollipop -->
+        <item name="android:indeterminateTintMode">src_in</item>
+        <item name="android:listPreferredItemHeight">@dimen/suw_items_preferred_height</item>
+        <item name="android:listPreferredItemPaddingEnd">?attr/suwMarginSides</item>
+        <item name="android:listPreferredItemPaddingStart">?attr/suwMarginSides</item>
+        <item name="android:navigationBarColor">@android:color/black</item>
+        <item name="android:statusBarColor">?android:attr/colorPrimary</item>
+        <item name="android:textAppearanceListItem">@style/TextAppearance.SuwGlifItemTitle</item>
+        <item name="android:textAppearanceListItemSmall">@style/TextAppearance.SuwGlifItemSummary</item>
+        <item name="android:textColorLink">@color/suw_link_color_light</item>
+        <item name="android:windowAnimationStyle">@style/Animation.SuwWindowAnimation</item>
+        <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+
+        <item name="suwItemDescriptionStyle">@style/SuwItemContainer.Description.Glif</item>
+        <item name="suwListItemIconColor">@color/suw_list_item_icon_color_light</item>
+        <item name="suwMarginSides">@dimen/suw_glif_margin_sides</item>
+    </style>
+
+</resources>

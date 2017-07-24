@@ -1,0 +1,33 @@
+/**
+ * This self.gradle build file is only run when built in ub-setupwizard-* branches.
+ */
+
+apply plugin: 'dist'
+
+apply from: 'build.gradle'
+apply from: '../tools/gradle/docs.gradle'
+
+task docs(dependsOn: 'javadocFullSupportRelease')
+
+android.lintOptions {
+    abortOnError true
+    htmlReport true
+    textOutput 'stderr'
+    textReport true
+    xmlReport false
+}
+
+// Run lint for all variants
+android.libraryVariants.all { variant ->
+    variant.assemble.dependsOn(tasks.findByName('lint'))
+}
+
+// Output all test APKs to the distribution folder
+def distTask = tasks.findByName('dist')
+if (distTask) {
+    android.testVariants.all { variant ->
+        // Make the dist task depend on the test variant, so the test APK will be built
+        distTask.dependsOn variant.assemble
+        // TODO: remap the different test variants to different file names
+    }
+}
