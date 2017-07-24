@@ -138,7 +138,7 @@ dependencies {
     annotationProcessor 'com.gabrielittner.auto.value:auto-value-cursor:1.0.1'
     compile 'com.gabrielittner.auto.value:auto-value-cursor-annotations:1.0.0'
     annotationProcessor 'com.ryanharter.auto.value:auto-value-parcel:0.2.5'
-    compile 'com.github.mtotschnig:StickyListHeaders:master-SNAPSHOT'
+    compile 'com.github.mtotschnig:StickyListHeaders:2.7.1'
     compile 'com.github.mtotschnig:MaterialSeekBarPreference:improvement~align-with-layout-specific-to-each-level-SNAPSHOT'
     compile('com.gitlab.mtotschn:dav4android:fbaa5b51') {
         exclude group: "com.android.support", module: "support-annotations"
