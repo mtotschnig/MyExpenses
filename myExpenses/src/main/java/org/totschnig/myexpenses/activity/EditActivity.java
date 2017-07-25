@@ -30,7 +30,6 @@ import android.widget.TextView;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
-import org.totschnig.myexpenses.fragment.DbWriteFragment;
 
 public abstract class EditActivity extends ProtectedFragmentActivity implements TextWatcher {
 
@@ -143,12 +142,8 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
     }
   }
   protected void linkInputWithLabel(final View input, final View label) {
-    input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-      @Override
-      public void onFocusChange(View v, boolean hasFocus) {
-        ((TextView) label).setTextColor(hasFocus ? accentColor : primaryColor);
-      }
-    });
+    input.setOnFocusChangeListener((v, hasFocus) ->
+        ((TextView) label).setTextColor(hasFocus ? accentColor : primaryColor));
   }
 
   @Override
