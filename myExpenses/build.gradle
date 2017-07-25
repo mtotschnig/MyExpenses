@@ -165,8 +165,6 @@ dependencies {
 
     compile 'com.jakewharton.timber:timber:4.5.1'
 
-    compile 'com.romandanylyk:pageindicatorview:0.1.2'
-
     compile 'org.slf4j:slf4j-api:1.7.21'
     compile 'com.github.tony19:logback-android-core:1.1.1-6'
     compile('com.github.tony19:logback-android-classic:1.1.1-6') {
@@ -193,7 +191,9 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'pl.pragmatists:JUnitParams:1.0.5'
     testCompile 'org.mockito:mockito-core:1.10.19'
-    compile project(path: ':setupwizard', configuration: 'fullSupportRelease')
+    debugCompile project(path: ':setupwizard', configuration: 'fullSupportDebug')
+    forTestCompile project(path: ':setupwizard', configuration: 'fullSupportDebug')
+    releaseCompile project(path: ':setupwizard', configuration: 'fullSupportRelease')
 }
 
 def getDate() {
