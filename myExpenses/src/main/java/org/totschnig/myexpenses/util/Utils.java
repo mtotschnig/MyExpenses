@@ -308,6 +308,19 @@ public class Utils {
     return !list.isEmpty();
   }
 
+  public static boolean isComAndroidVendingInstalled(Context context) {
+    PackageManager pm = context.getPackageManager();
+    try
+    {
+      pm.getPackageInfo("com.android.vending", PackageManager.GET_ACTIVITIES);
+    }
+    catch (PackageManager.NameNotFoundException e)
+    {
+      return false;
+    }
+    return true;
+  }
+
   /**
    * get a value from extras that could be either passed as String or a long extra
    * we need this method, to pass values from monkeyrunner, which is not able to pass long extras

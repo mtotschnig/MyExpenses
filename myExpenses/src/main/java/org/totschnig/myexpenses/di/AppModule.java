@@ -33,6 +33,12 @@ public class AppModule {
 
   @Provides
   @Singleton
+  public MyApplication provideApplication() {
+    return application;
+  }
+
+  @Provides
+  @Singleton
   LicenceHandler providesLicenceHandler() {
     return new HashLicenceHandler(application);
   }
