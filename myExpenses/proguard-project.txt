@@ -59,6 +59,7 @@
 
 # Retrolambda
 -dontwarn java.lang.invoke.*
+-dontwarn **$$Lambda$*
 
 -keep public enum org.totschnig.myexpenses.sync.json.TransactionChange$** {
     **[] $VALUES;
