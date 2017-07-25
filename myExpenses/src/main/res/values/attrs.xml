@@ -26,6 +26,7 @@
     <attr name="cardHighlightForeground" format="reference" />
     <attr name="colorControlInverse" />
     <attr name="preferenceCategoryTextAppearance" format="reference" />
+    <attr name="textSizeLabel" format="dimension" />
     <attr name="textSizeSmall" format="dimension" />
     <attr name="textSizeNormal" format="dimension" />
     <attr name="textSizeMedium" format="dimension" />

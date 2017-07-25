@@ -39,6 +39,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="colorContainerInner">10sp</item>
         <item name="cardHighlightForeground">?selectableItemBackground</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+        <item name="textSizeLabel">@dimen/textSizeLabelBase</item>
         <item name="textSizeSmall">@dimen/textSizeSmallBase</item>
         <item name="textSizeMedium">@dimen/textSizeMediumBase</item>
         <item name="textSizeLarge">@dimen/textSizeLargeBase</item>
@@ -69,6 +70,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="colorContainerInner">10sp</item>
         <item name="cardHighlightForeground">?selectableItemBackground</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+        <item name="textSizeLabel">@dimen/textSizeLabelBase</item>
         <item name="textSizeSmall">@dimen/textSizeSmallBase</item>
         <item name="textSizeMedium">@dimen/textSizeMediumBase</item>
         <item name="textSizeLarge">@dimen/textSizeLargeBase</item>
@@ -90,6 +92,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="drawerWidth">285sp</item>
         <item name="colorContainerOuter">27sp</item>
         <item name="colorContainerInner">12sp</item>
+        <item name="textSizeLabel">@dimen/textSizeLabelS1</item>
         <item name="textSizeSmall">@dimen/textSizeSmallS1</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS1</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS1</item>
@@ -102,6 +105,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="drawerWidth">285sp</item>
         <item name="colorContainerOuter">27sp</item>
         <item name="colorContainerInner">12sp</item>
+        <item name="textSizeLabel">@dimen/textSizeLabelS1</item>
         <item name="textSizeSmall">@dimen/textSizeSmallS1</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS1</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS1</item>
@@ -114,6 +118,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="drawerWidth">315sp</item>
         <item name="colorContainerOuter">29sp</item>
         <item name="colorContainerInner">14sp</item>
+        <item name="textSizeLabel">@dimen/textSizeLabelS2</item>
         <item name="textSizeSmall">@dimen/textSizeSmallS2</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS2</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS2</item>
@@ -126,6 +131,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="drawerWidth">315sp</item>
         <item name="colorContainerOuter">29sp</item>
         <item name="colorContainerInner">14sp</item>
+        <item name="textSizeLabel">@dimen/textSizeLabelS2</item>
         <item name="textSizeSmall">@dimen/textSizeSmallS2</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS2</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS2</item>
@@ -138,6 +144,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="drawerWidth">345sp</item>
         <item name="colorContainerOuter">31sp</item>
         <item name="colorContainerInner">16sp</item>
+        <item name="textSizeLabel">@dimen/textSizeLabelS3</item>
         <item name="textSizeSmall">@dimen/textSizeSmallS3</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS3</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS3</item>
@@ -150,6 +157,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="drawerWidth">345sp</item>
         <item name="colorContainerOuter">31sp</item>
         <item name="colorContainerInner">16sp</item>
+        <item name="textSizeLabel">@dimen/textSizeLabelS3</item>
         <item name="textSizeSmall">@dimen/textSizeSmallS3</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS3</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS3</item>
@@ -164,6 +172,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="colorExpense">@color/colorExpenseDark</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="textSizeLabel">@dimen/textSizeLabelBase</item>
         <item name="textSizeSmall">@dimen/textSizeSmallBase</item>
         <item name="textSizeMedium">@dimen/textSizeMediumBase</item>
         <item name="textSizeLarge">@dimen/textSizeLargeBase</item>
@@ -185,6 +194,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="colorExpense">@color/colorExpenseLight</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="textSizeLabel">@dimen/textSizeLabelBase</item>
         <item name="textSizeSmall">@dimen/textSizeSmallBase</item>
         <item name="textSizeMedium">@dimen/textSizeMediumBase</item>
         <item name="textSizeLarge">@dimen/textSizeLargeBase</item>
@@ -201,6 +211,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
     <style name="ThemeLight.EditDialog" parent="ThemeLight.EditDialogBase"/>
 
     <style name="ThemeDark.EditDialog.s1">
+        <item name="textSizeLabel">@dimen/textSizeLabelS1</item>
         <item name="textSizeSmall">@dimen/textSizeSmallS1</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS1</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS1</item>
@@ -208,6 +219,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
     </style>
 
     <style name="ThemeLight.EditDialog.s1">
+        <item name="textSizeLabel">@dimen/textSizeLabelS1</item>
         <item name="textSizeSmall">@dimen/textSizeSmallS1</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS1</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS1</item>
@@ -215,6 +227,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
     </style>
 
     <style name="ThemeDark.EditDialog.s2">
+        <item name="textSizeLabel">@dimen/textSizeLabelS2</item>
         <item name="textSizeSmall">@dimen/textSizeSmallS2</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS2</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS2</item>
@@ -222,6 +235,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
     </style>
 
     <style name="ThemeLight.EditDialog.s2">
+        <item name="textSizeLabel">@dimen/textSizeLabelS2</item>
         <item name="textSizeSmall">@dimen/textSizeSmallS2</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS2</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS2</item>
@@ -229,6 +243,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
     </style>
 
     <style name="ThemeDark.EditDialog.s3">
+        <item name="textSizeLabel">@dimen/textSizeLabelS3</item>
         <item name="textSizeSmall">@dimen/textSizeSmallS3</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS3</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS3</item>
@@ -236,6 +251,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
     </style>
 
     <style name="ThemeLight.EditDialog.s3">
+        <item name="textSizeLabel">@dimen/textSizeLabelS3</item>
         <item name="textSizeSmall">@dimen/textSizeSmallS3</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS3</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS3</item>
@@ -248,6 +264,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowAnimationStyle">@android:style/Animation</item>
+        <item name="textSizeLabel">@dimen/textSizeLabelBase</item>
         <item name="textSizeSmall">@dimen/textSizeSmallBase</item>
         <item name="textSizeMedium">@dimen/textSizeMediumBase</item>
         <item name="textSizeLarge">@dimen/textSizeLargeBase</item>
@@ -264,6 +281,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowAnimationStyle">@android:style/Animation</item>
+        <item name="textSizeLabel">@dimen/textSizeLabelBase</item>
         <item name="textSizeSmall">@dimen/textSizeSmallBase</item>
         <item name="textSizeMedium">@dimen/textSizeMediumBase</item>
         <item name="textSizeLarge">@dimen/textSizeLargeBase</item>
@@ -275,6 +293,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
     </style>
 
     <style name="ThemeLight.Translucent.s1">
+        <item name="textSizeLabel">@dimen/textSizeLabelS1</item>
         <item name="textSizeSmall">@dimen/textSizeSmallS1</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS1</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS1</item>
@@ -282,6 +301,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
     </style>
 
     <style name="ThemeDark.Translucent.s1">
+        <item name="textSizeLabel">@dimen/textSizeLabelS1</item>
         <item name="textSizeSmall">@dimen/textSizeSmallS1</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS1</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS1</item>
@@ -289,6 +309,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
     </style>
 
     <style name="ThemeLight.Translucent.s2">
+        <item name="textSizeLabel">@dimen/textSizeLabelS2</item>
         <item name="textSizeSmall">@dimen/textSizeSmallS2</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS2</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS2</item>
@@ -296,6 +317,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
     </style>
 
     <style name="ThemeDark.Translucent.s2">
+        <item name="textSizeLabel">@dimen/textSizeLabelS2</item>
         <item name="textSizeSmall">@dimen/textSizeSmallS2</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS2</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS2</item>
@@ -303,6 +325,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
     </style>
 
     <style name="ThemeLight.Translucent.s3">
+        <item name="textSizeLabel">@dimen/textSizeLabelS3</item>
         <item name="textSizeSmall">@dimen/textSizeSmallS3</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS3</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS3</item>
@@ -310,6 +333,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
     </style>
 
     <style name="ThemeDark.Translucent.s3">
+        <item name="textSizeLabel">@dimen/textSizeLabelS3</item>
         <item name="textSizeSmall">@dimen/textSizeSmallS3</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS3</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS3</item>
@@ -319,6 +343,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
     <style name="ThemeDark.Onboarding" parent="@style/SuwThemeMaterial">
         <item name="colorIncome">@color/colorIncomeDark</item>
         <item name="colorExpense">@color/colorExpenseDark</item>
+        <item name="textSizeLabel">@dimen/textSizeLabelBase</item>
         <item name="textSizeSmall">@dimen/textSizeSmallBase</item>
         <item name="textSizeMedium">@dimen/textSizeMediumBase</item>
         <item name="textSizeLarge">@dimen/textSizeLargeBase</item>
@@ -332,6 +357,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
     <style name="ThemeLight.Onboarding" parent="@style/SuwThemeMaterial.Light">
         <item name="colorIncome">@color/colorIncomeLight</item>
         <item name="colorExpense">@color/colorExpenseLight</item>
+        <item name="textSizeLabel">@dimen/textSizeLabelBase</item>
         <item name="textSizeSmall">@dimen/textSizeSmallBase</item>
         <item name="textSizeMedium">@dimen/textSizeMediumBase</item>
         <item name="textSizeLarge">@dimen/textSizeLargeBase</item>
@@ -343,6 +369,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
     </style>
 
     <style name="ThemeDark.Onboarding.s1">
+        <item name="textSizeLabel">@dimen/textSizeLabelS1</item>
         <item name="textSizeSmall">@dimen/textSizeSmallS1</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS1</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS1</item>
@@ -350,6 +377,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
     </style>
 
     <style name="ThemeLight.Onboarding.s1">
+        <item name="textSizeLabel">@dimen/textSizeLabelS1</item>
         <item name="textSizeSmall">@dimen/textSizeSmallS1</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS1</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS1</item>
@@ -358,6 +386,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 
 
     <style name="ThemeDark.Onboarding.s2">
+        <item name="textSizeLabel">@dimen/textSizeLabelS2</item>
         <item name="textSizeSmall">@dimen/textSizeSmallS2</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS2</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS2</item>
@@ -365,14 +394,15 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
     </style>
 
     <style name="ThemeLight.Onboarding.s2">
+        <item name="textSizeLabel">@dimen/textSizeLabelS2</item>
         <item name="textSizeSmall">@dimen/textSizeSmallS2</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS2</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS2</item>
         <item name="textSizeNormal">@dimen/textSizeNormalS2</item>
     </style>
 
-
     <style name="ThemeDark.Onboarding.s3">
+        <item name="textSizeLabel">@dimen/textSizeLabelS3</item>
         <item name="textSizeSmall">@dimen/textSizeSmallS3</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS3</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS3</item>
@@ -380,6 +410,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
     </style>
 
     <style name="ThemeLight.Onboarding.s3">
+        <item name="textSizeLabel">@dimen/textSizeLabelS3</item>
         <item name="textSizeSmall">@dimen/textSizeSmallS3</item>
         <item name="textSizeMedium">@dimen/textSizeMediumS3</item>
         <item name="textSizeLarge">@dimen/textSizeLargeS3</item>

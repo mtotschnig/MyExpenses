@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,7 +13,6 @@ import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -53,7 +51,7 @@ import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.RESTOR
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 
 
-public class OnboardingDataFragment extends Fragment implements AdapterView.OnItemSelectedListener,
+public class OnboardingDataFragment extends OnboardingFragment implements AdapterView.OnItemSelectedListener,
     SimpleDialog.OnDialogResultListener {
 
   @BindView(R.id.MoreOptionsContainer)
@@ -100,7 +98,13 @@ public class OnboardingDataFragment extends Fragment implements AdapterView.OnIt
     Icepick.saveInstanceState(this, outState);
   }
 
-  public void createRestoreMenu(Toolbar toolbar) {
+  @Override
+  protected void onNextButtonClicked() {
+    ((SplashActivity) getActivity()).finishOnboarding();
+  }
+
+  @Override
+  protected void createMenu(Toolbar toolbar) {
     toolbar.inflateMenu(R.menu.onboarding_data);
     Menu menu = toolbar.getMenu();
     SubMenu subMenu = menu.findItem(R.id.SetupFromRemote).getSubMenu();
@@ -164,26 +168,8 @@ public class OnboardingDataFragment extends Fragment implements AdapterView.OnIt
     setupWizardLayout.setHeaderText(R.string.onboarding_data_title);
     setupWizardLayout.setIllustration(R.drawable.bg_setup_header, R.drawable.bg_header_horizontal_tile);
 
+    configureNavigation(view, inflater, R.id.suw_navbar_done);
 
-    final ViewGroup navParent = (ViewGroup) view.findViewById(R.id.suw_layout_navigation_bar)
-        .getParent();
-    View customNav = inflater.inflate(R.layout.onboarding_navigation,
-        navParent, false);
-    createRestoreMenu((Toolbar) customNav.findViewById(R.id.onboaring_menu));
-    Button nextButton = (Button) customNav.findViewById(R.id.suw_navbar_next);
-    nextButton.setText(R.string.onboarding_get_started);
-
-    nextButton.setOnClickListener(v -> ((SplashActivity) getActivity()).finishOnboarding());
-
-
-    // Swap our custom navigation bar into place
-    for (int i = 0; i < navParent.getChildCount(); i++) {
-      if (navParent.getChildAt(i).getId() == R.id.suw_layout_navigation_bar) {
-        navParent.removeViewAt(i);
-        navParent.addView(customNav, i);
-        break;
-      }
-    }
     return view;
   }
 

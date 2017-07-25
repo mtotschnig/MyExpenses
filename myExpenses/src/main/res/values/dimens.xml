@@ -18,18 +18,25 @@
     <integer name="account_type_grid_columns">1</integer>
     <item name="form_table_ratio" format="float" type="dimen">2.5</item>
 
+    <dimen name="textSizeLabelBase">12sp</dimen>
     <dimen name="textSizeSmallBase">14sp</dimen>
     <dimen name="textSizeNormalBase">16sp</dimen>
     <dimen name="textSizeMediumBase">18sp</dimen>
     <dimen name="textSizeLargeBase">22sp</dimen>
+
+    <dimen name="textSizeLabelS1">14sp</dimen>
     <dimen name="textSizeSmallS1">16sp</dimen>
     <dimen name="textSizeNormalS1">18sp</dimen>
     <dimen name="textSizeMediumS1">20sp</dimen>
     <dimen name="textSizeLargeS1">24sp</dimen>
+
+    <dimen name="textSizeLabelS2">16sp</dimen>
     <dimen name="textSizeSmallS2">18sp</dimen>
     <dimen name="textSizeNormalS2">20sp</dimen>
     <dimen name="textSizeMediumS2">22sp</dimen>
     <dimen name="textSizeLargeS2">26sp</dimen>
+
+    <dimen name="textSizeLabelS3">18sp</dimen>
     <dimen name="textSizeSmallS3">20sp</dimen>
     <dimen name="textSizeNormalS3">22sp</dimen>
     <dimen name="textSizeMediumS3">24sp</dimen>

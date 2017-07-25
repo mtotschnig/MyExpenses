@@ -226,14 +226,35 @@
     </style>
 
     <style name="OnboardingInputLabel">
-        <item name="android:textAppearance">?android:textAppearanceMedium</item>
-        <item name="android:textColor">?android:textColorSecondary</item>
+        <item name="android:textAppearance">@style/AdaptiveLabelTextAppearance</item>
         <item name="android:layout_marginTop">@dimen/suw_description_margin_top</item>
         <item name="android:layout_marginBottom">@dimen/suw_description_margin_bottom</item>
     </style>
 
-    <style name="onboarding_display_property">
+    <style name="AdaptiveLabelTextAppearance" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:textSize">?textSizeLabel</item>
+    </style>
+
+    <style name="OnBoardingTextInputLayoutBase" parent="Widget.Design.TextInputLayout">
+        <item name="hintTextAppearance">@style/AdaptiveHintTextAppearance</item>
+        <item name="android:layout_marginTop">@dimen/suw_description_margin_top</item>
+    </style>
+
+    <style name="OnBoardingTextInputLayout" parent="OnBoardingTextInputLayoutBase">
+        <item name="android:layout_marginLeft">-4dp</item>
+    </style>
+
+
+    <style name="AdaptiveHintTextAppearance" parent="TextAppearance.Design.Hint">
+        <item name="android:textSize">?textSizeLabel</item>
+    </style>
+
+    <style name="OnBoardingDisplayProperty">
         <item name="android:textAppearance">?android:textAppearanceSmall</item>
         <item name="android:textColor">?android:textColorPrimary</item>
+    </style>
+
+    <style name="OnboardingSpinner">
+        <item name="android:layout_marginLeft">-8dp</item>
     </style>
 </resources>

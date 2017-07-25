@@ -20,8 +20,8 @@
             style="@style/OnboardingInputLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/suw_description_margin_top"
             android:labelFor="@+id/theme"
+            android:layout_marginBottom="0dp"
             android:text="@string/pref_ui_theme_title"/>
 
         <LinearLayout
@@ -30,7 +30,7 @@
             android:layout_gravity="center_horizontal">
 
             <TextView
-                style="@style/onboarding_display_property"
+                style="@style/OnBoardingDisplayProperty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -51,7 +51,7 @@
                 tools:ignore="UnusedAttribute"/>
 
             <TextView
-                style="@style/onboarding_display_property"
+                style="@style/OnBoardingDisplayProperty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -64,7 +64,6 @@
             style="@style/OnboardingInputLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/suw_description_margin_top"
             android:labelFor="@+id/fontSize"
             android:text="@string/pref_ui_fontsize_title"/>
 
@@ -78,7 +77,7 @@
 
         <TextView
             android:id="@+id/font_size_display_name"
-            style="@style/onboarding_display_property"
+            style="@style/OnBoardingDisplayProperty"
             android:layout_width="wrap_content"
             android:layout_height="30sp"
             android:layout_gravity="center"

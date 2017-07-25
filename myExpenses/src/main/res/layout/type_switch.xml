@@ -25,6 +25,8 @@
     android:minHeight="@dimen/accessibility_clickable_minimum"
     android:minWidth="@dimen/accessibility_clickable_minimum"
     android:switchMinWidth="0dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginRight="8dp"
     android:textOff="&#8722;"
     android:textOn="+"
     android:theme="@style/AmountSwitch"

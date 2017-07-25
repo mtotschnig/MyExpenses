@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.SwitchCompat;
@@ -19,8 +18,8 @@ import com.android.setupwizardlib.SetupWizardLayout;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.SplashActivity;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.activity.SplashActivity;
 import org.totschnig.myexpenses.adapter.FontSizeAdapter;
 import org.totschnig.myexpenses.preference.FontSizeDialogPreference;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -28,7 +27,7 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class OnboardingUiFragment extends Fragment {
+public class OnboardingUiFragment extends OnboardingFragment {
   @BindView(R.id.font_size_display_name)
   TextView fontSizeDisplayNameTextView;
   @BindView(R.id.font_size)
@@ -42,7 +41,13 @@ public class OnboardingUiFragment extends Fragment {
     return new OnboardingUiFragment();
   }
 
-  public void createLanguageMenu(Toolbar toolbar) {
+  @Override
+  protected void onNextButtonClicked() {
+    ((SplashActivity) getActivity()).navigate_next();
+  }
+
+  @Override
+  protected void createMenu(Toolbar toolbar) {
     toolbar.inflateMenu(R.menu.onboarding_ui);
     MenuItem menuItem = toolbar.getMenu().findItem(R.id.language);
     View actionView = MenuItemCompat.getActionView(menuItem);
@@ -115,23 +120,7 @@ public class OnboardingUiFragment extends Fragment {
     setupWizardLayout.setHeaderText(R.string.onboarding_ui_title);
     setupWizardLayout.setIllustration(R.drawable.bg_setup_header, R.drawable.bg_header_horizontal_tile);
 
-
-    final ViewGroup navParent = (ViewGroup) view.findViewById(R.id.suw_layout_navigation_bar)
-        .getParent();
-    View customNav = inflater.inflate(R.layout.onboarding_navigation,
-        navParent, false);
-    createLanguageMenu((Toolbar) customNav.findViewById(R.id.onboaring_menu));
-    customNav.findViewById(R.id.suw_navbar_next).setOnClickListener(v -> ((SplashActivity) getActivity()).navigate_next());
-
-
-    // Swap our custom navigation bar into place
-    for (int i = 0; i < navParent.getChildCount(); i++) {
-      if (navParent.getChildAt(i).getId() == R.id.suw_layout_navigation_bar) {
-        navParent.removeViewAt(i);
-        navParent.addView(customNav, i);
-        break;
-      }
-    }
+    configureNavigation(view, inflater, R.id.suw_navbar_next);
 
     return view;
   }
