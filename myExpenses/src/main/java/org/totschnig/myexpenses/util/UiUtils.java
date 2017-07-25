@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatDrawableManager;
 import android.text.*;
 import android.util.SparseIntArray;
@@ -180,10 +181,13 @@ public class UiUtils {
     }
   }
 
-  @SuppressLint("NewApi")
   public static void setBackgroundTintListOnFab(FloatingActionButton fab, int color) {
     fab.setBackgroundTintList(ColorStateList.valueOf(color));
     DrawableCompat.setTint(fab.getDrawable(), isBrightColor(color) ? Color.BLACK : Color.WHITE);
     fab.invalidate();
+  }
+
+  public static void setBackgroundOnButton(AppCompatButton button, int color) {
+    button.setSupportBackgroundTintList(new ColorStateList(new int[][] {{0}}, new int[] {color}));
   }
 }

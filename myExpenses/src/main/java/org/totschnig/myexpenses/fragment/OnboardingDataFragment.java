@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -67,7 +68,7 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
   @BindView(R.id.Amount)
   AmountEditText amountEditText;
   @BindView(R.id.ColorIndicator)
-  View colorIndicator;
+  AppCompatButton colorIndicator;
   @BindView(R.id.setup_wizard_layout)
   SetupWizardLayout setupWizardLayout;
 
@@ -158,7 +159,7 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
     accountTypeSpinner = DialogUtils.configureTypeSpinner(view);
 
     //color
-    colorIndicator.setBackgroundColor(accountColor);
+    UiUtils.setBackgroundOnButton(colorIndicator, accountColor);
 
     if (moreOptionsShown) {
       showMoreOptions();
@@ -245,7 +246,7 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
     if (ACCOUNT_COLOR_DIALOG.equals(dialogTag) && which == BUTTON_POSITIVE) {
       accountColor = extras.getInt(SimpleColorDialog.COLOR);
-      colorIndicator.setBackgroundColor(accountColor);
+      UiUtils.setBackgroundOnButton(colorIndicator, accountColor);
       return true;
     }
     return false;

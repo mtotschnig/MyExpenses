@@ -22,6 +22,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.AppCompatButton;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,6 +50,7 @@ import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.ui.SpinnerHelper;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.Result;
+import org.totschnig.myexpenses.util.UiUtils;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -73,7 +75,7 @@ public class AccountEdit extends AmountActivity implements
   private EditText mDescriptionText;
 
   private SpinnerHelper mCurrencySpinner, mAccountTypeSpinner, mSyncSpinner;
-  private View mColorIndicator;
+  private AppCompatButton mColorIndicator;
   private Account mAccount;
   private ArrayAdapter<CurrencyEnum> currencyAdapter;
 
@@ -139,7 +141,7 @@ public class AccountEdit extends AmountActivity implements
 
     mAccountTypeSpinner = new SpinnerHelper(DialogUtils.configureTypeSpinner(findViewById(R.id.AccountType)));
 
-    mColorIndicator = findViewById(R.id.ColorIndicator);
+    mColorIndicator = (AppCompatButton) findViewById(R.id.ColorIndicator);
 
     mSyncSpinner = new SpinnerHelper(findViewById(R.id.Sync));
     configureSyncBackendAdapter();
@@ -197,8 +199,7 @@ public class AccountEdit extends AmountActivity implements
     mCurrencySpinner.setSelection(currencyAdapter.getPosition(
         CurrencyEnum.valueOf(mAccount.currency.getCurrencyCode())));
     mAccountTypeSpinner.setSelection(mAccount.type.ordinal());
-    mColorIndicator.setBackgroundColor(mAccount.color);
-
+    UiUtils.setBackgroundOnButton(mColorIndicator, mAccount.color);
   }
 
   /**
@@ -429,7 +430,7 @@ public class AccountEdit extends AmountActivity implements
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
     if (ACCOUNT_COLOR_DIALOG.equals(dialogTag) && which == BUTTON_POSITIVE) {
       mAccount.color = extras.getInt(SimpleColorDialog.COLOR);
-      mColorIndicator.setBackgroundColor(mAccount.color);
+      UiUtils.setBackgroundOnButton(mColorIndicator, mAccount.color);
       return true;
     }
     return false;
