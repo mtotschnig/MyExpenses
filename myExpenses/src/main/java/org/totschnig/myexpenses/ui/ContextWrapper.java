@@ -1,8 +1,10 @@
 package org.totschnig.myexpenses.ui;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.LocaleList;
 
 import org.totschnig.myexpenses.util.Utils;
@@ -22,17 +24,10 @@ public class ContextWrapper extends android.content.ContextWrapper {
     Configuration configuration = res.getConfiguration();
 
     if (Utils.hasApiLevel(24)) {
-      configuration.setLocale(newLocale);
-
-      LocaleList localeList = new LocaleList(newLocale);
-      LocaleList.setDefault(localeList);
-      configuration.setLocales(localeList);
-
-      context = context.createConfigurationContext(configuration);
+      context = buildContext24(context, newLocale, configuration);
 
     } else if (Utils.hasApiLevel(17)) {
-      configuration.setLocale(newLocale);
-      context = context.createConfigurationContext(configuration);
+      context = buildContext17(context, newLocale, configuration);
 
     } else {
       configuration.locale = newLocale;
@@ -40,4 +35,24 @@ public class ContextWrapper extends android.content.ContextWrapper {
     }
 
     return new ContextWrapper(context);
-  }}
+  }
+
+  @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+  private static Context buildContext17(Context context, Locale newLocale, Configuration configuration) {
+    configuration.setLocale(newLocale);
+    context = context.createConfigurationContext(configuration);
+    return context;
+  }
+
+  @TargetApi(Build.VERSION_CODES.N)
+  private static Context buildContext24(Context context, Locale newLocale, Configuration configuration) {
+    configuration.setLocale(newLocale);
+
+    LocaleList localeList = new LocaleList(newLocale);
+    LocaleList.setDefault(localeList);
+    configuration.setLocales(localeList);
+
+    context = context.createConfigurationContext(configuration);
+    return context;
+  }
+}

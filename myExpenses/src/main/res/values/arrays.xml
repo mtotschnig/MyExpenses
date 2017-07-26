@@ -399,7 +399,7 @@
         <item>2.6.0</item>
     </string-array>
 
-    <string-array name="contributors_280">
+    <string-array name="contributors_280" tools:ignore="UnusedResources">
         <item>Zvi  P.</item>
         <item>eltos</item>
     </string-array>

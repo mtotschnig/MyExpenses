@@ -6,10 +6,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="48dp"
     android:layout_height="48dp"
+    android:focusable="true"
     android:foreground="@drawable/circle"
     android:foregroundGravity="center"
-    android:focusable="true"
     android:textAllCaps="true"
     android:textColor="?colorControlNormal"
     android:textSize="18dp"
+    tools:ignore="SpUsage"
     tools:text="en"/>

@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.util;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
@@ -12,7 +11,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatDrawableManager;
-import android.text.*;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.util.SparseIntArray;
 import android.view.ContextThemeWrapper;
 import android.view.View;
@@ -188,6 +188,7 @@ public class UiUtils {
   }
 
   public static void setBackgroundOnButton(AppCompatButton button, int color) {
+    //noinspection RestrictedApi
     button.setSupportBackgroundTintList(new ColorStateList(new int[][] {{0}}, new int[] {color}));
   }
 }

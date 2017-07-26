@@ -89,12 +89,13 @@ public class SplashActivity extends SyncBackendSetupActivity {
     super.onPostCreate(savedInstanceState);
 
     final Window window = getWindow();
-    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS |
-        WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN |
-        WindowManager.LayoutParams.FLAG_LAYOUT_INSET_DECOR);
+    int flags = WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN |
+        WindowManager.LayoutParams.FLAG_LAYOUT_INSET_DECOR;
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      flags |= WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS;
       window.setStatusBarColor(Color.TRANSPARENT);
     }
+    window.addFlags(flags);
   }
 
   @Override

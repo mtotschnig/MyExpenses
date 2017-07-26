@@ -28,32 +28,13 @@
     <color name="drawerBackgroundDark">#222</color>
     <color name="drawerBackgroundLight">#ccc</color>
 
-    <color name="material_red">#F44336</color>
-    <color name="material_pink">#E91E63</color>
-    <color name="material_purple">#9C27B0</color>
-    <color name="material_deep_purple">#673AB7</color>
     <color name="material_indigo">#3F51B5</color>
-    <color name="material_blue">#2196F3</color>
-    <color name="material_light_blue">#03A9F4</color>
-    <color name="material_cyan">#00BCD4</color>
-    <color name="material_teal">#009688</color>
-    <color name="material_green">#4CAF50</color>
-    <color name="material_light_green">#8BC34A</color>
-    <color name="material_lime">#CDDC39</color>
-    <color name="material_yellow">#FFEB3B</color>
-    <color name="material_amber">#FFC107</color>
-    <color name="material_orange">#FF9800</color>
-    <color name="material_deep_orange">#FF5722</color>
-    <color name="material_brown">#795548</color>
     <color name="material_grey">#9E9E9E</color>
-    <color name="material_blue_grey">#607D8B</color>
 
     <color name="my_material_grey_600">#757575</color>
     <color name="material_grey_400">#BDBDBD</color>
     <color name="my_material_grey_300">#ffe0e0e0</color>
     <color name="material_grey_700">#ff616161</color>
-    <color name="my_material_deep_teal_200">#ff80cbc4</color>
-    <color name="my_material_deep_teal_800">#ff00695C</color>
 
     <color name="premium_licence">#FF83D391</color>
     <color name="extended_licence">#FFC5DB6A</color>
