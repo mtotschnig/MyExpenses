@@ -33,7 +33,7 @@ public class UiModule {
       return (AdHandlerFactory) Class.forName(
           "org.totschnig.myexpenses.util.ads.PlatformAdHandlerFactory").newInstance();
     } catch (Exception e) {
-      return adContainer -> Utils.hasApiLevel(10) && Utils.isComAndroidVendingInstalled(application) ?
+      return adContainer -> Utils.hasApiLevel(15) && Utils.isComAndroidVendingInstalled(application) ?
           new PubNativeAdHandler(adContainer) :
           new AdHandler(adContainer) {
             public void init() {
