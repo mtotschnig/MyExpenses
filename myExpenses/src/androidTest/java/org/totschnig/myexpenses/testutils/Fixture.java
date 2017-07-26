@@ -1,25 +1,5 @@
 package org.totschnig.myexpenses.testutils;
 
-import java.io.File;
-import java.io.InputStream;
-import java.util.Calendar;
-import java.util.Currency;
-import java.util.Date;
-import java.util.Locale;
-
-import junit.framework.Assert;
-
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.activity.MyExpenses;
-import org.totschnig.myexpenses.model.*;
-import org.totschnig.myexpenses.model.AccountType;
-import org.totschnig.myexpenses.model.Transaction.CrStatus;
-import org.totschnig.myexpenses.fortest.test.R;
-import org.totschnig.myexpenses.util.CategoryTree;
-import org.totschnig.myexpenses.util.CurrencyFormatter;
-import org.totschnig.myexpenses.util.Result;
-import org.totschnig.myexpenses.util.Utils;
-
 import android.annotation.SuppressLint;
 import android.app.Instrumentation;
 import android.content.ContentUris;
@@ -28,6 +8,35 @@ import android.content.res.Resources.NotFoundException;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
+
+import junit.framework.Assert;
+
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.fortest.test.R;
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.model.Grouping;
+import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.model.Plan;
+import org.totschnig.myexpenses.model.SplitPartCategory;
+import org.totschnig.myexpenses.model.SplitTransaction;
+import org.totschnig.myexpenses.model.Template;
+import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.model.Transaction.CrStatus;
+import org.totschnig.myexpenses.model.Transfer;
+import org.totschnig.myexpenses.util.CategoryTree;
+import org.totschnig.myexpenses.util.CurrencyFormatter;
+import org.totschnig.myexpenses.util.Result;
+import org.totschnig.myexpenses.util.Utils;
+
+import java.io.File;
+import java.io.InputStream;
+import java.util.Calendar;
+import java.util.Currency;
+import java.util.Date;
+import java.util.Locale;
 
 @SuppressLint("InlinedApi")
 public class Fixture {
@@ -95,7 +104,7 @@ public class Fixture {
         foreignCurrency,
         50000,
         testContext.getString(R.string.testData_account2Description), AccountType.CASH,
-        Build.VERSION.SDK_INT > 13 ? appContext.getResources().getColor(org.totschnig.myexpenses.R.color.material_red) : Color.RED
+        Build.VERSION.SDK_INT > 13 ? appContext.getResources().getColor(R.color.material_red) : Color.RED
     );
     account2.save();
     if (stage ==2) return;
@@ -104,7 +113,7 @@ public class Fixture {
         defaultCurrency,
         200000,
         testContext.getString(R.string.testData_account3Description), AccountType.BANK,
-        Build.VERSION.SDK_INT > 13 ? appContext.getResources().getColor(org.totschnig.myexpenses.R.color.material_blue) : Color.BLUE
+        Build.VERSION.SDK_INT > 13 ? appContext.getResources().getColor(R.color.material_blue) : Color.BLUE
     );
     account3.grouping = Grouping.DAY;
     account3.save();
@@ -114,7 +123,7 @@ public class Fixture {
         0,
         "",
         AccountType.CCARD,
-        Build.VERSION.SDK_INT > 13 ? appContext.getResources().getColor(org.totschnig.myexpenses.R.color.material_cyan) : Color.CYAN);
+        Build.VERSION.SDK_INT > 13 ? appContext.getResources().getColor(R.color.material_cyan) : Color.CYAN);
     account4.save();
     //set up categories
     setUpCategories(locale, appContext);
