@@ -15,25 +15,35 @@
 
 package org.totschnig.myexpenses.test.model;
 
+import android.content.OperationApplicationException;
+import android.database.Cursor;
+import android.os.RemoteException;
+
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
-
-import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
+import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.CategoryCriteria;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.util.Utils;
 
-import android.content.OperationApplicationException;
-import android.database.Cursor;
-import android.os.RemoteException;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_HELPER;
 
-public class AccountTest extends ModelTest  {
+public class AccountTest extends ModelTest {
   public static final String TEST_CAT = "TestCat";
   Account account1, account2;
   Long openingBalance = 100L,
@@ -47,14 +57,14 @@ public class AccountTest extends ModelTest  {
 
   private void insertData() {
     Transaction op;
-    account1 = new Account("Account 1",openingBalance,"Account 1");
+    account1 = new Account("Account 1", openingBalance, "Account 1");
     account1.save();
-    account2 = new Account("Account 2",openingBalance,"Account 2");
+    account2 = new Account("Account 2", openingBalance, "Account 2");
     account2.save();
     catId = Category.write(0, TEST_CAT, null);
     op = Transaction.getNewInstance(account1.getId());
     assert op != null;
-    op.setAmount(new Money(account1.currency,-expense1));
+    op.setAmount(new Money(account1.currency, -expense1));
     op.crStatus = CrStatus.CLEARED;
     op.save();
     op.setAmount(new Money(account1.currency, -expense2));
@@ -64,11 +74,11 @@ public class AccountTest extends ModelTest  {
     op.setAmount(new Money(account1.currency, income2));
     op.setCatId(catId);
     op.saveAsNew();
-    Transfer op1 = Transfer.getNewInstance(account1.getId(),account2.getId());
+    Transfer op1 = Transfer.getNewInstance(account1.getId(), account2.getId());
     assert op1 != null;
-    op1.setAmount(new Money(account1.currency,transferP));
+    op1.setAmount(new Money(account1.currency, transferP));
     op1.save();
-    op1.setAmount(new Money(account1.currency,-transferN));
+    op1.setAmount(new Money(account1.currency, -transferN));
     op1.saveAsNew();
   }
 
@@ -84,9 +94,9 @@ public class AccountTest extends ModelTest  {
   }
 
   public void testAccount() throws RemoteException, OperationApplicationException {
-    Account account,restored;
+    Account account, restored;
     Long openingBalance = (long) 100;
-    account = new Account("TestAccount",openingBalance,"Testing with Junit");
+    account = new Account("TestAccount", openingBalance, "Testing with Junit");
     account.setCurrency("EUR");
     assertEquals("EUR", account.currency.getCurrencyCode());
     account.save();
@@ -96,20 +106,21 @@ public class AccountTest extends ModelTest  {
     Long trAmount = (long) 100;
     Transaction op1 = Transaction.getNewInstance(account.getId());
     assert op1 != null;
-    op1.setAmount(new Money(account.currency,trAmount));
+    op1.setAmount(new Money(account.currency, trAmount));
     op1.comment = "test transaction";
     op1.save();
-    assertEquals(account.getTotalBalance().getAmountMinor().longValue(),openingBalance+trAmount);
+    assertEquals(account.getTotalBalance().getAmountMinor().longValue(), openingBalance + trAmount);
     Account.delete(account.getId());
-    assertNull("Account deleted, but can still be retrieved",Account.getInstanceFromDb(account.getId()));
+    assertNull("Account deleted, but can still be retrieved", Account.getInstanceFromDb(account.getId()));
     assertNull("Account delete should delete transaction, but operation can still be retrieved", Transaction.getInstanceFromDb(op1.getId()));
   }
+
   /**
    * we test if the db calculates the aggregate sums correctly
    * this is rather a test of the cursor exposed through the content provider
    * but set up is easier through models
    */
-  public void testAggregates() {
+  public void testDatabaseCalculatedSums() {
     Cursor cursor = getMockContentResolver().query(
         TransactionProvider.ACCOUNTS_URI,  // the URI for the main data table
         null,            // get all the columns
@@ -120,7 +131,6 @@ public class AccountTest extends ModelTest  {
 
     //the database setup creates the default account
     assert cursor != null;
-    assertEquals(1, cursor.getCount());
     insertData();
     cursor.close();
 
@@ -133,7 +143,7 @@ public class AccountTest extends ModelTest  {
     );
 
     assert cursor != null;
-    assertEquals(3, cursor.getCount());
+    assertEquals(2, cursor.getCount());
     cursor.close();
 
     cursor = getMockContentResolver().query(
@@ -151,10 +161,10 @@ public class AccountTest extends ModelTest  {
     int expensesIndex = cursor.getColumnIndex(KEY_SUM_EXPENSES);
     int transferIndex = cursor.getColumnIndex(KEY_SUM_TRANSFERS);
     int balanceIndex = cursor.getColumnIndex(KEY_CURRENT_BALANCE);
-    assertEquals(income1+income2, cursor.getLong(incomeIndex));
-    assertEquals(-expense1-expense2, cursor.getLong(expensesIndex));
-    assertEquals(transferP-transferN, cursor.getLong(transferIndex));
-    assertEquals(openingBalance+income1+income2-expense1-expense2+transferP -transferN, cursor.getLong(balanceIndex));
+    assertEquals(income1 + income2, cursor.getLong(incomeIndex));
+    assertEquals(-expense1 - expense2, cursor.getLong(expensesIndex));
+    assertEquals(transferP - transferN, cursor.getLong(transferIndex));
+    assertEquals(openingBalance + income1 + income2 - expense1 - expense2 + transferP - transferN, cursor.getLong(balanceIndex));
     cursor.close();
 
     cursor = getMockContentResolver().query(
@@ -173,12 +183,13 @@ public class AccountTest extends ModelTest  {
     assertEquals(openingBalance + transferN - transferP, cursor.getLong(balanceIndex));
     cursor.close();
   }
-  public void testGetInstanceZeroReturnsAccount () {
-    //even without inserting, there should be always an account in the database
-    //insertData();
-    assertNotNull("getInstanceFromDb(0) should return an account",Account.getInstanceFromDb(0));
+
+  public void testGetInstanceZeroReturnsAccount() {
+    //without inserting, there is no account in the database
+    assertNull("getInstanceFromDb(0) should return null on an empty database", Account.getInstanceFromDb(0));
   }
-  public void testGetAggregateAccountFromDb () {
+
+  public void testGetAggregateAccountFromDb() {
     insertData();
     Account.clear();
     String currency = Utils.getLocalCurrency().getCurrencyCode();
@@ -192,45 +203,47 @@ public class AccountTest extends ModelTest  {
     c.moveToFirst();
     long id = 0 - c.getLong(0);
     c.close();
-    AggregateAccount aa =  (AggregateAccount) Account.getInstanceFromDb(id);
+    AggregateAccount aa = (AggregateAccount) Account.getInstanceFromDb(id);
     assert aa != null;
-    assertEquals(currency,aa.currency.getCurrencyCode());
+    assertEquals(currency, aa.currency.getCurrencyCode());
     assertEquals(openingBalance * 2, aa.openingBalance.getAmountMinor().longValue());
   }
+
   public void testBalanceWithoutReset() {
     insertData();
     Money initialclearedBalance = account1.getClearedBalance();
     assertFalse(initialclearedBalance.equals(account1.getReconciledBalance()));
     assertEquals(4, count(account1.getId(), KEY_CR_STATUS + " = '" + CrStatus.CLEARED.name() + "'"));
-    assertEquals(0,count(account1.getId(),KEY_CR_STATUS + " = '" + CrStatus.RECONCILED.name() + "'"));
+    assertEquals(0, count(account1.getId(), KEY_CR_STATUS + " = '" + CrStatus.RECONCILED.name() + "'"));
     account1.balance(false);
     assertEquals(0, count(account1.getId(), KEY_CR_STATUS + " = '" + CrStatus.CLEARED.name() + "'"));
-    assertEquals(4,count(account1.getId(), KEY_CR_STATUS + " = '" + CrStatus.RECONCILED.name() + "'"));
-    assertEquals(initialclearedBalance,account1.getReconciledBalance());
+    assertEquals(4, count(account1.getId(), KEY_CR_STATUS + " = '" + CrStatus.RECONCILED.name() + "'"));
+    assertEquals(initialclearedBalance, account1.getReconciledBalance());
   }
 
   public void testBalanceWithReset() {
     insertData();
     Money initialclearedBalance = account1.getClearedBalance();
     assertFalse(initialclearedBalance.equals(account1.getReconciledBalance()));
-    assertEquals(4,count(account1.getId(),KEY_CR_STATUS + " = '" + CrStatus.CLEARED.name() + "'"));
-    assertEquals(0,count(account1.getId(),KEY_CR_STATUS + " = '" + CrStatus.RECONCILED.name() + "'"));
+    assertEquals(4, count(account1.getId(), KEY_CR_STATUS + " = '" + CrStatus.CLEARED.name() + "'"));
+    assertEquals(0, count(account1.getId(), KEY_CR_STATUS + " = '" + CrStatus.RECONCILED.name() + "'"));
     account1.balance(true);
-    assertEquals(0,count(account1.getId(),KEY_CR_STATUS + " != '" + CrStatus.UNRECONCILED.name() + "'"));
-    assertEquals(2,count(account1.getId(),KEY_CR_STATUS + " = '" + CrStatus.UNRECONCILED.name() + "'"));
-    assertEquals(initialclearedBalance,account1.getReconciledBalance());
-    
+    assertEquals(0, count(account1.getId(), KEY_CR_STATUS + " != '" + CrStatus.UNRECONCILED.name() + "'"));
+    assertEquals(2, count(account1.getId(), KEY_CR_STATUS + " = '" + CrStatus.UNRECONCILED.name() + "'"));
+    assertEquals(initialclearedBalance, account1.getReconciledBalance());
+
   }
+
   public void testReset() {
     insertData();
     Money initialtotalBalance = account1.getTotalBalance();
-    assertEquals(6,count(account1.getId(),null));
+    assertEquals(6, count(account1.getId(), null));
     account1.reset(null, Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE, null);
     Account.clear();
-    assertEquals(0,count(account1.getId(),null));
+    assertEquals(0, count(account1.getId(), null));
     Account resetAccount = Account.getInstanceFromDb(account1.getId());
     assert resetAccount != null;
-    assertEquals(initialtotalBalance,resetAccount.getTotalBalance());
+    assertEquals(initialtotalBalance, resetAccount.getTotalBalance());
   }
 
   public void testResetWithFilterUpdateBalance() {
@@ -239,32 +252,33 @@ public class AccountTest extends ModelTest  {
     assertEquals(6, count(account1.getId(), null));
     WhereFilter filter = WhereFilter.empty();
     filter.put(0, new CategoryCriteria(TEST_CAT, catId));
-    account1.reset(filter,Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE, null);
+    account1.reset(filter, Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE, null);
     Account.clear();
-    assertEquals(5,count(account1.getId(),null));//1 Transaction deleted
+    assertEquals(5, count(account1.getId(), null));//1 Transaction deleted
     Account resetAccount = Account.getInstanceFromDb(account1.getId());
     assert resetAccount != null;
-    assertEquals(initialtotalBalance,resetAccount.getTotalBalance());
+    assertEquals(initialtotalBalance, resetAccount.getTotalBalance());
   }
 
 
   public void testResetWithFilterCreateHelper() {
     insertData();
     Money initialtotalBalance = account1.getTotalBalance();
-    assertEquals(6,count(account1.getId(),null));
-    assertEquals(1,count(account1.getId(),KEY_CATID + "=" + catId));
-    assertEquals(0,count(account1.getId(),KEY_STATUS + "=" + STATUS_HELPER));
+    assertEquals(6, count(account1.getId(), null));
+    assertEquals(1, count(account1.getId(), KEY_CATID + "=" + catId));
+    assertEquals(0, count(account1.getId(), KEY_STATUS + "=" + STATUS_HELPER));
     WhereFilter filter = WhereFilter.empty();
-    filter.put(0,new CategoryCriteria(TEST_CAT, catId));
+    filter.put(0, new CategoryCriteria(TEST_CAT, catId));
     account1.reset(filter, Account.EXPORT_HANDLE_DELETED_CREATE_HELPER, null);
     Account.clear();
     assertEquals(6, count(account1.getId(), null));//-1 Transaction deleted;+1 helper
-    assertEquals(0,count(account1.getId(),KEY_CATID + "=" + catId));
-    assertEquals(1,count(account1.getId(),KEY_STATUS + "=" + STATUS_HELPER));
+    assertEquals(0, count(account1.getId(), KEY_CATID + "=" + catId));
+    assertEquals(1, count(account1.getId(), KEY_STATUS + "=" + STATUS_HELPER));
     Account resetAccount = Account.getInstanceFromDb(account1.getId());
     assert resetAccount != null;
-    assertEquals(initialtotalBalance,resetAccount.getTotalBalance());
+    assertEquals(initialtotalBalance, resetAccount.getTotalBalance());
   }
+
   /**
    * @param accountId id of account to be counted
    * @param condition if not null interpreted as a where clause for filtering the transactions
@@ -277,8 +291,8 @@ public class AccountTest extends ModelTest  {
       selection += " AND " + condition;
     }
     Cursor c = getMockContentResolver().query(
-        TransactionProvider.TRANSACTIONS_URI, 
-        new String[] {"count(*)"},
+        TransactionProvider.TRANSACTIONS_URI,
+        new String[]{"count(*)"},
         selection,
         new String[]{String.valueOf(accountId)},
         null

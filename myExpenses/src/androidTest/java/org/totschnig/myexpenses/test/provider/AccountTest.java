@@ -135,8 +135,7 @@ public class AccountTest extends ProviderTestCase2<TransactionProvider> {
     );
     assert cursor != null;
 
-    // Asserts that the returned cursor only contains the default account
-    assertEquals(1, cursor.getCount());
+    assertEquals(0, cursor.getCount());
 
     // Query subtest 2.
     // If the table contains records, the returned cursor from a query should contain records.
@@ -157,7 +156,7 @@ public class AccountTest extends ProviderTestCase2<TransactionProvider> {
 
     // Asserts that the returned cursor contains the same number of rows as the size of the
     // test data array + the default account
-    assertEquals(TEST_ACCOUNTS.length + 1, cursor.getCount());
+    assertEquals(TEST_ACCOUNTS.length, cursor.getCount());
     cursor.close();
 
     // Query subtest 3.
@@ -231,41 +230,18 @@ public class AccountTest extends ProviderTestCase2<TransactionProvider> {
         DatabaseConstants.KEY_ROWID,
         DatabaseConstants.KEY_LABEL};
 
-    // Query subtest 1
-    //Before inserting data the db should contain the default account, and we store its id.
-
-    // Queries the table using the URI for the full table.
-    Cursor cursor = mMockResolver.query(
-        TransactionProvider.ACCOUNTS_URI, // the base URI for the table
-        Account_ID_PROJECTION,        // returns the ID and title columns of rows
-        null,         // no selection, get all
-        null,            //
-        null                 // sort order returned is by title, ascending
-    );
-    assert cursor != null;
-
-    // Asserts that the cursor contains only one row.
-    assertEquals(1, cursor.getCount());
-
-    assertTrue(cursor.moveToFirst());
-
-    // Saves the record's note ID.
-    int defaultAccountId = cursor.getInt(0);
-
-    // Query subtest 2.
     // Tests that a query against a table containing records returns a single record whose ID
     // is the one requested in the URI provided.
 
     // Inserts the test data into the provider's underlying data source.
     insertData();
-    cursor.close();
 
     // We filter the default accountId out
-    cursor = mMockResolver.query(
+    Cursor cursor = mMockResolver.query(
         TransactionProvider.ACCOUNTS_URI, // the base URI for the table
         Account_ID_PROJECTION,
-        DatabaseConstants.KEY_ROWID + " != " + "?",
-        new String[]{String.valueOf(defaultAccountId)},
+        null,
+        null,
         null
     );
     assert cursor != null;
@@ -320,8 +296,7 @@ public class AccountTest extends ProviderTestCase2<TransactionProvider> {
     );
     assert cursor != null;
 
-    // the db automatically adds one record
-    assertEquals(1, cursor.getCount());
+    assertEquals(0, cursor.getCount());
 
     // Creates a new Account instance
     AccountInfo account = new AccountInfo(
@@ -351,8 +326,8 @@ public class AccountTest extends ProviderTestCase2<TransactionProvider> {
     );
     assert cursor != null;
 
-    // now there are two
-    assertEquals(2, cursor.getCount());
+    // now there is 1
+    assertEquals(1, cursor.getCount());
 
     // Moves to the first (and only) record in the cursor and asserts that this worked.
     assertTrue(cursor.moveToFirst());
