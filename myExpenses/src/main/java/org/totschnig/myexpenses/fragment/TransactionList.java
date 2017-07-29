@@ -68,7 +68,6 @@ import org.totschnig.myexpenses.adapter.TransactionAdapter;
 import org.totschnig.myexpenses.dialog.AmountFilterDialog;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.DateFilterDialog;
-import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectCrStatusDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectMethodDialogFragment;
 import org.totschnig.myexpenses.dialog.SelectPayerDialogFragment;
@@ -1050,12 +1049,7 @@ public class TransactionList extends ContextualActionBarFragment implements
                 .show();
           }
         } else {
-          MessageDialogFragment.newInstance(
-              0,
-              R.string.dialog_command_disabled_reset_account,
-              MessageDialogFragment.Button.okButton(),
-              null, null)
-              .show(ctx.getSupportFragmentManager(), "BUTTON_DISABLED_INFO");
+          ctx.showExportDisabledCommand();
         }
         return true;
       default:

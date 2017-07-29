@@ -553,12 +553,7 @@ public class MyExpenses extends LaunchActivity implements
                 .show();
           }
         } else {
-          MessageDialogFragment.newInstance(
-              0,
-              R.string.dialog_command_disabled_reset_account,
-              MessageDialogFragment.Button.okButton(),
-              null, null)
-              .show(getSupportFragmentManager(), "BUTTON_DISABLED_INFO");
+          showExportDisabledCommand();
         }
         return true;
       case R.id.BACKUP_COMMAND:
@@ -658,6 +653,15 @@ public class MyExpenses extends LaunchActivity implements
         return true;
     }
     return super.dispatchCommand(command, tag);
+  }
+
+  public void showExportDisabledCommand() {
+    MessageDialogFragment.newInstance(
+        0,
+        R.string.dialog_command_disabled_reset_account,
+        MessageDialogFragment.Button.okButton(),
+        null, null)
+        .show(getSupportFragmentManager(), "BUTTON_DISABLED_INFO");
   }
 
   private void closeDrawer() {

@@ -9,14 +9,15 @@ import android.support.test.espresso.Espresso;
 import android.support.test.espresso.IdlingResource;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 
 import org.hamcrest.Matcher;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,9 +37,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.longClick;
-import static android.support.test.espresso.action.ViewActions.pressKey;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -64,13 +63,23 @@ public final class MyExpensesCabTest extends MyExpensesTestBase {
   @Rule
   public ActivityTestRule<MyExpenses> mActivityRule =
       new ActivityTestRule<>(MyExpenses.class);
-  private Account account;
+  private static Account defaultAccount;
   private AdapterIdlingResource adapterIdlingResource;
+
+  @BeforeClass
+  public static void createDefaultAccount() {
+    defaultAccount = new Account("Test account 1", 0, "");
+    defaultAccount.save();
+  }
+
+  @AfterClass
+  public static void removeDefaultAccount() throws RemoteException, OperationApplicationException {
+    Account.delete(defaultAccount.getId());
+  }
 
   @Before
   public void fixture() {
-    account = Account.getInstanceFromDb(0);
-    Transaction op0 = Transaction.getNewInstance(account.getId());
+    Transaction op0 = Transaction.getNewInstance(defaultAccount.getId());
     op0.setAmount(new Money(Currency.getInstance("USD"),-1200L));
     op0.save();
     int times = 5;
@@ -84,7 +93,7 @@ public final class MyExpensesCabTest extends MyExpensesTestBase {
 
   @After
   public void tearDown() throws RemoteException, OperationApplicationException {
-    account.reset(null, Account.EXPORT_HANDLE_DELETED_DO_NOTHING, null);
+    defaultAccount.reset(null, Account.EXPORT_HANDLE_DELETED_DO_NOTHING, null);
     if (adapterIdlingResource != null) {
       Espresso.unregisterIdlingResources(adapterIdlingResource);
     }
@@ -124,8 +133,10 @@ public final class MyExpensesCabTest extends MyExpensesTestBase {
     performContextMenuClick(R.string.menu_create_template_from_transaction, R.id.CREATE_TEMPLATE_COMMAND);
     onView(withText(containsString(mActivityRule.getActivity().getString(R.string.dialog_title_template_title))))
         .check(matches(isDisplayed()));
-    onView(withId(R.id.EditTextDialogInput))
-        .perform(typeText(templateTitle), closeSoftKeyboard(), pressKey(KeyEvent.KEYCODE_ENTER));
+    onView(withId(R.id.editText))
+        .perform(typeText(templateTitle));
+    onView(withText(R.string.dialog_button_add)).perform(click());
+    onView(withId(R.id.SAVE_COMMAND)).perform(click());
 
     //((EditText) mSolo.getView(EditText.class, 0)).onEditorAction(EditorInfo.IME_ACTION_DONE);
     onView(withId(R.id.MANAGE_PLANS_COMMAND)).perform(click());
