@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.util;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
@@ -51,10 +52,17 @@ public class PictureDirHelper {
         .format(new Date());
     File outputMediaFile = getOutputMediaFile(fileName, temp, secure);
     if (outputMediaFile == null) return null;
-    return temp ? Uri.fromFile(outputMediaFile) :
-        getContentUriForFile(outputMediaFile);
+    if (!temp) {
+      try {
+        return getContentUriForFile(outputMediaFile);
+      } catch (IllegalArgumentException e) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+          throw new AppDirHelper.NougatFileProviderException(e);
+        }
+      }
+    }
+    return Uri.fromFile(outputMediaFile);
   }
-
 
   public static String getPictureUriBase(boolean temp) {
     Uri sampleUri = getOutputMediaUri(temp);

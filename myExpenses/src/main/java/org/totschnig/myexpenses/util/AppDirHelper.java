@@ -177,7 +177,7 @@ public class AppDirHelper {
             uri = getContentUriForFile(new File(uri.getPath()));
           } catch (IllegalArgumentException e) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-              throw new IllegalStateException("On Nougat, falling back to file uri won't work", e);
+              throw new NougatFileProviderException(e);
             }
           }
           break;
@@ -231,6 +231,12 @@ public class AppDirHelper {
           .isAbsolute();
     } catch (IOException e) {
       return true;
+    }
+  }
+
+  static class NougatFileProviderException extends IllegalStateException {
+    NougatFileProviderException(Throwable cause) {
+      super("On Nougat, falling back to file uri won't work", cause);
     }
   }
 }
