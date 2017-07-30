@@ -8,6 +8,7 @@ import android.provider.Settings;
 import android.support.test.runner.AndroidJUnitRunner;
 import android.util.Log;
 
+import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.util.Utils;
 
 public final class MyTestRunner extends AndroidJUnitRunner {
@@ -47,6 +48,8 @@ public final class MyTestRunner extends AndroidJUnitRunner {
         }
       }
     }
+    //The app operates on one test set up during onboarding, we simulate this status.
+    new Account("Test account 1", 0, "").save();
     super.onStart();
   }
 

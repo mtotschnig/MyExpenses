@@ -123,8 +123,8 @@ public class SystemBarHelperTest extends AndroidTestCase {
                     window.getDecorView().getSystemUiVisibility());
             assertEquals("Navigation bar should not be transparent",
                     window.getNavigationBarColor(), 0xff000000);
-            assertEquals("Status bar should not be transparent",
-                    window.getStatusBarColor(), 0xff000000);
+            assertNotSame("Status bar should not be transparent",
+                    window.getStatusBarColor(), 0);
         }
     }
 

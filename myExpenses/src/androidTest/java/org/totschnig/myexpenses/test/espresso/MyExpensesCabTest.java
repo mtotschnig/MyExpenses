@@ -15,9 +15,7 @@ import android.widget.AdapterView;
 
 import org.hamcrest.Matcher;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -58,42 +56,32 @@ import static org.totschnig.myexpenses.testutils.Matchers.withListSize;
 
 
 @RunWith(AndroidJUnit4.class)
-public final class MyExpensesCabTest extends MyExpensesTestBase {
+public final class MyExpensesCabTest {
 
   @Rule
   public ActivityTestRule<MyExpenses> mActivityRule =
       new ActivityTestRule<>(MyExpenses.class);
-  private static Account defaultAccount;
+  private Account account;
   private AdapterIdlingResource adapterIdlingResource;
-
-  @BeforeClass
-  public static void createDefaultAccount() {
-    defaultAccount = new Account("Test account 1", 0, "");
-    defaultAccount.save();
-  }
-
-  @AfterClass
-  public static void removeDefaultAccount() throws RemoteException, OperationApplicationException {
-    Account.delete(defaultAccount.getId());
-  }
 
   @Before
   public void fixture() {
-    Transaction op0 = Transaction.getNewInstance(defaultAccount.getId());
+    account = Account.getInstanceFromDb(0);
+    Transaction op0 = Transaction.getNewInstance(account.getId());
     op0.setAmount(new Money(Currency.getInstance("USD"),-1200L));
     op0.save();
     int times = 5;
     for (int i = 0; i < times; i++) {
       op0.saveAsNew();
     }
+    onView(isRoot()).check(matches(anything()));
     adapterIdlingResource = new AdapterIdlingResource(getList().getAdapter(), MyExpensesCabTest.class.getSimpleName());
     Espresso.registerIdlingResources(adapterIdlingResource);
-    onView(isRoot()).check(matches(anything()));
   }
 
   @After
   public void tearDown() throws RemoteException, OperationApplicationException {
-    defaultAccount.reset(null, Account.EXPORT_HANDLE_DELETED_DO_NOTHING, null);
+    account.reset(null, Account.EXPORT_HANDLE_DELETED_DO_NOTHING, null);
     if (adapterIdlingResource != null) {
       Espresso.unregisterIdlingResources(adapterIdlingResource);
     }

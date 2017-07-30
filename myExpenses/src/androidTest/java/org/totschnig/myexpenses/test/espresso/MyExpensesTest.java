@@ -17,9 +17,7 @@ import android.support.v4.view.ViewPager;
 import android.widget.AdapterView;
 import android.widget.Button;
 
-import org.junit.AfterClass;
 import org.junit.Assume;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -62,23 +60,11 @@ import static org.totschnig.myexpenses.activity.MyExpenses.KEY_SEQUENCE_COUNT;
 import static org.totschnig.myexpenses.testutils.Espresso.openActionBarOverflowOrOptionsMenu;
 
 @RunWith(AndroidJUnit4.class)
-public final class MyExpensesTest extends MyExpensesTestBase {
+public final class MyExpensesTest {
 
   @Rule
   public final IntentsTestRule<MyExpenses> mActivityRule =
       new IntentsTestRule<>(MyExpenses.class);
-  private static Account defaultAccount;
-
-  @BeforeClass
-  public static void createDefaultAccount() {
-    defaultAccount = new Account("Test account 1", 0, "");
-    defaultAccount.save();
-  }
-
-  @AfterClass
-  public static void removeDefaultAccount() throws RemoteException, OperationApplicationException {
-    Account.delete(defaultAccount.getId());
-  }
 
   @Test
   public void viewPagerIsSetup() {

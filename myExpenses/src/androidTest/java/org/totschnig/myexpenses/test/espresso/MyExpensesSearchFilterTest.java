@@ -37,7 +37,7 @@ import static org.hamcrest.Matchers.not;
 
 
 @RunWith(AndroidJUnit4.class)
-public final class MyExpensesSearchFilterTest extends MyExpensesTestBase {
+public final class MyExpensesSearchFilterTest {
 
   @Rule
   public ActivityTestRule<MyExpenses> mActivityRule =
