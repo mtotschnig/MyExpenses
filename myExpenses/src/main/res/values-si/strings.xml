@@ -64,7 +64,6 @@
   <string name="dialog_title_warning_delete_main_category">ප්‍රධාන ප්‍රබෙධය මක දමන්න?</string>
   <string name="dialog_title_warning_delete_template">අච්චුව මකාදමන්න?</string>
   <string name="dialog_title_warning_delete_transaction">ගනුදෙනුව   මකාදමන්න?</string>
-  <string name="dialog_title_welcome">ආදරයෙන් පිළිගන්නවා!</string>
   <string name="donate_dialog_text">කරුණාකර මුදල් දායක කිරම PayPal or Bitcoin හි කර කට්ටල අංග තුලින් යතුර ඉල්ලන්න </string>
   <string name="expense">වියදම් </string>
   <string name="export_expenses">වියදම් අපනයන </string>
@@ -240,9 +239,6 @@
   <string name="pref_manage_parties_summary">පක්ෂ එකතු කිරීම, සංස්කරණය කිරම, මකා දැමීම (ගෙවන්නා  සහ ආදායකයා)</string>
   <string name="pref_manage_parties_title">පක්ෂ </string>
   <!--%s will be replaced with list of backends-->
-  <string name="pref_more_info_dialog_summary">
-<!-- මෙය ඉංග්‍රීසි භාෂාවට හිස් වන අතර අනිකුත් භාෂා වල පරිවර්තකයන්ට ස්තුති ලබාදේ  --></string>
-  <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">බලපත්‍ර සහ amp ; ස්තූති කිරීම් </string>
   <string name="pref_password_not_equal">මුර පද නොගැලපේ </string>
   <string name="pref_perform_protection_summary">සාරාංශ සහ ඇප් දියත් කිරීම් ආරක්ෂා යල යුතුද?</string>

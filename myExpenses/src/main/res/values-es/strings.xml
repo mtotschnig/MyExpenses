@@ -106,7 +106,6 @@
   <string name="dialog_title_warning_delete_main_category">¿Borrar categoría principal?</string>
   <string name="dialog_title_warning_delete_template">¿Borrar plantilla?</string>
   <string name="dialog_title_warning_delete_transaction">¿Borrar transacción?</string>
-  <string name="dialog_title_welcome">¡Bienvenido/a!</string>
   <string name="donate_dialog_text">Por favor, si done a través de PayPal o Bitcoin, solicite una clave desde la pantalla de configuraciones.</string>
   <string name="expense">Gasto</string>
   <string name="export_expenses">Exportar gastos</string>
@@ -304,8 +303,6 @@
   <string name="pref_manage_sync_backends_title">Servicios de sincronización</string>
   <!--%s will be replaced with list of backends-->
   <string name="pref_manage_sync_backends_summary">Añadir servicios de sincronización a las cuentas (%s).</string>
-  <string name="pref_more_info_dialog_summary">Traducción por Tulliver, gudrunto, christoft, Laurent Collombet, Elier Espinoza y mra757</string>
-  <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Licencia &amp; Créditos</string>
   <string name="pref_password_not_equal">Las contraseñas no coinciden</string>
   <string name="pref_perform_protection_summary">¿Se debe proteger el inicio y la reanudación de la aplicación?</string>

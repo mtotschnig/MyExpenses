@@ -105,7 +105,6 @@
   <string name="dialog_title_warning_delete_main_category">主分類を削除しますか?</string>
   <string name="dialog_title_warning_delete_template">テンプレートを削除しますか?</string>
   <string name="dialog_title_warning_delete_transaction">取引を削除しますか?</string>
-  <string name="dialog_title_welcome">ようこそ!</string>
   <string name="donate_dialog_text">Paypal、またはBitcoin経由で寄付をして、その後、設定画面からキーをリクエストしてください。</string>
   <string name="expense">支出</string>
   <string name="export_expenses">支出エクスポート</string>
@@ -301,8 +300,6 @@
   <string name="pref_manage_sync_backends_title">同期バックエンド</string>
   <!--%s will be replaced with list of backends-->
   <string name="pref_manage_sync_backends_summary">アカウントを同期するためのバックエンドを追加します (%s)。</string>
-  <string name="pref_more_info_dialog_summary">福江尚史訳</string>
-  <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">ライセンス &amp; クレジット</string>
   <string name="pref_password_not_equal">パスワードが一致しません</string>
   <string name="pref_perform_protection_summary">アプリの起動と再開を保護しますか?</string>
@@ -643,4 +640,12 @@
   <string name="pref_webdav_timeout_title">WebDAV タイムアウト</string>
   <string name="sync_state_restored">%d アカウントの同期状態が復元されました。</string>
   <string name="sync_state_could_not_be_restored">%d のアカウントで同期状態を復元できませんでした。</string>
+  <string name="onboarding_ui_title">マイエクスペンスはあなたのお好みに適応します</string>
+  <string name="onboarding_data_title">最初のアカウントを設定しましょう</string>
+  <string name="onboarding_get_started">始めましょう</string>
+  <string name="onboarding_more_options">他のオプション</string>
+  <string name="onboarding_restore_from_cloud">クラウド同期から復元</string>
+  <string name="onboarding_restore_from_local">ローカルのバックアップファイルを復元</string>
+  <string name="dialog_button_add">追加</string>
+  <string name="template_create_error">テンプレートの保存中にエラーが発生しました</string>
 </resources>

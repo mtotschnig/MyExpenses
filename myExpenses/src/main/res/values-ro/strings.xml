@@ -93,7 +93,6 @@
   <string name="dialog_title_warning_delete_main_category">Şterg categoria principală ?</string>
   <string name="dialog_title_warning_delete_template">Şterg şablon?</string>
   <string name="dialog_title_warning_delete_transaction">Şterg  tranzacţie?</string>
-  <string name="dialog_title_welcome">Bine ai venit!</string>
   <string name="donate_dialog_text">Vă rugăm să donaţi prin PayPal sau Bitcoin şi apoi să solicitaţi o cheie din ecranul setări.</string>
   <string name="expense">Cheltuială</string>
   <string name="export_expenses">Export cheltuieli</string>
@@ -288,10 +287,6 @@
   <string name="pref_manage_parties_summary">Adaugă, editează, şterge terţi ( plătitori si beneficiari )</string>
   <string name="pref_manage_parties_title">Terţi</string>
   <!--%s will be replaced with list of backends-->
-  <string name="pref_more_info_dialog_summary">
-
-Tradus de DD</string>
-  <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Licență &amp; Credite</string>
   <string name="pref_password_not_equal">Parolele nu se potrivesc</string>
   <string name="pref_perform_protection_summary">Protejaţi lansarea si reluarea aplicaţiei?</string>

@@ -106,7 +106,6 @@
   <string name="dialog_title_warning_delete_main_category">Да изтрия ли основната категория?</string>
   <string name="dialog_title_warning_delete_template">Да изтрия ли шаблона?</string>
   <string name="dialog_title_warning_delete_transaction">Да изтрия ли транзакцията?</string>
-  <string name="dialog_title_welcome">Добре дошли!</string>
   <string name="donate_dialog_text">Моля, купете чрез PayPal или Bitcoin и след това поискайте ключ от Настройки.</string>
   <string name="expense">Разход</string>
   <string name="export_expenses">Експорт на Разходи</string>
@@ -304,8 +303,6 @@
   <string name="pref_manage_sync_backends_title">Отдалечени места за съхранение и синхронизация</string>
   <!--%s will be replaced with list of backends-->
   <string name="pref_manage_sync_backends_summary">Добавяне на места за отдалечено съхранение (%s).</string>
-  <string name="pref_more_info_dialog_summary">Превод на български: Диана Карa, Иван Димитров</string>
-  <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Лиценз и кредити</string>
   <string name="pref_password_not_equal">Паролите не съвпадат</string>
   <string name="pref_perform_protection_summary">Да бъде ли защитено отварянето на приложението?</string>
@@ -652,4 +649,12 @@
   <string name="pref_webdav_timeout_title">WebDAV таймаут</string>
   <string name="sync_state_restored">Възстановена е синхронизацията на %d сметки.</string>
   <string name="sync_state_could_not_be_restored">Не може да се възстанови синхронизацията на %d сметки.</string>
+  <string name="onboarding_ui_title">Моите разходи се адаптира към вашите предпочитания</string>
+  <string name="onboarding_data_title">Нека да създадем първaта Ви сметка</string>
+  <string name="onboarding_get_started">Да започваме</string>
+  <string name="onboarding_more_options">Още опции</string>
+  <string name="onboarding_restore_from_cloud">Възстановяване от облачната синхронизация</string>
+  <string name="onboarding_restore_from_local">Възстановяване на локалния бекъп файл</string>
+  <string name="dialog_button_add">Добави</string>
+  <string name="template_create_error">Грешка при запазването на шаблона</string>
 </resources>

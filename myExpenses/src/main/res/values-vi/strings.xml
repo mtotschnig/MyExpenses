@@ -105,7 +105,6 @@
   <string name="dialog_title_warning_delete_main_category">Xoá danh mục chính?</string>
   <string name="dialog_title_warning_delete_template">Xoá bản mẫu?</string>
   <string name="dialog_title_warning_delete_transaction">Xoá giao dịch?</string>
-  <string name="dialog_title_welcome">Chào mừng!</string>
   <string name="donate_dialog_text">Xin hãy đóng góp qua PayPal hoặc Bitcoin, sau đó yêu cầu một mã nâng cấp từ màn hình cài đặt.</string>
   <string name="expense">Chi</string>
   <string name="export_expenses">Xuất dữ liệu chi tiêu</string>
@@ -301,10 +300,6 @@
   <string name="pref_manage_sync_backends_title">Phụ trợ đồng bộ</string>
   <!--%s will be replaced with list of backends-->
   <string name="pref_manage_sync_backends_summary">Thêm phụ trợ cho việc đồng bộ các tài khoản (%s).</string>
-  <string name="pref_more_info_dialog_summary">
-
-Dịch bởi Phan Anh và Hiếu Văn</string>
-  <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Giấy phép &amp; Quà Tặng</string>
   <string name="pref_password_not_equal">Mật khẩu không khớp</string>
   <string name="pref_perform_protection_summary">Có nên bảo vệ việc truy cập và hồi phục lại ứng dụng hay không?</string>

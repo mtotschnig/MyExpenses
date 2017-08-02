@@ -100,7 +100,6 @@
   <string name="dialog_title_warning_delete_main_category">Удалить основную категорию?</string>
   <string name="dialog_title_warning_delete_template">Удалить шаблон?</string>
   <string name="dialog_title_warning_delete_transaction">Удалить операцию?</string>
-  <string name="dialog_title_welcome">Добро пожаловать!</string>
   <string name="donate_dialog_text">Пожертвовать через PayPal или Bitcoin, а затем запросить ключ в настройках.</string>
   <string name="expense">Расход</string>
   <string name="export_expenses">Экспорт расходов</string>
@@ -299,10 +298,6 @@
   <string name="pref_manage_parties_summary">Добавление, редактирование, удаление участников (плательщиков и получателей).</string>
   <string name="pref_manage_parties_title">Участники</string>
   <!--%s will be replaced with list of backends-->
-  <string name="pref_more_info_dialog_summary">
-
-Перевод на русский язык: Дмитрий Куренков, Дмитрий Стрельников</string>
-  <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Лицензия и создатели</string>
   <string name="pref_password_not_equal">Пароли не совпадают</string>
   <string name="pref_perform_protection_summary">Защищать запуск и восстановление приложения?</string>

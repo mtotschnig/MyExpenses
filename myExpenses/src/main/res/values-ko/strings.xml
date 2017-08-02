@@ -96,7 +96,6 @@
   <string name="dialog_title_warning_delete_main_category">주 카테고리를 삭제할까요?</string>
   <string name="dialog_title_warning_delete_template">템플릿을 삭제할까요?</string>
   <string name="dialog_title_warning_delete_transaction">거래 내역을 삭제할까요?</string>
-  <string name="dialog_title_welcome">환영합니다!</string>
   <string name="donate_dialog_text">PayPal, Bitcoin을 통해 기부해주세요. 그리고 설정 화면에서 기부 확인 키를 요청하세요.</string>
   <string name="expense">지출</string>
   <string name="export_expenses">지출 내보내기</string>
@@ -290,9 +289,6 @@
   <string name="pref_manage_parties_summary">구성원을 추가, 편집, 삭제하세요 (수취인/납부인).</string>
   <string name="pref_manage_parties_title">구성원</string>
   <!--%s will be replaced with list of backends-->
-  <string name="pref_more_info_dialog_summary">halcyonest
-</string>
-  <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">라이센스 및 공로</string>
   <string name="pref_password_not_equal">암호가 일치하지 않습니다</string>
   <string name="pref_perform_protection_summary">앱 실행 및 재시작이 보호되어야 합니까?</string>

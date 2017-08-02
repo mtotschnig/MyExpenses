@@ -90,7 +90,6 @@
   <string name="dialog_title_warning_delete_main_category">Slet hovedkategori?</string>
   <string name="dialog_title_warning_delete_template">Slet skabelonen?</string>
   <string name="dialog_title_warning_delete_transaction">Slet transaktionen?</string>
-  <string name="dialog_title_welcome">Velkommen!</string>
   <string name="donate_dialog_text">Doner via PayPal eller Bitcoin og derefter kan du under indstillinger hente nøglen.</string>
   <string name="expense">Udgift</string>
   <string name="export_expenses">Eksport af udgifter</string>
@@ -284,7 +283,6 @@
   <string name="pref_manage_parties_summary">Tilføj, rediger, slet parter (betalere og modtagere).</string>
   <string name="pref_manage_parties_title">Parter</string>
   <!--%s will be replaced with list of backends-->
-  <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Licens &amp; Credits</string>
   <string name="pref_password_not_equal">Adgangskoderne er ikke ens</string>
   <string name="pref_perform_protection_summary">Skal app launches og resumes beskyttes?</string>

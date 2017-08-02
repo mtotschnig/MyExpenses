@@ -105,7 +105,6 @@
   <string name="dialog_title_warning_delete_main_category">Padam kategori utama?</string>
   <string name="dialog_title_warning_delete_template">Padam templat?</string>
   <string name="dialog_title_warning_delete_transaction">Padam transaksi?</string>
-  <string name="dialog_title_welcome">Selamat Datang!</string>
   <string name="donate_dialog_text">Derma melalui PayPal atau Bitcoin, kemudian mohon kunci menerusi skrin tetapan.</string>
   <string name="expense">Perbelanjaan</string>
   <string name="export_expenses">Eksport perbelanjaan</string>
@@ -301,8 +300,6 @@
   <string name="pref_manage_sync_backends_title">Penyegerakan bahagian belakang</string>
   <!--%s will be replaced with list of backends-->
   <string name="pref_manage_sync_backends_summary">Tambah bahagian belakang untuk penyegerakan akaun (%s).</string>
-  <string name="pref_more_info_dialog_summary">Abuyop</string>
-  <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Lesen &amp; Penghargaan</string>
   <string name="pref_password_not_equal">Kata laluan tidak sepadan</string>
   <string name="pref_perform_protection_summary">Patutkah apl yang dilancar dan disambung semula dilindungi?</string>

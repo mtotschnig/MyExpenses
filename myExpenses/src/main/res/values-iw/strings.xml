@@ -106,7 +106,6 @@
   <string name="dialog_title_warning_delete_main_category">האם למחוק את קטגוריה הראשית?</string>
   <string name="dialog_title_warning_delete_template">האם למחוק תבנית?</string>
   <string name="dialog_title_warning_delete_transaction">האם למחוק את העסקה?</string>
-  <string name="dialog_title_welcome">ברוך הבא!</string>
   <string name="donate_dialog_text">אנא תתרום באמצעות PayPal או Bitcoin, ולאחר מכן בקש מפתח ממסך ההגדרות.</string>
   <string name="expense">הוצאה</string>
   <string name="export_expenses">יצוא הוצאות</string>
@@ -304,8 +303,6 @@
   <string name="pref_manage_sync_backends_title">סנכרון backends</string>
   <!--%s will be replaced with list of backends-->
   <string name="pref_manage_sync_backends_summary">הוספת backenders לסנכרון חשבונות (%s).</string>
-  <string name="pref_more_info_dialog_summary">תורגם לעברית ע\"י צבי  פנחסוביץ</string>
-  <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">רישיון &amp; amp; נקודות זכות</string>
   <string name="pref_password_not_equal">סיסמאות אינן תואמות</string>
   <string name="pref_perform_protection_summary">האם כניסה והפעלת אפליקציה צריכה להיות מוגנת?</string>
@@ -652,4 +649,12 @@
   <string name="pref_webdav_timeout_title">פסק זמן של WebDAV</string>
   <string name="sync_state_restored">מצב הסינכרון שוחזר עבור %d חשבונות.</string>
   <string name="sync_state_could_not_be_restored">לא ניתן לשחזר את מצב הסנכרון עבור %d חשבונות.</string>
+  <string name="onboarding_ui_title">האפליקציה \"ההוצאות שלי\" מותאמות להעדפותיך</string>
+  <string name="onboarding_data_title">תן לנו להגדיר את החשבון הראשון שלך</string>
+  <string name="onboarding_get_started">להתחיל</string>
+  <string name="onboarding_more_options">אפשרויות נוספות</string>
+  <string name="onboarding_restore_from_cloud">שחזר מסנכרון ענן</string>
+  <string name="onboarding_restore_from_local">שחזור קובץ גיבוי מקומי</string>
+  <string name="dialog_button_add">הוסף</string>
+  <string name="template_create_error">שגיאה בעת שמירת תבנית</string>
 </resources>

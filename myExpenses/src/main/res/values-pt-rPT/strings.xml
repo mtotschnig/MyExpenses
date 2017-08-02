@@ -40,6 +40,7 @@
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Exportar a lista de transações para PDF</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Widget de modelos</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Importar CSV</string>
+  <string name="licence_status_free">Gratuita</string>
   <string name="contrib_key">Chave Contrib</string>
   <string name="extended_key">Chave Extended</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
@@ -66,10 +67,17 @@
   <string name="dialog_command_disabled_reset_account">Sem transações para exportar.</string>
   <string name="dialog_command_disabled_distribution">Não existem transações atribuídas a categorias nesta conta.</string>
   <string name="dialog_contrib_no">Ainda não</string>
-  <string name="dialog_contrib_no_usages_left">Sem usos gratuitos restantes.</string>
+  <string name="dialog_contrib_no_usages_left">Sem utilizações gratuitas restantes.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s é uma funcionalidade premium (%2$s).</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Remova esta limitação e tenha acesso a mais funcionalidades ao atualizar o <i>My Expenses</i>.</string>
   <string name="dialog_contrib_text_1"><i>My Expenses</i> é oferecido sem anúncios e em código aberto.</string>
+  <string name="dialog_contrib_text_2">Contribua ao atualizar o <i>My Expenses</i> e tenha acesso sem restrições às seguintes funcionalidades:</string>
+  <string name="dialog_contrib_usage_count">Utilizações gratuitas restantes</string>
+  <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Pode usar até %1$d vezes com a sua licença atual (%2$s).</string>
+  <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Pode usar durante %1$d dias com a sua licença atual (%2$s).</string>
+  <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">A sua licença atual (%2$s) permite-lhe criar %1$d contas.</string>
+  <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">A sua licença atual (%2$s) permite-lhe criar %1$d planos.</string>
   <string name="dialog_export_delete">Eliminar transações exportadas</string>
   <string name="dialog_export_not_yet_exported">Exportar apenas as transações não exportadas</string>
   <string name="dialog_password_activate_protection">Ativar proteção por palavra-passe</string>
@@ -98,7 +106,6 @@
   <string name="dialog_title_warning_delete_main_category">Eliminar categoria principal?</string>
   <string name="dialog_title_warning_delete_template">Eliminar modelo?</string>
   <string name="dialog_title_warning_delete_transaction">Eliminar transação?</string>
-  <string name="dialog_title_welcome">Bem-vindo!</string>
   <string name="donate_dialog_text">Por favor faça o seu donativo via PayPal ou Bitcoin e, posteriormente, solicite uma chave a partir do ecrã de definições.</string>
   <string name="expense">Despesa</string>
   <string name="export_expenses">Exportação de despesas</string>
@@ -126,7 +133,7 @@
   <string name="help_contextuel_help">Pode encontrar mais informação sobre as funcionalidades disponíveis através da Ajuda no menu.</string>
   <string name="help_heading_credits">Créditos</string>
   <string name="help_heading_license">Licença</string>
-  <string name="help_heading_whats_new">O que há de novo</string>
+  <string name="help_heading_whats_new">Novidades</string>
   <string name="important_upgrade_information_heading">Informação importante</string>
   <string name="import_select_transactions">Transações</string>
   <string name="income">Receitas</string>
@@ -276,7 +283,7 @@
   <string name="pref_contrib_purchase_title_in_app">Compra na aplicação</string>
   <string name="pref_custom_currency_title">Personalizar moedas</string>
   <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Se recebeu uma chave, obtenha acesso a funcionalidades premium/extended.</string>
-  <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Introduza a chave</string>
+  <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Introduzir a chave</string>
   <string name="pref_export_format_title">Formato de data</string>
   <string name="pref_follow_gplus_title">Siga o My Expenses no Google+</string>
   <string name="pref_import_from_grisbi_summary">Importar categorias e participantes do ficheiro XML do Grisbi</string>
@@ -293,11 +300,9 @@
   <string name="pref_manage_methods_title">Métodos de pagamento</string>
   <string name="pref_manage_parties_summary">Adicionar, editar e eliminar participantes (pagadores e beneficiários).</string>
   <string name="pref_manage_parties_title">Participantes</string>
+  <string name="pref_manage_sync_backends_title">Backends de sincronização</string>
   <!--%s will be replaced with list of backends-->
-  <string name="pref_more_info_dialog_summary">
-
-Traduzido por Sérgio Marques</string>
-  <!--this is empty for English and gives credit to translators in the other languages-->
+  <string name="pref_manage_sync_backends_summary">Adicionar backends para sincronizar contas (%s).</string>
   <string name="pref_more_info_dialog_title">Licença &amp; Créditos</string>
   <string name="pref_password_not_equal">As palavras-passe não coincidem</string>
   <string name="pref_perform_protection_summary">Devem os inícios e regressos à aplicação ser protegidos?</string>
@@ -337,7 +342,7 @@ Traduzido por Sérgio Marques</string>
   <string name="pref_ui_theme_dark">escuro</string>
   <string name="pref_ui_theme_light">claro</string>
   <string name="pref_ui_theme_title">Tema</string>
-  <string name="pref_visit_website_summary">Registo de alterações e FAQ</string>
+  <string name="pref_visit_website_summary">Registo de alterações e perguntas frequentes</string>
   <string name="pref_visit_website_title">Visitar página web</string>
   <string name="progress_dialog_deleting">A eliminar objetos</string>
   <string name="progress_dialog_loading">A carregar objetos da base de dados</string>
@@ -446,6 +451,7 @@ Traduzido por Sérgio Marques</string>
   <string name="import_parties_none">Nenhum participante importado</string>
   <string name="import_transactions_none">Nenhuma transação importada para a conta %1$s</string>
   <string name="import_source_select_error">Por favor forneça um ficheiro do tipo %1$s</string>
+  <string name="import_source_select_not_readable">Incapaz de ler o ficheiro. Por favor selecione uma origem diferente.</string>
   <string name="menu_categories_setup_default">Carregar categorias predefinidas</string>
   <string name="menu_create_folder">Nova pasta</string>
   <!--This string is used for navigating up in the folder browser-->
@@ -572,12 +578,79 @@ Traduzido por Sérgio Marques</string>
   <string name="crash_dialog_title">O My Expenses falhou</string>
   <string name="crash_dialog_text">Ocorreu um erro inesperado forçando a aplicação a parar. Por favor ajude-nos a corrigir isto ao enviar-nos os dados do erro, tudo o que tem que fazer é clicar em OK.</string>
   <string name="crash_dialog_comment_prompt">Pode adicionar os seus comentários sobre o problema em baixo:</string>
+  <string name="synchronization">Sincronização</string>
+  <string name="synchronization_none">Sem sincronização</string>
+  <string name="hint_url">URL</string>
+  <string name="description_webdav_url">Por favor introduza o URL de uma pasta especial no seu servidor WebDAV. O My Expenses irá guardar os dados dentro desta pasta, não tocará em nada fora dela.</string>
   <string name="hint_user_name">Nome de utilizador</string>
   <string name="hint_password">Palavra-passe</string>
   <string name="label_trust_certificate">Confiar neste certificado</string>
+  <string name="no_sync_backends">Sem backends de sincronização</string>
+  <string name="menu_create_sync_backend">Novo backend de sincronização</string>
+  <string name="validate_error_not_empty">Não pode ficar em branco</string>
+  <string name="validate_error_webdav_invalid_certificate">O certificado não pode ser confiado. Aparenta ser inválido.</string>
+  <string name="validate_error_webdav_not_compliant">O URL não aponta para um recurso WebDAV.</string>
+  <string name="validate_error_webdav_404">O URL não existe no servidor.</string>
+  <string name="url_not_valid">URL inválido</string>
   <string name="menu_sync_unlink">Parar sincronização</string>
   <string name="menu_sync_link">Iniciar sincronização</string>
   <string name="menu_sync_download">Transferir e sincronizar</string>
   <string name="menu_sync_now">Sincronizar agora</string>
+  <string name="pref_sync_frequency_title">Frequência de sincronização</string>
+  <string name="pref_sync_frequency_summary">Com que frequência devem os dados ser sincronizados (em horas)</string>
+  <string name="dialog_confirm_sync_unlink">Se desassociar esta conta de %s, o estado da sincronização será perdido. Associar novamente no futuro, requer que uma sincronização completa seja efetuada novamente.</string>
+  <string name="dialog_sync_link">Existe uma conta com o uuid %s na base de dados local e no backend remoto. Quando associa ambas, tem de decidir se, inicialmente, pretende enviar os dados locais para o backend remoto ou transferir os dados remotos para a base de dados local.</string>
+  <string name="dialog_command_sync_link_remote">Transferir os dados remotos</string>
+  <string name="dialog_command_sync_link_local">Enviar os dados locais</string>
+  <string name="dialog_synced_to_other">Uma conta com o uuid %s já existe na base de dados local e está associada a um backend remoto diferente.</string>
   <string name="menu_remove">Remover</string>
+  <string name="dialog_confirm_sync_remove_backend">O backend remoto %s será removido. Isto não afetará os dados armazenados localmente ou remotamente, mas o estado da sincronização será perdido. Pretende continuar?</string>
+  <string name="dialog_confirm_sync_link_local">Os dados remotos desta conta serão eliminados. Certifique-se que mais nenhum dispositivo se encontra associado à conta.</string>
+  <string name="dialog_confirm_sync_link_remote">Os dados locais desta conta serão eliminados.</string>
+  <string name="warning_synchronization_limited_trial">A funcionalidade de sincronização pode ser testada até %s.</string>
+  <string name="warning_synchronization_limit_reached">O período de testes da funcionalidade de sincronização terminou.</string>
+  <string name="warning_synchronization_folder_usage">A pasta é usada para sincronizar dados entre instalações do My Expenses em diferentes dispositivos. Por favor não modifique nenhum dos seus conteúdos manualmente.</string>
+  <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">A pasta que selecionou corresponde a uma conta de um backend existente. Necessita de selecionar a pasta superior para reutilizar este backend.</string>
+  <string name="select_unsynced_accounts">Selecionar as contas a ser sincronizadas com este backend</string>
+  <string name="link_account_success" tools:ignore="PluralsCandidate">%d contas foram configuradas para ser sincronizadas com o backend.</string>
+  <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d contas não puderam ser configuradas para ser sincronizadas com o backend.</string>
+  <string name="link_account_failure_2">Uma conta com o mesmo uuid já existe no backend remoto.</string>
+  <string name="link_account_failure_3">O conflito pode ser resolvido manualmente a partir do menu de contexto da entrada.</string>
+  <string name="progress_dialog_checking_sync_backend">A verificar o backend</string>
+  <string name="template">Modelo</string>
+  <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sincronização na nuvem</string>
+  <string name="licence_status">A sua licença</string>
+  <string name="all_contrib_key_features">Todas as funcionalidades da Chave Contrib</string>
+  <string name="upgrade_now">Atualizar agora</string>
+  <string name="pref_backup_cloud_title">Armazenar no backend de sincronização</string>
+  <string name="pref_backup_cloud_summary">Para além do armazenamento local no dispositivo, o ficheiro de cópia de segurança pode ser copiado para um backend remoto.</string>
+  <string name="auto_backup_cloud_create_backend">Crie um backend de sincronização a partir do ecrã de definições principal.</string>
+  <string name="auto_backup_cloud_failure">Ocorreu um erro ao tentar armazenar o ficheiro de cópia de segurança %1$s no backend %2$s:</string>
+  <string name="home_screen_shortcuts_nougate_info">Atalhos podem ser adicionados ao pressionar longamente no ícone da aplicação no ecrã inicial.</string>
+  <string name="currency_symbol">Símbolo da moeda</string>
+  <string name="number_of_fraction_digits">Número de dígitos fracionários</string>
+  <string name="warning_auto_backup_deactivated">A cópia de segurança automática foi desativada. Pode ativar novamente nas definições após resolver o problema (ex.: selecionar uma pasta diferente para cópias de segurança).</string>
+  <string name="pref_tracking_summary">Permite-nos recolher dados anónimos sobre padrões de utilização para nos ajudar a planear melhorias.</string>
+  <string name="pref_tracking_title">Recolha de dados de utilização</string>
+  <string name="sync_database_error">Ocorreu um erro na base de dados durante a sincronização.</string>
+  <string name="sync_io_error_cannot_connect">Não é possível ligar ao backend de sincronização.</string>
+  <string name="sync_io_exception_reset_account_data">Erro ao repor a conta remota.</string>
+  <string name="sync_io_exception_setup_remote_account">Erro ao configurar a conta remota.</string>
+  <string name="sync_io_exception_reading_change_set">Erro ao ler as alterações a partir do backend.</string>
+  <string name="sync_io_exception_syncing">Erro ao sincronizar as alterações com o servidor.</string>
+  <string name="sync_io_exception_unlocking">Erro ao remover o bloqueio do backend remoto.</string>
+  <string name="sync_io_exception_locking">O backend remoto está bloqueado ou não pode ser bloqueado.</string>
+  <string name="synchronization_start">A iniciar sincronização da conta %s.</string>
+  <string name="synchronization_end_success">%1$d alterações remotas foram escritas na base de dados local. %2$d alterações locais foram escritas no backend remoto.</string>
+  <string name="synchronization_end_success_none">Sem alterações para sincronizar.</string>
+  <string name="sync_state_restored">O estado de sincronização de %d contas foi restaurado.</string>
+  <string name="sync_state_could_not_be_restored">O estado de sincronização de %d contas não pôde ser restaurado.</string>
+  <string name="onboarding_ui_title">O My Expenses adapta-se às suas preferências</string>
+  <string name="onboarding_data_title">Permita-nos configurar a sua primeira conta</string>
+  <string name="onboarding_get_started">Começar</string>
+  <string name="onboarding_more_options">Mais opções</string>
+  <string name="onboarding_restore_from_cloud">Restaurar a partir da sincronização na nuvem</string>
+  <string name="onboarding_restore_from_local">Restaurar ficheiro de cópia de segurança local</string>
+  <string name="dialog_button_add">Adicionar</string>
+  <string name="template_create_error">Erro ao guardar o modelo</string>
 </resources>

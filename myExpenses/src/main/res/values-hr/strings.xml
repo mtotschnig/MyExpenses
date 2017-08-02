@@ -79,7 +79,6 @@
   <string name="dialog_title_warning_delete_main_category">Izbrišu osnovnu kategoriju?</string>
   <string name="dialog_title_warning_delete_template">Izbriši predložak?</string>
   <string name="dialog_title_warning_delete_transaction">Izbriši transakciju?</string>
-  <string name="dialog_title_welcome">Dobrodošli!</string>
   <string name="donate_dialog_text">Molimo donirajte putem PayPal-a ili Bitcoin-a, i zatim zatražite Ključ iz zaslona s postavkama.</string>
   <string name="expense">Trošak</string>
   <string name="export_expenses">Eksport troškova</string>
@@ -270,8 +269,6 @@
   <string name="pref_manage_parties_summary">Dodaj, uredi, briši stranke (platitelji i primaoce).</string>
   <string name="pref_manage_parties_title">Stranke</string>
   <!--%s will be replaced with list of backends-->
-  <string name="pref_more_info_dialog_summary">Preveo: Mihovil Nakić-Vojnović</string>
-  <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Licence i zasluge</string>
   <string name="pref_password_not_equal">Lozinke nisu iste</string>
   <string name="pref_perform_protection_summary">Želite li da pokretanje i nastavak rada s aplikacijom bude zaštićeno?</string>

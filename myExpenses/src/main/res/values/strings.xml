@@ -121,7 +121,6 @@
     <string name="dialog_title_warning_delete_main_category">Delete main category?</string>
     <string name="dialog_title_warning_delete_template">Delete template?</string>
     <string name="dialog_title_warning_delete_transaction">Delete transaction?</string>
-    <string name="dialog_title_welcome">Welcome!</string>
     <string name="donate_dialog_text">Please donate via PayPal or Bitcoin, and then request a key from the settings screen.</string>
     <string name="expense">Expense</string>
     <string name="export_expenses">Expenses export</string>
@@ -319,9 +318,6 @@
     <string name="pref_manage_sync_backends_title">Synchronization backends</string>
     <!-- %s will be replaced with list of backends -->
     <string name="pref_manage_sync_backends_summary">Add backends for synchronizing accounts (%s).</string>
-    <string name="pref_more_info_dialog_summary">
-        
-    <!-- this is empty for English and gives credit to translators in the other languages --></string>
     <string name="pref_more_info_dialog_title">Licence &amp; Credits</string>
     <string name="pref_password_not_equal">Passwords do not match</string>
     <string name="pref_perform_protection_summary">Should app launches and resumes be protected?</string>

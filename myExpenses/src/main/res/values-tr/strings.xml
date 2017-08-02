@@ -106,7 +106,6 @@
   <string name="dialog_title_warning_delete_main_category">Ana kategori silinsin mi?</string>
   <string name="dialog_title_warning_delete_template">Şablon silinsin mi?</string>
   <string name="dialog_title_warning_delete_transaction">Muamele silinsin mi?</string>
-  <string name="dialog_title_welcome">Hoşgeldiniz!</string>
   <string name="donate_dialog_text">Paypal ya da Bitcoin ile bağışta bulunup Ayarlar ekranından bir katkı anahtarı talep edebilirsiniz.</string>
   <string name="expense">gider</string>
   <string name="export_expenses">Giderleri dışa aktar</string>
@@ -304,8 +303,6 @@
   <string name="pref_manage_sync_backends_title">Eşleşme arka ucu</string>
   <!--%s will be replaced with list of backends-->
   <string name="pref_manage_sync_backends_summary">Hesapları eşleştirmek için arka uç ekle (%s).</string>
-  <string name="pref_more_info_dialog_summary">Türkçe tercüme: mauron, Caner BAŞARAN</string>
-  <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Lisans &amp; Hazırlayanlar</string>
   <string name="pref_password_not_equal">Parolalar eşleşmedi</string>
   <string name="pref_perform_protection_summary">Uygulama başlatılmaları ve sürdürmeleri korunsun mu?</string>
@@ -652,4 +649,12 @@
   <string name="pref_webdav_timeout_title">WebDAV Zaman Aşımı</string>
   <string name="sync_state_restored">%d hesap için eşleştirme durumu geri getirildi.</string>
   <string name="sync_state_could_not_be_restored">%d hesap için eşleştirme durumu geri getirilemedi.</string>
+  <string name="onboarding_ui_title">Harcamalarım tercihinize uyum sağlar</string>
+  <string name="onboarding_data_title">İlk hesabınızı kuralım</string>
+  <string name="onboarding_get_started">Başlarken</string>
+  <string name="onboarding_more_options">Daha fazla seçenek</string>
+  <string name="onboarding_restore_from_cloud">Bulut eşleşmesinden geri getir</string>
+  <string name="onboarding_restore_from_local">Yerel yedekleme dosyasını geri getir</string>
+  <string name="dialog_button_add">Ekle</string>
+  <string name="template_create_error">Şablonun kaydı sırasında hata meydana geldi</string>
 </resources>

@@ -62,7 +62,6 @@
   <string name="dialog_title_warning_delete_account">Odstranit účet?</string>
   <string name="dialog_title_warning_delete_template">Odstranit šablonu?</string>
   <string name="dialog_title_warning_delete_transaction">Odstranit transakci?</string>
-  <string name="dialog_title_welcome">Vítejte!</string>
   <string name="donate_dialog_text">Prosím přispějte přes PayPal nebo Bitcoin a potom požádejte o klíč z obrazovky nastavení.</string>
   <string name="expense">Výdaj</string>
   <string name="export_expenses">Export výdajů</string>
@@ -221,8 +220,6 @@
   <string name="pref_manage_parties_summary">Přidání, úprava, odstranění strany (plátci a příjemci).</string>
   <string name="pref_manage_parties_title">Oddíly</string>
   <!--%s will be replaced with list of backends-->
-  <string name="pref_more_info_dialog_summary">Přeložil Jan Šplíchal</string>
-  <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Licence a kredity</string>
   <string name="pref_password_not_equal">Hesla si neodpovídají.</string>
   <string name="pref_perform_protection_summary">Mají být start a obnovení aplikace chráněny?</string>

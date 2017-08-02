@@ -94,7 +94,6 @@
   <string name="dialog_title_warning_delete_main_category">删除主类别</string>
   <string name="dialog_title_warning_delete_template">要删除模板?</string>
   <string name="dialog_title_warning_delete_transaction">删除交易吗?</string>
-  <string name="dialog_title_welcome">欢迎!</string>
   <string name="donate_dialog_text">请通过 PayPal 或 比特币 捐赠,然后从设置屏幕里面请求一个密钥</string>
   <string name="expense">支出</string>
   <string name="export_expenses">导出开支</string>
@@ -275,10 +274,6 @@
   <string name="pref_manage_parties_summary">新增、编辑、删除贸易伙伴 (付款人和收款人) .</string>
   <string name="pref_manage_parties_title">贸易伙伴</string>
   <!--%s will be replaced with list of backends-->
-  <string name="pref_more_info_dialog_summary">
-
-    <!-- this is empty for English and gives credit to translators in the other languages --></string>
-  <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">许可 &amp; 信用</string>
   <string name="pref_password_not_equal">密码不相符</string>
   <string name="pref_perform_protection_summary">应用程式在每次启动和恢复过来时被密码保护</string>

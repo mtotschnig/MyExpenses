@@ -106,7 +106,6 @@
   <string name="dialog_title_warning_delete_main_category">Cancellare la categoria principale</string>
   <string name="dialog_title_warning_delete_template">Eliminare modello ?</string>
   <string name="dialog_title_warning_delete_transaction">Eliminare transazione ?</string>
-  <string name="dialog_title_welcome">Benvenuto!</string>
   <string name="donate_dialog_text">Si prega di donare tramite PayPal o Bitcoin, e quindi richiedere una chiave dalla schermata delle impostazioni.</string>
   <string name="expense">Spesa</string>
   <string name="export_expenses">Esportazione delle spese</string>
@@ -304,8 +303,6 @@
   <string name="pref_manage_sync_backends_title">Backend di sincronizzazione</string>
   <!--%s will be replaced with list of backends-->
   <string name="pref_manage_sync_backends_summary">Collegare il backend per la sincronizzazione degli conti (%s).</string>
-  <string name="pref_more_info_dialog_summary">Tradotto da gudrunto, Laurent Collombet, Silvia Delpero, FrancescaLaV, fedett92 e Claudio Fusillo</string>
-  <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Licenza &amp; Generico</string>
   <string name="pref_password_not_equal">Le password non corrispondono</string>
   <string name="pref_perform_protection_summary">L\'avvio e la ripresa dell\'app devono essere protette?</string>

@@ -98,7 +98,6 @@
   <string name="dialog_title_warning_delete_main_category">Excluir categoria principal?</string>
   <string name="dialog_title_warning_delete_template">Excluir o modelo?</string>
   <string name="dialog_title_warning_delete_transaction">Excluir a transação?</string>
-  <string name="dialog_title_welcome">Bem-vindo!</string>
   <string name="donate_dialog_text">Por favor doar via PayPal ou Bitcoin e em seguida, solicitar uma chave a partir da tela de configurações.</string>
   <string name="expense">Despesa</string>
   <string name="export_expenses">Exportar despesas</string>
@@ -294,8 +293,6 @@
   <string name="pref_manage_parties_summary">Adicionar, editar, excluir participantes (pagadores e beneficiários).</string>
   <string name="pref_manage_parties_title">Participantes</string>
   <!--%s will be replaced with list of backends-->
-  <string name="pref_more_info_dialog_summary">Enrico Nicoletto - liverig@gmail.com, 2013.</string>
-  <!--this is empty for English and gives credit to translators in the other languages-->
   <string name="pref_more_info_dialog_title">Licença &amp; Créditos</string>
   <string name="pref_password_not_equal">As senhas não coincidem</string>
   <string name="pref_perform_protection_summary">App lançamentos e resumos devem ser protegidos?</string>
