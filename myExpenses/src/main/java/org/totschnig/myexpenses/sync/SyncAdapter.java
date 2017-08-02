@@ -10,6 +10,7 @@ import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -126,6 +127,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     Timber.i("onPerformSync %s", extras);
     if (extras.getBoolean(KEY_NOTIFICATION_CANCELLED)) {
       notificationContent.remove(account.hashCode());
+      if (ContentResolver.isSyncPending(account, authority)) {
+        ContentResolver.cancelSync(account, authority);
+      }
       return;
     }
     categoryToId = new HashMap<>();
