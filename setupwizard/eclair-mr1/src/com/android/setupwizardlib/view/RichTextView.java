@@ -18,6 +18,7 @@ package com.android.setupwizardlib.view;
 
 import android.content.Context;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.AppCompatTextView;
 import android.text.Annotation;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -37,7 +38,7 @@ import com.android.setupwizardlib.util.LinkAccessibilityHelper;
  * An extension of TextView that automatically replaces the annotation tags as specified in
  * {@link SpanHelper#replaceSpan(android.text.Spannable, Object, Object)}
  */
-public class RichTextView extends TextView {
+public class RichTextView extends AppCompatTextView {
 
     /* static section */
 

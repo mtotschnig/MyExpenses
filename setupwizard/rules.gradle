@@ -25,7 +25,7 @@ android {
             // This build depends on any support library that setup wizard library integrates with,
             // including RecyclerView, AppCompat, and possibly Design support library in the future.
             fullSupport {
-                minSdkVersion 7
+                minSdkVersion 10
                 dependencies {
                     fullSupportCompile deps['support-appcompat-v7']
                     fullSupportCompile deps['support-recyclerview-v7']

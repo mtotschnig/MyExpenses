@@ -22,10 +22,11 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
+import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
 import android.widget.Button;
 
-public class NavigationBarButton extends Button {
+public class NavigationBarButton extends AppCompatButton {
 
     public NavigationBarButton(Context context) {
         super(context);
