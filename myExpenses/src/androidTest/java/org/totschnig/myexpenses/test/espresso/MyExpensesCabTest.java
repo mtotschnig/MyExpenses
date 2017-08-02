@@ -60,7 +60,7 @@ public final class MyExpensesCabTest {
 
   @Rule
   public ActivityTestRule<MyExpenses> mActivityRule =
-      new ActivityTestRule<>(MyExpenses.class);
+      new ActivityTestRule<>(MyExpenses.class, true, false);
   private Account account;
   private AdapterIdlingResource adapterIdlingResource;
 
@@ -68,15 +68,16 @@ public final class MyExpensesCabTest {
   public void fixture() {
     account = Account.getInstanceFromDb(0);
     Transaction op0 = Transaction.getNewInstance(account.getId());
-    op0.setAmount(new Money(Currency.getInstance("USD"),-1200L));
+    op0.setAmount(new Money(Currency.getInstance("USD"), -1200L));
     op0.save();
     int times = 5;
     for (int i = 0; i < times; i++) {
       op0.saveAsNew();
     }
-    onView(isRoot()).check(matches(anything()));
-    adapterIdlingResource = new AdapterIdlingResource(getList().getAdapter(), MyExpensesCabTest.class.getSimpleName());
+    mActivityRule.launchActivity(null);
+    adapterIdlingResource = new AdapterIdlingResource(MyExpensesCabTest.class.getSimpleName());
     Espresso.registerIdlingResources(adapterIdlingResource);
+    onView(isRoot()).check(matches(anything()));
   }
 
   @After
@@ -147,14 +148,14 @@ public final class MyExpensesCabTest {
   public void deleteCommandWithVoidOption() {
     int origListSize = getList().getAdapter().getCount();
     onData(is(instanceOf(Cursor.class)))
-            .inAdapterView(getWrappedList())
-            .atPosition(1) // position 0 is header
-            .perform(longClick());
+        .inAdapterView(getWrappedList())
+        .atPosition(1) // position 0 is header
+        .perform(longClick());
     performContextMenuClick(R.string.menu_delete, R.id.DELETE_COMMAND);
     onView(withId(R.id.checkbox)).perform(click());
     onView(withText(R.string.menu_delete)).perform(click());
     onData(is(instanceOf(Cursor.class))).inAdapterView(getWrappedList()).atPosition(1)
-            .check(matches(hasDescendant(both(withId(R.id.voidMarker)).and(isDisplayed()))));
+        .check(matches(hasDescendant(both(withId(R.id.voidMarker)).and(isDisplayed()))));
     onView(getWrappedList()).check(matches(withListSize(origListSize)));
   }
 
@@ -191,13 +192,20 @@ public final class MyExpensesCabTest {
   }
 
   private StickyListHeadersListView getList() {
-      TransactionList currentFragment = mActivityRule.getActivity().getCurrentFragment();
-      return (StickyListHeadersListView) currentFragment.getView().findViewById(R.id.list);
+    TransactionList currentFragment = mActivityRule.getActivity().getCurrentFragment();
+    if (currentFragment == null) return null;
+    return (StickyListHeadersListView) currentFragment.getView().findViewById(R.id.list);
+  }
+
+  private Adapter getAdapter() {
+    StickyListHeadersListView list = getList();
+    if (list == null) return null;
+    return list.getAdapter();
   }
 
   /**
    * @param legacyString String used on Gingerbread where context actions are rendered in a context menu
-   * @param cabId id of menu item rendered in CAB on Honeycomb and higher
+   * @param cabId        id of menu item rendered in CAB on Honeycomb and higher
    */
   private void performContextMenuClick(int legacyString, int cabId) {
     onView(Utils.hasApiLevel(Build.VERSION_CODES.HONEYCOMB) ? withId(cabId) : withText(legacyString))
@@ -217,16 +225,7 @@ public final class MyExpensesCabTest {
     private ResourceCallback callback;
     private Adapter adapter;
 
-    public AdapterIdlingResource(Adapter adapter, String name) {
-      this.adapter = adapter;
-      adapter.registerDataSetObserver(new DataSetObserver() {
-        @Override
-        public void onChanged() {
-          if (isIdleNow() && callback != null) {
-            callback.onTransitionToIdle();
-          }
-        }
-      });
+    AdapterIdlingResource(String name) {
       this.name = name;
     }
 
@@ -237,8 +236,28 @@ public final class MyExpensesCabTest {
 
     @Override
     public boolean isIdleNow() {
-      boolean idle = adapter.getCount() > 0;
-      return idle;
+      Adapter adapter = requireAdapter();
+      return adapter != null && adapter.getCount() > 0;
+    }
+
+    private Adapter requireAdapter() {
+      if (adapter == null) {
+        adapter = getAdapter();
+        if (adapter != null) {
+          adapter.registerDataSetObserver(new DataSetObserver() {
+            @Override
+            public void onChanged() {
+              if (isIdleNow() && callback != null) {
+                callback.onTransitionToIdle();
+              }
+            }
+          });
+          if (adapter.getCount() > 0) {
+            callback.onTransitionToIdle();
+          }
+        }
+      }
+      return adapter;
     }
 
     @Override
