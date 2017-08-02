@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.adapter;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.database.Cursor;
+import android.support.v4.view.ViewCompat;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
@@ -91,7 +92,18 @@ public class TransactionAdapter extends SimpleCursorAdapter {
     View colorAccount = v.findViewById(R.id.colorAccount);
     holder.colorContainer = colorContainer;
     holder.colorAccount = colorAccount;
-    holder.amount = (TextView) v.findViewById(R.id.amount);
+    TextView amount = (TextView) v.findViewById(R.id.amount);
+    int layoutDirection = context.getResources().getInteger(R.integer.amount_layout_direction);
+    if (layoutDirection == 0) { // hebrew
+      ViewCompat.setLayoutDirection(amount, layoutDirection);
+      amount.setEms(5);
+      amount.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+      amount.setSingleLine(true);
+      amount.setMarqueeRepeatLimit(-1);
+      amount.setHorizontallyScrolling(true);
+      amount.setSelected(true);
+    }
+    holder.amount = amount;
     holder.category = (TextView) v.findViewById(R.id.category);
     holder.color1 = v.findViewById(R.id.color1);
     holder.voidMarker = v.findViewById(R.id.voidMarker);
