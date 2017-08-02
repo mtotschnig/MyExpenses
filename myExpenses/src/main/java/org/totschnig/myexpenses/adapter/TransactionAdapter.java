@@ -52,7 +52,7 @@ public class TransactionAdapter extends SimpleCursorAdapter {
   private int dateEms;
   private Account mAccount;
   private Grouping mGroupingOverride;
-  DateFormat localizedTimeFormat,itemDateFormat;
+  DateFormat localizedTimeFormat, itemDateFormat;
   private int colorExpense, colorIncome;
   ColorStateList textColorSecondary;
   boolean insideFragment;
@@ -77,13 +77,15 @@ public class TransactionAdapter extends SimpleCursorAdapter {
     this.currencyFormatter = currencyFormatter;
     refreshDateFormat();
   }
+
   public TransactionAdapter(Account account, Context context, int layout, Cursor c, String[] from,
-      int[] to, int flags, CurrencyFormatter currencyFormatter) {
+                            int[] to, int flags, CurrencyFormatter currencyFormatter) {
     this(account, null, context, layout, c, from, to, flags, currencyFormatter);
   }
+
   @Override
   public View newView(Context context, Cursor cursor, ViewGroup parent) {
-    View v= super.newView(context, cursor, parent);
+    View v = super.newView(context, cursor, parent);
     ViewHolder holder = new ViewHolder();
     View colorContainer = v.findViewById(R.id.colorContainer);
     View colorAccount = v.findViewById(R.id.colorAccount);
@@ -102,7 +104,8 @@ public class TransactionAdapter extends SimpleCursorAdapter {
     tv.setEms(dateEms);
     v.setTag(holder);
     return v;
-}
+  }
+
   /* (non-Javadoc)
    * calls {@link #convText for formatting the values retrieved from the cursor}
    * @see android.widget.SimpleCursorAdapter#setViewText(android.widget.TextView, java.lang.String)
@@ -110,14 +113,15 @@ public class TransactionAdapter extends SimpleCursorAdapter {
   @Override
   public void setViewText(TextView v, String text) {
     switch (v.getId()) {
-    case R.id.date:
-      text = Utils.convDateTime(text,itemDateFormat);
-      break;
-    case R.id.amount:
-      text = currencyFormatter.convAmount(text,mAccount.currency);
+      case R.id.date:
+        text = Utils.convDateTime(text, itemDateFormat);
+        break;
+      case R.id.amount:
+        text = currencyFormatter.convAmount(text, mAccount.currency);
     }
     super.setViewText(v, text);
   }
+
   /**
    * @param catText
    * @param label_sub
@@ -125,12 +129,13 @@ public class TransactionAdapter extends SimpleCursorAdapter {
    * be displayed about the mapped category, can be overridden by subclass
    * should not be used for handle transfers
    */
-  protected CharSequence getCatText(CharSequence catText,String label_sub) {
+  protected CharSequence getCatText(CharSequence catText, String label_sub) {
     if (label_sub != null && label_sub.length() > 0) {
       catText = catText + TransactionList.CATEGORY_SEPARATOR + label_sub;
     }
     return catText;
   }
+
   /* (non-Javadoc)
    * manipulates the view for amount (setting expenses to red) and
    * category (indicate transfer direction with => or <=
@@ -138,7 +143,7 @@ public class TransactionAdapter extends SimpleCursorAdapter {
    */
   @Override
   public View getView(int position, View convertView, ViewGroup parent) {
-    convertView=super.getView(position, convertView, parent);
+    convertView = super.getView(position, convertView, parent);
     ViewHolder viewHolder = (ViewHolder) convertView.getTag();
     TextView tv1 = viewHolder.amount;
     Cursor c = getCursor();
@@ -157,13 +162,13 @@ public class TransactionAdapter extends SimpleCursorAdapter {
     }
     TextView tv2 = viewHolder.category;
     CharSequence catText = tv2.getText();
-    if (DbUtils.getLongOrNull(c,c.getColumnIndex(KEY_TRANSFER_PEER)) != null) {
+    if (DbUtils.getLongOrNull(c, c.getColumnIndex(KEY_TRANSFER_PEER)) != null) {
       catText = Transfer.getIndicatorPrefixForLabel(amount) + catText;
       if (mAccount.getId() < 0) {
         catText = c.getString(c.getColumnIndex(KEY_ACCOUNT_LABEL)) + " " + catText;
       }
     } else {
-      Long catId = DbUtils.getLongOrNull(c,KEY_CATID);
+      Long catId = DbUtils.getLongOrNull(c, KEY_CATID);
       if (SPLIT_CATID.equals(catId))
         catText = MyApplication.getInstance().getString(R.string.split_transaction);
       else if (catId == null) {
@@ -171,10 +176,10 @@ public class TransactionAdapter extends SimpleCursorAdapter {
           catText = Category.NO_CATEGORY_ASSIGNED_LABEL;
         }
       } else {
-        catText = getCatText(catText,c.getString(c.getColumnIndex(KEY_LABEL_SUB)));
+        catText = getCatText(catText, c.getString(c.getColumnIndex(KEY_LABEL_SUB)));
       }
     }
-    String referenceNumber= c.getString(c.getColumnIndex(KEY_REFERENCE_NUMBER));
+    String referenceNumber = c.getString(c.getColumnIndex(KEY_REFERENCE_NUMBER));
     if (referenceNumber != null && referenceNumber.length() > 0)
       catText = "(" + referenceNumber + ") " + catText;
     SpannableStringBuilder ssb;
@@ -183,19 +188,19 @@ public class TransactionAdapter extends SimpleCursorAdapter {
       ssb = new SpannableStringBuilder(comment);
       ssb.setSpan(new StyleSpan(android.graphics.Typeface.ITALIC), 0, comment.length(), 0);
       catText = catText.length() > 0 ?
-          TextUtils.concat(catText,TransactionList.COMMENT_SEPARATOR,ssb):
+          TextUtils.concat(catText, TransactionList.COMMENT_SEPARATOR, ssb) :
           ssb;
     }
     String payee = c.getString(c.getColumnIndex(KEY_PAYEE_NAME));
     if (payee != null && payee.length() > 0) {
       ssb = new SpannableStringBuilder(payee);
       ssb.setSpan(new UnderlineSpan(), 0, payee.length(), 0);
-      catText = catText.length()>0 ?
-          TextUtils.concat(catText,TransactionList.COMMENT_SEPARATOR,ssb):
+      catText = catText.length() > 0 ?
+          TextUtils.concat(catText, TransactionList.COMMENT_SEPARATOR, ssb) :
           ssb;
     }
     if (insideFragment) {
-      if (catText.length()==0) {
+      if (catText.length() == 0) {
         catText = "―――";
         tv2.setGravity(Gravity.CENTER);
       } else {
@@ -210,7 +215,7 @@ public class TransactionAdapter extends SimpleCursorAdapter {
     } catch (IllegalArgumentException ex) {
       status = CrStatus.UNRECONCILED;
     }
-    
+
     if (!mAccount.type.equals(AccountType.CASH) && !status.equals(CrStatus.VOID)) {
       viewHolder.color1.setBackgroundColor(status.color);
       viewHolder.colorContainer.setTag(status == CrStatus.RECONCILED ? -1 : getItemId(position));
@@ -221,25 +226,27 @@ public class TransactionAdapter extends SimpleCursorAdapter {
     viewHolder.voidMarker.setVisibility(status.equals(CrStatus.VOID) ? View.VISIBLE : View.GONE);
     return convertView;
   }
+
   public void refreshDateFormat() {
-    switch (mGroupingOverride!=null ? mGroupingOverride : mAccount.grouping) {
-    case DAY:
-      itemDateFormat = localizedTimeFormat;
-      break;
-    case MONTH:
-      //noinspection SimpleDateFormat
-      itemDateFormat = monthStart == 1 ?
-          new SimpleDateFormat("dd") : Utils.localizedYearlessDateFormat();
-      break;
-    case WEEK:
-      //noinspection SimpleDateFormat
-      itemDateFormat = new SimpleDateFormat("EEE");
-      break;
-    case YEAR:
-    case NONE:
-      itemDateFormat = Utils.localizedYearlessDateFormat();
+    switch (mGroupingOverride != null ? mGroupingOverride : mAccount.grouping) {
+      case DAY:
+        itemDateFormat = localizedTimeFormat;
+        break;
+      case MONTH:
+        //noinspection SimpleDateFormat
+        itemDateFormat = monthStart == 1 ?
+            new SimpleDateFormat("dd") : Utils.localizedYearlessDateFormat();
+        break;
+      case WEEK:
+        //noinspection SimpleDateFormat
+        itemDateFormat = new SimpleDateFormat("EEE");
+        break;
+      case YEAR:
+      case NONE:
+        itemDateFormat = Utils.localizedYearlessDateFormat();
     }
   }
+
   class ViewHolder {
     TextView amount;
     View colorAccount;
