@@ -41,8 +41,8 @@
   <string name="help_ManageCategories_distribution_info">Este ecrã exibe a distribuição das suas despesas e receitas por categorias, para todas as transações numa conta, ou para um grupo específico. Se expandir a categoria principal na lista, o gráfico circular exibirá a distribuição das respetivas subcategorias. Se selecionar uma categoria na lista, a mesma será realçada no gráfico circular, e vice-versa. Pressione longamente numa categoria para exibir a lista de transações atribuídas à mesma.</string>
   <string name="help_ManageCategories_select_mapping_info">Para além das ações que pode efetuar quando gere categorias a partir do ecrã de Definições (criar, editar, eliminar), neste ecrã atribui uma transação a uma categoria selecionada. Selecione uma subcategoria para ser atribuída à transação atual clicando simplesmente na mesma. Para atribuir uma categoria principal, tem de invocar o respetivo menu de contexto.</string>
   <string name="help_ManageCategories_select_filter_info">Selecionar a categoria para filtrar a lista de transações. Para procurar uma categoria principal, tem de invocar o respetivo menu de contexto.</string>
-  <string name="help_ManageCategories_manage_info">Este ecrã permite criar, editar e eliminar categorias. Por predefinição, o critério de ordenação principal na lista de categorias é o número de vezes que usa uma categoria (o critério secundário é ordem alfabética). Isto dá-lhe acesso rápido à lista de categorias que usa frequentemente. Nas definições, pode optar por ordenar as categorias em plena ordem alfabética. Clicar na categoria principal, abre as respetivas subcategorias. A partir do menu de contexto da categoria principal, pode adicionar novas subcategorias, eliminar uma categoria ou editar. As subcategorias têm também menus de contexto para eliminar ou editar.</string>
-  <string name="menu_ManageCategories_distribution_grouping_help_text">Define o tipo de agrupamento e exibe a distribuição por dia, mês, semana ou ano.</string>
+  <string name="help_ManageCategories_manage_info">Este ecrã permite criar, editar e eliminar categorias. Por omissão, o critério de ordenação principal na lista de categorias é o número de vezes que usa uma categoria (o critério secundário é a ordem alfabética). Isto fornece-lhe acesso rápido à lista de categorias que usa frequentemente. Nas definições, pode optar por ordenar as categorias em plena ordem alfabética. Clicar na categoria principal, abre as respetivas subcategorias. A partir do menu de contexto da categoria principal, pode adicionar novas subcategorias, eliminar uma categoria ou editar. As subcategorias possuem também menus de contexto para eliminar ou editar.</string>
+  <string name="menu_ManageCategories_distribution_grouping_help_text">Definir o tipo de agrupamento e exibir a distribuição por dia, mês, semana ou ano.</string>
   <string name="menu_back_help_text">Navegar para o grupo anterior. Pode também ser feito através de um gesto de passar da esquerda para a direita.</string>
   <string name="menu_forward_help_text">Navegar para o próximo grupo. Pode também ser feito através de um gesto de passar da direita para a esquerda.</string>
   <string name="cab_ManageCategories_create_sub_cat_help_text">Abre o diálogo para especificar o título de uma nova subcategoria em baixo da categoria selecionada.</string>
@@ -51,7 +51,7 @@
   <string name="menu_categories_setup_default_help_text">Um conjunto de categorias predefinidas será importado.</string>
   <string name="menu_categories_export_help_text">As categorias serão exportadas para um ficheiro QIF.</string>
   <string name="menu_distribution_show_pie_char_help_text">Alternar a visibilidade do gráfico circular.</string>
-  <string name="menu_distribution_aggreate_help_text">Por predefinição, as somas calculadas incluem ambas as despesas e a receita. Pode optar por mostrar as mesmas separadamente, um botão na barra de ações permite-lhe alternar entre as despesas e a receita.</string>
+  <string name="menu_distribution_aggreate_help_text">Por omissão, as somas calculadas incluem ambas as despesas e a receita. Pode optar por mostrar as mesmas separadamente, um botão na barra de ações permite-lhe alternar entre as despesas e a receita.</string>
   <string name="cab_ManageCategories_select_filter_select_category_help_text">A categoria selecionada será usada para filtrar a lista de transações.</string>
   <string name="menu_ManageCategories_search_help_text">Apenas a categoria principal e as subcategorias que coincidem com a sua pesquisa serão exibidas.</string>
   <string name="menu_ManageCategories_sort_help_text">A lista de categorias pode ser ordenada por título (alfabeticamente), por frequência de usos, ou pela última categoria atribuída a uma transação.</string>
@@ -65,7 +65,7 @@
   <string name="help_ExpenseEdit_templateTransfer_title">Formulário para modelos de transferências</string>
   <string name="help_ExpenseEdit_transaction_info">Utilize este formulário para introduzir uma nova transação ou para editar uma já existente. Utilize o menu em cascata na barra de ações para mudar para o formulário de adição de uma nova transferência ou transação dividida.</string>
   <string name="help_ExpenseEdit_templateCategory_info">Utilize este formulário para introduzir um novo modelo ou para editar um já existente. Utilize o menu em cascata na barra de ações para mudar para o formulário de adição de um novo modelo de transferência.</string>
-  <string name="help_ExpenseEdit_split_info">Uma transação dividida é uma única transação dividida em partes, onde cada parte pode ser atribuida a uma categoria diferente, ou transferida para uma conta diferente.</string>
+  <string name="help_ExpenseEdit_split_info">Uma transação dividida é uma transação única dividida em partes, onde cada parte pode ser atribuida a uma categoria diferente, ou transferida para uma conta diferente.</string>
   <string name="form_account_help_text">Selecionar a conta a que pretence a transação.</string>
   <string name="form_date.time_help_text">Introduzir a data e hora em que a transação foi realizada.</string>
   <string name="form_payer_or_payee_help_text">Este campo relembra os valores que introduz e sugerirá os mesmos no futuro.</string>
@@ -73,7 +73,7 @@
   <string name="form_calculator_help_text"><![CDATA[O botão <img src=\"?calcIcon\"> abre a calculadora.]]></string>
   <string name="form_crstatus_help_text">Para transações pertencentes a contas bancárias, pode alterar o estado da transação para liquidada. Para definir como reconciliada terá de utilizar o comando \"Saldo da conta\" a partir da lista de transações. Se o estado for nula, a transação não será contabilizada.</string>
   <string name="form_comment_help_text">Introduzir qualquer nota sobre o objeto.</string>
-  <string name="form_method_help_text">Este campo apenas está disponível se a conta atual é de um tipo associado a qualquer método de pagamento. Por predefinição apenas as contas bancárias estão associadas a métodos de pagamento (cheque, cartão de crédito, depósito, débito direto). Vá às Definições -&gt; Gerir -&gt; Métodos de pagamento para configurar a associação entre tipos de conta e métodos de pagamento. Quando seleciona um método que está definido como numerado, um campo adicional para a introdução de um número de referência fica disponível.</string>
+  <string name="form_method_help_text">Este campo apenas está disponível se a conta atual é de um tipo associado a qualquer método de pagamento. Por omissão apenas as contas bancárias estão associadas a métodos de pagamento (cheque, cartão de crédito, depósito, débito direto). Consulte as Definições -&gt; Gerir -&gt; Métodos de pagamento para configurar a associação entre tipos de conta e métodos de pagamento. Quando seleciona um método que está definido como numerado, um campo adicional para a introdução de um número de referência fica disponível.</string>
   <string name="form_attach_image_help_text"><![CDATA[O botão <img src=\"android:ic_menu_camera\"> permite-lhe anexar uma imagem (por ex. da galeria ou da câmara) ao objeto.]]></string>
   <string name="form_category_help_text">Este botão abre a lista de categorias, onde poderá selecionar a categoria que pretende atribuir à transação.</string>
   <string name="form_split_parts_heading_help_text">Utilize o botão de ação flutuante para introduzir as divisões que forem necessárias. A diferença entre a soma das partes e a transação é exibida na parte inferior do ecrã. Apenas pode guardar a transação dividida, se a quantia da transação foi exatamente designada.</string>
@@ -93,16 +93,19 @@
   <string name="form_AccountEdit_label_help_text">A etiqueta identifica a conta na lista de contas.</string>
   <string name="form_description_help_text">A descrição é meramente informativa.</string>
   <string name="form_AccountEdit_amount_switch_help_text">Utilize o interruptor para começar com um saldo de abertura negativo.</string>
-  <string name="form_currency_help_text">Selecione a moeda a partir da lista fornecida de todas as moedas.</string>
+  <string name="form_currency_help_text">Selecionar a moeda a partir da lista fornecida de todas as moedas.</string>
   <string name="form_AccountEdit_type_help_text">Pode definir o tipo de uma conta como conta de Numerário, Bancária, Ativos, Passivos, Cartão de crédito. O tipo determina os métodos de pagamento disponíveis que pode configurar nas Definições -&gt; Gerir -&gt; Métodos de pagamento.</string>
+  <string name="form_AccountEdit_type_help_text_reconciliation">A funcionalidade de reconciliação está disponível para todas as contas excepto as de numerário: A mesma permite-lhe definir o estado de uma transação para liquidada, uma vez confirmada, e reconciliar toda a conta com o seu extrato bancário através do comando \"Saldo da conta\".</string>
   <string name="form_color_help_text">Na lista de transações de uma conta, a sua cor será usada como cor principal da interface do utilizador.</string>
+  <string name="form_synchronization_help_text_select">Selecionar um backend para sincronização na nuvem.</string>
+  <string name="form_synchronization_help_text_add">Backends podem ser adicionados a partir do ecrã de Definições.</string>
   <string name="menu_exclude_from_totals_help_text">Se selecionar esta opção, esta conta não será incluída nos totais por moeda.</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Formulário para métodos de pagamento</string>
   <string name="form_MethodEdit_label_help_text">A etiqueta identifica o método quando atribui uma transação ao mesmo.</string>
   <string name="form_MethodEdit_type_help_text">Através do tipo de método, pode determinar se é aplicável a despesas (débito), receitas (crédito) ou ambos (neutro).</string>
   <string name="form_MethodEdit_numbered_help_text">Quando um método é numerado, as transações atribuídas ao mesmo, terão um campo adicional para introduzir um número de referência.</string>
-  <string name="form_MethodEdit_account_types_help_text">Selecione os tipos de conta para as quais este método é aplicável.</string>
+  <string name="form_MethodEdit_account_types_help_text">Selecionar os tipos de conta para as quais este método é aplicável.</string>
   <!--ManageCurrencies-->
   <string name="help_ManageCurrencies_info">Para cada moeda, pode modificar o número de dígitos fracionários a serem usados. Por exemplo, se para o Euro, precisa de lidar com 1/10 de um ¢, por ex. 1/1000 de um Euro, definiria o número para três. Contas existentes que usam a moeda, serão alteradas para a nova definição.</string>
   <!--FolderBrowser title is in keys-->
@@ -114,13 +117,20 @@
   <string name="help_ManageStaleImages_info">Este ecrã permite-lhe lidar com imagens que foram deixadas para trás pelas transações eliminadas. Clique longamente nas entradas para as eliminar, ou para as mover da pasta de armazenamento (possívelmente interno) para uma pasta de cópia de segurança (Android/data/org.totschnig.mxexpenses/files/images.old) no armazenamento externo.</string>
   <!--CSV Import-->
   <string name="help_CsvImportActivity_info"><![CDATA[Após selecionar o ficheiro que pretende importar, precisa de configurar em que modo o ficheiro está codificado (UTF-8 ou ISO-8859-1), que carácter separa os campos (vírgula, ponto e vírgula ou tabulador), e em que modo as datas estão formatadas. Os dados podem ser importados para uma conta existente, ou para uma nova, onde pode configurar a moeda e o tipo de conta.<br><br>Após pressionar o botão de Analisar a partir da barra de ações, os dados ser-lhe-ão apresentados numa tabela. Antes de iniciar a importação através do botão na barra de ações, pode selecionar as linhas que pretende descartar, e terá de atribuir as colunas aos respetivos campos de dados.<br><br>Quando descartar a primeira linha, ser-lhe-á perguntado se pertende que a mesma seja tratada como uma linha de cabeçalho, onde nesse caso o <i>My Expenses</i> tentará atribuir automaticamente as colunas com base no conteúdo das células de cabeçalho. Lembrará também a sua atribuição com base na linha do cabeçalho, e restaurará a mesma, na próxima vez que importar um ficheiro com o mesmo formato de cabeçalho.]]></string>
-  <string name="help_ExportDialog_date_format"><![CDATA[O texto pode ser citado usando apóstrofos (\') para evitar a interpretação. \" (aspas) representam um apóstrofo. Consulte a <a href=\"http://developer.android.com/reference/java/text/SimpleDateFormat.html\">especificação</a> completa para mais detalhes, ou contacte support@myexpenses.mobi para obter ajuda.]]></string>
+  <string name="help_ExportDialog_date_format"><![CDATA[O texto pode ser citado usando apóstrofos (\') para evitar a interpretação. \" (aspas) representam um apóstrofo. Consulte a <a href="http://developer.android.com/reference/java/text/SimpleDateFormat.html">especificação</a> completa para mais detalhes, ou contacte support@myexpenses.mobi para obter ajuda.]]></string>
   <string name="help_NavigationDrawer_info">A lista de contas permite-lhe facilmente navegar entre contas com um simples clique numa entrada.</string>
-  <string name="menu_create_account_help_text">Cria uma nova conta. A versão gratuita está limitada a cinco contas.</string>
+  <string name="menu_create_account_help_text">Criar uma nova conta. A versão gratuita está limitada a cinco contas.</string>
   <string name="menu_NavigationDrawer_sort_help_text">A lista de contas pode ser ordenada por título (alfabeticamente), por frequência de usos, ou pela última transação criada. Se selecionar uma ordenação personalizada, verá comandos no menu de contexto de cada conta para mover para cima e para baixo na lista.</string>
   <string name="menu_NavigationDrawer_grouping_help_text">A lista de contas pode ser exibida agrupada por tipo de conta, moeda, ou não agrupada.</string>
   <string name="cab_sort_up_help_text">Mover o item uma posição para cima na lista.</string>
   <string name="cab_sort_down_help_text">Mover o item uma posição para baixo na lista.</string>
   <string name="form_instant_plan_help_text">Aqui pode marcar a transação para ocorrer diariamente, semanalmente, mensalmente ou anualmente. No ecrã de \"Modelos e planos\", pode inspecionar o plano resultante e configurar opções avançadas. Se a transação já se encontra associada a um plano, já não pode alterar o tipo de recorrência, mas pode abrir uma vista de calendário exibindo todas as datas recorrentes.</string>
   <!--SyncBackends-->
+  <string name="help_ManageSyncBackends_drive">Google Drive: Escolha qualquer pasta que possua ou que esteja partilhada consigo.</string>
+  <string name="menu_create_sync_backend_help_text">A partir do submenu, selecione o tipo de backend de sincronização que pretende adicionar, e forneça os detalhes específicos de cada.</string>
+  <string name="cab_sync_now_help_text">Iniciar a sincronização imediata com o backend selecionado.</string>
+  <string name="cab_remove_help_text">Remover o backend selecionado.</string>
+  <string name="cab_sync_download_help_text">Transferir uma conta que esteja disponível no backend. Uma conta será criada localmente e será configurada para sincronizar com o backend.</string>
+  <string name="cab_sync_link_help_text">Iniciar a sincronização de uma conta que existe localmente e remotamente. Tem de decidir se devem ser mantidos os dados locais ou remotos na primeira sincronização.</string>
+  <string name="cab_sync_unlink_help_text">A conta selecionada deixará de ser sincronizada com o backend</string>
 </resources>

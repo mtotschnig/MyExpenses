@@ -18,6 +18,21 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_279">
+    <item>Símbolos das moedas podem ser configurados</item>
+  </string-array>
+  <string-array name="whats_new_278">
+    <item>Atalhos da aplicação para o Android 7.1</item>
+  </string-array>
+  <string-array name="whats_new_277">
+    <item>Cópias de segurança automáticas podem ser armazenadas na nuvem</item>
+  </string-array>
+  <string-array name="whats_new_276">
+    <item>Pequenas melhorias</item>
+  </string-array>
+  <string-array name="whats_new_275">
+    <item>Sincronização entre dispositivos através de serviços na nuvem</item>
+  </string-array>
   <string-array name="whats_new_271">
     <item>Problemas com planos em dispositivos Samsung estão corrigidos</item>
     <item>Editar transações a partir do ecrã de distribuição</item>
