@@ -65,8 +65,8 @@
                         <TextView
                             android:id="@+id/label"
                             style="@style/headingStyle"
-                            android:layout_marginRight="20dp"
                             android:layout_marginEnd="20dp"
+                            android:layout_marginRight="20dp"
                             android:layout_span="2"
                             tools:text="@string/label"/>
                     </TableRow>
@@ -85,6 +85,7 @@
                         android:layout_marginTop="5dp">
 
                         <TextView
+                            android:layout_width="0dp"
                             android:text="@string/opening_balance"/>
 
                         <TextView
@@ -98,6 +99,7 @@
                     <TableRow>
 
                         <TextView
+                            android:layout_width="0dp"
                             android:text="@string/sum_income"/>
 
                         <TextView
@@ -111,6 +113,7 @@
                     <TableRow>
 
                         <TextView
+                            android:layout_width="0dp"
                             android:text="@string/sum_expenses"/>
 
                         <TextView
@@ -124,6 +127,7 @@
                     <TableRow android:id="@+id/TransferRow">
 
                         <TextView
+                            android:layout_width="0dp"
                             android:text="@string/sum_transfer"/>
 
                         <TextView
@@ -136,7 +140,8 @@
 
                     <TableRow>
 
-                        <View/>
+                        <View
+                            android:layout_height="4dp"/>
 
                         <View
                             android:layout_width="fill_parent"
@@ -147,6 +152,7 @@
                     <TableRow>
 
                         <TextView
+                            android:layout_width="0dp"
                             android:text="@string/current_balance"/>
 
                         <TextView
@@ -160,6 +166,7 @@
                     <TableRow android:id="@+id/TotalRow">
 
                         <TextView
+                            android:layout_width="0dp"
                             android:text="@string/menu_aggregates"/>
 
                         <TextView
@@ -173,6 +180,7 @@
                     <TableRow android:id="@+id/ClearedRow">
 
                         <TextView
+                            android:layout_width="0dp"
                             android:text="@string/total_cleared"/>
 
                         <TextView
@@ -187,6 +195,7 @@
                         android:id="@+id/ReconciledRow">
 
                         <TextView
+                            android:layout_width="0dp"
                             android:text="@string/total_reconciled"/>
 
                         <TextView
