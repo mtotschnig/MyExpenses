@@ -35,44 +35,48 @@ public class PubNativeAdHandler extends AdHandler {
 
   @Override
   public void init() {
-    PubnativeNetworkRequest request = new PubnativeNetworkRequest();
-    adRoot = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.pubnative_my_banner, adContainer, false);
+    if (isAdDisabled()) {
+      hide();
+    } else {
+      PubnativeNetworkRequest request = new PubnativeNetworkRequest();
+      adRoot = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.pubnative_my_banner, adContainer, false);
 
-    banner = (RelativeLayout) adRoot.findViewById(R.id.pubnative_banner_view);
-    title = (TextView) adRoot.findViewById(R.id.pubnative_banner_title);
-    description = (TextView) adRoot.findViewById(R.id.pubnative_banner_description);
-    icon = (ImageView) adRoot.findViewById(R.id.pubnative_banner_image);
-    install = (Button) adRoot.findViewById(R.id.pubnative_banner_button);
-    disclosure = (ViewGroup) adRoot.findViewById(R.id.ad_disclosure);
+      banner = (RelativeLayout) adRoot.findViewById(R.id.pubnative_banner_view);
+      title = (TextView) adRoot.findViewById(R.id.pubnative_banner_title);
+      description = (TextView) adRoot.findViewById(R.id.pubnative_banner_description);
+      icon = (ImageView) adRoot.findViewById(R.id.pubnative_banner_image);
+      install = (Button) adRoot.findViewById(R.id.pubnative_banner_button);
+      disclosure = (ViewGroup) adRoot.findViewById(R.id.ad_disclosure);
 
-    adContainer.addView(adRoot);
+      adContainer.addView(adRoot);
 
-    request.start(context, APP_TOKEN, PLACEMENT_NAME, new PubnativeNetworkRequest.Listener() {
+      request.start(context, APP_TOKEN, PLACEMENT_NAME, new PubnativeNetworkRequest.Listener() {
 
-      @Override
-      public void onPubnativeNetworkRequestLoaded(PubnativeNetworkRequest request, PubnativeAdModel model) {
-        Timber.i("Request loaded, got model: %s", model);
-        banner.setVisibility(View.VISIBLE);
-        title.setText(model.getTitle());
-        description.setText(model.getDescription());
-        install.setText(model.getCallToAction());
-        icon.setImageBitmap(model.getIcon());
-        View sponsorView = model.getAdvertisingDisclosureView(context);
-        if (sponsorView != null) {
-          disclosure.addView(sponsorView);
+        @Override
+        public void onPubnativeNetworkRequestLoaded(PubnativeNetworkRequest request, PubnativeAdModel model) {
+          Timber.i("Request loaded, got model: %s", model);
+          banner.setVisibility(View.VISIBLE);
+          title.setText(model.getTitle());
+          description.setText(model.getDescription());
+          install.setText(model.getCallToAction());
+          icon.setImageBitmap(model.getIcon());
+          View sponsorView = model.getAdvertisingDisclosureView(context);
+          if (sponsorView != null) {
+            disclosure.addView(sponsorView);
+          }
+          model.withTitle(title)
+              .withDescription(description)
+              .withIcon(icon)
+              .withCallToAction(install)
+              .startTracking(context, adRoot);
         }
-        model.withTitle(title)
-            .withDescription(description)
-            .withIcon(icon)
-            .withCallToAction(install)
-            .startTracking(context, adRoot);
-      }
 
-      @Override
-      public void onPubnativeNetworkRequestFailed(PubnativeNetworkRequest request, Exception exception) {
-        Timber.e(exception);
-        hide();
-      }
-    });
+        @Override
+        public void onPubnativeNetworkRequestFailed(PubnativeNetworkRequest request, Exception exception) {
+          Timber.e(exception);
+          hide();
+        }
+      });
+    }
   }
 }
