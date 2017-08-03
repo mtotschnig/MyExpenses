@@ -84,9 +84,6 @@ public class PlanMonthFragment extends CaldroidFragment
   }
 
   @State
-  protected HashMap<DateTime, Long> dateTime2InstanceMap = new HashMap<>();
-
-  @State
   protected HashMap<Long,Long> instance2TransactionMap = new HashMap<>();
 
   public static PlanMonthFragment newInstance(String title, long templateId, long planId, int color, boolean readOnly) {
@@ -245,8 +242,6 @@ public class PlanMonthFragment extends CaldroidFragment
           calendar.setTimeInMillis(data.getLong(
               data.getColumnIndex(CalendarContractCompat.Instances.BEGIN)));
           DateTime dateTime = CalendarHelper.convertDateToDateTime(calendar.getTime());
-          dateTime2InstanceMap.put(dateTime,
-              data.getLong(data.getColumnIndex(CalendarContractCompat.Instances._ID)));
           selectedDates.add(dateTime);
           data.moveToNext();
         }
@@ -349,8 +344,7 @@ public class PlanMonthFragment extends CaldroidFragment
   }
 
   private long getPlanInstanceForPosition(int position) {
-    DateTime dateTime = dateInMonthsList.get(position);
-    return dateTime2InstanceMap.get(dateTime);
+    return CalendarProviderProxy.calculateId(dateInMonthsList.get(position));
   }
 
   private long getDateForPosition(int position) {
@@ -450,9 +444,9 @@ public class PlanMonthFragment extends CaldroidFragment
 
       DateTime dateTime = this.datetimeList.get(position);
 
-      if (dateTime2InstanceMap.get(dateTime) != null) {
+      if (selectedDates.contains(dateTime)) {
         state.setVisibility(View.VISIBLE);
-        Long transactionId = instance2TransactionMap.get(dateTime2InstanceMap.get(dateTime));
+        Long transactionId = instance2TransactionMap.get(CalendarProviderProxy.calculateId(dateTime));
         boolean brightColor = UiUtils.isBrightColor(getArguments().getInt(DatabaseConstants.KEY_COLOR));
         int themeResId = brightColor ? R.style.ThemeLight : R.style.ThemeDark;
         if (transactionId == null) {
@@ -512,7 +506,7 @@ public class PlanMonthFragment extends CaldroidFragment
 
     @Override
     public boolean isEnabled(int position) {
-      return dateTime2InstanceMap.get(this.datetimeList.get(position)) != null;
+      return selectedDates.contains(this.datetimeList.get(position));
     }
   }
 }

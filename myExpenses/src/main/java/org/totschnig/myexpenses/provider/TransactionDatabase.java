@@ -47,6 +47,7 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
+import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.PictureDirHelper;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -124,7 +125,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 64;
+  public static final int DATABASE_VERSION = 65;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -1481,6 +1482,26 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       ContentValues initialValues = new ContentValues();
       initialValues.put("code", CurrencyEnum.BYN.name());
       db.insert("currency", null, initialValues);
+    }
+
+    if (oldVersion < 65) {
+      if (DistribHelper.shouldUseAndroidPlatformCalendar()) {
+        Cursor c = db.rawQuery("SELECT instance_id, (SELECT date from transactions where _id = transaction_id) FROM planinstance_transaction", null);
+        if (c != null) {
+          if (c.moveToFirst()) {
+            ContentValues v = new ContentValues();
+            while (c.getPosition() < c.getCount()) {
+              long instanceId =  c.getLong(0);
+              long date = c.getLong(1);
+              //This will be correct only for instances where date has not been edited by user, but it is the best we can do
+              v.put("instance_id", CalendarProviderProxy.calculateId(date * 1000));
+              db.update("planinstance_transaction", v, "instance_id = " + instanceId, null);
+              c.moveToNext();
+            }
+          }
+          c.close();
+        }
+      }
     }
   }
 

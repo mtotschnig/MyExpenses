@@ -29,7 +29,6 @@ public class CalendarProviderProxy extends ContentProvider {
   public static final Uri EVENTS_URI = Uri.parse("content://" + AUTHORITY + "/events");
   private static final String[] INSTANCE_PROJECTION = new String[]{
       CalendarContractCompat.Instances.EVENT_ID,
-      CalendarContractCompat.Instances._ID,
       CalendarContractCompat.Instances.BEGIN
   };
 
@@ -104,7 +103,6 @@ public class CalendarProviderProxy extends ContentProvider {
                   if (isInstanceOfPlan(dayToCheck, dtstart, recurrence)) {
                     result.addRow(new String[]{
                         eventId,
-                        String.valueOf(dayToCheck.getYear() * 1000 + dayToCheck.getDayOfYear()),
                         String.valueOf(dayToCheck.getMilliseconds(TimeZone.getDefault())),
                     });
                     if (recurrence == null) {
@@ -160,6 +158,14 @@ public class CalendarProviderProxy extends ContentProvider {
             dayToCheck.getMonth().equals(startDate.getMonth());
     }
     throw new IllegalStateException("Unhandled event recurrence" + recurrence.toString());
+  }
+
+  public static long calculateId(long date) {
+    return calculateId(DateTime.forInstant(date, TimeZone.getTimeZone("UTC")));
+  }
+
+  public static long calculateId(DateTime dateTime) {
+    return dateTime.getYear() * 1000 + dateTime.getDayOfYear();
   }
 
   @Override

@@ -107,8 +107,8 @@ public class PlanExecutor extends IntentService {
       if (cursor.moveToFirst()) {
         while (!cursor.isAfterLast()) {
           long planId = cursor.getLong(cursor.getColumnIndex(CalendarContractCompat.Instances.EVENT_ID));
-          Long instanceId = cursor.getLong(cursor.getColumnIndex(CalendarContractCompat.Instances._ID));
           long date = cursor.getLong(cursor.getColumnIndex(CalendarContractCompat.Instances.BEGIN));
+          Long instanceId = CalendarProviderProxy.calculateId(date);
           //2) check if they are part of a plan linked to a template
           //3) execute the template
           log("found instance %d of plan %d", instanceId, planId);

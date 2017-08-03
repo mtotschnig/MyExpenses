@@ -26,8 +26,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.RemoteException;
 
-import com.android.calendar.CalendarContractCompat;
-
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.provider.CalendarProviderProxy;
@@ -44,10 +42,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
 
-import hirondelle.date4j.DateTime;
 import timber.log.Timber;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.DAY;
@@ -497,29 +492,12 @@ public class Transaction extends Model {
 
     if (originTemplate != null && originTemplate.getId() == 0) {
       originTemplate.save();
-      //now need to find out the instance number
-      Uri.Builder eventsUriBuilder = CalendarProviderProxy.INSTANCES_URI.buildUpon();
-      DateTime instant = DateTime.forInstant(originTemplate.getPlan().dtstart, TimeZone.getDefault());
-      ContentUris.appendId(eventsUriBuilder, instant.getStartOfDay().getMilliseconds(TimeZone.getDefault()));
-      ContentUris.appendId(eventsUriBuilder, instant.getEndOfDay().getMilliseconds(TimeZone.getDefault()));
-      Uri eventsUri = eventsUriBuilder.build();
-      Cursor c = cr().query(eventsUri,
-          null,
-          String.format(Locale.US, CalendarContractCompat.Instances.EVENT_ID + " = %d",
-              originTemplate.getPlan().getId()),
-          null,
-          null);
-      if (c != null) {
-        if (c.moveToFirst()) {
-          long instance_id = c.getLong(c.getColumnIndex(CalendarContractCompat.Instances._ID));
-          ContentValues values = new ContentValues();
-          values.put(KEY_TEMPLATEID, originTemplate.getId());
-          values.put(KEY_INSTANCEID, instance_id);
-          values.put(KEY_TRANSACTIONID, getId());
-          cr().insert(TransactionProvider.PLAN_INSTANCE_STATUS_URI, values);
-        }
-        c.close();
-      }
+      //now need to calculate instance number
+      ContentValues values = new ContentValues();
+      values.put(KEY_TEMPLATEID, originTemplate.getId());
+      values.put(KEY_INSTANCEID, CalendarProviderProxy.calculateId(originTemplate.getPlan().dtstart));
+      values.put(KEY_TRANSACTIONID, getId());
+      cr().insert(TransactionProvider.PLAN_INSTANCE_STATUS_URI, values);
     }
     return uri;
   }

@@ -204,7 +204,7 @@ public final class CalendarContractCompat {
      * days and minutes. The instances table is not writable and only provides a
      * way to query event occurrences.
      */
-    public static final class Instances implements BaseColumns {
+    public static final class Instances {
       public static String BEGIN, END, EVENT_ID, TITLE;
       public static final Uri CONTENT_URI;
       static {
