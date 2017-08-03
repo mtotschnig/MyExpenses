@@ -766,6 +766,8 @@ public class MyExpenses extends LaunchActivity implements
               return super.loadInBackground();
             } catch (TransactionDatabase.SQLiteDowngradeFailedException |
                 TransactionDatabase.SQLiteUpgradeFailedException e) {
+              //TODO this currently is dead code (with the exception of Gingerbread) since database is initialized in TASK_INIT
+              //TODO evaluate if this is still relevant and needs to be migrated to handling of TASK_INIT
               AcraHelper.report(e);
               String msg = e instanceof TransactionDatabase.SQLiteDowngradeFailedException ?
                   ("Database cannot be downgraded from a newer version. Please either uninstall MyExpenses, " +
