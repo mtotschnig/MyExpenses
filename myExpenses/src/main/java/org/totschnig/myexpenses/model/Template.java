@@ -15,21 +15,27 @@
 
 package org.totschnig.myexpenses.model;
 
+import android.content.ContentProviderOperation;
+import android.content.ContentProviderResult;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
+import android.os.RemoteException;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.provider.CalendarProviderProxy;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.Utils;
 
+import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Date;
 
@@ -51,6 +57,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLAN_EXECU
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
@@ -240,12 +247,17 @@ public class Template extends Transaction {
     return t;
   }
 
+  @Override
+  public Uri save() {
+    return save(null);
+  }
+
   /**
    * Saves the new template, or updated an existing one
    *
    * @return the Uri of the template. Upon creation it is returned from the content provider, null if inserting fails on constraints
    */
-  public Uri save() {
+  public Uri save(Long withLinkedTransaction) {
     if (plan != null) {
       Uri planUri = plan.save();
       if (planUri != null) {
@@ -270,8 +282,18 @@ public class Template extends Transaction {
       initialValues.put(KEY_TRANSFER_PEER, isTransfer());
       initialValues.put(KEY_UUID, requireUuid());
       try {
-        uri = cr().insert(CONTENT_URI, initialValues);
-      } catch (SQLiteConstraintException e) {
+        ArrayList<ContentProviderOperation> ops = new ArrayList<>();
+        ops.add(ContentProviderOperation.newInsert(CONTENT_URI).withValues(initialValues).build());
+        if (withLinkedTransaction != null) {
+          ops.add(ContentProviderOperation.newInsert(TransactionProvider.PLAN_INSTANCE_STATUS_URI)
+              .withValueBackReference(KEY_TEMPLATEID, 0)
+              .withValue(KEY_INSTANCEID, CalendarProviderProxy.calculateId(plan.dtstart))
+              .withValue(KEY_TRANSACTIONID, withLinkedTransaction)
+              .build());
+        }
+        ContentProviderResult[] result = cr().applyBatch(TransactionProvider.AUTHORITY, ops);
+        uri = result[0].uri;
+      } catch (RemoteException | OperationApplicationException | SQLiteConstraintException e) {
         return null;
       }
       setId(ContentUris.parseId(uri));

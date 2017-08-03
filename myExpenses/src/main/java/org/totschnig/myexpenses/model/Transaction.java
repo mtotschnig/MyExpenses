@@ -28,7 +28,6 @@ import android.os.RemoteException;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.provider.CalendarProviderProxy;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -491,13 +490,7 @@ public class Transaction extends Model {
     }
 
     if (originTemplate != null && originTemplate.getId() == 0) {
-      originTemplate.save();
-      //now need to calculate instance number
-      ContentValues values = new ContentValues();
-      values.put(KEY_TEMPLATEID, originTemplate.getId());
-      values.put(KEY_INSTANCEID, CalendarProviderProxy.calculateId(originTemplate.getPlan().dtstart));
-      values.put(KEY_TRANSACTIONID, getId());
-      cr().insert(TransactionProvider.PLAN_INSTANCE_STATUS_URI, values);
+      originTemplate.save(getId());
     }
     return uri;
   }
