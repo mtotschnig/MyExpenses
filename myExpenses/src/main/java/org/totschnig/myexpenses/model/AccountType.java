@@ -1,8 +1,7 @@
 package org.totschnig.myexpenses.model;
 
-import android.content.Context;
+import android.support.annotation.StringRes;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.TextUtils;
 
@@ -12,23 +11,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 public enum AccountType {
   CASH, BANK, CCARD, ASSET, LIABILITY;
   public static final String JOIN;
-
-  public String toString() {
-    Context ctx = MyApplication.getInstance();
-    switch (this) {
-      case CASH:
-        return ctx.getString(R.string.account_type_cash);
-      case BANK:
-        return ctx.getString(R.string.account_type_bank);
-      case CCARD:
-        return ctx.getString(R.string.account_type_ccard);
-      case ASSET:
-        return ctx.getString(R.string.account_type_asset);
-      case LIABILITY:
-        return ctx.getString(R.string.account_type_liability);
-    }
-    return "";
-  }
 
   public int toStringResPlural() {
     switch (this) {
@@ -104,5 +86,22 @@ public enum AccountType {
 
   static {
     JOIN = TextUtils.joinEnum(AccountType.class);
+  }
+
+  @StringRes
+  public int toStringRes() {
+    switch (this) {
+      case CASH:
+        return R.string.account_type_cash;
+      case BANK:
+        return R.string.account_type_bank;
+      case CCARD:
+        return R.string.account_type_ccard;
+      case ASSET:
+        return R.string.account_type_asset;
+      case LIABILITY:
+        return R.string.account_type_liability;
+    }
+    return 0;
   }
 }

@@ -329,7 +329,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     } else {
       TextView tv = (TextView) mLayout.findViewById(R.id.Status);
       tv.setBackgroundColor(mTransaction.crStatus.color);
-      tv.setText(mTransaction.crStatus.toString(ctx));
+      tv.setText(mTransaction.crStatus.toStringRes());
     }
 
     if (mTransaction.originTemplate == null) {

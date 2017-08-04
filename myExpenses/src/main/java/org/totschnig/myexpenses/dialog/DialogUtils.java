@@ -54,6 +54,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.activity.ProtectionDelegate;
+import org.totschnig.myexpenses.adapter.AccountTypeAdapter;
 import org.totschnig.myexpenses.adapter.CurrencyAdapter;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.model.Account;
@@ -350,9 +351,7 @@ public class DialogUtils {
   public static Spinner configureTypeSpinner(View view) {
     Spinner spinner = view instanceof Spinner ? (Spinner) view :
         (Spinner) view.findViewById(R.id.AccountType);
-    ArrayAdapter<AccountType> typAdapter = new ArrayAdapter<>(
-        spinner.getContext(), android.R.layout.simple_spinner_item, android.R.id.text1, AccountType.values());
-    typAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+    ArrayAdapter<AccountType> typAdapter = new AccountTypeAdapter(spinner.getContext());
     spinner.setAdapter(typAdapter);
     return spinner;
   }
