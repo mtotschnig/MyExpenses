@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.activity;
 
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.GridLayout;
 import android.view.View;
@@ -97,11 +98,11 @@ public class MethodEdit extends EditActivity implements CompoundButton.OnChecked
     mPaymentTypeSpinner.setSelection(paymentType +1);
     //add one checkbox for each account type
     AppCompatCheckBox cb;
-    int cbId = 1;
+    @IdRes int cbId = 1;
     TextView accountTypesLabel = (TextView) findViewById(R.id.AccountTypesLabel);
     for (AccountType accountType : AccountType.values()) {
       cb = new AppCompatCheckBox(this);
-      cb.setText(accountType.toString());
+      cb.setText(accountType.toStringRes());
       cb.setTag(accountType);
       cb.setChecked(mMethod.isValidForAccountType(accountType));
       //setting Id makes state be retained on orientation change 
