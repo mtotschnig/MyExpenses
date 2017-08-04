@@ -221,18 +221,8 @@ public class Transaction extends Model {
     }
 
     public String toString() {
-      Context ctx = MyApplication.getInstance();
-      switch (this) {
-        case CLEARED:
-          return ctx.getString(R.string.status_cleared);
-        case RECONCILED:
-          return ctx.getString(R.string.status_reconciled);
-        case UNRECONCILED:
-          return ctx.getString(R.string.status_uncreconciled);
-        case VOID:
-          return ctx.getString(R.string.status_void);
-      }
-      return super.toString();
+      //TODO remove if not needed
+      return toString(MyApplication.getInstance());
     }
 
     public static final String JOIN;
@@ -251,6 +241,20 @@ public class Transaction extends Model {
       } else {
         return UNRECONCILED;
       }
+    }
+
+    public String toString(Context ctx) {
+      switch (this) {
+        case CLEARED:
+          return ctx.getString(R.string.status_cleared);
+        case RECONCILED:
+          return ctx.getString(R.string.status_reconciled);
+        case UNRECONCILED:
+          return ctx.getString(R.string.status_uncreconciled);
+        case VOID:
+          return ctx.getString(R.string.status_void);
+      }
+      return super.toString();
     }
   }
 
