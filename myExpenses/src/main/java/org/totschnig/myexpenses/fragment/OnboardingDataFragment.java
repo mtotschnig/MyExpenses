@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -55,6 +56,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 public class OnboardingDataFragment extends OnboardingFragment implements AdapterView.OnItemSelectedListener,
     SimpleDialog.OnDialogResultListener {
 
+  private static final String KEY_LABEL_UNCHANGED_OR_EMPTY = "label_unchanged_or_empty";
   @BindView(R.id.MoreOptionsContainer)
   View moreOptionsContainer;
   @BindView(R.id.MoreOptionsButton)
@@ -96,6 +98,9 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
   public void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
     outState.putSerializable(KEY_CURRENCY, ((CurrencyEnum) currencySpinner.getSelectedItem()));
+    String label = labelEditText.getText().toString();
+    outState.putBoolean(KEY_LABEL_UNCHANGED_OR_EMPTY, TextUtils.isEmpty(label) ||
+        label.equals(getString(R.string.default_account_name)));
     Icepick.saveInstanceState(this, outState);
   }
 
@@ -144,7 +149,7 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
     ButterKnife.bind(this, view);
 
     //label
-    labelEditText.setText(R.string.default_account_name);
+    setDefaultLabel();
 
     //amount
     amountEditText.setFractionDigits(2);
@@ -174,12 +179,19 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
     return view;
   }
 
+  public void setDefaultLabel() {
+    labelEditText.setText(R.string.default_account_name);
+  }
+
   @Override
   public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
     super.onViewStateRestored(savedInstanceState);
     if (savedInstanceState != null) {
       currencySpinner.setSelection(((CurrencyAdapter) currencySpinner.getAdapter())
           .getPosition((CurrencyEnum) savedInstanceState.get(KEY_CURRENCY)));
+      if(savedInstanceState.getBoolean(KEY_LABEL_UNCHANGED_OR_EMPTY)) {
+        setDefaultLabel();
+      }
     }
   }
 
