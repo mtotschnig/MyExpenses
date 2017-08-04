@@ -42,7 +42,7 @@
 
                 <TextView
                     android:id="@+id/LabelLabel"
-                    style="@style/form_label.compat"
+                    style="@style/FormLabel"
                     android:labelFor="@+id/Label"
                     android:text="@string/label"/>
 
@@ -58,7 +58,7 @@
 
                 <TextView
                     android:id="@+id/DescriptionLabel"
-                    style="@style/form_label.compat"
+                    style="@style/FormLabel"
                     android:labelFor="@+id/Description"
                     android:text="@string/description"/>
 
@@ -75,7 +75,7 @@
 
                 <TextView
                     android:id="@+id/AmountLabel"
-                    style="@style/form_label.compat"
+                    style="@style/FormLabel"
                     android:labelFor="@+id/Amount"
                     android:text="@string/opening_balance"/>
 
@@ -86,7 +86,7 @@
 
                 <TextView
                     android:id="@+id/CurrencyLabel"
-                    style="@style/form_label.compat"
+                    style="@style/FormLabel"
                     android:labelFor="@+id/Currency"
                     android:text="@string/currency"/>
 
@@ -100,7 +100,7 @@
 
                 <TextView
                     android:id="@+id/AccountTypeLabel"
-                    style="@style/form_label.compat"
+                    style="@style/FormLabel"
                     android:labelFor="@+id/AccountType"
                     android:text="@string/type"/>
 
@@ -114,7 +114,7 @@
 
                 <TextView
                     android:id="@+id/ColorLabel"
-                    style="@style/form_label.compat"
+                    style="@style/FormLabel"
                     android:labelFor="@+id/ColorIndicator"
                     android:text="@string/color"/>
 
@@ -125,7 +125,7 @@
 
                 <TextView
                     android:id="@+id/SyncLabel"
-                    style="@style/form_label.compat"
+                    style="@style/FormLabel"
                     android:labelFor="@+id/Sync"
                     android:text="@string/synchronization"/>
 

@@ -13,4 +13,11 @@
     <style name="OnboardingSpinner">
         <item name="android:layout_marginStart">-8dp</item>
     </style>
+
+    <style name="FormLabelBase.V17">
+        <item name="android:paddingEnd">12dp</item>
+    </style>
+
+    <style name="FormLabel" parent="FormLabelBase.V17">
+    </style>
 </resources>

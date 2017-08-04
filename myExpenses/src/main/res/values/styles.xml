@@ -43,18 +43,18 @@
         <item name="android:textColorLink">@drawable/linkcolor</item>
     </style>
 
-    <style name="form_label">
-        <item name="android:paddingRight">12dp</item>
+    <style name="FormLabelBase">
         <item name="android:gravity">center_vertical</item>
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:minHeight">50dp</item>
-    </style>
-
-    <style name="form_label.compat">
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="form_label.condensed" parent="form_label.compat">
+    <style name="FormLabel" parent="FormLabelBase">
+        <item name="android:paddingRight">12dp</item>
+    </style>
+
+    <style name="FormLabel.Condensed">
         <item name="android:minHeight">0dp</item>
     </style>
 

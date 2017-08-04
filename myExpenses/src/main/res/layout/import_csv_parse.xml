@@ -35,7 +35,7 @@
         <TableRow>
 
             <TextView
-                style="@style/form_label.compat"
+                style="@style/FormLabel"
                 android:layout_width="0dip"
                 android:layout_weight="1"
                 android:text="@string/pref_csv_import_delimiter"/>

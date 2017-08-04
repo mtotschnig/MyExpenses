@@ -7,7 +7,7 @@
     <TextView
         android:layout_width="0dip"
         android:layout_weight="1"
-        style="@style/form_label.compat"
+        style="@style/FormLabel"
         android:text="@string/date_format"/>
 
     <Spinner
