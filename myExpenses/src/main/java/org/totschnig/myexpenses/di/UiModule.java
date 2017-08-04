@@ -6,6 +6,7 @@ import org.totschnig.myexpenses.activity.SystemImageViewIntentProvider;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.ads.AdHandler;
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory;
+import org.totschnig.myexpenses.util.ads.NoOpAdHandler;
 import org.totschnig.myexpenses.util.ads.PubNativeAdHandler;
 
 import javax.inject.Singleton;
@@ -33,13 +34,11 @@ public class UiModule {
       return (AdHandlerFactory) Class.forName(
           "org.totschnig.myexpenses.util.ads.PlatformAdHandlerFactory").newInstance();
     } catch (Exception e) {
-      return adContainer -> Utils.hasApiLevel(15) && Utils.isComAndroidVendingInstalled(application) ?
-          new PubNativeAdHandler(adContainer) :
-          new AdHandler(adContainer) {
-            public void init() {
-              hide();
-            }
-          };
+      return (!AdHandler.isAdDisabled(application) && Utils.hasApiLevel(15) &&
+          Utils.isComAndroidVendingInstalled(application)) ?
+          PubNativeAdHandler::new :
+          NoOpAdHandler::new;
     }
   }
+
 }

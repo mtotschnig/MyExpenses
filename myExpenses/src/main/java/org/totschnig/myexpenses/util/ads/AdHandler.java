@@ -22,12 +22,16 @@ public abstract class AdHandler {
   public abstract void init();
 
   protected boolean isAdDisabled() {
-    return !BuildConfig.DEBUG &&
-        (ContribFeature.AD_FREE.hasAccess() ||
-            isInInitialGracePeriod());
+    return isAdDisabled(context);
   }
 
-  private boolean isInInitialGracePeriod() {
+  public static boolean isAdDisabled(Context context) {
+    return !BuildConfig.DEBUG &&
+        (ContribFeature.AD_FREE.hasAccess() ||
+            isInInitialGracePeriod(context));
+  }
+
+  private static boolean isInInitialGracePeriod(Context context) {
     try {
       return System.currentTimeMillis() -
           context.getPackageManager().getPackageInfo(context.getPackageName(), 0)
