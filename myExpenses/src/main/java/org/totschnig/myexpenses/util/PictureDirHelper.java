@@ -106,6 +106,9 @@ public class PictureDirHelper {
   @VisibleForTesting
   @NonNull
   public static File getFileForUri(Uri pictureUri) throws IllegalArgumentException {
+    if ("file".equals(pictureUri.getScheme())) {
+      return new File(pictureUri.getPath());
+    }
     Preconditions.checkArgument("authority", AppDirHelper.getFileProviderAuthority(),
         pictureUri.getAuthority());
     List<String> pathSegments = pictureUri.getPathSegments();
