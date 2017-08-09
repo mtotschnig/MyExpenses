@@ -33,7 +33,7 @@ public class AppDirHelper {
     String prefString = PrefKey.APP_DIR.getString(null);
     if (prefString != null) {
       Uri pref = Uri.parse(prefString);
-      if (pref.getScheme().equals("file")) {
+      if ("file".equals(pref.getScheme())) {
         File appDir = new File(pref.getPath());
         if (appDir.mkdir() || appDir.isDirectory()) {
           return DocumentFile.fromFile(appDir);
