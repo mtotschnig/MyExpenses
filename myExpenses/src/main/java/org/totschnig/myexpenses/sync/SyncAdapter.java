@@ -159,7 +159,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
               "The backend could not be instantiated. Reason: %s. Please try to delete and recreate it.",
               throwable.getMessage()),
           null,
-          new Intent(getContext(), ManageSyncBackends.class));
+          getManageSyncBackendsIntent());
 
       return;
     }
@@ -359,6 +359,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     backend.tearDown();
   }
 
+  @NonNull
+  private Intent getManageSyncBackendsIntent() {
+    return new Intent(getContext(), ManageSyncBackends.class);
+  }
+
   private void appendToNotification(String content, Account account, boolean newLine) {
     StringBuilder contentBuilder = notificationContent.get(account.hashCode());
     if (contentBuilder.length() > 0) {
@@ -373,6 +378,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     Timber.tag(TAG).i(content);
     NotificationBuilderWrapper builder = NotificationBuilderWrapper.defaultBigTextStyleBuilder(
         getContext(), title, content);
+    //on Gingerbread content intent is required
+    if (intent == null && !Utils.hasApiLevel(Build.VERSION_CODES.ICE_CREAM_SANDWICH)) {
+      intent = getManageSyncBackendsIntent();
+    }
     if (intent != null) {
       builder.setContentIntent(PendingIntent.getActivity(
           getContext(), 0, intent, PendingIntent.FLAG_CANCEL_CURRENT));
