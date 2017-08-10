@@ -29,7 +29,6 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_LINK
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_LINK_SAVE;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_REMOVE_BACKEND;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_UNLINK;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_WEBDAV_TEST_LOGIN;
 
 public class ManageSyncBackends extends SyncBackendSetupActivity implements ContribIFace {
 
@@ -129,10 +128,6 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
     super.onPostExecute(taskId, o);
     Result result = (Result) o;
     switch (taskId) {
-      case TASK_WEBDAV_TEST_LOGIN: {
-        getWebdavFragment().onTestLoginResult(result);
-        break;
-      }
       case TASK_CREATE_SYNC_ACCOUNT: {
         if (result.success) {
           getListFragment().reloadAccountList();
