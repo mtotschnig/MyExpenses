@@ -18,6 +18,25 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_280">
+    <item>Hebreerara itzulpena</item>
+    <item>Hautatzailea kontu kolore pertsonalizatuarentzat</item>
+  </string-array>
+  <string-array name="whats_new_279">
+    <item>Moneta-ikurrak konfiguratu daitezke</item>
+  </string-array>
+  <string-array name="whats_new_278">
+    <item>Lasterbideak aplikaziora Android 7.1-erako</item>
+  </string-array>
+  <string-array name="whats_new_277">
+    <item>Babeskopia automatikoak hodeiko atzealdekoan biltegiratu daitezke</item>
+  </string-array>
+  <string-array name="whats_new_276">
+    <item>Bigarren mailako hobekuntzak</item>
+  </string-array>
+  <string-array name="whats_new_275">
+    <item>Gailuen arteko sinkronizazioa hodeiko zerbitzuen bidez</item>
+  </string-array>
   <string-array name="whats_new_271">
     <item>Planekin Samsung gailuetan zeuden arazoak konpòndu dira</item>
     <item>Editatu transakzioak distribuzioaren pantailatik</item>
@@ -48,6 +67,9 @@
     <item>Kontuaren saldoa arbelera kopiatu daiteke</item>
     <item>Itsatsi kalkulagailuan arbeletik</item>
     <item>Data formaturako laguntza esportazio elkarrizketa koadroan</item>
+  </string-array>
+  <string-array name="whats_new_263">
+    <item>Transferentziak moneta desberdineko kontuen artean</item>
   </string-array>
   <string-array name="whats_new_262">
     <item>Astea eta hilabetearen hasierako eguna konfiguratu daiteke</item>

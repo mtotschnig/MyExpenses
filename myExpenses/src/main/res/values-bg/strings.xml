@@ -657,4 +657,5 @@
   <string name="onboarding_restore_from_local">Възстановяване на локалния бекъп файл</string>
   <string name="dialog_button_add">Добави</string>
   <string name="template_create_error">Грешка при запазването на шаблона</string>
+  <string name="contributed_by">Принос чрез %s</string>
 </resources>

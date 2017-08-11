@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_280">
+    <item>Traduction en hébreu</item>
+    <item>Choix personnalisé pour la couleur du compte</item>
+  </string-array>
   <string-array name="whats_new_279">
     <item>Les symboles des devises peuvent être configurés</item>
   </string-array>

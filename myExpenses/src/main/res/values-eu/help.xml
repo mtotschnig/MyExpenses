@@ -18,10 +18,15 @@
   <string name="menu_search_help_text">Sarrera honek azpi-menu bat irekitzen du non bilaketa irizpide bat zehaztu dezakezun kopurua, iruzkina, egoera, onuradun/ordaintzailea ala ordainketa metodoaren arabera  </string>
   <string name="cab_create_template_from_transaction_help_text">Definitu txantiloi berri bat aukeratutako transakzioan oinarrituta. Txantiloiaren izena eskatuko dizu.</string>
   <string name="cab_clone_transaction_help_text">Aukeratutako transakzioak oraingo data eta orduarekin klonatuko dira. Aldaketak egin ditzakezu kopia gorde aurretik</string>
+  <string name="cab_split_transaction_help_text">Hautatutako transakzioak banaketaren zati bat duen transakzio banatu bihurtuko dira. Zuk gero transakzioa edita dezakezu zatiak nahi bezala sortzeko.</string>
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Pantaila honetan aurre-zehaztutako ordainketa metodoak zerrendatzen dira (Txekea, kreditu txartela, gordailua, zordunketa zuzena) eta berriak zehaztea baimentzen dizu. Erabili ekintza botoi flotatzailea metodo berri bat sortzeko formularioa irekitzeko.</string>
   <!--ManageParties title is in keys-->
+  <string name="help_ManageParties_info">Pantaila honek Ordaintzailea/Onuraduna eremua automatikoki betetzeko erabiltzen diren balioak zerrendatzen ditu. Erabili ekintza botoi mugikorra sarrera berri bat gehitzeko.</string>
   <!--ManageTemplates title is in keys-->
+  <string name="help_ManageTemplates_plans_title">Egutegi ikuspegia</string>
+  <string name="help_ManageTemplates_templates_info"><![CDATA[<img src=\"ic_menu_template\">Txantiloiak transakzioetatik erator daitezke beraien laster-menuaren bidez, hemen txantiloi berriak sor ditzakezu hutsetik (transakzioetarako edo transferentzietarako) ekintza botoi mugikorrean klik eginez. Txantiloi batean klik eginez, horretarako instantzia bat sortzen da.<br><img src=\"ic_event\">Plan bat egutegiaren antolatzailean berarentzako gertaera bat (behin edo errepikakorra) sortu duzun txantiloi bat da. Plan batean klik egiteak egutegi ikuspegia irekiko du, zeinak plan baten iraganeko eta hurrengo instantziak bistaratuko dituen.]]></string>
+  <string name="help_ManageTemplates_plans_info"><![CDATA[Nabarmendutako data bakoitzak planeko instantzia bat adierazten du. Instantzia baten egoera ondorengo ikonoekin adierazita dago:<br><img src=\"ic_stat_open\">Instantzia oraindik ez da aplikatua izan.<br><img src=\"ic_stat_applied\">Instantzia aplikatua izan da.<br><img src=\"ic_stat_cancelled\"> Instantzia utzia izan da, adib. saltatua izateko markatu baduzu. Ez da transakziorik sortuko instantzia honetarako.]]></string>
   <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Aukeratutako txantiloien instantziak sortu eta gorde berehala. </string>
   <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Aukeratutako txantiloiaren instantzia bat sortu eta sartu edizio formularioan gorde aurretik aldatzeko.</string>
   <string name="cab_ManageTemplates_delete_help_text">Ezabatu aukeratutako txantiloiak eta hauei lotutako planak.</string>
@@ -31,7 +36,9 @@
   <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Adierazi aukeratutako gertakarien instantzietan, transakziorik sortu behar ez dela. Aukeratutako gertaeren instantzietatik transakzioak sortu badira, hauek ezabatu egingo dira.</string>
   <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Aukeratutako gertaeren instantzietatik transakzioak sortu badira, hauek ezabatu egingo dira, ezeztatuta gisa markatu badira, marka kenduko zaie.</string>
   <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Editatu sortutako transakzioa aukeratutako planaren instantziatik.</string>
+  <string name="menu_ManageTemplates_templates_sort_help_text">Txantiloi zerrenda izenburuaren (alfabetikoki), kopuruaren, erabilera maiztasunaren edo bertan transakzio batetik instantziatu den azken aldiaren arabera ordenatu daiteke.</string>
   <!--ManageCategories_* titles are in keys-->
+  <string name="help_ManageCategories_distribution_info">Pantaila honek zure gastu eta diru-sarreren kategoriako banaketa bistaratzen du, kontu baten transakzio guztiena edo talde zehatz batena. Zerrendan kategoria nagusi bat zabaltzen baduzu, grafiko biribilak azpikategorien banaketa bistaratuko du. Zerrendan kategoria bat hautatzen baduzu, hau grafiko biribilean nabarmenduko da, eta alderantziz. Sakatu luze kategoria batean berari esleitutako transakzioen agregatutako zerrenda bat bistaratzeko.</string>
   <string name="help_ManageCategories_select_mapping_info">Hobespenen pantailan kategoriak kudeatzean egin ditzakezun ekintzez gain (sortu, editatu, ezabatu), pantaila honetan transakzio bat aukeratutako kategoriarekin lotu dezakezu. Transakzio bat azpikategoria batetara lotzeko sakatu hau besterik gabe, kategoria nagusi batetara lotzeko bere laster-menua ireki behar duzu.</string>
   <string name="help_ManageCategories_select_filter_info">Aukeratu kategoria transakzio zerrenda iragazteko . Kategoria nagusi bat hautatzeko bere testuinguru menua deitu behar duzu.</string>
   <string name="help_ManageCategories_manage_info">Pantaila honetan kategoriak sortu, editatu eta ezabatu ditzakezu. Lehenetsita, kategoria zerrenda ordenatzeko irispidea kategoria erabilitako aldi kopurua da (bigarren irispidea ordena alfabetikoa da). Honek maiz erabilitako kategoriak azkar aurkitzea errazten du. Ezarpenetan, kategoriak alfabetikoki ordenatzea erabaki dezakezu. Kategoria batean sakatzeak azpikategoriak irekitzen ditu. Kategoria nagusi baten laster-menutik azpikategoria berriak gehitu ditzakezu, eta kategoria ezabatu edo editatu. Azpikategoriek ere badute laster-menua ezabatu edo editatzeko.</string>
@@ -39,9 +46,11 @@
   <string name="menu_back_help_text">Joan aurreko taldera. Hatza ezkerretik eskumara pasatuz ere egin daiteke.</string>
   <string name="menu_forward_help_text">Joan hurrengo taldera. Hatza eskumatik ezkerrera pasatuz ere egin daiteke.</string>
   <string name="cab_ManageCategories_create_sub_cat_help_text">Kategoria honen azpi-kategoria berri baten izena zehazteko elkarrizketa-koadroa irekitzen du.</string>
+  <string name="cab_ManageCategories_move_help_text">Azpikategoriak kategoria nagusi desberdin batera mugituak edo kategoria nagusitan eraldatuak izan daitezke. Azpikategoriarik gabeko kategoria nagusiak kategoria nagusi desberdin bateko azpikategoriatan eraldatuak izan daitezke.</string>
   <string name="cab_ManageCategories_select_category_help_text">Lotu aukeratutako kategoria transakziora eta itzuli transakzioaren formulariora.</string>
   <string name="menu_categories_setup_default_help_text">Lehenetsitako kategoria multzo bat inportatuko da.</string>
   <string name="menu_categories_export_help_text">Kategoriak QIF fitxategira esportatuko dira.</string>
+  <string name="menu_distribution_show_pie_char_help_text">Txandakatu grafiko biribilaren ikusgaitasuna.</string>
   <string name="cab_ManageCategories_select_filter_select_category_help_text">Aukeratutako kategoria transakzioen zerrenda iragazteko erabiliko da.</string>
   <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">Transakzioen formularioa</string>
