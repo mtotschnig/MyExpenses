@@ -1481,6 +1481,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     if (oldVersion < 64) {
       ContentValues initialValues = new ContentValues();
       initialValues.put("code", CurrencyEnum.BYN.name());
+      //will log SQLiteConstraintException if value already exists in table
       db.insert("currency", null, initialValues);
     }
 
