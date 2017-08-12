@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
@@ -20,6 +21,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.sync.ServiceLoader;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.util.Result;
+import org.totschnig.myexpenses.util.UiUtils;
 
 import java.io.Serializable;
 import java.util.List;
@@ -49,10 +51,12 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
     setContentView(R.layout.manage_sync_backends);
     setupToolbar(true);
     setTitle(R.string.pref_manage_sync_backends_title);
-    if (savedInstanceState == null && !ContribFeature.SYNCHRONIZATION.isAvailable()) {
-      contribFeatureRequested(ContribFeature.SYNCHRONIZATION, null);
+    if (savedInstanceState == null) {
+      if (!ContribFeature.SYNCHRONIZATION.isAvailable()) {
+        contribFeatureRequested(ContribFeature.SYNCHRONIZATION, null);
+      }
+      sanityCheck();
     }
-    sanityCheck();
   }
 
   private void sanityCheck() {
@@ -88,26 +92,27 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
       case R.id.SYNC_UNLINK_COMMAND: {
         startTaskExecution(TASK_SYNC_UNLINK,
             new String[]{args.getString(DatabaseConstants.KEY_UUID)}, null, 0);
-        break;
+        return;
       }
       case R.id.SYNC_REMOVE_BACKEND_COMMAND: {
         startTaskExecution(TASK_SYNC_REMOVE_BACKEND,
             new String[]{args.getString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)}, null, 0);
-        break;
+        return;
       }
       case R.id.SYNC_LINK_COMMAND_LOCAL_DO: {
         Account account = getListFragment().getAccountForSync(args.getLong(KEY_PACKED_POSITION));
         startTaskExecution(TASK_SYNC_LINK_LOCAL,
             new String[]{account.uuid}, account.getSyncAccountName(), 0);
-        break;
+        return;
       }
       case R.id.SYNC_LINK_COMMAND_REMOTE_DO: {
         Account account = getListFragment().getAccountForSync(args.getLong(KEY_PACKED_POSITION));
         startTaskExecution(TASK_SYNC_LINK_REMOTE,
             null, account, 0);
-        break;
+        return;
       }
     }
+    super.onPositive(args);
   }
 
   @Override
@@ -134,6 +139,9 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
         b.putLong(KEY_PACKED_POSITION, (Long) tag);
         ConfirmationDialogFragment.newInstance(b).show(getSupportFragmentManager(), "SYNC_LINK_REMOTE");
         break;
+      }
+      case R.id.TRY_AGAIN_COMMAND: {
+        sanityCheck();
       }
     }
     return super.dispatchCommand(command, tag);
@@ -174,7 +182,18 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
       case TASK_REPAIR_SYNC_BACKEND: {
         String resultPrintable = result.print(this);
         if (resultPrintable != null) {
-          Toast.makeText(this, resultPrintable, Toast.LENGTH_LONG).show();
+          if (result.success) {
+            Snackbar snackbar = Snackbar.make(
+                findViewById(R.id.container), resultPrintable, Snackbar.LENGTH_LONG);
+            UiUtils.configureSnackbarForDarkTheme(snackbar);
+            snackbar.show();
+          } else {
+            Bundle b = new Bundle();
+            b.putString(ConfirmationDialogFragment.KEY_MESSAGE, resultPrintable);
+            b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.TRY_AGAIN_COMMAND);
+            b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.try_again);
+            ConfirmationDialogFragment.newInstance(b).show(getSupportFragmentManager(), "REPAIR_SYNC_FAILURE");
+          }
         }
       }
     }
@@ -230,9 +249,9 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
 
   }
 
-
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
     if (requestCode == REQUEST_REPAIR_INTENT && resultCode == RESULT_OK) {
       for (SyncBackendProviderFactory factory: backendProviders) {
         if (factory.startRepairTask(this, data)) {
