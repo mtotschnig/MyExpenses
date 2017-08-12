@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,6 +25,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_REPAIR_SYNC_BACKEND;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_LINK_LOCAL;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_LINK_REMOTE;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_LINK_SAVE;
@@ -31,6 +33,8 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_REMO
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_UNLINK;
 
 public class ManageSyncBackends extends SyncBackendSetupActivity implements ContribIFace {
+
+  private static final int REQUEST_REPAIR_INTENT= 1;
 
   private static final String KEY_PACKED_POSITION = "packedPosition";
   private Account newAccount;
@@ -47,6 +51,18 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
     setTitle(R.string.pref_manage_sync_backends_title);
     if (savedInstanceState == null && !ContribFeature.SYNCHRONIZATION.isAvailable()) {
       contribFeatureRequested(ContribFeature.SYNCHRONIZATION, null);
+    }
+    sanityCheck();
+  }
+
+  private void sanityCheck() {
+    for (SyncBackendProviderFactory factory: backendProviders) {
+      Intent repairIntent = factory.getRepairIntent(this);
+      if (repairIntent != null) {
+        startActivityForResult(repairIntent, REQUEST_REPAIR_INTENT);
+        //for the moment we handle only one problem at one time
+        break;
+      }
     }
   }
 
@@ -155,6 +171,12 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
         }
         break;
       }
+      case TASK_REPAIR_SYNC_BACKEND: {
+        String resultPrintable = result.print(this);
+        if (resultPrintable != null) {
+          Toast.makeText(this, resultPrintable, Toast.LENGTH_LONG).show();
+        }
+      }
     }
   }
 
@@ -208,4 +230,15 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
 
   }
 
+
+  @Override
+  public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    if (requestCode == REQUEST_REPAIR_INTENT && resultCode == RESULT_OK) {
+      for (SyncBackendProviderFactory factory: backendProviders) {
+        if (factory.startRepairTask(this, data)) {
+          break;
+        }
+      }
+    }
+  }
 }

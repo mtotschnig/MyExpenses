@@ -9,10 +9,14 @@ import java.util.List;
  * {@link java.util.ServiceLoader} unfortunately does not work from sync process
  */
 public class ServiceLoader {
+
+  private static final String GOOGLE = "org.totschnig.myexpenses.sync.GoogleDriveBackendProviderFactory";
+  private static final String LOCAL = "org.totschnig.myexpenses.sync.LocalFileBackendProviderFactory";
+
   public static List<SyncBackendProviderFactory> load(Context context) {
     List<SyncBackendProviderFactory> services = new ArrayList<>();
-    tryToInstantiate(services, "org.totschnig.myexpenses.sync.LocalFileBackendProviderFactory", context);
-    tryToInstantiate(services, "org.totschnig.myexpenses.sync.GoogleDriveBackendProviderFactory", context);
+    tryToInstantiate(services, LOCAL, context);
+    tryToInstantiate(services, GOOGLE, context);
     services.add(new WebDavBackendProviderFactory());
     return services;
   }

@@ -673,5 +673,6 @@
     <string name="dialog_button_add">Add</string>
     <string name="template_create_error">Error while saving template</string>
     <string name="contributed_by">Contributed by %s</string>
+    <string name="drive_backend_upgrade">Since 2.8.0, My Expenses supports synchronization with Drive folders from multiple Google accounts. Please select the Google account from which your existing Drive backends where created.</string>
 </resources>
 

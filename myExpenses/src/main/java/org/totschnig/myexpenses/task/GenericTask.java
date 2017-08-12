@@ -21,6 +21,7 @@ import android.text.TextUtils;
 
 import com.android.calendar.CalendarContractCompat;
 import com.annimon.stream.Collectors;
+import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -39,6 +40,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.sync.GenericAccountService;
+import org.totschnig.myexpenses.sync.ServiceLoader;
 import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.sync.SyncBackendProvider;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
@@ -470,7 +472,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           return new Result(false, R.string.export_sdcard_failure,
               appDir.getName(), e.getMessage());
         }
-      case TaskExecutionFragment.TASK_MOVE_UNCOMMITED_SPLIT_PARTS:
+      case TaskExecutionFragment.TASK_MOVE_UNCOMMITED_SPLIT_PARTS: {
         //we need to check if there are transfer parts that refer to the account we try to move to,
         //if yes we cannot move
         transactionId = (Long) ids[0];
@@ -491,6 +493,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           return true;
         }
         return false;
+      }
       case TaskExecutionFragment.TASK_REPAIR_PLAN:
         String calendarId = PrefKey.PLANNER_CALENDAR_ID.getString("-1");
         if (calendarId.equals("-1")) {
@@ -630,6 +633,9 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         }
       }
       case TaskExecutionFragment.TASK_INIT: {
+        for (SyncBackendProviderFactory factory: ServiceLoader.load(application)) {
+          factory.init();
+        }
         if (Utils.hasApiLevel(Build.VERSION_CODES.HONEYCOMB)) {
           //on Gingerbread we just accept that db is initialized with first request
           initDbHoneyComb(cr);
@@ -639,7 +645,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         return null;
       }
       case TaskExecutionFragment.TASK_SETUP_FROM_SYNC_ACCOUNTS: {
-        String syncAccountName = ((String) mExtra);
+        String syncAccountName = (String) mExtra;
         SyncBackendProvider syncBackendProvider =  getSyncBackendProviderFromExtra();
         if (syncBackendProvider == null) {
           return Result.FAILURE;
@@ -665,6 +671,15 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
             return new Result(true);
           }
         } catch (IOException e) {
+          return Result.FAILURE;
+        }
+      }
+      case TaskExecutionFragment.TASK_REPAIR_SYNC_BACKEND: {
+        Optional<SyncBackendProviderFactory> syncBackendProviderFactoryOptional =
+            Stream.of(ServiceLoader.load(application)).filter(factory -> factory.getLabel().equals(ids[0])).findFirst();
+        if (syncBackendProviderFactoryOptional.isPresent()) {
+          return syncBackendProviderFactoryOptional.get().handleRepairTask(mExtra);
+        } else {
           return Result.FAILURE;
         }
       }

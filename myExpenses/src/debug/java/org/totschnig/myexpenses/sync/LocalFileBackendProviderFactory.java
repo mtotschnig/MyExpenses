@@ -2,13 +2,19 @@ package org.totschnig.myexpenses.sync;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ManageSyncBackends;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
+import org.totschnig.myexpenses.util.Result;
+
+import java.io.Serializable;
 
 import static org.totschnig.myexpenses.util.PermissionHelper.hasExternalReadPermission;
 
@@ -41,5 +47,24 @@ public class LocalFileBackendProviderFactory extends SyncBackendProviderFactory 
   @Override
   public int getId() {
     return R.id.SYNC_BACKEND_LOCAL;
+  }
+
+  @Override
+  public Intent getRepairIntent(Activity manageSyncBackends) {
+    return null;
+  }
+
+  @Override
+  public boolean startRepairTask(ManageSyncBackends activity, Intent data) {
+    return false;
+  }
+
+  @Override
+  public Result handleRepairTask(Serializable mExtra) {
+    return null;
+  }
+
+  @Override
+  public void init() {
   }
 }
