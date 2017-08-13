@@ -191,7 +191,7 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
             Bundle b = new Bundle();
             b.putString(ConfirmationDialogFragment.KEY_MESSAGE, resultPrintable);
             b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.TRY_AGAIN_COMMAND);
-            b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.try_again);
+            b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.button_label_try_again);
             ConfirmationDialogFragment.newInstance(b).show(getSupportFragmentManager(), "REPAIR_SYNC_FAILURE");
           }
         }
