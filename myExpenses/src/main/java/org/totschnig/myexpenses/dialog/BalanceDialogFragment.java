@@ -16,23 +16,23 @@
 package org.totschnig.myexpenses.dialog;
 
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL;
-
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.MyExpenses;
-
-import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
+
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.util.UiUtils;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL;
 
 public class BalanceDialogFragment extends CommitSafeDialogFragment implements OnClickListener {
   
@@ -46,8 +46,12 @@ public class BalanceDialogFragment extends CommitSafeDialogFragment implements O
     final LayoutInflater li = LayoutInflater.from(getActivity());
     //noinspection InflateParams
     View view = li.inflate(R.layout.balance, null);
-    ((TextView) view.findViewById(R.id.TotalReconciled)).setText(getArguments().getString(KEY_RECONCILED_TOTAL));
-    ((TextView) view.findViewById(R.id.TotalCleared)).setText(getArguments().getString(KEY_CLEARED_TOTAL));
+    TextView reconciledTextView = (TextView) view.findViewById(R.id.TotalReconciled);
+    UiUtils.configureAmountTextViewForHebrew(reconciledTextView);
+    reconciledTextView.setText(getArguments().getString(KEY_RECONCILED_TOTAL));
+    TextView clearedTextView = (TextView) view.findViewById(R.id.TotalCleared);
+    UiUtils.configureAmountTextViewForHebrew(clearedTextView);
+    clearedTextView.setText(getArguments().getString(KEY_CLEARED_TOTAL));
     return new AlertDialog.Builder(getActivity())
       .setTitle(getString(R.string.dialog_title_balance_account,getArguments().getString(KEY_LABEL)))
       .setView(view)

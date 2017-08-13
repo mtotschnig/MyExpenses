@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.adapter;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.database.Cursor;
-import android.support.v4.view.ViewCompat;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
@@ -29,6 +28,7 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
+import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.text.DateFormat;
@@ -93,16 +93,7 @@ public class TransactionAdapter extends SimpleCursorAdapter {
     holder.colorContainer = colorContainer;
     holder.colorAccount = colorAccount;
     TextView amount = (TextView) v.findViewById(R.id.amount);
-    int layoutDirection = context.getResources().getInteger(R.integer.amount_layout_direction);
-    if (layoutDirection == 0) { // hebrew
-      ViewCompat.setLayoutDirection(amount, layoutDirection);
-      amount.setEms(5);
-      amount.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-      amount.setSingleLine(true);
-      amount.setMarqueeRepeatLimit(-1);
-      amount.setHorizontallyScrolling(true);
-      amount.setSelected(true);
-    }
+    UiUtils.configureAmountTextViewForHebrew(amount);
     holder.amount = amount;
     holder.category = (TextView) v.findViewById(R.id.category);
     holder.color1 = v.findViewById(R.id.color1);

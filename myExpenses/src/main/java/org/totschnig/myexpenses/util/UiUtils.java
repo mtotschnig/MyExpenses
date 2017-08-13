@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatDrawableManager;
 import android.text.InputFilter;
@@ -22,6 +23,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 
 public class UiUtils {
@@ -190,5 +192,18 @@ public class UiUtils {
   public static void setBackgroundOnButton(AppCompatButton button, int color) {
     //noinspection RestrictedApi
     button.setSupportBackgroundTintList(new ColorStateList(new int[][] {{0}}, new int[] {color}));
+  }
+
+  public static void configureAmountTextViewForHebrew(TextView amount) {
+    int layoutDirection = amount.getContext().getResources().getInteger(R.integer.amount_layout_direction);
+    if (layoutDirection == 0) { // hebrew
+      ViewCompat.setLayoutDirection(amount, layoutDirection);
+      amount.setEms(5);
+      amount.setEllipsize(android.text.TextUtils.TruncateAt.MARQUEE);
+      amount.setSingleLine(true);
+      amount.setMarqueeRepeatLimit(-1);
+      amount.setHorizontallyScrolling(true);
+      amount.setSelected(true);
+    }
   }
 }

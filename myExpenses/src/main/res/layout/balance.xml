@@ -26,10 +26,10 @@
         android:id="@+id/Table"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:shrinkColumns="1"
-        android:stretchColumns="1"
         android:layout_marginBottom="@dimen/general_padding"
-        android:layout_marginTop="@dimen/general_padding">
+        android:layout_marginTop="@dimen/general_padding"
+        android:shrinkColumns="*"
+        android:stretchColumns="*">
 
         <TableRow>
 
@@ -40,7 +40,7 @@
             <TextView
                 android:id="@+id/TotalReconciled"
                 style="@style/dialog_text"
-                android:layout_gravity="center_horizontal"/>
+                android:layout_gravity="end"/>
         </TableRow>
 
         <TableRow>
@@ -52,7 +52,7 @@
             <TextView
                 android:id="@+id/TotalCleared"
                 style="@style/dialog_text"
-                android:layout_gravity="center_horizontal"/>
+                android:layout_gravity="end"/>
         </TableRow>
     </TableLayout>
 
