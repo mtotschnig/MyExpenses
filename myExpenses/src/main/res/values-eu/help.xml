@@ -51,7 +51,10 @@
   <string name="menu_categories_setup_default_help_text">Lehenetsitako kategoria multzo bat inportatuko da.</string>
   <string name="menu_categories_export_help_text">Kategoriak QIF fitxategira esportatuko dira.</string>
   <string name="menu_distribution_show_pie_char_help_text">Txandakatu grafiko biribilaren ikusgaitasuna.</string>
+  <string name="menu_distribution_aggreate_help_text">Lehenetsita, kalkulatutako baturetan gastuak eta irabaziak daude. Biak bereiz erakustea erabaki dezakezu, ekintza-barrako botoi batekin gastu eta irabazi artean txandakatu dezakezu.</string>
   <string name="cab_ManageCategories_select_filter_select_category_help_text">Aukeratutako kategoria transakzioen zerrenda iragazteko erabiliko da.</string>
+  <string name="menu_ManageCategories_search_help_text">Zure kontsultarekin bat datozen kategoria nagusiak eta azpikategoriak bakarrik bistaratuko dira.</string>
+  <string name="menu_ManageCategories_sort_help_text">Kategoria zerrenda izenburuaren (alfabetikoki), erabilera maiztasunaren edo transakzio bat esleitua izan den azken aldiaren arabera ordenatu daiteke.</string>
   <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">Transakzioen formularioa</string>
   <string name="help_ExpenseEdit_transfer_title">Transferentzien formularioa</string>
@@ -60,11 +63,23 @@
   <string name="help_ExpenseEdit_splitPartTransfer_title">Transferentzia banaketen zatien formularioa</string>
   <string name="help_ExpenseEdit_templateCategory_title">Transakzio txantiloien formularioa</string>
   <string name="help_ExpenseEdit_templateTransfer_title">Transferentzia txantiloien formularioa</string>
+  <string name="help_ExpenseEdit_transaction_info">Erabili inprimaki hau transakzio berri bat sartzeko edo existitzen den bat editatzeko. Erabili ekintza-barrako goitibeherako menua transferentzia edo transferentzia banatu berri bat gehitzeko inprimakira aldatzeko.</string>
+  <string name="help_ExpenseEdit_templateCategory_info">Erabili inprimaki hau txantiloi berri bat sartzeko edo existitzen den bat editatzeko. Erabili ekintza-barrako goitibeherako menua transferentzia txantiloi berri bat gehitzeko inprimakira aldatzeko.</string>
+  <string name="help_ExpenseEdit_split_info">Transferentzia banatu bat zatitan banatutako transferentzia bakarra da, non zati bakoitza kategoria desberdin batera eslei edo kontu desberdin batera transferi daiteke.</string>
   <string name="form_account_help_text">Hautatu transakzioari dagokion kontua.</string>
   <string name="form_date.time_help_text">Sartu transakzioa gertatu zeneko ordua.</string>
+  <string name="form_payer_or_payee_help_text">Eremu honek sartu dituzun balioak gogoratuko ditu eta hauek etorkizunean iradokiko ditu.</string>
+  <string name="form_amount_switch_help_text">Erabili etengailua gastu eta irabazi artean txandakatzeko.</string>
   <string name="form_calculator_help_text"><![CDATA[The <img src=\"?calcIcon\"> botoiak kalkulagailua irekitzen du.]]></string>
+  <string name="form_crstatus_help_text">Banku kontuei dagozkien transakzioentzako, transakzioen egoera garbitura aldatu dezakezu. Bateratu gisa ezartzeko, transakzio zerrendako \"Kontu balantzea\" komandoa erabili behar duzu. Egoera baliogabe gisa ezartzen bada, transakzioa ez da kontatuan izango.</string>
   <string name="form_comment_help_text">Sartu objektuari buruzko edozein ohar.</string>
+  <string name="form_method_help_text">Eremua hau edozein ordainketa metodora estekatuta dagoen kontu korronte mota bada bakarri dago erabilgarri. Lehenetsita banku kontuak bakarri daude ordainketa metodoetara estekatuta (txeke, kreditu-txartel, gordailu, zuzeneko zordunketa). Joan Ezarpenak -&gt; Kudeatu -&gt; Ordainketa metodoak kontu moten eta ordainketa metodoen arteko erlazioa konfiguratzeko. Zenbakitu gisa definituta dagoen metodoren bat hautatzen duzunean, erreferentzia zenbaki bat sartzeko eremu gehigarri bat erabilgarri bihurtzen da.</string>
+  <string name="form_attach_image_help_text"><![CDATA[<img src=\"android:ic_menu_camera\"> botoiarekin irudi bat erants dezakezu (adib. galeriatik edo kameratik) objektura.]]></string>
+  <string name="form_category_help_text">Botoi honek kategorien zerrenda irekitzen du, non transakziori esleitu nahi diozun kategoria hautatu dezakezun.</string>
+  <string name="form_split_parts_heading_help_text">Erabili ekintza botoi mugikorra behar adina zati banatu sartzeko. Zatien eta transakzioen baturen arteko desberdintasuna pantailaren behealdean bistaratzen da. Transakzio banatua transakzioaren kopurua zehazki esleitua izan bada bakarrik gorde dezakezu.</string>
   <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Aukeratu kategoria bat banaketaren zati honentzat.</string>
+  <string name="form_transfer_from_account.transfer_to_account_help_text">Esleitu objektu hau zein kontutik edo kontura transferitzen den.</string>
+  <string name="form_exchange_rate_help_text">Tasa transferentziaren bi noranzkoetako edozeinetan zehaztu dezakezu. Alderantzizko tasa eta kanbio-tasaren mendeko zatiari dagokion kopurua automatikoki kalkulatzen dira.</string>
   <string name="form_title_help_text">Sartu txantiloia identifikatzeko izen esklusibo bat.</string>
   <string name="form_plan_help_text_mode">Plana automatikoa ala eskuzkoa gisa ezarri daiteke. Plan automatiko baten instantzia bat gertatzen denean, transakzioa sortuko da eta jakinarazpen bat jasoko duzu. Plana eskuzkoa bada, jakinarazpen bat jasoko duzu ere eta zure esku dago txantiloia bertan behera utzi, aldatu ala aplikatzea.</string>
   <string name="menu_save_help_text">Gorde datuak eta itxi formularioa.</string>
