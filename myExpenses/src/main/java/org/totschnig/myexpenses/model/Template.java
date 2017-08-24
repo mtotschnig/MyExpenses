@@ -212,7 +212,7 @@ public class Template extends Transaction {
         CONTENT_URI,
         null,
         KEY_PLANID + "= ? AND NOT exists(SELECT 1 from " + TABLE_PLAN_INSTANCE_STATUS
-            + " WHERE " + KEY_INSTANCEID + " = ?)",
+            + " WHERE " + KEY_INSTANCEID + " = ? AND " + KEY_TEMPLATEID + " = " + KEY_ROWID + ")",
         new String[]{String.valueOf(planId), String.valueOf(instanceId)},
         null);
     if (c == null) {
