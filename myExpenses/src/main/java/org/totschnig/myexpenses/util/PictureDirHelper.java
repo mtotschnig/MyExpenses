@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
+import android.support.v4.content.ContextCompat;
 
 import org.totschnig.myexpenses.MyApplication;
 
@@ -83,7 +84,8 @@ public class PictureDirHelper {
     if (secure) {
       result = new File(MyApplication.getInstance().getFilesDir(), "images");
     } else {
-      result = MyApplication.getInstance().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+      //https://stackoverflow.com/a/43497841/1199911
+      result = ContextCompat.getExternalFilesDirs(MyApplication.getInstance(), Environment.DIRECTORY_PICTURES)[0];
     }
     if (result == null) return null;
     result.mkdir();
