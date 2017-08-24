@@ -193,7 +193,11 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
       }
       changeSet.set(i, mappedChange);
     }
-    saveFileContents("_" + nextSequence + ".json", gson.toJson(changeSet), MIMETYPE_JSON);
+    String fileName = "_" + nextSequence + ".json";
+    String fileContents = gson.toJson(changeSet);
+    Timber.tag(SyncAdapter.TAG).i("Writing to %s", fileName);
+    Timber.tag(SyncAdapter.TAG).i(fileContents);
+    saveFileContents(fileName, fileContents, MIMETYPE_JSON);
     return nextSequence;
   }
 
