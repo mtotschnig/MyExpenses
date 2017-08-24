@@ -81,18 +81,29 @@
   <string name="form_transfer_from_account.transfer_to_account_help_text">Esleitu objektu hau zein kontutik edo kontura transferitzen den.</string>
   <string name="form_exchange_rate_help_text">Tasa transferentziaren bi noranzkoetako edozeinetan zehaztu dezakezu. Alderantzizko tasa eta kanbio-tasaren mendeko zatiari dagokion kopurua automatikoki kalkulatzen dira.</string>
   <string name="form_title_help_text">Sartu txantiloia identifikatzeko izen esklusibo bat.</string>
+  <string name="form_plan_help_text">Txantiloi batetik plan bat sortzen duzunean, zure egutegi aplikazioak kudeatutako egutegi pribatu batera gehitzen da. Plana aldi bakarreko gertaera edo errepikari (egunero, astero, hilero edo urtero) gisa defini daiteke.</string>
+  <string name="form_plan_help_text_advanced">Txantiloia gorde ondoren, zure egutegi aplikazioa erabiliz errepikatze mota aurreratuagoak konfiguratu ditzakezu.</string>
   <string name="form_plan_help_text_mode">Plana automatikoa ala eskuzkoa gisa ezarri daiteke. Plan automatiko baten instantzia bat gertatzen denean, transakzioa sortuko da eta jakinarazpen bat jasoko duzu. Plana eskuzkoa bada, jakinarazpen bat jasoko duzu ere eta zure esku dago txantiloia bertan behera utzi, aldatu ala aplikatzea.</string>
   <string name="menu_save_help_text">Gorde datuak eta itxi formularioa.</string>
   <string name="menu_save_and_new_help_text">Gorde datuak, laga formularioa irekita beste transakzio bat sortzeko datu berberekin.</string>
   <string name="menu_invert_transfer_help_text">Alderantzikatu transferentziaren norabidea \'Nondik\' eta \'Nora\' kontuak txandakatuz</string>
+  <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">\'Nork\' et \'Nori\' kontuen monetak desberdinak badira, bietako bakarraren kopurua zehaztu. Bestea txantiloitik instantziak sortzen dituzunean kalkulatuko da.</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Kontuen formularioa</string>
   <string name="form_AccountEdit_label_help_text">Etiketak kontua identifikatzen du kontuen zerrendan.</string>
   <string name="form_description_help_text">Deskripzioa informaziorako da besterik ez.</string>
+  <string name="form_AccountEdit_amount_switch_help_text">Erabili etengailua irekiera balantze negatiboarekin hasteko.</string>
   <string name="form_currency_help_text">Hautatu moneta bat gaurkotutako moneten zerrendatik.</string>
+  <string name="form_AccountEdit_type_help_text">Kontu mota defini dezakezu eskudiru, banku, aktibo, pasibo, kreditu txartel. Motak ordainketa metodo erabilgarriak zehazten ditu, zeinak Ezarpenak -&gt; Kudeatu -&gt; Ordainketa metodoak atalean konfiguratu ditzakezun.</string>
+  <string name="form_AccountEdit_type_help_text_reconciliation">Berdinkatze eginbidea kontu guztientzat dago erabilgarri, eskudirukoentzat izan ezik: honek transakzioen egoera garbitu gisa ezartzea ahalbidetzen du, behin berretsita, eta \"Kontu balantzea\" komandoaren bidez zure banku instrukzioarekin kontu osoa berdinkatu.</string>
+  <string name="form_color_help_text">Kontu batentzako transakzio zerrendan, bere kolorea erabiltzaile nagusiaren interfazearen koloretzat erabiliko da.</string>
+  <string name="form_synchronization_help_text_select">Hautatu atzealdeko bat hodeian sinkronizatzeko.</string>
+  <string name="form_synchronization_help_text_add">Atzealdekoak Ezarpenen pantailatik gehi daitezke.</string>
   <string name="menu_exclude_from_totals_help_text">Aukera hau markatzen baduzu, kontu hau ez da monetako guztirakoetan agregatuko.</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Ordainketa metodoen formularioa</string>
+  <string name="form_MethodEdit_label_help_text">Etiketak transakzio bat esleitzen duzuneko metodoa identifikatzen du.</string>
+  <string name="form_MethodEdit_type_help_text">Metodo baten motaren bidez, gastuentzako (zordunketa), irabazientzako (kreditua) edo bientzako (neutrala) erabilgarria den zehazten duzu.</string>
   <string name="form_MethodEdit_numbered_help_text">Metodoa zenbakituta badago, bertara lotzen diren transakzioak erreferentzia zenbaki bat sartzeko eremu gehigarri bat izango dute.</string>
   <string name="form_MethodEdit_account_types_help_text">Hautatu metodo hau erabili dezaketen kontu motak.</string>
   <!--ManageCurrencies-->

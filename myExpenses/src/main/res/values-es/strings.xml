@@ -649,4 +649,13 @@
   <string name="pref_webdav_timeout_title">Límite de tiempo de WebDAV</string>
   <string name="sync_state_restored">Se restauró el estado de sincronización para %d cuentas.</string>
   <string name="sync_state_could_not_be_restored">No se pudo restaurar el estado de sincronización para %d cuentas.</string>
+  <string name="onboarding_ui_title">Mis Gastos se adapta a tus preferencias</string>
+  <string name="onboarding_data_title">Configuremos tu primera cuenta</string>
+  <string name="onboarding_get_started">Empecemos</string>
+  <string name="onboarding_more_options">Más opciones</string>
+  <string name="onboarding_restore_from_cloud">Restaurar desde la sincronización en la nube</string>
+  <string name="onboarding_restore_from_local">Restaurar desde copia de seguridad local</string>
+  <string name="dialog_button_add">Añadir</string>
+  <string name="template_create_error">Error al salvar la plantilla</string>
+  <string name="contributed_by">Contribución de %s</string>
 </resources>
