@@ -179,8 +179,8 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   };
 
   @Override
-  public long writeChangeSet(List<TransactionChange> changeSet, Context context) throws IOException {
-    long nextSequence = getLastSequence() + 1;
+  public long writeChangeSet(long lastSequenceNumber, List<TransactionChange> changeSet, Context context) throws IOException {
+    long nextSequence = getLastSequence(lastSequenceNumber) + 1;
     for (int i = 0; i < changeSet.size(); i++) {
       TransactionChange mappedChange = mapPictureDuringWrite(changeSet.get(i));
       if (appInstance != null) {
@@ -207,7 +207,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     return gson.toJson(AccountMetaData.from(account));
   }
 
-  protected abstract long getLastSequence() throws IOException;
+  protected abstract long getLastSequence(long start) throws IOException;
 
   abstract void saveFileContents(String fileName, String fileContents, String mimeType) throws IOException;
 

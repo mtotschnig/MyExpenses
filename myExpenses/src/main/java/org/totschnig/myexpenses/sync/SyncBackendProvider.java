@@ -27,7 +27,7 @@ public interface SyncBackendProvider {
   @NonNull
   ChangeSet getChangeSetSince(long sequenceNumber, Context context) throws IOException;
 
-  long writeChangeSet(List<TransactionChange> changeSet, Context context) throws IOException;
+  long writeChangeSet(long lastSequenceNumber, List<TransactionChange> changeSet, Context context) throws IOException;
 
   boolean unlock();
 

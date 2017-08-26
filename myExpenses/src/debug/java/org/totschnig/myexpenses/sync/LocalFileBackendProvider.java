@@ -116,11 +116,11 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  protected long getLastSequence() {
-    return Stream.of(filterFiles(0))
+  protected long getLastSequence(long start) {
+    return Stream.of(filterFiles(start))
         .map(file -> getSequenceFromFileName(file.getName()))
         .max(this::compareInt)
-        .orElse(0L);
+        .orElse(start);
   }
 
   private File[] filterFiles(long sequenceNumber) {

@@ -311,7 +311,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
 
                 if (localChanges.size() > 0) {
-                  lastSyncedRemote = backend.writeChangeSet(localChanges, getContext());
+                  lastSyncedRemote = backend.writeChangeSet(lastSyncedRemote, localChanges, getContext());
                   if (lastSyncedRemote != ChangeSet.FAILED) {
                     if (!BuildConfig.DEBUG) {
                       // on debug build for auditing purposes, we keep changes in the table

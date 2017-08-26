@@ -213,11 +213,11 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  protected long getLastSequence() throws IOException {
-    return filterDavResources(0)
+  protected long getLastSequence(long start) throws IOException {
+    return filterDavResources(start)
         .map(davResource -> getSequenceFromFileName(davResource.fileName()))
         .max(this::compareInt)
-        .orElse(0L);
+        .orElse(start);
   }
 
   @Override
