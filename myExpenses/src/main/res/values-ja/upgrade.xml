@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_280">
+    <item>ヘブライ語翻訳</item>
+    <item>カスタムアカウント色の選択</item>
+  </string-array>
   <string-array name="whats_new_279">
     <item>通貨記号を設定できます</item>
   </string-array>

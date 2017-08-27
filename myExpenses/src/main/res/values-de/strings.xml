@@ -643,7 +643,7 @@
   <string name="sync_io_exception_syncing">Fehler beim Synchronisieren von Änderungen mit dem Server.</string>
   <string name="sync_io_exception_unlocking">Fehler beim Entfernen der Sperre vom entfernten Backend.</string>
   <string name="sync_io_exception_locking">Das entfernte Backend ist gesperrt oder kann nicht gesperrt werden.</string>
-  <string name="synchronization_start">Synchronisierung für das Konto %swird gestartet.</string>
+  <string name="synchronization_start">Synchronisierung für das Konto %s wird gestartet.</string>
   <string name="synchronization_end_success">%1$d entfernte Änderungen wurden in die lokale Datenbank geschrieben. %2$d lokale Änderungen wurden in das entfernte Backend geschrieben.</string>
   <string name="synchronization_end_success_none">Keine Änderungen zum Synchronisieren.</string>
   <string name="pref_webdav_timeout_title">WebDAV Zeitüberschreitung</string>

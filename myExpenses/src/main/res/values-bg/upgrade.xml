@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_280">
+    <item>Превод на еврейски език </item>
+    <item>Палитра за избор на цвят на сметка</item>
+  </string-array>
   <string-array name="whats_new_279">
     <item>Може да се задават знаци за валута</item>
   </string-array>
