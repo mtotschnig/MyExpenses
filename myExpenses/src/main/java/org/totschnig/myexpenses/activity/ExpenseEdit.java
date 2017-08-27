@@ -532,8 +532,13 @@ public class ExpenseEdit extends AmountActivity implements
       }
       if (mTransaction == null) {
         String errMsg = "Error instantiating transaction for account " + accountId;
-        AcraHelper.report(new IllegalStateException(errMsg),
-            "Extras", getIntent().getExtras().toString());
+        Bundle extras = getIntent().getExtras();
+        IllegalStateException e = new IllegalStateException(errMsg);
+        if (extras != null) {
+          AcraHelper.report(e, "Extras", extras.toString());
+        } else {
+          AcraHelper.report(e);
+        }
         Toast.makeText(this, errMsg, Toast.LENGTH_SHORT).show();
         finish();
         return;
