@@ -58,7 +58,7 @@ public class PictureDirHelper {
         return getContentUriForFile(outputMediaFile);
       } catch (IllegalArgumentException e) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-          throw new AppDirHelper.NougatFileProviderException(e);
+          throw new NougatFileProviderException(e);
         }
       }
     }
