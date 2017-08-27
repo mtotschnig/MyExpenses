@@ -322,6 +322,10 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".activity.SimpleImageActivity"
+            android:theme="@style/Launch"/>
+
         <service
             android:name=".service.AutoBackupService"
             android:exported="${debug}">
