@@ -30,7 +30,6 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.FileCopyUtils;
 import org.totschnig.myexpenses.util.PictureDirHelper;
@@ -322,9 +321,7 @@ public class Transaction extends Model {
       if("file".equals(parsedUri.getScheme())) { // Upgrade from legacy uris
         try {
           parsedUri = AppDirHelper.getContentUriForFile(new File(parsedUri.getPath()));
-        } catch (Exception e) {
-          AcraHelper.report(e);
-        }
+        } catch (IllegalArgumentException ignored) {}
       }
       t.setPictureUri(parsedUri);
     }
