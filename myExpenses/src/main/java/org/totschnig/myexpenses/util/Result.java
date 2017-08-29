@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.util;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 
 import org.totschnig.myexpenses.R;
 
@@ -46,6 +47,7 @@ public class Result {
   /**
    * optional argument to be passed to getString when resolving message id
    */
+  @Nullable
   public Object[] extra;
 
   public Result(boolean success) {
@@ -57,7 +59,7 @@ public class Result {
     this.message = message;
   }
 
-  public Result(boolean success, int message, Object... extra) {
+  public Result(boolean success, int message, @Nullable Object... extra) {
     this.success = success;
     this.message = message;
     this.extra = extra;

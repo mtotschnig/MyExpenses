@@ -182,18 +182,19 @@ public class SplashActivity extends SyncBackendSetupActivity {
       case TASK_FETCH_SYNC_ACCOUNT_DATA: {
         if (result.success) {
           supportInvalidateOptionsMenu();
-          accountName = (String) result.extra[0];
-          List<String> backupList = (List<String>) result.extra[1];
-          List<AccountMetaData> syncAccountList = (List<AccountMetaData>) result.extra[2];
-          if (backupList.size() > 0 || syncAccountList.size() > 0) {
-            RestoreFromCloudDialogFragment.newInstance(backupList, syncAccountList)
-                .show(getSupportFragmentManager(), "RESTORE_FROM_CLOUD");
-            break;
-          } else {
-            showSnackbar("Neither backups nor sync accounts found");
+          if (result.extra != null && result.extra.length > 2) {
+            accountName = (String) result.extra[0];
+            List<String> backupList = (List<String>) result.extra[1];
+            List<AccountMetaData> syncAccountList = (List<AccountMetaData>) result.extra[2];
+            if (backupList.size() > 0 || syncAccountList.size() > 0) {
+              RestoreFromCloudDialogFragment.newInstance(backupList, syncAccountList)
+                  .show(getSupportFragmentManager(), "RESTORE_FROM_CLOUD");
+              break;
+            }
           }
+          showSnackbar("Neither backups nor sync accounts found");
         } else {
-          if (result.extra[0] instanceof PendingIntent) {
+          if (result.extra != null && result.extra.length > 0 && result.extra[0] instanceof PendingIntent) {
             try {
               startIntentSenderForResult(((PendingIntent) result.extra[0]).getIntentSender(), REQUEST_CODE_RESOLUTION, null, 0, 0, 0);
             } catch (IntentSender.SendIntentException e) {
