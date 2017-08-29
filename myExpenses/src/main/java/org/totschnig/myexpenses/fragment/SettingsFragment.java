@@ -56,6 +56,7 @@ import org.totschnig.myexpenses.preference.TimePreferenceDialogFragmentCompat;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.sync.ServiceLoader;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.PreferenceDividerItemDecoration;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.AppDirHelper;
@@ -78,7 +79,48 @@ import java.util.Locale;
 
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.RESTORE_REQUEST;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.RESULT_RESTORE_OK;
-import static org.totschnig.myexpenses.preference.PrefKey.*;
+import static org.totschnig.myexpenses.preference.PrefKey.APP_DIR;
+import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP;
+import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP_INFO;
+import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACUP_CLOUD;
+import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_CONTRIB;
+import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_MANAGE;
+import static org.totschnig.myexpenses.preference.PrefKey.CONTRIB_PURCHASE;
+import static org.totschnig.myexpenses.preference.PrefKey.CUSTOM_DECIMAL_FORMAT;
+import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_LOGGING;
+import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_SCREEN;
+import static org.totschnig.myexpenses.preference.PrefKey.GROUPING_START_SCREEN;
+import static org.totschnig.myexpenses.preference.PrefKey.GROUP_MONTH_STARTS;
+import static org.totschnig.myexpenses.preference.PrefKey.GROUP_WEEK_STARTS;
+import static org.totschnig.myexpenses.preference.PrefKey.IMPORT_CSV;
+import static org.totschnig.myexpenses.preference.PrefKey.IMPORT_QIF;
+import static org.totschnig.myexpenses.preference.PrefKey.MANAGE_STALE_IMAGES;
+import static org.totschnig.myexpenses.preference.PrefKey.MANAGE_SYNC_BACKENDS;
+import static org.totschnig.myexpenses.preference.PrefKey.MORE_INFO_DIALOG;
+import static org.totschnig.myexpenses.preference.PrefKey.NEXT_REMINDER_RATE;
+import static org.totschnig.myexpenses.preference.PrefKey.PERFORM_PROTECTION;
+import static org.totschnig.myexpenses.preference.PrefKey.PERFORM_PROTECTION_SCREEN;
+import static org.totschnig.myexpenses.preference.PrefKey.PERFORM_SHARE;
+import static org.totschnig.myexpenses.preference.PrefKey.PLANNER_CALENDAR_ID;
+import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_DELAY_SECONDS;
+import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET;
+import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET;
+import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET;
+import static org.totschnig.myexpenses.preference.PrefKey.RATE;
+import static org.totschnig.myexpenses.preference.PrefKey.REQUEST_LICENCE;
+import static org.totschnig.myexpenses.preference.PrefKey.RESTORE;
+import static org.totschnig.myexpenses.preference.PrefKey.RESTORE_LEGACY;
+import static org.totschnig.myexpenses.preference.PrefKey.ROOT_SCREEN;
+import static org.totschnig.myexpenses.preference.PrefKey.SECURITY_QUESTION;
+import static org.totschnig.myexpenses.preference.PrefKey.SEND_FEEDBACK;
+import static org.totschnig.myexpenses.preference.PrefKey.SHARE_TARGET;
+import static org.totschnig.myexpenses.preference.PrefKey.SHORTCUT_CREATE_SPLIT;
+import static org.totschnig.myexpenses.preference.PrefKey.SHORTCUT_CREATE_TRANSACTION;
+import static org.totschnig.myexpenses.preference.PrefKey.SHORTCUT_CREATE_TRANSFER;
+import static org.totschnig.myexpenses.preference.PrefKey.SYNC_NOTIFICATION;
+import static org.totschnig.myexpenses.preference.PrefKey.TRACKING;
+import static org.totschnig.myexpenses.preference.PrefKey.UI_HOME_SCREEN_SHORTCUTS;
+import static org.totschnig.myexpenses.preference.PrefKey.UI_LANGUAGE;
 
 public class SettingsFragment extends PreferenceFragmentCompat implements
     Preference.OnPreferenceChangeListener,
@@ -123,6 +165,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
           return true;
         }
         return false;
+      };
+
+  private Preference.OnPreferenceChangeListener storeInDatabaseChangeListener =
+      (preference, newValue) -> {
+        ((ProtectedFragmentActivity) getActivity()).startTaskExecution(TaskExecutionFragment.TASK_STORE_SETTING,
+            new String[] {preference.getKey()}, newValue.toString(), R.string.progress_dialog_saving);
+        return true;
       };
 
   private Preference findPreference(PrefKey prefKey) {
@@ -216,6 +265,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
 
       ListPreference languagePref = ((ListPreference) findPreference(UI_LANGUAGE));
       languagePref.setEntries(getLocaleArray(getContext()));
+
+      findPreference(SYNC_NOTIFICATION).setOnPreferenceChangeListener(storeInDatabaseChangeListener);
     }
     //SHORTCUTS screen
     else if (rootKey.equals(UI_HOME_SCREEN_SHORTCUTS.getKey())) {

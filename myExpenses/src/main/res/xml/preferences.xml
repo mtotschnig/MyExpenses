@@ -197,6 +197,11 @@
             my:msbp_maxValue="99"
             my:msbp_measurementUnit=" h"
             my:msbp_minValue="1"/>
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="@string/pref_sync_notification_key"
+            android:summary="@string/pref_sync_notification_summary"
+            android:title="@string/pref_sync_notification_title"/>
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -168,6 +168,8 @@ public class DatabaseConstants {
   public static final String KEY_ACCOUNT_LABEL = "account_label";
   public static final String KEY_IS_SAME_CURRENCY = "is_same_currency";
   public static final String KEY_TIMESTAMP = "timestamp";
+  public static final String KEY_KEY = "key";
+  public static final String KEY_VALUE = "value";
 
   /**
    * column alias for the second group (month or week)
@@ -213,6 +215,7 @@ public class DatabaseConstants {
   public static final String TABLE_PLAN_INSTANCE_STATUS = "planinstance_transaction";
   public static final String TABLE_STALE_URIS = "stale_uris";
   public static final String TABLE_CHANGES = "changes";
+  public static final String TABLE_SETTINGS = "settings";
   /**
    * used on backup and restore
    */

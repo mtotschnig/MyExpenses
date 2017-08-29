@@ -43,6 +43,7 @@ import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.SyncNotificationDismissHandler;
@@ -72,6 +73,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_URI;
@@ -80,6 +82,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
   public static final int BATCH_SIZE = 100;
@@ -97,6 +100,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   private Map<String, Long> accountUuidToId;
   private SparseArray<StringBuilder> notificationContent = new SparseArray<>();
   public static final String TAG = "SyncAdapter";
+  private boolean shouldNotify = true;
 
   public SyncAdapter(Context context, boolean autoInitialize) {
     super(context, autoInitialize);
@@ -184,6 +188,19 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     Cursor cursor;
+
+    try {
+      cursor = provider.query(TransactionProvider.SETTINGS_URI, new String[]{KEY_VALUE},
+          KEY_KEY + " = ?", new String[] {PrefKey.SYNC_NOTIFICATION.getKey()}, null);
+      if (cursor != null) {
+        if (cursor.moveToFirst()) {
+          shouldNotify = cursor.getString(0).equals(Boolean.TRUE.toString());
+        }
+        cursor.close();
+      }
+    } catch (RemoteException ignored) {}
+
+
     String[] selectionArgs;
     String selection = KEY_SYNC_ACCOUNT_NAME + " = ?";
     if (uuidFromExtras != null) {
@@ -193,6 +210,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       selectionArgs = new String[]{account.name};
     }
     String[] projection = {KEY_ROWID};
+
     try {
       cursor = provider.query(TransactionProvider.ACCOUNTS_URI, projection,
           selection + " AND " + KEY_SYNC_SEQUENCE_LOCAL + " = 0", selectionArgs, null);
@@ -365,37 +383,42 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   }
 
   private void appendToNotification(String content, Account account, boolean newLine) {
-    StringBuilder contentBuilder = notificationContent.get(account.hashCode());
-    if (contentBuilder.length() > 0) {
-      contentBuilder.append(newLine ? "\n" : " ");
+    if (shouldNotify) {
+      StringBuilder contentBuilder = notificationContent.get(account.hashCode());
+      if (contentBuilder.length() > 0) {
+        contentBuilder.append(newLine ? "\n" : " ");
+      }
+      contentBuilder.append(content);
+      content = contentBuilder.toString();
     }
-    contentBuilder.append(content);
-    notifyUser(getNotificationTitle(), contentBuilder.toString(), account, null);
+    notifyUser(getNotificationTitle(), content, account, null);
   }
 
   @DebugLog
   private void notifyUser(String title, String content, @Nullable Account account, @Nullable Intent intent) {
     Timber.tag(TAG).i(content);
-    NotificationBuilderWrapper builder = NotificationBuilderWrapper.defaultBigTextStyleBuilder(
-        getContext(), title, content);
-    //on Gingerbread content intent is required
-    if (intent == null && !Utils.hasApiLevel(Build.VERSION_CODES.ICE_CREAM_SANDWICH)) {
-      intent = getManageSyncBackendsIntent();
+    if (shouldNotify) {
+      NotificationBuilderWrapper builder = NotificationBuilderWrapper.defaultBigTextStyleBuilder(
+          getContext(), title, content);
+      //on Gingerbread content intent is required
+      if (intent == null && !Utils.hasApiLevel(Build.VERSION_CODES.ICE_CREAM_SANDWICH)) {
+        intent = getManageSyncBackendsIntent();
+      }
+      if (intent != null) {
+        builder.setContentIntent(PendingIntent.getActivity(
+            getContext(), 0, intent, PendingIntent.FLAG_CANCEL_CURRENT));
+      }
+      if (account != null) {
+        Intent dismissIntent = new Intent(getContext(), SyncNotificationDismissHandler.class);
+        dismissIntent.putExtra(KEY_SYNC_ACCOUNT_NAME, account.name);
+        builder.setDeleteIntent(PendingIntent.getService(getContext(), 0,
+            dismissIntent, FLAG_UPDATE_CURRENT));
+      }
+      Notification notification = builder.build();
+      notification.flags = Notification.FLAG_AUTO_CANCEL;
+      ((NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE)).notify(
+          "SYNC", account != null ? account.hashCode() : 0, notification);
     }
-    if (intent != null) {
-      builder.setContentIntent(PendingIntent.getActivity(
-          getContext(), 0, intent, PendingIntent.FLAG_CANCEL_CURRENT));
-    }
-    if (account != null) {
-      Intent dismissIntent = new Intent(getContext(), SyncNotificationDismissHandler.class);
-      dismissIntent.putExtra(KEY_SYNC_ACCOUNT_NAME, account.name);
-      builder.setDeleteIntent(PendingIntent.getService(getContext(), 0,
-          dismissIntent, FLAG_UPDATE_CURRENT));
-    }
-    Notification notification = builder.build();
-    notification.flags = Notification.FLAG_AUTO_CANCEL;
-    ((NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE)).notify(
-        "SYNC", account != null ? account.hashCode() : 0, notification);
   }
 
   private void notifyIoException(int resId,  Account account) {

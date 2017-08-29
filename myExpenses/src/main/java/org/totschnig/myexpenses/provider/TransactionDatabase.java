@@ -72,6 +72,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FR
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_NORMALIZED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED;
@@ -101,6 +102,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_P
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
@@ -112,6 +114,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_EVENT_CA
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_METHODS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INSTANCE_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_SETTINGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_STALE_URIS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_SYNC_STATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES;
@@ -125,7 +128,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 65;
+  public static final int DATABASE_VERSION = 66;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -548,6 +551,11 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       + "DELETE FROM " + TABLE_CHANGES + " WHERE " + KEY_ACCOUNTID + " = old." + KEY_ROWID + "; "
       + "END;";
 
+  private static final String SETTINGS_CREATE =
+      "CREATE TABLE " + TABLE_SETTINGS + " ("
+          + KEY_KEY + " text unique not null, "
+          + KEY_VALUE + " text unique not null);";
+
   public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
   public static final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 
@@ -634,6 +642,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL(INCREASE_ACCOUNT_USAGE_INSERT_TRIGGER);
     db.execSQL(INCREASE_ACCOUNT_USAGE_UPDATE_TRIGGER);
     db.execSQL(UPDATE_ACCOUNT_SYNC_NULL_TRIGGER);
+    db.execSQL(SETTINGS_CREATE);
   }
 
   private void insertCurrencies(SQLiteDatabase db) {
@@ -1503,6 +1512,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           c.close();
         }
       }
+    }
+
+    if (oldVersion < 66) {
+      db.execSQL(String.format("CREATE TABLE %s (%s text unique not null, %s text unique not null);", "settings", "key", "value"));
     }
   }
 

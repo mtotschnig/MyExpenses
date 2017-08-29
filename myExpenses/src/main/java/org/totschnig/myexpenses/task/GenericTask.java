@@ -64,6 +64,7 @@ import java.util.List;
 import timber.log.Timber;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
@@ -72,6 +73,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
 
@@ -682,6 +684,13 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         } else {
           return Result.FAILURE;
         }
+      }
+      case TaskExecutionFragment.TASK_STORE_SETTING: {
+        values = new ContentValues(1);
+        values.put(KEY_KEY, (String) ids[0]);
+        values.put(KEY_VALUE, (String) mExtra);
+        cr.insert(TransactionProvider.SETTINGS_URI, values);
+        return null;
       }
     }
     return null;

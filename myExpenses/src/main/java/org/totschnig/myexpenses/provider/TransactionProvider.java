@@ -135,6 +135,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_EVENT_CA
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_METHODS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INSTANCE_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_SETTINGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_STALE_URIS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_SYNC_STATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES;
@@ -211,6 +212,8 @@ public class TransactionProvider extends ContentProvider {
   public static final Uri MAPPED_TRANSFER_ACCOUNTS_URI =
       Uri.parse("content://" + AUTHORITY + "/transfer_account_transactions");
   public static final Uri CHANGES_URI = Uri.parse("content://" + AUTHORITY + "/changes");
+
+  public static final Uri SETTINGS_URI = Uri.parse("content://" + AUTHORITY + "/settings");
   /**
    * select info from DB without table, e.g. CategoryList#DATEINFO_CURSOR
    * or set control flags like sync_state
@@ -282,6 +285,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int ACCOUNTS_SWAP_SORT_KEY = 40;
   private static final int MAPPED_TRANSFER_ACCOUNTS = 41;
   private static final int CHANGES = 42;
+  private static final int SETTINGS = 43;
 
   private boolean mDirty = false;
 
@@ -773,6 +777,10 @@ public class TransactionProvider extends ContentProvider {
           projection = TransactionChange.PROJECTION;
         }
         break;
+      case SETTINGS: {
+        qb.setTables(TABLE_SETTINGS);
+        break;
+      }
       default:
         throw unknownUri(uri);
     }
@@ -880,7 +888,7 @@ public class TransactionProvider extends ContentProvider {
         break;
       case STALE_IMAGES:
         id = db.insertOrThrow(TABLE_STALE_URIS, null, values);
-        newUri = TABLE_STALE_URIS + "/" + id;
+        newUri = STALE_IMAGES_URI + "/" + id;
         break;
       case DUAL: {
         if ("1".equals(uri.getQueryParameter(QUERY_PARAMETER_SYNC_BEGIN))) {
@@ -891,6 +899,11 @@ public class TransactionProvider extends ContentProvider {
         } else {
           throw unknownUri(uri);
         }
+        break;
+      }
+      case SETTINGS: {
+        id = db.replace(TABLE_SETTINGS, null, values);
+        newUri = SETTINGS_URI + "/" + id;
         break;
       }
       default:
@@ -1496,6 +1509,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "accounts/" + URI_SEGMENT_SWAP_SORT_KEY + "/#/#", ACCOUNTS_SWAP_SORT_KEY);
     URI_MATCHER.addURI(AUTHORITY, "transfer_account_transactions", MAPPED_TRANSFER_ACCOUNTS);
     URI_MATCHER.addURI(AUTHORITY, "changes", CHANGES);
+    URI_MATCHER.addURI(AUTHORITY, "settings", SETTINGS);
   }
 
   /**
