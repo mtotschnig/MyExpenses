@@ -436,6 +436,17 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       + "old." + KEY_UUID + ", "
       + String.format(Locale.US, SELECT_PARENT_UUID_TEMPLATE, "old") + "); END;";
 
+  private static final String DELETE_TRIGGER_ACTION_AFTER_TRANSFER_UPDATE = " BEGIN INSERT INTO " + TABLE_CHANGES + "("
+      + KEY_TYPE + ","
+      + KEY_SYNC_SEQUENCE_LOCAL + ", "
+      + KEY_ACCOUNTID + ","
+      + KEY_UUID + ","
+      + KEY_PARENT_UUID + ") VALUES ('" + TransactionChange.Type.deleted + "', "
+      + String.format(Locale.US, SELECT_SEQUCENE_NUMBER_TEMLATE, "old") + ", "
+      + "old." + KEY_ACCOUNTID + ", "
+      + "new." + KEY_UUID + ", "
+      + String.format(Locale.US, SELECT_PARENT_UUID_TEMPLATE, "old") + "); END;";
+
   private static final String SHOULD_WRITE_CHANGE_TEMPLATE = " EXISTS (SELECT 1 FROM " + TABLE_ACCOUNTS
       + " WHERE " + KEY_ROWID + " = %s." + KEY_ACCOUNTID + " AND " + KEY_SYNC_ACCOUNT_NAME + " IS NOT NULL AND "
       + KEY_SYNC_SEQUENCE_LOCAL + " > 0) AND NOT EXISTS (SELECT 1 FROM " + TABLE_SYNC_STATE + ")";
@@ -460,7 +471,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + "AFTER UPDATE ON " + TABLE_TRANSACTIONS
           + " WHEN " + String.format(Locale.US, SHOULD_WRITE_CHANGE_TEMPLATE, "old")
           + " AND old." + KEY_ACCOUNTID + " != new." + KEY_ACCOUNTID + " AND new." + KEY_STATUS + " != " + STATUS_UNCOMMITTED
-          + DELETE_TRIGGER_ACTION;
+          + DELETE_TRIGGER_ACTION_AFTER_TRANSFER_UPDATE;
 
   private static final String TRANSACTIONS_DELETE_TRIGGER_CREATE =
       "CREATE TRIGGER delete_change_log "
@@ -481,6 +492,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + " AND new." + KEY_STATUS + " != " + STATUS_UNCOMMITTED
           + " AND new." + KEY_ACCOUNTID + " = old." + KEY_ACCOUNTID //if account is changed, we need to delete transaction from one account, and add it to the other
           + " AND new." + KEY_TRANSFER_PEER + " IS old." + KEY_TRANSFER_PEER //if a new transfer is inserted, the first peer is updated, after second one is added, and we can skip this update here
+          + " AND new." + KEY_UUID + " IS NOT NULL "  //during transfer update, uuid is temporarily set to null, we need to skip this change here, otherwise we run into SQLiteConstraintException
           + " BEGIN INSERT INTO " + TABLE_CHANGES + "("
           + KEY_TYPE + ","
           + KEY_SYNC_SEQUENCE_LOCAL + ", "
@@ -1484,7 +1496,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
     if (oldVersion < 63) {
       db.execSQL("CREATE TABLE _sync_state (status integer)");
-      createOrRefreshChangelogTriggers(db);
+      //createOrRefreshChangelogTriggers(db);
     }
 
     if (oldVersion < 64) {
@@ -1516,6 +1528,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
     if (oldVersion < 66) {
       db.execSQL(String.format("CREATE TABLE %s (%s text unique not null, %s text unique not null);", "settings", "key", "value"));
+      createOrRefreshChangelogTriggers(db);
     }
   }
 

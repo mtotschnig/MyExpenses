@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses.test.model;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 
@@ -33,7 +34,10 @@ import org.totschnig.myexpenses.util.PictureDirHelper;
 
 import java.util.Date;
 
-public class TransactionTest extends ModelTest {
+/**
+ * copy of {@link TransactionTest} which runs under the assumption that changes triggers fire
+ */
+public class TransactionTestWithChangeTriggers extends ModelTest {
   private Account mAccount1;
   private Account mAccount2;
   private Account mAccount3;
@@ -42,11 +46,17 @@ public class TransactionTest extends ModelTest {
   protected void setUp() throws Exception {
     super.setUp();
     mAccount1 = new Account("TestAccount 1", 100, "Main account");
+    mAccount1.setSyncAccountName("DEBUG");
     mAccount1.save();
     mAccount2 = new Account("TestAccount 2", 100, "Secondary account");
+    mAccount2.setSyncAccountName("DEBUG");
     mAccount2.save();
     mAccount3 = new Account("TestAccount 3", 100, "Secondary account");
+    mAccount3.setSyncAccountName("DEBUG");
     mAccount3.save();
+    ContentValues values = new ContentValues(1);
+    values.put(DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL, 1);
+    getProvider().getOpenHelperForTest().getWritableDatabase().update(DatabaseConstants.TABLE_ACCOUNTS, values, null, null);
   }
 
   @Override
