@@ -1508,16 +1508,23 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
     if (oldVersion < 65) {
       if (DistribHelper.shouldUseAndroidPlatformCalendar()) {
-        Cursor c = db.rawQuery("SELECT instance_id, (SELECT date from transactions where _id = transaction_id) FROM planinstance_transaction", null);
+        //unfortunately we have to drop information about canceled instances
+        db.delete("planinstance_transaction", "transaction_id is null", null);
+        //we update instance_id to negative numbers, in order to prevent Conflict, which would araise
+        //in the rare case where an existing instance_id equals a newly calculated one
+        db.execSQL("update  planinstance_transaction set instance_id = - rowid");
+        Cursor c = db.rawQuery("SELECT rowid, (SELECT date from transactions where _id = transaction_id) FROM planinstance_transaction", null);
         if (c != null) {
           if (c.moveToFirst()) {
             ContentValues v = new ContentValues();
             while (c.getPosition() < c.getCount()) {
-              long instanceId =  c.getLong(0);
+              String rowId = c.getString(0);
               long date = c.getLong(1);
+              String whereClause = "rowid = ?";
+              String[] whereArgs = {rowId};
               //This will be correct only for instances where date has not been edited by user, but it is the best we can do
               v.put("instance_id", CalendarProviderProxy.calculateId(date * 1000));
-              db.update("planinstance_transaction", v, "instance_id = " + instanceId, null);
+              db.update("planinstance_transaction", v, whereClause, whereArgs);
               c.moveToNext();
             }
           }
