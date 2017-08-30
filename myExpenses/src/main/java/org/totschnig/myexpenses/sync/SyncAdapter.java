@@ -66,7 +66,6 @@ import java.util.concurrent.TimeUnit;
 import hugo.weaving.DebugLog;
 import timber.log.Timber;
 
-import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
@@ -412,7 +411,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         Intent dismissIntent = new Intent(getContext(), SyncNotificationDismissHandler.class);
         dismissIntent.putExtra(KEY_SYNC_ACCOUNT_NAME, account.name);
         builder.setDeleteIntent(PendingIntent.getService(getContext(), 0,
-            dismissIntent, FLAG_UPDATE_CURRENT));
+            dismissIntent, PendingIntent.FLAG_ONE_SHOT));
       }
       Notification notification = builder.build();
       notification.flags = Notification.FLAG_AUTO_CANCEL;
