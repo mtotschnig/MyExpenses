@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
 import java.util.List;
 
 import at.bitfire.dav4android.DavResource;
@@ -206,10 +207,14 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
   @NonNull
   @Override
-  public List<String> getStoredBackups() throws IOException {
-    return Stream.of(webDavClient.getFolderMembers(BACKUP_FOLDER_NAME))
-        .map(DavResource::fileName)
-        .toList();
+  public List<String> getStoredBackups()  {
+    try {
+      return Stream.of(webDavClient.getFolderMembers(BACKUP_FOLDER_NAME))
+          .map(DavResource::fileName)
+          .toList();
+    } catch (IOException e) {
+      return new ArrayList<>();
+    }
   }
 
   @Override
