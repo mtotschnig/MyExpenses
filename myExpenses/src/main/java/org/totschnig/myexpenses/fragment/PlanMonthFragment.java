@@ -324,20 +324,20 @@ public class PlanMonthFragment extends CaldroidFragment
             0);
         break;
       case R.id.RESET_PLAN_INSTANCE_COMMAND:
-        ArrayList<Long> extraAL = new ArrayList<Long>();
         for (int i = 0; i < positions.size(); i++) {
           if (positions.valueAt(i)) {
             int position = positions.keyAt(i);
             long instanceId = getPlanInstanceForPosition(position);
             objectIdsAL.add(instanceId);
             //pass transactionId in extra
-            extraAL.add(instance2TransactionMap.get(instanceId));
+            extra2dAL.add(new Long[]{getArguments().getLong(KEY_ROWID),
+                instance2TransactionMap.get(instanceId)});
           }
         }
         ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
             TaskExecutionFragment.TASK_RESET_PLAN_INSTANCE,
             objectIdsAL.toArray(new Long[objectIdsAL.size()]),
-            extraAL.toArray(new Long[extraAL.size()]),
+            extra2dAL.toArray(new Long[extra2dAL.size()][2]),
             0);
         break;
     }
