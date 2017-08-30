@@ -93,14 +93,14 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  public void storeBackup(Uri uri) throws IOException {
+  public void storeBackup(Uri uri, String fileName) throws IOException {
     File backupDir = new File(baseDir, BACKUP_FOLDER_NAME);
     //noinspection ResultOfMethodCallIgnored
     backupDir.mkdir();
     if (!backupDir.isDirectory()) {
       throw new IOException("Unable to create directory for backups");
     }
-    saveUriToFolder(uri.getLastPathSegment(), uri, backupDir);
+    saveUriToFolder(fileName, uri, backupDir);
   }
 
   @NonNull

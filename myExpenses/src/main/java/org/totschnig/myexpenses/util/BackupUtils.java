@@ -49,7 +49,7 @@ public class BackupUtils {
         return new Result(
             true,
             R.string.backup_success,
-            backupFile.getUri());
+            backupFile);
       } catch (IOException e) {
         AcraHelper.report(e);
         return new Result(

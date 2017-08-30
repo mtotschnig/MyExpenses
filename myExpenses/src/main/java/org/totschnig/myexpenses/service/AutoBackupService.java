@@ -18,6 +18,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.provider.DocumentFile;
 
 import com.commonsware.cwac.wakeful.WakefulIntentService;
 
@@ -70,7 +71,9 @@ public class AutoBackupService extends WakefulIntentService {
           Bundle bundle = new Bundle();
           bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
           bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-          bundle.putString(SyncAdapter.KEY_UPLOAD_AUTO_BACKUP, result.extra[0].toString());
+          DocumentFile documentFile = (DocumentFile) result.extra[0];
+          bundle.putString(SyncAdapter.KEY_UPLOAD_AUTO_BACKUP_URI, documentFile.getUri().toString());
+          bundle.putString(SyncAdapter.KEY_UPLOAD_AUTO_BACKUP_NAME, documentFile.getName());
           ContentResolver.requestSync(GenericAccountService.GetAccount(syncAccount), TransactionProvider.AUTHORITY, bundle);
         }
       } else {

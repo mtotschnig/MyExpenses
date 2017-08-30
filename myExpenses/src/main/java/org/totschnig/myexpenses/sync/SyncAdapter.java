@@ -86,7 +86,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE;
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
   public static final int BATCH_SIZE = 100;
   public static final String KEY_RESET_REMOTE_ACCOUNT = "reset_remote_account";
-  public static final String KEY_UPLOAD_AUTO_BACKUP = "upload_auto_backup";
+  public static final String KEY_UPLOAD_AUTO_BACKUP_URI = "upload_auto_backup_uri";
+  public static final String KEY_UPLOAD_AUTO_BACKUP_NAME = "upload_auto_backup_name";
   public static final String KEY_NOTIFICATION_CANCELLED = "notification_cancelled";
   private static final ThreadLocal<org.totschnig.myexpenses.model.Account>
       dbAccount = new ThreadLocal<>();
@@ -174,13 +175,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       return;
     }
 
-    String autoBackupFileUri = extras.getString(KEY_UPLOAD_AUTO_BACKUP);
+    String autoBackupFileUri = extras.getString(KEY_UPLOAD_AUTO_BACKUP_URI);
     if (autoBackupFileUri != null) {
+      String fileName = extras.getString(KEY_UPLOAD_AUTO_BACKUP_NAME);
       try {
-        backend.storeBackup(Uri.parse(autoBackupFileUri));
+        backend.storeBackup(Uri.parse(autoBackupFileUri), fileName);
       } catch (IOException e) {
         notifyUser(getContext().getString(R.string.pref_auto_backup_title),
-            getContext().getString(R.string.auto_backup_cloud_failure, autoBackupFileUri, account.name)
+            getContext().getString(R.string.auto_backup_cloud_failure, fileName, account.name)
                 + " " + e.getMessage(), null, null);
       }
       return;

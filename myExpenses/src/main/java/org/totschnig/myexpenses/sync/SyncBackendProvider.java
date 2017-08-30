@@ -38,7 +38,7 @@ public interface SyncBackendProvider {
 
   void tearDown();
 
-  void storeBackup(Uri uri) throws IOException;
+  void storeBackup(Uri uri, String fileName) throws IOException;
 
   @NonNull
   List<String> getStoredBackups() throws IOException;

@@ -190,7 +190,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
               r.print(this), Toast.LENGTH_LONG)
               .show();
         } else {
-          Uri backupFileUri = (Uri) r.extra[0];
+          Uri backupFileUri = ((DocumentFile) r.extra[0]).getUri();
           Toast.makeText(getBaseContext(),
               getString(r.getMessage(), FileUtils.getPath(this, backupFileUri)), Toast.LENGTH_LONG)
               .show();

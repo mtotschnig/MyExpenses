@@ -9,6 +9,7 @@ import android.webkit.MimeTypeMap;
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 
+import org.apache.commons.lang3.StringUtils;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
@@ -189,6 +190,9 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   }
 
   private void saveUriToFolder(String fileName, Uri uri, String folder) throws IOException {
+    if (fileName.contains("/")) {
+      fileName = StringUtils.substringAfterLast(fileName,"/");
+    }
     InputStream in = MyApplication.getInstance().getContentResolver()
         .openInputStream(uri);
     if (in == null) {
@@ -200,9 +204,9 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  public void storeBackup(Uri uri) throws IOException {
+  public void storeBackup(Uri uri, String fileName) throws IOException {
     webDavClient.mkCol(BACKUP_FOLDER_NAME);
-    saveUriToFolder(uri.getLastPathSegment(), uri, BACKUP_FOLDER_NAME);
+    saveUriToFolder(fileName, uri, BACKUP_FOLDER_NAME);
   }
 
   @NonNull
