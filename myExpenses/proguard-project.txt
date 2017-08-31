@@ -71,3 +71,7 @@
 -keep class org.slf4j.** { *; }
 -keepattributes *Annotation*
 -dontwarn ch.qos.logback.core.net.*
+
+# Pubnative
+-keepattributes Signature
+-keep class net.pubnative.** { *; }
