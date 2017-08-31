@@ -19,12 +19,7 @@ public class UiModule {
   @Provides
   @Singleton
   ImageViewIntentProvider provideImageViewIntentProvider() {
-    try {
-      return (ImageViewIntentProvider) Class.forName(
-          "org.totschnig.myexpenses.activity.PlatformImageViewIntentProvider").newInstance();
-    } catch (Exception e) {
       return new SystemImageViewIntentProvider();
-    }
   }
 
   @Provides
