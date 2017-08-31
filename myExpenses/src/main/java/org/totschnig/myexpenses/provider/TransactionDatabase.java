@@ -128,7 +128,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 66;
+  public static final int DATABASE_VERSION = 67;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -349,8 +349,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       "CREATE TABLE " + TABLE_PLAN_INSTANCE_STATUS
           + " ( " + KEY_TEMPLATEID + " integer references " + TABLE_TEMPLATES + "(" + KEY_ROWID + ") ON DELETE CASCADE," +
           KEY_INSTANCEID + " integer," + // references Instances._ID in calendar content provider
-          KEY_TRANSACTIONID + " integer references " + TABLE_TRANSACTIONS + "(" + KEY_ROWID + ") ON DELETE CASCADE, " +
-          "primary key (" + KEY_INSTANCEID + "," + KEY_TRANSACTIONID + "));";
+          KEY_TRANSACTIONID + " integer UNIQUE references " + TABLE_TRANSACTIONS + "(" + KEY_ROWID + ") ON DELETE CASCADE);";
 
   private static final String STALE_URIS_CREATE =
       "CREATE TABLE " + TABLE_STALE_URIS
@@ -1512,7 +1511,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         db.delete("planinstance_transaction", "transaction_id is null", null);
         //we update instance_id to negative numbers, in order to prevent Conflict, which would araise
         //in the rare case where an existing instance_id equals a newly calculated one
-        db.execSQL("update  planinstance_transaction set instance_id = - rowid");
+        db.execSQL("update planinstance_transaction set instance_id = - rowid");
         Cursor c = db.rawQuery("SELECT rowid, (SELECT date from transactions where _id = transaction_id) FROM planinstance_transaction", null);
         if (c != null) {
           if (c.moveToFirst()) {
@@ -1524,7 +1523,11 @@ public class TransactionDatabase extends SQLiteOpenHelper {
               String[] whereArgs = {rowId};
               //This will be correct only for instances where date has not been edited by user, but it is the best we can do
               v.put("instance_id", CalendarProviderProxy.calculateId(date * 1000));
-              db.update("planinstance_transaction", v, whereClause, whereArgs);
+              try {
+                db.update("planinstance_transaction", v, whereClause, whereArgs);
+              } catch (Exception e) {
+                AcraHelper.report(e);
+              }
               c.moveToNext();
             }
           }
@@ -1536,6 +1539,20 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     if (oldVersion < 66) {
       db.execSQL(String.format("CREATE TABLE %s (%s text unique not null, %s text unique not null);", "settings", "key", "value"));
       createOrRefreshChangelogTriggers(db);
+    }
+
+    if (oldVersion < 67) {
+      db.delete("planinstance_transaction", "instance_id < 0", null);
+      db.execSQL("ALTER TABLE planinstance_transaction RENAME to planinstance_transaction_old");
+      db.execSQL("CREATE TABLE planinstance_transaction " +
+          "(template_id integer references templates(_id) ON DELETE CASCADE, " +
+          "instance_id integer, " +
+          "transaction_id integer unique references transactions(_id) ON DELETE CASCADE);");
+      db.execSQL("INSERT INTO planinstance_transaction " +
+          "(template_id,instance_id,transaction_id)" +
+          "SELECT " +
+          "template_id,instance_id,transaction_id FROM planinstance_transaction_old");
+      db.execSQL("DROP TABLE planinstance_transaction_old");
     }
   }
 
