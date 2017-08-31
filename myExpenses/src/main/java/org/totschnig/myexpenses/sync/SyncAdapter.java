@@ -384,6 +384,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   }
 
   private void appendToNotification(String content, Account account, boolean newLine) {
+    Timber.tag(TAG).i(content);
     if (shouldNotify) {
       StringBuilder contentBuilder = notificationContent.get(account.hashCode());
       if (contentBuilder.length() > 0) {
@@ -397,7 +398,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
   @DebugLog
   private void notifyUser(String title, String content, @Nullable Account account, @Nullable Intent intent) {
-    Timber.tag(TAG).i(content);
     if (shouldNotify) {
       NotificationBuilderWrapper builder = NotificationBuilderWrapper.defaultBigTextStyleBuilder(
           getContext(), title, content);
