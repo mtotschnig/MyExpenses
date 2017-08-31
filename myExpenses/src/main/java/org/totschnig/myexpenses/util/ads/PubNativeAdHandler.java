@@ -73,6 +73,7 @@ public class PubNativeAdHandler extends AdHandler {
 
         @Override
         public void onPubnativeNetworkRequestFailed(PubnativeNetworkRequest request, Exception exception) {
+          Timber.e("Request failed");
           Timber.e(exception);
           hide();
         }
