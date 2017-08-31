@@ -234,9 +234,13 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   public boolean lock() {
     try {
       String existingLockTocken = getExistingLockToken();
+      Timber.i("ExistingLockTocken: %s", existingLockTocken);
       if (existingLockTocken == null || shouldOverrideLock(existingLockTocken)) {
         String lockToken = Model.generateUuid();
-        writeLockToken(lockToken);
+        if (!writeLockToken(lockToken)) {
+          Timber.i("Write lock tocken failed");
+          return false;
+        }
         saveLockTokenToPreferences(lockToken, System.currentTimeMillis(), true);
         return true;
       }
@@ -247,14 +251,22 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   }
 
   private boolean shouldOverrideLock(String locktoken) {
+    boolean result;
     long now = System.currentTimeMillis();
-    if (locktoken.equals(sharedPreferences.getString(KEY_LOCK_TOKEN, ""))) {
-      return sharedPreferences.getBoolean(KEY_OWNED_BY_US, false) ||
-          now - sharedPreferences.getLong(KEY_TIMESTAMP, 0) > LOCK_TIMEOUT_MILLIS;
+    String storedLockToken = sharedPreferences.getString(KEY_LOCK_TOKEN, "");
+    boolean ownedByUs = sharedPreferences.getBoolean(KEY_OWNED_BY_US, false);
+    long timestamp = sharedPreferences.getLong(KEY_TIMESTAMP, 0);
+    long since = now - timestamp;
+    Timber.i("Stored: %s, ownedByUs : %b, since: %d", storedLockToken, ownedByUs, since);
+    if (locktoken.equals(storedLockToken)) {
+      result = ownedByUs || since > LOCK_TIMEOUT_MILLIS;
+      Timber.i("tokens are equal, result: %b", result);
     } else {
       saveLockTokenToPreferences(locktoken, now, false);
-      return false;
+      result = false;
+      Timber.i("tokens are not equal, result: %b", result);
     }
+    return result;
   }
 
   private void saveLockTokenToPreferences(String locktoken, long timestamp, boolean ownedByUs) {
