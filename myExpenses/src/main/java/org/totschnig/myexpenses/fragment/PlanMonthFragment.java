@@ -86,6 +86,11 @@ public class PlanMonthFragment extends CaldroidFragment
   @State
   protected HashMap<Long,Long> instance2TransactionMap = new HashMap<>();
 
+  //caldroid fragment operates on Dates set to Midnight. We want to store the exact timestamp in order
+  //create the transactions with the exact date provided by the caldendar
+  @State
+  protected HashMap<DateTime,Long> dateTime2TimeStampMap = new HashMap<>();
+
   public static PlanMonthFragment newInstance(String title, long templateId, long planId, int color, boolean readOnly) {
     PlanMonthFragment f = new PlanMonthFragment();
     Bundle args = new Bundle();
@@ -239,10 +244,12 @@ public class PlanMonthFragment extends CaldroidFragment
         Calendar calendar = Calendar.getInstance();
         data.moveToFirst();
         while (!data.isAfterLast()) {
-          calendar.setTimeInMillis(data.getLong(
-              data.getColumnIndex(CalendarContractCompat.Instances.BEGIN)));
+          long timeInMillis = data.getLong(
+              data.getColumnIndex(CalendarContractCompat.Instances.BEGIN));
+          calendar.setTimeInMillis(timeInMillis);
           DateTime dateTime = CalendarHelper.convertDateToDateTime(calendar.getTime());
           selectedDates.add(dateTime);
+          dateTime2TimeStampMap.put(dateTime, timeInMillis);
           data.moveToNext();
         }
         refreshView();
@@ -344,11 +351,11 @@ public class PlanMonthFragment extends CaldroidFragment
   }
 
   private long getPlanInstanceForPosition(int position) {
-    return CalendarProviderProxy.calculateId(dateInMonthsList.get(position));
+    return CalendarProviderProxy.calculateId(dateTime2TimeStampMap.get(dateInMonthsList.get(position)));
   }
 
   private long getDateForPosition(int position) {
-    return CalendarHelper.convertDateTimeToDate(dateInMonthsList.get(position)).getTime();
+    return dateTime2TimeStampMap.get(dateInMonthsList.get(position));
   }
 
   @TargetApi(Build.VERSION_CODES.HONEYCOMB)
