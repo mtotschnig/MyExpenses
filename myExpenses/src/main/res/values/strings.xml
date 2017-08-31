@@ -673,8 +673,7 @@
     <string name="dialog_button_add">Add</string>
     <string name="template_create_error">Error while saving template</string>
     <string name="contributed_by">Contributed by %s</string>
-    <string name="pref_sync_notification_title">Notifications</string>
     <string name="pref_sync_notification_summary">Notify about synchronization progress</string>
-
+    <string name="pref_debug_logging_summary">Write debugging information into system log</string>
 </resources>
 
