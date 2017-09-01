@@ -646,13 +646,11 @@ public class ExpenseEdit extends AmountActivity implements
         RecurrenceAdapter recurrenceAdapter = new RecurrenceAdapter(this, false);
         mReccurenceSpinner.setAdapter(recurrenceAdapter);
         mReccurenceSpinner.setOnItemSelectedListener(this);
-        mPlanButton.setOnClickListener(new View.OnClickListener() {
-          public void onClick(View view) {
-            if (mPlan == null) {
-              showDialog(DATE_DIALOG_ID);
-            } else if (DistribHelper.shouldUseAndroidPlatformCalendar()) {
-              launchPlanView();
-            }
+        mPlanButton.setOnClickListener(view -> {
+          if (mPlan == null) {
+            showDialog(DATE_DIALOG_ID);
+          } else if (DistribHelper.shouldUseAndroidPlatformCalendar()) {
+            launchPlanView(false);
           }
         });
       }
