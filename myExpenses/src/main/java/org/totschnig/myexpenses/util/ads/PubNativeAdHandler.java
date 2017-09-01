@@ -19,6 +19,7 @@ import timber.log.Timber;
 public class PubNativeAdHandler extends AdHandler {
   private static final String APP_TOKEN = "d7757800d02945a18bbae190a9a7d4d1";
   private static final String PLACEMENT_NAME = "Banner";
+  private static final String PROVIDER = "PubNative";
   private final Context context;
   private TextView title;
   private TextView description;
@@ -49,12 +50,12 @@ public class PubNativeAdHandler extends AdHandler {
       disclosure = (ViewGroup) adRoot.findViewById(R.id.ad_disclosure);
 
       adContainer.addView(adRoot);
-
+      trackBannerRequest(PROVIDER);
       request.start(context, APP_TOKEN, PLACEMENT_NAME, new PubnativeNetworkRequest.Listener() {
 
         @Override
         public void onPubnativeNetworkRequestLoaded(PubnativeNetworkRequest request, PubnativeAdModel model) {
-          Timber.i("Request loaded, got model: %s", model);
+          trackBannerLoaded(PROVIDER);
           banner.setVisibility(View.VISIBLE);
           title.setText(model.getTitle());
           description.setText(model.getDescription());
@@ -73,6 +74,7 @@ public class PubNativeAdHandler extends AdHandler {
 
         @Override
         public void onPubnativeNetworkRequestFailed(PubnativeNetworkRequest request, Exception exception) {
+          trackBannerFailed(PROVIDER, exception.getMessage());
           Timber.e("Request failed");
           Timber.e(exception);
           hide();

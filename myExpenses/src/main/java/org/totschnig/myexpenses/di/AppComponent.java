@@ -12,6 +12,7 @@ import org.totschnig.myexpenses.fragment.SplitPartList;
 import org.totschnig.myexpenses.fragment.StaleImagesList;
 import org.totschnig.myexpenses.fragment.TemplatesList;
 import org.totschnig.myexpenses.fragment.TransactionList;
+import org.totschnig.myexpenses.util.ads.AdHandler;
 
 import javax.inject.Singleton;
 
@@ -43,4 +44,6 @@ public interface AppComponent {
   void inject(TransactionListDialogFragment transactionListDialogFragment);
 
   void inject(CategoryList categoryList);
+
+  void inject(AdHandler adHandler);
 }
