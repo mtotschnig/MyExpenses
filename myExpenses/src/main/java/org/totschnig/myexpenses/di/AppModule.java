@@ -73,6 +73,7 @@ public class AppModule {
   }
 
   @Provides
+  @Singleton
   Tracker provideTracker() {
     try {
       return (Tracker) Class.forName(
