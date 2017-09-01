@@ -41,7 +41,7 @@ public class Plan extends Model implements Serializable {
   public String description;
 
   public enum Recurrence {
-    NONE, ONETIME, DAILY, WEEKLY, MONTHLY, YEARLY;
+    NONE, ONETIME, DAILY, WEEKLY, MONTHLY, YEARLY, CUSTOM;
 
     public String toRrule(Calendar calendar) {
       String wkst = calendarDay2String(Utils.getFirstDayOfWeek(Locale.getDefault()));
@@ -77,6 +77,8 @@ public class Plan extends Model implements Serializable {
           return context.getString(R.string.monthly);
         case YEARLY:
           return context.getString(R.string.yearly_plain);
+        case CUSTOM:
+          return context.getString(R.string.pref_sort_order_custom);
       }
       return null;
     }

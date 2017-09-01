@@ -96,6 +96,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   public static final int SYNC_BACKEND_SETUP_REQUEST = 16;
   public static final int RESTORE_REQUEST = 17;
   public static final int CONTRIB_REQUEST = 18;
+  public static final int PLAN_REQUEST = 19;
   public static final String SAVE_TAG = "SAVE_TASK";
   public static final String SORT_ORDER_USAGES = "USAGES";
   public static final String SORT_ORDER_LAST_USED = "LAST_USED";
