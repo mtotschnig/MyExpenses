@@ -493,7 +493,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   public boolean isCalendarPermissionPermanentlyDeclined() {
-    return isPermissionPermanentlyDeclined(PermissionHelper.PermissionGroup.CALENDAR)
+    return isPermissionPermanentlyDeclined(PermissionHelper.PermissionGroup.CALENDAR);
   }
 
   private boolean isPermissionPermanentlyDeclined(PermissionGroup permissionGroup) {
