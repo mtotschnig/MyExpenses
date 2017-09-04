@@ -19,6 +19,7 @@ import android.content.ComponentName;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.provider.DocumentFile;
 import android.widget.Toast;
 
@@ -35,6 +36,7 @@ import org.totschnig.myexpenses.task.RestoreTask;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.FileUtils;
+import org.totschnig.myexpenses.util.PermissionHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.ShareUtils;
 import org.totschnig.myexpenses.util.Utils;
@@ -315,13 +317,11 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
     finish();
   }
   @Override
-  public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+  public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
     switch (requestCode) {
-      case ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR:
+      case PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR:
         if (grantResults.length > 0
             && grantResults[0] == PackageManager.PERMISSION_DENIED) {
-            Toast.makeText(this, getString(R.string.calendar_permission_required), Toast.LENGTH_LONG)
-                .show();
           ((DialogUtils.CalendarRestoreStrategyChangedListener)
               getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG)).onCalendarPermissionDenied();
         }

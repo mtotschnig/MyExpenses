@@ -71,6 +71,7 @@ public enum PrefKey {
   AUTO_BACKUP_INFO(R.string.pref_auto_backup_info_key),
   UI_HOME_SCREEN_SHORTCUTS(R.string.pref_ui_home_screen_shortcuts_key),
   CALENDAR_PERMISSION_REQUESTED("calendar_permission_requested"),
+  STORAGE_PERMISSION_REQUESTED("storage_permission_requested"),
   GROUPING_START_SCREEN(R.string.pref_grouping_start_key),
   GROUP_WEEK_STARTS(R.string.pref_group_week_starts_key),
   GROUP_MONTH_STARTS(R.string.pref_group_month_starts_key),

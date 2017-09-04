@@ -15,19 +15,19 @@
 
 package org.totschnig.myexpenses.activity;
 
-import java.io.Serializable;
+import android.app.Activity;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
+import android.widget.Toast;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 
-import android.app.Activity;
-import android.support.v7.app.AlertDialog;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.widget.Toast;
+import java.io.Serializable;
 
 /**
  * methods both needed by {@link ProtectedFragmentActivity} and now defunct
@@ -38,7 +38,6 @@ import android.widget.Toast;
 public class ProtectionDelegate {
   public static final String PROGRESS_TAG = "PROGRESS";
   public static final String ASYNC_TAG = "ASYNC_TASK";
-  public static final int PERMISSIONS_REQUEST_WRITE_CALENDAR = 1;
   Activity ctx;
   public ProtectionDelegate(Activity ctx) {
     this.ctx = ctx;

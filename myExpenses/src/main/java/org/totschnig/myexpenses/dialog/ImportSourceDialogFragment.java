@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.util.ImportFileResultHandler;
+import org.totschnig.myexpenses.util.PermissionHelper;
 
 public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragment
     implements OnClickListener, DialogInterface.OnClickListener, ImportFileResultHandler.FileNameHostFragment {
@@ -112,7 +113,7 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
   }
 
   protected boolean isReady() {
-    return mUri != null;
+    return mUri != null && PermissionHelper.canReadUri(mUri, getContext());
   }
 
   protected void setButtonState() {

@@ -376,7 +376,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       Preference preference = findPreference(PLANNER_CALENDAR_ID);
       if (preference != null) {
         preference.setSummary(
-            ((MyPreferenceActivity) getActivity()).calendarPermissionPermanentlyDeclined() ?
+            ((ProtectedFragmentActivity) getActivity()).isCalendarPermissionPermanentlyDeclined() ?
                 R.string.calendar_permission_required : R.string.pref_planning_calendar_summary);
       }
     }

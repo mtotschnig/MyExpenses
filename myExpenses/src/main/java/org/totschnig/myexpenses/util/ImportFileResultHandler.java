@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 
 import timber.log.Timber;
@@ -47,9 +48,7 @@ public class ImportFileResultHandler {
           }
         }
       } else {
-        uri = null;
-        errorMsg = context.getString(R.string.import_source_select_not_readable);
-        handleError(errorMsg, context, fileNameEditText);
+        ((ProtectedFragmentActivity) context).requestStoragePermission();
       }
 
 /*      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && uri != null) {

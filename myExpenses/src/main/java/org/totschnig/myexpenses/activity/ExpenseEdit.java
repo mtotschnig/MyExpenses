@@ -37,6 +37,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
@@ -641,7 +642,7 @@ public class ExpenseEdit extends AmountActivity implements
 
     if (mTransaction instanceof Template) {
       findViewById(R.id.TitleRow).setVisibility(View.VISIBLE);
-      if (!calendarPermissionPermanentlyDeclined()) {
+      if (!isCalendarPermissionPermanentlyDeclined()) {
         //if user has denied access and checked that he does not want to be asked again, we do not
         //bother him with a button that is not working
         setPlannerRowVisibility(View.VISIBLE);
@@ -693,7 +694,7 @@ public class ExpenseEdit extends AmountActivity implements
         mTransaction.status = STATUS_UNCOMMITTED;
       } else {
         //Transfer or Template, we can suggest to create a plan
-        if (!calendarPermissionPermanentlyDeclined()) {
+        if (!isCalendarPermissionPermanentlyDeclined()) {
           //we set adapter even if spinner is not immediately visible, since it might become visible
           //after SAVE_AND_NEW action
           RecurrenceAdapter recurrenceAdapter = new RecurrenceAdapter(this,
@@ -1293,14 +1294,14 @@ public class ExpenseEdit extends AmountActivity implements
         uri = mPictureUriTemp;
       }
       if (uri != null) {
+        mPictureUri = uri;
         if (PermissionHelper.canReadUri(uri, this)) {
-          mPictureUri = uri;
           setPicture();
           setDirty(true);
-          return;
         } else {
-          errorMsg = getString(R.string.import_source_select_not_readable);
+          requestStoragePermission();
         }
+        return;
       } else {
         errorMsg = "Error while retrieving image: No data found.";
       }
@@ -1663,9 +1664,7 @@ public class ExpenseEdit extends AmountActivity implements
               CommonCommands.showContribDialog(this, ContribFeature.PLANS_UNLIMITED, null);
             }
           } else {
-            ActivityCompat.requestPermissions(ExpenseEdit.this,
-                new String[]{Manifest.permission.WRITE_CALENDAR},
-                ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR);
+            requestPermission(PermissionHelper.PermissionGroup.CALENDAR);
           }
         }
         if (mTransaction instanceof Template) {
@@ -2228,13 +2227,14 @@ public class ExpenseEdit extends AmountActivity implements
 
   @Override
   public void onRequestPermissionsResult(int requestCode,
-                                         String permissions[], int[] grantResults) {
+                                         @NonNull String permissions[], @NonNull int[] grantResults) {
     super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    // If request is cancelled, the result arrays are empty.
+    boolean granted = grantResults.length > 0
+        && grantResults[0] == PackageManager.PERMISSION_GRANTED;
     switch (requestCode) {
-      case ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR: {
-        // If request is cancelled, the result arrays are empty.
-        if (grantResults.length > 0
-            && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+      case PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR: {
+        if (granted) {
           if (mTransaction instanceof Template) {
             mPlanButton.setVisibility(View.VISIBLE);
             mPlanToggleButton.setVisibility(View.VISIBLE);
@@ -2245,6 +2245,13 @@ public class ExpenseEdit extends AmountActivity implements
               this, Manifest.permission.WRITE_CALENDAR)) {
             setPlannerRowVisibility(View.GONE);
           }
+        }
+      }
+      case PermissionHelper.PERMISSIONS_REQUEST_STORAGE: {
+        if (granted) {
+          setPicture();
+        } else {
+          mPictureUri = null;
         }
       }
     }

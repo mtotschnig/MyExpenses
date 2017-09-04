@@ -30,7 +30,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
@@ -53,7 +52,6 @@ import android.widget.Toast;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
-import org.totschnig.myexpenses.activity.ProtectionDelegate;
 import org.totschnig.myexpenses.adapter.AccountTypeAdapter;
 import org.totschnig.myexpenses.adapter.CurrencyAdapter;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
@@ -64,6 +62,7 @@ import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.util.DistribHelper;
+import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.util.Arrays;
@@ -281,9 +280,9 @@ public class DialogUtils {
           checkedId == R.id.restore_calendar_handling_configured) {
         if (ContextCompat.checkSelfPermission(context,
             Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_DENIED) {
-          ActivityCompat.requestPermissions(context,
-              new String[]{Manifest.permission.WRITE_CALENDAR},
-              ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR);
+          if (context instanceof ProtectedFragmentActivity) {
+            ((ProtectedFragmentActivity) context).requestPermission(PermissionGroup.CALENDAR);
+          }
         }
       }
       listener.onCheckedChanged();

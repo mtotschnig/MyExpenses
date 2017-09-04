@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses.activity;
 
-import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
@@ -63,6 +62,8 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.ContextWrapper;
 import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.PermissionHelper;
+import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
@@ -468,44 +469,62 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   @Override
-  public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+  public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
     super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    switch (requestCode) {
-      case ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR:
-        PrefKey.CALENDAR_PERMISSION_REQUESTED.putBoolean(true);
-        if (grantResults.length > 0
-            && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+    boolean granted = grantResults.length > 0
+        && grantResults[0] == PackageManager.PERMISSION_GRANTED;
+    storePermissionRequested(requestCode);
+    if (granted) {
+      switch (requestCode) {
+        case PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR: {
           MyApplication.getInstance().initPlanner();
-        } else {
-          if (ActivityCompat.shouldShowRequestPermissionRationale(
-              this, Manifest.permission.WRITE_CALENDAR)) {
-            Toast.makeText(this, getString(R.string.calendar_permission_required), Toast.LENGTH_LONG)
-                .show();
-          }
         }
-        break;
+      }
+    } else {
+      if (permissions.length > 0 && ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[0])) {
+        Toast.makeText(this, getString(PermissionHelper.permissionRequestRationaleResId(requestCode)),
+            Toast.LENGTH_LONG).show();
+      }
     }
   }
 
-  public boolean calendarPermissionPermanentlyDeclined() {
-    String permission = Manifest.permission.WRITE_CALENDAR;
-    return PrefKey.CALENDAR_PERMISSION_REQUESTED.getBoolean(false) &&
-        (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_DENIED) &&
-        !ActivityCompat.shouldShowRequestPermissionRationale(this, permission);
+  private void storePermissionRequested(int requestCode) {
+    PermissionHelper.permissionRequestedKey(requestCode).putBoolean(true);
+  }
+
+  public boolean isCalendarPermissionPermanentlyDeclined() {
+    return isPermissionPermanentlyDeclined(PermissionHelper.PermissionGroup.CALENDAR)
+  }
+
+  private boolean isPermissionPermanentlyDeclined(PermissionGroup permissionGroup) {
+    return permissionGroup.prefKey.getBoolean(false) &&
+        (ContextCompat.checkSelfPermission(this, permissionGroup.androidPermission) == PackageManager.PERMISSION_DENIED) &&
+        !ActivityCompat.shouldShowRequestPermissionRationale(this, permissionGroup.androidPermission);
   }
 
   public void requestCalendarPermission() {
-    if (calendarPermissionPermanentlyDeclined()) {
+    requestPermissionOrStartApplicationDetailSettings(PermissionGroup.CALENDAR);
+  }
+
+  public void requestStoragePermission() {
+    requestPermissionOrStartApplicationDetailSettings(PermissionGroup.STORAGE);
+  }
+
+  private void requestPermissionOrStartApplicationDetailSettings(PermissionGroup permissionGroup) {
+    if (isPermissionPermanentlyDeclined(permissionGroup)) {
       //noinspection InlinedApi
       Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
       Uri uri = Uri.fromParts("package", getPackageName(), null);
       intent.setData(uri);
       startActivity(intent);
     } else {
-      ActivityCompat.requestPermissions(this,
-          new String[]{Manifest.permission.WRITE_CALENDAR},
-          ProtectionDelegate.PERMISSIONS_REQUEST_WRITE_CALENDAR);
+      requestPermission(permissionGroup);
     }
+  }
+
+  public void requestPermission(PermissionGroup permissionGroup) {
+    ActivityCompat.requestPermissions(this, new String[]{permissionGroup.androidPermission},
+        permissionGroup.requestCode);
   }
 
   @Override
