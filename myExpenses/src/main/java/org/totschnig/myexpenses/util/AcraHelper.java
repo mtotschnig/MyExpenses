@@ -16,7 +16,7 @@ public class AcraHelper {
       && !MyApplication.isInstrumentationTest();
 
   public static void reportWithDbSchema(Exception e) {
-    if (DO_REPORT) {
+    if (shouldReport()) {
       report(e, DbUtils.getSchemaDetails());
     } else {
       Timber.e(e, "Report");
@@ -24,7 +24,7 @@ public class AcraHelper {
   }
 
   public static void report(Exception e, String key, String data) {
-    if (DO_REPORT) {
+    if (shouldReport()) {
       ErrorReporter errorReporter = ACRA.getErrorReporter();
       errorReporter.putCustomData(key, data);
       errorReporter.handleSilentException(e);
@@ -36,7 +36,7 @@ public class AcraHelper {
   }
 
   public static void report(Exception e, Map<String, String> customData) {
-    if (DO_REPORT) {
+    if (shouldReport()) {
       ErrorReporter errorReporter = ACRA.getErrorReporter();
       for (Map.Entry<String, String> entry : customData.entrySet()) {
         errorReporter.putCustomData(entry.getKey(), entry.getValue());
@@ -54,7 +54,7 @@ public class AcraHelper {
   }
 
   public static void report(Exception e) {
-    if (DO_REPORT) {
+    if (shouldReport()) {
       ACRA.getErrorReporter().handleSilentException(e);
     } else {
       Timber.e(e);
@@ -63,5 +63,9 @@ public class AcraHelper {
 
   public static void report(String message) {
     report(new Exception(message));
+  }
+
+  private static boolean shouldReport() {
+    return DO_REPORT && ACRA.isInitialised();
   }
 }
