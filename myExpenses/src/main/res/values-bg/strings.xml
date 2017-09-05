@@ -451,7 +451,6 @@
   <string name="import_parties_none">Не са импортирани страни</string>
   <string name="import_transactions_none">Не са импортирани транзакции в сметка %1$s</string>
   <string name="import_source_select_error">Моля, изберете файл от тип %1$s</string>
-  <string name="import_source_select_not_readable">Невъзможно четене на файла. Моля, изберете друг източник.</string>
   <string name="menu_categories_setup_default">Въведи готови категории</string>
   <string name="menu_create_folder">Нова папка</string>
   <!--This string is used for navigating up in the folder browser-->

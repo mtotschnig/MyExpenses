@@ -442,7 +442,6 @@
   <string name="import_parties_none">Không có bên giao dịch nào được nhập</string>
   <string name="import_transactions_none">Không có giao dịch nào được nhập vào tài khoản %1$s</string>
   <string name="import_source_select_error">Hãy cung cấp một tập tin dạng %1$s</string>
-  <string name="import_source_select_not_readable">Không thể đọc tập tin. Vui lòng chọn một tập tin khác.</string>
   <string name="menu_categories_setup_default">Thiết lập các danh mục mặc định</string>
   <string name="menu_create_folder">Thư mục mới</string>
   <!--This string is used for navigating up in the folder browser-->

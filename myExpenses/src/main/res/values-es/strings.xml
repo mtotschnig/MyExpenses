@@ -451,7 +451,6 @@
   <string name="import_parties_none">Ningún grupo importado</string>
   <string name="import_transactions_none">Ninguna transacción fue importada a la cuenta %1$s</string>
   <string name="import_source_select_error">Por favor, proporcione un archivo de tipo %1$s</string>
-  <string name="import_source_select_not_readable">No ha sido posible leer el archivo. Por favor, seleccione otro medio diferente.</string>
   <string name="menu_categories_setup_default">Instalar categorías por defecto</string>
   <string name="menu_create_folder">Nueva carpeta</string>
   <!--This string is used for navigating up in the folder browser-->

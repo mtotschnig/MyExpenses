@@ -451,7 +451,6 @@
   <string name="import_parties_none">Ez da onuradun/ordaintzailerik inportatu</string>
   <string name="import_transactions_none">Ez da transakziorik inportatu %1$s kontura</string>
   <string name="import_source_select_error">Aukeratu %1$s motako fitxategi bat</string>
-  <string name="import_source_select_not_readable">Ezin izan da fitxategia irakurri. Mesedez hautatu iturburu desberdin batetik.</string>
   <string name="menu_categories_setup_default">Ezarri lehenetsitako kategoriak</string>
   <string name="menu_create_folder">Karpeta berria</string>
   <!--This string is used for navigating up in the folder browser-->
@@ -612,5 +611,51 @@
   <string name="dialog_confirm_sync_link_remote">Kontu honen tokiko informazioa ezabatuko da.</string>
   <string name="warning_synchronization_limited_trial">Sinkronizazio eginbidea %s-(e)ra arte probatu daiteke.</string>
   <string name="warning_synchronization_limit_reached">Sinkronizazio eginbidea probatzeko proba-aldia amaitu egin da.</string>
+  <string name="warning_synchronization_folder_usage">Karpeta hau gailu desberdinetan Nire Gastuak instalatzean datuak sinkronizatzeko da. Mesedez ez aldatu bere edukirik eskuz.</string>
+  <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Hautatu duzun karpeta existitzen den atzealdeko baten kontu bati dagokio. Bere karpeta nagusia hautatu behar duzu atzealdeko hau berrerabiltzeko.</string>
+  <string name="select_unsynced_accounts">Hautatu zein kontu sinkronizatu atzealdeko honetara</string>
+  <string name="link_account_success" tools:ignore="PluralsCandidate">%d kontu konfiguratu dira atzealdekoarekin sinkronizatuak izateko.</string>
+  <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d kontu ezin izan dira konfiguratu atzealdekoarekin sinkronizatuak izateko.</string>
+  <string name="link_account_failure_2">UUID bereko kontu bat badago jadanik urruneko atzealdekoan.</string>
+  <string name="link_account_failure_3">Gatazka eskuz ebatzi daiteke sarreraren laster-menutik.</string>
+  <string name="progress_dialog_checking_sync_backend">Atzealdekoa egiaztatzen.</string>
   <string name="template">Txantiloia</string>
+  <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sinkronizazioa hodeian</string>
+  <string name="licence_status">Zure lizentziaren egoera</string>
+  <string name="all_contrib_key_features">Kontribuzio gakoaren eginbide guztiak</string>
+  <string name="upgrade_now">Bertsio-berritu orain</string>
+  <string name="pref_backup_cloud_title">Biltegiratu sinkronizazio atzealdekoan</string>
+  <string name="pref_backup_cloud_summary">Gailuko biltegi lokalaz gain, babeskopia fitxategia urruneko atzealdeko batera kopiatu daiteke.</string>
+  <string name="auto_backup_cloud_create_backend">Sortu sinkronizazio atzealdeko bat ezaugarri nagusien pantailatik.</string>
+  <string name="auto_backup_cloud_failure">Errore bat gertatu da %1$s babeskopia fitxategia %2$s atzealdekoan biltegiratzen saiatzean:</string>
+  <string name="home_screen_shortcuts_nougate_info">Lasterbideak gehitu daitezke Hasiera Pantailatik aplikazioaren ikonoa luze sakatuz.</string>
+  <string name="currency_symbol">Moneta-ikurra</string>
+  <string name="number_of_fraction_digits">Frakzio zenbaki kopurua</string>
+  <string name="warning_auto_backup_deactivated">Babeskopia automatikoa desaktibatua izan da. Berriro aktibatu dezakezu ezarpenetan arazoa ebatzi ondoren (adib. beste karpeta bat hautatuz babeskopiarentzat).</string>
+  <string name="pref_tracking_summary">Baimendu guri erabilera ereduen datu anonimoak biltzea hobekuntzak prestatzen laguntzeko.</string>
+  <string name="pref_tracking_title">Erabilera datuen bilduma</string>
+  <string name="sync_database_error">Datu-basean errore bat gertatu da sinkronizazioan.</string>
+  <string name="sync_io_error_cannot_connect">Ezin izan da konektatu sinkronizazio atzealdekoarekin.</string>
+  <string name="sync_error_will_try_again_later">Saiatu berriro beranduago.</string>
+  <string name="sync_io_exception_reset_account_data">Errorea urruneko kontua berrezartzean.</string>
+  <string name="sync_io_exception_setup_remote_account">Errorea urruneko kontua konfiguratzean.</string>
+  <string name="sync_io_exception_reading_change_set">Errorea atzealdekotik aldaketak irakurtzean.</string>
+  <string name="sync_io_exception_syncing">Errorea aldaketak zerbitzariarekin sinkronizatzean.</string>
+  <string name="sync_io_exception_unlocking">Errorea urruneko atzealdekotik blokeoa kentzean.</string>
+  <string name="sync_io_exception_locking">Urruneko atzealdekoa blokeatuta dago edo ezin da blokeatu.</string>
+  <string name="synchronization_start">%s kontutik sinkronizazioa hasten.</string>
+  <string name="synchronization_end_success">%1$d-(e)ko urruneko aldaketak datu-base lokalean idatzi dira. %2$d-(e)ko aldaketa lokalak urruneko atzealdekoan idatzi dira.</string>
+  <string name="synchronization_end_success_none">Sinkronizatzeko aldaketarik ez.</string>
+  <string name="pref_webdav_timeout_title">WebDAV-en denbora-muga</string>
+  <string name="sync_state_restored">%d konturen sinkronizazio egoera leheneratu da.</string>
+  <string name="sync_state_could_not_be_restored">%d konturen sinkronizazio egoera ezin izan da leheneratu.</string>
+  <string name="onboarding_ui_title">Nire Gastuak zure hobespenetara egokitzen da</string>
+  <string name="onboarding_data_title">Utzi guri zure lehen kontua konfiguratzen</string>
+  <string name="onboarding_get_started">Hasi erabiltzen</string>
+  <string name="onboarding_more_options">Aukera gehiago</string>
+  <string name="onboarding_restore_from_cloud">Leheneratu hodeiko sinkronizaziotik</string>
+  <string name="onboarding_restore_from_local">Leheneratu babeskopia fitxategi lokala</string>
+  <string name="dialog_button_add">Gehitu</string>
+  <string name="template_create_error">Errorea txantiloia gordetzean</string>
+  <string name="contributed_by">%s-(r)en laguntzaz</string>
 </resources>

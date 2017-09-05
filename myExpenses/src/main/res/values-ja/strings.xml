@@ -442,7 +442,6 @@
   <string name="import_parties_none">インポートされた取引先はありません</string>
   <string name="import_transactions_none">勘定 %1$s にインポートされた取引はありません</string>
   <string name="import_source_select_error">種類 %1$s のファイルを入力してください</string>
-  <string name="import_source_select_not_readable">ファイルを読み込みできません。 別のソースから選択してください。</string>
   <string name="menu_categories_setup_default">デフォルトの分類をセットアップ</string>
   <string name="menu_create_folder">新しいフォルダー</string>
   <!--This string is used for navigating up in the folder browser-->
@@ -648,4 +647,9 @@
   <string name="onboarding_restore_from_local">ローカルのバックアップファイルを復元</string>
   <string name="dialog_button_add">追加</string>
   <string name="template_create_error">テンプレートの保存中にエラーが発生しました</string>
+  <string name="contributed_by">貢献者 %s</string>
+  <string name="pref_sync_notification_summary">同期の進行状況を通知する</string>
+  <string name="pref_debug_logging_summary">システムログにデバッグ情報を書き込む</string>
+  <string name="plan_custom_recurrence_info">まずテンプレートを保存してください。 予定はその後カレンダーアプリで開かれ、カスタムの繰り返しを設定できます。</string>
+  <string name="storage_permission_required">選択したソースは、外部ストレージからの読み取りアクセス許可を付与した場合にのみ読み取りできます。</string>
 </resources>

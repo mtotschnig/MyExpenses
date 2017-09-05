@@ -451,7 +451,6 @@
   <string name="import_parties_none">İçe aktarılan bölüm yok</string>
   <string name="import_transactions_none">Hiçbir muamele %1$s hesabına aktarılmadı</string>
   <string name="import_source_select_error">Lütfen %1$s tipinde bir dosya verin</string>
-  <string name="import_source_select_not_readable">Dosya okunamadı. Lütfen başka bir kaynaktan seçin.</string>
   <string name="menu_categories_setup_default">Varsayılan kategorileri kur</string>
   <string name="menu_create_folder">Yeni klasör</string>
   <!--This string is used for navigating up in the folder browser-->
@@ -657,4 +656,7 @@
   <string name="onboarding_restore_from_local">Yerel yedekleme dosyasını geri getir</string>
   <string name="dialog_button_add">Ekle</string>
   <string name="template_create_error">Şablonun kaydı sırasında hata meydana geldi</string>
+  <string name="contributed_by">Katkıda bulunan: %s</string>
+  <string name="pref_sync_notification_summary">Eşleşme ilerlemesi hakkında bildirim göster</string>
+  <string name="pref_debug_logging_summary">Hata ayıklama verilerini sistem kütüğüne yaz</string>
 </resources>

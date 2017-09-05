@@ -451,7 +451,6 @@
   <string name="import_parties_none">Aucun tiers importé</string>
   <string name="import_transactions_none">Aucune opération importée dans le compte %1$s</string>
   <string name="import_source_select_error">Veuillez fournir un fichier de type %1$s</string>
-  <string name="import_source_select_not_readable">Impossible de lire le fichier. Veuillez en sélectionner un d\'une autre source</string>
   <string name="menu_categories_setup_default">Charger les catégories par défaut</string>
   <string name="menu_create_folder">Nouveau dossier</string>
   <!--This string is used for navigating up in the folder browser-->
@@ -657,4 +656,5 @@
   <string name="onboarding_restore_from_local">Restaurrer le fichier de sauvegarde local</string>
   <string name="dialog_button_add">Ajouter</string>
   <string name="template_create_error">Erreur lors de la sauvegarde du modèle</string>
+  <string name="contributed_by">Contribution de %s</string>
 </resources>

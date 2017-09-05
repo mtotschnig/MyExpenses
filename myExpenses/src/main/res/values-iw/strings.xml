@@ -451,7 +451,6 @@
   <string name="import_parties_none">לא יובאו חלקים מפוצלים</string>
   <string name="import_transactions_none">לא יובאו עסקאות לחשבון %1$s</string>
   <string name="import_source_select_error">אנא ספק  קובץ מסוג %1$s</string>
-  <string name="import_source_select_not_readable">לא ניתן לקרוא את הקובץ. בחר ממקור אחר.</string>
   <string name="menu_categories_setup_default">הגדר קטגוריות ברירת מחדל</string>
   <string name="menu_create_folder">תקייה חדשה</string>
   <!--This string is used for navigating up in the folder browser-->

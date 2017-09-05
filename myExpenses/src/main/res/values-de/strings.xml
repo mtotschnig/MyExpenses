@@ -451,7 +451,6 @@
   <string name="import_parties_none">Keine Parteien importiert</string>
   <string name="import_transactions_none">Keine Buchungen in das Konto %1$s importiert</string>
   <string name="import_source_select_error">Bitte wählen Sie eine Datei des Typs %1$s</string>
-  <string name="import_source_select_not_readable">Datei kann nicht gelesen werden. Bitte wählen Sie aus einer anderen Quelle.</string>
   <string name="menu_categories_setup_default">Standard Kategorien einrichten</string>
   <string name="menu_create_folder">Neuer Ordner</string>
   <!--This string is used for navigating up in the folder browser-->

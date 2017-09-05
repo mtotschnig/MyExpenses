@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_280">
+    <item>İbranice tercüme</item>
+    <item>Özel hesap rengi için seçici</item>
+  </string-array>
   <string-array name="whats_new_279">
     <item>Para birimi sembolleri yapılandırılabilir</item>
   </string-array>

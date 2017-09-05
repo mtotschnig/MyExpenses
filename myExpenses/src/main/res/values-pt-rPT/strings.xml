@@ -451,7 +451,6 @@
   <string name="import_parties_none">Nenhum participante importado</string>
   <string name="import_transactions_none">Nenhuma transação importada para a conta %1$s</string>
   <string name="import_source_select_error">Por favor forneça um ficheiro do tipo %1$s</string>
-  <string name="import_source_select_not_readable">Incapaz de ler o ficheiro. Por favor selecione uma origem diferente.</string>
   <string name="menu_categories_setup_default">Carregar categorias predefinidas</string>
   <string name="menu_create_folder">Nova pasta</string>
   <!--This string is used for navigating up in the folder browser-->

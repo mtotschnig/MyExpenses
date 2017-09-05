@@ -451,7 +451,6 @@
   <string name="import_parties_none">Nessun beneficiario importato</string>
   <string name="import_transactions_none">Nessuna transazione importata nel conto %1$s</string>
   <string name="import_source_select_error">Si prega di fornire un file di tipo %1$s</string>
-  <string name="import_source_select_not_readable">Impossibile leggere il file. Selezionalo da una fonte diversa.</string>
   <string name="menu_categories_setup_default">Installazione categorie standard</string>
   <string name="menu_create_folder">Nuova cartella</string>
   <!--This string is used for navigating up in the folder browser-->
