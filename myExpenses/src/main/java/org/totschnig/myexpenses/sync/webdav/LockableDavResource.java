@@ -4,8 +4,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-import org.totschnig.myexpenses.sync.SyncAdapter;
-
 import java.io.IOException;
 
 import at.bitfire.dav4android.DavResource;
@@ -17,7 +15,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import timber.log.Timber;
 
 public class LockableDavResource extends at.bitfire.dav4android.DavResource {
   LockableDavResource(@NonNull OkHttpClient httpClient, @NonNull HttpUrl location) {
@@ -64,22 +61,15 @@ public class LockableDavResource extends at.bitfire.dav4android.DavResource {
 
   /**
    * Tries to establish if the Dav resource represented by this object exists on the server by sending
-   * a HEAD request to it
+   * a HEAD request to it,
+   * @throws HttpException if status is < 200 or > 299
    */
-  public boolean exists() throws org.totschnig.myexpenses.sync.webdav.HttpException {
+  public void head() throws HttpException, IOException {
     Request request = new Request.Builder()
         .url(location)
         .head()
         .build();
-    try {
       Response response = httpClient.newCall(request).execute();
-      boolean result = response.isSuccessful();
-      if (!result) {
-        Timber.tag(SyncAdapter.TAG).e("HEAD request failed: %s",response.toString());
-      }
-      return result;
-    } catch (IOException e) {
-      throw new org.totschnig.myexpenses.sync.webdav.HttpException(request, e);
-    }
+      checkStatus(response, true);
   }
 }

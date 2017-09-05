@@ -15,7 +15,6 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
 import org.totschnig.myexpenses.sync.webdav.CertificateHelper;
-import org.totschnig.myexpenses.sync.webdav.HttpException;
 import org.totschnig.myexpenses.sync.webdav.InvalidCertificateException;
 import org.totschnig.myexpenses.sync.webdav.LockableDavResource;
 import org.totschnig.myexpenses.sync.webdav.WebDavClient;
@@ -29,6 +28,7 @@ import java.util.List;
 
 import at.bitfire.dav4android.DavResource;
 import at.bitfire.dav4android.exception.DavException;
+import at.bitfire.dav4android.exception.HttpException;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
@@ -77,11 +77,10 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
     try {
       webDavClient.mkCol(accountUuid);
       LockableDavResource metaData = webDavClient.getResource(accountUuid, ACCOUNT_METADATA_FILENAME);
-      if (!metaData.exists()) {
-        metaData.put(RequestBody.create(MIME_JSON, buildMetadata(account)), null, false);
-        createWarningFile();
-      }
-    } catch (at.bitfire.dav4android.exception.HttpException | IOException e) {
+      metaData.head();
+      metaData.put(RequestBody.create(MIME_JSON, buildMetadata(account)), null, false);
+      createWarningFile();
+    } catch (HttpException | IOException e) {
       return false;
     }
     return true;
@@ -93,7 +92,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
       for (DavResource davResource : webDavClient.getFolderMembers(uuid)) {
         davResource.delete(null);
       }
-    } catch (IOException | at.bitfire.dav4android.exception.HttpException e) {
+    } catch (IOException | HttpException e) {
       return false;
     }
     return true;
@@ -103,15 +102,12 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   @Override
   protected String getExistingLockToken() throws IOException {
     LockableDavResource lockfile = getLockFile();
-      if (lockfile.exists()) {
-        try {
-          return lockfile.get("text/plain").string();
-        } catch (at.bitfire.dav4android.exception.HttpException | DavException e) {
-          throw new IOException(e);
-        }
-      } else {
-        return null;
-      }
+    try {
+      lockfile.head();
+      return lockfile.get("text/plain").string();
+    } catch (HttpException | DavException e) {
+      return null;
+    }
   }
 
   @Override
@@ -120,7 +116,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
     try {
       lockfile.put(RequestBody.create(MediaType.parse("text/plain; charset=utf-8"), lockToken), null, false);
       return true;
-    } catch (at.bitfire.dav4android.exception.HttpException e) {
+    } catch (HttpException e) {
       throw new IOException(e);
     }
   }
@@ -149,7 +145,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
     try {
       return getChangeSetFromInputStream(getSequenceFromFileName(davResource.fileName()),
           davResource.get(MIMETYPE_JSON).byteStream());
-    } catch (IOException | at.bitfire.dav4android.exception.HttpException | DavException e) {
+    } catch (IOException | HttpException | DavException e) {
       return ChangeSet.failed;
     }
   }
@@ -179,7 +175,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   private InputStream getInputStream(String folderName, String resourceName) throws IOException {
     try {
       return webDavClient.getResource(folderName, resourceName).get("*/*").byteStream();
-    } catch (at.bitfire.dav4android.exception.HttpException | DavException e) {
+    } catch (HttpException | DavException e) {
       throw new IOException(e);
     }
   }
@@ -198,14 +194,22 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
     if (in == null) {
       throw new IOException("Could not read " + uri.toString());
     }
-    webDavClient.upload(folder, fileName, toByteArray(in),
-        MediaType.parse(MimeTypeMap.getSingleton().getMimeTypeFromExtension(
-            getFileExtension(fileName))));
+    try {
+      webDavClient.upload(folder, fileName, toByteArray(in),
+          MediaType.parse(MimeTypeMap.getSingleton().getMimeTypeFromExtension(
+              getFileExtension(fileName))));
+    } catch (HttpException e) {
+      throw new IOException(e);
+    }
   }
 
   @Override
   public void storeBackup(Uri uri, String fileName) throws IOException {
-    webDavClient.mkCol(BACKUP_FOLDER_NAME);
+    try {
+      webDavClient.mkCol(BACKUP_FOLDER_NAME);
+    } catch (HttpException e) {
+      throw new IOException(e);
+    }
     saveUriToFolder(fileName, uri, BACKUP_FOLDER_NAME);
   }
 
@@ -261,8 +265,9 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
         .map(davResource -> webDavClient.getResource(davResource.location, ACCOUNT_METADATA_FILENAME))
         .filter(davResoure -> {
           try {
-            return davResoure.exists();
-          } catch (HttpException e) {
+            davResoure.head();
+            return true;
+          } catch (Exception e) {
             return false;
           }
         })
@@ -274,7 +279,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   private Optional<AccountMetaData> getAccountMetaDataFromDavResource(LockableDavResource lockableDavResource) {
     try {
       return getAccountMetaDataFromInputStream(lockableDavResource.get(MIMETYPE_JSON).byteStream());
-    } catch (DavException | at.bitfire.dav4android.exception.HttpException | IOException e) {
+    } catch (DavException | HttpException | IOException e) {
       return Optional.empty();
     }
   }

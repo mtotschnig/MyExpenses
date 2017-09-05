@@ -23,7 +23,6 @@ import org.totschnig.myexpenses.util.AcraHelper;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.cert.CertPathValidatorException;
 import java.security.cert.X509Certificate;
@@ -39,6 +38,7 @@ import at.bitfire.dav4android.DavResource;
 import at.bitfire.dav4android.UrlUtils;
 import at.bitfire.dav4android.XmlUtils;
 import at.bitfire.dav4android.exception.DavException;
+import at.bitfire.dav4android.exception.HttpException;
 import at.bitfire.dav4android.property.DisplayName;
 import at.bitfire.dav4android.property.ResourceType;
 import dagger.internal.Preconditions;
@@ -99,22 +99,14 @@ public class WebDavClient {
     httpClient = builder.build();
   }
 
-  public void upload(String folderName, String fileName, String fileContent, MediaType mediaType) throws HttpException {
-    try {
-      new LockableDavResource(httpClient, buildResourceUri(folderName, fileName))
-          .put(RequestBody.create(mediaType, fileContent), buildIfHeader(folderName));
-    } catch (IOException | at.bitfire.dav4android.exception.HttpException e) {
-      throw new HttpException(e);
-    }
+  public void upload(String folderName, String fileName, String fileContent, MediaType mediaType) throws IOException, HttpException {
+    new LockableDavResource(httpClient, buildResourceUri(folderName, fileName))
+        .put(RequestBody.create(mediaType, fileContent), buildIfHeader(folderName));
   }
 
-  public void upload(String folderName, String fileName, byte[] fileContent, MediaType mediaType) throws HttpException {
-    try {
-      new LockableDavResource(httpClient, buildResourceUri(folderName, fileName))
-          .put(RequestBody.create(mediaType, fileContent), buildIfHeader(folderName));
-    } catch (IOException | at.bitfire.dav4android.exception.HttpException e) {
-      throw new HttpException(e);
-    }
+  public void upload(String folderName, String fileName, byte[] fileContent, MediaType mediaType) throws IOException, HttpException {
+    new LockableDavResource(httpClient, buildResourceUri(folderName, fileName))
+        .put(RequestBody.create(mediaType, fileContent), buildIfHeader(folderName));
   }
 
   @Nullable
@@ -126,15 +118,10 @@ public class WebDavClient {
         webDavIfHeaderConditionList(webdavCodedUrl(currentLockToken));
   }
 
-  public void mkCol(String folderName) throws HttpException {
+  public void mkCol(String folderName) throws IOException, HttpException {
     LockableDavResource folder = new LockableDavResource(httpClient, buildCollectionUri(folderName));
-    if (!folder.exists()) {
-      try {
-        folder.mkCol(null);
-      } catch (IOException | at.bitfire.dav4android.exception.HttpException e) {
-        throw new HttpException(e);
-      }
-    }
+    folder.head();
+    folder.mkCol(null);
   }
 
   /**
@@ -247,15 +234,13 @@ public class WebDavClient {
     return mBaseUri.newBuilder().addPathSegment(folderName).addPathSegment(resourceName).build();
   }
 
-  public void testLogin() throws IOException {
+  public void testLogin() throws IOException, HttpException, DavException {
     try {
       LockableDavResource baseResource = new LockableDavResource(httpClient, mBaseUri);
+      baseResource.head();
       baseResource.options();
       if (!baseResource.capabilities.contains("2")) {
         throw new NotCompliantWebDavException(baseResource.capabilities.contains("1"));
-      }
-      if (!baseResource.exists()) {
-        throw new FileNotFoundException();
       }
     } catch (SSLHandshakeException e) {
       Throwable innerEx = e;
@@ -278,8 +263,6 @@ public class WebDavClient {
           throw new UntrustedCertificateException(cert);
         }
       }
-    } catch (at.bitfire.dav4android.exception.HttpException | DavException e) {
-      throw new HttpException(e);
     }
   }
 }

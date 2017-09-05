@@ -35,7 +35,7 @@ public class TestLoginTask extends AsyncTask<Void, Void, Result> {
       WebDavClient client = new WebDavClient(url, userName, password, trustedCertificate);
       client.testLogin();
       return new Result(true);
-    } catch (IOException e) {
+    } catch (Exception e) {
       return new Result(false, 0, e);
     }
   }
