@@ -237,7 +237,10 @@ public class WebDavClient {
     try {
       LockableDavResource baseResource = new LockableDavResource(httpClient, mBaseUri);
       baseResource.options();
-      baseResource.mkCol(null);
+      baseResource.propfind(1, ResourceType.NAME);
+      if (!baseResource.isCollection()) {
+        throw new IOException("Not a folder");
+      }
       if (!baseResource.capabilities.contains("2")) {
         throw new NotCompliantWebDavException(baseResource.capabilities.contains("1"));
       }

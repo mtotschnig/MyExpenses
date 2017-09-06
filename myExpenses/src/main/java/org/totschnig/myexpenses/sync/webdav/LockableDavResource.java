@@ -26,6 +26,10 @@ public class LockableDavResource extends DavResource {
     return type != null && type.types.contains(ResourceType.COLLECTION);
   }
 
+  public boolean isCollection() {
+    return isCollection(this);
+  }
+
   /**
    *
    * @param body content to be written to resource
