@@ -657,4 +657,8 @@
   <string name="dialog_button_add">Hinzufügen</string>
   <string name="template_create_error">Fehler beim Speichern der Vorlage</string>
   <string name="contributed_by">Beigetragen von %s</string>
+  <string name="pref_sync_notification_summary">Über Fortschritt der Synchronisierung benachrichtigen</string>
+  <string name="pref_debug_logging_summary">Debugging-Informationen in das Systemprotokoll schreiben</string>
+  <string name="plan_custom_recurrence_info">Bitte speichern Sie zunächst die Vorlage. Der Plan wird dann in der Kalender-App geöffnet, wo Sie eine benutzerdefinierte Wiederholung einstellen können.</string>
+  <string name="storage_permission_required">Die von Ihnen ausgewählte Quelle kann nur gelesen werden, wenn Sie die Berechtigung zum Lesen aus dem externen Speicher erteilen.</string>
 </resources>

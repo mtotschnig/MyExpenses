@@ -20,6 +20,7 @@
 <resources>
   <string-array name="whats_new_281">
     <item>Option for custom plans</item>
+    <item>Fix cloud storage of large backups</item>
   </string-array>
   <string-array name="whats_new_280">
     <item>Hebrew translation</item>

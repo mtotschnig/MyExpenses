@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_281">
+    <item>Option pour les plans personnalisés</item>
+    <item>Correction du stockage dans le cloud de sauvegardes volumineuses</item>
+  </string-array>
   <string-array name="whats_new_280">
     <item>Traduction en hébreu</item>
     <item>Choix personnalisé pour la couleur du compte</item>
