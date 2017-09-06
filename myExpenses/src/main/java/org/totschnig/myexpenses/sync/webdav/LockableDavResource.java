@@ -16,7 +16,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class LockableDavResource extends at.bitfire.dav4android.DavResource {
+public class LockableDavResource extends DavResource {
   LockableDavResource(@NonNull OkHttpClient httpClient, @NonNull HttpUrl location) {
     super(httpClient, location);
   }
@@ -71,5 +71,37 @@ public class LockableDavResource extends at.bitfire.dav4android.DavResource {
         .build();
       Response response = httpClient.newCall(request).execute();
       checkStatus(response, true);
+  }
+
+  /**
+   * calls {@link #head()} without throwing exception
+   * @return true if head request succeeds
+   */
+  public boolean exists() {
+    try {
+      head();
+      return true;
+    } catch (HttpException | IOException e) {
+      return false;
+    }
+  }
+
+  /**
+   * calls {@link DavResource#mkCol(String)} after testing if collection exists. As a workaround for
+   * Webservers where testing for existence with HEAD request does not work, as a fallback we check
+   * if MKCOL request returned 405 which would indicate that folder already existed
+   * @param xmlBody
+   * @throws IOException
+   * @throws HttpException
+   */
+  @Override
+  public void mkCol(String xmlBody) throws IOException, HttpException {
+    try {
+      super.mkCol(null);
+    } catch (HttpException e) {
+      if (e.status != 405) {
+        throw e;
+      }
+    }
   }
 }

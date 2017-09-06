@@ -120,7 +120,6 @@ public class WebDavClient {
 
   public void mkCol(String folderName) throws IOException, HttpException {
     LockableDavResource folder = new LockableDavResource(httpClient, buildCollectionUri(folderName));
-    folder.head();
     folder.mkCol(null);
   }
 
@@ -132,7 +131,7 @@ public class WebDavClient {
     DavResource folder = new DavResource(httpClient, folderName == null ? mBaseUri : buildCollectionUri(folderName));
     try {
       folder.propfind(1, DisplayName.NAME, ResourceType.NAME);
-    } catch (DavException | at.bitfire.dav4android.exception.HttpException e) {
+    } catch (DavException | HttpException e) {
       throw new IOException(e);
     }
     return folder.members;
@@ -237,11 +236,12 @@ public class WebDavClient {
   public void testLogin() throws IOException, HttpException, DavException {
     try {
       LockableDavResource baseResource = new LockableDavResource(httpClient, mBaseUri);
-      baseResource.head();
       baseResource.options();
+      baseResource.mkCol(null);
       if (!baseResource.capabilities.contains("2")) {
         throw new NotCompliantWebDavException(baseResource.capabilities.contains("1"));
       }
+
     } catch (SSLHandshakeException e) {
       Throwable innerEx = e;
       while (innerEx != null && !(innerEx instanceof CertPathValidatorException)) {

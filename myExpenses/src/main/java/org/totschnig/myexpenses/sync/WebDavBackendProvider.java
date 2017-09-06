@@ -77,9 +77,10 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
     try {
       webDavClient.mkCol(accountUuid);
       LockableDavResource metaData = webDavClient.getResource(accountUuid, ACCOUNT_METADATA_FILENAME);
-      metaData.head();
-      metaData.put(RequestBody.create(MIME_JSON, buildMetadata(account)), null, false);
-      createWarningFile();
+      if (!metaData.exists()) {
+        metaData.put(RequestBody.create(MIME_JSON, buildMetadata(account)), null, false);
+        createWarningFile();
+      }
     } catch (HttpException | IOException e) {
       return false;
     }
@@ -103,7 +104,6 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   protected String getExistingLockToken() throws IOException {
     LockableDavResource lockfile = getLockFile();
     try {
-      lockfile.head();
       return lockfile.get("text/plain").string();
     } catch (HttpException | DavException e) {
       return null;
@@ -263,14 +263,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
     return Stream.of(webDavClient.getFolderMembers(null))
         .filter(LockableDavResource::isCollection)
         .map(davResource -> webDavClient.getResource(davResource.location, ACCOUNT_METADATA_FILENAME))
-        .filter(davResoure -> {
-          try {
-            davResoure.head();
-            return true;
-          } catch (Exception e) {
-            return false;
-          }
-        })
+        .filter(LockableDavResource::exists)
         .map(this::getAccountMetaDataFromDavResource)
         .filter(Optional::isPresent)
         .map(Optional::get);
