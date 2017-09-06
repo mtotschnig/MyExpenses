@@ -109,6 +109,11 @@ public class WebDavClient {
         .put(RequestBody.create(mediaType, fileContent), buildIfHeader(folderName));
   }
 
+  public void upload(String folderName, String fileName, RequestBody requestBody) throws IOException, HttpException {
+    new LockableDavResource(httpClient, buildResourceUri(folderName, fileName))
+        .put(requestBody, buildIfHeader(folderName));
+  }
+
   @Nullable
   private String buildIfHeader(String folderName) {
     if (currentLockToken == null) {

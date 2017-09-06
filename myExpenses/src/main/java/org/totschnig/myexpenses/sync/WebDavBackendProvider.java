@@ -4,7 +4,6 @@ import android.accounts.AccountManager;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.webkit.MimeTypeMap;
 
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
@@ -31,8 +30,10 @@ import at.bitfire.dav4android.exception.DavException;
 import at.bitfire.dav4android.exception.HttpException;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
-
-import static org.totschnig.myexpenses.util.FileCopyUtils.toByteArray;
+import okhttp3.internal.Util;
+import okio.BufferedSink;
+import okio.Okio;
+import okio.Source;
 
 public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
@@ -186,18 +187,32 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   }
 
   private void saveUriToFolder(String fileName, Uri uri, String folder) throws IOException {
-    if (fileName.contains("/")) {
-      fileName = StringUtils.substringAfterLast(fileName,"/");
-    }
-    InputStream in = MyApplication.getInstance().getContentResolver()
-        .openInputStream(uri);
-    if (in == null) {
-      throw new IOException("Could not read " + uri.toString());
-    }
+    String finalFileName = fileName.contains("/") ?
+        fileName = StringUtils.substringAfterLast(fileName, "/") : fileName;
     try {
-      webDavClient.upload(folder, fileName, toByteArray(in),
-          MediaType.parse(MimeTypeMap.getSingleton().getMimeTypeFromExtension(
-              getFileExtension(fileName))));
+      RequestBody requestBody = new RequestBody() {
+        @Override
+        public MediaType contentType() {
+          return MediaType.parse(getMimeType(finalFileName));
+        }
+
+        @Override
+        public void writeTo(BufferedSink sink) throws IOException {
+          Source source = null;
+          try {
+            InputStream in = MyApplication.getInstance().getContentResolver()
+                .openInputStream(uri);
+            if (in == null) {
+              throw new IOException("Could not read " + uri.toString());
+            }
+            source = Okio.source(in);
+            sink.writeAll(source);
+          } finally {
+            Util.closeQuietly(source);
+          }
+        }
+      };
+      webDavClient.upload(folder, fileName, requestBody);
     } catch (HttpException e) {
       throw new IOException(e);
     }
@@ -215,7 +230,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
   @NonNull
   @Override
-  public List<String> getStoredBackups()  {
+  public List<String> getStoredBackups() {
     try {
       return Stream.of(webDavClient.getFolderMembers(BACKUP_FOLDER_NAME))
           .map(DavResource::fileName)

@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.webkit.MimeTypeMap;
 
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
@@ -205,6 +206,11 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
 
   String buildMetadata(Account account) {
     return gson.toJson(AccountMetaData.from(account));
+  }
+
+  @NonNull String getMimeType(String fileName) {
+    String result = MimeTypeMap.getSingleton().getMimeTypeFromExtension(getFileExtension(fileName));
+    return result != null ? result : "application/octet-stream";
   }
 
   protected abstract long getLastSequence(long start) throws IOException;

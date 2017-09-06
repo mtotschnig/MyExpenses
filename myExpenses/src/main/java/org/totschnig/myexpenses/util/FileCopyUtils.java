@@ -4,7 +4,6 @@ import android.net.Uri;
 
 import org.totschnig.myexpenses.MyApplication;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -87,15 +86,5 @@ public class FileCopyUtils {
       output.write(buffer, 0, read);
     }
     output.flush();
-  }
-
-  //from Guava
-  public static byte[] toByteArray(InputStream in) throws IOException {
-    // Presize the ByteArrayOutputStream since we know how large it will need
-    // to be, unless that value is less than the default ByteArrayOutputStream
-    // size (32).
-    ByteArrayOutputStream out = new ByteArrayOutputStream(Math.max(32, in.available()));
-    copy(in, out);
-    return out.toByteArray();
   }
 }
