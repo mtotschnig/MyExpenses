@@ -150,7 +150,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
               fileUri);
         }
       } catch (FileNotFoundException | SecurityException e) {
-        AcraHelper.report(e);
+        AcraHelper.report(e, "fileUri", fileUri.toString());
         return new Result(
             false,
             R.string.parse_error_other_exception,
