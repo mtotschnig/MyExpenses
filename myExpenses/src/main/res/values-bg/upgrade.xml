@@ -20,6 +20,7 @@
 <resources>
   <string-array name="whats_new_281">
     <item>Възможност за потребителски планове</item>
+    <item>Отстранен проблем при съхраняване на голям бекъп на отдалечено място за съхранение</item>
   </string-array>
   <string-array name="whats_new_280">
     <item>Превод на еврейски език </item>
