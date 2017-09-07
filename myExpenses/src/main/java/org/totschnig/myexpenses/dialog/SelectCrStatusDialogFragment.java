@@ -15,11 +15,12 @@
 
 package org.totschnig.myexpenses.dialog;
 
-import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.util.SparseBooleanArray;
 import android.widget.ListView;
 
@@ -32,34 +33,31 @@ import java.util.ArrayList;
 
 /**
  * uses {@link MessageDialogFragment.MessageDialogListener} to dispatch result back to activity
- *
  */
 public class SelectCrStatusDialogFragment extends CommitSafeDialogFragment implements OnClickListener {
-  /**
-   * @return
-   */
-  public static final SelectCrStatusDialogFragment newInstance() {
-    SelectCrStatusDialogFragment dialogFragment = new SelectCrStatusDialogFragment();
-    //Bundle args = new Bundle();
-    //dialogFragment.setArguments(args);
-    return dialogFragment;
+
+  public static SelectCrStatusDialogFragment newInstance() {
+    return new SelectCrStatusDialogFragment();
   }
+
+  @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     String[] items = new String[Transaction.CrStatus.values().length];
-    for (int i = 0; i<Transaction.CrStatus.values().length;i++) {
-      items[i] = Transaction.CrStatus.values()[i].toString();
+    for (int i = 0; i < Transaction.CrStatus.values().length; i++) {
+      items[i] = getString(Transaction.CrStatus.values()[i].toStringRes());
     }
     return new AlertDialog.Builder(getActivity())
-      .setTitle(R.string.search_status)
-      .setMultiChoiceItems(items,null,null)
+        .setTitle(R.string.search_status)
+        .setMultiChoiceItems(items, null, null)
         .setPositiveButton(android.R.string.ok, this)
         .setNegativeButton(android.R.string.cancel, null)
-      .create();
+        .create();
   }
+
   @Override
   public void onClick(DialogInterface dialog, int which) {
-    if (getActivity()==null) {
+    if (getActivity() == null) {
       return;
     }
 
@@ -73,7 +71,7 @@ public class SelectCrStatusDialogFragment extends CommitSafeDialogFragment imple
         statusList.add(Transaction.CrStatus.values()[positions.keyAt(i)].name());
       }
     }
-    if (!statusList.isEmpty() && statusList.size()<Transaction.CrStatus.values().length ) {
+    if (!statusList.isEmpty() && statusList.size() < Transaction.CrStatus.values().length) {
       ((MyExpenses) getActivity()).addFilterCriteria(
           R.id.FILTER_STATUS_COMMAND,
           new CrStatusCriteria(statusList.toArray(new String[statusList.size()])));
