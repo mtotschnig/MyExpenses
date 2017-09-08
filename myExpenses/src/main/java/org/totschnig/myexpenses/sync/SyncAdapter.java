@@ -115,7 +115,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     return "last_synced_remote_" + accountId;
   }
 
-  public static final String KEY_LAST_SYNCED_LOCAL(long accountId) {
+  public static String KEY_LAST_SYNCED_LOCAL(long accountId) {
     return "last_synced_local_" + accountId;
   }
 
