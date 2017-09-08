@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.export;
 import android.database.Cursor;
 import android.support.v4.provider.DocumentFile;
 
+import org.apache.commons.lang3.StringUtils;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
@@ -42,6 +43,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_SUB;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_URI;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
@@ -127,7 +129,7 @@ public class Exporter {
     switch (format) {
       case CSV:
         int[] columns = {R.string.split_transaction, R.string.date, R.string.payee, R.string.income, R.string.expense,
-            R.string.category, R.string.subcategory, R.string.comment, R.string.method, R.string.status, R.string.reference_number};
+            R.string.category, R.string.subcategory, R.string.comment, R.string.method, R.string.status, R.string.reference_number, R.string.picture};
         for (int column : columns) {
           sb.append("\"")
               .appendQ(ctx.getString(column))
@@ -195,7 +197,6 @@ public class Exporter {
       sb.clear();
       switch (format) {
         case CSV:
-          //{R.string.split_transaction,R.string.date,R.string.payee,R.string.income,R.string.expense,R.string.category,R.string.subcategory,R.string.comment,R.string.method,R.string.status,R.string.reference_number};
           Long methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
           PaymentMethod method = methodId == null ? null : PaymentMethod.getInstanceFromDb(methodId);
           sb.append("\n\"")
@@ -220,7 +221,10 @@ public class Exporter {
               .append(status.symbol)
               .append("\";\"")
               .append(referenceNumber)
+              .append("\";\"")
+              .appendQ(StringUtils.substringAfterLast(DbUtils.getString(c, KEY_PICTURE_URI), "/"))
               .append("\"");
+
           break;
         default:
           sb.append("\nD")
@@ -276,7 +280,6 @@ public class Exporter {
           sb.clear();
           switch (format) {
             case CSV:
-              //{R.string.split_transaction,R.string.date,R.string.payee,R.string.income,R.string.expense,R.string.category,R.string.subcategory,R.string.comment,R.string.method};
               Long methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
               PaymentMethod method = methodId == null ? null : PaymentMethod.getInstanceFromDb(methodId);
               sb.append("\n\"")
@@ -297,7 +300,9 @@ public class Exporter {
                   .appendQ(comment)
                   .append("\";\"")
                   .appendQ(method == null ? "" : method.getLabel())
-                  .append("\";\"\";\"\"");
+                  .append("\";\"\";\"\";\"")
+                  .appendQ(StringUtils.substringAfterLast(DbUtils.getString(splits, KEY_PICTURE_URI), "/"))
+                  .append("\"");
               break;
             //QIF
             default:
