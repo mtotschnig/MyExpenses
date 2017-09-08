@@ -143,7 +143,7 @@ public class UiUtils {
     return AppCompatDrawableManager.get().getDrawable(wrappedContext, drawableResId);
   }
 
-  static Bitmap drawableToBitmap(Drawable d) {
+  public static Bitmap drawableToBitmap(Drawable d) {
     Bitmap b = Bitmap.createBitmap(d.getIntrinsicWidth(),
         d.getIntrinsicHeight(),
         Bitmap.Config.ARGB_8888);

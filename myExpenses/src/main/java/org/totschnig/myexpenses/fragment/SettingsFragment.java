@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -144,24 +145,28 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         Bundle extras = new Bundle();
         extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
         extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
-        int nameId = 0, iconId = 0, operationType = 0;
+        int nameId = 0, operationType = 0;
+        Bitmap bitmap = null;
         if (matches(preference, SHORTCUT_CREATE_TRANSACTION)) {
           nameId = R.string.transaction;
-          iconId = R.drawable.shortcut_create_transaction_icon;
+          bitmap = getBitmapForShortcut(R.drawable.shortcut_create_transaction_icon,
+              R.drawable.shortcut_create_transaction_icon_lollipop);
           operationType = MyExpenses.TYPE_TRANSACTION;
         }
         if (matches(preference, SHORTCUT_CREATE_TRANSFER)) {
           nameId = R.string.transfer;
-          iconId = R.drawable.shortcut_create_transfer_icon;
+          bitmap = getBitmapForShortcut(R.drawable.shortcut_create_transfer_icon,
+              R.drawable.shortcut_create_transfer_icon_lollipop);
           operationType = MyExpenses.TYPE_TRANSFER;
         }
         if (matches(preference, SHORTCUT_CREATE_SPLIT)) {
           nameId = R.string.split_transaction;
-          iconId = R.drawable.shortcut_create_split_icon;
+          bitmap = getBitmapForShortcut(R.drawable.shortcut_create_split_icon,
+              R.drawable.shortcut_create_split_icon_lollipop);
           operationType = MyExpenses.TYPE_SPLIT;
         }
         if (nameId != 0) {
-          addShortcut(nameId, iconId, operationType);
+          addShortcut(nameId, operationType, bitmap);
           return true;
         }
         return false;
@@ -643,15 +648,24 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     }
   }
 
+  private Bitmap getBitmapForShortcut(int iconIdLegacy, int iconIdLolipop) {
+    if (Utils.hasApiLevel(Build.VERSION_CODES.LOLLIPOP)) {
+      return UiUtils.drawableToBitmap(getResources().getDrawable(iconIdLolipop));
+    }
+    else {
+      return UiUtils.getTintedBitmapForTheme(getActivity(), iconIdLegacy, R.style.ThemeDark);
+    }
+  }
+
   // credits Financisto
   // src/ru/orangesoftware/financisto/activity/PreferencesActivity.java
-  private void addShortcut(int nameId, int iconId, int operationType) {
+  private void addShortcut(int nameId, int operationType, Bitmap bitmap) {
     Intent shortcutIntent = ShortcutHelper.createIntentForNewTransaction(getContext(), operationType);
 
     Intent intent = new Intent();
     intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
     intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(nameId));
-    intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, UiUtils.getTintedBitmapForTheme(getActivity(), iconId, R.style.ThemeDark));
+    intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, bitmap);
     intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
 
     if (Utils.isIntentReceiverAvailable(getActivity(), intent)) {

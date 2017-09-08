@@ -59,7 +59,7 @@ public class ShortcutHelper {
       intent = ContribInfoDialogActivity.getIntentFor(context, ContribFeature.SPLIT_TRANSACTION);
     }
     ShortcutInfo shortcut = new ShortcutInfo.Builder(context, "split")
-        .setShortLabel(context.getString(R.string.menu_create_split))
+        .setShortLabel(context.getString(R.string.split_transaction))
         .setIcon(Icon.createWithResource(context, R.drawable.ic_menu_split_shortcut))
         .setIntent(intent)
         .build();
@@ -79,7 +79,7 @@ public class ShortcutHelper {
           .putExtra(SimpleToastActivity.KEY_MESSAGE_ID, R.string.dialog_command_disabled_insert_transfer);
     }
     ShortcutInfo shortcut = new ShortcutInfo.Builder(context, "transfer")
-        .setShortLabel(context.getString(R.string.menu_create_transfer))
+        .setShortLabel(context.getString(R.string.transfer))
         .setIcon(Icon.createWithResource(context, R.drawable.ic_menu_forward_shortcut))
         .setIntent(intent)
         .build();

@@ -6,7 +6,7 @@
         android:enabled="true"
         android:icon="@drawable/ic_menu_add_shortcut"
         android:shortcutId="transaction"
-        android:shortcutShortLabel="@string/menu_create_transaction">
+        android:shortcutShortLabel="@string/transaction">
         <intent
             android:action="android.intent.action.MAIN"
             android:targetClass="org.totschnig.myexpenses.activity.ExpenseEdit"
