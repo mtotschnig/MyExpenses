@@ -128,7 +128,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 67;
+  public static final int DATABASE_VERSION = 68;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -1553,6 +1553,11 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           "SELECT " +
           "template_id,instance_id,transaction_id FROM planinstance_transaction_old");
       db.execSQL("DROP TABLE planinstance_transaction_old");
+    }
+
+    if (oldVersion < 68) {
+      //faulty upgrade to 59
+      db.execSQL("DROP TABLE IF EXISTS sync_from_adapter");
     }
   }
 
