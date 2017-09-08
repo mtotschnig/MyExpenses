@@ -61,16 +61,15 @@ public class Exporter {
   String encoding;
 
   /**
-   *
-   * @param account Account to print
-   * @param filter only transactions matched by filter will be considered
-   * @param destDir destination directory
-   * @param fileName Filename for exported file
-   * @param format QIF or CSV
-   * @param notYetExportedP if true only transactions not marked as exported will be handled
-   * @param dateFormat format parseable by SimpleDateFormat class
+   * @param account          Account to print
+   * @param filter           only transactions matched by filter will be considered
+   * @param destDir          destination directory
+   * @param fileName         Filename for exported file
+   * @param format           QIF or CSV
+   * @param notYetExportedP  if true only transactions not marked as exported will be handled
+   * @param dateFormat       format parseable by SimpleDateFormat class
    * @param decimalSeparator , or .
-   * @param encoding the string describing the desired character encoding.
+   * @param encoding         the string describing the desired character encoding.
    */
   public Exporter(Account account, WhereFilter filter, DocumentFile destDir, String fileName,
                   ExportFormat format, boolean notYetExportedP, String dateFormat,
