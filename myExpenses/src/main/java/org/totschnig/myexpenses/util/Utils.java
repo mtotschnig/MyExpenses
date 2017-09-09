@@ -351,9 +351,6 @@ public class Utils {
     if (type != null) {
       features =  features.filter(feature -> type.equals(LicenceHandler.LicenceStatus.CONTRIB) != feature.isExtended());
     }
-    if (DistribHelper.isGithub()) {
-      features = features.filter(feature -> !feature.equals(ContribFeature.AD_FREE));
-    }
     return features
         .map(feature -> {
           String resName = "contrib_feature_" + feature.toString() + "_label";
