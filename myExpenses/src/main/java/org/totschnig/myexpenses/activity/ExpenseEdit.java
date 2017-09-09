@@ -652,7 +652,7 @@ public class ExpenseEdit extends AmountActivity implements
         mReccurenceSpinner.setOnItemSelectedListener(this);
         mPlanButton.setOnClickListener(view -> {
           if (mPlan == null) {
-            showDialog(DATE_DIALOG_ID);
+            hidKeyBoardAndShowDialog(DATE_DIALOG_ID);
           } else if (DistribHelper.shouldUseAndroidPlatformCalendar()) {
             launchPlanView(false);
           }
@@ -747,13 +747,13 @@ public class ExpenseEdit extends AmountActivity implements
           R.string.date) + " / " + getString(R.string.time));
       mDateButton.setOnClickListener(new View.OnClickListener() {
         public void onClick(View v) {
-          showDialog(DATE_DIALOG_ID);
+          hidKeyBoardAndShowDialog(DATE_DIALOG_ID);
         }
       });
 
       mTimeButton.setOnClickListener(new View.OnClickListener() {
         public void onClick(View v) {
-          showDialog(TIME_DIALOG_ID);
+          hidKeyBoardAndShowDialog(TIME_DIALOG_ID);
         }
       });
     }
@@ -782,6 +782,11 @@ public class ExpenseEdit extends AmountActivity implements
         }
       });
     }
+  }
+
+  public void hidKeyBoardAndShowDialog(int id) {
+    hideKeyboard();
+    showDialog(id);
   }
 
   private void setPlannerRowVisibility(int visibility) {
@@ -975,6 +980,7 @@ public class ExpenseEdit extends AmountActivity implements
 
   @Override
   protected Dialog onCreateDialog(int id) {
+    hideKeyboard();
     switch (id) {
       case DATE_DIALOG_ID:
         boolean brokenSamsungDevice = isBrokenSamsungDevice();
@@ -1887,8 +1893,7 @@ public class ExpenseEdit extends AmountActivity implements
           launchPlanView(true);
         } else {
           //make sure soft keyboard is closed
-          InputMethodManager im = (InputMethodManager) this.getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-          im.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+          hideKeyboard();
           Intent intent = new Intent();
           intent.putExtra(KEY_SEQUENCE_COUNT, sequenceCount);
           setResult(RESULT_OK, intent);
@@ -1899,6 +1904,11 @@ public class ExpenseEdit extends AmountActivity implements
       }
     }
     super.onPostExecute(result);
+  }
+
+  private void hideKeyboard() {
+    InputMethodManager im = (InputMethodManager) this.getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+    im.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
   }
 
   @Override
