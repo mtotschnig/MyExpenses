@@ -476,7 +476,7 @@ public class Account extends Model {
           .build();
     } else if (handleDelete == EXPORT_HANDLE_DELETED_CREATE_HELPER) {
       Transaction helper = new Transaction(this, getTransactionSum(filter));
-      helper.comment = helperComment;
+      helper.setComment(helperComment);
       helper.status = STATUS_HELPER;
       handleDeleteOperation = ContentProviderOperation.newInsert(Transaction.CONTENT_URI)
           .withValues(helper.buildInitialValues()).build();

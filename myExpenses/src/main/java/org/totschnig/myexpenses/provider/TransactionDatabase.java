@@ -301,7 +301,6 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_CATID + " integer references " + TABLE_CATEGORIES + "(" + KEY_ROWID + "), "
           + KEY_ACCOUNTID + " integer not null references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE CASCADE,"
           + KEY_PAYEEID + " integer references " + TABLE_PAYEES + "(" + KEY_ROWID + "), "
-          + KEY_TRANSFER_PEER + " boolean default 0, "
           + KEY_TRANSFER_ACCOUNT + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE CASCADE,"
           + KEY_METHODID + " integer references " + TABLE_METHODS + "(" + KEY_ROWID + "), "
           + KEY_TITLE + " text not null, "

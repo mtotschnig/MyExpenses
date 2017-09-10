@@ -247,7 +247,7 @@ public class DatabaseConstants {
 
  public static final String LABEL_SUB =
     "CASE WHEN " +
-    "  " + KEY_TRANSFER_PEER + " is null AND cat_id AND (SELECT " + KEY_PARENTID + " FROM " + TABLE_CATEGORIES
+    "  " + KEY_TRANSFER_PEER + " is null AND " + KEY_CATID + " AND (SELECT " + KEY_PARENTID + " FROM " + TABLE_CATEGORIES
         + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
     "THEN " +
     "  (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES  + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
@@ -258,7 +258,7 @@ public class DatabaseConstants {
    */
   public static final String LABEL_SUB_TEMPLATE =
       "CASE WHEN " +
-          "  " + KEY_TRANSFER_PEER + " = 0 AND cat_id AND (SELECT " + KEY_PARENTID + " FROM " + TABLE_CATEGORIES
+          "  " + KEY_CATID + " AND (SELECT " + KEY_PARENTID + " FROM " + TABLE_CATEGORIES
           + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
           "THEN " +
           "  (SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES  + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +

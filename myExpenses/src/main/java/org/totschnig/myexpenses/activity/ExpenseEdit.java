@@ -550,11 +550,11 @@ public class ExpenseEdit extends AmountActivity implements
         //processing data from user switching operation type
         Transaction cached = (Transaction) getIntent().getSerializableExtra(KEY_CACHED_DATA);
         if (cached != null) {
-          mTransaction.accountId = cached.accountId;
+          mTransaction.setAccountId(cached.getAccountId());
           mCalendar.setTime(cached.getDate());
           mPictureUri = getIntent().getParcelableExtra(KEY_CACHED_PICTURE_URI);
           setPicture();
-          mTransaction.methodId = cached.methodId;
+          mTransaction.setMethodId(cached.getMethodId());
         }
       }
       setup();
@@ -676,7 +676,7 @@ public class ExpenseEdit extends AmountActivity implements
       if (findSplitPartList() == null) {
         FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction()
-            .add(R.id.OneExpense, SplitPartList.newInstance(mTransaction.getId(), mTransaction.accountId), SPLIT_PART_LIST)
+            .add(R.id.OneExpense, SplitPartList.newInstance(mTransaction.getId(), mTransaction.getAccountId()), SPLIT_PART_LIST)
             .commit();
         fm.executePendingTransactions();
       }
@@ -847,7 +847,7 @@ public class ExpenseEdit extends AmountActivity implements
   protected void onTypeChanged(boolean isClicked) {
     super.onTypeChanged(isClicked);
     if (mTransaction != null && mIsMainTransactionOrTemplate) {
-      mTransaction.methodId = null;
+      mTransaction.setMethodId(null);
       if (mManager.getLoader(METHODS_CURSOR) != null && !mManager.getLoader(METHODS_CURSOR).isReset()) {
         mManager.restartLoader(METHODS_CURSOR, null, this);
       } else {
@@ -1050,15 +1050,15 @@ public class ExpenseEdit extends AmountActivity implements
 
     isProcessingLinkedAmountInputs = true;
     mStatusSpinner.setSelection((cached != null ? cached : mTransaction).crStatus.ordinal(), false);
-    mCommentText.setText((cached != null ? cached : mTransaction).comment);
+    mCommentText.setText((cached != null ? cached : mTransaction).getComment());
     if (mIsMainTransactionOrTemplate) {
-      mPayeeText.setText((cached != null ? cached : mTransaction).payee);
+      mPayeeText.setText((cached != null ? cached : mTransaction).getPayee());
     }
     if (mTransaction instanceof Template) {
       mTitleText.setText(((Template) mTransaction).getTitle());
       mPlanToggleButton.setChecked(((Template) mTransaction).isPlanExecutionAutomatic());
     } else {
-      mReferenceNumberText.setText((cached != null ? cached : mTransaction).referenceNumber);
+      mReferenceNumberText.setText((cached != null ? cached : mTransaction).getReferenceNumber());
     }
 
     fillAmount((cached != null ? cached : mTransaction).getAmount().getAmountMajor());
@@ -1121,14 +1121,14 @@ public class ExpenseEdit extends AmountActivity implements
         SharedPreferences.Editor editor = MyApplication.getInstance().getSettings().edit();
         switch (mOperationType) {
           case TYPE_TRANSACTION:
-            editor.putLong(PREFKEY_TRANSACTION_LAST_ACCOUNT_FROM_WIDGET, mTransaction.accountId);
+            editor.putLong(PREFKEY_TRANSACTION_LAST_ACCOUNT_FROM_WIDGET, mTransaction.getAccountId());
             break;
           case TYPE_TRANSFER:
-            editor.putLong(PREFKEY_TRANSFER_LAST_ACCOUNT_FROM_WIDGET, mTransaction.accountId);
-            editor.putLong(PREFKEY_TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET, mTransaction.transfer_account);
+            editor.putLong(PREFKEY_TRANSFER_LAST_ACCOUNT_FROM_WIDGET, mTransaction.getAccountId());
+            editor.putLong(PREFKEY_TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET, mTransaction.getTransferAccountId());
             break;
           case TYPE_SPLIT:
-            editor.putLong(PREFKEY_SPLIT_LAST_ACCOUNT_FROM_WIDGET, mTransaction.accountId);
+            editor.putLong(PREFKEY_SPLIT_LAST_ACCOUNT_FROM_WIDGET, mTransaction.getAccountId());
         }
         editor.apply();
       }
@@ -1163,9 +1163,9 @@ public class ExpenseEdit extends AmountActivity implements
       mTransaction.getAmount().setCurrency(account.currency);
       mTransaction.getAmount().setAmountMajor(amount);//TODO refactor to better respect encapsulation
     }
-    mTransaction.accountId = account.getId();
+    mTransaction.setAccountId(account.getId());
 
-    mTransaction.comment = mCommentText.getText().toString();
+    mTransaction.setComment(mCommentText.getText().toString());
 
     if (!isSplitPart()) {
       mTransaction.setDate(mCalendar.getTime());
@@ -1177,11 +1177,11 @@ public class ExpenseEdit extends AmountActivity implements
     if (mIsMainTransactionOrTemplate) {
       mTransaction.setPayee(mPayeeText.getText().toString());
       long selected = mMethodSpinner.getSelectedItemId();
-      mTransaction.methodId = (selected != AdapterView.INVALID_ROW_ID && selected > 0) ?
-          selected : null;
+      mTransaction.setMethodId((selected != AdapterView.INVALID_ROW_ID && selected > 0) ?
+          selected : null);
     }
     if (mOperationType == TYPE_TRANSFER) {
-      mTransaction.transfer_account = mTransferAccountSpinner.getSelectedItemId();
+      mTransaction.setTransferAccountId(mTransferAccountSpinner.getSelectedItemId());
       final Account transferAccount = Account.getInstanceFromDb(mTransferAccountSpinner
           .getSelectedItemId());
       boolean isSame = account.currency.equals(transferAccount.currency);
@@ -1189,8 +1189,8 @@ public class ExpenseEdit extends AmountActivity implements
         if (!isSame && amount == null) {
           BigDecimal transferAmount = validateAmountInput(mTransferAmountText, forSave);
           if (transferAmount != null) {
-            mTransaction.accountId = transferAccount.getId();
-            mTransaction.transfer_account = account.getId();
+            mTransaction.setAccountId(transferAccount.getId());
+            mTransaction.setTransferAccountId(account.getId());
             if (mType == INCOME) {
               transferAmount = transferAmount.negate();
             }
@@ -1241,13 +1241,13 @@ public class ExpenseEdit extends AmountActivity implements
         ((Template) mTransaction).setPlan(mPlan);
       }
     } else {
-      mTransaction.referenceNumber = mReferenceNumberText.getText().toString();
+      mTransaction.setReferenceNumber(mReferenceNumberText.getText().toString());
       if (forSave && !(isSplitPart())) {
         if (mReccurenceSpinner.getSelectedItemPosition() > 0) {
-          title = TextUtils.isEmpty(mTransaction.payee) ?
+          title = TextUtils.isEmpty(mTransaction.getPayee()) ?
               (TextUtils.isEmpty(mLabel) ?
-                  (TextUtils.isEmpty(mTransaction.comment) ?
-                      getString(R.string.menu_create_template) : mTransaction.comment) : mLabel) : mTransaction.payee;
+                  (TextUtils.isEmpty(mTransaction.getComment()) ?
+                      getString(R.string.menu_create_template) : mTransaction.getComment()) : mLabel) : mTransaction.getPayee();
           mTransaction.originTemplate = new Template(mTransaction, title);
           mTransaction.originTemplate.setPlanExecutionAutomatic(true);
           String description = mTransaction.originTemplate.compileDescription(ExpenseEdit.this, currencyFormatter);
@@ -1513,11 +1513,11 @@ public class ExpenseEdit extends AmountActivity implements
           Transaction t = (Transaction) o;
           if (mCatId == null) {
             mCatId = t.getCatId();
-            mLabel = t.label;
+            mLabel = t.getLabel();
             setCategoryButton();
           }
           if (TextUtils.isEmpty(mCommentText.getText().toString())) {
-            mCommentText.setText(t.comment);
+            mCommentText.setText(t.getComment());
           }
           if (TextUtils.isEmpty(mAmountText.getText().toString())) {
             fillAmount(t.getAmount().getAmountMajor());
@@ -1526,7 +1526,7 @@ public class ExpenseEdit extends AmountActivity implements
           if (!didUserSetAccount && getIntent().getBooleanExtra(KEY_AUTOFILL_MAY_SET_ACCOUNT, false)
               && mAccounts != null) {
             for (int i = 0; i < mAccounts.length; i++) {
-              if (mAccounts[i].getId().equals(t.accountId)) {
+              if (mAccounts[i].getId().equals(t.getAccountId())) {
                 mAccountSpinner.setSelection(i);
                 break;
               }
@@ -1579,7 +1579,7 @@ public class ExpenseEdit extends AmountActivity implements
         //if catId has already been set by onRestoreInstanceState, the value might have been edited by the user and has precedence
         if (mCatId == null) {
           mCatId = mTransaction.getCatId();
-          mLabel = mTransaction.label;
+          mLabel = mTransaction.getLabel();
         }
         if (getIntent().getBooleanExtra(KEY_CLONE, false)) {
           if (mTransaction instanceof SplitTransaction) {
@@ -1605,7 +1605,7 @@ public class ExpenseEdit extends AmountActivity implements
           updateAccount(account);
         } else {
           for (int i = 0; i < mAccounts.length; i++) {
-            if (mAccounts[i].getId().equals(mTransaction.accountId)) {
+            if (mAccounts[i].getId().equals(mTransaction.getAccountId())) {
               mAccountSpinner.setSelection(i);
               break;
             }
@@ -1686,7 +1686,7 @@ public class ExpenseEdit extends AmountActivity implements
             mReferenceNumberText.setVisibility(mMethodsCursor.getInt(mMethodsCursor.getColumnIndexOrThrow(KEY_IS_NUMBERED)) > 0 ?
                 View.VISIBLE : View.INVISIBLE);
         } else {
-          mTransaction.methodId = null;
+          mTransaction.setMethodId(null);
           mReferenceNumberText.setVisibility(View.GONE);
         }
         break;
@@ -1718,7 +1718,7 @@ public class ExpenseEdit extends AmountActivity implements
         }
         break;
       case R.id.TransferAccount:
-        mTransaction.transfer_account = mTransferAccountSpinner.getSelectedItemId();
+        mTransaction.setTransferAccountId(mTransferAccountSpinner.getSelectedItemId());
         configureTransferInput();
         break;
     }
@@ -1731,11 +1731,11 @@ public class ExpenseEdit extends AmountActivity implements
 
   private void updateAccount(Account account) {
     didUserSetAccount = true;
-    mTransaction.accountId = account.getId();
+    mTransaction.setAccountId(account.getId());
     setAccountLabel(account);
     if (mOperationType == TYPE_TRANSFER) {
       mTransferAccountSpinner.setSelection(setTransferAccountFilterMap());
-      mTransaction.transfer_account = mTransferAccountSpinner.getSelectedItemId();
+      mTransaction.setTransferAccountId(mTransferAccountSpinner.getSelectedItemId());
       configureTransferInput();
     } else {
       if (!(mTransaction instanceof SplitPartCategory)) {
@@ -1857,7 +1857,7 @@ public class ExpenseEdit extends AmountActivity implements
       if (mCreateNew) {
         mCreateNew = false;
         if (mOperationType == TYPE_SPLIT) {
-          mTransaction = SplitTransaction.getNewInstance(mTransaction.accountId);
+          mTransaction = SplitTransaction.getNewInstance(mTransaction.getAccountId());
           mRowId = mTransaction.getId();
           findSplitPartList().updateParent(mRowId);
         } else {
@@ -1963,11 +1963,11 @@ public class ExpenseEdit extends AmountActivity implements
           extras.addRow(new String[]{"0", "- - - -", "0"});
           mMethodsAdapter.swapCursor(new MergeCursor(new Cursor[]{extras, data}));
           if (mSavedInstance) {
-            mTransaction.methodId = mMethodId;
+            mTransaction.setMethodId(mMethodId);
           }
-          if (mTransaction.methodId != null) {
+          if (mTransaction.getMethodId() != null) {
             while (!data.isAfterLast()) {
-              if (data.getLong(data.getColumnIndex(KEY_ROWID)) == mTransaction.methodId) {
+              if (data.getLong(data.getColumnIndex(KEY_ROWID)) == mTransaction.getMethodId()) {
                 mMethodSpinner.setSelection(data.getPosition() + 1);
                 break;
               }
@@ -1987,8 +1987,8 @@ public class ExpenseEdit extends AmountActivity implements
         }
         mAccounts = new Account[data.getCount()];
         if (didUserSetAccount) {
-          mTransaction.accountId = mAccountId;
-          mTransaction.transfer_account = mTransferAccountId;
+          mTransaction.setAccountId(mAccountId);
+          mTransaction.setTransferAccountId(mTransferAccountId);
         }
         data.moveToFirst();
         boolean selectionSet = false;
@@ -1999,7 +1999,7 @@ public class ExpenseEdit extends AmountActivity implements
           mAccounts[position] = a;
           if (!selectionSet &&
               (a.currency.getCurrencyCode().equals(currencyExtra) ||
-                  (currencyExtra == null && a.getId().equals(mTransaction.accountId)))) {
+                  (currencyExtra == null && a.getId().equals(mTransaction.getAccountId())))) {
             mAccountSpinner.setSelection(position);
             setAccountLabel(a);
             selectionSet = true;
@@ -2009,7 +2009,7 @@ public class ExpenseEdit extends AmountActivity implements
         //if the accountId we have been passed does not exist, we select the first entry
         if (mAccountSpinner.getSelectedItemPosition() == android.widget.AdapterView.INVALID_POSITION) {
           mAccountSpinner.setSelection(0);
-          mTransaction.accountId = mAccounts[0].getId();
+          mTransaction.setAccountId(mAccounts[0].getId());
           setAccountLabel(mAccounts[0]);
         }
         if (mOperationType == TYPE_TRANSFER) {
@@ -2017,7 +2017,7 @@ public class ExpenseEdit extends AmountActivity implements
           int selectedPosition = setTransferAccountFilterMap();
           mTransferAccountsAdapter.swapCursor(mTransferAccountCursor);
           mTransferAccountSpinner.setSelection(selectedPosition);
-          mTransaction.transfer_account = mTransferAccountSpinner.getSelectedItemId();
+          mTransaction.setTransferAccountId(mTransferAccountSpinner.getSelectedItemId());
           configureTransferInput();
           if (!mNewInstance && !(mTransaction instanceof Template)) {
             isProcessingLinkedAmountInputs = true;
@@ -2061,9 +2061,9 @@ public class ExpenseEdit extends AmountActivity implements
     ArrayList<Integer> list = new ArrayList<>();
     int position = 0, selectedPosition = 0;
     for (int i = 0; i < mAccounts.length; i++) {
-      if (fromAccount.getId() != mAccounts[i].getId()) {
+      if (!fromAccount.getId().equals(mAccounts[i].getId())) {
         list.add(i);
-        if (mTransaction.transfer_account != null && mTransaction.transfer_account == mAccounts[i].getId()) {
+        if (mTransaction.getTransferAccountId() != null && mTransaction.getTransferAccountId().equals(mAccounts[i].getId())) {
           selectedPosition = position;
         }
         position++;

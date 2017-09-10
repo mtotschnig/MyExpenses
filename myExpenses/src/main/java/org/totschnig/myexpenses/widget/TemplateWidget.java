@@ -139,29 +139,29 @@ public class TemplateWidget extends AbstractWidget<Template> {
         t.getTitle() + " : " + CurrencyFormatter.instance().formatCurrency(t.getAmount()));
     String commentSeparator = " / ";
     SpannableStringBuilder description = new SpannableStringBuilder(t.isTransfer() ?
-        Transfer.getIndicatorPrefixForLabel(t.getAmount().getAmountMinor()) + t.label :
-        t.label);
-    if (!TextUtils.isEmpty(t.comment)) {
+        Transfer.getIndicatorPrefixForLabel(t.getAmount().getAmountMinor()) + t.getLabel() :
+        t.getLabel());
+    if (!TextUtils.isEmpty(t.getComment())) {
       if (description.length() != 0) {
         description.append(commentSeparator);
       }
-      description.append(t.comment);
+      description.append(t.getComment());
       int before = description.length();
       description.setSpan(new StyleSpan(android.graphics.Typeface.ITALIC), before, description.length(),
           Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
-    if (!TextUtils.isEmpty(t.payee)) {
+    if (!TextUtils.isEmpty(t.getPayee())) {
       if (description.length() != 0) {
         description.append(commentSeparator);
       }
-      description.append(t.payee);
+      description.append(t.getPayee());
       int before = description.length();
       description.setSpan(new UnderlineSpan(), before, description.length(),
           Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
     updateViews.setTextViewText(R.id.note,
         description);
-    setBackgroundColorSave(updateViews, R.id.divider3, Account.getInstanceFromDb(t.accountId).color);
+    setBackgroundColorSave(updateViews, R.id.divider3, Account.getInstanceFromDb(t.getAccountId()).color);
     addScrollOnClick(context, updateViews, widgetId);
     addTapOnClick(context, updateViews);
     addButtonsClick(context, updateViews, widgetId, t.getId());

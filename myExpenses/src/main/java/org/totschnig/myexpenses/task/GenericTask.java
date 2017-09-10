@@ -133,10 +133,10 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         for (T id : ids) {
           t = Transaction.getInstanceFromDb((Long) id);
           if (t != null && !(t instanceof SplitTransaction)) {
-            SplitTransaction parent = SplitTransaction.getNewInstance(t.accountId, false);
+            SplitTransaction parent = SplitTransaction.getNewInstance(t.getAccountId(), false);
             parent.setAmount(t.getAmount());
             parent.setDate(t.getDate());
-            parent.payeeId = t.payeeId;
+            parent.setPayeeId(t.getPayeeId());
             parent.crStatus = t.crStatus;
             parent.save();
             values = new ContentValues();

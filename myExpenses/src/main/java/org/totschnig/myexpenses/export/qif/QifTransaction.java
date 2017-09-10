@@ -151,9 +151,9 @@ public class QifTransaction {
     if (date!=null) {
       t.setDate(date);
     }
-    t.comment = memo;
+    t.setComment(memo);
     t.crStatus = Transaction.CrStatus.fromQifName(status);
-    t.referenceNumber = number;
+    t.setReferenceNumber(number);
     return t;
   }
 

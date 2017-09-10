@@ -19,12 +19,12 @@ public class SplitPartCategory extends Transaction {
 
   public SplitPartCategory(long accountId, Long amount, Long parentId) {
     super(accountId, amount);
-    this.parentId = parentId;
+    this.setParentId(parentId);
   }
 
   public SplitPartCategory(Account account, long amount, Long parentId) {
     super(account, amount);
-    this.parentId = parentId;
+    this.setParentId(parentId);
   }
 
   public static SplitPartCategory getNewInstance(long accountId, Long parentId) {

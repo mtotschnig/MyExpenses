@@ -146,7 +146,7 @@ public class Fixture {
     Transaction op2 = Transaction.getNewInstance(account3.getId());
     op2.setAmount(new Money(defaultCurrency,-2200L));
     op2.setCatId(findCat(testContext.getString(R.string.testData_transaction2SubCat), mainCat2));
-    op2.comment = testContext.getString(R.string.testData_transaction2Comment);
+    op2.setComment(testContext.getString(R.string.testData_transaction2Comment));
     op2.setDate(new Date( now - 7200000 ));
     op2.save();
     Transaction op3 = Transaction.getNewInstance(account3.getId());
@@ -163,7 +163,7 @@ public class Fixture {
     Transaction op4 = Transaction.getNewInstance(account3.getId());
     op4.setAmount(new Money(defaultCurrency,-5000L));
     op4.setCatId(findCat(testContext.getString(R.string.testData_transaction4SubCat), mainCat2));
-    op4.payee = testContext.getString(R.string.testData_transaction4Payee);
+    op4.setPayee(testContext.getString(R.string.testData_transaction4Payee));
     op4.setDate(new Date( now - 98030000 ));
     op4.crStatus = CrStatus.CLEARED;
     op4.save();
@@ -217,7 +217,7 @@ public class Fixture {
     template.setCatId(findCat(templateSubCat,
         findCat(testContext.getString(R.string.testData_templateMainCat), null)));
     template.setTitle(templateSubCat);
-    template.payee = testContext.getString(R.string.testData_templatePayee);
+    template.setPayee(testContext.getString(R.string.testData_templatePayee));
     Uri planUri = new Plan(
         Calendar.getInstance(),
         "FREQ=WEEKLY;COUNT=10;WKST=SU",

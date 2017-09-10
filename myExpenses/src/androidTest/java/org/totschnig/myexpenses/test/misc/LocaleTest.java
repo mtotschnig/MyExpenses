@@ -4,13 +4,9 @@ import java.util.Locale;
 
 import junit.framework.Assert;
 
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Transaction;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 
 
@@ -52,7 +48,7 @@ public class LocaleTest extends android.test.InstrumentationTestCase {
       Log.i("TEST",loc.getDisplayLanguage(Locale.US));
       Log.i("TEST",code);
       Transaction op = Transaction.getNewInstance(mAccount.getId());
-      op.comment = code + " " + lang;
+      op.setComment(code + " " + lang);
       op.save();
       Assert.assertTrue("Failed to create transaction in Locale " + lang,op.getId() > 0);
       assertNotNull(Transaction.getInstanceFromDb(op.getId()));

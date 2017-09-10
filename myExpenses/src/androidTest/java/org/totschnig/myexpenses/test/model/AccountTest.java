@@ -107,7 +107,7 @@ public class AccountTest extends ModelTest {
     Transaction op1 = Transaction.getNewInstance(account.getId());
     assert op1 != null;
     op1.setAmount(new Money(account.currency, trAmount));
-    op1.comment = "test transaction";
+    op1.setComment("test transaction");
     op1.save();
     assertEquals(account.getTotalBalance().getAmountMinor().longValue(), openingBalance + trAmount);
     Account.delete(account.getId());

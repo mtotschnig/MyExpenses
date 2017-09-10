@@ -123,7 +123,7 @@ public class SplitTransaction extends Transaction {
       //make sure that parts have the same date as their parent,
       //otherwise they might be incorrectly counted in groups
       ContentValues dateValues = new ContentValues();
-      dateValues.put(KEY_DATE, date.getTime() / 1000);
+      dateValues.put(KEY_DATE, getDate().getTime() / 1000);
       ops.add(ContentProviderOperation.newUpdate(uri).withValues(dateValues)
           .withSelection(PART_OR_PEER_SELECT, new String[]{idStr, idStr}).build());
     }
@@ -151,7 +151,7 @@ public class SplitTransaction extends Transaction {
     while (!c.isAfterLast()) {
       Transaction part = Transaction.getInstanceFromDb(c.getLong(c.getColumnIndex(KEY_ROWID)));
       part.status = STATUS_UNCOMMITTED;
-      part.parentId = getId();
+      part.setParentId(getId());
       part.saveAsNew();
       c.moveToNext();
     }
@@ -179,7 +179,7 @@ public class SplitTransaction extends Transaction {
     c.moveToFirst();
     while (!c.isAfterLast()) {
       Transaction part = Transaction.getInstanceFromDb(c.getLong(c.getColumnIndex(KEY_ROWID)));
-      part.parentId = getId();
+      part.setParentId(getId());
       part.saveAsNew();
       c.moveToNext();
     }

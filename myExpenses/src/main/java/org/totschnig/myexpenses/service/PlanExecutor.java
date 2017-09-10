@@ -119,10 +119,10 @@ public class PlanExecutor extends IntentService {
             Notification notification;
             int notificationId = instanceId.hashCode();
             PendingIntent resultIntent;
-            Account account = Account.getInstanceFromDb(template.accountId);
+            Account account = Account.getInstanceFromDb(template.getAccountId());
             NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            String content = template.label;
+            String content = template.getLabel();
             if (!content.equals("")) {
               content += " : ";
             }
@@ -139,7 +139,7 @@ public class PlanExecutor extends IntentService {
               t.setDate(new Date(date));
               if (t.save() != null) {
                 Intent displayIntent = new Intent(this, MyExpenses.class)
-                    .putExtra(KEY_ROWID, template.accountId)
+                    .putExtra(KEY_ROWID, template.getAccountId())
                     .putExtra(KEY_TRANSACTIONID, t.getId());
                 resultIntent = PendingIntent.getActivity(this, notificationId, displayIntent,
                     FLAG_UPDATE_CURRENT);

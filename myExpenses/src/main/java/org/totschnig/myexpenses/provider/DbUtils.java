@@ -154,7 +154,7 @@ public class DbUtils {
     return c.getString(columnIndex);
   }
   public static boolean hasParent(Long id) {
-    return Transaction.getInstanceFromDb(id).parentId != null;
+    return Transaction.getInstanceFromDb(id).getParentId() != null;
   }
   public static String weekStartFromGroupSqlExpression(int year, int week) {
     return String.format(Locale.US, getCountFromWeekStartZero() + " AS " + KEY_WEEK_START,year,week*7);

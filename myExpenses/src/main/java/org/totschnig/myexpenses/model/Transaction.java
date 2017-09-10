@@ -106,22 +106,19 @@ import static org.totschnig.myexpenses.provider.DbUtils.getLongOrNull;
  * @author Michael Totschnig
  */
 public class Transaction extends Model {
-  public String comment = "", payee = "", referenceNumber = "";
-  /**
-   * stores a short label of the category or the account the transaction is linked to
-   */
-  public String label = "";
-  protected Date date;
-  protected Money amount;
-  protected Money transferAmount;
+  private String comment = "";
+  private String payee = "";
+  private String referenceNumber = "";
+  private String label = "";
+  private Date date;
+  private Money amount;
+  private Money transferAmount;
   private Long catId;
-  public Long accountId;
-  public Long transfer_peer;
-  public Long transfer_account;
-  public Long methodId;
-  public String methodLabel = "";
-  public Long parentId = null;
-  public Long payeeId = null;
+  private Long accountId;
+  private Long methodId;
+  private String methodLabel = "";
+  private Long parentId = null;
+  private Long payeeId = null;
   /**
    * id of the template which defines the plan for which this transaction has been created
    */
@@ -208,6 +205,89 @@ public class Transaction extends Model {
     return transferAmount;
   }
 
+  public String getComment() {
+    return comment;
+  }
+
+  public void setComment(String comment) {
+    this.comment = comment;
+  }
+
+  public String getReferenceNumber() {
+    return referenceNumber;
+  }
+
+  public void setReferenceNumber(String referenceNumber) {
+    this.referenceNumber = referenceNumber;
+  }
+
+  public Long getMethodId() {
+    return methodId;
+  }
+
+  public void setMethodId(Long methodId) {
+    this.methodId = methodId;
+  }
+
+  public String getMethodLabel() {
+    return methodLabel;
+  }
+
+  public void setMethodLabel(String methodLabel) {
+    this.methodLabel = methodLabel;
+  }
+
+  public String getPayee() {
+    return payee;
+  }
+
+  public Long getPayeeId() {
+    return payeeId;
+  }
+
+  public void setPayeeId(Long payeeId) {
+    this.payeeId = payeeId;
+  }
+
+  /**
+   * stores a short label of the category or the account the transaction is linked to
+   */
+  public String getLabel() {
+    return label;
+  }
+
+  public void setLabel(String label) {
+    this.label = label;
+  }
+
+  public void setTransferAmount(Money transferAmount) {
+    this.transferAmount = transferAmount;
+  }
+
+  public Long getAccountId() {
+    return accountId;
+  }
+
+  public void setAccountId(Long accountId) {
+    this.accountId = accountId;
+  }
+
+  public Long getParentId() {
+    return parentId;
+  }
+
+  public void setParentId(Long parentId) {
+    this.parentId = parentId;
+  }
+
+  public void setTransferAccountId(Long transferAccountId) {
+    //noop, convenience that allows to set transfer account on template and transfer without cast
+  }
+
+  public Long getTransferAccountId() {
+    return null; //convenience that allows to set transfer account on template and transfer without cast
+  }
+
   public enum CrStatus {
     UNRECONCILED(Color.GRAY, ""), CLEARED(Color.BLUE, "*"), RECONCILED(Color.GREEN, "X"), VOID(Color.RED, null);
     public int color;
@@ -284,12 +364,14 @@ public class Transaction extends Model {
     Long parent_id = getLongOrNull(c, KEY_PARENTID);
     Long catId = getLongOrNull(c, KEY_CATID);
     if (transfer_peer != null) {
-      t = parent_id != null ? new SplitPartTransfer(account_id, amount, parent_id) :
+      Transfer transfer = parent_id != null ? new SplitPartTransfer(account_id, amount, parent_id) :
           new Transfer(account_id, amount);
-      t.transfer_peer = transfer_peer;
-      t.transfer_account = getLongOrNull(c, KEY_TRANSFER_ACCOUNT);
-      t.transferAmount = new Money(Account.getInstanceFromDb(t.transfer_account).currency,
-          c.getLong(c.getColumnIndex(KEY_TRANSFER_AMOUNT)));
+      transfer.setTransferPeer(transfer_peer);
+      Long transferAccountId = getLongOrNull(c, KEY_TRANSFER_ACCOUNT);
+      transfer.setTransferAccountId(transferAccountId);
+      transfer.setTransferAmount(new Money(Account.getInstanceFromDb(transferAccountId).currency,
+          c.getLong(c.getColumnIndex(KEY_TRANSFER_AMOUNT))));
+      t = transfer;
     } else {
       if (DatabaseConstants.SPLIT_CATID.equals(catId)) {
         t = new SplitTransaction(account_id, amount);
@@ -303,17 +385,17 @@ public class Transaction extends Model {
     } catch (IllegalArgumentException ex) {
       t.crStatus = CrStatus.UNRECONCILED;
     }
-    t.methodId = getLongOrNull(c, KEY_METHODID);
-    t.methodLabel = DbUtils.getString(c, KEY_METHOD_LABEL);
+    t.setMethodId(getLongOrNull(c, KEY_METHODID));
+    t.setMethodLabel(DbUtils.getString(c, KEY_METHOD_LABEL));
     t.setCatId(catId);
-    t.payeeId = getLongOrNull(c, KEY_PAYEEID);
-    t.payee = DbUtils.getString(c, KEY_PAYEE_NAME);
+    t.setPayeeId(getLongOrNull(c, KEY_PAYEEID));
+    t.setPayee(DbUtils.getString(c, KEY_PAYEE_NAME));
     t.setId(id);
     t.setDate(c.getLong(
         c.getColumnIndexOrThrow(KEY_DATE)) * 1000L);
-    t.comment = DbUtils.getString(c, KEY_COMMENT);
-    t.referenceNumber = DbUtils.getString(c, KEY_REFERENCE_NUMBER);
-    t.label = DbUtils.getString(c, KEY_LABEL);
+    t.setComment(DbUtils.getString(c, KEY_COMMENT));
+    t.setReferenceNumber(DbUtils.getString(c, KEY_REFERENCE_NUMBER));
+    t.setLabel(DbUtils.getString(c, KEY_LABEL));
 
     int pictureUriColumnIndex = c.getColumnIndexOrThrow(KEY_PICTURE_URI);
     if (!c.isNull(pictureUriColumnIndex)) {
@@ -342,17 +424,17 @@ public class Transaction extends Model {
   public static Transaction getInstanceFromTemplate(Template te) {
     Transaction tr;
     if (te.isTransfer()) {
-      tr = new Transfer(te.accountId, te.amount);
-      tr.transfer_account = te.transfer_account;
+      tr = new Transfer(te.getAccountId(), te.getAmount());
+      tr.setTransferAccountId(te.getTransferAccountId());
     } else {
-      tr = new Transaction(te.accountId, te.amount);
-      tr.methodId = te.methodId;
-      tr.methodLabel = te.methodLabel;
+      tr = new Transaction(te.getAccountId(), te.getAmount());
+      tr.setMethodId(te.getMethodId());
+      tr.setMethodLabel(te.getMethodLabel());
       tr.setCatId(te.getCatId());
     }
-    tr.comment = te.comment;
-    tr.payee = te.payee;
-    tr.label = te.label;
+    tr.setComment(te.getComment());
+    tr.setPayee(te.getPayee());
+    tr.setLabel(te.getLabel());
     tr.originTemplate = te;
     cr().update(
         TransactionProvider.TEMPLATES_URI
@@ -407,14 +489,14 @@ public class Transaction extends Model {
 
   public Transaction(long accountId, Money amount) {
     this();
-    this.accountId = accountId;
-    this.amount = amount;
+    this.setAccountId(accountId);
+    this.setAmount(amount);
   }
 
   public Transaction(Account account, long amount) {
     this();
-    this.accountId = account.getId();
-    this.amount = new Money(account.currency, amount);
+    this.setAccountId(account.getId());
+    this.setAmount(new Money(account.currency, amount));
   }
 
   public Long getCatId() {
@@ -433,7 +515,7 @@ public class Transaction extends Model {
   }
 
   private void setDate(Long unixEpoch) {
-    this.date = new Date(unixEpoch);
+    this.setDate(new Date(unixEpoch));
   }
 
   public Date getDate() {
@@ -448,7 +530,7 @@ public class Transaction extends Model {
    */
   public void setPayee(String payee) {
     if (!this.payee.equals(payee)) {
-      this.payeeId = null;
+      this.setPayeeId(null);
     }
     this.payee = payee;
   }
@@ -460,8 +542,8 @@ public class Transaction extends Model {
    * @param payeeId
    */
   public void updatePayeeWithId(String payee, Long payeeId) {
-    this.payee = payee;
-    this.payeeId = payeeId;
+    this.setPayee(payee);
+    this.setPayeeId(payeeId);
   }
 
   @Override
@@ -543,30 +625,30 @@ public class Transaction extends Model {
     ContentValues initialValues = new ContentValues();
 
     Long payeeStore;
-    if (payeeId != null) {
-      payeeStore = payeeId;
+    if (getPayeeId() != null) {
+      payeeStore = getPayeeId();
     } else {
       payeeStore =
-          (payee != null && !payee.equals("")) ?
-              Payee.require(payee) :
+          (getPayee() != null && !getPayee().equals("")) ?
+              Payee.require(getPayee()) :
               null;
     }
-    initialValues.put(KEY_COMMENT, comment);
-    initialValues.put(KEY_REFERENCE_NUMBER, referenceNumber);
+    initialValues.put(KEY_COMMENT, getComment());
+    initialValues.put(KEY_REFERENCE_NUMBER, getReferenceNumber());
     //store in UTC
-    initialValues.put(KEY_DATE, date.getTime() / 1000);
+    initialValues.put(KEY_DATE, getDate().getTime() / 1000);
 
-    initialValues.put(KEY_AMOUNT, amount.getAmountMinor());
+    initialValues.put(KEY_AMOUNT, getAmount().getAmountMinor());
     initialValues.put(KEY_CATID, getCatId());
     initialValues.put(KEY_PAYEEID, payeeStore);
-    initialValues.put(KEY_METHODID, methodId);
+    initialValues.put(KEY_METHODID, getMethodId());
     initialValues.put(KEY_CR_STATUS, crStatus.name());
-    initialValues.put(KEY_ACCOUNTID, accountId);
+    initialValues.put(KEY_ACCOUNTID, getAccountId());
     initialValues.put(KEY_UUID, requireUuid());
 
     savePicture(initialValues);
     if (getId() == 0) {
-      initialValues.put(KEY_PARENTID, parentId);
+      initialValues.put(KEY_PARENTID, getParentId());
       initialValues.put(KEY_STATUS, status);
     }
     return initialValues;
@@ -723,30 +805,30 @@ public class Transaction extends Model {
     if (getClass() != obj.getClass())
       return false;
     Transaction other = (Transaction) obj;
-    if (accountId == null) {
-      if (other.accountId != null)
+    if (getAccountId() == null) {
+      if (other.getAccountId() != null)
         return false;
-    } else if (!accountId.equals(other.accountId))
+    } else if (!getAccountId().equals(other.getAccountId()))
       return false;
-    if (amount == null) {
-      if (other.amount != null)
+    if (getAmount() == null) {
+      if (other.getAmount() != null)
         return false;
-    } else if (!amount.equals(other.amount))
+    } else if (!getAmount().equals(other.getAmount()))
       return false;
     if (getCatId() == null) {
       if (other.getCatId() != null)
         return false;
     } else if (!getCatId().equals(other.getCatId()))
       return false;
-    if (comment == null) {
-      if (other.comment != null)
+    if (getComment() == null) {
+      if (other.getComment() != null)
         return false;
-    } else if (!comment.equals(other.comment))
+    } else if (!getComment().equals(other.getComment()))
       return false;
-    if (date == null) {
-      if (other.date != null)
+    if (getDate() == null) {
+      if (other.getDate() != null)
         return false;
-    } else if (Math.abs(date.getTime() - other.date.getTime()) > 30000) //30 seconds tolerance
+    } else if (Math.abs(getDate().getTime() - other.getDate().getTime()) > 30000) //30 seconds tolerance
       return false;
     if (getId() == null) {
       if (other.getId() != null)
@@ -761,25 +843,15 @@ public class Transaction extends Model {
         return false;
     } else if (!label.equals(other.label))
       return false;*/
-    if (methodId == null) {
-      if (other.methodId != null)
+    if (getMethodId() == null) {
+      if (other.getMethodId() != null)
         return false;
-    } else if (!methodId.equals(other.methodId))
+    } else if (!getMethodId().equals(other.getMethodId()))
       return false;
-    if (payee == null) {
-      if (other.payee != null)
+    if (getPayee() == null) {
+      if (other.getPayee() != null)
         return false;
-    } else if (!payee.equals(other.payee))
-      return false;
-    if (transfer_account == null) {
-      if (other.transfer_account != null)
-        return false;
-    } else if (!transfer_account.equals(other.transfer_account))
-      return false;
-    if (transfer_peer == null) {
-      if (other.transfer_peer != null)
-        return false;
-    } else if (!transfer_peer.equals(other.transfer_peer))
+    } else if (!getPayee().equals(other.getPayee()))
       return false;
     if (pictureUri == null) {
       if (other.pictureUri != null)
@@ -791,21 +863,19 @@ public class Transaction extends Model {
 
   @Override
   public int hashCode() {
-    int result = this.comment != null ? this.comment.hashCode() : 0;
-    result = 31 * result + (this.payee != null ? this.payee.hashCode() : 0);
-    result = 31 * result + (this.referenceNumber != null ? this.referenceNumber.hashCode() : 0);
-    result = 31 * result + (this.label != null ? this.label.hashCode() : 0);
-    result = 31 * result + (this.date != null ? this.date.hashCode() : 0);
-    result = 31 * result + (this.amount != null ? this.amount.hashCode() : 0);
-    result = 31 * result + (this.transferAmount != null ? this.transferAmount.hashCode() : 0);
+    int result = this.getComment() != null ? this.getComment().hashCode() : 0;
+    result = 31 * result + (this.getPayee() != null ? this.getPayee().hashCode() : 0);
+    result = 31 * result + (this.getReferenceNumber() != null ? this.getReferenceNumber().hashCode() : 0);
+    result = 31 * result + (this.getLabel() != null ? this.getLabel().hashCode() : 0);
+    result = 31 * result + (this.getDate() != null ? this.getDate().hashCode() : 0);
+    result = 31 * result + (this.getAmount() != null ? this.getAmount().hashCode() : 0);
+    result = 31 * result + (this.getTransferAmount() != null ? this.getTransferAmount().hashCode() : 0);
     result = 31 * result + (this.catId != null ? this.catId.hashCode() : 0);
-    result = 31 * result + (this.accountId != null ? this.accountId.hashCode() : 0);
-    result = 31 * result + (this.transfer_peer != null ? this.transfer_peer.hashCode() : 0);
-    result = 31 * result + (this.transfer_account != null ? this.transfer_account.hashCode() : 0);
-    result = 31 * result + (this.methodId != null ? this.methodId.hashCode() : 0);
-    result = 31 * result + (this.methodLabel != null ? this.methodLabel.hashCode() : 0);
-    result = 31 * result + (this.parentId != null ? this.parentId.hashCode() : 0);
-    result = 31 * result + (this.payeeId != null ? this.payeeId.hashCode() : 0);
+    result = 31 * result + (this.getAccountId() != null ? this.getAccountId().hashCode() : 0);
+    result = 31 * result + (this.getMethodId() != null ? this.getMethodId().hashCode() : 0);
+    result = 31 * result + (this.getMethodLabel() != null ? this.getMethodLabel().hashCode() : 0);
+    result = 31 * result + (this.getParentId() != null ? this.getParentId().hashCode() : 0);
+    result = 31 * result + (this.getPayeeId() != null ? this.getPayeeId().hashCode() : 0);
     result = 31 * result + (this.originTemplate != null ? this.originTemplate.hashCode() : 0);
     result = 31 * result + (this.originPlanInstanceId != null ? this.originPlanInstanceId.hashCode() : 0);
     result = 31 * result + this.status;

@@ -171,7 +171,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     }
     switch (which) {
       case AlertDialog.BUTTON_POSITIVE:
-        if (mTransaction.transfer_peer != null && DbUtils.hasParent(mTransaction.transfer_peer)) {
+        if (mTransaction instanceof Transfer && DbUtils.hasParent(((Transfer) mTransaction).getTransferPeer())) {
           Toast.makeText(ctx, getString(R.string.warning_splitpartcategory_context), Toast.LENGTH_LONG).show();
           return;
         }
@@ -269,10 +269,10 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     }
 
     String amountText;
-    String accountLabel = Account.getInstanceFromDb(mTransaction.accountId).label;
+    String accountLabel = Account.getInstanceFromDb(mTransaction.getAccountId()).label;
     if (mTransaction instanceof Transfer) {
-      ((TextView) mLayout.findViewById(R.id.Account)).setText(type ? mTransaction.label : accountLabel);
-      ((TextView) mLayout.findViewById(R.id.Category)).setText(type ? accountLabel : mTransaction.label);
+      ((TextView) mLayout.findViewById(R.id.Account)).setText(type ? mTransaction.getLabel() : accountLabel);
+      ((TextView) mLayout.findViewById(R.id.Category)).setText(type ? accountLabel : mTransaction.getLabel());
       if (((Transfer) mTransaction).isSameCurrency()) {
         amountText = formatCurrencyAbs(mTransaction.getAmount());
       } else {
@@ -283,7 +283,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     } else {
       ((TextView) mLayout.findViewById(R.id.Account)).setText(accountLabel);
       if ((mTransaction.getCatId() != null && mTransaction.getCatId() > 0)) {
-        ((TextView) mLayout.findViewById(R.id.Category)).setText(mTransaction.label);
+        ((TextView) mLayout.findViewById(R.id.Category)).setText(mTransaction.getLabel());
       } else {
         mLayout.findViewById(R.id.CategoryRow).setVisibility(View.GONE);
       }
@@ -298,33 +298,33 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
 
     ((TextView) mLayout.findViewById(R.id.Amount)).setText(amountText);
 
-    if (!mTransaction.comment.equals("")) {
-      ((TextView) mLayout.findViewById(R.id.Comment)).setText(mTransaction.comment);
+    if (!mTransaction.getComment().equals("")) {
+      ((TextView) mLayout.findViewById(R.id.Comment)).setText(mTransaction.getComment());
     } else {
       mLayout.findViewById(R.id.CommentRow).setVisibility(View.GONE);
     }
 
-    if (!mTransaction.referenceNumber.equals("")) {
-      ((TextView) mLayout.findViewById(R.id.Number)).setText(mTransaction.referenceNumber);
+    if (!mTransaction.getReferenceNumber().equals("")) {
+      ((TextView) mLayout.findViewById(R.id.Number)).setText(mTransaction.getReferenceNumber());
     } else {
       mLayout.findViewById(R.id.NumberRow).setVisibility(View.GONE);
     }
 
-    if (!mTransaction.payee.equals("")) {
-      ((TextView) mLayout.findViewById(R.id.Payee)).setText(mTransaction.payee);
+    if (!mTransaction.getPayee().equals("")) {
+      ((TextView) mLayout.findViewById(R.id.Payee)).setText(mTransaction.getPayee());
       ((TextView) mLayout.findViewById(R.id.PayeeLabel)).setText(type ? R.string.payer : R.string.payee);
     } else {
       mLayout.findViewById(R.id.PayeeRow).setVisibility(View.GONE);
     }
 
-    if (mTransaction.methodId != null) {
+    if (mTransaction.getMethodId() != null) {
       ((TextView) mLayout.findViewById(R.id.Method))
-          .setText(PaymentMethod.getInstanceFromDb(mTransaction.methodId).getLabel());
+          .setText(PaymentMethod.getInstanceFromDb(mTransaction.getMethodId()).getLabel());
     } else {
       mLayout.findViewById(R.id.MethodRow).setVisibility(View.GONE);
     }
 
-    if (Account.getInstanceFromDb(mTransaction.accountId).type.equals(AccountType.CASH)) {
+    if (Account.getInstanceFromDb(mTransaction.getAccountId()).type.equals(AccountType.CASH)) {
       mLayout.findViewById(R.id.StatusRow).setVisibility(View.GONE);
     } else {
       TextView tv = (TextView) mLayout.findViewById(R.id.Status);

@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
+import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -41,7 +42,7 @@ public class ManageTemplatesTest {
   @BeforeClass
   public static void fixture() {
     account = Account.getInstanceFromDb(0);
-    template = new Template(account, -1200L);
+    template = new Template(account, -1200L, MyExpenses.TYPE_TRANSACTION);
     template.setTitle("Espresso Test Template");
     template.save();
   }

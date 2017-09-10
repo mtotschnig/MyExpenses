@@ -38,8 +38,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 /**
  * a transfer consists of a pair of transactions, one for each account
  * this class handles creation and update
- * @author Michael Totschnig
  *
+ * @author Michael Totschnig
  */
 public class Transfer extends Transaction {
 
@@ -47,39 +47,69 @@ public class Transfer extends Transaction {
   public static final String LEFT_ARROW = "◀";
   public static final String BI_ARROW = "⇄";
 
-  
-  public Transfer(long accountId, Long amount) {
-    super(accountId,amount);
-    this.transferAmount = new Money(this.amount.getCurrency(),this.amount.getAmountMajor().negate());
+  private Long transferPeer;
+  private Long transferAccountId;
+
+  public Long getTransferPeer() {
+    return transferPeer;
   }
 
-  public Transfer(long accountId, Money amount) {
-    super(accountId,amount);
-    this.transferAmount = new Money(amount.getCurrency(),amount.getAmountMajor().negate());
+  public void setTransferPeer(Long transferPeer) {
+    this.transferPeer = transferPeer;
+  }
+
+  public Long getTransferAccountId() {
+    return transferAccountId;
+  }
+
+  @Override
+  public void setTransferAccountId(Long transferAccountId) {
+    this.transferAccountId = transferAccountId;
+  }
+
+  public Transfer(Long accountId, Long amount) {
+   this(accountId, amount, null);
+  }
+
+  public Transfer(Long accountId, Long amount, Long transferAccountId) {
+    super(accountId, amount);
+    this.setTransferAccountId(transferAccountId);
+  }
+
+  public Transfer(Long accountId, Money amount) {
+    this(accountId, amount, null);
+  }
+
+  public Transfer(Long accountId, Money amount, Long transferAccountId) {
+    super(accountId, amount);
+    this.setTransferAccountId(transferAccountId);
+  }
+
+  public Transfer(Account account, long amount) {
+    this(account, amount, null);
   }
 
   public Transfer(Account account, long amount, Account transferAccount) {
-    super(account,amount);
-    this.transfer_account = transferAccount.getId();
-    this.transferAmount = new Money(transferAccount.currency,this.amount.getAmountMajor().negate());
+    super(account, amount);
+    this.setTransferAccountId(transferAccount.getId());
   }
 
   @Override
   public void setAmount(Money amount) {
-    if (!amount.getCurrency().getCurrencyCode().equals(transferAmount.getCurrency().getCurrencyCode())) {
+    if (getTransferAmount() != null && !amount.getCurrency().getCurrencyCode().equals(getTransferAmount().getCurrency().getCurrencyCode())) {
       throw new UnsupportedOperationException("for foreign exchange transfers, use setAmountAndTransferAmount");
     }
     super.setAmount(amount);
-    this.transferAmount = new Money(amount.getCurrency(),amount.getAmountMajor().negate());
+    this.setTransferAmount(new Money(amount.getCurrency(), amount.getAmountMajor().negate()));
   }
 
   public void setAmountAndTransferAmount(Money amount, Money transferAmount) {
-    this.amount = amount;
-    this.transferAmount = transferAmount;
+    super.setAmount(amount);
+    this.setTransferAmount(transferAmount);
   }
 
   /**
-   * @param accountId if account no longer exists {@link Account#getInstanceFromDb(long) is called with 0}
+   * @param accountId         if account no longer exists {@link Account#getInstanceFromDb(long) is called with 0}
    * @param transferAccountId
    * @return
    */
@@ -92,29 +122,29 @@ public class Transfer extends Transaction {
     if (transferAccount == null) {
       return null;
     }
-    return new Transfer(account,0L,transferAccount);
+    return new Transfer(account, 0L, transferAccount);
   }
 
   @Override
   public ArrayList<ContentProviderOperation> buildSaveOperations(int offset, int parentOffset, boolean callerIsSyncAdapter) {
     Uri uri = getUriForSave(callerIsSyncAdapter);
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
-    long amount = this.amount.getAmountMinor();
-    long transferAmount = this.transferAmount.getAmountMinor();
+    long amount = this.getAmount().getAmountMinor();
+    long transferAmount = this.getTransferAmount().getAmountMinor();
     //the id of the peer_account is stored in KEY_TRANSFER_ACCOUNT,
     //the id of the peer transaction is stored in KEY_TRANSFER_PEER
     ContentValues initialValues = new ContentValues();
-    initialValues.put(KEY_COMMENT, comment);
-    initialValues.put(KEY_DATE, date.getTime()/1000);
+    initialValues.put(KEY_COMMENT, getComment());
+    initialValues.put(KEY_DATE, getDate().getTime() / 1000);
     initialValues.put(KEY_AMOUNT, amount);
-    initialValues.put(KEY_TRANSFER_ACCOUNT, transfer_account);
-    initialValues.put(KEY_CR_STATUS,crStatus.name());
-    initialValues.put(KEY_ACCOUNTID, accountId);
+    initialValues.put(KEY_TRANSFER_ACCOUNT, getTransferAccountId());
+    initialValues.put(KEY_CR_STATUS, crStatus.name());
+    initialValues.put(KEY_ACCOUNTID, getAccountId());
     savePicture(initialValues);
     if (getId() == 0) {
       //both parts of the transfer share uuid
       initialValues.put(KEY_UUID, requireUuid());
-      initialValues.put(KEY_PARENTID, parentId);
+      initialValues.put(KEY_PARENTID, getParentId());
       initialValues.put(KEY_STATUS, status);
       ContentProviderOperation.Builder builder = ContentProviderOperation.newInsert(uri).withValues(initialValues);
       if (parentOffset != -1) {
@@ -125,14 +155,14 @@ public class Transfer extends Transaction {
       ContentValues transferValues = new ContentValues(initialValues);
       transferValues.remove(KEY_PARENTID);
       transferValues.put(KEY_AMOUNT, transferAmount);
-      transferValues.put(KEY_TRANSFER_ACCOUNT, accountId);
-      transferValues.put(KEY_ACCOUNTID, transfer_account);
+      transferValues.put(KEY_TRANSFER_ACCOUNT, getAccountId());
+      transferValues.put(KEY_ACCOUNTID, getTransferAccountId());
       ops.add(ContentProviderOperation.newInsert(uri)
           .withValues(transferValues).withValueBackReference(KEY_TRANSFER_PEER, offset)
           .build());
-      //we have to set the transfer_peer for the first transaction
+      //we have to set the transferPeer for the first transaction
       ContentValues args = new ContentValues();
-      args.put(KEY_TRANSFER_PEER,transfer_peer);
+      args.put(KEY_TRANSFER_PEER, getTransferPeer());
       ops.add(ContentProviderOperation.newUpdate(uri)
           .withValueBackReference(KEY_TRANSFER_PEER, offset + 1)
           .withSelection(KEY_ROWID + " = ?", new String[]{""})//replaced by back reference
@@ -141,10 +171,10 @@ public class Transfer extends Transaction {
       addOriginPlanInstance(ops);
     } else {
       //we set the transfer peers uuid to null initially to prevent violation of unique index which
-      //happens if the account after update is identical to transfer_account before update
+      //happens if the account after update is identical to transferAccountId before update
       ContentValues uuidNullValues = new ContentValues(1);
       uuidNullValues.putNull(KEY_UUID);
-      Uri transferUri = uri.buildUpon().appendPath(String.valueOf(transfer_peer)).build();
+      Uri transferUri = uri.buildUpon().appendPath(String.valueOf(getTransferPeer())).build();
       ops.add(ContentProviderOperation
           .newUpdate(transferUri)
           .withValues(uuidNullValues).build());
@@ -155,9 +185,9 @@ public class Transfer extends Transaction {
       transferValues.put(KEY_AMOUNT, transferAmount);
       //if the user has changed the account to which we should transfer,
       //in the peer transaction we need to update the account_id
-      transferValues.put(KEY_ACCOUNTID, transfer_account);
+      transferValues.put(KEY_ACCOUNTID, getTransferAccountId());
       //the account from which is transfered could also have been altered
-      transferValues.put(KEY_TRANSFER_ACCOUNT,accountId);
+      transferValues.put(KEY_TRANSFER_ACCOUNT, getAccountId());
       transferValues.put(KEY_UUID, uuid);
       ops.add(ContentProviderOperation
           .newUpdate(transferUri)
@@ -167,13 +197,32 @@ public class Transfer extends Transaction {
   }
 
   @Override
+  public boolean equals(Object obj) {
+    if (!super.equals(obj)) {
+      return false;
+    }
+    Transfer other = (Transfer) obj;
+    if (getTransferAccountId() == null) {
+      if (other.getTransferAccountId() != null)
+        return false;
+    } else if (!getTransferAccountId().equals(other.getTransferAccountId()))
+      return false;
+    if (getTransferPeer() == null) {
+      if (other.getTransferPeer() != null)
+        return false;
+    } else if (!getTransferPeer().equals(other.getTransferPeer()))
+      return false;
+    return true;
+  }
+
+  @Override
   protected void updateFromResult(ContentProviderResult[] result) {
     super.updateFromResult(result);
-    transfer_peer = ContentUris.parseId(result[1].uri);
+    setTransferPeer(ContentUris.parseId(result[1].uri));
   }
 
   public boolean isSameCurrency() {
-    return amount.getCurrency().equals(transferAmount.getCurrency());
+    return getAmount().getCurrency().equals(getTransferAmount().getCurrency());
   }
 
   public static String getIndicatorPrefixForLabel(long amount) {
@@ -181,6 +230,6 @@ public class Transfer extends Transaction {
   }
 
   public String printLabelWithPrefix() {
-    return getIndicatorPrefixForLabel(getAmount().getAmountMinor()) + " " + label;
+    return getIndicatorPrefixForLabel(getAmount().getAmountMinor()) + " " + getLabel();
   }
 }
