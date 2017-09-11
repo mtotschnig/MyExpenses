@@ -45,11 +45,11 @@ public class OperationTypeAdapter extends ArrayAdapter<Integer> {
       case MyExpenses.TYPE_SPLIT:
         return isTemplate ? R.string.menu_create_template_for_split : R.string.menu_create_split;
       case MyExpenses.TYPE_TRANSFER:
-        return isTemplate ? R.string.menu_create_template_for_transfer :
-            (isSplitPart ? R.string.menu_create_split_part_transfer : R.string.menu_create_transfer);
+        return isSplitPart ? R.string.menu_create_split_part_transfer :
+            (isTemplate ? R.string.menu_create_template_for_transfer : R.string.menu_create_transfer);
       case MyExpenses.TYPE_TRANSACTION:
-        return isTemplate ? R.string.menu_create_template_for_transaction :
-            (isSplitPart ? R.string.menu_create_split_part_category : R.string.menu_create_transaction);
+        return isSplitPart ? R.string.menu_create_split_part_category :
+            (isTemplate ? R.string.menu_create_template_for_transaction : R.string.menu_create_transaction);
       default:
         throw new IllegalStateException("Unknown operationtype " + operationType);
     }

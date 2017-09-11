@@ -1043,6 +1043,10 @@ public class Transaction extends Model {
     return operationType() == MyExpenses.TYPE_SPLIT;
   }
 
+  public boolean isSplitpart() {
+    return !(parentId == null || parentId == 0);
+  }
+
   public int operationType() {
     return MyExpenses.TYPE_TRANSACTION;
   }

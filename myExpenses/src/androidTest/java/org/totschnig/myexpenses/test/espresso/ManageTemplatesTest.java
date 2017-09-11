@@ -43,7 +43,7 @@ public class ManageTemplatesTest {
   @BeforeClass
   public static void fixture() {
     account = Account.getInstanceFromDb(0);
-    template = new Template(account, MyExpenses.TYPE_TRANSACTION);
+    template = new Template(account, MyExpenses.TYPE_TRANSACTION, null);
     template.setAmount(new Money(account.currency, -1200L));
     template.setTitle("Espresso Test Template");
     template.save();

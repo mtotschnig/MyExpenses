@@ -211,7 +211,7 @@ public class Fixture {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-    Template template = Template.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION, account3.getId(), false);
+    Template template = Template.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION, account3.getId(), false, null);
     template.setAmount(new Money(defaultCurrency,-90000L));
     String templateSubCat = testContext.getString(R.string.testData_templateSubCat);
     template.setCatId(findCat(templateSubCat,

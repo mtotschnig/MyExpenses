@@ -269,7 +269,7 @@ public class Template extends Transaction {
     }
   }
 
-  public Template(Account account, int operationType) {
+  public Template(Account account, int operationType, Long parentId) {
     super();
     setTitle("");
     switch (operationType) {
@@ -286,24 +286,30 @@ public class Template extends Transaction {
         throw new UnsupportedOperationException(
             String.format(Locale.ROOT, "Unknown type %d", operationType));
     }
+    setParentId(parentId);
   }
 
-  public static Template getTypedNewInstance(int operationType, long accountId, boolean forEdit) {
+  public static Template getTypedNewInstance(int operationType, Long accountId, boolean forEdit, Long parentId) {
     Account account = Account.getInstanceFromDbWithFallback(accountId);
     if (account == null) {
       return null;
     }
-    Template t = new Template(account, operationType);
+    Template t = new Template(account, operationType, parentId);
     if (forEdit && t.isSplit()) {
-      t.persistForEdit();
+      if (!t.persistForEdit()) {
+        return null;
+      }
     }
     return t;
   }
 
-  private void persistForEdit() {
+  private boolean persistForEdit() {
     status = STATUS_UNCOMMITTED;
-    save();
+    if (save() == null) {
+      return false;
+    }
     inEditState = true;
+    return true;
   }
 
   /**
