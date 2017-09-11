@@ -55,7 +55,7 @@ public class Widgets extends ActivityInstrumentationTestCase2<MyExpenses> {
         "", AccountType.BANK, Account.DEFAULT_COLOR
     );
     a.save();
-    Template t = Template.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION, a.getId());
+    Template t = Template.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION, a.getId(), false);
     t.setAmount(new Money(c,-90000L));
     t.setTitle(translate(l,R.string.testData_templateSubCat));
     t.setPayee(translate(l,R.string.testData_templatePayee));

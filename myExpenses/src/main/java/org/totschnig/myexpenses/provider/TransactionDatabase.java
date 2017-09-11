@@ -123,8 +123,9 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_ALL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_CHANGES_EXTENDED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_ALL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_EXTENDED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
@@ -308,7 +309,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_PLANID + " integer, "
           + KEY_PLAN_EXECUTION + " boolean default 0, "
           + KEY_UUID + " text, "
-          + KEY_LAST_USED + " datetime);";
+          + KEY_LAST_USED + " datetime,"
+          + KEY_PARENTID + " integer references " + TABLE_TEMPLATES + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
+          + KEY_STATUS + " integer default 0);";
 
   private static final String EVENT_CACHE_CREATE =
       "CREATE TABLE " + TABLE_EVENT_CACHE + " ( " +
@@ -617,13 +620,15 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL("CREATE VIEW " + VIEW_COMMITTED + viewTransactions + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
     db.execSQL("CREATE VIEW " + VIEW_UNCOMMITTED + viewTransactions + " WHERE " + KEY_STATUS + " = " + STATUS_UNCOMMITTED + ";");
     db.execSQL("CREATE VIEW " + VIEW_ALL + viewTransactions);
-    db.execSQL("CREATE VIEW " + VIEW_TEMPLATES + buildViewDefinition(TABLE_TEMPLATES));
+    String viewTemplates = buildViewDefinition(TABLE_TEMPLATES);
+    db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_ALL + viewTemplates);
+    db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_UNCOMMITTED + viewTemplates + " WHERE " + KEY_STATUS + " = " + STATUS_UNCOMMITTED + ";");
     db.execSQL(CATEGORIES_CREATE);
     db.execSQL(ACCOUNTS_CREATE);
     db.execSQL(ACCOUNTS_UUID_INDEX_CREATE);
     db.execSQL(SYNC_STATE_CREATE);
     db.execSQL("CREATE VIEW " + VIEW_EXTENDED + buildViewDefinitionExtended(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
-    db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_EXTENDED + buildViewDefinitionExtended(TABLE_TEMPLATES));
+    db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_EXTENDED + buildViewDefinitionExtended(TABLE_TEMPLATES) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
     db.execSQL(ACCOUNTS_TRIGGER_CREATE);
     db.execSQL(ACCOUNTTYE_METHOD_CREATE);
     insertDefaultPaymentMethods(db);
@@ -1556,7 +1561,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
     if (oldVersion < 68) {
       //faulty upgrade to 59
-      db.execSQL("DROP TABLE IF EXISTS sync_from_adapter");
+      //TODO remove sync_from_adapter accounts table
       //TODO remove transfer_peer from template table
     }
   }

@@ -17,23 +17,20 @@ package org.totschnig.myexpenses.model;
 
 import android.content.ContentProviderOperation;
 import android.content.ContentValues;
-import android.database.Cursor;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 
+import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED;
 
 public class SplitTransaction extends Transaction {
   public static final String CSV_INDICATOR = "*";
@@ -41,7 +38,6 @@ public class SplitTransaction extends Transaction {
   private String PART_OR_PEER_SELECT = "(" + KEY_PARENTID + "= ? OR " + KEY_TRANSFER_PEER
       + " IN (SELECT " + KEY_ROWID + " FROM " + TABLE_TRANSACTIONS + " where "
       + KEY_PARENTID + " = ?))";
-  private boolean inEditState = false;
 
   public SplitTransaction(long accountId, Long amount) {
     super(accountId, amount);
@@ -72,6 +68,10 @@ public class SplitTransaction extends Transaction {
     if (account == null) {
       return null;
     }
+    return getNewInstance(account, forEdit);
+  }
+
+  static SplitTransaction getNewInstance(@NonNull Account account, boolean forEdit)  {
     SplitTransaction t = new SplitTransaction(account, 0L);
     if (forEdit) {
       t.status = STATUS_UNCOMMITTED;
@@ -103,23 +103,8 @@ public class SplitTransaction extends Transaction {
     if (getId() != 0) {
       String idStr = String.valueOf(getId());
       if (inEditState) {
-        ContentValues statusValues = new ContentValues();
-        ops.add(ContentProviderOperation.newDelete(uri).withSelection(
-            PART_OR_PEER_SELECT + "  AND " + KEY_STATUS + " != ?",
-            new String[]{idStr, idStr, String.valueOf(STATUS_UNCOMMITTED)}).build());
-        statusValues.put(KEY_STATUS, STATUS_NONE);
-        //for a new split, both the parent and the parts are in state uncommitted
-        //when we edit a split only the parts are in state uncommitted,
-        //in any case we only update the state for rows that are uncommitted, to
-        //prevent altering the state of a parent (e.g. from exported to non-exported)
-        ops.add(ContentProviderOperation.newUpdate(uri).withValues(statusValues).withSelection(
-            KEY_STATUS + " = ? AND " + KEY_ROWID + " = ?",
-            new String[]{String.valueOf(STATUS_UNCOMMITTED), idStr}).build());
-        ops.add(ContentProviderOperation.newUpdate(uri).withValues(statusValues).withSelection(
-            KEY_STATUS + " = ? AND " + PART_OR_PEER_SELECT,
-            new String[]{String.valueOf(STATUS_UNCOMMITTED), idStr, idStr}).build());
+        addCommitOperations(uri, ops);
       }
-
       //make sure that parts have the same date as their parent,
       //otherwise they might be incorrectly counted in groups
       ContentValues dateValues = new ContentValues();
@@ -130,60 +115,13 @@ public class SplitTransaction extends Transaction {
     return ops;
   }
 
-  /**
-   * all Split Parts are cloned and we work with the uncommitted clones
-   *
-   * @param clone if true an uncommited clone of the instance is prepared
-   */
-  public void prepareForEdit(boolean clone) {
-    Long oldId = getId();
-    if (clone) {
-      status = STATUS_UNCOMMITTED;
-      setDate(new Date());
-      super.saveAsNew();
-    }
-    String idStr = String.valueOf(oldId);
-    //we only create uncommited clones if none exist yet
-    Cursor c = cr().query(CONTENT_URI, new String[]{KEY_ROWID},
-        KEY_PARENTID + " = ? AND NOT EXISTS (SELECT 1 from " + VIEW_UNCOMMITTED
-            + " WHERE " + KEY_PARENTID + " = ?)", new String[]{idStr, idStr}, null);
-    c.moveToFirst();
-    while (!c.isAfterLast()) {
-      Transaction part = Transaction.getInstanceFromDb(c.getLong(c.getColumnIndex(KEY_ROWID)));
-      part.status = STATUS_UNCOMMITTED;
-      part.setParentId(getId());
-      part.saveAsNew();
-      c.moveToNext();
-    }
-    c.close();
-    inEditState = true;
+  @Override
+  public String getPartOrPeerSelect() {
+    return PART_OR_PEER_SELECT;
   }
 
-  /**
-   * delete uncommitted rows that are related to this split transaction
-   */
-  public void cleanupCanceledEdit() {
-    String idStr = String.valueOf(getId());
-    cr().delete(CONTENT_URI, KEY_STATUS + " = ? AND " + PART_OR_PEER_SELECT,
-        new String[]{String.valueOf(STATUS_UNCOMMITTED), idStr, idStr});
-    cr().delete(CONTENT_URI, KEY_STATUS + " = ? AND " + KEY_ROWID + " = ?",
-        new String[]{String.valueOf(STATUS_UNCOMMITTED), idStr});
-  }
-
-  public Uri saveAsNew() {
-    Long oldId = getId();
-    //saveAsNew sets new id
-    Uri result = super.saveAsNew();
-    Cursor c = cr().query(CONTENT_URI, new String[]{KEY_ROWID},
-        KEY_PARENTID + " = ?", new String[]{String.valueOf(oldId)}, null);
-    c.moveToFirst();
-    while (!c.isAfterLast()) {
-      Transaction part = Transaction.getInstanceFromDb(c.getLong(c.getColumnIndex(KEY_ROWID)));
-      part.setParentId(getId());
-      part.saveAsNew();
-      c.moveToNext();
-    }
-    c.close();
-    return result;
+  @Override
+  public int operationType() {
+    return MyExpenses.TYPE_SPLIT;
   }
 }

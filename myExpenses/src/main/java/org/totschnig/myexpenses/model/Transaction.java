@@ -26,7 +26,9 @@ import android.net.Uri;
 import android.os.RemoteException;
 import android.support.annotation.StringRes;
 
+import org.apache.commons.lang3.StringUtils;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -38,7 +40,9 @@ import org.totschnig.myexpenses.util.TextUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import timber.log.Timber;
 
@@ -85,10 +89,13 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR_OF_MO
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR_OF_WEEK_START;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.LABEL_MAIN;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.LABEL_SUB;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.THIS_DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.THIS_YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_PEER_PARENT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getMonth;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getThisWeek;
@@ -106,6 +113,7 @@ import static org.totschnig.myexpenses.provider.DbUtils.getLongOrNull;
  * @author Michael Totschnig
  */
 public class Transaction extends Model {
+  protected boolean inEditState = false;
   private String comment = "";
   private String payee = "";
   private String referenceNumber = "";
@@ -577,6 +585,82 @@ public class Transaction extends Model {
     setId(ContentUris.parseId(result[0].uri));
   }
 
+  void addCommitOperations(Uri uri, ArrayList<ContentProviderOperation> ops) {
+    if (isSplit()) {
+      String idStr = String.valueOf(getId());
+      ContentValues statusValues = new ContentValues();
+      String statusUncommited = String.valueOf(STATUS_UNCOMMITTED);
+      String[] uncommitedPartOrPeerSelectArgs = getPartOrPeerSelectArgs(statusUncommited);
+      ops.add(ContentProviderOperation.newDelete(uri).withSelection(
+          getPartOrPeerSelect() + "  AND " + KEY_STATUS + " != ?", uncommitedPartOrPeerSelectArgs).build());
+      statusValues.put(KEY_STATUS, STATUS_NONE);
+      //for a new split, both the parent and the parts are in state uncommitted
+      //when we edit a split only the parts are in state uncommitted,
+      //in any case we only update the state for rows that are uncommitted, to
+      //prevent altering the state of a parent (e.g. from exported to non-exported)
+      ops.add(ContentProviderOperation.newUpdate(uri).withValues(statusValues).withSelection(
+          KEY_STATUS + " = ? AND " + KEY_ROWID + " = ?",
+          new String[]{statusUncommited, idStr}).build());
+      ops.add(ContentProviderOperation.newUpdate(uri).withValues(statusValues).withSelection(
+          getPartOrPeerSelect() + "  AND " + KEY_STATUS + " = ?",
+          uncommitedPartOrPeerSelectArgs).build());
+    }
+  }
+
+  protected String getPartOrPeerSelect() {
+    return null;
+  }
+
+  private String[] getPartOrPeerSelectArgs(String extra) {
+    int count =  StringUtils.countMatches(getPartOrPeerSelect(), '?');
+    List<String> args = new ArrayList<>();
+    args.addAll(Collections.nCopies(count, String.valueOf(getId())));
+    if (extra != null) {
+      args.add(extra);
+    }
+    return args.toArray(new String[args.size()]);
+  }
+
+  /**
+   * all Split Parts are cloned and we work with the uncommitted clones
+   *
+   * @param clone if true an uncommited clone of the instance is prepared
+   */
+
+  public void prepareForEdit(boolean clone) {
+    if (isSplit()) {
+      Long oldId = getId();
+      if (clone) {
+        status = STATUS_UNCOMMITTED;
+        setDate(new Date());
+        saveAsNew();
+      }
+      String idStr = String.valueOf(oldId);
+      //we only create uncommited clones if none exist yet
+      Cursor c = cr().query(getContentUri(), new String[]{KEY_ROWID},
+          KEY_PARENTID + " = ? AND NOT EXISTS (SELECT 1 from " + getUncommitedView()
+              + " WHERE " + KEY_PARENTID + " = ?)", new String[]{idStr, idStr}, null);
+      c.moveToFirst();
+      while (!c.isAfterLast()) {
+        Transaction part = Transaction.getInstanceFromDb(c.getLong(c.getColumnIndex(KEY_ROWID)));
+        part.status = STATUS_UNCOMMITTED;
+        part.setParentId(getId());
+        part.saveAsNew();
+        c.moveToNext();
+      }
+      c.close();
+      inEditState = true;
+    }
+  }
+
+  public Uri getContentUri() {
+    return CONTENT_URI;
+  }
+
+  public String getUncommitedView() {
+    return VIEW_UNCOMMITTED;
+  }
+
   /**
    * Constructs the {@link ArrayList} of {@link ContentProviderOperation}s necessary for saving
    * the transaction
@@ -706,9 +790,27 @@ public class Transaction extends Model {
   }
 
   public Uri saveAsNew() {
+    Long oldId = getId();
     setId(0L);
     uuid = null;
-    return save();
+    Uri result = save();
+    if (isSplit()) {
+      Cursor c = cr().query(getContentUri(), new String[]{KEY_ROWID},
+          KEY_PARENTID + " = ?", new String[]{String.valueOf(oldId)}, null);
+      if (c != null) {
+        c.moveToFirst();
+        while (!c.isAfterLast()) {
+          Transaction part = Transaction.getInstanceFromDb(c.getLong(c.getColumnIndex(KEY_ROWID)));
+          if (part != null) {
+            part.setParentId(getId());
+            part.saveAsNew();
+          }
+          c.moveToNext();
+        }
+        c.close();
+      }
+    }
+    return result;
   }
 
   /**
@@ -920,5 +1022,28 @@ public class Transaction extends Model {
       mCursor.close();
       return result;
     }
+  }
+
+  public void cleanupCanceledEdit() {
+    if (isSplit()) {
+      String idStr = String.valueOf(getId());
+      String statusUncommited = String.valueOf(STATUS_UNCOMMITTED);
+      cr().delete(getContentUri(),getPartOrPeerSelect() + "  AND " + KEY_STATUS + " = ?",
+          getPartOrPeerSelectArgs(statusUncommited));
+      cr().delete(getContentUri(), KEY_STATUS + " = ? AND " + KEY_ROWID + " = ?",
+          new String[]{statusUncommited, idStr});
+    }
+  }
+
+  public boolean isTransfer() {
+    return operationType() == MyExpenses.TYPE_TRANSFER;
+  }
+
+  public boolean isSplit() {
+    return operationType() == MyExpenses.TYPE_SPLIT;
+  }
+
+  public int operationType() {
+    return MyExpenses.TYPE_TRANSACTION;
   }
 }

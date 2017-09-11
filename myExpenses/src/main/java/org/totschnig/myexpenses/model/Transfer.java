@@ -21,6 +21,8 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.net.Uri;
 
+import org.totschnig.myexpenses.activity.MyExpenses;
+
 import java.util.ArrayList;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
@@ -86,7 +88,7 @@ public class Transfer extends Transaction {
   }
 
   public Transfer(Account account, long amount) {
-    this(account, amount, null);
+    super(account, amount);
   }
 
   public Transfer(Account account, long amount, Account transferAccount) {
@@ -231,5 +233,10 @@ public class Transfer extends Transaction {
 
   public String printLabelWithPrefix() {
     return getIndicatorPrefixForLabel(getAmount().getAmountMinor()) + " " + getLabel();
+  }
+
+  @Override
+  public int operationType() {
+    return MyExpenses.TYPE_TRANSFER;
   }
 }

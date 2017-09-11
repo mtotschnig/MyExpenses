@@ -73,7 +73,7 @@ public class TemplateTest extends ModelTest  {
    */
   private void newInstanceTestHelper(int type) {
     Template t,restored;
-    t = Template.getTypedNewInstance(type, mAccount1.getId());
+    t = Template.getTypedNewInstance(type, mAccount1.getId(), false);
     assert t != null;
     t.setTitle("Template");
     t.save();
