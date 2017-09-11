@@ -1557,6 +1557,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     if (oldVersion < 68) {
       //faulty upgrade to 59
       db.execSQL("DROP TABLE IF EXISTS sync_from_adapter");
+      //TODO remove transfer_peer from template table
     }
   }
 
