@@ -145,6 +145,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_ALL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_CHANGES_EXTENDED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_ALL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_EXTENDED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED;
@@ -714,7 +715,7 @@ public class TransactionProvider extends ContentProvider {
           projection = Template.PROJECTION_BASE;
         break;
       case TEMPLATE_ID:
-        qb.setTables(VIEW_TEMPLATES_EXTENDED);
+        qb.setTables(VIEW_TEMPLATES_ALL);
         qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
         if (projection == null)
           projection = Template.PROJECTION_EXTENDED;

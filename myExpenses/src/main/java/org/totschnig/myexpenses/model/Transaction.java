@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import timber.log.Timber;
 
@@ -160,6 +161,7 @@ public class Transaction extends Model {
         LABEL_SUB,
         KEY_PAYEE_NAME,
         KEY_TRANSFER_PEER,
+        KEY_TRANSFER_ACCOUNT,
         KEY_METHODID,
         KEY_METHOD_LABEL,
         KEY_CR_STATUS,
@@ -433,19 +435,48 @@ public class Transaction extends Model {
 
   public static Transaction getInstanceFromTemplate(Template te) {
     Transaction tr;
-    if (te.isTransfer()) {
-      tr = new Transfer(te.getAccountId(), te.getAmount());
-      tr.setTransferAccountId(te.getTransferAccountId());
-    } else {
-      tr = new Transaction(te.getAccountId(), te.getAmount());
-      tr.setMethodId(te.getMethodId());
-      tr.setMethodLabel(te.getMethodLabel());
-      tr.setCatId(te.getCatId());
+    switch(te.operationType()) {
+      case TYPE_TRANSACTION:
+        tr = new Transaction(te.getAccountId(), te.getAmount());
+        tr.setMethodId(te.getMethodId());
+        tr.setMethodLabel(te.getMethodLabel());
+        tr.setCatId(te.getCatId());
+        break;
+      case TYPE_TRANSFER:
+        tr = new Transfer(te.getAccountId(), te.getAmount());
+        tr.setTransferAccountId(te.getTransferAccountId());
+        break;
+      case TYPE_SPLIT:
+        tr = new SplitTransaction(te.getAccountId(), te.getAmount());
+        tr.setMethodId(te.getMethodId());
+        tr.setMethodLabel(te.getMethodLabel());
+        break;
+      default:
+        throw new IllegalStateException(
+            String.format(Locale.ROOT, "Unknown type %d", te.operationType()));
     }
     tr.setComment(te.getComment());
     tr.setPayee(te.getPayee());
     tr.setLabel(te.getLabel());
     tr.originTemplate = te;
+    if (tr instanceof SplitTransaction) {
+      ((SplitTransaction) tr).persistForEdit();
+      Cursor c = cr().query(Template.CONTENT_URI, new String[]{KEY_ROWID},
+          KEY_PARENTID + " = ?", new String[]{String.valueOf(te.getId())}, null);
+      if (c != null) {
+        c.moveToFirst();
+        while (!c.isAfterLast()) {
+          Transaction part = Transaction.getInstanceFromTemplate(c.getLong(c.getColumnIndex(KEY_ROWID)));
+          if (part != null) {
+            part.status = STATUS_UNCOMMITTED;
+            part.setParentId(tr.getId());
+            part.saveAsNew();
+          }
+          c.moveToNext();
+        }
+        c.close();
+      }
+    }
     cr().update(
         TransactionProvider.TEMPLATES_URI
             .buildUpon()
@@ -642,17 +673,25 @@ public class Transaction extends Model {
       Cursor c = cr().query(getContentUri(), new String[]{KEY_ROWID},
           KEY_PARENTID + " = ? AND NOT EXISTS (SELECT 1 from " + getUncommitedView()
               + " WHERE " + KEY_PARENTID + " = ?)", new String[]{idStr, idStr}, null);
-      c.moveToFirst();
-      while (!c.isAfterLast()) {
-        Transaction part = Transaction.getInstanceFromDb(c.getLong(c.getColumnIndex(KEY_ROWID)));
-        part.status = STATUS_UNCOMMITTED;
-        part.setParentId(getId());
-        part.saveAsNew();
-        c.moveToNext();
+      if (c != null) {
+        c.moveToFirst();
+        while (!c.isAfterLast()) {
+          Transaction part = getSplitPart(c.getLong(c.getColumnIndex(KEY_ROWID)));
+          if (part != null) {
+            part.status = STATUS_UNCOMMITTED;
+            part.setParentId(getId());
+            part.saveAsNew();
+          }
+          c.moveToNext();
+        }
+        c.close();
       }
-      c.close();
       inEditState = true;
     }
+  }
+
+  protected Transaction getSplitPart(long parentId) {
+    return Transaction.getInstanceFromDb(parentId);
   }
 
   public Uri getContentUri() {
@@ -802,7 +841,7 @@ public class Transaction extends Model {
       if (c != null) {
         c.moveToFirst();
         while (!c.isAfterLast()) {
-          Transaction part = Transaction.getInstanceFromDb(c.getLong(c.getColumnIndex(KEY_ROWID)));
+          Transaction part = getSplitPart(c.getLong(c.getColumnIndex(KEY_ROWID)));
           if (part != null) {
             part.setParentId(getId());
             part.saveAsNew();

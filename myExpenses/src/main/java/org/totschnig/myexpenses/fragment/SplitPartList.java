@@ -62,6 +62,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_MAIN;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 
 //TODO: consider moving to ListFragment
 public class SplitPartList extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -136,8 +137,7 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
       @Override
       public void onItemClick(AdapterView<?> a, View v, int position, long id) {
         Intent i = new Intent(ctx, ExpenseEdit.class);
-        i.putExtra(KEY_ROWID, id);
-        //i.putExtra("operationType", operationType);
+        i.putExtra(parentIsTemplate() ? KEY_TEMPLATEID : KEY_ROWID, id);
         startActivityForResult(i, MyExpenses.EDIT_TRANSACTION_REQUEST);
       }
     });
@@ -177,7 +177,7 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
   public Loader<Cursor> onCreateLoader(int id, Bundle args) {
     String[] selectionArgs = new String[] {String.valueOf(parentId)};
     CursorLoader cursorLoader = null;
-    Uri uri = getArguments().getBoolean(KEY_PARENT_IS_TEMPLATE) ?
+    Uri uri = parentIsTemplate() ?
         TransactionProvider.TEMPLATES_UNCOMMITTED_URI : TransactionProvider.UNCOMMITTED_URI;
     switch(id) {
     case ExpenseEdit.TRANSACTION_CURSOR:
@@ -190,6 +190,10 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
           selectionArgs, null);
     }
     return cursorLoader;
+  }
+
+  private boolean parentIsTemplate() {
+    return getArguments().getBoolean(KEY_PARENT_IS_TEMPLATE);
   }
 
   @Override

@@ -160,7 +160,11 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2:
         return Transaction.getInstanceFromDb((Long) ids[0]);
       case TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE:
-        return Template.getInstanceFromDb((Long) ids[0]);
+        Template template = Template.getInstanceFromDb((Long) ids[0]);
+        if (template != null) {
+          template.prepareForEdit(false);
+        }
+        return template;
       case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE:
         // when we are called from a notification,
         // the template could have been deleted in the meantime

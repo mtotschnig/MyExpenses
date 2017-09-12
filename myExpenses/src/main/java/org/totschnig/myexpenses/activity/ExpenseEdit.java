@@ -203,7 +203,7 @@ public class ExpenseEdit extends AmountActivity implements
   private ToggleButton mPlanToggleButton;
   private ImageView mAttachPictureButton;
   private FrameLayout mPictureViewContainer;
-  public Long mRowId = 0L;
+  private Long mRowId = 0L;
   private Long mTemplateId;
   private Account[] mAccounts;
   private Calendar mCalendar = Calendar.getInstance();
@@ -432,7 +432,7 @@ public class ExpenseEdit extends AmountActivity implements
         objectId = mRowId;
       } else {
         objectId = mTemplateId;
-        //are we editing the template or instantiating a new one
+        //are we editing the template or instantiating a new transaction from the template
         if ((mPlanInstanceId = getIntent().getLongExtra(KEY_INSTANCEID, 0)) != 0L) {
           taskId = TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE;
           mPlanInstanceDate = getIntent().getLongExtra(KEY_DATE, 0);
@@ -860,7 +860,7 @@ public class ExpenseEdit extends AmountActivity implements
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     super.onCreateOptionsMenu(menu);
-    if (!(isNoMainTransaction() ||
+    if (mTransaction != null && !(isNoMainTransaction() ||
         (mTransaction instanceof SplitTransaction &&
             !MyApplication.getInstance().getLicenceHandler().isContribEnabled()))) {
       MenuItemCompat.setShowAsAction(

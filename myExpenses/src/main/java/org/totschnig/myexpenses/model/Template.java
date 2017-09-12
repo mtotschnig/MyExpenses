@@ -229,16 +229,16 @@ public class Template extends Transaction {
     super();
     Currency currency;
     int currencyColumnIndex = c.getColumnIndex(KEY_CURRENCY);
+    long accountId = c.getLong(c.getColumnIndexOrThrow(KEY_ACCOUNTID));
     //we allow the object to be instantiated without instantiation of
     //the account, because the latter triggers an error (getDatabase called recursively)
     //when we need a template instance in database onUpgrade
     if (currencyColumnIndex != -1) {
       currency = Utils.getSaveInstance(c.getString(currencyColumnIndex));
     } else {
-      currency = Account.getInstanceFromDb(this.getAccountId()).currency;
+      currency = Account.getInstanceFromDb(accountId).currency;
     }
     Money amount = new Money(currency, c.getLong(c.getColumnIndexOrThrow(KEY_AMOUNT)));
-    long accountId = c.getLong(c.getColumnIndexOrThrow(KEY_ACCOUNTID));
     boolean isTransfer = !c.isNull(c.getColumnIndexOrThrow(KEY_TRANSFER_ACCOUNT));
     Long catId = getLongOrNull(c, KEY_CATID);
     if (isTransfer) {
@@ -259,6 +259,7 @@ public class Template extends Transaction {
     setLabel(DbUtils.getString(c, KEY_LABEL));
     setTitle(DbUtils.getString(c, KEY_TITLE));
     planId = DbUtils.getLongOrNull(c, KEY_PLANID);
+    setParentId(DbUtils.getLongOrNull(c, KEY_PARENTID));
     setPlanExecutionAutomatic(c.getInt(c.getColumnIndexOrThrow(KEY_PLAN_EXECUTION)) > 0);
     int uuidColumnIndex = c.getColumnIndexOrThrow(KEY_UUID);
     if (c.isNull(uuidColumnIndex)) {//while upgrade to DB schema 47, uuid is still null
@@ -417,7 +418,7 @@ public class Template extends Transaction {
     } else {
       uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build();
       ops.add(ContentProviderOperation.newUpdate(uri).withValues(initialValues).build());
-      addCommitOperations(uri, ops);
+      addCommitOperations(CONTENT_URI, ops);
       try {
         cr().applyBatch(TransactionProvider.AUTHORITY, ops);
       } catch (RemoteException | OperationApplicationException | SQLiteConstraintException e) {
@@ -605,5 +606,10 @@ public class Template extends Transaction {
   @Override
   protected String getPartOrPeerSelect() {
     return PART_SELECT;
+  }
+
+  @Override
+  protected Transaction getSplitPart(long parentId) {
+    return Template.getInstanceFromDb(parentId);
   }
 }
