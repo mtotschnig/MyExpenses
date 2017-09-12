@@ -41,10 +41,10 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.CommonCommands;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.activity.FolderBrowser;
-import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogPreference;
@@ -151,19 +151,19 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
           nameId = R.string.transaction;
           bitmap = getBitmapForShortcut(R.drawable.shortcut_create_transaction_icon,
               R.drawable.shortcut_create_transaction_icon_lollipop);
-          operationType = MyExpenses.TYPE_TRANSACTION;
+          operationType = Transaction.TYPE_TRANSACTION;
         }
         if (matches(preference, SHORTCUT_CREATE_TRANSFER)) {
           nameId = R.string.transfer;
           bitmap = getBitmapForShortcut(R.drawable.shortcut_create_transfer_icon,
               R.drawable.shortcut_create_transfer_icon_lollipop);
-          operationType = MyExpenses.TYPE_TRANSFER;
+          operationType = Transaction.TYPE_TRANSFER;
         }
         if (matches(preference, SHORTCUT_CREATE_SPLIT)) {
           nameId = R.string.split_transaction;
           bitmap = getBitmapForShortcut(R.drawable.shortcut_create_split_icon,
               R.drawable.shortcut_create_split_icon_lollipop);
-          operationType = MyExpenses.TYPE_SPLIT;
+          operationType = Transaction.TYPE_SPLIT;
         }
         if (nameId != 0) {
           addShortcut(nameId, operationType, bitmap);

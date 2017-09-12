@@ -31,6 +31,7 @@ import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -127,7 +128,7 @@ public class AccountWidget extends AbstractWidget<Account> {
           context.getString(R.string.menu_create_transaction));
     }
     intent = buildButtonIntent(context, account);
-    intent.putExtra(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_TRANSFER);
+    intent.putExtra(MyApplication.KEY_OPERATION_TYPE, Transaction.TYPE_TRANSFER);
     pendingIntent = PendingIntent.getActivity(
         context,
         2 * widgetId + 1,

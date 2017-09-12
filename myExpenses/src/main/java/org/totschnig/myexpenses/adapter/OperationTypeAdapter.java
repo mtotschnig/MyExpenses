@@ -9,7 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.model.Transaction;
 
 import java.util.List;
 
@@ -42,12 +42,12 @@ public class OperationTypeAdapter extends ArrayAdapter<Integer> {
 
   private int getLabelResid(Integer operationType) {
     switch (operationType) {
-      case MyExpenses.TYPE_SPLIT:
+      case Transaction.TYPE_SPLIT:
         return isTemplate ? R.string.menu_create_template_for_split : R.string.menu_create_split;
-      case MyExpenses.TYPE_TRANSFER:
+      case Transaction.TYPE_TRANSFER:
         return isSplitPart ? R.string.menu_create_split_part_transfer :
             (isTemplate ? R.string.menu_create_template_for_transfer : R.string.menu_create_transfer);
-      case MyExpenses.TYPE_TRANSACTION:
+      case Transaction.TYPE_TRANSACTION:
         return isSplitPart ? R.string.menu_create_split_part_category :
             (isTemplate ? R.string.menu_create_template_for_transaction : R.string.menu_create_transaction);
       default:

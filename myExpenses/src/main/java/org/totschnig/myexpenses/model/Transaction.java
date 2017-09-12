@@ -28,7 +28,6 @@ import android.support.annotation.StringRes;
 
 import org.apache.commons.lang3.StringUtils;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -113,6 +112,9 @@ import static org.totschnig.myexpenses.provider.DbUtils.getLongOrNull;
  * @author Michael Totschnig
  */
 public class Transaction extends Model {
+  public static final int TYPE_TRANSACTION = 0;
+  public static final int TYPE_TRANSFER = 1;
+  public static final int TYPE_SPLIT = 2;
   protected boolean inEditState = false;
   private String comment = "";
   private String payee = "";
@@ -1036,11 +1038,11 @@ public class Transaction extends Model {
   }
 
   public boolean isTransfer() {
-    return operationType() == MyExpenses.TYPE_TRANSFER;
+    return operationType() == TYPE_TRANSFER;
   }
 
   public boolean isSplit() {
-    return operationType() == MyExpenses.TYPE_SPLIT;
+    return operationType() == TYPE_SPLIT;
   }
 
   public boolean isSplitpart() {
@@ -1048,6 +1050,6 @@ public class Transaction extends Model {
   }
 
   public int operationType() {
-    return MyExpenses.TYPE_TRANSACTION;
+    return TYPE_TRANSACTION;
   }
 }

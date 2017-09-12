@@ -12,7 +12,6 @@ import android.os.Build;
 import junit.framework.Assert;
 
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.fortest.test.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
@@ -211,7 +210,7 @@ public class Fixture {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-    Template template = Template.getTypedNewInstance(MyExpenses.TYPE_TRANSACTION, account3.getId(), false, null);
+    Template template = Template.getTypedNewInstance(Transaction.TYPE_TRANSACTION, account3.getId(), false, null);
     template.setAmount(new Money(defaultCurrency,-90000L));
     String templateSubCat = testContext.getString(R.string.testData_templateSubCat);
     template.setCatId(findCat(templateSubCat,

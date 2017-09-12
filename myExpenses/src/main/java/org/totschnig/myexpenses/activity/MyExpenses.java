@@ -149,10 +149,6 @@ public class MyExpenses extends LaunchActivity implements
     ConfirmationDialogFragment.ConfirmationDialogCheckedListener,
     ConfirmationDialogListener, ContribIFace, SimpleDialog.OnDialogResultListener {
 
-  public static final int TYPE_TRANSACTION = 0;
-  public static final int TYPE_TRANSFER = 1;
-  public static final int TYPE_SPLIT = 2;
-
   public static final long TRESHOLD_REMIND_RATE = 47L;
 
   public static final int ACCOUNTS_CURSOR = -1;
@@ -474,7 +470,7 @@ public class MyExpenses extends LaunchActivity implements
    */
   private void createRow() {
     Intent i = new Intent(this, ExpenseEdit.class);
-    i.putExtra(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_TRANSACTION);
+    i.putExtra(MyApplication.KEY_OPERATION_TYPE, Transaction.TYPE_TRANSACTION);
     //if we are called from an aggregate cursor, we also hand over the currency
     if (mAccountId < 0 && mAccountsCursor != null && mAccountsCursor.moveToPosition(mCurrentPosition)) {
       i.putExtra(KEY_CURRENCY, mAccountsCursor.getString(columnIndexCurrency));

@@ -12,9 +12,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
-import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.testutils.Matchers;
 
@@ -61,7 +61,7 @@ public class ExpenseEditTest {
   public void formForTransactionIsPrepared() {
     Intent i = new Intent(Intent.ACTION_EDIT);
     i.setClassName("org.totschnig.myexpenses.activity", "org.totschnig.myexpenses.activity.ExpenseEdit");
-    i.putExtra("operationType", MyExpenses.TYPE_TRANSACTION);
+    i.putExtra("operationType", Transaction.TYPE_TRANSACTION);
     mActivityRule.launchActivity(i);
     for (int resId : new int[]{
         R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
@@ -75,7 +75,7 @@ public class ExpenseEditTest {
   public void formForTransferIsPrepared() {
     Intent i = new Intent(Intent.ACTION_EDIT);
     i.setClassName("org.totschnig.myexpenses.activity", "org.totschnig.myexpenses.activity.ExpenseEdit");
-    i.putExtra("operationType", MyExpenses.TYPE_TRANSFER);
+    i.putExtra("operationType", Transaction.TYPE_TRANSFER);
     mActivityRule.launchActivity(i);
     for (int resId : new int[]{
         R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.AccountRow, R.id.TransferAccountRow}
@@ -88,7 +88,7 @@ public class ExpenseEditTest {
   public void formForSplitIsPrepared() {
     Intent i = new Intent(Intent.ACTION_EDIT);
     i.setClassName("org.totschnig.myexpenses.activity", "org.totschnig.myexpenses.activity.ExpenseEdit");
-    i.putExtra("operationType", MyExpenses.TYPE_SPLIT);
+    i.putExtra("operationType", Transaction.TYPE_SPLIT);
     mActivityRule.launchActivity(i);
     for (int resId : new int[]{
         R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.SplitContainer,
@@ -104,7 +104,7 @@ public class ExpenseEditTest {
     for (Account a: allAccounts) {
       Intent i = new Intent(Intent.ACTION_EDIT);
       i.setClassName("org.totschnig.myexpenses.activity", "org.totschnig.myexpenses.activity.ExpenseEdit");
-      i.putExtra("operationType", MyExpenses.TYPE_TRANSACTION);
+      i.putExtra("operationType", Transaction.TYPE_TRANSACTION);
       i.putExtra(DatabaseConstants.KEY_ACCOUNTID, a.getId());
       mActivityRule.launchActivity(i);
       onView(withId(R.id.Account)).check(matches(Matchers.withSpinnerText(a.label)));
@@ -119,7 +119,7 @@ public class ExpenseEditTest {
       //we assume that Fixture has set up the default account with id 1
       Intent i = new Intent(Intent.ACTION_EDIT);
       i.setClassName("org.totschnig.myexpenses.activity", "org.totschnig.myexpenses.activity.ExpenseEdit");
-      i.putExtra("operationType", MyExpenses.TYPE_TRANSACTION);
+      i.putExtra("operationType", Transaction.TYPE_TRANSACTION);
       i.putExtra(DatabaseConstants.KEY_CURRENCY, c.getCurrencyCode());
       mActivityRule.launchActivity(i);
       assertEquals("Account is not selected", c, mActivityRule.getActivity().getCurrentAccount().currency);
@@ -132,7 +132,7 @@ public class ExpenseEditTest {
   public void saveAsNewWorksMultipleTimesInARow() {
     Intent i = new Intent(Intent.ACTION_EDIT);
     i.setClassName("org.totschnig.myexpenses.activity", "org.totschnig.myexpenses.activity.ExpenseEdit");
-    i.putExtra("operationType", MyExpenses.TYPE_TRANSACTION);
+    i.putExtra("operationType", Transaction.TYPE_TRANSACTION);
     i.putExtra(DatabaseConstants.KEY_ACCOUNTID, account1.getId());
     mActivityRule.launchActivity(i);
     String success = mActivityRule.getActivity().getString(R.string.save_transaction_and_new_success);

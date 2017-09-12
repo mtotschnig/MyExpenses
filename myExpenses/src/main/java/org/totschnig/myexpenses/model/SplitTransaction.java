@@ -20,7 +20,6 @@ import android.content.ContentValues;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
-import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 
 import java.util.ArrayList;
@@ -122,6 +121,6 @@ public class SplitTransaction extends Transaction {
 
   @Override
   public int operationType() {
-    return MyExpenses.TYPE_SPLIT;
+    return TYPE_SPLIT;
   }
 }

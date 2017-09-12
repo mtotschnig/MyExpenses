@@ -21,8 +21,6 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.net.Uri;
 
-import org.totschnig.myexpenses.activity.MyExpenses;
-
 import java.util.ArrayList;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
@@ -237,6 +235,6 @@ public class Transfer extends Transaction {
 
   @Override
   public int operationType() {
-    return MyExpenses.TYPE_TRANSFER;
+    return TYPE_TRANSFER;
   }
 }

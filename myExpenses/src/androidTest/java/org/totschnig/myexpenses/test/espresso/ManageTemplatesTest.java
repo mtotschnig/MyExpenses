@@ -13,10 +13,10 @@ import org.junit.Test;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
-import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Template;
+import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 
 import static android.support.test.espresso.Espresso.onData;
@@ -43,7 +43,7 @@ public class ManageTemplatesTest {
   @BeforeClass
   public static void fixture() {
     account = Account.getInstanceFromDb(0);
-    template = new Template(account, MyExpenses.TYPE_TRANSACTION, null);
+    template = new Template(account, Transaction.TYPE_TRANSACTION, null);
     template.setAmount(new Money(account.currency, -1200L));
     template.setTitle("Espresso Test Template");
     template.save();

@@ -14,20 +14,20 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
-import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.SimpleToastActivity;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 
 import java.util.Collections;
 
 public class ShortcutHelper {
   public static Intent createIntentForNewSplit(Context context) {
-    return createIntentForNewTransaction(context, MyExpenses.TYPE_SPLIT);
+    return createIntentForNewTransaction(context, Transaction.TYPE_SPLIT);
   }
 
   public static Intent createIntentForNewTransfer(Context context) {
-    return createIntentForNewTransaction(context, MyExpenses.TYPE_TRANSFER);
+    return createIntentForNewTransaction(context, Transaction.TYPE_TRANSFER);
   }
 
   public static Intent createIntentForNewTransaction(Context context, int operationType) {

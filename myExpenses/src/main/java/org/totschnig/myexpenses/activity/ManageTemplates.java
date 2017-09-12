@@ -31,6 +31,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.fragment.TemplatesList;
+import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
@@ -88,7 +89,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
     switch (command) {
       case R.id.CREATE_COMMAND:
         i = new Intent(this, ExpenseEdit.class);
-        i.putExtra(MyApplication.KEY_OPERATION_TYPE, MyExpenses.TYPE_TRANSACTION);
+        i.putExtra(MyApplication.KEY_OPERATION_TYPE, Transaction.TYPE_TRANSACTION);
         i.putExtra(ExpenseEdit.KEY_NEW_TEMPLATE, true);
         startActivity(i);
         return true;

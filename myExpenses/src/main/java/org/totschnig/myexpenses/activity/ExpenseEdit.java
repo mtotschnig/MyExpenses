@@ -136,9 +136,9 @@ import javax.inject.Inject;
 import timber.log.Timber;
 
 import static org.totschnig.myexpenses.activity.MyExpenses.KEY_SEQUENCE_COUNT;
-import static org.totschnig.myexpenses.activity.MyExpenses.TYPE_SPLIT;
-import static org.totschnig.myexpenses.activity.MyExpenses.TYPE_TRANSACTION;
-import static org.totschnig.myexpenses.activity.MyExpenses.TYPE_TRANSFER;
+import static org.totschnig.myexpenses.model.Transaction.TYPE_SPLIT;
+import static org.totschnig.myexpenses.model.Transaction.TYPE_TRANSACTION;
+import static org.totschnig.myexpenses.model.Transaction.TYPE_TRANSFER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;

@@ -27,7 +27,6 @@ import android.net.Uri;
 import android.os.RemoteException;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.CalendarProviderProxy;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -273,13 +272,13 @@ public class Template extends Transaction {
     super();
     setTitle("");
     switch (operationType) {
-      case MyExpenses.TYPE_TRANSACTION:
+      case TYPE_TRANSACTION:
         template = Transaction.getNewInstance(account.getId());
         break;
-      case MyExpenses.TYPE_TRANSFER:
+      case TYPE_TRANSFER:
         template = Transfer.getNewInstance(account.getId());
         break;
-      case MyExpenses.TYPE_SPLIT:
+      case TYPE_SPLIT:
         template = SplitTransaction.getNewInstance(account, false);
         break;
       default:

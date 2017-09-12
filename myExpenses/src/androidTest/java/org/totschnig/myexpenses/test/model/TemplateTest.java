@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses.test.model;
 
-import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Template;
@@ -63,10 +62,10 @@ public class TemplateTest extends ModelTest  {
   }
 
   public void testGetTypedNewInstanceTransaction() {
-    newInstanceTestHelper(MyExpenses.TYPE_TRANSACTION);
+    newInstanceTestHelper(Transaction.TYPE_TRANSACTION);
   }
   public void testGetTypedNewInstanceTransfer() {
-    newInstanceTestHelper(MyExpenses.TYPE_TRANSFER);
+    newInstanceTestHelper(Transaction.TYPE_TRANSFER);
   }
   /**
    * 
