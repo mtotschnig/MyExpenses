@@ -743,7 +743,7 @@ public class ExpenseEdit extends AmountActivity implements
       if (findSplitPartList() == null) {
         FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction()
-            .add(R.id.OneExpense, SplitPartList.newInstance(mTransaction.getId(), mTransaction.getAccountId()), SPLIT_PART_LIST)
+            .add(R.id.OneExpense, SplitPartList.newInstance(mTransaction), SPLIT_PART_LIST)
             .commit();
         fm.executePendingTransactions();
       }

@@ -146,6 +146,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_CHANGES_E
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_EXTENDED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_DEPENDENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_EXPENSE;
@@ -181,6 +182,8 @@ public class TransactionProvider extends ContentProvider {
       Uri.parse("content://" + AUTHORITY + "/transactions/uncommitted");
   public static final Uri TEMPLATES_URI =
       Uri.parse("content://" + AUTHORITY + "/templates");
+  public static final Uri TEMPLATES_UNCOMMITTED_URI =
+      Uri.parse("content://" + AUTHORITY + "/templates/uncommitted");
   public static final Uri CATEGORIES_URI =
       Uri.parse("content://" + AUTHORITY + "/categories");
   public static final Uri AGGREGATES_COUNT_URI =
@@ -286,6 +289,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int MAPPED_TRANSFER_ACCOUNTS = 41;
   private static final int CHANGES = 42;
   private static final int SETTINGS = 43;
+  private static final int TEMPLATES_UNCOMMITED = 44;
 
   private boolean mDirty = false;
 
@@ -344,7 +348,6 @@ public class TransactionProvider extends ContentProvider {
         break;
       case UNCOMMITTED:
         qb.setTables(VIEW_UNCOMMITTED);
-        defaultOrderBy = KEY_DATE + " DESC";
         if (projection == null)
           projection = Transaction.PROJECTION_BASE;
         break;
@@ -705,6 +708,11 @@ public class TransactionProvider extends ContentProvider {
         if (projection == null)
           projection = Template.PROJECTION_EXTENDED;
         break;
+      case TEMPLATES_UNCOMMITED:
+        qb.setTables(VIEW_TEMPLATES_UNCOMMITTED);
+        if (projection == null)
+          projection = Template.PROJECTION_BASE;
+        break;
       case TEMPLATE_ID:
         qb.setTables(VIEW_TEMPLATES_EXTENDED);
         qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
@@ -917,6 +925,8 @@ public class TransactionProvider extends ContentProvider {
       notifyChange(UNCOMMITTED_URI, false);
     } else if (uriMatch == ACCOUNTS) {
       notifyChange(ACCOUNTS_BASE_URI, false);
+    } else if (uriMatch == TEMPLATES) {
+      notifyChange(TEMPLATES_UNCOMMITTED_URI, false);
     }
     return id > 0 ? Uri.parse(newUri) : null;
   }
@@ -1073,6 +1083,9 @@ public class TransactionProvider extends ContentProvider {
     } else {
       if (uriMatch == ACCOUNTS) {
         notifyChange(ACCOUNTS_BASE_URI, false);
+      }
+      if (uriMatch == TEMPLATES || uriMatch == TEMPLATE_ID) {
+        notifyChange(TEMPLATES_UNCOMMITTED_URI, false);
       }
       notifyChange(uri, false);
     }
@@ -1410,6 +1423,9 @@ public class TransactionProvider extends ContentProvider {
     if (uriMatch == CURRENCIES_CHANGE_FRACTION_DIGITS || uriMatch == TEMPLATES_INCREASE_USAGE) {
       notifyChange(TEMPLATES_URI, false);
     }
+    if (uriMatch == TEMPLATES || uriMatch == TEMPLATE_ID) {
+      notifyChange(TEMPLATES_UNCOMMITTED_URI, false);
+    }
     return count;
   }
 
@@ -1492,6 +1508,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "accounts/aggregatesCount", AGGREGATES_COUNT);
     URI_MATCHER.addURI(AUTHORITY, "accounttypes_methods", ACCOUNTTYPES_METHODS);
     URI_MATCHER.addURI(AUTHORITY, "templates", TEMPLATES);
+    URI_MATCHER.addURI(AUTHORITY, "templates/uncommitted", TEMPLATES_UNCOMMITED);
     URI_MATCHER.addURI(AUTHORITY, "templates/#", TEMPLATE_ID);
     URI_MATCHER.addURI(AUTHORITY, "templates/#/" + URI_SEGMENT_INCREASE_USAGE, TEMPLATES_INCREASE_USAGE);
     URI_MATCHER.addURI(AUTHORITY, "sqlite_sequence/*", SQLITE_SEQUENCE_TABLE);

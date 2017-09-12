@@ -23,7 +23,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_SUB;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
 
 public final class SplitPartAdapter extends SimpleCursorAdapter {
   private final String commentSeparator = " / ";
@@ -51,7 +51,7 @@ public final class SplitPartAdapter extends SimpleCursorAdapter {
     TypedValue color = new TypedValue();
     theme.resolveAttribute(R.attr.colorExpense, color, true);
     colorExpense = color.data;
-    theme.resolveAttribute(R.attr.colorIncome,color, true);
+    theme.resolveAttribute(R.attr.colorIncome, color, true);
     colorIncome = color.data;
     this.currency = currency;
     this.currencyFormatter = currencyFormatter;
@@ -64,8 +64,8 @@ public final class SplitPartAdapter extends SimpleCursorAdapter {
   @Override
   public void setViewText(TextView v, String text) {
     switch (v.getId()) {
-    case R.id.amount:
-      text = currencyFormatter.convAmount(text, currency);
+      case R.id.amount:
+        text = currencyFormatter.convAmount(text, currency);
     }
     super.setViewText(v, text);
   }
@@ -77,8 +77,8 @@ public final class SplitPartAdapter extends SimpleCursorAdapter {
    */
   @Override
   public View getView(int position, View convertView, ViewGroup parent) {
-    View row=super.getView(position, convertView, parent);
-    TextView tv1 = (TextView)row.findViewById(R.id.amount);
+    View row = super.getView(position, convertView, parent);
+    TextView tv1 = (TextView) row.findViewById(R.id.amount);
     Cursor c = getCursor();
     c.moveToPosition(position);
     int col = c.getColumnIndex(KEY_AMOUNT);
@@ -86,24 +86,22 @@ public final class SplitPartAdapter extends SimpleCursorAdapter {
     if (amount < 0) {
       tv1.setTextColor(colorExpense);
       // Set the background color of the text.
-    }
-    else {
+    } else {
       tv1.setTextColor(colorIncome);
     }
-    TextView tv2 = (TextView)row.findViewById(R.id.category);
+    TextView tv2 = (TextView) row.findViewById(R.id.category);
     //should not be needed, even harmful //TODO check
     /*if (insideFragment && Build.VERSION.SDK_INT < 11) {
       tv2.setTextColor(Color.WHITE);
     }*/
     String catText = tv2.getText().toString();
-    if (DbUtils.getLongOrNull(c,KEY_TRANSFER_PEER) != null) {
+    if (DbUtils.getLongOrNull(c, KEY_TRANSFER_ACCOUNT) != null) {
       catText = Transfer.getIndicatorPrefixForLabel(amount) + catText;
     } else {
-      Long catId = DbUtils.getLongOrNull(c,KEY_CATID);
+      Long catId = DbUtils.getLongOrNull(c, KEY_CATID);
       if (catId == null) {
         catText = Category.NO_CATEGORY_ASSIGNED_LABEL;
-      }
-      else {
+      } else {
         col = c.getColumnIndex(KEY_LABEL_SUB);
         String label_sub = c.getString(col);
         if (label_sub != null && label_sub.length() > 0) {
