@@ -35,6 +35,7 @@ import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.FileCopyUtils;
 import org.totschnig.myexpenses.util.PictureDirHelper;
 import org.totschnig.myexpenses.util.TextUtils;
+import org.totschnig.myexpenses.util.Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -56,6 +57,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
@@ -125,7 +127,7 @@ public class Transaction extends Model {
   private Money amount;
   private Money transferAmount;
   private Long catId;
-  private Long accountId;
+  private long accountId;
   private Long methodId;
   private String methodLabel = "";
   private Long parentId = null;
@@ -357,11 +359,11 @@ public class Transaction extends Model {
     Transaction t;
     String[] projection = new String[]{KEY_ROWID, KEY_DATE, KEY_AMOUNT, KEY_COMMENT, KEY_CATID,
         FULL_LABEL, KEY_PAYEEID, KEY_PAYEE_NAME, KEY_TRANSFER_PEER, KEY_TRANSFER_ACCOUNT,
-        KEY_ACCOUNTID, KEY_METHODID, KEY_PARENTID, KEY_CR_STATUS, KEY_REFERENCE_NUMBER,
+        KEY_ACCOUNTID, KEY_METHODID, KEY_PARENTID, KEY_CR_STATUS, KEY_REFERENCE_NUMBER, KEY_CURRENCY,
         KEY_PICTURE_URI, KEY_METHOD_LABEL, KEY_STATUS, TRANSFER_AMOUNT, KEY_TEMPLATEID, KEY_UUID};
 
     Cursor c = cr().query(
-        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection, null, null, null);
+        EXTENDED_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection, null, null, null);
     if (c == null) {
       return null;
     }
@@ -373,11 +375,11 @@ public class Transaction extends Model {
     Long transfer_peer = getLongOrNull(c, KEY_TRANSFER_PEER);
     long account_id = c.getLong(c.getColumnIndexOrThrow(KEY_ACCOUNTID));
     long amount = c.getLong(c.getColumnIndexOrThrow(KEY_AMOUNT));
+    Money money = new Money(Utils.getSaveInstance(DbUtils.getString(c, KEY_CURRENCY)), amount);
     Long parent_id = getLongOrNull(c, KEY_PARENTID);
     Long catId = getLongOrNull(c, KEY_CATID);
     if (transfer_peer != null) {
-      Transfer transfer = parent_id != null ? new SplitPartTransfer(account_id, amount, parent_id) :
-          new Transfer(account_id, amount);
+      Transfer transfer = new Transfer(account_id, money, parent_id);
       transfer.setTransferPeer(transfer_peer);
       Long transferAccountId = getLongOrNull(c, KEY_TRANSFER_ACCOUNT);
       transfer.setTransferAccountId(transferAccountId);
@@ -386,10 +388,9 @@ public class Transaction extends Model {
       t = transfer;
     } else {
       if (DatabaseConstants.SPLIT_CATID.equals(catId)) {
-        t = new SplitTransaction(account_id, amount);
+        t = new SplitTransaction(account_id, money);
       } else {
-        t = parent_id != null ? new SplitPartCategory(account_id, amount, parent_id) :
-            new Transaction(account_id, amount);
+        t = new Transaction(account_id, money, parent_id);
       }
     }
     try {
@@ -495,11 +496,15 @@ public class Transaction extends Model {
    * if parentId == 0L, otherwise {@link SplitPartCategory} or {@link SplitPartTransfer}
    */
   public static Transaction getNewInstance(long accountId) {
+    return getNewInstance(accountId, null);
+  }
+
+  public static Transaction getNewInstance(long accountId, Long parentId) {
     Account account = Account.getInstanceFromDbWithFallback(accountId);
     if (account == null) {
       return null;
     }
-    return new Transaction(account, 0L);
+    return new Transaction(accountId, new Money(account.currency, 0L), parentId);
   }
 
   public static void delete(long id, boolean markAsVoid) {
@@ -521,23 +526,15 @@ public class Transaction extends Model {
     this.crStatus = CrStatus.UNRECONCILED;
   }
 
-  /**
-   * new empty transaction
-   */
-  public Transaction(long accountId, Long amount) {
-    this(Account.getInstanceFromDb(accountId), amount);
-  }
-
   public Transaction(long accountId, Money amount) {
     this();
     this.setAccountId(accountId);
     this.setAmount(amount);
   }
 
-  public Transaction(Account account, long amount) {
-    this();
-    this.setAccountId(account.getId());
-    this.setAmount(new Money(account.currency, amount));
+  public Transaction(long accountId, Money amount, Long parentId) {
+    this(accountId, amount);
+    setParentId(parentId);
   }
 
   public Long getCatId() {

@@ -475,7 +475,7 @@ public class Account extends Model {
           .withValue(KEY_OPENING_BALANCE, currentBalance)
           .build();
     } else if (handleDelete == EXPORT_HANDLE_DELETED_CREATE_HELPER) {
-      Transaction helper = new Transaction(this, getTransactionSum(filter));
+      Transaction helper = new Transaction(getId(), new Money(currency,getTransactionSum(filter)));
       helper.setComment(helperComment);
       helper.status = STATUS_HELPER;
       handleDeleteOperation = ContentProviderOperation.newInsert(Transaction.CONTENT_URI)

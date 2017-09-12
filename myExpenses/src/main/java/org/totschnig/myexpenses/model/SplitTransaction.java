@@ -38,18 +38,9 @@ public class SplitTransaction extends Transaction {
       + " IN (SELECT " + KEY_ROWID + " FROM " + TABLE_TRANSACTIONS + " where "
       + KEY_PARENTID + " = ?))";
 
-  public SplitTransaction(long accountId, Long amount) {
-    super(accountId, amount);
-    setCatId(DatabaseConstants.SPLIT_CATID);
-  }
 
   public SplitTransaction(long accountId, Money amount) {
     super(accountId, amount);
-    setCatId(DatabaseConstants.SPLIT_CATID);
-  }
-
-  public SplitTransaction(Account account, long amount) {
-    super(account, amount);
     setCatId(DatabaseConstants.SPLIT_CATID);
   }
 
@@ -71,7 +62,7 @@ public class SplitTransaction extends Transaction {
   }
 
   static SplitTransaction getNewInstance(@NonNull Account account, boolean forEdit)  {
-    SplitTransaction t = new SplitTransaction(account, 0L);
+    SplitTransaction t = new SplitTransaction(account.getId(), new Money(account.currency, 0L));
     if (forEdit) {
       t.status = STATUS_UNCOMMITTED;
       //TODO: Strict mode

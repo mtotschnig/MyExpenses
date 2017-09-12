@@ -38,6 +38,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
 import org.totschnig.myexpenses.export.CategoryInfo;
 import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.SplitTransaction;
@@ -574,15 +575,16 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     } else {
       amount = 0L;
     }
+    Money money = new Money(getAccount().currency, amount);
     Transaction t;
     long transferAccount;
     if (change.splitParts() != null) {
-      t = new SplitTransaction(getAccount().getId(), amount);
+      t = new SplitTransaction(getAccount().getId(), money);
     } else if (change.transferAccount() != null &&
         (transferAccount = extractTransferAccount(change.transferAccount(), change.label())) != -1) {
-      t = new Transfer(getAccount().getId(), amount, transferAccount);
+      t = new Transfer(getAccount().getId(), money, transferAccount);
     } else {
-      t = new Transaction(getAccount().getId(), amount);
+      t = new Transaction(getAccount().getId(), money);
       if (change.label() != null) {
         long catId = extractCatId(change.label());
         if (catId != -1) {

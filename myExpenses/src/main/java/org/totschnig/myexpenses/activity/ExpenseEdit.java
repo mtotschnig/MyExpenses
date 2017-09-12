@@ -94,8 +94,6 @@ import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Plan;
-import org.totschnig.myexpenses.model.SplitPartCategory;
-import org.totschnig.myexpenses.model.SplitPartTransfer;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
@@ -493,21 +491,17 @@ public class ExpenseEdit extends AmountActivity implements
               accountId = MyApplication.getInstance().getSettings()
                   .getLong(PREFKEY_TRANSACTION_LAST_ACCOUNT_FROM_WIDGET, 0L);
             }
-            mTransaction = parentId == 0L ?
-                Transaction.getNewInstance(accountId) :
-                SplitPartCategory.getNewInstance(accountId, parentId);
+            mTransaction = Transaction.getNewInstance(accountId, parentId);
             break;
           case TYPE_TRANSFER:
-            Long transfer_account = 0L;
+            Long transferAccountId = 0L;
             if (accountId == 0L) {
               accountId = MyApplication.getInstance().getSettings()
                   .getLong(PREFKEY_TRANSFER_LAST_ACCOUNT_FROM_WIDGET, 0L);
-              transfer_account = MyApplication.getInstance().getSettings()
+              transferAccountId = MyApplication.getInstance().getSettings()
                   .getLong(PREFKEY_TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET, 0L);
             }
-            mTransaction = parentId == 0L ?
-                Transfer.getNewInstance(accountId, transfer_account) :
-                SplitPartTransfer.getNewInstance(accountId, parentId, transfer_account);
+            mTransaction = Transfer.getNewInstance(accountId, transferAccountId, parentId);
             break;
           case TYPE_SPLIT:
             if (accountId == 0L) {

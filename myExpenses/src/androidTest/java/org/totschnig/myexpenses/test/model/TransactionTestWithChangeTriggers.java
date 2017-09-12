@@ -22,8 +22,6 @@ import android.net.Uri;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Money;
-import org.totschnig.myexpenses.model.SplitPartCategory;
-import org.totschnig.myexpenses.model.SplitPartTransfer;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
@@ -126,11 +124,11 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
     assertNotNull(op.save());
     Transaction restored = Transaction.getInstanceFromDb(op.getId());
     assertEquals(restored.getAccountId(), mAccount2.getId());
-    assertEquals(restored.getTransfer_account(), mAccount3.getId());
+    assertEquals(restored.getTransferAccountId(), mAccount3.getId());
     assertEquals(restored.uuid, op.uuid);
     Transaction peer = Transaction.getInstanceFromDb(op.getTransferPeer());
     assertEquals(peer.getAccountId(), mAccount3.getId());
-    assertEquals(peer.getTransfer_account(), mAccount2.getId());
+    assertEquals(peer.getTransferAccountId(), mAccount2.getId());
     assertEquals(peer.uuid, op.uuid);
   }
 
@@ -146,14 +144,14 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
     op1.setDate(new Date(System.currentTimeMillis() - 1003900000));
     op1.save();
     assertTrue(op1.getId() > 0);
-    Transaction split1 = SplitPartCategory.getNewInstance(mAccount1.getId(), op1.getId());
+    Transaction split1 = Transaction.getNewInstance(mAccount1.getId(), op1.getId());
     assert split1 != null;
     split1.setAmount(new Money(mAccount1.currency, 50L));
     assertEquals(split1.getParentId(), op1.getId());
     split1.status = DatabaseConstants.STATUS_UNCOMMITTED;
     split1.save();
     assertTrue(split1.getId() > 0);
-    Transaction split2 = SplitPartCategory.getNewInstance(mAccount1.getId(), op1.getId());
+    Transaction split2 = Transaction.getNewInstance(mAccount1.getId(), op1.getId());
     assert split2 != null;
     split2.setAmount(new Money(mAccount1.currency, 50L));
     assertEquals(split2.getParentId(), op1.getId());
@@ -181,9 +179,10 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
   public void testDeleteSplitWithPartTransfer() {
     SplitTransaction op1 = SplitTransaction.getNewInstance(mAccount1.getId(), false);
     assert op1 != null;
-    op1.setAmount(new Money(mAccount1.currency, 100L));
+    Money money = new Money(mAccount1.currency, 100L);
+    op1.setAmount(money);
     op1.save();
-    Transaction split1 = new SplitPartTransfer(mAccount1, 100L, op1.getId(), mAccount2);
+    Transaction split1 = new Transfer(mAccount1.getId(), money, mAccount2.getId(), op1.getId());
     split1.save();
     Transaction.delete(op1.getId(), false);
     assertNull("Transaction deleted, but can still be retrieved", Transaction.getInstanceFromDb(op1.getId()));
@@ -249,12 +248,12 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
     assert op3 != null;
     op3.setAmount(new Money(mAccount1.currency, 100L));
     op3.save();
-    Transaction split1 = SplitPartCategory.getNewInstance(mAccount1.getId(), op3.getId());
+    Transaction split1 = Transaction.getNewInstance(mAccount1.getId(), op3.getId());
     assert split1 != null;
     split1.setAmount(new Money(mAccount1.currency, 50L));
     split1.status = DatabaseConstants.STATUS_UNCOMMITTED;
     split1.save();
-    Transaction split2 = SplitPartCategory.getNewInstance(mAccount1.getId(), op3.getId());
+    Transaction split2 = Transaction.getNewInstance(mAccount1.getId(), op3.getId());
     assert split2 != null;
     split2.setAmount(new Money(mAccount1.currency, 50L));
     split2.status = DatabaseConstants.STATUS_UNCOMMITTED;

@@ -32,8 +32,6 @@ import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.PaymentMethod;
-import org.totschnig.myexpenses.model.SplitPartCategory;
-import org.totschnig.myexpenses.model.SplitPartTransfer;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
@@ -169,10 +167,10 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
 
         if (isSplitPart) {
           if (transferAccountId != -1) {
-            t = SplitPartTransfer.getNewInstance(accountId, splitParent, transferAccountId);
+            t = Transfer.getNewInstance(accountId, transferAccountId, splitParent);
             t.setAmount(m);
           } else {
-            t = SplitPartCategory.getNewInstance(accountId, splitParent);
+            t = Transaction.getNewInstance(accountId, splitParent);
             t.setAmount(m);
           }
         } else {

@@ -27,7 +27,6 @@ import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.ExportFormat;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.PaymentMethod;
-import org.totschnig.myexpenses.model.SplitPartCategory;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
@@ -130,7 +129,7 @@ public class ExportTest extends ModelTest {
     }
     split.setAmount(new Money(account1.currency, split1));
     split.setDate(new Date(now + 6000));
-    Transaction part = SplitPartCategory.getNewInstance(account1.getId(), split.getId());
+    Transaction part = Transaction.getNewInstance(account1.getId(), split.getId());
     if (part == null) {
       fail();
       return;

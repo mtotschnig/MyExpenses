@@ -50,6 +50,7 @@ public class Transfer extends Transaction {
   private Long transferPeer;
   private Long transferAccountId;
 
+
   public Long getTransferPeer() {
     return transferPeer;
   }
@@ -67,31 +68,18 @@ public class Transfer extends Transaction {
     this.transferAccountId = transferAccountId;
   }
 
-  public Transfer(Long accountId, Long amount) {
-   this(accountId, amount, null);
-  }
-
-  public Transfer(Long accountId, Long amount, Long transferAccountId) {
-    super(accountId, amount);
-    this.setTransferAccountId(transferAccountId);
-  }
-
-  public Transfer(Long accountId, Money amount) {
+  public Transfer(long accountId, Money amount) {
     this(accountId, amount, null);
   }
 
-  public Transfer(Long accountId, Money amount, Long transferAccountId) {
+  public Transfer(long accountId, Money amount, Long transferAccountId) {
+    this(accountId, amount, transferAccountId, null);
+  }
+
+  public Transfer(long accountId, Money amount, Long transferAccountId, Long parentId) {
     super(accountId, amount);
-    this.setTransferAccountId(transferAccountId);
-  }
-
-  public Transfer(Account account, long amount) {
-    super(account, amount);
-  }
-
-  public Transfer(Account account, long amount, Account transferAccount) {
-    super(account, amount);
-    this.setTransferAccountId(transferAccount.getId());
+    setTransferAccountId(transferAccountId);
+    setParentId(parentId);
   }
 
   @Override
@@ -109,11 +97,15 @@ public class Transfer extends Transaction {
   }
 
   /**
-   * @param accountId         if account no longer exists {@link Account#getInstanceFromDb(long) is called with 0}
+   * @param accountId  if account no longer exists {@link Account#getInstanceFromDb(long) is called with 0}
    * @param transferAccountId
    * @return
    */
   public static Transfer getNewInstance(long accountId, Long transferAccountId) {
+    return getNewInstance(accountId, transferAccountId, null);
+  }
+
+  public static Transfer getNewInstance(long accountId, Long transferAccountId, Long parentId) {
     Account account = Account.getInstanceFromDbWithFallback(accountId);
     if (account == null) {
       return null;
@@ -122,7 +114,7 @@ public class Transfer extends Transaction {
     if (transferAccount == null) {
       return null;
     }
-    return new Transfer(account, 0L, transferAccount);
+    return new Transfer(accountId, new Money(account.currency, 0L), transferAccountId, parentId);
   }
 
   @Override
