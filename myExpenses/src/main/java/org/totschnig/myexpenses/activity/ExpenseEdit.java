@@ -491,7 +491,7 @@ public class ExpenseEdit extends AmountActivity implements
               accountId = MyApplication.getInstance().getSettings()
                   .getLong(PREFKEY_TRANSACTION_LAST_ACCOUNT_FROM_WIDGET, 0L);
             }
-            mTransaction = Transaction.getNewInstance(accountId, parentId);
+            mTransaction = Transaction.getNewInstance(accountId, parentId != 0 ? parentId : null);
             break;
           case TYPE_TRANSFER:
             Long transferAccountId = 0L;
@@ -501,7 +501,7 @@ public class ExpenseEdit extends AmountActivity implements
               transferAccountId = MyApplication.getInstance().getSettings()
                   .getLong(PREFKEY_TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET, 0L);
             }
-            mTransaction = Transfer.getNewInstance(accountId, transferAccountId, parentId);
+            mTransaction = Transfer.getNewInstance(accountId, transferAccountId, parentId != 0 ? parentId : null);
             break;
           case TYPE_SPLIT:
             if (accountId == 0L) {
