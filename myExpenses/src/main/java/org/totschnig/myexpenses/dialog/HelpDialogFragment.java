@@ -297,17 +297,17 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
   }
 
   private CharSequence resolveStringOrArray(String resString, boolean separateComponentsByLinefeeds) {
-    int resId = resolveArray(resString);
-    if (resId == 0) {
-      resId = resolveString(resString);
-      if (resId == 0) {
+    int arrayId = resolveArray(resString);
+    if (arrayId == 0) {
+      int stringId = resolveString(resString);
+      if (stringId == 0) {
         return null;
       } else {
-        return Html.fromHtml(getStringSafe(resId), this, null);
+        return Html.fromHtml(getStringSafe(stringId), this, null);
       }
     } else {
       CharSequence linefeed = Html.fromHtml("<br><br>");
-      List<String> components = Stream.of(getResources().getStringArray(resId))
+      List<String> components = Stream.of(getResources().getStringArray(arrayId))
           .filter(component -> !shouldSkip(component))
           .map(this::resolveString)
           .map(this::getStringSafe).collect(Collectors.toList());
