@@ -26,4 +26,6 @@
         <ignore path="src/main/java/com/android/calendarcommon2/EventRecurrence.java" />
         <ignore path="src/main/java/org/totschnig/myexpenses/ui/FragmentPagerAdapter.java" />
     </issue>
+    <!-- TODO verify this issue once there is some documentation about it -->
+    <issue id="InvalidVectorPath" severity="ignore" />
 </lint>
