@@ -81,6 +81,7 @@ android {
         forTest {
             initWith debug
             applicationIdSuffix ".fortest"
+            matchingFallbacks = ['debug']
         }
     }
 
@@ -121,79 +122,78 @@ List supportCompile = ['com.android.support:appcompat-v7:' + project.androidSupp
                        'com.android.support:preference-v14:' + project.androidSupportLibraryVersion]
 
 dependencies {
-    compile 'com.jakewharton:butterknife:8.6.0'
+    implementation 'com.jakewharton:butterknife:8.6.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
     annotationProcessor 'com.google.dagger:dagger-compiler:' + project.daggerVersion
-    compile 'com.google.dagger:dagger:' + project.daggerVersion
+    implementation 'com.google.dagger:dagger:' + project.daggerVersion
     provided 'javax.annotation:jsr250-api:1.0'
-    api 'frankiesardo:icepick:3.2.0'
+    implementation 'frankiesardo:icepick:3.2.0'
     compileOnly 'frankiesardo:icepick-processor:3.2.0'
     annotationProcessor 'frankiesardo:icepick-processor:3.2.0'
-    compile 'com.google.code.gson:gson:2.8.0'
+    implementation 'com.google.code.gson:gson:2.8.0'
     provided 'com.google.auto.value:auto-value:1.4'
     annotationProcessor 'com.google.auto.value:auto-value:1.4'
     annotationProcessor 'com.ryanharter.auto.value:auto-value-gson:0.4.6'
     provided 'com.ryanharter.auto.value:auto-value-gson:0.4.6'
     annotationProcessor 'com.gabrielittner.auto.value:auto-value-cursor:1.0.1'
-    compile 'com.gabrielittner.auto.value:auto-value-cursor-annotations:1.0.1'
+    implementation 'com.gabrielittner.auto.value:auto-value-cursor-annotations:1.0.1'
     annotationProcessor 'com.ryanharter.auto.value:auto-value-parcel:0.2.5'
-    compile 'com.github.mtotschnig:StickyListHeaders:2.7.1'
-    compile 'com.github.mtotschnig:MaterialSeekBarPreference:improvement~align-with-layout-specific-to-each-level-SNAPSHOT'
-    compile('com.gitlab.mtotschn:dav4android:fbaa5b51') {
+    implementation 'com.github.mtotschnig:StickyListHeaders:2.7.1'
+    implementation 'com.github.mtotschnig:MaterialSeekBarPreference:improvement~align-with-layout-specific-to-each-level-SNAPSHOT'
+    implementation('com.gitlab.mtotschn:dav4android:fbaa5b51') {
         exclude group: "com.android.support", module: "support-annotations"
     }
-    compile 'com.itextpdf:itextg:5.5.10'
-    compile 'ch.acra:acra:4.9.2'
-    compile 'org.apache.commons:commons-lang3:3.4'
-    compile 'org.apache.commons:commons-csv:1.1'
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.github.PhilJay:MPAndroidChart:bd75e6c'
-    compile 'com.github.mtotschnig:Caldroid:master-SNAPSHOT'
-    compile 'com.github.eltos:simpledialogfragment:2.2'
+    implementation 'com.itextpdf:itextg:5.5.10'
+    implementation 'ch.acra:acra:4.9.2'
+    implementation 'org.apache.commons:commons-lang3:3.4'
+    implementation 'org.apache.commons:commons-csv:1.1'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.github.PhilJay:MPAndroidChart:bd75e6c'
+    implementation 'com.github.mtotschnig:Caldroid:master-SNAPSHOT'
+    implementation 'com.github.eltos:simpledialogfragment:2.2'
     //noinspection GradleDynamicVersion
-    compile 'com.commonsware.cwac:wakeful:1.0.+'
-    compile 'com.annimon:stream:1.1.8'
+    implementation 'com.commonsware.cwac:wakeful:1.0.+'
+    implementation 'com.annimon:stream:1.1.8'
 
     // WebDAV
-    compile 'com.squareup.okhttp3:okhttp:3.8.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.8.0'
 
     //noinspection GradleCompatible
-    compile 'com.android.support:multidex:1.0.2'
+    implementation 'com.android.support:multidex:1.0.2'
 
-    compile 'org.apache.commons:commons-collections4:4.1'
+    implementation 'org.apache.commons:commons-collections4:4.1'
 
-    compile 'com.jakewharton.timber:timber:4.5.1'
+    implementation 'com.jakewharton.timber:timber:4.5.1'
 
-    compile 'org.slf4j:slf4j-api:1.7.21'
-    compile 'com.github.tony19:logback-android-core:1.1.1-6'
-    compile('com.github.tony19:logback-android-classic:1.1.1-6') {
+    implementation 'org.slf4j:slf4j-api:1.7.21'
+    implementation 'com.github.tony19:logback-android-core:1.1.1-6'
+    implementation('com.github.tony19:logback-android-classic:1.1.1-6') {
         // workaround issue #73
         exclude group: 'com.google.android', module: 'android'
     }
 
-    compile supportCompile
+    implementation supportCompile
 
-    compile 'net.pubnative:mediation:1.2.15'
+    implementation 'net.pubnative:mediation:1.2.15'
 
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:' + project.espressoVersion
-    androidTestCompile 'junit:junit:4.12'
-    androidTestCompile 'com.android.support:support-annotations:' + project.androidSupportLibraryVersion
-    androidTestCompile 'com.android.support.test:runner:' + project.androidSupportTestVersion
-    androidTestCompile 'com.android.support.test:rules:' + project.androidSupportTestVersion
-    androidTestCompile 'com.android.support.test.espresso:espresso-intents:' + project.espressoVersion
-    androidTestCompile('com.android.support.test.espresso:espresso-contrib:' + project.espressoVersion) {
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:' + project.espressoVersion
+    androidTestImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support:support-annotations:' + project.androidSupportLibraryVersion
+    androidTestImplementation 'com.android.support.test:runner:' + project.androidSupportTestVersion
+    androidTestImplementation 'com.android.support.test:rules:' + project.androidSupportTestVersion
+    androidTestImplementation 'com.android.support.test.espresso:espresso-intents:' + project.espressoVersion
+    androidTestImplementation('com.android.support.test.espresso:espresso-contrib:' + project.espressoVersion) {
         exclude module: 'accessibility-test-framework'
     }
-    androidTestCompile 'org.mockito:mockito-core:2.7.22'
-    androidTestCompile 'com.crittercism.dexmaker:dexmaker:1.4'
-    androidTestCompile 'com.crittercism.dexmaker:dexmaker-dx:1.4'
-    androidTestCompile 'com.crittercism.dexmaker:dexmaker-mockito:1.4'
+    androidTestImplementation 'org.mockito:mockito-core:2.7.22'
+    androidTestImplementation 'com.crittercism.dexmaker:dexmaker:1.4'
+    androidTestImplementation 'com.crittercism.dexmaker:dexmaker-dx:1.4'
+    androidTestImplementation 'com.crittercism.dexmaker:dexmaker-mockito:1.4'
 
-    testCompile 'junit:junit:4.12'
-    testCompile 'pl.pragmatists:JUnitParams:1.1.0'
-    testCompile 'org.mockito:mockito-core:2.7.22'
-    debugCompile project(path: ':setupwizard')
-    releaseCompile project(path: ':setupwizard')
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'pl.pragmatists:JUnitParams:1.1.0'
+    testImplementation 'org.mockito:mockito-core:2.7.22'
+    implementation project(path: ':setupwizard')
 }
 
 def getDate() {
@@ -202,13 +202,5 @@ def getDate() {
     return formattedDate
 }
 
-//https://code.google.com/p/android/issues/detail?id=187730
-//can be removed after migration to Android Gradle Plugin 2
-configurations.compile.dependencies.each { compileDependency ->
-    println "Excluding compile dependency: ${compileDependency.getName()}"
-    configurations.androidTestCompile.dependencies.each { androidTestCompileDependency ->
-        configurations.androidTestCompile.exclude module: "${compileDependency.getName()}"
-    }
-}
 
 
