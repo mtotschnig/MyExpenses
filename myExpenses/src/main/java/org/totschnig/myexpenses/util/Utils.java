@@ -272,7 +272,7 @@ public class Utils {
     return getSaveInstance(c);
   }
 
-  public static Currency getSaveInstance(Currency currency) {
+  private static Currency getSaveInstance(Currency currency) {
     try {
       CurrencyEnum.valueOf(currency.getCurrencyCode());
       return currency;
