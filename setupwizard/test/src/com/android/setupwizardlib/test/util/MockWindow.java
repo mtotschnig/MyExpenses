@@ -249,4 +249,14 @@ public class MockWindow extends Window {
     public void setNavigationBarColor(int i) {
         throw new UnsupportedOperationException("Unexpected method call on mock");
     }
+
+    @Override
+    public void setDecorCaptionShade(int i) {
+        throw new UnsupportedOperationException("Unexpected method call on mock");
+    }
+
+    @Override
+    public void setResizingCaptionDrawable(Drawable drawable) {
+        throw new UnsupportedOperationException("Unexpected method call on mock");
+    }
 }
