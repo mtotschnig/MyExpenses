@@ -616,19 +616,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL(PAYMENT_METHODS_CREATE);
     db.execSQL(TEMPLATE_CREATE);
     db.execSQL(PLAN_INSTANCE_STATUS_CREATE);
-    String viewTransactions = buildViewDefinition(TABLE_TRANSACTIONS);
-    db.execSQL("CREATE VIEW " + VIEW_COMMITTED + viewTransactions + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
-    db.execSQL("CREATE VIEW " + VIEW_UNCOMMITTED + viewTransactions + " WHERE " + KEY_STATUS + " = " + STATUS_UNCOMMITTED + ";");
-    db.execSQL("CREATE VIEW " + VIEW_ALL + viewTransactions);
-    db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_UNCOMMITTED + buildViewDefinition(TABLE_TEMPLATES) + " WHERE " + KEY_STATUS + " = " + STATUS_UNCOMMITTED + ";");
     db.execSQL(CATEGORIES_CREATE);
     db.execSQL(ACCOUNTS_CREATE);
     db.execSQL(ACCOUNTS_UUID_INDEX_CREATE);
     db.execSQL(SYNC_STATE_CREATE);
-    db.execSQL("CREATE VIEW " + VIEW_EXTENDED + buildViewDefinitionExtended(TABLE_TRANSACTIONS) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
-    String viewTemplatesExtended = buildViewDefinitionExtended(TABLE_TEMPLATES);
-    db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_ALL + viewTemplatesExtended);
-    db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_EXTENDED + viewTemplatesExtended + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
     db.execSQL(ACCOUNTS_TRIGGER_CREATE);
     db.execSQL(ACCOUNTTYE_METHOD_CREATE);
     insertDefaultPaymentMethods(db);
@@ -643,10 +634,26 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL(EVENT_CACHE_CREATE);
     db.execSQL(STALE_URIS_CREATE);
     db.execSQL(STALE_URI_TRIGGER_CREATE);
+    db.execSQL(CHANGES_CREATE);
+
+    //Index
     db.execSQL("CREATE INDEX transactions_cat_id_index on " + TABLE_TRANSACTIONS + "(" + KEY_CATID + ")");
     db.execSQL("CREATE INDEX templates_cat_id_index on " + TABLE_TEMPLATES + "(" + KEY_CATID + ")");
-    db.execSQL(CHANGES_CREATE);
+
+    //Views
+    db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_UNCOMMITTED + buildViewDefinition(TABLE_TEMPLATES) + " WHERE " + KEY_STATUS + " = " + STATUS_UNCOMMITTED + ";");
+    String viewTemplatesExtended = buildViewDefinitionExtended(TABLE_TEMPLATES);
+    db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_ALL + viewTemplatesExtended);
+    db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_EXTENDED + viewTemplatesExtended + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
+    String viewTransactions = buildViewDefinition(TABLE_TRANSACTIONS);
+    String viewExtended = buildViewDefinitionExtended(TABLE_TRANSACTIONS);
+    db.execSQL("CREATE VIEW " + VIEW_COMMITTED + viewTransactions + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
+    db.execSQL("CREATE VIEW " + VIEW_UNCOMMITTED + viewTransactions + " WHERE " + KEY_STATUS + " = " + STATUS_UNCOMMITTED + ";");
+    db.execSQL("CREATE VIEW " + VIEW_ALL + viewExtended);
+    db.execSQL("CREATE VIEW " + VIEW_EXTENDED + viewExtended + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
     db.execSQL("CREATE VIEW " + VIEW_CHANGES_EXTENDED + buildViewDefinitionExtended(TABLE_CHANGES));
+
+    // Triggers
     db.execSQL(TRANSACTIONS_INSERT_TRIGGER_CREATE);
     db.execSQL(TRANSACTIONS_INSERT_AFTER_UPDATE_TRIGGER_CREATE);
     db.execSQL(TRANSACTIONS_DELETE_AFTER_UPDATE_TRIGGER_CREATE);
