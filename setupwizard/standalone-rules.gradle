@@ -26,8 +26,8 @@ ext {
     //      }
     //
     deps = [
-        'support-appcompat-v7': 'com.android.support:appcompat-v7:22.2.1',
-        'support-recyclerview-v7': 'com.android.support:recyclerview-v7:22.2.1'
+        'support-appcompat-v7': 'com.android.support:appcompat-v7:' + project.androidSupportLibraryVersion,
+        'support-recyclerview-v7': 'com.android.support:recyclerview-v7:' + project.androidSupportLibraryVersion
     ]
 }
 

@@ -11,61 +11,27 @@ apply plugin: 'com.android.library'
 
 android {
 
-    publishNonDefault true
+    defaultConfig {
+        minSdkVersion 9
+     }
+
+    dependencies {
+        implementation deps['support-appcompat-v7']
+        implementation deps['support-recyclerview-v7']
+    }
 
     sourceSets {
         main {
             manifest.srcFile 'main/AndroidManifest.xml'
-            java.srcDirs = ['main/src']
+            java.srcDirs = ['main/src', 'eclair-mr1/src', 'full-support/src']
+            res.srcDirs = ['main/res', 'eclair-mr1/res', 'full-support/res']
             resources.srcDirs = ['main/src']
-            res.srcDirs = ['main/res']
-        }
-
-        productFlavors {
-            // This build depends on any support library that setup wizard library integrates with,
-            // including RecyclerView, AppCompat, and possibly Design support library in the future.
-            fullSupport {
-                minSdkVersion 10
-                dependencies {
-                    fullSupportCompile deps['support-appcompat-v7']
-                    fullSupportCompile deps['support-recyclerview-v7']
-                }
-            }
-        }
-
-        platform {
-            java.srcDirs = ['platform/src']
-            res.srcDirs = ['platform/res']
-        }
-
-        icsCompat {
-            java.srcDirs = ['eclair-mr1/src']
-            res.srcDirs = ['eclair-mr1/res']
-        }
-
-        eclairMr1Compat {
-            java.srcDirs = ['eclair-mr1/src']
-            res.srcDirs = ['eclair-mr1/res']
-        }
-
-        fullSupport {
-            java.srcDirs = ['eclair-mr1/src', 'full-support/src']
-            res.srcDirs = ['eclair-mr1/res', 'full-support/res']
         }
 
         androidTest {
             manifest.srcFile 'test/AndroidManifest.xml'
-            java.srcDirs = ['test/src']
-            res.srcDirs = ['test/res']
-        }
-
-        androidTestEclairMr1Compat {
-            java.srcDirs = ['eclair-mr1/test/src']
-        }
-
-        androidTestFullSupport {
-            java.srcDirs = ['full-support/test/src', 'eclair-mr1/test/src']
-            res.srcDirs = ['full-support/test/res']
+            java.srcDirs = ['test/src', 'full-support/test/src', 'eclair-mr1/test/src']
+            res.srcDirs = ['test/res', 'full-support/test/res']
         }
     }
 }

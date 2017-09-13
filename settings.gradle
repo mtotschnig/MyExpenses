@@ -1,7 +1,3 @@
 include ':myExpenses'
 include ':setupwizard'
-rootProject.children.each {
-    if (it.name.equals("setupwizard")) {
-        it.buildFileName = 'standalone.gradle'
-    }
-}
+

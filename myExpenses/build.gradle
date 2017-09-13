@@ -3,13 +3,11 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'me.tatarka:gradle-retrolambda:3.7.0'
         classpath 'com.jakewharton.hugo:hugo-plugin:1.2.1'
     }
 }
 
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.jakewharton.hugo'
 
 def quote(String input) {
@@ -33,7 +31,7 @@ android {
 
     defaultConfig {
         applicationId "org.totschnig.myexpenses"
-        if (gradle.startParameter.taskNames.contains(":app:assembleDebug")) {
+        if (gradle.startParameter.taskNames.contains(":myExpenses:assembleDebug")) {
             minSdkVersion 21
         } else {
             minSdkVersion project.minSdkVersion
@@ -128,8 +126,9 @@ dependencies {
     annotationProcessor 'com.google.dagger:dagger-compiler:' + project.daggerVersion
     compile 'com.google.dagger:dagger:' + project.daggerVersion
     provided 'javax.annotation:jsr250-api:1.0'
-    compile 'frankiesardo:icepick:3.2.0'
-    provided 'frankiesardo:icepick-processor:3.2.0'
+    api 'frankiesardo:icepick:3.2.0'
+    compileOnly 'frankiesardo:icepick-processor:3.2.0'
+    annotationProcessor 'frankiesardo:icepick-processor:3.2.0'
     compile 'com.google.code.gson:gson:2.8.0'
     provided 'com.google.auto.value:auto-value:1.4'
     annotationProcessor 'com.google.auto.value:auto-value:1.4'
@@ -193,9 +192,8 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'pl.pragmatists:JUnitParams:1.0.5'
     testCompile 'org.mockito:mockito-core:1.10.19'
-    debugCompile project(path: ':setupwizard', configuration: 'fullSupportDebug')
-    forTestCompile project(path: ':setupwizard', configuration: 'fullSupportDebug')
-    releaseCompile project(path: ':setupwizard', configuration: 'fullSupportRelease')
+    debugCompile project(path: ':setupwizard')
+    releaseCompile project(path: ':setupwizard')
 }
 
 def getDate() {
@@ -213,38 +211,4 @@ configurations.compile.dependencies.each { compileDependency ->
     }
 }
 
-//workaround for https://code.google.com/p/android/issues/detail?id=225754
-// add support for placeholders in resource files
-def replacePlaceholdersInFile(basePath, fileName, placeholders) {
-    def file = new File(basePath, fileName);
-
-    if (!file.exists()) {
-        logger.quiet("Unable to replace placeholders in " + file.toString() + ". File cannot be found.")
-        return;
-    }
-
-    logger.debug("Replacing placeholders in " + file.toString())
-    logger.debug("Placeholders: " + placeholders.toString())
-
-    def content = file.getText('UTF-8')
-
-    placeholders.each { entry ->
-        content = content.replaceAll("\\\$\\{${entry.key}\\}", entry.value)
-    }
-
-    file.write(content, 'UTF-8')
-}
-
-afterEvaluate {
-    android.applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            output.processResources.doFirst {
-                // prepare placeholder map from manifestPlaceholders including applicationId placeholder
-                def placeholders = variant.mergedFlavor.manifestPlaceholders + [applicationId: variant.applicationId]
-
-                replacePlaceholdersInFile(resDir, 'xml/shortcuts.xml', placeholders)
-            }
-        }
-    }
-}
 

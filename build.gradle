@@ -2,9 +2,10 @@
 buildscript {
     repositories {
         jcenter()
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:3.0.0-beta5'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
     }
 }
@@ -22,6 +23,7 @@ allprojects {
         maven {
             url "https://clojars.org/repo/"
         }
+        google()
     }
 }
 
