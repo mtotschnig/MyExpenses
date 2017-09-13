@@ -15,6 +15,8 @@
 
 package org.totschnig.myexpenses.test.model;
 
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.net.Uri;
 import android.support.v4.provider.DocumentFile;
 import android.util.Log;
@@ -41,6 +43,8 @@ import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_URI;
 
 
 public class ExportTest extends ModelTest {
@@ -91,6 +95,7 @@ public class ExportTest extends ModelTest {
     op.setReferenceNumber("1");
     op.setDate(new Date(now));
     op.save();
+
     op.setAmount(new Money(account1.currency, -expense2));
     op.setCatId(cat1Id);
     op.setPayee("N.N.");
@@ -98,6 +103,7 @@ public class ExportTest extends ModelTest {
     op.setReferenceNumber("2");
     op.setDate(new Date(now + 1000));
     op.saveAsNew();
+
     op.setAmount(new Money(account1.currency, income1));
     op.setCatId(cat2Id);
     op.setPayee(null);
@@ -105,10 +111,15 @@ public class ExportTest extends ModelTest {
     op.setReferenceNumber(null);
     op.setDate(new Date(now + 2000));
     op.saveAsNew();
+    ContentValues contentValues = new ContentValues(1);
+    contentValues.put(KEY_PICTURE_URI, "file://sdcard/picture.png");
+    getMockContentResolver().update(ContentUris.withAppendedId(Transaction.CONTENT_URI,op.getId()), contentValues, null, null);
+
     op.setAmount(new Money(account1.currency, income2));
     op.setComment("Note for myself with \"quote\"");
     op.setDate(new Date(now + 3000));
     op.saveAsNew();
+
     op = Transfer.getNewInstance(account1.getId(), account2.getId());
     if (op == null) {
       fail();
@@ -118,10 +129,12 @@ public class ExportTest extends ModelTest {
     op.crStatus = Transaction.CrStatus.RECONCILED;
     op.setDate(new Date(now + 4000));
     op.save();
+
     op.crStatus = Transaction.CrStatus.UNRECONCILED;
     op.setAmount(new Money(account1.currency, -transferN));
     op.setDate(new Date(now + 5000));
     op.saveAsNew();
+
     SplitTransaction split = SplitTransaction.getNewInstance(account1.getId());
     if (split == null) {
       fail();
@@ -228,18 +241,18 @@ public class ExportTest extends ModelTest {
     String[] linesCSV = new String[]{
         csvHeader(),
         "\"\";\"" + date + "\";\"\";0;0.10;\"\";\"\";\"\";\"" + getContext().getString(R.string.pm_cheque)
-            + "\";\"*\";\"1\"",
+            + "\";\"*\";\"1\";\"\"",
         "\"\";\"" + date + "\";\"N.N.\";0;0.20;\"Main\";\"\";\"\";\"" + getContext().getString(R.string.pm_cheque)
-            + "\";\"\";\"2\"",
-        "\"\";\"" + date + "\";\"\";0.30;0;\"Main\";\"Sub\";\"\";\"\";\"\";\"\"",
-        "\"\";\"" + date + "\";\"\";0.40;0;\"Main\";\"Sub\";\"Note for myself with \"\"quote\"\"\";\"\";\"\";\"\"",
+            + "\";\"\";\"2\";\"\"",
+        "\"\";\"" + date + "\";\"\";0.30;0;\"Main\";\"Sub\";\"\";\"\";\"\";\"\";\"picture.png\"",
+        "\"\";\"" + date + "\";\"\";0.40;0;\"Main\";\"Sub\";\"Note for myself with \"\"quote\"\"\";\"\";\"\";\"\";\"\"",
         "\"\";\"" + date + "\";\"\";0.50;0;\"" + getContext().getString(R.string.transfer)
-            + "\";\"[Account 2]\";\"\";\"\";\"X\";\"\"",
+            + "\";\"[Account 2]\";\"\";\"\";\"X\";\"\";\"\"",
         "\"\";\"" + date + "\";\"\";0;0.60;\"" + getContext().getString(R.string.transfer)
-            + "\";\"[Account 2]\";\"\";\"\";\"\";\"\"",
-        "\"*\";\"" + date + "\";\"\";0.70;0;\"Main\";\"\";\"\";\"\";\"\";\"\"",
-        "\"-\";\"" + date + "\";\"\";0.40;0;\"Main\";\"\";\"\";\"\";\"\";\"\"",
-        "\"-\";\"" + date + "\";\"\";0.30;0;\"Main\";\"Sub\";\"\";\"\";\"\";\"\""
+            + "\";\"[Account 2]\";\"\";\"\";\"\";\"\";\"\"",
+        "\"*\";\"" + date + "\";\"\";0.70;0;\"Main\";\"\";\"\";\"\";\"\";\"\";\"\"",
+        "\"-\";\"" + date + "\";\"\";0.40;0;\"Main\";\"\";\"\";\"\";\"\";\"\";\"\"",
+        "\"-\";\"" + date + "\";\"\";0.30;0;\"Main\";\"Sub\";\"\";\"\";\"\";\"\";\"\""
     };
     try {
       insertData1();
@@ -257,18 +270,18 @@ public class ExportTest extends ModelTest {
     String[] linesCSV = new String[]{
         csvHeader(),
         "\"\";\"" + date + "\";\"\";0;0,10;\"\";\"\";\"\";\"" + getContext().getString(R.string.pm_cheque)
-            + "\";\"*\";\"1\"",
+            + "\";\"*\";\"1\";\"\"",
         "\"\";\"" + date + "\";\"N.N.\";0;0,20;\"Main\";\"\";\"\";\"" + getContext().getString(R.string.pm_cheque)
-            + "\";\"\";\"2\"",
-        "\"\";\"" + date + "\";\"\";0,30;0;\"Main\";\"Sub\";\"\";\"\";\"\";\"\"",
-        "\"\";\"" + date + "\";\"\";0,40;0;\"Main\";\"Sub\";\"Note for myself with \"\"quote\"\"\";\"\";\"\";\"\"",
+            + "\";\"\";\"2\";\"\"",
+        "\"\";\"" + date + "\";\"\";0,30;0;\"Main\";\"Sub\";\"\";\"\";\"\";\"\";\"picture.png\"",
+        "\"\";\"" + date + "\";\"\";0,40;0;\"Main\";\"Sub\";\"Note for myself with \"\"quote\"\"\";\"\";\"\";\"\";\"\"",
         "\"\";\"" + date + "\";\"\";0,50;0;\"" + getContext().getString(R.string.transfer)
-            + "\";\"[Account 2]\";\"\";\"\";\"X\";\"\"",
+            + "\";\"[Account 2]\";\"\";\"\";\"X\";\"\";\"\"",
         "\"\";\"" + date + "\";\"\";0;0,60;\"" + getContext().getString(R.string.transfer)
-            + "\";\"[Account 2]\";\"\";\"\";\"\";\"\"",
-        "\"*\";\"" + date + "\";\"\";0,70;0;\"Main\";\"\";\"\";\"\";\"\";\"\"",
-        "\"-\";\"" + date + "\";\"\";0,40;0;\"Main\";\"\";\"\";\"\";\"\";\"\"",
-        "\"-\";\"" + date + "\";\"\";0,30;0;\"Main\";\"Sub\";\"\";\"\";\"\";\"\""
+            + "\";\"[Account 2]\";\"\";\"\";\"\";\"\";\"\"",
+        "\"*\";\"" + date + "\";\"\";0,70;0;\"Main\";\"\";\"\";\"\";\"\";\"\";\"\"",
+        "\"-\";\"" + date + "\";\"\";0,40;0;\"Main\";\"\";\"\";\"\";\"\";\"\";\"\"",
+        "\"-\";\"" + date + "\";\"\";0,30;0;\"Main\";\"Sub\";\"\";\"\";\"\";\"\";\"\""
     };
     try {
       insertData1();
@@ -286,8 +299,8 @@ public class ExportTest extends ModelTest {
     String[] linesCSV = new String[]{
         csvHeader(),
         "\"\";\"" + date + "\";\"\";0;1.00;\"\";\"\";\"Expense inserted after first export\";\""
-            + getContext().getString(R.string.pm_cheque) + "\";\"\";\"3\"",
-        "\"\";\"" + date + "\";\"N.N.\";1.00;0;\"\";\"\";\"Income inserted after first export\";\"\";\"\";\"\""
+            + getContext().getString(R.string.pm_cheque) + "\";\"\";\"3\";\"\"",
+        "\"\";\"" + date + "\";\"N.N.\";1.00;0;\"\";\"\";\"Income inserted after first export\";\"\";\"\";\"\";\"\""
     };
     try {
       insertData1();
@@ -337,7 +350,8 @@ public class ExportTest extends ModelTest {
         R.string.comment,
         R.string.method,
         R.string.status,
-        R.string.reference_number};
+        R.string.reference_number,
+        R.string.picture};
     for (int res : resArray) {
       sb.append("\"");
       sb.append(getContext().getString(res));
