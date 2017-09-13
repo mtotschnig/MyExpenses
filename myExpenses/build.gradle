@@ -135,7 +135,7 @@ dependencies {
     annotationProcessor 'com.ryanharter.auto.value:auto-value-gson:0.4.6'
     provided 'com.ryanharter.auto.value:auto-value-gson:0.4.6'
     annotationProcessor 'com.gabrielittner.auto.value:auto-value-cursor:1.0.1'
-    compile 'com.gabrielittner.auto.value:auto-value-cursor-annotations:1.0.0'
+    compile 'com.gabrielittner.auto.value:auto-value-cursor-annotations:1.0.1'
     annotationProcessor 'com.ryanharter.auto.value:auto-value-parcel:0.2.5'
     compile 'com.github.mtotschnig:StickyListHeaders:2.7.1'
     compile 'com.github.mtotschnig:MaterialSeekBarPreference:improvement~align-with-layout-specific-to-each-level-SNAPSHOT'
@@ -149,16 +149,16 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.PhilJay:MPAndroidChart:bd75e6c'
     compile 'com.github.mtotschnig:Caldroid:master-SNAPSHOT'
-    compile 'com.github.mtotschnig:SimpleDialogFragments:master-SNAPSHOT'
+    compile 'com.github.eltos:simpledialogfragment:2.2'
     //noinspection GradleDynamicVersion
     compile 'com.commonsware.cwac:wakeful:1.0.+'
-    compile 'com.annimon:stream:1.1.6'
+    compile 'com.annimon:stream:1.1.8'
 
     // WebDAV
-    compile 'com.squareup.okhttp3:okhttp:3.4.2'
+    compile 'com.squareup.okhttp3:okhttp:3.8.0'
 
     //noinspection GradleCompatible
-    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.android.support:multidex:1.0.2'
 
     compile 'org.apache.commons:commons-collections4:4.1'
 
@@ -173,7 +173,7 @@ dependencies {
 
     compile supportCompile
 
-    compile 'net.pubnative:mediation:1.2.12'
+    compile 'net.pubnative:mediation:1.2.15'
 
     androidTestCompile 'com.android.support.test.espresso:espresso-core:' + project.espressoVersion
     androidTestCompile 'junit:junit:4.12'
@@ -184,14 +184,14 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-contrib:' + project.espressoVersion) {
         exclude module: 'accessibility-test-framework'
     }
-    androidTestCompile 'org.mockito:mockito-core:1.10.19'
+    androidTestCompile 'org.mockito:mockito-core:2.7.22'
     androidTestCompile 'com.crittercism.dexmaker:dexmaker:1.4'
     androidTestCompile 'com.crittercism.dexmaker:dexmaker-dx:1.4'
     androidTestCompile 'com.crittercism.dexmaker:dexmaker-mockito:1.4'
 
     testCompile 'junit:junit:4.12'
-    testCompile 'pl.pragmatists:JUnitParams:1.0.5'
-    testCompile 'org.mockito:mockito-core:1.10.19'
+    testCompile 'pl.pragmatists:JUnitParams:1.1.0'
+    testCompile 'org.mockito:mockito-core:2.7.22'
     debugCompile project(path: ':setupwizard')
     releaseCompile project(path: ':setupwizard')
 }
