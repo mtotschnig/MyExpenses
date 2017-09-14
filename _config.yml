@@ -107,6 +107,48 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 2.8.1
+    - "2017-09-07"
+    -
+      en: |
+        Option for custom plans. Fix cloud storage of large backups.
+      fr: |
+        Option pour les plans personnalisés. Correction du stockage dans le cloud de sauvegardes volumineuses.
+      de: |
+        Option für benutzerdefinierte Pläne. Cloud-Speicherung von großen Backups wurde repariert.
+      it: |
+        Opzione per piani personalizzati.
+      pt: |
+        Opção para planos personalizados.
+      bg: |
+        Възможност за потребителски планове. Отстранен проблем при съхраняване на голям бекъп на отдалечено място за съхранение.
+      ja: |
+        カスタム計画のオプション. 大規模バックアップのクラウドストレージを修正.  
+  -
+    - 2.8.0
+    - "2017-08-27"
+    -
+      en: |
+        Hebrew translation. Picker for custom account color.
+      fr: |
+        Traduction en hébreu. Choix personnalisé pour la couleur du compte.
+      de: |
+        Hebräische Übersetzung. Auswahl einer benutzerdefinierten Farbe für Konten.
+      it: |
+        Traduzione ebraica.
+      es: |
+        Traducción a Hebreo. Seleccionar un color de cuenta personalizado.
+      pt: |
+        Tradução hebraica.
+      tr: |
+        İbranice tercüme. Özel hesap rengi için seçici.
+      eu: |
+        Hebreerara itzulpena. Hautatzailea kontu kolore pertsonalizatuarentzat.
+      bg: |
+        Превод на еврейски език . Палитра за избор на цвят на сметка.
+      ja: |
+        ヘブライ語翻訳. カスタムアカウント色の選択.
+  -
     - 2.7.9
     - "2017-04-14"
     -
@@ -116,10 +158,16 @@ versions:
         Les symboles des devises peuvent être configurés.
       de: |
         Währungssymbole können konfiguriert werden.
+      it: |
+        È possibile configurare simboli di valuta.
       es: |
         Los símbolos de moneda se pueden configurar.
       tr: |
         Para birimi sembolleri yapılandırılabilir.
+      eu: |
+        Moneta-ikurrak konfiguratu daitezke.
+      bg: |
+        Може да се задават знаци за валута.
       ja: |
         通貨記号を設定できます.
   -
@@ -132,10 +180,16 @@ versions:
         Raccourcis application pour Android 7.1.
       de: |
         App Verknüpfungen für Android 7.1.
+      it: |
+        Scorciatoia dell'app per Android 7.1.
       es: |
         Accesos directos a la aplicación para Android 7.1.
       tr: |
         Android 7.1 için uygulama kısayolları.
+      eu: |
+        Lasterbideak aplikaziora Android 7.1-erako.
+      bg: |
+        Шорткъти на приложението за Андроид 7.1.
       ja: |
         Android 7.1 用アプリショートカット.
   -
