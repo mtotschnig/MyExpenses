@@ -50,7 +50,7 @@
     <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">No ads</string>
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Unlimited number of accounts</string>
     <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Attach image to transaction</string>
-    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Distribution of transactions per category</string>
+    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Pie chart (Distribution per category)</string>
     <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Unlimited number of plans</string>
     <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Export transaction list to PDF</string>
     <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Template widget</string>
