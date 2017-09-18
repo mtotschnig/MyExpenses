@@ -118,6 +118,7 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_SETUP_FROM_SYNC_ACCOUNTS = 52;
   public static final int TASK_REPAIR_SYNC_BACKEND = 53;
   public static final int TASK_STORE_SETTING = 54;
+  public static final int TASK_VALIDATE_LICENCE = 55;
 
   /**
    * Callback interface through which the fragment will report the task's

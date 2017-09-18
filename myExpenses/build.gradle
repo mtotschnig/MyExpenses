@@ -191,6 +191,11 @@ dependencies {
     testImplementation 'pl.pragmatists:JUnitParams:1.1.0'
     testImplementation 'org.mockito:mockito-core:2.7.22'
     implementation project(path: ':setupwizard')
+
+    //licence validation
+    implementation 'com.google.code.gson:gson:2.8.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
 }
 
 def getDate() {

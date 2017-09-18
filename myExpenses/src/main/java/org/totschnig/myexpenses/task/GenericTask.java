@@ -15,6 +15,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.RemoteException;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.provider.DocumentFile;
 import android.text.TextUtils;
@@ -52,6 +53,8 @@ import org.totschnig.myexpenses.util.FileCopyUtils;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.licence.Licence;
+import org.totschnig.myexpenses.util.licence.ValidationService;
 
 import java.io.File;
 import java.io.IOException;
@@ -61,6 +64,10 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 import timber.log.Timber;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
@@ -698,6 +705,31 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         values.put(KEY_VALUE, (String) mExtra);
         cr.insert(TransactionProvider.SETTINGS_URI, values);
         return null;
+      }
+      case TaskExecutionFragment.TASK_VALIDATE_LICENCE: {
+        Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl("https://licencedb.myexpenses.mobi/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build();
+
+        ValidationService service = retrofit.create(ValidationService.class);
+        Call<Licence> licenceCall = service.validateLicence(PrefKey.ENTER_LICENCE.getString(""),
+            Settings.Secure.getString(cr, Settings.Secure.ANDROID_ID));
+        try {
+          Response<Licence> licenceResponse = licenceCall.execute();
+          if (licenceResponse.isSuccessful()) {
+            //store
+            return Result.SUCCESS;
+          } else {
+            //interpret status code
+            //licenceResponse.code();
+            return Result.FAILURE;
+            //interpret status code
+            //licenceResponse.code();
+          }
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
       }
     }
     return null;
