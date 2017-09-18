@@ -208,12 +208,9 @@
         android:title="@string/menu_contrib">
         <Preference
             android:key="@string/pref_contrib_purchase_key"/>
-        <Preference
-            android:key="@string/pref_request_licence_key"
-            android:title="@string/pref_request_licence_title"/>
         <EditTextPreference
             android:inputType="number"
-            android:key="@string/pref_enter_licence_key"
+            android:key="@string/pref_new_licence_key"
             android:summary="@string/pref_enter_licence_summary"
             android:title="@string/pref_enter_licence_title"/>
     </PreferenceCategory>

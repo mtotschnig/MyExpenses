@@ -108,7 +108,6 @@ import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_ENABLE_ACCO
 import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET;
 import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET;
 import static org.totschnig.myexpenses.preference.PrefKey.RATE;
-import static org.totschnig.myexpenses.preference.PrefKey.REQUEST_LICENCE;
 import static org.totschnig.myexpenses.preference.PrefKey.RESTORE;
 import static org.totschnig.myexpenses.preference.PrefKey.RESTORE_LEGACY;
 import static org.totschnig.myexpenses.preference.PrefKey.ROOT_SCREEN;
@@ -455,23 +454,14 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   }
 
   public void configureContribPrefs() {
-    Preference requestLicencePref = findPreference(REQUEST_LICENCE),
-        contribPurchasePref = findPreference(CONTRIB_PURCHASE);
+    Preference contribPurchasePref = findPreference(CONTRIB_PURCHASE);
     String contribPurchaseTitle, contribPurchaseSummary;
     LicenceHandler licenceHandler = MyApplication.getInstance().getLicenceHandler();
     if (licenceHandler.isNoLongerUpgradeable()) {
-      PreferenceCategory cat = ((PreferenceCategory) findPreference(CATEGORY_CONTRIB));
-      if (requestLicencePref != null) {
-        cat.removePreference(requestLicencePref);
-      }
       contribPurchaseTitle = getString(R.string.licence_status) + ": " + getString(
           licenceHandler.isExtendedEnabled() ? R.string.extended_key : R.string.contrib_key);
       contribPurchaseSummary = getString(R.string.thank_you);
     } else {
-      if (requestLicencePref != null) {
-        requestLicencePref.setOnPreferenceClickListener(this);
-        requestLicencePref.setSummary(getString(R.string.pref_request_licence_summary, Settings.Secure.getString(getActivity().getContentResolver(), Settings.Secure.ANDROID_ID)));
-      }
       boolean contribEnabled = licenceHandler.isContribEnabled();
       if (contribEnabled) {
         contribPurchaseTitle = getString(R.string.licence_status) + ": " + getString(R.string.contrib_key);
@@ -565,10 +555,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
           startActivity(i);
         }
       }
-      return true;
-    }
-    if (matches(preference, REQUEST_LICENCE)) {
-      CommonCommands.dispatchCommand(getActivity(), R.id.REQUEST_LICENCE_COMMAND, null);
       return true;
     }
     if (matches(preference, SEND_FEEDBACK)) {
