@@ -18,6 +18,12 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_281">
+    <item>Opzione per piani personalizzati</item>
+  </string-array>
+  <string-array name="whats_new_280">
+    <item>Traduzione ebraica</item>
+  </string-array>
   <string-array name="whats_new_279">
     <item>È possibile configurare simboli di valuta</item>
   </string-array>

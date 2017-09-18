@@ -18,6 +18,12 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_281">
+    <item>Opção para planos personalizados</item>
+  </string-array>
+  <string-array name="whats_new_280">
+    <item>Tradução hebraica</item>
+  </string-array>
   <string-array name="whats_new_271">
     <item>Problemas com planos em dispositivos Samsung são resolvidos</item>
     <item>Editar transações da tela de distribuição</item>
