@@ -302,7 +302,8 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
   @Override
   public void onPostExecute(int taskId, Object o) {
     super.onPostExecute(taskId, o);
-    if (taskId == TaskExecutionFragment.TASK_VALIDATE_LICENCE) {
+    if (taskId == TaskExecutionFragment.TASK_VALIDATE_LICENCE ||
+        taskId == TaskExecutionFragment.TASK_REMOVE_LICENCE) {
       snackbar.dismiss();
       if (o instanceof Result) {
         Result r = ((Result) o);

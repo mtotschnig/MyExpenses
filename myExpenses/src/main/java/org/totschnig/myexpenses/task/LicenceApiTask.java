@@ -90,6 +90,7 @@ public class LicenceApiTask extends AsyncTask<Void, Void, Result> {
       try {
         Response<Void> licenceResponse = licenceCall.execute();
         if (licenceResponse.isSuccessful()) {
+          licenceHandler.updateLicenceStatus(null);
           return new Result(true, R.string.licence_removal_success);
         } else {
           return buildFailureResult(String.valueOf(licenceResponse.code()));
