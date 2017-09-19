@@ -8,10 +8,13 @@ import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
 import org.totschnig.myexpenses.export.pdf.PdfPrinter;
 import org.totschnig.myexpenses.fragment.CategoryList;
+import org.totschnig.myexpenses.fragment.SettingsFragment;
 import org.totschnig.myexpenses.fragment.SplitPartList;
 import org.totschnig.myexpenses.fragment.StaleImagesList;
 import org.totschnig.myexpenses.fragment.TemplatesList;
 import org.totschnig.myexpenses.fragment.TransactionList;
+import org.totschnig.myexpenses.task.ValidateLicenceTask;
+import org.totschnig.myexpenses.util.LicenceHandler;
 import org.totschnig.myexpenses.util.ads.AdHandler;
 
 import javax.inject.Singleton;
@@ -46,4 +49,10 @@ public interface AppComponent {
   void inject(CategoryList categoryList);
 
   void inject(AdHandler adHandler);
+
+  void inject(ValidateLicenceTask validateLicenceTask);
+
+  void inject(LicenceHandler licenceHandler);
+
+  void inject(SettingsFragment settingsFragment);
 }

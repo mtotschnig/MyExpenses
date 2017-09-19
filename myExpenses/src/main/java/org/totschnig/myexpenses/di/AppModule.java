@@ -1,8 +1,13 @@
 package org.totschnig.myexpenses.di;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
+
+import com.google.android.vending.licensing.AESObfuscator;
+import com.google.android.vending.licensing.PreferenceObfuscator;
 
 import org.acra.ReportingInteractionMode;
 import org.acra.config.ACRAConfiguration;
@@ -17,6 +22,7 @@ import org.totschnig.myexpenses.util.HashLicenceHandler;
 import org.totschnig.myexpenses.util.LicenceHandler;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -96,5 +102,24 @@ public class AppModule {
         }
       };
     }
+  }
+
+  @Provides
+  @Singleton
+  @Named("deviceId")
+  String provideDeviceId() {
+    return Settings.Secure.getString(application.getContentResolver(), Settings.Secure.ANDROID_ID);
+  }
+
+  @Provides
+  @Singleton
+  PreferenceObfuscator provideLicencePrefs(@Named("deviceId") String deviceId) {
+    String PREFS_FILE = "license_status_new";
+    SharedPreferences sp = application.getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE);
+    byte[] SALT = new byte[]{
+        -1, -124, -4, -59, -52, 1, -97, -32, 38, 59, 64, 13, 45, -104, -3, -92, -56, -49, 65, -25
+    };
+    return new PreferenceObfuscator(
+        sp, new AESObfuscator(SALT, application.getPackageName(), deviceId));
   }
 }

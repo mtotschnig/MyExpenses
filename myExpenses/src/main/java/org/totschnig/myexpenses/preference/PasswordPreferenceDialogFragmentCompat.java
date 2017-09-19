@@ -43,21 +43,21 @@ public class PasswordPreferenceDialogFragmentCompat extends PreferenceDialogFrag
     }
   }
 
-  //@Override
+  @Override
   protected void onBindDialogView(View view) {
     PasswordPreference preference = ((PasswordPreference) getPreference());
-    password1 = (EditText) view.findViewById(R.id.password1);
-    password2 = (EditText) view.findViewById(R.id.password2);
-    protect = (CheckBox) view.findViewById(R.id.performProtection);
-    change = (CheckBox) view.findViewById(R.id.changePassword);
-    password2Wrapper = (TextInputLayout) view.findViewById(R.id.password2Wrapper);
+    password1 = view.findViewById(R.id.password1);
+    password2 = view.findViewById(R.id.password2);
+    protect = view.findViewById(R.id.performProtection);
+    change = view.findViewById(R.id.changePassword);
+    password2Wrapper = view.findViewById(R.id.password2Wrapper);
     String warning = ContribFeature.SECURITY_QUESTION.hasAccess() ?
         getContext().getString(R.string.warning_password_contrib) :
         (getContext().getString(R.string.warning_password_no_contrib) + " " +
             ContribFeature.SECURITY_QUESTION.buildRequiresString(getContext()));
     ((TextView) view.findViewById(R.id.password_warning)).setText(warning);
-    main = (LinearLayout) view.findViewById(R.id.layoutMain);
-    edit = (LinearLayout) view.findViewById(R.id.layoutPasswordEdit);
+    main = view.findViewById(R.id.layoutMain);
+    edit = view.findViewById(R.id.layoutPasswordEdit);
     boolProtectOrig = preference.getValue();
     boolProtect = boolProtectOrig;
     protect.setChecked(boolProtect);

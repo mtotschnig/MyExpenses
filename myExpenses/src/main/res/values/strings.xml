@@ -683,5 +683,7 @@
     <string name="licence_validation_error_device_limit_exceeded">Device limit exceeded. Please remove licence from another device.</string>
     <string name="error">Error (%s)</string>
     <string name="licence_validation_error_not_found">Licence could not be found</string>
+    <string name="button_validate">Validate</string>
+    <string name="licence_key">Licence Key</string>
 </resources>
 

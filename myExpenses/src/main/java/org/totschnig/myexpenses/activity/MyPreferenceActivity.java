@@ -67,7 +67,6 @@ import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP_TIME;
 import static org.totschnig.myexpenses.preference.PrefKey.GROUP_MONTH_STARTS;
 import static org.totschnig.myexpenses.preference.PrefKey.GROUP_WEEK_STARTS;
-import static org.totschnig.myexpenses.preference.PrefKey.NEW_LICENCE;
 import static org.totschnig.myexpenses.preference.PrefKey.PERFORM_PROTECTION;
 import static org.totschnig.myexpenses.preference.PrefKey.PERFORM_PROTECTION_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.PLANNER_CALENDAR_ID;
@@ -206,18 +205,20 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       AbstractWidget.updateWidgets(this, TemplateWidget.class);
     } else if (key.equals(AUTO_BACKUP.getKey()) || key.equals(AUTO_BACKUP_TIME.getKey())) {
       DailyAutoBackupScheduler.updateAutoBackupAlarms(this);
-    } else if (key.equals(NEW_LICENCE.getKey())) {
-      startTaskExecution(TaskExecutionFragment.TASK_VALIDATE_LICENCE, new String[]{}, null, 0);
-      snackbar = Snackbar.make(
-          findViewById(R.id.fragment_container), R.string.progress_validating_licence, Snackbar.LENGTH_INDEFINITE);
-      UiUtils.configureSnackbarForDarkTheme(snackbar);
-      snackbar.show();
     } else if (key.equals(SYNC_FREQUCENCY.getKey())) {
       for (Account account : GenericAccountService.getAccountsAsArray(this)) {
         ContentResolver.addPeriodicSync(account, TransactionProvider.AUTHORITY, Bundle.EMPTY,
             SYNC_FREQUCENCY.getInt(GenericAccountService.DEFAULT_SYNC_FREQUENCY_HOURS) * HOUR_IN_SECONDS);
       }
     }
+  }
+
+  public void validateLicence() {
+    startTaskExecution(TaskExecutionFragment.TASK_VALIDATE_LICENCE, new String[]{}, null, 0);
+    snackbar = Snackbar.make(
+        findViewById(R.id.fragment_container), R.string.progress_validating_licence, Snackbar.LENGTH_INDEFINITE);
+    UiUtils.configureSnackbarForDarkTheme(snackbar);
+    snackbar.show();
   }
 
   private Intent findDirPicker() {
@@ -305,6 +306,9 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
             findViewById(R.id.fragment_container), r.print(this), Snackbar.LENGTH_LONG);
         UiUtils.configureSnackbarForDarkTheme(snackbar);
         snackbar.show();
+        getFragment().setProtectionDependentsState();
+        getFragment().configureContribPrefs();
+
       }
     }
   }

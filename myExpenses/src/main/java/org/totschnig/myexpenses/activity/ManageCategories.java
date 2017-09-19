@@ -279,7 +279,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
   @Override
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
     if ((DIALOG_NEW_CATEGORY.equals(dialogTag) || DIALOG_EDIT_CATEGORY.equals(dialogTag))
-            && which == BUTTON_POSITIVE){
+        && which == BUTTON_POSITIVE) {
       Long parentId = null;
       if (extras.containsKey(DatabaseConstants.KEY_PARENTID)) {
         parentId = extras.getLong(DatabaseConstants.KEY_PARENTID);

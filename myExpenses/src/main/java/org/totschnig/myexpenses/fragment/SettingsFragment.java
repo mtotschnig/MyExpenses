@@ -13,7 +13,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.provider.DocumentFile;
@@ -78,13 +78,17 @@ import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import javax.inject.Inject;
+
+import eltos.simpledialogfragment.SimpleDialog;
+import eltos.simpledialogfragment.input.SimpleInputDialog;
+
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.RESTORE_REQUEST;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.RESULT_RESTORE_OK;
 import static org.totschnig.myexpenses.preference.PrefKey.APP_DIR;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP_INFO;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACUP_CLOUD;
-import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_CONTRIB;
 import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_MANAGE;
 import static org.totschnig.myexpenses.preference.PrefKey.CONTRIB_PURCHASE;
 import static org.totschnig.myexpenses.preference.PrefKey.CUSTOM_DECIMAL_FORMAT;
@@ -98,6 +102,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.IMPORT_QIF;
 import static org.totschnig.myexpenses.preference.PrefKey.MANAGE_STALE_IMAGES;
 import static org.totschnig.myexpenses.preference.PrefKey.MANAGE_SYNC_BACKENDS;
 import static org.totschnig.myexpenses.preference.PrefKey.MORE_INFO_DIALOG;
+import static org.totschnig.myexpenses.preference.PrefKey.NEW_LICENCE;
 import static org.totschnig.myexpenses.preference.PrefKey.NEXT_REMINDER_RATE;
 import static org.totschnig.myexpenses.preference.PrefKey.PERFORM_PROTECTION;
 import static org.totschnig.myexpenses.preference.PrefKey.PERFORM_PROTECTION_SCREEN;
@@ -124,15 +129,22 @@ import static org.totschnig.myexpenses.preference.PrefKey.UI_LANGUAGE;
 
 public class SettingsFragment extends PreferenceFragmentCompat implements
     Preference.OnPreferenceChangeListener,
-    Preference.OnPreferenceClickListener {
+    Preference.OnPreferenceClickListener,
+    SimpleInputDialog.OnDialogResultListener {
 
+  private static final String DIALOG_VALIDATE_LICENCE = "validateLicence";
+  private static final String DIALOG_MANAGE_LICENCE = "manageLicence";
   private long pickFolderRequestStart;
   private static final int PICK_FOLDER_REQUEST = 2;
   private static final int CONTRIB_PURCHASE_REQUEST = 3;
   private static final int PICK_FOLDER_REQUEST_LEGACY = 4;
 
+  @Inject
+  LicenceHandler licenceHandler;
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
+    MyApplication.getInstance().getAppComponent().inject(this);
     super.onCreate(savedInstanceState);
     if (MyApplication.isInstrumentationTest()) {
       getPreferenceManager().setSharedPreferencesName(MyApplication.getTestId());
@@ -280,7 +292,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
           .setOnPreferenceClickListener(homeScreenShortcutPrefClickHandler);
       pref = findPreference(SHORTCUT_CREATE_SPLIT);
       pref.setOnPreferenceClickListener(homeScreenShortcutPrefClickHandler);
-      pref.setEnabled(MyApplication.getInstance().getLicenceHandler().isContribEnabled());
+      pref.setEnabled(licenceHandler.isContribEnabled());
       pref.setSummary(
           getString(R.string.pref_shortcut_summary) + " " +
               ContribFeature.SPLIT_TRANSACTION.buildRequiresString(getActivity()));
@@ -454,9 +466,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   }
 
   public void configureContribPrefs() {
+    findPreference(NEW_LICENCE).setOnPreferenceClickListener(this);
     Preference contribPurchasePref = findPreference(CONTRIB_PURCHASE);
     String contribPurchaseTitle, contribPurchaseSummary;
-    LicenceHandler licenceHandler = MyApplication.getInstance().getLicenceHandler();
     if (licenceHandler.isNoLongerUpgradeable()) {
       contribPurchaseTitle = getString(R.string.licence_status) + ": " + getString(
           licenceHandler.isExtendedEnabled() ? R.string.extended_key : R.string.contrib_key);
@@ -482,8 +494,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
 
   public void setProtectionDependentsState() {
     boolean isProtected = PERFORM_PROTECTION.getBoolean(false);
-    findPreference(SECURITY_QUESTION).setEnabled(
-        MyApplication.getInstance().getLicenceHandler().isContribEnabled() && isProtected);
+    findPreference(SECURITY_QUESTION).setEnabled(licenceHandler.isContribEnabled() && isProtected);
     findPreference(PROTECTION_DELAY_SECONDS).setEnabled(isProtected);
     findPreference(PROTECTION_ENABLE_ACCOUNT_WIDGET).setEnabled(isProtected);
     findPreference(PROTECTION_ENABLE_TEMPLATE_WIDGET).setEnabled(isProtected);
@@ -545,7 +556,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   @Override
   public boolean onPreferenceClick(Preference preference) {
     if (matches(preference, CONTRIB_PURCHASE)) {
-      if (MyApplication.getInstance().getLicenceHandler().isExtendedEnabled()) {
+      if (licenceHandler.isExtendedEnabled()) {
         //showDialog(R.id.DONATE_DIALOG);//currently nothing to do
       } else {
         Intent i = ContribInfoDialogActivity.getIntentFor(getActivity(), null);
@@ -601,6 +612,27 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         ((MyPreferenceActivity) getActivity()).contribFeatureCalled(ContribFeature.CSV_IMPORT, null);
       } else {
         CommonCommands.showContribDialog(getActivity(), ContribFeature.CSV_IMPORT, null);
+      }
+      return true;
+    }
+    if (matches(preference, NEW_LICENCE)) {
+      String licenceKey = NEW_LICENCE.getString("");
+      if (licenceHandler.isContribEnabled()) {
+        SimpleDialog.build()
+            .title(R.string.licence_key)
+            .msg(licenceKey)
+            .pos(R.string.button_validate)
+            .neg(R.string.menu_remove)
+            .show(this, DIALOG_MANAGE_LICENCE);
+
+      } else {
+        SimpleInputDialog.build()
+            .title(R.string.pref_enter_licence_title)
+            .hint(R.string.licence_key)
+            .text(licenceKey)
+            .pos(R.string.button_validate)
+            .neut()
+            .show(this, DIALOG_VALIDATE_LICENCE);
       }
       return true;
     }
@@ -733,5 +765,25 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     } else if (requestCode == PICK_FOLDER_REQUEST_LEGACY && resultCode == Activity.RESULT_OK) {
       setAppDirSummary();
     }
+  }
+
+  @Override
+  public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
+    if (DIALOG_VALIDATE_LICENCE.equals(dialogTag)) {
+      if (which == BUTTON_POSITIVE) {
+        NEW_LICENCE.putString(extras.getString(SimpleInputDialog.TEXT));
+        ((MyPreferenceActivity) getActivity()).validateLicence();
+      }
+    } else if (DIALOG_MANAGE_LICENCE.equals(dialogTag)) {
+      switch (which) {
+        case BUTTON_POSITIVE:
+          ((MyPreferenceActivity) getActivity()).validateLicence();
+          break;
+        case BUTTON_NEGATIVE:
+          //Confirmation dialog
+          break;
+      }
+    }
+    return true;
   }
 }

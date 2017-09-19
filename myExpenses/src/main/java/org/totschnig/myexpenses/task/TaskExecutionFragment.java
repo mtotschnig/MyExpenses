@@ -298,6 +298,9 @@ public class TaskExecutionFragment<T> extends Fragment {
         case TASK_FETCH_SYNC_ACCOUNT_DATA:
           new SyncAccountTask(this, args, false).execute();
           break;
+        case TASK_VALIDATE_LICENCE:
+          new ValidateLicenceTask(this).execute();
+          break;
         default:
           new GenericTask<T>(this, taskId, args.getSerializable(KEY_EXTRA))
               .execute((T[]) args.getSerializable(KEY_OBJECT_IDS));

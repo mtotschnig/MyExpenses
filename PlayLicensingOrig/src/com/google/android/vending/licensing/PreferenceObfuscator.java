@@ -50,6 +50,13 @@ public class PreferenceObfuscator {
         mEditor.putString(key, obfuscatedValue);
     }
 
+    public void remove(String key) {
+        if (mEditor == null) {
+            mEditor = mPreferences.edit();
+        }
+        mEditor.remove(key);
+    }
+
     public String getString(String key, String defValue) {
         String result;
         String value = mPreferences.getString(key, null);
