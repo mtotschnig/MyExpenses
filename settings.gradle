@@ -1,3 +1,4 @@
+include ':PlayLicensingOrig'
 include ':myExpenses'
 include ':setupwizard'
 
