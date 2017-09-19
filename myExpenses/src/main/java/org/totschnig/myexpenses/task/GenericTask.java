@@ -424,7 +424,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
             if (success) {
               cr.delete(staleImageUri, null, null);
             } else {
-              Timber.e( "Unable to move file %s", imageFileUri.toString());
+              Timber.e("Unable to move file %s", imageFileUri.toString());
             }
           }
           c.close();
@@ -556,7 +556,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         bundle.putString(KEY_UUID, account.uuid);
         bundle.putBoolean(SyncAdapter.KEY_RESET_REMOTE_ACCOUNT, true);
         ContentResolver.requestSync(GenericAccountService.GetAccount(syncAccountName),
-                TransactionProvider.AUTHORITY, bundle);
+            TransactionProvider.AUTHORITY, bundle);
         account.save();
         return Result.SUCCESS;
       }
@@ -581,7 +581,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       case TaskExecutionFragment.TASK_SYNC_LINK_SAVE: {
         //first get remote data for account
         String syncAccountName = ((String) mExtra);
-        SyncBackendProvider syncBackendProvider =  getSyncBackendProviderFromExtra();
+        SyncBackendProvider syncBackendProvider = getSyncBackendProviderFromExtra();
         if (syncBackendProvider == null) {
           return Result.FAILURE;
         }
@@ -589,8 +589,8 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         try {
           Stream<AccountMetaData> remoteAccounStream = syncBackendProvider.getRemoteAccountList();
           remoteUuidList = remoteAccounStream
-                  .map(AccountMetaData::uuid)
-                  .collect(Collectors.toList());
+              .map(AccountMetaData::uuid)
+              .collect(Collectors.toList());
         } catch (IOException e) {
           return new Result(false, e.getMessage());
         }
@@ -631,25 +631,25 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       }
       case TaskExecutionFragment.TASK_SYNC_CHECK: {
         String accountUuid = (String) ids[0];
-        SyncBackendProvider syncBackendProvider =  getSyncBackendProviderFromExtra();
+        SyncBackendProvider syncBackendProvider = getSyncBackendProviderFromExtra();
         if (syncBackendProvider == null) {
           return Result.FAILURE;
         }
         try {
-              if (syncBackendProvider.getRemoteAccountList()
-                  .anyMatch(metadata -> metadata.uuid().equals(accountUuid))) {
-                return new Result(false, Utils.concatResStrings(application, " ",
-                    R.string.link_account_failure_2, R.string.link_account_failure_3)
-                    + "(" + Utils.concatResStrings(application, ", ", R.string.menu_settings,
-                    R.string.pref_manage_sync_backends_title) + ")");
-              }
+          if (syncBackendProvider.getRemoteAccountList()
+              .anyMatch(metadata -> metadata.uuid().equals(accountUuid))) {
+            return new Result(false, Utils.concatResStrings(application, " ",
+                R.string.link_account_failure_2, R.string.link_account_failure_3)
+                + "(" + Utils.concatResStrings(application, ", ", R.string.menu_settings,
+                R.string.pref_manage_sync_backends_title) + ")");
+          }
           return Result.SUCCESS;
         } catch (IOException e) {
           return new Result(false, e.getMessage());
         }
       }
       case TaskExecutionFragment.TASK_INIT: {
-        for (SyncBackendProviderFactory factory: ServiceLoader.load(application)) {
+        for (SyncBackendProviderFactory factory : ServiceLoader.load(application)) {
           factory.init();
         }
         if (Utils.hasApiLevel(Build.VERSION_CODES.HONEYCOMB)) {
@@ -662,7 +662,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       }
       case TaskExecutionFragment.TASK_SETUP_FROM_SYNC_ACCOUNTS: {
         String syncAccountName = (String) mExtra;
-        SyncBackendProvider syncBackendProvider =  getSyncBackendProviderFromExtra();
+        SyncBackendProvider syncBackendProvider = getSyncBackendProviderFromExtra();
         if (syncBackendProvider == null) {
           return Result.FAILURE;
         }
@@ -721,14 +721,19 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
             //store
             return Result.SUCCESS;
           } else {
-            //interpret status code
-            //licenceResponse.code();
-            return Result.FAILURE;
-            //interpret status code
-            //licenceResponse.code();
+            switch (licenceResponse.code()) {
+              case 452:
+                return new Result(false, R.string.licence_validation_error_expired);
+              case 453:
+                return new Result(false, R.string.licence_validation_error_device_limit_exceeded);
+              case 404:
+                return new Result(false, R.string.licence_validation_error_not_found);
+              default:
+                return new Result(false, R.string.error, String.valueOf(licenceResponse.code()));
+            }
           }
         } catch (IOException e) {
-          e.printStackTrace();
+          return new Result(false, R.string.error, e.getMessage());
         }
       }
     }

@@ -299,11 +299,13 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     super.onPostExecute(taskId, o);
     if (taskId == TaskExecutionFragment.TASK_VALIDATE_LICENCE) {
       snackbar.dismiss();
-      Result r = ((Result) o);
-      snackbar = Snackbar.make(
-          findViewById(R.id.fragment_container), r.success ? "Success" : "Failure", Snackbar.LENGTH_LONG);
-      UiUtils.configureSnackbarForDarkTheme(snackbar);
-      snackbar.show();
+      if (o instanceof Result) {
+        Result r = ((Result) o);
+        snackbar = Snackbar.make(
+            findViewById(R.id.fragment_container), r.print(this), Snackbar.LENGTH_LONG);
+        UiUtils.configureSnackbarForDarkTheme(snackbar);
+        snackbar.show();
+      }
     }
   }
 

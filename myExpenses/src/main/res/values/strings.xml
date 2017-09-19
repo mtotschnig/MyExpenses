@@ -679,5 +679,9 @@
     <string name="picture">Picture</string>
     <string name="menu_create_template_for_split">New split template</string>
     <string name="progress_validating_licence">Validating licence</string>
+    <string name="licence_validation_error_expired">Licence expired</string>
+    <string name="licence_validation_error_device_limit_exceeded">Device limit exceeded. Please remove licence from another device.</string>
+    <string name="error">Error (%s)</string>
+    <string name="licence_validation_error_not_found">Licence could not be found</string>
 </resources>
 
