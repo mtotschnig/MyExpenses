@@ -43,6 +43,7 @@ import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.activity.FolderBrowser;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentCompat;
@@ -780,7 +781,14 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
           ((MyPreferenceActivity) getActivity()).validateLicence();
           break;
         case BUTTON_NEGATIVE:
-          //Confirmation dialog
+          Bundle b = new Bundle();
+          b.putInt(ConfirmationDialogFragment.KEY_TITLE,
+              R.string.dialog_title_information);
+          b.putString(ConfirmationDialogFragment.KEY_MESSAGE, getString(R.string.licence_removal_information));
+          b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_remove);
+          b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.REMOVE_LICENCE_COMMAND);
+          ConfirmationDialogFragment.newInstance(b)
+              .show(getFragmentManager(), "REMOVE_LICENCE");
           break;
       }
     }

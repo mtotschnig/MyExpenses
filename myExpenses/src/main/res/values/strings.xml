@@ -685,5 +685,8 @@
     <string name="licence_validation_error_not_found">Licence could not be found</string>
     <string name="button_validate">Validate</string>
     <string name="licence_key">Licence Key</string>
+    <string name="licence_removal_information">If you no longer need premium functionality on this device, you can remove the licence key. This frees the key for activation on one more other device. The key can be activated on up to five devices.</string>
+    <string name="progress_removing_licence">Removing licence</string>
+    <string name="licence_removal_success">Licence key was successfully freed from this device.</string>
 </resources>
 

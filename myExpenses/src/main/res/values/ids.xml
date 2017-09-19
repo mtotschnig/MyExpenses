@@ -137,4 +137,5 @@
   <item name="SYNC_BACKEND_WEBDAV" type="id"/>
   <item name="SYNC_BACKEND_DRIVE" type="id"/>
   <item name="TRY_AGAIN_COMMAND" type="id"/>
+  <item name="REMOVE_LICENCE_COMMAND" type="id"/>
 </resources>

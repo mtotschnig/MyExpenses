@@ -13,7 +13,7 @@ import org.totschnig.myexpenses.fragment.SplitPartList;
 import org.totschnig.myexpenses.fragment.StaleImagesList;
 import org.totschnig.myexpenses.fragment.TemplatesList;
 import org.totschnig.myexpenses.fragment.TransactionList;
-import org.totschnig.myexpenses.task.ValidateLicenceTask;
+import org.totschnig.myexpenses.task.LicenceApiTask;
 import org.totschnig.myexpenses.util.LicenceHandler;
 import org.totschnig.myexpenses.util.ads.AdHandler;
 
@@ -50,7 +50,7 @@ public interface AppComponent {
 
   void inject(AdHandler adHandler);
 
-  void inject(ValidateLicenceTask validateLicenceTask);
+  void inject(LicenceApiTask licenceApiTask);
 
   void inject(LicenceHandler licenceHandler);
 

@@ -214,9 +214,13 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
   }
 
   public void validateLicence() {
-    startTaskExecution(TaskExecutionFragment.TASK_VALIDATE_LICENCE, new String[]{}, null, 0);
+    startValidationTask(TaskExecutionFragment.TASK_VALIDATE_LICENCE, R.string.progress_validating_licence);
+  }
+
+  private void startValidationTask(int taskId, int progressResId) {
+    startTaskExecution(taskId, new String[]{}, null, 0);
     snackbar = Snackbar.make(
-        findViewById(R.id.fragment_container), R.string.progress_validating_licence, Snackbar.LENGTH_INDEFINITE);
+        findViewById(R.id.fragment_container), progressResId, Snackbar.LENGTH_INDEFINITE);
     UiUtils.configureSnackbarForDarkTheme(snackbar);
     snackbar.show();
   }
@@ -311,6 +315,15 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
 
       }
     }
+  }
+
+  @Override
+  public boolean dispatchCommand(int command, Object tag) {
+    if (command == R.id.REMOVE_LICENCE_COMMAND) {
+      startValidationTask(TaskExecutionFragment.TASK_REMOVE_LICENCE, R.string.progress_removing_licence);
+      return true;
+    }
+    return super.dispatchCommand(command, tag);
   }
 
   private void startPreferenceScreen(String key) {
