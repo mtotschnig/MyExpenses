@@ -63,7 +63,7 @@ public abstract class LicenceHandler {
   }
 
   public void updateLicenceStatus(Licence licence) {
-    if (licence == null) {
+    if (licence == null || licence.getType() == null) {
       licenceStatus = null;
       licenseStatusPrefs.remove(LICENSE_STATUS_KEY);
       licenseStatusPrefs.remove(LICENSE_VALID_SINCE_KEY);
@@ -71,8 +71,14 @@ public abstract class LicenceHandler {
     } else {
       licenceStatus = licence.getType();
       licenseStatusPrefs.putString(LICENSE_STATUS_KEY, licenceStatus.name());
-      licenseStatusPrefs.putString(LICENSE_VALID_SINCE_KEY, String.valueOf(licence.getValidSince().getTime()));
-      licenseStatusPrefs.putString(LICENSE_VALID_UNTIL_KEY, String.valueOf(licence.getValidUntil().getTime()));
+      if (licence.getValidSince() != null) {
+        licenseStatusPrefs.putString(LICENSE_VALID_SINCE_KEY, String.valueOf(licence.getValidSince().getTime()));
+      }
+      if (licence.getValidUntil() != null) {
+        licenseStatusPrefs.putString(LICENSE_VALID_UNTIL_KEY, String.valueOf(licence.getValidUntil().getTime()));
+      } else {
+        licenseStatusPrefs.remove(LICENSE_VALID_UNTIL_KEY);
+      }
     }
     licenseStatusPrefs.commit();
     update();
