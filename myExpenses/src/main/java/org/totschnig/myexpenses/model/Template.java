@@ -130,13 +130,37 @@ public class Template extends Transaction {
   public Template(Transaction t, String title) {
     super();
     setTitle(title);
-    template = t instanceof Transfer ? new Transfer(t.getAccountId(), t.getAmount(), ((Transfer) t).getTransferAccountId()) :
-        new Transaction(t.getAccountId(), t.getAmount());
+    if (t instanceof Transfer) {
+      template = new Transfer(t.getAccountId(), t.getAmount(), t.getTransferAccountId());
+    } else if (t instanceof SplitTransaction) {
+      template = new SplitTransaction(t.getAccountId(), t.getAmount());
+    } else {
+      template = new Transaction(t.getAccountId(), t.getAmount());
+    }
     setCatId(t.getCatId());
     setComment(t.getComment());
     setMethodId(t.getMethodId());
     setMethodLabel(t.getMethodLabel());
     setPayee(t.getPayee());
+    if (isSplit()) {
+      persistForEdit();
+      Cursor c = cr().query(Transaction.CONTENT_URI, new String[]{KEY_ROWID},
+          KEY_PARENTID + " = ?", new String[]{String.valueOf(t.getId())}, null);
+      if (c != null) {
+        c.moveToFirst();
+        while (!c.isAfterLast()) {
+          Transaction splitPart = t.getSplitPart(c.getLong(0));
+          if (splitPart != null) {
+            Template part = new Template(splitPart, title);
+            part.status = STATUS_UNCOMMITTED;
+            part.setParentId(getId());
+            part.save();
+          }
+          c.moveToNext();
+        }
+        c.close();
+      }
+    }
   }
 
   @Override
@@ -548,7 +572,7 @@ public class Template extends Transaction {
   }
 
   public static void updateNewPlanEnabled() {
-    boolean newPlanEnabled = true, newSplitTemplateEnabled;
+    boolean newPlanEnabled = true, newSplitTemplateEnabled = true;
     if (!ContribFeature.PLANS_UNLIMITED.hasAccess()) {
       if (count(Template.CONTENT_URI, KEY_PLANID + " is not null", null) >= ContribFeature.FREE_PLANS) {
         newPlanEnabled = false;
@@ -561,7 +585,7 @@ public class Template extends Transaction {
         newSplitTemplateEnabled = false;
       }
     }
-    PrefKey.NEW_SPLIT_TEMPLATE_ENABLED.putBoolean(newPlanEnabled);
+    PrefKey.NEW_SPLIT_TEMPLATE_ENABLED.putBoolean(newSplitTemplateEnabled);
   }
 
   public boolean isPlanExecutionAutomatic() {

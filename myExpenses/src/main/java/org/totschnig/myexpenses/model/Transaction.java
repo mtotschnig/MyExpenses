@@ -673,7 +673,7 @@ public class Transaction extends Model {
       if (c != null) {
         c.moveToFirst();
         while (!c.isAfterLast()) {
-          Transaction part = getSplitPart(c.getLong(c.getColumnIndex(KEY_ROWID)));
+          Transaction part = getSplitPart(c.getLong(0));
           if (part != null) {
             part.status = STATUS_UNCOMMITTED;
             part.setParentId(getId());
