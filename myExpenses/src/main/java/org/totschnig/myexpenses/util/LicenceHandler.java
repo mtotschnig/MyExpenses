@@ -1,6 +1,8 @@
 package org.totschnig.myexpenses.util;
 
+import android.content.Context;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.google.android.vending.licensing.PreferenceObfuscator;
@@ -8,39 +10,46 @@ import com.google.android.vending.licensing.PreferenceObfuscator;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.util.licence.Licence;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.TemplateWidget;
 
-import javax.inject.Inject;
-
-public abstract class LicenceHandler {
+public class LicenceHandler {
   private static final String LICENSE_STATUS_KEY = "licence_status";
   private static final String LICENSE_VALID_SINCE_KEY = "licence_valid_since";
   private static final String LICENSE_VALID_UNTIL_KEY = "licence_valid_until";
   public static boolean HAS_EXTENDED = !DistribHelper.isBlackberry();
-  protected final MyApplication context;
+  public static LicenceStatus EXTENDED = HAS_EXTENDED ? LicenceStatus.EXTENDED : LicenceStatus.CONTRIB;
+  protected final Context context;
+
+  public LicenceStatus getLicenceStatus() {
+    return licenceStatus;
+  }
+
   protected LicenceStatus licenceStatus;
-  @Inject
   PreferenceObfuscator licenseStatusPrefs;
 
-  protected LicenceHandler(MyApplication context) {
+  protected LicenceHandler(Context context, PreferenceObfuscator preferenceObfuscator) {
     this.context = context;
-    context.getAppComponent().inject(this);
+    this.licenseStatusPrefs = preferenceObfuscator;
   }
 
   public boolean isContribEnabled() {
-    return licenceStatus != null;
+    return isEnabledFor(LicenceStatus.CONTRIB);
   }
 
-  public boolean isExtendedEnabled() {
-    return licenceStatus == LicenceStatus.EXTENDED;
+  public boolean isEnabledFor(@NonNull LicenceStatus licenceStatus) {
+    if (this.licenceStatus == null) {
+      return false;
+    }
+    return this.licenceStatus.ordinal() >= licenceStatus.ordinal();
   }
 
-  public boolean isNoLongerUpgradeable() {
-    return isExtendedEnabled() || (isContribEnabled() && !HAS_EXTENDED);
+  public boolean isUpgradeable() {
+    return this.licenceStatus != LicenceStatus.PROFESSIONAL;
   }
 
   public void init() {
@@ -92,18 +101,15 @@ public abstract class LicenceHandler {
   @VisibleForTesting
   public void setLockState(boolean locked) {
     if (MyApplication.isInstrumentationTest()) {
-      setLockStateDo(locked);
+      licenceStatus = locked ? null : LicenceStatus.CONTRIB;
       update();
     } else {
       throw new UnsupportedOperationException();
     }
   }
 
-  protected abstract void setLockStateDo(boolean locked);
-
-
   public enum LicenceStatus {
-    CONTRIB(R.string.contrib_key), EXTENDED(R.string.extended_key);
+    CONTRIB(R.string.contrib_key), EXTENDED(R.string.extended_key), PROFESSIONAL(R.string.professional_key);
 
     private final int resId;
 
@@ -113,6 +119,16 @@ public abstract class LicenceHandler {
 
     public int getResId() {
       return resId;
+    }
+
+    public boolean greaterOrEqual(LicenceStatus other) {
+      if (other == null) return true;
+      return compareTo(other) >= 0;
+    }
+
+    public boolean covers(ContribFeature contribFeature) {
+      if (contribFeature == null) return true;
+      return greaterOrEqual(contribFeature.getLicenceStatus());
     }
   }
 }

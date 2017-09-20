@@ -470,11 +470,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     findPreference(NEW_LICENCE).setOnPreferenceClickListener(this);
     Preference contribPurchasePref = findPreference(CONTRIB_PURCHASE);
     String contribPurchaseTitle, contribPurchaseSummary;
-    if (licenceHandler.isNoLongerUpgradeable()) {
-      contribPurchaseTitle = getString(R.string.licence_status) + ": " + getString(
-          licenceHandler.isExtendedEnabled() ? R.string.extended_key : R.string.contrib_key);
-      contribPurchaseSummary = getString(R.string.thank_you);
-    } else {
+    if (licenceHandler.isUpgradeable()) {
       boolean contribEnabled = licenceHandler.isContribEnabled();
       if (contribEnabled) {
         contribPurchaseTitle = getString(R.string.licence_status) + ": " + getString(R.string.contrib_key);
@@ -488,6 +484,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         contribPurchaseSummary = getString(R.string.pref_contrib_purchase_summary);
       }
       contribPurchasePref.setOnPreferenceClickListener(this);
+    } else {
+      contribPurchaseTitle = getString(R.string.licence_status) + ": " + getString(
+          licenceHandler.getLicenceStatus().getResId());
+      contribPurchaseSummary = getString(R.string.thank_you);
     }
     contribPurchasePref.setSummary(contribPurchaseSummary);
     contribPurchasePref.setTitle(contribPurchaseTitle);
@@ -557,9 +557,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   @Override
   public boolean onPreferenceClick(Preference preference) {
     if (matches(preference, CONTRIB_PURCHASE)) {
-      if (licenceHandler.isExtendedEnabled()) {
-        //showDialog(R.id.DONATE_DIALOG);//currently nothing to do
-      } else {
+      if (licenceHandler.isUpgradeable()) {
         Intent i = ContribInfoDialogActivity.getIntentFor(getActivity(), null);
         if (DistribHelper.isGithub()) {
           startActivityForResult(i, CONTRIB_PURCHASE_REQUEST);

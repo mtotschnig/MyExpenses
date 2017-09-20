@@ -40,15 +40,21 @@ import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import timber.log.Timber;
 
 import static org.totschnig.myexpenses.activity.ContribInfoDialogActivity.KEY_FEATURE;
+import static org.totschnig.myexpenses.util.LicenceHandler.LicenceStatus.CONTRIB;
+import static org.totschnig.myexpenses.util.LicenceHandler.LicenceStatus.EXTENDED;
 
 public class ContribDialogFragment extends CommitSafeDialogFragment implements DialogInterface.OnClickListener, View.OnClickListener {
   @Nullable
   private ContribFeature feature;
-  private RadioButton contribButton, extendedButton;
+  private RadioButton contribButton, extendedButton, professionalButton;
+  private boolean contribVisible;
+  private boolean extendedVisible;
 
   public static ContribDialogFragment newInstance(String feature, Serializable tag) {
     ContribDialogFragment dialogFragment = new ContribDialogFragment();
@@ -72,11 +78,14 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     Activity ctx = getActivity();
+    LicenceHandler.LicenceStatus licenceStatus = MyApplication.getInstance().getLicenceHandler().getLicenceStatus();
     @SuppressLint("InflateParams")
     final View view = LayoutInflater.from(ctx).inflate(R.layout.contrib_dialog, null);
     AlertDialog.Builder builder = new AlertDialog.Builder(ctx,
         MyApplication.getThemeType().equals(MyApplication.ThemeType.dark) ?
             R.style.ContribDialogThemeDark : R.style.ContribDialogThemeLight);
+
+    //preapre HEADER
     CharSequence message;
     if (feature != null) {
       CharSequence featureDescription = feature.buildFullInfoString(ctx),
@@ -84,7 +93,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
           removePhrase = feature.buildRemoveLimitation(getActivity(), true);
       message = TextUtils.concat(featureDescription, linefeed, removePhrase);
       if (feature.hasTrial()) {
-        TextView usagesLeftTextView = (TextView) view.findViewById(R.id.usages_left);
+        TextView usagesLeftTextView = view.findViewById(R.id.usages_left);
         usagesLeftTextView.setText(feature.buildUsagesLefString(ctx));
         usagesLeftTextView.setVisibility(View.VISIBLE);
       }
@@ -96,37 +105,60 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
       }
     }
     ((TextView) view.findViewById(R.id.feature_info)).setText(message);
-    boolean isContrib = MyApplication.getInstance().getLicenceHandler().isContribEnabled();
-    boolean userCanChoose = true;
-    contribButton = (RadioButton) view.findViewById(R.id.contrib_button);
-    extendedButton = (RadioButton) view.findViewById(R.id.extended_button);
-    if (isFeatureExtended() || (feature == null && isContrib)) {
-      view.findViewById(R.id.contrib_feature_container).setVisibility(View.GONE);
-      userCanChoose = false;
-      extendedButton.setChecked(true);
+
+    List<CharSequence> contribFeatureLabelsAsList = Utils.getContribFeatureLabelsAsList(ctx, LicenceHandler.LicenceStatus.CONTRIB);
+    List<CharSequence> extendedFeatureLabelsAsList = Utils.getContribFeatureLabelsAsList(ctx, LicenceHandler.LicenceStatus.EXTENDED);
+
+    //prepare CONTRIB section
+    View contribContainer = view.findViewById(R.id.contrib_feature_container);
+    if (licenceStatus == null && CONTRIB.covers(feature)) {
+     contribVisible = true;
+      CharSequence contribList = Utils.makeBulletList(ctx, contribFeatureLabelsAsList);
+      ((TextView) view.findViewById(R.id.contrib_feature_list)).setText(contribList);
     } else {
-      ((TextView) view.findViewById(R.id.contrib_feature_list)).setText(
-          Utils.makeBulletList(ctx, Utils.getContribFeatureLabelsAsList(ctx, LicenceHandler.LicenceStatus.CONTRIB)));
+      contribContainer.setVisibility(View.GONE);
     }
-    if (LicenceHandler.HAS_EXTENDED) {
-      String[] lines;
-      if (isFeatureExtended() && !isContrib) {
-        lines = Utils.getContribFeatureLabelsAsList(ctx, null);
-      } else {
-        String[] extendedFeatures = Utils.getContribFeatureLabelsAsList(ctx, LicenceHandler.LicenceStatus.EXTENDED);
-        lines = feature == null || feature.isExtended()  ? extendedFeatures : //user is Contrib
-            Utils.joinArrays(new String[]{getString(R.string.all_contrib_key_features) + "\n+"},
-                extendedFeatures);
+
+    //prepare EXTENDED section
+    View extendedContainer = view.findViewById(R.id.extended_feature_container);
+    if (LicenceHandler.HAS_EXTENDED && CONTRIB.greaterOrEqual(licenceStatus) && EXTENDED.covers(feature)) {
+      extendedVisible = true;
+      ArrayList<CharSequence> lines = new ArrayList<>();
+      if (contribVisible) {
+        lines.add(getString(R.string.all_contrib_key_features) + "\n+");
+      } else if (licenceStatus == null && feature != null && feature.isExtended()) {
+        lines.addAll(contribFeatureLabelsAsList);
       }
-      ((TextView) view.findViewById(R.id.extended_feature_list)).setText(
-          Utils.makeBulletList(ctx, lines));
+      lines.addAll(extendedFeatureLabelsAsList);
+      ((TextView) view.findViewById(R.id.extended_feature_list)).setText(Utils.makeBulletList(ctx, lines));
     } else {
-      view.findViewById(R.id.extended_feature_container).setVisibility(View.GONE);
-      contribButton.setChecked(true);
-      userCanChoose = false;
+      extendedContainer.setVisibility(View.GONE);
     }
-    builder
-        .setTitle(feature == null ? R.string.menu_contrib :
+
+    //prepare PROFESSIONAL section
+    ArrayList<CharSequence> lines = new ArrayList<>();
+    if (extendedVisible) {
+      lines.add(getString(R.string.all_extended_key_features) + "\n+");
+    } else if(feature != null && feature.isProfessional()) {
+      if (licenceStatus == null) {
+        lines.addAll(contribFeatureLabelsAsList);
+      }
+      if (CONTRIB.greaterOrEqual(licenceStatus)) {
+        lines.addAll(extendedFeatureLabelsAsList);
+      }
+    }
+    lines.addAll(Utils.getContribFeatureLabelsAsList(ctx, LicenceHandler.LicenceStatus.PROFESSIONAL));
+
+    ((TextView) view.findViewById(R.id.professional_feature_list)).setText(Utils.makeBulletList(ctx, lines));
+
+    contribButton = view.findViewById(R.id.contrib_button);
+    extendedButton = view.findViewById(R.id.extended_button);
+    professionalButton = view.findViewById(R.id.professional_button);
+    if (!contribVisible && !extendedVisible) {
+      professionalButton.setChecked(true);
+    }
+
+    builder.setTitle(feature == null ? R.string.menu_contrib :
             feature.isExtended() ? R.string.dialog_title_extended_feature :
                 R.string.dialog_title_contrib_feature)
         .setView(view)
@@ -134,18 +166,20 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
         .setIcon(R.mipmap.ic_launcher_alt)
         .setPositiveButton(R.string.upgrade_now, this);
     AlertDialog dialog = builder.create();
-    if (userCanChoose) {
-      view.findViewById(R.id.contrib_feature_container).setOnClickListener(this);
-      contribButton.setOnClickListener(this);
-      view.findViewById(R.id.extended_feature_container).setOnClickListener(this);
-      extendedButton.setOnClickListener(this);
+    if (contribVisible || extendedVisible) {
+      if (contribVisible) {
+        contribContainer.setOnClickListener(this);
+        contribButton.setOnClickListener(this);
+      }
+      if (extendedVisible) {
+        extendedContainer.setOnClickListener(this);
+        extendedButton.setOnClickListener(this);
+      }
+      view.findViewById(R.id.professional_feature_container).setOnClickListener(this);
+      professionalButton.setOnClickListener(this);
       dialog.setOnShowListener(new ButtonOnShowDisabler());
     }
     return dialog;
-  }
-
-  protected boolean isFeatureExtended() {
-    return feature != null && feature.isExtended();
   }
 
   @Override
@@ -180,17 +214,21 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
 
   @Override
   public void onClick(View v) {
-    RadioButton self, other;
+    boolean contribChecked = false, extendedChecked = false, professionalChecked = false;
     if (v.getId() == R.id.contrib_feature_container || v.getId() == R.id.contrib_button) {
-      other = extendedButton;
-      self = contribButton;
+      contribChecked = true;
+    } else if (v.getId() == R.id.extended_feature_container || v.getId() == R.id.extended_button) {
+      extendedChecked = true;
+    } else {
+      professionalChecked = true;
     }
-    else {
-      other = contribButton;
-      self = extendedButton;
+    professionalButton.setChecked(professionalChecked);
+    if (contribVisible) {
+      contribButton.setChecked(contribChecked);
     }
-    self.setChecked(true);
-    other.setChecked(false);
+    if (extendedVisible) {
+      extendedButton.setChecked(extendedChecked);
+    }
     ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
   }
 }

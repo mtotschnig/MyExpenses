@@ -39,6 +39,7 @@ import android.util.Xml;
 import android.view.MenuItem;
 import android.view.SubMenu;
 
+import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -346,10 +347,10 @@ public class Utils {
     return String.format("%d", i);
   }
 
-  public static String[] getContribFeatureLabelsAsList(Context ctx, LicenceHandler.LicenceStatus type) {
+  public static List<CharSequence> getContribFeatureLabelsAsList(Context ctx, LicenceHandler.LicenceStatus type) {
     Stream<ContribFeature> features = Stream.of(EnumSet.allOf(ContribFeature.class));
     if (type != null) {
-      features =  features.filter(feature -> type.equals(LicenceHandler.LicenceStatus.CONTRIB) != feature.isExtended());
+      features =  features.filter(feature -> feature.getLicenceStatus() == type);
     }
     return features
         .map(feature -> {
@@ -359,7 +360,7 @@ public class Utils {
               ctx.getPackageName());
           return ctx.getText(resId);
         })
-        .toArray(size -> new String[size]);
+        .collect(Collectors.toList());
   }
 
   public static String md5(String s) {
@@ -749,16 +750,16 @@ public class Utils {
     }
   }
 
-  public static CharSequence makeBulletList(Context ctx, String... lines) {
+  public static CharSequence makeBulletList(Context ctx, List<CharSequence> lines) {
     InsetDrawable drawable = new InsetDrawable(
         UiUtils.getTintedDrawableForTheme(ctx, R.drawable.ic_menu_done, R.style.ThemeDark), 0, 20, 0, 0);
     Bitmap bitmap = UiUtils.drawableToBitmap(drawable);
     Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 0.5),
         (int) (bitmap.getHeight() * 0.5), true);
     SpannableStringBuilder sb = new SpannableStringBuilder();
-    for (int i = 0; i < lines.length; i++) {
-      String line = lines[i];
-      Spannable spannable = new SpannableString(line + (i < lines.length - 1 ? "\n" : ""));
+    for (int i = 0; i < lines.size(); i++) {
+      CharSequence line = lines.get(i);
+      Spannable spannable = new SpannableString(line + (i < lines.size() - 1 ? "\n" : ""));
       spannable.setSpan(new IconMarginSpan(scaledBitmap, 25), 0, line.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
       sb.append(spannable);
     }

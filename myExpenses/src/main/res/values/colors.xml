@@ -38,4 +38,5 @@
 
     <color name="premium_licence">#FF83D391</color>
     <color name="extended_licence">#FFC5DB6A</color>
+    <color name="professional_licence">#FFFFD700</color>
 </resources>

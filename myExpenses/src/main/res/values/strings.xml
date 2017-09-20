@@ -55,6 +55,7 @@
     <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Export transaction list to PDF</string>
     <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Template widget</string>
     <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV import</string>
+    <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Split template</string>
     <string name="licence_status_free">Free</string>
     <string name="contrib_key">Contrib Key</string>
     <string name="extended_key">Extended Key</string>
@@ -637,6 +638,7 @@
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Cloud synchronization</string>
     <string name="licence_status">Your licence status</string>
     <string name="all_contrib_key_features">All features of Contrib Key</string>
+    <string name="all_extended_key_features">All features of Extended Key</string>
     <string name="upgrade_now">Upgrade now</string>
     <string name="pref_backup_cloud_title">Store on synchronization backend</string>
     <string name="pref_backup_cloud_summary">In addition to local storage on the device, the backup file can be copied to a remote backend.</string>
@@ -688,5 +690,6 @@
     <string name="licence_removal_information">If you no longer need premium functionality on this device, you can remove the licence key. This frees the key for activation on one more other device. The key can be activated on up to five devices.</string>
     <string name="progress_removing_licence">Removing licence</string>
     <string name="licence_removal_success">Licence key was successfully freed from this device.</string>
+    <string name="professional_key">Professional Key</string>
 </resources>
 

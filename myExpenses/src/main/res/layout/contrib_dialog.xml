@@ -78,6 +78,25 @@
                         style="@style/FeatureList"
                         />
                 </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/professional_feature_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/professional_licence"
+                    android:orientation="vertical"
+                    android:padding="@dimen/general_padding">
+
+                    <android.support.v7.widget.AppCompatRadioButton
+                        android:id="@+id/professional_button"
+                        style="@style/SelectLicenceButton"
+                        android:text="@string/professional_key"/>
+
+                    <TextView
+                        android:id="@+id/professional_feature_list"
+                        style="@style/FeatureList"
+                        />
+                </LinearLayout>
             </LinearLayout>
         </android.support.v7.widget.CardView>
     </LinearLayout>

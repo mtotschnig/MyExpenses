@@ -2,13 +2,16 @@ package org.totschnig.myexpenses.util;
 
 import android.provider.Settings;
 
+import com.google.android.vending.licensing.PreferenceObfuscator;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.preference.PrefKey;
 
+@Deprecated
 public class HashLicenceHandler extends LicenceHandler {
 
-  public HashLicenceHandler(MyApplication context) {
-    super(context);
+  public HashLicenceHandler(MyApplication context, PreferenceObfuscator preferenceObfuscator) {
+    super(context, preferenceObfuscator);
   }
 
   @Override
@@ -17,11 +20,6 @@ public class HashLicenceHandler extends LicenceHandler {
     if (licenceStatus == null) {
       updateLicenceKeyLegacy();
     }
-  }
-
-  @Override
-  protected void setLockStateDo(boolean locked) {
-    licenceStatus = locked ? null : LicenceStatus.CONTRIB;
   }
 
   private void updateLicenceKeyLegacy() {
