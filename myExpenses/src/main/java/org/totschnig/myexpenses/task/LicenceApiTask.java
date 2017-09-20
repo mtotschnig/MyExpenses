@@ -91,7 +91,7 @@ public class LicenceApiTask extends AsyncTask<Void, Void, Result> {
       Call<Void> licenceCall = service.removeLicence(licenceKey, deviceId);
       try {
         Response<Void> licenceResponse = licenceCall.execute();
-        if (licenceResponse.isSuccessful()) {
+        if (licenceResponse.isSuccessful() || licenceResponse.code() == 404) {
           NEW_LICENCE.remove();
           licenceHandler.updateLicenceStatus(null);
           return new Result(true, R.string.licence_removal_success);
