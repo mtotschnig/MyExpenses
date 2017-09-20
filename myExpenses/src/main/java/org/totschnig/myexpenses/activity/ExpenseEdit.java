@@ -454,15 +454,26 @@ public class ExpenseEdit extends AmountActivity implements
       if (!isValidType(mOperationType)) {
         mOperationType = TYPE_TRANSACTION;
       }
-      if (mOperationType == TYPE_SPLIT && !ContribFeature.SPLIT_TRANSACTION.hasAccess() &&
-          ContribFeature.SPLIT_TRANSACTION.usagesLeft() < 1) {
-        Toast.makeText(this, ContribFeature.SPLIT_TRANSACTION.buildRequiresString(this),
-            Toast.LENGTH_LONG).show();
-        finish();
-        return;
+      final boolean isNewTemplate = getIntent().getBooleanExtra(KEY_NEW_TEMPLATE, false);
+      if (mOperationType == TYPE_SPLIT) {
+        boolean allowed = true;
+        ContribFeature contribFeature;
+        if (isNewTemplate) {
+          contribFeature = ContribFeature.SPLIT_TEMPLATE;
+          allowed = PrefKey.NEW_SPLIT_TEMPLATE_ENABLED.getBoolean(true);
+        }
+        else {
+          contribFeature = ContribFeature.SPLIT_TRANSACTION;
+          allowed = contribFeature.hasAccess() || contribFeature.usagesLeft() > 0;
+        }
+        if (!allowed) {
+          Toast.makeText(this, contribFeature.buildRequiresString(this),
+              Toast.LENGTH_LONG).show();
+          finish();
+          return;
+        }
       }
       final Long parentId = getIntent().getLongExtra(KEY_PARENTID, 0);
-      final boolean isNewTemplate = getIntent().getBooleanExtra(KEY_NEW_TEMPLATE, false);
       getSupportActionBar().setDisplayShowTitleEnabled(false);
       View spinner = findViewById(R.id.OperationType);
       mOperationTypeSpinner = new SpinnerHelper(spinner);
@@ -1701,7 +1712,15 @@ public class ExpenseEdit extends AmountActivity implements
             resetOperationType();
           } else if (newType == TYPE_SPLIT) {
             resetOperationType();
-            contribFeatureRequested(ContribFeature.SPLIT_TRANSACTION, null);
+            if (mTransaction instanceof Template) {
+              if (PrefKey.NEW_SPLIT_TEMPLATE_ENABLED.getBoolean(true)) {
+                restartWithType(TYPE_SPLIT);
+              } else {
+                CommonCommands.showContribDialog(this, ContribFeature.SPLIT_TEMPLATE, null);
+              }
+            } else {
+              contribFeatureRequested(ContribFeature.SPLIT_TRANSACTION, null);
+            }
           } else {
             restartWithType(newType);
           }

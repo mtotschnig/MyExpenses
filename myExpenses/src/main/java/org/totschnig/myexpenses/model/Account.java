@@ -791,7 +791,7 @@ public class Account extends Model {
   public static void updateNewAccountEnabled() {
     boolean newAccountEnabled = true;
     if (!ContribFeature.ACCOUNTS_UNLIMITED.hasAccess()) {
-      if (count(null, null) >= 5) {
+      if (count(null, null) >= ContribFeature.FREE_ACCOUNTS) {
         newAccountEnabled = false;
       }
     }

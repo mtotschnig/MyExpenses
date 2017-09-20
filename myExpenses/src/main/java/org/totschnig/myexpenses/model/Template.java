@@ -548,13 +548,20 @@ public class Template extends Transaction {
   }
 
   public static void updateNewPlanEnabled() {
-    boolean newPlanEnabled = true;
+    boolean newPlanEnabled = true, newSplitTemplateEnabled;
     if (!ContribFeature.PLANS_UNLIMITED.hasAccess()) {
-      if (count(Template.CONTENT_URI, KEY_PLANID + " is not null", null) >= 3) {
+      if (count(Template.CONTENT_URI, KEY_PLANID + " is not null", null) >= ContribFeature.FREE_PLANS) {
         newPlanEnabled = false;
       }
     }
     PrefKey.NEW_PLAN_ENABLED.putBoolean(newPlanEnabled);
+
+    if (!ContribFeature.SPLIT_TEMPLATE.hasAccess()) {
+      if (count(Template.CONTENT_URI, KEY_CATID + " = " + DatabaseConstants.SPLIT_CATID, null) >= ContribFeature.FREE_SPLIT_TEMPLATES) {
+        newSplitTemplateEnabled = false;
+      }
+    }
+    PrefKey.NEW_SPLIT_TEMPLATE_ENABLED.putBoolean(newPlanEnabled);
   }
 
   public boolean isPlanExecutionAutomatic() {

@@ -77,6 +77,7 @@ public enum PrefKey {
   GROUP_MONTH_STARTS(R.string.pref_group_month_starts_key),
   NEW_PLAN_ENABLED("new_plan_enabled"),
   NEW_ACCOUNT_ENABLED("new_account_enabled"),
+  NEW_SPLIT_TEMPLATE_ENABLED("new_split_template_enabled"),
   SYNC_FREQUCENCY(R.string.pref_sync_frequency_key),
   SYNC_UPSELL_NOTIFICATION_SHOWN("sync_upsell_notification_shown"),
   MANAGE_SYNC_BACKENDS(R.string.pref_manage_sync_backends_key),

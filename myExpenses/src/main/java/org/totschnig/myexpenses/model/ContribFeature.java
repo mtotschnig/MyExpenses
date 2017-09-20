@@ -36,7 +36,6 @@ import static org.totschnig.myexpenses.util.LicenceHandler.LicenceStatus.*;
 //TODO use separate preferences object injected via DI
 public enum ContribFeature {
   ACCOUNTS_UNLIMITED(false) {
-    private int FREE_ACCOUNTS = 5;
     @Override
     public String buildUsageLimitString(Context context) {
       String currentLicence = getCurrentLicence(context);
@@ -44,7 +43,6 @@ public enum ContribFeature {
     }
   },
   PLANS_UNLIMITED(false){
-    private int FREE_PLANS = 5;
     @Override
     public String buildUsageLimitString(Context context) {
       String currentLicence = getCurrentLicence(context);
@@ -118,7 +116,13 @@ public enum ContribFeature {
       return context.getString(R.string.dialog_contrib_usage_limit_synchronization, TRIAL_DURATION_DAYS, currentLicence);
     }
   },
-  SPLIT_TEMPLATE(true, PROFESSIONAL);
+  SPLIT_TEMPLATE(false, PROFESSIONAL) {
+    @Override
+    public String buildUsageLimitString(Context context) {
+      String currentLicence = getCurrentLicence(context);
+      return context.getString(R.string.dialog_contrib_usage_limit_split_templates, currentLicence);
+    }
+  };
 
   ContribFeature() {
     this(true);
@@ -132,6 +136,11 @@ public enum ContribFeature {
     this.hasTrial = hasTrial;
     this.licenceStatus = licenceStatus;
   }
+
+
+  public static final int FREE_PLANS = 3;
+  public static final int FREE_ACCOUNTS = 5;
+  public static final int FREE_SPLIT_TEMPLATES = 1;
 
   private boolean hasTrial;
   private LicenceHandler.LicenceStatus licenceStatus;
