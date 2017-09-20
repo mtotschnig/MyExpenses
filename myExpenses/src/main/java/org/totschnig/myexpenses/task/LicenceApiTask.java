@@ -22,6 +22,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static org.totschnig.myexpenses.preference.PrefKey.NEW_LICENCE;
+
 public class LicenceApiTask extends AsyncTask<Void, Void, Result> {
   private final TaskExecutionFragment taskExecutionFragment;
   private final int taskId;
@@ -90,6 +92,7 @@ public class LicenceApiTask extends AsyncTask<Void, Void, Result> {
       try {
         Response<Void> licenceResponse = licenceCall.execute();
         if (licenceResponse.isSuccessful()) {
+          NEW_LICENCE.remove();
           licenceHandler.updateLicenceStatus(null);
           return new Result(true, R.string.licence_removal_success);
         } else {
