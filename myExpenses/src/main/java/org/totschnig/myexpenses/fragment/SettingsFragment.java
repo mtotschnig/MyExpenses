@@ -205,7 +205,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     Preference pref;
 
     if (rootKey == null) {//ROOT screen
-      configureContribPrefs();
       findPreference(SEND_FEEDBACK).setOnPreferenceClickListener(this);
       findPreference(MORE_INFO_DIALOG).setOnPreferenceClickListener(this);
 
@@ -396,6 +395,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
             ((ProtectedFragmentActivity) getActivity()).isCalendarPermissionPermanentlyDeclined() ?
                 R.string.calendar_permission_required : R.string.pref_planning_calendar_summary);
       }
+      configureContribPrefs();
     }
     activity.setFragment(this);
   }

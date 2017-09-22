@@ -87,7 +87,7 @@
 
                 <data
                     android:host="www.myexpenses.mobi"
-                    android:path="/callback.html"
+                    android:path="/callback2.html"
                     android:scheme="https"/>
             </intent-filter>
         </activity>

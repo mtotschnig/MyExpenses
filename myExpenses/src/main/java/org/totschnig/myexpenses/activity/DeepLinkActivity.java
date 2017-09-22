@@ -3,13 +3,16 @@ package org.totschnig.myexpenses.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.text.TextUtils;
+import android.widget.Toast;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.PaypalPaymentCompletedCallbackDialog;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.util.Result;
+
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_VALIDATE_LICENCE;
 
 public class DeepLinkActivity extends ProtectedFragmentActivity {
 
@@ -25,23 +28,25 @@ public class DeepLinkActivity extends ProtectedFragmentActivity {
         String fragment = data.getFragment();
         if ("verify".equals(fragment)) {
           String key = data.getQueryParameter("key");
-          PrefKey.ENTER_LICENCE.putString(key);
-          CommonCommands.dispatchCommand(this, R.id.VERIFY_LICENCE_COMMAND, key);
-          finish();
+          PrefKey.NEW_LICENCE.putString(key);
+          startTaskExecution(TASK_VALIDATE_LICENCE, new String[]{}, null, R.string.progress_validating_licence);
         } else {
-          String tx = data.getQueryParameter("tx");
-          if (TextUtils.isEmpty(tx)) {
-            //nothing to do for us
-            CommonCommands.dispatchCommand(this, R.id.WEB_COMMAND, null);
-            finish();
-          }
-          FragmentManager fm = getSupportFragmentManager();
-          if (fm.findFragmentByTag(PaypalPaymentCompletedCallbackDialog.class.getName()) == null) {
-            PaypalPaymentCompletedCallbackDialog.newInstance(tx).show(fm,
-                FRAGMENT_TAG);
-          }
+          CommonCommands.dispatchCommand(this, R.id.WEB_COMMAND, null);
+          finish();
         }
       }
     }
+  }
+
+  @Override
+  public void onPostExecute(int taskId, Object o) {
+    super.onPostExecute(taskId, o);
+    if (taskId == TaskExecutionFragment.TASK_VALIDATE_LICENCE) {
+      if (o instanceof Result) {
+        Result r = ((Result) o);
+        Toast.makeText(this, r.print(this), Toast.LENGTH_LONG).show();
+      }
+    }
+    finish();
   }
 }

@@ -15,30 +15,28 @@
 
 package org.totschnig.myexpenses.dialog;
 
-import org.totschnig.myexpenses.BuildConfig;
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ContribIFace;
-import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
-import org.totschnig.myexpenses.util.Utils;
-
 import android.app.Activity;
-import android.os.Build;
-import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
-import android.text.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.text.ClipboardManager;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.TypedValue;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.totschnig.myexpenses.BuildConfig;
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
+import org.totschnig.myexpenses.util.Utils;
 
 import java.util.Locale;
 
@@ -93,7 +91,7 @@ public class DonateDialogFragment extends CommitSafeDialogFragment {
         .create();
   }
 
-  public class DonationUriVisitor implements OnClickListener {
+  private class DonationUriVisitor implements OnClickListener {
 
     @Override
     public void onClick(DialogInterface dialog, int which) {
@@ -125,9 +123,9 @@ public class DonateDialogFragment extends CommitSafeDialogFragment {
             "https://%s/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=%s&on0=%s&os0=%s&lc=%s",
             host, paypalButtonId, "Licence", whichLicence, getPaypalLocale());
 
-
-
         intent = new Intent(Intent.ACTION_VIEW);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setData(Uri.parse(uri));
         ctx.startActivityForResult(intent, 0);
       }
