@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.task;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
+import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -25,6 +26,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static org.totschnig.myexpenses.preference.PrefKey.NEW_LICENCE;
 
 public class LicenceApiTask extends AsyncTask<Void, Void, Result> {
+  public static final String BASE_URL = BuildConfig.DEBUG ?
+      "https://myexpenses-licencedb-staging.herokuapp.com"  : "https://licencedb.myexpenses.mobi/";
   private final TaskExecutionFragment taskExecutionFragment;
   private final int taskId;
 
@@ -54,7 +57,7 @@ public class LicenceApiTask extends AsyncTask<Void, Void, Result> {
     }
 
     Retrofit retrofit = new Retrofit.Builder()
-        .baseUrl("https://licencedb.myexpenses.mobi/")
+        .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build();
 
