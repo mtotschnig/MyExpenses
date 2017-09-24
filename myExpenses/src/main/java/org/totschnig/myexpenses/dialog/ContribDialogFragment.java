@@ -37,17 +37,21 @@ import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.LicenceHandler;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.licence.Package;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import timber.log.Timber;
 
 import static org.totschnig.myexpenses.activity.ContribInfoDialogActivity.KEY_FEATURE;
 import static org.totschnig.myexpenses.util.LicenceHandler.LicenceStatus.CONTRIB;
 import static org.totschnig.myexpenses.util.LicenceHandler.LicenceStatus.EXTENDED;
+import static org.totschnig.myexpenses.util.LicenceHandler.LicenceStatus.PROFESSIONAL;
 
 public class ContribDialogFragment extends CommitSafeDialogFragment implements DialogInterface.OnClickListener, View.OnClickListener {
   @Nullable
@@ -55,6 +59,8 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
   private RadioButton contribButton, extendedButton, professionalButton;
   private boolean contribVisible;
   private boolean extendedVisible;
+  @Inject
+  LicenceHandler licenceHandler;
 
   public static ContribDialogFragment newInstance(String feature, Serializable tag) {
     ContribDialogFragment dialogFragment = new ContribDialogFragment();
@@ -72,13 +78,14 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     if (featureStringExtra != null) {
       feature = ContribFeature.valueOf(featureStringExtra);
     }
+    MyApplication.getInstance().getAppComponent().inject(this);
   }
 
   @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     Activity ctx = getActivity();
-    LicenceHandler.LicenceStatus licenceStatus = MyApplication.getInstance().getLicenceHandler().getLicenceStatus();
+    LicenceHandler.LicenceStatus licenceStatus = licenceHandler.getLicenceStatus();
     @SuppressLint("InflateParams")
     final View view = LayoutInflater.from(ctx).inflate(R.layout.contrib_dialog, null);
     AlertDialog.Builder builder = new AlertDialog.Builder(ctx,
@@ -106,21 +113,23 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     }
     ((TextView) view.findViewById(R.id.feature_info)).setText(message);
 
-    List<CharSequence> contribFeatureLabelsAsList = Utils.getContribFeatureLabelsAsList(ctx, LicenceHandler.LicenceStatus.CONTRIB);
-    List<CharSequence> extendedFeatureLabelsAsList = Utils.getContribFeatureLabelsAsList(ctx, LicenceHandler.LicenceStatus.EXTENDED);
+    List<CharSequence> contribFeatureLabelsAsList = Utils.getContribFeatureLabelsAsList(ctx, CONTRIB);
+    List<CharSequence> extendedFeatureLabelsAsList = Utils.getContribFeatureLabelsAsList(ctx, EXTENDED);
 
     //prepare CONTRIB section
     View contribContainer = view.findViewById(R.id.contrib_feature_container);
+    contribContainer.setBackgroundColor(getResources().getColor(R.color.premium_licence));
     if (licenceStatus == null && CONTRIB.covers(feature)) {
      contribVisible = true;
       CharSequence contribList = Utils.makeBulletList(ctx, contribFeatureLabelsAsList);
-      ((TextView) view.findViewById(R.id.contrib_feature_list)).setText(contribList);
+      ((TextView) contribContainer.findViewById(R.id.package_feature_list)).setText(contribList);
     } else {
       contribContainer.setVisibility(View.GONE);
     }
 
     //prepare EXTENDED section
     View extendedContainer = view.findViewById(R.id.extended_feature_container);
+    extendedContainer.setBackgroundColor(getResources().getColor(R.color.extended_licence));
     if (LicenceHandler.HAS_EXTENDED && CONTRIB.greaterOrEqual(licenceStatus) && EXTENDED.covers(feature)) {
       extendedVisible = true;
       ArrayList<CharSequence> lines = new ArrayList<>();
@@ -130,13 +139,15 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
         lines.addAll(contribFeatureLabelsAsList);
       }
       lines.addAll(extendedFeatureLabelsAsList);
-      ((TextView) view.findViewById(R.id.extended_feature_list)).setText(Utils.makeBulletList(ctx, lines));
+      ((TextView) extendedContainer.findViewById(R.id.package_feature_list)).setText(Utils.makeBulletList(ctx, lines));
     } else {
       extendedContainer.setVisibility(View.GONE);
     }
 
     //prepare PROFESSIONAL section
     ArrayList<CharSequence> lines = new ArrayList<>();
+    View professionalContainer = view.findViewById(R.id.professional_feature_container);
+    professionalContainer.setBackgroundColor(getResources().getColor(R.color.professional_licence));
     if (extendedVisible) {
       lines.add(getString(R.string.all_extended_key_features) + "\n+");
     } else if(feature != null && feature.isProfessional()) {
@@ -147,16 +158,9 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
         lines.addAll(extendedFeatureLabelsAsList);
       }
     }
-    lines.addAll(Utils.getContribFeatureLabelsAsList(ctx, LicenceHandler.LicenceStatus.PROFESSIONAL));
+    lines.addAll(Utils.getContribFeatureLabelsAsList(ctx, PROFESSIONAL));
 
-    ((TextView) view.findViewById(R.id.professional_feature_list)).setText(Utils.makeBulletList(ctx, lines));
-
-    contribButton = view.findViewById(R.id.contrib_button);
-    extendedButton = view.findViewById(R.id.extended_button);
-    professionalButton = view.findViewById(R.id.professional_button);
-    if (!contribVisible && !extendedVisible) {
-      professionalButton.setChecked(true);
-    }
+    ((TextView) professionalContainer.findViewById(R.id.package_feature_list)).setText(Utils.makeBulletList(ctx, lines));
 
     builder.setTitle(feature == null ? R.string.menu_contrib :
             feature.isExtended() ? R.string.dialog_title_extended_feature :
@@ -168,15 +172,27 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     AlertDialog dialog = builder.create();
     if (contribVisible || extendedVisible) {
       if (contribVisible) {
+        contribButton = contribContainer.findViewById(R.id.package_button);
+        ((TextView) contribContainer.findViewById(R.id.package_label)).setText(R.string.contrib_key);
+        ((TextView) contribContainer.findViewById(R.id.package_price)).setText(
+            licenceHandler.getFormattedPrice(Package.Contrib));
         contribContainer.setOnClickListener(this);
         contribButton.setOnClickListener(this);
       }
       if (extendedVisible) {
+        extendedButton = extendedContainer.findViewById(R.id.package_button);
+        ((TextView) extendedContainer.findViewById(R.id.package_label)).setText(R.string.extended_key);
+        ((TextView) extendedContainer.findViewById(R.id.package_price)).setText(
+            licenceHandler.getFormattedPrice(licenceStatus == null ? Package.Extended : Package.Upgrade));
         extendedContainer.setOnClickListener(this);
         extendedButton.setOnClickListener(this);
       }
+      professionalButton = professionalContainer.findViewById(R.id.package_button);
+      ((TextView) professionalContainer.findViewById(R.id.package_label)).setText(R.string.professional_key);
+      ((TextView) professionalContainer.findViewById(R.id.package_price)).setText("less than 1.00 € / month");
       view.findViewById(R.id.professional_feature_container).setOnClickListener(this);
       professionalButton.setOnClickListener(this);
+
       dialog.setOnShowListener(new ButtonOnShowDisabler());
     }
     return dialog;
@@ -215,9 +231,9 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
   @Override
   public void onClick(View v) {
     boolean contribChecked = false, extendedChecked = false, professionalChecked = false;
-    if (v.getId() == R.id.contrib_feature_container || v.getId() == R.id.contrib_button) {
+    if (v.getId() == R.id.contrib_feature_container || v == contribButton) {
       contribChecked = true;
-    } else if (v.getId() == R.id.extended_feature_container || v.getId() == R.id.extended_button) {
+    } else if (v.getId() == R.id.extended_feature_container || v == extendedButton) {
       extendedChecked = true;
     } else {
       professionalChecked = true;

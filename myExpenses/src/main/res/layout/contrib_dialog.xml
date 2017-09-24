@@ -8,11 +8,11 @@
     android:paddingTop="@dimen/padding_dialog_content_top">
 
     <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/padding_dialog_side"
-        android:paddingRight="@dimen/padding_dialog_side">
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:paddingLeft="@dimen/padding_dialog_side"
+                  android:paddingRight="@dimen/padding_dialog_side">
 
         <TextView
             android:id="@+id/feature_info"
@@ -42,61 +42,18 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <include
                     android:id="@+id/contrib_feature_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/premium_licence"
-                    android:orientation="vertical"
-                    android:padding="@dimen/general_padding">
+                    layout="@layout/package_container"/>
 
-                    <android.support.v7.widget.AppCompatRadioButton
-                        android:id="@+id/contrib_button"
-                        style="@style/SelectLicenceButton"
-                        android:text="@string/contrib_key"/>
-
-                    <TextView
-                        android:id="@+id/contrib_feature_list"
-                        style="@style/FeatureList"/>
-                </LinearLayout>
-
-                <LinearLayout
+                <include
                     android:id="@+id/extended_feature_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/extended_licence"
-                    android:orientation="vertical"
-                    android:padding="@dimen/general_padding">
+                    layout="@layout/package_container"/>
 
-                    <android.support.v7.widget.AppCompatRadioButton
-                        android:id="@+id/extended_button"
-                        style="@style/SelectLicenceButton"
-                        android:text="@string/extended_key"/>
-
-                    <TextView
-                        android:id="@+id/extended_feature_list"
-                        style="@style/FeatureList"
-                        />
-                </LinearLayout>
-
-                <LinearLayout
+                <include
                     android:id="@+id/professional_feature_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/professional_licence"
-                    android:orientation="vertical"
-                    android:padding="@dimen/general_padding">
+                    layout="@layout/package_container"/>
 
-                    <android.support.v7.widget.AppCompatRadioButton
-                        android:id="@+id/professional_button"
-                        style="@style/SelectLicenceButton"
-                        android:text="@string/professional_key"/>
-
-                    <TextView
-                        android:id="@+id/professional_feature_list"
-                        style="@style/FeatureList"
-                        />
-                </LinearLayout>
             </LinearLayout>
         </android.support.v7.widget.CardView>
     </LinearLayout>

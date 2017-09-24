@@ -11,11 +11,16 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.util.licence.Licence;
+import org.totschnig.myexpenses.util.licence.Package;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.TemplateWidget;
+
+import java.math.BigDecimal;
+import java.util.Currency;
 
 public class LicenceHandler {
   private static final String LICENSE_STATUS_KEY = "licence_status";
@@ -106,6 +111,11 @@ public class LicenceHandler {
     } else {
       throw new UnsupportedOperationException();
     }
+  }
+
+  public String getFormattedPrice(Package aPackage) {
+    return CurrencyFormatter.instance().formatCurrency(
+        new Money(Currency.getInstance("EUR"), aPackage.getDefaultPprice()));
   }
 
   public enum LicenceStatus {

@@ -4,6 +4,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.dialog.ContribDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
 import org.totschnig.myexpenses.export.pdf.PdfPrinter;
@@ -55,4 +56,6 @@ public interface AppComponent {
   void inject(LicenceHandler licenceHandler);
 
   void inject(SettingsFragment settingsFragment);
+
+  void inject(ContribDialogFragment contribDialogFragment);
 }
