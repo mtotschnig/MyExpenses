@@ -23,9 +23,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.PopupMenu;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -46,8 +48,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import timber.log.Timber;
-
 import static org.totschnig.myexpenses.activity.ContribInfoDialogActivity.KEY_FEATURE;
 import static org.totschnig.myexpenses.util.LicenceHandler.LicenceStatus.CONTRIB;
 import static org.totschnig.myexpenses.util.LicenceHandler.LicenceStatus.EXTENDED;
@@ -59,8 +59,10 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
   private RadioButton contribButton, extendedButton, professionalButton;
   private boolean contribVisible;
   private boolean extendedVisible;
+  private Package selectedPackage = null;
   @Inject
   LicenceHandler licenceHandler;
+  private TextView professionalPriceTextView;
 
   public static ContribDialogFragment newInstance(String feature, Serializable tag) {
     ContribDialogFragment dialogFragment = new ContribDialogFragment();
@@ -189,7 +191,8 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
       }
       professionalButton = professionalContainer.findViewById(R.id.package_button);
       ((TextView) professionalContainer.findViewById(R.id.package_label)).setText(R.string.professional_key);
-      ((TextView) professionalContainer.findViewById(R.id.package_price)).setText("less than 1.00 € / month");
+      professionalPriceTextView = professionalContainer.findViewById(R.id.package_price);
+      professionalPriceTextView.setText(R.string.professionalPriceShortInfo);
       view.findViewById(R.id.professional_feature_container).setOnClickListener(this);
       professionalButton.setOnClickListener(this);
 
@@ -205,12 +208,11 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
       return;
     }
     if (which == AlertDialog.BUTTON_POSITIVE) {
-      if(extendedButton.isChecked()) {
-        ctx.contribBuyDo(true);
-      } else if (contribButton.isChecked()) {
-        ctx.contribBuyDo(false);
+      if (selectedPackage != null) {
+        ctx.contribBuyDo(selectedPackage);
       } else {
-        Timber.w("Neither premium nor extended button checked, should not happen");
+        //should not happen
+        ctx.finish(true);
       }
     } else {
       //BUTTON_NEGATIV
@@ -230,21 +232,30 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
 
   @Override
   public void onClick(View v) {
-    boolean contribChecked = false, extendedChecked = false, professionalChecked = false;
     if (v.getId() == R.id.contrib_feature_container || v == contribButton) {
-      contribChecked = true;
+      selectedPackage = Package.Contrib;
+      updateButtons(contribButton);
     } else if (v.getId() == R.id.extended_feature_container || v == extendedButton) {
-      extendedChecked = true;
+      selectedPackage = licenceHandler.getLicenceStatus() == null ? Package.Extended : Package.Upgrade;
+      updateButtons(extendedButton);
     } else {
-      professionalChecked = true;
+      PopupMenu popup = new PopupMenu(getActivity(), v);
+      popup.setOnMenuItemClickListener(item -> {
+        selectedPackage = Package.values()[item.getItemId()];
+        professionalPriceTextView.setText(licenceHandler.getFormattedPrice(selectedPackage));
+        updateButtons(professionalButton);
+        return true;
+      });
+      popup.getMenu().add(Menu.NONE, Package.Professional_6.ordinal(), Menu.NONE, licenceHandler.getFormattedPrice(Package.Professional_6));
+      popup.getMenu().add(Menu.NONE, Package.Professional_36.ordinal(), Menu.NONE, licenceHandler.getFormattedPrice(Package.Professional_36));
+      popup.show();
     }
-    professionalButton.setChecked(professionalChecked);
-    if (contribVisible) {
-      contribButton.setChecked(contribChecked);
-    }
-    if (extendedVisible) {
-      extendedButton.setChecked(extendedChecked);
-    }
+  }
+
+  private void updateButtons(RadioButton selected) {
+    if (contribVisible) contribButton.setChecked(contribButton == selected);
+    if (extendedVisible) extendedButton.setChecked(extendedButton == selected);
+    professionalButton.setChecked(professionalButton == selected);
     ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
   }
 }

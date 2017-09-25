@@ -692,5 +692,7 @@
     <string name="progress_removing_licence">Removing licence</string>
     <string name="licence_removal_success">Licence key was successfully freed from this device.</string>
     <string name="professional_key">Professional Key</string>
+    <string name="n_months">%s months</string>
+    <string name="professionalPriceShortInfo">less than 1.00 € / month</string>
 </resources>
 
