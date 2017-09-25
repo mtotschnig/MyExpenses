@@ -1245,6 +1245,7 @@ public class MyExpenses extends LaunchActivity implements
 
   @Override
   public void onPositive(Bundle args) {
+    super.onPositive(args);
     switch (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
       case R.id.START_EXPORT_COMMAND:
         mExportFormat = args.getString("format");

@@ -480,7 +480,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       contribPurchaseSummary = getString(R.string.pref_contrib_purchase_summary);
     } else {
       contribPurchaseTitle = getString(R.string.licence_status) + ": " + getString(licenceStatus.getResId());
-      if (licenceStatus.isUpgradeable()) {
+      if (licenceHandler.hasLegacyLicence()) {
+        contribPurchaseSummary = getString(R.string.licence_migration_info);
+      } else if (licenceStatus.isUpgradeable()) {
         contribPurchaseSummary = getString(R.string.pref_contrib_purchase_title_upgrade);
       } else {
         contribPurchaseSummary = licenceHandler.getValidUntil() + "\n" +
@@ -558,7 +560,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   @Override
   public boolean onPreferenceClick(Preference preference) {
     if (matches(preference, CONTRIB_PURCHASE)) {
-      if (licenceHandler.isUpgradeable()) {
+      if (licenceHandler.hasLegacyLicence()) {
+        CommonCommands.dispatchCommand(getActivity(), R.id.REQUEST_LICENCE_MIGRATION_COMMAND, null);
+      }
+      else if (licenceHandler.isUpgradeable()) {
         Intent i = ContribInfoDialogActivity.getIntentFor(getActivity(), null);
         if (DistribHelper.isGithub()) {
           startActivityForResult(i, CONTRIB_PURCHASE_REQUEST);
@@ -617,7 +622,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     }
     if (matches(preference, NEW_LICENCE)) {
       String licenceKey = NEW_LICENCE.getString("");
-      if (licenceHandler.isContribEnabled()) {
+      if (licenceHandler.isContribEnabled() && !licenceHandler.hasLegacyLicence()) {
         SimpleDialog.build()
             .title(R.string.licence_key)
             .msg(licenceKey)

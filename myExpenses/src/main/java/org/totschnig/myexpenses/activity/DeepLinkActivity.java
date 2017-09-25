@@ -7,7 +7,6 @@ import android.widget.Toast;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.PaypalPaymentCompletedCallbackDialog;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Result;
@@ -15,8 +14,6 @@ import org.totschnig.myexpenses.util.Result;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_VALIDATE_LICENCE;
 
 public class DeepLinkActivity extends ProtectedFragmentActivity {
-
-  public static final String FRAGMENT_TAG = PaypalPaymentCompletedCallbackDialog.class.getName();
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

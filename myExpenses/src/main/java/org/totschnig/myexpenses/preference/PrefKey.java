@@ -85,7 +85,8 @@ public enum PrefKey {
   WEBDAV_TIMEOUT(R.string.pref_webdav_timeout_key),
   DEBUG_SCREEN(R.string.pref_debug_key),
   DEBUG_LOGGING(R.string.pref_debug_logging_key),
-  SYNC_NOTIFICATION(R.string.pref_sync_notification_key);
+  SYNC_NOTIFICATION(R.string.pref_sync_notification_key),
+  LICENCE_MIGRATION_INFO_SHOWN("licence_migration_info_shown");
 
   private int resId = 0;
   private String key = null;

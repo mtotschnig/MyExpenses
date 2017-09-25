@@ -120,6 +120,10 @@ public class LicenceHandler {
         licenseStatusPrefs.getString(LICENSE_VALID_UNTIL_KEY, "0"))));
   }
 
+  public boolean hasLegacyLicence() {
+    return false;
+  }
+
   public enum LicenceStatus {
     CONTRIB(R.string.contrib_key), EXTENDED(R.string.extended_key), PROFESSIONAL(R.string.professional_key) {
       @Override

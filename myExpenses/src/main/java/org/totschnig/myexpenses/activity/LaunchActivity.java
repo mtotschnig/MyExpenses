@@ -5,11 +5,14 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.VersionDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Transaction;
@@ -110,6 +113,20 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
       VersionDialogFragment.newInstance(prev_version, showImportantUpgradeInfo)
           .show(getSupportFragmentManager(), "VERSION_INFO");
     } else {
+      if (MyApplication.getInstance().getLicenceHandler().hasLegacyLicence() &&
+          !PrefKey.LICENCE_MIGRATION_INFO_SHOWN.getBoolean(false)) {
+        Bundle bundle = new Bundle();
+        bundle.putString(
+            ConfirmationDialogFragment.KEY_MESSAGE,
+            getString(R.string.licence_migration_info));
+        bundle.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+            R.id.REQUEST_LICENCE_MIGRATION_COMMAND);
+        bundle.putString(ConfirmationDialogFragment.KEY_PREFKEY, PrefKey
+            .LICENCE_MIGRATION_INFO_SHOWN.getKey());
+        bundle.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.pref_request_licence_title);
+        ConfirmationDialogFragment.newInstance(bundle).show(getSupportFragmentManager(),
+            "RESTORE");
+      }
       if (!ContribFeature.SYNCHRONIZATION.hasAccess() && ContribFeature.SYNCHRONIZATION.usagesLeft() < 1 &&
           !PrefKey.SYNC_UPSELL_NOTIFICATION_SHOWN.getBoolean(false)) {
         PrefKey.SYNC_UPSELL_NOTIFICATION_SHOWN.putBoolean(true);

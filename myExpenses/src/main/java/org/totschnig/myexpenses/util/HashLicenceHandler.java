@@ -6,12 +6,19 @@ import com.google.android.vending.licensing.PreferenceObfuscator;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.util.licence.Licence;
 
 @Deprecated
 public class HashLicenceHandler extends LicenceHandler {
+  boolean hasLegacyLicence = false;
 
   public HashLicenceHandler(MyApplication context, PreferenceObfuscator preferenceObfuscator) {
     super(context, preferenceObfuscator);
+  }
+
+  @Override
+  public boolean hasLegacyLicence() {
+    return hasLegacyLicence;
   }
 
   @Override
@@ -20,6 +27,15 @@ public class HashLicenceHandler extends LicenceHandler {
     if (licenceStatus == null) {
       updateLicenceKeyLegacy();
     }
+  }
+
+  @Override
+  public void updateLicenceStatus(Licence licence) {
+    if (hasLegacyLicence && licence != null && licence.getType() != null) {
+      PrefKey.ENTER_LICENCE.remove();
+      hasLegacyLicence = false;
+    }
+    super.updateLicenceStatus(licence);
   }
 
   private void updateLicenceKeyLegacy() {
@@ -33,10 +49,12 @@ public class HashLicenceHandler extends LicenceHandler {
       Long l = (s.hashCode() & 0x00000000ffffffffL);
       if (l.toString().equals(key)) {
         licenceStatus = LicenceStatus.EXTENDED;
+        hasLegacyLicence = true;
       } else {
         s = androidId + secret;
         l = (s.hashCode() & 0x00000000ffffffffL);
         licenceStatus = l.toString().equals(key) ? LicenceStatus.CONTRIB : null;
+        hasLegacyLicence = true;
       }
     }
   }

@@ -28,6 +28,8 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.HelpDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.util.LicenceHandler;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.io.Serializable;
@@ -97,17 +99,17 @@ public class CommonCommands {
         //for result is needed since it allows us to inspect the calling activity
         ctx.startActivityForResult(i, 0);
         return true;
-      case R.id.REQUEST_LICENCE_COMMAND:
+      case R.id.REQUEST_LICENCE_MIGRATION_COMMAND:
+        LicenceHandler licenceHandler = MyApplication.getInstance().getLicenceHandler();
         String androidId = Settings.Secure.getString(ctx.getContentResolver(), Settings.Secure.ANDROID_ID);
         i = new Intent(android.content.Intent.ACTION_SEND);
         i.setType("plain/text");
         i.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{MyApplication.FEEDBACK_EMAIL});
         i.putExtra(android.content.Intent.EXTRA_SUBJECT,
-            "[" + ctx.getString(R.string.app_name) + "] " + ctx.getString(R.string.contrib_key));
-        String extraText = ctx.getString(R.string.request_licence_mail_head, androidId);
-        if (tag != null) {
-          extraText += " \n\n[" + ctx.getString(R.string.paypal_transaction_id) + ": " + tag + "]";
-        }
+            "[" + ctx.getString(R.string.app_name) + "] " +  ctx.getString(licenceHandler.getLicenceStatus().getResId()));
+        String extraText = String.format(
+            "Please send me a new licence key. Current key is %1$s for Android-Id %2$s",
+            PrefKey.ENTER_LICENCE.getString(null), androidId);
         i.putExtra(android.content.Intent.EXTRA_TEXT, extraText);
         if (!Utils.isIntentAvailable(ctx, i)) {
           Toast.makeText(ctx, R.string.no_app_handling_email_available, Toast.LENGTH_LONG).show();
