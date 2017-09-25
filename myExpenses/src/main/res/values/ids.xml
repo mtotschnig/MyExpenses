@@ -120,7 +120,6 @@
   <item name="MenuSingleChild" type="id"/>
   <item name="MenuBulkChild" type="id"/>
   <item name="REQUEST_LICENCE_MIGRATION_COMMAND" type="id"/>
-  <item name="VERIFY_LICENCE_COMMAND" type="id"/>
   <item name="FILTER_TRANSFER_COMMAND" type="id"/>
   <item name="SORT_NEXT_INSTANCE_COMMAND" type="id"/>
   <item name="SYNC_COMMAND" type="id" />

@@ -117,8 +117,6 @@ public class CommonCommands {
           ctx.startActivity(i);
         }
         return true;
-      case R.id.VERIFY_LICENCE_COMMAND:
-        return true;
       case android.R.id.home:
         ctx.setResult(FragmentActivity.RESULT_CANCELED);
         ctx.finish();
