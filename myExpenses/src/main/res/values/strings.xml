@@ -694,5 +694,7 @@
     <string name="professional_key">Professional Key</string>
     <string name="n_months">%s months</string>
     <string name="professionalPriceShortInfo">less than 1.00 € / month</string>
+    <string name="eu_vat_info">For residents of the European Union prices displayed do not include VAT.</string>
+    <string name="pref_contrib_purchase_title_renew">Renew licence</string>
 </resources>
 

@@ -187,7 +187,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   private Preference.OnPreferenceChangeListener storeInDatabaseChangeListener =
       (preference, newValue) -> {
         ((ProtectedFragmentActivity) getActivity()).startTaskExecution(TaskExecutionFragment.TASK_STORE_SETTING,
-            new String[] {preference.getKey()}, newValue.toString(), R.string.progress_dialog_saving);
+            new String[]{preference.getKey()}, newValue.toString(), R.string.progress_dialog_saving);
         return true;
       };
 
@@ -470,25 +470,26 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     findPreference(NEW_LICENCE).setOnPreferenceClickListener(this);
     Preference contribPurchasePref = findPreference(CONTRIB_PURCHASE);
     String contribPurchaseTitle, contribPurchaseSummary;
-    if (licenceHandler.isUpgradeable()) {
-      boolean contribEnabled = licenceHandler.isContribEnabled();
-      if (contribEnabled) {
-        contribPurchaseTitle = getString(R.string.licence_status) + ": " + getString(R.string.contrib_key);
+    LicenceHandler.LicenceStatus licenceStatus = licenceHandler.getLicenceStatus();
+    if (licenceStatus == null) {
+      int baseTitle = R.string.pref_contrib_purchase_title;
+      contribPurchaseTitle = getString(baseTitle);
+      if (!DistribHelper.isGithub()) {
+        contribPurchaseTitle += " (" + getString(R.string.pref_contrib_purchase_title_in_app) + ")";
+      }
+      contribPurchaseSummary = getString(R.string.pref_contrib_purchase_summary);
+    } else {
+      contribPurchaseTitle = getString(R.string.licence_status) + ": " + getString(licenceStatus.getResId());
+      if (licenceStatus.isUpgradeable()) {
         contribPurchaseSummary = getString(R.string.pref_contrib_purchase_title_upgrade);
       } else {
-        int baseTitle = R.string.pref_contrib_purchase_title;
-        contribPurchaseTitle = getString(baseTitle);
-        if (!DistribHelper.isGithub()) {
-          contribPurchaseTitle += " (" + getString(R.string.pref_contrib_purchase_title_in_app) + ")";
-        }
-        contribPurchaseSummary = getString(R.string.pref_contrib_purchase_summary);
+        contribPurchaseSummary = licenceHandler.getValidUntil() + "\n" +
+            //getString(R.string.pref_contrib_purchase_title_renew);
+            getString(R.string.thank_you);
       }
-      contribPurchasePref.setOnPreferenceClickListener(this);
-    } else {
-      contribPurchaseTitle = getString(R.string.licence_status) + ": " + getString(
-          licenceHandler.getLicenceStatus().getResId());
-      contribPurchaseSummary = getString(R.string.thank_you);
+
     }
+    contribPurchasePref.setOnPreferenceClickListener(this);
     contribPurchasePref.setSummary(contribPurchaseSummary);
     contribPurchasePref.setTitle(contribPurchaseTitle);
   }
@@ -668,8 +669,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   private Bitmap getBitmapForShortcut(int iconIdLegacy, int iconIdLolipop) {
     if (Utils.hasApiLevel(Build.VERSION_CODES.LOLLIPOP)) {
       return UiUtils.drawableToBitmap(getResources().getDrawable(iconIdLolipop));
-    }
-    else {
+    } else {
       return UiUtils.getTintedBitmapForTheme(getActivity(), iconIdLegacy, R.style.ThemeDark);
     }
   }

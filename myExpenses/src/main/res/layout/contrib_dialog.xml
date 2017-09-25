@@ -56,5 +56,12 @@
 
             </LinearLayout>
         </android.support.v7.widget.CardView>
+        <TextView
+            android:id="@+id/eu_vat_info"
+            style="@style/LicencePrice"
+            android:text="@string/eu_vat_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
     </LinearLayout>
 </ScrollView>

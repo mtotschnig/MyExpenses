@@ -11,7 +11,7 @@ import org.totschnig.myexpenses.util.LicenceHandler;
 import java.util.Currency;
 
 public enum Package {
-  Contrib(300), Upgrade(200), Extended(500), Professional_6(500), Professional_36(2000);
+  Contrib(300), Upgrade(250), Extended(500), Professional_6(500), Professional_36(2000);
 
   public long getDefaultPrice() {
     return defaultPrice;

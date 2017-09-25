@@ -18,6 +18,8 @@ import org.totschnig.myexpenses.util.licence.Package;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.TemplateWidget;
 
+import java.util.Date;
+
 public class LicenceHandler {
   private static final String LICENSE_STATUS_KEY = "licence_status";
   private static final String LICENSE_VALID_SINCE_KEY = "licence_valid_since";
@@ -50,7 +52,7 @@ public class LicenceHandler {
   }
 
   public boolean isUpgradeable() {
-    return this.licenceStatus != LicenceStatus.PROFESSIONAL;
+    return licenceStatus == null || licenceStatus.isUpgradeable();
   }
 
   public void init() {
@@ -113,8 +115,18 @@ public class LicenceHandler {
     return aPackage.getFormattedPrice(context);
   }
 
+  public String getValidUntil() {
+    return Utils.getDateFormatSafe(context).format(new Date(Long.parseLong(
+        licenseStatusPrefs.getString(LICENSE_VALID_UNTIL_KEY, "0"))));
+  }
+
   public enum LicenceStatus {
-    CONTRIB(R.string.contrib_key), EXTENDED(R.string.extended_key), PROFESSIONAL(R.string.professional_key);
+    CONTRIB(R.string.contrib_key), EXTENDED(R.string.extended_key), PROFESSIONAL(R.string.professional_key) {
+      @Override
+      public boolean isUpgradeable() {
+        return false;
+      }
+    };
 
     private final int resId;
 
@@ -133,6 +145,10 @@ public class LicenceHandler {
     public boolean covers(ContribFeature contribFeature) {
       if (contribFeature == null) return true;
       return greaterOrEqual(contribFeature.getLicenceStatus());
+    }
+
+    public boolean isUpgradeable() {
+      return true;
     }
   }
 }

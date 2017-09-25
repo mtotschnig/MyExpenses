@@ -161,8 +161,10 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
       }
     }
     lines.addAll(Utils.getContribFeatureLabelsAsList(ctx, PROFESSIONAL));
-
     ((TextView) professionalContainer.findViewById(R.id.package_feature_list)).setText(Utils.makeBulletList(ctx, lines));
+
+    //FOOTER
+    view.findViewById(R.id.eu_vat_info).setVisibility(DistribHelper.isGithub() ? View.VISIBLE : View.GONE);
 
     builder.setTitle(feature == null ? R.string.menu_contrib :
             feature.isExtended() ? R.string.dialog_title_extended_feature :
@@ -172,32 +174,32 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
         .setIcon(R.mipmap.ic_launcher_alt)
         .setPositiveButton(R.string.upgrade_now, this);
     AlertDialog dialog = builder.create();
-    if (contribVisible || extendedVisible) {
-      if (contribVisible) {
-        contribButton = contribContainer.findViewById(R.id.package_button);
-        ((TextView) contribContainer.findViewById(R.id.package_label)).setText(R.string.contrib_key);
-        ((TextView) contribContainer.findViewById(R.id.package_price)).setText(
-            licenceHandler.getFormattedPrice(Package.Contrib));
-        contribContainer.setOnClickListener(this);
-        contribButton.setOnClickListener(this);
-      }
-      if (extendedVisible) {
-        extendedButton = extendedContainer.findViewById(R.id.package_button);
-        ((TextView) extendedContainer.findViewById(R.id.package_label)).setText(R.string.extended_key);
-        ((TextView) extendedContainer.findViewById(R.id.package_price)).setText(
-            licenceHandler.getFormattedPrice(licenceStatus == null ? Package.Extended : Package.Upgrade));
-        extendedContainer.setOnClickListener(this);
-        extendedButton.setOnClickListener(this);
-      }
-      professionalButton = professionalContainer.findViewById(R.id.package_button);
-      ((TextView) professionalContainer.findViewById(R.id.package_label)).setText(R.string.professional_key);
-      professionalPriceTextView = professionalContainer.findViewById(R.id.package_price);
-      professionalPriceTextView.setText(R.string.professionalPriceShortInfo);
-      view.findViewById(R.id.professional_feature_container).setOnClickListener(this);
-      professionalButton.setOnClickListener(this);
 
-      dialog.setOnShowListener(new ButtonOnShowDisabler());
+    if (contribVisible) {
+      contribButton = contribContainer.findViewById(R.id.package_button);
+      ((TextView) contribContainer.findViewById(R.id.package_label)).setText(R.string.contrib_key);
+      ((TextView) contribContainer.findViewById(R.id.package_price)).setText(
+          licenceHandler.getFormattedPrice(Package.Contrib));
+      contribContainer.setOnClickListener(this);
+      contribButton.setOnClickListener(this);
     }
+    if (extendedVisible) {
+      extendedButton = extendedContainer.findViewById(R.id.package_button);
+      ((TextView) extendedContainer.findViewById(R.id.package_label)).setText(R.string.extended_key);
+      ((TextView) extendedContainer.findViewById(R.id.package_price)).setText(
+          licenceHandler.getFormattedPrice(licenceStatus == null ? Package.Extended : Package.Upgrade));
+      extendedContainer.setOnClickListener(this);
+      extendedButton.setOnClickListener(this);
+    }
+    professionalButton = professionalContainer.findViewById(R.id.package_button);
+    ((TextView) professionalContainer.findViewById(R.id.package_label)).setText(R.string.professional_key);
+    professionalPriceTextView = professionalContainer.findViewById(R.id.package_price);
+    professionalPriceTextView.setText(R.string.professionalPriceShortInfo);
+    view.findViewById(R.id.professional_feature_container).setOnClickListener(this);
+    professionalButton.setOnClickListener(this);
+
+    dialog.setOnShowListener(new ButtonOnShowDisabler());
+
     return dialog;
   }
 
