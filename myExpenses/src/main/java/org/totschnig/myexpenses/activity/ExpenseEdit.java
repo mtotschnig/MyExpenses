@@ -1657,15 +1657,7 @@ public class ExpenseEdit extends AmountActivity implements
               Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
             if (PrefKey.NEW_PLAN_ENABLED.getBoolean(true)) {
               visibility = View.VISIBLE;
-              if (mReccurenceSpinner.getSelectedItem() == Plan.Recurrence.CUSTOM) {
-                Snackbar snackbar = Snackbar.make(findViewById(R.id.OneExpense),
-                    R.string.plan_custom_recurrence_info, Snackbar.LENGTH_LONG);
-                View snackbarView = snackbar.getView();
-                TextView textView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
-                textView.setMaxLines(3);
-                UiUtils.configureSnackbarForDarkTheme(snackbar);
-                snackbar.show();
-              }
+              showCustomRecurrenceInfo();
             } else {
               mReccurenceSpinner.setSelection(0);
               CommonCommands.showContribDialog(this, ContribFeature.PLANS_UNLIMITED, null);
@@ -1730,6 +1722,18 @@ public class ExpenseEdit extends AmountActivity implements
         mTransaction.setTransferAccountId(mTransferAccountSpinner.getSelectedItemId());
         configureTransferInput();
         break;
+    }
+  }
+
+  private void showCustomRecurrenceInfo() {
+    if (mReccurenceSpinner.getSelectedItem() == Plan.Recurrence.CUSTOM) {
+      Snackbar snackbar = Snackbar.make(findViewById(R.id.OneExpense),
+          R.string.plan_custom_recurrence_info, Snackbar.LENGTH_LONG);
+      View snackbarView = snackbar.getView();
+      TextView textView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
+      textView.setMaxLines(3);
+      UiUtils.configureSnackbarForDarkTheme(snackbar);
+      snackbar.show();
     }
   }
 
@@ -2252,6 +2256,7 @@ public class ExpenseEdit extends AmountActivity implements
           if (mTransaction instanceof Template) {
             mPlanButton.setVisibility(View.VISIBLE);
             mPlanToggleButton.setVisibility(View.VISIBLE);
+            showCustomRecurrenceInfo();
           }
         } else {
           mReccurenceSpinner.setSelection(0);
