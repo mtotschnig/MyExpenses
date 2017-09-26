@@ -695,6 +695,6 @@
     <string name="professionalPriceShortInfo">less than 1.00 € / month</string>
     <string name="eu_vat_info">For residents of the European Union prices displayed do not include VAT.</string>
     <string name="pref_contrib_purchase_title_renew">Renew licence</string>
-    <string name="licence_migration_info">My Expenses implements a new licence validation mechanism. Your current licence key will stop working on 1st of January 2018. Please request a new key.</string>
+    <string name="licence_migration_info">My Expenses implements a new licence validation mechanism. Please request a new key.</string>
 </resources>
 
