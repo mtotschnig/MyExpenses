@@ -657,4 +657,8 @@
   <string name="dialog_button_add">Añadir</string>
   <string name="template_create_error">Error al salvar la plantilla</string>
   <string name="contributed_by">Contribución de %s</string>
+  <string name="pref_sync_notification_summary">Notificar sobre progreso de sincronización</string>
+  <string name="pref_debug_logging_summary">Escribir información de depuración en el registro de sistema</string>
+  <string name="plan_custom_recurrence_info">Por favor, guarde la plantilla primero. Se abrirá el proyecto en la aplicación de calendario, desde donde podrá configurar una reaparición personalizada.</string>
+  <string name="storage_permission_required">La fuente seleccionada sólo podrá leerse si da permiso de lectura desde un almacenamiento externo.</string>
 </resources>

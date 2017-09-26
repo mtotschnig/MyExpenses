@@ -1,24 +1,24 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string name="Main_1">Outras entradas</string>
-  <string name="Sub_1_1">Subsídio de desemprego</string>
+  <string name="Sub_1_1">Seguro desemprego</string>
   <string name="Sub_1_2">Abono de família</string>
   <string name="Sub_1_3">Crédito tributário</string>
   <string name="Sub_1_4">Jogos de azar</string>
   <string name="Sub_1_5">Seguro mútuo</string>
-  <string name="Sub_1_6">Segurança social</string>
+  <string name="Sub_1_6">Seguridade social</string>
   <string name="Main_2">Aposentadoria</string>
   <string name="Sub_2_1">Fundo de aposentadoria</string>
   <string name="Sub_2_2">Pensão</string>
   <string name="Sub_2_3">Pensão complementar</string>
   <string name="Main_3">Rendimentos de capitais</string>
-  <string name="Sub_3_1">Dividendo</string>
+  <string name="Sub_3_1">Dividendos</string>
   <string name="Sub_3_2">Interesse</string>
   <string name="Sub_3_3">Ganho de capital</string>
   <string name="Main_4">Salário</string>
-  <string name="Sub_4_1">Horas extraordinárias</string>
-  <string name="Sub_4_2">Deixar o subsídio</string>
-  <string name="Sub_4_3">Prémios do misc.</string>
+  <string name="Sub_4_1">Horas extras</string>
+  <string name="Sub_4_2">Subsídio de licença</string>
+  <string name="Sub_4_3">Premiações diversas</string>
   <string name="Sub_4_4">Taxa de sucesso</string>
   <string name="Sub_4_5">Salário líquido</string>
   <string name="Main_5">Rendimentos diversos</string>

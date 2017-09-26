@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Grisbi_categ>
 <Category Nb="1" Na="Outras entradas"/>
-<Sub_category Nbc="1" Nb="1" Na="Subsídio de desemprego"/>
+<Sub_category Nbc="1" Nb="1" Na="Seguro desemprego"/>
 <Sub_category Nbc="1" Nb="2" Na="Abono de família"/>
 <Sub_category Nbc="1" Nb="3" Na="Crédito tributário"/>
 <Sub_category Nbc="1" Nb="4" Na="Jogos de azar"/>
 <Sub_category Nbc="1" Nb="5" Na="Seguro mútuo"/>
-<Sub_category Nbc="1" Nb="6" Na="Segurança social"/>
+<Sub_category Nbc="1" Nb="6" Na="Seguridade social"/>
 <Category Nb="2" Na="Aposentadoria"/>
 <Sub_category Nbc="2" Nb="1" Na="Fundo de aposentadoria"/>
 <Sub_category Nbc="2" Nb="2" Na="Pensão"/>
 <Sub_category Nbc="2" Nb="3" Na="Pensão complementar"/>
 <Category Nb="3" Na="Rendimentos de capitais"/>
-<Sub_category Nbc="3" Nb="1" Na="Dividendo"/>
+<Sub_category Nbc="3" Nb="1" Na="Dividendos"/>
 <Sub_category Nbc="3" Nb="2" Na="Interesse"/>
 <Sub_category Nbc="3" Nb="3" Na="Ganho de capital"/>
 <Category Nb="4" Na="Salário"/>
-<Sub_category Nbc="4" Nb="1" Na="Horas extraordinárias"/>
-<Sub_category Nbc="4" Nb="2" Na="Deixar o subsídio"/>
-<Sub_category Nbc="4" Nb="3" Na="Prémios do misc."/>
+<Sub_category Nbc="4" Nb="1" Na="Horas extras"/>
+<Sub_category Nbc="4" Nb="2" Na="Subsídio de licença"/>
+<Sub_category Nbc="4" Nb="3" Na="Premiações diversas"/>
 <Sub_category Nbc="4" Nb="4" Na="Taxa de sucesso"/>
 <Sub_category Nbc="4" Nb="5" Na="Salário líquido"/>
 <Category Nb="5" Na="Rendimentos diversos"/>

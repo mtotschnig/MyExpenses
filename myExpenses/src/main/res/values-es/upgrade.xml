@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_281">
+    <item>Opción para proyectos personalizados</item>
+    <item>Arreglar almacenamiento en la nube para copias de seguridad grandes</item>
+  </string-array>
   <string-array name="whats_new_280">
     <item>Traducción a Hebreo</item>
     <item>Seleccionar un color de cuenta personalizado</item>
