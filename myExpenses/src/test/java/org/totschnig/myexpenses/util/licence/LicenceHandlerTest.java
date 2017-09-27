@@ -9,7 +9,6 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.totschnig.myexpenses.util.licence.LicenceHandler;
 
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;

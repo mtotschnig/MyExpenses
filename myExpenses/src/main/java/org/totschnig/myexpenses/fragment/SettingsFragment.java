@@ -801,7 +801,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
           Bundle b = new Bundle();
           b.putInt(ConfirmationDialogFragment.KEY_TITLE,
               R.string.dialog_title_information);
-          b.putString(ConfirmationDialogFragment.KEY_MESSAGE, getString(R.string.licence_removal_information));
+          b.putString(ConfirmationDialogFragment.KEY_MESSAGE, getString(R.string.licence_removal_information, 5));
           b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_remove);
           b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.REMOVE_LICENCE_COMMAND);
           ConfirmationDialogFragment.newInstance(b)
