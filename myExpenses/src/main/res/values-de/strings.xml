@@ -352,7 +352,6 @@
   <string name="qif_parse_failure_found_multiple_accounts">In der QIF Datei wurden mehrere Konten gefunden.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Diese konten nicht mit einem bestehendes Konto zusammengefügt werden.</string>
   <string name="reference_number">Referenznummer</string>
-  <string name="request_licence_mail_head">Bitte senden Sie mir einen Schlüssel für die Android-Id %1$s.</string>
   <string name="restore_db_failure">Fehler bei der Wiederherstellung der Datenbank.</string>
   <string name="restore_db_success">Die Datenbank wurde aus dem Backup wiederhergestellt.</string>
   <string name="restore_no_backup_found">Keine Backup-Datei gefunden.</string>

@@ -284,7 +284,6 @@
   <string name="qif_parse_failure_found_multiple_accounts">تم العثور على أكثر من حساب في ملف QIF.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">لا يمكن دمجهم لحساب موجود. </string>
   <string name="reference_number">رقم المرجع</string>
-  <string name="request_licence_mail_head">الرجاء إرسال لي مفتاح لمعرف الأندرويد %1$s.</string>
   <string name="restore_db_failure">فشلت عملية استعادة قاعدة البيانات.</string>
   <string name="restore_db_success">تم استعادة قاعدة البيانات من النسخة الاحتياطية.</string>
   <string name="restore_no_backup_found">لا يوجد نسخة احتياطية.</string>

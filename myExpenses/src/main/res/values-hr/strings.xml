@@ -316,7 +316,6 @@
   <string name="qif_parse_failure_found_multiple_accounts">Pronađeno je više računa u QIF datoteci.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Nemoguće spojiti s postojećim računom.</string>
   <string name="reference_number">Referentni broj</string>
-  <string name="request_licence_mail_head">Molim da mi pošaljete ključ za Android-Id %1$s.</string>
   <string name="restore_db_failure">Obnavljanje baze podataka nije uspjelo.</string>
   <string name="restore_db_success">Baza podataka uspješno obnovljena sa sigurnosne kopije.</string>
   <string name="restore_no_backup_found">Sigurnosna kopija nije pronađena.</string>

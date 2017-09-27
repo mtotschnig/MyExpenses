@@ -276,7 +276,6 @@
   <string name="progress_dialog_deleting">S\'estàn suprimint els objectes</string>
   <string name="progress_dialog_loading">S\'està carregant l\'objecte de la base de dades</string>
   <string name="reference_number">Número de referència</string>
-  <string name="request_licence_mail_head">Si us plau, envieu-me una clau per Android-ID %1$s.</string>
   <string name="restore_db_failure">No ha estat possible restaurar la base de dades.</string>
   <string name="restore_db_success">S\'ha restaurat la base de dades des de la còpia de seguretat.</string>
   <string name="restore_no_backup_found">No s\'ha trobat la còpia de seguretat.</string>

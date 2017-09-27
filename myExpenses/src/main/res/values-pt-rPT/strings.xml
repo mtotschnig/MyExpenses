@@ -352,7 +352,6 @@
   <string name="qif_parse_failure_found_multiple_accounts">Encontradas diversas contas no ficheiro QIF.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Não é possível unir com a conta existente.</string>
   <string name="reference_number">Número de referência</string>
-  <string name="request_licence_mail_head">Por favor envie-me uma chave para o Android-Id %1$s.</string>
   <string name="restore_db_failure">Falha ao restaurar a base de dados.</string>
   <string name="restore_db_success">A base de dados foi restaurada a partir da cópia de segurança.</string>
   <string name="restore_no_backup_found">Não foram encontradas cópias de segurança.</string>

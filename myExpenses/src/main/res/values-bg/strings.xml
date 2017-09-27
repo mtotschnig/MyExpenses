@@ -352,7 +352,6 @@
   <string name="qif_parse_failure_found_multiple_accounts">Открити са множество сметки в QIF файла.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Не могат да бъдат обединени в съществуваща сметка.</string>
   <string name="reference_number">Референтен номер</string>
-  <string name="request_licence_mail_head">Моля, изпратете ми ключ за андроид-ИД %1$s.</string>
   <string name="restore_db_failure">Неуспешно възстановяване на база данни.</string>
   <string name="restore_db_success">Базата данни е възстановена успешно.</string>
   <string name="restore_no_backup_found">Не е намерен бекъп файл.</string>

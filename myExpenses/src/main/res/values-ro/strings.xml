@@ -335,7 +335,6 @@
   <string name="qif_parse_failure_found_multiple_accounts">Multiple conturi găsite în  fişierul QIF .</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Nu se pot imbina în contul existent.</string>
   <string name="reference_number">Număr referință</string>
-  <string name="request_licence_mail_head">Trimiteţi-mi vă rog o cheie pentru Android-Id %1$s.</string>
   <string name="restore_db_failure">Restaurare  baze de date eşuată.</string>
   <string name="restore_db_success">Baza de date a fost restaurată din backup.</string>
   <string name="restore_no_backup_found">Nici un backup găsit.</string>

@@ -352,7 +352,6 @@
   <string name="qif_parse_failure_found_multiple_accounts">Hainbat kontu aurkitu dira QIF fitxategian.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Ezin dira uneko kontuan bateratu</string>
   <string name="reference_number">Erreferentzia zenbakia</string>
-  <string name="request_licence_mail_head">Mesedez bidali %1$s Android-Idaren gakoa.</string>
   <string name="restore_db_failure">Huts egin du datu-basea berreskuratzean.</string>
   <string name="restore_db_success">Datu-basea berreskuratu da babeskopiatik.</string>
   <string name="restore_no_backup_found">Ez da babeskopiarik aurkitu.</string>

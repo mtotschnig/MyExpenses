@@ -352,7 +352,6 @@
   <string name="qif_parse_failure_found_multiple_accounts">נמצאו מספר חשבונות בקובץ QIF.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">לא ניתן למזג אותם בחשבון קיים.</string>
   <string name="reference_number">מספר סימוכין</string>
-  <string name="request_licence_mail_head">שלח לי מפתח ל- Android-Id %1$s.</string>
   <string name="restore_db_failure">שחזור בסיס הנתונים נכשל.</string>
   <string name="restore_db_success">מסד הנתונים שוחזר מהגיבוי.</string>
   <string name="restore_no_backup_found">לא נמצא גיבוי.</string>

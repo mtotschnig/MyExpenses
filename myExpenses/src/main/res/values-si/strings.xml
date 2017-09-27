@@ -283,7 +283,6 @@
   <string name="qif_parse_failure_found_multiple_accounts">QIF ලිපිගොනුවෙන් බහු ගිණුම් සමු විය </string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">දැනට පවතින ගිණුමට එකතු කල නොහැකිය </string>
   <string name="reference_number">යොමු අංකය </string>
-  <string name="request_licence_mail_head">කරුණාකර මට අන්ඩ්රෝයිඩ් අයි ඩි %1$s සදහා යතුර එවන්න </string>
   <string name="restore_db_failure">දත්ත ගබඩාව නැවත පිහිටුවීම අසාර්කයි </string>
   <string name="restore_db_success">දත්ත ගබඩාව උපස්ථය උපයෝගී කරගෙන  නැවත පිහිටුවන ලදී </string>
   <string name="restore_no_backup_found">උපස්තයක් සමුවුයේ නැත </string>

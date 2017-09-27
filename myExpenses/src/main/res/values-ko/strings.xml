@@ -338,7 +338,6 @@
   <string name="qif_parse_failure_found_multiple_accounts">QIF 파일에서 여러개의 계좌가 발견되었습니다.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">기존 계좌에 합칠 수 없습니다.</string>
   <string name="reference_number">참조 번호</string>
-  <string name="request_licence_mail_head">Android-Id %1$s 에 맞는 기부 확인 키를 보내주세요.</string>
   <string name="restore_db_failure">데이터베이스 복원을 실패했습니다.</string>
   <string name="restore_db_success">데이터베이스를 백업으로부터 복원했습니다.</string>
   <string name="restore_no_backup_found">백업 파일을 찾을 수 없습니다.</string>

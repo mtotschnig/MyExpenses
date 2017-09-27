@@ -352,7 +352,6 @@
   <string name="qif_parse_failure_found_multiple_accounts">Più conti nel file QIF.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Non è possibile unirle in conto esistente.</string>
   <string name="reference_number">Numero di riferimento</string>
-  <string name="request_licence_mail_head">Vi prego di inviarmi una chiave per Android-Id %1$s.</string>
   <string name="restore_db_failure">Ripristino del database non riuscito.</string>
   <string name="restore_db_success">Il database è stato ripristinato dal backup.</string>
   <string name="restore_no_backup_found">Backup non trovato.</string>

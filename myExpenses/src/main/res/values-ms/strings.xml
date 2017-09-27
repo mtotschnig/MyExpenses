@@ -349,7 +349,6 @@
   <string name="qif_parse_failure_found_multiple_accounts">Akaun berbilang ditemui dalam fail QIF.</string>
   <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Tidak dapat gabung ia ke dalam akaun sedia ada.</string>
   <string name="reference_number">Nombor Rujukan</string>
-  <string name="request_licence_mail_head">Sila hantar kepada saya satu kunci untuk Android-Id %1$s.</string>
   <string name="restore_db_failure">Pemulihan pangkalan data gagal.</string>
   <string name="restore_db_success">Pangkalan data telah dipulihkan dari sandar.</string>
   <string name="restore_no_backup_found">Tiada sandar ditemui.</string>
