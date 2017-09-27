@@ -18,8 +18,8 @@ import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.AcraHelper;
-import org.totschnig.myexpenses.util.HashLicenceHandler;
-import org.totschnig.myexpenses.util.LicenceHandler;
+import org.totschnig.myexpenses.util.licence.HashLicenceHandler;
+import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 
 import javax.inject.Named;

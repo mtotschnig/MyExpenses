@@ -44,6 +44,7 @@ import org.totschnig.myexpenses.activity.FolderBrowser;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
+import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentCompat;
@@ -51,6 +52,7 @@ import org.totschnig.myexpenses.preference.FontSizeDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogPreference;
 import org.totschnig.myexpenses.preference.PasswordPreference;
 import org.totschnig.myexpenses.preference.PasswordPreferenceDialogFragmentCompat;
+import org.totschnig.myexpenses.preference.PopupMenuPreference;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.preference.SecurityQuestionDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.TimePreference;
@@ -65,11 +67,13 @@ import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.FileUtils;
-import org.totschnig.myexpenses.util.LicenceHandler;
+import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.ShareUtils;
 import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.licence.Package;
+import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 
 import java.net.URI;
@@ -485,7 +489,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       } else if (licenceStatus.isUpgradeable()) {
         contribPurchaseSummary = getString(R.string.pref_contrib_purchase_title_upgrade);
       } else {
-        contribPurchaseSummary = licenceHandler.getValidUntil() + "\n" +
+        contribPurchaseSummary = getString(R.string.valid_until, licenceHandler.getValidUntil()) + "\n" +
             //getString(R.string.pref_contrib_purchase_title_renew);
             getString(R.string.thank_you);
       }
@@ -570,6 +574,16 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         } else {
           startActivity(i);
         }
+      } else {
+        Package[] proPackages = {Package.Professional_6, Package.Professional_36};
+        ((PopupMenuPreference) preference).showPopupMenu(item -> {
+          Package selectedPackage = proPackages[item.getItemId()];
+          Bundle bundle = new Bundle(1);
+          bundle.putString(Tracker.EVENT_PARAM_PACKAGE, selectedPackage.name());
+          ((ProtectedFragmentActivity) getActivity()).logEvent(Tracker.EVENT_CONTRIB_DIALOG_BUY, bundle);
+          DonateDialogFragment.newInstance(selectedPackage).show(getFragmentManager(), "CONTRIB");
+          return true;
+        }, Stream.of(proPackages).map(licenceHandler::getExtendMessage).toArray(size -> new String[size]));
       }
       return true;
     }

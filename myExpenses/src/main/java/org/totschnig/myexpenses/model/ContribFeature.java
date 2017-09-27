@@ -24,13 +24,13 @@ import android.text.Html;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.util.LicenceHandler;
+import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.util.Date;
 import java.util.Locale;
 
-import static org.totschnig.myexpenses.util.LicenceHandler.LicenceStatus.*;
+import static org.totschnig.myexpenses.util.licence.LicenceHandler.LicenceStatus.*;
 
 //TODO separate enum definition from handler
 //TODO use separate preferences object injected via DI

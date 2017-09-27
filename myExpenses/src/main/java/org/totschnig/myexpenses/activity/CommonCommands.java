@@ -29,7 +29,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.HelpDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.util.LicenceHandler;
+import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.io.Serializable;

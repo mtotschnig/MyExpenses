@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.util;
+package org.totschnig.myexpenses.util.licence;
 
 import android.content.Context;
 import android.os.Build;
@@ -7,14 +7,17 @@ import android.support.annotation.VisibleForTesting;
 
 import com.google.android.vending.licensing.PreferenceObfuscator;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.sync.GenericAccountService;
-import org.totschnig.myexpenses.util.licence.Licence;
-import org.totschnig.myexpenses.util.licence.Package;
+import org.totschnig.myexpenses.util.DistribHelper;
+import org.totschnig.myexpenses.util.Preconditions;
+import org.totschnig.myexpenses.util.ShortcutHelper;
+import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.TemplateWidget;
 
@@ -115,9 +118,22 @@ public class LicenceHandler {
     return aPackage.getFormattedPrice(context);
   }
 
+  public String getExtendMessage(Package aPackage) {
+    Preconditions.checkArgument(aPackage.isProfessional());
+    Date extendedDate = DateUtils.addMonths(getValidUntilDate(), aPackage.getDuration());
+    return context.getString(R.string.extend_until,
+        Utils.getDateFormatSafe(context).format(extendedDate),
+        aPackage.getFormattedPriceRaw(context));
+  }
+
   public String getValidUntil() {
-    return Utils.getDateFormatSafe(context).format(new Date(Long.parseLong(
-        licenseStatusPrefs.getString(LICENSE_VALID_UNTIL_KEY, "0"))));
+    return Utils.getDateFormatSafe(context).format(getValidUntilDate());
+  }
+
+  @NonNull
+  private Date getValidUntilDate() {
+    return new Date(Long.parseLong(
+        licenseStatusPrefs.getString(LICENSE_VALID_UNTIL_KEY, "0")));
   }
 
   public boolean hasLegacyLicence() {

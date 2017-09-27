@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.util;
+package org.totschnig.myexpenses.util.licence;
 
 import android.provider.Settings;
 
@@ -6,11 +6,10 @@ import com.google.android.vending.licensing.PreferenceObfuscator;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.util.licence.Licence;
 
 @Deprecated
 public class HashLicenceHandler extends LicenceHandler {
-  boolean hasLegacyLicence = false;
+  private boolean hasLegacyLicence = false;
 
   public HashLicenceHandler(MyApplication context, PreferenceObfuscator preferenceObfuscator) {
     super(context, preferenceObfuscator);

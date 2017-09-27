@@ -4,7 +4,7 @@ import junit.framework.Assert;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.util.LicenceHandler;
+import org.totschnig.myexpenses.util.licence.LicenceHandler;
 
 import static org.totschnig.myexpenses.model.ContribFeature.USAGES_LIMIT;
 

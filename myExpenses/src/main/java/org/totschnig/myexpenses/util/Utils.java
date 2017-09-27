@@ -55,6 +55,7 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.task.GrisbiImportTask;
+import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;

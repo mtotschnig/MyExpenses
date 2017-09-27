@@ -35,6 +35,7 @@ import android.widget.Toast;
 
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.licence.Package;
@@ -128,10 +129,9 @@ public class DonateDialogFragment extends CommitSafeDialogFragment {
 
   @Override
   public void onCancel(DialogInterface dialog) {
-    if (getActivity() == null) {
-      return;
+    if (getActivity() instanceof ContribInfoDialogActivity) {
+      getActivity().finish();
     }
-    getActivity().finish();
   }
 
   private String getPaypalLocale() {

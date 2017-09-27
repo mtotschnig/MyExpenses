@@ -15,7 +15,7 @@ import org.totschnig.myexpenses.fragment.StaleImagesList;
 import org.totschnig.myexpenses.fragment.TemplatesList;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.task.LicenceApiTask;
-import org.totschnig.myexpenses.util.LicenceHandler;
+import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.ads.AdHandler;
 
 import javax.inject.Singleton;

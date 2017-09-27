@@ -57,7 +57,7 @@ import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.util.AcraHelper;
-import org.totschnig.myexpenses.util.LicenceHandler;
+import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.log.TagFilterFileLoggingTree;

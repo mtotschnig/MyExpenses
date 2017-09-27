@@ -7,7 +7,7 @@ import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.util.LicenceHandler;
+import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.licence.Licence;
@@ -82,7 +82,7 @@ public class LicenceApiTask extends AsyncTask<Void, Void, Result> {
               return new Result(false, R.string.licence_validation_error_device_limit_exceeded);
             case 404:
               licenceHandler.updateLicenceStatus(null);
-              return new Result(false, R.string.licence_validation_error_not_found);
+              return new Result(false, R.string.licence_validation_failure);
             default:
               return buildFailureResult(String.valueOf(licenceResponse.code()));
           }

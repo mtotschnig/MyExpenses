@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
-import org.totschnig.myexpenses.util.LicenceHandler;
 
 import java.util.Currency;
 
@@ -28,19 +27,28 @@ public enum Package {
   }
 
   public String getFormattedPrice(Context context) {
-    String formatted = CurrencyFormatter.instance().formatCurrency(
-        new Money(Currency.getInstance("EUR"), getDefaultPrice()));
-    if (isProfessional()) {
-      formatted += " / " + getDuration(context);
-    }
+    String formatted = getFormattedPriceRaw(context);
+    return isProfessional() ? String.format("%s / %s", formatted, getDuration(context)) : formatted;
+  }
 
-    return formatted;
+  public String getFormattedPriceRaw(Context context) {
+    return CurrencyFormatter.instance().formatCurrency(
+        new Money(Currency.getInstance("EUR"), getDefaultPrice()));
   }
 
   @NonNull
-  private String getDuration(Context context) {
+  String getDuration(Context context) {
     return isProfessional() ?
-        context.getString(R.string.n_months, name().substring(name().lastIndexOf("_") + 1)) : "";
+        context.getString(R.string.n_months, extractDuration()) : "";
+  }
+
+  int getDuration() {
+    return Integer.parseInt(extractDuration());
+  }
+
+  @NonNull
+  private String extractDuration() {
+    return name().substring(name().lastIndexOf("_") + 1);
   }
 
   public String getButtonLabel(Context context) {

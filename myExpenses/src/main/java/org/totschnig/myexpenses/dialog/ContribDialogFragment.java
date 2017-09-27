@@ -37,7 +37,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.util.DistribHelper;
-import org.totschnig.myexpenses.util.LicenceHandler;
+import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.licence.Package;
 import org.totschnig.myexpenses.util.tracking.Tracker;
@@ -49,9 +49,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 import static org.totschnig.myexpenses.activity.ContribInfoDialogActivity.KEY_FEATURE;
-import static org.totschnig.myexpenses.util.LicenceHandler.LicenceStatus.CONTRIB;
-import static org.totschnig.myexpenses.util.LicenceHandler.LicenceStatus.EXTENDED;
-import static org.totschnig.myexpenses.util.LicenceHandler.LicenceStatus.PROFESSIONAL;
+import static org.totschnig.myexpenses.util.licence.LicenceHandler.LicenceStatus.CONTRIB;
+import static org.totschnig.myexpenses.util.licence.LicenceHandler.LicenceStatus.EXTENDED;
+import static org.totschnig.myexpenses.util.licence.LicenceHandler.LicenceStatus.PROFESSIONAL;
 
 public class ContribDialogFragment extends CommitSafeDialogFragment implements DialogInterface.OnClickListener, View.OnClickListener {
   @Nullable
