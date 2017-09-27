@@ -25,17 +25,31 @@ public class DeepLinkActivity extends ProtectedFragmentActivity {
         if (data == null) {
           showWebSite();
         } else if (data.getLastPathSegment().equals("callback.html")) {
-          Toast.makeText(this, R.string.licence_migration_info, Toast.LENGTH_LONG).show();
+          showToast(getString(R.string.licence_migration_info));
           finish();
-        } else if ("verify".equals(data.getFragment())) {
-          String key = data.getQueryParameter("key");
-          PrefKey.NEW_LICENCE.putString(key);
-          startTaskExecution(TASK_VALIDATE_LICENCE, new String[]{}, null, R.string.progress_validating_licence);
+        } else if ("verify".equals(data.getFragment())) { //callback2.html
+          String existingKey = PrefKey.NEW_LICENCE.getString("");
+          if(existingKey.equals("")) {
+            String key = data.getQueryParameter("key");
+            if (android.text.TextUtils.isEmpty(key)) {
+              showToast("Missing parameter key");
+            } else {
+              PrefKey.NEW_LICENCE.putString(key);
+              startTaskExecution(TASK_VALIDATE_LICENCE, new String[]{}, null, R.string.progress_validating_licence);
+            }
+          } else {
+            showToast(String.format("There is already a licence active on this device, key: %s", existingKey));
+            finish();
+          }
         } else {
           showWebSite();
         }
       }
     }
+  }
+
+  private void showToast(String message) {
+    Toast.makeText(this, message, Toast.LENGTH_LONG).show();
   }
 
   private void showWebSite() {
@@ -49,7 +63,7 @@ public class DeepLinkActivity extends ProtectedFragmentActivity {
     if (taskId == TaskExecutionFragment.TASK_VALIDATE_LICENCE) {
       if (o instanceof Result) {
         Result r = ((Result) o);
-        Toast.makeText(this, r.print(this), Toast.LENGTH_LONG).show();
+        showToast(r.print(this));
       }
     }
     finish();
