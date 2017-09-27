@@ -1559,9 +1559,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + "sync_sequence_local integer default 0, exclude_from_totals boolean default 0, "
           + "uuid text);");
       db.execSQL("INSERT INTO accounts " +
-          "(_id,label,opening_balance,description,currency,type,color,grouping,usages,last_used,sort_key,sync_account_name,sync_sequence_local,exclude_from_totals,uuid)" +
+          "(_id,label,opening_balance,description,currency,type,color,grouping,usages,last_used,sort_key,sync_account_name,sync_sequence_local,exclude_from_totals,uuid) " +
           " SELECT " +
-          " _id,label,opening_balance,description,currency,type,color,grouping,usages,last_used,sort_key,sync_account_name,sync_sequence_local,exclude_from_totals,uuid" +
+          " _id,label,opening_balance,description,currency,type,color,grouping,usages,last_used,sort_key,sync_account_name,sync_sequence_local,exclude_from_totals,uuid " +
           "FROM accounts_old");
       db.execSQL("DROP TABLE accounts_old");
       createOrRefreshViews(db);
