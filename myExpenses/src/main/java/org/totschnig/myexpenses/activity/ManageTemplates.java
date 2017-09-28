@@ -31,6 +31,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.fragment.TemplatesList;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -38,10 +39,11 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.PermissionHelper;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class ManageTemplates extends ProtectedFragmentActivity implements
-    ConfirmationDialogListener {
+    ConfirmationDialogListener, ContribIFace {
 
   public static final int NOT_CALLED = -1;
   private long calledFromCalendarWithId = NOT_CALLED;
@@ -147,7 +149,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
     switch (command) {
       case R.id.CREATE_INSTANCE_SAVE_COMMAND:
         PrefKey.TEMPLATE_CLICK_DEFAULT.putString("SAVE");
-        mListFragment.dispatchCreateInstanceSave(new Long[]{id});
+        mListFragment.requestSplitTransaction(new Long[]{id});
         break;
     }
   }
@@ -159,7 +161,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
     switch (command) {
       case R.id.CREATE_INSTANCE_EDIT_COMMAND:
         PrefKey.TEMPLATE_CLICK_DEFAULT.putString("EDIT");
-        mListFragment.dispatchCreateInstanceEdit(id);
+        mListFragment.requestSplitTransaction(id);
         break;
     }
   }
@@ -181,5 +183,21 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
         }
       }
     }
+  }
+
+  @Override
+  public void contribFeatureCalled(ContribFeature feature, Serializable tag) {
+    if (feature.equals(ContribFeature.SPLIT_TRANSACTION)) {
+      if (tag instanceof Long) {
+        mListFragment.dispatchCreateInstanceEditDo((Long) tag);
+      } else if (tag instanceof Long[]) {
+        mListFragment.dispatchCreateInstanceSaveDo((Long[]) tag);
+      }
+    }
+  }
+
+  @Override
+  public void contribFeatureNotCalled(ContribFeature feature) {
+
   }
 }

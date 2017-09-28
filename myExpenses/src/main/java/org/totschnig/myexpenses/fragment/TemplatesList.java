@@ -58,6 +58,7 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -68,6 +69,7 @@ import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.Utils;
 
+import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
@@ -93,6 +95,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
 
 public class TemplatesList extends SortableListFragment {
 
@@ -179,9 +182,9 @@ public class TemplatesList extends SortableListFragment {
               id);
         } else if (PrefKey.TEMPLATE_CLICK_HINT_SHOWN.getBoolean(false)) {
           if (PrefKey.TEMPLATE_CLICK_DEFAULT.getString("SAVE").equals("SAVE")) {
-            dispatchCreateInstanceSave(new Long[]{id});
+            requestSplitTransaction(new Long[]{id});
           } else {
-            dispatchCreateInstanceEdit(id);
+            requestSplitTransaction(id);
           }
         } else {
           Bundle b = new Bundle();
@@ -230,8 +233,12 @@ public class TemplatesList extends SortableListFragment {
             .show(getActivity().getSupportFragmentManager(), "DELETE_TEMPLATE");
         return true;
       case R.id.CREATE_INSTANCE_SAVE_COMMAND:
+        if (hasSplitAtPositions(positions)) {
+          requestSplitTransaction(itemIds);
+        } else {
+          dispatchCreateInstanceSaveDo(itemIds);
+        }
         finishActionMode();
-        dispatchCreateInstanceSave(itemIds);
         return true;
       case R.id.CREATE_PLAN_INSTANCE_SAVE_COMMAND:
       case R.id.CANCEL_PLAN_INSTANCE_COMMAND:
@@ -249,8 +256,12 @@ public class TemplatesList extends SortableListFragment {
     Intent i;
     switch (command) {
       case R.id.CREATE_INSTANCE_EDIT_COMMAND:
+        if (isSplitAtPosition(menuInfo.position)) {
+          requestSplitTransaction(menuInfo.id);
+        } else {
+          dispatchCreateInstanceEditDo(menuInfo.id);
+        }
         finishActionMode();
-        dispatchCreateInstanceEdit(menuInfo.id);
         return true;
       case R.id.EDIT_COMMAND:
         finishActionMode();
@@ -267,8 +278,37 @@ public class TemplatesList extends SortableListFragment {
     }
     return super.dispatchCommandSingle(command, info);
   }
-  
-  public void dispatchCreateInstanceSave(Long[] itemIds) {
+
+  private boolean isSplitAtPosition(int position) {
+    if (mTemplatesCursor != null) {
+      if (mTemplatesCursor.moveToPosition(position) &&
+          SPLIT_CATID.equals(DbUtils.getLongOrNull(mTemplatesCursor, KEY_CATID))) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private boolean hasSplitAtPositions(SparseBooleanArray positions) {
+    for (int i = 0; i < positions.size(); i++) {
+      if (positions.valueAt(i) && isSplitAtPosition(positions.keyAt(i))) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * calls {@link ProtectedFragmentActivity#contribFeatureRequested(ContribFeature, Serializable)}
+   * for feature {@link ContribFeature#SPLIT_TRANSACTION}
+   * @param tag if tag holds a single long the new instance will be edited, if tag holds an array of longs
+   *            new instances will be immediately saved for each
+   */
+  public void requestSplitTransaction(Serializable tag) {
+    ((ProtectedFragmentActivity) getActivity()).contribFeatureRequested(ContribFeature.SPLIT_TRANSACTION, tag);
+  }
+
+  public void dispatchCreateInstanceSaveDo(Long[] itemIds) {
     ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
         TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE,
         itemIds,
@@ -276,7 +316,7 @@ public class TemplatesList extends SortableListFragment {
         0);
   }
 
-  public void dispatchCreateInstanceEdit(long itemId) {
+  public void dispatchCreateInstanceEditDo(long itemId) {
     Intent intent = new Intent(getActivity(), ExpenseEdit.class);
     intent.putExtra(KEY_TEMPLATEID, itemId);
     intent.putExtra(KEY_INSTANCEID, -1L);

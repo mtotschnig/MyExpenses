@@ -449,6 +449,7 @@ public class Transaction extends Model {
         break;
       case TYPE_SPLIT:
         tr = new SplitTransaction(te.getAccountId(), te.getAmount());
+        tr.status = STATUS_UNCOMMITTED;
         tr.setMethodId(te.getMethodId());
         tr.setMethodLabel(te.getMethodLabel());
         break;
@@ -493,7 +494,6 @@ public class Transaction extends Model {
    *
    * @param accountId the account the transaction belongs to if account no longer exists {@link Account#getInstanceFromDb(long) is called with 0}
    * @return instance of {@link Transaction} or {@link Transfer} or {@link SplitTransaction} with date initialized to current date
-   * if parentId == 0L, otherwise {@link SplitPartCategory} or {@link SplitPartTransfer}
    */
   public static Transaction getNewInstance(long accountId) {
     return getNewInstance(accountId, null);
