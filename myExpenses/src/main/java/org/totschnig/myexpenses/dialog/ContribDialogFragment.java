@@ -37,8 +37,8 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.util.DistribHelper;
-import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.licence.Package;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 
@@ -248,8 +248,11 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
         updateButtons(professionalButton);
         return true;
       });
-      popup.getMenu().add(Menu.NONE, Package.Professional_6.ordinal(), Menu.NONE, licenceHandler.getFormattedPrice(Package.Professional_6));
-      popup.getMenu().add(Menu.NONE, Package.Professional_36.ordinal(), Menu.NONE, licenceHandler.getFormattedPrice(Package.Professional_36));
+      for (Package aPackage: DistribHelper.PRO_PACKAGES) {
+        String title = licenceHandler.getFormattedPrice(aPackage);
+        if (title == null) title = aPackage.name(); //fallback if prices have not been loaded
+        popup.getMenu().add(Menu.NONE, aPackage.ordinal(), Menu.NONE, title);
+      }
       popup.show();
     }
   }

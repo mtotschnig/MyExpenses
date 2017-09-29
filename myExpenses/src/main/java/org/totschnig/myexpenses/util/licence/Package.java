@@ -6,11 +6,12 @@ import android.support.annotation.NonNull;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
+import org.totschnig.myexpenses.util.Preconditions;
 
 import java.util.Currency;
 
 public enum Package {
-  Contrib(300), Upgrade(250), Extended(500), Professional_6(500), Professional_36(2000);
+  Contrib(300), Upgrade(250), Extended(500), Professional_1(100), Professional_6(500), Professional_12(900), Professional_36(2000);
 
   public long getDefaultPrice() {
     return defaultPrice;
@@ -26,9 +27,8 @@ public enum Package {
     return name().startsWith("Professional");
   }
 
-  public String getFormattedPrice(Context context) {
-    String formatted = getFormattedPriceRaw(context);
-    return isProfessional() ? String.format("%s / %s", formatted, getDuration(context)) : formatted;
+  public String getFormattedPrice(Context context, String formatted) {
+    return isProfessional() ? formatWithDuration(context, formatted) : formatted;
   }
 
   public String getFormattedPriceRaw(Context context) {
@@ -37,9 +37,14 @@ public enum Package {
   }
 
   @NonNull
-  String getDuration(Context context) {
-    return isProfessional() ?
-        context.getString(R.string.n_months, extractDuration()) : "";
+  String formatWithDuration(Context context, String formattedPrice) {
+    Preconditions.checkState(isProfessional());
+    String duration = extractDuration();
+    if (duration.equals("1")) {
+      return String.format("%s (%s)", formattedPrice, context.getString(R.string.monthly));
+    } else {
+      return String.format("%s / %s", formattedPrice, context.getString(R.string.n_months, duration));
+    }
   }
 
   int getDuration() {
@@ -52,17 +57,20 @@ public enum Package {
   }
 
   public String getButtonLabel(Context context) {
+    int resId;
     switch (this) {
       case Contrib:
-        return context.getString(LicenceHandler.LicenceStatus.CONTRIB.getResId());
+        resId = LicenceHandler.LicenceStatus.CONTRIB.getResId();
+        break;
       case Upgrade:
-        return  context.getString(R.string.pref_contrib_purchase_title_upgrade);
+        resId = R.string.pref_contrib_purchase_title_upgrade;
+        break;
       case Extended:
-        return context.getString(LicenceHandler.LicenceStatus.EXTENDED.getResId());
+        resId = LicenceHandler.LicenceStatus.EXTENDED.getResId();
+        break;
       default:
-       return String.format("%s (%s)",
-           context.getString(LicenceHandler.LicenceStatus.PROFESSIONAL.getResId()),
-           getDuration(context));
+        resId = LicenceHandler.LicenceStatus.PROFESSIONAL.getResId();
     }
+    return String.format("%s (%s)", context.getString(resId), getFormattedPrice(context, getFormattedPriceRaw(context)));
   }
 }

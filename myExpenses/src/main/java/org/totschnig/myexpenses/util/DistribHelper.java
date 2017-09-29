@@ -3,11 +3,18 @@ package org.totschnig.myexpenses.util;
 import android.content.Context;
 
 import org.totschnig.myexpenses.BuildConfig;
+import org.totschnig.myexpenses.util.licence.Package;
 
 import java.util.Locale;
 
 public class DistribHelper {
 
+  public static final Package[] PRO_PACKAGES;
+
+  static {
+    PRO_PACKAGES = isGithub() ? new Package[] {Package.Professional_6, Package.Professional_36} :
+        new Package[] {Package.Professional_1, Package.Professional_12};
+  }
   public enum Distribution {
     PLAY,
     AMAZON {

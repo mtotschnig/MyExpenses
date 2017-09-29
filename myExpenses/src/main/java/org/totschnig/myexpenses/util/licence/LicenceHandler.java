@@ -47,6 +47,10 @@ public class LicenceHandler {
     return isEnabledFor(LicenceStatus.CONTRIB);
   }
 
+  public boolean isExtendedEnabled() {
+    return isEnabledFor(LicenceStatus.EXTENDED);
+  }
+
   public boolean isEnabledFor(@NonNull LicenceStatus licenceStatus) {
     if (this.licenceStatus == null) {
       return false;
@@ -115,7 +119,7 @@ public class LicenceHandler {
   }
 
   public String getFormattedPrice(Package aPackage) {
-    return aPackage.getFormattedPrice(context);
+    return aPackage.getFormattedPrice(context, aPackage.getFormattedPriceRaw(context));
   }
 
   public String getExtendMessage(Package aPackage) {
@@ -126,8 +130,8 @@ public class LicenceHandler {
         aPackage.getFormattedPriceRaw(context));
   }
 
-  public String getValidUntil() {
-    return Utils.getDateFormatSafe(context).format(getValidUntilDate());
+  public String getValidUntilMessage(Context context) {
+    return context.getString(R.string.valid_until, Utils.getDateFormatSafe(this.context).format(getValidUntilDate()));
   }
 
   @NonNull
