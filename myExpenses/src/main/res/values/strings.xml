@@ -159,7 +159,6 @@
     <string name="licence_validation_failure">Unable to validate licence key.</string>
     <string name="licence_validation_success">Licence key successfully validated:</string>
     <string name="licence_validation_premium">Premium features have been unlocked.</string>
-    <string name="licence_validation_extended">Extended features have been unlocked.</string>
     <string name="menu_aggregates">Total</string>
     <!-- Shown in a notification; allows to apply a template (instantiate a new transaction from it) -->
     <string name="menu_apply_template">Apply</string>
@@ -697,5 +696,6 @@
     <string name="licence_migration_info">My Expenses implements a new licence validation mechanism. Please request a new key.</string>
     <string name="valid_until">Valid until %s</string>
     <string name="extend_until">Extend until %s for %s</string>
+    <string name="extended_upgrade_goodie">Additional %d months are granted once to users who already own the Extended Licence</string>
 </resources>
 
