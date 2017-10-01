@@ -42,7 +42,7 @@ public class LicenceHandlerTest {
   })
   public void isEnabledFor(String hasStatus, String requestedStatus, boolean expected) throws Exception {
     licenceHandler.licenceStatus = parse(hasStatus);
-    Assert.assertEquals(expected, licenceHandler.isEnabledFor(LicenceHandler.LicenceStatus.valueOf(requestedStatus)));
+    Assert.assertEquals(expected, licenceHandler.isEnabledFor(LicenceStatus.valueOf(requestedStatus)));
   }
 
   @Test
@@ -75,9 +75,9 @@ public class LicenceHandlerTest {
     Assert.assertEquals(expected, parse(self).greaterOrEqual(parse(other)));
   }
 
-  private LicenceHandler.LicenceStatus parse(String licenceStatus) {
+  private LicenceStatus parse(String licenceStatus) {
     try {
-      return LicenceHandler.LicenceStatus.valueOf(licenceStatus);
+      return LicenceStatus.valueOf(licenceStatus);
     } catch (IllegalArgumentException e) {
       return null;
     }

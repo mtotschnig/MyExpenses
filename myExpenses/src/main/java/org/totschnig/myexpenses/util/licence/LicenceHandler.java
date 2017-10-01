@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.util.licence;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
 import com.google.android.vending.licensing.PreferenceObfuscator;
@@ -11,9 +12,10 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.sync.GenericAccountService;
+import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.Preconditions;
 import org.totschnig.myexpenses.util.ShortcutHelper;
@@ -21,7 +23,10 @@ import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.TemplateWidget;
 
+import java.util.Currency;
 import java.util.Date;
+
+import static org.totschnig.myexpenses.util.DistribHelper.isGithub;
 
 public class LicenceHandler {
   private static final String LICENSE_STATUS_KEY = "licence_status";
@@ -118,8 +123,9 @@ public class LicenceHandler {
     }
   }
 
+  @Nullable
   public String getFormattedPrice(Package aPackage) {
-    return aPackage.getFormattedPrice(context, aPackage.getFormattedPriceRaw(context));
+    return aPackage.getFormattedPrice(context, aPackage.getFormattedPriceRaw());
   }
 
   public String getExtendMessage(Package aPackage) {
@@ -127,7 +133,7 @@ public class LicenceHandler {
     Date extendedDate = DateUtils.addMonths(getValidUntilDate(), aPackage.getDuration());
     return context.getString(R.string.extend_until,
         Utils.getDateFormatSafe(context).format(extendedDate),
-        aPackage.getFormattedPriceRaw(context));
+        aPackage.getFormattedPriceRaw());
   }
 
   public String getValidUntilMessage(Context context) {
@@ -144,35 +150,22 @@ public class LicenceHandler {
     return false;
   }
 
-  public enum LicenceStatus {
-    CONTRIB(R.string.contrib_key), EXTENDED(R.string.extended_key), PROFESSIONAL(R.string.professional_key) {
-      @Override
-      public boolean isUpgradeable() {
-        return false;
-      }
-    };
+  public Package[] getProPackages() {
+    return isGithub() ? new Package[] {Package.Professional_6, Package.Professional_36} :
+        new Package[] {Package.Professional_1, Package.Professional_12};
+  }
 
-    private final int resId;
+  @Nullable
+  public String getExtendedUpgradeGoodieMessage(Package selectedPackage) {
+    return context.getString(R.string.extended_upgrade_goodie_github, 3);
+  }
 
-    LicenceStatus(int resId) {
-      this.resId = resId;
-    }
+  public String getProfessionalPriceShortInfo() {
+    return context.getString(R.string.professionalPriceShortInfo, getMinimumProfessionalMonthlyPrice());
+  }
 
-    public int getResId() {
-      return resId;
-    }
-
-    public boolean greaterOrEqual(LicenceStatus other) {
-      return other == null || compareTo(other) >= 0;
-    }
-
-    public boolean covers(ContribFeature contribFeature) {
-      if (contribFeature == null) return true;
-      return greaterOrEqual(contribFeature.getLicenceStatus());
-    }
-
-    public boolean isUpgradeable() {
-      return true;
-    }
+  protected String getMinimumProfessionalMonthlyPrice() {
+    return CurrencyFormatter.instance().formatCurrency(
+        new Money(Currency.getInstance("EUR"), (long) Math.ceil((double)Package.Professional_36.getDefaultPrice() / 36)));
   }
 }

@@ -72,6 +72,7 @@ import org.totschnig.myexpenses.util.ShareUtils;
 import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.licence.LicenceStatus;
 import org.totschnig.myexpenses.util.licence.Package;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.widget.AbstractWidget;
@@ -480,7 +481,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       ((PreferenceCategory) findPreference(CATEGORY_CONTRIB)).removePreference(licenceKeyPref);
     }
     String contribPurchaseTitle, contribPurchaseSummary;
-    LicenceHandler.LicenceStatus licenceStatus = licenceHandler.getLicenceStatus();
+    LicenceStatus licenceStatus = licenceHandler.getLicenceStatus();
     if (licenceStatus == null) {
       int baseTitle = R.string.pref_contrib_purchase_title;
       contribPurchaseTitle = getString(baseTitle);
@@ -583,13 +584,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         }
       } else {
         ((PopupMenuPreference) preference).showPopupMenu(item -> {
-          Package selectedPackage = DistribHelper.PRO_PACKAGES[item.getItemId()];
+          Package selectedPackage = licenceHandler.getProPackages()[item.getItemId()];
           Bundle bundle = new Bundle(1);
           bundle.putString(Tracker.EVENT_PARAM_PACKAGE, selectedPackage.name());
           ((ProtectedFragmentActivity) getActivity()).logEvent(Tracker.EVENT_CONTRIB_DIALOG_BUY, bundle);
           DonateDialogFragment.newInstance(selectedPackage).show(getFragmentManager(), "CONTRIB");
           return true;
-        }, Stream.of(DistribHelper.PRO_PACKAGES).map(licenceHandler::getExtendMessage).toArray(size -> new String[size]));
+        }, Stream.of(licenceHandler.getProPackages()).map(licenceHandler::getExtendMessage).toArray(size -> new String[size]));
       }
       return true;
     }

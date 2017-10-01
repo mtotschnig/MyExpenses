@@ -690,12 +690,13 @@
     <string name="licence_removal_success">Licence key was successfully freed from this device.</string>
     <string name="professional_key">Professional Key</string>
     <string name="n_months">%s months</string>
-    <string name="professionalPriceShortInfo">less than 1.00 € / month</string>
+    <string name="professionalPriceShortInfo">starting from %s / month</string>
     <string name="eu_vat_info">For residents of the European Union prices displayed do not include VAT.</string>
     <string name="pref_contrib_purchase_title_renew">Renew licence</string>
     <string name="licence_migration_info">My Expenses implements a new licence validation mechanism. Please request a new key.</string>
     <string name="valid_until">Valid until %s</string>
     <string name="extend_until">Extend until %s for %s</string>
-    <string name="extended_upgrade_goodie">Additional %d months are granted once to users who already own the Extended Licence</string>
+    <string name="extended_upgrade_goodie_github">Additional %d months are granted once to users who already own the Extended Licence</string>
+    <string name="extended_upgrade_goodie_subscription">Users who already own the Extended Licence pay 50%% of the regular price (%s) in the first year.</string>
 </resources>
 

@@ -31,7 +31,7 @@ public enum Package {
     return isProfessional() ? formatWithDuration(context, formatted) : formatted;
   }
 
-  public String getFormattedPriceRaw(Context context) {
+  public String getFormattedPriceRaw() {
     return CurrencyFormatter.instance().formatCurrency(
         new Money(Currency.getInstance("EUR"), getDefaultPrice()));
   }
@@ -60,17 +60,17 @@ public enum Package {
     int resId;
     switch (this) {
       case Contrib:
-        resId = LicenceHandler.LicenceStatus.CONTRIB.getResId();
+        resId = LicenceStatus.CONTRIB.getResId();
         break;
       case Upgrade:
         resId = R.string.pref_contrib_purchase_title_upgrade;
         break;
       case Extended:
-        resId = LicenceHandler.LicenceStatus.EXTENDED.getResId();
+        resId = LicenceStatus.EXTENDED.getResId();
         break;
       default:
-        resId = LicenceHandler.LicenceStatus.PROFESSIONAL.getResId();
+        resId = LicenceStatus.PROFESSIONAL.getResId();
     }
-    return String.format("%s (%s)", context.getString(resId), getFormattedPrice(context, getFormattedPriceRaw(context)));
+    return String.format("%s (%s)", context.getString(resId), getFormattedPrice(context, getFormattedPriceRaw()));
   }
 }

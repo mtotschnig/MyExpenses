@@ -26,11 +26,12 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.licence.LicenceStatus;
 
 import java.util.Date;
 import java.util.Locale;
 
-import static org.totschnig.myexpenses.util.licence.LicenceHandler.LicenceStatus.*;
+import static org.totschnig.myexpenses.util.licence.LicenceStatus.*;
 
 //TODO separate enum definition from handler
 //TODO use separate preferences object injected via DI
@@ -132,7 +133,7 @@ public enum ContribFeature {
     this(hasTrial, CONTRIB);
   }
 
-  ContribFeature(boolean hasTrial, LicenceHandler.LicenceStatus licenceStatus) {
+  ContribFeature(boolean hasTrial, LicenceStatus licenceStatus) {
     this.hasTrial = hasTrial;
     this.licenceStatus = licenceStatus;
   }
@@ -143,7 +144,7 @@ public enum ContribFeature {
   public static final int FREE_SPLIT_TEMPLATES = 1;
 
   private boolean hasTrial;
-  private LicenceHandler.LicenceStatus licenceStatus;
+  private LicenceStatus licenceStatus;
   /**
    * how many times contrib features can be used for free
    */
@@ -241,7 +242,7 @@ public enum ContribFeature {
 
   @NonNull
   protected String getCurrentLicence(Context context) {
-    LicenceHandler.LicenceStatus licenceStatus = MyApplication.getInstance().getLicenceHandler().getLicenceStatus();
+    LicenceStatus licenceStatus = MyApplication.getInstance().getLicenceHandler().getLicenceStatus();
     return context.getString(licenceStatus == null ? R.string.licence_status_free : licenceStatus.getResId());
   }
 
@@ -262,7 +263,7 @@ public enum ContribFeature {
     return hasTrial;
   }
 
-  public LicenceHandler.LicenceStatus getLicenceStatus() {
+  public LicenceStatus getLicenceStatus() {
     return licenceStatus;
   }
 

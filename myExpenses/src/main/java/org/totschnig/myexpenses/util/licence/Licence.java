@@ -13,7 +13,7 @@ public class Licence {
     return validUntil;
   }
 
-  public LicenceHandler.LicenceStatus getType() {
+  public LicenceStatus getType() {
     return type;
   }
 
@@ -23,5 +23,5 @@ public class Licence {
   @SerializedName("valid_until")
   Date validUntil;
   @SerializedName("type")
-  LicenceHandler.LicenceStatus type;
+  LicenceStatus type;
 }

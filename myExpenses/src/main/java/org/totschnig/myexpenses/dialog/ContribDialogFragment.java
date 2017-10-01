@@ -39,6 +39,7 @@ import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
+import org.totschnig.myexpenses.util.licence.LicenceStatus;
 import org.totschnig.myexpenses.util.licence.Package;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 
@@ -49,9 +50,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 import static org.totschnig.myexpenses.activity.ContribInfoDialogActivity.KEY_FEATURE;
-import static org.totschnig.myexpenses.util.licence.LicenceHandler.LicenceStatus.CONTRIB;
-import static org.totschnig.myexpenses.util.licence.LicenceHandler.LicenceStatus.EXTENDED;
-import static org.totschnig.myexpenses.util.licence.LicenceHandler.LicenceStatus.PROFESSIONAL;
+import static org.totschnig.myexpenses.util.licence.LicenceStatus.CONTRIB;
+import static org.totschnig.myexpenses.util.licence.LicenceStatus.EXTENDED;
+import static org.totschnig.myexpenses.util.licence.LicenceStatus.PROFESSIONAL;
 
 public class ContribDialogFragment extends CommitSafeDialogFragment implements DialogInterface.OnClickListener, View.OnClickListener {
   @Nullable
@@ -87,7 +88,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     Activity ctx = getActivity();
-    LicenceHandler.LicenceStatus licenceStatus = licenceHandler.getLicenceStatus();
+    LicenceStatus licenceStatus = licenceHandler.getLicenceStatus();
     @SuppressLint("InflateParams")
     final View view = LayoutInflater.from(ctx).inflate(R.layout.contrib_dialog, null);
     AlertDialog.Builder builder = new AlertDialog.Builder(ctx,
@@ -194,7 +195,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     professionalButton = professionalContainer.findViewById(R.id.package_button);
     ((TextView) professionalContainer.findViewById(R.id.package_label)).setText(R.string.professional_key);
     professionalPriceTextView = professionalContainer.findViewById(R.id.package_price);
-    professionalPriceTextView.setText(R.string.professionalPriceShortInfo);
+    professionalPriceTextView.setText(licenceHandler.getProfessionalPriceShortInfo());
     view.findViewById(R.id.professional_feature_container).setOnClickListener(this);
     professionalButton.setOnClickListener(this);
 
@@ -234,7 +235,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
 
   @Override
   public void onClick(View v) {
-    final LicenceHandler.LicenceStatus licenceStatus = licenceHandler.getLicenceStatus();
+    final LicenceStatus licenceStatus = licenceHandler.getLicenceStatus();
     if (v.getId() == R.id.contrib_feature_container || v == contribButton) {
       selectedPackage = Package.Contrib;
       updateButtons(contribButton);
@@ -246,14 +247,19 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
       popup.setOnMenuItemClickListener(item -> {
         selectedPackage = Package.values()[item.getItemId()];
         String formattedPrice = licenceHandler.getFormattedPrice(selectedPackage);
-        if (licenceStatus == EXTENDED) {
-          formattedPrice += String.format(" (%s)", getString(R.string.extended_upgrade_goodie, 3));
+        if (formattedPrice != null) {
+          if (licenceStatus == EXTENDED) {
+            String extendedUpgradeGoodieMessage = licenceHandler.getExtendedUpgradeGoodieMessage(selectedPackage);
+            if (extendedUpgradeGoodieMessage != null) {
+              formattedPrice += String.format(" (%s)", extendedUpgradeGoodieMessage);
+            }
+          }
+          professionalPriceTextView.setText(formattedPrice);
         }
-        professionalPriceTextView.setText(formattedPrice);
         updateButtons(professionalButton);
         return true;
       });
-      for (Package aPackage: DistribHelper.PRO_PACKAGES) {
+      for (Package aPackage: licenceHandler.getProPackages()) {
         String title = licenceHandler.getFormattedPrice(aPackage);
         if (title == null) title = aPackage.name(); //fallback if prices have not been loaded
         popup.getMenu().add(Menu.NONE, aPackage.ordinal(), Menu.NONE, title);

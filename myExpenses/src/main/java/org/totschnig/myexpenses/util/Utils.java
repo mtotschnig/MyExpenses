@@ -55,7 +55,7 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.task.GrisbiImportTask;
-import org.totschnig.myexpenses.util.licence.LicenceHandler;
+import org.totschnig.myexpenses.util.licence.LicenceStatus;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
@@ -348,7 +348,7 @@ public class Utils {
     return String.format("%d", i);
   }
 
-  public static List<CharSequence> getContribFeatureLabelsAsList(Context ctx, LicenceHandler.LicenceStatus type) {
+  public static List<CharSequence> getContribFeatureLabelsAsList(Context ctx, LicenceStatus type) {
     Stream<ContribFeature> features = Stream.of(EnumSet.allOf(ContribFeature.class));
     if (type != null) {
       features =  features.filter(feature -> feature.getLicenceStatus() == type);
