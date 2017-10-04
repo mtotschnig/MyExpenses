@@ -11,6 +11,7 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Result;
 
+import static android.text.TextUtils.isEmpty;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_VALIDATE_LICENCE;
 
 public class DeepLinkActivity extends ProtectedFragmentActivity {
@@ -29,13 +30,16 @@ public class DeepLinkActivity extends ProtectedFragmentActivity {
           finish();
         } else if ("verify".equals(data.getFragment())) { //callback2.html
           String existingKey = PrefKey.NEW_LICENCE.getString("");
+          String existingEmail = PrefKey.LICENCE_EMAIL.getString("");
           String key = data.getQueryParameter("key");
-          if (android.text.TextUtils.isEmpty(key)) {
-            showToast("Missing parameter key");
+          String email = data.getQueryParameter("email");
+          if (isEmpty(key) || isEmpty(email)) {
+            showToast("Missing parameter key and/or email");
             finish();
-          } else if (existingKey.equals("") || existingKey.equals(key)) {
+          } else if (existingKey.equals("") || (existingKey.equals(key) && existingEmail.equals(email))) {
             if (existingKey.equals("")) {
               PrefKey.NEW_LICENCE.putString(key);
+              PrefKey.LICENCE_EMAIL.putString(email);
             }
             startTaskExecution(TASK_VALIDATE_LICENCE, new String[]{}, null, R.string.progress_validating_licence);
           } else {

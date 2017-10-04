@@ -25,6 +25,7 @@ public enum PrefKey {
   CONTRIB_PURCHASE(R.string.pref_contrib_purchase_key),
   ENTER_LICENCE(R.string.pref_enter_licence_key),
   NEW_LICENCE(R.string.pref_new_licence_key),
+  LICENCE_EMAIL("licence_email"),
   PERFORM_PROTECTION(R.string.pref_perform_protection_key),
   PERFORM_PROTECTION_SCREEN(R.string.pref_screen_protection_key),
   SET_PASSWORD(R.string.pref_set_password_key),

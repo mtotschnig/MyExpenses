@@ -6,11 +6,10 @@ import android.support.annotation.NonNull;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.licence.Licence;
+import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.licence.ValidationService;
 
 import java.io.IOException;
@@ -23,6 +22,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static org.totschnig.myexpenses.preference.PrefKey.LICENCE_EMAIL;
 import static org.totschnig.myexpenses.preference.PrefKey.NEW_LICENCE;
 
 public class LicenceApiTask extends AsyncTask<Void, Void, Result> {
@@ -51,8 +51,9 @@ public class LicenceApiTask extends AsyncTask<Void, Void, Result> {
 
   @Override
   protected Result doInBackground(Void... voids) {
-    String licenceKey = PrefKey.NEW_LICENCE.getString("");
-    if ("".equals(licenceKey)) {
+    String licenceEmail = LICENCE_EMAIL.getString("");
+    String licenceKey = NEW_LICENCE.getString("");
+    if ("".equals(licenceKey) || "".equals(licenceEmail)) {
       return Result.FAILURE;
     }
 
@@ -64,7 +65,7 @@ public class LicenceApiTask extends AsyncTask<Void, Void, Result> {
     ValidationService service = retrofit.create(ValidationService.class);
 
     if (taskId == TaskExecutionFragment.TASK_VALIDATE_LICENCE) {
-      Call<Licence> licenceCall = service.validateLicence(licenceKey, deviceId);
+      Call<Licence> licenceCall = service.validateLicence(licenceEmail, licenceKey, deviceId);
       try {
         Response<Licence> licenceResponse = licenceCall.execute();
         Licence licence = licenceResponse.body();
@@ -91,11 +92,12 @@ public class LicenceApiTask extends AsyncTask<Void, Void, Result> {
         return buildFailureResult(e.getMessage());
       }
     } else if (taskId == TaskExecutionFragment.TASK_REMOVE_LICENCE) {
-      Call<Void> licenceCall = service.removeLicence(licenceKey, deviceId);
+      Call<Void> licenceCall = service.removeLicence(licenceEmail, licenceKey, deviceId);
       try {
         Response<Void> licenceResponse = licenceCall.execute();
         if (licenceResponse.isSuccessful() || licenceResponse.code() == 404) {
           NEW_LICENCE.remove();
+          LICENCE_EMAIL.remove();
           licenceHandler.updateLicenceStatus(null);
           return new Result(true, R.string.licence_removal_success);
         } else {
