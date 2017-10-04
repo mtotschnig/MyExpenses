@@ -29,14 +29,15 @@ public class DeepLinkActivity extends ProtectedFragmentActivity {
           finish();
         } else if ("verify".equals(data.getFragment())) { //callback2.html
           String existingKey = PrefKey.NEW_LICENCE.getString("");
-          if(existingKey.equals("")) {
-            String key = data.getQueryParameter("key");
-            if (android.text.TextUtils.isEmpty(key)) {
-              showToast("Missing parameter key");
-            } else {
+          String key = data.getQueryParameter("key");
+          if (android.text.TextUtils.isEmpty(key)) {
+            showToast("Missing parameter key");
+            finish();
+          } else if (existingKey.equals("") || existingKey.equals(key)) {
+            if (existingKey.equals("")) {
               PrefKey.NEW_LICENCE.putString(key);
-              startTaskExecution(TASK_VALIDATE_LICENCE, new String[]{}, null, R.string.progress_validating_licence);
             }
+            startTaskExecution(TASK_VALIDATE_LICENCE, new String[]{}, null, R.string.progress_validating_licence);
           } else {
             showToast(String.format("There is already a licence active on this device, key: %s", existingKey));
             finish();
