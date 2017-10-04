@@ -37,6 +37,7 @@ import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.licence.Package;
 
@@ -44,7 +45,7 @@ import java.util.Locale;
 
 public class DonateDialogFragment extends CommitSafeDialogFragment {
 
-  private static final String KEY_PACKAGE = "extended";
+  private static final String KEY_PACKAGE = "package";
   public static final String BITCOIN_ADDRESS = "1GCUGCSfFXzSC81ogHu12KxfUn3cShekMn";
 
   public static DonateDialogFragment newInstance(Package aPackage) {
@@ -117,6 +118,10 @@ public class DonateDialogFragment extends CommitSafeDialogFragment {
         String uri = String.format(Locale.US,
             "https://%s/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=%s&on0=%s&os0=%s&lc=%s",
             host, paypalButtonId, "Licence", getPackage().name(), getPaypalLocale());
+        String licenceEmail = PrefKey.LICENCE_EMAIL.getString(null);
+        if (licenceEmail != null) {
+          uri += "&custom=" + Uri.encode(licenceEmail);
+        }
 
         intent = new Intent(Intent.ACTION_VIEW);
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
