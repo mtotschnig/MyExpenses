@@ -1,4 +1,3 @@
 apply from: 'standalone-rules.gradle'
 
 android.compileSdkVersion project.compileSdkVersion
-android.buildToolsVersion project.buildToolsVersion

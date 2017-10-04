@@ -694,9 +694,13 @@
     <string name="eu_vat_info">For residents of the European Union prices displayed do not include VAT.</string>
     <string name="pref_contrib_purchase_title_renew">Renew licence</string>
     <string name="licence_migration_info">My Expenses implements a new licence validation mechanism. Please request a new key.</string>
-    <string name="valid_until">Valid until %s</string>
-    <string name="extend_until">Extend until %s for %s</string>
+    <string name="valid_until">Until %s</string>
+    <!-- %1$s date, %2$s price  -->
+    <string name="extend_until">Extend until %1$s for %2$s</string>
     <string name="extended_upgrade_goodie_github">Additional %d months are granted once to users who already own the Extended Licence</string>
     <string name="extended_upgrade_goodie_subscription">Users who already own the Extended Licence pay 50%% of the regular price (%s) in the first year.</string>
+    <string name="switch_to_yearly">Switch to yearly subscription</string>
+    <string name="switch_to_monthly">Switch to monthly subscription</string>
+    <string name="extend_validity">Extend validity</string>
 </resources>
 

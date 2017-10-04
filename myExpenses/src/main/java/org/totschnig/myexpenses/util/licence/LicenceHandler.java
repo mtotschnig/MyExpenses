@@ -128,7 +128,7 @@ public class LicenceHandler {
     return aPackage.getFormattedPrice(context, aPackage.getFormattedPriceRaw());
   }
 
-  public String getExtendMessage(Package aPackage) {
+  public String getExtendOrSwitchMessage(Package aPackage) {
     Preconditions.checkArgument(aPackage.isProfessional());
     Date extendedDate = DateUtils.addMonths(getValidUntilDate(), aPackage.getDuration());
     return context.getString(R.string.extend_until,
@@ -136,7 +136,8 @@ public class LicenceHandler {
         aPackage.getFormattedPriceRaw());
   }
 
-  public String getValidUntilMessage(Context context) {
+  @NonNull
+  public String getProLicenceStatus(Context context) {
     return context.getString(R.string.valid_until, Utils.getDateFormatSafe(this.context).format(getValidUntilDate()));
   }
 
@@ -161,11 +162,22 @@ public class LicenceHandler {
   }
 
   public String getProfessionalPriceShortInfo() {
-    return context.getString(R.string.professionalPriceShortInfo, getMinimumProfessionalMonthlyPrice());
+    String minimumProfessionalMonthlyPrice = getMinimumProfessionalMonthlyPrice();
+    return minimumProfessionalMonthlyPrice != null ?
+        context.getString(R.string.professionalPriceShortInfo, minimumProfessionalMonthlyPrice) : null;
   }
 
   protected String getMinimumProfessionalMonthlyPrice() {
     return CurrencyFormatter.instance().formatCurrency(
         new Money(Currency.getInstance("EUR"), (long) Math.ceil((double)Package.Professional_36.getDefaultPrice() / 36)));
+  }
+
+  @Nullable
+  public Package[] getProPackagesForExtendOrSwitch() {
+    return getProPackages();
+  }
+
+  public String getProLicenceAction(Context context) {
+    return context.getString(R.string.extend_validity);
   }
 }

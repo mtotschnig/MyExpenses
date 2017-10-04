@@ -44,7 +44,6 @@ import org.totschnig.myexpenses.activity.FolderBrowser;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
-import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentCompat;
@@ -74,7 +73,6 @@ import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
 import org.totschnig.myexpenses.util.licence.Package;
-import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 
 import java.net.URI;
@@ -496,12 +494,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       } else if (licenceStatus.isUpgradeable()) {
         contribPurchaseSummary = getString(R.string.pref_contrib_purchase_title_upgrade);
       } else {
-        contribPurchaseSummary = licenceHandler.getValidUntilMessage(getContext());
-        if (!TextUtils.isEmpty(contribPurchaseSummary)) {
-          contribPurchaseSummary += "\n";
-        }
-        contribPurchaseSummary += getString(R.string.thank_you);
+        contribPurchaseSummary = licenceHandler.getProLicenceAction(getContext());
+        contribPurchaseTitle += " (" + licenceHandler.getProLicenceStatus(getContext()) + ")";
       }
+
+      contribPurchaseSummary += "\n" + getString(R.string.thank_you);
     }
     contribPurchasePref.setOnPreferenceClickListener(this);
     contribPurchasePref.setSummary(contribPurchaseSummary);
@@ -574,23 +571,26 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     if (matches(preference, CONTRIB_PURCHASE)) {
       if (licenceHandler.hasLegacyLicence()) {
         CommonCommands.dispatchCommand(getActivity(), R.id.REQUEST_LICENCE_MIGRATION_COMMAND, null);
-      }
-      else if (licenceHandler.isUpgradeable()) {
-        Intent i = ContribInfoDialogActivity.getIntentFor(getActivity(), null);
+      } else if (licenceHandler.isUpgradeable()) {
+        Intent i = ContribInfoDialogActivity.getIntentFor(getActivity(), (ContribFeature) null);
         if (DistribHelper.isGithub()) {
           startActivityForResult(i, CONTRIB_PURCHASE_REQUEST);
         } else {
           startActivity(i);
         }
       } else {
-        ((PopupMenuPreference) preference).showPopupMenu(item -> {
-          Package selectedPackage = licenceHandler.getProPackages()[item.getItemId()];
-          Bundle bundle = new Bundle(1);
-          bundle.putString(Tracker.EVENT_PARAM_PACKAGE, selectedPackage.name());
-          ((ProtectedFragmentActivity) getActivity()).logEvent(Tracker.EVENT_CONTRIB_DIALOG_BUY, bundle);
-          DonateDialogFragment.newInstance(selectedPackage).show(getFragmentManager(), "CONTRIB");
-          return true;
-        }, Stream.of(licenceHandler.getProPackages()).map(licenceHandler::getExtendMessage).toArray(size -> new String[size]));
+        Package[] proPackagesForExtendOrSwitch = licenceHandler.getProPackagesForExtendOrSwitch();
+        if (proPackagesForExtendOrSwitch != null) {
+          if (proPackagesForExtendOrSwitch.length > 1) {
+            ((PopupMenuPreference) preference).showPopupMenu(item -> {
+              contribBuyDo(proPackagesForExtendOrSwitch[item.getItemId()], false);
+              return true;
+            }, Stream.of(proPackagesForExtendOrSwitch).map(licenceHandler::getExtendOrSwitchMessage).toArray(size -> new String[size]));
+          } else {
+            //Currently we assume that if we have only one item, we switch
+            contribBuyDo(proPackagesForExtendOrSwitch[0], true);
+          }
+        }
       }
       return true;
     }
@@ -663,6 +663,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       return true;
     }
     return false;
+  }
+
+  private void contribBuyDo(Package selectedPackage, boolean shouldReplaceExisting) {
+    startActivity(ContribInfoDialogActivity.getIntentFor(getContext(), selectedPackage, shouldReplaceExisting));
   }
 
   protected void startLegacyFolderRequest(DocumentFile appDir) {
