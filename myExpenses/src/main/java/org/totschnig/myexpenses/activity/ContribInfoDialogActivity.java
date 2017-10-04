@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -30,7 +31,10 @@ import java.io.Serializable;
 public class ContribInfoDialogActivity extends ProtectedFragmentActivity
     implements MessageDialogListener {
   public final static String KEY_FEATURE = "feature";
+  private final static String KEY_PACKAGE = "package";
   public static final String KEY_TAG = "tag";
+  private static final String KEY_SHOULD_REPLACE_EXISTING = "shouldReplaceExisting";
+
 
   public static Intent getIntentFor(Context context, @Nullable ContribFeature feature) {
     Intent intent = new Intent(context, ContribInfoDialogActivity.class);
@@ -41,15 +45,31 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
     return intent;
   }
 
+  public static Intent getIntentFor(Context context, @NonNull Package aPackage, boolean shouldReplaceExisting) {
+    Intent intent = new Intent(context, ContribInfoDialogActivity.class);
+    intent.setAction(Intent.ACTION_MAIN);
+    intent.putExtra(KEY_PACKAGE, aPackage.name());
+    intent.putExtra(KEY_SHOULD_REPLACE_EXISTING, shouldReplaceExisting);
+    return intent;
+  }
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeIdTranslucent());
     super.onCreate(savedInstanceState);
+    String packageFromExtra = getIntent().getStringExtra(KEY_PACKAGE);
 
     if (savedInstanceState == null) {
-      ContribDialogFragment.newInstance(getIntent().getStringExtra(KEY_FEATURE),
-          getIntent().getSerializableExtra(KEY_TAG))
-          .show(getSupportFragmentManager(), "CONTRIB");
+      if (packageFromExtra == null) {
+        ContribDialogFragment.newInstance(getIntent().getStringExtra(KEY_FEATURE),
+            getIntent().getSerializableExtra(KEY_TAG))
+            .show(getSupportFragmentManager(), "CONTRIB");
+      } else {
+        contribBuyDo(Package.valueOf(packageFromExtra));
+      }
+
+
+
     }
   }
 
