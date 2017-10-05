@@ -57,9 +57,9 @@ import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.util.AcraHelper;
-import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.log.TagFilterFileLoggingTree;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.AccountWidget;
@@ -146,12 +146,6 @@ public class MyApplication extends MultiDexApplication implements
     }
     super.onCreate();
     AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-    //Maybe prevents occasional crashes on Gingerbread
-    //https://code.google.com/p/android/issues/detail?id=81083
-    try {
-      Class.forName("android.os.AsyncTask");
-    } catch (Throwable ignore) {
-    }
     mSelf = this;
     setupLogging();
     if (!ACRA.isACRASenderServiceProcess()) {
