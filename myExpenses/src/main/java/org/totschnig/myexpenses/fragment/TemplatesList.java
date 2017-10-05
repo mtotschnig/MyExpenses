@@ -505,11 +505,14 @@ public class TemplatesList extends SortableListFragment {
       tv2.setText(catText);
 
       if (doesHavePlan) {
-        String planInfo = c.getString(columnIndexPlanInfo);
+        CharSequence planInfo = c.getString(columnIndexPlanInfo);
         if (planInfo == null) {
-          planInfo = getString(ContextCompat.checkSelfPermission(getActivity(),
-              Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_DENIED ?
-              R.string.calendar_permission_required : R.string.plan_event_deleted);
+          if (ContextCompat.checkSelfPermission(getActivity(),
+              Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_DENIED) {
+            planInfo = Utils.getTextWithAppName(getContext(), R.string.calendar_permission_required);
+          } else {
+            planInfo = getString(R.string.plan_event_deleted);
+          }
         }
         ((TextView) convertView.findViewById(R.id.title)).setText(
             //noinspection SetTextI18n

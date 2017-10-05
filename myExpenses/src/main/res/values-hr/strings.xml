@@ -50,7 +50,7 @@
   <string name="dialog_contrib_no_usages_left">Ne postoji više besplatnih uporaba.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s mogu koristiti samo premium korisnici (%2$s).</string>
-  <string name="dialog_contrib_text_1"><i>My Expenses</i> ne sarži reklame i otvorenog je koda.</string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i> ne sarži reklame i otvorenog je koda.</string>
   <string name="dialog_export_delete">Obriši eksportirane transakcije</string>
   <string name="dialog_export_not_yet_exported">Eksportiraj samo one trasakcije koje još nisu bile eksportirane</string>
   <string name="dialog_password_activate_protection">Aktiviraj zaštitu s lozinkom</string>
@@ -59,8 +59,8 @@
   <string name="dialog_password_new_password_confirmation">Nova lozinka (potvrdi)</string>
   <string name="dialog_remind_later">Kasnije</string>
   <string name="dialog_remind_no">Ne, hvala</string>
-  <string name="dialog_remind_rate_how_many_stars">Kako biste ocijenili My Expenses?</string>
-  <string name="dialog_remind_rate_1">Molimo izdvojite trenutak kako biste ocijenili i opisali My Expenses.</string>
+  <string name="dialog_remind_rate_how_many_stars">Kako biste ocijenili {app_name}?</string>
+  <string name="dialog_remind_rate_1">Molimo izdvojite trenutak kako biste ocijenili i opisali {app_name}.</string>
   <string name="dialog_remind_rate_2">Vaši komentari nam omogućuju kontinuirana poboljšanja i unaprjeđenja.</string>
   <string name="dialog_remind_rate_1_suggest_improvement">Molimo izdvojite trenutak kako biste nam poslali vaše prijedloge za poboljšanja.</string>
   <string name="dialog_remind_rate_yes">Ocijeni</string>
@@ -218,7 +218,7 @@
   <string name="plan">Plan</string>
   <string name="plan_automatic">automatski</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">My Expenses planer</string>
+  <string name="plan_calendar_name">{app_name} planer</string>
   <string name="plan_event_deleted">Plan povezan s ovim predloškom je izbrisan iz kalendara.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Izvedba plana je otkazana</string>
@@ -253,7 +253,7 @@
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Unesi ključ</string>
   <string name="pref_export_format_title">Format podataka</string>
-  <string name="pref_follow_gplus_title">Prati My Expenses na Google+</string>
+  <string name="pref_follow_gplus_title">Prati {app_name} na Google+</string>
   <string name="pref_import_from_grisbi_summary">Unesi kategorije i stranke iz Grisbi XML file-a</string>
   <string name="pref_import_from_grisbi_title">Unesi sa Grisbija</string>
   <!--%s is replaced with QIF or CSV-->
@@ -348,7 +348,7 @@
   <string name="sum_income">Prihod</string>
   <string name="sum_transfer">Doznake</string>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">Posjeti My Expenses, Osobni Financijski Menadžer za %s, na http://www.myexpenses.mobi</string>
+  <string name="tell_a_friend_message">Posjeti {app_name}, Osobni Financijski Menadžer za {platform}, na {website}</string>
   <string name="template_create_success">Predložak \"%1$s\" uspješno kreiran</string>
   <string name="thank_you">Zahvaljujemo se na vašoj podršci!</string>
   <string name="time">Vrijeme</string>
@@ -390,7 +390,7 @@
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Nastavite li, transakcije će biti obrisane za SVE račune%1$s i neće se moći obnoviti.</string>
   <string name="warning_restore">Podaci i preferencije će biti obnovljene sa \"%1$s\". Sadašnji podaci bit će obrisani. Želite li nastaviti?</string>
-  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Odabrana mapa za sigurnosne kopije i eksporte će biti izbrisana od strane Androida prilikom deinstalacije My Expenses-a. Ovo možete izbjeći odabirom druge mape unutar zaslona s postavkama.</string>
+  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Odabrana mapa za sigurnosne kopije i eksporte će biti izbrisana od strane Androida prilikom deinstalacije {app_name}-a. Ovo možete izbjeći odabirom druge mape unutar zaslona s postavkama.</string>
   <string name="warning_splitpartcategory_context">Doznake koje su dio odvojene transakciju mogu biti uređene samo u kontekstu odvojene transakcije.</string>
   <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Molimo odaberite broj između %1$d i %2$d</string>
   <string name="import_categories_success">%1$s kategorije uspješno unesene</string>

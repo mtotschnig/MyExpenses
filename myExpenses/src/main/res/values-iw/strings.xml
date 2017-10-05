@@ -69,9 +69,9 @@
   <string name="dialog_contrib_no_usages_left">לא נשארו עוד שימושים בחינם.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s היא תכונת פרימיום (%2$s).</string>
-  <string name="dialog_contrib_reminder_remove_limitation">הסר הגבלה זו וגישה לתכונות נוספות על-ידי שדרוג<i>My Expenses</i>.</string>
-  <string name="dialog_contrib_text_1"><i>My Expenses</i>מוצאת ללא פרסומות וכקוד פתוח.</string>
-  <string name="dialog_contrib_text_2">אנא תרמו על ידי שדרוג <i>My Expenses</i> ולקבל גישה בלתי מוגבלת לתכונות הבאות:</string>
+  <string name="dialog_contrib_reminder_remove_limitation">הסר הגבלה זו וגישה לתכונות נוספות על-ידי שדרוג<i>{app_name}</i>.</string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i>מוצאת ללא פרסומות וכקוד פתוח.</string>
+  <string name="dialog_contrib_text_2">אנא תרמו על ידי שדרוג <i>{app_name}</i> ולקבל גישה בלתי מוגבלת לתכונות הבאות:</string>
   <string name="dialog_contrib_usage_count">נותרו שימושים בחינם</string>
   <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">אתה יכול להשתמש בזה עד %1$dפעמים במצב הנוכחי של רשיונך (%2$s).</string>
   <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">אתה יכול להשתמש בזה ל- %1$dימים במצב הנוכחי של רשיונך (%2$s).</string>
@@ -85,8 +85,8 @@
   <string name="dialog_password_new_password_confirmation">סיסמה חדשה (אישור)</string>
   <string name="dialog_remind_later">מאוחר יותר</string>
   <string name="dialog_remind_no">לא תודה</string>
-  <string name="dialog_remind_rate_how_many_stars">כמה כוכבים תעניק לאפליקציה My Expenses?</string>
-  <string name="dialog_remind_rate_1">הקדש בבקשה רגע כדי לדרג ולבדוק את האפליקציה My Expenses.</string>
+  <string name="dialog_remind_rate_how_many_stars">כמה כוכבים תעניק לאפליקציה {app_name}?</string>
+  <string name="dialog_remind_rate_1">הקדש בבקשה רגע כדי לדרג ולבדוק את האפליקציה {app_name}.</string>
   <string name="dialog_remind_rate_2">ההערות שלך מאפשרות לנו להוסיף שיפורים ותוספות.</string>
   <string name="dialog_remind_rate_1_suggest_improvement">הקדש מספר דקות כדי לשלוח לנו את ההצעות שלך לשיפור.</string>
   <string name="dialog_remind_rate_yes">דרג עכשיו</string>
@@ -246,7 +246,7 @@
   <string name="plan">מחזוריות</string>
   <string name="plan_automatic">אוטומטי</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">מתכנן ההוצאות שלי</string>
+  <string name="plan_calendar_name">מתכנן {app_name}</string>
   <string name="plan_event_deleted">התוכנית המשויכת לתבנית זו נמחקה מהיומן.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">ביצוע התוכנית בוטל</string>
@@ -283,7 +283,7 @@
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">הכנס מפתח</string>
   <string name="pref_export_format_title">פורמט נתונים</string>
-  <string name="pref_follow_gplus_title">עקוב אחר האפליקציה My Expenses  ב- Google+</string>
+  <string name="pref_follow_gplus_title">עקוב אחר האפליקציה {app_name}  ב- Google+</string>
   <string name="pref_import_from_grisbi_summary">ייבוא קטגוריות וקבוצות מקובץ XML של Grisbi</string>
   <string name="pref_import_from_grisbi_title">יבא מ- Grisbi</string>
   <!--%s is replaced with QIF or CSV-->
@@ -383,7 +383,7 @@
   <string name="sum_income">הכנסה</string>
   <string name="sum_transfer">העברות</string>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">בדוק את האפליקציה My Expenses, מנהל כספים אישי עבור%s, מ- http://www.myexpenses.mobi</string>
+  <string name="tell_a_friend_message">בדוק את האפליקציה {app_name}, מנהל כספים אישי עבור{platform}, מ- {website}</string>
   <string name="template_create_success">התבנית \"%1$s\" נוצרה בהצלחה</string>
   <string name="thank_you">תודה על תמיכתך!</string>
   <string name="time">זמן</string>
@@ -431,7 +431,7 @@
   <string name="warning_reset_account_all">אם תמשיך, עבור כל החשבונות%1$s, עסקאות יימחקו ממסד הנתונים ולא ניתן לשחזר אותן.</string>
   <string name="warning_reset_account_matched">אם תמשיך, עסקאות התואמות את המסנן הנוכחי יימחקו ממסד הנתונים ולא ניתן לשחזר אותן.</string>
   <string name="warning_restore">אם תמשיך, עסקאות התואמות את המסנן הנוכחי יישוחזרו ממסד הנתונים וההעדפות מקובץ \"%1$s\". הנתונים הנוכחיים יימחקו. האם אתה רוצה להמשיך? </string>
-  <string name="warning_app_folder_will_be_deleted_upon_uninstall">התיקיה שנבחרה עבור גיבויים ויצוא תימחק אוטומטית על ידי Android אם תסיר את אפליקציית  My Expenses. תוכל למנוע זאת על ידי בחירה בתיקייה אחרת ממסך ההגדרות.</string>
+  <string name="warning_app_folder_will_be_deleted_upon_uninstall">התיקיה שנבחרה עבור גיבויים ויצוא תימחק אוטומטית על ידי Android אם תסיר את אפליקציית  {app_name}. תוכל למנוע זאת על ידי בחירה בתיקייה אחרת ממסך ההגדרות.</string>
   <string name="warning_splitpartcategory_context">העברות, שהן חלק מפיצול, ניתנות לעריכה רק בהקשר של הפיצול.</string>
   <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">אנא הגדר מספר בין %1$dו- %2$d</string>
   <string name="warning_change_fraction_digits_1">סכומים בבסיס הנתונים צריכים להיות מעודכנים על מנת להתאים את המספר החדש של ספרות חלקיות.</string>
@@ -536,7 +536,7 @@
   <string name="pref_auto_backup_time_title">זמן גיבוי אוטומטי</string>
   <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">לאחר %d גיבויים אוטומטיים מוצלחים, גיבוי אוטומטי יופסק.</string>
   <string name="warning_auto_backup_limit_reached">המגבלה של גיבויים אוטומטיים מוצלחים בחינם הושגה.</string>
-  <string name="calendar_permission_required"><i>Me Expenses</i> צרכה רשות לגשת ליומן שלך, על מנת ליצור תוכניות עבור עסקאות עתידיות חוזרות.</string>
+  <string name="calendar_permission_required"><i>{app_name}</i> צרכה רשות לגשת ליומן שלך, על מנת ליצור תוכניות עבור עסקאות עתידיות חוזרות.</string>
   <string name="button_request_calendar_access" tools:ignore="UnusedResources">זכה בגישה</string>
   <string name="switch_on_text">מופעל</string>
   <string name="switch_off_text">מופסק</string>
@@ -578,7 +578,7 @@
   <string name="synchronization">סנכרון</string>
   <string name="synchronization_none">סנכרון לא מתבצע</string>
   <string name="hint_url">כתובת אתר</string>
-  <string name="description_webdav_url">הזן את כתובת האתר לתיקיה מיוחדת בשרת WebDAV.  האפליקציה My Expenses  תאחסןאת הנתונים שלה בתוך התיקיה הזו, היא לא תיגע בשום דבר מחוץ לה.</string>
+  <string name="description_webdav_url">הזן את כתובת האתר לתיקיה מיוחדת בשרת WebDAV.  האפליקציה {app_name}  תאחסןאת הנתונים שלה בתוך התיקיה הזו, היא לא תיגע בשום דבר מחוץ לה.</string>
   <string name="description_webdav_trust_certificate">האתר משתמש בתעודה  certificate , שאינה מהימנה על ידי Android.</string>
   <string name="hint_user_name">שם משתמש</string>
   <string name="hint_password">סיסמה</string>
@@ -607,7 +607,7 @@
   <string name="dialog_confirm_sync_link_remote">נתונים מקומיים עבור החשבון הזה יימחקו.</string>
   <string name="warning_synchronization_limited_trial">ניתן לבדוק את תכונת הסנכרון עד %s .</string>
   <string name="warning_synchronization_limit_reached">תקופת הניסיון לבדיקת תכונת הסנכרון הסתיימה.</string>
-  <string name="warning_synchronization_folder_usage">תיקייה זו משמשת לסנכרון נתונים בין התקנות של האפליקציה My Expenses במכשירים שונים. נא לא לשנות את התוכן שלו באופן ידני.</string>
+  <string name="warning_synchronization_folder_usage">תיקייה זו משמשת לסנכרון נתונים בין התקנות של האפליקציה {app_name} במכשירים שונים. נא לא לשנות את התוכן שלו באופן ידני.</string>
   <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">התיקייה שבחרת מסומנת לחשבון אחד של backend קיים. עליך לבחור את תיקיית האב כדי לעשות שימוש חוזר ב- backend זה.</string>
   <string name="select_unsynced_accounts">בחר חשבונות לסנכרון עם backend זה</string>
   <string name="link_account_success" tools:ignore="PluralsCandidate">%d חשבונות הוגדרו להיות מסונכרנים עם backend.</string>
@@ -645,7 +645,7 @@
   <string name="pref_webdav_timeout_title">פסק זמן של WebDAV</string>
   <string name="sync_state_restored">מצב הסינכרון שוחזר עבור %d חשבונות.</string>
   <string name="sync_state_could_not_be_restored">לא ניתן לשחזר את מצב הסנכרון עבור %d חשבונות.</string>
-  <string name="onboarding_ui_title">האפליקציה \"ההוצאות שלי\" מותאמות להעדפותיך</string>
+  <string name="onboarding_ui_title">האפליקציה \"{app_name}\" מותאמות להעדפותיך</string>
   <string name="onboarding_data_title">תן לנו להגדיר את החשבון הראשון שלך</string>
   <string name="onboarding_get_started">להתחיל</string>
   <string name="onboarding_more_options">אפשרויות נוספות</string>

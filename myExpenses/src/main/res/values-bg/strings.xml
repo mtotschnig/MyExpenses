@@ -71,9 +71,9 @@
   <string name="dialog_contrib_no_usages_left">Няма свободни употреби.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s е функция от Премиум вариант  (%2$s).</string>
-  <string name="dialog_contrib_reminder_remove_limitation">Премахнете тези ограничения и получете повече възможности чрез надстройка на <i>Моите разходи</i>.</string>
-  <string name="dialog_contrib_text_1"><i>Моите разходи</i> се предлага без реклами и с отворен код.</string>
-  <string name="dialog_contrib_text_2">Моля, допринесете за развитието на <i>Моите разходи</i> като надстроите и получете неограничен достъп до следните възможности:</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Премахнете тези ограничения и получете повече възможности чрез надстройка на <i>{app_name}</i>.</string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i> се предлага без реклами и с отворен код.</string>
+  <string name="dialog_contrib_text_2">Моля, допринесете за развитието на <i>{app_name}</i> като надстроите и получете неограничен достъп до следните възможности:</string>
   <string name="dialog_contrib_usage_count">Оставащи безплатни употреби</string>
   <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">При сегашния лиценз (%2$s) може да използвате още %1$d пъти.</string>
   <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">При сегашния лиценз (%2$s) може да използвате  още %1$d дни.</string>
@@ -88,8 +88,8 @@
   <string name="dialog_password_new_password_confirmation">Нова парола (потвърждение)</string>
   <string name="dialog_remind_later">По-късно</string>
   <string name="dialog_remind_no">Не, благодаря</string>
-  <string name="dialog_remind_rate_how_many_stars">Колко звезди бихте дали на Моите разходи?</string>
-  <string name="dialog_remind_rate_1">Моля, отделете време да оцените и дадете обратна връзка на Моите разходи.</string>
+  <string name="dialog_remind_rate_how_many_stars">Колко звезди бихте дали на {app_name}?</string>
+  <string name="dialog_remind_rate_1">Моля, отделете време да оцените и дадете обратна връзка на {app_name}.</string>
   <string name="dialog_remind_rate_2">Вашите коментари ни позволяват да правим подобрения и допълнения.</string>
   <string name="dialog_remind_rate_1_suggest_improvement">Моля, отделете време да ни изпратите вашите предложения за подобрения.</string>
   <string name="dialog_remind_rate_yes">Оценете сега</string>
@@ -249,7 +249,7 @@
   <string name="plan">План</string>
   <string name="plan_automatic">автоматично</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">Планиране в Моите разходи</string>
+  <string name="plan_calendar_name">Планиране в {app_name}</string>
   <string name="plan_event_deleted">Планът, свързан с този шаблон, е изтрит от календара.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Изпълнението на плана е отменено</string>
@@ -288,7 +288,7 @@
   <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Ако сте получили ключ, получавате достъп до премийните/разширените функции.</string>
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Въведете ключ</string>
   <string name="pref_export_format_title">Формат на датата</string>
-  <string name="pref_follow_gplus_title">Последвайте Моите разходи в Google+</string>
+  <string name="pref_follow_gplus_title">Последвайте {app_name} в Google+</string>
   <string name="pref_import_from_grisbi_summary">Импорт на категории и страни от Grisbi XML файл</string>
   <string name="pref_import_from_grisbi_title">Импорт от Grisbi</string>
   <!--%s is replaced with QIF or CSV-->
@@ -388,7 +388,7 @@
   <string name="sum_income">Приходи общо</string>
   <string name="sum_transfer">Преводи общо</string>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">Вижте Mоите разходи, личен финансов мениджър за %s, на http://www.myexpenses.mobi</string>
+  <string name="tell_a_friend_message">Вижте {app_name}, личен финансов мениджър за {platform}, на {website}</string>
   <string name="template_create_success">Успешно създаден шаблон \"%1$s\"</string>
   <string name="thank_you">Благодарим Ви за подкрепата!</string>
   <string name="time">Време</string>
@@ -436,7 +436,7 @@
   <string name="warning_reset_account_all">Ако продължите, всички транзакции с валута %1$s, по всички сметки, ще бъдат изтрити от базата данни и не могат да бъдат възстановени.</string>
   <string name="warning_reset_account_matched">Ако продължите, транзакциите, избрани с текущия филтър, ще бъдат изтрити от базата данни и не могат да бъдат възстановени.</string>
   <string name="warning_restore">База данни и предпочитания ще бъдат възстановени от файл \"%1$s\". Текущите данни ще бъдат изтрити. Искате ли да продължите?</string>
-  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Текущо избраната папка за бекъп и експорт ще се изтрие автоматично от Андроид, ако деинсталирате Моите разходи. Може да избегнете това, като изберете различна папка от Настройки.</string>
+  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Текущо избраната папка за бекъп и експорт ще се изтрие автоматично от Андроид, ако деинсталирате {app_name}. Може да избегнете това, като изберете различна папка от Настройки.</string>
   <string name="warning_splitpartcategory_context">Трансферите, които са част от разпределяне, могат да се редактират само в контекста на разпределянето.</string>
   <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Моля задайте число между %1$d и %2$d</string>
   <string name="warning_change_fraction_digits_1">Сумите в базата данни трябва да бъдат обновени, за да отговарят на новия брой дробни цифри.</string>
@@ -541,7 +541,7 @@
   <string name="pref_auto_backup_time_title">Време за автоматичен бекъп</string>
   <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">След  %d успешни бекъпа, автоматичното запазване ще се деактивира.</string>
   <string name="warning_auto_backup_limit_reached">Достигнат е лимита на успешни безплатни бекъпи.</string>
-  <string name="calendar_permission_required"><i>Моите разходи</i> се нуждае от право на достъп до вашия календар за да създаде план за бъдещи и повтарящи се транзакции.</string>
+  <string name="calendar_permission_required"><i>{app_name}</i> се нуждае от право на достъп до вашия календар за да създаде план за бъдещи и повтарящи се транзакции.</string>
   <string name="button_request_calendar_access" tools:ignore="UnusedResources">Предоставен достъп</string>
   <string name="switch_on_text">Включено</string>
   <string name="switch_off_text">Изключено</string>
@@ -583,7 +583,7 @@
   <string name="synchronization">Синхронизиране</string>
   <string name="synchronization_none">Без синхронизиране</string>
   <string name="hint_url">URL</string>
-  <string name="description_webdav_url">Въведете URL на специална папка от WebDAV сървър. My Expenses ще запази данните си в тази папка и няма да пипа нищо извън нея.</string>
+  <string name="description_webdav_url">Въведете URL на специална папка от WebDAV сървър. {app_name} ще запази данните си в тази папка и няма да пипа нищо извън нея.</string>
   <string name="description_webdav_trust_certificate">Сайтът използва сертификат, който не е доверен за Android.</string>
   <string name="hint_user_name">Име на потребител</string>
   <string name="hint_password">Парола</string>
@@ -612,7 +612,7 @@
   <string name="dialog_confirm_sync_link_remote">Локалните данни за този акаунт ще бъдат изтрити.</string>
   <string name="warning_synchronization_limited_trial">Възможността за синхронизиране може да бъде тествана до %s.</string>
   <string name="warning_synchronization_limit_reached">Периодът за тестване на възможността за синхронизиране е изтекъл.</string>
-  <string name="warning_synchronization_folder_usage">Тази папка се използва за синхронизиране на данните между инсталации на Моите разходи на различни устройства. Моля, не променяйте ръчно нейното съдържание.</string>
+  <string name="warning_synchronization_folder_usage">Тази папка се използва за синхронизиране на данните между инсталации на {app_name} на различни устройства. Моля, не променяйте ръчно нейното съдържание.</string>
   <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Папката, която избрахте, съответства на акаунт от съществуващо отдалечено място за съхранение. Трябва да изберете родителската й папка, за да използвате отново това отдалечено място за съхранение.</string>
   <string name="select_unsynced_accounts">Изберете сметки, които да бъдат синхронизирани с това отдалечено място за съхранение.</string>
   <string name="link_account_success" tools:ignore="PluralsCandidate">%d сметки са избрани да бъдат синхронизирани с отдалеченото място за съхранение.</string>
@@ -651,7 +651,7 @@
   <string name="pref_webdav_timeout_title">WebDAV таймаут</string>
   <string name="sync_state_restored">Възстановена е синхронизацията на %d сметки.</string>
   <string name="sync_state_could_not_be_restored">Не може да се възстанови синхронизацията на %d сметки.</string>
-  <string name="onboarding_ui_title">Моите разходи се адаптира към вашите предпочитания</string>
+  <string name="onboarding_ui_title">{app_name} се адаптира към вашите предпочитания</string>
   <string name="onboarding_data_title">Нека да създадем първaта Ви сметка</string>
   <string name="onboarding_get_started">Да започваме</string>
   <string name="onboarding_more_options">Още опции</string>
@@ -680,7 +680,7 @@
   <string name="professionalPriceShortInfo">по-малко от 1,00 € / месец</string>
   <string name="eu_vat_info">За гражданите на Европейския съюз цените не включват ДДС.</string>
   <string name="pref_contrib_purchase_title_renew">Подновяване на лиценза</string>
-  <string name="licence_migration_info">Моите разходи използва нов механизъм за валидиране на лицензи. Моля, поискайте нов ключ.</string>
+  <string name="licence_migration_info">{app_name} използва нов механизъм за валидиране на лицензи. Моля, поискайте нов ключ.</string>
   <string name="valid_until">Валиден до %s</string>
   <!--%1$s date, %2$s price-->
   <string name="extend_until">Продължете до %1$s за %2$s</string>

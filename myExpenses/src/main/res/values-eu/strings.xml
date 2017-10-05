@@ -69,9 +69,9 @@
   <string name="dialog_contrib_no_usages_left">Ez dira doako erabilera gehiago geratzen.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s premium ezaugarri bat da (%2$s).</string>
-  <string name="dialog_contrib_reminder_remove_limitation">Kendu muga hau eta eskuratu eginbide gehiago <i>Nire Gastuak</i> bertsio-berrituz.</string>
-  <string name="dialog_contrib_text_1"><i>Nire Gastuak</i> doan eta libre eskaintzen da.</string>
-  <string name="dialog_contrib_text_2">Mesedez lagundu <i>Nire Gastuak</i> bertsio-berrituz eta lortu murriztu gabeko sarbidea ondorengo eginbideetara:</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Kendu muga hau eta eskuratu eginbide gehiago <i>{app_name}</i> bertsio-berrituz.</string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i> doan eta libre eskaintzen da.</string>
+  <string name="dialog_contrib_text_2">Mesedez lagundu <i>{app_name}</i> bertsio-berrituz eta lortu murriztu gabeko sarbidea ondorengo eginbideetara:</string>
   <string name="dialog_contrib_usage_count">Gelditzen diren doako erabilerak</string>
   <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">%1$d alditaraino erabil dezakezu zure uneko lizentziarekin (%2$s).</string>
   <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">%1$d egunez erabil dezakezu zure uneko lizentziaren egoerarekin (%2$s).</string>
@@ -85,8 +85,8 @@
   <string name="dialog_password_new_password_confirmation">Pasahitz berria (berretsi)</string>
   <string name="dialog_remind_later">Geroago</string>
   <string name="dialog_remind_no">Ez, eskerrik asko</string>
-  <string name="dialog_remind_rate_how_many_stars">Zenbat izar emango zenizkioke Nire Gastuak aplikazioari?</string>
-  <string name="dialog_remind_rate_1">Mesedez hartu unetxo bat Nire Gastuak baloratzeko eta iruzkin bat egiteko.</string>
+  <string name="dialog_remind_rate_how_many_stars">Zenbat izar emango zenizkioke {app_name} aplikazioari?</string>
+  <string name="dialog_remind_rate_1">Mesedez hartu unetxo bat {app_name} baloratzeko eta iruzkin bat egiteko.</string>
   <string name="dialog_remind_rate_2">Zure iruzkinek zuzenketak eta hobekuntzak etengabe gehitzea ahalbidetzen digute.</string>
   <string name="dialog_remind_rate_1_suggest_improvement">Mesedez hartu une bat zure hobekuntza iradokizunak bidaltzeko.</string>
   <string name="dialog_remind_rate_yes">Baloratu orain</string>
@@ -246,7 +246,7 @@
   <string name="plan">Plana</string>
   <string name="plan_automatic">automatikoa</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">Nire Gastuak  planifikatzailea</string>
+  <string name="plan_calendar_name">{app_name} planifikatzailea</string>
   <string name="plan_event_deleted">Txantiloi honi lotutako plana egutegitik ezabatu da.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Planaren exekuzioa bertan behera utzi da</string>
@@ -283,7 +283,7 @@
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Sartu gakoa</string>
   <string name="pref_export_format_title">Datuen formatua</string>
-  <string name="pref_follow_gplus_title">Jarraitu Nire Gastuak Google+en</string>
+  <string name="pref_follow_gplus_title">Jarraitu {app_name} Google+en</string>
   <string name="pref_import_from_grisbi_summary">Inportatu kategoriak eta onuradun/ordaintzaileak Grisbi XML fitxategitik</string>
   <string name="pref_import_from_grisbi_title">Inportatu Grisbitik</string>
   <!--%s is replaced with QIF or CSV-->
@@ -383,7 +383,7 @@
   <string name="sum_income">Diru-sarrerak</string>
   <string name="sum_transfer">Tranferentziak</string>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">Egiaztatu Nire gastuak %s plataformarako http://www.myexpenses.mobi helbidean</string>
+  <string name="tell_a_friend_message">Egiaztatu {app_name} {platform} plataformarako {website} helbidean</string>
   <string name="template_create_success">\"%1$s\" txantiloia ondo gorde da</string>
   <string name="thank_you">Eskerrik asko zure babesagatik!</string>
   <string name="time">Ordua</string>
@@ -431,7 +431,7 @@
   <string name="warning_reset_account_all">Jarraitzen baduzu, kontu guztietako %1$s transakzio  datu-basetik ezabatuko dira eta ezin izango dira berreskuratu.</string>
   <string name="warning_reset_account_matched">Aurrera egitekotan, oraingo iragazkiarekin bat datozen transakzioak datu-basetik ezabatuko dira, eta ez dago hau desegiterik.</string>
   <string name="warning_restore">Datu-basea eta hobespenak berreskuratuko dira \"%1$s\" fitxategitik. Oraingo datuak ezabatuko dira. Jarraitu nahi duzu?</string>
-  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Babeskopiak eta esportazioak gordetzeko aukeratuta dagoen karpeta Androidek ezabatuko du Nire Gastuak desinstalatzen baduzu. Hau saihesteko aukeratu beste karpeta bat Ezarpenak pantailan.</string>
+  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Babeskopiak eta esportazioak gordetzeko aukeratuta dagoen karpeta Androidek ezabatuko du {app_name} desinstalatzen baduzu. Hau saihesteko aukeratu beste karpeta bat Ezarpenak pantailan.</string>
   <string name="warning_splitpartcategory_context">Banaketa baten zati diren transferentziak banaketaren testuinguruan besterik ezin dira editatu.</string>
   <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Ezarri %1$d eta %2$d bitarteko zenbaki bat</string>
   <string name="warning_change_fraction_digits_1">Datu-baseko kopuruak eguneratu behar dira frakzio zenbaki kopuru berriarekin bat etor daitezen.</string>
@@ -536,7 +536,7 @@
   <string name="pref_auto_backup_time_title">Babeskopia automatikoaren ordua</string>
   <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">%d babeskopia automatikoen ondoren, babeskopia automatikoa desgaituko da.</string>
   <string name="warning_auto_backup_limit_reached">Doako babeskopia automatikoen gehieneko kopurua gainditu da</string>
-  <string name="calendar_permission_required"><i>Nire Gastuak</i> zure egutegia atzitzeko baimena behar du, etorkizunerako planak eta transakzio errepikakorrak sortu ahal izateko.</string>
+  <string name="calendar_permission_required"><i>{app_name}</i> zure egutegia atzitzeko baimena behar du, etorkizunerako planak eta transakzio errepikakorrak sortu ahal izateko.</string>
   <string name="button_request_calendar_access" tools:ignore="UnusedResources">Baimena eman</string>
   <string name="switch_on_text">Bai</string>
   <string name="switch_off_text">Ez</string>
@@ -578,7 +578,7 @@
   <string name="synchronization">Sinkronizazioa</string>
   <string name="synchronization_none">Sinkronizaziorik ez</string>
   <string name="hint_url">URLa</string>
-  <string name="description_webdav_url">Idatzi mesedez zure WebDAV zerbitzariko karpeta berezi baten URLa. Nire gastuak bere datuak karpeta honetan gordeko ditu, ez du hortik kanpoko ezer ikutuko.</string>
+  <string name="description_webdav_url">Idatzi mesedez zure WebDAV zerbitzariko karpeta berezi baten URLa. {app_name} bere datuak karpeta honetan gordeko ditu, ez du hortik kanpoko ezer ikutuko.</string>
   <string name="description_webdav_trust_certificate">Webguneak ziurtagiri bat darabil, zeina Androidek ez duen fidagarritzat jotzen.</string>
   <string name="hint_user_name">Erabiltzaile-izena</string>
   <string name="hint_password">Pasahitza</string>
@@ -608,7 +608,7 @@
   <string name="dialog_confirm_sync_link_remote">Kontu honen tokiko informazioa ezabatuko da.</string>
   <string name="warning_synchronization_limited_trial">Sinkronizazio eginbidea %s-(e)ra arte probatu daiteke.</string>
   <string name="warning_synchronization_limit_reached">Sinkronizazio eginbidea probatzeko proba-aldia amaitu egin da.</string>
-  <string name="warning_synchronization_folder_usage">Karpeta hau gailu desberdinetan Nire Gastuak instalatzean datuak sinkronizatzeko da. Mesedez ez aldatu bere edukirik eskuz.</string>
+  <string name="warning_synchronization_folder_usage">Karpeta hau gailu desberdinetan {app_name} instalatzean datuak sinkronizatzeko da. Mesedez ez aldatu bere edukirik eskuz.</string>
   <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Hautatu duzun karpeta existitzen den atzealdeko baten kontu bati dagokio. Bere karpeta nagusia hautatu behar duzu atzealdeko hau berrerabiltzeko.</string>
   <string name="select_unsynced_accounts">Hautatu zein kontu sinkronizatu atzealdeko honetara</string>
   <string name="link_account_success" tools:ignore="PluralsCandidate">%d kontu konfiguratu dira atzealdekoarekin sinkronizatuak izateko.</string>
@@ -646,7 +646,7 @@
   <string name="pref_webdav_timeout_title">WebDAV-en denbora-muga</string>
   <string name="sync_state_restored">%d konturen sinkronizazio egoera leheneratu da.</string>
   <string name="sync_state_could_not_be_restored">%d konturen sinkronizazio egoera ezin izan da leheneratu.</string>
-  <string name="onboarding_ui_title">Nire Gastuak zure hobespenetara egokitzen da</string>
+  <string name="onboarding_ui_title">{app_name} zure hobespenetara egokitzen da</string>
   <string name="onboarding_data_title">Utzi guri zure lehen kontua konfiguratzen</string>
   <string name="onboarding_get_started">Hasi erabiltzen</string>
   <string name="onboarding_more_options">Aukera gehiago</string>

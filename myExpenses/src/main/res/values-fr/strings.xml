@@ -69,9 +69,9 @@
   <string name="dialog_contrib_no_usages_left">Il ne vous reste plus d\'utilisation gratuite.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s est une fonction Premium (%2$s).</string>
-  <string name="dialog_contrib_reminder_remove_limitation">Enlevez cette limitation et accédez à plus de fonctions en mettant au niveau supérieur &lt;i&gt; Mes dépenses &lt;/ i&gt;.</string>
-  <string name="dialog_contrib_text_1"><i>Mes dépenses</i> vous est offert sans publicité et open source.</string>
-  <string name="dialog_contrib_text_2">S\'il vous plaît, contribuez par la mise à niveau de <i>Mes dépenses</i> et vous aurez accès sans restriction aux caractéristiques suivantes:</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Enlevez cette limitation et accédez à plus de fonctions en mettant <i>{app_name}</i> au niveau supérieur.</string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i> vous est offert sans publicité et open source.</string>
+  <string name="dialog_contrib_text_2">S\'il vous plaît, contribuez par la mise à niveau de <i>{app_name}</i> et vous aurez accès sans restriction aux caractéristiques suivantes:</string>
   <string name="dialog_contrib_usage_count">Utilisations gratuites restantes</string>
   <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Vous pouvez l\'utiliser jusqu\'à %1$d fois avec le statut de votre licence actuelle (%2$s).</string>
   <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Vous pouvez l\'utiliser encore %1$d jours avec la licence actuelle (%2$s).</string>
@@ -85,8 +85,8 @@
   <string name="dialog_password_new_password_confirmation">Nouveau mot de passe (confirmation)</string>
   <string name="dialog_remind_later">Plus tard</string>
   <string name="dialog_remind_no">Non merci</string>
-  <string name="dialog_remind_rate_how_many_stars">Combien d\'étoiles donneriez-vous à Mes dépenses ?</string>
-  <string name="dialog_remind_rate_1">S\'il vous plaît prenez le temps d\'évaluer et de noter Mes dépenses.</string>
+  <string name="dialog_remind_rate_how_many_stars">Combien d\'étoiles donneriez-vous à {app_name} ?</string>
+  <string name="dialog_remind_rate_1">S\'il vous plaît prenez le temps d\'évaluer et de noter {app_name}.</string>
   <string name="dialog_remind_rate_2">Vos commentaires nous permettent d\'ajouter constamment des améliorations et perfectionnements.</string>
   <string name="dialog_remind_rate_1_suggest_improvement">S\'il vous plaît prenez le temps de nous envoyer vos suggestions pour des améliorations.</string>
   <string name="dialog_remind_rate_yes">D\'accord</string>
@@ -246,7 +246,7 @@
   <string name="plan">Échéance</string>
   <string name="plan_automatic">automatique</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">Échéancier Mes Dépenses</string>
+  <string name="plan_calendar_name">Échéancier {app_name}</string>
   <string name="plan_event_deleted">L\'échéance associée à ce modèle a été effacée du calendrier.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Exécution de l\'échéance annulée</string>
@@ -283,7 +283,7 @@
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Saisir la clé</string>
   <string name="pref_export_format_title">Format de données</string>
-  <string name="pref_follow_gplus_title">Suivez Mes Dépenses sur Google+</string>
+  <string name="pref_follow_gplus_title">Suivez {app_name} sur Google+</string>
   <string name="pref_import_from_grisbi_summary">Importer les catégories (et tiers) à partir de Grisbi XML</string>
   <string name="pref_import_from_grisbi_title">Import des données Grisbi</string>
   <!--%s is replaced with QIF or CSV-->
@@ -383,7 +383,7 @@
   <string name="sum_income">Revenus</string>
   <string name="sum_transfer">Transferts</string>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">Essayez Mes dépenses, Gestionnaire de finances personnelles pour %s, de http://www.myexpenses.mobi</string>
+  <string name="tell_a_friend_message">Essayez {app_name}, Gestionnaire de finances personnelles pour {platform}, de {website}</string>
   <string name="template_create_success">Modèle \"%1$s\" créé avec succès</string>
   <string name="thank_you">Merci de votre soutien!</string>
   <string name="time">Heure</string>
@@ -431,7 +431,7 @@
   <string name="warning_reset_account_all">Si vous continuez, toutes les opérations de tous les comptes%1$s seront supprimées de la base de données et ne pourront pas être restaurées.</string>
   <string name="warning_reset_account_matched">Si vous continuez, toutes les opérations qui correspondent au filtre actuel  seront supprimées de la base de données et ne pourront plus être restaurées.</string>
   <string name="warning_restore">La base de données et les paramètres seront restaurés à partir du fichier \"%1$s\". Les données actuelles seront supprimées. Voulez-vous continuer?</string>
-  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Le dossier actuellement sélectionné pour les sauvegardes et les exportations est automatiquement supprimé par Android si vous désinstallez Mes dépenses. Vous pouvez l\'empêcher en sélectionnant un dossier différent dans l\'écran Paramètres.</string>
+  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Le dossier actuellement sélectionné pour les sauvegardes et les exportations est automatiquement supprimé par Android si vous désinstallez {app_name}. Vous pouvez l\'empêcher en sélectionnant un dossier différent dans l\'écran Paramètres.</string>
   <string name="warning_splitpartcategory_context">Les transferts qui font partie d\'une opération ventilée ne peuvent être modifiés que dans celle-ci.</string>
   <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Définissez une décimale entre %1$d et %2$d</string>
   <string name="warning_change_fraction_digits_1">Les montants dans la base de données doivent être mis à jour afin de correspondre au nouveau nombre de chiffres de fraction.</string>
@@ -536,7 +536,7 @@
   <string name="pref_auto_backup_time_title">Heure d\'auto-sauvegarde</string>
   <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Après %d sauvegardes automatiques réussies, la sauvegarde automatique sera désactivée.</string>
   <string name="warning_auto_backup_limit_reached">La limite des sauvegardes automatiques réussies gratuites a été atteinte.</string>
-  <string name="calendar_permission_required"><i>Mes dépenses </i> requiert votre permission d\'accéder à votre calendrier , dans le but de créer des échéances pour des opérations futures et répétitives </string>
+  <string name="calendar_permission_required"><i>{app_name} </i> requiert votre permission d\'accéder à votre calendrier , dans le but de créer des échéances pour des opérations futures et répétitives </string>
   <string name="button_request_calendar_access" tools:ignore="UnusedResources">Autoriser l\'accès</string>
   <string name="switch_on_text">Activé</string>
   <string name="switch_off_text">Désactivé</string>
@@ -578,7 +578,7 @@
   <string name="synchronization">Synchronisation</string>
   <string name="synchronization_none">Aucune synchronisation</string>
   <string name="hint_url">URL</string>
-  <string name="description_webdav_url">S’il vous plaît entrez l’URL vers un dossier spécial sur votre serveur WebDAV. Mes dépenses vont stocker ses données à l’intérieur de ce dossier, il ne touche à rien en dehors de celui-ci.</string>
+  <string name="description_webdav_url">S’il vous plaît entrez l’URL vers un dossier spécial sur votre serveur WebDAV. {app_name} vont stocker ses données à l’intérieur de ce dossier, il ne touche à rien en dehors de celui-ci.</string>
   <string name="description_webdav_trust_certificate">Le site web utilise un certificat non validé par Android.</string>
   <string name="hint_user_name">Nom d\'utilisateur</string>
   <string name="hint_password">Mot de passe</string>
@@ -607,7 +607,7 @@
   <string name="dialog_confirm_sync_link_remote">Les données locales pour ce compte seront supprimées.</string>
   <string name="warning_synchronization_limited_trial">La fonction de synchronisation peut être testée jusqu\'à %s.</string>
   <string name="warning_synchronization_limit_reached">La période d\'essai pour tester la fonctionnalité de synchronisation est terminée.</string>
-  <string name="warning_synchronization_folder_usage">Ce dossier est utilisé pour la synchronisation des données entre les installations de Mes Dépenses sur différents appareils. S\'il vous plaît ne pas modifier son contenu manuellement.</string>
+  <string name="warning_synchronization_folder_usage">Ce dossier est utilisé pour la synchronisation des données entre les installations de {app_name} sur différents appareils. S\'il vous plaît ne pas modifier son contenu manuellement.</string>
   <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Le dossier que vous avez sélectionné correspond à un compte d\'un backend existant. Vous devez sélectionner son dossier parent afin de réutiliser ce backend.</string>
   <string name="select_unsynced_accounts">Sélectionnez les comptes à être synchronisés avec ce backend</string>
   <string name="link_account_success" tools:ignore="PluralsCandidate">%d comptes ont été configurés pour être synchronisés avec le backend.</string>
@@ -645,7 +645,7 @@
   <string name="pref_webdav_timeout_title">Expiration du délai WebDAV</string>
   <string name="sync_state_restored">L\'état de synchronisation a été restauré pour %d comptes.</string>
   <string name="sync_state_could_not_be_restored">L\'état de synchronisation n\'a pas pu être restauré pour %d comptes.</string>
-  <string name="onboarding_ui_title">Mes Dépenses s\'adapte à vos préférences</string>
+  <string name="onboarding_ui_title">{app_name} s\'adapte à vos préférences</string>
   <string name="onboarding_data_title">Laissez-nous configurer votre premier compte</string>
   <string name="onboarding_get_started">Commencer</string>
   <string name="onboarding_more_options">Plus d\'options</string>

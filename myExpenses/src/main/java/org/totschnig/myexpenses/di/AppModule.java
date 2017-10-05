@@ -7,6 +7,7 @@ import android.provider.Settings;
 import android.support.annotation.Nullable;
 
 import com.google.android.vending.licensing.AESObfuscator;
+import com.google.android.vending.licensing.Obfuscator;
 import com.google.android.vending.licensing.PreferenceObfuscator;
 
 import org.acra.ReportingInteractionMode;
@@ -31,7 +32,7 @@ import timber.log.Timber;
 
 @Module
 public class AppModule {
-  private MyApplication application;
+  protected MyApplication application;
 
   public AppModule(MyApplication application) {
     this.application = application;
@@ -39,7 +40,7 @@ public class AppModule {
 
   @Provides
   @Singleton
-  public MyApplication provideApplication() {
+  MyApplication provideApplication() {
     return application;
   }
 
@@ -107,19 +108,24 @@ public class AppModule {
   @Provides
   @Singleton
   @Named("deviceId")
-  String provideDeviceId() {
+  protected String provideDeviceId() {
     return Settings.Secure.getString(application.getContentResolver(), Settings.Secure.ANDROID_ID);
   }
 
   @Provides
   @Singleton
-  PreferenceObfuscator provideLicencePrefs(@Named("deviceId") String deviceId) {
+  PreferenceObfuscator provideLicencePrefs(Obfuscator obfuscator) {
     String PREFS_FILE = "license_status_new";
     SharedPreferences sp = application.getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE);
+    return new PreferenceObfuscator(sp, obfuscator);
+  }
+
+  @Provides
+  @Singleton
+  protected Obfuscator provideObfuscator(@Named("deviceId") String deviceId) {
     byte[] SALT = new byte[]{
-        -1, -124, -4, -59, -52, 1, -97, -32, 38, 59, 64, 13, 45, -104, -3, -92, -56, -49, 65, -25
+      -1, -124, -4, -59, -52, 1, -97, -32, 38, 59, 64, 13, 45, -104, -3, -92, -56, -49, 65, -25
     };
-    return new PreferenceObfuscator(
-        sp, new AESObfuscator(SALT, application.getPackageName(), deviceId));
+    return new AESObfuscator(SALT, application.getPackageName(), deviceId);
   }
 }

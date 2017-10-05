@@ -292,6 +292,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       languagePref.setEntries(getLocaleArray(getContext()));
 
       findPreference(SYNC_NOTIFICATION).setOnPreferenceChangeListener(storeInDatabaseChangeListener);
+
+      findPreference(getString(R.string.pref_follow_gplus_key)).setTitle(
+          Utils.getTextWithAppName(getContext(), R.string.pref_follow_gplus_title));
     }
     //SHORTCUTS screen
     else if (rootKey.equals(UI_HOME_SCREEN_SHORTCUTS.getKey())) {
@@ -400,9 +403,12 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       setOnOffSummary(PERFORM_PROTECTION_SCREEN, PERFORM_PROTECTION.getBoolean(false));
       Preference preference = findPreference(PLANNER_CALENDAR_ID);
       if (preference != null) {
-        preference.setSummary(
-            ((ProtectedFragmentActivity) getActivity()).isCalendarPermissionPermanentlyDeclined() ?
-                R.string.calendar_permission_required : R.string.pref_planning_calendar_summary);
+        if (((ProtectedFragmentActivity) getActivity()).isCalendarPermissionPermanentlyDeclined()) {
+          preference.setSummary(Utils.getTextWithAppName(getContext(),
+              R.string.calendar_permission_required));
+        } else {
+          preference.setSummary(R.string.pref_planning_calendar_summary);
+        }
       }
       configureContribPrefs();
     }
@@ -495,7 +501,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     } else {
       contribPurchaseTitle = getString(R.string.licence_status) + ": " + getString(licenceStatus.getResId());
       if (licenceHandler.hasLegacyLicence()) {
-        contribPurchaseSummary = getString(R.string.licence_migration_info);
+        contribPurchaseSummary = Utils.getTextWithAppName(getContext(), R.string.licence_migration_info).toString();
       } else if (licenceStatus.isUpgradeable()) {
         contribPurchaseSummary = getString(R.string.pref_contrib_purchase_title_upgrade);
       } else {

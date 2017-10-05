@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses.activity;
 
-import android.Manifest;
 import android.accounts.Account;
 import android.app.Dialog;
 import android.content.ContentResolver;
@@ -27,7 +26,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
@@ -257,9 +255,6 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         if (grantResults.length > 0
             && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
           initialPrefToShow = PLANNER_CALENDAR_ID.getKey();
-        } else if (ActivityCompat.shouldShowRequestPermissionRationale(
-            this, Manifest.permission.WRITE_CALENDAR)) {
-          Toast.makeText(this, getString(R.string.calendar_permission_required), Toast.LENGTH_LONG).show();
         }
     }
   }

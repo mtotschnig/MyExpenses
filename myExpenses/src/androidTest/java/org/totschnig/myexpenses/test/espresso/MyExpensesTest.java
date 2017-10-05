@@ -90,7 +90,7 @@ public final class MyExpensesTest {
     PrefKey.NEXT_REMINDER_RATE.remove();
     stubExpenseEditIntentWithSequenceCount(MyExpenses.TRESHOLD_REMIND_RATE + 1);
     onView(withId(R.id.CREATE_COMMAND)).perform(click());
-    onView(withText(containsString(mActivityRule.getActivity().getString(R.string.dialog_remind_rate_1))))
+    onView(withid(R.id.rating_how_many))
         .check(matches(isDisplayed()));
   }
 

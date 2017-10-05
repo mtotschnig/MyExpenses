@@ -22,9 +22,9 @@
         android:padding="@dimen/padding_dialog_side">
 
         <TextView
+            android:id="@+id/rating_how_many"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/dialog_remind_rate_how_many_stars" />
+            android:layout_height="wrap_content" />
 
         <RatingBar
             android:id="@+id/rating"

@@ -49,7 +49,7 @@
   <string name="dialog_contrib_no_usages_left">No disposeu de cap ús gratuït més.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s és una característica premium  (%2$s).</string>
-  <string name="dialog_contrib_text_1"><i>Les meves despeses</i> s\'ofereix sense publicitat i és de codi obert.</string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i> s\'ofereix sense publicitat i és de codi obert.</string>
   <string name="dialog_export_delete">Suprimeix les operacions exportades</string>
   <string name="dialog_export_not_yet_exported">Exporta només les operacions que encara no s\'han exportat</string>
   <string name="dialog_password_activate_protection">Activa la protecció amb contrasenya</string>
@@ -58,8 +58,8 @@
   <string name="dialog_password_new_password_confirmation">Nova contrasenya (confirmació)</string>
   <string name="dialog_remind_later">Més endavant</string>
   <string name="dialog_remind_no">No, gràcies</string>
-  <string name="dialog_remind_rate_how_many_stars">Quants estels donaries a My Expenses?</string>
-  <string name="dialog_remind_rate_1">Si us plau prengueu-vos un moment per valorar i comentar Les meves despeses.</string>
+  <string name="dialog_remind_rate_how_many_stars">Quants estels donaries a {app_name}?</string>
+  <string name="dialog_remind_rate_1">Si us plau prengueu-vos un moment per valorar i comentar {app_name}.</string>
   <string name="dialog_remind_rate_2">Els vostres comentaris ens permeten afegir millores contínuament.</string>
   <string name="dialog_remind_rate_yes">Valoreu-ho ara</string>
   <string name="dialog_security_answer">Resposta</string>
@@ -200,7 +200,7 @@
   <string name="plan">Planificació</string>
   <string name="plan_automatic">automàtic</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">Planificador de Les meves despeses</string>
+  <string name="plan_calendar_name">Planificador {app_name}</string>
   <string name="plan_event_deleted">S\'ha suprimit la planificació del calendari associada amb aquesta plantilla.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">S\'ha anul·lat la planificació</string>
@@ -227,7 +227,7 @@
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Entreu la clau</string>
   <string name="pref_export_format_title">Format de les dades</string>
-  <string name="pref_follow_gplus_title">Segueix Les meves despeses a Google+</string>
+  <string name="pref_follow_gplus_title">Segueix {app_name} a Google+</string>
   <string name="pref_import_from_grisbi_summary">Importeu les categories i els tercers de Grisbi XML.</string>
   <string name="pref_import_from_grisbi_title">Importeu de Grisbi</string>
   <!--%s is replaced with QIF or CSV-->

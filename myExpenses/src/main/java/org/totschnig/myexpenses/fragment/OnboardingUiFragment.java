@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.activity.SplashActivity;
 import org.totschnig.myexpenses.adapter.FontSizeAdapter;
 import org.totschnig.myexpenses.preference.FontSizeDialogPreference;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.util.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,7 +53,7 @@ public class OnboardingUiFragment extends OnboardingFragment {
     MenuItem menuItem = toolbar.getMenu().findItem(R.id.language);
     View actionView = MenuItemCompat.getActionView(menuItem);
     String uiLanguage = PrefKey.UI_LANGUAGE.getString("default");
-    ((TextView) actionView).setText(MyApplication.getInstance().getUserPreferedLocale().getLanguage());
+    ((TextView) actionView).setText(MyApplication.getUserPreferedLocale().getLanguage());
     actionView.setOnClickListener(v -> {
       final PopupMenu subMenu = new PopupMenu(getActivity(), actionView);
       String[] entries = SettingsFragment.getLocaleArray(getContext());
@@ -117,7 +118,7 @@ public class OnboardingUiFragment extends OnboardingFragment {
     });
 
     //lead
-    setupWizardLayout.setHeaderText(R.string.onboarding_ui_title);
+    setupWizardLayout.setHeaderText(Utils.getTextWithAppName(getContext(), R.string.onboarding_ui_title));
     setupWizardLayout.setIllustration(R.drawable.bg_setup_header, R.drawable.bg_header_horizontal_tile);
 
     configureNavigation(view, inflater, R.id.suw_navbar_next);

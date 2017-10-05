@@ -70,9 +70,9 @@
   <string name="dialog_contrib_no_usages_left">無料の使用は残っていません。</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s はプレミアム機能です (%2$s)。</string>
-  <string name="dialog_contrib_reminder_remove_limitation"><i>マイエクスペンス</i> をアップグレードすると、この制限を取り除き、より多くの機能にアクセスすることができます</string>
-  <string name="dialog_contrib_text_1"><i>マイ エクスペンス</i> 広告なしのオープンソースで提供しています。</string>
-  <string name="dialog_contrib_text_2"><i>マイエクスペンス</i> をアップグレードすることで貢献して、次の機能に無制限にアクセスしてください:</string>
+  <string name="dialog_contrib_reminder_remove_limitation"><i>{app_name}</i> をアップグレードすると、この制限を取り除き、より多くの機能にアクセスすることができます</string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i> 広告なしのオープンソースで提供しています。</string>
+  <string name="dialog_contrib_text_2"><i>{app_name}</i> をアップグレードすることで貢献して、次の機能に無制限にアクセスしてください:</string>
   <string name="dialog_contrib_usage_count">無料の使用が残っています</string>
   <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">現在のライセンスステータス (%2$s) で %1$d 回まで使用できます。</string>
   <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">現在のライセンスステータス (%2$s) で %1$d 日間使用できます。</string>
@@ -87,8 +87,8 @@
   <string name="dialog_password_new_password_confirmation">新しいパスワード (確認)</string>
   <string name="dialog_remind_later">後で</string>
   <string name="dialog_remind_no">いいえ結構です</string>
-  <string name="dialog_remind_rate_how_many_stars">マイ エクスペンス にいくつ星をつけますか?</string>
-  <string name="dialog_remind_rate_1">マイ エクスペンス の評価とレビューに少しお時間をいただけませんか。</string>
+  <string name="dialog_remind_rate_how_many_stars">{app_name} にいくつ星をつけますか?</string>
+  <string name="dialog_remind_rate_1">{app_name} の評価とレビューに少しお時間をいただけませんか。</string>
   <string name="dialog_remind_rate_2">あなたのご意見により、私たちは絶え間ない改善と機能拡張を行うことができます。</string>
   <string name="dialog_remind_rate_1_suggest_improvement">私たちに改善の提案をメールするお時間を少しいただけませんか。</string>
   <string name="dialog_remind_rate_yes">今すぐ評価</string>
@@ -246,7 +246,7 @@
   <string name="plan">計画</string>
   <string name="plan_automatic">自動</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">マイ エクスペンス プランナー</string>
+  <string name="plan_calendar_name">{app_name} プランナー</string>
   <string name="plan_event_deleted">このテンプレートに関連付けられた計画は予定表から削除されました。</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">計画の実行がキャンセルされました</string>
@@ -283,7 +283,7 @@
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">キーを入力</string>
   <string name="pref_export_format_title">データ形式</string>
-  <string name="pref_follow_gplus_title">Google+ で マイ エクスペンス をフォローする</string>
+  <string name="pref_follow_gplus_title">Google+ で {app_name} をフォローする</string>
   <string name="pref_import_from_grisbi_summary">Grisbi XML ファイルから分類と取引先をインポートします</string>
   <string name="pref_import_from_grisbi_title">Grisbi からインポート</string>
   <!--%s is replaced with QIF or CSV-->
@@ -382,7 +382,7 @@
   <string name="sum_income">収入</string>
   <string name="sum_transfer">振替</string>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">マイ エクスペンス: %s用のパーソナル ファイナンス マネージャーを確かめてください。ここから http://www.myexpenses.mobi</string>
+  <string name="tell_a_friend_message">{app_name}: {platform}用のパーソナル ファイナンス マネージャーを確かめてください。ここから {website}</string>
   <string name="template_create_success">テンプレート \"%1$s\" は正常に作成されました</string>
   <string name="thank_you">サポートありがとうございます!</string>
   <string name="time">時間</string>
@@ -425,7 +425,7 @@
   <string name="warning_reset_account_all">続行すると、すべての勘定 %1$s 、取引はデータベースから削除され、復元することはできません。</string>
   <string name="warning_reset_account_matched">続行すると、現在のフィルターに一致する取引はデータベースから削除され、復元することはできません。</string>
   <string name="warning_restore">ファイル  \"%1$s\" から、データベースとプリファレンスが復元されます。現在のデータは削除されます。続行しますか?</string>
-  <string name="warning_app_folder_will_be_deleted_upon_uninstall">マイ エクスペンス をアンインストールした場合、バックアップとエクスポート用に現在選択されているフォルダは自動的に Android によって削除されます。 設定画面から別のフォルダを選択することで、これを防止することができます。</string>
+  <string name="warning_app_folder_will_be_deleted_upon_uninstall">{app_name} をアンインストールした場合、バックアップとエクスポート用に現在選択されているフォルダは自動的に Android によって削除されます。 設定画面から別のフォルダを選択することで、これを防止することができます。</string>
   <string name="warning_splitpartcategory_context">振替は分割の一部で、分割のコンテキストでのみ編集することができます。</string>
   <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">%1$d から %2$d の間で数を設定してください。</string>
   <string name="warning_change_fraction_digits_1">新しい小数桁の数に一致させるため、データベース内の金額を更新する必要があります。</string>
@@ -530,7 +530,7 @@
   <string name="pref_auto_backup_time_title">自動バックアップ時間</string>
   <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">%d 回正常に自動バックアップを行った後、自動バックアップは無効になります。</string>
   <string name="warning_auto_backup_limit_reached">無料自動バックアップ回数の制限に達しました。</string>
-  <string name="calendar_permission_required"><i>マイエクスペンス</i> は、将来の計画および繰り返しの取引を作成するために、自分のカレンダーにアクセスするアクセス許可が必要です。</string>
+  <string name="calendar_permission_required"><i>{app_name}</i> は、将来の計画および繰り返しの取引を作成するために、自分のカレンダーにアクセスするアクセス許可が必要です。</string>
   <string name="button_request_calendar_access" tools:ignore="UnusedResources">アクセスを許可</string>
   <string name="switch_on_text">ON</string>
   <string name="switch_off_text">OFF</string>
@@ -572,7 +572,7 @@
   <string name="synchronization">同期</string>
   <string name="synchronization_none">同期しない</string>
   <string name="hint_url">URL</string>
-  <string name="description_webdav_url">WebDAV サーバー上の、このアカウントデータ用の特別なフォルダーの URL を入力してください。 マイエクスペンスはこのフォルダの中にデータを保存し、それ以外には触れません。</string>
+  <string name="description_webdav_url">WebDAV サーバー上の、このアカウントデータ用の特別なフォルダーの URL を入力してください。 {app_name}はこのフォルダの中にデータを保存し、それ以外には触れません。</string>
   <string name="description_webdav_trust_certificate">このウェブサイトは Android で信頼されていない証明書を使用しています。</string>
   <string name="hint_user_name">ユーザー名</string>
   <string name="hint_password">パスワード</string>
@@ -601,7 +601,7 @@
   <string name="dialog_confirm_sync_link_remote">このアカウントのローカルデータは削除されます。</string>
   <string name="warning_synchronization_limited_trial">同期機能は %s までテストできます。</string>
   <string name="warning_synchronization_limit_reached">同期機能をテストする試用期間が終了しました。</string>
-  <string name="warning_synchronization_folder_usage">このフォルダーは、さまざまなデバイス上のマイエクスペンスのインストール間でデータを同期するために使用されます。 内容を手動で変更しないでください。</string>
+  <string name="warning_synchronization_folder_usage">このフォルダーは、さまざまなデバイス上の{app_name}のインストール間でデータを同期するために使用されます。 内容を手動で変更しないでください。</string>
   <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">選択したフォルダーは、既存のバックエンドのアカウントに対応します。 このバックエンドを再利用するには、その親フォルダーを選択する必要があります。</string>
   <string name="select_unsynced_accounts">選択した勘定はこのバックエンドに同期されます</string>
   <string name="link_account_success" tools:ignore="PluralsCandidate">%d の勘定がこのバックエンドに同期するように設定されました。</string>
@@ -640,7 +640,7 @@
   <string name="pref_webdav_timeout_title">WebDAV タイムアウト</string>
   <string name="sync_state_restored">%d アカウントの同期状態が復元されました。</string>
   <string name="sync_state_could_not_be_restored">%d のアカウントで同期状態を復元できませんでした。</string>
-  <string name="onboarding_ui_title">マイエクスペンスはあなたのお好みに適応します</string>
+  <string name="onboarding_ui_title">{app_name}はあなたのお好みに適応します</string>
   <string name="onboarding_data_title">最初のアカウントを設定しましょう</string>
   <string name="onboarding_get_started">始めましょう</string>
   <string name="onboarding_more_options">他のオプション</string>
@@ -668,6 +668,6 @@
   <string name="n_months">%s ヶ月</string>
   <string name="eu_vat_info">表示されている EU 価格には、付加価値税は含まれていません。</string>
   <string name="pref_contrib_purchase_title_renew">ライセンスの更新</string>
-  <string name="licence_migration_info">マイエクスペンスは新しいライセンス検証メカニズムを実装しています。 新しいキーを要求してください。</string>
+  <string name="licence_migration_info">{app_name}は新しいライセンス検証メカニズムを実装しています。 新しいキーを要求してください。</string>
   <!--%1$s date, %2$s price-->
 </resources>

@@ -69,9 +69,9 @@
   <string name="dialog_contrib_no_usages_left">Sem utilizações gratuitas restantes.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s é uma funcionalidade premium (%2$s).</string>
-  <string name="dialog_contrib_reminder_remove_limitation">Remova esta limitação e tenha acesso a mais funcionalidades ao atualizar o <i>My Expenses</i>.</string>
-  <string name="dialog_contrib_text_1"><i>My Expenses</i> é oferecido sem anúncios e em código aberto.</string>
-  <string name="dialog_contrib_text_2">Contribua ao atualizar o <i>My Expenses</i> e tenha acesso sem restrições às seguintes funcionalidades:</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Remova esta limitação e tenha acesso a mais funcionalidades ao atualizar o <i>{app_name}</i>.</string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i> é oferecido sem anúncios e em código aberto.</string>
+  <string name="dialog_contrib_text_2">Contribua ao atualizar o <i>{app_name}</i> e tenha acesso sem restrições às seguintes funcionalidades:</string>
   <string name="dialog_contrib_usage_count">Utilizações gratuitas restantes</string>
   <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Pode usar até %1$d vezes com a sua licença atual (%2$s).</string>
   <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Pode usar durante %1$d dias com a sua licença atual (%2$s).</string>
@@ -85,8 +85,8 @@
   <string name="dialog_password_new_password_confirmation">Nova palavra-passe (confirmação)</string>
   <string name="dialog_remind_later">Mais tarde</string>
   <string name="dialog_remind_no">Não obrigado</string>
-  <string name="dialog_remind_rate_how_many_stars">Quantas estrelas daria ao My Expenses?</string>
-  <string name="dialog_remind_rate_1">Por favor tire um momento para avaliar e dar a sua opinião sobre o My Expenses.</string>
+  <string name="dialog_remind_rate_how_many_stars">Quantas estrelas daria ao {app_name}?</string>
+  <string name="dialog_remind_rate_1">Por favor tire um momento para avaliar e dar a sua opinião sobre o {app_name}.</string>
   <string name="dialog_remind_rate_2">Os seus comentários permitem-nos adicionar continuamente melhorias e aperfeiçoamentos.</string>
   <string name="dialog_remind_rate_1_suggest_improvement">Por favor tire um momento para enviar as suas sugestões de melhoramentos.</string>
   <string name="dialog_remind_rate_yes">Avaliar agora</string>
@@ -246,7 +246,7 @@
   <string name="plan">Plano</string>
   <string name="plan_automatic">automático</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">Planeador My Expenses</string>
+  <string name="plan_calendar_name">Planeador {app_name}</string>
   <string name="plan_event_deleted">O plano associado a este modelo foi eliminado do calendário.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">A execução do plano foi cancelada</string>
@@ -283,7 +283,7 @@
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Introduzir a chave</string>
   <string name="pref_export_format_title">Formato de data</string>
-  <string name="pref_follow_gplus_title">Siga o My Expenses no Google+</string>
+  <string name="pref_follow_gplus_title">Siga o {app_name} no Google+</string>
   <string name="pref_import_from_grisbi_summary">Importar categorias e participantes do ficheiro XML do Grisbi</string>
   <string name="pref_import_from_grisbi_title">Importar do Grisbi</string>
   <!--%s is replaced with QIF or CSV-->
@@ -383,7 +383,7 @@
   <string name="sum_income">Receitas</string>
   <string name="sum_transfer">Transferências</string>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">Experimente o My Expenses, Gestor de finanças pessoal para %s, http://www.myexpenses.mobi</string>
+  <string name="tell_a_friend_message">Experimente o {app_name}, Gestor de finanças pessoal para {platform}, {website}</string>
   <string name="template_create_success">O modelo \"%1$s\" foi criado com sucesso</string>
   <string name="thank_you">Obrigado pelo seu apoio!</string>
   <string name="time">Hora</string>
@@ -431,7 +431,7 @@
   <string name="warning_reset_account_all">Se proceder, as transações de todas as contas %1$s serão eliminadas da base de dados e não poderão ser recuperadas.</string>
   <string name="warning_reset_account_matched">Se proceder, as transações que correspondem ao filtro atual serão eliminadas da base de dados e não poderão ser recuperadas.</string>
   <string name="warning_restore">A base de dados e as preferências serão restauradas a partir do ficheiro \"%1$s\". Os dados atuais serão eliminados. Pretende continuar?</string>
-  <string name="warning_app_folder_will_be_deleted_upon_uninstall">A pasta para cópias de segurança e exportações atualmente selecionada será eliminada automaticamente pelo Android se desinstalar o My Expenses. Pode prevenir isso de acontecer ao selecionar uma pasta diferente no ecrã de Definições.</string>
+  <string name="warning_app_folder_will_be_deleted_upon_uninstall">A pasta para cópias de segurança e exportações atualmente selecionada será eliminada automaticamente pelo Android se desinstalar o {app_name}. Pode prevenir isso de acontecer ao selecionar uma pasta diferente no ecrã de Definições.</string>
   <string name="warning_splitpartcategory_context">Transferências que fazem parte de uma divisão apenas podem ser editadas no contexto da divisão.</string>
   <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Defina um número entre %1$d e %2$d</string>
   <string name="warning_change_fraction_digits_1">As quantias na base de dados precisam de ser atualizadas para corresponderem com o novo número de dígitos fracionários.</string>
@@ -535,7 +535,7 @@
   <string name="pref_auto_backup_time_title">Hora da cópia de segurança automática</string>
   <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Após %d cópias de segurança automáticas bem sucedidas, a cópia de segurança automática será desativada.</string>
   <string name="warning_auto_backup_limit_reached">O limite de cópias de segurança automáticas bem sucedidas foi atingido.</string>
-  <string name="calendar_permission_required">O <i>My Expenses</i> precisa de permissão para aceder ao seu calendário, a fim de criar planos para transações futuras e recorrentes.</string>
+  <string name="calendar_permission_required">O <i>{app_name}</i> precisa de permissão para aceder ao seu calendário, a fim de criar planos para transações futuras e recorrentes.</string>
   <string name="button_request_calendar_access" tools:ignore="UnusedResources">Permitir acesso</string>
   <string name="switch_on_text">Ativar</string>
   <string name="switch_off_text">Desativar</string>
@@ -577,7 +577,7 @@
   <string name="synchronization">Sincronização</string>
   <string name="synchronization_none">Sem sincronização</string>
   <string name="hint_url">URL</string>
-  <string name="description_webdav_url">Por favor introduza o URL de uma pasta especial no seu servidor WebDAV. O My Expenses irá guardar os dados dentro desta pasta, não tocará em nada fora dela.</string>
+  <string name="description_webdav_url">Por favor introduza o URL de uma pasta especial no seu servidor WebDAV. O {app_name} irá guardar os dados dentro desta pasta, não tocará em nada fora dela.</string>
   <string name="hint_user_name">Nome de utilizador</string>
   <string name="hint_password">Palavra-passe</string>
   <string name="label_trust_certificate">Confiar neste certificado</string>
@@ -605,7 +605,7 @@
   <string name="dialog_confirm_sync_link_remote">Os dados locais desta conta serão eliminados.</string>
   <string name="warning_synchronization_limited_trial">A funcionalidade de sincronização pode ser testada até %s.</string>
   <string name="warning_synchronization_limit_reached">O período de testes da funcionalidade de sincronização terminou.</string>
-  <string name="warning_synchronization_folder_usage">A pasta é usada para sincronizar dados entre instalações do My Expenses em diferentes dispositivos. Por favor não modifique nenhum dos seus conteúdos manualmente.</string>
+  <string name="warning_synchronization_folder_usage">A pasta é usada para sincronizar dados entre instalações do {app_name} em diferentes dispositivos. Por favor não modifique nenhum dos seus conteúdos manualmente.</string>
   <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">A pasta que selecionou corresponde a uma conta de um backend existente. Necessita de selecionar a pasta superior para reutilizar este backend.</string>
   <string name="select_unsynced_accounts">Selecionar as contas a ser sincronizadas com este backend</string>
   <string name="link_account_success" tools:ignore="PluralsCandidate">%d contas foram configuradas para ser sincronizadas com o backend.</string>
@@ -641,7 +641,7 @@
   <string name="synchronization_end_success_none">Sem alterações para sincronizar.</string>
   <string name="sync_state_restored">O estado de sincronização de %d contas foi restaurado.</string>
   <string name="sync_state_could_not_be_restored">O estado de sincronização de %d contas não pôde ser restaurado.</string>
-  <string name="onboarding_ui_title">O My Expenses adapta-se às suas preferências</string>
+  <string name="onboarding_ui_title">O {app_name} adapta-se às suas preferências</string>
   <string name="onboarding_data_title">Permita-nos configurar a sua primeira conta</string>
   <string name="onboarding_get_started">Começar</string>
   <string name="onboarding_more_options">Mais opções</string>

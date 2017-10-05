@@ -69,9 +69,9 @@
   <string name="dialog_contrib_no_usages_left">Diese Funktion kann nicht mehr gratis verwendet werden.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s ist eine Premium-Funktion (%2$s).</string>
-  <string name="dialog_contrib_reminder_remove_limitation">Entfernen Sie diese Einschränkung und erhalten Sie Zugriff auf mehr Funktionen, indem Sie <i>Meine Ausgaben</i> upgraden.</string>
-  <string name="dialog_contrib_text_1"><i>Meine Ausgaben</i> wird Ihnen ohne Werbung und mit offenem Quellcode angeboten.</string>
-  <string name="dialog_contrib_text_2">Bitte leisten Sie einen Beitrag durch ein Upgrade von <i>Meine Ausgaben</i> und erhalten Sie uneingeschränkten Zugriff auf die folgenden Funktionen:</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Entfernen Sie diese Einschränkung und erhalten Sie Zugriff auf mehr Funktionen, indem Sie <i>{app_name}</i> upgraden.</string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i> wird Ihnen ohne Werbung und mit offenem Quellcode angeboten.</string>
+  <string name="dialog_contrib_text_2">Bitte leisten Sie einen Beitrag durch ein Upgrade von <i>{app_name}</i> und erhalten Sie uneingeschränkten Zugriff auf die folgenden Funktionen:</string>
   <string name="dialog_contrib_usage_count">Verbleibende Gratis Nutzungen</string>
   <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Mit Ihrem aktuellen Lizenzstatus (%2$s) können Sie es %1$d mal verwenden.</string>
   <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Mit Ihrem aktuellen Lizenzstatus (%2$s) können Sie es %1$d Tage lang verwenden.</string>
@@ -85,8 +85,8 @@
   <string name="dialog_password_new_password_confirmation">Neues Passwort (Bestätigung)</string>
   <string name="dialog_remind_later">Später</string>
   <string name="dialog_remind_no">Nein danke</string>
-  <string name="dialog_remind_rate_how_many_stars">Wie viele Sterne würden Sie für meine Ausgaben vergeben?</string>
-  <string name="dialog_remind_rate_1">Bitte nehmen Sie sich einen Augenblick Zeit, um Meine Ausgaben zu bewerten und zu rezensieren.</string>
+  <string name="dialog_remind_rate_how_many_stars">Wie viele Sterne würden Sie für {app_name} vergeben?</string>
+  <string name="dialog_remind_rate_1">Bitte nehmen Sie sich einen Augenblick Zeit, um {app_name} zu bewerten und zu rezensieren.</string>
   <string name="dialog_remind_rate_2">Ihre Kommentare ermöglichen uns regelmäßige Verbesserungen und Erweiterungen.</string>
   <string name="dialog_remind_rate_1_suggest_improvement">Bitte nehmen Sie sich einen Augenblick Zeit, uns Ihre Verbesserungsvorschläge mitzuteilen.</string>
   <string name="dialog_remind_rate_yes">Jetzt bewerten</string>
@@ -246,7 +246,7 @@
   <string name="plan">Plan</string>
   <string name="plan_automatic">automatisch</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">Meine Ausgaben Planer</string>
+  <string name="plan_calendar_name">{app_name} Planer</string>
   <string name="plan_event_deleted">Der mit dieser Vorlage verknüpfte Plan wurde aus dem Kalender gelöscht.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Durchführung des Plans abgebrochen</string>
@@ -283,7 +283,7 @@
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Schlüssel eingeben</string>
   <string name="pref_export_format_title">Datenformat</string>
-  <string name="pref_follow_gplus_title">Meine Ausgaben auf Google+ folgen</string>
+  <string name="pref_follow_gplus_title">{app_name} auf Google+ folgen</string>
   <string name="pref_import_from_grisbi_summary">Kategorien und Parteien aus Grisbi XML importieren.</string>
   <string name="pref_import_from_grisbi_title">Import aus Grisbi</string>
   <!--%s is replaced with QIF or CSV-->
@@ -383,7 +383,7 @@
   <string name="sum_income">Einnahmen</string>
   <string name="sum_transfer">Umbuchungen</string>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">Probiere Meine Ausgaben, Persönliches Finanz-Management für %s, von http://www.myexpenses.mobi</string>
+  <string name="tell_a_friend_message">Probiere {app_name}, Persönliches Finanz-Management für {platform}, von {website}</string>
   <string name="template_create_success">Vorlage \"%1$s\" erfolgreich angelegt</string>
   <string name="thank_you">Danke für Ihre Unterstützung!</string>
   <string name="time">Zeit</string>
@@ -431,7 +431,7 @@
   <string name="warning_reset_account_all">Wenn Sie fortfahren, werden alle Buchungen aller Konten%1$s aus der Datenbank gelöscht. Dies kann nicht rückgängig gemacht werden.</string>
   <string name="warning_reset_account_matched">Wenn Sie fortfahren, werden alle mit dem aktuellen Suchfilter übereinstimmenden Buchungen aus der Datenbank gelöscht. Dies kann nicht rückgängig gemacht werden.</string>
   <string name="warning_restore">Datenbank und Einstellungen werden aus dem Backup (%1$s) wiederhergestellt. Aktuelle Daten werden gelöscht. Möchten Sie fortfahren?</string>
-  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Der aktuell ausgewählte Ordner für Sicherungskopien und Exporte wird von Android automatisch gelöscht wenn Sie meine Ausgaben deinstallieren. Sie können dies verhindern, indem Sie einen anderen Ordner in den Einstellungen auswählen.</string>
+  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Der aktuell ausgewählte Ordner für Sicherungskopien und Exporte wird von Android automatisch gelöscht wenn Sie {app_name} deinstallieren. Sie können dies verhindern, indem Sie einen anderen Ordner in den Einstellungen auswählen.</string>
   <string name="warning_splitpartcategory_context">Umbuchungen, die Teil einer mehrteiligen Buchung sind, können nur im Kontext der mehrteiligen Buchung geändert werden.</string>
   <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Bitte eine Zahl zwischen %1$d und %2$d angeben</string>
   <string name="warning_change_fraction_digits_1">Beträge in der Datenbank müssen aktualisiert werden, um mit der neuen Anzahl der Nachkommastellen übereinzustimmen.</string>
@@ -536,7 +536,7 @@
   <string name="pref_auto_backup_time_title">Zeit für automatische Sicherung</string>
   <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Nach %d erfolgreichen automatischen Sicherungen wird automatische Sicherung deaktiviert werden.</string>
   <string name="warning_auto_backup_limit_reached">Das Limit für kostenlose erfolgreiche automatische Sicherungen wurde erreicht.</string>
-  <string name="calendar_permission_required"><i>Meine Ausgaben</i> benötigt die Berechtigung, auf Ihren Kalender zugreifen, um Pläne für zukünftige und wiederkehrende Buchungen zu erstellen.</string>
+  <string name="calendar_permission_required"><i>{app_name}</i> benötigt die Berechtigung, auf Ihren Kalender zugreifen, um Pläne für zukünftige und wiederkehrende Buchungen zu erstellen.</string>
   <string name="button_request_calendar_access" tools:ignore="UnusedResources">Zugriff gewähren</string>
   <string name="switch_on_text">An</string>
   <string name="switch_off_text">Aus</string>
@@ -578,7 +578,7 @@
   <string name="synchronization">Synchronisierung</string>
   <string name="synchronization_none">Keine Synchronisierung</string>
   <string name="hint_url">URL</string>
-  <string name="description_webdav_url">Bitte geben Sie die URL für einen speziellen Ordner auf Ihrem WebDAV-Server an. Meine Ausgaben speichert seine Daten in diesem Ordner, es greift auf keine Daten außerhalb davon zu.</string>
+  <string name="description_webdav_url">Bitte geben Sie die URL für einen speziellen Ordner auf Ihrem WebDAV-Server an. {app_name} speichert seine Daten in diesem Ordner, es greift auf keine Daten außerhalb davon zu.</string>
   <string name="description_webdav_trust_certificate">Die Website verwendet ein Zertifikat, das von Android als nicht vertrauenswürdig eingestuft wird.</string>
   <string name="hint_user_name">Benutzername</string>
   <string name="hint_password">Passwort</string>
@@ -607,7 +607,7 @@
   <string name="dialog_confirm_sync_link_remote">Lokale Daten für dieses Konto werden gelöscht.</string>
   <string name="warning_synchronization_limited_trial">Die Synchronisierungs-Funktion kann bis %s getestet werden.</string>
   <string name="warning_synchronization_limit_reached">Die Probezeit für die Synchronisierungs-Funktion ist abgelaufen.</string>
-  <string name="warning_synchronization_folder_usage">Dieser Ordner wird für die Synchronisierung von Daten zwischen den Installationen von Meine Ausgaben auf verschiedenen Geräten verwendet. Bitte ändern Sie dessen Inhalt nicht manuell.</string>
+  <string name="warning_synchronization_folder_usage">Dieser Ordner wird für die Synchronisierung von Daten zwischen den Installationen von {app_name} auf verschiedenen Geräten verwendet. Bitte ändern Sie dessen Inhalt nicht manuell.</string>
   <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Der Ordner, den Sie ausgewählt haben, entspricht einem Konto eines bestehenden Backends. Sie müssen den übergeordneten Ordner auswählen, um dieses Backend wiederzuverwenden.</string>
   <string name="select_unsynced_accounts">Wählen Sie die Konten aus, die mit diesem Backend synchronisiert werden sollen.</string>
   <string name="link_account_success" tools:ignore="PluralsCandidate">%d Konten wurden konfiguriert, um mit dem Backend synchronisiert zu werden.</string>
@@ -645,7 +645,7 @@
   <string name="pref_webdav_timeout_title">WebDAV Zeitüberschreitung</string>
   <string name="sync_state_restored">Sync-Status wurde für %d Konten wiederhergestellt.</string>
   <string name="sync_state_could_not_be_restored">Sync-Status konnte für %d Konten nicht wiederhergestellt werden.</string>
-  <string name="onboarding_ui_title">Meine Ausgaben passt sich Ihren Vorlieben an</string>
+  <string name="onboarding_ui_title">{app_name} passt sich Ihren Vorlieben an</string>
   <string name="onboarding_data_title">Lassen Sie uns Ihr erstes Konto einrichten</string>
   <string name="onboarding_get_started">Los geht\'s</string>
   <string name="onboarding_more_options">Mehr Optionen</string>

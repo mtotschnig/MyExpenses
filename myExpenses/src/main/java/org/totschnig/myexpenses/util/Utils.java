@@ -41,6 +41,7 @@ import android.view.SubMenu;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
+import com.squareup.phrase.Phrase;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -538,6 +539,17 @@ public class Utils {
       }
     }
     return result;
+  }
+
+  public static CharSequence getTextWithAppName(Context ctx, int resId) {
+    return Phrase.from(ctx, resId).put("app_name", ctx.getString(R.string.app_name)).format();
+  }
+
+  public static CharSequence getTellAFriendMessage(Context ctx) {
+    return Phrase.from(ctx, R.string.tell_a_friend_message)
+        .put("app_name", ctx.getString(R.string.app_name))
+        .put("platform",  DistribHelper.getPlatform())
+        .put("website", ctx.getString(R.string.website)).format();
   }
 
   // From Financisto

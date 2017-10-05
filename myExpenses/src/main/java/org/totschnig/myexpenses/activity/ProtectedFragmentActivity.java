@@ -482,7 +482,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
       }
     } else {
       if (permissions.length > 0 && ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[0])) {
-        Toast.makeText(this, getString(PermissionHelper.permissionRequestRationaleResId(requestCode)),
+        Toast.makeText(this, PermissionHelper.permissionRequestRationale(this, requestCode),
             Toast.LENGTH_LONG).show();
       }
     }

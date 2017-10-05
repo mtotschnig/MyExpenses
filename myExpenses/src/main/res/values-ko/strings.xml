@@ -66,7 +66,7 @@
   <string name="dialog_contrib_no_usages_left">무료 사용량이 소진되었습니다.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s - 프리미엄 기능입니다 (%2$s).</string>
-  <string name="dialog_contrib_text_1"><i>My Expenses</i>는 광고가 없으며 소스 코드가 공개되어 있습니다.</string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i>는 광고가 없으며 소스 코드가 공개되어 있습니다.</string>
   <string name="dialog_export_delete">내보낸 거래 내역 삭제</string>
   <string name="dialog_export_not_yet_exported">아직 내보내지 않은 거래 내역만 내보내기</string>
   <string name="dialog_password_activate_protection">암호 보안 사용하기</string>
@@ -75,8 +75,8 @@
   <string name="dialog_password_new_password_confirmation">새 암호 (다시 확인)</string>
   <string name="dialog_remind_later">나중에</string>
   <string name="dialog_remind_no">괜찮습니다</string>
-  <string name="dialog_remind_rate_how_many_stars">My Expenses에 몇개의 별점을 주실건가요?</string>
-  <string name="dialog_remind_rate_1">My Expenses를 평가하고 별점을 매길 동안 잠시 기다려주세요.</string>
+  <string name="dialog_remind_rate_how_many_stars">{app_name}에 몇개의 별점을 주실건가요?</string>
+  <string name="dialog_remind_rate_1">{app_name}를 평가하고 별점을 매길 동안 잠시 기다려주세요.</string>
   <string name="dialog_remind_rate_2">당신의 코멘트는 지속적으로 기능을 추가하고 발전시키는데 도움이 됩니다.</string>
   <string name="dialog_remind_rate_1_suggest_improvement">당신이 작성한 제안 및 개선 사항들을 전송하는 동안 잠시 기다려주세요.</string>
   <string name="dialog_remind_rate_yes">지금 평가하기</string>
@@ -234,7 +234,7 @@
   <string name="plan">재무 계획</string>
   <string name="plan_automatic">자동</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">My Expenses 플래너</string>
+  <string name="plan_calendar_name">{app_name} 플래너</string>
   <string name="plan_event_deleted">이 템플릿과 연관된 재무 계획이 캘린더에서 삭제되었습니다.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">재무 계획 실행 취소됨</string>
@@ -271,7 +271,7 @@
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">기부 확인 키 입력</string>
   <string name="pref_export_format_title">데이터 형식</string>
-  <string name="pref_follow_gplus_title">Google+에서 My Expenses 팔로우</string>
+  <string name="pref_follow_gplus_title">Google+에서 {app_name} 팔로우</string>
   <string name="pref_import_from_grisbi_summary">Grisbi XML 파일에서 카테고리와 구성원 가져오기</string>
   <string name="pref_import_from_grisbi_title">Grisbi에서 가져오기</string>
   <!--%s is replaced with QIF or CSV-->
@@ -367,8 +367,6 @@
   <string name="sum_expenses">지출</string>
   <string name="sum_income">수입</string>
   <string name="sum_transfer">이체</string>
-  <!--%s is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">Check out My Expenses, Personal Finance Manager for %s, from http://www.myexpenses.mobi</string>
   <string name="template_create_success">\"%1$s\" 템플릿을 성공적으로 만들었습니다</string>
   <string name="thank_you">지원해 주셔서 감사합니다!</string>
   <string name="time">시간</string>
@@ -411,7 +409,7 @@
   <string name="warning_reset_account_all">계속 진행하면, 모든 계좌의%1$s 거래 내역은 데이터베이스에서 삭제되며 복원할 수 없습니다.</string>
   <string name="warning_reset_account_matched">계속 진행하면, 현재의 필터와 일치하는 거래 내역은 데이터베이스에서 삭제되며 복원할 수 없습니다.</string>
   <string name="warning_restore">데이터베이스와 설정값은 \"%1$s\" 파일로부터 복원될 것입니다. 현재의 데이터는 삭제됩니다. 계속 진행할까요?</string>
-  <string name="warning_app_folder_will_be_deleted_upon_uninstall">My Expenses 앱을 제거하게 되면 백업과 내보내기를 위해 선택된 현재의 폴더는 자동적으로 삭제됩니다. 설정 화면에서 다른 폴더를 선택하여 이것을 예방할 수 있습니다.</string>
+  <string name="warning_app_folder_will_be_deleted_upon_uninstall">{app_name} 앱을 제거하게 되면 백업과 내보내기를 위해 선택된 현재의 폴더는 자동적으로 삭제됩니다. 설정 화면에서 다른 폴더를 선택하여 이것을 예방할 수 있습니다.</string>
   <string name="warning_splitpartcategory_context">분할 거래의 일부분인 이체 내역은 분할 거래의 맥락에서만 편집될 수 있습니다.</string>
   <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">%1$d과 %2$d 사이의 숫자를 설정하세요</string>
   <string name="import_categories_success">%1$s 카테고리를 성공적으로 가져왔습니다</string>
@@ -508,7 +506,7 @@
   <string name="pref_auto_backup_time_title">자동 백업 시간</string>
   <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">%d 번의 성공적인 자동 백업 이후에, 자동 백업은 비활성화됩니다.</string>
   <string name="warning_auto_backup_limit_reached">무료 자동 백업 횟수 제한에 도달했습니다.</string>
-  <string name="calendar_permission_required"><i>My Expenses</i>는 향후의 재무 계획과 반복 거래를 만들기 위해서 캘린더에 접근할 수 있는 권한이 필요합니다.</string>
+  <string name="calendar_permission_required"><i>{app_name}</i>는 향후의 재무 계획과 반복 거래를 만들기 위해서 캘린더에 접근할 수 있는 권한이 필요합니다.</string>
   <string name="button_request_calendar_access" tools:ignore="UnusedResources">접근 허용</string>
   <string name="switch_on_text">사용</string>
   <string name="switch_off_text">사용 안함</string>

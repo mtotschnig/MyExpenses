@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.task.TestLoginTask;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.Result;
+import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.form.AbstractFormFieldValidator;
 import org.totschnig.myexpenses.util.form.FormFieldNotEmptyValidator;
 import org.totschnig.myexpenses.util.form.FormValidator;
@@ -56,7 +57,9 @@ public class SetupWebdavDialogFragment extends CommitSafeDialogFragment {
     LayoutInflater li = LayoutInflater.from(ctx);
     //noinspection InflateParams
     View view = li.inflate(R.layout.setup_webdav, null);
-    mEdtUrl = (EditText) view.findViewById(R.id.edt_url);
+    ((TextView) view.findViewById(R.id.description_webdav_url)).setText(
+        Utils.getTextWithAppName(getContext(), R.string.description_webdav_url));
+    mEdtUrl = view.findViewById(R.id.edt_url);
     mEdtUrl.addTextChangedListener(new TextWatcher() {
       @Override
       public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -72,11 +75,11 @@ public class SetupWebdavDialogFragment extends CommitSafeDialogFragment {
         mChkTrustCertificate.setChecked(false);
       }
     });
-    mEdtUserName = (EditText) view.findViewById(R.id.edt_user_name);
-    mEdtPassword = (EditText) view.findViewById(R.id.edt_password);
-    certificateContainer = (ViewGroup) view.findViewById(R.id.certificate_container);
-    mTxtTrustCertificate = (TextView) view.findViewById(R.id.txt_trust_certificate);
-    mChkTrustCertificate = (CheckBox) view.findViewById(R.id.chk_trust_certificate);
+    mEdtUserName = view.findViewById(R.id.edt_user_name);
+    mEdtPassword = view.findViewById(R.id.edt_password);
+    certificateContainer = view.findViewById(R.id.certificate_container);
+    mTxtTrustCertificate = view.findViewById(R.id.txt_trust_certificate);
+    mChkTrustCertificate = view.findViewById(R.id.chk_trust_certificate);
 
     certificateContainer.setVisibility(View.GONE);
     mTxtTrustCertificate.setVisibility(View.GONE);

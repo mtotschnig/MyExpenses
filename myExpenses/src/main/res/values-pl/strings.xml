@@ -52,7 +52,7 @@
   <string name="dialog_contrib_no_usages_left">Zabrakło darmowych użyć.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s jest funkcją premium (%2$s).</string>
-  <string name="dialog_contrib_text_1"><i>Moje Wydatki</i> jest oferowany bez reklam i otwartoźródłowo.</string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i> jest oferowany bez reklam i otwartoźródłowo.</string>
   <string name="dialog_export_delete">Usuń wyeksportowane transakcje</string>
   <string name="dialog_export_not_yet_exported">Transakcje tylko do eksportu nie zostały jeszcze eksportowane</string>
   <string name="dialog_password_activate_protection">Aktywuj zabezpieczenie hasłem</string>
@@ -61,7 +61,7 @@
   <string name="dialog_password_new_password_confirmation">Nowe hasło (potwierdzenie)</string>
   <string name="dialog_remind_later">Innym razem</string>
   <string name="dialog_remind_no">Nie, dziękuję</string>
-  <string name="dialog_remind_rate_1">Proszę poświęcić chwilę aby ocenić i zrecenzować Moje Wydatki.</string>
+  <string name="dialog_remind_rate_1">Proszę poświęcić chwilę aby ocenić i zrecenzować {app_name}.</string>
   <string name="dialog_remind_rate_2">Twoje komentarze pozwolą nam nieustannie dodawać ulepszenia oraz rozszerzenia.</string>
   <string name="dialog_remind_rate_yes">Oceń teraz</string>
   <string name="dialog_security_answer">Odpowiedź</string>
@@ -218,7 +218,7 @@
   <string name="plan">Plan</string>
   <string name="plan_automatic">automatycznie</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">Planowanie Wydatków</string>
+  <string name="plan_calendar_name">Planowanie {app_name}</string>
   <string name="plan_event_deleted">Plan skojarzony z tym szablonem został usunięty z kalendarza.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Wykonanie planu anulowane</string>
@@ -253,7 +253,7 @@
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Wprowadź klucz</string>
   <string name="pref_export_format_title">Format daty</string>
-  <string name="pref_follow_gplus_title">Śledź Moje Wydatki na Google+</string>
+  <string name="pref_follow_gplus_title">Śledź {app_name} na Google+</string>
   <string name="pref_import_from_grisbi_summary">Kategorie importu oraz partii Grisbi XML.</string>
   <string name="pref_import_from_grisbi_title">Import z Grisbi</string>
   <!--%s is replaced with QIF or CSV-->
@@ -348,7 +348,7 @@
   <string name="sum_income">Dochód</string>
   <string name="sum_transfer">Przelewy</string>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">Moje Wydatki, Personalny menadżer finansów dla systemu %s, http://www.myexpenses.mobi</string>
+  <string name="tell_a_friend_message">{app_name}, Personalny menadżer finansów dla systemu {platform}, {website}</string>
   <string name="template_create_success">Szablon \"%1$s\" został utworzony pomyślnie</string>
   <string name="thank_you">Dziękujemy za twoje wsparcie!</string>
   <string name="time">Czas</string>
@@ -392,7 +392,7 @@
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Jeżeli będziesz kontynuować, dla wszystkich kont %1$s, transakcje zostaną usunięte z bazy danych i nie będą mogły być przywrócone.</string>
   <string name="warning_restore">Baza danych oraz preferencje zostaną przywrócone z kopii zapasowej (%1$s). Bieżące dane zostaną usunięte. Czy chcesz kontynuować?</string>
-  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Aktualnie wybrany folder dla kopii zapasowych i eksportów zostanie automatycznie usunięty przez system Android jeżeli odinstalujesz Moje Wydatki. Może temu zapobiec poprzez wybranie innego folderu z ekranu Ustawień.</string>
+  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Aktualnie wybrany folder dla kopii zapasowych i eksportów zostanie automatycznie usunięty przez system Android jeżeli odinstalujesz {app_name}. Może temu zapobiec poprzez wybranie innego folderu z ekranu Ustawień.</string>
   <string name="warning_splitpartcategory_context">Przelewy które są częścią podziału mogą być tylko edytowane w kontekście podziału.</string>
   <string name="import_categories_success">Kategorie %1$s zostały zaimportowane pomyślnie</string>
   <string name="import_parties_success">Partie %1$s zostały zaimportowane pomyślnie</string>

@@ -70,7 +70,7 @@
   <string name="dialog_contrib_no_usages_left">Нет бесплатных использований.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s является премиум функцией (%2$s).</string>
-  <string name="dialog_contrib_text_1"><i>Мои расходы</i> выпускается бесплатно и с открытым исходным кодом.</string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i> выпускается бесплатно и с открытым исходным кодом.</string>
   <string name="dialog_export_delete">Удалить экспортированные операции</string>
   <string name="dialog_export_not_yet_exported">Экспортировать еще не экспортированные операции</string>
   <string name="dialog_password_activate_protection">Включить защиту паролем</string>
@@ -79,8 +79,8 @@
   <string name="dialog_password_new_password_confirmation">Новый пароль (подтверждение)</string>
   <string name="dialog_remind_later">Позже</string>
   <string name="dialog_remind_no">Нет, спасибо</string>
-  <string name="dialog_remind_rate_how_many_stars">Какую оценку вы бы поставили приложению Мои расходы?</string>
-  <string name="dialog_remind_rate_1">Пожалуйста, найдите минутку, чтобы оценить и написать обзор на Мои расходы.</string>
+  <string name="dialog_remind_rate_how_many_stars">Какую оценку вы бы поставили приложению {app_name}?</string>
+  <string name="dialog_remind_rate_1">Пожалуйста, найдите минутку, чтобы оценить и написать обзор на {app_name}.</string>
   <string name="dialog_remind_rate_2">Ваши комментарии позволяют нам постоянно улучшать и совершенствовать программу.</string>
   <string name="dialog_remind_rate_1_suggest_improvement">Пожалуйста, найдите минутку, чтобы оценить и написать отзыв для улучшения приложения.</string>
   <string name="dialog_remind_rate_yes">Оценить сейчас</string>
@@ -244,7 +244,7 @@
   <string name="plan">План</string>
   <string name="plan_automatic">автоматически</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">Планировщик моих расходов</string>
+  <string name="plan_calendar_name">Планировщик {app_name}</string>
   <string name="plan_event_deleted">Этот план, связанный с этим шаблоном, был удален из календаря.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Выполнение плана отменено</string>
@@ -280,7 +280,7 @@
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Ввести ключ</string>
   <string name="pref_export_format_title">Формат даты</string>
-  <string name="pref_follow_gplus_title">Следить за Мои расходы в Google+</string>
+  <string name="pref_follow_gplus_title">Следить за {app_name} в Google+</string>
   <string name="pref_import_from_grisbi_summary">Импорт категорий и участников из Grisbi XML файла</string>
   <string name="pref_import_from_grisbi_title">Ипортировать из Grisbi</string>
   <!--%s is replaced with QIF or CSV-->
@@ -378,7 +378,7 @@
   <string name="sum_income">Прибыль</string>
   <string name="sum_transfer">Переводы</string>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">Просмотрите Мои расходы, персональный финансовый менеджер для %s, на http://www.myexpenses.mobi</string>
+  <string name="tell_a_friend_message">Просмотрите {app_name}, персональный финансовый менеджер для {platform}, на {website}</string>
   <string name="template_create_success">Шаблон \"%1$s\" успешно создан</string>
   <string name="thank_you">Спасибо вам за вашу поддержку!</string>
   <string name="time">Время</string>

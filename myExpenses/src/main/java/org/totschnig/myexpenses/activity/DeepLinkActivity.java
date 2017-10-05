@@ -10,6 +10,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Result;
+import org.totschnig.myexpenses.util.Utils;
 
 import static android.text.TextUtils.isEmpty;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_VALIDATE_LICENCE;
@@ -26,7 +27,7 @@ public class DeepLinkActivity extends ProtectedFragmentActivity {
         if (data == null) {
           showWebSite();
         } else if (data.getLastPathSegment().equals("callback.html")) {
-          showToast(getString(R.string.licence_migration_info));
+          showToast(Utils.getTextWithAppName(this, R.string.licence_migration_info));
           finish();
         } else if ("verify".equals(data.getFragment())) { //callback2.html
           String existingKey = PrefKey.NEW_LICENCE.getString("");
@@ -53,7 +54,7 @@ public class DeepLinkActivity extends ProtectedFragmentActivity {
     }
   }
 
-  private void showToast(String message) {
+  private void showToast(CharSequence message) {
     Toast.makeText(this, message, Toast.LENGTH_LONG).show();
   }
 

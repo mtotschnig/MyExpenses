@@ -30,6 +30,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.StrictMode;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
 import android.support.multidex.MultiDexApplication;
@@ -177,14 +178,19 @@ public class MyApplication extends MultiDexApplication implements
   @Override
   protected void attachBaseContext(Context base) {
     super.attachBaseContext(base);
-    appComponent = DaggerAppComponent.builder()
-        .appModule(new AppModule(this))
-        .uiModule(new UiModule())
-        .build();
+    appComponent = buildAppComponent();
     appComponent.inject(this);
     if (acraConfiguration != null) {
       ACRA.init(this, acraConfiguration);
     }
+  }
+
+  @NonNull
+  protected AppComponent buildAppComponent() {
+    return DaggerAppComponent.builder()
+        .appModule(new AppModule(this))
+        .uiModule(new UiModule())
+        .build();
   }
 
   public void setupLogging() {
@@ -474,7 +480,7 @@ public class MyApplication extends MultiDexApplication implements
           CalendarContractCompat.ACCOUNT_TYPE_LOCAL);
       values.put(Calendars.NAME, PLANNER_CALENDAR_NAME);
       values.put(Calendars.CALENDAR_DISPLAY_NAME,
-          getString(R.string.plan_calendar_name));
+          Utils.getTextWithAppName(this,R.string.plan_calendar_name).toString());
       values.put(Calendars.CALENDAR_COLOR,
           getResources().getColor(R.color.appDefault));
       values.put(Calendars.CALENDAR_ACCESS_LEVEL, Calendars.CAL_ACCESS_OWNER);

@@ -39,7 +39,7 @@
   <string name="dialog_contrib_no_usages_left">Nezbývá žádné použití zdarma.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s je prémiová funkce  (%2$s).</string>
-  <string name="dialog_contrib_text_1"><i>Moje výdaje</i> nenabízí reklamu a mají otevřený vývoj.</string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i> nenabízí reklamu a mají otevřený vývoj.</string>
   <string name="dialog_export_delete">Odstranit exportované transakce</string>
   <string name="dialog_export_not_yet_exported">Exportovat pouze transakce, které ještě nebyly exportovány.</string>
   <string name="dialog_password_activate_protection">Aktivovat ochranu heslem</string>
@@ -48,7 +48,7 @@
   <string name="dialog_password_new_password_confirmation">Nové heslo (potvrzení)</string>
   <string name="dialog_remind_later">Později</string>
   <string name="dialog_remind_no">Ne, děkuji</string>
-  <string name="dialog_remind_rate_1">Prosím věnujte chvílí hodnocení a recenzi aplikace Moje výdaje.</string>
+  <string name="dialog_remind_rate_1">Prosím věnujte chvílí hodnocení a recenzi aplikace {app_name}.</string>
   <string name="dialog_remind_rate_2">Vaše komentáře nám pomáhají k neustálému zlepšování aplikace.</string>
   <string name="dialog_remind_rate_yes">Ohodnoťte nyní</string>
   <string name="dialog_security_answer">Odpověď</string>
@@ -180,7 +180,7 @@
   <string name="plan">Plán</string>
   <string name="plan_automatic">Automatický</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">Moje výdaje plánovač</string>
+  <string name="plan_calendar_name">{app_name} plánovač</string>
   <string name="plan_event_deleted">Plán spojený s touto předlohou byl odstraněn z kalendáře.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Plán vykonání zrušeno</string>
@@ -207,7 +207,7 @@
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Vložte klíč</string>
   <string name="pref_export_format_title">Formát dat</string>
-  <string name="pref_follow_gplus_title">Sledujte Moje výdaje na Google +</string>
+  <string name="pref_follow_gplus_title">Sledujte {app_name} na Google +</string>
   <string name="pref_import_from_grisbi_summary">Import kategorií a stran Grisbi XML</string>
   <string name="pref_import_from_grisbi_title">Importovat z Grisbi</string>
   <!--%s is replaced with QIF or CSV-->
@@ -277,7 +277,7 @@
   <string name="sum_income">Příjem</string>
   <string name="sum_transfer">Převody</string>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">Moje výdaje, Správa osobních výdajů pro %s, http://www.myexpenses.mobi</string>
+  <string name="tell_a_friend_message">{app_name}, Správa osobních výdajů pro {platform}, {website}</string>
   <string name="template_create_success">Šablona \"%1$s\" byla úspěšně vytvořen</string>
   <string name="thank_you">Děkujeme vám za vaši podporu!</string>
   <string name="time">Čas</string>

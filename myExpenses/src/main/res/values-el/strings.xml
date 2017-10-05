@@ -69,9 +69,9 @@
   <string name="dialog_contrib_no_usages_left">Δεν έχετε πια δωρεάν χρήσεις.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s είναι ένα αναβαθμισμένο χαρακτηριστικό (%2$s).</string>
-  <string name="dialog_contrib_reminder_remove_limitation">Αφαιρέστε αυτόν τον περιορισμό και αποκτήστε πρόσβαση σε περισσότερες δυνατότητες αναβαθμίζοντας το <i>My Expenses</i></string>
-  <string name="dialog_contrib_text_1"><i>Έξοδα μου</i> προσφέρεται δωρεάν και είναι ανοικτού κώδικα.</string>
-  <string name="dialog_contrib_text_2">Παρακαλώ συνεισφέρετε αναβαθμίζοντας το <i>Έξοδά μου</i> και αποκτήσετε απεριόριστη πρόσβαση στις παρακάτω δυνατότητες</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Αφαιρέστε αυτόν τον περιορισμό και αποκτήστε πρόσβαση σε περισσότερες δυνατότητες αναβαθμίζοντας το <i>{app_name}</i></string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i> προσφέρεται δωρεάν και είναι ανοικτού κώδικα.</string>
+  <string name="dialog_contrib_text_2">Παρακαλώ συνεισφέρετε αναβαθμίζοντας το <i>{app_name}</i> και αποκτήσετε απεριόριστη πρόσβαση στις παρακάτω δυνατότητες</string>
   <string name="dialog_contrib_usage_count">Εναπομείνουσες ελεύθερες χρήσεις</string>
   <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Μπορείτε να το χρησιμοποιήσετε μέχρι %1$d φορές με την τωρινή σας άδεια (%2$s).</string>
   <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Μπορείτε να το χρησιμοποιήσετε για %1$d ημέρες με την τωρινή σας άδεια (%2$s).</string>
@@ -85,8 +85,8 @@
   <string name="dialog_password_new_password_confirmation">Νέος κωδικός πρόσβασης (επιβεβαίωση)</string>
   <string name="dialog_remind_later">Αργότερα</string>
   <string name="dialog_remind_no">Όχι, ευχαριστώ</string>
-  <string name="dialog_remind_rate_how_many_stars">Πόσα αστέρια θα δίνατε στο «Έξοδα μου»;</string>
-  <string name="dialog_remind_rate_1">Αφιερώστε λίγο χρόνο για την αξιολόγηση και κριτική του \"Έξοδά μου\".</string>
+  <string name="dialog_remind_rate_how_many_stars">Πόσα αστέρια θα δίνατε στο \"{app_name}\".</string>
+  <string name="dialog_remind_rate_1">Αφιερώστε λίγο χρόνο για την αξιολόγηση και κριτική του \"{app_name}\".</string>
   <string name="dialog_remind_rate_2">Τα σχόλιά σας θα μας επιτρέψουν να το βελτιώνω συνεχώς και να το εμπλουτίζω.</string>
   <string name="dialog_remind_rate_1_suggest_improvement">Παρακαλώ αφιερώστε λίγο χρόνο για να μας στείλετε τις προτάσεις σας για βελτιώσεις.</string>
   <string name="dialog_remind_rate_yes">Βαθμολογήστε Τώρα</string>
@@ -246,7 +246,7 @@
   <string name="plan">Σχέδιο</string>
   <string name="plan_automatic">Αυτόματη</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">Aτζέντα, οργανωτής Έξοδά μου</string>
+  <string name="plan_calendar_name">Aτζέντα {app_name}</string>
   <string name="plan_event_deleted">Το σχέδιο που συνδέεται με αυτό το πρότυπο έχει διαγραφεί από το ημερολόγιο.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Εκτέλεση σχεδίου ακυρώθηκε</string>
@@ -283,7 +283,7 @@
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Εισάγετε το κλειδί</string>
   <string name="pref_export_format_title"> Μορφή δεδομένων</string>
-  <string name="pref_follow_gplus_title">Παρακολουθήστε τα \"Έξοδά μου\" στο Google +</string>
+  <string name="pref_follow_gplus_title">Παρακολουθήστε τα \"{app_name}\" στο Google +</string>
   <string name="pref_import_from_grisbi_summary">Κάνετε εισαγωγή κατηγοριών και μερών Grisbi XML.</string>
   <string name="pref_import_from_grisbi_title">Εισαγωγή από Grisbi</string>
   <!--%s is replaced with QIF or CSV-->
@@ -381,7 +381,7 @@
   <string name="sum_income">Εισόδημα</string>
   <string name="sum_transfer">Μεταφορές</string>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">Ελέγξτε το «Έξοδά μου», διαχειριστή προσωπικών οικονομιών για %s, στο http://www.myexpenses.mobi</string>
+  <string name="tell_a_friend_message">Ελέγξτε το \"{app_name}\", διαχειριστή προσωπικών οικονομιών για {platform}, στο {website}</string>
   <string name="template_create_success">Πρότυπο \"%1$s\" δημιουργήθηκε με επιτυχία</string>
   <string name="thank_you">Σας ευχαριστώ για την υποστήριξή σας!</string>
   <string name="time">Χρόνος</string>
@@ -429,7 +429,7 @@
   <string name="warning_reset_account_all">Εάν συνεχίσετε, για όλους τους λογαριασμούς %1$s οι συναλλαγές θα διαγραφούν από τη βάση δεδομένων και δεν θα μπορούν να ανακτηθούν.</string>
   <string name="warning_reset_account_matched">Αν συνεχίσετε, οι συναλλαγές που αντιστοιχούν στο τρέχον φίλτρο θα διαγραφούν από τη βάση δεδομένων και δεν θα μπορούν να αποκατασταθούν.</string>
   <string name="warning_restore">Βάση δεδομένων και προτιμήσεις θα ανακτηθούν από τη δημιουργία αντιγράφων (%1$s). Τα τρέχοντα δεδομένα θα διαγραφούν. Θέλετε να συνεχίσετε;</string>
-  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Ο τρέχων επιλεγμένος φάκελος για αντίγραφα ασφαλείας και εξαγωγές θα διαγραφεί αυτόματα από το Android αν απεγκαταστήσετε το «Τα έξοδά μου». Μπορείτε να αποτρέψετε ένα τέτοιο ενδεχόμενο, επιλέγοντας ένα διαφορετικό φάκελο από την οθόνη Ρυθμίσεις.</string>
+  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Ο τρέχων επιλεγμένος φάκελος για αντίγραφα ασφαλείας και εξαγωγές θα διαγραφεί αυτόματα από το Android αν απεγκαταστήσετε το \"{app_name}\". Μπορείτε να αποτρέψετε ένα τέτοιο ενδεχόμενο, επιλέγοντας ένα διαφορετικό φάκελο από την οθόνη Ρυθμίσεις.</string>
   <string name="warning_splitpartcategory_context">Μεταφορές που αποτελούν μέρος διαχωρισμού μπορούν να τύχουν επεξεργασίας μόνο στο πλαίσιο της διαίρεσης.</string>
   <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Παρακαλώ να ορίσετε έναν αριθμό μεταξύ %1$d και %2$d</string>
   <string name="warning_change_fraction_digits_1">Τα ποσά στην βάση δεδομένων πρέπει να ενημερωθούν ώστε να ταιριάζουν με το νέο αριθμό δεκαδικών ψηφίων</string>
@@ -533,7 +533,7 @@
   <string name="pref_auto_backup_time_title">Χρόνος αυτόματης δημιουργίας του αντιγράφου ασφαλείας</string>
   <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Μετά από %d επιτυχημένα αυτόματα αντίγραφα ασφαλείας, η λειτουργία αυτόματου αντίγραφου ασφαλείας θα απενεργοποιηθεί.</string>
   <string name="warning_auto_backup_limit_reached">Το όριο για δωρεάν επιτυχή δημιουργία αυτόματων αντιγράφων ασφαλείας έχει επιτευχθεί.</string>
-  <string name="calendar_permission_required"><i>Τα έξοδά μου</i> χρειάζεται άδεια για πρόσβαση στο ημερολόγιό σας, προκειμένου να δημιουργήσει σχέδια για μελλοντικές και επαναλαμβανόμενες συναλλαγές.</string>
+  <string name="calendar_permission_required"><i>{app_name}</i> χρειάζεται άδεια για πρόσβαση στο ημερολόγιό σας, προκειμένου να δημιουργήσει σχέδια για μελλοντικές και επαναλαμβανόμενες συναλλαγές.</string>
   <string name="button_request_calendar_access" tools:ignore="UnusedResources">Παραχώρηση πρόσβασης</string>
   <string name="switch_on_text">Ενεργό</string>
   <string name="switch_off_text">Ανενεργό</string>
@@ -575,7 +575,7 @@
   <string name="synchronization">Συγχρονισμός</string>
   <string name="synchronization_none">Χωρίς συγχρονισμό</string>
   <string name="hint_url">URL</string>
-  <string name="description_webdav_url">Παρακαλώ εισάγετε τη διεύθυνση URL σε ένα ειδικό φάκελο στο WebDAV διακομιστή σας. Το Έξοδα μου θα αποθηκεύσει τα δεδομένα του μέσα σε αυτό το φάκελο, δεν θα αγγίξει τίποτα έξω από αυτό.</string>
+  <string name="description_webdav_url">Παρακαλώ εισάγετε τη διεύθυνση URL σε ένα ειδικό φάκελο στο WebDAV διακομιστή σας. Το {app_name} θα αποθηκεύσει τα δεδομένα του μέσα σε αυτό το φάκελο, δεν θα αγγίξει τίποτα έξω από αυτό.</string>
   <string name="description_webdav_trust_certificate">Η ιστοσελίδα χρησιμοποιεί ένα πιστοποιητικό, το οποίο δεν είναι έμπιστο από το Android.</string>
   <string name="hint_user_name">Ονομα χρήστη</string>
   <string name="hint_password">Κωδικός πρόσβασης</string>
@@ -599,7 +599,7 @@
   <string name="dialog_confirm_sync_link_remote">Τα τοπικά δεδομένα για αυτόν το λογαριασμό θα διαγραφούν.</string>
   <string name="warning_synchronization_limited_trial">Η λειτουργία συγχρονισμού μπορεί να ελεγχθεί μέχρι %s.</string>
   <string name="warning_synchronization_limit_reached">Η δοκιμαστική περίοδος για τον έλεγχο της λειτουργία του συγχρονισμού έχει λήξει.</string>
-  <string name="warning_synchronization_folder_usage">Αυτός ο φάκελος χρησιμοποιείται για το συγχρονισμό δεδομένων μεταξύ εγκαταστάσεων του Έξοδά μου σε διαφορετικές συσκευές. Παρακαλώ μην τροποποιήσετε οτιδήποτε από τα περιεχόμενά του χειροκίνητα.</string>
+  <string name="warning_synchronization_folder_usage">Αυτός ο φάκελος χρησιμοποιείται για το συγχρονισμό δεδομένων μεταξύ εγκαταστάσεων του {app_name} σε διαφορετικές συσκευές. Παρακαλώ μην τροποποιήσετε οτιδήποτε από τα περιεχόμενά του χειροκίνητα.</string>
   <string name="link_account_failure_3">Η διένεξη μπορεί να επιλυθεί χειροκίνητα από το μενού περιβάλλοντος της καταχώρησης.</string>
   <string name="template">Πρότυπο</string>
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Συγχρονισμός σύννεφου</string>

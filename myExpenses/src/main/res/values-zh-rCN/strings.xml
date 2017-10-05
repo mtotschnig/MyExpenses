@@ -64,7 +64,7 @@
   <string name="dialog_contrib_no_usages_left">没有剩下的免费使用额</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s 是一项高级功能 (%2$s).</string>
-  <string name="dialog_contrib_text_1"><i>开支助手</i> 是无广告和开放源码的.</string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i> 是无广告和开放源码的.</string>
   <string name="dialog_export_delete">删除已导出的交易</string>
   <string name="dialog_export_not_yet_exported">只导出尚未导出的交易</string>
   <string name="dialog_password_activate_protection">启用密码保护</string>
@@ -73,8 +73,8 @@
   <string name="dialog_password_new_password_confirmation">新密码 (再确认)</string>
   <string name="dialog_remind_later">以后来说</string>
   <string name="dialog_remind_no">不用感谢</string>
-  <string name="dialog_remind_rate_how_many_stars">你会给开支助手打多少分?</string>
-  <string name="dialog_remind_rate_1">请大家花点时间来评价开支助手.</string>
+  <string name="dialog_remind_rate_how_many_stars">你会给{app_name}打多少分?</string>
+  <string name="dialog_remind_rate_1">请大家花点时间来评价{app_name}.</string>
   <string name="dialog_remind_rate_2">你的意见将不断鼓励我改进此工具.</string>
   <string name="dialog_remind_rate_1_suggest_improvement">请花一点时间发送给我们您的改进建议</string>
   <string name="dialog_remind_rate_yes">现在评分</string>
@@ -224,7 +224,7 @@
   <string name="plan">计划</string>
   <string name="plan_automatic">自动</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">开支助手 规划</string>
+  <string name="plan_calendar_name">{app_name} 规划</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">计划执行已取消</string>
   <string name="plan_manual">说明书</string>
@@ -258,7 +258,7 @@
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">输入密钥</string>
   <string name="pref_export_format_title">日期格式</string>
-  <string name="pref_follow_gplus_title">跟随在 Google+ 的 开支助手</string>
+  <string name="pref_follow_gplus_title">跟随在 Google+ 的 {app_name}</string>
   <string name="pref_import_from_grisbi_summary">导入类别 和贸易伙伴.</string>
   <string name="pref_import_from_grisbi_title">由Grisbi导入</string>
   <!--%s is replaced with QIF or CSV-->
@@ -342,7 +342,7 @@
   <string name="sum_income">收入</string>
   <string name="sum_transfer">转移</string>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">开支助手, 个人理财工具 %s版, http://www.myexpenses.mobi</string>
+  <string name="tell_a_friend_message">{app_name}, 个人理财工具 {platform}版, {website}</string>
   <string name="template_create_success">模板 \"%1$s\" 成功被建立</string>
   <string name="thank_you">感谢你的支持!</string>
   <string name="time">时间</string>
@@ -445,7 +445,7 @@
   <string name="pref_auto_backup_title">启用自动备份</string>
   <string name="pref_auto_backup_summary">每日在指定时间备份资料库 (仅当数据已经改变)</string>
   <string name="pref_auto_backup_time_title">自动备份时间</string>
-  <string name="calendar_permission_required"><i>开支助手</i> 需要访问您的日历权限,以创建未来计划和循环交易</string>
+  <string name="calendar_permission_required"><i>{app_name}</i> 需要访问您的日历权限,以创建未来计划和循环交易</string>
   <string name="button_request_calendar_access" tools:ignore="UnusedResources">授权访问</string>
   <string name="switch_on_text">开启</string>
   <string name="switch_off_text">关闭</string>

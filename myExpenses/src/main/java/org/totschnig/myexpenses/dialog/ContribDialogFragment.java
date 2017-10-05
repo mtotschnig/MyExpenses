@@ -108,10 +108,12 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
         usagesLeftTextView.setVisibility(View.VISIBLE);
       }
     } else {
-      message = getText(R.string.dialog_contrib_text_2);
+      CharSequence contribText2 = Utils.getTextWithAppName(getContext(), R.string.dialog_contrib_text_2);
       if (DistribHelper.isGithub()) {
-        message = TextUtils.concat(getText(R.string.dialog_contrib_text_1), " ",
-            getText(R.string.dialog_contrib_text_2));
+        message = TextUtils.concat(Utils.getTextWithAppName(getContext(), R.string.dialog_contrib_text_1), " ",
+            contribText2);
+      } else {
+        message = contribText2;
       }
     }
     ((TextView) view.findViewById(R.id.feature_info)).setText(message);

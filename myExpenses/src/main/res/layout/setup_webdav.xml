@@ -40,11 +40,11 @@
         </android.support.design.widget.TextInputLayout>
 
         <TextView
+            android:id="@+id/description_webdav_url"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/description_webdav_url"
             android:textAppearance="?android:attr/textAppearanceSmall"/>
         <!-- UserName -->
         <android.support.design.widget.TextInputLayout

@@ -41,7 +41,7 @@
   <string name="dialog_contrib_no_usages_left">නිදහස් පාවිච්චි කිරීම් ඉතිරව නැත </string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s පාරිතෝෂික අංගයකි (%2$s)</string>
-  <string name="dialog_contrib_text_1"><i>මයි එක්ස්පෙන්සස් </i> වෙළද දැන්වීම් වලින් තොර නිදහස් මෘදුකාංගයකි.</string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i> වෙළද දැන්වීම් වලින් තොර නිදහස් මෘදුකාංගයකි.</string>
   <string name="dialog_export_delete">අපනයනය කල ගනුදෙනු මකාදමන ලදී </string>
   <string name="dialog_export_not_yet_exported">අපනයන නොකළ ගනුදෙනු සියල්ල අපනයන කරන්න </string>
   <string name="dialog_password_activate_protection">මුරපද ආරක්ෂාව ක්‍රියාත්මක කරන්න </string>
@@ -195,7 +195,6 @@
   <string name="plan">සැලැස්ම</string>
   <string name="plan_automatic">ස්වයංක්‍රිය</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">මයි එක්ස්පෙන්සස් සැලැස්ම</string>
   <string name="plan_event_deleted">මෙම අච්චුව සමග සම්බන්ද වී තිබු සැලසුම දිනදර්ශනයෙන් ඉවත් කර ඇත </string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">සැලසුම ක්‍රියාවෙහි යෙදවීම අසාර්තකයි </string>
@@ -225,7 +224,6 @@
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">යතුර ඇතුළු කරන්න </string>
   <string name="pref_export_format_title">දත්ත ආකෘතිය</string>
-  <string name="pref_follow_gplus_title">google + වලින් මයි එක්ස්පෙන්සස් පිළිපදින්න </string>
   <string name="pref_import_from_grisbi_summary">පක්ෂ සහ වර්ග ග්රිස්බි හි  XML ලිපිගොනුවෙන් ආනයනය කරන්න </string>
   <string name="pref_import_from_grisbi_title">ග්රිස්බි වලින් අපනයනය කරන්න </string>
   <!--%s is replaced with QIF or CSV-->
@@ -348,7 +346,6 @@
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">ඔබ ඉදිරියට ගියහොත් සියලුම ගිණුම්%1$s ,ඇති  දත්ත ගබඩාවේ සියලුම ගනුදෙනු මකා  දැමෙන අතර නැවත පිහිටුවීමට නොහැකිය.</string>
   <string name="warning_restore">\"%1$s\" ලිපිගොනුවෙන් මනාප සහ දත්ත ගබඩාව නැවත පිහිටුවන අතර. දැනට පවතින දත්ත සියල්ල මකා දැමේ.ඔබට ඉදිරියට යාමට අවශ්‍යද?</string>
-  <string name="warning_app_folder_will_be_deleted_upon_uninstall">ඔබ මයි එක්ස්පෙන්සස් දුරකතනයෙන් ඉවත් කළහොත් දැනට තෝරාගෙන ඇති උපස්ථ සහ අපනයන සදහා වූ ගොනුව ඉබේම මකා  දැමේ. කට්ටල අංග තිරයේ වෙනත් ගොනුවක් තෝරාගැනීමෙන් ඔබට මෙසේ වීම  වලක්වා ගත හැක. </string>
   <string name="warning_splitpartcategory_context">බෙදිමක කොටස් වන ගනුදෙනු සංස්කරණය කල හැක්කේ බෙදීමෙහි සම්බන්දයක් ඇත්නම් පමණි </string>
   <string name="import_categories_success">ප්‍රබේධ %1$s සාර්ථකල ලෙස ආනයනය කරන ලදී </string>
   <string name="import_parties_success">පක්ෂ %1$s සාර්ථකල ලෙස ආනයනය කරන ලදී </string>

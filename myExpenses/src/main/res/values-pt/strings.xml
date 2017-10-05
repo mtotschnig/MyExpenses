@@ -71,9 +71,9 @@
   <string name="dialog_contrib_no_usages_left">Não restou nenhum uso livre.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s é um recurso premium (%2$s).</string>
-  <string name="dialog_contrib_reminder_remove_limitation">Remova essa limitação e acesso mais recursos atualizando o <i>Minhas Despesas</i>.</string>
-  <string name="dialog_contrib_text_1"><i>Minhas despesas</i> é oferecido sem anúncios e com o código aberto.</string>
-  <string name="dialog_contrib_text_2">Por favor, contribua atualizando o <i>Minhas Despesas</i> e ganhe acesso irrestrito aos seguintes recursos:</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Remova essa limitação e acesso mais recursos atualizando o <i>{app_name}</i>.</string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i> é oferecido sem anúncios e com o código aberto.</string>
+  <string name="dialog_contrib_text_2">Por favor, contribua atualizando o <i>{app_name}</i> e ganhe acesso irrestrito aos seguintes recursos:</string>
   <string name="dialog_contrib_usage_count">Usos livres restantes</string>
   <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Você pode usar isso mais %1$d vezes no status atual da sua licença (%2$s).</string>
   <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Você pode usar isso por mais %1$d dias no status atual da sua licença (%2$s).</string>
@@ -88,8 +88,8 @@
   <string name="dialog_password_new_password_confirmation">Nova senha (confirmação)</string>
   <string name="dialog_remind_later">Depois</string>
   <string name="dialog_remind_no">Não, obrigado</string>
-  <string name="dialog_remind_rate_how_many_stars">Quantas estrelas você daria ao Minhas Despesas?</string>
-  <string name="dialog_remind_rate_1">Por favor, dedique um momento para avaliar e revisar o Minhas Despesas.</string>
+  <string name="dialog_remind_rate_how_many_stars">Quantas estrelas você daria ao {app_name}?</string>
+  <string name="dialog_remind_rate_1">Por favor, dedique um momento para avaliar e revisar o {app_name}.</string>
   <string name="dialog_remind_rate_2">Seus comentários nos permitam adicionar melhorias e aperfeiçoamentos continuamente.</string>
   <string name="dialog_remind_rate_1_suggest_improvement">Por favor, dedique um momento para nos enviar suas sugestões para melhorias.</string>
   <string name="dialog_remind_rate_yes">Avaliar agora</string>
@@ -249,7 +249,7 @@
   <string name="plan">Plano</string>
   <string name="plan_automatic">automático</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">Meu planejador de despesas</string>
+  <string name="plan_calendar_name">Planejador {app_name}</string>
   <string name="plan_event_deleted">O plano associado a este modelo foi excluído do calendário.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">execução do plano cancelado</string>
@@ -286,7 +286,7 @@
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Digitar chave</string>
   <string name="pref_export_format_title">Formato dos dados</string>
-  <string name="pref_follow_gplus_title">Siga as Minhas Despesas no Google +</string>
+  <string name="pref_follow_gplus_title">Siga as {app_name} no Google +</string>
   <string name="pref_import_from_grisbi_summary">Importa categorias e participantes Grisbi XML.</string>
   <string name="pref_import_from_grisbi_title">Importação de Grisbi</string>
   <!--%s is replaced with QIF or CSV-->
@@ -384,7 +384,7 @@
   <string name="sum_income">Renda</string>
   <string name="sum_transfer">Transferências</string>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">Minhas despesas, Gerenciador de finanças pessoais para o %s, http://www.myexpenses.mobi</string>
+  <string name="tell_a_friend_message">{app_name}, Gerenciador de finanças pessoais para o {platform}, {website}</string>
   <string name="template_create_success">Modelo \"%1$s\" criado com sucesso.</string>
   <string name="thank_you">Obrigado pelo vosso apoio!</string>
   <string name="time">Tempo</string>
@@ -432,7 +432,7 @@
   <string name="warning_reset_account_all">Se você prosseguir, para todas as contas%1$s, transações serão excluídas do banco de dados e não podem ser restauradas.</string>
   <string name="warning_reset_account_matched">Se você prosseguir, transações correspondidas pelo filtro atual serão excluídas do banco de dados e não podem ser restauradas.</string>
   <string name="warning_restore">Banco de dados e preferências serão restauradas do backup (%1$s). Os dados atuais serão excluídos. Você quer continuar?</string>
-  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Pasta atualmente selecionada para backups e as exportações serão automaticamente excluída pelo Android se você desinstalar Minhas Despesas. Você pode impedir que isto aconteça selecionando uma pasta diferente na tela de configurações.</string>
+  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Pasta atualmente selecionada para backups e as exportações serão automaticamente excluída pelo Android se você desinstalar {app_name}. Você pode impedir que isto aconteça selecionando uma pasta diferente na tela de configurações.</string>
   <string name="warning_splitpartcategory_context">Transferências que fazem parte de uma transação com parcelas apenas podem ser editadas no contexto da divisão.</string>
   <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Por favor, defina um número entre %1$d e %2$d</string>
   <string name="warning_change_fraction_digits_1">Quantidade no banco de dados precisa ser atualizado para coincidir com o novo número de dígitos de fração.</string>
@@ -536,7 +536,7 @@
   <string name="pref_auto_backup_time_title">Horário de backup automático</string>
   <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Depois de %d bem sucedido backups automáticos, backup automático será desativado.</string>
   <string name="warning_auto_backup_limit_reached">O limite de graça backups automáticos de sucesso foi alcançado.</string>
-  <string name="calendar_permission_required"><i>Minhas despesas</i> precisa de permissão para acessar seu calendário, a fim de criar planos para transações futuras e recorrentes.</string>
+  <string name="calendar_permission_required"><i>{app_name}</i> precisa de permissão para acessar seu calendário, a fim de criar planos para transações futuras e recorrentes.</string>
   <string name="button_request_calendar_access" tools:ignore="UnusedResources">Conceder acesso</string>
   <string name="switch_on_text">Ativado</string>
   <string name="switch_off_text">Desativado</string>

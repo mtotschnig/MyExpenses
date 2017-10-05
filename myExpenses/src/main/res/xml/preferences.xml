@@ -268,7 +268,7 @@
                 />
         </Preference>
         <Preference
-            android:title="@string/pref_follow_gplus_title">
+            android:key="@string/pref_follow_gplus_key">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://google.com/+MyexpensesMobi"
@@ -309,7 +309,6 @@
             android:title="@string/pref_custom_decimal_format_title"/>
         <ListPreference
             android:key="@string/pref_planner_calendar_id_key"
-            android:summary="@string/pref_planning_calendar_summary"
             android:title="@string/pref_planning_calendar_title"/>
         <SwitchPreferenceCompat
             android:defaultValue="true"

@@ -397,8 +397,9 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
       } else {
         b.putInt(ConfirmationDialogFragment.KEY_TITLE,
             R.string.dialog_title_attention);
-        b.putString(ConfirmationDialogFragment.KEY_MESSAGE,
-            getString(R.string.warning_app_folder_will_be_deleted_upon_uninstall));
+        b.putCharSequence(
+            ConfirmationDialogFragment.KEY_MESSAGE,
+            Utils.getTextWithAppName(getContext(), R.string.warning_app_folder_will_be_deleted_upon_uninstall));
         b.putString(ConfirmationDialogFragment.KEY_PREFKEY,
             PrefKey.APP_FOLDER_WARNING_SHOWN.getKey());
         ConfirmationDialogFragment.newInstance(b)

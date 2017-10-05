@@ -86,9 +86,10 @@
     <string name="dialog_contrib_no_usages_left">No free usages left.</string>
     <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
     <string name="dialog_contrib_premium_feature">%1$s is a premium feature (%2$s).</string>
-    <string name="dialog_contrib_reminder_remove_limitation">Remove this limitation and access more features by upgrading <i>My Expenses</i>.</string>
-    <string name="dialog_contrib_text_1"><i>My Expenses</i> is offered ad free and open source.</string>
-    <string name="dialog_contrib_text_2">Please contribute by upgrading <i>My Expenses</i> and gain unrestricted access to the following features:</string>
+    <!-- %s is appname -->
+    <string name="dialog_contrib_reminder_remove_limitation">Remove this limitation and access more features by upgrading <i>{app_name}</i>.</string>
+    <string name="dialog_contrib_text_1"><i>{app_name}</i> is offered open source.</string>
+    <string name="dialog_contrib_text_2">Please contribute by upgrading <i>{app_name}</i> and gain unrestricted access to the following features:</string>
     <string name="dialog_contrib_usage_count">Free usages left</string>
     <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">You can use it up to %1$d times with your current licence status (%2$s).</string>
     <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">You can use it for %1$d days with your current licence status (%2$s).</string>
@@ -103,8 +104,8 @@
     <string name="dialog_password_new_password_confirmation">New password (confirmation)</string>
     <string name="dialog_remind_later">Later</string>
     <string name="dialog_remind_no">No thanks</string>
-    <string name="dialog_remind_rate_how_many_stars">How many stars would you give to My Expenses?</string>
-    <string name="dialog_remind_rate_1">Please take a moment to rate and review My Expenses.</string>
+    <string name="dialog_remind_rate_how_many_stars">How many stars would you give to {app_name}?</string>
+    <string name="dialog_remind_rate_1">Please take a moment to rate and review {app_name}.</string>
     <string name="dialog_remind_rate_2">Your comments allow us to continually add improvements and enhancements.</string>
     <string name="dialog_remind_rate_1_suggest_improvement">Please take a moment to send us your suggestions for improvements.</string>
     <string name="dialog_remind_rate_yes">Rate now</string>
@@ -264,7 +265,7 @@
     <string name="plan">Plan</string>
     <string name="plan_automatic">automatic</string>
     <!-- this is the label for the calendar where plans for future and recurrent transactions are stored -->
-    <string name="plan_calendar_name">My Expenses planner</string>
+    <string name="plan_calendar_name">{app_name} planner</string>
     <string name="plan_event_deleted">The plan associated with this template has been deleted from the calendar.</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">Plan execution canceled</string>
@@ -303,7 +304,7 @@
     <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">If you received a key, gain access to premium features.</string>
     <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Enter key</string>
     <string name="pref_export_format_title">Data format</string>
-    <string name="pref_follow_gplus_title">Follow My Expenses on Google+</string>
+    <string name="pref_follow_gplus_title">Follow {app_name} on Google+</string>
     <string name="pref_import_from_grisbi_summary">Import categories and parties from Grisbi XML file</string>
     <string name="pref_import_from_grisbi_title">Import from Grisbi</string>
     <!-- %s is replaced with QIF or CSV -->
@@ -402,8 +403,8 @@
     <string name="sum_expenses">Expenses</string>
     <string name="sum_income">Income</string>
     <string name="sum_transfer">Transfers</string>
-    <!-- %s is replaced with Android or Blackberry -->
-    <string name="tell_a_friend_message">Check out My Expenses, Personal Finance Manager for %s, from http://www.myexpenses.mobi</string>
+    <!-- platform is replaced with Android or Blackberry -->
+    <string name="tell_a_friend_message">Check out {app_name}, Personal Finance Manager for {platform}, from {website}</string>
     <string name="template_create_success">Template \"%1$s\" created successfully</string>
     <string name="thank_you">Thank you for your support!</string>
     <string name="time">Time</string>
@@ -451,7 +452,7 @@
     <string name="warning_reset_account_all">If you proceed, for all accounts%1$s, transactions will be deleted from the database and cannot be restored.</string>
     <string name="warning_reset_account_matched">If you proceed, transactions matched by the current filter will be deleted from the database and cannot be restored.</string>
     <string name="warning_restore">Database and preferences will be restored from file \"%1$s\". The current data will be deleted. Do you want to continue?</string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">The currently selected folder for backups and exports will be automatically deleted by Android if you uninstall My Expenses. You can prevent this from happening by selecting a different folder from the Settings screen.</string>
+    <string name="warning_app_folder_will_be_deleted_upon_uninstall">The currently selected folder for backups and exports will be automatically deleted by Android if you uninstall {app_name}. You can prevent this from happening by selecting a different folder from the Settings screen.</string>
     <string name="warning_splitpartcategory_context">Transfers that are part of a split can only be edited in the context of the split.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Please set a number between %1$d and %2$d</string>
     <string name="warning_change_fraction_digits_1">Amounts in the database need to be updated in order to match the new number of fraction digits.</string>
@@ -550,13 +551,12 @@
     <string name="menu_show_transactions">Show transactions</string>
     <string name="pref_custom_decimal_format_title">Number format</string>
     <string name="pref_custom_decimal_format_summary">If you are not satisfied with the default format for your locale, adapt it to your needs. Leave empty to restore the default format.</string>
-    <string name="licence_validation_upgrade_needed" tools:ignore="UnusedResources">Please upgrade My Expenses Contrib to version 1.5.</string>
     <string name="pref_auto_backup_title">Auto-backup</string>
     <string name="pref_auto_backup_summary">Backup database daily at the specified time (only if data has changed).</string>
     <string name="pref_auto_backup_time_title">Auto-backup time</string>
     <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">After %d successful automatic backups, auto-backup will be deactivated.</string>
     <string name="warning_auto_backup_limit_reached">The limit for free successful automatic backups has been reached.</string>
-    <string name="calendar_permission_required"><i>My Expenses</i> needs permission to access your calendar, in order to create plans for future and recurring transactions.</string>
+    <string name="calendar_permission_required"><i>{app_name}</i> needs permission to access your calendar, in order to create plans for future and recurring transactions.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Grant access</string>
     <string name="switch_on_text">On</string>
     <string name="switch_off_text">Off</string>
@@ -598,7 +598,7 @@
     <string name="synchronization">Synchronization</string>
     <string name="synchronization_none">No synchronization</string>
     <string name="hint_url">URL</string>
-    <string name="description_webdav_url">Please enter the URL to a special folder on your WebDAV server. My Expenses will store its data inside this folder, it won\'t touch anything outside of it.</string>
+    <string name="description_webdav_url">Please enter the URL to a special folder on your WebDAV server. {app_name} will store its data inside this folder, it won\'t touch anything outside of it.</string>
     <string name="description_webdav_trust_certificate">The website uses a certificate, which is not trusted by Android.</string>
     <string name="hint_user_name">User name</string>
     <string name="hint_password">Password</string>
@@ -627,7 +627,7 @@
     <string name="dialog_confirm_sync_link_remote">Local data for this account will be deleted.</string>
     <string name="warning_synchronization_limited_trial">The synchronization feature can be tested until %s.</string>
     <string name="warning_synchronization_limit_reached">The trial period for testing the synchronization feature has ended.</string>
-    <string name="warning_synchronization_folder_usage">This folder is used for synchronizing data between installations of My Expenses on different devices. Please do not modify any of its contents manually.</string>
+    <string name="warning_synchronization_folder_usage">This folder is used for synchronizing data between installations of {app_name} on different devices. Please do not modify any of its contents manually.</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">The folder you have selected corresponds to one account of an existing backend. You need to select its parent folder in order to reuse this backend.</string>
     <string name="select_unsynced_accounts">Select accounts to be synced to this backend</string>
     <string name="link_account_success" tools:ignore="PluralsCandidate">%d accounts were configured to be synced with the backend.</string>
@@ -666,7 +666,7 @@
     <string name="pref_webdav_timeout_title">WebDAV Timeout</string>
     <string name="sync_state_restored">Sync state was restored for %d accounts.</string>
     <string name="sync_state_could_not_be_restored">Sync state could not be restored for %d accounts.</string>
-    <string name="onboarding_ui_title">My Expenses adapts to your preference</string>
+    <string name="onboarding_ui_title">{app_name} adapts to your preference</string>
     <string name="onboarding_data_title">Let us set up your first account</string>
     <string name="onboarding_get_started">Get started</string>
     <string name="onboarding_more_options">More Options</string>
@@ -695,7 +695,7 @@
     <string name="professionalPriceShortInfo">starting from %s / month</string>
     <string name="eu_vat_info">For residents of the European Union prices displayed do not include VAT.</string>
     <string name="pref_contrib_purchase_title_renew">Renew licence</string>
-    <string name="licence_migration_info">My Expenses implements a new licence validation mechanism. Please request a new key.</string>
+    <string name="licence_migration_info">{app_name} implements a new licence validation mechanism. Please request a new key.</string>
     <string name="valid_until">Until %s</string>
     <!-- %1$s date, %2$s price  -->
     <string name="extend_until">Extend until %1$s for %2$s</string>

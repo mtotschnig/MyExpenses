@@ -154,9 +154,9 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
           Bundle b = new Bundle();
           b.putInt(ConfirmationDialogFragment.KEY_TITLE,
               R.string.dialog_title_attention);
-          b.putString(
+          b.putCharSequence(
               ConfirmationDialogFragment.KEY_MESSAGE,
-              getString(R.string.warning_app_folder_will_be_deleted_upon_uninstall));
+              Utils.getTextWithAppName(this, R.string.warning_app_folder_will_be_deleted_upon_uninstall));
           b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
               R.id.BACKUP_COMMAND_DO);
           b.putString(ConfirmationDialogFragment.KEY_PREFKEY,

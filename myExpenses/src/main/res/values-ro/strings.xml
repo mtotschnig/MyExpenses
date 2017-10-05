@@ -63,7 +63,7 @@
   <string name="dialog_contrib_no_usages_left">Nu mai aveţi utilizare gratuită</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s  este o funcţionalitate premium (%2$s).</string>
-  <string name="dialog_contrib_text_1"><i>Cheltuielile Mele</i> este oferit fără publicitate şi open source.</string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i> este oferit fără publicitate şi open source.</string>
   <string name="dialog_export_delete">Şterge tranzacţiile exportate</string>
   <string name="dialog_export_not_yet_exported">Exportă numai tranzacţiile neexportate </string>
   <string name="dialog_password_activate_protection">Activare protecţie prin parolă</string>
@@ -72,8 +72,8 @@
   <string name="dialog_password_new_password_confirmation">Parolă nouă (confirmare)</string>
   <string name="dialog_remind_later">Mai târziu</string>
   <string name="dialog_remind_no">Nu mulţumesc</string>
-  <string name="dialog_remind_rate_how_many_stars">Câte stele ai da la Cheltuielile Mele?</string>
-  <string name="dialog_remind_rate_1">Vă rugăm să evaluaţi şi revizuiţi Cheltuielile Mele.</string>
+  <string name="dialog_remind_rate_how_many_stars">Câte stele ai da la {app_name}?</string>
+  <string name="dialog_remind_rate_1">Vă rugăm să evaluaţi şi revizuiţi {app_name}.</string>
   <string name="dialog_remind_rate_2">Comentariile dvs ne permit să adăugăm permanent  îmbunătăţiri şi perfecţionări.</string>
   <string name="dialog_remind_rate_1_suggest_improvement">Vă rugăm să ne  trimiteţi  sugestiile voastre pentru îmbunătăţiri.</string>
   <string name="dialog_remind_rate_yes">De acord</string>
@@ -234,7 +234,7 @@
   <string name="plan">Scadenţă</string>
   <string name="plan_automatic">automatic</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">Scadenţar Cheltuielile Mele</string>
+  <string name="plan_calendar_name">Scadenţar {app_name}</string>
   <string name="plan_event_deleted">Scadenţa asociată acestui șablon a fost şters din calendar.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Executarea planului anulată</string>
@@ -270,7 +270,7 @@
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Introduceţi cheia</string>
   <string name="pref_export_format_title">Format date</string>
-  <string name="pref_follow_gplus_title">Urmăreşte Cheltuielile Mele pe Google +</string>
+  <string name="pref_follow_gplus_title">Urmăreşte {app_name} pe Google +</string>
   <string name="pref_import_from_grisbi_summary">Import categorii şi terţi din fişier Grisbi XML</string>
   <string name="pref_import_from_grisbi_title">Import din Grisbi</string>
   <!--%s is replaced with QIF or CSV-->
@@ -368,7 +368,7 @@
   <string name="sum_income">Venituri</string>
   <string name="sum_transfer">Transferuri</string>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">Check out Cheltuielile Mele, Manager Finanţe  Personale pentru %s, de la http://www.myexpenses.mobi</string>
+  <string name="tell_a_friend_message">Check out {app_name}, Manager Finanţe  Personale pentru {platform}, de la {website}</string>
   <string name="template_create_success">Şablon \"%1$s\" creat</string>
   <string name="thank_you">Mulţumim pentru suportul dvs!</string>
   <string name="time">Timp</string>
@@ -410,7 +410,7 @@
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Dacă veţi continua, pentru toate conturile%1$s, tranzacţiile vor fi şterse din baza de date şi nu se vor putea restaura.</string>
   <string name="warning_restore">Baza de date si preferinţele  vor fi restaurate din fişierul \"%1$s\". Datele actuale vor fi şterse. Doriţi să continuaţi?</string>
-  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Folderul selectat pentru backup-uri şi exporturile vor fi şterse automat de Android dacă dezinstalați Cheltuielile Mele.  Puteţi preveni acest lucru selectând un alt folder din ecranul Setări.</string>
+  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Folderul selectat pentru backup-uri şi exporturile vor fi şterse automat de Android dacă dezinstalați {app_name}.  Puteţi preveni acest lucru selectând un alt folder din ecranul Setări.</string>
   <string name="warning_splitpartcategory_context">Transferurile care fac parte dintr-o repartizare pot fi editate numai în contextul repartizării.</string>
   <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Setează un număr între %1$d şi %2$d, te rog</string>
   <string name="import_categories_success">%1$s categorii importate</string>

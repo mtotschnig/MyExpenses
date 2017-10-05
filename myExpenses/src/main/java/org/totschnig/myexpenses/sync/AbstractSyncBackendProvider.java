@@ -22,11 +22,11 @@ import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.sync.json.AdapterFactory;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
-import org.totschnig.myexpenses.sync.json.Utils;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.FileCopyUtils;
 import org.totschnig.myexpenses.util.PictureDirHelper;
 import org.totschnig.myexpenses.util.Result;
+import org.totschnig.myexpenses.util.Utils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -74,7 +74,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
 
   @Override
   public Result setUp() {
-   return Result.SUCCESS;
+    return Result.SUCCESS;
   }
 
   @Override
@@ -84,7 +84,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   ChangeSet getChangeSetFromInputStream(long sequenceNumber, InputStream inputStream)
       throws IOException {
     final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-    List<TransactionChange> changes = Utils.getChanges(gson, reader);
+    List<TransactionChange> changes = org.totschnig.myexpenses.sync.json.Utils.getChanges(gson, reader);
     if (changes == null || changes.size() == 0) {
       return ChangeSet.failed;
     }
@@ -177,7 +177,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     } else {
       return transactionChange;
     }
-  };
+  }
 
   @Override
   public long writeChangeSet(long lastSequenceNumber, List<TransactionChange> changeSet, Context context) throws IOException {
@@ -208,7 +208,8 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     return gson.toJson(AccountMetaData.from(account));
   }
 
-  @NonNull String getMimeType(String fileName) {
+  @NonNull
+  String getMimeType(String fileName) {
     String result = MimeTypeMap.getSingleton().getMimeTypeFromExtension(getFileExtension(fileName));
     return result != null ? result : "application/octet-stream";
   }
@@ -225,7 +226,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   void createWarningFile() {
     try {
       saveFileContents("IMPORTANT_INFORMATION",
-          MyApplication.getInstance().getString(R.string.warning_synchronization_folder_usage),
+          Utils.getTextWithAppName(context, R.string.warning_synchronization_folder_usage).toString(),
           "text/plain");
     } catch (IOException e) {
       AcraHelper.report(e);

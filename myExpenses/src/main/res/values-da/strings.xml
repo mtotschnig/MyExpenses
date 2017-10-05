@@ -60,7 +60,7 @@
   <string name="dialog_contrib_no_usages_left">Denne funktion kan ikke længere bruges gratis.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s er en premium funktion (%2$s).</string>
-  <string name="dialog_contrib_text_1"><i>Mine udgifter</i> er tilbudt annonce gratis og open source.</string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i> er tilbudt annonce gratis og open source.</string>
   <string name="dialog_export_delete">Slet eksporterede posteringer</string>
   <string name="dialog_export_not_yet_exported">Eksporter kun posteringer der ikke blev eksporteret endnu</string>
   <string name="dialog_password_activate_protection">Aktivere beskyttelse med adgangskode</string>
@@ -69,8 +69,8 @@
   <string name="dialog_password_new_password_confirmation">Bekræftelse af ny adgangskode</string>
   <string name="dialog_remind_later">Senere</string>
   <string name="dialog_remind_no">Nej tak</string>
-  <string name="dialog_remind_rate_how_many_stars">Hvor mange stjerner vil du give til Mine udgifter?</string>
-  <string name="dialog_remind_rate_1">Tag venligst et øjeblik til at anmelde Mine Udgifter.</string>
+  <string name="dialog_remind_rate_how_many_stars">Hvor mange stjerner vil du give til {app_name}?</string>
+  <string name="dialog_remind_rate_1">Tag venligst et øjeblik til at anmelde {app_name}.</string>
   <string name="dialog_remind_rate_2">Dine kommentarer hjælper os til at tilføje løbende forbedringer.</string>
   <string name="dialog_remind_rate_1_suggest_improvement">Tag venligst et øjeblik til at sende os dine forslag til forbedringer.</string>
   <string name="dialog_remind_rate_yes">Anmeld nu</string>
@@ -229,7 +229,7 @@
   <string name="plan">Plan</string>
   <string name="plan_automatic">automatisk</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">Mine Udgifter planner</string>
+  <string name="plan_calendar_name">{app_name} planner</string>
   <string name="plan_event_deleted">Planen der var knyttet til denne skabelon er blevet slettet fra kalenderen.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Udførelsen af planen annulleret</string>
@@ -265,7 +265,7 @@
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Indtast nøgle</string>
   <string name="pref_export_format_title">Dataformat</string>
-  <string name="pref_follow_gplus_title">Følg Mine Udgifter på Google +</string>
+  <string name="pref_follow_gplus_title">Følg {app_name} på Google +</string>
   <string name="pref_import_from_grisbi_summary">Importere kategorier og parterne fra Grisbi XML fil</string>
   <string name="pref_import_from_grisbi_title">Import fra Grisbi</string>
   <!--%s is replaced with QIF or CSV-->
@@ -363,7 +363,7 @@
   <string name="sum_income">Indkomst</string>
   <string name="sum_transfer">Overførsler</string>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">Tjek Mine Udgifter, Personal Finance Manager for %s, fra http://www.myexpenses.mobi</string>
+  <string name="tell_a_friend_message">Tjek {app_name}, Personal Finance Manager for {platform}, fra {website}</string>
   <string name="template_create_success">Skabelon \"%1$s\" oprettet</string>
   <string name="thank_you">Tak for din støtte!</string>
   <string name="time">Tid</string>
@@ -403,7 +403,7 @@
   <string name="warning_reset_account_all">Hvis du fortsætter, slettes alle posteringer i alle konti %1$s fra databasen og kan ikke gendannes.</string>
   <string name="warning_reset_account_matched">Hvis du fortsætter, slettes alle posteringer fra databasen der svarer til det aktuelle filter og de kan ikke gendannes.</string>
   <string name="warning_restore">Databasen og indstillinger gendannes fra filen \"%1$s\". De aktuelle data slettes. Vil du fortsætte?</string>
-  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Den aktuelt valgte mappe til sikkerhedskopier og eksport slettes automatisk af Android, hvis du fjerner Mine Udgifter. Du kan forhindre dette i at ske ved at vælge en anden mappe i skærmbilledet indstillinger.</string>
+  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Den aktuelt valgte mappe til sikkerhedskopier og eksport slettes automatisk af Android, hvis du fjerner {app_name}. Du kan forhindre dette i at ske ved at vælge en anden mappe i skærmbilledet indstillinger.</string>
   <string name="warning_splitpartcategory_context">Overførsler, der er del af en splittet postering kan kun redigeres i forbindelse med opsplitningen.</string>
   <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Angiv et tal mellem %1$d og %2$d</string>
   <string name="import_categories_success">%1$s kategorier importeret</string>

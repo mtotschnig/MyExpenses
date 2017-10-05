@@ -68,9 +68,9 @@
   <string name="dialog_contrib_no_usages_left">Tiada penggunaan percuma berbaki.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s merupakan fitur premium (%2$s).</string>
-  <string name="dialog_contrib_reminder_remove_limitation">Buang sekatan ini dan capai lagi banyak fitur dengan menatar <i>Perbelanjaan Saya</i>.</string>
-  <string name="dialog_contrib_text_1"><i>Perbelanjaan Saya</i> ditawarkan secara bebas iklan dan merupakan sumber terbuka.</string>
-  <string name="dialog_contrib_text_2">Berilah sumbangan dalam bentuk derma dengan menatar <i>Perbelanjaan Saya</i> dan peroleh capaian tanpa had fitur-fitur berikut:</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Buang sekatan ini dan capai lagi banyak fitur dengan menatar <i>{app_name}</i>.</string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i> ditawarkan secara bebas iklan dan merupakan sumber terbuka.</string>
+  <string name="dialog_contrib_text_2">Berilah sumbangan dalam bentuk derma dengan menatar <i>{app_name}</i> dan peroleh capaian tanpa had fitur-fitur berikut:</string>
   <string name="dialog_contrib_usage_count">Penggunaan percuma berbaki</string>
   <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Anda boleh guna sehingga %1$d kali dengan status lesen semasa anda (%2$s).</string>
   <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Anda boleh guna sehingga %1$d hari dengan status lesen semasa anda (%2$s).</string>
@@ -84,8 +84,8 @@
   <string name="dialog_password_new_password_confirmation">Kata laluan baharu (pengesahan)</string>
   <string name="dialog_remind_later">Kemudian</string>
   <string name="dialog_remind_no">Tidak terima kasih</string>
-  <string name="dialog_remind_rate_how_many_stars">Berapa banyak bintang yang anda mahu berikan kepada Perbelanjaan Saya?</string>
-  <string name="dialog_remind_rate_1">Sila ambil sedikit masa untuk beri penarafan dan ulasan Perbelanjaan Saya.</string>
+  <string name="dialog_remind_rate_how_many_stars">Berapa banyak bintang yang anda mahu berikan kepada {app_name}?</string>
+  <string name="dialog_remind_rate_1">Sila ambil sedikit masa untuk beri penarafan dan ulasan {app_name}.</string>
   <string name="dialog_remind_rate_2">Ulasan anda membolehkan kami tambah penambahbaikan dan peningkatan secara berterusan.</string>
   <string name="dialog_remind_rate_1_suggest_improvement">Sila ambil sedikit masa untuk menghantar kepada kami cadangan penambahbaikan.</string>
   <string name="dialog_remind_rate_yes">Beri penarafan sekarang</string>
@@ -243,7 +243,7 @@
   <string name="plan">Pelan</string>
   <string name="plan_automatic">automatik</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">Perancang Perbelanjaan Saya</string>
+  <string name="plan_calendar_name">Perancang {app_name}</string>
   <string name="plan_event_deleted">Pelan berkaitan dengan templat ini telah dipadam dari kalendar.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Pelakuan pelan dibatalkan</string>
@@ -280,7 +280,7 @@
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Masukkan kunci</string>
   <string name="pref_export_format_title">Format data</string>
-  <string name="pref_follow_gplus_title">Ikut Perbelanjaan Saya pada Google+</string>
+  <string name="pref_follow_gplus_title">Ikut {app_name} pada Google+</string>
   <string name="pref_import_from_grisbi_summary">Import kategori dan pihak dari fail XML Grisbi</string>
   <string name="pref_import_from_grisbi_title">Import dari Grisbi</string>
   <!--%s is replaced with QIF or CSV-->
@@ -379,7 +379,7 @@
   <string name="sum_income">Pendapatan</string>
   <string name="sum_transfer">Pemindahan</string>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">Lihat Perbelanjaan Saya, Pengurus Kewangan Persendirian untuk %s, di http://www.myexpenses.mobi</string>
+  <string name="tell_a_friend_message">Lihat {app_name}, Pengurus Kewangan Persendirian untuk {platform}, di {website}</string>
   <string name="template_create_success">Templat \"%1$s\" berjaya dicipta</string>
   <string name="thank_you">Terima kasih atas sokongan anda!</string>
   <string name="time">Masa</string>
@@ -422,7 +422,7 @@
   <string name="warning_reset_account_all">Jika anda teruskan, untuk semua akaun %1$s, transaksi akan dipadam dari pangkalan data dan tidak dapat dipulihkan.</string>
   <string name="warning_reset_account_matched">Jika anda teruskan, transaksi yang sepada dengan penapis semasa akan dipadam dari pangkalan data dan tidak dapat dipulihkan.</string>
   <string name="warning_restore">Pangkalan data dan keutamaan akan dipulih dari fail \"%1$s\". Data semasa akan dipadam, Anda mahu teruskan?</string>
-  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Folder terpilih semasa untuk sandar dan eksport akan dipadam secara automatik oleh Android jika anda menyahpasang Perbelanjaan Saya. Anda boleh hindari ia dari berlaku dengan memilih folder yang berlainan dari skrin tetapan.</string>
+  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Folder terpilih semasa untuk sandar dan eksport akan dipadam secara automatik oleh Android jika anda menyahpasang {app_name}. Anda boleh hindari ia dari berlaku dengan memilih folder yang berlainan dari skrin tetapan.</string>
   <string name="warning_splitpartcategory_context">Pemindahan adalah sebahagian dari pisah yang boleh disunting dalam konteks pisah.</string>
   <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Sila tetapkan nombor diantara %1$d hingga %2$d</string>
   <string name="warning_change_fraction_digits_1">Amaun dalam pangkalan data perlu dikemaskini untuk dipadanakn dengan bilangan baharu digit pecahan.</string>
@@ -526,7 +526,7 @@
   <string name="pref_auto_backup_time_title">Auto-sandar masa</string>
   <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Selepas %d kali sandar automatik berjaya, auto-sandar akan dinyahaktifkan.</string>
   <string name="warning_auto_backup_limit_reached">Had untuk sandar automatik berjaya secara percuma telah dicapai.</string>
-  <string name="calendar_permission_required"><i>Perbelanjaan Saya</i> memerlukan keizinan untuk mencapai kalendar anda, supaya dapat mencipta pelan untuk transaksi akan datang dan yang berulangan.</string>
+  <string name="calendar_permission_required"><i>{app_name}</i> memerlukan keizinan untuk mencapai kalendar anda, supaya dapat mencipta pelan untuk transaksi akan datang dan yang berulangan.</string>
   <string name="button_request_calendar_access" tools:ignore="UnusedResources">Beri capaian</string>
   <string name="switch_on_text">Dihidupkan</string>
   <string name="switch_off_text">Dimatikan</string>
@@ -568,7 +568,7 @@
   <string name="synchronization">Penyegerakan</string>
   <string name="synchronization_none">Tiada penyegerakan</string>
   <string name="hint_url">URL</string>
-  <string name="description_webdav_url">Sila masukkan URL ke folder khas dalam pelayan WebDAV anda. Perbelanjaan Saya akan menyimpan datanya di dalam folder ini, ia tidak akan menyentuh apa-apa diluarnya.</string>
+  <string name="description_webdav_url">Sila masukkan URL ke folder khas dalam pelayan WebDAV anda. {app_name} akan menyimpan datanya di dalam folder ini, ia tidak akan menyentuh apa-apa diluarnya.</string>
   <string name="description_webdav_trust_certificate">Laman sesawang menggunakan sijil, yang mana tidak dipercayai oleh Android.</string>
   <string name="hint_user_name">Nama pengguna</string>
   <string name="hint_password">Kata laluan</string>
@@ -597,7 +597,7 @@
   <string name="dialog_confirm_sync_link_remote">Data setempat untuk akaun ini akan dipadamkan.</string>
   <string name="warning_synchronization_limited_trial">Fitur penyegerakan boleh diuji sehingga %s.</string>
   <string name="warning_synchronization_limit_reached">Tempoh percubaan untuk menguji fitur penyegerakan telah tamat.</string>
-  <string name="warning_synchronization_folder_usage">Folder ini digunakan untuk menyegerakkan data diantara pemasangan Perbelanjaan Saya pada peranti berlainan. Sila jangan ubahsuai mana-mana kandungannya secara manual.</string>
+  <string name="warning_synchronization_folder_usage">Folder ini digunakan untuk menyegerakkan data diantara pemasangan {app_name} pada peranti berlainan. Sila jangan ubahsuai mana-mana kandungannya secara manual.</string>
   <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Folder yang anda telah pilih akaunnya berkait dengan bahagian belakang sedia ada. Anda perlu pilih folder induknya untuk dapat guna semula bahagian belakang ini.</string>
   <string name="select_unsynced_accounts">Pilih akaun yang disegerakkan dengan bahagian belakang ini</string>
   <string name="link_account_success" tools:ignore="PluralsCandidate">%d akaun telah dikonfigur untuk disegerakkan dengan bahagian belakang.</string>

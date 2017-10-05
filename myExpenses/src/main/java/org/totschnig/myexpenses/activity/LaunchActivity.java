@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.provider.filter.Criteria;
 import org.totschnig.myexpenses.util.ContribUtils;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.PermissionHelper;
+import org.totschnig.myexpenses.util.Utils;
 
 import java.io.File;
 import java.util.Map;
@@ -116,9 +117,9 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
       if (MyApplication.getInstance().getLicenceHandler().hasLegacyLicence() &&
           !PrefKey.LICENCE_MIGRATION_INFO_SHOWN.getBoolean(false)) {
         Bundle bundle = new Bundle();
-        bundle.putString(
+        bundle.putCharSequence(
             ConfirmationDialogFragment.KEY_MESSAGE,
-            getString(R.string.licence_migration_info));
+            Utils.getTextWithAppName(this, R.string.licence_migration_info));
         bundle.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
             R.id.REQUEST_LICENCE_MIGRATION_COMMAND);
         bundle.putString(ConfirmationDialogFragment.KEY_PREFKEY, PrefKey

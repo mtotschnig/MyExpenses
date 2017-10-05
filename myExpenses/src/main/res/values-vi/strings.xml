@@ -68,9 +68,9 @@
   <string name="dialog_contrib_no_usages_left">Hiện không còn thời hạn cho việc sử dụng miễn phí.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s là tính năng trả phí (%2$s).</string>
-  <string name="dialog_contrib_reminder_remove_limitation">Loại bỏ sự giới hạn này và sử dụng nhiều tính năng hơn bằng cách nâng cấp <i>Quản lý chi tiêu</i></string>
-  <string name="dialog_contrib_text_1"><i>Quản lý chi tiêu</i> là một chương trình miễn phí và mã nguồn mở. </string>
-  <string name="dialog_contrib_text_2">Xin hãy đóng góp bằng cách nâng cấp <i>Quản lý chi tiêu</i> và sử dụng không giới hạn các tính năng sau:</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Loại bỏ sự giới hạn này và sử dụng nhiều tính năng hơn bằng cách nâng cấp <i>{app_name}</i></string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i> là một chương trình miễn phí và mã nguồn mở. </string>
+  <string name="dialog_contrib_text_2">Xin hãy đóng góp bằng cách nâng cấp <i>{app_name}</i> và sử dụng không giới hạn các tính năng sau:</string>
   <string name="dialog_contrib_usage_count">Lần sử dụng miễn phí còn lại</string>
   <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Bạn có thể dùng nó tối đa %1$d lần với bản quyền hiện tại (%2$s).</string>
   <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Bạn có thể dùng nó trong %1$d ngày với bản quyền hiện tại (%2$s).</string>
@@ -84,8 +84,7 @@
   <string name="dialog_password_new_password_confirmation">Mật khẩu mới (xác nhận)</string>
   <string name="dialog_remind_later">Để sau</string>
   <string name="dialog_remind_no">Không, cảm ơn</string>
-  <string name="dialog_remind_rate_how_many_stars">Bạn sẽ đánh giá Quản lý chi tiêu bao nhiêu sao?</string>
-  <string name="dialog_remind_rate_1">Xin dành chút thời gian để xếp hạng và xem các nhận xét về Chi Tiêu Của Tôi.</string>
+  <string name="dialog_remind_rate_1">Xin dành chút thời gian để xếp hạng và xem các nhận xét về {app_name}.</string>
   <string name="dialog_remind_rate_2">Các bình luận của bạn sẽ giúp chúng tôi cải thiện chất lượng dịch vụ về sản phẩm tốt hơn.</string>
   <string name="dialog_remind_rate_1_suggest_improvement">Vui lòng dành ít phút để gửi cho chúng tôi những ý kiến của bạn để cải thiện ứng dụng.</string>
   <string name="dialog_remind_rate_yes">Xếp hạng ngay</string>
@@ -243,7 +242,7 @@
   <string name="plan">Kế hoạch</string>
   <string name="plan_automatic">tự động</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">Bộ lập kế hoạch của Quản lý chi tiêu</string>
+  <string name="plan_calendar_name">Bộ lập kế hoạch của {app_name}</string>
   <string name="plan_event_deleted">Kế hoạch gắn với bản mẫu này đã bị xoá khỏi lịch.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Đã hủy bỏ việc thực thi kế hoạch</string>
@@ -280,7 +279,7 @@
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Nhập khóa</string>
   <string name="pref_export_format_title">Định dạng dữ liệu</string>
-  <string name="pref_follow_gplus_title">Theo dõi My Expenses trên Google+</string>
+  <string name="pref_follow_gplus_title">Theo dõi {app_name} trên Google+</string>
   <string name="pref_import_from_grisbi_summary">Nhập các phân loại (và các nhóm) Grisbi XML</string>
   <string name="pref_import_from_grisbi_title">Nhập dữ liệu về Grisbi</string>
   <!--%s is replaced with QIF or CSV-->
@@ -379,7 +378,7 @@
   <string name="sum_income">Thu nhập</string>
   <string name="sum_transfer">Truyền đổi</string>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">Chi Tiêu Của Tôi, Quản lý tài chính cá nhân trên %s, http://www.myexpenses.mobi</string>
+  <string name="tell_a_friend_message">{app_name}, Quản lý tài chính cá nhân trên {platform}, {website}</string>
   <string name="template_create_success">Mẫu \"%1$s\" đã được tạo thành công</string>
   <string name="thank_you">Xin cảm ơn về sự hỗ trợ của bạn!</string>
   <string name="time">Thời gian</string>
@@ -422,7 +421,7 @@
   <string name="warning_reset_account_all">Tất cả giao dịch của tài khoản%1$s này sẽ được xuất trong tập tin %1$s trên thẻ nhớ và bị xóa. Bạn có thực sự muốn tiếp tục?</string>
   <string name="warning_reset_account_matched">Nếu bạn tiếp tục, các giao dịch nằm trong bộ lọc hiện tại sẽ bị xoá khỏi cơ sở dữ liệu và không thể khôi phục.</string>
   <string name="warning_restore">Cơ sở dữ liệu và tùy biến sẽ được phục hồi từ thẻ nhớ (%1$s). Dữ liệu hiện tại sẽ bị xóa. Bạn có muốn tiếp tục hay không?</string>
-  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Thư mục đang được chọn để chứa các bản sao lưu và xuất ra sẽ bị xoá bởi Android nếu bạn gỡ cài đặt Quản lý chi tiêu. Bạn có thể ngăn chặn điều này bằng cách chọn một thư mục chứa khác từ màn hình cài đặt.</string>
+  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Thư mục đang được chọn để chứa các bản sao lưu và xuất ra sẽ bị xoá bởi Android nếu bạn gỡ cài đặt {app_name}. Bạn có thể ngăn chặn điều này bằng cách chọn một thư mục chứa khác từ màn hình cài đặt.</string>
   <string name="warning_splitpartcategory_context">Các thao tác truyền đổi là một phần của việc phân tách có thể được chỉnh sửa và xóa trong phần ngữ cảnh của phân tách.</string>
   <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Vui lòng chọn một số trong khoảng %1$d và %2$d</string>
   <string name="warning_change_fraction_digits_1">Số tiền trong cơ sở dữ liệu cần được cập nhật để khớp với số lượng các chữ số thập phân.</string>
@@ -567,7 +566,7 @@
   <string name="synchronization">Đồng bộ hóa</string>
   <string name="synchronization_none">Không đồng bộ hóa</string>
   <string name="hint_url">URL</string>
-  <string name="description_webdav_url">Vui lòng nhập URL dẫn tới một thư mục đặc biệt trên máy chủ WebDAV của bạn. Quản lý chi tiêu sẽ lưu trữ dữ liệu bên trong thư mục này, nó sẽ không gây ảnh hưởng tới bất cứ thứ gì bên ngoài thư mục đó.</string>
+  <string name="description_webdav_url">Vui lòng nhập URL dẫn tới một thư mục đặc biệt trên máy chủ WebDAV của bạn. {app_name} sẽ lưu trữ dữ liệu bên trong thư mục này, nó sẽ không gây ảnh hưởng tới bất cứ thứ gì bên ngoài thư mục đó.</string>
   <string name="description_webdav_trust_certificate">Trang web này sử dụng một chứng chỉ mà Android không tin cậy.</string>
   <string name="hint_user_name">Tên người dùng</string>
   <string name="hint_password">Mật khẩu</string>

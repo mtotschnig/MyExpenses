@@ -75,6 +75,7 @@
     <string name="pref_debug_key">debug</string>
     <string name="pref_debug_logging_key">debug_logging</string>
     <string name="pref_sync_notification_key">sync_notification</string>
+    <string name="pref_follow_gplus_key">follow_gplus</string>
 
     <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
   <string name="help_licence_financisto">CalculatorInput, QifParser, FolderBrowser, HomeScreenWidgets, WhereFilter and AutoBackupService inspired by https://launchpad.net/financisto ,
@@ -143,4 +144,5 @@
     <string name="currency_not_supported">%s not supported by your OS. Please select a different currency.</string>
     <string name="drive_backend_upgrade">Since 2.8.0, My Expenses supports synchronization with Drive folders from multiple Google accounts. Please select the Google account from which your existing Drive backends were created.</string>
     <string name="button_label_try_again">Try again</string>
+    <string name="licence_validation_upgrade_needed" tools:ignore="UnusedResources">Please upgrade My Expenses Contrib to version 1.5.</string>
 </resources>

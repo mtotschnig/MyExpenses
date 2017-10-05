@@ -40,7 +40,7 @@
   <string name="dialog_contrib_no_usages_left">沒有剩下的免費使用額</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s 是一項高級功能 (%2$s)。</string>
-  <string name="dialog_contrib_text_1"><i>開支助手</i> 是無廣告和開放源碼的。</string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i> 是無廣告和開放源碼的。</string>
   <string name="dialog_export_delete">刪除已匯出的交易</string>
   <string name="dialog_export_not_yet_exported">只匯出尚未匯出的交易</string>
   <string name="dialog_password_activate_protection">啟用密碼保護</string>
@@ -49,7 +49,7 @@
   <string name="dialog_password_new_password_confirmation">新密碼 (再確認)</string>
   <string name="dialog_remind_later">以後來說</string>
   <string name="dialog_remind_no">不用感謝</string>
-  <string name="dialog_remind_rate_1">請大家花點時間來評價開支助手。</string>
+  <string name="dialog_remind_rate_1">請大家花點時間來評價{app_name}。</string>
   <string name="dialog_remind_rate_2">你的意見將不斷鼓勵我改進此工具。</string>
   <string name="dialog_remind_rate_yes">現在評分</string>
   <string name="dialog_security_answer">答案</string>
@@ -174,7 +174,7 @@
   <string name="plan">計劃</string>
   <string name="plan_automatic">自動</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">開支助手 規劃</string>
+  <string name="plan_calendar_name">{app_name} 規劃</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">計劃執行已取消</string>
   <string name="plan_manual">說明書</string>
@@ -199,7 +199,7 @@
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_export_format_title">日期格式</string>
-  <string name="pref_follow_gplus_title">跟隨在 Google+ 的 開支助手</string>
+  <string name="pref_follow_gplus_title">跟隨在 Google+ 的 {app_name}</string>
   <string name="pref_import_from_grisbi_summary">匯入類別 和貿易夥伴.</string>
   <string name="pref_import_from_grisbi_title">由Grisbi匯入</string>
   <!--%s is replaced with QIF or CSV-->
@@ -267,7 +267,7 @@
   <string name="sum_income">收入</string>
   <string name="sum_transfer">轉移</string>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">開支助手, 個人理財工具 %s版, http://www.myexpenses.mobi</string>
+  <string name="tell_a_friend_message">{app_name}, 個人理財工具 {platform}版, {website}</string>
   <string name="template_create_success">範本 \"%1$s\" 成功被建立</string>
   <string name="thank_you">感謝你的支持！</string>
   <string name="time">時間</string>

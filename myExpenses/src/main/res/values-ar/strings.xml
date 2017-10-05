@@ -55,7 +55,7 @@
   <string name="dialog_password_new_password_confirmation">كلمة المرور الجديدة (للتأكيد)</string>
   <string name="dialog_remind_later">لاحقاً</string>
   <string name="dialog_remind_no">لا شكراً</string>
-  <string name="dialog_remind_rate_1">فضلا قم بتقييم مصروفاتي.</string>
+  <string name="dialog_remind_rate_1">فضلا قم بتقييم {app_name}.</string>
   <string name="dialog_remind_rate_2">تعليقاتكم تمنحني الاستمرار في تحسين البرنامج.</string>
   <string name="dialog_remind_rate_yes">تقييم الآن</string>
   <string name="dialog_security_answer">الإجابة</string>
@@ -193,7 +193,7 @@
   <string name="plan">خطة</string>
   <string name="plan_automatic">تلقائي</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">مخطط مصروفاتي</string>
+  <string name="plan_calendar_name">مخطط {app_name}</string>
   <string name="plan_event_deleted">تم حذف الخطة المتعلقة بهذا النموذج من التقويم.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">تم إلغاء تنفيذ الخطة</string>
@@ -225,7 +225,7 @@
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">أدخل المفتاح</string>
   <string name="pref_export_format_title">تنسيق البيانات</string>
-  <string name="pref_follow_gplus_title">متابعة مصروفاتي على قوقل بلس</string>
+  <string name="pref_follow_gplus_title">متابعة {app_name} على قوقل بلس</string>
   <string name="pref_import_from_grisbi_summary">استيراد التصنيفات والأطراف  Grisbi XML </string>
   <string name="pref_import_from_grisbi_title">استيراد من Grisbi</string>
   <!--%s is replaced with QIF or CSV-->

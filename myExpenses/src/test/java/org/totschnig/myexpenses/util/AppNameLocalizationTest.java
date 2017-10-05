@@ -1,0 +1,80 @@
+package org.totschnig.myexpenses.util;
+
+import android.app.Application;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
+import org.robolectric.annotation.Config;
+import org.totschnig.myexpenses.R;
+
+import static junit.framework.Assert.fail;
+
+@RunWith(RobolectricTestRunner.class)
+@Config(application = TestApplication.class, packageName = "org.totschnig.myexpenses")
+public class AppNameLocalizationTest {
+
+  @Test
+  public void shouldBuildWithAppName() {
+    Application context = RuntimeEnvironment.application;
+    String[] locales = context.getResources().getStringArray(R.array.pref_ui_language_values);
+    for (String locale : locales) {
+      if (!locale.equals("default")) {
+        setLocale(locale);
+        for (int resId : new int[]{
+            R.string.dialog_contrib_reminder_remove_limitation,
+            R.string.dialog_contrib_text_1,
+            R.string.dialog_contrib_text_2,
+            R.string.dialog_remind_rate_how_many_stars,
+            R.string.dialog_remind_rate_1,
+            R.string.plan_calendar_name,
+            R.string.pref_follow_gplus_title,
+            R.string.warning_app_folder_will_be_deleted_upon_uninstall,
+            R.string.calendar_permission_required,
+            R.string.description_webdav_url,
+            R.string.warning_synchronization_folder_usage,
+            R.string.onboarding_ui_title,
+            R.string.licence_migration_info}) {
+          try {
+            Utils.getTextWithAppName(context, resId);
+          } catch (Exception e) {
+            fail(String.format("Non-compliant resource %s for locale %s", context.getResources().getResourceName(resId), locale));
+          }
+        }
+        //Utils.getTellAFriendMessage(context);
+      }
+    }
+  }
+
+  @Test
+  public void shouldBuildTellAFriendMessage() {
+    Application context = RuntimeEnvironment.application;
+    String[] locales = context.getResources().getStringArray(R.array.pref_ui_language_values);
+    for (String locale : locales) {
+      if (!locale.equals("default")) {
+        setLocale(locale);
+        Utils.getTellAFriendMessage(context);
+      }
+    }
+  }
+
+  private void setLocale(String locale) {
+    RuntimeEnvironment.setQualifiers(mapToQualifier(locale));
+  }
+
+  private String mapToQualifier(String locale) {
+    switch(locale) {
+      case "pt-BR":
+        return "pt";
+      case "pt-PT":
+        return "pt-rPT";
+      case "zh-CN":
+        return "zh-rCN";
+      case "zu-TW":
+        return "zh-rTW";
+      default:
+        return locale;
+    }
+  }
+}

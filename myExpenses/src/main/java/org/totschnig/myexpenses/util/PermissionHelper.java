@@ -74,12 +74,12 @@ public class PermissionHelper {
     return PermissionGroup.fromRequestCode(requestCode).prefKey;
   }
 
-  public static int permissionRequestRationaleResId(int requestCode) {
+  public static CharSequence permissionRequestRationale(Context context, int requestCode) {
     switch (requestCode) {
       case PERMISSIONS_REQUEST_WRITE_CALENDAR:
-        return R.string.calendar_permission_required;
+        return Utils.getTextWithAppName(context, R.string.calendar_permission_required);
       case PERMISSIONS_REQUEST_STORAGE:
-        return R.string.storage_permission_required;
+        return context.getString(R.string.storage_permission_required);
     }
     throw new IllegalArgumentException("Undefined requestCode " + requestCode);
   }

@@ -601,7 +601,7 @@ public class MyExpenses extends LaunchActivity implements
       case R.id.SHARE_COMMAND:
         i = new Intent();
         i.setAction(Intent.ACTION_SEND);
-        i.putExtra(Intent.EXTRA_TEXT, getString(R.string.tell_a_friend_message, DistribHelper.getPlatform()));
+        i.putExtra(Intent.EXTRA_TEXT, Utils.getTellAFriendMessage(this));
         i.setType("text/plain");
         startActivity(Intent.createChooser(i, getResources().getText(R.string.menu_share)));
         return true;

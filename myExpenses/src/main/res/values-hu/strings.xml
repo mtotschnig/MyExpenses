@@ -47,7 +47,7 @@
   <string name="dialog_contrib_no_usages_left">Nincs több ingyenes számla lehetőség.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s Prémium szolgáltatás (%2$s).</string>
-  <string name="dialog_contrib_text_1"><i>Kiadásaim</i> reklám mentes és nyitott forráskódú.</string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i> reklám mentes és nyitott forráskódú.</string>
   <string name="dialog_export_delete">Exportált tranzakciók törlése</string>
   <string name="dialog_export_not_yet_exported">A nem exportált tranzakciók exportálása</string>
   <string name="dialog_password_activate_protection">Jelszóvédelem aktiválása</string>
@@ -56,7 +56,7 @@
   <string name="dialog_password_new_password_confirmation">Új jelszó (megerősítés)</string>
   <string name="dialog_remind_later">Későb</string>
   <string name="dialog_remind_no">Nem, köszönöm</string>
-  <string name="dialog_remind_rate_1">Kérjük szánjon egy percet arra, hogy értékeli és visszajelez a Kiadásaim programról felületen.</string>
+  <string name="dialog_remind_rate_1">Kérjük szánjon egy percet arra, hogy értékeli és visszajelez a {app_name} programról felületen.</string>
   <string name="dialog_remind_rate_2">Észrevételeivel újabb szolgáltatásokat és fejlesztéseket végezhetünk.</string>
   <string name="dialog_remind_rate_yes">Értékelje most</string>
   <string name="dialog_security_answer">Válasz</string>
@@ -186,7 +186,7 @@
   <string name="plan">Terv</string>
   <string name="plan_automatic">automatikus</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">Kiadásaim tervezője</string>
+  <string name="plan_calendar_name">{app_name} tervezője</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Terv futtatása leállítva</string>
   <string name="plan_manual">kézi</string>
@@ -212,7 +212,7 @@
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Kulcs megadása</string>
   <string name="pref_export_format_title">Adat formátum</string>
-  <string name="pref_follow_gplus_title">A Kiadásaim (My Expenses) követése a Google+ oldalain</string>
+  <string name="pref_follow_gplus_title">A {app_name} követése a Google+ oldalain</string>
   <string name="pref_import_from_grisbi_summary">Kategóriák és résztvevők beolvasása Grisbi XML.</string>
   <string name="pref_import_from_grisbi_title">Importálás innen: Grisbi</string>
   <!--%s is replaced with QIF or CSV-->
@@ -281,7 +281,7 @@
   <string name="sum_income">Bevétel</string>
   <string name="sum_transfer">Átutalások</string>
   <!--%s is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">Kiadásaim, A személyes pénzügyi nyilvántartás - %s, http://www.myexpenses.mobi</string>
+  <string name="tell_a_friend_message">{app_name}, A személyes pénzügyi nyilvántartás - {platform}, {website}</string>
   <string name="template_create_success">\"%1$s\" nevű sablon sikeresen létrehozva</string>
   <string name="thank_you">Köszönjük a támogatását!</string>
   <string name="time">Idő</string>

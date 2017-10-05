@@ -248,7 +248,8 @@ public enum ContribFeature {
 
   public CharSequence buildRemoveLimitation(Context ctx, boolean asHTML) {
     int resId = R.string.dialog_contrib_reminder_remove_limitation;
-    return asHTML ? ctx.getText(resId) : ctx.getString(resId);
+    return asHTML ? Utils.getTextWithAppName(ctx, resId) :
+        ctx.getString(resId).replace("{appname}", ctx.getString(R.string.app_name));
   }
 
   public boolean isExtended() {
