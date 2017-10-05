@@ -258,11 +258,13 @@
   <string name="pref_checkbox_enabled">Aktiveret</string>
   <string name="pref_checkbox_disabled">Deaktiveret</string>
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
+  <string name="pref_contrib_purchase_summary">Køb adgang til premium funktioner.</string>
   <string name="pref_contrib_purchase_title">Køb nøgle</string>
   <string name="pref_contrib_purchase_title_upgrade">Opgrader produktnøglen</string>
   <string name="pref_contrib_purchase_title_in_app">In-app-betaling</string>
   <string name="pref_custom_currency_title">Ændre valutaer</string>
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
+  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Hvis du har modtaget en nøgle, kan du få adgang til premium funktionerne.</string>
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Indtast nøgle</string>
   <string name="pref_export_format_title">Dataformat</string>
   <string name="pref_follow_gplus_title">Følg {app_name} på Google +</string>
@@ -362,7 +364,7 @@
   <string name="sum_expenses">Udgifter</string>
   <string name="sum_income">Indkomst</string>
   <string name="sum_transfer">Overførsler</string>
-  <!--%s is replaced with Android or Blackberry-->
+  <!--platform is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Tjek {app_name}, Personal Finance Manager for {platform}, fra {website}</string>
   <string name="template_create_success">Skabelon \"%1$s\" oprettet</string>
   <string name="thank_you">Tak for din støtte!</string>

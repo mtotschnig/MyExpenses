@@ -279,13 +279,13 @@
   <string name="pref_checkbox_enabled">Разрешено</string>
   <string name="pref_checkbox_disabled">Забранено</string>
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
-  <string name="pref_contrib_purchase_summary">Закупете достъп до Премиум и Разширени функции.</string>
+  <string name="pref_contrib_purchase_summary">Закупете достъп до Премиум функции.</string>
   <string name="pref_contrib_purchase_title">Закупете Ключ</string>
   <string name="pref_contrib_purchase_title_upgrade">Надстройте ключ</string>
   <string name="pref_contrib_purchase_title_in_app">Плащане в приложението</string>
   <string name="pref_custom_currency_title">Персонализирайте валути</string>
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
-  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Ако сте получили ключ, получавате достъп до премийните/разширените функции.</string>
+  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Ако сте получили ключ, получавате достъп до премийните функции.</string>
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Въведете ключ</string>
   <string name="pref_export_format_title">Формат на датата</string>
   <string name="pref_follow_gplus_title">Последвайте {app_name} в Google+</string>
@@ -387,7 +387,7 @@
   <string name="sum_expenses">Разходи общо</string>
   <string name="sum_income">Приходи общо</string>
   <string name="sum_transfer">Преводи общо</string>
-  <!--%s is replaced with Android or Blackberry-->
+  <!--platform is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Вижте {app_name}, личен финансов мениджър за {platform}, на {website}</string>
   <string name="template_create_success">Успешно създаден шаблон \"%1$s\"</string>
   <string name="thank_you">Благодарим Ви за подкрепата!</string>
@@ -535,7 +535,6 @@
   <string name="menu_show_transactions">Покажи транзакциите</string>
   <string name="pref_custom_decimal_format_title">Формат на числата</string>
   <string name="pref_custom_decimal_format_summary">Ако не сте удовлетворени от формата по подразбиране, може да го пригодите към вашите нужди. Оставете празно, за да се върне първоначалния.</string>
-  <string name="licence_validation_upgrade_needed" tools:ignore="UnusedResources">Моля, надстройте моя принос за Моите разходи до версия 1.5.</string>
   <string name="pref_auto_backup_title">Автоматичен бекъп</string>
   <string name="pref_auto_backup_summary">Ежедневен бекъп на базата данни в определено време (само ако има промяна в данните).</string>
   <string name="pref_auto_backup_time_title">Време за автоматичен бекъп</string>

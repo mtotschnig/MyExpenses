@@ -251,6 +251,7 @@
   <string name="pref_contrib_purchase_title_in_app">plaćanje unutar aplikacije</string>
   <string name="pref_custom_currency_title">Prilagodi valute</string>
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
+  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Ako ste primili Ključ, omogućen je pristup premium opcijama.</string>
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Unesi ključ</string>
   <string name="pref_export_format_title">Format podataka</string>
   <string name="pref_follow_gplus_title">Prati {app_name} na Google+</string>
@@ -347,7 +348,7 @@
   <string name="sum_expenses">Troškovi</string>
   <string name="sum_income">Prihod</string>
   <string name="sum_transfer">Doznake</string>
-  <!--%s is replaced with Android or Blackberry-->
+  <!--platform is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Posjeti {app_name}, Osobni Financijski Menadžer za {platform}, na {website}</string>
   <string name="template_create_success">Predložak \"%1$s\" uspješno kreiran</string>
   <string name="thank_you">Zahvaljujemo se na vašoj podršci!</string>

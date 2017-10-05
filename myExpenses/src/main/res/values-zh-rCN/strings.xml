@@ -256,6 +256,7 @@
   <string name="pref_contrib_purchase_title_upgrade">升级密钥</string>
   <string name="pref_custom_currency_title">自定义货币</string>
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
+  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">如果你收到密钥,获取高级或扩展功能</string>
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">输入密钥</string>
   <string name="pref_export_format_title">日期格式</string>
   <string name="pref_follow_gplus_title">跟随在 Google+ 的 {app_name}</string>
@@ -341,7 +342,7 @@
   <string name="sum_expenses">支出</string>
   <string name="sum_income">收入</string>
   <string name="sum_transfer">转移</string>
-  <!--%s is replaced with Android or Blackberry-->
+  <!--platform is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">{app_name}, 个人理财工具 {platform}版, {website}</string>
   <string name="template_create_success">模板 \"%1$s\" 成功被建立</string>
   <string name="thank_you">感谢你的支持!</string>

@@ -268,6 +268,7 @@
   <string name="pref_contrib_purchase_title_in_app">In-App plată</string>
   <string name="pref_custom_currency_title">Personalizează valutele</string>
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
+  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Dacă aţi primit o cheie, veţi avea acces la funcţionalităţile premium.</string>
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Introduceţi cheia</string>
   <string name="pref_export_format_title">Format date</string>
   <string name="pref_follow_gplus_title">Urmăreşte {app_name} pe Google +</string>
@@ -367,7 +368,7 @@
   <string name="sum_expenses">Cheltuieli</string>
   <string name="sum_income">Venituri</string>
   <string name="sum_transfer">Transferuri</string>
-  <!--%s is replaced with Android or Blackberry-->
+  <!--platform is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Check out {app_name}, Manager Finanţe  Personale pentru {platform}, de la {website}</string>
   <string name="template_create_success">Şablon \"%1$s\" creat</string>
   <string name="thank_you">Mulţumim pentru suportul dvs!</string>

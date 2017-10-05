@@ -86,7 +86,6 @@
     <string name="dialog_contrib_no_usages_left">No free usages left.</string>
     <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
     <string name="dialog_contrib_premium_feature">%1$s is a premium feature (%2$s).</string>
-    <!-- %s is appname -->
     <string name="dialog_contrib_reminder_remove_limitation">Remove this limitation and access more features by upgrading <i>{app_name}</i>.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> is offered open source.</string>
     <string name="dialog_contrib_text_2">Please contribute by upgrading <i>{app_name}</i> and gain unrestricted access to the following features:</string>

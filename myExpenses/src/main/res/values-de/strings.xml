@@ -276,11 +276,13 @@
   <string name="pref_checkbox_enabled">Freigegeben</string>
   <string name="pref_checkbox_disabled">Deaktiviert</string>
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
+  <string name="pref_contrib_purchase_summary">Zugriff auf Premium-Funktionen erwerben.</string>
   <string name="pref_contrib_purchase_title">Schlüssel kaufen</string>
   <string name="pref_contrib_purchase_title_upgrade">Schlüssel erweitern</string>
   <string name="pref_contrib_purchase_title_in_app">In-App Bezahlung</string>
   <string name="pref_custom_currency_title">Anpassen von Währungen</string>
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
+  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Wenn Sie einen Schlüssel erhalten haben, können Sie hier Premium-Funktionen freischalten.</string>
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Schlüssel eingeben</string>
   <string name="pref_export_format_title">Datenformat</string>
   <string name="pref_follow_gplus_title">{app_name} auf Google+ folgen</string>
@@ -382,7 +384,7 @@
   <string name="sum_expenses">Ausgaben</string>
   <string name="sum_income">Einnahmen</string>
   <string name="sum_transfer">Umbuchungen</string>
-  <!--%s is replaced with Android or Blackberry-->
+  <!--platform is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">Probiere {app_name}, Persönliches Finanz-Management für {platform}, von {website}</string>
   <string name="template_create_success">Vorlage \"%1$s\" erfolgreich angelegt</string>
   <string name="thank_you">Danke für Ihre Unterstützung!</string>
@@ -530,7 +532,6 @@
   <string name="menu_show_transactions">Buchungen anzeigen</string>
   <string name="pref_custom_decimal_format_title">Zahlenformat</string>
   <string name="pref_custom_decimal_format_summary">Wenn Sie mit dem Standardformat für Ihr Gebietsschema nicht zufrieden sind, können Sie es an Ihre Bedürfnisse anpassen. Leer lassen, um das Standardformat wiederherzustellen. </string>
-  <string name="licence_validation_upgrade_needed" tools:ignore="UnusedResources">Bitte aktualisieren Sie Meine Ausgaben Contrib auf Version 1.5.</string>
   <string name="pref_auto_backup_title">Automatisches Backup</string>
   <string name="pref_auto_backup_summary">Sichere Datenbank täglich zur angegebenen Zeit (nur wenn sich die Daten verändert haben)</string>
   <string name="pref_auto_backup_time_title">Zeit für automatische Sicherung</string>

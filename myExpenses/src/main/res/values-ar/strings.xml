@@ -2,6 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">الحساب</string>
   <!--Label in form for payment method, where user checks for which account types the method is applicable-->
+  <string name="account_types">أنواع الحساب</string>
   <string name="account_type_asset">حساب الاصول</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">حسابات الاصول</string>
@@ -28,6 +29,7 @@
   <string name="confirmation_dialog_dont_show_again">لا تظهر مرة أخرى</string>
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">بدون إعلانات</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">عدد حسابات غير محدود</string>
+  <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">إرفاق صورة إلى عملية</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">عدد غير محدود من الخطط</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">إستيراد ملف CSV</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
@@ -152,6 +154,7 @@
   <string name="menu_invert_transfer">عكس</string>
   <string name="menu_manage_plans">النماذج والخطط</string>
   <string name="menu_import">استيراد</string>
+  <string name="menu_print">طباعة</string>
   <string name="menu_reset">تصدير وإعادة تعيين</string>
   <string name="menu_reset_all">تصدير وإعادة تعيين الكل</string>
   <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
@@ -164,6 +167,7 @@
   <string name="no_amount_given">لم تقم بإدخال قيمة.</string>
   <string name="no_app_handling_email_available">لا يوجد تطبيق للبريد الالكتروني.</string>
   <string name="no_app_handling_ftp_available">لا يوجد تطبيق لـ ftp. تثبيت <i>Send With FTP</i>؟</string>
+  <string name="no_app_handling_pdf_available">لا يوجد تطبيق لمعاينة ملفات الPDF </string>
   <string name="no_categories">لا يوجد تصنيفات.</string>
   <string name="no_expenses">لا يوجد مصروفات حتى الأن!</string>
   <string name="no_exportable_expenses">لا يوجد عمليات لم يتم تصديرها بعد.</string>
@@ -211,6 +215,7 @@
   <string name="pref_app_dir_title">مجلد للنسخ الاحتياطية والتصديرات</string>
   <string name="pref_backup_summary">حفظ نسخة احتياطية لقاعدة البيانات والتفضيلات في الذاكرة.</string>
   <string name="pref_sort_order_usages">عدد مرات الاستعمال</string>
+  <string name="pref_category_title_advanced">متقدم</string>
   <string name="pref_category_title_export">تصدير</string>
   <string name="pref_category_title_import">استيراد</string>
   <string name="pref_category_title_manage">إدارة</string>
@@ -220,6 +225,8 @@
   <string name="pref_checkbox_enabled">مفعل</string>
   <string name="pref_checkbox_disabled">معطل</string>
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
+  <string name="pref_contrib_purchase_title">مفتاح الشراء</string>
+  <string name="pref_contrib_purchase_title_upgrade">مفتاح الترقية </string>
   <string name="pref_contrib_purchase_title_in_app">الشراء داخل التطبيق</string>
   <string name="pref_custom_currency_title">تخصيص العملات</string>
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
@@ -309,7 +316,7 @@
   <string name="sum_expenses">المصاريف</string>
   <string name="sum_income">الدخل</string>
   <string name="sum_transfer">التحويلات</string>
-  <!--%s is replaced with Android or Blackberry-->
+  <!--platform is replaced with Android or Blackberry-->
   <string name="template_create_success">تم انشاء النموذج \"%1$s\" بنجاح</string>
   <string name="thank_you">شكراً لدعمك!</string>
   <string name="time">الوقت</string>

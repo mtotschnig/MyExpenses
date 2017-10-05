@@ -205,6 +205,7 @@
   <string name="pref_category_title_ui">Uživatelské rozhraní</string>
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
+  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Pokud jste obdrželi klíč, získejte přístup k nadstandardním funkcím.</string>
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Vložte klíč</string>
   <string name="pref_export_format_title">Formát dat</string>
   <string name="pref_follow_gplus_title">Sledujte {app_name} na Google +</string>
@@ -276,7 +277,7 @@
   <string name="sum_expenses">Výdaje</string>
   <string name="sum_income">Příjem</string>
   <string name="sum_transfer">Převody</string>
-  <!--%s is replaced with Android or Blackberry-->
+  <!--platform is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">{app_name}, Správa osobních výdajů pro {platform}, {website}</string>
   <string name="template_create_success">Šablona \"%1$s\" byla úspěšně vytvořen</string>
   <string name="thank_you">Děkujeme vám za vaši podporu!</string>

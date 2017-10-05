@@ -225,6 +225,7 @@
   <string name="pref_category_title_ui">Interfície d\'usuari</string>
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
+  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Si heu rebut una clau, podeu accedir a les funcions avançades.</string>
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Entreu la clau</string>
   <string name="pref_export_format_title">Format de les dades</string>
   <string name="pref_follow_gplus_title">Segueix {app_name} a Google+</string>
@@ -299,7 +300,7 @@
   <string name="sum_expenses">Despeses</string>
   <string name="sum_income">Ingressos</string>
   <string name="sum_transfer">Transferèncias</string>
-  <!--%s is replaced with Android or Blackberry-->
+  <!--platform is replaced with Android or Blackberry-->
   <string name="template_create_success">La plantilla \"%1$s\" s\'ha definit correctament</string>
   <string name="thank_you">Gràcies pel vostre suport!</string>
   <string name="time">Hora</string>

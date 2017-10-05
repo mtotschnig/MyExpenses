@@ -276,11 +276,13 @@
   <string name="pref_checkbox_enabled">Abilitato</string>
   <string name="pref_checkbox_disabled">Non abilitato</string>
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
+  <string name="pref_contrib_purchase_summary">Acquistare l\'accesso a funzionalità premium.</string>
   <string name="pref_contrib_purchase_title">Acquisto la chiave</string>
   <string name="pref_contrib_purchase_title_upgrade">Aggiornare la chiave</string>
   <string name="pref_contrib_purchase_title_in_app">pagamento nel applicazione</string>
   <string name="pref_custom_currency_title">Personalizzare le valute</string>
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
+  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Se avete ricevuto una chiave, otterrete l\'accesso a funzionalità speciali.</string>
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Inserisci la chiave</string>
   <string name="pref_export_format_title">Formato dati</string>
   <string name="pref_follow_gplus_title">Segui {app_name} su Google+</string>
@@ -382,7 +384,7 @@
   <string name="sum_expenses">Spese</string>
   <string name="sum_income">Reddito</string>
   <string name="sum_transfer">Trasferimenti</string>
-  <!--%s is replaced with Android or Blackberry-->
+  <!--platform is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">{app_name}, Gestione delle finanze personali per {platform}, {website}</string>
   <string name="template_create_success">Il modello \"%1$s\" è stato creato con successo</string>
   <string name="thank_you">Grazie per il tuo sostegno!</string>
@@ -530,7 +532,6 @@
   <string name="menu_show_transactions">Visualizzare operazioni</string>
   <string name="pref_custom_decimal_format_title">Formato numero</string>
   <string name="pref_custom_decimal_format_summary">Se non siete soddisfatti con il formato predefinito per le impostazioni internazionali, è possibile adattarlo alle proprie esigenze. Lasciare vuoto per ripristinare il formato predefinito.</string>
-  <string name="licence_validation_upgrade_needed" tools:ignore="UnusedResources">Si prega di aggiornare Le mie spese Contrib alla versione 1.5.</string>
   <string name="pref_auto_backup_title">Attivare il backup automatico</string>
   <string name="pref_auto_backup_summary">Backup del database ogni giorno all\'ora specificata (solo se i dati sono cambiati)</string>
   <string name="pref_auto_backup_time_title">Ora di backup automatico</string>
