@@ -676,7 +676,6 @@
   <string name="licence_removal_success">Lisans anahtarı bu cihazdan başarılı bir şekilde kaldırılmıştır.</string>
   <string name="professional_key">Profesyonel Anahtar</string>
   <string name="n_months">%s ay</string>
-  <string name="professionalPriceShortInfo">Ayda 1.00 €\'dan az</string>
   <string name="eu_vat_info">Görüntülenen fiyatlar Avrupa Birliği\'ndeki kullanıcılar için KDV\'yi içermemektedir.</string>
   <string name="pref_contrib_purchase_title_renew">Lisansı yenile</string>
   <string name="licence_migration_info">{app_name} yeni bir lisans doğrulama mekanizması kullanmaktadır. Lütfen yeni bir anahtar talep edin.</string>

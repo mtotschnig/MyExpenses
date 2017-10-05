@@ -676,7 +676,6 @@
   <string name="licence_removal_success">Лицензният ключ бе успешно премахнат от това устройство.</string>
   <string name="professional_key">Професионален ключ</string>
   <string name="n_months">%s месеца</string>
-  <string name="professionalPriceShortInfo">по-малко от 1,00 € / месец</string>
   <string name="eu_vat_info">За гражданите на Европейския съюз цените не включват ДДС.</string>
   <string name="pref_contrib_purchase_title_renew">Подновяване на лиценза</string>
   <string name="licence_migration_info">{app_name} използва нов механизъм за валидиране на лицензи. Моля, поискайте нов ключ.</string>
