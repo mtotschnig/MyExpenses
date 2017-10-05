@@ -293,12 +293,14 @@
     <string name="pref_category_title_ui">User interface</string>
     <string name="pref_checkbox_enabled">Enabled</string>
     <string name="pref_checkbox_disabled">Disabled</string>
-    <string name="pref_contrib_purchase_summary">Purchase access to premium and extended features.</string>
+    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
+    <string name="pref_contrib_purchase_summary">Purchase access to premium features.</string>
     <string name="pref_contrib_purchase_title">Purchase key</string>
     <string name="pref_contrib_purchase_title_upgrade">Upgrade key</string>
     <string name="pref_contrib_purchase_title_in_app">In-App payment</string>
     <string name="pref_custom_currency_title">Customize currencies</string>
-    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">If you received a key, gain access to premium/extended features.</string>
+    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
+    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">If you received a key, gain access to premium features.</string>
     <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Enter key</string>
     <string name="pref_export_format_title">Data format</string>
     <string name="pref_follow_gplus_title">Follow My Expenses on Google+</string>
@@ -703,4 +705,3 @@
     <string name="switch_to_monthly">Switch to monthly subscription</string>
     <string name="extend_validity">Extend validity</string>
 </resources>
-

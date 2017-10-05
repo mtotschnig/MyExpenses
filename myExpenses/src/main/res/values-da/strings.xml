@@ -34,7 +34,6 @@
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Ingen annoncer</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Ubegrænset antal konti</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Vedhæft et billede til postering</string>
-  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Fordeling af posteringer pr. kategori</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Ubegrænset antal planer</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Udskriv posteringer som PDF</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Skabelon widget</string>
@@ -126,7 +125,6 @@
   <string name="licence_validation_failure">Licensnøglen kan ikke valideres.</string>
   <string name="licence_validation_success">Licensnøglen er valideret:</string>
   <string name="licence_validation_premium">Premium funktoner er låst op</string>
-  <string name="licence_validation_extended">Funktioner for udvidet version er låst op</string>
   <string name="menu_aggregates">I alt</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Anvende</string>
@@ -259,12 +257,12 @@
   <string name="pref_category_title_ui">Brugergrænseflade</string>
   <string name="pref_checkbox_enabled">Aktiveret</string>
   <string name="pref_checkbox_disabled">Deaktiveret</string>
-  <string name="pref_contrib_purchase_summary">Køb adgang til premium og avancerede funktioner.</string>
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_contrib_purchase_title">Køb nøgle</string>
   <string name="pref_contrib_purchase_title_upgrade">Opgrader produktnøglen</string>
   <string name="pref_contrib_purchase_title_in_app">In-app-betaling</string>
   <string name="pref_custom_currency_title">Ændre valutaer</string>
-  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Hvis du har modtaget en nøgle, kan du få adgang til premium/avancerede funktionerne.</string>
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Indtast nøgle</string>
   <string name="pref_export_format_title">Dataformat</string>
   <string name="pref_follow_gplus_title">Følg Mine Udgifter på Google +</string>
@@ -502,4 +500,5 @@
   <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <!--Sort plans (recurring transactions) by the next instance-->
+  <!--%1$s date, %2$s price-->
 </resources>

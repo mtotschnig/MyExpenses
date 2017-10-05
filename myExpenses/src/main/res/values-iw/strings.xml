@@ -35,7 +35,6 @@
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">ללא פרסומות</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">מספר חשבונות בלתי מוגבל</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">צרף תמונה לעסקה</string>
-  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">התפלגות העסקאות לפי קטגוריה</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">מספר תוכניות בלתי מוגבל</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">ייצא רשימת עסקאות ל- PDF</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">תבנית widget</string>
@@ -142,7 +141,6 @@
   <string name="licence_validation_failure">לא ניתן לאמת מפתח רישיון.</string>
   <string name="licence_validation_success">מפתח הרישיון אומת בהצלחה:</string>
   <string name="licence_validation_premium">תכונות פרימיום פתוחות.</string>
-  <string name="licence_validation_extended">תכונות מורחבות נפתחו.</string>
   <string name="menu_aggregates">סה\"כ</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">ישם</string>
@@ -277,12 +275,12 @@
   <string name="pref_category_title_ui">ממשק משתמש</string>
   <string name="pref_checkbox_enabled">מופעל</string>
   <string name="pref_checkbox_disabled">מושבת</string>
-  <string name="pref_contrib_purchase_summary">רכישת גישה לתכונות פרמיום מורחבות.</string>
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_contrib_purchase_title">מפתח רכישה</string>
   <string name="pref_contrib_purchase_title_upgrade">מפתח לשדרוג</string>
   <string name="pref_contrib_purchase_title_in_app">תשלום מתוך האפליקציה</string>
   <string name="pref_custom_currency_title">התאמה אישית של מטבעות</string>
-  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">אם קיבלת מפתח, קבל גישה לתכונות פרימיום / מורחבות.</string>
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">הכנס מפתח</string>
   <string name="pref_export_format_title">פורמט נתונים</string>
   <string name="pref_follow_gplus_title">עקוב אחר האפליקציה My Expenses  ב- Google+</string>
@@ -656,4 +654,5 @@
   <string name="dialog_button_add">הוסף</string>
   <string name="template_create_error">שגיאה בעת שמירת תבנית</string>
   <string name="contributed_by">נתרם על ידי %s</string>
+  <!--%1$s date, %2$s price-->
 </resources>

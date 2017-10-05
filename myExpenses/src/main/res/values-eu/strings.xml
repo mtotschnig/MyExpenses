@@ -35,7 +35,6 @@
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Iragarkirik gabe</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Kontu kopuru mugagabea</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Erantsi irudia transakzioari</string>
-  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Transakzioen distribuzioa kategoriako</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Plan kopuru mugagabea</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Esportatu transakzio zerrenda PDFra</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Txantiloien trepeta</string>
@@ -142,7 +141,6 @@
   <string name="licence_validation_failure">Ezin izan da lizentzia gakoa egiaztatu.</string>
   <string name="licence_validation_success">Lizentzia gakoa ondo egiaztatu da</string>
   <string name="licence_validation_premium">Premium ezaugarriak desblokeatu dira.</string>
-  <string name="licence_validation_extended">Bertsio hedatuaren ezaugarriak desblokeatu dira.</string>
   <string name="menu_aggregates">Guztira</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Aplikatu</string>
@@ -277,12 +275,12 @@
   <string name="pref_category_title_ui">Erabiltzaile interfazea</string>
   <string name="pref_checkbox_enabled">Gaituta</string>
   <string name="pref_checkbox_disabled">Ezgaituta</string>
-  <string name="pref_contrib_purchase_summary">Erosi sarbidea premium eta bertsio hedatuaren ezaugarrietara.</string>
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_contrib_purchase_title">Erosi gakoa</string>
   <string name="pref_contrib_purchase_title_upgrade">Eguneratu gakoa</string>
   <string name="pref_contrib_purchase_title_in_app">Aplikazio barneko ordainketa</string>
   <string name="pref_custom_currency_title">Pertsonalizatu monetak</string>
-  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Gakoa jaso baduzu, lortu sarbidea premium eta bertsio hedatuaren ezaugarrietara.</string>
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Sartu gakoa</string>
   <string name="pref_export_format_title">Datuen formatua</string>
   <string name="pref_follow_gplus_title">Jarraitu Nire Gastuak Google+en</string>
@@ -661,4 +659,5 @@
   <string name="pref_debug_logging_summary">Idatzi arazketa informazioa sistemaren egunkarian</string>
   <string name="plan_custom_recurrence_info">Gorde txantiloia aurrena. plana egutegi aplikazioan irekiko da, errepikatze pertsonalizatu bat ezartzen duzunean. </string>
   <string name="storage_permission_required">Hautatu duzun iturria irakurtzeko kanpo biltegiratzea atzitzeko baimena behar da.</string>
+  <!--%1$s date, %2$s price-->
 </resources>

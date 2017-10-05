@@ -34,7 +34,6 @@
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Không quảng cáo</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Số lượng không giới hạn các tài khoản</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Chèn ảnh vào giao dịch</string>
-  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Giao dịch phân loại theo danh mục</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Tạo các kế hoạch với số lượng không giới hạn</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Xuất danh sách giao dịch sang dạng PDF</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Tiện ích cho bản mẫu</string>
@@ -141,7 +140,6 @@
   <string name="licence_validation_failure">Không thể xác minh khóa bản quyền.</string>
   <string name="licence_validation_success">Khoá bản quyền đã được xác minh</string>
   <string name="licence_validation_premium">Các tính năng trả phí đã được mở khoá.</string>
-  <string name="licence_validation_extended">Các tính năng mở rộng đã được mở khoá.</string>
   <string name="menu_aggregates">Tổng cộng</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Áp dụng</string>
@@ -274,12 +272,12 @@
   <string name="pref_category_title_ui">Giao diện người dùng</string>
   <string name="pref_checkbox_enabled">Bật</string>
   <string name="pref_checkbox_disabled">Tắt</string>
-  <string name="pref_contrib_purchase_summary">Nâng cấp để dùng các tính năng trả phí và mở rộng.</string>
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_contrib_purchase_title">Mua một khóa</string>
   <string name="pref_contrib_purchase_title_upgrade">Nâng cấp khóa</string>
   <string name="pref_contrib_purchase_title_in_app">Mua hàng trong ứng dụng</string>
   <string name="pref_custom_currency_title">Tùy chỉnh các loại tiền tệ</string>
-  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Nếu bạn đã nhận một khóa, hãy nâng cấp lên các tính năng trả phí và mở rộng.</string>
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Nhập khóa</string>
   <string name="pref_export_format_title">Định dạng dữ liệu</string>
   <string name="pref_follow_gplus_title">Theo dõi My Expenses trên Google+</string>
@@ -615,4 +613,5 @@
   <string name="synchronization_end_success_none">Không có thay đổi nào để đồng bộ.</string>
   <string name="sync_state_restored">Trạng thái đồng bộ hóa đã được khôi phục cho %d tài khoản.</string>
   <string name="sync_state_could_not_be_restored">Không thể khôi phục trạng thái đồng bộ hóa cho %d tài khoản.</string>
+  <!--%1$s date, %2$s price-->
 </resources>

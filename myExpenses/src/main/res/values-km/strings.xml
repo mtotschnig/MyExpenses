@@ -27,7 +27,6 @@
   <string name="comment">សម្គាល់</string>
   <string name="confirmation_dialog_dont_show_again">សូម​កុំ​បង្ហាញ​ម្តង​ទៀត</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">ចំនួន​គណនី​គ្មាន​ដែន​កំណត់</string>
-  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">ការចែកចាយប្រតិបត្តិការផ្សេងៗ​តាមចំណាត់ថ្នាក់</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">ចំនួន​ផែនការគ្មានដែន​កំណត់​</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">ប្រអប់​ធាតុពុម្ព</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
@@ -231,6 +230,8 @@
   <string name="pref_category_title_ui">User Interface</string>
   <string name="pref_checkbox_enabled">បើក</string>
   <string name="pref_checkbox_disabled">បិទ</string>
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_export_format_title">ទ្រង់ទ្រាយទិន្នន័យ</string>
   <string name="pref_follow_gplus_title">ជួប My Expenses នៅ Google+</string>
   <string name="pref_import_from_grisbi_title">នាំចូលពី Grisbi</string>
@@ -379,4 +380,5 @@
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="template">ទិន្ន​ន័យ​គំរូ</string>
+  <!--%1$s date, %2$s price-->
 </resources>

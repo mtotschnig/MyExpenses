@@ -34,7 +34,6 @@
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Tanpa iklan</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Bilangan akaun tidak terhad</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Lampir imej ke dalam transaksi</string>
-  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Agihan transaksi per kategori</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Bilang pelan tidak terhad</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Eksport senarai transaksi menjadi PDF</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Widget  templat</string>
@@ -141,7 +140,6 @@
   <string name="licence_validation_failure">Tidak boleh sahkan kunci lesen.</string>
   <string name="licence_validation_success">Kunci lesen berjaya disahkan:</string>
   <string name="licence_validation_premium">Fitur premium tidak terbuka.</string>
-  <string name="licence_validation_extended">Fitur lanjutan telah dibuka.</string>
   <string name="menu_aggregates">Jumlah</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Laksana</string>
@@ -274,12 +272,12 @@
   <string name="pref_category_title_ui">Antaramuka pengguna</string>
   <string name="pref_checkbox_enabled">Dibenarkan</string>
   <string name="pref_checkbox_disabled">Dilumpuhkan</string>
-  <string name="pref_contrib_purchase_summary">Beli capaian ke fitur premium dan lanjutan.</string>
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_contrib_purchase_title">Beli Kunci</string>
   <string name="pref_contrib_purchase_title_upgrade">Kunci tatar</string>
   <string name="pref_contrib_purchase_title_in_app">Pembayaran In-App</string>
   <string name="pref_custom_currency_title">Suaikan matawang</string>
-  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Jika anda menerima kunci, dapatkan capaian ke fitur premium/lanjutan.</string>
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Masukkan kunci</string>
   <string name="pref_export_format_title">Format data</string>
   <string name="pref_follow_gplus_title">Ikut Perbelanjaan Saya pada Google+</string>
@@ -617,4 +615,5 @@
   <string name="auto_backup_cloud_create_backend">Cipta bahagian belakang penyegerakan melalui skrin tetapan utama.</string>
   <string name="auto_backup_cloud_failure">Satu ralat berlaku ketika cuba menyimpan fail sandar %1$s pada bahagian belakang %2$s:</string>
   <string name="home_screen_shortcuts_nougate_info">Pintasan boleh ditambah dengan mengetik-lama pada ikon apl di Skrin Rumah.</string>
+  <!--%1$s date, %2$s price-->
 </resources>

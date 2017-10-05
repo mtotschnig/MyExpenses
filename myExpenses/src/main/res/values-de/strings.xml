@@ -35,7 +35,6 @@
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Ohne Werbung</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Unbegrenzte Anzahl von Konten</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Bildanhang für Buchung</string>
-  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Verteilung der Buchungen auf Kategorien</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Unbegrenzte Anzahl von Plänen</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Buchungsliste als PDF-Datei drucken</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Vorlagen Widget</string>
@@ -142,7 +141,6 @@
   <string name="licence_validation_failure">Lizenz-Schlüssel konnte nicht validiert werden.</string>
   <string name="licence_validation_success">Lizenz-Schlüssel wurde erfolgreich validiert: </string>
   <string name="licence_validation_premium">Premium-Funktionen wurden entsperrt.</string>
-  <string name="licence_validation_extended">Erweiterte Funktionen wurden entsperrt.</string>
   <string name="menu_aggregates">Gesamt</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Anwenden</string>
@@ -277,12 +275,12 @@
   <string name="pref_category_title_ui">Benutzerschnittstelle</string>
   <string name="pref_checkbox_enabled">Freigegeben</string>
   <string name="pref_checkbox_disabled">Deaktiviert</string>
-  <string name="pref_contrib_purchase_summary">Zugriff auf Premium- und erweiterte Funktionen erwerben.</string>
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_contrib_purchase_title">Schlüssel kaufen</string>
   <string name="pref_contrib_purchase_title_upgrade">Schlüssel erweitern</string>
   <string name="pref_contrib_purchase_title_in_app">In-App Bezahlung</string>
   <string name="pref_custom_currency_title">Anpassen von Währungen</string>
-  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Wenn Sie einen Schlüssel erhalten haben, können Sie hier Premium/erweiterte Funktionen freischalten.</string>
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Schlüssel eingeben</string>
   <string name="pref_export_format_title">Datenformat</string>
   <string name="pref_follow_gplus_title">Meine Ausgaben auf Google+ folgen</string>
@@ -660,4 +658,5 @@
   <string name="pref_debug_logging_summary">Debugging-Informationen in das Systemprotokoll schreiben</string>
   <string name="plan_custom_recurrence_info">Bitte speichern Sie zunächst die Vorlage. Der Plan wird dann in der Kalender-App geöffnet, wo Sie eine benutzerdefinierte Wiederholung einstellen können.</string>
   <string name="storage_permission_required">Die von Ihnen ausgewählte Quelle kann nur gelesen werden, wenn Sie die Berechtigung zum Lesen aus dem externen Speicher erteilen.</string>
+  <!--%1$s date, %2$s price-->
 </resources>

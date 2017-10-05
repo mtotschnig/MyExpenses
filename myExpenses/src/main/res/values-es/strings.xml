@@ -35,7 +35,6 @@
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Sin anuncios</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Número de cuentas ilimitadas</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Adjuntar imagen a la transacción</string>
-  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Distribución de transacciones por categoría</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Número de proyectos ilimitados</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Exportar lista de transacciones a PDF</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Plantilla de widget</string>
@@ -142,7 +141,6 @@
   <string name="licence_validation_failure">No se puedo validar la licencia.</string>
   <string name="licence_validation_success">Licencia validada satisfactoriamente:</string>
   <string name="licence_validation_premium">Opciones Premium desbloqueadas.</string>
-  <string name="licence_validation_extended">Características Extendidas desbloqueadas.</string>
   <string name="menu_aggregates">Total</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Aplicar</string>
@@ -277,12 +275,12 @@
   <string name="pref_category_title_ui">Interfaz de usuario</string>
   <string name="pref_checkbox_enabled">Habilitado</string>
   <string name="pref_checkbox_disabled">Inhabilitado</string>
-  <string name="pref_contrib_purchase_summary">Comprar acceso a las características Premium y Extendidas.</string>
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_contrib_purchase_title">Comprar llave</string>
   <string name="pref_contrib_purchase_title_upgrade">Actualizar llave</string>
   <string name="pref_contrib_purchase_title_in_app">Pago desde la aplicación</string>
   <string name="pref_custom_currency_title">Personalizar moneda</string>
-  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Si ha recibido una clave, puede desbloquear las características Premium/Extendidas.</string>
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Introduzcir clave</string>
   <string name="pref_export_format_title">Formato de datos</string>
   <string name="pref_follow_gplus_title">Seguir a Mis Gastos en Google+</string>
@@ -660,4 +658,5 @@
   <string name="pref_debug_logging_summary">Escribir información de depuración en el registro de sistema</string>
   <string name="plan_custom_recurrence_info">Por favor, guarde la plantilla primero. Se abrirá el proyecto en la aplicación de calendario, desde donde podrá configurar una reaparición personalizada.</string>
   <string name="storage_permission_required">La fuente seleccionada sólo podrá leerse si da permiso de lectura desde un almacenamiento externo.</string>
+  <!--%1$s date, %2$s price-->
 </resources>

@@ -35,11 +35,12 @@
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Reklamsız</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Sınırsız sayıda hesap</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Muameleye resim ekle</string>
-  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Muamelelerin kategori başına dağılımı</string>
+  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Dilim grafik (kategori başına dağılım)</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Sınırsız plan sayısı</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Muamele listesini PDF dosyasına aktar</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Şablon widget\'i</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV içe aktar</string>
+  <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Sınırsız sayıda bölünmüş şablonlar</string>
   <string name="licence_status_free">Ücretsiz</string>
   <string name="contrib_key">Katkı Anahtarı</string>
   <string name="extended_key">Genişletilmiş Anahtarı</string>
@@ -78,6 +79,7 @@
   <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Güncel lisans durumunuz (%2$s) ile bunu %1$d gün kullanabilirsiniz.</string>
   <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Güncel lisans durumunuz (%2$s) %1$d hesap oluşturmanıza izin vermektedir.</string>
   <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Güncel lisans durumunuz (%2$s) %1$d planlama oluşturmanıza izin vermektedir.</string>
+  <string name="dialog_contrib_usage_limit_split_templates">Güncel lisans durumunuz (%1$s) 1 bölünmüş şablon oluşturmanıza izin vermektedir.</string>
   <string name="dialog_export_delete">Dışa aktarılan muameleleri sil</string>
   <string name="dialog_export_not_yet_exported">Sadece henüz dışa aktarılmamış muameleleri aktar</string>
   <string name="dialog_password_activate_protection">Parola ile korumayı etkinleştir</string>
@@ -142,7 +144,6 @@
   <string name="licence_validation_failure">Lisans anahtarı doğrulanamadı.</string>
   <string name="licence_validation_success">Lisans anahtarı başarıyla doğrulandı:</string>
   <string name="licence_validation_premium">Ödemeli işlevlerin kilidi açılmıştır.</string>
-  <string name="licence_validation_extended">Genişletilmiş işlevlerin kilidi açıldı.</string>
   <string name="menu_aggregates">Toplam</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Uygula</string>
@@ -277,11 +278,13 @@
   <string name="pref_category_title_ui">Kullanıcı arayüzü</string>
   <string name="pref_checkbox_enabled">Etkinleştirilmiş</string>
   <string name="pref_checkbox_disabled">Devre dışı</string>
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_contrib_purchase_summary">Premium (ödemeli) ve genişletilmiş işlevlere erişim satın al.</string>
   <string name="pref_contrib_purchase_title">Anahtarını Satın Al</string>
   <string name="pref_contrib_purchase_title_upgrade">Yükseltme anahtarı</string>
   <string name="pref_contrib_purchase_title_in_app">Uygulama içi ödeme</string>
   <string name="pref_custom_currency_title">Para birimlerini kişiselleştir</string>
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Eğer anahtarı aldıysanız tüm işlevlere erişim kazanın.</string>
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Anahtarını gir</string>
   <string name="pref_export_format_title">Veri biçimi</string>
@@ -621,6 +624,7 @@
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Bulut eşleşmesi</string>
   <string name="licence_status">Lisans durumunuz</string>
   <string name="all_contrib_key_features">Katkı Anahtarının tüm işlevleri</string>
+  <string name="all_extended_key_features">Genişletilmiş Anahtar\'ın tüm işlevleri</string>
   <string name="upgrade_now">Şimdi yükselt</string>
   <string name="pref_backup_cloud_title">Eşleşme arka ucunda sakla</string>
   <string name="pref_backup_cloud_summary">Cihazdaki yerel stoklamaya ek olarak, yedekleme dosyası uzaktaki bir arka uca kopyalanabilir.</string>
@@ -658,4 +662,26 @@
   <string name="contributed_by">Katkıda bulunan: %s</string>
   <string name="pref_sync_notification_summary">Eşleşme ilerlemesi hakkında bildirim göster</string>
   <string name="pref_debug_logging_summary">Hata ayıklama verilerini sistem kütüğüne yaz</string>
+  <string name="plan_custom_recurrence_info">Lütfen önce şablonu kaydedin. O zaman planlama takvim uygulamasında açılacaktır ve burada özel bir tekrarlama seçebilirsiniz.</string>
+  <string name="storage_permission_required">Seçtiğiniz kaynak sadece harici bir depolama alanından okuma iznini verirseniz okunabilir.</string>
+  <string name="picture">Resim</string>
+  <string name="menu_create_template_for_split">Yeni bölünmüş şablon</string>
+  <string name="progress_validating_licence">Lisans doğrulanıyor</string>
+  <string name="licence_validation_error_expired">Lisans sona ermiş</string>
+  <string name="licence_validation_error_device_limit_exceeded">Cİhaz sınırı aşılmıştır. Lütfen başka bir cihazdan lisansı kaldırın.</string>
+  <string name="error">Hata (%s)</string>
+  <string name="button_validate">Doğrula</string>
+  <string name="licence_key">Lisans Anahtarı</string>
+  <string name="licence_removal_information">Eğer bu cihazda genişletilmiş işlevlere ihtiyaç duymuyorsanız, lisans anahtarını kaldırabilirsiniz. Bu, anahtarı başka bir cihazda etkinleştirebilmenize izin verir. Anahtar en çok %d cihazda etkinleştirilebilir. </string>
+  <string name="progress_removing_licence">Lisans kaldırılıyor</string>
+  <string name="licence_removal_success">Lisans anahtarı bu cihazdan başarılı bir şekilde kaldırılmıştır.</string>
+  <string name="professional_key">Profesyonel Anahtar</string>
+  <string name="n_months">%s ay</string>
+  <string name="professionalPriceShortInfo">Ayda 1.00 €\'dan az</string>
+  <string name="eu_vat_info">Görüntülenen fiyatlar Avrupa Birliği\'ndeki kullanıcılar için KDV\'yi içermemektedir.</string>
+  <string name="pref_contrib_purchase_title_renew">Lisansı yenile</string>
+  <string name="licence_migration_info">Harcamalarım yeni bir lisans doğrulama mekanizması kullanmaktadır. Lütfen yeni bir anahtar talep edin.</string>
+  <string name="valid_until">%s tarihine kadar geçerli</string>
+  <!--%1$s date, %2$s price-->
+  <string name="extend_until">%1$s tarihine kadar %2$s fiyatına yenile</string>
 </resources>

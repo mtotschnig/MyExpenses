@@ -22,7 +22,6 @@
   <string name="comment">附註</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">帳戶數量不限</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">將圖像附加到交易項目</string>
-  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">每個類別的交易分佈</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">計劃數量不限</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">匯出交易記錄清單成PDF</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">模板插件</string>
@@ -197,6 +196,8 @@
   <string name="pref_category_title_more_information">更多資訊</string>
   <string name="pref_category_title_security">安全</string>
   <string name="pref_category_title_ui">用戶界面</string>
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_export_format_title">日期格式</string>
   <string name="pref_follow_gplus_title">跟隨在 Google+ 的 開支助手</string>
   <string name="pref_import_from_grisbi_summary">匯入類別 和貿易夥伴.</string>
@@ -308,4 +309,5 @@
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="template">範本</string>
+  <!--%1$s date, %2$s price-->
 </resources>

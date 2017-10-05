@@ -35,7 +35,6 @@
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Χωρίς διαφημίσεις</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Απεριόριστος αριθμός λογαριασμών</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Επισυνάψτε εικόνα στην συναλλαγή</string>
-  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Κατανομή των συναλλαγών ανά κατηγορία</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Απεριόριστος αριθμός σχεδίων</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Εξαγάγετε τη λίστα συναλλαγών σε PDF</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Πρότυπο γραφικού στοιχείου</string>
@@ -142,7 +141,6 @@
   <string name="licence_validation_failure">Δεν είναι δυνατή η επικύρωση κλειδιού αδειών.</string>
   <string name="licence_validation_success">Κλειδί αδειών επικυρώθηκε με επιτυχία :</string>
   <string name="licence_validation_premium">Τα αναβαθμισμένα χαρακτηριστικά έχουν ξεκλειδωθεί.</string>
-  <string name="licence_validation_extended">Τα εκτεταμένα χαρακτηριστικά έχουν ξεκλειδωθεί.</string>
   <string name="menu_aggregates">Συνολικά</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Ισχύει, -ουν</string>
@@ -277,12 +275,12 @@
   <string name="pref_category_title_ui">Σύνδεση, διεπαφή με τον χρήστη</string>
   <string name="pref_checkbox_enabled">Ενεργοποιημένο</string>
   <string name="pref_checkbox_disabled">Απενεργοποιημένο</string>
-  <string name="pref_contrib_purchase_summary">Αγοράστε πρόσβαση σε αναβαθμισμένα και εκτεταμένα χαρακτηριστικά.</string>
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_contrib_purchase_title">Αγορά κλειδιού</string>
   <string name="pref_contrib_purchase_title_upgrade">Κλειδί αναβάθμισης</string>
   <string name="pref_contrib_purchase_title_in_app">Αγορά εντός της εφαρμογής</string>
   <string name="pref_custom_currency_title">Προσαρμογή νομισμάτων</string>
-  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Εάν λάβατε ένα κλειδί, έχετε πρόσβαση σε αναβαθμισμένα/εκτεταμένα χαρακτηριστικά.</string>
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Εισάγετε το κλειδί</string>
   <string name="pref_export_format_title"> Μορφή δεδομένων</string>
   <string name="pref_follow_gplus_title">Παρακολουθήστε τα \"Έξοδά μου\" στο Google +</string>
@@ -608,4 +606,5 @@
   <string name="licence_status">Η κατάσταση της άδειάς σας</string>
   <string name="all_contrib_key_features">Όλα οι δυνατότητες ενός Contrib κλειδιού</string>
   <string name="upgrade_now">Αναβαθμίστε τώρα</string>
+  <!--%1$s date, %2$s price-->
 </resources>

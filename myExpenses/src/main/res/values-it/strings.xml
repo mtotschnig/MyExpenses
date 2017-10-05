@@ -35,7 +35,6 @@
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Nessun annuncio</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Numero illimitato di conti</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Allegare un\'immagine alla transazione</string>
-  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Distribuzione di transazioni per categoria</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Numero illimitato di scadenze</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Esportazione dell\'elenco delle transazioni in PDF</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Widget modelli</string>
@@ -142,7 +141,6 @@
   <string name="licence_validation_failure">Impossible convalidare la chiave di licenza.</string>
   <string name="licence_validation_success">Chiave di licenza convalidata con successo</string>
   <string name="licence_validation_premium">Le funzioni premium sono state sbloccate.</string>
-  <string name="licence_validation_extended">Le funzionalità ampliate sono state sbloccate.</string>
   <string name="menu_aggregates">Sommato</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Applicare</string>
@@ -277,12 +275,12 @@
   <string name="pref_category_title_ui">Interfaccia utente</string>
   <string name="pref_checkbox_enabled">Abilitato</string>
   <string name="pref_checkbox_disabled">Non abilitato</string>
-  <string name="pref_contrib_purchase_summary">Acquistare l\'accesso a funzionalità premium e ampliate.</string>
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_contrib_purchase_title">Acquisto la chiave</string>
   <string name="pref_contrib_purchase_title_upgrade">Aggiornare la chiave</string>
   <string name="pref_contrib_purchase_title_in_app">pagamento nel applicazione</string>
   <string name="pref_custom_currency_title">Personalizzare le valute</string>
-  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Se avete ricevuto una chiave, otterrete l\'accesso a funzionalità speciali.</string>
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Inserisci la chiave</string>
   <string name="pref_export_format_title">Formato dati</string>
   <string name="pref_follow_gplus_title">Segui Le Mie Spese su Google+</string>
@@ -638,4 +636,5 @@
   <string name="sync_io_exception_reset_account_data">Errore durante il ripristino dell\'account remoto.</string>
   <string name="sync_io_exception_setup_remote_account">Errore durante l\'impostazione dell\'account remoto.</string>
   <string name="sync_io_exception_reading_change_set">Errore durante la lettura delle modifiche dal backend.</string>
+  <!--%1$s date, %2$s price-->
 </resources>

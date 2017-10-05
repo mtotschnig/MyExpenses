@@ -27,7 +27,6 @@
   <string name="comment">Notes</string>
   <string name="confirmation_dialog_dont_show_again">No ho tornis a mostrar</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Nombre il·limitat de comptes</string>
-  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Distribució de les operacions per categoria</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Nombre de planificacions il·limitat</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Exporta la llista de transaccions en PDF</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Widget de plantilla</string>
@@ -224,7 +223,8 @@
   <string name="pref_category_title_more_information">Més informació</string>
   <string name="pref_category_title_security">Seguretat</string>
   <string name="pref_category_title_ui">Interfície d\'usuari</string>
-  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Si heu rebut una clau, podeu accedir a les funcions avançades.</string>
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Entreu la clau</string>
   <string name="pref_export_format_title">Format de les dades</string>
   <string name="pref_follow_gplus_title">Segueix Les meves despeses a Google+</string>
@@ -344,4 +344,5 @@
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="template">Plantilla</string>
+  <!--%1$s date, %2$s price-->
 </resources>

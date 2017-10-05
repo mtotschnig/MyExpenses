@@ -34,11 +34,12 @@
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">広告なし</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">無制限の勘定数</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">取引に画像を添付</string>
-  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">分類ごとの取引の分布</string>
+  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">円グラフ (分類ごとの分布)</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">無制限の計画数</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">取引リストを PDF にエクスポート</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">テンプレート ウィジェット</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV インポート</string>
+  <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">無制限の分割テンプレート</string>
   <string name="licence_status_free">無料</string>
   <string name="contrib_key">貢献キー</string>
   <string name="extended_key">拡張キー</string>
@@ -77,6 +78,7 @@
   <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">現在のライセンスステータス (%2$s) で %1$d 日間使用できます。</string>
   <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">現在のライセンスステータス (%2$s) で %1$d アカウント作成できます。</string>
   <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">現在のライセンスステータス (%2$s) で %1$d 計画作成できます。</string>
+  <string name="dialog_contrib_usage_limit_split_templates">現在のライセンス状況 (%1$s) 分割テンプレートを 1 つ作成することができます。</string>
   <string name="dialog_export_delete">エクスポートした取引を削除</string>
   <string name="dialog_export_not_yet_exported">まだエクスポートしていない取引のみエクスポート</string>
   <string name="dialog_password_activate_protection">パスワード保護を有効にする</string>
@@ -141,7 +143,6 @@
   <string name="licence_validation_failure">ライセンスキーを検証できません。</string>
   <string name="licence_validation_success">ライセンスキーが正常に検証されました:</string>
   <string name="licence_validation_premium">プレミアムの機能はロック解除されています。</string>
-  <string name="licence_validation_extended">拡張機能はロック解除されています。</string>
   <string name="menu_aggregates">合計</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">適用</string>
@@ -274,12 +275,12 @@
   <string name="pref_category_title_ui">ユーザーインターフェイス</string>
   <string name="pref_checkbox_enabled">有効</string>
   <string name="pref_checkbox_disabled">無効</string>
-  <string name="pref_contrib_purchase_summary">プレミアムと拡張機能への購入アクセス。</string>
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_contrib_purchase_title">購入キー</string>
   <string name="pref_contrib_purchase_title_upgrade">キーをアップグレード</string>
   <string name="pref_contrib_purchase_title_in_app">アプリ内課金</string>
   <string name="pref_custom_currency_title">通貨をカスタマイズ</string>
-  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">キーを受け取った場合、プレミアム/拡張機能へアクセスすることができます。</string>
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">キーを入力</string>
   <string name="pref_export_format_title">データ形式</string>
   <string name="pref_follow_gplus_title">Google+ で マイ エクスペンス をフォローする</string>
@@ -612,6 +613,7 @@
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">クラウド同期</string>
   <string name="licence_status">ライセンスステータス</string>
   <string name="all_contrib_key_features">貢献キーのすべての機能</string>
+  <string name="all_extended_key_features">拡張キーのすべての機能</string>
   <string name="upgrade_now">今すぐアップグレード</string>
   <string name="pref_backup_cloud_title">同期バックエンドに保存</string>
   <string name="pref_backup_cloud_summary">デバイスのローカルストレージに加えて、バックアップファイルをリモートバックエンドにコピーすることができます。</string>
@@ -651,4 +653,21 @@
   <string name="pref_debug_logging_summary">システムログにデバッグ情報を書き込む</string>
   <string name="plan_custom_recurrence_info">まずテンプレートを保存してください。 予定はその後カレンダーアプリで開かれ、カスタムの繰り返しを設定できます。</string>
   <string name="storage_permission_required">選択したソースは、外部ストレージからの読み取りアクセス許可を付与した場合にのみ読み取りできます。</string>
+  <string name="picture">写真</string>
+  <string name="menu_create_template_for_split">新しい分割テンプレート</string>
+  <string name="progress_validating_licence">ライセンスの検証中</string>
+  <string name="licence_validation_error_expired">ライセンスの期限が切れました</string>
+  <string name="licence_validation_error_device_limit_exceeded">デバイスの限度に達しました。別のデバイスからライセンスを削除してください。</string>
+  <string name="error">エラー (%s)</string>
+  <string name="button_validate">検証</string>
+  <string name="licence_key">ライセンスキー</string>
+  <string name="licence_removal_information">このデバイスでもうプレミアム機能が必要ではない場合は、ライセンスキーを削除することができます。これにより別のデバイスでライセンスをアクティベーションすることができます。キーは %dデバイスまでアクティベートすることができます。</string>
+  <string name="progress_removing_licence">ライセンスの削除中</string>
+  <string name="licence_removal_success">このデバイスからライセンスキーを解除しました。</string>
+  <string name="professional_key">プロフェッショナルキー</string>
+  <string name="n_months">%s ヶ月</string>
+  <string name="eu_vat_info">表示されている EU 価格には、付加価値税は含まれていません。</string>
+  <string name="pref_contrib_purchase_title_renew">ライセンスの更新</string>
+  <string name="licence_migration_info">マイエクスペンスは新しいライセンス検証メカニズムを実装しています。 新しいキーを要求してください。</string>
+  <!--%1$s date, %2$s price-->
 </resources>

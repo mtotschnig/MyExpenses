@@ -34,7 +34,6 @@
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">광고 없음</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">개수 제한 없는 계좌</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">거래 내역에 이미지 첨부</string>
-  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">카테고리당 거래 내역의 분포</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">개수 제한 없는 재무 계획</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">거래 내역 목록을 PDF로 내보내기</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">템플릿 위젯</string>
@@ -132,7 +131,6 @@
   <string name="licence_validation_failure">기부 확인 키를 인증할 수 없습니다.</string>
   <string name="licence_validation_success">기부 확인 키가 인증되었습니다.</string>
   <string name="licence_validation_premium">프리미엄 기능이 잠금 해제되었습니다.</string>
-  <string name="licence_validation_extended">확장 기능이 잠금 해제되었습니다.</string>
   <string name="menu_aggregates">총계</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">적용</string>
@@ -265,12 +263,12 @@
   <string name="pref_category_title_ui">사용자 인터페이스</string>
   <string name="pref_checkbox_enabled">사용함</string>
   <string name="pref_checkbox_disabled">사용하지 않음</string>
-  <string name="pref_contrib_purchase_summary">프리미엄 및 확장 기능을 구매하세요.</string>
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_contrib_purchase_title">기부 확인 키 구매 </string>
   <string name="pref_contrib_purchase_title_upgrade">키 업그레이드</string>
   <string name="pref_contrib_purchase_title_in_app">인앱 결제</string>
   <string name="pref_custom_currency_title">화폐 단위 설정</string>
-  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">기부 확인 키를 받으셨다면 프리미엄 기능을 사용하세요.</string>
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">기부 확인 키 입력</string>
   <string name="pref_export_format_title">데이터 형식</string>
   <string name="pref_follow_gplus_title">Google+에서 My Expenses 팔로우</string>
@@ -524,4 +522,5 @@
   <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <!--Sort plans (recurring transactions) by the next instance-->
+  <!--%1$s date, %2$s price-->
 </resources>

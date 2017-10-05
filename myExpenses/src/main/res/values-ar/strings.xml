@@ -28,7 +28,6 @@
   <string name="confirmation_dialog_dont_show_again">لا تظهر مرة أخرى</string>
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">بدون إعلانات</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">عدد حسابات غير محدود</string>
-  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">توزيع العمليات لكل تصنيف</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">عدد غير محدود من الخطط</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">إستيراد ملف CSV</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
@@ -220,8 +219,10 @@
   <string name="pref_category_title_ui">واجهة المستخدم</string>
   <string name="pref_checkbox_enabled">مفعل</string>
   <string name="pref_checkbox_disabled">معطل</string>
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_contrib_purchase_title_in_app">الشراء داخل التطبيق</string>
   <string name="pref_custom_currency_title">تخصيص العملات</string>
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">أدخل المفتاح</string>
   <string name="pref_export_format_title">تنسيق البيانات</string>
   <string name="pref_follow_gplus_title">متابعة مصروفاتي على قوقل بلس</string>
@@ -412,4 +413,5 @@
   <string name="plan_instance_state_applied">تم التطبيق</string>
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="template">نموذج</string>
+  <!--%1$s date, %2$s price-->
 </resources>

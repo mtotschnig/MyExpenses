@@ -31,7 +31,6 @@
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">无广告</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">帐户数量不限</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">将图像附加到交易项目</string>
-  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">每个类别的交易分布</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">计划数量不限</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">导出交易记录清单成PDF</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">模板插件</string>
@@ -130,7 +129,6 @@
   <string name="licence_validation_failure">无法验证许可密钥.</string>
   <string name="licence_validation_success">授权密钥验证成功</string>
   <string name="licence_validation_premium">高级功能已经解锁</string>
-  <string name="licence_validation_extended">扩展功能已经被解锁</string>
   <string name="menu_aggregates">总金额</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">应用</string>
@@ -253,10 +251,11 @@
   <string name="pref_category_title_ui">用户界面</string>
   <string name="pref_checkbox_enabled">启用</string>
   <string name="pref_checkbox_disabled">已禁用</string>
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_contrib_purchase_title">购买密钥</string>
   <string name="pref_contrib_purchase_title_upgrade">升级密钥</string>
   <string name="pref_custom_currency_title">自定义货币</string>
-  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">如果你收到密钥,获取高级或扩展功能</string>
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">输入密钥</string>
   <string name="pref_export_format_title">日期格式</string>
   <string name="pref_follow_gplus_title">跟随在 Google+ 的 开支助手</string>
@@ -473,4 +472,5 @@
   <string name="content_description_calculator_clear_button">重置所有</string>
   <string name="content_description_calculator_delete_button">删除上一个数字</string>
   <!--Sort plans (recurring transactions) by the next instance-->
+  <!--%1$s date, %2$s price-->
 </resources>

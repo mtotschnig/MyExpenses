@@ -36,7 +36,6 @@
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Fără reclame</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Număr nelimitat de conturi</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Ataseaza imagine la tranzactie</string>
-  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Repartiţia tranzacţiilor pe categorie</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Număr nelimitat de scadenţe</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Export listă tranzacţii în PDF</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Şablon widget</string>
@@ -129,7 +128,6 @@
   <string name="licence_validation_failure">Validare imposibilă a Chei licenţei.</string>
   <string name="licence_validation_success">Cheie Licenţă validată:</string>
   <string name="licence_validation_premium">Funcţionalităţile Premium au fost deblocate.</string>
-  <string name="licence_validation_extended">Funcţionalităţile Extinse au fost deblocate.</string>
   <string name="menu_aggregates">Total</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Aplică</string>
@@ -265,10 +263,11 @@
   <string name="pref_category_title_ui">Interfaţa utilizator</string>
   <string name="pref_checkbox_enabled">Activat</string>
   <string name="pref_checkbox_disabled">Dezactivat</string>
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_contrib_purchase_title">Cumpăraţi Cheie</string>
   <string name="pref_contrib_purchase_title_in_app">In-App plată</string>
   <string name="pref_custom_currency_title">Personalizează valutele</string>
-  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Dacă aţi primit o cheie, veţi avea acces la funcţionalităţile premium/extinse.</string>
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Introduceţi cheia</string>
   <string name="pref_export_format_title">Format date</string>
   <string name="pref_follow_gplus_title">Urmăreşte Cheltuielile Mele pe Google +</string>
@@ -511,4 +510,5 @@
   <string name="plan_instance_state_applied">aplicat</string>
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="template">Şablon</string>
+  <!--%1$s date, %2$s price-->
 </resources>

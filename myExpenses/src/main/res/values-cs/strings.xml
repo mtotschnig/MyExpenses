@@ -21,7 +21,6 @@
   <string name="color">Barva</string>
   <string name="comment">Poznámky</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Neomezený počet účtů</string>
-  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Rozdělení transakcí podle jednotlivých kategorií</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Neomezený počet plánů</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Šablona widget</string>
   <string name="contrib_key">Klíč Contrib</string>
@@ -204,7 +203,8 @@
   <string name="pref_category_title_more_information">Více informací</string>
   <string name="pref_category_title_security">Bezpečnost</string>
   <string name="pref_category_title_ui">Uživatelské rozhraní</string>
-  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Pokud jste obdrželi klíč, získejte přístup k nadstandardním funkcím.</string>
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Vložte klíč</string>
   <string name="pref_export_format_title">Formát dat</string>
   <string name="pref_follow_gplus_title">Sledujte Moje výdaje na Google +</string>
@@ -319,4 +319,5 @@
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="template">Šablona</string>
+  <!--%1$s date, %2$s price-->
 </resources>

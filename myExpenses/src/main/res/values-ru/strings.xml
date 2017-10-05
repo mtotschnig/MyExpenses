@@ -37,7 +37,6 @@
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Без рекламы</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Неограниченное количество счетов</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Присоединение изображения к операции</string>
-  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Распределение операций по категориям</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Неограниченное количество планов</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Экспорт списка операций в PDF</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Шаблон виджет</string>
@@ -136,7 +135,6 @@
   <string name="licence_validation_failure">Не удалось проверить лицензионный ключ.</string>
   <string name="licence_validation_success">Лицензионный ключ успешно проверен: </string>
   <string name="licence_validation_premium">Премиум функции были разблокированы.</string>
-  <string name="licence_validation_extended">Расширенные функции были разблокированы.</string>
   <string name="menu_aggregates">Итого</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Применить</string>
@@ -274,12 +272,12 @@
   <string name="pref_category_title_ui">Пользовательский интерфейс</string>
   <string name="pref_checkbox_enabled">Включено</string>
   <string name="pref_checkbox_disabled">Выключено</string>
-  <string name="pref_contrib_purchase_summary">Приобретение дает доступ к премиум и расширенным функциям.</string>
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_contrib_purchase_title">Приобрести ключ</string>
   <string name="pref_contrib_purchase_title_upgrade">Повысить уровень ключа</string>
   <string name="pref_contrib_purchase_title_in_app">в-App платежей</string>
   <string name="pref_custom_currency_title">Настроить курс обмена</string>
-  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Если вы получили ключ, получите доступ к премиум функциям.</string>
+  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Ввести ключ</string>
   <string name="pref_export_format_title">Формат даты</string>
   <string name="pref_follow_gplus_title">Следить за Мои расходы в Google+</string>
@@ -458,4 +456,5 @@
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="template">Шаблон</string>
+  <!--%1$s date, %2$s price-->
 </resources>
