@@ -16,7 +16,7 @@ public class ShareUtilsTest {
       "ftp://login:password@my.example.org:80/my/directory",
       "mailto:john@my.example.com"
   })
-  public void shouldParseFtpUri(String target) {
+  public void shouldParseUri(String target) {
     assertNotNull(ShareUtils.parseUri(target));
   }
 }
