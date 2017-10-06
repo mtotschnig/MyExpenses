@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_281">
+    <item>خيارات لخطط مخصصة</item>
+    <item>إصلاح تخزين سحابة من النسخ الاحتياطية الكبيرة</item>
+  </string-array>
   <string-array name="whats_new_276">
     <item>تحسينات أخرى</item>
   </string-array>

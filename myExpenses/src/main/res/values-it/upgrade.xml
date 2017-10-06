@@ -20,9 +20,11 @@
 <resources>
   <string-array name="whats_new_281">
     <item>Opzione per piani personalizzati</item>
+    <item>Fissa l\'archiviazione di nubi di grandi backup</item>
   </string-array>
   <string-array name="whats_new_280">
     <item>Traduzione ebraica</item>
+    <item>Selettore per il colore dell\'account personalizzato</item>
   </string-array>
   <string-array name="whats_new_279">
     <item>È possibile configurare simboli di valuta</item>

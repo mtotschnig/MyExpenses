@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_281">
+    <item>Özel planlamalar için seçenek</item>
+    <item>Büyük yedeklemeler için bulut depolamasını düzelt</item>
+  </string-array>
   <string-array name="whats_new_280">
     <item>İbranice tercüme</item>
     <item>Özel hesap rengi için seçici</item>
