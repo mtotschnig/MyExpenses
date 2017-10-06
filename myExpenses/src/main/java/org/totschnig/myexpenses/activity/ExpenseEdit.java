@@ -512,7 +512,9 @@ public class ExpenseEdit extends AmountActivity implements
               transferAccountId = MyApplication.getInstance().getSettings()
                   .getLong(PREFKEY_TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET, 0L);
             }
-            mTransaction = Transfer.getNewInstance(accountId, transferAccountId, parentId != 0 ? parentId : null);
+            mTransaction = Transfer.getNewInstance(accountId,
+                transferAccountId != 0 ? transferAccountId : null,
+                parentId != 0 ? parentId : null);
             break;
           case TYPE_SPLIT:
             if (accountId == 0L) {
@@ -678,11 +680,6 @@ public class ExpenseEdit extends AmountActivity implements
         default:
           helpVariant = HelpVariant.templateCategory;
       }
-    } else if (mTransaction instanceof SplitTransaction) {
-      if (!mNewInstance) {
-        setTitle(R.string.menu_edit_split);
-      }
-      helpVariant = HelpVariant.split;
     } else if (isSplitPart()) {
       if (mOperationType == TYPE_TRANSACTION) {
         if (mTransaction.getId() != 0) {
@@ -740,6 +737,11 @@ public class ExpenseEdit extends AmountActivity implements
           setTitle(R.string.menu_edit_transaction);
         }
         helpVariant = HelpVariant.transaction;
+      } else if (mTransaction instanceof SplitTransaction) {
+        if (!mNewInstance) {
+          setTitle(R.string.menu_edit_split);
+        }
+        helpVariant = HelpVariant.split;
       }
     }
     if (mOperationType == TYPE_SPLIT) {
@@ -1255,16 +1257,14 @@ public class ExpenseEdit extends AmountActivity implements
       if (forSave && !(isSplitPart())) {
         if (mReccurenceSpinner.getSelectedItemPosition() > 0) {
           title = TextUtils.isEmpty(mTransaction.getPayee()) ?
-              (TextUtils.isEmpty(mLabel) ?
-                  (TextUtils.isEmpty(mTransaction.getComment()) ?
-                      getString(R.string.menu_create_template) : mTransaction.getComment()) : mLabel) : mTransaction.getPayee();
-          mTransaction.originTemplate = new Template(mTransaction, title);
-          mTransaction.originTemplate.setPlanExecutionAutomatic(true);
-          String description = mTransaction.originTemplate.compileDescription(ExpenseEdit.this, currencyFormatter);
-          mTransaction.originTemplate.setPlan(new Plan(
+            (mOperationType == TYPE_SPLIT || TextUtils.isEmpty(mLabel) ?
+                (TextUtils.isEmpty(mTransaction.getComment()) ?
+                    getString(R.string.menu_create_template) : mTransaction.getComment()) : mLabel) : mTransaction.getPayee();
+          String description = mTransaction.compileDescription(ExpenseEdit.this, currencyFormatter);
+          mTransaction.setInitialPlan(new Plan(
               mCalendar,
               ((Plan.Recurrence) mReccurenceSpinner.getSelectedItem()).toRrule(mCalendar),
-              mTransaction.originTemplate.getTitle(),
+              title,
               description));
         }
       }
@@ -1291,8 +1291,8 @@ public class ExpenseEdit extends AmountActivity implements
   protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
     if (requestCode == SELECT_CATEGORY_REQUEST && intent != null) {
-      mCatId = intent.getLongExtra("cat_id", 0);
-      mLabel = intent.getStringExtra("label");
+      mCatId = intent.getLongExtra(KEY_CATID, 0);
+      mLabel = intent.getStringExtra(KEY_LABEL);
       mCategoryButton.setText(mLabel);
       setDirty(true);
     }
@@ -1655,12 +1655,16 @@ public class ExpenseEdit extends AmountActivity implements
         if (id > 0) {
           if (ContextCompat.checkSelfPermission(ExpenseEdit.this,
               Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
-            if (PrefKey.NEW_PLAN_ENABLED.getBoolean(true)) {
+            boolean newSplitTemplateEnabled = PrefKey.NEW_SPLIT_TEMPLATE_ENABLED.getBoolean(true);
+            boolean newPlanEnabled = PrefKey.NEW_PLAN_ENABLED.getBoolean(true);
+            if (newPlanEnabled && (newSplitTemplateEnabled || mOperationType != TYPE_SPLIT)) {
               visibility = View.VISIBLE;
               showCustomRecurrenceInfo();
             } else {
               mReccurenceSpinner.setSelection(0);
-              CommonCommands.showContribDialog(this, ContribFeature.PLANS_UNLIMITED, null);
+              ContribFeature contribFeature = mOperationType != TYPE_SPLIT || newSplitTemplateEnabled ?
+                  ContribFeature.PLANS_UNLIMITED : ContribFeature.SPLIT_TEMPLATE;
+              CommonCommands.showContribDialog(this, contribFeature, null);
             }
           } else {
             requestPermission(PermissionHelper.PermissionGroup.CALENDAR);

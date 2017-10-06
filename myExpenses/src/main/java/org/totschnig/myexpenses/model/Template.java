@@ -19,20 +19,17 @@ import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
 import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.os.RemoteException;
 
-import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.CalendarProviderProxy;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.util.ArrayList;
@@ -442,6 +439,13 @@ public class Template extends Transaction {
     } else {
       uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build();
       ops.add(ContentProviderOperation.newUpdate(uri).withValues(initialValues).build());
+      if (withLinkedTransaction != null) {
+        ops.add(ContentProviderOperation.newInsert(TransactionProvider.PLAN_INSTANCE_STATUS_URI)
+            .withValue(KEY_TEMPLATEID, getId())
+            .withValue(KEY_INSTANCEID, CalendarProviderProxy.calculateId(plan.dtstart))
+            .withValue(KEY_TRANSACTIONID, withLinkedTransaction)
+            .build());
+      }
       addCommitOperations(CONTENT_URI, ops);
       try {
         cr().applyBatch(TransactionProvider.AUTHORITY, ops);
@@ -482,51 +486,6 @@ public class Template extends Transaction {
 
   public static int countAll() {
     return countAll(CONTENT_URI);
-  }
-
-  public String compileDescription(Context ctx, CurrencyFormatter currencyFormatter) {
-    StringBuilder sb = new StringBuilder();
-    sb.append(ctx.getString(R.string.amount));
-    sb.append(" : ");
-    sb.append(currencyFormatter.formatCurrency(getAmount()));
-    sb.append("\n");
-    if (getCatId() != null && getCatId() > 0) {
-      sb.append(ctx.getString(R.string.category));
-      sb.append(" : ");
-      sb.append(getLabel());
-      sb.append("\n");
-    }
-    if (isTransfer()) {
-      sb.append(ctx.getString(R.string.account));
-      sb.append(" : ");
-      sb.append(getLabel());
-      sb.append("\n");
-    }
-    //comment
-    if (!getComment().equals("")) {
-      sb.append(ctx.getString(R.string.comment));
-      sb.append(" : ");
-      sb.append(getComment());
-      sb.append("\n");
-    }
-    //payee
-    if (!getPayee().equals("")) {
-      sb.append(ctx.getString(
-          getAmount().getAmountMajor().signum() == 1 ? R.string.payer : R.string.payee));
-      sb.append(" : ");
-      sb.append(getPayee());
-      sb.append("\n");
-    }
-    //Method
-    if (getMethodId() != null) {
-      sb.append(ctx.getString(R.string.method));
-      sb.append(" : ");
-      sb.append(getMethodLabel());
-      sb.append("\n");
-    }
-    sb.append("UUID : ");
-    sb.append(requireUuid());
-    return sb.toString();
   }
 
   public static String buildCustomAppUri(long id) {
@@ -630,7 +589,7 @@ public class Template extends Transaction {
   }
 
   @Override
-  public String getUncommitedView() {
+  public String getUncommittedView() {
     return VIEW_TEMPLATES_UNCOMMITTED;
   }
 

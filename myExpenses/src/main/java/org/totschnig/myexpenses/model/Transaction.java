@@ -19,6 +19,7 @@ import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -32,6 +33,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.AppDirHelper;
+import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.FileCopyUtils;
 import org.totschnig.myexpenses.util.PictureDirHelper;
 import org.totschnig.myexpenses.util.TextUtils;
@@ -132,8 +134,16 @@ public class Transaction extends Model {
   private String methodLabel = "";
   private Long parentId = null;
   private Long payeeId = null;
+
+  private Plan initialPlan;
+
+  public void setInitialPlan(Plan initialPlan) {
+    this.initialPlan = initialPlan;
+  }
+
+
   /**
-   * id of the template which defines the plan for which this transaction has been created
+   * template which defines the plan for which this transaction has been created
    */
   public Template originTemplate = null;
   /**
@@ -605,7 +615,10 @@ public class Transaction extends Model {
       ContribFeature.ATTACH_PICTURE.recordUsage();
     }
 
-    if (originTemplate != null && originTemplate.getId() == 0) {
+    if (initialPlan != null) {
+      originTemplate = new Template(this, initialPlan.title);
+      originTemplate.setPlanExecutionAutomatic(true);
+      originTemplate.setPlan(initialPlan);
       originTemplate.save(getId());
     }
     return uri;
@@ -668,7 +681,7 @@ public class Transaction extends Model {
       String idStr = String.valueOf(oldId);
       //we only create uncommited clones if none exist yet
       Cursor c = cr().query(getContentUri(), new String[]{KEY_ROWID},
-          KEY_PARENTID + " = ? AND NOT EXISTS (SELECT 1 from " + getUncommitedView()
+          KEY_PARENTID + " = ? AND NOT EXISTS (SELECT 1 from " + getUncommittedView()
               + " WHERE " + KEY_PARENTID + " = ?)", new String[]{idStr, idStr}, null);
       if (c != null) {
         c.moveToFirst();
@@ -695,7 +708,7 @@ public class Transaction extends Model {
     return CONTENT_URI;
   }
 
-  public String getUncommitedView() {
+  public String getUncommittedView() {
     return VIEW_UNCOMMITTED;
   }
 
@@ -934,6 +947,51 @@ public class Transaction extends Model {
     Long result = mCursor.getLong(0);
     mCursor.close();
     return result;
+  }
+
+  public String compileDescription(Context ctx, CurrencyFormatter currencyFormatter) {
+    StringBuilder sb = new StringBuilder();
+    sb.append(ctx.getString(R.string.amount));
+    sb.append(" : ");
+    sb.append(currencyFormatter.formatCurrency(getAmount()));
+    sb.append("\n");
+    if (getCatId() != null && getCatId() > 0) {
+      sb.append(ctx.getString(R.string.category));
+      sb.append(" : ");
+      sb.append(getLabel());
+      sb.append("\n");
+    }
+    if (isTransfer()) {
+      sb.append(ctx.getString(R.string.account));
+      sb.append(" : ");
+      sb.append(getLabel());
+      sb.append("\n");
+    }
+    //comment
+    if (!getComment().equals("")) {
+      sb.append(ctx.getString(R.string.comment));
+      sb.append(" : ");
+      sb.append(getComment());
+      sb.append("\n");
+    }
+    //payee
+    if (!getPayee().equals("")) {
+      sb.append(ctx.getString(
+          getAmount().getAmountMajor().signum() == 1 ? R.string.payer : R.string.payee));
+      sb.append(" : ");
+      sb.append(getPayee());
+      sb.append("\n");
+    }
+    //Method
+    if (getMethodId() != null) {
+      sb.append(ctx.getString(R.string.method));
+      sb.append(" : ");
+      sb.append(getMethodLabel());
+      sb.append("\n");
+    }
+    sb.append("UUID : ");
+    sb.append(requireUuid());
+    return sb.toString();
   }
 
   @Override
