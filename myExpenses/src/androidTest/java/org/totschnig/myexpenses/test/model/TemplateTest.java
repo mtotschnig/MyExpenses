@@ -20,16 +20,16 @@ import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 
-public class TemplateTest extends ModelTest  {
+public class TemplateTest extends ModelTest {
   private Account mAccount1, mAccount2;
 
   @Override
   protected void setUp() throws Exception {
-      super.setUp();
-      mAccount1 = new Account("TestAccount 1",100,"Main account");
-      mAccount1.save();
-      mAccount2 = new Account("TestAccount 2", 100, "Secondary account");
-      mAccount2.save();
+    super.setUp();
+    mAccount1 = new Account("TestAccount 1", 100, "Main account");
+    mAccount1.save();
+    mAccount2 = new Account("TestAccount 2", 100, "Secondary account");
+    mAccount2.save();
   }
 
   @Override
@@ -44,39 +44,46 @@ public class TemplateTest extends ModelTest  {
     Long amount = (long) 100;
     Transaction op1 = Transaction.getNewInstance(mAccount1.getId());
     assert op1 != null;
-    op1.setAmount(new Money(mAccount1.currency,amount));
+    op1.setAmount(new Money(mAccount1.currency, amount));
     op1.setComment("test transaction");
     op1.save();
-    assertEquals(mAccount1.getTotalBalance().getAmountMinor().longValue(), start+amount);
-    Template t = new Template(op1,"Template");
+    assertEquals(mAccount1.getTotalBalance().getAmountMinor().longValue(), start + amount);
+    Template t = new Template(op1, "Template");
     t.save();
-    Transaction op2  = Transaction.getInstanceFromTemplate(t.getId());
+    Transaction op2 = Transaction.getInstanceFromTemplate(t.getId());
     op2.save();
-    assertEquals(mAccount1.getTotalBalance().getAmountMinor().longValue(), start+2*amount);
+    assertEquals(mAccount1.getTotalBalance().getAmountMinor().longValue(), start + 2 * amount);
     Template restored;
     restored = Template.getInstanceFromDb(t.getId());
-    assertEquals(t,restored);
+    assertEquals(t, restored);
 
     Template.delete(t.getId());
-    assertNull("Template deleted, but can still be retrieved",Template.getInstanceFromDb(t.getId()));
+    assertNull("Template deleted, but can still be retrieved", Template.getInstanceFromDb(t.getId()));
   }
 
   public void testGetTypedNewInstanceTransaction() {
     newInstanceTestHelper(Transaction.TYPE_TRANSACTION);
   }
+
   public void testGetTypedNewInstanceTransfer() {
     newInstanceTestHelper(Transaction.TYPE_TRANSFER);
   }
+
+  public void testGetTypedNewInstanceSplit() {
+    newInstanceTestHelper(Transaction.TYPE_SPLIT);
+  }
+
   /**
-   * 
+   *
    */
   private void newInstanceTestHelper(int type) {
-    Template t,restored;
+    Template t, restored;
     t = Template.getTypedNewInstance(type, mAccount1.getId(), false, null);
     assert t != null;
     t.setTitle("Template");
     t.save();
+    assertEquals(t.operationType(), type);
     restored = Template.getInstanceFromDb(t.getId());
-    assertEquals(t,restored);
+    assertEquals(t, restored);
   }
 }

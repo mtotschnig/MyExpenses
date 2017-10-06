@@ -96,8 +96,12 @@ public class Transfer extends Transaction {
     this.setTransferAmount(transferAmount);
   }
 
+  public static Transfer getNewInstance(long accountId) {
+    return getNewInstance(accountId, null);
+  }
+
   /**
-   * @param accountId  if account no longer exists {@link Account#getInstanceFromDb(long) is called with 0}
+   * @param accountId         if account no longer exists {@link Account#getInstanceFromDb(long) is called with 0}
    * @param transferAccountId
    * @return
    */
@@ -110,9 +114,11 @@ public class Transfer extends Transaction {
     if (account == null) {
       return null;
     }
-    Account transferAccount = Account.getInstanceFromDbWithFallback(transferAccountId);
-    if (transferAccount == null) {
-      return null;
+    if (transferAccountId != null) {
+      Account transferAccount = Account.getInstanceFromDbWithFallback(transferAccountId);
+      if (transferAccount == null) {
+        return null;
+      }
     }
     return new Transfer(accountId, new Money(account.currency, 0L), transferAccountId, parentId);
   }
