@@ -12,6 +12,9 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.DimenRes;
+import android.util.TypedValue;
 import android.widget.RemoteViews;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -38,8 +41,15 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
 
   abstract Cursor getCursor(Context c);
 
-  abstract RemoteViews updateWidgetFrom(Context context,
-                                        int widgetId, int layoutId, T o);
+  protected RemoteViews updateWidgetFrom(Context context, int widgetId, int layoutId, T o) {
+    RemoteViews updateViews = new RemoteViews(context.getPackageName(), layoutId);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+      float dimension = context.getResources().getDimension(getFontSizeResId());
+      updateViews.setTextViewTextSize(R.id.line1, TypedValue.COMPLEX_UNIT_PX, dimension);
+      updateViews.setTextViewTextSize(R.id.note, TypedValue.COMPLEX_UNIT_PX, dimension);
+    }
+    return updateViews;
+  }
 
   protected static final String WIDGET_NEXT_ACTION = "org.totschnig.myexpenses.UPDATE_WIDGET_NEXT";
   protected static final String WIDGET_PREVIOUS_ACTION = "org.totschnig.myexpenses.UPDATE_WIDGET_PREVIOUS";
@@ -201,5 +211,14 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
                                             int viewId, int resId) {
     remoteViews.setImageViewBitmap(viewId, UiUtils.getTintedBitmapForTheme(context, resId,
         R.style.ThemeDark));
+  }
+
+  private @DimenRes int getFontSizeResId() {
+    switch(PrefKey.UI_FONTSIZE.getInt(0)) {
+      case 3: return R.dimen.textSizeSmallS3;
+      case 2: return R.dimen.textSizeSmallS2;
+      case 1: return R.dimen.textSizeSmallS1;
+      default: return R.dimen.textSizeSmallBase;
+    }
   }
 }

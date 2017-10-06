@@ -23,6 +23,7 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.text.Spannable;
@@ -131,10 +132,9 @@ public class TemplateWidget extends AbstractWidget<Template> {
   }
 
   @Override
-  RemoteViews updateWidgetFrom(Context context, int widgetId, int layoutId,
-                               Template t) {
-    RemoteViews updateViews = new RemoteViews(context.getPackageName(),
-        layoutId);
+  protected RemoteViews updateWidgetFrom(Context context, int widgetId, int layoutId,
+                                         Template t) {
+    RemoteViews updateViews = super.updateWidgetFrom(context, widgetId, layoutId, t);
     updateViews.setTextViewText(R.id.line1,
         t.getTitle() + " : " + CurrencyFormatter.instance().formatCurrency(t.getAmount()));
     String commentSeparator = " / ";
@@ -147,7 +147,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
       }
       description.append(t.getComment());
       int before = description.length();
-      description.setSpan(new StyleSpan(android.graphics.Typeface.ITALIC), before, description.length(),
+      description.setSpan(new StyleSpan(Typeface.ITALIC), before, description.length(),
           Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
     if (!TextUtils.isEmpty(t.getPayee())) {
@@ -159,8 +159,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
       description.setSpan(new UnderlineSpan(), before, description.length(),
           Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
-    updateViews.setTextViewText(R.id.note,
-        description);
+    updateViews.setTextViewText(R.id.note, description);
     setBackgroundColorSave(updateViews, R.id.divider3, Account.getInstanceFromDb(t.getAccountId()).color);
     addScrollOnClick(context, updateViews, widgetId);
     addTapOnClick(context, updateViews);

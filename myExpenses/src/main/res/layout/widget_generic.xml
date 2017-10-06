@@ -70,7 +70,6 @@
             android:layout_marginTop="3dp"
             android:ellipsize="end"
             android:textColor="#ffffff"
-            android:textSize="14sp"
             android:textStyle="bold"
             android:maxLines="1"/>
 
@@ -78,8 +77,7 @@
             android:id="@+id/note"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textColor="#ffffff"
-            android:textSize="12sp"/>
+            android:textColor="#ffffff"/>
     </LinearLayout>
 
     <ImageView
