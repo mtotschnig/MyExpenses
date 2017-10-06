@@ -6,6 +6,17 @@
 -dontwarn org.junit.**
 -dontwarn android.support.test.runner.MonitoringInstrumentation
 -dontwarn org.mockito.**
+-dontwarn org.xmlpull.v1.**
+-dontwarn net.bytebuddy.**
+-dontwarn java.lang.instrument.**
+-dontwarn libcore.io.Memory
+-dontwarn com.google.android.apps.common.testing.testrunner.web.Conduit
+-dontwarn org.ccil.cowan.tagsoup.Parser
+-dontwarn com.android.dx.**
+-dontwarn com.google.android.apps.common.testing.testrunner.web.JavaScriptBridge
+-dontwarn com.google.devtools.build.android.desugar.runtime.**
 
 # Retrolambda
 -dontwarn java.lang.invoke.*
+
+-keep class com.google.devtools.build.android.desugar.runtime.ThrowableExtension

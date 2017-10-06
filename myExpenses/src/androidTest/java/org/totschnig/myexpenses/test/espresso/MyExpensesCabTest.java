@@ -32,6 +32,7 @@ import java.util.Currency;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
+import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -124,6 +125,7 @@ public final class MyExpensesCabTest {
         .check(matches(isDisplayed()));
     onView(withId(R.id.editText))
         .perform(typeText(templateTitle));
+    closeSoftKeyboard();
     onView(withText(R.string.dialog_button_add)).perform(click());
     onView(withId(R.id.SAVE_COMMAND)).perform(click());
 

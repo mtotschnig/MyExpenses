@@ -100,6 +100,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
 public class TemplatesList extends SortableListFragment {
 
   public static final String CALDROID_DIALOG_FRAGMENT_TAG = "CALDROID_DIALOG_FRAGMENT";
+  public static final String KEY_IS_SPLIT = "isSplit";
   private ListView mListView;
   private PlanMonthFragment planMonthFragment;
 
@@ -180,30 +181,42 @@ public class TemplatesList extends SortableListFragment {
         } else if (isForeignExchangeTransfer(position)) {
           ((ManageTemplates) getActivity()).dispatchCommand(R.id.CREATE_INSTANCE_EDIT_COMMAND,
               id);
-        } else if (PrefKey.TEMPLATE_CLICK_HINT_SHOWN.getBoolean(false)) {
-          if (PrefKey.TEMPLATE_CLICK_DEFAULT.getString("SAVE").equals("SAVE")) {
-            requestSplitTransaction(new Long[]{id});
-          } else {
-            requestSplitTransaction(id);
-          }
         } else {
-          Bundle b = new Bundle();
-          b.putLong(KEY_ROWID, id);
-          b.putInt(ConfirmationDialogFragment.KEY_TITLE, R.string.dialog_title_information);
-          b.putString(ConfirmationDialogFragment.KEY_MESSAGE, getString(R.string
-              .hint_template_click));
-          b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id
-              .CREATE_INSTANCE_SAVE_COMMAND);
-          b.putInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE, R.id
-              .CREATE_INSTANCE_EDIT_COMMAND);
-          b.putString(ConfirmationDialogFragment.KEY_PREFKEY, PrefKey
-              .TEMPLATE_CLICK_HINT_SHOWN.getKey());
-          b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string
-              .menu_create_instance_save);
-          b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, R.string
-              .menu_create_instance_edit);
-          ConfirmationDialogFragment.newInstance(b).show(getFragmentManager(),
-              "TEMPLATE_CLICK_HINT");
+          boolean splitAtPosition = isSplitAtPosition(position);
+          if (PrefKey.TEMPLATE_CLICK_HINT_SHOWN.getBoolean(false)) {
+            if (PrefKey.TEMPLATE_CLICK_DEFAULT.getString("SAVE").equals("SAVE")) {
+              if (splitAtPosition) {
+                requestSplitTransaction(new Long[]{id});
+              } else {
+                dispatchCreateInstanceSaveDo(new Long[]{id});
+              }
+            } else {
+              if (splitAtPosition) {
+                requestSplitTransaction(id);
+              } else {
+                dispatchCreateInstanceEditDo(id);
+              }
+            }
+          } else {
+            Bundle b = new Bundle();
+            b.putLong(KEY_ROWID, id);
+            b.putBoolean(KEY_IS_SPLIT, splitAtPosition);
+            b.putInt(ConfirmationDialogFragment.KEY_TITLE, R.string.dialog_title_information);
+            b.putString(ConfirmationDialogFragment.KEY_MESSAGE, getString(R.string
+                .hint_template_click));
+            b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id
+                .CREATE_INSTANCE_SAVE_COMMAND);
+            b.putInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE, R.id
+                .CREATE_INSTANCE_EDIT_COMMAND);
+            b.putString(ConfirmationDialogFragment.KEY_PREFKEY, PrefKey
+                .TEMPLATE_CLICK_HINT_SHOWN.getKey());
+            b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string
+                .menu_create_instance_save);
+            b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, R.string
+                .menu_create_instance_edit);
+            ConfirmationDialogFragment.newInstance(b).show(getFragmentManager(),
+                "TEMPLATE_CLICK_HINT");
+          }
         }
       }
     });

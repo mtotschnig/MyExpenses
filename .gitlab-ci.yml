@@ -5,7 +5,7 @@ before_script:
 
 build:
   script:
-    - ./gradlew check
+    - ./gradlew check -PbuildType=release
     - ./gradlew assembleAndroidTest
 #    - wget --quiet --output-document=android-wait-for-emulator https://raw.githubusercontent.com/travis-ci/travis-cookbooks/0f497eb71291b52a703143c5cd63a217c8766dc9/community-cookbooks/android-sdk/files/default/android-wait-for-emulator
 #    - chmod +x android-wait-for-emulator
@@ -13,7 +13,6 @@ build:
 #    - ./android-wait-for-emulator
 #    - ${ANDROID_HOME}/platform-tools/adb shell input keyevent 82
 #    - ./gradlew connectedForTestAndroidTest
-    - ./gradlew assembleDebug
   artifacts:
     paths:
     - app/build/outputs/

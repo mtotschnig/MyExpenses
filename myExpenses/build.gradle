@@ -111,6 +111,12 @@ android {
     }
     testBuildType "forTest"
 
+    variantFilter { variant ->
+        if(project.hasProperty("buildType") && !variant.buildType.name.equals(project.ext.buildType)) {
+            setIgnore(true)
+        }
+    }
+
     testOptions {
         unitTests {
             includeAndroidResources = true

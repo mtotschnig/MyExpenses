@@ -145,11 +145,16 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
   @Override
   public void onPositive(Bundle args) {
     long id = args.getLong(DatabaseConstants.KEY_ROWID);
+    boolean isSplit = args.getBoolean(TemplatesList.KEY_IS_SPLIT);
     int command = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE);
     switch (command) {
       case R.id.CREATE_INSTANCE_SAVE_COMMAND:
         PrefKey.TEMPLATE_CLICK_DEFAULT.putString("SAVE");
-        mListFragment.requestSplitTransaction(new Long[]{id});
+        if (isSplit) {
+          mListFragment.requestSplitTransaction(new Long[]{id});
+        } else {
+          mListFragment.dispatchCreateInstanceSaveDo(new Long[]{id});
+        }
         break;
     }
   }
@@ -157,11 +162,16 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
   @Override
   public void onNegative(Bundle args) {
     long id = args.getLong(DatabaseConstants.KEY_ROWID);
+    boolean isSplit = args.getBoolean(TemplatesList.KEY_IS_SPLIT);
     int command = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE);
     switch (command) {
       case R.id.CREATE_INSTANCE_EDIT_COMMAND:
         PrefKey.TEMPLATE_CLICK_DEFAULT.putString("EDIT");
-        mListFragment.requestSplitTransaction(id);
+        if (isSplit) {
+          mListFragment.requestSplitTransaction(id);
+        } else {
+          mListFragment.dispatchCreateInstanceEditDo(id);
+        }
         break;
     }
   }
