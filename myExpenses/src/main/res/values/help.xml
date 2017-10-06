@@ -85,8 +85,9 @@
   <string name="help_ExpenseEdit_splitPartTransfer_title">Form for transfer split parts</string>
   <string name="help_ExpenseEdit_templateCategory_title">Form for transaction templates</string>
   <string name="help_ExpenseEdit_templateTransfer_title">Form for transfer templates</string>
+  <string name="help_ExpenseEdit_templateSplit_title">Form for split templates</string>
   <string name="help_ExpenseEdit_transaction_info">Use this form to enter a new transaction or to edit an existing one. Use the dropdown menu in the actionbar to switch to the form for adding a new transfer or split transaction.</string>
-  <string name="help_ExpenseEdit_templateCategory_info">Use this form to enter a new template or to edit an existing one. Use the dropdown menu in the actionbar to switch to the form for adding a new transfer template.</string>
+  <string name="help_ExpenseEdit_templateCategory_info">Use this form to enter a new template or to edit an existing one. Use the dropdown menu in the actionbar to switch between templates for transactions, transfers and splits.</string>
   <string name="help_ExpenseEdit_split_info">A split transaction is a single transaction split up in parts, where each part can be assigned to a different category, or transferred to a different account.</string>
   <string name="form_account_help_text">Select the account to which the transaction belongs.</string>
   <string name="form_date.time_help_text">Enter the time when the transaction took place.</string>

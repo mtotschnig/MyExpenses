@@ -126,6 +126,8 @@
     <string name="help_ManageSyncBackends_title" tools:ignore="UnusedResources">@string/pref_manage_sync_backends_title</string>
     <string name="help_ExpenseEdit_plans_title" tools:ignore="UnusedResources">@string/help_ManageTemplates_plans_title</string>
     <string name="help_ExpenseEdit_plans_info" tools:ignore="UnusedResources">@string/help_ManageTemplates_plans_info</string>
+    <string name="help_ExpenseEdit_templateTransfer_info" tools:ignore="UnusedResources">@string/help_ExpenseEdit_templateCategory_info</string>
+    <string name="help_ExpenseEdit_templateSplit_info" tools:ignore="UnusedResources">@string/help_ExpenseEdit_templateCategory_info</string>
     <string name="instant_plan" tools:ignore="UnusedResources">@string/plan</string>
 
     <string name="io_error_appdir_null">Application directory not found</string>

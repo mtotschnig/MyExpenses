@@ -205,6 +205,9 @@
     <string-array name="ExpenseEdit_templateTransfer_menuitems" tools:ignore="UnusedResources">
         <item>save</item>
     </string-array>
+    <string-array name="ExpenseEdit_templateSplit_menuitems" tools:ignore="UnusedResources">
+        <item>save</item>
+    </string-array>
     <string-array name="ExpenseEdit_splitPartCategory_menuitems" tools:ignore="UnusedResources">
         <item>save</item>
     </string-array>
@@ -248,12 +251,25 @@
         <item>comment</item>
         <item>plan</item>
     </string-array>
+    <string-array name="ExpenseEdit_templateSplit_formfields" tools:ignore="UnusedResources">
+        <item>title</item>
+        <item>account</item>
+        <item>amount</item>
+        <item>payer_or_payee</item>
+        <item>comment</item>
+        <item>category</item>
+        <item>method</item>
+        <item>plan</item>
+        <item>split_parts_heading</item>
+    </string-array>
     <string-array name="ExpenseEdit_split_formfields" tools:ignore="UnusedResources">
         <item>account</item>
         <item>amount</item>
         <item>date.time</item>
         <item>payer_or_payee</item>
         <item>comment</item>
+        <item>method</item>
+        <item>instant_plan</item>
         <item>split_parts_heading</item>
     </string-array>
     <string-array name="ExpenseEdit_splitPartCategory_formfields" tools:ignore="UnusedResources">
