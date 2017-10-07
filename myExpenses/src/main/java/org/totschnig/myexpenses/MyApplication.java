@@ -58,6 +58,7 @@ import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
@@ -182,6 +183,9 @@ public class MyApplication extends MultiDexApplication implements
     appComponent.inject(this);
     if (acraConfiguration != null) {
       ACRA.init(this, acraConfiguration);
+      ACRA.getErrorReporter().putCustomData("Distribution", DistribHelper.getDistribution().name());
+      ACRA.getErrorReporter().putCustomData("Installer", getPackageManager()
+          .getInstallerPackageName(getPackageName()));
     }
   }
 
