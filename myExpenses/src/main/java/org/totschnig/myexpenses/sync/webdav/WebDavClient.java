@@ -187,7 +187,9 @@ public class WebDavClient {
           xpp.next();
         }
       }
-    } catch (IOException | XmlPullParserException e) {
+    } catch (IOException e) {
+      Timber.e(e);
+    } catch (XmlPullParserException e) {
       AcraHelper.report(e);
     } finally {
       cleanUp(response);

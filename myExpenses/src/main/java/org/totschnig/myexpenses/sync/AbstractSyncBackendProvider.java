@@ -229,7 +229,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
           Utils.getTextWithAppName(context, R.string.warning_synchronization_folder_usage).toString(),
           "text/plain");
     } catch (IOException e) {
-      AcraHelper.report(e);
+      Timber.e(e);
     }
   }
 
