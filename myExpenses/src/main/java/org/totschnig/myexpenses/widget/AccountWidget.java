@@ -43,14 +43,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BA
 public class AccountWidget extends AbstractWidget<Account> {
 
   @Override
-  Uri getContentUri() {
-    return Uri
-        .parse("content://org.totschnig.myexpenses/accountwidget");
-  }
-
-  @Override
   String getPrefName() {
-    // TODO Auto-generated method stub
     return "org.totschnig.myexpenses.activity.AccountWidget";
   }
 

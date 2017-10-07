@@ -19,7 +19,6 @@ package org.totschnig.myexpenses.widget;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProviderInfo;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -58,12 +57,6 @@ public class TemplateWidget extends AbstractWidget<Template> {
   private static final String WIDGET_INSTANCE_SAVE_ACTION = "org.totschnig.myexpenses.INSTANCE_SAVE";
 
   @Override
-  Uri getContentUri() {
-    return Uri
-        .parse("content://org.totschnig.myexpenses/templatewidget");
-  }
-
-  @Override
   String getPrefName() {
     return "org.totschnig.myexpenses.activity.TemplateWidget";
   }
@@ -80,8 +73,7 @@ public class TemplateWidget extends AbstractWidget<Template> {
 
   private void addButtonsClick(Context context, RemoteViews updateViews,
                                int widgetId, long templateId) {
-    Uri widgetUri = ContentUris.withAppendedId(getContentUri(), widgetId);
-    Intent intent = new Intent(WIDGET_INSTANCE_SAVE_ACTION, widgetUri, context,
+    Intent intent = new Intent(WIDGET_INSTANCE_SAVE_ACTION, null, context,
         TemplateWidget.class);
     intent.putExtra(WIDGET_ID, widgetId);
     intent.putExtra("ts", System.currentTimeMillis());

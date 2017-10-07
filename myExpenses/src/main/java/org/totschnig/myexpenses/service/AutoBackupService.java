@@ -22,6 +22,7 @@ import android.support.v4.provider.DocumentFile;
 
 import com.commonsware.cwac.wakeful.WakefulIntentService;
 
+import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
 import org.totschnig.myexpenses.model.ContribFeature;
@@ -41,8 +42,8 @@ import static org.totschnig.myexpenses.util.NotificationBuilderWrapper.NOTIFICAT
 public class AutoBackupService extends WakefulIntentService {
 
   private static final String TAG = AutoBackupService.class.getSimpleName();
-  public static final String ACTION_AUTO_BACKUP = "org.totschnig.myexpenses.ACTION_AUTO_BACKUP";
-  public static final String ACTION_SCHEDULE_AUTO_BACKUP = "org.totschnig.myexpenses.ACTION_SCHEDULE_AUTO_BACKUP";
+  public static final String ACTION_AUTO_BACKUP = BuildConfig.APPLICATION_ID + ".ACTION_AUTO_BACKUP";
+  public static final String ACTION_SCHEDULE_AUTO_BACKUP = BuildConfig.APPLICATION_ID + ".ACTION_SCHEDULE_AUTO_BACKUP";
 
   public AutoBackupService() {
     super(TAG);

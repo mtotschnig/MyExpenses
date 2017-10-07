@@ -5,13 +5,11 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.appwidget.AppWidgetProviderInfo;
 import android.content.ComponentName;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.DimenRes;
 import android.util.TypedValue;
@@ -34,8 +32,6 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
   abstract String getPrefName();
 
   abstract PrefKey getProtectionKey();
-
-  abstract Uri getContentUri();
 
   abstract T getObject(Cursor c);
 
@@ -185,15 +181,14 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
 
   protected void addScrollOnClick(Context context,
                                   RemoteViews updateViews, int widgetId) {
-    Uri widgetUri = ContentUris.withAppendedId(getContentUri(), widgetId);
-    Intent intent = new Intent(WIDGET_NEXT_ACTION, widgetUri, context,
+    Intent intent = new Intent(WIDGET_NEXT_ACTION, null, context,
         getClass());
     intent.putExtra(WIDGET_ID, widgetId);
     intent.putExtra("ts", System.currentTimeMillis());
     PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0,
         intent, PendingIntent.FLAG_UPDATE_CURRENT);
     updateViews.setOnClickPendingIntent(R.id.down_icon, pendingIntent);
-    intent = new Intent(WIDGET_PREVIOUS_ACTION, widgetUri, context,
+    intent = new Intent(WIDGET_PREVIOUS_ACTION, null, context,
         getClass());
     intent.putExtra(WIDGET_ID, widgetId);
     intent.putExtra("ts", System.currentTimeMillis());

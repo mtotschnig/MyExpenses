@@ -333,8 +333,8 @@
             android:name=".service.AutoBackupService"
             android:exported="${debug}">
             <intent-filter>
-                <action android:name="org.totschnig.myexpenses.ACTION_SCHEDULE_AUTO_BACKUP"/>
-                <action android:name="org.totschnig.myexpenses.ACTION_AUTO_BACKUP"/>
+                <action android:name="${applicationId}.ACTION_SCHEDULE_AUTO_BACKUP"/>
+                <action android:name="${applicationId}.ACTION_AUTO_BACKUP"/>
             </intent-filter>
         </service>
 
@@ -365,14 +365,14 @@
         <receiver android:name=".service.GenericAlarmReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="org.totschnig.myexpenses.SCHEDULED_BACKUP"/>
+                <action android:name="${applicationId}.SCHEDULED_BACKUP"/>
                 <action android:name="android.accounts.LOGIN_ACCOUNTS_CHANGED"/>
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REPLACED"/>
 
                 <data
-                    android:path="org.totschnig.myexpenses"
+                    android:path="${applicationId}"
                     android:scheme="package"/>
             </intent-filter>
         </receiver>
@@ -382,7 +382,6 @@
             android:label="@string/widget_title_accounts">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
-                <action android:name="org.totschnig.myexpenses.UPDATE_WIDGET"/>
             </intent-filter>
 
             <meta-data
@@ -395,7 +394,6 @@
             android:label="@string/widget_title_templates">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
-                <action android:name="org.totschnig.myexpenses.UPDATE_WIDGET"/>
             </intent-filter>
 
             <meta-data

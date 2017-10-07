@@ -16,6 +16,7 @@ import android.content.Intent;
 
 import com.commonsware.cwac.wakeful.WakefulIntentService;
 
+import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.Account;
 
@@ -23,7 +24,7 @@ public class GenericAlarmReceiver extends BroadcastReceiver {
 
   static final String PACKAGE_REPLACED = "android.intent.action.PACKAGE_REPLACED";
   static final String BOOT_COMPLETED = "android.intent.action.BOOT_COMPLETED";
-  static final String SCHEDULED_BACKUP = "org.totschnig.myexpenses.SCHEDULED_BACKUP";
+  static final String SCHEDULED_BACKUP = BuildConfig.APPLICATION_ID + ".SCHEDULED_BACKUP";
   static final String ACCOUNT_CHANGED = "android.accounts.LOGIN_ACCOUNTS_CHANGED";
 
   @Override
@@ -31,7 +32,7 @@ public class GenericAlarmReceiver extends BroadcastReceiver {
     String action = intent.getAction();
     String dataString = intent.getDataString();
     if (PACKAGE_REPLACED.equals(action)) {
-      if ("package:org.totschnig.myexpenses".equals(dataString)) {
+      if (("package:" + BuildConfig.APPLICATION_ID).equals(dataString)) {
         requestScheduleAutoBackup(context);
         MyApplication.getInstance().initPlanner();
       }
