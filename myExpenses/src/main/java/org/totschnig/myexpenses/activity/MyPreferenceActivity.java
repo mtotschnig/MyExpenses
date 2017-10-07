@@ -187,20 +187,22 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       DatabaseConstants.buildLocalized(Locale.getDefault());
       Transaction.buildProjection();
     }
+    if (key.equals(UI_FONTSIZE.getKey())) {
+      updateAllWidgets();
+    }
     if (key.equals(PERFORM_PROTECTION.getKey())) {
       getFragment().setProtectionDependentsState();
-      AbstractWidget.updateWidgets(this, AccountWidget.class);
-      AbstractWidget.updateWidgets(this, TemplateWidget.class);
+      updateAllWidgets();
     } else if (key.equals(UI_FONTSIZE.getKey()) ||
         key.equals(UI_LANGUAGE.getKey()) ||
         key.equals(UI_THEME_KEY.getKey())) {
       restart();
     } else if (key.equals(PROTECTION_ENABLE_ACCOUNT_WIDGET.getKey())) {
       //Log.d("DEBUG","shared preference changed: Account Widget");
-      AbstractWidget.updateWidgets(this, AccountWidget.class);
+      updateWidgets(AccountWidget.class);
     } else if (key.equals(PROTECTION_ENABLE_TEMPLATE_WIDGET.getKey())) {
       //Log.d("DEBUG","shared preference changed: Template Widget");
-      AbstractWidget.updateWidgets(this, TemplateWidget.class);
+      updateWidgets(TemplateWidget.class);
     } else if (key.equals(AUTO_BACKUP.getKey()) || key.equals(AUTO_BACKUP_TIME.getKey())) {
       DailyAutoBackupScheduler.updateAutoBackupAlarms(this);
     } else if (key.equals(SYNC_FREQUCENCY.getKey())) {
@@ -209,6 +211,15 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
             SYNC_FREQUCENCY.getInt(GenericAccountService.DEFAULT_SYNC_FREQUENCY_HOURS) * HOUR_IN_SECONDS);
       }
     }
+  }
+
+  private void updateAllWidgets() {
+    updateWidgets(AccountWidget.class);
+    updateWidgets(TemplateWidget.class);
+  }
+
+  private void updateWidgets(Class<? extends AbstractWidget<?>> provider) {
+    AbstractWidget.updateWidgets(this, provider);
   }
 
   public void validateLicence() {
