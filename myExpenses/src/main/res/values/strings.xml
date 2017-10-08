@@ -703,4 +703,5 @@
     <string name="switch_to_yearly">Switch to yearly subscription</string>
     <string name="switch_to_monthly">Switch to monthly subscription</string>
     <string name="extend_validity">Extend validity</string>
+    <string name="progress_dialog_fetching_data_from_sync_backend">Fetching data from remote backend. This may take some time.</string>
 </resources>

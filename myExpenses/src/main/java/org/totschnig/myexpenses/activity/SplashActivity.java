@@ -252,7 +252,7 @@ public class SplashActivity extends SyncBackendSetupActivity {
   public void setupFromSyncAccounts(List<AccountMetaData> syncAccounts) {
     startTaskExecution(TaskExecutionFragment.TASK_SETUP_FROM_SYNC_ACCOUNTS,
         Stream.of(syncAccounts).map(AccountMetaData::uuid).toArray(size -> new String[size]),
-        accountName, R.string.pref_restore_title);
+        accountName, R.string.progress_dialog_fetching_data_from_sync_backend);
   }
 
   private class MyPagerAdapter extends FragmentPagerAdapter {
