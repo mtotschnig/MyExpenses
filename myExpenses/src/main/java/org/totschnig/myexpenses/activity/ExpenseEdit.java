@@ -192,7 +192,7 @@ public class ExpenseEdit extends AmountActivity implements
 
   private Button mCategoryButton, mPlanButton;
   private SpinnerHelper mMethodSpinner, mAccountSpinner, mTransferAccountSpinner, mStatusSpinner,
-      mOperationTypeSpinner, mReccurenceSpinner;
+      mOperationTypeSpinner, mRecurrenceSpinner;
   private SimpleCursorAdapter mMethodsAdapter, mAccountsAdapter, mTransferAccountsAdapter, mPayeeAdapter;
   private OperationTypeAdapter mOperationTypeAdapter;
   private FilterCursorWrapper mTransferAccountCursor;
@@ -354,15 +354,15 @@ public class ExpenseEdit extends AmountActivity implements
       }
     });
 
-    mCategoryButton = (Button) findViewById(R.id.Category);
-    mPlanButton = (Button) findViewById(R.id.Plan);
+    mCategoryButton = findViewById(R.id.Category);
+    mPlanButton = findViewById(R.id.Plan);
     mMethodSpinner = new SpinnerHelper(findViewById(R.id.Method));
     mAccountSpinner = new SpinnerHelper(findViewById(R.id.Account));
     mTransferAccountSpinner = new SpinnerHelper(findViewById(R.id.TransferAccount));
     mTransferAccountSpinner.setOnItemSelectedListener(this);
     mStatusSpinner = new SpinnerHelper(findViewById(R.id.Status));
-    mReccurenceSpinner = new SpinnerHelper(findViewById(R.id.Recurrence));
-    mPlanToggleButton = (ToggleButton) findViewById(R.id.PlanExecutionAutomatic);
+    mRecurrenceSpinner = new SpinnerHelper(findViewById(R.id.Recurrence));
+    mPlanToggleButton = findViewById(R.id.PlanExecutionAutomatic);
     TextPaint paint = mPlanToggleButton.getPaint();
     int automatic = (int) paint.measureText(getString(R.string.plan_automatic));
     int manual = (int) paint.measureText(getString(R.string.plan_manual));
@@ -645,8 +645,8 @@ public class ExpenseEdit extends AmountActivity implements
         setPlannerRowVisibility(View.VISIBLE);
         RecurrenceAdapter recurrenceAdapter = new RecurrenceAdapter(this,
             DistribHelper.shouldUseAndroidPlatformCalendar() ? null : Plan.Recurrence.CUSTOM);
-        mReccurenceSpinner.setAdapter(recurrenceAdapter);
-        mReccurenceSpinner.setOnItemSelectedListener(this);
+        mRecurrenceSpinner.setAdapter(recurrenceAdapter);
+        mRecurrenceSpinner.setOnItemSelectedListener(this);
         mPlanButton.setOnClickListener(view -> {
           if (mPlan == null) {
             hideKeyBoardAndShowDialog(DATE_DIALOG_ID);
@@ -702,29 +702,25 @@ public class ExpenseEdit extends AmountActivity implements
         //after SAVE_AND_NEW action
         RecurrenceAdapter recurrenceAdapter = new RecurrenceAdapter(this,
             Plan.Recurrence.ONETIME, Plan.Recurrence.CUSTOM);
-        mReccurenceSpinner.setAdapter(recurrenceAdapter);
+        mRecurrenceSpinner.setAdapter(recurrenceAdapter);
         Plan.Recurrence cachedRecurrence = (Plan.Recurrence) getIntent().getSerializableExtra(KEY_CACHED_RECURRENCE);
         if (cachedRecurrence != null) {
-          mReccurenceSpinner.setSelection(
-              ((ArrayAdapter) mReccurenceSpinner.getAdapter()).getPosition(cachedRecurrence));
+          mRecurrenceSpinner.setSelection(
+              ((ArrayAdapter) mRecurrenceSpinner.getAdapter()).getPosition(cachedRecurrence));
         }
-        mReccurenceSpinner.setOnItemSelectedListener(this);
+        mRecurrenceSpinner.setOnItemSelectedListener(this);
         setPlannerRowVisibility(View.VISIBLE);
         if (mTransaction.originTemplate != null && mTransaction.originTemplate.getPlan() != null) {
-          mReccurenceSpinner.getSpinner().setVisibility(View.GONE);
+          mRecurrenceSpinner.getSpinner().setVisibility(View.GONE);
           mPlanButton.setVisibility(View.VISIBLE);
           mPlanButton.setText(Plan.prettyTimeInfo(this,
               mTransaction.originTemplate.getPlan().rrule, mTransaction.originTemplate.getPlan().dtstart));
-          mPlanButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-              PlanMonthFragment.newInstance(
-                  mTransaction.originTemplate.getTitle(),
-                  mTransaction.originTemplate.getId(),
-                  mTransaction.originTemplate.planId,
-                  getCurrentAccount().color, true).show(getSupportFragmentManager(),
-                  TemplatesList.CALDROID_DIALOG_FRAGMENT_TAG);
-            }
-          });
+          mPlanButton.setOnClickListener(view -> PlanMonthFragment.newInstance(
+              mTransaction.originTemplate.getTitle(),
+              mTransaction.originTemplate.getId(),
+              mTransaction.originTemplate.planId,
+              getCurrentAccount().color, true).show(getSupportFragmentManager(),
+              TemplatesList.CALDROID_DIALOG_FRAGMENT_TAG));
         }
       }
       if (mTransaction instanceof Transfer) {
@@ -832,7 +828,7 @@ public class ExpenseEdit extends AmountActivity implements
     linkInputWithLabel(mReferenceNumberText, methodLabel);
     View planLabel = findViewById(R.id.PlanLabel);
     linkInputWithLabel(mPlanButton, planLabel);
-    linkInputWithLabel(mReccurenceSpinner.getSpinner(), planLabel);
+    linkInputWithLabel(mRecurrenceSpinner.getSpinner(), planLabel);
     linkInputWithLabel(mPlanToggleButton, planLabel);
     final View transferAmountLabel = findViewById(R.id.TransferAmountLabel);
     linkInputWithLabel(mTransferAmountText, transferAmountLabel);
@@ -1239,10 +1235,10 @@ public class ExpenseEdit extends AmountActivity implements
       ((Template) mTransaction).setTitle(title);
       String description = ((Template) mTransaction).compileDescription(ExpenseEdit.this, currencyFormatter);
       if (mPlan == null) {
-        if (mReccurenceSpinner.getSelectedItemPosition() > 0) {
+        if (mRecurrenceSpinner.getSelectedItemPosition() > 0) {
           mPlan = new Plan(
               mCalendar,
-              ((Plan.Recurrence) mReccurenceSpinner.getSelectedItem()).toRrule(mCalendar),
+              ((Plan.Recurrence) mRecurrenceSpinner.getSelectedItem()).toRrule(mCalendar),
               ((Template) mTransaction).getTitle(),
               description);
           ((Template) mTransaction).setPlan(mPlan);
@@ -1255,7 +1251,7 @@ public class ExpenseEdit extends AmountActivity implements
     } else {
       mTransaction.setReferenceNumber(mReferenceNumberText.getText().toString());
       if (forSave && !(isSplitPart())) {
-        if (mReccurenceSpinner.getSelectedItemPosition() > 0) {
+        if (mRecurrenceSpinner.getSelectedItemPosition() > 0) {
           title = TextUtils.isEmpty(mTransaction.getPayee()) ?
             (mOperationType == TYPE_SPLIT || TextUtils.isEmpty(mLabel) ?
                 (TextUtils.isEmpty(mTransaction.getComment()) ?
@@ -1263,7 +1259,7 @@ public class ExpenseEdit extends AmountActivity implements
           String description = mTransaction.compileDescription(ExpenseEdit.this, currencyFormatter);
           mTransaction.setInitialPlan(new Plan(
               mCalendar,
-              ((Plan.Recurrence) mReccurenceSpinner.getSelectedItem()).toRrule(mCalendar),
+              ((Plan.Recurrence) mRecurrenceSpinner.getSelectedItem()).toRrule(mCalendar),
               title,
               description));
         }
@@ -1367,7 +1363,7 @@ public class ExpenseEdit extends AmountActivity implements
       if (mTitleText.getText().toString().equals(""))
         mTitleText.setText(mPlan.title);
       mPlanToggleButton.setVisibility(View.VISIBLE);
-      mReccurenceSpinner.getSpinner().setVisibility(View.GONE);
+      mRecurrenceSpinner.getSpinner().setVisibility(View.GONE);
       mPlanButton.setVisibility(View.VISIBLE);
       pObserver = new PlanObserver();
       getContentResolver().registerContentObserver(
@@ -1661,7 +1657,7 @@ public class ExpenseEdit extends AmountActivity implements
               visibility = View.VISIBLE;
               showCustomRecurrenceInfo();
             } else {
-              mReccurenceSpinner.setSelection(0);
+              mRecurrenceSpinner.setSelection(0);
               ContribFeature contribFeature = mOperationType != TYPE_SPLIT || newSplitTemplateEnabled ?
                   ContribFeature.PLANS_UNLIMITED : ContribFeature.SPLIT_TEMPLATE;
               CommonCommands.showContribDialog(this, contribFeature, null);
@@ -1730,7 +1726,7 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   private void showCustomRecurrenceInfo() {
-    if (mReccurenceSpinner.getSelectedItem() == Plan.Recurrence.CUSTOM) {
+    if (mRecurrenceSpinner.getSelectedItem() == Plan.Recurrence.CUSTOM) {
       Snackbar snackbar = Snackbar.make(findViewById(R.id.OneExpense),
           R.string.plan_custom_recurrence_info, Snackbar.LENGTH_LONG);
       View snackbarView = snackbar.getView();
@@ -1820,7 +1816,7 @@ public class ExpenseEdit extends AmountActivity implements
     syncStateAndValidate(false);
     restartIntent.putExtra(KEY_CACHED_DATA, mTransaction);
     if (mOperationType != TYPE_SPLIT && newType != TYPE_SPLIT) {
-      restartIntent.putExtra(KEY_CACHED_RECURRENCE, ((Plan.Recurrence) mReccurenceSpinner.getSelectedItem()));
+      restartIntent.putExtra(KEY_CACHED_RECURRENCE, ((Plan.Recurrence) mRecurrenceSpinner.getSelectedItem()));
     }
     if (mTransaction.getPictureUri() != null) {
       restartIntent.putExtra(KEY_CACHED_PICTURE_URI, mTransaction.getPictureUri());
@@ -1853,7 +1849,7 @@ public class ExpenseEdit extends AmountActivity implements
           errorMsg = "Error while saving picture";
           break;
         case DbWriteFragment.ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE:
-          mReccurenceSpinner.setSelection(0);
+          mRecurrenceSpinner.setSelection(0);
           mTransaction.originTemplate = null;
           errorMsg = "Recurring transactions are not available, because calendar integration is not functional on this device.";
           break;
@@ -1881,8 +1877,8 @@ public class ExpenseEdit extends AmountActivity implements
           mTransaction.setId(0L);
           mTransaction.uuid = Model.generateUuid();
           mRowId = 0L;
-          mReccurenceSpinner.getSpinner().setVisibility(View.VISIBLE);
-          mReccurenceSpinner.setSelection(0);
+          mRecurrenceSpinner.getSpinner().setVisibility(View.VISIBLE);
+          mRecurrenceSpinner.setSelection(0);
           mPlanButton.setVisibility(View.GONE);
         }
         //while saving the picture might have been moved from temp to permanent
@@ -1895,7 +1891,7 @@ public class ExpenseEdit extends AmountActivity implements
         isProcessingLinkedAmountInputs = false;
         Toast.makeText(this, getString(R.string.save_transaction_and_new_success), Toast.LENGTH_SHORT).show();
       } else {
-        if (mReccurenceSpinner.getSelectedItem() == Plan.Recurrence.CUSTOM) {
+        if (mRecurrenceSpinner.getSelectedItem() == Plan.Recurrence.CUSTOM) {
           launchPlanView(true);
         } else {
           //make sure soft keyboard is closed
@@ -2263,7 +2259,7 @@ public class ExpenseEdit extends AmountActivity implements
             showCustomRecurrenceInfo();
           }
         } else {
-          mReccurenceSpinner.setSelection(0);
+          mRecurrenceSpinner.setSelection(0);
           if (!ActivityCompat.shouldShowRequestPermissionRationale(
               this, Manifest.permission.WRITE_CALENDAR)) {
             setPlannerRowVisibility(View.GONE);
