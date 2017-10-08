@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.test.espresso;
 import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.os.RemoteException;
-import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 
 import org.junit.AfterClass;
@@ -25,10 +24,13 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertEquals;
+import static org.totschnig.myexpenses.MyApplication.KEY_OPERATION_TYPE;
+import static org.totschnig.myexpenses.activity.ExpenseEdit.KEY_NEW_TEMPLATE;
+import static org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone;
+import static org.totschnig.myexpenses.testutils.Espresso.checkEffectiveVisible;
 import static org.totschnig.myexpenses.testutils.Matchers.inToast;
 
 public class ExpenseEditTest {
@@ -59,52 +61,54 @@ public class ExpenseEditTest {
 
   @Test
   public void formForTransactionIsPrepared() {
-    Intent i = new Intent(Intent.ACTION_EDIT);
+    Intent i = new Intent();
     i.setClassName("org.totschnig.myexpenses.activity", "org.totschnig.myexpenses.activity.ExpenseEdit");
-    i.putExtra("operationType", Transaction.TYPE_TRANSACTION);
+    i.putExtra(KEY_OPERATION_TYPE, Transaction.TYPE_TRANSACTION);
     mActivityRule.launchActivity(i);
-    for (int resId : new int[]{
-        R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
-        R.id.PayeeRow, R.id.AccountRow}
-        ) {
-      onView(withId(resId)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
-    }
+    checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
+        R.id.PayeeRow, R.id.AccountRow, R.id.Recurrence);
   }
 
   @Test
   public void formForTransferIsPrepared() {
-    Intent i = new Intent(Intent.ACTION_EDIT);
+    Intent i = new Intent();
     i.setClassName("org.totschnig.myexpenses.activity", "org.totschnig.myexpenses.activity.ExpenseEdit");
-    i.putExtra("operationType", Transaction.TYPE_TRANSFER);
+    i.putExtra(KEY_OPERATION_TYPE, Transaction.TYPE_TRANSFER);
     mActivityRule.launchActivity(i);
-    for (int resId : new int[]{
-        R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.AccountRow, R.id.TransferAccountRow}
-        ) {
-      onView(withId(resId)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
-    }
+    checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.AccountRow,
+        R.id.TransferAccountRow, R.id.Recurrence);
   }
 
   @Test
   public void formForSplitIsPrepared() {
-    Intent i = new Intent(Intent.ACTION_EDIT);
+    Intent i = new Intent();
     i.setClassName("org.totschnig.myexpenses.activity", "org.totschnig.myexpenses.activity.ExpenseEdit");
-    i.putExtra("operationType", Transaction.TYPE_SPLIT);
+    i.putExtra(KEY_OPERATION_TYPE, Transaction.TYPE_SPLIT);
     mActivityRule.launchActivity(i);
-    for (int resId : new int[]{
-        R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.SplitContainer,
-        R.id.PayeeRow, R.id.AccountRow}
-        ) {
-      onView(withId(resId)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
-    }
+    checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.SplitContainer,
+        R.id.PayeeRow, R.id.AccountRow, R.id.Recurrence);
   }
+
+  @Test
+  public void formForTemplateIsPrepared() {
+    Intent i = new Intent();
+    i.setClassName("org.totschnig.myexpenses.activity", "org.totschnig.myexpenses.activity.ExpenseEdit");
+    i.putExtra(KEY_OPERATION_TYPE, Transaction.TYPE_TRANSACTION);
+    i.putExtra(KEY_NEW_TEMPLATE, true);
+    mActivityRule.launchActivity(i);
+    checkEffectiveVisible(R.id.TitleRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
+        R.id.PayeeRow, R.id.AccountRow, R.id.Recurrence);
+    checkEffectiveGone(R.id.Plan);
+  }
+
 
   @Test
   public void accountIdInExtraShouldPopulateSpinner() {
     Account[] allAccounts = {account1, account2};
-    for (Account a: allAccounts) {
-      Intent i = new Intent(Intent.ACTION_EDIT);
+    for (Account a : allAccounts) {
+      Intent i = new Intent();
       i.setClassName("org.totschnig.myexpenses.activity", "org.totschnig.myexpenses.activity.ExpenseEdit");
-      i.putExtra("operationType", Transaction.TYPE_TRANSACTION);
+      i.putExtra(KEY_OPERATION_TYPE, Transaction.TYPE_TRANSACTION);
       i.putExtra(DatabaseConstants.KEY_ACCOUNTID, a.getId());
       mActivityRule.launchActivity(i);
       onView(withId(R.id.Account)).check(matches(Matchers.withSpinnerText(a.label)));
@@ -115,11 +119,11 @@ public class ExpenseEditTest {
   @Test
   public void currencyInExtraShouldPopulateSpinner() {
     Currency[] allCurrencies = {currency1, currency2};
-    for (Currency c: allCurrencies) {
+    for (Currency c : allCurrencies) {
       //we assume that Fixture has set up the default account with id 1
-      Intent i = new Intent(Intent.ACTION_EDIT);
+      Intent i = new Intent();
       i.setClassName("org.totschnig.myexpenses.activity", "org.totschnig.myexpenses.activity.ExpenseEdit");
-      i.putExtra("operationType", Transaction.TYPE_TRANSACTION);
+      i.putExtra(KEY_OPERATION_TYPE, Transaction.TYPE_TRANSACTION);
       i.putExtra(DatabaseConstants.KEY_CURRENCY, c.getCurrencyCode());
       mActivityRule.launchActivity(i);
       assertEquals("Account is not selected", c, mActivityRule.getActivity().getCurrentAccount().currency);
@@ -130,9 +134,9 @@ public class ExpenseEditTest {
 
   @Test
   public void saveAsNewWorksMultipleTimesInARow() {
-    Intent i = new Intent(Intent.ACTION_EDIT);
+    Intent i = new Intent();
     i.setClassName("org.totschnig.myexpenses.activity", "org.totschnig.myexpenses.activity.ExpenseEdit");
-    i.putExtra("operationType", Transaction.TYPE_TRANSACTION);
+    i.putExtra(KEY_OPERATION_TYPE, Transaction.TYPE_TRANSACTION);
     i.putExtra(DatabaseConstants.KEY_ACCOUNTID, account1.getId());
     mActivityRule.launchActivity(i);
     String success = mActivityRule.getActivity().getString(R.string.save_transaction_and_new_success);
@@ -144,6 +148,6 @@ public class ExpenseEditTest {
       onView(withText(success)).inRoot(inToast()).check(matches(isDisplayed()));
     }
     //we assume two fraction digits
-    assertEquals("Transaction sum does not match saved transactions", account1.getTransactionSum(null), - amount * times * 100);
+    assertEquals("Transaction sum does not match saved transactions", account1.getTransactionSum(null), -amount * times * 100);
   }
 }

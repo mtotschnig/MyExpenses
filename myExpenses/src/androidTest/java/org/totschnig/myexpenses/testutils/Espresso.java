@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Build;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.espresso.util.TreeIterables;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -14,10 +15,13 @@ import org.hamcrest.Matcher;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.pressMenuKey;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
+import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.endsWith;
@@ -53,6 +57,18 @@ public class Espresso {
       return Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
     } else {
       return !ViewConfiguration.get(context).hasPermanentMenuKey();
+    }
+  }
+
+  public static void checkEffectiveVisible(int... viewIds) {
+    for (int resId: viewIds) {
+      onView(withId(resId)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+    }
+  }
+
+  public static void checkEffectiveGone(int... viewIds) {
+    for (int resId: viewIds) {
+      onView(withId(resId)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
     }
   }
 

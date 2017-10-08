@@ -1560,6 +1560,9 @@ public class ExpenseEdit extends AmountActivity implements
             mTransaction.setDate(new Date(mPlanInstanceDate));
           }
         }
+        if (mTransaction instanceof Template) {
+          mPlan = ((Template) mTransaction).getPlan();
+        }
         mOperationType = mTransaction.operationType();
         if (mPictureUri == null) { // we might have received a picture in onActivityResult before
           // arriving here, in this case it takes precedence
