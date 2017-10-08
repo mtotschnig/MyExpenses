@@ -51,12 +51,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -287,7 +284,7 @@ public class MyExpenses extends LaunchActivity implements
     };
     mDrawerListAdapter = new MyGroupedAdapter(this, R.layout.account_row, null, from, to, 0);
 
-    Toolbar accountsMenu = (Toolbar) findViewById(R.id.accounts_menu);
+    Toolbar accountsMenu = findViewById(R.id.accounts_menu);
     accountsMenu.setTitle(R.string.pref_manage_accounts_title);
     accountsMenu.inflateMenu(R.menu.accounts);
     accountsMenu.inflateMenu(R.menu.sort);
@@ -328,15 +325,11 @@ public class MyExpenses extends LaunchActivity implements
 
     mDrawerList.setAdapter(mDrawerListAdapter);
     mDrawerList.setAreHeadersSticky(false);
-    mDrawerList.setOnItemClickListener(new OnItemClickListener() {
-      @Override
-      public void onItemClick(AdapterView<?> parent, View view, int position,
-                              long id) {
-        if (mAccountId != id) {
-          moveToPosition(position);
-          ((SimpleCursorAdapter) mDrawerListAdapter).notifyDataSetChanged();
-          closeDrawer();
-        }
+    mDrawerList.setOnItemClickListener((parent, view, position, id) -> {
+      if (mAccountId != id) {
+        moveToPosition(position);
+        ((SimpleCursorAdapter) mDrawerListAdapter).notifyDataSetChanged();
+        closeDrawer();
       }
     });
 
@@ -1113,7 +1106,7 @@ public class MyExpenses extends LaunchActivity implements
       c.moveToPosition(position);
 
       View v = row.findViewById(R.id.color1);
-      TextView labelTv = (TextView) row.findViewById(R.id.label);
+      TextView labelTv = row.findViewById(R.id.label);
       final View accountMenu = row.findViewById(R.id.account_menu);
 
       Currency currency = Utils.getSaveInstance(c.getString(columnIndexCurrency));
@@ -1155,40 +1148,37 @@ public class MyExpenses extends LaunchActivity implements
           getCursor().moveToPosition(position);
         }
         final boolean finalUpVisible = upVisible, finalDownVisible = downVisible;
-        accountMenu.setOnClickListener(new OnClickListener() {
-          @Override
-          public void onClick(View v) {
-            PopupMenu popup = new PopupMenu(MyExpenses.this, accountMenu);
-            popup.inflate(R.menu.accounts_context);
-            Menu menu = popup.getMenu();
-            menu.findItem(R.id.DELETE_ACCOUNT_COMMAND).setVisible(count > 1);
-            menu.findItem(R.id.UP_COMMAND).setVisible(finalUpVisible);
-            menu.findItem(R.id.DOWN_COMMAND).setVisible(finalDownVisible);
-            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+        accountMenu.setOnClickListener(v1 -> {
+          PopupMenu popup = new PopupMenu(MyExpenses.this, accountMenu);
+          popup.inflate(R.menu.accounts_context);
+          Menu menu = popup.getMenu();
+          menu.findItem(R.id.DELETE_ACCOUNT_COMMAND).setVisible(count > 1);
+          menu.findItem(R.id.UP_COMMAND).setVisible(finalUpVisible);
+          menu.findItem(R.id.DOWN_COMMAND).setVisible(finalDownVisible);
+          popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 
-              @Override
-              public boolean onMenuItemClick(MenuItem item) {
-                return handleSwap(item.getItemId(), position) ||
-                    dispatchCommand(item.getItemId(), rowId);
-              }
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+              return handleSwap(item.getItemId(), position) ||
+                  dispatchCommand(item.getItemId(), rowId);
+            }
 
-              private boolean handleSwap(int itemId, int position) {
-                if (itemId != R.id.UP_COMMAND && itemId != R.id.DOWN_COMMAND) return false;
-                Cursor c = getCursor();
-                c.moveToPosition(position);
-                String sortKey1 = c.getString(c.getColumnIndex(KEY_SORT_KEY));
-                c.moveToPosition(itemId == R.id.UP_COMMAND ? position - 1 : position + 1);
-                String sortKey2 = c.getString(c.getColumnIndex(KEY_SORT_KEY));
-                startTaskExecution(
-                    TaskExecutionFragment.TASK_SWAP_SORT_KEY,
-                    new String[]{sortKey1, sortKey2},
-                    null,
-                    R.string.progress_dialog_saving);
-                return true;
-              }
-            });
-            popup.show();
-          }
+            private boolean handleSwap(int itemId, int position1) {
+              if (itemId != R.id.UP_COMMAND && itemId != R.id.DOWN_COMMAND) return false;
+              Cursor c1 = getCursor();
+              c1.moveToPosition(position1);
+              String sortKey1 = c1.getString(c1.getColumnIndex(KEY_SORT_KEY));
+              c1.moveToPosition(itemId == R.id.UP_COMMAND ? position1 - 1 : position1 + 1);
+              String sortKey2 = c1.getString(c1.getColumnIndex(KEY_SORT_KEY));
+              startTaskExecution(
+                  TaskExecutionFragment.TASK_SWAP_SORT_KEY,
+                  new String[]{sortKey1, sortKey2},
+                  null,
+                  R.string.progress_dialog_saving);
+              return true;
+            }
+          });
+          popup.show();
         });
       }
 
@@ -1216,16 +1206,16 @@ public class MyExpenses extends LaunchActivity implements
       row.findViewById(R.id.ReconciledRow).setVisibility(
           hide_cr ? View.GONE : View.VISIBLE);
       if (c.getLong(columnIndexRowId) > 0) {
-        setConvertedAmount((TextView) row.findViewById(R.id.sum_transfer), currency);
+        setConvertedAmount(row.findViewById(R.id.sum_transfer), currency);
       }
       v.setBackgroundColor(colorInt);
-      setConvertedAmount((TextView) row.findViewById(R.id.opening_balance), currency);
-      setConvertedAmount((TextView) row.findViewById(R.id.sum_income), currency);
-      setConvertedAmount((TextView) row.findViewById(R.id.sum_expenses), currency);
-      setConvertedAmount((TextView) row.findViewById(R.id.current_balance), currency);
-      setConvertedAmount((TextView) row.findViewById(R.id.total), currency);
-      setConvertedAmount((TextView) row.findViewById(R.id.reconciled_total), currency);
-      setConvertedAmount((TextView) row.findViewById(R.id.cleared_total), currency);
+      setConvertedAmount(row.findViewById(R.id.opening_balance), currency);
+      setConvertedAmount(row.findViewById(R.id.sum_income), currency);
+      setConvertedAmount(row.findViewById(R.id.sum_expenses), currency);
+      setConvertedAmount(row.findViewById(R.id.current_balance), currency);
+      setConvertedAmount(row.findViewById(R.id.total), currency);
+      setConvertedAmount(row.findViewById(R.id.reconciled_total), currency);
+      setConvertedAmount(row.findViewById(R.id.cleared_total), currency);
       String description = c.getString(columnIndexDescription);
       row.findViewById(R.id.description).setVisibility(
           TextUtils.isEmpty(description) ? View.GONE : View.VISIBLE);
