@@ -76,4 +76,14 @@ public class PubNativeAdHandler extends AdHandler {
       });
     }
   }
+
+  @Override
+  protected boolean maybeShowInterstitialDo() {
+    return false;
+  }
+
+  @Override
+  protected void requestNewInterstitialDo() {
+    onInterstitialFailed();
+  }
 }

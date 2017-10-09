@@ -217,6 +217,7 @@ public class MyExpenses extends LaunchActivity implements
 
     adHandler = adHandlerFactory.create(findViewById(R.id.adContainer));
     adHandler.init();
+    adHandler.maybeRequestNewInterstitial();
 
     mDrawerLayout = findViewById(R.id.drawer_layout);
     mDrawerList = findViewById(R.id.left_drawer);

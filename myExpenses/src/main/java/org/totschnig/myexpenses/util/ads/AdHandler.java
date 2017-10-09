@@ -8,12 +8,13 @@ import android.view.ViewGroup;
 
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 
 import javax.inject.Inject;
 
 public abstract class AdHandler {
+  private static final int INTERSTITIAL_MIN_INTERVAL = BuildConfig.DEBUG ? 2 : 4;
   protected static final int DAY_IN_MILLIS = BuildConfig.DEBUG ? 1 : 86400000;
   private static final int INITIAL_GRACE_DAYS = BuildConfig.DEBUG ? 0 : 5;
   private static final String AD_TYPE_BANNER = "banner";
@@ -22,6 +23,7 @@ public abstract class AdHandler {
   protected Context context;
   @Inject
   protected Tracker tracker;
+  private AdHandler parent;
 
   protected AdHandler(ViewGroup adContainer) {
     this.adContainer = adContainer;
@@ -30,6 +32,31 @@ public abstract class AdHandler {
   }
 
   public abstract void init();
+
+  public void maybeRequestNewInterstitial() {
+    long now = System.currentTimeMillis();
+    if (now - PrefKey.INTERSTITIAL_LAST_SHOWN.getLong(0) > DAY_IN_MILLIS &&
+        PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL.getInt(0) > INTERSTITIAL_MIN_INTERVAL) {
+      //last ad shown more than 24h and at least five expense entries ago,
+      requestNewInterstitialDo();
+    }
+  }
+
+  protected void maybeShowInterstitial() {
+    if (maybeShowInterstitialDo()) {
+      PrefKey.INTERSTITIAL_LAST_SHOWN.putLong(System.currentTimeMillis());
+      PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL.putInt(0);
+    } else {
+      PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL.putInt(
+          PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL.getInt(0) + 1
+      );
+      maybeRequestNewInterstitial();
+    }
+  }
+
+  protected abstract boolean maybeShowInterstitialDo();
+
+  protected abstract void requestNewInterstitialDo();
 
   protected boolean isAdDisabled() {
     return isAdDisabled(context);
@@ -51,24 +78,30 @@ public abstract class AdHandler {
     }
   }
 
+  protected void onInterstitialFailed() {
+    if (parent != null) {
+      parent.onInterstitialFailed();
+    }
+  }
+
   public void onEditTransactionResult() {
-
+    if (!isAdDisabled()) {
+      maybeShowInterstitial();
+    }
   }
 
-  public void onResume() {
+  public void onResume() {}
 
-  }
+  public void onDestroy() {}
 
-  public void onDestroy() {
-
-  }
-
-  public void onPause() {
-
-  }
+  public void onPause() {}
 
   protected void hide() {
-    adContainer.setVisibility(View.GONE);
+    if (parent != null) {
+      parent.hide();
+    } else {
+      adContainer.setVisibility(View.GONE);
+    }
   }
 
   protected final void trackBannerRequest(String provider) {
@@ -115,5 +148,13 @@ public abstract class AdHandler {
       bundle.putString(Tracker.EVENT_PARAM_AD_ERROR_CODE, errorCode);
     }
     return bundle;
+  }
+
+  public void setParent(AdHandler parent) {
+    this.parent = parent;
+  }
+
+  public AdHandler getParent() {
+    return parent;
   }
 }

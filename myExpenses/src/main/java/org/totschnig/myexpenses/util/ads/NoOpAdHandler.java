@@ -10,4 +10,18 @@ public class NoOpAdHandler extends AdHandler {
   public void init() {
     hide();
   }
+
+  @Override
+  public void maybeRequestNewInterstitial() {}
+
+  @Override
+  protected void maybeShowInterstitial() {}
+
+  @Override
+  protected boolean maybeShowInterstitialDo() {
+    return false;
+  }
+
+  @Override
+  protected void requestNewInterstitialDo() {}
 }
