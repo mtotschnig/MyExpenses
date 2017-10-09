@@ -100,14 +100,17 @@ public class MyApplication extends MultiDexApplication implements
   public static final String KEY_OPERATION_TYPE = "operationType";
 
   public static final String CONTRIB_SECRET = "RANDOM_SECRET";
-  public static final String CALENDAR_FULL_PATH_PROJECTION = "ifnull("
-      + Calendars.ACCOUNT_NAME + ",'') || '/' ||" + "ifnull("
-      + Calendars.ACCOUNT_TYPE + ",'') || '/' ||" + "ifnull(" + Calendars.NAME
-      + ",'')";
 
   private long mLastPause = 0;
 
   private boolean isLocked;
+
+  public static String getCalendarFullPathProjection() {
+    return "ifnull("
+        + Calendars.ACCOUNT_NAME + ",'') || '/' ||" + "ifnull("
+        + Calendars.ACCOUNT_TYPE + ",'') || '/' ||" + "ifnull(" + Calendars.NAME
+        + ",'')";
+  }
 
   public AppComponent getAppComponent() {
     return appComponent;
@@ -389,7 +392,7 @@ public class MyApplication extends MultiDexApplication implements
   private boolean checkPlannerInternal(String calendarId) {
     ContentResolver cr = getContentResolver();
     Cursor c = cr.query(Calendars.CONTENT_URI,
-        new String[]{CALENDAR_FULL_PATH_PROJECTION + " AS path", Calendars.SYNC_EVENTS},
+        new String[]{getCalendarFullPathProjection() + " AS path", Calendars.SYNC_EVENTS},
         Calendars._ID + " = ?", new String[]{calendarId}, null);
     boolean result = true;
     if (c == null) {
@@ -618,7 +621,7 @@ public class MyApplication extends MultiDexApplication implements
       // and then accidentally we link to the wrong calendar
       Uri uri = ContentUris.withAppendedId(Calendars.CONTENT_URI,
           Long.parseLong(mPlannerCalendarId));
-      Cursor c = cr.query(uri, new String[]{CALENDAR_FULL_PATH_PROJECTION
+      Cursor c = cr.query(uri, new String[]{getCalendarFullPathProjection()
           + " AS path"}, null, null, null);
       if (c != null && c.moveToFirst()) {
         String path = c.getString(0);
@@ -718,7 +721,7 @@ public class MyApplication extends MultiDexApplication implements
     int restoredPlansCount = 0;
     if (!(calendarId.equals("-1") || calendarPath.equals(""))) {
       Cursor c = cr.query(Calendars.CONTENT_URI,
-          new String[]{Calendars._ID}, CALENDAR_FULL_PATH_PROJECTION
+          new String[]{Calendars._ID}, getCalendarFullPathProjection()
               + " = ?", new String[]{calendarPath}, null);
       if (c != null) {
         if (c.moveToFirst()) {

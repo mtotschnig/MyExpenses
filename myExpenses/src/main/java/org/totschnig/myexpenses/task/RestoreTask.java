@@ -233,7 +233,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
             .query(
                 Calendars.CONTENT_URI,
                 new String[]{Calendars._ID},
-                MyApplication.CALENDAR_FULL_PATH_PROJECTION + " = ?",
+                MyApplication.getCalendarFullPathProjection() + " = ?",
                 new String[]{calendarPath},
                 null);
         if (c != null) {

@@ -29,7 +29,7 @@ public abstract class AdHandler {
   protected AdHandler(ViewGroup adContainer) {
     this.adContainer = adContainer;
     this.context = adContainer.getContext();
-    MyApplication.getInstance().getAppComponent().inject(this);
+    ((MyApplication) context.getApplicationContext()).getAppComponent().inject(this);
   }
 
   public abstract void init();
