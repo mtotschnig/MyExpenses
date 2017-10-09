@@ -67,7 +67,7 @@ public abstract class AdHandler {
 
   }
 
-  protected final void hide() {
+  protected void hide() {
     adContainer.setVisibility(View.GONE);
   }
 
