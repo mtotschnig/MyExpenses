@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 
