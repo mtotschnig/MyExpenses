@@ -9,16 +9,17 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import net.pubnative.mediation.request.PubnativeNetworkRequest;
-import net.pubnative.mediation.request.model.PubnativeAdModel;
+import net.pubnative.sdk.core.request.PNAdModel;
+import net.pubnative.sdk.core.request.PNRequest;
 
+import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.R;
 
 import timber.log.Timber;
 
 public class PubNativeAdHandler extends AdHandler {
   private static final String APP_TOKEN = "d7757800d02945a18bbae190a9a7d4d1";
-  private static final String PLACEMENT_NAME = "Banner";
+  private static final String PLACEMENT_NAME = BuildConfig.DEBUG ? "Test" : "Banner";
   private static final String PROVIDER = "PubNative";
   private final Context context;
   private TextView title;
@@ -39,41 +40,34 @@ public class PubNativeAdHandler extends AdHandler {
     if (isAdDisabled()) {
       hide();
     } else {
-      PubnativeNetworkRequest request = new PubnativeNetworkRequest();
+      PNRequest request = new PNRequest();
       adRoot = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.pubnative_my_banner, adContainer, false);
 
-      banner = (RelativeLayout) adRoot.findViewById(R.id.pubnative_banner_view);
-      title = (TextView) adRoot.findViewById(R.id.pubnative_banner_title);
-      description = (TextView) adRoot.findViewById(R.id.pubnative_banner_description);
-      icon = (ImageView) adRoot.findViewById(R.id.pubnative_banner_image);
-      install = (Button) adRoot.findViewById(R.id.pubnative_banner_button);
-      disclosure = (ViewGroup) adRoot.findViewById(R.id.ad_disclosure);
+      banner = adRoot.findViewById(R.id.pubnative_banner_view);
+      title = adRoot.findViewById(R.id.pubnative_banner_title);
+      description = adRoot.findViewById(R.id.pubnative_banner_description);
+      icon = adRoot.findViewById(R.id.pubnative_banner_image);
+      install = adRoot.findViewById(R.id.pubnative_banner_button);
+      disclosure = adRoot.findViewById(R.id.ad_disclosure);
 
       adContainer.addView(adRoot);
       trackBannerRequest(PROVIDER);
-      request.start(context, APP_TOKEN, PLACEMENT_NAME, new PubnativeNetworkRequest.Listener() {
+      request.start(context, APP_TOKEN, PLACEMENT_NAME, new PNRequest.Listener() {
 
         @Override
-        public void onPubnativeNetworkRequestLoaded(PubnativeNetworkRequest request, PubnativeAdModel model) {
+        public void onPNRequestLoadFinish(PNRequest request, PNAdModel model) {
           trackBannerLoaded(PROVIDER);
           banner.setVisibility(View.VISIBLE);
-          title.setText(model.getTitle());
-          description.setText(model.getDescription());
-          install.setText(model.getCallToAction());
-          icon.setImageBitmap(model.getIcon());
-          View sponsorView = model.getAdvertisingDisclosureView(context);
-          if (sponsorView != null) {
-            disclosure.addView(sponsorView);
-          }
           model.withTitle(title)
               .withDescription(description)
+              .withContentInfoContainer(disclosure)
               .withIcon(icon)
               .withCallToAction(install)
-              .startTracking(context, adRoot);
+              .startTracking(adRoot);
         }
 
         @Override
-        public void onPubnativeNetworkRequestFailed(PubnativeNetworkRequest request, Exception exception) {
+        public void onPNRequestLoadFail(PNRequest request, Exception exception) {
           trackBannerFailed(PROVIDER, exception.getMessage());
           Timber.e("Request failed");
           Timber.e(exception);

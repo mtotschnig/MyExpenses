@@ -42,6 +42,8 @@ import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Calendars;
 import com.android.calendar.CalendarContractCompat.Events;
 
+import net.pubnative.sdk.core.Pubnative;
+
 import org.acra.ACRA;
 import org.acra.config.ACRAConfiguration;
 import org.acra.util.IOUtils;
@@ -158,6 +160,7 @@ public class MyApplication extends MultiDexApplication implements
         registerWidgetObservers();
       }
       licenceHandler.init();
+      Pubnative.setTestMode(BuildConfig.DEBUG);
     }
   }
 

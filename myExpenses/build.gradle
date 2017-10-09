@@ -186,7 +186,7 @@ dependencies {
 
     implementation supportCompile
 
-    implementation 'net.pubnative:mediation:1.2.15'
+    implementation 'net.pubnative:sdk:2.0.4'
 
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:' + project.espressoVersion
     androidTestImplementation 'junit:junit:4.12'

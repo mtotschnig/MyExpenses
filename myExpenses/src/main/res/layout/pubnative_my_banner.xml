@@ -58,7 +58,6 @@
         android:layout_marginRight="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/pubnative_install_button"
         android:clickable="false"
         android:focusable="false"
         android:paddingLeft="8dp"
@@ -71,7 +70,6 @@
         android:id="@+id/ad_disclosure"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="end|top"
-        android:padding="5dp"/>
+        android:gravity="end|top"/>
 
 </RelativeLayout>
