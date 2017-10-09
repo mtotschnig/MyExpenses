@@ -77,6 +77,8 @@ public enum PrefKey {
   GROUP_WEEK_STARTS(R.string.pref_group_week_starts_key),
   GROUP_MONTH_STARTS(R.string.pref_group_month_starts_key),
   NEW_PLAN_ENABLED("new_plan_enabled"),
+  INTERSTITIAL_LAST_SHOWN("interstitialLastShown"),
+  ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL("entriesCreatedSinceLastInterstitial"),
   NEW_ACCOUNT_ENABLED("new_account_enabled"),
   NEW_SPLIT_TEMPLATE_ENABLED("new_split_template_enabled"),
   SYNC_FREQUCENCY(R.string.pref_sync_frequency_key),
