@@ -215,11 +215,11 @@ public class MyExpenses extends LaunchActivity implements
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    adHandler = adHandlerFactory.create((ViewGroup) findViewById(R.id.adContainer));
+    adHandler = adHandlerFactory.create(findViewById(R.id.adContainer));
     adHandler.init();
 
-    mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-    mDrawerList = (StickyListHeadersListView) findViewById(R.id.left_drawer);
+    mDrawerLayout = findViewById(R.id.drawer_layout);
+    mDrawerList = findViewById(R.id.left_drawer);
     mToolbar = setupToolbar(false);
     mToolbar.addView(getLayoutInflater().inflate(R.layout.custom_title, mToolbar, false));
     if (mDrawerLayout != null) {
