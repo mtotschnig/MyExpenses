@@ -28,6 +28,9 @@
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:layout_marginBottom">8dp</item>
     </style>
+    <style name="headingStyle.WithMargin.Caps">
+        <item name="android:textAllCaps">true</item>
+    </style>
     <!-- workaround for http://code.google.com/p/android/issues/detail?id=5237 -->
     <style name="Widget.AutoCompleteTextViewLight" parent="@android:style/Widget.AutoCompleteTextView">
         <item name="android:textColor">@android:color/primary_text_light</item>

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<credits>
+    <project>
+        <name>Financisto</name>
+        <extra_info>CalculatorInput, QifParser, FolderBrowser, HomeScreenWidgets, WhereFilter and AutoBackupService</extra_info>
+        <url>https://launchpad.net/financisto</url>
+        <licence>GPL v2.0</licence>
+    </project>
+    <project>
+        <name>StickyListHeaders</name>
+        <url>http://emilsjolander.github.io/StickyListHeaders</url>
+        <licence>Apache License, Version 2.0</licence>
+    </project>
+    <project>
+        <name>iText</name>
+        <url>http://itextpdf.com</url>
+        <licence>Affero General Public License</licence>
+    </project>
+    <project>
+        <name>MPAndroidChart</name>
+        <url>https://github.com/PhilJay/MPAndroidChart</url>
+        <licence>Apache License, Version 2.0</licence>
+    </project>
+    <project>
+        <name>SimpleDialogFragments</name>
+        <url>https://github.com/eltos/SimpleDialogFragments</url>
+        <licence>Apache License, Version 2.0</licence>
+    </project>
+    <project>
+        <name>Grisbi</name>
+        <extra_info>category definitions</extra_info>
+        <url>http://www.grisbi.org</url>
+        <licence>http://www.grisbi.org</licence>
+    </project>
+    <project>
+        <name>Android Open Source Project</name>
+        <extra_info>SetupWizardLib, EventRecurrenceFormatter, Licencing Verification</extra_info>
+        <url>https://source.android.com/</url>
+        <licence>Apache License, Version 2.0</licence>
+    </project>
+    <project>
+        <name>WakefulIntentService</name>
+        <url>https://github.com/commonsguy/cwac-wakeful</url>
+        <licence>Apache License, Version 2.0</licence>
+    </project>
+    <project>
+        <name>MaterialSeekBarPreference</name>
+        <url>https://github.com/MrBIMC/MaterialSeekBarPreference</url>
+        <licence>MIT licence</licence>
+    </project>
+    <project>
+        <name>Picasso</name>
+        <url>http://square.github.io/picasso/</url>
+        <licence>Apache License, Version 2.0</licence>
+    </project>
+    <project>
+        <name>Caldroid</name>
+        <url>https://github.com/roomorama/Caldroid</url>
+        <licence>MIT licence</licence>
+    </project>
+    <project>
+        <name>Icepic</name>
+        <url>https://github.com/frankiesardo/icepick</url>
+        <licence>Eclipse Public License -v 1.0</licence>
+    </project>
+    <project>
+        <name>dav4android</name>
+        <url>https://gitlab.com/bitfireAT/dav4android</url>
+        <licence>GPL v3.0</licence>
+    </project>
+    <project>
+        <name>Apache commons</name>
+        <extra_info>Lang, CSV and Collections</extra_info>
+        <url>https://commons.apache.org/</url>
+        <licence>Apache License, Version 2.0</licence>
+    </project>
+    <project>
+        <name>Guava</name>
+        <extra_info>Int, IntMath, Files</extra_info>
+        <url>https://github.com/google/guava</url>
+        <licence>Apache License, Version 2.0</licence>
+    </project>
+    <project>
+        <name>CarReport</name>
+        <extra_info>WebDAV setup</extra_info>
+        <url>https://bitbucket.org/frigus02/car-report/</url>
+        <licence>Apache License, Version 2.0</licence>
+    </project>
+    <project>
+        <name>Acra</name>
+        <url>http://acra.ch/</url>
+        <licence>Apache License, Version 2.0</licence>
+    </project>
+    <project>
+        <name>OpenIAB</name>
+        <url>https://github.com/onepf/OpenIAB</url>
+        <licence>Apache License, Version 2.0</licence>
+    </project>
+    <project>
+        <name>Butterknife</name>
+        <url>http://jakewharton.github.io/butterknife/</url>
+        <licence>Apache License, Version 2.0</licence>
+    </project>
+    <project>
+        <name>Phrase</name>
+        <url>https://github.com/square/phrase</url>
+        <licence>Apache License, Version 2.0</licence>
+    </project>
+    <project>
+        <name>Dagger</name>
+        <url>https://google.github.io/dagger/</url>
+        <licence>Apache License, Version 2.0</licence>
+    </project>
+    <project>
+        <name>Gson</name>
+        <url>https://github.com/google/gson</url>
+        <licence>Apache License, Version 2.0</licence>
+    </project>
+    <project>
+        <name>AutoValue</name>
+        <url>https://github.com/google/auto/tree/master/value</url>
+        <licence>Apache License, Version 2.0</licence>
+    </project>
+    <project>
+        <name>AutoValue: Gson Extension</name>
+        <url>https://github.com/rharter/auto-value-gson</url>
+        <licence>Apache License, Version 2.0</licence>
+    </project>
+    <project>
+        <name>AutoValue: Cursor Extension</name>
+        <url>https://github.com/gabrielittner/auto-value-cursor</url>
+        <licence>Apache License, Version 2.0</licence>
+    </project>
+    <project>
+        <name>AutoValue: Parcel Extension</name>
+        <url>https://github.com/rharter/auto-value-parcel</url>
+        <licence>Apache License, Version 2.0</licence>
+    </project>
+    <project>
+        <name>Lightweight-Stream-API</name>
+        <url>https://github.com/aNNiMON/Lightweight-Stream-API</url>
+        <licence>Apache License, Version 2.0</licence>
+    </project>
+    <project>
+        <name>OkHttp</name>
+        <url>http://square.github.io/okhttp/</url>
+        <licence>Apache License, Version 2.0</licence>
+    </project>
+    <project>
+        <name>Timber</name>
+        <url>https://github.com/JakeWharton/timber</url>
+        <licence>Apache License, Version 2.0</licence>
+    </project>
+    <project>
+        <name>SLF4J</name>
+        <url>https://www.slf4j.org/</url>
+        <licence>MIT license</licence>
+    </project>
+    <project>
+        <name>logback-android</name>
+        <url>http://tony19.github.io/logback-android/index.html</url>
+        <licence>Eclipse Public License v1.0</licence>
+    </project>
+    <project>
+        <name>PubNative</name>
+        <url>https://github.com/pubnative/pubnative-android-sdk</url>
+        <licence>MIT license</licence>
+    </project>
+    <project>
+        <name>Retrofit2</name>
+        <url>http://square.github.io/retrofit/</url>
+        <licence>Apache License, Version 2.0</licence>
+    </project>
+</credits>

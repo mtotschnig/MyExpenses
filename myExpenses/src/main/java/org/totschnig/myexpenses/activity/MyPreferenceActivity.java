@@ -38,6 +38,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.DialogUtils;
@@ -59,6 +62,7 @@ import org.totschnig.myexpenses.widget.AccountWidget;
 import org.totschnig.myexpenses.widget.TemplateWidget;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Locale;
 
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP;
@@ -169,6 +173,20 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         //noinspection InflateParams
         View view = li.inflate(R.layout.more_info, null);
         ((TextView) view.findViewById(R.id.aboutVersionCode)).setText(DistribHelper.getVersionInfo(this));
+        TextView projectContainer = view.findViewById(R.id.project_container);
+        projectContainer.setText(Utils.makeBulletList(this,
+            Stream.of(Utils.getProjectDependencies(this))
+                .map(project -> {
+                  String name = project.get("name");
+                  return String.format("%s, from %s, licenced under %s",
+                      project.containsKey("extra_info") ?
+                          String.format("%s (%s)", name, project.get("extra_info")) : name,
+                      project.get("url"), project.get("licence"));
+                }).collect(Collectors.toList()), R.drawable.ic_menu_forward));
+        TextView additionalContainer = view.findViewById(R.id.additional_container);
+        additionalContainer.setText(Utils.makeBulletList(this,
+            Arrays.asList(getResources().getStringArray(R.array.additional_credits)),
+            R.drawable.ic_menu_forward));
         return new AlertDialog.Builder(this)
             .setTitle(R.string.pref_more_info_dialog_title)
             .setView(view)

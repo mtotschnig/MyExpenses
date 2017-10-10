@@ -58,6 +58,7 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.task.GrisbiImportTask;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
 import org.xml.sax.SAXException;
+import org.xmlpull.v1.XmlPullParser;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -78,9 +79,11 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import timber.log.Timber;
 
@@ -123,6 +126,35 @@ public class Utils {
       } catch (IllegalArgumentException e) {
         result = Currency.getInstance("EUR");
       }
+    }
+    return result;
+  }
+
+  public static List<Map<String,String>> getProjectDependencies(Context context) {
+    List<Map<String, String>> result = new ArrayList<>();
+    XmlPullParser xpp= context.getResources().getXml(R.xml.project_dependencies);
+    int eventType = 0;
+    try {
+      eventType = xpp.getEventType();
+      Map<String,String> project = null;
+      while (eventType != XmlPullParser.END_DOCUMENT) {
+        if(eventType == XmlPullParser.START_TAG) {
+          if (xpp.getName().equals("project")) {
+            project = new HashMap<>();
+          } else if (project != null) {
+            String key = xpp.getName();
+            xpp.next();
+            project.put(key, xpp.getText());
+          }
+        } else if(eventType == XmlPullParser.END_TAG) {
+          if(xpp.getName().equals("project")){
+            result.add(project);
+          }
+        }
+        eventType = xpp.next();
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
     }
     return result;
   }
@@ -763,9 +795,9 @@ public class Utils {
     }
   }
 
-  public static CharSequence makeBulletList(Context ctx, List<CharSequence> lines) {
+  public static CharSequence makeBulletList(Context ctx, List<CharSequence> lines, int icon) {
     InsetDrawable drawable = new InsetDrawable(
-        UiUtils.getTintedDrawableForTheme(ctx, R.drawable.ic_menu_done, R.style.ThemeDark), 0, 20, 0, 0);
+        UiUtils.getTintedDrawableForTheme(ctx, icon, R.style.ThemeDark), 0, 20, 0, 0);
     Bitmap bitmap = UiUtils.drawableToBitmap(drawable);
     Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 0.5),
         (int) (bitmap.getHeight() * 0.5), true);

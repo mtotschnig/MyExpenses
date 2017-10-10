@@ -34,7 +34,7 @@
             style="@style/about_text"/>
         <!-- Licence -->
         <TextView
-            style="@style/headingStyle.WithMargin"
+            style="@style/headingStyle.WithMargin.Caps"
             android:text="@string/help_heading_license"/>
 
         <TextView
@@ -42,93 +42,29 @@
             style="@style/about_text"
             android:text="@string/help_licence_gpl"/>
 
-        <TextView
-            style="@style/about_text"
-            android:text="@string/help_licence_financisto"/>
-
-        <TextView
-            style="@style/about_text"
-            android:text="@string/help_licence_stickylistheaders"/>
-        
-        <TextView
-            style="@style/about_text"
-            android:text="@string/help_licence_simpledialogfragments"/>
-
-        <TextView
-            style="@style/about_text"
-            android:text="@string/help_licence_mpandroidchart"/>
-
-        <TextView
-            style="@style/about_text"
-            android:text="@string/help_licence_itext"/>
-
-        <TextView
-            style="@style/about_text"
-            android:text="@string/help_licence_grisbi"/>
-
-        <TextView
-            style="@style/about_text"
-            android:text="@string/help_licence_aosp"/>
-
-        <TextView
-            style="@style/about_text"
-            android:text="@string/help_licence_apache"/>
-
-        <TextView
-            style="@style/about_text"
-            android:text="@string/help_licence_guava"/>
-
-        <TextView
-            style="@style/about_text"
-            android:text="@string/help_licence_wakeful"/>
-
-        <TextView
-            style="@style/about_text"
-            android:text="@string/help_licence_materialseekbar"/>
-
-        <TextView
-            style="@style/about_text"
-            android:text="@string/help_licence_picasso"/>
-
-        <TextView
-            style="@style/about_text"
-            android:text="@string/help_licence_caldroid"/>
-
-        <TextView
-            style="@style/about_text"
-            android:text="@string/help_licence_icepick"/>
-
-        <TextView
-            style="@style/about_text"
-            android:text="@string/help_licence_dav4android"/>
-
-        <TextView
-            style="@style/about_text"
-            android:text="WebDAV setup inspired by https://bitbucket.org/frigus02/car-report/, licensed under Apache License, Version 2.0 ."/>
-
-        <TextView
-            style="@style/about_text"
-            android:text="© 2016 Michael Totschnig"/>
         <!--  Credits -->
         <TextView
-            style="@style/headingStyle.WithMargin"
+            style="@style/headingStyle.WithMargin.Caps"
             android:text="@string/help_heading_credits"/>
 
         <TextView
-            style="@style/about_text"
-            android:text="App icon and promotional image by Christian Alban."/>
+            android:id="@+id/project_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!--  AND -->
+        <TextView
+            style="@style/headingStyle.WithMargin.Caps"
+            android:text="@string/and"/>
+
+        <TextView
+            android:id="@+id/additional_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <TextView
             style="@style/about_text"
-            android:text="Dark theme design originally suggested by meinnoteblog."/>
-
-        <TextView
-            style="@style/about_text"
-            android:text="Translations: Laurent Collombet (fr,it,es), Alexandre Beelen (fr), gudrunto (it), Silvia Delpero (it), Tulliver (es), christoft (es), Paco Rivière (ca), mauron (tr), Caner Başaran (tr), Phan Anh (vi), Abdulrahman Alothaim (ar), Roland Csipai (hu), Pongsametrey SOK (km), Enrico Nicoletto (pt_BR), Fabiano Oliveira (pt_BR), Maria Gabriel (pt_BR), Marcin Kralka (pl), Jan Splíchal (cs), Dmitrij Kurenkov (ru), isuru (si),  janith9590 (si), Dilruni (si), Abuyop (ms), Naofumi (ja), Diana Kara (bg), Ivan Dimitrov (bg), geoch (el), Michalis Ntovas (el), Mihovil Nakić-Vojnović (hr), DD (ro), CasperLi_HK (zh_TW), Osoitz (eu), halcyonest (ko), Khaled Saleem Baleesh (ar), Mohammed Al Blooshi (ar), wa3SdlmHXu (pt_PT), Sérgio Marques (pt_PT), fedett92 (it), Pierluigi Rufo (it), hhggit (zh_CN), jpgine (ca), tangodev (pl), visualfanatic (pl), Zvi  P. (he)"/>
-
-        <TextView
-            style="@style/about_text"
-            android:text="Code contributions: Configuring and applying custom colors to accounts by khris78; Applying Sonar code quality checks by Ayman Abdelghany"/>
+            android:text="© 2011 - 2018 Michael Totschnig"/>
     </LinearLayout>
 </ScrollView>
 

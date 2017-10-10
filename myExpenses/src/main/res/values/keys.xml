@@ -78,29 +78,13 @@
     <string name="pref_follow_gplus_key">follow_gplus</string>
 
     <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
-  <string name="help_licence_financisto">CalculatorInput, QifParser, FolderBrowser, HomeScreenWidgets, WhereFilter and AutoBackupService inspired by https://launchpad.net/financisto ,
-    licensed under GPL v2.0 .</string>
-  <string name="help_licence_stickylistheaders">StickyListHeaders from http://emilsjolander.github.io/StickyListHeaders,
-    licensed under Apache License, Version 2.0 .</string>
-  <string name="help_licence_simpledialogfragments">SimpleDialogFragments from https://github.com/eltos/SimpleDialogFragments,
-    licensed under Apache License, Version 2.0 .</string>
-  <string name="help_licence_mpandroidchart">MPAndroidChart from https://github.com/PhilJay/MPAndroidChart,
-    licensed under Apache License, Version 2.0 .</string>
-  <string name="help_licence_grisbi">Category definitions from http://www.grisbi.org,
-    licensed under GPL v2.0 .</string>
-  <string name="help_licence_aosp">EventRecurrence and EventRecurrenceFormatter from the Android Open Source Project,
-    licensed under Apache License, Version 2.0 .</string>
-  <string name="help_licence_apache">Apache commons (Lang and CSV) from the Apache Software Foundation
-    licensed under Apache License, Version 2.0 .</string>
-  <string name="help_licence_guava">Guava from https://github.com/google/guava
-    licensed under Apache License, Version 2.0 .</string>
-    <string name="help_licence_itext">iText from http://itextpdf.com, licensed under Affero General Public License .</string>
-    <string name="help_licence_wakeful">WakefulIntentService from https://commonsware.com/cwac, licensed under Apache License, Version 2.0 .</string>
-    <string name="help_licence_materialseekbar">MaterialSeekBarPreference from https://github.com/MrBIMC/MaterialSeekBarPreference, licensed under  MIT licence .</string>
-    <string name="help_licence_picasso">Picasso from http://square.github.io/picasso/, licensed under Apache License, Version 2.0 .</string>
-    <string name="help_licence_caldroid">Caldroid from https://github.com/roomorama/Caldroid, licensed under MIT License .</string>
-    <string name="help_licence_icepick">Icepic from https://github.com/frankiesardo/icepick, licensed under Eclipse Public License -v 1.0 .</string>
-    <string name="help_licence_dav4android">dav4android from https://gitlab.com/bitfireAT/dav4android, licensed under GPL v3.0 .</string>
+    <string-array name="additional_credits">
+        <item>App icon by Pierluigi Rufo.</item>
+        <item>Dark theme design originally suggested by meinnoteblog.</item>
+        <item>Translations: Laurent Collombet (fr,it,es), Alexandre Beelen (fr), gudrunto (it), Silvia Delpero (it), Tulliver (es), christoft (es), Paco Rivière (ca), mauron (tr), Caner Başaran (tr), Phan Anh (vi), Abdulrahman Alothaim (ar), Roland Csipai (hu), Pongsametrey SOK (km), Enrico Nicoletto (pt_BR), Fabiano Oliveira (pt_BR), Maria Gabriel (pt_BR), Marcin Kralka (pl), Jan Splíchal (cs), Dmitrij Kurenkov (ru), isuru (si),  janith9590 (si), Dilruni (si), Abuyop (ms), Naofumi (ja), Diana Kara (bg), Ivan Dimitrov (bg), geoch (el), Michalis Ntovas (el), Mihovil Nakić-Vojnović (hr), DD (ro), CasperLi_HK (zh_TW), Osoitz (eu), halcyonest (ko), Khaled Saleem Baleesh (ar), Mohammed Al Blooshi (ar), wa3SdlmHXu (pt_PT), Sérgio Marques (pt_PT), fedett92 (it), Pierluigi Rufo (it), hhggit (zh_CN), jpgine (ca), tangodev (pl), visualfanatic (pl), Zvi  P. (he).</item>
+        <item>Code contributions: Configuring and applying custom colors to accounts by khris78; Applying Sonar code quality checks by Ayman Abdelghany; Implementing Input Dialogs and Color Pickers by eltos.</item>
+    </string-array>
+
     <string name="donate_button_paypal">Paypal</string>
     <string name="donate_button_bitcoin">Bitcoin</string>
     <!-- User retrieving MyExpenses from a repository should not hit this message,

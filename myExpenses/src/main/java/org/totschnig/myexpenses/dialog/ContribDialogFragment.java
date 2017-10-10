@@ -126,7 +126,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     contribContainer.setBackgroundColor(getResources().getColor(R.color.premium_licence));
     if (licenceStatus == null && CONTRIB.covers(feature)) {
      contribVisible = true;
-      CharSequence contribList = Utils.makeBulletList(ctx, contribFeatureLabelsAsList);
+      CharSequence contribList = Utils.makeBulletList(ctx, contribFeatureLabelsAsList, R.drawable.ic_menu_done);
       ((TextView) contribContainer.findViewById(R.id.package_feature_list)).setText(contribList);
     } else {
       contribContainer.setVisibility(View.GONE);
@@ -144,7 +144,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
         lines.addAll(contribFeatureLabelsAsList);
       }
       lines.addAll(extendedFeatureLabelsAsList);
-      ((TextView) extendedContainer.findViewById(R.id.package_feature_list)).setText(Utils.makeBulletList(ctx, lines));
+      ((TextView) extendedContainer.findViewById(R.id.package_feature_list)).setText(Utils.makeBulletList(ctx, lines, R.drawable.ic_menu_done));
     } else {
       extendedContainer.setVisibility(View.GONE);
     }
@@ -164,7 +164,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
       }
     }
     lines.addAll(Utils.getContribFeatureLabelsAsList(ctx, PROFESSIONAL));
-    ((TextView) professionalContainer.findViewById(R.id.package_feature_list)).setText(Utils.makeBulletList(ctx, lines));
+    ((TextView) professionalContainer.findViewById(R.id.package_feature_list)).setText(Utils.makeBulletList(ctx, lines, R.drawable.ic_menu_done));
 
     //FOOTER
     view.findViewById(R.id.eu_vat_info).setVisibility(DistribHelper.isGithub() ? View.VISIBLE : View.GONE);
