@@ -17,7 +17,9 @@ import android.support.v4.view.ViewPager;
 import android.widget.AdapterView;
 import android.widget.Button;
 
+import org.junit.After;
 import org.junit.Assume;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,10 +30,13 @@ import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
 import org.totschnig.myexpenses.util.DistribHelper;
+
+import java.util.Currency;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
@@ -57,14 +62,31 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertTrue;
 import static org.totschnig.myexpenses.activity.MyExpenses.KEY_SEQUENCE_COUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.testutils.Espresso.openActionBarOverflowOrOptionsMenu;
 
 @RunWith(AndroidJUnit4.class)
 public final class MyExpensesTest {
+  private Account account;
 
   @Rule
   public final IntentsTestRule<MyExpenses> mActivityRule =
-      new IntentsTestRule<>(MyExpenses.class);
+      new IntentsTestRule<>(MyExpenses.class, false, false);
+
+  @Before
+  public void fixture() {
+    account = new Account("Test account 1", Currency.getInstance("EUR"), 0, "",
+        AccountType.CASH, Account.DEFAULT_COLOR);
+    account.save();
+    Intent i = new Intent();
+    i.putExtra(KEY_ROWID, account.getId());
+    mActivityRule.launchActivity(i);
+  }
+
+  @After
+  public void tearDown() throws RemoteException, OperationApplicationException {
+    Account.delete(account.getId());
+  }
 
   @Test
   public void viewPagerIsSetup() {

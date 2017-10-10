@@ -20,3 +20,5 @@
 -dontwarn java.lang.invoke.*
 
 -keep class com.google.devtools.build.android.desugar.runtime.ThrowableExtension
+
+-dontwarn org.assertj.core.**

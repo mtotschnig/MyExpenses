@@ -651,6 +651,14 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL(INCREASE_ACCOUNT_USAGE_UPDATE_TRIGGER);
     db.execSQL(UPDATE_ACCOUNT_SYNC_NULL_TRIGGER);
     db.execSQL(SETTINGS_CREATE);
+    //TODO evaluate if we should get rid of the split transaction category id
+    db.execSQL("CREATE TRIGGER protect_split_transaction" +
+        "   BEFORE DELETE" +
+        "   ON " + TABLE_CATEGORIES +
+        "   WHEN (OLD." + KEY_ROWID + " = " + SPLIT_CATID + ")" +
+        "   BEGIN" +
+        "   SELECT RAISE (FAIL, 'split category can not be deleted'); " +
+        "   END;");
   }
 
   private void insertCurrencies(SQLiteDatabase db) {
@@ -1565,6 +1573,11 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           "FROM accounts_old");
       db.execSQL("DROP TABLE accounts_old");
       createOrRefreshViews(db);
+
+      db.execSQL("CREATE TRIGGER protect_split_transaction BEFORE DELETE ON categories " +
+          " WHEN (OLD._id = 0)" +
+          " BEGIN SELECT RAISE (FAIL, 'split category can not be deleted'); " +
+          " END;");
     }
   }
 

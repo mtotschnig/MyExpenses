@@ -1012,13 +1012,19 @@ public class TransactionProvider extends ContentProvider {
         } else {
           whereString = "";
         }
-        count = db.delete(TABLE_ACCOUNTS, "_id=" + segment + whereString,
+        count = db.delete(TABLE_ACCOUNTS, KEY_ROWID + " = " + segment + whereString,
             whereArgs);
         //update aggregate cursor
         //getContext().getContentResolver().notifyChange(AGGREGATES_URI, null);
         break;
       case CATEGORIES:
-        count = db.delete(TABLE_CATEGORIES, where, whereArgs);
+        if (!TextUtils.isEmpty(where)) {
+          whereString = " AND (" + where + ')';
+        } else {
+          whereString = "";
+        }
+        count = db.delete(TABLE_CATEGORIES, KEY_ROWID + " != " + SPLIT_CATID + whereString,
+            whereArgs);
         break;
       case CATEGORY_ID:
         segment = uri.getPathSegments().get(1);
@@ -1027,7 +1033,7 @@ public class TransactionProvider extends ContentProvider {
         } else {
           whereString = "";
         }
-        count = db.delete(TABLE_CATEGORIES, "_id=" + segment + whereString,
+        count = db.delete(TABLE_CATEGORIES, KEY_ROWID + " = " + segment + whereString,
             whereArgs);
         break;
       case PAYEE_ID:
@@ -1037,7 +1043,7 @@ public class TransactionProvider extends ContentProvider {
         } else {
           whereString = "";
         }
-        count = db.delete(TABLE_PAYEES, "_id=" + segment + whereString,
+        count = db.delete(TABLE_PAYEES, KEY_ROWID + " = " + segment + whereString,
             whereArgs);
         break;
       case METHOD_ID:
@@ -1047,7 +1053,7 @@ public class TransactionProvider extends ContentProvider {
         } else {
           whereString = "";
         }
-        count = db.delete(TABLE_METHODS, "_id=" + segment + whereString,
+        count = db.delete(TABLE_METHODS, KEY_ROWID + " = " + segment + whereString,
             whereArgs);
         break;
       case PLANINSTANCE_TRANSACTION_STATUS:

@@ -4,13 +4,13 @@ package org.totschnig.myexpenses.test.espresso;
 import android.Manifest;
 import android.content.Intent;
 import android.content.OperationApplicationException;
-import android.os.Build;
-import android.os.ParcelFileDescriptor;
 import android.os.RemoteException;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
+import android.support.test.rule.GrantPermissionRule;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.totschnig.myexpenses.MyApplication;
@@ -30,8 +30,6 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Currency;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
-import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -46,6 +44,9 @@ public class ExpenseEditLoadDataTest {
   @Rule
   public ActivityTestRule<ExpenseEdit> mActivityRule =
       new ActivityTestRule<>(ExpenseEdit.class, false, false);
+  @Rule
+  public GrantPermissionRule grantPermissionRule = GrantPermissionRule.grant(
+      Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR);
   private static Account account1;
   private static Account account2;
   private static Transaction transaction;
@@ -53,22 +54,8 @@ public class ExpenseEditLoadDataTest {
   private static SplitTransaction splitTransaction;
   private static Template template;
 
-  private static void grantCalendarPermissions() throws IOException {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-      ParcelFileDescriptor parcelFileDescriptor = getInstrumentation().getUiAutomation().executeShellCommand(
-          "pm grant " + getTargetContext().getPackageName()
-              + " " + Manifest.permission.WRITE_CALENDAR);
-      parcelFileDescriptor.close();
-      parcelFileDescriptor = getInstrumentation().getUiAutomation().executeShellCommand(
-          "pm grant " + getTargetContext().getPackageName()
-              + " " + Manifest.permission.READ_CALENDAR);
-      parcelFileDescriptor.close();
-    }
-  }
-
-  @BeforeClass
-  public static void fixture() throws IOException {
-    grantCalendarPermissions();
+  @Before
+  public  void fixture() throws IOException {
     currency = Currency.getInstance("EUR");
     account1 = new Account("Test account 1", currency, 0, "", AccountType.CASH, Account.DEFAULT_COLOR);
     account1.save();
@@ -90,16 +77,15 @@ public class ExpenseEditLoadDataTest {
     template.save();
   }
 
-  @AfterClass
-  public static void tearDown() throws RemoteException, OperationApplicationException {
+  @After
+  public void tearDown() throws RemoteException, OperationApplicationException {
     Account.delete(account1.getId());
     Account.delete(account2.getId());
   }
 
   @Test
   public void shouldPopulateWithTransactionAndPrepareForm() {
-    Intent i = new Intent();
-    i.setClassName("org.totschnig.myexpenses.activity", "org.totschnig.myexpenses.activity.ExpenseEdit");
+    Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
     i.putExtra(KEY_ROWID, transaction.getId());
     mActivityRule.launchActivity(i);
     checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
@@ -110,8 +96,7 @@ public class ExpenseEditLoadDataTest {
 
   @Test
   public void shouldPopulateWithTransferAndPrepareForm() {
-    Intent i = new Intent();
-    i.setClassName("org.totschnig.myexpenses.activity", "org.totschnig.myexpenses.activity.ExpenseEdit");
+    Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
     i.putExtra(KEY_ROWID, transfer.getId());
     mActivityRule.launchActivity(i);
     checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.AccountRow,
@@ -121,8 +106,7 @@ public class ExpenseEditLoadDataTest {
 
   @Test
   public void shouldPopulateWithSplitTransactionAndPrepareForm() {
-    Intent i = new Intent();
-    i.setClassName("org.totschnig.myexpenses.activity", "org.totschnig.myexpenses.activity.ExpenseEdit");
+    Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
     i.putExtra(KEY_ROWID, splitTransaction.getId());
     mActivityRule.launchActivity(i);
     checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.SplitContainer,
@@ -131,8 +115,7 @@ public class ExpenseEditLoadDataTest {
 
   @Test
   public void shouldPopulateWithTemplateAndPrepareForm() {
-    Intent i = new Intent();
-    i.setClassName("org.totschnig.myexpenses.activity", "org.totschnig.myexpenses.activity.ExpenseEdit");
+    Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
     i.putExtra(KEY_TEMPLATEID, template.getId());
     mActivityRule.launchActivity(i);
     checkEffectiveVisible(R.id.TitleRow,  R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,

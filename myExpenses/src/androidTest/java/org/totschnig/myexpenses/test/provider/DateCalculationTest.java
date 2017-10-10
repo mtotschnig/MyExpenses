@@ -1,17 +1,24 @@
 package org.totschnig.myexpenses.test.provider;
 
+import android.Manifest;
 import android.app.AlarmManager;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.test.ProviderTestCase2;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.rule.GrantPermissionRule;
 import android.util.Log;
 
+import org.junit.Assume;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
-import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -21,7 +28,9 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.TimeZone;
 
-public class DateCalculationTest extends ProviderTestCase2<TransactionProvider> {
+import static junit.framework.Assert.assertEquals;
+
+public class DateCalculationTest  {
 
   // Contains an SQLite database, used as test data
   private SQLiteDatabase mDb;
@@ -31,32 +40,28 @@ public class DateCalculationTest extends ProviderTestCase2<TransactionProvider> 
   private Random random;
   private Calendar calendar;
 
-  public DateCalculationTest() {
-    super(TransactionProvider.class, TransactionProvider.AUTHORITY);
-  }
+  @Rule
+  public GrantPermissionRule grantPermissionRule = GrantPermissionRule.grant(
+      Manifest.permission.WRITE_CALENDAR, Manifest.permission.SET_TIME_ZONE);
+
 
   /*
    * Sets up the test environment before each test method. Creates a mock content resolver,
    * gets the provider under test, and creates a new database for the provider.
    */
-  @Override
-  protected void setUp() throws Exception {
-    // Calls the base class implementation of this method.
-    super.setUp();
-
-      /*
-       * Gets a handle to the database underlying the provider. Gets the provider instance
-       * created in super.setUp(), gets the DatabaseOpenHelper for the provider, and gets
-       * a database object from the helper.
-       */
-    mDb = getProvider().getOpenHelperForTest().getWritableDatabase();
+  @Before
+  public void setUp() throws Exception {
+    //On O SET_TIME_ZONE has become restricted
+    Assume.assumeTrue(Build.VERSION.SDK_INT < Build.VERSION_CODES.O);
+    mDb = new MyDbHelper(InstrumentationRegistry.getTargetContext()).getWritableDatabase();
   }
 
+  @Test
   public void testDateCalculationsForWeekGroupsWithAllWeekDaysForAllTimeZoneOffsets() throws InterruptedException {
     int[] timezones = {-11, -7, -3, 0, 4, 8, 12};
     for (int i: timezones) {
       Log.d("DEBUG", "now setting timezone with offset " + i);
-      AlarmManager am = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+      AlarmManager am = (AlarmManager) InstrumentationRegistry.getTargetContext().getSystemService(Context.ALARM_SERVICE);
       int rawOffset = i * 60 * 60 * 1000;
       String timeZone = TimeZone.getAvailableIDs(rawOffset)[0];
       am.setTimeZone(timeZone);
@@ -74,7 +79,6 @@ public class DateCalculationTest extends ProviderTestCase2<TransactionProvider> 
     PrefKey.GROUP_WEEK_STARTS.putString(String.valueOf(configuredWeekStart));
     DatabaseConstants.buildLocalized(Locale.getDefault());
     assertEquals(configuredWeekStart, DatabaseConstants.weekStartsOn);
-    mDb.execSQL("CREATE TABLE " + TABLE + " (" + KEY_DATE + " DATETIME not null)");
     ContentValues v = new ContentValues();
     for (int year = 2010; year < 2022; year++) {
       int month = 11, day = 26;
@@ -142,11 +146,28 @@ public class DateCalculationTest extends ProviderTestCase2<TransactionProvider> 
       c.moveToNext();
     }
     c.close();
-    mDb.execSQL("DROP TABLE " + TABLE);
+    mDb.execSQL("DELETE FROM " + TABLE);
   }
 
   private int getDayOfYearFromTimestamp(long timestamp) {
     calendar.setTimeInMillis(timestamp * 1000);
     return calendar.get(Calendar.DAY_OF_YEAR);
+  }
+
+  private class MyDbHelper extends SQLiteOpenHelper {
+
+    public MyDbHelper(Context context) {
+      super(context, "datecalculationtest", null, 1);
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+      db.execSQL("CREATE TABLE " + TABLE + " (" + KEY_DATE + " DATETIME not null)");
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+    }
   }
 }

@@ -8,11 +8,7 @@ import android.provider.Settings;
 import android.support.test.runner.AndroidJUnitRunner;
 import android.util.Log;
 
-import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.util.Utils;
-
-import java.util.Currency;
 
 public final class MyTestRunner extends AndroidJUnitRunner {
   private boolean ANIMATION_SETTINGS_MANUALLY_CHECKED = false;
@@ -51,8 +47,6 @@ public final class MyTestRunner extends AndroidJUnitRunner {
         }
       }
     }
-    //The app operates on one test set up during onboarding, we simulate this status.
-    new Account("Test account 1", Currency.getInstance("EUR"), 0, "", AccountType.CASH, Account.DEFAULT_COLOR).save();
     super.onStart();
   }
 

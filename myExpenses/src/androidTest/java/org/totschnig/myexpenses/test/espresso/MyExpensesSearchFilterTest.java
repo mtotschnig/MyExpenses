@@ -15,6 +15,7 @@ import org.junit.runner.RunWith;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Transaction;
@@ -50,7 +51,9 @@ public final class MyExpensesSearchFilterTest {
   public static void fixture() {
     catLabel1 = "Test category 1";
     catLabel2 = "Test category 2";
-    account = Account.getInstanceFromDb(0);
+    account = new Account("Test account 1", Currency.getInstance("EUR"), 0, "",
+        AccountType.CASH, Account.DEFAULT_COLOR);
+    account.save();
     long categoryId1 = Category.write(0L, catLabel1, null);
     long categoryId2 = Category.write(0L, catLabel2,null);
     Transaction op = Transaction.getNewInstance(account.getId());
@@ -63,10 +66,8 @@ public final class MyExpensesSearchFilterTest {
 
   @AfterClass
   public static void tearDown() throws RemoteException, OperationApplicationException {
-    account.reset(null, Account.EXPORT_HANDLE_DELETED_DO_NOTHING, null);
+    Account.delete(account.getId());
   }
-
-
 
   @Test
   public void catFilterShouldHideTransaction() {

@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.test.espresso;
 
+import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.database.DataSetObserver;
@@ -23,6 +24,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Transaction;
@@ -53,6 +55,7 @@ import static org.hamcrest.Matchers.both;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.testutils.Matchers.withListSize;
 
 
@@ -67,7 +70,9 @@ public final class MyExpensesCabTest {
 
   @Before
   public void fixture() {
-    account = Account.getInstanceFromDb(0);
+    account = new Account("Test account 1", Currency.getInstance("EUR"), 0, "",
+        AccountType.CASH, Account.DEFAULT_COLOR);
+    account.save();
     Transaction op0 = Transaction.getNewInstance(account.getId());
     op0.setAmount(new Money(Currency.getInstance("USD"), -1200L));
     op0.save();
@@ -75,7 +80,9 @@ public final class MyExpensesCabTest {
     for (int i = 0; i < times; i++) {
       op0.saveAsNew();
     }
-    mActivityRule.launchActivity(null);
+    Intent i = new Intent();
+    i.putExtra(KEY_ROWID, account.getId());
+    mActivityRule.launchActivity(i);
     adapterIdlingResource = new AdapterIdlingResource(MyExpensesCabTest.class.getSimpleName());
     Espresso.registerIdlingResources(adapterIdlingResource);
     onView(isRoot()).check(matches(anything()));
@@ -83,7 +90,7 @@ public final class MyExpensesCabTest {
 
   @After
   public void tearDown() throws RemoteException, OperationApplicationException {
-    account.reset(null, Account.EXPORT_HANDLE_DELETED_DO_NOTHING, null);
+    Account.delete(account.getId());
     if (adapterIdlingResource != null) {
       Espresso.unregisterIdlingResources(adapterIdlingResource);
     }
@@ -174,7 +181,7 @@ public final class MyExpensesCabTest {
   }
 
   @Test
-  public void splitCommandcreatesSplitTransaction() {
+  public void splitCommandCreatesSplitTransaction() {
     onData(is(instanceOf(Cursor.class)))
         .inAdapterView(getWrappedList())
         .atPosition(1) // position 0 is header

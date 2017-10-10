@@ -3,10 +3,11 @@ package org.totschnig.myexpenses.test.espresso;
 import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.os.RemoteException;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.totschnig.myexpenses.R;
@@ -45,24 +46,23 @@ public class ExpenseEditTest {
   private static Currency currency1 = Currency.getInstance("USD");
   private static Currency currency2 = Currency.getInstance("EUR");
 
-  @BeforeClass
-  public static void fixture() {
+  @Before
+  public void fixture() {
     account1 = new Account(accountLabel1, currency1, 0, "", AccountType.CASH, Account.DEFAULT_COLOR);
     account1.save();
     account2 = new Account(accountLabel2, currency2, 0, "", AccountType.CASH, Account.DEFAULT_COLOR);
     account2.save();
   }
 
-  @AfterClass
-  public static void tearDown() throws RemoteException, OperationApplicationException {
+  @After
+  public void tearDown() throws RemoteException, OperationApplicationException {
     Account.delete(account1.getId());
     Account.delete(account2.getId());
   }
 
   @Test
   public void formForTransactionIsPrepared() {
-    Intent i = new Intent();
-    i.setClassName("org.totschnig.myexpenses.activity", "org.totschnig.myexpenses.activity.ExpenseEdit");
+    Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
     i.putExtra(KEY_OPERATION_TYPE, Transaction.TYPE_TRANSACTION);
     mActivityRule.launchActivity(i);
     checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
@@ -71,8 +71,7 @@ public class ExpenseEditTest {
 
   @Test
   public void formForTransferIsPrepared() {
-    Intent i = new Intent();
-    i.setClassName("org.totschnig.myexpenses.activity", "org.totschnig.myexpenses.activity.ExpenseEdit");
+    Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
     i.putExtra(KEY_OPERATION_TYPE, Transaction.TYPE_TRANSFER);
     mActivityRule.launchActivity(i);
     checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.AccountRow,
@@ -81,8 +80,7 @@ public class ExpenseEditTest {
 
   @Test
   public void formForSplitIsPrepared() {
-    Intent i = new Intent();
-    i.setClassName("org.totschnig.myexpenses.activity", "org.totschnig.myexpenses.activity.ExpenseEdit");
+    Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
     i.putExtra(KEY_OPERATION_TYPE, Transaction.TYPE_SPLIT);
     mActivityRule.launchActivity(i);
     checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.SplitContainer,
@@ -91,8 +89,7 @@ public class ExpenseEditTest {
 
   @Test
   public void formForTemplateIsPrepared() {
-    Intent i = new Intent();
-    i.setClassName("org.totschnig.myexpenses.activity", "org.totschnig.myexpenses.activity.ExpenseEdit");
+    Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
     i.putExtra(KEY_OPERATION_TYPE, Transaction.TYPE_TRANSACTION);
     i.putExtra(KEY_NEW_TEMPLATE, true);
     mActivityRule.launchActivity(i);
@@ -106,8 +103,7 @@ public class ExpenseEditTest {
   public void accountIdInExtraShouldPopulateSpinner() {
     Account[] allAccounts = {account1, account2};
     for (Account a : allAccounts) {
-      Intent i = new Intent();
-      i.setClassName("org.totschnig.myexpenses.activity", "org.totschnig.myexpenses.activity.ExpenseEdit");
+      Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
       i.putExtra(KEY_OPERATION_TYPE, Transaction.TYPE_TRANSACTION);
       i.putExtra(DatabaseConstants.KEY_ACCOUNTID, a.getId());
       mActivityRule.launchActivity(i);
@@ -121,8 +117,7 @@ public class ExpenseEditTest {
     Currency[] allCurrencies = {currency1, currency2};
     for (Currency c : allCurrencies) {
       //we assume that Fixture has set up the default account with id 1
-      Intent i = new Intent();
-      i.setClassName("org.totschnig.myexpenses.activity", "org.totschnig.myexpenses.activity.ExpenseEdit");
+      Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
       i.putExtra(KEY_OPERATION_TYPE, Transaction.TYPE_TRANSACTION);
       i.putExtra(DatabaseConstants.KEY_CURRENCY, c.getCurrencyCode());
       mActivityRule.launchActivity(i);
@@ -134,8 +129,7 @@ public class ExpenseEditTest {
 
   @Test
   public void saveAsNewWorksMultipleTimesInARow() {
-    Intent i = new Intent();
-    i.setClassName("org.totschnig.myexpenses.activity", "org.totschnig.myexpenses.activity.ExpenseEdit");
+    Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
     i.putExtra(KEY_OPERATION_TYPE, Transaction.TYPE_TRANSACTION);
     i.putExtra(DatabaseConstants.KEY_ACCOUNTID, account1.getId());
     mActivityRule.launchActivity(i);

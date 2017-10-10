@@ -31,7 +31,7 @@ ext {
     minSdkVersion = 15
     targetSdkVersion = 26
     androidSupportLibraryVersion = "26.0.2"
-    espressoVersion = "2.2.2"
-    androidSupportTestVersion = "0.5"
+    espressoVersion = "3.0.1"
+    androidSupportTestVersion = "1.0.1"
     daggerVersion = "2.9"
 }

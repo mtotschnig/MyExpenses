@@ -26,6 +26,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.RemoteException;
 import android.support.annotation.StringRes;
+import android.support.annotation.VisibleForTesting;
 
 import org.apache.commons.lang3.StringUtils;
 import org.totschnig.myexpenses.R;
@@ -914,6 +915,7 @@ public class Transaction extends Model {
     return countPerMethod(CONTENT_URI, methodId);
   }
 
+  @VisibleForTesting
   public static int countPerAccount(long accountId) {
     return countPerAccount(CONTENT_URI, accountId);
   }

@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.test.espresso;
 import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.os.RemoteException;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -29,7 +30,7 @@ public final class MyExpensesIntentTest {
 
   @Rule
   public ActivityTestRule<MyExpenses> mActivityRule =
-      new ActivityTestRule<>(MyExpenses.class);
+      new ActivityTestRule<>(MyExpenses.class, false, false);
   private static String accountLabel1;
   private static String accountLabel2;
   private static Account account1;
@@ -52,20 +53,20 @@ public final class MyExpensesIntentTest {
   }
 
   @Test
-  public void shouldNavigateToAccountReceivedThroughIntent() {
-    mActivityRule.getActivity().finish();
-    Intent i = new Intent()
-        .putExtra(KEY_ROWID, account1.getId())
-        .setClassName("org.totschnig.myexpenses.activity", "org.totschnig.myexpenses.activity.MyExpenses");
+  public void shouldNavigateToAccountReceivedThroughIntent1() {
+    Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), MyExpenses.class)
+        .putExtra(KEY_ROWID, account1.getId());
     mActivityRule.launchActivity(i);
     onView(allOf(
         withText(accountLabel1),
         withId(R.id.action_bar_title)))
         .check(matches(isDisplayed()));
-    mActivityRule.getActivity().finish();
-    i = new Intent()
-        .putExtra(KEY_ROWID, account2.getId())
-        .setClassName("org.totschnig.myexpenses.activity", "org.totschnig.myexpenses.activity.MyExpenses");
+  }
+
+  @Test
+  public void shouldNavigateToAccountReceivedThroughIntent2() {
+    Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), MyExpenses.class)
+        .putExtra(KEY_ROWID, account2.getId());
     mActivityRule.launchActivity(i);
     onView(allOf(
         withText(accountLabel2),
