@@ -273,44 +273,42 @@
 <div class="block" id="premium" style="display:none">
   <h2>{{t.sections.premium}}</h2>
   <p>{{t.contrib.feature-list-title}}</p>
-  <ul>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Contrib<br><span class="label label-success">{{t.contrib.one-time-payment}}</span></th>
+        <th>Extended<br><span class="label label-success">{{t.contrib.one-time-payment}}</span></th>
+        <th>Professional<br><span class="label label-success">{{t.contrib.subscription}}</span></th>
+      </tr>
+    </thead>
+    <tbody>
     {% for feature in site.contrib %}
-    <li>{{t.contrib.feature[feature]}}</li>
+    <tr>
+		<td>{{t.contrib.feature[feature]}}</td>
+		<td class="checked">✓</td>
+		<td class="checked">✓</td>
+		<td class="checked">✓</td>
+    </tr>
     {% endfor %}
     {% for feature in site.extended %}
-    <li>{{t.contrib.feature[feature]}} <span class="label
-    label-success">{{t.contrib.extended-label}}</span></li>
+    <tr>
+		<td>{{t.contrib.feature[feature]}}</td>
+		<td></td>
+		<td class="checked">✓</td>
+		<td class="checked">✓</td>
+    </tr>
     {% endfor %}
-  </ul>
-  <p>{{t.contrib.licence-howto-buy.intro}}</p>
-  <ul>
-    <li>{{t.contrib.licence-howto-buy.in-app}}</li>
-    <li>{{t.contrib.licence-howto-buy.blackberry}}
-    {{t.contrib.licence-howto-buy.blackberry-extra}}</li>
-    <li>{{t.contrib.licence-howto-buy.other}}
-      <ul>
-        <li>PayPal
-          <ul>
-            <li>
-               Contrib <a class="track" id="paypal" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LBUDF8DSWJAZ8&on0=Contrib&os0=Contrib{{paypallc}}"><img src="https://www.paypalobjects.com/en_GB/i/btn/btn_paynow_SM.gif" border="0" alt="PayPal - The safer, easier way to pay online." /></a>
-            </li>
-            <li>
-               Extended <a class="track" id="paypal" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LBUDF8DSWJAZ8&on0=Extended&os0=Extended{{paypallc}}"><img src="https://www.paypalobjects.com/en_GB/i/btn/btn_paynow_SM.gif" border="0" alt="PayPal - The safer, easier way to pay online." /></a>
-            </li>
-            <li>
-               Upgrade from Contrib to Extended <a class="track" id="paypal" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LBUDF8DSWJAZ8&on0=Upgrade&os0=Upgrade{{paypallc}}"><img src="https://www.paypalobjects.com/en_GB/i/btn/btn_paynow_SM.gif" border="0" alt="PayPal - The safer, easier way to pay online." /></a>
-            </li>
-          </ul>
-        </li>
-        <li><a href="http://bitcoin.org">Bitcoins</a>: <a class="track" id="bitcoin" href="bitcoin:1GCUGCSfFXzSC81ogHu12KxfUn3cShekMn">1GCUGCSfFXzSC81ogHu12KxfUn3cShekMn</a><br />
-      {{t.contrib.licence-howto-buy.price | replace:"%1$s","3.00 € (<a href='http://www.xe.com/currencyconverter/convert/?Amount=3&From=EUR&To=XBT'>Bitcoin</a>)" | replace:"%2$s","5.00 € (<a href='http://www.xe.com/currencyconverter/convert/?Amount=5&From=EUR&To=XBT'>Bitcoin</a>)"}}
-        </li>
-        <li>{{t.contrib.licence-howto-buy.transfer}}
-        </li>
-      </ul>
-      {{t.contrib.licence-howto-buy.key}}<br />
-    </li>
-  </ul>
+    {% for feature in site.professional %}
+    <tr>
+		<td>{{t.contrib.feature[feature]}}</td>
+		<td></td>
+		<td></td>
+		<td class="checked">✓</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
 </div>
 
 

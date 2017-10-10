@@ -155,3 +155,10 @@ Back to top button
 	padding: 10px;
 }
 
+td.checked {
+  text-align: center;
+  vertical-align: middle;
+  color: darkgreen;
+  font-size: x-large; 
+}
+
