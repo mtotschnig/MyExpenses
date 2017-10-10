@@ -64,7 +64,6 @@
   <string name="help_ExpenseEdit_templateCategory_title">Transakzio txantiloien formularioa</string>
   <string name="help_ExpenseEdit_templateTransfer_title">Transferentzia txantiloien formularioa</string>
   <string name="help_ExpenseEdit_transaction_info">Erabili inprimaki hau transakzio berri bat sartzeko edo existitzen den bat editatzeko. Erabili ekintza-barrako goitibeherako menua transferentzia edo transferentzia banatu berri bat gehitzeko inprimakira aldatzeko.</string>
-  <string name="help_ExpenseEdit_templateCategory_info">Erabili inprimaki hau txantiloi berri bat sartzeko edo existitzen den bat editatzeko. Erabili ekintza-barrako goitibeherako menua transferentzia txantiloi berri bat gehitzeko inprimakira aldatzeko.</string>
   <string name="help_ExpenseEdit_split_info">Transferentzia banatu bat zatitan banatutako transferentzia bakarra da, non zati bakoitza kategoria desberdin batera eslei edo kontu desberdin batera transferi daiteke.</string>
   <string name="form_account_help_text">Hautatu transakzioari dagokion kontua.</string>
   <string name="form_date.time_help_text">Sartu transakzioa gertatu zeneko ordua.</string>

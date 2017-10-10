@@ -60,7 +60,6 @@
   <string name="help_ExpenseEdit_templateCategory_title">Borang untuk templat transaksi</string>
   <string name="help_ExpenseEdit_templateTransfer_title">Borang untuk templat pemindahan</string>
   <string name="help_ExpenseEdit_transaction_info">Guna borang ini untuk masukkan transaksi baharu atau sunting sedia ada. Guna menu tarik-turun dalam palang tindakan untuk tukar ke borang bagi menambah pemindahan baharu atau pisahkan transaksi.</string>
-  <string name="help_ExpenseEdit_templateCategory_info">Guna borang ini untuk masukkan templat baharu atau sunting sedia ada. Guna menu tarik-turun dalam palang tindakan untuk tukar ke borang bagi menambah templat pemindahan baharu.</string>
   <string name="help_ExpenseEdit_split_info">Satu transaksi pisah ialah satu transaksi tunggal yang dipisahkan kepada beberapa bahagian, yang mana setiap bahagian boleh diumpuk ke kategori berbeza, atau dipindah ke akaun berbeza.</string>
   <string name="form_account_help_text">Pilih akaun yang mana milik transaksi tersebut.</string>
   <string name="form_date.time_help_text">Masukkan waktu bila transaksi berlaku.</string>

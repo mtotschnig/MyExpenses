@@ -1,6 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="help_menu_commands">أوامر القائمة</string>
+  <string name="cab_delete_help_text">حذف العناصر المحددة</string>
+  <string name="cab_edit_help_text">تعديل العناصر المحددة</string>
   <!--My Expenses Transaction list-->
   <string name="help_MyExpenses_title">قائمة العمليات</string>
   <!--ManageMethods title is in keys-->
@@ -26,4 +28,5 @@
   <!--StaleImages-->
   <!--CSV Import-->
   <!--SyncBackends-->
+  <string name="cab_sync_unlink_help_text">الحساب المحدد لن يتم مزامنته مع المخدم</string>
 </resources>

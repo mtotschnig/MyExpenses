@@ -63,8 +63,9 @@
   <string name="help_ExpenseEdit_splitPartTransfer_title">Bölünmüş alt muamele formu (transfer)</string>
   <string name="help_ExpenseEdit_templateCategory_title">Muamele şablonları için form</string>
   <string name="help_ExpenseEdit_templateTransfer_title">Transfer şablonları için form</string>
+  <string name="help_ExpenseEdit_templateSplit_title">Bölünmüş şablonlar için formlar</string>
   <string name="help_ExpenseEdit_transaction_info">Yeni bir muamele girmek için ya da mevcut bir muameleyi düzenlemek için bu formu kullanın. Yeni bir transfer ya da bölünmüş muamele ekleme formuna geçmek  için eylem çubuğundaki menüyü kullanın.</string>
-  <string name="help_ExpenseEdit_templateCategory_info">Yeni bir şablon oluşturmak ya da mevcut bir şablonu düzenlemek için bu formu kullanın. Yeni bir transfer şablonu ekleme formuna geçmek için eylem çubuğundaki menüyü kullanın.</string>
+  <string name="help_ExpenseEdit_templateCategory_info">Yeni bir şablon girmek için veya mevcut bir şablonu düzenlemek için bu formu kullanabilirsiniz. Muamele ve havale şablonları arasında geçiş yapmak için etkinlik çubuğundaki aşağıya doğru açılan menüyü kullanın.</string>
   <string name="help_ExpenseEdit_split_info">Bölünmüş bir muamele, parçalara ayrılmış tek bir muameledir ve her parça değişik bir kategoriye atanabilir ya da başka bir hesaba transfer edilebilir.</string>
   <string name="form_account_help_text">Muamelenin ait olduğu hesabı seçin.</string>
   <string name="form_date.time_help_text">Muamelenin yapıldığı zamanı girin.</string>
