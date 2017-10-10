@@ -74,8 +74,8 @@ public class CommonCommands {
             "[" + ctx.getString(R.string.app_name) + "] Feedback"
         );
         String messageBody = String.format(Locale.ROOT,
-            "APP_VERSION:%s\nANDROID_VERSION:%s\nBRAND:%s\nMODEL:%s\n\n%s\n\n",
-            getVersionInfo(ctx), Build.VERSION.RELEASE, Build.BRAND, Build.MODEL,
+            "APP_VERSION:%s\nANDROID_VERSION:%s\nBRAND:%s\nMODEL:%s\nLANGUAGE:%s\n\n%s\n\n",
+            getVersionInfo(ctx), Build.VERSION.RELEASE, Build.BRAND, Build.MODEL, Locale.getDefault().toString(),
             ctx.getString(R.string.feedback_email_message));
         i.putExtra(android.content.Intent.EXTRA_TEXT, messageBody);
         if (!Utils.isIntentAvailable(ctx, i)) {

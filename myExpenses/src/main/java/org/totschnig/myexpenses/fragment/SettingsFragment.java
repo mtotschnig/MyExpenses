@@ -583,7 +583,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       if (licenceHandler.hasLegacyLicence()) {
         CommonCommands.dispatchCommand(getActivity(), R.id.REQUEST_LICENCE_MIGRATION_COMMAND, null);
       } else if (licenceHandler.isUpgradeable()) {
-        Intent i = ContribInfoDialogActivity.getIntentFor(getActivity(), (ContribFeature) null);
+        Intent i = ContribInfoDialogActivity.getIntentFor(getActivity(), null);
         if (DistribHelper.isGithub()) {
           startActivityForResult(i, CONTRIB_PURCHASE_REQUEST);
         } else {
