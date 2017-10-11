@@ -52,6 +52,7 @@ public class LicenceHandler {
     return isEnabledFor(LicenceStatus.CONTRIB);
   }
 
+  @VisibleForTesting
   public boolean isExtendedEnabled() {
     return isEnabledFor(LicenceStatus.EXTENDED);
   }
