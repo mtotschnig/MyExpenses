@@ -26,15 +26,12 @@ import java.util.Currency;
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.anything;
-import static org.totschnig.myexpenses.testutils.Matchers.inToast;
 
 //TODO test CAB actions
 public class ManageTemplatesTest {
@@ -70,9 +67,6 @@ public class ManageTemplatesTest {
 
   private void verifySaveAction() {
     assertThat(Transaction.countPerAccount(account.getId())).isEqualTo(1);
-    String success = mActivityRule.getActivity().getResources()
-        .getQuantityString(R.plurals.save_transaction_from_template_success, 1, 1);
-    onView(withText(success)).inRoot(inToast()).check(matches(isDisplayed()));
   }
 
   private void clicketiclick() {
