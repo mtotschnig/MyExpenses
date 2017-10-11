@@ -3,11 +3,8 @@ package org.totschnig.myexpenses.test.espresso;
 import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
-import android.database.DataSetObserver;
 import android.os.Build;
 import android.os.RemoteException;
-import android.support.test.espresso.Espresso;
-import android.support.test.espresso.IdlingResource;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
@@ -46,11 +43,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.both;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.instanceOf;
@@ -66,7 +61,6 @@ public final class MyExpensesCabTest {
   public ActivityTestRule<MyExpenses> mActivityRule =
       new ActivityTestRule<>(MyExpenses.class, true, false);
   private Account account;
-  private AdapterIdlingResource adapterIdlingResource;
 
   @Before
   public void fixture() {
@@ -83,22 +77,16 @@ public final class MyExpensesCabTest {
     Intent i = new Intent();
     i.putExtra(KEY_ROWID, account.getId());
     mActivityRule.launchActivity(i);
-    adapterIdlingResource = new AdapterIdlingResource(MyExpensesCabTest.class.getSimpleName());
-    Espresso.registerIdlingResources(adapterIdlingResource);
-    onView(isRoot()).check(matches(anything()));
   }
 
   @After
   public void tearDown() throws RemoteException, OperationApplicationException {
     Account.delete(account.getId());
-    if (adapterIdlingResource != null) {
-      Espresso.unregisterIdlingResources(adapterIdlingResource);
-    }
   }
 
   @Test
   public void cloneCommandIncreasesListSize() {
-    int origListSize = getList().getAdapter().getCount();
+    int origListSize = waitForAdapter().getCount();
     onData(is(instanceOf(Cursor.class)))
         .inAdapterView(getWrappedList())
         .atPosition(1) // position 0 is header
@@ -108,9 +96,22 @@ public final class MyExpensesCabTest {
     onView(getWrappedList()).check(matches(withListSize(origListSize + 1)));
   }
 
+  private Adapter waitForAdapter() {
+    while (true) {
+      Adapter adapter = getAdapter();
+      if (adapter == null) {
+        try {
+          Thread.sleep(100);
+        } catch (InterruptedException ignored) {}
+      } else {
+        return adapter;
+      }
+    }
+  }
+
   @Test
   public void editCommandKeepsListSize() {
-    int origListSize = getList().getAdapter().getCount();
+    int origListSize = waitForAdapter().getCount();
     onData(is(instanceOf(Cursor.class)))
         .inAdapterView(getWrappedList())
         .atPosition(1) // position 0 is header
@@ -143,7 +144,7 @@ public final class MyExpensesCabTest {
 
   @Test
   public void deleteCommandDecreasesListSize() {
-    int origListSize = getList().getAdapter().getCount();
+    int origListSize = waitForAdapter().getCount();
     onData(is(instanceOf(Cursor.class)))
         .inAdapterView(getWrappedList())
         .atPosition(1) // position 0 is header
@@ -155,7 +156,7 @@ public final class MyExpensesCabTest {
 
   @Test
   public void deleteCommandWithVoidOption() {
-    int origListSize = getList().getAdapter().getCount();
+    int origListSize = waitForAdapter().getCount();
     onData(is(instanceOf(Cursor.class)))
         .inAdapterView(getWrappedList())
         .atPosition(1) // position 0 is header
@@ -170,7 +171,7 @@ public final class MyExpensesCabTest {
 
   @Test
   public void deleteCommandCancelKeepsListSize() {
-    int origListSize = getList().getAdapter().getCount();
+    int origListSize = waitForAdapter().getCount();
     onData(is(instanceOf(Cursor.class)))
         .inAdapterView(getWrappedList())
         .atPosition(1) // position 0 is header
@@ -227,51 +228,5 @@ public final class MyExpensesCabTest {
         isAssignableFrom(AdapterView.class),
         isDescendantOfA(withId(R.id.list)),
         isDisplayed());
-  }
-
-  private class AdapterIdlingResource implements IdlingResource {
-    private String name;
-    private ResourceCallback callback;
-    private Adapter adapter;
-
-    AdapterIdlingResource(String name) {
-      this.name = name;
-    }
-
-    @Override
-    public String getName() {
-      return name;
-    }
-
-    @Override
-    public boolean isIdleNow() {
-      Adapter adapter = requireAdapter();
-      return adapter != null && adapter.getCount() > 0;
-    }
-
-    private Adapter requireAdapter() {
-      if (adapter == null) {
-        adapter = getAdapter();
-        if (adapter != null) {
-          adapter.registerDataSetObserver(new DataSetObserver() {
-            @Override
-            public void onChanged() {
-              if (isIdleNow() && callback != null) {
-                callback.onTransitionToIdle();
-              }
-            }
-          });
-          if (adapter.getCount() > 0) {
-            callback.onTransitionToIdle();
-          }
-        }
-      }
-      return adapter;
-    }
-
-    @Override
-    public void registerIdleTransitionCallback(ResourceCallback resourceCallback) {
-      callback = resourceCallback;
-    }
   }
 }
