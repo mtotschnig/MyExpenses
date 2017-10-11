@@ -152,6 +152,7 @@ dependencies {
     annotationProcessor 'com.ryanharter.auto.value:auto-value-parcel:0.2.5'
     implementation 'com.github.mtotschnig:StickyListHeaders:2.7.1'
     implementation 'com.github.mtotschnig:MaterialSeekBarPreference:improvement~align-with-layout-specific-to-each-level-SNAPSHOT'
+    implementation project(':PlayLicensingOrig')
     implementation('com.gitlab.mtotschn:dav4android:fbaa5b51') {
         exclude group: "com.android.support", module: "support-annotations"
     }
