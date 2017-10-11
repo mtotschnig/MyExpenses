@@ -102,8 +102,7 @@ public class Utils {
   private Utils() {
   }
 
-  public static Currency getLocalCurrency() {
-    Currency result = null;
+  public static String getCountryFromTelephonyManager() {
     TelephonyManager telephonyManager = (TelephonyManager) MyApplication.getInstance()
         .getSystemService(Context.TELEPHONY_SERVICE);
     if (telephonyManager != null) {
@@ -112,12 +111,19 @@ public class Utils {
         if (TextUtils.isEmpty(userCountry)) {
           userCountry = telephonyManager.getSimCountryIso();
         }
-        if (!TextUtils.isEmpty(userCountry)) {
-          result = getSaveInstance(Currency.getInstance(new Locale("", userCountry)));
-        }
-      } catch (Exception e) {
-        //fall back to currency from locale
-      }
+        return userCountry;
+      } catch (Exception ignore) {}
+    }
+    return null;
+  }
+
+  public static Currency getLocalCurrency() {
+    Currency result = null;
+    String userCountry = getCountryFromTelephonyManager();
+    if (!TextUtils.isEmpty(userCountry)) {
+      try {
+        result = getSaveInstance(Currency.getInstance(new Locale("", userCountry)));
+      } catch (Exception ignore) {}
     }
     if (result == null) {
       try {

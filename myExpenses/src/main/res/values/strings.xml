@@ -123,7 +123,6 @@
     <string name="dialog_title_warning_delete_main_category">Delete main category?</string>
     <string name="dialog_title_warning_delete_template">Delete template?</string>
     <string name="dialog_title_warning_delete_transaction">Delete transaction?</string>
-    <string name="donate_dialog_text">Please donate via PayPal or Bitcoin, and then request a key from the settings screen.</string>
     <string name="expense">Expense</string>
     <string name="export_expenses">Expenses export</string>
     <!-- 1$s is replaced with path to file, 2$s with error message -->
@@ -704,4 +703,5 @@
     <string name="switch_to_monthly">Switch to monthly subscription</string>
     <string name="extend_validity">Extend validity</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Fetching data from remote backend. This may take some time.</string>
+    <string name="donate_button_invoice">Invoice</string>
 </resources>

@@ -86,7 +86,7 @@
     </string-array>
 
     <string name="donate_button_paypal">Paypal</string>
-    <string name="donate_button_bitcoin">Bitcoin</string>
+
     <!-- User retrieving MyExpenses from a repository should not hit this message,
      so we leave it without localization -->
     <string name="error_accessing_market">No market application found</string>
