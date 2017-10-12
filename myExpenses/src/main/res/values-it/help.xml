@@ -63,8 +63,9 @@
   <string name="help_ExpenseEdit_splitPartTransfer_title">Modulo per i trasferimenti di importi parziali</string>
   <string name="help_ExpenseEdit_templateCategory_title">Modulo per i modelli d\'operazione</string>
   <string name="help_ExpenseEdit_templateTransfer_title">Modulo per i modelli di trasferimento</string>
+  <string name="help_ExpenseEdit_templateSplit_title">Modulo per i modelli frazionate</string>
   <string name="help_ExpenseEdit_transaction_info">Utilizzare questo modulo per immettere una nuova operazione o per modificarne uno esistente. Utilizzare il menu a discesa per passare al modulo per l\'aggiunta di un nuovo trasferimento o operazione frazionata.</string>
-  <string name="help_ExpenseEdit_templateCategory_info">Utilizzare questo modulo per inserire un nuovo modello o per modificarne uno esistente. Utilizzare il menu a discesa per passare al modulo per l\'aggiunta di un nuovo modello di trasferimento.</string>
+  <string name="help_ExpenseEdit_templateCategory_info">Utilizza questo modulo per inserire un nuovo modello o per modificarne uno esistente. Utilizza il menu a discesa nella barra degli strumenti per passare tra i modelli per transazioni, trasferimenti e operazioni frazionate.</string>
   <string name="help_ExpenseEdit_split_info">Un\'operazione frazionata è una singola operazione divisa in parti, dove ogni parte può essere assegnata a una categoria diversa, o trasferita ad un altro conto.</string>
   <string name="form_account_help_text">Selezionare il conto a cui appartiene l\'operazione.</string>
   <string name="form_date.time_help_text">Immettere l\'ora in cui è avvenuta l\'operazione.</string>

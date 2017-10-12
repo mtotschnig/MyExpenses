@@ -32,7 +32,6 @@
     <TextView
         android:id="@+id/ImportantUpgradeInfoBody"
         style="@style/about_text"
-        android:text="@string/licence_migration_info"
         android:visibility="gone"/>
 
     <TextView

@@ -675,10 +675,18 @@
   <string name="licence_removal_success">Лицензният ключ бе успешно премахнат от това устройство.</string>
   <string name="professional_key">Професионален ключ</string>
   <string name="n_months">%s месеца</string>
+  <string name="professionalPriceShortInfo">започва от %s / месец</string>
   <string name="eu_vat_info">За гражданите на Европейския съюз цените не включват ДДС.</string>
   <string name="pref_contrib_purchase_title_renew">Подновяване на лиценза</string>
   <string name="licence_migration_info">{app_name} използва нов механизъм за валидиране на лицензи. Моля, поискайте нов ключ.</string>
   <string name="valid_until">Валиден до %s</string>
   <!--%1$s date, %2$s price-->
   <string name="extend_until">Продължете до %1$s за %2$s</string>
+  <string name="extended_upgrade_goodie_github">Допълнителни %d месеца се предоставят еднократно на потребители, които вече притежават разширен лиценз</string>
+  <string name="extended_upgrade_goodie_subscription">Потребителите, които вече притежават разширен лиценз, заплащат 50%% от обичайната цена (%s) през първата година.</string>
+  <string name="switch_to_yearly">Преминаване на годишен абонамент</string>
+  <string name="switch_to_monthly">Преминаване на месечен абонамент</string>
+  <string name="extend_validity">Удължаване на валидността</string>
+  <string name="progress_dialog_fetching_data_from_sync_backend">Извличане на данни от отдалечно място за съхранение. Това може да отнеме известно време.</string>
+  <string name="donate_button_invoice">Фактура</string>
 </resources>

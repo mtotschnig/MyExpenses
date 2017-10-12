@@ -64,7 +64,9 @@
   <string name="help_ExpenseEdit_splitPartTransfer_title">Formulaire pour sous-opérations ventilées (transfert)</string>
   <string name="help_ExpenseEdit_templateCategory_title">Formulaire pour les modèles d\'opération</string>
   <string name="help_ExpenseEdit_templateTransfer_title">Formulaire pour les modèles de transfert</string>
+  <string name="help_ExpenseEdit_templateSplit_title">Formulaire pour les modèles ventilés.</string>
   <string name="help_ExpenseEdit_transaction_info">Utilisez ce formulaire pour entrer une nouvelle opération ou pour en modifier une existante. Utilisez le menu déroulant dans la barre d\'action pour basculer vers le formulaire d\'ajout d\'une nouvelle opération de transfert ou de ventilation.</string>
+  <string name="help_ExpenseEdit_templateCategory_info">Utilisez ce formulaire pour entrer un nouveau modèle ou pour en modifier un existant. Utilisez le menu déroulant de la barre d\'actions pour basculer entre les modèles pour les transactions, transferts et opérations ventilées.</string>
   <string name="help_ExpenseEdit_split_info">Une opération ventilée est une opération unique, séparé en parties, où chaque partie peut être assignée à une catégorie différente, ou un transfert vers un autre compte.</string>
   <string name="form_account_help_text">Sélectionnez le compte auquel appartient l\'opération.</string>
   <string name="form_date.time_help_text">Entrez l\'heure à laquelle l\'opération a eu lieu.</string>

@@ -18,6 +18,11 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_282">
+    <item>Modelli e piani per le operazioni frazionate</item>
+    <item>Introdurre la chiave di licenza professionale</item>
+    <item>I widget della schermata iniziale si adattano alle dimensioni del carattere preferite dall\'utente</item>
+  </string-array>
   <string-array name="whats_new_281">
     <item>Opzione per piani personalizzati</item>
     <item>Fissa l\'archiviazione di nubi di grandi backup</item>

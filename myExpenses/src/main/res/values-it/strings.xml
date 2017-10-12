@@ -35,6 +35,7 @@
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Nessun annuncio</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Numero illimitato di conti</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Allegare un\'immagine alla transazione</string>
+  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Grafico a torta (Distribuzione per categoria)</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Numero illimitato di scadenze</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Esportazione dell\'elenco delle transazioni in PDF</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Widget modelli</string>

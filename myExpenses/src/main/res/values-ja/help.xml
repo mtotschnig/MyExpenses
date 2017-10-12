@@ -63,8 +63,9 @@
   <string name="help_ExpenseEdit_splitPartTransfer_title">振替分割パート用のフォーム</string>
   <string name="help_ExpenseEdit_templateCategory_title">取引テンプレート用のフォーム</string>
   <string name="help_ExpenseEdit_templateTransfer_title">振替テンプレート用のフォーム</string>
+  <string name="help_ExpenseEdit_templateSplit_title">分割テンプレート用のフォーム</string>
   <string name="help_ExpenseEdit_transaction_info">このフォームを使用して、新しい取引を入力するか、既存のものを編集することができます。アクションバーのドロップダウンメニューを使用して、新しい振替や分割取引を追加するフォームに切り替えることができます。</string>
-  <string name="help_ExpenseEdit_templateCategory_info">このフォームを使用して、新しいテンプレートを入力するか、既存のものを編集することができます。アクションバーのドロップダウンメニューを使用して、新しい振替テンプレートを追加するフォームに切り替えることができます。</string>
+  <string name="help_ExpenseEdit_templateCategory_info">このフォームを使用して、新しい取引を入力するか、既存のものを編集することができます。アクションバーのドロップダウンメニューを使用して、取引、振替、分割のテンプレートを切り替えることができます。</string>
   <string name="help_ExpenseEdit_split_info">分割取引は、一部が分割された一つの取引で、各部分が別の分類に割り当てられ、または別の勘定に振替することができます。</string>
   <string name="form_account_help_text">取引が属する勘定を選択します。</string>
   <string name="form_date.time_help_text">取引が行われた時間を入力します。</string>

@@ -44,6 +44,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
+import org.totschnig.myexpenses.util.Utils;
 
 import java.util.ArrayList;
 
@@ -123,7 +124,9 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
     lv.setAdapter(adapter);
     if (getArguments().getBoolean(KEY_WITH_IMPORTANT_UPGRADE_INFO)) {
       view.findViewById(R.id.ImportantUpgradeInfoHeading).setVisibility(View.VISIBLE);
-      view.findViewById(R.id.ImportantUpgradeInfoBody).setVisibility(View.VISIBLE);
+      TextView importantUpgradeInfoBody = view.findViewById(R.id.ImportantUpgradeInfoBody);
+      importantUpgradeInfoBody.setVisibility(View.VISIBLE);
+      importantUpgradeInfoBody.setText(Utils.getTextWithAppName(getContext(), R.string.licence_migration_info));
       TextView importantUpgradeInfoLearnMore = view.findViewById(R.id.ImportantUpgradeInfoLearnMore);
       makeVisibleAndClickable(importantUpgradeInfoLearnMore, R.string.pref_request_licence_title, new ClickableSpan() {
         @Override

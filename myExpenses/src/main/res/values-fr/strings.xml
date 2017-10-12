@@ -71,7 +71,7 @@
   <string name="dialog_contrib_no_usages_left">Il ne vous reste plus d\'utilisation gratuite.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s est une fonction Premium (%2$s).</string>
-  <string name="dialog_contrib_reminder_remove_limitation">Enlevez cette limitation et accédez à plus de fonctions en mettant <i>{app_name}</i> au niveau supérieur.</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Enlevez cette limitation et accédez à plus de fonctions en passant <i>{app_name}</i> au niveau supérieur.</string>
   <string name="dialog_contrib_text_1"><i>{app_name}</i> vous est offert sans publicité et open source.</string>
   <string name="dialog_contrib_text_2">S\'il vous plaît, contribuez par la mise à niveau de <i>{app_name}</i> et vous aurez accès sans restriction aux caractéristiques suivantes:</string>
   <string name="dialog_contrib_usage_count">Utilisations gratuites restantes</string>
@@ -581,7 +581,7 @@
   <string name="synchronization">Synchronisation</string>
   <string name="synchronization_none">Aucune synchronisation</string>
   <string name="hint_url">URL</string>
-  <string name="description_webdav_url">S’il vous plaît entrez l’URL vers un dossier spécial sur votre serveur WebDAV. {app_name} vont stocker ses données à l’intérieur de ce dossier, il ne touche à rien en dehors de celui-ci.</string>
+  <string name="description_webdav_url">S’il vous plaît entrez l’URL vers un dossier spécial sur votre serveur WebDAV. {app_name} va stocker ses données à l’intérieur de ce dossier, il ne touche à rien en dehors de celui-ci.</string>
   <string name="description_webdav_trust_certificate">Le site web utilise un certificat non validé par Android.</string>
   <string name="hint_user_name">Nom d\'utilisateur</string>
   <string name="hint_password">Mot de passe</string>
@@ -622,7 +622,7 @@
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Synchronisation dans le cloud</string>
   <string name="licence_status">Votre statut de licence</string>
   <string name="all_contrib_key_features">Toutes les fonctions de Contrib Key</string>
-  <string name="all_extended_key_features">Toutes les fonctionnalités de la Clé Étendue</string>
+  <string name="all_extended_key_features">Toutes les fonctions de la Clé Étendue</string>
   <string name="upgrade_now">Mettre à niveau maintenant</string>
   <string name="pref_backup_cloud_title">Sauvegarde avec la fonction de synchronisation</string>
   <string name="pref_backup_cloud_summary">Outre le stockage local sur le périphérique, le fichier de sauvegarde peut être copié sur un serveur distant.</string>
@@ -654,23 +654,23 @@
   <string name="onboarding_get_started">Commencer</string>
   <string name="onboarding_more_options">Plus d\'options</string>
   <string name="onboarding_restore_from_cloud">Restaurer à partir de la synchronisation distante</string>
-  <string name="onboarding_restore_from_local">Restaurrer le fichier de sauvegarde local</string>
+  <string name="onboarding_restore_from_local">Restaurer le fichier de sauvegarde local</string>
   <string name="dialog_button_add">Ajouter</string>
   <string name="template_create_error">Erreur lors de la sauvegarde du modèle</string>
   <string name="contributed_by">Contribution de %s</string>
   <string name="pref_sync_notification_summary">Notifier sur la progression de la synchronisation</string>
-  <string name="pref_debug_logging_summary">Ecrire des informations de débogage dans le journal du système</string>
-  <string name="plan_custom_recurrence_info">Veuillez d\'abord enregistrer le modèle. Le plan sera alors ouvert dans l\'application de calendrier, où vous pouvez définir une récurrence personnalisée.</string>
+  <string name="pref_debug_logging_summary">Écrire des informations de débogage dans le journal du système</string>
+  <string name="plan_custom_recurrence_info">Veuillez d\'abord enregistrer le modèle. L\'échéance sera alors ouverte dans l\'application de calendrier, où vous pouvez définir une répétition personnalisée.</string>
   <string name="storage_permission_required">La source que vous avez sélectionnée ne peut être lue que si vous accordez l\'autorisation de lire le stockage externe.</string>
   <string name="picture">Image</string>
   <string name="menu_create_template_for_split">Nouveau modèle ventilé</string>
   <string name="progress_validating_licence">La licence est en cours de validation</string>
   <string name="licence_validation_error_expired">La licence est expirée</string>
-  <string name="licence_validation_error_device_limit_exceeded">La limite de nombre d\'appareils est dépassée. Veuillez supprimer la licence d\'un autre appareil.</string>
+  <string name="licence_validation_error_device_limit_exceeded">La limite du nombre d\'appareils est dépassée. Veuillez supprimer la licence d\'un autre appareil.</string>
   <string name="error">Erreur (%s)</string>
   <string name="button_validate">Valider</string>
   <string name="licence_key">Clé de licence</string>
-  <string name="licence_removal_information">Si vous n\'avez plus besoin de fonctionnalités premium sur cet appareil, vous pouvez retirer la clé de licence. Cela libère la clé pour l\'activation sur un autre appareil. La clé peut être activée sur jusqu\'à %dappareils.</string>
+  <string name="licence_removal_information">Si vous n\'avez plus besoin de fonctions premium sur cet appareil, vous pouvez retirer la clé de licence. Cela libèrera la clé pour l\'activation d\'un autre appareil. Jusqu\'à %d appareils peuvent être activés par une clé.</string>
   <string name="progress_removing_licence">Suppression de la licence</string>
   <string name="licence_removal_success">La clé de licence a été libérée de cet appareil.</string>
   <string name="professional_key">Clé professionnelle</string>
@@ -687,6 +687,6 @@
   <string name="switch_to_yearly">Passer à l\'abonnement annuel</string>
   <string name="switch_to_monthly">Passer à l\'abonnement mensuel</string>
   <string name="extend_validity">Prolonger la validité</string>
-  <string name="progress_dialog_fetching_data_from_sync_backend">Récupération de données depuis un backend distant. Cela peut prendre un certain temps.</string>
+  <string name="progress_dialog_fetching_data_from_sync_backend">Récupération de données depuis un serveur distant. Cela peut prendre un certain temps.</string>
   <string name="donate_button_invoice">Facture</string>
 </resources>

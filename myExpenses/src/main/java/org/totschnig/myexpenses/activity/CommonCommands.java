@@ -108,8 +108,8 @@ public class CommonCommands {
         i.putExtra(android.content.Intent.EXTRA_SUBJECT,
             "[" + ctx.getString(R.string.app_name) + "] " +  ctx.getString(licenceHandler.getLicenceStatus().getResId()));
         String extraText = String.format(
-            "Please send me a new licence key. Current key is %1$s for Android-Id %2$s",
-            PrefKey.ENTER_LICENCE.getString(null), androidId);
+            "Please send me a new licence key. Current key is %1$s for Android-Id %2$s\nLANGUAGE:%3$s",
+            PrefKey.ENTER_LICENCE.getString(null), androidId, Locale.getDefault().toString());
         i.putExtra(android.content.Intent.EXTRA_TEXT, extraText);
         if (!Utils.isIntentAvailable(ctx, i)) {
           Toast.makeText(ctx, R.string.no_app_handling_email_available, Toast.LENGTH_LONG).show();

@@ -63,7 +63,9 @@
   <string name="help_ExpenseEdit_splitPartTransfer_title">Бланка за трансфер на разпределяната част</string>
   <string name="help_ExpenseEdit_templateCategory_title">Бланка за шаблон за транзакция</string>
   <string name="help_ExpenseEdit_templateTransfer_title">Бланка за шаблон за трансфер</string>
+  <string name="help_ExpenseEdit_templateSplit_title">Бланка за шаблон за разпределена транзакция</string>
   <string name="help_ExpenseEdit_transaction_info">Използвайте тази бланка за да въведете нова транзакция или да редактирате съществуваща. Използвайте падащото меню в лентата за действие за да превключите към бланка за добавяне на нов трансфер или нова разпределена транзакция.</string>
+  <string name="help_ExpenseEdit_templateCategory_info">Използвайте тази бланка за да въведете нов шаблон или да редактирате съществуващ. Използвайте падащото меню в лентата за действие за да превключите към шаблони за тразнзакция, трансфер или разпределена транзакция.</string>
   <string name="help_ExpenseEdit_split_info">Разпределена транзакция е такава, чиято сума се разделя на части, на които могат да се приложат различни категории или частта да се трансферира към друга сметка.</string>
   <string name="form_account_help_text">Изберете сметката, в която да се запише транзакцията.</string>
   <string name="form_date.time_help_text">Въведете време на възникване на транзакцията.</string>
