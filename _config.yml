@@ -63,6 +63,7 @@ title:
   eu: Nire gastuak
   da: Mine udgifter
   bg: Моите разходи
+  el: Έξοδα μου
 langs:
   de: Deutsch
   en: English
@@ -86,6 +87,7 @@ langs:
   eu: euskara
   da: Dansk
   bg: български
+  el: Ελληνικά
 paypal-lc:
   de: DE
   en: US
