@@ -34,12 +34,9 @@ it:
   contrib:
     thank_you: |
       Il tuo contributo permette l'ulteriore sviluppo di Le mie spese. Grazie!
-    feature-list-title: |
-      Le seguenti funzionalità Premium può essere sbloccata con l'acquisizione di un Contrib o una licenza estesa:
     feature:
       accounts_unlimited: Numero illimitato di conti
       plans_unlimited: Numero illimitato di piani
-      distribution: Distribuzione di transazioni per categoria
       split_transaction: Operazione frazionata
       security_question: Domanda di sicurezza
       template_widget: Widget modelli
@@ -50,29 +47,6 @@ it:
       auto_backup: Attivare il backup automatico
       cloud_sync: Sincronizzazione cloud
     extended-label: Esteso
-    licence-howto-buy:
-      deprecated: |
-        NOTA: Dalla versione 2.3.9 il Chiave Contrib per sbloccare funzionalità premium di Le mie spese più facilmente acquistabili tramite pagamento In-App, e non è più necessario installare l'app "Le mie spese Chiave Contrib".
-      intro: |
-        Avete le seguenti opzioni per l'acquisto delle licenze Contrib y Estesa:
-      in-app: |
-        Se avete installato My spese da Google Play o Amazon App Store, sono disponibili come acquisti in-app.
-      blackberry: |+
-        Se avete installato Le Mie Spese da Blackberry World, installate
-        <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">Le Mie Spese Contrib</a>.
-
-      blackberry-extra: |
-        Il Blackberry non c'è nessuna chiave estesa, la chiave di Contrib dà anche accesso a funzionalità estese.
-      other: |
-        Se hai scaricato Le Mie Spese da F-Droid, Yandex o SlideMe,
-        invia una donazione tramite uno dei seguenti:
-      transfer: |
-        In alternativa, per informazioni sul bonifico bancario, contattare support@myexpenses.mobi:
-      key: |
-        e successivamente richiedi la chiave di licenza dalla schermata delle impostazioni.
-        Una volta ricevuta via mail, dovrà essere inserita nella schermata delle impostazioni.
-      price: |
-        L'importo minimo è di %1$s per la chiave di Contrib e %2$s per la chiave estesa. Invia € %1$s per l'aggiornamento da Contrib su estesa.
   permissions-heading: |
     Le mie spese richiede le seguenti autorizzazioni
   permissions-calendar: |
@@ -80,6 +54,6 @@ it:
   permissions-external-storage: |
     Scrittura USB: Stoccaggio di QIF e CSV esportazioni e file di backup
   permissions-internet: |
-    Comunicazione di rete: Crash report vengono inviati automaticamente agli sviluppatori, se non l'opzione non viene disattivata dall'utente nelle preferenze di app.
+    Accesso di rete: Crash report vengono inviati automaticamente agli sviluppatori, se non l'opzione non viene disattivata dall'utente nelle preferenze di app.
   permissions-accounts: |
     Account: Sincronizzare tra dispositivi attraverso i servizi cloud

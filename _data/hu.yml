@@ -35,13 +35,10 @@ hu:
     feature:
       accounts_unlimited: Korlátlan számú számla kezelése
       plans_unlimited: Korlátlan számú terv
-      distribution: Tranzakciók kategóriánkénti felosztása
       split_transaction: Tranzakciók megosztása a számlák között
       security_question: Biztonsági kérdés - jelszó visszaállításhoz
       template_widget: Sablon widget
-    licence-howto-buy:
-      other: |
-        Amennyiben a Kiadásaim (My Expenses) az F-Droid, Yandex vagy SlideMeról került letöltésre, akkor a támogatást az alábbiak segítségével küldhet:
+      ad_free: Hirdetések kikapcsolása
   permissions-heading: |
     A Kiadásaim (My Expenses) a következőkhöz kér hozzáférést:
   permissions-calendar: |

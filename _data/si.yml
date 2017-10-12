@@ -35,16 +35,9 @@ si:
     feature:
       accounts_unlimited: සීමා රහිත ගිණුම් ගණනක්
       plans_unlimited: සීමා රහිත ක්‍රම ගණනක්
-      distribution: කාණ්ඩයක ගනුදෙනු විභාජනය
       split_transaction: විභේදනය වූ ගනුදෙනු
       security_question: සුරක්ෂිතතාවය සඳහා ප්‍රශ්නය
       template_widget: 'විජට් අච්චුව '
-    licence-howto-buy:
-      deprecated: |-
-        __NOT_NEEDED__
-      key: |
-        ඉන් පසුව බලපත්‍ර යතුර සඳහා සෙටින්ග්ස් තිරය හරහා ඉල්ලුමක් කරන්න.
-        එය විද්‍යුත් තැපෑල මඟින් ලැබූ විට සෙටින්ග්ස් තිරය හරහා ඇතුලත් කරන්න.
   permissions-heading: |
     මයි එක්ස්පෙන්සස් සඳහා මෙම අනුමත අවශ්‍ය වේ
   permissions-calendar: |

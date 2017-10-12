@@ -34,12 +34,10 @@ de:
   contrib:
     thank_you: |
       Mit Ihrem Beitrag unterstützen Sie die Weiterentwicklung von Meine Ausgaben. Danke!
-    feature-list-title: |
-      Durch den Kauf des Contrib-Schlüssels oder des erweiterten Schlüssels erhalten Sie uneingeschränkten Zugriff auf die folgenden Premium-Funktionen:
     feature:
       accounts_unlimited: Unbegrenzte Anzahl von Konten
       plans_unlimited: Unbegrenzte Anzahl von Plänen
-      distribution: Verteilung der Buchungen auf Kategorien
+      distribution: Kreisdiagramm (Verteilung pro Kategorie)
       split_transaction: Splitbuchung
       security_question: Sicherheitsfrage
       template_widget: Vorlagen Widget
@@ -50,25 +48,6 @@ de:
       auto_backup: Automatisches Backup
       cloud_sync: Cloud-Synchronisierung
     extended-label: Erweitert
-    licence-howto-buy:
-      deprecated: |
-        HINWEIS: Seit Version 2.3.9 kann der Contrib Schlüssel zur Freischaltung der Premium-Funktionalität von Meine Ausgaben einfacher durch eine In-App Bezahlung erworben werden, und Sie müssen daher die "Meine Ausgaben Contrib Schlüssel" App nicht mehr installieren.
-      intro: |
-        Die Contrib und die erweiterte Lizenzen können auf folgenden Wegen erworben werden:
-      in-app: |
-        Wenn Sie Meine Ausgaben von Google Play oder Amazon AppStore installiert haben, stehen diese als In-App-Käufe zur Verfügung.
-      blackberry: |
-        Wenn Sie Meine Ausgaben von Blackberry World installiert haben, installieren Sie auch <a class="track" id="amazon-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">Meine Ausgaben Contrib</a>.
-      blackberry-extra: |
-        Für Blackberry gibt es keinen Erweiterten Schlüssel. Der Contrib-Schlüssel gibt auch Zugriff auf erweiterte Funktionen.
-      other: |
-        Wenn Sie meine Ausgaben von F-Droid, Yandex oder SlideMe bezogen haben, senden Sie Ihre Spende mittels einer der folgenden Methoden:
-      transfer: |
-        Alternativ, für Informationen zur Banküberweisung, kontaktieren Sie support@myexpenses.mobi:
-      key: |
-        und forden Sie dann über die Einstellungen den Lizenz-Schlüssel an. Sobald Sie diesen erhalten haben, geben Sie diesen ebenfalls über die Einstellungen ein.
-      price: |
-        Der Mindestbetrag beträgt %1$s für den Contrib Schlüssel und %2$s für den Erweiterten Schlüssel. Für den Upgrade von Contrib auf Erweitert senden Sie %1$s.
   permissions-heading: |
     Meine Ausgaben verwendet folgende Berechtigungen
   permissions-calendar: |

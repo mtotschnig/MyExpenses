@@ -7,20 +7,24 @@ ar:
   menu_title:
     more_information: المزيد من المعلومات
   sections:
+    features: الخصائص
+    participate: 'شارك '
+    faq: أسئلة و أجوبة
     credits: الشكر
+    licence: شهادة
+    links: روابط
   features:
     calculator: الحاسبة
     password: حماية كلمة المرور
+    attach_picture: إرفاق صورة إلى عملية
   contrib:
     feature:
       accounts_unlimited: عدد حسابات غير محدود
       plans_unlimited: عدد غير محدود من الخطط
-      distribution: توزيع العمليات لكل تصنيف
       split_transaction: تقسيم العمليات
       security_question: السؤال السري
+      print: تصدير قائمة العمليات إلى PDF
+      attach_picture: إرفاق صورة إلى عملية
       ad_free: بدون إعلانات
       csv_import: إستيراد ملف CSV
       auto_backup: نسخ احتياطي آلي
-    licence-howto-buy:
-      deprecated: |-
-        __NOT_NEEDED__

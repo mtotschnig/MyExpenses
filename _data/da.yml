@@ -35,7 +35,6 @@ da:
     feature:
       accounts_unlimited: Ubegrænset antal konti
       plans_unlimited: Ubegrænset antal planer
-      distribution: Fordeling af posteringer på kategorier
       split_transaction: Split postering
       security_question: Sikkerhedsspørgsmål
       template_widget: Skabelon widget
@@ -43,15 +42,6 @@ da:
       attach_picture: Vedhæft billed til posteringen
       ad_free: Ingen annoncer
       csv_import: CSV import
-    licence-howto-buy:
-      deprecated: |
-        BEMÆRK: Siden version 2.3.9 kan Contrib nøglen du kan låse op Premium funktionerne med nemer købes via in-app-betaling, så du behøver ikke længer at installere app'en "Mine udgifter Contrib nøgle"
-      blackberry: |
-        Hvis du har installeret Mine udgifter fra Blackberry World, skal du installer
-        <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">My Expenses Contrib</a>.
-      other: |
-        Hvis du har downloadet Mine udgifter fra F-Droid, Yandex eller SLideMe,
-        skal du doner via følgende:
   permissions-heading: |
     Anvendelsen af Mine udgifter kræver følgende rettigheder
   permissions-calendar: |

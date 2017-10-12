@@ -34,12 +34,9 @@ es:
   contrib:
     thank_you: |
       Su contribución apoya el desarrollo de Mis Gastos. ¡Gracias!
-    feature-list-title: |
-      Las siguientes características Premium se pueden desbloquear mediante la adquisición de una licencia extendida o una licencia Contrib:
     feature:
       accounts_unlimited: Número de cuentas sin límite
       plans_unlimited: Número de proyectos sin límite
-      distribution: Distribución de transacciones por categoría
       split_transaction: Transacción dividida
       security_question: Pregunta de seguridad
       template_widget: Plantilla de widget
@@ -50,27 +47,6 @@ es:
       auto_backup: Permitir respaldo automático
       cloud_sync: Sincronización en la nube
     extended-label: Extendido
-    licence-howto-buy:
-      deprecated: |
-        NOTA: Desde la versión 2.3.9 la Clave Contrib para desbloquear la funcionalidad premium de Mis Gastos, puede adquirirse más fácilmente a través del pago en la propia aplicación, sin necesidad de instalar la aplicación "Mis Gastos Clave Contrib".
-      intro: |
-        Tiene las siguientes opciones para adquirir licencias Contrib y Extendida:
-      in-app: |
-        Si ha instalado Mis Gastos desde Google Play o App Store de Amazon, están disponibles como compra dentro de la aplicación.
-      blackberry: |
-        Si ha instalado Mis Gastos desde Blackberry World, debe instalar
-        <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">Mis Gastos Contrib</a>.
-      blackberry-extra: |
-        En Blackberry no hay licencia extendida, la clave de Contrib también da acceso a las funcionalidades extendidas.
-      other: |
-        Si ha descargado Mis Gastos de F-Droid, Yandex o SlideMe, podrá enviar una donación a través de uno de los siguientes métodos:
-      transfer: |
-        Alternativamente, puede obtener información sobre transferencia bancaria, poniéndose en contacto con support@myexpenses.mobi:
-      key: |
-        y luego solicitar la clave para la licencia desde la pantalla Configuración.
-        Una vez que la reciba por correo electrónico, podrá añadirla también desde la pantalla Configuración.
-      price: |
-        La cantidad mínima es de %1$s para la clave de Contrib y %2$s para la clave extendida. Envíe € %1$s para actualizar desde Contrib a Extendida.
   permissions-heading: |
     Mis Gastos requiere los siguientes permisos
   permissions-calendar: |

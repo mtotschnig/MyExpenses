@@ -34,12 +34,9 @@ fr:
   contrib:
     thank_you: |
       Avec votre contribution, vous soutenez la continuité du développement de Mes dépenses. Merci!
-    feature-list-title: |
-      L'achat de la Clé Contrib ou de la Clé Étendue vous donne un accès illimité aux fonctions Premium suivantes :
     feature:
       accounts_unlimited: Nombre illimité de comptes
       plans_unlimited: Nombre d'échéances illimité
-      distribution: Répartition des transactions par catégorie
       split_transaction: Opération de répartition
       security_question: Question de sécurité
       template_widget: Widget de modèles
@@ -48,28 +45,8 @@ fr:
       ad_free: Sans publicité
       csv_import: Import CSV
       auto_backup: Auto-backup
-      cloud_sync: Synchronisation dans les nuages
+      cloud_sync: Synchronisation dans le cloud
     extended-label: Étendu
-    licence-howto-buy:
-      deprecated: |
-        NOTE: Depuis la version 2.3.9, la Clé Contrib pour déverrouiller les fonctionnalités Premium de Mes Dépenses peut être facilement achetée par un paiement dans l'application, et vous n'avez plus besoin d'installer l'application "Mes dépenses Clé Contrib".
-      intro: |
-        Vous avez les options suivantes pour l'achat des licences Contrib et Étendue:
-      in-app: |
-        Si vous avez installé Mes Dépenses depuis Google Play ou Amazon App Store, elles sont disponibles en tant qu'achat via l'application.
-      blackberry: |
-        Si vous avez installé Mes Dépenses depuis Blackberry World, installez <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">Mes Dépenses Contrib</a>.
-      blackberry-extra: |
-        Sur Blackberry, il n'y a pas de clé étendue, la clé Contrib donne également accès aux fonctionnalités étendues.
-      other: |
-        Si vous avez téléchargé Mes Dépenses  depuis F-Droid, Yandex ou SlideMe, envoyez un don par l'une des opérations suivantes :
-      transfer: |-
-        Sinon, pour des informations sur les virements bancaires contacter le support@myexpenses.mobi:
-      key: |
-        et ensuite demandez la clé de licence dans l'écran Paramètres.
-        Une fois reçue par courriel, entrez-la également dans l'écran Paramètres.
-      price: |
-        Le montant minimum est de %1$s pour la clé Contrib et %2$s pour la clé étendue. Envoyez %1$s pour l'upgrade de la Contrib vers l'Étendue.
   permissions-heading: |
     Mes Dépenses demande les permissions suivantes :
   permissions-calendar: |
@@ -79,4 +56,4 @@ fr:
   permissions-internet: |
     Communication réseau : les rapports d'incidents sont automatiquement envoyés aux développeurs, sauf si l'option est désactivée dans les préférences de l'application.
   permissions-accounts: |
-    Comptes: Synchronisation à travers les dispositifs via les services dans les nuages
+    Comptes: Synchronisation pat les dispositifs de service de cloud

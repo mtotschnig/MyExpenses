@@ -32,19 +32,9 @@ km:
     feature:
       accounts_unlimited: ចំនួន​គណនី​គ្មាន​ដែន​កំណត់
       plans_unlimited: ចំនួន​ផែនការគ្មានដែន​កំណត់​
-      distribution: ការចែកចាយប្រតិបត្តិការផ្សេងៗ​តាមចំណាត់ថ្នាក់
       split_transaction: ញែក​​ប្រតិបត្តិការ
       security_question: សំណួរសន្តិសុខ
       template_widget: ប្រអប់​ធាតុពុម្ព
-    licence-howto-buy:
-      deprecated: |-
-        __NOT_NEEDED__
-      other: |
-        បើ​អ្នក​បាន download កម្មវិធី My Expenses ពី F-Droid, Yandex ឬ SlideMe,
-        សូម​ផ្ញើ​ការឧបត្ថម្ភ​ តាម​រយៈជម្រើស​មួយ​ខាង​ក្រោម៖
-      key: |
-        ហើយ​បន្ទាប់មក​ សូម​ដាក់​ស្នើរសុំ​លេខអាជ្ញាបណ្ណ​ពី​អេក្រង់​កំណត់។
-        នៅ​ពេល​ដែល​អ្នក​បានទទួល​លេខ​នោះ​តាម អ៊ីមែលហើយ សូម​បញ្ចូលវា​នៅ​លើអេក្រង់​កំណត់ផងដែរ។
   permissions-heading: |
     My Expenses ត្រូវការ​សិទ្ធិដូចខាង​ក្រោម
   permissions-calendar: |

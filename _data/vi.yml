@@ -28,17 +28,22 @@ vi:
       (thông qua email, FTP, Dropbox...)
 
       '
+    import: Nhập dữ liệu QIF
     password: Bảo vệ bởi mật khẩu an toàn
     help: Trợ giúp tích hợp
     backup: Sao lưu và phục hồi dữ liệu
     light_theme: "hai giao diện: sáng màu và tối màu"
+    attach_picture: Chèn ảnh vào giao dịch
   contrib:
     feature:
       accounts_unlimited: Không giới hạn số lượng các tài khoản
       plans_unlimited: Unlimited number of plans
-      distribution: Tác động phân phối các giao dịch cho mỗi phân loại
       split_transaction: Phân tích giao dịch
       security_question: Câu hỏi an ninh
-    licence-howto-buy:
-      deprecated: |-
-        __NOT_NEEDED__
+      template_widget: Tiện ích bản mẫu
+      print: Xuất danh sách giao dịch sang dạng PDF
+      attach_picture: Chèn ảnh vào giao dịch
+      ad_free: Không quảng cáo
+      csv_import: Nhập CSV
+      auto_backup: Tự động sao lưu
+      cloud_sync: Đồng bộ hoá đám mây

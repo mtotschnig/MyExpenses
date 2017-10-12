@@ -34,12 +34,10 @@ ja:
   contrib:
     thank_you: |
       あなたの貢献は、マイ エクスペンス のさらなる開発を支援します。ありがとうございます!
-    feature-list-title: |
-      次のプレミアム機能は、貢献または拡張ライセンスを取得するとロック解除することができます:
     feature:
       accounts_unlimited: 無制限の勘定数
       plans_unlimited: 無制限の計画数
-      distribution: 分類ごとの仕訳の分布
+      distribution: 円グラフ (分類ごとの分布)
       split_transaction: 仕訳を分割
       security_question: セキュリティの質問
       template_widget: テンプレート ウィジェット
@@ -48,27 +46,8 @@ ja:
       ad_free: 広告なし
       csv_import: CSV インポート
       auto_backup: 自動バックアップを有効にする
+      cloud_sync: クラウド同期
     extended-label: 拡張
-    licence-howto-buy:
-      deprecated: |-
-        __NOT_NEEDED__
-      intro: |
-        貢献または拡張ライセンスの購入は、次のオプションがあります:
-      in-app: |
-        Google Play や Amazon App Store からマイ エクスペンスをインストールしている場合、アプリ内購入がご利用できます:
-      blackberry: |
-        Blackberry World からマイ エクスペンスをインストールしている場合、 <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">マイ エクスペンス貢献</a> をインストールしてください。
-      blackberry-extra: |
-        Brackberry では拡張キーはありません。貢献キーで拡張機能にアクセスできます。
-      other: |
-        F-Droid、Yandex、またはSlideMe からマイ エクスペンスをダウンロードしている場合は、次の方法で寄付を送ってください:
-      transfer: |
-        別の、銀行振込の情報は、support@myexpenses.mobi までご連絡ください:
-      key: |
-        その後、設定画面からライセンスキーをリクエストしてください。
-        Eメールでライセンスキーを受け取ったら、設定画面から入力してください。
-      price: |
-        寄贈キーの最低額は、%1$s 拡張キーは %2$s です。 貢献キーから拡張キーへのアップグレードは %1$s を送ってください。
   permissions-heading: |
     マイ エクスペンスは次のアクセス許可が必要です
   permissions-calendar: |

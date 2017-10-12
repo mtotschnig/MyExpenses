@@ -34,12 +34,9 @@ ms_MY:
   contrib:
     thank_you: |
       Sumbangan anda menyokong pembangunan Perbelanjaan Saya berikutnya. Terima kasih!
-    feature-list-title: |
-      Fitur Premium berikutnya boleh dibuka dengan mendapatkan Contrib atau lesen Lanjutan:
     feature:
       accounts_unlimited: Bilangan akaun tidak terhad
       plans_unlimited: Bilang pelan tidak terhad
-      distribution: Agihan transaksi per kategori
       split_transaction: Transaksi pisah
       security_question: Soalan keselamatan
       template_widget: Widget  templat
@@ -48,27 +45,8 @@ ms_MY:
       ad_free: Tanpa iklan
       csv_import: Import CSV
       auto_backup: Benarkan auto-sandar
+      cloud_sync: Penyegerakan awan
     extended-label: Lanjutan
-    licence-howto-buy:
-      deprecated: |-
-        __NOT_NEEDED__
-      intro: |
-        Anda ada pilihan berikut untuk membeli Contrib dan lesen Lanjutan:
-      in-app: |
-        Jika anda telah memasang My Expenses dari Google Play atau Kedai Apl Amazon, ia tersedia sebagai pembelian dalam apl.
-      blackberry: |
-        Jika anda telah memasang My Expenses melalui Blackberry World, sila pasang
-        <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">My Expenses Contrib</a>.
-      blackberry-extra: |
-        Dalam Blackberry tiada kunci Lanjutan, kunci Contrib juga memberi capaian ke fitur lanjutan.
-      other: |
-        Jika anda telah memuat turun My Expenses dari F-Droid, Yandex atau SlideMe,
-        hantar derma melalui salah satu berikut:
-      key: |
-        dan kemudian pohon kunci lesen dari skrin tetapan.
-        Bilamana anda menerimanya dari emel, masukkannya juga dari skrin tetapan.
-      price: |
-        Amaun minimum ialah %1$s untuk kunci Contrib dan %2$s untuk kunci Lanjutan. Hantar %1$s untuk menatar dari Contrib ke Lanjutan.
   permissions-heading: |
     My Expenses memerlukan keizinan berikut
   permissions-calendar: |
@@ -77,3 +55,5 @@ ms_MY:
     Penulisan storan USB: Storan fail eksport dan sandar QIF dan CSV
   permissions-internet: |
     Komunikasi rangkaian: Laporan kerosakan dihantar secara automatik kepada pembanguna melainkan ia dimatikan oleh pengguna dalam keutamaan apl.
+  permissions-accounts: |
+    Akaun: Penyegerakan merentasi peranti melalui perkhidmatan awan

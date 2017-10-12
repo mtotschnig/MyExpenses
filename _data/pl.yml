@@ -37,7 +37,6 @@ pl:
     feature:
       accounts_unlimited: Nieograniczona ilość kont
       plans_unlimited: Nieograniczona ilość planów
-      distribution: Dystrybucja tranakcji na kategorię.
       split_transaction: Podział transakcji
       security_question: Pytanie bezpieczeństwa
       template_widget: Szablon widget
@@ -46,19 +45,6 @@ pl:
       ad_free: Brak reklam
       csv_import: Import CSV
       auto_backup: Włącz automatyczną kopię zapasową
-    licence-howto-buy:
-      deprecated: |
-        INFORMACJA: Od wersji 2.3.9 Klucz Contrib, który odblokowuje funkcje premium Moich Wydatków może być łatwiej nabyty z wnętrza aplikacji; nie musisz już instalować aplikacji "My Expenses Contrib Key".
-      blackberry: |+
-        Jeżeli zainstalowałeś Moje Wydatki z Blackberry World, Zainstaluj
-        <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">My Expenses Contrib</a>.
-
-      other: |
-        Jeżeli pobrałeś Moje Wydatki z F-Droid, Yandex lub SlideMe,
-        wyślij datek przez jedno z poniższych:
-      key: |
-        i wtedy zażądaj klucz licencyjny przez ekran ustawień.
-        Po otrzymaniu go na e-mail, wprowadź go także z ekranu ustawień.
   permissions-heading: |
     Moje Wydatki potrzebują następujących uprawnień
   permissions-calendar: |

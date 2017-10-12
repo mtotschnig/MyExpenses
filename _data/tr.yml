@@ -34,12 +34,10 @@ tr:
   contrib:
     thank_you: |
       Katkınız Harcamalarım uygulamasının geliştirilmesine destek olacaktır. Teşekkür ederiz!
-    feature-list-title: |
-      Şu premium özelliklerin kilidi Katkı ya da Genişletilmiş lisans ile açılabilir:
     feature:
       accounts_unlimited: Sınırsız sayıda hesap
       plans_unlimited: Sınırsız plan sayısı
-      distribution: Muamelelerin kategoriye göre dağılımı
+      distribution: Dilim grafik (kategori başına dağılım)
       split_transaction: Bölünmüş muameleler
       security_question: Güvenlik sorusu
       template_widget: Şablon widget'i
@@ -50,27 +48,6 @@ tr:
       auto_backup: Otomatik yedekleme
       cloud_sync: Bulut eşleşmesi
     extended-label: Genişletilmiş
-    licence-howto-buy:
-      deprecated: |
-        NOT: 2.3.9 sürümünden beri tüm işlevlerin kilidini açan Katkı Anahtarı uygulama içi olarak daha kolay satın alınabilir ve artık "Harcamalarım Katkı Anahtarı" uygulamasını kurmanıza gerek yoktur.
-      intro: |
-        Katkı ya da Genişletilmiş lisansları satın almak için seçenekleriniz şunlardır:
-      in-app: |
-        Harcamalarım'ı Google Play ya da Amazon App Store'dan indirdiyseniz, uygulama içi satın alma olarak mevcutturlar.
-      blackberry: |
-        Eğer Harcamalarım'ı Blackberry World'dan indirdiyseniz, <a class="track" id="blackberry-contrib" href="http://appworld.blackberry.com/webstore/content/57168887">Harcamalarım Katkı sürümünü</a> kurunuz.
-      blackberry-extra: |
-        Blackberry'de Genişletilmiş anahtar bulunmamaktadır, Katkı anahtarı genişletilmiş işlevlere de erişim sağlar.
-      other: |
-        Eğer Harcamalarım'ı F-Droid, Yandex ya da SlideMe'dan indirdiyseniz,
-        aşağıdaki seçeneklerden biriyle bağış gönderiniz:
-      transfer: |
-        Alternatif olarak banka transferi hakkında bilgi için support@myexpenses.mobi ile irtibata geçin:
-      key: |
-        ve bunun ardından ayarlar ekranından bir lisans anahtarı talep ediniz.
-        E-posta ile anahtarı aldıktan sonra yine ayarlar ekranından onu giriniz.
-      price: |
-        Asgari meblağ, Katkı anahtarı için %1$s olup Genişletilmiş anahtar için ise %2$s'dir. Katkıdan Genişletilmişe geçiş yapmak için %1$s gönderiniz.
   permissions-heading: |
     Harcamalarım aşağıdaki izinlere ihtiyaç duyar:
   permissions-calendar: |
