@@ -372,11 +372,13 @@ public class ExpenseEdit extends AmountActivity implements
             + mPlanToggleButton.getPaddingRight());
 
     mRowId = Utils.getFromExtra(getIntent().getExtras(), KEY_ROWID, 0);
+    mTemplateId = getIntent().getLongExtra(KEY_TEMPLATEID, 0);
 
     //upon orientation change stored in instance state, since new splitTransactions are immediately persisted to DB
     if (savedInstanceState != null) {
       mSavedInstance = true;
       mRowId = savedInstanceState.getLong(KEY_ROWID);
+      mTemplateId = savedInstanceState.getLong(KEY_TEMPLATEID);
       mPictureUri = savedInstanceState.getParcelable(KEY_PICTURE_URI);
       mPictureUriTemp = savedInstanceState.getParcelable(KEY_PICTURE_URI_TMP);
       setPicture();
@@ -398,7 +400,6 @@ public class ExpenseEdit extends AmountActivity implements
       if ((mTransferAccountId = savedInstanceState.getLong(KEY_TRANSFER_ACCOUNT)) == 0L)
         mTransferAccountId = null;
     }
-    mTemplateId = getIntent().getLongExtra(KEY_TEMPLATEID, 0);
     //were we called from a notification
     int notificationId = getIntent().getIntExtra(MyApplication.KEY_NOTIFICATION_ID, 0);
     if (notificationId > 0) {
@@ -1427,7 +1428,7 @@ public class ExpenseEdit extends AmountActivity implements
     outState.putSerializable(KEY_CALENDAR, mCalendar);
     //restored in onCreate
     if (mRowId != 0) {
-      outState.putLong(KEY_ROWID, mRowId);
+      outState.putLong(mTransaction instanceof Template ? KEY_TEMPLATEID : KEY_ROWID, mRowId);
     }
     if (mCatId != null) {
       outState.putLong(KEY_CATID, mCatId);
