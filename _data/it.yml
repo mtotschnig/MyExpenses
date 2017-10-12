@@ -34,6 +34,7 @@ it:
   contrib:
     thank_you: |
       Il tuo contributo permette l'ulteriore sviluppo di Le mie spese. Grazie!
+    feature-list-title: "Si prega di contribuire aggiornando <i>{app_name}</i> e ottenere l'accesso illimitato alle seguenti caratteristiche:"
     feature:
       accounts_unlimited: Numero illimitato di conti
       plans_unlimited: Numero illimitato di piani

@@ -34,6 +34,7 @@ eu:
   contrib:
     thank_you: |
       Zure kontribuzioak Nire Gastuak garatzen jarraitzea babesten du. Eskerrik Asko!
+    feature-list-title: "Mesedez lagundu <i>{app_name}</i> bertsio-berrituz eta lortu murriztu gabeko sarbidea ondorengo eginbideetara:"
     feature:
       accounts_unlimited: Kontu kopuru mugagabea
       plans_unlimited: Plan kopuru mugagabea

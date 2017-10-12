@@ -34,6 +34,7 @@ de:
   contrib:
     thank_you: |
       Mit Ihrem Beitrag unterstützen Sie die Weiterentwicklung von Meine Ausgaben. Danke!
+    feature-list-title: "Bitte leisten Sie einen Beitrag durch ein Upgrade von <i>{app_name}</i> und erhalten Sie uneingeschränkten Zugriff auf die folgenden Funktionen:"
     feature:
       accounts_unlimited: Unbegrenzte Anzahl von Konten
       plans_unlimited: Unbegrenzte Anzahl von Plänen

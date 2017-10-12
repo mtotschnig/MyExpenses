@@ -34,6 +34,7 @@ tr:
   contrib:
     thank_you: |
       Katkınız Harcamalarım uygulamasının geliştirilmesine destek olacaktır. Teşekkür ederiz!
+    feature-list-title: "Lütfen <i>{app_name}</i>'ı yükselterek katkıda bulunun ve aşağıdaki işlevlere sınırsız erişim elde edin:"
     feature:
       accounts_unlimited: Sınırsız sayıda hesap
       plans_unlimited: Sınırsız plan sayısı
@@ -47,6 +48,7 @@ tr:
       csv_import: CSV içe aktar
       auto_backup: Otomatik yedekleme
       cloud_sync: Bulut eşleşmesi
+      split_template: Bölünmüş muameleler için şablonlar ve planlamalar
     extended-label: Genişletilmiş
   permissions-heading: |
     Harcamalarım aşağıdaki izinlere ihtiyaç duyar:

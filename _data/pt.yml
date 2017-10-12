@@ -34,6 +34,7 @@ pt_BR:
   contrib:
     thank_you: |
       Sua contribuição apoia o desenvolvimento futuro do Minhas despesas. obrigado!
+    feature-list-title: "Por favor, contribua atualizando o <i>{app_name}</i> e ganhe acesso irrestrito aos seguintes recursos:"
     feature:
       accounts_unlimited: Número ilimitado de contas
       plans_unlimited: Número ilimitado de planos

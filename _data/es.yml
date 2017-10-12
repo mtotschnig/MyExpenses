@@ -34,6 +34,7 @@ es:
   contrib:
     thank_you: |
       Su contribución apoya el desarrollo de Mis Gastos. ¡Gracias!
+    feature-list-title: "Por favor, contribuya actualizando <i>{app_name}</i> y obtenga acceso sin limitaciones a las siguientes características:"
     feature:
       accounts_unlimited: Número de cuentas sin límite
       plans_unlimited: Número de proyectos sin límite

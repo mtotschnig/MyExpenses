@@ -34,6 +34,7 @@ ms_MY:
   contrib:
     thank_you: |
       Sumbangan anda menyokong pembangunan Perbelanjaan Saya berikutnya. Terima kasih!
+    feature-list-title: "Berilah sumbangan dalam bentuk derma dengan menatar <i>{app_name}</i> dan peroleh capaian tanpa had fitur-fitur berikut:"
     feature:
       accounts_unlimited: Bilangan akaun tidak terhad
       plans_unlimited: Bilang pelan tidak terhad

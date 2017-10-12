@@ -35,6 +35,7 @@ vi:
     light_theme: "hai giao diện: sáng màu và tối màu"
     attach_picture: Chèn ảnh vào giao dịch
   contrib:
+    feature-list-title: "Xin hãy đóng góp bằng cách nâng cấp <i>{app_name}</i> và sử dụng không giới hạn các tính năng sau:"
     feature:
       accounts_unlimited: Không giới hạn số lượng các tài khoản
       plans_unlimited: Unlimited number of plans

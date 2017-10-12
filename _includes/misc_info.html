@@ -1,4 +1,3 @@
-{% capture paypallc %}{% if site.paypal-lc[pagelang] %}&lc={{site.paypal-lc[pagelang]}}{% else %}{% endif %}{% endcapture %}
 <!--
   Credits
 -->
@@ -272,7 +271,8 @@
 
 <div class="block" id="premium" style="display:none">
   <h2>{% if msg.sections.premium %}{{msg.sections.premium}}{% else %}{{site.data.en.en.sections.premium}}{% endif %}</h2>
-  <p>{% if msg.contrib.feature-list-title %}{{msg.contrib.feature-list-title}}{% else %}{{site.data.en.en.contrib.feature-list-title}}{% endif %}</p>
+  {% assign placeholder = '{app_name}' %}
+  <p>{% if msg.contrib.feature-list-title %}{{msg.contrib.feature-list-title | replace:placeholder, site.title[pagelang]}}{% else %}{{site.data.en.en.contrib.feature-list-title | replace:placeholder, site.title[pagelang]}}{% endif %}</p>
   <table class="table table-bordered">
     <thead>
       <tr>

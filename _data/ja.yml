@@ -34,6 +34,7 @@ ja:
   contrib:
     thank_you: |
       あなたの貢献は、マイ エクスペンス のさらなる開発を支援します。ありがとうございます!
+    feature-list-title: "<i>{app_name}</i> をアップグレードすることで貢献して、次の機能に無制限にアクセスしてください:"
     feature:
       accounts_unlimited: 無制限の勘定数
       plans_unlimited: 無制限の計画数
@@ -47,6 +48,7 @@ ja:
       csv_import: CSV インポート
       auto_backup: 自動バックアップを有効にする
       cloud_sync: クラウド同期
+      split_template: 分割取引用のテンプレートと計画
     extended-label: 拡張
   permissions-heading: |
     マイ エクスペンスは次のアクセス許可が必要です
