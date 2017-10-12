@@ -64,6 +64,7 @@ title:
   da: Mine udgifter
   bg: Моите разходи
   el: Έξοδα μου
+  iw: ההוצאות שלי
 langs:
   de: Deutsch
   en: English
@@ -88,6 +89,7 @@ langs:
   da: Dansk
   bg: български
   el: Ελληνικά
+  iw: עברית
 paypal-lc:
   de: DE
   en: US

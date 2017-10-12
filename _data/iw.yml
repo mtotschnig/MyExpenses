@@ -1,0 +1,60 @@
+iw:
+  imprint: חותם
+  hero_main: "מנהל כספים אישי עבור אנדרואיד"
+  hero_sub:
+    use: "קל לשימוש"
+    functionality: "פונקציונליות עשירה"
+    source: "קוד פתוח"
+  menu_title:
+    more_information: מידע נוסף
+  sections:
+    features: מאפיינים
+    premium: שדרג לפרימיום
+    participate: משתתף
+    faq: שאלות נפוצות
+    versionlist: רשימת שינויים
+    credits: נקודות זכות
+    licence: רשיון
+    sourcecode: קוד מקור
+    links: קישורים
+  features:
+    manage_accounts: עד לחמישה חשבונות עם העברות
+    plans: הגדרת תבניות ותוכניות לעסקאות עתידיות חוזרות
+    grouped_list: קבוצת עסקאות ליום, שבוע, חודש, שנה והצגת סכומים לקבוצה
+    distribution: שתי רמות של קטגוריות (יבוא מ- Grisbi XML ו- QIF)
+    split: עסקאות פיצול (גרסת Contrib)
+    calculator: מחשבון
+    export: ייצוא ל- QIF ו- CSV (MS Excel), ניתן לשתף באופן אוטומטי (באמצעות דוא"ל, FTP, Dropbox, ...)
+    import: ייבא נתוני QIF
+    password: הגנה בסיסמה
+    help: עזרה משולבת
+    backup: גיבוי ושחזור נתונים
+    light_theme: "שתי ערכות נושא: אור וחושך"
+    attach_picture: צרף תמונה לעסקה
+  contrib:
+    thank_you: |
+      התרומה שלך תומכת בפיתוח נוסף של האפליקציה "הוצאות שלי". תודה!
+    feature-list-title: "אנא תרמו על ידי שדרוג <i>{app_name}</i> ולקבל גישה בלתי מוגבלת לתכונות הבאות:"
+    feature:
+      accounts_unlimited: מספר חשבונות בלתי מוגבל
+      plans_unlimited: מספר תוכניות בלתי מוגבל
+      split_transaction: עסקה מפוצלת
+      security_question: שאלת בטחון
+      template_widget: תבנית widget
+      print: ייצא רשימת עסקאות ל- PDF
+      attach_picture: הוסף תמונה לעסקה
+      ad_free: ללא פרסומות
+      csv_import: ייבוא CSV
+      auto_backup: גיבוי אוטומטי
+      cloud_sync: סנכרון לענן
+    extended-label: מורחב
+  permissions-heading: |
+    האפליקציה 'ההוצאות שלי' מחייבת את ההרשאות הבאות
+  permissions-calendar: |
+    קריאה וכתיבה של לוח השנה: תוכניות לעסקאות עתידיות וחוזרות מאוחסנות ביומן מקומי מיוחד או בכל לוח שנה אחר שהוקצה לך.
+  permissions-external-storage: |
+    כתיבה של אחסון USB:  אחסון של QIF ו - CSV מייצא ומגבה קבצים
+  permissions-internet: |
+    תקשורת רשת: דוחות קריסה נשלחים באופן אוטומטי למפתחים, אלא אם הם מושבתים על ידי המשתמש בהעדפות האפליקציה
+  permissions-accounts: |
+    חשבונות: סנכרון בין התקנים באמצעות שירותי ענן

@@ -2,6 +2,8 @@
 {% capture pagelang %}{% if page.lang %}{{page.lang}}{% else %}en{% endif %}{% endcapture %}
 {% assign msg = site.data[pagelang][pagelang]  %}
 {% capture amazon %}{% if site.amazon[pagelang]%}{{site.amazon[pagelang]}}{% else %}{{site.amazon.en}}{% endif %}{% endcapture %}
+{% capture screenshotdir %}{% if page.screenshots_missing%}/en/screenshots/{% else %}screenshots/{% endif %}{% endcapture %}
+
 <html lang="{{pagelang}}">
   <head>
     <meta charset="utf-8">
@@ -143,7 +145,7 @@
               $('#'+id).prepend($('<p class="error">Error retrieving screenshot ' + id + '</p>'));
             }
           })(img, id);
-          img.src = 'screenshots/' + id + '.png';
+          img.src = '{{screenshotdir}}' + id + '.png';
         }
       }
     </script>
