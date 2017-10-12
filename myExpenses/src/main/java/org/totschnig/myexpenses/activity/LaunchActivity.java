@@ -10,8 +10,11 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
+import org.onepf.oms.OpenIabHelper;
+import org.onepf.oms.appstore.googleUtils.Purchase;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.contrib.Config;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.VersionDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
@@ -19,10 +22,13 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.Criteria;
+import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.ContribUtils;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.PermissionHelper;
+import org.totschnig.myexpenses.util.licence.InappPurchaseLicenceHandler;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.licence.LicenceHandler;
 
 import java.io.File;
 import java.util.Map;
@@ -32,6 +38,61 @@ import timber.log.Timber;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 
 public abstract class LaunchActivity extends ProtectedFragmentActivity {
+
+  public static final String TAG_VERSION_INFO = "VERSION_INFO";
+  private OpenIabHelper mHelper;
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    LicenceHandler licenceHandler =
+        (InappPurchaseLicenceHandler) MyApplication.getInstance().getLicenceHandler();
+    mHelper = licenceHandler.getIabHelper(this);
+    if (mHelper != null) {
+      try {
+        mHelper.startSetup(result -> {
+          Timber.d("Setup finished.");
+          if (mHelper == null) {
+            return;
+          }
+          if (result.isSuccess()) {
+            mHelper.queryInventoryAsync(true, Config.itemSkus, Config.subsSkus,
+                (result1, inventory) -> {
+                  if (mHelper == null || inventory == null) {
+                    return;
+                  }
+                  Purchase premiumPurchase = inventory.getPurchase(Config.SKU_PREMIUM);
+                  Purchase extendedPurchase = inventory.getPurchase(Config.SKU_EXTENDED);
+                  if (extendedPurchase == null) {
+                    extendedPurchase = inventory.getPurchase(Config.SKU_PREMIUM2EXTENDED);
+                  }
+                  Purchase professionalPurchase = inventory.getPurchase(Config.SKU_PROFESSIONAL_12);
+                  if (professionalPurchase == null) {
+                    professionalPurchase = inventory.getPurchase(Config.SKU_PROFESSIONAL_1);
+                  }
+                  if (professionalPurchase == null) {
+                    professionalPurchase = inventory.getPurchase(Config.SKU_EXTENDED2PROFESSIONAL_12);
+                  }
+                  if (professionalPurchase != null && professionalPurchase.getPurchaseState() == 0) {
+                    licenceHandler.registerSubscription(professionalPurchase.getSku());
+                  } else if (extendedPurchase != null && extendedPurchase.getPurchaseState() == 0) {
+                    licenceHandler.registerPurchase(true);
+                  } else if (premiumPurchase != null && premiumPurchase.getPurchaseState() == 0) {
+                    licenceHandler.registerPurchase(false);
+                  } else {
+                    licenceHandler.maybeCancel();
+                  }
+                  licenceHandler.storeSkuDetails(inventory);
+                });
+          }
+        });
+      } catch (SecurityException e) {
+        AcraHelper.report(e);
+        mHelper.dispose();
+        mHelper = null;
+      }
+    }
+  }
 
   /**
    * check if this is the first invocation of a new version
@@ -161,5 +222,16 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
         }
         break;
     }
+  }
+
+  // We're being destroyed. It's important to dispose of the helper here!
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+
+    // very important:
+    Timber.d("Destroying helper.");
+    if (mHelper != null) mHelper.dispose();
+    mHelper = null;
   }
 }

@@ -159,6 +159,7 @@ dependencies {
     implementation 'com.itextpdf:itextg:5.5.10'
     implementation 'ch.acra:acra:4.9.2'
     implementation 'org.apache.commons:commons-lang3:3.4'
+    implementation 'com.github.mtotschnig:OpenIAB:extended-SNAPSHOT'
     implementation 'org.apache.commons:commons-csv:1.1'
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'com.github.PhilJay:MPAndroidChart:bd75e6c'

@@ -9,6 +9,8 @@ import android.support.annotation.VisibleForTesting;
 import com.google.android.vending.licensing.PreferenceObfuscator;
 
 import org.apache.commons.lang3.time.DateUtils;
+import org.onepf.oms.OpenIabHelper;
+import org.onepf.oms.appstore.googleUtils.Inventory;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
@@ -181,4 +183,28 @@ public class LicenceHandler {
   public String getProLicenceAction(Context context) {
     return context.getString(R.string.extend_validity);
   }
+
+  public String getPayLoad() {
+    return null;
+  }
+
+  public OpenIabHelper getIabHelper(Context context) {
+    return null;
+  }
+
+  public void registerSubscription(String sku) {}
+
+  public void registerPurchase(boolean extended) {}
+
+  public String getSkuForPackage(Package aPackage) {
+    return null;
+  }
+
+  public String getCurrentSubscription() {
+    return null;
+  }
+
+  public void maybeCancel() {}
+
+  public void storeSkuDetails(Inventory inventory) {}
 }
