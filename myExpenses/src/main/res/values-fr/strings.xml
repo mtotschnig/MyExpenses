@@ -35,10 +35,12 @@
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Sans publicité</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Nombre illimité de comptes</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Lier une image avec une transaction</string>
+  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Diagramme circulaire (Répartition par catégorie)</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Nombre d\'échéances illimité</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Export de la liste des opérations au format PDF</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Widget de modèles</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Import CSV</string>
+  <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Nombre illimité de modèles ventilés</string>
   <string name="licence_status_free">Gratuit</string>
   <string name="contrib_key">Clé Contrib</string>
   <string name="extended_key">Clé étendue</string>
@@ -77,6 +79,7 @@
   <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Vous pouvez l\'utiliser encore %1$d jours avec la licence actuelle (%2$s).</string>
   <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Votre statut de licence actuelle (%2$s) vous permet de créer %1$d comptes.</string>
   <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Votre statut de licence actuelle (%2$s) vous permet de créer %1$d échéances.</string>
+  <string name="dialog_contrib_usage_limit_split_templates">Votre statut de licence actuel (%1$s) vous permet de créer un modèle ventilé.</string>
   <string name="dialog_export_delete">Effacer les opérations exportées</string>
   <string name="dialog_export_not_yet_exported">Exporter uniquement les opérations qui n\'ont pas encore été exportées</string>
   <string name="dialog_password_activate_protection">Activer la protection par mot de passe</string>
@@ -105,7 +108,6 @@
   <string name="dialog_title_warning_delete_main_category">Effacer la catégorie principale</string>
   <string name="dialog_title_warning_delete_template">Supprimer le modèle ?</string>
   <string name="dialog_title_warning_delete_transaction">Supprimer l\'opération ?</string>
-  <string name="donate_dialog_text">S\'il vous plaît, faites un don au moyen de PayPal ou Bitcoin, et ensuite demandez une clé à partir des paramètres.</string>
   <string name="expense">Dépense</string>
   <string name="export_expenses">Export des dépenses</string>
   <!--1$s is replaced with path to file, 2$s with error message-->
@@ -620,6 +622,7 @@
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Synchronisation dans le cloud</string>
   <string name="licence_status">Votre statut de licence</string>
   <string name="all_contrib_key_features">Toutes les fonctions de Contrib Key</string>
+  <string name="all_extended_key_features">Toutes les fonctionnalités de la Clé Étendue</string>
   <string name="upgrade_now">Mettre à niveau maintenant</string>
   <string name="pref_backup_cloud_title">Sauvegarde avec la fonction de synchronisation</string>
   <string name="pref_backup_cloud_summary">Outre le stockage local sur le périphérique, le fichier de sauvegarde peut être copié sur un serveur distant.</string>
@@ -659,5 +662,31 @@
   <string name="pref_debug_logging_summary">Ecrire des informations de débogage dans le journal du système</string>
   <string name="plan_custom_recurrence_info">Veuillez d\'abord enregistrer le modèle. Le plan sera alors ouvert dans l\'application de calendrier, où vous pouvez définir une récurrence personnalisée.</string>
   <string name="storage_permission_required">La source que vous avez sélectionnée ne peut être lue que si vous accordez l\'autorisation de lire le stockage externe.</string>
+  <string name="picture">Image</string>
+  <string name="menu_create_template_for_split">Nouveau modèle ventilé</string>
+  <string name="progress_validating_licence">La licence est en cours de validation</string>
+  <string name="licence_validation_error_expired">La licence est expirée</string>
+  <string name="licence_validation_error_device_limit_exceeded">La limite de nombre d\'appareils est dépassée. Veuillez supprimer la licence d\'un autre appareil.</string>
+  <string name="error">Erreur (%s)</string>
+  <string name="button_validate">Valider</string>
+  <string name="licence_key">Clé de licence</string>
+  <string name="licence_removal_information">Si vous n\'avez plus besoin de fonctionnalités premium sur cet appareil, vous pouvez retirer la clé de licence. Cela libère la clé pour l\'activation sur un autre appareil. La clé peut être activée sur jusqu\'à %dappareils.</string>
+  <string name="progress_removing_licence">Suppression de la licence</string>
+  <string name="licence_removal_success">La clé de licence a été libérée de cet appareil.</string>
+  <string name="professional_key">Clé professionnelle</string>
+  <string name="n_months">%s mois</string>
+  <string name="professionalPriceShortInfo">à partir de %s / mois</string>
+  <string name="eu_vat_info">Pour les résidents de l\'Union européenne, les prix affichés n\'incluent pas la TVA.</string>
+  <string name="pref_contrib_purchase_title_renew">Renouveler la licence</string>
+  <string name="licence_migration_info">{app_name} implémente un nouveau mécanisme de validation de licence. Veuillez demander une nouvelle clé.</string>
+  <string name="valid_until">Jusqu\'à %s</string>
   <!--%1$s date, %2$s price-->
+  <string name="extend_until">Prolongez jusqu\'à %1$s pour %2$s</string>
+  <string name="extended_upgrade_goodie_github">%d mois supplémentaires sont accordés une fois aux utilisateurs qui possèdent déjà la licence étendue</string>
+  <string name="extended_upgrade_goodie_subscription">Les utilisateurs qui possèdent déjà la licence étendue paient 50%% du prix régulier (%s) la première année.</string>
+  <string name="switch_to_yearly">Passer à l\'abonnement annuel</string>
+  <string name="switch_to_monthly">Passer à l\'abonnement mensuel</string>
+  <string name="extend_validity">Prolonger la validité</string>
+  <string name="progress_dialog_fetching_data_from_sync_backend">Récupération de données depuis un backend distant. Cela peut prendre un certain temps.</string>
+  <string name="donate_button_invoice">Facture</string>
 </resources>

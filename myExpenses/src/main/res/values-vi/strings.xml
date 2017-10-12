@@ -103,7 +103,6 @@
   <string name="dialog_title_warning_delete_main_category">Xoá danh mục chính?</string>
   <string name="dialog_title_warning_delete_template">Xoá bản mẫu?</string>
   <string name="dialog_title_warning_delete_transaction">Xoá giao dịch?</string>
-  <string name="donate_dialog_text">Xin hãy đóng góp qua PayPal hoặc Bitcoin, sau đó yêu cầu một mã nâng cấp từ màn hình cài đặt.</string>
   <string name="expense">Chi</string>
   <string name="export_expenses">Xuất dữ liệu chi tiêu</string>
   <!--1$s is replaced with path to file, 2$s with error message-->

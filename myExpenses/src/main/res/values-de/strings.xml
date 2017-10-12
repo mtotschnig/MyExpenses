@@ -35,10 +35,12 @@
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Ohne Werbung</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Unbegrenzte Anzahl von Konten</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Bildanhang für Buchung</string>
+  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Kreisdiagramm (Verteilung pro Kategorie)</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Unbegrenzte Anzahl von Plänen</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Buchungsliste als PDF-Datei drucken</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Vorlagen Widget</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV import</string>
+  <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Unbegrenzte Anzahl an Vorlagen für mehrteilige Buchungen</string>
   <string name="licence_status_free">Gratis</string>
   <string name="contrib_key">Contrib-Schlüssel</string>
   <string name="extended_key">Erweiterungsschlüssel</string>
@@ -77,6 +79,7 @@
   <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Mit Ihrem aktuellen Lizenzstatus (%2$s) können Sie es %1$d Tage lang verwenden.</string>
   <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Mit Ihrem aktuellen Lizenzstatus (%2$s) können Sie %1$d Konten anlegen.</string>
   <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Mit Ihrem aktuellen Lizenzstatus (%2$s) können Sie %1$d Pläne anlegen.</string>
+  <string name="dialog_contrib_usage_limit_split_templates">Mit Ihrem aktuellen Lizenzstatus (%1$s) können Sie eine Vorlage für mehrteilige Buchungen erstellen.</string>
   <string name="dialog_export_delete">Buchungen nach dem Exportieren löschen</string>
   <string name="dialog_export_not_yet_exported">Nur Buchungen exportieren, die noch nicht exportiert wurden</string>
   <string name="dialog_password_activate_protection">Passwort-Schutz aktivieren</string>
@@ -105,7 +108,6 @@
   <string name="dialog_title_warning_delete_main_category">Hauptkategorie löschen?</string>
   <string name="dialog_title_warning_delete_template">Vorlage löschen?</string>
   <string name="dialog_title_warning_delete_transaction">Buchung löschen?</string>
-  <string name="donate_dialog_text">Bitte spenden Sie mittels PayPal oder Bitcoin, und fordern Sie dann von den Einstellungen aus einen Schlüssel an.</string>
   <string name="expense">Ausgabe</string>
   <string name="export_expenses">Ausgaben-Export</string>
   <!--1$s is replaced with path to file, 2$s with error message-->
@@ -620,6 +622,7 @@
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Cloud-Synchronisierung</string>
   <string name="licence_status">Ihr Lizenzstatus</string>
   <string name="all_contrib_key_features">Alle Funktionen des Contrib Schlüssels</string>
+  <string name="all_extended_key_features">Alle Funktionen des erweiterten Schlüssels</string>
   <string name="upgrade_now">Jetzt upgraden</string>
   <string name="pref_backup_cloud_title">Auf Synchronisierung-Backend speichern</string>
   <string name="pref_backup_cloud_summary">Zusätzlich zur lokalen Speicherung auf dem Gerät kann die Sicherungsdatei auf ein entferntes Backend kopiert werden.</string>
@@ -659,5 +662,31 @@
   <string name="pref_debug_logging_summary">Debugging-Informationen in das Systemprotokoll schreiben</string>
   <string name="plan_custom_recurrence_info">Bitte speichern Sie zunächst die Vorlage. Der Plan wird dann in der Kalender-App geöffnet, wo Sie eine benutzerdefinierte Wiederholung einstellen können.</string>
   <string name="storage_permission_required">Die von Ihnen ausgewählte Quelle kann nur gelesen werden, wenn Sie die Berechtigung zum Lesen aus dem externen Speicher erteilen.</string>
+  <string name="picture">Bild</string>
+  <string name="menu_create_template_for_split">Neue geteilte Vorlage</string>
+  <string name="progress_validating_licence">Lizenz wird validiert</string>
+  <string name="licence_validation_error_expired">Lizenz ist abgelaufen</string>
+  <string name="licence_validation_error_device_limit_exceeded">Geräte-Limit überschritten. Bitte entfernen Sie die Lizenz von einem anderen Gerät.</string>
+  <string name="error">Fehler (%s)</string>
+  <string name="button_validate">Validieren</string>
+  <string name="licence_key">Lizenzschlüssel</string>
+  <string name="licence_removal_information">Wenn Sie auf diesem Gerät keine Premiumfunktionen mehr benötigen, können Sie den Lizenzschlüssel entfernen. Dies gibt den Schlüssel für die Aktivierung auf einem anderen Gerät frei. Der Schlüssel kann an bis zu %d Geräten aktiviert werden.</string>
+  <string name="progress_removing_licence">Lizenz wird entfernt</string>
+  <string name="licence_removal_success">Der Lizenzschlüssel wurde erfolgreich von diesem Gerät freigegeben.</string>
+  <string name="professional_key">Professioneller Schlüssel</string>
+  <string name="n_months">%s Monate</string>
+  <string name="professionalPriceShortInfo">ab %s / Monat</string>
+  <string name="eu_vat_info">Die Preise für die in der Europäischen Union ansässigen Personen verstehen sich ohne Mehrwertsteuer.</string>
+  <string name="pref_contrib_purchase_title_renew">Lizenz erneuern</string>
+  <string name="licence_migration_info">{app_name} implementiert einen neuen Lizenzvalidierungsmechanismus. Bitte fordern Sie einen neuen Schlüssel an.</string>
+  <string name="valid_until">Bis %s</string>
   <!--%1$s date, %2$s price-->
+  <string name="extend_until">Verlängern bis %1$s für %2$s</string>
+  <string name="extended_upgrade_goodie_github">Weitere %d Monate werden einmal für Benutzer gewährt, die bereits die Erweiterte Lizenz besitzen</string>
+  <string name="extended_upgrade_goodie_subscription">Benutzer, die bereits die erweiterte Lizenz besitzen, zahlen im ersten Jahr 50%% des regulären Preises (%s).</string>
+  <string name="switch_to_yearly">Zum Jahresabo wechseln</string>
+  <string name="switch_to_monthly">Zum Monatsabo wechseln</string>
+  <string name="extend_validity">Gültigkeit verlängern</string>
+  <string name="progress_dialog_fetching_data_from_sync_backend">Daten werden vom entfernten Backend geladen. Dies könnte eine Weile dauern.</string>
+  <string name="donate_button_invoice">Rechnung</string>
 </resources>

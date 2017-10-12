@@ -105,7 +105,6 @@
   <string name="dialog_title_warning_delete_main_category">Eliminar categoria principal?</string>
   <string name="dialog_title_warning_delete_template">Eliminar modelo?</string>
   <string name="dialog_title_warning_delete_transaction">Eliminar transação?</string>
-  <string name="donate_dialog_text">Por favor faça o seu donativo via PayPal ou Bitcoin e, posteriormente, solicite uma chave a partir do ecrã de definições.</string>
   <string name="expense">Despesa</string>
   <string name="export_expenses">Exportação de despesas</string>
   <!--1$s is replaced with path to file, 2$s with error message-->

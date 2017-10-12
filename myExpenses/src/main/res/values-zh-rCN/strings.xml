@@ -93,7 +93,6 @@
   <string name="dialog_title_warning_delete_main_category">删除主类别</string>
   <string name="dialog_title_warning_delete_template">要删除模板?</string>
   <string name="dialog_title_warning_delete_transaction">删除交易吗?</string>
-  <string name="donate_dialog_text">请通过 PayPal 或 比特币 捐赠,然后从设置屏幕里面请求一个密钥</string>
   <string name="expense">支出</string>
   <string name="export_expenses">导出开支</string>
   <!--1$s is replaced with path to file, 2$s with error message-->

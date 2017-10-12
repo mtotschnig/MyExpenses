@@ -105,7 +105,6 @@
   <string name="dialog_title_warning_delete_main_category">Ezabatu kategoria nagusia?</string>
   <string name="dialog_title_warning_delete_template">Ezabatu txantiloia?</string>
   <string name="dialog_title_warning_delete_transaction">Ezabatu transakzioa?</string>
-  <string name="donate_dialog_text">Diruz lagundu PayPal edo Bitcoin bidez, eta gero eskatu gakoa ezarpenen pantailatik.</string>
   <string name="expense">Gastua</string>
   <string name="export_expenses">Gastuen esportazioa</string>
   <!--1$s is replaced with path to file, 2$s with error message-->

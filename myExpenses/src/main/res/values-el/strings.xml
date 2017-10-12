@@ -105,7 +105,6 @@
   <string name="dialog_title_warning_delete_main_category">Διαγραφή κύριας κατηγορίας;</string>
   <string name="dialog_title_warning_delete_template">Θέλετε να διαγράψετε το πρότυπο;</string>
   <string name="dialog_title_warning_delete_transaction">Να διαγραφεί η συναλλαγή;</string>
-  <string name="donate_dialog_text">Παρακαλούμε κάνετε δωρεά μέσω PayPal ή Bitcoin, και στη συνέχεια να ζητήσετε ένα κλειδί από την οθόνη ρυθμίσεων.</string>
   <string name="expense">Δαπάνη</string>
   <string name="export_expenses">Εξαγωγή εξόδων </string>
   <!--1$s is replaced with path to file, 2$s with error message-->

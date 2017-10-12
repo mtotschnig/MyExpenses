@@ -108,7 +108,6 @@
   <string name="dialog_title_warning_delete_main_category">Excluir a categoria principal?</string>
   <string name="dialog_title_warning_delete_template">Excluir o modelo?</string>
   <string name="dialog_title_warning_delete_transaction">Excluir a transação?</string>
-  <string name="donate_dialog_text">Por favor, faça a doação via PayPal ou Bitcoin e, em seguida, solicite uma chave na tela de configurações.</string>
   <string name="expense">Despesa</string>
   <string name="export_expenses">Exportar despesas</string>
   <!--1$s is replaced with path to file, 2$s with error message-->
@@ -236,7 +235,7 @@
   <string name="parse_error_no_data_found">Não foi encontrado nenhum dado importável no arquivo.</string>
   <string name="parse_error_other_exception">Ocorreu um erro: %1$s</string>
   <string name="parse_error_parse_exception">Não foi possível analisar o arquivo</string>
-  <string name="password_disabled_reenable">A proteção por senha foi desativada. Você pode reativar isso nas configurações.</string>
+  <string name="password_disabled_reenable">A proteção por senha foi desativada. Você pode reativá-la nas configurações.</string>
   <string name="password_lost">Senha perdida</string>
   <string name="password_not_valid">Senha inválida. Tente novamente!</string>
   <string name="password_prompt">Digite sua senha</string>

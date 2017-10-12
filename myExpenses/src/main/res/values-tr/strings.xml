@@ -108,7 +108,6 @@
   <string name="dialog_title_warning_delete_main_category">Ana kategori silinsin mi?</string>
   <string name="dialog_title_warning_delete_template">Şablon silinsin mi?</string>
   <string name="dialog_title_warning_delete_transaction">Muamele silinsin mi?</string>
-  <string name="donate_dialog_text">Paypal ya da Bitcoin ile bağışta bulunup Ayarlar ekranından bir katkı anahtarı talep edebilirsiniz.</string>
   <string name="expense">gider</string>
   <string name="export_expenses">Giderleri dışa aktar</string>
   <!--1$s is replaced with path to file, 2$s with error message-->
@@ -676,6 +675,7 @@
   <string name="licence_removal_success">Lisans anahtarı bu cihazdan başarılı bir şekilde kaldırılmıştır.</string>
   <string name="professional_key">Profesyonel Anahtar</string>
   <string name="n_months">%s ay</string>
+  <string name="professionalPriceShortInfo">ayda %s değerinden başlayan fiyatla</string>
   <string name="eu_vat_info">Görüntülenen fiyatlar Avrupa Birliği\'ndeki kullanıcılar için KDV\'yi içermemektedir.</string>
   <string name="pref_contrib_purchase_title_renew">Lisansı yenile</string>
   <string name="licence_migration_info">{app_name} yeni bir lisans doğrulama mekanizması kullanmaktadır. Lütfen yeni bir anahtar talep edin.</string>

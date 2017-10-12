@@ -105,7 +105,6 @@
   <string name="dialog_title_warning_delete_main_category">האם למחוק את קטגוריה הראשית?</string>
   <string name="dialog_title_warning_delete_template">האם למחוק תבנית?</string>
   <string name="dialog_title_warning_delete_transaction">האם למחוק את העסקה?</string>
-  <string name="donate_dialog_text">אנא תתרום באמצעות PayPal או Bitcoin, ולאחר מכן בקש מפתח ממסך ההגדרות.</string>
   <string name="expense">הוצאה</string>
   <string name="export_expenses">יצוא הוצאות</string>
   <!--1$s is replaced with path to file, 2$s with error message-->

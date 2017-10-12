@@ -76,7 +76,6 @@
   <string name="dialog_title_warning_delete_main_category">Usunąć główną kategorię?</string>
   <string name="dialog_title_warning_delete_template">Usunąć szablon?</string>
   <string name="dialog_title_warning_delete_transaction">Usunąć transakcję?</string>
-  <string name="donate_dialog_text">Proszę dawać datki przez PayPal lub Bitcoin, i wtedy poproś o klucz z ekranu ustawień.</string>
   <string name="expense">Wydatek</string>
   <string name="export_expenses">Eksport wydatków</string>
   <!--1$s is replaced with path to file, 2$s with error message-->

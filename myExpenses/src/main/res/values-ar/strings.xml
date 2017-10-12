@@ -231,6 +231,7 @@
   <string name="pref_contrib_purchase_title_in_app">الشراء داخل التطبيق</string>
   <string name="pref_custom_currency_title">تخصيص العملات</string>
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
+  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">إذا حصلت على المفتاح, يمكنك الحصول على الميزات الكاملة </string>
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">أدخل المفتاح</string>
   <string name="pref_export_format_title">تنسيق البيانات</string>
   <string name="pref_follow_gplus_title">متابعة {app_name} على قوقل بلس</string>
@@ -420,6 +421,15 @@
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <string name="plan_instance_state_applied">تم التطبيق</string>
   <!--Sort plans (recurring transactions) by the next instance-->
+  <string name="validate_error_not_empty">لا يجب أن تكون فارغة </string>
+  <string name="url_not_valid">الرابط غير صحيح</string>
+  <string name="menu_sync_unlink">أوقف المزامنة</string>
+  <string name="menu_sync_link">إبدأ المزامنة</string>
+  <string name="menu_sync_download">تحميل و منزامنة</string>
   <string name="template">نموذج</string>
+  <string name="home_screen_shortcuts_nougate_info">يمكن إضافة إختصار عن طريق الضغط الطويل على الايقونة في الشاشة الرئيسية</string>
+  <string name="currency_symbol">رمز العملة</string>
+  <string name="sync_error_will_try_again_later">سوف أحاول مرة أخرى لاحقا</string>
   <!--%1$s date, %2$s price-->
+  <string name="extend_validity">مدد الصلاحية</string>
 </resources>

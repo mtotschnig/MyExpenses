@@ -61,7 +61,6 @@
   <string name="dialog_title_warning_delete_account">Odstranit účet?</string>
   <string name="dialog_title_warning_delete_template">Odstranit šablonu?</string>
   <string name="dialog_title_warning_delete_transaction">Odstranit transakci?</string>
-  <string name="donate_dialog_text">Prosím přispějte přes PayPal nebo Bitcoin a potom požádejte o klíč z obrazovky nastavení.</string>
   <string name="expense">Výdaj</string>
   <string name="export_expenses">Export výdajů</string>
   <!--1$s is replaced with path to file, 2$s with error message-->

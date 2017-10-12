@@ -107,7 +107,6 @@
   <string name="dialog_title_warning_delete_main_category">主分類を削除しますか?</string>
   <string name="dialog_title_warning_delete_template">テンプレートを削除しますか?</string>
   <string name="dialog_title_warning_delete_transaction">取引を削除しますか?</string>
-  <string name="donate_dialog_text">Paypal、またはBitcoin経由で寄付をして、その後、設定画面からキーをリクエストしてください。</string>
   <string name="expense">支出</string>
   <string name="export_expenses">支出エクスポート</string>
   <!--1$s is replaced with path to file, 2$s with error message-->
@@ -667,8 +666,16 @@
   <string name="licence_removal_success">このデバイスからライセンスキーを解除しました。</string>
   <string name="professional_key">プロフェッショナルキー</string>
   <string name="n_months">%s ヶ月</string>
+  <string name="professionalPriceShortInfo">%s / 月 ～</string>
   <string name="eu_vat_info">表示されている EU 価格には、付加価値税は含まれていません。</string>
   <string name="pref_contrib_purchase_title_renew">ライセンスの更新</string>
   <string name="licence_migration_info">{app_name}は新しいライセンス検証メカニズムを実装しています。 新しいキーを要求してください。</string>
+  <string name="valid_until">%s まで</string>
   <!--%1$s date, %2$s price-->
+  <string name="extend_until">%1$s から %2$s まで延長</string>
+  <string name="extended_upgrade_goodie_github">追加の %d ヶ月は延長ライセンスを所有するユーザーに１度付与されます</string>
+  <string name="extended_upgrade_goodie_subscription">すでに延長ライセンスを所有するユーザーは、最初の年に標準価格 (%s) の 50%%お支払いください。</string>
+  <string name="switch_to_yearly">年間サブスクリプションに切り替える</string>
+  <string name="switch_to_monthly">月間サブスクリプションに切り替える</string>
+  <string name="extend_validity">有効期限を延長する</string>
 </resources>
