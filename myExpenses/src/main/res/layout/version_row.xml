@@ -24,5 +24,6 @@
         android:clickable="true"
         android:gravity="end"
         android:textColorLink="@drawable/linkcolor"
-        android:textStyle="bold|italic"/>
+        android:textStyle="bold|italic"
+        android:focusable="true"/>
 </LinearLayout>

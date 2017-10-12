@@ -32,7 +32,20 @@
     <TextView
         android:id="@+id/ImportantUpgradeInfoBody"
         style="@style/about_text"
+        android:text="@string/licence_migration_info"
         android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/ImportantUpgradeInfoLearnMore"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:gravity="end"
+        android:textColorLink="@drawable/linkcolor"
+        android:textStyle="bold|italic"
+        android:focusable="true"
+        android:visibility="gone"/>
+
 
     <ListView
         android:id="@+id/list"

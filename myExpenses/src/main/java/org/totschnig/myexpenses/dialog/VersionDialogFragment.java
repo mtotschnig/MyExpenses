@@ -22,7 +22,6 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.content.res.Resources.NotFoundException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -34,7 +33,6 @@ import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -44,6 +42,7 @@ import android.widget.TextView;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 
 import java.util.ArrayList;
@@ -69,7 +68,7 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     Bundle bundle = getArguments();
-    final Activity ctx = getActivity();
+    Activity ctx = getActivity();
     LayoutInflater li = LayoutInflater.from(ctx);
     int from = bundle.getInt(KEY_FROM);
     Resources res = getResources();
@@ -85,68 +84,38 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
     }
     //noinspection InflateParams
     View view = li.inflate(R.layout.versiondialog, null);
-    final ListView lv = (ListView) view.findViewById(R.id.list);
+    final ListView lv = view.findViewById(R.id.list);
     ArrayAdapter<VersionInfo> adapter = new ArrayAdapter<VersionInfo>(ctx,
         R.layout.version_row, R.id.versionInfoName, versions) {
 
+      @NonNull
       @Override
-      public View getView(int position, View convertView, ViewGroup parent) {
+      public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         LinearLayout row = (LinearLayout) super.getView(position, convertView, parent);
         VersionInfo version = versions.get(position);
-        final TextView heading = (TextView) row.findViewById(R.id.versionInfoName);
+        final TextView heading = row.findViewById(R.id.versionInfoName);
         heading.setText(version.name);
-        String[] changes = version.getChanges(ctx);
+        String[] changes = version.getChanges(getContext());
         ((TextView) row.findViewById(R.id.versionInfoChanges))
             .setText(changes != null ? ("\u25b6 " + TextUtils.join("\n\u25b6 ", changes)) : "");
 
-        TextView learn_more = (TextView) row.findViewById(R.id.versionInfoLearnMore);
-        final Resources res = ctx.getResources();
-        final int resId = res.getIdentifier("version_more_info_" + version.nameCondensed.replace(".", ""), "array", ctx.getPackageName());
+        TextView learn_more = row.findViewById(R.id.versionInfoLearnMore);
+        final int resId = getResources().getIdentifier("version_more_info_" + version.nameCondensed.replace(".", ""), "array", ctx.getPackageName());
         if (resId == 0) {
           learn_more.setVisibility(View.GONE);
         } else {
-          learn_more.setVisibility(View.VISIBLE);
-          learn_more.setTag(resId);
-          Spannable span = Spannable.Factory.getInstance().newSpannable(res.getString(R.string.learn_more));
-          span.setSpan(new ClickableSpan() {
+          makeVisibleAndClickable(learn_more, R.string.learn_more, new ClickableSpan() {
             @Override
             public void onClick(View v) {
               PopupMenu popup = new PopupMenu(getActivity(), heading);
-              popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                  handleMenuClick(item.getItemId());
-                  return true;
-                }
-
+              popup.setOnMenuItemClickListener(item -> {
+                showMoreInfo(item.getItemId(), getResources().getStringArray(resId));
+                return true;
               });
               popup.inflate(R.menu.version_info);
               popup.show();
             }
-
-            /**
-             * @param itemId
-             * @throws NotFoundException
-             */
-            protected void handleMenuClick(final int itemId) throws NotFoundException {
-              String[] postIds = res.getStringArray(resId);
-              String uri = null;
-              switch (itemId) {
-                case R.id.facebook:
-                  uri = "https://www.facebook.com/MyExpenses/" + postIds[0];
-                  break;
-                case R.id.google:
-                  uri = "https://plus.google.com/+MyexpensesMobi/posts/" + postIds[1];
-                  break;
-              }
-              Intent i = new Intent(Intent.ACTION_VIEW);
-              i.setData(Uri.parse(uri));
-              startActivity(i);
-            }
-          }, 0, span.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-          learn_more.setText(span);
-          learn_more.setMovementMethod(LinkMovementMethod.getInstance());
+          });
         }
         return row;
       }
@@ -155,6 +124,13 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
     if (getArguments().getBoolean(KEY_WITH_IMPORTANT_UPGRADE_INFO)) {
       view.findViewById(R.id.ImportantUpgradeInfoHeading).setVisibility(View.VISIBLE);
       view.findViewById(R.id.ImportantUpgradeInfoBody).setVisibility(View.VISIBLE);
+      TextView importantUpgradeInfoLearnMore = view.findViewById(R.id.ImportantUpgradeInfoLearnMore);
+      makeVisibleAndClickable(importantUpgradeInfoLearnMore, R.string.pref_request_licence_title, new ClickableSpan() {
+        @Override
+        public void onClick(View widget) {
+          ((ProtectedFragmentActivity) getActivity()).dispatchCommand(R.id.REQUEST_LICENCE_MIGRATION_COMMAND, null);
+        }
+      });
     }
 
     AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
@@ -165,6 +141,29 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
     if (!MyApplication.getInstance().getLicenceHandler().isContribEnabled())
       builder.setPositiveButton(R.string.menu_contrib, this);
     return builder.create();
+  }
+
+  void makeVisibleAndClickable(TextView textView, int resId, ClickableSpan clickableSpan) {
+    textView.setVisibility(View.VISIBLE);
+    Spannable span = Spannable.Factory.getInstance().newSpannable(getString(resId));
+    span.setSpan(clickableSpan, 0, span.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+    textView.setText(span);
+    textView.setMovementMethod(LinkMovementMethod.getInstance());
+  }
+
+  void showMoreInfo(final int itemId, String[] postIds) {
+    String uri = null;
+    switch (itemId) {
+      case R.id.facebook:
+        uri = "https://www.facebook.com/MyExpenses/" + postIds[0];
+        break;
+      case R.id.google:
+        uri = "https://plus.google.com/+MyexpensesMobi/posts/" + postIds[1];
+        break;
+    }
+    Intent i = new Intent(Intent.ACTION_VIEW);
+    i.setData(Uri.parse(uri));
+    startActivity(i);
   }
 
   @Override

@@ -250,7 +250,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
         selectedPackage = Package.values()[item.getItemId()];
         String formattedPrice = licenceHandler.getFormattedPrice(selectedPackage);
         if (formattedPrice != null) {
-          if (licenceStatus == EXTENDED) {
+          if (licenceStatus == EXTENDED && !licenceHandler.hasLegacyLicence()) {
             String extendedUpgradeGoodieMessage = licenceHandler.getExtendedUpgradeGoodieMessage(selectedPackage);
             if (extendedUpgradeGoodieMessage != null) {
               formattedPrice += String.format(" (%s)", extendedUpgradeGoodieMessage);
