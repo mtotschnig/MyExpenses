@@ -1,0 +1,87 @@
+#!/usr/local/bin/bash
+function show_help() {
+cat << EOF
+   Usage: ${0##*/} [-p PACKAGE] [-l LANG] [-s] EMAIL
+   Request key for EMAIL
+   -p PACKAGE     Use package instead of Contrib
+   -l LANG     Use LANG instead of the one from environment
+   -s Use staging environment
+   EMAIL
+EOF
+}
+
+package=Contrib
+lang=en_US
+#endpoint=http://127.0.0.1:3000/users
+endpoint=https://licencedb.myexpenses.mobi/users
+
+while getopts "p:l:s" opt; do
+    case "$opt" in
+        p) package=$OPTARG
+           ;;
+        l) lang=$OPTARG
+           ;;
+        s) endpoint=https://myexpenses-licencedb-staging.herokuapp.com/users
+           ;;
+        '?')
+            show_help >&2
+            exit 1
+            ;;
+    esac
+done
+email=${@:$OPTIND:1}
+
+words=( $email )
+if [ ${#words[@]} -ne 1 ]
+then
+  echo "EMAIL must contain one word"
+  show_help
+  exit 1
+fi
+
+available_locales='bg_BG cs_CZ de_DE el_GR en_US es_ES eu_ES fr_FR it_IT he_IL ja_JP pt_PT ru_RU tr_TR'
+
+if [[ -z "${lang// }" || ! " $available_locales " =~ .*\ $lang\ .* ]]
+then
+    echo "lang must be one of $available_locales"
+    exit 1
+fi
+
+mapfile -t HTTP < <(curl -H "Authorization: Token 7my2c9j8" --silent --write-out "\n%{http_code}" -X POST $endpoint -d email=$email -d package=$package)
+
+if [ ! ${HTTP[1]} -eq 200  ]; then
+  echo "Error HTTP status ${HTTP[1]}"
+  exit 1
+fi
+
+key=${HTTP[0]}
+
+export TEXTDOMAIN=printContribKeyEmail.sh
+export TEXTDOMAINDIR=${HOME}/locale
+
+export LC_MESSAGES=$lang
+
+echo "$package für ${email}"
+
+read -d '' body <<EOF
+`gettext "Thankyou"`
+
+`gettext "Open Link"`
+
+https://www.myexpenses.mobi/callback2.html?key=${key}#verify
+
+`printf "$(gettext "Alternative Settings")" $key`
+
+`gettext "Best regards"`
+
+EOF
+
+echo "tell application \"Mail\"
+    activate
+
+    set MyEmail to make new outgoing message with properties {visible:true, subject:\"My Expenses Licence Key\", content:\"$body\"}
+    tell MyEmail
+        make new to recipient at end of to recipients with properties {address:\"$email\"}
+    end tell
+end tell
+" | osascript
