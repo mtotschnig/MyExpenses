@@ -131,7 +131,6 @@
   <string name="grouping_year">Ano</string>
   <string name="grouping_yesterday">Ontem</string>
   <string name="help_button_rate">Avalie ou revise</string>
-  <string name="help_contextuel_help">Encontre mais informações sobre a funcionalidade disponível no menu de ajuda.</string>
   <string name="help_heading_credits">Créditos</string>
   <string name="help_heading_license">Licença</string>
   <string name="help_heading_whats_new">Novidades</string>
@@ -318,7 +317,6 @@
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Permitido sem senha.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Senha é necessária.</string>
   <string name="pref_qif_export_file_encoding_title">Codificação de caracteres</string>
-  <string name="pref_request_licence_summary">Se você tiver contribuído, solicitar a chave para Android-Id %1$s por e-mail.</string>
   <string name="pref_request_licence_title">Solicitar uma chave</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Alternativo</string>

@@ -127,7 +127,6 @@
   <string name="grouping_year">Tahun</string>
   <string name="grouping_yesterday">Semalam</string>
   <string name="help_button_rate">Beri penarafan atau ulasan</string>
-  <string name="help_contextuel_help">Dapatkan lagi maklumat mengenai kefungsian yang tersedia melalui masukan menu bantuan.</string>
   <string name="help_heading_credits">Penghargaan</string>
   <string name="help_heading_license">Lesen</string>
   <string name="help_heading_whats_new">Apa yang terbaharu</string>
@@ -314,7 +313,6 @@
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Dibenarkan tanpa kata laluan.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Kata laluan diperlukan.</string>
   <string name="pref_qif_export_file_encoding_title">Pengekodan aksara</string>
-  <string name="pref_request_licence_summary">Jika anda telah memberi sumbangan, pohon kunci untuk Android-Id %1$s menerusi emel.</string>
   <string name="pref_request_licence_title">Pohon kunci</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Alternatif</string>
@@ -556,9 +554,7 @@
   <string name="warning_cannot_move_split_transaction">Transaksi pisah ini tidak dapat dialih ke akaun %1$s kerana terdapat bahagian pemindahan yang merujuk pada akaun ini.</string>
   <string name="content_description_calculator_clear_button">Tetap semula semua</string>
   <string name="content_description_calculator_delete_button">Padam digit terakhir</string>
-  <string name="paypal_transaction_id">ID Transaksi Paypal</string>
   <string name="paypal_callback_info">Transaksi anda telah selesai, dan satu resip pembelian anda telah diemelkan kepada anda. Anda boleh daftar masuk ke akaun anda di www.paypal.com untuk melihat perincian transaksi ini.</string>
-  <string name="paypal_callback_later_clicked_info">Melalui skrin tetapan, anda boleh pinta kunci pada bila-bila masa.</string>
   <string name="search_transfer">Gelintar pemindahan</string>
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="pref_sort_order_next_instance">Kejadian berikutnya</string>

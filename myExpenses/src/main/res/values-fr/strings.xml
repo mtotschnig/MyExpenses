@@ -131,7 +131,6 @@
   <string name="grouping_year">Année</string>
   <string name="grouping_yesterday">Hier</string>
   <string name="help_button_rate">Publier votre avis</string>
-  <string name="help_contextuel_help">Vous pouvez accéder à plus d\'informations sur les fonctions disponibles dans l\'Aide du menu.</string>
   <string name="help_heading_credits">Générique</string>
   <string name="help_heading_license">Licence</string>
   <string name="help_heading_whats_new">Nouveautés</string>
@@ -320,7 +319,6 @@
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Autorisée sans mot de passe.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Le mot de passe est requis.</string>
   <string name="pref_qif_export_file_encoding_title">Encodage du fichier</string>
-  <string name="pref_request_licence_summary">Si vous avez contribué, demandez une clé pour Android-Id %1$s par courriel.</string>
   <string name="pref_request_licence_title">Demandez une clé</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Alternatif</string>
@@ -569,9 +567,7 @@
   <string name="warning_cannot_move_split_transaction">Cette opération ventilée ne peut pas être déplacée vers le compte %1$s car il existe des ventilations de transfert vers ce même compte.</string>
   <string name="content_description_calculator_clear_button">Réinitialiser tous</string>
   <string name="content_description_calculator_delete_button">Supprimer le dernier chiffre</string>
-  <string name="paypal_transaction_id">N° d\'opération Paypal</string>
   <string name="paypal_callback_info">Votre transaction s\'est bien terminée,  et un reçu de votre achat vous a été envoyé par courriel. Vous pouvez vous connecter sur votre compte PayPal pour voir les détails de cette transaction.</string>
-  <string name="paypal_callback_later_clicked_info">A partir de l\'écran des paramètres,  vous pouvez demander une clé n\'importe quand. </string>
   <string name="search_transfer">Recherche de transfert</string>
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="pref_sort_order_next_instance">Echéance suivante</string>
@@ -677,7 +673,6 @@
   <string name="n_months">%s mois</string>
   <string name="professionalPriceShortInfo">à partir de %s / mois</string>
   <string name="eu_vat_info">Pour les résidents de l\'Union européenne, les prix affichés n\'incluent pas la TVA.</string>
-  <string name="pref_contrib_purchase_title_renew">Renouveler la licence</string>
   <string name="licence_migration_info">{app_name} implémente un nouveau mécanisme de validation de licence. Veuillez demander une nouvelle clé.</string>
   <string name="valid_until">Jusqu\'à %s</string>
   <!--%1$s date, %2$s price-->

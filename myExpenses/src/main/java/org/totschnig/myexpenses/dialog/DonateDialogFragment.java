@@ -28,8 +28,6 @@ import com.annimon.stream.Stream;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.util.licence.Package;
 
-import java.util.Locale;
-
 public class DonateDialogFragment extends CommitSafeDialogFragment {
 
   private static final String KEY_PACKAGE = "package";
@@ -78,9 +76,5 @@ public class DonateDialogFragment extends CommitSafeDialogFragment {
     if (getActivity() instanceof ContribInfoDialogActivity) {
       getActivity().finish();
     }
-  }
-
-  private String getPaypalLocale() {
-    return Locale.getDefault().toString();
   }
 }

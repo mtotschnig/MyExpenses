@@ -26,7 +26,6 @@ import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.ContribUtils;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.PermissionHelper;
-import org.totschnig.myexpenses.util.licence.InappPurchaseLicenceHandler;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 
@@ -45,8 +44,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    LicenceHandler licenceHandler =
-        (InappPurchaseLicenceHandler) MyApplication.getInstance().getLicenceHandler();
+    LicenceHandler licenceHandler = MyApplication.getInstance().getLicenceHandler();
     mHelper = licenceHandler.getIabHelper(this);
     if (mHelper != null) {
       try {

@@ -128,7 +128,6 @@
   <string name="grouping_year">Έτος</string>
   <string name="grouping_yesterday">Χθες</string>
   <string name="help_button_rate">Ποσοστό ή αναθεώρηση</string>
-  <string name="help_contextuel_help">Παρακαλώ βρείτε περισσότερες πληροφορίες σχετικά με τη διαθέσιμη λειτουργικότητα με την βοήθεια μενού entry-Έναρξη.</string>
   <string name="help_heading_credits">Πιστώσεις</string>
   <string name="help_heading_license">Άδεια</string>
   <string name="help_heading_whats_new">Τι νέο υπάρχει</string>
@@ -315,7 +314,6 @@
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Επιτρέπετε χωρίς κωδικό πρόσβασης.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Απαιτείται κωδικός πρόσβασης.</string>
   <string name="pref_qif_export_file_encoding_title">Κωδικοποίηση χαρακτήρων</string>
-  <string name="pref_request_licence_summary">Αν έχετε συνεισφέρει, αιτηθείτε ένα κλειδί για Android-Id %1$s με μήνυμα ηλεκτρονικού ταχυδρομείου.</string>
   <string name="pref_request_licence_title">Ζητήστε ένα κλειδί</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Εναλλακτικά</string>
@@ -563,9 +561,7 @@
   <string name="warning_cannot_move_split_transaction">Αυτή η διεσπασμένη συναλλαγή δεν μπορεί να μετακινηθεί στον λογαριασμό %1$s γιατί υπάρχει μέρη μεταφοράς που αναφέρονται σε αυτόν τον λογαριασμό</string>
   <string name="content_description_calculator_clear_button">Επαναφορά όλων</string>
   <string name="content_description_calculator_delete_button">Διαγραφή τελευταίου ψηφίου</string>
-  <string name="paypal_transaction_id">Ταυτότητα συναλλαγής Paypal</string>
   <string name="paypal_callback_info">Η συναλλαγή σας έχει ολοκληρωθεί, και μια απόδειξη για την αγορά σας έχει αποσταλεί με email. Μπορείτε να συνδεθείτε στο λογαριασμό σας στο www.paypal.com για να δείτε τις λεπτομέρειες της συναλλαγής.</string>
-  <string name="paypal_callback_later_clicked_info">Από την οθόνη ρυθμίσεων, μπορείτε να ζητήσετε ένα κλειδί ανά πάσα στιγμή.</string>
   <string name="search_transfer">Αναζήτηση για μεταφορά</string>
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="pref_sort_order_next_instance">Επόμενο στιγμιότυπο</string>

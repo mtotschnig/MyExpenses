@@ -84,7 +84,6 @@
   <string name="grouping_year">Rok</string>
   <string name="grouping_yesterday">Včera</string>
   <string name="help_button_rate">Ohodnoťte nebo zrecenzujte</string>
-  <string name="help_contextuel_help">Další informace o dostupných funkcích naleznete v nápovědě.</string>
   <string name="help_heading_credits">Na vývoji se podíleli</string>
   <string name="help_heading_license">Licence</string>
   <string name="help_heading_whats_new">Co je nového</string>
@@ -232,7 +231,6 @@
   <string name="pref_protection_delay_seconds_summary">Doba nečinnosti v sekundá než bude aplikace uzamčena heslem.</string>
   <string name="pref_protection_delay_seconds_title">Odložit do ochránění</string>
   <string name="pref_qif_export_file_encoding_title">Kódování znaků</string>
-  <string name="pref_request_licence_summary">Pokud jste přispěli, požádejte o klíč pro Android-Id %1$s e-mailem.</string>
   <string name="pref_request_licence_title">Zažádejte klíč</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_title">Obnovit</string>

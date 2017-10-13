@@ -131,7 +131,6 @@
   <string name="grouping_year">Sene</string>
   <string name="grouping_yesterday">Dün</string>
   <string name="help_button_rate">Not ver veya değerlendir</string>
-  <string name="help_contextuel_help">Yardım menüsünde mevcut işlevler hakkında daha fazla bilgi bulabilirsiniz.</string>
   <string name="help_heading_credits">Hazırlayanlar</string>
   <string name="help_heading_license">Lisans</string>
   <string name="help_heading_whats_new">Yenilikler</string>
@@ -320,7 +319,6 @@
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Parola olmasa da izinli.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Parola gerekli.</string>
   <string name="pref_qif_export_file_encoding_title">Karakter kodlaması</string>
-  <string name="pref_request_licence_summary">Katkıda bulunduysanız, e-posta ile Android-Id %1$s için anahtar talep ediniz.</string>
   <string name="pref_request_licence_title">Anahtarı talep et</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Alternatif</string>
@@ -569,9 +567,7 @@
   <string name="warning_cannot_move_split_transaction">Bu bölünmüş muamele %1$s hesabına taşınamaz çünkü bu hesapla ilişkili transfer parçaları bulunmaktadır.</string>
   <string name="content_description_calculator_clear_button">Sıfırla tümünü</string>
   <string name="content_description_calculator_delete_button">Son rakamı sil</string>
-  <string name="paypal_transaction_id">Paypal Muamele Kimliği</string>
   <string name="paypal_callback_info">Muameleniz tamamlanmış ve alışverişiniz hakkında bir makbuz e-posta ile size gönderilmiştir. Bu muamelenin ayrıntılarını görüntülemek için hesabınıza www.paypal.com adresinde bağlanabilirsiniz.</string>
-  <string name="paypal_callback_later_clicked_info">Ayarlar ekranından ne zaman isterseniz bir anahtar talep edebilirsiniz.</string>
   <string name="search_transfer">Transfer için ara</string>
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="pref_sort_order_next_instance">Sonraki örnekleme</string>
@@ -677,7 +673,6 @@
   <string name="n_months">%s ay</string>
   <string name="professionalPriceShortInfo">ayda %s değerinden başlayan fiyatla</string>
   <string name="eu_vat_info">Görüntülenen fiyatlar Avrupa Birliği\'ndeki kullanıcılar için KDV\'yi içermemektedir.</string>
-  <string name="pref_contrib_purchase_title_renew">Lisansı yenile</string>
   <string name="licence_migration_info">{app_name} yeni bir lisans doğrulama mekanizması kullanmaktadır. Lütfen yeni bir anahtar talep edin.</string>
   <string name="valid_until">%s tarihine kadar geçerli</string>
   <!--%1$s date, %2$s price-->

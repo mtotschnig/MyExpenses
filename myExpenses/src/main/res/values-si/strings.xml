@@ -86,7 +86,6 @@
   <string name="grouping_year">අවුරුද්ද </string>
   <string name="grouping_yesterday">ඊයෙ </string>
   <string name="help_button_rate">තරාතිරම හෝ නැවත විචාරීම </string>
-  <string name="help_contextuel_help">කරුණාකර පාවිච්චි කළහැකි අංග පිලිබඳ වැඩි විස්තර උදව් මෙනුව තුලින් ලබාගන්න </string>
   <string name="help_heading_credits">ස්තුති  ප්‍රකාශ කිරම් </string>
   <string name="help_heading_license">බලපත්‍රය </string>
   <string name="help_heading_whats_new">කුමක්ද අලුත් </string>
@@ -252,7 +251,6 @@
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">මුරපදයක් නොමැතිව අනුමත කරනවා </string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">මුරපදයක් අවශ්‍යයි </string>
   <string name="pref_qif_export_file_encoding_title">අක්ෂර කේතාංකනය කිරීම</string>
-  <string name="pref_request_licence_summary">ඔබ දායක වූයේනම් අන්ඩ්රෝයිඩ් ඊ ඩි %1$s සදහා යතුර ව්ද්‍යුත් තැපෑලෙන් ඉලන්න </string>
   <string name="pref_request_licence_title">යතුර ඉල්ලන්න </string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_summary">දත්ත ගබඩාව සහ මනාප නැවත  පිහිටුවීම  සදහා  උපස්තයක් තෝරන්න </string>

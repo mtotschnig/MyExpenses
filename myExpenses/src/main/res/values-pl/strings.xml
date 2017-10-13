@@ -99,7 +99,6 @@
   <string name="grouping_year">Rok</string>
   <string name="grouping_yesterday">Wczoraj</string>
   <string name="help_button_rate">Oceń lub zrecenzuj</string>
-  <string name="help_contextuel_help">Proszę szukać więcej informacji o dostępnej funkcjonalności poprzez pozycję Pomoc w menu</string>
   <string name="help_heading_credits">O programie</string>
   <string name="help_heading_license">Licencja</string>
   <string name="help_heading_whats_new">Co nowego</string>
@@ -283,7 +282,6 @@
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Hasło nie jest wymagane.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Hasło jest wymagane.</string>
   <string name="pref_qif_export_file_encoding_title">Kodowanie znaków</string>
-  <string name="pref_request_licence_summary">Jeżeli przyczyniłeś się do aplikacji, poproś o klucz dla ID Androida %1$s </string>
   <string name="pref_request_licence_title">Poproś o klucz</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_summary">Wybierz kopię zapasową do przywrócenia bazy danych i ustawień.</string>

@@ -131,7 +131,6 @@
   <string name="grouping_year">Година</string>
   <string name="grouping_yesterday">Вчера</string>
   <string name="help_button_rate">Дайте оценка или критика</string>
-  <string name="help_contextuel_help">Моля, намерете повече информация за наличната функционалност чрез меню Помощ.</string>
   <string name="help_heading_credits">Кредити</string>
   <string name="help_heading_license">Лиценз</string>
   <string name="help_heading_whats_new">Какво ново</string>
@@ -320,7 +319,6 @@
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Разрешено без парола.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Изисква се парола.</string>
   <string name="pref_qif_export_file_encoding_title">Кодиране на знаците</string>
-  <string name="pref_request_licence_summary">Ако сте заплатили, поискайте ключ за андроид-ИД %1$s по електронната поща.</string>
   <string name="pref_request_licence_title">Поискайте ключ</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Алтернатива</string>
@@ -569,9 +567,7 @@
   <string name="warning_cannot_move_split_transaction">Тази разпределена транзакция не може да бъде преместена в сметка %1$s, защото има отнесени към сметката нейни части.</string>
   <string name="content_description_calculator_clear_button">Нулирай всичко</string>
   <string name="content_description_calculator_delete_button">Изтрии последната цифра</string>
-  <string name="paypal_transaction_id">Paypal идентификатор на транзакцията</string>
   <string name="paypal_callback_info">Транзакцията е завършена и квитанцията за покупката Ви е изпратена на електронната поща. За подробности по транзакцията вижте профила си във www.paypal.com.</string>
-  <string name="paypal_callback_later_clicked_info">От екрана с Настройки може да заявите ключ по всяко време.</string>
   <string name="search_transfer">Търсене на превод</string>
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="pref_sort_order_next_instance">Следваща инстанция</string>
@@ -677,7 +673,6 @@
   <string name="n_months">%s месеца</string>
   <string name="professionalPriceShortInfo">започва от %s / месец</string>
   <string name="eu_vat_info">За гражданите на Европейския съюз цените не включват ДДС.</string>
-  <string name="pref_contrib_purchase_title_renew">Подновяване на лиценза</string>
   <string name="licence_migration_info">{app_name} използва нов механизъм за валидиране на лицензи. Моля, поискайте нов ключ.</string>
   <string name="valid_until">Валиден до %s</string>
   <!--%1$s date, %2$s price-->

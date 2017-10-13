@@ -128,7 +128,6 @@
   <string name="grouping_year">Ano</string>
   <string name="grouping_yesterday">Ontem</string>
   <string name="help_button_rate">Avaliar ou dar opinião</string>
-  <string name="help_contextuel_help">Pode encontrar mais informação sobre as funcionalidades disponíveis através da Ajuda no menu.</string>
   <string name="help_heading_credits">Créditos</string>
   <string name="help_heading_license">Licença</string>
   <string name="help_heading_whats_new">Novidades</string>
@@ -317,7 +316,6 @@
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Permitido sem palavra-passe</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Requer palavra-passe</string>
   <string name="pref_qif_export_file_encoding_title">Codificação de caracteres</string>
-  <string name="pref_request_licence_summary">Se contribuiu, solicite por email uma chave para o Android-Id %1$s.</string>
   <string name="pref_request_licence_title">Solicitar uma chave</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Alternativo</string>
@@ -565,9 +563,7 @@
   <string name="warning_cannot_move_split_transaction">Esta transação dividida não pode ser movida para a conta %1$s porque existem partes da transferência que referem a esta conta.</string>
   <string name="content_description_calculator_clear_button">Reiniciar tudo</string>
   <string name="content_description_calculator_delete_button">Apagar o último dígito</string>
-  <string name="paypal_transaction_id">ID da transação Paypal</string>
   <string name="paypal_callback_info">A sua transação foi concluída e um recibo da sua compra foi enviado para o seu email. Pode aceder à sua conta em www.paypal.com para ver os detalhes desta transação.</string>
-  <string name="paypal_callback_later_clicked_info">A partir do ecrã de definições, pode solicitar uma chave em qualquer momento.</string>
   <string name="search_transfer">Pesquisar por transferência</string>
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="pref_sort_order_next_instance">Próxima ocorrência</string>

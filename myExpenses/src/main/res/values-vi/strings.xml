@@ -126,7 +126,6 @@
   <string name="grouping_year">Năm</string>
   <string name="grouping_yesterday">Hôm qua</string>
   <string name="help_button_rate">Xếp hạng hoặc xem đánh giá</string>
-  <string name="help_contextuel_help">Vui lòng đọc thêm thông tin về các tính năng hiện có thông qua phần menu trợ giúp.</string>
   <string name="help_heading_credits">Lời tri ân</string>
   <string name="help_heading_license">Giấy phép</string>
   <string name="help_heading_whats_new">Có gì mới</string>
@@ -313,7 +312,6 @@
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Được cho phép mà không cần mật khẩu.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Mật khẩu được yêu cầu.</string>
   <string name="pref_qif_export_file_encoding_title">Mã hóa ký tự</string>
-  <string name="pref_request_licence_summary">Nếu bạn đã đóng góp, hãy yêu cầu một dãy khóa cho Android-ID %1$s qua email.</string>
   <string name="pref_request_licence_title">Yêu cầu một khóa</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Cách khác</string>
@@ -554,9 +552,7 @@
   <string name="progress_dialog_updating_split_parts">Đang cập nhật các phần bị tách</string>
   <string name="content_description_calculator_clear_button">Đặt lại</string>
   <string name="content_description_calculator_delete_button">Xoá chữ số cuối cùng</string>
-  <string name="paypal_transaction_id">ID giao dịch PayPal</string>
   <string name="paypal_callback_info">Giao dịch của bạn đã hoàn tất và biên lai mua hàng của bạn đã được gửi qua email cho bạn. Bạn có thể đăng nhập vào tài khoản của bạn tại www.paypal.com để xem chi tiết giao dịch này.</string>
-  <string name="paypal_callback_later_clicked_info">Từ màn hình cài đặt, bạn có thể yêu cầu một mã mở khoá.</string>
   <string name="search_transfer">Tìm các khoản chuyển</string>
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="pref_sort_order_next_instance">Lần tiếp theo</string>

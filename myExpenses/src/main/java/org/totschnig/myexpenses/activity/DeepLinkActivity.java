@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Result;
@@ -35,23 +36,35 @@ public class DeepLinkActivity extends ProtectedFragmentActivity {
           String key = data.getQueryParameter("key");
           String email = data.getQueryParameter("email");
           if (isEmpty(key) || isEmpty(email)) {
-            showToast("Missing parameter key and/or email");
-            finish();
-          } else if (existingKey.equals("") || (existingKey.equals(key) && existingEmail.equals(email))) {
-            if (existingKey.equals("")) {
-              PrefKey.NEW_LICENCE.putString(key);
-              PrefKey.LICENCE_EMAIL.putString(email);
-            }
+            showMessage(getString(R.string.paypal_callback_info) + " Missing parameter key and/or email");
+          } else if (existingKey.equals("") || (existingKey.equals(key) && existingEmail.equals(email)) ||
+              !MyApplication.getInstance().getLicenceHandler().isContribEnabled()) {
+            PrefKey.NEW_LICENCE.putString(key);
+            PrefKey.LICENCE_EMAIL.putString(email);
             startTaskExecution(TASK_VALIDATE_LICENCE, new String[]{}, null, R.string.progress_validating_licence);
           } else {
-            showToast(String.format("There is already a licence active on this device, key: %s", existingKey));
-            finish();
+            showMessage(getString(R.string.paypal_callback_info) +
+                String.format(" There is already a licence active on this device, key: %s", existingKey));
           }
         } else {
           showWebSite();
         }
       }
     }
+  }
+
+  @Override
+  public void onMessageDialogDismissOrCancel() {
+    finish();
+  }
+
+  private void showMessage(CharSequence message) {
+    MessageDialogFragment.newInstance(
+        0,
+        message,
+        MessageDialogFragment.Button.okButton(),
+        null, null)
+        .show(getSupportFragmentManager(), "BUTTON_DISABLED_INFO");
   }
 
   private void showToast(CharSequence message) {
@@ -69,9 +82,8 @@ public class DeepLinkActivity extends ProtectedFragmentActivity {
     if (taskId == TaskExecutionFragment.TASK_VALIDATE_LICENCE) {
       if (o instanceof Result) {
         Result r = ((Result) o);
-        showToast(r.print(this));
+        showMessage(getString(R.string.paypal_callback_info) + " " + r.print(this));
       }
     }
-    finish();
   }
 }

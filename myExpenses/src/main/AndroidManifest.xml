@@ -162,7 +162,7 @@
         </activity>
 
         <activity
-            android:name=".activity.QifCSVImport"
+            android:name=".activity.QifImport"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.Dialog">
             <intent-filter>

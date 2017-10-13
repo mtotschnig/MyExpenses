@@ -19,7 +19,7 @@ import android.widget.Spinner;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.QifCSVImport;
+import org.totschnig.myexpenses.activity.QifImport;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.ExportFormat;
@@ -34,7 +34,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.KEY_FORMAT;
 
-public class QifCsvImportDialogFragment extends TextSourceDialogFragment implements
+public class QifImportDialogFragment extends TextSourceDialogFragment implements
     LoaderManager.LoaderCallbacks<Cursor>, OnItemSelectedListener {
   Spinner mAccountSpinner, mDateFormatSpinner, mCurrencySpinner, mEncodingSpinner;
   private SimpleCursorAdapter mAccountsAdapter;
@@ -45,8 +45,8 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
   private long accountId = 0;
   private CurrencyEnum currency = null;
 
-  public static final QifCsvImportDialogFragment newInstance(ExportFormat format) {
-    QifCsvImportDialogFragment f = new QifCsvImportDialogFragment();
+  public static final QifImportDialogFragment newInstance(ExportFormat format) {
+    QifImportDialogFragment f = new QifImportDialogFragment();
     Bundle args = new Bundle();
     args.putSerializable(KEY_FORMAT, format);
     f.setArguments(args);
@@ -100,7 +100,7 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
           .putString(PREFKEY_IMPORT_ENCODING, encoding)
           .putString(PREFKEY_IMPORT_DATE_FORMAT, format.name())
           .apply();
-      ((QifCSVImport) getActivity()).onSourceSelected(
+      ((QifImport) getActivity()).onSourceSelected(
           mUri,
           format,
           mAccountSpinner.getSelectedItemId(),
@@ -160,7 +160,7 @@ public class QifCsvImportDialogFragment extends TextSourceDialogFragment impleme
     if (getFormat().equals(ExportFormat.CSV)) {
       view.findViewById(R.id.import_select_types).setVisibility(View.GONE);
     }
-    mAccountSpinner = (Spinner) view.findViewById(R.id.Account);
+    mAccountSpinner = view.findViewById(R.id.Account);
     Context wrappedCtx = view.getContext();
     mAccountsAdapter = new SimpleCursorAdapter(wrappedCtx, android.R.layout.simple_spinner_item, null,
         new String[]{KEY_LABEL}, new int[]{android.R.id.text1}, 0);

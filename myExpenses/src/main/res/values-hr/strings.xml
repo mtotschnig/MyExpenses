@@ -101,7 +101,6 @@
   <string name="grouping_year">Godina</string>
   <string name="grouping_yesterday">Jučer</string>
   <string name="help_button_rate">Ocijeni ili ostavi recenziju</string>
-  <string name="help_contextuel_help">Za više informacija o funkcionalnosti vidite u sekciji Pomoć unutar glavnog izbornika</string>
   <string name="help_heading_credits">Zasluge</string>
   <string name="help_heading_license">Dozvola</string>
   <string name="help_heading_whats_new">Što je novo</string>
@@ -284,7 +283,6 @@
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Dozvoljeno bez lozinke.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Potrebna lozinka.</string>
   <string name="pref_qif_export_file_encoding_title">Kodiranje znakova</string>
-  <string name="pref_request_licence_summary">Ako ste pridonijeli, zatražite ključ za Android-ld %1$s putem e-maila.</string>
   <string name="pref_request_licence_title">Zatraži ključ</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_summary">Odaberi sigurnosnu kopiju za obnavljanje baze podataka i preferencija.</string>

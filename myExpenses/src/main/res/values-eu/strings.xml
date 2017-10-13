@@ -128,7 +128,6 @@
   <string name="grouping_year">Urtea</string>
   <string name="grouping_yesterday">Atzo</string>
   <string name="help_button_rate">Baloratu edo iruzkina egin</string>
-  <string name="help_contextuel_help">Menuko laguntza sarreran aurkituko duzu eskuragarri dauden funtzionaltasunen informazio gehiago.</string>
   <string name="help_heading_credits">Kredituak</string>
   <string name="help_heading_license">Lizentzia</string>
   <string name="help_heading_whats_new">Zer dago berri</string>
@@ -317,7 +316,6 @@
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Pasahitzik gabe baimenduta.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Pasahitza ezinbestekoa.</string>
   <string name="pref_qif_export_file_encoding_title">Karaktere-kodeketa</string>
-  <string name="pref_request_licence_summary">Lagundu baduzu, eskatu %1$s Android-Idaren  gakoa eposta bidez.</string>
   <string name="pref_request_licence_title">Eskatu gako bat</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Ordezkoa</string>
@@ -566,9 +564,7 @@
   <string name="warning_cannot_move_split_transaction">Banatutako transakzio hau ezin da %1$s kontura mugitu kontu honi erreferentzia egiten dioten transferentzia parteak daudelako.</string>
   <string name="content_description_calculator_clear_button">Berrezarri guztia</string>
   <string name="content_description_calculator_delete_button">Ezabatu azken digitoa</string>
-  <string name="paypal_transaction_id">Paypal transakzioaren IDa</string>
   <string name="paypal_callback_info">Zure transakzioa burutu da, eta zure erosketaren egiaztagiri bat bidali da zure e-postara. Zure kontura sartu zaitezke www.paypal.com helbidean eta transakzioaren xehetasunak ikusi.</string>
-  <string name="paypal_callback_later_clicked_info">Ezarpenen pantailan, gako bat eskatu dezakezu noiznahi.</string>
   <string name="search_transfer">Bilatu transferentzia</string>
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="pref_sort_order_next_instance">Hurrengo gertaera</string>

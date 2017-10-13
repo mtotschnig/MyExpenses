@@ -134,6 +134,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSF
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_EXPORT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_PRINT;
 
 /**
@@ -1386,5 +1387,10 @@ public class MyExpenses extends LaunchActivity implements
       return true;
     }
     return false;
+  }
+
+  @Override
+  protected boolean shouldKeepProgress(int taskId) {
+    return taskId == TASK_EXPORT;
   }
 }

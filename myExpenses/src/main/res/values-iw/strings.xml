@@ -128,7 +128,6 @@
   <string name="grouping_year">שנה</string>
   <string name="grouping_yesterday">אתמול</string>
   <string name="help_button_rate">דרג או כתוב סקירה</string>
-  <string name="help_contextuel_help">לקבלת מידע נוסף על הפונקציונליות הזמינה, עיין בסעיף תפריט העזרה.</string>
   <string name="help_heading_credits">נקודות זכות</string>
   <string name="help_heading_license">רשיון</string>
   <string name="help_heading_whats_new">מה חדש?</string>
@@ -317,7 +316,6 @@
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">מותרת ללא סיסמה.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">נדרשת סיסמה</string>
   <string name="pref_qif_export_file_encoding_title">קידוד תווים</string>
-  <string name="pref_request_licence_summary">אם תרמת, בקש מפתח עבור Android-Id %1$s בדוא\"ל.</string>
   <string name="pref_request_licence_title">בקש מפתח</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">חלופה</string>
@@ -566,9 +564,7 @@
   <string name="warning_cannot_move_split_transaction">לא ניתן להעביר את העסקה המפוצלת הזו לחשבון %1$s משום שישנם חלקי העברה המתייחסים לחשבון זה.</string>
   <string name="content_description_calculator_clear_button">אפס הכול</string>
   <string name="content_description_calculator_delete_button">מחק את הסיפרה האחרונה</string>
-  <string name="paypal_transaction_id">מזהה ID עסקה Paypal</string>
   <string name="paypal_callback_info">העסקה שלך הושלמה, וקבלה עבור הרכישה שלך נשלחה אליך בדוא\"ל. תוכל להיכנס לחשבון שלך בכתובת www.paypal.com כדי להציג פרטים על עסקה זו.</string>
-  <string name="paypal_callback_later_clicked_info">ממסך ההגדרות, תוכל לבקש מפתח בכל עת.</string>
   <string name="search_transfer">חפש עסקה</string>
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="pref_sort_order_next_instance">המקרה הבא</string>

@@ -99,7 +99,6 @@
   <string name="grouping_year">Any</string>
   <string name="grouping_yesterday">Ahir</string>
   <string name="help_button_rate">Doneu la vostra opinió</string>
-  <string name="help_contextuel_help">Podeu trobar més informació sobre la funcionalitat al menú d\'ajuda.</string>
   <string name="help_heading_credits">Crèdits</string>
   <string name="help_heading_license">Llicència</string>
   <string name="help_heading_whats_new">Novetats</string>
@@ -252,7 +251,6 @@
   <string name="pref_protection_delay_seconds_summary">Els segons d\'inactivitat que hauran de transcorre abans que l\'aplicació sigui blocada amb la contrasenya.</string>
   <string name="pref_protection_delay_seconds_title">Retard de la protecció</string>
   <string name="pref_qif_export_file_encoding_title">Codificació de caràcters</string>
-  <string name="pref_request_licence_summary">Si heu contribuït, demaneu una clau per a Android-Id %1$s per correu electrònic.</string>
   <string name="pref_request_licence_title">Demaneu una clau</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_summary">Seleccioneu una còpia de seguretat per restaurar la base de dades i preferències.</string>

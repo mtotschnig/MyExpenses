@@ -122,7 +122,6 @@
   <string name="grouping_year">Год</string>
   <string name="grouping_yesterday">Вчера</string>
   <string name="help_button_rate">Оставить отзыв</string>
-  <string name="help_contextuel_help">Вы можете найти дополнительные сведения о доступных возможностях через пункт меню Справка.</string>
   <string name="help_heading_credits">Создатели</string>
   <string name="help_heading_license">Лицензия</string>
   <string name="help_heading_whats_new">Что нового</string>
@@ -312,7 +311,6 @@
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Разрешено без пароля</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Требуется пароль</string>
   <string name="pref_qif_export_file_encoding_title">Кодировка</string>
-  <string name="pref_request_licence_summary">Если вы внесли вклад, попросите ключ для Android-Id %1$s по электронной почте.</string>
   <string name="pref_request_licence_title">Запросить ключ</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Альтернатива</string>

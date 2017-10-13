@@ -301,9 +301,13 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     getProtection().removeAsyncTaskFragment(false);
   }
 
+  protected boolean shouldKeepProgress(int taskId) {
+    return false;
+  }
+
   @Override
   public void onPostExecute(int taskId, Object o) {
-    getProtection().removeAsyncTaskFragment(taskId);
+    getProtection().removeAsyncTaskFragment(shouldKeepProgress(taskId));
     switch (taskId) {
       case TaskExecutionFragment.TASK_DELETE_TRANSACTION:
       case TaskExecutionFragment.TASK_DELETE_ACCOUNT:

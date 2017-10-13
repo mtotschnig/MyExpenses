@@ -115,7 +115,6 @@
   <string name="grouping_year">An</string>
   <string name="grouping_yesterday">Ieri</string>
   <string name="help_button_rate">Rata sau revizuirea</string>
-  <string name="help_contextuel_help">Puteţi găsi mai multe informaţii despre funcţionalităţile disponibile în meniul Ajutor</string>
   <string name="help_heading_credits">Generic</string>
   <string name="help_heading_license">Licenţă</string>
   <string name="help_heading_whats_new">Noutăţi</string>
@@ -301,7 +300,6 @@
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Permis fără parolă.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Parola este necesară.</string>
   <string name="pref_qif_export_file_encoding_title">Codificare caractere</string>
-  <string name="pref_request_licence_summary">Dacă aţi contribuit, solicitaţi o cheie pentru Android-Id %1$s prin email.</string>
   <string name="pref_request_licence_title">Solicită o cheie</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Alternativă</string>

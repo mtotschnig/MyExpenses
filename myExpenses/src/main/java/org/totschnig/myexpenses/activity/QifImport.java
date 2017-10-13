@@ -15,19 +15,19 @@
 
 package org.totschnig.myexpenses.activity;
 
-import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
-import org.totschnig.myexpenses.dialog.QifCsvImportDialogFragment;
-import org.totschnig.myexpenses.export.qif.QifDateFormat;
-import org.totschnig.myexpenses.model.ExportFormat;
-import org.totschnig.myexpenses.task.TaskExecutionFragment;
-
 import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.Bundle;
 
-public class QifCSVImport extends ProtectedFragmentActivity {
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
+import org.totschnig.myexpenses.dialog.QifImportDialogFragment;
+import org.totschnig.myexpenses.export.qif.QifDateFormat;
+import org.totschnig.myexpenses.model.ExportFormat;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
+
+public class QifImport extends ProtectedFragmentActivity {
 
   private ExportFormat format = ExportFormat.QIF;
 
@@ -36,12 +36,7 @@ public class QifCSVImport extends ProtectedFragmentActivity {
     setTheme(MyApplication.getThemeIdTranslucent());
     super.onCreate(savedInstanceState);
     if (savedInstanceState == null) {
-     /* try {
-        format = Account.ExportFormat.valueOf(getIntent().getStringExtra(TaskExecutionFragment.KEY_FORMAT));
-      } catch (IllegalArgumentException e) {
-        format = Account.ExportFormat.QIF;
-      }*/
-      QifCsvImportDialogFragment.newInstance(format).show(getSupportFragmentManager(), "QIF_IMPORT_SOURCE");
+      QifImportDialogFragment.newInstance(format).show(getSupportFragmentManager(), "QIF_IMPORT_SOURCE");
     }
   }
 
@@ -53,12 +48,10 @@ public class QifCSVImport extends ProtectedFragmentActivity {
       boolean withTransactions,
       boolean withCategories,
       boolean withParties, String encoding) {
-    TaskExecutionFragment taskExecutionFragment = /*format.equals(Account.ExportFormat.QIF) ?*/
+    TaskExecutionFragment taskExecutionFragment =
         TaskExecutionFragment.newInstanceQifImport(
             mUri, qifDateFormat, accountId, currency, withTransactions,
-            withCategories, withParties, encoding)/* :
-        TaskExecutionFragment.newInstanceCSVParse(
-            mUri, qifDateFormat, accountId, currency, encoding)*/;
+            withCategories, withParties, encoding);
     getSupportFragmentManager()
         .beginTransaction()
         .add(taskExecutionFragment,
@@ -68,6 +61,11 @@ public class QifCSVImport extends ProtectedFragmentActivity {
                 null, ProgressDialog.STYLE_SPINNER, true),
             ProtectionDelegate.PROGRESS_TAG)
         .commit();
+  }
+
+  @Override
+  protected boolean shouldKeepProgress(int taskId) {
+    return true;
   }
 
   @Override

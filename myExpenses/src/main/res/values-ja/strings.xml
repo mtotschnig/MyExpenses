@@ -130,7 +130,6 @@
   <string name="grouping_year">年</string>
   <string name="grouping_yesterday">昨日</string>
   <string name="help_button_rate">評価またはレビュー</string>
-  <string name="help_contextuel_help">ヘルプメニューから利用可能な機能の詳細情報を参照してください。</string>
   <string name="help_heading_credits">クレジット</string>
   <string name="help_heading_license">ライセンス</string>
   <string name="help_heading_whats_new">新着情報</string>
@@ -317,7 +316,6 @@
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">パスワードなしを許可。</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">パスワードが必要。</string>
   <string name="pref_qif_export_file_encoding_title">ｷｬﾗｸﾀｰ ｴﾝｺｰﾃﾞｨﾝｸﾞ</string>
-  <string name="pref_request_licence_summary">あなたが貢献した場合は、メールで Android-ID %1$s のキーをリクエストしてください。</string>
   <string name="pref_request_licence_title">キーをリクエスト</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">代替</string>
@@ -560,9 +558,7 @@
   <string name="warning_cannot_move_split_transaction">この分割取引は、この勘定を参照する振替パートがあるため、勘定 %1$s に移動できません。</string>
   <string name="content_description_calculator_clear_button">すべてリセット</string>
   <string name="content_description_calculator_delete_button">最後の数字を削除</string>
-  <string name="paypal_transaction_id">Paypal 取引 ID</string>
   <string name="paypal_callback_info">取引は完了しました。ご購入の領収書をメールで送信しました。www.paypal.com にあなたのアカウントでログインして、この取引の詳細を表示することができます。</string>
-  <string name="paypal_callback_later_clicked_info">設定画面から、いつでもこのキーをリクエストすることができます。</string>
   <string name="search_transfer">振替の検索</string>
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="pref_sort_order_next_instance">次のインスタンス</string>
@@ -668,7 +664,6 @@
   <string name="n_months">%s ヶ月</string>
   <string name="professionalPriceShortInfo">%s / 月 ～</string>
   <string name="eu_vat_info">表示されている EU 価格には、付加価値税は含まれていません。</string>
-  <string name="pref_contrib_purchase_title_renew">ライセンスの更新</string>
   <string name="licence_migration_info">{app_name}は新しいライセンス検証メカニズムを実装しています。 新しいキーを要求してください。</string>
   <string name="valid_until">%s まで</string>
   <!--%1$s date, %2$s price-->

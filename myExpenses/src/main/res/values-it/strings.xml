@@ -129,7 +129,6 @@
   <string name="grouping_year">anno</string>
   <string name="grouping_yesterday">ieri</string>
   <string name="help_button_rate">Voto o recensione</string>
-  <string name="help_contextuel_help">Potete trovare ulteriori informazioni sulle funzionalità disponibili tramite la voce Aiuto del menù.</string>
   <string name="help_heading_credits">Generico</string>
   <string name="help_heading_license">Licenza</string>
   <string name="help_heading_whats_new">Novità</string>
@@ -318,7 +317,6 @@
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Ammessi senza password.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Password richiesta.</string>
   <string name="pref_qif_export_file_encoding_title">Set di caratteri</string>
-  <string name="pref_request_licence_summary">Se hai contribuito, richiedi una chiave per Android-Id %1$s via email.</string>
   <string name="pref_request_licence_title">Richiedi una chiave</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Alternativo</string>
@@ -567,9 +565,7 @@
   <string name="warning_cannot_move_split_transaction">Questa operazione frazionata non può essere spostato per %1$s perché ci sono frazionamenti che fanno riferimento a questo conto.</string>
   <string name="content_description_calculator_clear_button">Reinizializzare tutti</string>
   <string name="content_description_calculator_delete_button">Eliminare l\'ultima cifra</string>
-  <string name="paypal_transaction_id">ID della transazione PayPal</string>
   <string name="paypal_callback_info">La transazione è stata completata e una ricevuta per l\'acquisto è stata inviata a voi. Può accedere al suo account su www.paypal.com per visualizzare i dettagli di questa transazione.</string>
-  <string name="paypal_callback_later_clicked_info">Dalla schermata delle impostazioni, è possibile richiedere una chiave in qualsiasi momento.</string>
   <string name="search_transfer">Ricerca per il trasferimento</string>
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="pref_sort_order_next_instance">Istanza successiva</string>

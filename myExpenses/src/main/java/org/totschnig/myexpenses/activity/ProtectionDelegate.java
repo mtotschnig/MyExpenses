@@ -32,16 +32,18 @@ import java.io.Serializable;
 /**
  * methods both needed by {@link ProtectedFragmentActivity} and now defunct
  * ProtectedFragmentActivityNoAppCompat
- * @author Michael Totschnig
  *
+ * @author Michael Totschnig
  */
 public class ProtectionDelegate {
   public static final String PROGRESS_TAG = "PROGRESS";
   public static final String ASYNC_TAG = "ASYNC_TASK";
   Activity ctx;
+
   public ProtectionDelegate(Activity ctx) {
     this.ctx = ctx;
   }
+
   protected void handleOnPause(AlertDialog pwDialog) {
     MyApplication app = MyApplication.getInstance();
     if (app.isLocked() && pwDialog != null)
@@ -50,6 +52,7 @@ public class ProtectionDelegate {
       app.setLastPause(ctx);
     }
   }
+
   protected AlertDialog hanldeOnResume(AlertDialog pwDialog) {
     MyApplication app = MyApplication.getInstance();
     if (app.shouldLock(ctx)) {
@@ -64,7 +67,7 @@ public class ProtectionDelegate {
     FragmentManager m = ((FragmentActivity) ctx).getSupportFragmentManager();
     FragmentTransaction t = m.beginTransaction();
     ProgressDialogFragment f = ((ProgressDialogFragment) m.findFragmentByTag(PROGRESS_TAG));
-    if (f!=null) {
+    if (f != null) {
       if (keepProgress) {
         f.onTaskCompleted();
       } else {
@@ -76,14 +79,11 @@ public class ProtectionDelegate {
     //we might want to call a new task immediately after executing the last one
     m.executePendingTransactions();
   }
-  public void removeAsyncTaskFragment(int taskId) {
-    removeAsyncTaskFragment(taskId == TaskExecutionFragment.TASK_QIF_IMPORT ||
-        taskId == TaskExecutionFragment.TASK_EXPORT);
-  }
+
   public void updateProgressDialog(Object progress) {
     FragmentManager m = ((FragmentActivity) ctx).getSupportFragmentManager();
     ProgressDialogFragment f = ((ProgressDialogFragment) m.findFragmentByTag(PROGRESS_TAG));
-    if (f!=null) {
+    if (f != null) {
       if (progress instanceof Integer) {
         f.setProgress((Integer) progress);
       } else if (progress instanceof String) {
@@ -91,8 +91,9 @@ public class ProtectionDelegate {
       }
     }
   }
+
   public <T> void startTaskExecution(int taskId, T[] objectIds,
-      Serializable extra, int progressMessage) {
+                                     Serializable extra, int progressMessage) {
     FragmentManager m = ((FragmentActivity) ctx).getSupportFragmentManager();
     if (m.findFragmentByTag(ASYNC_TAG) != null) {
       Toast.makeText(ctx.getBaseContext(),
@@ -102,10 +103,10 @@ public class ProtectionDelegate {
     } else {
       //noinspection AndroidLintCommitTransaction
       FragmentTransaction ft = m.beginTransaction()
-        .add(TaskExecutionFragment.newInstance(
-            taskId,
-            objectIds, extra),
-            ASYNC_TAG);
+          .add(TaskExecutionFragment.newInstance(
+              taskId,
+              objectIds, extra),
+              ASYNC_TAG);
       if (progressMessage != 0) {
         ft.add(ProgressDialogFragment.newInstance(progressMessage), PROGRESS_TAG);
       }

@@ -131,7 +131,6 @@
   <string name="grouping_year">Jahr</string>
   <string name="grouping_yesterday">Gestern</string>
   <string name="help_button_rate">Bewerten</string>
-  <string name="help_contextuel_help">Über den Menü-Eintrag Hilfe, können Sie mehr über die vorhandenen Funktionen erfahren.</string>
   <string name="help_heading_credits">Abspann</string>
   <string name="help_heading_license">Lizenz</string>
   <string name="help_heading_whats_new">Neue Funktionen</string>
@@ -320,7 +319,6 @@
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Ohne Passwort erlaubt.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Passwort wird benötigt.</string>
   <string name="pref_qif_export_file_encoding_title">Zeichenkodierung</string>
-  <string name="pref_request_licence_summary">Wenn Sie einen Beitrag geleistet haben, beantragen Sie einen Schlüssel für Android-Id %1$s per E-Mail.</string>
   <string name="pref_request_licence_title">Schlüssel beantragen</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Alternativ</string>
@@ -569,9 +567,7 @@
   <string name="warning_cannot_move_split_transaction">Diese mehrteilige Buchung kann nicht nach %1$s verschoben werden, denn es gibt Teilbeträge, die auf dieses Konto verweisen.</string>
   <string name="content_description_calculator_clear_button">Alle zurücksetzen</string>
   <string name="content_description_calculator_delete_button">Letzte Ziffer löschen</string>
-  <string name="paypal_transaction_id">PayPal Transaktionscode</string>
   <string name="paypal_callback_info">Danke für Ihre Zahlung. Ihre Transaktion wurde abgeschlossen und Sie erhalten per E-Mail eine Bestätigung für Ihren Kauf. Sie können sich unter www.paypal.de in Ihr Konto einloggen, um die Transaktionsdetails anzuzeigen.</string>
-  <string name="paypal_callback_later_clicked_info">Über den Bereich \"Einstellungen\" können Sie jederzeit einen Schlüssel beantragen.</string>
   <string name="search_transfer">Suche nach Umbuchung</string>
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="pref_sort_order_next_instance">Nächstes Vorkommen</string>
@@ -677,7 +673,6 @@
   <string name="n_months">%s Monate</string>
   <string name="professionalPriceShortInfo">ab %s / Monat</string>
   <string name="eu_vat_info">Die Preise für die in der Europäischen Union ansässigen Personen verstehen sich ohne Mehrwertsteuer.</string>
-  <string name="pref_contrib_purchase_title_renew">Lizenz erneuern</string>
   <string name="licence_migration_info">{app_name} implementiert einen neuen Lizenzvalidierungsmechanismus. Bitte fordern Sie einen neuen Schlüssel an.</string>
   <string name="valid_until">Bis %s</string>
   <!--%1$s date, %2$s price-->
