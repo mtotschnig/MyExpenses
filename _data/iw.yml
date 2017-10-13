@@ -1,4 +1,4 @@
-iw:
+he:
   imprint: חותם
   hero_main: "מנהל כספים אישי עבור אנדרואיד"
   hero_sub:
@@ -47,7 +47,6 @@ iw:
       csv_import: ייבוא CSV
       auto_backup: גיבוי אוטומטי
       cloud_sync: סנכרון לענן
-    extended-label: מורחב
   permissions-heading: |
     האפליקציה 'ההוצאות שלי' מחייבת את ההרשאות הבאות
   permissions-calendar: |

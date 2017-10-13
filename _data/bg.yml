@@ -48,7 +48,9 @@ bg:
       csv_import: Импорт от CSV
       auto_backup: Автоматичен бекъп
       cloud_sync: Синхронизация чрез облак
-    extended-label: Разширен
+      split_template: Шаблони и планове за разпределени транзакции
+    one-time-payment: Еднократно плащане
+    subscription: Абонамент
   permissions-heading: |
     Моите разходи изисква следните разрешения
   permissions-calendar: |

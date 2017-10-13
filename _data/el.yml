@@ -47,7 +47,6 @@ el:
       csv_import: Εισαγωγή CSV
       auto_backup: Ενεργοποίηση της αυτόματης δημιουργίας αντιγράφων ασφαλείας
       cloud_sync: Συγχρονισμός Συννέφου
-    extended-label: Εκτεταμένη
   permissions-heading: |
     Τα Έξοδά μου απαιτούν τις παρακάτω άδειες
   permissions-calendar: |

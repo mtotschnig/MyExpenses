@@ -47,7 +47,6 @@ es:
       csv_import: Importar desde CSV
       auto_backup: Permitir respaldo automático
       cloud_sync: Sincronización en la nube
-    extended-label: Extendido
   permissions-heading: |
     Mis Gastos requiere los siguientes permisos
   permissions-calendar: |

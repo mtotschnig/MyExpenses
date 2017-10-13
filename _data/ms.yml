@@ -47,7 +47,6 @@ ms_MY:
       csv_import: Import CSV
       auto_backup: Benarkan auto-sandar
       cloud_sync: Penyegerakan awan
-    extended-label: Lanjutan
   permissions-heading: |
     My Expenses memerlukan keizinan berikut
   permissions-calendar: |

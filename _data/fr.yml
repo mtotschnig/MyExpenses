@@ -38,6 +38,7 @@ fr:
     feature:
       accounts_unlimited: Nombre illimité de comptes
       plans_unlimited: Nombre d'échéances illimité
+      distribution: Diagramme circulaire (Répartition par catégorie)
       split_transaction: Opération de répartition
       security_question: Question de sécurité
       template_widget: Widget de modèles
@@ -47,7 +48,9 @@ fr:
       csv_import: Import CSV
       auto_backup: Auto-backup
       cloud_sync: Synchronisation dans le cloud
-    extended-label: Étendu
+      split_template: Modèles et échéances pour les opérations ventilées
+    one-time-payment: Paiement unique
+    subscription: Abonnement
   permissions-heading: |
     Mes Dépenses demande les permissions suivantes :
   permissions-calendar: |

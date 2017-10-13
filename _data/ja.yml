@@ -49,7 +49,6 @@ ja:
       auto_backup: 自動バックアップを有効にする
       cloud_sync: クラウド同期
       split_template: 分割取引用のテンプレートと計画
-    extended-label: 拡張
   permissions-heading: |
     マイ エクスペンスは次のアクセス許可が必要です
   permissions-calendar: |

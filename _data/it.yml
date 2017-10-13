@@ -38,6 +38,7 @@ it:
     feature:
       accounts_unlimited: Numero illimitato di conti
       plans_unlimited: Numero illimitato di piani
+      distribution: Grafico a torta (Distribuzione per categoria)
       split_transaction: Operazione frazionata
       security_question: Domanda di sicurezza
       template_widget: Widget modelli
@@ -47,7 +48,9 @@ it:
       csv_import: Importazione CSV
       auto_backup: Attivare il backup automatico
       cloud_sync: Sincronizzazione cloud
-    extended-label: Esteso
+      split_template: Modelli e piani per le transazioni divise
+    one-time-payment: Pagamento unico
+    subscription: Sottoscrizione
   permissions-heading: |
     Le mie spese richiede le seguenti autorizzazioni
   permissions-calendar: |

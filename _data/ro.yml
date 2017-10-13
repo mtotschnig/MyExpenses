@@ -45,7 +45,6 @@ ro:
       ad_free: Fără reclame
       csv_import: CSV import
       auto_backup: Activează auto-backup
-    extended-label: Extins
   permissions-heading: |
     Cheltuielile Mele necesită următoarele permisiuni
   permissions-calendar: |

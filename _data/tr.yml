@@ -49,7 +49,6 @@ tr:
       auto_backup: Otomatik yedekleme
       cloud_sync: Bulut eşleşmesi
       split_template: Bölünmüş muameleler için şablonlar ve planlamalar
-    extended-label: Genişletilmiş
   permissions-heading: |
     Harcamalarım aşağıdaki izinlere ihtiyaç duyar:
   permissions-calendar: |

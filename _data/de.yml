@@ -48,7 +48,9 @@ de:
       csv_import: CSV import
       auto_backup: Automatisches Backup
       cloud_sync: Cloud-Synchronisierung
-    extended-label: Erweitert
+      split_template: Vorlagen und Pläne für mehrteilige Buchungen
+    one-time-payment: Einmalige Zahlung
+    subscription: Abonnement
   permissions-heading: |
     Meine Ausgaben verwendet folgende Berechtigungen
   permissions-calendar: |

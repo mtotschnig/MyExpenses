@@ -47,7 +47,6 @@ eu:
       csv_import: CSV inportazioa
       auto_backup: Babeskopia automatikoa
       cloud_sync: Sinkronizazioa hodeian
-    extended-label: Hedatua
   permissions-heading: |
     Nire Gastuak honako baimen hauek behar ditu:
   permissions-calendar: |

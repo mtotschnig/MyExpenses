@@ -49,7 +49,6 @@ en:
       auto_backup: Auto-backup
       cloud_sync: Cloud synchronization
       split_template: Templates and plans for split transactions
-    extended-label: Extended
     one-time-payment: One-time payment
     subscription: Subscription
   permissions-heading: |

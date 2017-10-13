@@ -45,7 +45,6 @@ ru:
       ad_free: Без рекламы
       csv_import: Импорт данных в формате CSV
       auto_backup: Включить авто-бэкап
-    extended-label: Расширенный
   permissions-heading: |
     Приложению Мои расходы необходимы следующие разрешения:
   permissions-calendar: |
