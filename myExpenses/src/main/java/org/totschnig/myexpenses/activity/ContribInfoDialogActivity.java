@@ -195,7 +195,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
                     Toast.makeText(
                         ContribInfoDialogActivity.this,
                         String.format("%s (%s) %s", getString(R.string.licence_validation_premium),
-                            getString(R.string.contrib_key), getString(R.string.thank_you)),
+                            getString(keyResId), getString(R.string.thank_you)),
                         Toast.LENGTH_SHORT).show();
                     if (keyResId == R.string.professional_key) {
                       licenceHandler.registerSubscription(purchase.getSku());
