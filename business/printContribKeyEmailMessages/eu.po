@@ -1,0 +1,26 @@
+# 
+# Translators:
+# Osoitz <oelkoro@gmail.com>, 2016
+msgid ""
+msgstr ""
+"Project-Id-Version: My Expenses\n"
+"PO-Revision-Date: 2017-09-23 22:35+0000\n"
+"Last-Translator: Osoitz <oelkoro@gmail.com>\n"
+"Language-Team: Basque (http://www.transifex.com/mtotschnig/my-expenses/language/eu/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: eu\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Thankyou"
+msgstr "Zure kontribuzioak Nire Gastuak garatzen jarraitzea babesten du. Eskerrik Asko!"
+
+msgid "Open Link"
+msgstr "Ireki lotura hau zure Nire Gastuak aplikazioa duen Android gailuan."
+
+msgid "Alternative Settings"
+msgstr "Bestela %s sartu dezakezu aplikazio barneko Ezarpen pantailan."
+
+msgid "Best regards"
+msgstr "Agur bero bat"

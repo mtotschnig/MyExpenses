@@ -1,0 +1,27 @@
+# 
+# Translators:
+# Hieu Van <inactive+hieugeek@transifex.com>, 2016
+# Hieu Van, 2017
+msgid ""
+msgstr ""
+"Project-Id-Version: My Expenses\n"
+"PO-Revision-Date: 2017-09-23 22:35+0000\n"
+"Last-Translator: Hieu Van\n"
+"Language-Team: Vietnamese (http://www.transifex.com/mtotschnig/my-expenses/language/vi/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: vi\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "Thankyou"
+msgstr "Sự đóng góp của bạn giúp cho quá trình phát triển Quản lý chi tiêu sau này được thuận lợi. Cảm ơn bạn!"
+
+msgid "Open Link"
+msgstr "Mở liên kết này trên thiết bị Android của bạn với ứng dụng Quản lý chi tiêu."
+
+msgid "Alternative Settings"
+msgstr "Mặt khác, bạn có thể nhập %s từ phần Cài đặt trong ứng dụng."
+
+msgid "Best regards"
+msgstr "Trân trọng"
