@@ -72,6 +72,8 @@
       <xsl:when test="$lang = 'fr'">fr-FR</xsl:when>
       <xsl:when test="$lang = 'ja'">ja-JP</xsl:when>
       <xsl:when test="$lang = 'eu'">eu-ES</xsl:when>
+      <xsl:when test="$lang = 'tr'">tr-TR</xsl:when>
+      <xsl:when test="$lang = 'it'">it-IT</xsl:when>
       <xsl:otherwise><xsl:value-of select="$lang"/></xsl:otherwise>
     </xsl:choose>
   </xsl:template>
