@@ -172,7 +172,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
                 "USAGES" : "ALPHABETIC");
       }
       VersionDialogFragment.newInstance(prev_version, showImportantUpgradeInfo)
-          .show(getSupportFragmentManager(), "VERSION_INFO");
+          .show(getSupportFragmentManager(), TAG_VERSION_INFO);
     } else {
       if (MyApplication.getInstance().getLicenceHandler().hasLegacyLicence() &&
           !PrefKey.LICENCE_MIGRATION_INFO_SHOWN.getBoolean(false)) {
