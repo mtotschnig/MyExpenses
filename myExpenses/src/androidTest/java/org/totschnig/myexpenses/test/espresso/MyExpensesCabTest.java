@@ -5,6 +5,7 @@ import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.RemoteException;
+import android.support.test.filters.FlakyTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
@@ -85,6 +86,7 @@ public final class MyExpensesCabTest {
   }
 
   @Test
+  @FlakyTest
   public void cloneCommandIncreasesListSize() {
     int origListSize = waitForAdapter().getCount();
     onData(is(instanceOf(Cursor.class)))
