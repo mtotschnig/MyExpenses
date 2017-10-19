@@ -17,6 +17,7 @@ import static android.text.TextUtils.isEmpty;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_VALIDATE_LICENCE;
 
 public class DeepLinkActivity extends ProtectedFragmentActivity {
+  private boolean isPdt = true; //PaypalDataTransfer
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -35,16 +36,18 @@ public class DeepLinkActivity extends ProtectedFragmentActivity {
           String existingEmail = PrefKey.LICENCE_EMAIL.getString("");
           String key = data.getQueryParameter("key");
           String email = data.getQueryParameter("email");
+          isPdt = data.getBooleanQueryParameter("isPdt", true);
+
           if (isEmpty(key) || isEmpty(email)) {
-            showMessage(getString(R.string.paypal_callback_info) + " Missing parameter key and/or email");
+            showMessage("Missing parameter key and/or email");
           } else if (existingKey.equals("") || (existingKey.equals(key) && existingEmail.equals(email)) ||
               !MyApplication.getInstance().getLicenceHandler().isContribEnabled()) {
             PrefKey.NEW_LICENCE.putString(key);
             PrefKey.LICENCE_EMAIL.putString(email);
             startTaskExecution(TASK_VALIDATE_LICENCE, new String[]{}, null, R.string.progress_validating_licence);
           } else {
-            showMessage(getString(R.string.paypal_callback_info) +
-                String.format(" There is already a licence active on this device, key: %s", existingKey));
+            showMessage(String.format(
+                "There is already a licence active on this device, key: %s", existingKey));
           }
         } else {
           showWebSite();
@@ -58,10 +61,12 @@ public class DeepLinkActivity extends ProtectedFragmentActivity {
     finish();
   }
 
-  private void showMessage(CharSequence message) {
+  private void showMessage(final CharSequence message) {
+    String messageToShow = isPdt ? getString(R.string.paypal_callback_info) + " " : "";
+    messageToShow += message;
     MessageDialogFragment.newInstance(
         0,
-        message,
+        messageToShow,
         MessageDialogFragment.Button.okButton(),
         null, null)
         .show(getSupportFragmentManager(), "BUTTON_DISABLED_INFO");
@@ -82,7 +87,7 @@ public class DeepLinkActivity extends ProtectedFragmentActivity {
     if (taskId == TaskExecutionFragment.TASK_VALIDATE_LICENCE) {
       if (o instanceof Result) {
         Result r = ((Result) o);
-        showMessage(getString(R.string.paypal_callback_info) + " " + r.print(this));
+        showMessage(r.print(this));
       }
     }
   }
