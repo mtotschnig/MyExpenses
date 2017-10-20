@@ -95,6 +95,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.APP_DIR;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP_INFO;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACUP_CLOUD;
+import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_ADVANCED;
 import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_CONTRIB;
 import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_MANAGE;
 import static org.totschnig.myexpenses.preference.PrefKey.CONTRIB_PURCHASE;
@@ -283,10 +284,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       pref = findPreference(TRACKING);
       try {
         Class.forName("org.totschnig.myexpenses.util.tracking.PlatformTracker");
+        pref.setOnPreferenceChangeListener(this);
       } catch (ClassNotFoundException e) {
-        pref.setEnabled(false);
+        ((PreferenceCategory) findPreference(CATEGORY_ADVANCED)).removePreference(pref);
       }
-      pref.setOnPreferenceChangeListener(this);
 
       ListPreference languagePref = ((ListPreference) findPreference(UI_LANGUAGE));
       languagePref.setEntries(getLocaleArray(getContext()));

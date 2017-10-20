@@ -296,7 +296,9 @@
             android:key="@string/pref_send_feedback_key"
             android:title="@string/pref_send_feedback_title"/>
     </PreferenceCategory>
+
     <PreferenceCategory
+        android:key="@string/pref_category_advanced_key"
         android:title="@string/pref_category_title_advanced">
         <Preference
             android:key="@string/pref_custom_currency_key"

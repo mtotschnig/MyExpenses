@@ -76,6 +76,7 @@
     <string name="pref_debug_logging_key">debug_logging</string>
     <string name="pref_sync_notification_key">sync_notification</string>
     <string name="pref_follow_gplus_key">follow_gplus</string>
+    <string name="pref_category_advanced_key">category_advanced</string>
 
     <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
     <string-array name="additional_credits">
