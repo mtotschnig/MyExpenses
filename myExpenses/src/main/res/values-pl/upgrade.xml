@@ -18,5 +18,14 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_279">
+    <item>Możliwość konfiguracji symboli walut</item>
+  </string-array>
+  <string-array name="whats_new_276">
+    <item>Mniejsze usprawnienia</item>
+  </string-array>
+  <string-array name="whats_new_275">
+    <item>Synchronizacja pomiędzy urządzeniami przez chmurę</item>
+  </string-array>
   <string name="bug_fixes">Poprawki błędów</string>
 </resources>

@@ -35,10 +35,12 @@
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Sin anuncios</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Número de cuentas ilimitadas</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Adjuntar imagen a la transacción</string>
+  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Gráfico de sectores (Distribución por categoría)</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Número de proyectos ilimitados</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Exportar lista de transacciones a PDF</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Plantilla de widget</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Importar desde CSV</string>
+  <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Número ilimitado de plantillas divididas</string>
   <string name="licence_status_free">Gratis</string>
   <string name="contrib_key">Clave Contrib</string>
   <string name="extended_key">Clave Extendida</string>
@@ -70,13 +72,14 @@
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s es una característica premium (%2$s).</string>
   <string name="dialog_contrib_reminder_remove_limitation">Elimine esta limitación y acceda a más características actualizando <i>{app_name}</i>.</string>
-  <string name="dialog_contrib_text_1"><i>{app_name}</i> no tiene publicidad y es de código abierto.</string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i> es de código abierto.</string>
   <string name="dialog_contrib_text_2">Por favor, contribuya actualizando <i>{app_name}</i> y obtenga acceso sin limitaciones a las siguientes características:</string>
   <string name="dialog_contrib_usage_count">Usos gratuitos restantes</string>
   <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Puede usarlo hasta %1$d veces con su actual licencia (%2$s).</string>
   <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Puede usarlo por %1$d días con su actual licencia (%2$s).</string>
   <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Su actual licencia (%2$s) le permite crear %1$d cuentas.</string>
   <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Su licencia actual (%2$s) le permite crear %1$d proyectos.</string>
+  <string name="dialog_contrib_usage_limit_split_templates">El estado actual de su licencia (%1$s) le permite crear 1 plantilla dividida</string>
   <string name="dialog_export_delete">Borrar transacciones exportadas</string>
   <string name="dialog_export_not_yet_exported">Exportar sólo las transacciones aún no exportadas</string>
   <string name="dialog_password_activate_protection">Activar protección por contraseña</string>
@@ -85,7 +88,7 @@
   <string name="dialog_password_new_password_confirmation">Nueva contraseña (confirmación)</string>
   <string name="dialog_remind_later">Más tarde</string>
   <string name="dialog_remind_no">No, gracias</string>
-  <string name="dialog_remind_rate_how_many_stars">¿Cuántas estrellas le darías a {app_name}?</string>
+  <string name="dialog_remind_rate_how_many_stars">¿Cuántas estrellas le daría a {app_name}?</string>
   <string name="dialog_remind_rate_1">Por favor, tómese un momento para calificar y dejar una reseña de {app_name}.</string>
   <string name="dialog_remind_rate_2">Sus comentarios nos permiten añadir mejoras y ampliaciones continuamente.</string>
   <string name="dialog_remind_rate_1_suggest_improvement">Por favor, tómese un momento para enviarnos sus sugerencias para futuras mejoras.</string>
@@ -615,6 +618,7 @@
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sincronización en la nube</string>
   <string name="licence_status">Su licencia</string>
   <string name="all_contrib_key_features">Todas las características de licencia Contrib</string>
+  <string name="all_extended_key_features">Todas las características de la llave Extendida</string>
   <string name="upgrade_now">Actualice ahora</string>
   <string name="pref_backup_cloud_title">Guardar con el servicio de sincronización</string>
   <string name="pref_backup_cloud_summary">Además del almacenamiento local del dispositivo, la copia de seguridad puede copiarse a un servicio remoto.</string>
@@ -641,7 +645,7 @@
   <string name="pref_webdav_timeout_title">Límite de tiempo de WebDAV</string>
   <string name="sync_state_restored">Se restauró el estado de sincronización para %d cuentas.</string>
   <string name="sync_state_could_not_be_restored">No se pudo restaurar el estado de sincronización para %d cuentas.</string>
-  <string name="onboarding_ui_title">{app_name} se adapta a tus preferencias</string>
+  <string name="onboarding_ui_title">{app_name} se adapta a sus preferencias</string>
   <string name="onboarding_data_title">Configuremos tu primera cuenta</string>
   <string name="onboarding_get_started">Empecemos</string>
   <string name="onboarding_more_options">Más opciones</string>
@@ -654,5 +658,30 @@
   <string name="pref_debug_logging_summary">Escribir información de depuración en el registro de sistema</string>
   <string name="plan_custom_recurrence_info">Por favor, guarde la plantilla primero. Se abrirá el proyecto en la aplicación de calendario, desde donde podrá configurar una reaparición personalizada.</string>
   <string name="storage_permission_required">La fuente seleccionada sólo podrá leerse si da permiso de lectura desde un almacenamiento externo.</string>
+  <string name="picture">Imagen</string>
+  <string name="menu_create_template_for_split">Nueva plantilla dividida</string>
+  <string name="progress_validating_licence">Validando licencia</string>
+  <string name="licence_validation_error_expired">Licencia caducada</string>
+  <string name="licence_validation_error_device_limit_exceeded">Límite de dispositivos excedido. Por favor, elimine una licencia de otro dispositivo.</string>
+  <string name="error">Error (%s)</string>
+  <string name="button_validate">Validar</string>
+  <string name="licence_key">Llave de licencia</string>
+  <string name="licence_removal_information">Si ya no necesita la funcionalidad Premium en su dispositivo, puede eliminar la llave de licencia. Esto liberará la llave de activación para un dispositivo más. La llave puede activada hasta en %d dispositivos.</string>
+  <string name="progress_removing_licence">Quitando licencia</string>
+  <string name="licence_removal_success">La llave de licencia se quitó satisfactoriamente de su dispositivo.</string>
+  <string name="professional_key">Llave Profesional</string>
+  <string name="n_months">%s meses</string>
+  <string name="professionalPriceShortInfo">Empezar desde %s / mes</string>
+  <string name="eu_vat_info">Para residentes de la Unión Europea, los precios pueden aparecer sin IVA.</string>
+  <string name="licence_migration_info">{app_name} implementa un nuevo sistema de validación de licencia. Por favor, solicite una llave nueva.</string>
+  <string name="valid_until">Hasta %s</string>
   <!--%1$s date, %2$s price-->
+  <string name="extend_until">Extendida hasta %1$s por %2$s</string>
+  <string name="extended_upgrade_goodie_github">Se han añadido %d meses adicionales a los usuarios que ya tuvieran una licencia Extendida.</string>
+  <string name="extended_upgrade_goodie_subscription">Para los usuarios que ya posean una licencia Extendida, se aplicará un 50%% del precio normal (%s) durante el primer año.</string>
+  <string name="switch_to_yearly">Cambiar a suscripción anual</string>
+  <string name="switch_to_monthly">Cambiar a suscripción mensual</string>
+  <string name="extend_validity">Extender validez</string>
+  <string name="progress_dialog_fetching_data_from_sync_backend">Adjuntando información desde el servicio remoto. Esto puede llevar algún tiempo.</string>
+  <string name="donate_button_invoice">Factura</string>
 </resources>

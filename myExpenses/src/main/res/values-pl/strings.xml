@@ -2,6 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="account">Konto</string>
   <!--Label in form for payment method, where user checks for which account types the method is applicable-->
+  <string name="account_types">Typy konta</string>
   <string name="account_type_asset">Rachunek aktywów</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">Konto zasobów</string>
@@ -30,11 +31,14 @@
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Brak reklam</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Nieskończona ilość kont</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Dopinanie obrazów do transakcji</string>
+  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Wykres kołowy (Wydatki na kategorie)</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Nieograniczona ilość planów</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Eksport listy transakcji do PDF</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Szablon widget</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Import CSV</string>
+  <string name="licence_status_free">Darmowa</string>
   <string name="contrib_key">Klucz Contrib</string>
+  <string name="extended_key">Klucz Rozszerzony</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">Wymaga %s.</string>
   <string name="currency">Waluta</string>
@@ -46,6 +50,10 @@
   <string name="description">Opis</string>
   <string name="dialog_balance_delete">Usuń pojednane transakcje</string>
   <!--User confirms that he wants to discard changes-->
+  <string name="dialog_confirm_button_discard">Odrzuć</string>
+  <string name="dialog_confirm_discard_changes">Odrzucić zmiany?</string>
+  <string name="dialog_confirm_discard_new_transaction">Odrzucić nową transakcję?</string>
+  <string name="dialog_confirm_discard_new_template">Odrzucić nowy szablon?</string>
   <string name="dialog_command_disabled_reset_account">Brak transakcji do eksportu</string>
   <string name="dialog_command_disabled_distribution">Żadna z transakcji nie została zmapowana do kategorii na tym koncie.</string>
   <string name="dialog_contrib_no">Nie teraz</string>
@@ -69,6 +77,7 @@
   <string name="dialog_title_attention">Uwaga</string>
   <!--%1$s is replace with account label-->
   <string name="dialog_title_contrib_feature">Funkcja premium</string>
+  <string name="dialog_title_extended_feature">Funkcja rozszerzona</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
   <string name="dialog_title_template_title">Określ nazwę</string>
@@ -408,6 +417,7 @@
   <!--Move an account up in the account list-->
   <string name="menu_sort_up">Do góry</string>
   <!--Move an account down in the account list-->
+  <string name="menu_sort_down">W dół</string>
   <string name="create_new_folder_fail">Nie udało się utworzyć folderu</string>
   <string name="widget_title_accounts">Moje konta</string>
   <string name="widget_title_templates">Moje szablony</string>
@@ -449,7 +459,9 @@
   <string name="menu_undelete_transaction">Cofnij usunięcie</string>
   <string name="slash_forbidden_in_filename">Znak / nie jest dozwolony w nazwach plików</string>
   <string name="menu_categories_export">Eksport do QIF</string>
+  <string name="csv_import_preview">Podgląd</string>
   <!--Label for column where user can check rows to be discarded from import-->
+  <string name="cvs_import_discard">Odrzuć</string>
   <string name="pref_auto_backup_title">Włącz automatyczną kopię zapasową</string>
   <string name="pref_auto_backup_summary">Wykonaj kopię zapasowa bazy danych codziennie o określonej godzinie (tylko wtedy, gdy dane nie zmieniły)</string>
   <string name="pref_auto_backup_time_title">Godzina automatycznej kopii zapasowej</string>
@@ -464,5 +476,10 @@
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="template">Szablon</string>
+  <string name="picture">Obraz</string>
+  <string name="licence_validation_error_expired">Licencja wygasła</string>
+  <string name="error">Błąd (%s)</string>
+  <string name="licence_key">Klucz licencji</string>
+  <string name="progress_removing_licence">Usuwanie licencji</string>
   <!--%1$s date, %2$s price-->
 </resources>

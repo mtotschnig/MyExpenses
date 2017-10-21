@@ -673,4 +673,6 @@
   <string name="switch_to_yearly">年間サブスクリプションに切り替える</string>
   <string name="switch_to_monthly">月間サブスクリプションに切り替える</string>
   <string name="extend_validity">有効期限を延長する</string>
+  <string name="progress_dialog_fetching_data_from_sync_backend">リモートのバックエンドからデータを取得しています。これはしばらく時間がかかることがあります。</string>
+  <string name="donate_button_invoice">請求書</string>
 </resources>

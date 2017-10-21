@@ -18,6 +18,15 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_282">
+    <item>תבניות ותוכניות לעסקאות מפוצלות</item>
+    <item>היכרות עם מפתח רישיון מקצועי</item>
+    <item>ווידג\'טים של מסך הבית מתאימים לגודל גופנים מועדף</item>
+  </string-array>
+  <string-array name="whats_new_281">
+    <item>אפשרות לתוכניות מותאמות אישית</item>
+    <item>תקן אחסון ענן של גיבויים גדולים</item>
+  </string-array>
   <string-array name="whats_new_280">
     <item>תרגום לעברית</item>
     <item>בחירת צבע חשבון מותאם אישית</item>

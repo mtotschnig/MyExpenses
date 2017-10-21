@@ -63,7 +63,9 @@
   <string name="help_ExpenseEdit_splitPartTransfer_title">טופס עבור העברה עם חלקים מפוצלים</string>
   <string name="help_ExpenseEdit_templateCategory_title">טופס לתבניות עסקה</string>
   <string name="help_ExpenseEdit_templateTransfer_title">טופס לתבניות העברה</string>
+  <string name="help_ExpenseEdit_templateSplit_title">טופס לתבניות מפוצלות</string>
   <string name="help_ExpenseEdit_transaction_info">השתמש בטופס זה כדי להזין עסקה חדשה או לערוך עסקה קיימת. השתמש בתפריט הנפתח שבשורת הפעולות כדי לעבור לטופס להוספת העברה חדשה או עסקה מפוצלת.</string>
+  <string name="help_ExpenseEdit_templateCategory_info">השתמש בטופס זה כדי להזין תבנית חדשה או לערוך תבנית קיימת. השתמש בתפריט הנפתח בשורת הפעולות כדי לעבור בין תבניות לעסקאות, העברות ופיצולים.</string>
   <string name="help_ExpenseEdit_split_info">עסקת פיצול היא עסקה אחת המפוצלת בחלקים, שבהם ניתן להקצות כל חלק לקטגוריה אחרת, או להעביר לחשבון אחר.</string>
   <string name="form_account_help_text">בחר בחשבון שאליו משתייכת העסקה.</string>
   <string name="form_date.time_help_text">הזן את השעה שבה בוצעה העסקה.</string>

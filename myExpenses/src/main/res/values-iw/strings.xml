@@ -35,10 +35,12 @@
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">ללא פרסומות</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">מספר חשבונות בלתי מוגבל</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">צרף תמונה לעסקה</string>
+  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">תרשים עוגה (הפצה לקטגוריה)</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">מספר תוכניות בלתי מוגבל</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">ייצא רשימת עסקאות ל- PDF</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">תבנית widget</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">ייבוא CSV</string>
+  <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">מספר בלתי מוגבל של תבניות מפוצלות</string>
   <string name="licence_status_free">חופשי</string>
   <string name="contrib_key">מפתח לתורם</string>
   <string name="extended_key">מפתח מורחב</string>
@@ -77,6 +79,7 @@
   <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">אתה יכול להשתמש בזה ל- %1$dימים במצב הנוכחי של רשיונך (%2$s).</string>
   <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">המצב הנוכחי של רשיונך (%2$s) מאפשר לך ליצור %1$dחשבונות</string>
   <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">המצב הנוכחי של רשיונך (%2$s)מאפש רך ליצור%1$dתוכניות.</string>
+  <string name="dialog_contrib_usage_limit_split_templates">המצב הנוכחי של רשיונך (%1$s) מאפשר לך ליצור תבנית מפוצלת אחת.</string>
   <string name="dialog_export_delete">מחק עסקאות שיוצאו</string>
   <string name="dialog_export_not_yet_exported">יצא רק עסקאות שלא יוצאו עדיין</string>
   <string name="dialog_password_activate_protection">הפעל הגנה באמצעות סיסמה</string>
@@ -615,6 +618,7 @@
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">סנכרון לענן</string>
   <string name="licence_status">מצב הרשיון שלך</string>
   <string name="all_contrib_key_features">כל התכונות של מפתח Contrib</string>
+  <string name="all_extended_key_features">כל התכונות של מפתח מורחב</string>
   <string name="upgrade_now">שדרג עכשיו</string>
   <string name="pref_backup_cloud_title">אחסן על סנכרון backend</string>
   <string name="pref_backup_cloud_summary">בנוסף לאחסון מקומי בהתקן, ניתן להעתיק את קובץ הגיבוי אל ממשק מרוחק.</string>
@@ -650,5 +654,34 @@
   <string name="dialog_button_add">הוסף</string>
   <string name="template_create_error">שגיאה בעת שמירת תבנית</string>
   <string name="contributed_by">נתרם על ידי %s</string>
+  <string name="pref_sync_notification_summary">הודע על התקדמות הסנכרון</string>
+  <string name="pref_debug_logging_summary">כתוב מידע לצורך פתרון באגים ביומן המערכת</string>
+  <string name="plan_custom_recurrence_info">שמור תחילה את התבנית. לאחר מכן, התוכנית תיפתח באפליקציית היומן, שבה תוכל להגדיר הישנות מותאמת אישית.</string>
+  <string name="storage_permission_required">ניתן לקרוא את המקור שבחרת רק אם אתה מעניק את ההרשאה לקריאה מאחסון חיצוני.</string>
+  <string name="picture">תמונה</string>
+  <string name="menu_create_template_for_split">תבנית חדשה מפוצלת</string>
+  <string name="progress_validating_licence">אימות רשיון</string>
+  <string name="licence_validation_error_expired">רשיון פג תוקף</string>
+  <string name="licence_validation_error_device_limit_exceeded">חריגה ממגבלת המכשירים. הסר רישיון ממכשיר אחר.</string>
+  <string name="error">שגיאה (%s)</string>
+  <string name="button_validate">אמת רשיון</string>
+  <string name="licence_key">מפתח רשיון</string>
+  <string name="licence_removal_information">אם אינך זקוק עוד לפונקציונליות פרימיום במכשיר זה, באפשרותך להסיר את מפתח הרישיון. זה משחרר את המפתח להפעלה במכשיר אחד נוסף. ניתן להפעיל את המפתח על עד %d התקנים.</string>
+  <string name="progress_removing_licence">הסרת רשיון</string>
+  <string name="licence_removal_success">מפתח הרישיון השתחרר בהצלחה ממכשיר זה.</string>
+  <string name="professional_key">מפתח מקצועי</string>
+  <string name="n_months">%s חודשים</string>
+  <string name="professionalPriceShortInfo">החל מ- %s לחודש</string>
+  <string name="eu_vat_info">לתושבי האיחוד האירופי המחירים המוצגים אינם כוללים מע\"מ.</string>
+  <string name="licence_migration_info">{app_name} מיישם מנגנון אימות רשיון חדש. אנא בקש מפתח חדש.</string>
+  <string name="valid_until">עד %s</string>
   <!--%1$s date, %2$s price-->
+  <string name="extend_until">הארכה עד %1$s למשך %2$s</string>
+  <string name="extended_upgrade_goodie_github">%d חודשים נוספים ניתנים חד פעמי למשתמשים שכבר נמצא ברשותם  רישיון מורחב</string>
+  <string name="extended_upgrade_goodie_subscription">משתמשים שכבר מחזיקים ברישיון המורחב משלמים 50 %% מהמחיר הרגיל (%s) בשנה הראשונה.</string>
+  <string name="switch_to_yearly">עבור למנוי שנתי</string>
+  <string name="switch_to_monthly">עבור למנוי חודשי</string>
+  <string name="extend_validity">הארכת תוקף</string>
+  <string name="progress_dialog_fetching_data_from_sync_backend">מאחזר נתונים מרחוק backend. פעולה זו עשויה להימשך זמן מה.</string>
+  <string name="donate_button_invoice">חשבונית</string>
 </resources>

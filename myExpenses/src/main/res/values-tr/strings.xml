@@ -682,4 +682,6 @@
   <string name="switch_to_yearly">Senelik aboneliğe geç</string>
   <string name="switch_to_monthly">Aylık aboneliğe geç</string>
   <string name="extend_validity">Geçerliliği uzat</string>
+  <string name="progress_dialog_fetching_data_from_sync_backend">Uzak arka uçtan veri alınıyor. Bu biraz zaman alabilir.</string>
+  <string name="donate_button_invoice">Fatura</string>
 </resources>
