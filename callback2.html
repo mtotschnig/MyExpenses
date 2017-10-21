@@ -115,7 +115,10 @@ var translation_data = {
 
 function buildLocalizedAlert() {
    lang = findLang();
-   return getLocalized("text_0", lang) + " " + getLocalized("text_1", lang) + " " + sprintf(getLocalized("text_2", lang), getURLParameter("key"));
+   isNotPdt = getURLParameter("isPdt") == "false";
+   return (isNotPdt ? "" : getLocalized("text_0", lang) + " ")
+      + getLocalized("text_1", lang) + " "
+      + sprintf(getLocalized("text_2", lang), getURLParameter("key"));
 }
 
 function getLocalized(key, lang) {
