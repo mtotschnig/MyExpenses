@@ -151,7 +151,7 @@ dependencies {
     implementation 'com.gabrielittner.auto.value:auto-value-cursor-annotations:1.0.1'
     annotationProcessor 'com.ryanharter.auto.value:auto-value-parcel:0.2.5'
     implementation 'com.github.mtotschnig:StickyListHeaders:2.7.1'
-    implementation 'com.github.mtotschnig:MaterialSeekBarPreference:improvement~align-with-layout-specific-to-each-level-SNAPSHOT'
+    implementation 'com.github.mtotschnig:MaterialSeekBarPreference:44bfeb4a04'
     implementation project(':PlayLicensingOrig')
     implementation('com.gitlab.mtotschn:dav4android:fbaa5b51') {
         exclude group: "com.android.support", module: "support-annotations"
@@ -162,7 +162,7 @@ dependencies {
     implementation 'org.apache.commons:commons-csv:1.1'
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'com.github.PhilJay:MPAndroidChart:bd75e6c'
-    implementation 'com.github.mtotschnig:Caldroid:master-SNAPSHOT'
+    implementation 'com.github.mtotschnig:Caldroid:a86eb51428'
     implementation 'com.github.eltos:simpledialogfragment:2.2'
     //noinspection GradleDynamicVersion
     implementation 'com.commonsware.cwac:wakeful:1.0.+'
