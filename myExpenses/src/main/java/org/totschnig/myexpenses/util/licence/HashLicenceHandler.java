@@ -52,8 +52,10 @@ public class HashLicenceHandler extends LicenceHandler {
       } else {
         s = androidId + secret;
         l = (s.hashCode() & 0x00000000ffffffffL);
-        licenceStatus = l.toString().equals(key) ? LicenceStatus.CONTRIB : null;
-        hasLegacyLicence = true;
+        if (l.toString().equals(key)) {
+          licenceStatus = LicenceStatus.CONTRIB;
+          hasLegacyLicence = true;
+        }
       }
     }
   }
