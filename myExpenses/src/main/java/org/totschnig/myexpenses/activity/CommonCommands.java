@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.HelpDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -108,8 +109,9 @@ public class CommonCommands {
         i.putExtra(android.content.Intent.EXTRA_SUBJECT,
             "[" + ctx.getString(R.string.app_name) + "] " +  ctx.getString(licenceHandler.getLicenceStatus().getResId()));
         String extraText = String.format(
-            "Please send me a new licence key. Current key is %1$s for Android-Id %2$s\nLANGUAGE:%3$s",
-            PrefKey.ENTER_LICENCE.getString(null), androidId, Locale.getDefault().toString());
+            "Please send me a new licence key. Current key is %1$s for Android-Id %2$s\nLANGUAGE:%3$s\nVERSION:%4$s",
+            PrefKey.ENTER_LICENCE.getString(null), androidId,
+            Locale.getDefault().toString(), DistribHelper.getVersionInfo(ctx));
         i.putExtra(android.content.Intent.EXTRA_TEXT, extraText);
         if (!Utils.isIntentAvailable(ctx, i)) {
           Toast.makeText(ctx, R.string.no_app_handling_email_available, Toast.LENGTH_LONG).show();
