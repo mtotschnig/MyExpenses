@@ -35,6 +35,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
@@ -44,7 +45,7 @@ import timber.log.Timber;
 import static org.totschnig.myexpenses.sync.SyncAdapter.LOCK_TIMEOUT_MINUTES;
 
 abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
-  protected static final String KEY_LOCK_TOKEN = "lockToken";
+  static final String KEY_LOCK_TOKEN = "lockToken";
   static final String BACKUP_FOLDER_NAME = "BACKUPS";
   static final String MIMETYPE_JSON = "application/json";
   static final String ACCOUNT_METADATA_FILENAME = "metadata.json";
@@ -52,7 +53,12 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   private static final String KEY_OWNED_BY_US = "ownedByUs";
   private static final String KEY_TIMESTAMP = "timestamp";
   private static final long LOCK_TIMEOUT_MILLIS = TimeUnit.MINUTES.toMillis(LOCK_TIMEOUT_MINUTES);
-  protected SharedPreferences sharedPreferences;
+
+  /**
+   * this holds the uuid of the db account which data is currently synced
+   */
+  protected String accountUuid;
+  SharedPreferences sharedPreferences;
   private Gson gson;
   private Context context;
   @Nullable
@@ -67,6 +73,10 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
       appInstance = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
     }
     sharedPreferences = context.getSharedPreferences(getSharedPreferencesName(), 0);
+  }
+
+  public void setAccountUuid(Account account) {
+    this.accountUuid = account.uuid;
   }
 
   @NonNull
@@ -260,9 +270,9 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   private boolean shouldOverrideLock(String locktoken) {
     boolean result;
     long now = System.currentTimeMillis();
-    String storedLockToken = sharedPreferences.getString(KEY_LOCK_TOKEN, "");
-    boolean ownedByUs = sharedPreferences.getBoolean(KEY_OWNED_BY_US, false);
-    long timestamp = sharedPreferences.getLong(KEY_TIMESTAMP, 0);
+    String storedLockToken = sharedPreferences.getString(accountPrefKey(KEY_LOCK_TOKEN), "");
+    boolean ownedByUs = sharedPreferences.getBoolean(accountPrefKey(KEY_OWNED_BY_US), false);
+    long timestamp = sharedPreferences.getLong(accountPrefKey(KEY_TIMESTAMP), 0);
     long since = now - timestamp;
     Timber.i("Stored: %s, ownedByUs : %b, since: %d", storedLockToken, ownedByUs, since);
     if (locktoken.equals(storedLockToken)) {
@@ -277,11 +287,16 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   }
 
   private void saveLockTokenToPreferences(String locktoken, long timestamp, boolean ownedByUs) {
-    sharedPreferences.edit().putString(KEY_LOCK_TOKEN, locktoken).putLong(KEY_TIMESTAMP, timestamp)
-        .putBoolean(KEY_OWNED_BY_US, ownedByUs).commit();
+    sharedPreferences.edit().putString(accountPrefKey(KEY_LOCK_TOKEN), locktoken)
+        .putLong(accountPrefKey(KEY_TIMESTAMP), timestamp)
+        .putBoolean(accountPrefKey(KEY_OWNED_BY_US), ownedByUs).commit();
   }
 
   Context getContext() {
     return context;
+  }
+
+  private String accountPrefKey(String key) {
+    return String.format(Locale.ROOT, "%s-%s", accountUuid, key);
   }
 }

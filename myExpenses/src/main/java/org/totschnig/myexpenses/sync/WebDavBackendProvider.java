@@ -44,10 +44,6 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
   private WebDavClient webDavClient;
   private boolean fallbackToClass1 = false;
-  /**
-   * this holds the uuid of the db account which data is currently synced
-   */
-  private String accountUuid;
 
   WebDavBackendProvider(Context context, android.accounts.Account account, AccountManager accountManager) throws SyncParseException {
     super(context);
@@ -74,7 +70,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
   @Override
   public boolean withAccount(Account account) {
-    accountUuid = account.uuid;
+    setAccountUuid(account);
     try {
       webDavClient.mkCol(accountUuid);
       LockableDavResource metaData = webDavClient.getResource(accountUuid, ACCOUNT_METADATA_FILENAME);
