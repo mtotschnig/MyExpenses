@@ -1376,7 +1376,6 @@ public class MyExpenses extends LaunchActivity implements
     Grouping newGrouping = Utils.getGroupingFromMenuItemId(item.getItemId());
     if (newGrouping != null) {
       if (!item.isChecked()) {
-        PrefKey.ACCOUNT_GROUPING.putString(newGrouping.name());
         item.setChecked(true);
         if (mAccountId < 0) {
           AggregateAccount.getInstanceFromDb(mAccountId).persistGrouping(newGrouping);
