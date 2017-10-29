@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_281">
+    <item>Opcja dla niestandardowych planów</item>
+    <item>Naprawiono dysk w chmurze dla dużych kopii zapasowych</item>
+  </string-array>
   <string-array name="whats_new_279">
     <item>Możliwość konfiguracji symboli walut</item>
   </string-array>
@@ -26,6 +30,11 @@
   </string-array>
   <string-array name="whats_new_275">
     <item>Synchronizacja pomiędzy urządzeniami przez chmurę</item>
+  </string-array>
+  <string-array name="whats_new_270">
+    <item>Nowa ikona aplikacji</item>
+    <item>Wyszukaj transfery</item>
+    <item>Sortuj plany według następnej instancji</item>
   </string-array>
   <string name="bug_fixes">Poprawki błędów</string>
 </resources>
