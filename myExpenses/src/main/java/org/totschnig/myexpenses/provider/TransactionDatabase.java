@@ -129,7 +129,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 68;
+  public static final int DATABASE_VERSION = 69;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -620,7 +620,6 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL(ACCOUNTS_CREATE);
     db.execSQL(ACCOUNTS_UUID_INDEX_CREATE);
     db.execSQL(SYNC_STATE_CREATE);
-    db.execSQL(ACCOUNTS_TRIGGER_CREATE);
     db.execSQL(ACCOUNTTYE_METHOD_CREATE);
     insertDefaultPaymentMethods(db);
     db.execSQL(CURRENCY_CREATE);
@@ -649,7 +648,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL(INCREASE_CATEGORY_USAGE_UPDATE_TRIGGER);
     db.execSQL(INCREASE_ACCOUNT_USAGE_INSERT_TRIGGER);
     db.execSQL(INCREASE_ACCOUNT_USAGE_UPDATE_TRIGGER);
-    db.execSQL(UPDATE_ACCOUNT_SYNC_NULL_TRIGGER);
+    createOrRefreshAccountTriggers(db);
     db.execSQL(SETTINGS_CREATE);
     //TODO evaluate if we should get rid of the split transaction category id
     db.execSQL("CREATE TRIGGER protect_split_transaction" +
@@ -1336,9 +1335,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         db.execSQL("ALTER TABLE templates add column last_used datetime");
         db.execSQL("ALTER TABLE categories add column last_used datetime");
         db.execSQL("ALTER TABLE accounts add column last_used datetime");
-        db.execSQL("CREATE TRIGGER sort_key_default AFTER INSERT ON accounts " +
-            "BEGIN UPDATE accounts SET sort_key = (SELECT coalesce(max(sort_key),0) FROM accounts) + 1 " +
-            "WHERE _id = NEW._id; END");
+//        db.execSQL("CREATE TRIGGER sort_key_default AFTER INSERT ON accounts " +
+//            "BEGIN UPDATE accounts SET sort_key = (SELECT coalesce(max(sort_key),0) FROM accounts) + 1 " +
+//            "WHERE _id = NEW._id; END");
         //The sort key could be set by user in previous versions, now it is handled internally
         Cursor c = db.query("accounts", new String[]{"_id", "sort_key"}, null, null, null, null, "sort_key ASC");
         boolean hasAccountSortKeySet = false;
@@ -1445,7 +1444,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         db.execSQL("CREATE TRIGGER update_increase_category_usage AFTER UPDATE ON transactions WHEN new.cat_id IS NOT NULL AND (old.cat_id IS NULL OR new.cat_id != old.cat_id) BEGIN UPDATE categories SET usages = usages + 1, last_used = strftime('%s', 'now')  WHERE _id IN (new.cat_id , (SELECT parent_id FROM categories WHERE _id = new.cat_id)); END;");
         db.execSQL("CREATE TRIGGER insert_increase_account_usage AFTER INSERT ON transactions WHEN new.parent_id IS NULL BEGIN UPDATE accounts SET usages = usages + 1, last_used = strftime('%s', 'now')  WHERE _id = new.account_id; END;");
         db.execSQL("CREATE TRIGGER update_increase_account_usage AFTER UPDATE ON transactions WHEN new.parent_id IS NULL AND new.account_id != old.account_id AND (old.transfer_account IS NULL OR new.account_id != old.transfer_account) BEGIN UPDATE accounts SET usages = usages + 1, last_used = strftime('%s', 'now')  WHERE _id = new.account_id; END;");
-        db.execSQL("CREATE TRIGGER update_account_sync_null AFTER UPDATE ON accounts WHEN new.sync_account_name IS NULL AND old.sync_account_name IS NOT NULL BEGIN UPDATE accounts SET sync_sequence_local = 0 WHERE _id = old._id; DELETE FROM changes WHERE account_id = old._id; END;");
+        //db.execSQL("CREATE TRIGGER update_account_sync_null AFTER UPDATE ON accounts WHEN new.sync_account_name IS NULL AND old.sync_account_name IS NOT NULL BEGIN UPDATE accounts SET sync_sequence_local = 0 WHERE _id = old._id; DELETE FROM changes WHERE account_id = old._id; END;");
         //refreshViews2(db);
       }
 
@@ -1574,11 +1573,37 @@ public class TransactionDatabase extends SQLiteOpenHelper {
             " BEGIN SELECT RAISE (FAIL, 'split category can not be deleted'); " +
             " END;");
       }
+      if (oldVersion < 69) {
+        //repair missed trigger recreation
+        createOrRefreshAccountTriggers(db);
+        //while trigger was not set new accounts were added without sort key leading to crash
+        //https://github.com/mtotschnig/MyExpenses/issues/420
+        //we now set sort_key again for all accounts trying to preserve existing order
+        Cursor c = db.query("accounts", new String[]{"_id"}, null, null, null, null, "sort_key ASC");
+        if (c != null) {
+          if (c.moveToFirst()) {
+            ContentValues v = new ContentValues();
+            while (c.getPosition() < c.getCount()) {
+              v.put("sort_key", c.getPosition() + 1);
+              db.update("accounts", v, "_id = ?", new String[]{c.getString(0)});
+              c.moveToNext();
+            }
+          }
+          c.close();
+        }
+      }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?
           new SQLiteUpgradeFailedException("Database upgrade failed", e) :
           e;
     }
+  }
+
+  private void createOrRefreshAccountTriggers(SQLiteDatabase db) {
+    db.execSQL("DROP TRIGGER IF EXISTS update_account_sync_null");
+    db.execSQL("DROP TRIGGER IF EXISTS sort_key_default");
+    db.execSQL(UPDATE_ACCOUNT_SYNC_NULL_TRIGGER);
+    db.execSQL(ACCOUNTS_TRIGGER_CREATE);
   }
 
   private void createOrRefreshChangelogTriggers(SQLiteDatabase db) {
