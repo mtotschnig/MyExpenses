@@ -128,7 +128,7 @@ public class Exporter {
         encoding);
     switch (format) {
       case CSV:
-        int[] columns = {R.string.split_transaction, R.string.date, R.string.payee, R.string.income, R.string.expense,
+        int[] columns = {R.string.split_transaction, R.string.date, R.string.payer_or_payee, R.string.income, R.string.expense,
             R.string.category, R.string.subcategory, R.string.comment, R.string.method, R.string.status, R.string.reference_number, R.string.picture};
         for (int column : columns) {
           sb.append("\"")
