@@ -251,7 +251,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
   private static final String SYNC_STATE_CREATE =
       "CREATE TABLE " + TABLE_SYNC_STATE + " ("
-      + KEY_STATUS + " integer );";
+          + KEY_STATUS + " integer );";
 
   private static final String ACCOUNTS_UUID_INDEX_CREATE = "CREATE UNIQUE INDEX accounts_uuid ON "
       + TABLE_ACCOUNTS + "(" + KEY_UUID + ")";
@@ -1360,224 +1360,224 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         PrefKey.SORT_ORDER_ACCOUNTS.putString(hasAccountSortKeySet ? "CUSTOM" : legacy);
         PrefKey.SORT_ORDER_LEGACY.remove();
       }
+
+      if (oldVersion < 57) {
+        //fix custom app uris
+        if (ContextCompat.checkSelfPermission(mCtx,
+            Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
+          Cursor c = db.query("templates", new String[]{"_id", "plan_id"}, "plan_id IS NOT null", null, null, null, null);
+          if (c != null) {
+            if (c.moveToFirst()) {
+              while (!c.isAfterLast()) {
+                Plan.updateCustomAppUri(c.getLong(1), Template.buildCustomAppUri(c.getLong(0)));
+                c.moveToNext();
+              }
+            }
+            c.close();
+          }
+        }
+
+        //Drop unique constraint on templates
+
+        db.execSQL("ALTER TABLE templates RENAME to templates_old");
+        db.execSQL("CREATE TABLE templates (" +
+            " _id integer primary key autoincrement," +
+            " comment text," +
+            " amount integer not null," +
+            " cat_id integer references categories(_id)," +
+            " account_id integer not null references accounts(_id) ON DELETE CASCADE," +
+            " payee_id integer references payee(_id)," +
+            " transfer_peer boolean default 0," +
+            " transfer_account integer references accounts(_id) ON DELETE CASCADE," +
+            " method_id integer references paymentmethods(_id)," +
+            " title text not null," +
+            " usages integer default 0," +
+            " plan_id integer, " +
+            " plan_execution boolean default 0, " +
+            " uuid text, " +
+            " last_used datetime);");
+        db.execSQL("INSERT INTO templates " +
+            "(_id,comment,amount,cat_id,account_id,payee_id,transfer_peer,transfer_account,method_id,title,usages,plan_id,plan_execution,uuid,last_used) " +
+            "SELECT " +
+            "_id, " +
+            "comment, " +
+            "amount, " +
+            "cat_id, " +
+            "account_id, " +
+            "payee_id, " +
+            "transfer_peer, " +
+            "transfer_account, " +
+            "method_id," +
+            "title," +
+            "usages, " +
+            "plan_id, " +
+            "plan_execution, uuid, last_used " +
+            "FROM templates_old");
+        db.execSQL("DROP TABLE templates_old");
+        //refreshViews1(db);
+      }
+
+      if (oldVersion < 58) {
+        //cache fraction digits
+        Cursor c = db.rawQuery("SELECT distinct currency from accounts", null);
+        if (c != null) {
+          if (c.moveToFirst()) {
+            while (!c.isAfterLast()) {
+              Money.ensureFractionDigitsAreCached(Utils.getSaveInstance(c.getString(0)));
+              c.moveToNext();
+            }
+          }
+          c.close();
+        }
+      }
+
+      if (oldVersion < 59) {
+        db.execSQL("ALTER TABLE transactions add column uuid text");
+        db.execSQL("CREATE UNIQUE INDEX transactions_account_uuid ON transactions(account_id,uuid,status)");
+        db.execSQL("ALTER TABLE accounts add column sync_account_name text");
+        db.execSQL("ALTER TABLE accounts add column sync_sequence_local integer default 0");
+        db.execSQL("ALTER TABLE accounts add column sync_from_adapter integer default 0");
+        db.execSQL("ALTER TABLE accounts add column uuid text");
+        db.execSQL("CREATE UNIQUE INDEX accounts_uuid ON accounts(uuid)");
+        db.execSQL("CREATE TABLE changes ( account_id integer not null references accounts(_id) ON DELETE CASCADE,type text not null check (type in ('created','updated','deleted')), sync_sequence_local integer, uuid text, timestamp datetime DEFAULT (strftime('%s','now')), parent_uuid text, comment text, date datetime, amount integer, cat_id integer references categories(_id) ON DELETE SET NULL, payee_id integer references payee(_id) ON DELETE SET NULL, transfer_account integer references accounts(_id) ON DELETE SET NULL,method_id integer references paymentmethods(_id),cr_status text check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED','VOID')),number text, picture_id text)");
+        //createOrRefreshChangelogTriggers(db);
+        db.execSQL("CREATE TRIGGER insert_increase_category_usage AFTER INSERT ON transactions WHEN new.cat_id IS NOT NULL AND new.cat_id != 0 BEGIN UPDATE categories SET usages = usages + 1, last_used = strftime('%s', 'now')  WHERE _id IN (new.cat_id , (SELECT parent_id FROM categories WHERE _id = new.cat_id)); END;");
+        db.execSQL("CREATE TRIGGER update_increase_category_usage AFTER UPDATE ON transactions WHEN new.cat_id IS NOT NULL AND (old.cat_id IS NULL OR new.cat_id != old.cat_id) BEGIN UPDATE categories SET usages = usages + 1, last_used = strftime('%s', 'now')  WHERE _id IN (new.cat_id , (SELECT parent_id FROM categories WHERE _id = new.cat_id)); END;");
+        db.execSQL("CREATE TRIGGER insert_increase_account_usage AFTER INSERT ON transactions WHEN new.parent_id IS NULL BEGIN UPDATE accounts SET usages = usages + 1, last_used = strftime('%s', 'now')  WHERE _id = new.account_id; END;");
+        db.execSQL("CREATE TRIGGER update_increase_account_usage AFTER UPDATE ON transactions WHEN new.parent_id IS NULL AND new.account_id != old.account_id AND (old.transfer_account IS NULL OR new.account_id != old.transfer_account) BEGIN UPDATE accounts SET usages = usages + 1, last_used = strftime('%s', 'now')  WHERE _id = new.account_id; END;");
+        db.execSQL("CREATE TRIGGER update_account_sync_null AFTER UPDATE ON accounts WHEN new.sync_account_name IS NULL AND old.sync_account_name IS NOT NULL BEGIN UPDATE accounts SET sync_sequence_local = 0 WHERE _id = old._id; DELETE FROM changes WHERE account_id = old._id; END;");
+        //refreshViews2(db);
+      }
+
+      if (oldVersion < 60) {
+        // Repair inconsistent uuids for transfers
+        db.execSQL("UPDATE transactions set uuid = (select uuid from transactions peers where peers._id = transactions.transfer_peer) where transfer_peer > _id");
+      }
+
+      if (oldVersion < 61) {
+        //Repair failed uuid seeding of changes
+        db.execSQL("UPDATE accounts set sync_sequence_local = 0 where _id in (select distinct account_id from changes where uuid is null)");
+        db.execSQL("DELETE FROM changes where account_id in (select distinct account_id from changes where uuid is null)");
+
+        //force changes to have uuid
+        db.execSQL("ALTER TABLE changes RENAME to changes_old");
+        db.execSQL("CREATE TABLE changes ( account_id integer not null references accounts(_id) ON DELETE CASCADE,type text not null check (type in ('created','updated','deleted')), sync_sequence_local integer, uuid text not null, timestamp datetime DEFAULT (strftime('%s','now')), parent_uuid text, comment text, date datetime, amount integer, cat_id integer references categories(_id) ON DELETE SET NULL, payee_id integer references payee(_id) ON DELETE SET NULL, transfer_account integer references accounts(_id) ON DELETE SET NULL,method_id integer references paymentmethods(_id),cr_status text check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED','VOID')),number text, picture_id text)");
+        db.execSQL("INSERT INTO changes " +
+            "(account_id, type, sync_sequence_local, uuid, timestamp, parent_uuid, comment, date, amount, cat_id, payee_id, transfer_account, method_id, cr_status, number, picture_id)" +
+            "SELECT account_id, type, sync_sequence_local, uuid, timestamp, parent_uuid, comment, date, amount, cat_id, payee_id, transfer_account, method_id, cr_status, number, picture_id FROM changes_old");
+        db.execSQL("DROP TABLE changes_old");
+      }
+
+      if (oldVersion < 62) {
+        //refreshViewsExtended(db);
+      }
+
+      if (oldVersion < 63) {
+        db.execSQL("CREATE TABLE _sync_state (status integer)");
+        //createOrRefreshChangelogTriggers(db);
+      }
+
+      if (oldVersion < 64) {
+        ContentValues initialValues = new ContentValues();
+        initialValues.put("code", CurrencyEnum.BYN.name());
+        //will log SQLiteConstraintException if value already exists in table
+        db.insert("currency", null, initialValues);
+      }
+
+      if (oldVersion < 65) {
+        if (DistribHelper.shouldUseAndroidPlatformCalendar()) {
+          //unfortunately we have to drop information about canceled instances
+          db.delete("planinstance_transaction", "transaction_id is null", null);
+          //we update instance_id to negative numbers, in order to prevent Conflict, which would araise
+          //in the rare case where an existing instance_id equals a newly calculated one
+          db.execSQL("update planinstance_transaction set instance_id = - rowid");
+          Cursor c = db.rawQuery("SELECT rowid, (SELECT date from transactions where _id = transaction_id) FROM planinstance_transaction", null);
+          if (c != null) {
+            if (c.moveToFirst()) {
+              ContentValues v = new ContentValues();
+              while (c.getPosition() < c.getCount()) {
+                String rowId = c.getString(0);
+                long date = c.getLong(1);
+                String whereClause = "rowid = ?";
+                String[] whereArgs = {rowId};
+                //This will be correct only for instances where date has not been edited by user, but it is the best we can do
+                v.put("instance_id", CalendarProviderProxy.calculateId(date * 1000));
+                try {
+                  db.update("planinstance_transaction", v, whereClause, whereArgs);
+                } catch (Exception e) {
+                  AcraHelper.report(e);
+                }
+                c.moveToNext();
+              }
+            }
+            c.close();
+          }
+        }
+      }
+
+      if (oldVersion < 66) {
+        db.execSQL(String.format("CREATE TABLE %s (%s text unique not null, %s text unique not null);", "settings", "key", "value"));
+        createOrRefreshChangelogTriggers(db);
+      }
+
+      if (oldVersion < 67) {
+        db.delete("planinstance_transaction", "instance_id < 0", null);
+        db.execSQL("ALTER TABLE planinstance_transaction RENAME to planinstance_transaction_old");
+        db.execSQL("CREATE TABLE planinstance_transaction " +
+            "(template_id integer references templates(_id) ON DELETE CASCADE, " +
+            "instance_id integer, " +
+            "transaction_id integer unique references transactions(_id) ON DELETE CASCADE);");
+        db.execSQL("INSERT INTO planinstance_transaction " +
+            "(template_id,instance_id,transaction_id)" +
+            "SELECT " +
+            "template_id,instance_id,transaction_id FROM planinstance_transaction_old");
+        db.execSQL("DROP TABLE planinstance_transaction_old");
+      }
+
+      if (oldVersion < 68) {
+        db.execSQL("ALTER TABLE templates RENAME to templates_old");
+        db.execSQL("CREATE TABLE templates ( _id integer primary key autoincrement, comment text, "
+            + "amount integer not null, cat_id integer references categories(_id), "
+            + "account_id integer not null references accounts(_id) ON DELETE CASCADE,"
+            + "payee_id integer references payee(_id), "
+            + "transfer_account integer references accounts(_id) ON DELETE CASCADE,"
+            + "method_id integer references paymentmethods(_id), title text not null, "
+            + "usages integer default 0, plan_id integer, plan_execution boolean default 0, uuid text, "
+            + "last_used datetime,"
+            + "parent_id integer references templates(_id) ON DELETE CASCADE, "
+            + "status integer default 0);");
+        db.execSQL("INSERT INTO templates " +
+            "(_id,comment,amount,cat_id,account_id,payee_id,transfer_account,method_id,title,usages,plan_id,plan_execution,uuid,last_used) " +
+            "SELECT " +
+            " _id,comment,amount,cat_id,account_id,payee_id,transfer_account,method_id,title,usages,plan_id,plan_execution,uuid,last_used " +
+            "FROM templates_old");
+        db.execSQL("DROP TABLE templates_old");
+        db.execSQL("ALTER TABLE accounts RENAME to accounts_old");
+        db.execSQL("CREATE TABLE accounts (_id integer primary key autoincrement, label text not null, "
+            + "opening_balance integer, description text, currency text not null, "
+            + "type text not null check (type in ('CASH','BANK','CCARD','ASSET','LIABILITY')) default 'CASH', "
+            + "color integer default -3355444, "
+            + "grouping text not null check (grouping in ('NONE','DAY','WEEK','MONTH','YEAR')) default 'NONE', "
+            + "usages integer default 0, last_used datetime, sort_key integer, sync_account_name text, "
+            + "sync_sequence_local integer default 0, exclude_from_totals boolean default 0, "
+            + "uuid text);");
+        db.execSQL("INSERT INTO accounts " +
+            "(_id,label,opening_balance,description,currency,type,color,grouping,usages,last_used,sort_key,sync_account_name,sync_sequence_local,exclude_from_totals,uuid) " +
+            " SELECT " +
+            " _id,label,opening_balance,description,currency,type,color,grouping,usages,last_used,sort_key,sync_account_name,sync_sequence_local,exclude_from_totals,uuid " +
+            "FROM accounts_old");
+        db.execSQL("DROP TABLE accounts_old");
+        createOrRefreshViews(db);
+
+        db.execSQL("CREATE TRIGGER protect_split_transaction BEFORE DELETE ON categories " +
+            " WHEN (OLD._id = 0)" +
+            " BEGIN SELECT RAISE (FAIL, 'split category can not be deleted'); " +
+            " END;");
+      }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?
           new SQLiteUpgradeFailedException("Database upgrade failed", e) :
           e;
-    }
-
-    if (oldVersion < 57) {
-      //fix custom app uris
-      if (ContextCompat.checkSelfPermission(mCtx,
-          Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
-        Cursor c = db.query("templates", new String[]{"_id", "plan_id"}, "plan_id IS NOT null", null, null, null, null);
-        if (c != null) {
-          if (c.moveToFirst()) {
-            while (!c.isAfterLast()) {
-              Plan.updateCustomAppUri(c.getLong(1), Template.buildCustomAppUri(c.getLong(0)));
-              c.moveToNext();
-            }
-          }
-          c.close();
-        }
-      }
-
-      //Drop unique constraint on templates
-
-      db.execSQL("ALTER TABLE templates RENAME to templates_old");
-      db.execSQL("CREATE TABLE templates (" +
-          " _id integer primary key autoincrement," +
-          " comment text," +
-          " amount integer not null," +
-          " cat_id integer references categories(_id)," +
-          " account_id integer not null references accounts(_id) ON DELETE CASCADE," +
-          " payee_id integer references payee(_id)," +
-          " transfer_peer boolean default 0," +
-          " transfer_account integer references accounts(_id) ON DELETE CASCADE," +
-          " method_id integer references paymentmethods(_id)," +
-          " title text not null," +
-          " usages integer default 0," +
-          " plan_id integer, " +
-          " plan_execution boolean default 0, " +
-          " uuid text, " +
-          " last_used datetime);");
-      db.execSQL("INSERT INTO templates " +
-          "(_id,comment,amount,cat_id,account_id,payee_id,transfer_peer,transfer_account,method_id,title,usages,plan_id,plan_execution,uuid,last_used) " +
-          "SELECT " +
-          "_id, " +
-          "comment, " +
-          "amount, " +
-          "cat_id, " +
-          "account_id, " +
-          "payee_id, " +
-          "transfer_peer, " +
-          "transfer_account, " +
-          "method_id," +
-          "title," +
-          "usages, " +
-          "plan_id, " +
-          "plan_execution, uuid, last_used " +
-          "FROM templates_old");
-      db.execSQL("DROP TABLE templates_old");
-      //refreshViews1(db);
-    }
-
-    if (oldVersion < 58) {
-      //cache fraction digits
-      Cursor c = db.rawQuery("SELECT distinct currency from accounts", null);
-      if (c != null) {
-        if (c.moveToFirst()) {
-          while (!c.isAfterLast()) {
-            Money.ensureFractionDigitsAreCached(Utils.getSaveInstance(c.getString(0)));
-            c.moveToNext();
-          }
-        }
-        c.close();
-      }
-    }
-
-    if (oldVersion < 59) {
-      db.execSQL("ALTER TABLE transactions add column uuid text");
-      db.execSQL("CREATE UNIQUE INDEX transactions_account_uuid ON transactions(account_id,uuid,status)");
-      db.execSQL("ALTER TABLE accounts add column sync_account_name text");
-      db.execSQL("ALTER TABLE accounts add column sync_sequence_local integer default 0");
-      db.execSQL("ALTER TABLE accounts add column sync_from_adapter integer default 0");
-      db.execSQL("ALTER TABLE accounts add column uuid text");
-      db.execSQL("CREATE UNIQUE INDEX accounts_uuid ON accounts(uuid)");
-      db.execSQL("CREATE TABLE changes ( account_id integer not null references accounts(_id) ON DELETE CASCADE,type text not null check (type in ('created','updated','deleted')), sync_sequence_local integer, uuid text, timestamp datetime DEFAULT (strftime('%s','now')), parent_uuid text, comment text, date datetime, amount integer, cat_id integer references categories(_id) ON DELETE SET NULL, payee_id integer references payee(_id) ON DELETE SET NULL, transfer_account integer references accounts(_id) ON DELETE SET NULL,method_id integer references paymentmethods(_id),cr_status text check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED','VOID')),number text, picture_id text)");
-      //createOrRefreshChangelogTriggers(db);
-      db.execSQL("CREATE TRIGGER insert_increase_category_usage AFTER INSERT ON transactions WHEN new.cat_id IS NOT NULL AND new.cat_id != 0 BEGIN UPDATE categories SET usages = usages + 1, last_used = strftime('%s', 'now')  WHERE _id IN (new.cat_id , (SELECT parent_id FROM categories WHERE _id = new.cat_id)); END;");
-      db.execSQL("CREATE TRIGGER update_increase_category_usage AFTER UPDATE ON transactions WHEN new.cat_id IS NOT NULL AND (old.cat_id IS NULL OR new.cat_id != old.cat_id) BEGIN UPDATE categories SET usages = usages + 1, last_used = strftime('%s', 'now')  WHERE _id IN (new.cat_id , (SELECT parent_id FROM categories WHERE _id = new.cat_id)); END;");
-      db.execSQL("CREATE TRIGGER insert_increase_account_usage AFTER INSERT ON transactions WHEN new.parent_id IS NULL BEGIN UPDATE accounts SET usages = usages + 1, last_used = strftime('%s', 'now')  WHERE _id = new.account_id; END;");
-      db.execSQL("CREATE TRIGGER update_increase_account_usage AFTER UPDATE ON transactions WHEN new.parent_id IS NULL AND new.account_id != old.account_id AND (old.transfer_account IS NULL OR new.account_id != old.transfer_account) BEGIN UPDATE accounts SET usages = usages + 1, last_used = strftime('%s', 'now')  WHERE _id = new.account_id; END;");
-      db.execSQL("CREATE TRIGGER update_account_sync_null AFTER UPDATE ON accounts WHEN new.sync_account_name IS NULL AND old.sync_account_name IS NOT NULL BEGIN UPDATE accounts SET sync_sequence_local = 0 WHERE _id = old._id; DELETE FROM changes WHERE account_id = old._id; END;");
-      //refreshViews2(db);
-    }
-
-    if (oldVersion < 60) {
-      // Repair inconsistent uuids for transfers
-      db.execSQL("UPDATE transactions set uuid = (select uuid from transactions peers where peers._id = transactions.transfer_peer) where transfer_peer > _id");
-    }
-
-    if (oldVersion < 61) {
-      //Repair failed uuid seeding of changes
-      db.execSQL("UPDATE accounts set sync_sequence_local = 0 where _id in (select distinct account_id from changes where uuid is null)");
-      db.execSQL("DELETE FROM changes where account_id in (select distinct account_id from changes where uuid is null)");
-
-      //force changes to have uuid
-      db.execSQL("ALTER TABLE changes RENAME to changes_old");
-      db.execSQL("CREATE TABLE changes ( account_id integer not null references accounts(_id) ON DELETE CASCADE,type text not null check (type in ('created','updated','deleted')), sync_sequence_local integer, uuid text not null, timestamp datetime DEFAULT (strftime('%s','now')), parent_uuid text, comment text, date datetime, amount integer, cat_id integer references categories(_id) ON DELETE SET NULL, payee_id integer references payee(_id) ON DELETE SET NULL, transfer_account integer references accounts(_id) ON DELETE SET NULL,method_id integer references paymentmethods(_id),cr_status text check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED','VOID')),number text, picture_id text)");
-      db.execSQL("INSERT INTO changes " +
-          "(account_id, type, sync_sequence_local, uuid, timestamp, parent_uuid, comment, date, amount, cat_id, payee_id, transfer_account, method_id, cr_status, number, picture_id)" +
-          "SELECT account_id, type, sync_sequence_local, uuid, timestamp, parent_uuid, comment, date, amount, cat_id, payee_id, transfer_account, method_id, cr_status, number, picture_id FROM changes_old");
-      db.execSQL("DROP TABLE changes_old");
-    }
-
-    if (oldVersion < 62) {
-      //refreshViewsExtended(db);
-    }
-
-    if (oldVersion < 63) {
-      db.execSQL("CREATE TABLE _sync_state (status integer)");
-      //createOrRefreshChangelogTriggers(db);
-    }
-
-    if (oldVersion < 64) {
-      ContentValues initialValues = new ContentValues();
-      initialValues.put("code", CurrencyEnum.BYN.name());
-      //will log SQLiteConstraintException if value already exists in table
-      db.insert("currency", null, initialValues);
-    }
-
-    if (oldVersion < 65) {
-      if (DistribHelper.shouldUseAndroidPlatformCalendar()) {
-        //unfortunately we have to drop information about canceled instances
-        db.delete("planinstance_transaction", "transaction_id is null", null);
-        //we update instance_id to negative numbers, in order to prevent Conflict, which would araise
-        //in the rare case where an existing instance_id equals a newly calculated one
-        db.execSQL("update planinstance_transaction set instance_id = - rowid");
-        Cursor c = db.rawQuery("SELECT rowid, (SELECT date from transactions where _id = transaction_id) FROM planinstance_transaction", null);
-        if (c != null) {
-          if (c.moveToFirst()) {
-            ContentValues v = new ContentValues();
-            while (c.getPosition() < c.getCount()) {
-              String rowId = c.getString(0);
-              long date = c.getLong(1);
-              String whereClause = "rowid = ?";
-              String[] whereArgs = {rowId};
-              //This will be correct only for instances where date has not been edited by user, but it is the best we can do
-              v.put("instance_id", CalendarProviderProxy.calculateId(date * 1000));
-              try {
-                db.update("planinstance_transaction", v, whereClause, whereArgs);
-              } catch (Exception e) {
-                AcraHelper.report(e);
-              }
-              c.moveToNext();
-            }
-          }
-          c.close();
-        }
-      }
-    }
-
-    if (oldVersion < 66) {
-      db.execSQL(String.format("CREATE TABLE %s (%s text unique not null, %s text unique not null);", "settings", "key", "value"));
-      createOrRefreshChangelogTriggers(db);
-    }
-
-    if (oldVersion < 67) {
-      db.delete("planinstance_transaction", "instance_id < 0", null);
-      db.execSQL("ALTER TABLE planinstance_transaction RENAME to planinstance_transaction_old");
-      db.execSQL("CREATE TABLE planinstance_transaction " +
-          "(template_id integer references templates(_id) ON DELETE CASCADE, " +
-          "instance_id integer, " +
-          "transaction_id integer unique references transactions(_id) ON DELETE CASCADE);");
-      db.execSQL("INSERT INTO planinstance_transaction " +
-          "(template_id,instance_id,transaction_id)" +
-          "SELECT " +
-          "template_id,instance_id,transaction_id FROM planinstance_transaction_old");
-      db.execSQL("DROP TABLE planinstance_transaction_old");
-    }
-
-    if (oldVersion < 68) {
-      db.execSQL("ALTER TABLE templates RENAME to templates_old");
-      db.execSQL("CREATE TABLE templates ( _id integer primary key autoincrement, comment text, "
-          + "amount integer not null, cat_id integer references categories(_id), "
-          + "account_id integer not null references accounts(_id) ON DELETE CASCADE,"
-          + "payee_id integer references payee(_id), "
-          + "transfer_account integer references accounts(_id) ON DELETE CASCADE,"
-          + "method_id integer references paymentmethods(_id), title text not null, "
-          + "usages integer default 0, plan_id integer, plan_execution boolean default 0, uuid text, "
-          + "last_used datetime,"
-          + "parent_id integer references templates(_id) ON DELETE CASCADE, "
-          + "status integer default 0);");
-      db.execSQL("INSERT INTO templates " +
-          "(_id,comment,amount,cat_id,account_id,payee_id,transfer_account,method_id,title,usages,plan_id,plan_execution,uuid,last_used) " +
-          "SELECT " +
-          " _id,comment,amount,cat_id,account_id,payee_id,transfer_account,method_id,title,usages,plan_id,plan_execution,uuid,last_used " +
-          "FROM templates_old");
-      db.execSQL("DROP TABLE templates_old");
-      db.execSQL("ALTER TABLE accounts RENAME to accounts_old");
-      db.execSQL("CREATE TABLE accounts (_id integer primary key autoincrement, label text not null, "
-          + "opening_balance integer, description text, currency text not null, "
-          + "type text not null check (type in ('CASH','BANK','CCARD','ASSET','LIABILITY')) default 'CASH', "
-          + "color integer default -3355444, "
-          + "grouping text not null check (grouping in ('NONE','DAY','WEEK','MONTH','YEAR')) default 'NONE', "
-          + "usages integer default 0, last_used datetime, sort_key integer, sync_account_name text, "
-          + "sync_sequence_local integer default 0, exclude_from_totals boolean default 0, "
-          + "uuid text);");
-      db.execSQL("INSERT INTO accounts " +
-          "(_id,label,opening_balance,description,currency,type,color,grouping,usages,last_used,sort_key,sync_account_name,sync_sequence_local,exclude_from_totals,uuid) " +
-          " SELECT " +
-          " _id,label,opening_balance,description,currency,type,color,grouping,usages,last_used,sort_key,sync_account_name,sync_sequence_local,exclude_from_totals,uuid " +
-          "FROM accounts_old");
-      db.execSQL("DROP TABLE accounts_old");
-      createOrRefreshViews(db);
-
-      db.execSQL("CREATE TRIGGER protect_split_transaction BEFORE DELETE ON categories " +
-          " WHEN (OLD._id = 0)" +
-          " BEGIN SELECT RAISE (FAIL, 'split category can not be deleted'); " +
-          " END;");
     }
   }
 
@@ -1587,7 +1587,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL("DROP TRIGGER IF EXISTS delete_after_update_change_log");
     db.execSQL("DROP TRIGGER IF EXISTS delete_change_log");
     db.execSQL("DROP TRIGGER IF EXISTS update_change_log");
-    
+
     db.execSQL(TRANSACTIONS_INSERT_TRIGGER_CREATE);
     db.execSQL(TRANSACTIONS_INSERT_AFTER_UPDATE_TRIGGER_CREATE);
     db.execSQL(TRANSACTIONS_DELETE_AFTER_UPDATE_TRIGGER_CREATE);
@@ -1613,7 +1613,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     db.execSQL("CREATE VIEW " + VIEW_ALL + viewExtended);
     db.execSQL("CREATE VIEW " + VIEW_EXTENDED + viewExtended + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
 
-    String viewTemplates= buildViewDefinition(TABLE_TEMPLATES);
+    String viewTemplates = buildViewDefinition(TABLE_TEMPLATES);
     String viewTemplatesExtended = buildViewDefinitionExtended(TABLE_TEMPLATES);
     db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_UNCOMMITTED + viewTemplates + " WHERE " + KEY_STATUS + " = " + STATUS_UNCOMMITTED + ";");
     db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_ALL + viewTemplatesExtended);
