@@ -332,9 +332,9 @@ public class Transaction extends Model {
     public static CrStatus fromQifName(String qifName) {
       if (qifName == null)
         return UNRECONCILED;
-      if (qifName.equals("*")) {
+      if (qifName.equals("*") || qifName.equalsIgnoreCase("C")) {
         return CLEARED;
-      } else if (qifName.equalsIgnoreCase("X")) {
+      } else if (qifName.equalsIgnoreCase("X") || qifName.equalsIgnoreCase("R")) {
         return RECONCILED;
       } else {
         return UNRECONCILED;
