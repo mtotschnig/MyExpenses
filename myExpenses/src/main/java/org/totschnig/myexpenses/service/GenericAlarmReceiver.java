@@ -14,8 +14,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.commonsware.cwac.wakeful.WakefulIntentService;
-
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.Account;
@@ -51,13 +49,13 @@ public class GenericAlarmReceiver extends BroadcastReceiver {
   private void requestScheduleAutoBackup(Context context) {
     Intent serviceIntent = new Intent(context, AutoBackupService.class);
     serviceIntent.setAction(AutoBackupService.ACTION_SCHEDULE_AUTO_BACKUP);
-    WakefulIntentService.sendWakefulWork(context, serviceIntent);
+    AutoBackupService.enqueueWork(context, serviceIntent);
   }
 
   private void requestAutoBackup(Context context) {
     Intent serviceIntent = new Intent(context, AutoBackupService.class);
     serviceIntent.setAction(AutoBackupService.ACTION_AUTO_BACKUP);
-    WakefulIntentService.sendWakefulWork(context, serviceIntent);
+    AutoBackupService.enqueueWork(context, serviceIntent);
   }
 
 }

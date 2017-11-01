@@ -39,7 +39,6 @@ Credits
 - <a href="https://github.com/MrBIMC/MaterialSeekBarPreference">MaterialSeekBarPreference</a>
 - <a href="http://square.github.io/picasso/">Picasso</a>
 - <a href="https://github.com/roomorama/Caldroid">Caldroid</a>
-- <a href="https://github.com/commonsguy/cwac-wakeful">Wakeful</a>
 - <a href="https://github.com/frankiesardo/icepick">Icepick</a>
 - Apache Commons <a href="https://commons.apache.org/proper/commons-lang/">Lang</a> and <a href="https://commons.apache.org/proper/commons-csv/">CSV</a>
 - <a href="https://github.com/google/guava">Guava</a>

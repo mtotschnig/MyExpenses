@@ -39,11 +39,6 @@
         <licence>Apache License, Version 2.0</licence>
     </project>
     <project>
-        <name>WakefulIntentService</name>
-        <url>https://github.com/commonsguy/cwac-wakeful</url>
-        <licence>Apache License, Version 2.0</licence>
-    </project>
-    <project>
         <name>MaterialSeekBarPreference</name>
         <url>https://github.com/MrBIMC/MaterialSeekBarPreference</url>
         <licence>MIT licence</licence>

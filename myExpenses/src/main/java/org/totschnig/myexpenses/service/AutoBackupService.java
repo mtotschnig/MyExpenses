@@ -17,10 +17,9 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.JobIntentService;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.provider.DocumentFile;
-
-import com.commonsware.cwac.wakeful.WakefulIntentService;
 
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.R;
@@ -39,23 +38,26 @@ import org.totschnig.myexpenses.util.Utils;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP;
 import static org.totschnig.myexpenses.util.NotificationBuilderWrapper.NOTIFICATION_AUTO_BACKUP;
 
-public class AutoBackupService extends WakefulIntentService {
+public class AutoBackupService extends JobIntentService {
 
   private static final String TAG = AutoBackupService.class.getSimpleName();
   public static final String ACTION_AUTO_BACKUP = BuildConfig.APPLICATION_ID + ".ACTION_AUTO_BACKUP";
   public static final String ACTION_SCHEDULE_AUTO_BACKUP = BuildConfig.APPLICATION_ID + ".ACTION_SCHEDULE_AUTO_BACKUP";
 
-  public AutoBackupService() {
-    super(TAG);
+  /**
+   * Unique job ID for this service.
+   */
+  static final int JOB_ID = 1000;
+
+  /**
+   * Convenience method for enqueuing work in to this service.
+   */
+  static void enqueueWork(Context context, Intent work) {
+    enqueueWork(context, AutoBackupService.class, JOB_ID, work);
   }
 
   @Override
-  public void onCreate() {
-    super.onCreate();
-  }
-
-  @Override
-  protected void doWakefulWork(Intent intent) {
+  protected void onHandleWork(Intent intent) {
     if (intent == null) {
       return;
     }

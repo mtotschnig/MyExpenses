@@ -164,8 +164,6 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:bd75e6c'
     implementation 'com.github.mtotschnig:Caldroid:a86eb51428'
     implementation 'com.github.eltos:simpledialogfragment:2.2'
-    //noinspection GradleDynamicVersion
-    implementation 'com.commonsware.cwac:wakeful:1.0.+'
     implementation 'com.annimon:stream:1.1.8'
 
     // WebDAV
