@@ -18,8 +18,8 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
-  <string-array name="whats_new_2821">
-    <item>@string/bug_fixes</item>
+  <string-array name="whats_new_283">
+    <item>Ascending sort direction (oldest transactions on top)</item>
   </string-array>
   <string-array name="whats_new_282">
     <item>Templates and plans for split transactions</item>
