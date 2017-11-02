@@ -27,6 +27,7 @@ import android.graphics.drawable.InsetDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.telephony.TelephonyManager;
 import android.text.Spannable;
@@ -52,6 +53,7 @@ import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Payee;
+import org.totschnig.myexpenses.model.SortDirection;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
@@ -724,6 +726,20 @@ public class Utils {
     activeItem.setChecked(true);
   }
 
+  public static void configureSortDirectionMenu(SubMenu subMenu, SortDirection currentSortDirection) {
+    MenuItem activeItem;
+    switch (currentSortDirection) {
+      case ASC:
+        activeItem = subMenu.findItem(R.id.SORT_DIRECTION_ASCENDING_COMMAND);
+        break;
+      default:
+        activeItem = subMenu.findItem(R.id.SORT_DIRECTION_DESCENDING_COMMAND);
+        break;
+    }
+    activeItem.setChecked(true);
+  }
+
+  @Nullable
   public static Grouping getGroupingFromMenuItemId(int id) {
     switch (id) {
       case R.id.GROUPING_NONE_COMMAND:
@@ -736,6 +752,17 @@ public class Utils {
         return Grouping.MONTH;
       case R.id.GROUPING_YEAR_COMMAND:
         return Grouping.YEAR;
+    }
+    return null;
+  }
+
+  @Nullable
+  public static SortDirection getSortDirectionFromMenuItemId(int id) {
+    switch (id) {
+      case R.id.SORT_DIRECTION_DESCENDING_COMMAND:
+        return SortDirection.DESC;
+      case R.id.SORT_DIRECTION_ASCENDING_COMMAND:
+        return SortDirection.ASC;
     }
     return null;
   }

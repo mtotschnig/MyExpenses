@@ -699,4 +699,7 @@
     <string name="extend_validity">Extend validity</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Fetching data from remote backend. This may take some time.</string>
     <string name="donate_button_invoice">Invoice</string>
+    <string name="menu_sort_direction">Sort direction</string>
+    <string name="sort_direction_ascending">ascending</string>
+    <string name="sort_direction_descending">descending</string>
 </resources>

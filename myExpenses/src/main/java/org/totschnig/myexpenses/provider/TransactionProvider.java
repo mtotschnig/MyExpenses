@@ -106,6 +106,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_DIRECTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
@@ -291,6 +292,8 @@ public class TransactionProvider extends ContentProvider {
   private static final int CHANGES = 42;
   private static final int SETTINGS = 43;
   private static final int TEMPLATES_UNCOMMITED = 44;
+  private static final int ACCOUNT_ID_GROUPING = 45;
+  private static final int ACCOUNT_ID_SORTDIRECTION = 46;
 
   private boolean mDirty = false;
 
@@ -543,6 +546,7 @@ public class TransactionProvider extends ContentProvider {
               "max(" + KEY_HAS_EXPORTED + ") AS " + KEY_HAS_EXPORTED,
               "null AS " + KEY_SYNC_ACCOUNT_NAME,
               "null AS " + KEY_UUID,
+              "'DESC' AS " + KEY_SORT_DIRECTION,
               "sum(" + KEY_CURRENT_BALANCE + ") AS " + KEY_CURRENT_BALANCE,
               "sum(" + KEY_SUM_INCOME + ") AS " + KEY_SUM_INCOME,
               "sum(" + KEY_SUM_EXPENSES + ") AS " + KEY_SUM_EXPENSES,
@@ -1412,6 +1416,20 @@ public class TransactionProvider extends ContentProvider {
           throw unknownUri(uri);
         }
         break;
+      case ACCOUNT_ID_GROUPING: {
+        segment = uri.getPathSegments().get(1);
+        ContentValues contentValues = new ContentValues(1);
+        contentValues.put(KEY_GROUPING, uri.getPathSegments().get(3));
+        count = db.update(TABLE_ACCOUNTS, contentValues, KEY_ROWID + " = ?", new String[]{segment});
+        break;
+      }
+      case ACCOUNT_ID_SORTDIRECTION: {
+        segment = uri.getPathSegments().get(1);
+        ContentValues contentValues = new ContentValues(1);
+        contentValues.put(KEY_SORT_DIRECTION, uri.getPathSegments().get(3));
+        count = db.update(TABLE_ACCOUNTS, contentValues, KEY_ROWID + " = ?", new String[]{segment});
+        break;
+      }
       default:
         throw unknownUri(uri);
     }
@@ -1504,6 +1522,8 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "accounts", ACCOUNTS);
     URI_MATCHER.addURI(AUTHORITY, "accountsbase", ACCOUNTS_BASE);
     URI_MATCHER.addURI(AUTHORITY, "accounts/#", ACCOUNT_ID);
+    URI_MATCHER.addURI(AUTHORITY, "accounts/#/grouping/*", ACCOUNT_ID_GROUPING);
+    URI_MATCHER.addURI(AUTHORITY, "accounts/#/sortDirection/*", ACCOUNT_ID_SORTDIRECTION);
     URI_MATCHER.addURI(AUTHORITY, "payees", PAYEES);
     URI_MATCHER.addURI(AUTHORITY, "payees/#", PAYEE_ID);
     URI_MATCHER.addURI(AUTHORITY, "methods", METHODS);

@@ -25,6 +25,8 @@ import android.test.ProviderTestCase2;
 import android.test.mock.MockContentResolver;
 
 import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.Grouping;
+import org.totschnig.myexpenses.model.SortDirection;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
@@ -468,5 +470,109 @@ public class AccountTest extends ProviderTestCase2<TransactionProvider> {
     // Asserts that only one row was updated. The selection criteria evaluated to
     // "title = Note1", and the test data should only contain one row that matches that.
     assertEquals(1, rowsUpdated);
+  }
+
+  public void testGrouping() {
+    final String[] Account_ID_PROJECTION = {
+        DatabaseConstants.KEY_ROWID,
+        DatabaseConstants.KEY_GROUPING
+    };
+    insertData();
+
+    Cursor cursor = mMockResolver.query(
+        TransactionProvider.ACCOUNTS_URI, // the base URI for the table
+        Account_ID_PROJECTION,
+        null,
+        null,
+        null
+    );
+    assert cursor != null;
+
+    assertEquals(TEST_ACCOUNTS.length, cursor.getCount());
+
+    // Moves to the cursor's first row, and asserts that this did not fail.
+    assertTrue(cursor.moveToFirst());
+
+    // fetch the id of the first row
+    int inputAccountId = cursor.getInt(0);
+
+    assertEquals(Grouping.NONE.name(), cursor.getString(1));
+
+    // Builds a URI based on the provider's content ID URI base and the saved note ID.
+    Uri accountIdUri = ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, inputAccountId);
+
+    cursor.close();
+
+    mMockResolver.update(accountIdUri.buildUpon().appendPath("grouping").appendPath(Grouping.YEAR.name()).build(),
+        null, null, null);
+
+    // Queries the table using the content ID URI, which returns a single record with the
+    // specified note ID, matching the selection criteria provided.
+    cursor = mMockResolver.query(accountIdUri, // the URI for a single note
+        Account_ID_PROJECTION,                 // same projection, get ID and title columns
+        null,                  // same selection, based on title column
+        null,                     // same selection arguments, title = "Note1"
+        null                          // same sort order returned, by title, ascending
+    );
+    assert cursor != null;
+
+    // Moves to the cursor's first row, and asserts that this did not fail.
+    assertTrue(cursor.moveToFirst());
+
+    // Asserts that the note ID passed to the provider is the same as the note ID returned.
+    assertEquals(Grouping.YEAR.name(), cursor.getString(1));
+    cursor.close();
+  }
+
+  public void testSortDirection() {
+    final String[] Account_ID_PROJECTION = {
+        DatabaseConstants.KEY_ROWID,
+        DatabaseConstants.KEY_SORT_DIRECTION
+    };
+    insertData();
+
+    Cursor cursor = mMockResolver.query(
+        TransactionProvider.ACCOUNTS_URI, // the base URI for the table
+        Account_ID_PROJECTION,
+        null,
+        null,
+        null
+    );
+    assert cursor != null;
+
+    assertEquals(TEST_ACCOUNTS.length, cursor.getCount());
+
+    // Moves to the cursor's first row, and asserts that this did not fail.
+    assertTrue(cursor.moveToFirst());
+
+    // fetch the id of the first row
+    int inputAccountId = cursor.getInt(0);
+
+    assertEquals(SortDirection.DESC.name(), cursor.getString(1));
+
+    // Builds a URI based on the provider's content ID URI base and the saved note ID.
+    Uri accountIdUri = ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, inputAccountId);
+
+    cursor.close();
+
+    mMockResolver.update(accountIdUri.buildUpon().appendPath("sortDirection").appendPath(SortDirection.ASC.name()).build(),
+        null, null, null);
+
+    // Queries the table using the content ID URI, which returns a single record with the
+    // specified note ID, matching the selection criteria provided.
+    cursor = mMockResolver.query(accountIdUri, // the URI for a single note
+        Account_ID_PROJECTION,                 // same projection, get ID and title columns
+        null,                  // same selection, based on title column
+        null,                     // same selection arguments, title = "Note1"
+        null                          // same sort order returned, by title, ascending
+    );
+    assert cursor != null;
+
+    // Moves to the cursor's first row, and asserts that this did not fail.
+    assertTrue(cursor.moveToFirst());
+
+    // Asserts that the note ID passed to the provider is the same as the note ID returned.
+    assertEquals(SortDirection.ASC.name(), cursor.getString(1));
+    cursor.close();
   }
 }

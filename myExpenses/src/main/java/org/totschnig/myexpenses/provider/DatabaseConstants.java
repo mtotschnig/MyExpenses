@@ -170,6 +170,7 @@ public class DatabaseConstants {
   public static final String KEY_TIMESTAMP = "timestamp";
   public static final String KEY_KEY = "key";
   public static final String KEY_VALUE = "value";
+  public static final String KEY_SORT_DIRECTION = "sort_direction";
 
   /**
    * column alias for the second group (month or week)

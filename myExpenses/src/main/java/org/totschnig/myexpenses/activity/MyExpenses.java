@@ -71,11 +71,11 @@ import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountGrouping;
 import org.totschnig.myexpenses.model.AccountType;
-import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.model.SortDirection;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -400,13 +400,21 @@ public class MyExpenses extends LaunchActivity implements
       Utils.menuItemSetEnabledAndVisible(balanceItem, showBalanceCommand);
     }
 
+    Account account = Account.getInstanceFromDb(mAccountId);
+
     MenuItem groupingItem = menu.findItem(R.id.GROUPING_COMMAND);
     if (groupingItem != null) {
       SubMenu groupingMenu = groupingItem.getSubMenu();
-
-      Account account = Account.getInstanceFromDb(mAccountId);
       if (account != null) {
         Utils.configureGroupingMenu(groupingMenu, account.getGrouping());
+      }
+    }
+
+    MenuItem sortDirectionItem = menu.findItem(R.id.SORT_DIRECTION_COMMAND);
+    if (sortDirectionItem != null) {
+      SubMenu sortDirectionMenu = sortDirectionItem.getSubMenu();
+      if (account != null) {
+        Utils.configureSortDirectionMenu(sortDirectionMenu, account.getSortDirection());
       }
     }
     return true;
@@ -485,7 +493,7 @@ public class MyExpenses extends LaunchActivity implements
     switch (command) {
       case R.id.DISTRIBUTION_COMMAND:
         tl = getCurrentFragment();
-        if (tl != null && tl.mappedCategories) {
+        if (tl != null && tl.hasMappedCategories()) {
           contribFeatureRequested(ContribFeature.DISTRIBUTION, null);
         } else {
           MessageDialogFragment.newInstance(
@@ -529,7 +537,7 @@ public class MyExpenses extends LaunchActivity implements
         return true;
       case R.id.RESET_COMMAND:
         tl = getCurrentFragment();
-        if (tl != null && tl.hasItems) {
+        if (tl != null && tl.hasItems()) {
           Result appDirStatus = AppDirHelper.checkAppDir(this);
           if (appDirStatus.success) {
             ExportDialogFragment.newInstance(mAccountId, tl.isFiltered())
@@ -969,11 +977,9 @@ public class MyExpenses extends LaunchActivity implements
     if (mDrawerToggle != null && mDrawerToggle.onOptionsItemSelected(item)) {
       return true;
     }
-    // Handle your other action bar items...
 
-    if (handleGrouping(item)) return true;
+    return handleGrouping(item) || handleSortDirection(item) || super.onOptionsItemSelected(item);
 
-    return super.onOptionsItemSelected(item);
   }
 
   private void setBalance() {
@@ -1335,11 +1341,19 @@ public class MyExpenses extends LaunchActivity implements
     if (newGrouping != null) {
       if (!item.isChecked()) {
         item.setChecked(true);
-        if (mAccountId < 0) {
-          AggregateAccount.getInstanceFromDb(mAccountId).persistGrouping(newGrouping);
-        } else {
-          Account.getInstanceFromDb(mAccountId).persistGrouping(newGrouping);
-        }
+        Account.getInstanceFromDb(mAccountId).persistGrouping(newGrouping);
+      }
+      return true;
+    }
+    return false;
+  }
+
+  protected boolean handleSortDirection(MenuItem item) {
+    SortDirection newSortDirection = Utils.getSortDirectionFromMenuItemId(item.getItemId());
+    if (newSortDirection != null) {
+      if (!item.isChecked()) {
+        item.setChecked(true);
+        Account.getInstanceFromDb(mAccountId).persistSortDirection(newSortDirection);
       }
       return true;
     }

@@ -89,6 +89,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLAN_EXECUTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_DIRECTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
@@ -247,7 +248,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_SYNC_ACCOUNT_NAME + " text, "
           + KEY_SYNC_SEQUENCE_LOCAL + " integer default 0,"
           + KEY_EXCLUDE_FROM_TOTALS + " boolean default 0, "
-          + KEY_UUID + " text);";
+          + KEY_UUID + " text, "
+          + KEY_SORT_DIRECTION + " text not null check (" + KEY_SORT_DIRECTION + " in ('ASC','DESC')) default 'DESC');";
 
   private static final String SYNC_STATE_CREATE =
       "CREATE TABLE " + TABLE_SYNC_STATE + " ("
@@ -290,8 +292,6 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + "primary key (" + KEY_TYPE + "," + KEY_METHODID + "));";
 
   /**
-   * {@link DatabaseConstants#KEY_TRANSFER_PEER} does not point to another instance
-   * but is a boolean indicating if the template is for a transfer
    * {@link DatabaseConstants#KEY_PLANID} references an event in com.android.providers.calendar
    */
   private static final String TEMPLATE_CREATE =
@@ -811,7 +811,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         db.execSQL("ALTER TABLE templates RENAME to templates_old");
         db.execSQL("CREATE TABLE templates ( _id integer primary key autoincrement, comment text not null, amount integer not null, " +
             "cat_id integer references categories(_id), account_id integer not null references accounts(_id),payee text, " +
-            "transfer_peer boolean default false, transfer_account integer references accounts(_id),method_id integer references paymentmethods(_id), " +
+            "transfer_peer boolean default 0, transfer_account integer references accounts(_id),method_id integer references paymentmethods(_id), " +
             "title text not null, usages integer default 0, unique(account_id,title));");
         db.execSQL("INSERT INTO templates (_id,comment,amount,cat_id,account_id,payee,transfer_peer,transfer_account,method_id,title,usages) " +
             "SELECT _id,comment,amount," +
@@ -1591,6 +1591,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           }
           c.close();
         }
+
+        db.execSQL("ALTER TABLE accounts add column sort_direction text not null check (sort_direction in " +
+            "('ASC','DESC')) default 'DESC'");
       }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?
