@@ -84,6 +84,7 @@
         <item>manage_plans</item>
         <item>reset</item>
         <item>grouping</item>
+        <item>sort_direction</item>
         <item>distribution</item>
         <item>print</item>
     </string-array>
@@ -92,6 +93,7 @@
         <item>manage_plans</item>
         <item>reset</item>
         <item>grouping</item>
+        <item>sort_direction</item>
         <item>distribution</item>
         <item>balance</item>
         <item>print</item>
