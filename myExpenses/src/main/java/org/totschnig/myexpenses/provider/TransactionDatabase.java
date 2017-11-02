@@ -130,7 +130,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 69;
+  public static final int DATABASE_VERSION = 70;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -1591,7 +1591,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           }
           c.close();
         }
+      }
 
+      if (oldVersion < 70) {
         db.execSQL("ALTER TABLE accounts add column sort_direction text not null check (sort_direction in " +
             "('ASC','DESC')) default 'DESC'");
       }

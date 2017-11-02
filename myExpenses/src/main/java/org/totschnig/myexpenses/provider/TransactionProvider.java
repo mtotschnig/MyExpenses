@@ -607,6 +607,7 @@ public class TransactionProvider extends ContentProvider {
             KEY_CODE + " AS " + KEY_CURRENCY,
             "-1 AS " + KEY_COLOR,
             "'NONE' AS " + KEY_GROUPING,
+            "'DESC' AS " + KEY_SORT_DIRECTION,
             "'AGGREGATE' AS " + KEY_TYPE,
             "-1 AS " + KEY_SORT_KEY,
             "0 AS " + KEY_EXCLUDE_FROM_TOTALS,

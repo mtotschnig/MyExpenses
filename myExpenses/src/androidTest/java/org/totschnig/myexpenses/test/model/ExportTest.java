@@ -342,7 +342,7 @@ public class ExportTest extends ModelTest {
     StringBuilder sb = new StringBuilder();
     int[] resArray = {
         R.string.split_transaction,
-        R.string.date, R.string.payee,
+        R.string.date, R.string.payer_or_payee,
         R.string.income,
         R.string.expense,
         R.string.category,
