@@ -94,7 +94,7 @@ public class Fixture {
     account1.description = testContext.getString(R.string.testData_account1Description);
     account1.label = testContext.getString(R.string.testData_account1Label);
     account1.openingBalance = new Money(defaultCurrency,2000L);
-    account1.grouping = Grouping.DAY;
+    account1.setGrouping(Grouping.DAY);
     account1.save();
     if (stage ==1) return;
     account2 = new Account(
@@ -113,7 +113,7 @@ public class Fixture {
         testContext.getString(R.string.testData_account3Description), AccountType.BANK,
         Build.VERSION.SDK_INT > 13 ? appContext.getResources().getColor(R.color.material_blue) : Color.BLUE
     );
-    account3.grouping = Grouping.DAY;
+    account3.setGrouping(Grouping.DAY);
     account3.save();
     account4 = new Account(
         testContext.getString(R.string.testData_account3Description),

@@ -18,10 +18,10 @@ public class AggregateAccount extends Account {
   public AggregateAccount(Cursor c) {
     extract(c);
     try {
-      this.grouping = Grouping.valueOf(MyApplication.getInstance().getSettings().getString(
-          GROUPING_PREF_PREFIX + currency, "NONE"));
+      this.setGrouping(Grouping.valueOf(MyApplication.getInstance().getSettings().getString(
+          GROUPING_PREF_PREFIX + currency, "NONE")));
     } catch (IllegalArgumentException ex) {
-      this.grouping = Grouping.NONE;
+      this.setGrouping(Grouping.NONE);
     }
     accounts.put(getId(), this);
   }
@@ -55,7 +55,7 @@ public class AggregateAccount extends Account {
 
   @Override
   public void persistGrouping(Grouping value) {
-    this.grouping = value;
+    this.setGrouping(value);
     MyApplication.getInstance().getSettings().edit()
         .putString(GROUPING_PREF_PREFIX + currency.getCurrencyCode(), value.name())
         .apply();

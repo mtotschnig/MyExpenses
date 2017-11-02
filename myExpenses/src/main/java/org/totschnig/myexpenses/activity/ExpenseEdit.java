@@ -1410,7 +1410,7 @@ public class ExpenseEdit extends AmountActivity implements
   private void configureStatusSpinner() {
     Account a = getCurrentAccount();
     mStatusSpinner.getSpinner().setVisibility((isNoMainTransaction() ||
-        a == null || a.type.equals(AccountType.CASH)) ? View.GONE : View.VISIBLE);
+        a == null || a.getType().equals(AccountType.CASH)) ? View.GONE : View.VISIBLE);
   }
 
   /**
@@ -1933,7 +1933,7 @@ public class ExpenseEdit extends AmountActivity implements
             TransactionProvider.METHODS_URI.buildUpon()
                 .appendPath(TransactionProvider.URI_SEGMENT_TYPE_FILTER)
                 .appendPath(mType == INCOME ? "1" : "-1")
-                .appendPath(a.type.name()).build(),
+                .appendPath(a.getType().name()).build(),
             null, null, null, null);
       case ACCOUNTS_CURSOR:
         return new CursorLoader(this, TransactionProvider.ACCOUNTS_BASE_URI,

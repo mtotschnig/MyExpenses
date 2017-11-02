@@ -22,7 +22,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteException;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
@@ -31,7 +30,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -82,15 +80,14 @@ import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.CommentCriteria;
 import org.totschnig.myexpenses.provider.filter.Criteria;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
+import org.totschnig.myexpenses.ui.ProtectedCursorLoader;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
-import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.DistribHelper;
@@ -176,7 +173,7 @@ public class MyExpenses extends LaunchActivity implements
 
   private void setHelpVariant() {
     Account account = Account.getInstanceFromDb(mAccountId);
-    helpVariant = account == null || account.type.equals(AccountType.CASH) ?
+    helpVariant = account == null || account.getType().equals(AccountType.CASH) ?
         null : HelpVariant.crStatus;
   }
 
@@ -409,7 +406,7 @@ public class MyExpenses extends LaunchActivity implements
 
       Account account = Account.getInstanceFromDb(mAccountId);
       if (account != null) {
-        Utils.configureGroupingMenu(groupingMenu, account.grouping);
+        Utils.configureGroupingMenu(groupingMenu, account.getGrouping());
       }
     }
     return true;
@@ -708,7 +705,7 @@ public class MyExpenses extends LaunchActivity implements
         if (tag != null) {
           int year = (int) ((Long) tag / 1000);
           int groupingSecond = (int) ((Long) tag % 1000);
-          i.putExtra("grouping", a != null ? a.grouping : Grouping.NONE);
+          i.putExtra("grouping", a != null ? a.getGrouping() : Grouping.NONE);
           i.putExtra("groupingYear", year);
           i.putExtra("groupingSecond", groupingSecond);
         }
@@ -749,46 +746,7 @@ public class MyExpenses extends LaunchActivity implements
       case ACCOUNTS_CURSOR:
         Uri.Builder builder = TransactionProvider.ACCOUNTS_URI.buildUpon();
         builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES, "1");
-        return new CursorLoader(this,
-            builder.build(), null, null, null, null) {
-          @Override
-          public Cursor loadInBackground() {
-            try {
-              return super.loadInBackground();
-            } catch (TransactionDatabase.SQLiteDowngradeFailedException |
-                TransactionDatabase.SQLiteUpgradeFailedException e) {
-              //TODO this currently is dead code (with the exception of Gingerbread) since database is initialized in TASK_INIT
-              //TODO evaluate if this is still relevant and needs to be migrated to handling of TASK_INIT
-              AcraHelper.report(e);
-              String msg = e instanceof TransactionDatabase.SQLiteDowngradeFailedException ?
-                  ("Database cannot be downgraded from a newer version. Please either uninstall MyExpenses, " +
-                      "before reinstalling, or upgrade to a new version.") :
-                  "Database upgrade failed. Please contact support@myexpenses.mobi !";
-              MessageDialogFragment f = MessageDialogFragment.newInstance(
-                  0,
-                  msg,
-                  new MessageDialogFragment.Button(android.R.string.ok, R.id.QUIT_COMMAND, null),
-                  null,
-                  null);
-              f.setCancelable(false);
-              f.show(getSupportFragmentManager(), "DOWN_OR_UP_GRADE");
-              return null;
-            } catch (SQLiteException e) {
-              String msg = String.format(
-                  "Loading of transactions failed (%s). Probably the sum of the entered amounts exceeds the storage limit !"
-                  ,e.getMessage());
-              MessageDialogFragment f = MessageDialogFragment.newInstance(
-                  0,
-                  msg,
-                  new MessageDialogFragment.Button(android.R.string.ok, R.id.QUIT_COMMAND, null),
-                  null,
-                  null);
-              f.setCancelable(false);
-              f.show(getSupportFragmentManager(), "SQLITE_EXCEPTION");
-              return null;
-            }
-          }
-        };
+        return new ProtectedCursorLoader(this, builder.build());
     }
     return null;
   }
@@ -1392,4 +1350,5 @@ public class MyExpenses extends LaunchActivity implements
   protected boolean shouldKeepProgress(int taskId) {
     return taskId == TASK_EXPORT;
   }
+
 }

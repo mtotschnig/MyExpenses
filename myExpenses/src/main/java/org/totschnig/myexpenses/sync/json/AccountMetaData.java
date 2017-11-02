@@ -55,7 +55,7 @@ public abstract class AccountMetaData implements Parcelable {
   public static AccountMetaData from(Account account) {
     return builder().setCurrency(account.currency.getCurrencyCode()).setColor(account.color)
         .setUuid(account.uuid).setDescription(account.description).setLabel(account.label)
-        .setOpeningBalance(account.openingBalance.getAmountMinor()).setType(account.type.name())
+        .setOpeningBalance(account.openingBalance.getAmountMinor()).setType(account.getType().name())
         .build();
   }
 

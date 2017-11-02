@@ -33,7 +33,7 @@ public class QifAccount {
 
     public static QifAccount fromAccount(Account account) {
         QifAccount qifAccount = new QifAccount();
-        qifAccount.type = account.type.toQifName();
+        qifAccount.type = account.getType().toQifName();
         qifAccount.memo = account.label;
         qifAccount.desc = account.description;
         return qifAccount;
@@ -43,7 +43,7 @@ public class QifAccount {
         Account a = new Account();
         a.currency = currency;
         a.label = memo;
-        a.type = AccountType.fromQifName(type);
+        a.setType(AccountType.fromQifName(type));
         a.description = desc;
         if (openinBalance != null) {
             a.openingBalance = new Money(currency,openinBalance);

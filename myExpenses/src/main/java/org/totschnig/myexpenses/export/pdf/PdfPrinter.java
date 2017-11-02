@@ -203,7 +203,7 @@ public class PdfPrinter {
     }
     Uri.Builder builder = Transaction.CONTENT_URI.buildUpon();
     builder.appendPath(TransactionProvider.URI_SEGMENT_GROUPS)
-        .appendPath(account.grouping.name());
+        .appendPath(account.getGrouping().name());
     if (account.getId() < 0) {
       builder.appendQueryParameter(KEY_CURRENCY, account.currency.getCurrencyCode());
     } else {
@@ -233,7 +233,7 @@ public class PdfPrinter {
     int columnIndexTransferPeer = transactionCursor.getColumnIndex(KEY_TRANSFER_PEER);
     int columnIndexDate = transactionCursor.getColumnIndex(KEY_DATE);
     DateFormat itemDateFormat;
-    switch (account.grouping) {
+    switch (account.getGrouping()) {
       case DAY:
         itemDateFormat = android.text.format.DateFormat.getTimeFormat(ctx);
         break;
@@ -256,13 +256,13 @@ public class PdfPrinter {
     groupCursor.moveToFirst();
 
     while (transactionCursor.getPosition() < transactionCursor.getCount()) {
-      int year = transactionCursor.getInt(account.grouping.equals(Grouping.WEEK) ? columnIndexYearOfWeekStart : columnIndexYear);
+      int year = transactionCursor.getInt(account.getGrouping().equals(Grouping.WEEK) ? columnIndexYearOfWeekStart : columnIndexYear);
       int month = transactionCursor.getInt(columnIndexMonth);
       int week = transactionCursor.getInt(columnIndexWeek);
       int day = transactionCursor.getInt(columnIndexDay);
       int second = -1;
 
-      switch (account.grouping) {
+      switch (account.getGrouping()) {
         case DAY:
           currentHeaderId = year * 1000 + day;
           break;
@@ -282,7 +282,7 @@ public class PdfPrinter {
         if (table != null) {
           document.add(table);
         }
-        switch (account.grouping) {
+        switch (account.getGrouping()) {
           case DAY:
             second = transactionCursor.getInt(columnIndexDay);
             break;
@@ -295,7 +295,7 @@ public class PdfPrinter {
         }
         table = helper.newTable(2);
         table.setWidthPercentage(100f);
-        PdfPCell cell = helper.printToCell(account.grouping.getDisplayTitle(ctx, year, second, transactionCursor), LazyFontSelector.FontType.HEADER);
+        PdfPCell cell = helper.printToCell(account.getGrouping().getDisplayTitle(ctx, year, second, transactionCursor), LazyFontSelector.FontType.HEADER);
         table.addCell(cell);
         Long sumExpense = DbUtils.getLongOr0L(groupCursor, columnIndexGroupSumExpense);
         Long sumIncome = DbUtils.getLongOr0L(groupCursor, columnIndexGroupSumIncome);

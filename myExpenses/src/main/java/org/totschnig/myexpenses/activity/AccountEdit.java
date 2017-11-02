@@ -198,7 +198,7 @@ public class AccountEdit extends AmountActivity implements
     mAmountText.setAmount(amount);
     mCurrencySpinner.setSelection(currencyAdapter.getPosition(
         CurrencyEnum.valueOf(mAccount.currency.getCurrencyCode())));
-    mAccountTypeSpinner.setSelection(mAccount.type.ordinal());
+    mAccountTypeSpinner.setSelection(mAccount.getType().ordinal());
     UiUtils.setBackgroundOnButton(mColorIndicator, mAccount.color);
   }
 
@@ -232,7 +232,7 @@ public class AccountEdit extends AmountActivity implements
       openingBalance = openingBalance.negate();
     }
     mAccount.openingBalance.setAmountMajor(openingBalance);
-    mAccount.type = (AccountType) mAccountTypeSpinner.getSelectedItem();
+    mAccount.setType((AccountType) mAccountTypeSpinner.getSelectedItem());
     if (mSyncSpinner.getSelectedItemPosition() > 0) {
       mAccount.setSyncAccountName((String) mSyncSpinner.getSelectedItem());
     }

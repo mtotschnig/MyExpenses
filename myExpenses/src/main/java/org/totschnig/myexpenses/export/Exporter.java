@@ -141,9 +141,9 @@ public class Exporter {
         sb.append("!Account\nN")
             .append(account.label)
             .append("\nT")
-            .append(account.type.toQifName())
+            .append(account.getType().toQifName())
             .append("\n^\n!Type:")
-            .append(account.type.toQifName());
+            .append(account.getType().toQifName());
     }
     //Write header
     out.write(sb.toString());

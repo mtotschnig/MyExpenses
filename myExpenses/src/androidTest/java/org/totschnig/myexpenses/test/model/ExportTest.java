@@ -77,7 +77,7 @@ public class ExportTest extends ModelTest {
   private void insertData1() {
     Transaction op;
     account1 = new Account("Account 1", openingBalance, "Account 1");
-    account1.type = AccountType.BANK;
+    account1.setType(AccountType.BANK);
     account1.save();
     account2 = new Account("Account 2", openingBalance, "Account 2");
     account2.save();

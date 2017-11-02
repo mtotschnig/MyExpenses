@@ -92,7 +92,7 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
       a = new Account();
       a.currency = mCurrency;
       a.label = MyApplication.getInstance().getString(R.string.pref_import_title, "CSV");
-      a.type = mAccountType;
+      a.setType(mAccountType);
       a.save();
       accountId = a.getId();
     } else {

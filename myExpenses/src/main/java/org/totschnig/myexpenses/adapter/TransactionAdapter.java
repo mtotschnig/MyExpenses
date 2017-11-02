@@ -219,7 +219,7 @@ public class TransactionAdapter extends SimpleCursorAdapter {
       status = CrStatus.UNRECONCILED;
     }
 
-    if (!mAccount.type.equals(AccountType.CASH) && !status.equals(CrStatus.VOID)) {
+    if (!mAccount.getType().equals(AccountType.CASH) && !status.equals(CrStatus.VOID)) {
       viewHolder.color1.setBackgroundColor(status.color);
       viewHolder.colorContainer.setTag(status == CrStatus.RECONCILED ? -1 : getItemId(position));
       viewHolder.colorContainer.setVisibility(View.VISIBLE);
@@ -231,7 +231,7 @@ public class TransactionAdapter extends SimpleCursorAdapter {
   }
 
   public void refreshDateFormat() {
-    switch (mGroupingOverride != null ? mGroupingOverride : mAccount.grouping) {
+    switch (mGroupingOverride != null ? mGroupingOverride : mAccount.getGrouping()) {
       case DAY:
         itemDateFormat = localizedTimeFormat;
         break;

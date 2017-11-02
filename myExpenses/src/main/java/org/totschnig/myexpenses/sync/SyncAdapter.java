@@ -703,7 +703,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     if (id == null) {
       id = PaymentMethod.find(methodLabel);
       if (id == -1) {
-        id = PaymentMethod.maybeWrite(methodLabel, getAccount().type);
+        id = PaymentMethod.maybeWrite(methodLabel, getAccount().getType());
       }
       if (id != -1) { //should always be the case
         methodToId.put(methodLabel, id);

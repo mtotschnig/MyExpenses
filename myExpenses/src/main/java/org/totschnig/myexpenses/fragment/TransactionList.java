@@ -221,8 +221,8 @@ public class TransactionList extends ContextualActionBarFragment implements
     if (mAccount == null) {
       return;
     }
-    mGrouping = mAccount.grouping;
-    mType = mAccount.type;
+    mGrouping = mAccount.getGrouping();
+    mType = mAccount.getType();
     mCurrency = mAccount.currency.getCurrencyCode();
     mOpeningBalance = mAccount.openingBalance.getAmountMinor();
     MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
@@ -502,7 +502,7 @@ public class TransactionList extends ContextualActionBarFragment implements
           }
         }
         builder.appendPath(TransactionProvider.URI_SEGMENT_GROUPS)
-            .appendPath(mAccount.grouping.name());
+            .appendPath(mAccount.getGrouping().name());
         if (mAccount.getId() < 0) {
           builder.appendQueryParameter(KEY_CURRENCY, mAccount.currency.getCurrencyCode());
         } else {
@@ -606,8 +606,8 @@ public class TransactionList extends ContextualActionBarFragment implements
         return;
       }
       //if grouping has changed
-      if (mAccount.grouping != mGrouping) {
-        mGrouping = mAccount.grouping;
+      if (mAccount.getGrouping() != mGrouping) {
+        mGrouping = mAccount.getGrouping();
         if (mAdapter != null) {
           setGrouping();
           //we should not need to notify here, since setGrouping restarts
@@ -616,10 +616,10 @@ public class TransactionList extends ContextualActionBarFragment implements
         }
         return;
       }
-      if (mAccount.type != mType ||
+      if (mAccount.getType() != mType ||
           mAccount.currency.getCurrencyCode() != mCurrency) {
         mListView.setAdapter(mAdapter);
-        mType = mAccount.type;
+        mType = mAccount.getType();
         mCurrency = mAccount.currency.getCurrencyCode();
       }
       if (!mAccount.openingBalance.getAmountMinor().equals(mOpeningBalance)) {
@@ -663,13 +663,13 @@ public class TransactionList extends ContextualActionBarFragment implements
 
       if (mGroupingCursor != null && mGroupingCursor.moveToFirst()) {
         //no grouping, we need the first and only row
-        if (mAccount.grouping.equals(Grouping.NONE)) {
+        if (mAccount.getGrouping().equals(Grouping.NONE)) {
           fillSums(holder, mGroupingCursor);
         } else {
           traverseCursor:
           while (!mGroupingCursor.isAfterLast()) {
             if (mGroupingCursor.getInt(columnIndexGroupYear) == year) {
-              switch (mAccount.grouping) {
+              switch (mAccount.getGrouping()) {
                 case YEAR:
                   fillSums(holder, mGroupingCursor);
                   break traverseCursor;
@@ -705,7 +705,7 @@ public class TransactionList extends ContextualActionBarFragment implements
         if (!mGroupingCursor.isAfterLast())
           mappedCategoriesPerGroup.put(position, mGroupingCursor.getInt(columnIndexGroupMappedCategories) > 0);
       }
-      holder.text.setText(mAccount.grouping.getDisplayTitle(getActivity(), year, second, c));
+      holder.text.setText(mAccount.getGrouping().getDisplayTitle(getActivity(), year, second, c));
       //holder.text.setText(mAccount.grouping.getDisplayTitle(getActivity(), year, second, mAccount.grouping.equals(Grouping.WEEK)?this_year_of_week_start:this_year, this_week,this_day));
       return convertView;
     }
@@ -739,7 +739,7 @@ public class TransactionList extends ContextualActionBarFragment implements
 
     @Override
     public long getHeaderId(int position) {
-      if (mAccount.grouping.equals(Grouping.NONE))
+      if (mAccount.getGrouping().equals(Grouping.NONE))
         return 1;
       Cursor c = getCursor();
       c.moveToPosition(position);
@@ -747,7 +747,7 @@ public class TransactionList extends ContextualActionBarFragment implements
       int month = c.getInt(columnIndexMonth);
       int week = c.getInt(columnIndexWeek);
       int day = c.getInt(columnIndexDay);
-      switch (mAccount.grouping) {
+      switch (mAccount.getGrouping()) {
         case DAY:
           return year * 1000 + day;
         case WEEK:
@@ -762,7 +762,7 @@ public class TransactionList extends ContextualActionBarFragment implements
     }
 
     private int getColumnIndexForYear() {
-      switch (mAccount.grouping) {
+      switch (mAccount.getGrouping()) {
         case WEEK:
           return columnIndexYearOfWeekStart;
         case MONTH:
@@ -954,7 +954,7 @@ public class TransactionList extends ContextualActionBarFragment implements
             enabled = mappedCategories;
             break;
           case R.id.FILTER_STATUS_COMMAND:
-            enabled = !mAccount.type.equals(AccountType.CASH);
+            enabled = !mAccount.getType().equals(AccountType.CASH);
             break;
           case R.id.FILTER_PAYEE_COMMAND:
             enabled = mappedPayees;

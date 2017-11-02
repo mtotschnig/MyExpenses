@@ -324,7 +324,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       mLayout.findViewById(R.id.MethodRow).setVisibility(View.GONE);
     }
 
-    if (Account.getInstanceFromDb(mTransaction.getAccountId()).type.equals(AccountType.CASH)) {
+    if (Account.getInstanceFromDb(mTransaction.getAccountId()).getType().equals(AccountType.CASH)) {
       mLayout.findViewById(R.id.StatusRow).setVisibility(View.GONE);
     } else {
       TextView tv = (TextView) mLayout.findViewById(R.id.Status);
