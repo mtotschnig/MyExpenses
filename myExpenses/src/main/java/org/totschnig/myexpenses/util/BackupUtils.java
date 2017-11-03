@@ -24,7 +24,7 @@ public class BackupUtils {
     if (appDir == null) {
       return new Result(false, R.string.io_error_appdir_null);
     }
-    if (!AppDirHelper.existsAndIsWritable(appDir)) {
+    if (!AppDirHelper.isWritableDirectory(appDir)) {
       return new Result(false, R.string.app_dir_not_accessible,
           FileUtils.getPath(application, appDir.getUri()));
     }

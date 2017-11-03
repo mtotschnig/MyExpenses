@@ -23,6 +23,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.provider.DocumentFile;
 import android.widget.Toast;
 
+import com.annimon.stream.Stream;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.BackupListDialogFragment;
@@ -41,15 +43,9 @@ import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.ShareUtils;
 import org.totschnig.myexpenses.util.Utils;
 
-import java.io.File;
-import java.io.FilenameFilter;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 
 import timber.log.Timber;
-
-import static org.totschnig.myexpenses.task.RestoreTask.KEY_DIR_NAME_LEGACY;
 
 public class BackupRestoreActivity extends ProtectedFragmentActivity
     implements ConfirmationDialogListener {
@@ -76,10 +72,15 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
         abort(appDirStatus.print(this));
         return;
       }
+      DocumentFile appDir = AppDirHelper.getAppDir(this);
+      if (appDir == null) {
+        abort(getString(R.string.io_error_appdir_null));
+        return;
+      }
       MessageDialogFragment.newInstance(
           R.string.menu_backup,
           getString(R.string.warning_backup,
-              FileUtils.getPath(this, AppDirHelper.getAppDir(this).getUri())),
+              FileUtils.getPath(this, appDir.getUri())),
           new MessageDialogFragment.Button(android.R.string.yes,
               R.id.BACKUP_COMMAND, null), null,
           MessageDialogFragment.Button.noButton())
@@ -123,23 +124,6 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
     bundle.putInt(RestoreTask.KEY_RESTORE_PLAN_STRATEGY, restorePlanStrategie);
     bundle.putParcelable(TaskExecutionFragment.KEY_FILE_PATH, fileUri);
     return bundle;
-  }
-
-  /**
-   * Legacy version for backups stored in application directory
-   *
-   * @param dir
-   */
-  private void showRestoreDialog(String dir) {
-    Bundle b = new Bundle();
-    b.putInt(ConfirmationDialogFragment.KEY_TITLE, R.string.pref_restore_title);
-    b.putString(ConfirmationDialogFragment.KEY_MESSAGE,
-        getString(R.string.warning_restore, dir));
-    b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
-        R.id.RESTORE_COMMAND);
-    b.putString(KEY_DIR_NAME_LEGACY, dir);
-    ConfirmationDialogFragment.newInstance(b).show(getSupportFragmentManager(),
-        "RESTORE");
   }
 
   @Override
@@ -233,21 +217,6 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
     }
   }
 
-  /**
-   * Legacy callback from BackupListDialogFragment for backups stored in
-   * application directory
-   *
-   * @param dirOrFile
-   */
-  public void onSourceSelected(String dirOrFile, int restorePlanStrategie) {
-    if (dirOrFile.endsWith(".zip")) {
-      showRestoreDialog(Uri.fromFile(new File(AppDirHelper.getAppDir(this).getUri().getPath(), dirOrFile)),
-          restorePlanStrategie);
-    } else {
-      showRestoreDialog(dirOrFile);
-    }
-  }
-
   @Override
   public void onPositive(Bundle args) {
     switch (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
@@ -261,42 +230,21 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
   }
 
   public void openBrowse() {
-    String[] backups = listBackups();
-    if (backups.length == 0) {
+    if (hasBackups()) {
+      BackupListDialogFragment.newInstance().show(
+          getSupportFragmentManager(), FRAGMENT_TAG);
+    } else {
       Toast.makeText(getBaseContext(),
           getString(R.string.restore_no_backup_found), Toast.LENGTH_LONG)
           .show();
       finish();
-    } else {
-      BackupListDialogFragment.newInstance(backups).show(
-          getSupportFragmentManager(), FRAGMENT_TAG);
     }
   }
 
-  // inspired by Financisto
-  public String[] listBackups() {
+  public boolean hasBackups() {
     DocumentFile appDir = AppDirHelper.getAppDir(this);
-    if (appDir.getUri().getScheme().equals("file")) {
-      String[] files = new File(appDir.getUri().getPath()).list(new FilenameFilter() {
-        @Override
-        public boolean accept(File dir, String filename) {
-          // backup-yyyMMdd-HHmmss
-          return filename
-              .matches("backup-\\d\\d\\d\\d\\d\\d\\d\\d-\\d\\d\\d\\d\\d\\d") ||
-              filename.endsWith(".zip");
-        }
-      });
-      if (files != null) {
-        Arrays.sort(files, new Comparator<String>() {
-          @Override
-          public int compare(String s1, String s2) {
-            return s2.compareTo(s1);
-          }
-        });
-        return files;
-      }
-    }
-    return new String[0];
+    return appDir != null && Stream.of(appDir.listFiles())
+        .anyMatch(documentFile -> documentFile.getName().endsWith(".zip"));
   }
 
   @Override

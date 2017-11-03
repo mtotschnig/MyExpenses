@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v4.provider.DocumentFile;
@@ -29,6 +30,7 @@ public class AppDirHelper {
    * returns {@link android.content.ContextWrapper#getExternalFilesDir(String)} with argument null
    * @param context
    */
+  @Nullable
   public static DocumentFile getAppDir(Context context) {
     String prefString = PrefKey.APP_DIR.getString(null);
     if (prefString != null) {
@@ -37,16 +39,11 @@ public class AppDirHelper {
         File appDir = new File(pref.getPath());
         if (appDir.mkdir() || appDir.isDirectory()) {
           return DocumentFile.fromFile(appDir);
-        }/* else {
-          Utils.reportToAcra(new Exception("Found invalid preference value " + prefString));
-        }*/
+        }
       } else {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
           //this will return null, if called on a pre-Lolipop device
-          DocumentFile documentFile = DocumentFile.fromTreeUri(context, pref);
-          if (existsAndIsWritable(documentFile)) {
-            return documentFile;
-          }
+          return DocumentFile.fromTreeUri(context, pref);
         }
       }
     }
@@ -159,14 +156,13 @@ public class AppDirHelper {
         }
       }
     }
-    return existsAndIsWritable(appDir) ? new Result(true) :
+    return isWritableDirectory(appDir) ? new Result(true) :
         new Result(false, R.string.app_dir_not_accessible,
             FileUtils.getPath(context, appDir.getUri()));
   }
 
-  @NonNull
-  public static boolean existsAndIsWritable(DocumentFile appdir) {
-    return appdir.exists() && appdir.canWrite();
+  public static boolean isWritableDirectory(@NonNull DocumentFile appdir) {
+    return appdir.exists() && appdir.isDirectory() && appdir.canWrite();
   }
 
   public static Uri ensureContentUri(Uri uri) {

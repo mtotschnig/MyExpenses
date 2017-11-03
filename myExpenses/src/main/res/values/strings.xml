@@ -337,7 +337,7 @@
     <string name="pref_request_licence_title">Request a key</string>
     <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
     <string name="pref_restore_alternative">Alternative</string>
-    <string name="pref_restore_alternative_summary">Use this alternative method if there is no file manager installed on the device or if you restore a backup in the legacy format.</string>
+    <string name="pref_restore_alternative_summary">Use this alternative method if there is no file manager installed on the device.</string>
     <string name="pref_restore_summary">Select a backup for restoring database and preferences.</string>
     <string name="pref_restore_title">Restore</string>
     <string name="pref_security_question_summary">Allows you to unlock the app, if you have forgotten your password.</string>

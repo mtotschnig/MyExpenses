@@ -46,6 +46,7 @@ import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.FileUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.ShareUtils;
@@ -269,11 +270,19 @@ public class ManageCategories extends ProtectedFragmentActivity implements
   }
 
   private void exportCats(String encoding) {
-    startTaskExecution(
-        TaskExecutionFragment.TASK_EXPORT_CATEGRIES,
-        null,
-        encoding,
-        R.string.menu_categories_export);
+    Result appDirStatus = AppDirHelper.checkAppDir(this);
+    if (appDirStatus.success) {
+      startTaskExecution(
+          TaskExecutionFragment.TASK_EXPORT_CATEGRIES,
+          null,
+          encoding,
+          R.string.menu_categories_export);
+    } else {
+      Toast.makeText(this,
+          appDirStatus.print(this),
+          Toast.LENGTH_LONG)
+          .show();
+    }
   }
 
   @Override

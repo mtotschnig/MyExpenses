@@ -684,7 +684,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     startActivity(ContribInfoDialogActivity.getIntentFor(getContext(), selectedPackage, shouldReplaceExisting));
   }
 
-  protected void startLegacyFolderRequest(DocumentFile appDir) {
+  protected void startLegacyFolderRequest(@NonNull  DocumentFile appDir) {
     Intent intent;
     intent = new Intent(getActivity(), FolderBrowser.class);
     intent.putExtra(FolderBrowser.PATH, appDir.getUri().getPath());
@@ -696,7 +696,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     if (AppDirHelper.isExternalStorageAvailable()) {
       DocumentFile appDir = AppDirHelper.getAppDir(getActivity());
       if (appDir != null) {
-        if (AppDirHelper.existsAndIsWritable(appDir)) {
+        if (AppDirHelper.isWritableDirectory(appDir)) {
           pref.setSummary(FileUtils.getPath(getActivity(), appDir.getUri()));
         } else {
           pref.setSummary(getString(R.string.app_dir_not_accessible,
@@ -803,7 +803,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
           //String error = String.format(Locale.ROOT, "PICK_FOLDER_REQUEST returned after %d millis with request code %d",
           //    pickFolderRequestDuration, requestCode);
           //AcraHelper.report(new Exception(error));
-          startLegacyFolderRequest(AppDirHelper.getAppDir(getActivity()));
+          DocumentFile appDir = AppDirHelper.getAppDir(getActivity());
+          if (appDir != null) {
+            startLegacyFolderRequest(appDir);
+          }
         }
       }
     } else if (requestCode == PICK_FOLDER_REQUEST_LEGACY && resultCode == Activity.RESULT_OK) {

@@ -3,6 +3,8 @@ package org.totschnig.myexpenses.dialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.provider.DocumentFile;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,26 +13,35 @@ import android.widget.ArrayAdapter;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 
+import com.annimon.stream.Stream;
+
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.BackupRestoreActivity;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
+import org.totschnig.myexpenses.util.AppDirHelper;
 
 public class BackupListDialogFragment extends CommitSafeDialogFragment
     implements DialogInterface.OnClickListener,DialogUtils.CalendarRestoreStrategyChangedListener {
   RadioGroup mRestorePlanStrategie;
   Spinner selectBackupSpinner;
   RadioGroup.OnCheckedChangeListener mCalendarRestoreButtonCheckedChangeListener;
+  DocumentFile[] backupFiles;
+
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    backupFiles = listBackups();
+  }
 
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    final String[] backupFiles = (String[]) getArguments().getSerializable("backupFiles");
     LayoutInflater li = LayoutInflater.from(getActivity());
     //noinspection InflateParams
     View view = li.inflate(R.layout.backup_restore_fallback_dialog, null);
-    ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
-        android.R.layout.simple_spinner_item, backupFiles);
-    selectBackupSpinner = ((Spinner) view.findViewById(R.id.select_backup));
+    ArrayAdapter<DocumentFileItem> adapter = new ArrayAdapter<>(getActivity(),
+        android.R.layout.simple_spinner_item,
+        Stream.of(backupFiles).map(DocumentFileItem::new).toArray(DocumentFileItem[]::new));
+    selectBackupSpinner = view.findViewById(R.id.select_backup);
     selectBackupSpinner.setAdapter(adapter);
     adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
     mRestorePlanStrategie = DialogUtils.configureCalendarRestoreStrategy(view);
@@ -42,25 +53,13 @@ public class BackupListDialogFragment extends CommitSafeDialogFragment
     return new AlertDialog.Builder(getActivity())
         .setTitle(R.string.pref_restore_title)
         .setView(view)
-        /*.setSingleChoiceItems(backupFiles, -1, new DialogInterface.OnClickListener() {
-          @Override
-          public void onClick(DialogInterface dialog, int which) {
-            if (getActivity()==null) {
-              return;
-            }
-            ((BackupRestoreActivity) getActivity()).onSourceSelected(backupFiles[which]);
-          }
-        })*/
         .setPositiveButton(android.R.string.ok, this)
         .setNegativeButton(android.R.string.cancel, this)
         .create();
   }
 
-  public static BackupListDialogFragment newInstance(String[] backupFiles) {
+  public static BackupListDialogFragment newInstance() {
     BackupListDialogFragment f = new BackupListDialogFragment();
-    Bundle b = new Bundle();
-    b.putSerializable("backupFiles", backupFiles);
-    f.setArguments(b);
     return f;
   }
   @Override
@@ -76,12 +75,11 @@ public class BackupListDialogFragment extends CommitSafeDialogFragment
     if (getActivity()==null) {
       return;
     }
-    final String[] backupFiles = (String[]) getArguments().getSerializable("backupFiles");
     if (which == AlertDialog.BUTTON_POSITIVE) {
       int position = selectBackupSpinner.getSelectedItemPosition();
       if (position!= AdapterView.INVALID_POSITION) {
         ((BackupRestoreActivity) getActivity()).onSourceSelected(
-            backupFiles[position],
+            backupFiles[position].getUri(),
             mRestorePlanStrategie == null ? R.id.restore_calendar_handling_ignore :
                 mRestorePlanStrategie.getCheckedRadioButtonId());
         return;
@@ -112,5 +110,26 @@ public class BackupListDialogFragment extends CommitSafeDialogFragment
     mRestorePlanStrategie.clearCheck();
     mRestorePlanStrategie.setOnCheckedChangeListener(mCalendarRestoreButtonCheckedChangeListener);
     setButtonState();
+  }
+
+  public DocumentFile[] listBackups() {
+    DocumentFile appDir = AppDirHelper.getAppDir(getContext());
+    return appDir != null ? Stream.of(appDir.listFiles())
+        .filter(documentFile -> documentFile.getName().endsWith(".zip"))
+        .toArray(DocumentFile[]::new) : new DocumentFile[]{};
+  }
+
+  private static class DocumentFileItem {
+    private final DocumentFile documentFile;
+
+    private DocumentFileItem(DocumentFile documentFile) {
+      this.documentFile = documentFile;
+    }
+
+    @Override
+    public String toString() {
+      return documentFile.getName();
+    }
+
   }
 }

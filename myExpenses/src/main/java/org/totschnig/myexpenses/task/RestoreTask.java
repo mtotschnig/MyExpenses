@@ -52,13 +52,11 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 
 public class RestoreTask extends AsyncTask<Void, Result, Result> {
-  public static final String KEY_DIR_NAME_LEGACY = "dirNameLegacy";
   public static final String KEY_BACKUP_FROM_SYNC = "backupFromSync";
   public static final String KEY_RESTORE_PLAN_STRATEGY = "restorePlanStrategy";
   private final TaskExecutionFragment taskExecutionFragment;
   private int restorePlanStrategy;
   private Uri fileUri;
-  private String dirNameLegacy;
   private String syncAccountName, backupFromSync;
 
   RestoreTask(TaskExecutionFragment taskExecutionFragment, Bundle b) {
@@ -66,11 +64,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
     this.fileUri = b.getParcelable(TaskExecutionFragment.KEY_FILE_PATH);
     if (fileUri == null) {
       this.syncAccountName = b.getString(KEY_SYNC_ACCOUNT_NAME);
-      if (syncAccountName == null) {
-        this.dirNameLegacy = b.getString(KEY_DIR_NAME_LEGACY);
-      } else {
-        this.backupFromSync = b.getString(KEY_BACKUP_FROM_SYNC);
-      }
+      this.backupFromSync = b.getString(KEY_BACKUP_FROM_SYNC);
     }
     this.restorePlanStrategy = b.getInt(KEY_RESTORE_PLAN_STRATEGY);
   }
@@ -106,57 +100,54 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
     String currentPlannerId = null, currentPlannerPath = null;
     final MyApplication application = MyApplication.getInstance();
     ContentResolver cr = application.getContentResolver();
-    if (dirNameLegacy != null) {
-      workingDir = new File(AppDirHelper.getAppDir(application).getUri().getPath(), dirNameLegacy);
-    } else {
-      workingDir = AppDirHelper.getCacheDir();
-      if (workingDir == null) {
-        return new Result(false, R.string.external_storage_unavailable);
-      }
-      try {
-        InputStream is;
-        SyncBackendProvider syncBackendProvider;
-        if (syncAccountName != null) {
-          try {
-            syncBackendProvider = SyncBackendProviderFactory.get(MyApplication.getInstance(),
-            GenericAccountService.GetAccount(syncAccountName)).getOrThrow();
-          } catch (Throwable throwable) {
-            String errorMessage = String.format("Unable to get sync backend provider for %s",
-                syncAccountName);
-            AcraHelper.report(new Exception(errorMessage, throwable));
-            return new Result(false, errorMessage);
-          }
-          try {
-            is = syncBackendProvider.getInputStreamForBackup(backupFromSync);
-          } catch (IOException e) {
-            return new Result(false, e.getMessage());
-          }
-        } else {
-          is = cr.openInputStream(fileUri);
-        }
-        if (is == null) {
-          return new Result(false, "Unable to open backup file");
-        }
-        boolean zipResult = ZipUtils.unzip(is, workingDir);
+    workingDir = AppDirHelper.getCacheDir();
+    if (workingDir == null) {
+      return new Result(false, R.string.external_storage_unavailable);
+    }
+    try {
+      InputStream is;
+      SyncBackendProvider syncBackendProvider;
+      if (syncAccountName != null) {
         try {
-          is.close();
+          syncBackendProvider = SyncBackendProviderFactory.get(MyApplication.getInstance(),
+              GenericAccountService.GetAccount(syncAccountName)).getOrThrow();
+        } catch (Throwable throwable) {
+          String errorMessage = String.format("Unable to get sync backend provider for %s",
+              syncAccountName);
+          AcraHelper.report(new Exception(errorMessage, throwable));
+          return new Result(false, errorMessage);
+        }
+        try {
+          is = syncBackendProvider.getInputStreamForBackup(backupFromSync);
         } catch (IOException e) {
-          e.printStackTrace();
+          return new Result(false, e.getMessage());
         }
-        if (!zipResult) {
-          return new Result(
-              false,
-              R.string.restore_backup_archive_not_valid,
-              fileUri);
-        }
-      } catch (FileNotFoundException | SecurityException e) {
-        AcraHelper.report(e, "fileUri", fileUri.toString());
+      } else {
+        is = cr.openInputStream(fileUri);
+      }
+      if (is == null) {
+        return new Result(false, "Unable to open backup file");
+      }
+      boolean zipResult = ZipUtils.unzip(is, workingDir);
+      try {
+        is.close();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      if (!zipResult) {
         return new Result(
             false,
-            R.string.parse_error_other_exception,
-            e.getMessage());
+            R.string.restore_backup_archive_not_valid,
+            fileUri);
       }
+    } catch (FileNotFoundException | SecurityException e) {
+      AcraHelper.report(e, "fileUri", fileUri.toString());
+      return new Result(
+          false,
+          R.string.parse_error_other_exception,
+          e.getMessage());
     }
+
     File backupFile = BackupUtils.getBackupDbFile(workingDir);
     File backupPrefFile = BackupUtils.getBackupPrefFile(workingDir);
     if (!backupFile.exists()) {
@@ -268,7 +259,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
           .unregisterOnSharedPreferenceChangeListener(application);
 
       Editor edit = application.getSettings().edit();
-      for(Map.Entry<String,?> entry : application.getSettings().getAll().entrySet()) {
+      for (Map.Entry<String, ?> entry : application.getSettings().getAll().entrySet()) {
         String key = entry.getKey();
         if (!key.equals(PrefKey.ENTER_LICENCE.getKey()) && !key.startsWith("acra")) {
           edit.remove(key);

@@ -425,6 +425,9 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         return null;
       case TaskExecutionFragment.TASK_EXPORT_CATEGRIES:
         DocumentFile appDir = AppDirHelper.getAppDir(application);
+        if (appDir == null) {
+          return new Result(false, R.string.external_storage_unavailable);
+        }
         String fullLabel =
             " CASE WHEN " +
                 KEY_PARENTID +
@@ -435,9 +438,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
                 " END";
         //sort sub categories immediately after their main category
         String sort = "CASE WHEN parent_id then parent_id else _id END,parent_id";
-        if (appDir == null) {
-          return new Result(false, R.string.external_storage_unavailable);
-        }
         String fileName = "categories";
         DocumentFile outputFile = AppDirHelper.timeStampedFile(
             appDir,
