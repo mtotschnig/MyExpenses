@@ -322,7 +322,7 @@
   <string name="pref_request_licence_title">Anahtarı talep et</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Alternatif</string>
-  <string name="pref_restore_alternative_summary">Eğer cihazınızda kurulu bir dosya yöneticisi yoksa veya eski formatta bir yedeklemeyi geri almak istiyorsanız bu alternatif metodu kullanınız.</string>
+  <string name="pref_restore_alternative_summary">Eğer cihazınızda kurulu bir dosya yöneticisi yoksa istiyorsanız bu alternatif metodu kullanınız.</string>
   <string name="pref_restore_summary">Veritabanı ve tercihlerin geri alınacağı yedeklemeyi seç</string>
   <string name="pref_restore_title">Geri al</string>
   <string name="pref_security_question_summary">Parolanızı unuttuysanız uygulamanın kilidini açmanıza izin verir.</string>
@@ -684,4 +684,7 @@
   <string name="extend_validity">Geçerliliği uzat</string>
   <string name="progress_dialog_fetching_data_from_sync_backend">Uzak arka uçtan veri alınıyor. Bu biraz zaman alabilir.</string>
   <string name="donate_button_invoice">Fatura</string>
+  <string name="menu_sort_direction">Sıralama yönü</string>
+  <string name="sort_direction_ascending">artan</string>
+  <string name="sort_direction_descending">azalan</string>
 </resources>

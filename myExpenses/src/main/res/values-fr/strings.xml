@@ -322,7 +322,7 @@
   <string name="pref_request_licence_title">Demandez une clé</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Alternatif</string>
-  <string name="pref_restore_alternative_summary">Utilisez cette autre méthode si aucun gestionnaire de fichiers n\'est installé sur votre appareil ou si vous restaurez une sauvegarde à partir d\'un ancien format.</string>
+  <string name="pref_restore_alternative_summary">Utilisez cette autre méthode si aucun gestionnaire de fichiers n\'est installé sur votre appareil.</string>
   <string name="pref_restore_summary">Sélectionnez la sauvegarde que vous voulez restaurer.</string>
   <string name="pref_restore_title">Restauration</string>
   <string name="pref_security_question_summary">Vous permet de débloquer l\'application, si vous avez oublié votre mot de passe.</string>
@@ -684,4 +684,7 @@
   <string name="extend_validity">Prolonger la validité</string>
   <string name="progress_dialog_fetching_data_from_sync_backend">Récupération de données depuis un serveur distant. Cela peut prendre un certain temps.</string>
   <string name="donate_button_invoice">Facture</string>
+  <string name="menu_sort_direction">Direction de tri</string>
+  <string name="sort_direction_ascending">ascendante</string>
+  <string name="sort_direction_descending">descendante</string>
 </resources>

@@ -315,7 +315,7 @@
   <string name="pref_request_licence_title">Yêu cầu một khóa</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Cách khác</string>
-  <string name="pref_restore_alternative_summary">Dùng phương thức này nếu không có trình quản lý tập tin nào được cài đặt trên thiết bị của bạn hay bạn muốn khôi phục một bản sao lưu trong định dạng cũ. </string>
+  <string name="pref_restore_alternative_summary">Dùng phương thức này nếu không có trình quản lý tập tinnào được cài đặt trên thiết.</string>
   <string name="pref_restore_summary">Chọn một bản sao lưu để khôi phục cơ sở dữ liệu và các thiết lập.</string>
   <string name="pref_restore_title">Khôi phục</string>
   <string name="pref_security_question_summary">Cho phép bạn khóa ứng dụng, nếu như bạn quên mật khẩu.</string>

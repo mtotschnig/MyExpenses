@@ -316,7 +316,7 @@
   <string name="pref_request_licence_title">Pohon kunci</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Alternatif</string>
-  <string name="pref_restore_alternative_summary">Guna kaedah alternatif ini jika tiada pengurus fail terpasang dalam peranti atau jika anda pulihkan sandar dalam format lama.</string>
+  <string name="pref_restore_alternative_summary">Guna kaedah alternatif ini jika tiada pengurus fail terpasang dalam peranti.</string>
   <string name="pref_restore_summary">Pilih satu sandar untuk menyimpan pangkalan data dan keutamaan.</string>
   <string name="pref_restore_title">Pulih</string>
   <string name="pref_security_question_summary">Membolehkan anda buka apl, jika anda terlupa kata laluan anda.</string>

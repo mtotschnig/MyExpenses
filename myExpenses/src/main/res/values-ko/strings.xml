@@ -304,7 +304,6 @@
   <string name="pref_request_licence_title">기부 확인 키 요청</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">대안</string>
-  <string name="pref_restore_alternative_summary">기기에 파일 탐색기가 설치되어 있지 않거나 구형 백업 파일을 복원하고자 한다면 이 대체 방식을 사용하세요.</string>
   <string name="pref_restore_summary">데이터베이스와 설정값을 복원할 백업 파일을 선택하세요.</string>
   <string name="pref_restore_title">복원</string>
   <string name="pref_security_question_summary">암호를 잊어버렸을 때 앱을 잠금 해제 할 수 있도록 합니다.</string>

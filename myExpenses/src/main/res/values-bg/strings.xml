@@ -322,7 +322,7 @@
   <string name="pref_request_licence_title">Поискайте ключ</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Алтернатива</string>
-  <string name="pref_restore_alternative_summary">Използвайте алтернативния начин, ако на устройството нямате файлов мениджър или възстановявате от бекъп в по-стар формат.</string>
+  <string name="pref_restore_alternative_summary">Използвайте алтернативния начин, ако на устройството нямате файлов мениджър.</string>
   <string name="pref_restore_summary">Изберете бекъп файл за възстановяване на база данни и предпочитания.</string>
   <string name="pref_restore_title">Възстановяване</string>
   <string name="pref_security_question_summary">Позволява Ви да отключите приложението, ако сте забравили паролата си.</string>

@@ -319,7 +319,7 @@
   <string name="pref_request_licence_title">Solicitar uma chave</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Alternativo</string>
-  <string name="pref_restore_alternative_summary">Utilize este método alternativo se não houver um gestor de ficheiros instalado no dispositivo ou se restaurar uma cópia de segurança em formato obsoleto.</string>
+  <string name="pref_restore_alternative_summary">Utilize este método alternativo se não houver um gestor de ficheiros instalado no dispositivo.</string>
   <string name="pref_restore_summary">Selecione uma cópia de segurança para restaurar a base de dados e as preferências.</string>
   <string name="pref_restore_title">Restaurar</string>
   <string name="pref_security_question_summary">Permite-lhe desbloquear a aplicação, se tiver esquecido a sua palavra-passe.</string>

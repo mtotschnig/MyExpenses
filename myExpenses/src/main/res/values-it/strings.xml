@@ -320,7 +320,7 @@
   <string name="pref_request_licence_title">Richiedi una chiave</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Alternativo</string>
-  <string name="pref_restore_alternative_summary">Utilizzare questo metodo alternativo se non c\'è nessun file manager installato nel dispositivo, o se si ripristina un backup in formato legacy.</string>
+  <string name="pref_restore_alternative_summary">Utilizzare questo metodo alternativo se non c\'è nessun file manager installato nel dispositivo.</string>
   <string name="pref_restore_summary">Selezionare un backup per il ripristino del database e le preferenze</string>
   <string name="pref_restore_title">Ripristina</string>
   <string name="pref_security_question_summary">Permette di sbloccare l\'applicazione, se hai dimenticato la password.</string>

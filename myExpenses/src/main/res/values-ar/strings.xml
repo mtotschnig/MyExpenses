@@ -266,7 +266,7 @@
   <string name="pref_request_licence_title">اطلب مفتاح</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">بديل</string>
-  <string name="pref_restore_alternative_summary">استخدم هذه الطريقة البديلة إذا لم يكن مدير ملفات مثبتا على الجهاز أو إذا أردت استعادة نسخة إحتياطية على التنسيق القديم.</string>
+  <string name="pref_restore_alternative_summary">استخدم هذه الطريقة البديلة إذا لم يكن مدير ملفات مثبتا على الجهاز</string>
   <string name="pref_restore_summary">اختر نسخة احتياطية لاسترجاع قاعدة البيانات والتفضيلات</string>
   <string name="pref_restore_title">استعادة</string>
   <string name="pref_security_question_summary">تسمح لك بفتح قفل التطبيق، إذا كنت قد نسيت كلمة المرور.</string>

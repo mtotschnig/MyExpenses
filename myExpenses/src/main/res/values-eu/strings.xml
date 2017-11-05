@@ -319,7 +319,7 @@
   <string name="pref_request_licence_title">Eskatu gako bat</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Ordezkoa</string>
-  <string name="pref_restore_alternative_summary">Erabili ordezko metodo hau fitxategi kudeatzailerik ez badago instalatuta edo aitzinako formatuan dagoen babeskopia bat berreskuratu nahi baduzu.</string>
+  <string name="pref_restore_alternative_summary">Eğer cihazınızda kurulu bir dosya yöneticisi yoksa almak istiyorsanız bu alternatif metodu kullanınız.</string>
   <string name="pref_restore_summary">Aukeratu babeskopia bat datu-basea eta hobespenak berreskuratzeko.</string>
   <string name="pref_restore_title">Berreskuratu</string>
   <string name="pref_security_question_summary">Aplikazioa desblokeatzea ahalbidetzen du pasahitza ahaztu baduzu.</string>

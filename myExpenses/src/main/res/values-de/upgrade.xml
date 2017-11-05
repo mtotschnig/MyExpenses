@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_283">
+    <item>Aufsteigende Sortierrichtung (älteste Transaktionen oben)</item>
+  </string-array>
   <string-array name="whats_new_282">
     <item>Vorlagen und Pläne für mehrteilige Buchungen</item>
     <item>Einführung des Professionellen Lizenzschlüssels</item>

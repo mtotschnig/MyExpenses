@@ -314,7 +314,7 @@
   <string name="pref_request_licence_title">Запросить ключ</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Альтернатива</string>
-  <string name="pref_restore_alternative_summary">Используйте этот альтернативный метод если на устройстве не установлен файл-менеджер или если вы восстанавливаете резервную копию, сохраненную в старом формате.</string>
+  <string name="pref_restore_alternative_summary">Используйте этот альтернативный метод если на устройстве не установлен файл-менеджер.</string>
   <string name="pref_restore_summary">Выберите резервную копию для восстановления базы данных и настроек.</string>
   <string name="pref_restore_title">Восстановить</string>
   <string name="pref_security_question_summary">Позволяет разблокировать приложение, если вы забыли свой пароль.</string>

@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_283">
+    <item>Eskiden yeniye sıralama yönü (en eski işlemler en üstte)</item>
+  </string-array>
   <string-array name="whats_new_282">
     <item>Bölünmüş muameleler için şablonlar ve planlamalar</item>
     <item>Profesyonel Lisans Anahtarı</item>

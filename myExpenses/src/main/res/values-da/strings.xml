@@ -299,7 +299,7 @@
   <string name="pref_request_licence_title">Anmode om at få tilsendt en nøgle</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Alternativ</string>
-  <string name="pref_restore_alternative_summary">Brug denne alternative metode, hvis der ikke er nogen fil manager installeret på enheden eller hvis du vil gendanne en sikkerhedskopi i den gamle format.</string>
+  <string name="pref_restore_alternative_summary">Brug denne alternative metode, hvis der ikke er nogen fil manager installeret på enheden.</string>
   <string name="pref_restore_summary">Vælg en sikkerhedskopi for at genoprette databasen og indstillingerne.</string>
   <string name="pref_restore_title">Gendan</string>
   <string name="pref_security_question_summary">Giver dig mulighed for at oplåse app\'en, hvis du har glemt din adgangskode.</string>
