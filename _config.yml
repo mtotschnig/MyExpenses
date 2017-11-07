@@ -40,6 +40,8 @@ extended:
   - cloud_sync
 professional:
   - split_template
+  - email_support
+  - roadmap_voting
 title:
   ar: مصروفاتي
   en: My Expenses
