@@ -1,0 +1,44 @@
+Mes dépenses enregistre vos dépenses et vos revenus, directement sur votre smartphone et sur votre tablette.
+
+- Jusqu'à cinq comptes avec <b> virements </b> (également entre différentes monaies)
+- Nombre illimité de <b>modèles</b> et échéancier avec jusqu'à trois plans pour les transactions <b>périodiques</b>
+- Les operátions peuvent être <b>groupées</b> (par jour, semaine, mois et année) et <b>filtrées</b>
+- <b>Export</b> vers QIF et CSV. <b>Import</b> à partir de QIF
+- Les données peuvent être protégées par <b>mot de passe</b>
+- <b>Thème</b> (sombre et clair) et <b>taille de police</b> peuvent être personnalisés
+- <b>Rapprochement</b>: comparez facilement l'état des opérations à vos relevés bancaires
+- Sur l'écran d'accueil, <b>widget</b> et <b>raccourcis</b> permettent une saisie rapide des données
+
+Les fonctionnalités Premium sont déverrouillées en achetant l'une des clés de licence suivantes:
+
+<b>Clé Contrib</b>
+
+- <b>Sans publicité</b>
+- Nombre illimité de <b>comptes</b>
+- Nombre illimité de plans dans l'échéanchier pour les transactions <b>périodiques</b>
+- <b>Diagramme circulaire</b>: Visualisez la distribution statistique des opérations par catégorie sur différentes périodes (années, mois, semaines, jours)
+- <b>Opération ventilée</b>: une seule opération peut être divisée en plusieurs parties (catégories et transferts)
+- <b>Imprimer</b> la liste des opérations dans un fichier PDF
+- Définir une <b>question de sécurité</b> pour récupérer un mot de passe perdu
+- <b>Image jointe</b>: Capture par caméra ou sélection dans la galerie
+- Sélection rapide du <b>modèle</b> à partir d'un <b>widget</b> de l'écran d'accueil
+
+<b>Clé étendue</b>
+
+- Toutes les fonctions de la Clé Contrib
+- <b>Synchronisation dans le cloud</b>: les données peuvent être synchronisées entre plusieurs appareils via WebDAV et Google Drive
+- <b>Sauvegarde automatique</b> quotidienne avec téléchargement facultatif vers le stockage dans le cloud
+- <b>Import CSV</b> sophistiqué et personnalisable (applications tableur)
+
+<b>Clé professionnelle</b>
+
+- Toutes les fonctions de la Clé Étendue
+- Nombre illimité <b>de modèles et de plans pour les opérations ventilées</b>
+- <b>Assistance par e-mail</b> avec réponse garantie après 2 jours ouvrables
+- Voter sur la <b>feuille de route pour le développement</b>
+
+Mes dépenses demande les <u>permissions</u> critiques suivantes:
+- <i>Lire et écrire dans le calendrier</i> : les échéances d'opérations futures et périodiques seront stockées dans un calendrier local spécial ou dans celui que vous lui préciserez.
+- <u>Écriture mémoire USB</u> : enregistrement des fichiers de sauvegarde et exportation QIF et CSV.
+- <i>Communication réseau</i>: suivi d'utilisation anonyme, rapports d'erreur, validation de clé et synchronisation dans le cloud.
+- <i>Comptes</i>: Synchronisation sur plusieurs appareils par les services de cloud

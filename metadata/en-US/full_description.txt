@@ -1,0 +1,44 @@
+My Expenses keeps track of your expenses and your income, directly on your smartphone and on your tablet.
+
+- Up to five accounts with <b>transfers</b> (also between different currencies)
+- Unlimited number of <b>templates</b> and up to three plans for <b>recurring</b> transactions
+- Transactions can be <b>grouped</b> (per day, week, month and year) and <b>filtered</b>
+- <b>Export</b> to QIF and CSV. <b>Import</b> from QIF
+- Data can be protected by <b>password</b>
+- <b>Theme</b> (dark and light) and <b>font size</b> can be customized
+- <b>Reconciliation</b>: Easily compare transaction status with your bank statements
+- Homescreen <b>widget</b> and <b>shortcuts</b> for quick data entry
+
+Premium features are unlocked by purchase of one of the following licence keys:
+
+<b>Contrib Key</b>
+
+- <b>No ads</b>
+- Unlimited number of <b>accounts</b>
+- Unlimited number of plans for <b>recurring</b> transactions
+- <b>Pie chart</b>: Visualize the statistical distribution of transactions per category over different periods (years, months, weeks, days)
+- <b>Split transaction</b>: A single transaction can be split into multiple parts (categories and transfers)
+- <b>Print</b> the transaction list to a PDF file
+- Define a <b>security question</b> for recovering a lost password
+- <b>Image attachment</b>: Capture via camera or select from gallery
+- Quick <b>template</b> selection from homescreen <b>widget</b>
+
+<b>Extended Key</b>
+
+- All features of Contrib Key
+- <b>Cloud synchronization</b>: Data can be synced between multiple devices via WebDAV and Google Drive
+- Daily <b>automated backup</b> with optional upload to cloud storage
+- Sophisticated, customizable <b>CSV import</b> (spreadsheet applications)
+
+<b>Professional Key</b>
+
+- All features of Extended Key
+- Unlimited number of <b>templates and plans for split transactions</b>
+- <b>Email support</b> with guartanteed response after 2 business days
+- Voting right on <b>development roadmap</b>
+
+My Expenses requires the following critical <u>permissions</u>:
+- <i>Reading and writing the calendar</i>: Plans for future and recurrent transactions are stored either in a special local calendar or in any other calendar you assign.
+- <i>Writing USB storage</i>: Storage of QIF and CSV exports and backup files.
+- <i>Network communication</i>: Anonymous usage tracking, crash reporting, key validation and cloud synchronization.
+- <i>Accounts</i>: Synchronization across devices via cloud services.
