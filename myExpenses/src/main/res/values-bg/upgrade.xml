@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_283">
+    <item>Възходящо сортиране (най-старите транзакции отгоре)</item>
+  </string-array>
   <string-array name="whats_new_282">
     <item>Шаблони и планове за разпределени транзакции</item>
     <item>Представяне на нов лицензен ключ - Професионален</item>

@@ -72,7 +72,7 @@
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s é um recurso premium (%2$s).</string>
   <string name="dialog_contrib_reminder_remove_limitation">Remova essa limitação e acesso mais recursos atualizando o <i>{app_name}</i>.</string>
-  <string name="dialog_contrib_text_1"><i>{app_name}</i> é oferecido sem anúncios e com o código aberto.</string>
+  <string name="dialog_contrib_text_1"><i>{app_name}</i> é oferecido com o código aberto.</string>
   <string name="dialog_contrib_text_2">Por favor, contribua atualizando o <i>{app_name}</i> e ganhe acesso irrestrito aos seguintes recursos:</string>
   <string name="dialog_contrib_usage_count">Usos livres restantes</string>
   <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Você pode usar isso mais %1$d vezes no status atual da sua licença (%2$s).</string>
@@ -204,7 +204,7 @@
   <string name="menu_share">Indique a um amigo</string>
   <string name="menu_split_transaction">Fracionar</string>
   <string name="method">Método</string>
-  <string name="no_amount_given">Você não digitou com nenhuma quantia.</string>
+  <string name="no_amount_given">Você não digitou nenhuma quantia.</string>
   <string name="no_app_handling_email_available">Nenhum aplicativo de e-mail disponível.</string>
   <string name="no_app_handling_ftp_available">Nenhum aplicativo de FTP disponível. Instalar o <i>Enviar com FTP</i>?</string>
   <string name="no_app_handling_pdf_available">Nenhum aplicativo de PDF disponível.</string>
@@ -212,10 +212,10 @@
   <string name="no_expenses">Nenhuma despesa ainda!</string>
   <string name="no_exportable_expenses">Não existe nenhuma transação que ainda não tenha sido exportada.</string>
   <string name="no_filemanager_installed">Nenhum gerenciador de arquivos instalado</string>
-  <string name="no_calendar_app_installed">Não foi encontrado nenhum aplicativo para edição de eventos de agenda.</string>
-  <string name="no_mapped_transactions">Nenhuma transação foi mapeada para categorias durante este período.</string>
+  <string name="no_calendar_app_installed">Não foi encontrado nenhum aplicativo para editar eventos de agenda.</string>
+  <string name="no_mapped_transactions">Não foi mapeada nenhuma transação para categorias durante este período.</string>
   <string name="no_methods">Não há métodos de pagamento.</string>
-  <string name="no_parties">Nenhum parceiros.</string>
+  <string name="no_parties">Nenhum parceiro.</string>
   <string name="no_split_parts">Nenhuma fração.</string>
   <string name="no_templates">Nenhum modelo.</string>
   <string name="no_title_given">Você não digitou nenhum título.</string>
@@ -242,18 +242,18 @@
   <string name="payee">Beneficiário</string>
   <string name="payer">Pagador</string>
   <string name="payer_or_payee">Beneficiário/pagador</string>
-  <string name="peer_transaction_deleted">Esta transação referida contrapartida (conta %1$s) que foi excluída</string>
+  <string name="peer_transaction_deleted">Esta transação referencia uma contra-entrada (conta %1$s) que foi excluída</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">Plano</string>
   <string name="plan_automatic">automático</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">Planejador {app_name}</string>
-  <string name="plan_event_deleted">O plano associado a este modelo foi excluído do calendário.</string>
+  <string name="plan_event_deleted">O plano associado a este modelo foi excluído da agenda.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
-  <string name="plan_execution_canceled">execução do plano cancelado</string>
+  <string name="plan_execution_canceled">A execução do plano foi cancelada</string>
   <string name="plan_manual">manual</string>
-  <string name="planner_create_calendar_failure">Não é possível criar calendário do organizador local</string>
-  <string name="planner_create_calendar_success">Calendário de planejador local criado com sucesso</string>
+  <string name="planner_create_calendar_failure">Não foi possível criar a agenda do planejador local</string>
+  <string name="planner_create_calendar_success">A agenda de planejador local foi criada com sucesso</string>
   <!--payment methods-->
   <string name="pm_cheque">Cheque</string>
   <string name="pm_creditcard">Cartão de crédito</string>
@@ -261,45 +261,45 @@
   <string name="pm_directdebit">Débito automático</string>
   <string name="pm_type_credit">Crédito</string>
   <string name="pm_type_debit">Débito</string>
-  <string name="pm_type_neutral">Neutro/indefinido</string>
+  <string name="pm_type_neutral">Neutro</string>
   <string name="pref_app_dir_title">Pasta para backups e exportações</string>
-  <string name="pref_auto_fill_title">Preenchimento automático</string>
-  <string name="pref_auto_fill_summary">Preenchimento em quantidade, categoria e comentário da última transação para o mesmo beneficiário/pagador</string>
-  <string name="pref_backup_summary">Crie um backup do banco de dados e preferências.</string>
+  <string name="pref_auto_fill_title">Preenchimento automático de transações</string>
+  <string name="pref_auto_fill_summary">Preenche a quantidade, a categoria e o comentário a partir da última transação, para o mesmo beneficiário/pagador</string>
+  <string name="pref_backup_summary">Cria um backup do banco de dados e das preferências.</string>
   <string name="pref_sort_order_usages">Contagem de usos</string>
   <string name="pref_category_title_advanced">Avançado</string>
   <string name="pref_category_title_export">Exportar</string>
   <string name="pref_category_title_import">Importar</string>
-  <string name="pref_category_title_manage">Administrar</string>
+  <string name="pref_category_title_manage">Gerenciar</string>
   <string name="pref_category_title_more_information">Mais informações</string>
   <string name="pref_category_title_security">Segurança</string>
-  <string name="pref_category_title_ui">Interface gráfica</string>
-  <string name="pref_checkbox_enabled">Ativado</string>
-  <string name="pref_checkbox_disabled">Desativado</string>
+  <string name="pref_category_title_ui">Interface do usuário</string>
+  <string name="pref_checkbox_enabled">Habilitado</string>
+  <string name="pref_checkbox_disabled">Desabilitado</string>
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_contrib_purchase_summary">Adquira acesso a recursos premium.</string>
-  <string name="pref_contrib_purchase_title">Compra chave</string>
-  <string name="pref_contrib_purchase_title_upgrade">Actualiza chave</string>
-  <string name="pref_contrib_purchase_title_in_app">pagamento no App</string>
+  <string name="pref_contrib_purchase_title">Comprar chave</string>
+  <string name="pref_contrib_purchase_title_upgrade">Atualizar chave</string>
+  <string name="pref_contrib_purchase_title_in_app">Pagamentos no aplicativo</string>
   <string name="pref_custom_currency_title">Personalizar moedas</string>
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
-  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Se você tiver recebido uma chave, obtenha acesso aos recursos Premium.</string>
-  <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Digitar chave</string>
+  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Caso tenha recebido uma chave, obtenha acesso aos recursos Premium.</string>
+  <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Digite a chave</string>
   <string name="pref_export_format_title">Formato dos dados</string>
-  <string name="pref_follow_gplus_title">Siga as {app_name} no Google +</string>
-  <string name="pref_import_from_grisbi_summary">Importa categorias e participantes Grisbi XML.</string>
-  <string name="pref_import_from_grisbi_title">Importação de Grisbi</string>
+  <string name="pref_follow_gplus_title">Siga {app_name} no Google +</string>
+  <string name="pref_import_from_grisbi_summary">Importa categorias e parceiros do arquivo XML do Grisbi</string>
+  <string name="pref_import_from_grisbi_title">Importar do Grisbi</string>
   <!--%s is replaced with QIF or CSV-->
-  <string name="pref_import_summary">Importar transações, categorias e partidos de arquivo %s</string>
+  <string name="pref_import_summary">Importa transações, categorias e parceiros do arquivo %s</string>
   <!--%s is replaced with QIF or CSV-->
-  <string name="pref_import_title">Importação %s</string>
+  <string name="pref_import_title">Importar %s</string>
   <string name="pref_like_facebook_title">Curta-nos no Facebook</string>
   <string name="pref_manage_accounts_title">Contas</string>
-  <string name="pref_manage_categories_summary">Adicionar, editar e/ou deletar categorias.</string>
+  <string name="pref_manage_categories_summary">Adicionar, editar, excluir categorias.</string>
   <string name="pref_manage_categories_title">Categorias</string>
-  <string name="pref_manage_methods_summary">Criar e editar os métodos de pagamento e associá-los com os tipos de conta.</string>
+  <string name="pref_manage_methods_summary">Cria e edita os métodos de pagamento e os associa aos tipos de conta.</string>
   <string name="pref_manage_methods_title">Formas de pagamento</string>
-  <string name="pref_manage_parties_summary">Adicionar, editar, excluir participantes (pagadores e beneficiários).</string>
+  <string name="pref_manage_parties_summary">Adiciona, edita, exclui parceiros (pagadores e beneficiários).</string>
   <string name="pref_manage_parties_title">Participantes</string>
   <string name="pref_manage_sync_backends_title">Backends de sincronização</string>
   <!--%s will be replaced with list of backends-->

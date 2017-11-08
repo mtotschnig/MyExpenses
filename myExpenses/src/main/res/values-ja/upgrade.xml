@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_283">
+    <item>昇順のソート (古い取引が先頭)</item>
+  </string-array>
   <string-array name="whats_new_282">
     <item>分割取引用のテンプレートと計画</item>
     <item>プロフェッショナルライセンスキーの導入</item>

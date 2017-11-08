@@ -614,8 +614,8 @@
   <string name="link_account_failure_2">Сметка със същото име вече съществува на отдалеченото място за съхранение.</string>
   <string name="link_account_failure_3">Конфликтът може да бъде разрешен ръчно от контекстното меню на елемента.</string>
   <string name="progress_dialog_checking_sync_backend">Проверка на отдалеченото място за съхранение</string>
-  <string name="template">Темплейт</string>
-  <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">синхронизация чрез облак</string>
+  <string name="template">Шаблон</string>
+  <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Синхронизация чрез облак</string>
   <string name="licence_status">Вашият лиценз</string>
   <string name="all_contrib_key_features">Всички възможности според лиценза</string>
   <string name="all_extended_key_features">Всички възможности на разширения ключ</string>
@@ -684,4 +684,7 @@
   <string name="extend_validity">Удължаване на валидността</string>
   <string name="progress_dialog_fetching_data_from_sync_backend">Извличане на данни от отдалечно място за съхранение. Това може да отнеме известно време.</string>
   <string name="donate_button_invoice">Фактура</string>
+  <string name="menu_sort_direction">Посока на сортиране</string>
+  <string name="sort_direction_ascending">възходяща</string>
+  <string name="sort_direction_descending">низходяща</string>
 </resources>

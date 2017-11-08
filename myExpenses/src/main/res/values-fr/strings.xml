@@ -617,7 +617,7 @@
   <string name="template">Modèle</string>
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Synchronisation dans le cloud</string>
   <string name="licence_status">Votre statut de licence</string>
-  <string name="all_contrib_key_features">Toutes les fonctions de Contrib Key</string>
+  <string name="all_contrib_key_features">Toutes les fonctions de la Clé Contrib</string>
   <string name="all_extended_key_features">Toutes les fonctions de la Clé Étendue</string>
   <string name="upgrade_now">Mettre à niveau maintenant</string>
   <string name="pref_backup_cloud_title">Sauvegarde avec la fonction de synchronisation</string>
