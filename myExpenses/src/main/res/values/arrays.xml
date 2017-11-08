@@ -377,7 +377,7 @@
     </string-array>
 
     <integer-array name="version_codes">
-        <item>300</item>
+        <item>301</item>
         <item>297</item>
         <item>294</item>
         <item>291</item>
