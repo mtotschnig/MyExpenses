@@ -155,17 +155,32 @@ public class Transfer extends Transaction {
       transferValues.put(KEY_AMOUNT, transferAmount);
       transferValues.put(KEY_TRANSFER_ACCOUNT, getAccountId());
       transferValues.put(KEY_ACCOUNTID, getTransferAccountId());
-      ops.add(ContentProviderOperation.newInsert(uri)
-          .withValues(transferValues).withValueBackReference(KEY_TRANSFER_PEER, offset)
-          .build());
-      //we have to set the transferPeer for the first transaction
-      ContentValues args = new ContentValues();
-      args.put(KEY_TRANSFER_PEER, getTransferPeer());
-      ops.add(ContentProviderOperation.newUpdate(uri)
-          .withValueBackReference(KEY_TRANSFER_PEER, offset + 1)
-          .withSelection(KEY_ROWID + " = ?", new String[]{""})//replaced by back reference
-          .withSelectionBackReference(0, offset)
-          .build());
+      long transferPeer = Transaction.findByAccountAndUuid(getTransferAccountId(), uuid);
+      if (transferPeer > -1) {
+        ops.add(ContentProviderOperation.newUpdate(uri)
+            .withSelection(KEY_TRANSFER_PEER + " = ?", new String[]{String.valueOf(transferPeer)})
+            .withValues(transferValues).withValueBackReference(KEY_TRANSFER_PEER, offset)
+            .build());
+        //we have to set the transferPeer for the first transaction
+        ContentValues args = new ContentValues();
+        args.put(KEY_TRANSFER_PEER, transferPeer);
+        ops.add(ContentProviderOperation.newUpdate(uri)
+            .withValues(args)
+            .withSelection(KEY_ROWID + " = ?", new String[]{""})//replaced by back reference
+            .withSelectionBackReference(0, offset)
+            .build());
+      } else {
+        ops.add(ContentProviderOperation.newInsert(uri)
+            .withValues(transferValues).withValueBackReference(KEY_TRANSFER_PEER, offset)
+            .build());
+        //we have to set the transferPeer for the first transaction
+        ops.add(ContentProviderOperation.newUpdate(uri)
+            .withValueBackReference(KEY_TRANSFER_PEER, offset + 1)
+            .withSelection(KEY_ROWID + " = ?", new String[]{""})//replaced by back reference
+            .withSelectionBackReference(0, offset)
+            .build());
+      }
+
       addOriginPlanInstance(ops);
     } else {
       //we set the transfer peers uuid to null initially to prevent violation of unique index which

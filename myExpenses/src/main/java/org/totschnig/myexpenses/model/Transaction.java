@@ -907,6 +907,10 @@ public class Transaction extends Model {
     return count(uri, KEY_ACCOUNTID + " = ?", new String[]{String.valueOf(accountId)});
   }
 
+  private static int countPerAccountAndUuid(Uri uri, long accountId, String uuid) {
+    return count(uri, KEY_ACCOUNTID + " = ? AND " + KEY_UUID + " = ?", new String[]{String.valueOf(accountId), uuid});
+  }
+
   public static int countPerCategory(long catId) {
     return countPerCategory(CONTENT_URI, catId);
   }
@@ -922,6 +926,10 @@ public class Transaction extends Model {
 
   public static int countPerUuid(String uuid) {
     return countPerUuid(CONTENT_URI, uuid);
+  }
+
+  public static int countPerAccountAndUuid(long accountId, String uuid) {
+    return countPerAccountAndUuid(CONTENT_URI, accountId, uuid);
   }
 
   private static int countPerUuid(Uri contentUri, String uuid) {
@@ -1105,12 +1113,15 @@ public class Transaction extends Model {
     }
   }
 
-  public static long findByUuid(String uuid) {
-    String selection = KEY_UUID + " = ?";
-    String[] selectionArgs = new String[]{uuid};
+  public static long findByAccountAndUuid(long accountId, String uuid) {
+    String selection = KEY_UUID + " = ? AND " + KEY_ACCOUNTID + " = ?";
+    String[] selectionArgs = new String[]{uuid, String.valueOf(accountId)};
 
     Cursor mCursor = cr().query(CONTENT_URI,
         new String[]{KEY_ROWID}, selection, selectionArgs, null);
+    if (mCursor == null) {
+      return -1;
+    }
     if (mCursor.getCount() == 0) {
       mCursor.close();
       return -1;

@@ -242,7 +242,6 @@
   <string name="payee">Beneficiário</string>
   <string name="payer">Pagador</string>
   <string name="payer_or_payee">Beneficiário/pagador</string>
-  <string name="peer_transaction_deleted">Esta transação referencia uma contra-entrada (conta %1$s) que foi excluída</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">Plano</string>
   <string name="plan_automatic">automático</string>

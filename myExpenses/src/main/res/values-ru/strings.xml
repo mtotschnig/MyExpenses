@@ -237,7 +237,6 @@
   <string name="payee">Получатель</string>
   <string name="payer">Плательщик</string>
   <string name="payer_or_payee">Получатель/Платильщик</string>
-  <string name="peer_transaction_deleted">Данная операция ссылается на исправительную запись (счёт %1$s) которая была удалена</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">План</string>
   <string name="plan_automatic">автоматически</string>

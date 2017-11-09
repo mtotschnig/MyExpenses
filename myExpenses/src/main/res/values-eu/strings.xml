@@ -239,7 +239,6 @@
   <string name="payee">Onuraduna</string>
   <string name="payer">Ordaintzailea</string>
   <string name="payer_or_payee">Onuraduna/Ordaintzailea</string>
-  <string name="peer_transaction_deleted">Transakzio honek ezabatu den kontra-transakzio bati egiten dio erreferentzia (%1$s kontuan)</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">Plana</string>
   <string name="plan_automatic">automatikoa</string>

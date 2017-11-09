@@ -222,7 +222,6 @@
   <string name="payee">Modtager</string>
   <string name="payer">Betaler</string>
   <string name="payer_or_payee">Modtager/betaler</string>
-  <string name="peer_transaction_deleted">Denne postering vedrører en modregning (konto %1$s), der er blevet slettet</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">Plan</string>
   <string name="plan_automatic">automatisk</string>

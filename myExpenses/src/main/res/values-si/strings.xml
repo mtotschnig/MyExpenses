@@ -188,7 +188,6 @@
   <string name="password_security_answer_not_valid">වැරදි පිළිතුරකි.නැවත උත්සහ කරන්න </string>
   <string name="payee">අදායකයා </string>
   <string name="payer">ගෙවන්නා </string>
-  <string name="peer_transaction_deleted">මෙම ගනුදෙනුව අයත්වන කොන්ට්‍රා - ඇතුළත් කිරීම (ගිණුම  %1$s ) මකාදමා ඇත </string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">සැලැස්ම</string>
   <string name="plan_automatic">ස්වයංක්‍රිය</string>

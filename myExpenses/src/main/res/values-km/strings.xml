@@ -198,7 +198,6 @@
   <string name="payee">អ្នកទទួលប្រាក់</string>
   <string name="payer">អ្នកចេញការចំណាយ</string>
   <string name="payer_or_payee">អ្នក​ទទួល/អ្នក​បង់ប្រាក់</string>
-  <string name="peer_transaction_deleted">ប្រតិបត្តិការនេះបានបញ្ជូនទៅ contra-entry មួយ (គណនី  %1$s) ដែលត្រូវបានលុប</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">ផែនការ</string>
   <string name="plan_automatic">ដោយ​ស្វ័យ​ប្រវត្តិ</string>

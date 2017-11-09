@@ -173,7 +173,6 @@
   <string name="password_security_answer_not_valid">Špatná odpověď. Zkuste to znovu!</string>
   <string name="payee">Příjemce</string>
   <string name="payer">Plátce</string>
-  <string name="peer_transaction_deleted">Tato transakce se vztahuje k proti položce (účet %1$s), která byla odstraněna</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">Plán</string>
   <string name="plan_automatic">Automatický</string>

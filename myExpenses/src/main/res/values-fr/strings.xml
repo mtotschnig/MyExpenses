@@ -242,7 +242,6 @@
   <string name="payee">Tiers</string>
   <string name="payer">Tiers</string>
   <string name="payer_or_payee">Tiers</string>
-  <string name="peer_transaction_deleted">Cette opération était liée à une autre (compte %1$s) qui a été supprimée</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">Échéance</string>
   <string name="plan_automatic">automatique</string>

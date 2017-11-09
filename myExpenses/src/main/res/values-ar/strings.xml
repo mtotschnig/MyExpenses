@@ -192,7 +192,6 @@
   <string name="password_security_answer_not_valid">إجابة خاطئة. حاول مرة أخرى!</string>
   <string name="payee">المستفيد</string>
   <string name="payer">المشتري</string>
-  <string name="peer_transaction_deleted">هذه العملية ترجع لقيد نظامي (الحساب %1$s) الذي تم حذفه</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">خطة</string>
   <string name="plan_automatic">تلقائي</string>

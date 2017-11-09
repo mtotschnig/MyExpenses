@@ -227,7 +227,6 @@
   <string name="payee">수취인</string>
   <string name="payer">납부인</string>
   <string name="payer_or_payee">수취인/납부인</string>
-  <string name="peer_transaction_deleted">상쇄기입을 나타내는 이 거래 내역(계좌: %1$s)이 삭제되었습니다.</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">재무 계획</string>
   <string name="plan_automatic">자동</string>

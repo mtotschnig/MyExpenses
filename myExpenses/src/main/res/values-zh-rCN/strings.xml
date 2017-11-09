@@ -217,7 +217,6 @@
   <string name="payee">收款人</string>
   <string name="payer">付款人</string>
   <string name="payer_or_payee">收款人/付款人</string>
-  <string name="peer_transaction_deleted"> 本次交易关于对销记录 (帐户 %1$s) 已被删除.</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">计划</string>
   <string name="plan_automatic">自动</string>

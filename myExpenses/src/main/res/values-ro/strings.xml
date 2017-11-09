@@ -227,7 +227,6 @@
   <string name="payee">Beneficiar</string>
   <string name="payer">Plătitor</string>
   <string name="payer_or_payee">Beneficiar/Plătitor</string>
-  <string name="peer_transaction_deleted">Această tranzacţie este legată la o contra-intrare (cont %1$s) care a fost ştearsă</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">Scadenţă</string>
   <string name="plan_automatic">automatic</string>

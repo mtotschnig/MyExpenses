@@ -242,7 +242,6 @@
   <string name="payee">Empfänger</string>
   <string name="payer">Zahler</string>
   <string name="payer_or_payee">Empfänger/Zahler</string>
-  <string name="peer_transaction_deleted">Diese Buchung war mit einer Gegenbuchung (Konto %1$s) verknüpft, die gelöscht wurde</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">Plan</string>
   <string name="plan_automatic">automatisch</string>

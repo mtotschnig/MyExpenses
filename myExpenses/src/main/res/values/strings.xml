@@ -257,7 +257,6 @@
     <string name="payee">Payee</string>
     <string name="payer">Payer</string>
     <string name="payer_or_payee">Payee/Payer</string>
-    <string name="peer_transaction_deleted">This transaction referred to a contra-entry (account %1$s) that has been deleted</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">Plan</string>
     <string name="plan_automatic">automatic</string>

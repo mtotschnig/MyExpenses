@@ -953,7 +953,7 @@ public class TransactionProvider extends ContentProvider {
       case TRANSACTION_ID:
         //maybe TODO ?: where and whereArgs are ignored
         segment = uri.getPathSegments().get(1);
-        //when we are deleting a transfer whose peer is part of a split, we cannot the delete the peer,
+        //when we are deleting a transfer whose peer is part of a split, we cannot delete the peer,
         //because the split would be left in an invalid state, hence we transform the peer to a normal split part
         //first we find out the account label
         db.beginTransaction();
@@ -969,7 +969,6 @@ public class TransactionProvider extends ContentProvider {
           String accountLabel = c.moveToFirst() ? c.getString(0) : "UNKNOWN";
           c.close();
           ContentValues args = new ContentValues();
-          args.put(KEY_COMMENT, getContext().getString(R.string.peer_transaction_deleted, accountLabel));
           args.putNull(KEY_TRANSFER_ACCOUNT);
           args.putNull(KEY_TRANSFER_PEER);
           db.update(TABLE_TRANSACTIONS,

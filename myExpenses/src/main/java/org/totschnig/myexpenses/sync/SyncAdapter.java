@@ -75,6 +75,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_URI;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
@@ -323,12 +324,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 remoteChanges = mergeResult.second;
 
                 if (remoteChanges.size() > 0) {
-                  remoteChanges = Stream.of(remoteChanges).filter(change -> !(change.isCreate() && uuidExists(change.uuid()))).toList();
                   writeRemoteChangesToDb(provider, remoteChanges, accountId);
                   accountManager.setUserData(account, lastRemoteSyncKey, String.valueOf(lastSyncedRemote));
                   successRemote2Local = remoteChanges.size();
                 }
-
 
                 if (localChanges.size() > 0) {
                   lastSyncedRemote = backend.writeChangeSet(lastSyncedRemote, localChanges, getContext());
@@ -515,7 +514,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         TransactionProvider.DUAL_URI.buildUpon()
             .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_SYNC_BEGIN, "1").build())
         .build());
-    Stream.of(remoteChanges).filter(change -> !(change.isCreate() && uuidExists(change.uuid())))
+    Stream.of(remoteChanges)
         .forEach(change -> collectOperations(change, accountId, ops, -1));
     ops.add(ContentProviderOperation.newDelete(
         TransactionProvider.DUAL_URI.buildUpon()
@@ -530,8 +529,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
   }
 
-  private boolean uuidExists(String uuid) {
-    return Transaction.countPerUuid(uuid) > 0;
+  private boolean uuidExistsInAccount(long accountId, String uuid) {
+    return Transaction.countPerAccountAndUuid(accountId, uuid) > 0;
   }
 
   @VisibleForTesting
@@ -539,7 +538,23 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     Uri uri = Transaction.CALLER_IS_SYNC_ADAPTER_URI;
     switch (change.type()) {
       case created:
-        ops.addAll(getContentProviderOperationsForCreate(change, ops.size(), parentOffset));
+        long transactionId = Transaction.findByAccountAndUuid(accountId, change.uuid());
+        if (transactionId > -1) {
+          if (parentOffset > -1) {
+            //if we find a split part that already exists, we need to assume that it has already been synced
+            //by a previous sync of its transfer account, so all we do here is reparent it as child
+            //of the split transaction we currently ingest
+            ops.add(ContentProviderOperation.newUpdate(uri)
+                .withValues(toContentValues(change))
+                .withSelection(KEY_ROWID + " = ?", new String[]{String.valueOf(transactionId)})
+                .withValueBackReference(KEY_PARENTID, parentOffset)
+                .build());
+          } else {
+            AcraHelper.report("Uuid found in changes already exists locally and is not a split part");
+          }
+        } else {
+          ops.addAll(getContentProviderOperationsForCreate(change, ops.size(), parentOffset));
+        }
         break;
       case updated:
         ContentValues values = toContentValues(change);
@@ -619,7 +634,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
     t.setReferenceNumber(change.referenceNumber());
     if (parentOffset == -1 && change.parentUuid() != null) {
-      long parentId = Transaction.findByUuid(change.parentUuid());
+      long parentId = Transaction.findByAccountAndUuid(getAccount().getId(), change.parentUuid());
       if (parentId == -1) {
         return new ArrayList<>(); //if we fail to link a split part to a parent, we need to ignore it
       }
@@ -632,7 +647,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   }
 
   private ContentValues toContentValues(TransactionChange change) {
-    if (!change.isUpdate()) throw new AssertionError();
     ContentValues values = new ContentValues();
     //values.put("parent_uuid", parentUuid());
     if (change.comment() != null) {

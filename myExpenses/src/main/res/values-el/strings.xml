@@ -239,7 +239,6 @@
   <string name="payee">Δικαιούχος</string>
   <string name="payer">Πληρωτής</string>
   <string name="payer_or_payee">Δικαιούχος/Πληρωτής</string>
-  <string name="peer_transaction_deleted">Η συναλλαγή αυτή αναφέρεται σε ένα αντι-καταχώρηση (λογαριασμός %1$s) που έχει διαγραφεί</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">Σχέδιο</string>
   <string name="plan_automatic">Αυτόματη</string>

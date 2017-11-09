@@ -240,7 +240,6 @@
   <string name="payee">Beneficiario</string>
   <string name="payer">Ordinante</string>
   <string name="payer_or_payee">Beneficiario/Pagatore</string>
-  <string name="peer_transaction_deleted">Questa operazione è stata collegata ad un altro (conto %1$s) che è stato eliminato</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">Scadenza</string>
   <string name="plan_automatic">automatica</string>

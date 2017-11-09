@@ -179,7 +179,6 @@
   <string name="password_security_answer_not_valid">Rossz válasz. Próbálja újra!</string>
   <string name="payee">Kedvezményezett</string>
   <string name="payer">Kifizető</string>
-  <string name="peer_transaction_deleted">Ez a tranzakció egy ellentételes bejegyzésre mutat (%1$s számla) amely törlésre került</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">Terv</string>
   <string name="plan_automatic">automatikus</string>

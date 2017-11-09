@@ -242,7 +242,6 @@
   <string name="payee">Acreedor</string>
   <string name="payer">Ordenante</string>
   <string name="payer_or_payee">Acreedor/Ordenante</string>
-  <string name="peer_transaction_deleted">Esta transferencia se contempla en una contrapartida (en la cuenta %1$s) que ha sido eliminada.</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">Proyección</string>
   <string name="plan_automatic">Automático</string>

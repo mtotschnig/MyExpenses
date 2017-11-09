@@ -239,7 +239,6 @@
   <string name="payee">受取人</string>
   <string name="payer">支払人</string>
   <string name="payer_or_payee">受取人/支払人</string>
-  <string name="peer_transaction_deleted">この取引は削除された相殺記入 (勘定 %1$s) を参照しました</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">計画</string>
   <string name="plan_automatic">自動</string>

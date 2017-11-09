@@ -211,7 +211,6 @@
   <string name="payee">Primaoc</string>
   <string name="payer">Platitelj</string>
   <string name="payer_or_payee">Primaoc/Platitelj</string>
-  <string name="peer_transaction_deleted">Ova transakcija se odnosila na kontra-unos (račun %1$s) koji je obrisan</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">Plan</string>
   <string name="plan_automatic">automatski</string>

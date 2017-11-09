@@ -59,7 +59,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE;
@@ -575,7 +574,6 @@ public class Account extends Model {
   private ContentProviderOperation updateTransferPeersForTransactionDelete(
       String rowSelect, String[] selectionArgs) {
     ContentValues args = new ContentValues();
-    args.put(KEY_COMMENT, MyApplication.getInstance().getString(R.string.peer_transaction_deleted, label));
     args.putNull(KEY_TRANSFER_ACCOUNT);
     args.putNull(KEY_TRANSFER_PEER);
     return ContentProviderOperation.newUpdate(Transaction.CONTENT_URI)

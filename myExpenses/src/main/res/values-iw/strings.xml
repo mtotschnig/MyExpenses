@@ -242,7 +242,6 @@
   <string name="payee">מקבל התשלום</string>
   <string name="payer">המשלם</string>
   <string name="payer_or_payee">מקבל התשלום/המשלם</string>
-  <string name="peer_transaction_deleted">עסקה זו מתייחסת לכתובת נגדית (חשבון%1$s) שנמחק</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">מחזוריות</string>
   <string name="plan_automatic">אוטומטי</string>

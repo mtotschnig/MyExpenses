@@ -235,7 +235,6 @@
   <string name="payee">Người được trả</string>
   <string name="payer">Người trả</string>
   <string name="payer_or_payee">Người nhận trả/Người trả</string>
-  <string name="peer_transaction_deleted">Phần giao dịch này có tham chiếu tới tài khoản điều chỉnh (tài khoản %1$s) đã bị xóa</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">Kế hoạch</string>
   <string name="plan_automatic">tự động</string>

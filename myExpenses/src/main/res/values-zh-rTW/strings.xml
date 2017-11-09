@@ -168,7 +168,6 @@
   <string name="password_security_answer_not_valid">答案錯誤。請再試一次！</string>
   <string name="payee">收款人</string>
   <string name="payer">付款人</string>
-  <string name="peer_transaction_deleted"> 本次交易關於對銷記錄 (帳戶 %1$s) 已被刪除。</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">計劃</string>
   <string name="plan_automatic">自動</string>

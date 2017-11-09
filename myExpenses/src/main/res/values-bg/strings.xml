@@ -242,7 +242,6 @@
   <string name="payee">Получател</string>
   <string name="payer">Платец</string>
   <string name="payer_or_payee">Получател / платец</string>
-  <string name="peer_transaction_deleted">Тази транзакция се отнася към запис (в сметка %1$s), който е изтрит</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">План</string>
   <string name="plan_automatic">автоматично</string>

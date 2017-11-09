@@ -193,7 +193,6 @@
   <string name="password_security_answer_not_valid">Resposta incorrecta. Torneu-hi!</string>
   <string name="payee">Beneficiari</string>
   <string name="payer">Pagador</string>
-  <string name="peer_transaction_deleted">Aquesta operació estava connectada a una operació de contrapartida (del compte %1$s) que es va suprimir.</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">Planificació</string>
   <string name="plan_automatic">automàtic</string>

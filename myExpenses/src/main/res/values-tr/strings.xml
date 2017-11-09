@@ -242,7 +242,6 @@
   <string name="payee">Alacaklı</string>
   <string name="payer">Ödeyen</string>
   <string name="payer_or_payee">Alacaklı/Mükellef</string>
-  <string name="peer_transaction_deleted">Bu muamele silinmiş olan başka bir hesap (%1$s hesabı) ile ilişkiliydi</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">Planla</string>
   <string name="plan_automatic">otomatik</string>

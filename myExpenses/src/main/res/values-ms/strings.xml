@@ -236,7 +236,6 @@
   <string name="payee">Penerima</string>
   <string name="payer">Pembayar</string>
   <string name="payer_or_payee">Penerima/Pembayar</string>
-  <string name="peer_transaction_deleted">Transaksi ini dirujuk pada masukan-kontra (akaun %1$s) yang telah dipadam</string>
   <!--Plan for future and recurring transactions-->
   <string name="plan">Pelan</string>
   <string name="plan_automatic">automatik</string>
