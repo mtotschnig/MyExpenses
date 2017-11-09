@@ -529,10 +529,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
   }
 
-  private boolean uuidExistsInAccount(long accountId, String uuid) {
-    return Transaction.countPerAccountAndUuid(accountId, uuid) > 0;
-  }
-
   @VisibleForTesting
   public void collectOperations(@NonNull TransactionChange change, long accountId, ArrayList<ContentProviderOperation> ops, int parentOffset) {
     Uri uri = Transaction.CALLER_IS_SYNC_ADAPTER_URI;
