@@ -1,5 +1,8 @@
 it:
   imprint: Imprint
+  imprint_text: Responsabile per il contenuto di questo sito web e per lo sviluppo, la manutenzione e la distribuzione di <i>{app_name}</i>
+  privacy_policy_heading: Norme sulla privacy
+  privacy_policy_text: " <i>{app_name}</i> non accede a alcuni dati di suo apparecchio al di fuori della database e la cartella proprie sulla scheda SD. Se si utilizza la funzionalità dei piani per le transazioni future e ricorrenti, si assegnano il calendario, in cui sono memorizzati questi piani."
   hero_main: "Gestione delle finanze personali per Android"
   hero_sub:
     use: "Facile da usare"
@@ -18,46 +21,37 @@ it:
     sourcecode: Codice fonte
     links: Collegamenti
   features:
-    manage_accounts: Fino a cinque conti con trasferimenti
-    plans: Modelli e scadenze per le transazioni future e ricorrenti
-    grouped_list: Raggruppare le transazioni per giorno, settimana, mese, anno e visualizzarne l'importo per gruppo
     distribution: Due livelli di categorie (importazione da Grisbi XML)
     split: Transazioni frazionate (versione Contrib)
     calculator: Calcolatrice
-    export: 'Formati di esportazione: QIF e CSV (MS Excel), caricare file export via FTP, e-mail o Dropbox, ...'
     import: Importazione di dati QIF
-    password: Protezione con password
     help: Aiuto integrato
     backup: Backup e ripristino di dati
-    light_theme: "Due temi: chiaro e scuro"
     attach_picture: Allegare immagine per transazione
   contrib:
     thank_you: |
       Il tuo contributo permette l'ulteriore sviluppo di Le mie spese. Grazie!
     feature-list-title: "Si prega di contribuire aggiornando <i>{app_name}</i> e ottenere l'accesso illimitato alle seguenti caratteristiche:"
     feature:
-      accounts_unlimited: Numero illimitato di conti
-      plans_unlimited: Numero illimitato di piani
-      distribution: Grafico a torta (Distribuzione per categoria)
-      split_transaction: Operazione frazionata
-      security_question: Domanda di sicurezza
-      template_widget: Widget modelli
-      print: Esportazione dell'elenco delle transazioni in PDF
-      attach_picture: Allegare immagine per transazione
-      ad_free: Nessun annuncio
-      csv_import: Importazione CSV
-      auto_backup: Attivare il backup automatico
-      cloud_sync: Sincronizzazione cloud
-      split_template: Modelli e piani per le transazioni divise
+      accounts_unlimited: Numero illimitato di <b>conti</b>
+      ad_free: <b>Nessun annuncio</b>
     one-time-payment: Pagamento unico
     subscription: Sottoscrizione
-  permissions-heading: |
-    Le mie spese richiede le seguenti autorizzazioni
-  permissions-calendar: |
-    Lettura e aggiornamento del calendario: piani futuri e transazioni ricorrenti sono memorizzate o in un apposito calendario locale o in qualsiasi altro calendario venga assegnato.
-  permissions-external-storage: |
-    Scrittura USB: Stoccaggio di QIF e CSV esportazioni e file di backup
-  permissions-internet: |
-    Accesso di rete: Crash report vengono inviati automaticamente agli sviluppatori, se non l'opzione non viene disattivata dall'utente nelle preferenze di app.
-  permissions-accounts: |
-    Account: Sincronizzare tra dispositivi attraverso i servizi cloud
+  permissions:
+    heading: <i>{app_name}</i> richiede le seguenti <b>autorizzazioni</b>
+    calendar:
+      label: Calendario
+      explanation: Piani futuri e transazioni ricorrenti sono memorizzate o in un apposito calendario locale o in qualsiasi altro calendario venga assegnato.
+    external-storage:
+      label: Archiviazione
+      explanation: Stoccaggio di QIF e CSV esportazioni e file di backup
+    internet:
+      label: Internet
+      explanation_crash_reporting: Segnalazioni di crash
+      explanation_cloud_sync: Sincronizzazione cloud
+    accounts:
+      label: Conti
+      explanation: Sincronizzare tra dispositivi attraverso i servizi cloud
+  contrib-key: Chiave Contrib
+  extended-key: Chiave Ampliata
+  all_contrib_key_features: Tutte le caratteristiche di Contrib chiave

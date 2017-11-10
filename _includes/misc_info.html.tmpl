@@ -1,3 +1,4 @@
+{% assign placeholder = '{app_name}' %}
 <!--
   Credits
 -->
@@ -271,7 +272,6 @@
 
 <div class="block" id="premium" style="display:none">
   <h2>{{t.sections.premium}}</h2>
-  {% assign placeholder = '{app_name}' %}
   <p>{{t.contrib.feature-list-title | replace:placeholder, site.title[pagelang]}}</p>
   <table class="table table-bordered">
     <thead>
@@ -375,3 +375,33 @@ document.write("Please refer to the transaction ID "+ transactionId + " .");
 </p>
 </div>
 
+<!--
+  Imprint
+-->
+
+<div class="block" id="imprint" style="display:none">
+<h2>{{t.imprint}}</h2>
+<p>
+{{t.imprint_text | replace:placeholder, site.title[pagelang]}}
+:
+<a href="http://michael.totschnig.org/imprint.html">Michael Totschnig</a>
+</p>
+<h2 id="privacy">{{t.privacy_policy_heading}}</h2>
+<p>
+{{t.privacy_policy_text | replace:placeholder, site.title[pagelang]}}
+<br/>
+{{t.permissions.heading | replace:placeholder, site.title[pagelang]}} :
+</p>
+<dl>
+  <dt>{{t.permissions.external-storage.label}}</dt>
+  <dd>{{t.permissions.external-storage.explanation}}</dd>
+  <dt>{{t.permissions.calendar.label}}</dt>
+  <dd>{{t.permissions.calendar.explanation}}</dd>
+  <dt>{{t.permissions.internet.label}}</dt>
+  <dd>{{t.permissions.internet.explanation_usage_tracking}} (Play), {{t.permissions.internet.explanation_crash_reporting}} (Play), {{t.permissions.internet.explanation_key_validation}} (F-Droid), {{t.permissions.internet.explanation_cloud_sync}} (Play, F-Droid).</dd>
+  <dt>{{t.permissions.accounts.label}}</dt>
+  <dd>{{t.permissions.accounts.explanation}}</dd>
+</dl>
+<hr>
+{% include ga.html %}
+</div>

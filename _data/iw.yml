@@ -18,42 +18,39 @@ he:
     sourcecode: קוד מקור
     links: קישורים
   features:
-    manage_accounts: עד לחמישה חשבונות עם העברות
-    plans: הגדרת תבניות ותוכניות לעסקאות עתידיות חוזרות
-    grouped_list: קבוצת עסקאות ליום, שבוע, חודש, שנה והצגת סכומים לקבוצה
     distribution: שתי רמות של קטגוריות (יבוא מ- Grisbi XML ו- QIF)
     split: עסקאות פיצול (גרסת Contrib)
     calculator: מחשבון
-    export: ייצוא ל- QIF ו- CSV (MS Excel), ניתן לשתף באופן אוטומטי (באמצעות דוא"ל, FTP, Dropbox, ...)
     import: ייבא נתוני QIF
-    password: הגנה בסיסמה
     help: עזרה משולבת
     backup: גיבוי ושחזור נתונים
-    light_theme: "שתי ערכות נושא: אור וחושך"
     attach_picture: צרף תמונה לעסקה
   contrib:
     thank_you: |
       התרומה שלך תומכת בפיתוח נוסף של האפליקציה "הוצאות שלי". תודה!
     feature-list-title: "אנא תרמו על ידי שדרוג <i>{app_name}</i> ולקבל גישה בלתי מוגבלת לתכונות הבאות:"
     feature:
-      accounts_unlimited: מספר חשבונות בלתי מוגבל
-      plans_unlimited: מספר תוכניות בלתי מוגבל
-      split_transaction: עסקה מפוצלת
-      security_question: שאלת בטחון
-      template_widget: תבנית widget
-      print: ייצא רשימת עסקאות ל- PDF
-      attach_picture: הוסף תמונה לעסקה
-      ad_free: ללא פרסומות
-      csv_import: ייבוא CSV
-      auto_backup: גיבוי אוטומטי
-      cloud_sync: סנכרון לענן
-  permissions-heading: |
-    האפליקציה 'ההוצאות שלי' מחייבת את ההרשאות הבאות
-  permissions-calendar: |
-    קריאה וכתיבה של לוח השנה: תוכניות לעסקאות עתידיות וחוזרות מאוחסנות ביומן מקומי מיוחד או בכל לוח שנה אחר שהוקצה לך.
-  permissions-external-storage: |
-    כתיבה של אחסון USB:  אחסון של QIF ו - CSV מייצא ומגבה קבצים
-  permissions-internet: |
-    תקשורת רשת: דוחות קריסה נשלחים באופן אוטומטי למפתחים, אלא אם הם מושבתים על ידי המשתמש בהעדפות האפליקציה
-  permissions-accounts: |
-    חשבונות: סנכרון בין התקנים באמצעות שירותי ענן
+      accounts_unlimited: מספר <b>חשבונות</b> בלתי מוגבל
+      ad_free: <b>ללא פרסומות</b>
+    one-time-payment: תשלום חד פעמי
+    subscription: מנוי
+  permissions:
+    heading: האפליקציה '<i>{app_name}</i>' מחייבת את <u>ההרשאות</u> הבאות
+    calendar:
+      label: יומן
+      explanation: תוכניות לעסקאות עתידיות וחוזרות מאוחסנות ביומן מקומי מיוחד או בכל לוח שנה אחר שהוקצה לך.
+    external-storage:
+      label: אחסון
+      explanation: אחסון של QIF ו - CSV מייצא ומגבה קבצים.
+    internet:
+      label: אינטרנט
+      explanation_crash_reporting: דוחו"ת קריסה
+      explanation_cloud_sync: סנכרון לענן
+    accounts:
+      label: חשבונות
+      explanation: סנכרון בין מכשירים באמצעות שירותי ענן
+  contrib-key: מפתח לתורם
+  extended-key: מפתח מורחב
+  professional-key: מפתח מקצועי
+  all_contrib_key_features: כל התכונות של מפתח Contrib
+  all_extended_key_features: כל התכונות של מפתח מורחב

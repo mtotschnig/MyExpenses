@@ -1,5 +1,6 @@
 es:
   imprint: Impresión
+  privacy_policy_heading: Política de privacidad
   hero_main: "Gestor de finanzas personales para Android"
   hero_sub:
     use: "Fácil de usar"
@@ -18,42 +19,39 @@ es:
     sourcecode: Código fuente
     links: Enlaces
   features:
-    manage_accounts: Hasta cinco cuentas con transferencias
-    plans: Definir plantillas y proyectos para las futuras transacciones futuras y transacciones recurrentes
-    grouped_list: Agrupamiento por día, semana, mes, año y visualización de sumas por grupo
     distribution: Dos niveles de categorías (importación desde Grisbi XML y QIF)
     split: Transacciones divididas (versión Contrib)
     calculator: Calculadora
-    export: Exportar a QIF y CSV (MS Excel) puede compartirse automáticamente (a través de correo electrónico, FTP, Dropbox, ...)
     import: Importar datos desde QIF
-    password: Protección por contraseña
     help: Ayuda integrada
     backup: Copia de seguridad y restauración
-    light_theme: "Dos temas: claro y oscuro"
     attach_picture: Adjuntar imagen a la transacción
   contrib:
     thank_you: |
       Su contribución apoya el desarrollo de Mis Gastos. ¡Gracias!
     feature-list-title: "Por favor, contribuya actualizando <i>{app_name}</i> y obtenga acceso sin limitaciones a las siguientes características:"
     feature:
-      accounts_unlimited: Número de cuentas sin límite
-      plans_unlimited: Número de proyectos sin límite
-      split_transaction: Transacción dividida
-      security_question: Pregunta de seguridad
-      template_widget: Plantilla de widget
-      print: Exportar la lista de transacciones a PDF
-      attach_picture: Adjuntar imagen a la transacción
-      ad_free: Sin anuncios
-      csv_import: Importar desde CSV
-      auto_backup: Permitir respaldo automático
-      cloud_sync: Sincronización en la nube
-  permissions-heading: |
-    Mis Gastos requiere los siguientes permisos
-  permissions-calendar: |
-    Leer y escribir en el calendario: los proyectos para las transacciones futuras y recurrentes se almacenarán en un calendario local especial o en cualquier otro calendario que asigne.
-  permissions-external-storage: |
-    Escribir en el almacenamiento USB: almacenamiento de las exportaciones QIF, CSV y copias de seguridad
-  permissions-internet: |
-    Redes de comunicación: los informes de fallo se enviarán automáticamente a los desarrolladores, a menos que sea desactivado por el usuario en las preferencias de la aplicación.
-  permissions-accounts: |
-    Cuentas: Sincronización entre varios dispositivos vía servicios en la nube
+      accounts_unlimited: Número de <b>cuentas</b> ilimitadas
+      ad_free: <b>Sin anuncios</b>
+    one-time-payment: Pago único
+    subscription: Suscripción
+  permissions:
+    heading: <i>{app_name}</i> requiere los siguientes <u>permisos</u>
+    calendar:
+      label: Calendario
+      explanation: Los proyectos para las transacciones futuras y recurrentes se almacenarán en un calendario local especial o en cualquier otro calendario que asigne.
+    external-storage:
+      label: Almacenamiento
+      explanation: Almacenamiento de las exportaciones QIF, CSV y copias de seguridad
+    internet:
+      label: Internet
+      explanation_crash_reporting: Reportes de accidente
+      explanation_cloud_sync: Sincronización en la nube
+    accounts:
+      label: Cuentas
+      explanation: Sincronización entre varios dispositivos vía servicios en la nube
+  contrib-key: Clave Contrib
+  extended-key: Clave Extendida
+  professional-key: Llave Profesional
+  all_contrib_key_features: Todas las características de licencia Contrib
+  all_extended_key_features: Todas las características de la llave Extendida

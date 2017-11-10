@@ -1,5 +1,8 @@
 en:
   imprint: Imprint
+  imprint_text: Responsible for the content of this website and for development, maintenance and distribution of <i>{app_name}</i>
+  privacy_policy_heading: Privacy policy
+  privacy_policy_text: "<i>{app_name}</i> does not access any data on your device other than its own database, its own folder on the SD card. If you use the feature of plans for future and recurrent transactions, you assign the calendar, where these plans are stored."
   hero_main: "Personal finance manager for Android"
   hero_sub:
     use:           "Easy to use"
@@ -19,7 +22,7 @@ en:
     links: Links
   features:
     manage_accounts: Up to five accounts with <b>transfers</b> (also between different currencies)
-    plans: Unlimited <b>templates</b> and up to three plans for <b>recurring</b> transactions
+    plans: Unlimited number of <b>templates</b> and up to three plans for <b>recurring</b> transactions
     grouped_list: Transactions can be <b>grouped</b> (per day, week, month and year) and <b>filtered</b>
     distribution: Two levels of categories (import from Grisbi XML and QIF)
     split: Split transactions (Contrib version)
@@ -32,8 +35,7 @@ en:
     light_theme: <b>Theme</b> (dark and light) and <b>font size</b> can be customized
     attach_picture: Attach image to transaction
     reconciliation: "<b>Reconciliation</b>: Easily compare transaction status with your bank statements"
-    homescreen: Homescreen <b>widget</b> and launcher <b>shortcuts</b> for quick data entry
-    security_question: Define a <b>security question</b> for recovering a lost password
+    homescreen: Homescreen <b>widget</b> and <b>shortcuts</b> for quick data entry
   contrib:
     thank_you: |
       Your contribution supports the further development of My Expenses. Thank you!
@@ -48,8 +50,8 @@ en:
       print: <b>Print</b> the transaction list to a PDF file
       attach_picture: "<b>Image attachment</b>: Capture via camera or select from gallery"
       ad_free: <b>No ads</b>
-      csv_import: "<b>CSV import</b>: Sophisticated, customizable import from spreadsheet applications"
-      auto_backup: "<b>Auto-backup</b>: Daily automated backup with optional upload to cloud storage"
+      csv_import: Sophisticated, customizable <b>CSV import</b> (spreadsheet applications)
+      auto_backup: Daily <b>automated backup</b> with optional upload to cloud storage
       cloud_sync: "<b>Cloud synchronization</b>: Data can be synced between multiple devices via WebDAV and Google Drive"
       split_template: Unlimited number of <b>templates and plans for split transactions</b>
       email_support: <b>Email support</b> with guartanteed response after 2 business days
@@ -58,16 +60,28 @@ en:
     subscription: Subscription
   store:
     short_description: "Easy to use personal finance manager: rich functionality and Open Source"
-    full_description_intro: |
-      {app_name} keeps track of your expenses and your income, directly on your smartphone and on your tablet.
+    full_description_intro: "{app_name} keeps track of your expenses and your income, directly on your smartphone and on your tablet."
     full_description_contrib: "Premium features are unlocked by purchase of one of the following licence keys:"
-  permissions-heading: |
-    My Expenses requires the following permissions
-  permissions-calendar: |
-    Reading and writing the calendar: Plans for future and recurrent transactions are stored either in a special local calendar or in any other calendar you assign.
-  permissions-external-storage: |
-    Writing USB storage: Storage of QIF and CSV exports and backup files
-  permissions-internet: |
-    Network communication: Crash reports are automatically sent to developers unless deactivated by user in app preferences.
-  permissions-accounts: |
-    Accounts: Synchronization across devices via cloud services
+  permissions:
+    heading: <i>{app_name}</i> requires the following <u>permissions</u>
+    calendar:
+      label: Calendar
+      explanation: Plans for future and recurrent transactions are stored either in a special local calendar or in any other calendar you assign.
+    external-storage:
+      label: Storage
+      explanation: Storage of QIF and CSV exports and backup files.
+    internet:
+      label: Internet
+      explanation_usage_tracking: Anonymous usage tracking
+      explanation_crash_reporting: Crash reports
+      explanation_key_validation: Licence key validation
+      explanation_cloud_sync: Cloud synchronization
+    accounts:
+      label: Accounts
+      explanation: Synchronization across devices via cloud services.
+  contrib-key: Contrib Key
+  extended-key: Extended Key
+  professional-key: Professional Key
+  all_contrib_key_features: All features of Contrib Key
+  all_extended_key_features: All features of Extended Key
+    

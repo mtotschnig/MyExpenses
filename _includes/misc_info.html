@@ -1,3 +1,4 @@
+{% assign placeholder = '{app_name}' %}
 <!--
   Credits
 -->
@@ -271,7 +272,6 @@
 
 <div class="block" id="premium" style="display:none">
   <h2>{% if msg.sections.premium %}{{msg.sections.premium}}{% else %}{{site.data.en.en.sections.premium}}{% endif %}</h2>
-  {% assign placeholder = '{app_name}' %}
   <p>{% if msg.contrib.feature-list-title %}{{msg.contrib.feature-list-title | replace:placeholder, site.title[pagelang]}}{% else %}{{site.data.en.en.contrib.feature-list-title | replace:placeholder, site.title[pagelang]}}{% endif %}</p>
   <table class="table table-bordered">
     <thead>
@@ -375,3 +375,33 @@ document.write("Please refer to the transaction ID "+ transactionId + " .");
 </p>
 </div>
 
+<!--
+  Imprint
+-->
+
+<div class="block" id="imprint" style="display:none">
+<h2>{% if msg.imprint %}{{msg.imprint}}{% else %}{{site.data.en.en.imprint}}{% endif %}</h2>
+<p>
+{% if msg.imprint_text %}{{msg.imprint_text | replace:placeholder, site.title[pagelang]}}{% else %}{{site.data.en.en.imprint_text | replace:placeholder, site.title[pagelang]}}{% endif %}
+:
+<a href="http://michael.totschnig.org/imprint.html">Michael Totschnig</a>
+</p>
+<h2 id="privacy">{% if msg.privacy_policy_heading %}{{msg.privacy_policy_heading}}{% else %}{{site.data.en.en.privacy_policy_heading}}{% endif %}</h2>
+<p>
+{% if msg.privacy_policy_text %}{{msg.privacy_policy_text | replace:placeholder, site.title[pagelang]}}{% else %}{{site.data.en.en.privacy_policy_text | replace:placeholder, site.title[pagelang]}}{% endif %}
+<br/>
+{% if msg.permissions.heading %}{{msg.permissions.heading | replace:placeholder, site.title[pagelang]}}{% else %}{{site.data.en.en.permissions.heading | replace:placeholder, site.title[pagelang]}}{% endif %} :
+</p>
+<dl>
+  <dt>{% if msg.permissions.external-storage.label %}{{msg.permissions.external-storage.label}}{% else %}{{site.data.en.en.permissions.external-storage.label}}{% endif %}</dt>
+  <dd>{% if msg.permissions.external-storage.explanation %}{{msg.permissions.external-storage.explanation}}{% else %}{{site.data.en.en.permissions.external-storage.explanation}}{% endif %}</dd>
+  <dt>{% if msg.permissions.calendar.label %}{{msg.permissions.calendar.label}}{% else %}{{site.data.en.en.permissions.calendar.label}}{% endif %}</dt>
+  <dd>{% if msg.permissions.calendar.explanation %}{{msg.permissions.calendar.explanation}}{% else %}{{site.data.en.en.permissions.calendar.explanation}}{% endif %}</dd>
+  <dt>{% if msg.permissions.internet.label %}{{msg.permissions.internet.label}}{% else %}{{site.data.en.en.permissions.internet.label}}{% endif %}</dt>
+  <dd>{% if msg.permissions.internet.explanation_usage_tracking %}{{msg.permissions.internet.explanation_usage_tracking}}{% else %}{{site.data.en.en.permissions.internet.explanation_usage_tracking}}{% endif %} (Play), {% if msg.permissions.internet.explanation_crash_reporting %}{{msg.permissions.internet.explanation_crash_reporting}}{% else %}{{site.data.en.en.permissions.internet.explanation_crash_reporting}}{% endif %} (Play), {% if msg.permissions.internet.explanation_key_validation %}{{msg.permissions.internet.explanation_key_validation}}{% else %}{{site.data.en.en.permissions.internet.explanation_key_validation}}{% endif %} (F-Droid), {% if msg.permissions.internet.explanation_cloud_sync %}{{msg.permissions.internet.explanation_cloud_sync}}{% else %}{{site.data.en.en.permissions.internet.explanation_cloud_sync}}{% endif %} (Play, F-Droid).</dd>
+  <dt>{% if msg.permissions.accounts.label %}{{msg.permissions.accounts.label}}{% else %}{{site.data.en.en.permissions.accounts.label}}{% endif %}</dt>
+  <dd>{% if msg.permissions.accounts.explanation %}{{msg.permissions.accounts.explanation}}{% else %}{{site.data.en.en.permissions.accounts.explanation}}{% endif %}</dd>
+</dl>
+<hr>
+{% include ga.html %}
+</div>

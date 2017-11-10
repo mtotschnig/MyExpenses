@@ -1,5 +1,8 @@
 fr:
   imprint: Imprint
+  imprint_text: Responsable du contenu de ce site Web et du développement, de la maintenance et de la distribution de <i>{app_name}</i>
+  privacy_policy_heading: Règles de confidentialité
+  privacy_policy_text: "<i> {app_name}</i> n'accède à aucune donnée sur votre appareil autre que sa propre base de données, son propre dossier sur la carte SD. Si vous utilisez la fonctionnalité des plans pour les transactions futures et récurrentes, vous affectez le calendrier, où ces plans sont stockés."
   hero_main: "Gestionnaire de finances personnelles pour Android"
   hero_sub:
     use: "Facile à utiliser"
@@ -18,46 +21,66 @@ fr:
     sourcecode: Code source
     links: Liens
   features:
-    manage_accounts: Jusqu'à cinq comptes avec virements
-    plans: Définir des modèles et un échéancier pour les opérations futures et périodiques
-    grouped_list: Regroupement par jour, semaine, mois, année, et affichage des totaux par groupe
+    manage_accounts: Jusqu'à cinq comptes avec <b> virements </b> (également entre différentes monaies)
+    plans: Nombre illimité de <b>modèles</b> et échéancier avec jusqu'à trois plans pour les transactions <b>périodiques</b>
+    grouped_list: Les operátions peuvent être <b>groupées</b> (par jour, semaine, mois et année) et <b>filtrées</b>
     distribution: Deux niveaux de catégories (importable à partir du fichier Grisbi)
     split: Opérations ventilées
     calculator: Calculatrice
-    export: Export vers QIF et CSV (MS Excel), téléchargement du fichier export (par e-mail, FTP, Dropbox, ...)
+    export: <b>Export</b> vers QIF et CSV. <b>Import</b> à partir de QIF
     import: Importer des données QIF
-    password: Protection par mot de passe
+    password: Les données peuvent être protégées par <b>mot de passe</b>
     help: Aide integrée
     backup: Sauvegarde et restauration de données
-    light_theme: "Deux thèmes: clair et sombre"
+    light_theme: <b>Thème</b> (sombre et clair) et <b>taille de police</b> peuvent être personnalisés
     attach_picture: Lier une image avec une transaction
+    reconciliation: "<b>Rapprochement</b>: comparez facilement l'état des opérations à vos relevés bancaires"
+    homescreen: Sur l'écran d'accueil, <b>widget</b> et <b>raccourcis</b> permettent une saisie rapide des données
   contrib:
     thank_you: |
       Avec votre contribution, vous soutenez la continuité du développement de Mes dépenses. Merci!
     feature-list-title: "S'il vous plaît, contribuez par la mise à niveau de <i>{app_name}</i> et vous aurez accès sans restriction aux caractéristiques suivantes:"
     feature:
-      accounts_unlimited: Nombre illimité de comptes
-      plans_unlimited: Nombre d'échéances illimité
-      distribution: Diagramme circulaire (Répartition par catégorie)
-      split_transaction: Opération de répartition
-      security_question: Question de sécurité
-      template_widget: Widget de modèles
-      print: Export de la liste des opérations au format PDF
-      attach_picture: Lier une image avec une transaction
-      ad_free: Sans publicité
-      csv_import: Import CSV
-      auto_backup: Auto-backup
-      cloud_sync: Synchronisation dans le cloud
-      split_template: Modèles et échéances pour les opérations ventilées
+      accounts_unlimited: Nombre illimité de <b>comptes</b>
+      plans_unlimited: Nombre illimité de plans dans l'échéanchier pour les transactions <b>périodiques</b>
+      distribution: "<b>Diagramme circulaire</b>: Visualisez la distribution statistique des opérations par catégorie sur différentes périodes (années, mois, semaines, jours)"
+      split_transaction: "<b>Opération ventilée</b>: une seule opération peut être divisée en plusieurs parties (catégories et transferts)"
+      security_question: Définir une <b>question de sécurité</b> pour récupérer un mot de passe perdu
+      template_widget: Sélection rapide du <b>modèle</b> à partir d'un <b>widget</b> de l'écran d'accueil
+      print: <b>Imprimer</b> la liste des opérations dans un fichier PDF
+      attach_picture: "<b>Image jointe</b>: Capture par caméra ou sélection dans la galerie"
+      ad_free: <b>Sans publicité</b>
+      csv_import: <b>Import CSV</b> sophistiqué et personnalisable (applications tableur)
+      auto_backup: <b>Sauvegarde automatique</b> quotidienne avec téléchargement facultatif vers le stockage dans le cloud
+      cloud_sync: "<b>Synchronisation dans le cloud</b>: les données peuvent être synchronisées entre plusieurs appareils via WebDAV et Google Drive"
+      split_template: Nombre illimité <b>de modèles et de plans pour les opérations ventilées</b>
+      email_support: <b>Assistance par e-mail</b> avec réponse garantie après 2 jours ouvrables
+      roadmap_voting: Voter sur la <b>feuille de route pour le développement</b>
     one-time-payment: Paiement unique
     subscription: Abonnement
-  permissions-heading: |
-    Mes Dépenses demande les permissions suivantes :
-  permissions-calendar: |
-    Lire et écrire dans le calendrier : les échéances d'opérations futures et périodiques seront stockées dans un calendrier local spécial ou dans celui que vous lui préciserez.
-  permissions-external-storage: |
-    Écriture mémoire USB : enregistrement des fichiers de sauvegarde et exportation QIF et CSV
-  permissions-internet: |
-    Communication réseau : les rapports d'incidents sont automatiquement envoyés aux développeurs, sauf si l'option est désactivée dans les préférences de l'application.
-  permissions-accounts: |
-    Comptes: Synchronisation pat les dispositifs de service de cloud
+  store:
+    short_description: "Gestionnaire de finances personnelles: facile à utiliser, riche en fonctions."
+    full_description_intro: "{app_name} enregistre vos dépenses et vos revenus, directement sur votre smartphone et sur votre tablette."
+    full_description_contrib: "Les fonctionnalités Premium sont déverrouillées en achetant l'une des clés de licence suivantes:"
+  permissions:
+    heading: <i>{app_name}</i> demande les <u>permissions</u> suivantes
+    calendar:
+      label: Agenda
+      explanation: Les échéances d'opérations futures et périodiques seront stockées dans un calendrier local spécial ou dans celui que vous lui préciserez.
+    external-storage:
+      label: Stockage
+      explanation: Enregistrement des fichiers d'exportation QIF et CSV et des sauvegardes.
+    internet:
+      label: Internet
+      explanation_usage_tracking: Suivi d'utilisation anonyme
+      explanation_crash_reporting: Rapports d'incidents
+      explanation_key_validation: Validation de clé de licence
+      explanation_cloud_sync: Synchronisation dans le cloud
+    accounts:
+      label: Comptes
+      explanation: Synchronisation entre les appareils via les services cloud.
+  contrib-key: Clé Contrib
+  extended-key: Clé étendue
+  professional-key: Clé professionnelle
+  all_contrib_key_features: Toutes les fonctions de la Clé Contrib
+  all_extended_key_features: Toutes les fonctions de la Clé Étendue

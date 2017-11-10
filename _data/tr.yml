@@ -1,5 +1,6 @@
 tr:
   imprint: Imprint
+  privacy_policy_heading: Gizlilik
   hero_main: "Android için kişisel finans yöneticisi"
   hero_sub:
     use: "Kolay kullanım"
@@ -18,44 +19,39 @@ tr:
     sourcecode: Kaynak kodu
     links: Bağlantılar
   features:
-    manage_accounts: Transferleri dikkate alan 5 hesap
-    plans: Gelecekteki ve tekrar eden muameleler için plan tanımlaması
-    grouped_list: Muameleleri gün, hafta, ay veya yıllık olarak grupla ve grup başına toplamları görüntüle
     distribution: İki kategori seviyesi (Grisbi XML ve QIF dosyalarından içeri aktarım)
     split: Bölünmüş muameleler (Ücretli işlev)
     calculator: Hesap makinesi
-    export: QIF ve CSV (MS Excel) dosyası olarak dışa aktarma, Dışa aktarım dosyalarının FTP ya da e-posta ile yedeklenmeleri
     import: QIF verilerinin içe aktarımı
-    password: Parola ile güvenlik
     help: Entegre yardım
     backup: Veri yedekleme ve geri yükleme
-    light_theme: "İki tema: karanlık ve aydınlık"
     attach_picture: Muameleye resim ekle
   contrib:
     thank_you: |
       Katkınız Harcamalarım uygulamasının geliştirilmesine destek olacaktır. Teşekkür ederiz!
     feature-list-title: "Lütfen <i>{app_name}</i>'ı yükselterek katkıda bulunun ve aşağıdaki işlevlere sınırsız erişim elde edin:"
     feature:
-      accounts_unlimited: Sınırsız sayıda hesap
-      plans_unlimited: Sınırsız plan sayısı
-      distribution: Dilim grafik (kategori başına dağılım)
-      split_transaction: Bölünmüş muameleler
-      security_question: Güvenlik sorusu
-      template_widget: Şablon widget'i
-      print: Muamele listesini PDF dosyasına aktar
-      attach_picture: Muameleye resim ekle
-      ad_free: Reklamsız
-      csv_import: CSV içe aktar
-      auto_backup: Otomatik yedekleme
-      cloud_sync: Bulut eşleşmesi
-      split_template: Bölünmüş muameleler için şablonlar ve planlamalar
-  permissions-heading: |
-    Harcamalarım aşağıdaki izinlere ihtiyaç duyar:
-  permissions-calendar: |
-    Takvimin okunması ve yazılması: gelecekteki ve tekrar eden muameleler için planlar ya özel bir yerel takvimde ya da atadığınız herhangi başka bir takvimde saklanır.
-  permissions-external-storage: |
-    Writing USB storage: QIF ve CSV dışa aktarmaları ve yedekleme dosyalarının saklanması
-  permissions-internet: |
-    Ağ iletişimi: kullanıcı tarafından uygulama tercihlerinde devre dışı bırakılmadıysa, çökme raporları otomatik olarak geliştiricilere gönderilir.
-  permissions-accounts: |
-    Hesaplar: bulut hizmetleriyle cihazlar arası eşleştirme
+      accounts_unlimited: Sınırsız sayıda <b>hesap</b>
+      ad_free: <b>Reklamsız</b>
+    one-time-payment: Bir defalık ödeme
+    subscription: Abonlelik
+  permissions:
+    heading: '<i>{app_name}</i> aşağıdaki <u>izinlere</u> ihtiyaç duyar:'
+    calendar:
+      label: Takvim
+      explanation: Gelecekteki ve tekrar eden muameleler için planlar ya özel bir yerel takvimde ya da atadığınız herhangi başka bir takvimde saklanır.
+    external-storage:
+      label: Depolama
+      explanation: QIF ve CSV dışa aktarmaları ve yedekleme dosyalarının saklanması.
+    internet:
+      label: Internet
+      explanation_crash_reporting: Çökme raporları
+      explanation_cloud_sync: Bulut eşleşmesi
+    accounts:
+      label: Hesaplar
+      explanation: Cihazlar arası bulut hizmetleri ile eşleşme.
+  contrib-key: Katkı Anahtarı
+  extended-key: Genişletilmiş Anahtarı
+  professional-key: Profesyonel Anahtar
+  all_contrib_key_features: Katkı Anahtarının tüm işlevleri
+  all_extended_key_features: Genişletilmiş Anahtar'ın tüm işlevleri

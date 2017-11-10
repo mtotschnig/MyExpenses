@@ -8,15 +8,31 @@
   <copy file="_layouts/post.html.tmpl" tofile="_layouts/post.html" 
         overwrite="true" encoding="utf-8"/>
  </target>
+ 
  <target name="localize" depends="copy">
  <replaceregexp
                match="\{\{t\.(.*?)( .*)?\}\}"
+               flags="g"
                replace="{% if msg.\1 %}{{msg.\1\2}}{% else %}{{site.data.en.en.\1\2}}{% endif %}"
                byline="true">
    <fileset dir=".">
     <include name="_includes/misc_info.html"/>
     <include name="_layouts/neu.html"/>
     <include name="_layouts/post.html"/>
+   </fileset>
+ </replaceregexp>
+ </target>
+ 
+ <target name="metadata">
+ <copy file="en/metadata/full_description.txt.tmpl" tofile="en/metadata/full_description.txt" 
+        overwrite="true" encoding="utf-8"/>
+ <replaceregexp
+               match="\{\{t\.(.*?)( .*)?\}\}"
+               flags="g"
+               replace="{% if msg.\1 %}{{msg.\1\2}}{% else %}{{site.data.en.en.\1\2}}{% endif %}"
+               byline="true">
+   <fileset dir=".">
+    <include name="en/metadata/full_description.txt"/>
    </fileset>
  </replaceregexp>
  </target>

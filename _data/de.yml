@@ -1,5 +1,8 @@
 de:
   imprint: Impressum
+  imprint_text: Verantwortlich für den Inhalt dieser Website und für die Entwicklung, Wartung und Vertrieb von <i>{app_name}</i>
+  privacy_policy_heading: Datenschutzerklärung
+  privacy_policy_text: "<i>{app_name}</i> greift auf keinerlei Daten auf Ihrem Gerät zu mit Ausnahme seiner eigenen Datenbank und seines eigenen Ordners auf der SD Karte. Falls Sie die Funktion der Planung von zukünftigen und wiederkehrenden Buchungen verwenden, bestimmen Sie, in welchem Kalender diese gespeichert werden."
   hero_main: "Persönliches Finanz-Management für Android"
   hero_sub:
     use: "Einfach zu bedienen"
@@ -18,46 +21,66 @@ de:
     sourcecode: Quellcode
     links: Links
   features:
-    manage_accounts: Bis zu fünf Konten mit Umbuchungen
-    plans: Vorlagen und Pläne für zukünftige und wiederkehrende Ausgaben
-    grouped_list: Buchungen pro Tag, Woche, Monate, Jahr gruppieren und Summen pro Gruppe anzeigen
+    manage_accounts: Bis zu fünf Konten mit <b>Umbuchungen</b> (auch zwischen verschiedenen Währungen)
+    plans: Unbegrenzte Anzahl von <b>Vorlagen</b> und bis zu drei Pläne für <b>wiederkehrende</b> Buchungen
+    grouped_list: Buchungen können <b>gruppiert</b> (pro Tag, Woche, Monat und Jahr) und <b>gefiltert</b> werden
     distribution: Zwei Ebenen von Kategorien mit Import aus Grisbi XML und QIF
     split: Splitbuchungen (nur in Contrib Version)
     calculator: Taschenrechner
-    export: Export nach QIF und CSV (MS Excel), Übertragung via email, FTP, Dropbox, ..., Export aller Konten in einem in Contrib Version
+    export: <b>Exportieren</b> nach QIF und CSV. <b>Importieren</b> von QIF
     import: QIF Dateien importieren
-    password: Passwortschutz
+    password: Daten können mit <b>Passwort</b> geschützt werden
     help: Integrierte Hilfe
     backup: Daten Backup und Wiederherstellung
-    light_theme: "Zwei Themen: hell und dunkel"
+    light_theme: <b>Stil</b> (dunkel und hell) und <b>Schriftgröße</b> können angepasst werden
     attach_picture: Bildanhang für Buchung
+    reconciliation: "<b>Abstimmung</b>: Einfacher Vergleich des Status der Buchungen mit Ihren Kontoauszügen"
+    homescreen: Widget und Verknüpfungen für den Startbildschirm zur schnellen Dateneingabe
   contrib:
     thank_you: |
       Mit Ihrem Beitrag unterstützen Sie die Weiterentwicklung von Meine Ausgaben. Danke!
     feature-list-title: "Bitte leisten Sie einen Beitrag durch ein Upgrade von <i>{app_name}</i> und erhalten Sie uneingeschränkten Zugriff auf die folgenden Funktionen:"
     feature:
-      accounts_unlimited: Unbegrenzte Anzahl von Konten
-      plans_unlimited: Unbegrenzte Anzahl von Plänen
-      distribution: Kreisdiagramm (Verteilung pro Kategorie)
-      split_transaction: Splitbuchung
-      security_question: Sicherheitsfrage
-      template_widget: Vorlagen Widget
-      print: Buchungsliste als PDF-Datei drucken
-      attach_picture: Bildanhang für Buchung
-      ad_free: Ohne Werbung
-      csv_import: CSV import
-      auto_backup: Automatisches Backup
-      cloud_sync: Cloud-Synchronisierung
-      split_template: Vorlagen und Pläne für mehrteilige Buchungen
+      accounts_unlimited: Unbegrenzte Anzahl von <b>Konten</b>
+      plans_unlimited: Unbegrenzte Anzahl von Plänen für <b>wiederkehrende</b> Buchungen
+      distribution: "<b>Kreisdiagramm</b>: Visualisieren Sie die statistische Verteilung der Buchungen pro Kategorie über verschiedene Perioden (Jahre, Monate, Wochen, Tage)"
+      split_transaction: "<b>Mehrteilige Buchung</b>: Eine einzelne Buchung kann in mehrere Teile (Kategorien und Umbuchungen) aufgeteilt werden"
+      security_question: Definieren Sie eine <b>Sicherheitsfrage</b> für die Wiederherstellung eines verlorenen Passworts
+      template_widget: Schnelle Auswahl von <b>Vorlagen</b> über <b>Widget</b> am Startbildschirm
+      print: <b>Drucken</b> der Buchungsliste in eine PDF-Datei
+      attach_picture: "<b>Bildanhang</b>: Mit der Kamera aufnehmen oder aus der Galerie auswählen"
+      ad_free: <b>Keine Werbung</b>
+      csv_import: Ausgefeilter, anpassbarer <b>CSV-Import</b>(Tabellenkalkulationsanwendungen)
+      auto_backup: Tägliche<b>automatische Sicherung</b>mit optionalem Upload in den Cloud-Speicher
+      cloud_sync: "<b>Cloud-Synchronisierung</b>: Daten können über WebDAV und Google Drive zwischen mehreren Geräten synchronisiert werden"
+      split_template: Unbegrenzte Anzahl von <b>Vorlagen und Plänen für mehrteilige Buchungen</b>
+      email_support: <b>E-Mail-Support</b> mit garantierter Antwort nach 2 Werktagen
+      roadmap_voting: Stimmrecht zum <b>Entwicklungsfahrplan</b>
     one-time-payment: Einmalige Zahlung
     subscription: Abonnement
-  permissions-heading: |
-    Meine Ausgaben verwendet folgende Berechtigungen
-  permissions-calendar: |
-    Kalenderdaten lesen und schreiben: Pläne für zukünftige und wiederkehrenden Transaktionen werden entweder in einem speziellen lokalen Kalender oder in einem anderen Kalender, den Sie zuweisen, gespeichert.
-  permissions-external-storage: |
-    USB Speicher schreiben: Speichern von QIF und CSV-Export und Backup-Dateien.
-  permissions-internet: |
-    Netzwerk-Kommunikation: Berichte über Abstürze werden automatisch an Entwickler gesendet, sofern dieses Verhalten in den Einstellungen nicht deaktiviert wurde.
-  permissions-accounts: |
-    Konten: Synchronisierung zwischen mehreren Geräten über Cloud-Dienste
+  store:
+    short_description: "Persönliches Finanz-Management: einfach zu bedienen und Open Source"
+    full_description_intro: "{app_name} ist Ihr Haushaltsbuch: Verfolgen Sie Ihre Ausgaben und Einnahmen direkt auf Ihrem Smartphone und auf Ihrem Tablet."
+    full_description_contrib: "Premium-Funktionen werden durch den Kauf eines der folgenden Lizenzschlüssel freigeschaltet:"
+  permissions:
+    heading: <i>{app_name}</i> verwendet folgende <u>Berechtigungen</u>
+    calendar:
+      label: Kalender
+      explanation: Pläne für zukünftige und wiederkehrenden Transaktionen werden entweder in einem speziellen lokalen Kalender oder in einem anderen Kalender, den Sie zuweisen, gespeichert.
+    external-storage:
+      label: Speicher
+      explanation: Speichern von QIF und CSV-Export und Backup-Dateien.
+    internet:
+      label: Internet
+      explanation_usage_tracking: Anonyme Nutzungsverfolgung
+      explanation_crash_reporting: Absturzberichte
+      explanation_key_validation: Lizenzschlüssel-Validierung
+      explanation_cloud_sync: Cloud-Synchronisierung
+    accounts:
+      label: Konten
+      explanation: Synchronisierung zwischen mehreren Geräten über Cloud-Dienste
+  contrib-key: Contrib-Schlüssel
+  extended-key: Erweiterungsschlüssel
+  professional-key: Professioneller Schlüssel
+  all_contrib_key_features: Alle Funktionen des Contrib Schlüssels
+  all_extended_key_features: Alle Funktionen des erweiterten Schlüssels
