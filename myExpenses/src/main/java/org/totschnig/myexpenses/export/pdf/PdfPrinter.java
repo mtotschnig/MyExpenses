@@ -292,7 +292,7 @@ public class PdfPrinter {
             second = transactionCursor.getInt(columnIndexWeek);
             break;
         }
-        table = helper.newTable(filter.isEmpty() ? 2 : 1);
+        table = helper.newTable(2);
         table.setWidthPercentage(100f);
         PdfPCell cell = helper.printToCell(account.getGrouping().getDisplayTitle(ctx, year, second, transactionCursor), LazyFontSelector.FontType.HEADER);
         table.addCell(cell);
@@ -301,15 +301,15 @@ public class PdfPrinter {
         long sumTransfer = groupCursor.getLong(columnIndexGroupSumTransfer);
         Long delta = sumIncome - sumExpense + sumTransfer;
         long interimBalance = previousBalance + delta;
-        if (filter.isEmpty()) {
-          cell = helper.printToCell(String.format("%s %s %s = %s",
-              currencyFormatter.convAmount(previousBalance, account.currency),
-              Long.signum(delta) > -1 ? "+" : "-",
-              currencyFormatter.convAmount(Math.abs(delta), account.currency),
-              currencyFormatter.convAmount(interimBalance, account.currency)), LazyFontSelector.FontType.HEADER);
-          cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-          table.addCell(cell);
-        }
+        String formattedDelta = String.format("%s %s", Long.signum(delta) > -1 ? "+" : "-",
+            currencyFormatter.convAmount(Math.abs(delta), account.currency));
+        cell = helper.printToCell(
+            filter.isEmpty() ? String.format("%s %s = %s",
+                currencyFormatter.convAmount(previousBalance, account.currency), formattedDelta,
+                currencyFormatter.convAmount(interimBalance, account.currency)) :
+                formattedDelta, LazyFontSelector.FontType.HEADER);
+        cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        table.addCell(cell);
         document.add(table);
         table = helper.newTable(3);
         table.setWidthPercentage(100f);

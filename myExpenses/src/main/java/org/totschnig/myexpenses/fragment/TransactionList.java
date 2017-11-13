@@ -566,7 +566,7 @@ public class TransactionList extends ContextualActionBarFragment implements
             long sumTransfer = c.getLong(columnIndexGroupSumTransfer);
             long delta = sumIncome - sumExpense + sumTransfer;
             long interimBalance = previousBalance + delta;
-            long mappedCategories= c.getLong(columnIndexGroupMappedCategories);
+            long mappedCategories = c.getLong(columnIndexGroupMappedCategories);
             headerData.put(calculateHeaderId(c.getInt(columnIndexGroupYear),
                 c.getInt(columnIndexGroupSecond)),
                 new Long[]{sumIncome, sumExpense, sumTransfer, previousBalance, delta, interimBalance, mappedCategories});
@@ -688,7 +688,6 @@ public class TransactionList extends ContextualActionBarFragment implements
       } else {
         holder = (HeaderViewHolder) convertView.getTag();
       }
-      holder.interimBalance.setVisibility(mFilter.isEmpty() ? View.VISIBLE : View.GONE);
 
       Cursor c = getCursor();
       c.moveToPosition(position);
@@ -705,14 +704,14 @@ public class TransactionList extends ContextualActionBarFragment implements
         holder.sumExpense.setText("- " + currencyFormatter.convAmount(data[1], mAccount.currency));
         holder.sumTransfer.setText(Transfer.BI_ARROW + " " + currencyFormatter.convAmount(
             data[2], mAccount.currency));
-        if (mFilter.isEmpty()) {
-          holder.interimBalance.setText(
-              String.format("%s %s %s = %s",
-                  currencyFormatter.convAmount(data[3], mAccount.currency),
-                  Long.signum(data[4]) > -1 ? "+" : "-",
-                  currencyFormatter.convAmount(Math.abs(data[4]), mAccount.currency),
-                  currencyFormatter.convAmount(data[5], mAccount.currency)));
-        }
+        String formattedDelta = String.format("%s %s", Long.signum(data[4]) > -1 ? "+" : "-",
+            currencyFormatter.convAmount(Math.abs(data[4]), mAccount.currency));
+        currencyFormatter.convAmount(Math.abs(data[4]), mAccount.currency);
+        holder.interimBalance.setText(
+            mFilter.isEmpty() ? String.format("%s %s = %s",
+                currencyFormatter.convAmount(data[3], mAccount.currency), formattedDelta,
+                currencyFormatter.convAmount(data[5], mAccount.currency)) :
+                formattedDelta);
       }
     }
 
