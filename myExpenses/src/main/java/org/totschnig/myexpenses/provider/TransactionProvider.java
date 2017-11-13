@@ -35,7 +35,6 @@ import android.text.TextUtils;
 
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountGrouping;
 import org.totschnig.myexpenses.model.AccountType;
@@ -89,12 +88,10 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_CLEARED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_EXPORTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_FUTURE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INTERIM_BALANCE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_AGGREGATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_CATEGORIES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
@@ -155,7 +152,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_EXPENSE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_INCOME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_IN_PAST;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_DEPENDENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_PEER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_TRANSACTION;
@@ -235,7 +231,6 @@ public class TransactionProvider extends ContentProvider {
   public static final String URI_SEGMENT_LAST_EXCHANGE = "lastExchange";
   public static final String URI_SEGMENT_SWAP_SORT_KEY = "swapSortKey";
   public static final String QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES = "mergeCurrencyAggregates";
-  public static final String QUERY_PARAMETER_IS_FILTERED = "isFiltered";
   public static final String QUERY_PARAMETER_EXTENDED = "extended";
   public static final String QUERY_PARAMETER_DISTINCT = "distinct";
   public static final String QUERY_PARAMETER_MARK_VOID = "markVoid";
@@ -377,17 +372,13 @@ public class TransactionProvider extends ContentProvider {
         selectionArgs = new String[]{accountSelector};
         break;
       case TRANSACTIONS_GROUPS:
-        String accountSelectionQueryOpeningBalance;
         accountSelector = uri.getQueryParameter(KEY_ACCOUNTID);
         if (accountSelector == null) {
           accountSelector = uri.getQueryParameter(KEY_CURRENCY);
-          accountSelectionQuery = accountSelectionQueryOpeningBalance
-              = KEY_CURRENCY + " = ? AND " + KEY_EXCLUDE_FROM_TOTALS + " = 0";
+          accountSelectionQuery = KEY_CURRENCY + " = ? AND " + KEY_EXCLUDE_FROM_TOTALS + " = 0";
         } else {
           accountSelectionQuery = KEY_ACCOUNTID + " = ?";
-          accountSelectionQueryOpeningBalance = KEY_ROWID + " = ?";
         }
-        boolean isFiltered = uri.getQueryParameter(QUERY_PARAMETER_IS_FILTERED) != null;
 
         Grouping group;
         try {
@@ -406,24 +397,7 @@ public class TransactionProvider extends ContentProvider {
           default:
             yearExpression = YEAR;
         }
-//      String secondColumnAlias = " AS " + KEY_SECOND_GROUP;
-//      if (group.equals(Grouping.NONE)) {
-//        qb.setTables(VIEW_COMMITTED);
-//        selection = accountSelection;
-//        //the second accountId is used in openingBalanceSubquery
-//        selectionArgs = new String[]{accountSelector,accountSelector};
-//        projection = new String[] {
-//            "1 AS " + KEY_YEAR,
-//            "1"+secondColumnAlias,
-//            INCOME_SUM,
-//            EXPENSE_SUM,
-//            TRANSFER_SUM,
-//            MAPPED_CATEGORIES,
-//            openingBalanceSubQuery
-//                + " + coalesce(sum(CASE WHEN " + WHERE_NOT_SPLIT + " THEN " + KEY_AMOUNT + " ELSE 0 END),0) AS " + KEY_INTERIM_BALANCE
-//        };
-//      } else {
-        String subGroupBy = KEY_YEAR + "," + KEY_SECOND_GROUP;
+        groupBy = KEY_YEAR + "," + KEY_SECOND_GROUP;
         String secondDef = "";
 
         switch (group) {
@@ -441,55 +415,25 @@ public class TransactionProvider extends ContentProvider {
             secondDef = getMonth();
             break;
           case YEAR:
-            secondDef = "1";
-            subGroupBy = KEY_YEAR;
+            secondDef = "0";
+            groupBy = KEY_YEAR;
             break;
         }
-        qb.setTables("(SELECT "
-            + yearExpression + " AS " + KEY_YEAR + ","
-            + secondDef + " AS " + KEY_SECOND_GROUP + ","
-            + INCOME_SUM + ","
-            + EXPENSE_SUM + ","
-            + TRANSFER_SUM + ","
-            + MAPPED_CATEGORIES
-            + " FROM " + VIEW_EXTENDED
-            + " WHERE " + accountSelectionQuery
-            + (selection != null ? " AND " + selection : "")
-            + " GROUP BY " + subGroupBy + ") AS t");
-        projection = new String[7];
-        projection[0] = KEY_YEAR;
-        projection[1] = KEY_SECOND_GROUP;
-        projection[2] = KEY_SUM_INCOME;
-        projection[3] = KEY_SUM_EXPENSES;
-        projection[4] = KEY_SUM_TRANSFERS;
-        projection[5] = KEY_MAPPED_CATEGORIES;
-        String[] accountArgs;
-        if (!isFiltered) {
-          String openingBalanceSubQuery =
-              "(SELECT sum(" + KEY_OPENING_BALANCE + ") FROM " + TABLE_ACCOUNTS + " WHERE " + accountSelectionQueryOpeningBalance + ")";
-          String deltaExpr = "(SELECT sum(amount) FROM "
-              + VIEW_EXTENDED
-              + " WHERE " + accountSelectionQuery + " AND " + WHERE_NOT_SPLIT + " AND " + WHERE_NOT_VOID
-              + " AND (" + yearExpression + " < " + KEY_YEAR + " OR "
-              + "(" + yearExpression + " = " + KEY_YEAR + " AND "
-              + secondDef + " <= " + KEY_SECOND_GROUP + ")))";
-          projection[6] = openingBalanceSubQuery + " + " + deltaExpr + " AS " + KEY_INTERIM_BALANCE;
-          accountArgs = new String[]{accountSelector, accountSelector, accountSelector};
-        } else {
-          projection[6] = "0 AS " + KEY_INTERIM_BALANCE;//ignored
-          accountArgs = new String[]{accountSelector};
-        }
-        defaultOrderBy = KEY_YEAR + " DESC," + KEY_SECOND_GROUP + " DESC";
-        //CAST(strftime('%Y',date) AS integer)
-        //the accountId is used three times , once in the table subquery, twice in the KEY_INTERIM_BALANCE subquery
-        //(first in the where clause, second in the subselect for the opening balance),
-        Timber.d("SelectionArgs before join : %s", Arrays.toString(selectionArgs));
+        qb.setTables(VIEW_EXTENDED);
+        projection = new String[]{
+            yearExpression + " AS " + KEY_YEAR,
+            secondDef + " AS " + KEY_SECOND_GROUP,
+            INCOME_SUM,
+            EXPENSE_SUM,
+            TRANSFER_SUM,
+            MAPPED_CATEGORIES
+        };
+        selection = accountSelectionQuery
+            + (selection != null ? " AND " + selection : "");
         selectionArgs = Utils.joinArrays(
-            accountArgs,
+            new String[]{accountSelector},
             selectionArgs);
-        //selection is used in the inner table, needs to be set to null for outer query
-        selection = null;
-        //}
+        sortOrder = KEY_YEAR + " ASC," + KEY_SECOND_GROUP + " ASC";
         break;
       case CATEGORIES:
         qb.setTables(TABLE_CATEGORIES);

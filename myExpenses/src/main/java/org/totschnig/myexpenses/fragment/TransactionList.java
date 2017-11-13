@@ -102,6 +102,9 @@ import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.inject.Inject;
 
 import eltos.simpledialogfragment.input.SimpleInputDialog;
@@ -121,7 +124,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_TRANSFERS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INTERIM_BALANCE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_MAIN;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_SUB;
@@ -181,7 +183,18 @@ public class TransactionList extends ContextualActionBarFragment implements
 
   private ExpandableStickyListHeadersListView mListView;
   private LoaderManager mManager;
-  private SparseBooleanArray mappedCategoriesPerGroup;
+
+  /**
+   * maps header to an array that holds an array of following sums:
+   * [0] incomeSum
+   * [1] expenseSum
+   * [2] transferSum
+   * [3] previousBalance
+   * [4] delta (incomSum - expenseSum + transferSum)
+   * [5] interimBalance
+   * [6] mappedCategories
+   */
+  private Map<Long, Long[]> headerData = new HashMap<>();
 
   /**
    * needs to be static, because a new instance is created, but loader is reused
@@ -194,11 +207,9 @@ public class TransactionList extends ContextualActionBarFragment implements
 
   private int columnIndexYear, columnIndexYearOfWeekStart, columnIndexMonth,
       columnIndexWeek, columnIndexDay, columnIndexLabelSub,
-      columnIndexPayee, columnIndexCrStatus, columnIndexGroupYear,
-      columnIndexGroupMappedCategories, columnIndexGroupSumInterim, columnIndexGroupSumIncome,
-      columnIndexGroupSumExpense, columnIndexGroupSumTransfer, columnIndexYearOfMonthStart,
-      columnIndexLabelMain, columnIndexGroupSecond;
-  private boolean indexesCalculated = false, indexesGroupingCalculated = false;
+      columnIndexPayee, columnIndexCrStatus, columnIndexYearOfMonthStart,
+      columnIndexLabelMain;
+  private boolean indexesCalculated = false;
   //the following values are cached from the account object, so that we can react to changes in the observer
   private Grouping mGrouping;
   private SortDirection mSortDirection;
@@ -221,7 +232,6 @@ public class TransactionList extends ContextualActionBarFragment implements
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
-    mappedCategoriesPerGroup = new SparseBooleanArray();
     mAccount = Account.getInstanceFromDb(getArguments().getLong(KEY_ACCOUNTID));
     if (mAccount == null) {
       return;
@@ -436,14 +446,14 @@ public class TransactionList extends ContextualActionBarFragment implements
         Bundle args = new Bundle();
         args.putLong(KEY_ROWID, acmi.id);
         SimpleInputDialog.build()
-                .title(R.string.dialog_title_template_title)
-                .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
-                .hint(R.string.label)
-                .text(label)
-                .extra(args)
-                .pos(R.string.dialog_button_add)
-                .neut()
-                .show(this, NEW_TEMPLATE_DIALOG);
+            .title(R.string.dialog_title_template_title)
+            .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
+            .hint(R.string.label)
+            .text(label)
+            .extra(args)
+            .pos(R.string.dialog_button_add)
+            .neut()
+            .show(this, NEW_TEMPLATE_DIALOG);
         return true;
     }
     return super.dispatchCommandSingle(command, info);
@@ -494,7 +504,6 @@ public class TransactionList extends ContextualActionBarFragment implements
           selection = mFilter.getSelectionForParts(DatabaseConstants.VIEW_EXTENDED);//GROUP query uses extended view
           if (!selection.equals("")) {
             selectionArgs = mFilter.getSelectionArgs(true);
-            builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_IS_FILTERED, "1");
           }
         }
         builder.appendPath(TransactionProvider.URI_SEGMENT_GROUPS)
@@ -544,21 +553,40 @@ public class TransactionList extends ContextualActionBarFragment implements
         break;
       case GROUPING_CURSOR:
         mGroupingCursor = c;
+        int columnIndexGroupYear = c.getColumnIndex(KEY_YEAR);
+        int columnIndexGroupSecond = c.getColumnIndex(KEY_SECOND_GROUP);
+        int columnIndexGroupSumIncome = c.getColumnIndex(KEY_SUM_INCOME);
+        int columnIndexGroupSumExpense = c.getColumnIndex(KEY_SUM_EXPENSES);
+        int columnIndexGroupSumTransfer = c.getColumnIndex(KEY_SUM_TRANSFERS);
+        int columnIndexGroupMappedCategories = c.getColumnIndex(KEY_MAPPED_CATEGORIES);
+        headerData.clear();
+        if (c.moveToFirst()) {
+          long previousBalance = mAccount.openingBalance.getAmountMinor();
+          do {
+            long sumIncome = c.getLong(columnIndexGroupSumIncome);
+            long sumExpense = c.getLong(columnIndexGroupSumExpense);
+            long sumTransfer = c.getLong(columnIndexGroupSumTransfer);
+            long delta = sumIncome - sumExpense + sumTransfer;
+            long interimBalance = previousBalance + delta;
+            long mappedCategories= c.getLong(columnIndexGroupMappedCategories);
+            headerData.put(calculateHeaderId(c.getInt(columnIndexGroupYear),
+                c.getInt(columnIndexGroupSecond)),
+                new Long[]{sumIncome, sumExpense, sumTransfer, previousBalance, delta, interimBalance, mappedCategories});
+            previousBalance = interimBalance;
+          } while (c.moveToNext());
+        }
         //if the transactionscursor has been loaded before the grouping cursor, we need to refresh
         //in order to have accurate grouping values
-        if (!indexesGroupingCalculated) {
-          columnIndexGroupYear = c.getColumnIndex(KEY_YEAR);
-          columnIndexGroupSecond = c.getColumnIndex(KEY_SECOND_GROUP);
-          columnIndexGroupSumIncome = c.getColumnIndex(KEY_SUM_INCOME);
-          columnIndexGroupSumExpense = c.getColumnIndex(KEY_SUM_EXPENSES);
-          columnIndexGroupSumTransfer = c.getColumnIndex(KEY_SUM_TRANSFERS);
-          columnIndexGroupMappedCategories = c.getColumnIndex(KEY_MAPPED_CATEGORIES);
-          columnIndexGroupSumInterim = c.getColumnIndex(KEY_INTERIM_BALANCE);
-          indexesGroupingCalculated = true;
-        }
         if (mTransactionsCursor != null)
           mAdapter.notifyDataSetChanged();
     }
+  }
+
+  private long calculateHeaderId(long year, long second) {
+    if (mAccount.getGrouping().equals(Grouping.NONE)) {
+      return 1;
+    }
+    return year * 1000 + second;
   }
 
   @Override
@@ -653,11 +681,11 @@ public class TransactionList extends ContextualActionBarFragment implements
       if (convertView == null) {
         convertView = inflater.inflate(R.layout.header, parent, false);
         holder = new HeaderViewHolder();
-        holder.text = (TextView) convertView.findViewById(R.id.text);
-        holder.sumExpense = (TextView) convertView.findViewById(R.id.sum_expense);
-        holder.sumIncome = (TextView) convertView.findViewById(R.id.sum_income);
-        holder.sumTransfer = (TextView) convertView.findViewById(R.id.sum_transfer);
-        holder.interimBalance = (TextView) convertView.findViewById(R.id.interim_balance);
+        holder.text = convertView.findViewById(R.id.text);
+        holder.sumExpense = convertView.findViewById(R.id.sum_expense);
+        holder.sumIncome = convertView.findViewById(R.id.sum_income);
+        holder.sumTransfer = convertView.findViewById(R.id.sum_transfer);
+        holder.interimBalance = convertView.findViewById(R.id.interim_balance);
         convertView.setTag(holder);
       } else {
         holder = (HeaderViewHolder) convertView.getTag();
@@ -666,104 +694,45 @@ public class TransactionList extends ContextualActionBarFragment implements
 
       Cursor c = getCursor();
       c.moveToPosition(position);
-      int year = c.getInt(getColumnIndexForYear());
-      int second = -1;
-
-      if (mGroupingCursor != null && mGroupingCursor.moveToFirst()) {
-        //no grouping, we need the first and only row
-        if (mAccount.getGrouping().equals(Grouping.NONE)) {
-          fillSums(holder, mGroupingCursor);
-        } else {
-          traverseCursor:
-          while (!mGroupingCursor.isAfterLast()) {
-            if (mGroupingCursor.getInt(columnIndexGroupYear) == year) {
-              switch (mAccount.getGrouping()) {
-                case YEAR:
-                  fillSums(holder, mGroupingCursor);
-                  break traverseCursor;
-                case DAY:
-                  second = c.getInt(columnIndexDay);
-                  if (mGroupingCursor.getInt(columnIndexGroupSecond) != second)
-                    break;
-                  else {
-                    fillSums(holder, mGroupingCursor);
-                    break traverseCursor;
-                  }
-                case MONTH:
-                  second = c.getInt(columnIndexMonth);
-                  if (mGroupingCursor.getInt(columnIndexGroupSecond) != second)
-                    break;
-                  else {
-                    fillSums(holder, mGroupingCursor);
-                    break traverseCursor;
-                  }
-                case WEEK:
-                  second = c.getInt(columnIndexWeek);
-                  if (mGroupingCursor.getInt(columnIndexGroupSecond) != second)
-                    break;
-                  else {
-                    fillSums(holder, mGroupingCursor);
-                    break traverseCursor;
-                  }
-              }
-            }
-            mGroupingCursor.moveToNext();
-          }
-        }
-        if (!mGroupingCursor.isAfterLast())
-          mappedCategoriesPerGroup.put(position, mGroupingCursor.getInt(columnIndexGroupMappedCategories) > 0);
-      }
-      holder.text.setText(mAccount.getGrouping().getDisplayTitle(getActivity(), year, second, c));
-      //holder.text.setText(mAccount.grouping.getDisplayTitle(getActivity(), year, second, mAccount.grouping.equals(Grouping.WEEK)?this_year_of_week_start:this_year, this_week,this_day));
+      fillSums(holder, getHeaderId(position));
+      holder.text.setText(mAccount.getGrouping().getDisplayTitle(getActivity(), c.getInt(getColumnIndexForYear()), getSecond(c), c));
       return convertView;
     }
 
     @SuppressLint("SetTextI18n")
-    private void fillSums(HeaderViewHolder holder, Cursor mGroupingCursor) {
-      Long sumExpense = DbUtils.getLongOr0L(mGroupingCursor, columnIndexGroupSumExpense);
-      holder.sumExpense.setText("- " + currencyFormatter.convAmount(
-          sumExpense,
-          mAccount.currency));
-      Long sumIncome = DbUtils.getLongOr0L(mGroupingCursor, columnIndexGroupSumIncome);
-      holder.sumIncome.setText("+ " + currencyFormatter.convAmount(
-          sumIncome,
-          mAccount.currency));
-      Long sumTransfer = DbUtils.getLongOr0L(mGroupingCursor, columnIndexGroupSumTransfer);
-      holder.sumTransfer.setText(Transfer.BI_ARROW + " " + currencyFormatter.convAmount(
-          sumTransfer,
-          mAccount.currency));
-      Long delta = sumIncome - sumExpense + sumTransfer;
-      if (mFilter.isEmpty()) {
-        Long interimBalance = DbUtils.getLongOr0L(mGroupingCursor, columnIndexGroupSumInterim);
-        Long previousBalance = interimBalance - delta;
-        holder.interimBalance.setText(
-            String.format("%s %s %s = %s",
-                currencyFormatter.convAmount(previousBalance, mAccount.currency),
-                Long.signum(delta) > -1 ? "+" : "-",
-                currencyFormatter.convAmount(Math.abs(delta), mAccount.currency),
-                currencyFormatter.convAmount(interimBalance, mAccount.currency)));
+    private void fillSums(HeaderViewHolder holder, long headerId) {
+      Long[] data = headerData.get(headerId);
+      if (data != null) {
+        holder.sumIncome.setText("+ " + currencyFormatter.convAmount(data[0], mAccount.currency));
+        holder.sumExpense.setText("- " + currencyFormatter.convAmount(data[1], mAccount.currency));
+        holder.sumTransfer.setText(Transfer.BI_ARROW + " " + currencyFormatter.convAmount(
+            data[2], mAccount.currency));
+        if (mFilter.isEmpty()) {
+          holder.interimBalance.setText(
+              String.format("%s %s %s = %s",
+                  currencyFormatter.convAmount(data[3], mAccount.currency),
+                  Long.signum(data[4]) > -1 ? "+" : "-",
+                  currencyFormatter.convAmount(Math.abs(data[4]), mAccount.currency),
+                  currencyFormatter.convAmount(data[5], mAccount.currency)));
+        }
       }
     }
 
     @Override
     public long getHeaderId(int position) {
-      if (mAccount.getGrouping().equals(Grouping.NONE))
-        return 1;
       Cursor c = getCursor();
       c.moveToPosition(position);
-      int year = c.getInt(getColumnIndexForYear());
-      int month = c.getInt(columnIndexMonth);
-      int week = c.getInt(columnIndexWeek);
-      int day = c.getInt(columnIndexDay);
+      return calculateHeaderId(c.getInt(getColumnIndexForYear()), getSecond(c));
+    }
+
+    private int getSecond(Cursor c) {
       switch (mAccount.getGrouping()) {
         case DAY:
-          return year * 1000 + day;
+          return c.getInt(columnIndexDay);
         case WEEK:
-          return year * 1000 + week;
+          return c.getInt(columnIndexWeek);
         case MONTH:
-          return year * 1000 + month;
-        case YEAR:
-          return year * 1000;
+          return c.getInt(columnIndexMonth);
         default:
           return 0;
       }
@@ -803,7 +772,7 @@ public class TransactionList extends ContextualActionBarFragment implements
   public boolean onHeaderLongClick(StickyListHeadersListView l, View header,
                                    int itemPosition, long headerId, boolean currentlySticky) {
     MyExpenses ctx = (MyExpenses) getActivity();
-    if (mappedCategoriesPerGroup.get(itemPosition)) {
+    if (headerData.get(headerId)[6] > 0) {
       ctx.contribFeatureRequested(ContribFeature.DISTRIBUTION, headerId);
     } else {
       Toast.makeText(ctx, getString(R.string.no_mapped_transactions), Toast.LENGTH_LONG).show();
@@ -1018,10 +987,10 @@ public class TransactionList extends ContextualActionBarFragment implements
       case R.id.FILTER_COMMENT_COMMAND:
         if (!removeFilter(command)) {
           SimpleInputDialog.build()
-                  .title(R.string.search_comment)
-                  .pos(R.string.menu_search)
-                  .neut()
-                  .show(this, FILTER_COMMENT_DIALOG);
+              .title(R.string.search_comment)
+              .pos(R.string.menu_search)
+              .neut()
+              .show(this, FILTER_COMMENT_DIALOG);
         }
         return true;
       case R.id.FILTER_STATUS_COMMAND:
