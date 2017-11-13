@@ -53,7 +53,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DAY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INTERIM_BALANCE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_SAME_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_MAIN;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_SUB;
@@ -217,7 +216,6 @@ public class PdfPrinter {
     int columnIndexGroupSumIncome = groupCursor.getColumnIndex(KEY_SUM_INCOME);
     int columnIndexGroupSumExpense = groupCursor.getColumnIndex(KEY_SUM_EXPENSES);
     int columnIndexGroupSumTransfer = groupCursor.getColumnIndex(KEY_SUM_TRANSFERS);
-    int columIndexGroupSumInterim = groupCursor.getColumnIndex(KEY_INTERIM_BALANCE);
     int columnIndexRowId = transactionCursor.getColumnIndex(KEY_ROWID);
     int columnIndexYear = transactionCursor.getColumnIndex(KEY_YEAR);
     int columnIndexYearOfWeekStart = transactionCursor.getColumnIndex(KEY_YEAR_OF_WEEK_START);
@@ -254,6 +252,7 @@ public class PdfPrinter {
 
     transactionCursor.moveToFirst();
     groupCursor.moveToFirst();
+    long previousBalance = account.openingBalance.getAmountMinor();
 
     while (transactionCursor.getPosition() < transactionCursor.getCount()) {
       int year = transactionCursor.getInt(account.getGrouping().equals(Grouping.WEEK) ? columnIndexYearOfWeekStart : columnIndexYear);
@@ -293,23 +292,24 @@ public class PdfPrinter {
             second = transactionCursor.getInt(columnIndexWeek);
             break;
         }
-        table = helper.newTable(2);
+        table = helper.newTable(filter.isEmpty() ? 2 : 1);
         table.setWidthPercentage(100f);
         PdfPCell cell = helper.printToCell(account.getGrouping().getDisplayTitle(ctx, year, second, transactionCursor), LazyFontSelector.FontType.HEADER);
         table.addCell(cell);
-        Long sumExpense = DbUtils.getLongOr0L(groupCursor, columnIndexGroupSumExpense);
-        Long sumIncome = DbUtils.getLongOr0L(groupCursor, columnIndexGroupSumIncome);
-        Long sumTransfer = DbUtils.getLongOr0L(groupCursor, columnIndexGroupSumTransfer);
+        long sumExpense = groupCursor.getLong(columnIndexGroupSumExpense);
+        long sumIncome = groupCursor.getLong(columnIndexGroupSumIncome);
+        long sumTransfer = groupCursor.getLong(columnIndexGroupSumTransfer);
         Long delta = sumIncome - sumExpense + sumTransfer;
-        Long interimBalance = DbUtils.getLongOr0L(groupCursor, columIndexGroupSumInterim);
-        Long previousBalance = interimBalance - delta;
-        cell = helper.printToCell(String.format("%s %s %s = %s",
-            currencyFormatter.convAmount(previousBalance, account.currency),
-            Long.signum(delta) > -1 ? "+" : "-",
-            currencyFormatter.convAmount(Math.abs(delta), account.currency),
-            currencyFormatter.convAmount(interimBalance, account.currency)), LazyFontSelector.FontType.HEADER);
-        cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-        table.addCell(cell);
+        long interimBalance = previousBalance + delta;
+        if (filter.isEmpty()) {
+          cell = helper.printToCell(String.format("%s %s %s = %s",
+              currencyFormatter.convAmount(previousBalance, account.currency),
+              Long.signum(delta) > -1 ? "+" : "-",
+              currencyFormatter.convAmount(Math.abs(delta), account.currency),
+              currencyFormatter.convAmount(interimBalance, account.currency)), LazyFontSelector.FontType.HEADER);
+          cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+          table.addCell(cell);
+        }
         document.add(table);
         table = helper.newTable(3);
         table.setWidthPercentage(100f);
@@ -338,6 +338,7 @@ public class PdfPrinter {
         table.setWidthPercentage(100f);
         prevHeaderId = currentHeaderId;
         groupCursor.moveToNext();
+        previousBalance = interimBalance;
       }
       long amount = transactionCursor.getLong(columnIndexAmount);
 
