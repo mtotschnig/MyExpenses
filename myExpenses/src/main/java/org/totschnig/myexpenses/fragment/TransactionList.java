@@ -38,6 +38,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.util.LongSparseArray;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.SparseArray;
@@ -101,9 +102,6 @@ import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -194,7 +192,7 @@ public class TransactionList extends ContextualActionBarFragment implements
    * [5] interimBalance
    * [6] mappedCategories
    */
-  private Map<Long, Long[]> headerData = new HashMap<>();
+  private LongSparseArray<Long[]> headerData = new LongSparseArray<>();
 
   /**
    * needs to be static, because a new instance is created, but loader is reused
@@ -701,7 +699,7 @@ public class TransactionList extends ContextualActionBarFragment implements
 
     @SuppressLint("SetTextI18n")
     private void fillSums(HeaderViewHolder holder, long headerId) {
-      Long[] data = headerData.get(headerId);
+      Long[] data = headerData != null ? headerData.get(headerId) : null;
       if (data != null) {
         holder.sumIncome.setText("+ " + currencyFormatter.convAmount(data[0], mAccount.currency));
         holder.sumExpense.setText("- " + currencyFormatter.convAmount(data[1], mAccount.currency));
@@ -772,7 +770,7 @@ public class TransactionList extends ContextualActionBarFragment implements
   public boolean onHeaderLongClick(StickyListHeadersListView l, View header,
                                    int itemPosition, long headerId, boolean currentlySticky) {
     MyExpenses ctx = (MyExpenses) getActivity();
-    if (headerData.get(headerId)[6] > 0) {
+    if (headerData != null && headerData.get(headerId)[6] > 0) {
       ctx.contribFeatureRequested(ContribFeature.DISTRIBUTION, headerId);
     } else {
       Toast.makeText(ctx, getString(R.string.no_mapped_transactions), Toast.LENGTH_LONG).show();
