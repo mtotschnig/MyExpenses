@@ -199,7 +199,7 @@ public class TransactionProvider extends ContentProvider {
   public static final Uri SQLITE_SEQUENCE_TRANSACTIONS_URI =
       Uri.parse("content://" + AUTHORITY + "/sqlite_sequence/" + TABLE_TRANSACTIONS);
   public static final Uri PLAN_INSTANCE_STATUS_URI =
-      Uri.parse("content://" + AUTHORITY + "/planinstance_transaction/");
+      Uri.parse("content://" + AUTHORITY + "/planinstance_transaction");
   public static final Uri CURRENCIES_URI =
       Uri.parse("content://" + AUTHORITY + "/currencies");
   public static final Uri TRANSACTIONS_SUM_URI =
@@ -837,7 +837,7 @@ public class TransactionProvider extends ContentProvider {
         newUri = PAYEES_URI + "/" + id;
         break;
       case PLANINSTANCE_TRANSACTION_STATUS:
-        id = db.insertOrThrow(TABLE_PLAN_INSTANCE_STATUS, null, values);
+        id = db.insertWithOnConflict(TABLE_PLAN_INSTANCE_STATUS, null, values, SQLiteDatabase.CONFLICT_REPLACE);
         newUri = PLAN_INSTANCE_STATUS_URI + "/" + id;
         break;
       case EVENT_CACHE:
