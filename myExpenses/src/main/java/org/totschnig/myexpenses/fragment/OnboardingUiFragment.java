@@ -107,7 +107,7 @@ public class OnboardingUiFragment extends OnboardingFragment {
     updateFontSizeDisplayName(fontScale);
 
     //theme
-    SwitchCompat themeSwitch = (SwitchCompat) view.findViewById(R.id.theme);
+    SwitchCompat themeSwitch = view.findViewById(R.id.theme);
     boolean isLight = MyApplication.getThemeType().equals(MyApplication.ThemeType.light);
     themeSwitch.setChecked(isLight);
     setContentDescriptonToThemeSwitch(themeSwitch, isLight);

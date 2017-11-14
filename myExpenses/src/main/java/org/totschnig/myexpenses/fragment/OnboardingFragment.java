@@ -15,7 +15,7 @@ abstract class OnboardingFragment extends Fragment {
         .getParent();
     View customNav = LayoutInflater.from(navParent.getContext()).inflate(R.layout.onboarding_navigation,
         navParent, false);
-    createMenu((Toolbar) customNav.findViewById(R.id.onboaring_menu));
+    createMenu(customNav.findViewById(R.id.onboaring_menu));
     View button = customNav.findViewById(buttonToShow);
     button.setVisibility(View.VISIBLE);
     button.setOnClickListener(v -> onNextButtonClicked());
