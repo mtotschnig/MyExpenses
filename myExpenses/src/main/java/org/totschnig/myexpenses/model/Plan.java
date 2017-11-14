@@ -133,8 +133,8 @@ public class Plan extends Model implements Serializable {
               title,
               "" // we do not need the description stored in the event
           );
-          c.close();
         }
+        c.close();
       }
     }
     return plan;
