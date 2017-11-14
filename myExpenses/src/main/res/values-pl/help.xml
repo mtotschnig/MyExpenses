@@ -2,29 +2,44 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="help_menu_commands">Polecenia menu</string>
   <string name="help_contextual_actions">Akcje kontekstowe</string>
+  <string name="help_form_fields">Form fields</string>
   <string name="cab_delete_help_text">Usuń zaznaczone elementy.</string>
   <string name="cab_edit_help_text">Edytuj zaznaczony element.</string>
   <!--My Expenses Transaction list-->
   <string name="help_MyExpenses_title">Lista transakcji</string>
   <string name="help_MyExpenses_info">To okno pokazuje wszystkie transakcje dla obecnego konta. Użyj pływającego przycisku aby utworzyć nową transakcję.</string>
   <string name="help_MyExpenses_crStatus_info">Stan transakcji jest oznaczony przez pokolorowany prostokąt: szary dla nieuzgodnionego, niebieski dla czystego, zielony dla uzgodnionego. Kliknięcie na prostokącie, zmienia jego stan.</string>
+  <string name="menu_reset_help_text">To polecenie wyeksportuje wszystkie transakcje z bieżącego konta do pliku na karcie SD w formacie QIF lub CSV. Możesz podjąć decyzję o usunięciu wyeksportowanych transakcji, w takim przypadku saldo otwarcia zostanie automatycznie dostosowane. Alternatywnie, jeśli transakcje nie zostaną usunięte, zostaną one oznaczone jako wyeksportowane. Moje wydatki mogą udostępnić plik natychmiast po wyeksportowaniu za pośrednictwem FTP, e-maila lub innej aplikacji do udostępniania plików, jeśli skonfigurujesz ją w ustawieniach. Jeśli aktywny jest filtr wyszukiwania, brane są pod uwagę tylko transakcje mapowane przez ten filtr.</string>
   <string name="menu_grouping_help_text">Możesz grupować transakcję na dni, tygodnie, miesiące czy lata. Dla każdej grupy suma wpływów, wydatków i transferów jest wyliczana i wyświetlana. Gdy naciśniesz na nagłówek grupy, grupa danej transakcji zwija się i wyświetlany jest tylko nagłówek. Kliknij ponownie aby rozszerzyć.</string>
+  <string name="menu_sort_direction_help_text">Transakcje mogą być sortowane rosnąco (najstarsze na górze) lub malejące (najnowsze na górze).</string>
+  <string name="menu_distribution_help_text">Wyświetlaj rozkład swoich wydatków według kategorii. Możesz także długo kliknąć nagłówek grupy, aby sprawdzić dystrybucję przez określony czas.</string>
   <string name="menu_manage_plans_help_text">Otwiera listę szablonów oraz planów, gdzie możesz zastosować, edytować lub edytować je, i także określić plany na przyszłość oraz powtarzających się transakcji.</string>
+  <string name="menu_balance_help_text">To polecenie otwiera okno dialogowe wyświetlające ostatnio uzgodnione saldo i rozliczone saldo. Możesz porównać to drugie z wyciągiem bankowym i oznaczyć wszystkie rozliczone transakcje jako uzgodnione. Opcjonalnie możesz zdecydować o usunięciu uzgodnionych transakcji.</string>
   <string name="menu_print_help_text">Generuje gotowy do wydruku widok obecnie wyświetlanych transakcji.</string>
+  <string name="menu_search_help_text">Ten wpis otwiera podmenu, które pozwala zdefiniować kryteria wyszukiwania na podstawie kategorii, kwoty, komentarza, statusu, płatnika/odbiorcy i metody płatności. Gdy filtr wyszukiwania jest aktywny, możesz po prostu kliknąć jego pozycję w podmenu, aby ją dezaktywować.</string>
   <string name="cab_create_template_from_transaction_help_text">Zdefiniuj nowy szablon bazujący na wybranej transakcji. Będzie on prosił cię o nazwę dla szablonu.</string>
   <string name="cab_clone_transaction_help_text">Zaznaczone transakcje zostaną sklonowane z bieżącą datą i godziną. Możesz poczynić zmiany po zapisie kopii.</string>
+  <string name="cab_split_transaction_help_text">Wybrane transakcje zostaną przekształcone w transakcje podzielone z jedną częścią podzieloną. Następnie można edytować transakcję, aby utworzyć części w razie potrzeby.</string>
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">To okno pokazuje wszystkie zdefiniowane metody płatności (czek, karta kredytowa, depozyt, karta debetowa) oraz pozwala dodawać nowe. Uzyj pływającego przycisku akcji aby utworzyć nową metodę płatności.</string>
   <!--ManageParties title is in keys-->
+  <string name="help_ManageParties_info">Na tym ekranie wyszczególniono strony używane do autouzupełniania pola Płatnik/Odbiorca płatności. Użyj pływającego przycisku akcji, aby dodać nowy wpis.</string>
   <!--ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">Widok planu kalendarza</string>
+  <string name="help_ManageTemplates_templates_info"><![CDATA[<img src=\"ic_menu_template\">Podczas gdy szablony można wyprowadzać z transakcji za pośrednictwem menu kontekstowego, tutaj możesz tworzyć nowe szablony od podstaw (w przypadku transakcji lub przelewów), klikając pływający przycisk akcji. Kliknięcie szablonu stworzy dla niego instancję.<br><img src=\"ic_event\"> Plan to szablon, dla którego utworzyłeś wydarzenie (jednorazowe lub cykliczne) w kalendarzu terminarza. Klikając plan, otworzy się widok kalendarza, który wyświetla poprzednie i nadchodzące wystąpienia planu.]]></string>
+  <string name="help_ManageTemplates_plans_info"><![CDATA[Każda wyróżniona data reprezentuje instancję planu. Stan instancji jest oznaczony następującymi ikonami:<br><img src="ic_stat_open">Instancja nie została jeszcze zastosowana.<br><img src="ic_stat_applied">Instancja została zastosowana.<br><img src="ic_stat_cancelled">Instancja została anulowana, tj. opuściłeś ją, aby pominąć. Dla tej instancji nie zostanie utworzona żadna transakcja.]]></string>
   <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Utwórz instancję wybranego szablonu i zapisz go natychmiastowo.</string>
   <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Utwórz instancję wybranego szablonu i wejdź do jego pola edycyjnego gdzie możesz modyfikować go przed zapisem. </string>
   <string name="cab_ManageTemplates_delete_help_text">Usuń zaznaczone szablony i wszystkie powiązane plany.</string>
   <string name="cab_ManageTemplates_edit_help_text">Edytuj zaznaczony szablon i utwórz lub edytuj powiązany plan.</string>
+  <string name="cab_ManageTemplates_plans_create_instance_save_help_text">Utwórz transakcje w momencie wystąpienia wybranych zdarzeń i natychmiast je zapisz.</string>
+  <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">Utwórz transakcję w momencie wybranego zdarzenia i wprowadź jej formularz edycji, w którym możesz go zmodyfikować przed zapisaniem.</string>
+  <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Wskaż, że w wybranych zdarzeniach nie należy tworzyć żadnych transakcji. Jeśli zostały utworzone transakcje dla wybranych zdarzeń, zostaną one usunięte.</string>
   <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Jeżeli transakcje zostały utworzone dla wybranych instancji zdarzenia, zostaną one usunięte, jeżeli zostały one oflagowane jako anulowane, flagi te zostaną usunięte.</string>
   <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Edytuj transakcję która została utworzona dla wybranej instancji planu.</string>
+  <string name="menu_ManageTemplates_templates_sort_help_text">Lista szablonów może być sortowana według tytułu (alfabetycznie), według ilości, częstotliwości użycia lub ostatniego czasu utworzenia transakcji.</string>
   <!--ManageCategories_* titles are in keys-->
+  <string name="help_ManageCategories_distribution_info">Na tym ekranie wyświetla się rozkład wydatków i dochodów w kategoriach dla wszystkich transakcji na koncie lub dla określonej grupy. Po rozwinięciu głównej kategorii na liście wykres kołowy wyświetli rozkład podkategorii. Jeśli wybierzesz kategorię z listy, zostanie ona podświetlona na wykresie kołowym i odwrotnie. Naciśnij długo kategorię, aby wyświetlić zagregowaną listę mapowanych do niej transakcji.</string>
   <string name="help_ManageCategories_select_mapping_info">Oprócz akcji które możesz dokonać podczas zarządzania kategoriami z ekranu Preferencji (utwórz, edytuj, usuń), na tym ekranie możesz zmapować transakcję do wybranej kategorii. Możesz też wybrać podkategorię dla zmapowania bieżącej transakcji przez kliknięcie na niej. W celu zmapowania głównej kategorii, musisz wywołać jego menu kontekstowe.</string>
   <string name="help_ManageCategories_select_filter_info">Wybierz kategorię filtrowania listy transakcji. Aby wyszukać głównej kategorii musisz wywołać jej menu kontekstowe.</string>
   <string name="help_ManageCategories_manage_info">Ten ekran pozwala na tworzenie, edytowanie i usuwanie kategorii. Domyślnie, główne kryteria sortowanie na liście kategorii to ilość razy ile użyłeś danej kategorii (Drugorzędne kryteria to kolejność alfabetyczna). To pozwala Ci na szybki dostęp do kategorii których najczęściej używasz. W ustawieniach, możesz wybrać sortowanie kategorii w zwykłej kolejności alfabetycznej. Kliknięcie na głównej kategorii, otwiera jego podkategorie. Z menu kontekstowego głównej kategorii, możesz dodać nowe podkategorie, usuwać lub edytować je. Podkategorie także posiadają menu kontekstowe do usuwania i edytowania ich.</string>
@@ -40,6 +55,7 @@
   <string name="menu_distribution_aggreate_help_text">Domyślnie, kalkulowane sumy zawierają zarówno wydatki jak i przychody. Możesz zadecydować by wyświetlać je osobno, przycisk w pasku akcji pozwala na przełączanie pomiędzy wydatkami i przychodami.</string>
   <string name="cab_ManageCategories_select_filter_select_category_help_text">Wybrana kategoria zostania użyta do filtrowania listy transakcji.</string>
   <string name="menu_ManageCategories_search_help_text">Tylko kategorie główne i podkategorie które pasują do twojego zapytania zostaną wyświetlone.</string>
+  <string name="menu_ManageCategories_sort_help_text">Lista kategorii może być sortowana według tytułu (alfabetycznie), według częstotliwości używania lub ostatniego czasu, kiedy transakcja została do niej przyporządkowana.</string>
   <!--ExpenseEdit-->
   <string name="help_ExpenseEdit_transaction_title">Formularz dla transakcji</string>
   <string name="help_ExpenseEdit_transfer_title">Formularz dla przelewów</string>
@@ -49,29 +65,76 @@
   <string name="help_ExpenseEdit_templateCategory_title">Formularz dla szablonów transakcji</string>
   <string name="help_ExpenseEdit_templateTransfer_title">Formularz dla szablonów transferów</string>
   <string name="help_ExpenseEdit_templateSplit_title">Formularz dla osobnych szablonów</string>
+  <string name="help_ExpenseEdit_transaction_info">Użyj tego formularza, aby wprowadzić nową transakcję lub edytować istniejącą. Użyj menu rozwijanego na pasku akcji, aby przejść do formularza dodawania nowego przelewu lub podziału transakcji.</string>
+  <string name="help_ExpenseEdit_templateCategory_info">Użyj tego formularza, aby wprowadzić nowy szablon lub edytować istniejący. Użyj menu rozwijanego na pasku akcji, aby przełączać się między szablonami transakcji, przelewów i podziałów.</string>
+  <string name="help_ExpenseEdit_split_info">Podzielona transakcja to pojedyncza transakcja podzielona na części, w której każda część może zostać przypisana do innej kategorii lub przeniesiona na inne konto.</string>
   <string name="form_account_help_text">Wskaż konto do którego należy transakcja.</string>
   <string name="form_date.time_help_text">Wprowadź czas w którym odbyła się transakcja.</string>
   <string name="form_payer_or_payee_help_text">To pole zapamiętuje wprowadzone dane i zasugeruje je w przyszłości.</string>
   <string name="form_amount_switch_help_text">Użyj przełącznika aby zmieniać widok pomiędzy wydatkiem i przychodem.</string>
+  <string name="form_calculator_help_text"><![CDATA[Przycisk <img src="?calcIcon"> otwiera kalkulator.]]></string>
+  <string name="form_crstatus_help_text">W przypadku transakcji należących do kont bankowych, możesz zmienić status transakcji na wyczyszczony. Aby go ustawić, musisz użyć polecenia \"Saldo konta\" z listy transakcji. Jeśli status zostanie unieważniony, transakcja nie zostanie policzona.</string>
   <string name="form_comment_help_text">Wprowadź dowolną notatkę na temat obiektu.</string>
+  <string name="form_method_help_text">To pole jest dostępne tylko wtedy, gdy konto bieżące jest typu powiązanego z dowolną metodą płatności. Domyślnie tylko konta bankowe są powiązane z metodami płatności (czek, karta kredytowa, depozyt, polecenie zapłaty). Przejdź do Ustawień - &amp; gt; Zarządzaj - &amp; gt; Metody płatności, aby skonfigurować powiązanie między typami kont i metodami płatności. Po wybraniu metody, która jest zdefiniowana jako numerowana, staje się dostępne dodatkowe pole do wprowadzania numeru referencyjnego.</string>
+  <string name="form_attach_image_help_text"><![CDATA[Przycisk <img src="android:ic_menu_camera"> umożliwia dołączenie obrazu (np. z galerii lub aparatu) do obiektu.]]></string>
+  <string name="form_category_help_text">Ten przycisk otwiera listę kategorii, w których możesz wybrać kategorię, którą chcesz przenieść na transakcję.</string>
+  <string name="form_split_parts_heading_help_text">Użyj pływającego przycisku akcji, aby wprowadzić tyle podzielonych części, ile potrzeba. Różnica między sumą części a transakcją jest wyświetlana u dołu ekranu. Możesz zapisać tylko transakcję podziału, jeśli kwota transakcji została dokładnie przypisana.</string>
+  <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Wybierz kategorię dla tej podzielonej części.</string>
+  <string name="form_transfer_from_account.transfer_to_account_help_text">Przypisywanie kont, do których ten obiekt jest przesyłany \'Od\' lub \'Do\'.</string>
+  <string name="form_exchange_rate_help_text">Możesz określić stawkę w jednym z obu kierunków transferu. Odwrotna stawka i kwota odpowiadająca zależnej części kursu walutowego jest obliczana automatycznie.</string>
   <string name="form_title_help_text">Wprowadź tytuł który unikalnie zidentyfikuje szablon.</string>
+  <string name="form_plan_help_text">Po utworzeniu planu szablonu jest on dodawany do prywatnego kalendarza obsługiwanego przez aplikację Kalendarz. Możesz zdefiniować plan jako jednorazowe wydarzenie lub cyklicznie codziennie, co tydzień, co miesiąc lub co rok.</string>
+  <string name="form_plan_help_text_advanced">Po zapisaniu szablonu możesz skonfigurować bardziej zaawansowane typy powtarzania, korzystając z aplikacji kalendarza.</string>
   <string name="form_plan_help_text_mode">Plan może być ustawiony jako automatyczny lub ręczny. Kiedy wystąpi instancja automatycznego planu, transakcja zostanie utworzona, i dostaniesz o tym powiadomienie. Kiedy plan jest ustawiony jako ręczny, to także dostaniesz o tym powiadomienie, które tym razem da Ci do wyboru jego anulowanie, modyfikację lub zastosowania dla Ciebie szablonu.</string>
   <string name="menu_save_help_text">Zapiuje dane i zamyka formularz.</string>
   <string name="menu_save_and_new_help_text">Zapisuje dane, zostawia formularz włączony dla tworzenia nowej transakcji z tymi samymi danymi.</string>
   <string name="menu_invert_transfer_help_text">Odwróć kierunek przelewu poprzez zamianę kont \'Z\' i \'Do\'</string>
+  <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">Jeśli waluty konta \'Od\' i \'Do\' są różne, określasz kwotę tylko dla jednego z nich. Drugi zostanie obliczony podczas tworzenia instancji z szablonu.</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Formularz dla kont</string>
+  <string name="form_AccountEdit_label_help_text">Etykieta identyfikuje konto na liście kont.</string>
   <string name="form_description_help_text">Opis pełni tylko funkcje informacyjną.</string>
   <string name="form_AccountEdit_amount_switch_help_text">Użyj przełącznika aby zacząć z ujemnym saldem konta.</string>
   <string name="form_currency_help_text">Wybierz walutę z dostarczonej listy wszystkich walut.</string>
+  <string name="form_AccountEdit_type_help_text">Możesz zdefiniować typ konta jako jeden z gotówki, banku, aktywów, pasywów, karty kredytowej. Typ określa dostępne metody płatności, które możesz skonfigurować w Ustawieniach - &amp; gt; Zarządzaj - &amp; gt; Metody Płatności.</string>
+  <string name="form_AccountEdit_type_help_text_reconciliation">Funkcja uzgadniania jest dostępna dla wszystkich kont oprócz gotówkowych: Pozwala ustawić status transakcji na wyczyszczoną po potwierdzeniu i uzgodnić całe konto z wyciągiem z rachunku bankowego za pomocą polecenia \"Konto bilansowe\".</string>
+  <string name="form_color_help_text">Na liście transakcji dla konta jego kolor będzie używany jako podstawowy kolor interfejsu użytkownika.</string>
+  <string name="form_synchronization_help_text_select">Wybierz serwer do synchronizacji w chmurze.</string>
+  <string name="form_synchronization_help_text_add">Serwer można dodać z ekranu Ustawienia.</string>
+  <string name="menu_exclude_from_totals_help_text">Jeśli zaznaczysz tę opcję, to konto nie zostanie włączone do agregacji według waluty.</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Formularz dla metody płatności</string>
+  <string name="form_MethodEdit_label_help_text">Etykieta identyfikuje metodę, gdy zamieniasz nią na transakcję.</string>
+  <string name="form_MethodEdit_type_help_text">Poprzez typ metody można określić, czy ma ona zastosowanie do wydatków (debetowych), dochodów (kredytowych) lub obu (neutralnych).</string>
+  <string name="form_MethodEdit_numbered_help_text">Gdy metoda jest numerowana, transakcje, które są do niej mapowane, będą miały dodatkowe pole do wpisania numeru referencyjnego.</string>
+  <string name="form_MethodEdit_account_types_help_text">Wybierz typy kont, dla których ta metoda ma zastosowanie.</string>
   <!--ManageCurrencies-->
+  <string name="help_ManageCurrencies_info">Dla każdej waluty można zmodyfikować liczbę użytych cyfr ułamkowych. Na przykład, jeśli na Euro, musisz obsłużyć 1/10 z ¢, tj. 1/1000 euro, możesz ustawić liczbę na trzy. Istniejące konta korzystające z waluty zostaną przełączone na nowe ustawienie.</string>
   <!--FolderBrowser title is in keys-->
+  <string name="help_FolderBrowser_info">Wybrany tutaj folder będzie używany do przechowywania kopii zapasowych i eksportowania. Przechodź przez hierarchię folderów, aż dotrzesz do żądanego folderu.</string>
   <string name="menu_create_folder_help_text">Stwórz nowy folder wewnątrz obecnego.</string>
   <string name="menu_select_folder_help_text">Wybierz obecny folder jako cel dla eksportów i kopii zapasowych.</string>
   <string name="menu_up_help_text">Nawiguj do folderu nadrzędnego.</string>
   <!--StaleImages-->
+  <string name="help_ManageStaleImages_info">Ten ekran umożliwia obsługę plików graficznych, które zostały usunięte ze skasowanych transakcji. Długo klikaj wpisy, aby je usunąć lub przenieś je z (ewentualnie wewnętrznego) folderu magazynu do folderu kopii zapasowej (Android/data/org.totschnig.mxexpenses/files/images.old) w pamięci zewnętrznej.</string>
   <!--CSV Import-->
+  <string name="help_CsvImportActivity_info"><![CDATA[Po wybraniu pliku, który chcesz zaimportować, musisz skonfigurować sposób kodowania pliku (UTF-8 lub ISO-8859-1), który to znak oddziela pola (przecinek, średnik lub tabulator) i jak daty są sformatowane. Dane mogą być importowane do istniejącego konta lub nowego, gdzie można skonfigurować walutę i typ konta. &lt;br&gt;&lt;br&gt;. Po naciśnięciu przycisku Analizuj na pasku akcji dane zostaną wyświetlone w tabeli. Przed wyzwoleniem importu za pomocą przycisku na pasku akcji można wybrać wiersze, które mają zostać odrzucone, a następnie zmapować kolumny do odpowiednich pól danych.<br><br>Po odrzuceniu pierwszego wiersza pojawi się monit, jeśli chcesz go traktować jako linię nagłówka, w którym to przypadku <i>My Expenses</i> spróbuje automatycznie mapować kolumny na podstawie zawartości komórek nagłówka. Zapamiętuje również twoje mapowanie w oparciu o wiersz nagłówka i przywróci go, gdy następnym razem zaimportujesz plik o tym samym formacie nagłówka.]]></string>
+  <string name="help_ExportDialog_date_format"><![CDATA[Tekst można cytować za pomocą pojedynczego cudzysłowu (\'), aby uniknąć interpretacji. "(dwia pojedyncze cudzysłowy) stanowią pojedynczy cytat. Aby uzyskać więcej informacji, zapoznaj się z pełną <a href="http://developer.android.com/reference/java/text/SimpleDateFormat.html">specification</a> lub skontaktuj się z support@myexpenses.mobi, aby uzyskać pomoc.]]></string>
+  <string name="help_NavigationDrawer_info">Lista kont pozwala na łatwą nawigację między kontami, po prostu klikając w pozycję.</string>
+  <string name="menu_create_account_help_text">Stwórz nowe konto. Darmowa wersja jest ograniczona do pięciu kont.</string>
+  <string name="menu_NavigationDrawer_sort_help_text">Lista rachunków może być sortowana według tytułu (alfabetycznie), według częstotliwości użytkowania lub ostatniej transakcji dla niego utworzonej. Jeśli wybierzesz sortowanie niestandardowe, zobaczysz polecenia w menu kontekstowym każdego konta, aby przenieść je w górę i w dół na liście.</string>
+  <string name="menu_NavigationDrawer_grouping_help_text">Lista rachunków może być wyświetlana zgrupowana według typu konta, waluty lub rozgrupowania.</string>
+  <string name="cab_sort_up_help_text">Przesuń pozycję o jedną pozycję w górę na liście.</string>
+  <string name="cab_sort_down_help_text">Przesuń pozycję o jedną pozycję w dół na liście.</string>
+  <string name="form_instant_plan_help_text">Tutaj możesz ustawić transakcję tak, aby powtarzała się codziennie, co tydzień, co miesiąc lub co rok. Na ekranie \"Szablony i plany\" można sprawdzić wynikowy plan i skonfigurować zaawansowane opcje. Jeśli transakcja jest już powiązana z abonamentem, nie można już zmienić rodzaju powtarzania, ale można otworzyć widok kalendarza z wszystkimi datami cyklicznymi.</string>
   <!--SyncBackends-->
+  <string name="help_ManageSyncBackends_intro">Moje Wydatki pozwalają na skonfigurowanie różnych synchronizacji dla każdego konta. Na przykład możesz zsynchronizować jedno konto z folderem współdzielonym, podczas synchronizowania innego konta z folderem prywatnym. Na tym ekranie można dodawać lub usuwać synchronizacje, uruchamiać lub zatrzymywać synchronizację z kontami dostępnymi zdalnie. Podczas synchronizacji dzieje się automatycznie w sposób okresowy, tutaj można również ręcznie wyzwolić go z zapleczem. Należy pamiętać, że Moje wydatki wymagają pełnej kontroli nad folderem zdalnym. Nie powinieneś używać innych narzędzi ani interfejsów do zmiany jego zawartości, ponieważ najprawdopodobniej doprowadzi to do awarii podczas synchronizacji.</string>
+  <string name="help_ManageSyncBackends_webdav">WebDAV: Jeśli dostawca pamięci masowej w chmurze obsługuje ten protokół, Moje Wydatki będą w stanie zsynchronizować z nim dane. Po prostu podaj adres URL do folderu z nazwą użytkownika i hasłem. Jeśli korzystasz z protokołu HTTPS, a serwer WWW używa samo-podpisanego certyfikatu, będziesz mógł zaufać mu w sposób jawny.</string>
+  <string name="help_ManageSyncBackends_drive">Dysk Google: wybierz dowolny folder, który posiadasz lub który jest Ci udostępniony.</string>
+  <string name="menu_create_sync_backend_help_text">Z podmenu wybierz typ serwera synchronizacji, który chcesz dodać, i podaj szczegółowe informacje dla każdego z nich.</string>
+  <string name="cab_sync_now_help_text">Natychmiastowa synchronizacja wyzwalacza z wybranym serwerem.</string>
+  <string name="cab_remove_help_text">Usuń wybrany serwer.</string>
+  <string name="cab_sync_download_help_text">Pobierz konto, które jest dostępne na serwerze. Konto zostanie utworzone lokalnie i skonfigurowane do synchronizacji z serwerem.</string>
+  <string name="cab_sync_link_help_text">Rozpocznij synchronizację dla konta, które istnieje zarówno lokalnie, jak i zdalnie. Musisz zdecydować, czy dane lokalne czy zdalne powinny być przechowywane przy pierwszej synchronizacji.</string>
+  <string name="cab_sync_unlink_help_text">Wybrane konto nie będzie już synchronizowane z serwerem</string>
 </resources>

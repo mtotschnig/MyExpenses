@@ -683,4 +683,7 @@
   <string name="extend_validity">Extender validez</string>
   <string name="progress_dialog_fetching_data_from_sync_backend">Adjuntando información desde el servicio remoto. Esto puede llevar algún tiempo.</string>
   <string name="donate_button_invoice">Factura</string>
+  <string name="menu_sort_direction">Elegir dirección</string>
+  <string name="sort_direction_ascending">Ascendente</string>
+  <string name="sort_direction_descending">Descendente</string>
 </resources>

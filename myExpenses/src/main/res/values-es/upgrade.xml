@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_283">
+    <item>Elegir dirección ascendente (las transacciones más antiguas arriba)</item>
+  </string-array>
   <string-array name="whats_new_282">
     <item>Plantillas y proyectos para transacciones divididas</item>
     <item>Introduciendo licencia de llave Profesional</item>

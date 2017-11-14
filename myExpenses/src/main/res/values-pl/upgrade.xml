@@ -18,12 +18,30 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_283">
+    <item>Rosnący kierunek sortowania (najstarsze transakcje u góry)</item>
+  </string-array>
+  <string-array name="whats_new_282">
+    <item>Szablony i plany dla transakcji podzielonych</item>
+    <item>Przedstawiamy Profesjonalny Klucz Licencyjny</item>
+    <item>Widżety ekranu głównego dostosowują się do preferowanego przez użytkownika rozmiaru czcionki</item>
+  </string-array>
   <string-array name="whats_new_281">
     <item>Opcja dla niestandardowych planów</item>
     <item>Naprawiono dysk w chmurze dla dużych kopii zapasowych</item>
   </string-array>
+  <string-array name="whats_new_280">
+    <item>Tłumaczenie hebrajskie</item>
+    <item>Wybór dla niestandardowego koloru konta</item>
+  </string-array>
   <string-array name="whats_new_279">
     <item>Możliwość konfiguracji symboli walut</item>
+  </string-array>
+  <string-array name="whats_new_278">
+    <item>Skróty aplikacji na Androidzie 7.1</item>
+  </string-array>
+  <string-array name="whats_new_277">
+    <item>Automatyczne kopie zapasowe można przechowywać w zapleczu chmury</item>
   </string-array>
   <string-array name="whats_new_276">
     <item>Mniejsze usprawnienia</item>
@@ -31,10 +49,50 @@
   <string-array name="whats_new_275">
     <item>Synchronizacja pomiędzy urządzeniami przez chmurę</item>
   </string-array>
+  <string-array name="whats_new_271">
+    <item>Problemy z planami na urządzeniach Samsung są naprawione</item>
+    <item>Edytuj transakcje na ekranie statystyk</item>
+  </string-array>
   <string-array name="whats_new_270">
     <item>Nowa ikona aplikacji</item>
     <item>Wyszukaj transfery</item>
     <item>Sortuj plany według następnej instancji</item>
   </string-array>
-  <string name="bug_fixes">Poprawki błędów</string>
+  <string-array name="whats_new_269">
+    <item>Formularz transakcji pozwala bezpośrednio tworzyć przewalutowanie</item>
+  </string-array>
+  <string-array name="whats_new_268">
+    <item>Łatwiejsze konfigurowanie powtarzających się i przyszłych transakcji.</item>
+  </string-array>
+  <string-array name="whats_new_267">
+    <item>Tłumaczenie chińskie uproszczone</item>
+    <item>Poprawiona obsługa przykładowego planu</item>
+  </string-array>
+  <string-array name="whats_new_266">
+    <item>Nowe ikony menu</item>
+  </string-array>
+  <string-array name="whats_new_265">
+    <item>Łatwiejsze sortowanie szablonów, kategorii i kont</item>
+  </string-array>
+  <string-array name="whats_new_264">
+    <item>Ekran kategorii można przeszukiwać</item>
+    <item>Saldo konta można skopiować do schowka</item>
+    <item>Wklej do kalkulatora ze schowka</item>
+    <item>Pomoc dla formatu daty w oknie dialogowym eksportu</item>
+  </string-array>
+  <string-array name="whats_new_263">
+    <item>Transfery między kontami w różnych walutach</item>
+  </string-array>
+  <string-array name="whats_new_262">
+    <item>Dni początku tygodnia i miesiąca można skonfigurować</item>
+  </string-array>
+  <string-array name="whats_new_261">
+    <item>Kategorie można przenosić</item>
+  </string-array>
+  <string-array name="whats_new_260">
+    <item>Material design</item>
+    <item>Poprawiony układ dla tabletów</item>
+    <item>Wsparcie dla Samsung Knox</item>
+  </string-array>
+    <string name="bug_fixes">Poprawki błędów</string>
 </resources>

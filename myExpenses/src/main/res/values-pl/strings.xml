@@ -36,6 +36,7 @@
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Eksport listy transakcji do PDF</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Szablon widget</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Import CSV</string>
+  <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Nieograniczona liczba podzielonych szablonów</string>
   <string name="licence_status_free">Darmowa</string>
   <string name="contrib_key">Klucz Contrib</string>
   <string name="extended_key">Klucz Rozszerzony</string>
@@ -46,7 +47,9 @@
   <string name="date">Data</string>
   <string name="date_format">Format daty</string>
   <string name="date_format_illegal">Nieprawidłowy format daty</string>
+  <string name="number_format_illegal">Nieprawidłowy format liczb</string>
   <string name="decimal_separator">Separator dziesiętny</string>
+  <string name="default_account_name">Książka budżetu</string>
   <string name="description">Opis</string>
   <string name="dialog_balance_delete">Usuń pojednane transakcje</string>
   <!--User confirms that he wants to discard changes-->
@@ -54,13 +57,25 @@
   <string name="dialog_confirm_discard_changes">Odrzucić zmiany?</string>
   <string name="dialog_confirm_discard_new_transaction">Odrzucić nową transakcję?</string>
   <string name="dialog_confirm_discard_new_template">Odrzucić nowy szablon?</string>
+  <string name="dialog_confirm_discard_new_account">Odrzucić nowe konto?</string>
+  <string name="dialog_confirm_discard_new_method">Odrzucić nową metodę płatności?</string>
+  <string name="dialog_command_disabled_balance">Brak rozliczonych transakcji do uzgodnienia.</string>
+  <string name="dialog_command_disabled_insert_transfer">Transakcje transferowe wymagają drugiego konta.</string>
   <string name="dialog_command_disabled_reset_account">Brak transakcji do eksportu</string>
   <string name="dialog_command_disabled_distribution">Żadna z transakcji nie została zmapowana do kategorii na tym koncie.</string>
   <string name="dialog_contrib_no">Nie teraz</string>
   <string name="dialog_contrib_no_usages_left">Zabrakło darmowych użyć.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s jest funkcją premium (%2$s).</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Usuń to ograniczenie i uzyskaj dostęp do dodatkowych funkcji, aktualizując <i>{app_name} </i>.</string>
   <string name="dialog_contrib_text_1"><i>{app_name}</i> jest oferowany bez reklam i otwartoźródłowo.</string>
+  <string name="dialog_contrib_text_2">Proszę przyczyń się ulepszając <i>{app_name}</i> i uzyskaj nieograniczony dostęp do następujących funkcji:</string>
+  <string name="dialog_contrib_usage_count">Darmowego użycia pozostało</string>
+  <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Możesz użyć do %1$d razy z aktualnym stanem licencji (%2$s).</string>
+  <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Możesz użyć na %1$d dni z aktualnym stanem licencji (%2$s).</string>
+  <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Twój aktualny status licencji (%2$s) umożliwia utworzenie %1$d kont.</string>
+  <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Aktualny status licencji (%2$s) umożliwia utworzenie %1$d planów.</string>
+  <string name="dialog_contrib_usage_limit_split_templates">Aktualny status licencji (%1$s) pozwala utworzyć 1 szablon.</string>
   <string name="dialog_export_delete">Usuń wyeksportowane transakcje</string>
   <string name="dialog_export_not_yet_exported">Transakcje tylko do eksportu nie zostały jeszcze eksportowane</string>
   <string name="dialog_password_activate_protection">Aktywuj zabezpieczenie hasłem</string>
@@ -69,13 +84,17 @@
   <string name="dialog_password_new_password_confirmation">Nowe hasło (potwierdzenie)</string>
   <string name="dialog_remind_later">Innym razem</string>
   <string name="dialog_remind_no">Nie, dziękuję</string>
+  <string name="dialog_remind_rate_how_many_stars">Ile gwiazdek dałbyś {app_name}?</string>
   <string name="dialog_remind_rate_1">Proszę poświęcić chwilę aby ocenić i zrecenzować {app_name}.</string>
   <string name="dialog_remind_rate_2">Twoje komentarze pozwolą nam nieustannie dodawać ulepszenia oraz rozszerzenia.</string>
+  <string name="dialog_remind_rate_1_suggest_improvement">Poświęć chwilę, aby przesłać nam sugestie dotyczące ulepszeń.</string>
   <string name="dialog_remind_rate_yes">Oceń teraz</string>
   <string name="dialog_security_answer">Odpowiedź</string>
   <string name="dialog_security_question">Pytanie</string>
   <string name="dialog_title_attention">Uwaga</string>
+  <string name="dialog_title_information">Informacja</string>
   <!--%1$s is replace with account label-->
+  <string name="dialog_title_balance_account">Saldo %1$s</string>
   <string name="dialog_title_contrib_feature">Funkcja premium</string>
   <string name="dialog_title_extended_feature">Funkcja rozszerzona</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
@@ -125,6 +144,7 @@
   <string name="menu_back">Wstecz</string>
   <string name="menu_backup">Kopia zapasowa</string>
   <!--Balance: compare cleared balance in app with balance on statement received from bank-->
+  <string name="menu_balance">Konto salda</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
   <string name="menu_cancel_plan_instance">Anuluj</string>
   <string name="menu_clone_transaction">Klonuj</string>
@@ -188,6 +208,7 @@
   <string name="no_expenses">Brak wydatków!</string>
   <string name="no_exportable_expenses">Nie ma transakcji które nie zostały jeszcze wyeksportowane.</string>
   <string name="no_filemanager_installed">Nie zainstalowano menedżera plików</string>
+  <string name="no_calendar_app_installed">Nie znaleziono aplikacji do edytowania wydarzenia w kalendarzu.</string>
   <string name="no_mapped_transactions">Żadne z transakcji nie zostały zmapowane do kategorii podczas tego okresu.</string>
   <string name="no_methods">Brak metod płatności.</string>
   <string name="no_parties">Brak partii.</string>
@@ -242,6 +263,7 @@
   <string name="pm_type_neutral">Neutralnie</string>
   <string name="pref_app_dir_title">Folder do kopii zapasowych i eksportów</string>
   <string name="pref_auto_fill_title">Automatyczne uzupełnianie transakcji</string>
+  <string name="pref_auto_fill_summary">Wpisz kwotę, kategorię i komentarz z ostatniej transakcji dla tego samego odbiorcy/płatnika</string>
   <string name="pref_backup_summary">Utwórz kopię zapasową bazy danych i preferencji na karcie pamięci.</string>
   <string name="pref_sort_order_usages">Ilość użyć</string>
   <string name="pref_category_title_advanced">Zaawansowane</string>
@@ -254,7 +276,9 @@
   <string name="pref_checkbox_enabled">Włączone</string>
   <string name="pref_checkbox_disabled">Wyłączone</string>
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
+  <string name="pref_contrib_purchase_summary">Kup dostęp do funkcji premium.</string>
   <string name="pref_contrib_purchase_title">Zakup Klucz</string>
+  <string name="pref_contrib_purchase_title_upgrade">Klucz aktualizacji</string>
   <string name="pref_contrib_purchase_title_in_app">Płatność Wewnątrz Aplikacji</string>
   <string name="pref_custom_currency_title">Dostosuj waluty</string>
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
@@ -276,7 +300,9 @@
   <string name="pref_manage_methods_title">Metody płatności</string>
   <string name="pref_manage_parties_summary">Dodaj, edytuj, usuń partie (płatnicy i odbiorcy płatności).</string>
   <string name="pref_manage_parties_title">Partie</string>
+  <string name="pref_manage_sync_backends_title">Serwery synchronizacji</string>
   <!--%s will be replaced with list of backends-->
+  <string name="pref_manage_sync_backends_summary">Dodaj serwery do synchronizacji kont (%s).</string>
   <string name="pref_more_info_dialog_title">Licencja &amp; O programie</string>
   <string name="pref_password_not_equal">Hasła nie zgadzają się ze sobą</string>
   <string name="pref_perform_protection_summary">Czy uruchamianie i wznawianie pracy aplikacji powinno być zabezpieczone?</string>
@@ -288,11 +314,14 @@
   <string name="pref_planning_calendar_title">Kalendarz planowania</string>
   <string name="pref_protection_delay_seconds_summary">Ilość sekund przed zablokowaniem aplikacji przez hasło.</string>
   <string name="pref_protection_delay_seconds_title">Okres przed zabezpieczeniem</string>
+  <string name="pref_protection_enable_data_entry_from_widget_title">Wprowadzanie danych z widżetów i skrótów</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Hasło nie jest wymagane.</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_off">Hasło jest wymagane.</string>
   <string name="pref_qif_export_file_encoding_title">Kodowanie znaków</string>
   <string name="pref_request_licence_title">Poproś o klucz</string>
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
+  <string name="pref_restore_alternative">Alternatywny</string>
+  <string name="pref_restore_alternative_summary">Użyj tej alternatywnej metody, jeśli na urządzeniu nie ma zainstalowanego menedżera plików.</string>
   <string name="pref_restore_summary">Wybierz kopię zapasową do przywrócenia bazy danych i ustawień.</string>
   <string name="pref_restore_title">Przywróć</string>
   <string name="pref_security_question_summary">Pozwala na odblokowanie aplikacji, jeżeli zapomniałeś swojego hasła.</string>
@@ -303,6 +332,7 @@
   <string name="pref_shortcut_added">Skrót został dodany na Ekran Główny</string>
   <string name="pref_shortcut_not_added">Brak dostępnego Ekranu Startowego który akceptuje skróty.</string>
   <string name="pref_shortcut_summary">Dodaj skrót na Ekran Główny.</string>
+  <string name="pref_template_click_default_summary">Po krótkim dotknięciu wejścia na liście szablonów</string>
   <string name="pref_ui_fontsize_title">Powiększ rozmiar czcionki</string>
   <string name="pref_ui_home_screen_shortcuts">Skróty</string>
   <string name="pref_ui_language_default">Domyślne systemowe</string>
@@ -328,6 +358,7 @@
   <string name="restore_backup_archive_not_valid">Archiwum %1$s jest niepoprawne</string>
   <string name="restore_backup_file_not_found">Brak pliku %1$s w archiwum \"%2$s\"</string>
   <string name="restore_preferences_success">Preferencje zostały przywrócone z kopii zapasowej.</string>
+  <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%dplanów zostały przywrócone z kopii zapasowej</string>
   <string name="save_transaction_and_new_success">Zapisano pomyślnie</string>
   <string name="save_transaction_error">Nie można zapisać nowej transakcji z szablonu.</string>
   <plurals name="save_transaction_from_template_success">
@@ -390,6 +421,7 @@
     <item quantity="other">%1$d wybranych transakcji zostanie usuniętych.</item>
   </plurals>
   <string name="warning_delete_reconciled">Usunięcie pojednanych transakcji spowoduje powstanie różnicy twoich rekordów z wyciągiem z konta bankowego.</string>
+  <string name="warning_balance_account">Porównaj rozliczoną sumę z saldem końcowym na wyciągu bankowym. Jeśli kontynuujesz, wyczyszczone transakcje zostaną oznaczone jako uzgodnione.</string>
   <string name="warning_password_protected">Aplikacja jest chroniona hasłem.</string>
   <string name="warning_widget_disabled">Musisz włączyć ten widżet w ustawieniach aplikacji.</string>
   <string name="warning_instantiate_template_from_widget_password_protected">Szybka tworzenie instancji szablonów z tego widżetu działa tylko jeżeli zezwolisz na wprowadzanie danych z widżetu bez hasła w ustawieniach aplikacji.</string>
@@ -398,9 +430,16 @@
   <string name="warning_reset_account">Jeżeli kontynuujesz, wszystkie transakcje tego konta zostaną usunięte z bazy danych i nie będą mogły zostać przywrócone.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Jeżeli będziesz kontynuować, dla wszystkich kont %1$s, transakcje zostaną usunięte z bazy danych i nie będą mogły być przywrócone.</string>
+  <string name="warning_reset_account_matched">Jeśli kontynuujesz, transakcje dopasowane do bieżącego filtru zostaną usunięte z bazy danych i nie będzie można ich przywrócić.</string>
   <string name="warning_restore">Baza danych oraz preferencje zostaną przywrócone z kopii zapasowej (%1$s). Bieżące dane zostaną usunięte. Czy chcesz kontynuować?</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Aktualnie wybrany folder dla kopii zapasowych i eksportów zostanie automatycznie usunięty przez system Android jeżeli odinstalujesz {app_name}. Może temu zapobiec poprzez wybranie innego folderu z ekranu Ustawień.</string>
   <string name="warning_splitpartcategory_context">Przelewy które są częścią podziału mogą być tylko edytowane w kontekście podziału.</string>
+  <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Ustaw liczbę pomiędzy %1$d i %2$d</string>
+  <string name="warning_change_fraction_digits_1">Kwoty w bazie danych należy zaktualizować, aby pasowały do ​​nowej liczby cyfr ułamkowych.</string>
+  <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Jeśli kwoty nie zostaną zaktualizowane, będą wyświetlane jako pomnożone przez %d po zmianie.</string>
+  <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Jeśli kwoty nie zostaną zaktualizowane, po zmianie będą wyświetlane jako podzielone przez %d.</string>
+  <string name="warning_change_fraction_digits_3">Jeśli kwoty zostaną zaktualizowane, utracisz informacje o ich ułamkowej części.</string>
+  <string name="warning_change_fraction_digits_checkbox_label">Zaktualizuj kwoty w bazie danych</string>
   <string name="import_categories_success">Kategorie %1$s zostały zaimportowane pomyślnie</string>
   <string name="import_parties_success">Partie %1$s zostały zaimportowane pomyślnie</string>
   <string name="import_accounts_success">%1$s kont pomyślnie zaimportowano</string>
@@ -421,11 +460,14 @@
   <string name="create_new_folder_fail">Nie udało się utworzyć folderu</string>
   <string name="widget_title_accounts">Moje konta</string>
   <string name="widget_title_templates">Moje szablony</string>
+  <string name="app_dir_not_accessible">Aktualnie wybrany folder na kopie zapasowe i eksport (%1$s) jest niedostępny. Proszę wybrać inny.</string>
+  <string name="app_dir_not_compatible_with_nougat">Aktualnie skonfigurowany identyfikator URI dla kopii zapasowych i eksportowych (%1$s) nie jest obsługiwany w systemie Android Nougat. Proszę wybrać folder ponownie.</string>
   <string name="search_amount">Szukaj kwoty</string>
   <string name="search_category">Szukaj kategorii</string>
   <string name="search_comment">Szukaj notatek</string>
   <string name="search_date">Szukaj daty</string>
   <string name="search_status">Szukaj statusu</string>
+  <string name="search_payee">Wyszukaj odbiorcę/płatnika</string>
   <string name="search_method">Szukaj metody</string>
   <string name="and">i</string>
   <string name="between_and">pomiędzy %1$s a %2$s</string>
@@ -439,47 +481,209 @@
   <string name="comparison_operator_date_after">po</string>
   <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Dzisiejsza oferta specjalna z AppGratis: funkcje Premium odblokowane za darmo.</string>
   <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Zakup nie udał się lub został anulowany.</string>
+  <string name="hint_auto_fill">Czy kwota, kategoria i komentarz powinny być wypełniane automatycznie od ostatniej transakcji dla tego samego odbiorcy/płatnika? Zawsze możesz zmienić to zachowanie w ustawieniach.</string>
   <string name="yes">Tak</string>
   <string name="no">Nie</string>
+  <string name="hint_template_click">Krótkie dotknięcie pozycji na tej liście spowoduje utworzenie instancji szablonu i zapisanie go natychmiast lub wprowadzenie formularza edycji, w którym można go zmodyfikować przed zapisaniem. Zawsze możesz uzyskać dostęp do obu działań przez długie dotknięcie i zmienić ustawienie domyślne w ustawieniach.</string>
+  <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$dkonta z walutą %2$s zostały zaktualizowane. </string>
   <string name="learn_more">Dowiedz się więcej</string>
   <string name="import_source_file">Plik</string>
   <string name="restore_calendar_handling">Obsługa danych kalendarza</string>
+  <string name="restore_calendar_handling_configured">Przywróć plany do aktualnie skonfigurowanego kalendarza</string>
+  <string name="restore_calendar_handling_backup">Przywróć plany do kalendarza ustawionego w kopii zapasowej, jeśli jest dostępna</string>
   <string name="restore_calendar_handling_ignore">Nie przywracaj planów</string>
+  <string name="restore_not_possible_target_calendar_missing">Kalendarz %s ustawiony w archiwum kopii zapasowej nie istnieje lokalnie. Przywracanie zostało przerwane.</string>
   <string name="restore_not_possible_local_calendar_missing">Obecny kalendarz planowania nie jest dostępny.</string>
   <string name="menu_view_picture">Obejrzyj obrazek</string>
   <string name="menu_delete_picture">Usuń obrazek</string>
   <string name="menu_change_picture">Załącz inny obrazek</string>
   <string name="menu_distribution_show_pie_char">Pokaż wykres kołowy</string>
+  <string name="menu_distribution_aggreate">Łączne wydatki i dochody</string>
+  <string name="pref_manage_stale_images_title">Stale obrazy</string>
+  <string name="pref_manage_stale_images_summary">Zarządzaj zdjęciami pozostałymi po usuniętych transakcjach</string>
+  <string name="menu_select_categories">Wybierz sprawdzone kategorie</string>
   <string name="image_deleted">Obrazek został usunięty</string>
+  <string name="transaction_deleted">Transakcja została usunięta</string>
   <string name="dialog_export_applied_to_filter">Tylko transakcje dopasowane do obecnego filtra będą brane pod uwagę.</string>
   <string name="export_handle_deleted_create_helper">Stwórz transakcję pomocniczą</string>
+  <string name="export_handle_deleted_update_balance">Zaktualizuj kwoty w bazie danych</string>
   <string name="file_name">Nazwa pliku</string>
   <string name="folder_name">Nazwa folderu</string>
   <string name="mark_void_instead_of_delete">Nie usuwaj transakcji, zamiast tego anuluj ją.</string>
   <string name="menu_undelete_transaction">Cofnij usunięcie</string>
   <string name="slash_forbidden_in_filename">Znak / nie jest dozwolony w nazwach plików</string>
+  <string name="io_error_unable_to_create_file">Nie znaleziono pliku %1$s w folderze \"%2$s\"</string>
   <string name="menu_categories_export">Eksport do QIF</string>
+  <string name="pref_csv_import_delimiter">Delimiter</string>
   <string name="csv_import_preview">Podgląd</string>
+  <string name="menu_parse">Analia</string>
   <!--Label for column where user can check rows to be discarded from import-->
   <string name="cvs_import_discard">Odrzuć</string>
+  <string name="csv_import_field_mapped_more_than_once">%s jest mapowany więcej niż jeden raz. </string>
+  <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d rekordy nie mogły zostać zaimportowane.</string>
+  <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%drekordy zostały odrzucone. </string>
+  <string name="csv_import_subcategory_requires_category">Jeśli zmapujesz podkategorię, musisz także odwzorować kategorię.</string>
+  <string name="cvs_import_set_first_line_as_header">Czy pierwszy wiersz powinien być traktowany jako linia nagłówka?</string>
+  <string name="csv_import_delimiter_comma">Przecinek</string>
+  <string name="csv_import_delimiter_semicolon">Średnik</string>
+  <string name="csv_import_delimiter_tab">Etykieta</string>
+  <string name="csv_import_no_mapping_found_for_amount">Proszę odwzorować jedną kolumnę na kwotę, dochód lub wydatek.</string>
+  <string name="menu_show_transactions">Pokaż transakcje</string>
+  <string name="pref_custom_decimal_format_title">Format liczb</string>
+  <string name="pref_custom_decimal_format_summary">Jeśli nie jesteś zadowolony z domyślnego formatu lokalizacji, dostosuj ją do swoich potrzeb. Pozostaw puste, aby przywrócić domyślny format.</string>
   <string name="pref_auto_backup_title">Włącz automatyczną kopię zapasową</string>
   <string name="pref_auto_backup_summary">Wykonaj kopię zapasowa bazy danych codziennie o określonej godzinie (tylko wtedy, gdy dane nie zmieniły)</string>
   <string name="pref_auto_backup_time_title">Godzina automatycznej kopii zapasowej</string>
+  <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Po %d udanych automatycznych kopii zapasowych, automatyczne tworzenie kopii zapasowych zostanie dezaktywowane.</string>
+  <string name="warning_auto_backup_limit_reached">Osiągnięto limit bezpłatnych automatycznych kopii zapasowych zakończonych sukcesem.</string>
+  <string name="calendar_permission_required"><i>{app_name}</i> potrzebuje uprawnień dostępu do Twojego kalendarza, aby tworzyć plany dla przyszłych i cyklicznych transakcji.</string>
+  <string name="button_request_calendar_access" tools:ignore="UnusedResources">Udziel dostęp</string>
   <string name="switch_on_text">Wł.</string>
   <string name="switch_off_text">Wył.</string>
   <string name="menu_move">Przenieś</string>
+  <string name="dialog_title_select_target">Wybierz cel</string>
+  <string name="transform_subcategory_to_main">Przekształć w główną kategorię</string>
   <string name="preferences_week_start_day_title">Pierwszy dzień tygodnia</string>
+  <string name="preferences_month_start_date_title">Miesiąc zaczyna się</string>
   <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
+  <string name="pref_grouping_periods">Okresy grupowania</string>
+  <string name="exchange_rate">Kurs wymiany</string>
+  <string name="date_format_hour">Godzina</string>
+  <string name="date_format_minute">Minuta</string>
+  <string name="copied_to_clipboard">Skopiowano do schowka</string>
+  <string name="menu_sort">Sortuj według</string>
+  <string name="pref_sort_order_last_used">Ostatnio używane</string>
+  <string name="pref_sort_order_custom">Spersonalizowany </string>
+  <string name="dialog_info_custom_sort">Użyj poleceń W górę i W dół w menu kontekstowym każdego elementu, aby zmienić jego pozycję sortowania.</string>
   <string name="content_description_calculator">Kalkulator</string>
   <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <string name="plan_instance_state_open">otwarty</string>
   <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
+  <string name="plan_instance_state_cancelled">anulowany</string>
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <string name="plan_instance_state_applied">stosowany</string>
+  <string name="progress_dialog_updating_split_parts">Aktualizacja części podzielonych</string>
+  <string name="warning_cannot_move_split_transaction">Ta dzielona transakcja nie może zostać przeniesiona na konto %1$s, ponieważ istnieją części transferu, które odnoszą się do tego konta.</string>
+  <string name="content_description_calculator_clear_button">Resetuj wszystko</string>
+  <string name="content_description_calculator_delete_button">Usuń ostatnią cyfrę</string>
+  <string name="paypal_callback_info">Twoja transakcja została zakończona i otrzymałeś wiadomość e-mail z potwierdzeniem zakupu. Możesz zalogować się na swoje konto na stronie www.paypal.com, aby wyświetlić szczegóły tej transakcji.</string>
+  <string name="search_transfer">Wyszukaj przelew</string>
   <!--Sort plans (recurring transactions) by the next instance-->
+  <string name="pref_sort_order_next_instance">Następny przykład</string>
+  <string name="crash_dialog_title">Moje Wydatki uległy awarii</string>
+  <string name="crash_dialog_text">Wystąpił nieoczekiwany błąd wymuszający zatrzymanie aplikacji. Pomóż nam to naprawić, przesyłając nam dane o błędach. Wystarczy, że klikniesz OK.</string>
+  <string name="crash_dialog_comment_prompt">Możesz dodać swoje komentarze na temat problemu poniżej:</string>
+  <string name="synchronization">Synchronizacja</string>
+  <string name="synchronization_none">Brak synchronizacji</string>
+  <string name="hint_url">URL</string>
+  <string name="description_webdav_url">Wprowadź adres URL do specjalnego folderu na serwerze WebDAV. {app_name} będzie przechowywać swoje dane w tym folderze, nie dotknie niczego poza nim.</string>
+  <string name="description_webdav_trust_certificate">Witryna korzysta z certyfikatu, który nie jest zaufany przez Androida.</string>
+  <string name="hint_user_name">Nazwa użytkownika</string>
+  <string name="hint_password">Hasło</string>
+  <string name="label_trust_certificate">Zaufaj temu certyfikatowi</string>
+  <string name="no_sync_backends">Brak serwerów synchronizacji</string>
+  <string name="menu_create_sync_backend">Nowy serwer synchronizacji</string>
+  <string name="validate_error_not_empty">Nie może być pusty</string>
+  <string name="validate_error_webdav_invalid_certificate">Certyfikatowi nie można zaufać. Wydaje się nieważny.</string>
+  <string name="validate_error_webdav_not_compliant">Adres URL nie wskazuje na zasób WebDAV.</string>
+  <string name="validate_error_webdav_404">Adres URL nie istnieje na serwerze.</string>
+  <string name="url_not_valid">URL jest nieprawidłowy</string>
+  <string name="menu_sync_unlink">Zatrzymaj synchronizację</string>
+  <string name="menu_sync_link">Uruchom synchronizację</string>
+  <string name="menu_sync_download">Pobierz i synchronizuj</string>
+  <string name="menu_sync_now">Synchronizuj teraz</string>
+  <string name="pref_sync_frequency_title">Częstotliwość synchronizacji</string>
+  <string name="pref_sync_frequency_summary">Jak często dane powinny być synchronizowane (w godzinach)</string>
+  <string name="dialog_confirm_sync_unlink">Jeśli odłączysz to konto od %s, status synchronizacji zostanie utracony. Ponowne połączenie ich później wymaga ponownego wykonania pełnej synchronizacji.</string>
+  <string name="dialog_sync_link">Konto z uuid %s istnieje zarówno w lokalnej bazie danych, jak i na zdalnym zapleczu. Po połączeniu obydwu musisz zdecydować, czy na początku chcesz przesłać dane lokalne do zdalnego serwera lub pobrać zdalne dane do lokalnej bazy danych.</string>
+  <string name="dialog_command_sync_link_remote">Pobierz zdalnie</string>
+  <string name="dialog_command_sync_link_local">Prześlij z lokalnego</string>
+  <string name="dialog_synced_to_other">Konto z uuid %s już istnieje w lokalnej bazie danych i jest połączone z innym zdalnym zapleczem.</string>
+  <string name="menu_remove">Usuń</string>
+  <string name="dialog_confirm_sync_remove_backend">Zdalny serwer %s zostanie usunięty. Nie wpłynie to na dane przechowywane lokalnie lub zdalnie, ale status synchronizacji zostanie utracony. Chcesz kontynuować? </string>
+  <string name="dialog_confirm_sync_link_local">Zdalne dane dla tego konta zostaną usunięte. Upewnij się, że żadne inne urządzenia nie są z nim połączone.</string>
+  <string name="dialog_confirm_sync_link_remote">Dane lokalne dla tego konta zostaną usunięte.</string>
+  <string name="warning_synchronization_limited_trial">Funkcja synchronizacji może być testowana do %s.</string>
+  <string name="warning_synchronization_limit_reached">Okres próbny do testowania funkcji synchronizacji został zakończony.</string>
+  <string name="warning_synchronization_folder_usage">Ten folder służy do synchronizowania danych między instalacjami {app_name} na różnych urządzeniach. Nie modyfikuj żadnej jego zawartości ręcznie.</string>
+  <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Wybrany folder odpowiada jednemu kontu istniejącego serwera. Musisz wybrać folder nadrzędny, aby ponownie użyć ten serwer.</string>
+  <string name="select_unsynced_accounts">Wybierz konta, które chcesz zsynchronizować z tym serwerem</string>
+  <string name="link_account_success" tools:ignore="PluralsCandidate">%d konta zostały skonfigurowane do synchronizacji z serwerem.</string>
+  <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d konta nie można skonfigurować do synchronizacji z serwerem.</string>
+  <string name="link_account_failure_2">Konto o tym samym UUID już istnieje na zdalnym serwerze.</string>
+  <string name="link_account_failure_3">Konflikt można rozwiązać ręcznie z menu kontekstowego wpisu.</string>
+  <string name="progress_dialog_checking_sync_backend">Weryfikacja serwera</string>
   <string name="template">Szablon</string>
+  <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Synchronizacja w chmurze</string>
+  <string name="licence_status">Twój status licencji</string>
+  <string name="all_contrib_key_features">Wszystkie funkcje Contrib Key</string>
+  <string name="all_extended_key_features">Wszystkie funkcje Extended Key</string>
+  <string name="upgrade_now">Ulepsz teraz</string>
+  <string name="pref_backup_cloud_title">Przechowuj na serwerze synchronizacji</string>
+  <string name="pref_backup_cloud_summary">Oprócz przechowywania lokalnego na urządzeniu, plik kopii zapasowej można skopiować do zdalnego serwera.</string>
+  <string name="auto_backup_cloud_create_backend">Utwórz serwer synchronizacji z głównego ekranu ustawień.</string>
+  <string name="auto_backup_cloud_failure">Wystąpił błąd podczas próby zapisania pliku kopii zapasowej %1$s na serwerze %2$s:</string>
+  <string name="home_screen_shortcuts_nougate_info">Skróty można dodać, naciskając długo ikonę aplikacji na ekranie głównym.</string>
+  <string name="currency_symbol">Symbol waluty</string>
+  <string name="number_of_fraction_digits">Liczba cyfr ułamkowych</string>
+  <string name="warning_auto_backup_deactivated">Automatyczne tworzenie kopii zapasowej zostało dezaktywowane. Możesz go ponownie włączyć z poziomu ustawień po rozwiązaniu problemu (np. wybierając inny folder dla kopii zapasowych).</string>
+  <string name="pref_tracking_summary">Pozwól nam zbierać anonimowe dane na temat wzorców użytkowania, które pomagają nam planować ulepszenia.</string>
+  <string name="pref_tracking_title">Zbieranie danych użytkowania</string>
+  <string name="sync_database_error">Wystąpił błąd bazy danych podczas synchronizacji.</string>
+  <string name="sync_io_error_cannot_connect">Nie można połączyć się z serwerem synchronizacji.</string>
+  <string name="sync_error_will_try_again_later">Spróbuję jeszcze raz później.</string>
+  <string name="sync_io_exception_reset_account_data">Błąd podczas resetowania zdalnego konta.</string>
+  <string name="sync_io_exception_setup_remote_account">Błąd podczas konfigurowania zdalnego konta.</string>
+  <string name="sync_io_exception_reading_change_set">Błąd podczas odczytu zmian z serwera.</string>
+  <string name="sync_io_exception_syncing">Błąd podczas synchronizowania zmian z serwerem.</string>
+  <string name="sync_io_exception_unlocking">Błąd podczas usuwania blokady z zdalnego serwera.</string>
+  <string name="sync_io_exception_locking">Zdalny serwer jest zablokowany lub nie można go zablokować.</string>
+  <string name="synchronization_start">Rozpoczęcie synchronizacji dla konta %s.</string>
+  <string name="synchronization_end_success">%1$d zdalne zmiany zostały zapisane w lokalnej bazie danych. %2$d zmian lokalnych zostało zapisanych do zdalnego zaplecza.</string>
+  <string name="synchronization_end_success_none">Brak zmian w synchronizacji.</string>
+  <string name="pref_webdav_timeout_title">Limit czasu WebDAV</string>
+  <string name="sync_state_restored">Stan synchronizacji został przywrócony dla %d kont.</string>
+  <string name="sync_state_could_not_be_restored">Nie można przywrócić stanu synchronizacji dla %d kont.</string>
+  <string name="onboarding_ui_title">{app_name} dostosowuje się do Twoich preferencji</string>
+  <string name="onboarding_data_title">Załóżmy swoje pierwsze konto</string>
+  <string name="onboarding_get_started">Zacznij</string>
+  <string name="onboarding_more_options">Więcej opcji</string>
+  <string name="onboarding_restore_from_cloud">Przywróć z synchronizowanej chmury</string>
+  <string name="onboarding_restore_from_local">Przywróć lokalną kopię</string>
+  <string name="dialog_button_add">Dodaj</string>
+  <string name="template_create_error">Błąd podczas zapisywania szablonu</string>
+  <string name="contributed_by">Wniesione przez %s</string>
+  <string name="pref_sync_notification_summary">Powiadamiaj o postępie synchronizacji</string>
+  <string name="pref_debug_logging_summary">Zapisuj informacje debugowania w dzienniku systemowym</string>
+  <string name="plan_custom_recurrence_info">Najpierw zapisz szablon. Plan zostanie otwarty w aplikacji kalendarza, w której możesz ustawić niestandardową powtarzalność.</string>
+  <string name="storage_permission_required">Wybrane źródło można odczytać tylko wtedy, gdy zezwolisz na odczyt z pamięci zewnętrznej.</string>
   <string name="picture">Obraz</string>
+  <string name="menu_create_template_for_split">Nowy podzielony szablon</string>
+  <string name="progress_validating_licence">Sprawdzanie poprawności licencji</string>
   <string name="licence_validation_error_expired">Licencja wygasła</string>
+  <string name="licence_validation_error_device_limit_exceeded">Przekroczono limit urządzeń. Usuń licencję z innego urządzenia.</string>
   <string name="error">Błąd (%s)</string>
+  <string name="button_validate">Sprawdzanie poprawności licencji</string>
   <string name="licence_key">Klucz licencji</string>
+  <string name="licence_removal_information">Jeśli nie potrzebujesz już funkcji premium na tym urządzeniu, możesz usunąć klucz licencyjny. To uwalnia klucz do aktywacji na jeszcze jednym urządzeniu. Klucz można aktywować na %durządzeniach.</string>
   <string name="progress_removing_licence">Usuwanie licencji</string>
+  <string name="licence_removal_success">Klucz licencyjny został pomyślnie uwolniony z tego urządzenia.</string>
+  <string name="professional_key">Profesjonalny Klucz</string>
+  <string name="n_months">%s miesięcy</string>
+  <string name="professionalPriceShortInfo">począwszy od %s / miesiąc</string>
+  <string name="eu_vat_info">Dla mieszkańców Unii Europejskiej wyświetlane ceny nie zawierają podatku VAT.</string>
+  <string name="licence_migration_info">{app_name} implementuje nowy mechanizm sprawdzania licencji. Poproś o nowy klucz.</string>
+  <string name="valid_until">Aż do %s</string>
   <!--%1$s date, %2$s price-->
+  <string name="extend_until">Wydłuż do %1$s dla %2$s</string>
+  <string name="extended_upgrade_goodie_github">Dodatkowe %d miesięcy przyznawane jest jednokrotnie użytkownikom, którzy już posiadają licencję rozszerzoną</string>
+  <string name="extended_upgrade_goodie_subscription">Użytkownicy, którzy już posiadają licencję rozszerzoną, płacą 50 %% zwykłej ceny (%s) w pierwszym roku.</string>
+  <string name="switch_to_yearly">Przełącz na roczną subskrypcję</string>
+  <string name="switch_to_monthly">Przełącz na abonament miesięczny</string>
+  <string name="extend_validity">Przedłuż ważność</string>
+  <string name="progress_dialog_fetching_data_from_sync_backend">Pobieranie danych z odległego serwera. To może zająć trochę czasu.</string>
+  <string name="donate_button_invoice">Faktura</string>
+  <string name="menu_sort_direction">Sortuj kierunek</string>
+  <string name="sort_direction_ascending">rosnąco</string>
+  <string name="sort_direction_descending">malejąco</string>
 </resources>
