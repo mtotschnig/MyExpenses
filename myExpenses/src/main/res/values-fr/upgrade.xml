@@ -95,4 +95,5 @@
     <item>Support pour Samsung Knox</item>
   </string-array>
     <string name="bug_fixes">Corrections des erreurs</string>
+    <string name="performance_enhancement">Amélioration de performance</string>
 </resources>

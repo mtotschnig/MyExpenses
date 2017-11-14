@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_2831">
+    <item>@string/performance_enhancement</item>
+  </string-array>
   <string-array name="whats_new_283">
     <item>Ascending sort direction (oldest transactions on top)</item>
   </string-array>
@@ -95,4 +98,5 @@
     <item>Support for Samsung Knox</item>
   </string-array>
     <string name="bug_fixes">Bug fixes</string>
+    <string name="performance_enhancement">Performance enhancement</string>
 </resources>
