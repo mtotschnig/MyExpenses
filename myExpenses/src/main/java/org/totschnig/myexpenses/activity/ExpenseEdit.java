@@ -1234,7 +1234,7 @@ public class ExpenseEdit extends AmountActivity implements
         validP = false;
       }
       ((Template) mTransaction).setTitle(title);
-      String description = ((Template) mTransaction).compileDescription(ExpenseEdit.this, currencyFormatter);
+      String description = mTransaction.compileDescription(ExpenseEdit.this, currencyFormatter);
       if (mPlan == null) {
         if (mRecurrenceSpinner.getSelectedItemPosition() > 0) {
           mPlan = new Plan(
@@ -1840,72 +1840,72 @@ public class ExpenseEdit extends AmountActivity implements
   public void onPostExecute(Object result) {
     if (result == null) {
       Toast.makeText(this, "Unknown error while saving transaction", Toast.LENGTH_SHORT).show();
-      return;
-    }
-    Long sequenceCount = (Long) result;
-    if (sequenceCount < 0L) {
-      String errorMsg;
-      switch (sequenceCount.intValue()) {
-        case DbWriteFragment.ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE:
-          errorMsg = getString(R.string.external_storage_unavailable);
-          break;
-        case DbWriteFragment.ERROR_PICTURE_SAVE_UNKNOWN:
-          errorMsg = "Error while saving picture";
-          break;
-        case DbWriteFragment.ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE:
-          mRecurrenceSpinner.setSelection(0);
-          mTransaction.originTemplate = null;
-          errorMsg = "Recurring transactions are not available, because calendar integration is not functional on this device.";
-          break;
-        default:
-          //possibly the selected category has been deleted
-          mCatId = null;
-          mCategoryButton.setText(R.string.select);
-
-          errorMsg = "Error while saving transaction";
-      }
-      Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show();
-      mCreateNew = false;
     } else {
-      if (mRecordTemplateWidget) {
-        recordUsage(ContribFeature.TEMPLATE_WIDGET);
-        TemplateWidget.showContribMessage(this);
-      }
-      if (mCreateNew) {
-        mCreateNew = false;
-        if (mOperationType == TYPE_SPLIT) {
-          mTransaction = SplitTransaction.getNewInstance(mTransaction.getAccountId());
-          mRowId = mTransaction.getId();
-          findSplitPartList().updateParent(mRowId);
-        } else {
-          mTransaction.setId(0L);
-          mTransaction.uuid = Model.generateUuid();
-          mRowId = 0L;
-          mRecurrenceSpinner.getSpinner().setVisibility(View.VISIBLE);
-          mRecurrenceSpinner.setSelection(0);
-          mPlanButton.setVisibility(View.GONE);
+      Long sequenceCount = (Long) result;
+      if (sequenceCount < 0L) {
+        String errorMsg;
+        switch (sequenceCount.intValue()) {
+          case DbWriteFragment.ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE:
+            errorMsg = getString(R.string.external_storage_unavailable);
+            break;
+          case DbWriteFragment.ERROR_PICTURE_SAVE_UNKNOWN:
+            errorMsg = "Error while saving picture";
+            break;
+          case DbWriteFragment.ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE:
+            mRecurrenceSpinner.setSelection(0);
+            mTransaction.originTemplate = null;
+            errorMsg = "Recurring transactions are not available, because calendar integration is not functional on this device.";
+            break;
+          default:
+            //possibly the selected category has been deleted
+            mCatId = null;
+            mCategoryButton.setText(R.string.select);
+
+            errorMsg = "Error while saving transaction";
         }
-        //while saving the picture might have been moved from temp to permanent
-        mPictureUri = mTransaction.getPictureUri();
-        mNewInstance = true;
-        mClone = false;
-        isProcessingLinkedAmountInputs = true;
-        mAmountText.setText("");
-        mTransferAmountText.setText("");
-        isProcessingLinkedAmountInputs = false;
-        Toast.makeText(this, getString(R.string.save_transaction_and_new_success), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show();
+        mCreateNew = false;
       } else {
-        if (mRecurrenceSpinner.getSelectedItem() == Plan.Recurrence.CUSTOM) {
-          launchPlanView(true);
+        if (mRecordTemplateWidget) {
+          recordUsage(ContribFeature.TEMPLATE_WIDGET);
+          TemplateWidget.showContribMessage(this);
+        }
+        if (mCreateNew) {
+          mCreateNew = false;
+          if (mOperationType == TYPE_SPLIT) {
+            mTransaction = SplitTransaction.getNewInstance(mTransaction.getAccountId());
+            mRowId = mTransaction.getId();
+            findSplitPartList().updateParent(mRowId);
+          } else {
+            mTransaction.setId(0L);
+            mTransaction.uuid = Model.generateUuid();
+            mRowId = 0L;
+            mRecurrenceSpinner.getSpinner().setVisibility(View.VISIBLE);
+            mRecurrenceSpinner.setSelection(0);
+            mPlanButton.setVisibility(View.GONE);
+          }
+          //while saving the picture might have been moved from temp to permanent
+          mPictureUri = mTransaction.getPictureUri();
+          mNewInstance = true;
+          mClone = false;
+          isProcessingLinkedAmountInputs = true;
+          mAmountText.setText("");
+          mTransferAmountText.setText("");
+          isProcessingLinkedAmountInputs = false;
+          Toast.makeText(this, getString(R.string.save_transaction_and_new_success), Toast.LENGTH_SHORT).show();
         } else {
-          //make sure soft keyboard is closed
-          hideKeyboard();
-          Intent intent = new Intent();
-          intent.putExtra(KEY_SEQUENCE_COUNT, sequenceCount);
-          setResult(RESULT_OK, intent);
-          finish();
-          //no need to call super after finish
-          return;
+          if (mRecurrenceSpinner.getSelectedItem() == Plan.Recurrence.CUSTOM) {
+            launchPlanView(true);
+          } else {
+            //make sure soft keyboard is closed
+            hideKeyboard();
+            Intent intent = new Intent();
+            intent.putExtra(KEY_SEQUENCE_COUNT, sequenceCount);
+            setResult(RESULT_OK, intent);
+            finish();
+            //no need to call super after finish
+            return;
+          }
         }
       }
     }
