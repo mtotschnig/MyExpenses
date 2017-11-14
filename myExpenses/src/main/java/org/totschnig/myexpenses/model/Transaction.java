@@ -142,7 +142,6 @@ public class Transaction extends Model {
     this.initialPlan = initialPlan;
   }
 
-
   /**
    * template which defines the plan for which this transaction has been created
    */
