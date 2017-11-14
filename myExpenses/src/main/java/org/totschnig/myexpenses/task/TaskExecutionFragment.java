@@ -140,6 +140,7 @@ public class TaskExecutionFragment<T> extends Fragment {
     void onPostExecute(int taskId, Object o);
   }
 
+  //TODO refactor so that callbacks are not visible to hosted tasks
   TaskCallbacks mCallbacks;
 
   public static <T> TaskExecutionFragment newInstance(int taskId, T[] objectIds,

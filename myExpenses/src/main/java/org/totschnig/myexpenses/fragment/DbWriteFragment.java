@@ -44,6 +44,7 @@ import timber.log.Timber;
  */
 public class DbWriteFragment extends Fragment {
 
+  private static final String KEY_RUNNING = "running";
   public static final int ERROR_UNKNOWN = -1;
   public static final int ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE = -2;
   public static final int ERROR_PICTURE_SAVE_UNKNOWN = -3;
@@ -97,7 +98,11 @@ public class DbWriteFragment extends Fragment {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
- 
+    if (savedInstanceState != null
+        && savedInstanceState.getBoolean(KEY_RUNNING, true)) {
+      // if we are recreated, prevent the task from being executed twice
+      return;
+    }
     // Retain this fragment across configuration changes.
     setRetainInstance(true);
  
@@ -115,6 +120,12 @@ public class DbWriteFragment extends Fragment {
   public void onDetach() {
     super.onDetach();
     mCallbacks = null;
+  }
+
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putBoolean(KEY_RUNNING, true);
   }
  
   /**
@@ -182,7 +193,8 @@ public class DbWriteFragment extends Fragment {
         mCallbacks.onCancelled();
       }
     }
- 
+
+    //TODO refactor so that result is stored if onPostExecute is called while callbacks are detached
     @Override
     protected void onPostExecute(Object result) {
       if (mCallbacks != null) {
