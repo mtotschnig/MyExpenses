@@ -213,9 +213,11 @@ public class SplashActivity extends SyncBackendSetupActivity {
         break;
       }
       case TASK_INIT : {
-        Intent intent = new Intent(this, MyExpenses.class);
-        startActivity(intent);
-        finish();
+        if (!isFinishing()) {
+          Intent intent = new Intent(this, MyExpenses.class);
+          startActivity(intent);
+          finish();
+        }
         break;
       }
     }

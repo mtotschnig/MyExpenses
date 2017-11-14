@@ -62,7 +62,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
       calledFromOnboarding = true;
       Timber.i("Called from onboarding");
     }
-    if (savedInstanceState!=null) {
+    if (savedInstanceState != null) {
       return;
     }
     String action = getIntent().getAction();
@@ -264,6 +264,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
     setResult(RESULT_CANCELED);
     finish();
   }
+
   @Override
   public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
     switch (requestCode) {
