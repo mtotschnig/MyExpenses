@@ -20,6 +20,7 @@
 <resources>
   <string-array name="whats_new_2831">
     <item>@string/performance_enhancement</item>
+    <item>@string/bug_fixes</item>
   </string-array>
   <string-array name="whats_new_283">
     <item>Ascending sort direction (oldest transactions on top)</item>
