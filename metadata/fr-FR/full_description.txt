@@ -37,8 +37,8 @@ Les fonctionnalités Premium sont déverrouillées en achetant l'une des clés d
 - <b>Assistance par e-mail</b> avec réponse garantie après 2 jours ouvrables
 - Voter sur la <b>feuille de route pour le développement</b>
 
-Mes dépenses demande les <u>permissions</u> critiques suivantes:
-- <i>Lire et écrire dans le calendrier</i> : les échéances d'opérations futures et périodiques seront stockées dans un calendrier local spécial ou dans celui que vous lui préciserez.
-- <u>Écriture mémoire USB</u> : enregistrement des fichiers de sauvegarde et exportation QIF et CSV.
-- <i>Communication réseau</i>: suivi d'utilisation anonyme, rapports d'erreur, validation de clé et synchronisation dans le cloud.
-- <i>Comptes</i>: Synchronisation sur plusieurs appareils par les services de cloud
+<i>Mes dépenses</i> demande les <u>permissions</u> suivantes:
+- <i>Agenda</i>: Les échéances d'opérations futures et périodiques seront stockées dans un calendrier local spécial ou dans celui que vous lui préciserez.
+- <i>Stockage</i>: Enregistrement des fichiers d'exportation QIF et CSV et des sauvegardes.
+- <i>Internet</i>: Validation de clé de licence, Synchronisation dans le cloud.
+- <i>Comptes</i>: Synchronisation entre les appareils via les services cloud.
