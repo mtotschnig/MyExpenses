@@ -10,24 +10,26 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.SimpleToastActivity;
 import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 
 import java.util.Collections;
 
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.OPERATION_TYPE;
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER;
+
 public class ShortcutHelper {
   public static Intent createIntentForNewSplit(Context context) {
-    return createIntentForNewTransaction(context, Transaction.TYPE_SPLIT);
+    return createIntentForNewTransaction(context, TYPE_SPLIT);
   }
 
   public static Intent createIntentForNewTransfer(Context context) {
-    return createIntentForNewTransaction(context, Transaction.TYPE_TRANSFER);
+    return createIntentForNewTransaction(context, TYPE_TRANSFER);
   }
 
   public static Intent createIntentForNewTransaction(Context context, int operationType) {
@@ -42,7 +44,7 @@ public class ShortcutHelper {
     Bundle extras = new Bundle();
     extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET, true);
     extras.putBoolean(AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
-    extras.putInt(MyApplication.KEY_OPERATION_TYPE, operationType);
+    extras.putInt(OPERATION_TYPE, operationType);
     extras.putBoolean(ExpenseEdit.KEY_AUTOFILL_MAY_SET_ACCOUNT, true);
     intent.putExtras(extras);
     return intent;

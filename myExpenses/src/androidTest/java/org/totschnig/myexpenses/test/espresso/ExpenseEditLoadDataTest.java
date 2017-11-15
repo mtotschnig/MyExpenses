@@ -34,6 +34,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone;
@@ -69,7 +70,7 @@ public class ExpenseEditLoadDataTest {
     transfer.save();
     splitTransaction = SplitTransaction.getNewInstance(account1.getId());
     splitTransaction.save();
-    template = Template.getTypedNewInstance(Transaction.TYPE_TRANSACTION, account1.getId(), false, null);
+    template = Template.getTypedNewInstance(TYPE_TRANSACTION, account1.getId(), false, null);
     template.setTitle("Daily plan");
     template.setAmount(new Money(currency, 700L));
     Calendar calendar = Calendar.getInstance();

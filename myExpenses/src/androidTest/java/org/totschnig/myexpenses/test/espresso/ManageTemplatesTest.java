@@ -32,6 +32,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFro
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.anything;
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 
 //TODO test CAB actions
 public class ManageTemplatesTest {
@@ -47,7 +48,7 @@ public class ManageTemplatesTest {
     account = new Account("Test account 1", Currency.getInstance("EUR"), 0, "",
         AccountType.CASH, Account.DEFAULT_COLOR);
     account.save();
-    template = new Template(account, Transaction.TYPE_TRANSACTION, null);
+    template = new Template(account, TYPE_TRANSACTION, null);
     template.setAmount(new Money(account.currency, -1200L));
     template.setTitle("Espresso Test Template");
     template.save();

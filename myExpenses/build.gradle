@@ -133,6 +133,7 @@ List supportCompile = ['com.android.support:appcompat-v7:' + project.androidSupp
                        'com.android.support:preference-v14:' + project.androidSupportLibraryVersion]
 
 dependencies {
+    implementation project(':transactionscontract')
     implementation 'com.jakewharton:butterknife:8.6.0'
     implementation 'com.squareup.phrase:phrase:1.1.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'

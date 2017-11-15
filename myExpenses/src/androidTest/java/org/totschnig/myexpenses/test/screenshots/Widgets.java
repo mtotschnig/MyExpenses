@@ -17,6 +17,8 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.test.ActivityInstrumentationTestCase2;
 
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
+
 @Ignore
 public class Widgets extends ActivityInstrumentationTestCase2<MyExpenses> {
   private Context instCtx;
@@ -57,7 +59,7 @@ public class Widgets extends ActivityInstrumentationTestCase2<MyExpenses> {
         "", AccountType.BANK, Account.DEFAULT_COLOR
     );
     a.save();
-    Template t = Template.getTypedNewInstance(Transaction.TYPE_TRANSACTION, a.getId(), false, null);
+    Template t = Template.getTypedNewInstance(TYPE_TRANSACTION, a.getId(), false, null);
     t.setAmount(new Money(c,-90000L));
     t.setTitle(translate(l,R.string.testData_templateSubCat));
     t.setPayee(translate(l,R.string.testData_templatePayee));

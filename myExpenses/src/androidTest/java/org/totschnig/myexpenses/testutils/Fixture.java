@@ -36,6 +36,8 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.Locale;
 
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
+
 @SuppressLint("InlinedApi")
 public class Fixture {
   private static Account account1;
@@ -209,7 +211,7 @@ public class Fixture {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-    Template template = Template.getTypedNewInstance(Transaction.TYPE_TRANSACTION, account3.getId(), false, null);
+    Template template = Template.getTypedNewInstance(TYPE_TRANSACTION, account3.getId(), false, null);
     template.setAmount(new Money(defaultCurrency,-90000L));
     String templateSubCat = testContext.getString(R.string.testData_templateSubCat);
     template.setCatId(findCat(templateSubCat,

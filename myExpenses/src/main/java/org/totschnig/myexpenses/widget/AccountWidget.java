@@ -25,18 +25,18 @@ import android.os.Build;
 import android.view.View;
 import android.widget.RemoteViews;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Money;
-import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.OPERATION_TYPE;
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE;
 
 
@@ -120,7 +120,7 @@ public class AccountWidget extends AbstractWidget<Account> {
           context.getString(R.string.menu_create_transaction));
     }
     intent = buildButtonIntent(context, account);
-    intent.putExtra(MyApplication.KEY_OPERATION_TYPE, Transaction.TYPE_TRANSFER);
+    intent.putExtra(OPERATION_TYPE, TYPE_TRANSFER);
     pendingIntent = PendingIntent.getActivity(
         context,
         2 * widgetId + 1,

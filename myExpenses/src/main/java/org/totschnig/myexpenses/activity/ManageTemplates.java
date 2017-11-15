@@ -32,7 +32,6 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.fragment.TemplatesList;
 import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
@@ -41,6 +40,9 @@ import org.totschnig.myexpenses.util.PermissionHelper;
 
 import java.io.Serializable;
 import java.util.List;
+
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.OPERATION_TYPE;
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 
 public class ManageTemplates extends ProtectedFragmentActivity implements
     ConfirmationDialogListener, ContribIFace {
@@ -91,7 +93,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
     switch (command) {
       case R.id.CREATE_COMMAND:
         i = new Intent(this, ExpenseEdit.class);
-        i.putExtra(MyApplication.KEY_OPERATION_TYPE, Transaction.TYPE_TRANSACTION);
+        i.putExtra(OPERATION_TYPE, TYPE_TRANSACTION);
         i.putExtra(ExpenseEdit.KEY_NEW_TEMPLATE, true);
         startActivity(i);
         return true;
