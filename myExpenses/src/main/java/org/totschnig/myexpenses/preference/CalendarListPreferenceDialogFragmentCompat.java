@@ -71,6 +71,7 @@ public class CalendarListPreferenceDialogFragmentCompat extends PreferenceDialog
             getContext().getString(R.string.pref_planning_calendar_create_local)});
         selectionCursor = new MergeCursor(new Cursor[]{calCursor, extras});
       }
+      selectionCursor.moveToFirst();
       builder.setSingleChoiceItems(selectionCursor, selectedIndex, "full_name",
           new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
