@@ -64,3 +64,7 @@ cd MyExpenses
 export ANDROID_HOME={sdk-dir}
 ./gradlew build
 ```
+
+Integrate
+=========
+My Expenses now has experimental support for inserting data from third party apps. See [TransactionsContract.java](https://github.com/mtotschnig/MyExpenses/blob/master/transactionscontract/src/main/java/org/totschnig/myexpenses/contract/TransactionsContract.java).
