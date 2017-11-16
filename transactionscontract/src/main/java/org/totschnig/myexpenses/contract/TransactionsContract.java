@@ -3,11 +3,12 @@ package org.totschnig.myexpenses.contract;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+/**
+ * This contract defines the data needed for communicating with My Expenses via Intents. Currently
+ * only adding new transactions via {@link android.content.Intent#ACTION_INSERT} is supported.
+ */
 public class TransactionsContract {
-  /**
-   * This authority is used for writing to the transactions provider. Currently it is limited to
-   * adding new transactions via {@link android.content.Intent#ACTION_INSERT}.
-   */
+
   public static final String AUTHORITY = "org.totschnig.myexpenses";
 
   /**
@@ -17,6 +18,16 @@ public class TransactionsContract {
     //Not yet implemented
   }
 
+  /**
+   * Example code:
+   * <pre>{@code
+   * Intent intent = new Intent(Intent.ACTION_INSERT);
+   * intent.setData(Uri.parse("content://org.totschnig.myexpenses.debug/transactions"));
+   * intent.putExtra(TransactionsContract.Transactions.AMOUNT_MICROS, 10500000L);
+   * intent.putExtra(TransactionsContract.Transactions.PAYEE_NAME, "Aldi");
+   * intent.putExtra(TransactionsContract.Transactions.CATEGORY_LABEL, "Food:Supermarket");
+   * }</pre>
+   */
   public static final class Transactions implements BaseColumns {
     public static final int TYPE_TRANSACTION = 0;
     public static final int TYPE_TRANSFER = 1;
@@ -25,6 +36,9 @@ public class TransactionsContract {
      */
     public static final int TYPE_SPLIT = 2;
 
+    /**
+     * Debug build listens for "content://org.totschnig.myexpenses.debug/transactions"
+     */
     public static final Uri CONTENT_URI = Uri.parse(
         "content://org.totschnig.myexpenses/transactions");
 

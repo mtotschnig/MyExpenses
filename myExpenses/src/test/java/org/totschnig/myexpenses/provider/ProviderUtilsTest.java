@@ -108,17 +108,23 @@ public class ProviderUtilsTest {
   }
 
   @Test
-  public void shouldSetCategory() {
+  public void shouldSetMainCategory() {
     Bundle extras = new Bundle();
     String category = "A";
     extras.putString(CATEGORY_LABEL, category);
     Transaction transaction = ProviderUtils.buildFromExtras(extras);
     Assert.assertEquals(Category.find(category, null), transaction.getCatId().longValue());
-    extras = new Bundle();
-    category = "B:C";
+    Assert.assertEquals(category, transaction.getLabel());
+  }
+
+  @Test
+  public void shouldSetSubCategory() {
+    Bundle extras = new Bundle();
+    String category = "B:C";
     extras.putString(CATEGORY_LABEL, category);
-    transaction = ProviderUtils.buildFromExtras(extras);
+    Transaction transaction = ProviderUtils.buildFromExtras(extras);
     Assert.assertEquals(Category.find("C", Category.find("B", null)), transaction.getCatId().longValue());
+    Assert.assertEquals(category, transaction.getLabel());
   }
 
   @Test
@@ -150,12 +156,12 @@ public class ProviderUtilsTest {
   @Test
   public void shouldBuildTransfer() {
     Bundle extras = new Bundle();
-    String number = "1";
     extras.putInt(OPERATION_TYPE, TYPE_TRANSFER);
     extras.putString(ACCOUNT_LABEL, "EUR-Account");
     extras.putString(TRANSFER_ACCOUNT_LABEL, "USD-Account");
     Transaction transaction = ProviderUtils.buildFromExtras(extras);
     Assert.assertTrue(transaction instanceof Transfer);
     Assert.assertEquals(dollarAccount.getId(), transaction.getTransferAccountId());
+    Assert.assertEquals("USD-Account", transaction.getLabel());
   }
 }

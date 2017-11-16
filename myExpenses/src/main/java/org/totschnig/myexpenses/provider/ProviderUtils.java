@@ -45,6 +45,7 @@ public class ProviderUtils {
         }
         if (transferAccountId != -1) {
           transaction.setTransferAccountId(transferAccountId);
+          transaction.setLabel(transferAccountLabel);
         }
         break;
       case TYPE_SPLIT:
@@ -81,11 +82,17 @@ public class ProviderUtils {
     if (!TextUtils.isEmpty(payeeName)) {
       transaction.setPayee(payeeName);
     }
-    String categoryLabel = extras.getString(CATEGORY_LABEL);
-    if (!TextUtils.isEmpty(categoryLabel)) {
-      final Map<String, Long> categoryToId = new HashMap<>();
-      new CategoryInfo(categoryLabel).insert(categoryToId, false);
-      transaction.setCatId(categoryToId.get(categoryLabel));
+    if (!(transaction instanceof Transfer)) {
+      String categoryLabel = extras.getString(CATEGORY_LABEL);
+      if (!TextUtils.isEmpty(categoryLabel)) {
+        final Map<String, Long> categoryToId = new HashMap<>();
+        new CategoryInfo(categoryLabel).insert(categoryToId, false);
+        Long catId = categoryToId.get(categoryLabel);
+        if (catId != null) {
+          transaction.setCatId(catId);
+          transaction.setLabel(categoryLabel);
+        }
+      }
     }
     String comment = extras.getString(COMMENT);
     if (!TextUtils.isEmpty(comment)) {
