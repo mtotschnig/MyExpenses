@@ -1,4 +1,4 @@
-include ':PlayLicensingOrig'
+include ':PlayLicensingOrig', ':transactionscontract'
 include ':myExpenses'
 include ':setupwizard'
 

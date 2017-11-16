@@ -48,33 +48,35 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACT
 //TODO refactor to use autovalue
 public class PaymentMethod extends Model {
   private String label;
-  public static final int EXPENSE =  -1;
+  public static final int EXPENSE = -1;
   public static final int NEUTRAL = 0;
   public static final int INCOME = 1;
   private int paymentType;
   public boolean isNumbered = false;
   private PreDefined preDefined = null;
 
-  public static final String[] PROJECTION(Context ctx) { return new String[] {
-    KEY_ROWID,
-    preDefinedName() + " AS " + KEY_PREDEFINED_METHOD_NAME,
-    localizedLabelSqlColumn(ctx) + " AS " + KEY_LABEL,
-    KEY_TYPE,
-    KEY_IS_NUMBERED,
-    "(select count(*) from " + TABLE_TRANSACTIONS + " WHERE " + KEY_METHODID + "=" + TABLE_METHODS + "." + KEY_ROWID + ") AS " + KEY_MAPPED_TRANSACTIONS,
-    "(select count(*) from " + TABLE_TEMPLATES    + " WHERE " + KEY_METHODID + "=" + TABLE_METHODS + "." + KEY_ROWID + ") AS " + KEY_MAPPED_TEMPLATES};
+  public static final String[] PROJECTION(Context ctx) {
+    return new String[]{
+        KEY_ROWID,
+        preDefinedName() + " AS " + KEY_PREDEFINED_METHOD_NAME,
+        localizedLabelSqlColumn(ctx) + " AS " + KEY_LABEL,
+        KEY_TYPE,
+        KEY_IS_NUMBERED,
+        "(select count(*) from " + TABLE_TRANSACTIONS + " WHERE " + KEY_METHODID + "=" + TABLE_METHODS + "." + KEY_ROWID + ") AS " + KEY_MAPPED_TRANSACTIONS,
+        "(select count(*) from " + TABLE_TEMPLATES + " WHERE " + KEY_METHODID + "=" + TABLE_METHODS + "." + KEY_ROWID + ") AS " + KEY_MAPPED_TEMPLATES};
   }
+
   public static final Uri CONTENT_URI = TransactionProvider.METHODS_URI;
   /**
    * array of account types for which this payment method is applicable
    */
   private ArrayList<AccountType> accountTypes = new ArrayList<>();
-  
+
   public enum PreDefined {
-    CHEQUE(-1,true,R.string.pm_cheque),
-    CREDITCARD(-1,false,R.string.pm_creditcard),
-    DEPOSIT(1,false,R.string.pm_deposit),
-    DIRECTDEBIT(-1,false,R.string.pm_directdebit);
+    CHEQUE(-1, true, R.string.pm_cheque),
+    CREDITCARD(-1, false, R.string.pm_creditcard),
+    DEPOSIT(1, false, R.string.pm_deposit),
+    DIRECTDEBIT(-1, false, R.string.pm_directdebit);
 
     public final int paymentType;
     public final boolean isNumbered;
@@ -85,29 +87,33 @@ public class PaymentMethod extends Model {
       this.paymentType = paymentType;
       this.resId = resId;
     }
+
     public String getLocalizedLabel() {
       return MyApplication.getInstance().getString(resId);
     }
   }
+
   public static String localizedLabelSqlColumn(Context ctx) {
     StringBuilder sb = new StringBuilder();
     sb.append("CASE " + KEY_LABEL);
-    for (PreDefined method: PreDefined.values()) {
-      sb.append(" WHEN '"+method.name()+"' THEN ");
+    for (PreDefined method : PreDefined.values()) {
+      sb.append(" WHEN '" + method.name() + "' THEN ");
       DatabaseUtils.appendEscapedSQLString(sb, ctx.getString(method.resId));
     }
     sb.append(" ELSE " + KEY_LABEL + " END");
     return sb.toString();
   }
+
   public static String preDefinedName() {
     String result = "CASE " + KEY_LABEL;
-    for (PreDefined method: PreDefined.values()) {
-      result += " WHEN '"+method.name()+"' THEN '"+method.name() + "'";
+    for (PreDefined method : PreDefined.values()) {
+      result += " WHEN '" + method.name() + "' THEN '" + method.name() + "'";
     }
     result += " ELSE null END";
     return result;
-    
+
   }
+
   public static PaymentMethod getInstanceFromDb(long id) {
     PaymentMethod method;
     method = methods.get(id);
@@ -115,7 +121,7 @@ public class PaymentMethod extends Model {
       return method;
     }
     Cursor c = cr().query(
-        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), null,null,null, null);
+        CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), null, null, null, null);
     if (c == null) {
       return null;
     }
@@ -135,12 +141,12 @@ public class PaymentMethod extends Model {
     }
     c.close();
     c = cr().query(TransactionProvider.ACCOUNTTYPES_METHODS_URI,
-        new String[] {KEY_TYPE}, KEY_METHODID + " = ?", new String[] {String.valueOf(id)}, null);
-    if(c.moveToFirst()) {
-      for (int i = 0; i < c.getCount(); i++){
+        new String[]{KEY_TYPE}, KEY_METHODID + " = ?", new String[]{String.valueOf(id)}, null);
+    if (c.moveToFirst()) {
+      for (int i = 0; i < c.getCount(); i++) {
         try {
           method.addAccountType(AccountType.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_TYPE))));
-        } catch (IllegalArgumentException ex) { 
+        } catch (IllegalArgumentException ex) {
           Timber.e(ex, "Found unknown account type in database");
         }
         c.moveToNext();
@@ -153,7 +159,7 @@ public class PaymentMethod extends Model {
 
   private PaymentMethod(Long id) {
     this.setId(id);
-   }
+  }
 
   public PaymentMethod() {
     this("");
@@ -174,56 +180,62 @@ public class PaymentMethod extends Model {
   public boolean isPredefined() {
     return preDefined != null;
   }
+
   public void setPaymentType(int paymentType) {
     this.paymentType = paymentType;
   }
+
   public void addAccountType(AccountType accountType) {
     if (!accountTypes.contains(accountType))
       accountTypes.add(accountType);
   }
+
   public void removeAccountType(AccountType accountType) {
     if (accountTypes.contains(accountType))
       accountTypes.remove(accountType);
   }
+
   public boolean isValidForAccountType(AccountType accountType) {
     return accountTypes.contains(accountType);
   }
-  
+
   public String getLabel() {
     return label;
   }
+
   public void setLabel(String label) {
     this.label = label;
   }
 
-  private static final Map<Long,PaymentMethod> methods = Collections.synchronizedMap(new HashMap<>());
-  
+  private static final Map<Long, PaymentMethod> methods = Collections.synchronizedMap(new HashMap<>());
+
   public Uri save() {
     Uri uri;
     ContentValues initialValues = new ContentValues();
-    if (preDefined==null || !preDefined.getLocalizedLabel().equals(label)) {
+    if (preDefined == null || !preDefined.getLocalizedLabel().equals(label)) {
       initialValues.put(KEY_LABEL, label);
     }
-    initialValues.put(KEY_TYPE,paymentType);
-    initialValues.put(KEY_IS_NUMBERED,isNumbered);
+    initialValues.put(KEY_TYPE, paymentType);
+    initialValues.put(KEY_IS_NUMBERED, isNumbered);
     if (getId() == 0) {
       uri = cr().insert(CONTENT_URI, initialValues);
       setId(Long.valueOf(uri.getLastPathSegment()));
     } else {
       uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build();
-      cr().update(uri,initialValues,null,null);
+      cr().update(uri, initialValues, null, null);
     }
     setMethodAccountTypes();
     if (!methods.containsKey(getId()))
       methods.put(getId(), this);
     return uri;
   }
+
   private void setMethodAccountTypes() {
     cr().delete(TransactionProvider.ACCOUNTTYPES_METHODS_URI, KEY_METHODID + " = ?", new String[]{String.valueOf(getId())});
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_METHODID, getId());
     for (AccountType accountType : accountTypes) {
-      initialValues.put(KEY_TYPE,accountType.name());
+      initialValues.put(KEY_TYPE, accountType.name());
       cr().insert(TransactionProvider.ACCOUNTTYPES_METHODS_URI, initialValues);
     }
   }
@@ -234,14 +246,15 @@ public class PaymentMethod extends Model {
   public static void clear() {
     methods.clear();
   }
+
   public static void delete(long id) {
-    cr().delete(TransactionProvider.ACCOUNTTYPES_METHODS_URI,KEY_METHODID + " = ?",new String[] {String.valueOf(id)});
+    cr().delete(TransactionProvider.ACCOUNTTYPES_METHODS_URI, KEY_METHODID + " = ?", new String[]{String.valueOf(id)});
     cr().delete(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(),
         null, null);
   }
 
-  public static int count(String selection,String[] selectionArgs) {
-    Cursor mCursor = cr().query(TransactionProvider.ACCOUNTTYPES_METHODS_URI,new String[] {"count(*)"},
+  public static int count(String selection, String[] selectionArgs) {
+    Cursor mCursor = cr().query(TransactionProvider.ACCOUNTTYPES_METHODS_URI, new String[]{"count(*)"},
         selection, selectionArgs, null);
     if (mCursor.getCount() == 0) {
       mCursor.close();
@@ -255,7 +268,7 @@ public class PaymentMethod extends Model {
   }
 
   public static int countPerType(AccountType type) {
-    return count("type = ?", new String[] {type.name()});
+    return count("type = ?", new String[]{type.name()});
   }
 
   /**
@@ -271,12 +284,13 @@ public class PaymentMethod extends Model {
 
   /**
    * Looks for a method with a label;
+   *
    * @param label
    * @return id or -1 if not found
    */
   public static long find(String label) {
     Cursor mCursor = cr().query(CONTENT_URI,
-        new String[] {KEY_ROWID}, KEY_LABEL + " = ?", new String[]{label}, null);
+        new String[]{KEY_ROWID}, KEY_LABEL + " = ?", new String[]{label}, null);
     if (mCursor.getCount() == 0) {
       mCursor.close();
       return -1;

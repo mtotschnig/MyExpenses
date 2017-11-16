@@ -104,10 +104,16 @@
             android:name=".activity.ExpenseEdit"
             android:parentActivityName=".activity.MyExpenses"
             android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge"
+            android:exported="true"
             tools:ignore="UnusedAttribute">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.INSERT" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="content" android:host="${applicationId}" android:path="/transactions" />
             </intent-filter>
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

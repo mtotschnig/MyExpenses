@@ -20,6 +20,10 @@ import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER;
+
 public class TemplateTest extends ModelTest {
   private Account mAccount1, mAccount2;
 
@@ -62,15 +66,15 @@ public class TemplateTest extends ModelTest {
   }
 
   public void testGetTypedNewInstanceTransaction() {
-    newInstanceTestHelper(Transaction.TYPE_TRANSACTION);
+    newInstanceTestHelper(TYPE_TRANSACTION);
   }
 
   public void testGetTypedNewInstanceTransfer() {
-    newInstanceTestHelper(Transaction.TYPE_TRANSFER);
+    newInstanceTestHelper(TYPE_TRANSFER);
   }
 
   public void testGetTypedNewInstanceSplit() {
-    newInstanceTestHelper(Transaction.TYPE_SPLIT);
+    newInstanceTestHelper(TYPE_SPLIT);
   }
 
   /**

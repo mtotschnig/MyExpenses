@@ -72,7 +72,7 @@ public class CategoryInfo {
     /**
      * inserts the category to the database if needed
      * @param categoryToId a map which caches the relation between the category name and the database
-     *                     id, both the root and the child category are place in this map
+     *                     id, both the root and the child category are placed in this map
      * @param stripQifCategoryClass
      * @return the number of new elements added to the database
      */

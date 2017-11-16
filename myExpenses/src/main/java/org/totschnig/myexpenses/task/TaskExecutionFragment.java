@@ -54,8 +54,8 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final String KEY_ENCODING = "encoding";
   public static final String KEY_FORMAT = "format";
   public static final String KEY_DELIMITER = "delimiter";
+  public static final String KEY_EXTRAS = "extras";
 
-  //public static final int TASK_CLONE = 1;
   public static final int TASK_INSTANTIATE_TRANSACTION = 2;
   public static final int TASK_INSTANTIATE_TEMPLATE = 3;
   public static final int TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE = 4;
@@ -89,7 +89,6 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_CHANGE_FRACTION_DIGITS = 28;
   public static final int TASK_TOGGLE_EXCLUDE_FROM_TOTALS = 29;
   public static final int TASK_SPLIT = 30;
-  //public static final int TASK_HAS_STALE_IMAGES = 31;
   public static final int TASK_DELETE_IMAGES = 32;
   public static final int TASK_SAVE_IMAGES = 33;
   public static final int TASK_UNDELETE_TRANSACTION = 34;
@@ -120,6 +119,7 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_STORE_SETTING = 54;
   public static final int TASK_VALIDATE_LICENCE = 55;
   public static final int TASK_REMOVE_LICENCE = 56;
+  public static final int TASK_BUILD_TRANSACTION_FROM_INTENT_EXTRAS = 57;
 
   /**
    * Callback interface through which the fragment will report the task's
@@ -305,6 +305,9 @@ public class TaskExecutionFragment<T> extends Fragment {
           break;
         case TASK_REMOVE_LICENCE:
           new LicenceApiTask(this, taskId).execute();
+          break;
+        case TASK_BUILD_TRANSACTION_FROM_INTENT_EXTRAS:
+          new ExtraTask(this, taskId).execute(args.getBundle(KEY_EXTRAS));
           break;
         default:
           new GenericTask<T>(this, taskId, args.getSerializable(KEY_EXTRA))

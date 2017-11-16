@@ -91,6 +91,9 @@ import eltos.simpledialogfragment.input.SimpleInputDialog;
 
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.RESTORE_REQUEST;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.RESULT_RESTORE_OK;
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER;
 import static org.totschnig.myexpenses.preference.PrefKey.APP_DIR;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP_INFO;
@@ -173,19 +176,19 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
           nameId = R.string.transaction;
           bitmap = getBitmapForShortcut(R.drawable.shortcut_create_transaction_icon,
               R.drawable.shortcut_create_transaction_icon_lollipop);
-          operationType = Transaction.TYPE_TRANSACTION;
+          operationType = TYPE_TRANSACTION;
         }
         if (matches(preference, SHORTCUT_CREATE_TRANSFER)) {
           nameId = R.string.transfer;
           bitmap = getBitmapForShortcut(R.drawable.shortcut_create_transfer_icon,
               R.drawable.shortcut_create_transfer_icon_lollipop);
-          operationType = Transaction.TYPE_TRANSFER;
+          operationType = TYPE_TRANSFER;
         }
         if (matches(preference, SHORTCUT_CREATE_SPLIT)) {
           nameId = R.string.split_transaction;
           bitmap = getBitmapForShortcut(R.drawable.shortcut_create_split_icon,
               R.drawable.shortcut_create_split_icon_lollipop);
-          operationType = Transaction.TYPE_SPLIT;
+          operationType = TYPE_SPLIT;
         }
         if (nameId != 0) {
           addShortcut(nameId, operationType, bitmap);

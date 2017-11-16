@@ -28,8 +28,11 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertEquals;
-import static org.totschnig.myexpenses.MyApplication.KEY_OPERATION_TYPE;
 import static org.totschnig.myexpenses.activity.ExpenseEdit.KEY_NEW_TEMPLATE;
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.OPERATION_TYPE;
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER;
 import static org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone;
 import static org.totschnig.myexpenses.testutils.Espresso.checkEffectiveVisible;
 import static org.totschnig.myexpenses.testutils.Matchers.inToast;
@@ -63,7 +66,7 @@ public class ExpenseEditTest {
   @Test
   public void formForTransactionIsPrepared() {
     Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
-    i.putExtra(KEY_OPERATION_TYPE, Transaction.TYPE_TRANSACTION);
+    i.putExtra(OPERATION_TYPE, TYPE_TRANSACTION);
     mActivityRule.launchActivity(i);
     checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
         R.id.PayeeRow, R.id.AccountRow, R.id.Recurrence);
@@ -72,7 +75,7 @@ public class ExpenseEditTest {
   @Test
   public void formForTransferIsPrepared() {
     Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
-    i.putExtra(KEY_OPERATION_TYPE, Transaction.TYPE_TRANSFER);
+    i.putExtra(OPERATION_TYPE, TYPE_TRANSFER);
     mActivityRule.launchActivity(i);
     checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.AccountRow,
         R.id.TransferAccountRow, R.id.Recurrence);
@@ -81,7 +84,7 @@ public class ExpenseEditTest {
   @Test
   public void formForSplitIsPrepared() {
     Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
-    i.putExtra(KEY_OPERATION_TYPE, Transaction.TYPE_SPLIT);
+    i.putExtra(OPERATION_TYPE, TYPE_SPLIT);
     mActivityRule.launchActivity(i);
     checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.SplitContainer,
         R.id.PayeeRow, R.id.AccountRow, R.id.Recurrence);
@@ -90,7 +93,7 @@ public class ExpenseEditTest {
   @Test
   public void formForTemplateIsPrepared() {
     Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
-    i.putExtra(KEY_OPERATION_TYPE, Transaction.TYPE_TRANSACTION);
+    i.putExtra(OPERATION_TYPE, TYPE_TRANSACTION);
     i.putExtra(KEY_NEW_TEMPLATE, true);
     mActivityRule.launchActivity(i);
     checkEffectiveVisible(R.id.TitleRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
@@ -104,7 +107,7 @@ public class ExpenseEditTest {
     Account[] allAccounts = {account1, account2};
     for (Account a : allAccounts) {
       Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
-      i.putExtra(KEY_OPERATION_TYPE, Transaction.TYPE_TRANSACTION);
+      i.putExtra(OPERATION_TYPE, TYPE_TRANSACTION);
       i.putExtra(DatabaseConstants.KEY_ACCOUNTID, a.getId());
       mActivityRule.launchActivity(i);
       onView(withId(R.id.Account)).check(matches(Matchers.withSpinnerText(a.label)));
@@ -118,7 +121,7 @@ public class ExpenseEditTest {
     for (Currency c : allCurrencies) {
       //we assume that Fixture has set up the default account with id 1
       Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
-      i.putExtra(KEY_OPERATION_TYPE, Transaction.TYPE_TRANSACTION);
+      i.putExtra(OPERATION_TYPE, TYPE_TRANSACTION);
       i.putExtra(DatabaseConstants.KEY_CURRENCY, c.getCurrencyCode());
       mActivityRule.launchActivity(i);
       assertEquals("Account is not selected", c, mActivityRule.getActivity().getCurrentAccount().currency);
@@ -130,7 +133,7 @@ public class ExpenseEditTest {
   @Test
   public void saveAsNewWorksMultipleTimesInARow() {
     Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
-    i.putExtra(KEY_OPERATION_TYPE, Transaction.TYPE_TRANSACTION);
+    i.putExtra(OPERATION_TYPE, TYPE_TRANSACTION);
     i.putExtra(DatabaseConstants.KEY_ACCOUNTID, account1.getId());
     mActivityRule.launchActivity(i);
     String success = mActivityRule.getActivity().getString(R.string.save_transaction_and_new_success);

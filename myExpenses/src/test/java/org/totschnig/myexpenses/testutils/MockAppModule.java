@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.util;
+package org.totschnig.myexpenses.testutils;
 
 import com.google.android.vending.licensing.Obfuscator;
 import com.google.android.vending.licensing.ValidationException;
@@ -6,7 +6,7 @@ import com.google.android.vending.licensing.ValidationException;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.di.AppModule;
 
-class MockAppModule extends AppModule {
+public class MockAppModule extends AppModule {
   MockAppModule(MyApplication testApplication) {
     super(testApplication);
   }

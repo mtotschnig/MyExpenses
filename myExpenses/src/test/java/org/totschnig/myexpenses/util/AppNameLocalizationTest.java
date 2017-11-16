@@ -8,6 +8,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.testutils.TestApplication;
 
 import static junit.framework.Assert.fail;
 

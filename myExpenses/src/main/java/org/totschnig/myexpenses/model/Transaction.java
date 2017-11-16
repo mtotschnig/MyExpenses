@@ -50,6 +50,9 @@ import java.util.Locale;
 
 import timber.log.Timber;
 
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.FULL_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.IS_SAME_CURRENCY;
@@ -118,9 +121,6 @@ import static org.totschnig.myexpenses.provider.DbUtils.getLongOrNull;
  * @author Michael Totschnig
  */
 public class Transaction extends Model {
-  public static final int TYPE_TRANSACTION = 0;
-  public static final int TYPE_TRANSFER = 1;
-  public static final int TYPE_SPLIT = 2;
   protected boolean inEditState = false;
   private String comment = "";
   private String payee = "";

@@ -71,30 +71,29 @@ public class CalendarListPreferenceDialogFragmentCompat extends PreferenceDialog
             getContext().getString(R.string.pref_planning_calendar_create_local)});
         selectionCursor = new MergeCursor(new Cursor[]{calCursor, extras});
       }
+      selectionCursor.moveToFirst();
       builder.setSingleChoiceItems(selectionCursor, selectedIndex, "full_name",
-          new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-              long itemId = ((AlertDialog) dialog).getListView().getItemIdAtPosition(which);
-              if (itemId == -1) {
-                //TODO: use Async Task Strict Mode violation
-                String plannerId = MyApplication.getInstance().createPlanner(false);
-                boolean success = !plannerId.equals(MyApplication.INVALID_CALENDAR_ID);
-                Toast.makeText(
-                    getActivity(),
-                    success ? R.string.planner_create_calendar_success : R.string.planner_create_calendar_failure,
-                    Toast.LENGTH_LONG).show();
-                if (success) {
-                  preference.setValue(plannerId);
-                }
-              } else {
-                if (preference.callChangeListener(itemId)) {
-                  preference.setValue(String.valueOf(itemId));
-                }
+          (dialog, which) -> {
+            long itemId = ((AlertDialog) dialog).getListView().getItemIdAtPosition(which);
+            if (itemId == -1) {
+              //TODO: use Async Task Strict Mode violation
+              String plannerId = MyApplication.getInstance().createPlanner(false);
+              boolean success = !plannerId.equals(MyApplication.INVALID_CALENDAR_ID);
+              Toast.makeText(
+                  getActivity(),
+                  success ? R.string.planner_create_calendar_success : R.string.planner_create_calendar_failure,
+                  Toast.LENGTH_LONG).show();
+              if (success) {
+                preference.setValue(plannerId);
               }
-              CalendarListPreferenceDialogFragmentCompat.this.onClick(dialog,
-                  DialogInterface.BUTTON_POSITIVE);
-              dialog.dismiss();
+            } else {
+              if (preference.callChangeListener(itemId)) {
+                preference.setValue(String.valueOf(itemId));
+              }
             }
+            CalendarListPreferenceDialogFragmentCompat.this.onClick(dialog,
+                DialogInterface.BUTTON_POSITIVE);
+            dialog.dismiss();
           });
     } else {
       builder.setMessage("Calendar provider not available");

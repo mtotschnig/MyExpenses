@@ -111,6 +111,8 @@ import eltos.simpledialogfragment.input.SimpleInputDialog;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.OPERATION_TYPE;
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
@@ -470,7 +472,7 @@ public class MyExpenses extends LaunchActivity implements
    */
   private void createRow() {
     Intent i = new Intent(this, ExpenseEdit.class);
-    i.putExtra(MyApplication.KEY_OPERATION_TYPE, Transaction.TYPE_TRANSACTION);
+    i.putExtra(OPERATION_TYPE, TYPE_TRANSACTION);
     //if we are called from an aggregate cursor, we also hand over the currency
     if (mAccountId < 0 && mAccountsCursor != null && mAccountsCursor.moveToPosition(mCurrentPosition)) {
       i.putExtra(KEY_CURRENCY, mAccountsCursor.getString(columnIndexCurrency));
