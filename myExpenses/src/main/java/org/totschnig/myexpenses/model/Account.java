@@ -728,6 +728,29 @@ public class Account extends Model {
   }
 
   /**
+   * Returns the first account which uses the passed in currency, order is undefined
+   *
+   * @param currency ISO 4217 currency code
+   * @return id or -1 if not found
+   */
+  public static long findAnyByCurrency(String currency) {
+    String selection = KEY_CURRENCY + " = ?";
+    String[] selectionArgs = new String[]{currency};
+
+    Cursor mCursor = cr().query(CONTENT_URI,
+        new String[]{KEY_ROWID}, selection, selectionArgs, null);
+    if (mCursor.getCount() == 0) {
+      mCursor.close();
+      return -1;
+    } else {
+      mCursor.moveToFirst();
+      long result = mCursor.getLong(0);
+      mCursor.close();
+      return result;
+    }
+  }
+
+  /**
    * Looks for an account with a label. WARNING: If several accounts have the same label, this
    * method fill return the first account retrieved in the cursor, order is undefined
    *

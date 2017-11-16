@@ -19,6 +19,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.util.Utils;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -155,5 +156,26 @@ public class Money implements Serializable {
       return true;
     }
     return false;
+  }
+
+  /**
+   * Builds a Money instance where amount is provided in micro units (=1/1000000 of the main unit)
+   *
+   * @return a new Money object
+   */
+  public static Money buildWithMicros(Currency currency, long amountMicros) {
+    long amountMinor;
+    int fractionDigits = getFractionDigits(currency);
+    switch (Utils.compare(6, fractionDigits)) {
+      case -1:
+        amountMinor = amountMicros * (long) Math.pow(10, fractionDigits - 6);
+        break;
+      case 1:
+        amountMinor = amountMicros / (long) Math.pow(10, 6 - fractionDigits);
+        break;
+      default:
+        amountMinor = amountMicros;
+    }
+    return new Money(currency, amountMinor);
   }
 }

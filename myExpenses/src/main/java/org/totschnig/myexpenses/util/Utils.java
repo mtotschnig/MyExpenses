@@ -776,9 +776,20 @@ public class Utils {
     }
   }
 
-  //Integer compare is API 19
+  /**
+   * backport of {@link Integer#compare(int, int)} which is API 19
+   * returns -1, 0 or 1
+   */
   public static int compare(int lhs, int rhs) {
     return lhs < rhs ? -1 : (lhs == rhs ? 0 : 1);
+  }
+
+  /**
+   * backport of {@link Long#compare(long, long)} which is API 19
+   * returns -1, 0 or 1
+   */
+  public static int compare(long x, long y) {
+    return (x < y) ? -1 : ((x == y) ? 0 : 1);
   }
 
   // From Guava

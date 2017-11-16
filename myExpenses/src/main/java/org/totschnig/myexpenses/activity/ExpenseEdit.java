@@ -374,7 +374,8 @@ public class ExpenseEdit extends AmountActivity implements
             +mPlanToggleButton.getPaddingLeft()
             + mPlanToggleButton.getPaddingRight());
 
-    mRowId = Utils.getFromExtra(getIntent().getExtras(), KEY_ROWID, 0);
+    Bundle extras = getIntent().getExtras();
+    mRowId = Utils.getFromExtra(extras, KEY_ROWID, 0);
     mTemplateId = getIntent().getLongExtra(KEY_TEMPLATEID, 0);
 
     //upon orientation change stored in instance state, since new splitTransactions are immediately persisted to DB
@@ -492,9 +493,9 @@ public class ExpenseEdit extends AmountActivity implements
       resetOperationType();
       mOperationTypeSpinner.setOnItemSelectedListener(this);
       Long accountId = getIntent().getLongExtra(KEY_ACCOUNTID, 0);
-      if (!mSavedInstance && Intent.ACTION_INSERT.equals(getIntent().getAction())) {
+      if (!mSavedInstance && Intent.ACTION_INSERT.equals(getIntent().getAction()) && extras != null) {
         Bundle args = new Bundle(1);
-        args.putBundle(TaskExecutionFragment.KEY_EXTRAS, getIntent().getExtras());
+        args.putBundle(TaskExecutionFragment.KEY_EXTRAS, extras);
         getSupportFragmentManager().beginTransaction()
             .add(TaskExecutionFragment.newInstanceWithBundle(args,
                 TaskExecutionFragment.TASK_BUILD_TRANSACTION_FROM_INTENT_EXTRAS),
@@ -544,7 +545,6 @@ public class ExpenseEdit extends AmountActivity implements
         }
         if (mTransaction == null) {
           String errMsg = "Error instantiating transaction for account " + accountId;
-          Bundle extras = getIntent().getExtras();
           IllegalStateException e = new IllegalStateException(errMsg);
           if (extras != null) {
             AcraHelper.report(e, "Extras", extras.toString());

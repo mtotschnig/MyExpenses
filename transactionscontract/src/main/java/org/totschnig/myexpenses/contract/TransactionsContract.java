@@ -6,9 +6,7 @@ import android.provider.BaseColumns;
 public class TransactionsContract {
   /**
    * This authority is used for writing to the transactions provider. Currently it is limited to
-   * adding new transactions via {@link android.content.Intent#ACTION_INSERT}. Account label, payee
-   * name, category label and payment method label can be provided, at the moment these are only
-   * used if they are already defined in the database, otherwise they are ignored.
+   * adding new transactions via {@link android.content.Intent#ACTION_INSERT}.
    */
   public static final String AUTHORITY = "org.totschnig.myexpenses";
 
@@ -22,18 +20,40 @@ public class TransactionsContract {
   public static final class Transactions implements BaseColumns {
     public static final int TYPE_TRANSACTION = 0;
     public static final int TYPE_TRANSFER = 1;
+    /**
+     * Building Split transactions is not yet implemented
+     */
     public static final int TYPE_SPLIT = 2;
 
-    public static final Uri CONTENT_URI = Uri
-        .parse("content://org.totschnig.myexpenses/transactions");
+    public static final Uri CONTENT_URI = Uri.parse(
+        "content://org.totschnig.myexpenses/transactions");
 
+    /**
+     * One of {@link #TYPE_TRANSACTION}, {@link #TYPE_TRANSFER}. {@link #TYPE_SPLIT} is not yet implemented.
+     * If omitted, {@link #TYPE_TRANSACTION} is assumed.
+     */
     public static final String OPERATION_TYPE = "operationType";
 
     /**
-     * The label of the account this transaction should be added to.
+     * The label of the account this transaction should be added to. If no account is found with the
+     * given label, it will not be created.
      * Type: TEXT
      */
     public static final String ACCOUNT_LABEL = "accountLabel";
+
+    /**
+     * The label of the transfer account for this transfer. If no account is found with the
+     * given label, it will not be created. Ignored if {@link #OPERATION_TYPE} is not {@link #TYPE_TRANSFER}
+     * Type: TEXT
+     */
+    public static final String TRANSFER_ACCOUNT_LABEL = "transferAccountLabel";
+
+
+    /**
+     * If a currency is passed, the transaction will be linked to an account that uses this currency.
+     * This extra is ignored, if {@link #ACCOUNT_LABEL} is passed, that can be resolved to an existing account
+     */
+    public static final String CURRENCY = "currency";
 
     /**
      * The amount of the transaction (in micro-units, where 1,000,000 micro-units equal one unit of the currency.)
@@ -48,14 +68,15 @@ public class TransactionsContract {
     public static final String DATE = "date";
 
     /**
-     * The name of a person with whom this transaction was exchanged
+     * The name of a person with whom this transaction was exchanged. If no payee exists with the given
+     * name, it will not be inserted into DB, but form will be populated.
      * TYPE: TEXT
      */
     public static final String PAYEE_NAME = "payeeName";
 
     /**
      * The label for the category to which this transaction should be assigned. Main and subcategory
-     * can be provide in the form "Main:Sub"
+     * can be provided in the form "Main:Sub". Categories that do not exist yet, will be inserted.
      * TYPE: TEXT
      */
     public static final String CATEGORY_LABEL = "categoryLabel";
@@ -70,7 +91,8 @@ public class TransactionsContract {
      * The label of the payment mehthod. My Expenses has the following methods defined by default:
      * CHEQUE, CREDITCARD, DEPOSIT, DIRECTDEBIT. But these could have been deleted by the user, who
      * also can define additional methods. For linking to the default methods, use above constants,
-     * instead of the localized labels which are used for displaying them.
+     * instead of the localized labels which are used for displaying them. If no method is found with
+     * the given label, it will not be inserted.
      * TYPE: TEXT
      */
     public static final String METHOD_LABEL = "methodLabel";

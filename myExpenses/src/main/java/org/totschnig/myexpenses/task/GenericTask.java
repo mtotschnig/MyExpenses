@@ -116,16 +116,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     Cursor c;
     int successCount = 0, failureCount = 0;
     switch (mTaskId) {
-/*    case TaskExecutionFragment.TASK_CLONE:
-      for (long id : (Long[]) ids) {
-        t = Transaction.getInstanceFromDb(id);
-        if (t!=null) {
-          t.crStatus = CrStatus.UNRECONCILED;
-          if (t.saveAsNew() != null)
-            successCount++;
-        }
-      }
-      return successCount;*/
       case TaskExecutionFragment.TASK_SPLIT:
         //ids could have been passed through bundle to ContribInfoDialog
         //and in bundle looses its type as long array (becomes object array)

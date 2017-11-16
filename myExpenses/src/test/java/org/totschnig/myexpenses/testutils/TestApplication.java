@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.util;
+package org.totschnig.myexpenses.testutils;
 
 import android.support.annotation.NonNull;
 
@@ -7,7 +7,7 @@ import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.di.DaggerAppComponent;
 import org.totschnig.myexpenses.di.UiModule;
 
-class TestApplication extends MyApplication {
+public class TestApplication extends MyApplication {
   @NonNull
   @Override
   protected AppComponent buildAppComponent() {

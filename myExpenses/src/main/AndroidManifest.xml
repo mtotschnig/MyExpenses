@@ -113,7 +113,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.INSERT" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="vnd.android.cursor.item/vnd.myexpenses.transaction"/>
+                <data android:scheme="content" android:host="${applicationId}" android:path="/transactions" />
             </intent-filter>
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
