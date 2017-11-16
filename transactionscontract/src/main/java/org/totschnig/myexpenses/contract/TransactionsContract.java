@@ -11,9 +11,6 @@ public class TransactionsContract {
 
   public static final String AUTHORITY = "org.totschnig.myexpenses";
 
-  /**
-   * Items that can be put into shopping lists.
-   */
   public static final class Accounts implements BaseColumns {
     //Not yet implemented
   }
