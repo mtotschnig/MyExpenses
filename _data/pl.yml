@@ -1,5 +1,8 @@
 pl:
   imprint: Stopka
+  imprint_text: Odpowiedzialny za zawartość tej witryny oraz za rozwój, utrzymanie i dystrybucję <i> {app_name} </i>
+  privacy_policy_heading: Polityka prywatności
+  privacy_policy_text: "<i>{app_name}</i> nie ma dostępu do żadnych danych na urządzeniu innych niż jego własna baza danych, własny folder na karcie SD. Jeśli korzystasz z funkcji planów dla przyszłych i cyklicznych transakcji, przypisujesz kalendarz, w którym przechowywane są te plany."
   hero_main: "Personalny menadżer finansów dla systemu Android"
   hero_sub:
     use: "Łatwy w użyciu"
@@ -18,38 +21,66 @@ pl:
     sourcecode: Kod źródłowy
     links: Linki
   features:
-    manage_accounts: Do pięciu kont z przelewami
-    plans: Definiuj szablony i plany dla przyszłych i powtarzalnych transakcji
-    grouped_list: Grupuj transakcje na dni, tygodnie, miesiące, lata i wyświetl kwoty dla każdej z grup
+    manage_accounts: Do pięciu kont z <b>transferem</b> (również między różnymi walutami)
+    plans: Nieograniczona liczba <b>szablonów</b> i do trzech planów dla <b>recurring</b> transakcji
+    grouped_list: Transakcje mogą mieć <b>grupy</b> (dzień, tydzień, miesiąc i rok) i <b>filtry</b>
     distribution: Dwa poziomy kategorii (import z Grisbi XML i QIF)
     split: Podziela transakcje (wersja Contrib)
     calculator: Kalkulator
-    export: Eksport do QIF i CSV (Microsoft Excel), może być automatycznie udostępniany (przez E-mail, FTP, Dropbox, ...)
+    export: <b>Eksportuj</b> do QIF i CSV. <b>Importuj</b> z QIF
     import: Import danych QIF
-    password: Zabezpieczenie hasłem
+    password: Dane mogą być chronione <b>hasłem</b>
     help: Zintegrowana Pomoc
     backup: Kopia zapasowa oraz przywracanie danych
-    light_theme: "Dwa motywy: jasny i ciemny"
+    light_theme: <b>Temat</b> (ciemny i jasny) i <b>rozmiary czcionek</b> można dostosować
     attach_picture: Dopinanie obrazów do transakcji
+    reconciliation: "<b>Porównanie</b>: Łatwe porównywanie statusu transakcji z wyciągami bankowymi"
+    homescreen: <b>Widżet</b> na ekranie głównym i <b>skróty</b> do szybkiego wprowadzania danych
   contrib:
     thank_you: |
       Twój udział wspiera późniejszy rozwój Moich Wydatków. Dziękujemy!
+    feature-list-title: "Proszę przyczyń się ulepszając <i>{app_name}</i> i uzyskaj nieograniczony dostęp do następujących funkcji:"
     feature:
-      accounts_unlimited: Nieograniczona ilość kont
-      plans_unlimited: Nieograniczona ilość planów
-      split_transaction: Podział transakcji
-      security_question: Pytanie bezpieczeństwa
-      template_widget: Szablon widget
-      print: Eksport listy transakcji do PDF
-      attach_picture: Dopinanie obrazów do transakcji
-      ad_free: Brak reklam
-      csv_import: Import CSV
-      auto_backup: Włącz automatyczną kopię zapasową
-  permissions-heading: |
-    Moje Wydatki potrzebują następujących uprawnień
-  permissions-calendar: |
-    Czytanie i zapisywanie kalendarza: Plany na przyszłość i powtarzalne transakcje są przechowywane albo w specjalnym lokalnym kalendarza albo w każdym innym kalendarzu jaki wybierzesz.
-  permissions-external-storage: |
-    Zapisywanie na pamięci USB: Przechowywanie plików QIF oraz CSV oraz kopii zapasowych
-  permissions-internet: |
-    Komunikacja w sieci: Raporty o awariach są automatycznie wysyłane do twórców chyba że są wyłączone przez użytkownika w preferencjach aplikacji.
+      accounts_unlimited: Nielimitowana liczba <b>kont</b>
+      plans_unlimited: Nieograniczona liczba planów dla <b>powtarzających się</b> transakcji
+      distribution: "<b>Wykres kołowy</b>: Wizualizuj rozkład statystyczny transakcji według kategorii w różnych okresach (lata, miesiące, tygodnie, dni)"
+      split_transaction: "<b>Rozdzielaj transakcje</b>: Pojedyncza transakcja może być podzielona na wiele części (kategorie i transfery)"
+      security_question: Zdefiniuj <b>pytanie dotyczące bezpieczeństwa</b>, aby odzyskać utracone hasło
+      template_widget: Szybki wybór <b>szablonu</b> z ekranu głównego <b>widżetu</b>
+      print: <b>Drukuj</b> listę transakcji do pliku PDF
+      attach_picture: "<b>Załącznik obrazu </b>: Przechwyć za pomocą kamery lub wybierz z galerii"
+      ad_free: <b>Brak reklam</b>
+      csv_import: Wyrafinowany, dostosowywany <b>import CSV</b> (aplikacje do arkuszy kalkulacyjnych)
+      auto_backup: Codziennie <b>automatyczna kopia</b> z opcjonalnym przesyłaniem do chmury
+      cloud_sync: "<b>Synchronizacja w chmurze</b>: dane mogą być synchronizowane między wieloma urządzeniami za pośrednictwem WebDAV i Google Drive"
+      split_template: Nieograniczona liczba <b>szablonów i planów podziału transakcji</b>
+      email_support: <b>Wysyłaj pocztę e-mail</b> z reakcją gwarantowaną po upływie 2 dni roboczych
+      roadmap_voting: Głosowanie bezpośrednio na mapie drogowej <b>rozwoju</b>
+    one-time-payment: Płatność jednorazowa
+    subscription: Subskrypcja
+  store:
+    short_description: "Łatwy w użyciu osobisty menedżer finansów: bogata funkcjonalność i otwarte oprogramowanie"
+    full_description_intro: "{app_name} śledzi Twoje wydatki i dochody bezpośrednio na smartfonie i tablecie."
+    full_description_contrib: "Funkcje premium są odblokowywane przez zakup jednego z następujących kluczy licencyjnych:"
+  permissions:
+    heading: <i>{app_name}</i> wymaga następujących <u>uprawnień</u>
+    calendar:
+      label: Kalendarz
+      explanation: Plany przyszłych i powtarzających się transakcji są przechowywane w specjalnym kalendarzu lokalnym lub w dowolnym innym kalendarzu, który przypisujesz.
+    external-storage:
+      label: Przechowywanie
+      explanation: Przechowywanie eksportów QIF i CSV oraz plików kopii zapasowych.
+    internet:
+      label: Internet
+      explanation_usage_tracking: Anonimowe śledzenie użycia
+      explanation_crash_reporting: Raporty o awariach
+      explanation_key_validation: Sprawdzenie klucza licencji
+      explanation_cloud_sync: Synchronizacja w chmurze
+    accounts:
+      label: Konta
+      explanation: Synchronizacja między urządzeniami za pośrednictwem usług w chmurze.
+  contrib-key: Klucz Contrib
+  extended-key: Klucz Rozszerzony
+  professional-key: Profesjonalny Klucz
+  all_contrib_key_features: Wszystkie funkcje Contrib Key
+  all_extended_key_features: Wszystkie funkcje Extended Key

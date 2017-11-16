@@ -1,6 +1,8 @@
 es:
   imprint: Impresión
+  imprint_text: Responsable por el contenido de esta página web y del desarrollo, mantenimiento y distribución de <i>{app_name}</i>
   privacy_policy_heading: Política de privacidad
+  privacy_policy_text: "<i>{app_name}</i> no tiene acceso a ningún dato de su dispositivo salvo a su propia base de datos y su propia carpeta en la tarjeta SD. Si usa la característica de proyectos de futuro y transacciones recurrentes, le asignará permiso para el calendario, donde esos planes serán almacenados."
   hero_main: "Gestor de finanzas personales para Android"
   hero_sub:
     use: "Fácil de usar"
@@ -19,22 +21,47 @@ es:
     sourcecode: Código fuente
     links: Enlaces
   features:
+    manage_accounts: Hasta cinco cuentas con <b>transferencias</b> (también entre diferentes monedas)
+    plans: Número ilimitado de <b>plantillas</b> y hasta tres proyectos para transacciones <b>recurrentes</b>
+    grouped_list: Las transacciones pueden ser <b>agrupadas</b> (por día, semana, mes y año) y <b>filtradas</b>
     distribution: Dos niveles de categorías (importación desde Grisbi XML y QIF)
     split: Transacciones divididas (versión Contrib)
     calculator: Calculadora
+    export: <b>Exportar</b> a QIF y CSV. <b>Importar</b> desde QIF
     import: Importar datos desde QIF
+    password: Los datos pueden protegerse con <b>contraseña</b>
     help: Ayuda integrada
     backup: Copia de seguridad y restauración
+    light_theme: Se puede personalizar el <b>tema</b> (oscuro y claro) y el <b>tipo de letra</b>
     attach_picture: Adjuntar imagen a la transacción
+    reconciliation: "<b>Reconciliación</b>: compare fácilmente los estados de transacción con los recibos de banco"
+    homescreen: <b>Widgets</b> y <b>accesos directos</b> en su pantalla de inicio para introducir información rápidamente
   contrib:
     thank_you: |
       Su contribución apoya el desarrollo de Mis Gastos. ¡Gracias!
     feature-list-title: "Por favor, contribuya actualizando <i>{app_name}</i> y obtenga acceso sin limitaciones a las siguientes características:"
     feature:
       accounts_unlimited: Número de <b>cuentas</b> ilimitadas
+      plans_unlimited: Número de proyectos ilimitados para transacciones <b>recurrentes</b>
+      distribution: "<b>Gráfico de sectores</b>: visualice la distribución estadística de transacciones por categoría entre diferentes periodos (años, meses, semanas, días)"
+      split_transaction: "<b>Transacción dividida</b>: una transacción puede separarse en diferentes partes (categorías y transferencias)"
+      security_question: Defina una <b>pregunta de seguridad</b> para recuperar una contraseña perdida
+      template_widget: Selección de una <b>plantilla</b> rápidamente desde el <b>widget</b> en la pantalla de inicio
+      print: <b>Imprima</b> la lista de transacciones en un archivo PDF
+      attach_picture: "<b>Adjuntar imagen</b>: tomada desde la cámara o seleccionada desde galería"
       ad_free: <b>Sin anuncios</b>
+      csv_import: Una sofisticada y personalizable <b>importación a CSV</b> (para aplicaciones de hojas de cálculo)
+      auto_backup: <b>Copia de seguridad automática</b> diaria con subida a almacenamiento en la nube opcional
+      cloud_sync: "<b>Sincronización con la nube</b>: los datos pueden sincronizarse entre diferentes dispositivos vía WebDAV y Google Drive"
+      split_template: Número ilimitado de <b>plantillas y proyectos para transacciones divididas</b>
+      email_support: <b>Soporte por correo electrónico</b> con respuesta asegurada en 2 días laborables
+      roadmap_voting: Derecho a participar en la <b>hoja de ruta de desarrollo</b>
     one-time-payment: Pago único
     subscription: Suscripción
+  store:
+    short_description: "Fácil de usar como gestor financiero personal: gran cantidad de funcionalidades y de código abierto"
+    full_description_intro: "{app_name} permite el seguimiento de gastos e ingresos, directamente desde tu teléfono o tablet."
+    full_description_contrib: "Las características premium se desbloquean al comprar una de la siguientes llaves de licencia:"
   permissions:
     heading: <i>{app_name}</i> requiere los siguientes <u>permisos</u>
     calendar:
@@ -42,10 +69,12 @@ es:
       explanation: Los proyectos para las transacciones futuras y recurrentes se almacenarán en un calendario local especial o en cualquier otro calendario que asigne.
     external-storage:
       label: Almacenamiento
-      explanation: Almacenamiento de las exportaciones QIF, CSV y copias de seguridad
+      explanation: Almacenamiento para las exportaciones QIF, CSV y copias de seguridad
     internet:
       label: Internet
-      explanation_crash_reporting: Reportes de accidente
+      explanation_usage_tracking: Seguimiento de uso anónimo
+      explanation_crash_reporting: Reportes de errores
+      explanation_key_validation: Validación de la llave de licencia
       explanation_cloud_sync: Sincronización en la nube
     accounts:
       label: Cuentas

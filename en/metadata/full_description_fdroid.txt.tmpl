@@ -1,7 +1,7 @@
 ---
 lang: en
 ---
-{% assign placeholder = '{app_name}' %}{{t.store.full_description_intro | replace:placeholder, site.title[page.lang]}}
+{% assign msg = site.data[page.lang][page.lang] %}{% assign placeholder = '{app_name}' %}{{t.store.full_description_intro | replace:placeholder, site.title[page.lang]}}
 
 - {{t.features.manage_accounts}}
 - {{t.features.plans}}
