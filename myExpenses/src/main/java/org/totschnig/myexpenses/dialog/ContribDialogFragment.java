@@ -198,8 +198,10 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     ((TextView) professionalContainer.findViewById(R.id.package_label)).setText(R.string.professional_key);
     professionalPriceTextView = professionalContainer.findViewById(R.id.package_price);
     professionalPriceTextView.setText(licenceHandler.getProfessionalPriceShortInfo());
-    if(!contribVisible && !extendedVisible && licenceHandler.getProPackages().length == 1) {
+    Package[] proPackages = licenceHandler.getProPackages();
+    if(!contribVisible && !extendedVisible && proPackages.length == 1) {
       professionalButton.setChecked(true);
+      selectedPackage = proPackages[0];
     } else {
       view.findViewById(R.id.professional_feature_container).setOnClickListener(this);
       professionalButton.setOnClickListener(this);
@@ -274,6 +276,11 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
           if (title == null) title = aPackage.name(); //fallback if prices have not been loaded
           popup.getMenu().add(Menu.NONE, aPackage.ordinal(), Menu.NONE, title);
         }
+        popup.setOnDismissListener(menu -> {
+          if (selectedPackage == null || !selectedPackage.isProfessional()) {
+            professionalButton.setChecked(false);
+          }
+        });
         popup.show();
       }
     }
