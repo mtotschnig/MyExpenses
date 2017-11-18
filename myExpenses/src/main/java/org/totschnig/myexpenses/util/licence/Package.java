@@ -11,7 +11,7 @@ import org.totschnig.myexpenses.util.Preconditions;
 import java.util.Currency;
 
 public enum Package {
-  Contrib(300), Upgrade(250), Extended(500), Professional_1(100), Professional_6(500), Professional_12(900), Professional_36(2000);
+  Contrib(300), Upgrade(250), Extended(500), Professional_1(100), Professional_6(500), Professional_12(900), Professional_36(2000), Professional_Amazon(900);
 
   public long getDefaultPrice() {
     return defaultPrice;
@@ -40,11 +40,20 @@ public enum Package {
   String formatWithDuration(Context context, String formattedPrice) {
     Preconditions.checkState(isProfessional());
     String duration = extractDuration();
-    if (duration.equals("1")) {
-      return String.format("%s (%s)", formattedPrice, context.getString(R.string.monthly));
-    } else {
-      return String.format("%s / %s", formattedPrice, context.getString(R.string.n_months, duration));
+    String formattedDuration;
+    String format = "%s (%s)";
+    switch (duration) {
+      case "1":
+        formattedDuration = context.getString(R.string.monthly);
+        break;
+      case "12":
+        formattedDuration = context.getString(R.string.yearly_plain);
+        break;
+      default:
+        format= "%s / %s";
+        formattedDuration= context.getString(R.string.n_months, duration);
     }
+    return String.format(format, formattedPrice, formattedDuration);
   }
 
   int getDuration() {

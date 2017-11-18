@@ -510,10 +510,15 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         contribPurchaseSummary = getString(R.string.pref_contrib_purchase_title_upgrade);
       } else {
         contribPurchaseSummary = licenceHandler.getProLicenceAction(getContext());
-        contribPurchaseTitle += " (" + licenceHandler.getProLicenceStatus(getContext()) + ")";
+        String proLicenceStatus = licenceHandler.getProLicenceStatus(getContext());
+        if (!TextUtils.isEmpty(proLicenceStatus)) {
+          contribPurchaseTitle += String.format(" (%s)", proLicenceStatus);
+        }
       }
-
-      contribPurchaseSummary += "\n" + getString(R.string.thank_you);
+      if (!TextUtils.isEmpty(contribPurchaseSummary)) {
+        contribPurchaseSummary += "\n";
+      }
+      contribPurchaseSummary += getString(R.string.thank_you);
     }
     contribPurchasePref.setOnPreferenceClickListener(this);
     contribPurchasePref.setSummary(contribPurchaseSummary);

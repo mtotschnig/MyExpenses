@@ -198,10 +198,13 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     ((TextView) professionalContainer.findViewById(R.id.package_label)).setText(R.string.professional_key);
     professionalPriceTextView = professionalContainer.findViewById(R.id.package_price);
     professionalPriceTextView.setText(licenceHandler.getProfessionalPriceShortInfo());
-    view.findViewById(R.id.professional_feature_container).setOnClickListener(this);
-    professionalButton.setOnClickListener(this);
-
-    dialog.setOnShowListener(new ButtonOnShowDisabler());
+    if(!contribVisible && !extendedVisible && licenceHandler.getProPackages().length == 1) {
+      professionalButton.setChecked(true);
+    } else {
+      view.findViewById(R.id.professional_feature_container).setOnClickListener(this);
+      professionalButton.setOnClickListener(this);
+      dialog.setOnShowListener(new ButtonOnShowDisabler());
+    }
 
     return dialog;
   }
@@ -245,28 +248,34 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
       selectedPackage = licenceStatus == null ? Package.Extended : Package.Upgrade;
       updateButtons(extendedButton);
     } else {
-      PopupMenu popup = new PopupMenu(getActivity(), v);
-      popup.setOnMenuItemClickListener(item -> {
-        selectedPackage = Package.values()[item.getItemId()];
-        String formattedPrice = licenceHandler.getFormattedPrice(selectedPackage);
-        if (formattedPrice != null) {
-          if (licenceStatus == EXTENDED && !licenceHandler.hasLegacyLicence()) {
-            String extendedUpgradeGoodieMessage = licenceHandler.getExtendedUpgradeGoodieMessage(selectedPackage);
-            if (extendedUpgradeGoodieMessage != null) {
-              formattedPrice += String.format(" (%s)", extendedUpgradeGoodieMessage);
-            }
-          }
-          professionalPriceTextView.setText(formattedPrice);
-        }
+      Package[] proPackages = licenceHandler.getProPackages();
+      if (proPackages.length == 1) {
+        selectedPackage = proPackages[0];
         updateButtons(professionalButton);
-        return true;
-      });
-      for (Package aPackage: licenceHandler.getProPackages()) {
-        String title = licenceHandler.getFormattedPrice(aPackage);
-        if (title == null) title = aPackage.name(); //fallback if prices have not been loaded
-        popup.getMenu().add(Menu.NONE, aPackage.ordinal(), Menu.NONE, title);
+      } else {
+        PopupMenu popup = new PopupMenu(getActivity(), v);
+        popup.setOnMenuItemClickListener(item -> {
+          selectedPackage = Package.values()[item.getItemId()];
+          String formattedPrice = licenceHandler.getFormattedPrice(selectedPackage);
+          if (formattedPrice != null) {
+            if (licenceStatus == EXTENDED && !licenceHandler.hasLegacyLicence()) {
+              String extendedUpgradeGoodieMessage = licenceHandler.getExtendedUpgradeGoodieMessage(selectedPackage);
+              if (extendedUpgradeGoodieMessage != null) {
+                formattedPrice += String.format(" (%s)", extendedUpgradeGoodieMessage);
+              }
+            }
+            professionalPriceTextView.setText(formattedPrice);
+          }
+          updateButtons(professionalButton);
+          return true;
+        });
+        for (Package aPackage : proPackages) {
+          String title = licenceHandler.getFormattedPrice(aPackage);
+          if (title == null) title = aPackage.name(); //fallback if prices have not been loaded
+          popup.getMenu().add(Menu.NONE, aPackage.ordinal(), Menu.NONE, title);
+        }
+        popup.show();
       }
-      popup.show();
     }
   }
 

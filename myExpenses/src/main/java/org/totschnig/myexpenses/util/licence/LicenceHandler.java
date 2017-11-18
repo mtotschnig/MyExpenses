@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
+import com.annimon.stream.Optional;
+import com.annimon.stream.Stream;
 import com.google.android.vending.licensing.PreferenceObfuscator;
 
 import org.apache.commons.lang3.time.DateUtils;
@@ -27,8 +29,6 @@ import org.totschnig.myexpenses.widget.TemplateWidget;
 
 import java.util.Currency;
 import java.util.Date;
-
-import static org.totschnig.myexpenses.util.DistribHelper.isGithub;
 
 public class LicenceHandler {
   private static final String LICENSE_STATUS_KEY = "licence_status";
@@ -155,8 +155,7 @@ public class LicenceHandler {
   }
 
   public Package[] getProPackages() {
-    return isGithub() ? new Package[] {Package.Professional_6, Package.Professional_36} :
-        new Package[] {Package.Professional_1, Package.Professional_12};
+    return new Package[] {Package.Professional_6, Package.Professional_36};
   }
 
   @Nullable
@@ -166,8 +165,15 @@ public class LicenceHandler {
 
   public String getProfessionalPriceShortInfo() {
     String minimumProfessionalMonthlyPrice = getMinimumProfessionalMonthlyPrice();
-    return minimumProfessionalMonthlyPrice != null ?
-        context.getString(R.string.professionalPriceShortInfo, minimumProfessionalMonthlyPrice) : null;
+    if (minimumProfessionalMonthlyPrice != null) {
+      return context.getString(R.string.professionalPriceShortInfo, minimumProfessionalMonthlyPrice);
+    } else {
+      return getProfessionalPriceFallBack();
+    }
+  }
+
+  protected String getProfessionalPriceFallBack() {
+    return null;
   }
 
   protected String getMinimumProfessionalMonthlyPrice() {
@@ -207,4 +213,53 @@ public class LicenceHandler {
   public void maybeCancel() {}
 
   public void storeSkuDetails(Inventory inventory) {}
+
+  private Optional<String> findPurchaseByType(Inventory inventory, String type) {
+    return Stream.of(inventory.getAllOwnedSkus())
+        .filter(sku -> skuIsOfType(sku, type)).findFirst();
+  }
+
+  public void registerInventory(Inventory inventory) {
+    Optional<String> purchase = findPurchaseByType(inventory, "professional");
+    if (purchase.isPresent()) {
+      registerSubscription(purchase.get());
+      return;
+    }
+    purchase = findPurchaseByType(inventory, "extended");
+    if (purchase.isPresent()) {
+      registerPurchase(true);
+      return;
+    }
+    purchase = findPurchaseByType(inventory, "premium");
+    if (purchase.isPresent()) {
+      registerPurchase(false);
+      return;
+    }
+    maybeCancel();
+  }
+
+  /**
+   *
+   * @param sku
+   * @param type
+   * @return Attention: upgrade skus like premium2extended or extended2professional will return true
+   * for both types, thus you should always check in order professional, extended, premium
+   */
+  private boolean skuIsOfType(String sku, String type) {
+    return sku.contains(type);
+  }
+
+  public LicenceStatus handlePurchase(String sku) {
+    if (skuIsOfType(sku, "professional")) {
+      registerSubscription(sku);
+      return LicenceStatus.PROFESSIONAL;
+    } else if (skuIsOfType(sku, "extended")) {
+      registerPurchase(true);
+      return LicenceStatus.EXTENDED;
+    } else if (skuIsOfType(sku, "premium")) {
+      registerPurchase(false);
+      return LicenceStatus.CONTRIB;
+    }
+    return null;
+  }
 }

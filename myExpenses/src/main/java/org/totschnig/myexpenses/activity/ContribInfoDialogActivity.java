@@ -16,7 +16,6 @@ import org.onepf.oms.appstore.googleUtils.Purchase;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.contrib.Config;
 import org.totschnig.myexpenses.dialog.ContribDialogFragment;
 import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
@@ -27,6 +26,7 @@ import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
+import org.totschnig.myexpenses.util.licence.LicenceStatus;
 import org.totschnig.myexpenses.util.licence.Package;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 
@@ -177,31 +177,16 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
                 } else {
                   Timber.d("Purchase successful.");
 
-                  int keyResId = 0;
+                  LicenceStatus licenceStatus = licenceHandler.handlePurchase(purchase.getSku());
 
-                  if (purchase.getSku().equals(Config.SKU_PREMIUM)) {
-                    keyResId = R.string.contrib_key;
-                  } else if (purchase.getSku().equals(Config.SKU_EXTENDED) ||
-                      purchase.getSku().equals(Config.SKU_PREMIUM2EXTENDED)) {
-                    keyResId = R.string.extended_key;
-                  } else if (purchase.getSku().equals(Config.SKU_PROFESSIONAL_1) ||
-                      purchase.getSku().equals(Config.SKU_PROFESSIONAL_12) ||
-                      purchase.getSku().equals(Config.SKU_EXTENDED2PROFESSIONAL_12)) {
-                    keyResId = R.string.professional_key;
-                  }
-                  if (keyResId != 0) {
+                  if (licenceStatus != null) {
                     // bought the premium upgrade!
                     Timber.d("Purchase is premium upgrade. Congratulating user.");
                     Toast.makeText(
                         ContribInfoDialogActivity.this,
                         String.format("%s (%s) %s", getString(R.string.licence_validation_premium),
-                            getString(keyResId), getString(R.string.thank_you)),
+                            getString(licenceStatus.getResId()), getString(R.string.thank_you)),
                         Toast.LENGTH_SHORT).show();
-                    if (keyResId == R.string.professional_key) {
-                      licenceHandler.registerSubscription(purchase.getSku());
-                    } else {
-                      licenceHandler.registerPurchase(keyResId == R.string.extended_key);
-                    }
                   }
                 }
                 finish();
