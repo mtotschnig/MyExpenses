@@ -3,28 +3,16 @@ package org.totschnig.myexpenses.task;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
-import org.apache.commons.lang3.NotImplementedException;
-import org.totschnig.myexpenses.provider.ProviderUtils;
-
-class ExtraTask extends AsyncTask<Bundle, Void, Object> {
+/**
+ * {@link AsyncTask} that takes {@link Bundle} as parameter and communicates with {@link TaskExecutionFragment}
+ */
+abstract class ExtraTask<T> extends AsyncTask<Bundle, Void, T> {
   private final TaskExecutionFragment taskExecutionFragment;
   private final int taskId;
 
   ExtraTask(TaskExecutionFragment taskExecutionFragment, int taskId) {
     this.taskExecutionFragment = taskExecutionFragment;
     this.taskId = taskId;
-  }
-
-  @Override
-  protected Object doInBackground(Bundle... bundles) {
-    switch (taskId) {
-      case TaskExecutionFragment.TASK_BUILD_TRANSACTION_FROM_INTENT_EXTRAS: {
-        try {
-          return ProviderUtils.buildFromExtras(bundles[0]);
-        } catch (NotImplementedException ignored) {}
-      }
-    }
-    return null;
   }
 
   @Override

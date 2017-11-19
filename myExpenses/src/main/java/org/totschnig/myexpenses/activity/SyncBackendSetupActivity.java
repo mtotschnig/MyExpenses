@@ -21,7 +21,6 @@ import org.totschnig.myexpenses.util.Result;
 import java.io.File;
 import java.util.List;
 
-import static org.totschnig.myexpenses.activity.ProtectionDelegate.PROGRESS_TAG;
 import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_SYNC_PROVIDER_LABEL;
 import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_SYNC_PROVIDER_URL;
 import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_SYNC_PROVIDER_USERNAME;
@@ -86,7 +85,7 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
     args.putBoolean(SyncAccountTask.KEY_RETURN_REMOTE_DATA_LIST, createAccountTaskShouldReturnDataList());
     getSupportFragmentManager()
         .beginTransaction()
-        .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_CREATE_SYNC_ACCOUNT), ProtectionDelegate.ASYNC_TAG)
+        .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_CREATE_SYNC_ACCOUNT), ASYNC_TAG)
         .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_fetching_data_from_sync_backend), PROGRESS_TAG)
         .commit();
   }
@@ -97,7 +96,7 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
     args.putBoolean(SyncAccountTask.KEY_RETURN_REMOTE_DATA_LIST, createAccountTaskShouldReturnDataList());
     getSupportFragmentManager()
         .beginTransaction()
-        .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_FETCH_SYNC_ACCOUNT_DATA), ProtectionDelegate.ASYNC_TAG)
+        .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_FETCH_SYNC_ACCOUNT_DATA), ASYNC_TAG)
         .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_fetching_data_from_sync_backend), PROGRESS_TAG)
         .commit();
   }

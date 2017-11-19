@@ -17,7 +17,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ProtectionDelegate;
 import org.totschnig.myexpenses.activity.SyncBackendSetupActivity;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.WebDavBackendProvider;
@@ -39,6 +38,9 @@ import java.security.cert.CertificateEncodingException;
 import java.security.cert.X509Certificate;
 
 import okhttp3.HttpUrl;
+
+import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.ASYNC_TAG;
+import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.PROGRESS_TAG;
 
 public class SetupWebdavDialogFragment extends CommitSafeDialogFragment {
 
@@ -113,9 +115,9 @@ public class SetupWebdavDialogFragment extends CommitSafeDialogFragment {
       args.putSerializable(TestLoginTask.KEY_CERTIFICATE, mChkTrustCertificate.isChecked() ? mTrustCertificate : null);
       getFragmentManager()
           .beginTransaction()
-          .add(TaskExecutionFragment.newInstanceWithBundle(args, TaskExecutionFragment.TASK_WEBDAV_TEST_LOGIN), ProtectionDelegate.ASYNC_TAG)
+          .add(TaskExecutionFragment.newInstanceWithBundle(args, TaskExecutionFragment.TASK_WEBDAV_TEST_LOGIN), ASYNC_TAG)
           .add(ProgressDialogFragment.newInstance("WebDAV", null, 0, false),
-              ProtectionDelegate.PROGRESS_TAG).commit();
+              PROGRESS_TAG).commit();
       view.setEnabled(false);
     }
   }

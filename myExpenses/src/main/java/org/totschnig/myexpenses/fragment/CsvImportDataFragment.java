@@ -31,7 +31,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.CsvImportActivity;
-import org.totschnig.myexpenses.activity.ProtectionDelegate;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
@@ -47,6 +46,9 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 import timber.log.Timber;
+
+import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.ASYNC_TAG;
+import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.PROGRESS_TAG;
 
 /**
  * Created by privat on 30.06.15.
@@ -422,10 +424,8 @@ public class CsvImportDataFragment extends Fragment {
           progressDialogFragment.setMax(mDataset.size() - discardedRows.size());
           getFragmentManager()
               .beginTransaction()
-              .add(taskExecutionFragment,
-                  ProtectionDelegate.ASYNC_TAG)
-              .add(progressDialogFragment,
-                  ProtectionDelegate.PROGRESS_TAG)
+              .add(taskExecutionFragment, ASYNC_TAG)
+              .add(progressDialogFragment, PROGRESS_TAG)
               .commit();
 
         }

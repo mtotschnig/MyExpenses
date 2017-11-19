@@ -15,19 +15,20 @@
 
 package org.totschnig.myexpenses.activity;
 
+import android.app.ProgressDialog;
+import android.net.Uri;
+import android.os.Bundle;
+import android.widget.Toast;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.GrisbiSourcesDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Result;
-import android.app.ProgressDialog;
-import android.net.Uri;
-import android.os.Bundle;
-import android.widget.Toast;
 
 public class GrisbiImport extends ProtectedFragmentActivity {
- 
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeIdTranslucent());
@@ -36,21 +37,22 @@ public class GrisbiImport extends ProtectedFragmentActivity {
       GrisbiSourcesDialogFragment.newInstance().show(getSupportFragmentManager(), "GRISBI_SOURCES");
     }
   }
+
   @Override
-  public void onPostExecute(int taskId,Object result) {
-    super.onPostExecute(taskId,result);
+  public void onPostExecute(int taskId, Object result) {
+    super.onPostExecute(taskId, result);
     Result r = (Result) result;
     String msg;
     if (r.success) {
       Integer imported = (Integer) r.extra[0];
-      if (imported>-1) {
+      if (imported > -1) {
         msg = imported == 0 ?
             getString(R.string.import_categories_none) :
             getString(R.string.import_categories_success, String.valueOf(imported));
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
       }
       imported = (Integer) r.extra[1];
-      if (imported>-1) {
+      if (imported > -1) {
         msg = imported == 0 ?
             getString(R.string.import_parties_none) :
             getString(R.string.import_parties_success, String.valueOf(imported));
@@ -65,16 +67,17 @@ public class GrisbiImport extends ProtectedFragmentActivity {
 
   public void onSourceSelected(Uri mUri, boolean withCategories, boolean withParties) {
     getSupportFragmentManager()
-      .beginTransaction()
+        .beginTransaction()
         .add(TaskExecutionFragment.newInstanceGrisbiImport(true, mUri, withCategories, withParties),
-            ProtectionDelegate.ASYNC_TAG)
+            ASYNC_TAG)
         .add(ProgressDialogFragment.newInstance(
-            0,0,ProgressDialog.STYLE_HORIZONTAL, false),ProtectionDelegate.PROGRESS_TAG)
+            0, 0, ProgressDialog.STYLE_HORIZONTAL, false), PROGRESS_TAG)
         .commit();
   }
+
   @Override
   public void onMessageDialogDismissOrCancel() {
     //super.onMessageDialogDismissOrCancel();
     finish();
-   }
+  }
 }

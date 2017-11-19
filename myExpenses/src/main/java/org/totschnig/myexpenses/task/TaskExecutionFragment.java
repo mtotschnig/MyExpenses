@@ -54,7 +54,6 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final String KEY_ENCODING = "encoding";
   public static final String KEY_FORMAT = "format";
   public static final String KEY_DELIMITER = "delimiter";
-  public static final String KEY_EXTRAS = "extras";
 
   public static final int TASK_INSTANTIATE_TRANSACTION = 2;
   public static final int TASK_INSTANTIATE_TEMPLATE = 3;
@@ -120,6 +119,7 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_VALIDATE_LICENCE = 55;
   public static final int TASK_REMOVE_LICENCE = 56;
   public static final int TASK_BUILD_TRANSACTION_FROM_INTENT_EXTRAS = 57;
+  public static final int TASK_LOAD_AUTO_FILL_DATA = 58;
 
   /**
    * Callback interface through which the fragment will report the task's
@@ -224,7 +224,7 @@ public class TaskExecutionFragment<T> extends Fragment {
   }
 
   public static TaskExecutionFragment newInstanceWithBundle(Bundle b, int taskId) {
-    TaskExecutionFragment f = new TaskExecutionFragment();
+    TaskExecutionFragment f = new TaskExecutionFragment<>();
     b.putInt(KEY_TASKID, taskId);
     f.setArguments(b);
     return f;
@@ -307,7 +307,10 @@ public class TaskExecutionFragment<T> extends Fragment {
           new LicenceApiTask(this, taskId).execute();
           break;
         case TASK_BUILD_TRANSACTION_FROM_INTENT_EXTRAS:
-          new ExtraTask(this, taskId).execute(args.getBundle(KEY_EXTRAS));
+          new BuildTransactionTask(this, taskId).execute(args);
+          break;
+        case TASK_LOAD_AUTO_FILL_DATA:
+          new LoadAutoFillDataTask(this, taskId).execute(args);
           break;
         default:
           new GenericTask<T>(this, taskId, args.getSerializable(KEY_EXTRA))

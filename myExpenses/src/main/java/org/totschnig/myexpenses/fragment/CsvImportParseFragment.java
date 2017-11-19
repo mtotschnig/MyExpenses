@@ -27,7 +27,6 @@ import android.widget.Spinner;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
-import org.totschnig.myexpenses.activity.ProtectionDelegate;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
@@ -40,6 +39,8 @@ import org.totschnig.myexpenses.util.ImportFileResultHandler;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 
+import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.ASYNC_TAG;
+import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.PROGRESS_TAG;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
@@ -207,12 +208,10 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
                 mUri, delimiter.charAt(0), encoding);
         getFragmentManager()
             .beginTransaction()
-            .add(taskExecutionFragment,
-                ProtectionDelegate.ASYNC_TAG)
+            .add(taskExecutionFragment, ASYNC_TAG)
             .add(ProgressDialogFragment.newInstance(
                 getString(R.string.pref_import_title, "CSV"),
-                null, ProgressDialog.STYLE_SPINNER, false),
-                ProtectionDelegate.PROGRESS_TAG)
+                null, ProgressDialog.STYLE_SPINNER, false), PROGRESS_TAG)
             .commit();
         break;
     }

@@ -215,6 +215,8 @@ public class TransactionProvider extends ContentProvider {
   public static final Uri CHANGES_URI = Uri.parse("content://" + AUTHORITY + "/changes");
 
   public static final Uri SETTINGS_URI = Uri.parse("content://" + AUTHORITY + "/settings");
+
+  public static final Uri AUTOFILL_URI = Uri.parse("content://" + AUTHORITY + "/autofill");
   /**
    * select info from DB without table, e.g. CategoryList#DATEINFO_CURSOR
    * or set control flags like sync_state
@@ -289,6 +291,8 @@ public class TransactionProvider extends ContentProvider {
   private static final int TEMPLATES_UNCOMMITED = 44;
   private static final int ACCOUNT_ID_GROUPING = 45;
   private static final int ACCOUNT_ID_SORTDIRECTION = 46;
+  private static final int AUTOFILL = 47;
+
 
   private boolean mDirty = false;
 
@@ -739,6 +743,12 @@ public class TransactionProvider extends ContentProvider {
         qb.setTables(TABLE_SETTINGS);
         break;
       }
+      case AUTOFILL:
+        qb.setTables(VIEW_EXTENDED);
+        selection = KEY_ROWID + "= (SELECT max(" + KEY_ROWID + ") FROM " + TABLE_TRANSACTIONS
+            + " WHERE " + WHERE_NOT_SPLIT + " AND " + KEY_PAYEEID + " = ?)";
+        selectionArgs = new String[]{uri.getPathSegments().get(1)};
+        break;
       default:
         throw unknownUri(uri);
     }
@@ -750,9 +760,7 @@ public class TransactionProvider extends ContentProvider {
     }
 
     if (BuildConfig.DEBUG) {
-      @SuppressWarnings("deprecation")
-      String qs = qb.buildQuery(projection, selection, null, groupBy,
-          null, orderBy, limit);
+      String qs = qb.buildQuery(projection, selection, groupBy, null, orderBy, limit);
       Timber.d("Query : %s", qs);
       Timber.d("SelectionArgs : %s", Arrays.toString(selectionArgs));
     }
@@ -1498,6 +1506,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "transfer_account_transactions", MAPPED_TRANSFER_ACCOUNTS);
     URI_MATCHER.addURI(AUTHORITY, "changes", CHANGES);
     URI_MATCHER.addURI(AUTHORITY, "settings", SETTINGS);
+    URI_MATCHER.addURI(AUTHORITY, "autofill/#", AUTOFILL);
   }
 
   /**

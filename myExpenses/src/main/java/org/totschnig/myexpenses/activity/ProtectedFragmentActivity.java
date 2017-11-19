@@ -51,6 +51,7 @@ import android.widget.Toast;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
+import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
@@ -108,8 +109,11 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   public static final String SORT_ORDER_NEXT_INSTANCE = "NEXT_INSTANCE";
   public static final int RESULT_RESTORE_OK = RESULT_FIRST_USER + 1;
   public static final String ACCOUNT_COLOR_DIALOG = "editColorDialog";
+
+  public static final String ASYNC_TAG = "ASYNC_TASK";
+  public static final String PROGRESS_TAG = "PROGRESS";
+
   private AlertDialog pwDialog;
-  private ProtectionDelegate protection;
   private boolean scheduledRestart = false;
   public Enum<?> helpVariant = null;
   protected int colorExpense;
@@ -191,17 +195,15 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     return toolbar;
   }
 
-  private ProtectionDelegate getProtection() {
-    if (protection == null) {
-      protection = new ProtectionDelegate(this);
-    }
-    return protection;
-  }
-
   @Override
   protected void onPause() {
     super.onPause();
-    getProtection().handleOnPause(pwDialog);
+    MyApplication app = MyApplication.getInstance();
+    if (app.isLocked() && pwDialog != null)
+      pwDialog.dismiss();
+    else {
+      app.setLastPause(this);
+    }
   }
 
   @Override
@@ -211,14 +213,19 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   @Override
-  @TargetApi(11)
   protected void onResume() {
     super.onResume();
     if (scheduledRestart) {
       scheduledRestart = false;
       recreateBackport();
     } else {
-      pwDialog = getProtection().hanldeOnResume(pwDialog);
+      MyApplication app = MyApplication.getInstance();
+      if (app.shouldLock(this)) {
+        if (pwDialog == null) {
+          pwDialog = DialogUtils.passwordDialog(this, false);
+        }
+        DialogUtils.showPasswordDialog(this, pwDialog, true, null);
+      }
     }
   }
 
@@ -293,12 +300,20 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   @Override
   public void onProgressUpdate(Object progress) {
-    getProtection().updateProgressDialog(progress);
+    FragmentManager m = getSupportFragmentManager();
+    ProgressDialogFragment f = ((ProgressDialogFragment) m.findFragmentByTag(PROGRESS_TAG));
+    if (f != null) {
+      if (progress instanceof Integer) {
+        f.setProgress((Integer) progress);
+      } else if (progress instanceof String) {
+        f.appendToMessage((String) progress);
+      }
+    }
   }
 
   @Override
   public void onCancelled() {
-    getProtection().removeAsyncTaskFragment(false);
+    removeAsyncTaskFragment(false);
   }
 
   protected boolean shouldKeepProgress(int taskId) {
@@ -307,7 +322,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   @Override
   public void onPostExecute(int taskId, Object o) {
-    getProtection().removeAsyncTaskFragment(shouldKeepProgress(taskId));
+    removeAsyncTaskFragment(shouldKeepProgress(taskId));
     switch (taskId) {
       case TaskExecutionFragment.TASK_DELETE_TRANSACTION:
       case TaskExecutionFragment.TASK_DELETE_ACCOUNT:
@@ -366,7 +381,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     FragmentManager m = getSupportFragmentManager();
     FragmentTransaction t = m.beginTransaction();
     t.remove(m.findFragmentByTag(SAVE_TAG));
-    t.remove(m.findFragmentByTag(ProtectionDelegate.PROGRESS_TAG));
+    t.remove(m.findFragmentByTag(PROGRESS_TAG));
     t.commitAllowingStateLoss();
   }
 
@@ -381,14 +396,68 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
    */
   public <T> void startTaskExecution(int taskId, T[] objectIds, Serializable extra,
                                      int progressMessage) {
-    getProtection().startTaskExecution(taskId, objectIds, extra, progressMessage);
+    FragmentManager m = getSupportFragmentManager();
+    if (m.findFragmentByTag(ASYNC_TAG) != null) {
+      showTaskNotFinishedWarning();
+    } else {
+      //noinspection AndroidLintCommitTransaction
+      FragmentTransaction ft = m.beginTransaction()
+          .add(TaskExecutionFragment.newInstance(
+              taskId,
+              objectIds, extra),
+              ASYNC_TAG);
+      if (progressMessage != 0) {
+        ft.add(ProgressDialogFragment.newInstance(progressMessage), PROGRESS_TAG);
+      }
+      ft.commit();
+    }
+  }
+
+  private void showTaskNotFinishedWarning() {
+    Toast.makeText(getBaseContext(),
+        "Previous task still executing, please try again later",
+        Toast.LENGTH_LONG)
+        .show();
+  }
+
+  public void startTaskExecution(int taskId, Bundle extras, int progressMessage) {
+    FragmentManager m = getSupportFragmentManager();
+    if (m.findFragmentByTag(ASYNC_TAG) != null) {
+      showTaskNotFinishedWarning();
+    } else {
+      //noinspection AndroidLintCommitTransaction
+      FragmentTransaction ft = m.beginTransaction()
+          .add(TaskExecutionFragment.newInstanceWithBundle(extras, taskId),
+              ASYNC_TAG);
+      if (progressMessage != 0) {
+        ft.add(ProgressDialogFragment.newInstance(progressMessage), PROGRESS_TAG);
+      }
+      ft.commit();
+    }
+  }
+
+  private void removeAsyncTaskFragment(boolean keepProgress) {
+    FragmentManager m = getSupportFragmentManager();
+    FragmentTransaction t = m.beginTransaction();
+    ProgressDialogFragment f = ((ProgressDialogFragment) m.findFragmentByTag(PROGRESS_TAG));
+    if (f != null) {
+      if (keepProgress) {
+        f.onTaskCompleted();
+      } else {
+        t.remove(f);
+      }
+    }
+    t.remove(m.findFragmentByTag(ASYNC_TAG));
+    t.commitAllowingStateLoss();
+    //we might want to call a new task immediately after executing the last one
+    m.executePendingTransactions();
   }
 
   public void startDbWriteTask(boolean returnSequenceCount) {
     getSupportFragmentManager().beginTransaction()
         .add(DbWriteFragment.newInstance(returnSequenceCount), SAVE_TAG)
         .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_saving),
-            ProtectionDelegate.PROGRESS_TAG)
+            PROGRESS_TAG)
         .commitAllowingStateLoss();
   }
 
@@ -542,9 +611,9 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   protected void doRestore(Bundle args) {
     getSupportFragmentManager()
         .beginTransaction()
-        .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_RESTORE), ProtectionDelegate.ASYNC_TAG)
+        .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_RESTORE), ASYNC_TAG)
         .add(ProgressDialogFragment.newInstance(R.string.pref_restore_title),
-            ProtectionDelegate.PROGRESS_TAG).commit();
+            PROGRESS_TAG).commit();
   }
 
   @Override

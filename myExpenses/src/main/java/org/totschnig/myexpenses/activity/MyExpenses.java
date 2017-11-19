@@ -737,9 +737,8 @@ public class MyExpenses extends LaunchActivity implements
           args.putSparseParcelableArray(TransactionList.KEY_FILTER, tl.getFilterCriteria());
           args.putLong(KEY_ROWID, mAccountId);
           getSupportFragmentManager().beginTransaction()
-              .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_PRINT),
-                  ProtectionDelegate.ASYNC_TAG)
-              .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_printing), ProtectionDelegate.PROGRESS_TAG)
+              .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_PRINT), ASYNC_TAG)
+              .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_printing), PROGRESS_TAG)
               .commit();
         }
         break;
@@ -1211,9 +1210,9 @@ public class MyExpenses extends LaunchActivity implements
             getCurrentFragment().getFilterCriteria());
         getSupportFragmentManager().beginTransaction()
             .add(TaskExecutionFragment.newInstanceWithBundle(args, TaskExecutionFragment.TASK_EXPORT),
-                ProtectionDelegate.ASYNC_TAG)
+                ASYNC_TAG)
             .add(ProgressDialogFragment.newInstance(
-                R.string.pref_category_title_export, 0, ProgressDialog.STYLE_SPINNER, true), ProtectionDelegate.PROGRESS_TAG)
+                R.string.pref_category_title_export, 0, ProgressDialog.STYLE_SPINNER, true), PROGRESS_TAG)
             .commit();
         break;
       case R.id.BALANCE_COMMAND_DO:

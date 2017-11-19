@@ -53,7 +53,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.ContextThemeWrapper;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -84,7 +83,6 @@ import org.totschnig.myexpenses.adapter.RecurrenceAdapter;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
-import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
 import org.totschnig.myexpenses.fragment.PlanMonthFragment;
 import org.totschnig.myexpenses.fragment.SplitPartList;
@@ -101,7 +99,9 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.preference.PreferenceUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.task.LoadAutoFillDataTask.AutoFillData;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.AmountEditText;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
@@ -148,7 +148,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERE
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
@@ -156,9 +155,11 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT;
+import static org.totschnig.myexpenses.task.BuildTransactionTask.KEY_EXTRAS;
+import static org.totschnig.myexpenses.task.LoadAutoFillDataTask.KEY_LOAD_ACCOUNT;
+import static org.totschnig.myexpenses.task.LoadAutoFillDataTask.KEY_LOAD_AMOUNT;
+import static org.totschnig.myexpenses.task.LoadAutoFillDataTask.KEY_LOAD_CATEGORY;
+import static org.totschnig.myexpenses.task.LoadAutoFillDataTask.KEY_LOAD_COMMENT;
 
 /**
  * Activity for editing a transaction
@@ -313,13 +314,7 @@ public class ExpenseEdit extends AmountActivity implements
       String[] selectArgs = {search + "%", "% " + search + "%", "%." + search + "%"};
       return getContentResolver().query(
           TransactionProvider.PAYEES_URI,
-          new String[]{
-              KEY_ROWID,
-              KEY_PAYEE_NAME,
-              "(SELECT max(" + KEY_ROWID
-                  + ") FROM " + TABLE_TRANSACTIONS
-                  + " WHERE " + WHERE_NOT_SPLIT + " AND "
-                  + KEY_PAYEEID + " = " + TABLE_PAYEES + "." + KEY_ROWID + ")"},
+          new String[]{KEY_ROWID, KEY_PAYEE_NAME},
           selection, selectArgs, null);
     });
 
@@ -328,30 +323,29 @@ public class ExpenseEdit extends AmountActivity implements
     mPayeeText.setOnItemClickListener((parent, view, position, id) -> {
       Cursor c = (Cursor) mPayeeAdapter.getItem(position);
       if (c.moveToPosition(position)) {
-        mTransaction.updatePayeeWithId(c.getString(1), c.getLong(0));
+        long payeeId = c.getLong(0);
+        mTransaction.updatePayeeWithId(c.getString(1), payeeId);
         if (mNewInstance && mTransaction != null &&
             !(mTransaction instanceof Template || mTransaction instanceof SplitTransaction)) {
           //moveToPosition should not be necessary,
           //but has been reported to not be positioned correctly on samsung GT-I8190N
-          if (!c.isNull(2)) {
-            if (PrefKey.AUTO_FILL_HINT_SHOWN.getBoolean(false)) {
-              if (PrefKey.AUTO_FILL.getBoolean(true)) {
-                startAutoFill(c.getLong(2));
-              }
-            } else {
-              Bundle b = new Bundle();
-              b.putLong(KEY_ROWID, c.getLong(2));
-              b.putInt(ConfirmationDialogFragment.KEY_TITLE, R.string.dialog_title_information);
-              b.putString(ConfirmationDialogFragment.KEY_MESSAGE, getString(R.string
-                  .hint_auto_fill));
-              b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.AUTO_FILL_COMMAND);
-              b.putString(ConfirmationDialogFragment.KEY_PREFKEY, PrefKey
-                  .AUTO_FILL_HINT_SHOWN.getKey());
-              b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.yes);
-              b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, R.string.no);
-              ConfirmationDialogFragment.newInstance(b).show(supportFragmentManager,
-                  "AUTO_FILL_HINT");
+          if (PrefKey.AUTO_FILL_HINT_SHOWN.getBoolean(false)) {
+            if (PreferenceUtils.shouldStartAutoFill()) {
+              startAutoFill(payeeId, false);
             }
+          } else {
+            Bundle b = new Bundle();
+            b.putLong(KEY_ROWID, payeeId);
+            b.putInt(ConfirmationDialogFragment.KEY_TITLE, R.string.dialog_title_information);
+            b.putString(ConfirmationDialogFragment.KEY_MESSAGE, getString(R.string
+                .hint_auto_fill));
+            b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.AUTO_FILL_COMMAND);
+            b.putString(ConfirmationDialogFragment.KEY_PREFKEY, PrefKey
+                .AUTO_FILL_HINT_SHOWN.getKey());
+            b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.yes);
+            b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, R.string.no);
+            ConfirmationDialogFragment.newInstance(b).show(supportFragmentManager,
+                "AUTO_FILL_HINT");
           }
         }
       }
@@ -446,7 +440,7 @@ public class ExpenseEdit extends AmountActivity implements
           taskId = TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE;
         }
       }
-      if (supportFragmentManager.findFragmentByTag(ProtectionDelegate.ASYNC_TAG) == null) {
+      if (supportFragmentManager.findFragmentByTag(ASYNC_TAG) == null) {
         startTaskExecution(
             taskId,
             new Long[]{objectId},
@@ -495,14 +489,9 @@ public class ExpenseEdit extends AmountActivity implements
       Long accountId = getIntent().getLongExtra(KEY_ACCOUNTID, 0);
       if (!mSavedInstance && Intent.ACTION_INSERT.equals(getIntent().getAction()) && extras != null) {
         Bundle args = new Bundle(1);
-        args.putBundle(TaskExecutionFragment.KEY_EXTRAS, extras);
-        getSupportFragmentManager().beginTransaction()
-            .add(TaskExecutionFragment.newInstanceWithBundle(args,
-                TaskExecutionFragment.TASK_BUILD_TRANSACTION_FROM_INTENT_EXTRAS),
-                ProtectionDelegate.ASYNC_TAG)
-            .add(ProgressDialogFragment.newInstance(R.string.progress_dialog_loading),
-                ProtectionDelegate.PROGRESS_TAG)
-            .commit();
+        args.putBundle(KEY_EXTRAS, extras);
+        startTaskExecution(TaskExecutionFragment.TASK_BUILD_TRANSACTION_FROM_INTENT_EXTRAS, args,
+            R.string.progress_dialog_loading);
       } else {
         if (isNewTemplate) {
           mTransaction = Template.getTypedNewInstance(mOperationType, accountId, true, parentId != 0 ? parentId : null);
@@ -1086,7 +1075,7 @@ public class ExpenseEdit extends AmountActivity implements
     if (mNewInstance) {
       if (mIsMainTemplate) {
         mTitleText.requestFocus();
-      } else if (mIsMainTransactionOrTemplate && PrefKey.AUTO_FILL.getBoolean(false)) {
+      } else if (mIsMainTransactionOrTemplate && PreferenceUtils.shouldStartAutoFill()) {
         mPayeeText.requestFocus();
       }
     }
@@ -1526,25 +1515,25 @@ public class ExpenseEdit extends AmountActivity implements
     super.onPostExecute(taskId, o);
     boolean success;
     switch (taskId) {
-      case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2:
+      case TaskExecutionFragment.TASK_LOAD_AUTO_FILL_DATA:
         if (o != null) {
-          Transaction t = (Transaction) o;
-          if (mCatId == null) {
-            mCatId = t.getCatId();
-            mLabel = t.getLabel();
+          AutoFillData data = (AutoFillData) o;
+          if (mCatId == null && data.categoryId() != null) {
+            mCatId = data.categoryId();
+            mLabel = data.label();
             setCategoryButton();
           }
-          if (TextUtils.isEmpty(mCommentText.getText().toString())) {
-            mCommentText.setText(t.getComment());
+          if (TextUtils.isEmpty(mCommentText.getText().toString()) && data.comment() != null) {
+            mCommentText.setText(data.comment());
           }
-          if (TextUtils.isEmpty(mAmountText.getText().toString())) {
-            fillAmount(t.getAmount().getAmountMajor());
+          if (TextUtils.isEmpty(mAmountText.getText().toString()) && data.amount() != null) {
+            fillAmount(data.amount().getAmountMajor());
             configureType();
           }
           if (!didUserSetAccount && getIntent().getBooleanExtra(KEY_AUTOFILL_MAY_SET_ACCOUNT, false)
-              && mAccounts != null) {
+              && mAccounts != null && data.accountId() != null) {
             for (int i = 0; i < mAccounts.length; i++) {
-              if (mAccounts[i].getId().equals(t.getAccountId())) {
+              if (mAccounts[i].getId().equals(data.accountId())) {
                 mAccountSpinner.setSelection(i);
                 break;
               }
@@ -2161,28 +2150,41 @@ public class ExpenseEdit extends AmountActivity implements
   public void onPositive(Bundle args) {
     switch (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
       case R.id.AUTO_FILL_COMMAND:
-        startAutoFill(args.getLong(KEY_ROWID));
-        PrefKey.AUTO_FILL.putBoolean(true);
+        startAutoFill(args.getLong(KEY_ROWID), true);
+        PreferenceUtils.enableAutoFill();
         break;
       default:
         super.onPositive(args);
     }
   }
 
-  private void startAutoFill(long id) {
-    startTaskExecution(
-        TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2,
-        new Long[]{id},
-        null,
-        R.string.progress_dialog_loading);
+  /**
+   *
+   * @param id id of Payee/Payer for whom data should be loaded
+   * @param overridePreferences if true data is loaded irrespective of what is set in preferences
+   */
+  private void startAutoFill(long id, boolean overridePreferences) {
+    Bundle extras = new Bundle(5);
+    extras.putLong(KEY_ROWID, id);
+    String autoFillAccountFromPreference = PrefKey.AUTO_FILL_ACCOUNT.getString("never");
+    boolean autoFillAccountFromExtra = getIntent().getBooleanExtra(KEY_AUTOFILL_MAY_SET_ACCOUNT, false);
+    boolean mayLoadAccount = overridePreferences && autoFillAccountFromExtra ||
+        autoFillAccountFromPreference.equals("always") ||
+        (autoFillAccountFromPreference.equals("aggregate") && autoFillAccountFromExtra);
+
+    extras.putBoolean(KEY_LOAD_AMOUNT, overridePreferences || PrefKey.AUTO_FILL_AMOUNT.getBoolean(false));
+    extras.putBoolean(KEY_LOAD_CATEGORY, overridePreferences || PrefKey.AUTO_FILL_CATEGORY.getBoolean(false));
+    extras.putBoolean(KEY_LOAD_COMMENT, overridePreferences || PrefKey.AUTO_FILL_COMMENT.getBoolean(false));
+    extras.putBoolean(KEY_LOAD_ACCOUNT, mayLoadAccount);
+    startTaskExecution(TaskExecutionFragment.TASK_LOAD_AUTO_FILL_DATA, extras, R.string.progress_dialog_loading);
   }
 
   @Override
-  public void onDismissOrCancel(Bundle args) {
+  public void onNegative(Bundle args) {
     if (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE) == R.id.AUTO_FILL_COMMAND) {
-      PrefKey.AUTO_FILL.putBoolean(false);
+      PreferenceUtils.disableAutoFill();
     } else {
-      super.onDismissOrCancel(args);
+      super.onNegative(args);
     }
   }
 
@@ -2201,12 +2203,9 @@ public class ExpenseEdit extends AmountActivity implements
   @SuppressLint("NewApi")
   public void showPicturePopupMenu(final View v) {
     PopupMenu popup = new PopupMenu(this, v);
-    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-      @Override
-      public boolean onMenuItemClick(MenuItem item) {
-        handlePicturePopupMenuClick(item.getItemId());
-        return true;
-      }
+    popup.setOnMenuItemClickListener(item -> {
+      handlePicturePopupMenuClick(item.getItemId());
+      return true;
     });
     popup.inflate(R.menu.picture_popup);
     popup.show();

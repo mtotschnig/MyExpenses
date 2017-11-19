@@ -82,6 +82,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORI
  * they are invoked after the Activity's and Fragment's onDestroy() method
  * have been called.
  */
+@Deprecated
 public class GenericTask<T> extends AsyncTask<T, Void, Object> {
   private final TaskExecutionFragment taskExecutionFragment;
   private int mTaskId;

@@ -9,7 +9,6 @@ import android.text.TextUtils;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ProtectionDelegate;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.util.CategoryTree;
 import org.totschnig.myexpenses.util.Result;
@@ -20,6 +19,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Locale;
+
+import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.PROGRESS_TAG;
 
 public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
 
@@ -140,7 +141,7 @@ public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
     if (this.taskExecutionFragment.mCallbacks != null) {
       if (phaseChangedP) {
         ProgressDialogFragment f = (ProgressDialogFragment) ((FragmentActivity) this.taskExecutionFragment.mCallbacks)
-        .getSupportFragmentManager().findFragmentByTag(ProtectionDelegate.PROGRESS_TAG);
+        .getSupportFragmentManager().findFragmentByTag(PROGRESS_TAG);
         if (f!=null) {
           f.setMax(getMax());
           f.setTitle(getTitle());

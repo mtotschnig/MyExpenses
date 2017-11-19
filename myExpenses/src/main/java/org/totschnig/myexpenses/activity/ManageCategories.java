@@ -262,9 +262,9 @@ public class ManageCategories extends ProtectedFragmentActivity implements
     getSupportFragmentManager()
         .beginTransaction()
         .add(TaskExecutionFragment.newInstanceGrisbiImport(false, null, true, false),
-            ProtectionDelegate.ASYNC_TAG)
+            ASYNC_TAG)
         .add(ProgressDialogFragment.newInstance(
-            0, 0, ProgressDialog.STYLE_HORIZONTAL, false), ProtectionDelegate.PROGRESS_TAG)
+            0, 0, ProgressDialog.STYLE_HORIZONTAL, false), PROGRESS_TAG)
         .commit();
 
   }
