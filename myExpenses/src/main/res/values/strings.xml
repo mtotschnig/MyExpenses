@@ -278,7 +278,7 @@
     <string name="pm_type_neutral">Neutral</string>
     <string name="pref_app_dir_title">Folder for backups and exports</string>
     <string name="pref_auto_fill_title">Autofill transactions</string>
-    <string name="pref_auto_fill_summary">Fill in amount, category and comment from last transaction for same payee/payer</string>
+    <string name="pref_auto_fill_summary">Fill in data from last transaction for same payee/payer</string>
     <string name="pref_backup_summary">Create a backup of database and preferences.</string>
     <string name="pref_sort_order_usages">Count of usages</string>
     <string name="pref_category_title_advanced">Advanced</string>
@@ -496,7 +496,7 @@
     <string name="comparison_operator_date_after">after</string>
     <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Today\'s special offer with AppGratis: Premium features unlocked for free.</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Purchasing failed or cancelled.</string>
-    <string name="hint_auto_fill">Should amount, category and comment be filled in automatically from last transaction for same payee/payer? You can always change this behaviour from the settings.</string>
+    <string name="hint_auto_fill">Should data be filled in automatically from last transaction for same payee/payer? You can always change this behaviour from the settings.</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="hint_template_click">A short tap on an entry in this list will instantiate the template and either save it immediately or enter its editing form where you can modify it before saving. You can always access both actions through a long tap, and change the default in the settings.</string>
@@ -702,4 +702,7 @@
     <string name="menu_sort_direction">Sort direction</string>
     <string name="sort_direction_ascending">ascending</string>
     <string name="sort_direction_descending">descending</string>
+    <string name="never">never</string>
+    <string name="always">always</string>
+    <string name="auto_fill_account_from_aggregate_only">Only when started from aggregate account.</string>
 </resources>

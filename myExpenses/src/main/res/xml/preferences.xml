@@ -79,11 +79,28 @@
                 android:title="@string/menu_create_split"/>
         </PreferenceScreen>
 
-        <SwitchPreferenceCompat
-            android:defaultValue="false"
+        <PreferenceScreen
             android:key="@string/pref_auto_fill_key"
-            android:summary="@string/pref_auto_fill_summary"
-            android:title="@string/pref_auto_fill_title"/>
+            android:title="@string/pref_auto_fill_title">
+            <Preference
+                style="?preferenceInformationStyle"
+                android:summary="@string/pref_auto_fill_summary"/>
+            <SwitchPreferenceCompat
+                android:key="@string/pref_auto_fill_amount_key"
+                android:title="@string/amount"/>
+            <SwitchPreferenceCompat
+                android:key="@string/pref_auto_fill_category_key"
+                android:title="@string/category"/>
+            <SwitchPreferenceCompat
+                android:key="@string/pref_auto_fill_comment_key"
+                android:title="@string/comment"/>
+            <org.totschnig.myexpenses.preference.ListPreferenceShowSummary
+                android:entries="@array/pref_auto_fill_account_entries"
+                android:entryValues="@array/pref_auto_fill_account_values"
+                android:key="@string/pref_auto_fill_account_key"
+                android:title="@string/account"/>
+        </PreferenceScreen>
+
         <org.totschnig.myexpenses.preference.ListPreferenceShowSummary
             android:entries="@array/pref_template_click_default_entries"
             android:entryValues="@array/pref_template_click_default_values"

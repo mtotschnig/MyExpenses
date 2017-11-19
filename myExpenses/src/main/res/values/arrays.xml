@@ -561,4 +561,16 @@
         <item>@string/date_format_hour</item>
         <item>@string/date_format_minute</item>
     </string-array>
+
+    <string-array name="pref_auto_fill_account_entries">
+        <item>never</item>
+        <item>aggregate</item>
+        <item>always</item>
+    </string-array>
+
+    <string-array name="pref_auto_fill_account_values">
+        <item>@string/never</item>
+        <item>@string/auto_fill_account_from_aggregate_only</item>
+        <item>@string/always</item>
+    </string-array>
 </resources>
