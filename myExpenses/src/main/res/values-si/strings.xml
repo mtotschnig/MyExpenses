@@ -152,7 +152,7 @@
   <string name="menu_save_and_new">සුරකින්න සහ නව </string>
   <string name="menu_settings">කට්ටල අංග </string>
   <string name="menu_share">යහළුවකුට පවසන්න </string>
-  <string name="method">ක්‍රමවේදය </string>
+  <string name="method">ගෙවීමේ ක්රමය</string>
   <string name="no_amount_given">ඔබ කිසිදු අගයක් ඇතුලත් කර නැත </string>
   <string name="no_app_handling_email_available"> නියැලුම් පරිහරණය කිරීමේ විද්‍යුත් ලිපිනයක් නොමැත.</string>
   <string name="no_app_handling_ftp_available"> ඇප් පාලනය කල නොහැකි ftp තිබේ.පිහිටුවන්න <i>ftp සමග යවන්න</i>?</string>

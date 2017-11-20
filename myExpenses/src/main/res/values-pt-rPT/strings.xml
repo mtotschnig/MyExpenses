@@ -200,7 +200,7 @@
   <string name="menu_settings">Definições</string>
   <string name="menu_share">Recomendar a um amigo</string>
   <string name="menu_split_transaction">Dividir</string>
-  <string name="method">Método</string>
+  <string name="method">Método de pagamento</string>
   <string name="no_amount_given">Não introduziu qualquer quantia.</string>
   <string name="no_app_handling_email_available">Nenhuma aplicação para envio de email disponível.</string>
   <string name="no_app_handling_ftp_available">Nenhuma aplicação para ligações FTP disponível. Instalar <i>Send With FTP</i>?</string>
@@ -260,7 +260,6 @@
   <string name="pm_type_neutral">Neutro</string>
   <string name="pref_app_dir_title">Pasta para cópias de segurança e exportações</string>
   <string name="pref_auto_fill_title">Preencher transações automaticamente</string>
-  <string name="pref_auto_fill_summary">Preencher quantia, categoria e comentário da última transação para o mesmo beneficiário/pagador</string>
   <string name="pref_backup_summary">Criar uma cópia de segurança da base de dados e das definições.</string>
   <string name="pref_sort_order_usages">Número de utilizações</string>
   <string name="pref_category_title_advanced">Avançado</string>
@@ -477,7 +476,6 @@
   <string name="comparison_operator_date_after">depois</string>
   <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Promoção especial de hoje com AppGratis: Funcionalidades premium desbloqueadas gratuitamente.</string>
   <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">A compra falhou ou foi cancelada.</string>
-  <string name="hint_auto_fill">Devem a quantia, categoria e comentário ser preenchidos automaticamente a partir da última transação para o mesmo beneficiário/pagador? Pode sempre alterar este comportamento nas definições.</string>
   <string name="yes">Sim</string>
   <string name="no">Não</string>
   <string name="hint_template_click">Um toque curto numa entrada nesta lista irá aplicar o modelo e guarda-lo imediatamente ou entrar no respetivo formulário de edição onde pode modifica-lo antes de guardar. Pode sempre aceder a ambas as ações através de um toque longo, e alterar a ação predefinida nas definições.</string>

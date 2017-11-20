@@ -203,7 +203,7 @@
   <string name="menu_settings">Configuraciones</string>
   <string name="menu_share">Contarle a un amigo/a</string>
   <string name="menu_split_transaction">Transformarlo en una división</string>
-  <string name="method">Método</string>
+  <string name="method">Método de pago</string>
   <string name="no_amount_given">No ha introducido ningún importe.</string>
   <string name="no_app_handling_email_available">No se ha encontrado una aplicación para enviar un correo electrónico.</string>
   <string name="no_app_handling_ftp_available">No se ha encontrado una aplicación para FTP. ¿Desea instalar <i>Enviar con FTP</i>?</string>
@@ -263,7 +263,6 @@
   <string name="pm_type_neutral">Neutral</string>
   <string name="pref_app_dir_title">Carpeta para copias de seguridad y exportaciones</string>
   <string name="pref_auto_fill_title"> Autorrelleno de transacciones</string>
-  <string name="pref_auto_fill_summary">Rellenar cantidad, categoría y comentario de la última transferencia para el mismo acreedor/ordenante</string>
   <string name="pref_backup_summary">Crear una copia de seguridad de la base de datos y las configuraciones.</string>
   <string name="pref_sort_order_usages">Frecuencia de utilización</string>
   <string name="pref_category_title_advanced">Avanzado</string>
@@ -481,7 +480,6 @@
   <string name="comparison_operator_date_after">después</string>
   <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Oferta especial de hoy con AppGratis: características Premium desbloqueadas totalmente gratis.</string>
   <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Compra fallida o cancelada.</string>
-  <string name="hint_auto_fill">¿Debería la cantidad, categoría y comentario rellenarse automáticamente a partir de la última transacción para el mismo acreedor/ordenante? Siempre puede cambiar esta característica desde ajustes.</string>
   <string name="yes">Sí</string>
   <string name="no">No</string>
   <string name="hint_template_click">Un toque corto en una entrada de esta lista creará una instancia de la plantilla, donde podrá guardarla inmediatamente o acceder a su modificación antes de dicho guardado. Siempre podrá acceder a ambas acciones a través de un toque largo y cambiar la opción predeterminada desde el menú de configuración.</string>

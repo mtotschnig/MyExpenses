@@ -163,7 +163,7 @@
   <string name="menu_search">ស្វែងរក</string>
   <string name="menu_settings">ការកំណត់</string>
   <string name="menu_share">ប្រាប់​មិត្តម្នាក់</string>
-  <string name="method">វិធីសាស្ត្រ</string>
+  <string name="method">វិធី​សា​ស្រ្ត​ទូទាត់</string>
   <string name="no_amount_given">អ្នកមិនបានបញ្ចូលចំនួនទឹកប្រាក់ណាមួយឡើយ។</string>
   <string name="no_app_handling_email_available">គ្មាន​កម្មវិធី​ដំណើការ​អ៊ីម៉ែល​ទេ</string>
   <string name="no_app_handling_ftp_available">គ្មាន​កម្មវិធី​សម្រាប់ ftp ទេ។ សូម​បញ្ចូល​កម្មវិធី <i>Send With FTP</i>?</string>

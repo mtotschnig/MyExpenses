@@ -152,7 +152,7 @@
   <string name="menu_save">Mentés</string>
   <string name="menu_save_and_new">Mentés és új</string>
   <string name="menu_settings">Beállítások</string>
-  <string name="method">Mód</string>
+  <string name="method">Fizetési mód</string>
   <string name="no_amount_given">Nem adott meg értéket.</string>
   <string name="no_app_handling_email_available">Nincs elérhető email kezelő alkalmazás.</string>
   <string name="no_app_handling_ftp_available">Nincs elérhető FTP kliens alkalmazás. Telepíti a <i>Send With FTP</i> programot áruházból?</string>

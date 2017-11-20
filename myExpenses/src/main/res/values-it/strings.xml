@@ -201,7 +201,7 @@
   <string name="menu_settings">Impostazioni</string>
   <string name="menu_share">Dillo a un amico</string>
   <string name="menu_split_transaction">Frazionare</string>
-  <string name="method">Modo</string>
+  <string name="method">Metodo di pagamento</string>
   <string name="no_amount_given">Non hai scritto nessuno importo.</string>
   <string name="no_app_handling_email_available">Nessuna applicazione disponibile per e-mail</string>
   <string name="no_app_handling_ftp_available">Nessuna applicazione per ftp disponibile. Installare <i>Invia via FTP</i>?</string>
@@ -261,7 +261,6 @@
   <string name="pm_type_neutral">Neutro</string>
   <string name="pref_app_dir_title">Cartella per backup ed esportazioni</string>
   <string name="pref_auto_fill_title">Operazioni di riempimento automatico</string>
-  <string name="pref_auto_fill_summary">Riempimento in quantità, categoria e commento da ultima operazione stesso beneficiario/ordinante</string>
   <string name="pref_backup_summary">Crea un backup del database e delle preferenze sulla scheda SD.</string>
   <string name="pref_sort_order_usages">Frequenza d\'uso</string>
   <string name="pref_category_title_advanced">Avanzata</string>
@@ -295,7 +294,7 @@
   <string name="pref_manage_categories_summary">Aggiungere, modificare, eliminare categorie.</string>
   <string name="pref_manage_categories_title">Categorie</string>
   <string name="pref_manage_methods_summary">Creare e modificare modalità di pagamento e associarle a tipi di conto.</string>
-  <string name="pref_manage_methods_title">Modalità di pagamento</string>
+  <string name="pref_manage_methods_title">Metodi di pagamento</string>
   <string name="pref_manage_parties_summary">Aggiungere, modificare, cancellare beneficiari.</string>
   <string name="pref_manage_parties_title">Beneficiari</string>
   <string name="pref_manage_sync_backends_title">Backend di sincronizzazione</string>
@@ -479,7 +478,6 @@
   <string name="comparison_operator_date_after">dopo</string>
   <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Offerta speciale di oggi con AppGratis: caratteristiche Premium sbloccate gratuitamente.</string>
   <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Acquisto non riuscito o annullato.</string>
-  <string name="hint_auto_fill">Importo, categoria e commento dovrebbero essere compilati automaticamente dall\'ultima operazione dello stesso beneficiario/ordinante? È sempre possibile modificare questo comportamento dalle impostazioni.</string>
   <string name="yes">Sì</string>
   <string name="no">No</string>
   <string name="hint_template_click">Un breve tocco su una voce in questa lista istanzierà il modello e verrà subito salvato altrimenti immettere il relativo modulo di modifica dove è possibile modificarlo prima di salvare. È sempre possibile accedere ad entrambe le azioni attraverso un tocco prolungato e modificare l\'impostazione predefinita nelle impostazioni.</string>

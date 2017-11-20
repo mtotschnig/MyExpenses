@@ -202,7 +202,7 @@
   <string name="menu_settings">設定</string>
   <string name="menu_share">友達に教える</string>
   <string name="menu_split_transaction">変換して分割</string>
-  <string name="method">方法</string>
+  <string name="method">支払方法</string>
   <string name="no_amount_given">金額が入力されていません。</string>
   <string name="no_app_handling_email_available">利用可能なメール アプリがありません。</string>
   <string name="no_app_handling_ftp_available">利用可能な ftp アプリがありません。<i>Send With FTP</i> をインストールしますか?</string>
@@ -260,7 +260,6 @@
   <string name="pm_type_neutral">中性</string>
   <string name="pref_app_dir_title">バックアップとエクスポート先のフォルダー</string>
   <string name="pref_auto_fill_title">取引の自動入力</string>
-  <string name="pref_auto_fill_summary">同じ受取人/支払人の最後の取引から、金額、分類、およびコメントを入力します</string>
   <string name="pref_backup_summary">データベースとプリファレンスのバックアップを作成します。</string>
   <string name="pref_sort_order_usages">使用件数</string>
   <string name="pref_category_title_advanced">高度な設定</string>
@@ -472,7 +471,6 @@
   <string name="comparison_operator_date_after">以降</string>
   <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">AppGratis と、今日のスペシャルオファー: 無料のプレミアム機能のロック解除。</string>
   <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">購入が失敗またはキャンセルされました。</string>
-  <string name="hint_auto_fill">金額、分類、およびコメントを、同じ受取人/支払人に対する最後のトランザクションから自動的に入力しますか? いつでも設定からこの動作を変更することができます。</string>
   <string name="yes">はい</string>
   <string name="no">いいえ</string>
   <string name="hint_template_click">このリストのエントリで短くタップすると、テンプレートをインスタンス化して、それをすぐに保存したり、あるいは保存する前にその編集フォームの入力項目に入力することができます。長くタップして、いつでも両方のアクションにアクセスすることができます。設定でデフォルトを変更することができます。</string>

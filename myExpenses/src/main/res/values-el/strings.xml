@@ -200,7 +200,7 @@
   <string name="menu_settings">Ρυθμίσεις</string>
   <string name="menu_share">Πες το σε ένα φίλο</string>
   <string name="menu_split_transaction">Μετασχηματισμός για να διαιρεθεί</string>
-  <string name="method">Μέθοδος</string>
+  <string name="method">Μέθοδος πληρωμής</string>
   <string name="no_amount_given">Δεν έγινε καμία εισαγωγή οποιουδήποτε ποσού.</string>
   <string name="no_app_handling_email_available">Δεν υπάρχει app διαθέσιμο για χειρισμό email.</string>
   <string name="no_app_handling_ftp_available">Δεν είναι διαθέσιμο app για χειρισμό ftp. Εγκαταστήσετε <i>Αποστολή με FTP</i>;</string>
@@ -260,7 +260,6 @@
   <string name="pm_type_neutral">Ουδέτερο</string>
   <string name="pref_app_dir_title">Φάκελος για την δημιουργία αντιγράφων ασφαλείας και εξαγωγές</string>
   <string name="pref_auto_fill_title">Αυτόματη συμπλήρωση συναλλαγών</string>
-  <string name="pref_auto_fill_summary">Συμπλήρωση του ποσού, της κατηγορίας και του σχολίου από την τελευταία συναλλαγή για τον ίδιο δικαιούχο/πληρωτή</string>
   <string name="pref_backup_summary">Δημιουργήστε ένα αντίγραφο ασφαλείας της βάσης δεδομένων και προτιμήσεις για την sdcard.</string>
   <string name="pref_sort_order_usages">Άθροισμα χρήσεων</string>
   <string name="pref_category_title_advanced">Προχωρημένα</string>
@@ -475,7 +474,6 @@
   <string name="comparison_operator_date_after">μετά από</string>
   <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Η σημερινή ειδική προσφορά του AppGratis: Τα αναβαθμισμένα χαρακτηριστικά ξεκλειδωμένα δωρεάν.</string>
   <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Η αγορά απέτυχε ή ακυρώθηκε.</string>
-  <string name="hint_auto_fill">Θα πρέπει το ποσό, η κατηγορία και το σχόλιο να συμπληρώνεται αυτόματα από την τελευταία συναλλαγή για ίδιο δικαιούχο/πληρωτή; Μπορείτε πάντα να αλλάξετε αυτή τη συμπεριφορά από τις ρυθμίσεις.</string>
   <string name="yes">Ναι</string>
   <string name="no">Όχι</string>
   <string name="hint_template_click">Ένα σύντομο πάτημα σε μια καταχώρηση στον κατάλογο αυτό θα επισημάνει το πρότυπο και είτε αποθηκεύστε το αμέσως ή εισέλθετε στην φόρμα επεξεργασίας, όπου μπορείτε να το τροποποιήσετε πριν από την αποθήκευση. Μπορείτε πάντα να έχετε πρόσβαση και τις δύο δράσεις με ένα παρατεταμένο πάτημα, και να αλλάξετε το προεπιλεγμένο στις ρυθμίσεις.</string>

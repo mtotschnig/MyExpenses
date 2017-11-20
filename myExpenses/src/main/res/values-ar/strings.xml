@@ -163,7 +163,7 @@
   <string name="menu_save_and_new">حفظ وجديد</string>
   <string name="menu_settings">الاعدادات</string>
   <string name="menu_share">اخبر صديق</string>
-  <string name="method">طريقة</string>
+  <string name="method">طريقة الدفع او السداد</string>
   <string name="no_amount_given">لم تقم بإدخال قيمة.</string>
   <string name="no_app_handling_email_available">لا يوجد تطبيق للبريد الالكتروني.</string>
   <string name="no_app_handling_ftp_available">لا يوجد تطبيق لـ ftp. تثبيت <i>Send With FTP</i>؟</string>

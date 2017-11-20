@@ -184,7 +184,7 @@
   <string name="menu_settings">Indstillinger</string>
   <string name="menu_share">Fortæl en ven</string>
   <string name="menu_split_transaction">Opsplit</string>
-  <string name="method">Metode</string>
+  <string name="method">Betalingsmetode</string>
   <string name="no_amount_given">Du har ikke angivet noget beløb.</string>
   <string name="no_app_handling_email_available">Der findes ingen app til håndtering af e-mail.</string>
   <string name="no_app_handling_ftp_available">Der findes ingen app til håndtering af ftp. Installer <i>Send via FTP</i>?</string>
@@ -243,7 +243,6 @@
   <string name="pm_type_neutral">Neutral</string>
   <string name="pref_app_dir_title">Mappen til sikkerhedskopier og eksport</string>
   <string name="pref_auto_fill_title">AutoFyld</string>
-  <string name="pref_auto_fill_summary">Overtager beløb, kategori og kommentar fra sidste postering for den samme betalingsmodtager/betaler</string>
   <string name="pref_backup_summary">Opret en sikkerhedskopi af databasen og indstillingerne.</string>
   <string name="pref_category_title_advanced">Avanceret</string>
   <string name="pref_category_title_export">Eksporter</string>
@@ -442,7 +441,6 @@
   <string name="comparison_operator_date_after">efter</string>
   <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Dagens specielle tilbud med AppGratis: Premium funktioner er frigivet gratis.</string>
   <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Køb mislykkedes eller annulleret.</string>
-  <string name="hint_auto_fill">Skal beløb, kategori og kommentar overtages automatisk fra sidste postering for samme betalingsmodtager/betaler? Det kan altid ændres i indstillingerne.</string>
   <string name="yes">Ja</string>
   <string name="no">Nej</string>
   <string name="hint_template_click">Anvend en skabelon ved at vælge en ud af listen ved at trykke på den. Den gemmes med det samme eller du kan rediger den før den gemmes. Du kan altid få adgang til begge aktioner og ændre standard indstillingerne ved at trykke på den og holder trykt.</string>

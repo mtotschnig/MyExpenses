@@ -171,7 +171,7 @@
   <string name="menu_search">Traži</string>
   <string name="menu_settings">Postavke</string>
   <string name="menu_share">Preporuči prijatelju</string>
-  <string name="method">Način</string>
+  <string name="method">Način plaćanja</string>
   <string name="no_amount_given">Molimo unesi iznos</string>
   <string name="no_app_handling_email_available">Ne postoji e-mail za rad s aplikacijom.</string>
   <string name="no_app_handling_ftp_available">Ne postoji ftp za rad s aplikacijom. Instaliraj <i>Send With FTP</i>?</string>
@@ -232,7 +232,6 @@
   <string name="pm_type_neutral">Neutralno</string>
   <string name="pref_app_dir_title">Mapa za sigurnosne kopije i eksporte</string>
   <string name="pref_auto_fill_title">Automatski popuni transacije</string>
-  <string name="pref_auto_fill_summary">Unesi količinu, kategoriju i komentar od zadnje transakcije za istog platitelja / primaoca</string>
   <string name="pref_backup_summary">Kreiraj sigurnosnu kopiju baze podataka i preferencija.</string>
   <string name="pref_category_title_advanced">Napredno</string>
   <string name="pref_category_title_export">Eksportiraj</string>
@@ -423,7 +422,6 @@
   <string name="comparison_operator_between">između</string>
   <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Današnja posebna ponuda AppGratis-a: Besplatno otključne Premuim opcije.</string>
   <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Kupovina neuspjela ili otkazana.</string>
-  <string name="hint_auto_fill">Želite li da iznos, kategorija i komentar budu automatski unešeni od zadnje transkacije za istog platitelja / primaoca? Ovo možete izmijeniti bilo kada u postavkama.</string>
   <string name="yes">Da</string>
   <string name="no">Ne</string>
   <string name="hint_template_click">Kratak dodir na unos u ovoj listi će otvoriti predložak i odmah ga spremiti ili ući u mod za oblikovanje gdje ga možete urediti prije spremanja. Dugim dodirom možete pristupiti obama akcijama, ili promijeniti zadane akcije u postavkama.</string>

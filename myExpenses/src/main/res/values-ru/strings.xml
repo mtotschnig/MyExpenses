@@ -194,7 +194,7 @@
   <string name="menu_settings">Настройки</string>
   <string name="menu_share">Рассказать другу</string>
   <string name="menu_split_transaction">Разделить</string>
-  <string name="method">Метод</string>
+  <string name="method">Способ оплаты</string>
   <string name="no_amount_given">Вы не ввели какую-либо сумму.</string>
   <string name="no_app_handling_email_available">Не доступно приложение для обработки e-mail</string>
   <string name="no_app_handling_ftp_available">Нет приложения, связанного с ftp. Установить, <i>Send With FTP</i>?</string>

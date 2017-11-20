@@ -198,7 +198,7 @@
   <string name="menu_settings">Thiết lập</string>
   <string name="menu_share">Chia sẻ</string>
   <string name="menu_split_transaction">Chuyển thành dạng phân tách</string>
-  <string name="method">Cách thức</string>
+  <string name="method">Phương thức thanh toán</string>
   <string name="no_amount_given">Bạn vẫn chưa điền vào số lượng</string>
   <string name="no_app_handling_email_available">Không có ứng dụng nào hiện có để xử lý email</string>
   <string name="no_app_handling_ftp_available">Hiện không có ứng dụng xử lý ftp. Cài đặt <i>Send With FTP</i>?</string>
@@ -256,7 +256,6 @@
   <string name="pm_type_neutral">Trung lập</string>
   <string name="pref_app_dir_title">Thư mục cho các bản sao lưu và dữ liệu xuất ra</string>
   <string name="pref_auto_fill_title">Giao dịch tự điền</string>
-  <string name="pref_auto_fill_summary">Điền vào số tiền, danh mục và ghi chú từ giao dịch trước có cùng người chi / nhận</string>
   <string name="pref_backup_summary">Tạo một phần sao lưu đối với cơ sở dữ liệu và tùy biến trên thẻ nhớ.</string>
   <string name="pref_sort_order_usages">Số lần sử dụng</string>
   <string name="pref_category_title_advanced">Nâng cao</string>
@@ -468,7 +467,6 @@
   <string name="comparison_operator_date_after">sau</string>
   <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Khuyến mãi đặc biệt với AppGratis: Các tính năng trả phí được mở khoá miễn phí.</string>
   <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Giao dịch thất bại hoặc đã bị huỷ bỏ</string>
-  <string name="hint_auto_fill">Liệu số tiền, danh mục và ghi chú có nên được điền tự động dựa vào giao dịch gần nhất đối với cùng người nhận/người gửi ? Bạn luôn luôn có thể thay đổi lựa chọn này trong mục cài đặt.</string>
   <string name="yes">Được</string>
   <string name="no">Không</string>
   <string name="hint_template_click">Nhấn vào một mục trên danh sách này sẽ trình bày bản mẫu đó ra và sẽ lưu luôn hoặc vào phần sửa đổi, nơi mà bạn có thể chỉnh sửa nó trước khi lưu. Bạn luôn có thể thực hiện cả hai hành động qua một lần nhấn giữ, và thay đổi mặc định trong cài đặt.</string>

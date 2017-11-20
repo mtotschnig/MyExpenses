@@ -199,7 +199,7 @@
   <string name="menu_settings">Ustawienia</string>
   <string name="menu_share">Poleć znajomemu</string>
   <string name="menu_split_transaction">Zamień w podział</string>
-  <string name="method">Metoda</string>
+  <string name="method">Metoda płatności</string>
   <string name="no_amount_given">Nie wprowadziłeś żadnej kwoty.</string>
   <string name="no_app_handling_email_available">Nie posiadasz aplikacji do obsługi E-mail</string>
   <string name="no_app_handling_ftp_available">Brak obsługi aplikacji dla FTP. Zainstalować <i>Send With FTP</i>?</string>
@@ -263,7 +263,6 @@
   <string name="pm_type_neutral">Neutralnie</string>
   <string name="pref_app_dir_title">Folder do kopii zapasowych i eksportów</string>
   <string name="pref_auto_fill_title">Automatyczne uzupełnianie transakcji</string>
-  <string name="pref_auto_fill_summary">Wpisz kwotę, kategorię i komentarz z ostatniej transakcji dla tego samego odbiorcy/płatnika</string>
   <string name="pref_backup_summary">Utwórz kopię zapasową bazy danych i preferencji na karcie pamięci.</string>
   <string name="pref_sort_order_usages">Ilość użyć</string>
   <string name="pref_category_title_advanced">Zaawansowane</string>
@@ -481,7 +480,6 @@
   <string name="comparison_operator_date_after">po</string>
   <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Dzisiejsza oferta specjalna z AppGratis: funkcje Premium odblokowane za darmo.</string>
   <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Zakup nie udał się lub został anulowany.</string>
-  <string name="hint_auto_fill">Czy kwota, kategoria i komentarz powinny być wypełniane automatycznie od ostatniej transakcji dla tego samego odbiorcy/płatnika? Zawsze możesz zmienić to zachowanie w ustawieniach.</string>
   <string name="yes">Tak</string>
   <string name="no">Nie</string>
   <string name="hint_template_click">Krótkie dotknięcie pozycji na tej liście spowoduje utworzenie instancji szablonu i zapisanie go natychmiast lub wprowadzenie formularza edycji, w którym można go zmodyfikować przed zapisaniem. Zawsze możesz uzyskać dostęp do obu działań przez długie dotknięcie i zmienić ustawienie domyślne w ustawieniach.</string>

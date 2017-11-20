@@ -187,7 +187,7 @@
   <string name="menu_settings">Setări</string>
   <string name="menu_share">Recomandă</string>
   <string name="menu_split_transaction">Transformă in repartizare</string>
-  <string name="method">Metoda</string>
+  <string name="method">Modalitate de plată</string>
   <string name="no_amount_given">Nu aţi introdus nici o valoare.</string>
   <string name="no_app_handling_email_available">Nici o aplicaţie disponibilă pentru trimitere email.</string>
   <string name="no_app_handling_ftp_available">Nici o aplicaţie disponibilă pentru ftp.Instalez <i>Trimit prinFTP</i>?</string>
@@ -248,7 +248,6 @@
   <string name="pm_type_neutral">Neutru</string>
   <string name="pref_app_dir_title">Folder pentru backup-uri si exporturi</string>
   <string name="pref_auto_fill_title">Tranzacţii completate automat</string>
-  <string name="pref_auto_fill_summary">Completatea valorii, categoriei şi comentariului de la tranzacţia de la acelaşi terţ</string>
   <string name="pref_backup_summary">Creaţi un backup al bazei de date si preferinţelor.</string>
   <string name="pref_sort_order_usages">Numarul utilizarilor</string>
   <string name="pref_category_title_advanced">Avansat</string>
@@ -447,7 +446,6 @@
   <string name="comparison_operator_date_after">după</string>
   <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Oferta speciala de astăzi cu AppGratis: Funcţionalităţile Premium deblocate gratis.</string>
   <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Cumpărare eşuată sau anulată.</string>
-  <string name="hint_auto_fill">Cantitatea, categoria şi comentariu se  vor completa automat de la ultima tranzactie pentru același beneficiar/platitor? Puteţi modifica oricând acest comportament din setări.</string>
   <string name="yes">Da</string>
   <string name="no">Nu</string>
   <string name="hint_template_click">Un click scurt pe o intrare în această listă va instanţia şablonul şi  fie salvaţi-l imediat sau introduceţi-l  în forma de editare unde se poate modifica înainte de salvare. Întotdeauna puteţi accesa ambele acţiuni printr-un click lung, şi schimba setările implicite.</string>

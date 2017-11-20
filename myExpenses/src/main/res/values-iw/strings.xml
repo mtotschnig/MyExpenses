@@ -203,7 +203,7 @@
   <string name="menu_settings">הגדרות</string>
   <string name="menu_share">ספר לחבר</string>
   <string name="menu_split_transaction">הפוך למפוצל</string>
-  <string name="method">שיטת תשלום</string>
+  <string name="method">אמצעי תשלום</string>
   <string name="no_amount_given">לא הוזן סכום כלשהו.</string>
   <string name="no_app_handling_email_available">אין ישום המטפל בדוא\"ל.</string>
   <string name="no_app_handling_ftp_available">אין ישום זמין המטפל ב- FTP . האם להתקין <i>שלח עם FTP</i>?</string>
@@ -263,7 +263,6 @@
   <string name="pm_type_neutral">ניטראלי</string>
   <string name="pref_app_dir_title">תיקייה לגיבויים ולייצוא</string>
   <string name="pref_auto_fill_title">מילוי אוטומטי של עסקאות</string>
-  <string name="pref_auto_fill_summary">מלא סכום, קטגוריה והערה מהעסקה האחרונה עבור אותו מקבל תשלום / המשלם</string>
   <string name="pref_backup_summary">צור גיבוי של מסד נתונים והעדפות.</string>
   <string name="pref_sort_order_usages">ספירת שימושים</string>
   <string name="pref_category_title_advanced">מתקדם</string>
@@ -481,7 +480,6 @@
   <string name="comparison_operator_date_after">אחרי</string>
   <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">הצעה מיוחדת היום עם AppGratis:  תכונות פרימיום פתוחות בחינם.</string>
   <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">הרכישה נכשלה או בוטלה.</string>
-  <string name="hint_auto_fill">האם הסכום, הקטגוריה וההערה ימולאו באופן אוטומטי מהעסקה האחרונה עבור אותו מקבל התשלום/ משלם? תוכל תמיד לשנות התנהגות זו מההגדרות.</string>
   <string name="yes">כן</string>
   <string name="no">לא</string>
   <string name="hint_template_click">הקשה קצרה על רשומה ברשימה זו תייצר את התבנית וגם תשמור אותה מיידית או תזין את טופס העריכה שלה, שבו תוכל לשנות אותה לפני השמירה. אתה תמיד יכול לגשת לשתי הפעולות באמצעות הקשה ארוכה, ולשנות את ברירת המחדל בהגדרות.</string>
@@ -683,4 +681,7 @@
   <string name="extend_validity">הארכת תוקף</string>
   <string name="progress_dialog_fetching_data_from_sync_backend">מאחזר נתונים מרחוק backend. פעולה זו עשויה להימשך זמן מה.</string>
   <string name="donate_button_invoice">חשבונית</string>
+  <string name="menu_sort_direction">כיוון מיון</string>
+  <string name="sort_direction_ascending">סדר עולה</string>
+  <string name="sort_direction_descending">סדר יורד</string>
 </resources>

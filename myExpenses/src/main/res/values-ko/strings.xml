@@ -190,7 +190,7 @@
   <string name="menu_settings">설정</string>
   <string name="menu_share">친구에게 알려주기</string>
   <string name="menu_split_transaction">분할 거래로 바꾸기</string>
-  <string name="method">방식</string>
+  <string name="method">지불 방법</string>
   <string name="no_amount_given">금액을 입력하지 않으셨습니다.</string>
   <string name="no_app_handling_email_available">이메일을 다룰 수 있는 앱이 없습니다.</string>
   <string name="no_app_handling_ftp_available">FTP를 다룰 수 있는 앱이 없습니다. <i>Send With FTP</i>를 설치할까요?</string>
@@ -248,7 +248,6 @@
   <string name="pm_type_neutral">중립</string>
   <string name="pref_app_dir_title">백업 및 내보내기에 사용할 폴더</string>
   <string name="pref_auto_fill_title">거래 내역 자동으로 채우기</string>
-  <string name="pref_auto_fill_summary">동일한 수취인/납부인의 마지막 거래 내역으로부터 금액, 카테고리, 코멘트를 입력</string>
   <string name="pref_backup_summary">데이터베이스와 설정값의 백업을 만들기</string>
   <string name="pref_sort_order_usages">사용 빈도</string>
   <string name="pref_category_title_advanced">고급</string>
@@ -448,7 +447,6 @@
   <string name="comparison_operator_date_after">이후에</string>
   <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">AppGratis의 특별 제안: 무료로 프리미엄 기능 사용</string>
   <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">구매에 실패했거나 취소되었습니다.</string>
-  <string name="hint_auto_fill">동일한 수취인/납부인의 마지막 거래 내역으로부터 금액, 카테고리, 코멘트를 자동으로 입력할까요? 이 동작은 설정 화면에서 언제나 변경할 수 있습니다.</string>
   <string name="yes">예</string>
   <string name="no">아니오</string>
   <string name="hint_template_click">템플릿 목록의 항목을 짧게 누르면 템플릿을 예시로 보여주고, 그것을 곧바로 저장하거나, 아니면 저장하기 전에 수정할 수 있는 입력 양식으로 진입할 수 있습니다. 두가지 동작은 길게 누르기를 통해 사용할 수도 있으며, 기본값을 설정 화면에서 바꿀 수 있습니다.</string>

@@ -188,7 +188,7 @@
   <string name="menu_settings">设置</string>
   <string name="menu_share">分享给朋友</string>
   <string name="menu_split_transaction">转换为分割</string>
-  <string name="method">方法</string>
+  <string name="method">付款方法</string>
   <string name="no_amount_given">你未输入任何金额.</string>
   <string name="no_app_handling_email_available">没有可用的应用程序电子邮件.</string>
   <string name="no_app_handling_ftp_available">没有被应用程序处理的ftp可用.安装 <i>使用FTP发送</i> ?</string>
