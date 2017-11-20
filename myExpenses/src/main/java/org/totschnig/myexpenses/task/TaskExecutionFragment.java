@@ -309,9 +309,6 @@ public class TaskExecutionFragment<T> extends Fragment {
         case TASK_BUILD_TRANSACTION_FROM_INTENT_EXTRAS:
           new BuildTransactionTask(this, taskId).execute(args);
           break;
-        case TASK_LOAD_AUTO_FILL_DATA:
-          new LoadAutoFillDataTask(this, taskId).execute(args);
-          break;
         default:
           new GenericTask<T>(this, taskId, args.getSerializable(KEY_EXTRA))
               .execute((T[]) args.getSerializable(KEY_OBJECT_IDS));

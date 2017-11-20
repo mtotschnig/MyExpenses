@@ -100,8 +100,8 @@ import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.preference.PreferenceUtils;
+import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.task.LoadAutoFillDataTask.AutoFillData;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.AmountEditText;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
@@ -139,8 +139,11 @@ import static org.totschnig.myexpenses.contract.TransactionsContract.Transaction
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.CAT_AS_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
@@ -156,10 +159,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_A
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 import static org.totschnig.myexpenses.task.BuildTransactionTask.KEY_EXTRAS;
-import static org.totschnig.myexpenses.task.LoadAutoFillDataTask.KEY_LOAD_ACCOUNT;
-import static org.totschnig.myexpenses.task.LoadAutoFillDataTask.KEY_LOAD_AMOUNT;
-import static org.totschnig.myexpenses.task.LoadAutoFillDataTask.KEY_LOAD_CATEGORY;
-import static org.totschnig.myexpenses.task.LoadAutoFillDataTask.KEY_LOAD_COMMENT;
 
 /**
  * Activity for editing a transaction
@@ -183,6 +182,7 @@ public class ExpenseEdit extends AmountActivity implements
   private static final String PREFKEY_TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET = "transferLastTransferAccountFromWidget";
   private static final String PREFKEY_SPLIT_LAST_ACCOUNT_FROM_WIDGET = "splitLastAccountFromWidget";
   public static final int EXCHANGE_RATE_FRACTION_DIGITS = 5;
+  private static final String KEY_AUTOFILL_OVERRIDE_PREFERENCES = "autoFillOverridePreferences";
   private static int INPUT_EXCHANGE_RATE = 1;
   private static int INPUT_AMOUNT = 2;
   private static int INPUT_TRANSFER_AMOUNT = 3;
@@ -231,6 +231,7 @@ public class ExpenseEdit extends AmountActivity implements
   public static final int TRANSACTION_CURSOR = 5;
   public static final int SUM_CURSOR = 6;
   public static final int LAST_EXCHANGE_CURSOR = 7;
+  public static final int AUTOFILL_CURSOR = 8;
   private static final String KEY_PICTURE_URI = "picture_uri";
   private static final String KEY_PICTURE_URI_TMP = "picture_uri_tmp";
 
@@ -403,7 +404,6 @@ public class ExpenseEdit extends AmountActivity implements
     if (notificationId > 0) {
       ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).cancel(notificationId);
     }
-
 
     CrStatusAdapter sAdapter = new CrStatusAdapter(this) {
 
@@ -1515,32 +1515,6 @@ public class ExpenseEdit extends AmountActivity implements
     super.onPostExecute(taskId, o);
     boolean success;
     switch (taskId) {
-      case TaskExecutionFragment.TASK_LOAD_AUTO_FILL_DATA:
-        if (o != null) {
-          AutoFillData data = (AutoFillData) o;
-          if (mCatId == null && data.categoryId() != null) {
-            mCatId = data.categoryId();
-            mLabel = data.label();
-            setCategoryButton();
-          }
-          if (TextUtils.isEmpty(mCommentText.getText().toString()) && data.comment() != null) {
-            mCommentText.setText(data.comment());
-          }
-          if (TextUtils.isEmpty(mAmountText.getText().toString()) && data.amount() != null) {
-            fillAmount(data.amount().getAmountMajor());
-            configureType();
-          }
-          if (!didUserSetAccount && getIntent().getBooleanExtra(KEY_AUTOFILL_MAY_SET_ACCOUNT, false)
-              && mAccounts != null && data.accountId() != null) {
-            for (int i = 0; i < mAccounts.length; i++) {
-              if (mAccounts[i].getId().equals(data.accountId())) {
-                mAccountSpinner.setSelection(i);
-                break;
-              }
-            }
-          }
-        }
-        break;
       case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE:
         if (o == null) {
           Toast.makeText(this, R.string.save_transaction_template_deleted, Toast.LENGTH_LONG).show();
@@ -1953,6 +1927,31 @@ public class ExpenseEdit extends AmountActivity implements
                 .appendPath(currencies[1])
                 .build(),
             null, null, null, null);
+      case AUTOFILL_CURSOR:
+        List<String> dataToLoad = new ArrayList<>();
+        String autoFillAccountFromPreference = PrefKey.AUTO_FILL_ACCOUNT.getString("never");
+        boolean autoFillAccountFromExtra = getIntent().getBooleanExtra(KEY_AUTOFILL_MAY_SET_ACCOUNT, false);
+        boolean overridePreferences = args.getBoolean(KEY_AUTOFILL_OVERRIDE_PREFERENCES);
+        boolean mayLoadAccount = overridePreferences && autoFillAccountFromExtra ||
+            autoFillAccountFromPreference.equals("always") ||
+            (autoFillAccountFromPreference.equals("aggregate") && autoFillAccountFromExtra);
+        if (overridePreferences || PrefKey.AUTO_FILL_AMOUNT.getBoolean(false)) {
+          dataToLoad.add(KEY_CURRENCY);
+          dataToLoad.add(KEY_AMOUNT);
+        }
+        if (overridePreferences || PrefKey.AUTO_FILL_CATEGORY.getBoolean(false)) {
+          dataToLoad.add(KEY_CATID);
+          dataToLoad.add(CAT_AS_LABEL);
+        }
+        if (overridePreferences || PrefKey.AUTO_FILL_COMMENT.getBoolean(false)) {
+          dataToLoad.add(KEY_COMMENT);
+        }
+        if (mayLoadAccount) {
+          dataToLoad.add(KEY_ACCOUNTID);
+        }
+        return new CursorLoader(this,
+            ContentUris.withAppendedId(TransactionProvider.AUTOFILL_URI, args.getLong(KEY_ROWID)),
+            dataToLoad.toArray(new String[dataToLoad.size()]), null, null, null);
     }
     return null;
   }
@@ -2065,6 +2064,35 @@ public class ExpenseEdit extends AmountActivity implements
             }
           }
         }
+        break;
+      case AUTOFILL_CURSOR:
+        if (data.moveToFirst()) {
+          int columnIndex = data.getColumnIndex(KEY_CATID);
+          if (mCatId == null && columnIndex != -1) {
+            mCatId =  DbUtils.getLongOrNull(data, columnIndex);
+            mLabel = data.getString(data.getColumnIndex(KEY_LABEL));
+            setCategoryButton();
+          }
+          columnIndex = data.getColumnIndex(KEY_COMMENT);
+          if (TextUtils.isEmpty(mCommentText.getText().toString()) && columnIndex != -1) {
+            mCommentText.setText(data.getString(columnIndex));
+          }
+          columnIndex = data.getColumnIndex(KEY_AMOUNT);
+          if (TextUtils.isEmpty(mAmountText.getText().toString()) && columnIndex != -1) {
+            fillAmount(new Money(Currency.getInstance(data.getString(data.getColumnIndex(KEY_CURRENCY))), data.getLong(columnIndex)).getAmountMajor());
+            configureType();
+          }
+          columnIndex = data.getColumnIndex(KEY_ACCOUNTID);
+          if (!didUserSetAccount && mAccounts != null && columnIndex != -1) {
+            long accountId = data.getLong(columnIndex);
+            for (int i = 0; i < mAccounts.length; i++) {
+              if (mAccounts[i].getId().equals(accountId)) {
+                mAccountSpinner.setSelection(i);
+                break;
+              }
+            }
+          }
+        }
     }
   }
 
@@ -2164,19 +2192,10 @@ public class ExpenseEdit extends AmountActivity implements
    * @param overridePreferences if true data is loaded irrespective of what is set in preferences
    */
   private void startAutoFill(long id, boolean overridePreferences) {
-    Bundle extras = new Bundle(5);
+    Bundle extras = new Bundle(2);
     extras.putLong(KEY_ROWID, id);
-    String autoFillAccountFromPreference = PrefKey.AUTO_FILL_ACCOUNT.getString("never");
-    boolean autoFillAccountFromExtra = getIntent().getBooleanExtra(KEY_AUTOFILL_MAY_SET_ACCOUNT, false);
-    boolean mayLoadAccount = overridePreferences && autoFillAccountFromExtra ||
-        autoFillAccountFromPreference.equals("always") ||
-        (autoFillAccountFromPreference.equals("aggregate") && autoFillAccountFromExtra);
-
-    extras.putBoolean(KEY_LOAD_AMOUNT, overridePreferences || PrefKey.AUTO_FILL_AMOUNT.getBoolean(false));
-    extras.putBoolean(KEY_LOAD_CATEGORY, overridePreferences || PrefKey.AUTO_FILL_CATEGORY.getBoolean(false));
-    extras.putBoolean(KEY_LOAD_COMMENT, overridePreferences || PrefKey.AUTO_FILL_COMMENT.getBoolean(false));
-    extras.putBoolean(KEY_LOAD_ACCOUNT, mayLoadAccount);
-    startTaskExecution(TaskExecutionFragment.TASK_LOAD_AUTO_FILL_DATA, extras, R.string.progress_dialog_loading);
+    extras.putBoolean(KEY_AUTOFILL_OVERRIDE_PREFERENCES, overridePreferences);
+    mManager.restartLoader(AUTOFILL_CURSOR, extras, this);
   }
 
   @Override
