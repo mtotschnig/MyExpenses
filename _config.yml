@@ -115,6 +115,48 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 2.8.3
+    - "2017-11-05"
+    -
+      en: |
+        Ascending sort direction (oldest transactions on top).
+      fr: |
+        Direction de tri ascendante (les plus anciennes transactions en haut).
+      de: |
+        Aufsteigende Sortierrichtung (älteste Transaktionen oben).
+      es: |
+        Elegir dirección ascendente (las transacciones más antiguas arriba).
+      tr: |
+        Eskiden yeniye sıralama yönü (en eski işlemler en üstte).
+      bg: |
+        Възходящо сортиране (най-старите транзакции отгоре).
+      ja: |
+        昇順のソート (古い取引が先頭).
+      pl: |
+        Rosnący kierunek sortowania (najstarsze transakcje u góry).
+  -
+    - 2.8.2
+    - "2017-10-14"
+    -
+      en: |
+        Templates and plans for split transactions. Introducing Professional Licence Key. Home screen widgets adapt to user-preferred font size.
+      fr: |
+        Modèles et échéances pour les opérations ventilées. Présentation de la clé de licence professionnelle. Les widgets de l'écran d'accueil s'adaptent à la taille de police préférée par l'utilisateur.
+      de: |
+        Vorlagen und Pläne für mehrteilige Buchungen. Einführung des Professionellen Lizenzschlüssels. Widgets für den Startbildschirm passen sich an die benutzerdefinierte Schriftgröße an.
+      it: |
+        Modelli e piani per le operazioni frazionate. Introdurre la chiave di licenza professionale. I widget della schermata iniziale si adattano alle dimensioni del carattere preferite dall'utente.
+      es: |
+        Plantillas y proyectos para transacciones divididas. Introduciendo licencia de llave Profesional. Los widgets de la pantalla de inicio se adaptan al tamaño de fuente elegida.
+      tr: |
+        Bölünmüş muameleler için şablonlar ve planlamalar. Profesyonel Lisans Anahtarı. Ana ekran widget'ları kullanıcının tercih ettiği yazı tipi boyutuna uyarlanır.
+      bg: |
+        Шаблони и планове за разпределени транзакции. Представяне на нов лицензен ключ - Професионален. Уиджетите на начален екран се приспособяват към предпочитания от потребителя размер на шрифта.
+      ja: |
+        分割取引用のテンプレートと計画. プロフェッショナルライセンスキーの導入. ホーム画面ウィジェットは、ユーザーが好みのフォントサイズに適応します.
+      pl: |
+        Szablony i plany dla transakcji podzielonych. Przedstawiamy Profesjonalny Klucz Licencyjny. Widżety ekranu głównego dostosowują się do preferowanego przez użytkownika rozmiaru czcionki.
+  -
     - 2.8.1
     - "2017-09-07"
     -
