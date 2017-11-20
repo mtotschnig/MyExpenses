@@ -58,41 +58,6 @@
     <item>Търсене на преводи</item>
     <item>Сортиране на плановете по следваща инстанция</item>
   </string-array>
-  <string-array name="whats_new_269">
-    <item>Повтаряне на транзакцията може да се зададе директно от формата при създаването й.</item>
-  </string-array>
-  <string-array name="whats_new_268">
-    <item>Задаването на повтарящи се и бъдещи транзакции вече става по-лесно</item>
-  </string-array>
-  <string-array name="whats_new_267">
-    <item>Превод на китайски език</item>
-    <item>Подобрена обработка на инстанциите в плановете</item>
-  </string-array>
-  <string-array name="whats_new_266">
-    <item>Нови икони в менюто</item>
-  </string-array>
-  <string-array name="whats_new_265">
-    <item>Подреждането на шаблони, категории и сметки вече става по-лесно</item>
-  </string-array>
-  <string-array name="whats_new_264">
-    <item>Може да направите Търсене на екрана с категории</item>
-    <item>Баланса на сметка може да бъде копиран в клипборда</item>
-    <item>Вмъкване от клипборда в калкулатора</item>
-    <item>Помощ за формат на датата в диалога за експорт</item>
-  </string-array>
-  <string-array name="whats_new_263">
-    <item>Преводи между сметки с различни валути.</item>
-  </string-array>
-  <string-array name="whats_new_262">
-    <item>Възможност да настроите ден от седмицата и дата от месеца за период на групирне на транзакциите.</item>
-  </string-array>
-  <string-array name="whats_new_261">
-    <item>Местене на категориите - под-категории от една в друга главна, преобразуване на под-категория в главна и обратно.</item>
-  </string-array>
-  <string-array name="whats_new_260">
-    <item>Приложена е технологията Material design</item>
-    <item>Подобрен изглед на таблет</item>
-    <item>Подръжка на Samsung Knox</item>
-  </string-array>
     <string name="bug_fixes">Поправени грешки</string>
+    <string name="performance_enhancement">Подобрено бързодействие</string>
 </resources>

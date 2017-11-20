@@ -58,41 +58,5 @@
     <item>Búsqueda para transferencias</item>
     <item>Los proyectos pueden ser ordenados por futuras instancias</item>
   </string-array>
-  <string-array name="whats_new_269">
-    <item>El formulario de transacción permite crear directamente repeticiones</item>
-  </string-array>
-  <string-array name="whats_new_268">
-    <item>Configuración más fácil de transacciones recurrentes y futuras.</item>
-  </string-array>
-  <string-array name="whats_new_267">
-    <item>Traducción simplificada al chino</item>
-    <item>Gestión de proyectos de instancias mejorado</item>
-  </string-array>
-  <string-array name="whats_new_266">
-    <item>Nuevos iconos de menú</item>
-  </string-array>
-  <string-array name="whats_new_265">
-    <item>Clasificación de plantillas, categorías y cuentas mejorado</item>
-  </string-array>
-  <string-array name="whats_new_264">
-    <item>Se pueden buscar pantallas de categorías</item>
-    <item>El saldo de la cuenta puede copiarse al portapapeles</item>
-    <item>Pegar en la calculadora desde el portapapeles</item>
-    <item>Ayuda para formatear fecha en el cuadro de diálogo de exportación</item>
-  </string-array>
-  <string-array name="whats_new_263">
-    <item>Transferencias entre cuentas con distintas divisas</item>
-  </string-array>
-  <string-array name="whats_new_262">
-    <item>Se puede configurar como inicio días en lugar de semanas y meses</item>
-  </string-array>
-  <string-array name="whats_new_261">
-    <item>Se pueden mover las categorías</item>
-  </string-array>
-  <string-array name="whats_new_260">
-    <item>Material Design</item>
-    <item>Mejor diseño de tableta</item>
-    <item>Soporte para Samsung Knox</item>
-  </string-array>
     <string name="bug_fixes">Corrección de errores</string>
-</resources>
+    </resources>

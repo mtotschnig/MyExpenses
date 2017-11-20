@@ -55,41 +55,5 @@
     <item>Ricerca per i trasferimenti</item>
     <item>I piani possono essere ordinati per istanza successiva</item>
   </string-array>
-  <string-array name="whats_new_269">
-    <item>Il formulario dell\'operazione permette di creare la ricorrenza direttamente</item>
-  </string-array>
-  <string-array name="whats_new_268">
-    <item>Installazione di transazioni ricorrenti e future facilitata.</item>
-  </string-array>
-  <string-array name="whats_new_267">
-    <item>Traduzione cinese semplificato</item>
-    <item>Migliorata la gestione delle istanze di piano</item>
-  </string-array>
-  <string-array name="whats_new_266">
-    <item>Nuove icone di menu</item>
-  </string-array>
-  <string-array name="whats_new_265">
-    <item>Ordinamento dei modelli, categorie e dei conti ha reso più facile</item>
-  </string-array>
-  <string-array name="whats_new_264">
-    <item>Schermo di categorie possa essere ricercato</item>
-    <item>Saldo del conto può essere copiato negli appunti</item>
-    <item>Incolla nella calcolatrice dagli appunti</item>
-    <item>Aiuto per il formato di data nella finestra di dialogo Esporta</item>
-  </string-array>
-  <string-array name="whats_new_263">
-    <item>Trasferimenti tra conti con valute diverse</item>
-  </string-array>
-  <string-array name="whats_new_262">
-    <item>Giorni dove può essere configurato inizio settimana e mese</item>
-  </string-array>
-  <string-array name="whats_new_261">
-    <item>Categorie possono essere spostate</item>
-  </string-array>
-  <string-array name="whats_new_260">
-    <item>Material design</item>
-    <item>Migliore layout tablet</item>
-    <item>Supporto per Samsung Knox</item>
-  </string-array>
     <string name="bug_fixes">Correzione di errori</string>
-</resources>
+    </resources>

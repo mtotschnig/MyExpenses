@@ -46,41 +46,5 @@
     <item>Tranferentzien bilaketa</item>
     <item>Ordenatu planak hurrengo gertaeraren arabera</item>
   </string-array>
-  <string-array name="whats_new_269">
-    <item>Transakzioaren formularioak errepikakortasuna zuzenean sortzea baimentzen du</item>
-  </string-array>
-  <string-array name="whats_new_268">
-    <item>Etorkizunean errepikatzen diren transakzioak erraztu dira.</item>
-  </string-array>
-  <string-array name="whats_new_267">
-    <item>Sinplifikatutako txinerara itzulpena</item>
-    <item>Planen instantzien kudeaketa hobetua</item>
-  </string-array>
-  <string-array name="whats_new_266">
-    <item>Ikono berriak menuan</item>
-  </string-array>
-  <string-array name="whats_new_265">
-    <item>Txantiloiak, kategoriak eta kontuak ordenatzea errezagoa da orain</item>
-  </string-array>
-  <string-array name="whats_new_264">
-    <item>Kategorien pantailan bilatzea dago</item>
-    <item>Kontuaren saldoa arbelera kopiatu daiteke</item>
-    <item>Itsatsi kalkulagailuan arbeletik</item>
-    <item>Data formaturako laguntza esportazio elkarrizketa koadroan</item>
-  </string-array>
-  <string-array name="whats_new_263">
-    <item>Transferentziak moneta desberdineko kontuen artean</item>
-  </string-array>
-  <string-array name="whats_new_262">
-    <item>Astea eta hilabetearen hasierako eguna konfiguratu daiteke</item>
-  </string-array>
-  <string-array name="whats_new_261">
-    <item>Kategoriak mugitu daitezke</item>
-  </string-array>
-  <string-array name="whats_new_260">
-    <item>Material diseinua</item>
-    <item>Hobetutako tabletarako antolaketa</item>
-    <item>Samsung Knox euskarria</item>
-  </string-array>
     <string name="bug_fixes">Konpondutako akatsak</string>
-</resources>
+    </resources>

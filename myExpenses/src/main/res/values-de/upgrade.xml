@@ -58,42 +58,6 @@
     <item>Suche nach Umbuchung</item>
     <item>Pläne können nach dem nächsten Vorkommen sortiert werden</item>
   </string-array>
-  <string-array name="whats_new_269">
-    <item>Buchungsformular ermöglicht Wiederholung direkt einzustellen</item>
-  </string-array>
-  <string-array name="whats_new_268">
-    <item>Einrichtung von wiederkehrenden und zukünftigen Buchungen leichter gemacht</item>
-  </string-array>
-  <string-array name="whats_new_267">
-    <item>Übersetzung vereinfachtes Chinesisch</item>
-    <item>Verbesserte Verarbeitung von Plan-Instanzen</item>
-  </string-array>
-  <string-array name="whats_new_266">
-    <item>Neue Menü-icons</item>
-  </string-array>
-  <string-array name="whats_new_265">
-    <item>Sortierung der Vorlagen, Kategorien und Konten leichter gemacht</item>
-  </string-array>
-  <string-array name="whats_new_264">
-    <item>Der Kategorien-Bildschirm kann durchsucht werden</item>
-    <item>Der Kontostand kann in die Zwischenablage kopiert werden</item>
-    <item>In den Taschenrechner kann aus der Zwischenablage eingefügt werden</item>
-    <item>Hilfe für Datumsformat im Export-Dialog</item>
-  </string-array>
-  <string-array name="whats_new_263">
-    <item>Umbuchungen zwischen Konten mit verschiedenen Währungen</item>
-  </string-array>
-  <string-array name="whats_new_262">
-    <item>Die Tage, an denen Woche und Monat beginnen, können konfiguriert werden</item>
-  </string-array>
-  <string-array name="whats_new_261">
-    <item>Kategorien können verschoben werden</item>
-  </string-array>
-  <string-array name="whats_new_260">
-    <item>Material design</item>
-    <item>Verbessertes Layout für Tablets</item>
-    <item>Unterstützung für Samsung Knox</item>
-  </string-array>
     <string name="bug_fixes">Bugs behoben</string>
     <string name="performance_enhancement">Performance-Verbesserung</string>
 </resources>

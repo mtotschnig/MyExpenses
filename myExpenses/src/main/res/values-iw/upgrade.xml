@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_283">
+    <item>מיון בסדר עולה (הישן ביותר בראש)</item>
+  </string-array>
   <string-array name="whats_new_282">
     <item>תבניות ותוכניות לעסקאות מפוצלות</item>
     <item>היכרות עם מפתח רישיון מקצועי</item>
@@ -55,41 +58,6 @@
     <item>חפש העברות</item>
     <item>מיין תוכניות לפי המופע הבא</item>
   </string-array>
-  <string-array name="whats_new_269">
-    <item>טופס העסקה מאפשר ליצור הישנות ישירה</item>
-  </string-array>
-  <string-array name="whats_new_268">
-    <item>ההתקנה של עסקאות חוזרות ועתידיות נעשה קל יותר.</item>
-  </string-array>
-  <string-array name="whats_new_267">
-    <item>תרגום סינית פשוטה</item>
-    <item>טיפול משופר במופעי תוכניות</item>
-  </string-array>
-  <string-array name="whats_new_266">
-    <item>סמלי תפריט חדש</item>
-  </string-array>
-  <string-array name="whats_new_265">
-    <item>מיון תבניות, קטגוריות וחשבונות נעשה קל יותר</item>
-  </string-array>
-  <string-array name="whats_new_264">
-    <item>ניתן לחפש את מסך הקטגוריות</item>
-    <item>ניתן להעתיק את יתרת החשבון ללוח</item>
-    <item>הדבק לתוך מחשבון מתוך הלוח</item>
-    <item>עזרה לפורמט תאריך בתיבת הדו-שיח לייצוא</item>
-  </string-array>
-  <string-array name="whats_new_263">
-    <item>העברות בין חשבונות עם מטבעות שונים</item>
-  </string-array>
-  <string-array name="whats_new_262">
-    <item>ימים שבהם ניתן להגדיר את תצוגת השבוע והחודש</item>
-  </string-array>
-  <string-array name="whats_new_261">
-    <item>ניתן להעביר קטגוריות</item>
-  </string-array>
-  <string-array name="whats_new_260">
-    <item>עיצוב חומר</item>
-    <item>פריסת טבלט משופרת</item>
-    <item>תמיכה עבור Samsung Knox</item>
-  </string-array>
     <string name="bug_fixes">תיקוני באגים</string>
+    <string name="performance_enhancement">שיפור בעיצועים</string>
 </resources>

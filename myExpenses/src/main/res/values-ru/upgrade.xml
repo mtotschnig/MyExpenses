@@ -27,41 +27,5 @@
     <item>Поиск переводов</item>
     <item>Сортировать планы по ближайшему событию</item>
   </string-array>
-  <string-array name="whats_new_269">
-    <item>Форма операции позволяет повторить ее</item>
-  </string-array>
-  <string-array name="whats_new_268">
-    <item>Упрощена настройка повторяющихся и будущих операций.</item>
-  </string-array>
-  <string-array name="whats_new_267">
-    <item>Упрощенный китайский перевод</item>
-    <item>Улучшена обработка планов</item>
-  </string-array>
-  <string-array name="whats_new_266">
-    <item>Новые иконки меню</item>
-  </string-array>
-  <string-array name="whats_new_265">
-    <item>Упрощена сортировка шаблонов, категорий и счетов</item>
-  </string-array>
-  <string-array name="whats_new_264">
-    <item>Экран категорий</item>
-    <item>Баланс счета можно скопировать в буфер обмена</item>
-    <item>Вставка в калькулятор из буфера обмена</item>
-    <item>Помощь в диалоге экспорта формат даты</item>
-  </string-array>
-  <string-array name="whats_new_263">
-    <item>Переводы между счетами в различных валютах</item>
-  </string-array>
-  <string-array name="whats_new_262">
-    <item>Можно настроить дни начала недели и месяца</item>
-  </string-array>
-  <string-array name="whats_new_261">
-    <item>Категории могут быть перемещены</item>
-  </string-array>
-  <string-array name="whats_new_260">
-    <item>Material design</item>
-    <item>Улучшенная компоновка в режиме планшета</item>
-    <item>Поддержка Samsung Knox</item>
-  </string-array>
     <string name="bug_fixes">Исправления ошибок</string>
-</resources>
+    </resources>

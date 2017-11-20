@@ -58,41 +58,5 @@
     <item>振替の検索</item>
     <item>次のインスタンスで計画をソート</item>
   </string-array>
-  <string-array name="whats_new_269">
-    <item>直接、繰り返しを作成することができる取引フォーム</item>
-  </string-array>
-  <string-array name="whats_new_268">
-    <item>繰り返し、および将来の取引の設定が簡単になりました。</item>
-  </string-array>
-  <string-array name="whats_new_267">
-    <item>簡体中国語翻訳</item>
-    <item>計画インスタンスの処理を改善しました</item>
-  </string-array>
-  <string-array name="whats_new_266">
-    <item>新しいメニューアイコン</item>
-  </string-array>
-  <string-array name="whats_new_265">
-    <item>テンプレート、カテゴリ、アカウントのソートが簡単になります</item>
-  </string-array>
-  <string-array name="whats_new_264">
-    <item>分類画面が検索できるようになりました</item>
-    <item>勘定の残高がクリップボードにコピーできるようになりました</item>
-    <item>クリップボードから電卓への貼り付け</item>
-    <item>エクスポート ダイアログで日付形式のヘルプ</item>
-  </string-array>
-  <string-array name="whats_new_263">
-    <item>異なる通貨で口座間の振替</item>
-  </string-array>
-  <string-array name="whats_new_262">
-    <item>週と月の開始日を設定できます</item>
-  </string-array>
-  <string-array name="whats_new_261">
-    <item>分類を移動できます</item>
-  </string-array>
-  <string-array name="whats_new_260">
-    <item>マテリアルデザイン</item>
-    <item>タブレットレイアウトの改善</item>
-    <item>Samsung Knox のサポート</item>
-  </string-array>
     <string name="bug_fixes">バグ修正</string>
-</resources>
+    </resources>

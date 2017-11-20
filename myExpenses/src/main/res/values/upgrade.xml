@@ -18,9 +18,8 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
-  <string-array name="whats_new_2831">
-    <item>@string/performance_enhancement</item>
-    <item>@string/bug_fixes</item>
+  <string-array name="whats_new_284">
+    <item>Auto-fill made configurable</item>
   </string-array>
   <string-array name="whats_new_283">
     <item>Ascending sort direction (oldest transactions on top)</item>
@@ -61,42 +60,6 @@
     <item>New launcher icon</item>
     <item>Search for transfers</item>
     <item>Sort plans by next instance</item>
-  </string-array>
-  <string-array name="whats_new_269">
-    <item>Transaction form allows to create recurrence directly</item>
-  </string-array>
-  <string-array name="whats_new_268">
-    <item>Setup of recurring and future transactions made easier.</item>
-  </string-array>
-  <string-array name="whats_new_267">
-    <item>Simplified Chinese translation</item>
-    <item>Improved handling of plan instances</item>
-  </string-array>
-  <string-array name="whats_new_266">
-    <item>New menu icons</item>
-  </string-array>
-  <string-array name="whats_new_265">
-    <item>Sorting of templates, categories and accounts made easier</item>
-  </string-array>
-  <string-array name="whats_new_264">
-    <item>Categories screen can be searched</item>
-    <item>Account balance can be copied to clipboard</item>
-    <item>Paste into calculator from clipboard</item>
-    <item>Help for date format in export dialog</item>
-  </string-array>
-  <string-array name="whats_new_263">
-    <item>Transfers between accounts with different currencies</item>
-  </string-array>
-  <string-array name="whats_new_262">
-    <item>Days where week and month start can be configured</item>
-  </string-array>
-  <string-array name="whats_new_261">
-    <item>Categories can be moved</item>
-  </string-array>
-  <string-array name="whats_new_260">
-    <item>Material design</item>
-    <item>Improved tablet layout</item>
-    <item>Support for Samsung Knox</item>
   </string-array>
     <string name="bug_fixes">Bug fixes</string>
     <string name="performance_enhancement">Performance enhancement</string>

@@ -58,42 +58,6 @@
     <item>Recherche de transferts</item>
     <item>Tri des échéances par date</item>
   </string-array>
-  <string-array name="whats_new_269">
-    <item>Création directe des échéances à partir des opérations</item>
-  </string-array>
-  <string-array name="whats_new_268">
-    <item>Mise en place des opérations futures et récurrentes plus facile </item>
-  </string-array>
-  <string-array name="whats_new_267">
-    <item>Traduction en chinois simplifié</item>
-    <item>Traitement amélioré des instances</item>
-  </string-array>
-  <string-array name="whats_new_266">
-    <item>Nouvelles icônes de menu</item>
-  </string-array>
-  <string-array name="whats_new_265">
-    <item>Tri des modèles, des catégories et des comptes rendu plus facile</item>
-  </string-array>
-  <string-array name="whats_new_264">
-    <item>Recherches dans l\'écran de catégories</item>
-    <item>Le solde du compte peut être copié dans le presse-papier</item>
-    <item>Coller dans la calculatrice depuis le presse-papier</item>
-    <item>Aide pour le format de date dans la boîte de dialogue Exporter</item>
-  </string-array>
-  <string-array name="whats_new_263">
-    <item>Transferts entre comptes de devises différentes</item>
-  </string-array>
-  <string-array name="whats_new_262">
-    <item>Les jours de démarrage de la semaine et du mois peuvent être configurés</item>
-  </string-array>
-  <string-array name="whats_new_261">
-    <item>Les catégories peuvent être déplacées</item>
-  </string-array>
-  <string-array name="whats_new_260">
-    <item>Material design</item>
-    <item>Présentation améliorée pour les tablettes</item>
-    <item>Support pour Samsung Knox</item>
-  </string-array>
     <string name="bug_fixes">Corrections des erreurs</string>
     <string name="performance_enhancement">Amélioration de performance</string>
 </resources>

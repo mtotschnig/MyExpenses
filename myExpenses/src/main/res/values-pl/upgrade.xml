@@ -58,41 +58,5 @@
     <item>Wyszukaj transfery</item>
     <item>Sortuj plany według następnej instancji</item>
   </string-array>
-  <string-array name="whats_new_269">
-    <item>Formularz transakcji pozwala bezpośrednio tworzyć przewalutowanie</item>
-  </string-array>
-  <string-array name="whats_new_268">
-    <item>Łatwiejsze konfigurowanie powtarzających się i przyszłych transakcji.</item>
-  </string-array>
-  <string-array name="whats_new_267">
-    <item>Tłumaczenie chińskie uproszczone</item>
-    <item>Poprawiona obsługa przykładowego planu</item>
-  </string-array>
-  <string-array name="whats_new_266">
-    <item>Nowe ikony menu</item>
-  </string-array>
-  <string-array name="whats_new_265">
-    <item>Łatwiejsze sortowanie szablonów, kategorii i kont</item>
-  </string-array>
-  <string-array name="whats_new_264">
-    <item>Ekran kategorii można przeszukiwać</item>
-    <item>Saldo konta można skopiować do schowka</item>
-    <item>Wklej do kalkulatora ze schowka</item>
-    <item>Pomoc dla formatu daty w oknie dialogowym eksportu</item>
-  </string-array>
-  <string-array name="whats_new_263">
-    <item>Transfery między kontami w różnych walutach</item>
-  </string-array>
-  <string-array name="whats_new_262">
-    <item>Dni początku tygodnia i miesiąca można skonfigurować</item>
-  </string-array>
-  <string-array name="whats_new_261">
-    <item>Kategorie można przenosić</item>
-  </string-array>
-  <string-array name="whats_new_260">
-    <item>Material design</item>
-    <item>Poprawiony układ dla tabletów</item>
-    <item>Wsparcie dla Samsung Knox</item>
-  </string-array>
     <string name="bug_fixes">Poprawki błędów</string>
-</resources>
+    </resources>

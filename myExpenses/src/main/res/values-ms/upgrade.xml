@@ -36,41 +36,5 @@
     <item>Gelintar pemindahan</item>
     <item>Isih plan pada kejadian berikutnya</item>
   </string-array>
-  <string-array name="whats_new_269">
-    <item>Borang transaksi membolehkan penciptaan pengulangan secara terus</item>
-  </string-array>
-  <string-array name="whats_new_268">
-    <item>Persediaan transaksi berulang dan akan datang menjadi lebih mudah. </item>
-  </string-array>
-  <string-array name="whats_new_267">
-    <item>Terjemahan Bahasa Cina Mudah</item>
-    <item>Pengendalian kejadian pelan yang lebih baik</item>
-  </string-array>
-  <string-array name="whats_new_266">
-    <item>Ikon menu baharu</item>
-  </string-array>
-  <string-array name="whats_new_265">
-    <item>Pengisihan templat, kategori dan akaun menjadi lebih mudah</item>
-  </string-array>
-  <string-array name="whats_new_264">
-    <item>Skrin kategori boleh digelintar</item>
-    <item>Imbangan akaun boleh disalin ke dalam papan keratan</item>
-    <item>Tampal ke dalam kalculator dari papan keratan</item>
-    <item>Bantuan untuk format tarikh dalam dialog eksport</item>
-  </string-array>
-  <string-array name="whats_new_263">
-    <item>Pemindahan diantara akaun dengan matawang yang berlainan</item>
-  </string-array>
-  <string-array name="whats_new_262">
-    <item>Hari permulaan minggu dan bulan boleh dikonfigurkan</item>
-  </string-array>
-  <string-array name="whats_new_261">
-    <item>Kategori boleh dialih</item>
-  </string-array>
-  <string-array name="whats_new_260">
-    <item>Rekabentuk bahan</item>
-    <item>Bentangan tablet ditambahbaik</item>
-    <item>Sokongan untuk Samsung Knox</item>
-  </string-array>
     <string name="bug_fixes">Pembaikan pepijat</string>
-</resources>
+    </resources>

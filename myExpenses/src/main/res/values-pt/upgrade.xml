@@ -35,41 +35,5 @@
     <item>Busca de transferências</item>
     <item>Classificar os planos da próxima instância</item>
   </string-array>
-  <string-array name="whats_new_269">
-    <item>Forma de transação permite criar recorrência diretamente</item>
-  </string-array>
-  <string-array name="whats_new_268">
-    <item>Instalação de transações futuras e recorrentes facilitado.</item>
-  </string-array>
-  <string-array name="whats_new_267">
-    <item>Tradução em chinês simplificado</item>
-    <item>Melhoria no tratamento de ocorrências de planos</item>
-  </string-array>
-  <string-array name="whats_new_266">
-    <item>Novos ícones do menu</item>
-  </string-array>
-  <string-array name="whats_new_265">
-    <item>Classificação de modelos, categorias e contas facilitada</item>
-  </string-array>
-  <string-array name="whats_new_264">
-    <item>Tela de categorias pode ser pesquisada</item>
-    <item>O saldo da conta pode ser copiado para a área de transferência</item>
-    <item>Colar em calculadora de área de transferência</item>
-    <item>Ajuda para o formato de data na caixa de diálogo de exportação</item>
-  </string-array>
-  <string-array name="whats_new_263">
-    <item>Transferências entre contas com diferentes moedas</item>
-  </string-array>
-  <string-array name="whats_new_262">
-    <item>Dias onde começam a semana e mês podem ser configurados</item>
-  </string-array>
-  <string-array name="whats_new_261">
-    <item>Categorias podem ser movidas</item>
-  </string-array>
-  <string-array name="whats_new_260">
-    <item>Material design</item>
-    <item>Layout de tablet melhorado</item>
-    <item>Suporte para Samsung Knox</item>
-  </string-array>
     <string name="bug_fixes">Correções de erros</string>
-</resources>
+    </resources>

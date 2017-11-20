@@ -58,41 +58,6 @@
     <item>Transferler için arama</item>
     <item>Planlamaları sonraki örneklemeye dayalı sıralama</item>
   </string-array>
-  <string-array name="whats_new_269">
-    <item>Muamele formu doğrudan tekrar oluşturmaya izin verir</item>
-  </string-array>
-  <string-array name="whats_new_268">
-    <item>Gelecekteki ve tekrar eden muamelelerin oluşturulması artık daha kolay</item>
-  </string-array>
-  <string-array name="whats_new_267">
-    <item>Sade Çince tercüme</item>
-    <item>Planlama örneklemelerinin geliştirilmiş yönetimi</item>
-  </string-array>
-  <string-array name="whats_new_266">
-    <item>Yeni menü ikonları</item>
-  </string-array>
-  <string-array name="whats_new_265">
-    <item>Hesaplar, kategoriler ve şablonların sıralaması artık daha kolay</item>
-  </string-array>
-  <string-array name="whats_new_264">
-    <item>Kategoriler ekranında arama yapılabilir</item>
-    <item>Hesap bakiyesi panoya kopyalanabilir</item>
-    <item>Panodan hesap makinesine yapıştırma yapılabilir</item>
-    <item>Dışa aktarma diyaloğunda tarih biçimi için yardım</item>
-  </string-array>
-  <string-array name="whats_new_263">
-    <item>Değişik para birimleri kullanan hesaplar arası virmanlar</item>
-  </string-array>
-  <string-array name="whats_new_262">
-    <item>Ay ve haftaların başladığı günler yapılandırılabilir</item>
-  </string-array>
-  <string-array name="whats_new_261">
-    <item>Kategoriler taşınabilir</item>
-  </string-array>
-  <string-array name="whats_new_260">
-    <item>Material design tasarımı</item>
-    <item>Geliştirilmiş tablet düzeni</item>
-    <item>Samsung Knox desteği</item>
-  </string-array>
     <string name="bug_fixes">Hata düzeltmeleri</string>
+    <string name="performance_enhancement">Performans arttırıldı</string>
 </resources>
