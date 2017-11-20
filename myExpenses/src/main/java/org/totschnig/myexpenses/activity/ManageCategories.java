@@ -219,13 +219,14 @@ public class ManageCategories extends ProtectedFragmentActivity implements
       args.putLong(DatabaseConstants.KEY_PARENTID, parentId);
     }
     SimpleInputDialog.build()
-            .title(parentId == null ? R.string.menu_create_main_cat : R.string.menu_create_sub_cat)
-            .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
-            .hint(R.string.label)
-            .pos(R.string.dialog_button_add)
-            .neut()
-            .extra(args)
-            .show(this, DIALOG_NEW_CATEGORY);
+        .title(parentId == null ? R.string.menu_create_main_cat : R.string.menu_create_sub_cat)
+        .cancelable(false)
+        .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
+        .hint(R.string.label)
+        .pos(R.string.dialog_button_add)
+        .neut()
+        .extra(args)
+        .show(this, DIALOG_NEW_CATEGORY);
   }
 
   /**
@@ -239,14 +240,15 @@ public class ManageCategories extends ProtectedFragmentActivity implements
     Bundle args = new Bundle();
     args.putLong(DatabaseConstants.KEY_ROWID, catId);
     SimpleInputDialog.build()
-            .title(R.string.menu_edit_cat)
-            .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
-            .hint(R.string.label)
-            .text(label)
-            .pos(R.string.menu_save)
-            .neut()
-            .extra(args)
-            .show(this, DIALOG_EDIT_CATEGORY);
+        .title(R.string.menu_edit_cat)
+        .cancelable(false)
+        .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
+        .hint(R.string.label)
+        .text(label)
+        .pos(R.string.menu_save)
+        .neut()
+        .extra(args)
+        .show(this, DIALOG_EDIT_CATEGORY);
   }
 
   /**
@@ -294,9 +296,9 @@ public class ManageCategories extends ProtectedFragmentActivity implements
         parentId = extras.getLong(DatabaseConstants.KEY_PARENTID);
       }
       mCategory = new Category(
-              extras.getLong(DatabaseConstants.KEY_ROWID),
-              extras.getString(SimpleInputDialog.TEXT),
-              parentId);
+          extras.getLong(DatabaseConstants.KEY_ROWID),
+          extras.getString(SimpleInputDialog.TEXT),
+          parentId);
       startDbWriteTask(false);
       finishActionMode();
       return true;

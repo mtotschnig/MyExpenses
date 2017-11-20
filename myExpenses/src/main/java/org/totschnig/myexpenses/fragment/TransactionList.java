@@ -445,6 +445,7 @@ public class TransactionList extends ContextualActionBarFragment implements
         args.putLong(KEY_ROWID, acmi.id);
         SimpleInputDialog.build()
             .title(R.string.dialog_title_template_title)
+            .cancelable(false)
             .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
             .hint(R.string.label)
             .text(label)

@@ -422,6 +422,8 @@ public class AccountEdit extends AmountActivity implements
   public void editAccountColor(View view) {
     SimpleColorDialog.build()
         .allowCustom(true)
+        .cancelable(false)
+        .neut()
         .colorPreset(mAccount.color)
         .show(this, ACCOUNT_COLOR_DIALOG);
   }

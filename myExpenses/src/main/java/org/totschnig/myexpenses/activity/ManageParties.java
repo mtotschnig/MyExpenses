@@ -49,34 +49,38 @@ public class ManageParties extends ProtectedFragmentActivity implements
   public boolean dispatchCommand(int command, Object tag) {
     if (command == R.id.CREATE_COMMAND) {
       SimpleInputDialog.build()
-              .title(R.string.menu_create_party)
-              .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
-              .hint(R.string.label)
-              .pos(R.string.dialog_button_add)
-              .neut()
-              .show(this, DIALOG_NEW_PARTY);
+          .title(R.string.menu_create_party)
+          .cancelable(false)
+          .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
+          .hint(R.string.label)
+          .pos(R.string.dialog_button_add)
+          .neut()
+          .show(this, DIALOG_NEW_PARTY);
       return true;
     }
     return super.dispatchCommand(command, tag);
-   }
+  }
+
   @Override
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
     if ((DIALOG_NEW_PARTY.equals(dialogTag) || PartiesList.DIALOG_EDIT_PARTY.equals(dialogTag))
-            && which == BUTTON_POSITIVE){
+        && which == BUTTON_POSITIVE) {
       mParty = new Payee(
-              extras.getLong(DatabaseConstants.KEY_ROWID),
-              extras.getString(SimpleInputDialog.TEXT));
+          extras.getLong(DatabaseConstants.KEY_ROWID),
+          extras.getString(SimpleInputDialog.TEXT));
       startDbWriteTask(false);
       finishActionMode();
       return true;
     }
     return false;
   }
+
   private void finishActionMode() {
     ContextualActionBarFragment listFragment = ((ContextualActionBarFragment) getSupportFragmentManager().findFragmentById(R.id.parties_list));
     if (listFragment != null)
       listFragment.finishActionMode();
   }
+
   @Override
   public void onPostExecute(Object result) {
     if (result == null) {
@@ -84,10 +88,11 @@ public class ManageParties extends ProtectedFragmentActivity implements
           getString(R.string.already_defined,
               mParty != null ? mParty.name : ""),
           Toast.LENGTH_LONG)
-        .show();
+          .show();
     }
     super.onPostExecute(result);
   }
+
   @Override
   public Model getObject() {
     return mParty;

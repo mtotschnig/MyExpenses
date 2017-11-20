@@ -250,6 +250,8 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
   public void editAccountColor() {
     SimpleColorDialog.build()
         .allowCustom(true)
+        .cancelable(false)
+        .neut()
         .colorPreset(accountColor)
         .show(this, ACCOUNT_COLOR_DIALOG);
   }

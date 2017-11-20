@@ -48,85 +48,89 @@ public class PartiesList extends ContextualActionBarFragment implements LoaderMa
   public static final String DIALOG_EDIT_PARTY = "dialogEditParty";
   SimpleCursorAdapter mAdapter;
   private Cursor mPartiesCursor;
+
   @Override
   public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
     AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) info;
-    switch(command) {
-    case R.id.EDIT_COMMAND:
-      Bundle args = new Bundle();
-      args.putLong(DatabaseConstants.KEY_ROWID, menuInfo.id);
-      String name = mPartiesCursor.getString(mPartiesCursor.getColumnIndex(DatabaseConstants.KEY_PAYEE_NAME));
-      SimpleInputDialog.build()
-              .title(R.string.menu_edit_party)
-              .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
-              .hint(R.string.label)
-              .text(name)
-              .pos(R.string.menu_save)
-              .neut()
-              .extra(args)
-              .show(this, DIALOG_EDIT_PARTY);
-      return true;
+    switch (command) {
+      case R.id.EDIT_COMMAND:
+        Bundle args = new Bundle();
+        args.putLong(DatabaseConstants.KEY_ROWID, menuInfo.id);
+        String name = mPartiesCursor.getString(mPartiesCursor.getColumnIndex(DatabaseConstants.KEY_PAYEE_NAME));
+        SimpleInputDialog.build()
+            .title(R.string.menu_edit_party)
+            .cancelable(false)
+            .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
+            .hint(R.string.label)
+            .text(name)
+            .pos(R.string.menu_save)
+            .neut()
+            .extra(args)
+            .show(this, DIALOG_EDIT_PARTY);
+        return true;
     }
     return super.dispatchCommandSingle(command, info);
   }
+
   @Override
   public boolean dispatchCommandMultiple(int command,
-      SparseBooleanArray positions,Long[]itemIds) {
-    switch(command) {
-    case R.id.DELETE_COMMAND:
-      int columnIndexMappedTransactions = mPartiesCursor.getColumnIndex(DatabaseConstants.KEY_MAPPED_TRANSACTIONS);
-      int columnIndexMappedTemplates = mPartiesCursor.getColumnIndex(DatabaseConstants.KEY_MAPPED_TEMPLATES);
-      int columnIndexRowId = mPartiesCursor.getColumnIndex(DatabaseConstants.KEY_ROWID);
-      int mappedTransactionsCount = 0, mappedTemplatesCount = 0;
-      ArrayList<Long> idList = new ArrayList<>();
-      for (int i=0; i<positions.size(); i++) {
-        if (positions.valueAt(i)) {
-          boolean deletable = true;
-          mPartiesCursor.moveToPosition(positions.keyAt(i));
-          if (mPartiesCursor.getInt(columnIndexMappedTransactions) > 0) {
-            mappedTransactionsCount++;
-            deletable = false;
-          }
-          if (mPartiesCursor.getInt(columnIndexMappedTemplates) > 0) {
-            mappedTemplatesCount++;
-            deletable = false;
-          }
-          if (deletable) {
-            idList.add(mPartiesCursor.getLong(columnIndexRowId));
+                                         SparseBooleanArray positions, Long[] itemIds) {
+    switch (command) {
+      case R.id.DELETE_COMMAND:
+        int columnIndexMappedTransactions = mPartiesCursor.getColumnIndex(DatabaseConstants.KEY_MAPPED_TRANSACTIONS);
+        int columnIndexMappedTemplates = mPartiesCursor.getColumnIndex(DatabaseConstants.KEY_MAPPED_TEMPLATES);
+        int columnIndexRowId = mPartiesCursor.getColumnIndex(DatabaseConstants.KEY_ROWID);
+        int mappedTransactionsCount = 0, mappedTemplatesCount = 0;
+        ArrayList<Long> idList = new ArrayList<>();
+        for (int i = 0; i < positions.size(); i++) {
+          if (positions.valueAt(i)) {
+            boolean deletable = true;
+            mPartiesCursor.moveToPosition(positions.keyAt(i));
+            if (mPartiesCursor.getInt(columnIndexMappedTransactions) > 0) {
+              mappedTransactionsCount++;
+              deletable = false;
+            }
+            if (mPartiesCursor.getInt(columnIndexMappedTemplates) > 0) {
+              mappedTemplatesCount++;
+              deletable = false;
+            }
+            if (deletable) {
+              idList.add(mPartiesCursor.getLong(columnIndexRowId));
+            }
           }
         }
-      }
-      if (!idList.isEmpty()) {
-        ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
-            TaskExecutionFragment.TASK_DELETE_PAYEES,
-            idList.toArray(new Long[idList.size()]),
-            null,
-            R.string.progress_dialog_deleting);
-        return true;
-      }
-      if (mappedTransactionsCount > 0 || mappedTemplatesCount > 0 ) {
-        String message = "";
-        if (mappedTransactionsCount > 0)
-          message += getResources().getQuantityString(
-              R.plurals.not_deletable_mapped_transactions,
-              mappedTransactionsCount,
-              mappedTransactionsCount);
-        if (mappedTemplatesCount > 0)
-          message += getResources().getQuantityString(
-              R.plurals.not_deletable_mapped_templates,
-              mappedTemplatesCount,
-              mappedTemplatesCount);
-        Toast.makeText(getActivity(),message, Toast.LENGTH_LONG).show();
-      }
-      break;
+        if (!idList.isEmpty()) {
+          ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
+              TaskExecutionFragment.TASK_DELETE_PAYEES,
+              idList.toArray(new Long[idList.size()]),
+              null,
+              R.string.progress_dialog_deleting);
+          return true;
+        }
+        if (mappedTransactionsCount > 0 || mappedTemplatesCount > 0) {
+          String message = "";
+          if (mappedTransactionsCount > 0)
+            message += getResources().getQuantityString(
+                R.plurals.not_deletable_mapped_transactions,
+                mappedTransactionsCount,
+                mappedTransactionsCount);
+          if (mappedTemplatesCount > 0)
+            message += getResources().getQuantityString(
+                R.plurals.not_deletable_mapped_templates,
+                mappedTemplatesCount,
+                mappedTemplatesCount);
+          Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+        }
+        break;
     }
-    return super.dispatchCommandMultiple(command, positions,itemIds);
+    return super.dispatchCommandMultiple(command, positions, itemIds);
   }
+
   @Override
   @SuppressLint("InlinedApi")
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.parties_list, container, false);
-    
+
     final ListView lv = (ListView) v.findViewById(R.id.list);
     lv.setItemsCanFocus(false);
     //((TextView) findViewById(android.R.id.empty)).setText(R.string.no_parties);
@@ -153,10 +157,11 @@ public class PartiesList extends ContextualActionBarFragment implements LoaderMa
     registerForContextualActionBar(lv);
     return v;
   }
+
   @Override
   public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
     CursorLoader cursorLoader = new CursorLoader(getActivity(),
-        TransactionProvider.PAYEES_URI, null, null,null, null);
+        TransactionProvider.PAYEES_URI, null, null, null, null);
     return cursorLoader;
   }
 
