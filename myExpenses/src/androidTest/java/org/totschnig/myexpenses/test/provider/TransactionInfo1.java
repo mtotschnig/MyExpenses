@@ -14,22 +14,21 @@ class TransactionInfo1 {
     long payeeId;
     long accountId;
     long catId;
+    long methodId;
 
-  public TransactionInfo1(String comment, long date, long amount, long accountId, long payeeId, long catId) {
-    this(comment, date, amount, accountId, payeeId);
-    this.catId = catId;
-  }
     /*
      * Constructor for a TransactionInfo instance. This class helps create a transaction and
      * return its values in a ContentValues map expected by data model methods.
      * The transaction's id is created automatically when it is inserted into the data model.
      */
-    public TransactionInfo1(String comment, long date, long amount, long accountId, long payeeId) {
+    public TransactionInfo1(String comment, long date, long amount, long accountId, long payeeId, long catId, long methodId) {
       this.comment = comment;
       this.date = date;
       this.amount = amount;
       this.payeeId = payeeId;
       this.accountId = accountId;
+      this.catId = catId;
+      this.methodId = methodId;
     }
 
     /*
@@ -49,6 +48,7 @@ class TransactionInfo1 {
         v.put(DatabaseConstants.KEY_CR_STATUS, CrStatus.UNRECONCILED.name());
         v.put(DatabaseConstants.KEY_UUID, Model.generateUuid());
         v.put(DatabaseConstants.KEY_CATID, catId);
+        v.put(DatabaseConstants.KEY_METHODID, methodId);
         return v;
     }
 }

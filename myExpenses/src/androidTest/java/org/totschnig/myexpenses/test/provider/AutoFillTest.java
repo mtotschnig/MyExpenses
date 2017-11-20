@@ -7,11 +7,9 @@ import android.test.ProviderTestCase2;
 import android.test.mock.MockContentResolver;
 
 import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-
-import java.util.Date;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.CAT_AS_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
@@ -19,6 +17,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
 
 public class AutoFillTest extends ProviderTestCase2<TransactionProvider> {
 
@@ -34,6 +33,7 @@ public class AutoFillTest extends ProviderTestCase2<TransactionProvider> {
   long testAccountId;
   long payeeId, payeeId1;
   long catId, catId1;
+  long methodChequeId, methodCreditCardId;
 
   public AutoFillTest() {
     super(TransactionProvider.class, TransactionProvider.AUTHORITY);
@@ -47,9 +47,9 @@ public class AutoFillTest extends ProviderTestCase2<TransactionProvider> {
   private void insertData() {
 
     long now = System.currentTimeMillis() / 1000;
-    TEST_TRANSACTIONS[0] = new TransactionInfo1("Transaction 0", now, 0, testAccountId, payeeId, catId1);
-    TEST_TRANSACTIONS[1] = new TransactionInfo1("Transaction 1", now, 200, testAccountId, payeeId, catId); //this is the transaction we should retrieve
-    TEST_TRANSACTIONS[2] = new TransactionInfo1("Transaction 2", now, -100, testAccountId, payeeId1, catId);
+    TEST_TRANSACTIONS[0] = new TransactionInfo1("Transaction 0", now, 0, testAccountId, payeeId, catId1, methodCreditCardId);
+    TEST_TRANSACTIONS[1] = new TransactionInfo1("Transaction 1", now, 200, testAccountId, payeeId, catId, methodChequeId); //this is the transaction we should retrieve
+    TEST_TRANSACTIONS[2] = new TransactionInfo1("Transaction 2", now, -100, testAccountId, payeeId1, catId, methodCreditCardId);
 
     // Sets up test data
     for (TransactionInfo1 TEST_TRANSACTION : TEST_TRANSACTIONS) {
@@ -73,21 +73,18 @@ public class AutoFillTest extends ProviderTestCase2<TransactionProvider> {
     testAccountId = mDb.insertOrThrow(DatabaseConstants.TABLE_ACCOUNTS, null, testAccount.getContentValues());
     payeeId = mDb.insertOrThrow(DatabaseConstants.TABLE_PAYEES, null, new PayeeInfo(PAYEE_NAME).getContentValues());
     catId = mDb.insertOrThrow(DatabaseConstants.TABLE_CATEGORIES, null,  new CategoryInfo("Main", null).getContentValues());
+    methodChequeId = PaymentMethod.find(PaymentMethod.PreDefined.CHEQUE.name());
+    methodCreditCardId = PaymentMethod.find(PaymentMethod.PreDefined.CREDITCARD.name());
 
     payeeId1 = mDb.insertOrThrow(DatabaseConstants.TABLE_PAYEES, null, new PayeeInfo(PAYEE_NAME1).getContentValues());
     catId1 = mDb.insertOrThrow(DatabaseConstants.TABLE_CATEGORIES, null,  new CategoryInfo("Main 1", null).getContentValues());
 
-
-    mDb.insertOrThrow(DatabaseConstants.TABLE_TRANSACTIONS,null,
-        new TransactionInfo("Transaction 0", TransactionDatabase.dateTimeFormat.format(new Date()), 0, testAccountId, payeeId, catId)
-            .getContentValues()
-    );
     insertData();
   }
 
   public void testAutoLoadData() {
     final String[] projection = new String[]{KEY_CURRENCY, KEY_AMOUNT, KEY_CATID, CAT_AS_LABEL,
-        KEY_COMMENT, KEY_ACCOUNTID};
+        KEY_COMMENT, KEY_ACCOUNTID, KEY_METHODID};
     Cursor cursor = mMockResolver.query(
         ContentUris.withAppendedId(TransactionProvider.AUTOFILL_URI, payeeId),
         projection,
@@ -106,6 +103,7 @@ public class AutoFillTest extends ProviderTestCase2<TransactionProvider> {
     assertEquals("Main", cursor.getString(3));
     assertEquals("Transaction 1", cursor.getString(4));
     assertEquals(testAccountId, cursor.getLong(5));
+    assertEquals(methodChequeId, cursor.getLong(6));
 
     cursor.close();
   }
