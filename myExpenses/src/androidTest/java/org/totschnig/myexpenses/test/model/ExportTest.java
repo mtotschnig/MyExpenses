@@ -64,7 +64,9 @@ public class ExportTest extends ModelTest {
       part2 = 30L;
 
   Long cat1Id, cat2Id;
-  String date = new SimpleDateFormat("dd/MM/yyyy", Locale.US).format(new Date());
+  Date base = new Date(117,11, 15, 12, 0, 0);
+  long baseSinceEpoch = base.getTime();
+  String date = new SimpleDateFormat("dd/MM/yyyy", Locale.US).format(base);
   Uri export;
   private DocumentFile outDir;
 
@@ -83,7 +85,6 @@ public class ExportTest extends ModelTest {
     account2.save();
     cat1Id = Category.write(0, "Main", null);
     cat2Id = Category.write(0, "Sub", cat1Id);
-    long now = System.currentTimeMillis();
     op = Transaction.getNewInstance(account1.getId());
     if (op == null) {
       fail();
@@ -93,7 +94,7 @@ public class ExportTest extends ModelTest {
     op.setMethodId(PaymentMethod.find("CHEQUE"));
     op.crStatus = Transaction.CrStatus.CLEARED;
     op.setReferenceNumber("1");
-    op.setDate(new Date(now));
+    op.setDate(new Date(baseSinceEpoch));
     op.save();
 
     op.setAmount(new Money(account1.currency, -expense2));
@@ -101,7 +102,7 @@ public class ExportTest extends ModelTest {
     op.setPayee("N.N.");
     op.crStatus = Transaction.CrStatus.UNRECONCILED;
     op.setReferenceNumber("2");
-    op.setDate(new Date(now + 1000));
+    op.setDate(new Date(baseSinceEpoch + 1000));
     op.saveAsNew();
 
     op.setAmount(new Money(account1.currency, income1));
@@ -109,7 +110,7 @@ public class ExportTest extends ModelTest {
     op.setPayee(null);
     op.setMethodId(null);
     op.setReferenceNumber(null);
-    op.setDate(new Date(now + 2000));
+    op.setDate(new Date(baseSinceEpoch + 2000));
     op.saveAsNew();
     ContentValues contentValues = new ContentValues(1);
     contentValues.put(KEY_PICTURE_URI, "file://sdcard/picture.png");
@@ -117,7 +118,7 @@ public class ExportTest extends ModelTest {
 
     op.setAmount(new Money(account1.currency, income2));
     op.setComment("Note for myself with \"quote\"");
-    op.setDate(new Date(now + 3000));
+    op.setDate(new Date(baseSinceEpoch + 3000));
     op.saveAsNew();
 
     op = Transfer.getNewInstance(account1.getId(), account2.getId());
@@ -127,12 +128,12 @@ public class ExportTest extends ModelTest {
     }
     op.setAmount(new Money(account1.currency, transferP));
     op.crStatus = Transaction.CrStatus.RECONCILED;
-    op.setDate(new Date(now + 4000));
+    op.setDate(new Date(baseSinceEpoch + 4000));
     op.save();
 
     op.crStatus = Transaction.CrStatus.UNRECONCILED;
     op.setAmount(new Money(account1.currency, -transferN));
-    op.setDate(new Date(now + 5000));
+    op.setDate(new Date(baseSinceEpoch + 5000));
     op.saveAsNew();
 
     SplitTransaction split = SplitTransaction.getNewInstance(account1.getId());
@@ -141,7 +142,7 @@ public class ExportTest extends ModelTest {
       return;
     }
     split.setAmount(new Money(account1.currency, split1));
-    split.setDate(new Date(now + 6000));
+    split.setDate(new Date(baseSinceEpoch + 6000));
     Transaction part = Transaction.getNewInstance(account1.getId(), split.getId());
     if (part == null) {
       fail();
@@ -164,19 +165,18 @@ public class ExportTest extends ModelTest {
       fail();
       return;
     }
-    long now = System.currentTimeMillis();
     op.setAmount(new Money(account1.currency, -expense3));
     op.setMethodId(PaymentMethod.find("CHEQUE"));
     op.setComment("Expense inserted after first export");
     op.setReferenceNumber("3");
-    op.setDate(new Date(now));
+    op.setDate(new Date(baseSinceEpoch));
     op.save();
     op.setAmount(new Money(account1.currency, income3));
     op.setComment("Income inserted after first export");
     op.setPayee("N.N.");
     op.setMethodId(null);
     op.setReferenceNumber(null);
-    op.setDate(new Date(now + 1000));
+    op.setDate(new Date(baseSinceEpoch + 1000));
     op.saveAsNew();
   }
 
@@ -266,7 +266,7 @@ public class ExportTest extends ModelTest {
   }
 
   public void testExportCSVCustomFormat() {
-    String date = new SimpleDateFormat("M/d/yyyy", Locale.US).format(new Date());
+    String date = new SimpleDateFormat("M/d/yyyy", Locale.US).format(base);
     String[] linesCSV = new String[]{
         csvHeader(),
         "\"\";\"" + date + "\";\"\";0;0,10;\"\";\"\";\"\";\"" + getContext().getString(R.string.pm_cheque)
