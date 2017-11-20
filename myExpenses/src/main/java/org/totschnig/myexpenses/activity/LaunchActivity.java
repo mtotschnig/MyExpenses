@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.dialog.VersionDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.preference.PreferenceUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.Criteria;
 import org.totschnig.myexpenses.util.AcraHelper;
@@ -150,6 +151,14 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
             PrefKey.CATEGORIES_SORT_BY_USAGES_LEGACY.getBoolean(true) ?
                 "USAGES" : "ALPHABETIC");
       }
+      if (prev_version < 303) {
+        if (PrefKey.AUTO_FILL_LEGACY.getBoolean(false)) {
+          PreferenceUtils.enableAutoFill();
+        }
+        PrefKey.AUTO_FILL_LEGACY.remove();
+      }
+
+
       VersionDialogFragment.newInstance(prev_version, showImportantUpgradeInfo)
           .show(getSupportFragmentManager(), TAG_VERSION_INFO);
     } else {
