@@ -134,6 +134,8 @@ versions:
         昇順のソート (古い取引が先頭).
       pl: |
         Rosnący kierunek sortowania (najstarsze transakcje u góry).
+      iw: |
+        מיון בסדר עולה (הישן ביותר בראש).
   -
     - 2.8.2
     - "2017-10-14"
@@ -156,6 +158,8 @@ versions:
         分割取引用のテンプレートと計画. プロフェッショナルライセンスキーの導入. ホーム画面ウィジェットは、ユーザーが好みのフォントサイズに適応します.
       pl: |
         Szablony i plany dla transakcji podzielonych. Przedstawiamy Profesjonalny Klucz Licencyjny. Widżety ekranu głównego dostosowują się do preferowanego przez użytkownika rozmiaru czcionki.
+      iw: |
+        תבניות ותוכניות לעסקאות מפוצלות. היכרות עם מפתח רישיון מקצועי. ווידג'טים של מסך הבית מתאימים לגודל גופנים מועדף.
   -
     - 2.8.1
     - "2017-09-07"
@@ -163,17 +167,25 @@ versions:
       en: |
         Option for custom plans. Fix cloud storage of large backups.
       fr: |
-        Option pour les plans personnalisés. Correction du stockage dans le cloud de sauvegardes volumineuses.
+        Option pour les échéances personnalisées. Correction du stockage dans le cloud de sauvegardes volumineuses.
       de: |
         Option für benutzerdefinierte Pläne. Cloud-Speicherung von großen Backups wurde repariert.
       it: |
-        Opzione per piani personalizzati.
+        Opzione per piani personalizzati. Fissa l'archiviazione di nubi di grandi backup.
+      es: |
+        Opción para proyectos personalizados. Arreglar almacenamiento en la nube para copias de seguridad grandes.
       pt: |
-        Opção para planos personalizados.
+        Opção para planos personalizados. Corrigir o armazenamento na nuvem de backups de tamanho grande.
+      tr: |
+        Özel planlamalar için seçenek. Büyük yedeklemeler için bulut depolamasını düzelt.
       bg: |
         Възможност за потребителски планове. Отстранен проблем при съхраняване на голям бекъп на отдалечено място за съхранение.
       ja: |
         カスタム計画のオプション. 大規模バックアップのクラウドストレージを修正.
+      pl: |
+        Opcja dla niestandardowych planów. Naprawiono dysk w chmurze dla dużych kopii zapasowych.
+      iw: |
+        אפשרות לתוכניות מותאמות אישית. תקן אחסון ענן של גיבויים גדולים.
   -
     - 2.8.0
     - "2017-08-27"
@@ -185,11 +197,11 @@ versions:
       de: |
         Hebräische Übersetzung. Auswahl einer benutzerdefinierten Farbe für Konten.
       it: |
-        Traduzione ebraica.
+        Traduzione ebraica. Selettore per il colore dell'account personalizzato.
       es: |
         Traducción a Hebreo. Seleccionar un color de cuenta personalizado.
       pt: |
-        Tradução hebraica.
+        Tradução hebraica. Picker para cores de conta personalizada.
       tr: |
         İbranice tercüme. Özel hesap rengi için seçici.
       eu: |
@@ -198,6 +210,10 @@ versions:
         Превод на еврейски език . Палитра за избор на цвят на сметка.
       ja: |
         ヘブライ語翻訳. カスタムアカウント色の選択.
+      pl: |
+        Tłumaczenie hebrajskie. Wybór dla niestandardowego koloru konta.
+      iw: |
+        תרגום לעברית. בחירת צבע חשבון מותאם אישית.
   -
     - 2.7.9
     - "2017-04-14"
@@ -220,6 +236,10 @@ versions:
         Може да се задават знаци за валута.
       ja: |
         通貨記号を設定できます.
+      pl: |
+        Możliwość konfiguracji symboli walut.
+      iw: |
+        סמלי המטבע ניתנים להגדרה.
   -
     - 2.7.8
     - "2017-04-01"
@@ -227,7 +247,7 @@ versions:
       en: |
         App Shortcuts for Android 7.1.
       fr: |
-        Raccourcis application pour Android 7.1.
+        Raccourcis d'application pour Android 7.1.
       de: |
         App Verknüpfungen für Android 7.1.
       it: |
@@ -242,6 +262,11 @@ versions:
         Шорткъти на приложението за Андроид 7.1.
       ja: |
         Android 7.1 用アプリショートカット.
+      pl: |
+        Skróty aplikacji na Androidzie 7.1.
+      iw: |
+        קיצורי דרך עבור אנדרואיד 7.1.
+
   -
     - 2.7.7
     - "2017-03-18"
@@ -258,12 +283,18 @@ versions:
         Las copias de seguridad automáticas se pueden guardar en los servicios de nube.
       tr: |
         Otomatik yedeklemeler bulut arka ucunda stoklanabilir.
+      eu: |
+        Babeskopia automatikoak hodeiko atzealdekoan biltegiratu daitezke.
       bg: |
         Автоматичните бекъпи могат да се записват на  отдалечено облачно място.
       ms: |
         Auto sandar boleh disimpan dalam bahagian belakang awan.
       ja: |
         自動バックアップはクラウドバックエンドに保存できます.
+      pl: |
+        Automatyczne kopie zapasowe można przechowywać w zapleczu chmury.
+      iw: |
+        גיבויים אוטומטיים ניתן לאחסן על ענן backend.
   -
     - 2.7.6
     - "2017-02-28"
@@ -280,12 +311,18 @@ versions:
         Pequeñas mejoras.
       tr: |
         Küçük iyileştirmeler.
+      eu: |
+        Bigarren mailako hobekuntzak.
       bg: |
         Малки подобрения.
       ms: |
         Penambahbaikan kecil.
       ja: |
         マイナーな改善.
+      pl: |
+        Mniejsze usprawnienia.
+      iw: |
+        שיפורים קלים.
   -
     - 2.7.5
     - "2017-02-10"
@@ -293,7 +330,7 @@ versions:
       en: |
         Synchronization across devices via cloud services.
       fr: |
-        Synchronisation à travers les dispositifs via les services dans les nuages.
+        Synchronisation des dispositifs via les services cloud.
       de: |
         Synchronisierung zwischen mehreren Geräten über Cloud-Dienste.
       it: |
@@ -304,12 +341,18 @@ versions:
         Cihazlar arası bulut hizmetleri ile eşleşme.
       el: |
         Συγχρονισμό μεταξύ συσκευών μέσω υπηρεσιών σύννεφου.
+      eu: |
+        Gailuen arteko sinkronizazioa hodeiko zerbitzuen bidez.
       bg: |
         Синхронизиране между няколко устройства чрез облачни услуги.
       ms: |
         Penyegerakan merentasi peranti melalui perkhidmatan awan.
       ja: |
         クラウドサービスを介したデバイス間の同期.
+      pl: |
+        Synchronizacja pomiędzy urządzeniami przez chmurę.
+      iw: |
+        סנכרון בין מכשירים באמצעות שירותי ענן.
   -
     - 2.7.1
     - "2016-08-15"
@@ -317,7 +360,7 @@ versions:
       en: |
         Problems with plans on Samsung devices are fixed. Edit transactions from distribution screen.
       fr: |
-        Problèmes avec les plans sur les appareils de Samsung sont résolus. Modifier les transactions à partir de l’écran de la distribution.
+        Problèmes avec les échéances sur les appareils Samsung sont résolus. Modifier les opérations à partir de l’écran de distribution.
       de: |
         Probleme mit Plänen auf Samsung-Geräten behoben. Buchungen können von der Verteilungsansicht aus bearbeitet werden..
       it: |
@@ -338,6 +381,10 @@ versions:
         Masalah plan pada peranti Samsung telah dibaiki. Sunting transaksi dari skrin pengagihan.
       ja: |
         Samsung デバイスで計画の問題が修正されます. 分布画面から取引の編集.
+      pl: |
+        Problemy z planami na urządzeniach Samsung są naprawione. Edytuj transakcje na ekranie statystyk.
+      iw: |
+        בעיות בתוכניות בהתקני Samsung מתוקנות. ערוך עסקאות ממסך הפצה.
   -
     - 2.7.0
     - "2016-06-18"
@@ -351,15 +398,25 @@ versions:
       it: |
         Nuova icona di avvio. Ricerca per i trasferimenti. I piani possono essere ordinati per istanza successiva.
       es: |
-        Nuevo icono de lanzador. Búsqueda para las transferencias. Los planes pueden ser ordenados por instancia siguiente.
+        Nuevo icono. Búsqueda para transferencias. Los proyectos pueden ser ordenados por futuras instancias.
       pt: |
         Novo ícone do lançador. Busca de transferências. Classificar os planos da próxima instância.
       tr: |
         Yeni başlatma ikonu. Transferler için arama. Planlamaları sonraki örneklemeye dayalı sıralama.
+      eu: |
+        Ikono berria. Tranferentzien bilaketa. Ordenatu planak hurrengo gertaeraren arabera.
       bg: |
         Нова икона за стартиране. Търсене на преводи. Сортиране на плановете по следваща инстанция.
+      ru: |
+        Новая иконка. Поиск переводов. Сортировать планы по ближайшему событию.
+      ms: |
+        Ikon pelancar baharu. Gelintar pemindahan. Isih plan pada kejadian berikutnya.
       ja: |
         新しいランチャーアイコン. 振替の検索. 次のインスタンスで計画をソート.
+      pl: |
+        Nowa ikona aplikacji. Wyszukaj transfery. Sortuj plany według następnej instancji.
+      iw: |
+        סמל מפעיל חדש. חפש העברות. מיין תוכניות לפי המופע הבא.
   -
     - 2.6.9
     - "2016-05-29"
@@ -373,15 +430,27 @@ versions:
       it: |
         Il formulario dell'operazione permette di creare la ricorrenza direttamente.
       es: |
-        El formulario de transacción permite crear directamente la repetición.
+        El formulario de transacción permite crear directamente repeticiones.
       pt: |
         Forma de transação permite criar recorrência diretamente.
       tr: |
         Muamele formu doğrudan tekrar oluşturmaya izin verir.
+      el: |
+        Η φόρμα συναλλαγής σας επιτρέπει να δημιουργήσετε άμεσα επαναλήψεις.
+      eu: |
+        Transakzioaren formularioak errepikakortasuna zuzenean sortzea baimentzen du.
       bg: |
-        Повтаряне на транзакцията може да се зададе директно от формата при създаването й.
+        Повтаряне на транзакцията може да се зададе директно от формата при създаването й..
+      ru: |
+        Форма операции позволяет повторить ее.
+      ms: |
+        Borang transaksi membolehkan penciptaan pengulangan secara terus.
       ja: |
         直接、繰り返しを作成することができる取引フォーム.
+      pl: |
+        Formularz transakcji pozwala bezpośrednio tworzyć przewalutowanie.
+      iw: |
+        טופס העסקה מאפשר ליצור הישנות ישירה.
   -
     - 2.6.8
     - "2016-05-08"
@@ -395,17 +464,27 @@ versions:
       it: |
         Installazione di transazioni ricorrenti e future facilitata.
       es: |
-        Configuración de transacciones recurrentes y futuras más fácil.
+        Configuración más fácil de transacciones recurrentes y futuras.
       pt: |
         Instalação de transações futuras e recorrentes facilitado.
       tr: |
         Gelecekteki ve tekrar eden muamelelerin oluşturulması artık daha kolay.
+      el: |
+        Η δημιουργία επαναλαμβανόμενων και μελλοντικών συναλλαγών είναι πλέον ευκολότερη.
+      eu: |
+        Etorkizunean errepikatzen diren transakzioak erraztu dira.
       bg: |
         Задаването на повтарящи се и бъдещи транзакции вече става по-лесно.
+      ru: |
+        Упрощена настройка повторяющихся и будущих операций.
       ms: |
-        Persediaan transaksi berulang dan akan datang menjadi lebih mudah.
+        Persediaan transaksi berulang dan akan datang menjadi lebih mudah. 
       ja: |
-        繰り返し、および将来の取引の設定が簡単になりました.
+        繰り返し、および将来の取引の設定が簡単になりました。
+      pl: |
+        Łatwiejsze konfigurowanie powtarzających się i przyszłych transakcji.
+      iw: |
+        ההתקנה של עסקאות חוזרות ועתידיות נעשה קל יותר.
   -
     - 2.6.7
     - "2016-04-30"
@@ -419,15 +498,25 @@ versions:
       it: |
         Traduzione cinese semplificato. Migliorata la gestione delle istanze di piano.
       es: |
-        Traducción al chino simplificado. Mejorando la gestión de las instancias de planes.
+        Traducción simplificada al chino. Gestión de proyectos de instancias mejorado.
+      pt: |
+        Tradução em chinês simplificado. Melhoria no tratamento de ocorrências de planos.
       tr: |
         Sade Çince tercüme. Planlama örneklemelerinin geliştirilmiş yönetimi.
+      eu: |
+        Sinplifikatutako txinerara itzulpena. Planen instantzien kudeaketa hobetua.
       bg: |
-        Превод на китайски език. Подобрена обработка на плановите инстанции.
+        Превод на китайски език. Подобрена обработка на инстанциите в плановете.
+      ru: |
+        Упрощенный китайский перевод. Улучшена обработка планов.
       ms: |
         Terjemahan Bahasa Cina Mudah. Pengendalian kejadian pelan yang lebih baik.
       ja: |
         簡体中国語翻訳. 計画インスタンスの処理を改善しました.
+      pl: |
+        Tłumaczenie chińskie uproszczone. Poprawiona obsługa przykładowego planu.
+      iw: |
+        תרגום סינית פשוטה. טיפול משופר במופעי תוכניות.
   -
     - 2.6.6
     - "2016-03-09"
@@ -446,16 +535,24 @@ versions:
         Novos ícones do menu.
       tr: |
         Yeni menü ikonları.
+      el: |
+        Νέα εικονίδια μενού.
       eu: |
         Ikono berriak menuan.
       bg: |
         Нови икони в менюто.
+      ru: |
+        Новые иконки меню.
       ms: |
         Ikon menu baharu.
       ja: |
         新しいメニューアイコン.
       ro: |
         Noi iconuri meniu.
+      pl: |
+        Nowe ikony menu.
+      iw: |
+        סמלי תפריט חדש.
   -
     - 2.6.5
     - "2016-02-19"
@@ -469,7 +566,7 @@ versions:
       it: |
         Ordinamento dei modelli, categorie e dei conti ha reso più facile.
       es: |
-        Clasificación de las plantillas, categorías y cuentas más fácil.
+        Clasificación de plantillas, categorías y cuentas mejorado.
       pt: |
         Classificação de modelos, categorias e contas facilitada.
       tr: |
@@ -478,8 +575,18 @@ versions:
         Txantiloiak, kategoriak eta kontuak ordenatzea errezagoa da orain.
       bg: |
         Подреждането на шаблони, категории и сметки вече става по-лесно.
+      ru: |
+        Упрощена сортировка шаблонов, категорий и счетов.
+      ms: |
+        Pengisihan templat, kategori dan akaun menjadi lebih mudah.
       ja: |
         テンプレート、カテゴリ、アカウントのソートが簡単になります.
+      ro: |
+        Sortare de template-uri, categorii şi conturi cu uşurintă.
+      pl: |
+        Łatwiejsze sortowanie szablonów, kategorii i kont.
+      iw: |
+        מיון תבניות, קטגוריות וחשבונות נעשה קל יותר.
   -
     - 2.6.4
     - "2016-01-25"
@@ -487,13 +594,13 @@ versions:
       en: |
         Categories screen can be searched. Account balance can be copied to clipboard. Paste into calculator from clipboard. Help for date format in export dialog.
       fr: |
-        Recherches dans l'écran de catégories. Le solde du compte peut être copié dans le presse-papiers. Coller dans la calculatrice depuis le presse-papiers. Aide pour le format de date dans la boîte de dialogue Exporter.
+        Recherches dans l'écran de catégories. Le solde du compte peut être copié dans le presse-papier. Coller dans la calculatrice depuis le presse-papier. Aide pour le format de date dans la boîte de dialogue Exporter.
       de: |
         Der Kategorien-Bildschirm kann durchsucht werden. Der Kontostand kann in die Zwischenablage kopiert werden. In den Taschenrechner kann aus der Zwischenablage eingefügt werden. Hilfe für Datumsformat im Export-Dialog.
       it: |
         Schermo di categorie possa essere ricercato. Saldo del conto può essere copiato negli appunti. Incolla nella calcolatrice dagli appunti. Aiuto per il formato di data nella finestra di dialogo Esporta.
       es: |
-        Pantalla de categorías puede ser buscada. Saldo de la cuenta puede copiarse al portapapeles. Pegar en la calculadora desde el portapapeles. Ayuda para formato de fecha en cuadro de diálogo de exportación.
+        Se pueden buscar pantallas de categorías. El saldo de la cuenta puede copiarse al portapapeles. Pegar en la calculadora desde el portapapeles. Ayuda para formatear fecha en el cuadro de diálogo de exportación.
       pt: |
         Tela de categorias pode ser pesquisada. O saldo da conta pode ser copiado para a área de transferência. Colar em calculadora de área de transferência. Ajuda para o formato de data na caixa de diálogo de exportação.
       tr: |
@@ -502,10 +609,18 @@ versions:
         Kategorien pantailan bilatzea dago. Kontuaren saldoa arbelera kopiatu daiteke. Itsatsi kalkulagailuan arbeletik. Data formaturako laguntza esportazio elkarrizketa koadroan.
       bg: |
         Може да направите Търсене на екрана с категории. Баланса на сметка може да бъде копиран в клипборда. Вмъкване от клипборда в калкулатора. Помощ за формат на датата в диалога за експорт.
+      ru: |
+        Экран категорий. Баланс счета можно скопировать в буфер обмена. Вставка в калькулятор из буфера обмена. Помощь в диалоге экспорта формат даты.
       ms: |
         Skrin kategori boleh digelintar. Imbangan akaun boleh disalin ke dalam papan keratan. Tampal ke dalam kalculator dari papan keratan. Bantuan untuk format tarikh dalam dialog eksport.
       ja: |
         分類画面が検索できるようになりました. 勘定の残高がクリップボードにコピーできるようになりました. クリップボードから電卓への貼り付け. エクスポート ダイアログで日付形式のヘルプ.
+      ro: |
+        Categorii ecrane pot fi căutate. Soldul contului poate fi copiat în clipboard. Lipire în calculatorul din clipboard. Ajutor pentru formatul datei în caseta de dialog export.
+      pl: |
+        Ekran kategorii można przeszukiwać. Saldo konta można skopiować do schowka. Wklej do kalkulatora ze schowka. Pomoc dla formatu daty w oknie dialogowym eksportu.
+      iw: |
+        ניתן לחפש את מסך הקטגוריות. ניתן להעתיק את יתרת החשבון ללוח. הדבק לתוך מחשבון מתוך הלוח. עזרה לפורמט תאריך בתיבת הדו-שיח לייצוא.
   -
     - 2.6.3
     - "2016-01-07"
@@ -524,12 +639,22 @@ versions:
         Transferências entre contas com diferentes moedas.
       tr: |
         Değişik para birimleri kullanan hesaplar arası virmanlar.
+      eu: |
+        Transferentziak moneta desberdineko kontuen artean.
       bg: |
-        Трансфер между сметки с различни валути..
+        Преводи между сметки с различни валути..
+      ru: |
+        Переводы между счетами в различных валютах.
       ms: |
         Pemindahan diantara akaun dengan matawang yang berlainan.
       ja: |
         異なる通貨で口座間の振替.
+      ro: |
+        Transferuri între conturile cu diferite valute.
+      pl: |
+        Transfery między kontami w różnych walutach.
+      iw: |
+        העברות בין חשבונות עם מטבעות שונים.
   -
     - 2.6.2
     - "2015-12-22"
@@ -543,7 +668,7 @@ versions:
       it: |
         Giorni dove può essere configurato inizio settimana e mese.
       es: |
-        Días donde se puede configurar inicio de semana y mes.
+        Se puede configurar como inicio días en lugar de semanas y meses.
       pt: |
         Dias onde começam a semana e mês podem ser configurados.
       tr: |
@@ -552,10 +677,18 @@ versions:
         Astea eta hilabetearen hasierako eguna konfiguratu daiteke.
       bg: |
         Възможност да настроите ден от седмицата и дата от месеца за период на групирне на транзакциите..
+      ru: |
+        Можно настроить дни начала недели и месяца.
       ms: |
         Hari permulaan minggu dan bulan boleh dikonfigurkan.
       ja: |
         週と月の開始日を設定できます.
+      ro: |
+        Zilele în cazul în care pe săptămâna şi luna pot fi configurate.
+      pl: |
+        Dni początku tygodnia i miesiąca można skonfigurować.
+      iw: |
+        ימים שבהם ניתן להגדיר את תצוגת השבוע והחודש.
   -
     - 2.6.1
     - "2015-12-05"
@@ -563,21 +696,35 @@ versions:
       en: |
         Categories can be moved.
       fr: |
-        Catégories peuvent être déplacés.
+        Les catégories peuvent être déplacées.
       de: |
         Kategorien können verschoben werden.
       it: |
         Categorie possono essere spostate.
       es: |
-        Categorías se pueden mover.
+        Se pueden mover las categorías.
       pt: |
         Categorias podem ser movidas.
       tr: |
         Kategoriler taşınabilir.
+      el: |
+        Επιτρέπεται η μετακίνηση κατηγοριών.
+      eu: |
+        Kategoriak mugitu daitezke.
       bg: |
         Местене на категориите - под-категории от една в друга главна, преобразуване на под-категория в главна и обратно..
+      ru: |
+        Категории могут быть перемещены.
+      ms: |
+        Kategori boleh dialih.
       ja: |
         分類を移動できます.
+      ro: |
+        Categorii pot fi mutate.
+      pl: |
+        Kategorie można przenosić.
+      iw: |
+        ניתן להעביר קטגוריות.
   -
     - 2.6.0
     - "2015-11-28"
@@ -591,17 +738,29 @@ versions:
       it: |
         Material design. Migliore layout tablet. Supporto per Samsung Knox.
       es: |
-        Material design. Mejor diseño de tableta. Soporte para Samsung Knox.
+        Material Design. Mejor diseño de tableta. Soporte para Samsung Knox.
       pt: |
         Material design. Layout de tablet melhorado. Suporte para Samsung Knox.
       tr: |
         Material design tasarımı. Geliştirilmiş tablet düzeni. Samsung Knox desteği.
-      ja: |
-        マテリアルデザイン. タブレットレイアウトの改善. Samsung Knox のサポート.
+      el: |
+        Material design. Βελτίωση εμφάνισης σε ταμπλέτες. Υποστήριξη Samsung Knox.
       eu: |
         Material diseinua. Hobetutako tabletarako antolaketa. Samsung Knox euskarria.
       bg: |
         Приложена е технологията Material design. Подобрен изглед на таблет. Подръжка на Samsung Knox.
+      ru: |
+        Material design. Улучшенная компоновка в режиме планшета. Поддержка Samsung Knox.
+      ms: |
+        Rekabentuk bahan. Bentangan tablet ditambahbaik. Sokongan untuk Samsung Knox.
+      ja: |
+        マテリアルデザイン. タブレットレイアウトの改善. Samsung Knox のサポート.
+      ro: |
+        Material design. Aspect de tableta îmbunătăţit. Suport pentru Samsung Knox.
+      pl: |
+        Material design. Poprawiony układ dla tabletów. Wsparcie dla Samsung Knox.
+      iw: |
+        עיצוב חומר. פריסת טבלט משופרת. תמיכה עבור Samsung Knox.
   -
     - 2.5.2
     - "2015-09-12"
