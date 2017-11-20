@@ -552,7 +552,7 @@ public class ExpenseEdit extends AmountActivity implements
             mCalendar.setTime(cached.getDate());
             mPictureUri = getIntent().getParcelableExtra(KEY_CACHED_PICTURE_URI);
             setPicture();
-            mTransaction.setMethodId(cached.getMethodId());
+            mMethodId = cached.getMethodId();
           }
         }
         setup();
@@ -1185,9 +1185,7 @@ public class ExpenseEdit extends AmountActivity implements
     }
     if (mIsMainTransactionOrTemplate) {
       mTransaction.setPayee(mPayeeText.getText().toString());
-      long selected = mMethodSpinner.getSelectedItemId();
-      mTransaction.setMethodId((selected != AdapterView.INVALID_ROW_ID && selected > 0) ?
-          selected : null);
+      mTransaction.setMethodId(mMethodId);
     }
     if (mOperationType == TYPE_TRANSFER) {
       mTransaction.setTransferAccountId(mTransferAccountSpinner.getSelectedItemId());
@@ -1562,6 +1560,9 @@ public class ExpenseEdit extends AmountActivity implements
           mCatId = mTransaction.getCatId();
           mLabel = mTransaction.getLabel();
         }
+        if (mMethodId == null) {
+          mMethodId = mTransaction.getMethodId();
+        }
         if (getIntent().getBooleanExtra(KEY_CLONE, false)) {
           if (mTransaction instanceof SplitTransaction) {
             mRowId = mTransaction.getId();
@@ -1656,16 +1657,12 @@ public class ExpenseEdit extends AmountActivity implements
         }
         break;
       case R.id.Method:
-        if (id > 0) {
-          //ignore first row "no method" merged in
-          mMethodsCursor.moveToPosition(position - 1);
-          if (!(mTransaction instanceof Template))
-            mReferenceNumberText.setVisibility(mMethodsCursor.getInt(mMethodsCursor.getColumnIndexOrThrow(KEY_IS_NUMBERED)) > 0 ?
-                View.VISIBLE : View.INVISIBLE);
+        if (position > 0) {
+          mMethodId = parent.getSelectedItemId();
         } else {
-          mTransaction.setMethodId(null);
-          mReferenceNumberText.setVisibility(View.GONE);
+          mMethodId = null;
         }
+        setReferenceNumberVisibility();
         break;
       case R.id.Account:
         final Account account = mAccounts[position];
@@ -1946,6 +1943,9 @@ public class ExpenseEdit extends AmountActivity implements
         if (overridePreferences || PrefKey.AUTO_FILL_COMMENT.getBoolean(false)) {
           dataToLoad.add(KEY_COMMENT);
         }
+        if (overridePreferences || PrefKey.AUTO_FILL_METHOD.getBoolean(false)) {
+          dataToLoad.add(KEY_METHODID);
+        }
         if (mayLoadAccount) {
           dataToLoad.add(KEY_ACCOUNTID);
         }
@@ -1954,6 +1954,37 @@ public class ExpenseEdit extends AmountActivity implements
             dataToLoad.toArray(new String[dataToLoad.size()]), null, null, null);
     }
     return null;
+  }
+
+  private void setReferenceNumberVisibility() {
+    if (mTransaction instanceof Template) {
+      return;
+    }
+    //ignore first row "no method" merged in
+    int position = mMethodSpinner.getSelectedItemPosition();
+    if (position > 0) {
+      mMethodsCursor.moveToPosition(position - 1);
+      mReferenceNumberText.setVisibility(mMethodsCursor.getInt(mMethodsCursor.getColumnIndexOrThrow(KEY_IS_NUMBERED)) > 0 ?
+          View.VISIBLE : View.INVISIBLE);
+    } else {
+      mReferenceNumberText.setVisibility(View.GONE);
+    }
+  }
+
+  private void setMethodSelection() {
+    mMethodsCursor.moveToFirst();
+    if (mMethodId != null) {
+      while (!mMethodsCursor.isAfterLast()) {
+        if (mMethodsCursor.getLong(mMethodsCursor.getColumnIndex(KEY_ROWID)) == mMethodId) {
+          mMethodSpinner.setSelection(mMethodsCursor.getPosition() + 1); //first row is ---
+          break;
+        }
+        mMethodsCursor.moveToNext();
+      }
+    } else {
+      mMethodSpinner.setSelection(0);
+    }
+    setReferenceNumberVisibility();
   }
 
   @Override
@@ -1973,20 +2004,7 @@ public class ExpenseEdit extends AmountActivity implements
           MatrixCursor extras = new MatrixCursor(new String[]{KEY_ROWID, KEY_LABEL, KEY_IS_NUMBERED});
           extras.addRow(new String[]{"0", "- - - -", "0"});
           mMethodsAdapter.swapCursor(new MergeCursor(new Cursor[]{extras, data}));
-          if (mSavedInstance) {
-            mTransaction.setMethodId(mMethodId);
-          }
-          if (mTransaction.getMethodId() != null) {
-            while (!data.isAfterLast()) {
-              if (data.getLong(data.getColumnIndex(KEY_ROWID)) == mTransaction.getMethodId()) {
-                mMethodSpinner.setSelection(data.getPosition() + 1);
-                break;
-              }
-              data.moveToNext();
-            }
-          } else {
-            mMethodSpinner.setSelection(0);
-          }
+          setMethodSelection();
         }
         break;
       case ACCOUNTS_CURSOR:
@@ -2081,6 +2099,11 @@ public class ExpenseEdit extends AmountActivity implements
           if (TextUtils.isEmpty(mAmountText.getText().toString()) && columnIndex != -1) {
             fillAmount(new Money(Currency.getInstance(data.getString(data.getColumnIndex(KEY_CURRENCY))), data.getLong(columnIndex)).getAmountMajor());
             configureType();
+          }
+          columnIndex = data.getColumnIndex(KEY_METHODID);
+          if (mMethodId == null && mMethodsCursor != null && columnIndex != -1) {
+            mMethodId = DbUtils.getLongOrNull(data, columnIndex);
+            setMethodSelection();
           }
           columnIndex = data.getColumnIndex(KEY_ACCOUNTID);
           if (!didUserSetAccount && mAccounts != null && columnIndex != -1) {

@@ -99,6 +99,9 @@
                 android:entryValues="@array/pref_auto_fill_account_values"
                 android:key="@string/pref_auto_fill_account_key"
                 android:title="@string/account"/>
+            <SwitchPreferenceCompat
+                android:key="@string/pref_auto_fill_method_key"
+                android:title="@string/method"/>
         </PreferenceScreen>
 
         <org.totschnig.myexpenses.preference.ListPreferenceShowSummary
