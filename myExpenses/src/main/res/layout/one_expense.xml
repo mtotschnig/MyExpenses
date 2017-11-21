@@ -55,7 +55,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:inputType="text"
+                    android:inputType="textCapSentences"
                     android:maxLines="1"/>
             </TableRow>
 
@@ -189,7 +189,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:completionThreshold="1"
-                    android:inputType="textPersonName"/>
+                    android:inputType="textPersonName|textCapWords"/>
             </TableRow>
 
             <TableRow android:id="@+id/CategoryRow">
@@ -225,7 +225,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
-                        android:inputType="text"/>
+                        android:inputType="textCapSentences"/>
 
                     <Spinner
                         android:id="@+id/Status"

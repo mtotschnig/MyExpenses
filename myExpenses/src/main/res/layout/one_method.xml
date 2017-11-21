@@ -50,7 +50,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:inputType="text"
+                    android:inputType="textCapWords"
                     android:maxLines="1"/>
             </TableRow>
 
