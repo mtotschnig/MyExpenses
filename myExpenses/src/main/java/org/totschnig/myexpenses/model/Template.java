@@ -225,7 +225,12 @@ public class Template extends Transaction {
 
   @Override
   public void setAmount(Money amount) {
-    template.setAmount(amount);
+    if (template instanceof Transfer) {
+      //transfer template only have one part set
+      ((Transfer) template).setAmountAndTransferAmount(amount, null);
+    } else {
+      template.setAmount(amount);
+    }
   }
 
   @Override

@@ -179,8 +179,7 @@ public class TemplatesList extends SortableListFragment {
             ((ProtectedFragmentActivity) getActivity()).requestCalendarPermission();
           }
         } else if (isForeignExchangeTransfer(position)) {
-          ((ManageTemplates) getActivity()).dispatchCommand(R.id.CREATE_INSTANCE_EDIT_COMMAND,
-              id);
+          dispatchCreateInstanceEditDo(id);
         } else {
           boolean splitAtPosition = isSplitAtPosition(position);
           if (PrefKey.TEMPLATE_CLICK_HINT_SHOWN.getBoolean(false)) {
