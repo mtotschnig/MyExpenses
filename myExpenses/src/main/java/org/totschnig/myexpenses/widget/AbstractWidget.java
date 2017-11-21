@@ -184,15 +184,13 @@ public abstract class AbstractWidget<T extends Model> extends AppWidgetProvider 
     Intent intent = new Intent(WIDGET_NEXT_ACTION, null, context,
         getClass());
     intent.putExtra(WIDGET_ID, widgetId);
-    intent.putExtra("ts", System.currentTimeMillis());
-    PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0,
+    PendingIntent pendingIntent = PendingIntent.getBroadcast(context, widgetId,
         intent, PendingIntent.FLAG_UPDATE_CURRENT);
     updateViews.setOnClickPendingIntent(R.id.down_icon, pendingIntent);
     intent = new Intent(WIDGET_PREVIOUS_ACTION, null, context,
         getClass());
     intent.putExtra(WIDGET_ID, widgetId);
-    intent.putExtra("ts", System.currentTimeMillis());
-    pendingIntent = PendingIntent.getBroadcast(context, 0, intent,
+    pendingIntent = PendingIntent.getBroadcast(context, widgetId, intent,
         PendingIntent.FLAG_UPDATE_CURRENT);
     updateViews.setOnClickPendingIntent(R.id.up_icon, pendingIntent);
   }

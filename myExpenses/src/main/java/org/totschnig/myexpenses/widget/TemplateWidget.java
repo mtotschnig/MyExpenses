@@ -76,9 +76,8 @@ public class TemplateWidget extends AbstractWidget<Template> {
     Intent intent = new Intent(WIDGET_INSTANCE_SAVE_ACTION, null, context,
         TemplateWidget.class);
     intent.putExtra(WIDGET_ID, widgetId);
-    intent.putExtra("ts", System.currentTimeMillis());
     PendingIntent pendingIntent = PendingIntent.getBroadcast(
-        context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        context, widgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     updateViews.setOnClickPendingIntent(R.id.command1, pendingIntent);
     setImageViewVectorDrawable(context, updateViews, R.id.command1, R.drawable.ic_action_apply_save);
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
