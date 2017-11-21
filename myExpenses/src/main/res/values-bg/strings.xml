@@ -265,6 +265,7 @@
   <string name="pm_type_neutral">Неутрално</string>
   <string name="pref_app_dir_title">Папка за бекъп и експорт</string>
   <string name="pref_auto_fill_title">Автоматично попълване</string>
+  <string name="pref_auto_fill_summary">Попълни данните от последната транзакция за същия получател / платец</string>
   <string name="pref_backup_summary">Запиши сега резервно копие на базата данни и предпочитания.</string>
   <string name="pref_sort_order_usages">по брой използвания</string>
   <string name="pref_category_title_advanced">Допълнителни</string>
@@ -482,6 +483,7 @@
   <string name="comparison_operator_date_after">след</string>
   <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Само днес специална оферта в безплатното приложение: премийните функции са отключени безплатно.</string>
   <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Закупуването е неуспешно или отменено.</string>
+  <string name="hint_auto_fill">Да се попълват ли автоматично данните от последната транзакция за същия получател / платец? Винаги можете да промените това поведение от настройките.</string>
   <string name="yes">Да</string>
   <string name="no">Не</string>
   <string name="hint_template_click">Кратко натискане на запис в този списък ще активира шаблона и ще го запамети веднага или ще изведе страница за редактиране, където може да направите промени преди запаметяване. Имате достъп до алтернативното действие чрез продължително натискане, а може да смените по подразбиране в Настройки.</string>
@@ -678,6 +680,7 @@
   <string name="extend_until">Продължете до %1$s за %2$s</string>
   <string name="extended_upgrade_goodie_github">Допълнителни %d месеца се предоставят еднократно на потребители, които вече притежават разширен лиценз</string>
   <string name="extended_upgrade_goodie_subscription">Потребителите, които вече притежават разширен лиценз, заплащат 50%% от обичайната цена (%s) през първата година.</string>
+  <string name="extended_upgrade_goodie_subscription_amazon">Потребителите, които вече притежават разширен лиценз, имат право на %1$d%% намаление от обичайната цена (%2$s) на годишния абонамент.</string>
   <string name="switch_to_yearly">Преминаване на годишен абонамент</string>
   <string name="switch_to_monthly">Преминаване на месечен абонамент</string>
   <string name="extend_validity">Удължаване на валидността</string>
@@ -686,4 +689,7 @@
   <string name="menu_sort_direction">Посока на сортиране</string>
   <string name="sort_direction_ascending">възходяща</string>
   <string name="sort_direction_descending">низходяща</string>
+  <string name="never">никога</string>
+  <string name="always">винаги</string>
+  <string name="auto_fill_account_from_aggregate_only">Само при започване от общата сметка.</string>
 </resources>

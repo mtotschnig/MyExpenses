@@ -265,6 +265,7 @@
   <string name="pm_type_neutral">ניטראלי</string>
   <string name="pref_app_dir_title">תיקייה לגיבויים ולייצוא</string>
   <string name="pref_auto_fill_title">מילוי אוטומטי של עסקאות</string>
+  <string name="pref_auto_fill_summary">מלא נתונים מהעסקה האחרונה עבור אותו מקבל תשלום / משלם</string>
   <string name="pref_backup_summary">צור גיבוי של מסד נתונים והעדפות.</string>
   <string name="pref_sort_order_usages">ספירת שימושים</string>
   <string name="pref_category_title_advanced">מתקדם</string>
@@ -482,6 +483,7 @@
   <string name="comparison_operator_date_after">אחרי</string>
   <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">הצעה מיוחדת היום עם AppGratis:  תכונות פרימיום פתוחות בחינם.</string>
   <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">הרכישה נכשלה או בוטלה.</string>
+  <string name="hint_auto_fill">האם הנתונים צריכים להיות מלאים באופן אוטומטי מהעסקה האחרונה עבור אותו מקבל / המשלם? תוכל תמיד לשנות התנהגות זו מההגדרות.</string>
   <string name="yes">כן</string>
   <string name="no">לא</string>
   <string name="hint_template_click">הקשה קצרה על רשומה ברשימה זו תייצר את התבנית וגם תשמור אותה מיידית או תזין את טופס העריכה שלה, שבו תוכל לשנות אותה לפני השמירה. אתה תמיד יכול לגשת לשתי הפעולות באמצעות הקשה ארוכה, ולשנות את ברירת המחדל בהגדרות.</string>
@@ -678,6 +680,7 @@
   <string name="extend_until">הארכה עד %1$s למשך %2$s</string>
   <string name="extended_upgrade_goodie_github">%d חודשים נוספים ניתנים חד פעמי למשתמשים שכבר נמצא ברשותם  רישיון מורחב</string>
   <string name="extended_upgrade_goodie_subscription">משתמשים שכבר מחזיקים ברישיון המורחב משלמים 50 %% מהמחיר הרגיל (%s) בשנה הראשונה.</string>
+  <string name="extended_upgrade_goodie_subscription_amazon">משתמשים שכבר מחזיקים ברישיון המורחב זכאים להפחתה של %1$d%% מהמחיר הרגיל (%2$s) של המנוי השנתי.</string>
   <string name="switch_to_yearly">עבור למנוי שנתי</string>
   <string name="switch_to_monthly">עבור למנוי חודשי</string>
   <string name="extend_validity">הארכת תוקף</string>
@@ -686,4 +689,7 @@
   <string name="menu_sort_direction">כיוון מיון</string>
   <string name="sort_direction_ascending">סדר עולה</string>
   <string name="sort_direction_descending">סדר יורד</string>
+  <string name="never">לעולם לא</string>
+  <string name="always">תמיד</string>
+  <string name="auto_fill_account_from_aggregate_only">רק כאשר הותחל מחשבון מצטבר.</string>
 </resources>

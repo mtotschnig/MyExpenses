@@ -265,6 +265,7 @@
   <string name="pm_type_neutral">Neutral</string>
   <string name="pref_app_dir_title">Ordner für Backups und Exports</string>
   <string name="pref_auto_fill_title">Automatisches Ausfüllen</string>
+  <string name="pref_auto_fill_summary">Daten von der letzten Buchung für denselben Empfänger/Zahler ausfüllen</string>
   <string name="pref_backup_summary">Erzeugt ein Backup der Datenbank und der Einstellungen</string>
   <string name="pref_sort_order_usages">Häufigkeit der Benutzung</string>
   <string name="pref_category_title_advanced">Erweitert</string>
@@ -482,6 +483,7 @@
   <string name="comparison_operator_date_after">nach</string>
   <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Heute Sonderangebot mit AppGratis: Premium-Funktionen wurden gratis entsperrt.</string>
   <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Einkauf ist gescheitert oder abgebrochen.</string>
+  <string name="hint_auto_fill">Sollen Daten automatisch auf Basis der letzten Buchung für denselben Empfänger/Zahler ausgefüllt werden? Sie können dieses Verhalten jederzeit in den Einstellungen ändern.</string>
   <string name="yes">Ja</string>
   <string name="no">Nein</string>
   <string name="hint_template_click">Ein kurzes Tippen auf einen Eintrag in dieser Liste wendet die Vorlage an. Entweder diese wird unmittelbar gespeichert, oder das Eingabeformular wird geöffnet, wo diese vor dem Speichern verändert werden kann. Sie können immer auf beide Aktionen über ein langes Tippen zugreifen und die Standardeinstellung in den Einstellungen ändern. </string>
@@ -678,6 +680,7 @@
   <string name="extend_until">Verlängern bis %1$s für %2$s</string>
   <string name="extended_upgrade_goodie_github">Weitere %d Monate werden einmal für Benutzer gewährt, die bereits die Erweiterte Lizenz besitzen</string>
   <string name="extended_upgrade_goodie_subscription">Benutzer, die bereits die erweiterte Lizenz besitzen, zahlen im ersten Jahr 50%% des regulären Preises (%s).</string>
+  <string name="extended_upgrade_goodie_subscription_amazon">Benutzer, die bereits die erweiterte Lizenz besitzen, haben Anspruch auf eine %1$d%%  Ermäßigung vom regulären Preis (%2$s) des Jahresabonnements.</string>
   <string name="switch_to_yearly">Zum Jahresabo wechseln</string>
   <string name="switch_to_monthly">Zum Monatsabo wechseln</string>
   <string name="extend_validity">Gültigkeit verlängern</string>
@@ -686,4 +689,7 @@
   <string name="menu_sort_direction">Sortierrichtung</string>
   <string name="sort_direction_ascending">aufsteigend</string>
   <string name="sort_direction_descending">absteigend</string>
+  <string name="never">nie</string>
+  <string name="always">immer</string>
+  <string name="auto_fill_account_from_aggregate_only">Nur wenn vom Gesamtkonto gestartet.</string>
 </resources>

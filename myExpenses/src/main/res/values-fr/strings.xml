@@ -265,6 +265,7 @@
   <string name="pm_type_neutral">Neutre</string>
   <string name="pref_app_dir_title">Dossier pour sauvegardes et exports</string>
   <string name="pref_auto_fill_title">Remplissage automatique des opérations</string>
+  <string name="pref_auto_fill_summary">Remplissage des données de la dernière opération pour le même tiers</string>
   <string name="pref_backup_summary">Créé une sauvegarde de la base de données et des préférences.</string>
   <string name="pref_sort_order_usages">Fréquence d\'utilisation</string>
   <string name="pref_category_title_advanced">Avancé</string>
@@ -482,6 +483,7 @@
   <string name="comparison_operator_date_after">après</string>
   <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Aujourd\'hui offre spéciale avec AppGratis : fonctions Premium débloquées gratuitement.</string>
   <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Échec ou annulation de l\'achat.</string>
+  <string name="hint_auto_fill">Voulez-vous remplir automatiquement les données à partir de la dernière opération de ce tiers ? Vous pouvez toujours modifier cette option dans les paramètres.</string>
   <string name="yes">Oui</string>
   <string name="no">Non</string>
   <string name="hint_template_click">Un clic court sur une entrée de cette liste appliquera ce modèle et soit vous l\'enregistrerez immédiatement, soit vous l\'éditerez et le modifierez avant  enregistrement. Vous pourrez toujours accéder à ces deux actions par un clic long et modifier la valeur par défaut de ses paramètres.</string>
@@ -678,6 +680,7 @@
   <string name="extend_until">Prolongez jusqu\'à %1$s pour %2$s</string>
   <string name="extended_upgrade_goodie_github">%d mois supplémentaires sont accordés une fois aux utilisateurs qui possèdent déjà la licence étendue</string>
   <string name="extended_upgrade_goodie_subscription">Les utilisateurs qui possèdent déjà la licence étendue paient 50%% du prix régulier (%s) la première année.</string>
+  <string name="extended_upgrade_goodie_subscription_amazon">Les utilisateurs qui possèdent déjà la licence étendue ont droit à une réduction de %1$d%% du prix régulier (%2$s) de l\'abonnement annuel.</string>
   <string name="switch_to_yearly">Passer à l\'abonnement annuel</string>
   <string name="switch_to_monthly">Passer à l\'abonnement mensuel</string>
   <string name="extend_validity">Prolonger la validité</string>
@@ -686,4 +689,7 @@
   <string name="menu_sort_direction">Direction de tri</string>
   <string name="sort_direction_ascending">ascendante</string>
   <string name="sort_direction_descending">descendante</string>
+  <string name="never">jamais</string>
+  <string name="always">toujours</string>
+  <string name="auto_fill_account_from_aggregate_only">Uniquement lorsque démarré à partir du compte agrégé.</string>
 </resources>

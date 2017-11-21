@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_284">
+    <item>Remplissage automatique fait configurable</item>
+  </string-array>
   <string-array name="whats_new_283">
     <item>Direction de tri ascendante (les plus anciennes transactions en haut)</item>
   </string-array>

@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_284">
+    <item>מילוי אוטומטי ניתן להגדרה</item>
+  </string-array>
   <string-array name="whats_new_283">
     <item>מיון בסדר עולה (הישן ביותר בראש)</item>
   </string-array>
