@@ -41,6 +41,8 @@
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">תבנית widget</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">ייבוא CSV</string>
   <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">מספר בלתי מוגבל של תבניות מפוצלות</string>
+  <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>מייל לעזרה</b> עם הבטחה לתגובה תוך 2 ימי עסקים</string>
+  <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">זכות הצבעה על <b>מפת דרכים לפיתוח</b></string>
   <string name="licence_status_free">חופשי</string>
   <string name="contrib_key">מפתח לתורם</string>
   <string name="extended_key">מפתח מורחב</string>

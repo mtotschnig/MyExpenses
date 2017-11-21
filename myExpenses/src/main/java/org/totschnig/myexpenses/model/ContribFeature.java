@@ -19,6 +19,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 import android.text.Html;
 
 import org.totschnig.myexpenses.BuildConfig;
@@ -123,7 +124,10 @@ public enum ContribFeature {
       String currentLicence = getCurrentLicence(context);
       return context.getString(R.string.dialog_contrib_usage_limit_split_templates, currentLicence);
     }
-  };
+  },
+  PRO_SUPPORT(false, PROFESSIONAL),
+  ROADMAP_VOTING(false, PROFESSIONAL)
+  ;
 
   ContribFeature() {
     this(true);
@@ -204,12 +208,17 @@ public enum ContribFeature {
   }
 
   public int getLabelResIdOrThrow(Context ctx) {
-    String name = "contrib_feature_" + toString() + "_label";
-    int resId = ctx.getResources().getIdentifier(name, "string", ctx.getPackageName());
+    int resId = getLabelResId(ctx);
     if (resId == 0) {
-      throw new Resources.NotFoundException(name);
+      throw new IllegalStateException("Label not defined for ContribFeature " + this);
     }
     return resId;
+  }
+
+  @VisibleForTesting
+  public int getLabelResId(Context ctx) {
+    String name = "contrib_feature_" + toString() + "_label";
+    return ctx.getResources().getIdentifier(name, "string", ctx.getPackageName());
   }
 
   public int getLimitReachedWarningResIdOrThrow(Context ctx) {

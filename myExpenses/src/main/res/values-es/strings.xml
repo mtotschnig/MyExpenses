@@ -41,6 +41,8 @@
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Plantilla de widget</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Importar desde CSV</string>
   <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Número ilimitado de plantillas divididas</string>
+  <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Soporte por correo electrónico</b> con respuesta asegurada en 2 días laborables</string>
+  <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Derecho a participar en la <b>hoja de ruta de desarrollo</b></string>
   <string name="licence_status_free">Gratis</string>
   <string name="contrib_key">Clave Contrib</string>
   <string name="extended_key">Clave Extendida</string>
