@@ -545,8 +545,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 .withSelection(KEY_ROWID + " = ?", new String[]{String.valueOf(transactionId)})
                 .withValueBackReference(KEY_PARENTID, parentOffset)
                 .build());
-          } else {
-            AcraHelper.report("Uuid found in changes already exists locally and is not a split part");
           }
         } else {
           ops.addAll(getContentProviderOperationsForCreate(change, ops.size(), parentOffset));
