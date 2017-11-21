@@ -158,6 +158,10 @@ public class Transfer extends Transaction {
       transferValues.put(KEY_ACCOUNTID, getTransferAccountId());
       long transferPeer = Transaction.findByAccountAndUuid(getTransferAccountId(), uuid);
       if (transferPeer > -1) {
+        //a transaction might have been locally transformed from a transfer to a normal transaction
+        //if the transfer account is deleted. If later the transfer account is synced again, this
+        //peer would still exist, and prevent recreation of the transfer. What we do here, is relink it
+        //the two.
         ops.add(ContentProviderOperation.newUpdate(uri)
             .withSelection(KEY_ROWID + " = ?", new String[]{String.valueOf(transferPeer)})
             .withValues(transferValues).withValueBackReference(KEY_TRANSFER_PEER, offset)
