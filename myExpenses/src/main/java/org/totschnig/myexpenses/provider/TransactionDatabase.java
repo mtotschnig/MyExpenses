@@ -50,10 +50,13 @@ import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.PictureDirHelper;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.tracking.Tracker;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+
+import javax.inject.Inject;
 
 import timber.log.Timber;
 
@@ -133,6 +136,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   public static final int DATABASE_VERSION = 70;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
+  @Inject
+  private Tracker tracker;
 
   /**
    * SQL statement for expenses TABLE
@@ -575,6 +580,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   TransactionDatabase(Context context) {
     super(context, getDbName(), null, DATABASE_VERSION);
     mCtx = context;
+    ((MyApplication) context.getApplicationContext()).getAppComponent().inject(this);
     /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
       setWriteAheadLoggingEnabled(true);
     }*/
@@ -599,12 +605,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     try {
       db.delete(TABLE_TRANSACTIONS, KEY_STATUS + " = " + STATUS_UNCOMMITTED, null);
     } catch (SQLiteException e) {
-      AcraHelper.report(e,
-          DbUtils.getTableDetails(
-              db.query("sqlite_master",
-                  new String[]{"name", "sql"},
-                  "type = 'table'",
-                  null, null, null, null)));
+      tracker.logEvent("PURGE_UNCOMMITED_FAILED", null);
     }
   }
 

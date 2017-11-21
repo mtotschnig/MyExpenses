@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.fragment.SplitPartList;
 import org.totschnig.myexpenses.fragment.StaleImagesList;
 import org.totschnig.myexpenses.fragment.TemplatesList;
 import org.totschnig.myexpenses.fragment.TransactionList;
+import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.task.LicenceApiTask;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.ads.AdHandler;
@@ -58,4 +59,6 @@ public interface AppComponent {
   void inject(SettingsFragment settingsFragment);
 
   void inject(ContribDialogFragment contribDialogFragment);
+
+  void inject(TransactionDatabase transactionDatabase);
 }
