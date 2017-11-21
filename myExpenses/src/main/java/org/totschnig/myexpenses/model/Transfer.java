@@ -159,7 +159,7 @@ public class Transfer extends Transaction {
       long transferPeer = Transaction.findByAccountAndUuid(getTransferAccountId(), uuid);
       if (transferPeer > -1) {
         ops.add(ContentProviderOperation.newUpdate(uri)
-            .withSelection(KEY_TRANSFER_PEER + " = ?", new String[]{String.valueOf(transferPeer)})
+            .withSelection(KEY_ROWID + " = ?", new String[]{String.valueOf(transferPeer)})
             .withValues(transferValues).withValueBackReference(KEY_TRANSFER_PEER, offset)
             .build());
         //we have to set the transferPeer for the first transaction
