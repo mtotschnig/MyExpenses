@@ -545,6 +545,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 .withSelection(KEY_ROWID + " = ?", new String[]{String.valueOf(transactionId)})
                 .withValueBackReference(KEY_PARENTID, parentOffset)
                 .build());
+          } else {
+            Timber.i("Uuid found in changes already exists locally, likely a transfer implicitly created from its peer");
           }
         } else {
           ops.addAll(getContentProviderOperationsForCreate(change, ops.size(), parentOffset));
