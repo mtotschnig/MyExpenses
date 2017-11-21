@@ -137,7 +137,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
   @Inject
-  private Tracker tracker;
+  Tracker tracker;
 
   /**
    * SQL statement for expenses TABLE
