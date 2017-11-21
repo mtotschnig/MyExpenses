@@ -411,46 +411,6 @@
     </string-array>
 
     <!-- first member is Facebook post id, second Google+ post id -->
-    <string-array name="version_more_info_260" tools:ignore="UnusedResources">
-        <item>photos/a.1450395311888609.1073741827.1450391968555610/1674812282780243</item>
-        <item>Hg7sTEPwLb4</item>
-    </string-array>
-    <string-array name="version_more_info_261" tools:ignore="UnusedResources">
-        <item>photos/a.1450395311888609.1073741827.1450391968555610/1676856449242493</item>
-        <item>dMHxVFrJ3b7</item>
-    </string-array>
-    <string-array name="version_more_info_262" tools:ignore="UnusedResources">
-        <item>posts/1682521058676032</item>
-        <item>5zjoVj1ATq5</item>
-    </string-array>
-    <string-array name="version_more_info_263" tools:ignore="UnusedResources">
-        <item>photos/a.1450395311888609.1073741827.1450391968555610/1687972834797521</item>
-        <item>CpBcd7zFtVS</item>
-    </string-array>
-    <string-array name="version_more_info_264" tools:ignore="UnusedResources">
-        <item>posts/1694461640815307</item>
-        <item>dC5XryCHkGx</item>
-    </string-array>
-    <string-array name="version_more_info_265" tools:ignore="UnusedResources">
-        <item>photos/a.1450395311888609.1073741827.1450391968555610/1703256933269111</item>
-        <item>2jimBYUsmPh</item>
-    </string-array>
-    <string-array name="version_more_info_266" tools:ignore="UnusedResources">
-        <item>videos/vb.1450391968555610/1709832859278185</item>
-        <item>jZnn6NpEg1F</item>
-    </string-array>
-    <string-array name="version_more_info_267" tools:ignore="UnusedResources">
-        <item>posts/1732752853652852</item>
-        <item>49zhp2i3f7u</item>
-    </string-array>
-    <string-array name="version_more_info_268" tools:ignore="UnusedResources">
-        <item>photos/a.1450395311888609.1073741827.1450391968555610/1735968603331277</item>
-        <item>MXtMYPTArBs</item>
-    </string-array>
-    <string-array name="version_more_info_269" tools:ignore="UnusedResources">
-        <item>posts/1743809429213861</item>
-        <item>QY1RddPqa3q</item>
-    </string-array>
     <string-array name="version_more_info_270" tools:ignore="UnusedResources">
         <item>posts/1751340485127422</item>
         <item>H2XZeUfmrex</item>
@@ -490,6 +450,10 @@
     <string-array name="version_more_info_282" tools:ignore="UnusedResources">
         <item>videos/1967469653514503</item>
         <item>Ukn7qzikUCm</item>
+    </string-array>
+    <string-array name="version_more_info_284" tools:ignore="UnusedResources">
+        <item>photos/a.1450395311888609.1073741827.1450391968555610/1983867061874762</item>
+        <item>bgHZpPmvL2C</item>
     </string-array>
 
     <string-array name="comparison_operator_entries">
