@@ -580,7 +580,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   TransactionDatabase(Context context) {
     super(context, getDbName(), null, DATABASE_VERSION);
     mCtx = context;
-    ((MyApplication) context.getApplicationContext()).getAppComponent().inject(this);
+    Context applicationContext = context.getApplicationContext();
+    if (applicationContext instanceof MyApplication) {
+      ((MyApplication) applicationContext).getAppComponent().inject(this);
+    }
     /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
       setWriteAheadLoggingEnabled(true);
     }*/
@@ -605,7 +608,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     try {
       db.delete(TABLE_TRANSACTIONS, KEY_STATUS + " = " + STATUS_UNCOMMITTED, null);
     } catch (SQLiteException e) {
-      tracker.logEvent("PURGE_UNCOMMITED_FAILED", null);
+      if (tracker != null) {
+        tracker.logEvent("PURGE_UNCOMMITED_FAILED", null);
+      }
     }
   }
 
