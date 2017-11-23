@@ -13,15 +13,20 @@ import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.licence.ValidationService;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static okhttp3.logging.HttpLoggingInterceptor.Level.BASIC;
+import static okhttp3.logging.HttpLoggingInterceptor.Level.BODY;
 import static org.totschnig.myexpenses.preference.PrefKey.LICENCE_EMAIL;
 import static org.totschnig.myexpenses.preference.PrefKey.NEW_LICENCE;
 
@@ -57,9 +62,21 @@ public class LicenceApiTask extends AsyncTask<Void, Void, Result> {
       return Result.FAILURE;
     }
 
+
+    HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+    loggingInterceptor.setLevel(BuildConfig.DEBUG ? BODY : BASIC);
+
+    final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+        .connectTimeout(20, TimeUnit.SECONDS)
+        .writeTimeout(20, TimeUnit.SECONDS)
+        .readTimeout(30, TimeUnit.SECONDS)
+        .addInterceptor(loggingInterceptor)
+        .build();
+
     Retrofit retrofit = new Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
+        .client(okHttpClient)
         .build();
 
     ValidationService service = retrofit.create(ValidationService.class);
