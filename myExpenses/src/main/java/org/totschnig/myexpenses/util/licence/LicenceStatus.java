@@ -3,6 +3,8 @@ package org.totschnig.myexpenses.util.licence;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.ContribFeature;
 
+import java.util.Locale;
+
 public enum LicenceStatus {
   CONTRIB(R.string.contrib_key), EXTENDED(R.string.extended_key), PROFESSIONAL(R.string.professional_key) {
     @Override
@@ -32,5 +34,18 @@ public enum LicenceStatus {
 
   public boolean isUpgradeable() {
     return true;
+  }
+
+  /**
+   * for historical reasons, skus for Contrib used "premium"
+   * @return
+   */
+  public String toSkuType() {
+    switch (this) {
+      case CONTRIB:
+        return "premium";
+      default:
+        return name().toLowerCase(Locale.ROOT);
+    }
   }
 }

@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
-import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 import com.google.android.vending.licensing.PreferenceObfuscator;
 
@@ -29,6 +28,7 @@ import org.totschnig.myexpenses.widget.TemplateWidget;
 
 import java.util.Currency;
 import java.util.Date;
+import java.util.List;
 
 public class LicenceHandler {
   private static final String LICENSE_STATUS_KEY = "licence_status";
@@ -155,7 +155,7 @@ public class LicenceHandler {
   }
 
   public Package[] getProPackages() {
-    return new Package[] {Package.Professional_6, Package.Professional_36};
+    return new Package[]{Package.Professional_6, Package.Professional_36};
   }
 
   @Nullable
@@ -178,7 +178,7 @@ public class LicenceHandler {
 
   protected String getMinimumProfessionalMonthlyPrice() {
     return CurrencyFormatter.instance().formatCurrency(
-        new Money(Currency.getInstance("EUR"), (long) Math.ceil((double)Package.Professional_36.getDefaultPrice() / 36)));
+        new Money(Currency.getInstance("EUR"), (long) Math.ceil((double) Package.Professional_36.getDefaultPrice() / 36)));
   }
 
   @Nullable
@@ -198,9 +198,11 @@ public class LicenceHandler {
     return null;
   }
 
-  public void registerSubscription(String sku) {}
+  public void registerSubscription(String sku) {
+  }
 
-  public void registerPurchase(boolean extended) {}
+  public void registerPurchase(boolean extended) {
+  }
 
   public String getSkuForPackage(Package aPackage) {
     return null;
@@ -210,56 +212,56 @@ public class LicenceHandler {
     return null;
   }
 
-  public void maybeCancel() {}
+  public void maybeCancel() {
+  }
 
-  public void storeSkuDetails(Inventory inventory) {}
+  public void storeSkuDetails(Inventory inventory) {
+  }
 
-  private Optional<String> findPurchaseByType(Inventory inventory, String type) {
-    return Stream.of(inventory.getAllOwnedSkus())
-        .filter(sku -> skuIsOfType(sku, type)).findFirst();
+  @VisibleForTesting
+  public  @Nullable
+  String findHighestValidSku(List<String> inventory) {
+    return Stream.of(inventory)
+        .filter(sku -> extractLicenceStatusFromSku(sku) != null)
+        .max((o, o2) -> Utils.compare(extractLicenceStatusFromSku(o), extractLicenceStatusFromSku(o2), Enum::compareTo))
+        .orElse(null);
   }
 
   public void registerInventory(Inventory inventory) {
-    Optional<String> purchase = findPurchaseByType(inventory, "professional");
-    if (purchase.isPresent()) {
-      registerSubscription(purchase.get());
-      return;
+    String sku = findHighestValidSku(inventory.getAllOwnedSkus());
+    if (sku != null) {
+      handlePurchase(sku);
+    } else {
+      maybeCancel();
     }
-    purchase = findPurchaseByType(inventory, "extended");
-    if (purchase.isPresent()) {
-      registerPurchase(true);
-      return;
-    }
-    purchase = findPurchaseByType(inventory, "premium");
-    if (purchase.isPresent()) {
-      registerPurchase(false);
-      return;
-    }
-    maybeCancel();
   }
 
   /**
-   *
    * @param sku
-   * @param type
-   * @return Attention: upgrade skus like premium2extended or extended2professional will return true
-   * for both types, thus you should always check in order professional, extended, premium
+   * @return which LicenceStatus an sku gives access to
    */
-  private boolean skuIsOfType(String sku, String type) {
-    return sku.contains(type);
+  @VisibleForTesting
+  @Nullable
+  public LicenceStatus extractLicenceStatusFromSku(@NonNull String sku) {
+    if (sku.contains(LicenceStatus.PROFESSIONAL.toSkuType())) return LicenceStatus.PROFESSIONAL;
+    if (sku.contains(LicenceStatus.EXTENDED.toSkuType())) return LicenceStatus.EXTENDED;
+    if (sku.contains(LicenceStatus.CONTRIB.toSkuType())) return LicenceStatus.CONTRIB;
+    return null;
   }
 
-  public LicenceStatus handlePurchase(String sku) {
-    if (skuIsOfType(sku, "professional")) {
-      registerSubscription(sku);
-      return LicenceStatus.PROFESSIONAL;
-    } else if (skuIsOfType(sku, "extended")) {
-      registerPurchase(true);
-      return LicenceStatus.EXTENDED;
-    } else if (skuIsOfType(sku, "premium")) {
-      registerPurchase(false);
-      return LicenceStatus.CONTRIB;
+  @Nullable
+  public LicenceStatus handlePurchase(@Nullable String  sku) {
+    LicenceStatus licenceStatus = sku != null ? extractLicenceStatusFromSku(sku) : null;
+    if (licenceStatus != null) {
+      switch (licenceStatus) {
+        case CONTRIB:
+          registerPurchase(false);
+        case EXTENDED:
+          registerPurchase(true);
+        case PROFESSIONAL:
+          registerSubscription(sku);
+      }
     }
-    return null;
+    return licenceStatus;
   }
 }

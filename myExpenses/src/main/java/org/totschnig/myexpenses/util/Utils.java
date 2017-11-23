@@ -77,6 +77,7 @@ import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Currency;
 import java.util.Date;
 import java.util.EnumSet;
@@ -790,6 +791,13 @@ public class Utils {
    */
   public static int compare(long x, long y) {
     return (x < y) ? -1 : ((x == y) ? 0 : 1);
+  }
+
+  /**
+   * backport of {@link java.util.Objects#compare(Object, Object, Comparator)} which is API 19
+   */
+  public static <T> int compare(T a, T b, Comparator<? super T> c) {
+    return (a == b) ? 0 :  c.compare(a, b);
   }
 
   // From Guava
