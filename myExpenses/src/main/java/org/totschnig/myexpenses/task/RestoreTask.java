@@ -261,13 +261,17 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       Editor edit = application.getSettings().edit();
       for (Map.Entry<String, ?> entry : application.getSettings().getAll().entrySet()) {
         String key = entry.getKey();
-        if (!key.equals(PrefKey.ENTER_LICENCE.getKey()) && !key.startsWith("acra")) {
+        if (!key.equals(PrefKey.NEW_LICENCE.getKey()) && !key.equals(PrefKey.LICENCE_EMAIL.getKey())
+            &&  !key.startsWith("acra")) {
           edit.remove(key);
         }
       }
 
       for (Map.Entry<String, ?> entry : backupPref.getAll().entrySet()) {
         String key = entry.getKey();
+        if (key.equals(PrefKey.ENTER_LICENCE.getKey())) {
+          continue;
+        }
         Object val = entry.getValue();
         if (val.getClass() == Long.class) {
           edit.putLong(key, backupPref.getLong(key, 0));
