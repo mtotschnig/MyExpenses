@@ -47,8 +47,8 @@
                     android:text="@string/label"/>
 
                 <EditText
+                    style="@style/FormField"
                     android:id="@+id/Label"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:inputType="textCapSentences"/>
@@ -63,8 +63,8 @@
                     android:text="@string/description"/>
 
                 <EditText
+                    style="@style/FormField"
                     android:id="@+id/Description"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:inputType="textCapSentences"/>
@@ -79,7 +79,7 @@
                     android:labelFor="@+id/Amount"
                     android:text="@string/opening_balance"/>
 
-                <include layout="@layout/amount_input"/>
+                <include layout="@layout/amount_input" style="@style/FormField"/>
             </TableRow>
 
             <TableRow>
@@ -91,6 +91,7 @@
                     android:text="@string/currency"/>
 
                 <Spinner
+                    style="@style/FormField"
                     android:id="@+id/Currency"
                     android:layout_gravity="center_vertical"
                     android:prompt="@string/currency"/>
@@ -105,6 +106,7 @@
                     android:text="@string/type"/>
 
                 <Spinner
+                    style="@style/FormField"
                     android:id="@+id/AccountType"
                     android:layout_gravity="center_vertical"
                     android:prompt="@string/type"/>
@@ -118,7 +120,8 @@
                     android:labelFor="@+id/ColorIndicator"
                     android:text="@string/color"/>
 
-                <include layout="@layout/color_input"/>
+                <include layout="@layout/color_input"
+                    style="@style/FormField"/>
             </TableRow>
 
             <TableRow>
@@ -130,6 +133,7 @@
                     android:text="@string/synchronization"/>
 
                 <LinearLayout
+                    style="@style/FormField"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 

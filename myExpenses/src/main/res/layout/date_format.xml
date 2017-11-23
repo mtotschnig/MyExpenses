@@ -5,13 +5,10 @@
           tools:showIn="@layout/import_dialog">
 
     <TextView
-        android:layout_width="0dip"
-        android:layout_weight="1"
         style="@style/FormLabel"
         android:text="@string/date_format"/>
 
     <Spinner
-        android:layout_width="0dip"
-        android:id="@+id/DateFormat"
-        android:layout_weight="@dimen/form_table_ratio"/>
+        style="@style/FormField"
+        android:id="@+id/DateFormat"/>
 </TableRow>

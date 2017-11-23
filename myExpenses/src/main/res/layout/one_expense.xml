@@ -51,8 +51,8 @@
                     android:text="@string/title"/>
 
                 <EditText
+                    style="@style/FormField"
                     android:id="@+id/Title"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:inputType="textCapSentences"
@@ -68,6 +68,7 @@
                     android:text="@string/account"/>
 
                 <Spinner
+                    style="@style/FormField"
                     android:layout_marginRight="12dp"
                     android:layout_marginEnd="12dp"
                     android:id="@+id/Account"
@@ -83,7 +84,8 @@
                     android:labelFor="@id/Amount"
                     android:textColor="?attr/colorAccent"/>
 
-                <include layout="@layout/amount_input"/>
+                <include layout="@layout/amount_input"
+                         style="@style/FormField"/>
             </TableRow>
 
             <TableRow
@@ -96,11 +98,13 @@
                     style="@style/FormLabel"
                     android:text="@string/exchange_rate"/>
 
-                <include layout="@layout/exchange_rates"/>
+                <include layout="@layout/exchange_rates"
+                         style="@style/FormField"/>
             </TableRow>
 
             <TableRow
                 android:id="@+id/TransferAmountRow"
+                tools:visibility="visible"
                 android:visibility="gone">
 
                 <TextView
@@ -109,7 +113,7 @@
                     android:labelFor="@+id/TranferAmount"/>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    style="@style/FormField"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
@@ -140,6 +144,7 @@
                     android:text="@string/transfer_to_account"/>
 
                 <Spinner
+                    style="@style/FormField"
                     android:id="@+id/TransferAccount"
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="12dp"
@@ -153,6 +158,7 @@
                     style="@style/FormLabel"/>
 
                 <LinearLayout
+                    style="@style/FormField"
                     android:orientation="horizontal">
 
                     <Button
@@ -184,8 +190,8 @@
                     android:text="@string/payee"/>
 
                 <AutoCompleteTextView
+                    style="@style/FormField"
                     android:id="@+id/Payee"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:completionThreshold="1"
@@ -202,7 +208,7 @@
 
                 <Button
                     android:id="@+id/Category"
-                    style="@style/SmallButton"
+                    style="@style/SmallButton.FormField"
                     android:layout_gravity="center_vertical"
                     android:text="@string/select"/>
             </TableRow>
@@ -216,6 +222,7 @@
                     android:text="@string/comment"/>
 
                 <LinearLayout
+                    style="@style/FormField"
                     android:layout_gravity="center_vertical"
                     android:orientation="horizontal">
 
@@ -259,6 +266,7 @@
                     android:text="@string/method"/>
 
                 <LinearLayout
+                    style="@style/FormField"
                     android:layout_gravity="center_vertical"
                     android:orientation="horizontal">
 
@@ -293,9 +301,9 @@
                     android:labelFor="@+id/Plan"
                     android:text="@string/plan"/>
 
-                <include layout="@layout/recurrence_row"/>
+                <include layout="@layout/recurrence_row"
+                         style="@style/FormField"/>
             </TableRow>
-
         </TableLayout>
     </ScrollView>
 </LinearLayout>

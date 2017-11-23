@@ -25,16 +25,13 @@
 
             <TextView
                 style="@style/FormLabel"
-                android:layout_width="0dip"
-                android:layout_weight="1"
                 android:text="@string/import_source_file"/>
 
 
             <Spinner
+                style="@style/FormField"
                 android:id="@+id/select_backup"
-                android:layout_width="0dip"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="@dimen/form_table_ratio"/>
+                android:layout_gravity="center_vertical"/>
         </TableRow>
 
         <include layout="@layout/backup_restore_calendar"/>

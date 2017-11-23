@@ -5,14 +5,12 @@
           tools:showIn="@layout/import_dialog">
 
     <TextView
-        android:layout_width="0dip"
-        android:layout_weight="1"
         style="@style/FormLabel"
         android:text="@string/account"/>
 
-    <LinearLayout android:orientation="vertical"
-                  android:layout_width="0dip"
-                  android:layout_weight="@dimen/form_table_ratio">
+    <LinearLayout
+        style="@style/FormField"
+        android:orientation="vertical">
 
         <Spinner
             android:id="@+id/Account"
@@ -26,10 +24,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
 
-        <Spinner android:id="@+id/AccountType"
-                 android:prompt="@string/type"
-                 android:layout_width="fill_parent"
-                 android:layout_height="wrap_content"
-                 android:layout_weight="1"/>
+        <Spinner
+            android:id="@+id/AccountType"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:prompt="@string/type"/>
     </LinearLayout>
 </TableRow>

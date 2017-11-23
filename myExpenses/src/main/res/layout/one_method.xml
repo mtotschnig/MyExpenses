@@ -46,8 +46,8 @@
                     android:text="@string/label"/>
 
                 <EditText
+                    style="@style/FormField"
                     android:id="@+id/Label"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:inputType="textCapWords"
@@ -63,8 +63,8 @@
                     android:text="@string/type"/>
 
                 <Spinner
+                    style="@style/FormField"
                     android:id="@+id/TaType"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:entries="@array/method_types"
@@ -80,8 +80,8 @@
                     android:text="@string/numbered"/>
 
                 <CheckBox
+                    style="@style/FormField"
                     android:id="@+id/IsNumbered"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"/>
             </TableRow>
@@ -93,9 +93,9 @@
                     style="@style/FormLabel"
                     android:text="@string/account_types"/>
                 <android.support.v7.widget.GridLayout
+                    style="@style/FormField"
                     android:id="@+id/AccountTypeGrid"
                     app:columnCount="@integer/account_type_grid_columns"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"/>
             </TableRow>

@@ -5,15 +5,12 @@
           tools:showIn="@layout/import_dialog">
 
     <TextView
-        android:layout_width="0dip"
-        android:layout_weight="1"
         style="@style/FormLabel"
         android:text="@string/pref_qif_export_file_encoding_title"/>
 
     <Spinner
-        android:layout_width="0dip"
+        style="@style/FormField"
         android:id="@+id/Encoding"
-        android:layout_weight="@dimen/form_table_ratio"
         android:entries="@array/pref_qif_export_file_encoding"
         android:entryValues="@array/pref_qif_export_file_encoding"/>
 </TableRow>

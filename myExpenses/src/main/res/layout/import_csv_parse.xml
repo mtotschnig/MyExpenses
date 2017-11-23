@@ -36,15 +36,12 @@
 
             <TextView
                 style="@style/FormLabel"
-                android:layout_width="0dip"
-                android:layout_weight="1"
                 android:text="@string/pref_csv_import_delimiter"/>
 
             <Spinner
+                style="@style/FormField"
                 android:id="@+id/Delimiter"
-                android:layout_width="0dip"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="@dimen/form_table_ratio"
                 android:entries="@array/pref_csv_import_delimiter_entries"/>
         </TableRow>
 

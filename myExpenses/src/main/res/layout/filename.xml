@@ -25,14 +25,11 @@
 
         <TextView
             style="@style/FormLabel"
-            android:layout_width="0dip"
-            android:layout_weight="1"
             android:text="@string/import_source_file"
             android:layout_height="wrap_content"/>
 
         <LinearLayout
-            android:layout_width="0dip"
-            android:layout_weight="@dimen/form_table_ratio"
+            style="@style/FormField"
             android:orientation="horizontal"
             android:layout_height="wrap_content">
 

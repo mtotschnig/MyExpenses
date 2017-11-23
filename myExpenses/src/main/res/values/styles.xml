@@ -51,10 +51,17 @@
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:minHeight">50dp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:layout_width">0px</item>
+        <item name="android:layout_weight">1</item>
     </style>
 
     <style name="FormLabel" parent="FormLabelBase">
         <item name="android:paddingRight">12dp</item>
+    </style>
+
+    <style name="FormField">
+        <item name="android:layout_width">0px</item>
+        <item name="android:layout_weight">@dimen/form_table_ratio</item>
     </style>
 
     <style name="FormLabel.Condensed">
@@ -100,6 +107,11 @@
 
     <style name="SmallButton">
         <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+    </style>
+
+    <style name="SmallButton.FormField">
+        <item name="android:layout_width">0px</item>
+        <item name="android:layout_weight">@dimen/form_table_ratio</item>
     </style>
 
     <style name="SwitchTextAppearance" parent="@style/TextAppearance.AppCompat.Widget.Switch">
