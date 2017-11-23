@@ -125,7 +125,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
   }
 
   private void contribBuyBlackBerry(Package aPackage) {
-    String appId = aPackage.isProfessional() ? "NOT_YET_DEFINED" : "57168887";
+    String appId = aPackage.isProfessional() ? "60005279" : "57168887";
     Intent i = new Intent(Intent.ACTION_VIEW);
     i.setData(Uri.parse(String.format("appworld://content/%s", appId)));
     if (Utils.isIntentAvailable(this, i)) {
