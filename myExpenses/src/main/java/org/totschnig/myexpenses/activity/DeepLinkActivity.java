@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
@@ -32,22 +33,29 @@ public class DeepLinkActivity extends ProtectedFragmentActivity {
           showToast(Utils.getTextWithAppName(this, R.string.licence_migration_info));
           finish();
         } else if ("verify".equals(data.getFragment())) { //callback2.html
-          String existingKey = PrefKey.NEW_LICENCE.getString("");
-          String existingEmail = PrefKey.LICENCE_EMAIL.getString("");
-          String key = data.getQueryParameter("key");
-          String email = data.getQueryParameter("email");
-          isPdt = data.getBooleanQueryParameter("isPdt", true);
+          boolean isSandbox = data.getBooleanQueryParameter("sandbox", false);
+          if (isSandbox == BuildConfig.DEBUG) {//prevent a sandbox call from hitting production app, and vice versa
+            String existingKey = PrefKey.NEW_LICENCE.getString("");
+            String existingEmail = PrefKey.LICENCE_EMAIL.getString("");
+            String key = data.getQueryParameter("key");
+            String email = data.getQueryParameter("email");
+            isPdt = data.getBooleanQueryParameter("isPdt", true);
 
-          if (isEmpty(key) || isEmpty(email)) {
-            showMessage("Missing parameter key and/or email");
-          } else if (existingKey.equals("") || (existingKey.equals(key) && existingEmail.equals(email)) ||
-              !MyApplication.getInstance().getLicenceHandler().isContribEnabled()) {
-            PrefKey.NEW_LICENCE.putString(key);
-            PrefKey.LICENCE_EMAIL.putString(email);
-            startTaskExecution(TASK_VALIDATE_LICENCE, new String[]{}, null, R.string.progress_validating_licence);
+            if (isEmpty(key) || isEmpty(email)) {
+              showMessage("Missing parameter key and/or email");
+            } else if (existingKey.equals("") || (existingKey.equals(key) && existingEmail.equals(email)) ||
+                !MyApplication.getInstance().getLicenceHandler().isContribEnabled()) {
+              PrefKey.NEW_LICENCE.putString(key);
+              PrefKey.LICENCE_EMAIL.putString(email);
+              startTaskExecution(TASK_VALIDATE_LICENCE, new String[]{}, null, R.string.progress_validating_licence);
+            } else {
+              showMessage(String.format(
+                  "There is already a licence active on this device, key: %s", existingKey));
+            }
           } else {
-            showMessage(String.format(
-                "There is already a licence active on this device, key: %s", existingKey));
+            showMessage(String.format("%s app was called from %s environment",
+                BuildConfig.DEBUG ? "Debug" : "Production",
+                isSandbox ? "Sandbox" : "Live"));
           }
         } else {
           showWebSite();
