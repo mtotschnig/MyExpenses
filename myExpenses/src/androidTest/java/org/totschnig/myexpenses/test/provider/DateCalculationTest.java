@@ -12,6 +12,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.GrantPermissionRule;
 import android.util.Log;
 
+import org.junit.After;
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Rule;
@@ -43,6 +44,8 @@ public class DateCalculationTest  {
   @Rule
   public GrantPermissionRule grantPermissionRule = GrantPermissionRule.grant(
       Manifest.permission.WRITE_CALENDAR, Manifest.permission.SET_TIME_ZONE);
+  private AlarmManager alarmManager;
+  private String originalTimeZone;
 
 
   /*
@@ -51,9 +54,16 @@ public class DateCalculationTest  {
    */
   @Before
   public void setUp() throws Exception {
+    originalTimeZone = TimeZone.getDefault().getID();
     //On O SET_TIME_ZONE has become restricted
     Assume.assumeTrue(Build.VERSION.SDK_INT < Build.VERSION_CODES.O);
     mDb = new MyDbHelper(InstrumentationRegistry.getTargetContext()).getWritableDatabase();
+    alarmManager = (AlarmManager) InstrumentationRegistry.getTargetContext().getSystemService(Context.ALARM_SERVICE);
+  }
+
+  @After
+  public void after() {
+    alarmManager.setTimeZone(originalTimeZone);
   }
 
   @Test
@@ -61,10 +71,9 @@ public class DateCalculationTest  {
     int[] timezones = {-11, -7, -3, 0, 4, 8, 12};
     for (int i: timezones) {
       Log.d("DEBUG", "now setting timezone with offset " + i);
-      AlarmManager am = (AlarmManager) InstrumentationRegistry.getTargetContext().getSystemService(Context.ALARM_SERVICE);
       int rawOffset = i * 60 * 60 * 1000;
       String timeZone = TimeZone.getAvailableIDs(rawOffset)[0];
-      am.setTimeZone(timeZone);
+      alarmManager.setTimeZone(timeZone);
       //TODO do not know how to wait for effect of time zone change
       Thread.sleep(200);
       assertEquals(TimeZone.getDefault().getRawOffset(), rawOffset);
