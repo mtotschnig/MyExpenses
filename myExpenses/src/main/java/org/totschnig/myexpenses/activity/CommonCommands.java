@@ -32,6 +32,7 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.licence.LicenceStatus;
 
 import java.io.Serializable;
 import java.util.Locale;
@@ -67,16 +68,22 @@ public class CommonCommands {
         }
         ctx.startActivityForResult(i, ProtectedFragmentActivity.PREFERENCES_REQUEST);
         return true;
-      case R.id.FEEDBACK_COMMAND:
+      case R.id.FEEDBACK_COMMAND: {
         i = new Intent(android.content.Intent.ACTION_SEND);
         i.setType("plain/text");
         i.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{MyApplication.FEEDBACK_EMAIL});
         i.putExtra(android.content.Intent.EXTRA_SUBJECT,
             "[" + ctx.getString(R.string.app_name) + "] Feedback"
         );
+        LicenceStatus licenceStatus = MyApplication.getInstance().getLicenceHandler().getLicenceStatus();
         String messageBody = String.format(Locale.ROOT,
-            "APP_VERSION:%s\nANDROID_VERSION:%s\nBRAND:%s\nMODEL:%s\nLANGUAGE:%s\n\n%s\n\n",
-            getVersionInfo(ctx), Build.VERSION.RELEASE, Build.BRAND, Build.MODEL, Locale.getDefault().toString(),
+            "APP_VERSION:%s\nANDROID_VERSION:%s\nBRAND:%s\nMODEL:%s\nLANGUAGE:%s\n%s\n\n%s\n\n",
+            getVersionInfo(ctx),
+            Build.VERSION.RELEASE,
+            Build.BRAND,
+            Build.MODEL,
+            Locale.getDefault().toString(),
+            licenceStatus == null ? "" : String.format("LICENCE:%s\n", ctx.getString(licenceStatus.getResId())),
             ctx.getString(R.string.feedback_email_message));
         i.putExtra(android.content.Intent.EXTRA_TEXT, messageBody);
         if (!Utils.isIntentAvailable(ctx, i)) {
@@ -85,6 +92,7 @@ public class CommonCommands {
           ctx.startActivity(i);
         }
         break;
+      }
       case R.id.CONTRIB_INFO_COMMAND:
         CommonCommands.showContribDialog(ctx, null, null);
         return true;
