@@ -2009,7 +2009,7 @@ public class ExpenseEdit extends AmountActivity implements
         break;
       case ACCOUNTS_CURSOR:
         mAccountsAdapter.swapCursor(data);
-        if (data.getCount() == 1 && mOperationType == TYPE_TRANSFER) {
+        if (data.getCount() <= 1 && mOperationType == TYPE_TRANSFER) {
           Toast.makeText(this, R.string.dialog_command_disabled_insert_transfer, Toast.LENGTH_LONG).show();
           finish();
           return;
