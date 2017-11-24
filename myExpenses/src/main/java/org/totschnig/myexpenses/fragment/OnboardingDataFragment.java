@@ -127,15 +127,16 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
       getActivity().startActivityForResult(new Intent("myexpenses.intent.restore"), RESTORE_REQUEST);
       return true;
     }
+    SyncBackendSetupActivity hostActivity = (SyncBackendSetupActivity) getActivity();
     SyncBackendProviderFactory syncBackendProviderFactory =
-        ((SyncBackendSetupActivity) getActivity()).getSyncBackendProviderFactoryById(
+        hostActivity.getSyncBackendProviderFactoryById(
             backendProviders, item.getItemId());
     if (syncBackendProviderFactory != null) {
-      syncBackendProviderFactory.startSetup(getActivity());
+      hostActivity.startSetup(syncBackendProviderFactory);
       return true;
     }
     if (item.getItemId() == Menu.NONE) {
-      ((SyncBackendSetupActivity) getActivity()).fetchAccountData(item.getTitle().toString());
+      hostActivity.fetchAccountData(item.getTitle().toString());
       return true;
     }
     return false;

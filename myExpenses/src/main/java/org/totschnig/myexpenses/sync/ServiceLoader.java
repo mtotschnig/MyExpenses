@@ -18,6 +18,7 @@ public class ServiceLoader {
     tryToInstantiate(services, LOCAL, context);
     tryToInstantiate(services, GOOGLE, context);
     services.add(new WebDavBackendProviderFactory());
+    services.add(new DropboxProviderFactory());
     return services;
   }
 

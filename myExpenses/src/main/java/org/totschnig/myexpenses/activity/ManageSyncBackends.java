@@ -239,7 +239,7 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
       SyncBackendProviderFactory syncBackendProviderFactory =
           getSyncBackendProviderFactoryById(backendProviders, (Integer) tag);
       if (syncBackendProviderFactory != null) {
-        syncBackendProviderFactory.startSetup(this);
+        startSetup(syncBackendProviderFactory);
       }
     }
   }

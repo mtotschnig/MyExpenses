@@ -21,6 +21,9 @@ import org.totschnig.myexpenses.util.Result;
 import java.io.File;
 import java.util.List;
 
+import icepick.Icepick;
+import icepick.State;
+
 import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_SYNC_PROVIDER_LABEL;
 import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_SYNC_PROVIDER_URL;
 import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_SYNC_PROVIDER_USERNAME;
@@ -32,6 +35,21 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_WEBDAV_TE
 
 public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
     implements EditTextDialog.EditTextDialogListener {
+  @State
+  int selectedFactoryId;
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    Icepick.restoreInstanceState(this, savedInstanceState);
+  }
+
+  @Override
+  protected void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    Icepick.saveInstanceState(this, outState);
+  }
+
   //LocalFileBackend
   public void onFinishEditDialog(Bundle args) {
     String filePath = args.getString(EditTextDialog.KEY_RESULT);
@@ -65,6 +83,20 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
       bundle.putString(KEY_WEB_DAV_FALLBACK_TO_CLASS1, "1");
     }
     createAccount(accountName, password, bundle);
+  }
+
+  //Dropbox
+  @Override
+  protected void onResume() {
+    super.onResume();
+    if (selectedFactoryId == R.id.SYNC_BACKEND_DROPBOX) {
+
+    }
+  }
+
+  public void startSetup(SyncBackendProviderFactory factory) {
+    selectedFactoryId = factory.getId();
+    factory.startSetup(this);
   }
 
   //Google Drive

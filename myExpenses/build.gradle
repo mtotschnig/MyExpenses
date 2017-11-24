@@ -170,6 +170,9 @@ dependencies {
     // WebDAV
     implementation 'com.squareup.okhttp3:okhttp:3.8.0'
 
+    // Dropbox
+    compile 'com.dropbox.core:dropbox-core-sdk:3.0.5'
+
     //noinspection GradleCompatible
     implementation 'com.android.support:multidex:1.0.2'
 
