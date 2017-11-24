@@ -62,6 +62,10 @@ fr:
     short_description: "Gestionnaire de finances personnelles: facile à utiliser, riche en fonctions."
     full_description_intro: "{app_name} enregistre vos dépenses et vos revenus, directement sur votre smartphone et sur votre tablette."
     full_description_contrib: "Les fonctionnalités Premium sont déverrouillées en achetant l'une des clés de licence suivantes:"
+    full_description_contrib_amazon: "De nombreuses fonctionnalités supplémentaires sont déverrouillées en achetant l'une des clés de licence, par exemple:"
+    highlight_1: "Gardez une trace de vos dépenses et revenus avec plusieurs comptes, modèles et catégories"
+    highlight_2: "Partagez vos données entre plusieurs téléphones et tablettes via WebDAV et Google Drive"
+    highlight_3: "Résumez votre situation financière par jour, semaine, mois ou année"
   permissions:
     heading: <i>{app_name}</i> demande les <u>permissions</u> suivantes
     calendar:

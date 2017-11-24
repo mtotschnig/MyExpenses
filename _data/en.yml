@@ -54,7 +54,7 @@ en:
       auto_backup: Daily <b>automated backup</b> with optional upload to cloud storage
       cloud_sync: "<b>Cloud synchronization</b>: Data can be synced between multiple devices via WebDAV and Google Drive"
       split_template: Unlimited number of <b>templates and plans for split transactions</b>
-      email_support: <b>Email support</b> with guartanteed response after 2 business days
+      email_support: <b>Email support</b> with guaranteed response after 2 business days
       roadmap_voting: Voting right on <b>development roadmap</b>
     one-time-payment: One-time payment
     subscription: Subscription
@@ -62,6 +62,10 @@ en:
     short_description: "Easy to use personal finance manager: rich functionality and Open Source"
     full_description_intro: "{app_name} keeps track of your expenses and your income, directly on your smartphone and on your tablet."
     full_description_contrib: "Premium features are unlocked by purchase of one of the following licence keys:"
+    full_description_contrib_amazon: "Many additional features are unlocked by purchase of one of the licence keys, e.g.:"
+    highlight_1: "Keep track of your expenses and income with multiple accounts, templates and categories"
+    highlight_2: "Share your data between multiple phones and tablets via WebDAV and Google Drive"
+    highlight_3: "Summarize your financial situation per day, week, month or year"
   permissions:
     heading: <i>{app_name}</i> requires the following <u>permissions</u>
     calendar:

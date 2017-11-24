@@ -51,7 +51,7 @@ de:
       attach_picture: "<b>Bildanhang</b>: Mit der Kamera aufnehmen oder aus der Galerie auswählen"
       ad_free: <b>Keine Werbung</b>
       csv_import: Ausgefeilter, anpassbarer <b>CSV-Import</b>(Tabellenkalkulationsanwendungen)
-      auto_backup: Tägliche<b>automatische Sicherung</b>mit optionalem Upload in den Cloud-Speicher
+      auto_backup: Tägliche <b>automatische Sicherung</b> mit optionalem Upload in den Cloud-Speicher
       cloud_sync: "<b>Cloud-Synchronisierung</b>: Daten können über WebDAV und Google Drive zwischen mehreren Geräten synchronisiert werden"
       split_template: Unbegrenzte Anzahl von <b>Vorlagen und Plänen für mehrteilige Buchungen</b>
       email_support: <b>E-Mail-Support</b> mit garantierter Antwort nach 2 Werktagen
@@ -62,6 +62,10 @@ de:
     short_description: "Persönliches Finanz-Management: einfach zu bedienen und Open Source"
     full_description_intro: "{app_name} ist Ihr Haushaltsbuch: Verfolgen Sie Ihre Ausgaben und Einnahmen direkt auf Ihrem Smartphone und auf Ihrem Tablet."
     full_description_contrib: "Premium-Funktionen werden durch den Kauf eines der folgenden Lizenzschlüssel freigeschaltet:"
+    full_description_contrib_amazon: "Viele zusätzliche Funktionen werden durch den Kauf eines der Lizenzschlüssel freigeschaltet, z.B.:"
+    highlight_1: "Verfolgen Sie Ihre Ausgaben und Einnahmen mit mehreren Konten, Vorlagen und Kategorien"
+    highlight_2: "Teilen Sie Ihre Daten über WebDAV und Google Drive zwischen mehreren Telefonen und Tablets"
+    highlight_3: "Fassen Sie Ihre finanzielle Situation pro Tag, Woche, Monat oder Jahr zusammen"
   permissions:
     heading: <i>{app_name}</i> verwendet folgende <u>Berechtigungen</u>
     calendar:

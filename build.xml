@@ -24,9 +24,15 @@
  </target>
  
  <target name="metadata">
- <copy file="en/metadata/full_description.txt.tmpl" tofile="en/metadata/full_description.txt" 
+ <copy file="en/metadata/full_description.txt.tmpl" tofile="en/metadata/full_description.txt"
         overwrite="true" encoding="utf-8"/>
- <copy file="en/metadata/full_description_fdroid.txt.tmpl" tofile="en/metadata/full_description_fdroid.txt" 
+ <copy file="en/metadata/full_description_fdroid.txt.tmpl" tofile="en/metadata/full_description_fdroid.txt"
+        overwrite="true" encoding="utf-8"/>
+ <copy file="en/metadata/short_description_amazon.txt.tmpl" tofile="en/metadata/short_description_amazon.txt"
+        overwrite="true" encoding="utf-8"/>
+ <copy file="en/metadata/full_description_amazon.txt.tmpl" tofile="en/metadata/full_description_amazon.txt"
+        overwrite="true" encoding="utf-8"/>
+ <copy file="en/metadata/highlights.txt.tmpl" tofile="en/metadata/highlights.txt"
         overwrite="true" encoding="utf-8"/>
  <replaceregexp
                match="\{\{t\.(.*?)( .*)?\}\}"
@@ -36,6 +42,9 @@
    <fileset dir=".">
     <include name="en/metadata/full_description.txt"/>
     <include name="en/metadata/full_description_fdroid.txt"/>
+    <include name="en/metadata/short_description_amazon.txt"/>
+    <include name="en/metadata/full_description_amazon.txt"/>
+    <include name="en/metadata/highlights.txt"/>
    </fileset>
  </replaceregexp>
  </target>
@@ -45,7 +54,13 @@
         overwrite="true" encoding="utf-8"/>
  <copy file="en/metadata/full_description_fdroid.txt" tofile="${locale}/metadata/full_description_fdroid.txt" 
         overwrite="true" encoding="utf-8"/>
- <copy file="en/metadata/short_description.txt" tofile="${locale}/metadata/short_description.txt" 
+ <copy file="en/metadata/short_description_amazon.txt" tofile="${locale}/metadata/short_description_amazon.txt"
+        overwrite="true" encoding="utf-8"/>
+ <copy file="en/metadata/full_description_amazon.txt" tofile="${locale}/metadata/full_description_amazon.txt"
+        overwrite="true" encoding="utf-8"/>
+ <copy file="en/metadata/short_description.txt" tofile="${locale}/metadata/short_description.txt"
+       overwrite="true" encoding="utf-8"/>
+ <copy file="en/metadata/highlights.txt" tofile="${locale}/metadata/highlights.txt"
        overwrite="true" encoding="utf-8"/>
  <replace dir="${locale}/metadata" value="lang: ${locale}" token="lang: en"/>
  </target>
