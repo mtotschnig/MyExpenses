@@ -12,4 +12,8 @@ public class Purchase {
   public String getDeveloperPayload() {
     return null;
   }
+
+  public String getOrderId() {
+    return null;
+  }
 }
