@@ -178,7 +178,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
                 } else {
                   Timber.d("Purchase successful.");
 
-                  LicenceStatus licenceStatus = licenceHandler.handlePurchase(purchase.getSku());
+                  LicenceStatus licenceStatus = licenceHandler.handlePurchase(purchase.getSku(), purchase.getOrderId());
 
                   if (licenceStatus != null) {
                     // bought the premium upgrade!

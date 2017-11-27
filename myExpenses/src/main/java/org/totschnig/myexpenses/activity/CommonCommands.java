@@ -22,6 +22,7 @@ import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -30,8 +31,8 @@ import org.totschnig.myexpenses.dialog.HelpDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.DistribHelper;
-import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
 
 import java.io.Serializable;
@@ -69,21 +70,30 @@ public class CommonCommands {
         ctx.startActivityForResult(i, ProtectedFragmentActivity.PREFERENCES_REQUEST);
         return true;
       case R.id.FEEDBACK_COMMAND: {
+        LicenceHandler licenceHandler = MyApplication.getInstance().getLicenceHandler();
+        LicenceStatus licenceStatus = licenceHandler.getLicenceStatus();
+        String licenceInfo = "";
+        if (licenceStatus != null) {
+          licenceInfo = "\nLICENCE: " + licenceStatus.name();
+          String purchaseExtraInfo = licenceHandler.getPurchaseExtraInfo();
+          if (!TextUtils.isEmpty(purchaseExtraInfo)) {
+            licenceInfo += " (" + purchaseExtraInfo + ")";
+          }
+        }
         i = new Intent(android.content.Intent.ACTION_SEND);
         i.setType("plain/text");
         i.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{MyApplication.FEEDBACK_EMAIL});
         i.putExtra(android.content.Intent.EXTRA_SUBJECT,
             "[" + ctx.getString(R.string.app_name) + "] Feedback"
         );
-        LicenceStatus licenceStatus = MyApplication.getInstance().getLicenceHandler().getLicenceStatus();
         String messageBody = String.format(Locale.ROOT,
-            "APP_VERSION:%s\nANDROID_VERSION:%s\nBRAND:%s\nMODEL:%s\nLANGUAGE:%s\n%s\n\n%s\n\n",
+            "APP_VERSION:%s\nANDROID_VERSION:%s\nBRAND:%s\nMODEL:%s\nLANGUAGE:%s%s\n\n%s\n\n",
             getVersionInfo(ctx),
             Build.VERSION.RELEASE,
             Build.BRAND,
             Build.MODEL,
             Locale.getDefault().toString(),
-            licenceStatus == null ? "" : String.format("LICENCE:%s\n", ctx.getString(licenceStatus.getResId())),
+            licenceInfo,
             ctx.getString(R.string.feedback_email_message));
         i.putExtra(android.content.Intent.EXTRA_TEXT, messageBody);
         if (!Utils.isIntentAvailable(ctx, i)) {

@@ -12,6 +12,7 @@ import com.google.android.vending.licensing.PreferenceObfuscator;
 import org.apache.commons.lang3.time.DateUtils;
 import org.onepf.oms.OpenIabHelper;
 import org.onepf.oms.appstore.googleUtils.Inventory;
+import org.onepf.oms.appstore.googleUtils.Purchase;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
@@ -230,7 +231,8 @@ public class LicenceHandler {
   public void registerInventory(Inventory inventory) {
     String sku = findHighestValidSku(inventory.getAllOwnedSkus());
     if (sku != null) {
-      handlePurchase(sku);
+      Purchase purchase = inventory.getPurchase(sku);
+      handlePurchase(sku, purchase != null ? purchase.getOrderId() : null);
     } else {
       maybeCancel();
     }
@@ -250,7 +252,7 @@ public class LicenceHandler {
   }
 
   @Nullable
-  public LicenceStatus handlePurchase(@Nullable String  sku) {
+  public LicenceStatus handlePurchase(@Nullable String  sku, @Nullable String orderId) {
     LicenceStatus licenceStatus = sku != null ? extractLicenceStatusFromSku(sku) : null;
     if (licenceStatus != null) {
       switch (licenceStatus) {
@@ -263,5 +265,10 @@ public class LicenceHandler {
       }
     }
     return licenceStatus;
+  }
+
+
+  public String getPurchaseExtraInfo() {
+    return null;
   }
 }
