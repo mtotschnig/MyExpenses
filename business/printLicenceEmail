@@ -39,7 +39,7 @@ then
   exit 1
 fi
 
-available_locales='bg_BG cs_CZ de_DE el_GR en_US es_ES eu_ES fr_FR it_IT he_IL ja_JP pt_PT ru_RU tr_TR'
+available_locales='pl_PL bg_BG cs_CZ de_DE el_GR en_US es_ES eu_ES fr_FR it_IT he_IL ja_JP pt_PT ru_RU tr_TR'
 
 if [[ -z "${lang// }" || ! " $available_locales " =~ .*\ $lang\ .* ]]
 then
@@ -59,7 +59,7 @@ key=${HTTP[0]}
 export TEXTDOMAIN=printContribKeyEmail.sh
 export TEXTDOMAINDIR=${HOME}/locale
 
-export LC_MESSAGES=$lang
+export LC_ALL=$lang
 
 echo "$package für ${email}"
 
@@ -68,7 +68,7 @@ read -d '' body <<EOF
 
 `gettext "Open Link"`
 
-https://www.myexpenses.mobi/callback2.html?key=${key}#verify
+https://www.myexpenses.mobi/callback2.html?isPdt=false&key=${key}&email=`python -c "import urllib;print urllib.quote(raw_input())" <<< "${email}"`#verify
 
 `printf "$(gettext "Alternative Settings")" $key`
 
