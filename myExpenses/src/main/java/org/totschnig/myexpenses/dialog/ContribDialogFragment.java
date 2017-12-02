@@ -153,7 +153,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     ArrayList<CharSequence> lines = new ArrayList<>();
     View professionalContainer = view.findViewById(R.id.professional_feature_container);
     professionalContainer.setBackgroundColor(getResources().getColor(R.color.professional_licence));
-    if (extendedVisible) {
+    if (extendedVisible || (contribVisible && !LicenceHandler.HAS_EXTENDED)) {
       lines.add(getString(R.string.all_extended_key_features) + "\n+");
     } else if(feature != null && feature.isProfessional()) {
       if (licenceStatus == null) {
