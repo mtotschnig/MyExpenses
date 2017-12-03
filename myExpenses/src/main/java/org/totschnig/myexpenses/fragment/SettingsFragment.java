@@ -1,12 +1,10 @@
 package org.totschnig.myexpenses.fragment;
 
-import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -15,7 +13,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.provider.DocumentFile;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -137,6 +134,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.SYNC_NOTIFICATION;
 import static org.totschnig.myexpenses.preference.PrefKey.TRACKING;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_HOME_SCREEN_SHORTCUTS;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_LANGUAGE;
+import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class SettingsFragment extends PreferenceFragmentCompat implements
     Preference.OnPreferenceChangeListener,
@@ -750,8 +748,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     DialogFragment fragment = null;
     String key = preference.getKey();
     if (matches(preference, PLANNER_CALENDAR_ID)) {
-      if (ContextCompat.checkSelfPermission(getContext(),
-          Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
+      if (CALENDAR.hasPermission(getContext())) {
         fragment = CalendarListPreferenceDialogFragmentCompat.newInstance(key);
       } else {
         ((ProtectedFragmentActivity) getActivity()).requestCalendarPermission();

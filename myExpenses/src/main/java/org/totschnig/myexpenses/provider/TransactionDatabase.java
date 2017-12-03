@@ -15,11 +15,9 @@
 
 package org.totschnig.myexpenses.provider;
 
-import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteConstraintException;
@@ -30,7 +28,6 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.support.v4.content.ContextCompat;
 
 import com.android.calendar.CalendarContractCompat.Events;
 
@@ -50,7 +47,6 @@ import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.PictureDirHelper;
 import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.util.tracking.Tracker;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -129,6 +125,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_EXTENDED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED;
+import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
   public static final int DATABASE_VERSION = 70;
@@ -1358,8 +1355,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
       if (oldVersion < 57) {
         //fix custom app uris
-        if (ContextCompat.checkSelfPermission(mCtx,
-            Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
+        if (CALENDAR.hasPermission(mCtx)) {
           Cursor c = db.query("templates", new String[]{"_id", "plan_id"}, "plan_id IS NOT null", null, null, null, null);
           if (c != null) {
             if (c.moveToFirst()) {

@@ -1,14 +1,11 @@
 package org.totschnig.myexpenses.model;
 
-import android.Manifest;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.text.format.Time;
 
@@ -29,6 +26,8 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import timber.log.Timber;
+
+import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 /**
  * @author Michael Totschnig
@@ -108,8 +107,7 @@ public class Plan extends Model implements Serializable {
 
   public static Plan getInstanceFromDb(long planId) {
     Plan plan = null;
-    if (ContextCompat.checkSelfPermission(MyApplication.getInstance(),
-        Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
+    if (CALENDAR.hasPermission(MyApplication.getInstance())) {
       Cursor c = cr().query(
           ContentUris.withAppendedId(Events.CONTENT_URI, planId),
           new String[]{

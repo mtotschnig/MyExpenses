@@ -16,7 +16,6 @@
 package org.totschnig.myexpenses.activity;
 
 import android.content.ComponentName;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -269,8 +268,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
   public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
     switch (requestCode) {
       case PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR:
-        if (grantResults.length > 0
-            && grantResults[0] == PackageManager.PERMISSION_DENIED) {
+        if (!PermissionHelper.allGranted(grantResults)) {
           ((DialogUtils.CalendarRestoreStrategyChangedListener)
               getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG)).onCalendarPermissionDenied();
         }

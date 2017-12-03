@@ -15,17 +15,14 @@
 
 package org.totschnig.myexpenses.provider;
 
-import android.Manifest;
 import android.accounts.AccountManager;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
-import android.support.v4.content.ContextCompat;
 
 import com.android.calendar.CalendarContractCompat;
 
@@ -52,6 +49,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOU
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_END;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_START;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getCountFromWeekStartZero;
+import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class DbUtils {
 
@@ -210,8 +208,7 @@ public class DbUtils {
   }
 
   private static void cacheEventData() {
-    if (ContextCompat.checkSelfPermission(MyApplication.getInstance(),
-        Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+    if (!CALENDAR.hasPermission(MyApplication.getInstance())) {
       return;
     }
     String plannerCalendarId = PrefKey.PLANNER_CALENDAR_ID.getString("-1");

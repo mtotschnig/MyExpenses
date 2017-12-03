@@ -1,14 +1,10 @@
 package org.totschnig.myexpenses.activity;
 
-import android.Manifest;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 
 import org.onepf.oms.OpenIabHelper;
 import org.totschnig.myexpenses.MyApplication;
@@ -35,6 +31,7 @@ import java.util.Map;
 import timber.log.Timber;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public abstract class LaunchActivity extends ProtectedFragmentActivity {
 
@@ -187,9 +184,8 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
 
   private void checkCalendarPermission() {
     if (!PrefKey.PLANNER_CALENDAR_ID.getString("-1").equals("-1")) {
-      if (ContextCompat.checkSelfPermission(this,
-          Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_DENIED) {
-        requestPermission(PermissionHelper.PermissionGroup.CALENDAR);
+      if (!CALENDAR.hasPermission(this)) {
+        requestPermission(CALENDAR);
       }
     }
   }
@@ -199,10 +195,8 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
     super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     switch (requestCode) {
       case PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR:
-        if (grantResults.length > 0
-            && grantResults[0] == PackageManager.PERMISSION_DENIED) {
-          if (!ActivityCompat.shouldShowRequestPermissionRationale(
-              this, Manifest.permission.WRITE_CALENDAR)) {
+        if (!PermissionHelper.allGranted(grantResults)) {
+          if (!CALENDAR.shouldShowRequestPermissionRationale(this)) {
             MyApplication.getInstance().removePlanner();
           }
         }

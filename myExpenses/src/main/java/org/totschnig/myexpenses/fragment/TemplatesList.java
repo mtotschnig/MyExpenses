@@ -15,16 +15,13 @@
 
 package org.totschnig.myexpenses.fragment;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.text.SpannableStringBuilder;
@@ -96,6 +93,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
+import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TemplatesList extends SortableListFragment {
 
@@ -224,8 +222,7 @@ public class TemplatesList extends SortableListFragment {
   }
 
   private boolean isCalendarPermissionGranted() {
-    return ContextCompat.checkSelfPermission(getContext(),
-        Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED;
+    return CALENDAR.hasPermission(getContext());
   }
 
   @Override
@@ -519,11 +516,10 @@ public class TemplatesList extends SortableListFragment {
       if (doesHavePlan) {
         CharSequence planInfo = c.getString(columnIndexPlanInfo);
         if (planInfo == null) {
-          if (ContextCompat.checkSelfPermission(getActivity(),
-              Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_DENIED) {
-            planInfo = Utils.getTextWithAppName(getContext(), R.string.calendar_permission_required);
-          } else {
+          if (isCalendarPermissionGranted()) {
             planInfo = getString(R.string.plan_event_deleted);
+          } else {
+            planInfo = Utils.getTextWithAppName(getContext(), R.string.calendar_permission_required);
           }
         }
         ((TextView) convertView.findViewById(R.id.title)).setText(

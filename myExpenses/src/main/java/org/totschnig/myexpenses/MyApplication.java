@@ -432,7 +432,7 @@ public class MyApplication extends MultiDexApplication implements
   }
 
   /**
-   * WARNING this method relies on calendar permissions being granted. It is the callers permission
+   * WARNING this method relies on calendar permissions being granted. It is the callers duty
    * to check if they have been granted
    * @return id of planning calendar if it has been configured and passed checked
    */

@@ -21,7 +21,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -35,7 +34,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -547,8 +545,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   @Override
   public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
     super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    boolean granted = grantResults.length > 0
-        && grantResults[0] == PackageManager.PERMISSION_GRANTED;
+    boolean granted = PermissionHelper.allGranted(grantResults);
     storePermissionRequested(requestCode);
     if (granted) {
       switch (requestCode) {
@@ -573,9 +570,14 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   private boolean isPermissionPermanentlyDeclined(PermissionGroup permissionGroup) {
-    return permissionGroup.prefKey.getBoolean(false) &&
-        (ContextCompat.checkSelfPermission(this, permissionGroup.androidPermission) == PackageManager.PERMISSION_DENIED) &&
-        !ActivityCompat.shouldShowRequestPermissionRationale(this, permissionGroup.androidPermission);
+    if (permissionGroup.prefKey.getBoolean(false)) {
+      if (!permissionGroup.hasPermission(this)) {
+        if (!permissionGroup.shouldShowRequestPermissionRationale(this)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   public void requestCalendarPermission() {
@@ -599,7 +601,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   public void requestPermission(PermissionGroup permissionGroup) {
-    ActivityCompat.requestPermissions(this, new String[]{permissionGroup.androidPermission},
+    ActivityCompat.requestPermissions(this, permissionGroup.androidPermissions,
         permissionGroup.requestCode);
   }
 

@@ -1,12 +1,9 @@
 package org.totschnig.myexpenses.util;
 
-import android.Manifest;
 import android.content.ContentUris;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 
 import com.android.calendar.CalendarContractCompat;
@@ -21,6 +18,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Locale;
+
+import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class PlanInfoCursorWrapper extends CursorWrapperHelper {
   private Context context;
@@ -38,8 +37,7 @@ public class PlanInfoCursorWrapper extends CursorWrapperHelper {
   }
 
   public void initializePlanInfo() {
-    if (ContextCompat.checkSelfPermission(context,
-        Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+    if (!CALENDAR.hasPermission(context)) {
       shouldSortByNextInstance = false;
       return;
     }

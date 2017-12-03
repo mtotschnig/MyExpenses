@@ -1,11 +1,14 @@
 package org.totschnig.myexpenses.util;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
 import org.totschnig.myexpenses.R;
@@ -23,14 +26,14 @@ public class PermissionHelper {
 
   public enum PermissionGroup {
     STORAGE(externalReadPermissionCompat(), PrefKey.STORAGE_PERMISSION_REQUESTED, PERMISSIONS_REQUEST_STORAGE),
-    CALENDAR(Manifest.permission.WRITE_CALENDAR, PrefKey.CALENDAR_PERMISSION_REQUESTED, PERMISSIONS_REQUEST_WRITE_CALENDAR);
+    CALENDAR(new String[]{Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR}, PrefKey.CALENDAR_PERMISSION_REQUESTED, PERMISSIONS_REQUEST_WRITE_CALENDAR);
 
-    public final String androidPermission;
+    public final String[] androidPermissions;
     public final PrefKey prefKey;
     public final int requestCode;
 
-    PermissionGroup(String androidPermission, PrefKey prefKey, int requestCode) {
-      this.androidPermission = androidPermission;
+    PermissionGroup(String[] androidPermission, PrefKey prefKey, int requestCode) {
+      this.androidPermissions = androidPermission;
       this.prefKey = prefKey;
       this.requestCode = requestCode;
     }
@@ -40,21 +43,54 @@ public class PermissionHelper {
       if (requestCode == CALENDAR.requestCode) return CALENDAR;
       throw new IllegalArgumentException("Undefined requestCode " + requestCode);
     }
+
+    /**
+     *
+     * @param context
+     * @return true if all of our {@link #androidPermissions} are granted
+     */
+    public boolean hasPermission(Context context) {
+      for (String permission: androidPermissions) {
+        if (!PermissionHelper.hasPermission(context, permission)) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    /**
+     *
+     * @param context
+     * @return true if {@link ActivityCompat#shouldShowRequestPermissionRationale(Activity, String)}
+     * returns true for any of our {@link #androidPermissions}
+     */
+    public boolean shouldShowRequestPermissionRationale(Activity context) {
+      for (String permission: androidPermissions) {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(context, permission)) {
+          return true;
+        }
+      }
+      return false;
+    }
   }
 
   public static boolean hasPermission(Context context, String permission) {
     return ContextCompat.checkSelfPermission(context, permission) == PERMISSION_GRANTED;
   }
 
-  public static boolean hasExternalReadPermission(Context context) {
-    return hasPermission(context, PermissionGroup.STORAGE.androidPermission);
+  public static boolean hasCalendarPermission(Context context) {
+    return PermissionGroup.CALENDAR.hasPermission(context);
   }
 
-  public static String externalReadPermissionCompat() {
+  public static boolean hasExternalReadPermission(Context context) {
+    return PermissionGroup.STORAGE.hasPermission(context);
+  }
+
+  public static String[] externalReadPermissionCompat() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-      return Manifest.permission.READ_EXTERNAL_STORAGE;
+      return new String[] {Manifest.permission.READ_EXTERNAL_STORAGE};
     } else {
-      return Manifest.permission.WRITE_EXTERNAL_STORAGE;
+      return new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE};
     }
   }
 
@@ -82,5 +118,17 @@ public class PermissionHelper {
         return context.getString(R.string.storage_permission_required);
     }
     throw new IllegalArgumentException("Undefined requestCode " + requestCode);
+  }
+
+  public static boolean allGranted(int[] grantResults) {
+    if (grantResults.length == 0) {
+      return false;
+    }
+    for (int result: grantResults) {
+      if (result != PackageManager.PERMISSION_GRANTED) {
+        return false;
+      }
+    }
+    return true;
   }
 }

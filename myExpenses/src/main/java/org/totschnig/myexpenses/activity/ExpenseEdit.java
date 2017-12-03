@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses.activity;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
@@ -27,7 +26,6 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.database.MatrixCursor;
@@ -39,10 +37,8 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
@@ -159,6 +155,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_A
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 import static org.totschnig.myexpenses.task.BuildTransactionTask.KEY_EXTRAS;
+import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 /**
  * Activity for editing a transaction
@@ -1634,8 +1631,7 @@ public class ExpenseEdit extends AmountActivity implements
       case R.id.Recurrence:
         int visibility = View.GONE;
         if (id > 0) {
-          if (ContextCompat.checkSelfPermission(ExpenseEdit.this,
-              Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
+          if (CALENDAR.hasPermission(this)) {
             boolean newSplitTemplateEnabled = PrefKey.NEW_SPLIT_TEMPLATE_ENABLED.getBoolean(true);
             boolean newPlanEnabled = PrefKey.NEW_PLAN_ENABLED.getBoolean(true);
             if (newPlanEnabled && (newSplitTemplateEnabled || mOperationType != TYPE_SPLIT)) {
@@ -1648,7 +1644,7 @@ public class ExpenseEdit extends AmountActivity implements
               CommonCommands.showContribDialog(this, contribFeature, null);
             }
           } else {
-            requestPermission(PermissionHelper.PermissionGroup.CALENDAR);
+            requestPermission(CALENDAR);
           }
         }
         if (mTransaction instanceof Template) {
@@ -2309,9 +2305,7 @@ public class ExpenseEdit extends AmountActivity implements
   public void onRequestPermissionsResult(int requestCode,
                                          @NonNull String permissions[], @NonNull int[] grantResults) {
     super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    // If request is cancelled, the result arrays are empty.
-    boolean granted = grantResults.length > 0
-        && grantResults[0] == PackageManager.PERMISSION_GRANTED;
+    boolean granted = PermissionHelper.allGranted(grantResults);
     switch (requestCode) {
       case PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR: {
         if (granted) {
@@ -2322,8 +2316,7 @@ public class ExpenseEdit extends AmountActivity implements
           }
         } else {
           mRecurrenceSpinner.setSelection(0);
-          if (!ActivityCompat.shouldShowRequestPermissionRationale(
-              this, Manifest.permission.WRITE_CALENDAR)) {
+          if (!CALENDAR.shouldShowRequestPermissionRationale(this)) {
             setPlannerRowVisibility(View.GONE);
           }
         }

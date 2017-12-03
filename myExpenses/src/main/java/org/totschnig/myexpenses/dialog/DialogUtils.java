@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses.dialog;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
@@ -24,7 +23,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -32,7 +30,6 @@ import android.os.Bundle;
 import android.provider.OpenableColumns;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -67,6 +64,8 @@ import org.totschnig.myexpenses.util.Utils;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class DialogUtils {
   private DialogUtils() {
@@ -278,8 +277,7 @@ public class DialogUtils {
     return (group, checkedId) -> {
       if (checkedId == R.id.restore_calendar_handling_backup ||
           checkedId == R.id.restore_calendar_handling_configured) {
-        if (ContextCompat.checkSelfPermission(context,
-            Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_DENIED) {
+        if (!CALENDAR.hasPermission(context)) {
           if (context instanceof ProtectedFragmentActivity) {
             ((ProtectedFragmentActivity) context).requestPermission(PermissionGroup.CALENDAR);
           }

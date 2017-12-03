@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.service;
 
-import android.Manifest;
 import android.app.AlarmManager;
 import android.app.IntentService;
 import android.app.Notification;
@@ -9,10 +8,8 @@ import android.app.PendingIntent;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
-import android.support.v4.content.ContextCompat;
 
 import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Events;
@@ -30,6 +27,7 @@ import org.totschnig.myexpenses.provider.CalendarProviderProxy;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper;
+import org.totschnig.myexpenses.util.PermissionHelper;
 
 import java.util.Date;
 
@@ -41,6 +39,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
+import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class PlanExecutor extends IntentService {
   public static final String ACTION_CANCEL = "Cancel";
@@ -60,8 +59,7 @@ public class PlanExecutor extends IntentService {
   public void onHandleIntent(Intent intent) {
     String plannerCalendarId;
     long now = System.currentTimeMillis();
-    if (ContextCompat.checkSelfPermission(this,
-        Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+    if (!PermissionHelper.hasCalendarPermission(this)) {
       log("Calendar permission not granted");
       return;
     }
@@ -214,8 +212,7 @@ public class PlanExecutor extends IntentService {
   }
 
   public static void setAlarm(Context ctx, long when) {
-    if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.WRITE_CALENDAR) ==
-        PackageManager.PERMISSION_GRANTED) {
+    if (CALENDAR.hasPermission(ctx)) {
       PendingIntent pendingIntent = getPendingIntent(ctx);
       AlarmManager manager = (AlarmManager) ctx.getSystemService(ALARM_SERVICE);
       manager.set(AlarmManager.RTC, when, pendingIntent);

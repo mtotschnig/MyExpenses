@@ -16,7 +16,6 @@
 package org.totschnig.myexpenses.activity;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -188,9 +187,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
     super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     switch (requestCode) {
       case PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR: {
-        // If request is cancelled, the result arrays are empty.
-        if (grantResults.length > 0
-            && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (PermissionHelper.allGranted(grantResults)) {
           mListFragment.refresh();
         }
       }
