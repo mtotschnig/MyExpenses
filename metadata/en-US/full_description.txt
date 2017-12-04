@@ -1,44 +1,54 @@
-My Expenses keeps track of your expenses and your income, directly on your smartphone and on your tablet.
+<p>My Expenses keeps track of your expenses and your income, directly on your smartphone and on your tablet.</p>
 
-- Up to five accounts with <b>transfers</b> (also between different currencies)
-- Unlimited number of <b>templates</b> and up to three plans for <b>recurring</b> transactions
-- Transactions can be <b>grouped</b> (per day, week, month and year) and <b>filtered</b>
-- <b>Export</b> to QIF and CSV. <b>Import</b> from QIF
-- Data can be protected by <b>password</b>
-- <b>Theme</b> (dark and light) and <b>font size</b> can be customized
-- <b>Reconciliation</b>: Easily compare transaction status with your bank statements
-- Homescreen <b>widget</b> and <b>shortcuts</b> for quick data entry
+<ul>
+<li>Up to five accounts with <b>transfers</b> (also between different currencies)</li>
+<li>Unlimited number of <b>templates</b> and up to three plans for <b>recurring</b> transactions</li>
+<li>Transactions can be <b>grouped</b> (per day, week, month and year) and <b>filtered</b></li>
+<li><b>Export</b> to QIF and CSV. <b>Import</b> from QIF</li>
+<li>Data can be protected by <b>password</b></li>
+<li><b>Theme</b> (dark and light) and <b>font size</b> can be customized</li>
+<li><b>Reconciliation</b>: Easily compare transaction status with your bank statements</li>
+<li>Homescreen <b>widget</b> and <b>shortcuts</b> for quick data entry</li>
+</ul>
 
-Premium features are unlocked by purchase of one of the following licence keys:
+<p>Premium features are unlocked by purchase of one of the following licence keys:</p>
 
-<b>Contrib Key</b>
+<p><b>Contrib Key</b></p>
 
-- <b>No ads</b>
-- Unlimited number of <b>accounts</b>
-- Unlimited number of plans for <b>recurring</b> transactions
-- <b>Pie chart</b>: Visualize the statistical distribution of transactions per category over different periods (years, months, weeks, days)
-- <b>Split transaction</b>: A single transaction can be split into multiple parts (categories and transfers)
-- <b>Print</b> the transaction list to a PDF file
-- Define a <b>security question</b> for recovering a lost password
-- <b>Image attachment</b>: Capture via camera or select from gallery
-- Quick <b>template</b> selection from homescreen <b>widget</b>
+<ul>
+<li><b>No ads</b></li>
+<li>Unlimited number of <b>accounts</b></li>
+<li>Unlimited number of plans for <b>recurring</b> transactions</li>
+<li><b>Pie chart</b>: Visualize the statistical distribution of transactions per category over different periods (years, months, weeks, days)</li>
+<li><b>Split transaction</b>: A single transaction can be split into multiple parts (categories and transfers)</li>
+<li><b>Print</b> the transaction list to a PDF file</li>
+<li>Define a <b>security question</b> for recovering a lost password</li>
+<li><b>Image attachment</b>: Capture via camera or select from gallery</li>
+<li>Quick <b>template</b> selection from homescreen <b>widget</b></li>
+</ul>
 
-<b>Extended Key</b>
+<p><b>Extended Key</b></p>
 
-- All features of Contrib Key
-- <b>Cloud synchronization</b>: Data can be synced between multiple devices via WebDAV and Google Drive
-- Daily <b>automated backup</b> with optional upload to cloud storage
-- Sophisticated, customizable <b>CSV import</b> (spreadsheet applications)
+<ul>
+<li>All features of Contrib Key</li>
+<li><b>Cloud synchronization</b>: Data can be synced between multiple devices via WebDAV and Google Drive</li>
+<li>Daily <b>automated backup</b> with optional upload to cloud storage</li>
+<li>Sophisticated, customizable <b>CSV import</b> (spreadsheet applications)</li>
 
-<b>Professional Key</b>
+<p><b>Professional Key</b></p>
 
-- All features of Extended Key
-- Unlimited number of <b>templates and plans for split transactions</b>
-- <b>Email support</b> with guartanteed response after 2 business days
-- Voting right on <b>development roadmap</b>
+<ul>
+<li>All features of Extended Key</li>
+<li>Unlimited number of <b>templates and plans for split transactions</b></li>
+<li><b>Email support</b> with guaranteed response after 2 business days</li>
+<li>Voting right on <b>development roadmap</b></li>
+</ul>
 
-My Expenses requires the following critical <u>permissions</u>:
-- <i>Reading and writing the calendar</i>: Plans for future and recurrent transactions are stored either in a special local calendar or in any other calendar you assign.
-- <i>Writing USB storage</i>: Storage of QIF and CSV exports and backup files.
-- <i>Network communication</i>: Anonymous usage tracking, crash reporting, key validation and cloud synchronization.
-- <i>Accounts</i>: Synchronization across devices via cloud services.
+<p><i>My Expenses</i> requires the following <u>permissions</u>:</p>
+
+<ul>
+<li><i>Calendar</i>: Plans for future and recurrent transactions are stored either in a special local calendar or in any other calendar you assign.</li>
+<li><i>Storage</i>: Storage of QIF and CSV exports and backup files.</li>
+<li><i>Internet</i>: Licence key validation, Cloud synchronization.</li>
+<li><i>Accounts</i>: Synchronization across devices via cloud services.</li>
+</ul>
