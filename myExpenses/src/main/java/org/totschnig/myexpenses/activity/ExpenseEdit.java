@@ -1970,14 +1970,20 @@ public class ExpenseEdit extends AmountActivity implements
   private void setMethodSelection() {
     mMethodsCursor.moveToFirst();
     if (mMethodId != null) {
+      boolean found = false;
       while (!mMethodsCursor.isAfterLast()) {
         if (mMethodsCursor.getLong(mMethodsCursor.getColumnIndex(KEY_ROWID)) == mMethodId) {
           mMethodSpinner.setSelection(mMethodsCursor.getPosition() + 1); //first row is ---
+          found = true;
           break;
         }
         mMethodsCursor.moveToNext();
       }
-    } else {
+      if (!found) {
+        mMethodId = null;
+      }
+    }
+    if (mMethodId == null) {
       mMethodSpinner.setSelection(0);
     }
     setReferenceNumberVisibility();
