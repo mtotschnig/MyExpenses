@@ -248,6 +248,8 @@ public class FileUtils {
     Timber.d("Authority: %s, Fragment: %s, Port: %s, Query: %s, Scheme: %s, Host: %s, Segments: %s",
         uri.getAuthority(), uri.getFragment(), uri.getPort(), uri.getQuery(), uri.getScheme(), uri.getHost(),
         uri.getPathSegments().toString());
+    
+    String dataColumn = null;
 
     // DocumentProvider
     if (isDocumentUri(context, uri)) {
@@ -271,11 +273,18 @@ public class FileUtils {
       // DownloadsProvider
       else if (isDownloadsDocument(uri)) {
 
-        final String id = DocumentsContract.getDocumentId(uri);
-        final Uri contentUri = ContentUris.withAppendedId(
-            Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
-
-        return getDataColumn(context, contentUri, null, null);
+        final String docId = DocumentsContract.getDocumentId(uri);
+        final Uri contentUri;
+        try {
+          contentUri = ContentUris.withAppendedId(
+              Uri.parse("content://downloads/public_downloads"), Long.valueOf(docId));
+          dataColumn = getDataColumn(context, contentUri, null, null);
+        } catch (NumberFormatException e) {
+          final String[] split = docId.split(":");
+          if (split.length > 1) {
+            return split[1];
+          }
+        }
       }
       // MediaProvider
       else if (isMediaDocument(uri)) {
@@ -297,7 +306,7 @@ public class FileUtils {
             split[1]
         };
 
-        return getDataColumn(context, contentUri, selection, selectionArgs);
+        dataColumn = getDataColumn(context, contentUri, selection, selectionArgs);
       }
     }
     // MediaStore (and general)
@@ -307,14 +316,9 @@ public class FileUtils {
       if (isGooglePhotosUri(uri))
         return uri.getLastPathSegment();
 
-      return getDataColumn(context, uri, null, null);
+      dataColumn = getDataColumn(context, uri, null, null);
     }
-    // File
-    else if ("file".equalsIgnoreCase(uri.getScheme())) {
-      return uri.getPath();
-    }
-
-    return null;
+    return dataColumn != null ? dataColumn : uri.getPath();
   }
 
   @TargetApi(Build.VERSION_CODES.KITKAT)
