@@ -40,13 +40,16 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.util.Utils;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import timber.log.Timber;
 
@@ -73,16 +76,12 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
     LayoutInflater li = LayoutInflater.from(ctx);
     int from = bundle.getInt(KEY_FROM);
     Resources res = getResources();
-    int[] versionCodes = res.getIntArray(R.array.version_codes);
-    String[] versionNames = res.getStringArray(R.array.version_names);
-    final ArrayList<VersionInfo> versions = new ArrayList<>();
-    for (int i = 0; i < versionCodes.length; i++) {
-      int code = versionCodes[i];
-      if (from >= code) {
-        break;
-      }
-      versions.add(new VersionInfo(code, versionNames[i]));
-    }
+
+    final List<VersionInfo> versions = Stream.of(res.getStringArray(R.array.versions))
+        .map(version -> version.split(";"))
+        .takeWhile(parts -> Integer.parseInt(parts[0]) > from)
+        .map(parts -> new VersionInfo(Integer.parseInt(parts[0]), parts[1]))
+        .collect(Collectors.toList());
     //noinspection InflateParams
     View view = li.inflate(R.layout.versiondialog, null);
     final ListView lv = view.findViewById(R.id.list);
@@ -208,7 +207,7 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
           for (int i = 0; i < changesArray.length; i++) {
             resultArray[i] = changesArray[i] +
                 (TextUtils.isEmpty(contributorArray[i]) ? "" :
-                    (" (" + ctx.getString(R.string.contributed_by, contributorArray[i]) + ")" ));
+                    (" (" + ctx.getString(R.string.contributed_by, contributorArray[i]) + ")"));
           }
           return resultArray;
         }
