@@ -2,6 +2,8 @@ package org.totschnig.myexpenses.sync;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.accounts.AuthenticatorException;
+import android.accounts.OperationCanceledException;
 import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -26,6 +28,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.util.Pair;
+import android.util.Log;
 import android.util.SparseArray;
 
 import com.annimon.stream.Collectors;
@@ -169,7 +172,16 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
       return;
     }
-    if (!backend.setUp().success) {
+    String authToken;
+    try {
+      authToken = accountManager.blockingGetAuthToken(account, GenericAccountService.Authenticator.AUTH_TOKEN_TYPE,
+          true);
+    } catch (OperationCanceledException | IOException | AuthenticatorException e) {
+      Log.e(TAG, "Error getting auth token.", e);
+      syncResult.stats.numAuthExceptions++;
+      return;
+    }
+    if (!backend.setUp(authToken).success) {
       syncResult.stats.numIoExceptions++;
       syncResult.delayUntil = IO_DEFAULT_DELAY_SECONDS;
       appendToNotification(Utils.concatResStrings(getContext(), " ",

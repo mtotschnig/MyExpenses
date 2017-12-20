@@ -34,7 +34,7 @@ public interface SyncBackendProvider {
   @NonNull
   Stream<AccountMetaData> getRemoteAccountList() throws IOException;
 
-  Result setUp();
+  Result setUp(String authToken);
 
   void tearDown();
 

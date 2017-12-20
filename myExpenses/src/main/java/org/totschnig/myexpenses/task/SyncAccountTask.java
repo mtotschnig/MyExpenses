@@ -21,6 +21,7 @@ import static android.accounts.AccountManager.KEY_ACCOUNT_NAME;
 import static android.accounts.AccountManager.KEY_PASSWORD;
 import static android.accounts.AccountManager.KEY_USERDATA;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
+import static org.totschnig.myexpenses.sync.GenericAccountService.Authenticator.AUTH_TOKEN_TYPE;
 
 public class SyncAccountTask extends AsyncTask<Void, Void, Result> {
 
@@ -29,6 +30,7 @@ public class SyncAccountTask extends AsyncTask<Void, Void, Result> {
   private final String accountName;
   private final String password;
   private final Bundle userData;
+  private final String authToken;
   private final boolean create;
   /**
    * if true returns list of backups and sync accounts from backend,
@@ -41,6 +43,7 @@ public class SyncAccountTask extends AsyncTask<Void, Void, Result> {
     this.accountName = args.getString(KEY_ACCOUNT_NAME);
     this.password = args.getString(KEY_PASSWORD);
     this.userData = args.getBundle(KEY_USERDATA);
+    this.authToken = args.getString(AccountManager.KEY_AUTHTOKEN);
     this.shouldReturnRemoteDataList = args.getBoolean(KEY_RETURN_REMOTE_DATA_LIST);
     this.create = create;
   }
@@ -51,8 +54,10 @@ public class SyncAccountTask extends AsyncTask<Void, Void, Result> {
     if (create) {
       AccountManager accountManager = AccountManager.get(MyApplication.getInstance());
       ContribFeature.SYNCHRONIZATION.recordUsage();
-      if (accountManager.addAccountExplicitly(account, null, userData)) {
-        accountManager.setPassword(account, password);
+      if (accountManager.addAccountExplicitly(account, password, userData)) {
+        if (authToken != null) {
+          accountManager.setAuthToken(account, AUTH_TOKEN_TYPE, authToken);
+        }
         GenericAccountService.activateSync(account);
       } else {
         return Result.FAILURE;
@@ -69,7 +74,7 @@ public class SyncAccountTask extends AsyncTask<Void, Void, Result> {
       try {
         syncBackendProvider = SyncBackendProviderFactory.get(taskExecutionFragment.getActivity(),
             GenericAccountService.GetAccount(accountName)).getOrThrow();
-        Result result = syncBackendProvider.setUp();
+        Result result = syncBackendProvider.setUp(authToken);
         if (!result.success) {
           return result;
         }

@@ -16,14 +16,14 @@ import org.totschnig.myexpenses.util.Result;
 
 import java.io.Serializable;
 
-class DropboxProviderFactory extends SyncBackendProviderFactory {
+public class DropboxProviderFactory extends SyncBackendProviderFactory {
   public static final String LABEL = "Dropbox";
   private static final String APP_KEY = "09ctg08r5gnsh5c";
 
   @NonNull
   @Override
   protected SyncBackendProvider _fromAccount(Context context, Account account, AccountManager accountManager) throws SyncBackendProvider.SyncParseException {
-    return null;
+    return new DropboxBackendProvider(context);
   }
 
   @Override

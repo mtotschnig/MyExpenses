@@ -42,7 +42,6 @@ import timber.log.Timber;
 
 public class GenericAccountService extends Service {
   public static final String ACCOUNT_TYPE = BuildConfig.APPLICATION_ID + ".sync";
-  public static final String KEY_SYNC_PROVIDER_LABEL = "sync_provider_label";
   public static final String KEY_SYNC_PROVIDER_URL = "sync_provider_url";
   public static final String KEY_SYNC_PROVIDER_USERNAME = "sync_provider_user_name";
   public static final int DEFAULT_SYNC_FREQUENCY_HOURS = 12;
@@ -130,6 +129,8 @@ public class GenericAccountService extends Service {
   }
 
   public class Authenticator extends AbstractAccountAuthenticator {
+
+    public static final String AUTH_TOKEN_TYPE = "Default";
 
     public Authenticator(Context context) {
       super(context);

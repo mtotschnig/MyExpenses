@@ -18,13 +18,11 @@ import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.sync.ServiceLoader;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.UiUtils;
 
 import java.io.Serializable;
-import java.util.List;
 
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_REPAIR_SYNC_BACKEND;
@@ -41,11 +39,8 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
   private static final String KEY_PACKED_POSITION = "packedPosition";
   private Account newAccount;
 
-  private List<SyncBackendProviderFactory> backendProviders;
-
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    backendProviders = ServiceLoader.load(this);
     setTheme(MyApplication.getThemeIdEditDialog());
     super.onCreate(savedInstanceState);
     setContentView(R.layout.manage_sync_backends);
@@ -73,13 +68,13 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     getMenuInflater().inflate(R.menu.sync_backend, menu);
-    addSyncProviderMenuEntries(menu.findItem(R.id.CREATE_COMMAND).getSubMenu(), backendProviders);
+    addSyncProviderMenuEntries(menu.findItem(R.id.CREATE_COMMAND).getSubMenu());
     return super.onCreateOptionsMenu(menu);
   }
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    if (getSyncBackendProviderFactoryById(backendProviders, item.getItemId()) != null) {
+    if (getSyncBackendProviderFactoryById(item.getItemId()) != null) {
       contribFeatureRequested(ContribFeature.SYNCHRONIZATION, item.getItemId());
       return true;
     }
@@ -237,7 +232,7 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
   public void contribFeatureCalled(ContribFeature feature, Serializable tag) {
     if (tag instanceof Integer) {
       SyncBackendProviderFactory syncBackendProviderFactory =
-          getSyncBackendProviderFactoryById(backendProviders, (Integer) tag);
+          getSyncBackendProviderFactoryById((Integer) tag);
       if (syncBackendProviderFactory != null) {
         startSetup(syncBackendProviderFactory);
       }

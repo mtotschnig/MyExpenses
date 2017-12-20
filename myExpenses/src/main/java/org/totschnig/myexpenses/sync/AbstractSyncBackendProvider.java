@@ -83,7 +83,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   protected abstract String getSharedPreferencesName();
 
   @Override
-  public Result setUp() {
+  public Result setUp(String authToken) {
     return Result.SUCCESS;
   }
 
