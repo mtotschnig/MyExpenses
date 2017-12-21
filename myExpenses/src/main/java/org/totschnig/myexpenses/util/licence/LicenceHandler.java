@@ -258,10 +258,13 @@ public class LicenceHandler {
       switch (licenceStatus) {
         case CONTRIB:
           registerPurchase(false);
+          break;
         case EXTENDED:
           registerPurchase(true);
+          break;
         case PROFESSIONAL:
           registerSubscription(sku);
+          break;
       }
     }
     return licenceStatus;
