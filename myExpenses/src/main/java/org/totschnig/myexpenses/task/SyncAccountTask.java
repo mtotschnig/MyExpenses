@@ -71,15 +71,16 @@ public class SyncAccountTask extends AsyncTask<Void, Void, Result> {
       SyncBackendProvider syncBackendProvider;
       List<AccountMetaData> syncAccounts;
       List<String> backups;
+      Account account = GenericAccountService.GetAccount(accountName);
       try {
         syncBackendProvider = SyncBackendProviderFactory.get(taskExecutionFragment.getActivity(),
-            GenericAccountService.GetAccount(accountName)).getOrThrow();
+            account).getOrThrow();
         Result result = syncBackendProvider.setUp(authToken);
         if (!result.success) {
           return result;
         }
-        syncAccounts = syncBackendProvider.getRemoteAccountList().collect(Collectors.toList());
-        backups = syncBackendProvider.getStoredBackups();
+        syncAccounts = syncBackendProvider.getRemoteAccountList(account).collect(Collectors.toList());
+        backups = syncBackendProvider.getStoredBackups(account);
       } catch (Throwable throwable) {
         return new Result(false, throwable.getMessage());
       }

@@ -28,7 +28,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.util.Pair;
-import android.util.Log;
 import android.util.SparseArray;
 
 import com.annimon.stream.Collectors;
@@ -177,7 +176,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       authToken = accountManager.blockingGetAuthToken(account, GenericAccountService.Authenticator.AUTH_TOKEN_TYPE,
           true);
     } catch (OperationCanceledException | IOException | AuthenticatorException e) {
-      Log.e(TAG, "Error getting auth token.", e);
+      Timber.e("Error getting auth token.", e);
       syncResult.stats.numAuthExceptions++;
       return;
     }

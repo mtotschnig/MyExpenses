@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 
-import org.apache.commons.lang3.StringUtils;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
@@ -165,7 +164,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  public InputStream getInputStreamForBackup(String backupFile) throws IOException {
+  public InputStream getInputStreamForBackup(android.accounts.Account account, String backupFile) throws IOException {
     return getInputStream(BACKUP_FOLDER_NAME, backupFile);
   }
 
@@ -183,8 +182,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   }
 
   private void saveUriToFolder(String fileName, Uri uri, String folder) throws IOException {
-    String finalFileName = fileName.contains("/") ?
-        fileName = StringUtils.substringAfterLast(fileName, "/") : fileName;
+    String finalFileName = getLastFileNamePart(fileName);
     try {
       RequestBody requestBody = new RequestBody() {
         @Override
@@ -208,7 +206,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
           }
         }
       };
-      webDavClient.upload(folder, fileName, requestBody);
+      webDavClient.upload(folder, finalFileName, requestBody);
     } catch (HttpException e) {
       throw new IOException(e);
     }
@@ -226,7 +224,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
   @NonNull
   @Override
-  public List<String> getStoredBackups() {
+  public List<String> getStoredBackups(android.accounts.Account account) {
     try {
       return Stream.of(webDavClient.getFolderMembers(BACKUP_FOLDER_NAME))
           .map(DavResource::fileName)
@@ -270,7 +268,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
   @NonNull
   @Override
-  public Stream<AccountMetaData> getRemoteAccountList() throws IOException {
+  public Stream<AccountMetaData> getRemoteAccountList(android.accounts.Account account) throws IOException {
     return Stream.of(webDavClient.getFolderMembers(null))
         .filter(LockableDavResource::isCollection)
         .map(davResource -> webDavClient.getResource(davResource.location, ACCOUNT_METADATA_FILENAME))

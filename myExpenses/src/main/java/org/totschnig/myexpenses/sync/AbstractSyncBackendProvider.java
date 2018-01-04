@@ -13,6 +13,7 @@ import com.annimon.stream.Stream;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.apache.commons.lang3.StringUtils;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -224,6 +225,11 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     return result != null ? result : "application/octet-stream";
   }
 
+  protected String getLastFileNamePart(String fileName) {
+    return fileName.contains("/") ?
+        StringUtils.substringAfterLast(fileName, "/") : fileName;
+  }
+
   protected abstract long getLastSequence(long start) throws IOException;
 
   abstract void saveFileContents(String fileName, String fileContents, String mimeType) throws IOException;
@@ -235,7 +241,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
 
   void createWarningFile() {
     try {
-      saveFileContents("IMPORTANT_INFORMATION",
+      saveFileContents("IMPORTANT_INFORMATION.txt",
           Utils.getTextWithAppName(context, R.string.warning_synchronization_folder_usage).toString(),
           "text/plain");
     } catch (IOException e) {

@@ -40,6 +40,10 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_WEBDAV_TE
 public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
     implements EditTextDialog.EditTextDialogListener {
   protected List<SyncBackendProviderFactory> backendProviders;
+
+  private boolean isResumed = false;
+  private boolean setupPending = false;
+
   @State
   int selectedFactoryId;
 
@@ -94,14 +98,38 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
   @Override
   protected void onResume() {
     super.onResume();
+    isResumed = true;
     if (selectedFactoryId == R.id.SYNC_BACKEND_DROPBOX) {
-      startTaskExecution(TaskExecutionFragment.TASK_DROPBOX_SETUP, new Bundle(), R.string.progress_dialog_checking_sync_backend);
+      if (setupPending) {
+        startSetupDo();
+        setupPending = false;
+      } else {
+        startTaskExecution(TaskExecutionFragment.TASK_DROPBOX_SETUP, new Bundle(), R.string.progress_dialog_checking_sync_backend);
+      }
     }
   }
 
-  public void startSetup(SyncBackendProviderFactory factory) {
-    selectedFactoryId = factory.getId();
-    factory.startSetup(this);
+  @Override
+  protected void onPause() {
+    super.onPause();
+    isResumed = false;
+  }
+
+  public void startSetup(int itemId) {
+    selectedFactoryId = itemId;
+    if (isResumed) {
+      startSetupDo();
+    } else {
+      setupPending = true;
+    }
+  }
+
+  private void startSetupDo() {
+    SyncBackendProviderFactory syncBackendProviderFactory =
+        getSyncBackendProviderFactoryById(selectedFactoryId);
+    if (syncBackendProviderFactory != null) {
+      syncBackendProviderFactory.startSetup(this);
+    }
   }
 
   //Google Drive
@@ -109,8 +137,8 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
   protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
     if (requestCode == SYNC_BACKEND_SETUP_REQUEST && resultCode == RESULT_OK && intent != null) {
-        createAccount(intent.getStringExtra(AccountManager.KEY_ACCOUNT_NAME), null,
-            null, intent.getBundleExtra(AccountManager.KEY_USERDATA));
+      createAccount(intent.getStringExtra(AccountManager.KEY_ACCOUNT_NAME), null,
+          null, intent.getBundleExtra(AccountManager.KEY_USERDATA));
     }
   }
 
@@ -157,6 +185,7 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
         break;
       }
       case TASK_DROPBOX_SETUP: {
+        selectedFactoryId = 0;
         if (result.success) {
           String accountName = getSyncBackendProviderFactoryByIdOrThrow(R.id.SYNC_BACKEND_DROPBOX).buildAccountName((String) result.extra[0]);
           createAccount(accountName, null, Auth.getOAuth2Token(), null);
@@ -168,7 +197,7 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
   }
 
   public void addSyncProviderMenuEntries(SubMenu subMenu) {
-    for (SyncBackendProviderFactory factory: backendProviders) {
+    for (SyncBackendProviderFactory factory : backendProviders) {
       subMenu.add(Menu.NONE, factory.getId(), Menu.NONE, factory.getLabel());
     }
   }
@@ -184,7 +213,7 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
 
   public @NonNull
   SyncBackendProviderFactory getSyncBackendProviderFactoryByIdOrThrow(int id) throws IllegalStateException {
-    for (SyncBackendProviderFactory factory: backendProviders) {
+    for (SyncBackendProviderFactory factory : backendProviders) {
       if (factory.getId() == id) {
         return factory;
       }

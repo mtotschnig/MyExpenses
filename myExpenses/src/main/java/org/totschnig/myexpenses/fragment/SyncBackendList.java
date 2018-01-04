@@ -309,17 +309,18 @@ public class SyncBackendList extends Fragment implements
     @Override
     public AccountMetaDataLoaderResult loadInBackground() {
       try {
-        return SyncBackendProviderFactory.get(getContext(), GenericAccountService.GetAccount(accountName))
-            .map(this::getRemoteAccountList)
+        android.accounts.Account account = GenericAccountService.GetAccount(accountName);
+        return SyncBackendProviderFactory.get(getContext(), account)
+            .map(syncBackendProvider -> getRemoteAccountList(account, syncBackendProvider))
             .getOrThrow();
       } catch (Throwable throwable) {
         return new AccountMetaDataLoaderResult(null, throwable);
       }
     }
 
-    private AccountMetaDataLoaderResult getRemoteAccountList(SyncBackendProvider provider) {
+    private AccountMetaDataLoaderResult getRemoteAccountList(android.accounts.Account account, SyncBackendProvider provider) {
       try {
-        return new AccountMetaDataLoaderResult(provider.getRemoteAccountList().collect(Collectors.toList()), null);
+        return new AccountMetaDataLoaderResult(provider.getRemoteAccountList(account).collect(Collectors.toList()), null);
       } catch (IOException e) {
         return new AccountMetaDataLoaderResult(null, e);
       }

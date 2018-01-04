@@ -120,20 +120,15 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
   private boolean onRestoreMenuItemSelected(MenuItem item) {
     if (item.getItemId() == R.id.SetupFromLocal) {
       getActivity().startActivityForResult(new Intent("myexpenses.intent.restore"), RESTORE_REQUEST);
-      return true;
+    } else {
+      SyncBackendSetupActivity hostActivity = (SyncBackendSetupActivity) getActivity();
+      if (item.getItemId() == Menu.NONE) {
+        hostActivity.fetchAccountData(item.getTitle().toString());
+      } else {
+        hostActivity.startSetup(item.getItemId());
+      }
     }
-    SyncBackendSetupActivity hostActivity = (SyncBackendSetupActivity) getActivity();
-    SyncBackendProviderFactory syncBackendProviderFactory =
-        hostActivity.getSyncBackendProviderFactoryById(item.getItemId());
-    if (syncBackendProviderFactory != null) {
-      hostActivity.startSetup(syncBackendProviderFactory);
-      return true;
-    }
-    if (item.getItemId() == Menu.NONE) {
-      hostActivity.fetchAccountData(item.getTitle().toString());
-      return true;
-    }
-    return false;
+    return true;
   }
 
   @Nullable

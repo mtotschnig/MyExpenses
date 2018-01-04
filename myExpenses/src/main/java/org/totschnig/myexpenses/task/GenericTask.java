@@ -571,7 +571,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         }
         List<String> remoteUuidList;
         try {
-          Stream<AccountMetaData> remoteAccounStream = syncBackendProvider.getRemoteAccountList();
+          Stream<AccountMetaData> remoteAccounStream = syncBackendProvider.getRemoteAccountList(GenericAccountService.GetAccount(syncAccountName));
           remoteUuidList = remoteAccounStream
               .map(AccountMetaData::uuid)
               .collect(Collectors.toList());
@@ -615,12 +615,13 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       }
       case TaskExecutionFragment.TASK_SYNC_CHECK: {
         String accountUuid = (String) ids[0];
+        String syncAccountName = ((String) mExtra);
         SyncBackendProvider syncBackendProvider = getSyncBackendProviderFromExtra();
         if (syncBackendProvider == null) {
           return Result.FAILURE;
         }
         try {
-          if (syncBackendProvider.getRemoteAccountList()
+          if (syncBackendProvider.getRemoteAccountList(GenericAccountService.GetAccount(syncAccountName))
               .anyMatch(metadata -> metadata.uuid().equals(accountUuid))) {
             return new Result(false, Utils.concatResStrings(application, " ",
                 R.string.link_account_failure_2, R.string.link_account_failure_3)
@@ -652,7 +653,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         }
         try {
           List<String> accountUuids = Arrays.asList((String[]) ids);
-          int numberOfRestoredAccounts = syncBackendProvider.getRemoteAccountList()
+          int numberOfRestoredAccounts = syncBackendProvider.getRemoteAccountList(GenericAccountService.GetAccount(syncAccountName))
               .filter(accountMetaData -> accountUuids.contains(accountMetaData.uuid()))
               .map(AccountMetaData::toAccount)
               .mapToInt(account -> {

@@ -32,7 +32,7 @@ public interface SyncBackendProvider {
   boolean unlock();
 
   @NonNull
-  Stream<AccountMetaData> getRemoteAccountList() throws IOException;
+  Stream<AccountMetaData> getRemoteAccountList(android.accounts.Account account) throws IOException;
 
   Result setUp(String authToken);
 
@@ -41,9 +41,9 @@ public interface SyncBackendProvider {
   void storeBackup(Uri uri, String fileName) throws IOException;
 
   @NonNull
-  List<String> getStoredBackups() throws IOException;
+  List<String> getStoredBackups(android.accounts.Account account) throws IOException;
 
-  InputStream getInputStreamForBackup(String backupFile) throws IOException;
+  InputStream getInputStreamForBackup(android.accounts.Account account, String backupFile) throws IOException;
 
   class SyncParseException extends Exception {
     SyncParseException(Exception e) {
