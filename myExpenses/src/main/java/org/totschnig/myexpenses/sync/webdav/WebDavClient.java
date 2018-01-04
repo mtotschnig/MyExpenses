@@ -18,6 +18,7 @@ package org.totschnig.myexpenses.sync.webdav;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.xmlpull.v1.XmlPullParser;
@@ -30,6 +31,7 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
 import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLHandshakeException;
 
@@ -48,6 +50,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 import timber.log.Timber;
 
 public class WebDavClient {
@@ -60,7 +63,12 @@ public class WebDavClient {
   private HttpUrl mBaseUri;
   private String currentLockToken;
 
+  @Inject
+  HttpLoggingInterceptor loggingInterceptor;
+
   public WebDavClient(String baseUrl, String userName, String password, final X509Certificate trustedCertificate) throws InvalidCertificateException {
+    MyApplication.getInstance().getAppComponent().inject(this);
+
     // Base URL needs to point to a directory.
     if (!baseUrl.endsWith("/")) {
       baseUrl += "/";
@@ -69,6 +77,8 @@ public class WebDavClient {
     mBaseUri = HttpUrl.parse(baseUrl);
 
     OkHttpClient.Builder builder = new OkHttpClient.Builder();
+
+    builder.addInterceptor(loggingInterceptor);
 
     int timeout = PrefKey.WEBDAV_TIMEOUT.getInt(10);
 

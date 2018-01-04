@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.fragment.SplitPartList;
 import org.totschnig.myexpenses.fragment.StaleImagesList;
 import org.totschnig.myexpenses.fragment.TemplatesList;
 import org.totschnig.myexpenses.fragment.TransactionList;
+import org.totschnig.myexpenses.sync.webdav.WebDavClient;
 import org.totschnig.myexpenses.task.LicenceApiTask;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.ads.AdHandler;
@@ -23,7 +24,7 @@ import javax.inject.Singleton;
 import dagger.Component;
 
 @Singleton
-@Component(modules = {AppModule.class, UiModule.class, UtilsModule.class})
+@Component(modules = {AppModule.class, UiModule.class, UtilsModule.class, NetworkModule.class})
 public interface AppComponent {
   void inject(MyApplication application);
 
@@ -59,4 +60,5 @@ public interface AppComponent {
 
   void inject(ContribDialogFragment contribDialogFragment);
 
+  void inject(WebDavClient webDavClient);
 }
