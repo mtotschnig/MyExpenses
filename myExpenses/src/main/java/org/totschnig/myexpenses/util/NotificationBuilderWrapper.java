@@ -28,9 +28,10 @@ public class NotificationBuilderWrapper {
       NotificationManager mNotificationManager =
           (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
       int importance = NotificationManager.IMPORTANCE_DEFAULT;
-      mNotificationManager.createNotificationChannel(
-          new NotificationChannel(CHANNEL_ID_SYNC, context.getString(R.string.synchronization),
-              importance));
+      NotificationChannel syncChannel = new NotificationChannel(CHANNEL_ID_SYNC, context.getString(R.string.synchronization),
+          importance);
+      syncChannel.setSound(null, null);
+      mNotificationManager.createNotificationChannel(syncChannel);
       mNotificationManager.createNotificationChannel(
           new NotificationChannel(CHANNEL_ID_PLANNER, context.getString(R.string.planner_notification_channel_name),
               importance));
