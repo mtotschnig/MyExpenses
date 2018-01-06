@@ -40,8 +40,9 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
   private DbxClientV2 mDbxClient;
   private String basePath;
 
-  DropboxBackendProvider(Context context) {
+  DropboxBackendProvider(Context context, String folderName) {
     super(context);
+    basePath = "/" + folderName;
   }
 
   @Override
@@ -49,7 +50,6 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
     String userLocale = Locale.getDefault().toString();
     DbxRequestConfig requestConfig = DbxRequestConfig.newBuilder(BuildConfig.APPLICATION_ID).withUserLocale(userLocale).build();
     mDbxClient = new DbxClientV2(requestConfig, authToken);
-    basePath = "/MyExpensesDebug";
     return Result.SUCCESS;
   }
 
@@ -84,6 +84,10 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
   }
 
   private boolean exists(String path) throws DbxException {
+    return exists(mDbxClient, path);
+  }
+
+  public static boolean exists(DbxClientV2 mDbxClient, String path) throws DbxException {
     try {
       mDbxClient.files().getMetadata(path);
       return true;

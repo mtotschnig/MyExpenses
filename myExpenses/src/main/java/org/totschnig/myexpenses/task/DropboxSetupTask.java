@@ -1,6 +1,6 @@
 package org.totschnig.myexpenses.task;
 
-import android.os.AsyncTask;
+import android.os.Bundle;
 
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
@@ -8,40 +8,39 @@ import com.dropbox.core.android.Auth;
 import com.dropbox.core.v2.DbxClientV2;
 
 import org.totschnig.myexpenses.BuildConfig;
+import org.totschnig.myexpenses.sync.DropboxBackendProvider;
 import org.totschnig.myexpenses.util.Result;
 
 import java.util.Locale;
 
-class DropboxSetupTask extends AsyncTask<Void, Void, Result> {
-  private final TaskExecutionFragment taskExecutionFragment;
+import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_SYNC_PROVIDER_URL;
 
-  public DropboxSetupTask(TaskExecutionFragment taskExecutionFragment) {
-    this.taskExecutionFragment = taskExecutionFragment;
+class DropboxSetupTask extends ExtraTask<Result> {
 
+  public DropboxSetupTask(TaskExecutionFragment taskExecutionFragment, int taskId) {
+    super(taskExecutionFragment, taskId);
   }
 
   @Override
-  protected Result doInBackground(Void... params) {
+  protected Result doInBackground(Bundle... params) {
     final String accessToken = Auth.getOAuth2Token();
     if (accessToken != null) {
         String userLocale = Locale.getDefault().toString();
         DbxRequestConfig requestConfig = new DbxRequestConfig(BuildConfig.APPLICATION_ID, userLocale);
-        DbxClientV2 mDbxClient = new DbxClientV2(requestConfig, accessToken);
+        DbxClientV2 dbxClient = new DbxClientV2(requestConfig, accessToken);
         try {
-          return new Result(true, 0, mDbxClient.users().getCurrentAccount().getName().getDisplayName());
+          String userName = dbxClient.users().getCurrentAccount().getName().getDisplayName();
+          String folderName = params[0].getString(KEY_SYNC_PROVIDER_URL);
+          if (DropboxBackendProvider.exists(dbxClient, "/" + folderName)) {
+            return new Result(true, 0, userName, folderName);
+          } else {
+            return new Result(false, "Folder not found");
+          }
         } catch (DbxException e) {
           return null;
         }
     } else {
       return new Result(false, "Dropbox Oauth Token is null");
-    }
-  }
-
-  @Override
-  protected void onPostExecute(Result result) {
-    if (this.taskExecutionFragment.mCallbacks != null) {
-      this.taskExecutionFragment.mCallbacks.onPostExecute(
-          TaskExecutionFragment.TASK_DROPBOX_SETUP, result);
     }
   }
 }

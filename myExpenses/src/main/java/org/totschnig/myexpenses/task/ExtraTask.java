@@ -30,7 +30,7 @@ abstract class ExtraTask<T> extends AsyncTask<Bundle, Void, T> {
   }
 
   @Override
-  protected void onPostExecute(Object result) {
+  protected void onPostExecute(T result) {
     if (this.taskExecutionFragment.mCallbacks != null) {
       this.taskExecutionFragment.mCallbacks.onPostExecute(taskId, result);
     }

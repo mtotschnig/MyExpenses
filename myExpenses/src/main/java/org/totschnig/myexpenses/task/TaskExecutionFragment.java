@@ -311,7 +311,7 @@ public class TaskExecutionFragment<T> extends Fragment {
           new BuildTransactionTask(this, taskId).execute(args);
           break;
         case TASK_DROPBOX_SETUP:
-          new DropboxSetupTask(this).execute();
+          new DropboxSetupTask(this, taskId).execute(args);
           break;
         default:
           new GenericTask<T>(this, taskId, args.getSerializable(KEY_EXTRA))

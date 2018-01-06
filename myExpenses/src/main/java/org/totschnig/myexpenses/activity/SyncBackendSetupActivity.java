@@ -25,6 +25,7 @@ import org.totschnig.myexpenses.util.Result;
 import java.io.File;
 import java.util.List;
 
+import eltos.simpledialogfragment.input.SimpleInputDialog;
 import icepick.Icepick;
 import icepick.State;
 
@@ -38,7 +39,8 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_FETCH_SYN
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_WEBDAV_TEST_LOGIN;
 
 public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
-    implements EditTextDialog.EditTextDialogListener {
+    implements EditTextDialog.EditTextDialogListener, SimpleInputDialog.OnDialogResultListener {
+  private static final String DIALOG_DROPBOX_FOLDER = "dropboxFolder";
   protected List<SyncBackendProviderFactory> backendProviders;
 
   private boolean isResumed = false;
@@ -99,12 +101,19 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
   protected void onResume() {
     super.onResume();
     isResumed = true;
-    if (selectedFactoryId == R.id.SYNC_BACKEND_DROPBOX) {
-      if (setupPending) {
-        startSetupDo();
-        setupPending = false;
-      } else {
-        startTaskExecution(TaskExecutionFragment.TASK_DROPBOX_SETUP, new Bundle(), R.string.progress_dialog_checking_sync_backend);
+    if (setupPending) {
+      startSetupDo();
+      setupPending = false;
+    } else {
+      if (selectedFactoryId == R.id.SYNC_BACKEND_DROPBOX) {
+        Bundle extra = new Bundle(1);
+        SimpleInputDialog.build()
+            .title("Dropbox")
+            .msg("Enter the name of an existing folder at the root level of your Dropbox")
+            .pos(android.R.string.ok)
+            .extra(extra)
+            .neut()
+            .show(this, DIALOG_DROPBOX_FOLDER);
       }
     }
   }
@@ -187,8 +196,11 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
       case TASK_DROPBOX_SETUP: {
         selectedFactoryId = 0;
         if (result.success) {
-          String accountName = getSyncBackendProviderFactoryByIdOrThrow(R.id.SYNC_BACKEND_DROPBOX).buildAccountName((String) result.extra[0]);
-          createAccount(accountName, null, Auth.getOAuth2Token(), null);
+          String accountName = getSyncBackendProviderFactoryByIdOrThrow(R.id.SYNC_BACKEND_DROPBOX)
+              .buildAccountName(String.format("%s - %s", result.extra[0], result.extra[1]));
+          Bundle bundle = new Bundle(1);
+          bundle.putString(KEY_SYNC_PROVIDER_URL, (String) result.extra[1]);
+          createAccount(accountName, null, Auth.getOAuth2Token(), bundle);
         } else {
           Toast.makeText(this, result.print(this), Toast.LENGTH_LONG).show();
         }
@@ -224,5 +236,15 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
   protected SetupWebdavDialogFragment getWebdavFragment() {
     return (SetupWebdavDialogFragment) getSupportFragmentManager().findFragmentByTag(
         WebDavBackendProviderFactory.WEBDAV_SETUP);
+  }
+
+  @Override
+  public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
+    if (DIALOG_DROPBOX_FOLDER.equals(dialogTag) && which == BUTTON_POSITIVE) {
+      Bundle bundle = new Bundle();
+      bundle.putString(KEY_SYNC_PROVIDER_URL, extras.getString(SimpleInputDialog.TEXT));
+      startTaskExecution(TaskExecutionFragment.TASK_DROPBOX_SETUP, bundle, R.string.progress_dialog_checking_sync_backend);
+    }
+    return false;
   }
 }

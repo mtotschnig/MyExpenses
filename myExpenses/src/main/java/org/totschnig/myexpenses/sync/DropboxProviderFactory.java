@@ -23,7 +23,7 @@ public class DropboxProviderFactory extends SyncBackendProviderFactory {
   @NonNull
   @Override
   protected SyncBackendProvider _fromAccount(Context context, Account account, AccountManager accountManager) throws SyncBackendProvider.SyncParseException {
-    return new DropboxBackendProvider(context);
+    return new DropboxBackendProvider(context, accountManager.getUserData(account, GenericAccountService.KEY_SYNC_PROVIDER_URL));
   }
 
   @Override
