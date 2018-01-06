@@ -411,7 +411,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   private void notifyUser(String title, String content, @Nullable Account account, @Nullable Intent intent) {
     if (shouldNotify) {
       NotificationBuilderWrapper builder = NotificationBuilderWrapper.defaultBigTextStyleBuilder(
-          getContext(), title, content);
+          getContext(), NotificationBuilderWrapper.CHANNEL_ID_SYNC, title, content);
       //on Gingerbread content intent is required
       if (intent == null && !Utils.hasApiLevel(Build.VERSION_CODES.ICE_CREAM_SANDWICH)) {
         intent = getManageSyncBackendsIntent();

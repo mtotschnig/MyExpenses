@@ -127,7 +127,7 @@ public class PlanExecutor extends IntentService {
             content += CurrencyFormatter.instance().formatCurrency(template.getAmount());
             String title = account.label + " : " + template.getTitle();
             NotificationBuilderWrapper builder =
-                new NotificationBuilderWrapper(this)
+                new NotificationBuilderWrapper(this, NotificationBuilderWrapper.CHANNEL_ID_PLANNER)
                     .setSmallIcon(R.drawable.ic_stat_notification_sigma)
                     .setContentTitle(title)
                     .setContentText(content);
