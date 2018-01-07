@@ -72,7 +72,7 @@ public class AppNameLocalizationTest {
         return "pt-rPT";
       case "zh-CN":
         return "zh-rCN";
-      case "zu-TW":
+      case "zh-TW":
         return "zh-rTW";
       default:
         return locale;
