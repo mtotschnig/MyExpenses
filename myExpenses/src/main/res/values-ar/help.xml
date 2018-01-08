@@ -1,10 +1,16 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="help_menu_commands">أوامر القائمة</string>
+  <string name="help_contextual_actions">الإجراءات السياقية</string>
+  <string name="help_form_fields">حقول النموذج</string>
   <string name="cab_delete_help_text">حذف العناصر المحددة</string>
   <string name="cab_edit_help_text">تعديل العناصر المحددة</string>
   <!--My Expenses Transaction list-->
   <string name="help_MyExpenses_title">قائمة العمليات</string>
+  <string name="menu_reset_help_text">سيقوم هذا الأمر بتصدير جميع معاملات الحساب الجاري إلى ملف على بطاقة الذاكرة بصيغة QIF أو CSV. يمكنك أن تقرر حذف المعاملات الصادرة، في هذه الحالة يتم تعديل الرصيد الافتتاحي تلقائيا. بدلا من ذلك، إذا لم يتم حذف المعاملات، سيتم وضع علامة على أنها صادرة. مصروفاتي يمكنه مشاركة الملف مباشرة بعد التصدير من خلال FTP، او البريد الإلكتروني أو أي تطبيق آخر لمشاركة الملفات، إذا قمت بالسماح له في الاعدادات. إذا كان فلتر البحث نشطا، فلن يتم أخذ سوى المعاملات التي تم تعيينها بواسطة هذا الفلتر في الاعتبار.</string>
+  <string name="menu_grouping_help_text">يمكنك تجميع المعاملات حسب اليوم أو الأسبوع أو الشهر أو السنة. لكل مجموعة، يتم حساب الاجمالي للايرادات والمصروفات والتحويلات وعرضها. عند النقر فوق رأس مجموعة، يتم تصغير مجموعة المعاملات ويتم عرض الرأس فقط. انقر مرة أخرى للتوسيع.</string>
+  <string name="menu_sort_direction_help_text">يمكن فرز المعاملات تصاعديا (الأقدم في المقدمة) أو تنازليا (الأحدث في المقدمة) .</string>
+  <string name="menu_distribution_help_text">عرض توزيع النفقات الخاصة بك لكل فئة. يمكنك أيضا النقر مطولاً على رأس مجموعة لتفقد التوزيع لفترة محددة من الزمن.</string>
   <!--ManageMethods title is in keys-->
   <!--ManageParties title is in keys-->
   <!--ManageTemplates title is in keys-->

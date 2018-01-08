@@ -41,6 +41,8 @@
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Şablon widget\'i</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV içe aktar</string>
   <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Sınırsız sayıda bölünmüş şablonlar</string>
+  <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources">2 iş günü sonrasında cevap garantili <b>e-posta desteği</b></string>
+  <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources"><b>Geliştirme yol haritası</b> hakkında oy verme hakkı</string>
   <string name="licence_status_free">Ücretsiz</string>
   <string name="contrib_key">Katkı Anahtarı</string>
   <string name="extended_key">Genişletilmiş Anahtarı</string>
@@ -263,6 +265,7 @@
   <string name="pm_type_neutral">Nötr</string>
   <string name="pref_app_dir_title">Yedekleme ve dışa aktarmalar için klasör</string>
   <string name="pref_auto_fill_title">Muameleleri otomatik doldur</string>
+  <string name="pref_auto_fill_summary">Aynı alacaklı/ödeyici için verileri son muameleden doldur</string>
   <string name="pref_backup_summary">SD kartına veritabanı ve tercihlerin bir yedeklemesini yap.</string>
   <string name="pref_sort_order_usages">Kullanım sayacı</string>
   <string name="pref_category_title_advanced">Gelişmiş</string>
@@ -480,6 +483,7 @@
   <string name="comparison_operator_date_after">sonra</string>
   <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">AppGratis ile tamamen özel bir teklif: Katkı özelliklerinin kilidi bedava kaldırılır.</string>
   <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Satın alma başarısız oldu veya iptal edildi.</string>
+  <string name="hint_auto_fill">Aynı alacaklı/ödeyici için veriler son muameleden doldurulsun mu? Bu davranışı ayarlardan değiştirmeniz mümkündür.</string>
   <string name="yes">Evet</string>
   <string name="no">Hayır</string>
   <string name="hint_template_click">Bu listedeki bir unsura kısa bir dokunuş şablonu örneklendirecek ve onu ya derhal kaydedecek ya da kaydetmeden önce değiştirmenize izin verecek düzenleme formuna girecektir. Her iki etkinliği de uzun bir dokunuş ile elde edebilir ve varsayılan değeri ayarlarda değiştirebilirsiniz.</string>
@@ -676,6 +680,7 @@
   <string name="extend_until">%1$s tarihine kadar %2$s fiyatına yenile</string>
   <string name="extended_upgrade_goodie_github">%d ek ay bir defalık olmak üzere zaten Genişletilmiş Lisansa sahip olan kullanıcılara verilmiştir</string>
   <string name="extended_upgrade_goodie_subscription">Genişletilmiş Lisansa zaten sahip olan kullanıcılar ilk sene normal fiyatın (%s) %%50\'sini öderler.</string>
+  <string name="extended_upgrade_goodie_subscription_amazon">Genişletilmiş lisansa zaten sahip olan kullanıcıların, senelik aboneliğin normal fiyatından (%2$s) %%%1$d oranında tenzilata hakları vardır.</string>
   <string name="switch_to_yearly">Senelik aboneliğe geç</string>
   <string name="switch_to_monthly">Aylık aboneliğe geç</string>
   <string name="extend_validity">Geçerliliği uzat</string>
@@ -684,4 +689,7 @@
   <string name="menu_sort_direction">Sıralama yönü</string>
   <string name="sort_direction_ascending">artan</string>
   <string name="sort_direction_descending">azalan</string>
+  <string name="never">asla</string>
+  <string name="always">daima</string>
+  <string name="auto_fill_account_from_aggregate_only">Sadece toplam (agrega) hesaptan başlatıldığında.</string>
 </resources>

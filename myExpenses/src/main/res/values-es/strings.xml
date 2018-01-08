@@ -265,6 +265,7 @@
   <string name="pm_type_neutral">Neutral</string>
   <string name="pref_app_dir_title">Carpeta para copias de seguridad y exportaciones</string>
   <string name="pref_auto_fill_title"> Autorrelleno de transacciones</string>
+  <string name="pref_auto_fill_summary">Rellenar los datos desde la última transacción para el mismo acreedor/ordenante</string>
   <string name="pref_backup_summary">Crear una copia de seguridad de la base de datos y las configuraciones.</string>
   <string name="pref_sort_order_usages">Frecuencia de utilización</string>
   <string name="pref_category_title_advanced">Avanzado</string>
@@ -482,6 +483,7 @@
   <string name="comparison_operator_date_after">después</string>
   <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Oferta especial de hoy con AppGratis: características Premium desbloqueadas totalmente gratis.</string>
   <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Compra fallida o cancelada.</string>
+  <string name="hint_auto_fill">¿Los datos deberían de rellenarse automáticamente a partir de la última transacción para el mismo acreedor/ordenante? Siempre podrá cambiarlo desde configuración.</string>
   <string name="yes">Sí</string>
   <string name="no">No</string>
   <string name="hint_template_click">Un toque corto en una entrada de esta lista creará una instancia de la plantilla, donde podrá guardarla inmediatamente o acceder a su modificación antes de dicho guardado. Siempre podrá acceder a ambas acciones a través de un toque largo y cambiar la opción predeterminada desde el menú de configuración.</string>
@@ -678,6 +680,7 @@
   <string name="extend_until">Extendida hasta %1$s por %2$s</string>
   <string name="extended_upgrade_goodie_github">Se han añadido %d meses adicionales a los usuarios que ya tuvieran una licencia Extendida.</string>
   <string name="extended_upgrade_goodie_subscription">Para los usuarios que ya posean una licencia Extendida, se aplicará un 50%% del precio normal (%s) durante el primer año.</string>
+  <string name="extended_upgrade_goodie_subscription_amazon">Los usuarios que actualmente posean una Licencia Extendida, también disponen de un %1$d%% de descuento para el precio (%2$s) de la suscripción anual.</string>
   <string name="switch_to_yearly">Cambiar a suscripción anual</string>
   <string name="switch_to_monthly">Cambiar a suscripción mensual</string>
   <string name="extend_validity">Extender validez</string>
@@ -686,4 +689,7 @@
   <string name="menu_sort_direction">Elegir dirección</string>
   <string name="sort_direction_ascending">Ascendente</string>
   <string name="sort_direction_descending">Descendente</string>
+  <string name="never">Nunca</string>
+  <string name="always">Siempre</string>
+  <string name="auto_fill_account_from_aggregate_only">Sólo cuando se comience desde una cuenta agregada.</string>
 </resources>

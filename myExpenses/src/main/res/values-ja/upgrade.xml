@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_284">
+    <item>設定可能な自動入力</item>
+  </string-array>
   <string-array name="whats_new_283">
     <item>昇順のソート (古い取引が先頭)</item>
   </string-array>
@@ -59,4 +62,5 @@
     <item>次のインスタンスで計画をソート</item>
   </string-array>
     <string name="bug_fixes">バグ修正</string>
-    </resources>
+    <string name="performance_enhancement">パフォーマンスの向上</string>
+</resources>

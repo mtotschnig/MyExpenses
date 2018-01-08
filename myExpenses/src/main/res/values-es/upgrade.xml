@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_284">
+    <item>Auto-relleno configurable</item>
+  </string-array>
   <string-array name="whats_new_283">
     <item>Elegir dirección ascendente (las transacciones más antiguas arriba)</item>
   </string-array>
@@ -59,4 +62,5 @@
     <item>Los proyectos pueden ser ordenados por futuras instancias</item>
   </string-array>
     <string name="bug_fixes">Corrección de errores</string>
-    </resources>
+    <string name="performance_enhancement">Mejora de rendimiento</string>
+</resources>

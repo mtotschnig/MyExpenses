@@ -41,7 +41,7 @@
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Widget de modèles</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Import CSV</string>
   <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Nombre illimité de modèles ventilés</string>
-  <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Assistance par e-mail</b> avec réponse garantie après 2 jours ouvrables</string>
+  <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Assistance par e-mail</b> avec réponse garantie sous 2 jours ouvrables</string>
   <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Voter sur la <b>feuille de route pour le développement</b></string>
   <string name="licence_status_free">Gratuit</string>
   <string name="contrib_key">Clé Contrib</string>

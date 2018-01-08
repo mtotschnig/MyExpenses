@@ -18,6 +18,31 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_284">
+    <item>Auto-isi boleh dikonfigurasikan</item>
+  </string-array>
+  <string-array name="whats_new_283">
+    <item>Arah isih menaik (transaksi paling lama di bahagian teratas)</item>
+  </string-array>
+  <string-array name="whats_new_282">
+    <item>Templat dan plan untuk transaksi berasingan</item>
+    <item>Memperkenalkan Kunci Lesen Profesional</item>
+    <item>Widjet skrin rumah diadaptasi dengan saiz fon yang dikehendaki pengguna</item>
+  </string-array>
+  <string-array name="whats_new_281">
+    <item>Pilihan untuk plan suai</item>
+    <item>Baiki storan awan untuk sandar bersaiz besar</item>
+  </string-array>
+  <string-array name="whats_new_280">
+    <item>Terjemahan bahasa Ibrani</item>
+    <item>Pemilih untuk warna akaun suai</item>
+  </string-array>
+  <string-array name="whats_new_279">
+    <item>Simbol matawang boleh dikonfigurkan</item>
+  </string-array>
+  <string-array name="whats_new_278">
+    <item>Pintasan Apl untuk Android 7.1</item>
+  </string-array>
   <string-array name="whats_new_277">
     <item>Auto sandar boleh disimpan dalam bahagian belakang awan</item>
   </string-array>
@@ -34,7 +59,8 @@
   <string-array name="whats_new_270">
     <item>Ikon pelancar baharu</item>
     <item>Gelintar pemindahan</item>
-    <item>Isih plan pada kejadian berikutnya</item>
+    <item>Isih plan pada tika berikutnya</item>
   </string-array>
     <string name="bug_fixes">Pembaikan pepijat</string>
-    </resources>
+    <string name="performance_enhancement">Penambahbaikan prestasi</string>
+</resources>

@@ -18,6 +18,13 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_283">
+    <item>Ascending sort direction (as transações mais antigas no topo)</item>
+  </string-array>
+  <string-array name="whats_new_282">
+    <item>Modelos e planos para operações divididas</item>
+    <item>Introdução da chave de licença profissional</item>
+  </string-array>
   <string-array name="whats_new_281">
     <item>Opção para planos personalizados</item>
     <item>Corrigir o armazenamento na nuvem de backups de tamanho grande</item>
