@@ -22,8 +22,10 @@ import android.widget.ExpandableListView;
 import android.widget.Toast;
 
 import com.annimon.stream.Collectors;
+import com.dropbox.core.InvalidAccessTokenException;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ManageSyncBackends;
 import org.totschnig.myexpenses.adapter.SyncBackendAdapter;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.DialogUtils;
@@ -263,8 +265,12 @@ public class SyncBackendList extends Fragment implements
       if (result.getResult() != null) {
         syncBackendAdapter.setAccountMetadata(loader.getId(), result.getResult());
       } else {
-        Toast.makeText(getActivity(), result.getError() != null ? result.getError().getMessage() :
-            "Could not get account metadata for backend", Toast.LENGTH_SHORT).show();
+        if (result.getError() != null && Utils.getCause(result.getError()) instanceof InvalidAccessTokenException) {
+          ((ManageSyncBackends) getActivity()).requestDropboxAccess((String) syncBackendAdapter.getGroup(loader.getId()));
+        } else {
+          Toast.makeText(getActivity(), result.getError() != null ? result.getError().getMessage() :
+              "Could not get account metadata for backend", Toast.LENGTH_SHORT).show();
+        }
       }
     }
 
@@ -309,17 +315,18 @@ public class SyncBackendList extends Fragment implements
     @Override
     public AccountMetaDataLoaderResult loadInBackground() {
       try {
-        return SyncBackendProviderFactory.get(getContext(), GenericAccountService.GetAccount(accountName))
-            .map(this::getRemoteAccountList)
+        android.accounts.Account account = GenericAccountService.GetAccount(accountName);
+        return SyncBackendProviderFactory.get(getContext(), account)
+            .map(syncBackendProvider -> getRemoteAccountList(account, syncBackendProvider))
             .getOrThrow();
       } catch (Throwable throwable) {
         return new AccountMetaDataLoaderResult(null, throwable);
       }
     }
 
-    private AccountMetaDataLoaderResult getRemoteAccountList(SyncBackendProvider provider) {
+    private AccountMetaDataLoaderResult getRemoteAccountList(android.accounts.Account account, SyncBackendProvider provider) {
       try {
-        return new AccountMetaDataLoaderResult(provider.getRemoteAccountList().collect(Collectors.toList()), null);
+        return new AccountMetaDataLoaderResult(provider.getRemoteAccountList(account).collect(Collectors.toList()), null);
       } catch (IOException e) {
         return new AccountMetaDataLoaderResult(null, e);
       }

@@ -42,7 +42,6 @@ import timber.log.Timber;
 
 public class GenericAccountService extends Service {
   public static final String ACCOUNT_TYPE = BuildConfig.APPLICATION_ID + ".sync";
-  public static final String KEY_SYNC_PROVIDER_LABEL = "sync_provider_label";
   public static final String KEY_SYNC_PROVIDER_URL = "sync_provider_url";
   public static final String KEY_SYNC_PROVIDER_USERNAME = "sync_provider_user_name";
   public static final int DEFAULT_SYNC_FREQUENCY_HOURS = 12;
@@ -131,8 +130,12 @@ public class GenericAccountService extends Service {
 
   public class Authenticator extends AbstractAccountAuthenticator {
 
+    public static final String AUTH_TOKEN_TYPE = "Default";
+    private final Context mContext;
+
     public Authenticator(Context context) {
       super(context);
+      mContext = context;
     }
 
     @Override
@@ -164,9 +167,16 @@ public class GenericAccountService extends Service {
 
     @Override
     public Bundle getAuthToken(AccountAuthenticatorResponse accountAuthenticatorResponse,
-                               Account account, String s, Bundle bundle)
+                               Account account, String authTokenType, Bundle bundle)
         throws NetworkErrorException {
-      throw new UnsupportedOperationException();
+      AccountManager accountManager = AccountManager.get(mContext);
+      String authToken = accountManager.peekAuthToken(account, authTokenType);
+
+      Bundle result = new Bundle();
+      result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name);
+      result.putString(AccountManager.KEY_ACCOUNT_TYPE, account.type);
+      result.putString(AccountManager.KEY_AUTHTOKEN, authToken);
+      return result;
     }
 
     @Override

@@ -25,8 +25,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static okhttp3.logging.HttpLoggingInterceptor.Level.BASIC;
-import static okhttp3.logging.HttpLoggingInterceptor.Level.BODY;
 import static org.totschnig.myexpenses.preference.PrefKey.LICENCE_EMAIL;
 import static org.totschnig.myexpenses.preference.PrefKey.NEW_LICENCE;
 
@@ -38,6 +36,9 @@ public class LicenceApiTask extends AsyncTask<Void, Void, Result> {
 
   @Inject
   LicenceHandler licenceHandler;
+
+  @Inject
+  HttpLoggingInterceptor loggingInterceptor;
 
   @Inject
   @Named("deviceId")
@@ -61,10 +62,6 @@ public class LicenceApiTask extends AsyncTask<Void, Void, Result> {
     if ("".equals(licenceKey) || "".equals(licenceEmail)) {
       return Result.FAILURE;
     }
-
-
-    HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-    loggingInterceptor.setLevel(BuildConfig.DEBUG ? BODY : BASIC);
 
     final OkHttpClient okHttpClient = new OkHttpClient.Builder()
         .connectTimeout(20, TimeUnit.SECONDS)

@@ -264,6 +264,7 @@
     <string name="plan_automatic">automatic</string>
     <!-- this is the label for the calendar where plans for future and recurrent transactions are stored -->
     <string name="plan_calendar_name">{app_name} planner</string>
+    <string name="planner_notification_channel_name">Planner</string>
     <string name="plan_event_deleted">The plan associated with this template has been deleted from the calendar.</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">Plan execution canceled</string>
@@ -707,4 +708,7 @@
     <string name="never">never</string>
     <string name="always">always</string>
     <string name="auto_fill_account_from_aggregate_only">Only when started from aggregate account.</string>
+    <string name="dropbox_folder_name_prompt">Enter the name of an existing folder at the root level of your Dropbox</string>
+    <string name="dropbox_folder_not_found">Folder not found</string>
+    <string name="sync_auth_exception_login_again">Authorization failed. Please log in again.</string>
 </resources>

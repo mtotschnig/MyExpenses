@@ -376,33 +376,19 @@
         <item>create_sync_backend</item>
     </string-array>
 
-    <integer-array name="version_codes">
-        <item>304</item>
-        <item>300</item>
-        <item>297</item>
-        <item>294</item>
-        <item>291</item>
-        <item>285</item>
-        <item>279</item>
-        <item>275</item>
-        <item>268</item>
-        <item>261</item>
-        <item>257</item>
-        <item>254</item>
-    </integer-array>
-    <string-array name="version_names">
-        <item>2.8.4</item>
-        <item>2.8.3</item>
-        <item>2.8.2</item>
-        <item>2.8.1</item>
-        <item>2.8.0</item>
-        <item>2.7.9</item>
-        <item>2.7.8</item>
-        <item>2.7.7</item>
-        <item>2.7.6</item>
-        <item>2.7.5</item>
-        <item>2.7.1</item>
-        <item>2.7.0</item>
+    <string-array name="versions">
+        <item>304;2.8.4</item>
+        <item>300;2.8.3</item>
+        <item>297;2.8.2</item>
+        <item>294;2.8.1</item>
+        <item>291;2.8.0</item>
+        <item>285;2.7.9</item>
+        <item>279:2.7.8</item>
+        <item>275;2.7.7</item>
+        <item>268;2.7.6</item>
+        <item>261;2.7.5</item>
+        <item>257;2.7.1</item>
+        <item>254;2.7.0</item>
     </string-array>
 
     <string-array name="contributors_280" tools:ignore="UnusedResources">

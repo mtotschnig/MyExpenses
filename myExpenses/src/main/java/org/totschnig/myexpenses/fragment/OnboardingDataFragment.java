@@ -32,14 +32,12 @@ import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.sync.GenericAccountService;
-import org.totschnig.myexpenses.sync.ServiceLoader;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.ui.AmountEditText;
 import org.totschnig.myexpenses.util.UiUtils;
 
 import java.math.BigDecimal;
 import java.util.Currency;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -81,7 +79,6 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
   @State
   int accountColor = Account.DEFAULT_COLOR;
   private int lastSelectedCurrencyPosition;
-  private List<SyncBackendProviderFactory> backendProviders;
 
   public static OnboardingDataFragment newInstance() {
     return new OnboardingDataFragment();
@@ -90,7 +87,6 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    backendProviders = ServiceLoader.load(getContext());
     Icepick.restoreInstanceState(this, savedInstanceState);
   }
 
@@ -115,8 +111,7 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
     Menu menu = toolbar.getMenu();
     SubMenu subMenu = menu.findItem(R.id.SetupFromRemote).getSubMenu();
     subMenu.clear();
-    ((SyncBackendSetupActivity) getActivity()).addSyncProviderMenuEntries(
-        subMenu, backendProviders);
+    ((SyncBackendSetupActivity) getActivity()).addSyncProviderMenuEntries(subMenu);
     GenericAccountService.getAccountsAsStream(getActivity()).forEach(
         account -> subMenu.add(Menu.NONE, Menu.NONE, Menu.NONE, account.name));
     toolbar.setOnMenuItemClickListener(this::onRestoreMenuItemSelected);
@@ -125,20 +120,15 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
   private boolean onRestoreMenuItemSelected(MenuItem item) {
     if (item.getItemId() == R.id.SetupFromLocal) {
       getActivity().startActivityForResult(new Intent("myexpenses.intent.restore"), RESTORE_REQUEST);
-      return true;
+    } else {
+      SyncBackendSetupActivity hostActivity = (SyncBackendSetupActivity) getActivity();
+      if (item.getItemId() == Menu.NONE) {
+        hostActivity.fetchAccountData(item.getTitle().toString());
+      } else {
+        hostActivity.startSetup(item.getItemId());
+      }
     }
-    SyncBackendProviderFactory syncBackendProviderFactory =
-        ((SyncBackendSetupActivity) getActivity()).getSyncBackendProviderFactoryById(
-            backendProviders, item.getItemId());
-    if (syncBackendProviderFactory != null) {
-      syncBackendProviderFactory.startSetup(getActivity());
-      return true;
-    }
-    if (item.getItemId() == Menu.NONE) {
-      ((SyncBackendSetupActivity) getActivity()).fetchAccountData(item.getTitle().toString());
-      return true;
-    }
-    return false;
+    return true;
   }
 
   @Nullable

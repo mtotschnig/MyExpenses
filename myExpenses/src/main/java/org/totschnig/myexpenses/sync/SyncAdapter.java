@@ -2,6 +2,8 @@ package org.totschnig.myexpenses.sync;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.accounts.AuthenticatorException;
+import android.accounts.OperationCanceledException;
 import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -169,7 +171,16 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
       return;
     }
-    if (!backend.setUp().success) {
+    String authToken;
+    try {
+      authToken = accountManager.blockingGetAuthToken(account, GenericAccountService.Authenticator.AUTH_TOKEN_TYPE,
+          true);
+    } catch (OperationCanceledException | IOException | AuthenticatorException e) {
+      Timber.e("Error getting auth token.", e);
+      syncResult.stats.numAuthExceptions++;
+      return;
+    }
+    if (!backend.setUp(authToken).success) {
       syncResult.stats.numIoExceptions++;
       syncResult.delayUntil = IO_DEFAULT_DELAY_SECONDS;
       appendToNotification(Utils.concatResStrings(getContext(), " ",
@@ -183,6 +194,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       try {
         backend.storeBackup(Uri.parse(autoBackupFileUri), fileName);
       } catch (IOException e) {
+        if (handleAuthException(backend, e, account)) {
+          return;
+        }
         notifyUser(getContext().getString(R.string.pref_auto_backup_title),
             getContext().getString(R.string.auto_backup_cloud_failure, fileName, account.name)
                 + " " + e.getMessage(), null, null);
@@ -194,14 +208,15 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     try {
       cursor = provider.query(TransactionProvider.SETTINGS_URI, new String[]{KEY_VALUE},
-          KEY_KEY + " = ?", new String[] {PrefKey.SYNC_NOTIFICATION.getKey()}, null);
+          KEY_KEY + " = ?", new String[]{PrefKey.SYNC_NOTIFICATION.getKey()}, null);
       if (cursor != null) {
         if (cursor.moveToFirst()) {
           shouldNotify = cursor.getString(0).equals(Boolean.TRUE.toString());
         }
         cursor.close();
       }
-    } catch (RemoteException ignored) {}
+    } catch (RemoteException ignored) {
+    }
 
 
     String[] selectionArgs;
@@ -268,114 +283,151 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
           dbAccount.set(org.totschnig.myexpenses.model.Account.getInstanceFromDb(accountId));
           appendToNotification(getContext().getString(R.string.synchronization_start, dbAccount.get().label), account, true);
           if (uuidFromExtras != null && extras.getBoolean(KEY_RESET_REMOTE_ACCOUNT)) {
-            if (!backend.resetAccountData(uuidFromExtras)) {
+            try {
+              backend.resetAccountData(uuidFromExtras);
+            } catch (IOException e) {
+              if (handleAuthException(backend, e, account)) {
+                return;
+              }
               syncResult.stats.numIoExceptions++;
               syncResult.delayUntil = IO_DEFAULT_DELAY_SECONDS;
               notifyIoException(R.string.sync_io_exception_reset_account_data, account);
             }
-            continue;
+            break;
           }
-          if (!backend.withAccount(dbAccount.get())) {
+
+          try {
+            backend.withAccount(dbAccount.get());
+          } catch (IOException e) {
+            if (handleAuthException(backend, e, account)) {
+              return;
+            }
             syncResult.stats.numIoExceptions++;
             syncResult.delayUntil = IO_DEFAULT_DELAY_SECONDS;
             notifyIoException(R.string.sync_io_exception_setup_remote_account, account);
             continue;
           }
 
-          if (backend.lock()) {
-            boolean completedWithoutError = false;
-            int successRemote2Local = 0, successLocal2Remote = 0;
-            try {
-              ChangeSet changeSetSince = backend.getChangeSetSince(lastSyncedRemote, getContext());
-
-              if (changeSetSince.isFailed()) {
-                syncResult.stats.numIoExceptions++;
-                syncResult.delayUntil = IO_DEFAULT_DELAY_SECONDS;
-                notifyIoException(R.string.sync_io_exception_reading_change_set, account);
-                continue;
-              }
-
-              List<TransactionChange> remoteChanges;
-              lastSyncedRemote = changeSetSince.sequenceNumber;
-              remoteChanges = changeSetSince.changes;
-
-              List<TransactionChange> localChanges = new ArrayList<>();
-              long sequenceToTest = lastSyncedLocal + 1;
-              while (true) {
-                List<TransactionChange> nextChanges = getLocalChanges(provider, accountId, sequenceToTest);
-                if (nextChanges.size() > 0) {
-                  localChanges.addAll(Stream.of(nextChanges).filter(change -> !change.isEmpty()).toList());
-                  lastSyncedLocal = sequenceToTest;
-                  sequenceToTest++;
-                } else {
-                  break;
-                }
-              }
-
-              if (localChanges.size() > 0 || remoteChanges.size() > 0) {
-
-                if (localChanges.size() > 0) {
-                  localChanges = collectSplits(localChanges);
-                }
-
-                Pair<List<TransactionChange>, List<TransactionChange>> mergeResult =
-                    mergeChangeSets(localChanges, remoteChanges);
-                localChanges = mergeResult.first;
-                remoteChanges = mergeResult.second;
-
-                if (remoteChanges.size() > 0) {
-                  writeRemoteChangesToDb(provider, remoteChanges, accountId);
-                  accountManager.setUserData(account, lastRemoteSyncKey, String.valueOf(lastSyncedRemote));
-                  successRemote2Local = remoteChanges.size();
-                }
-
-                if (localChanges.size() > 0) {
-                  lastSyncedRemote = backend.writeChangeSet(lastSyncedRemote, localChanges, getContext());
-                  if (lastSyncedRemote != ChangeSet.FAILED) {
-                    if (!BuildConfig.DEBUG) {
-                      // on debug build for auditing purposes, we keep changes in the table
-                      provider.delete(TransactionProvider.CHANGES_URI,
-                          KEY_ACCOUNTID + " = ? AND " + KEY_SYNC_SEQUENCE_LOCAL + " <= ?",
-                          new String[]{String.valueOf(accountId), String.valueOf(lastSyncedLocal)});
-                    }
-                    accountManager.setUserData(account, lastLocalSyncKey, String.valueOf(lastSyncedLocal));
-                    accountManager.setUserData(account, lastRemoteSyncKey, String.valueOf(lastSyncedRemote));
-                    successLocal2Remote = localChanges.size();
-                  }
-                }
-              }
-              completedWithoutError = true;
-            } catch (IOException e) {
-              syncResult.stats.numIoExceptions++;
-              syncResult.delayUntil = IO_DEFAULT_DELAY_SECONDS;
-              notifyIoException(R.string.sync_io_exception_syncing, account);
-            } catch (RemoteException | OperationApplicationException | SQLiteException e) {
-              syncResult.databaseError = true;
-              notifyDatabaseError(e, account);
-            } catch (Exception e) {
-              appendToNotification("ERROR: " + e.getMessage(), account, true);
-            } finally {
-              if (successLocal2Remote > 0 || successRemote2Local > 0) {
-                appendToNotification(getContext().getString(R.string.synchronization_end_success, successRemote2Local, successLocal2Remote), account, false);
-              } else if (completedWithoutError) {
-                appendToNotification(getContext().getString(R.string.synchronization_end_success_none), account, false);
-              }
-              if (!backend.unlock()) {
-                notifyIoException(R.string.sync_io_exception_unlocking, account);
-                syncResult.stats.numIoExceptions++;
-                syncResult.delayUntil = IO_LOCK_DELAY_SECONDS;
-              }
+          try {
+            backend.lock();
+          } catch (IOException e) {
+            if (handleAuthException(backend, e, account)) {
+              return;
             }
-          } else {
             notifyIoException(R.string.sync_io_exception_locking, account);
             syncResult.stats.numIoExceptions++;
             syncResult.delayUntil = IO_LOCK_DELAY_SECONDS;
+            continue;
+          }
+
+          boolean completedWithoutError = false;
+          int successRemote2Local = 0, successLocal2Remote = 0;
+          try {
+            ChangeSet changeSetSince = backend.getChangeSetSince(lastSyncedRemote, getContext());
+
+            if (changeSetSince.isFailed()) {
+              syncResult.stats.numIoExceptions++;
+              syncResult.delayUntil = IO_DEFAULT_DELAY_SECONDS;
+              notifyIoException(R.string.sync_io_exception_reading_change_set, account);
+              continue;
+            }
+
+            List<TransactionChange> remoteChanges;
+            lastSyncedRemote = changeSetSince.sequenceNumber;
+            remoteChanges = changeSetSince.changes;
+
+            List<TransactionChange> localChanges = new ArrayList<>();
+            long sequenceToTest = lastSyncedLocal + 1;
+            while (true) {
+              List<TransactionChange> nextChanges = getLocalChanges(provider, accountId, sequenceToTest);
+              if (nextChanges.size() > 0) {
+                localChanges.addAll(Stream.of(nextChanges).filter(change -> !change.isEmpty()).toList());
+                lastSyncedLocal = sequenceToTest;
+                sequenceToTest++;
+              } else {
+                break;
+              }
+            }
+
+            if (localChanges.size() > 0 || remoteChanges.size() > 0) {
+
+              if (localChanges.size() > 0) {
+                localChanges = collectSplits(localChanges);
+              }
+
+              Pair<List<TransactionChange>, List<TransactionChange>> mergeResult =
+                  mergeChangeSets(localChanges, remoteChanges);
+              localChanges = mergeResult.first;
+              remoteChanges = mergeResult.second;
+
+              if (remoteChanges.size() > 0) {
+                writeRemoteChangesToDb(provider, remoteChanges, accountId);
+                accountManager.setUserData(account, lastRemoteSyncKey, String.valueOf(lastSyncedRemote));
+                successRemote2Local = remoteChanges.size();
+              }
+
+              if (localChanges.size() > 0) {
+                lastSyncedRemote = backend.writeChangeSet(lastSyncedRemote, localChanges, getContext());
+                if (lastSyncedRemote != ChangeSet.FAILED) {
+                  if (!BuildConfig.DEBUG) {
+                    // on debug build for auditing purposes, we keep changes in the table
+                    provider.delete(TransactionProvider.CHANGES_URI,
+                        KEY_ACCOUNTID + " = ? AND " + KEY_SYNC_SEQUENCE_LOCAL + " <= ?",
+                        new String[]{String.valueOf(accountId), String.valueOf(lastSyncedLocal)});
+                  }
+                  accountManager.setUserData(account, lastLocalSyncKey, String.valueOf(lastSyncedLocal));
+                  accountManager.setUserData(account, lastRemoteSyncKey, String.valueOf(lastSyncedRemote));
+                  successLocal2Remote = localChanges.size();
+                }
+              }
+            }
+            completedWithoutError = true;
+          } catch (IOException e) {
+            if (handleAuthException(backend, e, account)) {
+              return;
+            }
+            syncResult.stats.numIoExceptions++;
+            syncResult.delayUntil = IO_DEFAULT_DELAY_SECONDS;
+            notifyIoException(R.string.sync_io_exception_syncing, account);
+          } catch (RemoteException | OperationApplicationException | SQLiteException e) {
+            syncResult.databaseError = true;
+            notifyDatabaseError(e, account);
+          } catch (Exception e) {
+            appendToNotification("ERROR: " + e.getMessage(), account, true);
+          } finally {
+            if (successLocal2Remote > 0 || successRemote2Local > 0) {
+              appendToNotification(getContext().getString(R.string.synchronization_end_success, successRemote2Local, successLocal2Remote), account, false);
+            } else if (completedWithoutError) {
+              appendToNotification(getContext().getString(R.string.synchronization_end_success_none), account, false);
+            }
           }
         } while (cursor.moveToNext());
       }
       cursor.close();
     }
+    try {
+      backend.unlock();
+    } catch (IOException e) {
+      if (handleAuthException(backend, e, account)) {
+        return;
+      }
+      notifyIoException(R.string.sync_io_exception_unlocking, account);
+      syncResult.stats.numIoExceptions++;
+      syncResult.delayUntil = IO_LOCK_DELAY_SECONDS;
+    }
     backend.tearDown();
+  }
+
+  private boolean handleAuthException(SyncBackendProvider backend, IOException e, Account account) {
+    if (backend.isAuthException(e)) {
+      backend.tearDown();
+      Intent manageSyncBackendsIntent = getManageSyncBackendsIntent();
+      manageSyncBackendsIntent.setAction(ManageSyncBackends.ACTION_REFRESH_LOGIN);
+      manageSyncBackendsIntent.putExtra(KEY_SYNC_ACCOUNT_NAME, account.name);
+      notifyUser(getContext().getString(R.string.sync_auth_exception_login_again), null, null, manageSyncBackendsIntent);
+      return true;
+    }
+    return false;
   }
 
   @NonNull
@@ -400,11 +452,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   private void notifyUser(String title, String content, @Nullable Account account, @Nullable Intent intent) {
     if (shouldNotify) {
       NotificationBuilderWrapper builder = NotificationBuilderWrapper.defaultBigTextStyleBuilder(
-          getContext(), title, content);
-      //on Gingerbread content intent is required
-      if (intent == null && !Utils.hasApiLevel(Build.VERSION_CODES.ICE_CREAM_SANDWICH)) {
-        intent = getManageSyncBackendsIntent();
-      }
+          getContext(), NotificationBuilderWrapper.CHANNEL_ID_SYNC, title, content);
       if (intent != null) {
         builder.setContentIntent(PendingIntent.getActivity(
             getContext(), 0, intent, PendingIntent.FLAG_CANCEL_CURRENT));
@@ -422,7 +470,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
   }
 
-  private void notifyIoException(int resId,  Account account) {
+  private void notifyIoException(int resId, Account account) {
     appendToNotification(getContext().getString(resId), account, true);
   }
 

@@ -418,7 +418,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
         .show();
   }
 
-  public void startTaskExecution(int taskId, Bundle extras, int progressMessage) {
+  public void startTaskExecution(int taskId, @NonNull Bundle extras, int progressMessage) {
     FragmentManager m = getSupportFragmentManager();
     if (m.findFragmentByTag(ASYNC_TAG) != null) {
       showTaskNotFinishedWarning();

@@ -52,14 +52,14 @@ public final class MyTestRunner extends AndroidJUnitRunner {
 
   @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
   private void checkSettingGlobal(String setting) throws Settings.SettingNotFoundException {
-    if (Settings.Global.getFloat(getContext().getContentResolver(), setting) != 0) {
+    if (Settings.Global.getFloat(getTargetContext().getContentResolver(), setting) != 0) {
       throw new AnimationsNotDisabledException(setting);
     }
   }
 
   private void checkSettingSystem(String setting) {
     try {
-      if (Settings.System.getFloat(getContext().getContentResolver(), setting) != 0) {
+      if (Settings.System.getFloat(getTargetContext().getContentResolver(), setting) != 0) {
         throw new AnimationsNotDisabledException(setting);
       }
     } catch (Settings.SettingNotFoundException e) {

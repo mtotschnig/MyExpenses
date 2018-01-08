@@ -37,7 +37,7 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  public boolean withAccount(Account account) {
+  public void withAccount(Account account) throws IOException {
     setAccountUuid(account);
     accountDir = new File(baseDir, account.uuid);
     //noinspection ResultOfMethodCallIgnored
@@ -45,31 +45,25 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
     if (accountDir.isDirectory()) {
       File metaData = new File(accountDir, ACCOUNT_METADATA_FILENAME);
       if (!metaData.exists()) {
-        try {
           saveFileContents(metaData, buildMetadata(account));
           createWarningFile();
-        } catch (IOException e) {
-          return false;
-        }
       }
-      return true;
     } else {
-      return false;
+      throw new IOException("Cannot create accout dir");
     }
   }
 
   @Override
-  public boolean resetAccountData(String uuid) {
+  public void resetAccountData(String uuid) throws IOException {
     //we do not set the member, this needs to be done through withAccount
     File accountDir = new File(baseDir, uuid);
     if (accountDir.isDirectory()) {
       for (String file : accountDir.list()) {
         if (!(new File(accountDir, file).delete())) {
-          return false;
+          throw new IOException("Cannot reset accout dir");
         }
       }
     }
-    return true;
   }
 
   @NonNull
@@ -106,13 +100,13 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
 
   @NonNull
   @Override
-  public List<String> getStoredBackups() throws IOException {
+  public List<String> getStoredBackups(android.accounts.Account account) throws IOException {
     String[] list = new File(baseDir, BACKUP_FOLDER_NAME).list();
     return list != null ? Arrays.asList(list) : new ArrayList<>();
   }
 
   @Override
-  public InputStream getInputStreamForBackup(String backupFile) throws FileNotFoundException {
+  public InputStream getInputStreamForBackup(android.accounts.Account account, String backupFile) throws FileNotFoundException {
     return new FileInputStream(new File(new File(baseDir, BACKUP_FOLDER_NAME), backupFile));
   }
 
@@ -130,8 +124,7 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  public boolean lock() {
-    return true;
+  public void lock() {
   }
 
   @NonNull
@@ -157,8 +150,7 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  public boolean unlock() {
-    return true;
+  public void unlock() {
   }
 
   @Override
@@ -178,8 +170,7 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  protected boolean writeLockToken(String lockToken) throws IOException {
-    return false;
+  protected void writeLockToken(String lockToken) throws IOException {
   }
 
   private void saveFileContents(File file, String fileContents) throws IOException {
@@ -191,7 +182,7 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
 
   @NonNull
   @Override
-  public Stream<AccountMetaData> getRemoteAccountList() {
+  public Stream<AccountMetaData> getRemoteAccountList(android.accounts.Account account) {
     return Stream.of(baseDir.listFiles(File::isDirectory))
         .map(directory -> new File(directory, ACCOUNT_METADATA_FILENAME))
         .filter(File::exists)

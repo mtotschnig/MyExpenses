@@ -13,6 +13,7 @@ import com.annimon.stream.Stream;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.apache.commons.lang3.StringUtils;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -83,12 +84,17 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   protected abstract String getSharedPreferencesName();
 
   @Override
-  public Result setUp() {
+  public Result setUp(String authToken) {
     return Result.SUCCESS;
   }
 
   @Override
   public void tearDown() {
+  }
+
+  @Override
+  public boolean isAuthException(IOException e) {
+    return false;
   }
 
   ChangeSet getChangeSetFromInputStream(long sequenceNumber, InputStream inputStream)
@@ -224,6 +230,11 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     return result != null ? result : "application/octet-stream";
   }
 
+  protected String getLastFileNamePart(String fileName) {
+    return fileName.contains("/") ?
+        StringUtils.substringAfterLast(fileName, "/") : fileName;
+  }
+
   protected abstract long getLastSequence(long start) throws IOException;
 
   abstract void saveFileContents(String fileName, String fileContents, String mimeType) throws IOException;
@@ -235,7 +246,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
 
   void createWarningFile() {
     try {
-      saveFileContents("IMPORTANT_INFORMATION",
+      saveFileContents("IMPORTANT_INFORMATION.txt",
           Utils.getTextWithAppName(context, R.string.warning_synchronization_folder_usage).toString(),
           "text/plain");
     } catch (IOException e) {
@@ -245,26 +256,19 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
 
   protected abstract String getExistingLockToken() throws IOException;
 
-  protected abstract boolean writeLockToken(String lockToken) throws IOException;
+  protected abstract void writeLockToken(String lockToken) throws IOException;
 
   @Override
-  public boolean lock() {
-    try {
+  public void lock() throws IOException {
       String existingLockTocken = getExistingLockToken();
       Timber.i("ExistingLockTocken: %s", existingLockTocken);
       if (existingLockTocken == null || shouldOverrideLock(existingLockTocken)) {
         String lockToken = Model.generateUuid();
-        if (!writeLockToken(lockToken)) {
-          Timber.i("Write lock tocken failed");
-          return false;
-        }
+        writeLockToken(lockToken);
         saveLockTokenToPreferences(lockToken, System.currentTimeMillis(), true);
-        return true;
+      } else {
+        throw new IOException("Backend cannot be locked");
       }
-    } catch (IOException e) {
-      Timber.e(e);
-    }
-    return false;
   }
 
   private boolean shouldOverrideLock(String locktoken) {

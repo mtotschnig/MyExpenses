@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 
-import org.apache.commons.lang3.StringUtils;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
@@ -69,7 +68,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  public boolean withAccount(Account account) {
+  public void withAccount(Account account) throws IOException {
     setAccountUuid(account);
     try {
       webDavClient.mkCol(accountUuid);
@@ -78,22 +77,20 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
         metaData.put(RequestBody.create(MIME_JSON, buildMetadata(account)), null, false);
         createWarningFile();
       }
-    } catch (HttpException | IOException e) {
-      return false;
+    } catch (HttpException e) {
+      throw new IOException(e);
     }
-    return true;
   }
 
   @Override
-  public boolean resetAccountData(String uuid) {
+  public void resetAccountData(String uuid) throws IOException {
     try {
       for (DavResource davResource : webDavClient.getFolderMembers(uuid)) {
         davResource.delete(null);
       }
-    } catch (IOException | HttpException e) {
-      return false;
+    } catch (HttpException e) {
+      throw new IOException(e);
     }
-    return true;
   }
 
 
@@ -108,22 +105,23 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  protected boolean writeLockToken(String lockToken) throws IOException {
+  protected void writeLockToken(String lockToken) throws IOException {
     LockableDavResource lockfile = getLockFile();
     try {
       lockfile.put(RequestBody.create(MediaType.parse("text/plain; charset=utf-8"), lockToken), null, false);
-      return true;
     } catch (HttpException e) {
       throw new IOException(e);
     }
   }
 
   @Override
-  public boolean lock() {
+  public void lock() throws IOException {
     if (fallbackToClass1) {
-      return super.lock();
+      super.lock();
     } else {
-      return webDavClient.lock(accountUuid);
+      if (!webDavClient.lock(accountUuid)) {
+        throw new IOException("Backend cannot be locked");
+      }
     }
   }
 
@@ -165,7 +163,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  public InputStream getInputStreamForBackup(String backupFile) throws IOException {
+  public InputStream getInputStreamForBackup(android.accounts.Account account, String backupFile) throws IOException {
     return getInputStream(BACKUP_FOLDER_NAME, backupFile);
   }
 
@@ -183,8 +181,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   }
 
   private void saveUriToFolder(String fileName, Uri uri, String folder) throws IOException {
-    String finalFileName = fileName.contains("/") ?
-        fileName = StringUtils.substringAfterLast(fileName, "/") : fileName;
+    String finalFileName = getLastFileNamePart(fileName);
     try {
       RequestBody requestBody = new RequestBody() {
         @Override
@@ -208,7 +205,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
           }
         }
       };
-      webDavClient.upload(folder, fileName, requestBody);
+      webDavClient.upload(folder, finalFileName, requestBody);
     } catch (HttpException e) {
       throw new IOException(e);
     }
@@ -226,7 +223,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
   @NonNull
   @Override
-  public List<String> getStoredBackups() {
+  public List<String> getStoredBackups(android.accounts.Account account) {
     try {
       return Stream.of(webDavClient.getFolderMembers(BACKUP_FOLDER_NAME))
           .map(DavResource::fileName)
@@ -255,22 +252,23 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  public boolean unlock() {
+  public void unlock() throws IOException {
     if (fallbackToClass1) {
       try {
         getLockFile().delete(null);
-        return true;
-      } catch (IOException | at.bitfire.dav4android.exception.HttpException e) {
-        return false;
+      } catch (HttpException e) {
+        throw new IOException(e);
       }
     } else {
-      return webDavClient.unlock(accountUuid);
+      if (!webDavClient.unlock(accountUuid)) {
+        throw new IOException("Error while unlocking backend");
+      }
     }
   }
 
   @NonNull
   @Override
-  public Stream<AccountMetaData> getRemoteAccountList() throws IOException {
+  public Stream<AccountMetaData> getRemoteAccountList(android.accounts.Account account) throws IOException {
     return Stream.of(webDavClient.getFolderMembers(null))
         .filter(LockableDavResource::isCollection)
         .map(davResource -> webDavClient.getResource(davResource.location, ACCOUNT_METADATA_FILENAME))

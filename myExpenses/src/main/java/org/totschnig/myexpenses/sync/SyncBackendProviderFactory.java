@@ -36,6 +36,10 @@ public abstract class SyncBackendProviderFactory {
     return Optional.empty();
   }
 
+  public String buildAccountName(String extra) {
+    return getLabel() + " - " + extra;
+  }
+
   @NonNull
   protected abstract SyncBackendProvider _fromAccount(Context context, Account account, AccountManager accountManager) throws SyncParseException;
 

@@ -32,6 +32,9 @@
         android:name="android.permission.AUTHENTICATE_ACCOUNTS"
         android:maxSdkVersion="22"/>
     <uses-permission
+        android:name="android.permission.USE_CREDENTIALS"
+        android:maxSdkVersion="22"/>
+    <uses-permission
         android:name="android.permission.WAKE_LOCK"
         android:maxSdkVersion="25"/>
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -296,6 +299,19 @@
             <intent-filter>
                 <action android:name="myexpenses.intent.manage.sync_backends"/>
 
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name="com.dropbox.core.android.AuthActivity"
+            android:configChanges="orientation|keyboard"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <data android:scheme="db-09ctg08r5gnsh5c"/>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.BROWSABLE"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>

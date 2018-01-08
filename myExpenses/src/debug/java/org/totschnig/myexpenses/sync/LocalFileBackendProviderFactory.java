@@ -20,6 +20,8 @@ import static org.totschnig.myexpenses.util.PermissionHelper.hasExternalReadPerm
 
 public class LocalFileBackendProviderFactory extends SyncBackendProviderFactory {
 
+  public static final String LABEL = "Local";
+
   @NonNull
   @Override
   protected LocalFileBackendProvider _fromAccount(Context context, Account account, AccountManager accountManager) {
@@ -32,14 +34,13 @@ public class LocalFileBackendProviderFactory extends SyncBackendProviderFactory 
 
   @Override
   public String getLabel() {
-    return "Local";
+    return LABEL;
   }
 
   @Override
   public void startSetup(FragmentActivity context) {
     Bundle args = new Bundle();
     args.putString(EditTextDialog.KEY_DIALOG_TITLE, "Local backend: Directory path");
-    args.putString(GenericAccountService.KEY_SYNC_PROVIDER_LABEL, getLabel());
     EditTextDialog.newInstance(args)
         .show(context.getSupportFragmentManager(), "LOCAL_BACKEND_DIRECTORY_PATH");
   }

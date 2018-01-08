@@ -61,6 +61,7 @@ import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.DistribHelper;
+import org.totschnig.myexpenses.util.NotificationBuilderWrapper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
@@ -164,6 +165,7 @@ public class MyApplication extends MultiDexApplication implements
       }
       licenceHandler.init();
       Pubnative.setTestMode(BuildConfig.DEBUG);
+      NotificationBuilderWrapper.createChannels(this);
     }
   }
 

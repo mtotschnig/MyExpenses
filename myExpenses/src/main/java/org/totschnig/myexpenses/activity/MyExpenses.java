@@ -203,7 +203,7 @@ public class MyExpenses extends LaunchActivity implements
   protected void injectDependencies() {
     MyApplication.getInstance().getAppComponent().inject(this);
   }
-  
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeId());
@@ -870,10 +870,10 @@ public class MyExpenses extends LaunchActivity implements
 
   @Override
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
-    if (TransactionList.NEW_TEMPLATE_DIALOG.equals(dialogTag) && which == BUTTON_POSITIVE){
+    if (TransactionList.NEW_TEMPLATE_DIALOG.equals(dialogTag) && which == BUTTON_POSITIVE) {
       String label = extras.getString(SimpleInputDialog.TEXT);
       Uri uri = new Template(Transaction.getInstanceFromDb(extras.getLong(KEY_ROWID)), label).save();
-      if (uri == null){
+      if (uri == null) {
         Toast.makeText(getBaseContext(), R.string.template_create_error, Toast.LENGTH_LONG).show();
       } else {
         Toast.makeText(getBaseContext(), getString(R.string.template_create_success, label), Toast.LENGTH_LONG).show();
@@ -886,9 +886,9 @@ public class MyExpenses extends LaunchActivity implements
       finishActionMode();
       return true;
     }
-    if (TransactionList.FILTER_COMMENT_DIALOG.equals(dialogTag) && which == BUTTON_POSITIVE){
+    if (TransactionList.FILTER_COMMENT_DIALOG.equals(dialogTag) && which == BUTTON_POSITIVE) {
       addFilterCriteria(R.id.FILTER_COMMENT_COMMAND,
-              new CommentCriteria(extras.getString(SimpleInputDialog.TEXT)));
+          new CommentCriteria(extras.getString(SimpleInputDialog.TEXT)));
       return true;
     }
     return false;

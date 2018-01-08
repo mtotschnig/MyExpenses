@@ -868,4 +868,14 @@ public class Utils {
     return className.substring(className.lastIndexOf(".") + 1);
   }
 
+  //http://stackoverflow.com/a/28565320/1199911
+  public static Throwable getCause(Throwable e) {
+    Throwable cause;
+    Throwable result = e;
+
+    while(null != (cause = result.getCause())  && (result != cause) ) {
+      result = cause;
+    }
+    return result;
+  }
 }

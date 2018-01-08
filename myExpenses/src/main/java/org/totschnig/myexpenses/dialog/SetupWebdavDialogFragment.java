@@ -148,7 +148,7 @@ public class SetupWebdavDialogFragment extends CommitSafeDialogFragment {
         mEdtUrl.setError(getString(R.string.validate_error_webdav_404));
       } else {
         //noinspection ThrowableResultOfMethodCallIgnored
-        mEdtUrl.setError(getCause(exception).getMessage());
+        mEdtUrl.setError(Utils.getCause(exception).getMessage());
       }
       ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
     }
@@ -172,17 +172,6 @@ public class SetupWebdavDialogFragment extends CommitSafeDialogFragment {
   private void finish(Bundle data) {
     ((SyncBackendSetupActivity) getActivity()).onFinishWebDavSetup(data);
     dismiss();
-  }
-
-  //http://stackoverflow.com/a/28565320/1199911
-  Throwable getCause(Throwable e) {
-    Throwable cause = null;
-    Throwable result = e;
-
-    while(null != (cause = result.getCause())  && (result != cause) ) {
-      result = cause;
-    }
-    return result;
   }
 
   private static class UrlValidator extends AbstractFormFieldValidator {
