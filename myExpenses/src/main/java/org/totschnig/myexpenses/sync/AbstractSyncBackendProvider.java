@@ -92,6 +92,11 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   public void tearDown() {
   }
 
+  @Override
+  public boolean isAuthException(IOException e) {
+    return false;
+  }
+
   ChangeSet getChangeSetFromInputStream(long sequenceNumber, InputStream inputStream)
       throws IOException {
     final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -251,26 +256,19 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
 
   protected abstract String getExistingLockToken() throws IOException;
 
-  protected abstract boolean writeLockToken(String lockToken) throws IOException;
+  protected abstract void writeLockToken(String lockToken) throws IOException;
 
   @Override
-  public boolean lock() {
-    try {
+  public void lock() throws IOException {
       String existingLockTocken = getExistingLockToken();
       Timber.i("ExistingLockTocken: %s", existingLockTocken);
       if (existingLockTocken == null || shouldOverrideLock(existingLockTocken)) {
         String lockToken = Model.generateUuid();
-        if (!writeLockToken(lockToken)) {
-          Timber.i("Write lock tocken failed");
-          return false;
-        }
+        writeLockToken(lockToken);
         saveLockTokenToPreferences(lockToken, System.currentTimeMillis(), true);
-        return true;
+      } else {
+        throw new IOException("Backend cannot be locked");
       }
-    } catch (IOException e) {
-      Timber.e(e);
-    }
-    return false;
   }
 
   private boolean shouldOverrideLock(String locktoken) {

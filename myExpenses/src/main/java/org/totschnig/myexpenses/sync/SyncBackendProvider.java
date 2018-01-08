@@ -18,18 +18,18 @@ import java.util.List;
 
 public interface SyncBackendProvider {
 
-  boolean withAccount(Account account);
+  void withAccount(Account account) throws IOException;
 
-  boolean resetAccountData(String uuid);
+  void resetAccountData(String uuid) throws IOException;
 
-  boolean lock();
+  void lock() throws IOException;
+
+  void unlock() throws IOException;
 
   @NonNull
   ChangeSet getChangeSetSince(long sequenceNumber, Context context) throws IOException;
 
   long writeChangeSet(long lastSequenceNumber, List<TransactionChange> changeSet, Context context) throws IOException;
-
-  boolean unlock();
 
   @NonNull
   Stream<AccountMetaData> getRemoteAccountList(android.accounts.Account account) throws IOException;
@@ -44,6 +44,13 @@ public interface SyncBackendProvider {
   List<String> getStoredBackups(android.accounts.Account account) throws IOException;
 
   InputStream getInputStreamForBackup(android.accounts.Account account, String backupFile) throws IOException;
+
+  /**
+   *
+   * @param e Exception thrown during sync operation
+   * @return true if exception is caused by invalid auth token
+   */
+  boolean isAuthException(IOException e);
 
   class SyncParseException extends Exception {
     SyncParseException(Exception e) {

@@ -6,11 +6,13 @@ import android.accounts.OperationCanceledException;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
+import com.dropbox.core.InvalidAccessTokenException;
 import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.files.FolderMetadata;
 import com.dropbox.core.v2.files.GetMetadataErrorException;
@@ -24,7 +26,9 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
+import org.totschnig.myexpenses.util.Preconditions;
 import org.totschnig.myexpenses.util.Result;
+import org.totschnig.myexpenses.util.Utils;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -47,6 +51,9 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
 
   @Override
   public Result setUp(String authToken) {
+    if (authToken == null) {
+      return new Result(false, "authToken is null");
+    }
     String userLocale = Locale.getDefault().toString();
     DbxRequestConfig requestConfig = DbxRequestConfig.newBuilder(BuildConfig.APPLICATION_ID).withUserLocale(userLocale).build();
     mDbxClient = new DbxClientV2(requestConfig, authToken);
@@ -65,7 +72,7 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  public boolean withAccount(Account account) {
+  public void withAccount(Account account) throws IOException {
     setAccountUuid(account);
     String accountPath = getAccountPath();
     try {
@@ -77,9 +84,8 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
         saveFileContents(ACCOUNT_METADATA_FILENAME, buildMetadata(account), MIMETYPE_JSON);
         createWarningFile();
       }
-      return true;
     } catch (DbxException | IOException e) {
-      return false;
+      throw new IOException(e);
     }
   }
 
@@ -101,6 +107,8 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
   }
 
   private String getAccountPath() {
+    Preconditions.checkArgument(!TextUtils.isEmpty(basePath));
+    Preconditions.checkArgument(!TextUtils.isEmpty(accountUuid));
     return basePath + "/" + accountUuid;
   }
 
@@ -113,12 +121,13 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  public boolean resetAccountData(String uuid) {
+  public void resetAccountData(@NonNull String uuid) throws IOException {
+    Preconditions.checkArgument(!TextUtils.isEmpty(basePath));
+    Preconditions.checkArgument(!TextUtils.isEmpty(uuid));
     try {
-      mDbxClient.files().deleteV2(getAccountPath());
-      return true;
+      mDbxClient.files().deleteV2(basePath + "/" + uuid);
     } catch (DbxException e) {
-      return false;
+      throw new IOException(e);
     }
   }
 
@@ -144,18 +153,16 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  protected boolean writeLockToken(String lockToken) throws IOException {
+  protected void writeLockToken(String lockToken) throws IOException {
     saveInputStream(getLockFilePath(), new ByteArrayInputStream(lockToken.getBytes()));
-    return true;
   }
 
   @Override
-  public boolean unlock() {
+  public void unlock() throws IOException {
     try {
       mDbxClient.files().deleteV2(getLockFilePath());
-      return true;
     } catch (DbxException e) {
-      return false;
+      throw new IOException(e);
     }
   }
 
@@ -304,5 +311,14 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
   @Override
   protected String getSharedPreferencesName() {
     return "webdav_backend";
+  }
+
+  @Override
+  public boolean isAuthException(IOException e) {
+    if (Utils.getCause(e) instanceof InvalidAccessTokenException) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

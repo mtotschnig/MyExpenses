@@ -68,7 +68,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  public boolean withAccount(Account account) {
+  public void withAccount(Account account) throws IOException {
     setAccountUuid(account);
     try {
       webDavClient.mkCol(accountUuid);
@@ -77,22 +77,20 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
         metaData.put(RequestBody.create(MIME_JSON, buildMetadata(account)), null, false);
         createWarningFile();
       }
-    } catch (HttpException | IOException e) {
-      return false;
+    } catch (HttpException e) {
+      throw new IOException(e);
     }
-    return true;
   }
 
   @Override
-  public boolean resetAccountData(String uuid) {
+  public void resetAccountData(String uuid) throws IOException {
     try {
       for (DavResource davResource : webDavClient.getFolderMembers(uuid)) {
         davResource.delete(null);
       }
-    } catch (IOException | HttpException e) {
-      return false;
+    } catch (HttpException e) {
+      throw new IOException(e);
     }
-    return true;
   }
 
 
@@ -107,22 +105,23 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  protected boolean writeLockToken(String lockToken) throws IOException {
+  protected void writeLockToken(String lockToken) throws IOException {
     LockableDavResource lockfile = getLockFile();
     try {
       lockfile.put(RequestBody.create(MediaType.parse("text/plain; charset=utf-8"), lockToken), null, false);
-      return true;
     } catch (HttpException e) {
       throw new IOException(e);
     }
   }
 
   @Override
-  public boolean lock() {
+  public void lock() throws IOException {
     if (fallbackToClass1) {
-      return super.lock();
+      super.lock();
     } else {
-      return webDavClient.lock(accountUuid);
+      if (!webDavClient.lock(accountUuid)) {
+        throw new IOException("Backend cannot be locked");
+      }
     }
   }
 
@@ -253,16 +252,17 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  public boolean unlock() {
+  public void unlock() throws IOException {
     if (fallbackToClass1) {
       try {
         getLockFile().delete(null);
-        return true;
-      } catch (IOException | at.bitfire.dav4android.exception.HttpException e) {
-        return false;
+      } catch (HttpException e) {
+        throw new IOException(e);
       }
     } else {
-      return webDavClient.unlock(accountUuid);
+      if (!webDavClient.unlock(accountUuid)) {
+        throw new IOException("Error while unlocking backend");
+      }
     }
   }
 

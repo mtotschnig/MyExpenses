@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.activity;
 
+import android.accounts.AccountManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -7,6 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.Toast;
+
+import com.dropbox.core.android.Auth;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -18,11 +21,15 @@ import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.UiUtils;
 
 import java.io.Serializable;
+
+import icepick.Icepick;
+import icepick.State;
 
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_REPAIR_SYNC_BACKEND;
@@ -37,12 +44,17 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
   private static final int REQUEST_REPAIR_INTENT= 1;
 
   private static final String KEY_PACKED_POSITION = "packedPosition";
+  public static final String ACTION_REFRESH_LOGIN = "refreshLogin";
   private Account newAccount;
+
+  @State
+  String dropBoxTokenRequestPendingForAccount = null;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeIdEditDialog());
     super.onCreate(savedInstanceState);
+    Icepick.restoreInstanceState(this, savedInstanceState);
     setContentView(R.layout.manage_sync_backends);
     setupToolbar(true);
     setTitle(R.string.pref_manage_sync_backends_title);
@@ -51,6 +63,33 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
         contribFeatureRequested(ContribFeature.SYNCHRONIZATION, null);
       }
       sanityCheck();
+    }
+  }
+
+  @Override
+  protected void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    Icepick.saveInstanceState(this, outState);
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    if (dropBoxTokenRequestPendingForAccount != null) {
+      final String accessToken = Auth.getOAuth2Token();
+      if (accessToken != null) {
+        AccountManager.get(this).setAuthToken(
+            GenericAccountService.GetAccount(dropBoxTokenRequestPendingForAccount),
+            GenericAccountService.Authenticator.AUTH_TOKEN_TYPE,
+            accessToken);
+      } else {
+        Toast.makeText(this, "Dropbox Oauth Token is null", Toast.LENGTH_LONG).show();
+      }
+      dropBoxTokenRequestPendingForAccount = null;
+    } else {
+      if (ACTION_REFRESH_LOGIN.equals(getIntent().getAction())) {
+        requestDropboxAccess(getIntent().getStringExtra(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME));
+      }
     }
   }
 
@@ -250,5 +289,11 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
         }
       }
     }
+  }
+
+  public void requestDropboxAccess(String accountName) {
+    dropBoxTokenRequestPendingForAccount = accountName;
+    //TODO generalize for other backends
+    getSyncBackendProviderFactoryByIdOrThrow(R.id.SYNC_BACKEND_DROPBOX).startSetup(this);
   }
 }
