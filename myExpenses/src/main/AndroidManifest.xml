@@ -392,17 +392,11 @@
         <receiver android:name=".service.GenericAlarmReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="${applicationId}.SCHEDULED_BACKUP"/>
                 <action android:name="android.accounts.LOGIN_ACCOUNTS_CHANGED"/>
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_REPLACED"/>
-
-                <data
-                    android:path="${applicationId}"
-                    android:scheme="package"/>
-            </intent-filter>
         </receiver>
+
+        <receiver android:name=".service.ScheduledBackupReceiver" />
 
         <receiver
             android:name="org.totschnig.myexpenses.widget.AccountWidget"

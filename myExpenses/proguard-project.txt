@@ -82,6 +82,13 @@
 -keepattributes Signature
 -keep class net.pubnative.** { *; }
 
+# Dropbox
+-dontwarn okio.**
+-dontwarn okhttp3.**
+-dontwarn com.squareup.okhttp.**
+-dontwarn com.google.appengine.**
+-dontwarn javax.servlet.**
+
 # Retrofit
 # Platform calls Class.forName on types which do not exist on Android to determine platform.
 -dontnote retrofit2.Platform

@@ -103,7 +103,7 @@ public final class MyExpensesCabTest {
       Adapter adapter = getAdapter();
       if (adapter == null) {
         try {
-          Thread.sleep(100);
+          Thread.sleep(500);
         } catch (InterruptedException ignored) {}
       } else {
         return adapter;

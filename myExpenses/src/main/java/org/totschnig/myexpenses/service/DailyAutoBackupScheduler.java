@@ -40,7 +40,6 @@ public class DailyAutoBackupScheduler {
   }
 
   public static void scheduleAutoBackup(Context context) {
-    //cancel existing one
     cancelAutoBackup(context);
     AlarmManager service = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
     PendingIntent pendingIntent = createPendingIntent(context);
@@ -56,7 +55,7 @@ public class DailyAutoBackupScheduler {
   }
 
   private static PendingIntent createPendingIntent(Context context) {
-    Intent intent = new Intent(GenericAlarmReceiver.SCHEDULED_BACKUP);
+    Intent intent = new Intent(context, ScheduledBackupReceiver.class);
     return PendingIntent.getBroadcast(context, -100, intent, PendingIntent.FLAG_ONE_SHOT);
   }
 

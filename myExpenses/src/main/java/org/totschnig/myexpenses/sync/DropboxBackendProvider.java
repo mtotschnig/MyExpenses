@@ -76,9 +76,7 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
     setAccountUuid(account);
     String accountPath = getAccountPath();
     try {
-      if (!exists(accountPath)) {
-        mDbxClient.files().createFolderV2(accountPath);
-      }
+      requireFolder(accountPath);
       String metadataPath = getResourcePath(ACCOUNT_METADATA_FILENAME);
       if (!exists(metadataPath)) {
         saveFileContents(ACCOUNT_METADATA_FILENAME, buildMetadata(account), MIMETYPE_JSON);
@@ -91,6 +89,12 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
 
   private boolean exists(String path) throws DbxException {
     return exists(mDbxClient, path);
+  }
+
+  private void requireFolder(String path) throws DbxException {
+    if (!exists(path)) {
+      mDbxClient.files().createFolderV2(path);
+    }
   }
 
   public static boolean exists(DbxClientV2 mDbxClient, String path) throws DbxException {
@@ -210,12 +214,12 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
     }
   }
 
-
   @Override
   public void storeBackup(Uri uri, String fileName) throws IOException {
     try {
-      mDbxClient.files().createFolderV2(getBackupPath());
-      saveUriToFolder(fileName, uri, getBackupPath());
+      String backupPath = getBackupPath();
+      requireFolder(backupPath);
+      saveUriToFolder(fileName, uri, backupPath);
     } catch (DbxException e) {
       throw new IOException(e);
     }

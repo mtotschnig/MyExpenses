@@ -106,14 +106,18 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
       setupPending = false;
     } else {
       if (selectedFactoryId == R.id.SYNC_BACKEND_DROPBOX) {
-        Bundle extra = new Bundle(1);
-        SimpleInputDialog.build()
-            .title("Dropbox")
-            .msg(R.string.dropbox_folder_name_prompt)
-            .pos(android.R.string.ok)
-            .extra(extra)
-            .neut()
-            .show(this, DIALOG_DROPBOX_FOLDER);
+        final String authToken = Auth.getOAuth2Token();
+        if (authToken != null) {
+          Bundle extra = new Bundle(1);
+          extra.putString(AccountManager.KEY_AUTHTOKEN, authToken);
+          SimpleInputDialog.build()
+              .title("Dropbox")
+              .msg(R.string.dropbox_folder_name_prompt)
+              .pos(android.R.string.ok)
+              .extra(extra)
+              .neut()
+              .show(this, DIALOG_DROPBOX_FOLDER);
+        }
       }
     }
   }
@@ -241,9 +245,8 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
   @Override
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
     if (DIALOG_DROPBOX_FOLDER.equals(dialogTag) && which == BUTTON_POSITIVE) {
-      Bundle bundle = new Bundle();
-      bundle.putString(KEY_SYNC_PROVIDER_URL, extras.getString(SimpleInputDialog.TEXT));
-      startTaskExecution(TaskExecutionFragment.TASK_DROPBOX_SETUP, bundle, R.string.progress_dialog_checking_sync_backend);
+      extras.putString(KEY_SYNC_PROVIDER_URL, extras.getString(SimpleInputDialog.TEXT));
+      startTaskExecution(TaskExecutionFragment.TASK_DROPBOX_SETUP, extras, R.string.progress_dialog_checking_sync_backend);
     }
     return false;
   }

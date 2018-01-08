@@ -176,7 +176,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       authToken = accountManager.blockingGetAuthToken(account, GenericAccountService.Authenticator.AUTH_TOKEN_TYPE,
           true);
     } catch (OperationCanceledException | IOException | AuthenticatorException e) {
-      Timber.e("Error getting auth token.", e);
+      log().e("Error getting auth token.", e);
       syncResult.stats.numAuthExceptions++;
       return;
     }
@@ -194,6 +194,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       try {
         backend.storeBackup(Uri.parse(autoBackupFileUri), fileName);
       } catch (IOException e) {
+        log().e(e);
         if (handleAuthException(backend, e, account)) {
           return;
         }
@@ -286,6 +287,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             try {
               backend.resetAccountData(uuidFromExtras);
             } catch (IOException e) {
+              log().e(e);
               if (handleAuthException(backend, e, account)) {
                 return;
               }
@@ -299,6 +301,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
           try {
             backend.withAccount(dbAccount.get());
           } catch (IOException e) {
+            log().e(e);
             if (handleAuthException(backend, e, account)) {
               return;
             }
@@ -311,6 +314,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
           try {
             backend.lock();
           } catch (IOException e) {
+            log().e(e);
             if (handleAuthException(backend, e, account)) {
               return;
             }
@@ -383,6 +387,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             }
             completedWithoutError = true;
           } catch (IOException e) {
+            log().e(e);
             if (handleAuthException(backend, e, account)) {
               return;
             }
@@ -408,6 +413,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     try {
       backend.unlock();
     } catch (IOException e) {
+      log().e(e);
       if (handleAuthException(backend, e, account)) {
         return;
       }
@@ -436,7 +442,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   }
 
   private void appendToNotification(String content, Account account, boolean newLine) {
-    Timber.tag(TAG).i(content);
+    log().i(content);
     if (shouldNotify) {
       StringBuilder contentBuilder = notificationContent.get(account.hashCode());
       if (contentBuilder.length() > 0) {
@@ -446,6 +452,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       content = contentBuilder.toString();
     }
     notifyUser(getNotificationTitle(), content, account, null);
+  }
+
+  private Timber.Tree log() {
+    return Timber.tag(TAG);
   }
 
   @DebugLog
