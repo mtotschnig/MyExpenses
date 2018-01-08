@@ -27,7 +27,7 @@ allprojects {
 }
 
 ext {
-    compileSdkVersion = 26
+    compileSdkVersion = 27
     minSdkVersion = 15
     targetSdkVersion = 27
     androidSupportLibraryVersion = "27.0.2"
