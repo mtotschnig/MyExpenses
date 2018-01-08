@@ -708,4 +708,7 @@
     <string name="never">never</string>
     <string name="always">always</string>
     <string name="auto_fill_account_from_aggregate_only">Only when started from aggregate account.</string>
+    <string name="dropbox_folder_name_prompt">Enter the name of an existing folder at the root level of your Dropbox</string>
+    <string name="dropbox_folder_not_found">Folder not found</string>
+    <string name="sync_auth_exception_login_again">Authorization failed. Please log in again.</string>
 </resources>

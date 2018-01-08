@@ -424,7 +424,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       Intent manageSyncBackendsIntent = getManageSyncBackendsIntent();
       manageSyncBackendsIntent.setAction(ManageSyncBackends.ACTION_REFRESH_LOGIN);
       manageSyncBackendsIntent.putExtra(KEY_SYNC_ACCOUNT_NAME, account.name);
-      notifyUser("Authorization failed. Please log in again", null, null, manageSyncBackendsIntent);
+      notifyUser(getContext().getString(R.string.sync_auth_exception_login_again), null, null, manageSyncBackendsIntent);
       return true;
     }
     return false;

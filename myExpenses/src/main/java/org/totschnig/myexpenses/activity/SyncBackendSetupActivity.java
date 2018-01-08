@@ -109,7 +109,7 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
         Bundle extra = new Bundle(1);
         SimpleInputDialog.build()
             .title("Dropbox")
-            .msg("Enter the name of an existing folder at the root level of your Dropbox")
+            .msg(R.string.dropbox_folder_name_prompt)
             .pos(android.R.string.ok)
             .extra(extra)
             .neut()

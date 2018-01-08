@@ -8,6 +8,7 @@ import com.dropbox.core.android.Auth;
 import com.dropbox.core.v2.DbxClientV2;
 
 import org.totschnig.myexpenses.BuildConfig;
+import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.sync.DropboxBackendProvider;
 import org.totschnig.myexpenses.util.Result;
 
@@ -34,7 +35,7 @@ class DropboxSetupTask extends ExtraTask<Result> {
           if (DropboxBackendProvider.exists(dbxClient, "/" + folderName)) {
             return new Result(true, 0, userName, folderName);
           } else {
-            return new Result(false, "Folder not found");
+            return new Result(false, R.string.dropbox_folder_not_found);
           }
         } catch (DbxException e) {
           return null;
