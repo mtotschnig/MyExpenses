@@ -55,7 +55,7 @@ import timber.log.Timber;
 
 public class WebDavClient {
   private static final String TAG = "WebDavClient";
-  private static final String LOCK_TIMEOUT = String.format(Locale.ROOT, "Second-%d",30 * 60);
+  private static final String LOCK_TIMEOUT = String.format(Locale.ROOT, "Second-%d", 30 * 60);
   private final MediaType MIME_XML = MediaType.parse("application/xml; charset=utf-8");
   private static final String NS_WEBDAV = "DAV:";
 
@@ -139,11 +139,10 @@ public class WebDavClient {
   }
 
   /**
-   *
    * @param folderName if null, members of base uri are returned
    */
   public Set<DavResource> getFolderMembers(String folderName) throws IOException {
-    DavResource folder = new DavResource(httpClient, folderName == null ? mBaseUri : buildCollectionUri(folderName));
+    DavResource folder = new DavResource(httpClient, buildCollectionUri(folderName));
     try {
       folder.propfind(1, DisplayName.NAME, ResourceType.NAME);
     } catch (DavException | HttpException e) {
@@ -160,7 +159,7 @@ public class WebDavClient {
     return new LockableDavResource(httpClient, folderUri.newBuilder().addPathSegment(resourceName).build());
   }
 
-  public boolean lock(String folderName) {
+  public boolean lock(@Nullable String folderName) {
     currentLockToken = null;
     RequestBody lockXml = RequestBody.create(MIME_XML,
         "<d:lockinfo xmlns:d=\"DAV:\">\n" +
@@ -207,7 +206,7 @@ public class WebDavClient {
     return false;
   }
 
-  public boolean unlock(String folderName) {
+  public boolean unlock(@Nullable String folderName) {
     Preconditions.checkNotNull(currentLockToken);
     Request request = new Request.Builder()
         .url(buildCollectionUri(folderName))
@@ -241,8 +240,8 @@ public class WebDavClient {
   }
 
   @NonNull
-  private HttpUrl buildCollectionUri(String folderName) {
-    return mBaseUri.newBuilder().addPathSegment(folderName).addPathSegment("").build();
+  private HttpUrl buildCollectionUri(@Nullable String folderName) {
+    return folderName == null ? mBaseUri : mBaseUri.newBuilder().addPathSegment(folderName).addPathSegment("").build();
   }
 
   @NonNull
@@ -282,6 +281,30 @@ public class WebDavClient {
         if (cert != null) {
           throw new UntrustedCertificateException(cert);
         }
+      }
+    }
+  }
+
+  public void testClass2Locking() throws Exception {
+    String folderName = ".testClass2Locking";
+    mkCol(folderName);
+    LockableDavResource folder = new LockableDavResource(httpClient, buildCollectionUri(folderName));
+    try {
+      if (lock(folderName)) {
+        if (unlock(folderName)) {
+          if (lock(folderName)) {
+            if (unlock(folderName)) {
+              return;
+            }
+          }
+        }
+      }
+      throw new NotCompliantWebDavException(true);
+    } finally {
+      try {
+        folder.delete(null);
+      } catch (Exception ignore) {
+        //this can fail, if the unlocking mechanism does not work. We live with not being able to delete the test folder
       }
     }
   }

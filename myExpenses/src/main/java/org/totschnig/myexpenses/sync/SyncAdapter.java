@@ -405,21 +405,20 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             } else if (completedWithoutError) {
               appendToNotification(getContext().getString(R.string.synchronization_end_success_none), account, false);
             }
+            try {
+              backend.unlock();
+            } catch (IOException e) {
+              log().e(e);
+              if (!handleAuthException(backend, e, account)) {
+                notifyIoException(R.string.sync_io_exception_unlocking, account);
+                syncResult.stats.numIoExceptions++;
+                syncResult.delayUntil = IO_LOCK_DELAY_SECONDS;
+              }
+            }
           }
         } while (cursor.moveToNext());
       }
       cursor.close();
-    }
-    try {
-      backend.unlock();
-    } catch (IOException e) {
-      log().e(e);
-      if (handleAuthException(backend, e, account)) {
-        return;
-      }
-      notifyIoException(R.string.sync_io_exception_unlocking, account);
-      syncResult.stats.numIoExceptions++;
-      syncResult.delayUntil = IO_LOCK_DELAY_SECONDS;
     }
     backend.tearDown();
   }

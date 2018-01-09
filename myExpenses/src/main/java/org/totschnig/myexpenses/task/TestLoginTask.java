@@ -6,7 +6,6 @@ import android.os.Bundle;
 import org.totschnig.myexpenses.sync.webdav.WebDavClient;
 import org.totschnig.myexpenses.util.Result;
 
-import java.io.IOException;
 import java.security.cert.X509Certificate;
 
 public class TestLoginTask extends AsyncTask<Void, Void, Result> {
@@ -34,6 +33,7 @@ public class TestLoginTask extends AsyncTask<Void, Void, Result> {
     try {
       WebDavClient client = new WebDavClient(url, userName, password, trustedCertificate);
       client.testLogin();
+      client.testClass2Locking();
       return new Result(true);
     } catch (Exception e) {
       return new Result(false, 0, e);

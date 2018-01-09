@@ -100,11 +100,13 @@ public class LockableDavResource extends DavResource {
    */
   @Override
   public void mkCol(String xmlBody) throws IOException, HttpException {
-    try {
-      super.mkCol(null);
-    } catch (HttpException e) {
-      if (e.status != 405) {
-        throw e;
+    if (!exists()) {
+      try {
+        super.mkCol(null);
+      } catch (HttpException e) {
+        if (e.status != 405) {
+          throw e;
+        }
       }
     }
   }
