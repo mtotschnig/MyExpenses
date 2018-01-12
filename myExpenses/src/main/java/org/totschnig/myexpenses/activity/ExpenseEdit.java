@@ -461,9 +461,7 @@ public class ExpenseEdit extends AmountActivity implements
           allowed = contribFeature.hasAccess() || contribFeature.usagesLeft() > 0;
         }
         if (!allowed) {
-          Toast.makeText(this, contribFeature.buildRequiresString(this),
-              Toast.LENGTH_LONG).show();
-          finish();
+          abortWithMessage(contribFeature.buildRequiresString(this));
           return;
         }
       }
@@ -537,8 +535,7 @@ public class ExpenseEdit extends AmountActivity implements
           } else {
             AcraHelper.report(e);
           }
-          Toast.makeText(this, errMsg, Toast.LENGTH_SHORT).show();
-          finish();
+          abortWithMessage(errMsg);
           return;
         }
         if (!mSavedInstance) {
@@ -555,6 +552,11 @@ public class ExpenseEdit extends AmountActivity implements
         setup();
       }
     }
+  }
+
+  private void abortWithMessage(String message) {
+    Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    finish();
   }
 
   @Override
@@ -1512,19 +1514,15 @@ public class ExpenseEdit extends AmountActivity implements
     switch (taskId) {
       case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_FROM_TEMPLATE:
         if (o == null) {
-          Toast.makeText(this, R.string.save_transaction_template_deleted, Toast.LENGTH_LONG).show();
-          finish();
+          abortWithMessage(getString(R.string.save_transaction_template_deleted));
           return;
         }
       case TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION:
       case TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE:
       case TaskExecutionFragment.TASK_BUILD_TRANSACTION_FROM_INTENT_EXTRAS:
         if (o == null) {
-          Toast.makeText(this,
-              taskId == TaskExecutionFragment.TASK_BUILD_TRANSACTION_FROM_INTENT_EXTRAS ?
-                  "Unable to build transaction from extras" : "Object has been deleted from db",
-              Toast.LENGTH_LONG).show();
-          finish();
+          abortWithMessage(taskId == TaskExecutionFragment.TASK_BUILD_TRANSACTION_FROM_INTENT_EXTRAS ?
+              "Unable to build transaction from extras" : "Object has been deleted from db");
           return;
         }
         mTransaction = (Transaction) o;
@@ -2010,12 +2008,15 @@ public class ExpenseEdit extends AmountActivity implements
         }
         break;
       case ACCOUNTS_CURSOR:
-        mAccountsAdapter.swapCursor(data);
-        if (data.getCount() <= 1 && mOperationType == TYPE_TRANSFER) {
-          Toast.makeText(this, R.string.dialog_command_disabled_insert_transfer, Toast.LENGTH_LONG).show();
-          finish();
+        if (data.getCount() == 0) {
+          abortWithMessage("No accounts found");
           return;
         }
+        if (data.getCount() == 1 && mOperationType == TYPE_TRANSFER) {
+          abortWithMessage(getString(R.string.dialog_command_disabled_insert_transfer));
+          return;
+        }
+        mAccountsAdapter.swapCursor(data);
         mAccounts = new Account[data.getCount()];
         if (didUserSetAccount) {
           mTransaction.setAccountId(mAccountId);
