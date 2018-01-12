@@ -232,6 +232,7 @@
   <string name="plan_automatic">automatic</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">Scadenţar {app_name}</string>
+  <string name="planner_notification_channel_name">Scadenţar</string>
   <string name="plan_event_deleted">Scadenţa asociată acestui șablon a fost şters din calendar.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Executarea planului anulată</string>

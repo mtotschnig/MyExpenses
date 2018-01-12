@@ -249,6 +249,7 @@
   <string name="plan_automatic">automatycznie</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">Planowanie {app_name}</string>
+  <string name="planner_notification_channel_name">Planowanie</string>
   <string name="plan_event_deleted">Plan skojarzony z tym szablonem został usunięty z kalendarza.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Wykonanie planu anulowane</string>

@@ -184,6 +184,7 @@
   <string name="plan_automatic">automatikus</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">{app_name} tervezője</string>
+  <string name="planner_notification_channel_name">Tervezője</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Terv futtatása leállítva</string>
   <string name="plan_manual">kézi</string>

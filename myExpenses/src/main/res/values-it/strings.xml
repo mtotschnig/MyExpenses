@@ -245,6 +245,7 @@
   <string name="plan_automatic">automatica</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">{app_name} pianificazione</string>
+  <string name="planner_notification_channel_name">Pianificazione</string>
   <string name="plan_event_deleted">Il piano associato a questo modello è stato eliminato dal calendario.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Esecuzione della scadenza annullata</string>

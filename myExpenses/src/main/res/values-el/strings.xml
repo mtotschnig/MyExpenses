@@ -244,6 +244,7 @@
   <string name="plan_automatic">Αυτόματη</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">Aτζέντα {app_name}</string>
+  <string name="planner_notification_channel_name">Aτζέντα</string>
   <string name="plan_event_deleted">Το σχέδιο που συνδέεται με αυτό το πρότυπο έχει διαγραφεί από το ημερολόγιο.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Εκτέλεση σχεδίου ακυρώθηκε</string>

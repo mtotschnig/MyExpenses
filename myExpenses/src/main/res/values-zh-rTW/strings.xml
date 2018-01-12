@@ -173,6 +173,7 @@
   <string name="plan_automatic">自動</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">{app_name} 規劃</string>
+  <string name="planner_notification_channel_name">規劃</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">計劃執行已取消</string>
   <string name="plan_manual">說明書</string>

@@ -216,6 +216,7 @@
   <string name="plan_automatic">automatski</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">{app_name} planer</string>
+  <string name="planner_notification_channel_name">Planer</string>
   <string name="plan_event_deleted">Plan povezan s ovim predloškom je izbrisan iz kalendara.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Izvedba plana je otkazana</string>

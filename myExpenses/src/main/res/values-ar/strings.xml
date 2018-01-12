@@ -197,6 +197,7 @@
   <string name="plan_automatic">تلقائي</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">مخطط {app_name}</string>
+  <string name="planner_notification_channel_name">مخطط</string>
   <string name="plan_event_deleted">تم حذف الخطة المتعلقة بهذا النموذج من التقويم.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">تم إلغاء تنفيذ الخطة</string>

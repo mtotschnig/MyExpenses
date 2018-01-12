@@ -249,6 +249,7 @@
   <string name="plan_automatic">автоматично</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">Планиране в {app_name}</string>
+  <string name="planner_notification_channel_name">Планиране</string>
   <string name="plan_event_deleted">Планът, свързан с този шаблон, е изтрит от календара.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Изпълнението на плана е отменено</string>
@@ -692,4 +693,7 @@
   <string name="never">никога</string>
   <string name="always">винаги</string>
   <string name="auto_fill_account_from_aggregate_only">Само при започване от общата сметка.</string>
+  <string name="dropbox_folder_name_prompt">Въведете името на съществуваща папка в основното ниво на вашия Dropbox</string>
+  <string name="dropbox_folder_not_found">Папката не е намерена</string>
+  <string name="sync_auth_exception_login_again">Достъпът е отказан. Моля, влезте отново.</string>
 </resources>

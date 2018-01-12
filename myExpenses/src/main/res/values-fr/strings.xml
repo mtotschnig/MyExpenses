@@ -249,6 +249,7 @@
   <string name="plan_automatic">automatique</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">Échéancier {app_name}</string>
+  <string name="planner_notification_channel_name">Échéancier</string>
   <string name="plan_event_deleted">L\'échéance associée à ce modèle a été effacée du calendrier.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Exécution de l\'échéance annulée</string>
@@ -692,4 +693,7 @@
   <string name="never">jamais</string>
   <string name="always">toujours</string>
   <string name="auto_fill_account_from_aggregate_only">Uniquement lorsque démarré à partir du compte agrégé.</string>
+  <string name="dropbox_folder_name_prompt">Entrez le nom d\'un dossier existant au niveau racine de votre Dropbox</string>
+  <string name="dropbox_folder_not_found">Dossier non trouvé</string>
+  <string name="sync_auth_exception_login_again">L\'autorisation à échouée. Veuillez vous reconnecter.</string>
 </resources>

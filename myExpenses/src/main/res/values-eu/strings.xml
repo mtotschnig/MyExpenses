@@ -244,6 +244,7 @@
   <string name="plan_automatic">automatikoa</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">{app_name} planifikatzailea</string>
+  <string name="planner_notification_channel_name">Planifikatzailea</string>
   <string name="plan_event_deleted">Txantiloi honi lotutako plana egutegitik ezabatu da.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Planaren exekuzioa bertan behera utzi da</string>

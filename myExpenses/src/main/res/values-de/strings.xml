@@ -249,6 +249,7 @@
   <string name="plan_automatic">automatisch</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">{app_name} Planer</string>
+  <string name="planner_notification_channel_name">Planer</string>
   <string name="plan_event_deleted">Der mit dieser Vorlage verknüpfte Plan wurde aus dem Kalender gelöscht.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Durchführung des Plans abgebrochen</string>
@@ -692,4 +693,7 @@
   <string name="never">nie</string>
   <string name="always">immer</string>
   <string name="auto_fill_account_from_aggregate_only">Nur wenn vom Gesamtkonto gestartet.</string>
+  <string name="dropbox_folder_name_prompt">Geben Sie den Namen eines vorhandenen Ordners auf der obersten Ebene Ihrer Dropbox ein</string>
+  <string name="dropbox_folder_not_found">Ordner nicht gefunden</string>
+  <string name="sync_auth_exception_login_again">Autorisation fehlgeschlagen. Bitte melden Sie sich erneut an.</string>
 </resources>

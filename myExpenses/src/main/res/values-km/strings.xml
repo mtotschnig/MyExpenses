@@ -203,6 +203,7 @@
   <string name="plan_automatic">ដោយ​ស្វ័យ​ប្រវត្តិ</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">កម្មវិធី​ផែនការរបស់ {app_name}</string>
+  <string name="planner_notification_channel_name">កម្មវិធី​ផែនការរបស់</string>
   <string name="plan_event_deleted">គម្រោងនេះ​ភ្ជាប់នឹង​ពុម្ពនេះ​ ត្រូវបាន​លុបចេញ​ពី​ប្រតិទិន</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">គម្រោង​ដំណើរការ​បាន​​បោះបង់ហើយ</string>

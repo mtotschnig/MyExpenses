@@ -232,6 +232,7 @@
   <string name="plan_automatic">자동</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">{app_name} 플래너</string>
+  <string name="planner_notification_channel_name">플래너</string>
   <string name="plan_event_deleted">이 템플릿과 연관된 재무 계획이 캘린더에서 삭제되었습니다.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">재무 계획 실행 취소됨</string>

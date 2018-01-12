@@ -242,6 +242,7 @@
   <string name="plan_automatic">автоматически</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">Планировщик {app_name}</string>
+  <string name="planner_notification_channel_name">Планировщик</string>
   <string name="plan_event_deleted">Этот план, связанный с этим шаблоном, был удален из календаря.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Выполнение плана отменено</string>

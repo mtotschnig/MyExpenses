@@ -246,6 +246,7 @@
   <string name="plan_automatic">自動</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">{app_name} プランナー</string>
+  <string name="planner_notification_channel_name">プランナー</string>
   <string name="plan_event_deleted">このテンプレートに関連付けられた計画は予定表から削除されました。</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">計画の実行がキャンセルされました</string>
@@ -683,4 +684,7 @@
   <string name="never">しない</string>
   <string name="always">常に</string>
   <string name="auto_fill_account_from_aggregate_only">集計勘定から開始された場合のみ。</string>
+  <string name="dropbox_folder_name_prompt">Dropboxのルートレベルで既存フォルダーの名前を入力</string>
+  <string name="dropbox_folder_not_found">フォルダーが見つかりません</string>
+  <string name="sync_auth_exception_login_again">認証に失敗しました。もう一度ログインしてください。</string>
 </resources>

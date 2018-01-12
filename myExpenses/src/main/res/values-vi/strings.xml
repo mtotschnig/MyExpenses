@@ -240,6 +240,7 @@
   <string name="plan_automatic">tự động</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">Bộ lập kế hoạch của {app_name}</string>
+  <string name="planner_notification_channel_name">Bộ lập kế hoạch</string>
   <string name="plan_event_deleted">Kế hoạch gắn với bản mẫu này đã bị xoá khỏi lịch.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Đã hủy bỏ việc thực thi kế hoạch</string>

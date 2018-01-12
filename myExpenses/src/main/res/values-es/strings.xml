@@ -249,6 +249,7 @@
   <string name="plan_automatic">Automático</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">Planificador {app_name}</string>
+  <string name="planner_notification_channel_name">Planificador</string>
   <string name="plan_event_deleted">El proyecto asociada a esta plantilla ha sido eliminado desde el calendario.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Ejecución del proyecto cancelada</string>

@@ -249,6 +249,7 @@
   <string name="plan_automatic">otomatik</string>
   <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
   <string name="plan_calendar_name">{app_name} planlayıcısı</string>
+  <string name="planner_notification_channel_name">Planlayıcı</string>
   <string name="plan_event_deleted">Bu şablonla ilişkili planlama takvimden silindi.</string>
   <!--This message is shown, after a user decides to not apply a manual plan-->
   <string name="plan_execution_canceled">Planı yürütme iptal edildi</string>
@@ -692,4 +693,7 @@
   <string name="never">asla</string>
   <string name="always">daima</string>
   <string name="auto_fill_account_from_aggregate_only">Sadece toplam (agrega) hesaptan başlatıldığında.</string>
+  <string name="dropbox_folder_name_prompt">Dropbox\'ınızın kök seviyesinde mevcut bir klasörün  ismini girin</string>
+  <string name="dropbox_folder_not_found">Klasör bulunamadı</string>
+  <string name="sync_auth_exception_login_again">İzin verme başarısız oldu. Lütfen tekrar giriş yapın.</string>
 </resources>
