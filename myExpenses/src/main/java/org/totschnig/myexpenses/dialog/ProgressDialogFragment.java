@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses.dialog;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -27,6 +28,8 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListen
 import org.totschnig.myexpenses.ui.ScrollableProgressDialog;
 import org.totschnig.myexpenses.util.AcraHelper;
 
+import static android.app.ProgressDialog.STYLE_SPINNER;
+
 public class ProgressDialogFragment extends CommitSafeDialogFragment {
   private static final String KEY_PROGRESS_STYLE = "progressStyle";
   private static final String KEY_MESSAGE = "message";
@@ -35,7 +38,7 @@ public class ProgressDialogFragment extends CommitSafeDialogFragment {
   private static final String KEY_TASK_COMPLETED = "taskCompleted";
   private static final String KEY_PROGRESS = "progress";
   private static final String KEY_MAX = "max";
-  private ProgressDialog mDialog;
+  private AlertDialog mDialog;
   private boolean mTaskCompleted = false;
   private int progress = 0, max = 0;
   private String title, message;
@@ -47,7 +50,7 @@ public class ProgressDialogFragment extends CommitSafeDialogFragment {
    * @return the dialog fragment
    */
   public static ProgressDialogFragment newInstance(int message) {
-    return newInstance(0, message, 0, false);
+    return newInstance(0, message, STYLE_SPINNER, false);
   }
 
   /**
@@ -95,14 +98,14 @@ public class ProgressDialogFragment extends CommitSafeDialogFragment {
   @Override
   public void onResume() {
     super.onResume();
-    mDialog.setProgress(progress);
-    mDialog.setMax(max);
+    setProgress(progress);
+    setMax(max);
     mDialog.setTitle(title);
     if (!TextUtils.isEmpty(message)) {
       mDialog.setMessage(message);
     }
     if (mTaskCompleted) {
-      mDialog.setIndeterminateDrawable(null);
+      unsetIndeterminateDrawable();
     } else {
       Button b = mDialog.getButton(dialogButton);
       if (b != null) {
@@ -124,9 +127,13 @@ public class ProgressDialogFragment extends CommitSafeDialogFragment {
     int progressStyle = getArguments().getInt(KEY_PROGRESS_STYLE);
     String messageFromArguments = getArguments().getString(KEY_MESSAGE);
     String titleFromArguments = getArguments().getString(KEY_TITLE);
-    mDialog = (progressStyle == ScrollableProgressDialog.STYLE_SPINNER) ?
-        new ScrollableProgressDialog(getActivity()) :
-        new ProgressDialog(getActivity());
+    if (progressStyle == STYLE_SPINNER) {
+      mDialog = new ScrollableProgressDialog(getActivity());
+    } else {
+      ProgressDialog progressDialog = new ProgressDialog(getActivity());
+      progressDialog.setProgressStyle(progressStyle);
+      mDialog = progressDialog;
+    }
     boolean withButton = getArguments().getBoolean(KEY_WITH_BUTTON);
     if (messageFromArguments != null) {
       //message might have been set through setmessage
@@ -145,14 +152,6 @@ public class ProgressDialogFragment extends CommitSafeDialogFragment {
       }
       mDialog.setTitle(title);
     }
-    if (progressStyle != ScrollableProgressDialog.STYLE_SPINNER) {
-      mDialog.setProgressStyle(progressStyle);
-    } else {
-      mDialog.setIndeterminate(true);
-      if (max != 0) {
-        mDialog.setMax(max);
-      }
-    }
     if (withButton) {
       mDialog.setButton(dialogButton, getString(android.R.string.ok),
           (dialog, which) -> {
@@ -167,13 +166,15 @@ public class ProgressDialogFragment extends CommitSafeDialogFragment {
 
   public void setProgress(int progress) {
     this.progress = progress;
-    mDialog.setProgress(progress);
+    if (mDialog instanceof ProgressDialog) {
+      ((ProgressDialog) mDialog).setProgress(progress);
+    }
   }
 
   public void setMax(int max) {
     this.max = max;
-    if (mDialog != null) {
-      mDialog.setMax(max);
+    if (mDialog instanceof ProgressDialog) {
+      ((ProgressDialog) mDialog).setMax(max);
     }
   }
 
@@ -194,12 +195,18 @@ public class ProgressDialogFragment extends CommitSafeDialogFragment {
   public void onTaskCompleted() {
     mTaskCompleted = true;
     try {
-      mDialog.setIndeterminateDrawable(null);
+      unsetIndeterminateDrawable();
     } catch (NullPointerException e) {
       //seen on samsung SM-G900F
       AcraHelper.report(e);
     }
     mDialog.getButton(dialogButton).setEnabled(true);
+  }
+
+  private void unsetIndeterminateDrawable() {
+    if (mDialog instanceof ProgressDialog) {
+      ((ProgressDialog) mDialog).setIndeterminateDrawable(null);
+    }
   }
 
   @Override

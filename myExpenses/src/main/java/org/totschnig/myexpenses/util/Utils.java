@@ -102,6 +102,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES;
  */
 public class Utils {
 
+  public static final String PLACEHOLDER_APP_NAME = "app_name";
+
   private Utils() {
   }
 
@@ -583,12 +585,12 @@ public class Utils {
   }
 
   public static CharSequence getTextWithAppName(Context ctx, int resId) {
-    return Phrase.from(ctx, resId).put("app_name", ctx.getString(R.string.app_name)).format();
+    return Phrase.from(ctx, resId).put(PLACEHOLDER_APP_NAME, ctx.getString(R.string.app_name)).format();
   }
 
   public static CharSequence getTellAFriendMessage(Context ctx) {
     return Phrase.from(ctx, R.string.tell_a_friend_message)
-        .put("app_name", ctx.getString(R.string.app_name))
+        .put(PLACEHOLDER_APP_NAME, ctx.getString(R.string.app_name))
         .put("platform",  DistribHelper.getPlatform())
         .put("website", ctx.getString(R.string.website)).format();
   }

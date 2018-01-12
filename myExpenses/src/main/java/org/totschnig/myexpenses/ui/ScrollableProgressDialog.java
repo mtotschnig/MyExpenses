@@ -15,24 +15,46 @@
 
 package org.totschnig.myexpenses.ui;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
+import android.app.AlertDialog;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.TextView;
 
-/**
- * CAUTION: this could break, if the id of the message text view
- * is changed
- */
-public class ScrollableProgressDialog extends ProgressDialog {
+import org.totschnig.myexpenses.R;
 
+public class ScrollableProgressDialog extends AlertDialog {
+
+  private CharSequence mMessage;
+  private TextView mMessageView;
+
+  /**
+   * Creates a Progress dialog.
+   *
+   * @param context the parent context
+   */
   public ScrollableProgressDialog(Context context) {
     super(context);
   }
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+    LayoutInflater inflater = LayoutInflater.from(getContext());
+    View view = inflater.inflate(R.layout.scrollable_progress_dialog, null);
+    mMessageView = view.findViewById(R.id.message);
+    if (mMessage != null) {
+      setMessage(mMessage);
+    }
+    setView(view);
     super.onCreate(savedInstanceState);
-    ((TextView) this.findViewById(android.R.id.message)).setMovementMethod(new ScrollingMovementMethod());
+  }
+
+  @Override
+  public void setMessage(CharSequence message) {
+    if (mMessageView != null) {
+      mMessageView.setText(message);
+    }
+    mMessage = message;
   }
 }
