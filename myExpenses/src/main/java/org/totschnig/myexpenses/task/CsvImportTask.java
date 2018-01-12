@@ -16,6 +16,7 @@
 
 package org.totschnig.myexpenses.task;
 
+import android.content.ContentResolver;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -36,6 +37,7 @@ import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable;
 import org.totschnig.myexpenses.util.Utils;
@@ -87,6 +89,7 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
   @Override
   protected Result doInBackground(Void... params) {
     int totalImported = 0, totalDiscarded = 0, totalFailed = 0;
+    ContentResolver contentResolver = MyApplication.getInstance().getContentResolver();
     Account a;
     if (accountId == 0) {
       a = new Account();
@@ -114,6 +117,7 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
     boolean isSplitParent = false, isSplitPart = false;
     Transaction t;
     Long splitParent = null;
+    contentResolver.call(TransactionProvider.DUAL_URI, TransactionProvider.METHOD_BULK_START, null, null);
     for (int i = 0; i < data.size(); i++) {
       long transferAccountId = -1;
       if (discardedRows.get(i, false)) {
@@ -245,6 +249,7 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
         }
       }
     }
+    contentResolver.call(TransactionProvider.DUAL_URI, TransactionProvider.METHOD_BULK_END, null, null);
     return new Result(true,
         0,
         Integer.valueOf(totalImported),

@@ -243,6 +243,8 @@ public class TransactionProvider extends ContentProvider {
   public static final String QUERY_PARAMETER_SYNC_BEGIN = "syncBegin";
   public static final String QUERY_PARAMETER_SYNC_END = "syncEnd";
   public static final String METHOD_INIT = "init";
+  public static final String METHOD_BULK_START = "bulkStart";
+  public static final String METHOD_BULK_END = "bulkEnd";
 
   static final String TAG = "TransactionProvider";
 
@@ -295,6 +297,7 @@ public class TransactionProvider extends ContentProvider {
 
 
   private boolean mDirty = false;
+  private boolean bulkInProgress = false;
 
   @Override
   public boolean onCreate() {
@@ -1407,8 +1410,10 @@ public class TransactionProvider extends ContentProvider {
   }
 
   private void notifyChange(Uri uri, boolean syncToNetwork) {
-    Timber.i("Notifying %s  syncToNetwork %s", uri.toString(), syncToNetwork ? "true" : "false");
-    getContext().getContentResolver().notifyChange(uri, null, syncToNetwork);
+    if (!bulkInProgress) {
+      Timber.i("Notifying %s  syncToNetwork %s", uri.toString(), syncToNetwork ? "true" : "false");
+      getContext().getContentResolver().notifyChange(uri, null, syncToNetwork);
+    }
   }
 
   private boolean callerIsNotSyncAdatper(Uri uri) {
@@ -1454,6 +1459,16 @@ public class TransactionProvider extends ContentProvider {
   public Bundle call(@NonNull String method, @Nullable String arg, @Nullable Bundle extras) {
     if (method.equals(METHOD_INIT)) {
       mOpenHelper.getReadableDatabase();
+    }
+    else if (method.equals(METHOD_BULK_START)) {
+      bulkInProgress = true;
+    } else if (method.equals(METHOD_BULK_END)) {
+      bulkInProgress = false;
+      notifyChange(TRANSACTIONS_URI, true);
+      notifyChange(ACCOUNTS_URI, true);
+      notifyChange(CATEGORIES_URI, true);
+      notifyChange(PAYEES_URI, true);
+      notifyChange(METHODS_URI, true);
     }
     return null;
   }

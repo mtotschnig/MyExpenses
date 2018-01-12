@@ -66,7 +66,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import hugo.weaving.DebugLog;
 import timber.log.Timber;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
@@ -457,7 +456,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     return Timber.tag(TAG);
   }
 
-  @DebugLog
   private void notifyUser(String title, String content, @Nullable Account account, @Nullable Intent intent) {
     if (shouldNotify) {
       NotificationBuilderWrapper builder = NotificationBuilderWrapper.defaultBigTextStyleBuilder(

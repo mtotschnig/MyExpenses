@@ -4,7 +4,6 @@ import android.accounts.AccountManager;
 import android.accounts.AccountManagerFuture;
 import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
-import android.annotation.TargetApi;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.OperationApplicationException;
@@ -12,7 +11,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
@@ -637,10 +635,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         for (SyncBackendProviderFactory factory : ServiceLoader.load(application)) {
           factory.init();
         }
-        if (Utils.hasApiLevel(Build.VERSION_CODES.HONEYCOMB)) {
-          //on Gingerbread we just accept that db is initialized with first request
-          initDbHoneyComb(cr);
-        }
+        cr.call(TransactionProvider.DUAL_URI, TransactionProvider.METHOD_INIT, null, null);
         application.getLicenceHandler().update();
         Account.updateTransferShortcut();
         return null;
@@ -706,11 +701,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           syncAccountName), throwable));
       return null;
     }
-  }
-
-  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-  private void initDbHoneyComb(ContentResolver cr) {
-    cr.call(TransactionProvider.DUAL_URI, TransactionProvider.METHOD_INIT, null, null);
   }
 
   private boolean deleteAccount(Long anId) {

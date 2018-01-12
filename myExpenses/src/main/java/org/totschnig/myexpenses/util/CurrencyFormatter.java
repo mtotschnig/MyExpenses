@@ -15,8 +15,6 @@ import java.util.Currency;
 import java.util.HashMap;
 import java.util.Map;
 
-import hugo.weaving.DebugLog;
-
 public class CurrencyFormatter {
 
   private static CurrencyFormatter INSTANCE = new CurrencyFormatter();
@@ -97,7 +95,6 @@ public class CurrencyFormatter {
     return formatCurrency(amount, currency);
   }
 
-  @DebugLog
   public String formatCurrency(BigDecimal amount, Currency currency) {
     return getNumberFormat(currency).format(amount);
   }

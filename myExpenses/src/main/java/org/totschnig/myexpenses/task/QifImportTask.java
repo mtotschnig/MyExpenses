@@ -16,6 +16,7 @@
 
 package org.totschnig.myexpenses.task;
 
+import android.content.ContentResolver;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -37,6 +38,7 @@ import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.FileUtils;
 
@@ -106,8 +108,9 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
     long t0 = System.currentTimeMillis();
     QifBufferedReader r;
     QifParser parser;
+    ContentResolver contentResolver = MyApplication.getInstance().getContentResolver();
     try {
-      InputStream inputStream = MyApplication.getInstance().getContentResolver().openInputStream(fileUri);
+      InputStream inputStream = contentResolver.openInputStream(fileUri);
       r = new QifBufferedReader(
           new BufferedReader(
               new InputStreamReader(
@@ -133,7 +136,9 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
               String.valueOf(parser.accounts.size()),
               String.valueOf(parser.categories.size()),
               String.valueOf(parser.payees.size())));
+      contentResolver.call(TransactionProvider.DUAL_URI, TransactionProvider.METHOD_BULK_START, null, null);
       doImport(parser);
+      contentResolver.call(TransactionProvider.DUAL_URI, TransactionProvider.METHOD_BULK_END, null, null);
       return (null);
     } catch (IOException e) {
       publishProgress(MyApplication.getInstance()
@@ -307,8 +312,9 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
       long t3 = System.currentTimeMillis();
       QifAccount account = accounts.get(i);
       Account a = account.dbAccount;
+      int countTransactions = 0;
       if (a != null) {
-        int countTransactions = insertTransactions(a, account.transactions);
+        countTransactions = insertTransactions(a, account.transactions);
         publishProgress(countTransactions == 0 ?
             MyApplication.getInstance().getString(R.string.import_transactions_none, a.label) :
             MyApplication.getInstance().getString(R.string.import_transactions_success, countTransactions, a.label));
@@ -318,8 +324,8 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
       // this might help GC
       account.transactions.clear();
       long t4 = System.currentTimeMillis();
-      Timber.i("QIF Import: Inserting transactions for account %d/%d done in %d s",
-          i, count, TimeUnit.MILLISECONDS.toSeconds(t4 - t3));
+      Timber.i("QIF Import: Inserting %d transactions for account %d/%d done in %d s",
+          countTransactions, i, count, TimeUnit.MILLISECONDS.toSeconds(t4 - t3));
     }
   }
 
