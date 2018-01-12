@@ -219,8 +219,8 @@ public class Account extends Model {
     Account account;
     String selection = KEY_ROWID + " = ";
     if (id == 0) {
-      Set<Long> ids = accounts.keySet();
       synchronized (accounts) {
+        Set<Long> ids = accounts.keySet();
         for (Long _id : ids) {
           if (_id > 0) {
             return accounts.get(_id);
