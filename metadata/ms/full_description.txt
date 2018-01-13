@@ -1,54 +1,54 @@
-<p>Perbelanjaan Saya keeps track of your expenses and your income, directly on your smartphone and on your tablet.</p>
+<p>Perbelanjaan Saya menyimpan jejak perbelanjaan dan pendapatan anda, secara langsung dalam telefon pintar dan tablet anda.</p>
 
 <ul>
-<li>Up to five accounts with <b>transfers</b> (also between different currencies)</li>
-<li>Unlimited number of <b>templates</b> and up to three plans for <b>recurring</b> transactions</li>
-<li>Transactions can be <b>grouped</b> (per day, week, month and year) and <b>filtered</b></li>
-<li><b>Export</b> to QIF and CSV. <b>Import</b> from QIF</li>
-<li>Data can be protected by <b>password</b></li>
-<li><b>Theme</b> (dark and light) and <b>font size</b> can be customized</li>
-<li><b>Reconciliation</b>: Easily compare transaction status with your bank statements</li>
-<li>Homescreen <b>widget</b> and <b>shortcuts</b> for quick data entry</li>
+<li>Sehingga lima akaun dengan <b>pemindahan</b> (juga merentasi matawang berbeza)</li>
+<li>Bilangan <b>templat</b> tanpa had dan sehingga tiga plan untuk transaksi <b>berulang</b></li>
+<li>Transaksi boleh <b>dikelompokkan</b> (per hari, minggu, bulan dan tahun) dan juga boleh <b>ditapis</b></li>
+<li><b>Eksport</b> ke QIF dan CSV. <b>Import</b> dari QIF</li>
+<li>Data boleh dilindungi dengan <b>kata laluan</b></li>
+<li><b>Tema</b> (gelap dan cerah) serta <b>saiz fon</b> boleh disuaikan</li>
+<li><b>Penyesuaian</b>: Bandingkan status transaksi secara mudah dengan penyata bank anda</li>
+<li><b>Widget</b> skrin rumah dan <b>pintasan</b> untuk masukan data secara pantas</li>
 </ul>
 
-<p>Premium features are unlocked by purchase of one of the following licence keys:</p>
+<p>Fitur Premium berikut boleh dibuka dengan membeli salah satu kunci lesen berikut:</p>
 
-<p><b>Contrib Key</b></p>
+<p><b>Kunci Contrib</b></p>
 
 <ul>
-<li><b>No ads</b></li>
-<li>Unlimited number of <b>accounts</b></li>
-<li>Unlimited number of plans for <b>recurring</b> transactions</li>
-<li><b>Pie chart</b>: Visualize the statistical distribution of transactions per category over different periods (years, months, weeks, days)</li>
-<li><b>Split transaction</b>: A single transaction can be split into multiple parts (categories and transfers)</li>
-<li><b>Print</b> the transaction list to a PDF file</li>
-<li>Define a <b>security question</b> for recovering a lost password</li>
-<li><b>Image attachment</b>: Capture via camera or select from gallery</li>
-<li>Quick <b>template</b> selection from homescreen <b>widget</b></li>
+<li><b>Tanpa iklan</b></li>
+<li>Bilangan <b>akaun</b> tanpa had</li>
+<li>Bilangan plan tanpa had untuk transaksi <b>berulang</b></li>
+<li><b>Carta pai</b>: Visualikan agihan berstatistik bagi transaksi per kategori mengikut tempoh berbeza (tahun, bulan, minggu atau hari)</li>
+<li><b>Pengasingan transaksi</b>: Satu transaksi boleh diasingkan menjadi berbilang bahagian (kategori dan pemindahan)</li>
+<li><b>Cetak</b> senarai transaksi ke dalam fail PDF</li>
+<li>Takrifkan <b>soalan keselematan</b> untuk memulihkan kata laluan yang terlupa</li>
+<li><b>Lampiran imej</b>: Tangkap gambar melalui kamera atau pilih dari galeri</li>
+<li>Pemilihan <b>templat</b> secara pantas melalui <b>widgjt</b> skrin rumah</li>
 </ul>
 
-<p><b>Extended Key</b></p>
+<p><b>Kunci Lanjutan</b></p>
 
 <ul>
-<li>All features of Contrib Key</li>
-<li><b>Cloud synchronization</b>: Data can be synced between multiple devices via WebDAV and Google Drive</li>
-<li>Daily <b>automated backup</b> with optional upload to cloud storage</li>
-<li>Sophisticated, customizable <b>CSV import</b> (spreadsheet applications)</li>
+<li>Semua fitur Kunci Contrib</li>
+<li><b>Penyegerakan awan</b>: Data boleh disegerakkan dalam kalangan peranti melalui WebDAV dan Google Drive</li>
+<li><b>Sandar berautomatik</b> harian dengan muat naik pilihan ke storan awan</li>
+<li><b>Import CSV import</b> (spreadsheet applications) yang canggih dan boleh disuaikan.</li>
 
-<p><b>Professional Key</b></p>
+<p><b>Kunci profesional</b></p>
 
 <ul>
-<li>All features of Extended Key</li>
-<li>Unlimited number of <b>templates and plans for split transactions</b></li>
-<li><b>Email support</b> with guaranteed response after 2 business days</li>
-<li>Voting right on <b>development roadmap</b></li>
+<li>Semua fitur Kunci Lanjutan</li>
+<li>Bilangan <b>templat dan plan tanpa had untuk transaksi berasingan</b></li>
+<li><b>Sokongan emel</b> dengan maklumbalas dijamin selepas 2 hari bekerja</li>
+<li>Hak mengundi dalam </b>peta jalan pembangunan</b></li>
 </ul>
 
-<p><i>Perbelanjaan Saya</i> requires the following <u>permissions</u>:</p>
+<p><i>Perbelanjaan Saya</i> memerlukan <u>keizinan</u> berikut:</p>
 
 <ul>
-<li><i>Calendar</i>: Plans for future and recurrent transactions are stored either in a special local calendar or in any other calendar you assign.</li>
-<li><i>Storage</i>: Storage of QIF and CSV exports and backup files.</li>
-<li><i>Internet</i>: Licence key validation, Cloud synchronization.</li>
-<li><i>Accounts</i>: Synchronization across devices via cloud services.</li>
+<li><i>Kalendar</i>: Plan untuk transaksi akan datang dan semasa disimpan sama ada dalam kalendar setempat khas atau dalam mana-mana  kalendar lain yang anda umpukkan.</li>
+<li><i>Storan</i>: Storan untuk eksport fail QIF dan CSV serta fail sandar.</li>
+<li><i>Internet</i>: Pengesahan kunci lesen, Penyegerakan awan.</li>
+<li><i>Akaun</i>: Penyegerakan merentasi peranti melalui perkhidmatan awan.</li>
 </ul>
