@@ -119,8 +119,8 @@ public class HelpTest extends android.test.InstrumentationTestCase {
     Context ctx = getInstrumentation().getTargetContext();
     Resources res = ctx.getResources();
     String[] versions = res.getStringArray(R.array.versions);
-    for (int i = 0; i < versions.length; i++) {
-      String[] parts = versions[1].split(";");
+    for (String version : versions) {
+      String[] parts = version.split(";");
       Assert.assertEquals(2, parts.length);
       Assert.assertNotNull("Could not get changes for version " + parts[1],
           new VersionDialogFragment.VersionInfo(Integer.parseInt(parts[0]), parts[1]).getChanges(ctx));
