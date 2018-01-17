@@ -1,4 +1,6 @@
-package org.totschnig.myexpenses.util.licence;
+package org.totschnig.myexpenses.retrofit;
+
+import org.totschnig.myexpenses.util.licence.Licence;
 
 import retrofit2.Call;
 import retrofit2.http.DELETE;

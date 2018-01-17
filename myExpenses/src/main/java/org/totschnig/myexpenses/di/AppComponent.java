@@ -18,6 +18,7 @@ import org.totschnig.myexpenses.sync.webdav.WebDavClient;
 import org.totschnig.myexpenses.task.LicenceApiTask;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.ads.AdHandler;
+import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
 
 import javax.inject.Singleton;
 
@@ -61,4 +62,6 @@ public interface AppComponent {
   void inject(ContribDialogFragment contribDialogFragment);
 
   void inject(WebDavClient webDavClient);
+
+  void inject(RoadmapViewModel roadmapViewModel);
 }

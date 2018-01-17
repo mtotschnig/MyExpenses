@@ -10,7 +10,7 @@ import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.licence.Licence;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
-import org.totschnig.myexpenses.util.licence.ValidationService;
+import org.totschnig.myexpenses.retrofit.ValidationService;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;

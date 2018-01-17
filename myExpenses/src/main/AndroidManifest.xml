@@ -316,6 +316,14 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".activity.RoadmapVoteActivity">
+            <intent-filter>
+                <action android:name="myexpenses.intent.roadmap"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
         <provider
             android:name=".provider.TransactionProvider"
             android:authorities="${applicationId}"
