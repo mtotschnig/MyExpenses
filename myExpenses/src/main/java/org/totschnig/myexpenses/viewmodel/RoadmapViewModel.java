@@ -13,9 +13,8 @@ import com.google.gson.reflect.TypeToken;
 import org.acra.util.IOUtils;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.graphql.GraphQLQuery;
-import org.totschnig.myexpenses.graphql.GraphQLResult;
-import org.totschnig.myexpenses.retrofit.GithubService;
+import org.totschnig.myexpenses.retrofit.Issue;
+import org.totschnig.myexpenses.retrofit.RoadmapService;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -35,14 +34,13 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RoadmapViewModel extends AndroidViewModel {
-  public static final String VOTE_URL = BuildConfig.DEBUG ?
+  public static final String ROADMAP_URL = BuildConfig.DEBUG ?
       "https://votedb-staging.herokuapp.com"  : "https://roadmap.myexpenses.mobi/";
-  public static final String GIBTHUB_API = "https://api.github.com/";
 
   @Inject
   HttpLoggingInterceptor loggingInterceptor;
 
-  private final MutableLiveData<List<GraphQLResult.Node>> data = new MutableLiveData<>();
+  private final MutableLiveData<List<Issue>> data = new MutableLiveData<>();
   public static final String CACHE = "issue_cache.json";
 
   public RoadmapViewModel(Application application) {
@@ -50,7 +48,7 @@ public class RoadmapViewModel extends AndroidViewModel {
     ((MyApplication) application).getAppComponent().inject(this);
     loadData();
   }
-  public LiveData<List<GraphQLResult.Node>> getData() {
+  public LiveData<List<Issue>> getData() {
     return data;
   }
   private void loadData() {
@@ -58,16 +56,17 @@ public class RoadmapViewModel extends AndroidViewModel {
   }
 
 
-  private class MyTask extends AsyncTask<Void, Void, List<GraphQLResult.Node>> {
+  private class MyTask extends AsyncTask<Void, Void, List<Issue>> {
 
     @Override
-    protected List<GraphQLResult.Node> doInBackground(Void... voids) {
+    protected List<Issue> doInBackground(Void... voids) {
       Gson gson = new Gson();
 
       try {
         FileInputStream fis = getApplication().openFileInput(CACHE);
         String issuesJson = IOUtils.streamToString(fis);
-        Type listType = new TypeToken<ArrayList<GraphQLResult.Node>>(){}.getType();
+        Type listType = new TypeToken<ArrayList<Issue>>() {
+        }.getType();
         return gson.fromJson(issuesJson, listType);
       } catch (IOException e) {
         e.printStackTrace();
@@ -81,54 +80,30 @@ public class RoadmapViewModel extends AndroidViewModel {
           .build();
 
       Retrofit retrofit = new Retrofit.Builder()
-          .baseUrl(GIBTHUB_API)
+          .baseUrl(ROADMAP_URL)
           .addConverterFactory(GsonConverterFactory.create())
           .client(okHttpClient)
           .build();
 
-      GithubService githubService = retrofit.create(GithubService.class);
-      String endcursor = null;
-      int pageCount = 0;
-      List<GraphQLResult.Node> result = new ArrayList<>();
+      RoadmapService githubService = retrofit.create(RoadmapService.class);
 
-      while (true) {
-        GraphQLQuery graphQLQuery = GraphQLQuery.create(endcursor);
 
-        Call<GraphQLResult> graphQLResultCall = githubService.getIssues(
-            "Bearer 64eb4c5579809e417b748eb2e5be838a726a2a89", graphQLQuery);
-        try {
-          Response<GraphQLResult> graphQLResultResponse = graphQLResultCall.execute();
-          GraphQLResult graphQLResult = graphQLResultResponse.body();
-          if (graphQLResultResponse.isSuccessful() && graphQLResult != null) {
-            GraphQLResult.Issues issues = graphQLResult.getData().getRepository().getIssues();
-            result.addAll(issues.getNodes());
-            GraphQLResult.PageInfo pageInfo = issues.getPageInfo();
-            pageCount++;
-            if (!pageInfo.isHasNextPage() || pageCount >= 10) {
-              break;
-            }
-            endcursor = pageInfo.getEndCursor();
-          } else {
-            break;
-          }
-        } catch (IOException e) {
-          break;
-        }
-      }
-
+      Call<List<Issue>> issuesCall = githubService.getIssues();
+      List<Issue> result = null;
       try {
+        Response<List<Issue>> response = issuesCall.execute();
+        result = response.body();
         FileOutputStream fos = getApplication().openFileOutput(CACHE, Context.MODE_PRIVATE);
         fos.write(gson.toJson(result).getBytes());
         fos.close();
-      } catch (IOException e) {
-        e.printStackTrace();
+      } catch (IOException ignore) {
       }
       return result;
     }
 
 
     @Override
-    protected void onPostExecute(List<GraphQLResult.Node> result) {
+    protected void onPostExecute(List<Issue> result) {
       data.setValue(result);
     }
   }
