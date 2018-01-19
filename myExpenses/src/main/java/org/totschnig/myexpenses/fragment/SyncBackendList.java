@@ -70,7 +70,7 @@ public class SyncBackendList extends Fragment implements
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     FragmentActivity context = getActivity();
     View v = inflater.inflate(R.layout.sync_backends_list, container, false);
-    listView = (ExpandableListView) v.findViewById(R.id.list);
+    listView = v.findViewById(R.id.list);
     View emptyView = v.findViewById(R.id.empty);
     List<String> data = getAccountList();
     syncBackendAdapter = new SyncBackendAdapter(context, data);

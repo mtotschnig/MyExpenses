@@ -316,7 +316,7 @@
             android:key="@string/pref_send_feedback_key"
             android:title="@string/pref_send_feedback_title"/>
         <Preference
-            android:title="Roadmap">
+            android:title="@string/roadmap">
             <intent android:action="myexpenses.intent.roadmap"/>
         </Preference>
     </PreferenceCategory>

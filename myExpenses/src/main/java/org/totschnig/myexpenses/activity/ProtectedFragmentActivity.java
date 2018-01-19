@@ -177,14 +177,14 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   protected boolean requireFloatingActionButtonWithContentDescription(String fabDescription) {
-    floatingActionButton = ((FloatingActionButton) findViewById(R.id.CREATE_COMMAND));
+    floatingActionButton = findViewById(R.id.CREATE_COMMAND);
     if (floatingActionButton == null) return false;
     floatingActionButton.setContentDescription(fabDescription);
     return true;
   }
 
   protected Toolbar setupToolbar(boolean withHome) {
-    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    Toolbar toolbar = findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
     if (withHome) {
       final ActionBar actionBar = getSupportActionBar();

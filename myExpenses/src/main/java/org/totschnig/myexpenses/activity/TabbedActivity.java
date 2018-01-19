@@ -38,10 +38,10 @@ public abstract class TabbedActivity extends ProtectedFragmentActivity {
     setContentView(getLayoutRessourceId());
     setupToolbar(true);
 
-    mViewPager = (ViewPager) findViewById(R.id.viewpager);
+    mViewPager = findViewById(R.id.viewpager);
 
     mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-    mTabLayout = (TabLayout) findViewById(R.id.tabs);
+    mTabLayout = findViewById(R.id.tabs);
 
     setupTabs(savedInstanceState);
 

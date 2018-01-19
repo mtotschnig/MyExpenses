@@ -141,4 +141,6 @@
   <item name="SORT_DIRECTION_COMMAND" type="id"/>
   <item name="SORT_DIRECTION_ASCENDING_COMMAND" type="id"/>
   <item name="SORT_DIRECTION_DESCENDING_COMMAND" type="id"/>
+  <item name="ROADMAP_DETAILS_COMMAND" type="id"/>
+  <item name="ROADMAP_ISSUE_VOTE_COMMAND" type="id"/>
 </resources>
