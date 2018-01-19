@@ -30,8 +30,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Toast;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -158,16 +156,10 @@ public class ManageCategories extends ProtectedFragmentActivity implements
       inflater.inflate(R.menu.grouping, menu);
 
 
-      SwitchCompat typeButton = (SwitchCompat)
-          MenuItemCompat.getActionView(menu.findItem(R.id.switchId))
-              .findViewById(R.id.TaType);
+      SwitchCompat typeButton = MenuItemCompat.getActionView(menu.findItem(R.id.switchId))
+          .findViewById(R.id.TaType);
 
-      typeButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-          mListFragment.setType(isChecked);
-        }
-      });
+      typeButton.setOnCheckedChangeListener((buttonView, isChecked) -> mListFragment.setType(isChecked));
 
     } else if (!helpVariant.equals(HelpVariant.select_filter)) {
       inflater.inflate(R.menu.sort, menu);

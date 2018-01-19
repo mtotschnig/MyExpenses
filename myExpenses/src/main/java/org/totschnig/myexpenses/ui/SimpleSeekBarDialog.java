@@ -11,7 +11,7 @@ public class SimpleSeekBarDialog extends CustomViewDialog<SimpleSeekBarDialog> {
 
   protected static final String SEEKBAR_MINIMUM = "Seekbar.maximum";
   protected static final String SEEKBAR_MAXIMUM = "Seekbar.minimum";
-  protected static final String SEEKBAR_VALUE = "Seekbar.value";
+  public static final String SEEKBAR_VALUE = "Seekbar.value";
   private SeekBarPreferenceView seekBarPreferenceView;
 
   public static SimpleSeekBarDialog build() {
