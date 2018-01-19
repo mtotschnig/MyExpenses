@@ -277,9 +277,9 @@
     <thead>
       <tr>
         <th></th>
-        <th>Contrib<br><span class="label label-success">{% if msg.contrib.one-time-payment %}{{msg.contrib.one-time-payment}}{% else %}{{site.data.en.en.contrib.one-time-payment}}{% endif %}</span></th>
-        <th>Extended<br><span class="label label-success">{% if msg.contrib.one-time-payment %}{{msg.contrib.one-time-payment}}{% else %}{{site.data.en.en.contrib.one-time-payment}}{% endif %}</span></th>
-        <th>Professional<br><span class="label label-success">{% if msg.contrib.subscription %}{{msg.contrib.subscription}}{% else %}{{site.data.en.en.contrib.subscription}}{% endif %}</span></th>
+        <th>{% if msg.contrib-key %}{{msg.contrib-key}}{% else %}{{site.data.en.en.contrib-key}}{% endif %}<br><span class="label label-success">{% if msg.contrib.one-time-payment %}{{msg.contrib.one-time-payment}}{% else %}{{site.data.en.en.contrib.one-time-payment}}{% endif %}</span></th>
+        <th>{% if msg.extended-key %}{{msg.extended-key}}{% else %}{{site.data.en.en.extended-key}}{% endif %}<br><span class="label label-success">{% if msg.contrib.one-time-payment %}{{msg.contrib.one-time-payment}}{% else %}{{site.data.en.en.contrib.one-time-payment}}{% endif %}</span></th>
+        <th>{% if msg.professional-key %}{{msg.professional-key}}{% else %}{{site.data.en.en.professional-key}}{% endif %}<br><span class="label label-success">{% if msg.contrib.subscription %}{{msg.contrib.subscription}}{% else %}{{site.data.en.en.contrib.subscription}}{% endif %}</span></th>
       </tr>
     </thead>
     <tbody>
