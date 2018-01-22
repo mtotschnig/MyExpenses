@@ -226,9 +226,9 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           }
         } catch (SQLiteConstraintException e) {
           AcraHelper.reportWithDbSchema(e);
-          return Result.FAILURE;
+          return new Result(false, e.getMessage());
         }
-        return Result.SUCCESS;
+        return new Result(true, application.getResources().getQuantityString(R.plurals.delete_success, ids.length, ids.length));
       case TaskExecutionFragment.TASK_DELETE_TEMPLATES:
         try {
           for (long id : (Long[]) ids) {
