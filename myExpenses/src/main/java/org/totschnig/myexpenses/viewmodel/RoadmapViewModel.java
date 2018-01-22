@@ -13,10 +13,12 @@ import com.google.gson.reflect.TypeToken;
 import org.acra.util.IOUtils;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.retrofit.Issue;
 import org.totschnig.myexpenses.retrofit.RoadmapService;
 import org.totschnig.myexpenses.retrofit.Vote;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.licence.LicenceHandler;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -44,6 +46,8 @@ public class RoadmapViewModel extends AndroidViewModel {
 
   @Inject
   HttpLoggingInterceptor loggingInterceptor;
+  @Inject
+  LicenceHandler licenceHandler;
 
   private final MutableLiveData<List<Issue>> data = new MutableLiveData<>();
   private final MutableLiveData<Boolean> voteResult = new MutableLiveData<>();
@@ -82,15 +86,17 @@ public class RoadmapViewModel extends AndroidViewModel {
     new LoadTask(withCache).execute();
   }
 
-  public void submitVote(String key, HashMap<Integer, Integer> voteWeights) {
-    new VoteTask().execute(new Vote(key, voteWeights, false));
+  public void submitVote(HashMap<Integer, Integer> voteWeights) {
+    new VoteTask().execute(voteWeights);
   }
 
-  private class VoteTask extends AsyncTask<Vote, Void, Boolean> {
+  private class VoteTask extends AsyncTask<HashMap<Integer, Integer>, Void, Boolean> {
 
     @Override
-    protected Boolean doInBackground(Vote... votes) {
-      Call<Void> voteCall = roadmapService.createVote(votes[0]);
+    protected Boolean doInBackground(HashMap<Integer, Integer>... votes) {
+      boolean isPro = ContribFeature.ROADMAP_VOTING.hasAccess();
+      Vote vote = new Vote(licenceHandler.requireRoadmapVoteKey(), votes[0], isPro);
+      Call<Void> voteCall = roadmapService.createVote(vote);
       try {
         Response<Void> voteResponse = voteCall.execute();
         if (voteResponse.isSuccessful()) {

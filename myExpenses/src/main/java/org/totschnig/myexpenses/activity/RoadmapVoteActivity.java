@@ -27,6 +27,7 @@ import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.retrofit.Issue;
 import org.totschnig.myexpenses.ui.ContextAwareRecyclerView;
 import org.totschnig.myexpenses.ui.SimpleSeekBarDialog;
@@ -54,11 +55,11 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
   private List<Issue> dataSet;
   private List<Issue> dataSetFiltered;
   private MenuItem voteMenuItem;
-  private int totalAvailableWeight = 10;
   HashMap<Integer, Integer> voteWeights = new HashMap<>();
   private RoadmapAdapter roadmapAdapter;
   private RoadmapViewModel roadmapViewModel;
   private Snackbar snackbar;
+  private boolean isPro;
 
   public void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeId());
@@ -73,6 +74,8 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
     registerForContextMenu(recyclerView);
     setupToolbar(true);
     getSupportActionBar().setTitle(R.string.roadmap);
+
+    isPro = ContribFeature.ROADMAP_VOTING.hasAccess();
 
     if (savedInstanceState != null) {
       voteWeights = (HashMap<Integer, Integer>) savedInstanceState.getSerializable(KEY_VOTE_WEIGHTS);
@@ -153,7 +156,7 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
         return true;
       }
       case R.id.ROADMAP_SUBMIT_VOTE: {
-        roadmapViewModel.submitVote("bogus", voteWeights);
+        roadmapViewModel.submitVote(voteWeights);
         return true;
       }
     }
@@ -162,8 +165,8 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
 
   private void updateVoteMenuItem() {
     int currentTotalWeight = getCurrentTotalWeight();
-    voteMenuItem.setTitle(String.format(Locale.ROOT, "%d/%d", currentTotalWeight, totalAvailableWeight));
-    voteMenuItem.setEnabled(currentTotalWeight == totalAvailableWeight);
+    voteMenuItem.setTitle(String.format(Locale.ROOT, "%d/%d", currentTotalWeight, getTotalAvailableWeight()));
+    voteMenuItem.setEnabled(currentTotalWeight == getTotalAvailableWeight());
   }
 
   private int getCurrentTotalWeight() {
@@ -196,7 +199,7 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
         extra.putInt(KEY_ROWID, (int) info.id);
         extra.putInt(KEY_POSITION, info.position);
         Integer value = voteWeights.get((int) info.id);
-        int available = totalAvailableWeight - getCurrentTotalWeight();
+        int available = getTotalAvailableWeight() - getCurrentTotalWeight();
         if (value != null) {
           available += value;
         }
@@ -236,6 +239,10 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
       }
     }
     return false;
+  }
+
+  private int getTotalAvailableWeight() {
+    return isPro ? 50 : 10;
   }
 
   private class RoadmapAdapter extends RecyclerView.Adapter<RoadmapAdapter.ViewHolder> {
