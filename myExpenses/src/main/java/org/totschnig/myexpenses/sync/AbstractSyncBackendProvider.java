@@ -239,11 +239,6 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
 
   abstract void saveFileContents(String fileName, String fileContents, String mimeType) throws IOException;
 
-  //from API 19 Long.compare
-  int compareInt(long x, long y) {
-    return (x < y) ? -1 : ((x == y) ? 0 : 1);
-  }
-
   void createWarningFile() {
     try {
       saveFileContents("IMPORTANT_INFORMATION.txt",

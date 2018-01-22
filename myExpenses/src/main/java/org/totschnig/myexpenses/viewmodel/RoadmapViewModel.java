@@ -15,12 +15,16 @@ import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.retrofit.Issue;
 import org.totschnig.myexpenses.retrofit.RoadmapService;
+import org.totschnig.myexpenses.retrofit.Vote;
+import org.totschnig.myexpenses.util.Utils;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -32,6 +36,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import timber.log.Timber;
 
 public class RoadmapViewModel extends AndroidViewModel {
   public static final String ROADMAP_URL = BuildConfig.DEBUG ?
@@ -41,62 +46,111 @@ public class RoadmapViewModel extends AndroidViewModel {
   HttpLoggingInterceptor loggingInterceptor;
 
   private final MutableLiveData<List<Issue>> data = new MutableLiveData<>();
+  private final MutableLiveData<Boolean> voteResult = new MutableLiveData<>();
   public static final String CACHE = "issue_cache.json";
+  private RoadmapService roadmapService;
 
   public RoadmapViewModel(Application application) {
     super(application);
     ((MyApplication) application).getAppComponent().inject(this);
-    loadData();
+
+    final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+        .connectTimeout(20, TimeUnit.SECONDS)
+        .writeTimeout(20, TimeUnit.SECONDS)
+        .readTimeout(30, TimeUnit.SECONDS)
+        .addInterceptor(loggingInterceptor)
+        .build();
+    Retrofit retrofit = new Retrofit.Builder()
+        .baseUrl(ROADMAP_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .client(okHttpClient)
+        .build();
+    roadmapService = retrofit.create(RoadmapService.class);
+
+    loadData(true);
   }
+
   public LiveData<List<Issue>> getData() {
     return data;
   }
-  private void loadData() {
-    new MyTask().execute();
+
+  public MutableLiveData<Boolean> getVoteResult() {
+    return voteResult;
   }
 
+  public void loadData(boolean withCache) {
+    new LoadTask(withCache).execute();
+  }
 
-  private class MyTask extends AsyncTask<Void, Void, List<Issue>> {
+  public void submitVote(String key, HashMap<Integer, Integer> voteWeights) {
+    new VoteTask().execute(new Vote(key, voteWeights, false));
+  }
+
+  private class VoteTask extends AsyncTask<Vote, Void, Boolean> {
+
+    @Override
+    protected Boolean doInBackground(Vote... votes) {
+      Call<Void> voteCall = roadmapService.createVote(votes[0]);
+      try {
+        Response<Void> voteResponse = voteCall.execute();
+        if (voteResponse.isSuccessful()) {
+         return true;
+        }
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      return false;
+    }
+
+    @Override
+    protected void onPostExecute(Boolean result) {
+      voteResult.setValue(result);
+    }
+  }
+
+  private class LoadTask extends AsyncTask<Void, Void, List<Issue>> {
+
+    private final boolean withCache;
+
+    public LoadTask(boolean withCache) {
+      this.withCache = withCache;
+    }
 
     @Override
     protected List<Issue> doInBackground(Void... voids) {
       Gson gson = new Gson();
+      List<Issue> result = null;
 
-      try {
-        FileInputStream fis = getApplication().openFileInput(CACHE);
-        String issuesJson = IOUtils.streamToString(fis);
-        Type listType = new TypeToken<ArrayList<Issue>>() {
-        }.getType();
-        return gson.fromJson(issuesJson, listType);
-      } catch (IOException e) {
-        e.printStackTrace();
+      if (withCache) {
+        try {
+          FileInputStream fis = getApplication().openFileInput(CACHE);
+          String issuesJson = IOUtils.streamToString(fis);
+          Type listType = new TypeToken<ArrayList<Issue>>() {
+          }.getType();
+          result = gson.fromJson(issuesJson, listType);
+          Timber.i("Loaded %d issues from cache", result.size());
+        } catch (IOException e) {
+          Timber.e(e);
+        }
       }
 
-      final OkHttpClient okHttpClient = new OkHttpClient.Builder()
-          .connectTimeout(20, TimeUnit.SECONDS)
-          .writeTimeout(20, TimeUnit.SECONDS)
-          .readTimeout(30, TimeUnit.SECONDS)
-          .addInterceptor(loggingInterceptor)
-          .build();
+      if (result == null) {
 
-      Retrofit retrofit = new Retrofit.Builder()
-          .baseUrl(ROADMAP_URL)
-          .addConverterFactory(GsonConverterFactory.create())
-          .client(okHttpClient)
-          .build();
+        Call<List<Issue>> issuesCall = roadmapService.getIssues();
 
-      RoadmapService githubService = retrofit.create(RoadmapService.class);
-
-
-      Call<List<Issue>> issuesCall = githubService.getIssues();
-      List<Issue> result = null;
-      try {
-        Response<List<Issue>> response = issuesCall.execute();
-        result = response.body();
-        FileOutputStream fos = getApplication().openFileOutput(CACHE, Context.MODE_PRIVATE);
-        fos.write(gson.toJson(result).getBytes());
-        fos.close();
-      } catch (IOException ignore) {
+        try {
+          Response<List<Issue>> response = issuesCall.execute();
+          result = response.body();
+          Timber.i("Loaded %d issues from network", result.size());
+          FileOutputStream fos = getApplication().openFileOutput(CACHE, Context.MODE_PRIVATE);
+          fos.write(gson.toJson(result).getBytes());
+          fos.close();
+        } catch (IOException e) {
+          Timber.e(e);
+        }
+      }
+      if (result != null) {
+        Collections.sort(result, (o1, o2) -> Utils.compare(o2.getNumber(), o1.getNumber()));
       }
       return result;
     }

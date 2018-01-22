@@ -244,7 +244,7 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
   protected long getLastSequence(long start) throws IOException {
     return filterMetadata(start)
         .map(metadata -> getSequenceFromFileName(metadata.getName()))
-        .max(this::compareInt)
+        .max(Utils::compare)
         .orElse(start);
   }
 

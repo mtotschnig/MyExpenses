@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.sync.webdav.CertificateHelper;
 import org.totschnig.myexpenses.sync.webdav.InvalidCertificateException;
 import org.totschnig.myexpenses.sync.webdav.LockableDavResource;
 import org.totschnig.myexpenses.sync.webdav.WebDavClient;
+import org.totschnig.myexpenses.util.Utils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -237,7 +238,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   protected long getLastSequence(long start) throws IOException {
     return filterDavResources(start)
         .map(davResource -> getSequenceFromFileName(davResource.fileName()))
-        .max(this::compareInt)
+        .max(Utils::compare)
         .orElse(start);
   }
 

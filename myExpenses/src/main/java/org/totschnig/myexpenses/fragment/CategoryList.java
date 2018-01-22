@@ -28,7 +28,6 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.util.SparseBooleanArray;
 import android.util.TypedValue;
@@ -49,6 +48,7 @@ import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.ExpandableListView.OnGroupCollapseListener;
 import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -899,7 +899,7 @@ public class CategoryList extends SortableListFragment implements
       SearchManager searchManager =
           (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
       MenuItem searchMenuItem = menu.findItem(R.id.search);
-      SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
+      SearchView searchView = (SearchView) searchMenuItem.getActionView();
 
       searchView.setSearchableInfo(searchManager.
           getSearchableInfo(getActivity().getComponentName()));
