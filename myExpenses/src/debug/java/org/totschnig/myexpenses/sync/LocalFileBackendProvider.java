@@ -11,6 +11,7 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
 import org.totschnig.myexpenses.util.FileCopyUtils;
+import org.totschnig.myexpenses.util.Utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -114,7 +115,7 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
   protected long getLastSequence(long start) {
     return Stream.of(filterFiles(start))
         .map(file -> getSequenceFromFileName(file.getName()))
-        .max(this::compareInt)
+        .max(Utils::compare)
         .orElse(start);
   }
 
