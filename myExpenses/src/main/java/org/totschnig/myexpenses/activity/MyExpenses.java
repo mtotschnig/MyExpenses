@@ -290,15 +290,17 @@ public class MyExpenses extends LaunchActivity implements
     accountsMenu.inflateMenu(R.menu.accounts);
     accountsMenu.inflateMenu(R.menu.sort);
 
+    Menu menu = accountsMenu.getMenu();
+
     //Sort submenu
-    MenuItem menuItem = accountsMenu.getMenu().findItem(R.id.SORT_COMMAND);
+    MenuItem menuItem = menu.findItem(R.id.SORT_COMMAND);
     MenuItemCompat.setShowAsAction(
         menuItem, MenuItemCompat.SHOW_AS_ACTION_NEVER);
     sortMenu = menuItem.getSubMenu();
     sortMenu.findItem(R.id.SORT_CUSTOM_COMMAND).setVisible(true);
 
     //Grouping submenu
-    SubMenu groupingMenu = accountsMenu.getMenu().findItem(R.id.GROUPING_ACCOUNTS_COMMAND)
+    SubMenu groupingMenu = menu.findItem(R.id.GROUPING_ACCOUNTS_COMMAND)
         .getSubMenu();
     AccountGrouping accountGrouping;
     try {
@@ -610,7 +612,7 @@ public class MyExpenses extends LaunchActivity implements
       case R.id.CANCEL_CALLBACK_COMMAND:
         finishActionMode();
         return true;
-      case R.id.OPEN_PDF_COMMAND:
+      case R.id.OPEN_PDF_COMMAND: {
         i = new Intent();
         i.setAction(Intent.ACTION_VIEW);
         Uri data = AppDirHelper.ensureContentUri(Uri.parse((String) tag));
@@ -622,6 +624,20 @@ public class MyExpenses extends LaunchActivity implements
           startActivity(i);
         }
         return true;
+      }
+      case R.id.SHARE_PDF_COMMAND: {
+        i = new Intent();
+        i.setAction(Intent.ACTION_SEND);
+        Uri data = AppDirHelper.ensureContentUri(Uri.parse((String) tag));
+        i.setDataAndType(data, "application/pdf");
+        i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        if (!Utils.isIntentAvailable(this, i)) {
+          Toast.makeText(this, R.string.no_app_handling_pdf_available, Toast.LENGTH_LONG).show();
+        } else {
+          startActivity(i);
+        }
+        return true;
+      }
       case R.id.QUIT_COMMAND:
         finish();
         return true;
@@ -926,8 +942,8 @@ public class MyExpenses extends LaunchActivity implements
           MessageDialogFragment f = MessageDialogFragment.newInstance(
               0,
               getString(result.getMessage(), FileUtils.getPath(this, (Uri) result.extra[0])),
-              new MessageDialogFragment.Button(R.string.menu_open, R.id.OPEN_PDF_COMMAND, result.extra[0].toString()),
-              null,
+              new MessageDialogFragment.Button(R.string.menu_open, R.id.OPEN_PDF_COMMAND, result.extra[0].toString(), true),
+              new MessageDialogFragment.Button(R.string.button_label_share_file, R.id.SHARE_PDF_COMMAND, result.extra[0].toString(), true),
               MessageDialogFragment.Button.nullButton(android.R.string.cancel));
           f.setCancelable(false);
           f.show(getSupportFragmentManager(), "PRINT_RESULT");

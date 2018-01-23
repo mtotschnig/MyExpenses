@@ -28,6 +28,10 @@ import org.totschnig.myexpenses.R;
 
 import java.io.Serializable;
 
+import static android.content.DialogInterface.BUTTON_NEGATIVE;
+import static android.content.DialogInterface.BUTTON_NEUTRAL;
+import static android.content.DialogInterface.BUTTON_POSITIVE;
+
 public class MessageDialogFragment extends CommitSafeDialogFragment implements OnClickListener {
 
   private static final String KEY_TITLE = "title";
@@ -40,15 +44,21 @@ public class MessageDialogFragment extends CommitSafeDialogFragment implements O
     int label;
     int command;
     Serializable tag;
+    boolean keepDialogOpen;
 
     public Button(int label, int command, Serializable tag) {
+      this(label, command, tag, false);
+    }
+
+    public Button(int label, int command, Serializable tag, boolean keepDialogOpen) {
       this.label = label;
       this.command = command;
       this.tag = tag;
+      this.keepDialogOpen = keepDialogOpen;
     }
 
     public static final Button noButton() {
-     return nullButton(android.R.string.cancel);
+      return nullButton(android.R.string.cancel);
     }
 
     public static final Button okButton() {
@@ -56,7 +66,7 @@ public class MessageDialogFragment extends CommitSafeDialogFragment implements O
     }
 
     public static Button nullButton(int label) {
-      return new Button(label,R.id.NO_COMMAND,null);
+      return new Button(label, R.id.NO_COMMAND, null);
     }
   }
 
@@ -78,12 +88,12 @@ public class MessageDialogFragment extends CommitSafeDialogFragment implements O
     dialogFragment.setArguments(bundle);
     return dialogFragment;
   }
-  
+
   @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     final Bundle bundle = getArguments();
-    Activity ctx  = getActivity();
+    Activity ctx = getActivity();
     AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
         .setMessage(bundle.getCharSequence(KEY_MESSAGE));
     int title = bundle.getInt(KEY_TITLE);
@@ -93,18 +103,41 @@ public class MessageDialogFragment extends CommitSafeDialogFragment implements O
     Button positive = (Button) bundle.getSerializable(KEY_POSITIVE);
     Button neutral = (Button) bundle.getSerializable(KEY_NEUTRAL);
     Button negative = (Button) bundle.getSerializable(KEY_NEGATIVE);
-    if (positive != null)
-      builder.setPositiveButton(positive.label, this);
-    if (neutral != null)
-      builder.setNeutralButton(neutral.label, this);
-    if (negative != null)
-      builder.setNegativeButton(negative.label, this);
-    return builder.create();
+    if (positive != null) {
+      builder.setPositiveButton(positive.label, positive.keepDialogOpen ? null : this);
+    }
+    if (neutral != null) {
+      builder.setNeutralButton(neutral.label, neutral.keepDialogOpen ? null : this);
+    }
+    if (negative != null) {
+      builder.setNegativeButton(negative.label, negative.keepDialogOpen ? null : this);
+    }
+    AlertDialog alertDialog = builder.create();
+    alertDialog.setOnShowListener(dialog -> {
+      if (shouldKeepDialogOpen(positive)) {
+        setOnClickForward(alertDialog, BUTTON_POSITIVE);
+      }
+      if (shouldKeepDialogOpen(negative)) {
+        setOnClickForward(alertDialog, BUTTON_NEGATIVE);
+      }
+      if (shouldKeepDialogOpen(neutral)) {
+        setOnClickForward(alertDialog, BUTTON_NEUTRAL);
+      }
+    });
+    return alertDialog;
+  }
+
+  private boolean shouldKeepDialogOpen(Button button) {
+    return button != null && button.keepDialogOpen;
+  }
+
+  private void setOnClickForward(AlertDialog alertDialog, int which) {
+    alertDialog.getButton(which).setOnClickListener(v -> MessageDialogFragment.this.onClick(alertDialog, which));
   }
 
   @Override
-  public void onCancel (DialogInterface dialog) {
-    if (getActivity()==null) {
+  public void onCancel(DialogInterface dialog) {
+    if (getActivity() == null) {
       return;
     }
     ((MessageDialogListener) getActivity()).onMessageDialogDismissOrCancel();
@@ -112,31 +145,33 @@ public class MessageDialogFragment extends CommitSafeDialogFragment implements O
 
   @Override
   public void onClick(DialogInterface dialog, int which) {
-    if (getActivity()==null) {
+    if (getActivity() == null) {
       return;
     }
     Bundle bundle = getArguments();
     Button clicked = null;
-    switch(which) {
-    case AlertDialog.BUTTON_POSITIVE:
-      clicked = (Button) bundle.getSerializable(KEY_POSITIVE);
-      break;
-    case AlertDialog.BUTTON_NEUTRAL:
-      clicked = (Button) bundle.getSerializable(KEY_NEUTRAL);
-      break;
-    case AlertDialog.BUTTON_NEGATIVE:
-      clicked = (Button) bundle.getSerializable(KEY_NEGATIVE);
-      break;
+    switch (which) {
+      case BUTTON_POSITIVE:
+        clicked = (Button) bundle.getSerializable(KEY_POSITIVE);
+        break;
+      case BUTTON_NEUTRAL:
+        clicked = (Button) bundle.getSerializable(KEY_NEUTRAL);
+        break;
+      case BUTTON_NEGATIVE:
+        clicked = (Button) bundle.getSerializable(KEY_NEGATIVE);
+        break;
     }
-    if (clicked.command == R.id.NO_COMMAND)
+    if (clicked.command == R.id.NO_COMMAND) {
       onCancel(dialog);
-    else 
+    } else {
       ((MessageDialogListener) getActivity())
           .dispatchCommand(clicked.command, clicked.tag);
+    }
   }
 
   public interface MessageDialogListener {
     boolean dispatchCommand(int command, Object tag);
+
     void onMessageDialogDismissOrCancel();
   }
 }

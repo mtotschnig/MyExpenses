@@ -145,4 +145,5 @@
   <item name="ROADMAP_ISSUE_VOTE_COMMAND" type="id"/>
   <item name="ROADMAP_SUBMIT_VOTE" type="id"/>
   <item name="ROADMAP_SUBMIT_VOTE_DO" type="id"/>
+  <item name="SHARE_PDF_COMMAND" type="id"/>
 </resources>

@@ -219,6 +219,7 @@
     <string name="menu_search">Search</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_share">Tell a friend</string>
+    <string name="button_label_share_file">Share</string>
     <string name="menu_split_transaction">Transform to split</string>
     <string name="method">Payment method</string>
     <string name="no_amount_given">You did not enter any amount.</string>
