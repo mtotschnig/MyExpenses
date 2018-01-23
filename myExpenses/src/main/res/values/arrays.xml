@@ -376,6 +376,17 @@
         <item>create_sync_backend</item>
     </string-array>
 
+    <string-array name="RoadmapVoteActivity_menuitems" tools:ignore="UnusedResources">
+        <item>search</item>
+        <item>vote</item>
+        <item>refresh</item>
+    </string-array>
+
+    <string-array name="RoadmapVoteActivity_cabitems" tools:ignore="UnusedResources">
+        <item>learn_more</item>
+        <item>set_weight</item>
+    </string-array>
+
     <string-array name="versions">
         <item>308;2.8.5</item>
         <item>304;2.8.4</item>

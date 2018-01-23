@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@id/ROADMAP_DETAILS_COMMAND"
-        android:title="Learn more"/>
+        android:title="@string/menu_learn_more"/>
     <item
         android:id="@id/ROADMAP_ISSUE_VOTE_COMMAND"
-        android:title="Set vote"/>
+        android:title="@string/menu_set_weight"/>
 </menu>

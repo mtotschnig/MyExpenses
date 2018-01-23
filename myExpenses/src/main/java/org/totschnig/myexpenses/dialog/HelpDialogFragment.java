@@ -30,6 +30,7 @@ import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.text.Html.ImageGetter;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -105,6 +106,10 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     iconMap.put("sync_download", null);
     iconMap.put("sync_link", null);
     iconMap.put("sync_unlink", null);
+    iconMap.put("vote", null);
+    iconMap.put("refresh", null);
+    iconMap.put("learn_more", null);
+    iconMap.put("set_weight", null);
   }
 
   private LayoutInflater layoutInflater;
@@ -150,11 +155,12 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
           }
         }
       }
-      final TextView infoView = (TextView) view.findViewById(R.id.screen_info);
+      final TextView infoView = view.findViewById(R.id.screen_info);
       if (TextUtils.isEmpty(screenInfo)) {
         infoView.setVisibility(View.GONE);
       } else {
         infoView.setText(screenInfo);
+        infoView.setMovementMethod(LinkMovementMethod.getInstance());
       }
 
       // Form entries
