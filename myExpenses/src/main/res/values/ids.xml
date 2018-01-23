@@ -144,4 +144,5 @@
   <item name="ROADMAP_DETAILS_COMMAND" type="id"/>
   <item name="ROADMAP_ISSUE_VOTE_COMMAND" type="id"/>
   <item name="ROADMAP_SUBMIT_VOTE" type="id"/>
+  <item name="ROADMAP_SUBMIT_VOTE_DO" type="id"/>
 </resources>

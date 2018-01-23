@@ -27,8 +27,10 @@ import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.retrofit.Issue;
+import org.totschnig.myexpenses.retrofit.Vote;
 import org.totschnig.myexpenses.ui.ContextAwareRecyclerView;
 import org.totschnig.myexpenses.ui.SimpleSeekBarDialog;
 import org.totschnig.myexpenses.util.UiUtils;
@@ -56,6 +58,7 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
   private List<Issue> dataSetFiltered;
   private MenuItem voteMenuItem;
   HashMap<Integer, Integer> voteWeights = new HashMap<>();
+  Vote lastVote;
   private RoadmapAdapter roadmapAdapter;
   private RoadmapViewModel roadmapViewModel;
   private Snackbar snackbar;
@@ -73,7 +76,7 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
     recyclerView.setAdapter(roadmapAdapter);
     registerForContextMenu(recyclerView);
     setupToolbar(true);
-    getSupportActionBar().setTitle(R.string.roadmap);
+    getSupportActionBar().setTitle(R.string.roadmap_vote);
 
     isPro = ContribFeature.ROADMAP_VOTING.hasAccess();
 
@@ -90,7 +93,16 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
       roadmapAdapter.notifyDataSetChanged();
     });
     roadmapViewModel.getVoteResult().observe(this,
-        result -> publishResult(result ? "Your vote has been successfully recorded" : "Failure while submitting your vote"));
+        result -> publishResult(result !=null && result ? "Your vote has been recorded" : "Failure while submitting your vote"));
+    roadmapViewModel.getLastVote().observe(this,
+        result -> {
+          if (result != null && result.isPro() == isPro) {
+            lastVote = result;
+            voteWeights.putAll(result.getVote());
+            roadmapAdapter.notifyDataSetChanged();
+            updateVoteMenuItem();
+          }
+        });
   }
 
   @Override
@@ -156,7 +168,20 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
         return true;
       }
       case R.id.ROADMAP_SUBMIT_VOTE: {
-        roadmapViewModel.submitVote(voteWeights);
+        if (lastVote != null && lastVote.getVote().equals(voteWeights)) {
+          showSnackBar("Modify your vote, before submitting it again.", Snackbar.LENGTH_LONG);
+        } else {
+          Bundle b = new Bundle();
+          b.putInt(ConfirmationDialogFragment.KEY_TITLE, R.string.roadmap_vote);
+          b.putString(ConfirmationDialogFragment.KEY_MESSAGE, lastVote == null ? "Your vote will be submitted" : "Your vote will be updated");
+          b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.ROADMAP_SUBMIT_VOTE_DO);
+          ConfirmationDialogFragment.newInstance(b).show(getSupportFragmentManager(), "ROADMAP_VOTE");
+        }
+        return true;
+      }
+      case R.id.ROADMAP_SUBMIT_VOTE_DO: {
+        showSnackBar("Submitting vote ...", Snackbar.LENGTH_INDEFINITE);
+        roadmapViewModel.submitVote(lastVote != null ? lastVote.getKey() : null, voteWeights);
         return true;
       }
     }
@@ -164,9 +189,11 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
   }
 
   private void updateVoteMenuItem() {
-    int currentTotalWeight = getCurrentTotalWeight();
-    voteMenuItem.setTitle(String.format(Locale.ROOT, "%d/%d", currentTotalWeight, getTotalAvailableWeight()));
-    voteMenuItem.setEnabled(currentTotalWeight == getTotalAvailableWeight());
+    if (voteMenuItem != null) {
+      int currentTotalWeight = getCurrentTotalWeight();
+      voteMenuItem.setTitle(String.format(Locale.ROOT, "%d/%d", currentTotalWeight, getTotalAvailableWeight()));
+      voteMenuItem.setEnabled(currentTotalWeight == getTotalAvailableWeight());
+    }
   }
 
   private int getCurrentTotalWeight() {
@@ -232,7 +259,13 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
     switch (dialogTag) {
       case DIALOG_TAG_ISSUE_VOTE: {
-        voteWeights.put(extras.getInt(KEY_ROWID), extras.getInt(SimpleSeekBarDialog.SEEKBAR_VALUE));
+        int value = extras.getInt(SimpleSeekBarDialog.SEEKBAR_VALUE);
+        int issueId = extras.getInt(KEY_ROWID);
+        if (value > 0) {
+          voteWeights.put(issueId, value);
+        } else {
+          voteWeights.remove(issueId);
+        }
         roadmapAdapter.notifyItemChanged(extras.getInt(KEY_POSITION));
         updateVoteMenuItem();
         return true;

@@ -276,13 +276,7 @@ public class LicenceHandler {
     return null;
   }
 
-  public String requireRoadmapVoteKey() {
-    String PREF_VOTE_KEY = "VOTE_KEY";
-    String voteKey = licenseStatusPrefs.getString(PREF_VOTE_KEY, null);
-    if (voteKey == null) {
-      voteKey = UUID.randomUUID().toString();
-      licenseStatusPrefs.putString(PREF_VOTE_KEY, voteKey);
-    }
-    return voteKey;
+  public String buildRoadmapVoteKey() {
+    return UUID.randomUUID().toString();
   }
 }

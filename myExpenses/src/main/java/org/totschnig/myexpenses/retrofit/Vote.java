@@ -12,6 +12,18 @@ public class Vote {
     this.isPro = isPro;
   }
 
+  public boolean isPro() {
+    return isPro;
+  }
+
+  public String getKey() {
+    return key;
+  }
+
+  public HashMap<Integer, Integer> getVote() {
+    return vote;
+  }
+
   @SerializedName("pro")
   boolean isPro;
 

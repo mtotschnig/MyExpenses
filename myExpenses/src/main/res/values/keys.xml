@@ -138,5 +138,5 @@
     <string name="button_label_try_again">Try again</string>
     <string name="licence_validation_upgrade_needed" tools:ignore="UnusedResources">Please upgrade My Expenses Contrib to version 1.5.</string>
 
-    <string name="roadmap">Roadmap</string>
+    <string name="roadmap_vote">Roadmap Vote</string>
 </resources>

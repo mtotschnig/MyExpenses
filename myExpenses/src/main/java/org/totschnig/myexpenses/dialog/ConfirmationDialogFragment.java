@@ -30,7 +30,7 @@ import org.totschnig.myexpenses.R;
 
 /**
  * This class presents a simple dialog asking user to confirm a message. Optionally the dialog can also
- * present a checkbox that allows user to provide some secondary decision. If the Bundle provides
+ * present a checkbox that allows user to provide some secondary decision. If the Bundle provided
  * in {@link #newInstance(Bundle)} provides an entry with key {@link #KEY_PREFKEY}, the value of the
  * checkbox will be stored in a preference with this key, and R.string.confirmation_dialog_dont_show_again
  * will be set as text for the checkbox. If the Bundle provides {@link #KEY_CHECKBOX_LABEL}, this will
@@ -39,7 +39,6 @@ import org.totschnig.myexpenses.R;
  * and handle {@link #KEY_COMMAND_POSITIVE} in {@link org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogCheckedListener#onPositive(Bundle, boolean)}
  */
 public class ConfirmationDialogFragment extends CommitSafeDialogFragment implements OnClickListener {
-
 
   CheckBox checkBox;
 
