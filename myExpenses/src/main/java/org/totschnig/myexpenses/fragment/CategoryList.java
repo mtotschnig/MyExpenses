@@ -898,7 +898,7 @@ public class CategoryList extends SortableListFragment implements
       inflater.inflate(R.menu.search, menu);
       SearchManager searchManager =
           (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
-      MenuItem searchMenuItem = menu.findItem(R.id.search);
+      MenuItem searchMenuItem = menu.findItem(R.id.SEARCH_COMMAND);
       SearchView searchView = (SearchView) searchMenuItem.getActionView();
 
       searchView.setSearchableInfo(searchManager.
@@ -948,7 +948,7 @@ public class CategoryList extends SortableListFragment implements
       Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.switchId), !aggregateTypes);
     }
 
-    MenuItem searchMenuItem = menu.findItem(R.id.search);
+    MenuItem searchMenuItem = menu.findItem(R.id.SEARCH_COMMAND);
     if (searchMenuItem != null && mFilter != null) {
       SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
       searchView.setQuery(mFilter, false);

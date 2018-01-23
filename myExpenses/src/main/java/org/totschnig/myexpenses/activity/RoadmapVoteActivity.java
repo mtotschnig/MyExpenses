@@ -127,7 +127,7 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
     MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.menu.search, menu);
     SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-    MenuItem searchMenuItem = menu.findItem(R.id.search);
+    MenuItem searchMenuItem = menu.findItem(R.id.SEARCH_COMMAND);
     SearchView searchView = (SearchView) searchMenuItem.getActionView();
 
     searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
