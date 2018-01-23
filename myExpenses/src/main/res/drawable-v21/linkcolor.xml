@@ -16,5 +16,5 @@
  -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true" android:color="#FEFEFE" /> <!-- highlight -->
-    <item android:color="#5C5CFF" /> <!-- default -->
+    <item android:color="?android:attr/textColorLink" /> <!-- default -->
 </selector>
