@@ -388,6 +388,7 @@
     </string-array>
 
     <string-array name="versions">
+        <item>309;2.8.6</item>
         <item>308;2.8.5</item>
         <item>304;2.8.4</item>
         <item>300;2.8.3</item>
