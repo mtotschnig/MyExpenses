@@ -115,6 +115,44 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 2.8.5
+    - "2018-01-13"
+    -
+      en: |
+        Synchronization via Dropbox.
+      fr: |
+        Synchronisation via Dropbox.
+      de: |
+        Synchronisation über Dropbox.
+      tr: |
+        Dropbox vasıtasıyla eşleşme.
+      bg: |
+        Синхронизация чрез Dropbox.
+      ja: |
+        Dropboxで同期.
+  -
+    - 2.8.4
+    - "2017-11-23"
+    -
+      en: |
+        Auto-fill made configurable.
+      fr: |
+        Remplissage automatique configurable.
+      de: |
+        Automatisches Ausfüllen konfigurierbar gemacht.
+      es: |
+        Auto-relleno configurable.
+      tr: |
+        Otomatik doldurma yapılandırılabilir yapıldı.
+      bg: |
+        Автоматичното попълване вече е конфигурируемо.
+      ms: |
+        Auto-isi boleh dikonfigurasikan.
+      ja: |
+        設定可能な自動入力.
+      iw: |
+        מילוי אוטומטי ניתן להגדרה.
+  -
     - 2.8.3
     - "2017-11-05"
     -
