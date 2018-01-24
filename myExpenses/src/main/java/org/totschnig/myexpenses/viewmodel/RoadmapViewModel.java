@@ -18,7 +18,6 @@ import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.retrofit.Issue;
 import org.totschnig.myexpenses.retrofit.RoadmapService;
 import org.totschnig.myexpenses.retrofit.Vote;
-import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 
 import java.io.FileInputStream;
@@ -26,7 +25,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -167,9 +165,6 @@ public class RoadmapViewModel extends AndroidViewModel {
         } catch (IOException e) {
           Timber.e(e);
         }
-      }
-      if (issueList != null) {
-        Collections.sort(issueList, (o1, o2) -> Utils.compare(o2.getNumber(), o1.getNumber()));
       }
       return issueList;
     }
