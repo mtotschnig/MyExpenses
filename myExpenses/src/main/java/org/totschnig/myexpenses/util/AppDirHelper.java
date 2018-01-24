@@ -138,6 +138,12 @@ public class AppDirHelper {
     return state;
   }
 
+  /**
+   * Chechs is application directory is writable.
+   * TODO: Should only be called from background
+   * @param context activity or application
+   * @return either positive Result or negative Result with problem description
+   */
   public static Result checkAppDir(Context context) {
     if (!isExternalStorageAvailable()) {
       return new Result(false, R.string.external_storage_unavailable);
