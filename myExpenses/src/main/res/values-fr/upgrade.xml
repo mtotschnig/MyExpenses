@@ -19,7 +19,7 @@
 ]>
 <resources>
   <string-array name="whats_new_285">
-    <item>Synchronisation via Dropbox</item>
+    <item>Synchronisation avec Dropbox</item>
   </string-array>
   <string-array name="whats_new_284">
     <item>Remplissage automatique configurable</item>

@@ -693,7 +693,7 @@
   <string name="never">jamais</string>
   <string name="always">toujours</string>
   <string name="auto_fill_account_from_aggregate_only">Uniquement lorsque démarré à partir du compte agrégé.</string>
-  <string name="dropbox_folder_name_prompt">Entrez le nom d\'un dossier existant au niveau racine de votre Dropbox</string>
+  <string name="dropbox_folder_name_prompt">Entrez le nom d\'un dossier existant au niveau de la racine de votre Dropbox</string>
   <string name="dropbox_folder_not_found">Dossier non trouvé</string>
-  <string name="sync_auth_exception_login_again">L\'autorisation à échouée. Veuillez vous reconnecter.</string>
+  <string name="sync_auth_exception_login_again">L\'autorisation a échoué. Veuillez vous reconnecter.</string>
 </resources>

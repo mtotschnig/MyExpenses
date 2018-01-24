@@ -34,10 +34,14 @@
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Không quảng cáo</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Số lượng không giới hạn các tài khoản</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Chèn ảnh vào giao dịch</string>
+  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Biểu đồ quạt (dựa theo phân phối danh mục)</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Tạo các kế hoạch với số lượng không giới hạn</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Xuất danh sách giao dịch sang dạng PDF</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Tiện ích cho bản mẫu</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Nhập CSV</string>
+  <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Không giới hạn số lượng bản mẫu chia tách</string>
+  <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Hỗ trợ qua email</b> với đảm bảo sẽ nhận được phản hồi sau 2 ngày làm việc</string>
+  <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Có quyền bầu chọn đối với <b>quá trình phát triển ứng dụng</b></string>
   <string name="licence_status_free">Miễn phí</string>
   <string name="contrib_key">Bản Contrib</string>
   <string name="extended_key">Bản Extended</string>
@@ -76,6 +80,7 @@
   <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Bạn có thể dùng nó trong %1$d ngày với bản quyền hiện tại (%2$s).</string>
   <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Bản quyền hiện tại của bạn (%2$s) cho phép bạn tạo %1$d tài khoản.</string>
   <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Bản quyền hiện tại của bạn (%2$s) cho phép bạn tạo %1$d kế hoạch.</string>
+  <string name="dialog_contrib_usage_limit_split_templates">Bản quyền hiện tại của bạn (%1$s) cho phép bạn tạo chỉ một bản mẫu chia tách.</string>
   <string name="dialog_export_delete">Xóa các giao dịch đã được xuất</string>
   <string name="dialog_export_not_yet_exported">Xuất các giao dịch chưa được xuất</string>
   <string name="dialog_password_activate_protection">Cài mật khẩu</string>
@@ -84,6 +89,7 @@
   <string name="dialog_password_new_password_confirmation">Mật khẩu mới (xác nhận)</string>
   <string name="dialog_remind_later">Để sau</string>
   <string name="dialog_remind_no">Không, cảm ơn</string>
+  <string name="dialog_remind_rate_how_many_stars">Bạn sẽ đánh giá {app_name} bao nhiêu sao?</string>
   <string name="dialog_remind_rate_1">Xin dành chút thời gian để xếp hạng và xem các nhận xét về {app_name}.</string>
   <string name="dialog_remind_rate_2">Các bình luận của bạn sẽ giúp chúng tôi cải thiện chất lượng dịch vụ về sản phẩm tốt hơn.</string>
   <string name="dialog_remind_rate_1_suggest_improvement">Vui lòng dành ít phút để gửi cho chúng tôi những ý kiến của bạn để cải thiện ứng dụng.</string>
@@ -257,6 +263,7 @@
   <string name="pm_type_neutral">Trung lập</string>
   <string name="pref_app_dir_title">Thư mục cho các bản sao lưu và dữ liệu xuất ra</string>
   <string name="pref_auto_fill_title">Giao dịch tự điền</string>
+  <string name="pref_auto_fill_summary">Điền dữ liệu từ giao dịch trước đó cho cùng người nhận/trả</string>
   <string name="pref_backup_summary">Tạo một phần sao lưu đối với cơ sở dữ liệu và tùy biến trên thẻ nhớ.</string>
   <string name="pref_sort_order_usages">Số lần sử dụng</string>
   <string name="pref_category_title_advanced">Nâng cao</string>
@@ -468,6 +475,7 @@
   <string name="comparison_operator_date_after">sau</string>
   <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Khuyến mãi đặc biệt với AppGratis: Các tính năng trả phí được mở khoá miễn phí.</string>
   <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Giao dịch thất bại hoặc đã bị huỷ bỏ</string>
+  <string name="hint_auto_fill">Dữ liệu từ giao dịch liền trước với cùng người nhận/trả có nên được tự động thêm vào? Bạn luôn có thể thay đổi tuỳ chọn này trong mục cài đặt.</string>
   <string name="yes">Được</string>
   <string name="no">Không</string>
   <string name="hint_template_click">Nhấn vào một mục trên danh sách này sẽ trình bày bản mẫu đó ra và sẽ lưu luôn hoặc vào phần sửa đổi, nơi mà bạn có thể chỉnh sửa nó trước khi lưu. Bạn luôn có thể thực hiện cả hai hành động qua một lần nhấn giữ, và thay đổi mặc định trong cài đặt.</string>
@@ -522,6 +530,7 @@
   <string name="pref_auto_backup_time_title">Thời điểm tự động sao lưu</string>
   <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Sau %d lần sao lưu tự động thành công, chức năng tự sao lưu sẽ bị vô hiệu hoá</string>
   <string name="warning_auto_backup_limit_reached">Đã đạt giới hạn số lần sao lưu tự động miễn phí.</string>
+  <string name="calendar_permission_required"><i>{app_name}</i> cần sự cho phép của bạn để truy cập vào lịch, từ đó tạo các kế hoạch cho giao dịch trong tương lai và giao dịch lặp lại.</string>
   <string name="button_request_calendar_access" tools:ignore="UnusedResources">Cấp phép truy cập</string>
   <string name="switch_on_text">Bật</string>
   <string name="switch_off_text">Tắt</string>
@@ -548,6 +557,7 @@
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <string name="plan_instance_state_applied">được áp dụng</string>
   <string name="progress_dialog_updating_split_parts">Đang cập nhật các phần bị tách</string>
+  <string name="warning_cannot_move_split_transaction">Giao dịch chia tách này không thể được dời tới tài khoản %1$s bởi vì có một khoản chuyển đã chỉ tới tài khoản này.</string>
   <string name="content_description_calculator_clear_button">Đặt lại</string>
   <string name="content_description_calculator_delete_button">Xoá chữ số cuối cùng</string>
   <string name="paypal_callback_info">Giao dịch của bạn đã hoàn tất và biên lai mua hàng của bạn đã được gửi qua email cho bạn. Bạn có thể đăng nhập vào tài khoản của bạn tại www.paypal.com để xem chi tiết giao dịch này.</string>
@@ -578,9 +588,13 @@
   <string name="menu_sync_now">Đồng bộ hóa ngay bây giờ</string>
   <string name="pref_sync_frequency_title">Tần suất đồng bộ hóa</string>
   <string name="pref_sync_frequency_summary">Dữ liệu nên được đồng bộ hoá mỗi mấy giờ</string>
+  <string name="dialog_confirm_sync_unlink">Nếu bạn bỏ liên kết từ tài khoản này tới %s, việc đồng bộ hoá sẽ bị ngưng. Việc liên kết lại chúng yêu cầu thực hiện một lần đồng bộ hoá đầy đủ.</string>
+  <string name="dialog_sync_link">Một tài khoản với UUID %s tồn tại cả ở trong cơ sở dữ liệu nội bộ và ở backend từ xa. Khi bạn liên kết cả hai, bạn cần quyết định rằng có muốn tải lên dữ liệu trong máy tới backend từ xa hay là tải dữ liệu từ bên ngoài vào CSDL trong máy.</string>
   <string name="dialog_command_sync_link_remote">Tải xuống từ bên ng</string>
   <string name="dialog_command_sync_link_local">Tải lên từ nội bộ</string>
+  <string name="dialog_synced_to_other">Một tài khoản với UUID %s đã tồn tại trong CSDL nội bộ và nó cũng được liên kết với một backend từ xa khác.</string>
   <string name="menu_remove">Xoá</string>
+  <string name="dialog_confirm_sync_remove_backend">Backend từ xa %s sẽ bị xoá. Điều này sẽ không ảnh hưởng tới dữ liệu ở trong máy lẫn bên ngoài, nhưng việc đồng bộ hoá sẽ bị ngưng. Bạn có chắc là muốn tiếp tục không?</string>
   <string name="link_account_failure_2">Một tài khoản có cùng uuid đã tồn tại trên phần phụ trợ bên ngoài.</string>
   <string name="link_account_failure_3">Mâu thuẫn có thể được giải quyết bằng tay từ trình đơn ngữ cảnh của mục nhập.</string>
   <string name="progress_dialog_checking_sync_backend">Đang xác minh phần phụ trợ</string>
@@ -606,5 +620,16 @@
   <string name="synchronization_end_success_none">Không có thay đổi nào để đồng bộ.</string>
   <string name="sync_state_restored">Trạng thái đồng bộ hóa đã được khôi phục cho %d tài khoản.</string>
   <string name="sync_state_could_not_be_restored">Không thể khôi phục trạng thái đồng bộ hóa cho %d tài khoản.</string>
+  <string name="onboarding_data_title">Hãy thiết lập tài khoản đầu tiên của bạn</string>
+  <string name="onboarding_get_started">Bắt đầu</string>
+  <string name="onboarding_more_options">Nhiều tuỳ chọn hơn</string>
+  <string name="onboarding_restore_from_cloud">Khôi phục từ bản đồng bộ trực tuyến</string>
+  <string name="onboarding_restore_from_local">Khôi phục từ tập tin sao lưu trong máy</string>
+  <string name="dialog_button_add">Thêm</string>
+  <string name="template_create_error">Lỗi khi lưu bản mẫu</string>
+  <string name="contributed_by">Đóng góp bởi %s</string>
+  <string name="pref_sync_notification_summary">Thông báo về quá trình đồng bộ hoá</string>
+  <string name="pref_debug_logging_summary">Ghi thông tin gỡ lỗi vào nhật ký hệ thống</string>
+  <string name="plan_custom_recurrence_info">Vui lòng lưu bản mẫu trước. Bản kế hoạch sẽ được mở trong ứng dụng lịch, và trong đó bạn có thể đặt một lịch biểu lặp lại.</string>
   <!--%1$s date, %2$s price-->
 </resources>
