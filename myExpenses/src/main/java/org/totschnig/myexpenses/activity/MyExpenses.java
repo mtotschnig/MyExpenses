@@ -101,6 +101,7 @@ import org.totschnig.myexpenses.util.ads.AdHandlerFactory;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Currency;
 import java.util.Locale;
 
@@ -626,16 +627,10 @@ public class MyExpenses extends LaunchActivity implements
         return true;
       }
       case R.id.SHARE_PDF_COMMAND: {
-        i = new Intent();
-        i.setAction(Intent.ACTION_SEND);
-        Uri data = AppDirHelper.ensureContentUri(Uri.parse((String) tag));
-        i.setDataAndType(data, "application/pdf");
-        i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        if (!Utils.isIntentAvailable(this, i)) {
-          Toast.makeText(this, R.string.no_app_handling_pdf_available, Toast.LENGTH_LONG).show();
-        } else {
-          startActivity(i);
-        }
+        ShareUtils.share(this,
+            Collections.singletonList(AppDirHelper.ensureContentUri(Uri.parse((String) tag))),
+            PrefKey.SHARE_TARGET.getString("").trim(),
+            "application/pdf");
         return true;
       }
       case R.id.QUIT_COMMAND:
@@ -943,8 +938,8 @@ public class MyExpenses extends LaunchActivity implements
               0,
               getString(result.getMessage(), FileUtils.getPath(this, (Uri) result.extra[0])),
               new MessageDialogFragment.Button(R.string.menu_open, R.id.OPEN_PDF_COMMAND, result.extra[0].toString(), true),
-              new MessageDialogFragment.Button(R.string.button_label_share_file, R.id.SHARE_PDF_COMMAND, result.extra[0].toString(), true),
-              MessageDialogFragment.Button.nullButton(android.R.string.cancel));
+              MessageDialogFragment.Button.nullButton(R.string.button_label_close),
+              new MessageDialogFragment.Button(R.string.button_label_share_file, R.id.SHARE_PDF_COMMAND, result.extra[0].toString(), true));
           f.setCancelable(false);
           f.show(getSupportFragmentManager(), "PRINT_RESULT");
         } else {
