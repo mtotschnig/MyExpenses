@@ -14,7 +14,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.testutils.BaseTest;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -26,7 +28,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 
 @RunWith(AndroidJUnit4.class)
-public final class MyExpensesIntentTest {
+public final class MyExpensesIntentTest extends BaseTest {
 
   @Rule
   public ActivityTestRule<MyExpenses> mActivityRule =
@@ -57,6 +59,7 @@ public final class MyExpensesIntentTest {
     Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), MyExpenses.class)
         .putExtra(KEY_ROWID, account1.getId());
     mActivityRule.launchActivity(i);
+    waitForAdapter();
     onView(allOf(
         withText(accountLabel1),
         withId(R.id.action_bar_title)))
@@ -68,10 +71,16 @@ public final class MyExpensesIntentTest {
     Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), MyExpenses.class)
         .putExtra(KEY_ROWID, account2.getId());
     mActivityRule.launchActivity(i);
+    waitForAdapter();
     onView(allOf(
         withText(accountLabel2),
         withId(R.id.action_bar_title)))
         .check(matches(isDisplayed()));
     mActivityRule.getActivity().finish();
+  }
+
+  @Override
+  protected ActivityTestRule<? extends ProtectedFragmentActivity> getTestRule() {
+    return mActivityRule;
   }
 }

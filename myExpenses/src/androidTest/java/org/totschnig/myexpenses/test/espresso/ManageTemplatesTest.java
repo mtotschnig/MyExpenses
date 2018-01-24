@@ -5,6 +5,7 @@ import android.content.OperationApplicationException;
 import android.os.RemoteException;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
+import android.support.test.rule.ActivityTestRule;
 import android.widget.AdapterView;
 
 import org.junit.After;
@@ -14,12 +15,14 @@ import org.junit.Test;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.testutils.BaseTest;
 
 import java.util.Currency;
 
@@ -35,7 +38,7 @@ import static org.hamcrest.Matchers.anything;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 
 //TODO test CAB actions
-public class ManageTemplatesTest {
+public class ManageTemplatesTest extends BaseTest {
 
   @Rule
   public IntentsTestRule<ManageTemplates> mActivityRule =
@@ -71,6 +74,7 @@ public class ManageTemplatesTest {
   }
 
   private void clicketiclick() {
+    waitForAdapter();
     onData(anything()).inAdapterView(isAssignableFrom(AdapterView.class)).atPosition(0).perform(click());
   }
 
@@ -106,5 +110,10 @@ public class ManageTemplatesTest {
     verifyEditAction();
     PrefKey.TEMPLATE_CLICK_HINT_SHOWN.remove();
     PrefKey.TEMPLATE_CLICK_DEFAULT.remove();
+  }
+
+  @Override
+  protected ActivityTestRule<? extends ProtectedFragmentActivity> getTestRule() {
+    return mActivityRule;
   }
 }

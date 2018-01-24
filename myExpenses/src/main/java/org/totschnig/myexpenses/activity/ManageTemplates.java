@@ -19,6 +19,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.widget.Toast;
@@ -48,6 +49,12 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
 
   public static final int NOT_CALLED = -1;
   private long calledFromCalendarWithId = NOT_CALLED;
+
+  @Override
+  @VisibleForTesting
+  public TemplatesList getCurrentFragment() {
+    return mListFragment;
+  }
 
   private TemplatesList mListFragment;
 
