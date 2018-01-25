@@ -133,7 +133,7 @@ public class Utils {
     if (result == null) {
       try {
         //makeSure we know about the currency
-        result = getSaveInstance(Currency.getInstance(Locale.getDefault()));
+        result = getSaveInstance(getSaveDefault());
       } catch (IllegalArgumentException e) {
         result = Currency.getInstance("EUR");
       }
@@ -307,13 +307,21 @@ public class Utils {
     return format.format(date);
   }
 
+  public static Currency getSaveDefault() {
+    try {
+      return Currency.getInstance(MyApplication.getSystemLocale());
+    } catch (NullPointerException | IllegalArgumentException ex) {
+      return Currency.getInstance(new Locale("en", "US"));
+    }
+  }
+
   public static Currency getSaveInstance(String strCurrency) {
     Currency c;
     try {
       c = Currency.getInstance(strCurrency);
     } catch (IllegalArgumentException e) {
       Timber.e("%s is not defined in ISO 4217", strCurrency);
-      c = Currency.getInstance(Locale.getDefault());
+      c = getSaveDefault();
     }
     return getSaveInstance(c);
   }
