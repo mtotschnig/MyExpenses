@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_286">
+    <item>Die PDF-Export-Datei (Drucken) kann geteilt werden</item>
+  </string-array>
   <string-array name="whats_new_285">
     <item>Synchronisation über Dropbox</item>
   </string-array>
