@@ -177,8 +177,8 @@ public class PaymentMethod extends Model {
   }
 
   @VisibleForTesting
-  public boolean isPredefined() {
-    return preDefined != null;
+  public PreDefined getPreDefined() {
+    return preDefined;
   }
 
   public void setPaymentType(int paymentType) {

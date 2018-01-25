@@ -35,6 +35,8 @@ public class TransactionTest extends ModelTest {
   private Account mAccount1;
   private Account mAccount2;
   private Account mAccount3;
+  private long catId1;
+  private long catId2;
 
   @Override
   protected void setUp() throws Exception {
@@ -52,11 +54,14 @@ public class TransactionTest extends ModelTest {
     super.tearDown();
     Account.delete(mAccount1.getId());
     Account.delete(mAccount2.getId());
+    Account.delete(mAccount3.getId());
+    Category.delete(catId1);
+    Category.delete(catId2);
   }
 
   public void testTransaction() {
     String payee = "N.N";
-    assertEquals(0L, Transaction.getSequenceCount().longValue());
+    long start = Transaction.getSequenceCount().longValue();
     Transaction op1 = Transaction.getNewInstance(mAccount1.getId());
     assert op1 != null;
     op1.setAmount(new Money(mAccount1.currency, 100L));
@@ -65,7 +70,7 @@ public class TransactionTest extends ModelTest {
     op1.setPayee(payee);
     op1.save();
     assertTrue(op1.getId() > 0);
-    assertEquals(1L, Transaction.getSequenceCount().longValue());
+    assertEquals(start + 1, Transaction.getSequenceCount().longValue());
     //save creates a payee as side effect
     assertEquals(1, countPayee(payee));
     Transaction restored = Transaction.getInstanceFromDb(op1.getId());
@@ -74,7 +79,7 @@ public class TransactionTest extends ModelTest {
     Long id = op1.getId();
     Transaction.delete(id, false);
     //Transaction sequence should report on the number of transactions that have been created
-    assertEquals(1L, Transaction.getSequenceCount().longValue());
+    assertEquals(start + 1, Transaction.getSequenceCount().longValue());
     assertNull("Transaction deleted, but can still be retrieved", Transaction.getInstanceFromDb(id));
     op1.saveAsNew();
     assertNotSame(op1.getId(), id);
@@ -179,8 +184,8 @@ public class TransactionTest extends ModelTest {
   }
 
   public void testIncreaseCatUsage() {
-    long catId1 = Category.write(0, "Test category 1", null);
-    long catId2 = Category.write(0, "Test category 2", null);
+    catId1 = Category.write(0, "Test category 1", null);
+    catId2 = Category.write(0, "Test category 2", null);
     assertEquals(getCatUsage(catId1), 0);
     assertEquals(getCatUsage(catId2), 0);
     Transaction op1 = Transaction.getNewInstance(mAccount1.getId());

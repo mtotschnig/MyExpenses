@@ -21,7 +21,7 @@ import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.testutils.BaseTest;
+import org.totschnig.myexpenses.testutils.BaseUiTest;
 import org.totschnig.myexpenses.testutils.Matchers;
 
 import java.util.Currency;
@@ -40,7 +40,7 @@ import static org.hamcrest.Matchers.not;
 
 
 @RunWith(AndroidJUnit4.class)
-public final class MyExpensesSearchFilterTest extends BaseTest {
+public final class MyExpensesSearchFilterTest extends BaseUiTest {
 
   @Rule
   public ActivityTestRule<MyExpenses> mActivityRule =

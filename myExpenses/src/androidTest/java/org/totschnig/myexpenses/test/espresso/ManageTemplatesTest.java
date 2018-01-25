@@ -22,7 +22,7 @@ import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.testutils.BaseTest;
+import org.totschnig.myexpenses.testutils.BaseUiTest;
 
 import java.util.Currency;
 
@@ -38,7 +38,7 @@ import static org.hamcrest.Matchers.anything;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 
 //TODO test CAB actions
-public class ManageTemplatesTest extends BaseTest {
+public class ManageTemplatesTest extends BaseUiTest {
 
   @Rule
   public IntentsTestRule<ManageTemplates> mActivityRule =

@@ -2,14 +2,12 @@ package org.totschnig.myexpenses.test.provider;
 
 import android.content.ContentUris;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.test.ProviderTestCase2;
-import android.test.mock.MockContentResolver;
 
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.testutils.BaseDbTest;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.CAT_AS_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
@@ -19,13 +17,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
 
-public class AutoFillTest extends ProviderTestCase2<TransactionProvider> {
-
-  // Contains a reference to the mocked content resolver for the provider under test.
-  private MockContentResolver mMockResolver;
-
-  // Contains an SQLite database, used as test data
-  private SQLiteDatabase mDb;
+public class AutoFillTest extends BaseDbTest {
 
   // Contains the test data, as an array of TransactionInfo instances.
   private TransactionInfo1[] TEST_TRANSACTIONS = new TransactionInfo1[3];
@@ -34,10 +26,6 @@ public class AutoFillTest extends ProviderTestCase2<TransactionProvider> {
   long payeeId, payeeId1;
   long catId, catId1;
   long methodChequeId, methodCreditCardId;
-
-  public AutoFillTest() {
-    super(TransactionProvider.class, TransactionProvider.AUTHORITY);
-  }
 
   /**
    * Sets up test data.
@@ -65,10 +53,6 @@ public class AutoFillTest extends ProviderTestCase2<TransactionProvider> {
   @Override
   protected void setUp() throws Exception {
     super.setUp();
-
-    mMockResolver = getMockContentResolver();
-
-    mDb = getProvider().getOpenHelperForTest().getWritableDatabase();
     AccountInfo testAccount = new AccountInfo("Test account", AccountType.CASH, 0, "USD");
     testAccountId = mDb.insertOrThrow(DatabaseConstants.TABLE_ACCOUNTS, null, testAccount.getContentValues());
     payeeId = mDb.insertOrThrow(DatabaseConstants.TABLE_PAYEES, null, new PayeeInfo(PAYEE_NAME).getContentValues());

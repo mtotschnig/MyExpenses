@@ -54,6 +54,18 @@ public class AccountTest extends ModelTest {
       transferP = 50L,
       transferN = 60L;
   private long catId;
+  
+  @Override
+  protected void tearDown() throws Exception {
+    super.tearDown();
+    if (account1 != null && account1.getId() != null) {
+      Account.delete(account1.getId());
+    }
+    if (account2 != null && account2.getId() != null) {
+      Account.delete(account2.getId());
+    }
+    Category.delete(catId);
+  }
 
   private void insertData() {
     Transaction op;
@@ -82,16 +94,6 @@ public class AccountTest extends ModelTest {
     op1.saveAsNew();
   }
 
-  @Override
-  protected void tearDown() throws Exception {
-    super.tearDown();
-    if (account1 != null && account1.getId() != null) {
-      Account.delete(account1.getId());
-    }
-    if (account2 != null && account2.getId() != null) {
-      Account.delete(account2.getId());
-    }
-  }
 
   public void testAccount() throws RemoteException, OperationApplicationException {
     Account account, restored;

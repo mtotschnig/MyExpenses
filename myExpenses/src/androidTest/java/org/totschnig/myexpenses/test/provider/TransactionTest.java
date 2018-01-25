@@ -20,26 +20,18 @@ package org.totschnig.myexpenses.test.provider;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.test.ProviderTestCase2;
-import android.test.mock.MockContentResolver;
 
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.testutils.BaseDbTest;
 
 import java.util.Date;
 
-public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
-
-  // Contains a reference to the mocked content resolver for the provider under test.
-  private MockContentResolver mMockResolver;
-
-  // Contains an SQLite database, used as test data
-  private SQLiteDatabase mDb;
+public class TransactionTest extends BaseDbTest {
 
   // Contains the test data, as an array of TransactionInfo instances.
   private TransactionInfo[] TEST_TRANSACTIONS = new TransactionInfo[3];
@@ -47,33 +39,11 @@ public class TransactionTest extends ProviderTestCase2<TransactionProvider> {
   long testAccountId;
   long payeeId;
 
-  /*
-   * Constructor for the test case class.
-   * Calls the super constructor with the class name of the provider under test and the
-   * authority name of the provider.
-   */
-  public TransactionTest() {
-    super(TransactionProvider.class, TransactionProvider.AUTHORITY);
-  }
 
-  /*
-   * Sets up the test environment before each test method. Creates a mock content resolver,
-   * gets the provider under test, and creates a new database for the provider.
-   */
   @Override
   protected void setUp() throws Exception {
-    // Calls the base class implementation of this method.
     super.setUp();
 
-    // Gets the resolver for this test.
-    mMockResolver = getMockContentResolver();
-
-        /*
-         * Gets a handle to the database underlying the provider. Gets the provider instance
-         * created in super.setUp(), gets the DatabaseOpenHelper for the provider, and gets
-         * a database object from the helper.
-         */
-    mDb = getProvider().getOpenHelperForTest().getWritableDatabase();
     AccountInfo testAccount = new AccountInfo("Test account", AccountType.CASH, 0);
     testAccountId = mDb.insertOrThrow(DatabaseConstants.TABLE_ACCOUNTS, null, testAccount.getContentValues());
     payeeId = mDb.insertOrThrow(DatabaseConstants.TABLE_PAYEES, null, new PayeeInfo(PAYEE_NAME).getContentValues());

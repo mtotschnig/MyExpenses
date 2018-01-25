@@ -16,7 +16,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.testutils.BaseTest;
+import org.totschnig.myexpenses.testutils.BaseUiTest;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -28,7 +28,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 
 @RunWith(AndroidJUnit4.class)
-public final class MyExpensesIntentTest extends BaseTest {
+public final class MyExpensesIntentTest extends BaseUiTest {
 
   @Rule
   public ActivityTestRule<MyExpenses> mActivityRule =

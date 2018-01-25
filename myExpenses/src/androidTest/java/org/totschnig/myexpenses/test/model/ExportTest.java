@@ -76,6 +76,23 @@ public class ExportTest extends ModelTest {
     outDir = DocumentFile.fromFile(getContext().getCacheDir());
   }
 
+  @Override
+  protected void tearDown() throws Exception {
+    super.tearDown();
+    if (export != null) {
+      //noinspection ResultOfMethodCallIgnored
+      new File(export.getPath()).delete();
+    }
+    if (account1 != null && account1.getId() != null) {
+      Account.delete(account1.getId());
+    }
+    if (account2 != null && account2.getId() != null) {
+      Account.delete(account2.getId());
+    }
+    Category.delete(cat1Id);
+    Category.delete(cat2Id);
+  }
+
   private void insertData1() {
     Transaction op;
     account1 = new Account("Account 1", openingBalance, "Account 1");
@@ -358,14 +375,6 @@ public class ExportTest extends ModelTest {
       sb.append("\";");
     }
     return sb.toString();
-  }
-
-  protected void tearDown() throws Exception {
-    super.tearDown();
-    if (export != null) {
-      //noinspection ResultOfMethodCallIgnored
-      new File(export.getPath()).delete();
-    }
   }
 
   private Result exportAll(Account account, ExportFormat format, boolean notYetExportedP)

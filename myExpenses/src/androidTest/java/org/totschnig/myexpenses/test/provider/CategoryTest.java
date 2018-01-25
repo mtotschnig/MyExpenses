@@ -16,20 +16,18 @@
 
 package org.totschnig.myexpenses.test.provider;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
-
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.test.ProviderTestCase2;
-import android.test.mock.MockContentResolver;
 
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.testutils.BaseDbTest;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 
 /*
  */
@@ -40,55 +38,11 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
  * To learn how to run an entire test package or one of its classes, please see
  * "Testing in Eclipse, with ADT" or "Testing in Other IDEs" in the Developer Guide.
  */
-public class CategoryTest extends ProviderTestCase2<TransactionProvider> {
-
-  // Contains a reference to the mocked content resolver for the provider under test.
-  private MockContentResolver mMockResolver;
-
-  // Contains an SQLite database, used as test data
-  private SQLiteDatabase mDb;
+public class CategoryTest extends BaseDbTest {
 
   // Contains the test data, as an array of NoteInfo instances.
   private CategoryInfo[] TEST_CATEGORIES = new CategoryInfo[4];
   private Long[] testIds = new Long[4];
-
-  /*
-   * Constructor for the test case class.
-   * Calls the super constructor with the class name of the provider under test and the
-   * authority name of the provider.
-   */
-  public CategoryTest() {
-    super(TransactionProvider.class, TransactionProvider.AUTHORITY);
-  }
-
-  /*
-   * Sets up the test environment before each test method. Creates a mock content resolver,
-   * gets the provider under test, and creates a new database for the provider.
-   */
-  @Override
-  protected void setUp() throws Exception {
-    // Calls the base class implementation of this method.
-    super.setUp();
-
-    // Gets the resolver for this test.
-    mMockResolver = getMockContentResolver();
-
-        /*
-         * Gets a handle to the database underlying the provider. Gets the provider instance
-         * created in super.setUp(), gets the DatabaseOpenHelper for the provider, and gets
-         * a database object from the helper.
-         */
-    mDb = getProvider().getOpenHelperForTest().getWritableDatabase();
-  }
-
-  /*
-   *  This method is called after each test method, to clean up the current fixture. Since
-   *  this sample test case runs in an isolated context, no cleanup is necessary.
-   */
-  @Override
-  protected void tearDown() throws Exception {
-    super.tearDown();
-  }
 
   /*
    * Sets up test data.

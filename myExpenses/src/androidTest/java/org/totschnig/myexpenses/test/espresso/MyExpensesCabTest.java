@@ -25,7 +25,7 @@ import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.testutils.BaseTest;
+import org.totschnig.myexpenses.testutils.BaseUiTest;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.util.Currency;
@@ -54,7 +54,7 @@ import static org.totschnig.myexpenses.testutils.Matchers.withListSize;
 
 
 @RunWith(AndroidJUnit4.class)
-public final class MyExpensesCabTest extends BaseTest {
+public final class MyExpensesCabTest extends BaseUiTest {
 
   @Rule
   public ActivityTestRule<MyExpenses> mActivityRule =

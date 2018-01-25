@@ -11,7 +11,7 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
-public abstract class BaseTest {
+public abstract class BaseUiTest {
   protected abstract ActivityTestRule<? extends ProtectedFragmentActivity> getTestRule();
 
 
