@@ -698,6 +698,7 @@
   <string name="dropbox_folder_name_prompt">Dropbox\'ınızın kök seviyesinde mevcut bir klasörün  ismini girin</string>
   <string name="dropbox_folder_not_found">Klasör bulunamadı</string>
   <string name="sync_auth_exception_login_again">İzin verme başarısız oldu. Lütfen tekrar giriş yapın.</string>
+  <string name="sync_loading_accounts_from_backend">Mevcut hesaplar arka uçtan yükleniyor.</string>
   <plurals name="delete_success">
     <item quantity="one">Bir nesne başarıyla silindi.</item>
     <item quantity="other">%d nesne başarıyla silindi.</item>
