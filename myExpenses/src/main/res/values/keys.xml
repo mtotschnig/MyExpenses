@@ -150,4 +150,6 @@
     <string name="menu_RoadmapVoteActivity_refresh_help_text" tools:ignore="UnusedResources">The list of isues is cached locally. Fetch list again from the Internet.</string>
     <string name="cab_RoadmapVoteActivity_learn_more_help_text" tools:ignore="UnusedResources">Learn more about the ticket by reading its page on Github.</string>
     <string name="cab_RoadmapVoteActivity_set_weight_help_text" tools:ignore="UnusedResources">Select the amount of points that corresponds to how relevant the issue is for you.</string>
-    </resources>
+    <string name="roadmap_intro">Please help us shape the future of this app by taking part in the vote on the future development roadmap!</string>
+    <string name="roadmap_particpate">Participate</string>
+</resources>

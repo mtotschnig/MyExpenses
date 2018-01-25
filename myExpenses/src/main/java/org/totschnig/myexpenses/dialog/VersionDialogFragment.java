@@ -45,9 +45,8 @@ import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.activity.RoadmapVoteActivity;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
-import org.totschnig.myexpenses.util.Utils;
 
 import java.util.List;
 
@@ -125,12 +124,12 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
       view.findViewById(R.id.ImportantUpgradeInfoHeading).setVisibility(View.VISIBLE);
       TextView importantUpgradeInfoBody = view.findViewById(R.id.ImportantUpgradeInfoBody);
       importantUpgradeInfoBody.setVisibility(View.VISIBLE);
-      importantUpgradeInfoBody.setText(Utils.getTextWithAppName(getContext(), R.string.licence_migration_info));
+      importantUpgradeInfoBody.setText(R.string.roadmap_intro);
       TextView importantUpgradeInfoLearnMore = view.findViewById(R.id.ImportantUpgradeInfoLearnMore);
-      makeVisibleAndClickable(importantUpgradeInfoLearnMore, R.string.pref_request_licence_title, new ClickableSpan() {
+      makeVisibleAndClickable(importantUpgradeInfoLearnMore, R.string.roadmap_particpate, new ClickableSpan() {
         @Override
         public void onClick(View widget) {
-          ((ProtectedFragmentActivity) getActivity()).dispatchCommand(R.id.REQUEST_LICENCE_MIGRATION_COMMAND, null);
+         getActivity().startActivity(new Intent(getContext(), RoadmapVoteActivity.class));
         }
       });
     }

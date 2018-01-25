@@ -78,12 +78,11 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
   public void newVersionCheck() {
     int prev_version = PrefKey.CURRENT_VERSION.getInt(-1);
     int current_version = DistribHelper.getVersionNumber();
-    boolean showImportantUpgradeInfo = MyApplication.getInstance().getLicenceHandler().hasLegacyLicence() &&
-        !PrefKey.LICENCE_MIGRATION_INFO_SHOWN.getBoolean(false);
     if (prev_version < current_version) {
       if (prev_version == -1) {
         return;
       }
+      boolean showImportantUpgradeInfo = prev_version < 309;
       PrefKey.CURRENT_VERSION.putInt(current_version);
       SharedPreferences settings = MyApplication.getInstance().getSettings();
       Editor edit = settings.edit();

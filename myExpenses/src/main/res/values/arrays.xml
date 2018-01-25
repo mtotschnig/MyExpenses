@@ -388,7 +388,7 @@
     </string-array>
 
     <string-array name="versions">
-        <item>309;2.8.6</item>
+        <item>310;2.8.6</item>
         <item>308;2.8.5</item>
         <item>304;2.8.4</item>
         <item>300;2.8.3</item>
@@ -457,6 +457,10 @@
     <string-array name="version_more_info_285" tools:ignore="UnusedResources">
         <item>posts/2005941416333993</item>
         <item>EK2FxVZYGVv</item>
+    </string-array>
+    <string-array name="version_more_info_286" tools:ignore="UnusedResources">
+        <item>photos/a.1450395311888609.1073741827.1450391968555610/2011905835737551</item>
+        <item>eHY1EDAFFed</item>
     </string-array>
 
     <string-array name="comparison_operator_entries">
