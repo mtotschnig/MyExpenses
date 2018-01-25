@@ -165,6 +165,7 @@
   <string name="menu_save_and_new">Desa i nova</string>
   <string name="menu_settings">Preferències</string>
   <string name="menu_share">Digueu-ho a un amic</string>
+  <string name="button_label_close">Tanca</string>
   <string name="method">Forme de pagament</string>
   <string name="no_amount_given">No heu indicat cap import.</string>
   <string name="no_app_handling_email_available">No s\'ha trobat l\'aplicació del correu electrónic.</string>

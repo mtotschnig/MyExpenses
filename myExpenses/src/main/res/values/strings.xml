@@ -713,6 +713,7 @@
     <string name="dropbox_folder_name_prompt">Enter the name of an existing folder at the root level of your Dropbox</string>
     <string name="dropbox_folder_not_found">Folder not found</string>
     <string name="sync_auth_exception_login_again">Authorization failed. Please log in again.</string>
+    <string name="sync_loading_accounts_from_backend">Loading available accounts from backend.</string>
     <plurals name="delete_success">
         <item quantity="one">One object was successfully deleted.</item>
         <item quantity="other">%d objects were successfully deleted.</item>

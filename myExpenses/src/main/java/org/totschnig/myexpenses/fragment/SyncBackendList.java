@@ -77,7 +77,7 @@ public class SyncBackendList extends Fragment implements
     listView.setAdapter(syncBackendAdapter);
     listView.setEmptyView(emptyView);
     listView.setOnGroupExpandListener(this);
-    snackbar = Snackbar.make(listView, "Loading available accounts from backend.", LENGTH_INDEFINITE);
+    snackbar = Snackbar.make(listView, R.string.sync_loading_accounts_from_backend, LENGTH_INDEFINITE);
     UiUtils.configureSnackbarForDarkTheme(snackbar);
     mManager.initLoader(ACCOUNT_CURSOR, null, new LocalAccountInfoCallbacks());
     registerForContextMenu(listView);

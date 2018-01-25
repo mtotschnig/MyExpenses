@@ -200,6 +200,7 @@
   <string name="menu_search">Cerca</string>
   <string name="menu_settings">Impostazioni</string>
   <string name="menu_share">Dillo a un amico</string>
+  <string name="button_label_close">Chiudere</string>
   <string name="menu_split_transaction">Frazionare</string>
   <string name="method">Metodo di pagamento</string>
   <string name="no_amount_given">Non hai scritto nessuno importo.</string>

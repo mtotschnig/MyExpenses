@@ -204,6 +204,8 @@
   <string name="menu_search">Ara</string>
   <string name="menu_settings">Ayarlar</string>
   <string name="menu_share">Bir arkadaşa bahset</string>
+  <string name="button_label_share_file">Paylaş</string>
+  <string name="button_label_close">Yakın</string>
   <string name="menu_split_transaction">Bölünmüşe dönüştür</string>
   <string name="method">Ödeme metot</string>
   <string name="no_amount_given">Hiçbir meblağ girmediniz.</string>
@@ -696,4 +698,8 @@
   <string name="dropbox_folder_name_prompt">Dropbox\'ınızın kök seviyesinde mevcut bir klasörün  ismini girin</string>
   <string name="dropbox_folder_not_found">Klasör bulunamadı</string>
   <string name="sync_auth_exception_login_again">İzin verme başarısız oldu. Lütfen tekrar giriş yapın.</string>
+  <plurals name="delete_success">
+    <item quantity="one">Bir nesne başarıyla silindi.</item>
+    <item quantity="other">%d nesne başarıyla silindi.</item>
+  </plurals>
 </resources>

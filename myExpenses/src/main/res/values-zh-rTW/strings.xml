@@ -141,6 +141,7 @@
   <string name="menu_save">保存</string>
   <string name="menu_save_and_new">保存並新增</string>
   <string name="menu_settings">設定</string>
+  <string name="button_label_close">關閉</string>
   <string name="method">付款方法</string>
   <string name="no_amount_given">你未輸入任何金額。</string>
   <string name="no_app_handling_email_available">沒有可用的應用程序電子郵件。</string>

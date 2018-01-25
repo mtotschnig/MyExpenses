@@ -204,6 +204,8 @@
   <string name="menu_search">Suche</string>
   <string name="menu_settings">Einstellungen</string>
   <string name="menu_share">Weiterempfehlen</string>
+  <string name="button_label_share_file">Teilen</string>
+  <string name="button_label_close">Schließen</string>
   <string name="menu_split_transaction">Splitten</string>
   <string name="method">Zahlungsweise</string>
   <string name="no_amount_given">Sie haben keinen Betrag eingegeben.</string>
@@ -696,4 +698,9 @@
   <string name="dropbox_folder_name_prompt">Geben Sie den Namen eines vorhandenen Ordners auf der obersten Ebene Ihrer Dropbox ein</string>
   <string name="dropbox_folder_not_found">Ordner nicht gefunden</string>
   <string name="sync_auth_exception_login_again">Autorisation fehlgeschlagen. Bitte melden Sie sich erneut an.</string>
+  <string name="sync_loading_accounts_from_backend">Verfügbare Konten werden vom Backend geladen.</string>
+  <plurals name="delete_success">
+    <item quantity="one">Ein Objekt wurde erfolgreich gelöscht.</item>
+    <item quantity="other">%d Objekte wurden erfolgreich gelöscht.</item>
+  </plurals>
 </resources>
