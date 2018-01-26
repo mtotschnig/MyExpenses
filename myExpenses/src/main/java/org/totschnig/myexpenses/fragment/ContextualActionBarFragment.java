@@ -1,27 +1,24 @@
 package org.totschnig.myexpenses.fragment;
 
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
-
-import android.annotation.TargetApi;
-import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.ListView;
-import android.widget.AdapterView.AdapterContextMenuInfo;
+
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 
 
 /**
@@ -60,11 +57,9 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
     }
   }
 
-  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
     ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-      finishActionMode();
+    finishActionMode();
     return ctx.dispatchCommand(command, info);
   }
 
@@ -78,13 +73,11 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
    * @param itemIds
    * @return
    */
-  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   public boolean dispatchCommandMultiple(int command, SparseBooleanArray positions, Long[] itemIds) {
     ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
     //we send only the positions to the default dispatch command mechanism,
     //but subclasses can provide a method that handles the itemIds
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-      finishActionMode();
+    finishActionMode();
     return ctx.dispatchCommand(command, positions);
   }
 
@@ -111,123 +104,118 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
     configureMenuLegacy(menu, menuInfo, v.getId());
   }
 
-  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   public void registerForContextualActionBar(final AbsListView lv) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-      lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
-      lv.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
-        @Override
-        public void onItemCheckedStateChanged(ActionMode mode, int position,
-                                              long id, boolean checked) {
-          int count = lv.getCheckedItemCount();
-          if (lv instanceof ExpandableListView &&
-              count == 1) {
-            expandableListSelectionType = ExpandableListView.getPackedPositionType(
-                ((ExpandableListView) lv).getExpandableListPosition(position));
+    lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+    lv.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+      @Override
+      public void onItemCheckedStateChanged(ActionMode mode, int position,
+                                            long id, boolean checked) {
+        int count = lv.getCheckedItemCount();
+        if (lv instanceof ExpandableListView &&
+            count == 1) {
+          expandableListSelectionType = ExpandableListView.getPackedPositionType(
+              ((ExpandableListView) lv).getExpandableListPosition(position));
+        }
+        mode.setTitle(String.valueOf(count));
+        configureMenu11(mode.getMenu(), count, lv);
+      }
+
+      @Override
+      public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+        //After orientation change,
+        //setting expandableListSelectionType, as tried in setExpandableListSelectionType
+        //does not work, because getExpandableListPosition does not return the correct value
+        //probably because the adapter has not yet been set up correctly
+        //thus we default to PACKED_POSITION_TYPE_GROUP
+        //this workaround works because orientation change collapses the groups
+        //so we never restore the CAB for PACKED_POSITION_TYPE_CHILD
+        expandableListSelectionType = (lv instanceof ExpandableListView) ?
+            ExpandableListView.PACKED_POSITION_TYPE_GROUP :
+            ExpandableListView.PACKED_POSITION_TYPE_NULL;
+        inflateHelper(menu, lv.getId());
+        mode.setTitle(String.valueOf(lv.getCheckedItemCount()));
+        mActionMode = mode;
+        return true;
+      }
+
+      @Override
+      public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+        configureMenu11(menu, lv.getCheckedItemCount(), lv);
+        return false;
+      }
+
+      @Override
+      public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+        int itemId = item.getItemId();
+        SparseBooleanArray checkedItemPositions = lv.getCheckedItemPositions();
+        int checkedItemCount = checkedItemPositions.size();
+        boolean result = false;
+        if (item.getGroupId() == R.id.MenuSingle || item.getGroupId() == R.id.MenuSingleChild) {
+          for (int i = 0; i < checkedItemCount; i++) {
+            if (checkedItemPositions.valueAt(i)) {
+              int position = checkedItemPositions.keyAt(i);
+              ContextMenuInfo info;
+              long id;
+              if (lv instanceof ExpandableListView) {
+                long pos = ((ExpandableListView) lv).getExpandableListPosition(position);
+                int groupPos = ExpandableListView.getPackedPositionGroup(pos);
+                if (ExpandableListView.getPackedPositionType(pos) == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+                  id = ((ExpandableListView) lv).getExpandableListAdapter().getGroupId(groupPos);
+                } else {
+                  int childPos = ExpandableListView.getPackedPositionChild(pos);
+                  id = ((ExpandableListView) lv).getExpandableListAdapter().getChildId(groupPos, childPos);
+                }
+                //getChildAt returned null in some cases
+                //thus we decide to not rely on it
+                info = new ExpandableListContextMenuInfo(null, pos, id);
+              } else {
+                View v = lv.getChildAt(position);
+                id = lv.getItemIdAtPosition(position);
+                info = new AdapterContextMenuInfo(v, position, id);
+              }
+              result = dispatchCommandSingle(itemId, info);
+              break;
+            }
           }
-          mode.setTitle(String.valueOf(count));
-          configureMenu11(mode.getMenu(), count, lv);
-        }
-
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-          //After orientation change,
-          //setting expandableListSelectionType, as tried in setExpandableListSelectionType
-          //does not work, because getExpandableListPosition does not return the correct value
-          //probably because the adapter has not yet been set up correctly
-          //thus we default to PACKED_POSITION_TYPE_GROUP
-          //this workaround works because orientation change collapses the groups
-          //so we never restore the CAB for PACKED_POSITION_TYPE_CHILD
-          expandableListSelectionType = (lv instanceof ExpandableListView) ?
-              ExpandableListView.PACKED_POSITION_TYPE_GROUP :
-              ExpandableListView.PACKED_POSITION_TYPE_NULL;
-          inflateHelper(menu, lv.getId());
-          mode.setTitle(String.valueOf(lv.getCheckedItemCount()));
-          mActionMode = mode;
-          return true;
-        }
-
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-          configureMenu11(menu, lv.getCheckedItemCount(), lv);
-          return false;
-        }
-
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-          int itemId = item.getItemId();
-          SparseBooleanArray checkedItemPositions = lv.getCheckedItemPositions();
-          int checkedItemCount = checkedItemPositions.size();
-          boolean result = false;
-          if (item.getGroupId() == R.id.MenuSingle || item.getGroupId() == R.id.MenuSingleChild) {
-            for (int i = 0; i < checkedItemCount; i++) {
+        } else {
+          Long[] itemIdsObj;
+          if (lv instanceof ExpandableListView) {
+            itemIdsObj = new Long[checkedItemCount];
+            for (int i = 0; i < checkedItemCount; ++i) {
               if (checkedItemPositions.valueAt(i)) {
                 int position = checkedItemPositions.keyAt(i);
-                ContextMenuInfo info;
-                long id;
-                if (lv instanceof ExpandableListView) {
-                  long pos = ((ExpandableListView) lv).getExpandableListPosition(position);
-                  int groupPos = ExpandableListView.getPackedPositionGroup(pos);
-                  if (ExpandableListView.getPackedPositionType(pos) == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-                    id = ((ExpandableListView) lv).getExpandableListAdapter().getGroupId(groupPos);
-                  } else {
-                    int childPos = ExpandableListView.getPackedPositionChild(pos);
-                    id = ((ExpandableListView) lv).getExpandableListAdapter().getChildId(groupPos, childPos);
-                  }
-                  //getChildAt returned null in some cases
-                  //thus we decide to not rely on it
-                  info = new ExpandableListContextMenuInfo(null, pos, id);
+                long pos = ((ExpandableListView) lv).getExpandableListPosition(position);
+                int groupPos = ExpandableListView.getPackedPositionGroup(pos);
+                if (ExpandableListView.getPackedPositionType(pos) == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+                  itemIdsObj[i] = ((ExpandableListView) lv).getExpandableListAdapter().getGroupId(groupPos);
                 } else {
-                  View v = lv.getChildAt(position);
-                  id = lv.getItemIdAtPosition(position);
-                  info = new AdapterContextMenuInfo(v, position, id);
+                  int childPos = ExpandableListView.getPackedPositionChild(pos);
+                  itemIdsObj[i] = ((ExpandableListView) lv).getExpandableListAdapter().getChildId(groupPos, childPos);
                 }
-                result = dispatchCommandSingle(itemId, info);
-                break;
               }
             }
           } else {
-            Long[] itemIdsObj;
-            if (lv instanceof ExpandableListView) {
-              itemIdsObj = new Long[checkedItemCount];
-              for (int i = 0; i < checkedItemCount; ++i) {
-                if (checkedItemPositions.valueAt(i)) {
-                  int position = checkedItemPositions.keyAt(i);
-                  long pos = ((ExpandableListView) lv).getExpandableListPosition(position);
-                  int groupPos = ExpandableListView.getPackedPositionGroup(pos);
-                  if (ExpandableListView.getPackedPositionType(pos) == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-                    itemIdsObj[i] = ((ExpandableListView) lv).getExpandableListAdapter().getGroupId(groupPos);
-                  } else {
-                    int childPos = ExpandableListView.getPackedPositionChild(pos);
-                    itemIdsObj[i] = ((ExpandableListView) lv).getExpandableListAdapter().getChildId(groupPos, childPos);
-                  }
-                }
-              }
-            } else {
-              long[] itemIdsPrim = lv.getCheckedItemIds();
-              itemIdsObj = new Long[itemIdsPrim.length];
-              for (int i = 0; i < itemIdsPrim.length; i++) {
-                itemIdsObj[i] = itemIdsPrim[i];
-              }
+            long[] itemIdsPrim = lv.getCheckedItemIds();
+            itemIdsObj = new Long[itemIdsPrim.length];
+            for (int i = 0; i < itemIdsPrim.length; i++) {
+              itemIdsObj[i] = itemIdsPrim[i];
             }
-            //TODO:should we convert the flat positions here?
-            result = dispatchCommandMultiple(
-                itemId,
-                checkedItemPositions,
-                itemIdsObj);
           }
-          //mode.finish();
-          return result;
+          //TODO:should we convert the flat positions here?
+          result = dispatchCommandMultiple(
+              itemId,
+              checkedItemPositions,
+              itemIdsObj);
         }
+        //mode.finish();
+        return result;
+      }
 
-        @Override
-        public void onDestroyActionMode(ActionMode mode) {
-          mActionMode = null;
-        }
-      });
-    } else {
-      registerForContextMenu(lv);
-    }
+      @Override
+      public void onDestroyActionMode(ActionMode mode) {
+        mActionMode = null;
+      }
+    });
     if (lv instanceof ExpandableListView) {
       final ExpandableListView elv = (ExpandableListView) lv;
       elv.setOnGroupClickListener(this);
@@ -285,13 +273,11 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
     }
   }
 
-  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   public void finishActionMode() {
     if (mActionMode != null)
       mActionMode.finish();
   }
 
-  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   public void invalidateCAB() {
     if (mActionMode != null) {
       //upon orientation change when action mode is restores the cursor might not yet been loaded

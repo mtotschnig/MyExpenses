@@ -21,7 +21,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -115,10 +114,8 @@ public class AccountWidget extends AbstractWidget<Account> {
         PendingIntent.FLAG_UPDATE_CURRENT);
     updateViews.setOnClickPendingIntent(R.id.command1, pendingIntent);
     setImageViewVectorDrawable(context, updateViews, R.id.command1, R.drawable.ic_menu_add);
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-      updateViews.setContentDescription(R.id.command1,
-          context.getString(R.string.menu_create_transaction));
-    }
+    updateViews.setContentDescription(R.id.command1,
+        context.getString(R.string.menu_create_transaction));
     intent = buildButtonIntent(context, account);
     intent.putExtra(OPERATION_TYPE, TYPE_TRANSFER);
     pendingIntent = PendingIntent.getActivity(
@@ -128,10 +125,8 @@ public class AccountWidget extends AbstractWidget<Account> {
         PendingIntent.FLAG_UPDATE_CURRENT);
     updateViews.setOnClickPendingIntent(R.id.command2, pendingIntent);
     setImageViewVectorDrawable(context, updateViews, R.id.command2, R.drawable.ic_menu_forward);
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-      updateViews.setContentDescription(R.id.command2,
-          context.getString(R.string.menu_create_transfer));
-    }
+    updateViews.setContentDescription(R.id.command2,
+        context.getString(R.string.menu_create_transfer));
   }
 
   @Override

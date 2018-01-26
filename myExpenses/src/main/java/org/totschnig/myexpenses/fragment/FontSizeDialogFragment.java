@@ -7,7 +7,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.FontSizeAdapter;
 import org.totschnig.myexpenses.preference.PrefKey;
 
@@ -22,7 +21,7 @@ public class FontSizeDialogFragment extends DialogFragment {
         .setSingleChoiceItems(new FontSizeAdapter(getActivity()), selectedIndex, (dialog, which) -> {
           PrefKey.UI_FONTSIZE.putInt(which);
           dismiss();
-          ((ProtectedFragmentActivity) getActivity()).recreateBackport();
+          getActivity().recreate();
         })
         .setNegativeButton(android.R.string.cancel, null)
         .create();

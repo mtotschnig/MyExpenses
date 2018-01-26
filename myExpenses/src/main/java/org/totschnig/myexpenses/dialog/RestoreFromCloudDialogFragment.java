@@ -4,13 +4,11 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.TabLayout.Tab;
 import android.support.v7.app.AlertDialog;
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
@@ -144,17 +142,7 @@ public class RestoreFromCloudDialogFragment extends CommitSafeDialogFragment
         restorePlanStrategie.getCheckedRadioButtonId() == -1) {
       return false;
     }
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-      return activeList.getCheckedItemCount() > 0;
-    } else {
-      SparseBooleanArray checkedItemPositions = activeList.getCheckedItemPositions();
-      for (int i = 0; i < checkedItemPositions.size(); i++) {
-        if (checkedItemPositions.valueAt(i)) {
-          return true;
-        }
-      }
-    }
-    return false;
+    return activeList.getCheckedItemCount() > 0;
   }
 
   private LinearLayout getActiveContent() {

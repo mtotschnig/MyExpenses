@@ -4,7 +4,6 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
-import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -21,7 +20,6 @@ import android.content.SyncResult;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.annotation.NonNull;
@@ -109,7 +107,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     super(context, autoInitialize);
   }
 
-  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   public SyncAdapter(Context context, boolean autoInitialize, boolean allowParallelSyncs) {
     super(context, autoInitialize, allowParallelSyncs);
   }

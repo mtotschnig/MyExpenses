@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.fragment;
 
-import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.ContentUris;
 import android.content.Context;
@@ -11,7 +10,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
@@ -141,12 +139,10 @@ public class PlanMonthFragment extends CaldroidFragment
   public void onStart() {
     super.onStart();
 
-    if (Utils.hasApiLevel(Build.VERSION_CODES.GINGERBREAD_MR1)) {
-      int dialogHeight = getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ?
-          (int) getResources().getDimension(R.dimen.plan_month_dialog_height) : ViewGroup.LayoutParams.MATCH_PARENT;
+    int dialogHeight = getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ?
+        (int) getResources().getDimension(R.dimen.plan_month_dialog_height) : ViewGroup.LayoutParams.MATCH_PARENT;
 
-      getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, dialogHeight);
-    }
+    getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, dialogHeight);
   }
 
   @NonNull
@@ -358,7 +354,6 @@ public class PlanMonthFragment extends CaldroidFragment
     return dateTime2TimeStampMap.get(dateInMonthsList.get(position));
   }
 
-  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   public void configureMenu11(Menu menu, int count, AbsListView lv) {
     boolean withOpen = false, withApplied = false, withCancelled = false;
     SparseBooleanArray checkedItemPositions = lv.getCheckedItemPositions();
@@ -484,11 +479,8 @@ public class PlanMonthFragment extends CaldroidFragment
       GradientDrawable todaySelected =
           (GradientDrawable) getResources().getDrawable(todayDrawable).mutate();
       todaySelected.setColor(accountColor);
-      if (Utils.hasApiLevel(Build.VERSION_CODES.HONEYCOMB)) {
-        //noinspection InlinedApi
-        stateListDrawable.addState(new int[]{android.R.attr.state_activated},
-            new ColorDrawable(getContext().getResources().getColor(R.color.appDefault)));
-      }
+      stateListDrawable.addState(new int[]{android.R.attr.state_activated},
+          new ColorDrawable(getContext().getResources().getColor(R.color.appDefault)));
       stateListDrawable.addState(
           new int[]{R.attr.state_date_selected, R.attr.state_date_today},
           todaySelected);

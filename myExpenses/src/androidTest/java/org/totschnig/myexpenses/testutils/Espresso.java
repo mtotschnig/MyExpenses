@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.testutils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Build;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.matcher.ViewMatchers;
@@ -30,13 +29,7 @@ import static org.hamcrest.Matchers.endsWith;
 public class Espresso {
 
   public static void openActionBarOverflowOrOptionsMenu(Context context) {
-    if (context.getApplicationInfo().targetSdkVersion < Build.VERSION_CODES.HONEYCOMB) {
-      // regardless of the os level of the device, this app will be rendering a menukey
-      // in the virtual navigation bar (if present) or responding to hardware option keys on
-      // any activity.
-      onView(isRoot())
-          .perform(pressMenuKey());
-    } else if (hasVirtualOverflowButton(context)) {
+    if (hasVirtualOverflowButton(context)) {
       // If we're using virtual keys - theres a chance we're in mid animation of switching
       // between a contextual action bar and the non-contextual action bar. In this case there
       // are 2 'More Options' buttons present. Lets wait till that is no longer the case.
@@ -53,11 +46,7 @@ public class Espresso {
   }
 
   private static boolean hasVirtualOverflowButton(Context context) {
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-      return Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
-    } else {
-      return !ViewConfiguration.get(context).hasPermanentMenuKey();
-    }
+    return !ViewConfiguration.get(context).hasPermanentMenuKey();
   }
 
   public static void checkEffectiveVisible(int... viewIds) {

@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.ContentResolver;
@@ -28,7 +27,6 @@ import android.content.res.Configuration;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -815,14 +813,11 @@ public class MyApplication extends MultiDexApplication implements
     DailyAutoBackupScheduler.updateAutoBackupAlarms(mSelf);
   }
 
-  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   private void enableStrictMode() {
     StrictMode.ThreadPolicy.Builder threadPolicyBuilder = new StrictMode.ThreadPolicy.Builder()
         .detectAll()
-        .penaltyLog();
-    if (Utils.hasApiLevel(Build.VERSION_CODES.HONEYCOMB)) {
-      threadPolicyBuilder.penaltyFlashScreen();
-    }
+        .penaltyLog()
+        .penaltyFlashScreen();
     StrictMode.setThreadPolicy(threadPolicyBuilder.build());
     StrictMode.VmPolicy.Builder vmPolicyBuilder = new StrictMode.VmPolicy.Builder()
         .detectAll()

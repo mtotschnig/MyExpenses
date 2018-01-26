@@ -15,12 +15,10 @@
 
 package org.totschnig.myexpenses.dialog;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
@@ -91,7 +89,6 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
     return dialogFragment;
   }
 
-  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     MyExpenses ctx = (MyExpenses) getActivity();
@@ -133,7 +130,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
       warningText = getString(R.string.warning_reset_account_matched);
     }
 
-    dateFormatET = (EditText) view.findViewById(R.id.date_format);
+    dateFormatET = view.findViewById(R.id.date_format);
     String dateFormatDefault =
         ((SimpleDateFormat) DateFormat.getDateInstance(DateFormat.SHORT)).toPattern();
     String dateFormat = MyApplication.getInstance().getSettings()
@@ -167,7 +164,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
       }
     });
 
-    fileNameET = (EditText) view.findViewById(R.id.file_name);
+    fileNameET = view.findViewById(R.id.file_name);
     fileNameET.setText(fileName);
     fileNameET.addTextChangedListener(new TextWatcher() {
       public void afterTextChanged(Editable s) {

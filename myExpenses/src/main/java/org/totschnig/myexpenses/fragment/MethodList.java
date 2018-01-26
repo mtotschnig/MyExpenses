@@ -18,7 +18,6 @@ package org.totschnig.myexpenses.fragment;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -39,14 +38,13 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
-import org.totschnig.myexpenses.util.Utils;
 
 import java.util.ArrayList;
 
 public class MethodList extends ContextualActionBarFragment implements LoaderManager.LoaderCallbacks<Cursor> {
   SimpleCursorAdapter mAdapter;
   private Cursor mMethodsCursor;
-  
+
   @SuppressLint("InlinedApi")
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,13 +57,11 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
     // Now create a simple cursor adapter and set it to display
     mAdapter = new SimpleCursorAdapter(
         getActivity(),
-        Utils.hasApiLevel(Build.VERSION_CODES.HONEYCOMB) ?
-            android.R.layout.simple_list_item_activated_1 :
-            android.R.layout.simple_list_item_1,
-            null,
-            from,
-            to,
-            0);
+        android.R.layout.simple_list_item_activated_1,
+        null,
+        from,
+        to,
+        0);
     getLoaderManager().initLoader(0, null, this);
     lv.setAdapter(mAdapter);
     lv.setEmptyView(v.findViewById(R.id.empty));
@@ -76,7 +72,7 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
   @Override
   public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
     CursorLoader cursorLoader = new CursorLoader(getActivity(),
-        TransactionProvider.METHODS_URI, null, null,null, null);
+        TransactionProvider.METHODS_URI, null, null, null, null);
     return cursorLoader;
   }
 
@@ -91,68 +87,70 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
     mMethodsCursor = null;
     mAdapter.swapCursor(null);
   }
+
   public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
     AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) info;
-    switch(command) {
-    case R.id.EDIT_COMMAND:
-      Intent i = new Intent(getActivity(), MethodEdit.class);
-      i.putExtra(DatabaseConstants.KEY_ROWID, menuInfo.id);
-      startActivity(i);
-      break;
+    switch (command) {
+      case R.id.EDIT_COMMAND:
+        Intent i = new Intent(getActivity(), MethodEdit.class);
+        i.putExtra(DatabaseConstants.KEY_ROWID, menuInfo.id);
+        startActivity(i);
+        break;
     }
     return super.dispatchCommandSingle(command, info);
   }
+
   @Override
   public boolean dispatchCommandMultiple(int command,
-      SparseBooleanArray positions,Long[]itemIds) {
-    switch(command) {
-    case R.id.DELETE_COMMAND:
-      int columnIndexMappedTransactions = mMethodsCursor.getColumnIndex(DatabaseConstants.KEY_MAPPED_TRANSACTIONS);
-      int columnIndexMappedTemplates = mMethodsCursor.getColumnIndex(DatabaseConstants.KEY_MAPPED_TEMPLATES);
-      int columnIndexRowId = mMethodsCursor.getColumnIndex(DatabaseConstants.KEY_ROWID);
-      int mappedTransactionsCount = 0, mappedTemplatesCount = 0;
-      ArrayList<Long> idList = new ArrayList<>();
-      for (int i=0; i<positions.size(); i++) {
-        if (positions.valueAt(i)) {
-          boolean deletable = true;
-          mMethodsCursor.moveToPosition(positions.keyAt(i));
-          if (mMethodsCursor.getInt(columnIndexMappedTransactions) > 0) {
-            mappedTransactionsCount++;
-            deletable = false;
-          }
-          if (mMethodsCursor.getInt(columnIndexMappedTemplates) > 0) {
-            mappedTemplatesCount++;
-            deletable = false;
-          }
-          if (deletable) {
-            idList.add(mMethodsCursor.getLong(columnIndexRowId));
+                                         SparseBooleanArray positions, Long[] itemIds) {
+    switch (command) {
+      case R.id.DELETE_COMMAND:
+        int columnIndexMappedTransactions = mMethodsCursor.getColumnIndex(DatabaseConstants.KEY_MAPPED_TRANSACTIONS);
+        int columnIndexMappedTemplates = mMethodsCursor.getColumnIndex(DatabaseConstants.KEY_MAPPED_TEMPLATES);
+        int columnIndexRowId = mMethodsCursor.getColumnIndex(DatabaseConstants.KEY_ROWID);
+        int mappedTransactionsCount = 0, mappedTemplatesCount = 0;
+        ArrayList<Long> idList = new ArrayList<>();
+        for (int i = 0; i < positions.size(); i++) {
+          if (positions.valueAt(i)) {
+            boolean deletable = true;
+            mMethodsCursor.moveToPosition(positions.keyAt(i));
+            if (mMethodsCursor.getInt(columnIndexMappedTransactions) > 0) {
+              mappedTransactionsCount++;
+              deletable = false;
+            }
+            if (mMethodsCursor.getInt(columnIndexMappedTemplates) > 0) {
+              mappedTemplatesCount++;
+              deletable = false;
+            }
+            if (deletable) {
+              idList.add(mMethodsCursor.getLong(columnIndexRowId));
+            }
           }
         }
-      }
-      if (!idList.isEmpty()) {
-        ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
-            TaskExecutionFragment.TASK_DELETE_PAYMENT_METHODS,
-            idList.toArray(new Long[idList.size()]),
-            null,
-            R.string.progress_dialog_deleting);
-        return true;
-      }
-      if (mappedTransactionsCount > 0 || mappedTemplatesCount > 0 ) {
-        String message = "";
-        if (mappedTransactionsCount > 0)
-          message += getResources().getQuantityString(
-              R.plurals.not_deletable_mapped_transactions,
-              mappedTransactionsCount,
-              mappedTransactionsCount);
-        if (mappedTemplatesCount > 0)
-          message += getResources().getQuantityString(
-              R.plurals.not_deletable_mapped_templates,
-              mappedTemplatesCount,
-              mappedTemplatesCount);
-        Toast.makeText(getActivity(),message, Toast.LENGTH_LONG).show();
-      }
-      break;
+        if (!idList.isEmpty()) {
+          ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
+              TaskExecutionFragment.TASK_DELETE_PAYMENT_METHODS,
+              idList.toArray(new Long[idList.size()]),
+              null,
+              R.string.progress_dialog_deleting);
+          return true;
+        }
+        if (mappedTransactionsCount > 0 || mappedTemplatesCount > 0) {
+          String message = "";
+          if (mappedTransactionsCount > 0)
+            message += getResources().getQuantityString(
+                R.plurals.not_deletable_mapped_transactions,
+                mappedTransactionsCount,
+                mappedTransactionsCount);
+          if (mappedTemplatesCount > 0)
+            message += getResources().getQuantityString(
+                R.plurals.not_deletable_mapped_templates,
+                mappedTemplatesCount,
+                mappedTemplatesCount);
+          Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+        }
+        break;
     }
-    return super.dispatchCommandMultiple(command, positions,itemIds);
+    return super.dispatchCommandMultiple(command, positions, itemIds);
   }
 }

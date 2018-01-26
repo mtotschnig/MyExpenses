@@ -17,7 +17,6 @@ package org.totschnig.myexpenses.fragment;
 
 import android.annotation.SuppressLint;
 import android.database.Cursor;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -38,7 +37,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
-import org.totschnig.myexpenses.util.Utils;
 
 import java.util.ArrayList;
 
@@ -143,9 +141,7 @@ public class PartiesList extends ContextualActionBarFragment implements LoaderMa
     // Now create a simple cursor adapter and set it to display
     mAdapter = new SimpleCursorAdapter(
         getActivity(),
-        Utils.hasApiLevel(Build.VERSION_CODES.HONEYCOMB) ?
-            android.R.layout.simple_list_item_activated_1 :
-            android.R.layout.simple_list_item_1,
+        android.R.layout.simple_list_item_activated_1,
         null,
         from,
         to,

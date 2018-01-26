@@ -1012,10 +1012,8 @@ public class ExpenseEdit extends AmountActivity implements
             datePickerDialog.getDatePicker().setFirstDayOfWeek(startOfWeek);
           } else {
             try {
-              if (Utils.hasApiLevel(Build.VERSION_CODES.HONEYCOMB_MR1)) {
-                setFirstDayOfWeek(datePickerDialog, startOfWeek);
-              }
-            } catch (UnsupportedOperationException e) {/*Nothing left tod do*/}
+              setFirstDayOfWeek(datePickerDialog, startOfWeek);
+            } catch (UnsupportedOperationException e) {/*Nothing left to do*/}
           }
         }
 
@@ -1031,7 +1029,6 @@ public class ExpenseEdit extends AmountActivity implements
     return null;
   }
 
-  @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
   private void setFirstDayOfWeek(DatePickerDialog datePickerDialog, int startOfWeek) {
     CalendarView calendarView = datePickerDialog.getDatePicker().getCalendarView();
     calendarView.setFirstDayOfWeek(startOfWeek);

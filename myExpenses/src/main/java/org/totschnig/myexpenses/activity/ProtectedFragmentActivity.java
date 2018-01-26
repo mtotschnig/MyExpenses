@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses.activity;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -25,7 +24,6 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -67,7 +65,6 @@ import org.totschnig.myexpenses.util.PermissionHelper;
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.UiUtils;
-import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 
@@ -217,7 +214,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     super.onResume();
     if (scheduledRestart) {
       scheduledRestart = false;
-      recreateBackport();
+      recreate();
     } else {
       MyApplication app = MyApplication.getInstance();
       if (app.shouldLock(this)) {
@@ -227,21 +224,6 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
         DialogUtils.showPasswordDialog(this, pwDialog, true, null);
       }
     }
-  }
-
-  public void recreateBackport() {
-    if (Utils.hasApiLevel(Build.VERSION_CODES.HONEYCOMB)) {
-      recreateHoneyComb();
-    } else {
-      Intent intent = getIntent();
-      intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-      startActivity(intent);
-    }
-  }
-
-  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-  private void recreateHoneyComb() {
-    super.recreate();
   }
 
   @Override
@@ -533,14 +515,6 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
       ((ContribIFace) this).contribFeatureCalled(feature, tag);
     } else {
       CommonCommands.showContribDialog(this, feature, tag);
-    }
-  }
-
-  @Override
-  public void setTitle(CharSequence title) {
-    super.setTitle(title);
-    if (!Utils.hasApiLevel(Build.VERSION_CODES.HONEYCOMB)) {
-      getSupportActionBar().setTitle(title);
     }
   }
 

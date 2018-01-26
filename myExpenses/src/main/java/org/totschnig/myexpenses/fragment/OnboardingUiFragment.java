@@ -18,7 +18,6 @@ import com.android.setupwizardlib.SetupWizardLayout;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.activity.SplashActivity;
 import org.totschnig.myexpenses.adapter.FontSizeAdapter;
 import org.totschnig.myexpenses.preference.FontSizeDialogPreference;
@@ -135,7 +134,7 @@ public class OnboardingUiFragment extends OnboardingFragment {
   }
 
   private void recreate() {
-    ((ProtectedFragmentActivity) getActivity()).recreateBackport();
+    getActivity().recreate();
   }
 
   private void updateFontSizeDisplayName(int fontScale) {

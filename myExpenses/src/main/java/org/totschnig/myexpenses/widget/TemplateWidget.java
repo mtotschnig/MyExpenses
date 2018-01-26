@@ -24,7 +24,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.net.Uri;
-import android.os.Build;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
@@ -80,10 +79,8 @@ public class TemplateWidget extends AbstractWidget<Template> {
         context, widgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     updateViews.setOnClickPendingIntent(R.id.command1, pendingIntent);
     setImageViewVectorDrawable(context, updateViews, R.id.command1, R.drawable.ic_action_apply_save);
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-      updateViews.setContentDescription(R.id.command1,
-          context.getString(R.string.menu_create_instance_save));
-    }
+    updateViews.setContentDescription(R.id.command1,
+        context.getString(R.string.menu_create_instance_save));
     intent = new Intent(context, ExpenseEdit.class);
     intent.putExtra(DatabaseConstants.KEY_TEMPLATEID, templateId);
     intent.putExtra(DatabaseConstants.KEY_INSTANCEID, -1L);
@@ -97,10 +94,8 @@ public class TemplateWidget extends AbstractWidget<Template> {
         PendingIntent.FLAG_UPDATE_CURRENT);
     updateViews.setOnClickPendingIntent(R.id.command2, pendingIntent);
     setImageViewVectorDrawable(context, updateViews, R.id.command2, R.drawable.ic_action_apply_edit);
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-      updateViews.setContentDescription(R.id.command2,
-          context.getString(R.string.menu_create_instance_edit));
-    }
+    updateViews.setContentDescription(R.id.command2,
+        context.getString(R.string.menu_create_instance_edit));
   }
 
   private void addTapOnClick(Context context, RemoteViews updateViews) {

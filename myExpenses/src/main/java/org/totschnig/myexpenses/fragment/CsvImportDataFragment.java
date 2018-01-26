@@ -1,9 +1,7 @@
 package org.totschnig.myexpenses.fragment;
 
-import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -315,9 +313,7 @@ public class CsvImportDataFragment extends Fragment {
                                                    int viewType) {
       // create a new view
       LinearLayout v = new LinearLayout(parent.getContext());
-      if (Utils.hasApiLevel(Build.VERSION_CODES.HONEYCOMB)) {
-        v.setBackgroundResource(R.drawable.csv_import_row_background);
-      }
+      v.setBackgroundResource(R.drawable.csv_import_row_background);
       View cell = new CheckBox(parent.getContext());
 
       v.addView(cell, cbParams);
@@ -343,16 +339,13 @@ public class CsvImportDataFragment extends Fragment {
     }
 
     // Replace the contents of a view (invoked by the layout manager)
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
       // - get element from your dataset at this position
       // - replace the contents of the view with that element
       boolean isDiscarded = discardedRows.get(position, false);
       boolean isHeader = position == 0 && firstLineIsHeader;
-      if (Utils.hasApiLevel(Build.VERSION_CODES.HONEYCOMB)) {
-        holder.row.setActivated(isDiscarded && !isHeader);
-      }
+      holder.row.setActivated(isDiscarded && !isHeader);
       final CSVRecord record = mDataset.get(position);
       for (int i = 0; i < record.size() && i < nrOfColumns; i++) {
         TextView cell = (TextView) holder.row.getChildAt(i + 1);

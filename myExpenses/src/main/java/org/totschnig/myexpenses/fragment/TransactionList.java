@@ -16,7 +16,6 @@
 package org.totschnig.myexpenses.fragment;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -28,7 +27,6 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri.Builder;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
@@ -785,7 +783,6 @@ public class TransactionList extends ContextualActionBarFragment implements
     configureMenuInternal(menu, isSplitAtPosition(info.position), isVoidAtPosition(info.position), 1);
   }
 
-  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
   @Override
   protected void configureMenu11(Menu menu, int count, AbsListView lv) {
     super.configureMenu11(menu, count, lv);
