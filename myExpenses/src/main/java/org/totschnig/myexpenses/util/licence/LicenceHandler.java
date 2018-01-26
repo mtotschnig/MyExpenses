@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
+import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 import com.google.android.vending.licensing.PreferenceObfuscator;
 
@@ -32,10 +33,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import timber.log.Timber;
+
 public class LicenceHandler {
   private static final String LICENSE_STATUS_KEY = "licence_status";
   private static final String LICENSE_VALID_SINCE_KEY = "licence_valid_since";
   private static final String LICENSE_VALID_UNTIL_KEY = "licence_valid_until";
+  public static final String TAG = "LicenceHandler";
   public static boolean HAS_EXTENDED = !DistribHelper.isBlackberry();
   public static LicenceStatus EXTENDED = HAS_EXTENDED ? LicenceStatus.EXTENDED : LicenceStatus.CONTRIB;
   protected final Context context;
@@ -230,6 +234,8 @@ public class LicenceHandler {
   }
 
   public void registerInventory(Inventory inventory) {
+    Timber.tag(TAG);
+    Timber.i(Stream.of(inventory.getAllOwnedSkus()).collect(Collectors.joining(", ")));
     String sku = findHighestValidSku(inventory.getAllOwnedSkus());
     if (sku != null) {
       Purchase purchase = inventory.getPurchase(sku);
