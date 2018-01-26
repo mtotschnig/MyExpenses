@@ -95,7 +95,8 @@ public enum PrefKey {
   DEBUG_SCREEN(R.string.pref_debug_key),
   DEBUG_LOGGING(R.string.pref_debug_logging_key),
   SYNC_NOTIFICATION(R.string.pref_sync_notification_key),
-  LICENCE_MIGRATION_INFO_SHOWN("licence_migration_info_shown");
+  LICENCE_MIGRATION_INFO_SHOWN("licence_migration_info_shown"),
+  DEBUG_ADS(R.string.pref_debug_show_ads_key);
 
   private int resId = 0;
   private String key = null;

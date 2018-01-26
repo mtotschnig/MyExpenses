@@ -356,6 +356,9 @@
             <SwitchPreferenceCompat
                 android:key="@string/pref_debug_logging_key"
                 android:summary="@string/pref_debug_logging_summary" />
+            <SwitchPreferenceCompat
+                android:key="@string/pref_debug_show_ads_key"
+                android:summary="Ads" />
         </PreferenceScreen>
     </PreferenceCategory>
 </PreferenceScreen> 

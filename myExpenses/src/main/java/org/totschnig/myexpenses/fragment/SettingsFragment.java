@@ -99,6 +99,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_CONTRIB;
 import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_MANAGE;
 import static org.totschnig.myexpenses.preference.PrefKey.CONTRIB_PURCHASE;
 import static org.totschnig.myexpenses.preference.PrefKey.CUSTOM_DECIMAL_FORMAT;
+import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_ADS;
 import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_LOGGING;
 import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.GROUPING_START_SCREEN;
@@ -365,6 +366,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       startPref.setEntryValues(daysValues);
     } else if (rootKey.equals(DEBUG_SCREEN.getKey())) {
       findPreference(DEBUG_LOGGING).setOnPreferenceChangeListener(this);
+      if (!licenceHandler.isContribEnabled()) {
+        getPreferenceScreen().removePreference(findPreference(DEBUG_ADS));
+      }
     }
   }
 
