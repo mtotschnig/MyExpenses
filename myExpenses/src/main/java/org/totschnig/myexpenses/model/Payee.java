@@ -20,6 +20,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 
+import org.apache.commons.lang3.StringUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -38,10 +39,10 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATE
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
 
 public class Payee extends Model {
-  public String name;
+  private String name;
   public Payee(Long id, String name) {
     this.setId(id);
-    this.name = name;
+    this.name = StringUtils.strip(name);
   }
   public static final String[] PROJECTION = new String[] {
     KEY_ROWID,
@@ -143,5 +144,9 @@ public class Payee extends Model {
       }
     }
     return uri;
+  }
+
+  public String getName() {
+    return name;
   }
 }

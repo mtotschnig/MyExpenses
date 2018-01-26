@@ -86,7 +86,7 @@ public class ManageParties extends ProtectedFragmentActivity implements
     if (result == null) {
       Toast.makeText(ManageParties.this,
           getString(R.string.already_defined,
-              mParty != null ? mParty.name : ""),
+              mParty != null ? mParty.getName() : ""),
           Toast.LENGTH_LONG)
           .show();
     }

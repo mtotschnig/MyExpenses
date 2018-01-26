@@ -44,7 +44,7 @@ public abstract class TransactionChange {
       KEY_DATE,
       KEY_AMOUNT,
       FULL_LABEL,
-      KEY_PAYEE_NAME,
+      "NULLIF(TRIM(" + KEY_PAYEE_NAME + "),'') AS " + KEY_PAYEE_NAME,
       TRANSFER_ACCOUNT_UUUID,
       KEY_METHOD_LABEL,
       KEY_CR_STATUS,

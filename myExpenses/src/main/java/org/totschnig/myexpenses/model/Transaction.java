@@ -234,7 +234,7 @@ public class Transaction extends Model {
   }
 
   public void setComment(String comment) {
-    this.comment = comment;
+    this.comment = StringUtils.strip(comment);
   }
 
   public String getReferenceNumber() {
@@ -242,7 +242,7 @@ public class Transaction extends Model {
   }
 
   public void setReferenceNumber(String referenceNumber) {
-    this.referenceNumber = referenceNumber;
+    this.referenceNumber = StringUtils.strip(referenceNumber);
   }
 
   public Long getMethodId() {
