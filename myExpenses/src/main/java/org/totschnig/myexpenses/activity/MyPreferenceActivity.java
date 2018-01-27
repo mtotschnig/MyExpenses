@@ -301,12 +301,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     if (key.equals(PERFORM_PROTECTION_SCREEN.getKey()) &&
         MyApplication.getInstance().isProtected()) {
       DialogUtils.showPasswordDialog(this, DialogUtils.passwordDialog(this, true), false,
-          new DialogUtils.PasswordDialogUnlockedCallback() {
-            @Override
-            public void onPasswordDialogUnlocked() {
-              startPreferenceScreen(key);
-            }
-          });
+          () -> startPreferenceScreen(key));
       return true;
     }
     if (key.equals(UI_HOME_SCREEN_SHORTCUTS.getKey())) {

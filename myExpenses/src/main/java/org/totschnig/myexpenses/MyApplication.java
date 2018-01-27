@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses;
 
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -45,6 +44,8 @@ import net.pubnative.sdk.core.Pubnative;
 import org.acra.ACRA;
 import org.acra.config.ACRAConfiguration;
 import org.acra.util.IOUtils;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.activity.SplashActivity;
 import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.di.AppModule;
 import org.totschnig.myexpenses.di.DaggerAppComponent;
@@ -341,7 +342,8 @@ public class MyApplication extends MultiDexApplication implements
     return mLastPause;
   }
 
-  public void setLastPause(Activity ctx) {
+  public void setLastPause(ProtectedFragmentActivity ctx) {
+    if (ctx instanceof SplashActivity) return;
     if (!isLocked()) {
       // if we are dealing with an activity called from widget that allows to
       // bypass password protection, we do not reset last pause
@@ -353,6 +355,7 @@ public class MyApplication extends MultiDexApplication implements
       if (!isDataEntryEnabled || !isStartFromWidget) {
         this.mLastPause = System.nanoTime();
       }
+      Timber.i("setting last pause : %d", mLastPause);
     }
   }
 
@@ -368,18 +371,19 @@ public class MyApplication extends MultiDexApplication implements
    * from widget or from an activity called from widget and passwordless
    * data entry from widget is allowed sets isLocked as a side effect
    */
-  public boolean shouldLock(Activity ctx) {
+  public boolean shouldLock(ProtectedFragmentActivity ctx) {
+    if (ctx instanceof SplashActivity) return false;
     boolean isStartFromWidget = ctx == null
         || ctx.getIntent().getBooleanExtra(
         AbstractWidget.EXTRA_START_FROM_WIDGET_DATA_ENTRY, false);
     boolean isProtected = isProtected();
     long lastPause = getLastPause();
+    Timber.i("reading last pause : %d", lastPause);
     boolean isPostDelay = System.nanoTime() - lastPause > (PrefKey.PROTECTION_DELAY_SECONDS
         .getInt(15) * 1000000000L);
     boolean isDataEntryEnabled = PrefKey.PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET
         .getBoolean(false);
-    if (isProtected && isPostDelay
-        && (!isDataEntryEnabled || !isStartFromWidget)) {
+    if (isProtected && isPostDelay && !(isDataEntryEnabled && isStartFromWidget)) {
       setLocked(true);
       return true;
     }

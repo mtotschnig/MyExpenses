@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.activity;
 
 import android.app.Activity;
+import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -46,10 +47,11 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.annimon.stream.Optional;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
-import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
@@ -71,6 +73,8 @@ import org.totschnig.myexpenses.widget.AbstractWidget;
 import java.io.Serializable;
 
 import javax.inject.Inject;
+
+import timber.log.Timber;
 
 import static org.totschnig.myexpenses.activity.ContribInfoDialogActivity.KEY_FEATURE;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_RESTORE;
@@ -97,6 +101,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   public static final int RESTORE_REQUEST = 17;
   public static final int CONTRIB_REQUEST = 18;
   public static final int PLAN_REQUEST = 19;
+  private static final int CONFIRM_DEVICE_CREDENTIALS_REQUEST = 20;
   public static final String SAVE_TAG = "SAVE_TASK";
   public static final String SORT_ORDER_USAGES = "USAGES";
   public static final String SORT_ORDER_LAST_USED = "LAST_USED";
@@ -112,6 +117,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   private AlertDialog pwDialog;
   private boolean scheduledRestart = false;
+  private Optional<Boolean> confirmCredentialResult = Optional.empty();
   public Enum<?> helpVariant = null;
   protected int colorExpense;
   protected int colorIncome;
@@ -196,9 +202,9 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   protected void onPause() {
     super.onPause();
     MyApplication app = MyApplication.getInstance();
-    if (app.isLocked() && pwDialog != null)
+    if (app.isLocked() && pwDialog != null) {
       pwDialog.dismiss();
-    else {
+    } else {
       app.setLastPause(this);
     }
   }
@@ -216,12 +222,27 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
       scheduledRestart = false;
       recreate();
     } else {
-      MyApplication app = MyApplication.getInstance();
-      if (app.shouldLock(this)) {
-        if (pwDialog == null) {
-          pwDialog = DialogUtils.passwordDialog(this, false);
+      if (confirmCredentialResult.isPresent()) {
+        if (!confirmCredentialResult.get()) {
+          moveTaskToBack(true);
         }
-        DialogUtils.showPasswordDialog(this, pwDialog, true, null);
+        confirmCredentialResult = Optional.empty();
+      } else {
+        MyApplication app = MyApplication.getInstance();
+        if (app.shouldLock(this)) {
+          Intent intent = ((KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE))
+              .createConfirmDeviceCredentialIntent(null, null);
+          if (intent != null) {
+            hideWindow();
+            Timber.i("started CONFIRM_DEVICE_CREDENTIALS_REQUEST by %s", getClass());
+            startActivityForResult(intent, CONFIRM_DEVICE_CREDENTIALS_REQUEST);
+          }
+        }
+//        if (pwDialog == null) {
+//          pwDialog = DialogUtils.passwordDialog(this, false);
+//        }
+//        DialogUtils.showPasswordDialog(this, pwDialog, true, null);
+//      }
       }
     }
   }
@@ -499,6 +520,15 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     if ((requestCode == PREFERENCES_REQUEST || requestCode == RESTORE_REQUEST) && resultCode == RESULT_RESTORE_OK) {
       restartAfterRestore();
     }
+    if (requestCode == CONFIRM_DEVICE_CREDENTIALS_REQUEST) {
+      if (resultCode == RESULT_OK) {
+        confirmCredentialResult = Optional.of(true);
+        showWindow();
+        MyApplication.getInstance().setLocked(false);
+      } else {
+        confirmCredentialResult = Optional.of(false);
+      }
+    }
   }
 
   protected void restartAfterRestore() {
@@ -614,5 +644,17 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   @VisibleForTesting
   public Fragment getCurrentFragment() {
     return null;
+  }
+
+  public void hideWindow() {
+    findViewById(android.R.id.content).setVisibility(View.GONE);
+    final ActionBar actionBar = getSupportActionBar();
+    if (actionBar != null) actionBar.hide();
+  }
+
+  public void showWindow() {
+    findViewById(android.R.id.content).setVisibility(View.VISIBLE);
+    final ActionBar actionBar = getSupportActionBar();
+    if (actionBar != null) actionBar.show();
   }
 }

@@ -30,9 +30,7 @@ import android.os.Bundle;
 import android.provider.OpenableColumns;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -95,25 +93,17 @@ public class DialogUtils {
         .setNegativeButton(android.R.string.no, (dialog, id) -> ctx.dismissDialog(R.id.FTP_DIALOG)).create();
   }
 
-  public static void showPasswordDialog(final Activity ctx, AlertDialog dialog, boolean hideWindow,
+  public static void showPasswordDialog(final ProtectedFragmentActivity ctx, AlertDialog dialog, boolean hideWindow,
                                         PasswordDialogUnlockedCallback callback) {
     if (hideWindow) {
-      ctx.findViewById(android.R.id.content).setVisibility(View.GONE);
-      if (ctx instanceof AppCompatActivity) {
-        final ActionBar actionBar = ((AppCompatActivity) ctx).getSupportActionBar();
-        if (actionBar != null) actionBar.hide();
-      }
+      ctx.hideWindow();
     }
     dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     dialog.show();
     if (callback == null) {
       callback = () -> {
         MyApplication.getInstance().setLocked(false);
-        ctx.findViewById(android.R.id.content).setVisibility(View.VISIBLE);
-        if (ctx instanceof AppCompatActivity) {
-          final ActionBar actionBar = ((AppCompatActivity) ctx).getSupportActionBar();
-          if (actionBar != null) actionBar.show();
-        }
+        ctx.showWindow();
       };
     }
     PasswordDialogListener passwordDialogListener = new PasswordDialogListener(ctx, dialog, callback);
@@ -202,7 +192,7 @@ public class DialogUtils {
     }
   }
 
-  public static interface PasswordDialogUnlockedCallback {
+  public interface PasswordDialogUnlockedCallback {
     void onPasswordDialogUnlocked();
   }
 
