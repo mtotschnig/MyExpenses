@@ -66,7 +66,7 @@ public abstract class AdHandler {
   public static boolean isAdDisabled(Context context) {
     return !PrefKey.DEBUG_ADS.getBoolean(false) &&
         (ContribFeature.AD_FREE.hasAccess() ||
-            isInInitialGracePeriod(context));
+            isInInitialGracePeriod(context) || BuildConfig.DEBUG);
   }
 
   private static boolean isInInitialGracePeriod(Context context) {

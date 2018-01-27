@@ -33,6 +33,7 @@ import android.widget.Toast;
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
+import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.CommonCommands;
@@ -366,7 +367,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       startPref.setEntryValues(daysValues);
     } else if (rootKey.equals(DEBUG_SCREEN.getKey())) {
       findPreference(DEBUG_LOGGING).setOnPreferenceChangeListener(this);
-      if (!licenceHandler.isContribEnabled()) {
+      if (!licenceHandler.isContribEnabled() && !BuildConfig.DEBUG) {
         getPreferenceScreen().removePreference(findPreference(DEBUG_ADS));
       }
     }
