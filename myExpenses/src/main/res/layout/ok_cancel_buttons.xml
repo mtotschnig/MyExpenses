@@ -10,7 +10,7 @@
 -->
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <include layout="@layout/ok_button"/>
-
     <include layout="@layout/cancel_button"/>
+
+    <include layout="@layout/ok_button"/>
 </merge>

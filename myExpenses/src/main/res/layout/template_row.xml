@@ -18,12 +18,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="?android:attr/activatedBackgroundIndicator"
     android:orientation="horizontal"
     android:paddingBottom="3dp"
-    android:paddingLeft="@dimen/general_padding"
     android:paddingRight="@dimen/general_padding"
-    android:paddingTop="3dp"
-    >
+    android:paddingLeft="@dimen/general_padding"
+    android:paddingTop="3dp">
 
     <include layout="@layout/template_row_inner"/>
 </LinearLayout>
