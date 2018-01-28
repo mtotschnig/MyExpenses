@@ -93,11 +93,8 @@ public class DialogUtils {
         .setNegativeButton(android.R.string.no, (dialog, id) -> ctx.dismissDialog(R.id.FTP_DIALOG)).create();
   }
 
-  public static void showPasswordDialog(final ProtectedFragmentActivity ctx, AlertDialog dialog, boolean hideWindow,
+  public static void showPasswordDialog(final ProtectedFragmentActivity ctx, AlertDialog dialog,
                                         PasswordDialogUnlockedCallback callback) {
-    if (hideWindow) {
-      ctx.hideWindow();
-    }
     dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     dialog.show();
     if (callback == null) {

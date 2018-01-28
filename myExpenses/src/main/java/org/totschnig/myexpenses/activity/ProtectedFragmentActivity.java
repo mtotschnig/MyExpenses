@@ -25,6 +25,7 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -52,6 +53,7 @@ import com.annimon.stream.Optional;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
+import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
@@ -67,6 +69,7 @@ import org.totschnig.myexpenses.util.PermissionHelper;
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.UiUtils;
+import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 
@@ -74,9 +77,9 @@ import java.io.Serializable;
 
 import javax.inject.Inject;
 
-import timber.log.Timber;
-
 import static org.totschnig.myexpenses.activity.ContribInfoDialogActivity.KEY_FEATURE;
+import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_DEVICE_LOCK_SCREEN;
+import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_LEGACY;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_RESTORE;
 
 public abstract class ProtectedFragmentActivity extends AppCompatActivity
@@ -101,7 +104,8 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   public static final int RESTORE_REQUEST = 17;
   public static final int CONTRIB_REQUEST = 18;
   public static final int PLAN_REQUEST = 19;
-  private static final int CONFIRM_DEVICE_CREDENTIALS_REQUEST = 20;
+  private static final int CONFIRM_DEVICE_CREDENTIALS_UNLOCK_REQUEST = 20;
+  protected static final int CONFIRM_DEVICE_CREDENTIALS_MANAGE_PROTECTION_SETTINGS_REQUEST = 21;
   public static final String SAVE_TAG = "SAVE_TASK";
   public static final String SORT_ORDER_USAGES = "USAGES";
   public static final String SORT_ORDER_LAST_USED = "LAST_USED";
@@ -230,21 +234,38 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
       } else {
         MyApplication app = MyApplication.getInstance();
         if (app.shouldLock(this)) {
-          Intent intent = ((KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE))
-              .createConfirmDeviceCredentialIntent(null, null);
-          if (intent != null) {
-            hideWindow();
-            Timber.i("started CONFIRM_DEVICE_CREDENTIALS_REQUEST by %s", getClass());
-            startActivityForResult(intent, CONFIRM_DEVICE_CREDENTIALS_REQUEST);
-          }
+          confirmCredentials(CONFIRM_DEVICE_CREDENTIALS_UNLOCK_REQUEST, null, true);
         }
-//        if (pwDialog == null) {
-//          pwDialog = DialogUtils.passwordDialog(this, false);
-//        }
-//        DialogUtils.showPasswordDialog(this, pwDialog, true, null);
-//      }
       }
     }
+  }
+
+  protected void confirmCredentials(int requestCode, DialogUtils.PasswordDialogUnlockedCallback legacyUnlockCallback, boolean shouldHideWindow) {
+    if (Utils.hasApiLevel(Build.VERSION_CODES.LOLLIPOP) && PROTECTION_DEVICE_LOCK_SCREEN.getBoolean(true)) {
+      Intent intent = ((KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE))
+          .createConfirmDeviceCredentialIntent(null, null);
+      if (intent != null) {
+        if (shouldHideWindow) hideWindow();
+        startActivityForResult(intent, requestCode);
+      } else {
+        showDeviceLockScreenWarning();
+        if (legacyUnlockCallback != null) {
+          legacyUnlockCallback.onPasswordDialogUnlocked();
+        }
+      }
+    } else if (PROTECTION_LEGACY.getBoolean(true)) {
+      if (shouldHideWindow) hideWindow();
+      if (pwDialog == null) {
+        pwDialog = DialogUtils.passwordDialog(this, false);
+      }
+      DialogUtils.showPasswordDialog(this, pwDialog, legacyUnlockCallback);
+    }
+  }
+
+  public void showDeviceLockScreenWarning() {
+    Toast.makeText(this,
+        Utils.concatResStrings(this, "\n", R.string.warning_device_lock_screen_not_set_up_1, R.string.warning_device_lock_screen_not_set_up_2),
+        Toast.LENGTH_LONG).show();
   }
 
   @Override
@@ -521,7 +542,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     if ((requestCode == PREFERENCES_REQUEST || requestCode == RESTORE_REQUEST) && resultCode == RESULT_RESTORE_OK) {
       restartAfterRestore();
     }
-    if (requestCode == CONFIRM_DEVICE_CREDENTIALS_REQUEST) {
+    if (requestCode == CONFIRM_DEVICE_CREDENTIALS_UNLOCK_REQUEST) {
       if (resultCode == RESULT_OK) {
         confirmCredentialResult = Optional.of(true);
         showWindow();

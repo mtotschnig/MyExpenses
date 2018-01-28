@@ -301,8 +301,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     final String key = preferenceScreen.getKey();
     if (key.equals(PERFORM_PROTECTION_SCREEN.getKey()) &&
         MyApplication.getInstance().isProtected()) {
-      DialogUtils.showPasswordDialog(this, DialogUtils.passwordDialog(this, true), false,
-          () -> startPreferenceScreen(key));
+      confirmCredentials(CONFIRM_DEVICE_CREDENTIALS_MANAGE_PROTECTION_SETTINGS_REQUEST, () -> startPerformProtectionScreen(), false);
       return true;
     }
     if (key.equals(UI_HOME_SCREEN_SHORTCUTS.getKey())) {
@@ -330,9 +329,22 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         snackbar.show();
         getFragment().setProtectionDependentsState();
         getFragment().configureContribPrefs();
-
       }
     }
+  }
+
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+    super.onActivityResult(requestCode, resultCode, intent);
+    if (requestCode == CONFIRM_DEVICE_CREDENTIALS_MANAGE_PROTECTION_SETTINGS_REQUEST) {
+      if (resultCode == RESULT_OK) {
+        startPerformProtectionScreen();
+      }
+    }
+  }
+
+  private void startPerformProtectionScreen() {
+    startPreferenceScreen(PERFORM_PROTECTION_SCREEN.getKey());
   }
 
   @Override

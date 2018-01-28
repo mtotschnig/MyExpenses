@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.fragment;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.KeyguardManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -702,13 +703,20 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       return true;
     }
     if (matches(preference, PROTECTION_DEVICE_LOCK_SCREEN)) {
-      SwitchPreferenceCompat switchPreferenceCompat = (SwitchPreferenceCompat) preference;
-      if (switchPreferenceCompat.isChecked() && PROTECTION_LEGACY.getBoolean(false)) {
-        showOnlyOneProtectionWarning(false);
-        switchPreferenceCompat.setChecked(false);
-        return true;
+      if (Utils.hasApiLevel(Build.VERSION_CODES.LOLLIPOP)) {
+        SwitchPreferenceCompat switchPreferenceCompat = (SwitchPreferenceCompat) preference;
+        if (switchPreferenceCompat.isChecked()) {
+          if (PROTECTION_LEGACY.getBoolean(false)) {
+            showOnlyOneProtectionWarning(false);
+            switchPreferenceCompat.setChecked(false);
+          }
+          if (!((KeyguardManager) getContext().getSystemService(Context.KEYGUARD_SERVICE)).isKeyguardSecure()) {
+            ((ProtectedFragmentActivity) getActivity()).showDeviceLockScreenWarning();
+            switchPreferenceCompat.setChecked(false);
+          }
+        }
       }
-      return false;
+      return true;
     }
     return false;
   }
@@ -716,7 +724,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   private void showOnlyOneProtectionWarning(boolean legacyProtectionByPasswordIsActive) {
     String lockScreen = getString(R.string.pref_protection_device_lock_screen_title);
     String passWord = getString(R.string.pref_protection_password_title);
-    String[] formatArgs = legacyProtectionByPasswordIsActive ? new String[]{lockScreen, passWord} : new String[]{lockScreen, passWord};
+    Object[] formatArgs = legacyProtectionByPasswordIsActive ? new String[]{lockScreen, passWord} : new String[]{lockScreen, passWord};
     Toast.makeText(getContext(), getString(R.string.pref_warning_only_one_protection, formatArgs), Toast.LENGTH_LONG).show();
   }
 
@@ -794,7 +802,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     } else if (preference instanceof TimePreference) {
       fragment = TimePreferenceDialogFragmentCompat.newInstance(key);
     } else if (matches(preference, PROTECTION_LEGACY)) {
-      if (PROTECTION_DEVICE_LOCK_SCREEN.getBoolean(true)) {
+      if (Utils.hasApiLevel(Build.VERSION_CODES.LOLLIPOP) && PROTECTION_DEVICE_LOCK_SCREEN.getBoolean(true)) {
         showOnlyOneProtectionWarning(false);
         return;
       } else {
