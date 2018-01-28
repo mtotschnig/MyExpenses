@@ -37,7 +37,7 @@
     <string name="pref_contrib_purchase_key">contrib_purchase</string>
     <string name="pref_enter_licence_key">pref_enter_licence_key</string>
     <string name="pref_new_licence_key">pref_new_licence_key</string>
-    <string name="pref_perform_protection_key">perform_protection</string>
+    <string name="pref_protection_password_key">perform_protection</string>
     <string name="pref_set_password_key">password</string>
     <string name="pref_security_question_key">security_question</string>
     <string name="pref_security_answer_key">security_answer</string>
@@ -83,6 +83,7 @@
     <string name="pref_auto_fill_account_key">auto_fill_account</string>
     <string name="pref_auto_fill_method_key">auto_fill_method</string>
     <string name="pref_debug_show_ads_key">debug_show_ads</string>
+    <string name="pref_protection_device_lock_screen_key">protection_device_lock_screen</string>
 
     <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
     <string-array name="additional_credits">
@@ -120,6 +121,7 @@
     <string name="help_ExpenseEdit_templateTransfer_info" tools:ignore="UnusedResources">@string/help_ExpenseEdit_templateCategory_info</string>
     <string name="help_ExpenseEdit_templateSplit_info" tools:ignore="UnusedResources">@string/help_ExpenseEdit_templateCategory_info</string>
     <string name="instant_plan" tools:ignore="UnusedResources">@string/plan</string>
+    <string name="pref_protection_password_title">@string/hint_password</string>
 
     <string name="io_error_appdir_null">Application directory not found</string>
     <string name="io_error_backupdir_null">Could not create folder for storing backup</string>

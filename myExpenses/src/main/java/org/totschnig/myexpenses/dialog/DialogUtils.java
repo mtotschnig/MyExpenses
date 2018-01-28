@@ -233,7 +233,7 @@ public class DialogUtils {
           error.setText("");
           callback.onPasswordDialogUnlocked();
           if (isInSecurityQuestion) {
-            PrefKey.PERFORM_PROTECTION.putBoolean(false);
+            PrefKey.PROTECTION_LEGACY.putBoolean(false);
             Toast.makeText(ctx.getBaseContext(), R.string.password_disabled_reenable, Toast.LENGTH_LONG).show();
             dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setText(R.string.password_lost);
             dialog.setTitle(R.string.password_prompt);

@@ -143,7 +143,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     injectDependencies();
-    if (PrefKey.PERFORM_PROTECTION.getBoolean(false)) {
+    if (MyApplication.getInstance().isProtected()) {
       getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
           WindowManager.LayoutParams.FLAG_SECURE);
     }
@@ -253,7 +253,8 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     if (key.equals(PrefKey.UI_THEME_KEY.getKey()) ||
         key.equals(PrefKey.UI_LANGUAGE.getKey()) ||
         key.equals(PrefKey.UI_FONTSIZE.getKey()) ||
-        key.equals((PrefKey.PERFORM_PROTECTION.getKey())) ||
+        key.equals((PrefKey.PROTECTION_LEGACY.getKey())) ||
+        key.equals((PrefKey.PROTECTION_DEVICE_LOCK_SCREEN.getKey())) ||
         key.equals(PrefKey.GROUP_MONTH_STARTS.getKey()) ||
         key.equals(PrefKey.GROUP_WEEK_STARTS.getKey())) {
       scheduledRestart = true;

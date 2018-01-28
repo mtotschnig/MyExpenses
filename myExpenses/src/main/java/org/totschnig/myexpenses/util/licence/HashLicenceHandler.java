@@ -31,14 +31,14 @@ public class HashLicenceHandler extends LicenceHandler {
   @Override
   public void updateLicenceStatus(Licence licence) {
     if (hasLegacyLicence && licence != null && licence.getType() != null) {
-      PrefKey.ENTER_LICENCE.remove();
+      PrefKey.LICENCE_LEGACY.remove();
       hasLegacyLicence = false;
     }
     super.updateLicenceStatus(licence);
   }
 
   private void updateLicenceKeyLegacy() {
-    String key = PrefKey.ENTER_LICENCE.getString("");
+    String key = PrefKey.LICENCE_LEGACY.getString("");
     if (!"".equals(key)) {
       String secret = MyApplication.CONTRIB_SECRET;
       String extendedSecret = secret + "_EXTENDED";

@@ -128,7 +128,7 @@ public class CommonCommands {
             "[" + ctx.getString(R.string.app_name) + "] " +  ctx.getString(licenceHandler.getLicenceStatus().getResId()));
         String extraText = String.format(
             "Please send me a new licence key. Current key is %1$s for Android-Id %2$s\nLANGUAGE:%3$s\nVERSION:%4$s",
-            PrefKey.ENTER_LICENCE.getString(null), androidId,
+            PrefKey.LICENCE_LEGACY.getString(null), androidId,
             Locale.getDefault().toString(), DistribHelper.getVersionInfo(ctx));
         i.putExtra(android.content.Intent.EXTRA_TEXT, extraText);
         if (!Utils.isIntentAvailable(ctx, i)) {

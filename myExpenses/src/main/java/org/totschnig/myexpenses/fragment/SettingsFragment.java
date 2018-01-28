@@ -22,6 +22,7 @@ import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceScreen;
+import android.support.v7.preference.SwitchPreferenceCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
@@ -46,7 +47,6 @@ import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogPreference;
-import org.totschnig.myexpenses.preference.PasswordPreference;
 import org.totschnig.myexpenses.preference.PasswordPreferenceDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.PopupMenuPreference;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -114,7 +114,8 @@ import static org.totschnig.myexpenses.preference.PrefKey.MANAGE_SYNC_BACKENDS;
 import static org.totschnig.myexpenses.preference.PrefKey.MORE_INFO_DIALOG;
 import static org.totschnig.myexpenses.preference.PrefKey.NEW_LICENCE;
 import static org.totschnig.myexpenses.preference.PrefKey.NEXT_REMINDER_RATE;
-import static org.totschnig.myexpenses.preference.PrefKey.PERFORM_PROTECTION;
+import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_DEVICE_LOCK_SCREEN;
+import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_LEGACY;
 import static org.totschnig.myexpenses.preference.PrefKey.PERFORM_PROTECTION_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.PERFORM_SHARE;
 import static org.totschnig.myexpenses.preference.PrefKey.PLANNER_CALENDAR_ID;
@@ -319,6 +320,15 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       findPreference(SECURITY_QUESTION).setSummary(
           getString(R.string.pref_security_question_summary) + " " +
               ContribFeature.SECURITY_QUESTION.buildRequiresString(getActivity()));
+
+      Preference preference = findPreference(PROTECTION_DEVICE_LOCK_SCREEN);
+      if (Utils.hasApiLevel(Build.VERSION_CODES.LOLLIPOP)) {
+        preference.setOnPreferenceClickListener(this);
+        findPreference(PROTECTION_LEGACY)
+            .setTitle(String.format("%s (%s)", getString(R.string.pref_protection_password_title), getString(R.string.feature_deprecated)));
+      } else {
+        getPreferenceScreen().removePreference(preference);
+      }
     }
     //SHARE screen
     else if (rootKey.equals(PERFORM_SHARE.getKey())) {
@@ -406,7 +416,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       actionBar.setCustomView(null);
     }
     if (isRoot) {
-      setOnOffSummary(PERFORM_PROTECTION_SCREEN, PERFORM_PROTECTION.getBoolean(false));
+      findPreference(PERFORM_PROTECTION_SCREEN).setSummary(getString(
+          PROTECTION_LEGACY.getBoolean(false) ? R.string.pref_protection_password_title :
+              PROTECTION_DEVICE_LOCK_SCREEN.getBoolean(false) ? R.string.pref_protection_device_lock_screen_title :
+                  R.string.switch_off_text));
       Preference preference = findPreference(PLANNER_CALENDAR_ID);
       if (preference != null) {
         if (((ProtectedFragmentActivity) getActivity()).isCalendarPermissionPermanentlyDeclined()) {
@@ -528,8 +541,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   }
 
   public void setProtectionDependentsState() {
-    boolean isProtected = PERFORM_PROTECTION.getBoolean(false);
-    findPreference(SECURITY_QUESTION).setEnabled(licenceHandler.isContribEnabled() && isProtected);
+    boolean isLegacy = PROTECTION_LEGACY.getBoolean(false);
+    boolean isProtected = isLegacy || PROTECTION_DEVICE_LOCK_SCREEN.getBoolean(false);
+    findPreference(SECURITY_QUESTION).setEnabled(licenceHandler.isContribEnabled() && isLegacy);
     findPreference(PROTECTION_DELAY_SECONDS).setEnabled(isProtected);
     findPreference(PROTECTION_ENABLE_ACCOUNT_WIDGET).setEnabled(isProtected);
     findPreference(PROTECTION_ENABLE_TEMPLATE_WIDGET).setEnabled(isProtected);
@@ -687,7 +701,23 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       }
       return true;
     }
+    if (matches(preference, PROTECTION_DEVICE_LOCK_SCREEN)) {
+      SwitchPreferenceCompat switchPreferenceCompat = (SwitchPreferenceCompat) preference;
+      if (switchPreferenceCompat.isChecked() && PROTECTION_LEGACY.getBoolean(false)) {
+        showOnlyOneProtectionWarning(false);
+        switchPreferenceCompat.setChecked(false);
+        return true;
+      }
+      return false;
+    }
     return false;
+  }
+
+  private void showOnlyOneProtectionWarning(boolean legacyProtectionByPasswordIsActive) {
+    String lockScreen = getString(R.string.pref_protection_device_lock_screen_title);
+    String passWord = getString(R.string.pref_protection_password_title);
+    String[] formatArgs = legacyProtectionByPasswordIsActive ? new String[]{lockScreen, passWord} : new String[]{lockScreen, passWord};
+    Toast.makeText(getContext(), getString(R.string.pref_warning_only_one_protection, formatArgs), Toast.LENGTH_LONG).show();
   }
 
   private void contribBuyDo(Package selectedPackage, boolean shouldReplaceExisting) {
@@ -763,8 +793,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       fragment = FontSizeDialogFragmentCompat.newInstance(key);
     } else if (preference instanceof TimePreference) {
       fragment = TimePreferenceDialogFragmentCompat.newInstance(key);
-    } else if (preference instanceof PasswordPreference) {
-      fragment = PasswordPreferenceDialogFragmentCompat.newInstance(key);
+    } else if (matches(preference, PROTECTION_LEGACY)) {
+      if (PROTECTION_DEVICE_LOCK_SCREEN.getBoolean(true)) {
+        showOnlyOneProtectionWarning(false);
+        return;
+      } else {
+        fragment = PasswordPreferenceDialogFragmentCompat.newInstance(key);
+      }
     } else if (matches(preference, SECURITY_QUESTION)) {
       fragment = SecurityQuestionDialogFragmentCompat.newInstance(key);
     } else if (matches(preference, AUTO_BACUP_CLOUD)) {

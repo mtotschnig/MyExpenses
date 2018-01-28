@@ -68,7 +68,8 @@ import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP_TIME;
 import static org.totschnig.myexpenses.preference.PrefKey.GROUP_MONTH_STARTS;
 import static org.totschnig.myexpenses.preference.PrefKey.GROUP_WEEK_STARTS;
-import static org.totschnig.myexpenses.preference.PrefKey.PERFORM_PROTECTION;
+import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_DEVICE_LOCK_SCREEN;
+import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_LEGACY;
 import static org.totschnig.myexpenses.preference.PrefKey.PERFORM_PROTECTION_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.PLANNER_CALENDAR_ID;
 import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET;
@@ -207,7 +208,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     if (key.equals(UI_FONTSIZE.getKey())) {
       updateAllWidgets();
     }
-    if (key.equals(PERFORM_PROTECTION.getKey())) {
+    if (key.equals(PROTECTION_LEGACY.getKey()) || key.equals(PROTECTION_DEVICE_LOCK_SCREEN.getKey())) {
       getFragment().setProtectionDependentsState();
       updateAllWidgets();
     } else if (key.equals(UI_FONTSIZE.getKey()) ||

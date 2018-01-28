@@ -325,8 +325,7 @@
     <string name="pref_manage_sync_backends_summary">Add backends for synchronizing accounts (%s).</string>
     <string name="pref_more_info_dialog_title">Licence &amp; Credits</string>
     <string name="pref_password_not_equal">Passwords do not match</string>
-    <string name="pref_perform_protection_summary">Should app launches and resumes be protected?</string>
-    <string name="pref_perform_protection_title">Password protection</string>
+    <string name="pref_perform_protection_title">Protection</string>
     <string name="pref_perform_share_title">Share exports and backups</string>
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">Create new local planning calendar</string>
@@ -718,4 +717,7 @@
         <item quantity="one">One object was successfully deleted.</item>
         <item quantity="other">%d objects were successfully deleted.</item>
     </plurals>
+    <string name="feature_deprecated">Deprecated</string>
+    <string name="pref_protection_device_lock_screen_title">Device lock screen</string>
+    <string name="pref_warning_only_one_protection">Before you can use protection by %1$s, you must switch off protection by %2$s.</string>
 </resources>

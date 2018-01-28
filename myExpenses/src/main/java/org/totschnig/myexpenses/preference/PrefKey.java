@@ -23,10 +23,10 @@ public enum PrefKey {
   IMPORT_CSV(R.string.pref_import_csv_key),
   RESTORE_LEGACY(R.string.pref_restore_legacy_key),
   CONTRIB_PURCHASE(R.string.pref_contrib_purchase_key),
-  ENTER_LICENCE(R.string.pref_enter_licence_key),
+  LICENCE_LEGACY(R.string.pref_enter_licence_key),
   NEW_LICENCE(R.string.pref_new_licence_key),
   LICENCE_EMAIL("licence_email"),
-  PERFORM_PROTECTION(R.string.pref_perform_protection_key),
+  PROTECTION_LEGACY(R.string.pref_protection_password_key),
   PERFORM_PROTECTION_SCREEN(R.string.pref_screen_protection_key),
   SET_PASSWORD(R.string.pref_set_password_key),
   SECURITY_ANSWER(R.string.pref_security_answer_key),
@@ -96,7 +96,8 @@ public enum PrefKey {
   DEBUG_LOGGING(R.string.pref_debug_logging_key),
   SYNC_NOTIFICATION(R.string.pref_sync_notification_key),
   LICENCE_MIGRATION_INFO_SHOWN("licence_migration_info_shown"),
-  DEBUG_ADS(R.string.pref_debug_show_ads_key);
+  DEBUG_ADS(R.string.pref_debug_show_ads_key),
+  PROTECTION_DEVICE_LOCK_SCREEN(R.string.pref_protection_device_lock_screen_key);
 
   private int resId = 0;
   private String key = null;

@@ -270,7 +270,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
 
       for (Map.Entry<String, ?> entry : backupPref.getAll().entrySet()) {
         String key = entry.getKey();
-        if (key.equals(PrefKey.ENTER_LICENCE.getKey())) {
+        if (key.equals(PrefKey.LICENCE_LEGACY.getKey())) {
           continue;
         }
         Object val = entry.getValue();

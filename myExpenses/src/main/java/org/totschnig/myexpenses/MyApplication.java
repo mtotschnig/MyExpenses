@@ -391,7 +391,7 @@ public class MyApplication extends MultiDexApplication implements
   }
 
   public boolean isProtected() {
-    return PrefKey.PERFORM_PROTECTION.getBoolean(false);
+    return PrefKey.PROTECTION_LEGACY.getBoolean(false) || PrefKey.PROTECTION_DEVICE_LOCK_SCREEN.getBoolean(false);
   }
 
   /**
