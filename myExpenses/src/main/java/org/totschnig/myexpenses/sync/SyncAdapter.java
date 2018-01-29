@@ -449,7 +449,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     notifyUser(getNotificationTitle(), content, account, null);
   }
 
-  private Timber.Tree log() {
+  public static Timber.Tree log() {
     return Timber.tag(TAG);
   }
 
