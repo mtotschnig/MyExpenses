@@ -23,6 +23,7 @@ import com.android.setupwizardlib.SetupWizardLayout;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.AccountEdit;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.activity.SplashActivity;
 import org.totschnig.myexpenses.activity.SyncBackendSetupActivity;
 import org.totschnig.myexpenses.adapter.CurrencyAdapter;
@@ -32,7 +33,6 @@ import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.sync.GenericAccountService;
-import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.ui.AmountEditText;
 import org.totschnig.myexpenses.util.UiUtils;
 
@@ -205,10 +205,7 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
           amountEditText.setFractionDigits(Money.getFractionDigits(instance));
           lastSelectedCurrencyPosition = position;
         } catch (IllegalArgumentException e) {
-          Snackbar snackbar = Snackbar.make(
-              parent, getString(R.string.currency_not_supported, currency), Snackbar.LENGTH_LONG);
-          UiUtils.configureSnackbarForDarkTheme(snackbar);
-          snackbar.show();
+          ((ProtectedFragmentActivity) getActivity()).showSnackbar(getString(R.string.currency_not_supported, currency), Snackbar.LENGTH_LONG);
           currencySpinner.setSelection(lastSelectedCurrencyPosition);
         }
         break;

@@ -64,7 +64,6 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.android.calendar.CalendarContractCompat;
@@ -108,7 +107,6 @@ import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.FilterCursorWrapper;
 import org.totschnig.myexpenses.util.PermissionHelper;
 import org.totschnig.myexpenses.util.PictureDirHelper;
-import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.widget.AbstractWidget;
@@ -555,7 +553,7 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   private void abortWithMessage(String message) {
-    Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    showSnackbar(message, Snackbar.LENGTH_LONG);
     finish();
   }
 
@@ -892,7 +890,7 @@ public class ExpenseEdit extends AmountActivity implements
       case R.id.SAVE_AND_NEW_COMMAND:
         if (mOperationType == TYPE_SPLIT &&
             !findSplitPartList().splitComplete()) {
-          Toast.makeText(this, getString(R.string.unsplit_amount_greater_than_zero), Toast.LENGTH_SHORT).show();
+          showSnackbar(getString(R.string.unsplit_amount_greater_than_zero), Snackbar.LENGTH_SHORT);
           return true;
         }
         if (command == R.id.SAVE_COMMAND) {
@@ -932,7 +930,7 @@ public class ExpenseEdit extends AmountActivity implements
   private void createRow() {
     Account account = getCurrentAccount();
     if (account == null) {
-      Toast.makeText(this, R.string.account_list_not_yet_loaded, Toast.LENGTH_LONG).show();
+      showSnackbar(R.string.account_list_not_yet_loaded, Snackbar.LENGTH_LONG);
       return;
     }
     Intent i = new Intent(this, ExpenseEdit.class);
@@ -1146,7 +1144,7 @@ public class ExpenseEdit extends AmountActivity implements
   /**
    * sets the state of the UI on mTransaction
    *
-   * @return false if any data is not valid, also informs user through toast
+   * @return false if any data is not valid, also informs user through snackbar
    */
   protected boolean syncStateAndValidate(boolean forSave) {
     boolean validP = true;
@@ -1159,7 +1157,7 @@ public class ExpenseEdit extends AmountActivity implements
     BigDecimal amount = validateAmountInput(forSave);
 
     if (amount == null) {
-      //Toast is shown in validateAmountInput
+      //Snackbar is shown in validateAmountInput
       validP = false;
     } else {
       if (mType == EXPENSE) {
@@ -1210,7 +1208,7 @@ public class ExpenseEdit extends AmountActivity implements
           BigDecimal transferAmount = validateAmountInput(mTransferAmountText, forSave);
 
           if (transferAmount == null) {
-            //Toast is shown in validateAmountInput
+            //Snackbar is shown in validateAmountInput
             validP = false;
           } else {
             if (mType == INCOME) {
@@ -1315,7 +1313,7 @@ public class ExpenseEdit extends AmountActivity implements
         errorMsg = "Error while retrieving image: No data found.";
       }
       AcraHelper.report(new Exception(errorMsg));
-      Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show();
+      showSnackbar(errorMsg, Snackbar.LENGTH_LONG);
     }
     if (requestCode == PLAN_REQUEST) {
       finish();
@@ -1543,7 +1541,7 @@ public class ExpenseEdit extends AmountActivity implements
               setPicture();
             } else {
               mPictureUri = null;
-              Toast.makeText(this, R.string.image_deleted, Toast.LENGTH_SHORT).show();
+              showSnackbar(R.string.image_deleted, Snackbar.LENGTH_SHORT);
             }
           }
         }
@@ -1584,10 +1582,8 @@ public class ExpenseEdit extends AmountActivity implements
               break;
             }
           }
-          Toast.makeText(
-              this,
-              getString(R.string.warning_cannot_move_split_transaction, account.label),
-              Toast.LENGTH_LONG).show();
+          showSnackbar(getString(R.string.warning_cannot_move_split_transaction, account.label),
+              Snackbar.LENGTH_LONG);
         }
         break;
       case TaskExecutionFragment.TASK_INSTANTIATE_PLAN:
@@ -1699,13 +1695,7 @@ public class ExpenseEdit extends AmountActivity implements
 
   private void showCustomRecurrenceInfo() {
     if (mRecurrenceSpinner.getSelectedItem() == Plan.Recurrence.CUSTOM) {
-      Snackbar snackbar = Snackbar.make(findViewById(R.id.OneExpense),
-          R.string.plan_custom_recurrence_info, Snackbar.LENGTH_LONG);
-      View snackbarView = snackbar.getView();
-      TextView textView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
-      textView.setMaxLines(3);
-      UiUtils.configureSnackbarForDarkTheme(snackbar);
-      snackbar.show();
+      showSnackbar(R.string.plan_custom_recurrence_info, Snackbar.LENGTH_LONG);
     }
   }
 
@@ -1807,7 +1797,7 @@ public class ExpenseEdit extends AmountActivity implements
   @Override
   public void onPostExecute(Object result) {
     if (result == null) {
-      Toast.makeText(this, "Unknown error while saving transaction", Toast.LENGTH_SHORT).show();
+      showSnackbar("Unknown error while saving transaction", Snackbar.LENGTH_SHORT);
     } else {
       Long sequenceCount = (Long) result;
       if (sequenceCount < 0L) {
@@ -1831,7 +1821,7 @@ public class ExpenseEdit extends AmountActivity implements
 
             errorMsg = "Error while saving transaction";
         }
-        Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show();
+        showSnackbar(errorMsg, Snackbar.LENGTH_LONG);
         mCreateNew = false;
       } else {
         if (mRecordTemplateWidget) {
@@ -1860,7 +1850,7 @@ public class ExpenseEdit extends AmountActivity implements
           mAmountText.setText("");
           mTransferAmountText.setText("");
           isProcessingLinkedAmountInputs = false;
-          Toast.makeText(this, getString(R.string.save_transaction_and_new_success), Toast.LENGTH_SHORT).show();
+          showSnackbar(getString(R.string.save_transaction_and_new_success), Snackbar.LENGTH_SHORT);
         } else {
           if (mRecurrenceSpinner.getSelectedItem() == Plan.Recurrence.CUSTOM) {
             launchPlanView(true);
@@ -2150,7 +2140,7 @@ public class ExpenseEdit extends AmountActivity implements
         startActivity(intent);
       }
     } else {
-      Toast.makeText(this, R.string.no_calendar_app_installed, Toast.LENGTH_SHORT).show();
+      showSnackbar(R.string.no_calendar_app_installed, Snackbar.LENGTH_SHORT);
     }
   }
 

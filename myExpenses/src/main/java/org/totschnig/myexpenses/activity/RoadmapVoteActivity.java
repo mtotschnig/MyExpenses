@@ -33,7 +33,6 @@ import org.totschnig.myexpenses.retrofit.Issue;
 import org.totschnig.myexpenses.retrofit.Vote;
 import org.totschnig.myexpenses.ui.ContextAwareRecyclerView;
 import org.totschnig.myexpenses.ui.SimpleSeekBarDialog;
-import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
 
 import java.util.HashMap;
@@ -61,7 +60,6 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
   Vote lastVote;
   private RoadmapAdapter roadmapAdapter;
   private RoadmapViewModel roadmapViewModel;
-  private Snackbar snackbar;
   private boolean isPro;
 
   public void onCreate(Bundle savedInstanceState) {
@@ -112,14 +110,12 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
   }
 
   private void showIsLoading() {
-    showSnackBar("Loading issues ...", Snackbar.LENGTH_INDEFINITE);
+    showSnackbar("Loading issues ...", Snackbar.LENGTH_INDEFINITE);
   }
 
   private void publishResult(String message) {
-    if (snackbar != null) {
-      snackbar.dismiss();
-    }
-    showSnackBar(message, Snackbar.LENGTH_SHORT);
+    dismissSnackbar();
+    showSnackbar(message, Snackbar.LENGTH_SHORT);
   }
 
   @Override
@@ -169,7 +165,7 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
       }
       case R.id.ROADMAP_SUBMIT_VOTE: {
         if (lastVote != null && lastVote.getVote().equals(voteWeights)) {
-          showSnackBar("Modify your vote, before submitting it again.", Snackbar.LENGTH_LONG);
+          showSnackbar("Modify your vote, before submitting it again.", Snackbar.LENGTH_LONG);
         } else {
           Bundle b = new Bundle();
           b.putInt(ConfirmationDialogFragment.KEY_TITLE, R.string.roadmap_vote);
@@ -180,7 +176,7 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
         return true;
       }
       case R.id.ROADMAP_SUBMIT_VOTE_DO: {
-        showSnackBar("Submitting vote ...", Snackbar.LENGTH_INDEFINITE);
+        showSnackbar("Submitting vote ...", Snackbar.LENGTH_INDEFINITE);
         roadmapViewModel.submitVote(lastVote != null ? lastVote.getKey() : null, voteWeights);
         return true;
       }
@@ -240,19 +236,12 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
           }
           dialog.show(this, DIALOG_TAG_ISSUE_VOTE);
         } else {
-          showSnackBar("You spent all your points on other issues.", Snackbar.LENGTH_SHORT);
+          showSnackbar("You spent all your points on other issues.", Snackbar.LENGTH_SHORT);
         }
         return true;
       }
     }
     return false;
-  }
-
-  private void showSnackBar(CharSequence message, int duration) {
-    snackbar = Snackbar.make(
-        findViewById(R.id.container), message, duration);
-    UiUtils.configureSnackbarForDarkTheme(snackbar);
-    snackbar.show();
   }
 
   @Override
@@ -314,5 +303,10 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
         weightView = itemView.findViewById(R.id.weight);
       }
     }
+  }
+
+  @Override
+  protected int getSnackbarContainerId() {
+    return R.id.container;
   }
 }

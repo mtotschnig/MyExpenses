@@ -24,7 +24,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.util.Result;
-import org.totschnig.myexpenses.util.UiUtils;
 
 import java.io.Serializable;
 
@@ -217,10 +216,7 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
         String resultPrintable = result.print(this);
         if (resultPrintable != null) {
           if (result.success) {
-            Snackbar snackbar = Snackbar.make(
-                findViewById(R.id.container), resultPrintable, Snackbar.LENGTH_LONG);
-            UiUtils.configureSnackbarForDarkTheme(snackbar);
-            snackbar.show();
+            showSnackbar(resultPrintable, Snackbar.LENGTH_LONG);
           } else {
             Bundle b = new Bundle();
             b.putString(ConfirmationDialogFragment.KEY_MESSAGE, resultPrintable);

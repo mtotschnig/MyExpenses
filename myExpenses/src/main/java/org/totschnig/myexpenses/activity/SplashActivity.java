@@ -34,7 +34,6 @@ import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.Result;
-import org.totschnig.myexpenses.util.UiUtils;
 
 import java.util.List;
 
@@ -163,9 +162,7 @@ public class SplashActivity extends SyncBackendSetupActivity {
   }
 
   private void showSnackbar(String message) {
-    Snackbar snackbar = Snackbar.make(pager, message, Snackbar.LENGTH_LONG);
-    UiUtils.configureSnackbarForDarkTheme(snackbar);
-    snackbar.show();
+    showSnackbar(message, Snackbar.LENGTH_LONG);
   }
 
   @Override
@@ -284,5 +281,10 @@ public class SplashActivity extends SyncBackendSetupActivity {
 
   public void editAccountColor(View view) {
     getDataFragment().editAccountColor();
+  }
+
+  @Override
+  protected int getSnackbarContainerId() {
+    return R.id.viewpager;
   }
 }
