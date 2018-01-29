@@ -22,6 +22,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.AppCompatButton;
 import android.view.Menu;
@@ -31,7 +32,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
@@ -113,7 +113,7 @@ public class AccountEdit extends AmountActivity implements
         : 0;
     requireAccount();
     if (mAccount == null) {
-      Toast.makeText(this, "Error instantiating account " + rowId, Toast.LENGTH_SHORT).show();
+      showSnackbar("Error instantiating account " + rowId, Snackbar.LENGTH_SHORT);
       finish();
       return;
     }
@@ -218,7 +218,7 @@ public class AccountEdit extends AmountActivity implements
     try {
       mAccount.setCurrency(currency);
     } catch (IllegalArgumentException e) {
-      Toast.makeText(this, getString(R.string.currency_not_supported, currency), Toast.LENGTH_LONG).show();
+      showSnackbar(getString(R.string.currency_not_supported, currency), Snackbar.LENGTH_LONG);
       return;
     }
 
@@ -277,7 +277,7 @@ public class AccountEdit extends AmountActivity implements
   @Override
   public void onPostExecute(Object result) {
     if (result == null) {
-      Toast.makeText(this, "Unknown error while saving account", Toast.LENGTH_SHORT).show();
+      showSnackbar("Unknown error while saving account", Snackbar.LENGTH_SHORT);
     } else {
       Intent intent = new Intent();
       long id = ContentUris.parseId((Uri) result);

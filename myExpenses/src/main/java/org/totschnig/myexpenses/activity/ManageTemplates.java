@@ -20,9 +20,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
-import android.widget.Toast;
 
 import com.android.calendar.CalendarContractCompat.Events;
 
@@ -142,7 +142,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
         Integer successCount = (Integer) o;
         String msg = successCount == 0 ? getString(R.string.save_transaction_error) :
             getResources().getQuantityString(R.plurals.save_transaction_from_template_success, successCount, successCount);
-        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+        showSnackbar(msg, Snackbar.LENGTH_LONG);
     }
   }
 

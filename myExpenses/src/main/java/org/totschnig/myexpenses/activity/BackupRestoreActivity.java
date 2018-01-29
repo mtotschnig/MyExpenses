@@ -134,11 +134,6 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
     if (super.dispatchCommand(command, tag))
       return true;
     switch (command) {
-      case R.id.NO_COMMAND: {
-        setResult(RESULT_CANCELED);
-        finish();
-        return true;
-      }
       case R.id.BACKUP_COMMAND:
         if (AppDirHelper.checkAppFolderWarning(this)) {
           doBackup();
