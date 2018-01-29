@@ -251,8 +251,6 @@
   <!--%s will be replaced with list of backends-->
   <string name="pref_more_info_dialog_title">الرخصة &amp; الشكر</string>
   <string name="pref_password_not_equal">كلمات المرور لا تتطابق</string>
-  <string name="pref_perform_protection_summary">هل التطبيق يجب أن يكون محمي عند التشغيل أو الاستعادة؟</string>
-  <string name="pref_perform_protection_title">حماية كلمة المرور</string>
   <string name="pref_perform_share_title">مشاركة النسخ الاحتياطية والملفات المصدّرة</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">انشاء مخطِط تقويم محلي جديد</string>

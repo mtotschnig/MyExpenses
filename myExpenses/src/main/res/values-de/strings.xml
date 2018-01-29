@@ -310,8 +310,6 @@
   <string name="pref_manage_sync_backends_summary">Backends für die Synchronisierung der Konten (%s) hinzufügen.</string>
   <string name="pref_more_info_dialog_title">Lizenz &amp; Abspann</string>
   <string name="pref_password_not_equal">Passwörter stimmen nicht überein</string>
-  <string name="pref_perform_protection_summary">Sollen das Starten und Wiederaufnehmen der App abgesichert werden?</string>
-  <string name="pref_perform_protection_title">Passwortschutz</string>
   <string name="pref_perform_share_title">Export und Sicherheitskopie versenden</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Neuen lokalen Planer anlegen</string>

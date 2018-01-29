@@ -309,8 +309,6 @@
   <string name="pref_manage_sync_backends_summary">Añadir servicios de sincronización a las cuentas (%s).</string>
   <string name="pref_more_info_dialog_title">Licencia &amp; Créditos</string>
   <string name="pref_password_not_equal">Las contraseñas no coinciden</string>
-  <string name="pref_perform_protection_summary">¿Se debe proteger el inicio y la reanudación de la aplicación?</string>
-  <string name="pref_perform_protection_title">Protección por contraseña</string>
   <string name="pref_perform_share_title">Enviar exportaciones y copias de seguridad</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Crear nuevo calendario de planificación local</string>

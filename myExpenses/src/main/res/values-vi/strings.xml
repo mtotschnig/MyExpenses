@@ -306,8 +306,6 @@
   <string name="pref_manage_sync_backends_summary">Thêm phụ trợ cho việc đồng bộ các tài khoản (%s).</string>
   <string name="pref_more_info_dialog_title">Giấy phép &amp; Quà Tặng</string>
   <string name="pref_password_not_equal">Mật khẩu không khớp</string>
-  <string name="pref_perform_protection_summary">Có nên bảo vệ việc truy cập và hồi phục lại ứng dụng hay không?</string>
-  <string name="pref_perform_protection_title">Bảo vệ mật khẩu</string>
   <string name="pref_perform_share_title">Chia sẻ tập tin xuất dữ liệu</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Tạo lịch kế hoạch trên máy</string>

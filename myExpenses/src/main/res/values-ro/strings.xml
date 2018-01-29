@@ -286,8 +286,6 @@
   <!--%s will be replaced with list of backends-->
   <string name="pref_more_info_dialog_title">Licență &amp; Credite</string>
   <string name="pref_password_not_equal">Parolele nu se potrivesc</string>
-  <string name="pref_perform_protection_summary">Protejaţi lansarea si reluarea aplicaţiei?</string>
-  <string name="pref_perform_protection_title">Protecţie parolă</string>
   <string name="pref_perform_share_title">Partajaţi exporturile şi backup-urile</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Creare calendar scadenţar local nou</string>

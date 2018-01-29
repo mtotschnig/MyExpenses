@@ -282,8 +282,6 @@
   <!--%s will be replaced with list of backends-->
   <string name="pref_more_info_dialog_title">Licens &amp; Credits</string>
   <string name="pref_password_not_equal">Adgangskoderne er ikke ens</string>
-  <string name="pref_perform_protection_summary">Skal app launches og resumes beskyttes?</string>
-  <string name="pref_perform_protection_title">Password-beskyttelse</string>
   <string name="pref_perform_share_title">Del eksport og backup</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Opret ny lokal kalender</string>

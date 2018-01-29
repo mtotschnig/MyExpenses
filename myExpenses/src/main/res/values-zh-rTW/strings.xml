@@ -214,8 +214,6 @@
   <!--%s will be replaced with list of backends-->
   <string name="pref_more_info_dialog_title">許可 &amp; 信用</string>
   <string name="pref_password_not_equal">密碼不相符</string>
-  <string name="pref_perform_protection_summary">應用程式在每次啟動和恢復過來時被密碼保護</string>
-  <string name="pref_perform_protection_title">密碼保護</string>
   <string name="pref_perform_share_title">分享匯出檔案</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">建立新的本機計劃日曆</string>

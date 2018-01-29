@@ -310,8 +310,6 @@
   <string name="pref_manage_sync_backends_summary">Hesapları eşleştirmek için arka uç ekle (%s).</string>
   <string name="pref_more_info_dialog_title">Lisans &amp; Hazırlayanlar</string>
   <string name="pref_password_not_equal">Parolalar eşleşmedi</string>
-  <string name="pref_perform_protection_summary">Uygulama başlatılmaları ve sürdürmeleri korunsun mu?</string>
-  <string name="pref_perform_protection_title">Parola ile güvenlik</string>
   <string name="pref_perform_share_title">Dışa aktarmaları ve yedeklemeleri paylaş</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Yeni yerel planlama takvimi oluştur</string>

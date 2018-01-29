@@ -246,8 +246,6 @@
   <!--%s will be replaced with list of backends-->
   <string name="pref_more_info_dialog_title">អាជ្ញាប័ណ្ណ &amp; ក្រេឌីត</string>
   <string name="pref_password_not_equal">ពាក្យសម្ងាត់មិនត្រូវគ្នា</string>
-  <string name="pref_perform_protection_summary">តើគួរតែចាប់ផ្តើមកម្មវិធី​ និងបន្តទៅទៀតដោយការការពារ ? </string>
-  <string name="pref_perform_protection_title">ការការពារពាក្យសម្ងាត់</string>
   <string name="pref_perform_share_title">ការចែករំលែកឯកសារនាំចេញ</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">បង្កើតប្រតិទិន​ផែន​ការ​​មូលដ្ឋាន​ថ្មី</string>

@@ -310,8 +310,6 @@
   <string name="pref_manage_sync_backends_summary">Ajoutez un serveur pour la synchronisation des comptes (%s).</string>
   <string name="pref_more_info_dialog_title">Licence &amp; Générique</string>
   <string name="pref_password_not_equal">Les mots de passe sont différents</string>
-  <string name="pref_perform_protection_summary">Protéger le lancement et la reprise de l\'app</string>
-  <string name="pref_perform_protection_title">Protection par mot de passe</string>
   <string name="pref_perform_share_title">Partage des exportations et des sauvegardes</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Créer un nouveau calendrier local</string>

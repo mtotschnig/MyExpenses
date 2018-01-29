@@ -274,8 +274,6 @@
   <!--%s will be replaced with list of backends-->
   <string name="pref_more_info_dialog_title">许可 &amp; 信用</string>
   <string name="pref_password_not_equal">密码不相符</string>
-  <string name="pref_perform_protection_summary">应用程式在每次启动和恢复过来时被密码保护</string>
-  <string name="pref_perform_protection_title">密码保护</string>
   <string name="pref_perform_share_title">分享导出文件</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">建立新的本机计划日历</string>

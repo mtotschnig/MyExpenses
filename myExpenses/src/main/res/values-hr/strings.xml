@@ -269,8 +269,6 @@
   <!--%s will be replaced with list of backends-->
   <string name="pref_more_info_dialog_title">Licence i zasluge</string>
   <string name="pref_password_not_equal">Lozinke nisu iste</string>
-  <string name="pref_perform_protection_summary">Želite li da pokretanje i nastavak rada s aplikacijom bude zaštićeno?</string>
-  <string name="pref_perform_protection_title">Zaštita putem lozinke</string>
   <string name="pref_perform_share_title">Podijeli eksporte i sigurnosne kopije</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Kreiraj novi kalendar planiranja</string>

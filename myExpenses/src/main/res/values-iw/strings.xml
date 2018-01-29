@@ -308,8 +308,6 @@
   <string name="pref_manage_sync_backends_summary">הוספת backenders לסנכרון חשבונות (%s).</string>
   <string name="pref_more_info_dialog_title">רישיון &amp; amp; נקודות זכות</string>
   <string name="pref_password_not_equal">סיסמאות אינן תואמות</string>
-  <string name="pref_perform_protection_summary">האם כניסה והפעלת אפליקציה צריכה להיות מוגנת?</string>
-  <string name="pref_perform_protection_title">הגנה בסיסמה</string>
   <string name="pref_perform_share_title">שתף את היצוא ואת הגיבויים</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">צור יומן תכנון מקומי חדש</string>

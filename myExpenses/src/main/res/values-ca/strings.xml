@@ -242,8 +242,6 @@
   <!--%s will be replaced with list of backends-->
   <string name="pref_more_info_dialog_title">Llicència i Crèdits</string>
   <string name="pref_password_not_equal">Les contrasenyes no coincideixen</string>
-  <string name="pref_perform_protection_summary">Voleu protegir l\'execució de l\'aplicació i el seu restabliment?</string>
-  <string name="pref_perform_protection_title">Protecció amb contrasenya</string>
   <string name="pref_perform_share_title">Envia l\'exportació</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Nova agenda de planificació local</string>

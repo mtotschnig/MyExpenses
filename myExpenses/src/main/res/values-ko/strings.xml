@@ -287,8 +287,6 @@
   <!--%s will be replaced with list of backends-->
   <string name="pref_more_info_dialog_title">라이센스 및 공로</string>
   <string name="pref_password_not_equal">암호가 일치하지 않습니다</string>
-  <string name="pref_perform_protection_summary">앱 실행 및 재시작이 보호되어야 합니까?</string>
-  <string name="pref_perform_protection_title">암호 보안</string>
   <string name="pref_perform_share_title">내보낸 파일과 백업을 공유</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">새 로컬 플래닝 캘린더 만들기</string>

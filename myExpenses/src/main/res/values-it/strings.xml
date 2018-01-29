@@ -304,8 +304,6 @@
   <string name="pref_manage_sync_backends_summary">Collegare il backend per la sincronizzazione degli conti (%s).</string>
   <string name="pref_more_info_dialog_title">Licenza &amp; Generico</string>
   <string name="pref_password_not_equal">Le password non corrispondono</string>
-  <string name="pref_perform_protection_summary">L\'avvio e la ripresa dell\'app devono essere protette?</string>
-  <string name="pref_perform_protection_title">Protezione con password</string>
   <string name="pref_perform_share_title"> Condivisione di esportazioni e backups</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Creare un nuovo calendario locale di scadenze</string>

@@ -725,6 +725,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     String lockScreen = getString(R.string.pref_protection_device_lock_screen_title);
     String passWord = getString(R.string.pref_protection_password_title);
     Object[] formatArgs = legacyProtectionByPasswordIsActive ? new String[]{lockScreen, passWord} : new String[]{lockScreen, passWord};
+    //noinspection StringFormatMatches
     ((ProtectedFragmentActivity) getActivity()).showSnackbar(getString(R.string.pref_warning_only_one_protection, formatArgs), Snackbar.LENGTH_LONG);
   }
 

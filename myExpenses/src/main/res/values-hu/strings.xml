@@ -226,8 +226,6 @@
   <!--%s will be replaced with list of backends-->
   <string name="pref_more_info_dialog_title">Licensz és Közreműködők</string>
   <string name="pref_password_not_equal">A jelszavak nem egyeznek</string>
-  <string name="pref_perform_protection_summary">Legyen az app indítása jelszóval védett? </string>
-  <string name="pref_perform_protection_title">Jelszavas védelem</string>
   <string name="pref_perform_share_title">Az exportált állomány megosztása</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Helyi terv-naptár létrehozása</string>

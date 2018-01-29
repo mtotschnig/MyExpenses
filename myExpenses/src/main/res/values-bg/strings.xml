@@ -308,8 +308,6 @@
   <string name="pref_manage_sync_backends_summary">Добавяне на места за отдалечено съхранение (%s).</string>
   <string name="pref_more_info_dialog_title">Лиценз и кредити</string>
   <string name="pref_password_not_equal">Паролите не съвпадат</string>
-  <string name="pref_perform_protection_summary">Да бъде ли защитено отварянето на приложението?</string>
-  <string name="pref_perform_protection_title">Защита с парола</string>
   <string name="pref_perform_share_title">Споделяне на експорт и бекъп</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Създай нов локален план-календар </string>

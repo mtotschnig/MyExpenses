@@ -298,8 +298,6 @@
   <!--%s will be replaced with list of backends-->
   <string name="pref_more_info_dialog_title">Лицензия и создатели</string>
   <string name="pref_password_not_equal">Пароли не совпадают</string>
-  <string name="pref_perform_protection_summary">Защищать запуск и восстановление приложения?</string>
-  <string name="pref_perform_protection_title">Защита паролем</string>
   <string name="pref_perform_share_title">Поделиться экспортируемым файлом</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Создать новый локальный календарь планов</string>
