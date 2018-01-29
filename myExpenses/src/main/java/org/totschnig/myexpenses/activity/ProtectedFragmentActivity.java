@@ -88,7 +88,8 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_RESTORE;
 public abstract class ProtectedFragmentActivity extends AppCompatActivity
     implements MessageDialogListener, OnSharedPreferenceChangeListener,
     ConfirmationDialogFragment.ConfirmationDialogListener,
-    TaskExecutionFragment.TaskCallbacks, DbWriteFragment.TaskCallbacks {
+    TaskExecutionFragment.TaskCallbacks, DbWriteFragment.TaskCallbacks,
+    ProgressDialogFragment.ProgressDialogListener {
   public static final int CALCULATOR_REQUEST = 0;
   public static final int EDIT_TRANSACTION_REQUEST = 1;
   public static final int EDIT_ACCOUNT_REQUEST = 2;
@@ -287,7 +288,12 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     }
   }
 
+  @Override
   public void onMessageDialogDismissOrCancel() {
+  }
+
+  @Override
+  public void onProgressDialogDismiss() {
   }
 
   @Override
@@ -384,10 +390,6 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   protected void onPostRestoreTask(Result result) {
-    String msg = result.print(this);
-    if (msg != null) {
-      showSnackbar(msg, Snackbar.LENGTH_LONG);
-    }
     if (result.success) {
       MyApplication.getInstance().getLicenceHandler().reset();
       // if the backup is password protected, we want to force the password
@@ -425,6 +427,10 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
    */
   public <T> void startTaskExecution(int taskId, T[] objectIds, Serializable extra,
                                      int progressMessage) {
+    startTaskExecution(taskId, objectIds, extra, progressMessage, false);
+  }
+  public <T> void startTaskExecution(int taskId, T[] objectIds, Serializable extra,
+                                     int progressMessage, boolean withButton) {
     FragmentManager m = getSupportFragmentManager();
     if (m.findFragmentByTag(ASYNC_TAG) != null) {
       showTaskNotFinishedWarning();
@@ -436,7 +442,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
               objectIds, extra),
               ASYNC_TAG);
       if (progressMessage != 0) {
-        ft.add(ProgressDialogFragment.newInstance(progressMessage), PROGRESS_TAG);
+        ft.add(ProgressDialogFragment.newInstance(progressMessage, withButton), PROGRESS_TAG);
       }
       ft.commit();
     }
@@ -644,8 +650,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     getSupportFragmentManager()
         .beginTransaction()
         .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_RESTORE), ASYNC_TAG)
-        .add(ProgressDialogFragment.newInstance(R.string.pref_restore_title),
-            PROGRESS_TAG).commit();
+        .add(ProgressDialogFragment.newInstance(R.string.pref_restore_title, true), PROGRESS_TAG).commit();
   }
 
   @Override

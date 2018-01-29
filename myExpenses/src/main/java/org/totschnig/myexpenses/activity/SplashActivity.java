@@ -235,6 +235,10 @@ public class SplashActivity extends SyncBackendSetupActivity {
   @Override
   protected void onPostRestoreTask(Result result) {
     super.onPostRestoreTask(result);
+    String msg = result.print(this);
+    if (msg != null) {
+      showSnackbar(msg, Snackbar.LENGTH_LONG);
+    }
     if (result.success) {
       restartAfterRestore();
     }

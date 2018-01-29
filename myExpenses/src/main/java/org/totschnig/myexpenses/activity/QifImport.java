@@ -68,8 +68,7 @@ public class QifImport extends ProtectedFragmentActivity {
 
   @Override
 
-  public void onMessageDialogDismissOrCancel() {
-    super.onMessageDialogDismissOrCancel();
+  public void onProgressDialogDismiss() {
     finish();
   }
 }
