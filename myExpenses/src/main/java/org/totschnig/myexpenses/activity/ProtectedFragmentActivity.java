@@ -28,6 +28,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.FloatingActionButton;
@@ -689,7 +690,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     View container = findViewById(getSnackbarContainerId());
     if (container == null) {
       AcraHelper.report(String.format("Class %s is unable to display snackbar", getClass()));
-      Toast.makeText(this, message, Toast.LENGTH_LONG);
+      Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     } else {
       snackbar = Snackbar.make(container, message, duration);
       View snackbarView = snackbar.getView();
@@ -706,6 +707,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     }
   }
 
+  @IdRes
   protected int getSnackbarContainerId() {
     return R.id.fragment_container;
   }

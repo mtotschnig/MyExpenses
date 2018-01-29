@@ -16,7 +16,6 @@
 package org.totschnig.myexpenses.activity;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.NotificationManager;
@@ -35,6 +34,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
@@ -2458,5 +2458,11 @@ public class ExpenseEdit extends AmountActivity implements
     isProcessingLinkedAmountInputs = true;
     super.onRestoreInstanceState(savedInstanceState);
     isProcessingLinkedAmountInputs = false;
+  }
+
+  @Override
+  @IdRes
+  protected int getSnackbarContainerId() {
+    return R.id.OneExpense;
   }
 }

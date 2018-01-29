@@ -172,4 +172,9 @@ public class MethodEdit extends EditActivity implements CompoundButton.OnChecked
     linkInputWithLabel(mPaymentTypeSpinner.getSpinner(),findViewById(R.id.TypeLabel));
     linkInputWithLabel(mIsNumberedCheckBox,findViewById(R.id.IsNumberedLabel));
   }
+  @Override
+  @IdRes
+  protected int getSnackbarContainerId() {
+    return R.id.OneMethod;
+  }
 }
