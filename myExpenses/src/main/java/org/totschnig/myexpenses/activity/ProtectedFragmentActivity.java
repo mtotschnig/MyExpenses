@@ -31,6 +31,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -46,6 +47,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.annimon.stream.Optional;
@@ -127,6 +129,8 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   protected int colorIncome;
   protected ColorStateList textColorSecondary;
   protected FloatingActionButton floatingActionButton;
+
+  private Snackbar snackbar;
 
   @Inject
   protected Tracker tracker;
@@ -263,9 +267,9 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   public void showDeviceLockScreenWarning() {
-    Toast.makeText(this,
+    showSnackbar(
         Utils.concatResStrings(this, "\n", R.string.warning_device_lock_screen_not_set_up_1, R.string.warning_device_lock_screen_not_set_up_2),
-        Toast.LENGTH_LONG).show();
+        Snackbar.LENGTH_LONG);
   }
 
   @Override
@@ -358,9 +362,8 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
       case TaskExecutionFragment.TASK_UNDELETE_TRANSACTION: {
         Result result = (Result) o;
         if (!result.success) {
-          Toast.makeText(this,
-              "There was an error deleting the object. Please contact support@myexenses.mobi !",
-              Toast.LENGTH_LONG).show();
+          showSnackbar("There was an error deleting the object. Please contact support@myexenses.mobi !",
+              Snackbar.LENGTH_LONG);
         }
         break;
       }
@@ -382,7 +385,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   protected void onPostRestoreTask(Result result) {
     String msg = result.print(this);
     if (msg != null) {
-      Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
+      showSnackbar(msg, Snackbar.LENGTH_LONG);
     }
     if (result.success) {
       MyApplication.getInstance().getLicenceHandler().reset();
@@ -439,10 +442,8 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   private void showTaskNotFinishedWarning() {
-    Toast.makeText(getBaseContext(),
-        "Previous task still executing, please try again later",
-        Toast.LENGTH_LONG)
-        .show();
+    showSnackbar("Previous task still executing, please try again later",
+        Snackbar.LENGTH_LONG);
   }
 
   public void startTaskExecution(int taskId, @NonNull Bundle extras, int progressMessage) {
@@ -583,8 +584,8 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
       }
     } else {
       if (permissions.length > 0 && ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[0])) {
-        Toast.makeText(this, PermissionHelper.permissionRequestRationale(this, requestCode),
-            Toast.LENGTH_LONG).show();
+        showSnackbar(PermissionHelper.permissionRequestRationale(this, requestCode),
+            Snackbar.LENGTH_LONG);
       }
     }
   }
@@ -678,5 +679,34 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     findViewById(android.R.id.content).setVisibility(View.VISIBLE);
     final ActionBar actionBar = getSupportActionBar();
     if (actionBar != null) actionBar.show();
+  }
+
+  public void showSnackbar(int message, int duration) {
+    showSnackbar(getText(message), duration);
+  }
+
+  public void showSnackbar(CharSequence message, int duration) {
+    View container = findViewById(getSnackbarContainerId());
+    if (container == null) {
+      AcraHelper.report(String.format("Class %s is unable to display snackbar", getClass()));
+      Toast.makeText(this, message, Toast.LENGTH_LONG);
+    } else {
+      snackbar = Snackbar.make(container, message, duration);
+      View snackbarView = snackbar.getView();
+      TextView textView = snackbarView.findViewById(android.support.design.R.id.snackbar_text);
+      textView.setMaxLines(3);
+      UiUtils.configureSnackbarForDarkTheme(snackbar);
+      snackbar.show();
+    }
+  }
+
+  public void dismissSnackbar() {
+    if (snackbar != null) {
+      snackbar.dismiss();
+    }
+  }
+
+  protected int getSnackbarContainerId() {
+    return R.id.fragment_container;
   }
 }

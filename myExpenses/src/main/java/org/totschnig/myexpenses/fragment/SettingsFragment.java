@@ -13,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.provider.DocumentFile;
 import android.support.v7.app.ActionBar;
@@ -706,12 +707,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       if (Utils.hasApiLevel(Build.VERSION_CODES.LOLLIPOP)) {
         SwitchPreferenceCompat switchPreferenceCompat = (SwitchPreferenceCompat) preference;
         if (switchPreferenceCompat.isChecked()) {
-          if (PROTECTION_LEGACY.getBoolean(false)) {
-            showOnlyOneProtectionWarning(false);
-            switchPreferenceCompat.setChecked(false);
-          }
           if (!((KeyguardManager) getContext().getSystemService(Context.KEYGUARD_SERVICE)).isKeyguardSecure()) {
             ((ProtectedFragmentActivity) getActivity()).showDeviceLockScreenWarning();
+            switchPreferenceCompat.setChecked(false);
+          } else if (PROTECTION_LEGACY.getBoolean(false)) {
+            showOnlyOneProtectionWarning(false);
             switchPreferenceCompat.setChecked(false);
           }
         }
@@ -725,7 +725,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     String lockScreen = getString(R.string.pref_protection_device_lock_screen_title);
     String passWord = getString(R.string.pref_protection_password_title);
     Object[] formatArgs = legacyProtectionByPasswordIsActive ? new String[]{lockScreen, passWord} : new String[]{lockScreen, passWord};
-    Toast.makeText(getContext(), getString(R.string.pref_warning_only_one_protection, formatArgs), Toast.LENGTH_LONG).show();
+    ((ProtectedFragmentActivity) getActivity()).showSnackbar(getString(R.string.pref_warning_only_one_protection, formatArgs), Snackbar.LENGTH_LONG);
   }
 
   private void contribBuyDo(Package selectedPackage, boolean shouldReplaceExisting) {
