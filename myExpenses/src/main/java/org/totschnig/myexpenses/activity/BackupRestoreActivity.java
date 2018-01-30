@@ -166,11 +166,6 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
   }
 
   @Override
-  public void onProgressUpdate(Object progress) {
-    super.onProgressUpdate(((Result) progress).print(this));
-  }
-
-  @Override
   public void onPostExecute(int taskId, Object result) {
     super.onPostExecute(taskId, result);
     Result r = (Result) result;
@@ -184,9 +179,12 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
           if (PrefKey.PERFORM_SHARE.getBoolean(false)) {
             ArrayList<Uri> uris = new ArrayList<>();
             uris.add(backupFileUri);
-            ShareUtils.share(this, uris,
+            Result shareResult = ShareUtils.share(this, uris,
                 PrefKey.SHARE_TARGET.getString("").trim(),
                 "application/zip");
+            if (!shareResult.success) {
+              onProgressUpdate(shareResult.print(this));
+            }
           }
         }
         break;

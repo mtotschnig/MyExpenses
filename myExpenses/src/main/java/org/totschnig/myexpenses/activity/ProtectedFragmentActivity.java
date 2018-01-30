@@ -344,6 +344,8 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
         f.setProgress((Integer) progress);
       } else if (progress instanceof String) {
         f.appendToMessage((String) progress);
+      } else if (progress instanceof Result) {
+        f.appendToMessage(((Result) progress).print(this));
       }
     }
   }

@@ -614,10 +614,13 @@ public class MyExpenses extends LaunchActivity implements
         return true;
       }
       case R.id.SHARE_PDF_COMMAND: {
-        ShareUtils.share(this,
+        Result shareResult = ShareUtils.share(this,
             Collections.singletonList(AppDirHelper.ensureContentUri(Uri.parse((String) tag))),
             PrefKey.SHARE_TARGET.getString("").trim(),
             "application/pdf");
+        if (!shareResult.success) {
+          showSnackbar(shareResult.print(this), Snackbar.LENGTH_LONG);
+        }
         return true;
       }
       case R.id.QUIT_COMMAND:
@@ -900,10 +903,14 @@ public class MyExpenses extends LaunchActivity implements
         break;
       case TaskExecutionFragment.TASK_EXPORT:
         ArrayList<Uri> files = (ArrayList<Uri>) o;
-        if (files != null && !files.isEmpty())
-          ShareUtils.share(this, files,
+        if (files != null && !files.isEmpty()) {
+          Result shareResult = ShareUtils.share(this, files,
               PrefKey.SHARE_TARGET.getString("").trim(),
               "text/" + mExportFormat.toLowerCase(Locale.US));
+          if (!shareResult.success) {
+            showSnackbar(shareResult.print(this), Snackbar.LENGTH_LONG);
+          }
+        }
         break;
       case TaskExecutionFragment.TASK_PRINT:
         Result result = (Result) o;

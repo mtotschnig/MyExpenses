@@ -347,9 +347,12 @@ public class ManageCategories extends ProtectedFragmentActivity implements
           if (PrefKey.PERFORM_SHARE.getBoolean(false)) {
             ArrayList<Uri> uris = new ArrayList<>();
             uris.add(uri);
-            ShareUtils.share(this, uris,
+            Result shareResult = ShareUtils.share(this, uris,
                 PrefKey.SHARE_TARGET.getString("").trim(),
                 "text/qif");
+            if (!shareResult.success) {
+              showSnackbar(shareResult.print(this), Snackbar.LENGTH_LONG);
+            }
           }
           break;
         case TaskExecutionFragment.TASK_MOVE_CATEGORY:
