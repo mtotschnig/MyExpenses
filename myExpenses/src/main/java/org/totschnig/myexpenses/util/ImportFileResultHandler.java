@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -19,7 +18,7 @@ public class ImportFileResultHandler {
   private ImportFileResultHandler() {
   }
 
-  public static Uri handleFilenameRequestResult(FileNameHostFragment hostFragment, Intent data) {
+  public static Uri handleFilenameRequestResult(FileNameHostFragment hostFragment, Intent data) throws Throwable {
     Uri uri = data.getData();
     String errorMsg;
     Context context = hostFragment.getContext();
@@ -31,7 +30,6 @@ public class ImportFileResultHandler {
       fileNameEditText.setText(displayName);
       if (PermissionHelper.canReadUri(uri, context)) {
         if (displayName == null) {
-          uri = null;
           //SecurityException raised during getDisplayName
           errorMsg = "Error while retrieving document";
           handleError(errorMsg, context, fileNameEditText);
@@ -41,7 +39,6 @@ public class ImportFileResultHandler {
             String[] typeParts = type.split("/");
             if (typeParts.length == 0 ||
                 !hostFragment.checkTypeParts(typeParts)) {
-              uri = null;
               errorMsg = context.getString(R.string.import_source_select_error, hostFragment.getTypeName());
               handleError(errorMsg, context, fileNameEditText);
             }
@@ -65,9 +62,9 @@ public class ImportFileResultHandler {
     return uri;
   }
 
-  private static void handleError(String errorMsg, Context context, EditText fileNameEditText) {
+  private static void handleError(String errorMsg, Context context, EditText fileNameEditText) throws Throwable {
     fileNameEditText.setError(errorMsg);
-    Toast.makeText(context, errorMsg, Toast.LENGTH_LONG).show();
+    throw new Throwable(errorMsg);
   }
 
   public static boolean checkTypePartsDefault(String[] typeParts) {

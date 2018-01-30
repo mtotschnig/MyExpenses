@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
     implements OnClickListener, DialogInterface.OnClickListener, ImportFileResultHandler.FileNameHostFragment {
 
   protected EditText mFilename;
+  private View dialogView;
 
   public Uri getUri() {
     return mUri;
@@ -59,11 +61,11 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     LayoutInflater li = LayoutInflater.from(getActivity());
-    View view = li.inflate(getLayoutId(), null);
-    setupDialogView(view);
+    dialogView = li.inflate(getLayoutId(), null);
+    setupDialogView(dialogView);
     return new AlertDialog.Builder(getActivity())
       .setTitle(getLayoutTitle())
-      .setView(view)
+      .setView(dialogView)
       .setPositiveButton(android.R.string.ok,this)
       .setNegativeButton(android.R.string.cancel,this)
       .create();
@@ -84,7 +86,12 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
     if (requestCode == ProtectedFragmentActivity.IMPORT_FILENAME_REQUESTCODE) {
       if (resultCode == Activity.RESULT_OK && data != null) {
-        mUri = ImportFileResultHandler.handleFilenameRequestResult(this, data);
+        try {
+          mUri = ImportFileResultHandler.handleFilenameRequestResult(this, data);
+        } catch (Throwable throwable) {
+          mUri = null;
+          Snackbar.make(dialogView, throwable.getMessage(), Snackbar.LENGTH_LONG).show();
+        }
       }
     }
   }

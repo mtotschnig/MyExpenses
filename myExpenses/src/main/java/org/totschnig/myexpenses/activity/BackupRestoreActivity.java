@@ -260,6 +260,11 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
   }
 
   @Override
+  public void onMessageDialogDismissOrCancel() {
+    finish();
+  }
+
+  @Override
   public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
     switch (requestCode) {
       case PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR:
