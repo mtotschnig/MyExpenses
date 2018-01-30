@@ -708,7 +708,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
             activity().showDeviceLockScreenWarning();
             switchPreferenceCompat.setChecked(false);
           } else if (PROTECTION_LEGACY.getBoolean(false)) {
-            showOnlyOneProtectionWarning(false);
+            showOnlyOneProtectionWarning(true);
             switchPreferenceCompat.setChecked(false);
           }
         }
@@ -800,7 +800,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     } else if (preference instanceof TimePreference) {
       fragment = TimePreferenceDialogFragmentCompat.newInstance(key);
     } else if (matches(preference, PROTECTION_LEGACY)) {
-      if (Utils.hasApiLevel(Build.VERSION_CODES.LOLLIPOP) && PROTECTION_DEVICE_LOCK_SCREEN.getBoolean(true)) {
+      if (Utils.hasApiLevel(Build.VERSION_CODES.LOLLIPOP) && PROTECTION_DEVICE_LOCK_SCREEN.getBoolean(false)) {
         showOnlyOneProtectionWarning(false);
         return;
       } else {
