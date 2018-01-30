@@ -131,8 +131,13 @@ public class MessageDialogFragment extends CommitSafeDialogFragment implements O
     return button != null && button.keepDialogOpen;
   }
 
+  /**
+   * prevent automatic dismiss on button click
+   * @param alertDialog
+   * @param which
+   */
   private void setOnClickForward(AlertDialog alertDialog, int which) {
-    alertDialog.getButton(which).setOnClickListener(v -> MessageDialogFragment.this.onClick(alertDialog, which));
+    alertDialog.getButton(which).setOnClickListener(v -> onClick(alertDialog, which));
   }
 
   @Override

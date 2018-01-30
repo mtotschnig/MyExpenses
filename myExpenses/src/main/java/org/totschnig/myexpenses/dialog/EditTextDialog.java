@@ -98,7 +98,7 @@ public class EditTextDialog extends CommitSafeDialogFragment implements OnEditor
         Bundle args = getArguments();
         String result = mEditText.getText().toString();
         if (result.equals("")) {
-          showSnackbar(getString(R.string.no_title_given));
+          showSnackbar(R.string.no_title_given);
         } else {
           args.putString(KEY_RESULT, result);
           activity.onFinishEditDialog(args);

@@ -37,6 +37,10 @@ public abstract class CommitSafeDialogFragment extends DialogFragment {
       }
   }
 
+  protected void showSnackbar(int resId) {
+    showSnackbar(getString(resId));
+  }
+
   protected void showSnackbar(CharSequence message) {
     Snackbar snackbar = Snackbar.make(dialogView, message, Snackbar.LENGTH_LONG);
     UiUtils.configureSnackbarForDarkTheme(snackbar);
