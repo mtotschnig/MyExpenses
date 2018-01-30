@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.PictureDirHelper;
 
@@ -127,6 +128,25 @@ public class TransactionTest extends ModelTest {
     assertEquals(peer.uuid, op.uuid);
   }
 
+  public void testSplitWithTransfer() {
+    SplitTransaction op1 = SplitTransaction.getNewInstance(mAccount1.getId(), false);
+    assert op1 != null;
+    op1.setAmount(new Money(mAccount1.currency, 100L));
+    op1.setComment("test split with transfer");
+    op1.save();
+    assertTrue(op1.getId() > 0);
+    Transfer split1 = Transfer.getNewInstance(mAccount1.getId(), mAccount2.getId(), op1.getId());
+    assert split1 != null;
+    split1.setAmount(new Money(mAccount1.currency, 50L));
+    assertEquals(split1.getParentId(), op1.getId());
+    split1.status = DatabaseConstants.STATUS_UNCOMMITTED;
+    split1.save();
+    assertTrue(split1.getId() > 0);
+    Transfer splitRestored = (Transfer) Transaction.getInstanceFromDb(split1.getId());
+    assertTrue(DbUtils.hasParent(split1.getId()));
+    assertEquals(splitRestored.getParentId(), op1.getId());
+  }
+
   /**
    * we test if split parts get the date of their parent
    */
@@ -161,9 +181,11 @@ public class TransactionTest extends ModelTest {
     Transaction split1Restored = Transaction.getInstanceFromDb(split1.getId());
     assert split1Restored != null;
     assertEquals(restored.getDate(), split1Restored.getDate());
+    assertTrue(DbUtils.hasParent(split1.getId()));
     Transaction split2Restored = Transaction.getInstanceFromDb(split2.getId());
     assert split2Restored != null;
     assertEquals(restored.getDate(), split2Restored.getDate());
+    assertTrue(DbUtils.hasParent(split2.getId()));
     restored.crStatus = CrStatus.CLEARED;
     restored.save();
     //splits should not be touched by simply saving the parent
