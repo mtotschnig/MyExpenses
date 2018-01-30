@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses.model;
 
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -138,21 +139,28 @@ public class Money implements Serializable {
   }
 
   @Nullable
-  public static String getCustomSymbol(@NonNull Currency currencyCode) {
+  public static String getCustomSymbol(@NonNull String currencyCode) {
     return MyApplication.getInstance().getSettings()
         .getString(currencyCode + KEY_CUSTOM_CURRENCY_SYMBOL, null);
   }
 
   @NonNull
   public static String getSymbol(@NonNull Currency currency) {
-    String custom = getCustomSymbol(currency);
+    String custom = getCustomSymbol(currency.getCurrencyCode());
     return custom != null ? custom : currency.getSymbol();
   }
 
   public static boolean storeCustomSymbol(String currencyCode, String symbol) {
-    if (!Currency.getInstance(currencyCode).getSymbol().equals(symbol)) {
-      MyApplication.getInstance().getSettings().edit()
-          .putString(currencyCode + KEY_CUSTOM_CURRENCY_SYMBOL, symbol).apply();
+    Currency currency = Currency.getInstance(currencyCode);
+    if (!getSymbol(currency).equals(symbol)) {
+      SharedPreferences.Editor edit = MyApplication.getInstance().getSettings().edit();
+      String key = currencyCode + KEY_CUSTOM_CURRENCY_SYMBOL;
+      if (currency.getSymbol().equals(symbol)) {
+        edit.remove(key);
+      } else {
+        edit.putString(key, symbol);
+      }
+      edit.apply();
       return true;
     }
     return false;
