@@ -19,7 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
-import android.widget.Toast;
 
 import com.annimon.stream.Collectors;
 import com.dropbox.core.InvalidAccessTokenException;
@@ -188,7 +187,7 @@ public class SyncBackendList extends Fragment implements
       ContentResolver.requestSync(account,
           TransactionProvider.AUTHORITY, bundle);
     } else {
-      Toast.makeText(getContext(), "Backend is not ready to be synced", Toast.LENGTH_LONG).show();
+      ((ProtectedFragmentActivity) getActivity()).showSnackbar("Backend is not ready to be synced", Snackbar.LENGTH_LONG);
     }
   }
 
@@ -262,11 +261,12 @@ public class SyncBackendList extends Fragment implements
       if (result.getResult() != null) {
         syncBackendAdapter.setAccountMetadata(loader.getId(), result.getResult());
       } else {
+        ManageSyncBackends activity = (ManageSyncBackends) getActivity();
         if (result.getError() != null && Utils.getCause(result.getError()) instanceof InvalidAccessTokenException) {
-          ((ManageSyncBackends) getActivity()).requestDropboxAccess((String) syncBackendAdapter.getGroup(loader.getId()));
+          activity.requestDropboxAccess((String) syncBackendAdapter.getGroup(loader.getId()));
         } else {
-          Toast.makeText(getActivity(), result.getError() != null ? result.getError().getMessage() :
-              "Could not get account metadata for backend", Toast.LENGTH_SHORT).show();
+          activity.showSnackbar(result.getError() != null ? result.getError().getMessage() :
+              "Could not get account metadata for backend", Snackbar.LENGTH_SHORT);
         }
       }
     }

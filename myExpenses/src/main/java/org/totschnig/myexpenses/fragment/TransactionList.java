@@ -29,6 +29,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri.Builder;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -54,7 +55,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.MyApplication;
@@ -417,7 +417,7 @@ public class TransactionList extends ContextualActionBarFragment implements
       case R.id.CLONE_TRANSACTION_COMMAND:
         mTransactionsCursor.moveToPosition(acmi.position);
         if (DbUtils.getLongOrNull(mTransactionsCursor, "transfer_peer_parent") != null) {
-          Toast.makeText(getActivity(), getString(R.string.warning_splitpartcategory_context), Toast.LENGTH_LONG).show();
+          ctx.showSnackbar(R.string.warning_splitpartcategory_context, Snackbar.LENGTH_LONG);
         } else {
           Intent i = new Intent(ctx, ExpenseEdit.class);
           i.putExtra(KEY_ROWID, acmi.id);
@@ -771,7 +771,7 @@ public class TransactionList extends ContextualActionBarFragment implements
     if (headerData != null && headerData.get(headerId)[6] > 0) {
       ctx.contribFeatureRequested(ContribFeature.DISTRIBUTION, headerId);
     } else {
-      Toast.makeText(ctx, getString(R.string.no_mapped_transactions), Toast.LENGTH_LONG).show();
+      ctx.showSnackbar(R.string.no_mapped_transactions, Snackbar.LENGTH_LONG);
     }
     return true;
   }
@@ -1019,10 +1019,7 @@ public class TransactionList extends ContextualActionBarFragment implements
           if (appDirStatus.success) {
             ctx.contribFeatureRequested(ContribFeature.PRINT, null);
           } else {
-            Toast.makeText(getActivity(),
-                appDirStatus.print(getActivity()),
-                Toast.LENGTH_LONG)
-                .show();
+            ctx.showSnackbar(appDirStatus.print(ctx), Snackbar.LENGTH_LONG);
           }
         } else {
           ctx.showExportDisabledCommand();

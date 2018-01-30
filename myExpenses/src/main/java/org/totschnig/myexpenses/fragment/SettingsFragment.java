@@ -17,7 +17,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.provider.DocumentFile;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.EditTextPreference;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
@@ -31,7 +30,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
-import android.widget.Toast;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
@@ -43,7 +41,6 @@ import org.totschnig.myexpenses.activity.CommonCommands;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.activity.FolderBrowser;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentCompat;
@@ -116,15 +113,15 @@ import static org.totschnig.myexpenses.preference.PrefKey.MANAGE_SYNC_BACKENDS;
 import static org.totschnig.myexpenses.preference.PrefKey.MORE_INFO_DIALOG;
 import static org.totschnig.myexpenses.preference.PrefKey.NEW_LICENCE;
 import static org.totschnig.myexpenses.preference.PrefKey.NEXT_REMINDER_RATE;
-import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_DEVICE_LOCK_SCREEN;
-import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_LEGACY;
 import static org.totschnig.myexpenses.preference.PrefKey.PERFORM_PROTECTION_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.PERFORM_SHARE;
 import static org.totschnig.myexpenses.preference.PrefKey.PLANNER_CALENDAR_ID;
 import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_DELAY_SECONDS;
+import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_DEVICE_LOCK_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET;
 import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET;
 import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET;
+import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_LEGACY;
 import static org.totschnig.myexpenses.preference.PrefKey.RATE;
 import static org.totschnig.myexpenses.preference.PrefKey.RESTORE;
 import static org.totschnig.myexpenses.preference.PrefKey.RESTORE_LEGACY;
@@ -560,12 +557,12 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       if (!target.equals("")) {
         uri = ShareUtils.parseUri(target);
         if (uri == null) {
-          Toast.makeText(getActivity(), getString(R.string.ftp_uri_malformed, target), Toast.LENGTH_LONG).show();
+          activity().showSnackbar(getString(R.string.ftp_uri_malformed, target), Snackbar.LENGTH_LONG);
           return false;
         }
         String scheme = uri.getScheme();
         if (!(scheme.equals("ftp") || scheme.equals("mailto"))) {
-          Toast.makeText(getActivity(), getString(R.string.share_scheme_not_supported, scheme), Toast.LENGTH_LONG).show();
+          activity().showSnackbar(getString(R.string.share_scheme_not_supported, scheme), Snackbar.LENGTH_LONG);
           return false;
         }
         Intent intent;
@@ -587,7 +584,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         nf.applyLocalizedPattern(((String) value));
         CurrencyFormatter.instance().invalidateAll();
       } catch (IllegalArgumentException e) {
-        Toast.makeText(getActivity(), R.string.number_format_illegal, Toast.LENGTH_LONG).show();
+        activity().showSnackbar(R.string.number_format_illegal, Snackbar.LENGTH_LONG);
         return false;
       }
     } else if (matches(pref, TRACKING)) {
@@ -781,9 +778,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
 
     if (Utils.isIntentReceiverAvailable(getActivity(), intent)) {
       getActivity().sendBroadcast(intent);
-      Toast.makeText(getActivity(), getString(R.string.pref_shortcut_added), Toast.LENGTH_LONG).show();
+      activity().showSnackbar(getString(R.string.pref_shortcut_added), Snackbar.LENGTH_LONG);
     } else {
-      Toast.makeText(getActivity(), getString(R.string.pref_shortcut_not_added), Toast.LENGTH_LONG).show();
+      activity().showSnackbar(getString(R.string.pref_shortcut_not_added), Snackbar.LENGTH_LONG);
     }
   }
 
@@ -813,7 +810,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       fragment = SecurityQuestionDialogFragmentCompat.newInstance(key);
     } else if (matches(preference, AUTO_BACUP_CLOUD)) {
       if (((ListPreference) preference).getEntries().length == 1) {
-        Toast.makeText(getContext(), R.string.auto_backup_cloud_create_backend, Toast.LENGTH_LONG).show();
+        activity().showSnackbar(R.string.auto_backup_cloud_create_backend, Snackbar.LENGTH_LONG);
         return;
       }
     }

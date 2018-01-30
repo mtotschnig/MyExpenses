@@ -9,11 +9,11 @@
 
 package org.totschnig.myexpenses.fragment;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ListFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -23,10 +23,10 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.FolderBrowser;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.AcraHelper;
@@ -75,8 +75,8 @@ public class FolderList extends ListFragment {
           //although in fact it is not
           File.createTempFile("test", null, selectedFolder).delete();
         } catch (IOException e) {
-          Toast.makeText(ctx,getString(R.string.app_dir_not_accessible,
-              selectedFolder.getPath()),Toast.LENGTH_SHORT).show();
+          ctx.showSnackbar(getString(R.string.app_dir_not_accessible,
+              selectedFolder.getPath()), Snackbar.LENGTH_SHORT);
           break;
         }
       }
@@ -143,8 +143,8 @@ public class FolderList extends ListFragment {
       result = false;
     } finally {
       if (!result) {
-        Toast.makeText(getActivity(), R.string.create_new_folder_fail,
-            Toast.LENGTH_LONG).show();
+        ((ProtectedFragmentActivity) getActivity()).showSnackbar(R.string.create_new_folder_fail,
+            Snackbar.LENGTH_LONG);
       } else if (newFolder.isDirectory()) {
         browseTo(newFolder);
       }
@@ -173,9 +173,7 @@ public class FolderList extends ListFragment {
     File[] files = current.listFiles();
     if (files == null) {
       FolderBrowser ctx = (FolderBrowser) getActivity();
-      Toast.makeText(ctx,getString(R.string.external_storage_unavailable), Toast.LENGTH_LONG).show();
-      ctx.setResult(Activity.RESULT_CANCELED);
-      ctx.finish();
+      ctx.showMessage(R.string.external_storage_unavailable);
       return;
     }
     Arrays.sort(files);
