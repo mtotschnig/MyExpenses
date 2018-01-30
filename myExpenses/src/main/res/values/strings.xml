@@ -722,4 +722,5 @@
     <string name="pref_warning_only_one_protection">Before you can use protection by %1$s, you must switch off protection by %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Secure device lock screen hasn\'t been set up.</string>
     <string name="warning_device_lock_screen_not_set_up_2">Go to \'Settings -> Security -> Screenlock\' to set up a lock screen.</string>
+    <string name="snackbar_dismiss">Dismiss</string>
 </resources>

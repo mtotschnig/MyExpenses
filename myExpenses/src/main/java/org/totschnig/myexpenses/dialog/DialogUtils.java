@@ -22,12 +22,12 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
@@ -42,7 +42,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -73,7 +72,7 @@ public class DialogUtils {
    * @return Dialog to be used from Preference,
    * and from version update
    */
-  public static Dialog sendWithFTPDialog(final Activity ctx) {
+  public static Dialog sendWithFTPDialog(final ProtectedFragmentActivity ctx) {
     return new AlertDialog.Builder(ctx)
         .setMessage(R.string.no_app_handling_ftp_available)
         .setPositiveButton(android.R.string.yes, (dialog, id) -> {
@@ -83,11 +82,7 @@ public class DialogUtils {
           if (Utils.isIntentAvailable(ctx, intent)) {
             ctx.startActivity(intent);
           } else {
-            Toast.makeText(
-                ctx.getBaseContext(),
-                R.string.error_accessing_market,
-                Toast.LENGTH_LONG)
-                .show();
+            ctx.showSnackbar(R.string.error_accessing_market, Snackbar.LENGTH_LONG);
           }
         })
         .setNegativeButton(android.R.string.no, (dialog, id) -> ctx.dismissDialog(R.id.FTP_DIALOG)).create();
@@ -195,10 +190,10 @@ public class DialogUtils {
 
   static class PasswordDialogListener implements View.OnClickListener {
     private final AlertDialog dialog;
-    private final Activity ctx;
+    private final ProtectedFragmentActivity ctx;
     private final PasswordDialogUnlockedCallback callback;
 
-    public PasswordDialogListener(Activity ctx, AlertDialog dialog,
+    public PasswordDialogListener(ProtectedFragmentActivity ctx, AlertDialog dialog,
                                   PasswordDialogUnlockedCallback callback) {
       this.dialog = dialog;
       this.ctx = ctx;
@@ -207,10 +202,9 @@ public class DialogUtils {
 
     @Override
     public void onClick(View v) {
-      final SharedPreferences settings = MyApplication.getInstance().getSettings();
       final String securityQuestion = PrefKey.SECURITY_QUESTION.getString("");
-      EditText input = (EditText) dialog.findViewById(R.id.password);
-      TextView error = (TextView) dialog.findViewById(R.id.passwordInvalid);
+      EditText input = dialog.findViewById(R.id.password);
+      TextView error = dialog.findViewById(R.id.passwordInvalid);
       if (v == dialog.getButton(AlertDialog.BUTTON_NEUTRAL)) {
         if ((Boolean) input.getTag()) {
           input.setTag(Boolean.valueOf(false));
@@ -231,7 +225,7 @@ public class DialogUtils {
           callback.onPasswordDialogUnlocked();
           if (isInSecurityQuestion) {
             PrefKey.PROTECTION_LEGACY.putBoolean(false);
-            Toast.makeText(ctx.getBaseContext(), R.string.password_disabled_reenable, Toast.LENGTH_LONG).show();
+            ctx.showDismissableSnackbar(R.string.password_disabled_reenable);
             dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setText(R.string.password_lost);
             dialog.setTitle(R.string.password_prompt);
             input.setTag(Boolean.valueOf(false));
@@ -357,14 +351,11 @@ public class DialogUtils {
     try {
       fragment.startActivityForResult(intent, ProtectedFragmentActivity.IMPORT_FILENAME_REQUESTCODE);
     } catch (ActivityNotFoundException e) {
-      // No compatible file manager was found.
-      Toast.makeText(fragment.getActivity(), R.string.no_filemanager_installed, Toast.LENGTH_SHORT).show();
+      ((ProtectedFragmentActivity) fragment.getActivity()).showSnackbar(R.string.no_filemanager_installed, Snackbar.LENGTH_SHORT);
     } catch (SecurityException ex) {
-      Toast.makeText(fragment.getActivity(),
-          String.format(
+      ((ProtectedFragmentActivity) fragment.getActivity()).showSnackbar(String.format(
               "Sorry, this destination does not accept %s request. Please select a different one.", intent.getAction()),
-          Toast.LENGTH_SHORT)
-          .show();
+          Snackbar.LENGTH_SHORT);
     }
   }
 

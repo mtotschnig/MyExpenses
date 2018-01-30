@@ -690,11 +690,19 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     if (actionBar != null) actionBar.show();
   }
 
+  public void showDismissableSnackbar(int message) {
+    showSnackbar(getText(message), Snackbar.LENGTH_INDEFINITE, true);
+  }
+
   public void showSnackbar(int message, int duration) {
     showSnackbar(getText(message), duration);
   }
 
   public void showSnackbar(CharSequence message, int duration) {
+    showSnackbar(message, duration, false);
+  }
+
+  public void showSnackbar(CharSequence message, int duration, boolean dismissable) {
     View container = findViewById(getSnackbarContainerId());
     if (container == null) {
       AcraHelper.report(String.format("Class %s is unable to display snackbar", getClass()));
@@ -705,6 +713,9 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
       TextView textView = snackbarView.findViewById(android.support.design.R.id.snackbar_text);
       textView.setMaxLines(3);
       UiUtils.configureSnackbarForDarkTheme(snackbar);
+      if (dismissable) {
+        snackbar.setAction(R.string.snackbar_dismiss, v -> snackbar.dismiss());
+      }
       snackbar.show();
     }
   }
