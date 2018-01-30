@@ -57,11 +57,11 @@ public class FolderList extends ListFragment {
   @Override
   public void onPrepareOptionsMenu(Menu menu) {
     boolean isWritable = selectedFolder != null && selectedFolder.canWrite();
-    boolean hasParent = selectedFolder != null
-        && selectedFolder.getParentFile() != null;
+    boolean hasReadableParent = selectedFolder != null
+        && selectedFolder.getParentFile() != null && selectedFolder.getParentFile().canRead();
     menu.findItem(R.id.CREATE_COMMAND).setVisible(isWritable);
     menu.findItem(R.id.SELECT_COMMAND).setVisible(isWritable);
-    menu.findItem(R.id.UP_COMMAND).setVisible(hasParent);
+    menu.findItem(R.id.UP_COMMAND).setVisible(hasReadableParent);
   }
 
   @Override
