@@ -6,15 +6,16 @@ import android.database.MatrixCursor;
 import android.database.MergeCursor;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.PreferenceDialogFragmentCompat;
-import android.widget.Toast;
 
 import com.android.calendar.CalendarContractCompat;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.provider.DbUtils;
 
 public class CalendarListPreferenceDialogFragmentCompat extends PreferenceDialogFragmentCompat {
@@ -79,10 +80,9 @@ public class CalendarListPreferenceDialogFragmentCompat extends PreferenceDialog
               //TODO: use Async Task Strict Mode violation
               String plannerId = MyApplication.getInstance().createPlanner(false);
               boolean success = !plannerId.equals(MyApplication.INVALID_CALENDAR_ID);
-              Toast.makeText(
-                  getActivity(),
+              ((ProtectedFragmentActivity) getActivity()).showSnackbar(
                   success ? R.string.planner_create_calendar_success : R.string.planner_create_calendar_failure,
-                  Toast.LENGTH_LONG).show();
+                  Snackbar.LENGTH_LONG);
               if (success) {
                 preference.setValue(plannerId);
               }
