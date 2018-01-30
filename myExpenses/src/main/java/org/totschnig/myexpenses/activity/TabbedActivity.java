@@ -12,9 +12,6 @@ import org.totschnig.myexpenses.R;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by privat on 01.10.15.
- */
 public abstract class TabbedActivity extends ProtectedFragmentActivity {
   protected TabLayout mTabLayout;
   protected ViewPager mViewPager;
@@ -92,5 +89,10 @@ public abstract class TabbedActivity extends ProtectedFragmentActivity {
       //return makeFragmentName(R.id.viewpager_main,currentPosition);
       return "android:switcher:"+ R.id.viewpager+":"+getItemId(currentPosition);
     }
+  }
+
+  @Override
+  protected int getSnackbarContainerId() {
+    return R.id.viewpager;
   }
 }

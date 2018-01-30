@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.view.Menu;
 import android.view.SubMenu;
-import android.widget.Toast;
 
 import com.dropbox.core.android.Auth;
 
@@ -67,13 +67,13 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
     String filePath = args.getString(EditTextDialog.KEY_RESULT);
     File baseFolder = new File(filePath);
     if (!baseFolder.isDirectory()) {
-      Toast.makeText(this, "No directory " + filePath, Toast.LENGTH_SHORT).show();
-      return;
+      showSnackbar("No directory " + filePath, Snackbar.LENGTH_SHORT);
+    } else {
+      String accountName = getSyncBackendProviderFactoryByIdOrThrow(R.id.SYNC_BACKEND_LOCAL).buildAccountName(filePath);
+      Bundle bundle = new Bundle(1);
+      bundle.putString(KEY_SYNC_PROVIDER_URL, filePath);
+      createAccount(accountName, null, null, bundle);
     }
-    String accountName = getSyncBackendProviderFactoryByIdOrThrow(R.id.SYNC_BACKEND_LOCAL).buildAccountName(filePath);
-    Bundle bundle = new Bundle(1);
-    bundle.putString(KEY_SYNC_PROVIDER_URL, filePath);
-    createAccount(accountName, null, null, bundle);
   }
 
   //WebDav
@@ -206,7 +206,7 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
           bundle.putString(KEY_SYNC_PROVIDER_URL, (String) result.extra[1]);
           createAccount(accountName, null, Auth.getOAuth2Token(), bundle);
         } else {
-          Toast.makeText(this, result.print(this), Toast.LENGTH_LONG).show();
+          showSnackbar(result.print(this), Snackbar.LENGTH_LONG);
         }
       }
     }

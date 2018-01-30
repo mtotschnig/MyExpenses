@@ -419,7 +419,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   /**
    * starts the given task, only if no task is currently executed,
-   * informs user through toast in that case
+   * informs user through snackbar in that case
    *
    * @param taskId
    * @param objectIds
