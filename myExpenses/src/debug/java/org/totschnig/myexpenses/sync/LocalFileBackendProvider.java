@@ -144,8 +144,11 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
 
   private Optional<AccountMetaData> getAccountMetaDataFromFile(File file) {
     try {
-      return getAccountMetaDataFromInputStream(new FileInputStream(file));
-    } catch (FileNotFoundException e) {
+      FileInputStream inputStream = new FileInputStream(file);
+      Optional<AccountMetaData> result = getAccountMetaDataFromInputStream(inputStream);
+      inputStream.close();
+      return result;
+    } catch (IOException e) {
       return Optional.empty();
     }
   }
