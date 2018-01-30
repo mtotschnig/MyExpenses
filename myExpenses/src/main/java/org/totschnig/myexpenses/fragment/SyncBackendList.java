@@ -26,6 +26,7 @@ import com.dropbox.core.InvalidAccessTokenException;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.SyncBackendAdapter;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.DialogUtils;
@@ -147,12 +148,8 @@ public class SyncBackendList extends Fragment implements
       }
       case R.id.SYNCED_TO_OTHER_COMMAND: {
         Account account = getAccountForSync(packedPosition);
-        MessageDialogFragment.newInstance(
-            0,
-            getString(R.string.dialog_synced_to_other, account.uuid),
-            MessageDialogFragment.Button.okButton(),
-            null, null)
-            .show(getFragmentManager(), "SYNCED_TO_OTHER");
+        ((ProtectedFragmentActivity) getActivity()).showMessage(
+            getString(R.string.dialog_synced_to_other, account.uuid));
         return true;
       }
       case R.id.SYNC_LINK_COMMAND: {

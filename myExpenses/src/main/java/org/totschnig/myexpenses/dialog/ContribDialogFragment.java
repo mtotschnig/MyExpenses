@@ -22,6 +22,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.text.Html;
@@ -37,6 +38,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.util.DistribHelper;
+import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
@@ -64,6 +66,8 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
   @Inject
   LicenceHandler licenceHandler;
   private TextView professionalPriceTextView;
+  private @SuppressLint("InflateParams")
+  View dialogView;
 
   public static ContribDialogFragment newInstance(String feature, Serializable tag) {
     ContribDialogFragment dialogFragment = new ContribDialogFragment();
@@ -89,8 +93,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     Activity ctx = getActivity();
     LicenceStatus licenceStatus = licenceHandler.getLicenceStatus();
-    @SuppressLint("InflateParams")
-    final View view = LayoutInflater.from(ctx).inflate(R.layout.contrib_dialog, null);
+    dialogView = LayoutInflater.from(ctx).inflate(R.layout.contrib_dialog, null);
     AlertDialog.Builder builder = new AlertDialog.Builder(ctx,
         MyApplication.getThemeType().equals(MyApplication.ThemeType.dark) ?
             R.style.ContribDialogThemeDark : R.style.ContribDialogThemeLight);
@@ -103,7 +106,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
           removePhrase = feature.buildRemoveLimitation(getActivity(), true);
       message = TextUtils.concat(featureDescription, linefeed, removePhrase);
       if (feature.hasTrial()) {
-        TextView usagesLeftTextView = view.findViewById(R.id.usages_left);
+        TextView usagesLeftTextView = dialogView.findViewById(R.id.usages_left);
         usagesLeftTextView.setText(feature.buildUsagesLefString(ctx));
         usagesLeftTextView.setVisibility(View.VISIBLE);
       }
@@ -116,13 +119,13 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
         message = contribText2;
       }
     }
-    ((TextView) view.findViewById(R.id.feature_info)).setText(message);
+    ((TextView) dialogView.findViewById(R.id.feature_info)).setText(message);
 
     List<CharSequence> contribFeatureLabelsAsList = Utils.getContribFeatureLabelsAsList(ctx, CONTRIB);
     List<CharSequence> extendedFeatureLabelsAsList = Utils.getContribFeatureLabelsAsList(ctx, EXTENDED);
 
     //prepare CONTRIB section
-    View contribContainer = view.findViewById(R.id.contrib_feature_container);
+    View contribContainer = dialogView.findViewById(R.id.contrib_feature_container);
     contribContainer.setBackgroundColor(getResources().getColor(R.color.premium_licence));
     if (licenceStatus == null && CONTRIB.covers(feature)) {
      contribVisible = true;
@@ -133,7 +136,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     }
 
     //prepare EXTENDED section
-    View extendedContainer = view.findViewById(R.id.extended_feature_container);
+    View extendedContainer = dialogView.findViewById(R.id.extended_feature_container);
     extendedContainer.setBackgroundColor(getResources().getColor(R.color.extended_licence));
     if (LicenceHandler.HAS_EXTENDED && CONTRIB.greaterOrEqual(licenceStatus) && EXTENDED.covers(feature)) {
       extendedVisible = true;
@@ -151,7 +154,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
 
     //prepare PROFESSIONAL section
     ArrayList<CharSequence> lines = new ArrayList<>();
-    View professionalContainer = view.findViewById(R.id.professional_feature_container);
+    View professionalContainer = dialogView.findViewById(R.id.professional_feature_container);
     professionalContainer.setBackgroundColor(getResources().getColor(R.color.professional_licence));
     if (extendedVisible || (contribVisible && !LicenceHandler.HAS_EXTENDED)) {
       lines.add(getString(R.string.all_extended_key_features) + "\n+");
@@ -167,12 +170,12 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     ((TextView) professionalContainer.findViewById(R.id.package_feature_list)).setText(Utils.makeBulletList(ctx, lines, R.drawable.ic_menu_done));
 
     //FOOTER
-    view.findViewById(R.id.eu_vat_info).setVisibility(DistribHelper.isGithub() ? View.VISIBLE : View.GONE);
+    dialogView.findViewById(R.id.eu_vat_info).setVisibility(DistribHelper.isGithub() ? View.VISIBLE : View.GONE);
 
     builder.setTitle(feature == null ? R.string.menu_contrib :
             feature.isExtended() ? R.string.dialog_title_extended_feature :
                 R.string.dialog_title_contrib_feature)
-        .setView(view)
+        .setView(dialogView)
         .setNegativeButton(R.string.dialog_contrib_no, this)
         .setIcon(R.mipmap.ic_launcher_alt)
         .setPositiveButton(R.string.upgrade_now, this);
@@ -203,7 +206,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
       professionalButton.setChecked(true);
       selectedPackage = proPackages[0];
     } else {
-      view.findViewById(R.id.professional_feature_container).setOnClickListener(this);
+      dialogView.findViewById(R.id.professional_feature_container).setOnClickListener(this);
       professionalButton.setOnClickListener(this);
       dialog.setOnShowListener(new ButtonOnShowDisabler());
     }
@@ -291,5 +294,11 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     if (extendedVisible) extendedButton.setChecked(extendedButton == selected);
     professionalButton.setChecked(professionalButton == selected);
     ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+  }
+
+  public void showMessage(String message) {
+    Snackbar snackbar = Snackbar.make(dialogView, message, Snackbar.LENGTH_LONG);
+    UiUtils.configureSnackbarForDarkTheme(snackbar);
+    snackbar.show();
   }
 }

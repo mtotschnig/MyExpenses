@@ -501,12 +501,7 @@ public class MyExpenses extends LaunchActivity implements
         if (tl != null && tl.hasMappedCategories()) {
           contribFeatureRequested(ContribFeature.DISTRIBUTION, null);
         } else {
-          MessageDialogFragment.newInstance(
-              0,
-              R.string.dialog_command_disabled_distribution,
-              MessageDialogFragment.Button.okButton(),
-              null, null)
-              .show(getSupportFragmentManager(), "BUTTON_DISABLED_INFO");
+          showMessage(R.string.dialog_command_disabled_distribution);
         }
         return true;
       case R.id.CREATE_COMMAND:
@@ -532,12 +527,7 @@ public class MyExpenses extends LaunchActivity implements
           BalanceDialogFragment.newInstance(bundle)
               .show(getSupportFragmentManager(), "BALANCE_ACCOUNT");
         } else {
-          MessageDialogFragment.newInstance(
-              0,
-              R.string.dialog_command_disabled_balance,
-              MessageDialogFragment.Button.okButton(),
-              null, null)
-              .show(getSupportFragmentManager(), "BUTTON_DISABLED_INFO");
+          showMessage(R.string.dialog_command_disabled_balance);
         }
         return true;
       case R.id.RESET_COMMAND:
@@ -662,12 +652,7 @@ public class MyExpenses extends LaunchActivity implements
   }
 
   public void showExportDisabledCommand() {
-    MessageDialogFragment.newInstance(
-        0,
-        R.string.dialog_command_disabled_reset_account,
-        MessageDialogFragment.Button.okButton(),
-        null, null)
-        .show(getSupportFragmentManager(), "BUTTON_DISABLED_INFO");
+    showMessage(R.string.dialog_command_disabled_reset_account);
   }
 
   private void closeDrawer() {
@@ -1297,12 +1282,8 @@ public class MyExpenses extends LaunchActivity implements
           mManager.initLoader(ACCOUNTS_CURSOR, null, this);
         }
         if (item.getItemId() == R.id.SORT_CUSTOM_COMMAND) {
-          MessageDialogFragment.newInstance(
-              R.string.dialog_title_information,
-              R.string.dialog_info_custom_sort,
-              MessageDialogFragment.Button.okButton(),
-              null, null)
-              .show(getSupportFragmentManager(), "CUSTOM_SORT_INFO");
+          showMessage(R.string.dialog_title_information,
+              getString(R.string.dialog_info_custom_sort));
         }
       }
       return true;

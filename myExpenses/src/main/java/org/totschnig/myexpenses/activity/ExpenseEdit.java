@@ -916,12 +916,7 @@ public class ExpenseEdit extends AmountActivity implements
     if (account == null)
       return false;
     if (!(mAccounts.length > 1)) {
-      MessageDialogFragment.newInstance(
-          0,
-          getString(R.string.dialog_command_disabled_insert_transfer),
-          MessageDialogFragment.Button.okButton(),
-          null, null)
-          .show(getSupportFragmentManager(), "BUTTON_DISABLED_INFO");
+      showMessage(R.string.dialog_command_disabled_insert_transfer);
       return false;
     }
     return true;

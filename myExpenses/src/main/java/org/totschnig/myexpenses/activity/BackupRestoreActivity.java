@@ -105,8 +105,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
   }
 
   private void abort(String message) {
-    MessageDialogFragment.newInstance(0, message, MessageDialogFragment.Button.okButton(), null, null)
-        .show(getSupportFragmentManager(), "ABORT");
+    showMessage(message);
   }
 
   private void showRestoreDialog(Uri fileUri, int restorePlanStrategie) {

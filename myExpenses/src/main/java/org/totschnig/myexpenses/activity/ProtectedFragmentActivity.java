@@ -57,6 +57,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.DialogUtils;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
@@ -715,5 +716,22 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   @IdRes
   protected int getSnackbarContainerId() {
     return R.id.fragment_container;
+  }
+
+  public void showMessage(int resId) {
+    showMessage(getString(resId));
+  }
+
+  public void showMessage(CharSequence message) {
+   showMessage(0, message);
+  }
+
+  public void showMessage(int title, CharSequence message) {
+    MessageDialogFragment.newInstance(
+        title,
+        message,
+        MessageDialogFragment.Button.okButton(),
+        null, null)
+        .show(getSupportFragmentManager(), "MESSAGE");
   }
 }

@@ -8,7 +8,6 @@ import android.widget.Toast;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Result;
@@ -69,15 +68,10 @@ public class DeepLinkActivity extends ProtectedFragmentActivity {
     finish();
   }
 
-  private void showMessage(final CharSequence message) {
+  public void showMessage(final CharSequence message) {
     String messageToShow = isPdt ? getString(R.string.paypal_callback_info) + " " : "";
     messageToShow += message;
-    MessageDialogFragment.newInstance(
-        0,
-        messageToShow,
-        MessageDialogFragment.Button.okButton(),
-        null, null)
-        .show(getSupportFragmentManager(), "BUTTON_DISABLED_INFO");
+    super.showMessage(messageToShow);
   }
 
   private void showToast(CharSequence message) {

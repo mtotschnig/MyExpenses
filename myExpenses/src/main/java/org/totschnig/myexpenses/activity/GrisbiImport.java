@@ -18,7 +18,7 @@ package org.totschnig.myexpenses.activity;
 import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.text.TextUtils;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -42,27 +42,31 @@ public class GrisbiImport extends ProtectedFragmentActivity {
   public void onPostExecute(int taskId, Object result) {
     super.onPostExecute(taskId, result);
     Result r = (Result) result;
-    String msg;
+    String msg = "";
     if (r.success) {
       Integer imported = (Integer) r.extra[0];
       if (imported > -1) {
-        msg = imported == 0 ?
+        msg += imported == 0 ?
             getString(R.string.import_categories_none) :
             getString(R.string.import_categories_success, String.valueOf(imported));
-        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
       }
       imported = (Integer) r.extra[1];
       if (imported > -1) {
-        msg = imported == 0 ?
+        if (!TextUtils.isEmpty(msg)) {
+          msg += "\n";
+        }
+        msg += imported == 0 ?
             getString(R.string.import_parties_none) :
             getString(R.string.import_parties_success, String.valueOf(imported));
-        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
       }
     } else {
       msg = r.print(this);
-      Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
     }
-    finish();
+    if (TextUtils.isEmpty(msg)) {
+      finish();
+    } else {
+      showMessage(msg);
+    }
   }
 
   public void onSourceSelected(Uri mUri, boolean withCategories, boolean withParties) {
@@ -76,7 +80,7 @@ public class GrisbiImport extends ProtectedFragmentActivity {
   }
 
   @Override
-  public void onProgressDialogDismiss() {
+  public void onMessageDialogDismissOrCancel() {
     finish();
   }
 }
