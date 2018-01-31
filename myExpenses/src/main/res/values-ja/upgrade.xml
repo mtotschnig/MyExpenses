@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_287">
+    <item>デバイスのロック画面による保護</item>
+  </string-array>
   <string-array name="whats_new_286">
     <item>PDF エクスポート (印刷) が共有できます</item>
   </string-array>

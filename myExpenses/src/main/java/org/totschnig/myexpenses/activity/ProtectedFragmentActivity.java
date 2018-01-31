@@ -248,7 +248,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   protected void confirmCredentials(int requestCode, DialogUtils.PasswordDialogUnlockedCallback legacyUnlockCallback, boolean shouldHideWindow) {
-    if (Utils.hasApiLevel(Build.VERSION_CODES.LOLLIPOP) && PROTECTION_DEVICE_LOCK_SCREEN.getBoolean(true)) {
+    if (Utils.hasApiLevel(Build.VERSION_CODES.LOLLIPOP) && PROTECTION_DEVICE_LOCK_SCREEN.getBoolean(false)) {
       Intent intent = ((KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE))
           .createConfirmDeviceCredentialIntent(null, null);
       if (intent != null) {

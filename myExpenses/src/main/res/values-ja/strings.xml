@@ -307,6 +307,7 @@
   <string name="pref_manage_sync_backends_summary">アカウントを同期するためのバックエンドを追加します (%s)。</string>
   <string name="pref_more_info_dialog_title">ライセンス &amp; クレジット</string>
   <string name="pref_password_not_equal">パスワードが一致しません</string>
+  <string name="pref_perform_protection_title">保護</string>
   <string name="pref_perform_share_title">エクスポートとバックアップを共有</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">新しいローカル プランニング カレンダーを作成</string>
@@ -691,4 +692,9 @@
   <plurals name="delete_success">
     <item quantity="other">%d のオブジェクトが削除されました。</item>
   </plurals>
+  <string name="feature_deprecated">廃止</string>
+  <string name="pref_protection_device_lock_screen_title">デバイスのロック画面</string>
+  <string name="pref_warning_only_one_protection">%1$s による保護を使用する前に、%2$s の保護をオフにする必要があります。</string>
+  <string name="warning_device_lock_screen_not_set_up_1">安全なデバイスロック画面は設定されていません。</string>
+  <string name="warning_device_lock_screen_not_set_up_2">\'設定 -&gt; セキュリティ -&gt; 画面ロック\' でロック画面を設定してください。</string>
 </resources>
