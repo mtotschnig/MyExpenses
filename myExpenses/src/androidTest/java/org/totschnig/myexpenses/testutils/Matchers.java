@@ -1,12 +1,9 @@
 package org.totschnig.myexpenses.testutils;
 
 import android.database.Cursor;
-import android.os.IBinder;
-import android.support.test.espresso.Root;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.test.espresso.matcher.CursorMatchers;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -79,30 +76,6 @@ public class Matchers {
         Adapter adapter = ((AdapterView) view).getAdapter();
         for (int i = 0; i < adapter.getCount(); i++) {
           if (dataMatcher.matches(adapter.getItem(i))) {
-            return true;
-          }
-        }
-        return false;
-      }
-    };
-  }
-
-  //http://qaautomated.blogspot.de/2016/01/how-to-test-toast-message-using-espresso.html
-  public static TypeSafeMatcher<Root> inToast() {
-    return new TypeSafeMatcher<Root>() {
-      @Override
-      public void describeTo(Description description) {
-        description.appendText("is toast");
-      }
-
-      @Override
-      public boolean matchesSafely(Root root) {
-        int type = root.getWindowLayoutParams().get().type;
-        if ((type == WindowManager.LayoutParams.TYPE_TOAST)) {
-          IBinder windowToken = root.getDecorView().getWindowToken();
-          IBinder appToken = root.getDecorView().getApplicationWindowToken();
-          if (windowToken == appToken) {
-            //means this window isn't contained by any other windows.
             return true;
           }
         }

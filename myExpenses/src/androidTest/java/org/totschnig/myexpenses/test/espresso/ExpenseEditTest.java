@@ -14,7 +14,6 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
-import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.testutils.Matchers;
 
@@ -35,7 +34,6 @@ import static org.totschnig.myexpenses.contract.TransactionsContract.Transaction
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER;
 import static org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone;
 import static org.totschnig.myexpenses.testutils.Espresso.checkEffectiveVisible;
-import static org.totschnig.myexpenses.testutils.Matchers.inToast;
 
 public class ExpenseEditTest {
 
@@ -142,7 +140,7 @@ public class ExpenseEditTest {
     for (int j = 0; j < times; j++) {
       onView(withId(R.id.Amount)).perform(typeText(String.valueOf(amount)));
       onView(withId(R.id.SAVE_AND_NEW_COMMAND)).perform(click());
-      onView(withText(success)).inRoot(inToast()).check(matches(isDisplayed()));
+      onView(withText(success)).check(matches(isDisplayed()));
     }
     //we assume two fraction digits
     assertEquals("Transaction sum does not match saved transactions", account1.getTransactionSum(null), -amount * times * 100);
