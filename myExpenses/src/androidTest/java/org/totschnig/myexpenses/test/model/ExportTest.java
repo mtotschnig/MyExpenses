@@ -89,8 +89,8 @@ public class ExportTest extends ModelTest {
     if (account2 != null && account2.getId() != null) {
       Account.delete(account2.getId());
     }
-    Category.delete(cat1Id);
-    Category.delete(cat2Id);
+    if (cat1Id != null) Category.delete(cat1Id);
+    if (cat2Id != null) Category.delete(cat2Id);
   }
 
   private void insertData1() {
