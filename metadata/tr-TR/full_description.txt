@@ -1,54 +1,45 @@
-<p>Harcamalarım harcamalarınızı ve gelirlerinizi doğrudan akıllı telefonunuzda ve tabletinizde takip eder.</p>
+Harcamalarım harcamalarınızı ve gelirlerinizi doğrudan akıllı telefonunuzda ve tabletinizde takip eder.
 
-<ul>
-<li><b>Havaleler</b> dahil olmak üzere 5 hesap desteği (değişik dövizler arasında da havale yapılabilir)</li>
-<li>Sınırsız <b>şablon</b> sayısı ve <b>tekrarlanan</b> muameleler için üçe kadar planlama desteği</li>
-<li>Muameleler (günlük, haftalık, aylık ve senelik olarak) <b>gruplanabilir</b> ve <b>filtrelenebilir</b></li>
-<li>QIF ile CSV biçimlerinde <b>dışa aktarma</b>. QIF biçiminden <b>içe aktarma</b></li>
-<li>Veriler <b>parola</b>ile korunabilir</li>
-<li><b>Tema</b> (açık veya koyu) ile <b>yazıtipi boyutu</b> kişiselleştirilebilir</li>
-<li><b>Uzlaştıma</b>: muamele durumlarını kolayca banka dekontlarınız ile karşılaştırın</li>
-<li>Çabuk veri girişi için ana ekran <b>widget'leri</b> ve <b>kısayolları</b></li>
-</ul>
+- <b>Havaleler</b> dahil olmak üzere 5 hesap desteği (değişik dövizler arasında da havale yapılabilir)
+- Sınırsız <b>şablon</b> sayısı ve <b>tekrarlanan</b> muameleler için üçe kadar planlama desteği
+- Muameleler (günlük, haftalık, aylık ve senelik olarak) <b>gruplanabilir</b> ve <b>filtrelenebilir</b>
+- QIF ile CSV biçimlerinde <b>dışa aktarma</b>. QIF biçiminden <b>içe aktarma</b>
+- Veriler <b>parola</b>ile korunabilir
+- <b>Tema</b> (açık veya koyu) ile <b>yazıtipi boyutu</b> kişiselleştirilebilir
+- <b>Uzlaştıma</b>: muamele durumlarını kolayca banka dekontlarınız ile karşılaştırın
+- Çabuk veri girişi için ana ekran <b>widget'leri</b> ve <b>kısayolları</b>
 
-<p>Premium işlevlerin kilidi aşağıdaki lisans anahtarlarının satın alınmasıyla açılabilir:</p>
+Premium işlevlerin kilidi aşağıdaki lisans anahtarlarının satın alınmasıyla açılabilir:
 
-<p><b>Katkı Anahtarı</b></p>
+<b>Katkı Anahtarı</b>
 
-<ul>
-<li><b>Reklamsız</b></li>
-<li>Sınırsız sayıda <b>hesap</b></li>
-<li><b>Tekrarlanan</b> muameleler için sınırsız planlama sayısı</li>
-<li><b>Yuvarlak diyagram</b>: değişik zaman dilimleri (sene, ay, hafta, gün) ile kategori başına muamelelerin istatistiki dağılımını görüntüleyin</li>
-<li><b>Bölünmüş muameleler</b>: tek bir muamele birden çok parçalara ayrılabilir (kategoriler ve havaleler)</li>
-<li>Muamele listesini bir PDF dosyasına <b>yazdırma</b></li>
-<li>Unuttuğunuz parolanızın hatırlatılması için <b>güvenlik sorusu</b> belirlemek</li>
-<li><b>Resim ekleme</b>: kamera ile çekme ya da galeriden seçme</li>
-<li>Ana ekran <b>widget'inden</b> hızlı <b>şablon</b> seçimi</li>
-</ul>
+- <b>Reklamsız</b>
+- Sınırsız sayıda <b>hesap</b>
+- <b>Tekrarlanan</b> muameleler için sınırsız planlama sayısı
+- <b>Yuvarlak diyagram</b>: değişik zaman dilimleri (sene, ay, hafta, gün) ile kategori başına muamelelerin istatistiki dağılımını görüntüleyin
+- <b>Bölünmüş muameleler</b>: tek bir muamele birden çok parçalara ayrılabilir (kategoriler ve havaleler)
+- Muamele listesini bir PDF dosyasına <b>yazdırma</b>
+- Unuttuğunuz parolanızın hatırlatılması için <b>güvenlik sorusu</b> belirlemek
+- <b>Resim ekleme</b>: kamera ile çekme ya da galeriden seçme
+- Ana ekran <b>widget'inden</b> hızlı <b>şablon</b> seçimi
 
-<p><b>Genişletilmiş Anahtarı</b></p>
+<b>Genişletilmiş Anahtarı</b>
 
-<ul>
-<li>Katkı Anahtarının tüm işlevleri</li>
-<li><b>Bulut eşleştirmesi</b>: veriler birden çok cihaz arasında WebDAV ve Google Drive vasıtasıyla eşleştirilebilir</li>
-<li>Günlük <b>otomatik yedekleme</b> ve seçime bağlı bulut depolama alanına yükleme</li>
-<li>Gelişmiş, özelleştirilebilen <b>CSV içe aktarma</b> (tablolama uygulamaları)</li>
+- Katkı Anahtarının tüm işlevleri
+- <b>Bulut eşleştirmesi</b>: veriler birden çok cihaz arasında WebDAV ve Google Drive vasıtasıyla eşleştirilebilir
+- Günlük <b>otomatik yedekleme</b> ve seçime bağlı bulut depolama alanına yükleme
+- Gelişmiş, özelleştirilebilen <b>CSV içe aktarma</b> (tablolama uygulamaları)
 
-<p><b>Profesyonel Anahtar</b></p>
+<b>Profesyonel Anahtar</b>
 
-<ul>
-<li>Genişletilmiş Anahtar'ın tüm işlevleri</li>
-<li>Sınırsız sayıda <b>şablon ve bölünmüş muameleler için planlama</b></li>
-<li>2 iş günü sonrasında cevap garantili <b>e-posta desteği</b></li>
-<li><b>Geliştirme yol haritası</b> hakkında oy verme hakkı</li>
-</ul>
+- Genişletilmiş Anahtar'ın tüm işlevleri
+- Sınırsız sayıda <b>şablon ve bölünmüş muameleler için planlama</b>
+- 2 iş günü sonrasında cevap garantili <b>e-posta desteği</b>
+- <b>Geliştirme yol haritası</b> hakkında oy verme hakkı
 
-<p><i>Harcamalarım</i> aşağıdaki <u>izinlere</u> ihtiyaç duyar::</p>
+<i>Harcamalarım</i> aşağıdaki <u>izinlere</u> ihtiyaç duyar::
 
-<ul>
-<li><i>Takvim</i>: Gelecekteki ve tekrar eden muameleler için planlar ya özel bir yerel takvimde ya da atadığınız herhangi başka bir takvimde saklanır.</li>
-<li><i>Depolama</i>: QIF ve CSV dışa aktarmaları ve yedekleme dosyalarının saklanması.</li>
-<li><i>Internet</i>: Lisans anahtarı teyidi, Bulut eşleşmesi.</li>
-<li><i>Hesaplar</i>: Cihazlar arası bulut hizmetleri ile eşleşme.</li>
-</ul>
+- <i>Takvim</i>: Gelecekteki ve tekrar eden muameleler için planlar ya özel bir yerel takvimde ya da atadığınız herhangi başka bir takvimde saklanır.
+- <i>Depolama</i>: QIF ve CSV dışa aktarmaları ve yedekleme dosyalarının saklanması.
+- <i>Internet</i>: Lisans anahtarı teyidi, Bulut eşleşmesi.
+- <i>Hesaplar</i>: Cihazlar arası bulut hizmetleri ile eşleşme.
