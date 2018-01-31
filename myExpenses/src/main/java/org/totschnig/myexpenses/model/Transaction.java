@@ -389,10 +389,9 @@ public class Transaction extends Model {
     Long parent_id = getLongOrNull(c, KEY_PARENTID);
     Long catId = getLongOrNull(c, KEY_CATID);
     if (transfer_peer != null) {
-      Transfer transfer = new Transfer(account_id, money, parent_id);
-      transfer.setTransferPeer(transfer_peer);
       Long transferAccountId = getLongOrNull(c, KEY_TRANSFER_ACCOUNT);
-      transfer.setTransferAccountId(transferAccountId);
+      Transfer transfer = new Transfer(account_id, money, transferAccountId, parent_id);
+      transfer.setTransferPeer(transfer_peer);
       transfer.setTransferAmount(new Money(Account.getInstanceFromDb(transferAccountId).currency,
           c.getLong(c.getColumnIndex(KEY_TRANSFER_AMOUNT))));
       t = transfer;

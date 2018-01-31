@@ -3,12 +3,10 @@ package org.totschnig.myexpenses.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Result;
@@ -30,8 +28,7 @@ public class DeepLinkActivity extends ProtectedFragmentActivity {
         if (data == null) {
           showWebSite();
         } else if (data.getLastPathSegment().equals("callback.html")) {
-          showToast(Utils.getTextWithAppName(this, R.string.licence_migration_info));
-          finish();
+          super.showMessage(Utils.getTextWithAppName(this, R.string.licence_migration_info));
         } else if ("verify".equals(data.getFragment())) { //callback2.html
           boolean isSandbox = data.getBooleanQueryParameter("sandbox", false);
           if (isSandbox == BuildConfig.DEBUG) {//prevent a sandbox call from hitting production app, and vice versa
@@ -69,19 +66,10 @@ public class DeepLinkActivity extends ProtectedFragmentActivity {
     finish();
   }
 
-  private void showMessage(final CharSequence message) {
+  public void showMessage(final CharSequence message) {
     String messageToShow = isPdt ? getString(R.string.paypal_callback_info) + " " : "";
     messageToShow += message;
-    MessageDialogFragment.newInstance(
-        0,
-        messageToShow,
-        MessageDialogFragment.Button.okButton(),
-        null, null)
-        .show(getSupportFragmentManager(), "BUTTON_DISABLED_INFO");
-  }
-
-  private void showToast(CharSequence message) {
-    Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    super.showMessage(messageToShow);
   }
 
   private void showWebSite() {

@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SwitchCompat;
@@ -30,7 +31,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.MyApplication;
@@ -272,10 +272,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
           encoding,
           R.string.menu_categories_export);
     } else {
-      Toast.makeText(this,
-          appDirStatus.print(this),
-          Toast.LENGTH_LONG)
-          .show();
+      showSnackbar(appDirStatus.print(this), Snackbar.LENGTH_LONG);
     }
   }
 
@@ -317,11 +314,9 @@ public class ManageCategories extends ProtectedFragmentActivity implements
   @Override
   public void onPostExecute(Object result) {
     if (result == null) {
-      Toast.makeText(ManageCategories.this,
-          getString(R.string.already_defined,
+      showSnackbar(getString(R.string.already_defined,
               mCategory != null ? mCategory.label : ""),
-          Toast.LENGTH_LONG)
-          .show();
+          Snackbar.LENGTH_LONG);
     }
     super.onPostExecute(result);
   }
@@ -352,9 +347,12 @@ public class ManageCategories extends ProtectedFragmentActivity implements
           if (PrefKey.PERFORM_SHARE.getBoolean(false)) {
             ArrayList<Uri> uris = new ArrayList<>();
             uris.add(uri);
-            ShareUtils.share(this, uris,
+            Result shareResult = ShareUtils.share(this, uris,
                 PrefKey.SHARE_TARGET.getString("").trim(),
                 "text/qif");
+            if (!shareResult.success) {
+              showSnackbar(shareResult.print(this), Snackbar.LENGTH_LONG);
+            }
           }
           break;
         case TaskExecutionFragment.TASK_MOVE_CATEGORY:
@@ -365,7 +363,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
     } else {
       msg = r.print(this);
     }
-    Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+    showSnackbar(msg, Snackbar.LENGTH_LONG);
   }
 
   @Override

@@ -15,13 +15,17 @@
 
     <include layout="@layout/toolbar"/>
 
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <fragment
         android:id="@+id/folder_list"
         android:name="org.totschnig.myexpenses.fragment.FolderList"
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/margin_list"
         android:layout_marginRight="@dimen/margin_list"
         android:layout_weight="1"/>
-
+    </android.support.design.widget.CoordinatorLayout>
 </LinearLayout>

@@ -19,15 +19,16 @@
               android:layout_height="fill_parent"
               android:orientation="vertical">
     <include layout="@layout/toolbar"/>
-    <FrameLayout
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     <fragment
         android:id="@+id/category_list"
         android:name="org.totschnig.myexpenses.fragment.CategoryList"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
         <include layout="@layout/floating_action_button"/>
-    </FrameLayout>
+    </android.support.design.widget.CoordinatorLayout>
 </LinearLayout>
 

@@ -27,6 +27,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
@@ -53,7 +54,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.MyApplication;
@@ -501,12 +501,7 @@ public class MyExpenses extends LaunchActivity implements
         if (tl != null && tl.hasMappedCategories()) {
           contribFeatureRequested(ContribFeature.DISTRIBUTION, null);
         } else {
-          MessageDialogFragment.newInstance(
-              0,
-              R.string.dialog_command_disabled_distribution,
-              MessageDialogFragment.Button.okButton(),
-              null, null)
-              .show(getSupportFragmentManager(), "BUTTON_DISABLED_INFO");
+          showMessage(R.string.dialog_command_disabled_distribution);
         }
         return true;
       case R.id.CREATE_COMMAND:
@@ -532,12 +527,7 @@ public class MyExpenses extends LaunchActivity implements
           BalanceDialogFragment.newInstance(bundle)
               .show(getSupportFragmentManager(), "BALANCE_ACCOUNT");
         } else {
-          MessageDialogFragment.newInstance(
-              0,
-              R.string.dialog_command_disabled_balance,
-              MessageDialogFragment.Button.okButton(),
-              null, null)
-              .show(getSupportFragmentManager(), "BUTTON_DISABLED_INFO");
+          showMessage(R.string.dialog_command_disabled_balance);
         }
         return true;
       case R.id.RESET_COMMAND:
@@ -548,10 +538,7 @@ public class MyExpenses extends LaunchActivity implements
             ExportDialogFragment.newInstance(mAccountId, tl.isFiltered())
                 .show(this.getSupportFragmentManager(), "WARNING_RESET");
           } else {
-            Toast.makeText(getBaseContext(),
-                appDirStatus.print(this),
-                Toast.LENGTH_LONG)
-                .show();
+            showSnackbar(appDirStatus.print(this), Snackbar.LENGTH_LONG);
           }
         } else {
           showExportDisabledCommand();
@@ -581,7 +568,7 @@ public class MyExpenses extends LaunchActivity implements
         return true;
       case R.id.CREATE_ACCOUNT_COMMAND:
         if (mAccountCount == 0) {
-          Toast.makeText(this, R.string.account_list_not_yet_loaded, Toast.LENGTH_LONG).show();
+          showSnackbar(R.string.account_list_not_yet_loaded, Snackbar.LENGTH_LONG);
         }
         //we need the accounts to be loaded in order to evaluate if the limit has been reached
         else if (ContribFeature.ACCOUNTS_UNLIMITED.hasAccess() || mAccountCount < 5) {
@@ -620,17 +607,20 @@ public class MyExpenses extends LaunchActivity implements
         i.setDataAndType(data, "application/pdf");
         i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         if (!Utils.isIntentAvailable(this, i)) {
-          Toast.makeText(this, R.string.no_app_handling_pdf_available, Toast.LENGTH_LONG).show();
+          showSnackbar(R.string.no_app_handling_pdf_available, Snackbar.LENGTH_LONG);
         } else {
           startActivity(i);
         }
         return true;
       }
       case R.id.SHARE_PDF_COMMAND: {
-        ShareUtils.share(this,
+        Result shareResult = ShareUtils.share(this,
             Collections.singletonList(AppDirHelper.ensureContentUri(Uri.parse((String) tag))),
             PrefKey.SHARE_TARGET.getString("").trim(),
             "application/pdf");
+        if (!shareResult.success) {
+          showSnackbar(shareResult.print(this), Snackbar.LENGTH_LONG);
+        }
         return true;
       }
       case R.id.QUIT_COMMAND:
@@ -665,12 +655,7 @@ public class MyExpenses extends LaunchActivity implements
   }
 
   public void showExportDisabledCommand() {
-    MessageDialogFragment.newInstance(
-        0,
-        R.string.dialog_command_disabled_reset_account,
-        MessageDialogFragment.Button.okButton(),
-        null, null)
-        .show(getSupportFragmentManager(), "BUTTON_DISABLED_INFO");
+    showMessage(R.string.dialog_command_disabled_reset_account);
   }
 
   private void closeDrawer() {
@@ -885,9 +870,8 @@ public class MyExpenses extends LaunchActivity implements
       String label = extras.getString(SimpleInputDialog.TEXT);
       Uri uri = new Template(Transaction.getInstanceFromDb(extras.getLong(KEY_ROWID)), label).save();
       if (uri == null) {
-        Toast.makeText(getBaseContext(), R.string.template_create_error, Toast.LENGTH_LONG).show();
+        showSnackbar(R.string.template_create_error, Snackbar.LENGTH_LONG);
       } else {
-        Toast.makeText(getBaseContext(), getString(R.string.template_create_success, label), Toast.LENGTH_LONG).show();
         // show template edit activity
         Intent i = new Intent(this, ExpenseEdit.class);
         i.putExtra(DatabaseConstants.KEY_TEMPLATEID, ContentUris.parseId(uri));
@@ -911,24 +895,22 @@ public class MyExpenses extends LaunchActivity implements
     String msg;
     super.onPostExecute(taskId, o);
     switch (taskId) {
-/*    case TaskExecutionFragment.TASK_CLONE:
-      successCount = (Integer) o;
-      msg = successCount == 0 ?  getString(R.string.clone_transaction_error) :
-        getResources().getQuantityString(R.plurals.clone_transaction_success, successCount, successCount);
-      Toast.makeText(this,msg, Toast.LENGTH_LONG).show();
-      break;*/
       case TaskExecutionFragment.TASK_SPLIT:
         successCount = (Integer) o;
         msg = successCount == 0 ? getString(R.string.split_transaction_error) :
             getResources().getQuantityString(R.plurals.split_transaction_success, successCount, successCount);
-        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+        showSnackbar(msg, Snackbar.LENGTH_LONG);
         break;
       case TaskExecutionFragment.TASK_EXPORT:
         ArrayList<Uri> files = (ArrayList<Uri>) o;
-        if (files != null && !files.isEmpty())
-          ShareUtils.share(this, files,
+        if (files != null && !files.isEmpty()) {
+          Result shareResult = ShareUtils.share(this, files,
               PrefKey.SHARE_TARGET.getString("").trim(),
               "text/" + mExportFormat.toLowerCase(Locale.US));
+          if (!shareResult.success) {
+            showSnackbar(shareResult.print(this), Snackbar.LENGTH_LONG);
+          }
+        }
         break;
       case TaskExecutionFragment.TASK_PRINT:
         Result result = (Result) o;
@@ -943,7 +925,7 @@ public class MyExpenses extends LaunchActivity implements
           f.setCancelable(false);
           f.show(getSupportFragmentManager(), "PRINT_RESULT");
         } else {
-          Toast.makeText(this, result.print(this), Toast.LENGTH_LONG).show();
+          showSnackbar(result.print(this), Snackbar.LENGTH_LONG);
         }
         break;
     }
@@ -1291,7 +1273,7 @@ public class MyExpenses extends LaunchActivity implements
   public void copyToClipBoard(View view) {
     ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
     clipboard.setText(mCurrentBalance);
-    Toast.makeText(this, R.string.copied_to_clipboard, Toast.LENGTH_LONG).show();
+    showSnackbar(R.string.copied_to_clipboard, Snackbar.LENGTH_LONG);
   }
 
   protected boolean handleSortOption(MenuItem item) {
@@ -1307,12 +1289,8 @@ public class MyExpenses extends LaunchActivity implements
           mManager.initLoader(ACCOUNTS_CURSOR, null, this);
         }
         if (item.getItemId() == R.id.SORT_CUSTOM_COMMAND) {
-          MessageDialogFragment.newInstance(
-              R.string.dialog_title_information,
-              R.string.dialog_info_custom_sort,
-              MessageDialogFragment.Button.okButton(),
-              null, null)
-              .show(getSupportFragmentManager(), "CUSTOM_SORT_INFO");
+          showMessage(R.string.dialog_title_information,
+              getString(R.string.dialog_info_custom_sort));
         }
       }
       return true;

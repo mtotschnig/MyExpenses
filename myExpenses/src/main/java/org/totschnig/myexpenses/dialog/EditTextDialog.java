@@ -15,11 +15,8 @@
 
 package org.totschnig.myexpenses.dialog;
 
-import org.totschnig.myexpenses.R;
-
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -27,14 +24,13 @@ import android.text.InputFilter;
 import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
-import android.widget.Toast;
+
+import org.totschnig.myexpenses.R;
 
 public class EditTextDialog extends CommitSafeDialogFragment implements OnEditorActionListener {
 
@@ -65,8 +61,8 @@ public class EditTextDialog extends CommitSafeDialogFragment implements OnEditor
     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
     LayoutInflater li = LayoutInflater.from(getActivity());
     //noinspection InflateParams
-    View view = li.inflate(R.layout.edit_text_dialog, null);
-    mEditText = ((EditText) view.findViewById(R.id.EditTextDialogInput));
+    dialogView = li.inflate(R.layout.edit_text_dialog, null);
+    mEditText = ((EditText) dialogView.findViewById(R.id.EditTextDialogInput));
     Bundle args = getArguments();
     mEditText.setInputType(args.getInt(KEY_INPUT_TYPE, InputType.TYPE_CLASS_TEXT));
     mEditText.setOnEditorActionListener(this);
@@ -76,7 +72,7 @@ public class EditTextDialog extends CommitSafeDialogFragment implements OnEditor
     if (maxLength != 0) {
       mEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(maxLength)});
     }
-    AlertDialog dialog = builder.setView(view)
+    AlertDialog dialog = builder.setView(dialogView)
         .setTitle(args.getString(KEY_DIALOG_TITLE))
         .create();
     dialog.getWindow().setSoftInputMode(
@@ -102,7 +98,7 @@ public class EditTextDialog extends CommitSafeDialogFragment implements OnEditor
         Bundle args = getArguments();
         String result = mEditText.getText().toString();
         if (result.equals("")) {
-          Toast.makeText(getActivity(), getString(R.string.no_title_given), Toast.LENGTH_LONG).show();
+          showSnackbar(R.string.no_title_given);
         } else {
           args.putString(KEY_RESULT, result);
           activity.onFinishEditDialog(args);

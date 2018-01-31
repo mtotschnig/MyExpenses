@@ -19,6 +19,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -29,7 +30,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MethodEdit;
@@ -127,8 +127,9 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
             }
           }
         }
+        ProtectedFragmentActivity activity = (ProtectedFragmentActivity) getActivity();
         if (!idList.isEmpty()) {
-          ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
+          activity.startTaskExecution(
               TaskExecutionFragment.TASK_DELETE_PAYMENT_METHODS,
               idList.toArray(new Long[idList.size()]),
               null,
@@ -147,7 +148,7 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
                 R.plurals.not_deletable_mapped_templates,
                 mappedTemplatesCount,
                 mappedTemplatesCount);
-          Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+          activity.showSnackbar(message, Snackbar.LENGTH_LONG);
         }
         break;
     }

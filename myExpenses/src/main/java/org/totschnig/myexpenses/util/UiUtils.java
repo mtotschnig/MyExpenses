@@ -64,7 +64,7 @@ public class UiUtils {
       //Workaround for https://issuetracker.google.com/issues/37120757
       View snackbarView = snackbar.getView();
       snackbarView.setBackgroundColor(Color.WHITE);
-      TextView textView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
+      TextView textView = snackbarView.findViewById(android.support.design.R.id.snackbar_text);
       textView.setTextColor(Color.BLACK);
     }
   }

@@ -21,6 +21,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -44,7 +45,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -390,7 +390,7 @@ public class TemplatesList extends SortableListFragment {
             if (foundToExpand) {
               planMonthFragment.show(getChildFragmentManager(), CALDROID_DIALOG_FRAGMENT_TAG);
             } else {
-              Toast.makeText(getActivity(), R.string.save_transaction_template_deleted, Toast.LENGTH_LONG).show();
+              ((ProtectedFragmentActivity) getActivity()).showSnackbar(R.string.save_transaction_template_deleted, Snackbar.LENGTH_LONG);
             }
           }
           //look for plans that we could possible relink

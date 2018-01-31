@@ -41,7 +41,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -122,15 +121,15 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
 
     LayoutInflater li = LayoutInflater.from(ctx);
     //noinspection InflateParams
-    View view = li.inflate(R.layout.export_dialog, null);
+    dialogView = li.inflate(R.layout.export_dialog, null);
 
 
     if (args.getBoolean(KEY_IS_FILTERED)) {
-      view.findViewById(R.id.with_filter).setVisibility(View.VISIBLE);
+      dialogView.findViewById(R.id.with_filter).setVisibility(View.VISIBLE);
       warningText = getString(R.string.warning_reset_account_matched);
     }
 
-    dateFormatET = view.findViewById(R.id.date_format);
+    dateFormatET = dialogView.findViewById(R.id.date_format);
     String dateFormatDefault =
         ((SimpleDateFormat) DateFormat.getDateInstance(DateFormat.SHORT)).toPattern();
     String dateFormat = MyApplication.getInstance().getSettings()
@@ -164,7 +163,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
       }
     });
 
-    fileNameET = view.findViewById(R.id.file_name);
+    fileNameET = dialogView.findViewById(R.id.file_name);
     fileNameET.setText(fileName);
     fileNameET.addTextChangedListener(new TextWatcher() {
       public void afterTextChanged(Editable s) {
@@ -203,46 +202,44 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
         }
     });
 
-    notYetExportedCB = (CheckBox) view.findViewById(R.id.export_not_yet_exported);
-    deleteCB = (CheckBox) view.findViewById(R.id.export_delete);
-    warningTV = (TextView) view.findViewById(R.id.warning_reset);
+    notYetExportedCB = dialogView.findViewById(R.id.export_not_yet_exported);
+    deleteCB = dialogView.findViewById(R.id.export_delete);
+    warningTV = dialogView.findViewById(R.id.warning_reset);
 
     String encoding = MyApplication.getInstance().getSettings()
         .getString(PREFKEY_EXPORT_ENCODING, "UTF-8");
 
-    ((Spinner) view.findViewById(R.id.Encoding)).setSelection(
+    ((Spinner) dialogView.findViewById(R.id.Encoding)).setSelection(
         Arrays.asList(getResources().getStringArray(R.array.pref_qif_export_file_encoding))
             .indexOf(encoding));
 
-    formatRBCSV = (RadioButton) view.findViewById(R.id.csv);
+    formatRBCSV = dialogView.findViewById(R.id.csv);
     String format = PrefKey.EXPORT_FORMAT.getString("QIF");
     if (format.equals("CSV")) {
       formatRBCSV.setChecked(true);
     }
 
-    separatorRBComma = (RadioButton) view.findViewById(R.id.comma);
+    separatorRBComma = dialogView.findViewById(R.id.comma);
     char separator = (char) MyApplication.getInstance().getSettings()
         .getInt(ExportTask.KEY_DECIMAL_SEPARATOR, Utils.getDefaultDecimalSeparator());
     if (separator == ',') {
       separatorRBComma.setChecked(true);
     }
 
-    handleDeletedGroup = (RadioGroup) view.findViewById(R.id.handle_deleted);
-    View.OnClickListener radioClickListener = new View.OnClickListener() {
-      public void onClick(View v) {
-        int mappedAction = v.getId() == R.id.create_helper ?
-            Account.EXPORT_HANDLE_DELETED_CREATE_HELPER : Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE;
-        if (handleDeletedAction == mappedAction) {
-          handleDeletedAction = Account.EXPORT_HANDLE_DELETED_DO_NOTHING;
-          handleDeletedGroup.clearCheck();
-        } else {
-          handleDeletedAction = mappedAction;
-        }
+    handleDeletedGroup = dialogView.findViewById(R.id.handle_deleted);
+    View.OnClickListener radioClickListener = v -> {
+      int mappedAction = v.getId() == R.id.create_helper ?
+          Account.EXPORT_HANDLE_DELETED_CREATE_HELPER : Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE;
+      if (handleDeletedAction == mappedAction) {
+        handleDeletedAction = Account.EXPORT_HANDLE_DELETED_DO_NOTHING;
+        handleDeletedGroup.clearCheck();
+      } else {
+        handleDeletedAction = mappedAction;
       }
     };
 
-    final RadioButton updateBalanceRadioButton = (RadioButton) view.findViewById(R.id.update_balance);
-    final RadioButton createHelperRadioButton = (RadioButton) view.findViewById(R.id.create_helper);
+    final RadioButton updateBalanceRadioButton = dialogView.findViewById(R.id.update_balance);
+    final RadioButton createHelperRadioButton = dialogView.findViewById(R.id.create_helper);
     updateBalanceRadioButton.setOnClickListener(radioClickListener);
     createHelperRadioButton.setOnClickListener(radioClickListener);
 
@@ -264,34 +261,31 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
 
     warningTV.setText(warningText);
     if (allP) {
-      ((TextView) view.findViewById(R.id.file_name_label)).setText(R.string.folder_name);
+      ((TextView) dialogView.findViewById(R.id.file_name_label)).setText(R.string.folder_name);
     }
 
-    final View helpIcon = view.findViewById(R.id.date_format_help);
-    helpIcon.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        LayoutInflater inflater = LayoutInflater.from(getActivity());
-        //noinspection InflateParams
-        final TextView infoTextView = (TextView) inflater.inflate(
-            R.layout.textview_info, null);
-        final CharSequence infoText = buildDateFormatHelpText();
-        final PopupWindow infoWindow = new PopupWindow(infoTextView);
+    final View helpIcon = dialogView.findViewById(R.id.date_format_help);
+    helpIcon.setOnClickListener(v -> {
+      LayoutInflater inflater = LayoutInflater.from(getActivity());
+      //noinspection InflateParams
+      final TextView infoTextView = (TextView) inflater.inflate(
+          R.layout.textview_info, null);
+      final CharSequence infoText = buildDateFormatHelpText();
+      final PopupWindow infoWindow = new PopupWindow(infoTextView);
 
-        infoWindow.setBackgroundDrawable(new BitmapDrawable());
-        infoWindow.setOutsideTouchable(true);
-        infoWindow.setFocusable(true);
-        chooseSize(infoWindow, infoText, infoTextView);
-        infoTextView.setText(infoText);
-        infoTextView.setMovementMethod(LinkMovementMethod.getInstance());
-        //Linkify.addLinks(infoTextView, Linkify.WEB_URLS | Linkify.EMAIL_ADDRESSES);
-        infoWindow.showAsDropDown(helpIcon);
-      }
+      infoWindow.setBackgroundDrawable(new BitmapDrawable());
+      infoWindow.setOutsideTouchable(true);
+      infoWindow.setFocusable(true);
+      chooseSize(infoWindow, infoText, infoTextView);
+      infoTextView.setText(infoText);
+      infoTextView.setMovementMethod(LinkMovementMethod.getInstance());
+      //Linkify.addLinks(infoTextView, Linkify.WEB_URLS | Linkify.EMAIL_ADDRESSES);
+      infoWindow.showAsDropDown(helpIcon);
     });
 
     AlertDialog.Builder builder = new AlertDialog.Builder(ctx)
         .setTitle(allP ? R.string.menu_reset_all : R.string.menu_reset)
-        .setView(view)
+        .setView(dialogView)
         .setPositiveButton(android.R.string.ok, this)
         .setNegativeButton(android.R.string.cancel, null);
     builder.setIcon(R.drawable.ic_warning);
@@ -403,10 +397,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
             .show(getFragmentManager(), "APP_FOLDER_WARNING");
       }
     } else {
-      Toast.makeText(ctx,
-          appDirStatus.print(ctx),
-          Toast.LENGTH_LONG)
-          .show();
+      showSnackbar(appDirStatus.print(ctx));
     }
   }
 

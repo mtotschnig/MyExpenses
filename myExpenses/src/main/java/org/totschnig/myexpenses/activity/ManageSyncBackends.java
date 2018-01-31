@@ -7,7 +7,6 @@ import android.support.design.widget.Snackbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
-import android.widget.Toast;
 
 import com.dropbox.core.android.Auth;
 
@@ -24,7 +23,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.util.Result;
-import org.totschnig.myexpenses.util.UiUtils;
 
 import java.io.Serializable;
 
@@ -83,7 +81,7 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
             GenericAccountService.Authenticator.AUTH_TOKEN_TYPE,
             accessToken);
       } else {
-        Toast.makeText(this, "Dropbox Oauth Token is null", Toast.LENGTH_LONG).show();
+        showSnackbar("Dropbox Oauth Token is null", Snackbar.LENGTH_LONG);
       }
       dropBoxTokenRequestPendingForAccount = null;
     } else {
@@ -202,7 +200,7 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
         break;
       }
       case TASK_SYNC_LINK_SAVE: {
-        Toast.makeText(this, result.print(this), Toast.LENGTH_LONG).show();
+        showSnackbar(result.print(this), Snackbar.LENGTH_LONG);
         //fall through
       }
       case TASK_SYNC_UNLINK:
@@ -217,10 +215,7 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
         String resultPrintable = result.print(this);
         if (resultPrintable != null) {
           if (result.success) {
-            Snackbar snackbar = Snackbar.make(
-                findViewById(R.id.container), resultPrintable, Snackbar.LENGTH_LONG);
-            UiUtils.configureSnackbarForDarkTheme(snackbar);
-            snackbar.show();
+            showSnackbar(resultPrintable, Snackbar.LENGTH_LONG);
           } else {
             Bundle b = new Bundle();
             b.putString(ConfirmationDialogFragment.KEY_MESSAGE, resultPrintable);

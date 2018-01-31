@@ -69,23 +69,13 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
     this.restorePlanStrategy = b.getInt(KEY_RESTORE_PLAN_STRATEGY);
   }
 
-  /*
-   * (non-Javadoc) shows toast about success or failure
-   * 
-   * @see android.os.AsyncTask#onProgressUpdate(Progress[])
-   */
   @Override
   protected void onProgressUpdate(Result... values) {
     if (this.taskExecutionFragment.mCallbacks != null) {
       this.taskExecutionFragment.mCallbacks.onProgressUpdate(values[0]);
     }
   }
-
-  /*
-   * (non-Javadoc) reports on success triggering restart if needed
-   * 
-   * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
-   */
+  
   @Override
   protected void onPostExecute(Result result) {
     if (this.taskExecutionFragment.mCallbacks != null) {

@@ -17,8 +17,8 @@ package org.totschnig.myexpenses.activity;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.text.InputType;
-import android.widget.Toast;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -84,11 +84,9 @@ public class ManageParties extends ProtectedFragmentActivity implements
   @Override
   public void onPostExecute(Object result) {
     if (result == null) {
-      Toast.makeText(ManageParties.this,
-          getString(R.string.already_defined,
+      showSnackbar(getString(R.string.already_defined,
               mParty != null ? mParty.getName() : ""),
-          Toast.LENGTH_LONG)
-          .show();
+          Snackbar.LENGTH_LONG);
     }
     super.onPostExecute(result);
   }

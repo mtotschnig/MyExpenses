@@ -1,9 +1,9 @@
 package org.totschnig.myexpenses.activity;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ListFragment;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -43,7 +43,7 @@ public class ManageCurrencies extends ProtectedFragmentActivity implements
     handleSymbolUpdate(symbol);
     this.numberFractionDigits = numberFractionDigits;
     if (this.numberFractionDigits < 0 || this.numberFractionDigits > 8) {
-      Toast.makeText(this, getString(R.string.validation_error_number_out_of_range, 0, 8), Toast.LENGTH_LONG).show();
+      showSnackbar(getString(R.string.validation_error_number_out_of_range, 0, 8), Snackbar.LENGTH_LONG);
     } else {
       handleFractionDigitsUpdate();
     }
@@ -97,7 +97,7 @@ public class ManageCurrencies extends ProtectedFragmentActivity implements
   @Override
   public void onPostExecute(int taskId, Object o) {
     super.onPostExecute(taskId, o);
-    Toast.makeText(this, getString(R.string.change_fraction_digits_result, (Integer) o, currency), Toast.LENGTH_LONG).show();
+    showSnackbar(getString(R.string.change_fraction_digits_result, (Integer) o, currency), Snackbar.LENGTH_LONG);
     refreshList();
   }
 

@@ -20,7 +20,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.provider.DocumentFile;
-import android.widget.Toast;
 
 import com.annimon.stream.Stream;
 
@@ -44,6 +43,8 @@ import org.totschnig.myexpenses.util.Utils;
 
 import java.util.ArrayList;
 
+import icepick.Icepick;
+import icepick.State;
 import timber.log.Timber;
 
 public class BackupRestoreActivity extends ProtectedFragmentActivity
@@ -51,6 +52,9 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
   public static final String FRAGMENT_TAG = "BACKUP_SOURCE";
 
   private boolean calledFromOnboarding = false;
+
+  @State
+  int taskResult = RESULT_OK;
 
   public void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeIdTranslucent());
@@ -62,6 +66,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
       Timber.i("Called from onboarding");
     }
     if (savedInstanceState != null) {
+      Icepick.restoreInstanceState(this, savedInstanceState);
       return;
     }
     String action = getIntent().getAction();
@@ -100,9 +105,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
   }
 
   private void abort(String message) {
-    Toast.makeText(getBaseContext(), message, Toast.LENGTH_LONG).show();
-    setResult(RESULT_CANCELED);
-    finish();
+    showMessage(message);
   }
 
   private void showRestoreDialog(Uri fileUri, int restorePlanStrategie) {
@@ -156,11 +159,9 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
     Result appDirStatus = AppDirHelper.checkAppDir(this);//TODO this check leads to strict mode violation, can we get rid of it ?
     if (appDirStatus.success) {
       startTaskExecution(TaskExecutionFragment.TASK_BACKUP, null, null,
-          R.string.menu_backup);
+          R.string.menu_backup, true);
     } else {
-      Toast.makeText(getBaseContext(), appDirStatus.print(this),
-          Toast.LENGTH_LONG).show();
-      finish();
+      abort(appDirStatus.print(this));
     }
   }
 
@@ -171,41 +172,38 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
     switch (taskId) {
       case TaskExecutionFragment.TASK_BACKUP: {
         if (!r.success) {
-          Toast.makeText(getBaseContext(),
-              r.print(this), Toast.LENGTH_LONG)
-              .show();
+          onProgressUpdate(r.print(this));
         } else {
           Uri backupFileUri = ((DocumentFile) r.extra[0]).getUri();
-          Toast.makeText(getBaseContext(),
-              getString(r.getMessage(), FileUtils.getPath(this, backupFileUri)), Toast.LENGTH_LONG)
-              .show();
+          onProgressUpdate(getString(r.getMessage(), FileUtils.getPath(this, backupFileUri)));
           if (PrefKey.PERFORM_SHARE.getBoolean(false)) {
             ArrayList<Uri> uris = new ArrayList<>();
             uris.add(backupFileUri);
-            ShareUtils.share(this, uris,
+            Result shareResult = ShareUtils.share(this, uris,
                 PrefKey.SHARE_TARGET.getString("").trim(),
                 "application/zip");
+            if (!shareResult.success) {
+              onProgressUpdate(shareResult.print(this));
+            }
           }
         }
-        finish();
         break;
       }
     }
   }
 
   @Override
-  protected void onPostRestoreTask(Result result) {
-    super.onPostRestoreTask(result);
-    if (result.success) {
-      setResult(RESULT_RESTORE_OK);
-    }
-    finish();
+  protected boolean shouldKeepProgress(int taskId) {
+    return true;
   }
 
   @Override
-  public void onProgressUpdate(Object progress) {
-    Toast.makeText(getBaseContext(), ((Result) progress).print(this),
-        Toast.LENGTH_LONG).show();
+  protected void onPostRestoreTask(Result result) {
+    super.onPostRestoreTask(result);
+    onProgressUpdate(result);
+    if (result.success) {
+      taskResult = RESULT_RESTORE_OK;
+    }
   }
 
   public void onSourceSelected(Uri mUri, int restorePlanStrategie) {
@@ -233,10 +231,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
       BackupListDialogFragment.newInstance().show(
           getSupportFragmentManager(), FRAGMENT_TAG);
     } else {
-      Toast.makeText(getBaseContext(),
-          getString(R.string.restore_no_backup_found), Toast.LENGTH_LONG)
-          .show();
-      finish();
+      abort(getString(R.string.restore_no_backup_found));
     }
   }
 
@@ -259,8 +254,13 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
   }
 
   @Override
+  public void onProgressDialogDismiss() {
+    setResult(taskResult);
+    finish();
+  }
+
+  @Override
   public void onMessageDialogDismissOrCancel() {
-    setResult(RESULT_CANCELED);
     finish();
   }
 
@@ -275,5 +275,11 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
         return;
     }
     super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+  }
+
+  @Override
+  protected void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    Icepick.saveInstanceState(this, outState);
   }
 }

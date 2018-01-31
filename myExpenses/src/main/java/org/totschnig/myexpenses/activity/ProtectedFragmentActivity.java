@@ -28,6 +28,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.FloatingActionButton;
@@ -56,6 +57,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.DialogUtils;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
@@ -87,7 +89,8 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_RESTORE;
 public abstract class ProtectedFragmentActivity extends AppCompatActivity
     implements MessageDialogListener, OnSharedPreferenceChangeListener,
     ConfirmationDialogFragment.ConfirmationDialogListener,
-    TaskExecutionFragment.TaskCallbacks, DbWriteFragment.TaskCallbacks {
+    TaskExecutionFragment.TaskCallbacks, DbWriteFragment.TaskCallbacks,
+    ProgressDialogFragment.ProgressDialogListener {
   public static final int CALCULATOR_REQUEST = 0;
   public static final int EDIT_TRANSACTION_REQUEST = 1;
   public static final int EDIT_ACCOUNT_REQUEST = 2;
@@ -286,7 +289,12 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     }
   }
 
+  @Override
   public void onMessageDialogDismissOrCancel() {
+  }
+
+  @Override
+  public void onProgressDialogDismiss() {
   }
 
   @Override
@@ -336,6 +344,8 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
         f.setProgress((Integer) progress);
       } else if (progress instanceof String) {
         f.appendToMessage((String) progress);
+      } else if (progress instanceof Result) {
+        f.appendToMessage(((Result) progress).print(this));
       }
     }
   }
@@ -383,10 +393,6 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   protected void onPostRestoreTask(Result result) {
-    String msg = result.print(this);
-    if (msg != null) {
-      showSnackbar(msg, Snackbar.LENGTH_LONG);
-    }
     if (result.success) {
       MyApplication.getInstance().getLicenceHandler().reset();
       // if the backup is password protected, we want to force the password
@@ -415,7 +421,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   /**
    * starts the given task, only if no task is currently executed,
-   * informs user through toast in that case
+   * informs user through snackbar in that case
    *
    * @param taskId
    * @param objectIds
@@ -424,6 +430,10 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
    */
   public <T> void startTaskExecution(int taskId, T[] objectIds, Serializable extra,
                                      int progressMessage) {
+    startTaskExecution(taskId, objectIds, extra, progressMessage, false);
+  }
+  public <T> void startTaskExecution(int taskId, T[] objectIds, Serializable extra,
+                                     int progressMessage, boolean withButton) {
     FragmentManager m = getSupportFragmentManager();
     if (m.findFragmentByTag(ASYNC_TAG) != null) {
       showTaskNotFinishedWarning();
@@ -435,7 +445,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
               objectIds, extra),
               ASYNC_TAG);
       if (progressMessage != 0) {
-        ft.add(ProgressDialogFragment.newInstance(progressMessage), PROGRESS_TAG);
+        ft.add(ProgressDialogFragment.newInstance(progressMessage, withButton), PROGRESS_TAG);
       }
       ft.commit();
     }
@@ -643,8 +653,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     getSupportFragmentManager()
         .beginTransaction()
         .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_RESTORE), ASYNC_TAG)
-        .add(ProgressDialogFragment.newInstance(R.string.pref_restore_title),
-            PROGRESS_TAG).commit();
+        .add(ProgressDialogFragment.newInstance(R.string.pref_restore_title, true), PROGRESS_TAG).commit();
   }
 
   @Override
@@ -681,21 +690,32 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     if (actionBar != null) actionBar.show();
   }
 
+  public void showDismissableSnackbar(int message) {
+    showSnackbar(getText(message), Snackbar.LENGTH_INDEFINITE, true);
+  }
+
   public void showSnackbar(int message, int duration) {
     showSnackbar(getText(message), duration);
   }
 
   public void showSnackbar(CharSequence message, int duration) {
+    showSnackbar(message, duration, false);
+  }
+
+  public void showSnackbar(CharSequence message, int duration, boolean dismissable) {
     View container = findViewById(getSnackbarContainerId());
     if (container == null) {
       AcraHelper.report(String.format("Class %s is unable to display snackbar", getClass()));
-      Toast.makeText(this, message, Toast.LENGTH_LONG);
+      Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     } else {
       snackbar = Snackbar.make(container, message, duration);
       View snackbarView = snackbar.getView();
       TextView textView = snackbarView.findViewById(android.support.design.R.id.snackbar_text);
       textView.setMaxLines(3);
       UiUtils.configureSnackbarForDarkTheme(snackbar);
+      if (dismissable) {
+        snackbar.setAction(R.string.snackbar_dismiss, v -> snackbar.dismiss());
+      }
       snackbar.show();
     }
   }
@@ -706,7 +726,25 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     }
   }
 
+  @IdRes
   protected int getSnackbarContainerId() {
     return R.id.fragment_container;
+  }
+
+  public void showMessage(int resId) {
+    showMessage(getString(resId));
+  }
+
+  public void showMessage(CharSequence message) {
+   showMessage(0, message);
+  }
+
+  public void showMessage(int title, CharSequence message) {
+    MessageDialogFragment.newInstance(
+        title,
+        message,
+        MessageDialogFragment.Button.okButton(),
+        null, null)
+        .show(getSupportFragmentManager(), "MESSAGE");
   }
 }

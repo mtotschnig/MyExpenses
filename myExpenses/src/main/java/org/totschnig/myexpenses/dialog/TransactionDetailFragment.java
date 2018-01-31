@@ -36,7 +36,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -74,7 +73,6 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
   public static final int SPLIT_PART_CURSOR = 3;
   Transaction mTransaction;
   SimpleCursorAdapter mAdapter;
-  View mLayout;
 
   @Inject
   ImageViewIntentProvider imageViewIntentProvider;
@@ -111,16 +109,16 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
 
     final LayoutInflater li = LayoutInflater.from(getActivity());
     //noinspection InflateParams
-    mLayout = li.inflate(R.layout.transaction_detail, null);
-    AlertDialog dialog = new AlertDialog.Builder(getActivity())
+    dialogView = li.inflate(R.layout.transaction_detail, null);
+    AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
         .setTitle(R.string.progress_dialog_loading)
         //.setIcon(android.R.color.transparent)
-        .setView(mLayout)
+        .setView(dialogView)
         .setNegativeButton(android.R.string.ok, this)
-        .setPositiveButton(R.string.menu_edit, this)
+        .setPositiveButton(R.string.menu_edit, null)
         .setNeutralButton(R.string.menu_view_picture, this)
         .create();
-    dialog.setOnShowListener(new ButtonOnShowDisabler() {
+    alertDialog.setOnShowListener(new ButtonOnShowDisabler() {
       @Override
       public void onShow(DialogInterface dialog) {
         if (mTransaction == null) {
@@ -130,9 +128,11 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
             button.setVisibility(View.GONE);
           }
         }
+        //prevent automatic dismiss on button click
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> onClick(alertDialog, AlertDialog.BUTTON_POSITIVE));
       }
     });
-    return dialog;
+    return alertDialog;
   }
 
   @Override
@@ -172,9 +172,10 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     switch (which) {
       case AlertDialog.BUTTON_POSITIVE:
         if (mTransaction instanceof Transfer && DbUtils.hasParent(((Transfer) mTransaction).getTransferPeer())) {
-          Toast.makeText(ctx, getString(R.string.warning_splitpartcategory_context), Toast.LENGTH_LONG).show();
+          showSnackbar(R.string.warning_splitpartcategory_context);
           return;
         }
+        dismiss();
         Intent i = new Intent(ctx, ExpenseEdit.class);
         i.putExtra(KEY_ROWID, mTransaction.getId());
         //i.putExtra("operationType", operationType);
@@ -183,17 +184,15 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       case AlertDialog.BUTTON_NEUTRAL:
         startActivity(imageViewIntentProvider.getViewIntent(ctx, mTransaction.getPictureUri()));
         break;
-      case AlertDialog.BUTTON_NEGATIVE:
-        dismiss();
     }
   }
 
   public void fillData(Transaction o) {
     final FragmentActivity ctx = getActivity();
-    mLayout.findViewById(R.id.progress).setVisibility(View.GONE);
+    dialogView.findViewById(R.id.progress).setVisibility(View.GONE);
     mTransaction = o;
     if (mTransaction == null) {
-      TextView error = (TextView) mLayout.findViewById(R.id.error);
+      TextView error = (TextView) dialogView.findViewById(R.id.error);
       error.setVisibility(View.VISIBLE);
       error.setText(R.string.transaction_deleted);
       return;
@@ -203,12 +202,12 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       doShowPicture = true;
       try {
         if (!PictureDirHelper.doesPictureExist(mTransaction.getPictureUri())) {
-          Toast.makeText(getActivity(), R.string.image_deleted, Toast.LENGTH_SHORT).show();
+          showSnackbar(R.string.image_deleted);
           doShowPicture = false;
         }
       } catch (IllegalArgumentException e) {
         AcraHelper.report(e);
-        Toast.makeText(getActivity(), "Unable to handle image " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        showSnackbar("Unable to handle image: " + e.getMessage());
         doShowPicture = false;
       }
     }
@@ -227,17 +226,17 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
         btn.setVisibility(doShowPicture ? View.VISIBLE : View.GONE);
       }
     }
-    mLayout.findViewById(R.id.Table).setVisibility(View.VISIBLE);
+    dialogView.findViewById(R.id.Table).setVisibility(View.VISIBLE);
     int title;
     boolean type = mTransaction.getAmount().getAmountMinor() > 0 ? ExpenseEdit.INCOME : ExpenseEdit.EXPENSE;
 
     if (mTransaction instanceof SplitTransaction) {
-      mLayout.findViewById(R.id.SplitContainer).setVisibility(View.VISIBLE);
+      dialogView.findViewById(R.id.SplitContainer).setVisibility(View.VISIBLE);
       //TODO: refactor duplicated code with SplitPartList
       title = R.string.split_transaction;
-      View emptyView = mLayout.findViewById(R.id.empty);
+      View emptyView = dialogView.findViewById(R.id.empty);
 
-      ListView lv = (ListView) mLayout.findViewById(R.id.list);
+      ListView lv = (ListView) dialogView.findViewById(R.id.list);
       // Create an array to specify the fields we want to display in the list
       String[] from = new String[]{KEY_LABEL_MAIN, KEY_AMOUNT};
 
@@ -261,8 +260,8 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     } else {
       if (mTransaction instanceof Transfer) {
         title = R.string.transfer;
-        ((TextView) mLayout.findViewById(R.id.AccountLabel)).setText(R.string.transfer_from_account);
-        ((TextView) mLayout.findViewById(R.id.CategoryLabel)).setText(R.string.transfer_to_account);
+        ((TextView) dialogView.findViewById(R.id.AccountLabel)).setText(R.string.transfer_from_account);
+        ((TextView) dialogView.findViewById(R.id.CategoryLabel)).setText(R.string.transfer_to_account);
       } else {
         title = type ? R.string.income : R.string.expense;
       }
@@ -271,8 +270,8 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     String amountText;
     String accountLabel = Account.getInstanceFromDb(mTransaction.getAccountId()).label;
     if (mTransaction instanceof Transfer) {
-      ((TextView) mLayout.findViewById(R.id.Account)).setText(type ? mTransaction.getLabel() : accountLabel);
-      ((TextView) mLayout.findViewById(R.id.Category)).setText(type ? accountLabel : mTransaction.getLabel());
+      ((TextView) dialogView.findViewById(R.id.Account)).setText(type ? mTransaction.getLabel() : accountLabel);
+      ((TextView) dialogView.findViewById(R.id.Category)).setText(type ? accountLabel : mTransaction.getLabel());
       if (((Transfer) mTransaction).isSameCurrency()) {
         amountText = formatCurrencyAbs(mTransaction.getAmount());
       } else {
@@ -281,61 +280,61 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
         amountText = type == ExpenseEdit.EXPENSE ? (self + " => " + other) : (other + " => " + self);
       }
     } else {
-      ((TextView) mLayout.findViewById(R.id.Account)).setText(accountLabel);
+      ((TextView) dialogView.findViewById(R.id.Account)).setText(accountLabel);
       if ((mTransaction.getCatId() != null && mTransaction.getCatId() > 0)) {
-        ((TextView) mLayout.findViewById(R.id.Category)).setText(mTransaction.getLabel());
+        ((TextView) dialogView.findViewById(R.id.Category)).setText(mTransaction.getLabel());
       } else {
-        mLayout.findViewById(R.id.CategoryRow).setVisibility(View.GONE);
+        dialogView.findViewById(R.id.CategoryRow).setVisibility(View.GONE);
       }
       amountText = formatCurrencyAbs(mTransaction.getAmount());
     }
 
     //noinspection SetTextI18n
-    ((TextView) mLayout.findViewById(R.id.Date)).setText(
+    ((TextView) dialogView.findViewById(R.id.Date)).setText(
         DateFormat.getDateInstance(DateFormat.FULL).format(mTransaction.getDate())
             + " "
             + DateFormat.getTimeInstance(DateFormat.SHORT).format(mTransaction.getDate()));
 
-    ((TextView) mLayout.findViewById(R.id.Amount)).setText(amountText);
+    ((TextView) dialogView.findViewById(R.id.Amount)).setText(amountText);
 
     if (!mTransaction.getComment().equals("")) {
-      ((TextView) mLayout.findViewById(R.id.Comment)).setText(mTransaction.getComment());
+      ((TextView) dialogView.findViewById(R.id.Comment)).setText(mTransaction.getComment());
     } else {
-      mLayout.findViewById(R.id.CommentRow).setVisibility(View.GONE);
+      dialogView.findViewById(R.id.CommentRow).setVisibility(View.GONE);
     }
 
     if (!mTransaction.getReferenceNumber().equals("")) {
-      ((TextView) mLayout.findViewById(R.id.Number)).setText(mTransaction.getReferenceNumber());
+      ((TextView) dialogView.findViewById(R.id.Number)).setText(mTransaction.getReferenceNumber());
     } else {
-      mLayout.findViewById(R.id.NumberRow).setVisibility(View.GONE);
+      dialogView.findViewById(R.id.NumberRow).setVisibility(View.GONE);
     }
 
     if (!mTransaction.getPayee().equals("")) {
-      ((TextView) mLayout.findViewById(R.id.Payee)).setText(mTransaction.getPayee());
-      ((TextView) mLayout.findViewById(R.id.PayeeLabel)).setText(type ? R.string.payer : R.string.payee);
+      ((TextView) dialogView.findViewById(R.id.Payee)).setText(mTransaction.getPayee());
+      ((TextView) dialogView.findViewById(R.id.PayeeLabel)).setText(type ? R.string.payer : R.string.payee);
     } else {
-      mLayout.findViewById(R.id.PayeeRow).setVisibility(View.GONE);
+      dialogView.findViewById(R.id.PayeeRow).setVisibility(View.GONE);
     }
 
     if (mTransaction.getMethodId() != null) {
-      ((TextView) mLayout.findViewById(R.id.Method))
+      ((TextView) dialogView.findViewById(R.id.Method))
           .setText(PaymentMethod.getInstanceFromDb(mTransaction.getMethodId()).getLabel());
     } else {
-      mLayout.findViewById(R.id.MethodRow).setVisibility(View.GONE);
+      dialogView.findViewById(R.id.MethodRow).setVisibility(View.GONE);
     }
 
     if (Account.getInstanceFromDb(mTransaction.getAccountId()).getType().equals(AccountType.CASH)) {
-      mLayout.findViewById(R.id.StatusRow).setVisibility(View.GONE);
+      dialogView.findViewById(R.id.StatusRow).setVisibility(View.GONE);
     } else {
-      TextView tv = (TextView) mLayout.findViewById(R.id.Status);
+      TextView tv = (TextView) dialogView.findViewById(R.id.Status);
       tv.setBackgroundColor(mTransaction.crStatus.color);
       tv.setText(mTransaction.crStatus.toStringRes());
     }
 
     if (mTransaction.originTemplate == null) {
-      mLayout.findViewById(R.id.PlannerRow).setVisibility(View.GONE);
+      dialogView.findViewById(R.id.PlannerRow).setVisibility(View.GONE);
     } else {
-      ((TextView) mLayout.findViewById(R.id.Plan)).setText(mTransaction.originTemplate.getPlan() == null ?
+      ((TextView) dialogView.findViewById(R.id.Plan)).setText(mTransaction.originTemplate.getPlan() == null ?
           getString(R.string.plan_event_deleted) : Plan.prettyTimeInfo(getActivity(),
           mTransaction.originTemplate.getPlan().rrule, mTransaction.originTemplate.getPlan().dtstart));
     }

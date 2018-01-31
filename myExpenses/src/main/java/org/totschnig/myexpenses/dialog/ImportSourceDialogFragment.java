@@ -59,11 +59,11 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     LayoutInflater li = LayoutInflater.from(getActivity());
-    View view = li.inflate(getLayoutId(), null);
-    setupDialogView(view);
+    dialogView = li.inflate(getLayoutId(), null);
+    setupDialogView(dialogView);
     return new AlertDialog.Builder(getActivity())
       .setTitle(getLayoutTitle())
-      .setView(view)
+      .setView(dialogView)
       .setPositiveButton(android.R.string.ok,this)
       .setNegativeButton(android.R.string.cancel,this)
       .create();
@@ -84,7 +84,12 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
     if (requestCode == ProtectedFragmentActivity.IMPORT_FILENAME_REQUESTCODE) {
       if (resultCode == Activity.RESULT_OK && data != null) {
-        mUri = ImportFileResultHandler.handleFilenameRequestResult(this, data);
+        try {
+          mUri = ImportFileResultHandler.handleFilenameRequestResult(this, data);
+        } catch (Throwable throwable) {
+          mUri = null;
+          showSnackbar(throwable.getMessage());
+        }
       }
     }
   }

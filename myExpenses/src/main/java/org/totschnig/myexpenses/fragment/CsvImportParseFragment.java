@@ -9,6 +9,7 @@ import android.database.MatrixCursor;
 import android.database.MergeCursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -123,7 +124,12 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
     if (requestCode == ProtectedFragmentActivity.IMPORT_FILENAME_REQUESTCODE) {
       if (resultCode == Activity.RESULT_OK && data != null) {
-        setUri(ImportFileResultHandler.handleFilenameRequestResult(this, data));
+        try {
+          setUri(ImportFileResultHandler.handleFilenameRequestResult(this, data));
+        } catch (Throwable throwable) {
+          setUri(null);
+          ((ProtectedFragmentActivity) getActivity()).showSnackbar(throwable.getMessage(), Snackbar.LENGTH_LONG);
+        }
       }
     }
   }

@@ -17,7 +17,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.provider.DocumentFile;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.EditTextPreference;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
@@ -31,7 +30,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
-import android.widget.Toast;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
@@ -43,7 +41,6 @@ import org.totschnig.myexpenses.activity.CommonCommands;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.activity.FolderBrowser;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentCompat;
@@ -116,15 +113,15 @@ import static org.totschnig.myexpenses.preference.PrefKey.MANAGE_SYNC_BACKENDS;
 import static org.totschnig.myexpenses.preference.PrefKey.MORE_INFO_DIALOG;
 import static org.totschnig.myexpenses.preference.PrefKey.NEW_LICENCE;
 import static org.totschnig.myexpenses.preference.PrefKey.NEXT_REMINDER_RATE;
-import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_DEVICE_LOCK_SCREEN;
-import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_LEGACY;
 import static org.totschnig.myexpenses.preference.PrefKey.PERFORM_PROTECTION_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.PERFORM_SHARE;
 import static org.totschnig.myexpenses.preference.PrefKey.PLANNER_CALENDAR_ID;
 import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_DELAY_SECONDS;
+import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_DEVICE_LOCK_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET;
 import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET;
 import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET;
+import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_LEGACY;
 import static org.totschnig.myexpenses.preference.PrefKey.RATE;
 import static org.totschnig.myexpenses.preference.PrefKey.RESTORE;
 import static org.totschnig.myexpenses.preference.PrefKey.RESTORE_LEGACY;
@@ -201,7 +198,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
 
   private Preference.OnPreferenceChangeListener storeInDatabaseChangeListener =
       (preference, newValue) -> {
-        ((ProtectedFragmentActivity) getActivity()).startTaskExecution(TaskExecutionFragment.TASK_STORE_SETTING,
+        activity().startTaskExecution(TaskExecutionFragment.TASK_STORE_SETTING,
             new String[]{preference.getKey()}, newValue.toString(), R.string.progress_dialog_saving);
         return true;
       };
@@ -404,7 +401,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   @Override
   public void onResume() {
     super.onResume();
-    final MyPreferenceActivity activity = (MyPreferenceActivity) getActivity();
+    final MyPreferenceActivity activity = activity();
     final ActionBar actionBar = activity.getSupportActionBar();
     PreferenceScreen screen = getPreferenceScreen();
     boolean isRoot = matches(screen, ROOT_SCREEN);
@@ -424,7 +421,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
                   R.string.switch_off_text));
       Preference preference = findPreference(PLANNER_CALENDAR_ID);
       if (preference != null) {
-        if (((ProtectedFragmentActivity) getActivity()).isCalendarPermissionPermanentlyDeclined()) {
+        if (activity.isCalendarPermissionPermanentlyDeclined()) {
           preference.setSummary(Utils.getTextWithAppName(getContext(),
               R.string.calendar_permission_required));
         } else {
@@ -446,7 +443,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
    */
   private boolean handleScreenWithMasterSwitch(final PrefKey prefKey) {
     PreferenceScreen screen = getPreferenceScreen();
-    final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+    final ActionBar actionBar = activity().getSupportActionBar();
     final boolean status = prefKey.getBoolean(false);
     if (matches(screen, prefKey)) {
       //noinspection InflateParams
@@ -560,12 +557,12 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       if (!target.equals("")) {
         uri = ShareUtils.parseUri(target);
         if (uri == null) {
-          Toast.makeText(getActivity(), getString(R.string.ftp_uri_malformed, target), Toast.LENGTH_LONG).show();
+          activity().showSnackbar(getString(R.string.ftp_uri_malformed, target), Snackbar.LENGTH_LONG);
           return false;
         }
         String scheme = uri.getScheme();
         if (!(scheme.equals("ftp") || scheme.equals("mailto"))) {
-          Toast.makeText(getActivity(), getString(R.string.share_scheme_not_supported, scheme), Toast.LENGTH_LONG).show();
+          activity().showSnackbar(getString(R.string.share_scheme_not_supported, scheme), Snackbar.LENGTH_LONG);
           return false;
         }
         Intent intent;
@@ -587,11 +584,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         nf.applyLocalizedPattern(((String) value));
         CurrencyFormatter.instance().invalidateAll();
       } catch (IllegalArgumentException e) {
-        Toast.makeText(getActivity(), R.string.number_format_illegal, Toast.LENGTH_LONG).show();
+        activity().showSnackbar(R.string.number_format_illegal, Snackbar.LENGTH_LONG);
         return false;
       }
     } else if (matches(pref, TRACKING)) {
-      ((ProtectedFragmentActivity) getActivity()).setTrackingEnabled((boolean) value);
+      activity().setTrackingEnabled((boolean) value);
     } else if (matches(pref, DEBUG_LOGGING)) {
       MyApplication.getInstance().setupLogging();
     }
@@ -608,7 +605,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   public boolean onPreferenceClick(Preference preference) {
     if (matches(preference, CONTRIB_PURCHASE)) {
       if (licenceHandler.hasLegacyLicence()) {
-        CommonCommands.dispatchCommand(getActivity(), R.id.REQUEST_LICENCE_MIGRATION_COMMAND, null);
+        CommonCommands.dispatchCommand(activity(), R.id.REQUEST_LICENCE_MIGRATION_COMMAND, null);
       } else if (licenceHandler.isUpgradeable()) {
         Intent i = ContribInfoDialogActivity.getIntentFor(getActivity(), null);
         if (DistribHelper.isGithub()) {
@@ -633,12 +630,12 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       return true;
     }
     if (matches(preference, SEND_FEEDBACK)) {
-      CommonCommands.dispatchCommand(getActivity(), R.id.FEEDBACK_COMMAND, null);
+      CommonCommands.dispatchCommand(activity(), R.id.FEEDBACK_COMMAND, null);
       return true;
     }
     if (matches(preference, RATE)) {
       NEXT_REMINDER_RATE.putLong(-1);
-      CommonCommands.dispatchCommand(getActivity(), R.id.RATE_COMMAND, null);
+      CommonCommands.dispatchCommand(activity(), R.id.RATE_COMMAND, null);
       return true;
     }
     if (matches(preference, MORE_INFO_DIALOG)) {
@@ -673,7 +670,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     }
     if (matches(preference, IMPORT_CSV)) {
       if (ContribFeature.CSV_IMPORT.hasAccess()) {
-        ((MyPreferenceActivity) getActivity()).contribFeatureCalled(ContribFeature.CSV_IMPORT, null);
+        activity().contribFeatureCalled(ContribFeature.CSV_IMPORT, null);
       } else {
         CommonCommands.showContribDialog(getActivity(), ContribFeature.CSV_IMPORT, null);
       }
@@ -708,10 +705,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         SwitchPreferenceCompat switchPreferenceCompat = (SwitchPreferenceCompat) preference;
         if (switchPreferenceCompat.isChecked()) {
           if (!((KeyguardManager) getContext().getSystemService(Context.KEYGUARD_SERVICE)).isKeyguardSecure()) {
-            ((ProtectedFragmentActivity) getActivity()).showDeviceLockScreenWarning();
+            activity().showDeviceLockScreenWarning();
             switchPreferenceCompat.setChecked(false);
           } else if (PROTECTION_LEGACY.getBoolean(false)) {
-            showOnlyOneProtectionWarning(false);
+            showOnlyOneProtectionWarning(true);
             switchPreferenceCompat.setChecked(false);
           }
         }
@@ -726,7 +723,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     String passWord = getString(R.string.pref_protection_password_title);
     Object[] formatArgs = legacyProtectionByPasswordIsActive ? new String[]{lockScreen, passWord} : new String[]{lockScreen, passWord};
     //noinspection StringFormatMatches
-    ((ProtectedFragmentActivity) getActivity()).showSnackbar(getString(R.string.pref_warning_only_one_protection, formatArgs), Snackbar.LENGTH_LONG);
+    activity().showSnackbar(getString(R.string.pref_warning_only_one_protection, formatArgs), Snackbar.LENGTH_LONG);
   }
 
   private void contribBuyDo(Package selectedPackage, boolean shouldReplaceExisting) {
@@ -781,9 +778,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
 
     if (Utils.isIntentReceiverAvailable(getActivity(), intent)) {
       getActivity().sendBroadcast(intent);
-      Toast.makeText(getActivity(), getString(R.string.pref_shortcut_added), Toast.LENGTH_LONG).show();
+      activity().showSnackbar(getString(R.string.pref_shortcut_added), Snackbar.LENGTH_LONG);
     } else {
-      Toast.makeText(getActivity(), getString(R.string.pref_shortcut_not_added), Toast.LENGTH_LONG).show();
+      activity().showSnackbar(getString(R.string.pref_shortcut_not_added), Snackbar.LENGTH_LONG);
     }
   }
 
@@ -795,7 +792,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       if (CALENDAR.hasPermission(getContext())) {
         fragment = CalendarListPreferenceDialogFragmentCompat.newInstance(key);
       } else {
-        ((ProtectedFragmentActivity) getActivity()).requestCalendarPermission();
+        activity().requestCalendarPermission();
         return;
       }
     } else if (preference instanceof FontSizeDialogPreference) {
@@ -803,7 +800,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     } else if (preference instanceof TimePreference) {
       fragment = TimePreferenceDialogFragmentCompat.newInstance(key);
     } else if (matches(preference, PROTECTION_LEGACY)) {
-      if (Utils.hasApiLevel(Build.VERSION_CODES.LOLLIPOP) && PROTECTION_DEVICE_LOCK_SCREEN.getBoolean(true)) {
+      if (Utils.hasApiLevel(Build.VERSION_CODES.LOLLIPOP) && PROTECTION_DEVICE_LOCK_SCREEN.getBoolean(false)) {
         showOnlyOneProtectionWarning(false);
         return;
       } else {
@@ -813,7 +810,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       fragment = SecurityQuestionDialogFragmentCompat.newInstance(key);
     } else if (matches(preference, AUTO_BACUP_CLOUD)) {
       if (((ListPreference) preference).getEntries().length == 1) {
-        Toast.makeText(getContext(), R.string.auto_backup_cloud_create_backend, Toast.LENGTH_LONG).show();
+        activity().showSnackbar(R.string.auto_backup_cloud_create_backend, Snackbar.LENGTH_LONG);
         return;
       }
     }
@@ -873,12 +870,12 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       if (which == BUTTON_POSITIVE) {
         NEW_LICENCE.putString(extras.getString(KEY_KEY));
         LICENCE_EMAIL.putString(extras.getString(KEY_EMAIL));
-        ((MyPreferenceActivity) getActivity()).validateLicence();
+        activity().validateLicence();
       }
     } else if (DIALOG_MANAGE_LICENCE.equals(dialogTag)) {
       switch (which) {
         case BUTTON_POSITIVE:
-          ((MyPreferenceActivity) getActivity()).validateLicence();
+          activity().validateLicence();
           break;
         case BUTTON_NEGATIVE:
           Bundle b = new Bundle();
@@ -893,5 +890,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       }
     }
     return true;
+  }
+  
+  private final MyPreferenceActivity activity() {
+    return (MyPreferenceActivity) super.getActivity();
   }
 }

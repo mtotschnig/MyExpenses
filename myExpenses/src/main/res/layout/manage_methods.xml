@@ -19,7 +19,8 @@
     android:layout_height="fill_parent"
     android:orientation="vertical">
     <include layout="@layout/toolbar"/>
-    <FrameLayout
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
    <fragment android:name="org.totschnig.myexpenses.fragment.MethodList"
@@ -27,5 +28,5 @@
            android:layout_width="fill_parent"
            android:layout_height="fill_parent"/>
         <include layout="@layout/floating_action_button"/>
-    </FrameLayout>
+    </android.support.design.widget.CoordinatorLayout>
   </LinearLayout>

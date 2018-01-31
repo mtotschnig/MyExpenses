@@ -72,7 +72,7 @@ public class CurrencyFormatter {
       } else {
         numberFormat.setMaximumFractionDigits(fractionDigits);
       }
-      String currencySymbol = Money.getCustomSymbol(currency);
+      String currencySymbol = Money.getCustomSymbol(currency.getCurrencyCode());
       if (currencySymbol != null) {
         DecimalFormatSymbols decimalFormatSymbols = ((DecimalFormat) numberFormat).getDecimalFormatSymbols();
         decimalFormatSymbols.setCurrencySymbol(currencySymbol);

@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
-import android.widget.Toast;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
@@ -19,48 +18,46 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShareUtils {
-  public static void share(Context ctx, List<Uri> uriList, String target, String mimeType) {
+  public static Result share(Context ctx, List<Uri> uriList, String target, String mimeType) {
     if ("".equals(target)) {
-      handleGeneric(ctx, uriList, mimeType);
+      return handleGeneric(ctx, uriList, mimeType);
     } else {
       URI uri = parseUri(target);
       if (uri == null) {
-        Toast.makeText(ctx, ctx.getString(R.string.ftp_uri_malformed, target),
-            Toast.LENGTH_LONG).show();
+        return complain(ctx.getString(R.string.ftp_uri_malformed, target));
       } else {
         String scheme = uri.getScheme();
         switch (scheme) {
           case "ftp":
-            handleFtp(ctx, uriList, target, mimeType);
-            break;
+            return handleFtp(ctx, uriList, target, mimeType);
           case "mailto":
-            handleMailto(ctx, uriList, mimeType, uri);
-            break;
+            return handleMailto(ctx, uriList, mimeType, uri);
           default:
-            complain(ctx, ctx.getString(R.string.share_scheme_not_supported, scheme));
-            break;
+            return complain(ctx.getString(R.string.share_scheme_not_supported, scheme));
         }
       }
     }
   }
 
-  private static void handleGeneric(Context ctx, List<Uri> fileUris, String mimeType) {
+  private static Result handleGeneric(Context ctx, List<Uri> fileUris, String mimeType) {
     Intent intent = buildIntent(fileUris, mimeType, null);
     if (Utils.isIntentAvailable(ctx, intent)) {
       // we launch the chooser in order to make action more explicit
       ctx.startActivity(Intent.createChooser(intent, ctx.getString(R.string.share_sending)));
     } else {
-      complain(ctx, "No app for sharing found");
+      return complain("No app for sharing found");
     }
+    return Result.SUCCESS;
   }
 
-  private static void handleMailto(Context ctx, List<Uri> fileUris, String mimeType, @NonNull URI uri) {
+  private static Result handleMailto(Context ctx, List<Uri> fileUris, String mimeType, @NonNull URI uri) {
     Intent intent = buildIntent(fileUris, mimeType, uri.getSchemeSpecificPart());
     if (Utils.isIntentAvailable(ctx, intent)) {
       ctx.startActivity(intent);
     } else {
-      complain(ctx, ctx.getString(R.string.no_app_handling_email_available));
+      return complain(ctx.getString(R.string.no_app_handling_email_available));
     }
+    return Result.SUCCESS;
   }
 
   @VisibleForTesting
@@ -84,12 +81,10 @@ public class ShareUtils {
     return intent;
   }
 
-  private static void handleFtp(Context ctx, List<Uri> fileUris, String target, String mimeType) {
+  private static Result handleFtp(Context ctx, List<Uri> fileUris, String target, String mimeType) {
     Intent intent;
     if (fileUris.size() > 1) {
-      Toast.makeText(ctx,
-          "sending multiple file through ftp is not supported",
-          Toast.LENGTH_LONG).show();
+      return complain("sending multiple file through ftp is not supported");
     } else {
       intent = new Intent(Intent.ACTION_SENDTO);
       intent.putExtra(Intent.EXTRA_STREAM, AppDirHelper.ensureContentUri(fileUris.get(0)));
@@ -97,13 +92,14 @@ public class ShareUtils {
       if (Utils.isIntentAvailable(ctx, intent)) {
         ctx.startActivity(intent);
       } else {
-        complain(ctx, ctx.getString(R.string.no_app_handling_ftp_available));
+        return complain(ctx.getString(R.string.no_app_handling_ftp_available));
       }
     }
+    return Result.SUCCESS;
   }
 
-  private static void complain(Context ctx, String string) {
-    Toast.makeText(ctx, string, Toast.LENGTH_LONG).show();
+  private static Result complain(String string) {
+    return new Result(false, string);
   }
 
   @Nullable

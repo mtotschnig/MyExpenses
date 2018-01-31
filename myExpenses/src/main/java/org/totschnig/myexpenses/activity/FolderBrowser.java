@@ -19,23 +19,29 @@ import org.totschnig.myexpenses.fragment.FolderList;
 public class FolderBrowser extends ProtectedFragmentActivity implements
     EditTextDialogListener {
 
-    public static final String PATH = "PATH";
+  public static final String PATH = "PATH";
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-      setTheme(MyApplication.getThemeIdEditDialog());
-      super.onCreate(savedInstanceState);
-      setContentView(R.layout.folder_browser);
-      setupToolbar(true);
-    }
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    setTheme(MyApplication.getThemeIdEditDialog());
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.folder_browser);
+    setupToolbar(true);
+  }
 
-    @Override
-    public void onFinishEditDialog(Bundle args) {
-      ((FolderList) getSupportFragmentManager().findFragmentById(R.id.folder_list))
+  @Override
+  public void onFinishEditDialog(Bundle args) {
+    ((FolderList) getSupportFragmentManager().findFragmentById(R.id.folder_list))
         .createNewFolder(args.getString(EditTextDialog.KEY_RESULT));
-    }
+  }
 
-    @Override
-    public void onCancelEditDialog() {
-    }
+  @Override
+  public void onCancelEditDialog() {
+  }
+
+  @Override
+  public void onMessageDialogDismissOrCancel() {
+    setResult(RESULT_CANCELED);
+    finish();
+  }
 }

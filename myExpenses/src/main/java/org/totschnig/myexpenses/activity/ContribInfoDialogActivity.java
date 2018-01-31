@@ -7,7 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.widget.Toast;
+import android.support.design.widget.Snackbar;
 
 import org.onepf.oms.OpenIabHelper;
 import org.onepf.oms.appstore.googleUtils.IabHelper;
@@ -130,14 +130,10 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
     i.setData(Uri.parse(String.format("appworld://content/%s", appId)));
     if (Utils.isIntentAvailable(this, i)) {
       startActivity(i);
+      finish();
     } else {
-      Toast.makeText(
-          this,
-          R.string.error_accessing_market,
-          Toast.LENGTH_LONG)
-          .show();
+      showMessage(R.string.error_accessing_market);
     }
-    finish();
   }
 
 
@@ -172,9 +168,9 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
                 Timber.d("Purchase finished: %s, purchase: %s", result, purchase);
                 if (result.isFailure()) {
                   Timber.w("Purchase failed: %s, purchase: %s", result, purchase);
-                  complain(getString(R.string.premium_failed_or_canceled));
+                  showMessage(getString(R.string.premium_failed_or_canceled));
                 } else if (!verifyDeveloperPayload(purchase)) {
-                  complain("Error purchasing. Authenticity verification failed.");
+                  showMessage("Error purchasing. Authenticity verification failed.");
                 } else {
                   Timber.d("Purchase successful.");
 
@@ -183,14 +179,13 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
                   if (licenceStatus != null) {
                     // bought the premium upgrade!
                     Timber.d("Purchase is premium upgrade. Congratulating user.");
-                    Toast.makeText(
-                        ContribInfoDialogActivity.this,
+                    showMessage(
                         String.format("%s (%s) %s", getString(R.string.licence_validation_premium),
-                            getString(licenceStatus.getResId()), getString(R.string.thank_you)),
-                        Toast.LENGTH_SHORT).show();
+                            getString(licenceStatus.getResId()), getString(R.string.thank_you)));
+                  } else {
+                    finish();
                   }
                 }
-                finish();
               }
 
               private boolean verifyDeveloperPayload(Purchase purchase) {
@@ -240,7 +235,17 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
 
   void complain(String message) {
     Timber.e("**** InAppPurchase Error: %s", message);
-    Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    ContribDialogFragment fragment = ((ContribDialogFragment) getSupportFragmentManager().findFragmentByTag("CONTRIB"));
+    if (fragment != null) {
+      fragment.showMessage(message);
+    } else {
+      showSnackbar(message, Snackbar.LENGTH_LONG);
+    }
+  }
+
+  @Override
+  protected int getSnackbarContainerId() {
+    return android.R.id.content;
   }
 
   public void startPayment(int paymentOption, Package aPackage) {
@@ -277,7 +282,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
             packageLabel, userCountry != null ? userCountry : "");
         intent.putExtra(Intent.EXTRA_TEXT, messageBody);
         if (!Utils.isIntentAvailable(this, intent)) {
-          Toast.makeText(this, R.string.no_app_handling_email_available, Toast.LENGTH_LONG).show();
+          complain(getString(R.string.no_app_handling_email_available));
         } else {
           startActivityForResult(intent, 0);
         }

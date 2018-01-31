@@ -23,6 +23,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri.Builder;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -50,7 +51,6 @@ import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
@@ -424,17 +424,19 @@ public class CategoryList extends SortableListFragment implements
         }
         if (mappedTransactionsCount > 0 || mappedTemplatesCount > 0) {
           String message = "";
-          if (mappedTransactionsCount > 0)
+          if (mappedTransactionsCount > 0) {
             message += getResources().getQuantityString(
                 R.plurals.not_deletable_mapped_transactions,
                 mappedTransactionsCount,
                 mappedTransactionsCount);
-          if (mappedTemplatesCount > 0)
+          }
+          if (mappedTemplatesCount > 0) {
             message += getResources().getQuantityString(
                 R.plurals.not_deletable_mapped_templates,
                 mappedTemplatesCount,
                 mappedTemplatesCount);
-          Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+          }
+          ctx.showSnackbar(message, Snackbar.LENGTH_LONG);
         }
         return true;
       case R.id.SELECT_COMMAND_MULTIPLE:

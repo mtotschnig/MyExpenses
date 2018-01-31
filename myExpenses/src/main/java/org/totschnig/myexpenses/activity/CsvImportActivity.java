@@ -1,8 +1,8 @@
 package org.totschnig.myexpenses.activity;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
-import android.widget.Toast;
 
 import org.apache.commons.csv.CSVRecord;
 import org.totschnig.myexpenses.MyApplication;
@@ -109,10 +109,11 @@ public class CsvImportActivity extends TabbedActivity implements
             break;
           }
         }
-        Toast.makeText(this, R.string.parse_error_no_data_found, Toast.LENGTH_LONG).show();
+        showSnackbar(R.string.parse_error_no_data_found, Snackbar.LENGTH_LONG);
         break;
       case TaskExecutionFragment.TASK_CSV_IMPORT:
         Result r = (Result) result;
+        String msg;
         if (r.success) {
           if (!mUsageRecorded) {
             recordUsage(ContribFeature.CSV_IMPORT);
@@ -122,24 +123,24 @@ public class CsvImportActivity extends TabbedActivity implements
           Integer failed = (Integer) r.extra[1];
           Integer discarded = (Integer) r.extra[2];
           String label = (String) r.extra[3];
-          String msg = getString(R.string.import_transactions_success, imported, label) + ".";
+          msg = getString(R.string.import_transactions_success, imported, label) + ".";
           if (failed > 0) {
             msg += " " + getString(R.string.csv_import_records_failed, failed);
           }
           if (discarded > 0) {
             msg += " " + getString(R.string.csv_import_records_discarded, discarded);
           }
-          Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
         } else {
-          Toast.makeText(this, r.print(this), Toast.LENGTH_LONG).show();
+          msg = r.print(this);
         }
+        showSnackbar(msg, Snackbar.LENGTH_LONG);
     }
   }
 
   @Override
   public void onProgressUpdate(Object progress) {
     if (progress instanceof String) {
-      Toast.makeText(this, (String) progress, Toast.LENGTH_LONG).show();
+      showSnackbar((String) progress, Snackbar.LENGTH_LONG);
     } else {
       super.onProgressUpdate(progress);
     }

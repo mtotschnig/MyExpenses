@@ -24,7 +24,6 @@ import android.text.TextUtils;
 import android.widget.Button;
 
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.ui.ScrollableProgressDialog;
 import org.totschnig.myexpenses.util.AcraHelper;
 
@@ -50,7 +49,11 @@ public class ProgressDialogFragment extends CommitSafeDialogFragment {
    * @return the dialog fragment
    */
   public static ProgressDialogFragment newInstance(int message) {
-    return newInstance(0, message, STYLE_SPINNER, false);
+    return newInstance(message,false);
+  }
+
+  public static ProgressDialogFragment newInstance(int message, boolean withButton) {
+    return newInstance(0, message, STYLE_SPINNER, withButton);
   }
 
   /**
@@ -158,7 +161,7 @@ public class ProgressDialogFragment extends CommitSafeDialogFragment {
             if (getActivity() == null) {
               return;
             }
-            ((MessageDialogListener) getActivity()).onMessageDialogDismissOrCancel();
+            ((ProgressDialogListener) getActivity()).onProgressDialogDismiss();
           });
     }
     return mDialog;
@@ -210,14 +213,6 @@ public class ProgressDialogFragment extends CommitSafeDialogFragment {
   }
 
   @Override
-  public void onCancel(DialogInterface dialog) {
-    if (getActivity() == null) {
-      return;
-    }
-    ((MessageDialogListener) getActivity()).onMessageDialogDismissOrCancel();
-  }
-
-  @Override
   public void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
     outState.putBoolean(KEY_TASK_COMPLETED, mTaskCompleted);
@@ -225,5 +220,9 @@ public class ProgressDialogFragment extends CommitSafeDialogFragment {
     outState.putString(KEY_MESSAGE, message);
     outState.putInt(KEY_PROGRESS, progress);
     outState.putInt(KEY_MAX, max);
+  }
+
+  public interface ProgressDialogListener {
+    void onProgressDialogDismiss();
   }
 }
