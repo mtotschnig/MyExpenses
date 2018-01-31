@@ -310,6 +310,7 @@
   <string name="pref_manage_sync_backends_summary">Hesapları eşleştirmek için arka uç ekle (%s).</string>
   <string name="pref_more_info_dialog_title">Lisans &amp; Hazırlayanlar</string>
   <string name="pref_password_not_equal">Parolalar eşleşmedi</string>
+  <string name="pref_perform_protection_title">Koruma</string>
   <string name="pref_perform_share_title">Dışa aktarmaları ve yedeklemeleri paylaş</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Yeni yerel planlama takvimi oluştur</string>
@@ -701,4 +702,9 @@
     <item quantity="one">Bir nesne başarıyla silindi.</item>
     <item quantity="other">%d nesne başarıyla silindi.</item>
   </plurals>
+  <string name="feature_deprecated">Kullanımdan kaldırılmış</string>
+  <string name="pref_protection_device_lock_screen_title">Cihaz kilitleme ekranı</string>
+  <string name="pref_warning_only_one_protection">%1$s ile korumayı kullanmadan önce %2$s ile korumayı devre dışı bırakmanız gerekir.</string>
+  <string name="warning_device_lock_screen_not_set_up_1">Güvenli cihaz kilidi ekranı ayarlanmadı.</string>
+  <string name="warning_device_lock_screen_not_set_up_2">Ekran kilidini ayarlamak için \'Ayarlar -&gt; Güvenlik -&gt; Ekran kilidine\' gidiniz.</string>
 </resources>
