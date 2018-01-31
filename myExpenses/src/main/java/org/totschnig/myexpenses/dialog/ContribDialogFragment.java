@@ -22,7 +22,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.text.Html;
@@ -38,7 +37,6 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.util.DistribHelper;
-import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
@@ -294,11 +292,5 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     if (extendedVisible) extendedButton.setChecked(extendedButton == selected);
     professionalButton.setChecked(professionalButton == selected);
     ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
-  }
-
-  public void showMessage(String message) {
-    Snackbar snackbar = Snackbar.make(dialogView, message, Snackbar.LENGTH_LONG);
-    UiUtils.configureSnackbarForDarkTheme(snackbar);
-    snackbar.show();
   }
 }

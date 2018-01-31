@@ -10,6 +10,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.Toast;
 
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.UiUtils;
@@ -41,9 +42,14 @@ public abstract class CommitSafeDialogFragment extends DialogFragment {
     showSnackbar(getString(resId));
   }
 
-  protected void showSnackbar(CharSequence message) {
-    Snackbar snackbar = Snackbar.make(dialogView, message, Snackbar.LENGTH_LONG);
-    UiUtils.configureSnackbarForDarkTheme(snackbar);
-    snackbar.show();
+  public void showSnackbar(CharSequence message) {
+    if (dialogView != null) {
+      Snackbar snackbar = Snackbar.make(dialogView, message, Snackbar.LENGTH_LONG);
+      UiUtils.configureSnackbarForDarkTheme(snackbar);
+      snackbar.show();
+    } else {
+      Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+
+    }
   }
 }

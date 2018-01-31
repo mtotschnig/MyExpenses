@@ -116,6 +116,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
         ContribDialogFragment.newInstance(getIntent().getStringExtra(KEY_FEATURE),
             getIntent().getSerializableExtra(KEY_TAG))
             .show(getSupportFragmentManager(), "CONTRIB");
+        getSupportFragmentManager().executePendingTransactions();
       } else {
         if (DistribHelper.isGithub()) {
           contribBuyDo(Package.valueOf(packageFromExtra));
@@ -237,7 +238,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
     Timber.e("**** InAppPurchase Error: %s", message);
     ContribDialogFragment fragment = ((ContribDialogFragment) getSupportFragmentManager().findFragmentByTag("CONTRIB"));
     if (fragment != null) {
-      fragment.showMessage(message);
+      fragment.showSnackbar(message);
     } else {
       showSnackbar(message, Snackbar.LENGTH_LONG);
     }
