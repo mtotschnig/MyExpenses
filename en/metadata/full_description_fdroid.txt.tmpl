@@ -1,57 +1,48 @@
 ---
 lang: en
 ---
-{% assign msg = site.data[page.lang][page.lang] %}{% assign placeholder = '{app_name}' %}<p>{{t.store.full_description_intro | replace:placeholder, site.title[page.lang]}}</p>
+{% assign msg = site.data[page.lang][page.lang] %}{% assign placeholder = '{app_name}' %}{{t.store.full_description_intro | replace:placeholder, site.title[page.lang]}}
 
-<ul>
-<li>{{t.features.manage_accounts}}</li>
-<li>{{t.features.plans}}</li>
-<li>{{t.features.grouped_list}}</li>
-<li>{{t.features.export}}</li>
-<li>{{t.features.password}}</li>
-<li>{{t.features.light_theme}}</li>
-<li>{{t.features.reconciliation}}</li>
-<li>{{t.features.homescreen}}</li>
-</ul>
+- {{t.features.manage_accounts}}
+- {{t.features.plans}}
+- {{t.features.grouped_list}}
+- {{t.features.export}}
+- {{t.features.password}}
+- {{t.features.light_theme}}
+- {{t.features.reconciliation}}
+- {{t.features.homescreen}}
 
-<p>{{t.store.full_description_contrib}}</p>
+{{t.store.full_description_contrib}}
 
-<p><b>{{t.contrib-key}}</b></p>
+<b>{{t.contrib-key}}</b>
 
-<ul>
-<li>{{t.contrib.feature.ad_free}}</li>
-<li>{{t.contrib.feature.accounts_unlimited}}</li>
-<li>{{t.contrib.feature.plans_unlimited}}</li>
-<li>{{t.contrib.feature.distribution}}</li>
-<li>{{t.contrib.feature.split_transaction}}</li>
-<li>{{t.contrib.feature.print}}</li>
-<li>{{t.contrib.feature.security_question}}</li>
-<li>{{t.contrib.feature.attach_picture}}</li>
-<li>{{t.contrib.feature.template_widget}}</li>
-</ul>
+- {{t.contrib.feature.ad_free}}
+- {{t.contrib.feature.accounts_unlimited}}
+- {{t.contrib.feature.plans_unlimited}}
+- {{t.contrib.feature.distribution}}
+- {{t.contrib.feature.split_transaction}}
+- {{t.contrib.feature.print}}
+- {{t.contrib.feature.security_question}}
+- {{t.contrib.feature.attach_picture}}
+- {{t.contrib.feature.template_widget}}
 
-<p><b>{{t.extended-key}}</b></p>
+<b>{{t.extended-key}}</b>
 
-<ul>
-<li>{{t.all_contrib_key_features}}</li>
-<li>{{t.contrib.feature.cloud_sync}}</li>
-<li>{{t.contrib.feature.auto_backup}}</li>
-<li>{{t.contrib.feature.csv_import}}</li>
+- {{t.all_contrib_key_features}}
+- {{t.contrib.feature.cloud_sync}}
+- {{t.contrib.feature.auto_backup}}
+- {{t.contrib.feature.csv_import}}
 
-<p><b>{{t.professional-key}}</b></p>
+<b>{{t.professional-key}}</b>
 
-<ul>
-<li>{{t.all_extended_key_features}}</li>
-<li>{{t.contrib.feature.split_template}}</li>
-<li>{{t.contrib.feature.email_support}}</li>
-<li>{{t.contrib.feature.roadmap_voting}}</li>
-</ul>
+- {{t.all_extended_key_features}}
+- {{t.contrib.feature.split_template}}
+- {{t.contrib.feature.email_support}}
+- {{t.contrib.feature.roadmap_voting}}
 
-<p>{{t.permissions.heading | replace:placeholder, site.title[page.lang]}}:</p>
+{{t.permissions.heading | replace:placeholder, site.title[page.lang]}}:
 
-<ul>
-<li><i>{{t.permissions.calendar.label}}</i>: {{t.permissions.calendar.explanation}}</li>
-<li><i>{{t.permissions.external-storage.label}}</i>: {{t.permissions.external-storage.explanation}}</li>
-<li><i>{{t.permissions.internet.label}}</i>: {{t.permissions.internet.explanation_key_validation}}, {{t.permissions.internet.explanation_cloud_sync}}.</li>
-<li><i>{{t.permissions.accounts.label}}</i>: {{t.permissions.accounts.explanation}}</li>
-</ul>
+- <i>{{t.permissions.calendar.label}}</i>: {{t.permissions.calendar.explanation}}
+- <i>{{t.permissions.external-storage.label}}</i>: {{t.permissions.external-storage.explanation}}
+- <i>{{t.permissions.internet.label}}</i>: {{t.permissions.internet.explanation_key_validation}}, {{t.permissions.internet.explanation_cloud_sync}}.
+- <i>{{t.permissions.accounts.label}}</i>: {{t.permissions.accounts.explanation}}
