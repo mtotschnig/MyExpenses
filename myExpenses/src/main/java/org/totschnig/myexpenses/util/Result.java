@@ -71,6 +71,7 @@ public class Result {
     this.messageString = messageString;
   }
 
+  @Nullable
   public String print(Context ctx) {
     return message == 0 ? messageString : ctx.getString(message, extra);
   }

@@ -20,6 +20,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.widget.Button;
 
@@ -186,7 +187,7 @@ public class ProgressDialogFragment extends CommitSafeDialogFragment {
     mDialog.setTitle(title);
   }
 
-  public void appendToMessage(String newMessage) {
+  public void appendToMessage(@NonNull String newMessage) {
     if (TextUtils.isEmpty(this.message)) {
       this.message = newMessage;
     } else {
