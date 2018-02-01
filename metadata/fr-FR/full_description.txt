@@ -1,21 +1,21 @@
 Mes dépenses enregistre vos dépenses et vos revenus, directement sur votre smartphone et sur votre tablette.
 
-- Jusqu'à cinq comptes avec <b> virements </b> (également entre différentes monaies)
-- Nombre illimité de <b>modèles</b> et échéancier avec jusqu'à trois plans pour les transactions <b>périodiques</b>
-- Les operátions peuvent être <b>groupées</b> (par jour, semaine, mois et année) et <b>filtrées</b>
+- Jusqu'à cinq comptes avec <b>virements</b> (également entre différentes monnaies)
+- Nombre illimité de <b>modèles</b> et échéancier avec jusqu'à trois échéances pour les opérations <b>périodiques</b>
+- Les opérations peuvent être <b>regroupées</b> (par jour, semaine, mois et année) et <b>filtrées</b>
 - <b>Export</b> vers QIF et CSV. <b>Import</b> à partir de QIF
-- Les données peuvent être protégées par <b>mot de passe</b>
+- Les données peuvent être protégées par un<b>mot de passe</b>
 - <b>Thème</b> (sombre et clair) et <b>taille de police</b> peuvent être personnalisés
-- <b>Rapprochement</b>: comparez facilement l'état des opérations à vos relevés bancaires
+- <b>Rapprochement</b>: comparez facilement l'état des opérations avec vos relevés bancaires
 - Sur l'écran d'accueil, <b>widget</b> et <b>raccourcis</b> permettent une saisie rapide des données
 
-Les fonctionnalités Premium sont déverrouillées en achetant l'une des clés de licence suivantes:
+Les fonctions Premium sont déverrouillées en achetant l'une des clés de licence suivantes:
 
 <b>Clé Contrib</b>
 
 - <b>Sans publicité</b>
 - Nombre illimité de <b>comptes</b>
-- Nombre illimité de plans dans l'échéanchier pour les transactions <b>périodiques</b>
+- Nombre illimité d'échéances dans l'échéancier pour les opérations <b>périodiques</b>
 - <b>Diagramme circulaire</b>: Visualisez la distribution statistique des opérations par catégorie sur différentes périodes (années, mois, semaines, jours)
 - <b>Opération ventilée</b>: une seule opération peut être divisée en plusieurs parties (catégories et transferts)
 - <b>Imprimer</b> la liste des opérations dans un fichier PDF
@@ -33,8 +33,8 @@ Les fonctionnalités Premium sont déverrouillées en achetant l'une des clés d
 <b>Clé professionnelle</b>
 
 - Toutes les fonctions de la Clé Étendue
-- Nombre illimité <b>de modèles et de plans pour les opérations ventilées</b>
-- <b>Assistance par e-mail</b> avec réponse garantie après 2 jours ouvrables
+- Nombre illimité <b>de modèles et d'échéances pour les opérations ventilées</b>
+- <b>Assistance par e-mail</b> avec réponse garantie sous 2 jours ouvrables
 - Voter sur la <b>feuille de route pour le développement</b>
 
 <i>Mes dépenses</i> demande les <u>permissions</u> suivantes:
