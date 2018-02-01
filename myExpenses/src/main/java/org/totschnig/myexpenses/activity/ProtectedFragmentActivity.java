@@ -271,7 +271,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   public void showDeviceLockScreenWarning() {
     showSnackbar(
-        Utils.concatResStrings(this, "\n", R.string.warning_device_lock_screen_not_set_up_1, R.string.warning_device_lock_screen_not_set_up_2),
+        Utils.concatResStrings(this, " ", R.string.warning_device_lock_screen_not_set_up_1, R.string.warning_device_lock_screen_not_set_up_2),
         Snackbar.LENGTH_LONG);
   }
 
@@ -714,7 +714,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
       snackbar = Snackbar.make(container, message, duration);
       View snackbarView = snackbar.getView();
       TextView textView = snackbarView.findViewById(android.support.design.R.id.snackbar_text);
-      textView.setMaxLines(3);
+      textView.setMaxLines(4);
       UiUtils.configureSnackbarForDarkTheme(snackbar);
       if (dismissable) {
         snackbar.setAction(R.string.snackbar_dismiss, v -> snackbar.dismiss());
