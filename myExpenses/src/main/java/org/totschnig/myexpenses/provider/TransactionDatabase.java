@@ -1355,17 +1355,22 @@ public class TransactionDatabase extends SQLiteOpenHelper {
 
       if (oldVersion < 57) {
         //fix custom app uris
-        if (CALENDAR.hasPermission(mCtx)) {
-          Cursor c = db.query("templates", new String[]{"_id", "plan_id"}, "plan_id IS NOT null", null, null, null, null);
-          if (c != null) {
-            if (c.moveToFirst()) {
-              while (!c.isAfterLast()) {
-                Plan.updateCustomAppUri(c.getLong(1), Template.buildCustomAppUri(c.getLong(0)));
-                c.moveToNext();
+        try {
+          if (CALENDAR.hasPermission(mCtx)) {
+            Cursor c = db.query("templates", new String[]{"_id", "plan_id"}, "plan_id IS NOT null", null, null, null, null);
+            if (c != null) {
+              if (c.moveToFirst()) {
+                while (!c.isAfterLast()) {
+                  Plan.updateCustomAppUri(c.getLong(1), Template.buildCustomAppUri(c.getLong(0)));
+                  c.moveToNext();
+                }
               }
+              c.close();
             }
-            c.close();
           }
+        } catch (Exception e) {
+          //we have seen updateCustomAppUri fail, this should not prevent the database upgrade
+          AcraHelper.report(e);
         }
 
         //Drop unique constraint on templates
