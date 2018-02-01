@@ -310,6 +310,7 @@
   <string name="pref_manage_sync_backends_summary">Backends für die Synchronisierung der Konten (%s) hinzufügen.</string>
   <string name="pref_more_info_dialog_title">Lizenz &amp; Abspann</string>
   <string name="pref_password_not_equal">Passwörter stimmen nicht überein</string>
+  <string name="pref_perform_protection_title">Schutz</string>
   <string name="pref_perform_share_title">Export und Sicherheitskopie versenden</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Neuen lokalen Planer anlegen</string>
@@ -701,4 +702,9 @@
     <item quantity="one">Ein Objekt wurde erfolgreich gelöscht.</item>
     <item quantity="other">%d Objekte wurden erfolgreich gelöscht.</item>
   </plurals>
+  <string name="feature_deprecated">Veraltet</string>
+  <string name="pref_protection_device_lock_screen_title">Gerätesperrbildschirm</string>
+  <string name="pref_warning_only_one_protection">Bevor Sie den Schutz durch %1$s verwenden können, müssen Sie den Schutz durch %2$s ausschalten.</string>
+  <string name="warning_device_lock_screen_not_set_up_1">Der sichere Gerätesperrbildschirm wurde nicht eingerichtet.</string>
+  <string name="warning_device_lock_screen_not_set_up_2">Gehen Sie zu \'Einstellungen -&gt; Sicherheit -&gt; Bildschirmsperre\', um einen Sperrbildschirm einzurichten.</string>
 </resources>
