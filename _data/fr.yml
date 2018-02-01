@@ -2,7 +2,7 @@ fr:
   imprint: Imprint
   imprint_text: Responsable du contenu de ce site Web et du développement, de la maintenance et de la distribution de <i>{app_name}</i>
   privacy_policy_heading: Règles de confidentialité
-  privacy_policy_text: "<i> {app_name}</i> n'accède à aucune donnée sur votre appareil autre que sa propre base de données, son propre dossier sur la carte SD. Si vous utilisez la fonctionnalité des plans pour les transactions futures et récurrentes, vous affectez le calendrier, où ces plans sont stockés."
+  privacy_policy_text: "<i> {app_name}</i> n'accède à aucune donnée sur votre appareil autre que sa propre base de données, son propre dossier sur la carte SD. Si vous utilisez la fonction d'échéancier pour les opérations futures et récurrentes, vous affectez le calendrier, où ces échéances sont stockées."
   hero_main: "Gestionnaire de finances personnelles pour Android"
   hero_sub:
     use: "Facile à utiliser"
@@ -21,20 +21,20 @@ fr:
     sourcecode: Code source
     links: Liens
   features:
-    manage_accounts: Jusqu'à cinq comptes avec <b> virements </b> (également entre différentes monaies)
-    plans: Nombre illimité de <b>modèles</b> et échéancier avec jusqu'à trois plans pour les transactions <b>périodiques</b>
-    grouped_list: Les operátions peuvent être <b>groupées</b> (par jour, semaine, mois et année) et <b>filtrées</b>
+    manage_accounts: Jusqu'à cinq comptes avec <b>virements</b> (également entre différentes monnaies)
+    plans: Nombre illimité de <b>modèles</b> et échéancier avec jusqu'à trois échéances pour les opérations <b>périodiques</b>
+    grouped_list: Les opérations peuvent être <b>regroupées</b> (par jour, semaine, mois et année) et <b>filtrées</b>
     distribution: Deux niveaux de catégories (importable à partir du fichier Grisbi)
     split: Opérations ventilées
     calculator: Calculatrice
     export: <b>Export</b> vers QIF et CSV. <b>Import</b> à partir de QIF
     import: Importer des données QIF
-    password: Les données peuvent être protégées par <b>mot de passe</b>
+    password: Les données peuvent être protégées par un<b>mot de passe</b>
     help: Aide integrée
     backup: Sauvegarde et restauration de données
     light_theme: <b>Thème</b> (sombre et clair) et <b>taille de police</b> peuvent être personnalisés
     attach_picture: Lier une image avec une transaction
-    reconciliation: "<b>Rapprochement</b>: comparez facilement l'état des opérations à vos relevés bancaires"
+    reconciliation: "<b>Rapprochement</b>: comparez facilement l'état des opérations avec vos relevés bancaires"
     homescreen: Sur l'écran d'accueil, <b>widget</b> et <b>raccourcis</b> permettent une saisie rapide des données
   contrib:
     thank_you: |
@@ -42,7 +42,7 @@ fr:
     feature-list-title: "S'il vous plaît, contribuez par la mise à niveau de <i>{app_name}</i> et vous aurez accès sans restriction aux caractéristiques suivantes:"
     feature:
       accounts_unlimited: Nombre illimité de <b>comptes</b>
-      plans_unlimited: Nombre illimité de plans dans l'échéanchier pour les transactions <b>périodiques</b>
+      plans_unlimited: Nombre illimité d'échéances dans l'échéancier pour les opérations <b>périodiques</b>
       distribution: "<b>Diagramme circulaire</b>: Visualisez la distribution statistique des opérations par catégorie sur différentes périodes (années, mois, semaines, jours)"
       split_transaction: "<b>Opération ventilée</b>: une seule opération peut être divisée en plusieurs parties (catégories et transferts)"
       security_question: Définir une <b>question de sécurité</b> pour récupérer un mot de passe perdu
@@ -53,16 +53,16 @@ fr:
       csv_import: <b>Import CSV</b> sophistiqué et personnalisable (applications tableur)
       auto_backup: <b>Sauvegarde automatique</b> quotidienne avec téléchargement facultatif vers le stockage dans le cloud
       cloud_sync: "<b>Synchronisation dans le cloud</b>: les données peuvent être synchronisées entre plusieurs appareils via WebDAV et Google Drive"
-      split_template: Nombre illimité <b>de modèles et de plans pour les opérations ventilées</b>
-      email_support: <b>Assistance par e-mail</b> avec réponse garantie après 2 jours ouvrables
+      split_template: Nombre illimité <b>de modèles et d'échéances pour les opérations ventilées</b>
+      email_support: <b>Assistance par e-mail</b> avec réponse garantie sous 2 jours ouvrables
       roadmap_voting: Voter sur la <b>feuille de route pour le développement</b>
     one-time-payment: Paiement unique
     subscription: Abonnement
   store:
     short_description: "Gestionnaire de finances personnelles: facile à utiliser, riche en fonctions."
     full_description_intro: "{app_name} enregistre vos dépenses et vos revenus, directement sur votre smartphone et sur votre tablette."
-    full_description_contrib: "Les fonctionnalités Premium sont déverrouillées en achetant l'une des clés de licence suivantes:"
-    full_description_contrib_amazon: "De nombreuses fonctionnalités supplémentaires sont déverrouillées en achetant l'une des clés de licence, par exemple:"
+    full_description_contrib: "Les fonctions Premium sont déverrouillées en achetant l'une des clés de licence suivantes:"
+    full_description_contrib_amazon: "De nombreuses fonctions supplémentaires sont déverrouillées en achetant l'une des clés de licence, par exemple:"
     highlight_1: "Gardez une trace de vos dépenses et revenus avec plusieurs comptes, modèles et catégories"
     highlight_2: "Partagez vos données entre plusieurs téléphones et tablettes via WebDAV et Google Drive"
     highlight_3: "Résumez votre situation financière par jour, semaine, mois ou année"
