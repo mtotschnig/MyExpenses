@@ -25,8 +25,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -72,7 +72,10 @@ public class RoadmapViewModel extends AndroidViewModel {
         .build();
     roadmapService = retrofit.create(RoadmapService.class);
 
-    loadData(true);
+    loadLastVote();
+  }
+
+  public void loadLastVote() {
     new LoadLastVoteTask().execute();
   }
 
@@ -92,11 +95,11 @@ public class RoadmapViewModel extends AndroidViewModel {
     new LoadIssuesTask(withCache).execute();
   }
 
-  public void submitVote(String key, HashMap<Integer, Integer> voteWeights) {
+  public void submitVote(String key, Map<Integer, Integer> voteWeights) {
     new VoteTask(key).execute(voteWeights);
   }
 
-  private class VoteTask extends AsyncTask<HashMap<Integer, Integer>, Void, Boolean> {
+  private class VoteTask extends AsyncTask<Map<Integer, Integer>, Void, Vote> {
 
     @Nullable
     private final String key;
@@ -106,7 +109,7 @@ public class RoadmapViewModel extends AndroidViewModel {
     }
 
     @Override
-    protected Boolean doInBackground(HashMap<Integer, Integer>... votes) {
+    protected Vote doInBackground(Map<Integer, Integer>... votes) {
       boolean isPro = ContribFeature.ROADMAP_VOTING.hasAccess();
       Vote vote = new Vote(key != null ? key : licenceHandler.buildRoadmapVoteKey(), votes[0], isPro);
       Call<Void> voteCall = roadmapService.createVote(vote);
@@ -114,17 +117,18 @@ public class RoadmapViewModel extends AndroidViewModel {
         Response<Void> voteResponse = voteCall.execute();
         if (voteResponse.isSuccessful()) {
           writeToFile(ROADMAP_VOTE, gson.toJson(vote));
-          return true;
+          return vote;
         }
       } catch (IOException e) {
         e.printStackTrace();
       }
-      return false;
+      return null;
     }
 
     @Override
-    protected void onPostExecute(Boolean result) {
-      voteResult.setValue(result);
+    protected void onPostExecute(Vote result) {
+      lastVote.setValue(result);
+      voteResult.setValue(result != null);
     }
   }
 
@@ -192,6 +196,7 @@ public class RoadmapViewModel extends AndroidViewModel {
     @Override
     protected void onPostExecute(Vote result) {
       lastVote.setValue(result);
+      loadData(true);
     }
   }
 

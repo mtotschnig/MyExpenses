@@ -36,6 +36,7 @@ import org.totschnig.myexpenses.ui.SimpleSeekBarDialog;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -88,19 +89,38 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
       this.dataSet = data;
       dataSetFiltered = dataSet;
       publishResult(dataSet == null ? "Failure loading data" : String.format(Locale.getDefault(), "%d issues found", dataSet.size()));
-      roadmapAdapter.notifyDataSetChanged();
+      validateAndUpdateUi();
     });
     roadmapViewModel.getVoteResult().observe(this,
-        result -> publishResult(result !=null && result ? "Your vote has been recorded" : "Failure while submitting your vote"));
+        result -> publishResult(result != null && result ? "Your vote has been recorded" : "Failure while submitting your vote"));
     roadmapViewModel.getLastVote().observe(this,
         result -> {
           if (result != null && result.isPro() == isPro) {
             lastVote = result;
-            voteWeights.putAll(result.getVote());
-            roadmapAdapter.notifyDataSetChanged();
-            updateVoteMenuItem();
+            if (voteWeights.size() == 0) {
+              voteWeights.putAll(result.getVote());
+              validateAndUpdateUi();
+            }
           }
         });
+  }
+
+  private void validateAndUpdateUi() {
+    validateWeights();
+    roadmapAdapter.notifyDataSetChanged();
+    updateVoteMenuItem();
+  }
+
+  private void validateWeights() {
+    if (dataSet != null && voteWeights.size() > 0) {
+      Iterator<Map.Entry<Integer, Integer>> iter = voteWeights.entrySet().iterator();
+      while (iter.hasNext()) {
+        Map.Entry<Integer, Integer> entry = iter.next();
+        if (Stream.of(dataSet).noneMatch(issue -> issue.getNumber() == entry.getKey())) {
+          iter.remove();
+        }
+      }
+    }
   }
 
   @Override
@@ -146,7 +166,7 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
         return true;
       }
     });
-    voteMenuItem = menu.add(Menu.NONE, R.id.ROADMAP_SUBMIT_VOTE, 0,"");
+    voteMenuItem = menu.add(Menu.NONE, R.id.ROADMAP_SUBMIT_VOTE, 0, "");
     voteMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
     updateVoteMenuItem();
 
@@ -177,7 +197,7 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
       }
       case R.id.ROADMAP_SUBMIT_VOTE_DO: {
         showSnackbar("Submitting vote ...", Snackbar.LENGTH_INDEFINITE);
-        roadmapViewModel.submitVote(lastVote != null ? lastVote.getKey() : null, voteWeights);
+        roadmapViewModel.submitVote(lastVote != null ? lastVote.getKey() : null, new HashMap<>(voteWeights));
         return true;
       }
     }
@@ -194,9 +214,8 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
 
   private int getCurrentTotalWeight() {
     int currentTotalWeight = 0;
-    for (Map.Entry<Integer, Integer> entry : voteWeights.entrySet())
-    {
-      currentTotalWeight += + entry.getValue();
+    for (Map.Entry<Integer, Integer> entry : voteWeights.entrySet()) {
+      currentTotalWeight += +entry.getValue();
     }
     return currentTotalWeight;
   }
@@ -297,6 +316,7 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
     class ViewHolder extends RecyclerView.ViewHolder {
       private TextView textView;
       private TextView weightView;
+
       private ViewHolder(View itemView) {
         super(itemView);
         textView = itemView.findViewById(R.id.text);

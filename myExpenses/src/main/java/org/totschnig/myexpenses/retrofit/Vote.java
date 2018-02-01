@@ -3,10 +3,10 @@ package org.totschnig.myexpenses.retrofit;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.HashMap;
+import java.util.Map;
 
 public class Vote {
-  public Vote(String key, HashMap<Integer, Integer> vote, boolean isPro) {
+  public Vote(String key, Map<Integer, Integer> vote, boolean isPro) {
     this.key = key;
     this.vote = vote;
     this.isPro = isPro;
@@ -20,7 +20,7 @@ public class Vote {
     return key;
   }
 
-  public HashMap<Integer, Integer> getVote() {
+  public Map<Integer, Integer> getVote() {
     return vote;
   }
 
@@ -31,5 +31,5 @@ public class Vote {
   String key;
 
   @SerializedName("vote")
-  HashMap<Integer, Integer> vote;
+  Map<Integer, Integer> vote;
 }
