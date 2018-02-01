@@ -50,7 +50,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import okhttp3.logging.HttpLoggingInterceptor;
 import timber.log.Timber;
 
 public class WebDavClient {
@@ -64,7 +63,7 @@ public class WebDavClient {
   private String currentLockToken;
 
   @Inject
-  HttpLoggingInterceptor loggingInterceptor;
+  OkHttpClient.Builder builder;
 
   public WebDavClient(String baseUrl, String userName, String password, final X509Certificate trustedCertificate) throws InvalidCertificateException {
     MyApplication.getInstance().getAppComponent().inject(this);
@@ -75,10 +74,6 @@ public class WebDavClient {
     }
 
     mBaseUri = HttpUrl.parse(baseUrl);
-
-    OkHttpClient.Builder builder = new OkHttpClient.Builder();
-
-    builder.addInterceptor(loggingInterceptor);
 
     int timeout = PrefKey.WEBDAV_TIMEOUT.getInt(10);
 

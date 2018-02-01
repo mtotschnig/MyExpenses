@@ -32,7 +32,6 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 
 import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -44,7 +43,7 @@ public class RoadmapViewModel extends AndroidViewModel {
       "https://votedb-staging.herokuapp.com"  : "https://roadmap.myexpenses.mobi/";
 
   @Inject
-  HttpLoggingInterceptor loggingInterceptor;
+  OkHttpClient.Builder builder;
   @Inject
   LicenceHandler licenceHandler;
 
@@ -61,11 +60,10 @@ public class RoadmapViewModel extends AndroidViewModel {
     ((MyApplication) application).getAppComponent().inject(this);
     gson = new Gson();
 
-    final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+    final OkHttpClient okHttpClient = builder
         .connectTimeout(20, TimeUnit.SECONDS)
         .writeTimeout(20, TimeUnit.SECONDS)
         .readTimeout(30, TimeUnit.SECONDS)
-        .addInterceptor(loggingInterceptor)
         .build();
     Retrofit retrofit = new Retrofit.Builder()
         .baseUrl(ROADMAP_URL)

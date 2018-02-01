@@ -6,11 +6,11 @@ import android.support.annotation.NonNull;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.retrofit.ValidationService;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.licence.Licence;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
-import org.totschnig.myexpenses.retrofit.ValidationService;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -19,7 +19,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -38,7 +37,7 @@ public class LicenceApiTask extends AsyncTask<Void, Void, Result> {
   LicenceHandler licenceHandler;
 
   @Inject
-  HttpLoggingInterceptor loggingInterceptor;
+  OkHttpClient.Builder builder;
 
   @Inject
   @Named("deviceId")
@@ -63,11 +62,10 @@ public class LicenceApiTask extends AsyncTask<Void, Void, Result> {
       return Result.FAILURE;
     }
 
-    final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+    final OkHttpClient okHttpClient = builder
         .connectTimeout(20, TimeUnit.SECONDS)
         .writeTimeout(20, TimeUnit.SECONDS)
         .readTimeout(30, TimeUnit.SECONDS)
-        .addInterceptor(loggingInterceptor)
         .build();
 
     Retrofit retrofit = new Retrofit.Builder()
