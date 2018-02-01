@@ -10,6 +10,7 @@ import com.google.android.vending.licensing.AESObfuscator;
 import com.google.android.vending.licensing.Obfuscator;
 import com.google.android.vending.licensing.PreferenceObfuscator;
 
+import org.acra.ReportField;
 import org.acra.ReportingInteractionMode;
 import org.acra.config.ACRAConfiguration;
 import org.acra.config.ACRAConfigurationException;
@@ -70,7 +71,9 @@ public class AppModule {
             .setMailTo("bug-reports@myexpenses.mobi")
             .setResDialogText(R.string.crash_dialog_text)
             .setResDialogTitle(R.string.crash_dialog_title)
-            .setResDialogCommentPrompt(R.string.crash_dialog_comment_prompt);
+            .setResDialogCommentPrompt(R.string.crash_dialog_comment_prompt)
+            .setReportField(ReportField.APP_VERSION_CODE, true)
+            .setReportField(ReportField.USER_CRASH_DATE, true);
       }
       return configurationBuilder.build();
     } catch (ACRAConfigurationException e) {
@@ -124,7 +127,7 @@ public class AppModule {
   @Singleton
   protected Obfuscator provideObfuscator(@Named("deviceId") String deviceId) {
     byte[] SALT = new byte[]{
-      -1, -124, -4, -59, -52, 1, -97, -32, 38, 59, 64, 13, 45, -104, -3, -92, -56, -49, 65, -25
+        -1, -124, -4, -59, -52, 1, -97, -32, 38, 59, 64, 13, 45, -104, -3, -92, -56, -49, 65, -25
     };
     return new AESObfuscator(SALT, application.getPackageName(), deviceId);
   }
