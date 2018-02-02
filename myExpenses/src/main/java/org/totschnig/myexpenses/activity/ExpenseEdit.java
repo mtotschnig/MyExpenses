@@ -2069,29 +2069,31 @@ public class ExpenseEdit extends AmountActivity implements
         break;
       case AUTOFILL_CURSOR:
         if (data.moveToFirst()) {
-          int columnIndex = data.getColumnIndex(KEY_CATID);
-          if (mCatId == null && columnIndex != -1) {
-            mCatId =  DbUtils.getLongOrNull(data, columnIndex);
-            mLabel = data.getString(data.getColumnIndex(KEY_LABEL));
+          int columnIndexCatId = data.getColumnIndex(KEY_CATID);
+          int columnIndexLabel = data.getColumnIndex(KEY_LABEL);
+          if (mCatId == null && columnIndexCatId != -1 && columnIndexLabel != -1) {
+            mCatId = DbUtils.getLongOrNull(data, columnIndexCatId);
+            mLabel = data.getString(columnIndexLabel);
             setCategoryButton();
           }
-          columnIndex = data.getColumnIndex(KEY_COMMENT);
-          if (TextUtils.isEmpty(mCommentText.getText().toString()) && columnIndex != -1) {
-            mCommentText.setText(data.getString(columnIndex));
+          int columnIndexComment = data.getColumnIndex(KEY_COMMENT);
+          if (TextUtils.isEmpty(mCommentText.getText().toString()) && columnIndexComment != -1) {
+            mCommentText.setText(data.getString(columnIndexComment));
           }
-          columnIndex = data.getColumnIndex(KEY_AMOUNT);
-          if (TextUtils.isEmpty(mAmountText.getText().toString()) && columnIndex != -1) {
-            fillAmount(new Money(Currency.getInstance(data.getString(data.getColumnIndex(KEY_CURRENCY))), data.getLong(columnIndex)).getAmountMajor());
+          int columnIndexAmount = data.getColumnIndex(KEY_AMOUNT);
+          int columnIndexCurrency = data.getColumnIndex(KEY_CURRENCY);
+          if (TextUtils.isEmpty(mAmountText.getText().toString()) && columnIndexAmount != -1 && columnIndexCurrency != -1) {
+            fillAmount(new Money(Currency.getInstance(data.getString(columnIndexCurrency)), data.getLong(columnIndexAmount)).getAmountMajor());
             configureType();
           }
-          columnIndex = data.getColumnIndex(KEY_METHODID);
-          if (mMethodId == null && mMethodsCursor != null && columnIndex != -1) {
-            mMethodId = DbUtils.getLongOrNull(data, columnIndex);
+          int columnIndexMethodId = data.getColumnIndex(KEY_METHODID);
+          if (mMethodId == null && mMethodsCursor != null && columnIndexMethodId != -1) {
+            mMethodId = DbUtils.getLongOrNull(data, columnIndexMethodId);
             setMethodSelection();
           }
-          columnIndex = data.getColumnIndex(KEY_ACCOUNTID);
-          if (!didUserSetAccount && mAccounts != null && columnIndex != -1) {
-            long accountId = data.getLong(columnIndex);
+          int columnIndexAccountId = data.getColumnIndex(KEY_ACCOUNTID);
+          if (!didUserSetAccount && mAccounts != null && columnIndexAccountId != -1) {
+            long accountId = data.getLong(columnIndexAccountId);
             for (int i = 0; i < mAccounts.length; i++) {
               if (mAccounts[i].getId().equals(accountId)) {
                 mAccountSpinner.setSelection(i);
@@ -2100,6 +2102,7 @@ public class ExpenseEdit extends AmountActivity implements
             }
           }
         }
+        break;
     }
   }
 
@@ -2194,8 +2197,7 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   /**
-   *
-   * @param id id of Payee/Payer for whom data should be loaded
+   * @param id                  id of Payee/Payer for whom data should be loaded
    * @param overridePreferences if true data is loaded irrespective of what is set in preferences
    */
   private void startAutoFill(long id, boolean overridePreferences) {
