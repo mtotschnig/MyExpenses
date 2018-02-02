@@ -77,7 +77,6 @@ import org.totschnig.myexpenses.adapter.OperationTypeAdapter;
 import org.totschnig.myexpenses.adapter.RecurrenceAdapter;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
-import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
 import org.totschnig.myexpenses.fragment.PlanMonthFragment;
 import org.totschnig.myexpenses.fragment.SplitPartList;
@@ -1577,7 +1576,7 @@ public class ExpenseEdit extends AmountActivity implements
               break;
             }
           }
-          showSnackbar(getString(R.string.warning_cannot_move_split_transaction, account.label),
+          showSnackbar(getString(R.string.warning_cannot_move_split_transaction, account.getLabel()),
               Snackbar.LENGTH_LONG);
         }
         break;

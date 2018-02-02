@@ -94,7 +94,7 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
     if (accountId == 0) {
       a = new Account();
       a.currency = mCurrency;
-      a.label = MyApplication.getInstance().getString(R.string.pref_import_title, "CSV");
+      a.setLabel(MyApplication.getInstance().getString(R.string.pref_import_title, "CSV"));
       a.setType(mAccountType);
       a.save();
       accountId = a.getId();
@@ -255,7 +255,7 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
         Integer.valueOf(totalImported),
         Integer.valueOf(totalFailed),
         Integer.valueOf(totalDiscarded),
-        a.label);
+        a.getLabel());
   }
 
   private int findColumnIndex(int field) {

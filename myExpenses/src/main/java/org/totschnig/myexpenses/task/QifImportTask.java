@@ -282,13 +282,13 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
         }
       } else {
         Account a = account.toAccount(mCurrency);
-        if (TextUtils.isEmpty(a.label)) {
+        if (TextUtils.isEmpty(a.getLabel())) {
           String displayName = DialogUtils.getDisplayName(fileUri);
           if (FileUtils.getExtension(displayName).equalsIgnoreCase(".qif")) {
             displayName = displayName.substring(0, displayName.lastIndexOf('.'));
           }
           displayName = displayName.replace('-', ' ').replace('_', ' ');
-          a.label = displayName;
+          a.setLabel(displayName);
         }
         if (a.save() != null)
           importCount++;
@@ -316,8 +316,8 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
       if (a != null) {
         countTransactions = insertTransactions(a, account.transactions);
         publishProgress(countTransactions == 0 ?
-            MyApplication.getInstance().getString(R.string.import_transactions_none, a.label) :
-            MyApplication.getInstance().getString(R.string.import_transactions_success, countTransactions, a.label));
+            MyApplication.getInstance().getString(R.string.import_transactions_none, a.getLabel()) :
+            MyApplication.getInstance().getString(R.string.import_transactions_success, countTransactions, a.getLabel()));
       } else {
         publishProgress("Unable to import into QIF account " + account.memo + ". No matching database account found");
       }

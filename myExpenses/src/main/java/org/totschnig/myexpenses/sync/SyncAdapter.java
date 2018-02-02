@@ -278,7 +278,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
           long lastSyncedRemote = Long.parseLong(getUserDataWithDefault(accountManager, account,
               lastRemoteSyncKey, "0"));
           dbAccount.set(org.totschnig.myexpenses.model.Account.getInstanceFromDb(accountId));
-          appendToNotification(getContext().getString(R.string.synchronization_start, dbAccount.get().label), account, true);
+          appendToNotification(getContext().getString(R.string.synchronization_start, dbAccount.get().getLabel()), account, true);
           if (uuidFromExtras != null && extras.getBoolean(KEY_RESET_REMOTE_ACCOUNT)) {
             try {
               backend.resetAccountData(uuidFromExtras);

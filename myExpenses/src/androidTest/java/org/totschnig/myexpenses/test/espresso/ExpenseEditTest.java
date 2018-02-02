@@ -108,7 +108,7 @@ public class ExpenseEditTest {
       i.putExtra(OPERATION_TYPE, TYPE_TRANSACTION);
       i.putExtra(DatabaseConstants.KEY_ACCOUNTID, a.getId());
       mActivityRule.launchActivity(i);
-      onView(withId(R.id.Account)).check(matches(Matchers.withSpinnerText(a.label)));
+      onView(withId(R.id.Account)).check(matches(Matchers.withSpinnerText(a.getLabel())));
       mActivityRule.getActivity().finish();
     }
   }

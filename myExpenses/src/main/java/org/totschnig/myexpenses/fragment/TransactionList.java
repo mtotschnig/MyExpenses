@@ -906,7 +906,7 @@ public class TransactionList extends ContextualActionBarFragment implements
           AcraHelper.report(new Exception("Search menu icon not found"));
         }
         searchMenu.setChecked(true);
-        title = mAccount.label + " ( " + mFilter.prettyPrint() + " )";
+        title = mAccount.getLabel() + " ( " + mFilter.prettyPrint() + " )";
       } else {
         if (searchMenuIcon != null) {
           searchMenuIcon.setColorFilter(null);
@@ -914,7 +914,7 @@ public class TransactionList extends ContextualActionBarFragment implements
           AcraHelper.report(new Exception("Search menu icon not found"));
         }
         searchMenu.setChecked(false);
-        title = mAccount.label;
+        title = mAccount.getLabel();
       }
       ((MyExpenses) getActivity()).setTitle(title);
       SubMenu filterMenu = searchMenu.getSubMenu();

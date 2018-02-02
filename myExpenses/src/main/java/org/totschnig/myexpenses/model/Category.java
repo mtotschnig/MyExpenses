@@ -35,7 +35,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 //for the moment we only wrap calls to the content provider
 public class Category extends Model {
   public final static String NO_CATEGORY_ASSIGNED_LABEL = "—"; //emdash
-  public String label;
+  private String label;
   public Long parentId;
 
   /**
@@ -49,7 +49,7 @@ public class Category extends Model {
    */
   public Category(Long id, String label,Long parentId) {
     this.setId(id);
-    this.label = StringUtils.strip(label);
+    this.setLabel(label);
     this.parentId = parentId;
   }
   public static final String[] PROJECTION = new String[] {KEY_ROWID, KEY_LABEL, KEY_PARENTID};
@@ -106,8 +106,8 @@ public class Category extends Model {
   @Override
   public Uri save() {
     ContentValues initialValues = new ContentValues();
-    initialValues.put(KEY_LABEL, label);
-    initialValues.put(KEY_LABEL_NORMALIZED, Utils.normalize(label));
+    initialValues.put(KEY_LABEL, getLabel());
+    initialValues.put(KEY_LABEL_NORMALIZED, Utils.normalize(getLabel()));
     Uri uri;
     if (getId() == 0) {
       if (!isMain(parentId)) {
@@ -187,5 +187,13 @@ public class Category extends Model {
     } catch (SQLiteConstraintException e) {
       return false;
     }
+  }
+
+  public String getLabel() {
+    return label;
+  }
+
+  public void setLabel(String label) {
+    this.label = StringUtils.strip(label);
   }
 }

@@ -29,6 +29,7 @@ import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.annotation.VisibleForTesting;
 
+import org.apache.commons.lang3.StringUtils;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
@@ -108,7 +109,7 @@ public class Account extends Model {
   public static final int EXPORT_HANDLE_DELETED_UPDATE_BALANCE = 0;
   public static final int EXPORT_HANDLE_DELETED_CREATE_HELPER = 1;
 
-  public String label;
+  private String label;
 
   public Money openingBalance;
 
@@ -335,7 +336,7 @@ public class Account extends Model {
 
   public Account(String label, Currency currency, Money openingBalance, String description,
                  AccountType type, int color) {
-    this.label = label;
+    this.setLabel(label);
     this.currency = currency;
     this.openingBalance = openingBalance;
     this.description = description;
@@ -359,7 +360,7 @@ public class Account extends Model {
 
   protected void extract(Cursor c) {
     this.setId(c.getLong(c.getColumnIndexOrThrow(KEY_ROWID)));
-    this.label = c.getString(c.getColumnIndexOrThrow(KEY_LABEL));
+    this.setLabel(c.getString(c.getColumnIndexOrThrow(KEY_LABEL)));
     this.description = c.getString(c.getColumnIndexOrThrow(KEY_DESCRIPTION));
     this.currency = Utils.getSaveInstance(c.getString(c.getColumnIndexOrThrow(KEY_CURRENCY)));
     this.openingBalance = new Money(this.currency,
@@ -592,7 +593,7 @@ public class Account extends Model {
   public Uri save() {
     Uri uri;
     ContentValues initialValues = new ContentValues();
-    initialValues.put(KEY_LABEL, label);
+    initialValues.put(KEY_LABEL, getLabel());
     initialValues.put(KEY_OPENING_BALANCE, openingBalance.getAmountMinor());
     initialValues.put(KEY_DESCRIPTION, description);
     initialValues.put(KEY_CURRENCY, currency.getCurrencyCode());
@@ -660,10 +661,10 @@ public class Account extends Model {
       return false;
     if (!getId().equals(other.getId()))
       return false;
-    if (label == null) {
-      if (other.label != null)
+    if (getLabel() == null) {
+      if (other.getLabel() != null)
         return false;
-    } else if (!label.equals(other.label))
+    } else if (!getLabel().equals(other.getLabel()))
       return false;
     if (openingBalance == null) {
       if (other.openingBalance != null)
@@ -677,7 +678,7 @@ public class Account extends Model {
 
   @Override
   public int hashCode() {
-    int result = this.label != null ? this.label.hashCode() : 0;
+    int result = this.getLabel() != null ? this.getLabel().hashCode() : 0;
     result = 31 * result + (this.openingBalance != null ? this.openingBalance.hashCode() : 0);
     result = 31 * result + (this.currency != null ? this.currency.hashCode() : 0);
     result = 31 * result + (this.description != null ? this.description.hashCode() : 0);
@@ -870,5 +871,13 @@ public class Account extends Model {
 
   protected void setSortDirection(SortDirection sortDirection) {
     this.sortDirection = sortDirection;
+  }
+
+  public String getLabel() {
+    return label;
+  }
+
+  public void setLabel(String label) {
+    this.label = StringUtils.strip(label);
   }
 }

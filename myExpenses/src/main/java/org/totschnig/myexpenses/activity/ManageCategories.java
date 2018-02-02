@@ -315,7 +315,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
   public void onPostExecute(Object result) {
     if (result == null) {
       showSnackbar(getString(R.string.already_defined,
-              mCategory != null ? mCategory.label : ""),
+              mCategory != null ? mCategory.getLabel() : ""),
           Snackbar.LENGTH_LONG);
     }
     super.onPostExecute(result);

@@ -139,7 +139,10 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
   }
 
   private ChangeSet getChangeSetFromFile(File file) throws IOException {
-    return getChangeSetFromInputStream(getSequenceFromFileName(file.getName()), new FileInputStream(file));
+    FileInputStream inputStream = new FileInputStream(file);
+    ChangeSet changeSetFromInputStream = getChangeSetFromInputStream(getSequenceFromFileName(file.getName()), inputStream);
+    inputStream.close();
+    return changeSetFromInputStream;
   }
 
   private Optional<AccountMetaData> getAccountMetaDataFromFile(File file) {

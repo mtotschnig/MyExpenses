@@ -34,6 +34,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
@@ -130,9 +131,15 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
       if (homeUri == null) {
         throw new IOException("Unable to write picture");
       }
-      FileCopyUtils.copy(getInputStreamForPicture(transactionChange.pictureUri()),
-          MyApplication.getInstance().getContentResolver()
-              .openOutputStream(homeUri));
+      InputStream input = getInputStreamForPicture(transactionChange.pictureUri());
+      OutputStream output = MyApplication.getInstance().getContentResolver()
+          .openOutputStream(homeUri);
+      if (output == null) {
+        throw new IOException("Unable to write picture");
+      }
+      FileCopyUtils.copy(input, output);
+      input.close();
+      output.close();
       return transactionChange.toBuilder().setPictureUri(homeUri.toString()).build();
     }
     return transactionChange;

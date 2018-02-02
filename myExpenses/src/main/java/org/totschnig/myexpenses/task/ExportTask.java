@@ -149,10 +149,10 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
     for (Long id : accountIds) {
       account = Account.getInstanceFromDb(id);
       if (account == null) continue;
-      publishProgress(account.label + " ...");
+      publishProgress(account.getLabel() + " ...");
       try {
         String fileNameForAccount = accountIds.length > 1 ?
-            Utils.escapeForFileName(account.label) + "-" + new SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
+            Utils.escapeForFileName(account.getLabel()) + "-" + new SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
                 .format(new Date()) :
             fileName;
         Result result = new Exporter(account,filter, destDir, fileNameForAccount, format,

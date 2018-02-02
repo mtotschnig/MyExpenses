@@ -837,7 +837,7 @@ public class CategoryList extends SortableListFragment implements
           }
         }
         if (mAccount != null) {
-          actionBar.setTitle(mAccount.label);
+          actionBar.setTitle(mAccount.getLabel());
         }
         invalidateCAB(); //only need to do this for group since children's cab does not depnd on cursor
         break;

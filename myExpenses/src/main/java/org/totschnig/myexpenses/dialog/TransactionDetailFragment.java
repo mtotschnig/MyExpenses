@@ -268,7 +268,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     }
 
     String amountText;
-    String accountLabel = Account.getInstanceFromDb(mTransaction.getAccountId()).label;
+    String accountLabel = Account.getInstanceFromDb(mTransaction.getAccountId()).getLabel();
     if (mTransaction instanceof Transfer) {
       ((TextView) dialogView.findViewById(R.id.Account)).setText(type ? mTransaction.getLabel() : accountLabel);
       ((TextView) dialogView.findViewById(R.id.Category)).setText(type ? accountLabel : mTransaction.getLabel());

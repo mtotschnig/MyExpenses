@@ -120,7 +120,7 @@ public class AccountEdit extends AmountActivity implements
     if (rowId != 0) {
       mNewInstance = false;
       setTitle(R.string.menu_edit_account);
-      mLabelText.setText(mAccount.label);
+      mLabelText.setText(mAccount.getLabel());
       mDescriptionText.setText(mAccount.description);
     } else {
       setTitle(R.string.menu_create_account);
@@ -227,7 +227,7 @@ public class AccountEdit extends AmountActivity implements
       mLabelText.setError(getString(R.string.no_title_given));
       return;
     }
-    mAccount.label = label;
+    mAccount.setLabel(label);
     mAccount.description = mDescriptionText.getText().toString();
     if (mType == EXPENSE) {
       openingBalance = openingBalance.negate();

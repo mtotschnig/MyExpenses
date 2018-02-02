@@ -139,7 +139,7 @@ public class Exporter {
       //QIF
       default:
         sb.append("!Account\nN")
-            .append(account.label)
+            .append(account.getLabel())
             .append("\nT")
             .append(account.getType().toQifName())
             .append("\n^\n!Type:")

@@ -94,7 +94,7 @@ public class Fixture {
     account1 = Account.getInstanceFromDb(0);
     account1.currency = defaultCurrency;
     account1.description = testContext.getString(R.string.testData_account1Description);
-    account1.label = testContext.getString(R.string.testData_account1Label);
+    account1.setLabel(testContext.getString(R.string.testData_account1Label));
     account1.openingBalance = new Money(defaultCurrency,2000L);
     account1.setGrouping(Grouping.DAY);
     account1.save();

@@ -61,7 +61,7 @@ public class AccountWidget extends AbstractWidget<Account> {
   protected RemoteViews updateWidgetFrom(Context context,
                                          int widgetId, int layoutId, Account a) {
     RemoteViews updateViews = super.updateWidgetFrom(context, widgetId, layoutId, a);
-    updateViews.setTextViewText(R.id.line1, a.label);
+    updateViews.setTextViewText(R.id.line1, a.getLabel());
     updateViews.setTextViewText(R.id.note,
         CurrencyFormatter.instance().formatCurrency(mCurrentBalance));
 //    updateViews.setTextColor(R.id.note, context.getResources().getColor(

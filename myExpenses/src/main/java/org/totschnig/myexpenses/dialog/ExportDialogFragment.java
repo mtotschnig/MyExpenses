@@ -114,7 +114,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
         fileName = "export" + "-" + currency + "-" + now;
         warningText = getString(R.string.warning_reset_account_all, " (" + currency + ")");
       } else {
-        fileName = Utils.escapeForFileName(a.label) + "-" + now;
+        fileName = Utils.escapeForFileName(a.getLabel()) + "-" + now;
         warningText = getString(R.string.warning_reset_account);
       }
     }
