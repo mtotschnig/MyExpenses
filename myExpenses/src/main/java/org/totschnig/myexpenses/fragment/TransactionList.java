@@ -51,9 +51,7 @@ import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -312,15 +310,12 @@ public class TransactionList extends ContextualActionBarFragment implements
     mManager.initLoader(SUM_CURSOR, null, this);
 
     mListView.setEmptyView(v.findViewById(R.id.empty));
-    mListView.setOnItemClickListener(new OnItemClickListener() {
-      @Override
-      public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-        FragmentManager fm = ctx.getSupportFragmentManager();
-        DialogFragment f = (DialogFragment) fm.findFragmentByTag(TransactionDetailFragment.class.getName());
-        if (f == null) {
-          FragmentTransaction ft = fm.beginTransaction();
-          TransactionDetailFragment.newInstance(id).show(ft, TransactionDetailFragment.class.getName());
-        }
+    mListView.setOnItemClickListener((a, v1, position, id) -> {
+      FragmentManager fm = ctx.getSupportFragmentManager();
+      DialogFragment f = (DialogFragment) fm.findFragmentByTag(TransactionDetailFragment.class.getName());
+      if (f == null) {
+        FragmentTransaction ft = fm.beginTransaction();
+        TransactionDetailFragment.newInstance(id).show(ft, TransactionDetailFragment.class.getName());
       }
     });
     aObserver = new AccountObserver(new Handler());

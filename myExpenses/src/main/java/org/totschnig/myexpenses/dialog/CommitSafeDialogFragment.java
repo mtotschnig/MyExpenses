@@ -12,7 +12,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Toast;
 
-import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.UiUtils;
 
 public abstract class CommitSafeDialogFragment extends DialogFragment {
@@ -23,9 +22,7 @@ public abstract class CommitSafeDialogFragment extends DialogFragment {
   public int show(FragmentTransaction transaction, String tag) {
       try {
           return super.show(transaction, tag);
-      } catch (IllegalStateException e) {
-        AcraHelper.report(e);
-      }
+      } catch (IllegalStateException ignored) {}
       return -1;
   }
 
@@ -33,9 +30,7 @@ public abstract class CommitSafeDialogFragment extends DialogFragment {
   public void show(FragmentManager manager, String tag) {
       try {
           super.show(manager, tag);
-      } catch (IllegalStateException e) {
-        AcraHelper.report(e);
-      }
+      } catch (IllegalStateException ignored) {}
   }
 
   protected void showSnackbar(int resId) {
