@@ -1,57 +1,59 @@
-pt_BR:
-  imprint: Marca
-  hero_main: "Gerenciador de finanças pessoais para o Android"
+pt:
+  imprint: Impresso
+  hero_main: "Gestor de finanças pessoal para o Android"
   hero_sub:
-    use: "Fácil de usar"
-    functionality: "Funcionalidade Rich"
-    source: "Open Source"
+    use: "Fácil de utilizar"
+    functionality: "Repleto de funcionalidades"
+    source: "Código aberto"
   menu_title:
     more_information: Mais informações
   sections:
-    features: Características
-    premium: Ir Premium
+    features: Funcionalidades
+    premium: Obter Premium
     participate: Participar
     faq: FAQ
-    versionlist: Registro de alterações
+    versionlist: Registo de alterações
     credits: Créditos
     licence: Licença
-    sourcecode: Código-fonte
+    sourcecode: Código fonte
     links: Links
   features:
-    manage_accounts: Até 5 contas com transferências
-    plans: Definir modelos e planos futuros e recorrentes de transações
-    grouped_list: Grupo de transações por dia, semana, mês, ano e exibir somas por grupo
-    distribution: Dois níveis de categorias (importação de XML Grisbi e QIF)
-    split: Transação de divisão (versão Contrib)
+    manage_accounts: Até cinco contas com transferências
+    plans: Definir planos para transações futuras e recorrentes
+    grouped_list: Agrupar transações por dia, semana, mês e ano e exibir as somas por grupo
+    distribution: Dois níveis de categorias (importar a partir de XML do Grisbi e QIF)
+    split: Transações divididas (versão Contrib)
     calculator: Calculadora
-    export: Exportação de QIF e CSV (MS Excel), podem ser compartilhados automaticamente (via e-mail, FTP, Dropbox,...)
-    import: Importe dados QIF
-    password: Proteção de senha
+    export: Exportar para QIF e CSV (MS Excel), pode ser partilhado automaticamente (via email, FTP, Dropbox, ...)
+    import: Importar dados QIF
+    password: Proteção por palavra-passe
     help: Ajuda integrada
-    backup: Restauração e backup de dados
-    light_theme: "Dois temas: luz e trevas"
+    backup: Cópia de segurança e restauro dos dados
+    light_theme: "Dois temas: claro e escuro"
     attach_picture: Anexar imagem à transação
   contrib:
     thank_you: |
-      Sua contribuição apoia o desenvolvimento futuro do Minhas despesas. obrigado!
-    feature-list-title: "Por favor, contribua atualizando o <i>{app_name}</i> e ganhe acesso irrestrito aos seguintes recursos:"
+      A sua contribuição apoia o constante desenvolvimento do My Expenses. Obrigado!
+    feature-list-title: "Contribua ao atualizar o <i>{app_name}</i> e tenha acesso sem restrições às seguintes funcionalidades:"
     feature:
       accounts_unlimited: Número ilimitado de contas
       plans_unlimited: Número ilimitado de planos
-      distribution: Gráfico de pizza (distribuição por categoria)
-      split_transaction: Transação de divisão
+      split_transaction: Dividir transação
       security_question: Pergunta de segurança
       template_widget: Widget de modelos
-      print: Exportar lista de transações para PDF
+      print: Exportar a lista de transações para PDF
       attach_picture: Anexar imagem à transação
       ad_free: Sem anúncios
-      csv_import: Importação CSV
-      auto_backup: Habilitar backup automático
+      csv_import: Importar CSV
+      auto_backup: Cópia de segurança automática
+      cloud_sync: Sincronização na nuvem
   permissions-heading: |
-    Minhas Despesas requer as seguintes permissões
+    O My Expenses requer as seguintes permissões
   permissions-calendar: |
-    Leitura e escrita do calendário: planos para transações futuras e recorrentes são armazenadas em um calendário local especial ou em qualquer outro calendário que você atribuir.
+    Leitura e escrita no calendário: Planos para transações futuras e recorrentes são guardados numa pasta local especial ou em qualquer outro calendário que atribuir.
   permissions-external-storage: |
-    Armazenamento USB a escrever: armazenamento de exportação QIF e CSV e arquivos de backup
+    Escrita no armazenamento USB: Armazenamento de exportações QIF e CSV e ficheiros de cópia de segurança
   permissions-internet: |
-    Comunicação de rede: relatórios de travamento são enviados automaticamente para os desenvolvedores, a menos que sejam desativados pelo usuário nas preferências do aplicativo.
+    Comunicação de rede: Relatórios de falhas são enviados automaticamente aos desenvolvedores, a menos que sejam desativados pelo utilizador nas definições da aplicação.
+  permissions-accounts: |
+    Contas: Sincronização entre dispositivos através de serviços na nuvem
