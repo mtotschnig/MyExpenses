@@ -115,6 +115,52 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 2.8.7
+    - "2018-02-01"
+    -
+      en: |
+        Protection by device lock screen.
+      fr: |
+        Protection par écran de verrouillage de l'appareil.
+      de: |
+        Schutz durch Geräteschutzbildschirm.
+      it: |
+        Protezione tramite blocco schermo.
+      es: |
+        Protección por bloqueo de pantalla.
+      tr: |
+        Cihaz ekranı kilitlemeyle koruma.
+      bg: |
+        Защита чрез заключване екрана на устройството.
+      ms: |
+        Dilindungi oleh skrin kunci peranti.
+      ja: |
+        デバイスのロック画面による保護.
+      iw: |
+        הגנה על ידי נעילת מסך המכשיר.
+  -
+    - 2.8.6
+    - "2018-01-25"
+    -
+      en: |
+        PDF export (Print) can be shared.
+      fr: |
+        Le ficher exporté PDF (Impression) peut être partagé.
+      de: |
+        Die PDF-Export-Datei (Drucken) kann geteilt werden.
+      es: |
+        La exportación en PDF (Impresión) puede compartirse.
+      tr: |
+        PDF dışa aktarımı (Yazdırma) paylaşılabilir.
+      bg: |
+        PDF експорт (Печат) може да бъде споделен.
+      ms: |
+        Eksport PDF (Cetak) boleh dikongsi.
+      ja: |
+        PDF エクスポート (印刷) が共有できます.
+      iw: |
+        ייצוא PDF (הדפסה) ניתן לשתף.
+  -
     - 2.8.5
     - "2018-01-13"
     -
