@@ -204,6 +204,7 @@
   <string name="menu_search">Buscar</string>
   <string name="menu_settings">Configuraciones</string>
   <string name="menu_share">Contarle a un amigo/a</string>
+  <string name="button_label_share_file">Compartir</string>
   <string name="button_label_close">Cerrar</string>
   <string name="menu_split_transaction">Transformarlo en una división</string>
   <string name="method">Método de pago</string>
@@ -309,6 +310,7 @@
   <string name="pref_manage_sync_backends_summary">Añadir servicios de sincronización a las cuentas (%s).</string>
   <string name="pref_more_info_dialog_title">Licencia &amp; Créditos</string>
   <string name="pref_password_not_equal">Las contraseñas no coinciden</string>
+  <string name="pref_perform_protection_title">Protección</string>
   <string name="pref_perform_share_title">Enviar exportaciones y copias de seguridad</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Crear nuevo calendario de planificación local</string>
@@ -692,4 +694,17 @@
   <string name="never">Nunca</string>
   <string name="always">Siempre</string>
   <string name="auto_fill_account_from_aggregate_only">Sólo cuando se comience desde una cuenta agregada.</string>
+  <string name="dropbox_folder_name_prompt">Introduzca el nombre de una carpeta que esté en la raíz de su Dropbox</string>
+  <string name="dropbox_folder_not_found">Carpeta no encontrada</string>
+  <string name="sync_auth_exception_login_again">Autorización fallida. Por favor, inicie sesión de nuevo.</string>
+  <string name="sync_loading_accounts_from_backend">Cargando cuentas disponibles desde el servidor.</string>
+  <plurals name="delete_success">
+    <item quantity="one">Un objeto fue eliminado correctamente.</item>
+    <item quantity="other">%d objetos fueron eliminados correctamente.</item>
+  </plurals>
+  <string name="feature_deprecated">Descartado.</string>
+  <string name="pref_protection_device_lock_screen_title">Bloqueo de pantalla</string>
+  <string name="pref_warning_only_one_protection">Antes de que pueda usar la protección por %1$s, tiene que desactivar la protección por %2$s.</string>
+  <string name="warning_device_lock_screen_not_set_up_1">La seguridad en el bloqueo de pantalla no ha sido configurada.</string>
+  <string name="warning_device_lock_screen_not_set_up_2">Vaya a \'Ajustes -&gt; Seguridad -&gt; Bloqueo de pantalla\' para configurar un bloqueo de pantalla.</string>
 </resources>

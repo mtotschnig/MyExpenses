@@ -697,7 +697,7 @@
   <string name="dropbox_folder_name_prompt">Entrez le nom d\'un dossier existant au niveau de la racine de votre Dropbox</string>
   <string name="dropbox_folder_not_found">Dossier non trouvé</string>
   <string name="sync_auth_exception_login_again">L\'autorisation a échoué. Veuillez vous reconnecter.</string>
-  <string name="sync_loading_accounts_from_backend">Chargement des comptes disponibles à partir du backend.</string>
+  <string name="sync_loading_accounts_from_backend">Chargement des comptes disponible à partir du backend.</string>
   <plurals name="delete_success">
     <item quantity="one">Un objet a été supprimé avec succès.</item>
     <item quantity="other">%dobjets ont été supprimés avec succès.</item>

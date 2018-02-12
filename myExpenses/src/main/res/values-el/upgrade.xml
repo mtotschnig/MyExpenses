@@ -21,5 +21,7 @@
   <string-array name="whats_new_275">
     <item>Συγχρονισμό μεταξύ συσκευών μέσω υπηρεσιών σύννεφου</item>
   </string-array>
-  <string name="bug_fixes">Διορθώσεις σφαλμάτων</string>
+  <item>Αναζήτηση για μεταφορές</item>
+  </string-array>
+    <string name="bug_fixes">Διορθώσεις σφαλμάτων</string>
     </resources>

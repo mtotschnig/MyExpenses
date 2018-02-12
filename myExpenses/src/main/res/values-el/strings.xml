@@ -598,5 +598,6 @@
   <string name="licence_status">Η κατάσταση της άδειάς σας</string>
   <string name="all_contrib_key_features">Όλα οι δυνατότητες ενός Contrib κλειδιού</string>
   <string name="upgrade_now">Αναβαθμίστε τώρα</string>
+  <string name="professional_key">Επαγγελματικό κλειδί</string>
   <!--%1$s date, %2$s price-->
 </resources>

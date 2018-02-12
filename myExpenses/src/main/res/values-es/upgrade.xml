@@ -18,6 +18,15 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_287">
+    <item>Protección por bloqueo de pantalla</item>
+  </string-array>
+  <string-array name="whats_new_286">
+    <item>La exportación en PDF (Impresión) puede compartirse</item>
+  </string-array>
+  <string-array name="whats_new_285">
+    <item>Sincronización por Dropbox</item>
+  </string-array>
   <string-array name="whats_new_284">
     <item>Auto-relleno configurable</item>
   </string-array>

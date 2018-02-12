@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_287">
+    <item>הגנה על ידי נעילת מסך המכשיר</item>
+  </string-array>
   <string-array name="whats_new_286">
     <item>ייצוא PDF (הדפסה) ניתן לשתף</item>
   </string-array>

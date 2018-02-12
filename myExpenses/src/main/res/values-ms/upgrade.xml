@@ -18,6 +18,15 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_287">
+    <item>Dilindungi oleh skrin kunci peranti</item>
+  </string-array>
+  <string-array name="whats_new_286">
+    <item>Eksport PDF (Cetak) boleh dikongsi</item>
+  </string-array>
+  <string-array name="whats_new_285">
+    <item>Penyegerakan melalui Dropbox</item>
+  </string-array>
   <string-array name="whats_new_284">
     <item>Auto-isi boleh dikonfigurasikan</item>
   </string-array>

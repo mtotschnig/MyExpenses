@@ -18,6 +18,15 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_287">
+    <item>Protezione tramite blocco schermo</item>
+  </string-array>
+  <string-array name="whats_new_285">
+    <item>Sincronizzazione tramite Dropbox</item>
+  </string-array>
+  <string-array name="whats_new_283">
+    <item>Ordine ascendente (transazioni più vecchie prima)</item>
+  </string-array>
   <string-array name="whats_new_282">
     <item>Modelli e piani per le operazioni frazionate</item>
     <item>Presentazione della chiave di licenza professionale</item>
@@ -55,5 +64,5 @@
     <item>Ricerca per i trasferimenti</item>
     <item>I piani possono essere ordinati per istanza successiva</item>
   </string-array>
-    <string name="bug_fixes">Correzione di errori</string>
+    <string name="bug_fixes">Bug fixes</string>
     </resources>
