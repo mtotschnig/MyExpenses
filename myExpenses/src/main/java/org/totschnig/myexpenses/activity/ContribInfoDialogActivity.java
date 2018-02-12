@@ -253,8 +253,8 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
     Intent intent;
     switch (paymentOption) {
       case R.string.donate_button_paypal: {
-        String host = BuildConfig.DEBUG ? "www.sandbox.paypal.com" : "www.paypal.com" ;
-        String paypalButtonId = BuildConfig.DEBUG? "TURRUESSCUG8N" : "LBUDF8DSWJAZ8";
+        String host = BuildConfig.DEBUG ? "www.sandbox.paypal.com" : "www.paypal.com";
+        String paypalButtonId = BuildConfig.DEBUG ? "TURRUESSCUG8N" : "LBUDF8DSWJAZ8";
         String uri = String.format(Locale.US,
             "https://%s/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=%s&on0=%s&os0=%s&lc=%s",
             host, paypalButtonId, "Licence", aPackage.name(), getPaypalLocale());
@@ -292,7 +292,50 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
   }
 
   private String getPaypalLocale() {
-    return Locale.getDefault().toString();
+    Locale locale = Locale.getDefault();
+    switch (locale.getLanguage()) {
+      case "en":
+        return "en_US";
+      case "fr":
+        return "fr_FR";
+      case "es":
+        return "es_ES";
+      case "zh":
+        return "zh_CN";
+      case "ar":
+        return "ar_EG";
+      case "de":
+        return "de_DE";
+      case "nl":
+        return "nl_NL";
+      case "pt":
+        return "pt_PT";
+      case "da":
+        return "da_DK";
+      case "ru":
+        return "ru_RU";
+      case "id":
+        return "id_ID";
+      case "iw":
+      case "he":
+        return "he_IL";
+      case "it":
+        return "it_IT";
+      case "ja":
+        return "ja_JP";
+      case "no":
+        return "no_NO";
+      case "pl":
+        return "pl_PL";
+      case "ko":
+        return "ko_KO";
+      case "sv":
+        return "sv_SE";
+      case "th":
+        return "th_TH";
+      default:
+        return "en_US";
+    }
   }
 
   @Override

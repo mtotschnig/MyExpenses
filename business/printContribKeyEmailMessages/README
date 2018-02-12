@@ -1,6 +1,0 @@
-TODO upon New Translation Received:
-
-1) msgfmt -o printContribKeyEmail.sh.mo lang.po
-2) mkdir ~/locale/lang/LC_MESSAGES mv printContribKeyEmail.sh.mo ~/locale/lang/LC_MESSAGES
-3) add manually to callback.html
-4) Open Automator and add languages manually to ContribKeyEmail and ExtendedKeyEmail services

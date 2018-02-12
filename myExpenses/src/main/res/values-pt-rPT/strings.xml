@@ -20,7 +20,6 @@
   <string name="account_type_liability_plural">Contas de passivos</string>
   <string name="already_defined">%1$s já está definido</string>
   <string name="amount">Quantia</string>
-  <string name="app_name">My Expenses</string>
   <string name="backup_failure">Falha ao criar a cópia de segurança em \"%1$s\".</string>
   <string name="backup_success">A base de dados e as preferências foram guardadas com sucesso em \"%1$s\".</string>
   <string name="category">Categoria</string>

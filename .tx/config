@@ -42,7 +42,7 @@ source_lang = en
 source_file = myExpenses/src/androidTest/res/values/strings.xml
 file_filter = myExpenses/src/androidTest/res/values-<lang>/strings.xml
 
-[my-expenses.KeyDeliveryEmail]
+[my-expenses.KeyDeliveryEmailV2]
 source_lang = en
-source_file = business/printContribKeyEmailMessages/en.po
-file_filter = business/printContribKeyEmailMessages/<lang>.po
+source_file = ../licencedb/config/locales/en.yml
+file_filter = ../licencedb/config/locales/<lang>.yml

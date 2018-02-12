@@ -39,7 +39,7 @@ then
   exit 1
 fi
 
-available_locales='pl_PL bg_BG cs_CZ de_DE el_GR en_US es_ES eu_ES fr_FR it_IT he_IL ja_JP pt_PT ru_RU tr_TR'
+available_locales='pl_PL bg_BG cs_CZ de_DE el_GR en_US es_ES eu_ES fr_FR it_IT he_IL ja_JP pt_PT ru_RU tr_TR vi_VI'
 
 if [[ -z "${lang// }" || ! " $available_locales " =~ .*\ $lang\ .* ]]
 then
@@ -49,39 +49,13 @@ fi
 
 mapfile -t HTTP < <(curl -H "Authorization: Token 7my2c9j8" --silent --write-out "\n%{http_code}" -X POST $endpoint -d email=$email -d package=$package)
 
-if [ ! ${HTTP[1]} -eq 200  ]; then
+echo ${HTTP[1]}
+
+if [ ! "${HTTP[1]}" -eq 200  ]; then
   echo "Error HTTP status ${HTTP[1]}"
   exit 1
 fi
 
 key=${HTTP[0]}
 
-export TEXTDOMAIN=printContribKeyEmail.sh
-export TEXTDOMAINDIR=${HOME}/locale
-
-export LC_ALL=$lang
-
-echo "$package für ${email}"
-
-read -d '' body <<EOF
-`gettext "Thankyou"`
-
-`gettext "Open Link"`
-
-https://www.myexpenses.mobi/callback2.html?isPdt=false&key=${key}&email=`python -c "import urllib;print urllib.quote(raw_input())" <<< "${email}"`#verify
-
-`printf "$(gettext "Alternative Settings")" $key`
-
-`gettext "Best regards"`
-
-EOF
-
-echo "tell application \"Mail\"
-    activate
-
-    set MyEmail to make new outgoing message with properties {visible:true, subject:\"My Expenses Licence Key\", content:\"$body\"}
-    tell MyEmail
-        make new to recipient at end of to recipients with properties {address:\"$email\"}
-    end tell
-end tell
-" | osascript
+echo "$package für ${email}: $key"
