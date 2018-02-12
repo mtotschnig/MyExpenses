@@ -10,6 +10,12 @@ cat << EOF
 EOF
 }
 
+if [ -z "$TOKEN" ]
+then
+  echo "TOKEN must be set in environment"
+  exit 1
+fi
+
 package=Contrib
 lang=en_US
 #endpoint=http://127.0.0.1:3000/users
@@ -39,7 +45,7 @@ then
   exit 1
 fi
 
-available_locales='pl_PL bg_BG cs_CZ de_DE el_GR en_US es_ES eu_ES fr_FR it_IT he_IL ja_JP pt_PT ru_RU tr_TR vi_VI'
+available_locales='bg cs de el en es eu fr he it ja ms pl pt ru tr vi'
 
 if [[ -z "${lang// }" || ! " $available_locales " =~ .*\ $lang\ .* ]]
 then
@@ -47,12 +53,12 @@ then
     exit 1
 fi
 
-mapfile -t HTTP < <(curl -H "Authorization: Token 7my2c9j8" --silent --write-out "\n%{http_code}" -X POST $endpoint -d email=$email -d package=$package)
+mapfile -t HTTP < <(curl -H "Authorization: Token $TOKEN" -H "Accept-Language: $lang" --silent --write-out "\n%{http_code}" -X POST $endpoint -d email=$email -d package=$package)
 
-echo ${HTTP[1]}
+status=${HTTP[-1]}
 
-if [ ! "${HTTP[1]}" -eq 200  ]; then
-  echo "Error HTTP status ${HTTP[1]}"
+if [ ! "$status" -eq 200  ]; then
+  echo "Error HTTP status $status"
   exit 1
 fi
 
