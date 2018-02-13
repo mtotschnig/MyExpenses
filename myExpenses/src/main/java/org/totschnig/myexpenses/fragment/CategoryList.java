@@ -56,7 +56,10 @@ import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -214,14 +217,8 @@ public class CategoryList extends SortableListFragment implements
       v = inflater.inflate(R.layout.distribution_list, container, false);
       mChart = (PieChart) v.findViewById(R.id.chart1);
       mChart.setVisibility(showChart ? View.VISIBLE : View.GONE);
-      mChart.setDescription("");
+      mChart.setDescription(null);
 
-      //Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Regular.ttf");
-
-      //mChart.setValueTypeface(tf);
-      //mChart.setCenterTextTypeface(Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Light.ttf"));
-      //mChart.setUsePercentValues(true);
-      //mChart.setCenterText("Quarterly\nRevenue");
       TypedValue typedValue = new TypedValue();
       getActivity().getTheme().resolveAttribute(android.R.attr.textAppearanceMedium, typedValue, true);
       int[] textSizeAttr = new int[]{android.R.attr.textSize};
@@ -234,15 +231,15 @@ public class CategoryList extends SortableListFragment implements
       // radius of the center hole in percent of maximum radius
       //mChart.setHoleRadius(60f); 
       //mChart.setTransparentCircleRadius(0f);
-      mChart.setDrawSliceText(false);
+      mChart.setDrawEntryLabels(true);
       mChart.setDrawHoleEnabled(true);
       mChart.setDrawCenterText(true);
       mChart.setRotationEnabled(false);
       mChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
 
         @Override
-        public void onValueSelected(Entry e, int dataSetIndex) {
-          int index = e.getXIndex();
+        public void onValueSelected(Entry e, Highlight highlight) {
+          int index = (int) highlight.getX();
           long packedPosition = (lastExpandedPosition == -1) ?
               ExpandableListView.getPackedPositionForGroup(index) :
               ExpandableListView.getPackedPositionForChild(lastExpandedPosition, index);
@@ -257,17 +254,18 @@ public class CategoryList extends SortableListFragment implements
           mListView.setItemChecked(mListView.getCheckedItemPosition(), false);
         }
       });
+      mChart.setUsePercentValues(true);
     } else {
       v = inflater.inflate(R.layout.categories_list, container, false);
       if (savedInstanceState!=null) {
         mFilter = savedInstanceState.getString("filter");
       }
     }
-    incomeSumTv = (TextView) v.findViewById(R.id.sum_income);
-    expenseSumTv = (TextView) v.findViewById(R.id.sum_expense);
+    incomeSumTv = v.findViewById(R.id.sum_income);
+    expenseSumTv = v.findViewById(R.id.sum_expense);
     bottomLine = v.findViewById(R.id.BottomLine);
     updateColor();
-    mListView = (ExpandableListView) v.findViewById(R.id.list);
+    mListView = v.findViewById(R.id.list);
     final View emptyView = v.findViewById(R.id.empty);
     mListView.setEmptyView(emptyView);
     mImportButton = emptyView.findViewById(R.id.importButton);
@@ -1226,23 +1224,25 @@ public class CategoryList extends SortableListFragment implements
 
   private void setData(Cursor c, ArrayList<Integer> colors) {
     chartDisplaysSubs = c != mGroupCursor;
-    ArrayList<Entry> entries1 = new ArrayList<>();
-    ArrayList<String> xVals = new ArrayList<>();
+    ArrayList<PieEntry> entries = new ArrayList<>();
     if (c != null && c.moveToFirst()) {
       do {
         long sum = c.getLong(c.getColumnIndex(DatabaseConstants.KEY_SUM));
-        xVals.add(c.getString(c.getColumnIndex(DatabaseConstants.KEY_LABEL)));
-        entries1.add(
-            new Entry(
-                (float) sum,
-                c.getPosition()));
+        Timber.d("Sum %f", (float) sum);
+        PieEntry entry = new PieEntry((float) Math.abs(sum));
+        entry.setLabel(c.getString(c.getColumnIndex(DatabaseConstants.KEY_LABEL)));
+        entries.add(entry);
       } while (c.moveToNext());
-      PieDataSet ds1 = new PieDataSet(entries1, "");
+
+      PieDataSet ds1 = new PieDataSet(entries, "");
 
       ds1.setColors(colors);
       ds1.setSliceSpace(2f);
       ds1.setDrawValues(false);
-      mChart.setData(new PieData(xVals, ds1));
+
+      PieData data = new PieData(ds1);
+      data.setValueFormatter(new PercentFormatter());
+      mChart.setData(data);
       mChart.getLegend().setEnabled(false);
       // undo all highlights
       mChart.highlightValues(null);
@@ -1322,11 +1322,12 @@ public class CategoryList extends SortableListFragment implements
   private void setCenterText(int position) {
     PieData data = mChart.getData();
 
-    String description = data.getXVals().get(position);
+    PieEntry entry = data.getDataSet().getEntryForIndex(position);
+    String description = entry.getLabel();
 
     String value = data.getDataSet().getValueFormatter().getFormattedValue(
-        Math.abs(mChart.getPercentOfTotal(data.getDataSet().getEntryForXIndex(position).getVal())))
-        + " %";
+        entry.getValue() / data.getYValueSum() * 100f,
+        entry, position, null);
 
     mChart.setCenterText(
         description + "\n" +
