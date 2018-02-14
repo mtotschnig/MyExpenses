@@ -99,11 +99,13 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_NORMALIZED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAX_VALUE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_MONTH;
@@ -111,6 +113,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_WEEK;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_YEAR_OF_WEEK_START;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES;
@@ -129,9 +132,10 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonth
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart;
 
 public class CategoryList extends SortableListFragment implements
-    OnChildClickListener, OnGroupClickListener, LoaderManager.LoaderCallbacks<Cursor> {
+    OnChildClickListener, OnGroupClickListener {
 
   private static final String KEY_CHILD_COUNT = "child_count";
+  public static final String KEY_FILTER = "filter";
   private View mImportButton;
 
   protected int getMenuResource() {
@@ -207,15 +211,15 @@ public class CategoryList extends SortableListFragment implements
       }
       Bundle b = savedInstanceState != null ? savedInstanceState : extras;
 
-      mGrouping = (Grouping) b.getSerializable("grouping");
+      mGrouping = (Grouping) b.getSerializable(KEY_GROUPING);
       if (mGrouping == null) mGrouping = Grouping.NONE;
-      mGroupingYear = b.getInt("groupingYear");
-      mGroupingSecond = b.getInt("groupingSecond");
+      mGroupingYear = b.getInt(KEY_YEAR);
+      mGroupingSecond = b.getInt(KEY_SECOND_GROUP);
       getActivity().supportInvalidateOptionsMenu();
       mManager.initLoader(SUM_CURSOR, null, this);
       mManager.initLoader(DATEINFO_CURSOR, null, this);
       v = inflater.inflate(R.layout.distribution_list, container, false);
-      mChart = (PieChart) v.findViewById(R.id.chart1);
+      mChart = v.findViewById(R.id.chart1);
       mChart.setVisibility(showChart ? View.VISIBLE : View.GONE);
       mChart.setDescription(null);
 
@@ -258,7 +262,7 @@ public class CategoryList extends SortableListFragment implements
     } else {
       v = inflater.inflate(R.layout.categories_list, container, false);
       if (savedInstanceState!=null) {
-        mFilter = savedInstanceState.getString("filter");
+        mFilter = savedInstanceState.getString(KEY_FILTER);
       }
     }
     incomeSumTv = v.findViewById(R.id.sum_income);
@@ -1144,9 +1148,9 @@ public class CategoryList extends SortableListFragment implements
   @Override
   public void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
-    outState.putSerializable("grouping", mGrouping);
-    outState.putInt("groupingYear", mGroupingYear);
-    outState.putInt("groupingSecond", mGroupingSecond);
+    outState.putSerializable(KEY_GROUPING, mGrouping);
+    outState.putInt(KEY_YEAR, mGroupingYear);
+    outState.putInt(KEY_SECOND_GROUP, mGroupingSecond);
     if (!TextUtils.isEmpty(mFilter)) {
       outState.putString("filter", mFilter);
     }

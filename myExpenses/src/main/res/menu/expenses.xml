@@ -70,6 +70,13 @@
         app:showAsAction="ifRoom">
     </item>
     <item
+        android:id="@id/HISTORY_COMMAND"
+        android:icon="@drawable/ic_history"
+        android:orderInCategory="10"
+        android:title="History"
+        app:showAsAction="ifRoom">
+    </item>
+    <item
         android:id="@id/RESET_COMMAND"
         android:icon="@drawable/ic_menu_download"
         android:orderInCategory="10"

@@ -71,6 +71,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_EXPORTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_FUTURE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.INCOME_SUM;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.IS_SAME_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.JULIAN_DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
@@ -90,6 +91,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_EXPORT
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_FUTURE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_AGGREGATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_JULIAN_DAY_OF_GROUP_START;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
@@ -156,6 +158,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_PEER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_TRANSACTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.YEAR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.getJulianDayOfWeekStart;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getMonth;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getWeek;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart;
@@ -242,6 +245,7 @@ public class TransactionProvider extends ContentProvider {
   public static final String QUERY_PARAMETER_MERGE_TRANSFERS = "mergeTransfers";
   public static final String QUERY_PARAMETER_SYNC_BEGIN = "syncBegin";
   public static final String QUERY_PARAMETER_SYNC_END = "syncEnd";
+  public static final String QUERY_PARAMETER_WITH_JULIAN_DAY = "withJulianDay";
   public static final String METHOD_INIT = "init";
   public static final String METHOD_BULK_START = "bulkStart";
   public static final String METHOD_BULK_END = "bulkEnd";
@@ -393,6 +397,9 @@ public class TransactionProvider extends ContentProvider {
         } catch (IllegalArgumentException e) {
           group = Grouping.NONE;
         }
+
+        // the julian day value is only needed for WEEK and DAY
+        boolean withJulianDay = uri.getQueryParameter(QUERY_PARAMETER_WITH_JULIAN_DAY) != null && (group == Grouping.WEEK || group == Grouping.DAY);
         String yearExpression;
         switch (group) {
           case WEEK:
@@ -427,14 +434,17 @@ public class TransactionProvider extends ContentProvider {
             break;
         }
         qb.setTables(VIEW_EXTENDED);
-        projection = new String[]{
-            yearExpression + " AS " + KEY_YEAR,
-            secondDef + " AS " + KEY_SECOND_GROUP,
-            INCOME_SUM,
-            EXPENSE_SUM,
-            TRANSFER_SUM,
-            MAPPED_CATEGORIES
-        };
+        projection = new String[withJulianDay ? 7 : 6];
+        projection[0] = yearExpression + " AS " + KEY_YEAR;
+        projection[1] = secondDef + " AS " + KEY_SECOND_GROUP;
+        projection[2] = INCOME_SUM;
+        projection[3] = EXPENSE_SUM;
+        projection[4] = TRANSFER_SUM;
+        projection[5] = MAPPED_CATEGORIES;
+        if (withJulianDay) {
+          projection[6] = (group == Grouping.WEEK ? getJulianDayOfWeekStart() : JULIAN_DAY)
+              + " AS " + KEY_JULIAN_DAY_OF_GROUP_START;
+        }
         selection = accountSelectionQuery
             + (selection != null ? " AND " + selection : "");
         selectionArgs = Utils.joinArrays(

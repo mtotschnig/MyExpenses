@@ -328,6 +328,8 @@
             </meta-data>
         </activity>
 
+        <activity android:name=".activity.HistoryActivity" />
+
         <provider
             android:name=".provider.TransactionProvider"
             android:authorities="${applicationId}"

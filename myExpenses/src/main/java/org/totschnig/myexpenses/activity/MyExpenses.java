@@ -120,6 +120,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_CLEARED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_EXPORTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_FUTURE;
@@ -127,6 +128,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME;
@@ -134,6 +136,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSF
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_EXPORT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_PRINT;
 
@@ -496,6 +499,7 @@ public class MyExpenses extends LaunchActivity implements
     Intent i;
     TransactionList tl;
     switch (command) {
+
       case R.id.DISTRIBUTION_COMMAND:
         tl = getCurrentFragment();
         if (tl != null && tl.hasMappedCategories()) {
@@ -504,6 +508,15 @@ public class MyExpenses extends LaunchActivity implements
           showMessage(R.string.dialog_command_disabled_distribution);
         }
         return true;
+      case R.id.HISTORY_COMMAND:
+        tl = getCurrentFragment();
+        if (tl != null && tl.hasItems()) {
+          contribFeatureRequested(ContribFeature.HISTORY, null);
+        } else {
+          showMessage(R.string.no_expenses);
+        }
+        return true;
+
       case R.id.CREATE_COMMAND:
         createRow();
         return true;
@@ -702,7 +715,7 @@ public class MyExpenses extends LaunchActivity implements
   @Override
   public void contribFeatureCalled(ContribFeature feature, Serializable tag) {
     switch (feature) {
-      case DISTRIBUTION:
+      case DISTRIBUTION: {
         Account a = Account.getInstanceFromDb(mAccountId);
         recordUsage(feature);
         Intent i = new Intent(this, ManageCategories.class);
@@ -711,13 +724,24 @@ public class MyExpenses extends LaunchActivity implements
         if (tag != null) {
           int year = (int) ((Long) tag / 1000);
           int groupingSecond = (int) ((Long) tag % 1000);
-          i.putExtra("grouping", a != null ? a.getGrouping() : Grouping.NONE);
-          i.putExtra("groupingYear", year);
-          i.putExtra("groupingSecond", groupingSecond);
+          i.putExtra(KEY_GROUPING, a != null ? a.getGrouping() : Grouping.NONE);
+          i.putExtra(KEY_YEAR, year);
+          i.putExtra(KEY_SECOND_GROUP, groupingSecond);
         }
         startActivity(i);
         break;
-      case SPLIT_TRANSACTION:
+      }
+      case HISTORY: {
+        Account a = Account.getInstanceFromDb(mAccountId);
+        if (a != null) {
+          recordUsage(feature);
+          Intent i = new Intent(this, HistoryActivity.class);
+          i.putExtra(KEY_ACCOUNTID, mAccountId);
+          startActivity(i);
+          break;
+        }
+      }
+      case SPLIT_TRANSACTION: {
         if (tag != null) {
           startTaskExecution(
               TaskExecutionFragment.TASK_SPLIT,
@@ -726,7 +750,8 @@ public class MyExpenses extends LaunchActivity implements
               0);
         }
         break;
-      case PRINT:
+      }
+      case PRINT: {
         TransactionList tl = getCurrentFragment();
         if (tl != null) {
           Bundle args = new Bundle();
@@ -738,6 +763,7 @@ public class MyExpenses extends LaunchActivity implements
               .commit();
         }
         break;
+      }
     }
   }
 

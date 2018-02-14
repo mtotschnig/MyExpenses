@@ -126,11 +126,11 @@ public enum ContribFeature {
     }
   },
   PRO_SUPPORT(false, PROFESSIONAL),
-  ROADMAP_VOTING(false, PROFESSIONAL)
-  ;
+  ROADMAP_VOTING(false, PROFESSIONAL),
+  HISTORY;
 
   ContribFeature() {
-    this(true);
+    this(true, PROFESSIONAL);
   }
 
   ContribFeature(boolean hasTrial) {
