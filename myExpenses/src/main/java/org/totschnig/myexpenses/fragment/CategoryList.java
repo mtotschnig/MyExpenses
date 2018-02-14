@@ -1318,10 +1318,12 @@ public class CategoryList extends SortableListFragment implements
   }
 
   private void highlight(int position) {
-    mChart.highlightValue(position, 0);
-    if (position != -1)
+    if (position != -1) {
+      mChart.highlightValue(position, 0);
       setCenterText(position);
+    }
   }
+
 
   private void setCenterText(int position) {
     PieData data = mChart.getData();
