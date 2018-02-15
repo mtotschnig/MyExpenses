@@ -9,6 +9,7 @@ import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
 import org.totschnig.myexpenses.export.pdf.PdfPrinter;
 import org.totschnig.myexpenses.fragment.CategoryList;
+import org.totschnig.myexpenses.fragment.HistoryChart;
 import org.totschnig.myexpenses.fragment.SettingsFragment;
 import org.totschnig.myexpenses.fragment.SplitPartList;
 import org.totschnig.myexpenses.fragment.StaleImagesList;
@@ -64,4 +65,6 @@ public interface AppComponent {
   void inject(WebDavClient webDavClient);
 
   void inject(RoadmapViewModel roadmapViewModel);
+
+  void inject(HistoryChart historyChart);
 }

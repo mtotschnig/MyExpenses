@@ -221,7 +221,7 @@ public class CategoryList extends SortableListFragment implements
       v = inflater.inflate(R.layout.distribution_list, container, false);
       mChart = v.findViewById(R.id.chart1);
       mChart.setVisibility(showChart ? View.VISIBLE : View.GONE);
-      mChart.setDescription(null);
+      mChart.getDescription().setEnabled(false);
 
       TypedValue typedValue = new TypedValue();
       getActivity().getTheme().resolveAttribute(android.R.attr.textAppearanceMedium, typedValue, true);

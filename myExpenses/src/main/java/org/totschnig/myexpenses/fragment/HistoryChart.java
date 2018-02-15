@@ -1,30 +1,40 @@
 package org.totschnig.myexpenses.fragment;
 
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.CombinedData;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IValueFormatter;
 
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.FormatStyle;
 import org.threeten.bp.temporal.JulianFields;
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.Account;
@@ -32,11 +42,16 @@ import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
+import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
+
+import javax.inject.Inject;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
@@ -44,24 +59,29 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUP_STAR
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
 
 public class HistoryChart extends Fragment
     implements LoaderManager.LoaderCallbacks<Cursor> {
   private static final int GROUPING_CURSOR = 1;
-  private BarChart chart;
+  private CombinedChart chart;
   private Account account;
   private Grouping grouping;
   private WhereFilter filter = WhereFilter.empty();
-  private int columnIndexGroupYear;
-  private int columnIndexGroupSecond;
   //julian day 0 is monday -> Only if week starts with monday it divides without remainder by 7
   //for the x axis we need an Integer for proper rendering, for printing the week range, we add the offset from monday
   private static int JULIAN_DAY_WEEK_OFFSET = DatabaseConstants.weekStartsOn == Calendar.SUNDAY ? 6 : DatabaseConstants.weekStartsOn - Calendar.MONDAY;
+  private float valueTextSize = 10f;
+  @ColorInt private int textColor = Color.WHITE;
+
+  @Inject
+  CurrencyFormatter currencyFormatter;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    MyApplication.getInstance().getAppComponent().inject(this);
 
     setHasOptionsMenu(true);
     account = Account.getInstanceFromDb(Utils.getFromExtra(getActivity().getIntent().getExtras(), KEY_ACCOUNTID, 0));
@@ -69,6 +89,18 @@ public class HistoryChart extends Fragment
       return;
     }
     grouping = account.getGrouping() == Grouping.NONE ? Grouping.MONTH : account.getGrouping();
+
+    TypedValue typedValue = new TypedValue();
+    getActivity().getTheme().resolveAttribute(android.R.attr.textAppearanceSmall, typedValue, true);
+    int[] textSizeAttr = new int[]{android.R.attr.textSize};
+    int indexOfAttrTextSize = 0;
+    TypedArray a = getActivity().obtainStyledAttributes(typedValue.data, textSizeAttr);
+    valueTextSize = a.getDimensionPixelSize(indexOfAttrTextSize, 10) / getResources().getDisplayMetrics().density;
+    a.recycle();
+    typedValue = new TypedValue();
+    Resources.Theme theme = getContext().getTheme();
+    theme.resolveAttribute(R.attr.colorControlNormal, typedValue, true);
+    textColor = typedValue.data;
   }
 
   @Nullable
@@ -76,6 +108,7 @@ public class HistoryChart extends Fragment
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.history_chart, container, false);
     chart = view.findViewById(R.id.history_chart);
+    chart.getDescription().setEnabled(false);
     XAxis xAxis = chart.getXAxis();
     xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
     xAxis.setGranularity(1);
@@ -97,6 +130,10 @@ public class HistoryChart extends Fragment
       }
       return "";
     });
+    xAxis.setTextColor(textColor);
+    configureYAxis(chart.getAxisLeft());
+    configureYAxis(chart.getAxisRight());
+    chart.getLegend().setTextColor(textColor);
     getLoaderManager().initLoader(GROUPING_CURSOR, null, this);
     return view;
   }
@@ -157,46 +194,82 @@ public class HistoryChart extends Fragment
     if (cursor != null && cursor.moveToFirst()) {
       int columnIndexGroupSumIncome = cursor.getColumnIndex(KEY_SUM_INCOME);
       int columnIndexGroupSumExpense = cursor.getColumnIndex(KEY_SUM_EXPENSES);
-      columnIndexGroupYear = cursor.getColumnIndex(KEY_YEAR);
-      columnIndexGroupSecond = cursor.getColumnIndex(KEY_SECOND_GROUP);
+      int columnIndexGroupSumTransfer = cursor.getColumnIndex(KEY_SUM_TRANSFERS);
+      int columnIndexGroupYear = cursor.getColumnIndex(KEY_YEAR);
+      int columnIndexGroupSecond = cursor.getColumnIndex(KEY_SECOND_GROUP);
       int columnIndexGroupStart = cursor.getColumnIndex(KEY_GROUP_START);
 
-      ArrayList<BarEntry> entries = new ArrayList<>();
+      ArrayList<BarEntry> barEntries = new ArrayList<>();
+      ArrayList<Entry> lineEntries = new ArrayList<>();
       XAxis xAxis = chart.getXAxis();
+
+      long previousBalance = account.openingBalance.getAmountMinor();
 
       do {
         long sumIncome = cursor.getLong(columnIndexGroupSumIncome);
         long sumExpense = cursor.getLong(columnIndexGroupSumExpense);
+        long sumTransfer = cursor.getLong(columnIndexGroupSumTransfer);
+        long delta = sumIncome - sumExpense + sumTransfer;
+        long interimBalance = previousBalance + delta;
         int year = cursor.getInt(columnIndexGroupYear);
         int second = cursor.getInt(columnIndexGroupSecond);
         int groupStart = columnIndexGroupStart > -1 ? cursor.getInt(columnIndexGroupStart) : 0;
         int x = calculateX(year, second, groupStart);
         if (cursor.isFirst()) {
-          xAxis.setAxisMinimum(x - 1);
+          int start = x - 1;
+          xAxis.setAxisMinimum(start);
+          lineEntries.add(new Entry(start, previousBalance));
         }
-        entries.add(new BarEntry(x, new float[]{-sumExpense, sumIncome}));
+        barEntries.add(new BarEntry(x, new float[]{-sumExpense, sumIncome}));
+        lineEntries.add(new Entry(x, interimBalance));
+        previousBalance = interimBalance;
         if (cursor.isLast()) {
           xAxis.setAxisMaximum(x + 1);
         }
       } while (cursor.moveToNext());
 
-      BarDataSet set1 = new BarDataSet(entries, "");
+      IValueFormatter valueFormatter = (value, entry, dataSetIndex, viewPortHandler) -> convAmount(value);
+      BarDataSet set1 = new BarDataSet(barEntries, "");
       set1.setStackLabels(new String[]{getString(R.string.expense), getString(R.string.income)});
-      set1.setColors(context.getColorExpense(), context.getColorIncome());
-      set1.setValueTextColor(Color.rgb(60, 220, 78));
-      set1.setValueTextSize(10f);
-      set1.setAxisDependency(YAxis.AxisDependency.LEFT);
+      List<Integer> colors = Arrays.asList(context.getColorExpense(), context.getColorIncome());
+      set1.setColors(colors);
+      set1.setValueTextColors(colors);
+      set1.setStackTextValuesShouldUseDataColor(true);
+      set1.setValueTextSize(valueTextSize);
+      set1.setValueFormatter(valueFormatter);
+
+      LineDataSet set2 = new LineDataSet(lineEntries, getString(R.string.current_balance));
+      set2.setValueTextSize(valueTextSize);
+      set2.setLineWidth(2.5f);
+      int balanceColor = getResources().getColor(R.color.emphasis);
+      set2.setColor(balanceColor);
+      set2.setValueTextColor(balanceColor);
+      set2.setValueFormatter(valueFormatter);
+
 
       float barWidth = 0.45f;
+      CombinedData data = new CombinedData();
 
       BarData barData = new BarData(set1);
       barData.setBarWidth(barWidth);
+      LineData lineData = new LineData(set2);
+      data.setData(barData);
+      data.setData(lineData);
 
-      chart.setData(barData);
+      chart.setData(data);
       chart.invalidate();
     } else {
       chart.clear();
     }
+  }
+
+  private void configureYAxis(YAxis yAxis) {
+    yAxis.setTextColor(textColor);
+    yAxis.setValueFormatter((value, axis) -> convAmount(value));
+  }
+
+  private String convAmount(float value) {
+    return currencyFormatter.convAmount((long) value, account.currency);
   }
 
   @Override
