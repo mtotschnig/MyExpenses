@@ -41,7 +41,9 @@ public class DatabaseConstants {
   private static String WEEK_START;
   private static String WEEK_END;
   private static String COUNT_FROM_WEEK_START_ZERO;
-  private static String JULIAN_DAY_OF_WEEK_START;
+  private static String WEEK_START_JULIAN;
+  //in sqlite julian days are calculated from noon, in order to make sure that the returned julian day matches the day we need, we set the time to noon.
+  private static final String JULIAN_DAY_OFFSET = "'start of day','+12 hours'";
 
   private DatabaseConstants() {
   }
@@ -71,7 +73,7 @@ public class DatabaseConstants {
     COUNT_FROM_WEEK_START_ZERO = "strftime('%%s','%d-01-01','weekday 1', 'weekday " + nextWeekStartsSqlite + "', '" +
         "-7 day" +
         "' ,'+%d day','utc')";
-    JULIAN_DAY_OF_WEEK_START = "CAST(julianday(date,'unixepoch','localtime','weekday " + nextWeekEndSqlite + "', '-6 day') AS integer)";
+    WEEK_START_JULIAN = "julianday(date,'unixepoch','localtime'," + JULIAN_DAY_OFFSET + ",'weekday " + nextWeekEndSqlite + "', '-6 day')";
     isLocalized = true;
   }
 
@@ -86,7 +88,7 @@ public class DatabaseConstants {
   public static final String THIS_DAY = "CAST(strftime('%j','now','localtime') AS integer)";
   public static final String DAY = "CAST(strftime('%j',date,'unixepoch','localtime') AS integer)";
   public static final String THIS_YEAR = "CAST(strftime('%Y','now','localtime') AS integer)";
-  public static final String JULIAN_DAY = "CAST(julianday(date,'unixepoch','localtime') AS integer)";
+  public static final String DAY_START_JULIAN = "julianday(date,'unixepoch','localtime'," + JULIAN_DAY_OFFSET + ")";
   public static final String KEY_DATE = "date";
   public static final String KEY_AMOUNT = "amount";
   public static final String KEY_COMMENT = "comment";
@@ -123,6 +125,7 @@ public class DatabaseConstants {
   public static final String KEY_INSTANCEID = "instance_id";
   public static final String KEY_CODE = "code";
   public static final String KEY_WEEK_START = "week_start";
+  public static final String KEY_GROUP_START = "group_start";
   public static final String KEY_WEEK_END = "week_end";
   public static final String KEY_DAY = "day";
   public static final String KEY_WEEK = "week";
@@ -180,7 +183,6 @@ public class DatabaseConstants {
    */
   public static final String KEY_SECOND_GROUP = "second";
 
-  public static final String KEY_JULIAN_DAY_OF_GROUP_START = "julian_day_of_group_start";
   /**
    * No special status
    */
@@ -397,9 +399,9 @@ public class DatabaseConstants {
     return THIS_YEAR_OF_WEEK_START;
   }
 
-  public static String getJulianDayOfWeekStart() {
+  public static String getWeekStartJulian() {
     ensureLocalized();
-    return JULIAN_DAY_OF_WEEK_START;
+    return WEEK_START_JULIAN;
   }
 
   public static String getThisWeek() {

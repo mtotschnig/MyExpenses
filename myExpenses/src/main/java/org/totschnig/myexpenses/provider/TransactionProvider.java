@@ -65,104 +65,7 @@ import java.util.Map;
 
 import timber.log.Timber;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.DAY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.EXPENSE_SUM;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_EXPORTED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_FUTURE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.INCOME_SUM;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.IS_SAME_CURRENCY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.JULIAN_DAY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_CLEARED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_EXPORTED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_FUTURE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_AGGREGATE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_JULIAN_DAY_OF_GROUP_START;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENT_UUID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_URI;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_DIRECTION;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY_TYPE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TOTAL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_CATEGORIES;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.SELECT_AMOUNT_SUM;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTTYES_METHODS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CHANGES;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_EVENT_CACHE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_METHODS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INSTANCE_STATUS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_SETTINGS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_STALE_URIS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_SYNC_STATE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_SUM;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_ALL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_CHANGES_EXTENDED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_ALL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_EXTENDED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_UNCOMMITTED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_DEPENDENT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_EXPENSE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_INCOME;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_IN_PAST;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_DEPENDENT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_PEER;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_TRANSACTION;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.YEAR;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.getJulianDayOfWeekStart;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.getMonth;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.getWeek;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionProvider extends ContentProvider {
 
@@ -245,7 +148,7 @@ public class TransactionProvider extends ContentProvider {
   public static final String QUERY_PARAMETER_MERGE_TRANSFERS = "mergeTransfers";
   public static final String QUERY_PARAMETER_SYNC_BEGIN = "syncBegin";
   public static final String QUERY_PARAMETER_SYNC_END = "syncEnd";
-  public static final String QUERY_PARAMETER_WITH_JULIAN_DAY = "withJulianDay";
+  public static final String QUERY_PARAMETER_WITH_START = "withStart";
   public static final String METHOD_INIT = "init";
   public static final String METHOD_BULK_START = "bulkStart";
   public static final String METHOD_BULK_END = "bulkEnd";
@@ -398,8 +301,8 @@ public class TransactionProvider extends ContentProvider {
           group = Grouping.NONE;
         }
 
-        // the julian day value is only needed for WEEK and DAY
-        boolean withJulianDay = uri.getQueryParameter(QUERY_PARAMETER_WITH_JULIAN_DAY) != null && (group == Grouping.WEEK || group == Grouping.DAY);
+        // the start value is only needed for WEEK and DAY
+        boolean withStart = uri.getQueryParameter(QUERY_PARAMETER_WITH_START) != null && (group == Grouping.WEEK || group == Grouping.DAY);
         String yearExpression;
         switch (group) {
           case WEEK:
@@ -434,16 +337,20 @@ public class TransactionProvider extends ContentProvider {
             break;
         }
         qb.setTables(VIEW_EXTENDED);
-        projection = new String[withJulianDay ? 7 : 6];
+        int projectionSize = 6;
+        if (withStart) {
+          projectionSize += 1;
+        }
+        projection = new String[projectionSize];
         projection[0] = yearExpression + " AS " + KEY_YEAR;
         projection[1] = secondDef + " AS " + KEY_SECOND_GROUP;
         projection[2] = INCOME_SUM;
         projection[3] = EXPENSE_SUM;
         projection[4] = TRANSFER_SUM;
         projection[5] = MAPPED_CATEGORIES;
-        if (withJulianDay) {
-          projection[6] = (group == Grouping.WEEK ? getJulianDayOfWeekStart() : JULIAN_DAY)
-              + " AS " + KEY_JULIAN_DAY_OF_GROUP_START;
+        if (withStart) {
+          projection[6] = (group == Grouping.WEEK ? getWeekStartJulian() : DAY_START_JULIAN)
+              + " AS " + KEY_GROUP_START;
         }
         selection = accountSelectionQuery
             + (selection != null ? " AND " + selection : "");

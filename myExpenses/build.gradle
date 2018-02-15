@@ -201,6 +201,8 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:1.0.0"
     annotationProcessor "android.arch.lifecycle:compiler:1.0.0"
 
+    compile 'com.jakewharton.threetenabp:threetenabp:1.0.5'
+
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:' + project.espressoVersion
     androidTestImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support:support-annotations:' + project.androidSupportLibraryVersion

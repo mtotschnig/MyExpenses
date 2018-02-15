@@ -14,12 +14,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
+import org.threeten.bp.format.FormatStyle;
+import org.threeten.bp.temporal.JulianFields;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.Account;
@@ -30,11 +35,12 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Locale;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_JULIAN_DAY_OF_GROUP_START;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUP_START;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME;
@@ -47,8 +53,11 @@ public class HistoryChart extends Fragment
   private Account account;
   private Grouping grouping;
   private WhereFilter filter = WhereFilter.empty();
-
-  private int columnIndexGroupYear, columnIndexGroupSecond, columnIndexGroupJulianDay;
+  private int columnIndexGroupYear;
+  private int columnIndexGroupSecond;
+  //julian day 0 is monday -> Only if week starts with monday it divides without remainder by 7
+  //for the x axis we need an Integer for proper rendering, for printing the week range, we add the offset from monday
+  private static int JULIAN_DAY_WEEK_OFFSET = DatabaseConstants.weekStartsOn == Calendar.SUNDAY ? 6 : DatabaseConstants.weekStartsOn - Calendar.MONDAY;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,9 +77,26 @@ public class HistoryChart extends Fragment
     View view = inflater.inflate(R.layout.history_chart, container, false);
     chart = view.findViewById(R.id.history_chart);
     XAxis xAxis = chart.getXAxis();
-    xAxis.setPosition(XAxis.XAxisPosition.BOTH_SIDED);
-    xAxis.setGranularity(1f);
-    xAxis.setValueFormatter((value, axis) -> String.format(Locale.ROOT, "%f", value));
+    xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+    xAxis.setGranularity(1);
+    xAxis.setValueFormatter((float value, AxisBase axis) -> {
+      switch (grouping) {
+        case DAY: {
+          return LocalDateTime.MIN.with(JulianFields.JULIAN_DAY, (long) value)
+              .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
+        }
+        case WEEK: {
+          long julianDay = (long) (value * 7) + JULIAN_DAY_WEEK_OFFSET;
+          return LocalDateTime.MIN.with(JulianFields.JULIAN_DAY, julianDay)
+              .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
+        }
+        case MONTH:
+          return Grouping.MONTH.getDisplayTitle(getContext(), (int) (value / 12), (int) (value % 12), null);
+        case YEAR:
+          return String.format(Locale.ROOT, "%d", (int) value);
+      }
+      return "";
+    });
     getLoaderManager().initLoader(GROUPING_CURSOR, null, this);
     return view;
   }
@@ -94,8 +120,8 @@ public class HistoryChart extends Fragment
       } else {
         builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(account.getId()));
       }
-      if (grouping == Grouping.WEEK || grouping == Grouping.DAY) {
-        builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_JULIAN_DAY, "1");
+      if (shouldUseGroupStart()) {
+        builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_START, "1");
       }
       return new CursorLoader(getActivity(),
           builder.build(),
@@ -104,16 +130,20 @@ public class HistoryChart extends Fragment
     return null;
   }
 
-  private long calculateX(Cursor cursor) {
+  protected boolean shouldUseGroupStart() {
+    return grouping == Grouping.WEEK || grouping == Grouping.DAY;
+  }
+
+  private int calculateX(int year, int second, int groupStart) {
     switch (grouping) {
       case DAY:
-        return cursor.getLong(columnIndexGroupJulianDay);
+        return groupStart;
       case WEEK:
-        return cursor.getLong(columnIndexGroupJulianDay) / 7;
+        return groupStart / 7;
       case MONTH:
-        return cursor.getLong(columnIndexGroupYear) * 12 + cursor.getLong(columnIndexGroupSecond);
+        return year * 12 + second;
       case YEAR:
-        return cursor.getLong(columnIndexGroupYear);
+        return year;
     }
     return 0;
   }
@@ -129,20 +159,26 @@ public class HistoryChart extends Fragment
       int columnIndexGroupSumExpense = cursor.getColumnIndex(KEY_SUM_EXPENSES);
       columnIndexGroupYear = cursor.getColumnIndex(KEY_YEAR);
       columnIndexGroupSecond = cursor.getColumnIndex(KEY_SECOND_GROUP);
-      columnIndexGroupJulianDay = cursor.getColumnIndex(KEY_JULIAN_DAY_OF_GROUP_START);
+      int columnIndexGroupStart = cursor.getColumnIndex(KEY_GROUP_START);
 
       ArrayList<BarEntry> entries = new ArrayList<>();
       XAxis xAxis = chart.getXAxis();
-      xAxis.setAxisMinimum(calculateX(cursor) - 1);
 
       do {
         long sumIncome = cursor.getLong(columnIndexGroupSumIncome);
         long sumExpense = cursor.getLong(columnIndexGroupSumExpense);
-        float x = calculateX(cursor);
+        int year = cursor.getInt(columnIndexGroupYear);
+        int second = cursor.getInt(columnIndexGroupSecond);
+        int groupStart = columnIndexGroupStart > -1 ? cursor.getInt(columnIndexGroupStart) : 0;
+        int x = calculateX(year, second, groupStart);
+        if (cursor.isFirst()) {
+          xAxis.setAxisMinimum(x - 1);
+        }
         entries.add(new BarEntry(x, new float[]{-sumExpense, sumIncome}));
+        if (cursor.isLast()) {
+          xAxis.setAxisMaximum(x + 1);
+        }
       } while (cursor.moveToNext());
-      cursor.moveToLast();
-      xAxis.setAxisMaximum(calculateX(cursor) + 1);
 
       BarDataSet set1 = new BarDataSet(entries, "");
       set1.setStackLabels(new String[]{getString(R.string.expense), getString(R.string.income)});
@@ -165,6 +201,6 @@ public class HistoryChart extends Fragment
 
   @Override
   public void onLoaderReset(Loader<Cursor> loader) {
-
+    chart.clear();
   }
 }

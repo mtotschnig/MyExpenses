@@ -574,7 +574,7 @@ public class TransactionList extends ContextualActionBarFragment implements
     }
   }
 
-  private long calculateHeaderId(long year, long second) {
+  private long calculateHeaderId(int year, int second) {
     if (mAccount.getGrouping().equals(Grouping.NONE)) {
       return 1;
     }

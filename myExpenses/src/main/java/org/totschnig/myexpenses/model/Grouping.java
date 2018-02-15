@@ -32,14 +32,13 @@ public enum Grouping {
    * @return a human readable String representing the group as header or activity title
    */
   public String getDisplayTitle(Context ctx, int groupYear, int groupSecond, Cursor c) {
-    int this_week = c.getInt(c.getColumnIndex(KEY_THIS_WEEK));
-    int this_day = c.getInt(c.getColumnIndex(KEY_THIS_DAY));
-    int this_year = c.getInt(c.getColumnIndex(KEY_THIS_YEAR));
     Calendar cal;
     switch (this) {
       case NONE:
         return ctx.getString(R.string.menu_aggregates);
-      case DAY:
+      case DAY: {
+        int this_day = c.getInt(c.getColumnIndex(KEY_THIS_DAY));
+        int this_year = c.getInt(c.getColumnIndex(KEY_THIS_YEAR));
         cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, groupYear);
         cal.set(Calendar.DAY_OF_YEAR, groupSecond);
@@ -51,7 +50,9 @@ public enum Grouping {
             return ctx.getString(R.string.grouping_yesterday) + " (" + title + ")";
         }
         return title;
-      case WEEK:
+      }
+      case WEEK: {
+        int this_week = c.getInt(c.getColumnIndex(KEY_THIS_WEEK));
         int this_year_of_week_start = c.getInt(c.getColumnIndex(KEY_THIS_YEAR_OF_WEEK_START));
         DateFormat dateformat = Utils.localizedYearlessDateFormat();
         String weekRange = " (" + Utils.convDateTime(c.getString(c.getColumnIndex(KEY_WEEK_START)), dateformat)
@@ -66,7 +67,8 @@ public enum Grouping {
         } else
           yearPrefix = groupYear + ", ";
         return yearPrefix + ctx.getString(R.string.grouping_week) + " " + groupSecond + weekRange;
-      case MONTH:
+      }
+      case MONTH: {
         int monthStarts = Integer.parseInt(PrefKey.GROUP_MONTH_STARTS.getString("1"));
         cal = Calendar.getInstance();
         if (monthStarts == 1) {
@@ -74,7 +76,7 @@ public enum Grouping {
           //noinspection SimpleDateFormat
           return new SimpleDateFormat("MMMM y").format(cal.getTime());
         } else {
-          dateformat = android.text.format.DateFormat.getLongDateFormat(ctx);
+          DateFormat dateformat = android.text.format.DateFormat.getLongDateFormat(ctx);
           int beginYear = groupYear, beginMonth = groupSecond - 1;
           cal = Calendar.getInstance();
           cal.set(beginYear, beginMonth, 1);
@@ -100,6 +102,7 @@ public enum Grouping {
           String monthRange = " (" + startDate + " - " + endDate + " )";
           return monthRange;
         }
+      }
       case YEAR:
         return String.valueOf(groupYear);
       default:
