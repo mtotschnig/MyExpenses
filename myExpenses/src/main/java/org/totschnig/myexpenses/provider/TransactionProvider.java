@@ -149,6 +149,10 @@ public class TransactionProvider extends ContentProvider {
   public static final String QUERY_PARAMETER_SYNC_BEGIN = "syncBegin";
   public static final String QUERY_PARAMETER_SYNC_END = "syncEnd";
   public static final String QUERY_PARAMETER_WITH_START = "withStart";
+  /**
+   * Transfers are included into in and out sums, instead of reported in extra field
+   */
+  public static final String QUERY_PARAMETER_INCLUDE_TRANSFERS = "includeTransfers";
   public static final String METHOD_INIT = "init";
   public static final String METHOD_BULK_START = "bulkStart";
   public static final String METHOD_BULK_END = "bulkEnd";
@@ -303,6 +307,7 @@ public class TransactionProvider extends ContentProvider {
 
         // the start value is only needed for WEEK and DAY
         boolean withStart = uri.getQueryParameter(QUERY_PARAMETER_WITH_START) != null && (group == Grouping.WEEK || group == Grouping.DAY);
+        boolean includeTransfers = uri.getQueryParameter(QUERY_PARAMETER_INCLUDE_TRANSFERS) != null;
         String yearExpression;
         switch (group) {
           case WEEK:
@@ -342,14 +347,17 @@ public class TransactionProvider extends ContentProvider {
           projectionSize += 1;
         }
         projection = new String[projectionSize];
-        projection[0] = yearExpression + " AS " + KEY_YEAR;
-        projection[1] = secondDef + " AS " + KEY_SECOND_GROUP;
-        projection[2] = INCOME_SUM;
-        projection[3] = EXPENSE_SUM;
-        projection[4] = TRANSFER_SUM;
-        projection[5] = MAPPED_CATEGORIES;
+        int index = 0;
+        projection[index++] = yearExpression + " AS " + KEY_YEAR;
+        projection[index++] = secondDef + " AS " + KEY_SECOND_GROUP;
+        projection[index++] = includeTransfers ? IN_SUM : INCOME_SUM;
+        projection[index++] = includeTransfers ? OUT_SUM : EXPENSE_SUM;
+        if (!includeTransfers) {
+          projection[index++] = TRANSFER_SUM;
+        }
+        projection[index++] = MAPPED_CATEGORIES;
         if (withStart) {
-          projection[6] = (group == Grouping.WEEK ? getWeekStartJulian() : DAY_START_JULIAN)
+          projection[index] = (group == Grouping.WEEK ? getWeekStartJulian() : DAY_START_JULIAN)
               + " AS " + KEY_GROUP_START;
         }
         selection = accountSelectionQuery

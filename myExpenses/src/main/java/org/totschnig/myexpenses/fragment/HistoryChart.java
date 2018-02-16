@@ -89,6 +89,8 @@ public class HistoryChart extends Fragment
   CurrencyFormatter currencyFormatter;
   @State
   boolean showBalance = true;
+  @State
+  boolean includeTransfers = false;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -178,16 +180,30 @@ public class HistoryChart extends Fragment
     SubMenu subMenu = menu.findItem(R.id.GROUPING_COMMAND).getSubMenu();
     subMenu.findItem(R.id.GROUPING_NONE_COMMAND).setVisible(false);
     Utils.configureGroupingMenu(subMenu, grouping);
+    MenuItem m = menu.findItem(R.id.TOGGLE_BALANCE_COMMAND);
+    if (m != null) {
+      m.setChecked(showBalance);
+    }
+    m = menu.findItem(R.id.TOGGLE_INCLUDE_TRANSFERS_COMMAND);
+    if (m != null) {
+      m.setChecked(includeTransfers);
+    }
   }
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     if (handleGrouping(item)) return true;
     switch (item.getItemId()) {
-      case R.id.TOGGLE_BALANCE_COMMAND:
+      case R.id.TOGGLE_BALANCE_COMMAND: {
         showBalance = !showBalance;
         reset();
         return true;
+      }
+      case R.id.TOGGLE_INCLUDE_TRANSFERS_COMMAND: {
+        includeTransfers = !includeTransfers;
+        reset();
+        return true;
+      }
     }
     return false;
   }
@@ -216,6 +232,7 @@ public class HistoryChart extends Fragment
       String selection = null;
       String[] selectionArgs = null;
       Uri.Builder builder = TransactionProvider.TRANSACTIONS_URI.buildUpon();
+      //TODO enable filtering ?
       if (!filter.isEmpty()) {
         selection = filter.getSelectionForParts(DatabaseConstants.VIEW_EXTENDED);//GROUP query uses extended view
         if (!selection.equals("")) {
@@ -231,6 +248,9 @@ public class HistoryChart extends Fragment
       }
       if (shouldUseGroupStart()) {
         builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_START, "1");
+      }
+      if (includeTransfers) {
+        builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_INCLUDE_TRANSFERS, "1");
       }
       return new CursorLoader(getActivity(),
           builder.build(),
@@ -281,7 +301,7 @@ public class HistoryChart extends Fragment
       do {
         long sumIncome = cursor.getLong(columnIndexGroupSumIncome);
         long sumExpense = cursor.getLong(columnIndexGroupSumExpense);
-        long sumTransfer = cursor.getLong(columnIndexGroupSumTransfer);
+        long sumTransfer = columnIndexGroupSumTransfer > - 1 ? cursor.getLong(columnIndexGroupSumTransfer) : 0;
         long delta = sumIncome - sumExpense + sumTransfer;
         if (showBalance) interimBalance = previousBalance + delta;
         int year = cursor.getInt(columnIndexGroupYear);

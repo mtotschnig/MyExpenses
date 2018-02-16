@@ -725,4 +725,5 @@
     <string name="warning_device_lock_screen_not_set_up_2">Go to \'Settings -> Security -> Screenlock\' to set up a lock screen.</string>
     <string name="snackbar_dismiss">Dismiss</string>
     <string name="menu_history_show_balance">Show balance</string>
+    <string name="menu_history_transfers">Include transfers</string>
 </resources>

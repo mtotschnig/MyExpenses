@@ -21,4 +21,9 @@
         app:showAsAction="never"
         android:checkable="true"
         android:title="@string/menu_history_show_balance"/>
+    <item
+        android:id="@id/TOGGLE_INCLUDE_TRANSFERS_COMMAND"
+        app:showAsAction="never"
+        android:checkable="true"
+        android:title="@string/menu_history_transfers"/>
 </menu>
