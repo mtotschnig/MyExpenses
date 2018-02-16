@@ -7,13 +7,19 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -53,6 +59,9 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
+import icepick.Icepick;
+import icepick.State;
+
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUP_START;
@@ -67,7 +76,8 @@ public class HistoryChart extends Fragment
   private static final int GROUPING_CURSOR = 1;
   private CombinedChart chart;
   private Account account;
-  private Grouping grouping;
+  @State
+  Grouping grouping;
   private WhereFilter filter = WhereFilter.empty();
   //julian day 0 is monday -> Only if week starts with monday it divides without remainder by 7
   //for the x axis we need an Integer for proper rendering, for printing the week range, we add the offset from monday
@@ -77,6 +87,8 @@ public class HistoryChart extends Fragment
 
   @Inject
   CurrencyFormatter currencyFormatter;
+  @State
+  boolean showBalance = true;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -88,7 +100,11 @@ public class HistoryChart extends Fragment
     if (account == null) {
       return;
     }
-    grouping = account.getGrouping() == Grouping.NONE ? Grouping.MONTH : account.getGrouping();
+    if (savedInstanceState == null) {
+      grouping = account.getGrouping() == Grouping.NONE ? Grouping.MONTH : account.getGrouping();
+    } else {
+      Icepick.restoreInstanceState(this, savedInstanceState);
+    }
 
     TypedValue typedValue = new TypedValue();
     getActivity().getTheme().resolveAttribute(android.R.attr.textAppearanceSmall, typedValue, true);
@@ -103,6 +119,18 @@ public class HistoryChart extends Fragment
     textColor = typedValue.data;
   }
 
+  @Override
+  public void onSaveInstanceState(@NonNull Bundle outState) {
+    super.onSaveInstanceState(outState);
+    Icepick.saveInstanceState(this, outState);
+  }
+
+  @Override
+  public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
+    ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(account.getLabel());
+  }
+
   @Nullable
   @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -113,6 +141,7 @@ public class HistoryChart extends Fragment
     xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
     xAxis.setGranularity(1);
     xAxis.setValueFormatter((float value, AxisBase axis) -> {
+      if (axis.getAxisMinimum() == value) return "";
       switch (grouping) {
         case DAY: {
           return LocalDateTime.MIN.with(JulianFields.JULIAN_DAY, (long) value)
@@ -139,6 +168,49 @@ public class HistoryChart extends Fragment
   }
 
   @Override
+  public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    inflater.inflate(R.menu.grouping, menu);
+    inflater.inflate(R.menu.history, menu);
+  }
+
+  @Override
+  public void onPrepareOptionsMenu(Menu menu) {
+    SubMenu subMenu = menu.findItem(R.id.GROUPING_COMMAND).getSubMenu();
+    subMenu.findItem(R.id.GROUPING_NONE_COMMAND).setVisible(false);
+    Utils.configureGroupingMenu(subMenu, grouping);
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    if (handleGrouping(item)) return true;
+    switch (item.getItemId()) {
+      case R.id.TOGGLE_BALANCE_COMMAND:
+        showBalance = !showBalance;
+        reset();
+        return true;
+    }
+    return false;
+  }
+
+  private void reset() {
+    chart.clear();
+    getLoaderManager().restartLoader(GROUPING_CURSOR, null, this);
+  }
+
+  private boolean handleGrouping(MenuItem item) {
+    Grouping newGrouping = Utils.getGroupingFromMenuItemId(item.getItemId());
+    if (newGrouping != null) {
+      if (!item.isChecked()) {
+        grouping = newGrouping;
+        getActivity().invalidateOptionsMenu();
+        reset();
+      }
+      return true;
+    }
+    return false;
+  }
+
+  @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle args) {
     if (id == GROUPING_CURSOR) {
       String selection = null;
@@ -151,7 +223,7 @@ public class HistoryChart extends Fragment
         }
       }
       builder.appendPath(TransactionProvider.URI_SEGMENT_GROUPS)
-          .appendPath(account.getGrouping().name());
+          .appendPath(grouping.name());
       if (account.getId() < 0) {
         builder.appendQueryParameter(KEY_CURRENCY, account.currency.getCurrencyCode());
       } else {
@@ -204,13 +276,14 @@ public class HistoryChart extends Fragment
       XAxis xAxis = chart.getXAxis();
 
       long previousBalance = account.openingBalance.getAmountMinor();
+      long interimBalance = 0L;
 
       do {
         long sumIncome = cursor.getLong(columnIndexGroupSumIncome);
         long sumExpense = cursor.getLong(columnIndexGroupSumExpense);
         long sumTransfer = cursor.getLong(columnIndexGroupSumTransfer);
         long delta = sumIncome - sumExpense + sumTransfer;
-        long interimBalance = previousBalance + delta;
+        if (showBalance) interimBalance = previousBalance + delta;
         int year = cursor.getInt(columnIndexGroupYear);
         int second = cursor.getInt(columnIndexGroupSecond);
         int groupStart = columnIndexGroupStart > -1 ? cursor.getInt(columnIndexGroupStart) : 0;
@@ -218,15 +291,19 @@ public class HistoryChart extends Fragment
         if (cursor.isFirst()) {
           int start = x - 1;
           xAxis.setAxisMinimum(start);
-          lineEntries.add(new Entry(start, previousBalance));
+          if (showBalance) lineEntries.add(new Entry(start, previousBalance));
         }
         barEntries.add(new BarEntry(x, new float[]{-sumExpense, sumIncome}));
-        lineEntries.add(new Entry(x, interimBalance));
-        previousBalance = interimBalance;
+        if (showBalance) {
+          lineEntries.add(new Entry(x, interimBalance));
+          previousBalance = interimBalance;
+        }
         if (cursor.isLast()) {
           xAxis.setAxisMaximum(x + 1);
         }
       } while (cursor.moveToNext());
+
+      CombinedData data = new CombinedData();
 
       IValueFormatter valueFormatter = (value, entry, dataSetIndex, viewPortHandler) -> convAmount(value);
       BarDataSet set1 = new BarDataSet(barEntries, "");
@@ -237,24 +314,22 @@ public class HistoryChart extends Fragment
       set1.setStackTextValuesShouldUseDataColor(true);
       set1.setValueTextSize(valueTextSize);
       set1.setValueFormatter(valueFormatter);
-
-      LineDataSet set2 = new LineDataSet(lineEntries, getString(R.string.current_balance));
-      set2.setValueTextSize(valueTextSize);
-      set2.setLineWidth(2.5f);
-      int balanceColor = getResources().getColor(R.color.emphasis);
-      set2.setColor(balanceColor);
-      set2.setValueTextColor(balanceColor);
-      set2.setValueFormatter(valueFormatter);
-
-
       float barWidth = 0.45f;
-      CombinedData data = new CombinedData();
-
       BarData barData = new BarData(set1);
       barData.setBarWidth(barWidth);
-      LineData lineData = new LineData(set2);
       data.setData(barData);
-      data.setData(lineData);
+
+      if (showBalance) {
+        LineDataSet set2 = new LineDataSet(lineEntries, getString(R.string.current_balance));
+        set2.setValueTextSize(valueTextSize);
+        set2.setLineWidth(2.5f);
+        int balanceColor = getResources().getColor(R.color.emphasis);
+        set2.setColor(balanceColor);
+        set2.setValueTextColor(balanceColor);
+        set2.setValueFormatter(valueFormatter);
+        LineData lineData = new LineData(set2);
+        data.setData(lineData);
+      }
 
       chart.setData(data);
       chart.invalidate();

@@ -1110,7 +1110,7 @@ public class CategoryList extends SortableListFragment implements
         mGroupingSecond = 0;
         break;
     }
-    getActivity().supportInvalidateOptionsMenu();
+    getActivity().invalidateOptionsMenu();
     reset();
   }
 

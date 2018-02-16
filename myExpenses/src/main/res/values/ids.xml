@@ -147,4 +147,5 @@
     <item name="ROADMAP_SUBMIT_VOTE_DO" type="id"/>
     <item name="SHARE_PDF_COMMAND" type="id"/>
     <item name="HISTORY_COMMAND" type="id"/>
+    <item name="TOGGLE_BALANCE_COMMAND" type="id"/>
 </resources>

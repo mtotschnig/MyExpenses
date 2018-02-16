@@ -12,5 +12,6 @@ public class HistoryActivity extends ProtectedFragmentActivity {
     setTheme(MyApplication.getThemeId());
     super.onCreate(savedInstanceState);
     setContentView(R.layout.history);
+    setupToolbar(true);
   }
 }
