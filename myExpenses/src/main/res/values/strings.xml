@@ -726,4 +726,5 @@
     <string name="snackbar_dismiss">Dismiss</string>
     <string name="menu_history_show_balance">Show balance</string>
     <string name="menu_history_transfers">Include transfers</string>
+    <string name="menu_history">History</string>
 </resources>

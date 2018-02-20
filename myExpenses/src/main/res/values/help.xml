@@ -162,4 +162,10 @@
   <string name="cab_sync_download_help_text">Download an account that is available on the backend. An account will be created locally and be configured for synchronization with the backend.</string>
   <string name="cab_sync_link_help_text">Start synchronization for an account that exists both locally and remotely. You need to decide if local or remote data should be kept on the first synchronization.</string>
   <string name="cab_sync_unlink_help_text">The selected account will no longer be synced to the backend</string>
+
+  <!-- History -->
+  <string name="help_HistoryActivity_info">This screen displays your cash flow, how your expenses and income evolve over years, months, weeks or days.</string>
+  <string name="menu_HistoryActivity_grouping_help_text">Switch between daily, weekly, monthly or annual grouping of your cash flow data.</string>
+  <string name="menu_HistoryActivity_history_show_balance_help_text">Toggle the visibility of the balance.</string>
+  <string name="menu_HistoryActivity_history_transfers_help_text">Toggle, if transfers should be treated like a regular income or expense.</string>
 </resources>

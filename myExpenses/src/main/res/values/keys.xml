@@ -120,6 +120,7 @@
     <string name="help_ExpenseEdit_plans_info" tools:ignore="UnusedResources">@string/help_ManageTemplates_plans_info</string>
     <string name="help_ExpenseEdit_templateTransfer_info" tools:ignore="UnusedResources">@string/help_ExpenseEdit_templateCategory_info</string>
     <string name="help_ExpenseEdit_templateSplit_info" tools:ignore="UnusedResources">@string/help_ExpenseEdit_templateCategory_info</string>
+    <string name="help_HistoryActivity_title" tools:ignore="UnusedResources">@string/menu_history</string>
     <string name="instant_plan" tools:ignore="UnusedResources">@string/plan</string>
     <string name="pref_protection_password_title">@string/hint_password</string>
 
