@@ -342,8 +342,11 @@ public class TransactionProvider extends ContentProvider {
             break;
         }
         qb.setTables(VIEW_EXTENDED);
-        int projectionSize = 6;
+        int projectionSize = 5;
         if (withStart) {
+          projectionSize += 1;
+        }
+        if (!includeTransfers) {
           projectionSize += 1;
         }
         projection = new String[projectionSize];

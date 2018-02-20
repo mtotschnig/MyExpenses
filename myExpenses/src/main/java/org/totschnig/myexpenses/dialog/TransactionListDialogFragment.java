@@ -39,7 +39,6 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
-import org.totschnig.myexpenses.util.Utils;
 
 import javax.inject.Inject;
 
@@ -54,6 +53,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_MAIN;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
 
@@ -63,16 +63,17 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
   public static final int TRANSACTION_CURSOR = 1;
   public static final int SUM_CURSOR = 2;
   private static final String TABS = "\u0009\u0009\u0009\u0009";
-  Account mAccount;
-  SimpleCursorAdapter mAdapter;
-  ListView mListView;
-  boolean isMain;
+  private Account mAccount;
+  private SimpleCursorAdapter mAdapter;
+  private ListView mListView;
+  private boolean isMain;
 
   @Inject
   CurrencyFormatter currencyFormatter;
+  private long catId;
 
   public static final TransactionListDialogFragment newInstance(
-      Long account_id, long cat_id, boolean isMain, Grouping grouping, String groupingClause, String label) {
+      Long account_id, long cat_id, boolean isMain, Grouping grouping, String groupingClause, String label, int type) {
     TransactionListDialogFragment dialogFragment = new TransactionListDialogFragment();
     Bundle bundle = new Bundle();
     bundle.putLong(KEY_ACCOUNTID, account_id);
@@ -81,6 +82,7 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
     bundle.putSerializable(KEY_GROUPING, grouping);
     bundle.putString(KEY_LABEL, label);
     bundle.putBoolean(KEY_IS_MAIN, isMain);
+    bundle.putInt(KEY_TYPE, type);
     dialogFragment.setArguments(bundle);
     return dialogFragment;
   }
@@ -90,6 +92,7 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
     super.onCreate(savedInstanceState);
     mAccount = Account.getInstanceFromDb(getArguments().getLong(KEY_ACCOUNTID));
     isMain = getArguments().getBoolean(KEY_IS_MAIN);
+    catId = getArguments().getLong(KEY_CATID);
     MyApplication.getInstance().getAppComponent().inject(this);
   }
 
@@ -116,7 +119,8 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
       @Override
       protected CharSequence getCatText(CharSequence catText,
                                         String label_sub) {
-        return (isMain && label_sub != null) ? label_sub : "";
+        return catId == 0L ? super.getCatText(catText, label_sub) :
+            ((isMain && label_sub != null) ? label_sub : "");
       }
     };
     mListView.setAdapter(mAdapter);
@@ -149,7 +153,6 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
   public Loader<Cursor> onCreateLoader(int id, Bundle arg1) {
     String selection, accountSelect;
     String[] selectionArgs;
-    String catSelect = String.valueOf(getArguments().getLong(KEY_CATID));
     if (mAccount.getId() < 0) {
       selection = KEY_ACCOUNTID + " IN " +
           "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +
@@ -159,13 +162,23 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
       selection = KEY_ACCOUNTID + " = ?";
       accountSelect = String.valueOf(mAccount.getId());
     }
-    selection += " AND " + KEY_CATID + " IN (SELECT " + DatabaseConstants.KEY_ROWID + " FROM "
-        + TABLE_CATEGORIES + " WHERE " + KEY_PARENTID + " = ? OR "
-        + KEY_ROWID + " = ?)";
-    selectionArgs = new String[]{accountSelect, catSelect, catSelect};
+    if (catId == 0L) {
+      selectionArgs = new String[]{accountSelect};
+    } else {
+      selection += " AND " + KEY_CATID + " IN (SELECT " + DatabaseConstants.KEY_ROWID + " FROM "
+          + TABLE_CATEGORIES + " WHERE " + KEY_PARENTID + " = ? OR "
+          + KEY_ROWID + " = ?)";
+
+      String catSelect = String.valueOf(catId);
+      selectionArgs = new String[]{accountSelect, catSelect, catSelect};
+    }
     String groupingClause = getArguments().getString(KEY_GROUPING_CLAUSE);
     if (groupingClause != null) {
       selection += " AND " + groupingClause;
+    }
+    int type = getArguments().getInt(KEY_TYPE);
+    if (type != 0) {
+      selection += " AND " + KEY_AMOUNT + (type == -1 ? "<" : ">") + "0";
     }
     switch (id) {
       case TRANSACTION_CURSOR:

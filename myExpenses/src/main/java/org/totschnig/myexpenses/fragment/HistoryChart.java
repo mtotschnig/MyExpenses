@@ -35,6 +35,8 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
@@ -43,11 +45,13 @@ import org.threeten.bp.temporal.JulianFields;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
+import org.totschnig.myexpenses.ui.ExactStackedBarHighlighter;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -62,6 +66,7 @@ import javax.inject.Inject;
 import icepick.Icepick;
 import icepick.State;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.DAY_START_JULIAN;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUP_START;
@@ -70,6 +75,10 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENS
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.YEAR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.getMonth;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.getWeekStartJulian;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart;
 
 public class HistoryChart extends Fragment
     implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -142,31 +151,63 @@ public class HistoryChart extends Fragment
     XAxis xAxis = chart.getXAxis();
     xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
     xAxis.setGranularity(1);
-    xAxis.setValueFormatter((float value, AxisBase axis) -> {
-      if (axis.getAxisMinimum() == value) return "";
-      switch (grouping) {
-        case DAY: {
-          return LocalDateTime.MIN.with(JulianFields.JULIAN_DAY, (long) value)
-              .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
-        }
-        case WEEK: {
-          long julianDay = (long) (value * 7) + JULIAN_DAY_WEEK_OFFSET;
-          return LocalDateTime.MIN.with(JulianFields.JULIAN_DAY, julianDay)
-              .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
-        }
-        case MONTH:
-          return Grouping.MONTH.getDisplayTitle(getContext(), (int) (value / 12), (int) (value % 12), null);
-        case YEAR:
-          return String.format(Locale.ROOT, "%d", (int) value);
-      }
-      return "";
-    });
+    xAxis.setValueFormatter((float value, AxisBase axis) -> axis.getAxisMinimum() == value ? "" : formatXValue(value));
     xAxis.setTextColor(textColor);
     configureYAxis(chart.getAxisLeft());
     configureYAxis(chart.getAxisRight());
     chart.getLegend().setTextColor(textColor);
+    chart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+      @Override
+      public void onValueSelected(Entry e, Highlight h) {
+        if (h.getStackIndex() > -1) {
+          //expense is first entry, income second
+          int type = h.getStackIndex() == 0 ? -1 : 1;
+          TransactionListDialogFragment.newInstance(
+              account.getId(), 0, false, grouping, buildGroupingClause((int) e.getX()), formatXValue(e.getX()), type)
+              .show(getFragmentManager(), TransactionListDialogFragment.class.getName());
+        }
+      }
+
+      @Override
+      public void onNothingSelected() {
+
+      }
+    });
     getLoaderManager().initLoader(GROUPING_CURSOR, null, this);
     return view;
+  }
+
+  protected String formatXValue(float value) {
+    switch (grouping) {
+      case DAY: {
+        return LocalDateTime.MIN.with(JulianFields.JULIAN_DAY, (long) value)
+            .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
+      }
+      case WEEK: {
+        long julianDay = (long) (value * 7) + JULIAN_DAY_WEEK_OFFSET;
+        return LocalDateTime.MIN.with(JulianFields.JULIAN_DAY, julianDay)
+            .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
+      }
+      case MONTH:
+        return Grouping.MONTH.getDisplayTitle(getContext(), (int) (value / 12), (int) (value % 12), null);
+      case YEAR:
+        return String.format(Locale.ROOT, "%d", (int) value);
+    }
+    return "";
+  }
+
+  private String buildGroupingClause(int x) {
+    switch (grouping) {
+      case DAY:
+        return DAY_START_JULIAN + " = " + x;
+      case WEEK:
+        return getWeekStartJulian() + " = " + x;
+      case MONTH:
+        return getYearOfMonthStart() + " = " + (x / 12) + " AND " + getMonth() + " = " + (x % 12);
+      case YEAR:
+        return YEAR + " = " + x;
+    }
+    return null;
   }
 
   @Override
@@ -352,6 +393,7 @@ public class HistoryChart extends Fragment
       }
 
       chart.setData(data);
+      chart.setHighlighter(new ExactStackedBarHighlighter.CombinedHighlighter(chart));
       chart.invalidate();
     } else {
       chart.clear();
