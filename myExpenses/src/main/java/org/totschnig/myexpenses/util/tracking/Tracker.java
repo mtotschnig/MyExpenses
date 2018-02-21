@@ -16,7 +16,7 @@ public interface Tracker {
   String EVENT_AD_SHOWN = "ad_shown";
   String EVENT_PARAM_AD_PROVIDER = "provider";
   String EVENT_PARAM_AD_TYPE = "type";
-  String EVENT_PARAM_AD_ERROR_CODE = "error-code";
+  String EVENT_PARAM_AD_ERROR_CODE = "error_code";
   String EVENT_PARAM_PACKAGE = "package";
   String EVENT_PARAM_OPERATION_TYPE = "operation_type";
   String EVENT_PARAM_ITEM_ID = "item_id";
