@@ -48,6 +48,7 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Grouping;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
@@ -145,6 +146,8 @@ public class HistoryChart extends Fragment
   @Nullable
   @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+    showBalance = PrefKey.HISTORY_SHOW_BALANCE.getBoolean(true);
+    includeTransfers = PrefKey.HISTORY_INCLUDE_TRANSFERS.getBoolean(false);
     View view = inflater.inflate(R.layout.history_chart, container, false);
     chart = view.findViewById(R.id.history_chart);
     chart.getDescription().setEnabled(false);
@@ -237,11 +240,13 @@ public class HistoryChart extends Fragment
     switch (item.getItemId()) {
       case R.id.TOGGLE_BALANCE_COMMAND: {
         showBalance = !showBalance;
+        PrefKey.HISTORY_SHOW_BALANCE.putBoolean(showBalance);
         reset();
         return true;
       }
       case R.id.TOGGLE_INCLUDE_TRANSFERS_COMMAND: {
         includeTransfers = !includeTransfers;
+        PrefKey.HISTORY_INCLUDE_TRANSFERS.putBoolean(includeTransfers);
         reset();
         return true;
       }

@@ -97,7 +97,9 @@ public enum PrefKey {
   SYNC_NOTIFICATION(R.string.pref_sync_notification_key),
   LICENCE_MIGRATION_INFO_SHOWN("licence_migration_info_shown"),
   DEBUG_ADS(R.string.pref_debug_show_ads_key),
-  PROTECTION_DEVICE_LOCK_SCREEN(R.string.pref_protection_device_lock_screen_key);
+  PROTECTION_DEVICE_LOCK_SCREEN(R.string.pref_protection_device_lock_screen_key),
+  HISTORY_SHOW_BALANCE("history_show_balance"),
+  HISTORY_INCLUDE_TRANSFERS("history_include_transfers");
 
   private int resId = 0;
   private String key = null;
