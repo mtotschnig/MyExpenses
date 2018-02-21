@@ -1731,11 +1731,11 @@ public class ExpenseEdit extends AmountActivity implements
     findViewById(R.id.TransferAmountRow).setVisibility(isSame ? View.GONE : View.VISIBLE);
     findViewById(R.id.ExchangeRateRow).setVisibility(
         isSame || (mTransaction instanceof Template) ? View.GONE : View.VISIBLE);
-    final String symbol2 = transferAccount.currency.getSymbol();
+    final String symbol2 = Money.getSymbol(transferAccount.currency);
     //noinspection SetTextI18n
     addCurrencyToLabel((TextView) findViewById(R.id.TransferAmountLabel), symbol2);
     mTransferAmountText.setFractionDigits(Money.getFractionDigits(transferAccount.currency));
-    final String symbol1 = currency.getSymbol();
+    final String symbol1 = Money.getSymbol(currency);
     ((TextView) findViewById(R.id.ExchangeRateLabel_1_1)).setText(String.format("1 %s =", symbol1));
     ((TextView) findViewById(R.id.ExchangeRateLabel_1_2)).setText(symbol2);
     ((TextView) findViewById(R.id.ExchangeRateLabel_2_1)).setText(String.format("1 %s =", symbol2));
@@ -1750,7 +1750,7 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   private void setAccountLabel(Account account) {
-    addCurrencyToLabel(mAmountLabel, account.currency.getSymbol());
+    addCurrencyToLabel(mAmountLabel, Money.getSymbol(account.currency));
   }
 
   private void addCurrencyToLabel(TextView label, String symbol) {
