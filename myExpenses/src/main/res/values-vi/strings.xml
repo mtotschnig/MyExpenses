@@ -600,7 +600,7 @@
   <string name="dialog_confirm_sync_link_remote">Dữ liệu nội bộ của tài khoản này sẽ bị xoá.</string>
   <string name="warning_synchronization_limited_trial">Tính năng đồng bộ có thể được dùng thử cho tới %s</string>
   <string name="warning_synchronization_limit_reached">Thời gian dùng thử tính năng đồng bộ đã kết thúc.</string>
-  <string name="warning_synchronization_folder_usage">Thư mục này được sử dụng cho việc đồng bộ dữ liệu giữa các bản cài của ứng dụng trên những thiết bị khác nhau. Vui lòng không tuỳ ý chỉnh sửa các thư mục này và nội dung của nó.</string>
+  <string name="warning_synchronization_folder_usage">Thư mục này được sử dụng cho việc đồng bộ dữ liệu giữa các bản cài của ứng dụng trên những thiết bị khác nhau ({app_name}). Vui lòng không tuỳ ý chỉnh sửa các thư mục này và nội dung của nó.</string>
   <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Thư mục bạn đã chọn tương ứng với một tài khoản của một backend sẵn có. Bạn cần chọn thư mục mẹ của nó để dùng lại backend này.</string>
   <string name="select_unsynced_accounts">Chọn tài khoản để đồng bộ với backend này</string>
   <string name="link_account_success" tools:ignore="PluralsCandidate">%d tài khoản đã được thiết lập để đồng bộ với backend này.</string>
