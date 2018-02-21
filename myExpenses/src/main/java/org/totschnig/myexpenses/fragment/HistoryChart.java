@@ -93,7 +93,8 @@ public class HistoryChart extends Fragment
   //for the x axis we need an Integer for proper rendering, for printing the week range, we add the offset from monday
   private static int JULIAN_DAY_WEEK_OFFSET = DatabaseConstants.weekStartsOn == Calendar.SUNDAY ? 6 : DatabaseConstants.weekStartsOn - Calendar.MONDAY;
   private float valueTextSize = 10f;
-  @ColorInt private int textColor = Color.WHITE;
+  @ColorInt
+  private int textColor = Color.WHITE;
 
   @Inject
   CurrencyFormatter currencyFormatter;
@@ -347,7 +348,7 @@ public class HistoryChart extends Fragment
       do {
         long sumIncome = cursor.getLong(columnIndexGroupSumIncome);
         long sumExpense = cursor.getLong(columnIndexGroupSumExpense);
-        long sumTransfer = columnIndexGroupSumTransfer > - 1 ? cursor.getLong(columnIndexGroupSumTransfer) : 0;
+        long sumTransfer = columnIndexGroupSumTransfer > -1 ? cursor.getLong(columnIndexGroupSumTransfer) : 0;
         long delta = sumIncome - sumExpense + sumTransfer;
         if (showBalance) interimBalance = previousBalance + delta;
         int year = cursor.getInt(columnIndexGroupYear);
@@ -373,7 +374,9 @@ public class HistoryChart extends Fragment
 
       IValueFormatter valueFormatter = (value, entry, dataSetIndex, viewPortHandler) -> convAmount(value);
       BarDataSet set1 = new BarDataSet(barEntries, "");
-      set1.setStackLabels(new String[]{getString(R.string.expense), getString(R.string.income)});
+      set1.setStackLabels(new String[]{
+          getString(R.string.history_chart_out_label),
+          getString(R.string.history_chart_in_label)});
       List<Integer> colors = Arrays.asList(context.getColorExpense(), context.getColorIncome());
       set1.setColors(colors);
       set1.setValueTextColors(colors);

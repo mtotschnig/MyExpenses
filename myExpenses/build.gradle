@@ -36,8 +36,8 @@ android {
             minSdkVersion project.minSdkVersion
         }
         targetSdkVersion project.targetSdkVersion
-        versionCode 312
-        versionName '2.8.7'
+        versionCode 313
+        versionName '2.8.8'
         multiDexEnabled true
 
         buildConfigField "String", "BUILD_DATE", "\"" + getDate() + "\""
@@ -134,7 +134,7 @@ List supportCompile = ['com.android.support:appcompat-v7:' + project.androidSupp
 
 dependencies {
     implementation project(':transactionscontract')
-    implementation 'com.jakewharton:butterknife:8.6.0'
+    implementation 'com.jakewharton:butterknife:8.8.1'
     implementation 'com.squareup.phrase:phrase:1.1.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
     annotationProcessor 'com.google.dagger:dagger-compiler:' + project.daggerVersion
@@ -143,7 +143,7 @@ dependencies {
     implementation 'frankiesardo:icepick:3.2.0'
     compileOnly 'frankiesardo:icepick-processor:3.2.0'
     annotationProcessor 'frankiesardo:icepick-processor:3.2.0'
-    implementation 'com.google.code.gson:gson:2.8.0'
+    implementation 'com.google.code.gson:gson:2.8.1'
     compileOnly 'com.google.auto.value:auto-value:1.4'
     annotationProcessor 'com.google.auto.value:auto-value:1.4'
     annotationProcessor 'com.ryanharter.auto.value:auto-value-gson:0.4.6'
@@ -160,13 +160,13 @@ dependencies {
     implementation 'com.itextpdf:itextg:5.5.10'
     implementation 'ch.acra:acra:4.9.2'
     implementation 'org.apache.commons:commons-lang3:3.4'
-    implementation 'org.apache.commons:commons-csv:1.1'
+    implementation 'org.apache.commons:commons-csv:1.5'
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'com.github.mtotschnig:MPAndroidChart:StackedBarCharValueTextColor-SNAPSHOT'
     //implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     implementation 'com.github.mtotschnig:Caldroid:a86eb51428'
     implementation 'com.github.eltos:simpledialogfragment:2.2'
-    implementation 'com.annimon:stream:1.1.8'
+    implementation 'com.annimon:stream:1.1.9'
 
     // WebDAV
     implementation 'com.squareup.okhttp3:okhttp:' + project.okHttpVersion
@@ -199,8 +199,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:' + project.okHttpVersion
 
-    implementation "android.arch.lifecycle:extensions:1.0.0"
-    annotationProcessor "android.arch.lifecycle:compiler:1.0.0"
+    implementation "android.arch.lifecycle:extensions:1.1.0"
+    annotationProcessor "android.arch.lifecycle:compiler:1.1.0"
 
     compile 'com.jakewharton.threetenabp:threetenabp:1.0.5'
 

@@ -15,12 +15,12 @@
   <string name="account_type_ccard">Thẻ tín dụng</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_ccard_plural">Thẻ tín dụng</string>
-  <string name="account_type_liability">Tải khoản nghĩa vụ nợ</string>
+  <string name="account_type_liability">Tải khoản tiêu sản</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_liability_plural">Tải khoản nghĩa vụ nợ</string>
-  <string name="already_defined">%1$s đã được xác định</string>
+  <string name="account_type_liability_plural">Tải khoản tiêu sản</string>
+  <string name="already_defined">%1$s đã được tạo trước đó</string>
   <string name="amount">Số lượng</string>
-  <string name="app_name">Quản lý chi tiêu</string>
+  <string name="app_name">My Expenses</string>
   <string name="backup_failure">Xảy ra lỗi khi sao lưu vào \"%1$s\".</string>
   <string name="backup_success">Đã ghi dữ liệu về cơ sở dữ liệu và tùy biến thành công vào \"%1$s\".</string>
   <string name="category">Phân loại</string>
@@ -64,7 +64,7 @@
   <string name="dialog_confirm_discard_new_template">Huỷ bỏ bản mẫu mới?</string>
   <string name="dialog_confirm_discard_new_account">Huỷ bỏ tải khoản mới?</string>
   <string name="dialog_confirm_discard_new_method">Huỷ bỏ phương thức chi trả mới?</string>
-  <string name="dialog_command_disabled_balance">Không có giao dịch nào đã bù trừ đề đối chiếu</string>
+  <string name="dialog_command_disabled_balance">Không còn giao dịch nào chưa được thông qua để đối chiếu.</string>
   <string name="dialog_command_disabled_insert_transfer">Việc chuyển khoản yêu cầu tài khoản thứ hai.</string>
   <string name="dialog_command_disabled_reset_account">Không có giao dịch để xuất.</string>
   <string name="dialog_command_disabled_distribution">Không có giao dịch nào được cho phân loại trong tài khoản này.</string>
@@ -121,7 +121,7 @@
   <string name="ftp_uri_malformed">URI lỗi %1$s</string>
   <string name="grisbi_import_categories_loading">Đang tải phân loại từ %1$s</string>
   <string name="grisbi_import_default_source">Phân loại mặc định theo tiếng Việt</string>
-  <string name="grisbi_import_parties_loading">Đang tải các nhóm từ %1$s</string>
+  <string name="grisbi_import_parties_loading">Đang tải các bên từ %1$s</string>
   <string name="grouping_day">Ngày</string>
   <string name="grouping_last_week">Tuần rồi</string>
   <string name="grouping_month">Tháng</string>
@@ -149,7 +149,7 @@
   <string name="menu_back">Quay lại</string>
   <string name="menu_backup">Sao lưu</string>
   <!--Balance: compare cleared balance in app with balance on statement received from bank-->
-  <string name="menu_balance">Cân bằng số dư</string>
+  <string name="menu_balance">Đối chiếu số dư</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
   <string name="menu_cancel_plan_instance">Huỷ bỏ</string>
   <string name="menu_clone_transaction">Sao y</string>
@@ -159,7 +159,7 @@
   <string name="menu_create_instance_save">Áp dụng và lưu</string>
   <string name="menu_create_main_cat">Phân loại chính mới</string>
   <string name="menu_create_method">Phương pháp chi trả mới</string>
-  <string name="menu_create_party">Hội mới</string>
+  <string name="menu_create_party">Bên mới</string>
   <string name="menu_create_split">Phân tách mới</string>
   <string name="menu_create_split_part_category">Phần loại của phân tách mới</string>
   <string name="menu_create_split_part_transfer">Phần chuyển đổi phân tách mới</string>
@@ -176,7 +176,7 @@
   <string name="menu_edit_account">Chỉnh sửa tài khoản</string>
   <string name="menu_edit_cat">Chỉnh sửa phân loại</string>
   <string name="menu_edit_method">Chỉnh sửa phương thức chi trả</string>
-  <string name="menu_edit_party">Chỉnh sửa đối tượng giao dịch</string>
+  <string name="menu_edit_party">Chỉnh sửa bên</string>
   <string name="menu_edit_plan_instance">Chỉnh sửa sự xuất hiện của kế hoạch một lần</string>
   <string name="menu_edit_split">Chỉnh sửa phần phân tách</string>
   <string name="menu_edit_split_part_category">Chỉnh sửa phần phân loại phân tách</string>
@@ -203,6 +203,7 @@
   <string name="menu_search">Tìm kiếm</string>
   <string name="menu_settings">Thiết lập</string>
   <string name="menu_share">Chia sẻ</string>
+  <string name="button_label_share_file">Chia sẻ</string>
   <string name="button_label_close">Đóng</string>
   <string name="menu_split_transaction">Chuyển thành dạng phân tách</string>
   <string name="method">Phương thức thanh toán</string>
@@ -228,7 +229,7 @@
     <item quantity="other">%1$d đối tượng đã được liên kết với các bản mẫu và không thể bị xoá.</item>
   </plurals>
   <string name="numbered">được đánh số</string>
-  <string name="opening_balance">Khoản cân đối</string>
+  <string name="opening_balance">Số dư ban đầu</string>
   <string name="parse_error_file_not_found">Không thể tìm thấy tập tin %1$s</string>
   <string name="parse_error_grisbi_version_not_supported">Không hỗ trợ phiên bản tập tin Grisbi: %1$s</string>
   <string name="parse_error_no_data_found">Không tìm thấy dữ liệu có thể nhập vào từ tập tin.</string>
@@ -263,7 +264,7 @@
   <string name="pm_type_debit">Nợ</string>
   <string name="pm_type_neutral">Trung lập</string>
   <string name="pref_app_dir_title">Thư mục cho các bản sao lưu và dữ liệu xuất ra</string>
-  <string name="pref_auto_fill_title">Giao dịch tự điền</string>
+  <string name="pref_auto_fill_title">Tự điền vào giao dịch</string>
   <string name="pref_auto_fill_summary">Điền dữ liệu từ giao dịch trước đó cho cùng người nhận/trả</string>
   <string name="pref_backup_summary">Tạo một phần sao lưu đối với cơ sở dữ liệu và tùy biến trên thẻ nhớ.</string>
   <string name="pref_sort_order_usages">Số lần sử dụng</string>
@@ -300,12 +301,13 @@
   <string name="pref_manage_methods_summary">Tạo và chỉnh sửa phương thức chi trả và gắn phương thức này với các loại tài khoản.</string>
   <string name="pref_manage_methods_title">Phương thức chi trả</string>
   <string name="pref_manage_parties_summary">Thêm, chỉnh sửa và xóa các hội (người trả và người nhận tiền).</string>
-  <string name="pref_manage_parties_title">Các nhóm</string>
+  <string name="pref_manage_parties_title">Bên</string>
   <string name="pref_manage_sync_backends_title">Phụ trợ đồng bộ</string>
   <!--%s will be replaced with list of backends-->
   <string name="pref_manage_sync_backends_summary">Thêm phụ trợ cho việc đồng bộ các tài khoản (%s).</string>
-  <string name="pref_more_info_dialog_title">Giấy phép &amp; Quà Tặng</string>
+  <string name="pref_more_info_dialog_title">Giấy phép &amp; Ghi công</string>
   <string name="pref_password_not_equal">Mật khẩu không khớp</string>
+  <string name="pref_perform_protection_title">Bảo vệ</string>
   <string name="pref_perform_share_title">Chia sẻ tập tin xuất dữ liệu</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Tạo lịch kế hoạch trên máy</string>
@@ -340,7 +342,7 @@
   <string name="pref_ui_theme_dark">tối</string>
   <string name="pref_ui_theme_light">sáng</string>
   <string name="pref_ui_theme_title">Giao diện</string>
-  <string name="pref_visit_website_summary">Nhật trình và các câu hỏi thường gặp</string>
+  <string name="pref_visit_website_summary">Xem các thay đổi về tính năng và những câu hỏi thường gặp</string>
   <string name="pref_visit_website_title">Truy cập Website</string>
   <string name="progress_dialog_deleting">Đang xóa mục</string>
   <string name="progress_dialog_loading">Đang tải đối tượng từ cơ sở dữ liệu</string>
@@ -373,7 +375,7 @@
   <string name="split_parts_heading">Tác thành từng phần</string>
   <string name="split_transaction">Tách giao dịch</string>
   <string name="status">Trạng thái</string>
-  <string name="status_cleared">đã dọn xong</string>
+  <string name="status_cleared">đã thông qua</string>
   <string name="status_reconciled">đã đối chiếu</string>
   <string name="status_uncreconciled">chưa đối chiếu</string>
   <string name="status_void">trống</string>
@@ -387,7 +389,7 @@
   <string name="thank_you">Xin cảm ơn về sự hỗ trợ của bạn!</string>
   <string name="time">Thời gian</string>
   <string name="title">Tiêu đề</string>
-  <string name="total_cleared">Tổng số đã bù trừ</string>
+  <string name="total_cleared">Khoản đã thông qua</string>
   <string name="total_reconciled">Khoản đã đối chiếu</string>
   <string name="transaction">Giao dịch</string>
   <string name="transfer">Truyền đổi</string>
@@ -414,7 +416,7 @@
     <item quantity="other">%d danh mục không được di chuyển vì nhãn tương tự đã tồn tại trong mục tiêu.</item>
   </plurals>
   <string name="warning_delete_reconciled">Xoá giao dịch đã đối chiếu sẽ khiến thống kê của bạn khác đi so với của ngân hàng.</string>
-  <string name="warning_balance_account">Xin hãy đối chiếu số tiền đã thanh toán bù trừ với khoản tiền hiện tại trong giấy xác nhận của ngân hàng. Nếu bạn tiếp tục, giao dịch đã bù trừ sẽ được đánh dấu là đã đối chiếu.</string>
+  <string name="warning_balance_account">Xin hãy đối chiếu số tiền đã thông qua với số dư hiện tại trong giấy xác nhận của ngân hàng. Nếu bạn tiếp tục, giao dịch đã thông qua sẽ được đánh dấu là đã đối chiếu.</string>
   <string name="warning_password_protected">Ứng dụng được bảo vệ bởi mật khẩu.</string>
   <string name="warning_widget_disabled">Bạn cần kích hoạt tiện ích này trong cài đặt của ứng dụng.</string>
   <string name="warning_instantiate_template_from_widget_password_protected">Thuyết minh nhanh về các bản mẫu từ tiện ích này chỉ hoạt động nếu bạn cho phép hiện các mục dữ liệu từ tiện ích, với việc không đặt mật khẩu trong cài đặt ứng dụng.</string>
@@ -499,7 +501,7 @@
   <string name="transaction_deleted">Giao dịch đã bị xoá</string>
   <string name="dialog_export_applied_to_filter">Chỉ các giao dịch khớp bộ lọc hiện tại sẽ được tính đến</string>
   <string name="export_handle_deleted_create_helper">Tạo giao dịch hỗ trợ</string>
-  <string name="export_handle_deleted_update_balance">Cập nhật khoản cân đối</string>
+  <string name="export_handle_deleted_update_balance">Cập nhật số tiền ban đầu</string>
   <string name="file_name">Tên tập tin</string>
   <string name="folder_name">Tên thư mục</string>
   <string name="mark_void_instead_of_delete">Không xoá giao dịch, mà đánh dấu nó là trống</string>
@@ -563,7 +565,7 @@
   <string name="search_transfer">Tìm các khoản chuyển</string>
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="pref_sort_order_next_instance">Lần tiếp theo</string>
-  <string name="crash_dialog_title">Quản lý chi tiêu đã dừng đột ngột</string>
+  <string name="crash_dialog_title">My Expenses đã dừng đột ngột</string>
   <string name="crash_dialog_text">Đã xảy ra lỗi không mong muốn buộc ứng dụng phải ngừng. Xin hãy giúp chúng tôi khắc phục sự cố này bằng cách gửi dữ liệu lỗi, tất cả những gì bạn cần làm là nhấn OK.</string>
   <string name="crash_dialog_comment_prompt">Bạn có thể thêm ý kiến ​​của bạn về vấn đề vừa rồi dưới đây:</string>
   <string name="synchronization">Đồng bộ hóa</string>
@@ -594,6 +596,15 @@
   <string name="dialog_synced_to_other">Một tài khoản với UUID %s đã tồn tại trong CSDL nội bộ và nó cũng được liên kết với một backend từ xa khác.</string>
   <string name="menu_remove">Xoá</string>
   <string name="dialog_confirm_sync_remove_backend">Backend từ xa %s sẽ bị xoá. Điều này sẽ không ảnh hưởng tới dữ liệu ở trong máy lẫn bên ngoài, nhưng việc đồng bộ hoá sẽ bị ngưng. Bạn có chắc là muốn tiếp tục không?</string>
+  <string name="dialog_confirm_sync_link_local">Những dữ liệu từ xa của tài khoản này sẽ bị xoá. Đảm bảo rằng không có thiết bị nào khác được liên kết với tài khoản này.</string>
+  <string name="dialog_confirm_sync_link_remote">Dữ liệu nội bộ của tài khoản này sẽ bị xoá.</string>
+  <string name="warning_synchronization_limited_trial">Tính năng đồng bộ có thể được dùng thử cho tới %s</string>
+  <string name="warning_synchronization_limit_reached">Thời gian dùng thử tính năng đồng bộ đã kết thúc.</string>
+  <string name="warning_synchronization_folder_usage">Thư mục này được sử dụng cho việc đồng bộ dữ liệu giữa các bản cài của ứng dụng trên những thiết bị khác nhau. Vui lòng không tuỳ ý chỉnh sửa các thư mục này và nội dung của nó.</string>
+  <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Thư mục bạn đã chọn tương ứng với một tài khoản của một backend sẵn có. Bạn cần chọn thư mục mẹ của nó để dùng lại backend này.</string>
+  <string name="select_unsynced_accounts">Chọn tài khoản để đồng bộ với backend này</string>
+  <string name="link_account_success" tools:ignore="PluralsCandidate">%d tài khoản đã được thiết lập để đồng bộ với backend này.</string>
+  <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d tài khoản không thể được thiết lập để đồng bộ với backend này.</string>
   <string name="link_account_failure_2">Một tài khoản có cùng uuid đã tồn tại trên phần phụ trợ bên ngoài.</string>
   <string name="link_account_failure_3">Mâu thuẫn có thể được giải quyết bằng tay từ trình đơn ngữ cảnh của mục nhập.</string>
   <string name="progress_dialog_checking_sync_backend">Đang xác minh phần phụ trợ</string>
@@ -601,9 +612,16 @@
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Đồng bộ hoá đám mây</string>
   <string name="licence_status">Tình trạng giấy phép của bạn</string>
   <string name="all_contrib_key_features">Tất cả các tính năng của Khóa đóng góp</string>
+  <string name="all_extended_key_features">Tất cả tính năng trong bản Mở rộng</string>
   <string name="upgrade_now">Nâng cấp ngay bây giờ</string>
+  <string name="pref_backup_cloud_title">Lưu trữ trên backend đồng bộ</string>
+  <string name="pref_backup_cloud_summary">Cùng với bộ nhớ lưu trữ trên máy, tập tin sao lưu cũng có thể được sao chép tới một backend từ xa.</string>
+  <string name="auto_backup_cloud_create_backend">Tạo một backend đồng bộ từ màn hình cài đặt chính.</string>
+  <string name="auto_backup_cloud_failure">Một lỗi đã xảy ra khi đang thử lưu tập tin sao lưu %1$s trên backend %2$s:</string>
+  <string name="home_screen_shortcuts_nougate_info">Lối tắt có thể được thêm bằng cách nhấn giữ biểu tượng ứng dụng trên Màn hình chính.</string>
   <string name="currency_symbol">Ký hiệu tiền tệ</string>
   <string name="number_of_fraction_digits">Số chữ số thập phân</string>
+  <string name="warning_auto_backup_deactivated">Chức năng tự động sao lưu đã bị vô hiệu hoá. Bạn có thể bật lại nó từ màn hình cài đặt sau khi xử lý xong vấn đề (như là chọn một thư mục khác để sao lưu).</string>
   <string name="pref_tracking_summary">Cho phép chúng tôi thu thập dữ liệu ẩn danh về thói quen sử dụng, giúp chúng tôi cải tiến ứng dụng.</string>
   <string name="pref_tracking_title">Thu thập dữ liệu sử dụng</string>
   <string name="sync_database_error">Đã xảy ra lỗi cơ sở dữ liệu khi đồng bộ hóa.</string>
@@ -616,9 +634,12 @@
   <string name="sync_io_exception_unlocking">Lỗi khi bỏ khoá phần phụ trợ từ xa.</string>
   <string name="sync_io_exception_locking">Phụ trợ bên ngoài bị khóa hoặc không thể bị khóa.</string>
   <string name="synchronization_start">Bắt đầu đồng bộ hóa cho tài khoản %s.</string>
+  <string name="synchronization_end_success">%1$d thay đổi từ xa đã được ghi vào CSDL nội bộ. %2$d thay đổi nội bộ đã được ghi vào backend từ xa.</string>
   <string name="synchronization_end_success_none">Không có thay đổi nào để đồng bộ.</string>
+  <string name="pref_webdav_timeout_title">Thời gian chờ WebDAV</string>
   <string name="sync_state_restored">Trạng thái đồng bộ hóa đã được khôi phục cho %d tài khoản.</string>
   <string name="sync_state_could_not_be_restored">Không thể khôi phục trạng thái đồng bộ hóa cho %d tài khoản.</string>
+  <string name="onboarding_ui_title">{app_name} được thay đổi cho phù hợp với cài đặt của bạn</string>
   <string name="onboarding_data_title">Hãy thiết lập tài khoản đầu tiên của bạn</string>
   <string name="onboarding_get_started">Bắt đầu</string>
   <string name="onboarding_more_options">Nhiều tuỳ chọn hơn</string>
@@ -630,5 +651,50 @@
   <string name="pref_sync_notification_summary">Thông báo về quá trình đồng bộ hoá</string>
   <string name="pref_debug_logging_summary">Ghi thông tin gỡ lỗi vào nhật ký hệ thống</string>
   <string name="plan_custom_recurrence_info">Vui lòng lưu bản mẫu trước. Bản kế hoạch sẽ được mở trong ứng dụng lịch, và trong đó bạn có thể đặt một lịch biểu lặp lại.</string>
+  <string name="storage_permission_required">Nguồn bạn chọn chỉ có thể được đọc nếu bạn cấp quyền đọc từ bộ nhớ ngoài.</string>
+  <string name="picture">Ảnh</string>
+  <string name="menu_create_template_for_split">Bản mẫu chia tách mới</string>
+  <string name="progress_validating_licence">Đang xác minh bản quyền</string>
+  <string name="licence_validation_error_expired">Bản quyền đã hết hạn</string>
+  <string name="licence_validation_error_device_limit_exceeded">Đã chạm mốc giới hạn số lượng thiết bị. Vui lòng xoá bớt bản quyền trên các thiết bị khác.</string>
+  <string name="error">Lỗi (%s)</string>
+  <string name="button_validate">Xác minh</string>
+  <string name="licence_key">Khoá bản quyền</string>
+  <string name="licence_removal_information">Nếu bạn không còn cần tính năng trả phí trên thiết bị này, bạn có thể gỡ bỏ khoá bản quyền. Điều này sẽ cho phép bạn đăng ký bản quyền cho một thiết bị khác. Khoá này có thể được dùng để kích hoạt tới %d thiết bị.</string>
+  <string name="progress_removing_licence">Đang gỡ bỏ bản quyền</string>
+  <string name="licence_removal_success">Khoá bản quyền đã được xoá khỏi thiết bị này.</string>
+  <string name="professional_key">Khoá Cao cấp</string>
+  <string name="n_months">%s tháng</string>
+  <string name="professionalPriceShortInfo">khởi điểm từ %s/tháng</string>
+  <string name="eu_vat_info">Đối với những người cư trú tại Liên minh châu Âu, số tiền hiển thị không bao gồm thuế giá trị gia tăng.</string>
+  <string name="licence_migration_info">{app_name} bắt đầu sử dụng phương thức xác minh bản quyền mới. Vui lòng yêu cầu một khoá mới.</string>
+  <string name="valid_until">Cho tới %s</string>
   <!--%1$s date, %2$s price-->
+  <string name="extend_until">Mở rộng cho tới %1$s trong %2$s</string>
+  <string name="extended_upgrade_goodie_github">Thêm %d tháng nữa. bạn sẽ được tiếp tục sử dụng bản quyền Mở rộng</string>
+  <string name="extended_upgrade_goodie_subscription">Người dùng đã sở hữu bản quyền Mở rộng trả 50%% giá gốc (%s) trong năm đầu tiên.</string>
+  <string name="extended_upgrade_goodie_subscription_amazon">Người dùng đã sở hữu bản quyền Mở rộng được miễn %1$d%% so với giá gốc (%2$s) của suất đăng ký hàng năm.</string>
+  <string name="switch_to_yearly">Chuyển sang trả theo năm</string>
+  <string name="switch_to_monthly">Chuyển sang trả theo tháng</string>
+  <string name="extend_validity">Gia hạn tính hợp lệ</string>
+  <string name="progress_dialog_fetching_data_from_sync_backend">Đang lấy dữ liệu từ backend từ xa. Điều này có thể mất một lúc.</string>
+  <string name="donate_button_invoice">Hoá đơn</string>
+  <string name="menu_sort_direction">Chiều sắp xếp</string>
+  <string name="sort_direction_ascending">tăng dần</string>
+  <string name="sort_direction_descending">giảm dần</string>
+  <string name="never">không bao giờ</string>
+  <string name="always">luôn luôn</string>
+  <string name="auto_fill_account_from_aggregate_only">Chỉ khi bắt đầu từ tài khoản gộp.</string>
+  <string name="dropbox_folder_name_prompt">Nhập vào tên thư mục sẵn có tại cấp cao nhất (root level) trên kho lưu trữ Dropbox</string>
+  <string name="dropbox_folder_not_found">Không tìm thấy thư mục</string>
+  <string name="sync_auth_exception_login_again">Không thể uỷ quyền. Vui lòng đăng nhập lại.</string>
+  <string name="sync_loading_accounts_from_backend">Đang nạp các tài khoản sẵn có từ backend.</string>
+  <plurals name="delete_success">
+    <item quantity="other">%d đối tượng đã được xoá.</item>
+  </plurals>
+  <string name="feature_deprecated">Đã lỗi thời</string>
+  <string name="pref_protection_device_lock_screen_title">Khoá màn hình thiết bị</string>
+  <string name="pref_warning_only_one_protection">Trước khi bạn có thể sử dụng phương thức bảo vệ bởi %1$s, bạn phải tắt cơ chế bảo vệ của %2$s.</string>
+  <string name="warning_device_lock_screen_not_set_up_1">Khoá màn hình an toàn vẫn chưa được thiết lập.</string>
+  <string name="warning_device_lock_screen_not_set_up_2">Vào mục \'Cài đặt -&gt; Bảo mật -&gt; Khoá màn hình\' để thiết lập khoá màn hình.</string>
 </resources>

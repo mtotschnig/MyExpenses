@@ -727,4 +727,8 @@
     <string name="menu_history_show_balance">Show balance</string>
     <string name="menu_history_transfers">Include transfers</string>
     <string name="menu_history">History</string>
+    <!-- A label indicating the color for the sum of expenses -->
+    <string name="history_chart_out_label">Expenditure</string>
+    <!-- A label indicating the color for the sum of income -->
+    <string name="history_chart_in_label">Revenue</string>
 </resources>
