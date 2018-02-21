@@ -193,7 +193,7 @@ public class HistoryChart extends Fragment
             .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
       }
       case WEEK: {
-        long julianDay = (long) (value * 7) + JULIAN_DAY_WEEK_OFFSET;
+        long julianDay = julianDayFromWeekNumber(value);
         return LocalDateTime.MIN.with(JulianFields.JULIAN_DAY, julianDay)
             .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
       }
@@ -205,12 +205,16 @@ public class HistoryChart extends Fragment
     return "";
   }
 
+  private long julianDayFromWeekNumber(float value) {
+    return (long) (value * 7) + JULIAN_DAY_WEEK_OFFSET;
+  }
+
   private String buildGroupingClause(int x) {
     switch (grouping) {
       case DAY:
         return DAY_START_JULIAN + " = " + x;
       case WEEK:
-        return getWeekStartJulian() + " = " + x;
+        return getWeekStartJulian() + " = " + julianDayFromWeekNumber(x);
       case MONTH:
         return getYearOfMonthStart() + " = " + (x / MONTH_GROUPING_YEAR_X) + " AND " + getMonth() + " = " + (x % MONTH_GROUPING_YEAR_X);
       case YEAR:
