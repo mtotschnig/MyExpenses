@@ -731,4 +731,5 @@
     <string name="history_chart_out_label">Expenditure</string>
     <!-- A label indicating the color for the sum of income -->
     <string name="history_chart_in_label">Revenue</string>
+    <string name="menu_history_totals">Show totals</string>
 </resources>

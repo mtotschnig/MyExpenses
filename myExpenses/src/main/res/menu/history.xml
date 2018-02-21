@@ -26,4 +26,9 @@
         app:showAsAction="never"
         android:checkable="true"
         android:title="@string/menu_history_transfers"/>
+    <item
+        android:id="@id/TOGGLE_TOTALS_COMMAND"
+        app:showAsAction="never"
+        android:checkable="true"
+        android:title="@string/menu_history_totals"/>
 </menu>

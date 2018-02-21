@@ -99,6 +99,7 @@ public enum PrefKey {
   DEBUG_ADS(R.string.pref_debug_show_ads_key),
   PROTECTION_DEVICE_LOCK_SCREEN(R.string.pref_protection_device_lock_screen_key),
   HISTORY_SHOW_BALANCE("history_show_balance"),
+  HISTORY_SHOW_TOTALS("history_show_totals"),
   HISTORY_INCLUDE_TRANSFERS("history_include_transfers");
 
   private int resId = 0;

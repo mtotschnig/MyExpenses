@@ -84,6 +84,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonth
 public class HistoryChart extends Fragment
     implements LoaderManager.LoaderCallbacks<Cursor> {
   private static final int GROUPING_CURSOR = 1;
+  private static final int MONTH_GROUPING_YEAR_X = 13;
   private CombinedChart chart;
   private Account account;
   @State
@@ -102,6 +103,8 @@ public class HistoryChart extends Fragment
   boolean showBalance = true;
   @State
   boolean includeTransfers = false;
+  @State
+  boolean showTotals = true;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -147,8 +150,9 @@ public class HistoryChart extends Fragment
   @Nullable
   @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-    showBalance = PrefKey.HISTORY_SHOW_BALANCE.getBoolean(true);
-    includeTransfers = PrefKey.HISTORY_INCLUDE_TRANSFERS.getBoolean(false);
+    showBalance = PrefKey.HISTORY_SHOW_BALANCE.getBoolean(showBalance);
+    includeTransfers = PrefKey.HISTORY_INCLUDE_TRANSFERS.getBoolean(includeTransfers);
+    showTotals = PrefKey.HISTORY_SHOW_TOTALS.getBoolean(showTotals);
     View view = inflater.inflate(R.layout.history_chart, container, false);
     chart = view.findViewById(R.id.history_chart);
     chart.getDescription().setEnabled(false);
@@ -160,6 +164,7 @@ public class HistoryChart extends Fragment
     configureYAxis(chart.getAxisLeft());
     configureYAxis(chart.getAxisRight());
     chart.getLegend().setTextColor(textColor);
+    chart.setHighlightPerDragEnabled(false);
     chart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
       @Override
       public void onValueSelected(Entry e, Highlight h) {
@@ -193,7 +198,7 @@ public class HistoryChart extends Fragment
             .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT));
       }
       case MONTH:
-        return Grouping.MONTH.getDisplayTitle(getContext(), (int) (value / 12), (int) (value % 12), null);
+        return Grouping.MONTH.getDisplayTitle(getContext(), (int) (value / MONTH_GROUPING_YEAR_X), (int) (value % MONTH_GROUPING_YEAR_X), null);
       case YEAR:
         return String.format(Locale.ROOT, "%d", (int) value);
     }
@@ -207,7 +212,7 @@ public class HistoryChart extends Fragment
       case WEEK:
         return getWeekStartJulian() + " = " + x;
       case MONTH:
-        return getYearOfMonthStart() + " = " + (x / 12) + " AND " + getMonth() + " = " + (x % 12);
+        return getYearOfMonthStart() + " = " + (x / MONTH_GROUPING_YEAR_X) + " AND " + getMonth() + " = " + (x % MONTH_GROUPING_YEAR_X);
       case YEAR:
         return YEAR + " = " + x;
     }
@@ -233,6 +238,10 @@ public class HistoryChart extends Fragment
     if (m != null) {
       m.setChecked(includeTransfers);
     }
+    m = menu.findItem(R.id.TOGGLE_TOTALS_COMMAND);
+    if (m != null) {
+      m.setChecked(showTotals);
+    }
   }
 
   @Override
@@ -248,6 +257,12 @@ public class HistoryChart extends Fragment
       case R.id.TOGGLE_INCLUDE_TRANSFERS_COMMAND: {
         includeTransfers = !includeTransfers;
         PrefKey.HISTORY_INCLUDE_TRANSFERS.putBoolean(includeTransfers);
+        reset();
+        return true;
+      }
+      case R.id.TOGGLE_TOTALS_COMMAND: {
+        showTotals = !showTotals;
+        PrefKey.HISTORY_SHOW_TOTALS.putBoolean(showTotals);
         reset();
         return true;
       }
@@ -317,7 +332,7 @@ public class HistoryChart extends Fragment
       case WEEK:
         return groupStart / 7;
       case MONTH:
-        return year * 12 + second;
+        return year * MONTH_GROUPING_YEAR_X + second;
       case YEAR:
         return year;
     }
@@ -382,6 +397,7 @@ public class HistoryChart extends Fragment
       set1.setValueTextColors(colors);
       set1.setStackTextValuesShouldUseDataColor(true);
       set1.setValueTextSize(valueTextSize);
+      set1.setDrawValues(showTotals);
       set1.setValueFormatter(valueFormatter);
       float barWidth = 0.45f;
       BarData barData = new BarData(set1);
@@ -394,7 +410,7 @@ public class HistoryChart extends Fragment
         set2.setLineWidth(2.5f);
         int balanceColor = getResources().getColor(R.color.emphasis);
         set2.setColor(balanceColor);
-        set2.setValueTextColor(balanceColor);
+        set2.setValueTextColor(textColor);
         set2.setValueFormatter(valueFormatter);
         LineData lineData = new LineData(set2);
         data.setData(lineData);

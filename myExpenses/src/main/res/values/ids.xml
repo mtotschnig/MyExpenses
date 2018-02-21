@@ -149,4 +149,5 @@
     <item name="HISTORY_COMMAND" type="id"/>
     <item name="TOGGLE_BALANCE_COMMAND" type="id"/>
     <item name="TOGGLE_INCLUDE_TRANSFERS_COMMAND" type="id"/>
+    <item name="TOGGLE_TOTALS_COMMAND" type="id"/>
 </resources>
