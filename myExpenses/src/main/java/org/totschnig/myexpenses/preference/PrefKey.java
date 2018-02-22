@@ -100,7 +100,8 @@ public enum PrefKey {
   PROTECTION_DEVICE_LOCK_SCREEN(R.string.pref_protection_device_lock_screen_key),
   HISTORY_SHOW_BALANCE("history_show_balance"),
   HISTORY_SHOW_TOTALS("history_show_totals"),
-  HISTORY_INCLUDE_TRANSFERS("history_include_transfers");
+  HISTORY_INCLUDE_TRANSFERS("history_include_transfers"),
+  ROADMAP_VOTE("roadmap_vote");
 
   private int resId = 0;
   private String key = null;

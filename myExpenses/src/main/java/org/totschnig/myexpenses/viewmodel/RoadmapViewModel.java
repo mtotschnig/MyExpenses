@@ -15,6 +15,7 @@ import org.acra.util.IOUtils;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.retrofit.Issue;
 import org.totschnig.myexpenses.retrofit.RoadmapService;
 import org.totschnig.myexpenses.retrofit.Vote;
@@ -25,6 +26,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -40,7 +42,7 @@ import timber.log.Timber;
 
 public class RoadmapViewModel extends AndroidViewModel {
   public static final String ROADMAP_URL = BuildConfig.DEBUG ?
-      "https://votedb-staging.herokuapp.com"  : "https://roadmap.myexpenses.mobi/";
+      "https://votedb-staging.herokuapp.com/"  : "https://roadmap.myexpenses.mobi/";
 
   @Inject
   OkHttpClient.Builder builder;
@@ -97,6 +99,17 @@ public class RoadmapViewModel extends AndroidViewModel {
 
   public void submitVote(String key, Map<Integer, Integer> voteWeights) {
     new VoteTask(key).execute(voteWeights);
+  }
+
+  public void cacheWeights(Map<Integer, Integer> voteWeights) {
+    PrefKey.ROADMAP_VOTE.putString(gson.toJson(voteWeights));
+  }
+
+  public Map<Integer, Integer> restoreWeights() {
+    String stored = PrefKey.ROADMAP_VOTE.getString(null);
+
+    return stored != null ? gson.fromJson(stored, new TypeToken<Map<Integer, Integer>>(){}.getType()) :
+        new HashMap<>();
   }
 
   private class VoteTask extends AsyncTask<Map<Integer, Integer>, Void, Vote> {

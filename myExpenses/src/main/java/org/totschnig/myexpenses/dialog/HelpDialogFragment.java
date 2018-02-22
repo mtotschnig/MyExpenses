@@ -107,7 +107,8 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     iconMap.put("sync_link", null);
     iconMap.put("sync_unlink", null);
     iconMap.put("vote", null);
-    iconMap.put("refresh", null);
+    iconMap.put("refresh", R.drawable.ic_sync);
+    iconMap.put("result", R.drawable.ic_web);
     iconMap.put("learn_more", null);
     iconMap.put("set_weight", null);
   }

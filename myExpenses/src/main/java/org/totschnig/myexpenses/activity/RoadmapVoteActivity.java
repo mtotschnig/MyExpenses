@@ -46,18 +46,18 @@ import butterknife.ButterKnife;
 import eltos.simpledialogfragment.SimpleDialog;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.viewmodel.RoadmapViewModel.ROADMAP_URL;
 
 public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
     SimpleDialog.OnDialogResultListener {
   private static final String DIALOG_TAG_ISSUE_VOTE = "issueVote";
   private static final String KEY_POSITION = "position";
-  private static final String KEY_VOTE_WEIGHTS = "voteWeights";
   @BindView(R.id.my_recycler_view)
   ContextAwareRecyclerView recyclerView;
   private List<Issue> dataSet;
   private List<Issue> dataSetFiltered;
   private MenuItem voteMenuItem;
-  HashMap<Integer, Integer> voteWeights = new HashMap<>();
+  Map<Integer, Integer> voteWeights;
   Vote lastVote;
   private RoadmapAdapter roadmapAdapter;
   private RoadmapViewModel roadmapViewModel;
@@ -79,12 +79,10 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
 
     isPro = ContribFeature.ROADMAP_VOTING.hasAccess();
 
-    if (savedInstanceState != null) {
-      voteWeights = (HashMap<Integer, Integer>) savedInstanceState.getSerializable(KEY_VOTE_WEIGHTS);
-    }
     showIsLoading();
 
     roadmapViewModel = ViewModelProviders.of(this).get(RoadmapViewModel.class);
+    voteWeights = roadmapViewModel.restoreWeights();
     roadmapViewModel.getData().observe(this, data -> {
       this.dataSet = data;
       dataSetFiltered = dataSet;
@@ -105,6 +103,12 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
         });
   }
 
+  @Override
+  protected void onPause() {
+    super.onPause();
+    roadmapViewModel.cacheWeights(voteWeights);
+  }
+
   private void validateAndUpdateUi() {
     validateWeights();
     roadmapAdapter.notifyDataSetChanged();
@@ -121,12 +125,6 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
         }
       }
     }
-  }
-
-  @Override
-  public void onSaveInstanceState(Bundle outState) {
-    super.onSaveInstanceState(outState);
-    outState.putSerializable(KEY_VOTE_WEIGHTS, voteWeights);
   }
 
   private void showIsLoading() {
@@ -170,7 +168,7 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
     voteMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
     updateVoteMenuItem();
 
-    inflater.inflate(R.menu.refresh, menu);
+    inflater.inflate(R.menu.vote, menu);
     inflater.inflate(R.menu.help_with_icon, menu);
     return true;
   }
@@ -178,6 +176,12 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
   @Override
   public boolean dispatchCommand(int command, Object tag) {
     switch (command) {
+      case R.id.WEB_COMMAND: {
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(ROADMAP_URL + "issues.html"));
+        startActivity(i);
+        return true;
+      }
       case R.id.SYNC_COMMAND: {
         showIsLoading();
         roadmapViewModel.loadData(false);
