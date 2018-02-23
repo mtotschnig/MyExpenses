@@ -11,7 +11,7 @@ import android.support.annotation.Nullable;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.acra.util.IOUtils;
+import org.acra.util.StreamReader;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.ContribFeature;
@@ -221,6 +221,6 @@ public class RoadmapViewModel extends AndroidViewModel {
 
   private String readFromFile(String filename) throws IOException {
     FileInputStream fis = getApplication().openFileInput(filename);
-    return IOUtils.streamToString(fis);
+    return new StreamReader(fis).read();
   }
 }

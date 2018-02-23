@@ -43,8 +43,8 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
 import net.pubnative.sdk.core.Pubnative;
 
 import org.acra.ACRA;
-import org.acra.config.ACRAConfiguration;
-import org.acra.util.IOUtils;
+import org.acra.config.CoreConfiguration;
+import org.acra.util.StreamReader;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.activity.SplashActivity;
 import org.totschnig.myexpenses.di.AppComponent;
@@ -71,7 +71,6 @@ import org.totschnig.myexpenses.widget.AccountWidget;
 import org.totschnig.myexpenses.widget.TemplateWidget;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.UUID;
@@ -88,7 +87,7 @@ public class MyApplication extends MultiDexApplication implements
   LicenceHandler licenceHandler;
   @Inject
   @Nullable
-  ACRAConfiguration acraConfiguration;
+  CoreConfiguration acraConfiguration;
   private static boolean instrumentationTest = false;
   private static String testId;
   public static final String PLANNER_CALENDAR_NAME = "MyExpensesPlanner";
@@ -180,7 +179,7 @@ public class MyApplication extends MultiDexApplication implements
   @Nullable
   private static String getCurrentProcessName() {
     try {
-      return IOUtils.streamToString(new FileInputStream("/proc/self/cmdline")).trim();
+      return new StreamReader("/proc/self/cmdline").read().trim();
     } catch (IOException e) {
       return null;
     }

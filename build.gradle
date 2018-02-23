@@ -35,4 +35,5 @@ ext {
     androidSupportTestVersion = "1.0.1"
     daggerVersion = "2.9"
     okHttpVersion = "3.9.1"
+    acraVersion = "5.1.1"
 }

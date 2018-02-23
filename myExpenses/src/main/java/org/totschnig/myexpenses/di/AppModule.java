@@ -11,10 +11,13 @@ import com.google.android.vending.licensing.Obfuscator;
 import com.google.android.vending.licensing.PreferenceObfuscator;
 
 import org.acra.ReportField;
-import org.acra.ReportingInteractionMode;
-import org.acra.config.ACRAConfiguration;
 import org.acra.config.ACRAConfigurationException;
-import org.acra.config.ConfigurationBuilder;
+import org.acra.config.CoreConfiguration;
+import org.acra.config.CoreConfigurationBuilder;
+import org.acra.config.DialogConfigurationBuilder;
+import org.acra.config.HttpSenderConfigurationBuilder;
+import org.acra.config.MailSenderConfigurationBuilder;
+import org.acra.data.StringFormat;
 import org.acra.sender.HttpSender;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
@@ -54,26 +57,36 @@ public class AppModule {
   @Provides
   @Singleton
   @Nullable
-  ACRAConfiguration providesAcraConfiguration() {
+  CoreConfiguration providesAcraConfiguration() {
     if (MyApplication.isInstrumentationTest()) return null;
     try {
-      ConfigurationBuilder configurationBuilder = new ConfigurationBuilder(application);
+      CoreConfigurationBuilder configurationBuilder = new CoreConfigurationBuilder(application)
+          .setEnabled(true);
       if (AcraHelper.DO_REPORT) {
-        configurationBuilder.setFormUri(BuildConfig.ACRA_FORM_URI)
-            .setReportType(HttpSender.Type.JSON)
-            .setHttpMethod(HttpSender.Method.PUT)
-            .setFormUriBasicAuthLogin(BuildConfig.ACRA_FORM_URI_BASIC_AUTH_LOGIN)
-            .setFormUriBasicAuthPassword(BuildConfig.ACRA_FORM_URI_BASIC_AUTH_PASSWORD)
+        configurationBuilder
             .setLogcatArguments("-t", "250", "-v", "long", "ActivityManager:I", "MyExpenses:V", "*:S")
-            .setExcludeMatchingSharedPreferencesKeys("planner_calendar_path", "password");
+            .setExcludeMatchingSharedPreferencesKeys("planner_calendar_path", "password")
+            .getPluginConfigurationBuilder(HttpSenderConfigurationBuilder.class)
+            .setEnabled(true)
+            .setUri(BuildConfig.ACRA_FORM_URI)
+            .setHttpMethod(HttpSender.Method.PUT)
+            .setBasicAuthLogin(BuildConfig.ACRA_FORM_URI_BASIC_AUTH_LOGIN)
+            .setBasicAuthPassword(BuildConfig.ACRA_FORM_URI_BASIC_AUTH_PASSWORD);
       } else {
-        configurationBuilder.setReportingInteractionMode(ReportingInteractionMode.DIALOG)
-            .setMailTo("bug-reports@myexpenses.mobi")
-            .setResDialogText(R.string.crash_dialog_text)
-            .setResDialogTitle(R.string.crash_dialog_title)
-            .setResDialogCommentPrompt(R.string.crash_dialog_comment_prompt)
+        configurationBuilder
+            .setReportFormat(StringFormat.KEY_VALUE_LIST)
             .setReportField(ReportField.APP_VERSION_CODE, true)
-            .setReportField(ReportField.USER_CRASH_DATE, true);
+            .setReportField(ReportField.USER_CRASH_DATE, true)
+            .getPluginConfigurationBuilder(DialogConfigurationBuilder.class)
+            .setEnabled(true)
+            .setResText(R.string.crash_dialog_text)
+            .setResTitle(R.string.crash_dialog_title)
+            .setResCommentPrompt(R.string.crash_dialog_comment_prompt)
+            .setResPositiveButtonText(android.R.string.ok);
+        configurationBuilder
+            .getPluginConfigurationBuilder(MailSenderConfigurationBuilder.class)
+            .setEnabled(true)
+            .setMailTo("bug-reports@myexpenses.mobi");
       }
       return configurationBuilder.build();
     } catch (ACRAConfigurationException e) {

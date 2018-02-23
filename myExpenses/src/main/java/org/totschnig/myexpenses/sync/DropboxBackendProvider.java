@@ -19,7 +19,7 @@ import com.dropbox.core.v2.files.GetMetadataErrorException;
 import com.dropbox.core.v2.files.Metadata;
 import com.dropbox.core.v2.files.WriteMode;
 
-import org.acra.util.IOUtils;
+import org.acra.util.StreamReader;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -140,7 +140,7 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
     String lockFilePath = getLockFilePath();
     try {
       if (exists(lockFilePath)) {
-        return IOUtils.streamToString(getInputStream(lockFilePath));
+        return new StreamReader(getInputStream(lockFilePath)).read();
       }
     } catch (DbxException e) {
       throw new IOException(e);
