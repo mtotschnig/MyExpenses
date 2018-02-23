@@ -182,7 +182,9 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
         ctx.startActivityForResult(i, ProtectedFragmentActivity.EDIT_TRANSACTION_REQUEST);
         break;
       case AlertDialog.BUTTON_NEUTRAL:
-        startActivity(imageViewIntentProvider.getViewIntent(ctx, mTransaction.getPictureUri()));
+        if (mTransaction.getPictureUri() != null) {
+          startActivity(imageViewIntentProvider.getViewIntent(ctx, mTransaction.getPictureUri()));
+        }
         break;
     }
   }
@@ -192,7 +194,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     dialogView.findViewById(R.id.progress).setVisibility(View.GONE);
     mTransaction = o;
     if (mTransaction == null) {
-      TextView error = (TextView) dialogView.findViewById(R.id.error);
+      TextView error = dialogView.findViewById(R.id.error);
       error.setVisibility(View.VISIBLE);
       error.setText(R.string.transaction_deleted);
       return;
