@@ -72,7 +72,7 @@ public enum Grouping {
         int monthStarts = Integer.parseInt(PrefKey.GROUP_MONTH_STARTS.getString("1"));
         cal = Calendar.getInstance();
         if (monthStarts == 1) {
-          cal.set(groupYear, groupSecond - 1, 1);
+          cal.set(groupYear, groupSecond, 1);
           //noinspection SimpleDateFormat
           return new SimpleDateFormat("MMMM y").format(cal.getTime());
         } else {

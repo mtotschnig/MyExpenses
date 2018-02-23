@@ -84,7 +84,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonth
 public class HistoryChart extends Fragment
     implements LoaderManager.LoaderCallbacks<Cursor> {
   private static final int GROUPING_CURSOR = 1;
-  private static final int MONTH_GROUPING_YEAR_X = 13;
+  private static final int MONTH_GROUPING_YEAR_X = 12;
   private CombinedChart chart;
   private Account account;
   @State
