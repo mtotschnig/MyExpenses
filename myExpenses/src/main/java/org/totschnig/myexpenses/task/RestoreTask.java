@@ -75,7 +75,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       this.taskExecutionFragment.mCallbacks.onProgressUpdate(values[0]);
     }
   }
-  
+
   @Override
   protected void onPostExecute(Result result) {
     if (this.taskExecutionFragment.mCallbacks != null) {
@@ -211,13 +211,16 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       String calendarPath = backupPref
           .getString(PrefKey.PLANNER_CALENDAR_PATH.getKey(), "");
       if (!(calendarId.equals("-1") || calendarPath.equals(""))) {
-        Cursor c = cr
-            .query(
-                Calendars.CONTENT_URI,
-                new String[]{Calendars._ID},
-                MyApplication.getCalendarFullPathProjection() + " = ?",
-                new String[]{calendarPath},
-                null);
+        Cursor c;
+        try {
+          c = cr.query(Calendars.CONTENT_URI,
+              new String[]{Calendars._ID},
+              MyApplication.getCalendarFullPathProjection() + " = ?",
+              new String[]{calendarPath},
+              null);
+        } catch (SecurityException e) {
+          return new Result(false, e.getMessage());
+        }
         if (c != null) {
           if (c.moveToFirst()) {
             found = true;
@@ -253,7 +256,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       for (Map.Entry<String, ?> entry : application.getSettings().getAll().entrySet()) {
         String key = entry.getKey();
         if (!key.equals(PrefKey.NEW_LICENCE.getKey()) && !key.equals(PrefKey.LICENCE_EMAIL.getKey())
-            &&  !key.startsWith("acra")) {
+            && !key.startsWith("acra")) {
           edit.remove(key);
         }
       }
