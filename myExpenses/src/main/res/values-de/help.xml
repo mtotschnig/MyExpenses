@@ -13,6 +13,7 @@
   <string name="menu_grouping_help_text">Buchungen können pro Tag, Woche, Monat oder Jahr gruppiert werden. Für jede Gruppe werden die Summen der Einnahmen, Ausgaben und Umbuchungen berechnet und angezeigt. Beim Klick auf eine Kopfzeile wird die Gruppe der Buchungen ausgeblendet, und nur die Kopfzeile wird angezeigt. Klicken Sie erneut, um wieder zu erweitern.</string>
   <string name="menu_sort_direction_help_text">Buchungen können in aufsteigender (älteste oben) oder absteigender (letzte oben) Richtung sortiert werden.</string>
   <string name="menu_distribution_help_text">Darstellung der Verteilung Ihrer Buchungen anhand der Kategorien. Sie können auch lange auf die Kopfzeile einer Gruppe klicken, um die Verteilung nur für einen Zeitraum anzuzeigen.</string>
+  <string name="menu_history_help_text">Cashflow-Diagramm anzeigen: Wie haben sich Ihre Ausgaben und Ihr Einkommen über Tage, Wochen, Monate oder Jahre entwickelt?</string>
   <string name="menu_manage_plans_help_text">Öffnet die Liste der Vorlagen und Pläne. Sie können Vorlagen anwenden, verändern oder löschen, und auch Pläne für zukünftige und wiederkehrende Buchungen anlegen.</string>
   <string name="menu_balance_help_text">Dieser Befehl öffnet ein Dialogfeld, in dem der letzte abgestimmte Kontostand und der verrechnete Kontostand angezeigt werden. Sie können die letztere mit Ihrem Kontoauszug vergleichen und alle gelöschten Transaktionen als abgestimmt markieren. Optional können Sie sich auch dafür entscheiden, abgestimmte Buchungen zu löschen.</string>
   <string name="menu_print_help_text">Eine Druckansicht der aktuell angezeigten Buchungen wird generiert.</string>
@@ -137,4 +138,9 @@
   <string name="cab_sync_download_help_text">Laden Sie ein Konto, das auf dem Backend zur Verfügung steht. Lokal wird ein neues Konto erstellt und für die Synchronisierung mit dem Backend konfiguriert.</string>
   <string name="cab_sync_link_help_text">Starten Sie die Synchronisierung für ein Konto, das sowohl lokal als auch am Backend vorhanden ist. Sie müssen entscheiden, ob lokale oder entfernte Daten bei der ersten Synchronisierung behalten werden sollen.</string>
   <string name="cab_sync_unlink_help_text">Das ausgewählte Konto wird nicht mehr mit dem Backend synchronisiert werden</string>
+  <!--History-->
+  <string name="help_HistoryActivity_info">Dieser Bildschirm zeigt Ihren Cashflow, wie sich Ihre Ausgaben und Ihre Einnahmen über Jahre, Monate, Wochen oder Tage entwickeln.</string>
+  <string name="menu_HistoryActivity_grouping_help_text">Wechseln Sie zwischen täglicher, wöchentlicher, monatlicher oder jährlicher Gruppierung Ihrer Cashflow-Daten.</string>
+  <string name="menu_HistoryActivity_history_show_balance_help_text">Schalten Sie die Sichtbarkeit des Saldos um.</string>
+  <string name="menu_HistoryActivity_history_transfers_help_text">Schalten Sie um, ob Umbuchungen wie normale Einnahmen oder Ausgaben behandelt werden sollen.</string>
 </resources>

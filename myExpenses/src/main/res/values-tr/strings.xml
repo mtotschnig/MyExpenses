@@ -707,4 +707,6 @@
   <string name="pref_warning_only_one_protection">%1$s ile korumayı kullanmadan önce %2$s ile korumayı devre dışı bırakmanız gerekir.</string>
   <string name="warning_device_lock_screen_not_set_up_1">Güvenli cihaz kilidi ekranı ayarlanmadı.</string>
   <string name="warning_device_lock_screen_not_set_up_2">Ekran kilidini ayarlamak için \'Ayarlar -&gt; Güvenlik -&gt; Ekran kilidine\' gidiniz.</string>
+  <!--A label indicating the color for the sum of expenses-->
+  <!--A label indicating the color for the sum of income-->
 </resources>

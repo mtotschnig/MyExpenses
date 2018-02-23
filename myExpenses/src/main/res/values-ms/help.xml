@@ -137,4 +137,5 @@
   <string name="cab_sync_download_help_text">Muat turun akaun yang tersedia di bahagian belakang. Satu akaun akan dicipta secara setempat dan dikonfigur untuk disegerakkan dengan bahagian belakang.</string>
   <string name="cab_sync_link_help_text">Mulakan penyegerakan untuk akaun yang wujud secara setempat dan jauh. Anda perlu tentukan jika data setempat atau jauh perlu disimpan ketika penyegerakan pertama.</string>
   <string name="cab_sync_unlink_help_text">Akaun terpilih tiada lagi disegerakkan dengan bahagian belakang</string>
+  <!--History-->
 </resources>

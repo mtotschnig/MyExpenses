@@ -48,7 +48,7 @@
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">Yêu cầu %1$s.</string>
   <string name="currency">Tiền tệ</string>
-  <string name="current_balance">Số dư</string>
+  <string name="current_balance">Số dư hiện tại</string>
   <string name="date">Ngày tháng</string>
   <string name="date_format">Định dạng ngày tháng</string>
   <string name="date_format_illegal">Định dạng ngày tháng không hợp lệ</string>
@@ -143,7 +143,7 @@
   <string name="licence_validation_failure">Không thể xác minh khóa bản quyền.</string>
   <string name="licence_validation_success">Khoá bản quyền đã được xác minh</string>
   <string name="licence_validation_premium">Các tính năng trả phí đã được mở khoá.</string>
-  <string name="menu_aggregates">Tổng cộng</string>
+  <string name="menu_aggregates">Tổng số</string>
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Áp dụng</string>
   <string name="menu_back">Quay lại</string>
@@ -697,4 +697,6 @@
   <string name="pref_warning_only_one_protection">Trước khi bạn có thể sử dụng phương thức bảo vệ bởi %1$s, bạn phải tắt cơ chế bảo vệ của %2$s.</string>
   <string name="warning_device_lock_screen_not_set_up_1">Khoá màn hình an toàn vẫn chưa được thiết lập.</string>
   <string name="warning_device_lock_screen_not_set_up_2">Vào mục \'Cài đặt -&gt; Bảo mật -&gt; Khoá màn hình\' để thiết lập khoá màn hình.</string>
+  <!--A label indicating the color for the sum of expenses-->
+  <!--A label indicating the color for the sum of income-->
 </resources>

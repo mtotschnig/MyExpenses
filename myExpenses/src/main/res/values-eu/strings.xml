@@ -652,4 +652,6 @@
   <string name="plan_custom_recurrence_info">Gorde txantiloia aurrena. plana egutegi aplikazioan irekiko da, errepikatze pertsonalizatu bat ezartzen duzunean. </string>
   <string name="storage_permission_required">Hautatu duzun iturria irakurtzeko kanpo biltegiratzea atzitzeko baimena behar da.</string>
   <!--%1$s date, %2$s price-->
+  <!--A label indicating the color for the sum of expenses-->
+  <!--A label indicating the color for the sum of income-->
 </resources>

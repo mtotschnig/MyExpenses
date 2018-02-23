@@ -43,4 +43,5 @@
   <string name="cab_sort_up_help_text">将条目上移一位</string>
   <string name="cab_sort_down_help_text">将条目下移一位</string>
   <!--SyncBackends-->
+  <!--History-->
 </resources>

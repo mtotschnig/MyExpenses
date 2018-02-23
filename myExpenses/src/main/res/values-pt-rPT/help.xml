@@ -132,4 +132,5 @@
   <string name="cab_sync_download_help_text">Transferir uma conta que esteja disponível no backend. Uma conta será criada localmente e será configurada para sincronizar com o backend.</string>
   <string name="cab_sync_link_help_text">Iniciar a sincronização de uma conta que existe localmente e remotamente. Tem de decidir se devem ser mantidos os dados locais ou remotos na primeira sincronização.</string>
   <string name="cab_sync_unlink_help_text">A conta selecionada deixará de ser sincronizada com o backend</string>
+  <!--History-->
 </resources>

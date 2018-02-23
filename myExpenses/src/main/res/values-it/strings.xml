@@ -635,4 +635,6 @@
   <string name="menu_sort_direction">Scelta elenco</string>
   <string name="sort_direction_ascending">ascendente</string>
   <string name="sort_direction_descending">discendente</string>
+  <!--A label indicating the color for the sum of expenses-->
+  <!--A label indicating the color for the sum of income-->
 </resources>

@@ -675,4 +675,6 @@
   <string name="extend_validity">Estenda a validade</string>
   <string name="progress_dialog_fetching_data_from_sync_backend">Obtendo dados do backend remoto. Isso pode demorar algum tempo.</string>
   <string name="donate_button_invoice">Fatura</string>
+  <!--A label indicating the color for the sum of expenses-->
+  <!--A label indicating the color for the sum of income-->
 </resources>

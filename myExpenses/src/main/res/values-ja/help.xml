@@ -137,4 +137,5 @@
   <string name="cab_sync_download_help_text">バックエンドで利用可能な勘定をダウンロードします。 勘定はローカルで作成され、バックエンドとの同期用に設定されます。</string>
   <string name="cab_sync_link_help_text">ローカルとリモートの両方に存在する勘定の同期を開始します。 最初の同期で、ローカルまたはリモートのデータを保持する必要があるかどうかを判断する必要があります。</string>
   <string name="cab_sync_unlink_help_text">選択した勘定はバックエンドに同期されなくなります</string>
+  <!--History-->
 </resources>

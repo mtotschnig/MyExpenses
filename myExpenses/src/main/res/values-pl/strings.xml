@@ -685,4 +685,6 @@
   <string name="menu_sort_direction">Sortuj kierunek</string>
   <string name="sort_direction_ascending">rosnąco</string>
   <string name="sort_direction_descending">malejąco</string>
+  <!--A label indicating the color for the sum of expenses-->
+  <!--A label indicating the color for the sum of income-->
 </resources>

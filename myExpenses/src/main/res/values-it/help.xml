@@ -136,4 +136,5 @@
   <string name="cab_sync_download_help_text">Scarica un account che è disponibile sul backend. Un account verrà creato a livello locale e verrà configurato per la sincronizzazione con il backend.</string>
   <string name="cab_sync_link_help_text">Avviare la sincronizzazione di un account che esiste sia in locale che in remoto. È necessario decidere se i dati locali o remoti devono essere mantenuti sulla prima sincronizzazione.</string>
   <string name="cab_sync_unlink_help_text">L\'account selezionato non sarà più sincronizzato con il backend</string>
+  <!--History-->
 </resources>

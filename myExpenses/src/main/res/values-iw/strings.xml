@@ -43,6 +43,7 @@
   <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">מספר בלתי מוגבל של תבניות מפוצלות</string>
   <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>מייל לעזרה</b> עם הבטחה לתגובה תוך 2 ימי עסקים</string>
   <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">זכות הצבעה על <b>מפת דרכים לפיתוח</b></string>
+  <string name="contrib_feature_history_label" tools:ignore="UnusedResources">תרשים היסטוריה (תזרים מזומנים)</string>
   <string name="licence_status_free">חופשי</string>
   <string name="contrib_key">מפתח לתורם</string>
   <string name="extended_key">מפתח מורחב</string>
@@ -204,6 +205,8 @@
   <string name="menu_search">חיפוש</string>
   <string name="menu_settings">הגדרות</string>
   <string name="menu_share">ספר לחבר</string>
+  <string name="button_label_share_file">שתף</string>
+  <string name="button_label_close">סגור</string>
   <string name="menu_split_transaction">הפוך למפוצל</string>
   <string name="method">אמצעי תשלום</string>
   <string name="no_amount_given">לא הוזן סכום כלשהו.</string>
@@ -308,6 +311,7 @@
   <string name="pref_manage_sync_backends_summary">הוספת backenders לסנכרון חשבונות (%s).</string>
   <string name="pref_more_info_dialog_title">רישיון &amp; amp; נקודות זכות</string>
   <string name="pref_password_not_equal">סיסמאות אינן תואמות</string>
+  <string name="pref_perform_protection_title">הגנה</string>
   <string name="pref_perform_share_title">שתף את היצוא ואת הגיבויים</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">צור יומן תכנון מקומי חדש</string>
@@ -691,4 +695,26 @@
   <string name="never">לעולם לא</string>
   <string name="always">תמיד</string>
   <string name="auto_fill_account_from_aggregate_only">רק כאשר הותחל מחשבון מצטבר.</string>
+  <string name="dropbox_folder_name_prompt">הזן את השם של תיקייה קיימת ברמת השורש של Dropbox שלך</string>
+  <string name="dropbox_folder_not_found">התיקיה לא נמצאה</string>
+  <string name="sync_auth_exception_login_again">ההרשאה נכשלה. היכנס שוב.</string>
+  <string name="sync_loading_accounts_from_backend">טוען חשבונות זמינים מ backend.</string>
+  <plurals name="delete_success">
+    <item quantity="one">אובייקט אחד נמחק בהצלחה.</item>
+    <item quantity="other">%dאובייקטים  נמחקו בהצלחה.</item>
+  </plurals>
+  <string name="feature_deprecated">הוצא משימוש</string>
+  <string name="pref_protection_device_lock_screen_title">מסך נעילת מכשיר</string>
+  <string name="pref_warning_only_one_protection">לפני שתוכל להשתמש בהגנה על ידי%1$s, עליך לבטל את ההגנה על ידי%2$s.</string>
+  <string name="warning_device_lock_screen_not_set_up_1">מסך נעילת המכשיר המאובטח לא הוגדר.</string>
+  <string name="warning_device_lock_screen_not_set_up_2">גש להגדרות, בחר אבטחה,בחר נעילת מסך כדי להגדיר נעילת מסך</string>
+  <string name="snackbar_dismiss">שחרר</string>
+  <string name="menu_history_show_balance">הצג את היתרה</string>
+  <string name="menu_history_transfers">כלול העברות</string>
+  <string name="menu_history">היסטוריה</string>
+  <!--A label indicating the color for the sum of expenses-->
+  <string name="history_chart_out_label">הוצאה</string>
+  <!--A label indicating the color for the sum of income-->
+  <string name="history_chart_in_label">הכנסה</string>
+  <string name="menu_history_totals">הצג סיכומים</string>
 </resources>

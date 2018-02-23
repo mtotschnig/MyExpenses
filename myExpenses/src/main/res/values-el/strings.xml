@@ -600,4 +600,6 @@
   <string name="upgrade_now">Αναβαθμίστε τώρα</string>
   <string name="professional_key">Επαγγελματικό κλειδί</string>
   <!--%1$s date, %2$s price-->
+  <!--A label indicating the color for the sum of expenses-->
+  <!--A label indicating the color for the sum of income-->
 </resources>

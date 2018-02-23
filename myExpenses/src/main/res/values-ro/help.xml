@@ -64,4 +64,5 @@
   <!--CSV Import-->
   <string name="menu_create_account_help_text">Creaza un cont nou. Versiunea gratuită este limitată la cinci conturi.</string>
   <!--SyncBackends-->
+  <!--History-->
 </resources>

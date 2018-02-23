@@ -137,4 +137,5 @@
   <string name="cab_sync_download_help_text">Descargar una cuenta que esté disponible en el servicio. Se creará una cuenta local y se configurará para la sincronización con el servicio.</string>
   <string name="cab_sync_link_help_text">Comenzar la sincronización para una cuenta que existe tanto de forma local como de forma remota. Necesitará decidir si se guardan los datos locales o remotos durante la primera sincronización.</string>
   <string name="cab_sync_unlink_help_text">La cuenta seleccionada no se volverá a sincronizar con el servicio.</string>
+  <!--History-->
 </resources>

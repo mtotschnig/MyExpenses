@@ -13,6 +13,7 @@
   <string name="menu_grouping_help_text">ניתן לקבץ עסקאות לפי יום, שבוע, חודש או שנה. עבור כל קבוצה, סכום ההכנסות, ההוצאות וההעברות מחושב ומוצג. כאשר תלחץ על כותרת קבוצה, תצוגת קבוצת העסקאות תסגר ורק הכותרת תוצג. לחץ שוב כדי להרחיב.</string>
   <string name="menu_sort_direction_help_text">עסקאות ניתן למיין בסדר עולה (הישן בראש) או יורד (האחרון בראש).</string>
   <string name="menu_distribution_help_text">הצג את התפלגות ההוצאות שלך לפי קטגוריה. אתה יכול גם ללחוץ לחיצה ארוכה על כותרת קבוצה כדי לבדוק את החלוקה לתקופה מסוימת של זמן.</string>
+  <string name="menu_history_help_text">הצגת דיאגרמת תזרים מזומנים: כיצד חשבונך והכנסותיך התפתחו במשך ימים, שבועות, חודשים או שנים?</string>
   <string name="menu_manage_plans_help_text">פותח את רשימת התבניות והתוכניות, שבהן ניתן להחיל, לערוך או למחוק אותן, וכן להגדיר תוכניות לעסקאות עתידיות וחוזרות.</string>
   <string name="menu_balance_help_text">פקודה זו פותחת תיבת דו-שיח המציגה את המאזן האחרון שמסומן reconcield. אתה יכול להשוות את זה האחרון לדוח הבנק שלך, והעביר את כל העסקות המסומנות cleared למצב reconciled. לחלופין, תוכל להחליט למחוק עסקאות המסומנות reconciled.</string>
   <string name="menu_print_help_text">יוצר תצוגה הניתנת להדפסה של העסקאות המוצגות כעת.</string>
@@ -137,4 +138,9 @@
   <string name="cab_sync_download_help_text">הורד חשבון הזמין ב- backend. חשבון ייווצר באופן מקומי ויוגדר עבור סנכרון עם backend.</string>
   <string name="cab_sync_link_help_text">התחל סנכרון עבור חשבון שקיים הן מקומי והן מרוחק. אתה צריך להחליט אם נתונים מקומיים או מרוחקים ישמרו בהסינכרון הראשון.</string>
   <string name="cab_sync_unlink_help_text">החשבון שנבחר לא יסונכרן עוד עם ה- backend</string>
+  <!--History-->
+  <string name="help_HistoryActivity_info">מסך זה מציג את תזרים המזומנים שלך, כיצד ההוצאות וההכנסות שלך מתפתחות על פני שנים, חודשים, שבועות או ימים.</string>
+  <string name="menu_HistoryActivity_grouping_help_text">החלף בין קיבוץ יומי, שבועי, חודשי או שנתי של נתוני תזרים המזומנים שלך.</string>
+  <string name="menu_HistoryActivity_history_show_balance_help_text">החלף את החשיפה של היתרה.</string>
+  <string name="menu_HistoryActivity_history_transfers_help_text">החלף, אם העברות צריך להיות מטופל כמו הכנסה קבועה או הוצאה.</string>
 </resources>

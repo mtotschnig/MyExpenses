@@ -454,4 +454,6 @@
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="template">Шаблон</string>
   <!--%1$s date, %2$s price-->
+  <!--A label indicating the color for the sum of expenses-->
+  <!--A label indicating the color for the sum of income-->
 </resources>

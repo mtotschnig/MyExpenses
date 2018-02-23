@@ -697,4 +697,6 @@
   <string name="pref_warning_only_one_protection">Sebelum anda guna perlindungan oleh %1$s, anda mesti matikan perlindungan oleh %2$s.</string>
   <string name="warning_device_lock_screen_not_set_up_1">Selamatkan skrin kunci peranti belum dipasangkan.</string>
   <string name="warning_device_lock_screen_not_set_up_2">Pergi ke \'Tetapan -&gt; Keselamatan -&gt; KunciSkrin\' untuk tetapkan skrin kunci.</string>
+  <!--A label indicating the color for the sum of expenses-->
+  <!--A label indicating the color for the sum of income-->
 </resources>

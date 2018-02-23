@@ -43,6 +43,7 @@
   <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Неограничен брой шаблони за  разпределяне</string>
   <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b> Поддръжка по имейл </b> с гарантиран отговор до 2 работни дни</string>
   <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Право да гласувате на <b> карта за развитие </b></string>
+  <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Графика на историята (паричен поток)</string>
   <string name="licence_status_free">Безплатен</string>
   <string name="contrib_key">ключ за Премиум вариант</string>
   <string name="extended_key">ключ за Разширен вариант</string>
@@ -204,6 +205,8 @@
   <string name="menu_search">Търсене</string>
   <string name="menu_settings">Настройки</string>
   <string name="menu_share">Кажи на приятел</string>
+  <string name="button_label_share_file">Сподели</string>
+  <string name="button_label_close">Затвори</string>
   <string name="menu_split_transaction">Преобразувай в разпределена</string>
   <string name="method">Начин на плащане</string>
   <string name="no_amount_given">Не сте въвели сума.</string>
@@ -308,6 +311,7 @@
   <string name="pref_manage_sync_backends_summary">Добавяне на места за отдалечено съхранение (%s).</string>
   <string name="pref_more_info_dialog_title">Лиценз и кредити</string>
   <string name="pref_password_not_equal">Паролите не съвпадат</string>
+  <string name="pref_perform_protection_title">Защита</string>
   <string name="pref_perform_share_title">Споделяне на експорт и бекъп</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Създай нов локален план-календар </string>
@@ -694,4 +698,23 @@
   <string name="dropbox_folder_name_prompt">Въведете името на съществуваща папка в основното ниво на вашия Dropbox</string>
   <string name="dropbox_folder_not_found">Папката не е намерена</string>
   <string name="sync_auth_exception_login_again">Достъпът е отказан. Моля, влезте отново.</string>
+  <string name="sync_loading_accounts_from_backend">Зареждане на наличните сметки от отдалеченото място за съхранение.</string>
+  <plurals name="delete_success">
+    <item quantity="one">Един обект бе успешно изтрит.</item>
+    <item quantity="other">%d обекта бяха успешно изтрити.</item>
+  </plurals>
+  <string name="feature_deprecated">Отхвърлени</string>
+  <string name="pref_protection_device_lock_screen_title">Екран за заключено устройство</string>
+  <string name="pref_warning_only_one_protection">Преди да можете да използвате защита от %1$s, трябва да изключите защитата от %2$s.</string>
+  <string name="warning_device_lock_screen_not_set_up_1">Защитният екран за заключено устройството не е настроен.</string>
+  <string name="warning_device_lock_screen_not_set_up_2">Отидете на \"Настройки -&gt; Настройки -&gt; Заключен екран\", за да настроите заключен екран.</string>
+  <string name="snackbar_dismiss">Отхвърли</string>
+  <string name="menu_history_show_balance">Показване на салдото</string>
+  <string name="menu_history_transfers">Включи трансферите</string>
+  <string name="menu_history">История</string>
+  <!--A label indicating the color for the sum of expenses-->
+  <string name="history_chart_out_label">Разход</string>
+  <!--A label indicating the color for the sum of income-->
+  <string name="history_chart_in_label">Приход</string>
+  <string name="menu_history_totals">Показване на суми</string>
 </resources>

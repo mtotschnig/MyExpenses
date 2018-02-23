@@ -43,6 +43,7 @@
   <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Nombre illimité de modèles ventilés</string>
   <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Assistance par e-mail</b> avec réponse garantie sous 2 jours ouvrables</string>
   <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Voter sur la <b>feuille de route pour le développement</b></string>
+  <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Graphique historique (flux de trésorerie)</string>
   <string name="licence_status_free">Gratuit</string>
   <string name="contrib_key">Clé Contrib</string>
   <string name="extended_key">Clé étendue</string>
@@ -707,4 +708,13 @@
   <string name="pref_warning_only_one_protection">Avant de pouvoir utiliser la protection par %1$s, vous devez désactiver la protection par %2$s.</string>
   <string name="warning_device_lock_screen_not_set_up_1">L\'écran de verrouillage sécurisé de l\'appareil n\'a pas été configuré.</string>
   <string name="warning_device_lock_screen_not_set_up_2">Allez dans \'Paramètres -&gt; Sécurité -&gt; Screenlock\' pour configurer un écran de verrouillage.</string>
+  <string name="snackbar_dismiss">Rejeter</string>
+  <string name="menu_history_show_balance">Afficher le solde</string>
+  <string name="menu_history_transfers">Inclure les transferts</string>
+  <string name="menu_history">Historique</string>
+  <!--A label indicating the color for the sum of expenses-->
+  <string name="history_chart_out_label">Dépenses</string>
+  <!--A label indicating the color for the sum of income-->
+  <string name="history_chart_in_label">Revenu</string>
+  <string name="menu_history_totals">Afficher les totaux</string>
 </resources>
