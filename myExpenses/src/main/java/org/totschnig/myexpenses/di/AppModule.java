@@ -61,7 +61,8 @@ public class AppModule {
     if (MyApplication.isInstrumentationTest()) return null;
     try {
       CoreConfigurationBuilder configurationBuilder = new CoreConfigurationBuilder(application)
-          .setEnabled(true);
+          .setEnabled(true)
+          .setBuildConfigClass(BuildConfig.class);
       if (AcraHelper.DO_REPORT) {
         configurationBuilder
             .setLogcatArguments("-t", "250", "-v", "long", "ActivityManager:I", "MyExpenses:V", "*:S")
