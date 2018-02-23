@@ -6,7 +6,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.NotificationCompat;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
@@ -23,18 +22,13 @@ public class ContribUtils {
         feature.buildRemoveLimitation(context, true));
 
     Intent contribIntent = ContribInfoDialogActivity.getIntentFor(context, feature);
-    NotificationCompat.Builder builder =
-        new NotificationCompat.Builder(context)
-            .setSmallIcon(R.drawable.ic_stat_notification_sigma)
-            .setContentTitle(notifTitle)
-            .setContentText(content)
+    NotificationBuilderWrapper builder =
+        NotificationBuilderWrapper.defaultBigTextStyleBuilder(context, notifTitle, content)
             .setContentIntent(PendingIntent.getActivity(context, 0, contribIntent,
-                PendingIntent.FLAG_CANCEL_CURRENT))
-            .setStyle(new NotificationCompat.BigTextStyle().bigText(content));
+                PendingIntent.FLAG_CANCEL_CURRENT));
     Notification notification = builder.build();
     notification.flags = Notification.FLAG_AUTO_CANCEL;
     ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE))
         .notify(NOTIFICATION_CONTRIB, notification);
-
   }
 }

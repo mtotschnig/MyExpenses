@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
-import android.support.v4.app.NotificationCompat;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -16,6 +15,7 @@ import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.NotificationBuilderWrapper;
 
 import java.util.Date;
 
@@ -38,7 +38,8 @@ public class PlanNotificationClickHandler extends IntentService {
     String message;
     Bundle extras = intent.getExtras();
     String title = extras.getString(PlanExecutor.KEY_TITLE);
-    NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+    NotificationBuilderWrapper builder = new NotificationBuilderWrapper(this,
+        NotificationBuilderWrapper.CHANNEL_ID_PLANNER)
         .setSmallIcon(R.drawable.ic_stat_notification_sigma)
         .setContentTitle(title);
     int notificationId = extras.getInt(MyApplication.KEY_NOTIFICATION_ID);

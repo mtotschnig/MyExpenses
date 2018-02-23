@@ -38,6 +38,7 @@ import android.text.TextUtils;
 import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Calendars;
 import com.android.calendar.CalendarContractCompat.Events;
+import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import net.pubnative.sdk.core.Pubnative;
 
@@ -153,6 +154,7 @@ public class MyApplication extends MultiDexApplication implements
       enableStrictMode();
     }
     super.onCreate();
+    AndroidThreeTen.init(this);
     AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     mSelf = this;
     setupLogging();

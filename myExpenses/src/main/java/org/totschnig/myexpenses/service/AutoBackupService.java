@@ -18,7 +18,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.JobIntentService;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.provider.DocumentFile;
 
 import org.totschnig.myexpenses.BuildConfig;
@@ -32,6 +31,7 @@ import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.util.BackupUtils;
 import org.totschnig.myexpenses.util.ContribUtils;
+import org.totschnig.myexpenses.util.NotificationBuilderWrapper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -84,13 +84,10 @@ public class AutoBackupService extends JobIntentService {
         AUTO_BACKUP.putBoolean(false);
         String content = result.print(this) + " " + getString(R.string.warning_auto_backup_deactivated);
         Intent preferenceIntent = new Intent(this, MyPreferenceActivity.class);
-        NotificationCompat.Builder builder =
-            new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_stat_notification_sigma)
-                .setContentTitle(notifTitle)
-                .setContentText(content)
-                .setContentIntent(PendingIntent.getActivity(this, 0, preferenceIntent, PendingIntent.FLAG_CANCEL_CURRENT))
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(content));
+        NotificationBuilderWrapper builder =
+            NotificationBuilderWrapper.defaultBigTextStyleBuilder(this, notifTitle, content)
+            .setContentIntent(PendingIntent.getActivity(this, 0,
+                preferenceIntent, PendingIntent.FLAG_CANCEL_CURRENT));
         Notification notification = builder.build();
         notification.flags = Notification.FLAG_AUTO_CANCEL;
         ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).notify(

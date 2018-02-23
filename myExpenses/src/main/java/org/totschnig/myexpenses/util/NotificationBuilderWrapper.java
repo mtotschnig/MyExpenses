@@ -18,6 +18,7 @@ public class NotificationBuilderWrapper {
   public static int NOTIFICATION_CONTRIB = -3;
   public static String CHANNEL_ID_SYNC = "sync";
   public static String CHANNEL_ID_PLANNER = "planner";
+  public static String CHANNEL_ID_DEFAULT = "default";
   private Context context;
   private Notification.Builder api23Builder;
   private NotificationCompat.Builder compatBuilder;
@@ -35,18 +36,29 @@ public class NotificationBuilderWrapper {
       mNotificationManager.createNotificationChannel(
           new NotificationChannel(CHANNEL_ID_PLANNER, context.getString(R.string.planner_notification_channel_name),
               importance));
+      mNotificationManager.createNotificationChannel(
+          new NotificationChannel(CHANNEL_ID_DEFAULT, context.getString(R.string.app_name),
+              importance));
     }
   }
 
   public static NotificationBuilderWrapper defaultBigTextStyleBuilder(
-      Context context, String channel, String title, String content) {
+      Context context, String title, CharSequence content) {
+    return new NotificationBuilderWrapper(context, CHANNEL_ID_DEFAULT)
+        .setSmallIcon(R.drawable.ic_stat_notification_sigma)
+        .setContentTitle(title)
+        .setBigContentText(content);
+  }
+
+  public static NotificationBuilderWrapper bigTextStyleBuilder(
+      Context context, String channel, String title, CharSequence content) {
     return new NotificationBuilderWrapper(context, channel)
         .setSmallIcon(R.drawable.ic_stat_notification_sigma)
         .setContentTitle(title)
         .setBigContentText(content);
   }
 
-  private NotificationBuilderWrapper setBigContentText(String content) {
+  private NotificationBuilderWrapper setBigContentText(CharSequence content) {
     setContentText(content);
     if (shouldUseNative()) {
       api23Builder.setStyle(new Notification.BigTextStyle().bigText(content));
@@ -92,7 +104,7 @@ public class NotificationBuilderWrapper {
     return this;
   }
 
-  public NotificationBuilderWrapper setContentText(String content) {
+  public NotificationBuilderWrapper setContentText(CharSequence content) {
     if (shouldUseNative()) {
       api23Builder.setContentText(content);
     } else {

@@ -14,6 +14,10 @@ import android.net.Uri;
 import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Events;
 
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.LocalTime;
+import org.threeten.bp.ZoneId;
+import org.threeten.bp.ZonedDateTime;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -46,7 +50,6 @@ public class PlanExecutor extends IntentService {
   public static final String ACTION_APPLY = "Apply";
   public static final String KEY_TITLE = "title";
   //production: 21600000 6* 60 * 60 * 1000 6 hours; for testing: 60000 1 minute
-  public static final long INTERVAL = BuildConfig.DEBUG ? 60000 : 21600000;
   private static final long H24 = 24 * 60 * 60 * 1000;
   private static final long OVERLAPPING_WINDOW = (BuildConfig.DEBUG ? 1 : 5) * 60 * 1000;
   public static final String TAG = "PlanExecutor";
@@ -58,7 +61,11 @@ public class PlanExecutor extends IntentService {
   @Override
   public void onHandleIntent(Intent intent) {
     String plannerCalendarId;
-    long now = System.currentTimeMillis();
+    ZonedDateTime nowZDT = ZonedDateTime.now();
+    LocalDateTime endOfDay = nowZDT.toLocalDate().atTime(LocalTime.MAX);
+    LocalDateTime nextRun = nowZDT.toLocalDate().atTime(6,0).plusDays(1);
+    long now = nowZDT.toEpochSecond() * 1000;
+    log("now %d compared to System.currentTimeMillis %d", now, System.currentTimeMillis());
     if (!PermissionHelper.hasCalendarPermission(this)) {
       log("Calendar permission not granted");
       return;
@@ -81,7 +88,9 @@ public class PlanExecutor extends IntentService {
       log("Broken system time? Cannot execute plans.");
       return;
     }
-    log("executing plans from %d to %d", instancesFrom, now);
+    long instancesTo = ZonedDateTime.of(endOfDay, ZoneId.systemDefault()).toEpochSecond() * 1000;
+    log("now %d compared to end of day %d", now, instancesTo);
+    log("executing plans from %d to %d", instancesFrom, instancesTo);
 
     Uri.Builder eventsUriBuilder = CalendarProviderProxy.INSTANCES_URI.buildUpon();
     ContentUris.appendId(eventsUriBuilder, instancesFrom);
@@ -106,7 +115,7 @@ public class PlanExecutor extends IntentService {
         while (!cursor.isAfterLast()) {
           long planId = cursor.getLong(cursor.getColumnIndex(CalendarContractCompat.Instances.EVENT_ID));
           long date = cursor.getLong(cursor.getColumnIndex(CalendarContractCompat.Instances.BEGIN));
-          Long instanceId = CalendarProviderProxy.calculateId(date);
+          long instanceId = CalendarProviderProxy.calculateId(date);
           //2) check if they are part of a plan linked to a template
           //3) execute the template
           log("found instance %d of plan %d", instanceId, planId);
@@ -115,7 +124,8 @@ public class PlanExecutor extends IntentService {
           if (template != null) {
             log("belongs to template %d", template.getId());
             Notification notification;
-            int notificationId = instanceId.hashCode();
+            int notificationId = (int) ((instanceId * planId) % Integer.MAX_VALUE);
+            log("notification id %d", notificationId);
             PendingIntent resultIntent;
             Account account = Account.getInstanceFromDb(template.getAccountId());
             NotificationManager notificationManager =
@@ -199,7 +209,7 @@ public class PlanExecutor extends IntentService {
 
     PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP.putLong(now);
 
-    setAlarm(this, now + INTERVAL);
+    setAlarm(this, ZonedDateTime.of(nextRun, ZoneId.systemDefault()).toEpochSecond() * 1000);
 
   }
 

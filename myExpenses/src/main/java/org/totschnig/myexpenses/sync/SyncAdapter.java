@@ -455,7 +455,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
   private void notifyUser(String title, String content, @Nullable Account account, @Nullable Intent intent) {
     if (shouldNotify) {
-      NotificationBuilderWrapper builder = NotificationBuilderWrapper.defaultBigTextStyleBuilder(
+      NotificationBuilderWrapper builder = NotificationBuilderWrapper.bigTextStyleBuilder(
           getContext(), NotificationBuilderWrapper.CHANNEL_ID_SYNC, title, content);
       if (intent != null) {
         builder.setContentIntent(PendingIntent.getActivity(
