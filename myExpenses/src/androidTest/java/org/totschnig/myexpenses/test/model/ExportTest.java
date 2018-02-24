@@ -269,7 +269,8 @@ public class ExportTest extends ModelTest {
             + "\";\"[Account 2]\";\"\";\"\";\"\";\"\";\"\"",
         "\"*\";\"" + date + "\";\"\";0.70;0;\"Main\";\"\";\"\";\"\";\"\";\"\";\"\"",
         "\"-\";\"" + date + "\";\"\";0.40;0;\"Main\";\"\";\"\";\"\";\"\";\"\";\"\"",
-        "\"-\";\"" + date + "\";\"\";0.30;0;\"Main\";\"Sub\";\"\";\"\";\"\";\"\";\"\""
+        "\"-\";\"" + date + "\";\"\";0.30;0;\"Main\";\"Sub\";\"\";\"\";\"\";\"\";\"\"",
+        ""
     };
     try {
       insertData1();
@@ -298,7 +299,8 @@ public class ExportTest extends ModelTest {
             + "\";\"[Account 2]\";\"\";\"\";\"\";\"\";\"\"",
         "\"*\";\"" + date + "\";\"\";0,70;0;\"Main\";\"\";\"\";\"\";\"\";\"\";\"\"",
         "\"-\";\"" + date + "\";\"\";0,40;0;\"Main\";\"\";\"\";\"\";\"\";\"\";\"\"",
-        "\"-\";\"" + date + "\";\"\";0,30;0;\"Main\";\"Sub\";\"\";\"\";\"\";\"\";\"\""
+        "\"-\";\"" + date + "\";\"\";0,30;0;\"Main\";\"Sub\";\"\";\"\";\"\";\"\";\"\"",
+        ""
     };
     try {
       insertData1();
@@ -317,7 +319,8 @@ public class ExportTest extends ModelTest {
         csvHeader(),
         "\"\";\"" + date + "\";\"\";0;1.00;\"\";\"\";\"Expense inserted after first export\";\""
             + getContext().getString(R.string.pm_cheque) + "\";\"\";\"3\";\"\"",
-        "\"\";\"" + date + "\";\"N.N.\";1.00;0;\"\";\"\";\"Income inserted after first export\";\"\";\"\";\"\";\"\""
+        "\"\";\"" + date + "\";\"N.N.\";1.00;0;\"\";\"\";\"Income inserted after first export\";\"\";\"\";\"\";\"\"",
+        ""
     };
     try {
       insertData1();

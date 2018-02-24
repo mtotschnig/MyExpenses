@@ -145,6 +145,7 @@ public class Exporter {
             .append("\n^\n!Type:")
             .append(account.getType().toQifName());
     }
+    sb.append("\n");
     //Write header
     out.write(sb.toString());
     while (c.getPosition() < c.getCount()) {
@@ -199,7 +200,7 @@ public class Exporter {
         case CSV:
           Long methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
           PaymentMethod method = methodId == null ? null : PaymentMethod.getInstanceFromDb(methodId);
-          sb.append("\n\"")
+          sb.append("\"")
               .append(splitIndicator)
               .append("\";\"")
               .append(dateStr)
@@ -224,10 +225,9 @@ public class Exporter {
               .append("\";\"")
               .appendQ(StringUtils.substringAfterLast(DbUtils.getString(c, KEY_PICTURE_URI), "/"))
               .append("\"");
-
           break;
         default:
-          sb.append("\nD")
+          sb.append("D")
               .append(dateStr)
               .append("\nT")
               .append(amountQIF);
@@ -251,6 +251,7 @@ public class Exporter {
                 .append(referenceNumber);
           }
       }
+      sb.append("\n");
       out.write(sb.toString());
       if (SPLIT_CATID.equals(catId) && splits != null) {
         while (splits.getPosition() < splits.getCount()) {
@@ -282,7 +283,7 @@ public class Exporter {
             case CSV:
               Long methodId = DbUtils.getLongOrNull(c, KEY_METHODID);
               PaymentMethod method = methodId == null ? null : PaymentMethod.getInstanceFromDb(methodId);
-              sb.append("\n\"")
+              sb.append("\"")
                   .append(SplitTransaction.CSV_PART_INDICATOR)
                   .append("\";\"")
                   .append(dateStr)
@@ -306,7 +307,7 @@ public class Exporter {
               break;
             //QIF
             default:
-              sb.append("\nS")
+              sb.append("S")
                   .append(full_label);
               if ((comment.length() > 0)) {
                 sb.append("\nE")
@@ -315,13 +316,14 @@ public class Exporter {
               sb.append("\n$")
                   .append(amountQIF);
           }
+          sb.append("\n");
           out.write(sb.toString());
           splits.moveToNext();
         }
         splits.close();
       }
       if (format.equals(ExportFormat.QIF)) {
-        out.write("\n^");
+        out.write("^\n");
       }
       c.moveToNext();
     }
