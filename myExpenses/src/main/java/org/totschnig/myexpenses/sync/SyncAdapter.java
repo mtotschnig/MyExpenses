@@ -584,6 +584,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   @VisibleForTesting
   public void collectOperations(@NonNull TransactionChange change, long accountId, ArrayList<ContentProviderOperation> ops, int parentOffset) {
     Uri uri = Transaction.CALLER_IS_SYNC_ADAPTER_URI;
+    boolean skipped = false;
     switch (change.type()) {
       case created:
         long transactionId = Transaction.findByAccountAndUuid(accountId, change.uuid());
@@ -598,6 +599,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 .withValueBackReference(KEY_PARENTID, parentOffset)
                 .build());
           } else {
+            skipped = true;
             Timber.i("Uuid found in changes already exists locally, likely a transfer implicitly created from its peer");
           }
         } else {
@@ -619,7 +621,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             .build());
         break;
     }
-    if (change.splitParts() != null) {
+    if (change.splitParts() != null && !skipped) {
       final int newParentOffset = ops.size() - 1;
       List<TransactionChange> splitPartsFiltered = filterDeleted(change.splitParts(),
           findDeletedUuids(Stream.of(change.splitParts())));
