@@ -355,7 +355,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     fragment.setArguments(args);
     ft.replace(R.id.fragment_container, fragment, key);
     ft.addToBackStack(key);
-    ft.commit();
+    ft.commitAllowingStateLoss();
   }
 
 }

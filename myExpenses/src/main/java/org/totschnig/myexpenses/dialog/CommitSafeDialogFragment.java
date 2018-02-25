@@ -33,6 +33,13 @@ public abstract class CommitSafeDialogFragment extends DialogFragment {
       } catch (IllegalStateException ignored) {}
   }
 
+  @Override
+  public void dismiss() {
+    try {
+      super.dismiss();
+    } catch (IllegalStateException ignored) {}
+  }
+
   protected void showSnackbar(int resId) {
     showSnackbar(getString(resId));
   }
