@@ -56,12 +56,17 @@ iw:
       split_template: מספר לא מוגבל של <b>תבניות ותוכניות לעסקאות מפוצלות</b>
       email_support: <b>מייל לעזרה</b> עם הבטחה לתגובה תוך 2 ימי עסקים
       roadmap_voting: זכות הצבעה על <b>מפת דרכים לפיתוח</b>
+      history_chart: תרשים היסטוריה (תזרים מזומנים)
     one-time-payment: תשלום חד פעמי
     subscription: מנוי
   store:
     short_description: "קל לשימוש מנהל כספים אישי: פונקציונליות עשירה וקוד פתוח"
     full_description_intro: "{app_name} עוקבת אחר ההוצאות שלך וההכנסות שלך, ישירות בטלפון החכם ובטבלט."
     full_description_contrib: "תכונות Premium יפתחו לשימוש על ידי רכישה של אחד ממפתחות הרישיון הבאים:"
+    full_description_contrib_amazon: "תכונות רבות נוספות נפתחות על ידי רכישה של אחד ממפתחות הרישיון, למשל:"
+    highlight_1: "עקוב אחר ההוצאות וההכנסות שלך עם חשבונות מרובים, תבניות וקטגוריות"
+    highlight_2: "שתף את הנתונים שלך בין טלפונים וטאבלטים מרובים באמצעות WebDAV ו- Google Drive"
+    highlight_3: "סכם את המצב הכלכלי ליום, שבוע, חודש או שנה"
   permissions:
     heading: האפליקציה '<i>{app_name}</i>' מחייבת את <u>ההרשאות</u> הבאות
     calendar:

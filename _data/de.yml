@@ -56,6 +56,7 @@ de:
       split_template: Unbegrenzte Anzahl von <b>Vorlagen und Plänen für mehrteilige Buchungen</b>
       email_support: <b>E-Mail-Support</b> mit garantierter Antwort nach 2 Werktagen
       roadmap_voting: Stimmrecht zum <b>Entwicklungsfahrplan</b>
+      history_chart: Verlaufsdiagramm (Cashflow)
     one-time-payment: Einmalige Zahlung
     subscription: Abonnement
   store:
