@@ -7,10 +7,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.util.Result;
 
@@ -38,7 +38,7 @@ public class LocalFileBackendProviderFactory extends SyncBackendProviderFactory 
   }
 
   @Override
-  public void startSetup(FragmentActivity context) {
+  public void startSetup(ProtectedFragmentActivity context) {
     Bundle args = new Bundle();
     args.putString(EditTextDialog.KEY_DIALOG_TITLE, "Local backend: Directory path");
     EditTextDialog.newInstance(args)
