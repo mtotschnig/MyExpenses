@@ -26,6 +26,7 @@ import android.content.res.Configuration;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Process;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -153,6 +154,7 @@ public class MyApplication extends MultiDexApplication implements
       enableStrictMode();
     }
     super.onCreate();
+    checkAppReplacingState();
     AndroidThreeTen.init(this);
     AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     mSelf = this;
@@ -167,6 +169,13 @@ public class MyApplication extends MultiDexApplication implements
       licenceHandler.init();
       Pubnative.setTestMode(BuildConfig.DEBUG);
       NotificationBuilderWrapper.createChannels(this);
+    }
+  }
+
+  private void checkAppReplacingState() {
+    if (getResources() == null) {
+      Timber.w("app is replacing...kill");
+      Process.killProcess(Process.myPid());
     }
   }
 
