@@ -36,6 +36,8 @@ import static org.totschnig.myexpenses.export.qif.QifDateFormat.YMD;
 public class QifUtils {
 
     private static final Pattern DATE_DELIMITER_PATTERN = Pattern.compile("/|'|\\.|-");
+    private static final Pattern WHITESPACE_PATTERN = Pattern.compile("\\s+");
+    private static final Pattern HOUR_DELIMITER_PATTERN = Pattern.compile(":");
     private static final Pattern MONEY_PREFIX_PATTERN = Pattern.compile("\\D");
     private static final BigDecimal HUNDRED = new BigDecimal(100);
 
@@ -44,6 +46,32 @@ public class QifUtils {
 
     public static String trimFirstChar(String s) {
         return s.length() > 1 ? s.substring(1) : "";
+    }
+
+    /**
+     * First tries to parse input as a date in the specified format. If this fails, try to split
+     * input on white space in two chunks, and tries to parse first chunk as date, second as time
+     * @param sDateTime
+     * @param format
+     * @return
+     */
+    public static Date parseDate(String sDateTime, QifDateFormat format) {
+        try {
+            return parseDateInternal(sDateTime, format).getTime();
+        }  catch (NumberFormatException | IndexOutOfBoundsException e) {
+            String[] dateTimeChunks = WHITESPACE_PATTERN.split(sDateTime);
+            if (dateTimeChunks.length > 1) {
+                try {
+                    Calendar cal = parseDateInternal(dateTimeChunks[0], format);
+                    String[] timeChunks = HOUR_DELIMITER_PATTERN.split(dateTimeChunks[1]);
+                    cal.set(Calendar.HOUR_OF_DAY, parseInt(timeChunks,0, 0));
+                    cal.set(Calendar.MINUTE,  parseInt(timeChunks, 1, 0));
+                    cal.set(Calendar.SECOND,  parseInt(timeChunks, 2, 0));
+                    return cal.getTime();
+                } catch (NumberFormatException | IndexOutOfBoundsException ignored) {}
+            }
+            return new Date();
+        }
     }
 
     /**
@@ -58,46 +86,33 @@ public class QifUtils {
      * <p/>
      * 21/2/07 -> 02/21/2007 UK, Quicken 2007 D15/2/07
      *
-     * @param sDate String QIF date to parse
+     * @param sDateTime String QIF date to parse
      * @param format String identifier of format to parse
      * @return Returns parsed date and current date if an error occurs
      */
-    public static Date parseDate(String sDate, QifDateFormat format) {
+    public static Calendar parseDateInternal(String sDateTime, QifDateFormat format) {
         Calendar cal = Calendar.getInstance();
         int month = cal.get(Calendar.MONTH) + 1;
         int day = cal.get(Calendar.DAY_OF_MONTH);
         int year = cal.get(Calendar.YEAR);
+        int hourOfDay = 0;
+        int minute = 0;
+        int second = 0;
 
-        String[] chunks = DATE_DELIMITER_PATTERN.split(sDate);
+        String[] dateChunks = DATE_DELIMITER_PATTERN.split(sDateTime);
 
         if (format == US) {
-            try {
-                month = Integer.parseInt(chunks[0].trim());
-                day = Integer.parseInt(chunks[1].trim());
-                year = Integer.parseInt(chunks[2].trim());
-            } catch (Exception e) {
-                //eat it
-                Timber.e(e, "Unable to parse US date");
-            }
+            month = parseInt(dateChunks, 0);
+            day = parseInt(dateChunks, 1);
+            year = parseInt(dateChunks, 2);
         } else if (format == EU) {
-            try {
-                day = Integer.parseInt(chunks[0].trim());
-                month = Integer.parseInt(chunks[1].trim());
-                year = Integer.parseInt(chunks[2].trim());
-            } catch (Exception e) {
-                Timber.e(e, "Unable to parse EU date");
-            }
+            day = parseInt(dateChunks, 0);
+            month = parseInt(dateChunks, 1);
+            year = parseInt(dateChunks, 2);
         } else if (format == YMD) {
-          try {
-            year = Integer.parseInt(chunks[0].trim());
-            month = Integer.parseInt(chunks[1].trim());
-            day = Integer.parseInt(chunks[2].trim());
-          } catch (Exception e) {
-              Timber.e(e, "Unable to parse YMD date");
-          }
-        }  else {
-            Timber.e("Invalid date format specified");
-            return new Date();
+            year = parseInt(dateChunks, 0);
+            month = parseInt(dateChunks, 1);
+            day = parseInt(dateChunks, 2);
         }
 
         if (year < 100) {
@@ -107,9 +122,21 @@ public class QifUtils {
                 year += 1900;
             }
         }
-        cal.set(year, month - 1, day, 0, 0, 0);
+        cal.set(year, month - 1, day, hourOfDay, minute, second);
         cal.set(Calendar.MILLISECOND, 0);
-        return cal.getTime();
+        return cal;
+    }
+
+    private static int parseInt(String[] array, int position, int defaultValue) {
+        try {
+            return parseInt(array, position);
+        } catch (NumberFormatException | IndexOutOfBoundsException e) {
+            return defaultValue;
+        }
+    }
+
+    private static int parseInt(String[] array, int position) {
+        return Integer.parseInt(array[position].trim());
     }
 
     public static BigDecimal parseMoney(@NonNull String money) {
