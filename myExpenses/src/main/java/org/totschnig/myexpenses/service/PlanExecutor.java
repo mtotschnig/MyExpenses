@@ -94,7 +94,7 @@ public class PlanExecutor extends IntentService {
 
     Uri.Builder eventsUriBuilder = CalendarProviderProxy.INSTANCES_URI.buildUpon();
     ContentUris.appendId(eventsUriBuilder, instancesFrom);
-    ContentUris.appendId(eventsUriBuilder, now);
+    ContentUris.appendId(eventsUriBuilder, instancesTo);
     Uri eventsUri = eventsUriBuilder.build();
     Cursor cursor;
     try {
