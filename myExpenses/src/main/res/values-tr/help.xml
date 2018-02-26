@@ -13,6 +13,7 @@
   <string name="menu_grouping_help_text">Muameleleri gün, hafta, ay, ya da yıla dayanarak gruplandırabilirsiniz. Her grup için gelir, gider ve transferlerin toplamı hesaplanır ve görüntülenir. Bir grup başlığına tıkladığınız zaman muamele grubu küçültülür ve sadece başlık görüntülenir. Genişletmek için tekrar tıklamak yeterlidir.</string>
   <string name="menu_sort_direction_help_text">Muameleler artan (en eski en üstte) ya da azalan (en yeni en üstte) yönde sıralanabilirler.</string>
   <string name="menu_distribution_help_text">Harcamalarınızın kategori başına dağılımını görüntüleyin. Ayrıca herhangi bir grup başlığına uzun tıklayarak belli bir zaman bölümü için dağılımı inceleyebilirsiniz.</string>
+  <string name="menu_history_help_text">Nakit akışı grafiği gösterir: Gelir ve harcamalarınız yıllık, aylık, haftalık ve günlük olarak nasıl gelişti?</string>
   <string name="menu_manage_plans_help_text">Gelecekteki ve tekrar eden muameleleri tanımlayabileceğiniz ve bunları uygulamanıza, düzenlemenize ve silmenize imkân veren şablonlar ve planlar listesini açar.</string>
   <string name="menu_balance_help_text">Bu komut son mutabık ve kullanılabilir bakiyeyi gösteren bir diyalog açar. Kullanılabilir bakiyeyi banka hesabınız ile karşılaştırabilir ve tüm çözümlenmiş muameleleri uzlaşmış olarak işaretleyebilirsiniz. Seçime dayalı olarak, uzlaşmış muameleleri silmeye de karar verebilirsiniz.</string>
   <string name="menu_print_help_text">Şu anda gösterilen muamelelerin yazdırılabilir görüntüsünü oluşturur.</string>
@@ -138,4 +139,8 @@
   <string name="cab_sync_link_help_text">Hem yerel, hem de uzakta mevcut olan bir hesap için eşleştirmeyi başlat. İlk eşleştirmede yerel verilerin mi, yoksa uzaktaki verilerin mi korunacağını seçmeniz gerekir.</string>
   <string name="cab_sync_unlink_help_text">Seçili hesap artık arka uçla eşleştirilmeyecektir.</string>
   <!--History-->
+  <string name="help_HistoryActivity_info">Ekran nakit akışınızı, gelir ve giderlerinizin günlük, haftalık, aylık ve yıllık olarak nasıl geliştiğini gösterir.</string>
+  <string name="menu_HistoryActivity_grouping_help_text">Nakit akışı verilerinizin günlük, haftalık, aylık ve yıllık gruplamaları arasında geçiş yapın.</string>
+  <string name="menu_HistoryActivity_history_show_balance_help_text">Bakiyenin gösterilmesini aç ya da kapat</string>
+  <string name="menu_HistoryActivity_history_transfers_help_text">Transferlerin düzenli gelir veya masraf olarak değerlendirilmesi arasında geçiş yapın.</string>
 </resources>

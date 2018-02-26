@@ -42,6 +42,7 @@
   <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Không giới hạn số lượng bản mẫu chia tách</string>
   <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Hỗ trợ qua email</b> với đảm bảo sẽ nhận được phản hồi sau 2 ngày làm việc</string>
   <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Có quyền bầu chọn đối với <b>quá trình phát triển ứng dụng</b></string>
+  <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Biểu đồ thời gian (dòng tiền)</string>
   <string name="licence_status_free">Miễn phí</string>
   <string name="contrib_key">Bản Contrib</string>
   <string name="extended_key">Bản Extended</string>
@@ -65,7 +66,7 @@
   <string name="dialog_confirm_discard_new_account">Huỷ bỏ tải khoản mới?</string>
   <string name="dialog_confirm_discard_new_method">Huỷ bỏ phương thức chi trả mới?</string>
   <string name="dialog_command_disabled_balance">Không còn giao dịch nào chưa được thông qua để đối chiếu.</string>
-  <string name="dialog_command_disabled_insert_transfer">Việc chuyển khoản yêu cầu tài khoản thứ hai.</string>
+  <string name="dialog_command_disabled_insert_transfer">Việc chuyển khoản yêu cầu một tài khoản khác.</string>
   <string name="dialog_command_disabled_reset_account">Không có giao dịch để xuất.</string>
   <string name="dialog_command_disabled_distribution">Không có giao dịch nào được cho phân loại trong tài khoản này.</string>
   <string name="dialog_contrib_no">Vẫn chưa</string>
@@ -125,7 +126,7 @@
   <string name="grouping_day">Ngày</string>
   <string name="grouping_last_week">Tuần rồi</string>
   <string name="grouping_month">Tháng</string>
-  <string name="grouping_none">Không nằm trong nhóm</string>
+  <string name="grouping_none">Không gộp nhóm</string>
   <string name="grouping_this_week">Tuần này</string>
   <string name="grouping_today">Hôm nay</string>
   <string name="grouping_week">Tuần</string>
@@ -162,14 +163,14 @@
   <string name="menu_create_party">Bên mới</string>
   <string name="menu_create_split">Phân tách mới</string>
   <string name="menu_create_split_part_category">Phần loại của phân tách mới</string>
-  <string name="menu_create_split_part_transfer">Phần chuyển đổi phân tách mới</string>
+  <string name="menu_create_split_part_transfer">Phần tách mới cho giao dịch chuyển khoản</string>
   <string name="menu_create_sub_cat">Phân loại phụ thuộc</string>
   <string name="menu_create_template">Mẫu mới</string>
   <string name="menu_create_template_from_transaction">Lưu như bản mẫu</string>
   <string name="menu_create_template_for_transaction">Mẫu giao dịch mới</string>
-  <string name="menu_create_template_for_transfer">Mẫu truyền đổi mới</string>
+  <string name="menu_create_template_for_transfer">Mẫu chuyển khoản mới</string>
   <string name="menu_create_transaction">Giao dịch mới</string>
-  <string name="menu_create_transfer">Truyền đổi mới</string>
+  <string name="menu_create_transfer">Chuyển khoản mới</string>
   <string name="menu_delete">Xóa</string>
   <string name="menu_distribution">Phân phối</string>
   <string name="menu_edit">Chỉnh sửa</string>
@@ -180,13 +181,13 @@
   <string name="menu_edit_plan_instance">Chỉnh sửa sự xuất hiện của kế hoạch một lần</string>
   <string name="menu_edit_split">Chỉnh sửa phần phân tách</string>
   <string name="menu_edit_split_part_category">Chỉnh sửa phần phân loại phân tách</string>
-  <string name="menu_edit_split_part_transfer">Chỉnh sửa phần được phân tách chuyển đổi</string>
+  <string name="menu_edit_split_part_transfer">Chỉnh sửa phần tách của giao dịch chuyển khoản</string>
   <string name="menu_edit_template">Chỉnh sửa mẫu</string>
   <string name="menu_edit_transaction">Chỉnh sửa giao dịch</string>
-  <string name="menu_edit_transfer">Chỉnh sửa chuyển khoản</string>
+  <string name="menu_edit_transfer">Chỉnh sửa giao dịch chuyển khoản</string>
   <string name="menu_exclude_from_totals">Không tính vào tổng số</string>
   <string name="menu_forward">Tiếp theo</string>
-  <string name="menu_grouping">Gom nhóm</string>
+  <string name="menu_grouping">Gộp nhóm</string>
   <string name="menu_help">Trợ giúp</string>
   <!--This command inverts the direction of a transfer-->
   <string name="menu_invert_transfer">Đảo lại</string>
@@ -382,7 +383,7 @@
   <string name="subcategory">Phân loại phụ thuộc</string>
   <string name="sum_expenses">Chi tiêu</string>
   <string name="sum_income">Thu nhập</string>
-  <string name="sum_transfer">Truyền đổi</string>
+  <string name="sum_transfer">Giao dịch chuyển khoản</string>
   <!--platform is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">{app_name}, Quản lý tài chính cá nhân trên {platform}, {website}</string>
   <string name="template_create_success">Mẫu \"%1$s\" đã được tạo thành công</string>
@@ -392,7 +393,7 @@
   <string name="total_cleared">Khoản đã thông qua</string>
   <string name="total_reconciled">Khoản đã đối chiếu</string>
   <string name="transaction">Giao dịch</string>
-  <string name="transfer">Truyền đổi</string>
+  <string name="transfer">Chuyển khoản</string>
   <string name="transfer_from_account">Từ</string>
   <string name="transfer_to_account">Đến</string>
   <string name="type">Loại</string>
@@ -428,7 +429,7 @@
   <string name="warning_reset_account_matched">Nếu bạn tiếp tục, các giao dịch nằm trong bộ lọc hiện tại sẽ bị xoá khỏi cơ sở dữ liệu và không thể khôi phục.</string>
   <string name="warning_restore">Cơ sở dữ liệu và tùy biến sẽ được phục hồi từ thẻ nhớ (%1$s). Dữ liệu hiện tại sẽ bị xóa. Bạn có muốn tiếp tục hay không?</string>
   <string name="warning_app_folder_will_be_deleted_upon_uninstall">Thư mục đang được chọn để chứa các bản sao lưu và xuất ra sẽ bị xoá bởi Android nếu bạn gỡ cài đặt {app_name}. Bạn có thể ngăn chặn điều này bằng cách chọn một thư mục chứa khác từ màn hình cài đặt.</string>
-  <string name="warning_splitpartcategory_context">Các thao tác truyền đổi là một phần của việc phân tách có thể được chỉnh sửa và xóa trong phần ngữ cảnh của phân tách.</string>
+  <string name="warning_splitpartcategory_context">Các giao dịch chuyển khoản mà là một phần của giao dịch phân tách có thể được chỉnh sửa và trong phần chỉnh sửa của phần tách.</string>
   <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Vui lòng chọn một số trong khoảng %1$d và %2$d</string>
   <string name="warning_change_fraction_digits_1">Số tiền trong cơ sở dữ liệu cần được cập nhật để khớp với số lượng các chữ số thập phân.</string>
   <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Nếu số tiền không được cập nhật, nó sẽ hiển thị dưới dạng được nhân lên %d lần sau khi thay đổi.</string>
@@ -697,6 +698,13 @@
   <string name="pref_warning_only_one_protection">Trước khi bạn có thể sử dụng phương thức bảo vệ bởi %1$s, bạn phải tắt cơ chế bảo vệ của %2$s.</string>
   <string name="warning_device_lock_screen_not_set_up_1">Khoá màn hình an toàn vẫn chưa được thiết lập.</string>
   <string name="warning_device_lock_screen_not_set_up_2">Vào mục \'Cài đặt -&gt; Bảo mật -&gt; Khoá màn hình\' để thiết lập khoá màn hình.</string>
+  <string name="snackbar_dismiss">Bỏ qua</string>
+  <string name="menu_history_show_balance">Hiển thị số dư</string>
+  <string name="menu_history_transfers">Bao gồm các giao dịch chuyển khoản</string>
+  <string name="menu_history">Lịch sử</string>
   <!--A label indicating the color for the sum of expenses-->
+  <string name="history_chart_out_label">Chi tiêu</string>
   <!--A label indicating the color for the sum of income-->
+  <string name="history_chart_in_label">Thu nhập</string>
+  <string name="menu_history_totals">Hiển thị tổng số</string>
 </resources>
