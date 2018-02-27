@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_2881">
+    <item>@string/bug_fixes</item>
+  </string-array>
   <string-array name="whats_new_288">
     <item>History chart (Cash flow)</item>
   </string-array>
