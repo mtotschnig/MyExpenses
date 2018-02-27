@@ -721,7 +721,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   private void showOnlyOneProtectionWarning(boolean legacyProtectionByPasswordIsActive) {
     String lockScreen = getString(R.string.pref_protection_device_lock_screen_title);
     String passWord = getString(R.string.pref_protection_password_title);
-    Object[] formatArgs = legacyProtectionByPasswordIsActive ? new String[]{lockScreen, passWord} : new String[]{lockScreen, passWord};
+    Object[] formatArgs = legacyProtectionByPasswordIsActive ? new String[]{lockScreen, passWord} : new String[]{passWord, lockScreen};
     //noinspection StringFormatMatches
     activity().showSnackbar(getString(R.string.pref_warning_only_one_protection, formatArgs), Snackbar.LENGTH_LONG);
   }
