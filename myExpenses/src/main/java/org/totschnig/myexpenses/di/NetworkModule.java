@@ -27,6 +27,7 @@ public class NetworkModule {
   OkHttpClient.Builder provideOkHttpClientBuilder(HttpLoggingInterceptor loggingInterceptor,
                                                   SocketFactory socketFactory) {
     return new OkHttpClient.Builder()
+        .addInterceptor(loggingInterceptor)
         .socketFactory(socketFactory);
   }
 
