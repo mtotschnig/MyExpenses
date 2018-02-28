@@ -25,6 +25,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -209,7 +210,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
         }
       } catch (IllegalArgumentException e) {
         AcraHelper.report(e);
-        showSnackbar("Unable to handle image: " + e.getMessage());
+        showSnackbar("Unable to handle image: " + e.getMessage(), Snackbar.LENGTH_LONG, false);
         doShowPicture = false;
       }
     }

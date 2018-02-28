@@ -20,6 +20,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.Html;
@@ -397,7 +398,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
             .show(getFragmentManager(), "APP_FOLDER_WARNING");
       }
     } else {
-      showSnackbar(appDirStatus.print(ctx));
+      showSnackbar(appDirStatus.print(ctx), Snackbar.LENGTH_LONG, false);
     }
   }
 

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -88,7 +89,7 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
           mUri = ImportFileResultHandler.handleFilenameRequestResult(this, data);
         } catch (Throwable throwable) {
           mUri = null;
-          showSnackbar(throwable.getMessage());
+          showSnackbar(throwable.getMessage(), Snackbar.LENGTH_LONG, false);
         }
       }
     }

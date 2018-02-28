@@ -27,6 +27,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.BackupListDialogFragment;
 import org.totschnig.myexpenses.dialog.BackupSourcesDialogFragment;
+import org.totschnig.myexpenses.dialog.CommitSafeDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.dialog.DialogUtils;
@@ -275,6 +276,11 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
         return;
     }
     super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+  }
+
+  @Override
+  public void showSnackbar(CharSequence message, int duration, boolean dismissable) {
+    ((CommitSafeDialogFragment) getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG)).showSnackbar(message, duration, false);
   }
 
   @Override
