@@ -68,4 +68,10 @@ public class AcraHelper {
   private static boolean shouldReport() {
     return DO_REPORT && ACRA.isInitialised();
   }
+
+  public static void appendCustomData(String key, String value) {
+    String currentValue = ACRA.getErrorReporter().getCustomData(key);
+    String trimmedValue = currentValue == null ? "" : currentValue.substring(Math.max(0, currentValue.length() - 500));
+    ACRA.getErrorReporter().putCustomData(key, trimmedValue + "->" + value);
+  }
 }

@@ -28,13 +28,13 @@ import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.fragment.CsvImportDataFragment;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-
-import timber.log.Timber;
+import java.util.Locale;
 
 /**
  * This Fragment manages a single background task and retains itself across
@@ -55,6 +55,7 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final String KEY_ENCODING = "encoding";
   public static final String KEY_FORMAT = "format";
   public static final String KEY_DELIMITER = "delimiter";
+  private static final String CUSTOM_DATA_KEY_TASK = "tasks";
 
   public static final int TASK_INSTANTIATE_TRANSACTION = 2;
   public static final int TASK_INSTANTIATE_TEMPLATE = 3;
@@ -219,7 +220,7 @@ public class TaskExecutionFragment<T> extends Fragment {
     bundle.putLong(DatabaseConstants.KEY_ACCOUNTID, accountId);
     bundle.putString(DatabaseConstants.KEY_CURRENCY, currency);
     bundle.putSerializable(KEY_DATE_FORMAT, qifDateFormat);
-    bundle.putSerializable(DatabaseConstants.KEY_TYPE,type);
+    bundle.putSerializable(DatabaseConstants.KEY_TYPE, type);
     f.setArguments(bundle);
     return f;
   }
@@ -266,9 +267,9 @@ public class TaskExecutionFragment<T> extends Fragment {
     // Create and execute the background task.
     Bundle args = getArguments();
     int taskId = args.getInt(KEY_TASKID);
-    //TODO Acra breadcrumbs
-    Timber.i("TaskExecutionFragment created for task %d with objects %s",
-        taskId, Utils.printDebug((Object[]) args.getSerializable(KEY_OBJECT_IDS)));
+    AcraHelper.appendCustomData(CUSTOM_DATA_KEY_TASK,
+        String.format(Locale.ROOT, "%d (%s)",
+            taskId, Utils.printDebug((Object[]) args.getSerializable(KEY_OBJECT_IDS))));
     try {
       switch (taskId) {
         case TASK_GRISBI_IMPORT:

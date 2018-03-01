@@ -53,7 +53,6 @@ import android.widget.Toast;
 
 import com.annimon.stream.Optional;
 
-import org.acra.ACRA;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
@@ -231,9 +230,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   @Override
   protected void onResume() {
     super.onResume();
-    String currentBreadCrumb = ACRA.getErrorReporter().getCustomData(CUSTOM_DATA_KEY_BREADCRUMB);
-    String trimmedBreadCrumb = currentBreadCrumb == null ? "" : currentBreadCrumb.substring(Math.max(0, currentBreadCrumb.length() - 500));
-    ACRA.getErrorReporter().putCustomData(CUSTOM_DATA_KEY_BREADCRUMB, trimmedBreadCrumb + "->" + getClass().getSimpleName());
+    AcraHelper.appendCustomData(CUSTOM_DATA_KEY_BREADCRUMB, getClass().getSimpleName());
     if (scheduledRestart) {
       scheduledRestart = false;
       recreate();
