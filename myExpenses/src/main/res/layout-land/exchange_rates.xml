@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:paddingEnd="12dp"
-    android:paddingRight="12dp"
-    tools:showIn="@layout/one_expense"
-    tools:ignore="RtlSymmetry">
+<merge xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <include layout="@layout/exchange_rate_1"/>
-
-    <View
+    <include
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:id="@+id/ExchangeRate_1"
+        layout="@layout/exchange_rate"/>
 
-    <include layout="@layout/exchange_rate_2"/>
-</LinearLayout>
+    <include
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:id="@+id/ExchangeRate_2"
+        layout="@layout/exchange_rate"/>
+</merge>

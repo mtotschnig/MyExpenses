@@ -98,6 +98,7 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.AmountEditText;
+import org.totschnig.myexpenses.ui.ExchangeRateEdit;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.ui.SpinnerHelper;
 import org.totschnig.myexpenses.util.AcraHelper;
@@ -114,7 +115,6 @@ import org.totschnig.myexpenses.widget.TemplateWidget;
 import java.io.File;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -175,7 +175,6 @@ public class ExpenseEdit extends AmountActivity implements
   private static final String PREFKEY_TRANSFER_LAST_ACCOUNT_FROM_WIDGET = "transferLastAccountFromWidget";
   private static final String PREFKEY_TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET = "transferLastTransferAccountFromWidget";
   private static final String PREFKEY_SPLIT_LAST_ACCOUNT_FROM_WIDGET = "splitLastAccountFromWidget";
-  public static final int EXCHANGE_RATE_FRACTION_DIGITS = 5;
   private static final String KEY_AUTOFILL_OVERRIDE_PREFERENCES = "autoFillOverridePreferences";
   private static int INPUT_EXCHANGE_RATE = 1;
   private static int INPUT_AMOUNT = 2;
@@ -185,7 +184,8 @@ public class ExpenseEdit extends AmountActivity implements
   private Button mDateButton;
   private Button mTimeButton;
   private EditText mCommentText, mTitleText, mReferenceNumberText;
-  private AmountEditText mTransferAmountText, mExchangeRate1Text, mExchangeRate2Text;
+  private ExchangeRateEdit mExchangeRateEdit;
+  private AmountEditText mTransferAmountText;
 
   private Button mCategoryButton, mPlanButton;
   private SpinnerHelper mMethodSpinner, mAccountSpinner, mTransferAccountSpinner, mStatusSpinner,
@@ -285,12 +285,8 @@ public class ExpenseEdit extends AmountActivity implements
     mPayeeLabel = findViewById(R.id.PayeeLabel);
     mPayeeText = findViewById(R.id.Payee);
     mTransferAmountText = findViewById(R.id.TranferAmount);
-    mExchangeRate1Text = findViewById(R.id.ExchangeRate_1);
-    mExchangeRate1Text.setFractionDigits(EXCHANGE_RATE_FRACTION_DIGITS);
-    mExchangeRate1Text.addTextChangedListener(new LinkedExchangeRateTextWatchter(true));
-    mExchangeRate2Text = findViewById(R.id.ExchangeRate_2);
-    mExchangeRate2Text.setFractionDigits(EXCHANGE_RATE_FRACTION_DIGITS);
-    mExchangeRate2Text.addTextChangedListener(new LinkedExchangeRateTextWatchter(false));
+    mExchangeRateEdit = findViewById(R.id.ExchangeRate);
+    mExchangeRateEdit.setExchangeRateWatcher(new LinkedExchangeRateTextWatchter());
 
     mPayeeAdapter = new SimpleCursorAdapter(this, R.layout.support_simple_spinner_dropdown_item, null,
         new String[]{KEY_PAYEE_NAME},
@@ -1733,13 +1729,10 @@ public class ExpenseEdit extends AmountActivity implements
         isSame || (mTransaction instanceof Template) ? View.GONE : View.VISIBLE);
     final String symbol2 = Money.getSymbol(transferAccount.currency);
     //noinspection SetTextI18n
-    addCurrencyToLabel((TextView) findViewById(R.id.TransferAmountLabel), symbol2);
+    addCurrencyToLabel(findViewById(R.id.TransferAmountLabel), symbol2);
     mTransferAmountText.setFractionDigits(Money.getFractionDigits(transferAccount.currency));
     final String symbol1 = Money.getSymbol(currency);
-    ((TextView) findViewById(R.id.ExchangeRateLabel_1_1)).setText(String.format("1 %s =", symbol1));
-    ((TextView) findViewById(R.id.ExchangeRateLabel_1_2)).setText(symbol2);
-    ((TextView) findViewById(R.id.ExchangeRateLabel_2_1)).setText(String.format("1 %s =", symbol2));
-    ((TextView) findViewById(R.id.ExchangeRateLabel_2_2)).setText(symbol1);
+    mExchangeRateEdit.setSymbols(symbol1, symbol2);
 
     Bundle bundle = new Bundle(2);
     bundle.putStringArray(KEY_CURRENCY, new String[]{currency.getCurrencyCode(), transferAccount
@@ -2059,11 +2052,7 @@ public class ExpenseEdit extends AmountActivity implements
               currency2.getCurrencyCode().equals(data.getString(1))) {
             BigDecimal amount = new Money(currency1, data.getLong(2)).getAmountMajor();
             BigDecimal transferAmount = new Money(currency2, data.getLong(3)).getAmountMajor();
-            BigDecimal exchangeRate = amount.compareTo(nullValue) != 0 ?
-                transferAmount.divide(amount, EXCHANGE_RATE_FRACTION_DIGITS, RoundingMode.DOWN) : nullValue;
-            if (exchangeRate.compareTo(nullValue) != 0) {
-              mExchangeRate1Text.setAmount(exchangeRate);
-            }
+            mExchangeRateEdit.calculateAndSetRate(amount, transferAmount);
           }
         }
         break;
@@ -2324,14 +2313,7 @@ public class ExpenseEdit extends AmountActivity implements
   private void updateExchangeRates() {
     BigDecimal amount = validateAmountInput(mAmountText, false);
     BigDecimal transferAmount = validateAmountInput(mTransferAmountText, false);
-    BigDecimal exchangeRate =
-        (amount != null && transferAmount != null && amount.compareTo(nullValue) != 0) ?
-            transferAmount.divide(amount, EXCHANGE_RATE_FRACTION_DIGITS, RoundingMode.DOWN) : nullValue;
-    BigDecimal inverseExchangeRate =
-        (amount != null && transferAmount != null && transferAmount.compareTo(nullValue) != 0) ?
-            amount.divide(transferAmount, EXCHANGE_RATE_FRACTION_DIGITS, RoundingMode.DOWN) : nullValue;
-    mExchangeRate1Text.setAmount(exchangeRate);
-    mExchangeRate2Text.setAmount(inverseExchangeRate);
+    mExchangeRateEdit.calculateAndSetRate(amount, transferAmount);
   }
 
   private class MyTextWatcher implements TextWatcher {
@@ -2369,7 +2351,7 @@ public class ExpenseEdit extends AmountActivity implements
         }
         if (lastExchangeRateRelevantInputs[1] == INPUT_EXCHANGE_RATE) {
           BigDecimal input = validateAmountInput(isMain ? mAmountText : mTransferAmountText, false);
-          BigDecimal exchangeRate = validateAmountInput(isMain ? mExchangeRate1Text : mExchangeRate2Text, false);
+          BigDecimal exchangeRate = mExchangeRateEdit.getRate(!isMain);
           BigDecimal result = exchangeRate != null && input != null ? input.multiply(exchangeRate) : new BigDecimal(0);
           (isMain ? mTransferAmountText : mAmountText).setAmount(result);
         } else {
@@ -2380,29 +2362,16 @@ public class ExpenseEdit extends AmountActivity implements
     }
   }
 
-  private class LinkedExchangeRateTextWatchter extends MyTextWatcher {
-    /**
-     * true if we are linked to exchange rate where unit is from account currency
-     */
-    boolean isMain;
-
-    public LinkedExchangeRateTextWatchter(boolean isMain) {
-      this.isMain = isMain;
-    }
+  private class LinkedExchangeRateTextWatchter implements ExchangeRateEdit.ExchangeRateWatcher {
 
     @Override
-    public void afterTextChanged(Editable s) {
+    public void afterExchangeRateChanged(BigDecimal rate, BigDecimal inverse) {
       if (isProcessingLinkedAmountInputs) return;
       isProcessingLinkedAmountInputs = true;
       if (lastExchangeRateRelevantInputs[0] != INPUT_EXCHANGE_RATE) {
         lastExchangeRateRelevantInputs[1] = lastExchangeRateRelevantInputs[0];
         lastExchangeRateRelevantInputs[0] = INPUT_EXCHANGE_RATE;
       }
-      BigDecimal inputRate = validateAmountInput(
-          isMain ? mExchangeRate1Text : mExchangeRate2Text, false);
-      if (inputRate == null) inputRate = nullValue;
-      BigDecimal inverseInputRate = calculateInverse(inputRate);
-      (isMain ? mExchangeRate2Text : mExchangeRate1Text).setAmount(inverseInputRate);
 
 
       AmountEditText constant, variable;
@@ -2418,17 +2387,10 @@ public class ExpenseEdit extends AmountActivity implements
       }
       BigDecimal input = validateAmountInput(constant, false);
       if (input != null) {
-        variable.setAmount(input.multiply(
-            mainProvided == isMain ? inputRate : inverseInputRate));
+        variable.setAmount(input.multiply(mainProvided ? rate : inverse));
       }
       isProcessingLinkedAmountInputs = false;
     }
-  }
-
-  private BigDecimal calculateInverse(BigDecimal input) {
-    return input.compareTo(nullValue) != 0 ?
-        new BigDecimal(1).divide(input, EXCHANGE_RATE_FRACTION_DIGITS, RoundingMode.DOWN) :
-        nullValue;
   }
 
   @Override

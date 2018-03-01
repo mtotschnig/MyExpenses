@@ -51,7 +51,7 @@
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:minHeight">50dp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:layout_width">0px</item>
+        <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
     </style>
 
@@ -60,7 +60,7 @@
     </style>
 
     <style name="FormField">
-        <item name="android:layout_width">0px</item>
+        <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">@dimen/form_table_ratio</item>
     </style>
 
@@ -280,4 +280,6 @@
     <style name="OnboardingSpinner">
         <item name="android:layout_marginLeft">-8dp</item>
     </style>
+
+    <integer name="exchange_rate_orientation">1</integer><!-- vertical -->
 </resources>

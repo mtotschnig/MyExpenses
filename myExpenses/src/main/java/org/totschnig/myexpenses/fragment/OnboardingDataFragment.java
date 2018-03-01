@@ -22,7 +22,6 @@ import android.widget.Spinner;
 import com.android.setupwizardlib.SetupWizardLayout;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.AccountEdit;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.activity.SplashActivity;
 import org.totschnig.myexpenses.activity.SyncBackendSetupActivity;
@@ -222,7 +221,7 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
     if (android.text.TextUtils.isEmpty(label)) {
       label = getString(R.string.default_account_name);
     }
-    BigDecimal openingBalance = AccountEdit.validateAmoutInput(getActivity(), amountEditText, false);
+    BigDecimal openingBalance = amountEditText.validate(false);
     if (openingBalance == null) {
       openingBalance = BigDecimal.ZERO;
     } else if (!typeButton.isChecked()) {

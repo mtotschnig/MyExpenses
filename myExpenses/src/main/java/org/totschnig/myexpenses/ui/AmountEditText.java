@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.AppCompatEditText;
 import android.util.AttributeSet;
 
+import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -71,5 +72,22 @@ public class AmountEditText extends AppCompatEditText {
 
   public void setAmount(BigDecimal amount) {
     setText(numberFormat.format(amount));
+  }
+
+  public BigDecimal validate(boolean showToUser) {
+    String strAmount = getText().toString();
+    if (strAmount.equals("")) {
+      if (showToUser)
+        setError(getContext().getString(R.string.no_amount_given));
+      return null;
+    }
+    BigDecimal amount = Utils.validateNumber(getNumberFormat(), strAmount);
+    if (amount == null) {
+      if (showToUser)
+        setError(getContext().getString(R.string.invalid_number_format, getNumberFormat().format
+            (11.11)));
+      return null;
+    }
+    return amount;
   }
 }
