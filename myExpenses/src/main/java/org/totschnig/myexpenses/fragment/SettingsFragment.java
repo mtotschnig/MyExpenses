@@ -43,6 +43,7 @@ import org.totschnig.myexpenses.activity.FolderBrowser;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogPreference;
@@ -298,6 +299,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
 
       findPreference(getString(R.string.pref_follow_gplus_key)).setTitle(
           Utils.getTextWithAppName(getContext(), R.string.pref_follow_gplus_title));
+
+      ListPreference homeCurrencyPref = (ListPreference) findPreference(PrefKey.HOME_CURRENCY);
+      CurrencyEnum[] currencies = CurrencyEnum.sortedValues();
+      homeCurrencyPref.setEntries(Stream.of(currencies).map(CurrencyEnum::toString).toArray(CharSequence[]::new));
+      homeCurrencyPref.setEntryValues(Stream.of(currencies).map(CurrencyEnum::name).toArray(CharSequence[]::new));
     }
     //SHORTCUTS screen
     else if (rootKey.equals(UI_HOME_SCREEN_SHORTCUTS.getKey())) {

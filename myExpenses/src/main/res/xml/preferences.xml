@@ -42,6 +42,9 @@
             android:title="@string/pref_manage_stale_images_title">
             <intent android:action="myexpenses.intent.manage.stale_images"/>
         </Preference>
+        <org.totschnig.myexpenses.preference.ListPreferenceShowSummary
+            android:key="@string/pref_home_currency_key"
+            android:title="@string/pref_home_currency_title"/>
     </PreferenceCategory>
 
     <PreferenceCategory

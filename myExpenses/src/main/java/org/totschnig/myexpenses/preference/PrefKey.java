@@ -101,7 +101,8 @@ public enum PrefKey {
   HISTORY_SHOW_BALANCE("history_show_balance"),
   HISTORY_SHOW_TOTALS("history_show_totals"),
   HISTORY_INCLUDE_TRANSFERS("history_include_transfers"),
-  ROADMAP_VOTE("roadmap_vote");
+  ROADMAP_VOTE("roadmap_vote"),
+  HOME_CURRENCY(R.string.pref_home_currency_key);
 
   private int resId = 0;
   private String key = null;
