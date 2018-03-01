@@ -154,7 +154,7 @@ public class CategoryList extends SortableListFragment implements
   public Grouping mGrouping;
   int mGroupingYear;
   int mGroupingSecond;
-  int thisYear, thisMonth, thisWeek, thisDay, maxValue;
+  int thisYear, thisMonth, thisWeek, thisDay, maxValue, minValue;
 
   private Account mAccount;
   private Cursor mGroupCursor;
@@ -679,9 +679,9 @@ public class CategoryList extends SortableListFragment implements
           projectionList.add(String.format(Locale.US, "strftime('%%W','%d-12-31') AS " + KEY_MAX_VALUE, yearToLookUp));
           break;
         case MONTH:
-          projectionList.add("12 as " + KEY_MAX_VALUE);
+          projectionList.add("11 as " + KEY_MAX_VALUE);
           break;
-        default:
+        default://YEAR
           projectionList.add("0 as " + KEY_MAX_VALUE);
       }
       if (mGrouping.equals(Grouping.WEEK)) {
@@ -821,6 +821,7 @@ public class CategoryList extends SortableListFragment implements
         thisWeek = c.getInt(c.getColumnIndex(KEY_THIS_WEEK));
         thisDay = c.getInt(c.getColumnIndex(KEY_THIS_DAY));
         maxValue = c.getInt(c.getColumnIndex(KEY_MAX_VALUE));
+        minValue = mGrouping == Grouping.MONTH ? 0 : 1;
         break;
       case SORTABLE_CURSOR:
         mGroupCursor = c;
@@ -966,7 +967,7 @@ public class CategoryList extends SortableListFragment implements
       mGroupingYear--;
     else {
       mGroupingSecond--;
-      if (mGroupingSecond < 1) {
+      if (mGroupingSecond < minValue) {
         mGroupingYear--;
         mGroupingSecond = maxValue;
       }
@@ -981,7 +982,7 @@ public class CategoryList extends SortableListFragment implements
       mGroupingSecond++;
       if (mGroupingSecond > maxValue) {
         mGroupingYear++;
-        mGroupingSecond = 1;
+        mGroupingSecond = minValue;
       }
     }
     reset();
