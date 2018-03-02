@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ExchangeRateRow"
+    android:visibility="gone"
+    tools:visibility="visible"
+    tools:showIn="@layout/one_expense">
+
+    <TextView
+        android:id="@+id/ExchangeRateLabel"
+        style="@style/FormLabel"
+        android:labelFor="@+id/ExchangeRate"
+        android:text="@string/exchange_rate"/>
+
+    <org.totschnig.myexpenses.ui.ExchangeRateEdit
+        android:id="@+id/ExchangeRate"
+        android:orientation="@integer/exchange_rate_orientation"
+        style="@style/FormField"/>
+</TableRow>

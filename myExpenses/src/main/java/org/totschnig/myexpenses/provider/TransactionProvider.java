@@ -56,6 +56,7 @@ import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.io.File;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Currency;
@@ -129,6 +130,10 @@ public class TransactionProvider extends ContentProvider {
    */
   public static final Uri DUAL_URI =
       Uri.parse("content://" + AUTHORITY + "/dual");
+
+  public static final Uri ACCOUNT_EXCHANGE_RATE_URI =
+      Uri.parse("content://" + AUTHORITY + "/account_exchangerates");
+
   public static final String URI_SEGMENT_MOVE = "move";
   public static final String URI_SEGMENT_TOGGLE_CRSTATUS = "toggleCrStatus";
   public static final String URI_SEGMENT_UNDELETE = "undelete";
@@ -205,6 +210,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int ACCOUNT_ID_GROUPING = 45;
   private static final int ACCOUNT_ID_SORTDIRECTION = 46;
   private static final int AUTOFILL = 47;
+  private static final int ACCOUNT_EXCHANGE_RATE = 48;
 
 
   private boolean mDirty = false;
@@ -680,6 +686,13 @@ public class TransactionProvider extends ContentProvider {
             + " WHERE " + WHERE_NOT_SPLIT + " AND " + KEY_PAYEEID + " = ?)";
         selectionArgs = new String[]{uri.getPathSegments().get(1)};
         break;
+      case ACCOUNT_EXCHANGE_RATE:
+        qb.setTables(TABLE_ACCOUNT_EXCHANGE_RATES);
+        qb.appendWhere(KEY_ACCOUNTID + "=" + uri.getPathSegments().get(1));
+        qb.appendWhere(" AND " + KEY_CURRENCY_SELF+ "='" + uri.getPathSegments().get(2) + "'");
+        qb.appendWhere(" AND " + KEY_CURRENCY_OTHER+ "='" + uri.getPathSegments().get(3) + "'");
+        projection = new String[]{KEY_EXCHANGE_RATE};
+        break;
       default:
         throw unknownUri(uri);
     }
@@ -786,6 +799,13 @@ public class TransactionProvider extends ContentProvider {
       case STALE_IMAGES:
         id = db.insertOrThrow(TABLE_STALE_URIS, null, values);
         newUri = STALE_IMAGES_URI + "/" + id;
+        break;
+      case ACCOUNT_EXCHANGE_RATE:
+        values.put(KEY_ACCOUNTID, uri.getPathSegments().get(1));
+        values.put(KEY_CURRENCY_SELF, uri.getPathSegments().get(2));
+        values.put(KEY_CURRENCY_OTHER, uri.getPathSegments().get(3));
+        id = db.insertWithOnConflict(TABLE_ACCOUNT_EXCHANGE_RATES, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+        newUri = uri.toString();
         break;
       case DUAL: {
         if ("1".equals(uri.getQueryParameter(QUERY_PARAMETER_SYNC_BEGIN))) {
@@ -1450,6 +1470,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "changes", CHANGES);
     URI_MATCHER.addURI(AUTHORITY, "settings", SETTINGS);
     URI_MATCHER.addURI(AUTHORITY, "autofill/#", AUTOFILL);
+    URI_MATCHER.addURI(AUTHORITY, "account_exchangerates/#/*/*", ACCOUNT_EXCHANGE_RATE);
   }
 
   /**

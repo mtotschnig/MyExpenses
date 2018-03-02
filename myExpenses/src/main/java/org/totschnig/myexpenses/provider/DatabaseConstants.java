@@ -177,6 +177,9 @@ public class DatabaseConstants {
   public static final String KEY_KEY = "key";
   public static final String KEY_VALUE = "value";
   public static final String KEY_SORT_DIRECTION = "sort_direction";
+  public static final String KEY_CURRENCY_SELF = "currency_self";
+  public static final String KEY_CURRENCY_OTHER= "currency_other";
+  public static final String KEY_EXCHANGE_RATE = "exchange_rate";
 
   /**
    * column alias for the second group (month or week)
@@ -224,6 +227,7 @@ public class DatabaseConstants {
   public static final String TABLE_STALE_URIS = "stale_uris";
   public static final String TABLE_CHANGES = "changes";
   public static final String TABLE_SETTINGS = "settings";
+  public static final String TABLE_ACCOUNT_EXCHANGE_RATES = "account_exchangerates";
   /**
    * used on backup and restore
    */

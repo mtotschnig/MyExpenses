@@ -87,22 +87,7 @@
                     layout="@layout/amount_input"/>
             </TableRow>
 
-            <TableRow
-                android:id="@+id/ExchangeRateRow"
-                android:visibility="gone"
-                tools:visibility="visible">
-
-                <TextView
-                    android:id="@+id/ExchangeRateLabel"
-                    style="@style/FormLabel"
-                    android:labelFor="@+id/ExchangeRate"
-                    android:text="@string/exchange_rate"/>
-
-                <org.totschnig.myexpenses.ui.ExchangeRateEdit
-                    android:id="@+id/ExchangeRate"
-                    android:orientation="@integer/exchange_rate_orientation"
-                    style="@style/FormField"/>
-            </TableRow>
+            <include layout="@layout/exchange_rate_row"/>
 
             <TableRow
                 android:id="@+id/TransferAmountRow"

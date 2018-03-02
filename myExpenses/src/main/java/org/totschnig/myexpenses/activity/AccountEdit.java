@@ -46,12 +46,15 @@ import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.sync.GenericAccountService;
+import org.totschnig.myexpenses.ui.ExchangeRateEdit;
 import org.totschnig.myexpenses.ui.SpinnerHelper;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.UiUtils;
+import org.totschnig.myexpenses.util.Utils;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -79,6 +82,7 @@ public class AccountEdit extends AmountActivity implements
   private AppCompatButton mColorIndicator;
   private Account mAccount;
   private ArrayAdapter<CurrencyEnum> currencyAdapter;
+  private ExchangeRateEdit mExchangeRateEdit;
 
   private void requireAccount() {
     if (mAccount == null) {
@@ -105,8 +109,8 @@ public class AccountEdit extends AmountActivity implements
     setContentView(R.layout.one_account);
     setupToolbar();
 
-    mLabelText = (EditText) findViewById(R.id.Label);
-    mDescriptionText = (EditText) findViewById(R.id.Description);
+    mLabelText = findViewById(R.id.Label);
+    mDescriptionText = findViewById(R.id.Description);
 
     Bundle extras = getIntent().getExtras();
     long rowId = extras != null ? extras.getLong(DatabaseConstants.KEY_ROWID)
@@ -142,7 +146,8 @@ public class AccountEdit extends AmountActivity implements
 
     mAccountTypeSpinner = new SpinnerHelper(DialogUtils.configureTypeSpinner(findViewById(R.id.AccountType)));
 
-    mColorIndicator = (AppCompatButton) findViewById(R.id.ColorIndicator);
+    mColorIndicator = findViewById(R.id.ColorIndicator);
+    mExchangeRateEdit = findViewById(R.id.ExchangeRate);
 
     mSyncSpinner = new SpinnerHelper(findViewById(R.id.Sync));
     configureSyncBackendAdapter();
@@ -197,10 +202,18 @@ public class AccountEdit extends AmountActivity implements
       configureType();
     }
     mAmountText.setAmount(amount);
+    String currencyCode = mAccount.currency.getCurrencyCode();
     mCurrencySpinner.setSelection(currencyAdapter.getPosition(
-        CurrencyEnum.valueOf(mAccount.currency.getCurrencyCode())));
+        CurrencyEnum.valueOf(currencyCode)));
     mAccountTypeSpinner.setSelection(mAccount.getType().ordinal());
     UiUtils.setBackgroundOnButton(mColorIndicator, mAccount.color);
+    String homeCurrencyPref = PrefKey.HOME_CURRENCY.getString(currencyCode);
+    if (!homeCurrencyPref.equals(currencyCode)) {
+      findViewById(R.id.ExchangeRateRow).setVisibility(View.VISIBLE);
+      mExchangeRateEdit.setSymbols(Money.getSymbol(mAccount.currency),
+          Money.getSymbol(Utils.getSaveInstance(homeCurrencyPref)));
+      mExchangeRateEdit.setRate(mAccount.getExchangeRate());
+    }
   }
 
   /**
@@ -237,6 +250,7 @@ public class AccountEdit extends AmountActivity implements
     if (mSyncSpinner.getSelectedItemPosition() > 0) {
       mAccount.setSyncAccountName((String) mSyncSpinner.getSelectedItem());
     }
+    mAccount.setExchangeRate(mExchangeRateEdit.getRate(false));
     //EditActivity.saveState calls DbWriteFragment
     super.saveState();
   }

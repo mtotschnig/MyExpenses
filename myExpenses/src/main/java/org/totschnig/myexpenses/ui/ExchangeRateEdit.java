@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.ui;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -56,6 +57,11 @@ public class ExchangeRateEdit extends LinearLayout {
     rate2Edit.addTextChangedListener(new LinkedExchangeRateTextWatchter(false));
   }
 
+  /**
+   * does not trigger call to registered ExchangeRateWatcher calculates rates based on two values
+   * @param amount1
+   * @param amount2
+   */
   public void calculateAndSetRate(@Nullable BigDecimal amount1, @Nullable BigDecimal amount2) {
     isProcessingLinkedAmountInputs = true;
     BigDecimal exchangeRate = (amount1 != null && amount2 != null && amount1.compareTo(nullValue) != 0) ?
@@ -63,7 +69,18 @@ public class ExchangeRateEdit extends LinearLayout {
     BigDecimal inverseExchangeRate = (amount1 != null && amount2 != null && amount2.compareTo(nullValue) != 0) ?
             amount1.divide(amount2, EXCHANGE_RATE_FRACTION_DIGITS, RoundingMode.DOWN) : nullValue;
     rate1Edit.setAmount(exchangeRate);
-    rate2Edit.setAmount(calculateInverse(exchangeRate));
+    rate2Edit.setAmount(inverseExchangeRate);
+    isProcessingLinkedAmountInputs = false;
+  }
+
+  /**
+   * does not trigger call to registered ExchangeRateWatcher; calculates inverse rate, and sets both values
+   * @param rate
+   */
+  public void setRate(@NonNull BigDecimal rate) {
+    isProcessingLinkedAmountInputs = true;
+    rate1Edit.setAmount(rate);
+    rate2Edit.setAmount(calculateInverse(rate));
     isProcessingLinkedAmountInputs = false;
   }
 

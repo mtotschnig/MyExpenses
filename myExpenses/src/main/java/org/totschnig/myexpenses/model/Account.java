@@ -44,6 +44,7 @@ import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.Utils;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -64,6 +65,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_AGGREGATE;
@@ -125,6 +127,8 @@ public class Account extends Model {
 
   private SortDirection sortDirection = SortDirection.DESC;
 
+  private double exchangeRate = 1D;
+
   public String getSyncAccountName() {
     return syncAccountName;
   }
@@ -133,6 +137,13 @@ public class Account extends Model {
     this.syncAccountName = syncAccountName;
   }
 
+  public BigDecimal getExchangeRate() {
+    return new BigDecimal(exchangeRate);
+  }
+
+  public void setExchangeRate(BigDecimal exchangeRate) {
+    this.exchangeRate = exchangeRate.doubleValue();
+  }
 
   public static final String[] PROJECTION_BASE, PROJECTION_EXTENDED, PROJECTION_FULL;
   public static final String CURRENT_BALANCE_EXPR = KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM + " AND " + WHERE_NOT_SPLIT_PART
@@ -250,7 +261,29 @@ public class Account extends Model {
     c.moveToFirst();
     account = new Account(c);
     c.close();
+    if (account.hasForeignCurrency()) {
+      account.exchangeRate = account.loadExchangeRate();
+    }
     return account;
+  }
+
+  public Uri buildExchangeRateUri() {
+    return ContentUris.appendId(TransactionProvider.ACCOUNT_EXCHANGE_RATE_URI.buildUpon(), getId())
+        .appendEncodedPath(currency.getCurrencyCode())
+        .appendEncodedPath(PrefKey.HOME_CURRENCY.getString(currency.getCurrencyCode())).build();
+  }
+
+  private double loadExchangeRate() {
+    Cursor c = cr().query(buildExchangeRateUri(), null, null,null,null);
+    if (c == null) return 1;
+    c.moveToFirst();
+    double result = c.getDouble(0);
+    c.close();
+    return result;
+  }
+
+  private boolean hasForeignCurrency() {
+    return !PrefKey.HOME_CURRENCY.getString(currency.getCurrencyCode()).equals(currency.getCurrencyCode());
   }
 
   static Account getInstanceFromDbWithFallback(long id) {
@@ -614,6 +647,11 @@ public class Account extends Model {
     } else {
       uri = ContentUris.withAppendedId(CONTENT_URI, getId());
       cr().update(uri, initialValues, null, null);
+    }
+    if (hasForeignCurrency()) {
+      ContentValues exchangeRateValues = new ContentValues();
+      exchangeRateValues.put(KEY_EXCHANGE_RATE, exchangeRate);
+      cr().insert(buildExchangeRateUri(), exchangeRateValues);
     }
     if (!accounts.containsKey(getId())) {
       accounts.put(getId(), this);

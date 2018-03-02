@@ -169,7 +169,7 @@
                         app:srcCompat="@drawable/ic_menu_help"/>
                 </LinearLayout>
             </TableRow>
-
+            <include layout="@layout/exchange_rate_row"/>
         </TableLayout>
     </ScrollView>
 </LinearLayout>

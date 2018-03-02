@@ -63,8 +63,11 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY_OTHER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY_SELF;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
@@ -105,6 +108,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTTYES_METHODS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_EXCHANGE_RATES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CHANGES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES;
@@ -256,6 +260,14 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   private static final String ACCOUNTS_UUID_INDEX_CREATE = "CREATE UNIQUE INDEX accounts_uuid ON "
       + TABLE_ACCOUNTS + "(" + KEY_UUID + ")";
 
+  private static final String ACCOUNT_EXCHANGE_RATES_CREATE =
+      "CREATE TABLE " + TABLE_ACCOUNT_EXCHANGE_RATES + " ("
+          + KEY_ACCOUNTID + " integer not null references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE CASCADE,"
+          + KEY_CURRENCY_SELF + " text not null, "
+          + KEY_CURRENCY_OTHER + " text not null, "
+          + KEY_EXCHANGE_RATE  + " real not null, "
+          + "UNIQUE (" + KEY_ACCOUNTID + "," + KEY_CURRENCY_SELF+ "," + KEY_CURRENCY_OTHER + "));";
+
   /**
    * SQL statement for categories TABLE
    * Table definition reflects format of Grisbis categories
@@ -348,7 +360,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   private static final String PLAN_INSTANCE_STATUS_CREATE =
       "CREATE TABLE " + TABLE_PLAN_INSTANCE_STATUS
           + " ( " + KEY_TEMPLATEID + " integer references " + TABLE_TEMPLATES + "(" + KEY_ROWID + ") ON DELETE CASCADE," +
-          KEY_INSTANCEID + " integer," + // references Instances._ID in calendar content provider
+          KEY_INSTANCEID + " integer," + // NO LONGER references Instances._ID in calendar content provider; instanceId is calculated from day
           KEY_TRANSACTIONID + " integer UNIQUE references " + TABLE_TRANSACTIONS + "(" + KEY_ROWID + ") ON DELETE CASCADE);";
 
   private static final String STALE_URIS_CREATE =
@@ -651,6 +663,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         "   BEGIN" +
         "   SELECT RAISE (FAIL, 'split category can not be deleted'); " +
         "   END;");
+    db.execSQL(ACCOUNT_EXCHANGE_RATES_CREATE);
   }
 
   private void insertCurrencies(SQLiteDatabase db) {
