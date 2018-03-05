@@ -456,7 +456,10 @@ public class TransactionList extends ContextualActionBarFragment implements
     CursorLoader cursorLoader = null;
     String selection;
     String[] selectionArgs;
-    if (mAccount.getId() < 0) {
+    if (mAccount.getId() == Integer.MIN_VALUE) {
+      selection = "";
+      selectionArgs = null;
+    } else if (mAccount.getId() < 0) {
       selection = KEY_ACCOUNTID + " IN " +
           "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +
           KEY_EXCLUDE_FROM_TOTALS + " = 0)";
@@ -470,14 +473,21 @@ public class TransactionList extends ContextualActionBarFragment implements
         if (!mFilter.isEmpty()) {
           String selectionForParents = mFilter.getSelectionForParents(DatabaseConstants.VIEW_EXTENDED);
           if (!selectionForParents.equals("")) {
-            selection += " AND " + selectionForParents;
+            if (!TextUtils.isEmpty(selection)) {
+              selection += " AND ";
+            }
+            selection += selectionForParents;
             selectionArgs = Utils.joinArrays(selectionArgs, mFilter.getSelectionArgs(false));
           }
         }
+        if (!TextUtils.isEmpty(selection)) {
+          selection += " AND ";
+        }
+        selection += KEY_PARENTID + " is null";
         cursorLoader = new CursorLoader(getActivity(),
             mAccount.getExtendedUriForTransactionList(),
             mAccount.getExtendedProjectionForTransactionList(),
-            selection + " AND " + KEY_PARENTID + " is null",
+            selection,
             selectionArgs, KEY_DATE + " " + mAccount.getSortDirection().name());
         break;
       //TODO: probably we can get rid of SUM_CURSOR, if we also aggregate unmapped transactions

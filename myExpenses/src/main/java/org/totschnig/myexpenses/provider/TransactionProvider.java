@@ -397,10 +397,11 @@ public class TransactionProvider extends ContentProvider {
           if (projection != null)
             throw new IllegalArgumentException(
                 "When calling accounts cursor with mergeCurrencyAggregates, projection is ignored ");
-          @SuppressWarnings("deprecation")
-          String accountSubquery = qb.buildQuery(Account.PROJECTION_FULL, selection, null, groupBy,
+          String accountSubquery = qb.buildQuery(Account.PROJECTION_FULL, selection, null,
               null, null, null);
-          qb.setTables("(SELECT " +
+          //Currency query
+          String homeCurrency = PrefKey.HOME_CURRENCY.getString(null);
+          String inTables = "(SELECT " +
               KEY_ROWID + "," +
               KEY_CURRENCY + "," +
               KEY_OPENING_BALANCE + "," +
@@ -412,8 +413,11 @@ public class TransactionProvider extends ContentProvider {
               "(" + SELECT_AMOUNT_SUM + " AND " + WHERE_EXPENSE + ") AS " + KEY_SUM_EXPENSES + "," +
               "(" + SELECT_AMOUNT_SUM + " AND " + WHERE_INCOME + ") AS " + KEY_SUM_INCOME + ", " +
               HAS_EXPORTED + ", " +
-              HAS_FUTURE +
-              " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_EXCLUDE_FROM_TOTALS + " = 0) as t");
+              HAS_FUTURE + ", " +
+              "coalesce((SELECT " + KEY_EXCHANGE_RATE + " FROM " + TABLE_ACCOUNT_EXCHANGE_RATES + " WHERE " + KEY_ACCOUNTID + " = " + KEY_ROWID +
+              " AND " + KEY_CURRENCY_SELF + "=" + KEY_CURRENCY + " AND " + KEY_CURRENCY_OTHER + "='" + homeCurrency + "'), 1) AS " + KEY_EXCHANGE_RATE +
+              " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_EXCLUDE_FROM_TOTALS + " = 0) as t";
+          qb.setTables(inTables);
           groupBy = "currency";
           having = "count(*) > 1";
           projection = new String[]{
@@ -445,8 +449,45 @@ public class TransactionProvider extends ContentProvider {
               "0 AS " + KEY_HAS_CLEARED,
               "0 AS " + KEY_SORT_KEY_TYPE,
               "0 AS " + KEY_LAST_USED}; //ignored
-          @SuppressWarnings("deprecation")
-          String currencySubquery = qb.buildQuery(projection, null, null, groupBy, having, null, null);
+          String currencySubquery = qb.buildQuery(projection, null, groupBy, having, null, null);
+          //home query
+          String[] subQueries;
+          if (homeCurrency != null) {
+            projection = new String[]{
+                Integer.MIN_VALUE + " AS " + KEY_ROWID,//we use negative ids for aggregate accounts
+                "'You are at home' AS " + KEY_LABEL,
+                "'' AS " + KEY_DESCRIPTION,
+                "sum(" + KEY_OPENING_BALANCE + " * " + KEY_EXCHANGE_RATE + ") AS " + KEY_OPENING_BALANCE,
+                "'" + homeCurrency + "' AS " + KEY_CURRENCY,
+                "-1 AS " + KEY_COLOR,
+                "'NONE' AS " + KEY_GROUPING,
+                "'AGGREGATE' AS " + KEY_TYPE,
+                "0 AS " + KEY_SORT_KEY,
+                "0 AS " + KEY_EXCLUDE_FROM_TOTALS,
+                "max(" + KEY_HAS_EXPORTED + ") AS " + KEY_HAS_EXPORTED,
+                "null AS " + KEY_SYNC_ACCOUNT_NAME,
+                "null AS " + KEY_UUID,
+                "'DESC' AS " + KEY_SORT_DIRECTION,
+                "sum(" + KEY_CURRENT_BALANCE + " * " + KEY_EXCHANGE_RATE + ") AS " + KEY_CURRENT_BALANCE,
+                "sum(" + KEY_SUM_INCOME + " * " + KEY_EXCHANGE_RATE + ") AS " + KEY_SUM_INCOME,
+                "sum(" + KEY_SUM_EXPENSES + " * " + KEY_EXCHANGE_RATE + ") AS " + KEY_SUM_EXPENSES,
+                "0 AS " + KEY_SUM_TRANSFERS,
+                "sum(" + KEY_TOTAL + " * " + KEY_EXCHANGE_RATE + ") AS " + KEY_TOTAL,
+                "0 AS " + KEY_CLEARED_TOTAL, //we do not calculate cleared and reconciled totals for aggregate accounts
+                "0 AS " + KEY_RECONCILED_TOTAL,
+                "0 AS " + KEY_USAGES,
+                "1 AS " + KEY_IS_AGGREGATE,
+                "max(" + KEY_HAS_FUTURE + ") AS " + KEY_HAS_FUTURE,
+                "0 AS " + KEY_HAS_CLEARED,
+                "0 AS " + KEY_SORT_KEY_TYPE,
+                "0 AS " + KEY_LAST_USED}; //ignored
+            groupBy = "1";// we are grouping by the 1st column, i.e. the literal row id, this allows us to suppress the row, if the having clause is false
+            having = "(select count(distinct " + KEY_CURRENCY + ") from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " != '" + homeCurrency + "') > 0";
+            String homeSubquery = qb.buildQuery(projection, null, groupBy, having, null, null);
+            subQueries = new String[]{accountSubquery, currencySubquery, homeSubquery};
+          } else {
+            subQueries = new String[]{accountSubquery, currencySubquery};
+          }
           String grouping = "";
           AccountGrouping accountGrouping;
           try {
@@ -467,12 +508,13 @@ public class TransactionProvider extends ContentProvider {
               grouping = KEY_IS_AGGREGATE;
           }
           sortOrder = grouping + "," + defaultOrderBy;
+
           String sql = qb.buildUnionQuery(
-              new String[]{accountSubquery, currencySubquery},
+              subQueries,
               sortOrder,
               null);
-          c = db.rawQuery(sql, null);
           Timber.d("Query : %s", sql);
+          c = db.rawQuery(sql, null);
 
           c.setNotificationUri(getContext().getContentResolver(), uri);
           return c;

@@ -127,6 +127,9 @@ public class Account extends Model {
 
   private SortDirection sortDirection = SortDirection.DESC;
 
+  /**
+   * exchange rate comparing major units
+   */
   private double exchangeRate = 1D;
 
   public String getSyncAccountName() {
@@ -274,12 +277,24 @@ public class Account extends Model {
   }
 
   private double loadExchangeRate() {
-    Cursor c = cr().query(buildExchangeRateUri(), null, null,null,null);
-    if (c == null) return 1;
-    c.moveToFirst();
-    double result = c.getDouble(0);
-    c.close();
+    Cursor c = cr().query(buildExchangeRateUri(), null, null, null, null);
+    double result = 1;
+    if (c != null) {
+      if (c.moveToFirst()) {
+        result = c.getDouble(0);
+        int minorUnitDelta = Money.getFractionDigits(currency) - Money.getFractionDigits(Utils.getHomeCurrency());
+        result *= Math.pow(10, minorUnitDelta);
+      }
+      c.close();
+    }
     return result;
+  }
+
+  private void storeExchangeRate() {
+    ContentValues exchangeRateValues = new ContentValues();
+    int minorUnitDelta = Money.getFractionDigits(Utils.getHomeCurrency()) - Money.getFractionDigits(currency);
+    exchangeRateValues.put(KEY_EXCHANGE_RATE, exchangeRate * Math.pow(10, minorUnitDelta));
+    cr().insert(buildExchangeRateUri(), exchangeRateValues);
   }
 
   private boolean hasForeignCurrency() {
@@ -649,9 +664,7 @@ public class Account extends Model {
       cr().update(uri, initialValues, null, null);
     }
     if (hasForeignCurrency()) {
-      ContentValues exchangeRateValues = new ContentValues();
-      exchangeRateValues.put(KEY_EXCHANGE_RATE, exchangeRate);
-      cr().insert(buildExchangeRateUri(), exchangeRateValues);
+      storeExchangeRate();
     }
     if (!accounts.containsKey(getId())) {
       accounts.put(getId(), this);

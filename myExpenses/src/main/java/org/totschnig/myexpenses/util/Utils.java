@@ -122,6 +122,11 @@ public class Utils {
     return null;
   }
 
+  public static Currency getHomeCurrency() {
+    String home = PrefKey.HOME_CURRENCY.getString(null);
+    return home != null ? getSaveInstance(home) : getLocalCurrency();
+  }
+
   public static Currency getLocalCurrency() {
     Currency result = null;
     String userCountry = getCountryFromTelephonyManager();
