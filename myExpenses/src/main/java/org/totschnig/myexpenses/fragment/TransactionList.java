@@ -451,10 +451,10 @@ public class TransactionList extends ContextualActionBarFragment implements
     CursorLoader cursorLoader = null;
     String selection;
     String[] selectionArgs;
-    if (mAccount.getId() == Integer.MIN_VALUE) {
+    if (mAccount.isHomeAggregate()) {
       selection = "";
       selectionArgs = null;
-    } else if (mAccount.getId() < 0) {
+    } else if (mAccount.isAggregate()) {
       selection = KEY_ACCOUNTID + " IN " +
           "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +
           KEY_EXCLUDE_FROM_TOTALS + " = 0)";
@@ -895,7 +895,7 @@ public class TransactionList extends ContextualActionBarFragment implements
     }
     MenuItem searchMenu = menu.findItem(R.id.SEARCH_COMMAND);
     if (searchMenu != null) {
-      String title = (mAccount.getId() == Integer.MIN_VALUE ? getString(R.string.grand_total) :  mAccount.getLabel());
+      String title = mAccount.getLabelForScreenTitle(getContext());
       Drawable searchMenuIcon = searchMenu.getIcon();
       if (!mFilter.isEmpty()) {
         if (searchMenuIcon != null) {

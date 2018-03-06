@@ -1,10 +1,12 @@
 package org.totschnig.myexpenses.model;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import timber.log.Timber;
@@ -16,7 +18,7 @@ public class AggregateAccount extends Account {
   /**
    * @param c Cursor positioned at the row we want to extract into the object
    */
-  public AggregateAccount(Cursor c) {
+  AggregateAccount(Cursor c) {
     extract(c);
     try {
       this.setGrouping(Grouping.valueOf(MyApplication.getInstance().getSettings().getString(
@@ -82,7 +84,12 @@ public class AggregateAccount extends Account {
   }
 
   @Override
+  public String getLabelForScreenTitle(Context context) {
+    return isHomeAggregate() ? context.getString(R.string.grand_total) : super.getLabelForScreenTitle(context);
+  }
+
+  @Override
   public String[] getExtendedProjectionForTransactionList() {
-    return getId() == Integer.MIN_VALUE ? Transaction.PROJECTON_EXTENDED_HOME : Transaction.PROJECTION_EXTENDED_AGGREGATE;
+    return isHomeAggregate() ? Transaction.PROJECTON_EXTENDED_HOME : Transaction.PROJECTION_EXTENDED_AGGREGATE;
   }
 }

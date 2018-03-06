@@ -27,6 +27,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -143,9 +144,13 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
 
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle arg1) {
-    String selection, accountSelect;
+    String selection, accountSelect, amountCalculation = KEY_AMOUNT;
     String[] selectionArgs;
-    if (mAccount.getId() < 0) {
+    if (mAccount.isHomeAggregate()) {
+      selection = "";
+      accountSelect = null;
+      amountCalculation = DatabaseConstants.getAmountHomeEquivalent();
+    } else if (mAccount.isAggregate()) {
       selection = KEY_ACCOUNTID + " IN " +
           "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +
           KEY_EXCLUDE_FROM_TOTALS + "=0)";
@@ -155,14 +160,19 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
       accountSelect = String.valueOf(mAccount.getId());
     }
     if (catId == 0L) {
-      selectionArgs = new String[]{accountSelect};
+      selectionArgs = accountSelect == null ? null : new String[]{accountSelect};
     } else {
-      selection += " AND " + KEY_CATID + " IN (SELECT " + DatabaseConstants.KEY_ROWID + " FROM "
+      if (!TextUtils.isEmpty(selection)) {
+        selection += " AND ";
+      }
+      selection += KEY_CATID + " IN (SELECT " + DatabaseConstants.KEY_ROWID + " FROM "
           + TABLE_CATEGORIES + " WHERE " + KEY_PARENTID + " = ? OR "
           + KEY_ROWID + " = ?)";
 
       String catSelect = String.valueOf(catId);
-      selectionArgs = new String[]{accountSelect, catSelect, catSelect};
+      selectionArgs = accountSelect == null ?
+          new String[]{catSelect, catSelect} :
+          new String[]{accountSelect, catSelect, catSelect};
     }
     String groupingClause = getArguments().getString(KEY_GROUPING_CLAUSE);
     if (groupingClause != null) {
@@ -175,11 +185,11 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
     switch (id) {
       case TRANSACTION_CURSOR:
         return new CursorLoader(getActivity(),
-            Transaction.EXTENDED_URI, null, selection,
-            selectionArgs, null);
+            mAccount.getExtendedUriForTransactionList(), mAccount.getExtendedProjectionForTransactionList(),
+            selection, selectionArgs, null);
       case SUM_CURSOR:
         return new CursorLoader(getActivity(),
-            Transaction.EXTENDED_URI, new String[]{"sum(" + KEY_AMOUNT + ")"}, selection,
+            Transaction.EXTENDED_URI, new String[]{"sum(" + amountCalculation + ")"}, selection,
             selectionArgs, null);
     }
     return null;

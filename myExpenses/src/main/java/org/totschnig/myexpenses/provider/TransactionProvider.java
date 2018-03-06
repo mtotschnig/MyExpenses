@@ -249,7 +249,6 @@ public class TransactionProvider extends ContentProvider {
     String having = null;
     String limit = null;
 
-    String accountSelectionQuery;
     String accountSelector;
     int uriMatch = URI_MATCHER.match(uri);
     switch (uriMatch) {
@@ -279,24 +278,38 @@ public class TransactionProvider extends ContentProvider {
         qb.setTables(VIEW_ALL);
         qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
         break;
-      case TRANSACTIONS_SUMS:
+      case TRANSACTIONS_SUMS: {
+        String accountSelectionQuery = null;
         accountSelector = uri.getQueryParameter(KEY_ACCOUNTID);
         if (accountSelector == null) {
           accountSelector = uri.getQueryParameter(KEY_CURRENCY);
-          accountSelectionQuery = " IN " +
-              "(SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +
-              KEY_EXCLUDE_FROM_TOTALS + "=0)";
+          if (accountSelector != null) {
+            accountSelectionQuery = " IN " +
+                "(SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +
+                KEY_EXCLUDE_FROM_TOTALS + "=0)";
+          }
         } else {
           accountSelectionQuery = " = ?";
         }
-        qb.setTables(VIEW_COMMITTED);
-        projection = new String[]{"amount>0 as " + KEY_TYPE, "abs(sum(amount)) as  " + KEY_SUM};
         groupBy = KEY_TYPE;
         qb.appendWhere(WHERE_TRANSACTION);
-        qb.appendWhere(" AND " + KEY_ACCOUNTID + accountSelectionQuery);
-        selectionArgs = new String[]{accountSelector};
+        String typeColumn = KEY_AMOUNT + ">0 as " + KEY_TYPE;
+        String amountCalculation;
+        if (accountSelector != null) {
+          qb.setTables(VIEW_COMMITTED);
+          selectionArgs = new String[]{accountSelector};
+          qb.appendWhere(" AND " + KEY_ACCOUNTID + accountSelectionQuery);
+          amountCalculation = KEY_AMOUNT;
+        } else {
+          String homeCurrency = PrefKey.HOME_CURRENCY.getString(null);
+          qb.setTables(VIEW_EXTENDED);
+          amountCalculation = DatabaseConstants.getAmountHomeEquivalent();
+        }
+        projection = new String[]{typeColumn, "abs(sum(" + amountCalculation + ")) as  " + KEY_SUM};
         break;
-      case TRANSACTIONS_GROUPS:
+      }
+      case TRANSACTIONS_GROUPS: {
+        String accountSelectionQuery;
         accountSelector = uri.getQueryParameter(KEY_ACCOUNTID);
         if (accountSelector == null) {
           accountSelector = uri.getQueryParameter(KEY_CURRENCY);
@@ -377,6 +390,7 @@ public class TransactionProvider extends ContentProvider {
             selectionArgs);
         sortOrder = KEY_YEAR + " ASC," + KEY_SECOND_GROUP + " ASC";
         break;
+      }
       case CATEGORIES:
         qb.setTables(TABLE_CATEGORIES);
         qb.appendWhere(KEY_ROWID + " != " + SPLIT_CATID);
@@ -455,7 +469,7 @@ public class TransactionProvider extends ContentProvider {
           String[] subQueries;
           if (homeCurrency != null) {
             projection = new String[]{
-                Integer.MIN_VALUE + " AS " + KEY_ROWID,
+                Account.HOME_AGGREGATE_ID + " AS " + KEY_ROWID,
                 "'' AS " + KEY_LABEL,
                 "'' AS " + KEY_DESCRIPTION,
                 "sum(" + KEY_OPENING_BALANCE + " * " + KEY_EXCHANGE_RATE + ") AS " + KEY_OPENING_BALANCE,

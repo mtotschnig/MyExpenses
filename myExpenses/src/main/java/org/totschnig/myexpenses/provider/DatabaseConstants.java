@@ -42,6 +42,7 @@ public class DatabaseConstants {
   private static String WEEK_END;
   private static String COUNT_FROM_WEEK_START_ZERO;
   private static String WEEK_START_JULIAN;
+
   //in sqlite julian days are calculated from noon, in order to make sure that the returned julian day matches the day we need, we set the time to noon.
   private static final String JULIAN_DAY_OFFSET = "'start of day','+12 hours'";
 
@@ -443,5 +444,11 @@ public class DatabaseConstants {
   public static String getCountFromWeekStartZero() {
     ensureLocalized();
     return COUNT_FROM_WEEK_START_ZERO;
+  }
+
+
+  public static String getAmountHomeEquivalent() {
+    return "coalesce((SELECT " + KEY_EXCHANGE_RATE + " FROM " + TABLE_ACCOUNT_EXCHANGE_RATES + " WHERE " + KEY_ACCOUNTID + " = " + VIEW_EXTENDED + "." +  KEY_ACCOUNTID +
+        " AND " + KEY_CURRENCY_SELF + "=" + KEY_CURRENCY + " AND " + KEY_CURRENCY_OTHER + "='" + PrefKey.HOME_CURRENCY.getString(null) + "'), 1) * " + KEY_AMOUNT;
   }
 }

@@ -110,6 +110,7 @@ public class Account extends Model {
   public static final int EXPORT_HANDLE_DELETED_DO_NOTHING = -1;
   public static final int EXPORT_HANDLE_DELETED_UPDATE_BALANCE = 0;
   public static final int EXPORT_HANDLE_DELETED_CREATE_HELPER = 1;
+  public final static int HOME_AGGREGATE_ID = Integer.MIN_VALUE;
 
   private String label;
 
@@ -896,6 +897,15 @@ public class Account extends Model {
     return Transaction.EXTENDED_URI;
   }
 
+  public boolean isHomeAggregate() {
+    return getId() == HOME_AGGREGATE_ID;
+  }
+
+  public boolean isAggregate() {
+    return  getId() < 0;
+  }
+
+
   public String[] getExtendedProjectionForTransactionList() {
     return Transaction.PROJECTION_EXTENDED;
   }
@@ -925,6 +935,10 @@ public class Account extends Model {
   }
 
   public String getLabel() {
+    return label;
+  }
+
+  public String getLabelForScreenTitle(Context context) {
     return label;
   }
 

@@ -121,6 +121,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACT
 import static org.totschnig.myexpenses.provider.DatabaseConstants.THIS_DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.THIS_YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getMonth;
@@ -646,10 +647,12 @@ public class CategoryList extends SortableListFragment implements
       return null;
     if (id == SUM_CURSOR) {
       Builder builder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon();
-      if (mAccount.getId() < 0) {
-        builder.appendQueryParameter(KEY_CURRENCY, mAccount.currency.getCurrencyCode());
-      } else {
-        builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(mAccount.getId()));
+      if (!mAccount.isHomeAggregate()) {
+        if (mAccount.isAggregate()) {
+          builder.appendQueryParameter(KEY_CURRENCY, mAccount.currency.getCurrencyCode());
+        } else {
+          builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(mAccount.getId()));
+        }
       }
       return new CursorLoader(
           getActivity(),
@@ -698,7 +701,7 @@ public class CategoryList extends SortableListFragment implements
     }
     //SORTABLE_CURSOR
     long parentId;
-    String selection = "", accountSelector = "", sortOrder = null;
+    String selection = "", accountSelector = null, sortOrder = null;
     String[] selectionArgs, projection;
     String CATTREE_WHERE_CLAUSE = KEY_CATID + " IN (SELECT " +
         TABLE_CATEGORIES + "." + KEY_ROWID +
@@ -710,8 +713,12 @@ public class CategoryList extends SortableListFragment implements
     String catFilter;
     if (mAccount != null) {
       //Distribution
-      String accountSelection;
-      if (mAccount.getId() < 0) {
+      String accountSelection, amountCalculation = KEY_AMOUNT, table = VIEW_COMMITTED;
+      if (mAccount.isHomeAggregate()) {
+        accountSelection = null;
+        amountCalculation = DatabaseConstants.getAmountHomeEquivalent();
+        table = VIEW_EXTENDED;
+      } else if (mAccount.isAggregate()) {
         accountSelection = " IN " +
             "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +
             KEY_EXCLUDE_FROM_TOTALS + " = 0 )";
@@ -720,8 +727,8 @@ public class CategoryList extends SortableListFragment implements
         accountSelection = " = ?";
         accountSelector = String.valueOf(mAccount.getId());
       }
-      catFilter = "FROM " + VIEW_COMMITTED +
-          " WHERE " + WHERE_NOT_VOID + " AND " + KEY_ACCOUNTID + accountSelection;
+      catFilter = "FROM " + table +
+          " WHERE " + WHERE_NOT_VOID + (accountSelection == null ? "" : (" AND " + KEY_ACCOUNTID + accountSelection));
       if (!aggregateTypes) {
         catFilter += " AND " + KEY_AMOUNT + (mType == EXPENSE ? "<" : ">") + "0";
       }
@@ -739,7 +746,7 @@ public class CategoryList extends SortableListFragment implements
           KEY_ROWID,
           KEY_LABEL,
           CHILD_COUNT_SELECT,
-          "(SELECT sum(amount) " + catFilter + ") AS " + KEY_SUM
+          "(SELECT sum(" + amountCalculation + ") " + catFilter + ") AS " + KEY_SUM
       };
       sortOrder = "abs(" + KEY_SUM + ") DESC";
     } else {
@@ -769,7 +776,8 @@ public class CategoryList extends SortableListFragment implements
             " subtree WHERE " + KEY_PARENTID + " = " + TABLE_CATEGORIES + "." + KEY_ROWID + " AND ("
             + filterSelection + " )))";
       }
-      selectionArgs = mAccount != null ? new String[]{accountSelector, accountSelector} :
+      selectionArgs = mAccount != null ?
+          (accountSelector != null ? new String[]{accountSelector, accountSelector} : null) :
           (isFiltered ? filterSelectArgs : null);
     } else {
       //child cursor
@@ -781,8 +789,12 @@ public class CategoryList extends SortableListFragment implements
             KEY_PARENTID + ") LIKE ?)";
       }
       selectionArgs = mAccount != null ?
-          new String[]{accountSelector, String.valueOf(parentId), accountSelector} :
-          (isFiltered ? Utils.joinArrays(new String[]{String.valueOf(parentId)}, filterSelectArgs) :
+          (accountSelector != null ?
+              //the first accountSelector arg is for KEY_SUM in the projection
+              new String[]{accountSelector, String.valueOf(parentId), accountSelector} :
+              new String[]{String.valueOf(parentId)}) :
+          (isFiltered ?
+              Utils.joinArrays(new String[]{String.valueOf(parentId)}, filterSelectArgs) :
               new String[]{String.valueOf(parentId)});
     }
     return new CursorLoader(getActivity(), TransactionProvider.CATEGORIES_URI, projection,
@@ -840,7 +852,7 @@ public class CategoryList extends SortableListFragment implements
           }
         }
         if (mAccount != null) {
-          actionBar.setTitle(mAccount.getLabel());
+          actionBar.setTitle(mAccount.getLabelForScreenTitle(getContext()));
         }
         invalidateCAB(); //only need to do this for group since children's cab does not depnd on cursor
         break;
