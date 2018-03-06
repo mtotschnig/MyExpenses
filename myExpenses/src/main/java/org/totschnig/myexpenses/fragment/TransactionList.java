@@ -241,12 +241,7 @@ public class TransactionList extends ContextualActionBarFragment implements
 
   private void setAdapter() {
     Context ctx = getActivity();
-    // Create an array to specify the fields we want to display in the list
-    String[] from = new String[]{KEY_LABEL_MAIN, KEY_DATE, KEY_AMOUNT};
-
-    // and an array of the fields we want to bind those fields to 
-    int[] to = new int[]{R.id.category, R.id.date, R.id.amount};
-    mAdapter = new MyGroupedAdapter(ctx, R.layout.expense_row, null, from, to, 0);
+    mAdapter = new MyGroupedAdapter(ctx, R.layout.expense_row, null, 0);
     mListView.setAdapter(mAdapter);
   }
 
@@ -654,8 +649,7 @@ public class TransactionList extends ContextualActionBarFragment implements
         }
         return;
       }
-      if (mAccount.getType() != mType ||
-          mAccount.currency.getCurrencyCode() != mCurrency) {
+      if (mAccount.getType() != mType || !mAccount.currency.getCurrencyCode().equals(mCurrency)) {
         mListView.setAdapter(mAdapter);
         mType = mAccount.getType();
         mCurrency = mAccount.currency.getCurrencyCode();
@@ -667,12 +661,11 @@ public class TransactionList extends ContextualActionBarFragment implements
     }
   }
 
-  public class MyGroupedAdapter extends TransactionAdapter implements StickyListHeadersAdapter {
-    LayoutInflater inflater;
+  private class MyGroupedAdapter extends TransactionAdapter implements StickyListHeadersAdapter {
+    private LayoutInflater inflater;
 
-    public MyGroupedAdapter(Context context, int layout, Cursor c, String[] from,
-                            int[] to, int flags) {
-      super(mAccount, context, layout, c, from, to, flags, currencyFormatter);
+    private MyGroupedAdapter(Context context, int layout, Cursor c, int flags) {
+      super(mAccount, context, layout, c, flags, currencyFormatter);
       inflater = LayoutInflater.from(getActivity());
     }
 
@@ -902,7 +895,7 @@ public class TransactionList extends ContextualActionBarFragment implements
     }
     MenuItem searchMenu = menu.findItem(R.id.SEARCH_COMMAND);
     if (searchMenu != null) {
-      String title;
+      String title = (mAccount.getId() == Integer.MIN_VALUE ? getString(R.string.grand_total) :  mAccount.getLabel());
       Drawable searchMenuIcon = searchMenu.getIcon();
       if (!mFilter.isEmpty()) {
         if (searchMenuIcon != null) {
@@ -911,7 +904,7 @@ public class TransactionList extends ContextualActionBarFragment implements
           AcraHelper.report(new Exception("Search menu icon not found"));
         }
         searchMenu.setChecked(true);
-        title = mAccount.getLabel() + " ( " + mFilter.prettyPrint() + " )";
+        title += " ( " + mFilter.prettyPrint() + " )";
       } else {
         if (searchMenuIcon != null) {
           searchMenuIcon.setColorFilter(null);
@@ -919,7 +912,6 @@ public class TransactionList extends ContextualActionBarFragment implements
           AcraHelper.report(new Exception("Search menu icon not found"));
         }
         searchMenu.setChecked(false);
-        title = mAccount.getLabel();
       }
       ((MyExpenses) getActivity()).setTitle(title);
       SubMenu filterMenu = searchMenu.getSubMenu();

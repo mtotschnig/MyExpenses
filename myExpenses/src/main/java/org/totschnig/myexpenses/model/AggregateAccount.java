@@ -83,6 +83,6 @@ public class AggregateAccount extends Account {
 
   @Override
   public String[] getExtendedProjectionForTransactionList() {
-    return Transaction.PROJECTION_EXTENDED_AGGREGATE;
+    return getId() == Integer.MIN_VALUE ? Transaction.PROJECTON_EXTENDED_HOME : Transaction.PROJECTION_EXTENDED_AGGREGATE;
   }
 }

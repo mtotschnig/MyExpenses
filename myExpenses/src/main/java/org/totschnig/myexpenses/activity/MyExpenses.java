@@ -124,6 +124,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_CLEARED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_EXPORTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_FUTURE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_AGGREGATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL;
@@ -1041,26 +1042,31 @@ public class MyExpenses extends LaunchActivity implements
       Cursor c = getCursor();
       c.moveToPosition(position);
       long headerId = getHeaderId(position);
-      TextView sectionLabelTV = (TextView) convertView.findViewById(R.id.sectionLabel);
-      switch (mAccountGrouping) {
-        case CURRENCY:
-          sectionLabelTV.setText(CurrencyEnum.valueOf(c.getString(columnIndexCurrency)).toString());
-          break;
-        case NONE:
-          sectionLabelTV.setText(headerId == 0 ? R.string.pref_manage_accounts_title : R.string.menu_aggregates);
-          break;
-        case TYPE:
-          int headerRes;
-          if (headerId == AccountType.values().length) {
-            headerRes = R.string.menu_aggregates;
-          } else {
-            headerRes = AccountType.values()[(int) headerId].toStringResPlural();
-          }
-          sectionLabelTV.setText(headerRes);
-        default:
-          break;
-
+      TextView sectionLabelTV = convertView.findViewById(R.id.sectionLabel);
+      String headerText = null;
+      if (headerId == Long.MAX_VALUE) {
+        headerText = getString(R.string.grand_total);
       }
+      else {
+        switch (mAccountGrouping) {
+          case CURRENCY:
+            headerText = CurrencyEnum.valueOf(c.getString(columnIndexCurrency)).toString();
+            break;
+          case NONE:
+            headerText = getString(headerId == 0 ? R.string.pref_manage_accounts_title : R.string.menu_aggregates);
+            break;
+          case TYPE:
+            int headerRes;
+            if (headerId == AccountType.values().length) {
+              headerRes = R.string.menu_aggregates;
+            } else {
+              headerRes = AccountType.values()[(int) headerId].toStringResPlural();
+            }
+            headerText = getString(headerRes);
+            break;
+        }
+      }
+      sectionLabelTV.setText(headerText);
       return convertView;
     }
 
@@ -1068,6 +1074,10 @@ public class MyExpenses extends LaunchActivity implements
     public long getHeaderId(int position) {
       Cursor c = getCursor();
       c.moveToPosition(position);
+      int aggregate = c.getInt(c.getColumnIndexOrThrow(KEY_IS_AGGREGATE));
+      if (aggregate == TransactionProvider.AGGREGATE_HOME) {
+        return Long.MAX_VALUE;
+      }
       switch (mAccountGrouping) {
         case CURRENCY:
           return CurrencyEnum.valueOf(c.getString(columnIndexCurrency)).ordinal();
@@ -1101,7 +1111,7 @@ public class MyExpenses extends LaunchActivity implements
 
       boolean isHighlighted = rowId == mAccountId;
       boolean has_future = c.getInt(c.getColumnIndex(KEY_HAS_FUTURE)) > 0;
-      final boolean isAggregate = rowId < 0;
+      final int isAggregate = c.getInt(c.getColumnIndex(KEY_IS_AGGREGATE));
       final int count = c.getCount();
       boolean hide_cr;
       int colorInt;
@@ -1116,7 +1126,7 @@ public class MyExpenses extends LaunchActivity implements
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         row.findViewById(R.id.selected_indicator).setVisibility(isHighlighted ? View.VISIBLE : View.GONE);
       }
-      if (isAggregate) {
+      if (isAggregate > 0) {
         accountMenu.setVisibility(View.INVISIBLE);
         accountMenu.setOnClickListener(null);
       } else {
@@ -1168,7 +1178,9 @@ public class MyExpenses extends LaunchActivity implements
         });
       }
 
-      if (isAggregate) {
+      labelTv.setVisibility(isAggregate == TransactionProvider.AGGREGATE_HOME ? View.GONE : View.VISIBLE);
+
+      if (isAggregate > 0) {
         hide_cr = true;
         if (mAccountGrouping == AccountGrouping.CURRENCY) {
           labelTv.setText(R.string.menu_aggregates);

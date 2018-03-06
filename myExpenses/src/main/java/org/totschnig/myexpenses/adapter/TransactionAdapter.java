@@ -3,6 +3,8 @@ package org.totschnig.myexpenses.adapter;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.database.Cursor;
+import android.graphics.Typeface;
+import android.support.v4.widget.ResourceCursorAdapter;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
@@ -26,13 +28,13 @@ import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DbUtils;
-import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Currency;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
@@ -40,16 +42,20 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_SAME_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_MAIN;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_SUB;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_HELPER;
 
-public class TransactionAdapter extends SimpleCursorAdapter {
+public class TransactionAdapter extends ResourceCursorAdapter {
   private int dateEms;
   private Account mAccount;
   private Grouping mGroupingOverride;
@@ -62,9 +68,9 @@ public class TransactionAdapter extends SimpleCursorAdapter {
   private CurrencyFormatter currencyFormatter;
 
   protected TransactionAdapter(Account account, Grouping grouping, Context context, int layout,
-                               Cursor c, String[] from, int[] to, int flags,
+                               Cursor c, int flags,
                                CurrencyFormatter currencyFormatter) {
-    super(context, layout, c, from, to, flags);
+    super(context, layout, c, flags);
     if (context instanceof ManageCategories) {
       insideFragment = true;
     }
@@ -79,9 +85,9 @@ public class TransactionAdapter extends SimpleCursorAdapter {
     refreshDateFormat();
   }
 
-  public TransactionAdapter(Account account, Context context, int layout, Cursor c, String[] from,
-                            int[] to, int flags, CurrencyFormatter currencyFormatter) {
-    this(account, null, context, layout, c, from, to, flags, currencyFormatter);
+  public TransactionAdapter(Account account, Context context, int layout, Cursor c, int flags,
+                            CurrencyFormatter currencyFormatter) {
+    this(account, null, context, layout, c, flags, currencyFormatter);
   }
 
   @Override
@@ -92,13 +98,13 @@ public class TransactionAdapter extends SimpleCursorAdapter {
     View colorAccount = v.findViewById(R.id.colorAccount);
     holder.colorContainer = colorContainer;
     holder.colorAccount = colorAccount;
-    TextView amount = (TextView) v.findViewById(R.id.amount);
+    TextView amount = v.findViewById(R.id.amount);
     UiUtils.configureAmountTextViewForHebrew(amount);
     holder.amount = amount;
-    holder.category = (TextView) v.findViewById(R.id.category);
+    holder.category = v.findViewById(R.id.category);
     holder.color1 = v.findViewById(R.id.color1);
     holder.voidMarker = v.findViewById(R.id.voidMarker);
-    TextView tv = (TextView) v.findViewById(R.id.date);
+    TextView tv = v.findViewById(R.id.date);
     holder.date = tv;
     if (mAccount.getId() < 0) {
       colorAccount.setLayoutParams(
@@ -109,54 +115,20 @@ public class TransactionAdapter extends SimpleCursorAdapter {
     return v;
   }
 
-  /* (non-Javadoc)
-   * calls {@link #convText for formatting the values retrieved from the cursor}
-   * @see android.widget.SimpleCursorAdapter#setViewText(android.widget.TextView, java.lang.String)
-   */
   @Override
-  public void setViewText(TextView v, String text) {
-    switch (v.getId()) {
-      case R.id.date:
-        text = Utils.convDateTime(text, itemDateFormat);
-        break;
-      case R.id.amount:
-        text = currencyFormatter.convAmount(text, mAccount.currency);
-    }
-    super.setViewText(v, text);
-  }
-
-  /**
-   * @param catText
-   * @param label_sub
-   * @return extracts the information that should
-   * be displayed about the mapped category, can be overridden by subclass
-   * should not be used for handle transfers
-   */
-  protected CharSequence getCatText(CharSequence catText, String label_sub) {
-    if (label_sub != null && label_sub.length() > 0) {
-      catText = catText + TransactionList.CATEGORY_SEPARATOR + label_sub;
-    }
-    return catText;
-  }
-
-  /* (non-Javadoc)
-   * manipulates the view for amount (setting expenses to red) and
-   * category (indicate transfer direction with => or <=
-   * @see android.widget.CursorAdapter#getView(int, android.view.View, android.view.ViewGroup)
-   */
-  @Override
-  public View getView(int position, View convertView, ViewGroup parent) {
-    convertView = super.getView(position, convertView, parent);
-    ViewHolder viewHolder = (ViewHolder) convertView.getTag();
+  public void bindView(View view, Context context, Cursor cursor) {
+    ViewHolder viewHolder = (ViewHolder) view.getTag();
+    viewHolder.date.setText(Utils.convDateTime(cursor.getString(cursor.getColumnIndex(KEY_DATE)), itemDateFormat));
+    int currencyIndex = cursor.getColumnIndex(KEY_CURRENCY);
+    Currency currency = currencyIndex == -1 ? mAccount.currency : Currency.getInstance(cursor.getString(currencyIndex));
+    viewHolder.amount.setText(currencyFormatter.convAmount(cursor.getLong(cursor.getColumnIndex(KEY_AMOUNT)), currency));
     TextView tv1 = viewHolder.amount;
-    Cursor c = getCursor();
-    c.moveToPosition(position);
-    long amount = c.getLong(c.getColumnIndex(KEY_AMOUNT));
+    long amount = cursor.getLong(cursor.getColumnIndex(KEY_AMOUNT));
     tv1.setTextColor(amount < 0 ? colorExpense : colorIncome);
     if (mAccount.getId() < 0) {
-      int columnIndex = c.getColumnIndex(KEY_IS_SAME_CURRENCY);
-      if (columnIndex == -1 || c.getInt(columnIndex) != 1) {
-        int color = c.getInt(c.getColumnIndex(KEY_COLOR));
+      int columnIndex = cursor.getColumnIndex(KEY_IS_SAME_CURRENCY);
+      if (columnIndex == -1 || cursor.getInt(columnIndex) != 1) {
+        int color = cursor.getInt(cursor.getColumnIndex(KEY_COLOR));
         viewHolder.colorAccount.setBackgroundColor(color);
       } else {
         viewHolder.colorAccount.setBackgroundColor(0);
@@ -164,37 +136,37 @@ public class TransactionAdapter extends SimpleCursorAdapter {
       }
     }
     TextView tv2 = viewHolder.category;
-    CharSequence catText = tv2.getText();
-    if (DbUtils.getLongOrNull(c, c.getColumnIndex(KEY_TRANSFER_PEER)) != null) {
+    CharSequence catText = cursor.getString(cursor.getColumnIndex(KEY_LABEL_MAIN));
+    if (DbUtils.getLongOrNull(cursor, cursor.getColumnIndex(KEY_TRANSFER_PEER)) != null) {
       catText = Transfer.getIndicatorPrefixForLabel(amount) + catText;
       if (mAccount.getId() < 0) {
-        catText = c.getString(c.getColumnIndex(KEY_ACCOUNT_LABEL)) + " " + catText;
+        catText = cursor.getString(cursor.getColumnIndex(KEY_ACCOUNT_LABEL)) + " " + catText;
       }
     } else {
-      Long catId = DbUtils.getLongOrNull(c, KEY_CATID);
+      Long catId = DbUtils.getLongOrNull(cursor, KEY_CATID);
       if (SPLIT_CATID.equals(catId))
         catText = MyApplication.getInstance().getString(R.string.split_transaction);
       else if (catId == null) {
-        if (c.getInt(c.getColumnIndex(KEY_STATUS)) != STATUS_HELPER) {
+        if (cursor.getInt(cursor.getColumnIndex(KEY_STATUS)) != STATUS_HELPER) {
           catText = Category.NO_CATEGORY_ASSIGNED_LABEL;
         }
       } else {
-        catText = getCatText(catText, c.getString(c.getColumnIndex(KEY_LABEL_SUB)));
+        catText = getCatText(catText, cursor.getString(cursor.getColumnIndex(KEY_LABEL_SUB)));
       }
     }
-    String referenceNumber = c.getString(c.getColumnIndex(KEY_REFERENCE_NUMBER));
+    String referenceNumber = cursor.getString(cursor.getColumnIndex(KEY_REFERENCE_NUMBER));
     if (referenceNumber != null && referenceNumber.length() > 0)
       catText = "(" + referenceNumber + ") " + catText;
     SpannableStringBuilder ssb;
-    String comment = c.getString(c.getColumnIndex(KEY_COMMENT));
+    String comment = cursor.getString(cursor.getColumnIndex(KEY_COMMENT));
     if (comment != null && comment.length() > 0) {
       ssb = new SpannableStringBuilder(comment);
-      ssb.setSpan(new StyleSpan(android.graphics.Typeface.ITALIC), 0, comment.length(), 0);
+      ssb.setSpan(new StyleSpan(Typeface.ITALIC), 0, comment.length(), 0);
       catText = catText.length() > 0 ?
           TextUtils.concat(catText, TransactionList.COMMENT_SEPARATOR, ssb) :
           ssb;
     }
-    String payee = c.getString(c.getColumnIndex(KEY_PAYEE_NAME));
+    String payee = cursor.getString(cursor.getColumnIndex(KEY_PAYEE_NAME));
     if (payee != null && payee.length() > 0) {
       ssb = new SpannableStringBuilder(payee);
       ssb.setSpan(new UnderlineSpan(), 0, payee.length(), 0);
@@ -214,20 +186,33 @@ public class TransactionAdapter extends SimpleCursorAdapter {
 
     CrStatus status;
     try {
-      status = CrStatus.valueOf(c.getString(c.getColumnIndex(KEY_CR_STATUS)));
+      status = CrStatus.valueOf(cursor.getString(cursor.getColumnIndex(KEY_CR_STATUS)));
     } catch (IllegalArgumentException ex) {
       status = CrStatus.UNRECONCILED;
     }
 
     if (!mAccount.getType().equals(AccountType.CASH) && !status.equals(CrStatus.VOID)) {
       viewHolder.color1.setBackgroundColor(status.color);
-      viewHolder.colorContainer.setTag(status == CrStatus.RECONCILED ? -1 : getItemId(position));
+      viewHolder.colorContainer.setTag(status == CrStatus.RECONCILED ? -1 : cursor.getLong(cursor.getColumnIndex(KEY_ROWID)));
       viewHolder.colorContainer.setVisibility(View.VISIBLE);
     } else {
       viewHolder.colorContainer.setVisibility(View.GONE);
     }
     viewHolder.voidMarker.setVisibility(status.equals(CrStatus.VOID) ? View.VISIBLE : View.GONE);
-    return convertView;
+  }
+
+  /**
+   * @param catText
+   * @param label_sub
+   * @return extracts the information that should
+   * be displayed about the mapped category, can be overridden by subclass
+   * should not be used for handle transfers
+   */
+  protected CharSequence getCatText(CharSequence catText, String label_sub) {
+    if (label_sub != null && label_sub.length() > 0) {
+      catText = catText + TransactionList.CATEGORY_SEPARATOR + label_sub;
+    }
+    return catText;
   }
 
   public void refreshDateFormat() {

@@ -56,7 +56,6 @@ import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.io.File;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Currency;
@@ -70,6 +69,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionProvider extends ContentProvider {
 
+  public static final int AGGREGATE_HOME = 2;
+  public static final String AGGREGATE_HOME_CURRENCY_CODE = "___";
   private TransactionDatabase mOpenHelper;
   public static final String AUTHORITY = BuildConfig.APPLICATION_ID;
   public static final Uri ACCOUNTS_URI =
@@ -454,11 +455,11 @@ public class TransactionProvider extends ContentProvider {
           String[] subQueries;
           if (homeCurrency != null) {
             projection = new String[]{
-                Integer.MIN_VALUE + " AS " + KEY_ROWID,//we use negative ids for aggregate accounts
-                "'You are at home' AS " + KEY_LABEL,
+                Integer.MIN_VALUE + " AS " + KEY_ROWID,
+                "'' AS " + KEY_LABEL,
                 "'' AS " + KEY_DESCRIPTION,
                 "sum(" + KEY_OPENING_BALANCE + " * " + KEY_EXCHANGE_RATE + ") AS " + KEY_OPENING_BALANCE,
-                "'" + homeCurrency + "' AS " + KEY_CURRENCY,
+                "'" + AGGREGATE_HOME_CURRENCY_CODE + "' AS " + KEY_CURRENCY,
                 "-1 AS " + KEY_COLOR,
                 "'NONE' AS " + KEY_GROUPING,
                 "'AGGREGATE' AS " + KEY_TYPE,
@@ -476,7 +477,7 @@ public class TransactionProvider extends ContentProvider {
                 "0 AS " + KEY_CLEARED_TOTAL, //we do not calculate cleared and reconciled totals for aggregate accounts
                 "0 AS " + KEY_RECONCILED_TOTAL,
                 "0 AS " + KEY_USAGES,
-                "1 AS " + KEY_IS_AGGREGATE,
+                AGGREGATE_HOME + " AS " + KEY_IS_AGGREGATE,
                 "max(" + KEY_HAS_FUTURE + ") AS " + KEY_HAS_FUTURE,
                 "0 AS " + KEY_HAS_CLEARED,
                 "0 AS " + KEY_SORT_KEY_TYPE,

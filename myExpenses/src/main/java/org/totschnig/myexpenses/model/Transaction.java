@@ -156,7 +156,7 @@ public class Transaction extends Model {
    * {@link org.totschnig.myexpenses.provider.DatabaseConstants#STATUS_UNCOMMITTED}
    */
   public int status = 0;
-  public static String[] PROJECTION_BASE, PROJECTION_EXTENDED, PROJECTION_EXTENDED_AGGREGATE;
+  public static String[] PROJECTION_BASE, PROJECTION_EXTENDED, PROJECTION_EXTENDED_AGGREGATE, PROJECTON_EXTENDED_HOME;
 
   static {
     buildProjection();
@@ -209,6 +209,11 @@ public class Transaction extends Model {
     PROJECTION_EXTENDED_AGGREGATE = new String[extendedLength + 1];
     System.arraycopy(PROJECTION_EXTENDED, 0, PROJECTION_EXTENDED_AGGREGATE, 0, extendedLength);
     PROJECTION_EXTENDED_AGGREGATE[extendedLength] = IS_SAME_CURRENCY + " AS " + KEY_IS_SAME_CURRENCY;
+
+    int aggregateLength = extendedLength + 1;
+    PROJECTON_EXTENDED_HOME = new String[aggregateLength + 1];
+    System.arraycopy(PROJECTION_EXTENDED_AGGREGATE, 0, PROJECTON_EXTENDED_HOME, 0, aggregateLength);
+    PROJECTON_EXTENDED_HOME[aggregateLength] = KEY_CURRENCY;
   }
 
   public static final Uri CONTENT_URI = TransactionProvider.TRANSACTIONS_URI;
