@@ -38,6 +38,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountGrouping;
 import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Model;
@@ -69,8 +70,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 
 public class TransactionProvider extends ContentProvider {
 
-  public static final int AGGREGATE_HOME = 2;
-  public static final String AGGREGATE_HOME_CURRENCY_CODE = "___";
   private TransactionDatabase mOpenHelper;
   public static final String AUTHORITY = BuildConfig.APPLICATION_ID;
   public static final Uri ACCOUNTS_URI =
@@ -473,7 +472,7 @@ public class TransactionProvider extends ContentProvider {
                 "'' AS " + KEY_LABEL,
                 "'' AS " + KEY_DESCRIPTION,
                 "sum(" + KEY_OPENING_BALANCE + " * " + KEY_EXCHANGE_RATE + ") AS " + KEY_OPENING_BALANCE,
-                "'" + AGGREGATE_HOME_CURRENCY_CODE + "' AS " + KEY_CURRENCY,
+                "'" + AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE + "' AS " + KEY_CURRENCY,
                 "-1 AS " + KEY_COLOR,
                 "'NONE' AS " + KEY_GROUPING,
                 "'AGGREGATE' AS " + KEY_TYPE,
@@ -491,7 +490,7 @@ public class TransactionProvider extends ContentProvider {
                 "0 AS " + KEY_CLEARED_TOTAL, //we do not calculate cleared and reconciled totals for aggregate accounts
                 "0 AS " + KEY_RECONCILED_TOTAL,
                 "0 AS " + KEY_USAGES,
-                AGGREGATE_HOME + " AS " + KEY_IS_AGGREGATE,
+                AggregateAccount.AGGREGATE_HOME + " AS " + KEY_IS_AGGREGATE,
                 "max(" + KEY_HAS_FUTURE + ") AS " + KEY_HAS_FUTURE,
                 "0 AS " + KEY_HAS_CLEARED,
                 "0 AS " + KEY_SORT_KEY_TYPE,
@@ -547,7 +546,7 @@ public class TransactionProvider extends ContentProvider {
               "'' AS " + KEY_DESCRIPTION,
               "sum(" + KEY_OPENING_BALANCE + " * " + DatabaseConstants.getExchangeRate(KEY_ROWID)
                   + ") AS " + KEY_OPENING_BALANCE,
-              "'" + AGGREGATE_HOME_CURRENCY_CODE + "' AS " + KEY_CURRENCY,
+              "'" + AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE + "' AS " + KEY_CURRENCY,
               "-1 AS " + KEY_COLOR,
               "'NONE' AS " + KEY_GROUPING,
               "'DESC' AS " + KEY_SORT_DIRECTION,
@@ -1533,7 +1532,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "planinstance_transaction", PLANINSTANCE_TRANSACTION_STATUS);
     URI_MATCHER.addURI(AUTHORITY, "currencies", CURRENCIES);
     URI_MATCHER.addURI(AUTHORITY, "currencies/" + URI_SEGMENT_CHANGE_FRACTION_DIGITS + "/*/#", CURRENCIES_CHANGE_FRACTION_DIGITS);
-    URI_MATCHER.addURI(AUTHORITY, "accounts/aggregates/#", AGGREGATE_ID);
+    URI_MATCHER.addURI(AUTHORITY, "accounts/aggregates/*", AGGREGATE_ID);
     URI_MATCHER.addURI(AUTHORITY, "payees_transactions", MAPPED_PAYEES);
     URI_MATCHER.addURI(AUTHORITY, "methods_transactions", MAPPED_METHODS);
     URI_MATCHER.addURI(AUTHORITY, "dual", DUAL);

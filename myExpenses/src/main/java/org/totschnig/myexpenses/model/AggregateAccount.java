@@ -12,6 +12,8 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import timber.log.Timber;
 
 public class AggregateAccount extends Account {
+  public static final int AGGREGATE_HOME = 2;
+  public static final String AGGREGATE_HOME_CURRENCY_CODE = "___";
   final static String GROUPING_PREF_PREFIX = "AGGREGATE_GROUPING_";
   final static String SORT_DIRECTION_PREF_PREFIX = "AGGREGATE_SORT_DIRECTION_";
 
@@ -22,11 +24,11 @@ public class AggregateAccount extends Account {
     extract(c);
     try {
       this.setGrouping(Grouping.valueOf(MyApplication.getInstance().getSettings().getString(
-          GROUPING_PREF_PREFIX + currency, "NONE")));
+          getKeyForPreference(), "NONE")));
     } catch (IllegalArgumentException ignored) {}
     try {
       this.setSortDirection(SortDirection.valueOf(MyApplication.getInstance().getSettings().getString(
-          SORT_DIRECTION_PREF_PREFIX + currency, "DESC")));
+          getKeyForPreference(), "DESC")));
     } catch (IllegalArgumentException ignored) {}
     accounts.put(getId(), this);
   }
@@ -62,7 +64,7 @@ public class AggregateAccount extends Account {
   public void persistGrouping(Grouping value) {
     this.setGrouping(value);
     MyApplication.getInstance().getSettings().edit()
-        .putString(GROUPING_PREF_PREFIX + currency.getCurrencyCode(), value.name())
+        .putString(GROUPING_PREF_PREFIX + getKeyForPreference(), value.name())
         .apply();
     cr().notifyChange(TransactionProvider.ACCOUNTS_URI, null, false);
   }
@@ -71,7 +73,7 @@ public class AggregateAccount extends Account {
   public void persistSortDirection(SortDirection value) {
     this.setSortDirection(value);
     MyApplication.getInstance().getSettings().edit()
-        .putString(SORT_DIRECTION_PREF_PREFIX + currency.getCurrencyCode(), value.name())
+        .putString(SORT_DIRECTION_PREF_PREFIX + getKeyForPreference(), value.name())
         .apply();
     cr().notifyChange(TransactionProvider.ACCOUNTS_URI, null, false);
   }
@@ -91,5 +93,13 @@ public class AggregateAccount extends Account {
   @Override
   public String[] getExtendedProjectionForTransactionList() {
     return isHomeAggregate() ? Transaction.PROJECTON_EXTENDED_HOME : Transaction.PROJECTION_EXTENDED_AGGREGATE;
+  }
+
+  private String getKeyForPreference() {
+    if (isHomeAggregate()) {
+      return AGGREGATE_HOME_CURRENCY_CODE;
+    } else {
+      return  currency.getCurrencyCode();
+    }
   }
 }

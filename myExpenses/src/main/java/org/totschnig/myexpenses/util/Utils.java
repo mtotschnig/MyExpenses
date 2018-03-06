@@ -47,6 +47,7 @@ import com.squareup.phrase.Phrase;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CurrencyEnum;
@@ -56,7 +57,6 @@ import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.SortDirection;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
-import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.task.GrisbiImportTask;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
@@ -323,7 +323,7 @@ public class Utils {
 
   public static Currency getSaveInstance(String strCurrency) {
     Currency c;
-    if (strCurrency.equals(TransactionProvider.AGGREGATE_HOME_CURRENCY_CODE)) {
+    if (strCurrency.equals(AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE)) {
       strCurrency = PrefKey.HOME_CURRENCY.getString("EUR");
     }
     try {

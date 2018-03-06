@@ -71,6 +71,7 @@ import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountGrouping;
 import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.Grouping;
@@ -1075,7 +1076,7 @@ public class MyExpenses extends LaunchActivity implements
       Cursor c = getCursor();
       c.moveToPosition(position);
       int aggregate = c.getInt(c.getColumnIndexOrThrow(KEY_IS_AGGREGATE));
-      if (aggregate == TransactionProvider.AGGREGATE_HOME) {
+      if (aggregate == AggregateAccount.AGGREGATE_HOME) {
         return Long.MAX_VALUE;
       }
       switch (mAccountGrouping) {
@@ -1178,7 +1179,7 @@ public class MyExpenses extends LaunchActivity implements
         });
       }
 
-      labelTv.setVisibility(isAggregate == TransactionProvider.AGGREGATE_HOME ? View.GONE : View.VISIBLE);
+      labelTv.setVisibility(isAggregate == AggregateAccount.AGGREGATE_HOME ? View.GONE : View.VISIBLE);
 
       if (isAggregate > 0) {
         hide_cr = true;
