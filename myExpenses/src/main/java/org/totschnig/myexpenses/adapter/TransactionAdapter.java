@@ -66,6 +66,22 @@ public class TransactionAdapter extends ResourceCursorAdapter {
   protected int monthStart =
       Integer.parseInt(PrefKey.GROUP_MONTH_STARTS.getString("1"));
   private CurrencyFormatter currencyFormatter;
+  private boolean indexesCalculated = false;
+  private int columnIndexDate;
+  private int currencyIndexCurrency;
+  private int columnIndexSameCurrency;
+  private int columnIndexColor;
+  private int columnIndexLabelMain;
+  private int columnIndexAccountLabel;
+  private int columnIndexStatus;
+  private int columnIndexLabelSub;
+  private int columnIndexReferenceNumber;
+  private int columnIndexComment;
+  private int columnIndexPayee;
+  private int columnIndexCrStatus;
+  private int columnIndexRowId;
+  private int columnIndexAmount;
+  private int columnIndexTransferPeer;
 
   protected TransactionAdapter(Account account, Grouping grouping, Context context, int layout,
                                Cursor c, int flags,
@@ -118,17 +134,16 @@ public class TransactionAdapter extends ResourceCursorAdapter {
   @Override
   public void bindView(View view, Context context, Cursor cursor) {
     ViewHolder viewHolder = (ViewHolder) view.getTag();
-    viewHolder.date.setText(Utils.convDateTime(cursor.getString(cursor.getColumnIndex(KEY_DATE)), itemDateFormat));
-    int currencyIndex = cursor.getColumnIndex(KEY_CURRENCY);
-    Currency currency = currencyIndex == -1 ? mAccount.currency : Currency.getInstance(cursor.getString(currencyIndex));
-    viewHolder.amount.setText(currencyFormatter.convAmount(cursor.getLong(cursor.getColumnIndex(KEY_AMOUNT)), currency));
+    viewHolder.date.setText(Utils.convDateTime(cursor.getString(columnIndexDate), itemDateFormat));
+    Currency currency = currencyIndexCurrency == -1 ? mAccount.currency : Currency.getInstance(cursor.getString(currencyIndexCurrency));
+    long amount = cursor.getLong(columnIndexAmount);
     TextView tv1 = viewHolder.amount;
-    long amount = cursor.getLong(cursor.getColumnIndex(KEY_AMOUNT));
+    tv1.setText(currencyFormatter.convAmount(amount, currency));
+
     tv1.setTextColor(amount < 0 ? colorExpense : colorIncome);
-    if (mAccount.getId() < 0) {
-      int columnIndex = cursor.getColumnIndex(KEY_IS_SAME_CURRENCY);
-      if (columnIndex == -1 || cursor.getInt(columnIndex) != 1) {
-        int color = cursor.getInt(cursor.getColumnIndex(KEY_COLOR));
+    if (mAccount.isAggregate()) {
+      if (columnIndexSameCurrency == -1 || cursor.getInt(columnIndexSameCurrency) != 1) {
+        int color = cursor.getInt(columnIndexColor);
         viewHolder.colorAccount.setBackgroundColor(color);
       } else {
         viewHolder.colorAccount.setBackgroundColor(0);
@@ -136,29 +151,29 @@ public class TransactionAdapter extends ResourceCursorAdapter {
       }
     }
     TextView tv2 = viewHolder.category;
-    CharSequence catText = cursor.getString(cursor.getColumnIndex(KEY_LABEL_MAIN));
-    if (DbUtils.getLongOrNull(cursor, cursor.getColumnIndex(KEY_TRANSFER_PEER)) != null) {
+    CharSequence catText = cursor.getString(columnIndexLabelMain);
+    if (DbUtils.getLongOrNull(cursor, columnIndexTransferPeer) != null) {
       catText = Transfer.getIndicatorPrefixForLabel(amount) + catText;
-      if (mAccount.getId() < 0) {
-        catText = cursor.getString(cursor.getColumnIndex(KEY_ACCOUNT_LABEL)) + " " + catText;
+      if (mAccount.isAggregate()) {
+        catText = cursor.getString(columnIndexAccountLabel) + " " + catText;
       }
     } else {
       Long catId = DbUtils.getLongOrNull(cursor, KEY_CATID);
       if (SPLIT_CATID.equals(catId))
         catText = MyApplication.getInstance().getString(R.string.split_transaction);
       else if (catId == null) {
-        if (cursor.getInt(cursor.getColumnIndex(KEY_STATUS)) != STATUS_HELPER) {
+        if (cursor.getInt(columnIndexStatus) != STATUS_HELPER) {
           catText = Category.NO_CATEGORY_ASSIGNED_LABEL;
         }
       } else {
-        catText = getCatText(catText, cursor.getString(cursor.getColumnIndex(KEY_LABEL_SUB)));
+        catText = getCatText(catText, cursor.getString(columnIndexLabelSub));
       }
     }
-    String referenceNumber = cursor.getString(cursor.getColumnIndex(KEY_REFERENCE_NUMBER));
+    String referenceNumber = cursor.getString(columnIndexReferenceNumber);
     if (referenceNumber != null && referenceNumber.length() > 0)
       catText = "(" + referenceNumber + ") " + catText;
     SpannableStringBuilder ssb;
-    String comment = cursor.getString(cursor.getColumnIndex(KEY_COMMENT));
+    String comment = cursor.getString(columnIndexComment);
     if (comment != null && comment.length() > 0) {
       ssb = new SpannableStringBuilder(comment);
       ssb.setSpan(new StyleSpan(Typeface.ITALIC), 0, comment.length(), 0);
@@ -166,7 +181,7 @@ public class TransactionAdapter extends ResourceCursorAdapter {
           TextUtils.concat(catText, TransactionList.COMMENT_SEPARATOR, ssb) :
           ssb;
     }
-    String payee = cursor.getString(cursor.getColumnIndex(KEY_PAYEE_NAME));
+    String payee = cursor.getString(columnIndexPayee);
     if (payee != null && payee.length() > 0) {
       ssb = new SpannableStringBuilder(payee);
       ssb.setSpan(new UnderlineSpan(), 0, payee.length(), 0);
@@ -186,14 +201,14 @@ public class TransactionAdapter extends ResourceCursorAdapter {
 
     CrStatus status;
     try {
-      status = CrStatus.valueOf(cursor.getString(cursor.getColumnIndex(KEY_CR_STATUS)));
+      status = CrStatus.valueOf(cursor.getString(columnIndexCrStatus));
     } catch (IllegalArgumentException ex) {
       status = CrStatus.UNRECONCILED;
     }
 
     if (!mAccount.getType().equals(AccountType.CASH) && !status.equals(CrStatus.VOID)) {
       viewHolder.color1.setBackgroundColor(status.color);
-      viewHolder.colorContainer.setTag(status == CrStatus.RECONCILED ? -1 : cursor.getLong(cursor.getColumnIndex(KEY_ROWID)));
+      viewHolder.colorContainer.setTag(status == CrStatus.RECONCILED ? -1 : cursor.getLong(columnIndexRowId));
       viewHolder.colorContainer.setVisibility(View.VISIBLE);
     } else {
       viewHolder.colorContainer.setVisibility(View.GONE);
@@ -233,6 +248,30 @@ public class TransactionAdapter extends ResourceCursorAdapter {
       case NONE:
         itemDateFormat = Utils.localizedYearlessDateFormat();
     }
+  }
+
+  @Override
+  public Cursor swapCursor(Cursor cursor) {
+    if (!indexesCalculated) {
+      columnIndexDate = cursor.getColumnIndex(KEY_DATE);
+      currencyIndexCurrency = cursor.getColumnIndex(KEY_CURRENCY);
+      columnIndexAmount = cursor.getColumnIndex(KEY_AMOUNT);
+      columnIndexSameCurrency = cursor.getColumnIndex(KEY_IS_SAME_CURRENCY);
+      columnIndexColor = cursor.getColumnIndex(KEY_COLOR);
+      columnIndexLabelMain = cursor.getColumnIndex(KEY_LABEL_MAIN);
+      columnIndexTransferPeer = cursor.getColumnIndex(KEY_TRANSFER_PEER);
+      columnIndexAccountLabel = cursor.getColumnIndex(KEY_ACCOUNT_LABEL);
+      columnIndexStatus = cursor.getColumnIndex(KEY_STATUS);
+      columnIndexLabelSub = cursor.getColumnIndex(KEY_LABEL_SUB);
+      columnIndexReferenceNumber = cursor.getColumnIndex(KEY_REFERENCE_NUMBER);
+      columnIndexComment = cursor.getColumnIndex(KEY_COMMENT);
+      columnIndexPayee = cursor.getColumnIndex(KEY_PAYEE_NAME);
+      columnIndexCrStatus = cursor.getColumnIndex(KEY_CR_STATUS);
+      columnIndexRowId = cursor.getColumnIndex(KEY_ROWID);
+
+      indexesCalculated = true;
+    }
+    return super.swapCursor(cursor);
   }
 
   class ViewHolder {
