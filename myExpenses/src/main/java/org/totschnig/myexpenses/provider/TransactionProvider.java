@@ -540,12 +540,13 @@ public class TransactionProvider extends ContentProvider {
       case AGGREGATE_ID:
         String currencyId = uri.getPathSegments().get(2);
         if (Integer.parseInt(currencyId) == Account.HOME_AGGREGATE_ID) {
+          qb.setTables(TABLE_ACCOUNTS);
           projection = new String[]{
               Account.HOME_AGGREGATE_ID + " AS " + KEY_ROWID,
               "'' AS " + KEY_LABEL,
               "'' AS " + KEY_DESCRIPTION,
-              "(select sum(" + KEY_OPENING_BALANCE + " * " + DatabaseConstants.getExchangeRate(KEY_ROWID)
-                  + ") from " + TABLE_ACCOUNTS  + ") AS " + KEY_OPENING_BALANCE,
+              "sum(" + KEY_OPENING_BALANCE + " * " + DatabaseConstants.getExchangeRate(KEY_ROWID)
+                  + ") AS " + KEY_OPENING_BALANCE,
               "'" + AGGREGATE_HOME_CURRENCY_CODE + "' AS " + KEY_CURRENCY,
               "-1 AS " + KEY_COLOR,
               "'NONE' AS " + KEY_GROUPING,
