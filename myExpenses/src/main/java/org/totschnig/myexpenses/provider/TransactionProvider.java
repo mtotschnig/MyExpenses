@@ -539,23 +539,41 @@ public class TransactionProvider extends ContentProvider {
         break;
       case AGGREGATE_ID:
         String currencyId = uri.getPathSegments().get(2);
-        qb.setTables(TABLE_CURRENCIES);
-        projection = new String[]{
-            "0 - " + KEY_ROWID + "  AS " + KEY_ROWID,//we use negative ids for aggregate accounts
-            KEY_CODE + " AS " + KEY_LABEL,
-            "'' AS " + KEY_DESCRIPTION,
-            "(select sum(" + KEY_OPENING_BALANCE
-                + ") from " + TABLE_ACCOUNTS + " where " + KEY_CURRENCY + " = " + KEY_CODE + ") AS " + KEY_OPENING_BALANCE,
-            KEY_CODE + " AS " + KEY_CURRENCY,
-            "-1 AS " + KEY_COLOR,
-            "'NONE' AS " + KEY_GROUPING,
-            "'DESC' AS " + KEY_SORT_DIRECTION,
-            "'AGGREGATE' AS " + KEY_TYPE,
-            "-1 AS " + KEY_SORT_KEY,
-            "0 AS " + KEY_EXCLUDE_FROM_TOTALS,
-            "null AS " + KEY_SYNC_ACCOUNT_NAME,
-            "null AS " + KEY_UUID};
-        qb.appendWhere(KEY_ROWID + "=" + currencyId);
+        if (Integer.parseInt(currencyId) == Account.HOME_AGGREGATE_ID) {
+          projection = new String[]{
+              Account.HOME_AGGREGATE_ID + " AS " + KEY_ROWID,
+              "'' AS " + KEY_LABEL,
+              "'' AS " + KEY_DESCRIPTION,
+              "(select sum(" + KEY_OPENING_BALANCE + " * " + DatabaseConstants.getExchangeRate(KEY_ROWID)
+                  + ") from " + TABLE_ACCOUNTS  + ") AS " + KEY_OPENING_BALANCE,
+              "'" + AGGREGATE_HOME_CURRENCY_CODE + "' AS " + KEY_CURRENCY,
+              "-1 AS " + KEY_COLOR,
+              "'NONE' AS " + KEY_GROUPING,
+              "'DESC' AS " + KEY_SORT_DIRECTION,
+              "'AGGREGATE' AS " + KEY_TYPE,
+              "-1 AS " + KEY_SORT_KEY,
+              "0 AS " + KEY_EXCLUDE_FROM_TOTALS,
+              "null AS " + KEY_SYNC_ACCOUNT_NAME,
+              "null AS " + KEY_UUID};
+        } else {
+          qb.setTables(TABLE_CURRENCIES);
+          projection = new String[]{
+              "0 - " + KEY_ROWID + "  AS " + KEY_ROWID,//we use negative ids for aggregate accounts
+              KEY_CODE + " AS " + KEY_LABEL,
+              "'' AS " + KEY_DESCRIPTION,
+              "(select sum(" + KEY_OPENING_BALANCE
+                  + ") from " + TABLE_ACCOUNTS + " where " + KEY_CURRENCY + " = " + KEY_CODE + ") AS " + KEY_OPENING_BALANCE,
+              KEY_CODE + " AS " + KEY_CURRENCY,
+              "-1 AS " + KEY_COLOR,
+              "'NONE' AS " + KEY_GROUPING,
+              "'DESC' AS " + KEY_SORT_DIRECTION,
+              "'AGGREGATE' AS " + KEY_TYPE,
+              "-1 AS " + KEY_SORT_KEY,
+              "0 AS " + KEY_EXCLUDE_FROM_TOTALS,
+              "null AS " + KEY_SYNC_ACCOUNT_NAME,
+              "null AS " + KEY_UUID};
+        }
+        qb.appendWhere(KEY_ROWID + "= abs(" + currencyId + ")");
         break;
       case ACCOUNT_ID:
         qb.setTables(TABLE_ACCOUNTS);

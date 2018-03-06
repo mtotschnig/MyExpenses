@@ -448,7 +448,12 @@ public class DatabaseConstants {
 
 
   public static String getAmountHomeEquivalent() {
-    return "coalesce((SELECT " + KEY_EXCHANGE_RATE + " FROM " + TABLE_ACCOUNT_EXCHANGE_RATES + " WHERE " + KEY_ACCOUNTID + " = " + VIEW_EXTENDED + "." +  KEY_ACCOUNTID +
-        " AND " + KEY_CURRENCY_SELF + "=" + KEY_CURRENCY + " AND " + KEY_CURRENCY_OTHER + "='" + PrefKey.HOME_CURRENCY.getString(null) + "'), 1) * " + KEY_AMOUNT;
+    return getExchangeRate(VIEW_EXTENDED + "." +  KEY_ACCOUNTID) + " * " + KEY_AMOUNT;
   }
+
+  static String getExchangeRate(String accountReference) {
+    return "coalesce((SELECT " + KEY_EXCHANGE_RATE + " FROM " + TABLE_ACCOUNT_EXCHANGE_RATES + " WHERE " + KEY_ACCOUNTID + " = " + accountReference +
+        " AND " + KEY_CURRENCY_SELF + "=" + KEY_CURRENCY + " AND " + KEY_CURRENCY_OTHER + "='" + PrefKey.HOME_CURRENCY.getString(null) + "'), 1)";
+  }
+
 }

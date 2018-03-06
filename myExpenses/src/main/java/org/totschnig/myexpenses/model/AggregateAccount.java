@@ -41,7 +41,7 @@ public class AggregateAccount extends Account {
     }
     Timber.w("did not find Aggregate Account in cache, will construct it from DB");
     Cursor c = cr().query(
-        TransactionProvider.ACCOUNTS_AGGREGATE_URI.buildUpon().appendPath(String.valueOf(0 - id)).build(),
+        TransactionProvider.ACCOUNTS_AGGREGATE_URI.buildUpon().appendPath(String.valueOf(id)).build(),
         null, null, null, null);
     if (c == null) {
       //reportNull(id);
