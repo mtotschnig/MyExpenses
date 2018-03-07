@@ -321,21 +321,22 @@ public class Utils {
     }
   }
 
-  public static Currency getSaveInstance(String strCurrency) {
-    Currency c;
-    if (strCurrency.equals(AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE)) {
-      strCurrency = PrefKey.HOME_CURRENCY.getString("EUR");
+  public static Currency getSaveInstance(@Nullable String strCurrency) {
+    Currency c = null;
+    if (strCurrency != null) {
+      if (strCurrency.equals(AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE)) {
+        strCurrency = PrefKey.HOME_CURRENCY.getString("EUR");
+      }
+      try {
+        c = Currency.getInstance(strCurrency);
+      } catch (IllegalArgumentException e) {
+        Timber.e("%s is not defined in ISO 4217", strCurrency);
+      }
     }
-    try {
-      c = Currency.getInstance(strCurrency);
-    } catch (IllegalArgumentException e) {
-      Timber.e("%s is not defined in ISO 4217", strCurrency);
-      c = getSaveDefault();
-    }
-    return getSaveInstance(c);
+    return getSaveInstance(c == null ? getSaveDefault() : c);
   }
 
-  private static Currency getSaveInstance(Currency currency) {
+  private static Currency getSaveInstance(@NonNull Currency currency) {
     try {
       CurrencyEnum.valueOf(currency.getCurrencyCode());
       return currency;

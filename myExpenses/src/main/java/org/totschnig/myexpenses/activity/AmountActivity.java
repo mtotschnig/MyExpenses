@@ -17,7 +17,9 @@ package org.totschnig.myexpenses.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
@@ -29,6 +31,8 @@ import org.totschnig.myexpenses.widget.AbstractWidget;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
+import butterknife.BindView;
+
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 
 public abstract class AmountActivity extends EditActivity {
@@ -38,21 +42,19 @@ public abstract class AmountActivity extends EditActivity {
   public static final boolean EXPENSE = false;
   //stores if we deal with an EXPENSE or an INCOME
   protected boolean mType = EXPENSE;
+  @BindView(R.id.TaType)
   protected CompoundButton mTypeButton;
+  @BindView(R.id.AmountLabel)
   protected TextView mAmountLabel;
+  @BindView(R.id.AmountRow)
+  ViewGroup amountRow;
+  @BindView(R.id.ExchangeRateRow)
+  ViewGroup exchangeRateRow;
 
   @Override
-  public void setContentView(int layoutResID) {
-    super.setContentView(layoutResID);
-    mAmountLabel = (TextView) findViewById(R.id.AmountLabel);
-    mAmountText = (AmountEditText) findViewById(R.id.AmountRow).findViewById(R.id.Amount);
-  }
-
-  /**
-   * 
-   */
-  protected void configTypeButton() {
-    mTypeButton = (CompoundButton) findViewById(R.id.AmountRow).findViewById(R.id.TaType);
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    mAmountText = amountRow.findViewById(R.id.Amount);
   }
 
   @Override
@@ -61,8 +63,7 @@ public abstract class AmountActivity extends EditActivity {
     super.onActivityResult(requestCode, resultCode, intent);
     if (resultCode == RESULT_OK && requestCode == CALCULATOR_REQUEST && intent != null) {
       try {
-        AmountEditText input = (AmountEditText)
-            findViewById(intent.getIntExtra(CalculatorInput.EXTRA_KEY_INPUT_ID,0));
+        AmountEditText input = findViewById(intent.getIntExtra(CalculatorInput.EXTRA_KEY_INPUT_ID,0));
         input.setAmount(new BigDecimal(intent.getStringExtra(KEY_AMOUNT)));
         input.setError(null);
       } catch (Exception  e) {
@@ -91,10 +92,17 @@ public abstract class AmountActivity extends EditActivity {
   }
 
   public void showCalculator(View view) {
-    showCalculatorInternal(mAmountText);
+    ViewGroup row = (ViewGroup) view.getParent();
+    for (int itemPos = 0; itemPos < row.getChildCount(); itemPos++) {
+      View input = row.getChildAt(itemPos);
+      if (input instanceof AmountEditText) {
+        showCalculatorInternal((AmountEditText) input);
+        break;
+      }
+    }
   }
 
-  protected void showCalculatorInternal(AmountEditText input) {
+  protected void showCalculatorInternal(@NonNull AmountEditText input) {
     Intent intent = new Intent(this,CalculatorInput.class);
     forwardDataEntryFromWidget(intent);
     BigDecimal amount = validateAmountInput(input, false);
@@ -128,6 +136,6 @@ public abstract class AmountActivity extends EditActivity {
   protected void linkInputsWithLabels() {
     linkInputWithLabel(mAmountText, mAmountLabel);
     linkInputWithLabel(mTypeButton, mAmountLabel);
-    linkInputWithLabel(findViewById(R.id.AmountRow).findViewById(R.id.Calculator),mAmountLabel);
+    linkInputWithLabel(amountRow.findViewById(R.id.Calculator), mAmountLabel);
   }
 }

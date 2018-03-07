@@ -181,6 +181,9 @@ public class DatabaseConstants {
   public static final String KEY_CURRENCY_SELF = "currency_self";
   public static final String KEY_CURRENCY_OTHER= "currency_other";
   public static final String KEY_EXCHANGE_RATE = "exchange_rate";
+  public static final String KEY_ORIGINAL_AMOUNT = "original_amount";
+  public static final String KEY_ORIGINAL_CURRENCY = "original_currency";
+  public static final String KEY_EQUIVALENT_AMOUNT = "equivalent_amount";
 
   /**
    * column alias for the second group (month or week)

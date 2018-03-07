@@ -137,7 +137,6 @@ public class AccountEdit extends AmountActivity implements
           //if not supported ignore
         }
     }
-    configTypeButton();
     mAmountText.setFractionDigits(Money.getFractionDigits(mAccount.currency));
 
     mCurrencySpinner = new SpinnerHelper(findViewById(R.id.Currency));
@@ -209,7 +208,7 @@ public class AccountEdit extends AmountActivity implements
     UiUtils.setBackgroundOnButton(mColorIndicator, mAccount.color);
     String homeCurrencyPref = PrefKey.HOME_CURRENCY.getString(currencyCode);
     if (!homeCurrencyPref.equals(currencyCode)) {
-      findViewById(R.id.ExchangeRateRow).setVisibility(View.VISIBLE);
+      exchangeRateRow.setVisibility(View.VISIBLE);
       mExchangeRateEdit.setSymbols(Money.getSymbol(mAccount.currency),
           Money.getSymbol(Utils.getSaveInstance(homeCurrencyPref)));
       mExchangeRateEdit.setRate(mAccount.getExchangeRate());

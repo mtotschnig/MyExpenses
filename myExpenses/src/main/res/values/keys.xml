@@ -159,4 +159,5 @@
     <string name="cab_RoadmapVoteActivity_set_weight_help_text" tools:ignore="UnusedResources">Select the amount of points that corresponds to how relevant the issue is for you.</string>
     <string name="roadmap_intro">Please help us shape the future of this app by taking part in the vote on the future development roadmap!</string>
     <string name="roadmap_particpate">Participate</string>
+    <string name="amount_digits">١٢٣٤٥٦٧٨٩۱۲۳۴۵۶۷۸۹1234567890,.٫</string>
 </resources>

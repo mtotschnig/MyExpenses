@@ -72,6 +72,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MONTH;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
@@ -129,6 +131,7 @@ public class Transaction extends Model {
   private Date date;
   private Money amount;
   private Money transferAmount;
+  private Money originalAmount;
   private Long catId;
   private long accountId;
   private Long methodId;
@@ -317,6 +320,14 @@ public class Transaction extends Model {
     return null; //convenience that allows to set transfer account on template and transfer without cast
   }
 
+  public void setOriginalAmount(Money originalAmount) {
+    this.originalAmount = originalAmount;
+  }
+
+  public Money getOriginalAmount() {
+    return originalAmount;
+  }
+
   public enum CrStatus {
     UNRECONCILED(Color.GRAY, ""), CLEARED(Color.BLUE, "*"), RECONCILED(Color.GREEN, "X"), VOID(Color.RED, null);
     public int color;
@@ -375,7 +386,7 @@ public class Transaction extends Model {
     String[] projection = new String[]{KEY_ROWID, KEY_DATE, KEY_AMOUNT, KEY_COMMENT, KEY_CATID,
         FULL_LABEL, KEY_PAYEEID, KEY_PAYEE_NAME, KEY_TRANSFER_PEER, KEY_TRANSFER_ACCOUNT,
         KEY_ACCOUNTID, KEY_METHODID, KEY_PARENTID, KEY_CR_STATUS, KEY_REFERENCE_NUMBER, KEY_CURRENCY,
-        KEY_PICTURE_URI, KEY_METHOD_LABEL, KEY_STATUS, TRANSFER_AMOUNT, KEY_TEMPLATEID, KEY_UUID};
+        KEY_PICTURE_URI, KEY_METHOD_LABEL, KEY_STATUS, TRANSFER_AMOUNT, KEY_TEMPLATEID, KEY_UUID, KEY_ORIGINAL_AMOUNT, KEY_ORIGINAL_CURRENCY};
 
     Cursor c = cr().query(
         EXTENDED_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection, null, null, null);
@@ -423,6 +434,11 @@ public class Transaction extends Model {
     t.setComment(DbUtils.getString(c, KEY_COMMENT));
     t.setReferenceNumber(DbUtils.getString(c, KEY_REFERENCE_NUMBER));
     t.setLabel(DbUtils.getString(c, KEY_LABEL));
+
+    Long originalAmount = getLongOrNull(c, KEY_ORIGINAL_AMOUNT);
+    if (originalAmount != null) {
+      t.setOriginalAmount(new Money(Utils.getSaveInstance(KEY_ORIGINAL_CURRENCY), originalAmount));
+    }
 
     int pictureUriColumnIndex = c.getColumnIndexOrThrow(KEY_PICTURE_URI);
     if (!c.isNull(pictureUriColumnIndex)) {

@@ -73,6 +73,47 @@
                     android:layout_gravity="center_vertical"/>
             </TableRow>
 
+
+            <TableRow
+                android:visibility="gone"
+                android:id="@+id/OriginalAmountRow">
+
+                <TextView
+                    style="@style/FormLabel"
+                    android:labelFor="@+id/OriginalAmount"
+                    android:text="Original amount"
+                    />
+
+                <LinearLayout
+                    style="@style/FormField"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <Spinner
+                        style="@style/FormField"
+                        android:id="@+id/OriginalCurrency"
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_vertical"
+                        android:prompt="@string/currency"/>
+
+                    <org.totschnig.myexpenses.ui.AmountEditText
+                        android:id="@+id/OriginalAmount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:digits="@string/amount_digits"
+                        android:inputType="numberDecimal"/>
+
+                    <include
+                        android:id="@+id/CalculatorOriginal"
+                        layout="@layout/calc_icon"/>
+                </LinearLayout>
+            </TableRow>
+
             <TableRow
                 android:id="@+id/AmountRow">
 
@@ -111,7 +152,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="2"
-                        android:digits="1234567890,.٫"
+                        android:digits="@string/amount_digits"
                         android:inputType="numberDecimal"/>
 
                     <include

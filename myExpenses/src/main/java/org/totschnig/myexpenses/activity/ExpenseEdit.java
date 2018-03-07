@@ -36,6 +36,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
@@ -73,6 +74,7 @@ import com.squareup.picasso.Picasso;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.CrStatusAdapter;
+import org.totschnig.myexpenses.adapter.CurrencyAdapter;
 import org.totschnig.myexpenses.adapter.OperationTypeAdapter;
 import org.totschnig.myexpenses.adapter.RecurrenceAdapter;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
@@ -125,6 +127,8 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import timber.log.Timber;
 
 import static org.totschnig.myexpenses.activity.MyExpenses.KEY_SEQUENCE_COUNT;
@@ -180,24 +184,60 @@ public class ExpenseEdit extends AmountActivity implements
   private static int INPUT_AMOUNT = 2;
   private static int INPUT_TRANSFER_AMOUNT = 3;
   private int[] lastExchangeRateRelevantInputs = {INPUT_EXCHANGE_RATE, INPUT_AMOUNT};
-  private static final BigDecimal nullValue = new BigDecimal(0);
-  private Button mDateButton;
-  private Button mTimeButton;
-  private EditText mCommentText, mTitleText, mReferenceNumberText;
-  private ExchangeRateEdit mExchangeRateEdit;
-  private AmountEditText mTransferAmountText;
-
-  private Button mCategoryButton, mPlanButton;
+  @BindView(R.id.DateButton)
+  Button mDateButton;
+  @BindView(R.id.TimeButton)
+  Button mTimeButton;
+  @BindView(R.id.Comment)
+  EditText mCommentText;
+  @BindView(R.id.Title)
+  EditText mTitleText;
+  @BindView(R.id.Number)
+  EditText mReferenceNumberText;
+  @BindView(R.id.ExchangeRate)
+  ExchangeRateEdit mExchangeRateEdit;
+  @BindView(R.id.TranferAmount)
+  AmountEditText mTransferAmountText;
+  @BindView(R.id.Category)
+  Button mCategoryButton;
+  @BindView(R.id.Plan)
+  Button mPlanButton;
   private SpinnerHelper mMethodSpinner, mAccountSpinner, mTransferAccountSpinner, mStatusSpinner,
-      mOperationTypeSpinner, mRecurrenceSpinner;
+      mOperationTypeSpinner, mRecurrenceSpinner, mCurrencySpinner;
   private SimpleCursorAdapter mMethodsAdapter, mAccountsAdapter, mTransferAccountsAdapter, mPayeeAdapter;
   private OperationTypeAdapter mOperationTypeAdapter;
   private FilterCursorWrapper mTransferAccountCursor;
-  private AutoCompleteTextView mPayeeText;
-  protected TextView mPayeeLabel;
-  private ToggleButton mPlanToggleButton;
-  private ImageView mAttachPictureButton;
-  private FrameLayout mPictureViewContainer;
+  @BindView(R.id.Payee)
+  AutoCompleteTextView mPayeeText;
+  @BindView(R.id.PayeeLabel)
+  TextView mPayeeLabel;
+  @BindView(R.id.PlanExecutionAutomatic)
+  ToggleButton mPlanToggleButton;
+  @BindView(R.id.AttachImage)
+  ImageView mAttachPictureButton;
+  @BindView(R.id.picture_container)
+  FrameLayout mPictureViewContainer;
+  @BindView(R.id.TitleRow)
+  ViewGroup titleRow;
+  @BindView(R.id.AccountRow)
+  ViewGroup accountRow;
+  @BindView(R.id.OriginalAmountRow)
+  ViewGroup originalAmountRow;
+  @BindView(R.id.TransferAmountRow)
+  ViewGroup transferAmountRow;
+  @BindView(R.id.TransferAccountRow)
+  ViewGroup transferAccountRow;
+  @BindView(R.id.DateTimeRow)
+  ViewGroup dateTimeRow;
+  @BindView(R.id.PayeeRow)
+  ViewGroup payeeRow;
+  @BindView(R.id.CategoryRow)
+  ViewGroup categoryRow;
+  @BindView(R.id.MethodRow)
+  ViewGroup methodRow;
+  @BindView(R.id.PlannerRow)
+  ViewGroup plannerRow;
+
   private Long mRowId = 0L;
   private Long mTemplateId;
   private Account[] mAccounts;
@@ -241,6 +281,7 @@ public class ExpenseEdit extends AmountActivity implements
   private ContentObserver pObserver;
   private boolean mPlanUpdateNeeded;
   private boolean didUserSetAccount;
+  private CurrencyAdapter currencyAdapter;
 
   public enum HelpVariant {
     transaction, transfer, split, templateCategory, templateTransfer, templateSplit, splitPartCategory, splitPartTransfer
@@ -272,20 +313,9 @@ public class ExpenseEdit extends AmountActivity implements
 
     setupToolbar();
     mManager = getSupportLoaderManager();
+    ButterKnife.bind(this);
     //we enable it only after accountcursor has been loaded, preventing NPE when user clicks on it early
-    configTypeButton();
     mTypeButton.setEnabled(false);
-    mCommentText = findViewById(R.id.Comment);
-    mTitleText = findViewById(R.id.Title);
-    mReferenceNumberText = findViewById(R.id.Number);
-    mDateButton = findViewById(R.id.DateButton);
-    mAttachPictureButton = findViewById(R.id.AttachImage);
-    mPictureViewContainer = findViewById(R.id.picture_container);
-    mTimeButton = findViewById(R.id.TimeButton);
-    mPayeeLabel = findViewById(R.id.PayeeLabel);
-    mPayeeText = findViewById(R.id.Payee);
-    mTransferAmountText = findViewById(R.id.TranferAmount);
-    mExchangeRateEdit = findViewById(R.id.ExchangeRate);
     mExchangeRateEdit.setExchangeRateWatcher(new LinkedExchangeRateTextWatchter());
 
     mPayeeAdapter = new SimpleCursorAdapter(this, R.layout.support_simple_spinner_dropdown_item, null,
@@ -342,15 +372,23 @@ public class ExpenseEdit extends AmountActivity implements
       }
     });
 
-    mCategoryButton = findViewById(R.id.Category);
-    mPlanButton = findViewById(R.id.Plan);
     mMethodSpinner = new SpinnerHelper(findViewById(R.id.Method));
     mAccountSpinner = new SpinnerHelper(findViewById(R.id.Account));
     mTransferAccountSpinner = new SpinnerHelper(findViewById(R.id.TransferAccount));
     mTransferAccountSpinner.setOnItemSelectedListener(this);
     mStatusSpinner = new SpinnerHelper(findViewById(R.id.Status));
     mRecurrenceSpinner = new SpinnerHelper(findViewById(R.id.Recurrence));
-    mPlanToggleButton = findViewById(R.id.PlanExecutionAutomatic);
+    mCurrencySpinner = new SpinnerHelper(findViewById(R.id.OriginalCurrency));
+    currencyAdapter = new CurrencyAdapter(this) {
+      @NonNull
+      @Override
+      public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        View view = super.getView(position, convertView, parent);
+        ((TextView) view).setText(getItem(position).name());
+        return view;
+      }
+    };
+    mCurrencySpinner.setAdapter(currencyAdapter);
     TextPaint paint = mPlanToggleButton.getPaint();
     int automatic = (int) paint.measureText(getString(R.string.plan_automatic));
     int manual = (int) paint.measureText(getString(R.string.plan_manual));
@@ -606,18 +644,14 @@ public class ExpenseEdit extends AmountActivity implements
       mMethodsAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
       mMethodSpinner.setAdapter(mMethodsAdapter);
     } else {
-      findViewById(R.id.PayeeRow).setVisibility(View.GONE);
-      View MethodContainer = findViewById(R.id.MethodRow);
-      MethodContainer.setVisibility(View.GONE);
+      payeeRow.setVisibility(View.GONE);
+      methodRow.setVisibility(View.GONE);
     }
 
-    View categoryContainer = findViewById(R.id.CategoryRow);
-    if (categoryContainer == null)
-      categoryContainer = findViewById(R.id.Category);
-    TextView accountLabelTv = (TextView) findViewById(R.id.AccountLabel);
+    TextView accountLabelTv = findViewById(R.id.AccountLabel);
     if (mOperationType == TYPE_TRANSFER) {
       mTypeButton.setVisibility(View.GONE);
-      categoryContainer.setVisibility(View.GONE);
+      categoryRow.setVisibility(View.GONE);
       View accountContainer = findViewById(R.id.TransferAccountRow);
       if (accountContainer == null)
         accountContainer = findViewById(R.id.TransferAccount);
@@ -633,7 +667,7 @@ public class ExpenseEdit extends AmountActivity implements
     mManager.initLoader(ACCOUNTS_CURSOR, null, this);
 
     if (mIsMainTemplate) {
-      findViewById(R.id.TitleRow).setVisibility(View.VISIBLE);
+      titleRow.setVisibility(View.VISIBLE);
       if (!isCalendarPermissionPermanentlyDeclined()) {
         //if user has denied access and checked that he does not want to be asked again, we do not
         //bother him with a button that is not working
@@ -751,7 +785,7 @@ public class ExpenseEdit extends AmountActivity implements
     }
 
     if (isNoMainTransaction()) {
-      findViewById(R.id.DateTimeRow).setVisibility(View.GONE);
+      dateTimeRow.setVisibility(View.GONE);
     } else {
       //noinspection SetTextI18n
       ((TextView) findViewById(R.id.DateTimeLabel)).setText(getString(
@@ -789,7 +823,7 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   private void setPlannerRowVisibility(int visibility) {
-    findViewById(R.id.PlannerRow).setVisibility(visibility);
+    plannerRow.setVisibility(visibility);
   }
 
   @Override
@@ -831,6 +865,7 @@ public class ExpenseEdit extends AmountActivity implements
     final View exchangeRateAmountLabel = findViewById(R.id.ExchangeRateLabel);
     linkInputWithLabel(findViewById(R.id.ExchangeRate_1), exchangeRateAmountLabel);
     linkInputWithLabel(findViewById(R.id.ExchangeRate_2), exchangeRateAmountLabel);
+    linkInputWithLabel();
   }
 
   private void linkAccountLabels() {
@@ -1055,6 +1090,10 @@ public class ExpenseEdit extends AmountActivity implements
     }
 
     fillAmount(cachedOrSelf.getAmount().getAmountMajor());
+
+    if (cachedOrSelf.getOriginalAmount() != null) {
+
+    }
 
     if (mNewInstance) {
       if (mIsMainTemplate) {
@@ -1448,24 +1487,20 @@ public class ExpenseEdit extends AmountActivity implements
   private void switchAccountViews() {
     Spinner accountSpinner = mAccountSpinner.getSpinner();
     Spinner transferAccountSpinner = mTransferAccountSpinner.getSpinner();
-    ViewGroup accountParent = (ViewGroup) findViewById(R.id.AccountRow);
-    ViewGroup transferAccountRow = (ViewGroup) findViewById(R.id.TransferAccountRow);
-    TableLayout table = (TableLayout) findViewById(R.id.Table);
-    View amountRow = table.findViewById(R.id.AmountRow);
-    View transferAmountRow = table.findViewById(R.id.TransferAmountRow);
+    TableLayout table = findViewById(R.id.Table);
     table.removeView(amountRow);
     table.removeView(transferAmountRow);
     if (mType == INCOME) {
-      accountParent.removeView(accountSpinner);
+      accountRow.removeView(accountSpinner);
       transferAccountRow.removeView(transferAccountSpinner);
-      accountParent.addView(transferAccountSpinner);
+      accountRow.addView(transferAccountSpinner);
       transferAccountRow.addView(accountSpinner);
       table.addView(transferAmountRow, 2);
       table.addView(amountRow, 4);
     } else {
-      accountParent.removeView(transferAccountSpinner);
+      accountRow.removeView(transferAccountSpinner);
       transferAccountRow.removeView(accountSpinner);
-      accountParent.addView(accountSpinner);
+      accountRow.addView(accountSpinner);
       transferAccountRow.addView(transferAccountSpinner);
       table.addView(amountRow, 2);
       table.addView(transferAmountRow, 4);
@@ -1724,8 +1759,8 @@ public class ExpenseEdit extends AmountActivity implements
         mTransferAccountSpinner.getSelectedItemId());
     final Currency currency = getCurrentAccount().currency;
     final boolean isSame = currency.equals(transferAccount.currency);
-    findViewById(R.id.TransferAmountRow).setVisibility(isSame ? View.GONE : View.VISIBLE);
-    findViewById(R.id.ExchangeRateRow).setVisibility(
+    transferAmountRow.setVisibility(isSame ? View.GONE : View.VISIBLE);
+    exchangeRateRow.setVisibility(
         isSame || (mTransaction instanceof Template) ? View.GONE : View.VISIBLE);
     final String symbol2 = Money.getSymbol(transferAccount.currency);
     //noinspection SetTextI18n
@@ -1970,11 +2005,10 @@ public class ExpenseEdit extends AmountActivity implements
     switch (id) {
       case METHODS_CURSOR:
         mMethodsCursor = data;
-        View methodContainer = findViewById(R.id.MethodRow);
         if (mMethodsAdapter == null || !data.moveToFirst()) {
-          methodContainer.setVisibility(View.GONE);
+          methodRow.setVisibility(View.GONE);
         } else {
-          methodContainer.setVisibility(View.VISIBLE);
+          methodRow.setVisibility(View.VISIBLE);
           MatrixCursor extras = new MatrixCursor(new String[]{KEY_ROWID, KEY_LABEL, KEY_IS_NUMBERED});
           extras.addRow(new String[]{"0", "- - - -", "0"});
           mMethodsAdapter.swapCursor(new MergeCursor(new Cursor[]{extras, data}));
@@ -2391,14 +2425,6 @@ public class ExpenseEdit extends AmountActivity implements
       }
       isProcessingLinkedAmountInputs = false;
     }
-  }
-
-  @Override
-  public void showCalculator(View view) {
-    if (view.getId() == R.id.CalculatorTransfer)
-      showCalculatorInternal(mTransferAmountText);
-    else
-      super.showCalculator(view);
   }
 
   @Override
