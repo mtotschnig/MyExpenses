@@ -42,7 +42,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.PopupMenu;
 import android.text.Editable;
 import android.text.TextPaint;
@@ -50,6 +49,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.ContextThemeWrapper;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -86,6 +86,7 @@ import org.totschnig.myexpenses.fragment.TemplatesList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Plan;
@@ -198,6 +199,8 @@ public class ExpenseEdit extends AmountActivity implements
   ExchangeRateEdit mExchangeRateEdit;
   @BindView(R.id.TranferAmount)
   AmountEditText mTransferAmountText;
+  @BindView(R.id.OriginalAmount)
+  AmountEditText originalAmountText;
   @BindView(R.id.Category)
   Button mCategoryButton;
   @BindView(R.id.Plan)
@@ -522,7 +525,7 @@ public class ExpenseEdit extends AmountActivity implements
         if (isNewTemplate) {
           mTransaction = Template.getTypedNewInstance(mOperationType, accountId, true, parentId != 0 ? parentId : null);
           if (mOperationType == TYPE_SPLIT && mTransaction != null) {
-            mRowId = mTransaction.getId();
+            mTemplateId = mTransaction.getId();
           }
         } else {
           switch (mOperationType) {
@@ -770,7 +773,7 @@ public class ExpenseEdit extends AmountActivity implements
       }
     }
     if (mOperationType == TYPE_SPLIT) {
-      categoryContainer.setVisibility(View.GONE);
+      categoryRow.setVisibility(View.GONE);
       //add split list
       if (findSplitPartList() == null) {
         FragmentManager fm = getSupportFragmentManager();
@@ -843,19 +846,20 @@ public class ExpenseEdit extends AmountActivity implements
     super.linkInputsWithLabels();
     linkAccountLabels();
     linkInputWithLabel(mTitleText, findViewById(R.id.TitleLabel));
-    linkInputWithLabel(mDateButton, findViewById(R.id.DateTimeLabel));
-    linkInputWithLabel(mTimeButton, findViewById(R.id.DateTimeLabel));
+    final View dateTimeLabel = findViewById(R.id.DateTimeLabel);
+    linkInputWithLabel(mDateButton, dateTimeLabel);
+    linkInputWithLabel(mTimeButton, dateTimeLabel);
     linkInputWithLabel(mPayeeText, mPayeeLabel);
-    View commentLabel = findViewById(R.id.CommentLabel);
+    final View commentLabel = findViewById(R.id.CommentLabel);
     linkInputWithLabel(mStatusSpinner.getSpinner(), commentLabel);
     linkInputWithLabel(mAttachPictureButton, commentLabel);
     linkInputWithLabel(mPictureViewContainer, commentLabel);
     linkInputWithLabel(mCommentText, commentLabel);
     linkInputWithLabel(mCategoryButton, findViewById(R.id.CategoryLabel));
-    View methodLabel = findViewById(R.id.MethodLabel);
+    final View methodLabel = findViewById(R.id.MethodLabel);
     linkInputWithLabel(mMethodSpinner.getSpinner(), methodLabel);
     linkInputWithLabel(mReferenceNumberText, methodLabel);
-    View planLabel = findViewById(R.id.PlanLabel);
+    final View planLabel = findViewById(R.id.PlanLabel);
     linkInputWithLabel(mPlanButton, planLabel);
     linkInputWithLabel(mRecurrenceSpinner.getSpinner(), planLabel);
     linkInputWithLabel(mPlanToggleButton, planLabel);
@@ -865,7 +869,10 @@ public class ExpenseEdit extends AmountActivity implements
     final View exchangeRateAmountLabel = findViewById(R.id.ExchangeRateLabel);
     linkInputWithLabel(findViewById(R.id.ExchangeRate_1), exchangeRateAmountLabel);
     linkInputWithLabel(findViewById(R.id.ExchangeRate_2), exchangeRateAmountLabel);
-    linkInputWithLabel();
+    final View originalAmountLabel = findViewById(R.id.OriginalAmountLabel);
+    linkInputWithLabel(originalAmountText, originalAmountLabel);
+    linkInputWithLabel(mCurrencySpinner.getSpinner(), originalAmountLabel);
+    linkInputWithLabel(findViewById(R.id.CalculatorOriginal), originalAmountLabel);
   }
 
   private void linkAccountLabels() {
@@ -896,15 +903,17 @@ public class ExpenseEdit extends AmountActivity implements
     if (mTransaction != null && !(isNoMainTransaction() ||
         (mTransaction instanceof SplitTransaction &&
             !MyApplication.getInstance().getLicenceHandler().isContribEnabled()))) {
-      MenuItemCompat.setShowAsAction(
-          menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)
-              .setIcon(R.drawable.ic_action_save_new),
-          MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
+      menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)
+          .setIcon(R.drawable.ic_action_save_new)
+          .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
     }
     if (mOperationType == TYPE_TRANSFER) {
-      MenuItemCompat.setShowAsAction(
-          menu.add(Menu.NONE, R.id.INVERT_TRANSFER_COMMAND, 0, R.string.menu_invert_transfer)
-              .setIcon(R.drawable.ic_menu_move), MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
+      menu.add(Menu.NONE, R.id.INVERT_TRANSFER_COMMAND, 0, R.string.menu_invert_transfer)
+          .setIcon(R.drawable.ic_menu_move)
+          .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+    } else {
+      menu.add(Menu.NONE, R.id.ORIGINAL_AMOUNT_COMMAND, 0, R.string.original_amount)
+          .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
     }
     return true;
   }
@@ -912,12 +921,13 @@ public class ExpenseEdit extends AmountActivity implements
   @Override
   public boolean dispatchCommand(int command, Object tag) {
     switch (command) {
-      case android.R.id.home:
+      case android.R.id.home: {
         cleanup();
         finish();
         return true;
+      }
       case R.id.SAVE_COMMAND:
-      case R.id.SAVE_AND_NEW_COMMAND:
+      case R.id.SAVE_AND_NEW_COMMAND: {
         if (mOperationType == TYPE_SPLIT &&
             !findSplitPartList().splitComplete()) {
           showSnackbar(getString(R.string.unsplit_amount_greater_than_zero), Snackbar.LENGTH_SHORT);
@@ -932,12 +942,21 @@ public class ExpenseEdit extends AmountActivity implements
           saveState();
         }
         return true;
-      case R.id.CREATE_COMMAND:
+      }
+      case R.id.CREATE_COMMAND: {
         createRow();
         return true;
-      case R.id.INVERT_TRANSFER_COMMAND:
+      }
+      case R.id.INVERT_TRANSFER_COMMAND: {
         mType = !mType;
         switchAccountViews();
+        return true;
+      }
+      case R.id.ORIGINAL_AMOUNT_COMMAND: {
+        originalAmountRow.setVisibility(View.VISIBLE);
+
+        return true;
+      }
     }
     return super.dispatchCommand(command, tag);
   }
@@ -1092,7 +1111,10 @@ public class ExpenseEdit extends AmountActivity implements
     fillAmount(cachedOrSelf.getAmount().getAmountMajor());
 
     if (cachedOrSelf.getOriginalAmount() != null) {
-
+      originalAmountRow.setVisibility(View.VISIBLE);
+      originalAmountText.setAmount(cachedOrSelf.getOriginalAmount().getAmountMajor());
+      mCurrencySpinner.setSelection(currencyAdapter.getPosition(
+          CurrencyEnum.valueOf(cachedOrSelf.getOriginalAmount().getCurrency().getCurrencyCode())));
     }
 
     if (mNewInstance) {
@@ -1232,7 +1254,9 @@ public class ExpenseEdit extends AmountActivity implements
       } else {
         mTransaction.getTransferAmount().setCurrency(transferAccount.currency);
         if (isSame) {
-          if (amount != null) mTransaction.getTransferAmount().setAmountMajor(amount.negate());
+          if (amount != null) {
+            mTransaction.getTransferAmount().setAmountMajor(amount.negate());
+          }
         } else {
           BigDecimal transferAmount = validateAmountInput(mTransferAmountText, forSave);
 
@@ -1246,6 +1270,12 @@ public class ExpenseEdit extends AmountActivity implements
             mTransaction.getTransferAmount().setAmountMajor(transferAmount);
           }
         }
+      }
+    } else {
+      BigDecimal originalAmount = validateAmountInput(originalAmountText, false);
+      if (originalAmount != null) {
+        String currency = ((CurrencyEnum) mCurrencySpinner.getSelectedItem()).name();
+        mTransaction.setOriginalAmount(new Money(Utils.getSaveInstance(currency), originalAmount));
       }
     }
     if (mIsMainTemplate) {
@@ -1451,7 +1481,10 @@ public class ExpenseEdit extends AmountActivity implements
     outState.putSerializable(KEY_CALENDAR, mCalendar);
     //restored in onCreate
     if (mRowId != 0) {
-      outState.putLong(mTransaction instanceof Template ? KEY_TEMPLATEID : KEY_ROWID, mRowId);
+      outState.putLong(KEY_ROWID, mRowId);
+    }
+    if (mTemplateId != 0) {
+      outState.putLong(KEY_TEMPLATEID, mTemplateId);
     }
     if (mCatId != null) {
       outState.putLong(KEY_CATID, mCatId);

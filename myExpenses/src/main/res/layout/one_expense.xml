@@ -79,9 +79,10 @@
                 android:id="@+id/OriginalAmountRow">
 
                 <TextView
+                    android:id="@+id/OriginalAmountLabel"
                     style="@style/FormLabel"
                     android:labelFor="@+id/OriginalAmount"
-                    android:text="Original amount"
+                    android:text="@string/original_amount"
                     />
 
                 <LinearLayout

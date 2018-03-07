@@ -23,7 +23,6 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.AppCompatButton;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -326,10 +325,9 @@ public class AccountEdit extends AmountActivity implements
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     super.onCreateOptionsMenu(menu);
-    MenuItemCompat.setShowAsAction(
-        menu.add(Menu.NONE, R.id.EXCLUDE_FROM_TOTALS_COMMAND, 0, R.string.menu_exclude_from_totals)
-            .setCheckable(true),
-        MenuItemCompat.SHOW_AS_ACTION_NEVER);
+    menu.add(Menu.NONE, R.id.EXCLUDE_FROM_TOTALS_COMMAND, 0, R.string.menu_exclude_from_totals)
+        .setCheckable(true)
+        .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
     return true;
   }
 

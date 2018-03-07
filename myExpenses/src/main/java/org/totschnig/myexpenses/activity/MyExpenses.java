@@ -33,7 +33,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v4.widget.DrawerLayout;
@@ -300,8 +299,7 @@ public class MyExpenses extends LaunchActivity implements
 
     //Sort submenu
     MenuItem menuItem = menu.findItem(R.id.SORT_COMMAND);
-    MenuItemCompat.setShowAsAction(
-        menuItem, MenuItemCompat.SHOW_AS_ACTION_NEVER);
+    menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
     sortMenu = menuItem.getSubMenu();
     sortMenu.findItem(R.id.SORT_CUSTOM_COMMAND).setVisible(true);
 

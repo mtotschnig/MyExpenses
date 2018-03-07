@@ -29,15 +29,12 @@ import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 
 import butterknife.BindView;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 
 public abstract class AmountActivity extends EditActivity {
-  protected DecimalFormat nfDLocal;
-  protected AmountEditText mAmountText;
   public static final boolean INCOME = true;
   public static final boolean EXPENSE = false;
   //stores if we deal with an EXPENSE or an INCOME
@@ -50,12 +47,8 @@ public abstract class AmountActivity extends EditActivity {
   ViewGroup amountRow;
   @BindView(R.id.ExchangeRateRow)
   ViewGroup exchangeRateRow;
-
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    mAmountText = amountRow.findViewById(R.id.Amount);
-  }
+  @BindView(R.id.Amount)
+  protected AmountEditText mAmountText;
 
   @Override
   protected void onActivityResult(int requestCode, int resultCode,

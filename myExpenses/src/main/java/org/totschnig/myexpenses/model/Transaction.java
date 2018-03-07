@@ -437,7 +437,7 @@ public class Transaction extends Model {
 
     Long originalAmount = getLongOrNull(c, KEY_ORIGINAL_AMOUNT);
     if (originalAmount != null) {
-      t.setOriginalAmount(new Money(Utils.getSaveInstance(KEY_ORIGINAL_CURRENCY), originalAmount));
+      t.setOriginalAmount(new Money(Utils.getSaveInstance(c.getString(c.getColumnIndexOrThrow(KEY_ORIGINAL_CURRENCY))), originalAmount));
     }
 
     int pictureUriColumnIndex = c.getColumnIndexOrThrow(KEY_PICTURE_URI);
@@ -800,6 +800,11 @@ public class Transaction extends Model {
     initialValues.put(KEY_CR_STATUS, crStatus.name());
     initialValues.put(KEY_ACCOUNTID, getAccountId());
     initialValues.put(KEY_UUID, requireUuid());
+
+    if (getOriginalAmount() != null) {
+      initialValues.put(KEY_ORIGINAL_AMOUNT, getOriginalAmount().getAmountMinor());
+      initialValues.put(KEY_ORIGINAL_CURRENCY, getOriginalAmount().getCurrency().getCurrencyCode());
+    }
 
     savePicture(initialValues);
     if (getId() == 0) {
