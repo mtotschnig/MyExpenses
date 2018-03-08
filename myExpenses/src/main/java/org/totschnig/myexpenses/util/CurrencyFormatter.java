@@ -108,13 +108,7 @@ public class CurrencyFormatter {
    * @return formated string
    */
   public String convAmount(String text, Currency currency) {
-    Long amount;
-    try {
-      amount = Long.valueOf(text);
-    } catch (NumberFormatException e) {
-      amount = 0L;
-    }
-    return convAmount(amount, currency);
+    return convAmount(Double.valueOf(text).longValue(), currency);
   }
 
   /**

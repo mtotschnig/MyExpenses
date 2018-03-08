@@ -591,7 +591,7 @@ public class CategoryList extends SortableListFragment implements
     public void setViewText(TextView v, String text) {
       switch (v.getId()) {
         case R.id.amount:
-          v.setTextColor(Long.valueOf(text) < 0 ? colorExpense : colorIncome);
+          v.setTextColor(Double.valueOf(text) < 0 ? colorExpense : colorIncome);
           text = currencyFormatter.convAmount(text, mAccount.currency);
       }
       super.setViewText(v, text);

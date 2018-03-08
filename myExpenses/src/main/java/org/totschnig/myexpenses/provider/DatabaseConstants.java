@@ -342,14 +342,9 @@ public class DatabaseConstants {
   public static final String WHERE_OUT = KEY_AMOUNT + "<0 AND " + WHERE_NOT_SPLIT + " AND " + WHERE_NOT_VOID;
   public static final String WHERE_TRANSFER =
       WHERE_NOT_SPLIT + " AND " + WHERE_NOT_VOID + " AND " + KEY_TRANSFER_PEER + " is not null";
-  public static final String INCOME_SUM =
-      "sum(CASE WHEN " + WHERE_INCOME + " THEN " + KEY_AMOUNT + " ELSE 0 END) AS " + KEY_SUM_INCOME;
   public static final String EXPENSE_SUM =
       "abs(sum(CASE WHEN " + WHERE_EXPENSE + " THEN " + KEY_AMOUNT + " ELSE 0 END)) AS " + KEY_SUM_EXPENSES;
-  public static final String IN_SUM =
-      "sum(CASE WHEN " + WHERE_IN + " THEN " + KEY_AMOUNT + " ELSE 0 END) AS " + KEY_SUM_INCOME;
-  public static final String OUT_SUM =
-      "abs(sum(CASE WHEN " + WHERE_OUT + " THEN " + KEY_AMOUNT + " ELSE 0 END)) AS " + KEY_SUM_EXPENSES;
+
   public static final String TRANSFER_SUM =
       "sum(CASE WHEN " + WHERE_TRANSFER + " THEN " + KEY_AMOUNT + " ELSE 0 END) AS " + KEY_SUM_TRANSFERS;
   public static final String HAS_CLEARED =
@@ -448,15 +443,33 @@ public class DatabaseConstants {
     ensureLocalized();
     return COUNT_FROM_WEEK_START_ZERO;
   }
-
-
+  
   public static String getAmountHomeEquivalent() {
     return getExchangeRate(VIEW_EXTENDED + "." +  KEY_ACCOUNTID) + " * " + KEY_AMOUNT;
   }
 
-  static String getExchangeRate(String accountReference) {
+  public static String getExchangeRate(String accountReference) {
     return "coalesce((SELECT " + KEY_EXCHANGE_RATE + " FROM " + TABLE_ACCOUNT_EXCHANGE_RATES + " WHERE " + KEY_ACCOUNTID + " = " + accountReference +
         " AND " + KEY_CURRENCY_SELF + "=" + KEY_CURRENCY + " AND " + KEY_CURRENCY_OTHER + "='" + PrefKey.HOME_CURRENCY.getString(null) + "'), 1)";
   }
 
+  private static String getAmountCalculation(boolean forHome) {
+    return forHome ? getAmountHomeEquivalent() : KEY_AMOUNT;
+  }
+
+  static String getInSum(boolean forHome) {
+    return "sum(CASE WHEN " + WHERE_IN + " THEN " + getAmountCalculation(forHome) + " ELSE 0 END) AS " + KEY_SUM_INCOME;
+  }
+
+  static String getIncomeSum(boolean forHome) {
+    return "sum(CASE WHEN " + WHERE_INCOME + " THEN " + getAmountCalculation(forHome) + " ELSE 0 END) AS " + KEY_SUM_INCOME;
+  }
+
+  static String getOutSum(boolean forHome) {
+    return "abs(sum(CASE WHEN " + WHERE_OUT + " THEN " + getAmountCalculation(forHome) + " ELSE 0 END)) AS " + KEY_SUM_EXPENSES;
+  }
+
+  static String getExpenseSum(boolean forHome) {
+    return "abs(sum(CASE WHEN " + WHERE_EXPENSE + " THEN " + getAmountCalculation(forHome) + " ELSE 0 END)) AS " + KEY_SUM_EXPENSES;
+  }
 }

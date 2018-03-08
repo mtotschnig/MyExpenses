@@ -505,10 +505,12 @@ public class TransactionList extends ContextualActionBarFragment implements
         }
         builder.appendPath(TransactionProvider.URI_SEGMENT_GROUPS)
             .appendPath(mAccount.getGrouping().name());
-        if (mAccount.getId() < 0) {
-          builder.appendQueryParameter(KEY_CURRENCY, mAccount.currency.getCurrencyCode());
-        } else {
-          builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(mAccount.getId()));
+        if (!mAccount.isHomeAggregate()) {
+          if (mAccount.isAggregate()) {
+            builder.appendQueryParameter(KEY_CURRENCY, mAccount.currency.getCurrencyCode());
+          } else {
+            builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(mAccount.getId()));
+          }
         }
         cursorLoader = new CursorLoader(getActivity(),
             builder.build(),

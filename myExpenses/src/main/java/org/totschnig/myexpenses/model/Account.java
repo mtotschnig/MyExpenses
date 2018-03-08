@@ -168,7 +168,8 @@ public class Account extends Model {
         HAS_EXPORTED,
         KEY_SYNC_ACCOUNT_NAME,
         KEY_UUID,
-        KEY_SORT_DIRECTION
+        KEY_SORT_DIRECTION,
+        DatabaseConstants.getExchangeRate(KEY_ROWID) + " AS " + KEY_EXCHANGE_RATE
     };
     int baseLength = PROJECTION_BASE.length;
     PROJECTION_EXTENDED = new String[baseLength + 1];
@@ -216,13 +217,6 @@ public class Account extends Model {
     return accounts.containsKey(id);
   }
 
-  public static void reportNull(long id) {
-    //This can happen if user deletes account, and changes
-    //device orientation before the accounts cursor in MyExpenses is switched
-    /*org.acra.ACRA.getErrorReporter().handleSilentException(
-        new Exception("Error instantiating account "+id));*/
-  }
-
   /**
    * @param id id of account to be retrieved, if id == 0, the first entry in the accounts cache will be returned or
    *           if it is empty the account with the lowest id will be fetched from db,
@@ -265,9 +259,6 @@ public class Account extends Model {
     c.moveToFirst();
     account = new Account(c);
     c.close();
-    if (account.hasForeignCurrency()) {
-      account.exchangeRate = account.loadExchangeRate();
-    }
     return account;
   }
 
@@ -277,18 +268,9 @@ public class Account extends Model {
         .appendEncodedPath(PrefKey.HOME_CURRENCY.getString(currency.getCurrencyCode())).build();
   }
 
-  private double loadExchangeRate() {
-    Cursor c = cr().query(buildExchangeRateUri(), null, null, null, null);
-    double result = 1;
-    if (c != null) {
-      if (c.moveToFirst()) {
-        result = c.getDouble(0);
-        int minorUnitDelta = Money.getFractionDigits(currency) - Money.getFractionDigits(Utils.getHomeCurrency());
-        result *= Math.pow(10, minorUnitDelta);
-      }
-      c.close();
-    }
-    return result;
+  private double adjustExchangeRate(double raw) {
+    int minorUnitDelta = Money.getFractionDigits(currency) - Money.getFractionDigits(Utils.getHomeCurrency());
+    return raw * Math.pow(10, minorUnitDelta);
   }
 
   private void storeExchangeRate() {
@@ -438,6 +420,10 @@ public class Account extends Model {
       this.sortDirection = SortDirection.valueOf(c.getString(c.getColumnIndex(KEY_SORT_DIRECTION)));
     } catch (IllegalArgumentException e) {
       this.sortDirection = SortDirection.DESC;
+    }
+    int columnIndex = c.getColumnIndex(KEY_EXCHANGE_RATE);
+    if (columnIndex != -1) {
+      this.exchangeRate = adjustExchangeRate(c.getDouble(columnIndex));
     }
   }
 

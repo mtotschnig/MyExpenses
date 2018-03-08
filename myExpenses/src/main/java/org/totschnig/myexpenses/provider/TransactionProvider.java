@@ -300,7 +300,6 @@ public class TransactionProvider extends ContentProvider {
           qb.appendWhere(" AND " + KEY_ACCOUNTID + accountSelectionQuery);
           amountCalculation = KEY_AMOUNT;
         } else {
-          String homeCurrency = PrefKey.HOME_CURRENCY.getString(null);
           qb.setTables(VIEW_EXTENDED);
           amountCalculation = DatabaseConstants.getAmountHomeEquivalent();
         }
@@ -308,14 +307,17 @@ public class TransactionProvider extends ContentProvider {
         break;
       }
       case TRANSACTIONS_GROUPS: {
-        String accountSelectionQuery;
+        String accountSelectionQuery = null;
         accountSelector = uri.getQueryParameter(KEY_ACCOUNTID);
         if (accountSelector == null) {
           accountSelector = uri.getQueryParameter(KEY_CURRENCY);
-          accountSelectionQuery = KEY_CURRENCY + " = ? AND " + KEY_EXCLUDE_FROM_TOTALS + " = 0";
+          if (accountSelector != null) {
+            accountSelectionQuery = KEY_CURRENCY + " = ? AND " + KEY_EXCLUDE_FROM_TOTALS + " = 0";
+          }
         } else {
           accountSelectionQuery = KEY_ACCOUNTID + " = ?";
         }
+        boolean forHome = accountSelector == null;
 
         Grouping group;
         try {
@@ -372,8 +374,8 @@ public class TransactionProvider extends ContentProvider {
         int index = 0;
         projection[index++] = yearExpression + " AS " + KEY_YEAR;
         projection[index++] = secondDef + " AS " + KEY_SECOND_GROUP;
-        projection[index++] = includeTransfers ? IN_SUM : INCOME_SUM;
-        projection[index++] = includeTransfers ? OUT_SUM : EXPENSE_SUM;
+        projection[index++] = includeTransfers ? getInSum(forHome) : getIncomeSum(forHome);
+        projection[index++] = includeTransfers ? getOutSum(forHome) : getExpenseSum(forHome);
         if (!includeTransfers) {
           projection[index++] = TRANSFER_SUM;
         }
@@ -382,11 +384,13 @@ public class TransactionProvider extends ContentProvider {
           projection[index] = (group == Grouping.WEEK ? getWeekStartJulian() : DAY_START_JULIAN)
               + " AS " + KEY_GROUP_START;
         }
-        selection = accountSelectionQuery
-            + (selection != null ? " AND " + selection : "");
-        selectionArgs = Utils.joinArrays(
-            new String[]{accountSelector},
-            selectionArgs);
+        if (accountSelector != null) {
+          selection = accountSelectionQuery
+              + (selection != null ? " AND " + selection : "");
+          selectionArgs = Utils.joinArrays(
+              new String[]{accountSelector},
+              selectionArgs);
+        }
         sortOrder = KEY_YEAR + " ASC," + KEY_SECOND_GROUP + " ASC";
         break;
       }
@@ -450,6 +454,7 @@ public class TransactionProvider extends ContentProvider {
               "null AS " + KEY_SYNC_ACCOUNT_NAME,
               "null AS " + KEY_UUID,
               "'DESC' AS " + KEY_SORT_DIRECTION,
+              "1 AS " + KEY_EXCHANGE_RATE,
               "sum(" + KEY_CURRENT_BALANCE + ") AS " + KEY_CURRENT_BALANCE,
               "sum(" + KEY_SUM_INCOME + ") AS " + KEY_SUM_INCOME,
               "sum(" + KEY_SUM_EXPENSES + ") AS " + KEY_SUM_EXPENSES,
@@ -482,6 +487,7 @@ public class TransactionProvider extends ContentProvider {
                 "null AS " + KEY_SYNC_ACCOUNT_NAME,
                 "null AS " + KEY_UUID,
                 "'DESC' AS " + KEY_SORT_DIRECTION,
+                "1 AS " + KEY_EXCHANGE_RATE,
                 "sum(" + KEY_CURRENT_BALANCE + " * " + KEY_EXCHANGE_RATE + ") AS " + KEY_CURRENT_BALANCE,
                 "sum(" + KEY_SUM_INCOME + " * " + KEY_EXCHANGE_RATE + ") AS " + KEY_SUM_INCOME,
                 "sum(" + KEY_SUM_EXPENSES + " * " + KEY_EXCHANGE_RATE + ") AS " + KEY_SUM_EXPENSES,
