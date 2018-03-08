@@ -130,6 +130,8 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import icepick.Icepick;
+import icepick.State;
 import timber.log.Timber;
 
 import static org.totschnig.myexpenses.activity.MyExpenses.KEY_SEQUENCE_COUNT;
@@ -153,7 +155,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 import static org.totschnig.myexpenses.task.BuildTransactionTask.KEY_EXTRAS;
@@ -171,7 +172,6 @@ public class ExpenseEdit extends AmountActivity implements
   private static final String SPLIT_PART_LIST = "SPLIT_PART_LIST";
   public static final String KEY_NEW_TEMPLATE = "newTemplate";
   public static final String KEY_CLONE = "clone";
-  private static final String KEY_CALENDAR = "calendar";
   private static final String KEY_CACHED_DATA = "cachedData";
   private static final String KEY_CACHED_RECURRENCE = "cachedRecurrence";
   private static final String KEY_CACHED_PICTURE_URI = "cachedPictureUri";
@@ -205,11 +205,6 @@ public class ExpenseEdit extends AmountActivity implements
   Button mCategoryButton;
   @BindView(R.id.Plan)
   Button mPlanButton;
-  private SpinnerHelper mMethodSpinner, mAccountSpinner, mTransferAccountSpinner, mStatusSpinner,
-      mOperationTypeSpinner, mRecurrenceSpinner, mCurrencySpinner;
-  private SimpleCursorAdapter mMethodsAdapter, mAccountsAdapter, mTransferAccountsAdapter, mPayeeAdapter;
-  private OperationTypeAdapter mOperationTypeAdapter;
-  private FilterCursorWrapper mTransferAccountCursor;
   @BindView(R.id.Payee)
   AutoCompleteTextView mPayeeText;
   @BindView(R.id.PayeeLabel)
@@ -241,19 +236,38 @@ public class ExpenseEdit extends AmountActivity implements
   @BindView(R.id.PlannerRow)
   ViewGroup plannerRow;
 
-  private Long mRowId = 0L;
-  private Long mTemplateId;
-  private Account[] mAccounts;
-  private Calendar mCalendar = Calendar.getInstance();
+  private SpinnerHelper mMethodSpinner, mAccountSpinner, mTransferAccountSpinner, mStatusSpinner,
+      mOperationTypeSpinner, mRecurrenceSpinner, mCurrencySpinner;
+  private SimpleCursorAdapter mMethodsAdapter, mAccountsAdapter, mTransferAccountsAdapter, mPayeeAdapter;
+  private OperationTypeAdapter mOperationTypeAdapter;
+  private FilterCursorWrapper mTransferAccountCursor;
+
+  @State
+  Long mRowId = 0L;
+  @State
+  Long mTemplateId;
+  @State
+  Calendar mCalendar = Calendar.getInstance();
+  @State
+  Long mCatId = null;
+  @State
+  Long mMethodId = null;
+  @State
+  Long mAccountId = null;
+  @State
+  Long mTransferAccountId;
+  @State
+  String mLabel;
+  @State
+  Uri mPictureUri;
+  @State
+  Uri mPictureUriTemp;
+
   private DateFormat mDateFormat, mTimeFormat;
-  private Long mCatId = null, mMethodId = null,
-      mAccountId = null, mTransferAccountId;
-  private String mLabel;
+  private Account[] mAccounts;
   private Transaction mTransaction;
   private Cursor mMethodsCursor;
   private Plan mPlan;
-  private Uri mPictureUri, mPictureUriTemp;
-
   private long mPlanInstanceId, mPlanInstanceDate;
   /**
    * transaction, transfer or split
@@ -407,28 +421,11 @@ public class ExpenseEdit extends AmountActivity implements
     //upon orientation change stored in instance state, since new splitTransactions are immediately persisted to DB
     if (savedInstanceState != null) {
       mSavedInstance = true;
-      mRowId = savedInstanceState.getLong(KEY_ROWID);
-      mTemplateId = savedInstanceState.getLong(KEY_TEMPLATEID);
-      mPictureUri = savedInstanceState.getParcelable(KEY_PICTURE_URI);
-      mPictureUriTemp = savedInstanceState.getParcelable(KEY_PICTURE_URI_TMP);
+      Icepick.restoreInstanceState(this, savedInstanceState);
       setPicture();
-
-
-      mCalendar = (Calendar) savedInstanceState.getSerializable(KEY_CALENDAR);
-      mLabel = savedInstanceState.getString(KEY_LABEL);
-      if ((mCatId = savedInstanceState.getLong(KEY_CATID)) == 0L) {
-        mCatId = null;
-      }
-      if ((mMethodId = savedInstanceState.getLong(KEY_METHODID)) == 0L) {
-        mMethodId = null;
-      }
-      if ((mAccountId = savedInstanceState.getLong(KEY_ACCOUNTID)) == 0L) {
-        mAccountId = null;
-      } else {
+      if (mAccountId != null) {
         didUserSetAccount = true;
       }
-      if ((mTransferAccountId = savedInstanceState.getLong(KEY_TRANSFER_ACCOUNT)) == 0L)
-        mTransferAccountId = null;
     }
     //were we called from a notification
     int notificationId = getIntent().getIntExtra(MyApplication.KEY_NOTIFICATION_ID, 0);
@@ -1478,43 +1475,23 @@ public class ExpenseEdit extends AmountActivity implements
   @Override
   protected void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
-    outState.putSerializable(KEY_CALENDAR, mCalendar);
-    //restored in onCreate
-    if (mRowId != 0) {
-      outState.putLong(KEY_ROWID, mRowId);
-    }
-    if (mTemplateId != 0) {
-      outState.putLong(KEY_TEMPLATEID, mTemplateId);
-    }
-    if (mCatId != null) {
-      outState.putLong(KEY_CATID, mCatId);
-    }
-    outState.putString(KEY_LABEL, mLabel);
-    if (mPictureUri != null) {
-      outState.putParcelable(KEY_PICTURE_URI, mPictureUri);
-    }
-    if (mPictureUriTemp != null) {
-      outState.putParcelable(KEY_PICTURE_URI_TMP, mPictureUriTemp);
-    }
     long methodId = mMethodSpinner.getSelectedItemId();
-    if (methodId == android.widget.AdapterView.INVALID_ROW_ID && mMethodId != null) {
-      methodId = mMethodId;
-    }
     if (methodId != android.widget.AdapterView.INVALID_ROW_ID) {
-      outState.putLong(KEY_METHODID, methodId);
+      mMethodId = methodId;
     }
     if (didUserSetAccount) {
       long accountId = mAccountSpinner.getSelectedItemId();
-      if (accountId == android.widget.AdapterView.INVALID_ROW_ID && mAccountId != null) {
-        accountId = mAccountId;
-      }
       if (accountId != android.widget.AdapterView.INVALID_ROW_ID) {
-        outState.putLong(KEY_ACCOUNTID, accountId);
+         mAccountId = accountId;
       }
     }
     if (mOperationType == TYPE_TRANSFER) {
-      outState.putLong(KEY_TRANSFER_ACCOUNT, mTransferAccountSpinner.getSelectedItemId());
+      long transferAccountId = mTransferAccountSpinner.getSelectedItemId();
+      if (transferAccountId != android.widget.AdapterView.INVALID_ROW_ID) {
+        mTransferAccountId = transferAccountId;
+      }
     }
+    Icepick.saveInstanceState(this, outState);
   }
 
   private void switchAccountViews() {
