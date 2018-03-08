@@ -151,4 +151,5 @@
     <item name="TOGGLE_INCLUDE_TRANSFERS_COMMAND" type="id"/>
     <item name="TOGGLE_TOTALS_COMMAND" type="id"/>
     <item name="ORIGINAL_AMOUNT_COMMAND" type="id"/>
+    <item name="EQUIVALENT_AMOUNT_COMMAND" type="id"/>
 </resources>

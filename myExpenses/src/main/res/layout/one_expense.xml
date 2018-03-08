@@ -128,6 +128,38 @@
                     layout="@layout/amount_input"/>
             </TableRow>
 
+            <TableRow
+                android:visibility="gone"
+                android:id="@+id/EquivalentAmountRow">
+
+                <TextView
+                    android:id="@+id/EquivalentAmountLabel"
+                    style="@style/FormLabel"
+                    android:labelFor="@+id/EquivalentAmount"
+                    android:text="@string/equivalent_amount"
+                    />
+
+                <LinearLayout
+                    style="@style/FormField"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <org.totschnig.myexpenses.ui.AmountEditText
+                        android:id="@+id/EquivalentAmount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:digits="@string/amount_digits"
+                        android:inputType="numberDecimal"/>
+
+                    <include
+                        android:id="@+id/CalculatorEquivalent"
+                        layout="@layout/calc_icon"/>
+                </LinearLayout>
+            </TableRow>
+
             <include layout="@layout/exchange_rate_row"/>
 
             <TableRow
