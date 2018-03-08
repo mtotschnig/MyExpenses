@@ -262,6 +262,8 @@ public class ExpenseEdit extends AmountActivity implements
   Uri mPictureUri;
   @State
   Uri mPictureUriTemp;
+  @State
+  boolean originalAmountVisible;
 
   private DateFormat mDateFormat, mTimeFormat;
   private Account[] mAccounts;
@@ -815,6 +817,10 @@ public class ExpenseEdit extends AmountActivity implements
     if (mOperationType != TYPE_TRANSFER) {
       mCategoryButton.setOnClickListener(view -> startSelectCategory());
     }
+
+    if (originalAmountVisible) {
+      originalAmountRow.setVisibility(View.VISIBLE);
+    }
   }
 
   public void hideKeyBoardAndShowDialog(int id) {
@@ -895,6 +901,14 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   @Override
+  public boolean onPrepareOptionsMenu(Menu menu) {
+    if (originalAmountVisible) {
+      Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.ORIGINAL_AMOUNT_COMMAND), false);
+    }
+    return super.onPrepareOptionsMenu(menu);
+  }
+
+  @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     super.onCreateOptionsMenu(menu);
     if (mTransaction != null && !(isNoMainTransaction() ||
@@ -950,8 +964,10 @@ public class ExpenseEdit extends AmountActivity implements
         return true;
       }
       case R.id.ORIGINAL_AMOUNT_COMMAND: {
+        originalAmountVisible = true;
+        supportInvalidateOptionsMenu();
         originalAmountRow.setVisibility(View.VISIBLE);
-
+        originalAmountText.requestFocus();
         return true;
       }
     }
