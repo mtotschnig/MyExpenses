@@ -59,6 +59,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Currency;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.color.SimpleColorDialog;
 
@@ -74,14 +76,22 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_TOGGLE_EX
 public class AccountEdit extends AmountActivity implements
     OnItemSelectedListener, ContribIFace, SimpleDialog.OnDialogResultListener {
 
-  private EditText mLabelText;
-  private EditText mDescriptionText;
+  @BindView(R.id.Label)
+  EditText mLabelText;
+  @BindView(R.id.Description)
+  EditText mDescriptionText;
+  @BindView(R.id.ColorIndicator)
+  AppCompatButton mColorIndicator;
+  @BindView(R.id.ExchangeRate)
+  ExchangeRateEdit mExchangeRateEdit;
+  @BindView(R.id.SyncUnlink)
+  View syncUnlink;
+  @BindView(R.id.SyncHelp)
+  View syncHelp;
 
   private SpinnerHelper mCurrencySpinner, mAccountTypeSpinner, mSyncSpinner;
-  private AppCompatButton mColorIndicator;
   private Account mAccount;
   private ArrayAdapter<CurrencyEnum> currencyAdapter;
-  private ExchangeRateEdit mExchangeRateEdit;
 
   private void requireAccount() {
     if (mAccount == null) {
@@ -108,12 +118,10 @@ public class AccountEdit extends AmountActivity implements
     setContentView(R.layout.one_account);
     setupToolbar();
 
-    mLabelText = findViewById(R.id.Label);
-    mDescriptionText = findViewById(R.id.Description);
+    ButterKnife.bind(this);
 
     Bundle extras = getIntent().getExtras();
-    long rowId = extras != null ? extras.getLong(DatabaseConstants.KEY_ROWID)
-        : 0;
+    long rowId = extras != null ? extras.getLong(DatabaseConstants.KEY_ROWID) : 0;
     requireAccount();
     if (mAccount == null) {
       showSnackbar("Error instantiating account " + rowId, Snackbar.LENGTH_SHORT);
@@ -144,9 +152,6 @@ public class AccountEdit extends AmountActivity implements
 
     mAccountTypeSpinner = new SpinnerHelper(DialogUtils.configureTypeSpinner(findViewById(R.id.AccountType)));
 
-    mColorIndicator = findViewById(R.id.ColorIndicator);
-    mExchangeRateEdit = findViewById(R.id.ExchangeRate);
-
     mSyncSpinner = new SpinnerHelper(findViewById(R.id.Sync));
     configureSyncBackendAdapter();
     linkInputsWithLabels();
@@ -174,10 +179,10 @@ public class AccountEdit extends AmountActivity implements
       if (position > -1) {
         mSyncSpinner.setSelection(position);
         mSyncSpinner.setEnabled(false);
-        findViewById(R.id.SyncUnlink).setVisibility(View.VISIBLE);
+        syncUnlink.setVisibility(View.VISIBLE);
       }
     } else {
-      findViewById(R.id.SyncHelp).setVisibility(View.VISIBLE);
+      syncHelp.setVisibility(View.VISIBLE);
     }
   }
 
@@ -310,7 +315,7 @@ public class AccountEdit extends AmountActivity implements
         if (r.success) {
           mSyncSpinner.setSelection(0);
           mSyncSpinner.setEnabled(true);
-          findViewById(R.id.SyncUnlink).setVisibility(View.GONE);
+          syncUnlink.setVisibility(View.GONE);
         }
         break;
       case TASK_SYNC_CHECK:
