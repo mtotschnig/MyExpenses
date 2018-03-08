@@ -121,8 +121,7 @@
                 <TextView
                     android:id="@+id/AmountLabel"
                     style="@style/FormLabel"
-                    android:labelFor="@id/Amount"
-                    android:textColor="?attr/colorAccent"/>
+                    android:labelFor="@id/Amount"/>
 
                 <include
                     style="@style/FormField"
