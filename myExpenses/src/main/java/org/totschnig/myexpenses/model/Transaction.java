@@ -91,6 +91,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIO
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER_PARENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_END;
@@ -205,7 +206,7 @@ public class Transaction extends Model {
     PROJECTION_EXTENDED[baseLength] = KEY_COLOR;
     //the definition of column TRANSFER_PEER_PARENT refers to view_extended,
     //thus can not be used in PROJECTION_BASE
-    PROJECTION_EXTENDED[baseLength + 1] = TRANSFER_PEER_PARENT + " AS transfer_peer_parent";
+    PROJECTION_EXTENDED[baseLength + 1] = TRANSFER_PEER_PARENT + " AS " + KEY_TRANSFER_PEER_PARENT;
     PROJECTION_EXTENDED[baseLength + 2] = KEY_STATUS;
     PROJECTION_EXTENDED[baseLength + 3] = KEY_ACCOUNT_LABEL;
 
@@ -216,9 +217,10 @@ public class Transaction extends Model {
     PROJECTION_EXTENDED_AGGREGATE[extendedLength] = IS_SAME_CURRENCY + " AS " + KEY_IS_SAME_CURRENCY;
 
     int aggregateLength = extendedLength + 1;
-    PROJECTON_EXTENDED_HOME = new String[aggregateLength + 1];
+    PROJECTON_EXTENDED_HOME = new String[aggregateLength + 2];
     System.arraycopy(PROJECTION_EXTENDED_AGGREGATE, 0, PROJECTON_EXTENDED_HOME, 0, aggregateLength);
     PROJECTON_EXTENDED_HOME[aggregateLength] = KEY_CURRENCY;
+    PROJECTON_EXTENDED_HOME[aggregateLength + 1] = DatabaseConstants.getAmountHomeEquivalent() + " AS " + KEY_EQUIVALENT_AMOUNT;
   }
 
   public static final Uri CONTENT_URI = TransactionProvider.TRANSACTIONS_URI;

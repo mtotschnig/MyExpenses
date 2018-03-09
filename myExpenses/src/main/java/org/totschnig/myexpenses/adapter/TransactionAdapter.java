@@ -44,6 +44,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_SAME_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_MAIN;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_SUB;
@@ -68,7 +69,7 @@ public class TransactionAdapter extends ResourceCursorAdapter {
   private CurrencyFormatter currencyFormatter;
   private boolean indexesCalculated = false;
   private int columnIndexDate;
-  private int currencyIndexCurrency;
+  private int columnIndexCurrency;
   private int columnIndexSameCurrency;
   private int columnIndexColor;
   private int columnIndexLabelMain;
@@ -82,6 +83,7 @@ public class TransactionAdapter extends ResourceCursorAdapter {
   private int columnIndexRowId;
   private int columnIndexAmount;
   private int columnIndexTransferPeer;
+  private int columnIndexEquivalentAmount;
 
   protected TransactionAdapter(Account account, Grouping grouping, Context context, int layout,
                                Cursor c, int flags,
@@ -135,8 +137,13 @@ public class TransactionAdapter extends ResourceCursorAdapter {
   public void bindView(View view, Context context, Cursor cursor) {
     ViewHolder viewHolder = (ViewHolder) view.getTag();
     viewHolder.date.setText(Utils.convDateTime(cursor.getString(columnIndexDate), itemDateFormat));
-    Currency currency = currencyIndexCurrency == -1 ? mAccount.currency : Currency.getInstance(cursor.getString(currencyIndexCurrency));
-    long amount = cursor.getLong(columnIndexAmount);
+    final boolean isTransfer = DbUtils.getLongOrNull(cursor, columnIndexTransferPeer) != null;
+    //for the Grand Total account, we show equivalent amounts in the home currency for normal transactions
+    //but show transfers in there real currency
+    Currency currency = isTransfer && columnIndexCurrency > -1 ?
+        Currency.getInstance(cursor.getString(columnIndexCurrency)) : mAccount.currency;
+    long amount = cursor.getLong(isTransfer || columnIndexEquivalentAmount == -1 ?
+        columnIndexAmount : columnIndexEquivalentAmount);
     TextView tv1 = viewHolder.amount;
     tv1.setText(currencyFormatter.convAmount(amount, currency));
 
@@ -152,7 +159,7 @@ public class TransactionAdapter extends ResourceCursorAdapter {
     }
     TextView tv2 = viewHolder.category;
     CharSequence catText = cursor.getString(columnIndexLabelMain);
-    if (DbUtils.getLongOrNull(cursor, columnIndexTransferPeer) != null) {
+    if (isTransfer) {
       catText = Transfer.getIndicatorPrefixForLabel(amount) + catText;
       if (mAccount.isAggregate()) {
         catText = cursor.getString(columnIndexAccountLabel) + " " + catText;
@@ -254,7 +261,7 @@ public class TransactionAdapter extends ResourceCursorAdapter {
   public Cursor swapCursor(Cursor cursor) {
     if (!indexesCalculated) {
       columnIndexDate = cursor.getColumnIndex(KEY_DATE);
-      currencyIndexCurrency = cursor.getColumnIndex(KEY_CURRENCY);
+      columnIndexCurrency = cursor.getColumnIndex(KEY_CURRENCY);
       columnIndexAmount = cursor.getColumnIndex(KEY_AMOUNT);
       columnIndexSameCurrency = cursor.getColumnIndex(KEY_IS_SAME_CURRENCY);
       columnIndexColor = cursor.getColumnIndex(KEY_COLOR);
@@ -268,6 +275,7 @@ public class TransactionAdapter extends ResourceCursorAdapter {
       columnIndexPayee = cursor.getColumnIndex(KEY_PAYEE_NAME);
       columnIndexCrStatus = cursor.getColumnIndex(KEY_CR_STATUS);
       columnIndexRowId = cursor.getColumnIndex(KEY_ROWID);
+      columnIndexEquivalentAmount = cursor.getColumnIndex(KEY_EQUIVALENT_AMOUNT);
 
       indexesCalculated = true;
     }

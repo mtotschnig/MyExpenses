@@ -973,8 +973,9 @@ public class MyExpenses extends LaunchActivity implements
     return mAccountsCursor.getInt(mAccountsCursor.getColumnIndexOrThrow(KEY_HAS_CLEARED)) > 0;
   }
 
-  private void setConvertedAmount(TextView tv, Currency currency) {
-    tv.setText(currencyFormatter.convAmount(tv.getText().toString(), currency));
+  private void setConvertedAmount(TextView tv, Currency currency, boolean isHome) {
+    tv.setText(String.format(Locale.getDefault(),"%s%s", isHome ? " ≈ " : "",
+        currencyFormatter.convAmount(tv.getText().toString(), currency)));
   }
 
   @Override
@@ -1007,7 +1008,7 @@ public class MyExpenses extends LaunchActivity implements
         (KEY_CURRENT_BALANCE));
     mCurrentBalance = currencyFormatter.formatCurrency(new Money(Utils.getSaveInstance(mAccountsCursor
         .getString(columnIndexCurrency)), balance));
-    TextView balanceTextView = (TextView) mToolbar.findViewById(R.id.end);
+    TextView balanceTextView = mToolbar.findViewById(R.id.end);
     balanceTextView.setTextColor(balance < 0 ? colorExpense : colorIncome);
     balanceTextView.setText(mCurrentBalance);
   }
@@ -1177,7 +1178,8 @@ public class MyExpenses extends LaunchActivity implements
         });
       }
 
-      labelTv.setVisibility(isAggregate == AggregateAccount.AGGREGATE_HOME ? View.GONE : View.VISIBLE);
+      final boolean isHome = isAggregate == AggregateAccount.AGGREGATE_HOME;
+      labelTv.setVisibility(isHome ? View.GONE : View.VISIBLE);
 
       if (isAggregate > 0) {
         hide_cr = true;
@@ -1202,17 +1204,17 @@ public class MyExpenses extends LaunchActivity implements
           hide_cr ? View.GONE : View.VISIBLE);
       row.findViewById(R.id.ReconciledRow).setVisibility(
           hide_cr ? View.GONE : View.VISIBLE);
-      if (c.getLong(columnIndexRowId) > 0) {
-        setConvertedAmount(row.findViewById(R.id.sum_transfer), currency);
+      if (sum_transfer != 0) {
+        setConvertedAmount(row.findViewById(R.id.sum_transfer), currency, isHome);
       }
       v.setBackgroundColor(colorInt);
-      setConvertedAmount(row.findViewById(R.id.opening_balance), currency);
-      setConvertedAmount(row.findViewById(R.id.sum_income), currency);
-      setConvertedAmount(row.findViewById(R.id.sum_expenses), currency);
-      setConvertedAmount(row.findViewById(R.id.current_balance), currency);
-      setConvertedAmount(row.findViewById(R.id.total), currency);
-      setConvertedAmount(row.findViewById(R.id.reconciled_total), currency);
-      setConvertedAmount(row.findViewById(R.id.cleared_total), currency);
+      setConvertedAmount(row.findViewById(R.id.opening_balance), currency, isHome);
+      setConvertedAmount(row.findViewById(R.id.sum_income), currency, isHome);
+      setConvertedAmount(row.findViewById(R.id.sum_expenses), currency, isHome);
+      setConvertedAmount(row.findViewById(R.id.current_balance), currency, isHome);
+      setConvertedAmount(row.findViewById(R.id.total), currency, isHome);
+      setConvertedAmount(row.findViewById(R.id.reconciled_total), currency, isHome);
+      setConvertedAmount(row.findViewById(R.id.cleared_total), currency, isHome);
       String description = c.getString(columnIndexDescription);
       row.findViewById(R.id.description).setVisibility(
           TextUtils.isEmpty(description) ? View.GONE : View.VISIBLE);

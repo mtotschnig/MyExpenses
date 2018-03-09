@@ -299,7 +299,7 @@ public class PdfPrinter {
         long sumExpense = groupCursor.getLong(columnIndexGroupSumExpense);
         long sumIncome = groupCursor.getLong(columnIndexGroupSumIncome);
         long sumTransfer = groupCursor.getLong(columnIndexGroupSumTransfer);
-        Long delta = sumIncome - sumExpense + sumTransfer;
+        Long delta = sumIncome + sumExpense + sumTransfer;
         long interimBalance = previousBalance + delta;
         String formattedDelta = String.format("%s %s", Long.signum(delta) > -1 ? "+" : "-",
             currencyFormatter.convAmount(Math.abs(delta), account.currency));
@@ -317,7 +317,7 @@ public class PdfPrinter {
             account.currency), LazyFontSelector.FontType.NORMAL);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(cell);
-        cell = helper.printToCell("- " + currencyFormatter.convAmount(sumExpense,
+        cell = helper.printToCell("- " + currencyFormatter.convAmount(-sumExpense,
             account.currency), LazyFontSelector.FontType.NORMAL);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(cell);

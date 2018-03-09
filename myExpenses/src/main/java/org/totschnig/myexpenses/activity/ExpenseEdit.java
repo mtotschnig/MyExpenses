@@ -915,11 +915,17 @@ public class ExpenseEdit extends AmountActivity implements
   @Override
   public boolean onPrepareOptionsMenu(Menu menu) {
     if (originalAmountVisible) {
-      Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.ORIGINAL_AMOUNT_COMMAND), false);
+      final MenuItem item = menu.findItem(R.id.ORIGINAL_AMOUNT_COMMAND);
+      if (item != null) {
+        Utils.menuItemSetEnabledAndVisible(item, false);
+      }
     }
     final Account currentAccount = getCurrentAccount();
-    Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.EQUIVALENT_AMOUNT_COMMAND),
-        !(currentAccount == null || hasHomeCurrency(currentAccount) || equivalentAmountVisible));
+    final MenuItem item = menu.findItem(R.id.EQUIVALENT_AMOUNT_COMMAND);
+    if (item != null) {
+      Utils.menuItemSetEnabledAndVisible(item,
+          !(currentAccount == null || hasHomeCurrency(currentAccount) || equivalentAmountVisible));
+    }
     return super.onPrepareOptionsMenu(menu);
   }
 
@@ -1161,7 +1167,7 @@ public class ExpenseEdit extends AmountActivity implements
     if (cachedOrSelf.getEquivalentAmount() != null) {
       equivalentAmountVisible = true;
       equivalentAmountRow.setVisibility(View.VISIBLE);
-      equivalentAmountText.setAmount(cachedOrSelf.getEquivalentAmount().getAmountMajor());
+      equivalentAmountText.setAmount(cachedOrSelf.getEquivalentAmount().getAmountMajor().abs());
     }
 
     if (mNewInstance) {
@@ -1325,7 +1331,8 @@ public class ExpenseEdit extends AmountActivity implements
               originalAmount));
       BigDecimal equivalentAmount = validateAmountInput(equivalentAmountText, false);
       mTransaction.setEquivalentAmount(equivalentAmount == null ? null :
-          new Money(Utils.getHomeCurrency(), equivalentAmount));
+          new Money(Utils.getHomeCurrency(), mType == EXPENSE ?
+              equivalentAmount.negate() : equivalentAmount));
     }
     if (mIsMainTemplate) {
       title = mTitleText.getText().toString();

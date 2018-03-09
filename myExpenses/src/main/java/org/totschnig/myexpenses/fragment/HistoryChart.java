@@ -368,7 +368,7 @@ public class HistoryChart extends Fragment
         long sumIncome = cursor.getLong(columnIndexGroupSumIncome);
         long sumExpense = cursor.getLong(columnIndexGroupSumExpense);
         long sumTransfer = columnIndexGroupSumTransfer > -1 ? cursor.getLong(columnIndexGroupSumTransfer) : 0;
-        long delta = sumIncome - sumExpense + sumTransfer;
+        long delta = sumIncome + sumExpense + sumTransfer;
         if (showBalance) interimBalance = previousBalance + delta;
         int year = cursor.getInt(columnIndexGroupYear);
         int second = cursor.getInt(columnIndexGroupSecond);
@@ -379,7 +379,7 @@ public class HistoryChart extends Fragment
           xAxis.setAxisMinimum(start);
           if (showBalance) lineEntries.add(new Entry(start, previousBalance));
         }
-        barEntries.add(new BarEntry(x, new float[]{-sumExpense, sumIncome}));
+        barEntries.add(new BarEntry(x, new float[]{sumExpense, sumIncome}));
         if (showBalance) {
           lineEntries.add(new Entry(x, interimBalance));
           previousBalance = interimBalance;

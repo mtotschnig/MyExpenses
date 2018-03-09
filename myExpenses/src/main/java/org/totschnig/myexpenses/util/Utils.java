@@ -479,7 +479,7 @@ public class Utils {
    * @param item
    * @param enabled
    */
-  public static void menuItemSetEnabledAndVisible(MenuItem item, boolean enabled) {
+  public static void menuItemSetEnabledAndVisible(@NonNull MenuItem item, boolean enabled) {
     item.setEnabled(enabled).setVisible(enabled);
   }
 

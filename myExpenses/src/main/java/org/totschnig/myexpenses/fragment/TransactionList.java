@@ -135,6 +135,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENS
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER_PARENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR_OF_MONTH_START;
@@ -406,7 +407,7 @@ public class TransactionList extends ContextualActionBarFragment implements
       case R.id.EDIT_COMMAND:
       case R.id.CLONE_TRANSACTION_COMMAND:
         mTransactionsCursor.moveToPosition(acmi.position);
-        if (DbUtils.getLongOrNull(mTransactionsCursor, "transfer_peer_parent") != null) {
+        if (DbUtils.getLongOrNull(mTransactionsCursor, KEY_TRANSFER_PEER_PARENT) != null) {
           ctx.showSnackbar(R.string.warning_splitpartcategory_context, Snackbar.LENGTH_LONG);
         } else {
           Intent i = new Intent(ctx, ExpenseEdit.class);
@@ -565,7 +566,7 @@ public class TransactionList extends ContextualActionBarFragment implements
             long sumIncome = c.getLong(columnIndexGroupSumIncome);
             long sumExpense = c.getLong(columnIndexGroupSumExpense);
             long sumTransfer = c.getLong(columnIndexGroupSumTransfer);
-            long delta = sumIncome - sumExpense + sumTransfer;
+            long delta = sumIncome + sumExpense + sumTransfer;
             long interimBalance = previousBalance + delta;
             long mappedCategories = c.getLong(columnIndexGroupMappedCategories);
             headerData.put(calculateHeaderId(c.getInt(columnIndexGroupYear),
@@ -700,14 +701,14 @@ public class TransactionList extends ContextualActionBarFragment implements
       Long[] data = headerData != null ? headerData.get(headerId) : null;
       if (data != null) {
         holder.sumIncome.setText("+ " + currencyFormatter.convAmount(data[0], mAccount.currency));
-        holder.sumExpense.setText("- " + currencyFormatter.convAmount(data[1], mAccount.currency));
+        holder.sumExpense.setText("- " + currencyFormatter.convAmount(-data[1], mAccount.currency));
         holder.sumTransfer.setText(Transfer.BI_ARROW + " " + currencyFormatter.convAmount(
             data[2], mAccount.currency));
         String formattedDelta = String.format("%s %s", Long.signum(data[4]) > -1 ? "+" : "-",
             currencyFormatter.convAmount(Math.abs(data[4]), mAccount.currency));
         currencyFormatter.convAmount(Math.abs(data[4]), mAccount.currency);
         holder.interimBalance.setText(
-            mFilter.isEmpty() ? String.format("%s %s = %s",
+            mFilter.isEmpty() && !mAccount.isHomeAggregate() ? String.format("%s %s = %s",
                 currencyFormatter.convAmount(data[3], mAccount.currency), formattedDelta,
                 currencyFormatter.convAmount(data[5], mAccount.currency)) :
                 formattedDelta);

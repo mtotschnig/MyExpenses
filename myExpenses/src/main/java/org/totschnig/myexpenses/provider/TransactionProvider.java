@@ -377,7 +377,9 @@ public class TransactionProvider extends ContentProvider {
         projection[index++] = includeTransfers ? getInSum(forHome) : getIncomeSum(forHome);
         projection[index++] = includeTransfers ? getOutSum(forHome) : getExpenseSum(forHome);
         if (!includeTransfers) {
-          projection[index++] = TRANSFER_SUM;
+          //for the Grand total account transfer calculation is neither possible (adding amounts in
+          //different currencies) nor necessary (should result in 0)
+          projection[index++] = (forHome ? "0" : TRANSFER_SUM) + " AS " + KEY_SUM_TRANSFERS;
         }
         projection[index++] = MAPPED_CATEGORIES;
         if (withStart) {
@@ -430,6 +432,7 @@ public class TransactionProvider extends ContentProvider {
               " AND " + WHERE_NOT_SPLIT + " ) AS " + KEY_TOTAL + ", " +
               "(" + SELECT_AMOUNT_SUM + " AND " + WHERE_EXPENSE + ") AS " + KEY_SUM_EXPENSES + "," +
               "(" + SELECT_AMOUNT_SUM + " AND " + WHERE_INCOME + ") AS " + KEY_SUM_INCOME + ", " +
+              "(" + SELECT_AMOUNT_SUM + " AND " + WHERE_TRANSFER + ") AS " + KEY_SUM_TRANSFERS + ", " +
               HAS_EXPORTED + ", " +
               HAS_FUTURE + ", " +
               "coalesce((SELECT " + KEY_EXCHANGE_RATE + " FROM " + TABLE_ACCOUNT_EXCHANGE_RATES + " WHERE " + KEY_ACCOUNTID + " = " + KEY_ROWID +
@@ -458,7 +461,7 @@ public class TransactionProvider extends ContentProvider {
               "sum(" + KEY_CURRENT_BALANCE + ") AS " + KEY_CURRENT_BALANCE,
               "sum(" + KEY_SUM_INCOME + ") AS " + KEY_SUM_INCOME,
               "sum(" + KEY_SUM_EXPENSES + ") AS " + KEY_SUM_EXPENSES,
-              "0 AS " + KEY_SUM_TRANSFERS,
+              "sum(" + KEY_SUM_TRANSFERS + ") AS " + KEY_SUM_TRANSFERS,
               "sum(" + KEY_TOTAL + ") AS " + KEY_TOTAL,
               "0 AS " + KEY_CLEARED_TOTAL, //we do not calculate cleared and reconciled totals for aggregate accounts
               "0 AS " + KEY_RECONCILED_TOTAL,
@@ -489,8 +492,8 @@ public class TransactionProvider extends ContentProvider {
                 "'DESC' AS " + KEY_SORT_DIRECTION,
                 "1 AS " + KEY_EXCHANGE_RATE,
                 "sum(" + KEY_CURRENT_BALANCE + " * " + KEY_EXCHANGE_RATE + ") AS " + KEY_CURRENT_BALANCE,
-                "sum(" + KEY_SUM_INCOME + " * " + KEY_EXCHANGE_RATE + ") AS " + KEY_SUM_INCOME,
-                "sum(" + KEY_SUM_EXPENSES + " * " + KEY_EXCHANGE_RATE + ") AS " + KEY_SUM_EXPENSES,
+                "(SELECT " + getIncomeSum(true) + " FROM " + VIEW_EXTENDED + ") AS " + KEY_SUM_INCOME,
+                "(SELECT " + getExpenseSum(true) + " FROM " + VIEW_EXTENDED + ") AS " + KEY_SUM_EXPENSES,
                 "0 AS " + KEY_SUM_TRANSFERS,
                 "sum(" + KEY_TOTAL + " * " + KEY_EXCHANGE_RATE + ") AS " + KEY_TOTAL,
                 "0 AS " + KEY_CLEARED_TOTAL, //we do not calculate cleared and reconciled totals for aggregate accounts
