@@ -239,6 +239,14 @@ public class ExpenseEdit extends AmountActivity implements
   ViewGroup methodRow;
   @BindView(R.id.PlannerRow)
   ViewGroup plannerRow;
+  @BindView(R.id.AccountLabel)
+  TextView accountLabel;
+  @BindView(R.id.TransferAccountLabel)
+  TextView transferAccountLabel;
+  @BindView(R.id.TransferAmountLabel)
+  TextView transferAmountLabel;
+  @BindView(R.id.EquivalentAmountLabel)
+  TextView equivalentAmountLabel;
 
   private SpinnerHelper mMethodSpinner, mAccountSpinner, mTransferAccountSpinner, mStatusSpinner,
       mOperationTypeSpinner, mRecurrenceSpinner, mCurrencySpinner;
@@ -656,7 +664,6 @@ public class ExpenseEdit extends AmountActivity implements
       methodRow.setVisibility(View.GONE);
     }
 
-    TextView accountLabelTv = findViewById(R.id.AccountLabel);
     if (mOperationType == TYPE_TRANSFER) {
       mTypeButton.setVisibility(View.GONE);
       categoryRow.setVisibility(View.GONE);
@@ -664,7 +671,7 @@ public class ExpenseEdit extends AmountActivity implements
       if (accountContainer == null)
         accountContainer = findViewById(R.id.TransferAccount);
       accountContainer.setVisibility(View.VISIBLE);
-      accountLabelTv.setText(R.string.transfer_from_account);
+      accountLabel.setText(R.string.transfer_from_account);
 
       mTransferAccountsAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, null,
           new String[]{KEY_LABEL}, new int[]{android.R.id.text1}, 0);
@@ -830,6 +837,7 @@ public class ExpenseEdit extends AmountActivity implements
     if (equivalentAmountVisible) {
       equivalentAmountRow.setVisibility(View.VISIBLE);
     }
+    addCurrencyToLabel(equivalentAmountLabel, Utils.getHomeCurrency().getSymbol(), R.string.equivalent_amount);
   }
 
   public void hideKeyBoardAndShowDialog(int id) {
@@ -875,7 +883,6 @@ public class ExpenseEdit extends AmountActivity implements
     linkInputWithLabel(mPlanButton, planLabel);
     linkInputWithLabel(mRecurrenceSpinner.getSpinner(), planLabel);
     linkInputWithLabel(mPlanToggleButton, planLabel);
-    final View transferAmountLabel = findViewById(R.id.TransferAmountLabel);
     linkInputWithLabel(mTransferAmountText, transferAmountLabel);
     linkInputWithLabel(findViewById(R.id.CalculatorTransfer), transferAmountLabel);
     final View exchangeRateAmountLabel = findViewById(R.id.ExchangeRateLabel);
@@ -891,8 +898,6 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   private void linkAccountLabels() {
-    final View accountLabel = findViewById(R.id.AccountLabel);
-    final View transferAccountLabel = findViewById(R.id.TransferAccountLabel);
     linkInputWithLabel(mAccountSpinner.getSpinner(),
         mType == INCOME ? transferAccountLabel : accountLabel);
     linkInputWithLabel(mTransferAccountSpinner.getSpinner(),
@@ -1800,7 +1805,7 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   private void configureAccountDependent(Account account) {
-    addCurrencyToLabel(mAmountLabel, Money.getSymbol(account.currency));
+    addCurrencyToLabel(mAmountLabel, Money.getSymbol(account.currency), R.string.amount);
     if (hasHomeCurrency(account) && equivalentAmountVisible) {
       equivalentAmountRow.setVisibility(View.GONE);
       equivalentAmountVisible = false;
@@ -1842,7 +1847,7 @@ public class ExpenseEdit extends AmountActivity implements
         isSame || (mTransaction instanceof Template) ? View.GONE : View.VISIBLE);
     final String symbol2 = Money.getSymbol(transferAccount.currency);
     //noinspection SetTextI18n
-    addCurrencyToLabel(findViewById(R.id.TransferAmountLabel), symbol2);
+    addCurrencyToLabel(transferAmountLabel, symbol2, R.string.amount);
     mTransferAmountText.setFractionDigits(Money.getFractionDigits(transferAccount.currency));
     final String symbol1 = Money.getSymbol(currency);
     mExchangeRateEdit.setSymbols(symbol1, symbol2);
@@ -1855,9 +1860,9 @@ public class ExpenseEdit extends AmountActivity implements
     }
   }
 
-  private void addCurrencyToLabel(TextView label, String symbol) {
+  private void addCurrencyToLabel(TextView label, String symbol, int textResId) {
     //noinspection SetTextI18n
-    label.setText(getString(R.string.amount) + " (" + symbol + ")");
+    label.setText(getString(textResId) + " (" + symbol + ")");
   }
 
   private void resetOperationType() {
