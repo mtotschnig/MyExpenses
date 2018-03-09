@@ -128,7 +128,7 @@ public class Utils {
     return home != null ? getSaveInstance(home) : getLocalCurrency();
   }
 
-  public static Currency getLocalCurrency() {
+  private static Currency getLocalCurrency() {
     Currency result = null;
     String userCountry = getCountryFromTelephonyManager();
     if (!TextUtils.isEmpty(userCountry)) {

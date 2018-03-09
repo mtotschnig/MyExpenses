@@ -322,7 +322,7 @@ public class DialogUtils {
     spinner.setAdapter(curAdapter);
     spinner.setOnItemSelectedListener(listener);
     spinner.setSelection(curAdapter.getPosition(CurrencyEnum.valueOf(
-        Utils.getLocalCurrency().getCurrencyCode())));
+        Utils.getHomeCurrency().getCurrencyCode())));
     return spinner;
   }
 

@@ -206,13 +206,17 @@ public class AccountEdit extends AmountActivity implements
     }
     mAmountText.setAmount(amount);
     String currencyCode = mAccount.currency.getCurrencyCode();
-    mCurrencySpinner.setSelection(currencyAdapter.getPosition(
-        CurrencyEnum.valueOf(currencyCode)));
+    mCurrencySpinner.setSelection(currencyAdapter.getPosition(CurrencyEnum.valueOf(currencyCode)));
     mAccountTypeSpinner.setSelection(mAccount.getType().ordinal());
     UiUtils.setBackgroundOnButton(mColorIndicator, mAccount.color);
+    setExchangeRateVisibility(currencyCode);
+  }
+
+  private void setExchangeRateVisibility(String currencyCode) {
     String homeCurrencyPref = PrefKey.HOME_CURRENCY.getString(currencyCode);
-    if (!homeCurrencyPref.equals(currencyCode)) {
-      exchangeRateRow.setVisibility(View.VISIBLE);
+    final boolean isHomeAccount = homeCurrencyPref.equals(currencyCode);
+    exchangeRateRow.setVisibility(isHomeAccount ? View.GONE : View.VISIBLE);
+    if (!isHomeAccount) {
       mExchangeRateEdit.setSymbols(Money.getSymbol(mAccount.currency),
           Money.getSymbol(Utils.getSaveInstance(homeCurrencyPref)));
       mExchangeRateEdit.setRate(mAccount.getExchangeRate());
@@ -273,6 +277,7 @@ public class AccountEdit extends AmountActivity implements
           String currency = ((CurrencyEnum) mCurrencySpinner.getSelectedItem()).name();
           mAmountText.setFractionDigits(Money.getFractionDigits(
               Currency.getInstance(currency)));
+          setExchangeRateVisibility(currency);
         } catch (IllegalArgumentException e) {
           //will be reported to user when he tries so safe
         }

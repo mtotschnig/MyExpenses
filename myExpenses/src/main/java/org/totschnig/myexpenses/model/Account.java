@@ -357,7 +357,7 @@ public class Account extends Model {
    * @param description    the description
    */
   public Account(String label, long openingBalance, String description) {
-    this(label, Utils.getLocalCurrency(), openingBalance, description, AccountType.CASH, DEFAULT_COLOR);
+    this(label, Utils.getHomeCurrency(), openingBalance, description, AccountType.CASH, DEFAULT_COLOR);
   }
 
   public Account(String label, Currency currency, long openingBalance, String description,
