@@ -31,9 +31,11 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.ui.AmountEditText;
 import org.totschnig.myexpenses.util.UiUtils;
+import org.totschnig.myexpenses.util.Utils;
 
 import java.math.BigDecimal;
 import java.util.Currency;
@@ -90,7 +92,7 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
   }
 
   @Override
-  public void onSaveInstanceState(Bundle outState) {
+  public void onSaveInstanceState(@NonNull Bundle outState) {
     super.onSaveInstanceState(outState);
     outState.putSerializable(KEY_CURRENCY, ((CurrencyEnum) currencySpinner.getSelectedItem()));
     String label = labelEditText.getText().toString();
@@ -101,6 +103,7 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
 
   @Override
   protected void onNextButtonClicked() {
+    PrefKey.HOME_CURRENCY.putString(getSelectedCurrencyWithFallback().getCurrencyCode());
     ((SplashActivity) getActivity()).finishOnboarding();
   }
 
@@ -198,17 +201,33 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
   public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
     switch (parent.getId()) {
       case R.id.Currency:
-        String currency = ((CurrencyEnum) currencySpinner.getSelectedItem()).name();
-        try {
-          Currency instance = Currency.getInstance(currency);
+        Currency instance = validateSelectedCurrency();
+        if (instance != null) {
           amountEditText.setFractionDigits(Money.getFractionDigits(instance));
           lastSelectedCurrencyPosition = position;
-        } catch (IllegalArgumentException e) {
-          ((ProtectedFragmentActivity) getActivity()).showSnackbar(getString(R.string.currency_not_supported, currency), Snackbar.LENGTH_LONG);
+        } else {
           currencySpinner.setSelection(lastSelectedCurrencyPosition);
         }
         break;
     }
+  }
+
+  private Currency validateSelectedCurrency() {
+    final String currency = ((CurrencyEnum) currencySpinner.getSelectedItem()).name();
+    try {
+      return Currency.getInstance(currency);
+    } catch (IllegalArgumentException e) {
+      ((ProtectedFragmentActivity) getActivity()).showSnackbar(getString(R.string.currency_not_supported, currency), Snackbar.LENGTH_LONG);
+    }
+    return null;
+  }
+
+  private Currency getSelectedCurrencyWithFallback() {
+    Currency currency = validateSelectedCurrency();
+    if (currency == null) {
+      currency = Utils.getHomeCurrency();
+    }
+    return currency;
   }
 
   @Override
@@ -227,8 +246,8 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
     } else if (!typeButton.isChecked()) {
       openingBalance = openingBalance.negate();
     }
-    Currency instance = Currency.getInstance(((CurrencyEnum) currencySpinner.getSelectedItem()).name());
-    return new Account(label, instance, new Money(instance, openingBalance),
+    Currency currency = getSelectedCurrencyWithFallback();
+    return new Account(label, currency, new Money(currency, openingBalance),
         descriptionEditText.getText().toString(),
         (AccountType) accountTypeSpinner.getSelectedItem(), accountColor);
   }

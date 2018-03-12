@@ -153,6 +153,9 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
         }
         PrefKey.AUTO_FILL_LEGACY.remove();
       }
+      if (prev_version < 316) {
+        PrefKey.HOME_CURRENCY.putString(Utils.getHomeCurrency().getCurrencyCode());
+      }
 
 
       VersionDialogFragment.newInstance(prev_version, showImportantUpgradeInfo)

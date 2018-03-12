@@ -398,7 +398,7 @@
     </string-array>
 
     <string-array name="versions">
-        <item>315;2.8.8.1</item>
+        <item>316;2.8.9</item>
         <item>314;2.8.8</item>
         <item>312;2.8.7</item>
         <item>310;2.8.6</item>
