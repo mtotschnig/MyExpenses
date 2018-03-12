@@ -736,4 +736,5 @@
     <string name="grand_total">Grand total</string>
     <string name="original_amount">Original amount</string>
     <string name="equivalent_amount">Equivalent amount</string>
+    <string name="home_currency_change_warning">If you change your home currency, equivalent amounts and exchange rates will be lost, and need to be defined again. Do you want to continue?</string>
 </resources>

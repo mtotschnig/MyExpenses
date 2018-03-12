@@ -174,7 +174,7 @@ public class TransactionList extends ContextualActionBarFragment implements
   private boolean mappedPayees;
   private boolean mappedMethods;
   private boolean hasTransfers;
-  private Cursor mTransactionsCursor, mGroupingCursor;
+  private Cursor mTransactionsCursor;
 
   private ExpandableStickyListHeadersListView mListView;
   private LoaderManager mManager;
@@ -252,7 +252,6 @@ public class TransactionList extends ContextualActionBarFragment implements
   }
 
   private void restartGroupingLoader() {
-    mGroupingCursor = null;
     if (mManager == null) {
       //can happen after an orientation change in ExportDialogFragment, when resetting multiple accounts
       mManager = getLoaderManager();
@@ -552,7 +551,6 @@ public class TransactionList extends ContextualActionBarFragment implements
         getActivity().supportInvalidateOptionsMenu();
         break;
       case GROUPING_CURSOR:
-        mGroupingCursor = c;
         int columnIndexGroupYear = c.getColumnIndex(KEY_YEAR);
         int columnIndexGroupSecond = c.getColumnIndex(KEY_SECOND_GROUP);
         int columnIndexGroupSumIncome = c.getColumnIndex(KEY_SUM_INCOME);
@@ -602,8 +600,6 @@ public class TransactionList extends ContextualActionBarFragment implements
         mappedPayees = false;
         mappedMethods = false;
         break;
-      case GROUPING_CURSOR:
-        mGroupingCursor = null;
     }
   }
 

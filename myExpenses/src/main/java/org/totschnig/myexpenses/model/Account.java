@@ -217,6 +217,10 @@ public class Account extends Model {
     return accounts.containsKey(id);
   }
 
+  public static void invalidateHomeAccount() {
+    accounts.remove((long) HOME_AGGREGATE_ID);
+  }
+
   /**
    * @param id id of account to be retrieved, if id == 0, the first entry in the accounts cache will be returned or
    *           if it is empty the account with the lowest id will be fetched from db,
