@@ -443,7 +443,11 @@ public class DatabaseConstants {
   }
 
   public static String getAmountHomeEquivalent() {
-    return "coalesce(" + KEY_EQUIVALENT_AMOUNT + "," +  getExchangeRate(VIEW_EXTENDED + "." +  KEY_ACCOUNTID) + " * " + KEY_AMOUNT + ")";
+    return getAmountHomeEquivalent(VIEW_EXTENDED);
+  }
+
+  public static String getAmountHomeEquivalent(String forTable) {
+    return "coalesce(" + KEY_EQUIVALENT_AMOUNT + "," +  getExchangeRate(forTable + "." +  KEY_ACCOUNTID) + " * " + KEY_AMOUNT + ")";
   }
 
   public static String getExchangeRate(String accountReference) {

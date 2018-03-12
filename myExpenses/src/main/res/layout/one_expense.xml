@@ -350,7 +350,7 @@
             </TableRow>
 
             <TableRow
-                android:id="@+id/PlannerRow"
+                android:id="@+id/PlanRow"
                 android:visibility="gone">
 
                 <TextView

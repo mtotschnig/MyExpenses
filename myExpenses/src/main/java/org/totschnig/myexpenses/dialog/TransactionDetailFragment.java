@@ -33,6 +33,7 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -63,8 +64,12 @@ import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.PictureDirHelper;
 
 import java.text.DateFormat;
+import java.util.Locale;
 
 import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_MAIN;
@@ -80,6 +85,67 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
 
   @Inject
   CurrencyFormatter currencyFormatter;
+
+  @BindView(R.id.progress)
+  View progressView;
+  @BindView(R.id.error)
+  TextView errorView;
+  @BindView(R.id.Table)
+  ViewGroup tableView;
+  @BindView(R.id.SplitContainer)
+  ViewGroup splitContainer;
+  @BindView(R.id.empty)
+  View emptyView;
+  @BindView(R.id.list)
+  ListView listView;
+  @BindView(R.id.AccountLabel)
+  TextView accountLabelView;
+  @BindView(R.id.CategoryLabel)
+  TextView categoryLabelView;
+  @BindView(R.id.PayeeLabel)
+  TextView payeeLabelView;
+  @BindView(R.id.Account)
+  TextView accountView;
+  @BindView(R.id.Category)
+  TextView categoryView;
+  @BindView(R.id.CategoryRow)
+  View categoryRow;
+  @BindView(R.id.CommentRow)
+  View commentRow;
+  @BindView(R.id.NumberRow)
+  View numberRow;
+  @BindView(R.id.PayeeRow)
+  View payeeRow;
+  @BindView(R.id.MethodRow)
+  View methodRow;
+  @BindView(R.id.StatusRow)
+  View statusRow;
+  @BindView(R.id.PlanRow)
+  View planRow;
+  @BindView(R.id.OriginalAmountRow)
+  View originalAmountRow;
+  @BindView(R.id.EquivalentAmountRow)
+  View equivalentAmountRow;
+  @BindView(R.id.Date)
+  TextView dateView;
+  @BindView(R.id.Amount)
+  TextView amountView;
+  @BindView(R.id.OriginalAmount)
+  TextView originalAmountView;
+  @BindView(R.id.EquivalentAmount)
+  TextView equivalentAmountView;
+  @BindView(R.id.Comment)
+  TextView commentView;
+  @BindView(R.id.Number)
+  TextView numberView;
+  @BindView(R.id.Payee)
+  TextView payeeView;
+  @BindView(R.id.Method)
+  TextView methodView;
+  @BindView(R.id.Status)
+  TextView statusView;
+  @BindView(R.id.Plan)
+  TextView planView;
 
   public static final TransactionDetailFragment newInstance(Long id) {
     TransactionDetailFragment dialogFragment = new TransactionDetailFragment();
@@ -111,6 +177,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     final LayoutInflater li = LayoutInflater.from(getActivity());
     //noinspection InflateParams
     dialogView = li.inflate(R.layout.transaction_detail, null);
+    ButterKnife.bind(this, dialogView);
     AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
         .setTitle(R.string.progress_dialog_loading)
         //.setIcon(android.R.color.transparent)
@@ -192,12 +259,11 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
 
   public void fillData(Transaction o) {
     final FragmentActivity ctx = getActivity();
-    dialogView.findViewById(R.id.progress).setVisibility(View.GONE);
+    progressView.setVisibility(View.GONE);
     mTransaction = o;
     if (mTransaction == null) {
-      TextView error = dialogView.findViewById(R.id.error);
-      error.setVisibility(View.VISIBLE);
-      error.setText(R.string.transaction_deleted);
+      errorView.setVisibility(View.VISIBLE);
+      errorView.setText(R.string.transaction_deleted);
       return;
     }
     boolean doShowPicture = false;
@@ -229,17 +295,15 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
         btn.setVisibility(doShowPicture ? View.VISIBLE : View.GONE);
       }
     }
-    dialogView.findViewById(R.id.Table).setVisibility(View.VISIBLE);
+    tableView.setVisibility(View.VISIBLE);
     int title;
     boolean type = mTransaction.getAmount().getAmountMinor() > 0 ? ExpenseEdit.INCOME : ExpenseEdit.EXPENSE;
 
     if (mTransaction instanceof SplitTransaction) {
-      dialogView.findViewById(R.id.SplitContainer).setVisibility(View.VISIBLE);
+      splitContainer.setVisibility(View.VISIBLE);
       //TODO: refactor duplicated code with SplitPartList
       title = R.string.split_transaction;
-      View emptyView = dialogView.findViewById(R.id.empty);
 
-      ListView lv = (ListView) dialogView.findViewById(R.id.list);
       // Create an array to specify the fields we want to display in the list
       String[] from = new String[]{KEY_LABEL_MAIN, KEY_AMOUNT};
 
@@ -249,8 +313,8 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       // Now create a simple cursor adapter and set it to display
       mAdapter = new SplitPartAdapter(ctx, R.layout.split_part_row, null, from, to, 0,
           mTransaction.getAmount().getCurrency(), currencyFormatter);
-      lv.setAdapter(mAdapter);
-      lv.setEmptyView(emptyView);
+      listView.setAdapter(mAdapter);
+      listView.setEmptyView(emptyView);
 
       LoaderManager manager = getLoaderManager();
       if (manager.getLoader(SPLIT_PART_CURSOR) != null &&
@@ -263,8 +327,8 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     } else {
       if (mTransaction instanceof Transfer) {
         title = R.string.transfer;
-        ((TextView) dialogView.findViewById(R.id.AccountLabel)).setText(R.string.transfer_from_account);
-        ((TextView) dialogView.findViewById(R.id.CategoryLabel)).setText(R.string.transfer_to_account);
+        accountLabelView.setText(R.string.transfer_from_account);
+        categoryLabelView.setText(R.string.transfer_to_account);
       } else {
         title = type ? R.string.income : R.string.expense;
       }
@@ -273,8 +337,8 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     String amountText;
     String accountLabel = Account.getInstanceFromDb(mTransaction.getAccountId()).getLabel();
     if (mTransaction instanceof Transfer) {
-      ((TextView) dialogView.findViewById(R.id.Account)).setText(type ? mTransaction.getLabel() : accountLabel);
-      ((TextView) dialogView.findViewById(R.id.Category)).setText(type ? accountLabel : mTransaction.getLabel());
+      accountView.setText(type ? mTransaction.getLabel() : accountLabel);
+      categoryView.setText(type ? accountLabel : mTransaction.getLabel());
       if (((Transfer) mTransaction).isSameCurrency()) {
         amountText = formatCurrencyAbs(mTransaction.getAmount());
       } else {
@@ -283,68 +347,76 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
         amountText = type == ExpenseEdit.EXPENSE ? (self + " => " + other) : (other + " => " + self);
       }
     } else {
-      ((TextView) dialogView.findViewById(R.id.Account)).setText(accountLabel);
+      accountView.setText(accountLabel);
       if ((mTransaction.getCatId() != null && mTransaction.getCatId() > 0)) {
-        ((TextView) dialogView.findViewById(R.id.Category)).setText(mTransaction.getLabel());
+        categoryView.setText(mTransaction.getLabel());
       } else {
-        dialogView.findViewById(R.id.CategoryRow).setVisibility(View.GONE);
+        categoryRow.setVisibility(View.GONE);
       }
       amountText = formatCurrencyAbs(mTransaction.getAmount());
     }
 
-    //noinspection SetTextI18n
-    ((TextView) dialogView.findViewById(R.id.Date)).setText(
-        DateFormat.getDateInstance(DateFormat.FULL).format(mTransaction.getDate())
-            + " "
-            + DateFormat.getTimeInstance(DateFormat.SHORT).format(mTransaction.getDate()));
+    amountView.setText(amountText);
 
-    ((TextView) dialogView.findViewById(R.id.Amount)).setText(amountText);
+    if (mTransaction.getOriginalAmount() != null) {
+      originalAmountRow.setVisibility(View.VISIBLE);
+      originalAmountView.setText(formatCurrencyAbs(mTransaction.getOriginalAmount()));
+    }
+
+    if (!mTransaction.getAmount().equals(mTransaction.getEquivalentAmount())) {
+      equivalentAmountRow.setVisibility(View.VISIBLE);
+      equivalentAmountView.setText(formatCurrencyAbs(mTransaction.getEquivalentAmount()));
+    }
+
+    //noinspection SetTextI18n
+    dateView.setText(String.format(Locale.getDefault(), "%s %s",
+        DateFormat.getDateInstance(DateFormat.FULL).format(mTransaction.getDate()),
+        DateFormat.getTimeInstance(DateFormat.SHORT).format(mTransaction.getDate())));
+
 
     if (!mTransaction.getComment().equals("")) {
-      ((TextView) dialogView.findViewById(R.id.Comment)).setText(mTransaction.getComment());
+      commentView.setText(mTransaction.getComment());
     } else {
-      dialogView.findViewById(R.id.CommentRow).setVisibility(View.GONE);
+      commentRow.setVisibility(View.GONE);
     }
 
     if (!mTransaction.getReferenceNumber().equals("")) {
-      ((TextView) dialogView.findViewById(R.id.Number)).setText(mTransaction.getReferenceNumber());
+      numberView.setText(mTransaction.getReferenceNumber());
     } else {
-      dialogView.findViewById(R.id.NumberRow).setVisibility(View.GONE);
+      numberRow.setVisibility(View.GONE);
     }
 
     if (!mTransaction.getPayee().equals("")) {
-      ((TextView) dialogView.findViewById(R.id.Payee)).setText(mTransaction.getPayee());
-      ((TextView) dialogView.findViewById(R.id.PayeeLabel)).setText(type ? R.string.payer : R.string.payee);
+      payeeView.setText(mTransaction.getPayee());
+      payeeLabelView.setText(type ? R.string.payer : R.string.payee);
     } else {
-      dialogView.findViewById(R.id.PayeeRow).setVisibility(View.GONE);
+      payeeRow.setVisibility(View.GONE);
     }
 
     if (mTransaction.getMethodId() != null) {
-      ((TextView) dialogView.findViewById(R.id.Method))
-          .setText(PaymentMethod.getInstanceFromDb(mTransaction.getMethodId()).getLabel());
+      methodView.setText(PaymentMethod.getInstanceFromDb(mTransaction.getMethodId()).getLabel());
     } else {
-      dialogView.findViewById(R.id.MethodRow).setVisibility(View.GONE);
+     methodRow.setVisibility(View.GONE);
     }
 
     if (Account.getInstanceFromDb(mTransaction.getAccountId()).getType().equals(AccountType.CASH)) {
-      dialogView.findViewById(R.id.StatusRow).setVisibility(View.GONE);
+      statusRow.setVisibility(View.GONE);
     } else {
-      TextView tv = (TextView) dialogView.findViewById(R.id.Status);
-      tv.setBackgroundColor(mTransaction.crStatus.color);
-      tv.setText(mTransaction.crStatus.toStringRes());
+      statusView.setBackgroundColor(mTransaction.crStatus.color);
+      statusView.setText(mTransaction.crStatus.toStringRes());
     }
 
     if (mTransaction.originTemplate == null) {
-      dialogView.findViewById(R.id.PlannerRow).setVisibility(View.GONE);
+      planRow.setVisibility(View.GONE);
     } else {
-      ((TextView) dialogView.findViewById(R.id.Plan)).setText(mTransaction.originTemplate.getPlan() == null ?
+      planView.setText(mTransaction.originTemplate.getPlan() == null ?
           getString(R.string.plan_event_deleted) : Plan.prettyTimeInfo(getActivity(),
           mTransaction.originTemplate.getPlan().rrule, mTransaction.originTemplate.getPlan().dtstart));
     }
 
     dlg.setTitle(title);
     if (doShowPicture) {
-      ImageView image = ((ImageView) dlg.getWindow().findViewById(android.R.id.icon));
+      ImageView image = dlg.getWindow().findViewById(android.R.id.icon);
       image.setVisibility(View.VISIBLE);
       image.setScaleType(ImageView.ScaleType.CENTER_CROP);
       Picasso.with(ctx).load(mTransaction.getPictureUri()).fit().into(image);

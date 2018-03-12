@@ -237,7 +237,7 @@ public class ExpenseEdit extends AmountActivity implements
   ViewGroup categoryRow;
   @BindView(R.id.MethodRow)
   ViewGroup methodRow;
-  @BindView(R.id.PlannerRow)
+  @BindView(R.id.PlanRow)
   ViewGroup plannerRow;
   @BindView(R.id.AccountLabel)
   TextView accountLabel;
@@ -1170,8 +1170,6 @@ public class ExpenseEdit extends AmountActivity implements
           CurrencyEnum.valueOf(cachedOrSelf.getOriginalAmount().getCurrency().getCurrencyCode())));
     }
     if (cachedOrSelf.getEquivalentAmount() != null) {
-      equivalentAmountVisible = true;
-      equivalentAmountRow.setVisibility(View.VISIBLE);
       equivalentAmountText.setAmount(cachedOrSelf.getEquivalentAmount().getAmountMajor().abs());
     }
 

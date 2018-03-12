@@ -80,6 +80,18 @@
                 style="@style/dialog_text"/>
         </TableRow>
 
+        <TableRow android:id="@+id/OriginalAmountRow"
+                  android:visibility="gone">
+
+            <TextView
+                style="@style/FormLabel.Condensed"
+                android:text="@string/original_amount"/>
+
+            <TextView
+                android:id="@+id/OriginalAmount"
+                style="@style/dialog_text"/>
+        </TableRow>
+
         <TableRow>
 
             <TextView
@@ -88,6 +100,18 @@
 
             <TextView
                 android:id="@+id/Amount"
+                style="@style/dialog_text"/>
+        </TableRow>
+
+        <TableRow android:id="@+id/EquivalentAmountRow"
+            android:visibility="gone">
+
+            <TextView
+                style="@style/FormLabel.Condensed"
+                android:text="@string/equivalent_amount"/>
+
+            <TextView
+                android:id="@+id/EquivalentAmount"
                 style="@style/dialog_text"/>
         </TableRow>
 
@@ -157,7 +181,7 @@
             </LinearLayout>
         </TableRow>
 
-        <TableRow android:id="@+id/PlannerRow">
+        <TableRow android:id="@+id/PlanRow">
 
             <TextView
                 style="@style/FormLabel.Condensed"
