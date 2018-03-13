@@ -422,6 +422,12 @@ public class ExpenseEdit extends AmountActivity implements
       }
     };
     mCurrencySpinner.setAdapter(currencyAdapter);
+    final String lastOriginalCurrency = PrefKey.LAST_ORIGINAL_CURRENCY.getString(null);
+    if (lastOriginalCurrency != null) {
+      try {
+        mCurrencySpinner.setSelection(currencyAdapter.getPosition(CurrencyEnum.valueOf(lastOriginalCurrency)));
+      } catch (IllegalArgumentException ignored) {}
+    }
     TextPaint paint = mPlanToggleButton.getPaint();
     int automatic = (int) paint.measureText(getString(R.string.plan_automatic));
     int manual = (int) paint.measureText(getString(R.string.plan_manual));
@@ -1329,9 +1335,10 @@ public class ExpenseEdit extends AmountActivity implements
       }
     } else {
       BigDecimal originalAmount = validateAmountInput(originalAmountText, false);
+      final String currency = ((CurrencyEnum) mCurrencySpinner.getSelectedItem()).name();
+      PrefKey.LAST_ORIGINAL_CURRENCY.putString(currency);
       mTransaction.setOriginalAmount(originalAmount == null ? null :
-          new Money(Utils.getSaveInstance(((CurrencyEnum) mCurrencySpinner.getSelectedItem()).name()),
-              originalAmount));
+          new Money(Utils.getSaveInstance(currency), originalAmount));
       BigDecimal equivalentAmount = validateAmountInput(equivalentAmountText, false);
       mTransaction.setEquivalentAmount(equivalentAmount == null ? null :
           new Money(Utils.getHomeCurrency(), mType == EXPENSE ?
