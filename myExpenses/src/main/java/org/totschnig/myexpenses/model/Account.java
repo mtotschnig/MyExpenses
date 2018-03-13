@@ -44,7 +44,6 @@ import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.Utils;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -141,12 +140,12 @@ public class Account extends Model {
     this.syncAccountName = syncAccountName;
   }
 
-  public BigDecimal getExchangeRate() {
-    return new BigDecimal(exchangeRate);
+  public double getExchangeRate() {
+    return exchangeRate;
   }
 
-  public void setExchangeRate(BigDecimal exchangeRate) {
-    this.exchangeRate = exchangeRate.doubleValue();
+  public void setExchangeRate(double exchangeRate) {
+    this.exchangeRate = exchangeRate;
   }
 
   public static final String[] PROJECTION_BASE, PROJECTION_EXTENDED, PROJECTION_FULL;

@@ -11,6 +11,7 @@ import com.google.auto.value.AutoValue;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.TextUtils;
 
 import java.util.List;
@@ -20,8 +21,11 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENT_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_URI;
@@ -43,6 +47,9 @@ public abstract class TransactionChange {
       "NULLIF(TRIM(" + KEY_COMMENT + "),'') AS " + KEY_COMMENT,
       KEY_DATE,
       KEY_AMOUNT,
+      KEY_ORIGINAL_AMOUNT,
+      KEY_ORIGINAL_CURRENCY,
+      KEY_EQUIVALENT_AMOUNT,
       FULL_LABEL,
       "NULLIF(TRIM(" + KEY_PAYEE_NAME + "),'') AS " + KEY_PAYEE_NAME,
       TRANSFER_ACCOUNT_UUUID,
@@ -53,7 +60,18 @@ public abstract class TransactionChange {
   };
 
   public static TransactionChange create(Cursor cursor) {
-    return AutoValue_TransactionChange.createFromCursor(cursor);
+    final AutoValue_TransactionChange fromCursor = AutoValue_TransactionChange.createFromCursor(cursor);
+    if (fromCursor.equivalentAmount() == null) {
+      return fromCursor;
+    }
+    final String homeCurrency = PrefKey.HOME_CURRENCY.getString(null);
+    final Builder builder = fromCursor.toBuilder();
+    if (homeCurrency != null) {
+      builder.setEquivalentCurrency(homeCurrency);
+    } else {
+      builder.setEquivalentAmount(null);
+    }
+    return builder.setEquivalentCurrency(homeCurrency).build();
   }
 
   public static TypeAdapter<TransactionChange> typeAdapter(Gson gson) {
@@ -94,6 +112,21 @@ public abstract class TransactionChange {
   @Nullable
   public abstract Long amount();
 
+  @ColumnName(KEY_ORIGINAL_AMOUNT)
+  @Nullable
+  public abstract Long originalAmount();
+
+  @ColumnName(KEY_ORIGINAL_CURRENCY)
+  @Nullable
+  public abstract String originalCurrency();
+
+  @ColumnName(KEY_EQUIVALENT_AMOUNT)
+  @Nullable
+  public abstract Long equivalentAmount();
+
+  @Nullable
+  public abstract String equivalentCurrency();
+
   @ColumnName(KEY_LABEL)
   @Nullable
   public abstract String label();
@@ -126,9 +159,12 @@ public abstract class TransactionChange {
   public abstract List<TransactionChange> splitParts();
 
   public boolean isEmpty() {
+    final Long equivalentAmount = equivalentAmount();
     return isCreateOrUpdate() && comment() == null && date() == null && amount() == null &&
         label() == null && payeeName() == null && transferAccount() == null && methodLabel() == null &&
-        crStatus() == null && referenceNumber() == null && pictureUri() == null && splitParts() == null;
+        crStatus() == null && referenceNumber() == null && pictureUri() == null && splitParts() == null
+        && originalAmount() == null && (equivalentAmount == null || equivalentAmount == 0L);
+        //we ignore changes of equivalent amount which result from change of home currency
   }
 
   public enum Type {
@@ -174,6 +210,14 @@ public abstract class TransactionChange {
     public abstract Builder setComment(String value);
 
     public abstract Builder setAmount(Long value);
+
+    public abstract Builder setOriginalAmount(Long value);
+
+    public abstract Builder setOriginalCurrency(String value);
+
+    public abstract Builder setEquivalentAmount(Long value);
+
+    public abstract Builder setEquivalentCurrency(String value);
 
     public abstract Builder setDate(Long value);
 

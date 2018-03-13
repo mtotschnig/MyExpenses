@@ -400,6 +400,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_COMMENT + " text, "
           + KEY_DATE + " datetime, "
           + KEY_AMOUNT + " integer, "
+          + KEY_ORIGINAL_AMOUNT + " integer, "
+          + KEY_ORIGINAL_CURRENCY + " text, "
+          + KEY_EQUIVALENT_AMOUNT + " integer, "
           + KEY_CATID + " integer references " + TABLE_CATEGORIES + "(" + KEY_ROWID + ") ON DELETE SET NULL, "
           + KEY_PAYEEID + " integer references " + TABLE_PAYEES + "(" + KEY_ROWID + ") ON DELETE SET NULL, "
           + KEY_TRANSFER_ACCOUNT + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE SET NULL,"
@@ -419,6 +422,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       + KEY_COMMENT + ", "
       + KEY_DATE + ", "
       + KEY_AMOUNT + ", "
+      + KEY_ORIGINAL_AMOUNT + ", "
+      + KEY_ORIGINAL_CURRENCY + ", "
+      + KEY_EQUIVALENT_AMOUNT + ", "
       + KEY_CATID + ", "
       + KEY_ACCOUNTID + ","
       + KEY_PAYEEID + ", "
@@ -433,6 +439,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       + "new." + KEY_COMMENT + ", "
       + "new." + KEY_DATE + ", "
       + "new." + KEY_AMOUNT + ", "
+      + "new." + KEY_ORIGINAL_AMOUNT + ", "
+      + "new." + KEY_ORIGINAL_CURRENCY + ", "
+      + "new." + KEY_EQUIVALENT_AMOUNT + ", "
       + "new." + KEY_CATID + ", "
       + "new." + KEY_ACCOUNTID + ", "
       + "new." + KEY_PAYEEID + ", "
@@ -519,6 +528,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_COMMENT + ", "
           + KEY_DATE + ", "
           + KEY_AMOUNT + ", "
+          + KEY_ORIGINAL_AMOUNT+ ", "
+          + KEY_ORIGINAL_CURRENCY + ", "
+          + KEY_EQUIVALENT_AMOUNT + ", "
           + KEY_CATID + ", "
           + KEY_PAYEEID + ", "
           + KEY_TRANSFER_ACCOUNT + ", "
@@ -533,6 +545,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + buildChangeTriggerDefinitionForColumn(KEY_COMMENT) + ", "
           + buildChangeTriggerDefinitionForColumn(KEY_DATE) + ", "
           + buildChangeTriggerDefinitionForColumn(KEY_AMOUNT) + ", "
+          + buildChangeTriggerDefinitionForColumn(KEY_ORIGINAL_AMOUNT) + ", "
+          + buildChangeTriggerDefinitionForColumn(KEY_ORIGINAL_CURRENCY) + ", "
+          + buildChangeTriggerDefinitionForColumn(KEY_EQUIVALENT_AMOUNT) + ", "
           + buildChangeTriggerDefinitionForColumn(KEY_CATID) + ", "
           + buildChangeTriggerDefinitionForColumn(KEY_PAYEEID) + ", "
           + buildChangeTriggerDefinitionForColumn(KEY_TRANSFER_ACCOUNT) + ", "
@@ -1617,6 +1632,10 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE account_exchangerates (account_id integer not null references accounts(_id) ON DELETE CASCADE," +
             "currency_self text not null, currency_other text not null, exchange_rate real not null, " +
             "UNIQUE (account_id,currency_self,currency_other));");
+        db.execSQL("ALTER TABLE transactions add column original_amount integer");
+        db.execSQL("ALTER TABLE transactions add column original_currency text");
+        db.execSQL("ALTER TABLE transactions add column equivalent_amount integer");
+        createOrRefreshChangelogTriggers(db);
       }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?

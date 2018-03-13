@@ -219,7 +219,7 @@ public class AccountEdit extends AmountActivity implements
     if (!isHomeAccount) {
       mExchangeRateEdit.setSymbols(Money.getSymbol(mAccount.currency),
           Money.getSymbol(Utils.getSaveInstance(homeCurrencyPref)));
-      mExchangeRateEdit.setRate(mAccount.getExchangeRate());
+      mExchangeRateEdit.setRate(new BigDecimal(mAccount.getExchangeRate()));
     }
   }
 
@@ -257,7 +257,7 @@ public class AccountEdit extends AmountActivity implements
     if (mSyncSpinner.getSelectedItemPosition() > 0) {
       mAccount.setSyncAccountName((String) mSyncSpinner.getSelectedItem());
     }
-    mAccount.setExchangeRate(mExchangeRateEdit.getRate(false));
+    mAccount.setExchangeRate(mExchangeRateEdit.getRate(false).doubleValue());
     //EditActivity.saveState calls DbWriteFragment
     super.saveState();
   }

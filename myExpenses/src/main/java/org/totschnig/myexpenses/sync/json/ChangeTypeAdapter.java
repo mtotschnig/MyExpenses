@@ -13,6 +13,6 @@ public class ChangeTypeAdapter implements ColumnTypeAdapter<TransactionChange.Ty
 
   @Override
   public void toContentValues(ContentValues values, String columnName, TransactionChange.Type value) {
-    values.put("type", value.name());
+    //not used
   }
 }

@@ -56,6 +56,7 @@ import org.totschnig.myexpenses.util.Utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -72,8 +73,11 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_URI;
@@ -508,7 +512,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         if (c.moveToFirst()) {
           do {
             TransactionChange transactionChange = TransactionChange.create(c);
-            result.add(transactionChange);
+            if (!transactionChange.isEmpty()) {
+              result.add(transactionChange);
+            }
           } while (c.moveToNext());
         }
         c.close();
@@ -693,6 +699,20 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     if (change.pictureUri() != null) {
       t.setPictureUri(Uri.parse(change.pictureUri()));
     }
+    if (change.originalAmount() != null && change.originalCurrency() != null) {
+      Currency originalCurrency;
+      try {
+        originalCurrency = Currency.getInstance(change.originalCurrency());
+        t.setOriginalAmount(new Money(originalCurrency, change.originalAmount()));
+      } catch (IllegalArgumentException ignore) {/** there is no way to interpret this currency **/}
+    }
+    if (change.equivalentAmount() != null && change.equivalentCurrency() != null) {
+      final Currency homeCurrency = Utils.getHomeCurrency();
+      if (change.equivalentCurrency().equals(homeCurrency.getCurrencyCode())) {
+        t.setEquivalentAmount(new Money(homeCurrency, change.equivalentAmount()));
+      }
+    }
+
     return t.buildSaveOperations(offset, parentOffset, true);
   }
 
@@ -734,6 +754,16 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
     if (change.pictureUri() != null) {
       values.put(KEY_PICTURE_URI, change.pictureUri());
+    }
+    if (change.originalAmount() != null && change.originalCurrency() != null) {
+      values.put(KEY_ORIGINAL_AMOUNT, change.originalAmount());
+      values.put(KEY_ORIGINAL_CURRENCY, change.originalCurrency());
+    }
+    if (change.equivalentAmount() != null && change.equivalentCurrency() != null) {
+      final Currency homeCurrency = Utils.getHomeCurrency();
+      if (change.equivalentCurrency().equals(homeCurrency.getCurrencyCode())) {
+        values.put(KEY_EQUIVALENT_AMOUNT, change.equivalentAmount());
+      }
     }
     return values;
   }
