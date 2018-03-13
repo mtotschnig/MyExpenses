@@ -122,6 +122,7 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_REMOVE_LICENCE = 56;
   public static final int TASK_BUILD_TRANSACTION_FROM_INTENT_EXTRAS = 57;
   public static final int TASK_DROPBOX_SETUP = 58;
+  public static final int TASK_RESET_EQUIVALENT_AMOUNTS = 59;
 
   /**
    * Callback interface through which the fragment will report the task's
@@ -313,6 +314,9 @@ public class TaskExecutionFragment<T> extends Fragment {
           break;
         case TASK_DROPBOX_SETUP:
           new DropboxSetupTask(this, taskId).execute(args);
+          break;
+        case TASK_RESET_EQUIVALENT_AMOUNTS:
+          new ResetEquivalentAmountsTask(this, taskId).execute(args);
           break;
         default:
           new GenericTask<T>(this, taskId, args.getSerializable(KEY_EXTRA))
