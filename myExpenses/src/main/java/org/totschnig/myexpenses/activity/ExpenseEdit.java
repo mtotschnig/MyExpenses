@@ -195,8 +195,6 @@ public class ExpenseEdit extends AmountActivity implements
   EditText mTitleText;
   @BindView(R.id.Number)
   EditText mReferenceNumberText;
-  @BindView(R.id.ExchangeRate)
-  ExchangeRateEdit mExchangeRateEdit;
   @BindView(R.id.TranferAmount)
   AmountEditText mTransferAmountText;
   @BindView(R.id.OriginalAmount)
@@ -643,10 +641,11 @@ public class ExpenseEdit extends AmountActivity implements
         }
       });
     }
-    if (mOperationType == TYPE_TRANSFER) {
-      mAmountText.addTextChangedListener(new LinkedTransferAmountTextWatcher(true));
-      mTransferAmountText.addTextChangedListener(new LinkedTransferAmountTextWatcher(false));
-    }
+
+    mAmountText.addTextChangedListener(new LinkedTransferAmountTextWatcher(true));
+    (mOperationType == TYPE_TRANSFER ? mTransferAmountText : equivalentAmountText)
+        .addTextChangedListener(new LinkedTransferAmountTextWatcher(false));
+
     // Spinner for account and transfer account
     mAccountsAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, null,
         new String[]{KEY_LABEL}, new int[]{android.R.id.text1}, 0);
@@ -765,12 +764,17 @@ public class ExpenseEdit extends AmountActivity implements
           mPlanButton.setVisibility(View.VISIBLE);
           mPlanButton.setText(Plan.prettyTimeInfo(this,
               mTransaction.originTemplate.getPlan().rrule, mTransaction.originTemplate.getPlan().dtstart));
-          mPlanButton.setOnClickListener(view -> PlanMonthFragment.newInstance(
-              mTransaction.originTemplate.getTitle(),
-              mTransaction.originTemplate.getId(),
-              mTransaction.originTemplate.planId,
-              getCurrentAccount().color, true).show(getSupportFragmentManager(),
-              TemplatesList.CALDROID_DIALOG_FRAGMENT_TAG));
+          mPlanButton.setOnClickListener(view -> {
+            final Account currentAccount = getCurrentAccount();
+            if (currentAccount != null) {
+              PlanMonthFragment.newInstance(
+                  mTransaction.originTemplate.getTitle(),
+                  mTransaction.originTemplate.getId(),
+                  mTransaction.originTemplate.planId,
+                  currentAccount.color, true).show(getSupportFragmentManager(),
+                  TemplatesList.CALDROID_DIALOG_FRAGMENT_TAG);
+            }
+          });
         }
       }
       if (mTransaction instanceof Transfer) {
@@ -842,8 +846,11 @@ public class ExpenseEdit extends AmountActivity implements
     }
     if (equivalentAmountVisible) {
       equivalentAmountRow.setVisibility(View.VISIBLE);
+      exchangeRateRow.setVisibility(View.VISIBLE);
     }
-    addCurrencyToLabel(equivalentAmountLabel, Utils.getHomeCurrency().getSymbol(), R.string.equivalent_amount);
+    final Currency homeCurrency = Utils.getHomeCurrency();
+    addCurrencyToLabel(equivalentAmountLabel, homeCurrency.getSymbol(), R.string.equivalent_amount);
+    equivalentAmountText.setFractionDigits(Money.getFractionDigits(homeCurrency));
   }
 
   public void hideKeyBoardAndShowDialog(int id) {
@@ -891,9 +898,6 @@ public class ExpenseEdit extends AmountActivity implements
     linkInputWithLabel(mPlanToggleButton, planLabel);
     linkInputWithLabel(mTransferAmountText, transferAmountLabel);
     linkInputWithLabel(findViewById(R.id.CalculatorTransfer), transferAmountLabel);
-    final View exchangeRateAmountLabel = findViewById(R.id.ExchangeRateLabel);
-    linkInputWithLabel(findViewById(R.id.ExchangeRate_1), exchangeRateAmountLabel);
-    linkInputWithLabel(findViewById(R.id.ExchangeRate_2), exchangeRateAmountLabel);
     final View originalAmountLabel = findViewById(R.id.OriginalAmountLabel);
     linkInputWithLabel(originalAmountText, originalAmountLabel);
     linkInputWithLabel(mCurrencySpinner.getSpinner(), originalAmountLabel);
@@ -1012,6 +1016,15 @@ public class ExpenseEdit extends AmountActivity implements
         equivalentAmountVisible = true;
         supportInvalidateOptionsMenu();
         equivalentAmountRow.setVisibility(View.VISIBLE);
+        exchangeRateRow.setVisibility(View.VISIBLE);
+        final Account currentAccount = getCurrentAccount();
+        if (TextUtils.isEmpty(equivalentAmountText.getText().toString()) && currentAccount != null) {
+          final BigDecimal rate = new BigDecimal(currentAccount.getExchangeRate());
+          mExchangeRateEdit.setRate(rate);
+          isProcessingLinkedAmountInputs = true;
+          applyExchangRate(mAmountText, equivalentAmountText, rate);
+          isProcessingLinkedAmountInputs = false;
+        }
         equivalentAmountText.requestFocus();
         return true;
       }
@@ -1177,6 +1190,7 @@ public class ExpenseEdit extends AmountActivity implements
     }
     if (cachedOrSelf.getEquivalentAmount() != null) {
       equivalentAmountText.setAmount(cachedOrSelf.getEquivalentAmount().getAmountMajor().abs());
+      mExchangeRateEdit.calculateAndSetRate(cachedOrSelf.getAmount().getAmountMajor(), cachedOrSelf.getEquivalentAmount().getAmountMajor());
     }
 
     if (mNewInstance) {
@@ -1296,8 +1310,10 @@ public class ExpenseEdit extends AmountActivity implements
     }
     if (mOperationType == TYPE_TRANSFER) {
       mTransaction.setTransferAccountId(mTransferAccountSpinner.getSelectedItemId());
-      final Account transferAccount = Account.getInstanceFromDb(mTransferAccountSpinner
-          .getSelectedItemId());
+      final Account transferAccount = getTransferAccount();
+      if (transferAccount == null) {
+        return false;
+      }
       boolean isSame = account.currency.equals(transferAccount.currency);
       if (mTransaction instanceof Template) {
         if (!isSame && amount == null) {
@@ -1705,11 +1721,21 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   @Nullable
-  public Account getCurrentAccount() {
+  private Account getCurrentAccount() {
+    return getAccountFromSpinner(mAccountSpinner);
+  }
+
+  @Nullable
+  private Account getTransferAccount() {
+    return getAccountFromSpinner(mTransferAccountSpinner);
+  }
+
+  @Nullable
+  private Account getAccountFromSpinner(SpinnerHelper spinner) {
     if (mAccounts == null) {
       return null;
     }
-    int selected = mAccountSpinner.getSelectedItemPosition();
+    int selected = spinner.getSelectedItemPosition();
     if (selected == android.widget.AdapterView.INVALID_POSITION ||
         selected >= mAccounts.length) {
       return null;
@@ -1811,9 +1837,12 @@ public class ExpenseEdit extends AmountActivity implements
 
   private void configureAccountDependent(Account account) {
     addCurrencyToLabel(mAmountLabel, Money.getSymbol(account.currency), R.string.amount);
-    if (hasHomeCurrency(account) && equivalentAmountVisible) {
+    if (hasHomeCurrency(account)) {
       equivalentAmountRow.setVisibility(View.GONE);
+      exchangeRateRow.setVisibility(View.GONE);
       equivalentAmountVisible = false;
+    } else {
+      mExchangeRateEdit.setSymbols(Money.getSymbol(account.currency), Money.getSymbol(Utils.getHomeCurrency()));
     }
   }
 
@@ -1843,9 +1872,12 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   private void configureTransferInput() {
-    final Account transferAccount = Account.getInstanceFromDb(
-        mTransferAccountSpinner.getSelectedItemId());
-    final Currency currency = getCurrentAccount().currency;
+    final Account transferAccount = getTransferAccount();
+    final Account currentAccount = getCurrentAccount();
+    if (transferAccount == null || currentAccount == null) {
+      return;
+    }
+    final Currency currency = currentAccount.currency;
     final boolean isSame = currency.equals(transferAccount.currency);
     transferAmountRow.setVisibility(isSame ? View.GONE : View.VISIBLE);
     exchangeRateRow.setVisibility(
@@ -2146,7 +2178,7 @@ public class ExpenseEdit extends AmountActivity implements
           if (!mNewInstance && !(mTransaction instanceof Template)) {
             isProcessingLinkedAmountInputs = true;
             mTransferAmountText.setAmount(mTransaction.getTransferAmount().getAmountMajor().abs());
-            updateExchangeRates();
+            updateExchangeRates(mTransferAmountText);
             isProcessingLinkedAmountInputs = false;
           }
         } else {
@@ -2163,9 +2195,13 @@ public class ExpenseEdit extends AmountActivity implements
         break;
       case LAST_EXCHANGE_CURSOR:
         if (data.moveToFirst()) {
-          final Currency currency1 = getCurrentAccount().currency;
-          final Currency currency2 = Account.getInstanceFromDb(mTransferAccountSpinner
-              .getSelectedItemId()).currency;
+          final Account transferAccount = getTransferAccount();
+          final Account currentAccount = getCurrentAccount();
+          if (transferAccount == null || currentAccount == null) {
+            return;
+          }
+          final Currency currency1 = currentAccount.currency;
+          final Currency currency2 = transferAccount.currency;
           if (currency1.getCurrencyCode().equals(data.getString(0)) &&
               currency2.getCurrencyCode().equals(data.getString(1))) {
             BigDecimal amount = new Money(currency1, data.getLong(2)).getAmountMajor();
@@ -2428,9 +2464,9 @@ public class ExpenseEdit extends AmountActivity implements
     }
   }
 
-  private void updateExchangeRates() {
+  private void updateExchangeRates(AmountEditText other) {
     BigDecimal amount = validateAmountInput(mAmountText, false);
-    BigDecimal transferAmount = validateAmountInput(mTransferAmountText, false);
+    BigDecimal transferAmount = validateAmountInput(other, false);
     mExchangeRateEdit.calculateAndSetRate(amount, transferAmount);
   }
 
@@ -2458,22 +2494,30 @@ public class ExpenseEdit extends AmountActivity implements
     @Override
     public void afterTextChanged(Editable s) {
       if (isProcessingLinkedAmountInputs) return;
-      int currentFocus = isMain ? INPUT_AMOUNT : INPUT_TRANSFER_AMOUNT;
       isProcessingLinkedAmountInputs = true;
       if (mTransaction instanceof Template) {
         (isMain ? mTransferAmountText : mAmountText).setText("");
-      } else {
-        if (lastExchangeRateRelevantInputs[0] != currentFocus) {
-          lastExchangeRateRelevantInputs[1] = lastExchangeRateRelevantInputs[0];
-          lastExchangeRateRelevantInputs[0] = currentFocus;
-        }
-        if (lastExchangeRateRelevantInputs[1] == INPUT_EXCHANGE_RATE) {
-          BigDecimal input = validateAmountInput(isMain ? mAmountText : mTransferAmountText, false);
-          BigDecimal exchangeRate = mExchangeRateEdit.getRate(!isMain);
-          BigDecimal result = exchangeRate != null && input != null ? input.multiply(exchangeRate) : new BigDecimal(0);
-          (isMain ? mTransferAmountText : mAmountText).setAmount(result);
+      } else if (exchangeRateRow.getVisibility() == View.VISIBLE) {
+        if (mTransaction instanceof Transfer) {
+          int currentFocus = isMain ? INPUT_AMOUNT : INPUT_TRANSFER_AMOUNT;
+          if (lastExchangeRateRelevantInputs[0] != currentFocus) {
+            lastExchangeRateRelevantInputs[1] = lastExchangeRateRelevantInputs[0];
+            lastExchangeRateRelevantInputs[0] = currentFocus;
+          }
+          if (lastExchangeRateRelevantInputs[1] == INPUT_EXCHANGE_RATE) {
+            applyExchangRate(isMain ? mAmountText : mTransferAmountText,
+                isMain ? mTransferAmountText : mAmountText,
+                mExchangeRateEdit.getRate(!isMain));
+          } else {
+            updateExchangeRates(mTransferAmountText);
+          }
         } else {
-          updateExchangeRates();
+          if (isMain) {
+            applyExchangRate(mAmountText, equivalentAmountText,
+                mExchangeRateEdit.getRate(false));
+          } else {
+            updateExchangeRates(equivalentAmountText);
+          }
         }
       }
       isProcessingLinkedAmountInputs = false;
@@ -2486,35 +2530,46 @@ public class ExpenseEdit extends AmountActivity implements
     public void afterExchangeRateChanged(BigDecimal rate, BigDecimal inverse) {
       if (isProcessingLinkedAmountInputs) return;
       isProcessingLinkedAmountInputs = true;
-      if (lastExchangeRateRelevantInputs[0] != INPUT_EXCHANGE_RATE) {
-        lastExchangeRateRelevantInputs[1] = lastExchangeRateRelevantInputs[0];
-        lastExchangeRateRelevantInputs[0] = INPUT_EXCHANGE_RATE;
-      }
-
 
       AmountEditText constant, variable;
-      boolean mainProvided;
-      if (lastExchangeRateRelevantInputs[1] == INPUT_AMOUNT) {
-        constant = mAmountText;
-        variable = mTransferAmountText;
-        mainProvided = true;
+      BigDecimal exchangeFactor;
+      if (mTransaction instanceof Transfer) {
+        if (lastExchangeRateRelevantInputs[0] != INPUT_EXCHANGE_RATE) {
+          lastExchangeRateRelevantInputs[1] = lastExchangeRateRelevantInputs[0];
+          lastExchangeRateRelevantInputs[0] = INPUT_EXCHANGE_RATE;
+        }
+
+        if (lastExchangeRateRelevantInputs[1] == INPUT_AMOUNT) {
+          constant = mAmountText;
+          variable = mTransferAmountText;
+          exchangeFactor = rate;
+        } else {
+          constant = mTransferAmountText;
+          variable = mAmountText;
+          exchangeFactor = inverse;
+        }
       } else {
-        constant = mTransferAmountText;
-        variable = mAmountText;
-        mainProvided = false;
+        constant = mAmountText;
+        variable = equivalentAmountText;
+        exchangeFactor = rate;
       }
-      BigDecimal input = validateAmountInput(constant, false);
-      if (input != null) {
-        variable.setAmount(input.multiply(mainProvided ? rate : inverse));
-      }
+
+      applyExchangRate(constant, variable, exchangeFactor);
       isProcessingLinkedAmountInputs = false;
     }
+  }
+
+  private void applyExchangRate(AmountEditText from, AmountEditText to, BigDecimal rate) {
+    BigDecimal input = validateAmountInput(from, false);
+    to.setAmount(rate != null && input != null ? input.multiply(rate) : new BigDecimal(0));
   }
 
   @Override
   protected void onRestoreInstanceState(Bundle savedInstanceState) {
     isProcessingLinkedAmountInputs = true;
+    mExchangeRateEdit.setBlockWatcher(true);
     super.onRestoreInstanceState(savedInstanceState);
+    mExchangeRateEdit.setBlockWatcher(false);
     isProcessingLinkedAmountInputs = false;
   }
 

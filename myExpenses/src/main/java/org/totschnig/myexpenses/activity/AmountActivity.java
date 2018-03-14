@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.ui.AmountEditText;
+import org.totschnig.myexpenses.ui.ExchangeRateEdit;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 
@@ -49,6 +50,8 @@ public abstract class AmountActivity extends EditActivity {
   ViewGroup exchangeRateRow;
   @BindView(R.id.Amount)
   protected AmountEditText mAmountText;
+  @BindView(R.id.ExchangeRate)
+  ExchangeRateEdit mExchangeRateEdit;
 
   @Override
   protected void onActivityResult(int requestCode, int resultCode,
@@ -130,5 +133,7 @@ public abstract class AmountActivity extends EditActivity {
     linkInputWithLabel(mAmountText, mAmountLabel);
     linkInputWithLabel(mTypeButton, mAmountLabel);
     linkInputWithLabel(amountRow.findViewById(R.id.Calculator), mAmountLabel);
+    final View exchangeRateLabel = findViewById(R.id.ExchangeRateLabel);
+    linkInputWithLabel(mExchangeRateEdit, exchangeRateLabel);
   }
 }

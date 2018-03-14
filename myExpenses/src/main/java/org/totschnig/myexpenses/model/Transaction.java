@@ -399,7 +399,7 @@ public class Transaction extends Model {
         FULL_LABEL, KEY_PAYEEID, KEY_PAYEE_NAME, KEY_TRANSFER_PEER, KEY_TRANSFER_ACCOUNT,
         KEY_ACCOUNTID, KEY_METHODID, KEY_PARENTID, KEY_CR_STATUS, KEY_REFERENCE_NUMBER, KEY_CURRENCY,
         KEY_PICTURE_URI, KEY_METHOD_LABEL, KEY_STATUS, TRANSFER_AMOUNT, KEY_TEMPLATEID, KEY_UUID, KEY_ORIGINAL_AMOUNT, KEY_ORIGINAL_CURRENCY,
-        DatabaseConstants.getAmountHomeEquivalent(DatabaseConstants.VIEW_ALL) + " AS " + KEY_EQUIVALENT_AMOUNT};
+        KEY_EQUIVALENT_AMOUNT};
 
     Cursor c = cr().query(
         EXTENDED_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection, null, null, null);

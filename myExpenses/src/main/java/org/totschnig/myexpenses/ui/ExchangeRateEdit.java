@@ -35,10 +35,14 @@ public class ExchangeRateEdit extends LinearLayout {
   ViewGroup rate2Container;
   AmountEditText rate2Edit;
 
-  boolean isProcessingLinkedAmountInputs = false;
+  boolean blockWatcher = false;
 
   public void setExchangeRateWatcher(ExchangeRateWatcher exchangeRateWatcher) {
     this.exchangeRateWatcher = exchangeRateWatcher;
+  }
+
+  public void setBlockWatcher(boolean blockWatcher) {
+    this.blockWatcher = blockWatcher;
   }
 
   private ExchangeRateWatcher exchangeRateWatcher;
@@ -49,8 +53,10 @@ public class ExchangeRateEdit extends LinearLayout {
         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     inflater.inflate(R.layout.exchange_rates, this, true);
     ButterKnife.bind(this);
-    rate1Edit = rate1Container.findViewById(R.id.ExchangeRate);
-    rate2Edit = rate2Container.findViewById(R.id.ExchangeRate);
+    rate1Edit = rate1Container.findViewById(R.id.ExchangeRateText);
+    rate1Edit.setId(R.id.ExchangeRateEdit1);
+    rate2Edit = rate2Container.findViewById(R.id.ExchangeRateText);
+    rate2Edit.setId(R.id.ExchangeRateEdit2);
     rate1Edit.setFractionDigits(EXCHANGE_RATE_FRACTION_DIGITS);
     rate2Edit.setFractionDigits(EXCHANGE_RATE_FRACTION_DIGITS);
     rate1Edit.addTextChangedListener(new LinkedExchangeRateTextWatchter(true  ));
@@ -63,14 +69,14 @@ public class ExchangeRateEdit extends LinearLayout {
    * @param amount2
    */
   public void calculateAndSetRate(@Nullable BigDecimal amount1, @Nullable BigDecimal amount2) {
-    isProcessingLinkedAmountInputs = true;
+    blockWatcher = true;
     BigDecimal exchangeRate = (amount1 != null && amount2 != null && amount1.compareTo(nullValue) != 0) ?
         amount2.divide(amount1, EXCHANGE_RATE_FRACTION_DIGITS, RoundingMode.DOWN) : nullValue;
     BigDecimal inverseExchangeRate = (amount1 != null && amount2 != null && amount2.compareTo(nullValue) != 0) ?
             amount1.divide(amount2, EXCHANGE_RATE_FRACTION_DIGITS, RoundingMode.DOWN) : nullValue;
     rate1Edit.setAmount(exchangeRate);
     rate2Edit.setAmount(inverseExchangeRate);
-    isProcessingLinkedAmountInputs = false;
+    blockWatcher = false;
   }
 
   /**
@@ -78,10 +84,10 @@ public class ExchangeRateEdit extends LinearLayout {
    * @param rate
    */
   public void setRate(@NonNull BigDecimal rate) {
-    isProcessingLinkedAmountInputs = true;
+    blockWatcher = true;
     rate1Edit.setAmount(rate);
     rate2Edit.setAmount(calculateInverse(rate));
-    isProcessingLinkedAmountInputs = false;
+    blockWatcher = false;
   }
 
   public void setSymbols(String symbol1, String symbol2) {
@@ -116,8 +122,8 @@ public class ExchangeRateEdit extends LinearLayout {
 
     @Override
     public void afterTextChanged(Editable s) {
-      if (isProcessingLinkedAmountInputs) return;
-      isProcessingLinkedAmountInputs = true;
+      if (blockWatcher) return;
+      blockWatcher = true;
       BigDecimal inputRate = getRate(!isMain);
       if (inputRate == null) inputRate = nullValue;
       BigDecimal inverseInputRate = calculateInverse(inputRate);
@@ -129,7 +135,7 @@ public class ExchangeRateEdit extends LinearLayout {
           exchangeRateWatcher.afterExchangeRateChanged(inverseInputRate, inputRate);
         }
       }
-      isProcessingLinkedAmountInputs = false;
+      blockWatcher = false;
     }
   }
 
@@ -141,5 +147,11 @@ public class ExchangeRateEdit extends LinearLayout {
     return input.compareTo(nullValue) != 0 ?
         new BigDecimal(1).divide(input, EXCHANGE_RATE_FRACTION_DIGITS, RoundingMode.DOWN) :
         nullValue;
+  }
+
+  @Override
+  public void setOnFocusChangeListener(OnFocusChangeListener l) {
+    rate1Edit.setOnFocusChangeListener(l);
+    rate2Edit.setOnFocusChangeListener(l);
   }
 }

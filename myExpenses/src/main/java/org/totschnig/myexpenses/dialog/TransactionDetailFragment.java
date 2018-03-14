@@ -62,7 +62,9 @@ import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.PictureDirHelper;
+import org.totschnig.myexpenses.util.Utils;
 
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.util.Locale;
 
@@ -335,7 +337,8 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     }
 
     String amountText;
-    String accountLabel = Account.getInstanceFromDb(mTransaction.getAccountId()).getLabel();
+    final Account account = Account.getInstanceFromDb(mTransaction.getAccountId());
+    String accountLabel = account.getLabel();
     if (mTransaction instanceof Transfer) {
       accountView.setText(type ? mTransaction.getLabel() : accountLabel);
       categoryView.setText(type ? accountLabel : mTransaction.getLabel());
@@ -363,9 +366,15 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       originalAmountView.setText(formatCurrencyAbs(mTransaction.getOriginalAmount()));
     }
 
-    if (!mTransaction.getAmount().equals(mTransaction.getEquivalentAmount())) {
+    if (!account.currency.getCurrencyCode().equals(Utils.getHomeCurrency().getCurrencyCode())) {
       equivalentAmountRow.setVisibility(View.VISIBLE);
-      equivalentAmountView.setText(formatCurrencyAbs(mTransaction.getEquivalentAmount()));
+      Money equivalentAmount = mTransaction.getEquivalentAmount();
+      if (equivalentAmount == null) {
+        equivalentAmount = new Money(Utils.getHomeCurrency(),
+            mTransaction.getAmount().getAmountMajor()
+                .multiply(new BigDecimal(account.getExchangeRate())));
+      }
+      equivalentAmountView.setText(formatCurrencyAbs(equivalentAmount));
     }
 
     //noinspection SetTextI18n
@@ -399,7 +408,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
      methodRow.setVisibility(View.GONE);
     }
 
-    if (Account.getInstanceFromDb(mTransaction.getAccountId()).getType().equals(AccountType.CASH)) {
+    if (account.getType().equals(AccountType.CASH)) {
       statusRow.setVisibility(View.GONE);
     } else {
       statusView.setBackgroundColor(mTransaction.crStatus.color);

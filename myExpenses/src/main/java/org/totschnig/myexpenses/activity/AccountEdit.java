@@ -48,7 +48,6 @@ import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.sync.GenericAccountService;
-import org.totschnig.myexpenses.ui.ExchangeRateEdit;
 import org.totschnig.myexpenses.ui.SpinnerHelper;
 import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.Result;
@@ -82,8 +81,6 @@ public class AccountEdit extends AmountActivity implements
   EditText mDescriptionText;
   @BindView(R.id.ColorIndicator)
   AppCompatButton mColorIndicator;
-  @BindView(R.id.ExchangeRate)
-  ExchangeRateEdit mExchangeRateEdit;
   @BindView(R.id.SyncUnlink)
   View syncUnlink;
   @BindView(R.id.SyncHelp)

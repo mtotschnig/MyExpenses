@@ -15,13 +15,12 @@
         tools:text="1 € = "/>
 
     <org.totschnig.myexpenses.ui.AmountEditText
-        android:id="@+id/ExchangeRate"
+        android:id="@+id/ExchangeRateText"
         android:layout_width="0dp"
         android:layout_weight="3"
         android:layout_height="wrap_content"
         android:digits="@string/amount_digits"
         android:inputType="numberDecimal"
-        android:text="1"
         tools:ignore="HardcodedText"/>
 
     <TextView
