@@ -78,6 +78,10 @@ import javax.inject.Inject;
 
 import timber.log.Timber;
 
+import static org.totschnig.myexpenses.preference.PrefKey.CRASHREPORT_ENABLED;
+import static org.totschnig.myexpenses.preference.PrefKey.CRASHREPORT_USEREMAIL;
+import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_LOGGING;
+
 public class MyApplication extends MultiDexApplication implements
     OnSharedPreferenceChangeListener {
 
@@ -165,9 +169,6 @@ public class MyApplication extends MultiDexApplication implements
     licenceHandler.init();
     Pubnative.setTestMode(BuildConfig.DEBUG);
     NotificationBuilderWrapper.createChannels(this);
-    crashHandler.putCustomData("Distribution", DistribHelper.getDistribution().name());
-    crashHandler.putCustomData("Installer",
-        getPackageManager().getInstallerPackageName(getPackageName()));
   }
 
   private void checkAppReplacingState() {
@@ -216,7 +217,10 @@ public class MyApplication extends MultiDexApplication implements
       Timber.plant(new TagFilterFileLoggingTree(this, SyncAdapter.TAG));
       Timber.plant(new TagFilterFileLoggingTree(this, LicenceHandler.TAG));
     }
-    crashHandler.setupLogging();
+    crashHandler.setupLogging(this);
+    crashHandler.putCustomData("Distribution", DistribHelper.getDistribution().name());
+    crashHandler.putCustomData("Installer",
+        getPackageManager().getInstallerPackageName(getPackageName()));
   }
 
   private void registerWidgetObservers() {
@@ -609,85 +613,88 @@ public class MyApplication extends MultiDexApplication implements
     if (!key.equals(PrefKey.AUTO_BACKUP_DIRTY.getKey())) {
       markDataDirty();
     }
+
+    if (key.equals(DEBUG_LOGGING.getKey()) || key.equals(CRASHREPORT_ENABLED.getKey()) || key.equals(CRASHREPORT_USEREMAIL)) {
+      setupLogging();
+    }
     // TODO: move to TaskExecutionFragment
-    if (!key.equals(PrefKey.PLANNER_CALENDAR_ID.getKey())) {
-      return;
-    }
-    String oldValue = mPlannerCalendarId;
-    boolean safeToMovePlans = true;
-    String newValue = sharedPreferences.getString(
-        PrefKey.PLANNER_CALENDAR_ID.getKey(), "-1");
-    if (oldValue.equals(newValue)) {
-      return;
-    }
-    mPlannerCalendarId = newValue;
-    if (!newValue.equals("-1")) {
-      // if we cannot verify that the oldValue has the correct path
-      // we will not risk mangling with an unrelated calendar
-      if (!oldValue.equals("-1") && !checkPlannerInternal(oldValue))
-        safeToMovePlans = false;
-      ContentResolver cr = getContentResolver();
-      // we also store the name and account of the calendar,
-      // to protect against cases where a user wipes the data of the calendar
-      // provider
-      // and then accidentally we link to the wrong calendar
-      Uri uri = ContentUris.withAppendedId(Calendars.CONTENT_URI,
-          Long.parseLong(mPlannerCalendarId));
-      Cursor c = cr.query(uri, new String[]{getCalendarFullPathProjection()
-          + " AS path"}, null, null, null);
-      if (c != null && c.moveToFirst()) {
-        String path = c.getString(0);
-        Timber.i("storing calendar path %s ", path);
-        PrefKey.PLANNER_CALENDAR_PATH.putString(path);
-      } else {
-        CrashHandler.report(new IllegalStateException(
-            "could not retrieve configured calendar"));
-        mPlannerCalendarId = "-1";
-        PrefKey.PLANNER_CALENDAR_PATH.remove();
-        PrefKey.PLANNER_CALENDAR_ID.putString("-1");
-      }
-      if (c != null) {
-        c.close();
-      }
-      if (mPlannerCalendarId.equals("-1")) {
+    else if (key.equals(PrefKey.PLANNER_CALENDAR_ID.getKey())) {
+
+      String oldValue = mPlannerCalendarId;
+      boolean safeToMovePlans = true;
+      String newValue = sharedPreferences.getString(key, "-1");
+      if (oldValue.equals(newValue)) {
         return;
       }
-      if (oldValue.equals("-1")) {
-        initPlanner();
-      } else if (safeToMovePlans) {
-        ContentValues eventValues = new ContentValues();
-        eventValues.put(Events.CALENDAR_ID, Long.parseLong(newValue));
-        Cursor planCursor = cr.query(Template.CONTENT_URI, new String[]{
-                DatabaseConstants.KEY_ROWID, DatabaseConstants.KEY_PLANID},
-            DatabaseConstants.KEY_PLANID + " IS NOT null", null, null);
-        if (planCursor != null) {
-          if (planCursor.moveToFirst()) {
-            do {
-              long templateId = planCursor.getLong(0);
-              long planId = planCursor.getLong(1);
-              Uri eventUri = ContentUris.withAppendedId(Events.CONTENT_URI,
-                  planId);
-
-              Cursor eventCursor = cr.query(eventUri, buildEventProjection(),
-                  Events.CALENDAR_ID + " = ?", new String[]{oldValue}, null);
-              if (eventCursor != null) {
-                if (eventCursor.moveToFirst()) {
-                  copyEventData(eventCursor, eventValues);
-                  if (insertEventAndUpdatePlan(eventValues, templateId)) {
-                    Timber.i("updated plan id in template %d", templateId);
-                    int deleted = cr.delete(eventUri, null, null);
-                    Timber.i("deleted old event %d", deleted);
-                  }
-                }
-                eventCursor.close();
-              }
-            } while (planCursor.moveToNext());
-          }
-          planCursor.close();
+      mPlannerCalendarId = newValue;
+      if (!newValue.equals("-1")) {
+        // if we cannot verify that the oldValue has the correct path
+        // we will not risk mangling with an unrelated calendar
+        if (!oldValue.equals("-1") && !checkPlannerInternal(oldValue))
+          safeToMovePlans = false;
+        ContentResolver cr = getContentResolver();
+        // we also store the name and account of the calendar,
+        // to protect against cases where a user wipes the data of the calendar
+        // provider
+        // and then accidentally we link to the wrong calendar
+        Uri uri = ContentUris.withAppendedId(Calendars.CONTENT_URI,
+            Long.parseLong(mPlannerCalendarId));
+        Cursor c = cr.query(uri, new String[]{getCalendarFullPathProjection()
+            + " AS path"}, null, null, null);
+        if (c != null && c.moveToFirst()) {
+          String path = c.getString(0);
+          Timber.i("storing calendar path %s ", path);
+          PrefKey.PLANNER_CALENDAR_PATH.putString(path);
+        } else {
+          CrashHandler.report(new IllegalStateException(
+              "could not retrieve configured calendar"));
+          mPlannerCalendarId = "-1";
+          PrefKey.PLANNER_CALENDAR_PATH.remove();
+          PrefKey.PLANNER_CALENDAR_ID.putString("-1");
         }
+        if (c != null) {
+          c.close();
+        }
+        if (mPlannerCalendarId.equals("-1")) {
+          return;
+        }
+        if (oldValue.equals("-1")) {
+          initPlanner();
+        } else if (safeToMovePlans) {
+          ContentValues eventValues = new ContentValues();
+          eventValues.put(Events.CALENDAR_ID, Long.parseLong(newValue));
+          Cursor planCursor = cr.query(Template.CONTENT_URI, new String[]{
+                  DatabaseConstants.KEY_ROWID, DatabaseConstants.KEY_PLANID},
+              DatabaseConstants.KEY_PLANID + " IS NOT null", null, null);
+          if (planCursor != null) {
+            if (planCursor.moveToFirst()) {
+              do {
+                long templateId = planCursor.getLong(0);
+                long planId = planCursor.getLong(1);
+                Uri eventUri = ContentUris.withAppendedId(Events.CONTENT_URI,
+                    planId);
+
+                Cursor eventCursor = cr.query(eventUri, buildEventProjection(),
+                    Events.CALENDAR_ID + " = ?", new String[]{oldValue}, null);
+                if (eventCursor != null) {
+                  if (eventCursor.moveToFirst()) {
+                    copyEventData(eventCursor, eventValues);
+                    if (insertEventAndUpdatePlan(eventValues, templateId)) {
+                      Timber.i("updated plan id in template %d", templateId);
+                      int deleted = cr.delete(eventUri, null, null);
+                      Timber.i("deleted old event %d", deleted);
+                    }
+                  }
+                  eventCursor.close();
+                }
+              } while (planCursor.moveToNext());
+            }
+            planCursor.close();
+          }
+        }
+      } else {
+        PrefKey.PLANNER_CALENDAR_PATH.remove();
       }
-    } else {
-      PrefKey.PLANNER_CALENDAR_PATH.remove();
     }
   }
 

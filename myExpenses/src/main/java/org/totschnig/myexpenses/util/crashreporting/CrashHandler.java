@@ -1,5 +1,7 @@
 package org.totschnig.myexpenses.util.crashreporting;
 
+import android.content.Context;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.provider.DbUtils;
 
@@ -36,7 +38,7 @@ public abstract class CrashHandler {
   }
 
   public abstract void onAttachBaseContext(MyApplication application);
-  public abstract void setupLogging();
+  public abstract void setupLogging(Context context);
   public abstract void putCustomData(String key, String value);
   public void addBreadcrumb(String breadcrumb) {
     currentBreadCrumb = currentBreadCrumb == null ? "" : currentBreadCrumb.substring(Math.max(0, currentBreadCrumb.length() - 500));
@@ -51,7 +53,7 @@ public abstract class CrashHandler {
     }
 
     @Override
-    public void setupLogging() {
+    public void setupLogging(Context context) {
 
     }
 

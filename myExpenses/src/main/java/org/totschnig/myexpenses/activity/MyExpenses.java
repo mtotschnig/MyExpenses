@@ -91,13 +91,13 @@ import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.DistribHelper;
-import org.totschnig.myexpenses.util.io.FileUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.ShareUtils;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.ads.AdHandler;
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory;
+import org.totschnig.myexpenses.util.io.FileUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -373,7 +373,7 @@ public class MyExpenses extends LaunchActivity implements
     TypedValue margin = new TypedValue();
     theme.resolveAttribute(R.attr.pageMargin, margin, true);
     mViewPagerAdapter = new MyViewPagerAdapter(this, getSupportFragmentManager(), null);
-    myPager = (ViewPager) this.findViewById(R.id.viewpager);
+    myPager = findViewById(R.id.viewpager);
     myPager.setAdapter(this.mViewPagerAdapter);
     myPager.setOnPageChangeListener(this);
     myPager.setPageMargin((int) TypedValue.applyDimension(

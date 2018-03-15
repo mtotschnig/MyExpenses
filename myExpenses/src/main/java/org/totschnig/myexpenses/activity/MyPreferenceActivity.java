@@ -73,6 +73,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_ENABLE_ACCO
 import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET;
 import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_LEGACY;
 import static org.totschnig.myexpenses.preference.PrefKey.SYNC_FREQUCENCY;
+import static org.totschnig.myexpenses.preference.PrefKey.TRACKING;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_FONTSIZE;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_HOME_SCREEN_SHORTCUTS;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_LANGUAGE;
@@ -225,6 +226,8 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
         ContentResolver.addPeriodicSync(account, TransactionProvider.AUTHORITY, Bundle.EMPTY,
             SYNC_FREQUCENCY.getInt(GenericAccountService.DEFAULT_SYNC_FREQUENCY_HOURS) * HOUR_IN_SECONDS);
       }
+    }  else if (key.equals(TRACKING.getKey())) {
+      setTrackingEnabled(sharedPreferences.getBoolean(key, false));
     }
   }
 

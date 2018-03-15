@@ -286,7 +286,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       pref = findPreference(TRACKING);
       try {
         Class.forName("org.totschnig.myexpenses.util.tracking.PlatformTracker");
-        pref.setOnPreferenceChangeListener(this);
       } catch (ClassNotFoundException e) {
         ((PreferenceCategory) findPreference(CATEGORY_ADVANCED)).removePreference(pref);
       }
@@ -375,7 +374,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       startPref.setEntries(daysEntries);
       startPref.setEntryValues(daysValues);
     } else if (rootKey.equals(DEBUG_SCREEN.getKey())) {
-      findPreference(DEBUG_LOGGING).setOnPreferenceChangeListener(this);
       if (!licenceHandler.isContribEnabled() && !BuildConfig.DEBUG) {
         getPreferenceScreen().removePreference(findPreference(DEBUG_ADS));
       }
@@ -587,10 +585,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         activity().showSnackbar(R.string.number_format_illegal, Snackbar.LENGTH_LONG);
         return false;
       }
-    } else if (matches(pref, TRACKING)) {
-      activity().setTrackingEnabled((boolean) value);
-    } else if (matches(pref, DEBUG_LOGGING)) {
-      MyApplication.getInstance().setupLogging();
     }
     return true;
   }
