@@ -190,7 +190,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       try {
         backend.storeBackup(Uri.parse(autoBackupFileUri), fileName);
       } catch (IOException e) {
-        log().e(e);
+        log().w(e);
         if (handleAuthException(backend, e, account)) {
           return;
         }
@@ -283,7 +283,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             try {
               backend.resetAccountData(uuidFromExtras);
             } catch (IOException e) {
-              log().e(e);
+              log().w(e);
               if (handleAuthException(backend, e, account)) {
                 return;
               }
@@ -297,7 +297,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
           try {
             backend.withAccount(dbAccount.get());
           } catch (IOException e) {
-            log().e(e);
+            log().w(e);
             if (handleAuthException(backend, e, account)) {
               return;
             }
@@ -310,7 +310,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
           try {
             backend.lock();
           } catch (IOException e) {
-            log().e(e);
+            log().w(e);
             if (handleAuthException(backend, e, account)) {
               return;
             }
@@ -383,7 +383,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             }
             completedWithoutError = true;
           } catch (IOException e) {
-            log().e(e);
+            log().w(e);
             if (handleAuthException(backend, e, account)) {
               return;
             }
@@ -404,7 +404,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             try {
               backend.unlock();
             } catch (IOException e) {
-              log().e(e);
+              log().w(e);
               if (!handleAuthException(backend, e, account)) {
                 notifyIoException(R.string.sync_io_exception_unlocking, account);
                 syncResult.stats.numIoExceptions++;

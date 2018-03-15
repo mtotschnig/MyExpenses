@@ -19,7 +19,6 @@ import com.dropbox.core.v2.files.GetMetadataErrorException;
 import com.dropbox.core.v2.files.Metadata;
 import com.dropbox.core.v2.files.WriteMode;
 
-import org.acra.util.StreamReader;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -29,6 +28,7 @@ import org.totschnig.myexpenses.sync.json.ChangeSet;
 import org.totschnig.myexpenses.util.Preconditions;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.io.StreamReader;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

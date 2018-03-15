@@ -63,7 +63,6 @@ public class Payee extends Model {
     if (id == -1) {
       Uri uri = new Payee(0L,name).save();
       if (uri == null) {
-        //TODO report to ACRA
         Timber.e("unable to save party %s", name);
         return null;
       } else {

@@ -11,7 +11,6 @@ import android.support.annotation.Nullable;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.acra.util.StreamReader;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.ContribFeature;
@@ -19,6 +18,7 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.retrofit.Issue;
 import org.totschnig.myexpenses.retrofit.RoadmapService;
 import org.totschnig.myexpenses.retrofit.Vote;
+import org.totschnig.myexpenses.util.io.StreamReader;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 
 import java.io.FileInputStream;

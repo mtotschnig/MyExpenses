@@ -214,7 +214,7 @@ public class PlanExecutor extends IntentService {
   }
 
   private void log(Exception e) {
-    Timber.tag(TAG).e(e);
+    Timber.tag(TAG).w(e);
   }
 
   private void log(String message, Object... args) {

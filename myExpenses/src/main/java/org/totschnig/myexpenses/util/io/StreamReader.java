@@ -17,12 +17,11 @@
 package org.totschnig.myexpenses.util.io;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-import org.acra.ACRAConstants;
-import org.acra.util.IOUtils;
-
 import java.io.ByteArrayOutputStream;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -40,6 +39,8 @@ import java.util.Arrays;
  */
 
 public class StreamReader {
+  private static final int DEFAULT_BUFFER_SIZE_IN_BYTES = 8192;
+
   private static final int NO_LIMIT = -1;
   private static final int INDEFINITE = -1;
   private final InputStream inputStream;
@@ -88,14 +89,14 @@ public class StreamReader {
     final Reader input = new InputStreamReader(inputStream);
     try {
       final StringWriter output = new StringWriter();
-      final char[] buffer = new char[ACRAConstants.DEFAULT_BUFFER_SIZE_IN_BYTES];
+      final char[] buffer = new char[DEFAULT_BUFFER_SIZE_IN_BYTES];
       int count;
       while ((count = input.read(buffer)) != -1) {
         output.write(buffer, 0, count);
       }
       return output.toString();
     } finally {
-      IOUtils.safeClose(input);
+      safeClose(input);
     }
   }
 
@@ -104,14 +105,14 @@ public class StreamReader {
     final long until = System.currentTimeMillis() + timeout;
     try {
       final ByteArrayOutputStream output = new ByteArrayOutputStream();
-      final byte[] buffer = new byte[ACRAConstants.DEFAULT_BUFFER_SIZE_IN_BYTES];
+      final byte[] buffer = new byte[DEFAULT_BUFFER_SIZE_IN_BYTES];
       int count;
       while ((count = fillBufferUntil(buffer, until)) != -1) {
         output.write(buffer, 0, count);
       }
       return output.toString();
     } finally {
-      IOUtils.safeClose(inputStream);
+      safeClose(inputStream);
     }
   }
 
@@ -123,5 +124,20 @@ public class StreamReader {
       bufferOffset += readResult;
     }
     return bufferOffset;
+  }
+
+  /**
+   * Closes a Closeable.
+   *
+   * @param closeable Closeable to close. If closeable is null then method just returns.
+   */
+  public static void safeClose(@Nullable Closeable closeable) {
+    if (closeable == null) return;
+
+    try {
+      closeable.close();
+    } catch (IOException ignored) {
+      // We made out best effort to release this resource. Nothing more we can do.
+    }
   }
 }

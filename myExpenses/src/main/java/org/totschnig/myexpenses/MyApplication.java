@@ -165,6 +165,9 @@ public class MyApplication extends MultiDexApplication implements
     licenceHandler.init();
     Pubnative.setTestMode(BuildConfig.DEBUG);
     NotificationBuilderWrapper.createChannels(this);
+    crashHandler.putCustomData("Distribution", DistribHelper.getDistribution().name());
+    crashHandler.putCustomData("Installer",
+        getPackageManager().getInstallerPackageName(getPackageName()));
   }
 
   private void checkAppReplacingState() {
@@ -195,10 +198,6 @@ public class MyApplication extends MultiDexApplication implements
     appComponent = buildAppComponent();
     appComponent.inject(this);
     crashHandler.onAttachBaseContext(this);
-    crashHandler.putCustomData("Distribution", DistribHelper.getDistribution().name());
-    crashHandler.putCustomData("Installer",
-        getPackageManager().getInstallerPackageName(getPackageName()));
-
   }
 
   @NonNull
