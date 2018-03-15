@@ -6,6 +6,8 @@ import android.support.v4.provider.DocumentFile;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.provider.DbUtils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,8 +36,7 @@ public class BackupUtils {
     }
     File cacheDir = AppDirHelper.getCacheDir();
     if (cacheDir == null) {
-      AcraHelper.report(new Exception(
-          application.getString(R.string.io_error_cachedir_null)));
+      CrashHandler.report(application.getString(R.string.io_error_cachedir_null));
       return new Result(false, R.string.io_error_cachedir_null);
     }
     Result result = DbUtils.backup(cacheDir);
@@ -51,7 +52,7 @@ public class BackupUtils {
             R.string.backup_success,
             backupFile);
       } catch (IOException e) {
-        AcraHelper.report(e);
+        CrashHandler.report(e);
         return new Result(
             false,
             failureMessage + " " + e.getMessage());

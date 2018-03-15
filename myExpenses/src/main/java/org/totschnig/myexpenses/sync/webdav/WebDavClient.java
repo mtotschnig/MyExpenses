@@ -20,7 +20,7 @@ import android.support.annotation.Nullable;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -192,9 +192,9 @@ public class WebDavClient {
         }
       }
     } catch (IOException e) {
-      Timber.e(e);
+      Timber.w(e);
     } catch (XmlPullParserException e) {
-      AcraHelper.report(e);
+      CrashHandler.report(e);
     } finally {
       cleanUp(response);
     }

@@ -49,9 +49,9 @@ import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.ui.SpinnerHelper;
-import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.UiUtils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -324,11 +324,11 @@ public class AccountEdit extends AmountActivity implements
   public boolean onPrepareOptionsMenu(Menu menu) {
     requireAccount();
     if (mAccount == null) {
-      AcraHelper.report(new NullPointerException("mAccount is null"));
+      CrashHandler.report(new NullPointerException("mAccount is null"));
     } else {
       MenuItem item = menu.findItem(R.id.EXCLUDE_FROM_TOTALS_COMMAND);
       if (item == null) {
-        AcraHelper.report(new NullPointerException("EXCLUDE_FROM_TOTALS_COMMAND menu item not found"));
+        CrashHandler.report(new NullPointerException("EXCLUDE_FROM_TOTALS_COMMAND menu item not found"));
       } else {
         item.setChecked(
             mAccount.excludeFromTotals);

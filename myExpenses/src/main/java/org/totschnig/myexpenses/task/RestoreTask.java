@@ -30,13 +30,13 @@ import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.sync.SyncBackendProvider;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
-import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.BackupUtils;
-import org.totschnig.myexpenses.util.FileCopyUtils;
 import org.totschnig.myexpenses.util.PictureDirHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.ZipUtils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.io.FileCopyUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -105,7 +105,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
         } catch (Throwable throwable) {
           String errorMessage = String.format("Unable to get sync backend provider for %s",
               syncAccountName);
-          AcraHelper.report(new Exception(errorMessage, throwable));
+          CrashHandler.report(new Exception(errorMessage, throwable));
           return new Result(false, errorMessage);
         }
         try {
@@ -132,7 +132,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
             fileUri);
       }
     } catch (FileNotFoundException | SecurityException e) {
-      AcraHelper.report(e, "fileUri", fileUri.toString());
+      CrashHandler.report(e, "fileUri", fileUri.toString());
       return new Result(
           false,
           R.string.parse_error_other_exception,
@@ -179,14 +179,14 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
     File sharedPrefsDir = new File(internalAppDir.getPath() + "/shared_prefs/");
     sharedPrefsDir.mkdir();
     if (!sharedPrefsDir.isDirectory()) {
-      AcraHelper.report(
-          new Exception(String.format(Locale.US, "Could not access shared preferences directory at %s",
-              sharedPrefsDir.getAbsolutePath())));
+      CrashHandler.report(
+          String.format(Locale.US, "Could not access shared preferences directory at %s",
+              sharedPrefsDir.getAbsolutePath()));
       return new Result(false, R.string.restore_preferences_failure);
     }
     File tempPrefFile = new File(sharedPrefsDir, "backup_temp.xml");
     if (!FileCopyUtils.copy(backupPrefFile, tempPrefFile)) {
-      AcraHelper.report(
+      CrashHandler.report(
           new Exception("Preferences restore failed"),
           "FAILED_COPY_OPERATION",
           String.format("%s => %s",

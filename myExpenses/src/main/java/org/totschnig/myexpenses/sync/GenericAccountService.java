@@ -36,7 +36,7 @@ import org.totschnig.myexpenses.activity.ManageSyncBackends;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import timber.log.Timber;
 
@@ -100,7 +100,7 @@ public class GenericAccountService extends Service {
     try {
       return AccountManager.get(context).getAccountsByType(ACCOUNT_TYPE);
     } catch (SecurityException e) {
-      AcraHelper.report(e);
+      CrashHandler.report(e);
     }
     return new Account[0];
   }

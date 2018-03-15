@@ -9,7 +9,7 @@ import android.support.v4.content.CursorLoader;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
-import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.lang.ref.WeakReference;
 
@@ -29,7 +29,7 @@ public class ProtectedCursorLoader extends CursorLoader {
         TransactionDatabase.SQLiteUpgradeFailedException e) {
       //TODO this currently is dead code (with the exception of Gingerbread) since database is initialized in TASK_INIT
       //TODO evaluate if this is still relevant and needs to be migrated to handling of TASK_INIT
-      AcraHelper.report(e);
+      CrashHandler.report(e);
       String msg = e instanceof TransactionDatabase.SQLiteDowngradeFailedException ?
           ("Database cannot be downgraded from a newer version. Please either uninstall MyExpenses, " +
               "before reinstalling, or upgrade to a new version.") :

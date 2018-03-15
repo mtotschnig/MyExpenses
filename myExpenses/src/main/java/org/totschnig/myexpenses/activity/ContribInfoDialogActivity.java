@@ -21,10 +21,10 @@ import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
 import org.totschnig.myexpenses.util.licence.Package;
@@ -104,7 +104,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
           }
         });
       } catch (SecurityException e) {
-        AcraHelper.report(e);
+        CrashHandler.report(e);
         mHelper.dispose();
         mHelper = null;
         complain("Problem setting up in-app billing: " + e.getMessage());
@@ -372,7 +372,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
         break;
       default:
         //should not happen
-        AcraHelper.report(new IllegalStateException(
+        CrashHandler.report(new IllegalStateException(
             String.format("Unhandlable request for feature %s (caller = %s)", feature,
                 getCallingActivity() != null ? getCallingActivity().getClassName() : "null")));
     }

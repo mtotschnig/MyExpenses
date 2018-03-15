@@ -26,7 +26,7 @@ import android.support.v4.app.Fragment;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.util.HashMap;
 
@@ -166,14 +166,14 @@ public class DbWriteFragment extends Fragment {
         HashMap<String, String> customData = new HashMap<>();
         customData.put("pictureUri", e.pictureUri.toString());
         customData.put("homeUri", e.homeUri.toString());
-        AcraHelper.report(e, customData);
+        CrashHandler.report(e, customData);
         error = ERROR_PICTURE_SAVE_UNKNOWN;
       } catch (Plan.CalendarIntegrationNotAvailableException e) {
         error = ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE;
       } catch (SQLiteConstraintException e) {
-        AcraHelper.reportWithDbSchema(e);
+        CrashHandler.reportWithDbSchema(e);
       } catch (Exception e) {
-          AcraHelper.report(e);
+        CrashHandler.report(e);
       }
       if (returnSequenceCount && object[0] instanceof Transaction)
         return uri == null ? error : Transaction.getSequenceCount();

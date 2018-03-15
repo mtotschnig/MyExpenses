@@ -43,7 +43,7 @@ import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
-import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.CrashHandler;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.PictureDirHelper;
 import org.totschnig.myexpenses.util.Utils;
@@ -597,7 +597,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     try {
       db.delete(TABLE_TRANSACTIONS, KEY_STATUS + " = " + STATUS_UNCOMMITTED, null);
     } catch (SQLiteException e) {
-      AcraHelper.report(e);
+      CrashHandler.report(e);
     }
   }
 
@@ -756,7 +756,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           db.execSQL("INSERT INTO templates(comment,amount,cat_id,account_id,payee,transfer_peer,payment_method_id,title)" +
               " SELECT comment,amount,cat_id,account_id,payee,transfer_peer,payment_method_id,title FROM templates_old");
         } catch (SQLiteConstraintException e) {
-          Timber.e(e);
+          Timber.w(e);
           //theoretically we could have entered duplicate titles for one account
           //we silently give up in that case (since this concerns only a narrowly distributed alpha version)
         }
@@ -1232,7 +1232,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
               Environment.DIRECTORY_PICTURES);
         }
         if (!pictureDir.exists()) {
-          AcraHelper.report(new Exception("Unable to calculate pictureDir during upgrade"));
+          CrashHandler.report(new Exception("Unable to calculate pictureDir during upgrade"));
         }
         //if pictureDir does not exist, we use its URI nonetheless, in order to have the data around
         //for potential trouble handling
@@ -1370,7 +1370,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           }
         } catch (Exception e) {
           //we have seen updateCustomAppUri fail, this should not prevent the database upgrade
-          AcraHelper.report(e);
+          CrashHandler.report(e);
         }
 
         //Drop unique constraint on templates
@@ -1501,7 +1501,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
                 try {
                   db.update("planinstance_transaction", v, whereClause, whereArgs);
                 } catch (Exception e) {
-                  AcraHelper.report(e);
+                  CrashHandler.report(e);
                 }
                 c.moveToNext();
               }

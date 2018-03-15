@@ -100,13 +100,13 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.AmountEditText;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.ui.SpinnerHelper;
-import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.FilterCursorWrapper;
 import org.totschnig.myexpenses.util.PermissionHelper;
 import org.totschnig.myexpenses.util.PictureDirHelper;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.TemplateWidget;
@@ -528,9 +528,9 @@ public class ExpenseEdit extends AmountActivity implements
           String errMsg = "Error instantiating transaction for account " + accountId;
           IllegalStateException e = new IllegalStateException(errMsg);
           if (extras != null) {
-            AcraHelper.report(e, "Extras", extras.toString());
+            CrashHandler.report(e, "Extras", extras.toString());
           } else {
-            AcraHelper.report(e);
+            CrashHandler.report(e);
           }
           abortWithMessage(errMsg);
           return;
@@ -1306,7 +1306,7 @@ public class ExpenseEdit extends AmountActivity implements
       } else {
         errorMsg = "Error while retrieving image: No data found.";
       }
-      AcraHelper.report(new Exception(errorMsg));
+      CrashHandler.report(errorMsg);
       showSnackbar(errorMsg, Snackbar.LENGTH_LONG);
     }
     if (requestCode == PLAN_REQUEST) {
@@ -1391,7 +1391,7 @@ public class ExpenseEdit extends AmountActivity implements
           new Long[]{mPlan.getId()}, null, 0);
     } else {
       //seen in report 96a04ce6a647555356751634fee9fc73, need to investigate how this can happen
-      AcraHelper.report(new Exception("Received onChange on ContentOberver for plan, but mPlan is null"));
+      CrashHandler.report("Received onChange on ContentOberver for plan, but mPlan is null");
     }
   }
 

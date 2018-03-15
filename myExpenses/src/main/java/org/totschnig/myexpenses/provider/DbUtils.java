@@ -36,8 +36,8 @@ import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.SyncAdapter;
-import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.Result;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.File;
 import java.util.HashMap;
@@ -84,7 +84,7 @@ public class DbUtils {
         client.release();
       }
     } catch (Exception e) {
-      AcraHelper.report(e);
+      CrashHandler.report(e);
     }
     app.initPlanner();
     DailyAutoBackupScheduler.updateAutoBackupAlarms(app);

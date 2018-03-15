@@ -43,11 +43,11 @@ import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.sync.SyncBackendProvider;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
-import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.CrashHandler;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.BackupUtils;
-import org.totschnig.myexpenses.util.FileCopyUtils;
-import org.totschnig.myexpenses.util.FileUtils;
+import org.totschnig.myexpenses.util.io.FileCopyUtils;
+import org.totschnig.myexpenses.util.io.FileUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -182,7 +182,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
             Transaction.delete(id, (boolean) mExtra);
           }
         } catch (SQLiteConstraintException e) {
-          AcraHelper.reportWithDbSchema(e);
+          CrashHandler.reportWithDbSchema(e);
           return Result.FAILURE;
         }
         return Result.SUCCESS;
@@ -192,7 +192,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
             Transaction.undelete(id);
           }
         } catch (SQLiteConstraintException e) {
-          AcraHelper.reportWithDbSchema(e);
+          CrashHandler.reportWithDbSchema(e);
           return Result.FAILURE;
         }
         return Result.SUCCESS;
@@ -205,7 +205,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
             PaymentMethod.delete(id);
           }
         } catch (SQLiteConstraintException e) {
-          AcraHelper.reportWithDbSchema(e);
+          CrashHandler.reportWithDbSchema(e);
           return Result.FAILURE;
         }
         return Result.SUCCESS;
@@ -215,7 +215,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
             Payee.delete(id);
           }
         } catch (SQLiteConstraintException e) {
-          AcraHelper.reportWithDbSchema(e);
+          CrashHandler.reportWithDbSchema(e);
           return Result.FAILURE;
         }
         return Result.SUCCESS;
@@ -225,7 +225,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
             Category.delete(id);
           }
         } catch (SQLiteConstraintException e) {
-          AcraHelper.reportWithDbSchema(e);
+          CrashHandler.reportWithDbSchema(e);
           return new Result(false, e.getMessage());
         }
         return new Result(true, application.getResources().getQuantityString(R.plurals.delete_success, ids.length, ids.length));
@@ -235,7 +235,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
             Template.delete(id);
           }
         } catch (SQLiteConstraintException e) {
-          AcraHelper.reportWithDbSchema(e);
+          CrashHandler.reportWithDbSchema(e);
           return Result.FAILURE;
         }
         return Result.SUCCESS;
@@ -556,7 +556,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         try {
           return accountManagerFuture.getResult() ? Result.SUCCESS : Result.FAILURE;
         } catch (OperationCanceledException | AuthenticatorException | IOException e) {
-          AcraHelper.report(e);
+          CrashHandler.report(e);
           return Result.FAILURE;
         }
       }
@@ -697,7 +697,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       return SyncBackendProviderFactory.get(MyApplication.getInstance(),
           GenericAccountService.GetAccount(syncAccountName)).getOrThrow();
     } catch (Throwable throwable) {
-      AcraHelper.report(new Exception(String.format("Unable to get sync backend provider for %s",
+      CrashHandler.report(new Exception(String.format("Unable to get sync backend provider for %s",
           syncAccountName), throwable));
       return null;
     }
@@ -707,7 +707,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     try {
       Account.delete(anId);
     } catch (RemoteException | OperationApplicationException e) {
-      AcraHelper.reportWithDbSchema(e);
+      CrashHandler.reportWithDbSchema(e);
       return false;
     }
     return true;

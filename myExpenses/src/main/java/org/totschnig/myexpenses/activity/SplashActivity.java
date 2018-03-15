@@ -31,9 +31,9 @@ import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.task.RestoreTask;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
-import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.Result;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.util.List;
 
@@ -147,7 +147,7 @@ public class SplashActivity extends SyncBackendSetupActivity {
       getStarted();
     } else {
       String message = "Unknown error while setting up account";
-      AcraHelper.report(message);
+      CrashHandler.report(message);
       showSnackbar(message);
     }
   }

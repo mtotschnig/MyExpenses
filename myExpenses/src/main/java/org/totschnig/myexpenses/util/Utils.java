@@ -58,6 +58,7 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.task.GrisbiImportTask;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
 import org.xml.sax.SAXException;
 import org.xmlpull.v1.XmlPullParser;
@@ -487,7 +488,7 @@ public class Utils {
     try {
       return android.text.format.DateFormat.getDateFormat(context);
     } catch (Exception e) {
-      AcraHelper.report(e);
+      CrashHandler.report(e);
       //java.lang.SecurityException: Requires READ_PHONE_STATE observed on HUAWEI Y625-U13
       return java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT);
     }

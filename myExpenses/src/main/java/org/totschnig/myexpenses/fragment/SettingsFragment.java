@@ -57,15 +57,15 @@ import org.totschnig.myexpenses.sync.ServiceLoader;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.PreferenceDividerItemDecoration;
-import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.DistribHelper;
-import org.totschnig.myexpenses.util.FileUtils;
+import org.totschnig.myexpenses.util.io.FileUtils;
 import org.totschnig.myexpenses.util.ShareUtils;
 import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
 import org.totschnig.myexpenses.util.licence.Package;
@@ -660,7 +660,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
             startActivityForResult(intent, PICK_FOLDER_REQUEST);
             return true;
           } catch (ActivityNotFoundException e) {
-            AcraHelper.report(e);
+            CrashHandler.report(e);
             //fallback to FolderBrowser
           }
         }

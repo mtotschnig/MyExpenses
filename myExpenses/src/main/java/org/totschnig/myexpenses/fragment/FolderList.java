@@ -29,7 +29,7 @@ import org.totschnig.myexpenses.activity.FolderBrowser;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
 import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.File;
 import java.io.IOException;
@@ -139,7 +139,7 @@ public class FolderList extends ListFragment {
       newFolder = new File(selectedFolder, name);
       result = newFolder.mkdirs();
     } catch (Exception e) {
-      AcraHelper.report(e);
+      CrashHandler.report(e);
       result = false;
     } finally {
       if (!result) {

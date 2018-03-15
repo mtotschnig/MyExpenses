@@ -35,8 +35,8 @@ import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
-import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.PermissionHelper;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.Serializable;
 import java.util.List;
@@ -85,7 +85,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
           calledFromCalendarWithId = NOT_CALLED;
         }
       } catch (Exception e) {
-        AcraHelper.report(e);
+        CrashHandler.report(e);
       }
     }
     configureFloatingActionButton(R.string.menu_create_template);

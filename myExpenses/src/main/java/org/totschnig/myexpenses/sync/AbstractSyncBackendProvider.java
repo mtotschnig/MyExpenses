@@ -23,11 +23,11 @@ import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.sync.json.AdapterFactory;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
-import org.totschnig.myexpenses.util.AcraHelper;
-import org.totschnig.myexpenses.util.FileCopyUtils;
+import org.totschnig.myexpenses.util.io.FileCopyUtils;
 import org.totschnig.myexpenses.util.PictureDirHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -153,7 +153,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
       return Optional.of(gson.fromJson(
           new BufferedReader(new InputStreamReader(inputStream)), AccountMetaData.class));
     } catch (Exception e) {
-      AcraHelper.report(e);
+      CrashHandler.report(e);
       return Optional.empty();
     }
   }
@@ -252,7 +252,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
           Utils.getTextWithAppName(context, R.string.warning_synchronization_folder_usage).toString(),
           "text/plain");
     } catch (IOException e) {
-      Timber.e(e);
+      Timber.w(e);
     }
   }
 

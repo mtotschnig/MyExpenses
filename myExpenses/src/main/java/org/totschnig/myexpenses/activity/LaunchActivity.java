@@ -18,11 +18,11 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.preference.PreferenceUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.Criteria;
-import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.ContribUtils;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.PermissionHelper;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 
 import java.io.File;
@@ -62,7 +62,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
           }
         });
       } catch (SecurityException e) {
-        AcraHelper.report(e);
+        CrashHandler.report(e);
         mHelper.dispose();
         mHelper = null;
       }

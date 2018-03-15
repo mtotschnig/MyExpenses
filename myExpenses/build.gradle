@@ -42,9 +42,6 @@ android {
 
         buildConfigField "String", "BUILD_DATE", "\"" + getDate() + "\""
         buildConfigField "String", "DISTRIBUTION", "\"GITHUB\""
-        buildConfigField "String", "ACRA_FORM_URI", quote(getPropertyIfDefined("ACRA_FORM_URI"))
-        buildConfigField "String", "ACRA_FORM_URI_BASIC_AUTH_LOGIN", quote(getPropertyIfDefined("ACRA_FORM_URI_BASIC_AUTH_LOGIN"))
-        buildConfigField "String", "ACRA_FORM_URI_BASIC_AUTH_PASSWORD", quote(getPropertyIfDefined("ACRA_FORM_URI_BASIC_AUTH_PASSWORD"))
         testInstrumentationRunner "org.totschnig.myexpenses.MyTestRunner"
         testProguardFile "proguard-test.txt"
 
@@ -87,6 +84,14 @@ android {
     buildTypes.each { type ->
         type.resValue 'string', 'application_id', defaultConfig.applicationId + type.applicationIdSuffix
         type.resValue "string", 'sync_account_type', defaultConfig.applicationId + type.applicationIdSuffix + ".sync"
+    }
+
+    flavorDimensions "crashreporting"
+
+    productFlavors {
+        acra {
+            dimension "crashreporting"
+        }
     }
 
     lintOptions {
@@ -158,9 +163,8 @@ dependencies {
         exclude group: "com.android.support", module: "support-annotations"
     }
     implementation 'com.itextpdf:itextg:5.5.10'
-    implementation "ch.acra:acra-http:" + project.acraVersion
-    implementation "ch.acra:acra-mail:" + project.acraVersion
-    implementation "ch.acra:acra-dialog:" + project.acraVersion
+    acraImplementation "ch.acra:acra-mail:" + project.acraVersion
+    acraImplementation "ch.acra:acra-dialog:" + project.acraVersion
     implementation 'org.apache.commons:commons-lang3:3.4'
     implementation 'org.apache.commons:commons-csv:1.5'
     implementation 'com.squareup.picasso:picasso:2.5.2'

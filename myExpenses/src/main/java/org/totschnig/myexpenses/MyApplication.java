@@ -43,9 +43,6 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import net.pubnative.sdk.core.Pubnative;
 
-import org.acra.ACRA;
-import org.acra.config.CoreConfiguration;
-import org.acra.util.StreamReader;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.activity.SplashActivity;
 import org.totschnig.myexpenses.di.AppComponent;
@@ -60,11 +57,12 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.sync.SyncAdapter;
-import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.io.StreamReader;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.log.TagFilterFileLoggingTree;
 import org.totschnig.myexpenses.widget.AbstractWidget;
@@ -87,8 +85,7 @@ public class MyApplication extends MultiDexApplication implements
   @Inject
   LicenceHandler licenceHandler;
   @Inject
-  @Nullable
-  CoreConfiguration acraConfiguration;
+  CrashHandler crashHandler;
   private static boolean instrumentationTest = false;
   private static String testId;
   public static final String PLANNER_CALENDAR_NAME = "MyExpensesPlanner";
@@ -151,7 +148,7 @@ public class MyApplication extends MultiDexApplication implements
   @Override
   public void onCreate() {
     if (BuildConfig.DEBUG && !instrumentationTest) {
-      enableStrictMode();
+      //enableStrictMode();
     }
     super.onCreate();
     checkAppReplacingState();
@@ -159,17 +156,15 @@ public class MyApplication extends MultiDexApplication implements
     AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     mSelf = this;
     setupLogging();
-    if (!ACRA.isACRASenderServiceProcess()) {
-      if (!isSyncService()) {
-        // sets up mSettings
-        getSettings().registerOnSharedPreferenceChangeListener(this);
-        initPlannerInternal(60000);
-        registerWidgetObservers();
-      }
-      licenceHandler.init();
-      Pubnative.setTestMode(BuildConfig.DEBUG);
-      NotificationBuilderWrapper.createChannels(this);
+    if (!isSyncService()) {
+      // sets up mSettings
+      getSettings().registerOnSharedPreferenceChangeListener(this);
+      initPlannerInternal(60000);
+      registerWidgetObservers();
     }
+    licenceHandler.init();
+    Pubnative.setTestMode(BuildConfig.DEBUG);
+    NotificationBuilderWrapper.createChannels(this);
   }
 
   private void checkAppReplacingState() {
@@ -199,12 +194,11 @@ public class MyApplication extends MultiDexApplication implements
     super.attachBaseContext(base);
     appComponent = buildAppComponent();
     appComponent.inject(this);
-    if (acraConfiguration != null) {
-      ACRA.init(this, acraConfiguration);
-      ACRA.getErrorReporter().putCustomData("Distribution", DistribHelper.getDistribution().name());
-      ACRA.getErrorReporter().putCustomData("Installer", getPackageManager()
-          .getInstallerPackageName(getPackageName()));
-    }
+    crashHandler.onAttachBaseContext(this);
+    crashHandler.putCustomData("Distribution", DistribHelper.getDistribution().name());
+    crashHandler.putCustomData("Installer",
+        getPackageManager().getInstallerPackageName(getPackageName()));
+
   }
 
   @NonNull
@@ -223,6 +217,7 @@ public class MyApplication extends MultiDexApplication implements
       Timber.plant(new TagFilterFileLoggingTree(this, SyncAdapter.TAG));
       Timber.plant(new TagFilterFileLoggingTree(this, LicenceHandler.TAG));
     }
+    crashHandler.setupLogging();
   }
 
   private void registerWidgetObservers() {
@@ -494,8 +489,7 @@ public class MyApplication extends MultiDexApplication implements
         new String[]{Calendars._ID}, Calendars.NAME + " = ?",
         new String[]{PLANNER_CALENDAR_NAME}, null);
     if (c == null) {
-      AcraHelper.report(new Exception(
-          "Searching for planner calendar failed, Calendar app not installed?"));
+      CrashHandler.report("Searching for planner calendar failed, Calendar app not installed?");
       return INVALID_CALENDAR_ID;
     }
     if (c.moveToFirst()) {
@@ -520,18 +514,17 @@ public class MyApplication extends MultiDexApplication implements
       try {
         uri = getContentResolver().insert(calendarUri, values);
       } catch (IllegalArgumentException e) {
-        AcraHelper.report(e);
+        CrashHandler.report(e);
         return INVALID_CALENDAR_ID;
       }
       if (uri == null) {
-        AcraHelper.report(new Exception(
-            "Inserting planner calendar failed, uri is null"));
+        CrashHandler.report("Inserting planner calendar failed, uri is null");
         return INVALID_CALENDAR_ID;
       }
       plannerCalendarId = uri.getLastPathSegment();
       if (plannerCalendarId == null || plannerCalendarId.equals("0")) {
-        AcraHelper.report(new Exception(String.format(Locale.US,
-            "Inserting planner calendar failed, last path segment is %s", plannerCalendarId)));
+        CrashHandler.report(String.format(Locale.US,
+            "Inserting planner calendar failed, last path segment is %s", plannerCalendarId));
         return INVALID_CALENDAR_ID;
       }
       Timber.i("successfully set up new calendar: %s", plannerCalendarId);
@@ -648,7 +641,7 @@ public class MyApplication extends MultiDexApplication implements
         Timber.i("storing calendar path %s ", path);
         PrefKey.PLANNER_CALENDAR_PATH.putString(path);
       } else {
-        AcraHelper.report(new IllegalStateException(
+        CrashHandler.report(new IllegalStateException(
             "could not retrieve configured calendar"));
         mPlannerCalendarId = "-1";
         PrefKey.PLANNER_CALENDAR_PATH.remove();

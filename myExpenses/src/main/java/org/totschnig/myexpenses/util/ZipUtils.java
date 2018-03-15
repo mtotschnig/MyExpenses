@@ -202,8 +202,8 @@ public class ZipUtils {
       }
       zin.close();
       return true;
-    } catch(Exception e) {
-      Timber.e(e);
+    } catch(IOException e) {
+      Timber.w(e);
       return false;
     }
   }

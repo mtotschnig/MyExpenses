@@ -198,7 +198,7 @@ public abstract class SimpleCursorTreeAdapter extends ResourceCursorTreeAdapter 
           field.setAccessible(true);
           field.set(this, false);
         } catch (Exception e) {
-          Timber.e(e);
+          Timber.w(e);
         }
     }
     

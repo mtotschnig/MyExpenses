@@ -4,26 +4,15 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.Nullable;
 
 import com.google.android.vending.licensing.AESObfuscator;
 import com.google.android.vending.licensing.Obfuscator;
 import com.google.android.vending.licensing.PreferenceObfuscator;
 
-import org.acra.ReportField;
-import org.acra.config.ACRAConfigurationException;
-import org.acra.config.CoreConfiguration;
-import org.acra.config.CoreConfigurationBuilder;
-import org.acra.config.DialogConfigurationBuilder;
-import org.acra.config.HttpSenderConfigurationBuilder;
-import org.acra.config.MailSenderConfigurationBuilder;
-import org.acra.data.StringFormat;
-import org.acra.sender.HttpSender;
-import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.licence.HashLicenceHandler;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandlerImpl;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 
@@ -56,44 +45,8 @@ public class AppModule {
 
   @Provides
   @Singleton
-  @Nullable
-  CoreConfiguration providesAcraConfiguration() {
-    if (MyApplication.isInstrumentationTest()) return null;
-    try {
-      CoreConfigurationBuilder configurationBuilder = new CoreConfigurationBuilder(application)
-          .setEnabled(true)
-          .setBuildConfigClass(BuildConfig.class);
-      if (AcraHelper.DO_REPORT) {
-        configurationBuilder
-            .setLogcatArguments("-t", "250", "-v", "long", "ActivityManager:I", "MyExpenses:V", "*:S")
-            .setExcludeMatchingSharedPreferencesKeys("planner_calendar_path", "password")
-            .getPluginConfigurationBuilder(HttpSenderConfigurationBuilder.class)
-            .setEnabled(true)
-            .setUri(BuildConfig.ACRA_FORM_URI)
-            .setHttpMethod(HttpSender.Method.PUT)
-            .setBasicAuthLogin(BuildConfig.ACRA_FORM_URI_BASIC_AUTH_LOGIN)
-            .setBasicAuthPassword(BuildConfig.ACRA_FORM_URI_BASIC_AUTH_PASSWORD);
-      } else {
-        configurationBuilder
-            .setReportFormat(StringFormat.KEY_VALUE_LIST)
-            .setReportField(ReportField.APP_VERSION_CODE, true)
-            .setReportField(ReportField.USER_CRASH_DATE, true)
-            .getPluginConfigurationBuilder(DialogConfigurationBuilder.class)
-            .setEnabled(true)
-            .setResText(R.string.crash_dialog_text)
-            .setResTitle(R.string.crash_dialog_title)
-            .setResCommentPrompt(R.string.crash_dialog_comment_prompt)
-            .setResPositiveButtonText(android.R.string.ok);
-        configurationBuilder
-            .getPluginConfigurationBuilder(MailSenderConfigurationBuilder.class)
-            .setEnabled(true)
-            .setMailTo("bug-reports@myexpenses.mobi");
-      }
-      return configurationBuilder.build();
-    } catch (ACRAConfigurationException e) {
-      Timber.e(e, "ACRA not initialized");
-      return null;
-    }
+  CrashHandler providesCrashHandler() {
+    return (MyApplication.isInstrumentationTest()) ? CrashHandler.NO_OP : new CrashHandlerImpl();
   }
 
   @Provides

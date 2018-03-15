@@ -16,8 +16,8 @@ import com.android.calendarcommon2.EventRecurrence;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -206,7 +206,7 @@ public class Plan extends Model implements Serializable {
       try {
         eventRecurrence.parse(rRule);
       } catch (EventRecurrence.InvalidFormatException e) {
-        AcraHelper.report(e,"rRule",rRule);
+        CrashHandler.report(e,"rRule",rRule);
         return e.getMessage();
       }
       Time date = new Time();

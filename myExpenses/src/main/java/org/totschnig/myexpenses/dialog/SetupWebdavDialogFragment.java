@@ -26,9 +26,9 @@ import org.totschnig.myexpenses.sync.webdav.NotCompliantWebDavException;
 import org.totschnig.myexpenses.sync.webdav.UntrustedCertificateException;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.task.TestLoginTask;
-import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.form.AbstractFormFieldValidator;
 import org.totschnig.myexpenses.util.form.FormFieldNotEmptyValidator;
 import org.totschnig.myexpenses.util.form.FormValidator;
@@ -163,7 +163,7 @@ public class SetupWebdavDialogFragment extends CommitSafeDialogFragment {
       try {
         data.putString(WebDavBackendProvider.KEY_WEB_DAV_CERTIFICATE, CertificateHelper.toString(mTrustCertificate));
       } catch (CertificateEncodingException e) {
-        AcraHelper.report(e);
+        CrashHandler.report(e);
       }
     }
     return data;

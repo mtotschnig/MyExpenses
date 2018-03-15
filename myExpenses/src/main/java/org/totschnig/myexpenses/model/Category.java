@@ -23,8 +23,8 @@ import android.net.Uri;
 import org.apache.commons.lang3.StringUtils;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_NORMALIZED;
@@ -112,7 +112,7 @@ public class Category extends Model {
     if (getId() == 0) {
       if (!isMain(parentId)) {
         uri = null;
-        AcraHelper.report(new Exception("Attempt to store deep category hierarchy detected"));
+        CrashHandler.report("Attempt to store deep category hierarchy detected");
       } else {
         initialValues.put(KEY_PARENTID, parentId);
         try {

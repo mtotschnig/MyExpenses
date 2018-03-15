@@ -36,9 +36,9 @@ import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
-import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -394,7 +394,7 @@ public class CsvImportDataFragment extends Fragment {
                 header2FieldMap.put(Utils.normalize(header.get(i)), fieldKeys[position]);
               }
             } catch (JSONException e) {
-              AcraHelper.report(e);
+              CrashHandler.report(e);
             }
           }
         }

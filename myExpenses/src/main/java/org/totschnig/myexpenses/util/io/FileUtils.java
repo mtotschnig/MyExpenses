@@ -15,7 +15,7 @@
  */
 //https://github.com/iPaulPro/aFileChooser/blob/master/aFileChooser/src/com/ipaulpro/afilechooser/utils/FileUtils.java
 
-package org.totschnig.myexpenses.util;
+package org.totschnig.myexpenses.util.io;
 
 import android.annotation.TargetApi;
 import android.content.ContentResolver;

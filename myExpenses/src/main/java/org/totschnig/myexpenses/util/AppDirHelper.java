@@ -14,6 +14,8 @@ import android.support.v4.provider.DocumentFile;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -52,8 +54,8 @@ public class AppDirHelper {
       return DocumentFile.fromFile(externalFilesDir);
     } else {
       String permission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
-      AcraHelper.report(new Exception("getExternalFilesDir returned null; " + permission + " : " +
-          ContextCompat.checkSelfPermission(context, permission)));
+      CrashHandler.report("getExternalFilesDir returned null; " + permission + " : " +
+          ContextCompat.checkSelfPermission(context, permission));
       return null;
     }
   }
@@ -100,10 +102,10 @@ public class AppDirHelper {
             customData.put("mimeType", mimeType);
             customData.put("name", name);
             customData.put("parent", parentDir.getUri().toString());
-            AcraHelper.report(new Exception(message), customData);
+            CrashHandler.report(new Exception(message), customData);
           }
         } catch (SecurityException e) {
-          AcraHelper.report(e);
+          CrashHandler.report(e);
         }
         return result;
       }
@@ -186,7 +188,7 @@ public class AppDirHelper {
         case "content":
           break;
         default:
-          AcraHelper.report(new IllegalStateException(String.format(
+          CrashHandler.report(new IllegalStateException(String.format(
               "Unable to handle scheme of uri %s", uri)));
       }
     }

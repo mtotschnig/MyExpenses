@@ -26,7 +26,7 @@ import android.widget.Button;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.ui.ScrollableProgressDialog;
-import org.totschnig.myexpenses.util.AcraHelper;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import static android.app.ProgressDialog.STYLE_SPINNER;
 
@@ -202,7 +202,7 @@ public class ProgressDialogFragment extends CommitSafeDialogFragment {
       unsetIndeterminateDrawable();
     } catch (NullPointerException e) {
       //seen on samsung SM-G900F
-      AcraHelper.report(e);
+      CrashHandler.report(e);
     }
     mDialog.getButton(dialogButton).setEnabled(true);
   }

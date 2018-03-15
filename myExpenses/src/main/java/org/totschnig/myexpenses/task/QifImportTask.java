@@ -39,8 +39,8 @@ import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.util.AcraHelper;
-import org.totschnig.myexpenses.util.FileUtils;
+import org.totschnig.myexpenses.util.io.FileUtils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -224,8 +224,8 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
         Account dbAccount = Account.getInstanceFromDb(accountId);
         parser.accounts.get(0).dbAccount = dbAccount;
         if (dbAccount == null) {
-          AcraHelper.report(new Exception(
-              "Exception during QIF import. Did not get instance from DB for id " + accountId));
+          CrashHandler.report("Exception during QIF import. Did not get instance from DB for id "
+              + accountId);
         }
       }
       insertTransactions(parser.accounts);
@@ -277,8 +277,8 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
         Account dbAccount = Account.getInstanceFromDb(dbAccountId);
         account.dbAccount = dbAccount;
         if (dbAccount == null) {
-          AcraHelper.report(new Exception(
-              "Exception during QIF import. Did not get instance from DB for id " + dbAccountId));
+          CrashHandler.report("Exception during QIF import. Did not get instance from DB for id " +
+              dbAccountId);
         }
       } else {
         Account a = account.toAccount(mCurrency);

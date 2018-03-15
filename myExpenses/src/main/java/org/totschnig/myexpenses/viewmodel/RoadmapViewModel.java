@@ -164,7 +164,7 @@ public class RoadmapViewModel extends AndroidViewModel {
           issueList = gson.fromJson(readFromFile(ISSUE_CACHE), listType);
           Timber.i("Loaded %d issues from cache", issueList.size());
         } catch (IOException e) {
-          Timber.e(e);
+          Timber.w(e);
         }
       }
 
@@ -178,7 +178,7 @@ public class RoadmapViewModel extends AndroidViewModel {
           Timber.i("Loaded %d issues from network", issueList.size());
           writeToFile(ISSUE_CACHE, gson.toJson(issueList));
         } catch (IOException e) {
-          Timber.e(e);
+          Timber.w(e);
         }
       }
       return issueList;

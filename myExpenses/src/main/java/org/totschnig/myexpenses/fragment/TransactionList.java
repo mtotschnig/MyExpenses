@@ -93,11 +93,11 @@ import org.totschnig.myexpenses.provider.filter.PayeeCriteria;
 import org.totschnig.myexpenses.provider.filter.TransferCriteria;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
-import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import javax.inject.Inject;
 
@@ -894,19 +894,18 @@ public class TransactionList extends ContextualActionBarFragment implements
     if (searchMenu != null) {
       String title;
       Drawable searchMenuIcon = searchMenu.getIcon();
+      if (searchMenuIcon == null) {
+        CrashHandler.report("Search menu icon not found");
+      }
       if (!mFilter.isEmpty()) {
         if (searchMenuIcon != null) {
           searchMenuIcon.setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
-        } else {
-          AcraHelper.report(new Exception("Search menu icon not found"));
         }
         searchMenu.setChecked(true);
         title = mAccount.getLabel() + " ( " + mFilter.prettyPrint() + " )";
       } else {
         if (searchMenuIcon != null) {
           searchMenuIcon.setColorFilter(null);
-        } else {
-          AcraHelper.report(new Exception("Search menu icon not found"));
         }
         searchMenu.setChecked(false);
         title = mAccount.getLabel();
@@ -941,7 +940,7 @@ public class TransactionList extends ContextualActionBarFragment implements
         }
       }
     } else {
-      AcraHelper.report(new Exception("Search menu not found"));
+      CrashHandler.report("Search menu not found");
     }
   }
 

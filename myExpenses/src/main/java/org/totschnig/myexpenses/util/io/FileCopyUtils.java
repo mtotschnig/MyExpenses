@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.util;
+package org.totschnig.myexpenses.util.io;
 
 import android.net.Uri;
 
@@ -6,7 +6,6 @@ import org.totschnig.myexpenses.MyApplication;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,11 +24,8 @@ public class FileCopyUtils {
       dstStream.getChannel().transferFrom(srcStream.getChannel(), 0,
           srcStream.getChannel().size());
       return true;
-    } catch (FileNotFoundException e) {
-      Timber.e(e);
-      return false;
     } catch (IOException e) {
-      Timber.e(e);
+      Timber.w(e);
       return false;
     } finally {
       try {

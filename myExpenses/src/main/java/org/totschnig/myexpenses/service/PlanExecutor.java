@@ -28,10 +28,10 @@ import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.CalendarProviderProxy;
-import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper;
 import org.totschnig.myexpenses.util.PermissionHelper;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.util.Date;
 
@@ -74,7 +74,7 @@ public class PlanExecutor extends IntentService {
       plannerCalendarId = MyApplication.getInstance().checkPlanner();
     } catch (Exception e) {
       log(e);
-      AcraHelper.report(e);
+      CrashHandler.report(e);
       return;
     }
     if (plannerCalendarId.equals("-1")) {
@@ -104,7 +104,7 @@ public class PlanExecutor extends IntentService {
           null);
     } catch (Exception e) {
       //} catch (SecurityException | IllegalArgumentException e) {
-      AcraHelper.report(e);
+      CrashHandler.report(e);
       //android.permission.READ_CALENDAR or android.permission.WRITE_CALENDAR missing (SecurityException)
       //buggy calendar provider implementation on Sony (IllegalArgumentException)
       //sqlite database not yet available observed on samsung GT-N7100 (SQLiteException)

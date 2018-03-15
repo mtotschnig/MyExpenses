@@ -57,9 +57,9 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
-import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.PictureDirHelper;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.text.DateFormat;
 
@@ -208,7 +208,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
           doShowPicture = false;
         }
       } catch (IllegalArgumentException e) {
-        AcraHelper.report(e);
+        CrashHandler.report(e);
         showSnackbar("Unable to handle image: " + e.getMessage());
         doShowPicture = false;
       }

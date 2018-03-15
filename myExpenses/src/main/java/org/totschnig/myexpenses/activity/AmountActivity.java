@@ -24,8 +24,8 @@ import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.ui.AmountEditText;
-import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 
 import java.math.BigDecimal;
@@ -68,7 +68,7 @@ public abstract class AmountActivity extends EditActivity {
         input.setAmount(new BigDecimal(intent.getStringExtra(KEY_AMOUNT)));
         input.setError(null);
       } catch (Exception  e) {
-        AcraHelper.report(e);
+        CrashHandler.report(e);
       }
     }
   }

@@ -42,8 +42,8 @@ import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.DistribHelper;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -208,7 +208,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
         title = getString(resId);
       }
     } catch (NotFoundException e) {
-      AcraHelper.report(e);
+      CrashHandler.report(e);
       return new AlertDialog.Builder(ctx)
           .setMessage("Error generating Help dialog")
           .create();

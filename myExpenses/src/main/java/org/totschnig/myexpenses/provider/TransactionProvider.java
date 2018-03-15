@@ -48,12 +48,12 @@ import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
-import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.BackupUtils;
-import org.totschnig.myexpenses.util.FileCopyUtils;
+import org.totschnig.myexpenses.util.io.FileCopyUtils;
 import org.totschnig.myexpenses.util.PlanInfoCursorWrapper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -1371,7 +1371,7 @@ public class TransactionProvider extends ContentProvider {
             customData.put("i", String.valueOf(i));
             customData.put("operation" + j, operations.get(j).toString());
           }
-          AcraHelper.report(e, customData);
+          CrashHandler.report(e, customData);
           throw e;
         }
       }
@@ -1484,7 +1484,7 @@ public class TransactionProvider extends ContentProvider {
           if (!sharedPrefFile.exists()) {
             final String message = "Unable to find shared preference file at " +
                 sharedPrefFile.getPath();
-            AcraHelper.report(new Exception(message));
+            CrashHandler.report(message);
             return new Result(false, message);
           }
         }

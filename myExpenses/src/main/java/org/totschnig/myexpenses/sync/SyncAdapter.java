@@ -50,9 +50,9 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.SyncNotificationDismissHandler;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
-import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -155,7 +155,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       backend = backendProviderExceptional.getOrThrow();
     } catch (Throwable throwable) {
       syncResult.databaseError = true;
-      AcraHelper.report(throwable instanceof Exception ? ((Exception) throwable) : new Exception(throwable));
+      CrashHandler.report(throwable);
       GenericAccountService.deactivateSync(account);
       accountManager.setUserData(account, GenericAccountService.KEY_BROKEN, "1");
       notifyUser("Synchronization backend deactivated",
@@ -479,7 +479,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   }
 
   private void notifyDatabaseError(Exception e, Account account) {
-    AcraHelper.report(e);
+    CrashHandler.report(e);
     appendToNotification(getContext().getString(R.string.sync_database_error) + " " + e.getMessage(),
         account, true);
   }
@@ -576,7 +576,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     int opsSize = ops.size();
     int resultsSize = contentProviderResults.length;
     if (opsSize != resultsSize) {
-      AcraHelper.report(String.format(Locale.ROOT, "applied %d operations, received %d results",
+      CrashHandler.report(String.format(Locale.ROOT, "applied %d operations, received %d results",
           opsSize, resultsSize));
     }
   }

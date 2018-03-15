@@ -53,7 +53,6 @@ import android.widget.Toast;
 
 import com.annimon.stream.Optional;
 
-import org.acra.ACRA;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
@@ -69,12 +68,12 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.ContextWrapper;
-import org.totschnig.myexpenses.util.AcraHelper;
 import org.totschnig.myexpenses.util.PermissionHelper;
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 
@@ -124,7 +123,6 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   public static final String ASYNC_TAG = "ASYNC_TASK";
   public static final String PROGRESS_TAG = "PROGRESS";
-  private static final String CUSTOM_DATA_KEY_BREADCRUMB = "Breadcrumb";
 
   private AlertDialog pwDialog;
   private boolean scheduledRestart = false;
@@ -139,6 +137,9 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   @Inject
   protected Tracker tracker;
+
+  @Inject
+  protected CrashHandler crashHandler;
 
   public int getColorIncome() {
     return colorIncome;
@@ -231,9 +232,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   @Override
   protected void onResume() {
     super.onResume();
-    String currentBreadCrumb = ACRA.getErrorReporter().getCustomData(CUSTOM_DATA_KEY_BREADCRUMB);
-    String trimmedBreadCrumb = currentBreadCrumb == null ? "" : currentBreadCrumb.substring(Math.max(0, currentBreadCrumb.length() - 500));
-    ACRA.getErrorReporter().putCustomData(CUSTOM_DATA_KEY_BREADCRUMB, trimmedBreadCrumb + "->" + getClass().getSimpleName());
+    crashHandler.addBreadcrumb(getClass().getSimpleName());
     if (scheduledRestart) {
       scheduledRestart = false;
       recreate();
@@ -529,7 +528,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     try {
       super.onBackPressed();
     } catch (IllegalStateException e) {
-      AcraHelper.report(e);
+      CrashHandler.report(e);
       finish();
     }
   }
@@ -713,7 +712,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   public void showSnackbar(CharSequence message, int duration, boolean dismissable) {
     View container = findViewById(getSnackbarContainerId());
     if (container == null) {
-      AcraHelper.report(String.format("Class %s is unable to display snackbar", getClass()));
+      CrashHandler.report(String.format("Class %s is unable to display snackbar", getClass()));
       Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     } else {
       snackbar = Snackbar.make(container, message, duration);
