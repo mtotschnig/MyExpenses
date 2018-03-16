@@ -37,7 +37,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import javax.inject.Inject;
 
 /**
  * This Fragment manages a single background task and retains itself across
@@ -145,7 +144,6 @@ public class TaskExecutionFragment<T> extends Fragment {
     void onPostExecute(int taskId, Object o);
   }
 
-  @Inject
   protected CrashHandler crashHandler;
 
   //TODO refactor so that callbacks are not visible to hosted tasks
@@ -270,7 +268,7 @@ public class TaskExecutionFragment<T> extends Fragment {
     // Retain this fragment across configuration changes.
     setRetainInstance(true);
 
-    MyApplication.getInstance().getAppComponent().inject(this);
+    crashHandler = MyApplication.getInstance().getAppComponent().getCrashHandler();
 
     // Create and execute the background task.
     Bundle args = getArguments();

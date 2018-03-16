@@ -1,5 +1,7 @@
 package org.totschnig.myexpenses.util.crashreporting;
 
+import android.content.Context;
+
 import org.acra.ACRA;
 import org.acra.ReportField;
 import org.acra.config.ACRAConfigurationException;
@@ -43,7 +45,7 @@ public class CrashHandlerImpl extends CrashHandler {
   }
 
   @Override
-  public void setupLogging() {
+  public void setupLogging(Context context) {
 
   }
 

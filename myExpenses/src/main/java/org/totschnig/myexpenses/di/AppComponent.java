@@ -17,9 +17,9 @@ import org.totschnig.myexpenses.fragment.TemplatesList;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.sync.webdav.WebDavClient;
 import org.totschnig.myexpenses.task.LicenceApiTask;
-import org.totschnig.myexpenses.task.TaskExecutionFragment;
-import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.ads.AdHandler;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
 
 import javax.inject.Singleton;
@@ -69,5 +69,5 @@ public interface AppComponent {
 
   void inject(HistoryChart historyChart);
 
-  void inject(TaskExecutionFragment taskExecutionFragment);
+  CrashHandler getCrashHandler();
 }

@@ -1,0 +1,32 @@
+Quản lý tài chính cá nhân trên Android: Dễ dàng sử dụng, Mã nguồn mở
+
+- Giữ chi tiêu và thu nhập của bạn theo cách mà bạn muốn.
+- Quản lý tài chính thông qua điện thoại của bạn.
+- Xuất sang các định dạng dữ liệu khác chẳng hạn như Grisbi, GnuCash, Quicken hoặc MS Money.
+
+- Sở hữu đến 5 tài khoản quản lý tài chính
+- Templates and plans for future and recurring transactions
+- Gom nhóm các giao dịch theo mỗi ngày, tuần, tháng, năm và hiển thị phần số liệu tổng kết với mỗi nhóm
+- Tạo các cấp độ phân loại dễ dàng cho nhiều đối tượng chi tiêu (có thể nhập dữ liệu dạng XML theo kiểu Grisbi)
+- Máy tính hỗ trợ
+- Xuất sang định dạng QIF hoặc CSV (dùng cho Excel), Chia sẻ các tập tin dữ liệu được xuất ra
+(thông qua email, FTP, Dropbox...)
+- Bảo vệ bởi mật khẩu an toàn
+- Trợ giúp tích hợp
+- Tạo các giao dịch dựa theo các mẫu cho sẵn
+- Sao lưu và phục hồi dữ liệu
+- hai giao diện: sáng màu và tối màu
+
+Xin hãy đóng góp bằng cách sử dụng phiên bản trả phí Contrib version. Bạn sẽ được tiếp cận các tính năng cao cấp như sau:
+
+- Không giới hạn số lượng các tài khoản
+- Unlimited number of plans
+- Tác động phân phối các giao dịch cho mỗi phân loại
+- Phân tích giao dịch
+- Template Widget
+- Câu hỏi an ninh
+
+My Expenses requires the following permissions:
+- Reading and writing the calendar: Plans for future and recurrent transactions are stored either in a special local calendar or in any other calendar you assign.
+- Writing USB storage: Storage of QIF and CSV exports and backup files
+- Network communication: Crash reports are automatically sent to developers unless deactivated by user in app preferences.
