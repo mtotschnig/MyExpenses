@@ -304,7 +304,7 @@ public class ExpenseEdit extends AmountActivity implements
 
   protected boolean mClone = false;
   protected boolean mCreateNew;
-  protected boolean mIsMainTransactionOrTemplate, mIsMainTemplate;
+  protected boolean mIsMainTransactionOrTemplate, mIsMainTemplate, mIsMainTransaction;
   protected boolean mSavedInstance;
   protected boolean mRecordTemplateWidget;
   private boolean mIsResumed;
@@ -643,8 +643,11 @@ public class ExpenseEdit extends AmountActivity implements
     }
 
     mAmountText.addTextChangedListener(new LinkedTransferAmountTextWatcher(true));
-    (mOperationType == TYPE_TRANSFER ? mTransferAmountText : equivalentAmountText)
-        .addTextChangedListener(new LinkedTransferAmountTextWatcher(false));
+    if (mOperationType == TYPE_TRANSFER) {
+      mTransferAmountText.addTextChangedListener(new LinkedTransferAmountTextWatcher(false));
+    } else if (mIsMainTransaction) {
+      equivalentAmountText.addTextChangedListener(new LinkedTransferAmountTextWatcher(false));
+    }
 
     // Spinner for account and transfer account
     mAccountsAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, null,
@@ -655,7 +658,8 @@ public class ExpenseEdit extends AmountActivity implements
       disableAccountSpinner();
     }
     mIsMainTransactionOrTemplate = mOperationType != TYPE_TRANSFER && !(mTransaction.isSplitpart());
-    mIsMainTemplate = mTransaction instanceof Template && !mTransaction.isSplitpart();
+    mIsMainTransaction = mIsMainTransactionOrTemplate && !(mTransaction instanceof Template);
+    mIsMainTemplate = mTransaction instanceof Template && !(mTransaction.isSplitpart());
 
     if (mIsMainTransactionOrTemplate) {
 
@@ -848,9 +852,11 @@ public class ExpenseEdit extends AmountActivity implements
       equivalentAmountRow.setVisibility(View.VISIBLE);
       exchangeRateRow.setVisibility(View.VISIBLE);
     }
-    final Currency homeCurrency = Utils.getHomeCurrency();
-    addCurrencyToLabel(equivalentAmountLabel, homeCurrency.getSymbol(), R.string.equivalent_amount);
-    equivalentAmountText.setFractionDigits(Money.getFractionDigits(homeCurrency));
+    if (mIsMainTransaction) {
+      final Currency homeCurrency = Utils.getHomeCurrency();
+      addCurrencyToLabel(equivalentAmountLabel, homeCurrency.getSymbol(), R.string.menu_equivalent_amount);
+      equivalentAmountText.setFractionDigits(Money.getFractionDigits(homeCurrency));
+    }
   }
 
   public void hideKeyBoardAndShowDialog(int id) {
@@ -962,10 +968,10 @@ public class ExpenseEdit extends AmountActivity implements
       menu.add(Menu.NONE, R.id.INVERT_TRANSFER_COMMAND, 0, R.string.menu_invert_transfer)
           .setIcon(R.drawable.ic_menu_move)
           .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-    } else {
-      menu.add(Menu.NONE, R.id.ORIGINAL_AMOUNT_COMMAND, 0, R.string.original_amount)
+    } else if (mIsMainTransaction) {
+      menu.add(Menu.NONE, R.id.ORIGINAL_AMOUNT_COMMAND, 0, R.string.menu_original_amount)
           .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-      menu.add(Menu.NONE, R.id.EQUIVALENT_AMOUNT_COMMAND, 0, R.string.equivalent_amount)
+      menu.add(Menu.NONE, R.id.EQUIVALENT_AMOUNT_COMMAND, 0, R.string.menu_equivalent_amount)
           .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
     }
     return true;
@@ -1349,7 +1355,7 @@ public class ExpenseEdit extends AmountActivity implements
           }
         }
       }
-    } else {
+    } else if (mIsMainTransaction) {
       BigDecimal originalAmount = validateAmountInput(originalAmountText, false);
       final String currency = ((CurrencyEnum) mCurrencySpinner.getSelectedItem()).name();
       PrefKey.LAST_ORIGINAL_CURRENCY.putString(currency);

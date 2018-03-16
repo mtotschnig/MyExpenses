@@ -82,7 +82,7 @@
                     android:id="@+id/OriginalAmountLabel"
                     style="@style/FormLabel"
                     android:labelFor="@+id/OriginalAmount"
-                    android:text="@string/original_amount"
+                    android:text="@string/menu_original_amount"
                     />
 
                 <LinearLayout
@@ -138,7 +138,7 @@
                     android:id="@+id/EquivalentAmountLabel"
                     style="@style/FormLabel"
                     android:labelFor="@+id/EquivalentAmount"
-                    android:text="@string/equivalent_amount"
+                    android:text="@string/menu_equivalent_amount"
                     />
 
                 <LinearLayout

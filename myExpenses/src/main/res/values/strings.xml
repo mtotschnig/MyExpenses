@@ -734,7 +734,7 @@
     <string name="menu_history_totals">Show totals</string>
     <string name="pref_home_currency_title">Home currency</string>
     <string name="grand_total">Grand total</string>
-    <string name="original_amount">Original amount</string>
-    <string name="equivalent_amount">Equivalent amount</string>
+    <string name="menu_original_amount">Original amount</string>
+    <string name="menu_equivalent_amount">Equivalent amount</string>
     <string name="home_currency_change_warning">If you change your home currency, equivalent amounts and exchange rates will be lost, and need to be defined again. Do you want to continue?</string>
 </resources>

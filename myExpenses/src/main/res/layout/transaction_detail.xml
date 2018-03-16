@@ -85,7 +85,7 @@
 
             <TextView
                 style="@style/FormLabel.Condensed"
-                android:text="@string/original_amount"/>
+                android:text="@string/menu_original_amount"/>
 
             <TextView
                 android:id="@+id/OriginalAmount"
@@ -108,7 +108,7 @@
 
             <TextView
                 style="@style/FormLabel.Condensed"
-                android:text="@string/equivalent_amount"/>
+                android:text="@string/menu_equivalent_amount"/>
 
             <TextView
                 android:id="@+id/EquivalentAmount"

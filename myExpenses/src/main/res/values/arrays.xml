@@ -193,6 +193,8 @@
     <string-array name="ExpenseEdit_transaction_menuitems" tools:ignore="UnusedResources">
         <item>save</item>
         <item>save_and_new</item>
+        <item>original_amount</item>
+        <item>equivalent_amount</item>
     </string-array>
     <string-array name="ExpenseEdit_transfer_menuitems" tools:ignore="UnusedResources">
         <item>save</item>
@@ -202,6 +204,8 @@
     <string-array name="ExpenseEdit_split_menuitems" tools:ignore="UnusedResources">
         <item>save</item>
         <item>save_and_new</item>
+        <item>original_amount</item>
+        <item>equivalent_amount</item>
     </string-array>
     <string-array name="ExpenseEdit_templateCategory_menuitems" tools:ignore="UnusedResources">
         <item>save</item>
@@ -338,6 +342,7 @@
         <item>type</item>
         <item>color</item>
         <item>synchronization</item>
+        <item>exchange_rate</item>
     </string-array>
     <string-array name="form_opening_balance_help_text" tools:ignore="UnusedResources">
         <item>form_AccountEdit_amount_switch_help_text</item>

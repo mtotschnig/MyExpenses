@@ -124,6 +124,7 @@
     <string name="help_HistoryActivity_title" tools:ignore="UnusedResources">@string/menu_history</string>
     <string name="instant_plan" tools:ignore="UnusedResources">@string/plan</string>
     <string name="pref_protection_password_title">@string/hint_password</string>
+    <string name="form_AccountEdit_exchange_rate_help_text">@string/menu_equivalent_amount_help_text</string>
 
     <string name="io_error_appdir_null">Application directory not found</string>
     <string name="io_error_backupdir_null">Could not create folder for storing backup</string>

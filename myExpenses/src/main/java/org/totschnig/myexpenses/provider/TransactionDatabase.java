@@ -1635,6 +1635,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         db.execSQL("ALTER TABLE transactions add column original_amount integer");
         db.execSQL("ALTER TABLE transactions add column original_currency text");
         db.execSQL("ALTER TABLE transactions add column equivalent_amount integer");
+        db.execSQL("ALTER TABLE changes add column original_amount integer");
+        db.execSQL("ALTER TABLE changes add column original_currency text");
+        db.execSQL("ALTER TABLE changes add column equivalent_amount integer");
         createOrRefreshChangelogTriggers(db);
       }
     } catch (SQLException e) {

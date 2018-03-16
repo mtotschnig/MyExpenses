@@ -447,7 +447,17 @@ public class DatabaseConstants {
   }
 
   public static String getAmountHomeEquivalent(String forTable) {
-    return "coalesce(" + KEY_EQUIVALENT_AMOUNT + "," +  getExchangeRate(forTable + "." +  KEY_ACCOUNTID) + " * " + KEY_AMOUNT + ")";
+    return "coalesce(" + calcEquivalentAmountForSplitParts(forTable) + "," +
+        getExchangeRate(forTable + "." +  KEY_ACCOUNTID) + " * " + KEY_AMOUNT + ")";
+  }
+
+  private static String calcEquivalentAmountForSplitParts(String forTable) {
+    return "CASE WHEN " + KEY_PARENTID
+        + " THEN " +
+        "(SELECT 1.0 * " + KEY_EQUIVALENT_AMOUNT + " / " + KEY_AMOUNT + " FROM " + TABLE_TRANSACTIONS + " WHERE " +
+        KEY_ROWID + " = " + forTable + "." + KEY_PARENTID + ") * " + KEY_AMOUNT +
+        " ELSE "
+        + KEY_EQUIVALENT_AMOUNT + " END";
   }
 
   public static String getExchangeRate(String accountReference) {
