@@ -23,7 +23,6 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.AppCompatButton;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -46,17 +45,21 @@ import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.ui.SpinnerHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.Utils;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Currency;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.color.SimpleColorDialog;
 
@@ -72,11 +75,18 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_TOGGLE_EX
 public class AccountEdit extends AmountActivity implements
     OnItemSelectedListener, ContribIFace, SimpleDialog.OnDialogResultListener {
 
-  private EditText mLabelText;
-  private EditText mDescriptionText;
+  @BindView(R.id.Label)
+  EditText mLabelText;
+  @BindView(R.id.Description)
+  EditText mDescriptionText;
+  @BindView(R.id.ColorIndicator)
+  AppCompatButton mColorIndicator;
+  @BindView(R.id.SyncUnlink)
+  View syncUnlink;
+  @BindView(R.id.SyncHelp)
+  View syncHelp;
 
   private SpinnerHelper mCurrencySpinner, mAccountTypeSpinner, mSyncSpinner;
-  private AppCompatButton mColorIndicator;
   private Account mAccount;
   private ArrayAdapter<CurrencyEnum> currencyAdapter;
 
@@ -105,12 +115,10 @@ public class AccountEdit extends AmountActivity implements
     setContentView(R.layout.one_account);
     setupToolbar();
 
-    mLabelText = (EditText) findViewById(R.id.Label);
-    mDescriptionText = (EditText) findViewById(R.id.Description);
+    ButterKnife.bind(this);
 
     Bundle extras = getIntent().getExtras();
-    long rowId = extras != null ? extras.getLong(DatabaseConstants.KEY_ROWID)
-        : 0;
+    long rowId = extras != null ? extras.getLong(DatabaseConstants.KEY_ROWID) : 0;
     requireAccount();
     if (mAccount == null) {
       showSnackbar("Error instantiating account " + rowId, Snackbar.LENGTH_SHORT);
@@ -133,7 +141,6 @@ public class AccountEdit extends AmountActivity implements
           //if not supported ignore
         }
     }
-    configTypeButton();
     mAmountText.setFractionDigits(Money.getFractionDigits(mAccount.currency));
 
     mCurrencySpinner = new SpinnerHelper(findViewById(R.id.Currency));
@@ -141,8 +148,6 @@ public class AccountEdit extends AmountActivity implements
     mCurrencySpinner.setAdapter(currencyAdapter);
 
     mAccountTypeSpinner = new SpinnerHelper(DialogUtils.configureTypeSpinner(findViewById(R.id.AccountType)));
-
-    mColorIndicator = (AppCompatButton) findViewById(R.id.ColorIndicator);
 
     mSyncSpinner = new SpinnerHelper(findViewById(R.id.Sync));
     configureSyncBackendAdapter();
@@ -171,10 +176,10 @@ public class AccountEdit extends AmountActivity implements
       if (position > -1) {
         mSyncSpinner.setSelection(position);
         mSyncSpinner.setEnabled(false);
-        findViewById(R.id.SyncUnlink).setVisibility(View.VISIBLE);
+        syncUnlink.setVisibility(View.VISIBLE);
       }
     } else {
-      findViewById(R.id.SyncHelp).setVisibility(View.VISIBLE);
+      syncHelp.setVisibility(View.VISIBLE);
     }
   }
 
@@ -197,10 +202,22 @@ public class AccountEdit extends AmountActivity implements
       configureType();
     }
     mAmountText.setAmount(amount);
-    mCurrencySpinner.setSelection(currencyAdapter.getPosition(
-        CurrencyEnum.valueOf(mAccount.currency.getCurrencyCode())));
+    String currencyCode = mAccount.currency.getCurrencyCode();
+    mCurrencySpinner.setSelection(currencyAdapter.getPosition(CurrencyEnum.valueOf(currencyCode)));
     mAccountTypeSpinner.setSelection(mAccount.getType().ordinal());
     UiUtils.setBackgroundOnButton(mColorIndicator, mAccount.color);
+    setExchangeRateVisibility(currencyCode);
+  }
+
+  private void setExchangeRateVisibility(String currencyCode) {
+    String homeCurrencyPref = PrefKey.HOME_CURRENCY.getString(currencyCode);
+    final boolean isHomeAccount = homeCurrencyPref.equals(currencyCode);
+    exchangeRateRow.setVisibility(isHomeAccount ? View.GONE : View.VISIBLE);
+    if (!isHomeAccount) {
+      mExchangeRateEdit.setSymbols(Money.getSymbol(mAccount.currency),
+          Money.getSymbol(Utils.getSaveInstance(homeCurrencyPref)));
+      mExchangeRateEdit.setRate(new BigDecimal(mAccount.getExchangeRate()));
+    }
   }
 
   /**
@@ -237,6 +254,7 @@ public class AccountEdit extends AmountActivity implements
     if (mSyncSpinner.getSelectedItemPosition() > 0) {
       mAccount.setSyncAccountName((String) mSyncSpinner.getSelectedItem());
     }
+    mAccount.setExchangeRate(mExchangeRateEdit.getRate(false).doubleValue());
     //EditActivity.saveState calls DbWriteFragment
     super.saveState();
   }
@@ -256,6 +274,7 @@ public class AccountEdit extends AmountActivity implements
           String currency = ((CurrencyEnum) mCurrencySpinner.getSelectedItem()).name();
           mAmountText.setFractionDigits(Money.getFractionDigits(
               Currency.getInstance(currency)));
+          setExchangeRateVisibility(currency);
         } catch (IllegalArgumentException e) {
           //will be reported to user when he tries so safe
         }
@@ -298,7 +317,7 @@ public class AccountEdit extends AmountActivity implements
         if (r.success) {
           mSyncSpinner.setSelection(0);
           mSyncSpinner.setEnabled(true);
-          findViewById(R.id.SyncUnlink).setVisibility(View.GONE);
+          syncUnlink.setVisibility(View.GONE);
         }
         break;
       case TASK_SYNC_CHECK:
@@ -313,10 +332,9 @@ public class AccountEdit extends AmountActivity implements
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     super.onCreateOptionsMenu(menu);
-    MenuItemCompat.setShowAsAction(
-        menu.add(Menu.NONE, R.id.EXCLUDE_FROM_TOTALS_COMMAND, 0, R.string.menu_exclude_from_totals)
-            .setCheckable(true),
-        MenuItemCompat.SHOW_AS_ACTION_NEVER);
+    menu.add(Menu.NONE, R.id.EXCLUDE_FROM_TOTALS_COMMAND, 0, R.string.menu_exclude_from_totals)
+        .setCheckable(true)
+        .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
     return true;
   }
 

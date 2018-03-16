@@ -15,47 +15,43 @@
 
 package org.totschnig.myexpenses.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.ui.AmountEditText;
-import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.ui.ExchangeRateEdit;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
+
+import butterknife.BindView;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 
 public abstract class AmountActivity extends EditActivity {
-  protected DecimalFormat nfDLocal;
-  protected AmountEditText mAmountText;
   public static final boolean INCOME = true;
   public static final boolean EXPENSE = false;
   //stores if we deal with an EXPENSE or an INCOME
   protected boolean mType = EXPENSE;
+  @BindView(R.id.TaType)
   protected CompoundButton mTypeButton;
+  @BindView(R.id.AmountLabel)
   protected TextView mAmountLabel;
-
-  @Override
-  public void setContentView(int layoutResID) {
-    super.setContentView(layoutResID);
-    mAmountLabel = (TextView) findViewById(R.id.AmountLabel);
-    mAmountText = (AmountEditText) findViewById(R.id.AmountRow).findViewById(R.id.Amount);
-  }
-
-  /**
-   * 
-   */
-  protected void configTypeButton() {
-    mTypeButton = (CompoundButton) findViewById(R.id.AmountRow).findViewById(R.id.TaType);
-  }
+  @BindView(R.id.AmountRow)
+  ViewGroup amountRow;
+  @BindView(R.id.ExchangeRateRow)
+  ViewGroup exchangeRateRow;
+  @BindView(R.id.Amount)
+  protected AmountEditText mAmountText;
+  @BindView(R.id.ExchangeRate)
+  ExchangeRateEdit mExchangeRateEdit;
 
   @Override
   protected void onActivityResult(int requestCode, int resultCode,
@@ -63,8 +59,7 @@ public abstract class AmountActivity extends EditActivity {
     super.onActivityResult(requestCode, resultCode, intent);
     if (resultCode == RESULT_OK && requestCode == CALCULATOR_REQUEST && intent != null) {
       try {
-        AmountEditText input = (AmountEditText)
-            findViewById(intent.getIntExtra(CalculatorInput.EXTRA_KEY_INPUT_ID,0));
+        AmountEditText input = findViewById(intent.getIntExtra(CalculatorInput.EXTRA_KEY_INPUT_ID,0));
         input.setAmount(new BigDecimal(intent.getStringExtra(KEY_AMOUNT)));
         input.setError(null);
       } catch (Exception  e) {
@@ -85,35 +80,25 @@ public abstract class AmountActivity extends EditActivity {
   }
 
   protected BigDecimal validateAmountInput(boolean showToUser) {
-    return validateAmountInput(mAmountText,showToUser);
+    return validateAmountInput(mAmountText, showToUser);
   }
 
   protected BigDecimal validateAmountInput(AmountEditText input, boolean showToUser) {
-    return validateAmoutInput(this, input, showToUser);
-  }
-
-  public static BigDecimal validateAmoutInput(Context context, AmountEditText input, boolean showToUser) {
-    String strAmount = input.getText().toString();
-    if (strAmount.equals("")) {
-      if (showToUser)
-        input.setError(context.getString(R.string.no_amount_given));
-      return null;
-    }
-    BigDecimal amount = Utils.validateNumber(input.getNumberFormat(), strAmount);
-    if (amount == null) {
-      if (showToUser)
-        input.setError(context.getString(R.string.invalid_number_format, input.getNumberFormat().format
-            (11.11)));
-      return null;
-    }
-    return amount;
+    return input.validate(showToUser);
   }
 
   public void showCalculator(View view) {
-    showCalculatorInternal(mAmountText);
+    ViewGroup row = (ViewGroup) view.getParent();
+    for (int itemPos = 0; itemPos < row.getChildCount(); itemPos++) {
+      View input = row.getChildAt(itemPos);
+      if (input instanceof AmountEditText) {
+        showCalculatorInternal((AmountEditText) input);
+        break;
+      }
+    }
   }
 
-  protected void showCalculatorInternal(AmountEditText input) {
+  protected void showCalculatorInternal(@NonNull AmountEditText input) {
     Intent intent = new Intent(this,CalculatorInput.class);
     forwardDataEntryFromWidget(intent);
     BigDecimal amount = validateAmountInput(input, false);
@@ -147,6 +132,8 @@ public abstract class AmountActivity extends EditActivity {
   protected void linkInputsWithLabels() {
     linkInputWithLabel(mAmountText, mAmountLabel);
     linkInputWithLabel(mTypeButton, mAmountLabel);
-    linkInputWithLabel(findViewById(R.id.AmountRow).findViewById(R.id.Calculator),mAmountLabel);
+    linkInputWithLabel(amountRow.findViewById(R.id.Calculator), mAmountLabel);
+    final View exchangeRateLabel = findViewById(R.id.ExchangeRateLabel);
+    linkInputWithLabel(mExchangeRateEdit, exchangeRateLabel);
   }
 }

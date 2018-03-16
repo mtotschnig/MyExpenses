@@ -251,9 +251,8 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
     extras.addRow(new String[]{
         "0",
         getString(R.string.menu_create_account),
-        Utils.getLocalCurrency().getCurrencyCode(),
+        Utils.getHomeCurrency().getCurrencyCode(),
         AccountType.CASH.name()
-
     });
     mAccountsCursor = new MergeCursor(new Cursor[]{extras, data});
     mAccountsAdapter.swapCursor(mAccountsCursor);

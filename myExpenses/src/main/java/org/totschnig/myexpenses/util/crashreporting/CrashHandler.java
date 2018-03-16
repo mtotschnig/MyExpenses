@@ -30,6 +30,13 @@ public abstract class CrashHandler {
   }
 
   public static void report(Throwable e) {
+    report(e, null);
+  }
+
+  public static void report(Throwable e, String tag) {
+    if (tag != null) {
+      Timber.tag(tag);
+    }
     Timber.e(e);
   }
 
@@ -38,9 +45,12 @@ public abstract class CrashHandler {
   }
 
   public abstract void onAttachBaseContext(MyApplication application);
+
   public abstract void setupLogging(Context context);
+
   public abstract void putCustomData(String key, String value);
-  public void addBreadcrumb(String breadcrumb) {
+
+  public synchronized void addBreadcrumb(String breadcrumb) {
     currentBreadCrumb = currentBreadCrumb == null ? "" : currentBreadCrumb.substring(Math.max(0, currentBreadCrumb.length() - 500));
     currentBreadCrumb += "->" + breadcrumb;
     putCustomData(CUSTOM_DATA_KEY_BREADCRUMB, currentBreadCrumb);

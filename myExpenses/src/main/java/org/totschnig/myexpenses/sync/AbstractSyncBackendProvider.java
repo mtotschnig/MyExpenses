@@ -153,7 +153,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
       return Optional.of(gson.fromJson(
           new BufferedReader(new InputStreamReader(inputStream)), AccountMetaData.class));
     } catch (Exception e) {
-      CrashHandler.report(e);
+      CrashHandler.report(e, SyncAdapter.TAG);
       return Optional.empty();
     }
   }

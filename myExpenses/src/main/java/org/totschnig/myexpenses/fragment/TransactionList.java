@@ -135,6 +135,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENS
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER_PARENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR_OF_MONTH_START;
@@ -173,7 +174,7 @@ public class TransactionList extends ContextualActionBarFragment implements
   private boolean mappedPayees;
   private boolean mappedMethods;
   private boolean hasTransfers;
-  private Cursor mTransactionsCursor, mGroupingCursor;
+  private Cursor mTransactionsCursor;
 
   private ExpandableStickyListHeadersListView mListView;
   private LoaderManager mManager;
@@ -241,12 +242,7 @@ public class TransactionList extends ContextualActionBarFragment implements
 
   private void setAdapter() {
     Context ctx = getActivity();
-    // Create an array to specify the fields we want to display in the list
-    String[] from = new String[]{KEY_LABEL_MAIN, KEY_DATE, KEY_AMOUNT};
-
-    // and an array of the fields we want to bind those fields to 
-    int[] to = new int[]{R.id.category, R.id.date, R.id.amount};
-    mAdapter = new MyGroupedAdapter(ctx, R.layout.expense_row, null, from, to, 0);
+    mAdapter = new MyGroupedAdapter(ctx, R.layout.expense_row, null, 0);
     mListView.setAdapter(mAdapter);
   }
 
@@ -256,7 +252,6 @@ public class TransactionList extends ContextualActionBarFragment implements
   }
 
   private void restartGroupingLoader() {
-    mGroupingCursor = null;
     if (mManager == null) {
       //can happen after an orientation change in ExportDialogFragment, when resetting multiple accounts
       mManager = getLoaderManager();
@@ -411,7 +406,7 @@ public class TransactionList extends ContextualActionBarFragment implements
       case R.id.EDIT_COMMAND:
       case R.id.CLONE_TRANSACTION_COMMAND:
         mTransactionsCursor.moveToPosition(acmi.position);
-        if (DbUtils.getLongOrNull(mTransactionsCursor, "transfer_peer_parent") != null) {
+        if (DbUtils.getLongOrNull(mTransactionsCursor, KEY_TRANSFER_PEER_PARENT) != null) {
           ctx.showSnackbar(R.string.warning_splitpartcategory_context, Snackbar.LENGTH_LONG);
         } else {
           Intent i = new Intent(ctx, ExpenseEdit.class);
@@ -456,7 +451,10 @@ public class TransactionList extends ContextualActionBarFragment implements
     CursorLoader cursorLoader = null;
     String selection;
     String[] selectionArgs;
-    if (mAccount.getId() < 0) {
+    if (mAccount.isHomeAggregate()) {
+      selection = "";
+      selectionArgs = null;
+    } else if (mAccount.isAggregate()) {
       selection = KEY_ACCOUNTID + " IN " +
           "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +
           KEY_EXCLUDE_FROM_TOTALS + " = 0)";
@@ -470,14 +468,21 @@ public class TransactionList extends ContextualActionBarFragment implements
         if (!mFilter.isEmpty()) {
           String selectionForParents = mFilter.getSelectionForParents(DatabaseConstants.VIEW_EXTENDED);
           if (!selectionForParents.equals("")) {
-            selection += " AND " + selectionForParents;
+            if (!TextUtils.isEmpty(selection)) {
+              selection += " AND ";
+            }
+            selection += selectionForParents;
             selectionArgs = Utils.joinArrays(selectionArgs, mFilter.getSelectionArgs(false));
           }
         }
+        if (!TextUtils.isEmpty(selection)) {
+          selection += " AND ";
+        }
+        selection += KEY_PARENTID + " is null";
         cursorLoader = new CursorLoader(getActivity(),
             mAccount.getExtendedUriForTransactionList(),
             mAccount.getExtendedProjectionForTransactionList(),
-            selection + " AND " + KEY_PARENTID + " is null",
+            selection,
             selectionArgs, KEY_DATE + " " + mAccount.getSortDirection().name());
         break;
       //TODO: probably we can get rid of SUM_CURSOR, if we also aggregate unmapped transactions
@@ -500,10 +505,12 @@ public class TransactionList extends ContextualActionBarFragment implements
         }
         builder.appendPath(TransactionProvider.URI_SEGMENT_GROUPS)
             .appendPath(mAccount.getGrouping().name());
-        if (mAccount.getId() < 0) {
-          builder.appendQueryParameter(KEY_CURRENCY, mAccount.currency.getCurrencyCode());
-        } else {
-          builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(mAccount.getId()));
+        if (!mAccount.isHomeAggregate()) {
+          if (mAccount.isAggregate()) {
+            builder.appendQueryParameter(KEY_CURRENCY, mAccount.currency.getCurrencyCode());
+          } else {
+            builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(mAccount.getId()));
+          }
         }
         cursorLoader = new CursorLoader(getActivity(),
             builder.build(),
@@ -544,7 +551,6 @@ public class TransactionList extends ContextualActionBarFragment implements
         getActivity().supportInvalidateOptionsMenu();
         break;
       case GROUPING_CURSOR:
-        mGroupingCursor = c;
         int columnIndexGroupYear = c.getColumnIndex(KEY_YEAR);
         int columnIndexGroupSecond = c.getColumnIndex(KEY_SECOND_GROUP);
         int columnIndexGroupSumIncome = c.getColumnIndex(KEY_SUM_INCOME);
@@ -558,7 +564,7 @@ public class TransactionList extends ContextualActionBarFragment implements
             long sumIncome = c.getLong(columnIndexGroupSumIncome);
             long sumExpense = c.getLong(columnIndexGroupSumExpense);
             long sumTransfer = c.getLong(columnIndexGroupSumTransfer);
-            long delta = sumIncome - sumExpense + sumTransfer;
+            long delta = sumIncome + sumExpense + sumTransfer;
             long interimBalance = previousBalance + delta;
             long mappedCategories = c.getLong(columnIndexGroupMappedCategories);
             headerData.put(calculateHeaderId(c.getInt(columnIndexGroupYear),
@@ -594,8 +600,6 @@ public class TransactionList extends ContextualActionBarFragment implements
         mappedPayees = false;
         mappedMethods = false;
         break;
-      case GROUPING_CURSOR:
-        mGroupingCursor = null;
     }
   }
 
@@ -644,8 +648,7 @@ public class TransactionList extends ContextualActionBarFragment implements
         }
         return;
       }
-      if (mAccount.getType() != mType ||
-          mAccount.currency.getCurrencyCode() != mCurrency) {
+      if (mAccount.getType() != mType || !mAccount.currency.getCurrencyCode().equals(mCurrency)) {
         mListView.setAdapter(mAdapter);
         mType = mAccount.getType();
         mCurrency = mAccount.currency.getCurrencyCode();
@@ -657,12 +660,11 @@ public class TransactionList extends ContextualActionBarFragment implements
     }
   }
 
-  public class MyGroupedAdapter extends TransactionAdapter implements StickyListHeadersAdapter {
-    LayoutInflater inflater;
+  private class MyGroupedAdapter extends TransactionAdapter implements StickyListHeadersAdapter {
+    private LayoutInflater inflater;
 
-    public MyGroupedAdapter(Context context, int layout, Cursor c, String[] from,
-                            int[] to, int flags) {
-      super(mAccount, context, layout, c, from, to, flags, currencyFormatter);
+    private MyGroupedAdapter(Context context, int layout, Cursor c, int flags) {
+      super(mAccount, context, layout, c, flags, currencyFormatter);
       inflater = LayoutInflater.from(getActivity());
     }
 
@@ -695,14 +697,14 @@ public class TransactionList extends ContextualActionBarFragment implements
       Long[] data = headerData != null ? headerData.get(headerId) : null;
       if (data != null) {
         holder.sumIncome.setText("+ " + currencyFormatter.convAmount(data[0], mAccount.currency));
-        holder.sumExpense.setText("- " + currencyFormatter.convAmount(data[1], mAccount.currency));
+        holder.sumExpense.setText("- " + currencyFormatter.convAmount(-data[1], mAccount.currency));
         holder.sumTransfer.setText(Transfer.BI_ARROW + " " + currencyFormatter.convAmount(
             data[2], mAccount.currency));
         String formattedDelta = String.format("%s %s", Long.signum(data[4]) > -1 ? "+" : "-",
             currencyFormatter.convAmount(Math.abs(data[4]), mAccount.currency));
         currencyFormatter.convAmount(Math.abs(data[4]), mAccount.currency);
         holder.interimBalance.setText(
-            mFilter.isEmpty() ? String.format("%s %s = %s",
+            mFilter.isEmpty() && !mAccount.isHomeAggregate() ? String.format("%s %s = %s",
                 currencyFormatter.convAmount(data[3], mAccount.currency), formattedDelta,
                 currencyFormatter.convAmount(data[5], mAccount.currency)) :
                 formattedDelta);
@@ -892,7 +894,7 @@ public class TransactionList extends ContextualActionBarFragment implements
     }
     MenuItem searchMenu = menu.findItem(R.id.SEARCH_COMMAND);
     if (searchMenu != null) {
-      String title;
+      String title = mAccount.getLabelForScreenTitle(getContext());
       Drawable searchMenuIcon = searchMenu.getIcon();
       if (searchMenuIcon == null) {
         CrashHandler.report("Search menu icon not found");
@@ -902,13 +904,12 @@ public class TransactionList extends ContextualActionBarFragment implements
           searchMenuIcon.setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
         }
         searchMenu.setChecked(true);
-        title = mAccount.getLabel() + " ( " + mFilter.prettyPrint() + " )";
+        title += " ( " + mFilter.prettyPrint() + " )";
       } else {
         if (searchMenuIcon != null) {
           searchMenuIcon.setColorFilter(null);
         }
         searchMenu.setChecked(false);
-        title = mAccount.getLabel();
       }
       ((MyExpenses) getActivity()).setTitle(title);
       SubMenu filterMenu = searchMenu.getSubMenu();

@@ -111,6 +111,8 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     iconMap.put("result", R.drawable.ic_web);
     iconMap.put("learn_more", null);
     iconMap.put("set_weight", null);
+    iconMap.put("original_amount", null);
+    iconMap.put("equivalent_amount", null);
   }
 
   private LayoutInflater layoutInflater;

@@ -1,28 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingEnd="12dp"
-    android:paddingRight="12dp"
-    tools:showIn="@layout/one_expense"
-    tools:ignore="RtlSymmetry">
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+    <include
+        android:id="@+id/ExchangeRate_1"
+        layout="@layout/exchange_rate"/>
 
-        <include layout="@layout/exchange_rate_1"/>
-    </TableRow>
 
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <include layout="@layout/exchange_rate_2"/>
-    </TableRow>
-</TableLayout>
+    <include
+        android:id="@+id/ExchangeRate_2"
+        layout="@layout/exchange_rate"/>
+</merge>

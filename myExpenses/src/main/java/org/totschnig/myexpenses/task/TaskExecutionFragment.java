@@ -24,17 +24,20 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
 import org.apache.commons.csv.CSVRecord;
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.fragment.CsvImportDataFragment;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Locale;
 
-import timber.log.Timber;
+import javax.inject.Inject;
 
 /**
  * This Fragment manages a single background task and retains itself across
@@ -121,6 +124,7 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_REMOVE_LICENCE = 56;
   public static final int TASK_BUILD_TRANSACTION_FROM_INTENT_EXTRAS = 57;
   public static final int TASK_DROPBOX_SETUP = 58;
+  public static final int TASK_RESET_EQUIVALENT_AMOUNTS = 59;
 
   /**
    * Callback interface through which the fragment will report the task's
@@ -140,6 +144,9 @@ public class TaskExecutionFragment<T> extends Fragment {
      */
     void onPostExecute(int taskId, Object o);
   }
+
+  @Inject
+  protected CrashHandler crashHandler;
 
   //TODO refactor so that callbacks are not visible to hosted tasks
   TaskCallbacks mCallbacks;
@@ -219,7 +226,7 @@ public class TaskExecutionFragment<T> extends Fragment {
     bundle.putLong(DatabaseConstants.KEY_ACCOUNTID, accountId);
     bundle.putString(DatabaseConstants.KEY_CURRENCY, currency);
     bundle.putSerializable(KEY_DATE_FORMAT, qifDateFormat);
-    bundle.putSerializable(DatabaseConstants.KEY_TYPE,type);
+    bundle.putSerializable(DatabaseConstants.KEY_TYPE, type);
     f.setArguments(bundle);
     return f;
   }
@@ -263,12 +270,13 @@ public class TaskExecutionFragment<T> extends Fragment {
     // Retain this fragment across configuration changes.
     setRetainInstance(true);
 
+    MyApplication.getInstance().getAppComponent().inject(this);
+
     // Create and execute the background task.
     Bundle args = getArguments();
     int taskId = args.getInt(KEY_TASKID);
-    //TODO Acra breadcrumbs
-    Timber.i("TaskExecutionFragment created for task %d with objects %s",
-        taskId, Utils.printDebug((Object[]) args.getSerializable(KEY_OBJECT_IDS)));
+    crashHandler.addBreadcrumb(String.format(Locale.ROOT, "%d (%s)",
+            taskId, Utils.printDebug((Object[]) args.getSerializable(KEY_OBJECT_IDS))));
     try {
       switch (taskId) {
         case TASK_GRISBI_IMPORT:
@@ -312,6 +320,9 @@ public class TaskExecutionFragment<T> extends Fragment {
           break;
         case TASK_DROPBOX_SETUP:
           new DropboxSetupTask(this, taskId).execute(args);
+          break;
+        case TASK_RESET_EQUIVALENT_AMOUNTS:
+          new ResetEquivalentAmountsTask(this, taskId).execute(args);
           break;
         default:
           new GenericTask<T>(this, taskId, args.getSerializable(KEY_EXTRA))

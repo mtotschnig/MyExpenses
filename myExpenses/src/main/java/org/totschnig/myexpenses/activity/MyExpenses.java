@@ -33,7 +33,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v4.widget.DrawerLayout;
@@ -71,6 +70,7 @@ import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountGrouping;
 import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.Grouping;
@@ -124,6 +124,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_CLEARED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_EXPORTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_FUTURE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_AGGREGATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL;
@@ -298,8 +299,7 @@ public class MyExpenses extends LaunchActivity implements
 
     //Sort submenu
     MenuItem menuItem = menu.findItem(R.id.SORT_COMMAND);
-    MenuItemCompat.setShowAsAction(
-        menuItem, MenuItemCompat.SHOW_AS_ACTION_NEVER);
+    menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
     sortMenu = menuItem.getSubMenu();
     sortMenu.findItem(R.id.SORT_CUSTOM_COMMAND).setVisible(true);
 
@@ -973,8 +973,9 @@ public class MyExpenses extends LaunchActivity implements
     return mAccountsCursor.getInt(mAccountsCursor.getColumnIndexOrThrow(KEY_HAS_CLEARED)) > 0;
   }
 
-  private void setConvertedAmount(TextView tv, Currency currency) {
-    tv.setText(currencyFormatter.convAmount(tv.getText().toString(), currency));
+  private void setConvertedAmount(TextView tv, Currency currency, boolean isHome) {
+    tv.setText(String.format(Locale.getDefault(),"%s%s", isHome ? " ≈ " : "",
+        currencyFormatter.convAmount(tv.getText().toString(), currency)));
   }
 
   @Override
@@ -1007,7 +1008,7 @@ public class MyExpenses extends LaunchActivity implements
         (KEY_CURRENT_BALANCE));
     mCurrentBalance = currencyFormatter.formatCurrency(new Money(Utils.getSaveInstance(mAccountsCursor
         .getString(columnIndexCurrency)), balance));
-    TextView balanceTextView = (TextView) mToolbar.findViewById(R.id.end);
+    TextView balanceTextView = mToolbar.findViewById(R.id.end);
     balanceTextView.setTextColor(balance < 0 ? colorExpense : colorIncome);
     balanceTextView.setText(mCurrentBalance);
   }
@@ -1041,26 +1042,31 @@ public class MyExpenses extends LaunchActivity implements
       Cursor c = getCursor();
       c.moveToPosition(position);
       long headerId = getHeaderId(position);
-      TextView sectionLabelTV = (TextView) convertView.findViewById(R.id.sectionLabel);
-      switch (mAccountGrouping) {
-        case CURRENCY:
-          sectionLabelTV.setText(CurrencyEnum.valueOf(c.getString(columnIndexCurrency)).toString());
-          break;
-        case NONE:
-          sectionLabelTV.setText(headerId == 0 ? R.string.pref_manage_accounts_title : R.string.menu_aggregates);
-          break;
-        case TYPE:
-          int headerRes;
-          if (headerId == AccountType.values().length) {
-            headerRes = R.string.menu_aggregates;
-          } else {
-            headerRes = AccountType.values()[(int) headerId].toStringResPlural();
-          }
-          sectionLabelTV.setText(headerRes);
-        default:
-          break;
-
+      TextView sectionLabelTV = convertView.findViewById(R.id.sectionLabel);
+      String headerText = null;
+      if (headerId == Long.MAX_VALUE) {
+        headerText = getString(R.string.grand_total);
       }
+      else {
+        switch (mAccountGrouping) {
+          case CURRENCY:
+            headerText = CurrencyEnum.valueOf(c.getString(columnIndexCurrency)).toString();
+            break;
+          case NONE:
+            headerText = getString(headerId == 0 ? R.string.pref_manage_accounts_title : R.string.menu_aggregates);
+            break;
+          case TYPE:
+            int headerRes;
+            if (headerId == AccountType.values().length) {
+              headerRes = R.string.menu_aggregates;
+            } else {
+              headerRes = AccountType.values()[(int) headerId].toStringResPlural();
+            }
+            headerText = getString(headerRes);
+            break;
+        }
+      }
+      sectionLabelTV.setText(headerText);
       return convertView;
     }
 
@@ -1068,6 +1074,10 @@ public class MyExpenses extends LaunchActivity implements
     public long getHeaderId(int position) {
       Cursor c = getCursor();
       c.moveToPosition(position);
+      int aggregate = c.getInt(c.getColumnIndexOrThrow(KEY_IS_AGGREGATE));
+      if (aggregate == AggregateAccount.AGGREGATE_HOME) {
+        return Long.MAX_VALUE;
+      }
       switch (mAccountGrouping) {
         case CURRENCY:
           return CurrencyEnum.valueOf(c.getString(columnIndexCurrency)).ordinal();
@@ -1101,7 +1111,7 @@ public class MyExpenses extends LaunchActivity implements
 
       boolean isHighlighted = rowId == mAccountId;
       boolean has_future = c.getInt(c.getColumnIndex(KEY_HAS_FUTURE)) > 0;
-      final boolean isAggregate = rowId < 0;
+      final int isAggregate = c.getInt(c.getColumnIndex(KEY_IS_AGGREGATE));
       final int count = c.getCount();
       boolean hide_cr;
       int colorInt;
@@ -1116,7 +1126,7 @@ public class MyExpenses extends LaunchActivity implements
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         row.findViewById(R.id.selected_indicator).setVisibility(isHighlighted ? View.VISIBLE : View.GONE);
       }
-      if (isAggregate) {
+      if (isAggregate > 0) {
         accountMenu.setVisibility(View.INVISIBLE);
         accountMenu.setOnClickListener(null);
       } else {
@@ -1168,7 +1178,10 @@ public class MyExpenses extends LaunchActivity implements
         });
       }
 
-      if (isAggregate) {
+      final boolean isHome = isAggregate == AggregateAccount.AGGREGATE_HOME;
+      labelTv.setVisibility(isHome ? View.GONE : View.VISIBLE);
+
+      if (isAggregate > 0) {
         hide_cr = true;
         if (mAccountGrouping == AccountGrouping.CURRENCY) {
           labelTv.setText(R.string.menu_aggregates);
@@ -1191,17 +1204,17 @@ public class MyExpenses extends LaunchActivity implements
           hide_cr ? View.GONE : View.VISIBLE);
       row.findViewById(R.id.ReconciledRow).setVisibility(
           hide_cr ? View.GONE : View.VISIBLE);
-      if (c.getLong(columnIndexRowId) > 0) {
-        setConvertedAmount(row.findViewById(R.id.sum_transfer), currency);
+      if (sum_transfer != 0) {
+        setConvertedAmount(row.findViewById(R.id.sum_transfer), currency, isHome);
       }
       v.setBackgroundColor(colorInt);
-      setConvertedAmount(row.findViewById(R.id.opening_balance), currency);
-      setConvertedAmount(row.findViewById(R.id.sum_income), currency);
-      setConvertedAmount(row.findViewById(R.id.sum_expenses), currency);
-      setConvertedAmount(row.findViewById(R.id.current_balance), currency);
-      setConvertedAmount(row.findViewById(R.id.total), currency);
-      setConvertedAmount(row.findViewById(R.id.reconciled_total), currency);
-      setConvertedAmount(row.findViewById(R.id.cleared_total), currency);
+      setConvertedAmount(row.findViewById(R.id.opening_balance), currency, isHome);
+      setConvertedAmount(row.findViewById(R.id.sum_income), currency, isHome);
+      setConvertedAmount(row.findViewById(R.id.sum_expenses), currency, isHome);
+      setConvertedAmount(row.findViewById(R.id.current_balance), currency, isHome);
+      setConvertedAmount(row.findViewById(R.id.total), currency, isHome);
+      setConvertedAmount(row.findViewById(R.id.reconciled_total), currency, isHome);
+      setConvertedAmount(row.findViewById(R.id.cleared_total), currency, isHome);
       String description = c.getString(columnIndexDescription);
       row.findViewById(R.id.description).setVisibility(
           TextUtils.isEmpty(description) ? View.GONE : View.VISIBLE);

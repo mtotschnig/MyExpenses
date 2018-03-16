@@ -36,8 +36,8 @@ public class TransactionTest extends BaseDbTest {
   // Contains the test data, as an array of TransactionInfo instances.
   private TransactionInfo[] TEST_TRANSACTIONS = new TransactionInfo[3];
   private String PAYEE_NAME = "N.N";
-  long testAccountId;
-  long payeeId;
+  private long testAccountId;
+  private long payeeId;
 
 
   @Override

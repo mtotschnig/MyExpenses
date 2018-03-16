@@ -38,6 +38,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountGrouping;
 import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Model;
@@ -129,6 +130,10 @@ public class TransactionProvider extends ContentProvider {
    */
   public static final Uri DUAL_URI =
       Uri.parse("content://" + AUTHORITY + "/dual");
+
+  public static final Uri ACCOUNT_EXCHANGE_RATE_URI =
+      Uri.parse("content://" + AUTHORITY + "/account_exchangerates");
+
   public static final String URI_SEGMENT_MOVE = "move";
   public static final String URI_SEGMENT_TOGGLE_CRSTATUS = "toggleCrStatus";
   public static final String URI_SEGMENT_UNDELETE = "undelete";
@@ -205,6 +210,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int ACCOUNT_ID_GROUPING = 45;
   private static final int ACCOUNT_ID_SORTDIRECTION = 46;
   private static final int AUTOFILL = 47;
+  private static final int ACCOUNT_EXCHANGE_RATE = 48;
 
 
   private boolean mDirty = false;
@@ -242,7 +248,6 @@ public class TransactionProvider extends ContentProvider {
     String having = null;
     String limit = null;
 
-    String accountSelectionQuery;
     String accountSelector;
     int uriMatch = URI_MATCHER.match(uri);
     switch (uriMatch) {
@@ -272,31 +277,47 @@ public class TransactionProvider extends ContentProvider {
         qb.setTables(VIEW_ALL);
         qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
         break;
-      case TRANSACTIONS_SUMS:
+      case TRANSACTIONS_SUMS: {
+        String accountSelectionQuery = null;
         accountSelector = uri.getQueryParameter(KEY_ACCOUNTID);
         if (accountSelector == null) {
           accountSelector = uri.getQueryParameter(KEY_CURRENCY);
-          accountSelectionQuery = " IN " +
-              "(SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +
-              KEY_EXCLUDE_FROM_TOTALS + "=0)";
+          if (accountSelector != null) {
+            accountSelectionQuery = " IN " +
+                "(SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +
+                KEY_EXCLUDE_FROM_TOTALS + "=0)";
+          }
         } else {
           accountSelectionQuery = " = ?";
         }
-        qb.setTables(VIEW_COMMITTED);
-        projection = new String[]{"amount>0 as " + KEY_TYPE, "abs(sum(amount)) as  " + KEY_SUM};
         groupBy = KEY_TYPE;
         qb.appendWhere(WHERE_TRANSACTION);
-        qb.appendWhere(" AND " + KEY_ACCOUNTID + accountSelectionQuery);
-        selectionArgs = new String[]{accountSelector};
+        String typeColumn = KEY_AMOUNT + ">0 as " + KEY_TYPE;
+        String amountCalculation;
+        if (accountSelector != null) {
+          qb.setTables(VIEW_COMMITTED);
+          selectionArgs = new String[]{accountSelector};
+          qb.appendWhere(" AND " + KEY_ACCOUNTID + accountSelectionQuery);
+          amountCalculation = KEY_AMOUNT;
+        } else {
+          qb.setTables(VIEW_EXTENDED);
+          amountCalculation = DatabaseConstants.getAmountHomeEquivalent();
+        }
+        projection = new String[]{typeColumn, "abs(sum(" + amountCalculation + ")) as  " + KEY_SUM};
         break;
-      case TRANSACTIONS_GROUPS:
+      }
+      case TRANSACTIONS_GROUPS: {
+        String accountSelectionQuery = null;
         accountSelector = uri.getQueryParameter(KEY_ACCOUNTID);
         if (accountSelector == null) {
           accountSelector = uri.getQueryParameter(KEY_CURRENCY);
-          accountSelectionQuery = KEY_CURRENCY + " = ? AND " + KEY_EXCLUDE_FROM_TOTALS + " = 0";
+          if (accountSelector != null) {
+            accountSelectionQuery = KEY_CURRENCY + " = ? AND " + KEY_EXCLUDE_FROM_TOTALS + " = 0";
+          }
         } else {
           accountSelectionQuery = KEY_ACCOUNTID + " = ?";
         }
+        boolean forHome = accountSelector == null;
 
         Grouping group;
         try {
@@ -353,23 +374,28 @@ public class TransactionProvider extends ContentProvider {
         int index = 0;
         projection[index++] = yearExpression + " AS " + KEY_YEAR;
         projection[index++] = secondDef + " AS " + KEY_SECOND_GROUP;
-        projection[index++] = includeTransfers ? IN_SUM : INCOME_SUM;
-        projection[index++] = includeTransfers ? OUT_SUM : EXPENSE_SUM;
+        projection[index++] = includeTransfers ? getInSum(forHome) : getIncomeSum(forHome);
+        projection[index++] = includeTransfers ? getOutSum(forHome) : getExpenseSum(forHome);
         if (!includeTransfers) {
-          projection[index++] = TRANSFER_SUM;
+          //for the Grand total account transfer calculation is neither possible (adding amounts in
+          //different currencies) nor necessary (should result in 0)
+          projection[index++] = (forHome ? "0" : TRANSFER_SUM) + " AS " + KEY_SUM_TRANSFERS;
         }
         projection[index++] = MAPPED_CATEGORIES;
         if (withStart) {
           projection[index] = (group == Grouping.WEEK ? getWeekStartJulian() : DAY_START_JULIAN)
               + " AS " + KEY_GROUP_START;
         }
-        selection = accountSelectionQuery
-            + (selection != null ? " AND " + selection : "");
-        selectionArgs = Utils.joinArrays(
-            new String[]{accountSelector},
-            selectionArgs);
+        if (accountSelector != null) {
+          selection = accountSelectionQuery
+              + (selection != null ? " AND " + selection : "");
+          selectionArgs = Utils.joinArrays(
+              new String[]{accountSelector},
+              selectionArgs);
+        }
         sortOrder = KEY_YEAR + " ASC," + KEY_SECOND_GROUP + " ASC";
         break;
+      }
       case CATEGORIES:
         qb.setTables(TABLE_CATEGORIES);
         qb.appendWhere(KEY_ROWID + " != " + SPLIT_CATID);
@@ -391,10 +417,11 @@ public class TransactionProvider extends ContentProvider {
           if (projection != null)
             throw new IllegalArgumentException(
                 "When calling accounts cursor with mergeCurrencyAggregates, projection is ignored ");
-          @SuppressWarnings("deprecation")
-          String accountSubquery = qb.buildQuery(Account.PROJECTION_FULL, selection, null, groupBy,
+          String accountSubquery = qb.buildQuery(Account.PROJECTION_FULL, selection, null,
               null, null, null);
-          qb.setTables("(SELECT " +
+          //Currency query
+          String homeCurrency = PrefKey.HOME_CURRENCY.getString(null);
+          String inTables = "(SELECT " +
               KEY_ROWID + "," +
               KEY_CURRENCY + "," +
               KEY_OPENING_BALANCE + "," +
@@ -405,9 +432,13 @@ public class TransactionProvider extends ContentProvider {
               " AND " + WHERE_NOT_SPLIT + " ) AS " + KEY_TOTAL + ", " +
               "(" + SELECT_AMOUNT_SUM + " AND " + WHERE_EXPENSE + ") AS " + KEY_SUM_EXPENSES + "," +
               "(" + SELECT_AMOUNT_SUM + " AND " + WHERE_INCOME + ") AS " + KEY_SUM_INCOME + ", " +
+              "(" + SELECT_AMOUNT_SUM + " AND " + WHERE_TRANSFER + ") AS " + KEY_SUM_TRANSFERS + ", " +
               HAS_EXPORTED + ", " +
-              HAS_FUTURE +
-              " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_EXCLUDE_FROM_TOTALS + " = 0) as t");
+              HAS_FUTURE + ", " +
+              "coalesce((SELECT " + KEY_EXCHANGE_RATE + " FROM " + TABLE_ACCOUNT_EXCHANGE_RATES + " WHERE " + KEY_ACCOUNTID + " = " + KEY_ROWID +
+              " AND " + KEY_CURRENCY_SELF + "=" + KEY_CURRENCY + " AND " + KEY_CURRENCY_OTHER + "='" + homeCurrency + "'), 1) AS " + KEY_EXCHANGE_RATE +
+              " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_EXCLUDE_FROM_TOTALS + " = 0) as t";
+          qb.setTables(inTables);
           groupBy = "currency";
           having = "count(*) > 1";
           projection = new String[]{
@@ -426,10 +457,11 @@ public class TransactionProvider extends ContentProvider {
               "null AS " + KEY_SYNC_ACCOUNT_NAME,
               "null AS " + KEY_UUID,
               "'DESC' AS " + KEY_SORT_DIRECTION,
+              "1 AS " + KEY_EXCHANGE_RATE,
               "sum(" + KEY_CURRENT_BALANCE + ") AS " + KEY_CURRENT_BALANCE,
               "sum(" + KEY_SUM_INCOME + ") AS " + KEY_SUM_INCOME,
               "sum(" + KEY_SUM_EXPENSES + ") AS " + KEY_SUM_EXPENSES,
-              "0 AS " + KEY_SUM_TRANSFERS,
+              "sum(" + KEY_SUM_TRANSFERS + ") AS " + KEY_SUM_TRANSFERS,
               "sum(" + KEY_TOTAL + ") AS " + KEY_TOTAL,
               "0 AS " + KEY_CLEARED_TOTAL, //we do not calculate cleared and reconciled totals for aggregate accounts
               "0 AS " + KEY_RECONCILED_TOTAL,
@@ -439,8 +471,46 @@ public class TransactionProvider extends ContentProvider {
               "0 AS " + KEY_HAS_CLEARED,
               "0 AS " + KEY_SORT_KEY_TYPE,
               "0 AS " + KEY_LAST_USED}; //ignored
-          @SuppressWarnings("deprecation")
-          String currencySubquery = qb.buildQuery(projection, null, null, groupBy, having, null, null);
+          String currencySubquery = qb.buildQuery(projection, null, groupBy, having, null, null);
+          //home query
+          String[] subQueries;
+          if (homeCurrency != null) {
+            projection = new String[]{
+                Account.HOME_AGGREGATE_ID + " AS " + KEY_ROWID,
+                "'' AS " + KEY_LABEL,
+                "'' AS " + KEY_DESCRIPTION,
+                "sum(" + KEY_OPENING_BALANCE + " * " + KEY_EXCHANGE_RATE + ") AS " + KEY_OPENING_BALANCE,
+                "'" + AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE + "' AS " + KEY_CURRENCY,
+                "-1 AS " + KEY_COLOR,
+                "'NONE' AS " + KEY_GROUPING,
+                "'AGGREGATE' AS " + KEY_TYPE,
+                "0 AS " + KEY_SORT_KEY,
+                "0 AS " + KEY_EXCLUDE_FROM_TOTALS,
+                "max(" + KEY_HAS_EXPORTED + ") AS " + KEY_HAS_EXPORTED,
+                "null AS " + KEY_SYNC_ACCOUNT_NAME,
+                "null AS " + KEY_UUID,
+                "'DESC' AS " + KEY_SORT_DIRECTION,
+                "1 AS " + KEY_EXCHANGE_RATE,
+                "sum(" + KEY_CURRENT_BALANCE + " * " + KEY_EXCHANGE_RATE + ") AS " + KEY_CURRENT_BALANCE,
+                "(SELECT " + getIncomeSum(true) + " FROM " + VIEW_EXTENDED + ") AS " + KEY_SUM_INCOME,
+                "(SELECT " + getExpenseSum(true) + " FROM " + VIEW_EXTENDED + ") AS " + KEY_SUM_EXPENSES,
+                "0 AS " + KEY_SUM_TRANSFERS,
+                "sum(" + KEY_TOTAL + " * " + KEY_EXCHANGE_RATE + ") AS " + KEY_TOTAL,
+                "0 AS " + KEY_CLEARED_TOTAL, //we do not calculate cleared and reconciled totals for aggregate accounts
+                "0 AS " + KEY_RECONCILED_TOTAL,
+                "0 AS " + KEY_USAGES,
+                AggregateAccount.AGGREGATE_HOME + " AS " + KEY_IS_AGGREGATE,
+                "max(" + KEY_HAS_FUTURE + ") AS " + KEY_HAS_FUTURE,
+                "0 AS " + KEY_HAS_CLEARED,
+                "0 AS " + KEY_SORT_KEY_TYPE,
+                "0 AS " + KEY_LAST_USED}; //ignored
+            groupBy = "1";// we are grouping by the 1st column, i.e. the literal row id, this allows us to suppress the row, if the having clause is false
+            having = "(select count(distinct " + KEY_CURRENCY + ") from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " != '" + homeCurrency + "') > 0";
+            String homeSubquery = qb.buildQuery(projection, null, groupBy, having, null, null);
+            subQueries = new String[]{accountSubquery, currencySubquery, homeSubquery};
+          } else {
+            subQueries = new String[]{accountSubquery, currencySubquery};
+          }
           String grouping = "";
           AccountGrouping accountGrouping;
           try {
@@ -461,12 +531,13 @@ public class TransactionProvider extends ContentProvider {
               grouping = KEY_IS_AGGREGATE;
           }
           sortOrder = grouping + "," + defaultOrderBy;
+
           String sql = qb.buildUnionQuery(
-              new String[]{accountSubquery, currencySubquery},
+              subQueries,
               sortOrder,
               null);
-          c = db.rawQuery(sql, null);
           Timber.d("Query : %s", sql);
+          c = db.rawQuery(sql, null);
 
           c.setNotificationUri(getContext().getContentResolver(), uri);
           return c;
@@ -476,23 +547,42 @@ public class TransactionProvider extends ContentProvider {
         break;
       case AGGREGATE_ID:
         String currencyId = uri.getPathSegments().get(2);
-        qb.setTables(TABLE_CURRENCIES);
-        projection = new String[]{
-            "0 - " + KEY_ROWID + "  AS " + KEY_ROWID,//we use negative ids for aggregate accounts
-            KEY_CODE + " AS " + KEY_LABEL,
-            "'' AS " + KEY_DESCRIPTION,
-            "(select sum(" + KEY_OPENING_BALANCE
-                + ") from " + TABLE_ACCOUNTS + " where " + KEY_CURRENCY + " = " + KEY_CODE + ") AS " + KEY_OPENING_BALANCE,
-            KEY_CODE + " AS " + KEY_CURRENCY,
-            "-1 AS " + KEY_COLOR,
-            "'NONE' AS " + KEY_GROUPING,
-            "'DESC' AS " + KEY_SORT_DIRECTION,
-            "'AGGREGATE' AS " + KEY_TYPE,
-            "-1 AS " + KEY_SORT_KEY,
-            "0 AS " + KEY_EXCLUDE_FROM_TOTALS,
-            "null AS " + KEY_SYNC_ACCOUNT_NAME,
-            "null AS " + KEY_UUID};
-        qb.appendWhere(KEY_ROWID + "=" + currencyId);
+        if (Integer.parseInt(currencyId) == Account.HOME_AGGREGATE_ID) {
+          qb.setTables(TABLE_ACCOUNTS);
+          projection = new String[]{
+              Account.HOME_AGGREGATE_ID + " AS " + KEY_ROWID,
+              "'' AS " + KEY_LABEL,
+              "'' AS " + KEY_DESCRIPTION,
+              "sum(" + KEY_OPENING_BALANCE + " * " + DatabaseConstants.getExchangeRate(KEY_ROWID)
+                  + ") AS " + KEY_OPENING_BALANCE,
+              "'" + AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE + "' AS " + KEY_CURRENCY,
+              "-1 AS " + KEY_COLOR,
+              "'NONE' AS " + KEY_GROUPING,
+              "'DESC' AS " + KEY_SORT_DIRECTION,
+              "'AGGREGATE' AS " + KEY_TYPE,
+              "-1 AS " + KEY_SORT_KEY,
+              "0 AS " + KEY_EXCLUDE_FROM_TOTALS,
+              "null AS " + KEY_SYNC_ACCOUNT_NAME,
+              "null AS " + KEY_UUID};
+        } else {
+          qb.setTables(TABLE_CURRENCIES);
+          projection = new String[]{
+              "0 - " + KEY_ROWID + "  AS " + KEY_ROWID,//we use negative ids for aggregate accounts
+              KEY_CODE + " AS " + KEY_LABEL,
+              "'' AS " + KEY_DESCRIPTION,
+              "(select sum(" + KEY_OPENING_BALANCE
+                  + ") from " + TABLE_ACCOUNTS + " where " + KEY_CURRENCY + " = " + KEY_CODE + ") AS " + KEY_OPENING_BALANCE,
+              KEY_CODE + " AS " + KEY_CURRENCY,
+              "-1 AS " + KEY_COLOR,
+              "'NONE' AS " + KEY_GROUPING,
+              "'DESC' AS " + KEY_SORT_DIRECTION,
+              "'AGGREGATE' AS " + KEY_TYPE,
+              "-1 AS " + KEY_SORT_KEY,
+              "0 AS " + KEY_EXCLUDE_FROM_TOTALS,
+              "null AS " + KEY_SYNC_ACCOUNT_NAME,
+              "null AS " + KEY_UUID};
+        }
+        qb.appendWhere(KEY_ROWID + "= abs(" + currencyId + ")");
         break;
       case ACCOUNT_ID:
         qb.setTables(TABLE_ACCOUNTS);
@@ -680,6 +770,13 @@ public class TransactionProvider extends ContentProvider {
             + " WHERE " + WHERE_NOT_SPLIT + " AND " + KEY_PAYEEID + " = ?)";
         selectionArgs = new String[]{uri.getPathSegments().get(1)};
         break;
+      case ACCOUNT_EXCHANGE_RATE:
+        qb.setTables(TABLE_ACCOUNT_EXCHANGE_RATES);
+        qb.appendWhere(KEY_ACCOUNTID + "=" + uri.getPathSegments().get(1));
+        qb.appendWhere(" AND " + KEY_CURRENCY_SELF+ "='" + uri.getPathSegments().get(2) + "'");
+        qb.appendWhere(" AND " + KEY_CURRENCY_OTHER+ "='" + uri.getPathSegments().get(3) + "'");
+        projection = new String[]{KEY_EXCHANGE_RATE};
+        break;
       default:
         throw unknownUri(uri);
     }
@@ -786,6 +883,13 @@ public class TransactionProvider extends ContentProvider {
       case STALE_IMAGES:
         id = db.insertOrThrow(TABLE_STALE_URIS, null, values);
         newUri = STALE_IMAGES_URI + "/" + id;
+        break;
+      case ACCOUNT_EXCHANGE_RATE:
+        values.put(KEY_ACCOUNTID, uri.getPathSegments().get(1));
+        values.put(KEY_CURRENCY_SELF, uri.getPathSegments().get(2));
+        values.put(KEY_CURRENCY_OTHER, uri.getPathSegments().get(3));
+        id = db.insertWithOnConflict(TABLE_ACCOUNT_EXCHANGE_RATES, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+        newUri = uri.toString();
         break;
       case DUAL: {
         if ("1".equals(uri.getQueryParameter(QUERY_PARAMETER_SYNC_BEGIN))) {
@@ -1259,6 +1363,9 @@ public class TransactionProvider extends ContentProvider {
                     + KEY_COMMENT + ", "
                     + KEY_DATE + ", "
                     + KEY_AMOUNT + ", "
+                    + KEY_ORIGINAL_AMOUNT+ ", "
+                    + KEY_ORIGINAL_CURRENCY + ", "
+                    + KEY_EQUIVALENT_AMOUNT + ", "
                     + KEY_CATID + ", "
                     + KEY_ACCOUNTID + ","
                     + KEY_PAYEEID + ", "
@@ -1277,6 +1384,9 @@ public class TransactionProvider extends ContentProvider {
                     + KEY_COMMENT + ", "
                     + KEY_DATE + ", "
                     + KEY_AMOUNT + ", "
+                    + KEY_ORIGINAL_AMOUNT+ ", "
+                    + KEY_ORIGINAL_CURRENCY + ", "
+                    + KEY_EQUIVALENT_AMOUNT + ", "
                     + KEY_CATID + ", "
                     + KEY_ACCOUNTID + ", "
                     + KEY_PAYEEID + ", "
@@ -1437,7 +1547,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "planinstance_transaction", PLANINSTANCE_TRANSACTION_STATUS);
     URI_MATCHER.addURI(AUTHORITY, "currencies", CURRENCIES);
     URI_MATCHER.addURI(AUTHORITY, "currencies/" + URI_SEGMENT_CHANGE_FRACTION_DIGITS + "/*/#", CURRENCIES_CHANGE_FRACTION_DIGITS);
-    URI_MATCHER.addURI(AUTHORITY, "accounts/aggregates/#", AGGREGATE_ID);
+    URI_MATCHER.addURI(AUTHORITY, "accounts/aggregates/*", AGGREGATE_ID);
     URI_MATCHER.addURI(AUTHORITY, "payees_transactions", MAPPED_PAYEES);
     URI_MATCHER.addURI(AUTHORITY, "methods_transactions", MAPPED_METHODS);
     URI_MATCHER.addURI(AUTHORITY, "dual", DUAL);
@@ -1450,6 +1560,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "changes", CHANGES);
     URI_MATCHER.addURI(AUTHORITY, "settings", SETTINGS);
     URI_MATCHER.addURI(AUTHORITY, "autofill/#", AUTOFILL);
+    URI_MATCHER.addURI(AUTHORITY, "account_exchangerates/#/*/*", ACCOUNT_EXCHANGE_RATE);
   }
 
   /**

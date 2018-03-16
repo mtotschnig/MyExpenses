@@ -62,7 +62,7 @@ public class TransactionTest extends ModelTest {
 
   public void testTransaction() {
     String payee = "N.N";
-    long start = Transaction.getSequenceCount().longValue();
+    long start = Transaction.getSequenceCount();
     Transaction op1 = Transaction.getNewInstance(mAccount1.getId());
     assert op1 != null;
     op1.setAmount(new Money(mAccount1.currency, 100L));
@@ -119,10 +119,12 @@ public class TransactionTest extends ModelTest {
     op.setTransferAccountId(mAccount3.getId());
     assertNotNull(op.save());
     Transaction restored = Transaction.getInstanceFromDb(op.getId());
+    assertNotNull(restored);
     assertEquals(restored.getAccountId(), mAccount2.getId());
     assertEquals(restored.getTransferAccountId(), mAccount3.getId());
     assertEquals(restored.uuid, op.uuid);
     Transaction peer = Transaction.getInstanceFromDb(op.getTransferPeer());
+    assertNotNull(peer);
     assertEquals(peer.getAccountId(), mAccount3.getId());
     assertEquals(peer.getTransferAccountId(), mAccount2.getId());
     assertEquals(peer.uuid, op.uuid);
@@ -144,6 +146,7 @@ public class TransactionTest extends ModelTest {
     assertTrue(split1.getId() > 0);
     Transfer splitRestored = (Transfer) Transaction.getInstanceFromDb(split1.getId());
     assertTrue(DbUtils.hasParent(split1.getId()));
+    assertNotNull(splitRestored);
     assertEquals(splitRestored.getParentId(), op1.getId());
   }
 

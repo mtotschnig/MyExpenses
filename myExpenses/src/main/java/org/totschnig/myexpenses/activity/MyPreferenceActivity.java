@@ -20,7 +20,6 @@ import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -86,7 +85,6 @@ import static org.totschnig.myexpenses.sync.GenericAccountService.HOUR_IN_SECOND
  * @author Michael Totschnig
  */
 public class MyPreferenceActivity extends ProtectedFragmentActivity implements
-    OnSharedPreferenceChangeListener,
     ContribIFace, PreferenceFragmentCompat.OnPreferenceStartScreenCallback {
 
   public static final String KEY_OPEN_PREF_KEY = "openPrefKey";
@@ -120,12 +118,16 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     }
   }
 
-  private SettingsFragment getFragment() {
-    return activeFragment;
+  @Override
+  public void onAttachFragment(Fragment fragment) {
+    super.onAttachFragment(fragment);
+    if (fragment instanceof SettingsFragment) {
+      activeFragment = (SettingsFragment) fragment;
+    }
   }
 
-  public void setFragment(SettingsFragment fragment) {
-    activeFragment = fragment;
+  private SettingsFragment getFragment() {
+    return activeFragment;
   }
 
   @Override
@@ -345,6 +347,10 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
   public boolean dispatchCommand(int command, Object tag) {
     if (command == R.id.REMOVE_LICENCE_COMMAND) {
       startValidationTask(TaskExecutionFragment.TASK_REMOVE_LICENCE, R.string.progress_removing_licence);
+      return true;
+    }
+    if (command == R.id.CHANGE_COMMAND) {
+      getFragment().updateHomeCurrency((String) tag);
       return true;
     }
     return super.dispatchCommand(command, tag);

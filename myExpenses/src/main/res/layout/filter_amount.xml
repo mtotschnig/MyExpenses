@@ -59,7 +59,7 @@
                     android:id="@+id/amount1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:digits="1234567890,."
+                    android:digits="@string/amount_digits"
                     android:inputType="numberDecimal" />
             </TableRow>
 
@@ -75,7 +75,7 @@
                     android:id="@+id/amount2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:digits="1234567890,."
+                    android:digits="@string/amount_digits"
                     android:inputType="numberDecimal" />
             </TableRow>
         </TableLayout>

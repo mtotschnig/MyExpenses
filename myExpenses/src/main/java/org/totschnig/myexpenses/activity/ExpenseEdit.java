@@ -36,12 +36,13 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.PopupMenu;
 import android.text.Editable;
 import android.text.TextPaint;
@@ -49,6 +50,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.ContextThemeWrapper;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -73,6 +75,7 @@ import com.squareup.picasso.Picasso;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.CrStatusAdapter;
+import org.totschnig.myexpenses.adapter.CurrencyAdapter;
 import org.totschnig.myexpenses.adapter.OperationTypeAdapter;
 import org.totschnig.myexpenses.adapter.RecurrenceAdapter;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
@@ -84,6 +87,7 @@ import org.totschnig.myexpenses.fragment.TemplatesList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Plan;
@@ -98,6 +102,7 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.AmountEditText;
+import org.totschnig.myexpenses.ui.ExchangeRateEdit;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.ui.SpinnerHelper;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
@@ -114,7 +119,6 @@ import org.totschnig.myexpenses.widget.TemplateWidget;
 import java.io.File;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -125,6 +129,10 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import icepick.Icepick;
+import icepick.State;
 import timber.log.Timber;
 
 import static org.totschnig.myexpenses.activity.MyExpenses.KEY_SEQUENCE_COUNT;
@@ -148,7 +156,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 import static org.totschnig.myexpenses.task.BuildTransactionTask.KEY_EXTRAS;
@@ -166,7 +173,6 @@ public class ExpenseEdit extends AmountActivity implements
   private static final String SPLIT_PART_LIST = "SPLIT_PART_LIST";
   public static final String KEY_NEW_TEMPLATE = "newTemplate";
   public static final String KEY_CLONE = "clone";
-  private static final String KEY_CALENDAR = "calendar";
   private static final String KEY_CACHED_DATA = "cachedData";
   private static final String KEY_CACHED_RECURRENCE = "cachedRecurrence";
   private static final String KEY_CACHED_PICTURE_URI = "cachedPictureUri";
@@ -175,42 +181,108 @@ public class ExpenseEdit extends AmountActivity implements
   private static final String PREFKEY_TRANSFER_LAST_ACCOUNT_FROM_WIDGET = "transferLastAccountFromWidget";
   private static final String PREFKEY_TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET = "transferLastTransferAccountFromWidget";
   private static final String PREFKEY_SPLIT_LAST_ACCOUNT_FROM_WIDGET = "splitLastAccountFromWidget";
-  public static final int EXCHANGE_RATE_FRACTION_DIGITS = 5;
   private static final String KEY_AUTOFILL_OVERRIDE_PREFERENCES = "autoFillOverridePreferences";
   private static int INPUT_EXCHANGE_RATE = 1;
   private static int INPUT_AMOUNT = 2;
   private static int INPUT_TRANSFER_AMOUNT = 3;
   private int[] lastExchangeRateRelevantInputs = {INPUT_EXCHANGE_RATE, INPUT_AMOUNT};
-  private static final BigDecimal nullValue = new BigDecimal(0);
-  private Button mDateButton;
-  private Button mTimeButton;
-  private EditText mCommentText, mTitleText, mReferenceNumberText;
-  private AmountEditText mTransferAmountText, mExchangeRate1Text, mExchangeRate2Text;
+  @BindView(R.id.DateButton)
+  Button mDateButton;
+  @BindView(R.id.TimeButton)
+  Button mTimeButton;
+  @BindView(R.id.Comment)
+  EditText mCommentText;
+  @BindView(R.id.Title)
+  EditText mTitleText;
+  @BindView(R.id.Number)
+  EditText mReferenceNumberText;
+  @BindView(R.id.TranferAmount)
+  AmountEditText mTransferAmountText;
+  @BindView(R.id.OriginalAmount)
+  AmountEditText originalAmountText;
+  @BindView(R.id.EquivalentAmount)
+  AmountEditText equivalentAmountText;
+  @BindView(R.id.Category)
+  Button mCategoryButton;
+  @BindView(R.id.Plan)
+  Button mPlanButton;
+  @BindView(R.id.Payee)
+  AutoCompleteTextView mPayeeText;
+  @BindView(R.id.PayeeLabel)
+  TextView mPayeeLabel;
+  @BindView(R.id.PlanExecutionAutomatic)
+  ToggleButton mPlanToggleButton;
+  @BindView(R.id.AttachImage)
+  ImageView mAttachPictureButton;
+  @BindView(R.id.picture_container)
+  FrameLayout mPictureViewContainer;
+  @BindView(R.id.TitleRow)
+  ViewGroup titleRow;
+  @BindView(R.id.AccountRow)
+  ViewGroup accountRow;
+  @BindView(R.id.OriginalAmountRow)
+  ViewGroup originalAmountRow;
+  @BindView(R.id.EquivalentAmountRow)
+  ViewGroup equivalentAmountRow;
+  @BindView(R.id.TransferAmountRow)
+  ViewGroup transferAmountRow;
+  @BindView(R.id.TransferAccountRow)
+  ViewGroup transferAccountRow;
+  @BindView(R.id.DateTimeRow)
+  ViewGroup dateTimeRow;
+  @BindView(R.id.PayeeRow)
+  ViewGroup payeeRow;
+  @BindView(R.id.CategoryRow)
+  ViewGroup categoryRow;
+  @BindView(R.id.MethodRow)
+  ViewGroup methodRow;
+  @BindView(R.id.PlanRow)
+  ViewGroup plannerRow;
+  @BindView(R.id.AccountLabel)
+  TextView accountLabel;
+  @BindView(R.id.TransferAccountLabel)
+  TextView transferAccountLabel;
+  @BindView(R.id.TransferAmountLabel)
+  TextView transferAmountLabel;
+  @BindView(R.id.EquivalentAmountLabel)
+  TextView equivalentAmountLabel;
 
-  private Button mCategoryButton, mPlanButton;
   private SpinnerHelper mMethodSpinner, mAccountSpinner, mTransferAccountSpinner, mStatusSpinner,
-      mOperationTypeSpinner, mRecurrenceSpinner;
+      mOperationTypeSpinner, mRecurrenceSpinner, mCurrencySpinner;
   private SimpleCursorAdapter mMethodsAdapter, mAccountsAdapter, mTransferAccountsAdapter, mPayeeAdapter;
   private OperationTypeAdapter mOperationTypeAdapter;
   private FilterCursorWrapper mTransferAccountCursor;
-  private AutoCompleteTextView mPayeeText;
-  protected TextView mPayeeLabel;
-  private ToggleButton mPlanToggleButton;
-  private ImageView mAttachPictureButton;
-  private FrameLayout mPictureViewContainer;
-  private Long mRowId = 0L;
-  private Long mTemplateId;
-  private Account[] mAccounts;
-  private Calendar mCalendar = Calendar.getInstance();
+
+  @State
+  Long mRowId = 0L;
+  @State
+  Long mTemplateId;
+  @State
+  Calendar mCalendar = Calendar.getInstance();
+  @State
+  Long mCatId = null;
+  @State
+  Long mMethodId = null;
+  @State
+  Long mAccountId = null;
+  @State
+  Long mTransferAccountId;
+  @State
+  String mLabel;
+  @State
+  Uri mPictureUri;
+  @State
+  Uri mPictureUriTemp;
+  @State
+  boolean originalAmountVisible;
+  @State
+  boolean equivalentAmountVisible;
+
   private DateFormat mDateFormat, mTimeFormat;
-  private Long mCatId = null, mMethodId = null,
-      mAccountId = null, mTransferAccountId;
-  private String mLabel;
+  private Account[] mAccounts;
   private Transaction mTransaction;
   private Cursor mMethodsCursor;
   private Plan mPlan;
-  private Uri mPictureUri, mPictureUriTemp;
-
   private long mPlanInstanceId, mPlanInstanceDate;
   /**
    * transaction, transfer or split
@@ -233,7 +305,7 @@ public class ExpenseEdit extends AmountActivity implements
 
   protected boolean mClone = false;
   protected boolean mCreateNew;
-  protected boolean mIsMainTransactionOrTemplate, mIsMainTemplate;
+  protected boolean mIsMainTransactionOrTemplate, mIsMainTemplate, mIsMainTransaction;
   protected boolean mSavedInstance;
   protected boolean mRecordTemplateWidget;
   private boolean mIsResumed;
@@ -241,6 +313,7 @@ public class ExpenseEdit extends AmountActivity implements
   private ContentObserver pObserver;
   private boolean mPlanUpdateNeeded;
   private boolean didUserSetAccount;
+  private CurrencyAdapter currencyAdapter;
 
   public enum HelpVariant {
     transaction, transfer, split, templateCategory, templateTransfer, templateSplit, splitPartCategory, splitPartTransfer
@@ -272,25 +345,10 @@ public class ExpenseEdit extends AmountActivity implements
 
     setupToolbar();
     mManager = getSupportLoaderManager();
+    ButterKnife.bind(this);
     //we enable it only after accountcursor has been loaded, preventing NPE when user clicks on it early
-    configTypeButton();
     mTypeButton.setEnabled(false);
-    mCommentText = findViewById(R.id.Comment);
-    mTitleText = findViewById(R.id.Title);
-    mReferenceNumberText = findViewById(R.id.Number);
-    mDateButton = findViewById(R.id.DateButton);
-    mAttachPictureButton = findViewById(R.id.AttachImage);
-    mPictureViewContainer = findViewById(R.id.picture_container);
-    mTimeButton = findViewById(R.id.TimeButton);
-    mPayeeLabel = findViewById(R.id.PayeeLabel);
-    mPayeeText = findViewById(R.id.Payee);
-    mTransferAmountText = findViewById(R.id.TranferAmount);
-    mExchangeRate1Text = findViewById(R.id.ExchangeRate_1);
-    mExchangeRate1Text.setFractionDigits(EXCHANGE_RATE_FRACTION_DIGITS);
-    mExchangeRate1Text.addTextChangedListener(new LinkedExchangeRateTextWatchter(true));
-    mExchangeRate2Text = findViewById(R.id.ExchangeRate_2);
-    mExchangeRate2Text.setFractionDigits(EXCHANGE_RATE_FRACTION_DIGITS);
-    mExchangeRate2Text.addTextChangedListener(new LinkedExchangeRateTextWatchter(false));
+    mExchangeRateEdit.setExchangeRateWatcher(new LinkedExchangeRateTextWatchter());
 
     mPayeeAdapter = new SimpleCursorAdapter(this, R.layout.support_simple_spinner_dropdown_item, null,
         new String[]{KEY_PAYEE_NAME},
@@ -346,15 +404,29 @@ public class ExpenseEdit extends AmountActivity implements
       }
     });
 
-    mCategoryButton = findViewById(R.id.Category);
-    mPlanButton = findViewById(R.id.Plan);
     mMethodSpinner = new SpinnerHelper(findViewById(R.id.Method));
     mAccountSpinner = new SpinnerHelper(findViewById(R.id.Account));
     mTransferAccountSpinner = new SpinnerHelper(findViewById(R.id.TransferAccount));
     mTransferAccountSpinner.setOnItemSelectedListener(this);
     mStatusSpinner = new SpinnerHelper(findViewById(R.id.Status));
     mRecurrenceSpinner = new SpinnerHelper(findViewById(R.id.Recurrence));
-    mPlanToggleButton = findViewById(R.id.PlanExecutionAutomatic);
+    mCurrencySpinner = new SpinnerHelper(findViewById(R.id.OriginalCurrency));
+    currencyAdapter = new CurrencyAdapter(this) {
+      @NonNull
+      @Override
+      public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        View view = super.getView(position, convertView, parent);
+        ((TextView) view).setText(getItem(position).name());
+        return view;
+      }
+    };
+    mCurrencySpinner.setAdapter(currencyAdapter);
+    final String lastOriginalCurrency = PrefKey.LAST_ORIGINAL_CURRENCY.getString(null);
+    if (lastOriginalCurrency != null) {
+      try {
+        mCurrencySpinner.setSelection(currencyAdapter.getPosition(CurrencyEnum.valueOf(lastOriginalCurrency)));
+      } catch (IllegalArgumentException ignored) {}
+    }
     TextPaint paint = mPlanToggleButton.getPaint();
     int automatic = (int) paint.measureText(getString(R.string.plan_automatic));
     int manual = (int) paint.measureText(getString(R.string.plan_manual));
@@ -370,28 +442,11 @@ public class ExpenseEdit extends AmountActivity implements
     //upon orientation change stored in instance state, since new splitTransactions are immediately persisted to DB
     if (savedInstanceState != null) {
       mSavedInstance = true;
-      mRowId = savedInstanceState.getLong(KEY_ROWID);
-      mTemplateId = savedInstanceState.getLong(KEY_TEMPLATEID);
-      mPictureUri = savedInstanceState.getParcelable(KEY_PICTURE_URI);
-      mPictureUriTemp = savedInstanceState.getParcelable(KEY_PICTURE_URI_TMP);
+      Icepick.restoreInstanceState(this, savedInstanceState);
       setPicture();
-
-
-      mCalendar = (Calendar) savedInstanceState.getSerializable(KEY_CALENDAR);
-      mLabel = savedInstanceState.getString(KEY_LABEL);
-      if ((mCatId = savedInstanceState.getLong(KEY_CATID)) == 0L) {
-        mCatId = null;
-      }
-      if ((mMethodId = savedInstanceState.getLong(KEY_METHODID)) == 0L) {
-        mMethodId = null;
-      }
-      if ((mAccountId = savedInstanceState.getLong(KEY_ACCOUNTID)) == 0L) {
-        mAccountId = null;
-      } else {
+      if (mAccountId != null) {
         didUserSetAccount = true;
       }
-      if ((mTransferAccountId = savedInstanceState.getLong(KEY_TRANSFER_ACCOUNT)) == 0L)
-        mTransferAccountId = null;
     }
     //were we called from a notification
     int notificationId = getIntent().getIntExtra(MyApplication.KEY_NOTIFICATION_ID, 0);
@@ -488,7 +543,7 @@ public class ExpenseEdit extends AmountActivity implements
         if (isNewTemplate) {
           mTransaction = Template.getTypedNewInstance(mOperationType, accountId, true, parentId != 0 ? parentId : null);
           if (mOperationType == TYPE_SPLIT && mTransaction != null) {
-            mRowId = mTransaction.getId();
+            mTemplateId = mTransaction.getId();
           }
         } else {
           switch (mOperationType) {
@@ -587,10 +642,14 @@ public class ExpenseEdit extends AmountActivity implements
         }
       });
     }
+
+    mAmountText.addTextChangedListener(new LinkedTransferAmountTextWatcher(true));
     if (mOperationType == TYPE_TRANSFER) {
-      mAmountText.addTextChangedListener(new LinkedTransferAmountTextWatcher(true));
       mTransferAmountText.addTextChangedListener(new LinkedTransferAmountTextWatcher(false));
+    } else if (mIsMainTransaction) {
+      equivalentAmountText.addTextChangedListener(new LinkedTransferAmountTextWatcher(false));
     }
+
     // Spinner for account and transfer account
     mAccountsAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, null,
         new String[]{KEY_LABEL}, new int[]{android.R.id.text1}, 0);
@@ -600,7 +659,8 @@ public class ExpenseEdit extends AmountActivity implements
       disableAccountSpinner();
     }
     mIsMainTransactionOrTemplate = mOperationType != TYPE_TRANSFER && !(mTransaction.isSplitpart());
-    mIsMainTemplate = mTransaction instanceof Template && !mTransaction.isSplitpart();
+    mIsMainTransaction = mIsMainTransactionOrTemplate && !(mTransaction instanceof Template);
+    mIsMainTemplate = mTransaction instanceof Template && !(mTransaction.isSplitpart());
 
     if (mIsMainTransactionOrTemplate) {
 
@@ -610,23 +670,18 @@ public class ExpenseEdit extends AmountActivity implements
       mMethodsAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
       mMethodSpinner.setAdapter(mMethodsAdapter);
     } else {
-      findViewById(R.id.PayeeRow).setVisibility(View.GONE);
-      View MethodContainer = findViewById(R.id.MethodRow);
-      MethodContainer.setVisibility(View.GONE);
+      payeeRow.setVisibility(View.GONE);
+      methodRow.setVisibility(View.GONE);
     }
 
-    View categoryContainer = findViewById(R.id.CategoryRow);
-    if (categoryContainer == null)
-      categoryContainer = findViewById(R.id.Category);
-    TextView accountLabelTv = (TextView) findViewById(R.id.AccountLabel);
     if (mOperationType == TYPE_TRANSFER) {
       mTypeButton.setVisibility(View.GONE);
-      categoryContainer.setVisibility(View.GONE);
+      categoryRow.setVisibility(View.GONE);
       View accountContainer = findViewById(R.id.TransferAccountRow);
       if (accountContainer == null)
         accountContainer = findViewById(R.id.TransferAccount);
       accountContainer.setVisibility(View.VISIBLE);
-      accountLabelTv.setText(R.string.transfer_from_account);
+      accountLabel.setText(R.string.transfer_from_account);
 
       mTransferAccountsAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, null,
           new String[]{KEY_LABEL}, new int[]{android.R.id.text1}, 0);
@@ -637,7 +692,7 @@ public class ExpenseEdit extends AmountActivity implements
     mManager.initLoader(ACCOUNTS_CURSOR, null, this);
 
     if (mIsMainTemplate) {
-      findViewById(R.id.TitleRow).setVisibility(View.VISIBLE);
+      titleRow.setVisibility(View.VISIBLE);
       if (!isCalendarPermissionPermanentlyDeclined()) {
         //if user has denied access and checked that he does not want to be asked again, we do not
         //bother him with a button that is not working
@@ -714,12 +769,17 @@ public class ExpenseEdit extends AmountActivity implements
           mPlanButton.setVisibility(View.VISIBLE);
           mPlanButton.setText(Plan.prettyTimeInfo(this,
               mTransaction.originTemplate.getPlan().rrule, mTransaction.originTemplate.getPlan().dtstart));
-          mPlanButton.setOnClickListener(view -> PlanMonthFragment.newInstance(
-              mTransaction.originTemplate.getTitle(),
-              mTransaction.originTemplate.getId(),
-              mTransaction.originTemplate.planId,
-              getCurrentAccount().color, true).show(getSupportFragmentManager(),
-              TemplatesList.CALDROID_DIALOG_FRAGMENT_TAG));
+          mPlanButton.setOnClickListener(view -> {
+            final Account currentAccount = getCurrentAccount();
+            if (currentAccount != null) {
+              PlanMonthFragment.newInstance(
+                  mTransaction.originTemplate.getTitle(),
+                  mTransaction.originTemplate.getId(),
+                  mTransaction.originTemplate.planId,
+                  currentAccount.color, true).show(getSupportFragmentManager(),
+                  TemplatesList.CALDROID_DIALOG_FRAGMENT_TAG);
+            }
+          });
         }
       }
       if (mTransaction instanceof Transfer) {
@@ -740,7 +800,7 @@ public class ExpenseEdit extends AmountActivity implements
       }
     }
     if (mOperationType == TYPE_SPLIT) {
-      categoryContainer.setVisibility(View.GONE);
+      categoryRow.setVisibility(View.GONE);
       //add split list
       if (findSplitPartList() == null) {
         FragmentManager fm = getSupportFragmentManager();
@@ -755,7 +815,7 @@ public class ExpenseEdit extends AmountActivity implements
     }
 
     if (isNoMainTransaction()) {
-      findViewById(R.id.DateTimeRow).setVisibility(View.GONE);
+      dateTimeRow.setVisibility(View.GONE);
     } else {
       //noinspection SetTextI18n
       ((TextView) findViewById(R.id.DateTimeLabel)).setText(getString(
@@ -785,6 +845,19 @@ public class ExpenseEdit extends AmountActivity implements
     if (mOperationType != TYPE_TRANSFER) {
       mCategoryButton.setOnClickListener(view -> startSelectCategory());
     }
+
+    if (originalAmountVisible) {
+      originalAmountRow.setVisibility(View.VISIBLE);
+    }
+    if (equivalentAmountVisible) {
+      equivalentAmountRow.setVisibility(View.VISIBLE);
+      exchangeRateRow.setVisibility(View.VISIBLE);
+    }
+    if (mIsMainTransaction) {
+      final Currency homeCurrency = Utils.getHomeCurrency();
+      addCurrencyToLabel(equivalentAmountLabel, homeCurrency.getSymbol(), R.string.menu_equivalent_amount);
+      equivalentAmountText.setFractionDigits(Money.getFractionDigits(homeCurrency));
+    }
   }
 
   public void hideKeyBoardAndShowDialog(int id) {
@@ -793,7 +866,7 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   private void setPlannerRowVisibility(int visibility) {
-    findViewById(R.id.PlannerRow).setVisibility(visibility);
+    plannerRow.setVisibility(visibility);
   }
 
   @Override
@@ -813,33 +886,35 @@ public class ExpenseEdit extends AmountActivity implements
     super.linkInputsWithLabels();
     linkAccountLabels();
     linkInputWithLabel(mTitleText, findViewById(R.id.TitleLabel));
-    linkInputWithLabel(mDateButton, findViewById(R.id.DateTimeLabel));
-    linkInputWithLabel(mTimeButton, findViewById(R.id.DateTimeLabel));
+    final View dateTimeLabel = findViewById(R.id.DateTimeLabel);
+    linkInputWithLabel(mDateButton, dateTimeLabel);
+    linkInputWithLabel(mTimeButton, dateTimeLabel);
     linkInputWithLabel(mPayeeText, mPayeeLabel);
-    View commentLabel = findViewById(R.id.CommentLabel);
+    final View commentLabel = findViewById(R.id.CommentLabel);
     linkInputWithLabel(mStatusSpinner.getSpinner(), commentLabel);
     linkInputWithLabel(mAttachPictureButton, commentLabel);
     linkInputWithLabel(mPictureViewContainer, commentLabel);
     linkInputWithLabel(mCommentText, commentLabel);
     linkInputWithLabel(mCategoryButton, findViewById(R.id.CategoryLabel));
-    View methodLabel = findViewById(R.id.MethodLabel);
+    final View methodLabel = findViewById(R.id.MethodLabel);
     linkInputWithLabel(mMethodSpinner.getSpinner(), methodLabel);
     linkInputWithLabel(mReferenceNumberText, methodLabel);
-    View planLabel = findViewById(R.id.PlanLabel);
+    final View planLabel = findViewById(R.id.PlanLabel);
     linkInputWithLabel(mPlanButton, planLabel);
     linkInputWithLabel(mRecurrenceSpinner.getSpinner(), planLabel);
     linkInputWithLabel(mPlanToggleButton, planLabel);
-    final View transferAmountLabel = findViewById(R.id.TransferAmountLabel);
     linkInputWithLabel(mTransferAmountText, transferAmountLabel);
     linkInputWithLabel(findViewById(R.id.CalculatorTransfer), transferAmountLabel);
-    final View exchangeRateAmountLabel = findViewById(R.id.ExchangeRateLabel);
-    linkInputWithLabel(findViewById(R.id.ExchangeRate_1), exchangeRateAmountLabel);
-    linkInputWithLabel(findViewById(R.id.ExchangeRate_2), exchangeRateAmountLabel);
+    final View originalAmountLabel = findViewById(R.id.OriginalAmountLabel);
+    linkInputWithLabel(originalAmountText, originalAmountLabel);
+    linkInputWithLabel(mCurrencySpinner.getSpinner(), originalAmountLabel);
+    linkInputWithLabel(findViewById(R.id.CalculatorOriginal), originalAmountLabel);
+    final View equivalentAmountLabel = findViewById(R.id.EquivalentAmountLabel);
+    linkInputWithLabel(equivalentAmountText, equivalentAmountLabel);
+    linkInputWithLabel(findViewById(R.id.CalculatorEquivalent), equivalentAmountLabel);
   }
 
   private void linkAccountLabels() {
-    final View accountLabel = findViewById(R.id.AccountLabel);
-    final View transferAccountLabel = findViewById(R.id.TransferAccountLabel);
     linkInputWithLabel(mAccountSpinner.getSpinner(),
         mType == INCOME ? transferAccountLabel : accountLabel);
     linkInputWithLabel(mTransferAccountSpinner.getSpinner(),
@@ -860,20 +935,45 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   @Override
+  public boolean onPrepareOptionsMenu(Menu menu) {
+    if (originalAmountVisible) {
+      final MenuItem item = menu.findItem(R.id.ORIGINAL_AMOUNT_COMMAND);
+      if (item != null) {
+        Utils.menuItemSetEnabledAndVisible(item, false);
+      }
+    }
+    final Account currentAccount = getCurrentAccount();
+    final MenuItem item = menu.findItem(R.id.EQUIVALENT_AMOUNT_COMMAND);
+    if (item != null) {
+      Utils.menuItemSetEnabledAndVisible(item,
+          !(currentAccount == null || hasHomeCurrency(currentAccount) || equivalentAmountVisible));
+    }
+    return super.onPrepareOptionsMenu(menu);
+  }
+
+  protected boolean hasHomeCurrency(@NonNull Account account) {
+    return account.currency.equals(Utils.getHomeCurrency());
+  }
+
+  @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     super.onCreateOptionsMenu(menu);
     if (mTransaction != null && !(isNoMainTransaction() ||
         (mTransaction instanceof SplitTransaction &&
             !MyApplication.getInstance().getLicenceHandler().isContribEnabled()))) {
-      MenuItemCompat.setShowAsAction(
-          menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)
-              .setIcon(R.drawable.ic_action_save_new),
-          MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
+      menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)
+          .setIcon(R.drawable.ic_action_save_new)
+          .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
     }
     if (mOperationType == TYPE_TRANSFER) {
-      MenuItemCompat.setShowAsAction(
-          menu.add(Menu.NONE, R.id.INVERT_TRANSFER_COMMAND, 0, R.string.menu_invert_transfer)
-              .setIcon(R.drawable.ic_menu_move), MenuItemCompat.SHOW_AS_ACTION_ALWAYS);
+      menu.add(Menu.NONE, R.id.INVERT_TRANSFER_COMMAND, 0, R.string.menu_invert_transfer)
+          .setIcon(R.drawable.ic_menu_move)
+          .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+    } else if (mIsMainTransaction) {
+      menu.add(Menu.NONE, R.id.ORIGINAL_AMOUNT_COMMAND, 0, R.string.menu_original_amount)
+          .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+      menu.add(Menu.NONE, R.id.EQUIVALENT_AMOUNT_COMMAND, 0, R.string.menu_equivalent_amount)
+          .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
     }
     return true;
   }
@@ -881,12 +981,13 @@ public class ExpenseEdit extends AmountActivity implements
   @Override
   public boolean dispatchCommand(int command, Object tag) {
     switch (command) {
-      case android.R.id.home:
+      case android.R.id.home: {
         cleanup();
         finish();
         return true;
+      }
       case R.id.SAVE_COMMAND:
-      case R.id.SAVE_AND_NEW_COMMAND:
+      case R.id.SAVE_AND_NEW_COMMAND: {
         if (mOperationType == TYPE_SPLIT &&
             !findSplitPartList().splitComplete()) {
           showSnackbar(getString(R.string.unsplit_amount_greater_than_zero), Snackbar.LENGTH_SHORT);
@@ -901,12 +1002,39 @@ public class ExpenseEdit extends AmountActivity implements
           saveState();
         }
         return true;
-      case R.id.CREATE_COMMAND:
+      }
+      case R.id.CREATE_COMMAND: {
         createRow();
         return true;
-      case R.id.INVERT_TRANSFER_COMMAND:
+      }
+      case R.id.INVERT_TRANSFER_COMMAND: {
         mType = !mType;
         switchAccountViews();
+        return true;
+      }
+      case R.id.ORIGINAL_AMOUNT_COMMAND: {
+        originalAmountVisible = true;
+        supportInvalidateOptionsMenu();
+        originalAmountRow.setVisibility(View.VISIBLE);
+        originalAmountText.requestFocus();
+        return true;
+      }
+      case R.id.EQUIVALENT_AMOUNT_COMMAND: {
+        equivalentAmountVisible = true;
+        supportInvalidateOptionsMenu();
+        equivalentAmountRow.setVisibility(View.VISIBLE);
+        exchangeRateRow.setVisibility(View.VISIBLE);
+        final Account currentAccount = getCurrentAccount();
+        if (TextUtils.isEmpty(equivalentAmountText.getText().toString()) && currentAccount != null) {
+          final BigDecimal rate = new BigDecimal(currentAccount.getExchangeRate());
+          mExchangeRateEdit.setRate(rate);
+          isProcessingLinkedAmountInputs = true;
+          applyExchangRate(mAmountText, equivalentAmountText, rate);
+          isProcessingLinkedAmountInputs = false;
+        }
+        equivalentAmountText.requestFocus();
+        return true;
+      }
     }
     return super.dispatchCommand(command, tag);
   }
@@ -1060,6 +1188,18 @@ public class ExpenseEdit extends AmountActivity implements
 
     fillAmount(cachedOrSelf.getAmount().getAmountMajor());
 
+    if (cachedOrSelf.getOriginalAmount() != null) {
+      originalAmountVisible = true;
+      originalAmountRow.setVisibility(View.VISIBLE);
+      originalAmountText.setAmount(cachedOrSelf.getOriginalAmount().getAmountMajor());
+      mCurrencySpinner.setSelection(currencyAdapter.getPosition(
+          CurrencyEnum.valueOf(cachedOrSelf.getOriginalAmount().getCurrency().getCurrencyCode())));
+    }
+    if (cachedOrSelf.getEquivalentAmount() != null) {
+      equivalentAmountText.setAmount(cachedOrSelf.getEquivalentAmount().getAmountMajor().abs());
+      mExchangeRateEdit.calculateAndSetRate(cachedOrSelf.getAmount().getAmountMajor(), cachedOrSelf.getEquivalentAmount().getAmountMajor());
+    }
+
     if (mNewInstance) {
       if (mIsMainTemplate) {
         mTitleText.requestFocus();
@@ -1177,8 +1317,10 @@ public class ExpenseEdit extends AmountActivity implements
     }
     if (mOperationType == TYPE_TRANSFER) {
       mTransaction.setTransferAccountId(mTransferAccountSpinner.getSelectedItemId());
-      final Account transferAccount = Account.getInstanceFromDb(mTransferAccountSpinner
-          .getSelectedItemId());
+      final Account transferAccount = getTransferAccount();
+      if (transferAccount == null) {
+        return false;
+      }
       boolean isSame = account.currency.equals(transferAccount.currency);
       if (mTransaction instanceof Template) {
         if (!isSame && amount == null) {
@@ -1197,7 +1339,9 @@ public class ExpenseEdit extends AmountActivity implements
       } else {
         mTransaction.getTransferAmount().setCurrency(transferAccount.currency);
         if (isSame) {
-          if (amount != null) mTransaction.getTransferAmount().setAmountMajor(amount.negate());
+          if (amount != null) {
+            mTransaction.getTransferAmount().setAmountMajor(amount.negate());
+          }
         } else {
           BigDecimal transferAmount = validateAmountInput(mTransferAmountText, forSave);
 
@@ -1212,6 +1356,16 @@ public class ExpenseEdit extends AmountActivity implements
           }
         }
       }
+    } else if (mIsMainTransaction) {
+      BigDecimal originalAmount = validateAmountInput(originalAmountText, false);
+      final String currency = ((CurrencyEnum) mCurrencySpinner.getSelectedItem()).name();
+      PrefKey.LAST_ORIGINAL_CURRENCY.putString(currency);
+      mTransaction.setOriginalAmount(originalAmount == null ? null :
+          new Money(Utils.getSaveInstance(currency), originalAmount));
+      BigDecimal equivalentAmount = validateAmountInput(equivalentAmountText, false);
+      mTransaction.setEquivalentAmount(equivalentAmount == null ? null :
+          new Money(Utils.getHomeCurrency(), mType == EXPENSE ?
+              equivalentAmount.negate() : equivalentAmount));
     }
     if (mIsMainTemplate) {
       title = mTitleText.getText().toString();
@@ -1413,63 +1567,42 @@ public class ExpenseEdit extends AmountActivity implements
   @Override
   protected void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
-    outState.putSerializable(KEY_CALENDAR, mCalendar);
-    //restored in onCreate
-    if (mRowId != 0) {
-      outState.putLong(mTransaction instanceof Template ? KEY_TEMPLATEID : KEY_ROWID, mRowId);
-    }
-    if (mCatId != null) {
-      outState.putLong(KEY_CATID, mCatId);
-    }
-    outState.putString(KEY_LABEL, mLabel);
-    if (mPictureUri != null) {
-      outState.putParcelable(KEY_PICTURE_URI, mPictureUri);
-    }
-    if (mPictureUriTemp != null) {
-      outState.putParcelable(KEY_PICTURE_URI_TMP, mPictureUriTemp);
-    }
     long methodId = mMethodSpinner.getSelectedItemId();
-    if (methodId == android.widget.AdapterView.INVALID_ROW_ID && mMethodId != null) {
-      methodId = mMethodId;
-    }
     if (methodId != android.widget.AdapterView.INVALID_ROW_ID) {
-      outState.putLong(KEY_METHODID, methodId);
+      mMethodId = methodId;
     }
     if (didUserSetAccount) {
       long accountId = mAccountSpinner.getSelectedItemId();
-      if (accountId == android.widget.AdapterView.INVALID_ROW_ID && mAccountId != null) {
-        accountId = mAccountId;
-      }
       if (accountId != android.widget.AdapterView.INVALID_ROW_ID) {
-        outState.putLong(KEY_ACCOUNTID, accountId);
+         mAccountId = accountId;
       }
     }
     if (mOperationType == TYPE_TRANSFER) {
-      outState.putLong(KEY_TRANSFER_ACCOUNT, mTransferAccountSpinner.getSelectedItemId());
+      long transferAccountId = mTransferAccountSpinner.getSelectedItemId();
+      if (transferAccountId != android.widget.AdapterView.INVALID_ROW_ID) {
+        mTransferAccountId = transferAccountId;
+      }
     }
+    Icepick.saveInstanceState(this, outState);
   }
 
   private void switchAccountViews() {
     Spinner accountSpinner = mAccountSpinner.getSpinner();
     Spinner transferAccountSpinner = mTransferAccountSpinner.getSpinner();
-    ViewGroup accountParent = (ViewGroup) findViewById(R.id.AccountRow);
-    ViewGroup transferAccountRow = (ViewGroup) findViewById(R.id.TransferAccountRow);
-    TableLayout table = (TableLayout) findViewById(R.id.Table);
-    View amountRow = table.findViewById(R.id.AmountRow);
-    View transferAmountRow = table.findViewById(R.id.TransferAmountRow);
+    TableLayout table = findViewById(R.id.Table);
     table.removeView(amountRow);
     table.removeView(transferAmountRow);
     if (mType == INCOME) {
-      accountParent.removeView(accountSpinner);
+      accountRow.removeView(accountSpinner);
       transferAccountRow.removeView(transferAccountSpinner);
-      accountParent.addView(transferAccountSpinner);
+      accountRow.addView(transferAccountSpinner);
       transferAccountRow.addView(accountSpinner);
       table.addView(transferAmountRow, 2);
       table.addView(amountRow, 4);
     } else {
-      accountParent.removeView(transferAccountSpinner);
+      accountRow.removeView(transferAccountSpinner);
       transferAccountRow.removeView(accountSpinner);
-      accountParent.addView(accountSpinner);
+      accountRow.addView(accountSpinner);
       transferAccountRow.addView(transferAccountSpinner);
       table.addView(amountRow, 2);
       table.addView(transferAmountRow, 4);
@@ -1594,11 +1727,23 @@ public class ExpenseEdit extends AmountActivity implements
     return false;
   }
 
+  @Nullable
+  @VisibleForTesting
   public Account getCurrentAccount() {
+    return getAccountFromSpinner(mAccountSpinner);
+  }
+
+  @Nullable
+  private Account getTransferAccount() {
+    return getAccountFromSpinner(mTransferAccountSpinner);
+  }
+
+  @Nullable
+  private Account getAccountFromSpinner(SpinnerHelper spinner) {
     if (mAccounts == null) {
       return null;
     }
-    int selected = mAccountSpinner.getSelectedItemPosition();
+    int selected = spinner.getSelectedItemPosition();
     if (selected == android.widget.AdapterView.INVALID_POSITION ||
         selected >= mAccounts.length) {
       return null;
@@ -1698,10 +1843,21 @@ public class ExpenseEdit extends AmountActivity implements
         type == TYPE_TRANSFER;
   }
 
+  private void configureAccountDependent(Account account) {
+    addCurrencyToLabel(mAmountLabel, Money.getSymbol(account.currency), R.string.amount);
+    if (hasHomeCurrency(account)) {
+      equivalentAmountRow.setVisibility(View.GONE);
+      exchangeRateRow.setVisibility(View.GONE);
+      equivalentAmountVisible = false;
+    } else {
+      mExchangeRateEdit.setSymbols(Money.getSymbol(account.currency), Money.getSymbol(Utils.getHomeCurrency()));
+    }
+  }
+
   private void updateAccount(Account account) {
     didUserSetAccount = true;
     mTransaction.setAccountId(account.getId());
-    setAccountLabel(account);
+    configureAccountDependent(account);
     if (mOperationType == TYPE_TRANSFER) {
       mTransferAccountSpinner.setSelection(setTransferAccountFilterMap());
       mTransaction.setTransferAccountId(mTransferAccountSpinner.getSelectedItemId());
@@ -1724,22 +1880,22 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   private void configureTransferInput() {
-    final Account transferAccount = Account.getInstanceFromDb(
-        mTransferAccountSpinner.getSelectedItemId());
-    final Currency currency = getCurrentAccount().currency;
+    final Account transferAccount = getTransferAccount();
+    final Account currentAccount = getCurrentAccount();
+    if (transferAccount == null || currentAccount == null) {
+      return;
+    }
+    final Currency currency = currentAccount.currency;
     final boolean isSame = currency.equals(transferAccount.currency);
-    findViewById(R.id.TransferAmountRow).setVisibility(isSame ? View.GONE : View.VISIBLE);
-    findViewById(R.id.ExchangeRateRow).setVisibility(
+    transferAmountRow.setVisibility(isSame ? View.GONE : View.VISIBLE);
+    exchangeRateRow.setVisibility(
         isSame || (mTransaction instanceof Template) ? View.GONE : View.VISIBLE);
     final String symbol2 = Money.getSymbol(transferAccount.currency);
     //noinspection SetTextI18n
-    addCurrencyToLabel((TextView) findViewById(R.id.TransferAmountLabel), symbol2);
+    addCurrencyToLabel(transferAmountLabel, symbol2, R.string.amount);
     mTransferAmountText.setFractionDigits(Money.getFractionDigits(transferAccount.currency));
     final String symbol1 = Money.getSymbol(currency);
-    ((TextView) findViewById(R.id.ExchangeRateLabel_1_1)).setText(String.format("1 %s =", symbol1));
-    ((TextView) findViewById(R.id.ExchangeRateLabel_1_2)).setText(symbol2);
-    ((TextView) findViewById(R.id.ExchangeRateLabel_2_1)).setText(String.format("1 %s =", symbol2));
-    ((TextView) findViewById(R.id.ExchangeRateLabel_2_2)).setText(symbol1);
+    mExchangeRateEdit.setSymbols(symbol1, symbol2);
 
     Bundle bundle = new Bundle(2);
     bundle.putStringArray(KEY_CURRENCY, new String[]{currency.getCurrencyCode(), transferAccount
@@ -1749,13 +1905,9 @@ public class ExpenseEdit extends AmountActivity implements
     }
   }
 
-  private void setAccountLabel(Account account) {
-    addCurrencyToLabel(mAmountLabel, Money.getSymbol(account.currency));
-  }
-
-  private void addCurrencyToLabel(TextView label, String symbol) {
+  private void addCurrencyToLabel(TextView label, String symbol, int textResId) {
     //noinspection SetTextI18n
-    label.setText(getString(R.string.amount) + " (" + symbol + ")");
+    label.setText(getString(textResId) + " (" + symbol + ")");
   }
 
   private void resetOperationType() {
@@ -1977,11 +2129,10 @@ public class ExpenseEdit extends AmountActivity implements
     switch (id) {
       case METHODS_CURSOR:
         mMethodsCursor = data;
-        View methodContainer = findViewById(R.id.MethodRow);
         if (mMethodsAdapter == null || !data.moveToFirst()) {
-          methodContainer.setVisibility(View.GONE);
+          methodRow.setVisibility(View.GONE);
         } else {
-          methodContainer.setVisibility(View.VISIBLE);
+          methodRow.setVisibility(View.VISIBLE);
           MatrixCursor extras = new MatrixCursor(new String[]{KEY_ROWID, KEY_LABEL, KEY_IS_NUMBERED});
           extras.addRow(new String[]{"0", "- - - -", "0"});
           mMethodsAdapter.swapCursor(new MergeCursor(new Cursor[]{extras, data}));
@@ -2014,7 +2165,7 @@ public class ExpenseEdit extends AmountActivity implements
               (a.currency.getCurrencyCode().equals(currencyExtra) ||
                   (currencyExtra == null && a.getId().equals(mTransaction.getAccountId())))) {
             mAccountSpinner.setSelection(position);
-            setAccountLabel(a);
+            configureAccountDependent(a);
             selectionSet = true;
           }
           data.moveToNext();
@@ -2023,7 +2174,7 @@ public class ExpenseEdit extends AmountActivity implements
         if (mAccountSpinner.getSelectedItemPosition() == android.widget.AdapterView.INVALID_POSITION) {
           mAccountSpinner.setSelection(0);
           mTransaction.setAccountId(mAccounts[0].getId());
-          setAccountLabel(mAccounts[0]);
+          configureAccountDependent(mAccounts[0]);
         }
         if (mOperationType == TYPE_TRANSFER) {
           mTransferAccountCursor = new FilterCursorWrapper(data);
@@ -2035,7 +2186,7 @@ public class ExpenseEdit extends AmountActivity implements
           if (!mNewInstance && !(mTransaction instanceof Template)) {
             isProcessingLinkedAmountInputs = true;
             mTransferAmountText.setAmount(mTransaction.getTransferAmount().getAmountMajor().abs());
-            updateExchangeRates();
+            updateExchangeRates(mTransferAmountText);
             isProcessingLinkedAmountInputs = false;
           }
         } else {
@@ -2052,18 +2203,18 @@ public class ExpenseEdit extends AmountActivity implements
         break;
       case LAST_EXCHANGE_CURSOR:
         if (data.moveToFirst()) {
-          final Currency currency1 = getCurrentAccount().currency;
-          final Currency currency2 = Account.getInstanceFromDb(mTransferAccountSpinner
-              .getSelectedItemId()).currency;
+          final Account transferAccount = getTransferAccount();
+          final Account currentAccount = getCurrentAccount();
+          if (transferAccount == null || currentAccount == null) {
+            return;
+          }
+          final Currency currency1 = currentAccount.currency;
+          final Currency currency2 = transferAccount.currency;
           if (currency1.getCurrencyCode().equals(data.getString(0)) &&
               currency2.getCurrencyCode().equals(data.getString(1))) {
             BigDecimal amount = new Money(currency1, data.getLong(2)).getAmountMajor();
             BigDecimal transferAmount = new Money(currency2, data.getLong(3)).getAmountMajor();
-            BigDecimal exchangeRate = amount.compareTo(nullValue) != 0 ?
-                transferAmount.divide(amount, EXCHANGE_RATE_FRACTION_DIGITS, RoundingMode.DOWN) : nullValue;
-            if (exchangeRate.compareTo(nullValue) != 0) {
-              mExchangeRate1Text.setAmount(exchangeRate);
-            }
+            mExchangeRateEdit.calculateAndSetRate(amount, transferAmount);
           }
         }
         break;
@@ -2321,17 +2472,10 @@ public class ExpenseEdit extends AmountActivity implements
     }
   }
 
-  private void updateExchangeRates() {
+  private void updateExchangeRates(AmountEditText other) {
     BigDecimal amount = validateAmountInput(mAmountText, false);
-    BigDecimal transferAmount = validateAmountInput(mTransferAmountText, false);
-    BigDecimal exchangeRate =
-        (amount != null && transferAmount != null && amount.compareTo(nullValue) != 0) ?
-            transferAmount.divide(amount, EXCHANGE_RATE_FRACTION_DIGITS, RoundingMode.DOWN) : nullValue;
-    BigDecimal inverseExchangeRate =
-        (amount != null && transferAmount != null && transferAmount.compareTo(nullValue) != 0) ?
-            amount.divide(transferAmount, EXCHANGE_RATE_FRACTION_DIGITS, RoundingMode.DOWN) : nullValue;
-    mExchangeRate1Text.setAmount(exchangeRate);
-    mExchangeRate2Text.setAmount(inverseExchangeRate);
+    BigDecimal transferAmount = validateAmountInput(other, false);
+    mExchangeRateEdit.calculateAndSetRate(amount, transferAmount);
   }
 
   private class MyTextWatcher implements TextWatcher {
@@ -2358,91 +2502,82 @@ public class ExpenseEdit extends AmountActivity implements
     @Override
     public void afterTextChanged(Editable s) {
       if (isProcessingLinkedAmountInputs) return;
-      int currentFocus = isMain ? INPUT_AMOUNT : INPUT_TRANSFER_AMOUNT;
       isProcessingLinkedAmountInputs = true;
       if (mTransaction instanceof Template) {
         (isMain ? mTransferAmountText : mAmountText).setText("");
-      } else {
-        if (lastExchangeRateRelevantInputs[0] != currentFocus) {
-          lastExchangeRateRelevantInputs[1] = lastExchangeRateRelevantInputs[0];
-          lastExchangeRateRelevantInputs[0] = currentFocus;
-        }
-        if (lastExchangeRateRelevantInputs[1] == INPUT_EXCHANGE_RATE) {
-          BigDecimal input = validateAmountInput(isMain ? mAmountText : mTransferAmountText, false);
-          BigDecimal exchangeRate = validateAmountInput(isMain ? mExchangeRate1Text : mExchangeRate2Text, false);
-          BigDecimal result = exchangeRate != null && input != null ? input.multiply(exchangeRate) : new BigDecimal(0);
-          (isMain ? mTransferAmountText : mAmountText).setAmount(result);
+      } else if (exchangeRateRow.getVisibility() == View.VISIBLE) {
+        if (mTransaction instanceof Transfer) {
+          int currentFocus = isMain ? INPUT_AMOUNT : INPUT_TRANSFER_AMOUNT;
+          if (lastExchangeRateRelevantInputs[0] != currentFocus) {
+            lastExchangeRateRelevantInputs[1] = lastExchangeRateRelevantInputs[0];
+            lastExchangeRateRelevantInputs[0] = currentFocus;
+          }
+          if (lastExchangeRateRelevantInputs[1] == INPUT_EXCHANGE_RATE) {
+            applyExchangRate(isMain ? mAmountText : mTransferAmountText,
+                isMain ? mTransferAmountText : mAmountText,
+                mExchangeRateEdit.getRate(!isMain));
+          } else {
+            updateExchangeRates(mTransferAmountText);
+          }
         } else {
-          updateExchangeRates();
+          if (isMain) {
+            applyExchangRate(mAmountText, equivalentAmountText,
+                mExchangeRateEdit.getRate(false));
+          } else {
+            updateExchangeRates(equivalentAmountText);
+          }
         }
       }
       isProcessingLinkedAmountInputs = false;
     }
   }
 
-  private class LinkedExchangeRateTextWatchter extends MyTextWatcher {
-    /**
-     * true if we are linked to exchange rate where unit is from account currency
-     */
-    boolean isMain;
-
-    public LinkedExchangeRateTextWatchter(boolean isMain) {
-      this.isMain = isMain;
-    }
+  private class LinkedExchangeRateTextWatchter implements ExchangeRateEdit.ExchangeRateWatcher {
 
     @Override
-    public void afterTextChanged(Editable s) {
+    public void afterExchangeRateChanged(BigDecimal rate, BigDecimal inverse) {
       if (isProcessingLinkedAmountInputs) return;
       isProcessingLinkedAmountInputs = true;
-      if (lastExchangeRateRelevantInputs[0] != INPUT_EXCHANGE_RATE) {
-        lastExchangeRateRelevantInputs[1] = lastExchangeRateRelevantInputs[0];
-        lastExchangeRateRelevantInputs[0] = INPUT_EXCHANGE_RATE;
-      }
-      BigDecimal inputRate = validateAmountInput(
-          isMain ? mExchangeRate1Text : mExchangeRate2Text, false);
-      if (inputRate == null) inputRate = nullValue;
-      BigDecimal inverseInputRate = calculateInverse(inputRate);
-      (isMain ? mExchangeRate2Text : mExchangeRate1Text).setAmount(inverseInputRate);
-
 
       AmountEditText constant, variable;
-      boolean mainProvided;
-      if (lastExchangeRateRelevantInputs[1] == INPUT_AMOUNT) {
-        constant = mAmountText;
-        variable = mTransferAmountText;
-        mainProvided = true;
+      BigDecimal exchangeFactor;
+      if (mTransaction instanceof Transfer) {
+        if (lastExchangeRateRelevantInputs[0] != INPUT_EXCHANGE_RATE) {
+          lastExchangeRateRelevantInputs[1] = lastExchangeRateRelevantInputs[0];
+          lastExchangeRateRelevantInputs[0] = INPUT_EXCHANGE_RATE;
+        }
+
+        if (lastExchangeRateRelevantInputs[1] == INPUT_AMOUNT) {
+          constant = mAmountText;
+          variable = mTransferAmountText;
+          exchangeFactor = rate;
+        } else {
+          constant = mTransferAmountText;
+          variable = mAmountText;
+          exchangeFactor = inverse;
+        }
       } else {
-        constant = mTransferAmountText;
-        variable = mAmountText;
-        mainProvided = false;
+        constant = mAmountText;
+        variable = equivalentAmountText;
+        exchangeFactor = rate;
       }
-      BigDecimal input = validateAmountInput(constant, false);
-      if (input != null) {
-        variable.setAmount(input.multiply(
-            mainProvided == isMain ? inputRate : inverseInputRate));
-      }
+
+      applyExchangRate(constant, variable, exchangeFactor);
       isProcessingLinkedAmountInputs = false;
     }
   }
 
-  private BigDecimal calculateInverse(BigDecimal input) {
-    return input.compareTo(nullValue) != 0 ?
-        new BigDecimal(1).divide(input, EXCHANGE_RATE_FRACTION_DIGITS, RoundingMode.DOWN) :
-        nullValue;
-  }
-
-  @Override
-  public void showCalculator(View view) {
-    if (view.getId() == R.id.CalculatorTransfer)
-      showCalculatorInternal(mTransferAmountText);
-    else
-      super.showCalculator(view);
+  private void applyExchangRate(AmountEditText from, AmountEditText to, BigDecimal rate) {
+    BigDecimal input = validateAmountInput(from, false);
+    to.setAmount(rate != null && input != null ? input.multiply(rate) : new BigDecimal(0));
   }
 
   @Override
   protected void onRestoreInstanceState(Bundle savedInstanceState) {
     isProcessingLinkedAmountInputs = true;
+    mExchangeRateEdit.setBlockWatcher(true);
     super.onRestoreInstanceState(savedInstanceState);
+    mExchangeRateEdit.setBlockWatcher(false);
     isProcessingLinkedAmountInputs = false;
   }
 

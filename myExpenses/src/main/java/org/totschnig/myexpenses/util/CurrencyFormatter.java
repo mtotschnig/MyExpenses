@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.util;
 
 import android.content.ContentResolver;
+import android.text.TextUtils;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.Money;
@@ -108,13 +109,7 @@ public class CurrencyFormatter {
    * @return formated string
    */
   public String convAmount(String text, Currency currency) {
-    Long amount;
-    try {
-      amount = Long.valueOf(text);
-    } catch (NumberFormatException e) {
-      amount = 0L;
-    }
-    return convAmount(amount, currency);
+    return convAmount(TextUtils.isEmpty(text) ? 0 : Double.valueOf(text).longValue(), currency);
   }
 
   /**

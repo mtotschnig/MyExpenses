@@ -64,6 +64,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_AGGREGATE;
@@ -108,6 +109,7 @@ public class Account extends Model {
   public static final int EXPORT_HANDLE_DELETED_DO_NOTHING = -1;
   public static final int EXPORT_HANDLE_DELETED_UPDATE_BALANCE = 0;
   public static final int EXPORT_HANDLE_DELETED_CREATE_HELPER = 1;
+  public final static int HOME_AGGREGATE_ID = Integer.MIN_VALUE;
 
   private String label;
 
@@ -125,6 +127,11 @@ public class Account extends Model {
 
   private SortDirection sortDirection = SortDirection.DESC;
 
+  /**
+   * exchange rate comparing major units
+   */
+  private double exchangeRate = 1D;
+
   public String getSyncAccountName() {
     return syncAccountName;
   }
@@ -133,6 +140,13 @@ public class Account extends Model {
     this.syncAccountName = syncAccountName;
   }
 
+  public double getExchangeRate() {
+    return exchangeRate;
+  }
+
+  public void setExchangeRate(double exchangeRate) {
+    this.exchangeRate = exchangeRate;
+  }
 
   public static final String[] PROJECTION_BASE, PROJECTION_EXTENDED, PROJECTION_FULL;
   public static final String CURRENT_BALANCE_EXPR = KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM + " AND " + WHERE_NOT_SPLIT_PART
@@ -153,7 +167,8 @@ public class Account extends Model {
         HAS_EXPORTED,
         KEY_SYNC_ACCOUNT_NAME,
         KEY_UUID,
-        KEY_SORT_DIRECTION
+        KEY_SORT_DIRECTION,
+        DatabaseConstants.getExchangeRate(KEY_ROWID) + " AS " + KEY_EXCHANGE_RATE
     };
     int baseLength = PROJECTION_BASE.length;
     PROJECTION_EXTENDED = new String[baseLength + 1];
@@ -201,11 +216,8 @@ public class Account extends Model {
     return accounts.containsKey(id);
   }
 
-  public static void reportNull(long id) {
-    //This can happen if user deletes account, and changes
-    //device orientation before the accounts cursor in MyExpenses is switched
-    /*org.acra.ACRA.getErrorReporter().handleSilentException(
-        new Exception("Error instantiating account "+id));*/
+  public static void invalidateHomeAccount() {
+    accounts.remove((long) HOME_AGGREGATE_ID);
   }
 
   /**
@@ -251,6 +263,28 @@ public class Account extends Model {
     account = new Account(c);
     c.close();
     return account;
+  }
+
+  public Uri buildExchangeRateUri() {
+    return ContentUris.appendId(TransactionProvider.ACCOUNT_EXCHANGE_RATE_URI.buildUpon(), getId())
+        .appendEncodedPath(currency.getCurrencyCode())
+        .appendEncodedPath(PrefKey.HOME_CURRENCY.getString(currency.getCurrencyCode())).build();
+  }
+
+  private double adjustExchangeRate(double raw) {
+    int minorUnitDelta = Money.getFractionDigits(currency) - Money.getFractionDigits(Utils.getHomeCurrency());
+    return raw * Math.pow(10, minorUnitDelta);
+  }
+
+  private void storeExchangeRate() {
+    ContentValues exchangeRateValues = new ContentValues();
+    int minorUnitDelta = Money.getFractionDigits(Utils.getHomeCurrency()) - Money.getFractionDigits(currency);
+    exchangeRateValues.put(KEY_EXCHANGE_RATE, exchangeRate * Math.pow(10, minorUnitDelta));
+    cr().insert(buildExchangeRateUri(), exchangeRateValues);
+  }
+
+  private boolean hasForeignCurrency() {
+    return !PrefKey.HOME_CURRENCY.getString(currency.getCurrencyCode()).equals(currency.getCurrencyCode());
   }
 
   static Account getInstanceFromDbWithFallback(long id) {
@@ -326,7 +360,7 @@ public class Account extends Model {
    * @param description    the description
    */
   public Account(String label, long openingBalance, String description) {
-    this(label, Utils.getLocalCurrency(), openingBalance, description, AccountType.CASH, DEFAULT_COLOR);
+    this(label, Utils.getHomeCurrency(), openingBalance, description, AccountType.CASH, DEFAULT_COLOR);
   }
 
   public Account(String label, Currency currency, long openingBalance, String description,
@@ -389,6 +423,10 @@ public class Account extends Model {
       this.sortDirection = SortDirection.valueOf(c.getString(c.getColumnIndex(KEY_SORT_DIRECTION)));
     } catch (IllegalArgumentException e) {
       this.sortDirection = SortDirection.DESC;
+    }
+    int columnIndex = c.getColumnIndex(KEY_EXCHANGE_RATE);
+    if (columnIndex != -1) {
+      this.exchangeRate = adjustExchangeRate(c.getDouble(columnIndex));
     }
   }
 
@@ -614,6 +652,9 @@ public class Account extends Model {
     } else {
       uri = ContentUris.withAppendedId(CONTENT_URI, getId());
       cr().update(uri, initialValues, null, null);
+    }
+    if (hasForeignCurrency()) {
+      storeExchangeRate();
     }
     if (!accounts.containsKey(getId())) {
       accounts.put(getId(), this);
@@ -845,6 +886,15 @@ public class Account extends Model {
     return Transaction.EXTENDED_URI;
   }
 
+  public boolean isHomeAggregate() {
+    return getId() == HOME_AGGREGATE_ID;
+  }
+
+  public boolean isAggregate() {
+    return  getId() < 0;
+  }
+
+
   public String[] getExtendedProjectionForTransactionList() {
     return Transaction.PROJECTION_EXTENDED;
   }
@@ -874,6 +924,10 @@ public class Account extends Model {
   }
 
   public String getLabel() {
+    return label;
+  }
+
+  public String getLabelForScreenTitle(Context context) {
     return label;
   }
 

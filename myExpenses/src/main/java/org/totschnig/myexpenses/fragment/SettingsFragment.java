@@ -42,7 +42,10 @@ import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.activity.FolderBrowser;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
+import org.totschnig.myexpenses.dialog.MessageDialogFragment;
+import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogPreference;
@@ -105,6 +108,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.GROUPING_START_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.GROUP_MONTH_STARTS;
 import static org.totschnig.myexpenses.preference.PrefKey.GROUP_WEEK_STARTS;
+import static org.totschnig.myexpenses.preference.PrefKey.HOME_CURRENCY;
 import static org.totschnig.myexpenses.preference.PrefKey.IMPORT_CSV;
 import static org.totschnig.myexpenses.preference.PrefKey.IMPORT_QIF;
 import static org.totschnig.myexpenses.preference.PrefKey.LICENCE_EMAIL;
@@ -217,6 +221,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     Preference pref;
 
     if (rootKey == null) {//ROOT screen
+      findPreference(HOME_CURRENCY).setOnPreferenceChangeListener(this);
       findPreference(SEND_FEEDBACK).setOnPreferenceClickListener(this);
       findPreference(MORE_INFO_DIALOG).setOnPreferenceClickListener(this);
 
@@ -297,6 +302,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
 
       findPreference(getString(R.string.pref_follow_gplus_key)).setTitle(
           Utils.getTextWithAppName(getContext(), R.string.pref_follow_gplus_title));
+
+      ListPreference homeCurrencyPref = (ListPreference) findPreference(PrefKey.HOME_CURRENCY);
+      CurrencyEnum[] currencies = CurrencyEnum.sortedValues();
+      homeCurrencyPref.setEntries(Stream.of(currencies).map(CurrencyEnum::toString).toArray(CharSequence[]::new));
+      homeCurrencyPref.setEntryValues(Stream.of(currencies).map(CurrencyEnum::name).toArray(CharSequence[]::new));
     }
     //SHORTCUTS screen
     else if (rootKey.equals(UI_HOME_SCREEN_SHORTCUTS.getKey())) {
@@ -428,7 +438,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       }
       configureContribPrefs();
     }
-    activity.setFragment(this);
   }
 
   /**
@@ -549,6 +558,15 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
 
   @Override
   public boolean onPreferenceChange(Preference pref, Object value) {
+    if (matches(pref, HOME_CURRENCY)) {
+      if (!value.equals(HOME_CURRENCY.getString(null))) {
+        MessageDialogFragment.newInstance(R.string.dialog_title_information,
+            R.string.home_currency_change_warning,
+            new MessageDialogFragment.Button(android.R.string.ok, R.id.CHANGE_COMMAND, ((String) value)),
+            null, MessageDialogFragment.Button.noButton()).show(getFragmentManager(), "CONFIRM");
+      }
+      return false;
+    }
     if (matches(pref, SHARE_TARGET)) {
       String target = (String) value;
       URI uri;
@@ -888,5 +906,12 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   
   private final MyPreferenceActivity activity() {
     return (MyPreferenceActivity) super.getActivity();
+  }
+
+  public void updateHomeCurrency(String currencyCode) {
+    ((ListPreference) findPreference(HOME_CURRENCY)).setValue(currencyCode);
+    Account.invalidateHomeAccount();
+    activity().startTaskExecution(TaskExecutionFragment.TASK_RESET_EQUIVALENT_AMOUNTS,
+        null, null, R.string.progress_dialog_saving);
   }
 }

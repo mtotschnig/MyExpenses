@@ -66,12 +66,15 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DAY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_SAME_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MONTH;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
@@ -88,6 +91,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIO
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER_PARENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_END;
@@ -129,6 +133,8 @@ public class Transaction extends Model {
   private Date date;
   private Money amount;
   private Money transferAmount;
+  private Money originalAmount;
+  private Money equivalentAmount;
   private Long catId;
   private long accountId;
   private Long methodId;
@@ -156,7 +162,7 @@ public class Transaction extends Model {
    * {@link org.totschnig.myexpenses.provider.DatabaseConstants#STATUS_UNCOMMITTED}
    */
   public int status = 0;
-  public static String[] PROJECTION_BASE, PROJECTION_EXTENDED, PROJECTION_EXTENDED_AGGREGATE;
+  public static String[] PROJECTION_BASE, PROJECTION_EXTENDED, PROJECTION_EXTENDED_AGGREGATE, PROJECTON_EXTENDED_HOME;
 
   static {
     buildProjection();
@@ -200,7 +206,7 @@ public class Transaction extends Model {
     PROJECTION_EXTENDED[baseLength] = KEY_COLOR;
     //the definition of column TRANSFER_PEER_PARENT refers to view_extended,
     //thus can not be used in PROJECTION_BASE
-    PROJECTION_EXTENDED[baseLength + 1] = TRANSFER_PEER_PARENT + " AS transfer_peer_parent";
+    PROJECTION_EXTENDED[baseLength + 1] = TRANSFER_PEER_PARENT + " AS " + KEY_TRANSFER_PEER_PARENT;
     PROJECTION_EXTENDED[baseLength + 2] = KEY_STATUS;
     PROJECTION_EXTENDED[baseLength + 3] = KEY_ACCOUNT_LABEL;
 
@@ -209,6 +215,12 @@ public class Transaction extends Model {
     PROJECTION_EXTENDED_AGGREGATE = new String[extendedLength + 1];
     System.arraycopy(PROJECTION_EXTENDED, 0, PROJECTION_EXTENDED_AGGREGATE, 0, extendedLength);
     PROJECTION_EXTENDED_AGGREGATE[extendedLength] = IS_SAME_CURRENCY + " AS " + KEY_IS_SAME_CURRENCY;
+
+    int aggregateLength = extendedLength + 1;
+    PROJECTON_EXTENDED_HOME = new String[aggregateLength + 2];
+    System.arraycopy(PROJECTION_EXTENDED_AGGREGATE, 0, PROJECTON_EXTENDED_HOME, 0, aggregateLength);
+    PROJECTON_EXTENDED_HOME[aggregateLength] = KEY_CURRENCY;
+    PROJECTON_EXTENDED_HOME[aggregateLength + 1] = DatabaseConstants.getAmountHomeEquivalent() + " AS " + KEY_EQUIVALENT_AMOUNT;
   }
 
   public static final Uri CONTENT_URI = TransactionProvider.TRANSACTIONS_URI;
@@ -312,6 +324,22 @@ public class Transaction extends Model {
     return null; //convenience that allows to set transfer account on template and transfer without cast
   }
 
+  public void setOriginalAmount(Money originalAmount) {
+    this.originalAmount = originalAmount;
+  }
+
+  public Money getOriginalAmount() {
+    return originalAmount;
+  }
+
+  public Money getEquivalentAmount() {
+    return equivalentAmount;
+  }
+
+  public void setEquivalentAmount(Money equivalentAmount) {
+    this.equivalentAmount = equivalentAmount;
+  }
+
   public enum CrStatus {
     UNRECONCILED(Color.GRAY, ""), CLEARED(Color.BLUE, "*"), RECONCILED(Color.GREEN, "X"), VOID(Color.RED, null);
     public int color;
@@ -370,7 +398,8 @@ public class Transaction extends Model {
     String[] projection = new String[]{KEY_ROWID, KEY_DATE, KEY_AMOUNT, KEY_COMMENT, KEY_CATID,
         FULL_LABEL, KEY_PAYEEID, KEY_PAYEE_NAME, KEY_TRANSFER_PEER, KEY_TRANSFER_ACCOUNT,
         KEY_ACCOUNTID, KEY_METHODID, KEY_PARENTID, KEY_CR_STATUS, KEY_REFERENCE_NUMBER, KEY_CURRENCY,
-        KEY_PICTURE_URI, KEY_METHOD_LABEL, KEY_STATUS, TRANSFER_AMOUNT, KEY_TEMPLATEID, KEY_UUID};
+        KEY_PICTURE_URI, KEY_METHOD_LABEL, KEY_STATUS, TRANSFER_AMOUNT, KEY_TEMPLATEID, KEY_UUID, KEY_ORIGINAL_AMOUNT, KEY_ORIGINAL_CURRENCY,
+        KEY_EQUIVALENT_AMOUNT};
 
     Cursor c = cr().query(
         EXTENDED_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection, null, null, null);
@@ -418,6 +447,15 @@ public class Transaction extends Model {
     t.setComment(DbUtils.getString(c, KEY_COMMENT));
     t.setReferenceNumber(DbUtils.getString(c, KEY_REFERENCE_NUMBER));
     t.setLabel(DbUtils.getString(c, KEY_LABEL));
+
+    Long originalAmount = getLongOrNull(c, KEY_ORIGINAL_AMOUNT);
+    if (originalAmount != null) {
+      t.setOriginalAmount(new Money(Utils.getSaveInstance(c.getString(c.getColumnIndexOrThrow(KEY_ORIGINAL_CURRENCY))), originalAmount));
+    }
+    Long equivalentAmount = getLongOrNull(c, KEY_EQUIVALENT_AMOUNT);
+    if (equivalentAmount != null) {
+      t.setEquivalentAmount(new Money(Utils.getHomeCurrency(), equivalentAmount));
+    }
 
     int pictureUriColumnIndex = c.getColumnIndexOrThrow(KEY_PICTURE_URI);
     if (!c.isNull(pictureUriColumnIndex)) {
@@ -779,6 +817,10 @@ public class Transaction extends Model {
     initialValues.put(KEY_CR_STATUS, crStatus.name());
     initialValues.put(KEY_ACCOUNTID, getAccountId());
     initialValues.put(KEY_UUID, requireUuid());
+
+    initialValues.put(KEY_ORIGINAL_AMOUNT, originalAmount == null ? null : originalAmount.getAmountMinor());
+    initialValues.put(KEY_ORIGINAL_CURRENCY, originalAmount == null ? null : originalAmount.getCurrency().getCurrencyCode());
+    initialValues.put(KEY_EQUIVALENT_AMOUNT, equivalentAmount == null ? null : equivalentAmount.getAmountMinor());
 
     savePicture(initialValues);
     if (getId() == 0) {

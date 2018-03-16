@@ -51,8 +51,8 @@
                     android:text="@string/title"/>
 
                 <EditText
-                    style="@style/FormField"
                     android:id="@+id/Title"
+                    style="@style/FormField"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:inputType="textCapSentences"
@@ -68,11 +68,51 @@
                     android:text="@string/account"/>
 
                 <Spinner
-                    style="@style/FormField"
-                    android:layout_marginRight="12dp"
-                    android:layout_marginEnd="12dp"
                     android:id="@+id/Account"
+                    style="@style/FormField"
                     android:layout_gravity="center_vertical"/>
+            </TableRow>
+
+
+            <TableRow
+                android:visibility="gone"
+                android:id="@+id/OriginalAmountRow">
+
+                <TextView
+                    android:id="@+id/OriginalAmountLabel"
+                    style="@style/FormLabel"
+                    android:labelFor="@+id/OriginalAmount"
+                    android:text="@string/menu_original_amount"
+                    />
+
+                <LinearLayout
+                    style="@style/FormField"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <Spinner
+                        style="@style/FormField"
+                        android:id="@+id/OriginalCurrency"
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_vertical"
+                        android:prompt="@string/currency"/>
+
+                    <org.totschnig.myexpenses.ui.AmountEditText
+                        android:id="@+id/OriginalAmount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:digits="@string/amount_digits"
+                        android:inputType="numberDecimal"/>
+
+                    <include
+                        android:id="@+id/CalculatorOriginal"
+                        layout="@layout/calc_icon"/>
+                </LinearLayout>
             </TableRow>
 
             <TableRow
@@ -81,31 +121,51 @@
                 <TextView
                     android:id="@+id/AmountLabel"
                     style="@style/FormLabel"
-                    android:labelFor="@id/Amount"
-                    android:textColor="?attr/colorAccent"/>
+                    android:labelFor="@id/Amount"/>
 
-                <include layout="@layout/amount_input"
-                         style="@style/FormField"/>
+                <include
+                    style="@style/FormField"
+                    layout="@layout/amount_input"/>
             </TableRow>
 
+            <include layout="@layout/exchange_rate_row"/>
+
             <TableRow
-                android:id="@+id/ExchangeRateRow"
                 android:visibility="gone"
-                tools:visibility="visible">
+                android:id="@+id/EquivalentAmountRow">
 
                 <TextView
-                    android:id="@+id/ExchangeRateLabel"
+                    android:id="@+id/EquivalentAmountLabel"
                     style="@style/FormLabel"
-                    android:text="@string/exchange_rate"/>
+                    android:labelFor="@+id/EquivalentAmount"
+                    android:text="@string/menu_equivalent_amount"
+                    />
 
-                <include layout="@layout/exchange_rates"
-                         style="@style/FormField"/>
+                <LinearLayout
+                    style="@style/FormField"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <org.totschnig.myexpenses.ui.AmountEditText
+                        android:id="@+id/EquivalentAmount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:digits="@string/amount_digits"
+                        android:inputType="numberDecimal"/>
+
+                    <include
+                        android:id="@+id/CalculatorEquivalent"
+                        layout="@layout/calc_icon"/>
+                </LinearLayout>
             </TableRow>
 
             <TableRow
                 android:id="@+id/TransferAmountRow"
-                tools:visibility="visible"
-                android:visibility="gone">
+                android:visibility="gone"
+                tools:visibility="visible">
 
                 <TextView
                     android:id="@+id/TransferAmountLabel"
@@ -124,7 +184,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="2"
-                        android:digits="1234567890,.٫"
+                        android:digits="@string/amount_digits"
                         android:inputType="numberDecimal"/>
 
                     <include
@@ -144,11 +204,9 @@
                     android:text="@string/transfer_to_account"/>
 
                 <Spinner
-                    style="@style/FormField"
                     android:id="@+id/TransferAccount"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginRight="12dp"/>
+                    style="@style/FormField"
+                    android:layout_gravity="center_vertical"/>
             </TableRow>
 
             <TableRow android:id="@+id/DateTimeRow">
@@ -190,8 +248,8 @@
                     android:text="@string/payee"/>
 
                 <AutoCompleteTextView
-                    style="@style/FormField"
                     android:id="@+id/Payee"
+                    style="@style/FormField"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:completionThreshold="1"
@@ -285,14 +343,14 @@
                         android:layout_weight="1"
                         android:hint="@string/reference_number"
                         android:inputType="text"
+                        android:maxLines="1"
                         android:visibility="gone"
-                        tools:ignore="TextFields"
-                        android:maxLines="1"/>
+                        tools:ignore="TextFields"/>
                 </LinearLayout>
             </TableRow>
 
             <TableRow
-                android:id="@+id/PlannerRow"
+                android:id="@+id/PlanRow"
                 android:visibility="gone">
 
                 <TextView
@@ -301,8 +359,9 @@
                     android:labelFor="@+id/Plan"
                     android:text="@string/plan"/>
 
-                <include layout="@layout/recurrence_row"
-                         style="@style/FormField"/>
+                <include
+                    style="@style/FormField"
+                    layout="@layout/recurrence_row"/>
             </TableRow>
         </TableLayout>
     </ScrollView>

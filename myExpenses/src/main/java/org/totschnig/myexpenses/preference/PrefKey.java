@@ -103,7 +103,9 @@ public enum PrefKey {
   HISTORY_INCLUDE_TRANSFERS("history_include_transfers"),
   ROADMAP_VOTE("roadmap_vote"),
   CRASHREPORT_ENABLED(R.string.pref_crashreport_enabled_key),
-  CRASHREPORT_USEREMAIL(R.string.pref_crashreport_useremail_key);
+  CRASHREPORT_USEREMAIL(R.string.pref_crashreport_useremail_key),
+  HOME_CURRENCY(R.string.pref_home_currency_key),
+  LAST_ORIGINAL_CURRENCY("last_original_currency");
 
   private int resId = 0;
   private String key = null;

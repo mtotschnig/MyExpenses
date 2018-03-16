@@ -47,6 +47,7 @@ import com.squareup.phrase.Phrase;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CurrencyEnum;
@@ -123,7 +124,12 @@ public class Utils {
     return null;
   }
 
-  public static Currency getLocalCurrency() {
+  public static Currency getHomeCurrency() {
+    String home = PrefKey.HOME_CURRENCY.getString(null);
+    return home != null ? getSaveInstance(home) : getLocalCurrency();
+  }
+
+  private static Currency getLocalCurrency() {
     Currency result = null;
     String userCountry = getCountryFromTelephonyManager();
     if (!TextUtils.isEmpty(userCountry)) {
@@ -316,18 +322,22 @@ public class Utils {
     }
   }
 
-  public static Currency getSaveInstance(String strCurrency) {
-    Currency c;
-    try {
-      c = Currency.getInstance(strCurrency);
-    } catch (IllegalArgumentException e) {
-      Timber.e("%s is not defined in ISO 4217", strCurrency);
-      c = getSaveDefault();
+  public static Currency getSaveInstance(@Nullable String strCurrency) {
+    Currency c = null;
+    if (strCurrency != null) {
+      if (strCurrency.equals(AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE)) {
+        strCurrency = PrefKey.HOME_CURRENCY.getString("EUR");
+      }
+      try {
+        c = Currency.getInstance(strCurrency);
+      } catch (IllegalArgumentException e) {
+        Timber.e("%s is not defined in ISO 4217", strCurrency);
+      }
     }
-    return getSaveInstance(c);
+    return getSaveInstance(c == null ? getSaveDefault() : c);
   }
 
-  private static Currency getSaveInstance(Currency currency) {
+  private static Currency getSaveInstance(@NonNull Currency currency) {
     try {
       CurrencyEnum.valueOf(currency.getCurrencyCode());
       return currency;
@@ -470,7 +480,7 @@ public class Utils {
    * @param item
    * @param enabled
    */
-  public static void menuItemSetEnabledAndVisible(MenuItem item, boolean enabled) {
+  public static void menuItemSetEnabledAndVisible(@NonNull MenuItem item, boolean enabled) {
     item.setEnabled(enabled).setVisible(enabled);
   }
 

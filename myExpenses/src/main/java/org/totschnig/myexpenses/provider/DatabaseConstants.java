@@ -42,6 +42,7 @@ public class DatabaseConstants {
   private static String WEEK_END;
   private static String COUNT_FROM_WEEK_START_ZERO;
   private static String WEEK_START_JULIAN;
+
   //in sqlite julian days are calculated from noon, in order to make sure that the returned julian day matches the day we need, we set the time to noon.
   private static final String JULIAN_DAY_OFFSET = "'start of day','+12 hours'";
 
@@ -146,7 +147,6 @@ public class DatabaseConstants {
   public static final String KEY_SUM_EXPENSES = "sum_expenses";
   public static final String KEY_SUM_INCOME = "sum_income";
   public static final String KEY_SUM_TRANSFERS = "sum_transfers";
-  public static final String KEY_INTERIM_BALANCE = "interim_balance";
   public static final String KEY_MAPPED_CATEGORIES = "mapped_categories";
   public static final String KEY_MAPPED_PAYEES = "mapped_payees";
   public static final String KEY_MAPPED_METHODS = "mapped_methods";
@@ -177,6 +177,13 @@ public class DatabaseConstants {
   public static final String KEY_KEY = "key";
   public static final String KEY_VALUE = "value";
   public static final String KEY_SORT_DIRECTION = "sort_direction";
+  public static final String KEY_CURRENCY_SELF = "currency_self";
+  public static final String KEY_CURRENCY_OTHER= "currency_other";
+  public static final String KEY_EXCHANGE_RATE = "exchange_rate";
+  public static final String KEY_ORIGINAL_AMOUNT = "original_amount";
+  public static final String KEY_ORIGINAL_CURRENCY = "original_currency";
+  public static final String KEY_EQUIVALENT_AMOUNT = "equivalent_amount";
+  public static final String KEY_TRANSFER_PEER_PARENT = "transfer_peer_parent";
 
   /**
    * column alias for the second group (month or week)
@@ -224,6 +231,7 @@ public class DatabaseConstants {
   public static final String TABLE_STALE_URIS = "stale_uris";
   public static final String TABLE_CHANGES = "changes";
   public static final String TABLE_SETTINGS = "settings";
+  public static final String TABLE_ACCOUNT_EXCHANGE_RATES = "account_exchangerates";
   /**
    * used on backup and restore
    */
@@ -334,16 +342,9 @@ public class DatabaseConstants {
   public static final String WHERE_OUT = KEY_AMOUNT + "<0 AND " + WHERE_NOT_SPLIT + " AND " + WHERE_NOT_VOID;
   public static final String WHERE_TRANSFER =
       WHERE_NOT_SPLIT + " AND " + WHERE_NOT_VOID + " AND " + KEY_TRANSFER_PEER + " is not null";
-  public static final String INCOME_SUM =
-      "sum(CASE WHEN " + WHERE_INCOME + " THEN " + KEY_AMOUNT + " ELSE 0 END) AS " + KEY_SUM_INCOME;
-  public static final String EXPENSE_SUM =
-      "abs(sum(CASE WHEN " + WHERE_EXPENSE + " THEN " + KEY_AMOUNT + " ELSE 0 END)) AS " + KEY_SUM_EXPENSES;
-  public static final String IN_SUM =
-      "sum(CASE WHEN " + WHERE_IN + " THEN " + KEY_AMOUNT + " ELSE 0 END) AS " + KEY_SUM_INCOME;
-  public static final String OUT_SUM =
-      "abs(sum(CASE WHEN " + WHERE_OUT + " THEN " + KEY_AMOUNT + " ELSE 0 END)) AS " + KEY_SUM_EXPENSES;
+
   public static final String TRANSFER_SUM =
-      "sum(CASE WHEN " + WHERE_TRANSFER + " THEN " + KEY_AMOUNT + " ELSE 0 END) AS " + KEY_SUM_TRANSFERS;
+      "sum(CASE WHEN " + WHERE_TRANSFER + " THEN " + KEY_AMOUNT + " ELSE 0 END)";
   public static final String HAS_CLEARED =
       "(SELECT EXISTS(SELECT 1 FROM " + TABLE_TRANSACTIONS + " WHERE "
           + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + " AND " + KEY_CR_STATUS + " = '" + CrStatus.CLEARED.name() + "' LIMIT 1)) AS " + KEY_HAS_CLEARED;
@@ -439,5 +440,48 @@ public class DatabaseConstants {
   public static String getCountFromWeekStartZero() {
     ensureLocalized();
     return COUNT_FROM_WEEK_START_ZERO;
+  }
+
+  public static String getAmountHomeEquivalent() {
+    return getAmountHomeEquivalent(VIEW_EXTENDED);
+  }
+
+  public static String getAmountHomeEquivalent(String forTable) {
+    return "coalesce(" + calcEquivalentAmountForSplitParts(forTable) + "," +
+        getExchangeRate(forTable + "." +  KEY_ACCOUNTID) + " * " + KEY_AMOUNT + ")";
+  }
+
+  private static String calcEquivalentAmountForSplitParts(String forTable) {
+    return "CASE WHEN " + KEY_PARENTID
+        + " THEN " +
+        "(SELECT 1.0 * " + KEY_EQUIVALENT_AMOUNT + " / " + KEY_AMOUNT + " FROM " + TABLE_TRANSACTIONS + " WHERE " +
+        KEY_ROWID + " = " + forTable + "." + KEY_PARENTID + ") * " + KEY_AMOUNT +
+        " ELSE "
+        + KEY_EQUIVALENT_AMOUNT + " END";
+  }
+
+  public static String getExchangeRate(String accountReference) {
+    return "coalesce((SELECT " + KEY_EXCHANGE_RATE + " FROM " + TABLE_ACCOUNT_EXCHANGE_RATES + " WHERE " + KEY_ACCOUNTID + " = " + accountReference +
+        " AND " + KEY_CURRENCY_SELF + "=" + KEY_CURRENCY + " AND " + KEY_CURRENCY_OTHER + "='" + PrefKey.HOME_CURRENCY.getString(null) + "'), 1)";
+  }
+
+  private static String getAmountCalculation(boolean forHome) {
+    return forHome ? getAmountHomeEquivalent() : KEY_AMOUNT;
+  }
+
+  static String getInSum(boolean forHome) {
+    return "sum(CASE WHEN " + WHERE_IN + " THEN " + getAmountCalculation(forHome) + " ELSE 0 END) AS " + KEY_SUM_INCOME;
+  }
+
+  static String getIncomeSum(boolean forHome) {
+    return "sum(CASE WHEN " + WHERE_INCOME + " THEN " + getAmountCalculation(forHome) + " ELSE 0 END) AS " + KEY_SUM_INCOME;
+  }
+
+  static String getOutSum(boolean forHome) {
+    return "sum(CASE WHEN " + WHERE_OUT + " THEN " + getAmountCalculation(forHome) + " ELSE 0 END) AS " + KEY_SUM_EXPENSES;
+  }
+
+  static String getExpenseSum(boolean forHome) {
+    return "sum(CASE WHEN " + WHERE_EXPENSE + " THEN " + getAmountCalculation(forHome) + " ELSE 0 END) AS " + KEY_SUM_EXPENSES;
   }
 }
