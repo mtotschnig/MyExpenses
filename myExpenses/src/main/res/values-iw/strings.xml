@@ -575,7 +575,7 @@
   <string name="search_transfer">חפש עסקה</string>
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="pref_sort_order_next_instance">המקרה הבא</string>
-  <string name="crash_dialog_title">האפליקציה My Expenses קרסה</string>
+  <string name="crash_dialog_title">האפליקציה {app_name} קרסה</string>
   <string name="crash_dialog_text">אירעה שגיאה בלתי צפויה ביישום שגרמה לסגירתו. אנא עזור לנו לתקן זאת על ידי שליחת נתוני שגיאה, כל שעליך לעשות הוא ללחוץ על אישור.</string>
   <string name="crash_dialog_comment_prompt">תוכל להוסיף את הערותיך לגבי הבעיה שבהמשך:</string>
   <string name="synchronization">סנכרון</string>

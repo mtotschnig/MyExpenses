@@ -37,10 +37,13 @@
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Без рекламы</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Неограниченное количество счетов</string>
   <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Присоединение изображения к операции</string>
+  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Круговая диаграмма (по категориям)</string>
   <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Неограниченное количество планов</string>
   <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Экспорт списка операций в PDF</string>
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Шаблон виджет</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Импорт данных в формате CSV</string>
+  <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>E-mail поддержка</b> с обязательным ответом в течении 2 рабочих дней</string>
+  <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Право голоса на <b>дорожной карте разработки</b></string>
   <string name="contrib_key">Contrib-ключ</string>
   <string name="extended_key">Расширенный ключ</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
@@ -70,7 +73,10 @@
   <string name="dialog_contrib_no_usages_left">Нет бесплатных использований.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s является премиум функцией (%2$s).</string>
+  <string name="dialog_contrib_reminder_remove_limitation">Снимите это ограничение, а также получите больше возможностей расширив <i>{app_name}</i>.</string>
   <string name="dialog_contrib_text_1"><i>{app_name}</i> выпускается бесплатно и с открытым исходным кодом.</string>
+  <string name="dialog_contrib_text_2">Пожалуйста, внесите вклад расширив <i>{app_name}</i> и получите неограниченный доступ к следующим возможностях:</string>
+  <string name="dialog_contrib_usage_count">Осталось бесплатных использований</string>
   <string name="dialog_export_delete">Удалить экспортированные операции</string>
   <string name="dialog_export_not_yet_exported">Экспортировать еще не экспортированные операции</string>
   <string name="dialog_password_activate_protection">Включить защиту паролем</string>
@@ -193,6 +199,8 @@
   <string name="menu_search">Поиск</string>
   <string name="menu_settings">Настройки</string>
   <string name="menu_share">Рассказать другу</string>
+  <string name="button_label_share_file">Поделиться</string>
+  <string name="button_label_close">Закрыть</string>
   <string name="menu_split_transaction">Разделить</string>
   <string name="method">Способ оплаты</string>
   <string name="no_amount_given">Вы не ввели какую-либо сумму.</string>
@@ -259,6 +267,7 @@
   <string name="pm_type_neutral">Нейтральный</string>
   <string name="pref_app_dir_title">Каталог для бэкапов и экспортируемых данных</string>
   <string name="pref_auto_fill_title">Автозаполнение операций</string>
+  <string name="pref_auto_fill_summary">Автозаполнение данных из предыдущей транзакции с тем же получателем / плательщиком</string>
   <string name="pref_backup_summary">Создать резервную копию базы данных и настроек.</string>
   <string name="pref_sort_order_usages">Количество использований</string>
   <string name="pref_category_title_advanced">Дополнительно</string>
@@ -295,9 +304,12 @@
   <string name="pref_manage_methods_title">Способы оплаты</string>
   <string name="pref_manage_parties_summary">Добавление, редактирование, удаление участников (плательщиков и получателей).</string>
   <string name="pref_manage_parties_title">Участники</string>
+  <string name="pref_manage_sync_backends_title">Выбор хранилища данных</string>
   <!--%s will be replaced with list of backends-->
+  <string name="pref_manage_sync_backends_summary">Добавьте хранилища для синхронизации учетных записей (%s).</string>
   <string name="pref_more_info_dialog_title">Лицензия и создатели</string>
   <string name="pref_password_not_equal">Пароли не совпадают</string>
+  <string name="pref_perform_protection_title">Безопасность</string>
   <string name="pref_perform_share_title">Поделиться экспортируемым файлом</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Создать новый локальный календарь планов</string>
@@ -413,6 +425,8 @@
     <item quantity="many">%d категорий были успешно перемещены.</item>
     <item quantity="other">%d категорий были успешно перемещены.</item>
   </plurals>
+  <string name="warning_password_protected">Приложение защищено паролем.</string>
+  <string name="warning_widget_disabled">Вам необходимо включить этот виджет в настройках приложения.</string>
   <string name="warning_password_contrib">Установка секретного вопроса позволяет вам разблокировать приложение в случае, если вы забыли свой пароль.</string>
   <string name="warning_password_no_contrib">После установки пароля не забудьте его. У вас не будет возможности восстановить пароль, если не был задан секретный вопрос.</string>
   <string name="warning_reset_account">Если продолжить, все операции этого счёта будут удалены из базы данных и не могут быть восстановлены.</string>
@@ -420,6 +434,8 @@
   <string name="warning_reset_account_all">Если вы продолжите, для всех счетов %1$s операции будут удалены из базы данных и не могут быть восстановлены.</string>
   <string name="warning_restore">Базы данных и настройки будут восстановлены из файла \"%1$s\". Текущие данные будут удалены. Вы хотите продолжить?</string>
   <string name="warning_splitpartcategory_context">Переводы, которые являются разделённой частью можно редактировать только в контексте разделения.</string>
+  <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Пожалуйста, укажите число между %1$d и %2$d</string>
+  <string name="warning_change_fraction_digits_checkbox_label">Обновить данные в базе данных</string>
   <string name="import_categories_success">%1$s категорий успешно импортированы</string>
   <string name="import_parties_success">%1$s участников успешно импортированы</string>
   <string name="import_accounts_success">%1$s счета успешно импортированы</string>
@@ -437,23 +453,105 @@
   <string name="menu_sort_up">Вверх</string>
   <!--Move an account down in the account list-->
   <string name="create_new_folder_fail">Ошибка создания каталога</string>
+  <string name="widget_title_accounts">Мои счета</string>
+  <string name="widget_title_templates">Мои шаблоны</string>
+  <string name="search_amount">Поиск по размеру</string>
+  <string name="search_category">Поиск по категории</string>
+  <string name="search_comment">Поиск по заметкам</string>
+  <string name="search_date">Поиск по дате</string>
+  <string name="search_payee">Поиск по получателю/плательщику</string>
+  <string name="and">и</string>
+  <string name="between_and">между %1$s и %2$s</string>
+  <string name="before">до %s</string>
+  <string name="after">после %s</string>
+  <string name="comparison_operator_equal">равняется</string>
+  <string name="comparison_operator_between">между</string>
+  <string name="comparison_operator_date_before">до</string>
+  <string name="comparison_operator_date_after">после</string>
+  <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Специальное предложение при сотрудничестве с AppGratis: получите сегодня премиальные возможности бесплатно.</string>
+  <string name="hint_auto_fill">Позволить автозаполнение на основе последней транзакции для того же получателя/плательщика? Вы всегда можете изменить это поведение в настройках.</string>
+  <string name="yes">Да</string>
+  <string name="no">Нет</string>
+  <string name="learn_more">Узнать больше</string>
+  <string name="import_source_file">Файл</string>
+  <string name="menu_view_picture">Просмотр изображения</string>
+  <string name="menu_delete_picture">Удалить изображение</string>
+  <string name="menu_change_picture">Прикрепить другое изображение</string>
+  <string name="menu_distribution_show_pie_char">Показать круговую диаграмму</string>
+  <string name="image_deleted">Изображение было удалено</string>
+  <string name="transaction_deleted">Транзакция была удалена</string>
+  <string name="export_handle_deleted_update_balance">Обновить начальный баланс</string>
+  <string name="file_name">Имя файла</string>
+  <string name="folder_name">Имя папки</string>
+  <string name="menu_undelete_transaction">Восстановить</string>
+  <string name="menu_categories_export">Экспорт в QIF</string>
+  <string name="csv_import_preview">Предпросмотр</string>
   <!--Label for column where user can check rows to be discarded from import-->
   <string name="cvs_import_discard">Сброс</string>
+  <string name="cvs_import_set_first_line_as_header">Воспринимать первую строку как заглавную?</string>
+  <string name="csv_import_delimiter_comma">Запятая</string>
+  <string name="csv_import_delimiter_semicolon">Точка с запятой</string>
+  <string name="menu_show_transactions">Показать список транзакций</string>
+  <string name="pref_custom_decimal_format_title">Формат числа</string>
   <string name="pref_auto_backup_title">Включить авто-бэкап</string>
   <string name="pref_auto_backup_summary">Резервная копия базы данных ежедневно в указанное время (только если данные были изменены)</string>
   <string name="pref_auto_backup_time_title">Время авто-бэкапа</string>
   <string name="switch_on_text">ВКЛ</string>
   <string name="switch_off_text">ВЫКЛ</string>
   <string name="preferences_week_start_day_title">Начало недели:</string>
+  <string name="preferences_month_start_date_title">Начало месяца</string>
   <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
+  <string name="exchange_rate">Обменный курс</string>
+  <string name="date_format_hour">Час</string>
+  <string name="date_format_minute">Минута</string>
+  <string name="copied_to_clipboard">Скопировано в буфер обмена</string>
+  <string name="menu_sort">Сортировать по</string>
   <string name="pref_sort_order_last_used">Последнее использование</string>
   <string name="content_description_calculator">Калькулятор</string>
   <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <string name="plan_instance_state_open">открытый</string>
   <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
+  <string name="plan_instance_state_cancelled">отмененный</string>
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
+  <string name="plan_instance_state_applied">принятый</string>
+  <string name="content_description_calculator_clear_button">Сбросить все</string>
+  <string name="paypal_callback_info">Ваша транзакция была завершена; квитанция об оплате была направлена на Ваш e-mail. Вы можете увидеть детали этой транзакции в своей учетной записи на www.paypal.com</string>
+  <string name="search_transfer">Поиск перевода</string>
   <!--Sort plans (recurring transactions) by the next instance-->
+  <string name="crash_dialog_title">{app_name} аварийно завершен</string>
+  <string name="hint_user_name">Имя пользователя</string>
+  <string name="hint_password">Пароль</string>
   <string name="template">Шаблон</string>
+  <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Облачная синхронизация</string>
+  <string name="licence_status">Статус вашей учетной записи</string>
+  <string name="all_contrib_key_features">Все возможности Contrib-ключа</string>
+  <string name="all_extended_key_features">Все возможности Extended-ключа</string>
+  <string name="currency_symbol">Символ валюты</string>
+  <string name="number_of_fraction_digits">Число дробных знаков</string>
+  <string name="pref_tracking_summary">Позволить нам собирать обезличенные данные о вашем пользовательском опыте чтобы улучшить его</string>
+  <string name="onboarding_data_title">Давайте настроим ваш первый счет</string>
+  <string name="onboarding_get_started">Начало</string>
+  <string name="picture">Изображение</string>
+  <string name="licence_validation_error_device_limit_exceeded">Превышен лимит устройств. Пожалуйста, отключите лицензию на одном из устройств.</string>
+  <string name="progress_removing_licence">Отключение лицензии</string>
+  <string name="licence_removal_success">Лицензионный ключ был успешно отключен от этого устройства.</string>
+  <string name="professional_key">Professional-ключ</string>
+  <string name="n_months">%s месяцев</string>
+  <string name="professionalPriceShortInfo">От %s / месяц</string>
+  <string name="eu_vat_info">Для резидентов Европейского союза цены указаны без НДС</string>
+  <string name="valid_until">До %s</string>
   <!--%1$s date, %2$s price-->
+  <string name="extend_until">Продлите до %1$s за %2$s</string>
+  <string name="switch_to_yearly">Переход на ежегодную подписку</string>
+  <string name="switch_to_monthly">Переход на ежемесячную подписку</string>
+  <string name="menu_sort_direction">Направление сортировки</string>
+  <string name="sort_direction_ascending">по возрастанию</string>
+  <string name="sort_direction_descending">по убыванию</string>
+  <string name="never">никогда</string>
+  <string name="always">всегда</string>
+  <string name="dropbox_folder_name_prompt">Введите название существующей папке на корневом уровне вашего Dropbox</string>
+  <string name="dropbox_folder_not_found">Папка не найдена</string>
+  <string name="menu_history">История</string>
   <!--A label indicating the color for the sum of expenses-->
   <!--A label indicating the color for the sum of income-->
 </resources>

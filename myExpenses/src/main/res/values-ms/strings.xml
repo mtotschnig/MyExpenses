@@ -565,7 +565,7 @@
   <string name="search_transfer">Gelintar pemindahan</string>
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="pref_sort_order_next_instance">Tika berikutnya</string>
-  <string name="crash_dialog_title">Perbelanjaan Saya telah mengalami kerosakan</string>
+  <string name="crash_dialog_title">{app_name} telah mengalami kerosakan</string>
   <string name="crash_dialog_text">Satu ralat tidak dijangka berlaku yang memaksa aplikasi dihentikan. Sila bantu kami membaikinya dengan menghantar ralat data tersebut, apa yang anda perlu buat adalah dengan mengklik butang OK.</string>
   <string name="crash_dialog_comment_prompt">Anda boleh tambah ulasan berkenaan masalah yang berlaku di bawah:</string>
   <string name="synchronization">Penyegerakan</string>

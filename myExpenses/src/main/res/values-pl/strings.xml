@@ -569,7 +569,7 @@
   <string name="search_transfer">Wyszukaj przelew</string>
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="pref_sort_order_next_instance">Następny przykład</string>
-  <string name="crash_dialog_title">Moje Wydatki uległy awarii</string>
+  <string name="crash_dialog_title">{app_name} uległy awarii</string>
   <string name="crash_dialog_text">Wystąpił nieoczekiwany błąd wymuszający zatrzymanie aplikacji. Pomóż nam to naprawić, przesyłając nam dane o błędach. Wystarczy, że klikniesz OK.</string>
   <string name="crash_dialog_comment_prompt">Możesz dodać swoje komentarze na temat problemu poniżej:</string>
   <string name="synchronization">Synchronizacja</string>

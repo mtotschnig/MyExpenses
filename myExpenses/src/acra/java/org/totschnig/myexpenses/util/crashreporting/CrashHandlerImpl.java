@@ -12,6 +12,7 @@ import org.acra.data.StringFormat;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.util.Utils;
 
 import timber.log.Timber;
 
@@ -29,7 +30,7 @@ public class CrashHandlerImpl extends CrashHandler {
         .getPluginConfigurationBuilder(DialogConfigurationBuilder.class)
         .setEnabled(true)
         .setResText(R.string.crash_dialog_text)
-        .setResTitle(R.string.crash_dialog_title)
+        .setTitle(Utils.getTextWithAppName(application, R.string.crash_dialog_title).toString())
         .setResCommentPrompt(R.string.crash_dialog_comment_prompt)
         .setResPositiveButtonText(android.R.string.ok);
     configurationBuilder

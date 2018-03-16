@@ -566,7 +566,7 @@
   <string name="search_transfer">Ricerca per il trasferimento</string>
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="pref_sort_order_next_instance">Istanza successiva</string>
-  <string name="crash_dialog_title">Le mie spese ha avuto un problema</string>
+  <string name="crash_dialog_title">{app_name} ha avuto un problema</string>
   <string name="crash_dialog_text">Errore imprevisto durante l\'imposizione all\'applicazione di interrompere. Vi preghiamo di aiutarci a risolvere questo problema inviandoci i dati di errore, tutto ciò che dovete fare è fare clic su OK.</string>
   <string name="crash_dialog_comment_prompt">È possibile aggiungere i tuoi commenti sul problema riportato di seguito:</string>
   <string name="synchronization">Sincronizzazione</string>

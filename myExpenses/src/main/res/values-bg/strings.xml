@@ -575,7 +575,7 @@
   <string name="search_transfer">Търсене на превод</string>
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="pref_sort_order_next_instance">Следваща инстанция</string>
-  <string name="crash_dialog_title">Моите разходи спря</string>
+  <string name="crash_dialog_title">{app_name} спря</string>
   <string name="crash_dialog_text">Възникна неочаквана грешка, която принуди приложението да спре. Моля, помогнете ни да отстраним грешката, като ни изпратите данни за нея. Всичко, което трябва да направите, е да натиснете ОК.</string>
   <string name="crash_dialog_comment_prompt">По-долу може да добавите коментар относно този проблем:</string>
   <string name="synchronization">Синхронизиране</string>

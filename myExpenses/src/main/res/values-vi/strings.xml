@@ -49,7 +49,7 @@
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
   <string name="contrib_key_requires">Yêu cầu %1$s.</string>
   <string name="currency">Tiền tệ</string>
-  <string name="current_balance">Số dư hiện tại</string>
+  <string name="current_balance">Số dư</string>
   <string name="date">Ngày tháng</string>
   <string name="date_format">Định dạng ngày tháng</string>
   <string name="date_format_illegal">Định dạng ngày tháng không hợp lệ</string>
@@ -57,7 +57,7 @@
   <string name="decimal_separator">Dấu thập phân</string>
   <string name="default_account_name">Ngân quỹ</string>
   <string name="description">Mô tả</string>
-  <string name="dialog_balance_delete">Xoá các giao dịch đã đối chiếu</string>
+  <string name="dialog_balance_delete">Xoá các giao dịch đã khớp</string>
   <!--User confirms that he wants to discard changes-->
   <string name="dialog_confirm_button_discard">Huỷ bỏ</string>
   <string name="dialog_confirm_discard_changes">Huỷ bỏ thay đổi?</string>
@@ -65,7 +65,7 @@
   <string name="dialog_confirm_discard_new_template">Huỷ bỏ bản mẫu mới?</string>
   <string name="dialog_confirm_discard_new_account">Huỷ bỏ tải khoản mới?</string>
   <string name="dialog_confirm_discard_new_method">Huỷ bỏ phương thức chi trả mới?</string>
-  <string name="dialog_command_disabled_balance">Không còn giao dịch nào chưa được thông qua để đối chiếu.</string>
+  <string name="dialog_command_disabled_balance">Không còn giao dịch nào chưa được thông qua để khớp.</string>
   <string name="dialog_command_disabled_insert_transfer">Việc chuyển khoản yêu cầu một tài khoản khác.</string>
   <string name="dialog_command_disabled_reset_account">Không có giao dịch để xuất.</string>
   <string name="dialog_command_disabled_distribution">Không có giao dịch nào được cho phân loại trong tài khoản này.</string>
@@ -124,7 +124,7 @@
   <string name="grisbi_import_default_source">Phân loại mặc định theo tiếng Việt</string>
   <string name="grisbi_import_parties_loading">Đang tải các bên từ %1$s</string>
   <string name="grouping_day">Ngày</string>
-  <string name="grouping_last_week">Tuần rồi</string>
+  <string name="grouping_last_week">Tuần trước</string>
   <string name="grouping_month">Tháng</string>
   <string name="grouping_none">Không gộp nhóm</string>
   <string name="grouping_this_week">Tuần này</string>
@@ -373,17 +373,17 @@
   <string name="menu_select_folder">Chọn thư mục này</string>
   <string name="share_scheme_not_supported">Sự phối hợp %1$s không được hỗ trợ</string>
   <string name="share_sending">Gửi tập tin xuất dữ liệu</string>
-  <string name="split_parts_heading">Tác thành từng phần</string>
+  <string name="split_parts_heading">Tách thành từng phần</string>
   <string name="split_transaction">Tách giao dịch</string>
   <string name="status">Trạng thái</string>
   <string name="status_cleared">đã thông qua</string>
-  <string name="status_reconciled">đã đối chiếu</string>
-  <string name="status_uncreconciled">chưa đối chiếu</string>
+  <string name="status_reconciled">đã khớp</string>
+  <string name="status_uncreconciled">chưa khớp</string>
   <string name="status_void">trống</string>
   <string name="subcategory">Phân loại phụ thuộc</string>
   <string name="sum_expenses">Chi tiêu</string>
   <string name="sum_income">Thu nhập</string>
-  <string name="sum_transfer">Giao dịch chuyển khoản</string>
+  <string name="sum_transfer">Chuyển khoản</string>
   <!--platform is replaced with Android or Blackberry-->
   <string name="tell_a_friend_message">{app_name}, Quản lý tài chính cá nhân trên {platform}, {website}</string>
   <string name="template_create_success">Mẫu \"%1$s\" đã được tạo thành công</string>
@@ -391,7 +391,7 @@
   <string name="time">Thời gian</string>
   <string name="title">Tiêu đề</string>
   <string name="total_cleared">Khoản đã thông qua</string>
-  <string name="total_reconciled">Khoản đã đối chiếu</string>
+  <string name="total_reconciled">Khoản đã khớp</string>
   <string name="transaction">Giao dịch</string>
   <string name="transfer">Chuyển khoản</string>
   <string name="transfer_from_account">Từ</string>
@@ -416,8 +416,8 @@
   <plurals name="move_category_failure">
     <item quantity="other">%d danh mục không được di chuyển vì nhãn tương tự đã tồn tại trong mục tiêu.</item>
   </plurals>
-  <string name="warning_delete_reconciled">Xoá giao dịch đã đối chiếu sẽ khiến thống kê của bạn khác đi so với của ngân hàng.</string>
-  <string name="warning_balance_account">Xin hãy đối chiếu số tiền đã thông qua với số dư hiện tại trong giấy xác nhận của ngân hàng. Nếu bạn tiếp tục, giao dịch đã thông qua sẽ được đánh dấu là đã đối chiếu.</string>
+  <string name="warning_delete_reconciled">Xoá giao dịch đã khớp sẽ khiến thống kê của bạn khác đi so với của ngân hàng.</string>
+  <string name="warning_balance_account">Xin hãy khớp số tiền đã thông qua với số dư hiện tại trong giấy xác nhận của ngân hàng. Nếu bạn tiếp tục, giao dịch đã thông qua sẽ được đánh dấu là đã khớp.</string>
   <string name="warning_password_protected">Ứng dụng được bảo vệ bởi mật khẩu.</string>
   <string name="warning_widget_disabled">Bạn cần kích hoạt tiện ích này trong cài đặt của ứng dụng.</string>
   <string name="warning_instantiate_template_from_widget_password_protected">Thuyết minh nhanh về các bản mẫu từ tiện ích này chỉ hoạt động nếu bạn cho phép hiện các mục dữ liệu từ tiện ích, với việc không đặt mật khẩu trong cài đặt ứng dụng.</string>
@@ -566,7 +566,7 @@
   <string name="search_transfer">Tìm các khoản chuyển</string>
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="pref_sort_order_next_instance">Lần tiếp theo</string>
-  <string name="crash_dialog_title">My Expenses đã dừng đột ngột</string>
+  <string name="crash_dialog_title">{app_name} đã dừng đột ngột</string>
   <string name="crash_dialog_text">Đã xảy ra lỗi không mong muốn buộc ứng dụng phải ngừng. Xin hãy giúp chúng tôi khắc phục sự cố này bằng cách gửi dữ liệu lỗi, tất cả những gì bạn cần làm là nhấn OK.</string>
   <string name="crash_dialog_comment_prompt">Bạn có thể thêm ý kiến ​​của bạn về vấn đề vừa rồi dưới đây:</string>
   <string name="synchronization">Đồng bộ hóa</string>

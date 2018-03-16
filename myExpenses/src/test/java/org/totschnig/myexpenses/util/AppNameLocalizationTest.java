@@ -36,7 +36,9 @@ public class AppNameLocalizationTest {
             R.string.description_webdav_url,
             R.string.warning_synchronization_folder_usage,
             R.string.onboarding_ui_title,
-            R.string.licence_migration_info}) {
+            R.string.licence_migration_info,
+            R.string.crash_reports_user_info,
+            R.string.crash_dialog_title}) {
           try {
             Utils.getTextWithAppName(context, resId);
           } catch (Exception e) {

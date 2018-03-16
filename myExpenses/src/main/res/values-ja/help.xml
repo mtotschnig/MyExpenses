@@ -13,6 +13,7 @@
   <string name="menu_grouping_help_text">日、週、月または年で取引をグループ化できます。各グループについて、収入、支出、および振替の合計が計算されて表示されます。グループヘッダーをクリックすると、取引のグループが折りたたまれて、ヘッダーのみが表示されます。展開するには、もう一度クリックします。</string>
   <string name="menu_sort_direction_help_text">取引は昇順 (古いものが先頭) または降順 (新しいものが先頭) にソートできます。</string>
   <string name="menu_distribution_help_text">分類ごとの支出の分布を表示します。また、グループヘッダーを長押しすると、特定の期間の分布を確認することができます。</string>
+  <string name="menu_history_help_text">キャッシュフロー図を表示します: 日、週、月、年にわたって支出と収入は増えましたか?</string>
   <string name="menu_manage_plans_help_text">テンプレートと計画のリストを開いて、適用、編集または削除することができます。また、将来の計画や繰り返し取引を定義することができます。</string>
   <string name="menu_balance_help_text">このコマンドは、最後に照合した残高や消込した残高を表示するダイアログを開きます。あなたは銀行取引明細書と、照合済としてすべて消込済にマークした取引と比較することができます。オプションで、照合済の取引を削除することを指定することができます。</string>
   <string name="menu_print_help_text">現在表示されている取引の印刷可能なビューを生成します。</string>
@@ -138,4 +139,8 @@
   <string name="cab_sync_link_help_text">ローカルとリモートの両方に存在する勘定の同期を開始します。 最初の同期で、ローカルまたはリモートのデータを保持する必要があるかどうかを判断する必要があります。</string>
   <string name="cab_sync_unlink_help_text">選択した勘定はバックエンドに同期されなくなります</string>
   <!--History-->
+  <string name="help_HistoryActivity_info">この画面は、キャッシュフローと、支出、収入が年、月、週、日でどのように変化するかが表示されます。</string>
+  <string name="menu_HistoryActivity_grouping_help_text">日、週、月、年のキャッシュフローデータの分類を切り替えます。</string>
+  <string name="menu_HistoryActivity_history_show_balance_help_text">残高の表示を切り替えます。</string>
+  <string name="menu_HistoryActivity_history_transfers_help_text">振替を通常の収入または支出のように扱う必要がある場合、切り替えます。</string>
 </resources>

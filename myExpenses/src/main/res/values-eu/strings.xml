@@ -564,7 +564,7 @@
   <string name="search_transfer">Bilatu transferentzia</string>
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="pref_sort_order_next_instance">Hurrengo gertaera</string>
-  <string name="crash_dialog_title">Nire gastuak kraskatu da</string>
+  <string name="crash_dialog_title">{app_name} kraskatu da</string>
   <string name="crash_dialog_text">Ustekabeko errore bat gertatu da eta aplikazioa itxi behar izan da. Lagundu gaitzazu arazoa konpontzen errorearen datuak bidaliz, egin behar duzun guztia Ados sakatzea da.</string>
   <string name="crash_dialog_comment_prompt">Zure iruzkinak gehitu ditzakezu hemen:</string>
   <string name="synchronization">Sinkronizazioa</string>

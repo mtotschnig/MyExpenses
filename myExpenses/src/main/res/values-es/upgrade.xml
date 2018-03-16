@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_288">
+    <item>Gráfico de historial (flujo de efectivo)</item>
+  </string-array>
   <string-array name="whats_new_287">
     <item>Protección por bloqueo de pantalla</item>
   </string-array>

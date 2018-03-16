@@ -562,7 +562,7 @@
   <string name="search_transfer">Pesquisar por transferência</string>
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="pref_sort_order_next_instance">Próxima ocorrência</string>
-  <string name="crash_dialog_title">O My Expenses falhou</string>
+  <string name="crash_dialog_title">O {app_name} falhou</string>
   <string name="crash_dialog_text">Ocorreu um erro inesperado forçando a aplicação a parar. Por favor ajude-nos a corrigir isto ao enviar-nos os dados do erro, tudo o que tem que fazer é clicar em OK.</string>
   <string name="crash_dialog_comment_prompt">Pode adicionar os seus comentários sobre o problema em baixo:</string>
   <string name="synchronization">Sincronização</string>

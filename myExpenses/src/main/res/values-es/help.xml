@@ -13,6 +13,7 @@
   <string name="menu_grouping_help_text">Puede agrupar las transacciones por día, semana, mes o año. Se calcula y se muestra para cada grupo, la suma de los ingresos, gastos y transferencias. Cuando hace clic en un encabezado de grupo, el grupo de las transacciones se contrae y se muestra sólo la cabecera. Vuelva a hacer clic para ampliar.</string>
   <string name="menu_sort_direction_help_text">Las transacciones se pueden ordenar en dirección ascendente (la más antigua arriba) o descendente (la más reciente arriba).</string>
   <string name="menu_distribution_help_text">Muestra la distribución de los gastos por categoría. También puede hacer un clic largo en un encabezado de grupo para inspeccionar la distribución de un grupo específico.</string>
+  <string name="menu_history_help_text">Mostrar un diagrama de flujo: ¿Cómo evoluciona tus gastos e ingresos en días, semanas, meses o años?</string>
   <string name="menu_manage_plans_help_text">Abre la lista de plantillas y planes, donde se puede aplicar, editar o borrar, y también definir planes para futuras o recurrentes transacciones.</string>
   <string name="menu_balance_help_text">Este comando abre un cuadro de diálogo, mostrando el último saldo conciliado y el saldo despejado. Puede comparar el último saldo con su cuenta bancaria y marcar las transacciones despejadas como reconciliadas. Opcionalmente puede decidir eliminar transacciones reconciliadas.</string>
   <string name="menu_print_help_text">Genera una vista imprimible de las transacciones que se muestran actualmente.</string>
@@ -138,4 +139,8 @@
   <string name="cab_sync_link_help_text">Comenzar la sincronización para una cuenta que existe tanto de forma local como de forma remota. Necesitará decidir si se guardan los datos locales o remotos durante la primera sincronización.</string>
   <string name="cab_sync_unlink_help_text">La cuenta seleccionada no se volverá a sincronizar con el servicio.</string>
   <!--History-->
+  <string name="help_HistoryActivity_info">Esta pantalla muestra tu flujo de efectivo, cómo tus gastos e ingresos evolucionan a lo largo de años, meses, semanas o días.</string>
+  <string name="menu_HistoryActivity_grouping_help_text">Cambie entre diario, semanal, mensual o anual al agrupar la información del flujo de efectivo.</string>
+  <string name="menu_HistoryActivity_history_show_balance_help_text">Cambie la visibilidad del balance.</string>
+  <string name="menu_HistoryActivity_history_transfers_help_text">Cambie si las transferencias deberían de ser tratadas como un ingreso o gasto regular.</string>
 </resources>

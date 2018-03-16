@@ -575,7 +575,7 @@
   <string name="search_transfer">Suche nach Umbuchung</string>
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="pref_sort_order_next_instance">Nächstes Vorkommen</string>
-  <string name="crash_dialog_title">Meine Ausgaben ist abgestürzt</string>
+  <string name="crash_dialog_title">{app_name} ist abgestürzt</string>
   <string name="crash_dialog_text">Ein unerwarteter Fehler ist aufgetreten ist und hat zum Absturz der Anwendung geführt. Bitte helfen Sie uns, dieses Problem zu beheben, indem Sie uns Fehlerdaten senden. Alles, was Sie tun müssen, ist auf \"OK\" zu klicken.</string>
   <string name="crash_dialog_comment_prompt">Sie können Ihre Anmerkungen zum Problem unten hinzufügen:</string>
   <string name="synchronization">Synchronisierung</string>

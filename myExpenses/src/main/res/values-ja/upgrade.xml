@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_288">
+    <item>履歴チャート (キャッシュフロー)</item>
+  </string-array>
   <string-array name="whats_new_287">
     <item>デバイスのロック画面による保護</item>
   </string-array>

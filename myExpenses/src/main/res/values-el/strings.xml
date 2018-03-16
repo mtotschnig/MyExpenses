@@ -561,7 +561,7 @@
   <string name="search_transfer">Αναζήτηση για μεταφορά</string>
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="pref_sort_order_next_instance">Επόμενο στιγμιότυπο</string>
-  <string name="crash_dialog_title">Το Έξοδα μου έχει κολλήσει</string>
+  <string name="crash_dialog_title">Το {app_name} έχει κολλήσει</string>
   <string name="crash_dialog_text">Παρουσιάστηκε ένα μη αναμενόμενο σφάλμα που ανάγκασε την εφαρμογή να σταματήσει. Παρακαλούμε να μας βοηθήσετε να διορθώσουμε αυτό στέλνοντάς μας τα δεδομένα σφάλματος, το μόνο που έχετε να κάνετε είναι να κάντε κλικ στο Εντάξει.</string>
   <string name="crash_dialog_comment_prompt">Μπορείτε να προσθέσετε τα σχόλιά σας για το πρόβλημα παρακάτω:</string>
   <string name="synchronization">Συγχρονισμός</string>
