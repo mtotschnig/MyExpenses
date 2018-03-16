@@ -37,6 +37,7 @@ import android.provider.MediaStore;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
@@ -1727,7 +1728,8 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   @Nullable
-  private Account getCurrentAccount() {
+  @VisibleForTesting
+  public Account getCurrentAccount() {
     return getAccountFromSpinner(mAccountSpinner);
   }
 
