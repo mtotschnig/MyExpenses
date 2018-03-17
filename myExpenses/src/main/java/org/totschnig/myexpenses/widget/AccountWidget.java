@@ -142,7 +142,8 @@ public class AccountWidget extends AbstractWidget<Account> {
     Uri.Builder builder = TransactionProvider.ACCOUNTS_URI.buildUpon();
     builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES, "1");
     return c.getContentResolver().query(
-        builder.build(), new String[]{KEY_CURRENT_BALANCE}, null, null, null);
+        //TODO find out if we should implement an optimized provider method that only returns current balance
+        builder.build(), null, null, null, null);
   }
 
   @Override

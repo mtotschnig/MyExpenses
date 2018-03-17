@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_288">
+    <item>История (Cash flow)</item>
+  </string-array>
   <string-array name="whats_new_271">
     <item>Исправлены проблемы с планами на устройствах Samsung</item>
     <item>Редактирование операций с экрана распределения</item>

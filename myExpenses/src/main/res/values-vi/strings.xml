@@ -707,4 +707,9 @@
   <!--A label indicating the color for the sum of income-->
   <string name="history_chart_in_label">Thu nhập</string>
   <string name="menu_history_totals">Hiển thị tổng số</string>
+  <string name="pref_home_currency_title">Tiền tệ gốc</string>
+  <string name="grand_total">Tổng</string>
+  <string name="menu_original_amount">Khoản gốc</string>
+  <string name="menu_equivalent_amount">Khoản tương đương</string>
+  <string name="home_currency_change_warning">Nếu bạn đổi tiền tệ gốc, khoản tương đương và tỷ giá hối đoái sẽ bị mất, chúng sẽ cần được thiết đặt lại. Bạn có muốn tiếp tục không?</string>
 </resources>

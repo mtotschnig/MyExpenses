@@ -254,7 +254,12 @@ public class AccountEdit extends AmountActivity implements
     if (mSyncSpinner.getSelectedItemPosition() > 0) {
       mAccount.setSyncAccountName((String) mSyncSpinner.getSelectedItem());
     }
-    mAccount.setExchangeRate(mExchangeRateEdit.getRate(false).doubleValue());
+    if (!PrefKey.HOME_CURRENCY.getString(currency).equals(currency)) {
+      final BigDecimal rate = mExchangeRateEdit.getRate(false);
+      if (rate != null) {
+        mAccount.setExchangeRate(rate.doubleValue());
+      }
+    }
     //EditActivity.saveState calls DbWriteFragment
     super.saveState();
   }

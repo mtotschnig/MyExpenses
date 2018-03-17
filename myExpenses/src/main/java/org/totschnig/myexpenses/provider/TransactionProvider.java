@@ -414,9 +414,10 @@ public class TransactionProvider extends ContentProvider {
         boolean mergeCurrencyAggregates = uri.getQueryParameter(QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES) != null;
         defaultOrderBy = Utils.defaultOrderBy(KEY_LABEL, PrefKey.SORT_ORDER_ACCOUNTS);
         if (mergeCurrencyAggregates) {
-          if (projection != null)
-            throw new IllegalArgumentException(
+          if (projection != null) {
+            CrashHandler.report(
                 "When calling accounts cursor with mergeCurrencyAggregates, projection is ignored ");
+          }
           String accountSubquery = qb.buildQuery(Account.PROJECTION_FULL, selection, null,
               null, null, null);
           //Currency query
