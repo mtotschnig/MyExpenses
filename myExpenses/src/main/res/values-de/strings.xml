@@ -719,7 +719,7 @@
   <string name="menu_history_totals">Summen anzeigen</string>
   <string name="pref_home_currency_title">Heimatwährung</string>
   <string name="grand_total">Gesamtsumme</string>
-  <string name="menu_original_amount">Ursprünglicher Betrag</string>
+  <string name="menu_original_amount">Originalbetrag</string>
   <string name="menu_equivalent_amount">Gleichwertiger Betrag</string>
   <string name="home_currency_change_warning">Wenn Sie Ihre Heimatwährung ändern, gehen gleichwertige Beträge und Wechselkurse verloren und müssen erneut definiert werden. Möchten Sie fortfahren?</string>
 </resources>
