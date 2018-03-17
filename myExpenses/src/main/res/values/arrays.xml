@@ -488,6 +488,10 @@
         <item>photos/a.1450395311888609.1073741827.1450391968555610/2025818994346235</item>
         <item>GVfrc3JXkUy</item>
     </string-array>
+    <string-array name="version_more_info_289" tools:ignore="UnusedResources">
+        <item>posts/2035974853330649</item>
+        <item>AYT8u2EQosF</item>
+    </string-array>
 
     <string-array name="comparison_operator_entries">
         <item>@string/comparison_operator_equal</item>

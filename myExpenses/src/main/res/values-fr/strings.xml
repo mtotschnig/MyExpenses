@@ -717,4 +717,9 @@
   <!--A label indicating the color for the sum of income-->
   <string name="history_chart_in_label">Revenu</string>
   <string name="menu_history_totals">Afficher les totaux</string>
+  <string name="pref_home_currency_title">Monnaie locale</string>
+  <string name="grand_total">Somme finale</string>
+  <string name="menu_original_amount">Montant original</string>
+  <string name="menu_equivalent_amount">Montant équivalent</string>
+  <string name="home_currency_change_warning">Si vous changez la monnaie locale, les montants équivalents et les taux de change seront perdus et devront être définis à nouveau. Voulez-vous continuer?</string>
 </resources>

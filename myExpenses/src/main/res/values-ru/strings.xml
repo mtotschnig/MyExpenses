@@ -478,11 +478,13 @@
   <string name="menu_delete_picture">Удалить изображение</string>
   <string name="menu_change_picture">Прикрепить другое изображение</string>
   <string name="menu_distribution_show_pie_char">Показать круговую диаграмму</string>
+  <string name="menu_select_categories">Выбрать отмеченные категории</string>
   <string name="image_deleted">Изображение было удалено</string>
   <string name="transaction_deleted">Транзакция была удалена</string>
   <string name="export_handle_deleted_update_balance">Обновить начальный баланс</string>
   <string name="file_name">Имя файла</string>
   <string name="folder_name">Имя папки</string>
+  <string name="mark_void_instead_of_delete">Не удалять транзакцию, а отметить как \"недействительную\"</string>
   <string name="menu_undelete_transaction">Восстановить</string>
   <string name="menu_categories_export">Экспорт в QIF</string>
   <string name="csv_import_preview">Предпросмотр</string>

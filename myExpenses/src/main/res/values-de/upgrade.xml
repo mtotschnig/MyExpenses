@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_289">
+    <item>Umrechnung zwischen Fremdwährung und Heimatwährung</item>
+  </string-array>
   <string-array name="whats_new_288">
     <item>Verlaufsdiagramm (Cashflow)</item>
   </string-array>
