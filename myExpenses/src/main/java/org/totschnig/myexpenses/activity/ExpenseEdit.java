@@ -298,8 +298,6 @@ public class ExpenseEdit extends AmountActivity implements
   public static final int SUM_CURSOR = 6;
   public static final int LAST_EXCHANGE_CURSOR = 7;
   public static final int AUTOFILL_CURSOR = 8;
-  private static final String KEY_PICTURE_URI = "picture_uri";
-  private static final String KEY_PICTURE_URI_TMP = "picture_uri_tmp";
 
   private LoaderManager mManager;
 
@@ -2152,7 +2150,9 @@ public class ExpenseEdit extends AmountActivity implements
         mAccounts = new Account[data.getCount()];
         if (didUserSetAccount) {
           mTransaction.setAccountId(mAccountId);
-          mTransaction.setTransferAccountId(mTransferAccountId);
+          if (mOperationType == TYPE_TRANSFER) {
+            mTransaction.setTransferAccountId(mTransferAccountId);
+          }
         }
         data.moveToFirst();
         boolean selectionSet = false;

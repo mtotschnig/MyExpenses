@@ -31,6 +31,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.util.ArrayList;
 import java.util.Currency;
@@ -578,18 +579,20 @@ public class Template extends Transaction {
 
   @Override
   public Long getTransferAccountId() {
-    if (!isTransfer()) {
-      throw new IllegalStateException("Tried to get transfer account for a template that is no transfer");
+    if (isTransfer()) {
+      return template.getTransferAccountId();
     }
-    return template.getTransferAccountId();
+    CrashHandler.report("Tried to get transfer account for a template that is no transfer");
+    return null;
   }
 
   @Override
   public void setTransferAccountId(Long transferAccountId) {
-    if (!isTransfer()) {
-      throw new IllegalStateException("Tried to set transfer account for a template that is no transfer");
+    if (isTransfer()) {
+      template.setTransferAccountId(transferAccountId);
+    } else {
+      CrashHandler.report("Tried to set transfer account for a template that is no transfer");
     }
-    template.setTransferAccountId(transferAccountId);
   }
 
   public Uri getContentUri() {
