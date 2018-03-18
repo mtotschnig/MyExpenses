@@ -37,7 +37,6 @@ public class AppNameLocalizationTest {
             R.string.warning_synchronization_folder_usage,
             R.string.onboarding_ui_title,
             R.string.licence_migration_info,
-            R.string.crash_reports_user_info,
             R.string.crash_dialog_title}) {
           try {
             Utils.getTextWithAppName(context, resId);
@@ -45,7 +44,31 @@ public class AppNameLocalizationTest {
             fail(String.format("Non-compliant resource %s for locale %s", context.getResources().getResourceName(resId), locale));
           }
         }
-        //Utils.getTellAFriendMessage(context);
+      }
+    }
+  }
+
+  @Test
+  public void shouldBuildWithAppNameIfDefined() {
+    Application context = RuntimeEnvironment.application;
+    String[] locales = context.getResources().getStringArray(R.array.pref_ui_language_values);
+    for (String locale : locales) {
+      if (!locale.equals("default")) {
+        setLocale(locale);
+        //These strings are not defined on every build flavor and branch
+        for (String resName : new String[]{
+            "crash_reports_user_info"
+        }) {
+          try {
+            final int resId = context.getResources().getIdentifier(resName, "string", context.getPackageName());
+            if (resId == 0) {
+              continue;
+            }
+            Utils.getTextWithAppName(context, resId);
+          } catch (Exception e) {
+            fail(String.format("Non-compliant resource %s for locale %s", resName, locale));
+          }
+        }
       }
     }
   }
