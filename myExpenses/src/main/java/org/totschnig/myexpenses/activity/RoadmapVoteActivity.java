@@ -117,12 +117,12 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
       final Integer weight1 = voteWeights.get(issue1.getNumber());
       final Integer weight2 = voteWeights.get(issue2.getNumber());
       if (weight1 != null) {
-        return weight2 == null ? 1 : weight1.compareTo(weight2);
+        return weight2 == null ? -1 : weight2.compareTo(weight1);
       }
       if (weight2 != null) {
-        return -1;
+        return 1;
       }
-      return Utils.compare(issue1.getNumber(), issue2.getNumber());
+      return Utils.compare(issue2.getNumber(), issue1.getNumber());
     });
     roadmapAdapter.notifyDataSetChanged();
     updateVoteMenuItem();
@@ -291,7 +291,7 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
         } else {
           voteWeights.remove(issueId);
         }
-        roadmapAdapter.notifyItemChanged(extras.getInt(KEY_POSITION));
+        validateAndUpdateUi();
         updateVoteMenuItem();
         return true;
       }
