@@ -1566,7 +1566,7 @@ public class ExpenseEdit extends AmountActivity implements
   protected void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
     long methodId = mMethodSpinner.getSelectedItemId();
-    if (methodId != android.widget.AdapterView.INVALID_ROW_ID) {
+    if (!(methodId == AdapterView.INVALID_ROW_ID || methodId == 0)) {
       mMethodId = methodId;
     }
     if (didUserSetAccount) {
