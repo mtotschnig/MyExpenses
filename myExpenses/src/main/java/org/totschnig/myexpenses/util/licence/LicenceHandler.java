@@ -21,7 +21,6 @@ import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
-import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.Preconditions;
 import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.Utils;
@@ -36,12 +35,10 @@ import java.util.UUID;
 import timber.log.Timber;
 
 public class LicenceHandler {
-  private static final String LICENSE_STATUS_KEY = "licence_status";
+  protected static final String LICENSE_STATUS_KEY = "licence_status";
   private static final String LICENSE_VALID_SINCE_KEY = "licence_valid_since";
   private static final String LICENSE_VALID_UNTIL_KEY = "licence_valid_until";
   public static final String TAG = "LicenceHandler";
-  public static boolean HAS_EXTENDED = !DistribHelper.isBlackberry();
-  public static LicenceStatus EXTENDED = HAS_EXTENDED ? LicenceStatus.EXTENDED : LicenceStatus.CONTRIB;
   protected final Context context;
 
   public LicenceStatus getLicenceStatus() {
@@ -51,7 +48,7 @@ public class LicenceHandler {
   protected LicenceStatus licenceStatus;
   PreferenceObfuscator licenseStatusPrefs;
 
-  protected LicenceHandler(Context context, PreferenceObfuscator preferenceObfuscator) {
+  public LicenceHandler(Context context, PreferenceObfuscator preferenceObfuscator) {
     this.context = context;
     this.licenseStatusPrefs = preferenceObfuscator;
   }
@@ -284,5 +281,19 @@ public class LicenceHandler {
 
   public String buildRoadmapVoteKey() {
     return UUID.randomUUID().toString();
+  }
+
+  /**
+   * @return true if licenceStatus has been upEd
+   */
+  public boolean registerUnlockLegacy() {
+    return false;
+  }
+
+  /**
+   * @return true if licenceStatus has been upEd
+   */
+  public boolean registerBlackberryProfessional() {
+    return false;
   }
 }

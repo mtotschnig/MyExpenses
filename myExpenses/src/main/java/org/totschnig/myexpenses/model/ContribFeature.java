@@ -58,8 +58,8 @@ public enum ContribFeature {
   PRINT,
   ATTACH_PICTURE,
   AD_FREE(false),
-  CSV_IMPORT(true, LicenceHandler.EXTENDED),
-  AUTO_BACKUP(true, LicenceHandler.EXTENDED) {
+  CSV_IMPORT(true, EXTENDED),
+  AUTO_BACKUP(true, EXTENDED) {
     @Override
     public String buildUsagesLefString(Context ctx) {
       int usagesLeft = usagesLeft();
@@ -67,7 +67,7 @@ public enum ContribFeature {
           ctx.getString(R.string.warning_auto_backup_limit_reached);
     }
   },
-  SYNCHRONIZATION(true, LicenceHandler.EXTENDED) {
+  SYNCHRONIZATION(true, EXTENDED) {
     private String PREF_KEY = "FEATURE_SYNCHRONIZATION_FIRST_USAGE";
     private int TRIAL_DURATION_DAYS = 10;
     private long TRIAL_DURATION_MILLIS = (TRIAL_DURATION_DAYS * 24 * 60) * 60 * 1000;

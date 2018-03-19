@@ -136,7 +136,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     //prepare EXTENDED section
     View extendedContainer = dialogView.findViewById(R.id.extended_feature_container);
     extendedContainer.setBackgroundColor(getResources().getColor(R.color.extended_licence));
-    if (LicenceHandler.HAS_EXTENDED && CONTRIB.greaterOrEqual(licenceStatus) && EXTENDED.covers(feature)) {
+    if (CONTRIB.greaterOrEqual(licenceStatus) && EXTENDED.covers(feature)) {
       extendedVisible = true;
       ArrayList<CharSequence> lines = new ArrayList<>();
       if (contribVisible) {
@@ -154,7 +154,7 @@ public class ContribDialogFragment extends CommitSafeDialogFragment implements D
     ArrayList<CharSequence> lines = new ArrayList<>();
     View professionalContainer = dialogView.findViewById(R.id.professional_feature_container);
     professionalContainer.setBackgroundColor(getResources().getColor(R.color.professional_licence));
-    if (extendedVisible || (contribVisible && !LicenceHandler.HAS_EXTENDED)) {
+    if (extendedVisible) {
       lines.add(getString(R.string.all_extended_key_features) + "\n+");
     } else if(feature != null && feature.isProfessional()) {
       if (licenceStatus == null) {
