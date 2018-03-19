@@ -184,11 +184,17 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
     }
     String groupingClause = getArguments().getString(KEY_GROUPING_CLAUSE);
     if (groupingClause != null) {
-      selection += " AND " + groupingClause;
+      if (!TextUtils.isEmpty(selection)) {
+        selection += " AND ";
+      }
+      selection += groupingClause;
     }
     int type = getArguments().getInt(KEY_TYPE);
     if (type != 0) {
-      selection += " AND " + KEY_AMOUNT + (type == -1 ? "<" : ">") + "0";
+      if (!TextUtils.isEmpty(selection)) {
+        selection += " AND ";
+      }
+      selection +=  KEY_AMOUNT + (type == -1 ? "<" : ">") + "0";
     }
     switch (id) {
       case TRANSACTION_CURSOR:
