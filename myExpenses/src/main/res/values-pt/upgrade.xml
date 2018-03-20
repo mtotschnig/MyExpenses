@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_288">
+    <item>Diagrama histórico (fluxo de caixa)</item>
+  </string-array>
   <string-array name="whats_new_283">
     <item>Ascending sort direction (as transações mais antigas no topo)</item>
   </string-array>

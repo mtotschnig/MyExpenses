@@ -20,7 +20,7 @@
   <string name="account_type_liability_plural">Contas de passivos</string>
   <string name="already_defined">%1$s já definido</string>
   <string name="amount">Quantia</string>
-  <string name="app_name">Minhas despesas</string>
+  <string name="app_name">Minhas Despesas</string>
   <string name="backup_failure">Não foi possível efetuar o backup em \"%1$s\".</string>
   <string name="backup_success">O banco de dados e as preferências foram gravados com sucesso em \"%1$s\".</string>
   <string name="category">Categoria</string>
@@ -41,6 +41,9 @@
   <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Widget de modelos</string>
   <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Importação CSV</string>
   <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Número ilimitado de modelos de divisão de transações</string>
+  <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Suporte por e-mail</b> com garantia de resposta em até 2 dias úteis</string>
+  <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Direito de voto no <b>roteiro de desenvolvimento</b></string>
+  <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Diagrama histórico (fluxo de caixa)</string>
   <string name="licence_status_free">Gratuita</string>
   <string name="contrib_key">Chave de contribuição</string>
   <string name="extended_key">Chave estendida</string>
@@ -658,32 +661,65 @@ continuar?</string>
   <string name="contributed_by">Contribuído por %s</string>
   <string name="pref_sync_notification_summary">Notificar sobre o progresso da sincronização</string>
   <string name="pref_debug_logging_summary">Escreva informações de depuração no registro do sistema</string>
-  <string name="plan_custom_recurrence_info">Salve o modelo primeiro. O plano será então aberto no aplicativo do calendário, onde você pode configurar uma recorrência personalizada.</string>
-  <string name="storage_permission_required">A fonte que você selecionou só pode ser lida se você concede a permissão para ler do armazenamento externo.</string>
+  <string name="plan_custom_recurrence_info">Por favor, salve o modelo antes. A partir daí, o plano será aberto no aplicativo de agenda, onde você pode configurar uma recorrência personalizada.</string>
+  <string name="storage_permission_required">A fonte que você selecionou só pode ser lida se você conceder a permissão para ler do armazenamento externo.</string>
   <string name="picture">Imagem</string>
-  <string name="progress_validating_licence">Licença de validação</string>
-  <string name="licence_validation_error_expired">Licença expirada</string>
-  <string name="licence_validation_error_device_limit_exceeded">Limite do dispositivo excedido. Remova a licença de outro dispositivo.</string>
+  <string name="menu_create_template_for_split">Novo modelo de divisão</string>
+  <string name="progress_validating_licence">Validando a licença</string>
+  <string name="licence_validation_error_expired">A licença está expirada</string>
+  <string name="licence_validation_error_device_limit_exceeded">Foi excedido o limite do dispositivo. Por favor, remova a licença de outro dispositivo.</string>
   <string name="error">Erro (%s)</string>
   <string name="button_validate">Validar</string>
-  <string name="licence_key">Chave de licença</string>
-  <string name="licence_removal_information">Se você não precisa mais das funcionalidades premium neste dispositivo, você pode remover a chave de licença. Isso liberta a chave para ativação em mais um outro dispositivo. A chave pode ser ativada em até %d dispositivos.</string>
-  <string name="licence_removal_success">A chave de licença foi liberada com sucesso deste dispositivo.</string>
+  <string name="licence_key">Chave da licença</string>
+  <string name="licence_removal_information">Caso você não precise mais de funcionalidades premium neste dispositivo, você pode remover a chave da licença. Isso libera a chave para ativação em outro dispositivo. A chave pode ser ativada em até %d dispositivos.</string>
+  <string name="progress_removing_licence">Removendo a licença</string>
+  <string name="licence_removal_success">A chave da licença foi liberada com sucesso deste dispositivo.</string>
   <string name="professional_key">Chave Profissional</string>
   <string name="n_months">%s meses</string>
   <string name="professionalPriceShortInfo">a partir de %s / mês</string>
-  <string name="eu_vat_info">Para os residentes da União Europeia, os preços exibidos não incluem o IVA.</string>
-  <string name="licence_migration_info">{app_name} implementa um novo mecanismo de validação de licença. Solicite uma nova chave.</string>
+  <string name="eu_vat_info">Para os residentes da União Europeia, os preços exibidos não incluem o VAT.</string>
+  <string name="licence_migration_info">{app_name} implementa um novo mecanismo de validação de licença. Por favor, solicite uma nova chave.</string>
   <string name="valid_until">Até %s</string>
   <!--%1$s date, %2$s price-->
-  <string name="extend_until">Estenda até %1$s para %2$s</string>
-  <string name="extended_upgrade_goodie_github">Outros %d meses são concedidos uma vez aos usuários que já possuem a Licença Estendida</string>
-  <string name="extended_upgrade_goodie_subscription">Os usuários que já possuem a Licença Estendida pagam 50%% do preço normal (%s) no primeiro ano.</string>
-  <string name="switch_to_yearly">Mude para subscrição anual</string>
-  <string name="switch_to_monthly">Mude para subscrição mensal</string>
-  <string name="extend_validity">Estenda a validade</string>
+  <string name="extend_until">Estenda até %1$s por %2$s</string>
+  <string name="extended_upgrade_goodie_github">Serão concedidos %d meses adicionais aos usuários que já possuam a Licença Estendida</string>
+  <string name="extended_upgrade_goodie_subscription">Os usuários que já possuam a Licença Estendida pagam 50%% do preço normal (%s) no primeiro ano.</string>
+  <string name="extended_upgrade_goodie_subscription_amazon">Usuários que já possuam a Licença Estendida são beneficiados com uma redução de %1$d%% do preço normal (%2$s) na assinatura anual.</string>
+  <string name="switch_to_yearly">Mudar para assinatura anual</string>
+  <string name="switch_to_monthly">Mudar para assinatura mensal</string>
+  <string name="extend_validity">Estender a validade</string>
   <string name="progress_dialog_fetching_data_from_sync_backend">Obtendo dados do backend remoto. Isso pode demorar algum tempo.</string>
   <string name="donate_button_invoice">Fatura</string>
+  <string name="menu_sort_direction">Sentido da ordenação</string>
+  <string name="sort_direction_ascending">ascendente</string>
+  <string name="sort_direction_descending">descendente</string>
+  <string name="never">nunca</string>
+  <string name="always">sempre</string>
+  <string name="auto_fill_account_from_aggregate_only">Apenas quando iniciar de uma conta agregada.</string>
+  <string name="dropbox_folder_name_prompt">Digite o nome de uma pasta existente na raiz do seu Dropbox</string>
+  <string name="dropbox_folder_not_found">Pasta não encontrada</string>
+  <string name="sync_auth_exception_login_again">Falha na autorização. Por favor, autentique-se novamente.</string>
+  <plurals name="delete_success">
+    <item quantity="one">Um objeto foi excluído com sucesso.</item>
+    <item quantity="other">%d objetos foram excluídos com sucesso.</item>
+  </plurals>
+  <string name="feature_deprecated">Obsoleto</string>
+  <string name="pref_protection_device_lock_screen_title">Tela de bloqueio do dispositivo</string>
+  <string name="pref_warning_only_one_protection">Antes de usar a proteção por %1$s, você deve desativar a proteção por %2$s.</string>
+  <string name="warning_device_lock_screen_not_set_up_1">A tela de bloqueio de segurança do dispositivo não foi configurada.</string>
+  <string name="warning_device_lock_screen_not_set_up_2">Vá para \'Configurações -&gt; Segurança -&gt; Tela de bloqueio\' para definir uma tela de bloqueio.</string>
+  <string name="snackbar_dismiss">Dispensar</string>
+  <string name="menu_history_show_balance">Exibir balanço</string>
+  <string name="menu_history_transfers">Incluir transferências</string>
+  <string name="menu_history">Histórico</string>
   <!--A label indicating the color for the sum of expenses-->
+  <string name="history_chart_out_label">Despesa</string>
   <!--A label indicating the color for the sum of income-->
+  <string name="history_chart_in_label">Receita</string>
+  <string name="menu_history_totals">Exibir totais</string>
+  <string name="pref_home_currency_title">Moeda local</string>
+  <string name="grand_total">Total geral</string>
+  <string name="menu_original_amount">Quantia original</string>
+  <string name="menu_equivalent_amount">Quantia equivalente</string>
+  <string name="home_currency_change_warning">Se você mudar a sua moeda local, quantias equivalentes e taxas de câmbio serão perdidas e será necessário defini-las novamente. Deseja continuar?</string>
 </resources>
