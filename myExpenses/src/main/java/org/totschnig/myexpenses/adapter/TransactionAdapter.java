@@ -150,7 +150,7 @@ public class TransactionAdapter extends ResourceCursorAdapter {
       }
     }
     TextView tv2 = viewHolder.category;
-    CharSequence catText = cursor.getString(columnIndexLabelMain);
+    CharSequence catText = DbUtils.getString(cursor, columnIndexLabelMain);
     if (isTransfer) {
       catText = Transfer.getIndicatorPrefixForLabel(amount) + catText;
       if (mAccount.isAggregate()) {
