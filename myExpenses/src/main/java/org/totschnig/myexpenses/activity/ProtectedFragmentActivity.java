@@ -130,6 +130,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   public Enum<?> helpVariant = null;
   protected int colorExpense;
   protected int colorIncome;
+  protected int colorAggregate;
   protected ColorStateList textColorSecondary;
   protected FloatingActionButton floatingActionButton;
 
@@ -147,6 +148,10 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   public int getColorExpense() {
     return colorExpense;
+  }
+
+  public int getColorAggregate() {
+    return colorAggregate;
   }
 
   public ColorStateList getTextColorSecondary() {
@@ -168,6 +173,8 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     colorExpense = color.data;
     theme.resolveAttribute(R.attr.colorIncome, color, true);
     colorIncome = color.data;
+    theme.resolveAttribute(R.attr.colorAggregate, color, true);
+    colorAggregate = color.data;
     TypedArray themeArray = theme.obtainStyledAttributes(new int[]{android.R.attr.textColorSecondary});
     textColorSecondary = themeArray.getColorStateList(0);
 

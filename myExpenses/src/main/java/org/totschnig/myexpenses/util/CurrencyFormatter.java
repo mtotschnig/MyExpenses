@@ -7,6 +7,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -108,8 +109,14 @@ public class CurrencyFormatter {
    * @param currency
    * @return formated string
    */
+  @Deprecated
   public String convAmount(String text, Currency currency) {
-    return convAmount(TextUtils.isEmpty(text) ? 0 : Double.valueOf(text).longValue(), currency);
+    try {
+      return convAmount(TextUtils.isEmpty(text) ? 0 : Double.valueOf(text).longValue(), currency);
+    } catch (NumberFormatException e) {
+      CrashHandler.report(e);
+      return text;
+    }
   }
 
   /**

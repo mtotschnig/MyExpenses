@@ -22,7 +22,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -37,19 +36,14 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.text.ClipboardManager;
-import android.text.TextUtils;
 import android.util.TypedValue;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -57,6 +51,7 @@ import android.widget.TextView;
 import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.adapter.MyGroupedAdapter;
 import org.totschnig.myexpenses.dialog.BalanceDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
@@ -70,9 +65,7 @@ import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountGrouping;
 import org.totschnig.myexpenses.model.AccountType;
-import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.SortDirection;
@@ -87,7 +80,6 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.ProtectedCursorLoader;
-import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.DistribHelper;
@@ -109,7 +101,6 @@ import javax.inject.Inject;
 
 import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.input.SimpleInputDialog;
-import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.OPERATION_TYPE;
@@ -119,22 +110,13 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TO
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_CLEARED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_EXPORTED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_FUTURE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_AGGREGATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
@@ -162,7 +144,7 @@ public class MyExpenses extends LaunchActivity implements
   private Cursor mAccountsCursor;
 
   private MyViewPagerAdapter mViewPagerAdapter;
-  private StickyListHeadersAdapter mDrawerListAdapter;
+  private MyGroupedAdapter mDrawerListAdapter;
   private ViewPager myPager;
   private long mAccountId = 0;
   private int mAccountCount = 0;
@@ -190,16 +172,14 @@ public class MyExpenses extends LaunchActivity implements
    * a new transaction
    */
   private long sequenceCount = 0;
-  private int colorAggregate;
   private StickyListHeadersListView mDrawerList;
   private DrawerLayout mDrawerLayout;
   private ActionBarDrawerToggle mDrawerToggle;
 
-  private int columnIndexRowId, columnIndexColor, columnIndexCurrency, columnIndexDescription, columnIndexLabel;
+  private int columnIndexRowId, columnIndexColor, columnIndexCurrency, columnIndexLabel;
   boolean indexesCalculated = false;
   private long idFromNotification = 0;
   private String mExportFormat = null;
-  private AccountGrouping mAccountGrouping;
 
   @Inject
   CurrencyFormatter currencyFormatter;
@@ -212,10 +192,6 @@ public class MyExpenses extends LaunchActivity implements
   @Override
   public void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeId());
-    Resources.Theme theme = getTheme();
-    TypedValue value = new TypedValue();
-    theme.resolveAttribute(R.attr.colorAggregate, value, true);
-    colorAggregate = value.data;
 
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
@@ -263,32 +239,7 @@ public class MyExpenses extends LaunchActivity implements
       // Set the drawer toggle as the DrawerListener
       mDrawerLayout.addDrawerListener(mDrawerToggle);
     }
-    String[] from = new String[]{
-        KEY_DESCRIPTION,
-        KEY_LABEL,
-        KEY_OPENING_BALANCE,
-        KEY_SUM_INCOME,
-        KEY_SUM_EXPENSES,
-        KEY_SUM_TRANSFERS,
-        KEY_CURRENT_BALANCE,
-        KEY_TOTAL,
-        KEY_CLEARED_TOTAL,
-        KEY_RECONCILED_TOTAL
-    };
-    // and an array of the fields we want to bind those fields to
-    int[] to = new int[]{
-        R.id.description,
-        R.id.label,
-        R.id.opening_balance,
-        R.id.sum_income,
-        R.id.sum_expenses,
-        R.id.sum_transfer,
-        R.id.current_balance,
-        R.id.total,
-        R.id.cleared_total,
-        R.id.reconciled_total
-    };
-    mDrawerListAdapter = new MyGroupedAdapter(this, R.layout.account_row, null, from, to, 0);
+    mDrawerListAdapter = new MyGroupedAdapter(this, R.layout.account_row, null, currencyFormatter);
 
     Toolbar accountsMenu = findViewById(R.id.accounts_menu);
     accountsMenu.setTitle(R.string.pref_manage_accounts_title);
@@ -335,7 +286,6 @@ public class MyExpenses extends LaunchActivity implements
     mDrawerList.setOnItemClickListener((parent, view, position, id) -> {
       if (mAccountId != id) {
         moveToPosition(position);
-        ((SimpleCursorAdapter) mDrawerListAdapter).notifyDataSetChanged();
         closeDrawer();
       }
     });
@@ -810,6 +760,7 @@ public class MyExpenses extends LaunchActivity implements
     }
     UiUtils.setBackgroundTintListOnFab(floatingActionButton, color);
     mAccountId = newAccountId;
+    mDrawerListAdapter.setHighlightedAccountId(mAccountId);
     setBalance();
     mDrawerList.setItemChecked(position, true);
     supportInvalidateOptionsMenu();
@@ -828,13 +779,16 @@ public class MyExpenses extends LaunchActivity implements
         }
         //when account grouping is changed in setting, cursor is reloaded,
         //and we need to refresh the value here
+        AccountGrouping grouping;
         try {
-          mAccountGrouping = AccountGrouping.valueOf(
+          grouping = AccountGrouping.valueOf(
               PrefKey.ACCOUNT_GROUPING.getString("TYPE"));
         } catch (IllegalArgumentException e) {
-          mAccountGrouping = AccountGrouping.TYPE;
+          grouping = AccountGrouping.TYPE;
         }
-        ((SimpleCursorAdapter) mDrawerListAdapter).swapCursor(mAccountsCursor);
+
+        mDrawerListAdapter.setGrouping(grouping);
+        mDrawerListAdapter.swapCursor(mAccountsCursor);
         //swaping the cursor is altering the accountId, if the
         //sort order has changed, but we want to move to the same account as before
         long cacheAccountId = mAccountId;
@@ -844,7 +798,6 @@ public class MyExpenses extends LaunchActivity implements
           columnIndexRowId = mAccountsCursor.getColumnIndex(KEY_ROWID);
           columnIndexColor = mAccountsCursor.getColumnIndex(KEY_COLOR);
           columnIndexCurrency = mAccountsCursor.getColumnIndex(KEY_CURRENCY);
-          columnIndexDescription = mAccountsCursor.getColumnIndex(KEY_DESCRIPTION);
           columnIndexLabel = mAccountsCursor.getColumnIndex(KEY_LABEL);
           indexesCalculated = true;
         }
@@ -872,7 +825,7 @@ public class MyExpenses extends LaunchActivity implements
   public void onLoaderReset(Loader<Cursor> arg0) {
     if (arg0.getId() == ACCOUNTS_CURSOR) {
       mViewPagerAdapter.swapCursor(null);
-      ((SimpleCursorAdapter) mDrawerListAdapter).swapCursor(null);
+      mDrawerListAdapter.swapCursor(null);
       mCurrentPosition = -1;
       mAccountsCursor = null;
     }
@@ -973,11 +926,6 @@ public class MyExpenses extends LaunchActivity implements
     return mAccountsCursor.getInt(mAccountsCursor.getColumnIndexOrThrow(KEY_HAS_CLEARED)) > 0;
   }
 
-  private void setConvertedAmount(TextView tv, Currency currency, boolean isHome) {
-    tv.setText(String.format(Locale.getDefault(),"%s%s", isHome ? " ≈ " : "",
-        currencyFormatter.convAmount(tv.getText().toString(), currency)));
-  }
-
   @Override
   protected void onPostCreate(Bundle savedInstanceState) {
     super.onPostCreate(savedInstanceState);
@@ -1022,204 +970,6 @@ public class MyExpenses extends LaunchActivity implements
       return null;
     return (TransactionList) getSupportFragmentManager().findFragmentByTag(
         mViewPagerAdapter.getFragmentName(mCurrentPosition));
-  }
-
-  public class MyGroupedAdapter extends SimpleCursorAdapter implements StickyListHeadersAdapter {
-    public static final int CARD_ELEVATION_DIP = 24;
-    LayoutInflater inflater;
-
-    public MyGroupedAdapter(Context context, int layout, Cursor c, String[] from,
-                            int[] to, int flags) {
-      super(context, layout, c, from, to, flags);
-      inflater = LayoutInflater.from(MyExpenses.this);
-    }
-
-    @Override
-    public View getHeaderView(int position, View convertView, ViewGroup parent) {
-      if (convertView == null) {
-        convertView = inflater.inflate(R.layout.accounts_header, parent, false);
-      }
-      Cursor c = getCursor();
-      c.moveToPosition(position);
-      long headerId = getHeaderId(position);
-      TextView sectionLabelTV = convertView.findViewById(R.id.sectionLabel);
-      String headerText = null;
-      if (headerId == Long.MAX_VALUE) {
-        headerText = getString(R.string.grand_total);
-      }
-      else {
-        switch (mAccountGrouping) {
-          case CURRENCY:
-            headerText = CurrencyEnum.valueOf(c.getString(columnIndexCurrency)).toString();
-            break;
-          case NONE:
-            headerText = getString(headerId == 0 ? R.string.pref_manage_accounts_title : R.string.menu_aggregates);
-            break;
-          case TYPE:
-            int headerRes;
-            if (headerId == AccountType.values().length) {
-              headerRes = R.string.menu_aggregates;
-            } else {
-              headerRes = AccountType.values()[(int) headerId].toStringResPlural();
-            }
-            headerText = getString(headerRes);
-            break;
-        }
-      }
-      sectionLabelTV.setText(headerText);
-      return convertView;
-    }
-
-    @Override
-    public long getHeaderId(int position) {
-      Cursor c = getCursor();
-      c.moveToPosition(position);
-      int aggregate = c.getInt(c.getColumnIndexOrThrow(KEY_IS_AGGREGATE));
-      if (aggregate == AggregateAccount.AGGREGATE_HOME) {
-        return Long.MAX_VALUE;
-      }
-      switch (mAccountGrouping) {
-        case CURRENCY:
-          return CurrencyEnum.valueOf(c.getString(columnIndexCurrency)).ordinal();
-        case NONE:
-          return c.getLong(columnIndexRowId) > 0 ? 0 : 1;
-        case TYPE:
-          AccountType type;
-          try {
-            type = AccountType.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_TYPE)));
-            return type.ordinal();
-          } catch (IllegalArgumentException ex) {
-            return AccountType.values().length;
-          }
-      }
-      return 0;
-    }
-
-    @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-      View row = super.getView(position, convertView, parent);
-      final Cursor c = getCursor();
-      c.moveToPosition(position);
-
-      View v = row.findViewById(R.id.color1);
-      TextView labelTv = row.findViewById(R.id.label);
-      final View accountMenu = row.findViewById(R.id.account_menu);
-
-      Currency currency = Utils.getSaveInstance(c.getString(columnIndexCurrency));
-      final long rowId = c.getLong(columnIndexRowId);
-      long sum_transfer = c.getLong(c.getColumnIndex(KEY_SUM_TRANSFERS));
-
-      boolean isHighlighted = rowId == mAccountId;
-      boolean has_future = c.getInt(c.getColumnIndex(KEY_HAS_FUTURE)) > 0;
-      final int isAggregate = c.getInt(c.getColumnIndex(KEY_IS_AGGREGATE));
-      final int count = c.getCount();
-      boolean hide_cr;
-      int colorInt;
-
-      ((CardView) row.findViewById(R.id.card)).setCardElevation(isHighlighted ?
-          TypedValue.applyDimension(
-              TypedValue.COMPLEX_UNIT_DIP, CARD_ELEVATION_DIP, getResources().getDisplayMetrics()) :
-          0);
-      labelTv.setTypeface(
-          Typeface.create(labelTv.getTypeface(), Typeface.NORMAL),
-          isHighlighted ? Typeface.BOLD : Typeface.NORMAL);
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        row.findViewById(R.id.selected_indicator).setVisibility(isHighlighted ? View.VISIBLE : View.GONE);
-      }
-      if (isAggregate > 0) {
-        accountMenu.setVisibility(View.INVISIBLE);
-        accountMenu.setOnClickListener(null);
-      } else {
-        accountMenu.setVisibility(View.VISIBLE);
-        boolean upVisible = false, downVisible = false;
-        if (PrefKey.SORT_ORDER_ACCOUNTS.getString(SORT_ORDER_USAGES).equals(SORT_ORDER_CUSTOM)) {
-          if (position > 0 && getHeaderId(position - 1) == getHeaderId(position)) {
-            getCursor().moveToPosition(position - 1);
-            if (c.getLong(columnIndexRowId) > 0) upVisible = true; //ignore if previous is aggregate
-          }
-          if (position + 1 < getCount() && getHeaderId(position + 1) == getHeaderId(position)) {
-            getCursor().moveToPosition(position + 1);
-            if (c.getLong(columnIndexRowId) > 0) downVisible = true;
-          }
-          getCursor().moveToPosition(position);
-        }
-        final boolean finalUpVisible = upVisible, finalDownVisible = downVisible;
-        accountMenu.setOnClickListener(v1 -> {
-          PopupMenu popup = new PopupMenu(MyExpenses.this, accountMenu);
-          popup.inflate(R.menu.accounts_context);
-          Menu menu = popup.getMenu();
-          menu.findItem(R.id.DELETE_ACCOUNT_COMMAND).setVisible(count > 1);
-          menu.findItem(R.id.UP_COMMAND).setVisible(finalUpVisible);
-          menu.findItem(R.id.DOWN_COMMAND).setVisible(finalDownVisible);
-          popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-              return handleSwap(item.getItemId(), position) ||
-                  dispatchCommand(item.getItemId(), rowId);
-            }
-
-            private boolean handleSwap(int itemId, int position1) {
-              if (itemId != R.id.UP_COMMAND && itemId != R.id.DOWN_COMMAND) return false;
-              Cursor c1 = getCursor();
-              c1.moveToPosition(position1);
-              String sortKey1 = c1.getString(c1.getColumnIndex(KEY_SORT_KEY));
-              c1.moveToPosition(itemId == R.id.UP_COMMAND ? position1 - 1 : position1 + 1);
-              String sortKey2 = c1.getString(c1.getColumnIndex(KEY_SORT_KEY));
-              startTaskExecution(
-                  TaskExecutionFragment.TASK_SWAP_SORT_KEY,
-                  new String[]{sortKey1, sortKey2},
-                  null,
-                  R.string.progress_dialog_saving);
-              return true;
-            }
-          });
-          popup.show();
-        });
-      }
-
-      final boolean isHome = isAggregate == AggregateAccount.AGGREGATE_HOME;
-      labelTv.setVisibility(isHome ? View.GONE : View.VISIBLE);
-
-      if (isAggregate > 0) {
-        hide_cr = true;
-        if (mAccountGrouping == AccountGrouping.CURRENCY) {
-          labelTv.setText(R.string.menu_aggregates);
-        }
-        colorInt = colorAggregate;
-      } else {
-        //for deleting we need the position, because we need to find out the account's label
-        try {
-          hide_cr = AccountType.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_TYPE))).equals(AccountType.CASH);
-        } catch (IllegalArgumentException ex) {
-          hide_cr = true;
-        }
-        colorInt = c.getInt(columnIndexColor);
-      }
-      row.findViewById(R.id.TransferRow).setVisibility(
-          sum_transfer == 0 ? View.GONE : View.VISIBLE);
-      row.findViewById(R.id.TotalRow).setVisibility(
-          has_future ? View.VISIBLE : View.GONE);
-      row.findViewById(R.id.ClearedRow).setVisibility(
-          hide_cr ? View.GONE : View.VISIBLE);
-      row.findViewById(R.id.ReconciledRow).setVisibility(
-          hide_cr ? View.GONE : View.VISIBLE);
-      if (sum_transfer != 0) {
-        setConvertedAmount(row.findViewById(R.id.sum_transfer), currency, isHome);
-      }
-      v.setBackgroundColor(colorInt);
-      setConvertedAmount(row.findViewById(R.id.opening_balance), currency, isHome);
-      setConvertedAmount(row.findViewById(R.id.sum_income), currency, isHome);
-      setConvertedAmount(row.findViewById(R.id.sum_expenses), currency, isHome);
-      setConvertedAmount(row.findViewById(R.id.current_balance), currency, isHome);
-      setConvertedAmount(row.findViewById(R.id.total), currency, isHome);
-      setConvertedAmount(row.findViewById(R.id.reconciled_total), currency, isHome);
-      setConvertedAmount(row.findViewById(R.id.cleared_total), currency, isHome);
-      String description = c.getString(columnIndexDescription);
-      row.findViewById(R.id.description).setVisibility(
-          TextUtils.isEmpty(description) ? View.GONE : View.VISIBLE);
-      return row;
-    }
   }
 
   protected void onSaveInstanceState(Bundle outState) {

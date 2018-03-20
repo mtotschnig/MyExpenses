@@ -36,6 +36,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Currency;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
@@ -111,24 +114,13 @@ public class TransactionAdapter extends ResourceCursorAdapter {
   @Override
   public View newView(Context context, Cursor cursor, ViewGroup parent) {
     View v = super.newView(context, cursor, parent);
-    ViewHolder holder = new ViewHolder();
-    View colorContainer = v.findViewById(R.id.colorContainer);
-    View colorAccount = v.findViewById(R.id.colorAccount);
-    holder.colorContainer = colorContainer;
-    holder.colorAccount = colorAccount;
-    TextView amount = v.findViewById(R.id.amount);
-    UiUtils.configureAmountTextViewForHebrew(amount);
-    holder.amount = amount;
-    holder.category = v.findViewById(R.id.category);
-    holder.color1 = v.findViewById(R.id.color1);
-    holder.voidMarker = v.findViewById(R.id.voidMarker);
-    TextView tv = v.findViewById(R.id.date);
-    holder.date = tv;
+    ViewHolder holder = new ViewHolder(v);
+    UiUtils.configureAmountTextViewForHebrew(holder.amount);
     if (mAccount.getId() < 0) {
-      colorAccount.setLayoutParams(
+      holder.colorAccount.setLayoutParams(
           new LayoutParams(4, LayoutParams.FILL_PARENT));
     }
-    tv.setEms(dateEms);
+    holder.date.setEms(dateEms);
     v.setTag(holder);
     return v;
   }
@@ -283,12 +275,17 @@ public class TransactionAdapter extends ResourceCursorAdapter {
   }
 
   class ViewHolder {
-    TextView amount;
-    View colorAccount;
-    TextView category;
-    View color1;
-    View colorContainer;
-    TextView date;
-    View voidMarker;
+    @BindView(R.id.amount) TextView amount;
+    @BindView(R.id.colorAccount) View colorAccount;
+    @BindView(R.id.category) TextView category;
+    @BindView(R.id.color1) View color1;
+    @BindView(R.id.colorContainer) View colorContainer;
+    @BindView(R.id.date) TextView date;
+    @BindView(R.id.voidMarker) View voidMarker;
+
+    ViewHolder(View view) {
+      ButterKnife.bind(this, view);
+    }
   }
+
 }
