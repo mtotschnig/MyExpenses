@@ -760,7 +760,6 @@ public class MyExpenses extends LaunchActivity implements
     }
     UiUtils.setBackgroundTintListOnFab(floatingActionButton, color);
     mAccountId = newAccountId;
-    mDrawerListAdapter.setHighlightedAccountId(mAccountId);
     setBalance();
     mDrawerList.setItemChecked(position, true);
     supportInvalidateOptionsMenu();

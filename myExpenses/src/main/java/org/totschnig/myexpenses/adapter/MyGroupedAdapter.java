@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
@@ -57,7 +58,7 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
   private final CurrencyFormatter currencyFormatter;
 
   private AccountGrouping grouping;
-  private long highlightedAccountId;
+  private boolean isChecked;
   LayoutInflater inflater;
   private ProtectedFragmentActivity activity;
 
@@ -71,11 +72,6 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
 
   public void setGrouping(AccountGrouping grouping) {
     this.grouping = grouping;
-  }
-
-  public void setHighlightedAccountId(long accountId) {
-    this.highlightedAccountId = accountId;
-    notifyDataSetChanged();
   }
 
   @Override
@@ -143,6 +139,12 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
   }
 
   @Override
+  public View getView(int position, View convertView, ViewGroup parent) {
+    isChecked = ((ListView) parent).isItemChecked(position);
+    return super.getView(position, convertView, parent);
+  }
+
+  @Override
   public View newView(Context context, Cursor cursor, ViewGroup parent) {
     View v = super.newView(context, cursor, parent);
     ViewHolder holder = new ViewHolder(v);
@@ -158,21 +160,20 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
     final long rowId = cursor.getLong(cursor.getColumnIndex(KEY_ROWID));
     long sum_transfer = cursor.getLong(cursor.getColumnIndex(KEY_SUM_TRANSFERS));
 
-    boolean isHighlighted = rowId == highlightedAccountId;
     boolean has_future = cursor.getInt(cursor.getColumnIndex(KEY_HAS_FUTURE)) > 0;
     final int isAggregate = cursor.getInt(cursor.getColumnIndex(KEY_IS_AGGREGATE));
     final int count = cursor.getCount();
     boolean hide_cr;
     int colorInt;
 
-    holder.card.setCardElevation(isHighlighted ? TypedValue.applyDimension(
+    holder.card.setCardElevation(isChecked ? TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP, CARD_ELEVATION_DIP, context.getResources().getDisplayMetrics()) :
         0);
     holder.label.setTypeface(
         Typeface.create(holder.label.getTypeface(), Typeface.NORMAL),
-        isHighlighted ? Typeface.BOLD : Typeface.NORMAL);
+        isChecked ? Typeface.BOLD : Typeface.NORMAL);
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      holder.selectedIndicator.setVisibility(isHighlighted ? View.VISIBLE : View.GONE);
+      holder.selectedIndicator.setVisibility(isChecked ? View.VISIBLE : View.GONE);
     }
     if (isAggregate > 0) {
       holder.accountMenu.setVisibility(View.INVISIBLE);
