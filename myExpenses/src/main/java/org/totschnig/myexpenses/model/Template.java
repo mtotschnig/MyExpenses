@@ -466,13 +466,15 @@ public class Template extends Transaction {
     return uri;
   }
 
-  public static void delete(long id) {
+  public static void delete(long id, boolean deletePlan) {
     Template t = getInstanceFromDb(id);
     if (t == null) {
       return;
     }
     if (t.planId != null) {
-      Plan.delete(t.planId);
+      if (deletePlan) {
+        Plan.delete(t.planId);
+      }
       cr().delete(
           TransactionProvider.PLAN_INSTANCE_STATUS_URI,
           KEY_TEMPLATEID + " = ?",

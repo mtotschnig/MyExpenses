@@ -232,7 +232,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       case TaskExecutionFragment.TASK_DELETE_TEMPLATES:
         try {
           for (long id : (Long[]) ids) {
-            Template.delete(id);
+            Template.delete(id, ((Boolean) mExtra));
           }
         } catch (SQLiteConstraintException e) {
           CrashHandler.reportWithDbSchema(e);

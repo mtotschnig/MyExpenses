@@ -61,7 +61,7 @@ public class TemplateTest extends ModelTest {
     restored = Template.getInstanceFromDb(t.getId());
     assertEquals(t, restored);
 
-    Template.delete(t.getId());
+    Template.delete(t.getId(), false);
     assertNull("Template deleted, but can still be retrieved", Template.getInstanceFromDb(t.getId()));
   }
 

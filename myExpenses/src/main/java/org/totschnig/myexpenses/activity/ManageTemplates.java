@@ -43,6 +43,7 @@ import java.util.List;
 
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.OPERATION_TYPE;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
+import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class ManageTemplates extends ProtectedFragmentActivity implements
     ConfirmationDialogListener, ContribIFace {
@@ -108,7 +109,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
         startTaskExecution(
             TaskExecutionFragment.TASK_DELETE_TEMPLATES,
             (Long[]) tag,
-            null,
+            CALENDAR.hasPermission(this),
             R.string.progress_dialog_deleting);
         return true;
       case R.id.CANCEL_CALLBACK_COMMAND:
