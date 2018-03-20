@@ -1,12 +1,18 @@
 package org.totschnig.myexpenses.test.screenshots;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
-import android.test.ActivityInstrumentationTestCase2;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.rule.ActivityTestRule;
+
+import com.squareup.spoon.SpoonRule;
 
 import junit.framework.Assert;
 
-import org.junit.Ignore;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -24,24 +30,22 @@ import java.util.Locale;
  *
  * @author Michael Totschnig
  */
-@Ignore
-public class TestMain extends ActivityInstrumentationTestCase2<MyExpenses> {
+public class TestMain  {
   private MyApplication app;
   private Context instCtx;
   private Locale locale;
   private Currency defaultCurrency;
+  @Rule public final SpoonRule spoon = new SpoonRule();
+  @Rule public final ActivityTestRule<MyExpenses> activityRule = new ActivityTestRule<>(MyExpenses.class, false, false);
 
-  public TestMain() {
-    super(MyExpenses.class);
+
+  @Before
+  public void setUp() throws Exception {
+    instCtx = InstrumentationRegistry.getInstrumentation().getContext();
+    app = (MyApplication) InstrumentationRegistry.getInstrumentation().getTargetContext().getApplicationContext();
   }
 
-  @Override
-  protected void setUp() throws Exception {
-    instCtx = getInstrumentation().getContext();
-    app = (MyApplication) getInstrumentation().getTargetContext().getApplicationContext();
-    super.setUp();
-  }
-
+  @Test
   public void testLang_en() {
     defaultCurrency = Currency.getInstance("USD");
     helperTestLang("en", "US");
@@ -175,16 +179,25 @@ public class TestMain extends ActivityInstrumentationTestCase2<MyExpenses> {
     android.content.SharedPreferences pref = app.getSettings();
     if (pref == null)
       Assert.fail("Could not find prefs");
-    pref.edit().putString(PrefKey.UI_LANGUAGE.getKey(), lang + "-" + country).apply();
+    pref.edit().putString(PrefKey.UI_LANGUAGE.getKey(), lang + "-" + country)
+        .putString(PrefKey.HOME_CURRENCY.getKey(), defaultCurrency.getCurrencyCode())
+        .apply();
     app.getLicenceHandler().setLockState(false);
 
-    getActivity();
-    Fixture.setup(getInstrumentation(), locale, defaultCurrency);
+    Fixture.setup(InstrumentationRegistry.getInstrumentation(), locale);
     int current_version = DistribHelper.getVersionNumber();
     pref.edit()
         .putLong(PrefKey.CURRENT_ACCOUNT.getKey(), Fixture.getAccount3().getId())
         .putInt(PrefKey.CURRENT_VERSION.getKey(), current_version)
         .putInt(PrefKey.FIRST_INSTALL_VERSION.getKey(), current_version)
         .apply();
+    final Intent startIntent = new Intent(app, MyExpenses.class);
+    activityRule.launchActivity(startIntent);
+    try {
+      Thread.sleep(500);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    spoon.screenshot(activityRule.getActivity(), "TEST");
   }
 }

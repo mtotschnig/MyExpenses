@@ -1,14 +1,22 @@
 buildscript {
     repositories {
+        google()
         jcenter()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" } // For Spoon snapshot, until 2.0.0 is released
     }
     dependencies {
         classpath 'com.jakewharton.hugo:hugo-plugin:1.2.1'
+        classpath "com.jaredsburrows:gradle-spoon-plugin:1.4.0"
     }
+}
+
+repositories {
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" } // For Spoon snapshot, until 2.0.0 is released
 }
 
 apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.hugo'
+apply plugin: "com.jaredsburrows.spoon"
 
 def quote(String input) {
     return "\"" + input + "\""
@@ -228,12 +236,20 @@ dependencies {
     testImplementation "org.robolectric:shadows-multidex:3.6.1"
     testImplementation 'org.assertj:assertj-core:3.8.0'
     androidTestImplementation 'org.assertj:assertj-core:2.8.0'
+    androidTestImplementation "com.squareup.spoon:spoon-client:2.0.0-SNAPSHOT"
+
 }
 
 def getDate() {
     def date = new Date()
     def formattedDate = date.format('yyyyMMdd-HHmm')
     return formattedDate
+}
+
+spoon {
+    className = "org.totschnig.myexpenses.test.screenshots.TestMain"
+    methodName = "testLang_en"
+    grantAll = true
 }
 
 

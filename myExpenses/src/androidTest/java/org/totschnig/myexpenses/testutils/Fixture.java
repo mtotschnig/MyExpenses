@@ -5,9 +5,7 @@ import android.app.Instrumentation;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.res.Resources.NotFoundException;
-import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 
 import junit.framework.Assert;
 
@@ -40,90 +38,54 @@ import static org.totschnig.myexpenses.contract.TransactionsContract.Transaction
 
 @SuppressLint("InlinedApi")
 public class Fixture {
-  private static Account account1;
-  private static Account account2;
   private static Account account3;
-  private static Currency foreignCurrency;
 
   private Fixture() {
   }
 
-  public static Account getAccount1() {
-    return account1;
-  }
-  public static Account getAccount2() {
-    return account2;
-  }
   public static Account getAccount3() {
     return account3;
   }
-  public static Account getAccount4() {
-    return account4;
-  }
-  public static Currency getForeignCurrency() {
-    return foreignCurrency;
-  }
-  private static Account account4;
-  @SuppressLint("NewApi")
 
-  //If provided a file will delete it. 
-  //If provided a directory will recursively delete files but preserve directories
-  private static void delete(File file_or_directory) {
-      if (file_or_directory == null) {
-          return;
-      }
+  public static void setup(Instrumentation inst, Locale locale) {
+    setup(inst, locale, -1);
+  }
 
-      if (file_or_directory.isDirectory()) {
-          if (file_or_directory.listFiles() != null) {
-              for(File f : file_or_directory.listFiles()) {
-                  delete(f);
-              }
-          }
-      } else {
-          file_or_directory.delete();
-      }
-  }
-  public static void setup(Instrumentation inst, Locale locale, Currency defaultCurrency) {
-    setup(inst,locale,defaultCurrency,-1);
-  }
-  public static void setup(Instrumentation inst, Locale locale, Currency defaultCurrency,int stage) {
+  public static void setup(Instrumentation inst, Locale locale, int stage) {
     Context testContext = inst.getContext();
     Context appContext = inst.getTargetContext().getApplicationContext();
-    foreignCurrency = Currency.getInstance(testContext.getString(R.string.testData_account2Currency));
+    Currency foreignCurrency = Currency.getInstance(testContext.getString(R.string.testData_account2Currency));
+    Currency defaultCurrency = Utils.getHomeCurrency();
 
-    account1 = Account.getInstanceFromDb(0);
-    account1.currency = defaultCurrency;
-    account1.description = testContext.getString(R.string.testData_account1Description);
-    account1.setLabel(testContext.getString(R.string.testData_account1Label));
-    account1.openingBalance = new Money(defaultCurrency,2000L);
-    account1.setGrouping(Grouping.DAY);
+    Account account1 = new Account(
+        testContext.getString(R.string.testData_account1Label),
+        20000,
+        testContext.getString(R.string.testData_account1Description));
     account1.save();
-    if (stage ==1) return;
-    account2 = new Account(
+    if (stage == 1) return;
+    Account account2 = new Account(
         testContext.getString(R.string.testData_account2Label),
         foreignCurrency,
         50000,
         testContext.getString(R.string.testData_account2Description), AccountType.CASH,
-        Build.VERSION.SDK_INT > 13 ? appContext.getResources().getColor(R.color.material_red) : Color.RED
-    );
+        testContext.getResources().getColor(R.color.material_red));
     account2.save();
-    if (stage ==2) return;
+    if (stage == 2) return;
     account3 = new Account(
         testContext.getString(R.string.testData_account3Label),
-        defaultCurrency,
+        Utils.getHomeCurrency(),
         200000,
         testContext.getString(R.string.testData_account3Description), AccountType.BANK,
-        Build.VERSION.SDK_INT > 13 ? appContext.getResources().getColor(R.color.material_blue) : Color.BLUE
-    );
+        testContext.getResources().getColor(R.color.material_blue));
     account3.setGrouping(Grouping.DAY);
     account3.save();
-    account4 = new Account(
+    Account account4 = new Account(
         testContext.getString(R.string.testData_account3Description),
         foreignCurrency,
         0,
         "",
         AccountType.CCARD,
-        Build.VERSION.SDK_INT > 13 ? appContext.getResources().getColor(R.color.material_cyan) : Color.CYAN);
+        testContext.getResources().getColor(R.color.material_cyan));
     account4.save();
     //set up categories
     setUpCategories(locale, appContext);
@@ -136,7 +98,7 @@ public class Fixture {
 
     //Transaction 1
     Transaction op1 = Transaction.getNewInstance(account3.getId());
-    op1.setAmount(new Money(defaultCurrency,-1200L));
+    op1.setAmount(new Money(defaultCurrency, -1200L));
     op1.setCatId(findCat(testContext.getString(R.string.testData_transaction1SubCat), mainCat1));
     op1.setDate(new Date(now - 300000));
     op1.setPictureUri(Uri.fromFile(new File(appContext.getExternalFilesDir(null), "screenshot.jpg")));
@@ -144,66 +106,66 @@ public class Fixture {
 
     //Transaction 2
     Transaction op2 = Transaction.getNewInstance(account3.getId());
-    op2.setAmount(new Money(defaultCurrency,-2200L));
+    op2.setAmount(new Money(defaultCurrency, -2200L));
     op2.setCatId(findCat(testContext.getString(R.string.testData_transaction2SubCat), mainCat2));
     op2.setComment(testContext.getString(R.string.testData_transaction2Comment));
-    op2.setDate(new Date( now - 7200000 ));
+    op2.setDate(new Date(now - 7200000));
     op2.save();
     Transaction op3 = Transaction.getNewInstance(account3.getId());
 
     //Transaction 3 Cleared
-    op3.setAmount(new Money(defaultCurrency,-2500L));
+    op3.setAmount(new Money(defaultCurrency, -2500L));
     op3.setCatId(findCat(testContext.getString(R.string.testData_transaction3SubCat),
         findCat(testContext.getString(R.string.testData_transaction3MainCat), null)));
-    op3.setDate(new Date( now - 72230000 ));
+    op3.setDate(new Date(now - 72230000));
     op3.crStatus = CrStatus.CLEARED;
     op3.save();
 
     //Transaction 4 Cleared
     Transaction op4 = Transaction.getNewInstance(account3.getId());
-    op4.setAmount(new Money(defaultCurrency,-5000L));
+    op4.setAmount(new Money(defaultCurrency, -5000L));
     op4.setCatId(findCat(testContext.getString(R.string.testData_transaction4SubCat), mainCat2));
     op4.setPayee(testContext.getString(R.string.testData_transaction4Payee));
-    op4.setDate(new Date( now - 98030000 ));
+    op4.setDate(new Date(now - 98030000));
     op4.crStatus = CrStatus.CLEARED;
     op4.save();
 
     //Transaction 5 Reconciled
-    Transaction op5 = Transfer.getNewInstance(account1.getId(),account3.getId());
-    op5.setAmount(new Money(defaultCurrency,-10000L));
-    op5.setDate(new Date( now - 800390000 ));
+    Transaction op5 = Transfer.getNewInstance(account1.getId(), account3.getId());
+    op5.setAmount(new Money(defaultCurrency, -10000L));
+    op5.setDate(new Date(now - 800390000));
     op5.crStatus = CrStatus.RECONCILED;
     op5.save();
 
     //Transaction 6 Gift Reconciled
     Transaction op6 = Transaction.getNewInstance(account3.getId());
-    op6.setAmount(new Money(defaultCurrency,10000L));
+    op6.setAmount(new Money(defaultCurrency, 10000L));
     op6.setCatId(mainCat6);
-    op6.setDate(new Date( now - 810390000 ));
+    op6.setDate(new Date(now - 810390000));
     op6.crStatus = CrStatus.RECONCILED;
     op6.save();
 
     //Transaction 7 Second account foreign Currency
     Transaction op7 = Transaction.getNewInstance(account2.getId());
-    op7.setAmount(new Money(foreignCurrency,-34523L));
-    op7.setDate(new Date( now - 1003900000 ));
+    op7.setAmount(new Money(foreignCurrency, -34523L));
+    op7.setDate(new Date(now - 1003900000));
     op7.save();
 
     //Transaction 8: Split
     Transaction op8 = SplitTransaction.getNewInstance(account3.getId());
-    op8.setAmount(new Money(defaultCurrency,-8967L));
+    op8.setAmount(new Money(defaultCurrency, -8967L));
     op8.save();
-    Transaction split1 = Transaction.getNewInstance(account3.getId(),op8.getId());
-    split1.setAmount(new Money(defaultCurrency,-4523L));
+    Transaction split1 = Transaction.getNewInstance(account3.getId(), op8.getId());
+    split1.setAmount(new Money(defaultCurrency, -4523L));
     split1.setCatId(mainCat2);
     split1.save();
-    Transaction split2 = Transaction.getNewInstance(account3.getId(),op8.getId());
-    split2.setAmount(new Money(defaultCurrency,-4444L));
+    Transaction split2 = Transaction.getNewInstance(account3.getId(), op8.getId());
+    split2.setAmount(new Money(defaultCurrency, -4444L));
     split2.setCatId(mainCat6);
     split2.save();
 
     // Template
-    Assert.assertNotSame("Unable to create planner", MyApplication.getInstance().createPlanner(true),MyApplication.INVALID_CALENDAR_ID);
+    Assert.assertNotSame("Unable to create planner", MyApplication.getInstance().createPlanner(true), MyApplication.INVALID_CALENDAR_ID);
     //createPlanner sets up a new plan, mPlannerCalendarId is only set in onSharedPreferenceChanged
     //if it is has not been called yet, when we save our plan, saving fails.
     try {
@@ -212,7 +174,7 @@ public class Fixture {
       e.printStackTrace();
     }
     Template template = Template.getTypedNewInstance(TYPE_TRANSACTION, account3.getId(), false, null);
-    template.setAmount(new Money(defaultCurrency,-90000L));
+    template.setAmount(new Money(defaultCurrency, -90000L));
     String templateSubCat = testContext.getString(R.string.testData_templateSubCat);
     template.setCatId(findCat(templateSubCat,
         findCat(testContext.getString(R.string.testData_templateMainCat), null)));
@@ -223,7 +185,7 @@ public class Fixture {
         "FREQ=WEEKLY;COUNT=10;WKST=SU",
         template.getTitle(),
         template.compileDescription(appContext, CurrencyFormatter.instance()))
-      .save();
+        .save();
     template.planId = ContentUris.parseId(planUri);
     Uri templateuri = template.save();
     if (templateuri == null)
@@ -231,7 +193,7 @@ public class Fixture {
   }
 
   public static void setUpCategories(Locale locale, Context appContext) {
-    int sourceRes = appContext.getResources().getIdentifier("cat_"+locale.getLanguage(), "raw", appContext.getPackageName());
+    int sourceRes = appContext.getResources().getIdentifier("cat_" + locale.getLanguage(), "raw", appContext.getPackageName());
     InputStream catXML;
     try {
       catXML = appContext.getResources().openRawResource(sourceRes);
@@ -244,10 +206,10 @@ public class Fixture {
   }
 
   public static long findCat(String label, Long parent) {
-   Long result = Category.find(label,parent);
-   if (result == -1) {
-     throw new RuntimeException("Could not find category");
-   }
-   return result;
+    Long result = Category.find(label, parent);
+    if (result == -1) {
+      throw new RuntimeException("Could not find category");
+    }
+    return result;
   }
 }
