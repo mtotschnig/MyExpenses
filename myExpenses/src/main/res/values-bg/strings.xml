@@ -717,4 +717,9 @@
   <!--A label indicating the color for the sum of income-->
   <string name="history_chart_in_label">Приход</string>
   <string name="menu_history_totals">Показване на суми</string>
+  <string name="pref_home_currency_title">Основна валута</string>
+  <string name="grand_total">Общо</string>
+  <string name="menu_original_amount">Оригинална сума</string>
+  <string name="menu_equivalent_amount">Еквивалентна сума</string>
+  <string name="home_currency_change_warning">Ако промените основната валута, еквивалентните суми и валутните курсове ще бъдат загубени и ще трябва да бъдат зададени отново. Ще продължите ли?</string>
 </resources>

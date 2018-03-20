@@ -717,4 +717,9 @@
   <!--A label indicating the color for the sum of income-->
   <string name="history_chart_in_label">Ingresos</string>
   <string name="menu_history_totals">Mostrar totales</string>
+  <string name="pref_home_currency_title">Moneda local</string>
+  <string name="grand_total">Total general</string>
+  <string name="menu_original_amount">Cantidad original</string>
+  <string name="menu_equivalent_amount">Cantidad equivalente</string>
+  <string name="home_currency_change_warning">Si cambia la moneda local, las cantidades equivalente y los tipos de cambio se perderán, necesitando definirse nuevamente. ¿Quiere continuar?</string>
 </resources>
