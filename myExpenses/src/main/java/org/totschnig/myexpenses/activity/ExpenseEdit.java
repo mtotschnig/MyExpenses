@@ -1742,11 +1742,16 @@ public class ExpenseEdit extends AmountActivity implements
       return null;
     }
     int selected = spinner.getSelectedItemPosition();
-    if (selected == android.widget.AdapterView.INVALID_POSITION ||
-        selected >= mAccounts.length) {
+    if (selected == android.widget.AdapterView.INVALID_POSITION) {
       return null;
     }
-    return mAccounts[selected];
+    long selectedID = spinner.getSelectedItemId();
+    for (Account account: mAccounts) {
+      if (account.getId() == selectedID) {
+        return account;
+      }
+    }
+    return null;
   }
 
   @Override

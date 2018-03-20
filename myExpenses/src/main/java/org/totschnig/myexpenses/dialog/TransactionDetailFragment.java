@@ -366,7 +366,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       originalAmountView.setText(formatCurrencyAbs(mTransaction.getOriginalAmount()));
     }
 
-    if (!account.currency.getCurrencyCode().equals(Utils.getHomeCurrency().getCurrencyCode())) {
+    if (!(mTransaction instanceof Transfer) && !account.currency.getCurrencyCode().equals(Utils.getHomeCurrency().getCurrencyCode())) {
       equivalentAmountRow.setVisibility(View.VISIBLE);
       Money equivalentAmount = mTransaction.getEquivalentAmount();
       if (equivalentAmount == null) {
