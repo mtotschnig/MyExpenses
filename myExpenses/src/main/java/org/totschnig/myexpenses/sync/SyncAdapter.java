@@ -263,7 +263,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     try {
       cursor = provider.query(TransactionProvider.ACCOUNTS_URI, projection, selection, selectionArgs,
-          null);
+          KEY_ROWID);
     } catch (RemoteException e) {
       syncResult.databaseError = true;
       notifyDatabaseError(e, account);

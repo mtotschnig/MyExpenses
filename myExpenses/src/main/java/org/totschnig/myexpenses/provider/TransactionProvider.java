@@ -243,7 +243,6 @@ public class TransactionProvider extends ContentProvider {
     Cursor c;
 
     Timber.d("Query for URL: %s", uri);
-    String defaultOrderBy = null;
     String groupBy = null;
     String having = null;
     String limit = null;
@@ -257,7 +256,9 @@ public class TransactionProvider extends ContentProvider {
         if (uri.getQueryParameter(QUERY_PARAMETER_DISTINCT) != null) {
           qb.setDistinct(true);
         }
-        defaultOrderBy = KEY_DATE + " DESC";
+        if (sortOrder == null) {
+          sortOrder = KEY_DATE + " DESC";
+        }
         if (projection == null) {
           projection = extended ? Transaction.PROJECTION_EXTENDED : Transaction.PROJECTION_BASE;
         }
@@ -402,7 +403,9 @@ public class TransactionProvider extends ContentProvider {
         if (projection == null) {
           projection = Category.PROJECTION;
         }
-        defaultOrderBy = Utils.defaultOrderBy(KEY_LABEL, PrefKey.SORT_ORDER_CATEGORIES);
+        if (sortOrder == null) {
+          sortOrder = Utils.defaultOrderBy(KEY_LABEL, PrefKey.SORT_ORDER_CATEGORIES);
+        }
         break;
       case CATEGORY_ID:
         qb.setTables(TABLE_CATEGORIES);
@@ -412,7 +415,9 @@ public class TransactionProvider extends ContentProvider {
       case ACCOUNTS_BASE:
         qb.setTables(TABLE_ACCOUNTS);
         boolean mergeCurrencyAggregates = uri.getQueryParameter(QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES) != null;
-        defaultOrderBy = Utils.defaultOrderBy(KEY_LABEL, PrefKey.SORT_ORDER_ACCOUNTS);
+        if (sortOrder == null) {
+          sortOrder = Utils.defaultOrderBy(KEY_LABEL, PrefKey.SORT_ORDER_ACCOUNTS);
+        }
         if (mergeCurrencyAggregates) {
           if (projection != null) {
             CrashHandler.report(
@@ -531,7 +536,7 @@ public class TransactionProvider extends ContentProvider {
               //real accounts should come first, then aggregate accounts
               grouping = KEY_IS_AGGREGATE;
           }
-          sortOrder = grouping + "," + defaultOrderBy;
+          sortOrder = grouping + "," + sortOrder;
 
           String sql = qb.buildUnionQuery(
               subQueries,
@@ -620,32 +625,42 @@ public class TransactionProvider extends ContentProvider {
         break;
       case PAYEES:
         qb.setTables(TABLE_PAYEES);
-        defaultOrderBy = KEY_PAYEE_NAME;
+        if (sortOrder == null) {
+          sortOrder = KEY_PAYEE_NAME;
+        }
         if (projection == null)
           projection = Payee.PROJECTION;
         break;
       case MAPPED_PAYEES:
         qb.setTables(TABLE_PAYEES + " JOIN " + TABLE_TRANSACTIONS + " ON (" + KEY_PAYEEID + " = " + TABLE_PAYEES + "." + KEY_ROWID + ")");
         projection = new String[]{"DISTINCT " + TABLE_PAYEES + "." + KEY_ROWID, KEY_PAYEE_NAME + " AS " + KEY_LABEL};
-        defaultOrderBy = KEY_PAYEE_NAME;
+        if (sortOrder == null) {
+          sortOrder = KEY_PAYEE_NAME;
+        }
         break;
       case MAPPED_TRANSFER_ACCOUNTS:
         qb.setTables(TABLE_ACCOUNTS + " JOIN " + TABLE_TRANSACTIONS + " ON (" + KEY_TRANSFER_ACCOUNT + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + ")");
         projection = new String[]{"DISTINCT " + TABLE_ACCOUNTS + "." + KEY_ROWID, KEY_LABEL};
-        defaultOrderBy = KEY_LABEL;
+        if (sortOrder == null) {
+          sortOrder = KEY_LABEL;
+        }
         break;
       case METHODS:
         qb.setTables(TABLE_METHODS);
         if (projection == null) {
           projection = PaymentMethod.PROJECTION(getContext());
         }
-        defaultOrderBy = PaymentMethod.localizedLabelSqlColumn(getContext()) + " COLLATE LOCALIZED";
+        if (sortOrder == null) {
+          sortOrder = PaymentMethod.localizedLabelSqlColumn(getContext()) + " COLLATE LOCALIZED";
+        }
         break;
       case MAPPED_METHODS:
         String localizedLabel = PaymentMethod.localizedLabelSqlColumn(getContext());
         qb.setTables(TABLE_METHODS + " JOIN " + TABLE_TRANSACTIONS + " ON (" + KEY_METHODID + " = " + TABLE_METHODS + "." + KEY_ROWID + ")");
         projection = new String[]{"DISTINCT " + TABLE_METHODS + "." + KEY_ROWID, localizedLabel + " AS " + KEY_LABEL};
-        defaultOrderBy = localizedLabel + " COLLATE LOCALIZED";
+        if (sortOrder == null) {
+          sortOrder = localizedLabel + " COLLATE LOCALIZED";
+        }
         break;
       case METHOD_ID:
         qb.setTables(TABLE_METHODS);
@@ -673,14 +688,18 @@ public class TransactionProvider extends ContentProvider {
         }
         selection += " and " + TABLE_ACCOUNTTYES_METHODS + ".type = ?";
         selectionArgs = new String[]{accountType};
-        defaultOrderBy = localizedLabel + " COLLATE LOCALIZED";
+        if (sortOrder == null) {
+          sortOrder = localizedLabel + " COLLATE LOCALIZED";
+        }
         break;
       case ACCOUNTTYPES_METHODS:
         qb.setTables(TABLE_ACCOUNTTYES_METHODS);
         break;
       case TEMPLATES:
         qb.setTables(VIEW_TEMPLATES_EXTENDED);
-        defaultOrderBy = Utils.defaultOrderBy(KEY_TITLE, PrefKey.SORT_ORDER_TEMPLATES);
+        if (sortOrder == null) {
+          sortOrder = Utils.defaultOrderBy(KEY_TITLE, PrefKey.SORT_ORDER_TEMPLATES);
+        }
         if (projection == null)
           projection = Template.PROJECTION_EXTENDED;
         break;
@@ -781,25 +800,19 @@ public class TransactionProvider extends ContentProvider {
       default:
         throw unknownUri(uri);
     }
-    String orderBy;
-    if (TextUtils.isEmpty(sortOrder)) {
-      orderBy = defaultOrderBy;
-    } else {
-      orderBy = sortOrder;
-    }
 
     if (BuildConfig.DEBUG) {
-      String qs = qb.buildQuery(projection, selection, groupBy, null, orderBy, limit);
+      String qs = qb.buildQuery(projection, selection, groupBy, null, sortOrder, limit);
       Timber.d("Query : %s", qs);
       Timber.d("SelectionArgs : %s", Arrays.toString(selectionArgs));
     }
     //long startTime = System.nanoTime();
-    c = qb.query(db, projection, selection, selectionArgs, groupBy, having, orderBy, limit);
+    c = qb.query(db, projection, selection, selectionArgs, groupBy, having, sortOrder, limit);
     //long endTime = System.nanoTime();
     //Log.d("TIMER",uri.toString() + Arrays.toString(selectionArgs) + " : "+(endTime-startTime));
 
     if (uriMatch == TEMPLATES && uri.getQueryParameter(QUERY_PARAMETER_WITH_PLAN_INFO) != null) {
-      c = new PlanInfoCursorWrapper(getContext(), c, defaultOrderBy == null);
+      c = new PlanInfoCursorWrapper(getContext(), c, sortOrder == null);
     }
     c.setNotificationUri(getContext().getContentResolver(), uri);
     return c;
