@@ -3,7 +3,9 @@ package org.totschnig.myexpenses.util.crashreporting;
 import android.content.Context;
 
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DbUtils;
+import org.totschnig.myexpenses.util.DistribHelper;
 
 import java.util.Map;
 
@@ -46,14 +48,24 @@ public abstract class CrashHandler {
 
   public abstract void onAttachBaseContext(MyApplication application);
 
-  public abstract void setupLogging(Context context);
+  public void setupLogging(Context context) {
+    if (PrefKey.CRASHREPORT_ENABLED.getBoolean(true)) {
+      setupLoggingDo(context);
+      putCustomData("Distribution", DistribHelper.getDistribution().name());
+      putCustomData("Installer", context.getPackageManager().getInstallerPackageName(context.getPackageName()));
+    }
+  }
 
-  public abstract void putCustomData(String key, String value);
+  abstract void setupLoggingDo(Context context);
+
+  abstract void putCustomData(String key, String value);
 
   public synchronized void addBreadcrumb(String breadcrumb) {
-    currentBreadCrumb = currentBreadCrumb == null ? "" : currentBreadCrumb.substring(Math.max(0, currentBreadCrumb.length() - 500));
-    currentBreadCrumb += "->" + breadcrumb;
-    putCustomData(CUSTOM_DATA_KEY_BREADCRUMB, currentBreadCrumb);
+    if (PrefKey.CRASHREPORT_ENABLED.getBoolean(true)) {
+      currentBreadCrumb = currentBreadCrumb == null ? "" : currentBreadCrumb.substring(Math.max(0, currentBreadCrumb.length() - 500));
+      currentBreadCrumb += "->" + breadcrumb;
+      putCustomData(CUSTOM_DATA_KEY_BREADCRUMB, currentBreadCrumb);
+    }
   }
 
   public static CrashHandler NO_OP = new CrashHandler() {
@@ -63,12 +75,12 @@ public abstract class CrashHandler {
     }
 
     @Override
-    public void setupLogging(Context context) {
+    void setupLoggingDo(Context context) {
 
     }
 
     @Override
-    public void putCustomData(String key, String value) {
+    void putCustomData(String key, String value) {
 
     }
   };
