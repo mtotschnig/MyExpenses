@@ -503,7 +503,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
 
   public void showPreference(String prefKey) {
     //noinspection RestrictedApi
-    findPreference(prefKey).performClick();
+    final Preference preference = findPreference(prefKey);
+    if (preference != null) {
+      preference.performClick();
+    }
   }
 
   public void configureContribPrefs() {
