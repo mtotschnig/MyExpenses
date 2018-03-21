@@ -78,4 +78,5 @@
   </string-array>
     <string name="bug_fixes">Corrections des erreurs</string>
     <string name="performance_enhancement">Amélioration de performance</string>
+    <string name="stability_improvements">Améliorations de la stabilité</string>
 </resources>

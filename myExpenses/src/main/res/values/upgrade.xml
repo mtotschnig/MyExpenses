@@ -81,4 +81,5 @@
   </string-array>
     <string name="bug_fixes">Bug fixes</string>
     <string name="performance_enhancement">Performance enhancement</string>
+    <string name="stability_improvements">Stability improvements</string>
 </resources>
