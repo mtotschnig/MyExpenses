@@ -54,6 +54,11 @@ public class DistribHelper {
     return getDistribution().getMarketSelfUri();
   }
 
+  /**
+   *
+   * @return if we should use the Platform calendar for managing instances. Events are always stored
+   * in the platform calendar
+   */
   public static boolean shouldUseAndroidPlatformCalendar() {
     return !isBlackberry();
   }

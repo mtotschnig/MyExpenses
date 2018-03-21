@@ -11,6 +11,7 @@ import com.squareup.spoon.SpoonRule;
 import junit.framework.Assert;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.totschnig.myexpenses.MyApplication;
@@ -23,13 +24,10 @@ import java.util.Currency;
 import java.util.Locale;
 
 /**
- * These tests are meant to be run with script/testLangs.sh
- * since they depend on the reinitialisation of the db
- * and they prepare the db for script/monkey.py which
- * runs through the app and creates screenshots
+ * These tests are meant to be run with Spoon
  *
- * @author Michael Totschnig
  */
+@Ignore
 public class TestMain  {
   private MyApplication app;
   private Context instCtx;
