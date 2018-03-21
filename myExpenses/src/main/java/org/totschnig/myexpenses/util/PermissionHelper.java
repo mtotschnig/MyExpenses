@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.preference.PrefKey;
 
 import java.io.File;
 
+import static android.content.pm.PackageManager.PERMISSION_DENIED;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 public class PermissionHelper {
@@ -75,7 +76,7 @@ public class PermissionHelper {
   }
 
   public static boolean hasPermission(Context context, String permission) {
-    return ContextCompat.checkSelfPermission(context, permission) == PERMISSION_GRANTED;
+    return getSelfPermissionSafe(context, permission) == PERMISSION_GRANTED;
   }
 
   public static boolean hasCalendarPermission(Context context) {
@@ -84,6 +85,22 @@ public class PermissionHelper {
 
   public static boolean hasExternalReadPermission(Context context) {
     return PermissionGroup.STORAGE.hasPermission(context);
+  }
+
+  /**
+   * Wrapper around {@link ContextCompat#checkSelfPermission(Context, String)}
+   * Workaround for RuntimeException
+   * See https://github.com/permissions-dispatcher/PermissionsDispatcher/pull/108/files
+   * @param context context
+   * @param permission permission
+   * @return returns true if context has access to the given permission, false otherwise.
+   */
+  public static int getSelfPermissionSafe(Context context, String permission) {
+    try {
+      return ContextCompat.checkSelfPermission(context, permission);
+    } catch (RuntimeException t) {
+      return PERMISSION_DENIED;
+    }
   }
 
   public static String[] externalReadPermissionCompat() {
