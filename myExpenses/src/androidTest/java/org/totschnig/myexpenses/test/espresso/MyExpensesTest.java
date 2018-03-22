@@ -8,7 +8,6 @@ import android.content.OperationApplicationException;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.NoMatchingViewException;
 import android.support.test.espresso.contrib.DrawerActions;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.espresso.matcher.CursorMatchers;
@@ -155,25 +154,11 @@ public final class MyExpensesTest extends BaseUiTest {
    * @param messageResId
    */
   private void testInActiveItemHelper(int menuItemId, int menuTextResId, int messageResId) {
-    testMenuItem(menuItemId, menuTextResId);
+    clickMenuItem(menuItemId, menuTextResId);
     onView(withText(messageResId)).check(matches(isDisplayed()));
     onView(allOf(
         isAssignableFrom(Button.class),
         withText(is(mActivityRule.getActivity().getString(android.R.string.ok))))).perform(click());
-  }
-
-  /**
-   * Click on a menu item, that might be visible or hidden in overflow menu
-   * @param menuItemId
-   * @param menuTextResId
-   */
-  private void testMenuItem(int menuItemId, int menuTextResId) {
-    try {
-      onView(withId(menuItemId)).perform(click());
-    } catch (NoMatchingViewException e) {
-      openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
-      onView(withText(menuTextResId)).perform(click());
-    }
   }
 
   @Test

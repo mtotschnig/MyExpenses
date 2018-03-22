@@ -8,10 +8,7 @@ import android.os.RemoteException;
 import android.support.test.filters.FlakyTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.view.View;
-import android.widget.AdapterView;
 
-import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -39,12 +36,9 @@ import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
-import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
-import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.both;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.instanceOf;
@@ -89,7 +83,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
     int origListSize = waitForAdapter().getCount();
     onData(is(instanceOf(Cursor.class)))
         .inAdapterView(getWrappedList())
-        .atPosition(1) // position 0 is header
+        .atPosition(1)
         .perform(longClick());
     performContextMenuClick(R.string.menu_clone_transaction, R.id.CLONE_TRANSACTION_COMMAND);
     onView(withId(R.id.SAVE_COMMAND)).perform(click());
@@ -114,7 +108,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
     String templateTitle = "Espresso Template Test";
     onData(is(instanceOf(Cursor.class)))
         .inAdapterView(getWrappedList())
-        .atPosition(1) // position 0 is header
+        .atPosition(1)
         .perform(longClick());
     performContextMenuClick(R.string.menu_create_template_from_transaction, R.id.CREATE_TEMPLATE_COMMAND);
     onView(withText(containsString(mActivityRule.getActivity().getString(R.string.dialog_title_template_title))))
@@ -135,7 +129,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
     int origListSize = waitForAdapter().getCount();
     onData(is(instanceOf(Cursor.class)))
         .inAdapterView(getWrappedList())
-        .atPosition(1) // position 0 is header
+        .atPosition(1)
         .perform(longClick());
     performContextMenuClick(R.string.menu_delete, R.id.DELETE_COMMAND);
     onView(withText(R.string.menu_delete)).perform(click());
@@ -162,7 +156,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
     int origListSize = waitForAdapter().getCount();
     onData(is(instanceOf(Cursor.class)))
         .inAdapterView(getWrappedList())
-        .atPosition(1) // position 0 is header
+        .atPosition(1)
         .perform(longClick());
     performContextMenuClick(R.string.menu_delete, R.id.DELETE_COMMAND);
     onView(withText(android.R.string.cancel)).perform(click());
@@ -174,7 +168,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
     waitForAdapter();
     onData(is(instanceOf(Cursor.class)))
         .inAdapterView(getWrappedList())
-        .atPosition(1) // position 0 is header
+        .atPosition(1)
         .perform(longClick());
     performContextMenuClick(R.string.menu_split_transaction, R.id.SPLIT_TRANSACTION_COMMAND);
     if (!ContribFeature.SPLIT_TRANSACTION.hasAccess()) {
@@ -199,13 +193,6 @@ public final class MyExpensesCabTest extends BaseUiTest {
         .perform(click());
   }
 
-
-  private Matcher<View> getWrappedList() {
-    return allOf(
-        isAssignableFrom(AdapterView.class),
-        isDescendantOfA(withId(R.id.list)),
-        isDisplayed());
-  }
 
   @Override
   protected ActivityTestRule<? extends ProtectedFragmentActivity> getTestRule() {

@@ -122,7 +122,7 @@ public class LicenceHandler {
   @VisibleForTesting
   public void setLockState(boolean locked) {
     if (MyApplication.isInstrumentationTest()) {
-      licenceStatus = locked ? null : LicenceStatus.CONTRIB;
+      licenceStatus = locked ? null : LicenceStatus.PROFESSIONAL;
       update();
     } else {
       throw new UnsupportedOperationException();

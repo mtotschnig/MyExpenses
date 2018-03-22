@@ -5,7 +5,6 @@ import android.os.RemoteException;
 import android.support.test.espresso.matcher.CursorMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.widget.AdapterView;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -30,12 +29,9 @@ import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
-import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
 
 
@@ -90,16 +86,10 @@ public final class MyExpensesSearchFilterTest extends BaseUiTest {
 
   private void labelIsDisplayed(String label) {
     onData(CursorMatchers.withRowString(DatabaseConstants.KEY_LABEL_MAIN, label))
-        .inAdapterView(allOf(
-            isAssignableFrom(AdapterView.class),
-            isDescendantOfA(withId(R.id.list)),
-            isDisplayed())).check(matches(isDisplayed()));
+        .inAdapterView(getWrappedList()).check(matches(isDisplayed()));
   }
   private void labelIsNotDisplayed(String label) {
-    onView(allOf(
-        isAssignableFrom(AdapterView.class),
-        isDescendantOfA(withId(R.id.list)),
-        isDisplayed()))
+    onView(getWrappedList())
         .check(matches(not(Matchers.withAdaptedData(
             CursorMatchers.withRowString(DatabaseConstants.KEY_LABEL_MAIN, label)))));
   }

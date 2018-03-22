@@ -6,7 +6,6 @@ import android.os.RemoteException;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.rule.ActivityTestRule;
-import android.widget.AdapterView;
 
 import org.junit.After;
 import org.junit.Before;
@@ -26,15 +25,12 @@ import org.totschnig.myexpenses.testutils.BaseUiTest;
 
 import java.util.Currency;
 
-import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
-import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.anything;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 
 //TODO test CAB actions
@@ -73,21 +69,16 @@ public class ManageTemplatesTest extends BaseUiTest {
     assertThat(Transaction.countPerAccount(account.getId())).isEqualTo(1);
   }
 
-  private void clicketiclick() {
-    waitForAdapter();
-    onData(anything()).inAdapterView(isAssignableFrom(AdapterView.class)).atPosition(0).perform(click());
-  }
-
   @Test
   public void clickOnTemplateOpensDialogAndApplySaveActionIsTriggered() {
-    clicketiclick();
+    clickOnFirstListEntry();
     onView(withText(R.string.menu_create_instance_save)).perform(click());
     verifySaveAction();
   }
 
   @Test
   public void clickOnTemplateOpensDialogAndApplyEditActionIsTriggered() throws InterruptedException {
-    clicketiclick();
+    clickOnFirstListEntry();
     onView(withText(R.string.menu_create_instance_edit)).perform(click());
     verifyEditAction();
   }
@@ -96,7 +87,7 @@ public class ManageTemplatesTest extends BaseUiTest {
   public void clickOnTemplateWithDefaultActionApplySave() {
     PrefKey.TEMPLATE_CLICK_HINT_SHOWN.putBoolean(true);
     PrefKey.TEMPLATE_CLICK_DEFAULT.putString("SAVE");
-    clicketiclick();
+    clickOnFirstListEntry();
     verifySaveAction();
     PrefKey.TEMPLATE_CLICK_HINT_SHOWN.remove();
     PrefKey.TEMPLATE_CLICK_DEFAULT.remove();
@@ -106,7 +97,7 @@ public class ManageTemplatesTest extends BaseUiTest {
   public void clickOnTemplateWithDefaultActionApplyEdit() {
     PrefKey.TEMPLATE_CLICK_HINT_SHOWN.putBoolean(true);
     PrefKey.TEMPLATE_CLICK_DEFAULT.putString("EDIT");
-    clicketiclick();
+    clickOnFirstListEntry();
     verifyEditAction();
     PrefKey.TEMPLATE_CLICK_HINT_SHOWN.remove();
     PrefKey.TEMPLATE_CLICK_DEFAULT.remove();

@@ -1,39 +1,50 @@
 package org.totschnig.myexpenses.test.screenshots;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.contrib.DrawerActions;
 import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
+import android.support.test.runner.lifecycle.Stage;
 
-import com.squareup.spoon.SpoonRule;
+import com.jraska.falcon.FalconSpoonRule;
 
 import junit.framework.Assert;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.testutils.BaseUiTest;
 import org.totschnig.myexpenses.testutils.Fixture;
 import org.totschnig.myexpenses.util.DistribHelper;
 
 import java.util.Currency;
 import java.util.Locale;
 
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+
 /**
- * These tests are meant to be run with Spoon
+ * These tests are meant to be run with Spoon (./gradlew spoon). Remove @Ignore first
  *
  */
-@Ignore
-public class TestMain  {
+public class TestMain extends BaseUiTest {
   private MyApplication app;
   private Context instCtx;
   private Locale locale;
   private Currency defaultCurrency;
-  @Rule public final SpoonRule spoon = new SpoonRule();
+  @Rule public final FalconSpoonRule falconSpoonRule = new FalconSpoonRule();
   @Rule public final ActivityTestRule<MyExpenses> activityRule = new ActivityTestRule<>(MyExpenses.class, false, false);
 
 
@@ -191,11 +202,59 @@ public class TestMain  {
         .apply();
     final Intent startIntent = new Intent(app, MyExpenses.class);
     activityRule.launchActivity(startIntent);
+    sleep();
+    onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
+    takeScreenshot("manage_accounts");
+    onView(withId(R.id.drawer_layout)).perform(DrawerActions.close());
+    takeScreenshot("grouped_list");
+    onView(withId(R.id.MANAGE_PLANS_COMMAND)).perform(click());
+    clickOnFirstListEntry();
+    takeScreenshot("plans");
+    Espresso.pressBack();
+    Espresso.pressBack();
+    clickMenuItem(R.id.RESET_COMMAND, R.string.menu_reset);
+    takeScreenshot("export");
+    Espresso.pressBack();
+    onView(withId(R.id.CREATE_COMMAND)).perform(click());
+    onView(withId(R.id.Calculator)).perform(click());
+    takeScreenshot("calculator");
+    Espresso.pressBack();
+    Espresso.pressBack();
+    onView(withText(R.string.split_transaction)).perform(click());
+    onView(withId(android.R.id.button1)).perform(click());
+    Espresso.pressBack();//close keyboard
+    takeScreenshot("split");
+    Espresso.pressBack();
+    clickMenuItem(R.id.DISTRIBUTION_COMMAND, R.string.menu_distribution);
+    takeScreenshot("distribution");
+    Espresso.pressBack();
+    clickMenuItem(R.id.HISTORY_COMMAND, R.string.menu_history);
+    takeScreenshot("history");
+  }
+
+  private void sleep() {
     try {
       Thread.sleep(500);
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-    spoon.screenshot(activityRule.getActivity(), "TEST");
+  }
+
+  private void takeScreenshot(String fileName) {
+    InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+    falconSpoonRule.screenshot(getCurrentActivity(), fileName);
+  }
+
+  private Activity getCurrentActivity() {
+    final Activity[] activites = new Activity[1];
+    InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> {
+      ActivityLifecycleMonitorRegistry.getInstance().getActivitiesInStage(Stage.RESUMED).toArray(activites);
+    });
+    return activites[0];
+  }
+
+  @Override
+  protected ActivityTestRule<? extends ProtectedFragmentActivity> getTestRule() {
+    return activityRule;
   }
 }

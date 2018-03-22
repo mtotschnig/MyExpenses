@@ -22,7 +22,7 @@ public class Matchers {
 
   public static Matcher<View> withSpinnerText(final String string) {
     final CursorMatchers.CursorMatcher cursorMatcher =
-        CursorMatchers.withRowString(DatabaseConstants.KEY_LABEL,string);
+        CursorMatchers.withRowString(DatabaseConstants.KEY_LABEL, string);
     return new BoundedMatcher<View, Spinner>(Spinner.class) {
       @Override
       public void describeTo(Description description) {
@@ -38,7 +38,7 @@ public class Matchers {
   }
 
   // Credits: http://stackoverflow.com/a/30361345/1199911
-  public static Matcher<View> withListSize (final int size) {
+  public static Matcher<View> withListSize(final int size) {
     return withListSize(is(size));
   }
 
