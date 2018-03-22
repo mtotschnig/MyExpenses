@@ -64,6 +64,7 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
   private RoadmapAdapter roadmapAdapter;
   private RoadmapViewModel roadmapViewModel;
   private boolean isPro;
+  private String query;
 
   public void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeId());
@@ -87,9 +88,12 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
     voteWeights = roadmapViewModel.restoreWeights();
     roadmapViewModel.getData().observe(this, data -> {
       this.dataSet = data;
-      dataSetFiltered = dataSet;
-      publishResult(dataSet == null ? "Failure loading data" : String.format(Locale.getDefault(), "%d issues found", dataSet.size()));
-      validateAndUpdateUi();
+      if (dataSet == null) {
+        publishResult("Failure loading data");
+      } else {
+        publishResult(String.format(Locale.getDefault(), "%d issues found", dataSet.size()));
+        validateAndUpdateUi();
+      }
     });
     roadmapViewModel.getVoteResult().observe(this,
         result -> publishResult(result != null && result ? "Your vote has been recorded" : "Failure while submitting your vote"));
@@ -113,18 +117,20 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
 
   private void validateAndUpdateUi() {
     validateWeights();
-    Collections.sort(dataSet, (issue1, issue2) -> {
-      final Integer weight1 = voteWeights.get(issue1.getNumber());
-      final Integer weight2 = voteWeights.get(issue2.getNumber());
-      if (weight1 != null) {
-        return weight2 == null ? -1 : weight2.compareTo(weight1);
-      }
-      if (weight2 != null) {
-        return 1;
-      }
-      return Utils.compare(issue2.getNumber(), issue1.getNumber());
-    });
-    roadmapAdapter.notifyDataSetChanged();
+    if (dataSet != null) {
+      Collections.sort(dataSet, (issue1, issue2) -> {
+        final Integer weight1 = voteWeights.get(issue1.getNumber());
+        final Integer weight2 = voteWeights.get(issue2.getNumber());
+        if (weight1 != null) {
+          return weight2 == null ? -1 : weight2.compareTo(weight1);
+        }
+        if (weight2 != null) {
+          return 1;
+        }
+        return Utils.compare(issue2.getNumber(), issue1.getNumber());
+      });
+      filterData();
+    }
     updateVoteMenuItem();
   }
 
@@ -166,14 +172,8 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
 
       @Override
       public boolean onQueryTextChange(String newText) {
-        if (TextUtils.isEmpty(newText)) {
-          dataSetFiltered = dataSet;
-        } else {
-          dataSetFiltered = Stream.of(dataSet)
-              .filter(issue -> issue.getTitle().toLowerCase().contains(newText.toLowerCase()))
-              .collect(Collectors.toList());
-        }
-        roadmapAdapter.notifyDataSetChanged();
+        query = newText;
+        filterData();
         return true;
       }
     });
@@ -184,6 +184,17 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
     inflater.inflate(R.menu.vote, menu);
     inflater.inflate(R.menu.help_with_icon, menu);
     return true;
+  }
+
+  private void filterData() {
+    if (TextUtils.isEmpty(query) || dataSet == null) {
+      dataSetFiltered = dataSet;
+    } else {
+      dataSetFiltered = Stream.of(dataSet)
+          .filter(issue -> issue.getTitle().toLowerCase().contains(query.toLowerCase()))
+          .collect(Collectors.toList());
+    }
+    roadmapAdapter.notifyDataSetChanged();
   }
 
   @Override
