@@ -46,12 +46,12 @@ public class CrashHandlerImpl extends CrashHandler {
   }
 
   @Override
-  public void setupLogging(Context context) {
+  void setupLoggingDo(Context context) {
 
   }
 
   @Override
-  public void putCustomData(String key, String value) {
+  void putCustomData(String key, String value) {
     ACRA.getErrorReporter().putCustomData(key, value);
   }
 }
