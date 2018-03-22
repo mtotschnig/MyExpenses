@@ -63,12 +63,12 @@ import org.totschnig.myexpenses.ui.PreferenceDividerItemDecoration;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.DistribHelper;
-import org.totschnig.myexpenses.util.io.FileUtils;
 import org.totschnig.myexpenses.util.ShareUtils;
 import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.io.FileUtils;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
 import org.totschnig.myexpenses.util.licence.Package;
@@ -103,7 +103,6 @@ import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_MANAGE;
 import static org.totschnig.myexpenses.preference.PrefKey.CONTRIB_PURCHASE;
 import static org.totschnig.myexpenses.preference.PrefKey.CUSTOM_DECIMAL_FORMAT;
 import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_ADS;
-import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_LOGGING;
 import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.GROUPING_START_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.GROUP_MONTH_STARTS;
@@ -502,9 +501,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   }
 
   public void showPreference(String prefKey) {
-    //noinspection RestrictedApi
     final Preference preference = findPreference(prefKey);
     if (preference != null) {
+      //noinspection RestrictedApi
       preference.performClick();
     }
   }
