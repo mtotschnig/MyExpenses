@@ -109,7 +109,7 @@ public class ExportTest extends ModelTest {
     }
     op.setAmount(new Money(account1.currency, -expense1));
     op.setMethodId(PaymentMethod.find("CHEQUE"));
-    op.crStatus = Transaction.CrStatus.CLEARED;
+    op.setCrStatus(Transaction.CrStatus.CLEARED);
     op.setReferenceNumber("1");
     op.setDate(new Date(baseSinceEpoch));
     op.save();
@@ -117,7 +117,7 @@ public class ExportTest extends ModelTest {
     op.setAmount(new Money(account1.currency, -expense2));
     op.setCatId(cat1Id);
     op.setPayee("N.N.");
-    op.crStatus = Transaction.CrStatus.UNRECONCILED;
+    op.setCrStatus(Transaction.CrStatus.UNRECONCILED);
     op.setReferenceNumber("2");
     op.setDate(new Date(baseSinceEpoch + 1000));
     op.saveAsNew();
@@ -144,11 +144,11 @@ public class ExportTest extends ModelTest {
       return;
     }
     op.setAmount(new Money(account1.currency, transferP));
-    op.crStatus = Transaction.CrStatus.RECONCILED;
+    op.setCrStatus(Transaction.CrStatus.RECONCILED);
     op.setDate(new Date(baseSinceEpoch + 4000));
     op.save();
 
-    op.crStatus = Transaction.CrStatus.UNRECONCILED;
+    op.setCrStatus(Transaction.CrStatus.UNRECONCILED);
     op.setAmount(new Money(account1.currency, -transferN));
     op.setDate(new Date(baseSinceEpoch + 5000));
     op.saveAsNew();

@@ -193,10 +193,11 @@ public class TestMain extends BaseUiTest {
         .apply();
     app.getLicenceHandler().setLockState(false);
 
-    Fixture.setup(InstrumentationRegistry.getInstrumentation(), locale);
+    Fixture fixture = new Fixture(InstrumentationRegistry.getInstrumentation(), locale);
+    fixture.setup();
     int current_version = DistribHelper.getVersionNumber();
     pref.edit()
-        .putLong(PrefKey.CURRENT_ACCOUNT.getKey(), Fixture.getAccount3().getId())
+        .putLong(PrefKey.CURRENT_ACCOUNT.getKey(), fixture.getInitialAccount().getId())
         .putInt(PrefKey.CURRENT_VERSION.getKey(), current_version)
         .putInt(PrefKey.FIRST_INSTALL_VERSION.getKey(), current_version)
         .apply();
@@ -229,6 +230,9 @@ public class TestMain extends BaseUiTest {
     takeScreenshot("distribution");
     Espresso.pressBack();
     clickMenuItem(R.id.HISTORY_COMMAND, R.string.menu_history);
+    clickMenuItem(R.id.GROUPING_COMMAND, R.string.menu_grouping);
+    onView(withText(R.string.grouping_month)).perform(click());
+    clickMenuItem(R.id.TOGGLE_INCLUDE_TRANSFERS_COMMAND, R.string.menu_history_transfers);
     takeScreenshot("history");
   }
 

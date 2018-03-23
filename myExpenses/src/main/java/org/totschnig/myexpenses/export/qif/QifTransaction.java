@@ -152,7 +152,7 @@ public class QifTransaction {
       t.setDate(date);
     }
     t.setComment(memo);
-    t.crStatus = Transaction.CrStatus.fromQifName(status);
+    t.setCrStatus(Transaction.CrStatus.fromQifName(status));
     t.setReferenceNumber(number);
     return t;
   }

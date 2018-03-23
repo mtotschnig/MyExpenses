@@ -77,7 +77,7 @@ public class AccountTest extends ModelTest {
     op = Transaction.getNewInstance(account1.getId());
     assert op != null;
     op.setAmount(new Money(account1.currency, -expense1));
-    op.crStatus = CrStatus.CLEARED;
+    op.setCrStatus(CrStatus.CLEARED);
     op.save();
     op.setAmount(new Money(account1.currency, -expense2));
     op.saveAsNew();

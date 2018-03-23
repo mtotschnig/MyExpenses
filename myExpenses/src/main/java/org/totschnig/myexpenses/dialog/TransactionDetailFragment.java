@@ -286,7 +286,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     if (dlg != null) {
       Button btn = dlg.getButton(AlertDialog.BUTTON_POSITIVE);
       if (btn != null) {
-        if (mTransaction.crStatus != Transaction.CrStatus.VOID) {
+        if (mTransaction.getCrStatus() != Transaction.CrStatus.VOID) {
           btn.setEnabled(true);
         } else {
           btn.setVisibility(View.GONE);
@@ -411,8 +411,8 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
     if (account.getType().equals(AccountType.CASH)) {
       statusRow.setVisibility(View.GONE);
     } else {
-      statusView.setBackgroundColor(mTransaction.crStatus.color);
-      statusView.setText(mTransaction.crStatus.toStringRes());
+      statusView.setBackgroundColor(mTransaction.getCrStatus().color);
+      statusView.setText(mTransaction.getCrStatus().toStringRes());
     }
 
     if (mTransaction.originTemplate == null) {

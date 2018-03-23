@@ -25,6 +25,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.RemoteException;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.annotation.VisibleForTesting;
 
@@ -340,6 +341,15 @@ public class Transaction extends Model {
     this.equivalentAmount = equivalentAmount;
   }
 
+  @NonNull
+  public CrStatus getCrStatus() {
+    return crStatus;
+  }
+
+  public void setCrStatus(@NonNull CrStatus crStatus) {
+    this.crStatus = crStatus;
+  }
+
   public enum CrStatus {
     UNRECONCILED(Color.GRAY, ""), CLEARED(Color.BLUE, "*"), RECONCILED(Color.GREEN, "X"), VOID(Color.RED, null);
     public int color;
@@ -384,7 +394,7 @@ public class Transaction extends Model {
     }
   }
 
-  public CrStatus crStatus;
+  @NonNull private CrStatus crStatus = CrStatus.UNRECONCILED;
   transient protected Uri pictureUri;
 
   /**
@@ -570,7 +580,6 @@ public class Transaction extends Model {
 
   protected Transaction() {
     setDate(new Date());
-    this.crStatus = CrStatus.UNRECONCILED;
   }
 
   public Transaction(long accountId, Money amount) {
@@ -594,7 +603,7 @@ public class Transaction extends Model {
 
   public void setDate(Date date) {
     if (date == null) {
-      throw new RuntimeException("Transaction date cannot be set to null");
+      throw new NullPointerException("Transaction date cannot be set to null");
     }
     this.date = date;
   }

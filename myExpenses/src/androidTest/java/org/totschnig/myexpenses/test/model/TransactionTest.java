@@ -189,7 +189,7 @@ public class TransactionTest extends ModelTest {
     assert split2Restored != null;
     assertEquals(restored.getDate(), split2Restored.getDate());
     assertTrue(DbUtils.hasParent(split2.getId()));
-    restored.crStatus = CrStatus.CLEARED;
+    restored.setCrStatus(CrStatus.CLEARED);
     restored.save();
     //splits should not be touched by simply saving the parent
     assertNotNull("Split parts deleted after saving parent", Transaction.getInstanceFromDb(split1.getId()));

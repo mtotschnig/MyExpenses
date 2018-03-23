@@ -33,44 +33,45 @@ import java.util.Calendar;
 import java.util.Currency;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.ThreadLocalRandom;
 
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 
 @SuppressLint("InlinedApi")
 public class Fixture {
-  private static Account account3;
+  private final Context testContext;
+  private final Context appContext;
+  private final Locale locale;
+  private  Account account1, account2, account3, account4;
 
-  private Fixture() {
+  public Fixture(Instrumentation inst, Locale locale) {
+    testContext = inst.getContext();
+    appContext = inst.getTargetContext().getApplicationContext();
+    this.locale = locale;
   }
 
-  public static Account getAccount3() {
-    return account3;
+  public Account getInitialAccount() {
+    return account1;
   }
 
-  public static void setup(Instrumentation inst, Locale locale) {
-    setup(inst, locale, -1);
-  }
-
-  public static void setup(Instrumentation inst, Locale locale, int stage) {
-    Context testContext = inst.getContext();
-    Context appContext = inst.getTargetContext().getApplicationContext();
+  public void setup() {
     Currency foreignCurrency = Currency.getInstance(testContext.getString(R.string.testData_account2Currency));
     Currency defaultCurrency = Utils.getHomeCurrency();
 
-    Account account1 = new Account(
+    account1 = new Account(
         testContext.getString(R.string.testData_account1Label),
-        20000,
+        90000,
         testContext.getString(R.string.testData_account1Description));
     account1.save();
-    if (stage == 1) return;
-    Account account2 = new Account(
+
+   account2 = new Account(
         testContext.getString(R.string.testData_account2Label),
         foreignCurrency,
         50000,
         testContext.getString(R.string.testData_account2Description), AccountType.CASH,
         testContext.getResources().getColor(R.color.material_red));
     account2.save();
-    if (stage == 2) return;
+
     account3 = new Account(
         testContext.getString(R.string.testData_account3Label),
         Utils.getHomeCurrency(),
@@ -79,7 +80,8 @@ public class Fixture {
         testContext.getResources().getColor(R.color.material_blue));
     account3.setGrouping(Grouping.DAY);
     account3.save();
-    Account account4 = new Account(
+
+    account4 = new Account(
         testContext.getString(R.string.testData_account3Description),
         foreignCurrency,
         0,
@@ -87,82 +89,112 @@ public class Fixture {
         AccountType.CCARD,
         testContext.getResources().getColor(R.color.material_cyan));
     account4.save();
+
     //set up categories
     setUpCategories(locale, appContext);
     //set up transactions
-    long now = System.currentTimeMillis();
+    long offset = System.currentTimeMillis();
     //are used twice
     long mainCat1 = findCat(testContext.getString(R.string.testData_transaction1MainCat), null);
     long mainCat2 = findCat(testContext.getString(R.string.testData_transaction2MainCat), null);
+    long mainCat3 = findCat(testContext.getString(R.string.testData_transaction3MainCat), null);
     long mainCat6 = findCat(testContext.getString(R.string.testData_transaction6MainCat), null);
 
-    //Transaction 1
-    Transaction op1 = Transaction.getNewInstance(account3.getId());
-    op1.setAmount(new Money(defaultCurrency, -1200L));
-    op1.setCatId(findCat(testContext.getString(R.string.testData_transaction1SubCat), mainCat1));
-    op1.setDate(new Date(now - 300000));
-    op1.setPictureUri(Uri.fromFile(new File(appContext.getExternalFilesDir(null), "screenshot.jpg")));
-    op1.save();
+    for (int i = 0; i < 15; i++) {
+      //Transaction 1
+      Transaction op1 = new TransactionBuilder()
+          .accountId(account1.getId())
+          .amount(defaultCurrency, -random(12000))
+          .catId(R.string.testData_transaction1SubCat, mainCat1)
+          .date(offset - 300000)
+          .pictureUri(Uri.fromFile(new File(appContext.getExternalFilesDir(null), "screenshot.jpg")))
+          .persist();
 
-    //Transaction 2
-    Transaction op2 = Transaction.getNewInstance(account3.getId());
-    op2.setAmount(new Money(defaultCurrency, -2200L));
-    op2.setCatId(findCat(testContext.getString(R.string.testData_transaction2SubCat), mainCat2));
-    op2.setComment(testContext.getString(R.string.testData_transaction2Comment));
-    op2.setDate(new Date(now - 7200000));
-    op2.save();
-    Transaction op3 = Transaction.getNewInstance(account3.getId());
+      //Transaction 2
+      Transaction op2 = new TransactionBuilder()
+          .accountId(account1.getId())
+          .amount(defaultCurrency, -random(2200L))
+          .catId(R.string.testData_transaction1SubCat, mainCat1)
+          .date(offset - 7200000)
+          .comment(testContext.getString(R.string.testData_transaction2Comment))
+          .persist();
 
-    //Transaction 3 Cleared
-    op3.setAmount(new Money(defaultCurrency, -2500L));
-    op3.setCatId(findCat(testContext.getString(R.string.testData_transaction3SubCat),
-        findCat(testContext.getString(R.string.testData_transaction3MainCat), null)));
-    op3.setDate(new Date(now - 72230000));
-    op3.crStatus = CrStatus.CLEARED;
-    op3.save();
+      //Transaction 3 Cleared
+      Transaction op3 = new TransactionBuilder()
+          .accountId(account1.getId())
+          .amount(defaultCurrency, -random(2500L))
+          .catId(R.string.testData_transaction3SubCat, mainCat3)
+          .date(offset - 72230000)
+          .crStatus(CrStatus.CLEARED)
+          .persist();
 
-    //Transaction 4 Cleared
-    Transaction op4 = Transaction.getNewInstance(account3.getId());
-    op4.setAmount(new Money(defaultCurrency, -5000L));
-    op4.setCatId(findCat(testContext.getString(R.string.testData_transaction4SubCat), mainCat2));
-    op4.setPayee(testContext.getString(R.string.testData_transaction4Payee));
-    op4.setDate(new Date(now - 98030000));
-    op4.crStatus = CrStatus.CLEARED;
-    op4.save();
+      //Transaction 4 Cleared
+      Transaction op4 = new TransactionBuilder()
+          .accountId(account1.getId())
+          .amount(defaultCurrency, -random(5000L))
+          .catId(R.string.testData_transaction4SubCat, mainCat2)
+          .payee(R.string.testData_transaction4Payee)
+          .date(offset - 98030000)
+          .crStatus(CrStatus.CLEARED)
+          .persist();
 
-    //Transaction 5 Reconciled
-    Transaction op5 = Transfer.getNewInstance(account1.getId(), account3.getId());
-    op5.setAmount(new Money(defaultCurrency, -10000L));
-    op5.setDate(new Date(now - 800390000));
-    op5.crStatus = CrStatus.RECONCILED;
-    op5.save();
+      //Transaction 5 Reconciled
+      Transaction op5 = new TransactionBuilder()
+          .accountId(account1.getId())
+          .amount(defaultCurrency, -random(10000L))
+          .date(offset - 100390000)
+          .crStatus(CrStatus.RECONCILED)
+          .persist();
 
-    //Transaction 6 Gift Reconciled
-    Transaction op6 = Transaction.getNewInstance(account3.getId());
-    op6.setAmount(new Money(defaultCurrency, 10000L));
-    op6.setCatId(mainCat6);
-    op6.setDate(new Date(now - 810390000));
-    op6.crStatus = CrStatus.RECONCILED;
-    op6.save();
+      //Transaction 6 Gift Reconciled
+      Transaction op6 = new TransactionBuilder()
+          .accountId(account1.getId())
+          .amount(defaultCurrency, -10000L)
+          .catId(mainCat6)
+          .date(offset - 210390000)
+          .crStatus(CrStatus.RECONCILED)
+          .persist();
 
-    //Transaction 7 Second account foreign Currency
-    Transaction op7 = Transaction.getNewInstance(account2.getId());
-    op7.setAmount(new Money(foreignCurrency, -34523L));
-    op7.setDate(new Date(now - 1003900000));
-    op7.save();
+      //Salary
+      Transaction op8 = new TransactionBuilder()
+          .accountId(account3.getId())
+          .amount(defaultCurrency, 200000)
+          .date(offset)
+          .persist();
+
+      //Transfer
+      Transfer transfer = Transfer.getNewInstance(account1.getId(), account3.getId());
+      transfer.setAmount(new Money(defaultCurrency, 25000L));
+      transfer.setDate(new Date(offset));
+      transfer.save();
+
+      offset = offset - 400000000;
+    }
+
+    //Second account foreign Currency
+    new TransactionBuilder()
+        .accountId(account2.getId())
+        .amount(foreignCurrency, -random(34567))
+        .date(offset - 303900000)
+        .persist();
 
     //Transaction 8: Split
-    Transaction op8 = SplitTransaction.getNewInstance(account3.getId());
-    op8.setAmount(new Money(defaultCurrency, -8967L));
-    op8.save();
-    Transaction split1 = Transaction.getNewInstance(account3.getId(), op8.getId());
-    split1.setAmount(new Money(defaultCurrency, -4523L));
-    split1.setCatId(mainCat2);
-    split1.save();
-    Transaction split2 = Transaction.getNewInstance(account3.getId(), op8.getId());
-    split2.setAmount(new Money(defaultCurrency, -4444L));
-    split2.setCatId(mainCat6);
-    split2.save();
+    Transaction split = SplitTransaction.getNewInstance(account1.getId());
+    split.setAmount(new Money(defaultCurrency, -8967L));
+    split.save();
+
+    new TransactionBuilder()
+        .accountId(account1.getId()).parentId(split.getId())
+        .amount(defaultCurrency, -4523L)
+        .catId(mainCat2)
+        .persist();
+
+    new TransactionBuilder()
+        .accountId(account1.getId()).parentId(split.getId())
+        .amount(defaultCurrency, -4444L)
+        .catId(mainCat6)
+        .persist();
+
 
     // Template
     Assert.assertNotSame("Unable to create planner", MyApplication.getInstance().createPlanner(true), MyApplication.INVALID_CALENDAR_ID);
@@ -192,7 +224,7 @@ public class Fixture {
       throw new RuntimeException("Could not save template");
   }
 
-  public static void setUpCategories(Locale locale, Context appContext) {
+  private static void setUpCategories(Locale locale, Context appContext) {
     int sourceRes = appContext.getResources().getIdentifier("cat_" + locale.getLanguage(), "raw", appContext.getPackageName());
     InputStream catXML;
     try {
@@ -205,11 +237,96 @@ public class Fixture {
     Utils.importCats((CategoryTree) result.extra[0], null);
   }
 
-  public static long findCat(String label, Long parent) {
+  private static long findCat(String label, Long parent) {
     Long result = Category.find(label, parent);
     if (result == -1) {
       throw new RuntimeException("Could not find category");
     }
     return result;
+  }
+
+  private long random(long n) {
+    return ThreadLocalRandom.current().nextLong(n);
+  }
+
+  private class TransactionBuilder {
+    private long accountId;
+    private Long parentId;
+    private Money amount;
+    private Long catId;
+    private Date date;
+    private CrStatus crStatus;
+    private Uri pictureUri;
+    private String comment;
+    private String payee;
+
+
+    private TransactionBuilder accountId(long accountId) {
+      this.accountId = accountId;
+      return this;
+    }
+
+    private TransactionBuilder parentId(Long parentId) {
+      this.parentId = parentId;
+      return this;
+    }
+
+    private TransactionBuilder amount(Currency currency, long amountMinor) {
+      this.amount = new Money(currency, amountMinor);
+      return this;
+    }
+
+    private TransactionBuilder catId(int resId, Long parentId) {
+      this.catId = findCat(testContext.getString(resId), parentId);
+      return this;
+    }
+
+    private TransactionBuilder catId(long catId) {
+      this.catId = catId;
+      return this;
+    }
+
+    private TransactionBuilder date(long date) {
+      this.date = new Date(date);
+      return this;
+    }
+
+    private TransactionBuilder crStatus(CrStatus crStatus) {
+      this.crStatus = crStatus;
+      return this;
+    }
+
+    private TransactionBuilder pictureUri(Uri uri) {
+      this.pictureUri = pictureUri;
+      return this;
+    }
+
+    private TransactionBuilder payee(int resId) {
+      this.payee = testContext.getString(resId);
+      return this;
+    }
+
+    private TransactionBuilder comment(String comment) {
+      this.comment = comment;
+      return this;
+    }
+
+    Transaction persist() {
+      Transaction transaction = Transaction.getNewInstance(accountId);
+      transaction.setAmount(amount);
+      transaction.setCatId(catId);
+      if (date != null) {
+        transaction.setDate(date);
+      }
+      if (crStatus != null) {
+        transaction.setCrStatus(crStatus);
+      }
+      transaction.setPictureUri(pictureUri);
+      transaction.setPayee(payee);
+      transaction.setComment(comment);
+      transaction.setParentId(parentId);
+      transaction.save();
+      return transaction;
+    }
   }
 }

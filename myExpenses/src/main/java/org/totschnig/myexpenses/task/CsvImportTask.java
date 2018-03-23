@@ -228,7 +228,7 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
         }
 
         if (columnIndexStatus != -1) {
-          t.crStatus = Transaction.CrStatus.fromQifName(saveGetFromRecord(record, columnIndexStatus));
+          t.setCrStatus(Transaction.CrStatus.fromQifName(saveGetFromRecord(record, columnIndexStatus)));
         }
 
         if (columnIndexNumber != -1) {

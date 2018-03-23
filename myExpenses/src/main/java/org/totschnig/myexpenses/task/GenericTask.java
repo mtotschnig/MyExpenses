@@ -126,7 +126,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
             parent.setAmount(t.getAmount());
             parent.setDate(t.getDate());
             parent.setPayeeId(t.getPayeeId());
-            parent.crStatus = t.crStatus;
+            parent.setCrStatus(t.getCrStatus());
             parent.save();
             values = new ContentValues();
             values.put(DatabaseConstants.KEY_PARENTID, parent.getId());

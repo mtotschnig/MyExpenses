@@ -458,7 +458,7 @@ public class ExpenseEdit extends AmountActivity implements
       public boolean isEnabled(int position) {
         //if the transaction is reconciled, the status can not be changed
         //otherwise only unreconciled and cleared can be set
-        return mTransaction != null && mTransaction.crStatus != CrStatus.RECONCILED && position != CrStatus.RECONCILED.ordinal();
+        return mTransaction != null && mTransaction.getCrStatus() != CrStatus.RECONCILED && position != CrStatus.RECONCILED.ordinal();
       }
     };
     mStatusSpinner.setAdapter(sAdapter);
@@ -1172,7 +1172,7 @@ public class ExpenseEdit extends AmountActivity implements
     Transaction cachedOrSelf = cached != null ? cached : mTransaction;
 
     isProcessingLinkedAmountInputs = true;
-    mStatusSpinner.setSelection(cachedOrSelf.crStatus.ordinal(), false);
+    mStatusSpinner.setSelection(cachedOrSelf.getCrStatus().ordinal(), false);
     mCommentText.setText(cachedOrSelf.getComment());
     if (mIsMainTransactionOrTemplate) {
       mPayeeText.setText(cachedOrSelf.getPayee());
@@ -1407,7 +1407,7 @@ public class ExpenseEdit extends AmountActivity implements
       }
     }
 
-    mTransaction.crStatus = (Transaction.CrStatus) mStatusSpinner.getSelectedItem();
+    mTransaction.setCrStatus((CrStatus) mStatusSpinner.getSelectedItem());
 
     mTransaction.setPictureUri(mPictureUri);
     return validP;
@@ -1685,7 +1685,7 @@ public class ExpenseEdit extends AmountActivity implements
             mTransaction.setId(0L);
             mRowId = 0L;
           }
-          mTransaction.crStatus = CrStatus.UNRECONCILED;
+          mTransaction.setCrStatus(CrStatus.UNRECONCILED);
           mTransaction.status = STATUS_NONE;
           mTransaction.setDate(new Date());
           mTransaction.uuid = Model.generateUuid();

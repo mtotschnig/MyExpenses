@@ -173,7 +173,7 @@ public class TransactionTestWithChangeTriggers extends ModelTest {
     Transaction split2Restored = Transaction.getInstanceFromDb(split2.getId());
     assert split2Restored != null;
     assertEquals(restored.getDate(), split2Restored.getDate());
-    restored.crStatus = CrStatus.CLEARED;
+    restored.setCrStatus(CrStatus.CLEARED);
     restored.save();
     //splits should not be touched by simply saving the parent
     assertNotNull("Split parts deleted after saving parent", Transaction.getInstanceFromDb(split1.getId()));

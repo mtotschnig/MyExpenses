@@ -691,7 +691,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       }
     }
     if (change.crStatus() != null) {
-      t.crStatus = Transaction.CrStatus.valueOf(change.crStatus());
+      t.setCrStatus(Transaction.CrStatus.valueOf(change.crStatus()));
     }
     t.setReferenceNumber(change.referenceNumber());
     if (parentOffset == -1 && change.parentUuid() != null) {
