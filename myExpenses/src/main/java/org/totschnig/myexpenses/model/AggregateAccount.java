@@ -14,8 +14,8 @@ import timber.log.Timber;
 public class AggregateAccount extends Account {
   public static final int AGGREGATE_HOME = 2;
   public static final String AGGREGATE_HOME_CURRENCY_CODE = "___";
-  final static String GROUPING_PREF_PREFIX = "AGGREGATE_GROUPING_";
-  final static String SORT_DIRECTION_PREF_PREFIX = "AGGREGATE_SORT_DIRECTION_";
+  private final static String GROUPING_PREF_PREFIX = "AGGREGATE_GROUPING_";
+  private final static String SORT_DIRECTION_PREF_PREFIX = "AGGREGATE_SORT_DIRECTION_";
 
   /**
    * @param c Cursor positioned at the row we want to extract into the object
@@ -24,11 +24,11 @@ public class AggregateAccount extends Account {
     extract(c);
     try {
       this.setGrouping(Grouping.valueOf(MyApplication.getInstance().getSettings().getString(
-          getKeyForPreference(), "NONE")));
+          GROUPING_PREF_PREFIX + getKeyForPreference(), "NONE")));
     } catch (IllegalArgumentException ignored) {}
     try {
       this.setSortDirection(SortDirection.valueOf(MyApplication.getInstance().getSettings().getString(
-          getKeyForPreference(), "DESC")));
+          SORT_DIRECTION_PREF_PREFIX + getKeyForPreference(), "DESC")));
     } catch (IllegalArgumentException ignored) {}
     accounts.put(getId(), this);
   }
