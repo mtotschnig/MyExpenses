@@ -29,6 +29,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.util.Pair;
 import android.telephony.TelephonyManager;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -516,18 +517,16 @@ public class Utils {
     }
   }
 
-  public static Result analyzeGrisbiFileWithSAX(InputStream is) {
+  public static Result<Pair<CategoryTree, ArrayList<String>>> analyzeGrisbiFileWithSAX(InputStream is) {
     GrisbiHandler handler = new GrisbiHandler();
     try {
       Xml.parse(is, Xml.Encoding.UTF_8, handler);
     } catch (IOException e) {
-      return new Result(false, R.string.parse_error_other_exception,
-          e.getMessage());
+      return Result.ofFailure(R.string.parse_error_other_exception, e.getMessage());
     } catch (GrisbiHandler.FileVersionNotSupportedException e) {
-      return new Result(false,
-          R.string.parse_error_grisbi_version_not_supported, e.getMessage());
+      return  Result.ofFailure(R.string.parse_error_grisbi_version_not_supported, e.getMessage());
     } catch (SAXException e) {
-      return new Result(false, R.string.parse_error_parse_exception);
+      return  Result.ofFailure(R.string.parse_error_parse_exception);
     }
     return handler.getResult();
   }

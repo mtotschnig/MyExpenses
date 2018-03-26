@@ -4,13 +4,13 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
+import com.annimon.stream.Exceptional;
 import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
-import org.totschnig.myexpenses.util.Result;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,7 +34,7 @@ public interface SyncBackendProvider {
   @NonNull
   Stream<AccountMetaData> getRemoteAccountList(android.accounts.Account account) throws IOException;
 
-  Result setUp(String authToken);
+  Exceptional<Void> setUp(String authToken);
 
   void tearDown();
 

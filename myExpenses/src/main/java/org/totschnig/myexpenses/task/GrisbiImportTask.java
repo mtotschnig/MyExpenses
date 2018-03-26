@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.util.Pair;
 import android.text.TextUtils;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -68,10 +69,10 @@ public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
   /**
    * return false upon problem (and sets a result object) or true
    */
-  protected Result parseXML() {
+  protected Result<Pair<CategoryTree, ArrayList<String>>> parseXML() {
     Context app = MyApplication.getInstance();
     InputStream catXML = null;
-    Result result;
+    Result<Pair<CategoryTree, ArrayList<String>>> result;
 
     try {
       if (externalP) {
@@ -102,13 +103,12 @@ public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
         catXML = app.getResources().openRawResource(defaultSourceResId);
       } 
       result = Utils.analyzeGrisbiFileWithSAX(catXML);
-      if (result.success) {
-        catTree = (CategoryTree) result.extra[0];
-        partiesList = (ArrayList<String>) result.extra[1];
+      if (result.isSuccess()) {
+        catTree = result.getExtra().first;
+        partiesList = result.getExtra().second;
       }
     } catch (FileNotFoundException e) {
-      result = new Result(false, R.string.parse_error_file_not_found,
-          sourceStr);
+      result = Result.ofFailure(R.string.parse_error_file_not_found, sourceStr);
     } finally {
       if (catXML != null) {
         try {
@@ -174,8 +174,9 @@ public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
    */
   @Override
   protected Result doInBackground(Void... ignored) {
-    Result r = parseXML();
-    if (!r.success) {
+    Context application = MyApplication.getInstance();
+    Result<Pair<CategoryTree, ArrayList<String>>> r = parseXML();
+    if (!r.isSuccess()) {
       return r;
     }
     setTitle(MyApplication.getInstance().getString(R.string.grisbi_import_categories_loading, sourceStr));
@@ -198,10 +199,21 @@ public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
     } else {
       totalImportedParty = -1;
     }
-    return new Result(true,
-        0,
-        Integer.valueOf(totalImportedCat),
-        Integer.valueOf(totalImportedParty));
+    String msg = "";
+    if (totalImportedCat > -1) {
+      msg += totalImportedCat == 0 ?
+          application.getString(R.string.import_categories_none) :
+          application.getString(R.string.import_categories_success, String.valueOf(totalImportedCat));
+    }
+    if (totalImportedParty > -1) {
+      if (!TextUtils.isEmpty(msg)) {
+        msg += "\n";
+      }
+      msg += totalImportedParty == 0 ?
+          application.getString(R.string.import_parties_none) :
+          application.getString(R.string.import_parties_success, String.valueOf(totalImportedParty));
+    }
+    return Result.ofSuccess(msg);
   }
 
   int getMax() {

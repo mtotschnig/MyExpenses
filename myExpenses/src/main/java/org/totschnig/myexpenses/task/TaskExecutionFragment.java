@@ -274,61 +274,64 @@ public class TaskExecutionFragment<T> extends Fragment {
     Bundle args = getArguments();
     int taskId = args.getInt(KEY_TASKID);
     crashHandler.addBreadcrumb(String.format(Locale.ROOT, "%d (%s)",
-            taskId, Utils.printDebug((Object[]) args.getSerializable(KEY_OBJECT_IDS))));
-    try {
-      switch (taskId) {
-        case TASK_GRISBI_IMPORT:
-          new GrisbiImportTask(this, args).execute();
-          break;
-        case TASK_QIF_IMPORT:
-          new QifImportTask(this, args).execute();
-          break;
-        case TASK_CSV_PARSE:
-          new CsvParseTask(this, args).execute();
-          break;
-        case TASK_CSV_IMPORT:
-          new CsvImportTask(this, args).execute();
-          break;
-        case TASK_EXPORT:
-          new ExportTask(this, args).execute();
-          break;
-        case TASK_RESTORE:
-          new RestoreTask(this, args).execute();
-          break;
-        case TASK_PRINT:
-          new PrintTask(this, args).execute();
-          break;
-        case TASK_WEBDAV_TEST_LOGIN:
-          new TestLoginTask(this, args).execute();
-          break;
-        case TASK_CREATE_SYNC_ACCOUNT:
-          new SyncAccountTask(this, args, true).execute();
-          break;
-        case TASK_FETCH_SYNC_ACCOUNT_DATA:
-          new SyncAccountTask(this, args, false).execute();
-          break;
-        case TASK_VALIDATE_LICENCE:
-          new LicenceApiTask(this, taskId).execute();
-          break;
-        case TASK_REMOVE_LICENCE:
-          new LicenceApiTask(this, taskId).execute();
-          break;
-        case TASK_BUILD_TRANSACTION_FROM_INTENT_EXTRAS:
-          new BuildTransactionTask(this, taskId).execute(args);
-          break;
-        case TASK_DROPBOX_SETUP:
-          new DropboxSetupTask(this, taskId).execute(args);
-          break;
-        case TASK_RESET_EQUIVALENT_AMOUNTS:
-          new ResetEquivalentAmountsTask(this, taskId).execute(args);
-          break;
-        default:
+        taskId, Utils.printDebug((Object[]) args.getSerializable(KEY_OBJECT_IDS))));
+    switch (taskId) {
+      case TASK_GRISBI_IMPORT:
+        new GrisbiImportTask(this, args).execute();
+        break;
+      case TASK_QIF_IMPORT:
+        new QifImportTask(this, args).execute();
+        break;
+      case TASK_CSV_PARSE:
+        new CsvParseTask(this, args).execute();
+        break;
+      case TASK_CSV_IMPORT:
+        new CsvImportTask(this, args).execute();
+        break;
+      case TASK_EXPORT:
+        new ExportTask(this, args).execute();
+        break;
+      case TASK_RESTORE:
+        new RestoreTask(this, args).execute();
+        break;
+      case TASK_PRINT:
+        new PrintTask(this, args).execute();
+        break;
+      case TASK_WEBDAV_TEST_LOGIN:
+        new TestLoginTask(this, args).execute();
+        break;
+      case TASK_CREATE_SYNC_ACCOUNT:
+        new SyncAccountTask(this, args, true).execute();
+        break;
+      case TASK_FETCH_SYNC_ACCOUNT_DATA:
+        new SyncAccountTask(this, args, false).execute();
+        break;
+      case TASK_VALIDATE_LICENCE:
+        new LicenceApiTask(this, taskId).execute();
+        break;
+      case TASK_REMOVE_LICENCE:
+        new LicenceApiTask(this, taskId).execute();
+        break;
+      case TASK_BUILD_TRANSACTION_FROM_INTENT_EXTRAS:
+        new BuildTransactionTask(this, taskId).execute(args);
+        break;
+      case TASK_DROPBOX_SETUP:
+        new DropboxSetupTask(this, taskId).execute(args);
+        break;
+      case TASK_RESET_EQUIVALENT_AMOUNTS:
+        new ResetEquivalentAmountsTask(this, taskId).execute(args);
+        break;
+      case TASK_SPLIT:
+        new SplitCommandTask(this, taskId).execute(args);
+        break;
+      default:
+        try {
           new GenericTask<T>(this, taskId, args.getSerializable(KEY_EXTRA))
               .execute((T[]) args.getSerializable(KEY_OBJECT_IDS));
-      }
-    } catch (ClassCastException e) {
-      // the cast could fail, if Fragment is recreated,
-      // but we are cancelling above in that case
+        } catch (ClassCastException e) {
+          // the cast could fail, if Fragment is recreated,
+          // but we are cancelling above in that case
+        }
     }
   }
 

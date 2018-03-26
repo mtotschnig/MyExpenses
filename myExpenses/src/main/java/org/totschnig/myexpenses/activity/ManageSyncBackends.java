@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 
+import com.annimon.stream.Exceptional;
 import com.dropbox.core.android.Auth;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -22,6 +23,7 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
+import org.totschnig.myexpenses.task.SyncAccountTask;
 import org.totschnig.myexpenses.util.Result;
 
 import java.io.Serializable;
@@ -182,39 +184,43 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
   @Override
   public void onPostExecute(int taskId, Object o) {
     super.onPostExecute(taskId, o);
-    Result result = (Result) o;
     switch (taskId) {
       case TASK_CREATE_SYNC_ACCOUNT: {
-        if (result.success) {
+        Exceptional<SyncAccountTask.Result> result = (Exceptional<SyncAccountTask.Result>) o;
+        if (result.isPresent()) {
           getListFragment().reloadAccountList();
-          if (((Integer) result.extra[1]) > 0) {
-            showSelectUnsyncedAccount((String) result.extra[0]);
+          if (result.get().localUnsynced > 0) {
+            showSelectUnsyncedAccount(result.get().accountName);
           }
         }
         break;
       }
       case TASK_SYNC_REMOVE_BACKEND: {
-        if (result.success) {
+        Result result = (Result) o;
+        if (result.isSuccess()) {
           getListFragment().reloadAccountList();
         }
         break;
       }
       case TASK_SYNC_LINK_SAVE: {
+        Result result = (Result) o;
         showSnackbar(result.print(this), Snackbar.LENGTH_LONG);
         //fall through
       }
       case TASK_SYNC_UNLINK:
       case TASK_SYNC_LINK_LOCAL:
       case TASK_SYNC_LINK_REMOTE: {
-        if (result.success) {
+        Result result = (Result) o;
+        if (result.isSuccess()) {
           getListFragment().reloadLocalAccountInfo();
         }
         break;
       }
       case TASK_REPAIR_SYNC_BACKEND: {
+        Result result = (Result) o;
         String resultPrintable = result.print(this);
         if (resultPrintable != null) {
-          if (result.success) {
+          if (result.isSuccess()) {
             showSnackbar(resultPrintable, Snackbar.LENGTH_LONG);
           } else {
             Bundle b = new Bundle();

@@ -180,7 +180,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       syncResult.stats.numAuthExceptions++;
       return;
     }
-    if (!backend.setUp(authToken).success) {
+    if (!backend.setUp(authToken).isPresent()) {
       syncResult.stats.numIoExceptions++;
       syncResult.delayUntil = IO_DEFAULT_DELAY_SECONDS;
       appendToNotification(Utils.concatResStrings(getContext(), " ",

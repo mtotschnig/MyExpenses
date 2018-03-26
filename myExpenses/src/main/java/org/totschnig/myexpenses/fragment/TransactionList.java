@@ -1011,7 +1011,7 @@ public class TransactionList extends ContextualActionBarFragment implements
         MyExpenses ctx = (MyExpenses) getActivity();
         Result appDirStatus = AppDirHelper.checkAppDir(ctx);
         if (hasItems) {
-          if (appDirStatus.success) {
+          if (appDirStatus.isSuccess()) {
             ctx.contribFeatureRequested(ContribFeature.PRINT, null);
           } else {
             ctx.showSnackbar(appDirStatus.print(ctx), Snackbar.LENGTH_LONG);

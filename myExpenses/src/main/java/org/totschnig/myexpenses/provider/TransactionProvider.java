@@ -30,6 +30,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
+import android.support.v4.provider.DocumentFile;
 import android.test.ProviderTestCase2;
 import android.text.TextUtils;
 
@@ -50,11 +51,11 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.util.BackupUtils;
-import org.totschnig.myexpenses.util.io.FileCopyUtils;
 import org.totschnig.myexpenses.util.PlanInfoCursorWrapper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.io.FileCopyUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -1590,13 +1591,13 @@ public class TransactionProvider extends ContentProvider {
     return mOpenHelper;
   }
 
-  public Result backup(File backupDir) {
+  public Result<DocumentFile> backup(File backupDir) {
     File currentDb = new File(mOpenHelper.getReadableDatabase().getPath());
     mOpenHelper.close();
     try {
       File backupPrefFile, sharedPrefFile;
       Result result = backupDb(new File(backupDir, BackupUtils.BACKUP_DB_FILE_NAME), currentDb);
-      if (result.success) {
+      if (result.isSuccess()) {
         backupPrefFile = new File(backupDir, BackupUtils.BACKUP_PREF_FILE_NAME);
         // Samsung has special path on some devices
         // http://stackoverflow.com/questions/5531289/copy-the-shared-preferences-xml-file-from-data-on-samsung-device-failed
@@ -1610,7 +1611,7 @@ public class TransactionProvider extends ContentProvider {
             final String message = "Unable to find shared preference file at " +
                 sharedPrefFile.getPath();
             CrashHandler.report(message);
-            return new Result(false, message);
+            return Result.ofFailure( message);
           }
         }
         if (FileCopyUtils.copy(sharedPrefFile, backupPrefFile)) {
@@ -1628,12 +1629,12 @@ public class TransactionProvider extends ContentProvider {
   private Result backupDb(File backupDb, File currentDb) {
     if (currentDb.exists()) {
       if (FileCopyUtils.copy(currentDb, backupDb)) {
-        return new Result(true);
+        return Result.SUCCESS;
       }
-      return new Result(false, String.format(
+      return Result.ofFailure(String.format(
           "Error while copying %s to %s", currentDb.getPath(), backupDb.getPath()));
     }
-    return new Result(false, "Could not find database at " + currentDb.getPath());
+    return Result.ofFailure("Could not find database at " + currentDb.getPath());
   }
 
   private File getInternalAppDir() {

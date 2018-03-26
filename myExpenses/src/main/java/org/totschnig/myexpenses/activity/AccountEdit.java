@@ -319,14 +319,14 @@ public class AccountEdit extends AmountActivity implements
     Result r = ((Result) o);
     switch (taskId) {
       case TASK_SYNC_UNLINK:
-        if (r.success) {
+        if (r.isSuccess()) {
           mSyncSpinner.setSelection(0);
           mSyncSpinner.setEnabled(true);
           syncUnlink.setVisibility(View.GONE);
         }
         break;
       case TASK_SYNC_CHECK:
-        if (!r.success) {
+        if (!r.isSuccess()) {
           mSyncSpinner.setSelection(0);
           showHelp(r.print(this));
         }

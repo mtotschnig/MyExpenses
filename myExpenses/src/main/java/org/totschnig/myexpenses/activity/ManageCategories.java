@@ -45,7 +45,6 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.AppDirHelper;
-import org.totschnig.myexpenses.util.io.FileUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.ShareUtils;
 
@@ -265,7 +264,7 @@ public class ManageCategories extends ProtectedFragmentActivity implements
 
   private void exportCats(String encoding) {
     Result appDirStatus = AppDirHelper.checkAppDir(this);
-    if (appDirStatus.success) {
+    if (appDirStatus.isSuccess()) {
       startTaskExecution(
           TaskExecutionFragment.TASK_EXPORT_CATEGRIES,
           null,
@@ -329,41 +328,27 @@ public class ManageCategories extends ProtectedFragmentActivity implements
       return;
     }
     Result r = (Result) result;
-    String msg;
-    if (r.success) {
+    if (r.isSuccess()) {
       switch (taskId) {
-        case TaskExecutionFragment.TASK_GRISBI_IMPORT:
-          Integer imported = (Integer) r.extra[0];
-          if (imported > 0) {
-            msg = getString(R.string.import_categories_success, String.valueOf(imported));
-          } else {
-            msg = getString(R.string.import_categories_none);
-          }
-          break;
         case TaskExecutionFragment.TASK_EXPORT_CATEGRIES:
-          Uri uri = (Uri) r.extra[0];
-          msg = getString(r.getMessage(),
-              FileUtils.getPath(MyApplication.getInstance(), uri));
+          Result<Uri> uriResult = (Result<Uri>) result;
+          Uri uri = uriResult.getExtra();
           if (PrefKey.PERFORM_SHARE.getBoolean(false)) {
             ArrayList<Uri> uris = new ArrayList<>();
             uris.add(uri);
             Result shareResult = ShareUtils.share(this, uris,
                 PrefKey.SHARE_TARGET.getString("").trim(),
                 "text/qif");
-            if (!shareResult.success) {
+            if (!shareResult.isSuccess()) {
               showSnackbar(shareResult.print(this), Snackbar.LENGTH_LONG);
             }
           }
           break;
         case TaskExecutionFragment.TASK_MOVE_CATEGORY:
           getListFragment().reset();
-        default:
-          msg = r.print(this);
       }
-    } else {
-      msg = r.print(this);
     }
-    showSnackbar(msg, Snackbar.LENGTH_LONG);
+    showSnackbar(r.print(this), Snackbar.LENGTH_LONG);
   }
 
   @Override

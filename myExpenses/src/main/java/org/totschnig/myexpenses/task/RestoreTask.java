@@ -92,7 +92,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
     ContentResolver cr = application.getContentResolver();
     workingDir = AppDirHelper.getCacheDir();
     if (workingDir == null) {
-      return new Result(false, R.string.external_storage_unavailable);
+      return Result.ofFailure(R.string.external_storage_unavailable);
     }
     try {
       InputStream is;
@@ -106,18 +106,18 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
           String errorMessage = String.format("Unable to get sync backend provider for %s",
               syncAccountName);
           CrashHandler.report(new Exception(errorMessage, throwable));
-          return new Result(false, errorMessage);
+          return Result.ofFailure(errorMessage);
         }
         try {
           is = syncBackendProvider.getInputStreamForBackup(account, backupFromSync);
         } catch (IOException e) {
-          return new Result(false, e.getMessage());
+          return Result.ofFailure(e.getMessage());
         }
       } else {
         is = cr.openInputStream(fileUri);
       }
       if (is == null) {
-        return new Result(false, "Unable to open backup file");
+        return Result.ofFailure("Unable to open backup file");
       }
       boolean zipResult = ZipUtils.unzip(is, workingDir);
       try {
@@ -126,15 +126,13 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
         e.printStackTrace();
       }
       if (!zipResult) {
-        return new Result(
-            false,
+        return Result.ofFailure(
             R.string.restore_backup_archive_not_valid,
             fileUri);
       }
     } catch (FileNotFoundException | SecurityException e) {
       CrashHandler.report(e, "fileUri", fileUri.toString());
-      return new Result(
-          false,
+      return Result.ofFailure(
           R.string.parse_error_other_exception,
           e.getMessage());
     }
@@ -142,17 +140,14 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
     File backupFile = BackupUtils.getBackupDbFile(workingDir);
     File backupPrefFile = BackupUtils.getBackupPrefFile(workingDir);
     if (!backupFile.exists()) {
-      return new Result(
-          false,
+      return Result.ofFailure(
           R.string.restore_backup_file_not_found,
           BackupUtils.BACKUP_DB_FILE_NAME, workingDir);
     }
     if (!backupPrefFile.exists()) {
-      return new Result(
-          false,
+      return Result.ofFailure(
           R.string.restore_backup_file_not_found,
-          BackupUtils.BACKUP_PREF_FILE_NAME,
-          workingDir);
+          BackupUtils.BACKUP_PREF_FILE_NAME);
     }
 
     //peek into file to inspect version
@@ -164,14 +159,13 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       int version = db.getVersion();
       if (version > TransactionDatabase.DATABASE_VERSION) {
         db.close();
-        return new Result(
-            false,
+        return Result.ofFailure(
             R.string.restore_cannot_downgrade,
             version, TransactionDatabase.DATABASE_VERSION);
       }
       db.close();
     } catch (SQLiteException e) {
-      return new Result(false, R.string.restore_db_not_valid);
+      return Result.ofFailure(R.string.restore_db_not_valid);
     }
 
     //peek into preferences to see if there is a calendar configured
@@ -182,7 +176,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       CrashHandler.report(
           String.format(Locale.US, "Could not access shared preferences directory at %s",
               sharedPrefsDir.getAbsolutePath()));
-      return new Result(false, R.string.restore_preferences_failure);
+      return Result.ofFailure(R.string.restore_preferences_failure);
     }
     File tempPrefFile = new File(sharedPrefsDir, "backup_temp.xml");
     if (!FileCopyUtils.copy(backupPrefFile, tempPrefFile)) {
@@ -192,7 +186,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
           String.format("%s => %s",
               backupPrefFile.getAbsolutePath(),
               tempPrefFile.getAbsolutePath()));
-      return new Result(false, R.string.restore_preferences_failure);
+      return Result.ofFailure(R.string.restore_preferences_failure);
     }
     SharedPreferences backupPref =
         application.getSharedPreferences("backup_temp", 0);
@@ -200,9 +194,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       currentPlannerId = application.checkPlanner();
       currentPlannerPath = PrefKey.PLANNER_CALENDAR_PATH.getString("");
       if (currentPlannerId.equals("-1")) {
-        return new Result(
-            false,
-            R.string.restore_not_possible_local_calendar_missing);
+        return Result.ofFailure(R.string.restore_not_possible_local_calendar_missing);
       }
     } else if (restorePlanStrategy == R.id.restore_calendar_handling_backup) {
       boolean found = false;
@@ -219,7 +211,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
               new String[]{calendarPath},
               null);
         } catch (SecurityException e) {
-          return new Result(false, e.getMessage());
+          return Result.ofFailure(e.getMessage());
         }
         if (c != null) {
           if (c.moveToFirst()) {
@@ -229,15 +221,14 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
         }
       }
       if (!found) {
-        return new Result(
-            false,
+        return Result.ofFailure(
             R.string.restore_not_possible_target_calendar_missing,
             calendarPath);
       }
     }
 
     if (DbUtils.restore(backupFile)) {
-      publishProgress(new Result(true, R.string.restore_db_success));
+      publishProgress(Result.ofSuccess(R.string.restore_db_success));
 
       //since we already started reading settings, we can not just copy the file
       //unless I found a way
@@ -293,7 +284,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
         backupFile.delete();
         backupPrefFile.delete();
       }
-      publishProgress(new Result(true, R.string.restore_preferences_success));
+      publishProgress(Result.ofSuccess(R.string.restore_preferences_success));
       //if a user restores a backup we do not want past plan instances to flood the database
       PrefKey.PLANNER_LAST_EXECUTION_TIMESTAMP
           .putLong(System.currentTimeMillis());
@@ -327,7 +318,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
           new String[]{DatabaseConstants.KEY_ROWID, DatabaseConstants.KEY_PICTURE_URI},
           DatabaseConstants.KEY_PICTURE_URI + " IS NOT NULL", null, null);
       if (c == null)
-        return new Result(false, R.string.restore_db_failure);
+        return Result.ofFailure(R.string.restore_db_failure);
       if (c.moveToFirst()) {
         do {
           ContentValues uriValues = new ContentValues();
@@ -366,7 +357,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       }
       return Result.SUCCESS;
     } else {
-      return new Result(false, R.string.restore_db_failure);
+      return Result.ofFailure(R.string.restore_db_failure);
     }
   }
 
@@ -411,7 +402,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
         if (failed > 0) {
           message += application.getString(R.string.sync_state_could_not_be_restored, failed);
         }
-        result = new Result(true, message);
+        result = Result.ofSuccess(message);
         Account.checkSyncAccounts(application);
       }
       cursor.close();

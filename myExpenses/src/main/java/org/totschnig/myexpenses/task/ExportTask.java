@@ -18,7 +18,6 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.util.AppDirHelper;
-import org.totschnig.myexpenses.util.io.FileUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -155,19 +154,12 @@ public class ExportTask extends AsyncTask<Void, String, ArrayList<Uri>> {
             Utils.escapeForFileName(account.getLabel()) + "-" + new SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
                 .format(new Date()) :
             fileName;
-        Result result = new Exporter(account,filter, destDir, fileNameForAccount, format,
+        Result<Uri> result = new Exporter(account,filter, destDir, fileNameForAccount, format,
             notYetExportedP, dateFormat, decimalSeparator, encoding).export();
-        String progressMsg;
-        if (result.success) {
-          progressMsg = application.getString(result.getMessage(),
-              FileUtils.getPath(application, (Uri) result.extra[0]));
-        } else {
-          progressMsg = application.getString(result.getMessage(),result.extra);
-        }
-        publishProgress("... " + progressMsg);
-        if (result.success) {
+        publishProgress("... " + result.print(application));
+        if (result.isSuccess()) {
           if (PrefKey.PERFORM_SHARE.getBoolean(false)) {
-            addResult((Uri) result.extra[0]);
+            addResult(result.getExtra());
           }
           successfullyExported.add(account);
         }

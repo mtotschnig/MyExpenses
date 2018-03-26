@@ -17,6 +17,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.JobIntentService;
 import android.support.v4.provider.DocumentFile;
 
@@ -57,14 +58,11 @@ public class AutoBackupService extends JobIntentService {
   }
 
   @Override
-  protected void onHandleWork(Intent intent) {
-    if (intent == null) {
-      return;
-    }
+  protected void onHandleWork(@NonNull Intent intent) {
     String action = intent.getAction();
     if (ACTION_AUTO_BACKUP.equals(action)) {
-      Result result = BackupUtils.doBackup();
-      if (result.success) {
+      Result<DocumentFile> result = BackupUtils.doBackup();
+      if (result.isSuccess()) {
         int remaining = ContribFeature.AUTO_BACKUP.recordUsage();
         if (remaining < 1) {
           ContribUtils.showContribNotification(this, ContribFeature.AUTO_BACKUP);
@@ -74,9 +72,8 @@ public class AutoBackupService extends JobIntentService {
           Bundle bundle = new Bundle();
           bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
           bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-          DocumentFile documentFile = (DocumentFile) result.extra[0];
-          bundle.putString(SyncAdapter.KEY_UPLOAD_AUTO_BACKUP_URI, documentFile.getUri().toString());
-          bundle.putString(SyncAdapter.KEY_UPLOAD_AUTO_BACKUP_NAME, documentFile.getName());
+          bundle.putString(SyncAdapter.KEY_UPLOAD_AUTO_BACKUP_URI, result.getExtra().getUri().toString());
+          bundle.putString(SyncAdapter.KEY_UPLOAD_AUTO_BACKUP_NAME, result.getExtra().getName());
           ContentResolver.requestSync(GenericAccountService.GetAccount(syncAccount), TransactionProvider.AUTHORITY, bundle);
         }
       } else {

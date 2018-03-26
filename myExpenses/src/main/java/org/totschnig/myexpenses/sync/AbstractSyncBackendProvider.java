@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.webkit.MimeTypeMap;
 
+import com.annimon.stream.Exceptional;
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 import com.google.gson.Gson;
@@ -23,11 +24,10 @@ import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.sync.json.AdapterFactory;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
-import org.totschnig.myexpenses.util.io.FileCopyUtils;
 import org.totschnig.myexpenses.util.PictureDirHelper;
-import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.io.FileCopyUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -85,8 +85,8 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   protected abstract String getSharedPreferencesName();
 
   @Override
-  public Result setUp(String authToken) {
-    return Result.SUCCESS;
+  public Exceptional<Void> setUp(String authToken) {
+    return Exceptional.of(() -> null);
   }
 
   @Override

@@ -1,9 +1,7 @@
 package org.totschnig.myexpenses.activity;
 
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,6 +15,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.annimon.stream.Exceptional;
 import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -29,6 +28,7 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.task.RestoreTask;
+import org.totschnig.myexpenses.task.SyncAccountTask;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
 import org.totschnig.myexpenses.util.DistribHelper;
@@ -41,7 +41,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import icepick.Icepick;
 import icepick.State;
-import timber.log.Timber;
 
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_FETCH_SYNC_ACCOUNT_DATA;
@@ -173,25 +172,24 @@ public class SplashActivity extends SyncBackendSetupActivity {
   @Override
   public void onPostExecute(int taskId, Object o) {
     super.onPostExecute(taskId, o);
-    Result result = (Result) o;
     switch (taskId) {
       case TASK_CREATE_SYNC_ACCOUNT:
       case TASK_FETCH_SYNC_ACCOUNT_DATA: {
-        if (result.success) {
+        Exceptional<SyncAccountTask.Result> resultExceptional = (Exceptional<SyncAccountTask.Result>) o;
+        if (resultExceptional.isPresent()) {
           supportInvalidateOptionsMenu();
-          if (result.extra != null && result.extra.length > 2) {
-            accountName = (String) result.extra[0];
-            List<String> backupList = (List<String>) result.extra[1];
-            List<AccountMetaData> syncAccountList = (List<AccountMetaData>) result.extra[2];
-            if (backupList.size() > 0 || syncAccountList.size() > 0) {
-              RestoreFromCloudDialogFragment.newInstance(backupList, syncAccountList)
+          SyncAccountTask.Result result = resultExceptional.get();
+          if (result.backups != null && result.syncAccounts != null) {
+            accountName = result.accountName;
+            if (result.backups.size() > 0 || result.syncAccounts.size() > 0) {
+              RestoreFromCloudDialogFragment.newInstance(result.backups, result.syncAccounts)
                   .show(getSupportFragmentManager(), "RESTORE_FROM_CLOUD");
               break;
             }
           }
           showSnackbar("Neither backups nor sync accounts found");
         } else {
-          if (result.extra != null && result.extra.length > 0 && result.extra[0] instanceof PendingIntent) {
+         /* if (result.extra != null && result.extra.length > 0 && result.extra[0] instanceof PendingIntent) {
             try {
               startIntentSenderForResult(((PendingIntent) result.extra[0]).getIntentSender(), REQUEST_CODE_RESOLUTION, null, 0, 0, 0);
             } catch (IntentSender.SendIntentException e) {
@@ -199,12 +197,13 @@ public class SplashActivity extends SyncBackendSetupActivity {
             }
           } else {
             showSnackbar("Unable to set up account");
-          }
+          }*/
         }
         break;
       }
       case TASK_SETUP_FROM_SYNC_ACCOUNTS: {
-        if (result.success) {
+        Result result = (Result) o;
+        if (result.isSuccess()) {
           getStarted();
         }
         break;
@@ -239,7 +238,7 @@ public class SplashActivity extends SyncBackendSetupActivity {
     if (msg != null) {
       showSnackbar(msg, Snackbar.LENGTH_LONG);
     }
-    if (result.success) {
+    if (result.isSuccess()) {
       restartAfterRestore();
     }
   }

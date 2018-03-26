@@ -99,7 +99,7 @@ public class ShareUtils {
   }
 
   private static Result complain(String string) {
-    return new Result(false, string);
+    return Result.ofFailure(string);
   }
 
   @Nullable

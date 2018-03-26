@@ -386,7 +386,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
       case TaskExecutionFragment.TASK_DELETE_TEMPLATES:
       case TaskExecutionFragment.TASK_UNDELETE_TRANSACTION: {
         Result result = (Result) o;
-        if (!result.success) {
+        if (!result.isSuccess()) {
           showSnackbar("There was an error deleting the object. Please contact support@myexenses.mobi !",
               Snackbar.LENGTH_LONG);
         }
@@ -408,7 +408,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   protected void onPostRestoreTask(Result result) {
-    if (result.success) {
+    if (result.isSuccess()) {
       MyApplication.getInstance().getLicenceHandler().reset();
       // if the backup is password protected, we want to force the password
       // check

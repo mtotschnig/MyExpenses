@@ -17,56 +17,49 @@ public class BackupUtils {
   public static final String BACKUP_PREF_FILE_NAME = "BACKUP_PREF";
 
   @NonNull
-  public static Result doBackup() {
+  public static Result<DocumentFile> doBackup() {
     MyApplication application = MyApplication.getInstance();
     if (!AppDirHelper.isExternalStorageAvailable()) {
-      return new Result(false, R.string.external_storage_unavailable);
+      return Result.ofFailure(R.string.external_storage_unavailable);
     }
     DocumentFile appDir = AppDirHelper.getAppDir(application);
     if (appDir == null) {
-      return new Result(false, R.string.io_error_appdir_null);
+      return Result.ofFailure(R.string.io_error_appdir_null);
     }
     if (!AppDirHelper.isWritableDirectory(appDir)) {
-      return new Result(false, R.string.app_dir_not_accessible,
+      return Result.ofFailure(R.string.app_dir_not_accessible, null,
           FileUtils.getPath(application, appDir.getUri()));
     }
     DocumentFile backupFile = requireBackupFile(appDir);
     if (backupFile == null) {
-      return new Result(false, R.string.io_error_backupdir_null);
+      return Result.ofFailure(R.string.io_error_backupdir_null);
     }
     File cacheDir = AppDirHelper.getCacheDir();
     if (cacheDir == null) {
       CrashHandler.report(application.getString(R.string.io_error_cachedir_null));
-      return new Result(false, R.string.io_error_cachedir_null);
+      return Result.ofFailure(R.string.io_error_cachedir_null);
     }
     Result result = DbUtils.backup(cacheDir);
     String failureMessage = application.getString(R.string.backup_failure,
         FileUtils.getPath(application, backupFile.getUri()));
-    if (result.success) {
+    if (result.isSuccess()) {
       try {
         ZipUtils.zipBackup(
             cacheDir,
             backupFile);
-        return new Result(
-            true,
-            R.string.backup_success,
-            backupFile);
+        return Result.ofSuccess(R.string.backup_success, backupFile);
       } catch (IOException e) {
         CrashHandler.report(e);
-        return new Result(
-            false,
-            failureMessage + " " + e.getMessage());
+        return Result.ofFailure(failureMessage + " " + e.getMessage());
       } finally {
         getBackupDbFile(cacheDir).delete();
         getBackupPrefFile(cacheDir).delete();
       }
     }
-    return new Result(
-        false,
-        failureMessage + " " + result.print(application));
+    return Result.ofFailure(failureMessage + " " + result.print(application));
   }
 
-  public static DocumentFile requireBackupFile(@NonNull DocumentFile appDir) {
+  private static DocumentFile requireBackupFile(@NonNull DocumentFile appDir) {
     return AppDirHelper.timeStampedFile(appDir, "backup", "application/zip", false);
   }
 
