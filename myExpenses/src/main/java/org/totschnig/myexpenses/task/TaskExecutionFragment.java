@@ -30,12 +30,12 @@ import org.totschnig.myexpenses.fragment.CsvImportDataFragment;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable;
-import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Locale;
+
+import timber.log.Timber;
 
 
 /**
@@ -45,7 +45,10 @@ import java.util.Locale;
  */
 public class TaskExecutionFragment<T> extends Fragment {
   private static final String KEY_EXTRA = "extra";
+  @Deprecated
   public static final String KEY_OBJECT_IDS = "objectIds";
+  public static final String KEY_LONG_IDS = "longIds";
+  private static final String KEY_STRING_IDS = "stringIds";
   private static final String KEY_RUNNING = "running";
   private static final String KEY_TASKID = "taskId";
   public static final String KEY_WITH_PARTIES = "withParties";
@@ -91,6 +94,7 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_CHANGE_FRACTION_DIGITS = 28;
   public static final int TASK_TOGGLE_EXCLUDE_FROM_TOTALS = 29;
   public static final int TASK_SPLIT = 30;
+  public static final int TASK_REVOKE_SPLIT = 31;
   public static final int TASK_DELETE_IMAGES = 32;
   public static final int TASK_SAVE_IMAGES = 33;
   public static final int TASK_UNDELETE_TRANSACTION = 34;
@@ -149,7 +153,8 @@ public class TaskExecutionFragment<T> extends Fragment {
   //TODO refactor so that callbacks are not visible to hosted tasks
   TaskCallbacks mCallbacks;
 
-  public static <T> TaskExecutionFragment newInstance(int taskId, T[] objectIds,
+  @Deprecated
+  public static <T> TaskExecutionFragment<T> newInstance(int taskId, T[] objectIds,
                                                       Serializable extra) {
     TaskExecutionFragment<T> f = new TaskExecutionFragment<>();
     Bundle bundle = new Bundle();
@@ -273,8 +278,7 @@ public class TaskExecutionFragment<T> extends Fragment {
     // Create and execute the background task.
     Bundle args = getArguments();
     int taskId = args.getInt(KEY_TASKID);
-    crashHandler.addBreadcrumb(String.format(Locale.ROOT, "%d (%s)",
-        taskId, Utils.printDebug((Object[]) args.getSerializable(KEY_OBJECT_IDS))));
+    crashHandler.addBreadcrumb(String.valueOf(taskId));
     switch (taskId) {
       case TASK_GRISBI_IMPORT:
         new GrisbiImportTask(this, args).execute();
@@ -324,13 +328,15 @@ public class TaskExecutionFragment<T> extends Fragment {
       case TASK_SPLIT:
         new SplitCommandTask(this, taskId).execute(args);
         break;
+      case TASK_REVOKE_SPLIT:
+        new RevokeSplitCommandTask(this, taskId).execute(args);
+        break;
       default:
         try {
           new GenericTask<T>(this, taskId, args.getSerializable(KEY_EXTRA))
               .execute((T[]) args.getSerializable(KEY_OBJECT_IDS));
         } catch (ClassCastException e) {
-          // the cast could fail, if Fragment is recreated,
-          // but we are cancelling above in that case
+          Timber.e(e);
         }
     }
   }

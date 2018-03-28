@@ -713,11 +713,11 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     showSnackbar(getText(message), duration);
   }
 
-  public void showSnackbar(CharSequence message, int duration) {
+  public void showSnackbar(@NonNull CharSequence message, int duration) {
     showSnackbar(message, duration, false);
   }
 
-  public void showSnackbar(CharSequence message, int duration, boolean dismissable) {
+  public void showSnackbar(@NonNull CharSequence message, int duration, boolean dismissable) {
     View container = findViewById(getSnackbarContainerId());
     if (container == null) {
       CrashHandler.report(String.format("Class %s is unable to display snackbar", getClass()));

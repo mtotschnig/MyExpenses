@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.util;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import org.totschnig.myexpenses.R;
@@ -117,8 +118,9 @@ public class Result<T> {
     return new Result<>(false, message, null, messasgeArguments);
   }
 
-  @Nullable
+  @NonNull
   public String print(Context ctx) {
-    return message == 0 ? messageString : ctx.getString(message, (Object[]) messageArguments);
+    return message == 0 ? (messageString == null ? "null" : messageString) :
+        (ctx.getString(message, (Object[]) messageArguments));
   }
 }

@@ -147,6 +147,7 @@ public class TransactionProvider extends ContentProvider {
   public static final String QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES = "mergeCurrencyAggregates";
   public static final String QUERY_PARAMETER_EXTENDED = "extended";
   public static final String QUERY_PARAMETER_DISTINCT = "distinct";
+  public static final String QUERY_PARAMETER_GROUP_BY = "groupBy";
   public static final String QUERY_PARAMETER_MARK_VOID = "markVoid";
   public static final String QUERY_PARAMETER_WITH_PLAN_INFO = "withPlanInfo";
   public static final String QUERY_PARAMETER_INIT = "init";
@@ -244,7 +245,7 @@ public class TransactionProvider extends ContentProvider {
     Cursor c;
 
     Timber.d("Query for URL: %s", uri);
-    String groupBy = null;
+    String groupBy = uri.getQueryParameter(QUERY_PARAMETER_GROUP_BY);
     String having = null;
     String limit = null;
 
@@ -1510,18 +1511,24 @@ public class TransactionProvider extends ContentProvider {
   @Nullable
   @Override
   public Bundle call(@NonNull String method, @Nullable String arg, @Nullable Bundle extras) {
-    if (method.equals(METHOD_INIT)) {
-      mOpenHelper.getReadableDatabase();
-    }
-    else if (method.equals(METHOD_BULK_START)) {
-      bulkInProgress = true;
-    } else if (method.equals(METHOD_BULK_END)) {
-      bulkInProgress = false;
-      notifyChange(TRANSACTIONS_URI, true);
-      notifyChange(ACCOUNTS_URI, true);
-      notifyChange(CATEGORIES_URI, true);
-      notifyChange(PAYEES_URI, true);
-      notifyChange(METHODS_URI, true);
+    switch (method) {
+      case METHOD_INIT: {
+        mOpenHelper.getReadableDatabase();
+        break;
+      }
+      case METHOD_BULK_START: {
+        bulkInProgress = true;
+        break;
+      }
+      case METHOD_BULK_END: {
+        bulkInProgress = false;
+        notifyChange(TRANSACTIONS_URI, true);
+        notifyChange(ACCOUNTS_URI, true);
+        notifyChange(CATEGORIES_URI, true);
+        notifyChange(PAYEES_URI, true);
+        notifyChange(METHODS_URI, true);
+        break;
+      }
     }
     return null;
   }

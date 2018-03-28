@@ -20,6 +20,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,20 +37,21 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED
 
 public class BalanceDialogFragment extends CommitSafeDialogFragment implements OnClickListener {
   
-  public static final BalanceDialogFragment newInstance(Bundle bundle) {
+  public static BalanceDialogFragment newInstance(Bundle bundle) {
     BalanceDialogFragment dialogFragment = new BalanceDialogFragment();
     dialogFragment.setArguments(bundle);
     return dialogFragment;
   }
+  @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     final LayoutInflater li = LayoutInflater.from(getActivity());
     //noinspection InflateParams
     View view = li.inflate(R.layout.balance, null);
-    TextView reconciledTextView = (TextView) view.findViewById(R.id.TotalReconciled);
+    TextView reconciledTextView = view.findViewById(R.id.TotalReconciled);
     UiUtils.configureAmountTextViewForHebrew(reconciledTextView);
     reconciledTextView.setText(getArguments().getString(KEY_RECONCILED_TOTAL));
-    TextView clearedTextView = (TextView) view.findViewById(R.id.TotalCleared);
+    TextView clearedTextView = view.findViewById(R.id.TotalCleared);
     UiUtils.configureAmountTextViewForHebrew(clearedTextView);
     clearedTextView.setText(getArguments().getString(KEY_CLEARED_TOTAL));
     return new AlertDialog.Builder(getActivity())
@@ -66,9 +68,7 @@ public class BalanceDialogFragment extends CommitSafeDialogFragment implements O
       return;
     }
     Bundle b = getArguments();
-    b.putBoolean("deleteP",
-        ((CheckBox) ((AlertDialog) dialog).findViewById(R.id.balance_delete)).isChecked());
     b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.BALANCE_COMMAND_DO);
-    ctx.onPositive(b);
+    ctx.onPositive(b, ((CheckBox) ((AlertDialog) dialog).findViewById(R.id.balance_delete)).isChecked());
   }
 }

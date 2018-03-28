@@ -145,6 +145,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_METHODS
 import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_PAYEES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.KEY_LONG_IDS;
 
 //TODO: consider moving to ListFragment
 public class TransactionList extends ContextualActionBarFragment implements
@@ -332,9 +333,9 @@ public class TransactionList extends ContextualActionBarFragment implements
   public boolean dispatchCommandMultiple(int command,
                                          SparseBooleanArray positions, Long[] itemIds) {
     MyExpenses ctx = (MyExpenses) getActivity();
-    FragmentManager fm = ctx.getSupportFragmentManager();
+    FragmentManager fm = getFragmentManager();
     switch (command) {
-      case R.id.DELETE_COMMAND:
+      case R.id.DELETE_COMMAND: {
         boolean hasReconciled = false, hasNotVoid = false;
         for (int i = 0; i < positions.size(); i++) {
           if (positions.valueAt(i)) {
@@ -373,19 +374,22 @@ public class TransactionList extends ContextualActionBarFragment implements
               R.string.mark_void_instead_of_delete);
         }
         b.putLongArray(TaskExecutionFragment.KEY_OBJECT_IDS, ArrayUtils.toPrimitive(itemIds));
-        ConfirmationDialogFragment.newInstance(b)
-            .show(getFragmentManager(), "DELETE_TRANSACTION");
+        ConfirmationDialogFragment.newInstance(b).show(fm, "DELETE_TRANSACTION");
         return true;
-/*    case R.id.CLONE_TRANSACTION_COMMAND:
-      ctx.startTaskExecution(
-          TaskExecutionFragment.TASK_CLONE,
-          itemIds,
-          null,
-          0);
-      break;*/
+      }
       case R.id.SPLIT_TRANSACTION_COMMAND:
-        ctx.contribFeatureRequested(ContribFeature.SPLIT_TRANSACTION, itemIds);
+        ctx.contribFeatureRequested(ContribFeature.SPLIT_TRANSACTION, ArrayUtils.toPrimitive(itemIds));
         break;
+      case R.id.UNGROUP_SPLIT_COMMAND: {
+        Bundle b = new Bundle();
+        b.putString(ConfirmationDialogFragment.KEY_MESSAGE, getString(R.string.warning_ungroup_split_transactions));
+        b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.UNGROUP_SPLIT_COMMAND);
+        b.putInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE, R.id.CANCEL_CALLBACK_COMMAND);
+        b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_ungroup_split_transaction);
+        b.putLongArray(KEY_LONG_IDS, ArrayUtils.toPrimitive(itemIds));
+        ConfirmationDialogFragment.newInstance(b).show(fm, "UNSPLIT_TRANSACTION");
+        return true;
+      }
       case R.id.UNDELETE_COMMAND:
         ctx.startTaskExecution(
             TaskExecutionFragment.TASK_UNDELETE_TRANSACTION,
@@ -777,27 +781,35 @@ public class TransactionList extends ContextualActionBarFragment implements
   protected void configureMenuLegacy(Menu menu, ContextMenuInfo menuInfo, int listId) {
     super.configureMenuLegacy(menu, menuInfo, listId);
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
-    configureMenuInternal(menu, isSplitAtPosition(info.position), isVoidAtPosition(info.position), 1);
+    final boolean hasSplit = isSplitAtPosition(info.position);
+    configureMenuInternal(menu, hasSplit, isVoidAtPosition(info.position), !hasSplit, 1);
   }
 
   @Override
   protected void configureMenu11(Menu menu, int count, AbsListView lv) {
     super.configureMenu11(menu, count, lv);
     SparseBooleanArray checkedItemPositions = lv.getCheckedItemPositions();
-    boolean hasSplit = false, hasNotVoid = false;
+    boolean hasSplit = false, hasVoid = false, hasNotSplit = false;
     for (int i = 0; i < checkedItemPositions.size(); i++) {
-      if (checkedItemPositions.valueAt(i) && isSplitAtPosition(checkedItemPositions.keyAt(i))) {
-        hasSplit = true;
+      if (checkedItemPositions.valueAt(i))
+        if (isSplitAtPosition(checkedItemPositions.keyAt(i))) {
+          hasSplit = true;
+        } else {
+          hasNotSplit = true;
+        }
+      if (isVoidAtPosition(checkedItemPositions.keyAt(i))) {
+        hasVoid = true;
         break;
       }
     }
     for (int i = 0; i < checkedItemPositions.size(); i++) {
-      if (checkedItemPositions.valueAt(i) && isVoidAtPosition(checkedItemPositions.keyAt(i))) {
-        hasNotVoid = true;
-        break;
-      }
+      if (checkedItemPositions.valueAt(i))
+        if (isVoidAtPosition(checkedItemPositions.keyAt(i))) {
+          hasVoid = true;
+          break;
+        }
     }
-    configureMenuInternal(menu, hasSplit, hasNotVoid, count);
+    configureMenuInternal(menu, hasSplit, hasVoid, hasNotSplit, count);
   }
 
   private boolean isSplitAtPosition(int position) {
@@ -827,9 +839,10 @@ public class TransactionList extends ContextualActionBarFragment implements
     return false;
   }
 
-  private void configureMenuInternal(Menu menu, boolean hasSplit, boolean hasVoid, int count) {
+  private void configureMenuInternal(Menu menu, boolean hasSplit, boolean hasVoid, boolean hasNotSplit, int count) {
     menu.findItem(R.id.CREATE_TEMPLATE_COMMAND).setVisible(count == 1);
     menu.findItem(R.id.SPLIT_TRANSACTION_COMMAND).setVisible(!hasSplit && !hasVoid);
+    menu.findItem(R.id.UNGROUP_SPLIT_COMMAND).setVisible(!hasNotSplit && !hasVoid);
     menu.findItem(R.id.UNDELETE_COMMAND).setVisible(hasVoid);
     menu.findItem(R.id.EDIT_COMMAND).setVisible(count == 1 && !hasVoid);
   }

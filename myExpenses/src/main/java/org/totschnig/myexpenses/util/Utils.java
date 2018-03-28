@@ -653,13 +653,13 @@ public class Utils {
     if (objects == null) {
       return "null";
     }
-    String result = "";
+    StringBuilder result = new StringBuilder();
     for (Object object : objects) {
-      if (!result.equals(""))
-        result += ",";
-      result += (object == null ? "null" : object.toString());
+      if (!result.toString().equals(""))
+        result.append(",");
+      result.append(object == null ? "null" : object.toString());
     }
-    return result;
+    return result.toString();
   }
 
   /**

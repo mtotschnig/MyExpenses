@@ -119,7 +119,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GRO
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.KEY_OBJECT_IDS;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.KEY_LONG_IDS;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_EXPORT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_PRINT;
 
@@ -693,9 +693,13 @@ public class MyExpenses extends LaunchActivity implements
       }
       case SPLIT_TRANSACTION: {
         if (tag != null) {
-          Bundle args = new Bundle();
-          args.putLongArray(KEY_OBJECT_IDS, (long[]) tag);
-          startTaskExecution(TaskExecutionFragment.TASK_SPLIT, args, R.string.progress_dialog_saving);
+          Bundle b = new Bundle();
+          b.putString(ConfirmationDialogFragment.KEY_MESSAGE, getString(R.string.warning_split_transactions));
+          b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.SPLIT_TRANSACTION_COMMAND);
+          b.putInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE, R.id.CANCEL_CALLBACK_COMMAND);
+          b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_split_transaction);
+          b.putLongArray(KEY_LONG_IDS, (long[]) tag);
+          ConfirmationDialogFragment.newInstance(b).show(getSupportFragmentManager(), "SPLIT_TRANSACTION");
         }
         break;
       }
@@ -870,11 +874,10 @@ public class MyExpenses extends LaunchActivity implements
     String msg;
     super.onPostExecute(taskId, o);
     switch (taskId) {
-      case TaskExecutionFragment.TASK_SPLIT: {
-        /*Result result = (Result) o;
-        msg = result.isSuccess() ? getResources().getQuantityString(R.plurals.split_transaction_success, successCount, successCount) :
-            getString(R.string.split_transaction_error);
-        showSnackbar(msg, Snackbar.LENGTH_LONG);*/
+      case TaskExecutionFragment.TASK_SPLIT:
+      case TaskExecutionFragment.TASK_REVOKE_SPLIT: {
+        Result result = (Result) o;
+        showSnackbar(result.print(this), Snackbar.LENGTH_LONG);
         break;
       }
       case TaskExecutionFragment.TASK_EXPORT: {
@@ -996,27 +999,39 @@ public class MyExpenses extends LaunchActivity implements
                 R.string.pref_category_title_export, 0, ProgressDialog.STYLE_SPINNER, true), PROGRESS_TAG)
             .commit();
         break;
-      case R.id.BALANCE_COMMAND_DO:
-        startTaskExecution(TaskExecutionFragment.TASK_BALANCE,
-            new Long[]{args.getLong(KEY_ROWID)},
-            args.getBoolean("deleteP"), 0);
-        break;
       case R.id.DELETE_COMMAND_DO:
         //Confirmation dialog was shown without Checkbox, because it was called with only void transactions
         onPositive(args, false);
+        break;
+      case R.id.SPLIT_TRANSACTION_COMMAND: {
+        startTaskExecution(TaskExecutionFragment.TASK_SPLIT, args, R.string.progress_dialog_saving);
+        break;
+      }
+      case R.id.UNGROUP_SPLIT_COMMAND: {
+        startTaskExecution(TaskExecutionFragment.TASK_REVOKE_SPLIT, args, R.string.progress_dialog_saving);
+        break;
+      }
     }
   }
 
   @Override
   public void onPositive(Bundle args, boolean checked) {
     switch (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
-      case R.id.DELETE_COMMAND_DO:
+      case R.id.DELETE_COMMAND_DO: {
         finishActionMode();
         startTaskExecution(
             TaskExecutionFragment.TASK_DELETE_TRANSACTION,
             ArrayUtils.toObject(args.getLongArray(TaskExecutionFragment.KEY_OBJECT_IDS)),
-            Boolean.valueOf(checked),
+            checked,
             R.string.progress_dialog_deleting);
+        break;
+      }
+      case R.id.BALANCE_COMMAND_DO: {
+        startTaskExecution(TaskExecutionFragment.TASK_BALANCE,
+            new Long[]{args.getLong(KEY_ROWID)},
+            checked, 0);
+        break;
+      }
     }
   }
 
