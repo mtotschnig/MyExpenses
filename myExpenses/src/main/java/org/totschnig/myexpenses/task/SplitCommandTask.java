@@ -2,12 +2,12 @@ package org.totschnig.myexpenses.task;
 
 import android.os.Bundle;
 
-import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.SplitTransaction;
 import org.totschnig.myexpenses.util.Result;
 
+import static org.totschnig.myexpenses.util.Result.FAILURE;
+
 class SplitCommandTask extends ExtraTask<Result> {
-  Result FAILURE = Result.ofFailure(R.string.split_transaction_error);
   SplitCommandTask(TaskExecutionFragment tTaskExecutionFragment, int taskId) {
     super(tTaskExecutionFragment, taskId);
   }

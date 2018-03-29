@@ -24,11 +24,8 @@
   <string name="backup_failure">Неуспешeн бекъп в \"%1$s\".</string>
   <string name="backup_success">База данни и предпочитания са записани успешно в \"%1$s\".</string>
   <string name="category">Категория</string>
-  <string name="split_transaction_error">Не мога да преобразувам транзакцията в разпределена.</string>
-  <plurals name="split_transaction_success">
-    <item quantity="one">Транзакцията е успешно преобразувана в разпределена.</item>
-    <item quantity="other">Успешно преобразувани в разпределени %1$d транзакции.</item>
-  </plurals>
+  <string name="split_transaction_one_error">Не мога да преобразувам транзакцията в разпределена.</string>
+  <string name="split_transaction_one_success">Транзакцията е успешно преобразувана в разпределена.</string>
   <string name="color">Цвят</string>
   <string name="comment">Бележка</string>
   <string name="confirmation_dialog_dont_show_again">Не показвай отново</string>

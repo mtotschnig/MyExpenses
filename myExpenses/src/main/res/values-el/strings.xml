@@ -24,11 +24,8 @@
   <string name="backup_failure">Απέτυχε η δημιουργία αντιγράφων ασφαλείας σε sdcard (%1$s).</string>
   <string name="backup_success">Βάση δεδομένων και προτιμήσεις εγγεγραμένα με επιτυχία να sdcard (%1$s).</string>
   <string name="category">Κατηγορία</string>
-  <string name="split_transaction_error">Δεν μπόρεσε να μετατραπεί η συναλλαγή για διάσπαση.</string>
-  <plurals name="split_transaction_success">
-    <item quantity="one">συνναλλαγή μετατράπηκε επιτυχώς σε διασπασμένη</item>
-    <item quantity="other">%1$d συνναλλαγές μετατράπηκαν επιτυχώς σε διασπασμένες</item>
-  </plurals>
+  <string name="split_transaction_one_error">Δεν μπόρεσε να μετατραπεί η συναλλαγή για διάσπαση.</string>
+  <string name="split_transaction_one_success">συνναλλαγή μετατράπηκε επιτυχώς σε διασπασμένη</string>
   <string name="color">Χρώμα</string>
   <string name="comment">Σημειώσεις</string>
   <string name="confirmation_dialog_dont_show_again">Να μην εμφανιστεί ξανά</string>

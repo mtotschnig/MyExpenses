@@ -24,7 +24,7 @@
   <string name="backup_failure">Wykonanie kopii zapasowej na kartę pamięci nie powiodło się (%1$s).</string>
   <string name="backup_success">Baza danych oraz preferencje zostały zapisane na kartę pamięci pomyślnie (%1$s).</string>
   <string name="category">Kategoria</string>
-  <string name="split_transaction_error">Zamiana transakcji w podział nie była możliwa</string>
+  <string name="split_transaction_one_error">Zamiana transakcji w podział nie była możliwa</string>
   <string name="color">Kolor</string>
   <string name="comment">Notatki</string>
   <string name="confirmation_dialog_dont_show_again">Nie pokazuj ponownie</string>

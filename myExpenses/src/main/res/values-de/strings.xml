@@ -24,11 +24,8 @@
   <string name="backup_failure">Das Backup nach \"%1$s\" ist gescheitert.</string>
   <string name="backup_success">Die Datenbank und die Einstellungen wurden erfolgreich nach \"%1$s\" gesichert.</string>
   <string name="category">Kategorie</string>
-  <string name="split_transaction_error">Die Buchung konnte nicht gesplittet werden. </string>
-  <plurals name="split_transaction_success">
-    <item quantity="one">Die Buchung wurde erfolgreich gesplittet.</item>
-    <item quantity="other">%1$d Buchungen wurden erfolgreich gesplittet.</item>
-  </plurals>
+  <string name="split_transaction_one_error">Die Buchung konnte nicht gesplittet werden. </string>
+  <string name="split_transaction_one_success">Die Buchung wurde erfolgreich gesplittet.</string>
   <string name="color">Farbe</string>
   <string name="comment">Notizen</string>
   <string name="confirmation_dialog_dont_show_again">Nicht mehr anzeigen</string>

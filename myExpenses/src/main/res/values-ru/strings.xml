@@ -24,13 +24,8 @@
   <string name="backup_failure">Резервная копия в \"%1$s\" не удалась.</string>
   <string name="backup_success">БД и настройки успешно сохранены в \"%1$s\".</string>
   <string name="category">Категория</string>
-  <string name="split_transaction_error">Невозможно преобразовать операцию в разделенную.</string>
-  <plurals name="split_transaction_success">
-    <item quantity="one">Операция успешно разделена.</item>
-    <item quantity="few">%1$d операции были успешно разделены.</item>
-    <item quantity="many">%1$d операции были успешно разделены.</item>
-    <item quantity="other">%1$d операции были успешно разделены.</item>
-  </plurals>
+  <string name="split_transaction_one_error">Невозможно преобразовать операцию в разделенную.</string>
+  <string name="split_transaction_one_success">Операция успешно разделена.</string>
   <string name="color">Цвет</string>
   <string name="comment">Заметки</string>
   <string name="confirmation_dialog_dont_show_again">Не показывать снова</string>

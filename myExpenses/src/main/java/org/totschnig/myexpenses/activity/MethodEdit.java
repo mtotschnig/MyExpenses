@@ -33,6 +33,8 @@ import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.ui.SpinnerHelper;
 
+import java.util.NoSuchElementException;
+
 /**
  * Activity for editing an account
  * @author Michael Totschnig
@@ -98,7 +100,6 @@ public class MethodEdit extends EditActivity implements CompoundButton.OnChecked
     mPaymentTypeSpinner.setSelection(paymentType +1);
     //add one checkbox for each account type
     AppCompatCheckBox cb;
-    @IdRes int cbId = 1;
     TextView accountTypesLabel = (TextView) findViewById(R.id.AccountTypesLabel);
     for (AccountType accountType : AccountType.values()) {
       cb = new AppCompatCheckBox(this);
@@ -106,12 +107,27 @@ public class MethodEdit extends EditActivity implements CompoundButton.OnChecked
       cb.setTag(accountType);
       cb.setChecked(mMethod.isValidForAccountType(accountType));
       //setting Id makes state be retained on orientation change 
-      cb.setId(cbId);
+      cb.setId(getCheckBoxId(accountType));
       cb.setOnCheckedChangeListener(this);
       linkInputWithLabel(cb,accountTypesLabel);
       mAccountTypesGrid.addView(cb);
-      cbId++;
     }
+  }
+
+  private @IdRes int getCheckBoxId(AccountType accountType) {
+    switch (accountType) {
+      case CASH:
+        return R.id.AccountTypeCheckboxCash;
+      case BANK:
+        return R.id.AccountTypeCheckboxBank;
+      case CCARD:
+        return R.id.AccountTypeCheckboxCcard;
+      case ASSET:
+        return R.id.AccountTypeCheckboxAsset;
+      case LIABILITY:
+        return R.id.AccountTypeCheckboxLiability;
+    }
+    throw new NoSuchElementException();
   }
 
   protected void saveState() {

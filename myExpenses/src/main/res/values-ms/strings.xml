@@ -24,10 +24,7 @@
   <string name="backup_failure">Sandar ke \"%1$s\" mengalami kegagalan.</string>
   <string name="backup_success">Pengkalan data dan keutamaan berjaya ditulis ke \"%1$s\".</string>
   <string name="category">Kategori</string>
-  <string name="split_transaction_error">Tidak dapat ubah transaksi untuk pengasingan.</string>
-  <plurals name="split_transaction_success">
-    <item quantity="other">%1$d transaksi berjaya diubah untuk diasingkan.</item>
-  </plurals>
+  <string name="split_transaction_one_error">Tidak dapat ubah transaksi untuk pengasingan.</string>
   <string name="color">Warna</string>
   <string name="comment">Nota</string>
   <string name="confirmation_dialog_dont_show_again">Jangan tunjuk lagi</string>

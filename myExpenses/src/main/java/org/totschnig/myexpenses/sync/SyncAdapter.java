@@ -176,7 +176,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       authToken = accountManager.blockingGetAuthToken(account, GenericAccountService.Authenticator.AUTH_TOKEN_TYPE,
           true);
     } catch (OperationCanceledException | IOException | AuthenticatorException e) {
-      log().e("Error getting auth token.", e);
+      log().w(e,"Error getting auth token.");
       syncResult.stats.numAuthExceptions++;
       return;
     }

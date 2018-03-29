@@ -66,7 +66,7 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
       String authToken = accountManager.blockingGetAuthToken(account, GenericAccountService.Authenticator.AUTH_TOKEN_TYPE, true);
       return setUp(authToken).isPresent();
     } catch (OperationCanceledException | IOException | AuthenticatorException e) {
-      Timber.e("Error getting auth token.", e);
+      Timber.w(e,"Error getting auth token.");
       return false;
     }
   }
