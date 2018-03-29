@@ -257,7 +257,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
       }
       case R.string.donate_button_invoice: {
         intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("plain/text");
+        intent.setType("message/rfc822");
         intent.putExtra(Intent.EXTRA_EMAIL, new String[]{MyApplication.INVOICES_EMAIL});
         String packageLabel = aPackage.getButtonLabel(this);
         intent.putExtra(Intent.EXTRA_SUBJECT,
