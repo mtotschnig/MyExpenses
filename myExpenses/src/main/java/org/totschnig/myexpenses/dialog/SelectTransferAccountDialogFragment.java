@@ -16,10 +16,8 @@
 package org.totschnig.myexpenses.dialog;
 
 import android.net.Uri;
-import android.os.Bundle;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.Criteria;
 import org.totschnig.myexpenses.provider.filter.TransferCriteria;
@@ -39,15 +37,10 @@ public class SelectTransferAccountDialogFragment extends SelectFromMappedTableDi
   Uri getUri() {
     return TransactionProvider.MAPPED_TRANSFER_ACCOUNTS_URI;
   }
-  /**
-   * @param account_id
-   * @return
-   */
-  public static final SelectTransferAccountDialogFragment newInstance(long account_id) {
+
+  public static final SelectTransferAccountDialogFragment newInstance(long rowId) {
     SelectTransferAccountDialogFragment dialogFragment = new SelectTransferAccountDialogFragment();
-    Bundle args = new Bundle();
-    args.putLong(DatabaseConstants.KEY_ACCOUNTID, account_id);
-    dialogFragment.setArguments(args);
+    setArguments(dialogFragment, rowId);
     return dialogFragment;
   }
   @Override
