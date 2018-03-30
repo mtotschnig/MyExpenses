@@ -135,7 +135,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITT
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 71;
+  public static final int DATABASE_VERSION = 72;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -1639,6 +1639,25 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         db.execSQL("ALTER TABLE changes add column original_currency text");
         db.execSQL("ALTER TABLE changes add column equivalent_amount integer");
         createOrRefreshChangelogTriggers(db);
+      }
+      if (oldVersion < 72) {
+        //add new change type
+        db.execSQL("ALTER TABLE changes RENAME to changes_old");
+        db.execSQL("CREATE TABLE changes ( account_id integer not null references accounts(_id) ON DELETE CASCADE, " +
+            "type text not null check (type in ('created','updated','deleted','unsplit')), " +
+            "sync_sequence_local integer, uuid text not null, timestamp datetime DEFAULT (strftime('%s','now')), " +
+            "parent_uuid text, comment text, date datetime, " +
+            "amount integer, original_amount integer, original_currency text, equivalent_amount integer, " +
+            "cat_id integer references categories(_id) ON DELETE SET NULL, " +
+            "payee_id integer references payee(_id) ON DELETE SET NULL, " +
+            "transfer_account integer references accounts(_id) ON DELETE SET NULL, " +
+            "method_id integer references paymentmethods(_id), " +
+            "cr_status text check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED','VOID')), " +
+            "number text, picture_id text)");
+        db.execSQL("INSERT INTO changes " +
+                  "(account_id, type, sync_sequence_local, uuid, timestamp, parent_uuid, comment, date, amount, original_amount, original_currency, equivalent_amount, cat_id, payee_id, transfer_account, method_id, cr_status, number, picture_id)" +
+            "SELECT account_id, type, sync_sequence_local, uuid, timestamp, parent_uuid, comment, date, amount, original_amount, original_currency, equivalent_amount, cat_id, payee_id, transfer_account, method_id, cr_status, number, picture_id FROM changes_old");
+        db.execSQL("DROP TABLE changes_old");
       }
     } catch (SQLException e) {
       throw Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN) ?
