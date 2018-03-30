@@ -18,8 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
-  <string-array name="whats_new_2891">
-    <item>@string/bug_fixes</item>
+  <string-array name="whats_new_290">
+    <item>Multiple transactions can be grouped into one split transaction.</item>
+    <item>Split transaction can be ungrouped.</item>
   </string-array>
   <string-array name="whats_new_289">
     <item>Conversion between foreign currencies and home currency</item>
