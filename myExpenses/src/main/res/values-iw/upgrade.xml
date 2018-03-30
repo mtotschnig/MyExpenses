@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_289">
+    <item>המרה בין מטבעות זרים למטבע ביתי</item>
+  </string-array>
   <string-array name="whats_new_288">
     <item>תרשים היסטוריה (תזרים מזומנים)</item>
   </string-array>
