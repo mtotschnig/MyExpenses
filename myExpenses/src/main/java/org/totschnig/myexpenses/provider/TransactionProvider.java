@@ -1440,30 +1440,29 @@ public class TransactionProvider extends ContentProvider {
         break;
       }
       case UNSPLIT: {
-        segment = uri.getPathSegments().get(1);
+        String uuid = values.getAsString(KEY_UUID);
 
-        final String subselectTemplate = "(SELECT %1$s FROM %2$s parent WHERE %3$s = %2$s.%4$s)";
-        String crStatusSubSelect = (String.format(Locale.ROOT, subselectTemplate,
-          KEY_CR_STATUS, TABLE_TRANSACTIONS, KEY_ROWID, KEY_PARENTID));
-        String payeeIdSubSelect = (String.format(Locale.ROOT, subselectTemplate,
-            KEY_PAYEEID, TABLE_TRANSACTIONS, KEY_ROWID, KEY_PARENTID));
-        String sequenceNumberSubSelect = String.format(Locale.ROOT, "(SELECT %1$s FROM %2$s WHERE %3$s = %4$s)",
-            KEY_SYNC_SEQUENCE_LOCAL, TABLE_ACCOUNTS, KEY_ROWID, KEY_ACCOUNTID);
-        final String[] bindArgs = {segment};
+        final String subselectTemplate = String.format("(SELECT %%1$s FROM %s WHERE %s = ?)", TABLE_TRANSACTIONS, KEY_UUID);
+        String crStatusSubSelect = String.format(Locale.ROOT, subselectTemplate, KEY_CR_STATUS);
+        String payeeIdSubSelect = String.format(Locale.ROOT, subselectTemplate, KEY_PAYEEID);
+        String rowIdSubSelect = String.format(Locale.ROOT, subselectTemplate, KEY_ROWID);
+        String accountIdSubSelect = String.format(Locale.ROOT, subselectTemplate, KEY_ACCOUNTID);
 
         try {
           db.beginTransaction();
           pauseChangeTrigger(db);
           //parts are promoted to independence
-          db.execSQL(String.format(Locale.ROOT, "UPDATE %s SET %s = null, %s = %s, %s = %s WHERE %s = ? ",
-              TABLE_TRANSACTIONS, KEY_PARENTID, KEY_CR_STATUS, crStatusSubSelect, KEY_PAYEEID, payeeIdSubSelect, KEY_PARENTID),
-              bindArgs) ;
+          db.execSQL(String.format(Locale.ROOT, "UPDATE %s SET %s = null, %s = %s, %s = %s WHERE %s = %s ",
+              TABLE_TRANSACTIONS, KEY_PARENTID, KEY_CR_STATUS, crStatusSubSelect, KEY_PAYEEID, payeeIdSubSelect, KEY_PARENTID, rowIdSubSelect),
+              new String[]{uuid, uuid, uuid}) ;
           //Change is recorded
-          db.execSQL(String.format(Locale.ROOT, "INSERT INTO %1$s (%2$s, %3$s, %4$s, %5$s) SELECT '%6$s', %3$s, %7$s, %5$s FROM %8$s WHERE %9$s = ?",
-              TABLE_CHANGES, KEY_TYPE, KEY_ACCOUNTID, KEY_SYNC_SEQUENCE_LOCAL, KEY_UUID,
-              TransactionChange.Type.unsplit.name(),  sequenceNumberSubSelect, TABLE_TRANSACTIONS, KEY_ROWID), bindArgs);
+          if (callerIsNotSyncAdatper(uri)) {
+            db.execSQL(String.format(Locale.ROOT, "INSERT INTO %1$s (%2$s, %3$s, %4$s, %5$s) SELECT '%6$s', %7$s, %4$s, ? FROM %8$s WHERE %7$s = %9$s",
+                TABLE_CHANGES, KEY_TYPE, KEY_ACCOUNTID, KEY_SYNC_SEQUENCE_LOCAL, KEY_UUID,
+                TransactionChange.Type.unsplit.name(), KEY_ROWID, TABLE_ACCOUNTS, accountIdSubSelect), new String[]{uuid, uuid});
+          }
           //parent is deleted
-          count = db.delete(TABLE_TRANSACTIONS, KEY_ROWID + " = ?", bindArgs);
+          count = db.delete(TABLE_TRANSACTIONS, KEY_UUID + " = ?", new String[]{uuid});
           resumeChangeTrigger(db);
           db.setTransactionSuccessful();
         } finally {
@@ -1576,7 +1575,8 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_MOVE + "/#", TRANSACTION_MOVE);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_TOGGLE_CRSTATUS, TRANSACTION_TOGGLE_CRSTATUS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_UNDELETE, TRANSACTION_UNDELETE);
-    URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_UNSPLIT, UNSPLIT);
+    //uses uuid in order to be usable from sync adapter
+    URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_UNSPLIT, UNSPLIT);
     URI_MATCHER.addURI(AUTHORITY, "categories", CATEGORIES);
     URI_MATCHER.addURI(AUTHORITY, "categories/#", CATEGORY_ID);
     URI_MATCHER.addURI(AUTHORITY, "accounts", ACCOUNTS);

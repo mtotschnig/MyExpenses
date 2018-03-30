@@ -632,6 +632,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             .withSelection(KEY_UUID + " = ?", new String[]{change.uuid()})
             .build());
         break;
+      case unsplit:
+        ops.add(ContentProviderOperation.newUpdate(uri.buildUpon()
+                .appendPath(TransactionProvider.URI_SEGMENT_UNSPLIT).build())
+            .withValue(KEY_UUID, change.uuid())
+            .build());
+        break;
     }
     if (change.isCreateOrUpdate() && change.splitParts() != null && !skipped) {
       final int newParentOffset = ops.size() - 1;

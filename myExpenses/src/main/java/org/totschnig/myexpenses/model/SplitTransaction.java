@@ -51,6 +51,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
 
@@ -222,12 +223,12 @@ public class SplitTransaction extends Transaction {
   public boolean unsplit() {
     MyApplication application = MyApplication.getInstance();
     ContentResolver cr = application.getContentResolver();
+    ContentValues values = new ContentValues(1);
+    values.put(KEY_UUID, uuid);
     return cr.update(
-        TransactionProvider.TRANSACTIONS_URI
-            .buildUpon()
-            .appendPath(String.valueOf(getId()))
+        TransactionProvider.TRANSACTIONS_URI.buildUpon()
             .appendPath(TransactionProvider.URI_SEGMENT_UNSPLIT)
             .build(),
-        null, null, null) == 1;
+        values, null, null) == 1;
   }
 }
