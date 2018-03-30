@@ -6,6 +6,7 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.res.Resources.NotFoundException;
 import android.net.Uri;
+import android.support.v4.util.Pair;
 
 import junit.framework.Assert;
 
@@ -29,6 +30,7 @@ import org.totschnig.myexpenses.util.Utils;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Currency;
 import java.util.Date;
@@ -233,8 +235,8 @@ public class Fixture {
       catXML = appContext.getResources().openRawResource(org.totschnig.myexpenses.R.raw.cat_en);
     }
 
-    Result result = Utils.analyzeGrisbiFileWithSAX(catXML);
-    Utils.importCats((CategoryTree) result.extra[0], null);
+    Result<Pair<CategoryTree, ArrayList<String>>> result = Utils.analyzeGrisbiFileWithSAX(catXML);
+    Utils.importCats(result.getExtra().first, null);
   }
 
   private static long findCat(String label, Long parent) {

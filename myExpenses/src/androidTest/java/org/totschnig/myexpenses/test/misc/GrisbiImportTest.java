@@ -15,6 +15,7 @@
 
 package org.totschnig.myexpenses.test.misc;
 
+import android.support.v4.util.Pair;
 import android.test.InstrumentationTestCase;
 import android.util.SparseArray;
 
@@ -28,10 +29,10 @@ import org.totschnig.myexpenses.util.Utils;
 import java.util.ArrayList;
 
 public class GrisbiImportTest extends InstrumentationTestCase {
-  private Result analyze(int id) {
+  private Result<Pair<CategoryTree, ArrayList<String>>> analyze(int id) {
     return analyzeSAX(id);
   }
-  private Result analyzeSAX(int id) {
+  private Result<Pair<CategoryTree, ArrayList<String>>> analyzeSAX(int id) {
     return Utils.analyzeGrisbiFileWithSAX(
         getInstrumentation().getContext().getResources().openRawResource(id)
     );
@@ -44,45 +45,45 @@ public class GrisbiImportTest extends InstrumentationTestCase {
   }
   */
   public void testGrisbi6() {
-    Result result = analyze(R.raw.grisbi);
-    Assert.assertEquals(true, result.success);
-    CategoryTree catTree = (CategoryTree) result.extra[0];
+    Result<Pair<CategoryTree, ArrayList<String>>> result = analyze(R.raw.grisbi);
+    Assert.assertEquals(true, result.isSuccess());
+    CategoryTree catTree = result.getExtra().first;
     SparseArray<CategoryTree> main = catTree.children();
     Assert.assertEquals(22, main.size());
     Assert.assertEquals(10, main.get(1).children().size());
-    ArrayList<String> partiesList = (ArrayList<String>) result.extra[1];
+    ArrayList<String> partiesList = result.getExtra().second;
     Assert.assertEquals("Peter Schnock",partiesList.get(0));
   }
   public void testGrisbi5() {
-    Result result = analyze(R.raw.grisbi_050);
-    Assert.assertEquals(true, result.success);
-    CategoryTree catTree = (CategoryTree) result.extra[0];
+    Result<Pair<CategoryTree, ArrayList<String>>> result = analyze(R.raw.grisbi_050);
+    Assert.assertEquals(true, result.isSuccess());
+    CategoryTree catTree = result.getExtra().first;
     SparseArray<CategoryTree> main = catTree.children();
     Assert.assertEquals(22, main.size());
     Assert.assertEquals(9, main.get(1).children().size());
-    ArrayList<String> partiesList = (ArrayList<String>) result.extra[1];
+    ArrayList<String> partiesList = result.getExtra().second;
     Assert.assertEquals("Peter Schnock",partiesList.get(0));
   }
   public void testGrisbiParseError() {
-    Result result = analyze(R.raw.grisbi_error);
-    Assert.assertEquals(false, result.success);
+    Result<Pair<CategoryTree, ArrayList<String>>> result = analyze(R.raw.grisbi_error);
+    Assert.assertEquals(false, result.isSuccess());
     Assert.assertEquals(org.totschnig.myexpenses.R.string.parse_error_parse_exception, result.getMessage());
   }
   public void testGrisbi7() {
-    Result result = analyze(R.raw.grisbi_070);
-    Assert.assertEquals(false, result.success);
+    Result<Pair<CategoryTree, ArrayList<String>>> result = analyze(R.raw.grisbi_070);
+    Assert.assertEquals(false, result.isSuccess());
     Assert.assertEquals(org.totschnig.myexpenses.R.string.parse_error_grisbi_version_not_supported, result.getMessage());
-    Assert.assertEquals("0.7.0", (String) result.extra[0]);
+    Assert.assertTrue(result.print(getInstrumentation().getTargetContext()).contains("0.7.0"));
   }
   public void testGrisbi4() {
-    Result result = analyze(R.raw.grisbi_040);
-    Assert.assertEquals(false, result.success);
+    Result<Pair<CategoryTree, ArrayList<String>>> result = analyze(R.raw.grisbi_040);
+    Assert.assertEquals(false, result.isSuccess());
     Assert.assertEquals(org.totschnig.myexpenses.R.string.parse_error_grisbi_version_not_supported, result.getMessage());
-    Assert.assertEquals("0.4.0", (String) result.extra[0]);
+    Assert.assertTrue(result.print(getInstrumentation().getTargetContext()).contains("0.4.0"));
   }
   public void testGrisbiEmpty() {
     Result result = analyze(R.raw.grisbi_empty);
-    Assert.assertEquals(false, result.success);
+    Assert.assertEquals(false, result.isSuccess());
     Assert.assertEquals(org.totschnig.myexpenses.R.string.parse_error_no_data_found, result.getMessage());
   }
   /*

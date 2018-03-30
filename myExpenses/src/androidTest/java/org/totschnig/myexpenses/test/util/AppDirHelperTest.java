@@ -14,6 +14,6 @@ import static org.junit.Assert.assertTrue;
 public class AppDirHelperTest {
   @Test
   public void shouldValidateDefaultAppDir() {
-    assertTrue(AppDirHelper.checkAppDir(InstrumentationRegistry.getTargetContext()).success);
+    assertTrue(AppDirHelper.checkAppDir(InstrumentationRegistry.getTargetContext()).isSuccess());
   }
 }
