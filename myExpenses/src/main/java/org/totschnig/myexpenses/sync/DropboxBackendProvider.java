@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.annimon.stream.Exceptional;
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 import com.dropbox.core.DbxException;
@@ -26,7 +27,6 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
 import org.totschnig.myexpenses.util.Preconditions;
-import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.io.StreamReader;
 
@@ -50,23 +50,23 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  public Result setUp(String authToken) {
+  public Exceptional<Void> setUp(String authToken) {
     if (authToken == null) {
-      return new Result(false, "authToken is null");
+      return Exceptional.of(new Exception("authToken is null"));
     }
     String userLocale = Locale.getDefault().toString();
     DbxRequestConfig requestConfig = DbxRequestConfig.newBuilder(BuildConfig.APPLICATION_ID).withUserLocale(userLocale).build();
     mDbxClient = new DbxClientV2(requestConfig, authToken);
-    return Result.SUCCESS;
+    return super.setUp(authToken);
   }
 
   private boolean requireSetup(android.accounts.Account account) {
     AccountManager accountManager = AccountManager.get(MyApplication.getInstance());
     try {
       String authToken = accountManager.blockingGetAuthToken(account, GenericAccountService.Authenticator.AUTH_TOKEN_TYPE, true);
-      return setUp(authToken).success;
+      return setUp(authToken).isPresent();
     } catch (OperationCanceledException | IOException | AuthenticatorException e) {
-      Timber.e("Error getting auth token.", e);
+      Timber.w(e,"Error getting auth token.");
       return false;
     }
   }

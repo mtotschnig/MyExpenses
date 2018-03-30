@@ -21,7 +21,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.GrisbiSourcesDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
@@ -42,26 +41,7 @@ public class GrisbiImport extends ProtectedFragmentActivity {
   public void onPostExecute(int taskId, Object result) {
     super.onPostExecute(taskId, result);
     Result r = (Result) result;
-    String msg = "";
-    if (r.success) {
-      Integer imported = (Integer) r.extra[0];
-      if (imported > -1) {
-        msg += imported == 0 ?
-            getString(R.string.import_categories_none) :
-            getString(R.string.import_categories_success, String.valueOf(imported));
-      }
-      imported = (Integer) r.extra[1];
-      if (imported > -1) {
-        if (!TextUtils.isEmpty(msg)) {
-          msg += "\n";
-        }
-        msg += imported == 0 ?
-            getString(R.string.import_parties_none) :
-            getString(R.string.import_parties_success, String.valueOf(imported));
-      }
-    } else {
-      msg = r.print(this);
-    }
+    String msg = r.print(this);
     if (TextUtils.isEmpty(msg)) {
       finish();
     } else {

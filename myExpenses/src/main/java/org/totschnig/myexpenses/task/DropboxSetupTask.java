@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.task;
 
 import android.accounts.AccountManager;
 import android.os.Bundle;
+import android.support.v4.util.Pair;
 
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
@@ -16,14 +17,14 @@ import java.util.Locale;
 
 import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_SYNC_PROVIDER_URL;
 
-class DropboxSetupTask extends ExtraTask<Result> {
+class DropboxSetupTask extends ExtraTask<Result<Pair<String, String>>> {
 
-  public DropboxSetupTask(TaskExecutionFragment taskExecutionFragment, int taskId) {
+  DropboxSetupTask(TaskExecutionFragment taskExecutionFragment, int taskId) {
     super(taskExecutionFragment, taskId);
   }
 
   @Override
-  protected Result doInBackground(Bundle... params) {
+  protected Result<Pair<String, String>> doInBackground(Bundle... params) {
     String userLocale = Locale.getDefault().toString();
     DbxRequestConfig requestConfig = new DbxRequestConfig(BuildConfig.APPLICATION_ID, userLocale);
     DbxClientV2 dbxClient = new DbxClientV2(requestConfig, params[0].getString(AccountManager.KEY_AUTHTOKEN));
@@ -31,12 +32,12 @@ class DropboxSetupTask extends ExtraTask<Result> {
       String userName = dbxClient.users().getCurrentAccount().getName().getDisplayName();
       String folderName = params[0].getString(KEY_SYNC_PROVIDER_URL);
       if (DropboxBackendProvider.exists(dbxClient, "/" + folderName)) {
-        return new Result(true, 0, userName, folderName);
+        return Result.ofSuccess(0, Pair.create(userName, folderName));
       } else {
-        return new Result(false, R.string.dropbox_folder_not_found);
+        return Result.ofFailure(R.string.dropbox_folder_not_found);
       }
     } catch (DbxException e) {
-      return new Result(false, e.getMessage());
+      return Result.ofFailure(e.getMessage());
     }
   }
 }

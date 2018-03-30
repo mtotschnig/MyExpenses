@@ -24,11 +24,8 @@
   <string name="backup_failure">Backup su \"%1$s\" non è riuscito.</string>
   <string name="backup_success">Il database e le impostazioni sono state salvate su \"%1$s\".</string>
   <string name="category">Categoria</string>
-  <string name="split_transaction_error">Impossibile frazionare transazione.</string>
-  <plurals name="split_transaction_success">
-    <item quantity="one">Transazione frazionata con successo.</item>
-    <item quantity="other">%1$d transazioni sono state frazionate con successo.</item>
-  </plurals>
+  <string name="split_transaction_one_error">Impossibile frazionare transazione.</string>
+  <string name="split_transaction_one_success">Transazione frazionata con successo.</string>
   <string name="color">Colore</string>
   <string name="comment">Note</string>
   <string name="confirmation_dialog_dont_show_again">Non mostrare nuovamente</string>

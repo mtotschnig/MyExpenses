@@ -30,6 +30,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
+import android.support.v4.provider.DocumentFile;
 import android.test.ProviderTestCase2;
 import android.text.TextUtils;
 
@@ -50,11 +51,11 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.util.BackupUtils;
-import org.totschnig.myexpenses.util.io.FileCopyUtils;
 import org.totschnig.myexpenses.util.PlanInfoCursorWrapper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.io.FileCopyUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -62,6 +63,7 @@ import java.util.Arrays;
 import java.util.Currency;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import timber.log.Timber;
@@ -143,16 +145,18 @@ public class TransactionProvider extends ContentProvider {
   public static final String URI_SEGMENT_TYPE_FILTER = "typeFilter";
   public static final String URI_SEGMENT_LAST_EXCHANGE = "lastExchange";
   public static final String URI_SEGMENT_SWAP_SORT_KEY = "swapSortKey";
+  public static final String URI_SEGMENT_UNSPLIT = "unsplit";
   public static final String QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES = "mergeCurrencyAggregates";
   public static final String QUERY_PARAMETER_EXTENDED = "extended";
   public static final String QUERY_PARAMETER_DISTINCT = "distinct";
+  public static final String QUERY_PARAMETER_GROUP_BY = "groupBy";
   public static final String QUERY_PARAMETER_MARK_VOID = "markVoid";
   public static final String QUERY_PARAMETER_WITH_PLAN_INFO = "withPlanInfo";
   public static final String QUERY_PARAMETER_INIT = "init";
   public static final String QUERY_PARAMETER_CALLER_IS_SYNCADAPTER = "caller_is_syncadapter";
   public static final String QUERY_PARAMETER_MERGE_TRANSFERS = "mergeTransfers";
-  public static final String QUERY_PARAMETER_SYNC_BEGIN = "syncBegin";
-  public static final String QUERY_PARAMETER_SYNC_END = "syncEnd";
+  private static final String QUERY_PARAMETER_SYNC_BEGIN = "syncBegin";
+  private static final String QUERY_PARAMETER_SYNC_END = "syncEnd";
   public static final String QUERY_PARAMETER_WITH_START = "withStart";
   /**
    * Transfers are included into in and out sums, instead of reported in extra field
@@ -211,7 +215,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int ACCOUNT_ID_SORTDIRECTION = 46;
   private static final int AUTOFILL = 47;
   private static final int ACCOUNT_EXCHANGE_RATE = 48;
-
+  private static final int UNSPLIT = 49;
 
   private boolean mDirty = false;
   private boolean bulkInProgress = false;
@@ -243,7 +247,7 @@ public class TransactionProvider extends ContentProvider {
     Cursor c;
 
     Timber.d("Query for URL: %s", uri);
-    String groupBy = null;
+    String groupBy = uri.getQueryParameter(QUERY_PARAMETER_GROUP_BY);
     String having = null;
     String limit = null;
 
@@ -907,9 +911,7 @@ public class TransactionProvider extends ContentProvider {
         break;
       case DUAL: {
         if ("1".equals(uri.getQueryParameter(QUERY_PARAMETER_SYNC_BEGIN))) {
-          values = new ContentValues(1);
-          values.put(KEY_STATUS, "1");
-          id = db.insertOrThrow(TABLE_SYNC_STATE, null, values);
+          id = pauseChangeTrigger(db);
           newUri = TABLE_SYNC_STATE + "/" + id;
         } else {
           throw unknownUri(uri);
@@ -1079,7 +1081,7 @@ public class TransactionProvider extends ContentProvider {
         break;
       case DUAL: {
         if ("1".equals(uri.getQueryParameter(QUERY_PARAMETER_SYNC_END))) {
-          count = db.delete(TABLE_SYNC_STATE, where, whereArgs);
+          count = resumeChangeTrigger(db);
         } else {
           throw unknownUri(uri);
         }
@@ -1327,12 +1329,12 @@ public class TransactionProvider extends ContentProvider {
 
               db.execSQL("UPDATE " + TABLE_TRANSACTIONS + " SET " + KEY_AMOUNT + "="
                       + KEY_AMOUNT + operation + factor + " WHERE " + KEY_ACCOUNTID
-                      + " IN (SELECT " + DatabaseConstants.KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + "=?)",
+                      + " IN (SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + "=?)",
                   bindArgs);
 
               db.execSQL("UPDATE " + TABLE_TEMPLATES + " SET " + KEY_AMOUNT + "="
                       + KEY_AMOUNT + operation + factor + " WHERE " + KEY_ACCOUNTID
-                      + " IN (SELECT " + DatabaseConstants.KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + "=?)",
+                      + " IN (SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + "=?)",
                   bindArgs);
             }
             Money.storeCustomFractionDigits(segment, newValue);
@@ -1437,6 +1439,37 @@ public class TransactionProvider extends ContentProvider {
         count = db.update(TABLE_ACCOUNTS, contentValues, KEY_ROWID + " = ?", new String[]{segment});
         break;
       }
+      case UNSPLIT: {
+        String uuid = values.getAsString(KEY_UUID);
+
+        final String subselectTemplate = String.format("(SELECT %%1$s FROM %s WHERE %s = ?)", TABLE_TRANSACTIONS, KEY_UUID);
+        String crStatusSubSelect = String.format(Locale.ROOT, subselectTemplate, KEY_CR_STATUS);
+        String payeeIdSubSelect = String.format(Locale.ROOT, subselectTemplate, KEY_PAYEEID);
+        String rowIdSubSelect = String.format(Locale.ROOT, subselectTemplate, KEY_ROWID);
+        String accountIdSubSelect = String.format(Locale.ROOT, subselectTemplate, KEY_ACCOUNTID);
+
+        try {
+          db.beginTransaction();
+          pauseChangeTrigger(db);
+          //parts are promoted to independence
+          db.execSQL(String.format(Locale.ROOT, "UPDATE %s SET %s = null, %s = %s, %s = %s WHERE %s = %s ",
+              TABLE_TRANSACTIONS, KEY_PARENTID, KEY_CR_STATUS, crStatusSubSelect, KEY_PAYEEID, payeeIdSubSelect, KEY_PARENTID, rowIdSubSelect),
+              new String[]{uuid, uuid, uuid}) ;
+          //Change is recorded
+          if (callerIsNotSyncAdatper(uri)) {
+            db.execSQL(String.format(Locale.ROOT, "INSERT INTO %1$s (%2$s, %3$s, %4$s, %5$s) SELECT '%6$s', %7$s, %4$s, ? FROM %8$s WHERE %7$s = %9$s",
+                TABLE_CHANGES, KEY_TYPE, KEY_ACCOUNTID, KEY_SYNC_SEQUENCE_LOCAL, KEY_UUID,
+                TransactionChange.Type.unsplit.name(), KEY_ROWID, TABLE_ACCOUNTS, accountIdSubSelect), new String[]{uuid, uuid});
+          }
+          //parent is deleted
+          count = db.delete(TABLE_TRANSACTIONS, KEY_UUID + " = ?", new String[]{uuid});
+          resumeChangeTrigger(db);
+          db.setTransactionSuccessful();
+        } finally {
+          db.endTransaction();
+        }
+        break;
+      }
       default:
         throw unknownUri(uri);
     }
@@ -1491,8 +1524,8 @@ public class TransactionProvider extends ContentProvider {
           results[i] = operations.get(i).apply(this, results, i);
         } catch (Exception e) {
           Map<String, String> customData = new HashMap<>();
+          customData.put("i", String.valueOf(i));
           for (int j = 0; j < numOperations; j++) {
-            customData.put("i", String.valueOf(i));
             customData.put("operation" + j, operations.get(j).toString());
           }
           CrashHandler.report(e, customData);
@@ -1509,18 +1542,24 @@ public class TransactionProvider extends ContentProvider {
   @Nullable
   @Override
   public Bundle call(@NonNull String method, @Nullable String arg, @Nullable Bundle extras) {
-    if (method.equals(METHOD_INIT)) {
-      mOpenHelper.getReadableDatabase();
-    }
-    else if (method.equals(METHOD_BULK_START)) {
-      bulkInProgress = true;
-    } else if (method.equals(METHOD_BULK_END)) {
-      bulkInProgress = false;
-      notifyChange(TRANSACTIONS_URI, true);
-      notifyChange(ACCOUNTS_URI, true);
-      notifyChange(CATEGORIES_URI, true);
-      notifyChange(PAYEES_URI, true);
-      notifyChange(METHODS_URI, true);
+    switch (method) {
+      case METHOD_INIT: {
+        mOpenHelper.getReadableDatabase();
+        break;
+      }
+      case METHOD_BULK_START: {
+        bulkInProgress = true;
+        break;
+      }
+      case METHOD_BULK_END: {
+        bulkInProgress = false;
+        notifyChange(TRANSACTIONS_URI, true);
+        notifyChange(ACCOUNTS_URI, true);
+        notifyChange(CATEGORIES_URI, true);
+        notifyChange(PAYEES_URI, true);
+        notifyChange(METHODS_URI, true);
+        break;
+      }
     }
     return null;
   }
@@ -1536,6 +1575,8 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_MOVE + "/#", TRANSACTION_MOVE);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_TOGGLE_CRSTATUS, TRANSACTION_TOGGLE_CRSTATUS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_UNDELETE, TRANSACTION_UNDELETE);
+    //uses uuid in order to be usable from sync adapter
+    URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_UNSPLIT, UNSPLIT);
     URI_MATCHER.addURI(AUTHORITY, "categories", CATEGORIES);
     URI_MATCHER.addURI(AUTHORITY, "categories/#", CATEGORY_ID);
     URI_MATCHER.addURI(AUTHORITY, "accounts", ACCOUNTS);
@@ -1590,13 +1631,13 @@ public class TransactionProvider extends ContentProvider {
     return mOpenHelper;
   }
 
-  public Result backup(File backupDir) {
+  public Result<DocumentFile> backup(File backupDir) {
     File currentDb = new File(mOpenHelper.getReadableDatabase().getPath());
     mOpenHelper.close();
     try {
       File backupPrefFile, sharedPrefFile;
       Result result = backupDb(new File(backupDir, BackupUtils.BACKUP_DB_FILE_NAME), currentDb);
-      if (result.success) {
+      if (result.isSuccess()) {
         backupPrefFile = new File(backupDir, BackupUtils.BACKUP_PREF_FILE_NAME);
         // Samsung has special path on some devices
         // http://stackoverflow.com/questions/5531289/copy-the-shared-preferences-xml-file-from-data-on-samsung-device-failed
@@ -1610,7 +1651,7 @@ public class TransactionProvider extends ContentProvider {
             final String message = "Unable to find shared preference file at " +
                 sharedPrefFile.getPath();
             CrashHandler.report(message);
-            return new Result(false, message);
+            return Result.ofFailure( message);
           }
         }
         if (FileCopyUtils.copy(sharedPrefFile, backupPrefFile)) {
@@ -1628,12 +1669,12 @@ public class TransactionProvider extends ContentProvider {
   private Result backupDb(File backupDb, File currentDb) {
     if (currentDb.exists()) {
       if (FileCopyUtils.copy(currentDb, backupDb)) {
-        return new Result(true);
+        return Result.SUCCESS;
       }
-      return new Result(false, String.format(
+      return Result.ofFailure(String.format(
           "Error while copying %s to %s", currentDb.getPath(), backupDb.getPath()));
     }
-    return new Result(false, "Could not find database at " + currentDb.getPath());
+    return Result.ofFailure("Could not find database at " + currentDb.getPath());
   }
 
   private File getInternalAppDir() {
@@ -1654,5 +1695,29 @@ public class TransactionProvider extends ContentProvider {
       initOpenHelper();
     }
     return result;
+  }
+
+  public static ContentProviderOperation resumeChangeTrigger() {
+    return ContentProviderOperation.newDelete(
+        DUAL_URI.buildUpon()
+            .appendQueryParameter(QUERY_PARAMETER_SYNC_END, "1").build())
+        .build();
+  }
+
+  private int resumeChangeTrigger(SQLiteDatabase db) {
+    return db.delete(TABLE_SYNC_STATE, null, null);
+  }
+
+  public static ContentProviderOperation pauseChangeTrigger() {
+    return ContentProviderOperation.newInsert(
+        DUAL_URI.buildUpon()
+            .appendQueryParameter(QUERY_PARAMETER_SYNC_BEGIN, "1").build())
+        .build();
+  }
+
+  private long pauseChangeTrigger(SQLiteDatabase db) {
+    ContentValues values = new ContentValues(1);
+    values.put(KEY_STATUS, "1");
+    return db.insertOrThrow(TABLE_SYNC_STATE, null, values);
   }
 }

@@ -165,9 +165,9 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
     switch(item.getItemId()) {
     case R.id.DELETE_COMMAND:
       ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
-          TaskExecutionFragment.TASK_DELETE_TRANSACTION,
+          parentIsTemplate() ? TaskExecutionFragment.TASK_DELETE_TEMPLATES : TaskExecutionFragment.TASK_DELETE_TRANSACTION,
           new Long[] {info.id},
-          Boolean.valueOf(false),
+          Boolean.FALSE,
           0);
       return true;
     }

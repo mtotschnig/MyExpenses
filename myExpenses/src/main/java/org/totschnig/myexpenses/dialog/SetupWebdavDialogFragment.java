@@ -16,6 +16,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.annimon.stream.Exceptional;
+
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.SyncBackendSetupActivity;
 import org.totschnig.myexpenses.sync.GenericAccountService;
@@ -26,7 +28,6 @@ import org.totschnig.myexpenses.sync.webdav.NotCompliantWebDavException;
 import org.totschnig.myexpenses.sync.webdav.UntrustedCertificateException;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.task.TestLoginTask;
-import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.form.AbstractFormFieldValidator;
@@ -122,11 +123,11 @@ public class SetupWebdavDialogFragment extends CommitSafeDialogFragment {
     }
   }
 
-  public void onTestLoginResult(Result result) {
-    if (result.success) {
+  public void onTestLoginResult(Exceptional<Void> result) {
+    if (result.isPresent()) {
       finish(prepareData());
     } else {
-      Exception exception = ((Exception) result.extra[0]);
+      Throwable exception = result.getException();
       if (exception instanceof UntrustedCertificateException) {
         certificateContainer.setVisibility(View.VISIBLE);
         mTrustCertificate = ((UntrustedCertificateException) exception).getCertificate();

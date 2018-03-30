@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.util.Pair;
 import android.view.Menu;
 import android.view.SubMenu;
 
+import com.annimon.stream.Exceptional;
 import com.dropbox.core.android.Auth;
 
 import org.totschnig.myexpenses.R;
@@ -172,7 +174,7 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
   public void fetchAccountData(String accountName) {
     Bundle args = new Bundle();
     args.putString(AccountManager.KEY_ACCOUNT_NAME, accountName);
-    args.putBoolean(SyncAccountTask.KEY_RETURN_REMOTE_DATA_LIST, createAccountTaskShouldReturnDataList());
+    args.putBoolean(SyncAccountTask.KEY_RETURN_REMOTE_DATA_LIST, true);
     getSupportFragmentManager()
         .beginTransaction()
         .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_FETCH_SYNC_ACCOUNT_DATA), ASYNC_TAG)
@@ -191,19 +193,19 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
   @Override
   public void onPostExecute(int taskId, Object o) {
     super.onPostExecute(taskId, o);
-    Result result = (Result) o;
     switch (taskId) {
       case TASK_WEBDAV_TEST_LOGIN: {
-        getWebdavFragment().onTestLoginResult(result);
+        getWebdavFragment().onTestLoginResult((Exceptional<Void>) o);
         break;
       }
       case TASK_DROPBOX_SETUP: {
+        Result<Pair<String, String>> result = (Result<Pair<String, String>>) o;
         selectedFactoryId = 0;
-        if (result.success) {
+        if (result.isSuccess()) {
           String accountName = getSyncBackendProviderFactoryByIdOrThrow(R.id.SYNC_BACKEND_DROPBOX)
-              .buildAccountName(String.format("%s - %s", result.extra[0], result.extra[1]));
+              .buildAccountName(String.format("%s - %s", result.getExtra().first, result.getExtra().second));
           Bundle bundle = new Bundle(1);
-          bundle.putString(KEY_SYNC_PROVIDER_URL, (String) result.extra[1]);
+          bundle.putString(KEY_SYNC_PROVIDER_URL, (String) result.getExtra().second);
           createAccount(accountName, null, Auth.getOAuth2Token(), bundle);
         } else {
           showSnackbar(result.print(this), Snackbar.LENGTH_LONG);

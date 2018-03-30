@@ -114,26 +114,13 @@ public class CsvImportActivity extends TabbedActivity implements
       case TaskExecutionFragment.TASK_CSV_IMPORT:
         Result r = (Result) result;
         String msg;
-        if (r.success) {
+        if (r.isSuccess()) {
           if (!mUsageRecorded) {
             recordUsage(ContribFeature.CSV_IMPORT);
             mUsageRecorded = true;
           }
-          Integer imported = (Integer) r.extra[0];
-          Integer failed = (Integer) r.extra[1];
-          Integer discarded = (Integer) r.extra[2];
-          String label = (String) r.extra[3];
-          msg = getString(R.string.import_transactions_success, imported, label) + ".";
-          if (failed > 0) {
-            msg += " " + getString(R.string.csv_import_records_failed, failed);
-          }
-          if (discarded > 0) {
-            msg += " " + getString(R.string.csv_import_records_discarded, discarded);
-          }
-        } else {
-          msg = r.print(this);
         }
-        showSnackbar(msg, Snackbar.LENGTH_LONG);
+        showSnackbar(r.print(this), Snackbar.LENGTH_LONG);
     }
   }
 

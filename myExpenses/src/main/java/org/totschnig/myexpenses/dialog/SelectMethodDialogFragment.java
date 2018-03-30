@@ -15,14 +15,12 @@
 
 package org.totschnig.myexpenses.dialog;
 
+import android.net.Uri;
+
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.Criteria;
 import org.totschnig.myexpenses.provider.filter.MethodCriteria;
-
-import android.net.Uri;
-import android.os.Bundle;
 
 
 public class SelectMethodDialogFragment extends SelectFromMappedTableDialogFragment
@@ -42,17 +40,13 @@ public class SelectMethodDialogFragment extends SelectFromMappedTableDialogFragm
   Uri getUri() {
     return TransactionProvider.MAPPED_METHODS_URI;
   }
-  /**
-   * @param account_id
-   * @return
-   */
-  public static final SelectMethodDialogFragment newInstance(long account_id) {
+
+  public static SelectMethodDialogFragment newInstance(long rowId) {
     SelectMethodDialogFragment dialogFragment = new SelectMethodDialogFragment();
-    Bundle args = new Bundle();
-    args.putLong(DatabaseConstants.KEY_ACCOUNTID, account_id);
-    dialogFragment.setArguments(args);
+    setArguments(dialogFragment, rowId);
     return dialogFragment;
   }
+
   @Override
   Criteria makeCriteria(String label, long... ids) {
     return new MethodCriteria(label, ids);

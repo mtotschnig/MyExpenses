@@ -365,7 +365,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
     boolean notYetExportedP = notYetExportedCB.isChecked();
     String fileName = fileNameET.getText().toString();
     Result appDirStatus = AppDirHelper.checkAppDir(getActivity());
-    if (appDirStatus.success) {
+    if (appDirStatus.isSuccess()) {
       Bundle b = new Bundle();
       b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
           R.id.START_EXPORT_COMMAND);

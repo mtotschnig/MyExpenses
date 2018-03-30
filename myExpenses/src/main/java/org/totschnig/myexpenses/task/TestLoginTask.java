@@ -3,12 +3,13 @@ package org.totschnig.myexpenses.task;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import com.annimon.stream.Exceptional;
+
 import org.totschnig.myexpenses.sync.webdav.WebDavClient;
-import org.totschnig.myexpenses.util.Result;
 
 import java.security.cert.X509Certificate;
 
-public class TestLoginTask extends AsyncTask<Void, Void, Result> {
+public class TestLoginTask extends AsyncTask<Void, Void, Exceptional> {
   public static String KEY_URL = "url";
   public static String KEY_USERNAME = "username";
   public static String KEY_PASSWORD = "password";
@@ -29,19 +30,19 @@ public class TestLoginTask extends AsyncTask<Void, Void, Result> {
   }
 
   @Override
-  protected Result doInBackground(Void... params) {
+  protected Exceptional doInBackground(Void... params) {
     try {
       WebDavClient client = new WebDavClient(url, userName, password, trustedCertificate);
       client.testLogin();
       client.testClass2Locking();
-      return new Result(true);
+      return Exceptional.of(() -> null);
     } catch (Exception e) {
-      return new Result(false, 0, e);
+      return Exceptional.of(e);
     }
   }
 
   @Override
-  protected void onPostExecute(Result result) {
+  protected void onPostExecute(Exceptional result) {
     if (this.taskExecutionFragment.mCallbacks != null) {
       this.taskExecutionFragment.mCallbacks.onPostExecute(
           TaskExecutionFragment.TASK_WEBDAV_TEST_LOGIN, result);

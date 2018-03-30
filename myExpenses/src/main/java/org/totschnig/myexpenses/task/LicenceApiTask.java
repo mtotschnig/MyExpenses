@@ -83,19 +83,19 @@ public class LicenceApiTask extends AsyncTask<Void, Void, Result> {
         Licence licence = licenceResponse.body();
         if (licenceResponse.isSuccessful() && licence != null && licence.getType() != null) {
           licenceHandler.updateLicenceStatus(licence);
-          return new Result(true, Utils.concatResStrings(MyApplication.getInstance(), " ",
+          return Result.ofSuccess(Utils.concatResStrings(MyApplication.getInstance(), " ",
               R.string.licence_validation_success, licence.getType().getResId()));
         } else {
           switch (licenceResponse.code()) {
             case 452:
               licenceHandler.updateLicenceStatus(null);
-              return new Result(false, R.string.licence_validation_error_expired);
+              return Result.ofFailure(R.string.licence_validation_error_expired);
             case 453:
               licenceHandler.updateLicenceStatus(null);
-              return new Result(false, R.string.licence_validation_error_device_limit_exceeded);
+              return Result.ofFailure(R.string.licence_validation_error_device_limit_exceeded);
             case 404:
               licenceHandler.updateLicenceStatus(null);
-              return new Result(false, R.string.licence_validation_failure);
+              return Result.ofFailure(R.string.licence_validation_failure);
             default:
               return buildFailureResult(String.valueOf(licenceResponse.code()));
           }
@@ -111,7 +111,7 @@ public class LicenceApiTask extends AsyncTask<Void, Void, Result> {
           NEW_LICENCE.remove();
           LICENCE_EMAIL.remove();
           licenceHandler.updateLicenceStatus(null);
-          return new Result(true, R.string.licence_removal_success);
+          return Result.ofSuccess(R.string.licence_removal_success);
         } else {
           return buildFailureResult(String.valueOf(licenceResponse.code()));
         }
@@ -124,7 +124,7 @@ public class LicenceApiTask extends AsyncTask<Void, Void, Result> {
 
   @NonNull
   private Result buildFailureResult(String s) {
-    return new Result(false, R.string.error, s);
+    return Result.ofFailure(R.string.error, s);
   }
 
   @Override

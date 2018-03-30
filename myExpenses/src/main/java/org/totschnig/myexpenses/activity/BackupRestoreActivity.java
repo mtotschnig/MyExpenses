@@ -73,7 +73,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
     String action = getIntent().getAction();
     if (action != null && action.equals("myexpenses.intent.backup")) {
       Result appDirStatus = AppDirHelper.checkAppDir(this);
-      if (!appDirStatus.success) {
+      if (!appDirStatus.isSuccess()) {
         abort(appDirStatus.print(this));
         return;
       }
@@ -93,7 +93,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
     } else {
       if (getIntent().getBooleanExtra("legacy", false)) {
         Result appDirStatus = AppDirHelper.checkAppDir(this);
-        if (appDirStatus.success) {
+        if (appDirStatus.isSuccess()) {
           openBrowse();
         } else {
           abort(appDirStatus.print(this));
@@ -158,7 +158,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
 
   protected void doBackup() {
     Result appDirStatus = AppDirHelper.checkAppDir(this);//TODO this check leads to strict mode violation, can we get rid of it ?
-    if (appDirStatus.success) {
+    if (appDirStatus.isSuccess()) {
       startTaskExecution(TaskExecutionFragment.TASK_BACKUP, null, null,
           R.string.menu_backup, true);
     } else {
@@ -169,13 +169,13 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
   @Override
   public void onPostExecute(int taskId, Object result) {
     super.onPostExecute(taskId, result);
-    Result r = (Result) result;
+    Result<DocumentFile> r = (Result<DocumentFile>) result;
     switch (taskId) {
       case TaskExecutionFragment.TASK_BACKUP: {
-        if (!r.success) {
+        if (!r.isSuccess()) {
           onProgressUpdate(r.print(this));
         } else {
-          Uri backupFileUri = ((DocumentFile) r.extra[0]).getUri();
+          Uri backupFileUri = r.getExtra().getUri();
           onProgressUpdate(getString(r.getMessage(), FileUtils.getPath(this, backupFileUri)));
           if (PrefKey.PERFORM_SHARE.getBoolean(false)) {
             ArrayList<Uri> uris = new ArrayList<>();
@@ -183,7 +183,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
             Result shareResult = ShareUtils.share(this, uris,
                 PrefKey.SHARE_TARGET.getString("").trim(),
                 "application/zip");
-            if (!shareResult.success) {
+            if (!shareResult.isSuccess()) {
               onProgressUpdate(shareResult.print(this));
             }
           }
@@ -202,7 +202,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
   protected void onPostRestoreTask(Result result) {
     super.onPostRestoreTask(result);
     onProgressUpdate(result);
-    if (result.success) {
+    if (result.isSuccess()) {
       taskResult = RESULT_RESTORE_OK;
     }
   }

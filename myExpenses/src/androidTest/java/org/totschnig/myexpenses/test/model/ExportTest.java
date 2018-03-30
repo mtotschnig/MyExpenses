@@ -244,9 +244,9 @@ public class ExportTest extends ModelTest {
     };
     try {
       insertData1();
-      Result result = exportAll(account1, ExportFormat.QIF, false);
-      assertTrue(result.success);
-      export = (Uri) result.extra[0];
+      Result<Uri> result = exportAll(account1, ExportFormat.QIF, false);
+      assertTrue(result.isSuccess());
+      export = result.getExtra();
       compare(new File(export.getPath()), linesQIF);
     } catch (IOException e) {
       fail("Could not export expenses. Error: " + e.getMessage());
@@ -274,9 +274,9 @@ public class ExportTest extends ModelTest {
     };
     try {
       insertData1();
-      Result result = exportAll(account1, ExportFormat.CSV, false);
-      assertTrue(result.success);
-      export = (Uri) result.extra[0];
+      Result<Uri> result = exportAll(account1, ExportFormat.CSV, false);
+      assertTrue(result.isSuccess());
+      export = result.getExtra();
       compare(new File(export.getPath()), linesCSV);
     } catch (IOException e) {
       fail("Could not export expenses. Error: " + e.getMessage());
@@ -304,10 +304,10 @@ public class ExportTest extends ModelTest {
     };
     try {
       insertData1();
-      Result result = new Exporter(account1, null, outDir, FILE_NAME, ExportFormat.CSV, false, "M/d/yyyy", ',', "UTF-8")
+      Result<Uri> result = new Exporter(account1, null, outDir, FILE_NAME, ExportFormat.CSV, false, "M/d/yyyy", ',', "UTF-8")
           .export();
-      assertTrue(result.success);
-      export = (Uri) result.extra[0];
+      assertTrue(result.isSuccess());
+      export = result.getExtra();
       compare(new File(export.getPath()), linesCSV);
     } catch (IOException e) {
       fail("Could not export expenses. Error: " + e.getMessage());
@@ -324,16 +324,16 @@ public class ExportTest extends ModelTest {
     };
     try {
       insertData1();
-      Result result = exportAll(account1, ExportFormat.CSV, false);
-      assertTrue("Export failed with message: " + getContext().getString(result.getMessage()), result.success);
+      Result<Uri> result = exportAll(account1, ExportFormat.CSV, false);
+      assertTrue("Export failed with message: " + getContext().getString(result.getMessage()), result.isSuccess());
       account1.markAsExported(null);
-      export = (Uri) result.extra[0];
+      export = result.getExtra();
       //noinspection ResultOfMethodCallIgnored
       new File(export.getPath()).delete();
       insertData2();
       result = exportAll(account1, ExportFormat.CSV, true);
-      assertTrue("Export failed with message: " + getContext().getString(result.getMessage()), result.success);
-      export = (Uri) result.extra[0];
+      assertTrue("Export failed with message: " + getContext().getString(result.getMessage()), result.isSuccess());
+      export = result.getExtra();
       compare(new File(export.getPath()), linesCSV);
     } catch (IOException e) {
       fail("Could not export expenses. Error: " + e.getMessage());
@@ -380,7 +380,7 @@ public class ExportTest extends ModelTest {
     return sb.toString();
   }
 
-  private Result exportAll(Account account, ExportFormat format, boolean notYetExportedP)
+  private Result<Uri> exportAll(Account account, ExportFormat format, boolean notYetExportedP)
       throws IOException {
     return new Exporter(account, null, outDir, FILE_NAME, format, notYetExportedP, "dd/MM/yyyy", '.', "UTF-8")
         .export();

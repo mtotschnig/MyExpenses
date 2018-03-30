@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v4.provider.DocumentFile;
 
@@ -148,11 +147,11 @@ public class AppDirHelper {
    */
   public static Result checkAppDir(Context context) {
     if (!isExternalStorageAvailable()) {
-      return new Result(false, R.string.external_storage_unavailable);
+      return Result.ofFailure(R.string.external_storage_unavailable);
     }
     DocumentFile appDir = getAppDir(context);
     if (appDir == null) {
-      return new Result(false, R.string.io_error_appdir_null);
+      return Result.ofFailure(R.string.io_error_appdir_null);
     }
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
       Uri uri = appDir.getUri();
@@ -160,13 +159,12 @@ public class AppDirHelper {
         try {
           getContentUriForFile(new File(new File(uri.getPath()), "test"));
         } catch (IllegalArgumentException e) {
-          return new Result(false, R.string.app_dir_not_compatible_with_nougat, uri);
+          return Result.ofFailure(R.string.app_dir_not_compatible_with_nougat, uri.toString());
         }
       }
     }
-    return isWritableDirectory(appDir) ? new Result(true) :
-        new Result(false, R.string.app_dir_not_accessible,
-            FileUtils.getPath(context, appDir.getUri()));
+    return isWritableDirectory(appDir) ? Result.SUCCESS : Result.ofFailure(
+        R.string.app_dir_not_accessible, FileUtils.getPath(context, appDir.getUri()));
   }
 
   public static boolean isWritableDirectory(@NonNull DocumentFile appdir) {

@@ -163,12 +163,13 @@ public abstract class TransactionChange {
     return isCreateOrUpdate() && comment() == null && date() == null && amount() == null &&
         label() == null && payeeName() == null && transferAccount() == null && methodLabel() == null &&
         crStatus() == null && referenceNumber() == null && pictureUri() == null && splitParts() == null
-        && originalAmount() == null && (equivalentAmount == null || equivalentAmount == 0L);
+        && originalAmount() == null && (equivalentAmount == null || equivalentAmount == 0L)
+        && parentUuid() == null;
         //we ignore changes of equivalent amount which result from change of home currency
   }
 
   public enum Type {
-    created, updated, deleted;
+    created, updated, deleted, unsplit;
 
     public static final String JOIN;
 

@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.webkit.MimeTypeMap;
 
+import com.annimon.stream.Exceptional;
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 import com.google.gson.Gson;
@@ -23,11 +24,10 @@ import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.sync.json.AdapterFactory;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
-import org.totschnig.myexpenses.util.io.FileCopyUtils;
 import org.totschnig.myexpenses.util.PictureDirHelper;
-import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.io.FileCopyUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -85,8 +85,8 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   protected abstract String getSharedPreferencesName();
 
   @Override
-  public Result setUp(String authToken) {
-    return Result.SUCCESS;
+  public Exceptional<Void> setUp(String authToken) {
+    return Exceptional.of(() -> null);
   }
 
   @Override
@@ -108,7 +108,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     for (ListIterator<TransactionChange> iterator = changes.listIterator(); iterator.hasNext(); ) {
       TransactionChange transactionChange = iterator.next();
       if (transactionChange.isEmpty()) {
-        Timber.w("found empty transaction change in json");
+        log().w("found empty transaction change in json");
         iterator.remove();
       } else {
         iterator.set(mapPictureDuringRead(transactionChange));
@@ -219,8 +219,8 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     }
     String fileName = "_" + nextSequence + ".json";
     String fileContents = gson.toJson(changeSet);
-    Timber.tag(SyncAdapter.TAG).i("Writing to %s", fileName);
-    Timber.tag(SyncAdapter.TAG).i(fileContents);
+    log().i("Writing to %s", fileName);
+    log().i(fileContents);
     saveFileContents(fileName, fileContents, MIMETYPE_JSON);
     return nextSequence;
   }
@@ -252,7 +252,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
           Utils.getTextWithAppName(context, R.string.warning_synchronization_folder_usage).toString(),
           "text/plain");
     } catch (IOException e) {
-      Timber.w(e);
+      log().w(e);
     }
   }
 
@@ -263,7 +263,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   @Override
   public void lock() throws IOException {
       String existingLockTocken = getExistingLockToken();
-      Timber.i("ExistingLockTocken: %s", existingLockTocken);
+      log().i("ExistingLockTocken: %s", existingLockTocken);
       if (existingLockTocken == null || shouldOverrideLock(existingLockTocken)) {
         String lockToken = Model.generateUuid();
         writeLockToken(lockToken);
@@ -280,14 +280,14 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     boolean ownedByUs = sharedPreferences.getBoolean(accountPrefKey(KEY_OWNED_BY_US), false);
     long timestamp = sharedPreferences.getLong(accountPrefKey(KEY_TIMESTAMP), 0);
     long since = now - timestamp;
-    Timber.i("Stored: %s, ownedByUs : %b, since: %d", storedLockToken, ownedByUs, since);
+    log().i("Stored: %s, ownedByUs : %b, since: %d", storedLockToken, ownedByUs, since);
     if (locktoken.equals(storedLockToken)) {
       result = ownedByUs || since > LOCK_TIMEOUT_MILLIS;
-      Timber.i("tokens are equal, result: %b", result);
+      log().i("tokens are equal, result: %b", result);
     } else {
       saveLockTokenToPreferences(locktoken, now, false);
       result = false;
-      Timber.i("tokens are not equal, result: %b", result);
+      log().i("tokens are not equal, result: %b", result);
     }
     return result;
   }
@@ -304,5 +304,10 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
 
   private String accountPrefKey(String key) {
     return String.format(Locale.ROOT, "%s-%s", accountUuid, key);
+  }
+
+  @NonNull
+  private Timber.Tree log() {
+    return Timber.tag(SyncAdapter.TAG);
   }
 }

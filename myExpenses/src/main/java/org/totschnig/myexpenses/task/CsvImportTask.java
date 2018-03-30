@@ -89,12 +89,13 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
   @Override
   protected Result doInBackground(Void... params) {
     int totalImported = 0, totalDiscarded = 0, totalFailed = 0;
-    ContentResolver contentResolver = MyApplication.getInstance().getContentResolver();
+    final MyApplication application = MyApplication.getInstance();
+    ContentResolver contentResolver = application.getContentResolver();
     Account a;
     if (accountId == 0) {
       a = new Account();
       a.currency = mCurrency;
-      a.setLabel(MyApplication.getInstance().getString(R.string.pref_import_title, "CSV"));
+      a.setLabel(application.getString(R.string.pref_import_title, "CSV"));
       a.setType(mAccountType);
       a.save();
       accountId = a.getId();
@@ -143,7 +144,7 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
             amount = income.subtract(expense);
           }
         } catch (IllegalArgumentException e) {
-          return new Result(false, "Amounts in data exceed storage limit");
+          return Result.ofFailure("Amounts in data exceed storage limit");
         }
         Money m = new Money(a.currency, amount);
 
@@ -153,7 +154,7 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
             String subCategory = columnIndexSubcategory != -1 ?
                 saveGetFromRecord(record, columnIndexSubcategory)
                 : "";
-            if (category.equals(MyApplication.getInstance().getString(R.string.transfer)) &&
+            if (category.equals(application.getString(R.string.transfer)) &&
                 !subCategory.equals("") &&
                 QifUtils.isTransferCategory(subCategory)) {
               transferAccountId = Account.findAny(subCategory.substring(1, subCategory.length() - 1));
@@ -250,12 +251,14 @@ public class CsvImportTask extends AsyncTask<Void, Integer, Result> {
       }
     }
     contentResolver.call(TransactionProvider.DUAL_URI, TransactionProvider.METHOD_BULK_END, null, null);
-    return new Result(true,
-        0,
-        Integer.valueOf(totalImported),
-        Integer.valueOf(totalFailed),
-        Integer.valueOf(totalDiscarded),
-        a.getLabel());
+    String msg = application.getString(R.string.import_transactions_success, totalImported, a.getLabel()) + ".";
+    if (totalFailed > 0) {
+      msg += " " + application.getString(R.string.csv_import_records_failed, totalFailed);
+    }
+    if (totalDiscarded > 0) {
+      msg += " " + application.getString(R.string.csv_import_records_discarded, totalDiscarded);
+    }
+    return Result.ofSuccess(msg);
   }
 
   private int findColumnIndex(int field) {

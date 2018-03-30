@@ -57,7 +57,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.DailyAutoBackupScheduler;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.sync.SyncAdapter;
-import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
@@ -729,7 +728,6 @@ public class MyApplication extends MultiDexApplication implements
    */
   public Result restorePlanner() {
     ContentResolver cr = getContentResolver();
-    String TAG = "restorePlanner";
     String calendarId = PrefKey.PLANNER_CALENDAR_ID.getString("-1");
     String calendarPath = PrefKey.PLANNER_CALENDAR_PATH.getString("");
     Timber.d("restore plans to calendar with id %s and path %s", calendarId,
@@ -815,8 +813,7 @@ public class MyApplication extends MultiDexApplication implements
         c.close();
       }
     }
-    return new Result(true, R.string.restore_calendar_success,
-        restoredPlansCount);
+    return Result.ofSuccess(R.string.restore_calendar_success, null, restoredPlansCount);
   }
 
   public static void markDataDirty() {

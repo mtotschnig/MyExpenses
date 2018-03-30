@@ -15,14 +15,12 @@
 
 package org.totschnig.myexpenses.dialog;
 
+import android.net.Uri;
+
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.Criteria;
 import org.totschnig.myexpenses.provider.filter.PayeeCriteria;
-
-import android.net.Uri;
-import android.os.Bundle;
 
 public class SelectPayerDialogFragment extends SelectFromMappedTableDialogFragment
 {
@@ -39,15 +37,10 @@ public class SelectPayerDialogFragment extends SelectFromMappedTableDialogFragme
   Uri getUri() {
     return TransactionProvider.MAPPED_PAYEES_URI;
   }
-  /**
-   * @param account_id
-   * @return
-   */
-  public static final SelectPayerDialogFragment newInstance(long account_id) {
+
+  public static final SelectPayerDialogFragment newInstance(long rowId) {
     SelectPayerDialogFragment dialogFragment = new SelectPayerDialogFragment();
-    Bundle args = new Bundle();
-    args.putLong(DatabaseConstants.KEY_ACCOUNTID, account_id);
-    dialogFragment.setArguments(args);
+    setArguments(dialogFragment, rowId);
     return dialogFragment;
   }
   @Override

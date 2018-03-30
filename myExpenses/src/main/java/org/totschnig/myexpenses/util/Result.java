@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.util;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import org.totschnig.myexpenses.R;
@@ -25,54 +26,101 @@ import org.totschnig.myexpenses.R;
  *
  * @author Michael Totschnig
  */
-public class Result {
+public class Result<T> {
 
-  public static Result SUCCESS = new Result(true);
-  public static Result FAILURE = new Result(false);
+  public static final Result SUCCESS = new Result(true);
+  public static final Result FAILURE = new Result(false);
+
   /**
    * true represents success, false failure
    */
-  public boolean success;
+  private final boolean success;
   /**
    * a string id from {@link R} for i18n and joining with an argument
    */
-  private int message;
-
-  public int getMessage() {
-    return message;
-  }
-
-  private String messageString;
+  private final int message;
+  private final String messageString;
 
   /**
    * optional argument to be passed to getString when resolving message id
    */
   @Nullable
-  public Object[] extra;
+  private final T extra;
 
-  public Result(boolean success) {
-    this.success = success;
+  private final Object[] messageArguments;
+
+  public int getMessage() {
+    return message;
   }
 
-  public Result(boolean success, int message) {
-    this.success = success;
-    this.message = message;
-  }
-
-  public Result(boolean success, int message, @Nullable Object... extra) {
-    this.success = success;
-    this.message = message;
-    this.extra = extra;
-  }
-
-  public Result(boolean success, String messageString) {
-    this.success = success;
-    this.message = 0;
-    this.messageString = messageString;
+  public boolean isSuccess() {
+    return success;
   }
 
   @Nullable
+  public T getExtra() {
+    return extra;
+  }
+
+  private Result(boolean success) {
+    this(success, 0);
+  }
+
+  private Result(boolean success, int message) {
+    this(success, message, null);
+  }
+
+  private Result(boolean success, int message, @Nullable T extra) {
+    this(success, message, extra, (Object[]) null);
+  }
+
+  private Result(boolean success, int message, @Nullable T extra, Object... messageArguments) {
+    this.success = success;
+    this.message = message;
+    this.extra = extra;
+    this.messageArguments = messageArguments;
+    this.messageString = null;
+  }
+
+  private Result(boolean success, String messageString) {
+    this.success = success;
+    this.message = 0;
+    this.messageArguments = null;
+    this.extra = null;
+    this.messageString = messageString;
+  }
+
+  public static <T> Result<T> ofSuccess(int message) {
+    return new Result<>(true, message, null);
+  }
+
+  public static <T> Result<T> ofSuccess(String messageString) {
+    return new Result<>(true, messageString);
+  }
+
+  public static <T> Result<T> ofSuccess(int message, T extra) {
+    return new Result<>(true, message, extra);
+  }
+
+  public static <T> Result<T> ofSuccess(int message, T extra, Object... messasgeArguments) {
+    return new Result<>(true, message, extra, messasgeArguments);
+  }
+
+  public static <T> Result<T> ofFailure(int message) {
+    return new Result<>(false, message);
+  }
+
+  public static <T> Result<T> ofFailure(String messageString) {
+    return new Result<>(false, messageString);
+  }
+
+  public static <T> Result<T> ofFailure(int message, Object... messasgeArguments) {
+    return new Result<>(false, message, null, messasgeArguments);
+  }
+
+  @NonNull
   public String print(Context ctx) {
-    return message == 0 ? messageString : ctx.getString(message, extra);
+    return message == 0 ? (messageString == null ? "null" : messageString) :
+        (ctx.getString(message, (Object[]) messageArguments));
   }
 }

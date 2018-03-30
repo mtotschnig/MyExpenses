@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.export;
 
 import android.database.Cursor;
+import android.net.Uri;
 import android.support.v4.provider.DocumentFile;
 
 import org.apache.commons.lang3.StringUtils;
@@ -18,9 +19,9 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.util.AppDirHelper;
-import org.totschnig.myexpenses.util.io.FileUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.io.FileUtils;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -87,7 +88,7 @@ public class Exporter {
     this.encoding = encoding;
   }
 
-  public Result export() throws IOException {
+  public Result<Uri> export() throws IOException {
     MyApplication ctx = MyApplication.getInstance();
     DecimalFormat nfFormat = Utils.getDecimalFormat(account.currency, decimalSeparator);
     Timber.i("now starting export");
@@ -105,7 +106,7 @@ public class Exporter {
         null, selection, selectionArgs, KEY_DATE);
     if (c.getCount() == 0) {
       c.close();
-      return new Result(false, R.string.no_exportable_expenses);
+      return Result.ofFailure(R.string.no_exportable_expenses);
     }
     //then we check if the destDir is writable
     DocumentFile outputFile = AppDirHelper.newFile(
@@ -114,11 +115,9 @@ public class Exporter {
         format.getMimeType(), true);
     if (outputFile == null) {
       c.close();
-      return new Result(
-          false,
+      return Result.ofFailure(
           R.string.io_error_unable_to_create_file,
-          fileName,
-          FileUtils.getPath(MyApplication.getInstance(), destDir.getUri()));
+          fileName, FileUtils.getPath(MyApplication.getInstance(), destDir.getUri()));
     }
     c.moveToFirst();
     Utils.StringBuilderWrapper sb = new Utils.StringBuilderWrapper();
@@ -329,6 +328,6 @@ public class Exporter {
     }
     out.close();
     c.close();
-    return new Result(true, R.string.export_sdcard_success, outputFile.getUri());
+    return Result.ofSuccess(R.string.export_sdcard_success, outputFile.getUri(), FileUtils.getPath(ctx, outputFile.getUri()));
   }
 }

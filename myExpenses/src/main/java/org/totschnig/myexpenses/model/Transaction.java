@@ -449,8 +449,8 @@ public class Transaction extends Model {
     t.setMethodId(getLongOrNull(c, KEY_METHODID));
     t.setMethodLabel(DbUtils.getString(c, KEY_METHOD_LABEL));
     t.setCatId(catId);
-    t.setPayeeId(getLongOrNull(c, KEY_PAYEEID));
     t.setPayee(DbUtils.getString(c, KEY_PAYEE_NAME));
+    t.setPayeeId(getLongOrNull(c, KEY_PAYEEID));
     t.setId(id);
     t.setDate(c.getLong(
         c.getColumnIndexOrThrow(KEY_DATE)) * 1000L);
@@ -608,7 +608,7 @@ public class Transaction extends Model {
     this.date = date;
   }
 
-  private void setDate(Long unixEpoch) {
+  public void setDate(Long unixEpoch) {
     this.setDate(new Date(unixEpoch));
   }
 
@@ -645,7 +645,7 @@ public class Transaction extends Model {
     Uri uri;
     try {
       ContentProviderResult[] result = cr().applyBatch(TransactionProvider.AUTHORITY,
-          buildSaveOperations(0, -1, false));
+          buildSaveOperations());
       if (getId() == 0) {
         //we need to find a uri, otherwise we would crash. Need to handle?
         uri = result[0].uri;
@@ -756,6 +756,10 @@ public class Transaction extends Model {
 
   public String getUncommittedView() {
     return VIEW_UNCOMMITTED;
+  }
+
+  public ArrayList<ContentProviderOperation> buildSaveOperations() {
+    return buildSaveOperations(0, -1, false);
   }
 
   /**

@@ -132,7 +132,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   @Override
   public void onPerformSync(Account account, Bundle extras, String authority,
                             ContentProviderClient provider, SyncResult syncResult) {
-    Timber.i("onPerformSync %s", extras);
+    log().i("onPerformSync %s", extras);
     if (extras.getBoolean(KEY_NOTIFICATION_CANCELLED)) {
       notificationContent.remove(account.hashCode());
       if (ContentResolver.isSyncPending(account, authority)) {
@@ -176,11 +176,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       authToken = accountManager.blockingGetAuthToken(account, GenericAccountService.Authenticator.AUTH_TOKEN_TYPE,
           true);
     } catch (OperationCanceledException | IOException | AuthenticatorException e) {
-      log().e("Error getting auth token.", e);
+      log().w(e,"Error getting auth token.");
       syncResult.stats.numAuthExceptions++;
       return;
     }
-    if (!backend.setUp(authToken).success) {
+    if (!backend.setUp(authToken).isPresent()) {
       syncResult.stats.numIoExceptions++;
       syncResult.delayUntil = IO_DEFAULT_DELAY_SECONDS;
       appendToNotification(Utils.concatResStrings(getContext(), " ",
@@ -350,7 +350,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             while (true) {
               List<TransactionChange> nextChanges = getLocalChanges(provider, accountId, sequenceToTest);
               if (nextChanges.size() > 0) {
-                localChanges.addAll(Stream.of(nextChanges).filter(change -> !change.isEmpty()).toList());
+                localChanges.addAll(nextChanges);
                 lastSyncedLocal = sequenceToTest;
                 sequenceToTest++;
               } else {
@@ -404,6 +404,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             notifyDatabaseError(e, account);
           } catch (Exception e) {
             appendToNotification("ERROR: " + e.getMessage(), account, true);
+            log().e(e);
           } finally {
             if (successLocal2Remote > 0 || successRemote2Local > 0) {
               appendToNotification(getContext().getString(R.string.synchronization_end_success, successRemote2Local, successLocal2Remote), account, false);
@@ -573,16 +574,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
   private void writeRemoteChangesToDbPart(ContentProviderClient provider, List<TransactionChange> remoteChanges, long accountId) throws RemoteException, OperationApplicationException {
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
-    ops.add(ContentProviderOperation.newInsert(
-        TransactionProvider.DUAL_URI.buildUpon()
-            .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_SYNC_BEGIN, "1").build())
-        .build());
+    ops.add(TransactionProvider.pauseChangeTrigger());
     Stream.of(remoteChanges)
         .forEach(change -> collectOperations(change, accountId, ops, -1));
-    ops.add(ContentProviderOperation.newDelete(
-        TransactionProvider.DUAL_URI.buildUpon()
-            .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_SYNC_END, "1").build())
-        .build());
+    ops.add(TransactionProvider.resumeChangeTrigger());
     ContentProviderResult[] contentProviderResults = provider.applyBatch(ops);
     int opsSize = ops.size();
     int resultsSize = contentProviderResults.length;
@@ -611,7 +606,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 .build());
           } else {
             skipped = true;
-            Timber.i("Uuid found in changes already exists locally, likely a transfer implicitly created from its peer");
+            log().i("Uuid found in changes already exists locally, likely a transfer implicitly created from its peer");
           }
         } else {
           ops.addAll(getContentProviderOperationsForCreate(change, ops.size(), parentOffset));
@@ -619,11 +614,17 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         break;
       case updated:
         ContentValues values = toContentValues(change);
-        if (values.size() > 0) {
-          ops.add(ContentProviderOperation.newUpdate(uri)
-              .withSelection(KEY_UUID + " = ? AND " + KEY_ACCOUNTID + " = ?", new String[]{change.uuid(), String.valueOf(accountId)})
-              .withValues(values)
-              .build());
+        if (values.size() > 0 || parentOffset != -1) {
+          final ContentProviderOperation.Builder builder = ContentProviderOperation.newUpdate(uri)
+              .withSelection(KEY_UUID + " = ? AND " + KEY_ACCOUNTID + " = ?",
+                  new String[]{change.uuid(), String.valueOf(accountId)});
+          if (values.size() > 0) {
+            builder.withValues(values);
+          }
+          if (parentOffset != -1) {
+            builder.withValueBackReference(KEY_PARENTID, parentOffset);
+          }
+          ops.add(builder.build());
         }
         break;
       case deleted:
@@ -631,13 +632,23 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             .withSelection(KEY_UUID + " = ?", new String[]{change.uuid()})
             .build());
         break;
+      case unsplit:
+        ops.add(ContentProviderOperation.newUpdate(uri.buildUpon()
+                .appendPath(TransactionProvider.URI_SEGMENT_UNSPLIT).build())
+            .withValue(KEY_UUID, change.uuid())
+            .build());
+        break;
     }
-    if (change.splitParts() != null && !skipped) {
+    if (change.isCreateOrUpdate() && change.splitParts() != null && !skipped) {
       final int newParentOffset = ops.size() - 1;
       List<TransactionChange> splitPartsFiltered = filterDeleted(change.splitParts(),
           findDeletedUuids(Stream.of(change.splitParts())));
-      Stream.of(splitPartsFiltered).forEach(splitChange -> collectOperations(splitChange, accountId, ops,
-          change.isCreate() ? newParentOffset : -1)); //back reference is only used when we insert a new split, for updating an existing split we search for its _id via its uuid
+      Stream.of(splitPartsFiltered).forEach(splitChange -> {
+        if (!change.uuid().equals(splitChange.parentUuid())) throw new AssertionError();
+        //back reference is only used when we insert a new split,
+        //for updating an existing split we search for its _id via its uuid
+        collectOperations(splitChange, accountId, ops, change.isCreate() ? newParentOffset : -1);
+      });
     }
   }
 
@@ -723,7 +734,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
   private ContentValues toContentValues(TransactionChange change) {
     ContentValues values = new ContentValues();
-    //values.put("parent_uuid", parentUuid());
     if (change.comment() != null) {
       values.put(KEY_COMMENT, change.comment());
     }

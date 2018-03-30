@@ -154,4 +154,10 @@
     <item name="EQUIVALENT_AMOUNT_COMMAND" type="id"/>
     <item name="ExchangeRateEdit1" type="id" />
     <item name="ExchangeRateEdit2" type="id" />
+    <item name="UNGROUP_SPLIT_COMMAND" type="id"/>
+    <item name="AccountTypeCheckboxCash" type="id"/>
+    <item name="AccountTypeCheckboxBank" type="id"/>
+    <item name="AccountTypeCheckboxCcard" type="id"/>
+    <item name="AccountTypeCheckboxAsset" type="id"/>
+    <item name="AccountTypeCheckboxLiability" type="id"/>
 </resources>

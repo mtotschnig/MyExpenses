@@ -39,11 +39,6 @@
     <string name="backup_failure">Backup to \"%1$s\" failed.</string>
     <string name="backup_success">Database and preferences successfully written to \"%1$s\".</string>
     <string name="category">Category</string>
-    <string name="split_transaction_error">Could not transform transaction to split.</string>
-    <plurals name="split_transaction_success">
-        <item quantity="one">Transaction successfully transformed to split.</item>
-        <item quantity="other">%1$d transactions were successfully transformed to splits.</item>
-    </plurals>
     <string name="color">Color</string>
     <string name="comment">Notes</string>
     <string name="confirmation_dialog_dont_show_again">Do not show again</string>
@@ -737,4 +732,18 @@
     <string name="menu_original_amount">Original amount</string>
     <string name="menu_equivalent_amount">Equivalent amount</string>
     <string name="home_currency_change_warning">If you change your home currency, equivalent amounts and exchange rates will be lost, and need to be defined again. Do you want to continue?</string>
+    <string name="warning_split_transactions">The selected transactions will be grouped into one split transaction. Their date information will be lost, i.e. replaced by their average.</string>
+    <string name="warning_ungroup_split_transactions">The selected split transactions will be ungrouped, i.e. their split parts will become normal transactions.</string>
+    <!-- This is the label for the action that breaks up a split transaction into its parts. -->
+    <string name="menu_ungroup_split_transaction">Ungroup split</string>
+    <plurals name="ungroup_split_transaction_success">
+        <item quantity="one">Split Transaction was successfully ungrouped.</item>
+        <item quantity="other">%1$d split transactions were successfully ungrouped.</item>
+    </plurals>
+    <string name="ungroup_split_transaction_failure">While ungrouping split transaction, %1$d out of %2$d failed.</string>
+    <string name="split_transaction_one_success">Transaction successfully transformed to split.</string>
+    <string name="split_transaction_one_error">Could not transform transaction to split.</string>
+    <string name="split_transaction_group_success">%1$d transactions were successfully grouped into one split transaction.</string>
+    <string name="split_transaction_group_error">Could not group transactions into split.</string>
+    <string name="split_transaction_not_possible">Only transactions that have same account, payee, and status can be grouped into one split transaction.</string>
 </resources>
