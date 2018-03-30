@@ -276,13 +276,13 @@ public class Template extends Transaction {
     } else {
       if (DatabaseConstants.SPLIT_CATID.equals(catId)) {
         template = new SplitTransaction(accountId, amount);
+        setCatId(DbUtils.getLongOrNull(c, KEY_CATID));
       } else {
         template = new Transaction(accountId, amount);
-        setMethodId(DbUtils.getLongOrNull(c, KEY_METHODID));
-        setCatId(DbUtils.getLongOrNull(c, KEY_CATID));
-        setPayee(DbUtils.getString(c, KEY_PAYEE_NAME));
-        setMethodLabel(DbUtils.getString(c, KEY_METHOD_LABEL));
       }
+      setMethodId(DbUtils.getLongOrNull(c, KEY_METHODID));
+      setPayee(DbUtils.getString(c, KEY_PAYEE_NAME));
+      setMethodLabel(DbUtils.getString(c, KEY_METHOD_LABEL));
     }
     setId(c.getLong(c.getColumnIndexOrThrow(KEY_ROWID)));
     setComment(DbUtils.getString(c, KEY_COMMENT));
