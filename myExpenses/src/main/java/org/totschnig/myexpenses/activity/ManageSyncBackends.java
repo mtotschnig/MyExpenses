@@ -219,16 +219,14 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
       case TASK_REPAIR_SYNC_BACKEND: {
         Result result = (Result) o;
         String resultPrintable = result.print(this);
-        if (resultPrintable != null) {
-          if (result.isSuccess()) {
-            showSnackbar(resultPrintable, Snackbar.LENGTH_LONG);
-          } else {
-            Bundle b = new Bundle();
-            b.putString(ConfirmationDialogFragment.KEY_MESSAGE, resultPrintable);
-            b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.TRY_AGAIN_COMMAND);
-            b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.button_label_try_again);
-            ConfirmationDialogFragment.newInstance(b).show(getSupportFragmentManager(), "REPAIR_SYNC_FAILURE");
-          }
+        if (result.isSuccess()) {
+          showSnackbar(resultPrintable, Snackbar.LENGTH_LONG);
+        } else {
+          Bundle b = new Bundle();
+          b.putString(ConfirmationDialogFragment.KEY_MESSAGE, resultPrintable);
+          b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.TRY_AGAIN_COMMAND);
+          b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.button_label_try_again);
+          ConfirmationDialogFragment.newInstance(b).show(getSupportFragmentManager(), "REPAIR_SYNC_FAILURE");
         }
       }
     }

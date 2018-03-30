@@ -24,13 +24,14 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.export.qif.QifDateFormat;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+
+import timber.log.Timber;
 
 public class CsvParseTask extends AsyncTask<Void, String, ArrayList<CSVRecord>> {
   private final TaskExecutionFragment taskExecutionFragment;
@@ -89,8 +90,7 @@ public class CsvParseTask extends AsyncTask<Void, String, ArrayList<CSVRecord>> 
         try {
           inputStream.close();
         } catch (IOException e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
+          Timber.e(e);
         }
       }
     }

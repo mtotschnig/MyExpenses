@@ -133,7 +133,7 @@ public class RoadmapViewModel extends AndroidViewModel {
           return vote;
         }
       } catch (IOException e) {
-        e.printStackTrace();
+        Timber.e(e);
       }
       return null;
     }
@@ -200,7 +200,7 @@ public class RoadmapViewModel extends AndroidViewModel {
       try {
         lastVote = gson.fromJson(readFromFile(ROADMAP_VOTE), Vote.class);
       } catch (IOException e) {
-        e.printStackTrace();
+        Timber.e(e);
       }
       return lastVote;
     }

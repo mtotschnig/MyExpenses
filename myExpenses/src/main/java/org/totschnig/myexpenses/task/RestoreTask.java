@@ -123,7 +123,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       try {
         is.close();
       } catch (IOException e) {
-        e.printStackTrace();
+        Timber.e(e);
       }
       if (!zipResult) {
         return Result.ofFailure(

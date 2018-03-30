@@ -148,8 +148,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
       try {
         r.close();
       } catch (IOException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
+        Timber.e(e);
       }
     }
   }

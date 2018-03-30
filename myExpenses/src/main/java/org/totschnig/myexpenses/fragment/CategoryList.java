@@ -579,7 +579,7 @@ public class CategoryList extends SortableListFragment implements
           //3)open the same group again
           //in this scenario getChildrenCursor is called twice, second time leads to error
           //maybe it is trying to close the group that had been kept open before the orientation change
-          e.printStackTrace();
+          Timber.e(e);
         }
       } else {
         mManager.initLoader(groupPos, bundle, CategoryList.this);

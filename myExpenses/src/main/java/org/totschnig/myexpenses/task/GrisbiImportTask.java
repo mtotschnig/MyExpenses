@@ -21,6 +21,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import timber.log.Timber;
+
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.PROGRESS_TAG;
 
 public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
@@ -114,7 +116,7 @@ public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
         try {
           catXML.close();
         } catch (IOException e) {
-          e.printStackTrace();
+          Timber.e(e);
         }
       }
     }

@@ -173,7 +173,7 @@ public class Utils {
         eventType = xpp.next();
       }
     } catch (Exception e) {
-      e.printStackTrace();
+      Timber.e(e);
     }
     return result;
   }
@@ -442,7 +442,7 @@ public class Utils {
       return hexString.toString();
 
     } catch (NoSuchAlgorithmException e) {
-      e.printStackTrace();
+      Timber.e(e);
     }
     return "";
   }

@@ -180,9 +180,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       syncResult.stats.numAuthExceptions++;
       return;
     }
-    if (!backend.setUp(authToken).isPresent()) {
+    final Exceptional<Void> setupResult = backend.setUp(authToken);
+    if (!setupResult.isPresent()) {
       syncResult.stats.numIoExceptions++;
       syncResult.delayUntil = IO_DEFAULT_DELAY_SECONDS;
+      log().e(setupResult.getException());
       appendToNotification(Utils.concatResStrings(getContext(), " ",
           R.string.sync_io_error_cannot_connect, R.string.sync_error_will_try_again_later), account, true);
       return;

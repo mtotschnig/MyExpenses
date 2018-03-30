@@ -365,7 +365,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
                   FileCopyUtils.copy(imageFileUri, Uri.fromFile(new File(staleFileDir, imageFileUri.getLastPathSegment())));
                   success = cr.delete(imageFileUri, null, null) > 0;
                 } catch (IOException e) {
-                  e.printStackTrace();
+                  Timber.e(e);
                 }
               }
               if (success) {

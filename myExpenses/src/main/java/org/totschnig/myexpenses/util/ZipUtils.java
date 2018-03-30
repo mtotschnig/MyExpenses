@@ -72,7 +72,7 @@ public class ZipUtils {
                     zip);
                 in.close();
               } catch (FileNotFoundException e) {
-                e.printStackTrace();
+                Timber.e(e);
               }
             }
           } while (c.moveToNext());

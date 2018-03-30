@@ -485,9 +485,7 @@ public class CategoryTest extends BaseDbTest {
           selectionArgs               // select "title = Note1"
       );
       fail("Bulk update should not succeed");
-    } catch (UnsupportedOperationException e) {
-      e.printStackTrace();
-    }
+    } catch (UnsupportedOperationException ignored) {}
   }
 
   public void testUniqueConstraintsCreateMain() {

@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import org.totschnig.myexpenses.fragment.OnboardingUiFragment;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
+import org.totschnig.myexpenses.sync.SyncBackendProvider;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.task.RestoreTask;
 import org.totschnig.myexpenses.task.SyncAccountTask;
@@ -41,6 +43,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import icepick.Icepick;
 import icepick.State;
+import timber.log.Timber;
 
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_FETCH_SYNC_ACCOUNT_DATA;
@@ -189,15 +192,16 @@ public class SplashActivity extends SyncBackendSetupActivity {
           }
           showSnackbar("Neither backups nor sync accounts found");
         } else {
-         /* if (result.extra != null && result.extra.length > 0 && result.extra[0] instanceof PendingIntent) {
+          Throwable throwable = resultExceptional.getException();
+          if (throwable instanceof SyncBackendProvider.ResolvableSetupException) {
             try {
-              startIntentSenderForResult(((PendingIntent) result.extra[0]).getIntentSender(), REQUEST_CODE_RESOLUTION, null, 0, 0, 0);
+              startIntentSenderForResult(((SyncBackendProvider.ResolvableSetupException) throwable).getResolution().getIntentSender(), REQUEST_CODE_RESOLUTION, null, 0, 0, 0);
             } catch (IntentSender.SendIntentException e) {
               Timber.e(e, "Exception while starting resolution activity");
             }
           } else {
             showSnackbar("Unable to set up account");
-          }*/
+          }
         }
         break;
       }

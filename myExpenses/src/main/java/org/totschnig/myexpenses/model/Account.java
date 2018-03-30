@@ -544,7 +544,6 @@ public class Account extends Model {
       cr().applyBatch(TransactionProvider.AUTHORITY, ops);
     } catch (Exception e) {
       CrashHandler.report(e);
-      e.printStackTrace();
     }
   }
 

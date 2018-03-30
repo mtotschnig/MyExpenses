@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.sync;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -58,6 +59,20 @@ public interface SyncBackendProvider {
     }
     SyncParseException(String message) {
       super(message);
+    }
+  }
+
+  class ResolvableSetupException extends Exception {
+
+    @NonNull final PendingIntent resolution;
+
+    public ResolvableSetupException(@NonNull PendingIntent resolution) {
+      this.resolution = resolution;
+    }
+
+    @NonNull
+    public PendingIntent getResolution() {
+      return resolution;
     }
   }
 }
