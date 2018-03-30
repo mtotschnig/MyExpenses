@@ -175,6 +175,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
       onView(withText(R.string.dialog_title_contrib_feature)).check(matches(isDisplayed()));
       onView(withText(R.string.dialog_contrib_no)).perform(scrollTo()).perform(click());
     }
+    onView(withText(R.string.menu_split_transaction)).perform(click());
     onView(withText(R.string.split_transaction)).check(matches(isDisplayed()));
     //CursoMatchers class does not allow to distinguish between null and 0 in database
 /*    onData(CursorMatchers.withRowLong(DatabaseConstants.KEY_CATID, DatabaseConstants.SPLIT_CATID))
