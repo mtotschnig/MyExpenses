@@ -63,6 +63,7 @@ import java.util.Arrays;
 import java.util.Currency;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import timber.log.Timber;
@@ -144,6 +145,7 @@ public class TransactionProvider extends ContentProvider {
   public static final String URI_SEGMENT_TYPE_FILTER = "typeFilter";
   public static final String URI_SEGMENT_LAST_EXCHANGE = "lastExchange";
   public static final String URI_SEGMENT_SWAP_SORT_KEY = "swapSortKey";
+  public static final String URI_SEGMENT_UNSPLIT = "unsplit";
   public static final String QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES = "mergeCurrencyAggregates";
   public static final String QUERY_PARAMETER_EXTENDED = "extended";
   public static final String QUERY_PARAMETER_DISTINCT = "distinct";
@@ -153,8 +155,8 @@ public class TransactionProvider extends ContentProvider {
   public static final String QUERY_PARAMETER_INIT = "init";
   public static final String QUERY_PARAMETER_CALLER_IS_SYNCADAPTER = "caller_is_syncadapter";
   public static final String QUERY_PARAMETER_MERGE_TRANSFERS = "mergeTransfers";
-  public static final String QUERY_PARAMETER_SYNC_BEGIN = "syncBegin";
-  public static final String QUERY_PARAMETER_SYNC_END = "syncEnd";
+  private static final String QUERY_PARAMETER_SYNC_BEGIN = "syncBegin";
+  private static final String QUERY_PARAMETER_SYNC_END = "syncEnd";
   public static final String QUERY_PARAMETER_WITH_START = "withStart";
   /**
    * Transfers are included into in and out sums, instead of reported in extra field
@@ -213,7 +215,7 @@ public class TransactionProvider extends ContentProvider {
   private static final int ACCOUNT_ID_SORTDIRECTION = 46;
   private static final int AUTOFILL = 47;
   private static final int ACCOUNT_EXCHANGE_RATE = 48;
-
+  private static final int UNSPLIT = 49;
 
   private boolean mDirty = false;
   private boolean bulkInProgress = false;
@@ -909,9 +911,7 @@ public class TransactionProvider extends ContentProvider {
         break;
       case DUAL: {
         if ("1".equals(uri.getQueryParameter(QUERY_PARAMETER_SYNC_BEGIN))) {
-          values = new ContentValues(1);
-          values.put(KEY_STATUS, "1");
-          id = db.insertOrThrow(TABLE_SYNC_STATE, null, values);
+          id = pauseChangeTrigger(db);
           newUri = TABLE_SYNC_STATE + "/" + id;
         } else {
           throw unknownUri(uri);
@@ -1081,7 +1081,7 @@ public class TransactionProvider extends ContentProvider {
         break;
       case DUAL: {
         if ("1".equals(uri.getQueryParameter(QUERY_PARAMETER_SYNC_END))) {
-          count = db.delete(TABLE_SYNC_STATE, where, whereArgs);
+          count = resumeChangeTrigger(db);
         } else {
           throw unknownUri(uri);
         }
@@ -1329,12 +1329,12 @@ public class TransactionProvider extends ContentProvider {
 
               db.execSQL("UPDATE " + TABLE_TRANSACTIONS + " SET " + KEY_AMOUNT + "="
                       + KEY_AMOUNT + operation + factor + " WHERE " + KEY_ACCOUNTID
-                      + " IN (SELECT " + DatabaseConstants.KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + "=?)",
+                      + " IN (SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + "=?)",
                   bindArgs);
 
               db.execSQL("UPDATE " + TABLE_TEMPLATES + " SET " + KEY_AMOUNT + "="
                       + KEY_AMOUNT + operation + factor + " WHERE " + KEY_ACCOUNTID
-                      + " IN (SELECT " + DatabaseConstants.KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + "=?)",
+                      + " IN (SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + "=?)",
                   bindArgs);
             }
             Money.storeCustomFractionDigits(segment, newValue);
@@ -1439,6 +1439,38 @@ public class TransactionProvider extends ContentProvider {
         count = db.update(TABLE_ACCOUNTS, contentValues, KEY_ROWID + " = ?", new String[]{segment});
         break;
       }
+      case UNSPLIT: {
+        segment = uri.getPathSegments().get(1);
+
+        final String subselectTemplate = "(SELECT %1$s FROM %2$s parent WHERE %3$s = %2$s.%4$s)";
+        String crStatusSubSelect = (String.format(Locale.ROOT, subselectTemplate,
+          KEY_CR_STATUS, TABLE_TRANSACTIONS, KEY_ROWID, KEY_PARENTID));
+        String payeeIdSubSelect = (String.format(Locale.ROOT, subselectTemplate,
+            KEY_PAYEEID, TABLE_TRANSACTIONS, KEY_ROWID, KEY_PARENTID));
+        String sequenceNumberSubSelect = String.format(Locale.ROOT, "(SELECT %1$s FROM %2$s WHERE %3$s = %4$s)",
+            KEY_SYNC_SEQUENCE_LOCAL, TABLE_ACCOUNTS, KEY_ROWID, KEY_ACCOUNTID);
+        final String[] bindArgs = {segment};
+
+        try {
+          db.beginTransaction();
+          pauseChangeTrigger(db);
+          //parts are promoted to independence
+          db.execSQL(String.format(Locale.ROOT, "UPDATE %s SET %s = null, %s = %s, %s = %s WHERE %s = ? ",
+              TABLE_TRANSACTIONS, KEY_PARENTID, KEY_CR_STATUS, crStatusSubSelect, KEY_PAYEEID, payeeIdSubSelect, KEY_PARENTID),
+              bindArgs) ;
+          //Change is recorded
+          db.execSQL(String.format(Locale.ROOT, "INSERT INTO %1$s (%2$s, %3$s, %4$s, %5$s) SELECT '%6$s', %3$s, %7$s, %5$s FROM %8$s WHERE %9$s = ?",
+              TABLE_CHANGES, KEY_TYPE, KEY_ACCOUNTID, KEY_SYNC_SEQUENCE_LOCAL, KEY_UUID,
+              TransactionChange.Type.unsplit.name(),  sequenceNumberSubSelect, TABLE_TRANSACTIONS, KEY_ROWID), bindArgs);
+          //parent is deleted
+          count = db.delete(TABLE_TRANSACTIONS, KEY_ROWID + " = ?", bindArgs);
+          resumeChangeTrigger(db);
+          db.setTransactionSuccessful();
+        } finally {
+          db.endTransaction();
+        }
+        break;
+      }
       default:
         throw unknownUri(uri);
     }
@@ -1493,8 +1525,8 @@ public class TransactionProvider extends ContentProvider {
           results[i] = operations.get(i).apply(this, results, i);
         } catch (Exception e) {
           Map<String, String> customData = new HashMap<>();
+          customData.put("i", String.valueOf(i));
           for (int j = 0; j < numOperations; j++) {
-            customData.put("i", String.valueOf(i));
             customData.put("operation" + j, operations.get(j).toString());
           }
           CrashHandler.report(e, customData);
@@ -1544,6 +1576,7 @@ public class TransactionProvider extends ContentProvider {
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_MOVE + "/#", TRANSACTION_MOVE);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_TOGGLE_CRSTATUS, TRANSACTION_TOGGLE_CRSTATUS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_UNDELETE, TRANSACTION_UNDELETE);
+    URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_UNSPLIT, UNSPLIT);
     URI_MATCHER.addURI(AUTHORITY, "categories", CATEGORIES);
     URI_MATCHER.addURI(AUTHORITY, "categories/#", CATEGORY_ID);
     URI_MATCHER.addURI(AUTHORITY, "accounts", ACCOUNTS);
@@ -1662,5 +1695,29 @@ public class TransactionProvider extends ContentProvider {
       initOpenHelper();
     }
     return result;
+  }
+
+  public static ContentProviderOperation resumeChangeTrigger() {
+    return ContentProviderOperation.newDelete(
+        DUAL_URI.buildUpon()
+            .appendQueryParameter(QUERY_PARAMETER_SYNC_END, "1").build())
+        .build();
+  }
+
+  private int resumeChangeTrigger(SQLiteDatabase db) {
+    return db.delete(TABLE_SYNC_STATE, null, null);
+  }
+
+  public static ContentProviderOperation pauseChangeTrigger() {
+    return ContentProviderOperation.newInsert(
+        DUAL_URI.buildUpon()
+            .appendQueryParameter(QUERY_PARAMETER_SYNC_BEGIN, "1").build())
+        .build();
+  }
+
+  private long pauseChangeTrigger(SQLiteDatabase db) {
+    ContentValues values = new ContentValues(1);
+    values.put(KEY_STATUS, "1");
+    return db.insertOrThrow(TABLE_SYNC_STATE, null, values);
   }
 }

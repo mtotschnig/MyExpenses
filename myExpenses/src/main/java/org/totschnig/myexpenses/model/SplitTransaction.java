@@ -17,7 +17,6 @@ package org.totschnig.myexpenses.model;
 
 import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
@@ -223,26 +222,12 @@ public class SplitTransaction extends Transaction {
   public boolean unsplit() {
     MyApplication application = MyApplication.getInstance();
     ContentResolver cr = application.getContentResolver();
-    ContentValues values = new ContentValues();
-    values.putNull(KEY_PARENTID);
-    values.put(KEY_CR_STATUS, getCrStatus().name());
-    if (getPayeeId() != null) {
-      values.put(KEY_PAYEEID, getPayeeId());
-    }
-    ArrayList<ContentProviderOperation> operations = new ArrayList<>();
-    operations.add(ContentProviderOperation.newUpdate(TransactionProvider.TRANSACTIONS_URI)
-        .withValues(values)
-        .withSelection(KEY_PARENTID + " = ?", new String[]{String.valueOf(getId())})
-        .build());
-    operations.add(ContentProviderOperation.newDelete(ContentUris.withAppendedId(TransactionProvider.TRANSACTIONS_URI, getId()))
-        .withExpectedCount(1)
-        .build());
-    try {
-      cr.applyBatch(TransactionProvider.AUTHORITY, operations);
-      return true;
-    } catch (RemoteException | OperationApplicationException e) {
-      Timber.e(e);
-      return false;
-    }
+    return cr.update(
+        TransactionProvider.TRANSACTIONS_URI
+            .buildUpon()
+            .appendPath(String.valueOf(getId()))
+            .appendPath(TransactionProvider.URI_SEGMENT_UNSPLIT)
+            .build(),
+        null, null, null) == 1;
   }
 }
