@@ -116,6 +116,46 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 2.8.9
+    - "2018-03-19"
+    -
+      en: |
+        Conversion between foreign currencies and home currency.
+      fr: |
+        Conversion entre devises étrangères et monnaie locale.
+      de: |
+        Umrechnung zwischen Fremdwährung und Heimatwährung.
+      es: |
+        Conversión entre monedas extranjeras y monedas locales.
+      bg: |
+        Конвертиране между чуждестранни и национална валути.
+      iw: |
+        המרה בין מטבעות זרים למטבע ביתי.
+  -
+    - 2.8.8
+    - "2018-02-24"
+    -
+      en: |
+        History chart (Cash flow).
+      fr: |
+        Graphique historique (flux de trésorerie).
+      de: |
+        Verlaufsdiagramm (Cashflow).
+      es: |
+        Gráfico de historial (flujo de efectivo).
+      pt: |
+        Diagrama histórico (fluxo de caixa).
+      tr: |
+        Tarihçe grafiği (Nakit akışı).
+      bg: |
+        Графика на историята (паричен поток).
+      ru: |
+        История (Cash flow).
+      ja: |
+        履歴チャート (キャッシュフロー).
+      iw: |
+        תרשים היסטוריה (תזרים מזומנים).
+  -
     - 2.8.7
     - "2018-02-01"
     -
