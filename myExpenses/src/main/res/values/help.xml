@@ -36,7 +36,7 @@
   <string name="menu_search_help_text">This entry opens a submenu which allows you to define search criteria based on category, amount, comment, status, payer/payee and payment method. When a search filter is active, you can simply click on its entry in the submenu to deactivate it.</string>
   <string name="cab_create_template_from_transaction_help_text">Define a new template based on the selected transaction. Will prompt you for the title of the template.</string>
   <string name="cab_clone_transaction_help_text">The selected transactions will be cloned with the current date and time. You can make changes before saving the copy.</string>
-  <string name="cab_split_transaction_help_text">The selected transactions will be transformed into split transactions with one split part. You can then edit the transaction to create the parts as needed.</string>
+  <string name="cab_split_help_text">You can later edit the transaction to create additional parts as needed.</string>
 
   <!-- ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">This screen lists the predefined payment methods (Cheque, Credit card, Deposit, Direct debit) and lets you define new ones. Use the floating action button to open the form for creating a new method.</string>

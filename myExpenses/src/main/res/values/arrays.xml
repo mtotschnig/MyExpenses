@@ -106,6 +106,7 @@
         <item>create_template_from_transaction</item>
         <item>clone_transaction</item>
         <item>split_transaction</item>
+        <item>ungroup_split_transaction</item>
     </string-array>
     <string-array name="MyExpenses_crstatus_cabitems" tools:ignore="UnusedResources">
         <item>edit</item>
@@ -113,6 +114,7 @@
         <item>create_template_from_transaction</item>
         <item>clone_transaction</item>
         <item>split_transaction</item>
+        <item>ungroup_split_transaction</item>
     </string-array>
 
     <string-array name="NavigationDrawer_menuitems" tools:ignore="UnusedResources">
@@ -328,6 +330,10 @@
     <string-array name="form_synchronization_help_text" tools:ignore="UnusedResources">
         <item>form_synchronization_help_text_select</item>
         <item>form_synchronization_help_text_add</item>
+    </string-array>
+    <string-array name="cab_split_transaction_help_text" tools:ignore="UnusedResources">
+        <item>warning_split_transactions</item>
+        <item>cab_split_help_text</item>
     </string-array>
 
     <string-array name="AccountEdit_menuitems" tools:ignore="UnusedResources">
