@@ -21,11 +21,9 @@
   <string name="already_defined">%1$s вече е дефинирана</string>
   <string name="amount">Сума</string>
   <string name="app_name">Моите разходи</string>
-  <string name="backup_failure">Неуспешeн бекъп в \"%1$s\".</string>
+  <string name="backup_failure">Неуспешно архивиране в \"%1$s\".</string>
   <string name="backup_success">База данни и предпочитания са записани успешно в \"%1$s\".</string>
   <string name="category">Категория</string>
-  <string name="split_transaction_one_error">Не мога да преобразувам транзакцията в разпределена.</string>
-  <string name="split_transaction_one_success">Транзакцията е успешно преобразувана в разпределена.</string>
   <string name="color">Цвят</string>
   <string name="comment">Бележка</string>
   <string name="confirmation_dialog_dont_show_again">Не показвай отново</string>
@@ -103,7 +101,7 @@
   <string name="dialog_title_extended_feature">Функция от Разширен вариант</string>
   <!--the dialog where this title is displayed allows the user to customize the number of fraction digits for a currency
     e.g. 3 instead of 2 for € if you want to calculate with 1/10s of a ¢-->
-  <string name="dialog_title_template_title">Задайте заглавие</string>
+  <string name="dialog_title_template_title">Задайте име</string>
   <string name="dialog_title_warning_delete_account">Да изтрия ли сметката?</string>
   <string name="dialog_title_warning_delete_main_category">Да изтрия ли основната категория?</string>
   <string name="dialog_title_warning_delete_template">Да изтрия ли шаблона?</string>
@@ -119,7 +117,7 @@
   <string name="feedback_email_message">Моля, изпратете вашата обратна връзка на английски, френски или немски!</string>
   <string name="ftp_uri_malformed">Неправилен URI %1$s</string>
   <string name="grisbi_import_categories_loading">Зареждане на категории от %1$s</string>
-  <string name="grisbi_import_default_source">Импорт на готови категории</string>
+  <string name="grisbi_import_default_source">Зареди готови категории</string>
   <string name="grisbi_import_parties_loading">Зареждане на страни от %1$s</string>
   <string name="grouping_day">Ден</string>
   <string name="grouping_last_week">Миналата седмица</string>
@@ -146,7 +144,7 @@
   <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
   <string name="menu_apply_template">Приложи</string>
   <string name="menu_back">Назад</string>
-  <string name="menu_backup">Бекъп</string>
+  <string name="menu_backup">Архивиране</string>
   <!--Balance: compare cleared balance in app with balance on statement received from bank-->
   <string name="menu_balance">Баланс на сметка</string>
   <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
@@ -233,7 +231,7 @@
   <string name="opening_balance">Начално салдо</string>
   <string name="parse_error_file_not_found">Не е намерен файл %1$s</string>
   <string name="parse_error_grisbi_version_not_supported">Неподдържана версия на Grisbi файл: %1$s</string>
-  <string name="parse_error_no_data_found">Във файла няма данни за импортиране.</string>
+  <string name="parse_error_no_data_found">Във файла няма данни за внасяне.</string>
   <string name="parse_error_other_exception">Възникна грешка: %1$s</string>
   <string name="parse_error_parse_exception">Не мога да анализирам файлa.</string>
   <string name="password_disabled_reenable">Защитатa с парола е прекратена. Може да я възстановите в Настройки.</string>
@@ -264,11 +262,11 @@
   <string name="pm_type_credit">Кредит</string>
   <string name="pm_type_debit">Дебит</string>
   <string name="pm_type_neutral">Неутрално</string>
-  <string name="pref_app_dir_title">Папка за бекъп и експорт</string>
+  <string name="pref_app_dir_title">Папка за архивиране и експорт</string>
   <string name="pref_auto_fill_title">Автоматично попълване</string>
   <string name="pref_auto_fill_summary">Попълни данните от последната транзакция за същия получател / платец</string>
   <string name="pref_backup_summary">Запиши сега резервно копие на базата данни и предпочитания.</string>
-  <string name="pref_sort_order_usages">по брой използвания</string>
+  <string name="pref_sort_order_usages">По брой използвания</string>
   <string name="pref_category_title_advanced">Допълнителни</string>
   <string name="pref_category_title_export">Експортиране</string>
   <string name="pref_category_title_import">Импортиране</string>
@@ -289,12 +287,12 @@
   <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Въведете ключ</string>
   <string name="pref_export_format_title">Формат на датата</string>
   <string name="pref_follow_gplus_title">Последвайте {app_name} в Google+</string>
-  <string name="pref_import_from_grisbi_summary">Импорт на категории и страни от Grisbi XML файл</string>
-  <string name="pref_import_from_grisbi_title">Импорт от Grisbi</string>
+  <string name="pref_import_from_grisbi_summary">Внасяне на категории и страни от Grisbi XML файл</string>
+  <string name="pref_import_from_grisbi_title">Внасяне от Grisbi</string>
   <!--%s is replaced with QIF or CSV-->
-  <string name="pref_import_summary">Импорт на транзакции, категории и страни от %s файл</string>
+  <string name="pref_import_summary">Внасяне на транзакции, категории и страни от %s файл</string>
   <!--%s is replaced with QIF or CSV-->
-  <string name="pref_import_title">Импорт от %s</string>
+  <string name="pref_import_title">Внасяне от %s</string>
   <string name="pref_like_facebook_title">Харесай ни във Facebook</string>
   <string name="pref_manage_accounts_title">Сметки</string>
   <string name="pref_manage_categories_summary">Добавяне, редактиране, изтриване на категории.</string>
@@ -309,7 +307,7 @@
   <string name="pref_more_info_dialog_title">Лиценз и кредити</string>
   <string name="pref_password_not_equal">Паролите не съвпадат</string>
   <string name="pref_perform_protection_title">Защита</string>
-  <string name="pref_perform_share_title">Споделяне на експорт и бекъп</string>
+  <string name="pref_perform_share_title">Споделяне на експорт и архив</string>
   <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
   <string name="pref_planning_calendar_create_local">Създай нов локален план-календар </string>
   <string name="pref_planning_calendar_summary">Изберете календар, където да се съхраняват планове за бъдещи и повтарящи се транзакции</string>
@@ -324,7 +322,7 @@
   <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
   <string name="pref_restore_alternative">Алтернатива</string>
   <string name="pref_restore_alternative_summary">Използвайте алтернативния начин, ако на устройството нямате файлов мениджър.</string>
-  <string name="pref_restore_summary">Изберете бекъп файл за възстановяване на база данни и предпочитания.</string>
+  <string name="pref_restore_summary">Изберете архивен файл за възстановяване на база данни и предпочитания.</string>
   <string name="pref_restore_title">Възстановяване</string>
   <string name="pref_security_question_summary">Позволява Ви да отключите приложението, ако сте забравили паролата си.</string>
   <string name="pref_security_question_title">Въпрос за сигурност</string>
@@ -337,7 +335,7 @@
   <string name="pref_template_click_default_summary">При кратко докосване на запис в списък на шаблони</string>
   <string name="pref_ui_fontsize_title">Размер на шрифта</string>
   <string name="pref_ui_home_screen_shortcuts">Шорткъти на начален екран</string>
-  <string name="pref_ui_language_default">от системата</string>
+  <string name="pref_ui_language_default">От системата</string>
   <!--Title of the preference for selecting the UI language-->
   <string name="pref_ui_language_title">Език</string>
   <string name="pref_ui_theme_dark">тъмно</string>
@@ -355,7 +353,7 @@
   <string name="reference_number">Референтен номер</string>
   <string name="restore_db_failure">Неуспешно възстановяване на база данни.</string>
   <string name="restore_db_success">Базата данни е възстановена успешно.</string>
-  <string name="restore_no_backup_found">Не е намерен бекъп файл.</string>
+  <string name="restore_no_backup_found">Не е намерен архивен файл.</string>
   <string name="restore_preferences_failure">Неуспешно възстановяване на предпочитания</string>
   <string name="restore_backup_archive_not_valid">Архива %1$s не е валиден</string>
   <string name="restore_backup_file_not_found">Няма файл %1$s в архива \"%2$s\"</string>
@@ -390,7 +388,7 @@
   <string name="template_create_success">Успешно създаден шаблон \"%1$s\"</string>
   <string name="thank_you">Благодарим Ви за подкрепата!</string>
   <string name="time">Време</string>
-  <string name="title">Заглавие</string>
+  <string name="title">Име</string>
   <string name="total_cleared">Изчистени общо</string>
   <string name="total_reconciled">Съгласувани общо</string>
   <string name="transaction">Транзакция</string>
@@ -434,22 +432,22 @@
   <string name="warning_reset_account_all">Ако продължите, всички транзакции с валута %1$s, по всички сметки, ще бъдат изтрити от базата данни и не могат да бъдат възстановени.</string>
   <string name="warning_reset_account_matched">Ако продължите, транзакциите, избрани с текущия филтър, ще бъдат изтрити от базата данни и не могат да бъдат възстановени.</string>
   <string name="warning_restore">База данни и предпочитания ще бъдат възстановени от файл \"%1$s\". Текущите данни ще бъдат изтрити. Искате ли да продължите?</string>
-  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Текущо избраната папка за бекъп и експорт ще се изтрие автоматично от Андроид, ако деинсталирате {app_name}. Може да избегнете това, като изберете различна папка от Настройки.</string>
-  <string name="warning_splitpartcategory_context">Трансферите, които са част от разпределяне, могат да се редактират само в контекста на разпределянето.</string>
+  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Текущо избраната папка за архив и експорт ще се изтрие автоматично от Андроид, ако деинсталирате {app_name}. Може да избегнете това, като изберете различна папка от Настройки.</string>
+  <string name="warning_splitpartcategory_context">Преводите, които са част от разпределяне, могат да се редактират само в контекста на разпределянето.</string>
   <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Моля задайте число между %1$d и %2$d</string>
   <string name="warning_change_fraction_digits_1">Сумите в базата данни трябва да бъдат обновени, за да отговарят на новия брой дробни цифри.</string>
   <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Ако сумите не бъдат обновени, след промяната ще бъдат показвани като умножени по %d.</string>
   <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Ако сумите не бъдат обновени, след промяната ще бъдат показвани като разделени на %d.</string>
   <string name="warning_change_fraction_digits_3">Ако сумите бъдат обновени ще загубите информацията от тяхната дробна част.</string>
   <string name="warning_change_fraction_digits_checkbox_label">Обнови сумите в базата данни</string>
-  <string name="import_categories_success">Успешно импортирани %1$s категории</string>
-  <string name="import_parties_success">Успешно импортирани %1$s страни</string>
-  <string name="import_accounts_success">Успешно импортирани %1$s сметки</string>
-  <string name="import_transactions_success" tools:ignore="PluralsCandidate">Успешно импортирани  %1$d транзакции в сметка %2$s</string>
-  <string name="import_accounts_none">Не са импортирани сметки</string>
-  <string name="import_categories_none">Не са импортирани категории</string>
-  <string name="import_parties_none">Не са импортирани страни</string>
-  <string name="import_transactions_none">Не са импортирани транзакции в сметка %1$s</string>
+  <string name="import_categories_success">Успешно са внесени %1$s категории</string>
+  <string name="import_parties_success">Успешно са внесени %1$s страни</string>
+  <string name="import_accounts_success">Успешно са внесени %1$s сметки</string>
+  <string name="import_transactions_success" tools:ignore="PluralsCandidate">Успешно са внесени %1$d транзакции в сметка %2$s</string>
+  <string name="import_accounts_none">Не са внесени сметки</string>
+  <string name="import_categories_none">Не са внесени категории</string>
+  <string name="import_parties_none">Не са внесени страни</string>
+  <string name="import_transactions_none">Не са внесени транзакции в сметка %1$s</string>
   <string name="import_source_select_error">Моля, изберете файл от тип %1$s</string>
   <string name="menu_categories_setup_default">Въведи готови категории</string>
   <string name="menu_create_folder">Нова папка</string>
@@ -462,8 +460,8 @@
   <string name="create_new_folder_fail">Неуспешно създаване на папка</string>
   <string name="widget_title_accounts">Моите сметки</string>
   <string name="widget_title_templates">Моите шаблони</string>
-  <string name="app_dir_not_accessible">Посочената за бекъп и експорт папка (%1$s) не е достъпна. Моля, изберете друга.</string>
-  <string name="app_dir_not_compatible_with_nougat">Зададения за бекъп и експорт URL (%1$s)  е недостъпен за Android Nougat. Моля, изберете папка отново.</string>
+  <string name="app_dir_not_accessible">Посочената за архив и експорт папка (%1$s) не е достъпна. Моля, изберете друга.</string>
+  <string name="app_dir_not_compatible_with_nougat">Зададения за архив и експорт URL (%1$s)  е недостъпен за Android Nougat. Моля, изберете папка отново.</string>
   <string name="search_amount">Търсене на сума</string>
   <string name="search_category">Търсене на категория</string>
   <string name="search_comment">Търсене на бележка</string>
@@ -492,9 +490,9 @@
   <string name="import_source_file">Файл</string>
   <string name="restore_calendar_handling">Възтановяване на данни в календара</string>
   <string name="restore_calendar_handling_configured">Възстанови плановете в текущия календар</string>
-  <string name="restore_calendar_handling_backup">Възстанови плановете в календар, записан в бекъпа, ако има такъв</string>
+  <string name="restore_calendar_handling_backup">Възстанови плановете в календар, записан в архива, ако има такъв</string>
   <string name="restore_calendar_handling_ignore">Не възстановявай планове</string>
-  <string name="restore_not_possible_target_calendar_missing">Календарът %s, записан в бекъп архива, не съществува локално. Възстановяването е отменено.</string>
+  <string name="restore_not_possible_target_calendar_missing">Календарът %s, записан в архива, не съществува локално. Възстановяването е отменено.</string>
   <string name="restore_not_possible_local_calendar_missing">Не е посочен текущ план календар.</string>
   <string name="menu_view_picture">Виж изображение</string>
   <string name="menu_delete_picture">Изтрий изображение</string>
@@ -522,10 +520,10 @@
   <!--Label for column where user can check rows to be discarded from import-->
   <string name="cvs_import_discard">Отхвърли</string>
   <string name="csv_import_field_mapped_more_than_once">%s е свързан повече от веднъж.</string>
-  <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">Не могат да бъдат импортирани %d записа.</string>
+  <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">Не могат да бъдат внесени %d записа.</string>
   <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">Отхвърлени са %d записа.</string>
   <string name="csv_import_subcategory_requires_category">Ако свържете подкатегория, ще трябва да свържете и главната категория.</string>
-  <string name="cvs_import_set_first_line_as_header">Да се анализира ли първия ред като заглавен?</string>
+  <string name="cvs_import_set_first_line_as_header">Да се приеме ли първия ред като заглавен?</string>
   <string name="csv_import_delimiter_comma">Запетая</string>
   <string name="csv_import_delimiter_semicolon">Точка и запетая</string>
   <string name="csv_import_delimiter_tab">Табулатор</string>
@@ -533,11 +531,11 @@
   <string name="menu_show_transactions">Покажи транзакциите</string>
   <string name="pref_custom_decimal_format_title">Формат на числата</string>
   <string name="pref_custom_decimal_format_summary">Ако не сте удовлетворени от формата по подразбиране, може да го пригодите към вашите нужди. Оставете празно, за да се върне първоначалния.</string>
-  <string name="pref_auto_backup_title">Автоматичен бекъп</string>
-  <string name="pref_auto_backup_summary">Ежедневен бекъп на базата данни в определено време (само ако има промяна в данните).</string>
-  <string name="pref_auto_backup_time_title">Време за автоматичен бекъп</string>
-  <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">След  %d успешни бекъпа, автоматичното запазване ще се деактивира.</string>
-  <string name="warning_auto_backup_limit_reached">Достигнат е лимита на успешни безплатни бекъпи.</string>
+  <string name="pref_auto_backup_title">Автоматично архивиране</string>
+  <string name="pref_auto_backup_summary">Ежедневно архивиране на базата данни в определено време (само ако има промяна в данните).</string>
+  <string name="pref_auto_backup_time_title">Време за автоматично архивиране</string>
+  <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">След  %d успешни архивирания, автоматичното запазване ще се деактивира.</string>
+  <string name="warning_auto_backup_limit_reached">Достигнат е лимита на успешни безплатни архивирания.</string>
   <string name="calendar_permission_required"><i>{app_name}</i> се нуждае от право на достъп до вашия календар за да създаде план за бъдещи и повтарящи се транзакции.</string>
   <string name="button_request_calendar_access" tools:ignore="UnusedResources">Предоставен достъп</string>
   <string name="switch_on_text">Включено</string>
@@ -586,7 +584,7 @@
   <string name="no_sync_backends">Няма отдалечено място за съхранение, с което да се прави синхронизация</string>
   <string name="menu_create_sync_backend">Ново отдалечено място за съхранение, с което да се прави синхронизация</string>
   <string name="validate_error_not_empty">Трябва да не е празно</string>
-  <string name="validate_error_webdav_invalid_certificate">На този сертификат не може да се довери. Изглежда е невалиден.</string>
+  <string name="validate_error_webdav_invalid_certificate">На този сертификат не може да се доверим. Изглежда е невалиден.</string>
   <string name="validate_error_webdav_not_compliant">Този URL не е WebDAV ресурс.</string>
   <string name="validate_error_webdav_404">Посоченият URL не съществува на сървъра.</string>
   <string name="url_not_valid">Невалиден URL</string>
@@ -622,13 +620,13 @@
   <string name="all_extended_key_features">Всички възможности на разширения ключ</string>
   <string name="upgrade_now">Надстройте сега</string>
   <string name="pref_backup_cloud_title">Запазване на отдалечено място</string>
-  <string name="pref_backup_cloud_summary">Освен локално - в това устройство, бекъп файлът може да бъде запазен и на отдалечено място.</string>
+  <string name="pref_backup_cloud_summary">Освен локално - в това устройство, архивният файл може да бъде запазен и на отдалечено място.</string>
   <string name="auto_backup_cloud_create_backend">Задаване на отдалечено място за съхранение от основния екран на менюто Настройки</string>
-  <string name="auto_backup_cloud_failure">Възникна грешка при опит за запис на бекъп файла %1$s на отдалеченото място %2$s:</string>
+  <string name="auto_backup_cloud_failure">Възникна грешка при опит за запис на архивен файл %1$s на отдалеченото място %2$s:</string>
   <string name="home_screen_shortcuts_nougate_info">Може да се добавят шорткъти чрез продължително натискане върху иконата на приложението на начален екран.</string>
   <string name="currency_symbol">Знак за валута</string>
   <string name="number_of_fraction_digits">Брой дробни символи (цифри след десетичния знак)</string>
-  <string name="warning_auto_backup_deactivated">Автоматичния бекъп е деактивиран. Може да го включите отново от Настройки след разрешаване на проблема (напр. изберете друга папка за записване на бекъпите)</string>
+  <string name="warning_auto_backup_deactivated">Автоматичното архивиране е деактивирано. Може да го включите отново от Настройки след разрешаване на проблема (напр. изберете друга папка за записване на архивите)</string>
   <string name="pref_tracking_summary">Разрешете ни да събираме анонимни данни относно начина на употреба, което ще ни помогне да планираме подобрения.</string>
   <string name="pref_tracking_title">Събиране на данни за употреба на приложението</string>
   <string name="sync_database_error">Възникна грешка в базата данни при синхронизиране.</string>
@@ -651,7 +649,7 @@
   <string name="onboarding_get_started">Да започваме</string>
   <string name="onboarding_more_options">Още опции</string>
   <string name="onboarding_restore_from_cloud">Възстановяване от облачната синхронизация</string>
-  <string name="onboarding_restore_from_local">Възстановяване на локалния бекъп файл</string>
+  <string name="onboarding_restore_from_local">Възстановяване от локален архивен файл</string>
   <string name="dialog_button_add">Добави</string>
   <string name="template_create_error">Грешка при запазването на шаблона</string>
   <string name="contributed_by">Принос чрез %s</string>
@@ -667,7 +665,7 @@
   <string name="error">Грешка (%s)</string>
   <string name="button_validate">Валидиране</string>
   <string name="licence_key">Лицензен ключ</string>
-  <string name="licence_removal_information">Ако на това устройство вече не се нуждаете от възможностите на премиалния лиценз, може да премахнете лицензния ключ. Това освобождава ключа за активиране на още едно друго устройство. Ключът може да бъде активиран на до %d устройства.</string>
+  <string name="licence_removal_information">Ако на това устройство вече не се нуждаете от възможностите на премиалния лиценз, може да премахнете лицензния ключ. Това освобождава ключа за активиране на още едно, друго устройство. Ключът може да бъде активиран на до %d устройства.</string>
   <string name="progress_removing_licence">Премахване на лиценза</string>
   <string name="licence_removal_success">Лицензният ключ бе успешно премахнат от това устройство.</string>
   <string name="professional_key">Професионален ключ</string>
@@ -707,7 +705,7 @@
   <string name="warning_device_lock_screen_not_set_up_2">Отидете на \"Настройки -&gt; Настройки -&gt; Заключен екран\", за да настроите заключен екран.</string>
   <string name="snackbar_dismiss">Отхвърли</string>
   <string name="menu_history_show_balance">Показване на салдото</string>
-  <string name="menu_history_transfers">Включи трансферите</string>
+  <string name="menu_history_transfers">Включи преводите</string>
   <string name="menu_history">История</string>
   <!--A label indicating the color for the sum of expenses-->
   <string name="history_chart_out_label">Разход</string>
@@ -719,4 +717,18 @@
   <string name="menu_original_amount">Оригинална сума</string>
   <string name="menu_equivalent_amount">Еквивалентна сума</string>
   <string name="home_currency_change_warning">Ако промените основната валута, еквивалентните суми и валутните курсове ще бъдат загубени и ще трябва да бъдат зададени отново. Ще продължите ли?</string>
+  <string name="warning_split_transactions">Избраните транзакции ще бъдат групирани в една разпределена транзакция. Информацията им за дата ще бъде изгубена, т.е. заменена от средната им стойност.</string>
+  <string name="warning_ungroup_split_transactions">Избраните разпределени транзакции ще бъдат разгрупирани, т.е. разпределените им части ще станат отделни транзакции.</string>
+  <!--This is the label for the action that breaks up a split transaction into its parts.-->
+  <string name="menu_ungroup_split_transaction">Разгрупирай разпределени</string>
+  <plurals name="ungroup_split_transaction_success">
+    <item quantity="one">Сплит транзакцията бе успешно дегенерирана.</item>
+    <item quantity="other">%1$d транзакции са разгрупирани успешно.</item>
+  </plurals>
+  <string name="ungroup_split_transaction_failure">При разгрупиране, %1$d от %2$d разпределени транзакции са отказани.</string>
+  <string name="split_transaction_one_success">Успешно преобразувана в разпределена транзакция.</string>
+  <string name="split_transaction_one_error">Не мога да преобразувам транзакцията в разпределена.</string>
+  <string name="split_transaction_group_success"> %1$d транзакции са успешно групирани в една разпределена транзакция.</string>
+  <string name="split_transaction_group_error">Тези транзакции не може да бъдат групирани в разпределена.</string>
+  <string name="split_transaction_not_possible">Само транзакции, които имат еднакви сметка, получател и статус, могат да бъдат групирани в една разпределена транзакция.</string>
 </resources>

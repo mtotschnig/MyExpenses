@@ -23,8 +23,6 @@
   <string name="backup_failure">Falha ao criar a cópia de segurança em \"%1$s\".</string>
   <string name="backup_success">A base de dados e as preferências foram guardadas com sucesso em \"%1$s\".</string>
   <string name="category">Categoria</string>
-  <string name="split_transaction_one_error">Não foi possível dividir a transação.</string>
-  <string name="split_transaction_one_success">A transação foi dividida com sucesso.</string>
   <string name="color">Cor</string>
   <string name="comment">Notas</string>
   <string name="confirmation_dialog_dont_show_again">Não mostrar novamente</string>
@@ -640,4 +638,6 @@
   <!--%1$s date, %2$s price-->
   <!--A label indicating the color for the sum of expenses-->
   <!--A label indicating the color for the sum of income-->
+  <!--This is the label for the action that breaks up a split transaction into its parts.-->
+  <string name="split_transaction_one_error">Não foi possível dividir a transação.</string>
 </resources>

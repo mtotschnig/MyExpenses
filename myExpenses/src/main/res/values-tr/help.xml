@@ -20,7 +20,6 @@
   <string name="menu_search_help_text">Bu unsur, kategori, meblağ, yorum, durum, alacaklı/mükellef ve ödeme metoduna dayalı arama kriterleri belirtmenize imkân veren bir alt menü açar. Bir arama filtresi etkin olduğunda alt menüde unsuruna tıklayıp onu devre dışı bırakabilirsiniz.</string>
   <string name="cab_create_template_from_transaction_help_text">Seçilen muameleye dayalı yeni bir şablon tanımlayın. Şablonun başlığı size sorulacaktır.</string>
   <string name="cab_clone_transaction_help_text">Seçilen muameleler güncel tarih ve zamanla klonlanacaktır. Kopyayı kaydetmeden değişiklik yapabilirsiniz.</string>
-  <string name="cab_split_transaction_help_text">Seçilen muameleler bir bölünmüş parçası bulunan bölünmüş muamelelere dönüştürülecektir. Parçaları istediğiniz gibi oluşturmak için muameleyi düzenleyebilirsiniz.</string>
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Bu ekran önceden tanımlanmış ödeme metotlarını (Çek, kredi kartı, mevduat, doğrudan ödeme) listeler ve yenilerini tanımlamanıza imkân verir. Yeni metot oluşturacak formu açmak için kayan eylem düğmesini kullanın.</string>
   <!--ManageParties title is in keys-->

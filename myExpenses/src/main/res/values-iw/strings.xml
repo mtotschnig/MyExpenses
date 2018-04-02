@@ -24,8 +24,6 @@
   <string name="backup_failure">גיבוי ל- \"%1$s\" נכשל</string>
   <string name="backup_success">מסד הנתונים וההעדפות נכתבים בהצלחה ל- \"%1$s\".</string>
   <string name="category">קטגוריה</string>
-  <string name="split_transaction_one_error">לא ניתן היה לשנות את העסקה לפיצול.</string>
-  <string name="split_transaction_one_success">העסקה השתנתה בהצלחה לפצל.</string>
   <string name="color">צבע</string>
   <string name="comment">הערות</string>
   <string name="confirmation_dialog_dont_show_again">אל תציג שוב</string>
@@ -714,4 +712,11 @@
   <!--A label indicating the color for the sum of income-->
   <string name="history_chart_in_label">הכנסה</string>
   <string name="menu_history_totals">הצג סיכומים</string>
+  <string name="pref_home_currency_title">מטבע מקומי</string>
+  <string name="grand_total">סכום סופי</string>
+  <string name="menu_original_amount">סכום מקורי</string>
+  <string name="menu_equivalent_amount">סכום שווה ערך</string>
+  <string name="home_currency_change_warning">אם תשנה את המטבע הביתי שלך, סכומים שווים ושערי חליפין יאבדו, ויש להגדיר אותם שוב. האם אתה רוצה להמשיך?</string>
+  <!--This is the label for the action that breaks up a split transaction into its parts.-->
+  <string name="split_transaction_one_error">לא ניתן היה לשנות את העסקה לפיצול.</string>
 </resources>

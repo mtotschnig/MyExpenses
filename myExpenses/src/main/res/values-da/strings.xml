@@ -23,8 +23,6 @@
   <string name="backup_failure">Sikkerhedskopieringen til \"%1$s\" mislykkedes.</string>
   <string name="backup_success">Databasen og indstillinger blev gemt på \"%1$s\".</string>
   <string name="category">Kategori</string>
-  <string name="split_transaction_one_error">Denne postering kunne ikke splittes.</string>
-  <string name="split_transaction_one_success">Transaktion med held omdannes til at opdele.</string>
   <string name="color">Farve</string>
   <string name="comment">Noter</string>
   <string name="confirmation_dialog_dont_show_again">Vis ikke igen</string>
@@ -495,4 +493,6 @@
   <!--%1$s date, %2$s price-->
   <!--A label indicating the color for the sum of expenses-->
   <!--A label indicating the color for the sum of income-->
+  <!--This is the label for the action that breaks up a split transaction into its parts.-->
+  <string name="split_transaction_one_error">Denne postering kunne ikke splittes.</string>
 </resources>

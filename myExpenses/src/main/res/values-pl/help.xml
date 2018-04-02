@@ -19,7 +19,6 @@
   <string name="menu_search_help_text">Ten wpis otwiera podmenu, które pozwala zdefiniować kryteria wyszukiwania na podstawie kategorii, kwoty, komentarza, statusu, płatnika/odbiorcy i metody płatności. Gdy filtr wyszukiwania jest aktywny, możesz po prostu kliknąć jego pozycję w podmenu, aby ją dezaktywować.</string>
   <string name="cab_create_template_from_transaction_help_text">Zdefiniuj nowy szablon bazujący na wybranej transakcji. Będzie on prosił cię o nazwę dla szablonu.</string>
   <string name="cab_clone_transaction_help_text">Zaznaczone transakcje zostaną sklonowane z bieżącą datą i godziną. Możesz poczynić zmiany po zapisie kopii.</string>
-  <string name="cab_split_transaction_help_text">Wybrane transakcje zostaną przekształcone w transakcje podzielone z jedną częścią podzieloną. Następnie można edytować transakcję, aby utworzyć części w razie potrzeby.</string>
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">To okno pokazuje wszystkie zdefiniowane metody płatności (czek, karta kredytowa, depozyt, karta debetowa) oraz pozwala dodawać nowe. Uzyj pływającego przycisku akcji aby utworzyć nową metodę płatności.</string>
   <!--ManageParties title is in keys-->

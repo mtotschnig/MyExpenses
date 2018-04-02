@@ -20,7 +20,6 @@
   <string name="menu_search_help_text">このエントリーは、分類、金額、コメント、ステータス、支払人/受取人および支払方法に基づいて、検索基準を定義できるサブメニューが開きます。検索フィルターが有効な場合、サブメニュー内のエントリーをクリックするだけで、無効にすることができます。</string>
   <string name="cab_create_template_from_transaction_help_text">選択した取引に基づいて新しいテンプレートを定義します。テンプレートのタイトルを入力するように求められます。</string>
   <string name="cab_clone_transaction_help_text">選択された取引は、現在の日付と時刻で複製されます。その複製を保存する前に変更することができます。</string>
-  <string name="cab_split_transaction_help_text">選択された取引は、一部分で分割取引に変換されます。その後、必要に応じて取引を編集して、一部を作成することができます。</string>
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">この画面では、あらかじめ定義された支払方法 (小切手/手形、クレジットカード、預金、口座振替) を一覧表示し、新しいものを定義することができます。フローティングアクションボタンを使用すると、新しい方法を作成するためのフォームを開きます。</string>
   <!--ManageParties title is in keys-->

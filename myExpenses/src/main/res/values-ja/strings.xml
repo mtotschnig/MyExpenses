@@ -24,7 +24,6 @@
   <string name="backup_failure">\"%1$s\" へのバックアップに失敗しました。</string>
   <string name="backup_success">データベースとプリファレンスを \"%1$s\" に書き込みました。</string>
   <string name="category">分類</string>
-  <string name="split_transaction_one_error">取引を変換して分割することができませんでした。</string>
   <string name="color">色</string>
   <string name="comment">メモ</string>
   <string name="confirmation_dialog_dont_show_again">今後表示しない</string>
@@ -704,4 +703,6 @@
   <!--A label indicating the color for the sum of income-->
   <string name="history_chart_in_label">収入</string>
   <string name="menu_history_totals">合計を表示</string>
+  <!--This is the label for the action that breaks up a split transaction into its parts.-->
+  <string name="split_transaction_one_error">取引を変換して分割することができませんでした。</string>
 </resources>

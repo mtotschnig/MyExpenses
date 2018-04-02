@@ -19,7 +19,6 @@
   <string name="menu_search_help_text">Masukan ini membuka satu submenu yang membolehkan anda takrif kriteria gelintar berasaskan kategori, amaun, ulasan, status, pembayar/penerima dan kaedah pembayaran. Bila penapis gelintar diaktifkan, andah hanya klik pada masukannya pada submenu untuk dinyahaktifkan.</string>
   <string name="cab_create_template_from_transaction_help_text">Takrif templat baharu yang berdasarkan pada transaksi terpilih. Akan maklumkan anda untuk masukkan tajuk templat tersebut.</string>
   <string name="cab_clone_transaction_help_text">Transaksi terpilih akan diklonkan dengan tarikh dan waktu semasa. Anda boleh buat perubahan sebelum menyimpan salinan tersebut.</string>
-  <string name="cab_split_transaction_help_text">Transaksi terpilih akan diubah menjadi transaksi pisah dengan satu bahagian pisah. Kemudian anda boleh sunting transaksi untuk cipta bahagian yang diperlukan.</string>
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Skrin ini menyenaraikan kaedah pembayaran pratakrif (Cek, Kad kredir, Deposit, Debit terus) dan membolehkan anda takrifkan yang baharu. Guna butang tindakan apung  buka borang untuk mencipta kaedah baharu.</string>
   <!--ManageParties title is in keys-->

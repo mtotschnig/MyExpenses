@@ -20,7 +20,6 @@
   <string name="menu_search_help_text">Dieser Eintrag öffnet ein Untermenü, das Ihnen erlaubt, Suchkriterien auf der Grundlage von Kategorie, Betrag, Kommentar, Status, Empfänger/Zahler und Zahlungsweise festzulegen. Wenn ein Such-Filter aktiv ist, können Sie diesen durch Klick auf den Eintrag im Untermenü deaktivieren.</string>
   <string name="cab_create_template_from_transaction_help_text">Basierend auf der ausgewählten Buchung wird eine neue Vorlage definiert. Sie werden zur Eingabe des Titels der Vorlage aufgefordert.</string>
   <string name="cab_clone_transaction_help_text">Die ausgewählten Buchungen werden mit dem aktuellen Datum und der aktuellen Zeit geklont. Sie können die Kopie vor dem Speichern verändern.</string>
-  <string name="cab_split_transaction_help_text">Die ausgewählten Buchungen werden in mehrteilige Buchungen mit einem Teilbetrag umgewandelt. Sie können dann die Buchung verändern, um zusätzliche Teilbeträge hinzuzufügen.</string>
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Auf diesem Bildschirm wird die Liste der vordefinierten Zahlungsweisen angezeigt (Scheck, Kreditkarte, Einzahlung, Abbuchung) und Sie können hier auch neue Zahlungsweisen definieren. Verwenden Sie die schwebende Aktionsschaltfläche zum Öffnen des Formulars für die Schaffung einer neuen Zahlungsweise.</string>
   <!--ManageParties title is in keys-->

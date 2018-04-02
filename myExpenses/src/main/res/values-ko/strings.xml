@@ -24,7 +24,6 @@
   <string name="backup_failure">\"%1$s\"(으)로의 백업을 실패했습니다.</string>
   <string name="backup_success">\"%1$s\"에 데이터베이스 및 설정을 성공적으로 기록했습니다.</string>
   <string name="category">카테고리</string>
-  <string name="split_transaction_one_error">거래 내역을 분할 거래로 바꿀 수 없습니다.</string>
   <string name="color">색상</string>
   <string name="comment">메모</string>
   <string name="confirmation_dialog_dont_show_again">다시 보여주지 않음</string>
@@ -513,4 +512,6 @@
   <!--%1$s date, %2$s price-->
   <!--A label indicating the color for the sum of expenses-->
   <!--A label indicating the color for the sum of income-->
+  <!--This is the label for the action that breaks up a split transaction into its parts.-->
+  <string name="split_transaction_one_error">거래 내역을 분할 거래로 바꿀 수 없습니다.</string>
 </resources>

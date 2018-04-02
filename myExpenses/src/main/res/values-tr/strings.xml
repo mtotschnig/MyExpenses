@@ -24,8 +24,6 @@
   <string name="backup_failure">SD kartına yedekleme başarısız oldu (%1$s).</string>
   <string name="backup_success">Veritabanı ve tercihler SD karta başarılı bir şekilde yazıldı (%1$s).</string>
   <string name="category">Kategori</string>
-  <string name="split_transaction_one_error">Muamele bölünmüşe dönüştürülemedi.</string>
-  <string name="split_transaction_one_success">Muamele başarıyla bölünmüşe dönüştürüldü.</string>
   <string name="color">Renk</string>
   <string name="comment">Notlar</string>
   <string name="confirmation_dialog_dont_show_again">Bir daha gösterme</string>
@@ -714,4 +712,6 @@
   <!--A label indicating the color for the sum of income-->
   <string name="history_chart_in_label">Gelir</string>
   <string name="menu_history_totals">Toplamları göster</string>
+  <!--This is the label for the action that breaks up a split transaction into its parts.-->
+  <string name="split_transaction_one_error">Muamele bölünmüşe dönüştürülemedi.</string>
 </resources>

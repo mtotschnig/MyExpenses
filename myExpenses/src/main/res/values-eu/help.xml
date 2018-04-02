@@ -18,7 +18,6 @@
   <string name="menu_search_help_text">Sarrera honek azpi-menu bat irekitzen du non bilaketa irizpide bat zehaztu dezakezun kopurua, iruzkina, egoera, onuradun/ordaintzailea ala ordainketa metodoaren arabera  </string>
   <string name="cab_create_template_from_transaction_help_text">Definitu txantiloi berri bat aukeratutako transakzioan oinarrituta. Txantiloiaren izena eskatuko dizu.</string>
   <string name="cab_clone_transaction_help_text">Aukeratutako transakzioak oraingo data eta orduarekin klonatuko dira. Aldaketak egin ditzakezu kopia gorde aurretik</string>
-  <string name="cab_split_transaction_help_text">Hautatutako transakzioak banaketaren zati bat duen transakzio banatu bihurtuko dira. Zuk gero transakzioa edita dezakezu zatiak nahi bezala sortzeko.</string>
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Pantaila honetan aurre-zehaztutako ordainketa metodoak zerrendatzen dira (Txekea, kreditu txartela, gordailua, zordunketa zuzena) eta berriak zehaztea baimentzen dizu. Erabili ekintza botoi flotatzailea metodo berri bat sortzeko formularioa irekitzeko.</string>
   <!--ManageParties title is in keys-->

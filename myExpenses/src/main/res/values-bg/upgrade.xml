@@ -78,4 +78,4 @@
   </string-array>
     <string name="bug_fixes">Поправени грешки</string>
     <string name="performance_enhancement">Подобрено бързодействие</string>
-</resources>
+    </resources>

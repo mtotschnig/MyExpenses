@@ -24,7 +24,6 @@
   <string name="backup_failure">备份到\"%1$s\"失败.</string>
   <string name="backup_success">数据库及喜好设置成功写入到\"%1$s\".</string>
   <string name="category">类别</string>
-  <string name="split_transaction_one_error">不能转换交易到分割</string>
   <string name="color">颜色</string>
   <string name="comment">附注</string>
   <string name="confirmation_dialog_dont_show_again">不再显示</string>
@@ -472,4 +471,6 @@
   <!--%1$s date, %2$s price-->
   <!--A label indicating the color for the sum of expenses-->
   <!--A label indicating the color for the sum of income-->
+  <!--This is the label for the action that breaks up a split transaction into its parts.-->
+  <string name="split_transaction_one_error">不能转换交易到分割</string>
 </resources>

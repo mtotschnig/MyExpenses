@@ -24,8 +24,6 @@
   <string name="backup_failure">La sauvegarde sur \"%1$s\" a échoué.</string>
   <string name="backup_success">La base de données et les paramètres ont été sauvegardés sur \"%1$s\".</string>
   <string name="category">Catégorie</string>
-  <string name="split_transaction_one_error">Impossible de ventiler l\'opération.</string>
-  <string name="split_transaction_one_success">L\'opération a été ventilée avec succès.</string>
   <string name="color">Couleur</string>
   <string name="comment">Remarques</string>
   <string name="confirmation_dialog_dont_show_again">Ne pas montrer à nouveau</string>
@@ -719,4 +717,18 @@
   <string name="menu_original_amount">Montant original</string>
   <string name="menu_equivalent_amount">Montant équivalent</string>
   <string name="home_currency_change_warning">Si vous changez la monnaie locale, les montants équivalents et les taux de change seront perdus et devront être définis à nouveau. Voulez-vous continuer?</string>
+  <string name="warning_split_transactions">Les opérations sélectionnées seront regroupées en une seule opération répartie. Les informations de date seront perdues, c\'est-à-dire remplacées par leur moyenne.</string>
+  <string name="warning_ungroup_split_transactions">Les opérations réparties sélectionnées seront dissociées, c\'est-à-dire que leurs parties après division deviendront des opérations normales.</string>
+  <!--This is the label for the action that breaks up a split transaction into its parts.-->
+  <string name="menu_ungroup_split_transaction">Séparer la répartition</string>
+  <plurals name="ungroup_split_transaction_success">
+    <item quantity="one">La transaction partagée a été dissociée avec succès.</item>
+    <item quantity="other">Les opérations réparties %1$d ont été dissociées avec succès.</item>
+  </plurals>
+  <string name="ungroup_split_transaction_failure">En dissociant l\'opération répartie, %1$d sur %2$d a échoué.</string>
+  <string name="split_transaction_one_success">L\'opération répartie a été dissociée avec succès..</string>
+  <string name="split_transaction_one_error">Impossible de ventiler l\'opération.</string>
+  <string name="split_transaction_group_success">Les %1$d opérations ont été regroupées avec succès en une seule opération répartie.</string>
+  <string name="split_transaction_group_error">Impossible de regrouper les opérations en répartition.</string>
+  <string name="split_transaction_not_possible">Seules les opérations ayant le même compte, le même bénéficiaire et le même statut peuvent être regroupées en une seule opération répartie.</string>
 </resources>

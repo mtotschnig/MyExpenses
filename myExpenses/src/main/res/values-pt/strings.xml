@@ -24,8 +24,6 @@
   <string name="backup_failure">Não foi possível efetuar o backup em \"%1$s\".</string>
   <string name="backup_success">O banco de dados e as preferências foram gravados com sucesso em \"%1$s\".</string>
   <string name="category">Categoria</string>
-  <string name="split_transaction_one_error">Não foi possível dividir a transação.</string>
-  <string name="split_transaction_one_success">A transação foi dividida com sucesso.</string>
   <string name="color">Cor</string>
   <string name="comment">Notas</string>
   <string name="confirmation_dialog_dont_show_again">Não exibir novamente</string>
@@ -207,14 +205,14 @@
   <string name="menu_split_transaction">Transformar em transação dividida</string>
   <string name="method">Método de pagamento</string>
   <string name="no_amount_given">Você não digitou nenhuma quantia.</string>
-  <string name="no_app_handling_email_available">Nenhum aplicativo de e-mail disponível.</string>
-  <string name="no_app_handling_ftp_available">Nenhum aplicativo de FTP disponível. Instalar o <i>Enviar com FTP</i>?</string>
-  <string name="no_app_handling_pdf_available">Nenhum aplicativo de PDF disponível.</string>
+  <string name="no_app_handling_email_available">Nenhum app de e-mail disponível.</string>
+  <string name="no_app_handling_ftp_available">Nenhum app de FTP disponível. Instalar o <i>Enviar com FTP</i>?</string>
+  <string name="no_app_handling_pdf_available">Nenhum app de PDF disponível.</string>
   <string name="no_categories">Nenhuma categoria.</string>
   <string name="no_expenses">Nenhuma despesa ainda!</string>
   <string name="no_exportable_expenses">Não existe nenhuma transação que ainda não tenha sido exportada.</string>
   <string name="no_filemanager_installed">Nenhum gerenciador de arquivos instalado</string>
-  <string name="no_calendar_app_installed">Não foi encontrado nenhum aplicativo para editar eventos de agenda.</string>
+  <string name="no_calendar_app_installed">Não foi encontrado nenhum app para editar eventos de agenda.</string>
   <string name="no_mapped_transactions">Não foi mapeada nenhuma transação para categorias durante este período.</string>
   <string name="no_methods">Não há formas de pagamento.</string>
   <string name="no_parties">Nenhum parceiro.</string>
@@ -282,7 +280,7 @@
   <string name="pref_contrib_purchase_summary">Adquira acesso a recursos premium.</string>
   <string name="pref_contrib_purchase_title">Comprar chave</string>
   <string name="pref_contrib_purchase_title_upgrade">Atualizar chave</string>
-  <string name="pref_contrib_purchase_title_in_app">Pagamentos no aplicativo</string>
+  <string name="pref_contrib_purchase_title_in_app">Pagamentos no app</string>
   <string name="pref_custom_currency_title">Personalizar moedas</string>
   <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
   <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Caso tenha recebido uma chave, obtenha acesso aos recursos premium.</string>
@@ -303,9 +301,9 @@
   <string name="pref_manage_methods_title">Formas de pagamento</string>
   <string name="pref_manage_parties_summary">Adiciona, edita, exclui parceiros (pagadores e beneficiários).</string>
   <string name="pref_manage_parties_title">Parceiros</string>
-  <string name="pref_manage_sync_backends_title">Backends de sincronização</string>
+  <string name="pref_manage_sync_backends_title">Servidores de sincronização</string>
   <!--%s will be replaced with list of backends-->
-  <string name="pref_manage_sync_backends_summary">Adicionar backends para sincronizar contas (%s).</string>
+  <string name="pref_manage_sync_backends_summary">Adicionar servidores para sincronizar contas (%s).</string>
   <string name="pref_more_info_dialog_title">Licença &amp; Créditos</string>
   <string name="pref_password_not_equal">As senhas não coincidem</string>
   <string name="pref_perform_protection_title">Proteção</string>
@@ -314,7 +312,7 @@
   <string name="pref_planning_calendar_create_local">Criar nova agenda de planejamento local</string>
   <string name="pref_planning_calendar_summary">Selecione a agenda onde os planos para transações futuras e recorrentes serão armazenados</string>
   <string name="pref_planning_calendar_title">Agenda de planejamento</string>
-  <string name="pref_protection_delay_seconds_summary">Intervalo de segundos antes da aplicação ser bloqueada por senha.</string>
+  <string name="pref_protection_delay_seconds_summary">Intervalo de segundos antes do app ser bloqueada por senha.</string>
   <string name="pref_protection_delay_seconds_title">Tempo até a proteção</string>
   <string name="pref_protection_enable_data_entry_from_widget_title">Entrada de dados a partir de widgets e atalhos</string>
   <string name="pref_protection_enable_data_entry_from_widget_summary_on">Permitido sem senha.</string>
@@ -326,10 +324,10 @@
   <string name="pref_restore_alternative_summary">Utilize este método alternativo caso não haja um gerenciador de arquivos instalado no dispositivo.</string>
   <string name="pref_restore_summary">Selecione um backup para restaurar o banco de dados e as preferências.</string>
   <string name="pref_restore_title">Restaurar</string>
-  <string name="pref_security_question_summary">Permite que você desbloqueie o aplicativo, caso tenha esquecido sua senha.</string>
+  <string name="pref_security_question_summary">Permite que você desbloqueie o app, caso tenha esquecido sua senha.</string>
   <string name="pref_security_question_title">Pergunta de segurança</string>
   <string name="pref_send_feedback_title">Enviar feedback</string>
-  <string name="pref_share_target_summary">Deixe em branco para escolher entre aplicativos apropriados (e-mail, Dropbox, Google Docs, etc.), ou forneça uma URL em um dos esquemas que tenham suporte</string>
+  <string name="pref_share_target_summary">Deixe em branco para escolher entre apps apropriados (e-mail, Dropbox, Google Docs, etc.), ou forneça uma URL em um dos esquemas que tenham suporte</string>
   <string name="pref_share_target_title">Enviar URL</string>
   <string name="pref_shortcut_added">O atalho foi adicionado à tela inicial</string>
   <string name="pref_shortcut_not_added">Não existe nenhuma tela disponível que aceite atalhos.</string>
@@ -424,10 +422,10 @@
   </plurals>
   <string name="warning_delete_reconciled">Excluir transações reconciliadas fará com que seus registros difiram do extrato bancário.</string>
   <string name="warning_balance_account">Por favor, compare o total apurado com o saldo final em seu extrato bancário. Se você prosseguir, as transações apuradas serão marcadas como reconciliadas.</string>
-  <string name="warning_password_protected">O aplicativo é protegido por senha.</string>
-  <string name="warning_widget_disabled">Você precisa habilitar este widget nas configurações do aplicativo.</string>
-  <string name="warning_instantiate_template_from_widget_password_protected">A instanciação rápida de modelos deste widget funciona somente se você permitir a entrada de dados de widgets sem senha nas configurações do aplicativo.</string>
-  <string name="warning_password_contrib">Definir uma pergunta de segurança permite que você desbloqueie o aplicativo, caso você esqueça sua senha.</string>
+  <string name="warning_password_protected">O app é protegido por senha.</string>
+  <string name="warning_widget_disabled">Você precisa habilitar este widget nas configurações do app.</string>
+  <string name="warning_instantiate_template_from_widget_password_protected">A instanciação rápida de modelos deste widget funciona somente se você permitir a entrada de dados de widgets sem senha nas configurações do app.</string>
+  <string name="warning_password_contrib">Definir uma pergunta de segurança permite que você desbloqueie o app, caso você esqueça sua senha.</string>
   <string name="warning_password_no_contrib">Caso você defina uma senha, tome cuidado para não esquecê-la. Você não será capaz de recuperá-la, a menos que tenha definido uma pergunta de segurança.</string>
   <string name="warning_reset_account">Caso você prossiga, todas as transações desta conta serão excluídas do banco de dados e não poderão ser restauradas.</string>
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
@@ -487,7 +485,7 @@ continuar?</string>
   <string name="hint_auto_fill">Os dados devem ser automaticamente preenchidos baseados na última transação para o mesmo beneficiário/pagador? Esse comportamento pode ser alterado nas configurações.</string>
   <string name="yes">Sim</string>
   <string name="no">Não</string>
-  <string name="hint_template_click">Um toque curto em uma entrada nesta lista instanciará o modelo e irá salvá-lo imediatamente ou então abrir a opção de edição antes de salvá-lo. Você pode acessar ambas as opções dando um toque longo e alterando o default nas configurações.</string>
+  <string name="hint_template_click">Um toque curto em uma entrada nesta lista instanciará o modelo e irá salvá-lo imediatamente ou então abrir a opção de edição antes de salvá-lo. Você pode acessar ambas as opções dando um toque longo e alterando o padrão nas configurações.</string>
   <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d contas com a moeda %2$s foram atualizadas.</string>
   <string name="learn_more">Saiba Mais</string>
   <string name="import_source_file">Arquivo</string>
@@ -584,8 +582,8 @@ continuar?</string>
   <string name="hint_user_name">Nome de usuário</string>
   <string name="hint_password">Senha</string>
   <string name="label_trust_certificate">Confiar neste certificado</string>
-  <string name="no_sync_backends">Sem backends de sincronização</string>
-  <string name="menu_create_sync_backend">Novo backend de sincronização</string>
+  <string name="no_sync_backends">Sem servidores de sincronização</string>
+  <string name="menu_create_sync_backend">Novo servidor de sincronização</string>
   <string name="validate_error_not_empty">Não pode ficar em branco</string>
   <string name="validate_error_webdav_invalid_certificate">Não é possível confiar neste certificado. Aparenta ser inválido.</string>
   <string name="validate_error_webdav_not_compliant">A URL não aponta para um recurso WebDAV.</string>
@@ -598,22 +596,22 @@ continuar?</string>
   <string name="pref_sync_frequency_title">Frequência de sincronização</string>
   <string name="pref_sync_frequency_summary">Com que frequência os dados devem ser sincronizados (em horas)</string>
   <string name="dialog_confirm_sync_unlink">Se desassociar esta conta de %s, o status da sincronização será perdido. Uma futura nova associação, exigirá que seja feita uma sincronização completa.</string>
-  <string name="dialog_sync_link">Existe uma conta com o uuid %s tanto na base de dados local quanto no backend remoto. Ao associá-las, será necessário decidir se, inicialmente, os dados locais serão enviados para o servidor ou os dados do servidor serão baixados para o banco de dados local.</string>
+  <string name="dialog_sync_link">Existe uma conta com o uuid %s tanto na base de dados local quanto no servidor remoto. Ao associá-las, será necessário decidir se, inicialmente, os dados locais serão enviados para o servidor ou os dados do servidor serão baixados para o banco de dados local.</string>
   <string name="dialog_command_sync_link_remote">Baixar do servidor remoto</string>
   <string name="dialog_command_sync_link_local">Enviar do banco de dados local</string>
-  <string name="dialog_synced_to_other">Uma conta com o uuid %s já existe na base de dados local e está associada a um backend remoto diferente.</string>
+  <string name="dialog_synced_to_other">Uma conta com o uuid %s já existe na base de dados local e está associada a um servidor remoto diferente.</string>
   <string name="menu_remove">Remover</string>
-  <string name="dialog_confirm_sync_remove_backend">O backend remoto %s será removido. Isto não afetará os dados armazenados local ou remotamente, mas o status da sincronização será perdido. Deseja continuar?</string>
+  <string name="dialog_confirm_sync_remove_backend">O servidor remoto %s será removido. Isto não afetará os dados armazenados local ou remotamente, mas o status da sincronização será perdido. Deseja continuar?</string>
   <string name="dialog_confirm_sync_link_local">Os dados remotos desta conta serão excluídos. Certifique-se de que nenhum outro dispositivo se encontra associado à ela.</string>
   <string name="dialog_confirm_sync_link_remote">Os dados locais desta conta serão excluídos.</string>
   <string name="warning_synchronization_limited_trial">O recurso de sincronização pode ser testada até %s.</string>
   <string name="warning_synchronization_limit_reached">O período de testes do recurso de sincronização encerrou.</string>
   <string name="warning_synchronization_folder_usage">Esta pasta é usada para sincronizar dados entre instalações do {app_name} em diferentes dispositivos. Por favor não modifique nenhum dos seus conteúdos manualmente.</string>
-  <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">A pasta selecionada corresponde a uma conta de um backend existente. É necessário selecionar a pasta superior para reutilizar este backend.</string>
-  <string name="select_unsynced_accounts">Selecione as contas a serem sincronizadas com este backend</string>
-  <string name="link_account_success" tools:ignore="PluralsCandidate">%d contas foram configuradas para serem sincronizadas com o backend.</string>
-  <string name="link_account_failure_1" tools:ignore="PluralsCandidate">Não foi possível configurar a sincronização de %d contas com o backend.</string>
-  <string name="link_account_failure_2">Uma conta com o mesmo uuid já existe no backend remoto.</string>
+  <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">A pasta selecionada corresponde a uma conta de um servidor existente. É necessário selecionar a pasta superior para reutilizar este servidor.</string>
+  <string name="select_unsynced_accounts">Selecione as contas a serem sincronizadas com este servidor</string>
+  <string name="link_account_success" tools:ignore="PluralsCandidate">%d contas foram configuradas para serem sincronizadas com o servidor.</string>
+  <string name="link_account_failure_1" tools:ignore="PluralsCandidate">Não foi possível configurar a sincronização de %d contas com o servidor.</string>
+  <string name="link_account_failure_2">Uma conta com o mesmo uuid já existe no servidor remoto.</string>
   <string name="link_account_failure_3">O conflito pode ser resolvido manualmente a partir do menu de contexto da entrada.</string>
   <string name="progress_dialog_checking_sync_backend">Verificando o backend</string>
   <string name="template">Modelo</string>
@@ -622,27 +620,27 @@ continuar?</string>
   <string name="all_contrib_key_features">Todas os recursos da Chave Contrib</string>
   <string name="all_extended_key_features">Todos os recursos da Chave Estendida</string>
   <string name="upgrade_now">Atualizar agora</string>
-  <string name="pref_backup_cloud_title">Armazenar no backend de sincronização</string>
-  <string name="pref_backup_cloud_summary">Além do armazenamento local no dispositivo, o arquivo de backup também pode ser copiado para um backend remoto.</string>
-  <string name="auto_backup_cloud_create_backend">Crie um backend de sincronização a partir do tela de configurações principal.</string>
-  <string name="auto_backup_cloud_failure">Ocorreu um erro ao tentar armazenar o arquivo de backup %1$s no backend %2$s:</string>
-  <string name="home_screen_shortcuts_nougate_info">Atalhos podem ser adicionados ao se pressionar longamente o ícone da aplicação na tela inicial.</string>
+  <string name="pref_backup_cloud_title">Armazenar no servidor de sincronização</string>
+  <string name="pref_backup_cloud_summary">Além do armazenamento local no dispositivo, o arquivo de backup também pode ser copiado para um servidor remoto.</string>
+  <string name="auto_backup_cloud_create_backend">Crie um servidor de sincronização a partir do tela principal de configurações.</string>
+  <string name="auto_backup_cloud_failure">Ocorreu um erro ao tentar armazenar o arquivo de backup %1$s no servidor %2$s:</string>
+  <string name="home_screen_shortcuts_nougate_info">Atalhos podem ser adicionados ao se pressionar longamente o ícone do app na tela inicial.</string>
   <string name="currency_symbol">Símbolo da moeda</string>
   <string name="number_of_fraction_digits">Número de casas decimais</string>
   <string name="warning_auto_backup_deactivated">O backup automático foi desativada. Você pode reativá-lo nas configurações após resolver o problema (ex.: selecionar uma pasta diferente para o backup).</string>
   <string name="pref_tracking_summary">Permite-nos coletar dados anônimos sobre os padrões de uso para nos ajudar a planejar melhorias.</string>
   <string name="pref_tracking_title">Coleta de dados de uso</string>
   <string name="sync_database_error">Ocorreu um erro no banco de dados durante a sincronização.</string>
-  <string name="sync_io_error_cannot_connect">Não é possível ligar ao backend de sincronização.</string>
+  <string name="sync_io_error_cannot_connect">Não é possível conectar ao servidor de sincronização.</string>
   <string name="sync_error_will_try_again_later">Tentarei novamente mais tarde.</string>
-  <string name="sync_io_exception_reset_account_data">Erro ao repor a conta remota.</string>
+  <string name="sync_io_exception_reset_account_data">Ocorreu um erro ao reiniciar a conta remota.</string>
   <string name="sync_io_exception_setup_remote_account">Erro ao configurar a conta remota.</string>
-  <string name="sync_io_exception_reading_change_set">Erro ao ler as alterações a partir do backend.</string>
+  <string name="sync_io_exception_reading_change_set">Ocorreu um erro ao ler as alterações do servidor.</string>
   <string name="sync_io_exception_syncing">Erro ao sincronizar as alterações com o servidor.</string>
-  <string name="sync_io_exception_unlocking">Erro ao remover o bloqueio do backend remoto.</string>
-  <string name="sync_io_exception_locking">O backend remoto está bloqueado ou não pode ser bloqueado.</string>
+  <string name="sync_io_exception_unlocking">Ocorreu um erro ao remover o bloqueio do servidor remoto.</string>
+  <string name="sync_io_exception_locking">O servidor remoto está bloqueado ou não pode ser bloqueado.</string>
   <string name="synchronization_start">Iniciando a sincronização da conta %s.</string>
-  <string name="synchronization_end_success">%1$d alterações remotas foram escritas na base de dados local. %2$d alterações locais foram escritas no backend remoto.</string>
+  <string name="synchronization_end_success">%1$d alterações remotas foram escritas na base de dados local. %2$d alterações locais foram escritas no servidor remoto.</string>
   <string name="synchronization_end_success_none">Sem alterações para sincronizar.</string>
   <string name="pref_webdav_timeout_title">Tempo esgotado para o WebDAV</string>
   <string name="sync_state_restored">O estado de sincronização de %d contas foi restaurado.</string>
@@ -658,7 +656,7 @@ continuar?</string>
   <string name="contributed_by">Contribuído por %s</string>
   <string name="pref_sync_notification_summary">Notificar sobre o progresso da sincronização</string>
   <string name="pref_debug_logging_summary">Escreva informações de depuração no registro do sistema</string>
-  <string name="plan_custom_recurrence_info">Por favor, salve o modelo antes. A partir daí, o plano será aberto no aplicativo de agenda, onde você pode configurar uma recorrência personalizada.</string>
+  <string name="plan_custom_recurrence_info">Por favor, salve o modelo antes. A partir daí, o plano será aberto no app de agenda, onde você pode configurar uma recorrência personalizada.</string>
   <string name="storage_permission_required">A fonte que você selecionou só pode ser lida se você conceder a permissão para ler do armazenamento externo.</string>
   <string name="picture">Imagem</string>
   <string name="menu_create_template_for_split">Novo modelo de divisão</string>
@@ -685,7 +683,7 @@ continuar?</string>
   <string name="switch_to_yearly">Mudar para assinatura anual</string>
   <string name="switch_to_monthly">Mudar para assinatura mensal</string>
   <string name="extend_validity">Estender a validade</string>
-  <string name="progress_dialog_fetching_data_from_sync_backend">Obtendo dados do backend remoto. Isso pode demorar algum tempo.</string>
+  <string name="progress_dialog_fetching_data_from_sync_backend">Obtendo dados do servidor remoto. Isso pode demorar algum tempo.</string>
   <string name="donate_button_invoice">Fatura</string>
   <string name="menu_sort_direction">Sentido da ordenação</string>
   <string name="sort_direction_ascending">ascendente</string>
@@ -696,6 +694,7 @@ continuar?</string>
   <string name="dropbox_folder_name_prompt">Digite o nome de uma pasta existente na raiz do seu Dropbox</string>
   <string name="dropbox_folder_not_found">Pasta não encontrada</string>
   <string name="sync_auth_exception_login_again">Falha na autorização. Por favor, autentique-se novamente.</string>
+  <string name="sync_loading_accounts_from_backend">Carregando contas disponíveis no servidor.</string>
   <plurals name="delete_success">
     <item quantity="one">Um objeto foi excluído com sucesso.</item>
     <item quantity="other">%d objetos foram excluídos com sucesso.</item>
@@ -719,4 +718,6 @@ continuar?</string>
   <string name="menu_original_amount">Quantia original</string>
   <string name="menu_equivalent_amount">Quantia equivalente</string>
   <string name="home_currency_change_warning">Se você mudar a sua moeda local, quantias equivalentes e taxas de câmbio serão perdidas e será necessário defini-las novamente. Deseja continuar?</string>
+  <!--This is the label for the action that breaks up a split transaction into its parts.-->
+  <string name="split_transaction_one_error">Não foi possível dividir a transação.</string>
 </resources>

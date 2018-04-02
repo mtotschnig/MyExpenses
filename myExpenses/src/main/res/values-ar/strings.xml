@@ -431,4 +431,5 @@
   <string name="extend_validity">مدد الصلاحية</string>
   <!--A label indicating the color for the sum of expenses-->
   <!--A label indicating the color for the sum of income-->
+  <!--This is the label for the action that breaks up a split transaction into its parts.-->
 </resources>
