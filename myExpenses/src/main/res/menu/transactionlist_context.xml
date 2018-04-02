@@ -33,7 +33,7 @@
     </group>
     <item
         android:id="@id/SPLIT_TRANSACTION_COMMAND"
-        android:icon="@drawable/ic_menu_split"
+        android:icon="@drawable/ic_menu_split_transaction"
         android:showAsAction="always"
         android:title="@string/menu_split_transaction">
     </item>
