@@ -35,6 +35,7 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.task.RestoreTask;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.ui.SnackbarAction;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.io.FileUtils;
 import org.totschnig.myexpenses.util.PermissionHelper;
@@ -279,8 +280,8 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
   }
 
   @Override
-  public void showSnackbar(CharSequence message, int duration, boolean dismissable) {
-    ((CommitSafeDialogFragment) getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG)).showSnackbar(message, duration, false);
+  public void showSnackbar(@NonNull CharSequence message, int duration, SnackbarAction snackbarAction) {
+    ((CommitSafeDialogFragment) getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG)).showSnackbar(message, duration, snackbarAction);
   }
 
   @Override

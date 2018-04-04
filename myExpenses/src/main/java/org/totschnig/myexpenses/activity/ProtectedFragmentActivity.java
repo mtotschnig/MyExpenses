@@ -68,6 +68,7 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.ContextWrapper;
+import org.totschnig.myexpenses.ui.SnackbarAction;
 import org.totschnig.myexpenses.util.PermissionHelper;
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup;
 import org.totschnig.myexpenses.util.Result;
@@ -706,7 +707,8 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   public void showDismissableSnackbar(int message) {
-    showSnackbar(getText(message), Snackbar.LENGTH_INDEFINITE, true);
+    showSnackbar(getText(message), Snackbar.LENGTH_INDEFINITE,
+        new SnackbarAction(R.string.snackbar_dismiss, v -> snackbar.dismiss()));
   }
 
   public void showSnackbar(int message, int duration) {
@@ -714,10 +716,10 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   public void showSnackbar(@NonNull CharSequence message, int duration) {
-    showSnackbar(message, duration, false);
+    showSnackbar(message, duration, null);
   }
 
-  public void showSnackbar(@NonNull CharSequence message, int duration, boolean dismissable) {
+  public void showSnackbar(@NonNull CharSequence message, int duration, SnackbarAction snackbarAction) {
     View container = findViewById(getSnackbarContainerId());
     if (container == null) {
       CrashHandler.report(String.format("Class %s is unable to display snackbar", getClass()));
@@ -728,8 +730,8 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
       TextView textView = snackbarView.findViewById(android.support.design.R.id.snackbar_text);
       textView.setMaxLines(4);
       UiUtils.configureSnackbarForDarkTheme(snackbar);
-      if (dismissable) {
-        snackbar.setAction(R.string.snackbar_dismiss, v -> snackbar.dismiss());
+      if (snackbarAction != null) {
+        snackbar.setAction(snackbarAction.resId, snackbarAction.listener);
       }
       snackbar.show();
     }

@@ -278,7 +278,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
         }
       } catch (IllegalArgumentException e) {
         CrashHandler.report(e);
-        showSnackbar("Unable to handle image: " + e.getMessage(), Snackbar.LENGTH_LONG, false);
+        showSnackbar("Unable to handle image: " + e.getMessage(), Snackbar.LENGTH_LONG, null);
         doShowPicture = false;
       }
     }

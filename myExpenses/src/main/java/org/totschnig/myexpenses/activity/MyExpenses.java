@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.activity;
 
 import android.app.ProgressDialog;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -80,6 +81,7 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.ProtectedCursorLoader;
+import org.totschnig.myexpenses.ui.SnackbarAction;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.DistribHelper;
@@ -89,6 +91,7 @@ import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.ads.AdHandler;
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory;
+import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -183,6 +186,8 @@ public class MyExpenses extends LaunchActivity implements
 
   @Inject
   CurrencyFormatter currencyFormatter;
+
+  private RoadmapViewModel roadmapViewModel;
 
   @Override
   protected void injectDependencies() {
@@ -315,6 +320,18 @@ public class MyExpenses extends LaunchActivity implements
       mAccountId = PrefKey.CURRENT_ACCOUNT.getLong(0L);
     }
     setup();
+
+    roadmapViewModel = ViewModelProviders.of(this).get(RoadmapViewModel.class);
+    roadmapViewModel.getVoteReminder().observe(this, reminderResId -> {
+      if (reminderResId != null) {
+        PrefKey.VOTE_REMINDER_SHOWN.putBoolean(true);
+        showSnackbar(getString(reminderResId), Snackbar.LENGTH_INDEFINITE, new SnackbarAction(R.string.roadmap_vote, v -> {
+          Intent intent = new Intent(this, RoadmapVoteActivity.class);
+          startActivity(intent);
+        }));
+      }
+    });
+    roadmapViewModel.loadVoteReminder();
   }
 
   private void setup() {

@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.util.ads;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,13 +9,15 @@ import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 
 import javax.inject.Inject;
 
+import static android.text.format.DateUtils.DAY_IN_MILLIS;
+
 public abstract class AdHandler {
   private static final int INTERSTITIAL_MIN_INTERVAL = BuildConfig.DEBUG ? 2 : 4;
-  protected static final int DAY_IN_MILLIS = BuildConfig.DEBUG ? 1 : 86400000;
   private static final int INITIAL_GRACE_DAYS = BuildConfig.DEBUG ? 0 : 5;
   private static final String AD_TYPE_BANNER = "banner";
   private static final String AD_TYPE_INTERSTITIAL = "interstitial";
@@ -70,13 +71,7 @@ public abstract class AdHandler {
   }
 
   private static boolean isInInitialGracePeriod(Context context) {
-    try {
-      return System.currentTimeMillis() -
-          context.getPackageManager().getPackageInfo(context.getPackageName(), 0)
-              .firstInstallTime < DAY_IN_MILLIS * INITIAL_GRACE_DAYS;
-    } catch (PackageManager.NameNotFoundException e) {
-      return false;
-    }
+    return Utils.getDaysSinceInstall(context) < INITIAL_GRACE_DAYS;
   }
 
   protected void onInterstitialFailed() {

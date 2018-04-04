@@ -7,17 +7,22 @@ import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
+import android.text.format.DateUtils;
 
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.retrofit.Issue;
 import org.totschnig.myexpenses.retrofit.RoadmapService;
 import org.totschnig.myexpenses.retrofit.Vote;
+import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.io.StreamReader;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 
@@ -51,9 +56,10 @@ public class RoadmapViewModel extends AndroidViewModel {
 
   private final MutableLiveData<List<Issue>> data = new MutableLiveData<>();
   private final MutableLiveData<Vote> lastVote = new MutableLiveData<>();
-  private final MutableLiveData<Boolean> voteResult = new MutableLiveData<>();
-  public static final String ISSUE_CACHE = "issue_cache.json";
-  public static final String ROADMAP_VOTE = "roadmap_vote.json";
+  private final MutableLiveData<Vote> voteResult = new MutableLiveData<>();
+  private final MutableLiveData<Integer> voteReminder = new MutableLiveData<>();
+  private static final String ISSUE_CACHE = "issue_cache.json";
+  private static final String ROADMAP_VOTE = "roadmap_vote.json";
   private RoadmapService roadmapService;
   private Gson gson;
 
@@ -73,19 +79,21 @@ public class RoadmapViewModel extends AndroidViewModel {
         .client(okHttpClient)
         .build();
     roadmapService = retrofit.create(RoadmapService.class);
-
-    loadLastVote();
   }
 
   public void loadLastVote() {
     new LoadLastVoteTask().execute();
   }
 
+  public void loadVoteReminder() {
+    new LoadVoteReminderTask().execute();
+  }
+
   public LiveData<List<Issue>> getData() {
     return data;
   }
 
-  public LiveData<Boolean> getVoteResult() {
+  public LiveData<Vote> getVoteResult() {
     return voteResult;
   }
 
@@ -112,6 +120,10 @@ public class RoadmapViewModel extends AndroidViewModel {
         new HashMap<>();
   }
 
+  public LiveData<Integer> getVoteReminder() {
+    return voteReminder;
+  }
+
   private class VoteTask extends AsyncTask<Map<Integer, Integer>, Void, Vote> {
 
     @Nullable
@@ -130,6 +142,8 @@ public class RoadmapViewModel extends AndroidViewModel {
         Response<Void> voteResponse = voteCall.execute();
         if (voteResponse.isSuccessful()) {
           writeToFile(ROADMAP_VOTE, gson.toJson(vote));
+          //after a vote has been recorded, we start checking again, if the vote has become outdated
+          PrefKey.VOTE_REMINDER_SHOWN.putBoolean(false);
           return vote;
         }
       } catch (IOException e) {
@@ -140,8 +154,7 @@ public class RoadmapViewModel extends AndroidViewModel {
 
     @Override
     protected void onPostExecute(Vote result) {
-      lastVote.setValue(result);
-      voteResult.setValue(result != null);
+      voteResult.setValue(result);
     }
   }
 
@@ -164,26 +177,15 @@ public class RoadmapViewModel extends AndroidViewModel {
           issueList = gson.fromJson(readFromFile(ISSUE_CACHE), listType);
           Timber.i("Loaded %d issues from cache", issueList.size());
         } catch (IOException e) {
-          Timber.w(e);
+          Timber.i(e);
         }
       }
 
       if (issueList == null) {
-
-        Call<List<Issue>> issuesCall = roadmapService.getIssues();
-
-        try {
-          Response<List<Issue>> response = issuesCall.execute();
-          issueList = response.body();
-          Timber.i("Loaded %d issues from network", issueList.size());
-          writeToFile(ISSUE_CACHE, gson.toJson(issueList));
-        } catch (IOException e) {
-          Timber.w(e);
-        }
+        issueList = readIssuesFromNetwork();
       }
       return issueList;
     }
-
 
     @Override
     protected void onPostExecute(List<Issue> result) {
@@ -195,23 +197,79 @@ public class RoadmapViewModel extends AndroidViewModel {
 
     @Override
     protected Vote doInBackground(Void... voids) {
-      Vote lastVote = null;
-
-      try {
-        lastVote = gson.fromJson(readFromFile(ROADMAP_VOTE), Vote.class);
-      } catch (IOException e) {
-        Timber.e(e);
-      }
-      return lastVote;
+      return readLastVoteFromFile();
     }
 
 
     @Override
     protected void onPostExecute(Vote result) {
       lastVote.setValue(result);
-      loadData(true);
     }
   }
+
+  private class LoadVoteReminderTask extends AsyncTask<Void, Void, Integer> {
+
+    @Override
+    protected Integer doInBackground(Void... voids) {
+      final long voteReminderLastCheck = PrefKey.VOTE_REMINDER_LAST_CHECK.getLong(0);
+      final long sinceLastCheck = voteReminderLastCheck == 0L ? Long.MAX_VALUE : System.currentTimeMillis() - voteReminderLastCheck;
+      if (PrefKey.VOTE_REMINDER_SHOWN.getBoolean(false) || sinceLastCheck < DateUtils.WEEK_IN_MILLIS * 4) {
+        return null;
+      }
+      Vote lastVote = readLastVoteFromFile();
+      if (lastVote == null && Utils.getDaysSinceInstall(getApplication()) < 100) {
+        return null;
+      }
+      List<Issue> issueList = readIssuesFromNetwork();
+      if (issueList == null) {
+        return null;
+      }
+      PrefKey.VOTE_REMINDER_LAST_CHECK.putLong(System.currentTimeMillis());
+      if (lastVote == null) {
+        return R.string.roadmap_intro;
+      }
+      List<Integer> issueNumbers = Stream.of(issueList).map(Issue::getNumber).collect(Collectors.toList());
+      for (Integer issueNr: lastVote.getVote().keySet()) {
+        if (!issueNumbers.contains(issueNr)) {
+          return R.string.reminder_vote_update;
+        }
+      }
+      return null;
+    }
+
+    @Override
+    protected void onPostExecute(Integer integer) {
+      voteReminder.setValue(integer);
+    }
+  }
+
+  @Nullable
+  private Vote readLastVoteFromFile() {
+    Vote lastVote = null;
+
+    try {
+      lastVote = gson.fromJson(readFromFile(ROADMAP_VOTE), Vote.class);
+    } catch (IOException e) {
+      Timber.i(e);
+    }
+    return lastVote;
+  }
+
+  private List<Issue> readIssuesFromNetwork() {
+    Call<List<Issue>> issuesCall = roadmapService.getIssues();
+
+    List<Issue> issueList = null;
+    try {
+      Response<List<Issue>> response = issuesCall.execute();
+      issueList = response.body();
+      Timber.i("Loaded %d issues from network", issueList.size());
+      writeToFile(ISSUE_CACHE, gson.toJson(issueList));
+    } catch (IOException e) {
+      Timber.i(e);
+    }
+    return issueList;
+  }
+
 
   private void writeToFile(String fileName, String json) throws IOException {
     FileOutputStream fos = getApplication().openFileOutput(fileName, Context.MODE_PRIVATE);

@@ -398,7 +398,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements an
             .show(getFragmentManager(), "APP_FOLDER_WARNING");
       }
     } else {
-      showSnackbar(appDirStatus.print(ctx), Snackbar.LENGTH_LONG, false);
+      showSnackbar(appDirStatus.print(ctx), Snackbar.LENGTH_LONG, null);
     }
   }
 

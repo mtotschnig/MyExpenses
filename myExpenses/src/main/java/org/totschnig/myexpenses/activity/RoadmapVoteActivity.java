@@ -86,6 +86,7 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
 
     roadmapViewModel = ViewModelProviders.of(this).get(RoadmapViewModel.class);
     voteWeights = roadmapViewModel.restoreWeights();
+    roadmapViewModel.loadLastVote();
     roadmapViewModel.getData().observe(this, data -> {
       this.dataSet = data;
       if (dataSet == null) {
@@ -96,7 +97,12 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
       }
     });
     roadmapViewModel.getVoteResult().observe(this,
-        result -> publishResult(result != null && result ? "Your vote has been recorded" : "Failure while submitting your vote"));
+        result -> {
+          if (result != null) {
+            lastVote = result;
+          }
+          publishResult(result != null ? "Your vote has been recorded" : "Failure while submitting your vote");
+        });
     roadmapViewModel.getLastVote().observe(this,
         result -> {
           if (result != null && result.isPro() == isPro) {
@@ -106,6 +112,7 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
               validateAndUpdateUi();
             }
           }
+          roadmapViewModel.loadData(true);
         });
   }
 

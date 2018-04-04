@@ -12,7 +12,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Toast;
 
-import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.ui.SnackbarAction;
 import org.totschnig.myexpenses.util.UiUtils;
 
 public abstract class CommitSafeDialogFragment extends DialogFragment {
@@ -42,15 +42,15 @@ public abstract class CommitSafeDialogFragment extends DialogFragment {
   }
 
   protected void showSnackbar(int resId) {
-    showSnackbar(getString(resId), Snackbar.LENGTH_LONG, false);
+    showSnackbar(getString(resId), Snackbar.LENGTH_LONG, null);
   }
 
-  public void showSnackbar(CharSequence message, int duration, boolean dismissable) {
+  public void showSnackbar(CharSequence message, int duration, SnackbarAction snackbarAction) {
     if (dialogView != null) {
       Snackbar snackbar = Snackbar.make(dialogView, message, duration);
       UiUtils.configureSnackbarForDarkTheme(snackbar);
-      if (dismissable) {
-        snackbar.setAction(R.string.snackbar_dismiss, v -> snackbar.dismiss());
+      if (snackbarAction != null) {
+        snackbar.setAction(snackbarAction.resId, snackbarAction.listener);
       }
       snackbar.show();
     } else {

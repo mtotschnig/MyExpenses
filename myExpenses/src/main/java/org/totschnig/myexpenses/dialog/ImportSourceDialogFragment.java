@@ -89,7 +89,7 @@ public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragmen
           mUri = ImportFileResultHandler.handleFilenameRequestResult(this, data);
         } catch (Throwable throwable) {
           mUri = null;
-          showSnackbar(throwable.getMessage(), Snackbar.LENGTH_LONG, false);
+          showSnackbar(throwable.getMessage(), Snackbar.LENGTH_LONG, null);
         }
       }
     }

@@ -161,7 +161,8 @@
     <string name="menu_RoadmapVoteActivity_result_help_text" tools:ignore="UnusedResources">Display the current voting results.</string>
     <string name="cab_RoadmapVoteActivity_learn_more_help_text" tools:ignore="UnusedResources">Learn more about the ticket by reading its page on Github.</string>
     <string name="cab_RoadmapVoteActivity_set_weight_help_text" tools:ignore="UnusedResources">Select the amount of points that corresponds to how relevant the issue is for you.</string>
-    <string name="roadmap_intro">Please help us shape the future of this app by taking part in the vote on the future development roadmap!</string>
+    <string name="roadmap_intro">Please help us shape the future of this app by taking part in the vote on the future development roadmap.</string>
     <string name="roadmap_particpate">Participate</string>
+    <string name="reminder_vote_update">At least one of the issues you have voted for, has now been implemented. Please spend your voting weight again.</string>
     <string name="amount_digits">١٢٣٤٥٦٧٨٩۱۲۳۴۵۶۷۸۹1234567890,.٫</string>
 </resources>

@@ -93,6 +93,7 @@ import java.util.Map;
 
 import timber.log.Timber;
 
+import static android.text.format.DateUtils.DAY_IN_MILLIS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
@@ -385,6 +386,16 @@ public class Utils {
       return false;
     }
     return true;
+  }
+
+  public static long getDaysSinceInstall(Context context) {
+    try {
+      return (System.currentTimeMillis() -
+          context.getPackageManager().getPackageInfo(context.getPackageName(), 0)
+              .firstInstallTime) / DAY_IN_MILLIS;
+    } catch (NameNotFoundException e) {
+      return 0;
+    }
   }
 
   /**
