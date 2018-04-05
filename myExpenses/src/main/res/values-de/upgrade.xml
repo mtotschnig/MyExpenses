@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_290">
+    <item>Mehrere Buchungen können zu einer mehrteiligen Buchung zusammengefasst werden</item>
+    <item>Die Gruppierung einer mehrteiligen Buchung kann aufgelöst werden</item>
+  </string-array>
   <string-array name="whats_new_289">
     <item>Umrechnung zwischen Fremdwährung und Heimatwährung</item>
   </string-array>

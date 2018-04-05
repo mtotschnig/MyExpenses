@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_290">
+    <item>Няколко транзакции могат да бъдат групирани в една разпределена транзакция</item>
+    <item>Разпределена транзакция може да се раздели на отделни транзакции</item>
+  </string-array>
   <string-array name="whats_new_289">
     <item>Конвертиране между чуждестранни и национална валути</item>
   </string-array>
@@ -78,4 +82,5 @@
   </string-array>
     <string name="bug_fixes">Поправени грешки</string>
     <string name="performance_enhancement">Подобрено бързодействие</string>
-    </resources>
+    <string name="stability_improvements">Подобрения на стабилността</string>
+</resources>

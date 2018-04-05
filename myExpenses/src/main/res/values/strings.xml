@@ -740,7 +740,7 @@
         <item quantity="one">Split Transaction was successfully ungrouped.</item>
         <item quantity="other">%1$d split transactions were successfully ungrouped.</item>
     </plurals>
-    <string name="ungroup_split_transaction_failure">While ungrouping split transaction, %1$d out of %2$d failed.</string>
+    <string name="ungroup_split_transaction_failure">While ungrouping split transactions, %1$d out of %2$d failed.</string>
     <string name="split_transaction_one_success">Transaction successfully transformed to split.</string>
     <string name="split_transaction_one_error">Could not transform transaction to split.</string>
     <string name="split_transaction_group_success">%1$d transactions were successfully grouped into one split transaction.</string>

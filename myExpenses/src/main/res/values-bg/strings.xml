@@ -6,9 +6,9 @@
   <string name="account_type_asset">сметка Активи</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_asset_plural">сметки Активи</string>
-  <string name="account_type_bank">банкова сметка</string>
+  <string name="account_type_bank">Банкова сметка</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_bank_plural">банкови сметки</string>
+  <string name="account_type_bank_plural">Банкови сметки</string>
   <string name="account_type_cash">разплащателна сметка</string>
   <!--Plural form to be used in account list where accounts are grouped by type-->
   <string name="account_type_cash_plural">разплащателни сметки</string>
@@ -22,10 +22,10 @@
   <string name="amount">Сума</string>
   <string name="app_name">Моите разходи</string>
   <string name="backup_failure">Неуспешно архивиране в \"%1$s\".</string>
-  <string name="backup_success">База данни и предпочитания са записани успешно в \"%1$s\".</string>
+  <string name="backup_success">Успешен запис на база данни и предпочитания в \"%1$s\".</string>
   <string name="category">Категория</string>
   <string name="color">Цвят</string>
-  <string name="comment">Бележка</string>
+  <string name="comment">Бележки</string>
   <string name="confirmation_dialog_dont_show_again">Не показвай отново</string>
   <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Без реклами</string>
   <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Неограничен брой сметки</string>
@@ -53,7 +53,7 @@
   <string name="decimal_separator">Десетичен разделител</string>
   <string name="default_account_name">Бюджетна книга</string>
   <string name="description">Описание</string>
-  <string name="dialog_balance_delete">Изтрийте изравнени транзакции</string>
+  <string name="dialog_balance_delete">Изтрий изравнените транзакции</string>
   <!--User confirms that he wants to discard changes-->
   <string name="dialog_confirm_button_discard">Отхвърли</string>
   <string name="dialog_confirm_discard_changes">Да отхвърля ли промените?</string>
@@ -66,7 +66,7 @@
   <string name="dialog_command_disabled_reset_account">Няма транзакции за експорт.</string>
   <string name="dialog_command_disabled_distribution">В тази сметка няма транзакции, отнесени към категорията.</string>
   <string name="dialog_contrib_no">Още не</string>
-  <string name="dialog_contrib_no_usages_left">Няма свободни употреби.</string>
+  <string name="dialog_contrib_no_usages_left">Няма безплатни употреби.</string>
   <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
   <string name="dialog_contrib_premium_feature">%1$s е функция от Премиум вариант  (%2$s).</string>
   <string name="dialog_contrib_reminder_remove_limitation">Премахнете тези ограничения и получете повече възможности чрез надстройка на <i>{app_name}</i>.</string>
@@ -112,7 +112,7 @@
   <string name="export_sdcard_failure">Неуспешен експорт на Разходи в \"%1$s\": %2$s</string>
   <!--1$s is replaced with path to file-->
   <string name="export_sdcard_success">Успешен експорт на Разходи във файл \"%1$s\"</string>
-  <string name="external_storage_unavailable">Няма външна памет (sdcard)!</string>
+  <string name="external_storage_unavailable">Не е достъпна външна памет (sdcard)!</string>
   <string name="feedback">Обратна връзка</string>
   <string name="feedback_email_message">Моля, изпратете вашата обратна връзка на английски, френски или немски!</string>
   <string name="ftp_uri_malformed">Неправилен URI %1$s</string>
@@ -189,7 +189,7 @@
   <string name="menu_invert_transfer">Размяна</string>
   <string name="menu_manage_plans">Шаблони и планове</string>
   <string name="menu_open">Отвори</string>
-  <string name="menu_import">Импортиране</string>
+  <string name="menu_import">Внасяне на данни</string>
   <string name="menu_print">Разпечатай</string>
   <string name="menu_reset">Експорт и нулиране</string>
   <string name="menu_reset_all">Експорт и нулиране на всичко</string>
@@ -269,7 +269,7 @@
   <string name="pref_sort_order_usages">По брой използвания</string>
   <string name="pref_category_title_advanced">Допълнителни</string>
   <string name="pref_category_title_export">Експортиране</string>
-  <string name="pref_category_title_import">Импортиране</string>
+  <string name="pref_category_title_import">Внасяне на данни</string>
   <string name="pref_category_title_manage">Управление</string>
   <string name="pref_category_title_more_information">Повече информация</string>
   <string name="pref_category_title_security">Сигурност</string>

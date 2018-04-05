@@ -717,6 +717,18 @@
   <string name="menu_original_amount">Originalbetrag</string>
   <string name="menu_equivalent_amount">Gleichwertiger Betrag</string>
   <string name="home_currency_change_warning">Wenn Sie Ihre Heimatwährung ändern, gehen gleichwertige Beträge und Wechselkurse verloren und müssen erneut definiert werden. Möchten Sie fortfahren?</string>
+  <string name="warning_split_transactions">Die ausgewählten Buchungen werden in einer mehrteiligen Buchung zusammengefasst. Ihre Datumsinformation wird verloren gehen, d. H. durch ihren Durchschnitt ersetzt werden.</string>
+  <string name="warning_ungroup_split_transactions">Die Gruppierung der ausgewählten mehrteiligen Buchungen wird aufgelöst, d.h. ihre Teile werden zu normale Buchungen.</string>
   <!--This is the label for the action that breaks up a split transaction into its parts.-->
+  <string name="menu_ungroup_split_transaction">Gruppierung auflösen</string>
+  <plurals name="ungroup_split_transaction_success">
+    <item quantity="one">Split-Transaktion wurde erfolgreich aufgehoben.</item>
+    <item quantity="other">Die Gruppierung von %1$d mehrteiligen Buchungen wurde erfolgreich aufgelöst.</item>
+  </plurals>
+  <string name="ungroup_split_transaction_failure">Das Aufheben der Gruppierung von mehrteiligen Buchungen ist in %1$d von %2$d Fällen fehlgeschlagen.</string>
+  <string name="split_transaction_one_success">Die Buchung wurde erfolgreich in mehrteilige Buchung umgewandelt.</string>
   <string name="split_transaction_one_error">Die Buchung konnte nicht gesplittet werden. </string>
+  <string name="split_transaction_group_success">%1$d Buchungen wurden erfolgreich in einer mehrteiligen Buchung zusammengefasst.</string>
+  <string name="split_transaction_group_error">Buchungen konnten nicht in eine mehrteilige Buchung zusammengefasst werden.</string>
+  <string name="split_transaction_not_possible">Nur Buchungen, die dasselbe Konto, denselben Empfänger und denselben Status haben, können in einer mehrteiligen Buchung zusammengefasst werden.</string>
 </resources>
