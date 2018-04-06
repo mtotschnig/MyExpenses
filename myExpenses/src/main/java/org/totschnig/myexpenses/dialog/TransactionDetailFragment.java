@@ -18,6 +18,7 @@ package org.totschnig.myexpenses.dialog;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -61,8 +62,8 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.PictureDirHelper;
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.math.BigDecimal;
 import java.text.DateFormat;
@@ -158,13 +159,16 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
   }
 
   @Override
-  public void onAttach(Activity activity) {
-    super.onAttach(activity);
-    ((ProtectedFragmentActivity) activity).startTaskExecution(
-        TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2,
-        new Long[]{getArguments().getLong(KEY_ROWID)},
-        null,
-        0);
+  public void onAttach(Context context) {
+    super.onAttach(context);
+    final ProtectedFragmentActivity activity = (ProtectedFragmentActivity) getActivity();
+    if (activity != null && !activity.hasPendingTask(false)) {
+      activity.startTaskExecution(
+          TaskExecutionFragment.TASK_INSTANTIATE_TRANSACTION_2,
+          new Long[]{getArguments().getLong(KEY_ROWID)},
+          null,
+          0);
+    }
   }
 
   @Override

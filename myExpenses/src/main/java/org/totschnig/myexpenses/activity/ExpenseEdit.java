@@ -487,7 +487,7 @@ public class ExpenseEdit extends AmountActivity implements
           taskId = TaskExecutionFragment.TASK_INSTANTIATE_TEMPLATE;
         }
       }
-      if (supportFragmentManager.findFragmentByTag(ASYNC_TAG) == null) {
+      if (!hasPendingTask(false)) {
         startTaskExecution(
             taskId,
             new Long[]{objectId},

@@ -451,41 +451,48 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   public <T> void startTaskExecution(int taskId, T[] objectIds, Serializable extra,
                                      int progressMessage, boolean withButton) {
     FragmentManager m = getSupportFragmentManager();
-    if (m.findFragmentByTag(ASYNC_TAG) != null) {
-      showTaskNotFinishedWarning();
-    } else {
-      //noinspection AndroidLintCommitTransaction
-      FragmentTransaction ft = m.beginTransaction()
-          .add(TaskExecutionFragment.newInstance(
-              taskId,
-              objectIds, extra),
-              ASYNC_TAG);
-      if (progressMessage != 0) {
-        ft.add(ProgressDialogFragment.newInstance(progressMessage, withButton), PROGRESS_TAG);
-      }
-      ft.commit();
+    if (hasPendingTask(true)) {
+      return;
     }
+    //noinspection AndroidLintCommitTransaction
+    FragmentTransaction ft = m.beginTransaction()
+        .add(TaskExecutionFragment.newInstance(
+            taskId,
+            objectIds, extra),
+            ASYNC_TAG);
+    if (progressMessage != 0) {
+      ft.add(ProgressDialogFragment.newInstance(progressMessage, withButton), PROGRESS_TAG);
+    }
+    ft.commit();
+  }
+
+  public boolean hasPendingTask(boolean shouldWarn) {
+    FragmentManager m = getSupportFragmentManager();
+    final boolean result = m.findFragmentByTag(ASYNC_TAG) != null;
+    if (result && shouldWarn) {
+      showSnackbar("Previous task still executing, please try again later",
+          Snackbar.LENGTH_LONG);
+    }
+    return result;
   }
 
   private void showTaskNotFinishedWarning() {
-    showSnackbar("Previous task still executing, please try again later",
-        Snackbar.LENGTH_LONG);
+
   }
 
   public void startTaskExecution(int taskId, @NonNull Bundle extras, int progressMessage) {
     FragmentManager m = getSupportFragmentManager();
-    if (m.findFragmentByTag(ASYNC_TAG) != null) {
-      showTaskNotFinishedWarning();
-    } else {
-      //noinspection AndroidLintCommitTransaction
-      FragmentTransaction ft = m.beginTransaction()
-          .add(TaskExecutionFragment.newInstanceWithBundle(extras, taskId),
-              ASYNC_TAG);
-      if (progressMessage != 0) {
-        ft.add(ProgressDialogFragment.newInstance(progressMessage), PROGRESS_TAG);
-      }
-      ft.commit();
+    if (hasPendingTask(true)) {
+      return;
     }
+    //noinspection AndroidLintCommitTransaction
+    FragmentTransaction ft = m.beginTransaction()
+        .add(TaskExecutionFragment.newInstanceWithBundle(extras, taskId),
+            ASYNC_TAG);
+    if (progressMessage != 0) {
+      ft.add(ProgressDialogFragment.newInstance(progressMessage), PROGRESS_TAG);
+    }
+    ft.commit();
   }
 
   private void removeAsyncTaskFragment(boolean keepProgress) {
