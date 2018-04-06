@@ -409,7 +409,7 @@
     </string-array>
 
     <string-array name="versions">
-        <item>322;2.9.0</item>
+        <item>323;2.9.0</item>
         <item>318;2.8.9</item>
         <item>314;2.8.8</item>
         <item>312;2.8.7</item>
@@ -498,6 +498,10 @@
     <string-array name="version_more_info_289" tools:ignore="UnusedResources">
         <item>posts/2035974853330649</item>
         <item>AYT8u2EQosF</item>
+    </string-array>
+    <string-array name="version_more_info_290" tools:ignore="UnusedResources">
+        <item>videos/2045407622387372</item>
+        <item>hd787BzVgVh</item>
     </string-array>
 
     <string-array name="comparison_operator_entries">
