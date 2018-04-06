@@ -262,8 +262,10 @@ public class RoadmapViewModel extends AndroidViewModel {
     try {
       Response<List<Issue>> response = issuesCall.execute();
       issueList = response.body();
-      Timber.i("Loaded %d issues from network", issueList.size());
-      writeToFile(ISSUE_CACHE, gson.toJson(issueList));
+      if (response.isSuccessful() && issueList != null) {
+        Timber.i("Loaded %d issues from network", issueList.size());
+        writeToFile(ISSUE_CACHE, gson.toJson(issueList));
+      }
     } catch (IOException e) {
       Timber.i(e);
     }
