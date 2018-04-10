@@ -5,7 +5,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.0'
+        classpath 'com.android.tools.build:gradle:3.1.1'
     }
 }
 
@@ -35,5 +35,5 @@ ext {
     androidSupportTestVersion = "1.0.1"
     daggerVersion = "2.9"
     okHttpVersion = "3.9.1"
-    acraVersion = "5.1.1"
+    acraVersion = "5.1.2"
 }
