@@ -276,9 +276,9 @@ public class Template extends Transaction {
     } else {
       if (DatabaseConstants.SPLIT_CATID.equals(catId)) {
         template = new SplitTransaction(accountId, amount);
-        setCatId(DbUtils.getLongOrNull(c, KEY_CATID));
       } else {
         template = new Transaction(accountId, amount);
+        setCatId(catId);
       }
       setMethodId(DbUtils.getLongOrNull(c, KEY_METHODID));
       setPayee(DbUtils.getString(c, KEY_PAYEE_NAME));

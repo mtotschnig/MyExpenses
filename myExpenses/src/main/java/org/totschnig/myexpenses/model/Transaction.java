@@ -516,6 +516,7 @@ public class Transaction extends Model {
     }
     tr.setComment(te.getComment());
     tr.setPayee(te.getPayee());
+    tr.setPayeeId(te.getPayeeId());
     tr.setLabel(te.getLabel());
     tr.originTemplate = te;
     if (tr instanceof SplitTransaction) {

@@ -16,7 +16,10 @@
 package org.totschnig.myexpenses.test.model;
 
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.model.Payee;
+import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 
@@ -26,6 +29,7 @@ import static org.totschnig.myexpenses.contract.TransactionsContract.Transaction
 
 public class TemplateTest extends ModelTest {
   private Account mAccount1, mAccount2;
+  private long categoryId, payeeId;
 
   @Override
   protected void setUp() throws Exception {
@@ -34,6 +38,9 @@ public class TemplateTest extends ModelTest {
     mAccount1.save();
     mAccount2 = new Account("TestAccount 2", 100, "Secondary account");
     mAccount2.save();
+    categoryId = Category.write(0, "TestCategory", null);
+    payeeId = Payee.maybeWrite("N.N");
+
   }
 
   @Override
@@ -41,9 +48,10 @@ public class TemplateTest extends ModelTest {
     super.tearDown();
     Account.delete(mAccount1.getId());
     Account.delete(mAccount2.getId());
+    Category.delete(categoryId);
   }
 
-  public void testTemplateCreatedFromTransaction() {
+  public void testTemplateFromTransaction() {
     Long start = mAccount1.getTotalBalance().getAmountMinor();
     Long amount = (long) 100;
     Transaction op1 = Transaction.getNewInstance(mAccount1.getId());
@@ -63,6 +71,22 @@ public class TemplateTest extends ModelTest {
 
     Template.delete(t.getId(), false);
     assertNull("Template deleted, but can still be retrieved", Template.getInstanceFromDb(t.getId()));
+  }
+
+  public void testTemplate() {
+    Template template = buildTemplate();
+    Template restored = Template.getInstanceFromDb(template.getId());
+    assertEquals(template, restored);
+  }
+
+  public void testTransactionFromTemplate() {
+    Template template = buildTemplate();
+    Transaction transaction = Transaction.getInstanceFromTemplate(template);
+    assertEquals(template.getCatId(), transaction.getCatId());
+    assertEquals(template.getAccountId(), transaction.getAccountId());
+    assertEquals(template.getPayeeId(), transaction.getPayeeId());
+    assertEquals(template.getMethodId(), transaction.getMethodId());
+    assertEquals(template.getComment(), transaction.getComment());
   }
 
   public void testGetTypedNewInstanceTransaction() {
@@ -89,5 +113,17 @@ public class TemplateTest extends ModelTest {
     assertEquals(t.operationType(), type);
     restored = Template.getInstanceFromDb(t.getId());
     assertEquals(t, restored);
+  }
+
+  private Template buildTemplate() {
+    Template t = new Template(mAccount1, TYPE_TRANSACTION, null);
+    t.setCatId(categoryId);
+    t.setPayeeId(payeeId);
+    t.setComment("Some comment");
+    final long methodId = PaymentMethod.find(PaymentMethod.PreDefined.CHEQUE.name());
+    assert methodId > -1;
+    t.setMethodId(methodId);
+    t.save();
+    return t;
   }
 }
