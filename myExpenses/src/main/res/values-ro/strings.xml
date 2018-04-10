@@ -94,7 +94,6 @@
   <string name="export_sdcard_success">Export cheltuieli în fişierul %1$s\"</string>
   <string name="external_storage_unavailable">Stocare externă(sdcard) nedisponibilă</string>
   <string name="feedback">Feedback</string>
-  <string name="feedback_email_message">Trimiteţi, vă rog,  feedback-ul dumneavoastră în engleză, franceză sau germană!</string>
   <string name="ftp_uri_malformed">Sintaxă eronată URI %1$s </string>
   <string name="grisbi_import_categories_loading">Încărcare categorii de la %1$s</string>
   <string name="grisbi_import_default_source">Categorii standard româneşti</string>

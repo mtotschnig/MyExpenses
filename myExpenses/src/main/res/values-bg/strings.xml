@@ -114,7 +114,6 @@
   <string name="export_sdcard_success">Успешен експорт на Разходи във файл \"%1$s\"</string>
   <string name="external_storage_unavailable">Не е достъпна външна памет (sdcard)!</string>
   <string name="feedback">Обратна връзка</string>
-  <string name="feedback_email_message">Моля, изпратете вашата обратна връзка на английски, френски или немски!</string>
   <string name="ftp_uri_malformed">Неправилен URI %1$s</string>
   <string name="grisbi_import_categories_loading">Зареждане на категории от %1$s</string>
   <string name="grisbi_import_default_source">Зареди готови категории</string>

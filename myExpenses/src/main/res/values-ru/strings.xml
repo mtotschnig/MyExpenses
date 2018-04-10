@@ -72,6 +72,11 @@
   <string name="dialog_contrib_text_1"><i>{app_name}</i> выпускается бесплатно и с открытым исходным кодом.</string>
   <string name="dialog_contrib_text_2">Пожалуйста, внесите вклад расширив <i>{app_name}</i> и получите неограниченный доступ к следующим возможностях:</string>
   <string name="dialog_contrib_usage_count">Осталось бесплатных использований</string>
+  <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Вы можете это использовать до %1$d раз с вашим текущим лицензионным статусом (%2$s).</string>
+  <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Вы можете использовать это до %1$d дней с Вашим лицензионным статусом (%2$s).</string>
+  <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Ваш текущий лицензионный статус (%2$s) позволяет Вам создать %1$d счетов.</string>
+  <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Ваш текущий лицензионный статус (%2$s) позволяет Вам создавать %1$d планов.</string>
+  <string name="dialog_contrib_usage_limit_split_templates">Ваш текущий лицензионный статус (%1$s) позволяет Вам создать 1 расщепленный шаблон.</string>
   <string name="dialog_export_delete">Удалить экспортированные операции</string>
   <string name="dialog_export_not_yet_exported">Экспортировать еще не экспортированные операции</string>
   <string name="dialog_password_activate_protection">Включить защиту паролем</string>
@@ -108,7 +113,6 @@
   <string name="export_sdcard_success">Расходы экспортированы в файл \"%1$s\"</string>
   <string name="external_storage_unavailable">Внешнее хранилище (sdcard) не доступно</string>
   <string name="feedback">Отзыв</string>
-  <string name="feedback_email_message">Отправьте свой отзыв, на английском, французском или немецком языке, пожалуйста!</string>
   <string name="ftp_uri_malformed">Неверно сформирован URI %1$s</string>
   <string name="grisbi_import_categories_loading">Загрузка категорий из %1$s</string>
   <string name="grisbi_import_default_source">Русскоязычные категории по умолчанию</string>
@@ -423,6 +427,7 @@
     <item quantity="other">%d категорий были успешно перемещены.</item>
   </plurals>
   <string name="warning_delete_reconciled">Удаление согласованных операций может привести к расхождениям с банковской счет-выпиской</string>
+  <string name="warning_balance_account">Пожалуйста, сравните итог с конечным балансом в вашем счете-выписке. Если Вы продолжите, то утвержденные операции будут отмечены как согласованные.</string>
   <string name="warning_password_protected">Приложение защищено паролем.</string>
   <string name="warning_widget_disabled">Вам необходимо включить этот виджет в настройках приложения.</string>
   <string name="warning_password_contrib">Установка секретного вопроса позволяет вам разблокировать приложение в случае, если вы забыли свой пароль.</string>
@@ -431,6 +436,7 @@
   <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
   <string name="warning_reset_account_all">Если вы продолжите, для всех счетов %1$s операции будут удалены из базы данных и не могут быть восстановлены.</string>
   <string name="warning_restore">Базы данных и настройки будут восстановлены из файла \"%1$s\". Текущие данные будут удалены. Вы хотите продолжить?</string>
+  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Текущая папка для резервного копирования и экспортирования будет автоматически удалена Android если Вы удалите {app_name}. Вы можете предотвратить это, выбрав другую папку из меню Настройки.</string>
   <string name="warning_splitpartcategory_context">Переводы, которые являются разделённой частью можно редактировать только в контексте разделения.</string>
   <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Пожалуйста, укажите число между %1$d и %2$d</string>
   <string name="warning_change_fraction_digits_checkbox_label">Обновить данные в базе данных</string>
@@ -491,6 +497,7 @@
   <string name="csv_import_preview">Предпросмотр</string>
   <!--Label for column where user can check rows to be discarded from import-->
   <string name="cvs_import_discard">Сброс</string>
+  <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d не могут быть импортированы.</string>
   <string name="cvs_import_set_first_line_as_header">Воспринимать первую строку как заглавную?</string>
   <string name="csv_import_delimiter_comma">Запятая</string>
   <string name="csv_import_delimiter_semicolon">Точка с запятой</string>
@@ -499,6 +506,8 @@
   <string name="pref_auto_backup_title">Включить авто-бэкап</string>
   <string name="pref_auto_backup_summary">Резервная копия базы данных ежедневно в указанное время (только если данные были изменены)</string>
   <string name="pref_auto_backup_time_title">Время авто-бэкапа</string>
+  <string name="warning_auto_backup_limit_reached">Был достигнут предел бесплатных резервных копий.</string>
+  <string name="calendar_permission_required"><i>{app_name}</i> необходимо разрешение на доступ к Вашему календарю, для создания графиков будущих и повторяющихся операций.</string>
   <string name="switch_on_text">ВКЛ</string>
   <string name="switch_off_text">ВЫКЛ</string>
   <string name="preferences_week_start_day_title">Начало недели:</string>
@@ -517,25 +526,44 @@
   <string name="plan_instance_state_cancelled">отмененный</string>
   <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
   <string name="plan_instance_state_applied">принятый</string>
+  <string name="progress_dialog_updating_split_parts">Обновление частей</string>
   <string name="content_description_calculator_clear_button">Сбросить все</string>
   <string name="paypal_callback_info">Ваша транзакция была завершена; квитанция об оплате была направлена на Ваш e-mail. Вы можете увидеть детали этой транзакции в своей учетной записи на www.paypal.com</string>
   <string name="search_transfer">Поиск перевода</string>
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="crash_dialog_title">{app_name} аварийно завершен</string>
+  <string name="synchronization">Синхронизация</string>
+  <string name="hint_url">URL</string>
+  <string name="description_webdav_trust_certificate">Интернет-сайт использует сертификат, которому не доверяет Android.</string>
   <string name="hint_user_name">Имя пользователя</string>
   <string name="hint_password">Пароль</string>
+  <string name="label_trust_certificate">Доверять этому сертификату</string>
+  <string name="validate_error_webdav_404">URL не существует на сервере.</string>
+  <string name="url_not_valid">URL не действителен</string>
+  <string name="menu_sync_unlink">Остановить синхронизацию</string>
+  <string name="menu_sync_link">Начать синхронизацию</string>
+  <string name="menu_sync_download">Скачать и синхронизировать</string>
+  <string name="menu_sync_now">Синхронизировать сейчас</string>
+  <string name="pref_sync_frequency_title">Частота синхронизации</string>
+  <string name="pref_sync_frequency_summary">Как часто данные должны синхронизироваться (в часах)</string>
+  <string name="dialog_command_sync_link_remote">Загрузить из удаленного хранилища</string>
+  <string name="dialog_command_sync_link_local">Загрузить из локального хранилища</string>
+  <string name="warning_synchronization_limited_trial">Функция синхронизации будет доступна до %s.</string>
   <string name="template">Шаблон</string>
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Облачная синхронизация</string>
   <string name="licence_status">Статус вашей учетной записи</string>
   <string name="all_contrib_key_features">Все возможности Contrib-ключа</string>
   <string name="all_extended_key_features">Все возможности Extended-ключа</string>
+  <string name="upgrade_now">Повысить сейчас</string>
   <string name="currency_symbol">Символ валюты</string>
   <string name="number_of_fraction_digits">Число дробных знаков</string>
   <string name="pref_tracking_summary">Позволить нам собирать обезличенные данные о вашем пользовательском опыте чтобы улучшить его</string>
   <string name="onboarding_data_title">Давайте настроим ваш первый счет</string>
   <string name="onboarding_get_started">Начало</string>
   <string name="picture">Изображение</string>
+  <string name="menu_create_template_for_split">Новый разделенный шаблон</string>
   <string name="licence_validation_error_device_limit_exceeded">Превышен лимит устройств. Пожалуйста, отключите лицензию на одном из устройств.</string>
+  <string name="licence_key">Лицензионный ключ</string>
   <string name="progress_removing_licence">Отключение лицензии</string>
   <string name="licence_removal_success">Лицензионный ключ был успешно отключен от этого устройства.</string>
   <string name="professional_key">Professional-ключ</string>
@@ -557,6 +585,11 @@
   <string name="menu_history">История</string>
   <!--A label indicating the color for the sum of expenses-->
   <!--A label indicating the color for the sum of income-->
+  <string name="warning_split_transactions">Выбранные операции будут собраны в одну расщепленную операцию. Их содержание будет утеряно, напр. заменено их средним.</string>
   <!--This is the label for the action that breaks up a split transaction into its parts.-->
+  <string name="menu_ungroup_split_transaction">Разгруппировать расщепленную операцию</string>
+  <string name="split_transaction_one_success">Операция успешно превращена в расщепленную.</string>
   <string name="split_transaction_one_error">Невозможно преобразовать операцию в разделенную.</string>
+  <string name="split_transaction_group_error">Операции не были сгруппированы в расщепленную</string>
+  <string name="split_transaction_not_possible">Только операции с совпадающим счетом, получателем и статусом могут быть сгруппированы в расщепленную операцию.</string>
 </resources>

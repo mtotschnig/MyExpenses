@@ -100,7 +100,6 @@
   <string name="export_sdcard_success">导出开支到文件 %1$s</string>
   <string name="external_storage_unavailable">外部储存 (SD卡) 不可用</string>
   <string name="feedback">意见反馈</string>
-  <string name="feedback_email_message">以英语、法语或德语反馈意见,感谢!</string>
   <string name="ftp_uri_malformed">异常URI %1$s</string>
   <string name="grisbi_import_categories_loading">从 %1$s 载入类别</string>
   <string name="grisbi_import_default_source">建议类别 (中文)</string>

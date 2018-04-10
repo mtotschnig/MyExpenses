@@ -114,7 +114,6 @@
   <string name="export_sdcard_success">הנתונים יוצאו בהצלחה לקובץ \"%1$s\"</string>
   <string name="external_storage_unavailable">אחסון חיצוני (sdcard) אינו זמין</string>
   <string name="feedback">משוב</string>
-  <string name="feedback_email_message">שלח בבקשה את המשוב שלך, באנגלית, בצרפתית או בגרמנית</string>
   <string name="ftp_uri_malformed">כתובת אתר לא נכונה %1$s</string>
   <string name="grisbi_import_categories_loading">טוען קטגוריות מ- %1$s</string>
   <string name="grisbi_import_default_source">קטגוריות ברירת מחדל באנגלית</string>

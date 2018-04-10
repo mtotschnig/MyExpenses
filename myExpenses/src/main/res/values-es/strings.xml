@@ -114,7 +114,6 @@
   <string name="export_sdcard_success">Los datos han sido exportado al archivo \"%1$s\" correctamente</string>
   <string name="external_storage_unavailable">La memoria externa (tarjeta SD) no está disponible</string>
   <string name="feedback">Comentarios</string>
-  <string name="feedback_email_message">¡Por favor! Envíe su opinión en inglés, frances o alemán.</string>
   <string name="ftp_uri_malformed">URI %1$s inválido</string>
   <string name="grisbi_import_categories_loading">Cargando categorías desde %1$s</string>
   <string name="grisbi_import_default_source">Categorías predeterminadas en español</string>

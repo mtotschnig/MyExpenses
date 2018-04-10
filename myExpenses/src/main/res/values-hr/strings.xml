@@ -86,7 +86,6 @@
   <string name="export_sdcard_success">Troškovi eksportirani u file \"%1$s\"</string>
   <string name="external_storage_unavailable">Eksterna memorija (sd kartica) nije dostupna</string>
   <string name="feedback">Podrška</string>
-  <string name="feedback_email_message">Molimo šaljite šaljite vaše prijedloge, pohvale i kritike, na engleskom, francuskom ili njemačkom!</string>
   <string name="ftp_uri_malformed">Netočan URI %1$s</string>
   <string name="grisbi_import_categories_loading">Učitavanje kategorija iz %1$s</string>
   <string name="grisbi_import_default_source">Zadane kategorije</string>

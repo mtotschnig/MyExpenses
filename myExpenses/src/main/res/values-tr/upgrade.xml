@@ -18,6 +18,13 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_290">
+    <item>Birden fazla muamele bir bölünmüş muamele içinde gruplandırılabilir</item>
+    <item>Bölünmüş muameleler gruplanmamış yapılabilir</item>
+  </string-array>
+  <string-array name="whats_new_289">
+    <item>Yabancı dövizler ile yerel para birimi arasında dönüşüm</item>
+  </string-array>
   <string-array name="whats_new_288">
     <item>Tarihçe grafiği (Nakit akışı)</item>
   </string-array>

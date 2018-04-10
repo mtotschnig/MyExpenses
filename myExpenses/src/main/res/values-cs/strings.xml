@@ -69,7 +69,6 @@
   <string name="export_sdcard_success">Výdaje vyexportovány do souboru %1$s</string>
   <string name="external_storage_unavailable">Externí úložiště (paměťová karta) není k dispozici.</string>
   <string name="feedback">Zpětná vazba</string>
-  <string name="feedback_email_message">Pošlete váš názor v angličtině, francouzštině nebo němčině, prosím!</string>
   <string name="ftp_uri_malformed">Chybné URI %1$s</string>
   <string name="grisbi_import_categories_loading">Načítání kategorií z %1$s</string>
   <string name="grisbi_import_default_source">České výchozí kategorie</string>

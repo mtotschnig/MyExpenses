@@ -84,7 +84,6 @@
   <string name="export_sdcard_success">Les despses s\'han exportat al fitxer %1$s.</string>
   <string name="external_storage_unavailable">La memòria externa (tarja SD) no està disponible.</string>
   <string name="feedback">Comentaris</string>
-  <string name="feedback_email_message">Envieu-nos la seva opinió, en anglès, francès o alemany, per favor!</string>
   <string name="ftp_uri_malformed">URI %1$s no és vàlid</string>
   <string name="grisbi_import_categories_loading">Les categories es carreguen des de %1$s</string>
   <string name="grisbi_import_default_source">Categories predeterminades en català</string>

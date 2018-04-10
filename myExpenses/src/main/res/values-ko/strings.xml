@@ -99,7 +99,6 @@
   <string name="export_sdcard_success">\"%1$s\" 파일으로 데이터 내보내기 성공</string>
   <string name="external_storage_unavailable">외부 저장소(sdcard)가 존재하지 않음</string>
   <string name="feedback">피드백</string>
-  <string name="feedback_email_message">영어, 프랑스어 또는 독일어로 피드백을 보내주세요!</string>
   <string name="ftp_uri_malformed">올바르지 않은 URI %1$s</string>
   <string name="grisbi_import_categories_loading">%1$s에서 카테고리 불러오는 중</string>
   <string name="grisbi_import_default_source">영문 기본 카테고리</string>

@@ -113,7 +113,6 @@
   <string name="export_sdcard_success">Perbelanjaan dieksport ke fail \"%1$s\"</string>
   <string name="external_storage_unavailable">Storan luaran (kad sd) tidak tersedia</string>
   <string name="feedback">Maklumbalas</string>
-  <string name="feedback_email_message">Sila hantar maklumbalas anda, dalam bahasa Inggeris, Perancis atau Jerman</string>
   <string name="ftp_uri_malformed">URI %1$s cacat</string>
   <string name="grisbi_import_categories_loading">Memuatkan kategori dari %1$s</string>
   <string name="grisbi_import_default_source">Kategori lalai Inggeris</string>

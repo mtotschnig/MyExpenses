@@ -108,7 +108,6 @@
   <string name="export_sdcard_success">Datuan ongi esportatu dira \"%1$s\" fitxategira</string>
   <string name="external_storage_unavailable">Kanpo biltegiratzea (SD txartela) ez dago erabilgarri.</string>
   <string name="feedback">Iruzkina</string>
-  <string name="feedback_email_message">Idatzi zure iruzkina ingelesez, frantsesez edo alemanez, mesedez! </string>
   <string name="ftp_uri_malformed">Gaizki osatutako URIa %1$s</string>
   <string name="grisbi_import_categories_loading">Kategoriak kargatzen hemendik: %1$s</string>
   <string name="grisbi_import_default_source">Ingelesezko lehenetsitako kategoriak</string>

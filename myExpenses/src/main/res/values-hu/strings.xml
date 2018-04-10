@@ -77,7 +77,6 @@
   <string name="export_sdcard_success">Kiadások sikeresen a(z) %1$s fájlba exportálva</string>
   <string name="external_storage_unavailable">Külső tárhely (SD-kártya) nem elérhető</string>
   <string name="feedback">Visszajelzés</string>
-  <string name="feedback_email_message">Kérjük visszajelzését angolul, franciául, vagy németül írja meg számunkra!</string>
   <string name="ftp_uri_malformed">Helytelen URI %1$s</string>
   <string name="grisbi_import_categories_loading">Kategóriák betöltése innen: %1$s</string>
   <string name="grisbi_import_default_source">Magyar  alapértelmezett kategóriák</string>

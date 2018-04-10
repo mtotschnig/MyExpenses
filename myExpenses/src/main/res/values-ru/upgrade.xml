@@ -21,6 +21,12 @@
   <string-array name="whats_new_288">
     <item>История (Cash flow)</item>
   </string-array>
+  <string-array name="whats_new_276">
+    <item>Незначительные улучшения</item>
+  </string-array>
+  <string-array name="whats_new_275">
+    <item>Синхронизация между устройствами через облачные сервисы</item>
+  </string-array>
   <string-array name="whats_new_271">
     <item>Исправлены проблемы с планами на устройствах Samsung</item>
     <item>Редактирование операций с экрана распределения</item>
@@ -31,4 +37,6 @@
     <item>Сортировать планы по ближайшему событию</item>
   </string-array>
     <string name="bug_fixes">Исправления ошибок</string>
-    </resources>
+    <string name="performance_enhancement">Улучшение производительности</string>
+    <string name="stability_improvements">Улучшение стабильности</string>
+</resources>

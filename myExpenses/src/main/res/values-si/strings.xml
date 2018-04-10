@@ -71,7 +71,6 @@
   <string name="export_sdcard_success">\"%1$s\" ලිපි ගොනුවට වියදම් අපනයන කරන ලදී </string>
   <string name="external_storage_unavailable">පිටත ගබඩාව නොතිබේ (එස් ඩි කාඩ් පත)</string>
   <string name="feedback">ප්‍රතිචාරය </string>
-  <string name="feedback_email_message">කරුණාකර ඔබගේ ප්‍රතිචාරය ඉංග්‍රීසි  භාෂාවෙන්, ප්‍රංශ භාෂාවෙන් හෝ ජර්මන් භාෂාවෙන් එවන්න.</string>
   <string name="ftp_uri_malformed">වැරදුනු යු ආර් අයි %1$s</string>
   <string name="grisbi_import_categories_loading">%1$s න්  වර්ග පැටවීම </string>
   <string name="grisbi_import_default_source">මුල සිට පවතින ඉංග්‍රීසි වර්ග </string>

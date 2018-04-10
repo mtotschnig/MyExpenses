@@ -114,7 +114,6 @@
   <string name="export_sdcard_success">Veriler başarıyla \"%1$s\" dosyasına aktarıldı</string>
   <string name="external_storage_unavailable">Harici depolama (SD kartı) mevcut değil</string>
   <string name="feedback">Geri bildirim</string>
-  <string name="feedback_email_message">Lütfen geri bildirimi İngilizce, Fransızca ya da Almanca olarak gönderin!</string>
   <string name="ftp_uri_malformed">Yanlış yapılandırılmış URI %1$s</string>
   <string name="grisbi_import_categories_loading">%1$s konumundan kategoriler yükleniyor</string>
   <string name="grisbi_import_default_source">Varsayılan Türkçe kategoriler</string>
@@ -712,6 +711,23 @@
   <!--A label indicating the color for the sum of income-->
   <string name="history_chart_in_label">Gelir</string>
   <string name="menu_history_totals">Toplamları göster</string>
+  <string name="pref_home_currency_title">Yerel para birimi</string>
+  <string name="grand_total">Genel toplam</string>
+  <string name="menu_original_amount">Orijinal meblağ</string>
+  <string name="menu_equivalent_amount">Eşdeğer meblağ</string>
+  <string name="home_currency_change_warning">Yerel para biriminizi değiştirirseniz eşdeğer meblağlar ile döviz kurları silinecektir ve yeniden tanımlanmaları gerekecektir. Devam etmek istiyor musunuz?</string>
+  <string name="warning_split_transactions">Seçilen muameleler bir bölünmüş muamelede gruplanacaklardır. Tarih bilgileri kaybolacak ve yerlerini ortalama değer alacaktır.</string>
+  <string name="warning_ungroup_split_transactions">Seçilen bölünmüş muamelelerin gruplandırmaları kaldırılacak yani bölünmüş parçalar normal muamelelere dönüşecektir.</string>
   <!--This is the label for the action that breaks up a split transaction into its parts.-->
+  <string name="menu_ungroup_split_transaction">Bölümün gruplandırmasını kaldır</string>
+  <plurals name="ungroup_split_transaction_success">
+    <item quantity="one">Bölünmüş muamelenin gruplandırılması başarıyla kaldırıldı.</item>
+    <item quantity="other">%1$d bölünmüş muamelenin gruplandırılması başarıyla kaldırıldı.</item>
+  </plurals>
+  <string name="ungroup_split_transaction_failure">Bölünmüş muamelelerin gruplandırmaları kaldırılırken toplam %2$d sayısından %1$d sayıdaki kaldırılma başarısız oldu.</string>
+  <string name="split_transaction_one_success">Muameleler başarıyla bölünmüş muamelelere dönüştürüldü.</string>
   <string name="split_transaction_one_error">Muamele bölünmüşe dönüştürülemedi.</string>
+  <string name="split_transaction_group_success">%1$d muamele başarıyla tek bir bölünmüş muamelede gruplandırıldı.</string>
+  <string name="split_transaction_group_error">Muameleler bölünmüş muamelede gruplandırılamadı.</string>
+  <string name="split_transaction_not_possible">Sadece aynı hesap, durum ve alacaklısı olan muameleler tek bir bölünmüş muamelede gruplandırılabilir.</string>
 </resources>

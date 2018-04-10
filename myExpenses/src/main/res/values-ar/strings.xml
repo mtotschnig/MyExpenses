@@ -83,7 +83,6 @@
   <string name="export_sdcard_success">تم تصدير المصروفات إلى ملف %1$s</string>
   <string name="external_storage_unavailable">لا يوجد ذاكرة خارجية (sdcard)</string>
   <string name="feedback">التقييم</string>
-  <string name="feedback_email_message">من فضلك! ارسل ملاحظاتك، بحروف انجليزية، فرنسية أو ألمانية.</string>
   <string name="ftp_uri_malformed">خطأ في العنوان %1$s</string>
   <string name="grisbi_import_categories_loading">جاري تحميل التصنيفات من %1$s</string>
   <string name="grisbi_import_default_source">التصنيفات الافتراضية العربية</string>

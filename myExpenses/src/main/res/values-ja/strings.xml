@@ -114,7 +114,6 @@
   <string name="export_sdcard_success">ファイル \"%1$s\" にデータを正常にエクスポートしました</string>
   <string name="external_storage_unavailable">外部ストレージ (SDカード) が利用可能ではありません</string>
   <string name="feedback">フィードバック</string>
-  <string name="feedback_email_message">フィードバックは英語、フランス語、またはドイツ語で送ってください!</string>
   <string name="ftp_uri_malformed">不正な形式の URI %1$s</string>
   <string name="grisbi_import_categories_loading">%1$s から分類をロード中</string>
   <string name="grisbi_import_default_source">英語のデフォルト分類</string>
@@ -703,6 +702,22 @@
   <!--A label indicating the color for the sum of income-->
   <string name="history_chart_in_label">収入</string>
   <string name="menu_history_totals">合計を表示</string>
+  <string name="pref_home_currency_title">自国通貨</string>
+  <string name="grand_total">総合計</string>
+  <string name="menu_original_amount">当初金額</string>
+  <string name="menu_equivalent_amount">相当金額</string>
+  <string name="home_currency_change_warning">自国通貨を変更すると、相当金額と為替レートが失われ、再度定義する必要があります。 続けますか?</string>
+  <string name="warning_split_transactions">選択した取引は、1つの分割取引にグループ化されます。 それらの日付情報は失われます。すなわち平均で置き換えられます。</string>
+  <string name="warning_ungroup_split_transactions">選択された分割取引はグループ解除されます。分割された部分は通常の取引になります。</string>
   <!--This is the label for the action that breaks up a split transaction into its parts.-->
+  <string name="menu_ungroup_split_transaction">分割のグループ化解除</string>
+  <plurals name="ungroup_split_transaction_success">
+    <item quantity="other">%1$d 分割取引がグループ化解除されました。</item>
+  </plurals>
+  <string name="ungroup_split_transaction_failure">分割取引のグループ化解除中、 %1$d / %2$d 失敗しました。</string>
+  <string name="split_transaction_one_success">取引が分割に変換されました。</string>
   <string name="split_transaction_one_error">取引を変換して分割することができませんでした。</string>
+  <string name="split_transaction_group_success">%1$d 取引が1つの分割取引にグループ化されました。</string>
+  <string name="split_transaction_group_error">取引を分割にグループ化できませんでした。</string>
+  <string name="split_transaction_not_possible">同じ勘定科目、支払先、およびステータスを持つ取引だけが、1つの分割取引にグループ化できます。</string>
 </resources>
