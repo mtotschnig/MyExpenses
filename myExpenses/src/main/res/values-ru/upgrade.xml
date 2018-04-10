@@ -18,8 +18,52 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_290">
+    <item>Несколько операций могут быть сгруппированы в одну дробную операцию.</item>
+    <item>Дробные операции могут быть разгруппированы</item>
+  </string-array>
+  <string-array name="whats_new_289">
+    <item>Конверсия иностранных и национальных валют</item>
+  </string-array>
   <string-array name="whats_new_288">
     <item>История (Cash flow)</item>
+  </string-array>
+  <string-array name="whats_new_287">
+    <item>Защита данных (блокировка экрана)</item>
+  </string-array>
+  <string-array name="whats_new_286">
+    <item>Возможность делиться экспортированными данными (PDF)</item>
+  </string-array>
+  <string-array name="whats_new_285">
+    <item>Синхронизация через Dropbox</item>
+  </string-array>
+  <string-array name="whats_new_284">
+    <item>Настройки автозаполнения</item>
+  </string-array>
+  <string-array name="whats_new_283">
+    <item>Сортировка в возрастающем порядке (самые старые операции - наверху)</item>
+  </string-array>
+  <string-array name="whats_new_282">
+    <item>Шаблоны и планы дробных операций</item>
+    <item>Представляем лицензионный ключ Professional</item>
+    <item>Виджеты домашнего экрана подстраиваются под размер шрифта пользователя</item>
+  </string-array>
+  <string-array name="whats_new_281">
+    <item>Настраиваемые планы</item>
+    <item>Облачное хранение больших объемов данных</item>
+  </string-array>
+  <string-array name="whats_new_280">
+    <item>Перевод на иврит</item>
+    <item>Выбор уникального цвета счета</item>
+  </string-array>
+  <string-array name="whats_new_279">
+    <item>Возможность настройки символов валюты</item>
+  </string-array>
+  <string-array name="whats_new_278">
+    <item>Ярлыки приложений для Android 7.1</item>
+  </string-array>
+  <string-array name="whats_new_277">
+    <item>Автоматическое резервное копирование в облачных сервисах</item>
   </string-array>
   <string-array name="whats_new_276">
     <item>Незначительные улучшения</item>
