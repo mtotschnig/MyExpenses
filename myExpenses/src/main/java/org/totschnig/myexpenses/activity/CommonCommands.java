@@ -28,7 +28,6 @@ import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.util.SparseArray;
 
-import org.acra.ACRA;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.totschnig.myexpenses.MyApplication;
@@ -48,7 +47,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import static org.acra.ACRA.LOG_TAG;
+import timber.log.Timber;
+
 import static org.totschnig.myexpenses.util.DistribHelper.getMarketSelfUri;
 import static org.totschnig.myexpenses.util.DistribHelper.getVersionInfo;
 
@@ -197,13 +197,11 @@ public class CommonCommands {
               result.put(fieldName, f.get(conf));
             }
           } catch (JSONException e) {
-            ACRA.log.w(LOG_TAG, "Could not collect configuration field " + fieldName, e);
+            Timber.w(e,"Could not collect configuration field %s", fieldName);
           }
         }
-      } catch (@NonNull IllegalArgumentException e) {
-        ACRA.log.e(LOG_TAG, "Error while inspecting device configuration: ", e);
-      } catch (@NonNull IllegalAccessException e) {
-        ACRA.log.e(LOG_TAG, "Error while inspecting device configuration: ", e);
+      } catch (@NonNull IllegalArgumentException | IllegalAccessException e) {
+        Timber.w(e,"Error while inspecting device configuration");
       }
     }
     return result;
@@ -245,10 +243,8 @@ public class CommonCommands {
           } else if (fieldName.startsWith(PREFIX_UI_MODE)) {
             uiModeValues.put(f.getInt(null), fieldName);
           }
-        } catch (@NonNull IllegalArgumentException e) {
-          ACRA.log.w(LOG_TAG, "Error while inspecting device configuration: ", e);
-        } catch (@NonNull IllegalAccessException e) {
-          ACRA.log.w(LOG_TAG, "Error while inspecting device configuration: ", e);
+        } catch (@NonNull IllegalArgumentException | IllegalAccessException e) {
+          Timber.w(e,"Error while inspecting device configuration");
         }
       }
     }
