@@ -18,7 +18,6 @@ package org.totschnig.myexpenses.dialog;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -159,8 +158,9 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
   }
 
   @Override
-  public void onAttach(Context context) {
-    super.onAttach(context);
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    MyApplication.getInstance().getAppComponent().inject(this);
     final ProtectedFragmentActivity activity = (ProtectedFragmentActivity) getActivity();
     if (activity != null && !activity.hasPendingTask(false)) {
       activity.startTaskExecution(
@@ -169,12 +169,6 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
           null,
           0);
     }
-  }
-
-  @Override
-  public void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    MyApplication.getInstance().getAppComponent().inject(this);
   }
 
   @Override
