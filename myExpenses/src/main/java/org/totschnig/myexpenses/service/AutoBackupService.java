@@ -35,6 +35,11 @@ import org.totschnig.myexpenses.util.ContribUtils;
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP;
 import static org.totschnig.myexpenses.util.NotificationBuilderWrapper.NOTIFICATION_AUTO_BACKUP;
@@ -69,12 +74,21 @@ public class AutoBackupService extends JobIntentService {
         }
         String syncAccount = PrefKey.AUTO_BACKUP_CLOUD.getString(AccountPreference.SYNCHRONIZATION_NONE);
         if (!syncAccount.equals(AccountPreference.SYNCHRONIZATION_NONE)) {
-          Bundle bundle = new Bundle();
-          bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-          bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-          bundle.putString(SyncAdapter.KEY_UPLOAD_AUTO_BACKUP_URI, result.getExtra().getUri().toString());
-          bundle.putString(SyncAdapter.KEY_UPLOAD_AUTO_BACKUP_NAME, result.getExtra().getName());
-          ContentResolver.requestSync(GenericAccountService.GetAccount(syncAccount), TransactionProvider.AUTHORITY, bundle);
+          final DocumentFile backupFile = result.getExtra();
+          if (backupFile != null) {
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+            bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+            bundle.putString(SyncAdapter.KEY_UPLOAD_AUTO_BACKUP_URI, backupFile.getUri().toString());
+            String backupFileName = backupFile.getName();
+            if (backupFileName == null) {
+              CrashHandler.report(String.format("Could not get name from uri %s", backupFile.getUri()));
+              backupFileName = "backup-" + new SimpleDateFormat("yyyMMdd", Locale.US)
+                  .format(new Date());
+            }
+            bundle.putString(SyncAdapter.KEY_UPLOAD_AUTO_BACKUP_NAME, backupFileName);
+            ContentResolver.requestSync(GenericAccountService.GetAccount(syncAccount), TransactionProvider.AUTHORITY, bundle);
+          }
         }
       } else {
         String notifTitle = Utils.concatResStrings(this, " ", R.string.app_name, R.string.contrib_feature_auto_backup_label);
@@ -83,8 +97,8 @@ public class AutoBackupService extends JobIntentService {
         Intent preferenceIntent = new Intent(this, MyPreferenceActivity.class);
         NotificationBuilderWrapper builder =
             NotificationBuilderWrapper.defaultBigTextStyleBuilder(this, notifTitle, content)
-            .setContentIntent(PendingIntent.getActivity(this, 0,
-                preferenceIntent, PendingIntent.FLAG_CANCEL_CURRENT));
+                .setContentIntent(PendingIntent.getActivity(this, 0,
+                    preferenceIntent, PendingIntent.FLAG_CANCEL_CURRENT));
         Notification notification = builder.build();
         notification.flags = Notification.FLAG_AUTO_CANCEL;
         ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).notify(
