@@ -27,6 +27,7 @@ public class CrashHandlerImpl extends CrashHandler {
         .setReportFormat(StringFormat.KEY_VALUE_LIST)
         .setReportField(ReportField.APP_VERSION_CODE, true)
         .setReportField(ReportField.USER_CRASH_DATE, true)
+        .setExcludeMatchingSharedPreferencesKeys("planner_calendar_path", "password")
         .getPluginConfigurationBuilder(DialogConfigurationBuilder.class)
         .setEnabled(true)
         .setResText(R.string.crash_dialog_text)
