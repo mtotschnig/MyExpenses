@@ -67,7 +67,7 @@ public class AutoBackupService extends JobIntentService {
         if (remaining < 1) {
           ContribUtils.showContribNotification(this, ContribFeature.AUTO_BACKUP);
         }
-        String syncAccount = PrefKey.AUTO_BACUP_CLOUD.getString(AccountPreference.SYNCHRONIZATION_NONE);
+        String syncAccount = PrefKey.AUTO_BACKUP_CLOUD.getString(AccountPreference.SYNCHRONIZATION_NONE);
         if (!syncAccount.equals(AccountPreference.SYNCHRONIZATION_NONE)) {
           Bundle bundle = new Bundle();
           bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);

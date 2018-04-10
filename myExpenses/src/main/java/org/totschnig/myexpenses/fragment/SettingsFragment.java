@@ -96,7 +96,7 @@ import static org.totschnig.myexpenses.contract.TransactionsContract.Transaction
 import static org.totschnig.myexpenses.preference.PrefKey.APP_DIR;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP_INFO;
-import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACUP_CLOUD;
+import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP_CLOUD;
 import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_ADVANCED;
 import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_CONTRIB;
 import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_MANAGE;
@@ -822,7 +822,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       }
     } else if (matches(preference, SECURITY_QUESTION)) {
       fragment = SecurityQuestionDialogFragmentCompat.newInstance(key);
-    } else if (matches(preference, AUTO_BACUP_CLOUD)) {
+    } else if (matches(preference, AUTO_BACKUP_CLOUD)) {
       if (((ListPreference) preference).getEntries().length == 1) {
         activity().showSnackbar(R.string.auto_backup_cloud_create_backend, Snackbar.LENGTH_LONG);
         return;
