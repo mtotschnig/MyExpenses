@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.util.licence;
 
 import android.provider.Settings;
+import android.support.annotation.Nullable;
 
 import com.google.android.vending.licensing.PreferenceObfuscator;
 
@@ -58,5 +59,11 @@ public class HashLicenceHandler extends LicenceHandler {
         }
       }
     }
+  }
+
+  @Nullable
+  @Override
+  public String getExtendedUpgradeGoodieMessage(Package selectedPackage) {
+    return hasLegacyLicence ? null : super.getExtendedUpgradeGoodieMessage(selectedPackage);
   }
 }
