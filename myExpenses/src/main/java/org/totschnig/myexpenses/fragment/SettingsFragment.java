@@ -511,17 +511,19 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   public void configureContribPrefs() {
     Preference contribPurchasePref = findPreference(CONTRIB_PURCHASE),
         licenceKeyPref = findPreference(NEW_LICENCE);
-    if (DistribHelper.isGithub()) {
+    if (DistribHelper.doesUseIAP()) {
+      if (licenceKeyPref != null) {
+        ((PreferenceCategory) findPreference(CATEGORY_CONTRIB)).removePreference(licenceKeyPref);
+      }
+    } else {
       licenceKeyPref.setOnPreferenceClickListener(this);
-    } else if (licenceKeyPref != null) {
-      ((PreferenceCategory) findPreference(CATEGORY_CONTRIB)).removePreference(licenceKeyPref);
     }
     String contribPurchaseTitle, contribPurchaseSummary;
     LicenceStatus licenceStatus = licenceHandler.getLicenceStatus();
     if (licenceStatus == null) {
       int baseTitle = R.string.pref_contrib_purchase_title;
       contribPurchaseTitle = getString(baseTitle);
-      if (!DistribHelper.isGithub()) {
+      if (DistribHelper.doesUseIAP()) {
         contribPurchaseTitle += " (" + getString(R.string.pref_contrib_purchase_title_in_app) + ")";
       }
       contribPurchaseSummary = getString(R.string.pref_contrib_purchase_summary);
