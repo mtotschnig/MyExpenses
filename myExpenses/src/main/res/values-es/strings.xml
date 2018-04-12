@@ -716,6 +716,18 @@
   <string name="menu_original_amount">Cantidad original</string>
   <string name="menu_equivalent_amount">Cantidad equivalente</string>
   <string name="home_currency_change_warning">Si cambia la moneda local, las cantidades equivalente y los tipos de cambio se perderán, necesitando definirse nuevamente. ¿Quiere continuar?</string>
+  <string name="warning_split_transactions">Las transacciones seleccionadas se agruparán en una transacción dividida. La información se perderá. Por ejemplo, reemplazada por su media.</string>
+  <string name="warning_ungroup_split_transactions">Las transacciones divididas seleccionas se desagruparán. Por ejemplo, las partes divididas se convertirán en transacciones normales.</string>
   <!--This is the label for the action that breaks up a split transaction into its parts.-->
-  <string name="split_transaction_one_error">No se pudo convertir la transacción a transacción dividida.</string>
+  <string name="menu_ungroup_split_transaction">Desagrupar división</string>
+  <plurals name="ungroup_split_transaction_success">
+    <item quantity="one">La transacción dividida se desagregó con éxito.</item>
+    <item quantity="other">%1$d transacciones divididas se desagruparon satisfactoriamente.</item>
+  </plurals>
+  <string name="ungroup_split_transaction_failure">Al desagrupar las transacciones divididas, %1$d de%2$d fallaron.</string>
+  <string name="split_transaction_one_success">Transacción transformada en transacción dividida satisfactoriamente.</string>
+  <string name="split_transaction_one_error">No se pudo convertir la transacción en transacción dividida.</string>
+  <string name="split_transaction_group_success">%1$d transacciones fueron agrupadas en una transacción dividida satisfactoriamente.</string>
+  <string name="split_transaction_group_error">No se puedo agrupar las transacciones en una transacción dividida.</string>
+  <string name="split_transaction_not_possible">Sólo las transacciones que tienen una misma cuenta, acreedor y estado pueden agruparse en una misma transacción dividida.</string>
 </resources>

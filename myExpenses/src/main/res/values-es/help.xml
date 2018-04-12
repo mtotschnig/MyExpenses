@@ -20,6 +20,7 @@
   <string name="menu_search_help_text">Esta entrada abre un submenú que permite definir criterios de búsqueda basados en la categoría, importe, comentario, estado, ordenante/acreedor y método de pago. Cuando se activa un filtro de búsqueda, simplemente puede hacer clic en la entrada del submenú para desactivarlo.</string>
   <string name="cab_create_template_from_transaction_help_text">Definir una nueva plantilla basada en la transacción seleccionada. Le preguntará por el título de la plantilla.</string>
   <string name="cab_clone_transaction_help_text">Las transacciones seleccionadas se copiarán con la fecha y hora actuales. Podrá hacer cambios antes de guardar la copia.</string>
+  <string name="cab_split_help_text">Puede editar la transacción después para crear partes adiciones, según necesite.</string>
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Esta pantalla muestra las formas de pago predefinidas (cheque, tarjeta de crédito, depósito, tarjeta de débito) y le permitirá definir otras nuevas. Utilice el botón de acción flotante para abrir el formulario para la creación de un nuevo método.</string>
   <!--ManageParties title is in keys-->

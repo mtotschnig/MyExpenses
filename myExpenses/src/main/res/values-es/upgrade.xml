@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_290">
+    <item>Múltiple transacciones puedes agruparte en una transacción dividida</item>
+    <item>Las transacciones divididas pueden desagruparse</item>
+  </string-array>
   <string-array name="whats_new_289">
     <item>Conversión entre monedas extranjeras y monedas locales</item>
   </string-array>
