@@ -225,7 +225,9 @@ public class Account extends Model {
    *           if it is empty the account with the lowest id will be fetched from db,
    *           if id < 0 we forward to AggregateAccount
    * @return Account object or null if no account with id exists in db
+   * TODO: We should no longer allow calling this from the UI thread and consistently load account in the background
    */
+  @Deprecated
   public static Account getInstanceFromDb(long id) {
     if (id < 0)
       return AggregateAccount.getInstanceFromDb(id);

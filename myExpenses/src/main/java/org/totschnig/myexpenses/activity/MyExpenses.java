@@ -1150,8 +1150,11 @@ public class MyExpenses extends LaunchActivity implements
     Grouping newGrouping = Utils.getGroupingFromMenuItemId(item.getItemId());
     if (newGrouping != null) {
       if (!item.isChecked()) {
-        item.setChecked(true);
-        Account.getInstanceFromDb(mAccountId).persistGrouping(newGrouping);
+        final Account account = Account.getInstanceFromDb(mAccountId);
+        if (account != null) {
+          item.setChecked(true);
+          account.persistGrouping(newGrouping);
+        }
       }
       return true;
     }
@@ -1162,8 +1165,11 @@ public class MyExpenses extends LaunchActivity implements
     SortDirection newSortDirection = Utils.getSortDirectionFromMenuItemId(item.getItemId());
     if (newSortDirection != null) {
       if (!item.isChecked()) {
-        item.setChecked(true);
-        Account.getInstanceFromDb(mAccountId).persistSortDirection(newSortDirection);
+        final Account account = Account.getInstanceFromDb(mAccountId);
+        if (account != null) {
+          item.setChecked(true);
+          account.persistSortDirection(newSortDirection);
+        }
       }
       return true;
     }
