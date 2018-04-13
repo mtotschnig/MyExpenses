@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.util.licence;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,11 +15,13 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.onepf.oms.OpenIabHelper;
 import org.onepf.oms.appstore.googleUtils.Inventory;
 import org.onepf.oms.appstore.googleUtils.Purchase;
+import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Template;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.Preconditions;
@@ -30,6 +33,7 @@ import org.totschnig.myexpenses.widget.TemplateWidget;
 import java.util.Currency;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import timber.log.Timber;
@@ -40,6 +44,7 @@ public class LicenceHandler {
   private static final String LICENSE_VALID_UNTIL_KEY = "licence_valid_until";
   public static final String TAG = "LicenceHandler";
   protected final Context context;
+  private boolean isSandbox = BuildConfig.DEBUG;
 
   public LicenceStatus getLicenceStatus() {
     return licenceStatus;
@@ -314,5 +319,69 @@ public class LicenceHandler {
 
   public boolean needsKeyEntry() {
     return true;
+  }
+
+  public String getPaypalUri(Package aPackage) {
+    String host = isSandbox ? "www.sandbox.paypal.com" : "www.paypal.com";
+    String paypalButtonId = isSandbox ? "TURRUESSCUG8N" : "LBUDF8DSWJAZ8";
+    String uri = String.format(Locale.US,
+        "https://%s/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=%s&on0=%s&os0=%s&lc=%s&currency_code=EUR",
+        host, paypalButtonId, "Licence", aPackage.name(), getPaypalLocale());
+    String licenceEmail = PrefKey.LICENCE_EMAIL.getString(null);
+    if (licenceEmail != null) {
+      uri += "&custom=" + Uri.encode(licenceEmail);
+    }
+    return uri;
+  }
+
+  public String getBackendUri() {
+    return isSandbox ? "https://myexpenses-licencedb-staging.herokuapp.com"  : "https://licencedb.myexpenses.mobi/";
+  }
+
+  private String getPaypalLocale() {
+    Locale locale = Locale.getDefault();
+    switch (locale.getLanguage()) {
+      case "en":
+        return "en_US";
+      case "fr":
+        return "fr_FR";
+      case "es":
+        return "es_ES";
+      case "zh":
+        return "zh_CN";
+      case "ar":
+        return "ar_EG";
+      case "de":
+        return "de_DE";
+      case "nl":
+        return "nl_NL";
+      case "pt":
+        return "pt_PT";
+      case "da":
+        return "da_DK";
+      case "ru":
+        return "ru_RU";
+      case "id":
+        return "id_ID";
+      case "iw":
+      case "he":
+        return "he_IL";
+      case "it":
+        return "it_IT";
+      case "ja":
+        return "ja_JP";
+      case "no":
+        return "no_NO";
+      case "pl":
+        return "pl_PL";
+      case "ko":
+        return "ko_KO";
+      case "sv":
+        return "sv_SE";
+      case "th":
+        return "th_TH";
+      default:
+        return "en_US";
+    }
   }
 }

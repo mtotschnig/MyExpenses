@@ -13,14 +13,12 @@ import org.onepf.oms.OpenIabHelper;
 import org.onepf.oms.appstore.googleUtils.IabHelper;
 import org.onepf.oms.appstore.googleUtils.IabResult;
 import org.onepf.oms.appstore.googleUtils.Purchase;
-import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ContribDialogFragment;
 import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.Utils;
@@ -33,7 +31,6 @@ import org.totschnig.myexpenses.util.tracking.Tracker;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 import timber.log.Timber;
 
@@ -238,20 +235,10 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
     Intent intent;
     switch (paymentOption) {
       case R.string.donate_button_paypal: {
-        String host = BuildConfig.DEBUG ? "www.sandbox.paypal.com" : "www.paypal.com";
-        String paypalButtonId = BuildConfig.DEBUG ? "TURRUESSCUG8N" : "LBUDF8DSWJAZ8";
-        String uri = String.format(Locale.US,
-            "https://%s/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=%s&on0=%s&os0=%s&lc=%s",
-            host, paypalButtonId, "Licence", aPackage.name(), getPaypalLocale());
-        String licenceEmail = PrefKey.LICENCE_EMAIL.getString(null);
-        if (licenceEmail != null) {
-          uri += "&custom=" + Uri.encode(licenceEmail);
-        }
-
         intent = new Intent(Intent.ACTION_VIEW);
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setData(Uri.parse(uri));
+        intent.setData(Uri.parse(licenceHandler.getPaypalUri(aPackage)));
         startActivityForResult(intent, 0);
         break;
       }
@@ -273,53 +260,6 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
           startActivityForResult(intent, 0);
         }
       }
-    }
-  }
-
-  private String getPaypalLocale() {
-    Locale locale = Locale.getDefault();
-    switch (locale.getLanguage()) {
-      case "en":
-        return "en_US";
-      case "fr":
-        return "fr_FR";
-      case "es":
-        return "es_ES";
-      case "zh":
-        return "zh_CN";
-      case "ar":
-        return "ar_EG";
-      case "de":
-        return "de_DE";
-      case "nl":
-        return "nl_NL";
-      case "pt":
-        return "pt_PT";
-      case "da":
-        return "da_DK";
-      case "ru":
-        return "ru_RU";
-      case "id":
-        return "id_ID";
-      case "iw":
-      case "he":
-        return "he_IL";
-      case "it":
-        return "it_IT";
-      case "ja":
-        return "ja_JP";
-      case "no":
-        return "no_NO";
-      case "pl":
-        return "pl_PL";
-      case "ko":
-        return "ko_KO";
-      case "sv":
-        return "sv_SE";
-      case "th":
-        return "th_TH";
-      default:
-        return "en_US";
     }
   }
 
