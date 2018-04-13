@@ -23,8 +23,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 
-import com.annimon.stream.Stream;
+import com.annimon.stream.IntStream;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.util.licence.Package;
 
@@ -47,7 +48,7 @@ public class DonateDialogFragment extends CommitSafeDialogFragment {
     DonationUriVisitor listener = new DonationUriVisitor();
 
     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-    CharSequence[] items = Stream.of(aPackage.getPaymentOptions()).map(this::getString).toArray(size -> new String[size]);
+    CharSequence[] items = IntStream.of(getPaymentOptions(aPackage)).mapToObj(this::getString).toArray(String[]::new);
     return builder
         .setTitle(aPackage.getButtonLabel(getContext()))
         .setItems(items, listener)
@@ -67,8 +68,12 @@ public class DonateDialogFragment extends CommitSafeDialogFragment {
     public void onClick(DialogInterface dialog, int which) {
       Activity ctx = getActivity();
       Package aPackage = getPackage();
-      ((ContribInfoDialogActivity) ctx).startPayment(aPackage.getPaymentOptions()[which], aPackage);
+      ((ContribInfoDialogActivity) ctx).startPayment(getPaymentOptions(aPackage)[which], aPackage);
     }
+  }
+
+  private int[] getPaymentOptions(Package aPackage) {
+    return MyApplication.getInstance().getLicenceHandler().getPaymentOptions(aPackage);
   }
 
   @Override

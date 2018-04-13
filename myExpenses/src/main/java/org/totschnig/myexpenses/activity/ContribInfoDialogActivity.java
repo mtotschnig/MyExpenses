@@ -126,7 +126,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
   }
 
   private void contribBuyGithub(Package aPackage) {
-    Integer[] paymentOptions = aPackage.getPaymentOptions();
+    int[] paymentOptions = licenceHandler.getPaymentOptions(aPackage);
     if (paymentOptions.length > 1) {
       DonateDialogFragment.newInstance(aPackage).show(getSupportFragmentManager(), "CONTRIB");
     } else {

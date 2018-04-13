@@ -82,10 +82,4 @@ public enum Package {
     }
     return String.format("%s (%s)", context.getString(resId), getFormattedPrice(context, getFormattedPriceRaw()));
   }
-
-  public Integer[] getPaymentOptions() {
-    return (defaultPrice >= 500) ?
-        new Integer[]{R.string.donate_button_paypal, R.string.donate_button_invoice} :
-        new Integer[]{R.string.donate_button_paypal};
-  }
 }

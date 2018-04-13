@@ -511,7 +511,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   public void configureContribPrefs() {
     Preference contribPurchasePref = findPreference(CONTRIB_PURCHASE),
         licenceKeyPref = findPreference(NEW_LICENCE);
-    if (DistribHelper.doesUseIAP()) {
+    if (!licenceHandler.needsKeyEntry() ) {
       if (licenceKeyPref != null) {
         ((PreferenceCategory) findPreference(CATEGORY_CONTRIB)).removePreference(licenceKeyPref);
       }
@@ -523,13 +523,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     if (licenceStatus == null) {
       int baseTitle = R.string.pref_contrib_purchase_title;
       contribPurchaseTitle = getString(baseTitle);
-      if (DistribHelper.doesUseIAP()) {
+      if (licenceHandler.doesUseIAP()) {
         contribPurchaseTitle += " (" + getString(R.string.pref_contrib_purchase_title_in_app) + ")";
       }
       contribPurchaseSummary = getString(R.string.pref_contrib_purchase_summary);
     } else {
       contribPurchaseTitle = getString(R.string.licence_status) + ": " + getString(licenceStatus.getResId());
-      if (licenceHandler.hasLegacyLicence()) {
+      if (licenceHandler.needsMigration()) {
         contribPurchaseSummary = Utils.getTextWithAppName(getContext(), R.string.licence_migration_info).toString();
       } else if (licenceStatus.isUpgradeable()) {
         contribPurchaseSummary = getString(R.string.pref_contrib_purchase_title_upgrade);
@@ -620,7 +620,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   @Override
   public boolean onPreferenceClick(Preference preference) {
     if (matches(preference, CONTRIB_PURCHASE)) {
-      if (licenceHandler.hasLegacyLicence()) {
+      if (licenceHandler.needsMigration()) {
         CommonCommands.dispatchCommand(activity(), R.id.REQUEST_LICENCE_MIGRATION_COMMAND, null);
       } else if (licenceHandler.isUpgradeable()) {
         Intent i = ContribInfoDialogActivity.getIntentFor(getActivity(), null);

@@ -22,6 +22,11 @@ public class HashLicenceHandler extends LicenceHandler {
   }
 
   @Override
+  public boolean needsMigration() {
+    return hasLegacyLicence;
+  }
+
+  @Override
   public void init() {
     super.init();
     if (licenceStatus == null) {
