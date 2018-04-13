@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_290">
+    <item>עסקאות מרובות ניתן לקבץ לעסקה ספליט אחד</item>
+    <item>ניתן לפצל את העסקה המפוצלת</item>
+  </string-array>
   <string-array name="whats_new_289">
     <item>המרה בין מטבעות זרים למטבע ביתי</item>
   </string-array>
@@ -78,4 +82,5 @@
   </string-array>
     <string name="bug_fixes">תיקוני באגים</string>
     <string name="performance_enhancement">שיפור בעיצועים</string>
-    </resources>
+    <string name="stability_improvements">שיפורים ביציבות</string>
+</resources>

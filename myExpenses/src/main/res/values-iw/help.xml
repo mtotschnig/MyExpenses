@@ -20,6 +20,7 @@
   <string name="menu_search_help_text">ערך זה פותח תפריט משנה המאפשר לך להגדיר קריטריונים לחיפוש לפי קטגוריה, סכום, תגובה, סטטוס, משלם / מקבל תשלום ושיטת תשלום. כאשר מסנן החיפוש פעיל, אתה יכול פשוט ללחוץ על הערך שלו בתפריט המשנה כדי לבטל את זה.</string>
   <string name="cab_create_template_from_transaction_help_text">הגדר תבנית חדשה המבוססת על העסקה שנבחרה. תנחה אותך עבור הכותרת של התבנית.</string>
   <string name="cab_clone_transaction_help_text">העסקאות שנבחרו ישוכפלו עם התאריך והשעה הנוכחיים. באפשרותך לבצע שינויים לפני שמירת העותק.</string>
+  <string name="cab_split_help_text">לאחר מכן תוכל לערוך את העסקה כדי ליצור חלקים נוספים לפי הצורך.</string>
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">מסך זה מפרט את שיטות התשלום המוגדרות מראש (המחאה, כרטיס אשראי, הפקדה, הוראת קבע) ומאפשר לך להגדיר שיטות חדשות. השתמש בלחצן פעולה הצף כדי לפתוח את הטופס ליצירת שיטה חדשה.</string>
   <!--ManageParties title is in keys-->

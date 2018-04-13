@@ -716,6 +716,18 @@
   <string name="menu_original_amount">סכום מקורי</string>
   <string name="menu_equivalent_amount">סכום שווה ערך</string>
   <string name="home_currency_change_warning">אם תשנה את המטבע הביתי שלך, סכומים שווים ושערי חליפין יאבדו, ויש להגדיר אותם שוב. האם אתה רוצה להמשיך?</string>
+  <string name="warning_split_transactions">העסקאות שנבחרו יקובצו לעסקה מפוצלת אחת. תאריך התאריך שלהם יאבד, כלומר מוחלף על ידי הממוצע שלהם.</string>
+  <string name="warning_ungroup_split_transactions">העסקאות המפוצלות שנבחרו לא יקובצו, כלומר החלקים המפוצלים שלהן יהפכו לעסקאות רגילות.</string>
   <!--This is the label for the action that breaks up a split transaction into its parts.-->
+  <string name="menu_ungroup_split_transaction">פצל קבוצה</string>
+  <plurals name="ungroup_split_transaction_success">
+    <item quantity="one">עסקת הפיצול בוטלה בהצלחה.</item>
+    <item quantity="other">%1$d עסקאות מפוצלות הוצאו מקבוצה בהצלחה.</item>
+  </plurals>
+  <string name="ungroup_split_transaction_failure">במהלך ביטול קיבוץ לקבוצה פיצול עסקאות, %1$d מתוך  %2$d נכשל.</string>
+  <string name="split_transaction_one_success">העסקה השתנתה בהצלחה לפיצול.</string>
   <string name="split_transaction_one_error">לא ניתן היה לשנות את העסקה לפיצול.</string>
+  <string name="split_transaction_group_success">%1$d עסקאות קובצו בהצלחה לעסקה מפוצלת אחת.</string>
+  <string name="split_transaction_group_error">לא ניתן לקבץ עסקאות לפיצול.</string>
+  <string name="split_transaction_not_possible">רק עסקאות שיש להן אותו חשבון, מקבל תשלום ומעמד ניתן לקבץ לעסקה מפוצלת אחת.</string>
 </resources>
