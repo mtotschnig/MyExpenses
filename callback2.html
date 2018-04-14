@@ -151,7 +151,7 @@ function buildLocalizedAlert() {
    return ((isPdt ?  getLocalized("text_0", lang) : "") + " ")
       + getLocalized("text_1", lang) + " "
       + sprintf(getLocalized("text_2", lang), getURLParameter("key"))
-      + "<a href='mailto:support@myexpenses.mobi'>" + getLocalized("customer_support", lang)  + "</a>";
+      + " <a href='mailto:support@myexpenses.mobi'>" + getLocalized("customer_support", lang)  + "</a>";
 }
 
 function getLocalized(key, lang) {
