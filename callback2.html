@@ -110,15 +110,48 @@ var translation_data = {
 
              "vi": "Mặt khác, bạn có thể nhập %s từ phần Cài đặt trong ứng dụng."
 
+        },
+        "customer_support": {
+            "bg": "Поддръжка на клиенти",
+
+            "de": "Kundendienst",
+
+            "el": "Υποστήριξη πελατών",
+
+            "en": "Customer support",
+
+            "es": "Atención al cliente",
+
+            "eu": "Bezeroarentzako arreta",
+
+            "fr": "Service client",
+
+            "it": "Servizio Clienti",
+
+            "iw": "שירות לקוחות",
+
+            "ja": "顧客サポート",
+
+            "ms": "Sokongan pengguna",
+
+            "pt": "Suporte ao cliente",
+
+            "ru": "Служба поддержки",
+
+            "tr": "Müşteri desteği",
+
+            "vi": "Hỗ trợ khách hàng"
         }
    };
 
 function buildLocalizedAlert() {
    lang = findLang();
-   isNotPdt = getURLParameter("isPdt") == "false";
-   return (isNotPdt ? "" : getLocalized("text_0", lang) + " ")
+   isPdt = getURLParameter("isPdt") != "false";
+
+   return ((isPdt ?  getLocalized("text_0", lang) : "") + " ")
       + getLocalized("text_1", lang) + " "
-      + sprintf(getLocalized("text_2", lang), getURLParameter("key"));
+      + sprintf(getLocalized("text_2", lang), getURLParameter("key"))
+      + "<a href='mailto:support@myexpenses.mobi'>" + getLocalized("customer_support", lang)  + "</a>";
 }
 
 function getLocalized(key, lang) {
@@ -159,7 +192,7 @@ function sprintf() {
 
 switch(window.location.hash) {
 case '#verify':
-  alert(buildLocalizedAlert());
+  document.write(buildLocalizedAlert());
   break;
 default:
   window.location.replace(findDestination());
