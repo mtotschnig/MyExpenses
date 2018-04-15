@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.activity;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -195,7 +196,10 @@ public class SplashActivity extends SyncBackendSetupActivity {
           Throwable throwable = resultExceptional.getException();
           if (throwable instanceof SyncBackendProvider.ResolvableSetupException) {
             try {
-              startIntentSenderForResult(((SyncBackendProvider.ResolvableSetupException) throwable).getResolution().getIntentSender(), REQUEST_CODE_RESOLUTION, null, 0, 0, 0);
+              final PendingIntent resolution = ((SyncBackendProvider.ResolvableSetupException) throwable).getResolution();
+              if (resolution != null) {
+                startIntentSenderForResult(resolution.getIntentSender(), REQUEST_CODE_RESOLUTION, null, 0, 0, 0);
+              }
             } catch (IntentSender.SendIntentException e) {
               Timber.e(e, "Exception while starting resolution activity");
             }

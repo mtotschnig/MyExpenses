@@ -4,6 +4,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.annimon.stream.Exceptional;
 import com.annimon.stream.Stream;
@@ -64,13 +65,14 @@ public interface SyncBackendProvider {
 
   class ResolvableSetupException extends Exception {
 
-    @NonNull final PendingIntent resolution;
+    @Nullable final PendingIntent resolution;
 
-    public ResolvableSetupException(@NonNull PendingIntent resolution) {
+    ResolvableSetupException(@Nullable PendingIntent resolution, @Nullable String errorMessage) {
+      super(errorMessage);
       this.resolution = resolution;
     }
 
-    @NonNull
+    @Nullable
     public PendingIntent getResolution() {
       return resolution;
     }

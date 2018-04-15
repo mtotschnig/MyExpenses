@@ -182,11 +182,16 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
     final Exceptional<Void> setupResult = backend.setUp(authToken);
     if (!setupResult.isPresent()) {
-      syncResult.stats.numIoExceptions++;
-      syncResult.delayUntil = IO_DEFAULT_DELAY_SECONDS;
-      log().i(setupResult.getException());
-      appendToNotification(Utils.concatResStrings(getContext(), " ",
-          R.string.sync_io_error_cannot_connect, R.string.sync_error_will_try_again_later), account, true);
+      final Throwable exception = setupResult.getException();
+      if (exception instanceof SyncBackendProvider.ResolvableSetupException) {
+        notifyWithResolution((SyncBackendProvider.ResolvableSetupException) exception);
+      } else {
+        syncResult.stats.numIoExceptions++;
+        syncResult.delayUntil = IO_DEFAULT_DELAY_SECONDS;
+        log().i(exception);
+        appendToNotification(Utils.concatResStrings(getContext(), " ",
+            R.string.sync_io_error_cannot_connect, R.string.sync_error_will_try_again_later), account, true);
+      }
       return;
     }
 
@@ -483,6 +488,19 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       notification.flags = Notification.FLAG_AUTO_CANCEL;
       ((NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE)).notify(
           "SYNC", account != null ? account.hashCode() : 0, notification);
+    }
+  }
+
+  private void notifyWithResolution(SyncBackendProvider.ResolvableSetupException exception) {
+    final PendingIntent resolution = exception.getResolution();
+    if (resolution != null) {
+      NotificationBuilderWrapper builder = NotificationBuilderWrapper.bigTextStyleBuilder(
+          getContext(), NotificationBuilderWrapper.CHANNEL_ID_SYNC, getNotificationTitle(), exception.getMessage());
+      builder.setContentIntent(resolution);
+      Notification notification = builder.build();
+      notification.flags = Notification.FLAG_AUTO_CANCEL;
+      ((NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE)).notify(
+          "SYNC", 0, notification);
     }
   }
 
