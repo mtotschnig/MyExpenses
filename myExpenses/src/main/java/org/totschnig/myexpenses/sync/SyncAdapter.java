@@ -184,7 +184,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     if (!setupResult.isPresent()) {
       syncResult.stats.numIoExceptions++;
       syncResult.delayUntil = IO_DEFAULT_DELAY_SECONDS;
-      log().e(setupResult.getException());
+      log().i(setupResult.getException());
       appendToNotification(Utils.concatResStrings(getContext(), " ",
           R.string.sync_io_error_cannot_connect, R.string.sync_error_will_try_again_later), account, true);
       return;
