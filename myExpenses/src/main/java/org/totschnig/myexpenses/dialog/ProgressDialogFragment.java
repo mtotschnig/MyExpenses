@@ -210,6 +210,8 @@ public class ProgressDialogFragment extends CommitSafeDialogFragment {
   private void unsetIndeterminateDrawable() {
     if (mDialog instanceof ProgressDialog) {
       ((ProgressDialog) mDialog).setIndeterminateDrawable(null);
+    } else {
+      ((ScrollableProgressDialog) mDialog).unsetIndeterminateDrawable();
     }
   }
 

@@ -11,23 +11,30 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.totschnig.myexpenses.ui;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class ScrollableProgressDialog extends AlertDialog {
 
-  private CharSequence mMessage;
-  private TextView mMessageView;
+  private CharSequence message;
+  @BindView(R.id.message)
+  TextView messageView;
+  @BindView(R.id.progress)
+  ProgressBar progressBar;
 
   /**
    * Creates a Progress dialog.
@@ -42,9 +49,9 @@ public class ScrollableProgressDialog extends AlertDialog {
   protected void onCreate(Bundle savedInstanceState) {
     LayoutInflater inflater = LayoutInflater.from(getContext());
     View view = inflater.inflate(R.layout.scrollable_progress_dialog, null);
-    mMessageView = view.findViewById(R.id.message);
-    if (mMessage != null) {
-      setMessage(mMessage);
+    ButterKnife.bind(this, view);
+    if (message != null) {
+      setMessage(message);
     }
     setView(view);
     super.onCreate(savedInstanceState);
@@ -52,9 +59,13 @@ public class ScrollableProgressDialog extends AlertDialog {
 
   @Override
   public void setMessage(CharSequence message) {
-    if (mMessageView != null) {
-      mMessageView.setText(message);
+    if (messageView != null) {
+      messageView.setText(message);
     }
-    mMessage = message;
+    this.message = message;
+  }
+
+  public void unsetIndeterminateDrawable() {
+    progressBar.setVisibility(View.INVISIBLE);
   }
 }
