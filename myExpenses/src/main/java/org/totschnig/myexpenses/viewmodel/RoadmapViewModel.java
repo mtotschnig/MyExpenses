@@ -137,8 +137,8 @@ public class RoadmapViewModel extends AndroidViewModel {
     protected Vote doInBackground(Map<Integer, Integer>... votes) {
       boolean isPro = ContribFeature.ROADMAP_VOTING.hasAccess();
       Vote vote = new Vote(key != null ? key : licenceHandler.buildRoadmapVoteKey(), votes[0], isPro);
-      Call<Void> voteCall = roadmapService.createVote(vote);
       try {
+        Call<Void> voteCall = roadmapService.createVote(vote);
         Response<Void> voteResponse = voteCall.execute();
         if (voteResponse.isSuccessful()) {
           writeToFile(ROADMAP_VOTE, gson.toJson(vote));
@@ -146,8 +146,8 @@ public class RoadmapViewModel extends AndroidViewModel {
           PrefKey.VOTE_REMINDER_SHOWN.putBoolean(false);
           return vote;
         }
-      } catch (IOException e) {
-        Timber.e(e);
+      } catch (IOException | SecurityException e) {
+        Timber.i(e);
       }
       return null;
     }
@@ -209,15 +209,18 @@ public class RoadmapViewModel extends AndroidViewModel {
 
   private class LoadVoteReminderTask extends AsyncTask<Void, Void, Integer> {
 
+    private final int WAIT_AFTER_INSTALL = BuildConfig.DEBUG ? 0 : 100;
+    private final long CHECK_INTERVALL = BuildConfig.DEBUG ? DateUtils.MINUTE_IN_MILLIS : DateUtils.WEEK_IN_MILLIS * 4;
+
     @Override
     protected Integer doInBackground(Void... voids) {
       final long voteReminderLastCheck = PrefKey.VOTE_REMINDER_LAST_CHECK.getLong(0);
       final long sinceLastCheck = voteReminderLastCheck == 0L ? Long.MAX_VALUE : System.currentTimeMillis() - voteReminderLastCheck;
-      if (PrefKey.VOTE_REMINDER_SHOWN.getBoolean(false) || sinceLastCheck < DateUtils.WEEK_IN_MILLIS * 4) {
+      if (PrefKey.VOTE_REMINDER_SHOWN.getBoolean(false) || sinceLastCheck < CHECK_INTERVALL) {
         return null;
       }
       Vote lastVote = readLastVoteFromFile();
-      if (lastVote == null && Utils.getDaysSinceInstall(getApplication()) < 100) {
+      if (lastVote == null && Utils.getDaysSinceInstall(getApplication()) < WAIT_AFTER_INSTALL) {
         return null;
       }
       List<Issue> issueList = readIssuesFromNetwork();
@@ -256,17 +259,16 @@ public class RoadmapViewModel extends AndroidViewModel {
   }
 
   private List<Issue> readIssuesFromNetwork() {
-    Call<List<Issue>> issuesCall = roadmapService.getIssues();
-
     List<Issue> issueList = null;
     try {
+      Call<List<Issue>> issuesCall = roadmapService.getIssues();
       Response<List<Issue>> response = issuesCall.execute();
       issueList = response.body();
       if (response.isSuccessful() && issueList != null) {
         Timber.i("Loaded %d issues from network", issueList.size());
         writeToFile(ISSUE_CACHE, gson.toJson(issueList));
       }
-    } catch (IOException e) {
+    } catch (IOException | SecurityException e) {
       Timber.i(e);
     }
     return issueList;
