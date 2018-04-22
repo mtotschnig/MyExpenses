@@ -745,4 +745,6 @@
     <string name="split_transaction_group_success">%1$d transactions were successfully grouped into one split transaction.</string>
     <string name="split_transaction_group_error">Could not group transactions into split.</string>
     <string name="split_transaction_not_possible">Only transactions that have same account, payee, and status can be grouped into one split transaction.</string>
+    <string name="pref_transaction_time_summary">Allow to set exact transaction time.</string>
+    <string name="pref_value_date_summary">Allow to set value date in addition to booking date. Transaction time will be hidden. This setting is not applied to cash accounts.</string>
 </resources>
