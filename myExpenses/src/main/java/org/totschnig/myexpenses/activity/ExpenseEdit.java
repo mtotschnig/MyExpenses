@@ -2374,8 +2374,6 @@ public class ExpenseEdit extends AmountActivity implements
 
   @Override
   protected void onPause() {
-    //try to prevent cursor leak
-    mPayeeAdapter.changeCursor(null);
     mIsResumed = false;
     super.onPause();
   }
