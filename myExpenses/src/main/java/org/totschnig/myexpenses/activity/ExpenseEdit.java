@@ -353,23 +353,23 @@ public class ExpenseEdit extends AmountActivity implements
         new int[]{android.R.id.text1},
         0);
     mPayeeText.setAdapter(mPayeeAdapter);
-    mPayeeAdapter.setFilterQueryProvider(str -> {
-      if (str == null) {
-        return null;
+    mPayeeAdapter.setFilterQueryProvider(constraint -> {
+      String selection = null;
+      String[] selectArgs = new String[0];
+      if (constraint != null) {
+        String search = Utils.esacapeSqlLikeExpression(Utils.normalize(constraint.toString()));
+        //we accept the string at the beginning of a word
+        selection = KEY_PAYEE_NAME_NORMALIZED + " LIKE ? OR " +
+            KEY_PAYEE_NAME_NORMALIZED + " LIKE ? OR " +
+            KEY_PAYEE_NAME_NORMALIZED + " LIKE ?";
+        selectArgs = new String[]{search + "%", "% " + search + "%", "%." + search + "%"};
       }
-      String search = Utils.esacapeSqlLikeExpression(Utils.normalize(str.toString()));
-      //we accept the string at the beginning of a word
-      String selection = KEY_PAYEE_NAME_NORMALIZED + " LIKE ? OR " +
-          KEY_PAYEE_NAME_NORMALIZED + " LIKE ? OR " +
-          KEY_PAYEE_NAME_NORMALIZED + " LIKE ?";
-      String[] selectArgs = {search + "%", "% " + search + "%", "%." + search + "%"};
       return getContentResolver().query(
           TransactionProvider.PAYEES_URI,
           new String[]{KEY_ROWID, KEY_PAYEE_NAME},
           selection, selectArgs, null);
     });
-
-    mPayeeAdapter.setCursorToStringConverter(cur -> cur.getString(1));
+    mPayeeAdapter.setStringConversionColumn(1);
     FragmentManager supportFragmentManager = getSupportFragmentManager();
     mPayeeText.setOnItemClickListener((parent, view, position, id) -> {
       Cursor c = (Cursor) mPayeeAdapter.getItem(position);
