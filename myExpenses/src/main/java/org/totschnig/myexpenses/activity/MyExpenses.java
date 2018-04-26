@@ -620,14 +620,17 @@ public class MyExpenses extends LaunchActivity implements
         accountId = (Long) tag;
         //do nothing if accidentally we are positioned at an aggregate account or try to delete the last account
         if (mAccountsCursor.getCount() > 1 && accountId > 0) {
-          MessageDialogFragment.newInstance(
-              R.string.dialog_title_warning_delete_account,
-              getString(R.string.warning_delete_account, Account.getInstanceFromDb(accountId).getLabel()),
-              new MessageDialogFragment.Button(R.string.menu_delete, R.id.DELETE_ACCOUNT_COMMAND_DO,
-                  accountId),
-              null,
-              MessageDialogFragment.Button.noButton())
-              .show(getSupportFragmentManager(), "DELETE_ACCOUNT");
+          final Account account = Account.getInstanceFromDb(accountId);
+          if (account != null) {
+            MessageDialogFragment.newInstance(
+                R.string.dialog_title_warning_delete_account,
+                getString(R.string.warning_delete_account, account.getLabel()),
+                new MessageDialogFragment.Button(R.string.menu_delete, R.id.DELETE_ACCOUNT_COMMAND_DO,
+                    accountId),
+                null,
+                MessageDialogFragment.Button.noButton())
+                .show(getSupportFragmentManager(), "DELETE_ACCOUNT");
+          }
         }
         return true;
     }
