@@ -7,6 +7,7 @@ import android.text.Html;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
@@ -14,7 +15,6 @@ import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.provider.DbUtils;
-import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 
 import java.util.Currency;

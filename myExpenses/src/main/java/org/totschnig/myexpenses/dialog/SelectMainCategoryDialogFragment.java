@@ -27,11 +27,11 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.widget.SimpleCursorAdapter;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;

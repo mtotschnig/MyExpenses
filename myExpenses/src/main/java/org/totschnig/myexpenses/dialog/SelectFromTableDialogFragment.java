@@ -27,8 +27,7 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AlertDialog;
 import android.util.SparseBooleanArray;
 import android.widget.ListView;
-
-import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
+import android.widget.SimpleCursorAdapter;
 
 import java.util.ArrayList;
 
