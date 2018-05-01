@@ -43,6 +43,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.PopupMenu;
 import android.text.Editable;
 import android.text.TextPaint;
@@ -1390,16 +1391,7 @@ public class ExpenseEdit extends AmountActivity implements
       mTransaction.setReferenceNumber(mReferenceNumberText.getText().toString());
       if (forSave && !(isSplitPart())) {
         if (mRecurrenceSpinner.getSelectedItemPosition() > 0) {
-          title = TextUtils.isEmpty(mTransaction.getPayee()) ?
-              (mOperationType == TYPE_SPLIT || TextUtils.isEmpty(mLabel) ?
-                  (TextUtils.isEmpty(mTransaction.getComment()) ?
-                      getString(R.string.menu_create_template) : mTransaction.getComment()) : mLabel) : mTransaction.getPayee();
-          String description = mTransaction.compileDescription(ExpenseEdit.this, currencyFormatter);
-          mTransaction.setInitialPlan(new Plan(
-              mCalendar,
-              ((Plan.Recurrence) mRecurrenceSpinner.getSelectedItem()).toRrule(mCalendar),
-              title,
-              description));
+          mTransaction.setInitialPlan(Pair.create((Plan.Recurrence) mRecurrenceSpinner.getSelectedItem(), mCalendar));
         }
       }
     }
