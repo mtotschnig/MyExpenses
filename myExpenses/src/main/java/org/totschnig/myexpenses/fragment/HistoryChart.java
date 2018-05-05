@@ -144,12 +144,12 @@ public class HistoryChart extends Fragment
   @Override
   public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
-    ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(account.getLabel());
+    ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(account.getLabelForScreenTitle(getContext()));
   }
 
   @Nullable
   @Override
-  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+  public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
     showBalance = PrefKey.HISTORY_SHOW_BALANCE.getBoolean(showBalance);
     includeTransfers = PrefKey.HISTORY_INCLUDE_TRANSFERS.getBoolean(includeTransfers);
     showTotals = PrefKey.HISTORY_SHOW_TOTALS.getBoolean(showTotals);
@@ -307,10 +307,12 @@ public class HistoryChart extends Fragment
       }
       builder.appendPath(TransactionProvider.URI_SEGMENT_GROUPS)
           .appendPath(grouping.name());
-      if (account.getId() < 0) {
-        builder.appendQueryParameter(KEY_CURRENCY, account.currency.getCurrencyCode());
-      } else {
-        builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(account.getId()));
+      if (!account.isHomeAggregate()) {
+        if (account.isAggregate()) {
+          builder.appendQueryParameter(KEY_CURRENCY, account.currency.getCurrencyCode());
+        } else {
+          builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(account.getId()));
+        }
       }
       if (shouldUseGroupStart()) {
         builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_START, "1");
