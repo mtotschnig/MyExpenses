@@ -11,7 +11,7 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.totschnig.myexpenses.activity;
 
@@ -43,6 +43,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.PopupMenu;
 import android.text.Editable;
 import android.text.TextPaint;
@@ -63,6 +64,7 @@ import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TextView;
@@ -103,7 +105,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.AmountEditText;
 import org.totschnig.myexpenses.ui.ExchangeRateEdit;
-import org.totschnig.myexpenses.ui.SimpleCursorAdapter;
 import org.totschnig.myexpenses.ui.SpinnerHelper;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.DistribHelper;
@@ -353,23 +354,23 @@ public class ExpenseEdit extends AmountActivity implements
         new int[]{android.R.id.text1},
         0);
     mPayeeText.setAdapter(mPayeeAdapter);
-    mPayeeAdapter.setFilterQueryProvider(str -> {
-      if (str == null) {
-        return null;
+    mPayeeAdapter.setFilterQueryProvider(constraint -> {
+      String selection = null;
+      String[] selectArgs = new String[0];
+      if (constraint != null) {
+        String search = Utils.esacapeSqlLikeExpression(Utils.normalize(constraint.toString()));
+        //we accept the string at the beginning of a word
+        selection = KEY_PAYEE_NAME_NORMALIZED + " LIKE ? OR " +
+            KEY_PAYEE_NAME_NORMALIZED + " LIKE ? OR " +
+            KEY_PAYEE_NAME_NORMALIZED + " LIKE ?";
+        selectArgs = new String[]{search + "%", "% " + search + "%", "%." + search + "%"};
       }
-      String search = Utils.esacapeSqlLikeExpression(Utils.normalize(str.toString()));
-      //we accept the string at the beginning of a word
-      String selection = KEY_PAYEE_NAME_NORMALIZED + " LIKE ? OR " +
-          KEY_PAYEE_NAME_NORMALIZED + " LIKE ? OR " +
-          KEY_PAYEE_NAME_NORMALIZED + " LIKE ?";
-      String[] selectArgs = {search + "%", "% " + search + "%", "%." + search + "%"};
       return getContentResolver().query(
           TransactionProvider.PAYEES_URI,
           new String[]{KEY_ROWID, KEY_PAYEE_NAME},
           selection, selectArgs, null);
     });
-
-    mPayeeAdapter.setCursorToStringConverter(cur -> cur.getString(1));
+    mPayeeAdapter.setStringConversionColumn(1);
     FragmentManager supportFragmentManager = getSupportFragmentManager();
     mPayeeText.setOnItemClickListener((parent, view, position, id) -> {
       Cursor c = (Cursor) mPayeeAdapter.getItem(position);
@@ -423,7 +424,8 @@ public class ExpenseEdit extends AmountActivity implements
     if (lastOriginalCurrency != null) {
       try {
         mCurrencySpinner.setSelection(currencyAdapter.getPosition(CurrencyEnum.valueOf(lastOriginalCurrency)));
-      } catch (IllegalArgumentException ignored) {}
+      } catch (IllegalArgumentException ignored) {
+      }
     }
     TextPaint paint = mPlanToggleButton.getPaint();
     int automatic = (int) paint.measureText(getString(R.string.plan_automatic));
@@ -924,11 +926,7 @@ public class ExpenseEdit extends AmountActivity implements
     super.onTypeChanged(isClicked);
     if (mTransaction != null && mIsMainTransactionOrTemplate) {
       mTransaction.setMethodId(null);
-      if (mManager.getLoader(METHODS_CURSOR) != null && !mManager.getLoader(METHODS_CURSOR).isReset()) {
-        mManager.restartLoader(METHODS_CURSOR, null, this);
-      } else {
-        mManager.initLoader(METHODS_CURSOR, null, this);
-      }
+      Utils.requireLoader(mManager, METHODS_CURSOR, null, this);
     }
   }
 
@@ -1393,16 +1391,7 @@ public class ExpenseEdit extends AmountActivity implements
       mTransaction.setReferenceNumber(mReferenceNumberText.getText().toString());
       if (forSave && !(isSplitPart())) {
         if (mRecurrenceSpinner.getSelectedItemPosition() > 0) {
-          title = TextUtils.isEmpty(mTransaction.getPayee()) ?
-              (mOperationType == TYPE_SPLIT || TextUtils.isEmpty(mLabel) ?
-                  (TextUtils.isEmpty(mTransaction.getComment()) ?
-                      getString(R.string.menu_create_template) : mTransaction.getComment()) : mLabel) : mTransaction.getPayee();
-          String description = mTransaction.compileDescription(ExpenseEdit.this, currencyFormatter);
-          mTransaction.setInitialPlan(new Plan(
-              mCalendar,
-              ((Plan.Recurrence) mRecurrenceSpinner.getSelectedItem()).toRrule(mCalendar),
-              title,
-              description));
+          mTransaction.setInitialPlan(Pair.create((Plan.Recurrence) mRecurrenceSpinner.getSelectedItem(), mCalendar));
         }
       }
     }
@@ -1572,7 +1561,7 @@ public class ExpenseEdit extends AmountActivity implements
     if (didUserSetAccount) {
       long accountId = mAccountSpinner.getSelectedItemId();
       if (accountId != android.widget.AdapterView.INVALID_ROW_ID) {
-         mAccountId = accountId;
+        mAccountId = accountId;
       }
     }
     if (mOperationType == TYPE_TRANSFER) {
@@ -1746,7 +1735,7 @@ public class ExpenseEdit extends AmountActivity implements
       return null;
     }
     long selectedID = spinner.getSelectedItemId();
-    for (Account account: mAccounts) {
+    for (Account account : mAccounts) {
       if (account.getId() == selectedID) {
         return account;
       }
@@ -1867,11 +1856,7 @@ public class ExpenseEdit extends AmountActivity implements
       configureTransferInput();
     } else {
       if (!mTransaction.isSplitpart()) {
-        if (mManager.getLoader(METHODS_CURSOR) != null && !mManager.getLoader(METHODS_CURSOR).isReset()) {
-          mManager.restartLoader(METHODS_CURSOR, null, this);
-        } else {
-          mManager.initLoader(METHODS_CURSOR, null, this);
-        }
+        Utils.requireLoader(mManager, METHODS_CURSOR, null, this);
       }
       if (mOperationType == TYPE_SPLIT) {
         final SplitPartList splitPartList = findSplitPartList();
@@ -2034,13 +2019,12 @@ public class ExpenseEdit extends AmountActivity implements
     switch (id) {
       case METHODS_CURSOR:
         Account a = getCurrentAccount();
-        if (a == null)
-          return null;
+        final AccountType type = a == null ? AccountType.CASH : a.getType();
         return new CursorLoader(this,
             TransactionProvider.METHODS_URI.buildUpon()
                 .appendPath(TransactionProvider.URI_SEGMENT_TYPE_FILTER)
                 .appendPath(mType == INCOME ? "1" : "-1")
-                .appendPath(a.getType().name()).build(),
+                .appendPath(type.name()).build(),
             null, null, null, null);
       case ACCOUNTS_CURSOR:
         return new CursorLoader(this, TransactionProvider.ACCOUNTS_BASE_URI,
@@ -2093,7 +2077,7 @@ public class ExpenseEdit extends AmountActivity implements
     //ignore first row "no method" merged in
     int position = mMethodSpinner.getSelectedItemPosition();
     if (position > 0) {
-      mMethodsCursor.moveToPosition(position - 1);
+      mMethodsCursor.moveToPosition(position);
       mReferenceNumberText.setVisibility(mMethodsCursor.getInt(mMethodsCursor.getColumnIndexOrThrow(KEY_IS_NUMBERED)) > 0 ?
           View.VISIBLE : View.INVISIBLE);
     } else {
@@ -2107,7 +2091,7 @@ public class ExpenseEdit extends AmountActivity implements
       boolean found = false;
       while (!mMethodsCursor.isAfterLast()) {
         if (mMethodsCursor.getLong(mMethodsCursor.getColumnIndex(KEY_ROWID)) == mMethodId) {
-          mMethodSpinner.setSelection(mMethodsCursor.getPosition() + 1); //first row is ---
+          mMethodSpinner.setSelection(mMethodsCursor.getPosition());
           found = true;
           break;
         }
@@ -2131,14 +2115,14 @@ public class ExpenseEdit extends AmountActivity implements
     int id = loader.getId();
     switch (id) {
       case METHODS_CURSOR:
-        mMethodsCursor = data;
         if (mMethodsAdapter == null || !data.moveToFirst()) {
           methodRow.setVisibility(View.GONE);
         } else {
           methodRow.setVisibility(View.VISIBLE);
           MatrixCursor extras = new MatrixCursor(new String[]{KEY_ROWID, KEY_LABEL, KEY_IS_NUMBERED});
           extras.addRow(new String[]{"0", "- - - -", "0"});
-          mMethodsAdapter.swapCursor(new MergeCursor(new Cursor[]{extras, data}));
+          mMethodsCursor = new MergeCursor(new Cursor[]{extras, data});
+          mMethodsAdapter.swapCursor(mMethodsCursor);
           setMethodSelection();
         }
         break;
@@ -2225,6 +2209,7 @@ public class ExpenseEdit extends AmountActivity implements
         break;
       case AUTOFILL_CURSOR:
         if (data.moveToFirst()) {
+          boolean typeHasChanged = false;
           int columnIndexCatId = data.getColumnIndex(KEY_CATID);
           int columnIndexLabel = data.getColumnIndex(KEY_LABEL);
           if (mCatId == null && columnIndexCatId != -1 && columnIndexLabel != -1) {
@@ -2239,13 +2224,17 @@ public class ExpenseEdit extends AmountActivity implements
           int columnIndexAmount = data.getColumnIndex(KEY_AMOUNT);
           int columnIndexCurrency = data.getColumnIndex(KEY_CURRENCY);
           if (TextUtils.isEmpty(mAmountText.getText().toString()) && columnIndexAmount != -1 && columnIndexCurrency != -1) {
+            boolean beforeType = mType;
             fillAmount(new Money(Currency.getInstance(data.getString(columnIndexCurrency)), data.getLong(columnIndexAmount)).getAmountMajor());
             configureType();
+            typeHasChanged = beforeType != mType;
           }
           int columnIndexMethodId = data.getColumnIndex(KEY_METHODID);
           if (mMethodId == null && mMethodsCursor != null && columnIndexMethodId != -1) {
             mMethodId = DbUtils.getLongOrNull(data, columnIndexMethodId);
-            setMethodSelection();
+            if (!typeHasChanged) {//if type has changed, we need to wait for methods to be reloaded, method is then selected in onLoadFinished
+              setMethodSelection();
+            }
           }
           int columnIndexAccountId = data.getColumnIndex(KEY_ACCOUNTID);
           if (!didUserSetAccount && mAccounts != null && columnIndexAccountId != -1) {
@@ -2360,7 +2349,7 @@ public class ExpenseEdit extends AmountActivity implements
     Bundle extras = new Bundle(2);
     extras.putLong(KEY_ROWID, id);
     extras.putBoolean(KEY_AUTOFILL_OVERRIDE_PREFERENCES, overridePreferences);
-    mManager.restartLoader(AUTOFILL_CURSOR, extras, this);
+    Utils.requireLoader(mManager, AUTOFILL_CURSOR, extras, this);
   }
 
   @Override

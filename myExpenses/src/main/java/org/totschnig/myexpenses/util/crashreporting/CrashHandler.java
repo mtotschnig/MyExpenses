@@ -51,7 +51,7 @@ public abstract class CrashHandler {
   public void setupLogging(Context context) {
     if (PrefKey.CRASHREPORT_ENABLED.getBoolean(true)) {
       setupLoggingDo(context);
-      putCustomData("Distribution", DistribHelper.getDistribution().name());
+      putCustomData("Distribution", DistribHelper.getVersionInfo(context));
       putCustomData("Installer", context.getPackageManager().getInstallerPackageName(context.getPackageName()));
     }
   }
@@ -61,6 +61,7 @@ public abstract class CrashHandler {
   abstract void putCustomData(String key, String value);
 
   public synchronized void addBreadcrumb(String breadcrumb) {
+    Timber.i("Breadcrumb: %s", breadcrumb);
     if (PrefKey.CRASHREPORT_ENABLED.getBoolean(true)) {
       currentBreadCrumb = currentBreadCrumb == null ? "" : currentBreadCrumb.substring(Math.max(0, currentBreadCrumb.length() - 500));
       currentBreadCrumb += "->" + breadcrumb;

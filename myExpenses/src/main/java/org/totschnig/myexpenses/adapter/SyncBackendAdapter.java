@@ -62,7 +62,7 @@ public class SyncBackendAdapter extends BaseExpandableListAdapter {
 
     ((TextView) convertView.findViewById(R.id.label)).setText(accountMetaData.toString());
     convertView.findViewById(R.id.color1).setBackgroundColor(accountMetaData.color());
-    ImageView syncStateView = (ImageView) convertView.findViewById(R.id.state);
+    ImageView syncStateView = convertView.findViewById(R.id.state);
     SyncState syncState  = getSyncState(groupPosition, childPosition);
     switch (syncState) {
       case UNKNOWN:
@@ -154,7 +154,7 @@ public class SyncBackendAdapter extends BaseExpandableListAdapter {
     String syncAccount = (String) getGroup(groupPosition);
     AccountMetaData accountMetaData = (AccountMetaData) getChild(groupPosition, childPosition);
 
-    if (localAccountInfo.containsKey(accountMetaData.uuid())) {
+    if (localAccountInfo != null && localAccountInfo.containsKey(accountMetaData.uuid())) {
       if (localAccountInfo.get(accountMetaData.uuid()) == null) {
         return SyncState.UNSYNCED;
       }

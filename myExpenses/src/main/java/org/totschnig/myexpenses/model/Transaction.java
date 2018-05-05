@@ -28,22 +28,25 @@ import android.os.RemoteException;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.annotation.VisibleForTesting;
+import android.support.v4.util.Pair;
 
 import org.apache.commons.lang3.StringUtils;
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
-import org.totschnig.myexpenses.util.io.FileCopyUtils;
 import org.totschnig.myexpenses.util.PictureDirHelper;
 import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.io.FileCopyUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -51,6 +54,7 @@ import java.util.Locale;
 
 import timber.log.Timber;
 
+import static android.text.TextUtils.isEmpty;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER;
@@ -143,9 +147,9 @@ public class Transaction extends Model {
   private Long parentId = null;
   private Long payeeId = null;
 
-  private Plan initialPlan;
+  private Pair<Plan.Recurrence, Calendar> initialPlan;
 
-  public void setInitialPlan(Plan initialPlan) {
+  public void setInitialPlan(Pair<Plan.Recurrence, Calendar> initialPlan) {
     this.initialPlan = initialPlan;
   }
 
@@ -662,10 +666,16 @@ public class Transaction extends Model {
       ContribFeature.ATTACH_PICTURE.recordUsage();
     }
 
-    if (initialPlan != null) {
-      originTemplate = new Template(this, initialPlan.title);
+    if (initialPlan != null && initialPlan.first != null && initialPlan.second != null) {
+      String title = isEmpty(getPayee()) ?
+          (isSplit() || isEmpty(getLabel()) ?
+              (isEmpty(getComment()) ?
+                  MyApplication.getInstance().getString(R.string.menu_create_template) :
+                  getComment()) :getLabel()) : getPayee();
+      originTemplate = new Template(this, title);
+      String description = originTemplate.compileDescription(MyApplication.getInstance(), CurrencyFormatter.instance());
       originTemplate.setPlanExecutionAutomatic(true);
-      originTemplate.setPlan(initialPlan);
+      originTemplate.setPlan(new Plan(initialPlan.second, initialPlan.first.toRrule(initialPlan.second), title, description));
       originTemplate.save(getId());
     }
     return uri;
