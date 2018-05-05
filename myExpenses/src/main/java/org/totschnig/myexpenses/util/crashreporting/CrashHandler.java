@@ -61,6 +61,7 @@ public abstract class CrashHandler {
   abstract void putCustomData(String key, String value);
 
   public synchronized void addBreadcrumb(String breadcrumb) {
+    Timber.i("Breadcrumb: %s", breadcrumb);
     if (PrefKey.CRASHREPORT_ENABLED.getBoolean(true)) {
       currentBreadCrumb = currentBreadCrumb == null ? "" : currentBreadCrumb.substring(Math.max(0, currentBreadCrumb.length() - 500));
       currentBreadCrumb += "->" + breadcrumb;
