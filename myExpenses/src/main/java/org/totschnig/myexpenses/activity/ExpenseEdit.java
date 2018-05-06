@@ -187,6 +187,8 @@ public class ExpenseEdit extends AmountActivity implements
   private int[] lastExchangeRateRelevantInputs = {INPUT_EXCHANGE_RATE, INPUT_AMOUNT};
   @BindView(R.id.DateButton)
   DateButton dateEdit;
+  @BindView(R.id.Date2Button)
+  DateButton date2Edit;
   @BindView(R.id.TimeButton)
   TimeButton timeEdit;
   @BindView(R.id.Comment)
@@ -207,6 +209,8 @@ public class ExpenseEdit extends AmountActivity implements
   DateButton mPlanButton;
   @BindView(R.id.Payee)
   AutoCompleteTextView mPayeeText;
+  @BindView(R.id.DateTimeLabel)
+  TextView dateTimeLabel;
   @BindView(R.id.PayeeLabel)
   TextView mPayeeLabel;
   @BindView(R.id.PlanExecutionAutomatic)
@@ -807,10 +811,6 @@ public class ExpenseEdit extends AmountActivity implements
 
     if (isNoMainTransaction()) {
       dateTimeRow.setVisibility(View.GONE);
-    } else {
-      //noinspection SetTextI18n
-      ((TextView) findViewById(R.id.DateTimeLabel)).setText(getString(
-          R.string.date) + " / " + getString(R.string.time));
     }
 
     //when we have a savedInstance, fields have already been populated
@@ -874,7 +874,6 @@ public class ExpenseEdit extends AmountActivity implements
     super.linkInputsWithLabels();
     linkAccountLabels();
     linkInputWithLabel(mTitleText, findViewById(R.id.TitleLabel));
-    final View dateTimeLabel = findViewById(R.id.DateTimeLabel);
     linkInputWithLabel(dateEdit, dateTimeLabel);
     linkInputWithLabel(mPayeeText, mPayeeLabel);
     final View commentLabel = findViewById(R.id.CommentLabel);
@@ -1444,8 +1443,12 @@ public class ExpenseEdit extends AmountActivity implements
 
   private void configureStatusSpinner() {
     Account a = getCurrentAccount();
-    mStatusSpinner.getSpinner().setVisibility((isNoMainTransaction() ||
-        a == null || a.getType().equals(AccountType.CASH)) ? View.GONE : View.VISIBLE);
+    setVisibility(mStatusSpinner.getSpinner(),
+        isNoMainTransaction() || a == null || a.getType().equals(AccountType.CASH));
+  }
+
+  private void setVisibility(View view, boolean visible) {
+    view.setVisibility(visible ? View.VISIBLE : View.GONE);
   }
 
   /**
@@ -1749,6 +1752,7 @@ public class ExpenseEdit extends AmountActivity implements
     } else {
       mExchangeRateEdit.setSymbols(Money.getSymbol(account.currency), Money.getSymbol(Utils.getHomeCurrency()));
     }
+    configureDateInput(account);
   }
 
   private void updateAccount(Account account) {
@@ -1772,6 +1776,25 @@ public class ExpenseEdit extends AmountActivity implements
     mAmountText.setFractionDigits(Money.getFractionDigits(account.currency));
   }
 
+  private void configureDateInput(Account account) {
+    final boolean withTimePref = PrefKey.TRANSACTION_WITH_TIME.getBoolean(true);
+    final boolean withValueDatePref = PrefKey.TRANSACTION_WITH_VALUE_DATE.getBoolean(false);
+    final boolean withTimeEffective = !withValueDatePref && withTimePref;
+    final boolean withValueDateEffective = !(account.getType() == AccountType.CASH) && withValueDatePref;
+    setVisibility(timeEdit, withTimeEffective);
+    setVisibility(date2Edit, withValueDateEffective);
+    String dateLabel;
+    if (withValueDateEffective) {
+      dateLabel = getString(R.string.booking_date) + "/" + getString(R.string.value_date);
+    } else {
+      dateLabel = getString(R.string.date);
+      if (withTimeEffective) {
+        dateLabel += " / " + getString(R.string.time);
+      }
+    }
+    dateTimeLabel.setText(dateLabel);
+  }
+
   private void configureTransferInput() {
     final Account transferAccount = getTransferAccount();
     final Account currentAccount = getCurrentAccount();
@@ -1780,9 +1803,8 @@ public class ExpenseEdit extends AmountActivity implements
     }
     final Currency currency = currentAccount.currency;
     final boolean isSame = currency.equals(transferAccount.currency);
-    transferAmountRow.setVisibility(isSame ? View.GONE : View.VISIBLE);
-    exchangeRateRow.setVisibility(
-        isSame || (mTransaction instanceof Template) ? View.GONE : View.VISIBLE);
+    setVisibility(transferAmountRow, isSame);
+    setVisibility(exchangeRateRow, isSame || mTransaction instanceof Template);
     final String symbol2 = Money.getSymbol(transferAccount.currency);
     //noinspection SetTextI18n
     addCurrencyToLabel(transferAmountLabel, symbol2, R.string.amount);

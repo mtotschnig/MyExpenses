@@ -107,7 +107,10 @@ public enum PrefKey {
   HOME_CURRENCY(R.string.pref_home_currency_key),
   LAST_ORIGINAL_CURRENCY("last_original_currency"),
   VOTE_REMINDER_SHOWN("vote_reminder_shown"),
-  VOTE_REMINDER_LAST_CHECK("vote_reminder_last_check");
+  VOTE_REMINDER_LAST_CHECK("vote_reminder_last_check"),
+  TRANSACTION_WITH_TIME(R.string.pref_transaction_time_key),
+  TRANSACTION_WITH_VALUE_DATE(R.string.pref_value_date_key)
+  ;
 
   private int resId = 0;
   private String key = null;
