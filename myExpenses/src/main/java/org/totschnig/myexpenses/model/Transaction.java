@@ -31,6 +31,8 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v4.util.Pair;
 
 import org.apache.commons.lang3.StringUtils;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.ZonedDateTime;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -46,7 +48,6 @@ import org.totschnig.myexpenses.util.io.FileCopyUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -135,7 +136,7 @@ public class Transaction extends Model {
   private String payee = "";
   private String referenceNumber = "";
   private String label = "";
-  private Date date;
+  private long date;
   private Money amount;
   private Money transferAmount;
   private Money originalAmount;
@@ -147,9 +148,9 @@ public class Transaction extends Model {
   private Long parentId = null;
   private Long payeeId = null;
 
-  private Pair<Plan.Recurrence, Calendar> initialPlan;
+  private Pair<Plan.Recurrence, LocalDate> initialPlan;
 
-  public void setInitialPlan(Pair<Plan.Recurrence, Calendar> initialPlan) {
+  public void setInitialPlan(Pair<Plan.Recurrence, LocalDate> initialPlan) {
     this.initialPlan = initialPlan;
   }
 
@@ -456,8 +457,7 @@ public class Transaction extends Model {
     t.setPayee(DbUtils.getString(c, KEY_PAYEE_NAME));
     t.setPayeeId(getLongOrNull(c, KEY_PAYEEID));
     t.setId(id);
-    t.setDate(c.getLong(
-        c.getColumnIndexOrThrow(KEY_DATE)) * 1000L);
+    t.setDate(c.getLong(c.getColumnIndexOrThrow(KEY_DATE)));
     t.setComment(DbUtils.getString(c, KEY_COMMENT));
     t.setReferenceNumber(DbUtils.getString(c, KEY_REFERENCE_NUMBER));
     t.setLabel(DbUtils.getString(c, KEY_LABEL));
@@ -584,7 +584,7 @@ public class Transaction extends Model {
   }
 
   protected Transaction() {
-    setDate(new Date());
+    setDate(ZonedDateTime.now());
   }
 
   public Transaction(long accountId, Money amount) {
@@ -607,17 +607,18 @@ public class Transaction extends Model {
   }
 
   public void setDate(Date date) {
-    if (date == null) {
-      throw new NullPointerException("Transaction date cannot be set to null");
-    }
-    this.date = date;
+    setDate(date.getTime()/1000);
   }
 
-  public void setDate(Long unixEpoch) {
-    this.setDate(new Date(unixEpoch));
+  public void setDate(ZonedDateTime zonedDateTime) {
+    this.date = zonedDateTime.toEpochSecond();
   }
 
-  public Date getDate() {
+  public void setDate(long unixEpoch) {
+    this.date = unixEpoch;
+  }
+
+  public long getDate() {
     return date;
   }
 
@@ -675,7 +676,7 @@ public class Transaction extends Model {
       originTemplate = new Template(this, title);
       String description = originTemplate.compileDescription(MyApplication.getInstance(), CurrencyFormatter.instance());
       originTemplate.setPlanExecutionAutomatic(true);
-      originTemplate.setPlan(new Plan(initialPlan.second, initialPlan.first.toRrule(initialPlan.second), title, description));
+      originTemplate.setPlan(new Plan(initialPlan.second, initialPlan.first, title, description));
       originTemplate.save(getId());
     }
     return uri;
@@ -832,7 +833,7 @@ public class Transaction extends Model {
     initialValues.put(KEY_COMMENT, getComment());
     initialValues.put(KEY_REFERENCE_NUMBER, getReferenceNumber());
     //store in UTC
-    initialValues.put(KEY_DATE, getDate().getTime() / 1000);
+    initialValues.put(KEY_DATE, getDate());
 
     initialValues.put(KEY_AMOUNT, getAmount().getAmountMinor());
     initialValues.put(KEY_CATID, getCatId());
@@ -1097,10 +1098,7 @@ public class Transaction extends Model {
         return false;
     } else if (!getComment().equals(other.getComment()))
       return false;
-    if (getDate() == null) {
-      if (other.getDate() != null)
-        return false;
-    } else if (Math.abs(getDate().getTime() - other.getDate().getTime()) > 30000) //30 seconds tolerance
+    if (getDate() != other.getDate())
       return false;
     if (getId() == null) {
       if (other.getId() != null)
@@ -1139,7 +1137,7 @@ public class Transaction extends Model {
     result = 31 * result + (this.getPayee() != null ? this.getPayee().hashCode() : 0);
     result = 31 * result + (this.getReferenceNumber() != null ? this.getReferenceNumber().hashCode() : 0);
     result = 31 * result + (this.getLabel() != null ? this.getLabel().hashCode() : 0);
-    result = 31 * result + (this.getDate() != null ? this.getDate().hashCode() : 0);
+    result = 31 * result + Long.valueOf(getDate()).hashCode();
     result = 31 * result + (this.getAmount() != null ? this.getAmount().hashCode() : 0);
     result = 31 * result + (this.getTransferAmount() != null ? this.getTransferAmount().hashCode() : 0);
     result = 31 * result + (this.catId != null ? this.catId.hashCode() : 0);

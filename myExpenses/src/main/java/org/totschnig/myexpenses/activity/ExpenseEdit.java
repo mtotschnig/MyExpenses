@@ -16,10 +16,8 @@
 package org.totschnig.myexpenses.activity;
 
 import android.annotation.SuppressLint;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.NotificationManager;
-import android.app.TimePickerDialog;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
@@ -30,7 +28,6 @@ import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MergeCursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -49,7 +46,6 @@ import android.text.Editable;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -60,7 +56,6 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -74,6 +69,10 @@ import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Events;
 import com.squareup.picasso.Picasso;
 
+import org.threeten.bp.Instant;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.ZoneId;
+import org.threeten.bp.ZonedDateTime;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.CrStatusAdapter;
@@ -104,8 +103,10 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.AmountEditText;
+import org.totschnig.myexpenses.ui.DateButton;
 import org.totschnig.myexpenses.ui.ExchangeRateEdit;
 import org.totschnig.myexpenses.ui.SpinnerHelper;
+import org.totschnig.myexpenses.ui.TimeButton;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.FilterCursorWrapper;
@@ -120,13 +121,10 @@ import org.totschnig.myexpenses.widget.TemplateWidget;
 import java.io.File;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Currency;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -169,7 +167,7 @@ import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CAL
  */
 public class ExpenseEdit extends AmountActivity implements
     OnItemSelectedListener, LoaderManager.LoaderCallbacks<Cursor>,
-    ContribIFace, ConfirmationDialogListener {
+    ContribIFace, ConfirmationDialogListener, DateButton.Host {
 
   private static final String SPLIT_PART_LIST = "SPLIT_PART_LIST";
   public static final String KEY_NEW_TEMPLATE = "newTemplate";
@@ -188,9 +186,9 @@ public class ExpenseEdit extends AmountActivity implements
   private static int INPUT_TRANSFER_AMOUNT = 3;
   private int[] lastExchangeRateRelevantInputs = {INPUT_EXCHANGE_RATE, INPUT_AMOUNT};
   @BindView(R.id.DateButton)
-  Button mDateButton;
+  DateButton dateEdit;
   @BindView(R.id.TimeButton)
-  Button mTimeButton;
+  TimeButton timeEdit;
   @BindView(R.id.Comment)
   EditText mCommentText;
   @BindView(R.id.Title)
@@ -206,7 +204,7 @@ public class ExpenseEdit extends AmountActivity implements
   @BindView(R.id.Category)
   Button mCategoryButton;
   @BindView(R.id.Plan)
-  Button mPlanButton;
+  DateButton mPlanButton;
   @BindView(R.id.Payee)
   AutoCompleteTextView mPayeeText;
   @BindView(R.id.PayeeLabel)
@@ -259,8 +257,6 @@ public class ExpenseEdit extends AmountActivity implements
   @State
   Long mTemplateId;
   @State
-  Calendar mCalendar = Calendar.getInstance();
-  @State
   Long mCatId = null;
   @State
   Long mMethodId = null;
@@ -279,7 +275,6 @@ public class ExpenseEdit extends AmountActivity implements
   @State
   boolean equivalentAmountVisible;
 
-  private DateFormat mDateFormat, mTimeFormat;
   private Account[] mAccounts;
   private Transaction mTransaction;
   private Cursor mMethodsCursor;
@@ -291,7 +286,6 @@ public class ExpenseEdit extends AmountActivity implements
   private int mOperationType;
 
   static final int DATE_DIALOG_ID = 0;
-  static final int TIME_DIALOG_ID = 1;
 
   public static final int METHODS_CURSOR = 2;
   public static final int ACCOUNTS_CURSOR = 3;
@@ -338,9 +332,6 @@ public class ExpenseEdit extends AmountActivity implements
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.one_expense);
-
-    mDateFormat = Utils.getDateFormatSafe(this);
-    mTimeFormat = android.text.format.DateFormat.getTimeFormat(this);
 
     setupToolbar();
     mManager = getSupportLoaderManager();
@@ -595,7 +586,7 @@ public class ExpenseEdit extends AmountActivity implements
           Transaction cached = (Transaction) getIntent().getSerializableExtra(KEY_CACHED_DATA);
           if (cached != null) {
             mTransaction.setAccountId(cached.getAccountId());
-            mCalendar.setTime(cached.getDate());
+            setLocalDateTime(cached);
             mPictureUri = getIntent().getParcelableExtra(KEY_CACHED_PICTURE_URI);
             setPicture();
             mMethodId = cached.getMethodId();
@@ -703,7 +694,7 @@ public class ExpenseEdit extends AmountActivity implements
         mRecurrenceSpinner.setOnItemSelectedListener(this);
         mPlanButton.setOnClickListener(view -> {
           if (mPlan == null) {
-            hideKeyBoardAndShowDialog(DATE_DIALOG_ID);
+            mPlanButton.showDialog();
           } else if (DistribHelper.shouldUseAndroidPlatformCalendar()) {
             launchPlanView(false);
           }
@@ -820,20 +811,17 @@ public class ExpenseEdit extends AmountActivity implements
       //noinspection SetTextI18n
       ((TextView) findViewById(R.id.DateTimeLabel)).setText(getString(
           R.string.date) + " / " + getString(R.string.time));
-      mDateButton.setOnClickListener(v -> hideKeyBoardAndShowDialog(DATE_DIALOG_ID));
-
-      mTimeButton.setOnClickListener(v -> hideKeyBoardAndShowDialog(TIME_DIALOG_ID));
     }
 
     //when we have a savedInstance, fields have already been populated
     if (!mSavedInstance) {
       populateFields();
+      if (!(isSplitPart())) {
+        setLocalDateTime(mTransaction);
+      }
     }
 
-    if (!(isSplitPart())) {
-      setDateTime();
-    }
-    //after setdatetime, so that the plan info can override the date
+    //after setLocalDateTime, so that the plan info can override the date
     configurePlan();
 
 
@@ -887,8 +875,7 @@ public class ExpenseEdit extends AmountActivity implements
     linkAccountLabels();
     linkInputWithLabel(mTitleText, findViewById(R.id.TitleLabel));
     final View dateTimeLabel = findViewById(R.id.DateTimeLabel);
-    linkInputWithLabel(mDateButton, dateTimeLabel);
-    linkInputWithLabel(mTimeButton, dateTimeLabel);
+    linkInputWithLabel(dateEdit, dateTimeLabel);
     linkInputWithLabel(mPayeeText, mPayeeLabel);
     final View commentLabel = findViewById(R.id.CommentLabel);
     linkInputWithLabel(mStatusSpinner.getSpinner(), commentLabel);
@@ -1073,92 +1060,18 @@ public class ExpenseEdit extends AmountActivity implements
     startActivityForResult(i, SELECT_CATEGORY_REQUEST);
   }
 
-  /**
-   * listens on changes in the date dialog and sets the date on the button
-   */
-  private DatePickerDialog.OnDateSetListener mDateSetListener =
-      (view, year, monthOfYear, dayOfMonth) -> {
-        if (mCalendar.get(Calendar.YEAR) != year ||
-            mCalendar.get(Calendar.MONTH) != monthOfYear ||
-            mCalendar.get(Calendar.DAY_OF_MONTH) != dayOfMonth) {
-          mCalendar.set(year, monthOfYear, dayOfMonth);
-          setDate();
-          setDirty(true);
-        }
-      };
-
-  /**
-   * listens on changes in the time dialog and sets the time on the button
-   */
-  private TimePickerDialog.OnTimeSetListener mTimeSetListener =
-      (view, hourOfDay, minute) -> {
-        if (mCalendar.get(Calendar.HOUR_OF_DAY) != hourOfDay ||
-            mCalendar.get(Calendar.MINUTE) != minute) {
-          mCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-          mCalendar.set(Calendar.MINUTE, minute);
-          setTime();
-          setDirty(true);
-        }
-      };
-
   @Override
   protected Dialog onCreateDialog(int id) {
     hideKeyboard();
     switch (id) {
-      case DATE_DIALOG_ID:
-        boolean brokenSamsungDevice = isBrokenSamsungDevice();
-        @SuppressLint("InlinedApi")
-        Context context = brokenSamsungDevice ?
-            new ContextThemeWrapper(this,
-                MyApplication.getThemeType() == MyApplication.ThemeType.dark ?
-                    android.R.style.Theme_Holo_Dialog : android.R.style.Theme_Holo_Light_Dialog) :
-            this;
-        int year = mCalendar.get(Calendar.YEAR);
-        int month = mCalendar.get(Calendar.MONTH);
-        int day = mCalendar.get(Calendar.DAY_OF_MONTH);
-        DatePickerDialog datePickerDialog = new DatePickerDialog(context, mDateSetListener,
-            year, month, day);
-        if (brokenSamsungDevice) {
-          datePickerDialog.setTitle("");
-          datePickerDialog.updateDate(year, month, day);
-        }
-        if (PrefKey.GROUP_WEEK_STARTS.isSet()) {
-          int startOfWeek = Utils.getFirstDayOfWeekFromPreferenceWithFallbackToLocale(Locale.getDefault());
-          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            datePickerDialog.getDatePicker().setFirstDayOfWeek(startOfWeek);
-          } else {
-            try {
-              setFirstDayOfWeek(datePickerDialog, startOfWeek);
-            } catch (UnsupportedOperationException e) {/*Nothing left to do*/}
-          }
-        }
-
-        return datePickerDialog;
-      case TIME_DIALOG_ID:
-        return new TimePickerDialog(this,
-            mTimeSetListener,
-            mCalendar.get(Calendar.HOUR_OF_DAY),
-            mCalendar.get(Calendar.MINUTE),
-            android.text.format.DateFormat.is24HourFormat(this)
-        );
+      case R.id.DateButton:
+        return dateEdit.onCreateDialog();
+      case R.id.Plan:
+        return mPlanButton.onCreateDialog();
+      case R.id.TimeButton:
+        return timeEdit.onCreateDialog();
     }
     return null;
-  }
-
-  private void setFirstDayOfWeek(DatePickerDialog datePickerDialog, int startOfWeek) {
-    CalendarView calendarView = datePickerDialog.getDatePicker().getCalendarView();
-    calendarView.setFirstDayOfWeek(startOfWeek);
-  }
-
-  private static boolean isBrokenSamsungDevice() {
-    return (Build.MANUFACTURER.equalsIgnoreCase("samsung")
-        && isBetweenAndroidVersions(
-        Build.VERSION_CODES.LOLLIPOP,
-        Build.VERSION_CODES.LOLLIPOP_MR1));
-  }
-
-  private static boolean isBetweenAndroidVersions(int min, int max) {
-    return Build.VERSION.SDK_INT >= min && Build.VERSION.SDK_INT <= max;
   }
 
   /**
@@ -1223,29 +1136,6 @@ public class ExpenseEdit extends AmountActivity implements
     mAmountText.selectAll();
   }
 
-  /**
-   * extracts the fields from the transaction date for setting them on the buttons
-   */
-  private void setDateTime() {
-    setDate();
-    setTime();
-  }
-
-  /**
-   * sets date on date button
-   */
-  private void setDate() {
-    (mTransaction instanceof Template ? mPlanButton : mDateButton)
-        .setText(mDateFormat.format(mCalendar.getTime()));
-  }
-
-  /**
-   * sets time on time button
-   */
-  private void setTime() {
-    mTimeButton.setText(mTimeFormat.format(mCalendar.getTime()));
-  }
-
   protected void saveState() {
     if (syncStateAndValidate(true)) {
       mIsSaving = true;
@@ -1300,8 +1190,8 @@ public class ExpenseEdit extends AmountActivity implements
 
     mTransaction.setComment(mCommentText.getText().toString());
 
-    if (!isSplitPart()) {
-      mTransaction.setDate(mCalendar.getTime());
+    if (!isNoMainTransaction()) {
+      mTransaction.setDate(readZonedDateTime());
     }
 
     if (mOperationType == TYPE_TRANSACTION) {
@@ -1376,8 +1266,8 @@ public class ExpenseEdit extends AmountActivity implements
       if (mPlan == null) {
         if (mRecurrenceSpinner.getSelectedItemPosition() > 0) {
           mPlan = new Plan(
-              mCalendar,
-              ((Plan.Recurrence) mRecurrenceSpinner.getSelectedItem()).toRrule(mCalendar),
+              mPlanButton.getDate(),
+              ((Plan.Recurrence) mRecurrenceSpinner.getSelectedItem()),
               ((Template) mTransaction).getTitle(),
               description);
           ((Template) mTransaction).setPlan(mPlan);
@@ -1389,9 +1279,9 @@ public class ExpenseEdit extends AmountActivity implements
       }
     } else {
       mTransaction.setReferenceNumber(mReferenceNumberText.getText().toString());
-      if (forSave && !(isSplitPart())) {
+      if (forSave && !isSplitPart()) {
         if (mRecurrenceSpinner.getSelectedItemPosition() > 0) {
-          mTransaction.setInitialPlan(Pair.create((Plan.Recurrence) mRecurrenceSpinner.getSelectedItem(), mCalendar));
+          mTransaction.setInitialPlan(Pair.create((Plan.Recurrence) mRecurrenceSpinner.getSelectedItem(), dateEdit.getDate()));
         }
       }
     }
@@ -1400,6 +1290,22 @@ public class ExpenseEdit extends AmountActivity implements
 
     mTransaction.setPictureUri(mPictureUri);
     return validP;
+  }
+
+  @NonNull
+  private ZonedDateTime readZonedDateTime() {
+    return ZonedDateTime.of(dateEdit.getDate(), timeEdit.getTime(), ZoneId.systemDefault());
+  }
+
+  private void setLocalDateTime(Transaction transaction) {
+    final ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(Instant.ofEpochSecond(transaction.getDate()), ZoneId.systemDefault());
+    final LocalDate localDate = zonedDateTime.toLocalDate();
+    if (mTransaction instanceof Template) {
+      mPlanButton.setDate(localDate);
+    } else {
+      dateEdit.setDate(localDate);
+      timeEdit.setTime(zonedDateTime.toLocalTime());
+    }
   }
 
   private boolean isSplitPart() {
@@ -1420,7 +1326,7 @@ public class ExpenseEdit extends AmountActivity implements
       mCatId = intent.getLongExtra(KEY_CATID, 0);
       mLabel = intent.getStringExtra(KEY_LABEL);
       mCategoryButton.setText(mLabel);
-      setDirty(true);
+      setDirty();
     }
     if (requestCode == PICTURE_REQUEST_CODE && resultCode == RESULT_OK) {
       Uri uri;
@@ -1439,7 +1345,7 @@ public class ExpenseEdit extends AmountActivity implements
         mPictureUri = uri;
         if (PermissionHelper.canReadUri(uri, this)) {
           setPicture();
-          setDirty(true);
+          setDirty();
         } else {
           requestStoragePermission();
         }
@@ -1680,7 +1586,6 @@ public class ExpenseEdit extends AmountActivity implements
           mTransaction.uuid = Model.generateUuid();
           mClone = true;
         }
-        mCalendar.setTime(mTransaction.getDate());
         setup();
         supportInvalidateOptionsMenu();
         break;
@@ -1747,7 +1652,7 @@ public class ExpenseEdit extends AmountActivity implements
   public void onItemSelected(AdapterView<?> parent, View view, int position,
                              long id) {
     if (parent.getId() != R.id.OperationType) {
-      setDirty(true);
+      setDirty();
     }
     switch (parent.getId()) {
       case R.id.Recurrence:

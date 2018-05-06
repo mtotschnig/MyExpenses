@@ -56,7 +56,7 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
 
   @Override
   public void afterTextChanged(Editable s) {
-    setDirty(true);
+    setDirty();
   }
 
   @Override
@@ -70,8 +70,8 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
     a.recycle();
     a = obtainStyledAttributes(typedValue.data, new int[] { R.attr.colorAccent });
     accentColor = a.getColor(0, 0);
-    if (savedInstanceState != null) {
-      setDirty(savedInstanceState.getBoolean(KEY_IS_DIRTY));
+    if (savedInstanceState != null && savedInstanceState.getBoolean(KEY_IS_DIRTY)) {
+      setDirty();
     }
   }
 
@@ -156,7 +156,15 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
     return mIsDirty;
   }
 
-  public void setDirty(boolean mIsDirty) {
-    this.mIsDirty = mIsDirty;
+  private void setDirty(boolean isDirty) {
+    this.mIsDirty = isDirty;
+  }
+
+  public void setDirty() {
+    setDirty(true);
+  }
+
+  public void clearDirty() {
+    setDirty(false);
   }
 }

@@ -167,7 +167,7 @@ public class MethodEdit extends EditActivity implements CompoundButton.OnChecked
     mPaymentTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
       @Override
       public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        setDirty(true);
+        setDirty();
       }
 
       @Override
@@ -180,7 +180,7 @@ public class MethodEdit extends EditActivity implements CompoundButton.OnChecked
 
   @Override
   public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-    setDirty(true);
+    setDirty();
   }
 
   protected void linkInputsWithLabels() {

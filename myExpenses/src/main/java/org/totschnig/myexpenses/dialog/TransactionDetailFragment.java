@@ -42,6 +42,11 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.threeten.bp.Instant;
+import org.threeten.bp.ZoneId;
+import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
+import org.threeten.bp.format.FormatStyle;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
@@ -65,8 +70,6 @@ import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -375,11 +378,9 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       equivalentAmountView.setText(formatCurrencyAbs(equivalentAmount));
     }
 
-    //noinspection SetTextI18n
-    dateView.setText(String.format(Locale.getDefault(), "%s %s",
-        DateFormat.getDateInstance(DateFormat.FULL).format(mTransaction.getDate()),
-        DateFormat.getTimeInstance(DateFormat.SHORT).format(mTransaction.getDate())));
-
+    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG);
+    ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(Instant.ofEpochSecond(mTransaction.getDate()), ZoneId.systemDefault());
+    dateView.setText(zonedDateTime.format(dateTimeFormatter));
 
     if (!mTransaction.getComment().equals("")) {
       commentView.setText(mTransaction.getComment());

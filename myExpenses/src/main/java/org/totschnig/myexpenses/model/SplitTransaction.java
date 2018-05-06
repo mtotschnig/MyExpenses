@@ -122,7 +122,7 @@ public class SplitTransaction extends Transaction {
       //make sure that parts have the same date as their parent,
       //otherwise they might be incorrectly counted in groups
       ContentValues dateValues = new ContentValues();
-      dateValues.put(KEY_DATE, getDate().getTime() / 1000);
+      dateValues.put(KEY_DATE, getDate());
       ops.add(ContentProviderOperation.newUpdate(uri).withValues(dateValues)
           .withSelection(PART_OR_PEER_SELECT, new String[]{idStr, idStr}).build());
     }
@@ -181,7 +181,7 @@ public class SplitTransaction extends Transaction {
     final long accountId = cursor.getLong(cIAccountId);
     final Money amount = new Money(Utils.getSaveInstance(cursor.getString(cICurrency)), cursor.getLong(ciAmount));
     final Long payeeId = DbUtils.getLongOrNull(cursor, cIPayeeId);
-    final long date = cursor.getLong(ciDate) * 1000L;
+    final long date = cursor.getLong(ciDate);
     final String crStatusString = cursor.getString(ciCrStatus);
     cursor.close();
     Transaction.CrStatus crStatus;

@@ -219,23 +219,7 @@
                     style="@style/FormField"
                     android:orientation="horizontal">
 
-                    <Button
-                        android:id="@+id/DateButton"
-                        style="@style/SmallButton"
-                        android:layout_width="0dp"
-                        android:layout_height="fill_parent"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:contentDescription="@string/date"/>
-
-                    <Button
-                        android:id="@+id/TimeButton"
-                        style="@style/SmallButton"
-                        android:layout_width="0dp"
-                        android:layout_height="fill_parent"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:contentDescription="@string/time"/>
+                    <include layout="@layout/date_edit"/>
                 </LinearLayout>
             </TableRow>
 

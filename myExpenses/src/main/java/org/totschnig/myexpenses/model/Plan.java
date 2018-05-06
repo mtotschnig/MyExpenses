@@ -13,6 +13,10 @@ import com.android.calendar.CalendarContractCompat.Events;
 import com.android.calendar.EventRecurrenceFormatter;
 import com.android.calendarcommon2.EventRecurrence;
 
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.LocalTime;
+import org.threeten.bp.ZoneId;
+import org.threeten.bp.ZonedDateTime;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -20,13 +24,13 @@ import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
 import timber.log.Timber;
 
+import static org.threeten.bp.temporal.ChronoField.DAY_OF_WEEK;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 /**
@@ -42,14 +46,14 @@ public class Plan extends Model implements Serializable {
   public enum Recurrence {
     NONE, ONETIME, DAILY, WEEKLY, MONTHLY, YEARLY, CUSTOM;
 
-    public String toRrule(Calendar calendar) {
+    public String toRrule(LocalDate localDate) {
       String wkst = calendarDay2String(Utils.getFirstDayOfWeek(Locale.getDefault()));
       switch (this) {
         case DAILY:
           return String.format(Locale.US, "FREQ=DAILY;INTERVAL=1;WKST=%s", wkst);
         case WEEKLY:
           return String.format(Locale.US, "FREQ=WEEKLY;INTERVAL=1;WKST=%s;BYDAY=%s", wkst,
-              calendarDay2String(calendar.get(Calendar.DAY_OF_WEEK)));
+              calendarDay2String(localDate.get(DAY_OF_WEEK)));
         case MONTHLY:
           return String.format(Locale.US, "FREQ=MONTHLY;INTERVAL=1;WKST=%s", wkst);
         case YEARLY:
@@ -97,12 +101,15 @@ public class Plan extends Model implements Serializable {
     this.description = description;
   }
 
-  public Plan(Calendar cal, String rrule, String title, String description) {
-    this.dtstart = cal.getTimeInMillis();
+  public Plan(LocalDate localDate, String rrule, String title, String description) {
+    this.dtstart = ZonedDateTime.of(localDate, LocalTime.of(12,0), ZoneId.systemDefault()).toEpochSecond() * 1000;
     this.rrule = rrule;
     this.title = title;
     this.description = description;
+  }
 
+  public Plan(LocalDate localDate, Recurrence recurrence, String title, String description) {
+    this(localDate, recurrence.toRrule(localDate), title, description);
   }
 
   public static Plan getInstanceFromDb(long planId) {

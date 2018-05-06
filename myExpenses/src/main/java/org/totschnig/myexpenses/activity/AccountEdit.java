@@ -272,7 +272,7 @@ public class AccountEdit extends AmountActivity implements
   @Override
   public void onItemSelected(AdapterView<?> parent, View view, int position,
                              long id) {
-    setDirty(true);
+    setDirty();
     switch (parent.getId()) {
       case R.id.Currency:
         try {

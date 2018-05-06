@@ -49,8 +49,7 @@ public class ExchangeRateEdit extends LinearLayout {
 
   public ExchangeRateEdit(Context context, AttributeSet attrs) {
     super(context, attrs);
-    LayoutInflater inflater = (LayoutInflater) context
-        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    LayoutInflater inflater = LayoutInflater.from(context);
     inflater.inflate(R.layout.exchange_rates, this, true);
     ButterKnife.bind(this);
     rate1Edit = rate1Container.findViewById(R.id.ExchangeRateText);

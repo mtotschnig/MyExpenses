@@ -134,7 +134,7 @@ public class Transfer extends Transaction {
     //the id of the peer transaction is stored in KEY_TRANSFER_PEER
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_COMMENT, getComment());
-    initialValues.put(KEY_DATE, getDate().getTime() / 1000);
+    initialValues.put(KEY_DATE, getDate());
     initialValues.put(KEY_AMOUNT, amount);
     initialValues.put(KEY_TRANSFER_ACCOUNT, getTransferAccountId());
     initialValues.put(KEY_CR_STATUS, getCrStatus().name());
