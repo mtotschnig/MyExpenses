@@ -109,11 +109,14 @@ public enum PrefKey {
   VOTE_REMINDER_SHOWN("vote_reminder_shown"),
   VOTE_REMINDER_LAST_CHECK("vote_reminder_last_check"),
   TRANSACTION_WITH_TIME(R.string.pref_transaction_time_key),
-  TRANSACTION_WITH_VALUE_DATE(R.string.pref_value_date_key)
-  ;
+  TRANSACTION_WITH_VALUE_DATE(R.string.pref_value_date_key),
+  TRANSACTION_LAST_ACCOUNT_FROM_WIDGET("transactionLastAccountFromWidget"),
+  TRANSFER_LAST_ACCOUNT_FROM_WIDGET("transferLastAccountFromWidget"),
+  TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET("transferLastTransferAccountFromWidget"),
+  SPLIT_LAST_ACCOUNT_FROM_WIDGET("splitLastAccountFromWidget");
 
-  private int resId = 0;
-  private String key = null;
+  int resId = 0;
+  String key = null;
 
   public String getKey() {
     return resId == 0 ? key : MyApplication.getInstance().getString(resId);

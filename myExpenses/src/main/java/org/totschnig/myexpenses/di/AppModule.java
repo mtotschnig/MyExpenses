@@ -10,9 +10,11 @@ import com.google.android.vending.licensing.Obfuscator;
 import com.google.android.vending.licensing.PreferenceObfuscator;
 
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.util.licence.HashLicenceHandler;
+import org.totschnig.myexpenses.preference.PrefHandler;
+import org.totschnig.myexpenses.preference.PrefHandlerImpl;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandlerImpl;
+import org.totschnig.myexpenses.util.licence.HashLicenceHandler;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 
@@ -97,5 +99,11 @@ public class AppModule {
         -1, -124, -4, -59, -52, 1, -97, -32, 38, 59, 64, 13, 45, -104, -3, -92, -56, -49, 65, -25
     };
     return new AESObfuscator(SALT, application.getPackageName(), deviceId);
+  }
+
+  @Provides
+  @Singleton
+  protected PrefHandler providePrefHandler(MyApplication context) {
+    return new PrefHandlerImpl(context);
   }
 }

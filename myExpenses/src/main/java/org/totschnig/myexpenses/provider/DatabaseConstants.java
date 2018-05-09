@@ -91,6 +91,7 @@ public class DatabaseConstants {
   public static final String THIS_YEAR = "CAST(strftime('%Y','now','localtime') AS integer)";
   public static final String DAY_START_JULIAN = "julianday(date,'unixepoch','localtime'," + JULIAN_DAY_OFFSET + ")";
   public static final String KEY_DATE = "date";
+  public static final String KEY_VALUE_DATE = "value_date";
   public static final String KEY_AMOUNT = "amount";
   public static final String KEY_COMMENT = "comment";
   public static final String KEY_ROWID = "_id";

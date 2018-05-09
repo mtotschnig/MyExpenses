@@ -99,6 +99,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_A
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER_PARENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_END;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_START;
@@ -137,6 +138,7 @@ public class Transaction extends Model {
   private String referenceNumber = "";
   private String label = "";
   private long date;
+  private long valueDate;
   private Money amount;
   private Money transferAmount;
   private Money originalAmount;
@@ -178,6 +180,7 @@ public class Transaction extends Model {
     PROJECTION_BASE = new String[]{
         KEY_ROWID,
         KEY_DATE,
+        KEY_VALUE_DATE,
         KEY_AMOUNT,
         KEY_COMMENT,
         KEY_CATID,
@@ -410,7 +413,7 @@ public class Transaction extends Model {
    */
   public static Transaction getInstanceFromDb(long id) {
     Transaction t;
-    String[] projection = new String[]{KEY_ROWID, KEY_DATE, KEY_AMOUNT, KEY_COMMENT, KEY_CATID,
+    String[] projection = new String[]{KEY_ROWID, KEY_DATE, KEY_VALUE_DATE, KEY_AMOUNT, KEY_COMMENT, KEY_CATID,
         FULL_LABEL, KEY_PAYEEID, KEY_PAYEE_NAME, KEY_TRANSFER_PEER, KEY_TRANSFER_ACCOUNT,
         KEY_ACCOUNTID, KEY_METHODID, KEY_PARENTID, KEY_CR_STATUS, KEY_REFERENCE_NUMBER, KEY_CURRENCY,
         KEY_PICTURE_URI, KEY_METHOD_LABEL, KEY_STATUS, TRANSFER_AMOUNT, KEY_TEMPLATEID, KEY_UUID, KEY_ORIGINAL_AMOUNT, KEY_ORIGINAL_CURRENCY,
@@ -457,7 +460,10 @@ public class Transaction extends Model {
     t.setPayee(DbUtils.getString(c, KEY_PAYEE_NAME));
     t.setPayeeId(getLongOrNull(c, KEY_PAYEEID));
     t.setId(id);
-    t.setDate(c.getLong(c.getColumnIndexOrThrow(KEY_DATE)));
+    final long date = c.getLong(c.getColumnIndexOrThrow(KEY_DATE));
+    t.setDate(date);
+    final Long valueDate = getLongOrNull(c, KEY_VALUE_DATE);
+    t.setValueDate(valueDate == null ? date : valueDate);
     t.setComment(DbUtils.getString(c, KEY_COMMENT));
     t.setReferenceNumber(DbUtils.getString(c, KEY_REFERENCE_NUMBER));
     t.setLabel(DbUtils.getString(c, KEY_LABEL));
@@ -606,6 +612,7 @@ public class Transaction extends Model {
     this.catId = catId;
   }
 
+  @Deprecated
   public void setDate(Date date) {
     setDate(date.getTime()/1000);
   }
@@ -620,6 +627,15 @@ public class Transaction extends Model {
 
   public long getDate() {
     return date;
+  }
+
+
+  public void setValueDate(long unixEpoch) {
+    this.valueDate = unixEpoch;
+  }
+
+  public long getValueDate() {
+    return valueDate;
   }
 
   /**
@@ -832,8 +848,8 @@ public class Transaction extends Model {
     }
     initialValues.put(KEY_COMMENT, getComment());
     initialValues.put(KEY_REFERENCE_NUMBER, getReferenceNumber());
-    //store in UTC
     initialValues.put(KEY_DATE, getDate());
+    initialValues.put(KEY_VALUE_DATE, getValueDate());
 
     initialValues.put(KEY_AMOUNT, getAmount().getAmountMinor());
     initialValues.put(KEY_CATID, getCatId());
