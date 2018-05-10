@@ -11,7 +11,6 @@ import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -76,7 +75,7 @@ public class ProviderUtils {
     }
     long date = extras.getLong(DATE);
     if (date != 0) {
-      transaction.setDate(new Date(date));
+      transaction.setDate(date);
     }
     String payeeName = extras.getString(PAYEE_NAME);
     if (!TextUtils.isEmpty(payeeName)) {

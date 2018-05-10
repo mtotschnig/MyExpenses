@@ -137,6 +137,9 @@ public class Transaction extends Model {
   private String payee = "";
   private String referenceNumber = "";
   private String label = "";
+  /**
+   * seconds since epoch
+   */
   private long date;
   private long valueDate;
   private Money amount;

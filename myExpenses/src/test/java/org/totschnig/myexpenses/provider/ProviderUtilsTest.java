@@ -92,10 +92,10 @@ public class ProviderUtilsTest {
   @Test
   public void shouldSetDate() {
     Bundle extras = new Bundle();
-    long date = System.currentTimeMillis() + TimeUnit.DAYS.toMillis(2);
+    long date = (System.currentTimeMillis() + TimeUnit.DAYS.toMillis(2)) / 1000;
     extras.putLong(DATE, date);
     Transaction transaction = ProviderUtils.buildFromExtras(extras);
-    Assert.assertEquals(date, transaction.getDate().getTime());
+    Assert.assertEquals(date, transaction.getDate());
   }
 
   @Test
