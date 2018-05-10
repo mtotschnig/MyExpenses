@@ -10,6 +10,7 @@ import android.support.v4.util.Pair;
 
 import junit.framework.Assert;
 
+import org.threeten.bp.LocalDate;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.fortest.test.R;
 import org.totschnig.myexpenses.model.Account;
@@ -31,7 +32,6 @@ import org.totschnig.myexpenses.util.Utils;
 import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Currency;
 import java.util.Date;
 import java.util.Locale;
@@ -215,7 +215,7 @@ public class Fixture {
     template.setTitle(templateSubCat);
     template.setPayee(testContext.getString(R.string.testData_templatePayee));
     Uri planUri = new Plan(
-        Calendar.getInstance(),
+        LocalDate.now(),
         "FREQ=WEEKLY;COUNT=10;WKST=SU",
         template.getTitle(),
         template.compileDescription(appContext, CurrencyFormatter.instance()))

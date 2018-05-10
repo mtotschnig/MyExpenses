@@ -13,6 +13,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.threeten.bp.LocalDate;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
@@ -27,7 +28,6 @@ import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 
 import java.io.IOException;
-import java.util.Calendar;
 import java.util.Currency;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -73,8 +73,7 @@ public class ExpenseEditLoadDataTest {
     template = Template.getTypedNewInstance(TYPE_TRANSACTION, account1.getId(), false, null);
     template.setTitle("Daily plan");
     template.setAmount(new Money(currency, 700L));
-    Calendar calendar = Calendar.getInstance();
-    template.setPlan(new Plan(calendar, Plan.Recurrence.DAILY.toRrule(calendar), "Daily", template.compileDescription(MyApplication.getInstance(), CurrencyFormatter.instance())));
+    template.setPlan(new Plan(LocalDate.now(), Plan.Recurrence.DAILY, "Daily", template.compileDescription(MyApplication.getInstance(), CurrencyFormatter.instance())));
     template.save();
   }
 
