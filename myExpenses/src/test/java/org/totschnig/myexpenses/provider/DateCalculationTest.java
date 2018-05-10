@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,8 +36,8 @@ public class DateCalculationTest {
   // Contains an SQLite database, used as test data
   private SQLiteDatabase mDb;
 
-  String TABLE = "test_dates";
-  String KEY_DATE = "date";
+  private String TABLE = "test_dates";
+  private String KEY_DATE = "date";
   private Random random;
   private Calendar calendar;
 
@@ -44,22 +45,6 @@ public class DateCalculationTest {
   public void setUp() {
     final Context targetContext = RuntimeEnvironment.application;
     mDb = new MyDbHelper(targetContext).getWritableDatabase();
-  }
-
-  @Test
-  public void testDateCalculationsForWeekGroupsWithAllWeekDays() {
-    final String timeZone = TimeZone.getDefault().getDisplayName();
-    System.out.println(timeZone);
-    for (int j = Calendar.SUNDAY; j <= Calendar.SATURDAY; j++) {
-      doTheTest(timeZone, j);
-    }
-  }
-
-  private void doTheTest(String timeZone, int configuredWeekStart) {
-    calendar = Calendar.getInstance();
-    PrefKey.GROUP_WEEK_STARTS.putString(String.valueOf(configuredWeekStart));
-    DatabaseConstants.buildLocalized(Locale.getDefault());
-    assertEquals(configuredWeekStart, DatabaseConstants.weekStartsOn);
     ContentValues v = new ContentValues();
     for (int year = 2010; year < 2022; year++) {
       int month = 11, day = 26;
@@ -79,6 +64,27 @@ public class DateCalculationTest {
         }
       }
     }
+  }
+
+  @After
+  public void cleanUp() {
+    mDb.close();
+  }
+
+  @Test
+  public void testDateCalculationsForWeekGroupsWithAllWeekDays() {
+    final String timeZone = TimeZone.getDefault().getDisplayName();
+    System.out.println(timeZone);
+    for (int j = Calendar.SUNDAY; j <= Calendar.SATURDAY; j++) {
+      doTheTest(timeZone, j);
+    }
+  }
+
+  private void doTheTest(String timeZone, int configuredWeekStart) {
+    calendar = Calendar.getInstance();
+    PrefKey.GROUP_WEEK_STARTS.putString(String.valueOf(configuredWeekStart));
+    DatabaseConstants.buildLocalized(Locale.getDefault());
+    assertEquals(configuredWeekStart, DatabaseConstants.weekStartsOn);
     String[] projection = {
         DatabaseConstants.getYearOfWeekStart() + " AS year",
         DatabaseConstants.getWeek() + " AS week",
@@ -129,7 +135,6 @@ public class DateCalculationTest {
       c.moveToNext();
     }
     c.close();
-    mDb.execSQL("DELETE FROM " + TABLE);
   }
 
   private int getDayOfYearFromTimestamp(long timestamp) {
@@ -139,7 +144,7 @@ public class DateCalculationTest {
 
   private class MyDbHelper extends SQLiteOpenHelper {
 
-    public MyDbHelper(Context context) {
+    MyDbHelper(Context context) {
       super(context, "datecalculationtest", null, 1);
     }
 
