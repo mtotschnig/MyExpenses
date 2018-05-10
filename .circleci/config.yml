@@ -19,7 +19,7 @@ jobs:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "myExpenses/build.gradle" }}
       - run:
           name: Run Tests
-          command: ./gradlew lint test assembleAcraForTestAndroidTest
+          command: ./gradlew lint test assembleAcraForTestAndroidTest --no-daemon --max-workers 2
       - store_artifacts:
           path: myExpenses/build/reports
           destination: reports
