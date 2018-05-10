@@ -594,6 +594,7 @@ public class Transaction extends Model {
 
   protected Transaction() {
     setDate(ZonedDateTime.now());
+    setValueDate(ZonedDateTime.now());
   }
 
   public Transaction(long accountId, Money amount) {
@@ -621,7 +622,7 @@ public class Transaction extends Model {
   }
 
   public void setDate(ZonedDateTime zonedDateTime) {
-    this.date = zonedDateTime.toEpochSecond();
+    setDate(zonedDateTime.toEpochSecond());
   }
 
   public void setDate(long unixEpoch) {
@@ -632,6 +633,10 @@ public class Transaction extends Model {
     return date;
   }
 
+
+  public void setValueDate(ZonedDateTime zonedDateTime) {
+    setValueDate(zonedDateTime.toEpochSecond());
+  }
 
   public void setValueDate(long unixEpoch) {
     this.valueDate = unixEpoch;

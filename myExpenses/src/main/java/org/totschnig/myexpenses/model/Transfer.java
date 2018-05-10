@@ -35,6 +35,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE;
 
 /**
  * a transfer consists of a pair of transactions, one for each account
@@ -135,6 +136,7 @@ public class Transfer extends Transaction {
     ContentValues initialValues = new ContentValues();
     initialValues.put(KEY_COMMENT, getComment());
     initialValues.put(KEY_DATE, getDate());
+    initialValues.put(KEY_VALUE_DATE, getValueDate());
     initialValues.put(KEY_AMOUNT, amount);
     initialValues.put(KEY_TRANSFER_ACCOUNT, getTransferAccountId());
     initialValues.put(KEY_CR_STATUS, getCrStatus().name());
