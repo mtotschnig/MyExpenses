@@ -664,14 +664,11 @@ public class CategoryList extends SortableListFragment implements
     }
     if (id == DATEINFO_CURSOR) {
       ArrayList<String> projectionList = new ArrayList<>(Arrays.asList(
-              new String[]{
-                      getThisYearOfWeekStart() + " AS " + KEY_THIS_YEAR_OF_WEEK_START,
-                      THIS_YEAR + " AS " + KEY_THIS_YEAR,
-                      getThisMonth() + " AS " + KEY_THIS_MONTH,
-                      getThisWeek() + " AS " + KEY_THIS_WEEK,
-                      THIS_DAY + " AS " + KEY_THIS_DAY
-              }
-      ));
+          getThisYearOfWeekStart() + " AS " + KEY_THIS_YEAR_OF_WEEK_START,
+          THIS_YEAR + " AS " + KEY_THIS_YEAR,
+          getThisMonth() + " AS " + KEY_THIS_MONTH,
+          getThisWeek() + " AS " + KEY_THIS_WEEK,
+          THIS_DAY + " AS " + KEY_THIS_DAY));
       //if we are at the beginning of the year we are interested in the max of the previous year
       int yearToLookUp = mGroupingSecond == 1 ? mGroupingYear - 1 : mGroupingYear;
       switch (mGrouping) {
@@ -689,7 +686,7 @@ public class CategoryList extends SortableListFragment implements
       }
       if (mGrouping.equals(Grouping.WEEK)) {
         //we want to find out the week range when we are given a week number
-        //we find out the first Monday in the year, which is the beginning of week 1 and than
+        //we find out the first Monday in the year, which is the beginning of week 1 and then
         //add (weekNumber-1)*7 days to get at the beginning of the week
         projectionList.add(DbUtils.weekStartFromGroupSqlExpression(mGroupingYear, mGroupingSecond));
         projectionList.add(DbUtils.weekEndFromGroupSqlExpression(mGroupingYear, mGroupingSecond));

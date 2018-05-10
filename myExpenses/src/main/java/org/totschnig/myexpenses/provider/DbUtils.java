@@ -11,7 +11,7 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.totschnig.myexpenses.provider;
 
@@ -94,24 +94,26 @@ public class DbUtils {
   //TODO: create generic function
   public static String[] getStringArrayFromCursor(Cursor c, String field) {
     String[] result = new String[c.getCount()];
-    if(c.moveToFirst()){
-     for (int i = 0; i < c.getCount(); i++){
-       result[i] = c.getString(c.getColumnIndex(field));
-       c.moveToNext();
-     }
+    if (c.moveToFirst()) {
+      for (int i = 0; i < c.getCount(); i++) {
+        result[i] = c.getString(c.getColumnIndex(field));
+        c.moveToNext();
+      }
     }
     return result;
   }
+
   public static Long[] getLongArrayFromCursor(Cursor c, String field) {
     Long[] result = new Long[c.getCount()];
-    if(c.moveToFirst()){
-     for (int i = 0; i < c.getCount(); i++){
-       result[i] = c.getLong(c.getColumnIndex(field));
-       c.moveToNext();
-     }
+    if (c.moveToFirst()) {
+      for (int i = 0; i < c.getCount(); i++) {
+        result[i] = c.getLong(c.getColumnIndex(field));
+        c.moveToNext();
+      }
     }
     return result;
   }
+
   /**
    * @param c
    * @param field
@@ -120,11 +122,13 @@ public class DbUtils {
   public static Long getLongOrNull(Cursor c, String field) {
     return getLongOrNull(c, c.getColumnIndexOrThrow(field));
   }
+
   public static Long getLongOrNull(Cursor c, int columnIndex) {
     if (c.isNull(columnIndex))
       return null;
     return c.getLong(columnIndex);
   }
+
   /**
    * @param c
    * @param field
@@ -133,11 +137,13 @@ public class DbUtils {
   public static Long getLongOr0L(Cursor c, String field) {
     return getLongOr0L(c, c.getColumnIndexOrThrow(field));
   }
+
   public static Long getLongOr0L(Cursor c, int columnIndex) {
     if (c.isNull(columnIndex))
       return 0L;
     return c.getLong(columnIndex);
   }
+
   /**
    * @param c
    * @param field
@@ -146,24 +152,28 @@ public class DbUtils {
   public static String getString(Cursor c, String field) {
     return getString(c, c.getColumnIndexOrThrow(field));
   }
+
   public static String getString(Cursor c, int columnIndex) {
     if (c.isNull(columnIndex))
       return "";
     return c.getString(columnIndex);
   }
+
   public static boolean hasParent(Long id) {
     return Transaction.getInstanceFromDb(id).getParentId() != null;
   }
+
   public static String weekStartFromGroupSqlExpression(int year, int week) {
-    return String.format(Locale.US, getCountFromWeekStartZero() + " AS " + KEY_WEEK_START,year,week*7);
+    return String.format(Locale.US, getCountFromWeekStartZero() + " AS " + KEY_WEEK_START, year, week * 7);
   }
+
   public static String weekEndFromGroupSqlExpression(int year, int week) {
-    return String.format(Locale.US, getCountFromWeekStartZero() + " AS " + KEY_WEEK_END,year,week*7+6);
+    return String.format(Locale.US, getCountFromWeekStartZero() + " AS " + KEY_WEEK_END, year, week * 7 + 6);
   }
 
   public static Map<String, String> getSchemaDetails() {
     Cursor c = MyApplication.getInstance().getContentResolver()
-        .query(TransactionProvider.DEBUG_SCHEMA_URI, null,null,null,null);
+        .query(TransactionProvider.DEBUG_SCHEMA_URI, null, null, null, null);
     return getTableDetails(c);
   }
 
