@@ -149,6 +149,8 @@ import static org.totschnig.myexpenses.preference.PrefKey.NEW_PLAN_ENABLED;
 import static org.totschnig.myexpenses.preference.PrefKey.NEW_SPLIT_TEMPLATE_ENABLED;
 import static org.totschnig.myexpenses.preference.PrefKey.SPLIT_LAST_ACCOUNT_FROM_WIDGET;
 import static org.totschnig.myexpenses.preference.PrefKey.TRANSACTION_LAST_ACCOUNT_FROM_WIDGET;
+import static org.totschnig.myexpenses.preference.PrefKey.TRANSACTION_WITH_TIME;
+import static org.totschnig.myexpenses.preference.PrefKey.TRANSACTION_WITH_VALUE_DATE;
 import static org.totschnig.myexpenses.preference.PrefKey.TRANSFER_LAST_ACCOUNT_FROM_WIDGET;
 import static org.totschnig.myexpenses.preference.PrefKey.TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.CAT_AS_LABEL;
@@ -1785,12 +1787,15 @@ public class ExpenseEdit extends AmountActivity implements
     DATE, DATE_TIME, BOOKING_VALUE;
   }
 
-  private DateMode getDateMode(Account account) {
-/*    final boolean withTimePref = PrefKey.TRANSACTION_WITH_TIME.getBoolean(true);
-    final boolean withValueDatePref = PrefKey.TRANSACTION_WITH_VALUE_DATE.getBoolean(false);
-    final boolean withTimeEffective = !withValueDatePref && withTimePref;
-    final boolean withValueDateEffective = !(account.getType() == AccountType.CASH) && withValueDatePref;*/
-    return DateMode.BOOKING_VALUE;
+  @VisibleForTesting
+  DateMode getDateMode(Account account) {
+    if (!(account.getType() == AccountType.CASH)) {
+      if (prefHandler.getBoolean(TRANSACTION_WITH_VALUE_DATE, false)) {
+        return DateMode.BOOKING_VALUE;
+      }
+    }
+    return prefHandler.getBoolean(TRANSACTION_WITH_TIME, true) ?
+        DateMode.DATE_TIME : DateMode.DATE;
   }
 
   private void configureDateInput(Account account) {

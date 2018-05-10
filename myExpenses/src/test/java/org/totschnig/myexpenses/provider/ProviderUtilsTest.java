@@ -18,7 +18,6 @@ import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transfer;
-import org.totschnig.myexpenses.testutils.TestApplication;
 
 import java.util.Currency;
 import java.util.concurrent.TimeUnit;
@@ -37,7 +36,7 @@ import static org.totschnig.myexpenses.contract.TransactionsContract.Transaction
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(application = TestApplication.class, packageName = "org.totschnig.myexpenses")
+@Config(packageName = "org.totschnig.myexpenses")
 public class ProviderUtilsTest {
   private Account euroAccount;
   private Account dollarAccount;

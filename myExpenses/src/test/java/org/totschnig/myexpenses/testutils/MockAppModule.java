@@ -7,7 +7,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.di.AppModule;
 
 public class MockAppModule extends AppModule {
-  MockAppModule(MyApplication testApplication) {
+  public MockAppModule(MyApplication testApplication) {
     super(testApplication);
   }
 

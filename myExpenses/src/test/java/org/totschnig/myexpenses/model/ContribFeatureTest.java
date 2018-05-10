@@ -5,12 +5,11 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
-import org.totschnig.myexpenses.testutils.TestApplication;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(application = TestApplication.class, packageName = "org.totschnig.myexpenses")
+@Config(packageName = "org.totschnig.myexpenses")
 public class ContribFeatureTest {
 
   @Test
