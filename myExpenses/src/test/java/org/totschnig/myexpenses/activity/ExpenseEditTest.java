@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.activity;
 
 import junit.framework.Assert;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,6 +33,12 @@ public class ExpenseEditTest {
     bankAcount = Mockito.mock(Account.class);
     Mockito.when(cashAccount.getType()).thenReturn(AccountType.CASH);
     Mockito.when(bankAcount.getType()).thenReturn(AccountType.BANK);
+  }
+
+  @After
+  public void tearDown() {
+    activity.finish();
+    activity = null;
   }
 
   @Test

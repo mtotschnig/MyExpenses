@@ -69,6 +69,7 @@ public class DateCalculationTest {
   @After
   public void cleanUp() {
     mDb.close();
+    mDb = null;
   }
 
   @Test
