@@ -38,6 +38,7 @@ import org.totschnig.myexpenses.adapter.TransactionAdapter;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 
@@ -69,6 +70,8 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
 
   @Inject
   CurrencyFormatter currencyFormatter;
+  @Inject
+  PrefHandler prefHandler;
   private long catId;
 
   public static final TransactionListDialogFragment newInstance(
@@ -108,7 +111,7 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
         getActivity(),
         R.layout.expense_row,
         null,
-        0, currencyFormatter) {
+        0, currencyFormatter, prefHandler) {
       @Override
       protected CharSequence getCatText(CharSequence catText,
                                         String label_sub) {

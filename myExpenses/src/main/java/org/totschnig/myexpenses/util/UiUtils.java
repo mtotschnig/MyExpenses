@@ -25,6 +25,12 @@ import android.widget.TextView;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.preference.PrefHandler;
+
+import static org.totschnig.myexpenses.preference.PrefKey.TRANSACTION_WITH_TIME;
+import static org.totschnig.myexpenses.preference.PrefKey.TRANSACTION_WITH_VALUE_DATE;
 
 public class UiUtils {
   /*
@@ -205,5 +211,19 @@ public class UiUtils {
       amount.setHorizontallyScrolling(true);
       amount.setSelected(true);
     }
+  }
+
+  public enum DateMode {
+    DATE, DATE_TIME, BOOKING_VALUE;
+  }
+
+  public static DateMode getDateMode(Account account, PrefHandler prefHandler) {
+    if (!(account.getType() == AccountType.CASH)) {
+      if (prefHandler.getBoolean(TRANSACTION_WITH_VALUE_DATE, false)) {
+        return DateMode.BOOKING_VALUE;
+      }
+    }
+    return prefHandler.getBoolean(TRANSACTION_WITH_TIME, true) ?
+        DateMode.DATE_TIME : DateMode.DATE;
   }
 }

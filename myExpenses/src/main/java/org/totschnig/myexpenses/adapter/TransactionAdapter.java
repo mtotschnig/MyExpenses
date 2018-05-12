@@ -26,7 +26,7 @@ import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.model.Transfer;
-import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.UiUtils;
@@ -39,6 +39,7 @@ import java.util.Currency;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static org.totschnig.myexpenses.preference.PrefKey.GROUP_MONTH_STARTS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
@@ -61,14 +62,15 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_HELPER;
 
 public class TransactionAdapter extends ResourceCursorAdapter {
   private int dateEms;
+  private boolean is24HourFormat;
+  private boolean shouldShowTime;
   private Account mAccount;
   private Grouping mGroupingOverride;
   DateFormat localizedTimeFormat, itemDateFormat;
   private int colorExpense, colorIncome;
   ColorStateList textColorSecondary;
   boolean insideFragment;
-  protected int monthStart =
-      Integer.parseInt(PrefKey.GROUP_MONTH_STARTS.getString("1"));
+  protected int monthStart;
   private CurrencyFormatter currencyFormatter;
   private boolean indexesCalculated = false;
   private int columnIndexDate;
@@ -89,8 +91,8 @@ public class TransactionAdapter extends ResourceCursorAdapter {
   private int columnIndexEquivalentAmount;
 
   protected TransactionAdapter(Account account, Grouping grouping, Context context, int layout,
-                               Cursor c, int flags,
-                               CurrencyFormatter currencyFormatter) {
+                               Cursor c, int flags, CurrencyFormatter currencyFormatter,
+                               PrefHandler prefHandler) {
     super(context, layout, c, flags);
     if (context instanceof ManageCategories) {
       insideFragment = true;
@@ -100,15 +102,17 @@ public class TransactionAdapter extends ResourceCursorAdapter {
     textColorSecondary = ((ProtectedFragmentActivity) context).getTextColorSecondary();
     mAccount = account;
     mGroupingOverride = grouping;
-    dateEms = android.text.format.DateFormat.is24HourFormat(context) ? 3 : 4;
+    is24HourFormat = android.text.format.DateFormat.is24HourFormat(context);
     localizedTimeFormat = android.text.format.DateFormat.getTimeFormat(context);
     this.currencyFormatter = currencyFormatter;
+    monthStart = Integer.parseInt(prefHandler.getString(GROUP_MONTH_STARTS, "1"));
+    shouldShowTime = UiUtils.getDateMode(account, prefHandler) == UiUtils.DateMode.DATE_TIME;
     refreshDateFormat();
   }
 
   public TransactionAdapter(Account account, Context context, int layout, Cursor c, int flags,
-                            CurrencyFormatter currencyFormatter) {
-    this(account, null, context, layout, c, flags, currencyFormatter);
+                            CurrencyFormatter currencyFormatter, PrefHandler prefHandler) {
+    this(account, null, context, layout, c, flags, currencyFormatter, prefHandler);
   }
 
   @Override
@@ -120,7 +124,6 @@ public class TransactionAdapter extends ResourceCursorAdapter {
       holder.colorAccount.setLayoutParams(
           new LayoutParams(4, LayoutParams.FILL_PARENT));
     }
-    holder.date.setEms(dateEms);
     v.setTag(holder);
     return v;
   }
@@ -128,7 +131,9 @@ public class TransactionAdapter extends ResourceCursorAdapter {
   @Override
   public void bindView(View view, Context context, Cursor cursor) {
     ViewHolder viewHolder = (ViewHolder) view.getTag();
-    viewHolder.date.setText(Utils.convDateTime(cursor.getString(columnIndexDate), itemDateFormat));
+    viewHolder.date.setEms(dateEms);
+    viewHolder.date.setText(itemDateFormat != null ?
+        Utils.convDateTime(cursor.getString(columnIndexDate), itemDateFormat) : null);
     final boolean isTransfer = DbUtils.getLongOrNull(cursor, columnIndexTransferPeer) != null;
     //for the Grand Total account, we show equivalent amounts in the home currency for normal transactions
     //but show transfers in there real currency
@@ -230,9 +235,16 @@ public class TransactionAdapter extends ResourceCursorAdapter {
   }
 
   public void refreshDateFormat() {
+    dateEms = 3;
     switch (mGroupingOverride != null ? mGroupingOverride : mAccount.getGrouping()) {
       case DAY:
-        itemDateFormat = localizedTimeFormat;
+        if (shouldShowTime) {
+          itemDateFormat = localizedTimeFormat;
+          dateEms = is24HourFormat ? 3 : 4;
+        } else {
+          itemDateFormat = null;
+          dateEms = 0;
+        }
         break;
       case MONTH:
         //noinspection SimpleDateFormat

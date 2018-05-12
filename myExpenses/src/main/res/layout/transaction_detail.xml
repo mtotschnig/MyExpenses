@@ -69,14 +69,28 @@
                 style="@style/dialog_text"/>
         </TableRow>
 
-        <TableRow android:id="@+id/DateRow">
+        <TableRow>
 
             <TextView
+                android:id="@+id/DateLabel"
                 style="@style/FormLabel.Condensed"
                 android:text="@string/date"/>
 
             <TextView
                 android:id="@+id/Date"
+                style="@style/dialog_text"/>
+        </TableRow>
+
+
+        <TableRow android:id="@+id/Date2Row"
+            android:visibility="gone">
+
+            <TextView
+                style="@style/FormLabel.Condensed"
+                android:text="@string/value_date"/>
+
+            <TextView
+                android:id="@+id/Date2"
                 style="@style/dialog_text"/>
         </TableRow>
 

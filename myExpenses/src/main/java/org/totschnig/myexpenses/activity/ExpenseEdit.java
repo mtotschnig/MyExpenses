@@ -113,6 +113,8 @@ import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.FilterCursorWrapper;
 import org.totschnig.myexpenses.util.PermissionHelper;
 import org.totschnig.myexpenses.util.PictureDirHelper;
+import org.totschnig.myexpenses.util.UiUtils;
+import org.totschnig.myexpenses.util.UiUtils.DateMode;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.tracking.Tracker;
@@ -151,8 +153,6 @@ import static org.totschnig.myexpenses.preference.PrefKey.NEW_PLAN_ENABLED;
 import static org.totschnig.myexpenses.preference.PrefKey.NEW_SPLIT_TEMPLATE_ENABLED;
 import static org.totschnig.myexpenses.preference.PrefKey.SPLIT_LAST_ACCOUNT_FROM_WIDGET;
 import static org.totschnig.myexpenses.preference.PrefKey.TRANSACTION_LAST_ACCOUNT_FROM_WIDGET;
-import static org.totschnig.myexpenses.preference.PrefKey.TRANSACTION_WITH_TIME;
-import static org.totschnig.myexpenses.preference.PrefKey.TRANSACTION_WITH_VALUE_DATE;
 import static org.totschnig.myexpenses.preference.PrefKey.TRANSFER_LAST_ACCOUNT_FROM_WIDGET;
 import static org.totschnig.myexpenses.preference.PrefKey.TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.CAT_AS_LABEL;
@@ -1792,23 +1792,8 @@ public class ExpenseEdit extends AmountActivity implements
     mAmountText.setFractionDigits(Money.getFractionDigits(account.currency));
   }
 
-  enum DateMode {
-    DATE, DATE_TIME, BOOKING_VALUE;
-  }
-
-  @VisibleForTesting
-  DateMode getDateMode(Account account) {
-    if (!(account.getType() == AccountType.CASH)) {
-      if (prefHandler.getBoolean(TRANSACTION_WITH_VALUE_DATE, false)) {
-        return DateMode.BOOKING_VALUE;
-      }
-    }
-    return prefHandler.getBoolean(TRANSACTION_WITH_TIME, true) ?
-        DateMode.DATE_TIME : DateMode.DATE;
-  }
-
   private void configureDateInput(Account account) {
-    DateMode dateMode = getDateMode(account);
+    DateMode dateMode = UiUtils.getDateMode(account, prefHandler);
     setVisibility(timeEdit, dateMode == DateMode.DATE_TIME);
     setVisibility(date2Edit, dateMode == DateMode.BOOKING_VALUE);
     String dateLabel;

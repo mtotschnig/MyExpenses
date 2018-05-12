@@ -78,7 +78,7 @@ import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.SortDirection;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.model.Transfer;
-import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -107,6 +107,10 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView.OnHeaderClickListener;
 
+import static org.totschnig.myexpenses.preference.PrefKey.GROUP_MONTH_STARTS;
+import static org.totschnig.myexpenses.preference.PrefKey.GROUP_WEEK_STARTS;
+import static org.totschnig.myexpenses.preference.PrefKey.NEW_SPLIT_TEMPLATE_ENABLED;
+import static org.totschnig.myexpenses.preference.PrefKey.UI_LANGUAGE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_TRANSFERS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
@@ -215,6 +219,8 @@ public class TransactionList extends ContextualActionBarFragment implements
 
   @Inject
   CurrencyFormatter currencyFormatter;
+  @Inject
+  PrefHandler prefHandler;
 
   public static Fragment newInstance(long accountId) {
     TransactionList pageFragment = new TransactionList();
@@ -423,7 +429,7 @@ public class TransactionList extends ContextualActionBarFragment implements
         //super is handling deactivation of mActionMode
         break;
       case R.id.CREATE_TEMPLATE_COMMAND:
-        if (isSplitAtPosition(acmi.position) && !PrefKey.NEW_SPLIT_TEMPLATE_ENABLED.getBoolean(true)) {
+        if (isSplitAtPosition(acmi.position) && !prefHandler.getBoolean(NEW_SPLIT_TEMPLATE_ENABLED,true)) {
           CommonCommands.showContribDialog(getActivity(), ContribFeature.SPLIT_TEMPLATE, null);
           return true;
         }
@@ -613,9 +619,9 @@ public class TransactionList extends ContextualActionBarFragment implements
 
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-    if (key.equals(PrefKey.UI_LANGUAGE.getKey()) ||
-        key.equals(PrefKey.GROUP_MONTH_STARTS.getKey()) ||
-        key.equals(PrefKey.GROUP_WEEK_STARTS.getKey())) {
+    if (key.equals(prefHandler.getKey(UI_LANGUAGE)) ||
+        key.equals(prefHandler.getKey(GROUP_MONTH_STARTS)) ||
+        key.equals(prefHandler.getKey(GROUP_WEEK_STARTS))) {
       scheduledRestart = true;
     }
   }
@@ -668,7 +674,7 @@ public class TransactionList extends ContextualActionBarFragment implements
     private LayoutInflater inflater;
 
     private MyGroupedAdapter(Context context, int layout, Cursor c, int flags) {
-      super(mAccount, context, layout, c, flags, currencyFormatter);
+      super(mAccount, context, layout, c, flags, currencyFormatter, prefHandler);
       inflater = LayoutInflater.from(getActivity());
     }
 
