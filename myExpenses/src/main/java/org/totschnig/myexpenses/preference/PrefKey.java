@@ -118,46 +118,57 @@ public enum PrefKey {
   int resId = 0;
   String key = null;
 
+  @Deprecated
   public String getKey() {
     return resId == 0 ? key : MyApplication.getInstance().getString(resId);
   }
 
+  @Deprecated
   public String getString(String defValue) {
     return MyApplication.getInstance().getSettings().getString(getKey(), defValue);
   }
 
+  @Deprecated
   public void putString(String value) {
     MyApplication.getInstance().getSettings().edit().putString(getKey(), value).apply();
   }
 
+  @Deprecated
   public boolean getBoolean(boolean defValue) {
     return MyApplication.getInstance().getSettings().getBoolean(getKey(), defValue);
   }
 
+  @Deprecated
   public void putBoolean(boolean value) {
     MyApplication.getInstance().getSettings().edit().putBoolean(getKey(), value).apply();
   }
 
+  @Deprecated
   public int getInt(int defValue) {
     return MyApplication.getInstance().getSettings().getInt(getKey(), defValue);
   }
 
+  @Deprecated
   public void putInt(int value) {
     MyApplication.getInstance().getSettings().edit().putInt(getKey(), value).apply();
   }
 
+  @Deprecated
   public long getLong(long defValue) {
     return MyApplication.getInstance().getSettings().getLong(getKey(), defValue);
   }
 
+  @Deprecated
   public void putLong(long value) {
     MyApplication.getInstance().getSettings().edit().putLong(getKey(), value).apply();
   }
 
+  @Deprecated
   public void remove() {
     MyApplication.getInstance().getSettings().edit().remove(getKey()).apply();
   }
 
+  @Deprecated
   public boolean isSet() {
     return MyApplication.getInstance().getSettings().contains(getKey());
   }
