@@ -91,8 +91,7 @@ public class DateCalculationTest {
         DatabaseConstants.getWeek() + " AS week",
         DatabaseConstants.getWeekStart() + " AS week_start",
         DatabaseConstants.getWeekEnd() + " AS week_end",
-        KEY_DATE,
-        "datetime('now','localtime')"
+        KEY_DATE
     };
     Cursor c = mDb.query(
         TABLE,
@@ -108,7 +107,6 @@ public class DateCalculationTest {
       long weekEndAsTimeStamp = c.getLong(3);
       int dayOfYearOfWeekEnd = getDayOfYearFromTimestamp(weekEndAsTimeStamp);
       long unixTimeStamp = c.getLong(4);
-      System.out.println(c.getString(5));
       String date = SimpleDateFormat.getDateInstance().format(new Date(unixTimeStamp * 1000));
       String weekStartFromGroupSqlExpression = DbUtils.weekStartFromGroupSqlExpression(year, week);
       String weekEndFromGroupSqlExpression = DbUtils.weekEndFromGroupSqlExpression(year, week);
