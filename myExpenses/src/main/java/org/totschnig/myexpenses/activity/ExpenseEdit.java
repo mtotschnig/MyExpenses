@@ -70,6 +70,7 @@ import com.squareup.picasso.Picasso;
 
 import org.threeten.bp.Instant;
 import org.threeten.bp.LocalDate;
+import org.threeten.bp.LocalTime;
 import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZonedDateTime;
 import org.totschnig.myexpenses.MyApplication;
@@ -102,6 +103,7 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.AmountEditText;
+import org.totschnig.myexpenses.ui.ButtonWithDialog;
 import org.totschnig.myexpenses.ui.DateButton;
 import org.totschnig.myexpenses.ui.ExchangeRateEdit;
 import org.totschnig.myexpenses.ui.SpinnerHelper;
@@ -1070,15 +1072,12 @@ public class ExpenseEdit extends AmountActivity implements
   @Override
   protected Dialog onCreateDialog(int id) {
     hideKeyboard();
-    switch (id) {
-      case R.id.DateButton:
-        return dateEdit.onCreateDialog();
-      case R.id.Plan:
-        return mPlanButton.onCreateDialog();
-      case R.id.TimeButton:
-        return timeEdit.onCreateDialog();
+    try {
+      return ((ButtonWithDialog) findViewById(id)).onCreateDialog();
+    } catch (ClassCastException e) {
+      Timber.e(e);
+      return null;
     }
-    return null;
   }
 
   /**
@@ -1197,7 +1196,12 @@ public class ExpenseEdit extends AmountActivity implements
     mTransaction.setComment(mCommentText.getText().toString());
 
     if (!isNoMainTransaction()) {
-      mTransaction.setDate(readZonedDateTime());
+      final ZonedDateTime transactionDate = readZonedDateTime(dateEdit);
+      mTransaction.setDate(transactionDate);
+      if (date2Edit.getVisibility() == View.VISIBLE) {
+        mTransaction.setValueDate(date2Edit.getVisibility() == View.VISIBLE ?
+            readZonedDateTime(date2Edit) : transactionDate);
+      }
     }
 
     if (mOperationType == TYPE_TRANSACTION) {
@@ -1299,17 +1303,22 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   @NonNull
-  private ZonedDateTime readZonedDateTime() {
-    return ZonedDateTime.of(dateEdit.getDate(), timeEdit.getTime(), ZoneId.systemDefault());
+  private ZonedDateTime readZonedDateTime(DateButton dateEdit) {
+    return ZonedDateTime.of(dateEdit.getDate(),
+        timeEdit.getVisibility() == View.VISIBLE ? timeEdit.getTime() : LocalTime.of(12,0),
+        ZoneId.systemDefault());
   }
 
   private void setLocalDateTime(Transaction transaction) {
-    final ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(Instant.ofEpochSecond(transaction.getDate()), ZoneId.systemDefault());
+    final ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(
+        Instant.ofEpochSecond(transaction.getDate()), ZoneId.systemDefault());
     final LocalDate localDate = zonedDateTime.toLocalDate();
     if (mTransaction instanceof Template) {
       mPlanButton.setDate(localDate);
     } else {
       dateEdit.setDate(localDate);
+      date2Edit.setDate(ZonedDateTime.ofInstant(Instant.ofEpochSecond(transaction.getValueDate()),
+          ZoneId.systemDefault()).toLocalDate());
       timeEdit.setTime(zonedDateTime.toLocalTime());
     }
   }
