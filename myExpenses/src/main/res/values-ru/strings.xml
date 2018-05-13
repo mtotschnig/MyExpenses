@@ -39,6 +39,7 @@
   <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>E-mail поддержка</b> с обязательным ответом в течении 2 рабочих дней</string>
   <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Право голоса на <b>дорожной карте разработки</b></string>
   <string name="contrib_feature_history_label" tools:ignore="UnusedResources">История (Cash flow)</string>
+  <string name="licence_status_free">Бесплатный</string>
   <string name="contrib_key">Contrib-ключ</string>
   <string name="extended_key">Расширенный ключ</string>
   <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
@@ -475,15 +476,19 @@
   <string name="comparison_operator_date_before">до</string>
   <string name="comparison_operator_date_after">после</string>
   <string name="promotion_appgratis_welcome" tools:ignore="UnusedResources">Специальное предложение при сотрудничестве с AppGratis: получите сегодня премиальные возможности бесплатно.</string>
+  <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Покупка была прервана или отменена.</string>
   <string name="hint_auto_fill">Позволить автозаполнение на основе последней транзакции для того же получателя/плательщика? Вы всегда можете изменить это поведение в настройках.</string>
   <string name="yes">Да</string>
   <string name="no">Нет</string>
+  <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d счетов с валютой %2$s было обновлено.</string>
   <string name="learn_more">Узнать больше</string>
   <string name="import_source_file">Файл</string>
+  <string name="restore_calendar_handling">Работа с календарем</string>
   <string name="menu_view_picture">Просмотр изображения</string>
   <string name="menu_delete_picture">Удалить изображение</string>
   <string name="menu_change_picture">Прикрепить другое изображение</string>
   <string name="menu_distribution_show_pie_char">Показать круговую диаграмму</string>
+  <string name="menu_distribution_aggreate">Объединить расходы и доходы</string>
   <string name="menu_select_categories">Выбрать отмеченные категории</string>
   <string name="image_deleted">Изображение было удалено</string>
   <string name="transaction_deleted">Транзакция была удалена</string>
@@ -501,6 +506,7 @@
   <string name="cvs_import_set_first_line_as_header">Воспринимать первую строку как заглавную?</string>
   <string name="csv_import_delimiter_comma">Запятая</string>
   <string name="csv_import_delimiter_semicolon">Точка с запятой</string>
+  <string name="csv_import_delimiter_tab">Tab</string>
   <string name="menu_show_transactions">Показать список транзакций</string>
   <string name="pref_custom_decimal_format_title">Формат числа</string>
   <string name="pref_auto_backup_title">Включить авто-бэкап</string>
@@ -508,17 +514,22 @@
   <string name="pref_auto_backup_time_title">Время авто-бэкапа</string>
   <string name="warning_auto_backup_limit_reached">Был достигнут предел бесплатных резервных копий.</string>
   <string name="calendar_permission_required"><i>{app_name}</i> необходимо разрешение на доступ к Вашему календарю, для создания графиков будущих и повторяющихся операций.</string>
+  <string name="button_request_calendar_access" tools:ignore="UnusedResources">Предоставить доступ</string>
   <string name="switch_on_text">ВКЛ</string>
   <string name="switch_off_text">ВЫКЛ</string>
+  <string name="menu_move">Переместить</string>
+  <string name="transform_subcategory_to_main">Превратить в основную категорию</string>
   <string name="preferences_week_start_day_title">Начало недели:</string>
   <string name="preferences_month_start_date_title">Начало месяца</string>
   <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
+  <string name="pref_grouping_periods">Периоды группировки</string>
   <string name="exchange_rate">Обменный курс</string>
   <string name="date_format_hour">Час</string>
   <string name="date_format_minute">Минута</string>
   <string name="copied_to_clipboard">Скопировано в буфер обмена</string>
   <string name="menu_sort">Сортировать по</string>
   <string name="pref_sort_order_last_used">Последнее использование</string>
+  <string name="pref_sort_order_custom">Настраиваемый</string>
   <string name="content_description_calculator">Калькулятор</string>
   <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
   <string name="plan_instance_state_open">открытый</string>
@@ -528,16 +539,22 @@
   <string name="plan_instance_state_applied">принятый</string>
   <string name="progress_dialog_updating_split_parts">Обновление частей</string>
   <string name="content_description_calculator_clear_button">Сбросить все</string>
+  <string name="content_description_calculator_delete_button">Удалить последнее число</string>
   <string name="paypal_callback_info">Ваша транзакция была завершена; квитанция об оплате была направлена на Ваш e-mail. Вы можете увидеть детали этой транзакции в своей учетной записи на www.paypal.com</string>
   <string name="search_transfer">Поиск перевода</string>
   <!--Sort plans (recurring transactions) by the next instance-->
   <string name="crash_dialog_title">{app_name} аварийно завершен</string>
+  <string name="crash_dialog_text">Возникла непредвиденная ошибка приведшая к принудительному завершению программы. Пожалуйста, помогите нам предотвратить их в будущем, направив нам отчет - Вам потребуется только нажать ОК.</string>
+  <string name="crash_dialog_comment_prompt">Вы можете оставить свой комментарий о проблеме внизу:</string>
   <string name="synchronization">Синхронизация</string>
+  <string name="synchronization_none">Отсутствует синхронизация</string>
   <string name="hint_url">URL</string>
+  <string name="description_webdav_url">Пожалуйста, введите URL к отдельной папке на Вашем WebDAV сервере. {app_name} будет хранить данные в ней, не затрагивая ничего иного.</string>
   <string name="description_webdav_trust_certificate">Интернет-сайт использует сертификат, которому не доверяет Android.</string>
   <string name="hint_user_name">Имя пользователя</string>
   <string name="hint_password">Пароль</string>
   <string name="label_trust_certificate">Доверять этому сертификату</string>
+  <string name="validate_error_not_empty">Должен быть заполнен</string>
   <string name="validate_error_webdav_404">URL не существует на сервере.</string>
   <string name="url_not_valid">URL не действителен</string>
   <string name="menu_sync_unlink">Остановить синхронизацию</string>
@@ -548,7 +565,10 @@
   <string name="pref_sync_frequency_summary">Как часто данные должны синхронизироваться (в часах)</string>
   <string name="dialog_command_sync_link_remote">Загрузить из удаленного хранилища</string>
   <string name="dialog_command_sync_link_local">Загрузить из локального хранилища</string>
+  <string name="menu_remove">Удалить</string>
+  <string name="dialog_confirm_sync_link_remote">Локальные данные для этого счета будут удалены.</string>
   <string name="warning_synchronization_limited_trial">Функция синхронизации будет доступна до %s.</string>
+  <string name="warning_synchronization_limit_reached">Пробный период функции синхронизации завершился.</string>
   <string name="template">Шаблон</string>
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Облачная синхронизация</string>
   <string name="licence_status">Статус вашей учетной записи</string>
@@ -558,12 +578,19 @@
   <string name="currency_symbol">Символ валюты</string>
   <string name="number_of_fraction_digits">Число дробных знаков</string>
   <string name="pref_tracking_summary">Позволить нам собирать обезличенные данные о вашем пользовательском опыте чтобы улучшить его</string>
+  <string name="synchronization_start">Начинается синхронизация для счета %s.</string>
   <string name="onboarding_data_title">Давайте настроим ваш первый счет</string>
   <string name="onboarding_get_started">Начало</string>
+  <string name="dialog_button_add">Добавить</string>
+  <string name="template_create_error">Ошибка при сохранении шаблона</string>
+  <string name="contributed_by">Вклад внесен %s</string>
   <string name="picture">Изображение</string>
   <string name="menu_create_template_for_split">Новый разделенный шаблон</string>
+  <string name="licence_validation_error_expired">Лицензия истекла</string>
   <string name="licence_validation_error_device_limit_exceeded">Превышен лимит устройств. Пожалуйста, отключите лицензию на одном из устройств.</string>
+  <string name="button_validate">Проверить</string>
   <string name="licence_key">Лицензионный ключ</string>
+  <string name="licence_removal_information">Если Вам более не требуется премиальные функции на этом устройстве, Вы можете деактивировать ключ. Это позволит активировать его повторно на другом устройстве. Ключ может быть активирован на максимум %d устройствах.</string>
   <string name="progress_removing_licence">Отключение лицензии</string>
   <string name="licence_removal_success">Лицензионный ключ был успешно отключен от этого устройства.</string>
   <string name="professional_key">Professional-ключ</string>
@@ -573,8 +600,11 @@
   <string name="valid_until">До %s</string>
   <!--%1$s date, %2$s price-->
   <string name="extend_until">Продлите до %1$s за %2$s</string>
+  <string name="extended_upgrade_goodie_github">Было предоставлено %d месяцев пользователям с действующей Расширенной лицензией</string>
   <string name="switch_to_yearly">Переход на ежегодную подписку</string>
   <string name="switch_to_monthly">Переход на ежемесячную подписку</string>
+  <string name="extend_validity">Продлить действительность</string>
+  <string name="donate_button_invoice">Счёт-фактура</string>
   <string name="menu_sort_direction">Направление сортировки</string>
   <string name="sort_direction_ascending">по возрастанию</string>
   <string name="sort_direction_descending">по убыванию</string>
@@ -582,14 +612,39 @@
   <string name="always">всегда</string>
   <string name="dropbox_folder_name_prompt">Введите название существующей папке на корневом уровне вашего Dropbox</string>
   <string name="dropbox_folder_not_found">Папка не найдена</string>
+  <string name="sync_auth_exception_login_again">Авторизация провалена. Пожалуйста, представьтесь повторно.</string>
+  <plurals name="delete_success">
+    <item quantity="one">Объект был успешно удален.</item>
+    <item quantity="few">%d объектов было успешно удалено.</item>
+    <item quantity="many">%d объектов было успешно удалено.</item>
+    <item quantity="other">%d объектов было успешно удалено.</item>
+  </plurals>
+  <string name="snackbar_dismiss">Отменить</string>
+  <string name="menu_history_show_balance">Отобразить баланс</string>
+  <string name="menu_history_transfers">Включать переводы</string>
   <string name="menu_history">История</string>
   <!--A label indicating the color for the sum of expenses-->
+  <string name="history_chart_out_label">Расход</string>
   <!--A label indicating the color for the sum of income-->
+  <string name="history_chart_in_label">Доход</string>
+  <string name="menu_history_totals">Показать итоги</string>
+  <string name="pref_home_currency_title">Внутренняя валюта</string>
+  <string name="grand_total">Общий итог</string>
+  <string name="menu_original_amount">Начальный баланс</string>
+  <string name="home_currency_change_warning">При смене внутренней валюты, соответствующие ей суммы и обменные курсы будут утеряны, и должны быть установлены вновь. Вы хотите продолжить?</string>
   <string name="warning_split_transactions">Выбранные операции будут собраны в одну расщепленную операцию. Их содержание будет утеряно, напр. заменено их средним.</string>
+  <string name="warning_ungroup_split_transactions">Выбранные дробные операции будут разгруппированы, т.е. их составные части станут обычными операциями.</string>
   <!--This is the label for the action that breaks up a split transaction into its parts.-->
   <string name="menu_ungroup_split_transaction">Разгруппировать расщепленную операцию</string>
+  <plurals name="ungroup_split_transaction_success">
+    <item quantity="one">Дробная операция была успешно разгруппирована.</item>
+    <item quantity="few">%1$d дробных операций было успешно разгруппировано.</item>
+    <item quantity="many">%1$d дробных операций было успешно разгруппировано.</item>
+    <item quantity="other">%1$d дробных операций было успешно разгруппировано.</item>
+  </plurals>
   <string name="split_transaction_one_success">Операция успешно превращена в расщепленную.</string>
   <string name="split_transaction_one_error">Невозможно преобразовать операцию в разделенную.</string>
+  <string name="split_transaction_group_success">%1$d операций было успешно сгруппировано в одну дробную операцию.</string>
   <string name="split_transaction_group_error">Операции не были сгруппированы в расщепленную</string>
   <string name="split_transaction_not_possible">Только операции с совпадающим счетом, получателем и статусом могут быть сгруппированы в расщепленную операцию.</string>
 </resources>
