@@ -59,8 +59,8 @@ public class OnboardingUiFragment extends OnboardingFragment {
       for (int i = 0; i < entries.length; i++) {
         subMenu.getMenu().add(Menu.NONE, i, Menu.NONE, entries[i]);
       }
+      String[] values = getResources().getStringArray(R.array.pref_ui_language_values);
       subMenu.setOnMenuItemClickListener(item -> {
-        String[] values = getResources().getStringArray(R.array.pref_ui_language_values);
         String newValue = values[item.getItemId()];
         if (!uiLanguage.equals(newValue)) {
           PrefKey.UI_LANGUAGE.putString(newValue);
