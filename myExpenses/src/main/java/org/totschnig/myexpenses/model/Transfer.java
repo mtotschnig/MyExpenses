@@ -202,6 +202,7 @@ public class Transfer extends Transaction {
           .newUpdate(uri.buildUpon().appendPath(String.valueOf(getId())).build())
           .withValues(initialValues).build());
       ContentValues transferValues = new ContentValues(initialValues);
+      transferValues.remove(KEY_VALUE_DATE);
       transferValues.put(KEY_AMOUNT, transferAmount);
       //if the user has changed the account to which we should transfer,
       //in the peer transaction we need to update the account_id
