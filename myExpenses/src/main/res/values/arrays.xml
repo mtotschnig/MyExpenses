@@ -335,6 +335,10 @@
         <item>warning_split_transactions</item>
         <item>cab_split_help_text</item>
     </string-array>
+    <string-array name="form_date_time_help_text">
+        <item>form_date.time_help_text</item>
+        <item>form_date.time_help_text_configuration</item>
+    </string-array>
 
     <string-array name="AccountEdit_menuitems" tools:ignore="UnusedResources">
         <item>save</item>

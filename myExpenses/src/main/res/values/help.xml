@@ -92,7 +92,8 @@
   <string name="help_ExpenseEdit_templateCategory_info">Use this form to enter a new template or to edit an existing one. Use the dropdown menu in the actionbar to switch between templates for transactions, transfers and splits.</string>
   <string name="help_ExpenseEdit_split_info">A split transaction is a single transaction split up in parts, where each part can be assigned to a different category, or transferred to a different account.</string>
   <string name="form_account_help_text">Select the account to which the transaction belongs.</string>
-  <string name="form_date.time_help_text">Enter the time when the transaction took place.</string>
+  <string name="form_date.time_help_text">Enter the date and time when the transaction took place.</string>
+  <string name="form_date.time_help_text_configuration">In the settings you can disable time input and enable differentiation between booking date and value date.</string>
   <string name="form_payer_or_payee_help_text">This field remembers the values you enter and will suggest them in the future.</string>
   <string name="form_amount_switch_help_text">Use the switch to toggle between expense and income.</string>
   <string name="form_calculator_help_text"><![CDATA[The <img src="?calcIcon"> button opens the calculator.]]></string>
