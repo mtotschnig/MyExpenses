@@ -1460,7 +1460,7 @@ public class ExpenseEdit extends AmountActivity implements
   private void configureStatusSpinner() {
     Account a = getCurrentAccount();
     setVisibility(mStatusSpinner.getSpinner(),
-        isNoMainTransaction() || a == null || a.getType().equals(AccountType.CASH));
+        !isNoMainTransaction() && a != null && a.getType().equals(AccountType.CASH));
   }
 
   private void setVisibility(View view, boolean visible) {
@@ -1816,8 +1816,8 @@ public class ExpenseEdit extends AmountActivity implements
     }
     final Currency currency = currentAccount.currency;
     final boolean isSame = currency.equals(transferAccount.currency);
-    setVisibility(transferAmountRow, isSame);
-    setVisibility(exchangeRateRow, isSame || mTransaction instanceof Template);
+    setVisibility(transferAmountRow, !isSame);
+    setVisibility(exchangeRateRow, !isSame && !(mTransaction instanceof Template));
     final String symbol2 = Money.getSymbol(transferAccount.currency);
     //noinspection SetTextI18n
     addCurrencyToLabel(transferAmountLabel, symbol2, R.string.amount);
