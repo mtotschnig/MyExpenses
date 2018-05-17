@@ -629,7 +629,6 @@
     <string name="progress_dialog_checking_sync_backend">Verifying backend</string>
     <string name="template">Template</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Cloud synchronization</string>
-    <string name="licence_status">Your licence status</string>
     <string name="all_contrib_key_features">All features of Contrib Key</string>
     <string name="all_extended_key_features">All features of Extended Key</string>
     <string name="upgrade_now">Upgrade now</string>
@@ -751,4 +750,9 @@
     <string name="booking_date">Booking date</string>
     <!-- the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date -->
     <string name="value_date">Value date</string>
+    <string name="licence_expires_n_days">Your professional key will expire in %d days</string>
+    <string name="licence_expires_tomorrow">Your professional key will expire tomorrow</string>
+    <string name="licence_expires_today">Your professional key expires today</string>
+    <string name="licence_expired_yesterday">Your professional key has expired yesterday</string>
+    <string name="licence_has_expired_n_days">Your professional key has expired %d days ago</string>
 </resources>

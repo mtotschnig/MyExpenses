@@ -5,6 +5,10 @@ import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
+import android.support.v7.widget.PopupMenu;
+import android.view.Menu;
 
 import org.onepf.oms.OpenIabHelper;
 import org.totschnig.myexpenses.MyApplication;
@@ -18,15 +22,20 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.preference.PreferenceUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.Criteria;
+import org.totschnig.myexpenses.ui.SnackbarAction;
 import org.totschnig.myexpenses.util.ContribUtils;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.PermissionHelper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
+import org.totschnig.myexpenses.util.licence.Package;
 
 import java.io.File;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import javax.inject.Inject;
 
 import timber.log.Timber;
 
@@ -38,10 +47,17 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
   public static final String TAG_VERSION_INFO = "VERSION_INFO";
   private OpenIabHelper mHelper;
 
+  @Inject
+  LicenceHandler licenceHandler;
+
+  @Override
+  protected void injectDependencies() {
+    MyApplication.getInstance().getAppComponent().inject(this);
+  }
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    LicenceHandler licenceHandler = MyApplication.getInstance().getLicenceHandler();
     mHelper = licenceHandler.getIabHelper(this);
     if (mHelper != null) {
       try {
@@ -65,6 +81,51 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
         CrashHandler.report(e);
         mHelper.dispose();
         mHelper = null;
+      }
+    }
+  }
+
+  @Override
+  protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+    super.onPostCreate(savedInstanceState);
+    if (savedInstanceState == null && mHelper == null) {
+      long licenceValidity = licenceHandler.getValidUntilMillis();
+      if (licenceValidity != 0) {
+        final long daysToGo = TimeUnit.MILLISECONDS.toDays(licenceValidity - System.currentTimeMillis());
+        if (daysToGo <= 7) {
+          String message;
+          if (daysToGo > 1) {
+            message = getString(R.string.licence_expires_n_days, daysToGo);
+          } else if (daysToGo == 1) {
+            message = getString(R.string.licence_expires_tomorrow);
+          } else if (daysToGo == 0) {
+            message = getString(R.string.licence_expires_today);
+          } else if (daysToGo == -1) {
+            message = getString(R.string.licence_expired_yesterday);
+          } else {
+            if (daysToGo < -7) {//grace period is over,
+              licenceHandler.handleExpiration();
+            }
+            message = getString(R.string.licence_has_expired_n_days, -daysToGo);
+          }
+          showSnackbar(message, Snackbar.LENGTH_INDEFINITE,
+              new SnackbarAction(R.string.extend_validity, v -> {
+                Package[] proPackagesForExtendOrSwitch = licenceHandler.getProPackagesForExtendOrSwitch();
+                if (proPackagesForExtendOrSwitch != null) {
+                  PopupMenu popup = new PopupMenu(this, v);
+                  popup.setOnMenuItemClickListener(item -> {
+                    startActivity(ContribInfoDialogActivity.getIntentFor(LaunchActivity.this,
+                        proPackagesForExtendOrSwitch[item.getItemId()], false));
+                    return true;
+                  });
+                  Menu popupMenu = popup.getMenu();
+                  for (int i = 0; i < proPackagesForExtendOrSwitch.length; i++) {
+                    popupMenu.add(Menu.NONE, i, Menu.NONE, licenceHandler.getExtendOrSwitchMessage(proPackagesForExtendOrSwitch[i]));
+                  }
+                  popup.show();
+                }
+              }));
+        }
       }
     }
   }

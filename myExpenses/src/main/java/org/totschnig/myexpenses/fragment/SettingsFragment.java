@@ -528,7 +528,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       }
       contribPurchaseSummary = getString(R.string.pref_contrib_purchase_summary);
     } else {
-      contribPurchaseTitle = getString(R.string.licence_status) + ": " + getString(licenceStatus.getResId());
+      contribPurchaseTitle = getString(licenceStatus.getResId());
       if (licenceHandler.needsMigration()) {
         contribPurchaseSummary = Utils.getTextWithAppName(getContext(), R.string.licence_migration_info).toString();
       } else if (licenceStatus.isUpgradeable()) {

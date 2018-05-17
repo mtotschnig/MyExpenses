@@ -2,14 +2,14 @@ package org.totschnig.myexpenses.util.licence;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Date;
+import org.threeten.bp.LocalDate;
 
 public class Licence {
-  public Date getValidSince() {
+  public LocalDate getValidSince() {
     return validSince;
   }
 
-  public Date getValidUntil() {
+  public LocalDate getValidUntil() {
     return validUntil;
   }
 
@@ -19,9 +19,9 @@ public class Licence {
 
 
   @SerializedName("valid_since")
-  Date validSince;
+  LocalDate validSince;
   @SerializedName("valid_until")
-  Date validUntil;
+  LocalDate validUntil;
   @SerializedName("type")
   LicenceStatus type;
 }
