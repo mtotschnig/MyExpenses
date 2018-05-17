@@ -1460,7 +1460,7 @@ public class ExpenseEdit extends AmountActivity implements
   private void configureStatusSpinner() {
     Account a = getCurrentAccount();
     setVisibility(mStatusSpinner.getSpinner(),
-        !isNoMainTransaction() && a != null && a.getType().equals(AccountType.CASH));
+        !isNoMainTransaction() && a != null && !a.getType().equals(AccountType.CASH));
   }
 
   private void setVisibility(View view, boolean visible) {
