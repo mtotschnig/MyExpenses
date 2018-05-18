@@ -571,7 +571,6 @@
   <string name="warning_synchronization_limit_reached">Пробный период функции синхронизации завершился.</string>
   <string name="template">Шаблон</string>
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Облачная синхронизация</string>
-  <string name="licence_status">Статус вашей учетной записи</string>
   <string name="all_contrib_key_features">Все возможности Contrib-ключа</string>
   <string name="all_extended_key_features">Все возможности Extended-ключа</string>
   <string name="upgrade_now">Повысить сейчас</string>
@@ -647,4 +646,6 @@
   <string name="split_transaction_group_success">%1$d операций было успешно сгруппировано в одну дробную операцию.</string>
   <string name="split_transaction_group_error">Операции не были сгруппированы в расщепленную</string>
   <string name="split_transaction_not_possible">Только операции с совпадающим счетом, получателем и статусом могут быть сгруппированы в расщепленную операцию.</string>
+  <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
+  <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
 </resources>

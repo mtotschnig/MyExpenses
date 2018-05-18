@@ -612,7 +612,6 @@
   <string name="progress_dialog_checking_sync_backend">Weryfikacja serwera</string>
   <string name="template">Szablon</string>
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Synchronizacja w chmurze</string>
-  <string name="licence_status">Twój status licencji</string>
   <string name="all_contrib_key_features">Wszystkie funkcje Contrib Key</string>
   <string name="all_extended_key_features">Wszystkie funkcje Extended Key</string>
   <string name="upgrade_now">Ulepsz teraz</string>
@@ -687,4 +686,6 @@
   <!--A label indicating the color for the sum of income-->
   <!--This is the label for the action that breaks up a split transaction into its parts.-->
   <string name="split_transaction_one_error">Zamiana transakcji w podział nie była możliwa</string>
+  <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
+  <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
 </resources>

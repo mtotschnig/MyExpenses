@@ -614,7 +614,6 @@
   <string name="progress_dialog_checking_sync_backend">Backend wird überprüft</string>
   <string name="template">Vorlage</string>
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Cloud-Synchronisierung</string>
-  <string name="licence_status">Ihr Lizenzstatus</string>
   <string name="all_contrib_key_features">Alle Funktionen des Contrib Schlüssels</string>
   <string name="all_extended_key_features">Alle Funktionen des erweiterten Schlüssels</string>
   <string name="upgrade_now">Jetzt upgraden</string>
@@ -730,4 +729,6 @@
   <string name="split_transaction_group_success">%1$d Buchungen wurden erfolgreich in einer mehrteiligen Buchung zusammengefasst.</string>
   <string name="split_transaction_group_error">Buchungen konnten nicht in eine mehrteilige Buchung zusammengefasst werden.</string>
   <string name="split_transaction_not_possible">Nur Buchungen, die dasselbe Konto, denselben Empfänger und denselben Status haben, können in einer mehrteiligen Buchung zusammengefasst werden.</string>
+  <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
+  <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
 </resources>

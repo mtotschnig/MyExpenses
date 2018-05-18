@@ -321,4 +321,6 @@
   <!--A label indicating the color for the sum of expenses-->
   <!--A label indicating the color for the sum of income-->
   <!--This is the label for the action that breaks up a split transaction into its parts.-->
+  <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
+  <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
 </resources>

@@ -606,7 +606,6 @@
   <string name="progress_dialog_checking_sync_backend">バックエンドの確認中</string>
   <string name="template">テンプレート</string>
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">クラウド同期</string>
-  <string name="licence_status">ライセンスステータス</string>
   <string name="all_contrib_key_features">貢献キーのすべての機能</string>
   <string name="all_extended_key_features">拡張キーのすべての機能</string>
   <string name="upgrade_now">今すぐアップグレード</string>
@@ -720,4 +719,6 @@
   <string name="split_transaction_group_success">%1$d 取引が1つの分割取引にグループ化されました。</string>
   <string name="split_transaction_group_error">取引を分割にグループ化できませんでした。</string>
   <string name="split_transaction_not_possible">同じ勘定科目、支払先、およびステータスを持つ取引だけが、1つの分割取引にグループ化できます。</string>
+  <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
+  <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
 </resources>

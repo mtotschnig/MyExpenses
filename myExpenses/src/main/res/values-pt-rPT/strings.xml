@@ -600,7 +600,6 @@
   <string name="progress_dialog_checking_sync_backend">A verificar o backend</string>
   <string name="template">Modelo</string>
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sincronização na nuvem</string>
-  <string name="licence_status">A sua licença</string>
   <string name="all_contrib_key_features">Todas as funcionalidades da Chave Contrib</string>
   <string name="upgrade_now">Atualizar agora</string>
   <string name="pref_backup_cloud_title">Armazenar no backend de sincronização</string>
@@ -639,4 +638,6 @@
   <!--A label indicating the color for the sum of income-->
   <!--This is the label for the action that breaks up a split transaction into its parts.-->
   <string name="split_transaction_one_error">Não foi possível dividir a transação.</string>
+  <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
+  <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
 </resources>

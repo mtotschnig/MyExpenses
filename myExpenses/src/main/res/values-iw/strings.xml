@@ -220,10 +220,14 @@
   <string name="no_title_given">לא הוכנסה כותרת כל שהיא</string>
   <plurals name="not_deletable_mapped_transactions">
     <item quantity="one">האובייקט שנבחר ממופה לעסקה ולא ניתן למחוק אותו.</item>
+    <item quantity="two">%1$d אובייקטים  ממופים לעסקאות ולא ניתן למחוק אותם.</item>
+    <item quantity="many"></item>
     <item quantity="other">%1$d אובייקטים  ממופים לעסקאות ולא ניתן למחוק אותם.</item>
   </plurals>
   <plurals name="not_deletable_mapped_templates">
     <item quantity="one">האובייקט שנבחר ממופה לתבנית ולא ניתן למחוק אותו.</item>
+    <item quantity="two">אובייקטים %1$d ממופים לתבניות ולא ניתן למחוק אותם.</item>
+    <item quantity="many"></item>
     <item quantity="other">אובייקטים %1$d ממופים לתבניות ולא ניתן למחוק אותם.</item>
   </plurals>
   <string name="numbered">ממוספר</string>
@@ -362,6 +366,8 @@
   <string name="save_transaction_error">לא ניתן היה לשמור עסקה חדשה מהתבנית.</string>
   <plurals name="save_transaction_from_template_success">
     <item quantity="one">עסקה חדשה נשמרה בהצלחה מתבנית.</item>
+    <item quantity="two">%1$d עסקאות חדשות נשמרו בהצלחה מתבניות.</item>
+    <item quantity="many"></item>
     <item quantity="other">%1$d עסקאות חדשות נשמרו בהצלחה מתבניות.</item>
   </plurals>
   <string name="save_transaction_template_deleted">התבנית נמחקה</string>
@@ -401,22 +407,32 @@
   <string name="warning_delete_account">חשבון \"%1$s\" יימחק עם כל העסקאות שלו.</string>
   <plurals name="warning_delete_main_category">
     <item quantity="one">לקטגוריה אחת שנבחרה יש קטגוריות משנה, שיימחקו גם כן.</item>
+    <item quantity="two">%1$d קטגוריות נבחרות  יש קטגוריות משנה, שיימחק גם כן.</item>
+    <item quantity="many"></item>
     <item quantity="other">%1$d קטגוריות נבחרות  יש קטגוריות משנה, שיימחק גם כן.</item>
   </plurals>
   <plurals name="warning_delete_template">
     <item quantity="one">התבנית שנבחרה תימחק.</item>
+    <item quantity="two">%1$d תבניות שנבחרו  יימחקו.</item>
+    <item quantity="many"></item>
     <item quantity="other">%1$d תבניות שנבחרו  יימחקו.</item>
   </plurals>
   <plurals name="warning_delete_transaction">
     <item quantity="one">העסקה שנבחרה תימחק.</item>
+    <item quantity="two">%1$dעיסקאות שנבחרו  יימחקו.</item>
+    <item quantity="many"></item>
     <item quantity="other">%1$dעיסקאות שנבחרו  יימחקו.</item>
   </plurals>
   <plurals name="move_category_success">
     <item quantity="one">קטגוריה אחת הועברה בהצלחה.</item>
+    <item quantity="two">%d קטגוריות הועברו בהצלחה.</item>
+    <item quantity="many"></item>
     <item quantity="other">%d קטגוריות הועברו בהצלחה.</item>
   </plurals>
   <plurals name="move_category_failure">
     <item quantity="one">קטגוריה אחת לא הועברה, כי אותה תווית כבר קיימת ביעד.</item>
+    <item quantity="two">%d קטגוריות לא הועברו, מכיוון שתווית זהה כבר קיימת ביעד.</item>
+    <item quantity="many"></item>
     <item quantity="other">%d קטגוריות לא הועברו, מכיוון שתווית זהה כבר קיימת ביעד.</item>
   </plurals>
   <string name="warning_delete_reconciled">מחיקת עסקאות שהושלמו תגרום לרשומות שלך להיות שונות מהצהרת הבנק.</string>
@@ -614,7 +630,6 @@
   <string name="progress_dialog_checking_sync_backend">מאמת backend</string>
   <string name="template">תבנית</string>
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">סנכרון לענן</string>
-  <string name="licence_status">מצב הרשיון שלך</string>
   <string name="all_contrib_key_features">כל התכונות של מפתח Contrib</string>
   <string name="all_extended_key_features">כל התכונות של מפתח מורחב</string>
   <string name="upgrade_now">שדרג עכשיו</string>
@@ -695,6 +710,8 @@
   <string name="sync_loading_accounts_from_backend">טוען חשבונות זמינים מ backend.</string>
   <plurals name="delete_success">
     <item quantity="one">אובייקט אחד נמחק בהצלחה.</item>
+    <item quantity="two">%dאובייקטים  נמחקו בהצלחה.</item>
+    <item quantity="many"></item>
     <item quantity="other">%dאובייקטים  נמחקו בהצלחה.</item>
   </plurals>
   <string name="feature_deprecated">הוצא משימוש</string>
@@ -722,6 +739,8 @@
   <string name="menu_ungroup_split_transaction">פצל קבוצה</string>
   <plurals name="ungroup_split_transaction_success">
     <item quantity="one">עסקת הפיצול בוטלה בהצלחה.</item>
+    <item quantity="two">%1$d עסקאות מפוצלות הוצאו מקבוצה בהצלחה.</item>
+    <item quantity="many"></item>
     <item quantity="other">%1$d עסקאות מפוצלות הוצאו מקבוצה בהצלחה.</item>
   </plurals>
   <string name="ungroup_split_transaction_failure">במהלך ביטול קיבוץ לקבוצה פיצול עסקאות, %1$d מתוך  %2$d נכשל.</string>
@@ -730,4 +749,10 @@
   <string name="split_transaction_group_success">%1$d עסקאות קובצו בהצלחה לעסקה מפוצלת אחת.</string>
   <string name="split_transaction_group_error">לא ניתן לקבץ עסקאות לפיצול.</string>
   <string name="split_transaction_not_possible">רק עסקאות שיש להן אותו חשבון, מקבל תשלום ומעמד ניתן לקבץ לעסקה מפוצלת אחת.</string>
+  <string name="pref_transaction_time_summary">אפשר להגדיר זמן עסקה מדויק.</string>
+  <string name="pref_value_date_summary">אפשר לקבוע תאריך ערך בנוסף לתאריך ההזמנה. זמן העסקה יהיה מוסתר. הגדרה זו אינה חלה על חשבונות מזומנים.</string>
+  <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
+  <string name="booking_date">תאריך הזמנה</string>
+  <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
+  <string name="value_date">יום ערך</string>
 </resources>

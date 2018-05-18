@@ -605,7 +605,6 @@
   <string name="progress_dialog_checking_sync_backend">Mengesahkan bahagian belakang</string>
   <string name="template">Templat</string>
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Penyegerakan awan</string>
-  <string name="licence_status">Status lesen anda</string>
   <string name="all_contrib_key_features">Semua fitur Kunci Contrib</string>
   <string name="all_extended_key_features">Semua fitur Kunci Lanjutan</string>
   <string name="upgrade_now">Tatar sekarang</string>
@@ -696,4 +695,6 @@
   <!--A label indicating the color for the sum of income-->
   <!--This is the label for the action that breaks up a split transaction into its parts.-->
   <string name="split_transaction_one_error">Tidak dapat ubah transaksi untuk pengasingan.</string>
+  <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
+  <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
 </resources>

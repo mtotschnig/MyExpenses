@@ -606,7 +606,6 @@
   <string name="progress_dialog_checking_sync_backend">Đang xác minh phần phụ trợ</string>
   <string name="template">Bản mẫu</string>
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Đồng bộ hoá đám mây</string>
-  <string name="licence_status">Tình trạng giấy phép của bạn</string>
   <string name="all_contrib_key_features">Tất cả các tính năng của Khóa đóng góp</string>
   <string name="all_extended_key_features">Tất cả tính năng trong bản Mở rộng</string>
   <string name="upgrade_now">Nâng cấp ngay bây giờ</string>
@@ -709,4 +708,6 @@
   <string name="home_currency_change_warning">Nếu bạn đổi tiền tệ của quốc gia bạn, khoản tương đương và tỷ giá hối đoái sẽ bị mất, chúng sẽ cần được thiết đặt lại. Bạn có muốn tiếp tục không?</string>
   <!--This is the label for the action that breaks up a split transaction into its parts.-->
   <string name="split_transaction_one_error">Không thể chuyển giao dịch sang dạng phân tách.</string>
+  <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
+  <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
 </resources>

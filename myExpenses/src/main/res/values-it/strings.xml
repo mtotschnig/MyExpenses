@@ -605,7 +605,6 @@
   <string name="progress_dialog_checking_sync_backend">Verificando il backend</string>
   <string name="template">Modello</string>
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sincronizzazione cloud</string>
-  <string name="licence_status">Il tuo stato della licenza</string>
   <string name="all_contrib_key_features">Tutte le caratteristiche di Contrib chiave</string>
   <string name="upgrade_now">Aggiorna ora</string>
   <string name="pref_backup_cloud_title">Conservare il backend di sincronizzazione</string>
@@ -634,4 +633,6 @@
   <!--A label indicating the color for the sum of income-->
   <!--This is the label for the action that breaks up a split transaction into its parts.-->
   <string name="split_transaction_one_error">Impossibile frazionare transazione.</string>
+  <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
+  <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
 </resources>

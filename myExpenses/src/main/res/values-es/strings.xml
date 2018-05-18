@@ -614,7 +614,6 @@
   <string name="progress_dialog_checking_sync_backend">Comprobación de servicio.</string>
   <string name="template">Plantilla</string>
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sincronización en la nube</string>
-  <string name="licence_status">Su licencia</string>
   <string name="all_contrib_key_features">Todas las características de licencia Contrib</string>
   <string name="all_extended_key_features">Todas las características de la llave Extendida</string>
   <string name="upgrade_now">Actualice ahora</string>
@@ -730,4 +729,6 @@
   <string name="split_transaction_group_success">%1$d transacciones fueron agrupadas en una transacción dividida satisfactoriamente.</string>
   <string name="split_transaction_group_error">No se puedo agrupar las transacciones en una transacción dividida.</string>
   <string name="split_transaction_not_possible">Sólo las transacciones que tienen una misma cuenta, acreedor y estado pueden agruparse en una misma transacción dividida.</string>
+  <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
+  <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
 </resources>

@@ -614,7 +614,6 @@
   <string name="progress_dialog_checking_sync_backend">Vérification du backend</string>
   <string name="template">Modèle</string>
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Synchronisation dans le cloud</string>
-  <string name="licence_status">Votre statut de licence</string>
   <string name="all_contrib_key_features">Toutes les fonctions de la Clé Contrib</string>
   <string name="all_extended_key_features">Toutes les fonctions de la Clé Étendue</string>
   <string name="upgrade_now">Mettre à niveau maintenant</string>
@@ -730,4 +729,10 @@
   <string name="split_transaction_group_success">%1$d opérations ont été regroupées avec succès en une seule opération ventilée.</string>
   <string name="split_transaction_group_error">Impossible de regrouper les opérations en une opérations ventilée.</string>
   <string name="split_transaction_not_possible">Seules les opérations ayant le même compte, le même bénéficiaire et le même statut peuvent être regroupées en une seule opération ventilée.</string>
+  <string name="pref_transaction_time_summary">Permet de définir l\'heure exacte de l\'opération.</string>
+  <string name="pref_value_date_summary">Permet de définir la date de valeur en plus de la date d\'enregistrement. L\'heure de l\'opération sera cachéé. Ce paramètre n\'est pas appliqué aux comptes de caisse.</string>
+  <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
+  <string name="booking_date">Date d\'enregistrement</string>
+  <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
+  <string name="value_date">Date de valeur</string>
 </resources>

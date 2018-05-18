@@ -604,7 +604,6 @@
   <string name="progress_dialog_checking_sync_backend">Atzealdekoa egiaztatzen.</string>
   <string name="template">Txantiloia</string>
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sinkronizazioa hodeian</string>
-  <string name="licence_status">Zure lizentziaren egoera</string>
   <string name="all_contrib_key_features">Kontribuzio gakoaren eginbide guztiak</string>
   <string name="upgrade_now">Bertsio-berritu orain</string>
   <string name="pref_backup_cloud_title">Biltegiratu sinkronizazio atzealdekoan</string>
@@ -650,4 +649,6 @@
   <!--A label indicating the color for the sum of income-->
   <!--This is the label for the action that breaks up a split transaction into its parts.-->
   <string name="split_transaction_one_error">Ezin izan da transakzioa banaketara bihurtu</string>
+  <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
+  <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
 </resources>

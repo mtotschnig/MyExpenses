@@ -589,7 +589,6 @@
   <string name="link_account_failure_3">Η διένεξη μπορεί να επιλυθεί χειροκίνητα από το μενού περιβάλλοντος της καταχώρησης.</string>
   <string name="template">Πρότυπο</string>
   <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Συγχρονισμός σύννεφου</string>
-  <string name="licence_status">Η κατάσταση της άδειάς σας</string>
   <string name="all_contrib_key_features">Όλα οι δυνατότητες ενός Contrib κλειδιού</string>
   <string name="upgrade_now">Αναβαθμίστε τώρα</string>
   <string name="professional_key">Επαγγελματικό κλειδί</string>
@@ -598,4 +597,6 @@
   <!--A label indicating the color for the sum of income-->
   <!--This is the label for the action that breaks up a split transaction into its parts.-->
   <string name="split_transaction_one_error">Δεν μπόρεσε να μετατραπεί η συναλλαγή για διάσπαση.</string>
+  <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
+  <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
 </resources>
