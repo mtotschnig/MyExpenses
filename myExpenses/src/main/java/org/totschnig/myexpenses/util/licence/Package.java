@@ -11,7 +11,9 @@ import org.totschnig.myexpenses.util.Preconditions;
 import java.util.Currency;
 
 public enum Package {
-  Contrib(350), Upgrade(300), Extended(500), Professional_1(100), Professional_6(500), Professional_12(900), Professional_36(2000), Professional_Amazon(900), Professional_Blackberry(2000);
+  Contrib(350), Upgrade(300), Extended(500), Professional_1(100), Professional_6(500),
+  Professional_12(900), Professional_18(950), Professional_30(1400),
+  Professional_Amazon(900), Professional_Blackberry(2000);
 
   public long getDefaultPrice() {
     return defaultPrice;

@@ -183,7 +183,7 @@ public class LicenceHandler {
   }
 
   public Package[] getProPackages() {
-    return new Package[]{Package.Professional_6, Package.Professional_36};
+    return new Package[]{Package.Professional_6, Package.Professional_18, Package.Professional_30};
   }
 
   @Nullable
@@ -206,7 +206,7 @@ public class LicenceHandler {
 
   protected String getMinimumProfessionalMonthlyPrice() {
     return CurrencyFormatter.instance().formatCurrency(
-        new Money(Currency.getInstance("EUR"), (long) Math.ceil((double) Package.Professional_36.getDefaultPrice() / 36)));
+        new Money(Currency.getInstance("EUR"), (long) Math.ceil((double) Package.Professional_30.getDefaultPrice() / 36)));
   }
 
   @Nullable
