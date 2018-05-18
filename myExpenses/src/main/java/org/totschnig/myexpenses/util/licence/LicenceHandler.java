@@ -166,7 +166,7 @@ public class LicenceHandler {
   }
 
   public long getValidUntilMillis() {
-    return 1523995616000L;//Long.parseLong(licenseStatusPrefs.getString(LICENSE_VALID_UNTIL_KEY, "0"));
+    return Long.parseLong(licenseStatusPrefs.getString(LICENSE_VALID_UNTIL_KEY, "0"));
   }
 
 
