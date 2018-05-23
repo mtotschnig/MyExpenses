@@ -209,25 +209,26 @@ public class RoadmapViewModel extends AndroidViewModel {
 
   private class LoadVoteReminderTask extends AsyncTask<Void, Void, Integer> {
 
-    private final int WAIT_AFTER_INSTALL = BuildConfig.DEBUG ? 0 : 100;
-    private final long CHECK_INTERVALL = BuildConfig.DEBUG ? DateUtils.MINUTE_IN_MILLIS : DateUtils.WEEK_IN_MILLIS * 4;
+    private final int WAIT_AFTER_INSTALL_DAYS = BuildConfig.DEBUG ? 0 : 100;
+    private final long CHECK_INTERVALL_MILLIS = BuildConfig.DEBUG ? DateUtils.MINUTE_IN_MILLIS : DateUtils.WEEK_IN_MILLIS * 4;
 
     @Override
     protected Integer doInBackground(Void... voids) {
       final long voteReminderLastCheck = PrefKey.VOTE_REMINDER_LAST_CHECK.getLong(0);
-      final long sinceLastCheck = voteReminderLastCheck == 0L ? Long.MAX_VALUE : System.currentTimeMillis() - voteReminderLastCheck;
-      if (PrefKey.VOTE_REMINDER_SHOWN.getBoolean(false) || sinceLastCheck < CHECK_INTERVALL) {
+      final long now = System.currentTimeMillis();
+      final long sinceLastCheck = now - voteReminderLastCheck;
+      if (PrefKey.VOTE_REMINDER_SHOWN.getBoolean(false) || sinceLastCheck < CHECK_INTERVALL_MILLIS) {
         return null;
       }
       Vote lastVote = readLastVoteFromFile();
-      if (lastVote == null && Utils.getDaysSinceInstall(getApplication()) < WAIT_AFTER_INSTALL) {
+      if (lastVote == null && Utils.getDaysSinceInstall(getApplication()) < WAIT_AFTER_INSTALL_DAYS) {
         return null;
       }
       List<Issue> issueList = readIssuesFromNetwork();
+      PrefKey.VOTE_REMINDER_LAST_CHECK.putLong(now);
       if (issueList == null) {
         return null;
       }
-      PrefKey.VOTE_REMINDER_LAST_CHECK.putLong(System.currentTimeMillis());
       if (lastVote == null) {
         return R.string.roadmap_intro;
       }
