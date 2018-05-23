@@ -10,6 +10,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.PopupMenu;
 import android.view.Menu;
 
+import com.annimon.stream.function.Function;
+
 import org.onepf.oms.OpenIabHelper;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -103,50 +105,67 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
   @Override
   protected void onPostCreate(@Nullable Bundle savedInstanceState) {
     super.onPostCreate(savedInstanceState);
-    if (savedInstanceState == null && mHelper == null) {
-      long licenceValidity = licenceHandler.getValidUntilMillis();
-      if (licenceValidity != 0) {
-        final long now = System.currentTimeMillis();
-        final long daysToGo = TimeUnit.MILLISECONDS.toDays(licenceValidity - now);
-        if (daysToGo <= 7 && (now -
-            prefHandler.getLong(PROFESSIONAL_EXPIRATION_REMINDER_LAST_SHOWN, 0)
-            > DAY_IN_MILLIS)) {
-          String message;
-          if (daysToGo > 1) {
-            message = getString(R.string.licence_expires_n_days, daysToGo);
-          } else if (daysToGo == 1) {
-            message = getString(R.string.licence_expires_tomorrow);
-          } else if (daysToGo == 0) {
-            message = getString(R.string.licence_expires_today);
-          } else if (daysToGo == -1) {
-            message = getString(R.string.licence_expired_yesterday);
-          } else {
-            if (daysToGo < -7) {//grace period is over,
-              licenceHandler.handleExpiration();
-            }
-            message = getString(R.string.licence_has_expired_n_days, -daysToGo);
+    if (mHelper == null) {
+      if (licenceHandler.getLicenceStatus() != null) {
+        switch (licenceHandler.getLicenceStatus()) {
+          case CONTRIB:
+          case EXTENDED: {
+            String message = "Professional Licence Spring Sale: " + licenceHandler.getProfessionalPriceShortInfo();
+            showUpsellSnackbar(message, R.string.upgrade_now, licenceHandler::getFormattedPriceWithSaving);
+            break;
           }
-          prefHandler.putLong(PROFESSIONAL_EXPIRATION_REMINDER_LAST_SHOWN, now);
-          showSnackbar(message, Snackbar.LENGTH_INDEFINITE,
-              new SnackbarAction(R.string.extend_validity, v -> {
-                Package[] proPackagesForExtendOrSwitch = licenceHandler.getProPackagesForExtendOrSwitch();
-                if (proPackagesForExtendOrSwitch != null) {
-                  PopupMenu popup = new PopupMenu(this, v);
-                  popup.setOnMenuItemClickListener(item -> {
-                    startActivity(ContribInfoDialogActivity.getIntentFor(LaunchActivity.this,
-                        proPackagesForExtendOrSwitch[item.getItemId()], false));
-                    return true;
-                  });
-                  Menu popupMenu = popup.getMenu();
-                  for (int i = 0; i < proPackagesForExtendOrSwitch.length; i++) {
-                    popupMenu.add(Menu.NONE, i, Menu.NONE, licenceHandler.getExtendOrSwitchMessage(proPackagesForExtendOrSwitch[i]));
+          case PROFESSIONAL: {
+            long licenceValidity = licenceHandler.getValidUntilMillis();
+            if (licenceValidity != 0) {
+              final long now = System.currentTimeMillis();
+              final long daysToGo = TimeUnit.MILLISECONDS.toDays(licenceValidity - now);
+              if (daysToGo <= 7 && (now -
+                  prefHandler.getLong(PROFESSIONAL_EXPIRATION_REMINDER_LAST_SHOWN, 0)
+                  > DAY_IN_MILLIS)) {
+                String message;
+                if (daysToGo > 1) {
+                  message = getString(R.string.licence_expires_n_days, daysToGo);
+                } else if (daysToGo == 1) {
+                  message = getString(R.string.licence_expires_tomorrow);
+                } else if (daysToGo == 0) {
+                  message = getString(R.string.licence_expires_today);
+                } else if (daysToGo == -1) {
+                  message = getString(R.string.licence_expired_yesterday);
+                } else {
+                  if (daysToGo < -7) {//grace period is over,
+                    licenceHandler.handleExpiration();
                   }
-                  popup.show();
+                  message = getString(R.string.licence_has_expired_n_days, -daysToGo);
                 }
-              }));
+                prefHandler.putLong(PROFESSIONAL_EXPIRATION_REMINDER_LAST_SHOWN, now);
+                showUpsellSnackbar(message, R.string.extend_validity, licenceHandler::getExtendOrSwitchMessage);
+              }
+            }
+            break;
+          }
         }
       }
     }
+  }
+
+  private void showUpsellSnackbar(String message, int actionLabel, Function<Package, String> formatter) {
+    showSnackbar(message, Snackbar.LENGTH_INDEFINITE,
+        new SnackbarAction(actionLabel, v -> {
+          Package[] proPackages = licenceHandler.getProPackages();
+          if (proPackages != null) {
+            PopupMenu popup = new PopupMenu(this, v);
+            popup.setOnMenuItemClickListener(item -> {
+              startActivity(ContribInfoDialogActivity.getIntentFor(LaunchActivity.this,
+                  proPackages[item.getItemId()], false));
+              return true;
+            });
+            Menu popupMenu = popup.getMenu();
+            for (int i = 0; i < proPackages.length; i++) {
+              popupMenu.add(Menu.NONE, i, Menu.NONE, formatter.apply(proPackages[i]));
+            }
+            popup.show();
+          }
+        }));
   }
 
   /**
@@ -156,7 +175,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
    * and display information to be presented upon app launch
    */
   public void newVersionCheck() {
-    int prev_version = prefHandler.getInt(CURRENT_VERSION,-1);
+    int prev_version = prefHandler.getInt(CURRENT_VERSION, -1);
     int current_version = DistribHelper.getVersionNumber();
     if (prev_version < current_version) {
       if (prev_version == -1) {
@@ -177,7 +196,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
                 KEY_ACCOUNTID + " not in (SELECT _id FROM accounts)", null));
       }
       if (prev_version < 30) {
-        if (!"".equals(prefHandler.getString(SHARE_TARGET,""))) {
+        if (!"".equals(prefHandler.getString(SHARE_TARGET, ""))) {
           edit.putBoolean(prefHandler.getKey(SHARE_TARGET), true);
           edit.apply();
         }
@@ -224,7 +243,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
       }
       if (prev_version < 221) {
         prefHandler.putString(SORT_ORDER_LEGACY,
-            prefHandler.getBoolean(CATEGORIES_SORT_BY_USAGES_LEGACY,true) ?
+            prefHandler.getBoolean(CATEGORIES_SORT_BY_USAGES_LEGACY, true) ?
                 "USAGES" : "ALPHABETIC");
       }
       if (prev_version < 303) {

@@ -5,6 +5,7 @@ import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.ContribDialogFragment;
+import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
 import org.totschnig.myexpenses.export.pdf.PdfPrinter;
@@ -70,4 +71,6 @@ public interface AppComponent {
   void inject(HistoryChart historyChart);
 
   CrashHandler getCrashHandler();
+
+  void inject(DonateDialogFragment donateDialogFragment);
 }

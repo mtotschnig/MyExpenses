@@ -15,6 +15,11 @@ public enum Package {
   Professional_12(900), Professional_18(950), Professional_30(1400),
   Professional_Amazon(900), Professional_Blackberry(2000);
 
+  /**
+   * Extra months credited for professional licence to holders of extended licence
+   */
+  private static final int DURATION_EXTRA = 3;
+
   public long getDefaultPrice() {
     return defaultPrice;
   }
@@ -29,8 +34,9 @@ public enum Package {
     return name().startsWith("Professional");
   }
 
-  public String getFormattedPrice(Context context, String formatted) {
-    return isProfessional() ? formatWithDuration(context, formatted) : formatted;
+  public String getFormattedPrice(Context context, boolean withExtra) {
+    String formatted = getFormattedPriceRaw();
+    return isProfessional() ? formatWithDuration(context, formatted, withExtra) : formatted;
   }
 
   public String getFormattedPriceRaw() {
@@ -39,16 +45,16 @@ public enum Package {
   }
 
   @NonNull
-  String formatWithDuration(Context context, String formattedPrice) {
+  String formatWithDuration(Context context, String formattedPrice, boolean withExtra) {
     Preconditions.checkState(isProfessional());
-    String duration = extractDuration();
+    int duration = getDuration(withExtra);
     String formattedDuration;
     String format = "%s (%s)";
     switch (duration) {
-      case "1":
+      case 1:
         formattedDuration = context.getString(R.string.monthly);
         break;
-      case "12":
+      case 12:
         formattedDuration = context.getString(R.string.yearly_plain);
         break;
       default:
@@ -58,30 +64,17 @@ public enum Package {
     return String.format(format, formattedPrice, formattedDuration);
   }
 
-  int getDuration() {
-    return Integer.parseInt(extractDuration());
+  int getDuration(boolean withExtra) {
+    final int base = Integer.parseInt(extractDuration());
+    return withExtra ? base + DURATION_EXTRA : base;
+  }
+
+  long getMonthlyPrice(boolean withExtra) {
+    return (long) Math.ceil((double) getDefaultPrice() / getDuration(withExtra));
   }
 
   @NonNull
   private String extractDuration() {
     return name().substring(name().lastIndexOf("_") + 1);
-  }
-
-  public String getButtonLabel(Context context) {
-    int resId;
-    switch (this) {
-      case Contrib:
-        resId = LicenceStatus.CONTRIB.getResId();
-        break;
-      case Upgrade:
-        resId = R.string.pref_contrib_purchase_title_upgrade;
-        break;
-      case Extended:
-        resId = LicenceStatus.EXTENDED.getResId();
-        break;
-      default:
-        resId = LicenceStatus.PROFESSIONAL.getResId();
-    }
-    return String.format("%s (%s)", context.getString(resId), getFormattedPrice(context, getFormattedPriceRaw()));
   }
 }

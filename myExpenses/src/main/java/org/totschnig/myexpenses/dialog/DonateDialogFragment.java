@@ -21,17 +21,23 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 
 import com.annimon.stream.IntStream;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
+import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.licence.Package;
+
+import javax.inject.Inject;
 
 public class DonateDialogFragment extends CommitSafeDialogFragment {
 
   private static final String KEY_PACKAGE = "package";
+  @Inject
+  LicenceHandler licenceHandler;
 
   public static DonateDialogFragment newInstance(Package aPackage) {
     DonateDialogFragment fragment = new DonateDialogFragment();
@@ -39,6 +45,12 @@ public class DonateDialogFragment extends CommitSafeDialogFragment {
     args.putSerializable(KEY_PACKAGE, aPackage);
     fragment.setArguments(args);
     return fragment;
+  }
+
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    MyApplication.getInstance().getAppComponent().inject(this);
   }
 
   @NonNull
@@ -50,7 +62,7 @@ public class DonateDialogFragment extends CommitSafeDialogFragment {
     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
     CharSequence[] items = IntStream.of(getPaymentOptions(aPackage)).mapToObj(this::getString).toArray(String[]::new);
     return builder
-        .setTitle(aPackage.getButtonLabel(getContext()))
+        .setTitle(licenceHandler.getButtonLabel(aPackage))
         .setItems(items, listener)
         .create();
   }

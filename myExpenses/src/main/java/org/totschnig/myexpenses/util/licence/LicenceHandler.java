@@ -50,7 +50,7 @@ public class LicenceHandler {
   protected final Context context;
   private boolean isSandbox = BuildConfig.DEBUG;
 
-  public LicenceStatus getLicenceStatus() {
+  @Nullable public LicenceStatus getLicenceStatus() {
     return licenceStatus;
   }
 
@@ -142,14 +142,29 @@ public class LicenceHandler {
 
   @Nullable
   public String getFormattedPrice(Package aPackage) {
-    return aPackage.getFormattedPrice(context, aPackage.getFormattedPriceRaw());
+    return getFormattedPriceWithExtra(aPackage, false);
+  }
+
+  @Nullable
+  private String getFormattedPriceWithExtra(Package aPackage, boolean withExtra) {
+    return aPackage.getFormattedPrice(context, withExtra);
+  }
+
+  public String getFormattedPriceWithSaving(Package aPackage) {
+    final boolean withExtra = licenceStatus == LicenceStatus.EXTENDED;
+    String formattedPrice = getFormattedPriceWithExtra(aPackage, withExtra);
+    final Package base = Package.Professional_6;
+    if (aPackage == base) return formattedPrice;
+    return String.format(Locale.ROOT, "%s (- %d %%)", formattedPrice,
+        100 - (aPackage.getDefaultPrice() * 100 * base.getDuration(withExtra) /
+            (aPackage.getDuration(withExtra) * base.getDefaultPrice())));
   }
 
   public String getExtendOrSwitchMessage(Package aPackage) {
     Preconditions.checkArgument(aPackage.isProfessional());
     Date extendedDate = DateUtils.addMonths(
         new Date(Math.max(getValidUntilMillis(), System.currentTimeMillis())),
-        aPackage.getDuration());
+        aPackage.getDuration(false));
     return context.getString(R.string.extend_until,
         Utils.getDateFormatSafe(context).format(extendedDate),
         aPackage.getFormattedPriceRaw());
@@ -192,7 +207,7 @@ public class LicenceHandler {
   }
 
   public String getProfessionalPriceShortInfo() {
-    String minimumProfessionalMonthlyPrice = getMinimumProfessionalMonthlyPrice();
+    String minimumProfessionalMonthlyPrice = getMinimumProfessionalMonthlyPrice(licenceStatus == LicenceStatus.EXTENDED);
     if (minimumProfessionalMonthlyPrice != null) {
       return context.getString(R.string.professionalPriceShortInfo, minimumProfessionalMonthlyPrice);
     } else {
@@ -204,9 +219,10 @@ public class LicenceHandler {
     return null;
   }
 
-  protected String getMinimumProfessionalMonthlyPrice() {
+  protected String getMinimumProfessionalMonthlyPrice(boolean withExtra) {
+    final Package aPackage = Package.Professional_30;
     return CurrencyFormatter.instance().formatCurrency(
-        new Money(Currency.getInstance("EUR"), (long) Math.ceil((double) Package.Professional_30.getDefaultPrice() / 36)));
+        new Money(Currency.getInstance("EUR"), aPackage.getMonthlyPrice(withExtra)));
   }
 
   @Nullable
@@ -412,5 +428,23 @@ public class LicenceHandler {
     } else {
       updateLicenceStatus(null);
     }
+  }
+
+  public String getButtonLabel(Package aPackage) {
+    int resId;
+    switch (aPackage) {
+      case Contrib:
+        resId = LicenceStatus.CONTRIB.getResId();
+        break;
+      case Upgrade:
+        resId = R.string.pref_contrib_purchase_title_upgrade;
+        break;
+      case Extended:
+        resId = LicenceStatus.EXTENDED.getResId();
+        break;
+      default:
+        resId = LicenceStatus.PROFESSIONAL.getResId();
+    }
+    return String.format("%s (%s)", context.getString(resId), getFormattedPriceWithExtra(aPackage, licenceStatus == LicenceStatus.EXTENDED));
   }
 }

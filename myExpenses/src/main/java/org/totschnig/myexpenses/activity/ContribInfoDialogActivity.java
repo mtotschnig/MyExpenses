@@ -246,7 +246,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
         intent = new Intent(Intent.ACTION_SEND);
         intent.setType("message/rfc822");
         intent.putExtra(Intent.EXTRA_EMAIL, new String[]{MyApplication.INVOICES_EMAIL});
-        String packageLabel = aPackage.getButtonLabel(this);
+        String packageLabel = licenceHandler.getButtonLabel(aPackage);
         intent.putExtra(Intent.EXTRA_SUBJECT,
             "[" + getString(R.string.app_name) + "] " + getString(R.string.donate_button_invoice));
         String userCountry = Utils.getCountryFromTelephonyManager();
