@@ -114,7 +114,8 @@ public enum PrefKey {
   TRANSFER_LAST_ACCOUNT_FROM_WIDGET("transferLastAccountFromWidget"),
   TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET("transferLastTransferAccountFromWidget"),
   SPLIT_LAST_ACCOUNT_FROM_WIDGET("splitLastAccountFromWidget"),
-  PROFESSIONAL_EXPIRATION_REMINDER_LAST_SHOWN("professionalExpirationReminderLastShown");
+  PROFESSIONAL_EXPIRATION_REMINDER_LAST_SHOWN("professionalExpirationReminderLastShown"),
+  PROFESSIONAL_UPSELL_SNACKBAR_SHOWN("professionalUpsellSnackbarShown");
 
   int resId = 0;
   String key = null;

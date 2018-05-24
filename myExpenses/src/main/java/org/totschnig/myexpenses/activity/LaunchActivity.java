@@ -50,6 +50,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.HOME_CURRENCY;
 import static org.totschnig.myexpenses.preference.PrefKey.LICENCE_MIGRATION_INFO_SHOWN;
 import static org.totschnig.myexpenses.preference.PrefKey.PLANNER_CALENDAR_ID;
 import static org.totschnig.myexpenses.preference.PrefKey.PROFESSIONAL_EXPIRATION_REMINDER_LAST_SHOWN;
+import static org.totschnig.myexpenses.preference.PrefKey.PROFESSIONAL_UPSELL_SNACKBAR_SHOWN;
 import static org.totschnig.myexpenses.preference.PrefKey.SHARE_TARGET;
 import static org.totschnig.myexpenses.preference.PrefKey.SORT_ORDER_LEGACY;
 import static org.totschnig.myexpenses.preference.PrefKey.SYNC_UPSELL_NOTIFICATION_SHOWN;
@@ -110,8 +111,18 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
         switch (licenceHandler.getLicenceStatus()) {
           case CONTRIB:
           case EXTENDED: {
-            String message = "Professional Licence Spring Sale: " + licenceHandler.getProfessionalPriceShortInfo();
-            showUpsellSnackbar(message, R.string.upgrade_now, licenceHandler::getFormattedPriceWithSaving);
+            if (!prefHandler.getBoolean(PROFESSIONAL_UPSELL_SNACKBAR_SHOWN, false)) {
+              String message = "Professional Licence Spring Sale: " + licenceHandler.getProfessionalPriceShortInfo();
+              showUpsellSnackbar(message, R.string.upgrade_now, licenceHandler::getFormattedPriceWithSaving,
+                  new Snackbar.Callback() {
+                    @Override
+                    public void onDismissed(Snackbar transientBottomBar, int event) {
+                      if ((event == DISMISS_EVENT_SWIPE) || (event == DISMISS_EVENT_ACTION)) {
+                        prefHandler.putBoolean(PROFESSIONAL_UPSELL_SNACKBAR_SHOWN, true);
+                      }
+                    }
+                  });
+            }
             break;
           }
           case PROFESSIONAL: {
@@ -137,8 +148,16 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
                   }
                   message = getString(R.string.licence_has_expired_n_days, -daysToGo);
                 }
-                prefHandler.putLong(PROFESSIONAL_EXPIRATION_REMINDER_LAST_SHOWN, now);
-                showUpsellSnackbar(message, R.string.extend_validity, licenceHandler::getExtendOrSwitchMessage);
+
+                showUpsellSnackbar(message, R.string.extend_validity, licenceHandler::getExtendOrSwitchMessage,
+                    new Snackbar.Callback() {
+                      @Override
+                      public void onDismissed(Snackbar transientBottomBar, int event) {
+                        if ((event == DISMISS_EVENT_SWIPE) || (event == DISMISS_EVENT_ACTION)) {
+                          prefHandler.putLong(PROFESSIONAL_EXPIRATION_REMINDER_LAST_SHOWN, now);
+                        }
+                      }
+                    });
               }
             }
             break;
@@ -148,7 +167,8 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
     }
   }
 
-  private void showUpsellSnackbar(String message, int actionLabel, Function<Package, String> formatter) {
+  private void showUpsellSnackbar(String message, int actionLabel, Function<Package, String> formatter,
+                                  Snackbar.Callback callback) {
     showSnackbar(message, Snackbar.LENGTH_INDEFINITE,
         new SnackbarAction(actionLabel, v -> {
           Package[] proPackages = licenceHandler.getProPackages();
@@ -165,7 +185,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
             }
             popup.show();
           }
-        }));
+        }), callback);
   }
 
   /**

@@ -727,6 +727,10 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   public void showSnackbar(@NonNull CharSequence message, int duration, SnackbarAction snackbarAction) {
+    showSnackbar(message, duration, snackbarAction, null);
+  }
+
+  public void showSnackbar(@NonNull CharSequence message, int duration, SnackbarAction snackbarAction, Snackbar.Callback callback) {
     View container = findViewById(getSnackbarContainerId());
     if (container == null) {
       CrashHandler.report(String.format("Class %s is unable to display snackbar", getClass()));
@@ -740,7 +744,11 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
       if (snackbarAction != null) {
         snackbar.setAction(snackbarAction.resId, snackbarAction.listener);
       }
+      if (callback != null) {
+        snackbar.addCallback(callback);
+      }
       snackbar.show();
+      snackbar.addCallback(new Snackbar.Callback());
     }
   }
 
