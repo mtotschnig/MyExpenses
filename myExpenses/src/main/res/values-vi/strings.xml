@@ -659,7 +659,7 @@
   <string name="progress_removing_licence">Đang gỡ bỏ bản quyền</string>
   <string name="licence_removal_success">Khoá bản quyền đã được xoá khỏi thiết bị này.</string>
   <string name="professional_key">Khoá Cao cấp</string>
-  <string name="n_months">%s tháng</string>
+  <string name="n_months">%d tháng</string>
   <string name="professionalPriceShortInfo">khởi điểm từ %s/tháng</string>
   <string name="eu_vat_info">Đối với những người cư trú tại Liên minh châu Âu, số tiền hiển thị không bao gồm thuế giá trị gia tăng.</string>
   <string name="licence_migration_info">{app_name} bắt đầu sử dụng phương thức xác minh bản quyền mới. Vui lòng yêu cầu một khoá mới.</string>

@@ -658,7 +658,7 @@
   <string name="progress_removing_licence">Membuang lesen</string>
   <string name="licence_removal_success">Kunci lesen berjaya dibebaskan daripada peranti ini.</string>
   <string name="professional_key">Kunci profesional</string>
-  <string name="n_months">%s bulan</string>
+  <string name="n_months">%d bulan</string>
   <string name="professionalPriceShortInfo">bermula dari %s / bulan</string>
   <string name="eu_vat_info">Bagi penduduk Kesatuan Eropah harga dipaparkan tidak melibatkan VAT.</string>
   <string name="licence_migration_info">{app_name} melaksanakan satu mekanisma pengesahan lesen baharu. Sila dapatkan kunci baharu.</string>

@@ -667,7 +667,7 @@
   <string name="progress_removing_licence">Suppression de la licence</string>
   <string name="licence_removal_success">La clé de licence a été libérée de cet appareil.</string>
   <string name="professional_key">Clé professionnelle</string>
-  <string name="n_months">%s mois</string>
+  <string name="n_months">%dmois</string>
   <string name="professionalPriceShortInfo">à partir de %s / mois</string>
   <string name="eu_vat_info">Pour les résidents de l\'Union européenne, les prix affichés n\'incluent pas la TVA.</string>
   <string name="licence_migration_info">{app_name} implémente un nouveau mécanisme de validation de licence. Veuillez demander une nouvelle clé.</string>

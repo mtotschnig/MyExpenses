@@ -667,7 +667,7 @@
   <string name="progress_removing_licence">Lisans kaldırılıyor</string>
   <string name="licence_removal_success">Lisans anahtarı bu cihazdan başarılı bir şekilde kaldırılmıştır.</string>
   <string name="professional_key">Profesyonel Anahtar</string>
-  <string name="n_months">%s ay</string>
+  <string name="n_months">%d ay</string>
   <string name="professionalPriceShortInfo">ayda %s değerinden başlayan fiyatla</string>
   <string name="eu_vat_info">Görüntülenen fiyatlar Avrupa Birliği\'ndeki kullanıcılar için KDV\'yi içermemektedir.</string>
   <string name="licence_migration_info">{app_name} yeni bir lisans doğrulama mekanizması kullanmaktadır. Lütfen yeni bir anahtar talep edin.</string>

@@ -667,7 +667,7 @@
   <string name="progress_removing_licence">Премахване на лиценза</string>
   <string name="licence_removal_success">Лицензният ключ бе успешно премахнат от това устройство.</string>
   <string name="professional_key">Професионален ключ</string>
-  <string name="n_months">%s месеца</string>
+  <string name="n_months">%d месеца</string>
   <string name="professionalPriceShortInfo">започва от %s / месец</string>
   <string name="eu_vat_info">За гражданите на Европейския съюз цените не включват ДДС.</string>
   <string name="licence_migration_info">{app_name} използва нов механизъм за валидиране на лицензи. Моля, поискайте нов ключ.</string>
@@ -729,6 +729,15 @@
   <string name="split_transaction_group_success"> %1$d транзакции са успешно групирани в една разпределена транзакция.</string>
   <string name="split_transaction_group_error">Тези транзакции не може да бъдат групирани в разпределена.</string>
   <string name="split_transaction_not_possible">Само транзакции, които имат еднакви сметка, получател и статус, могат да бъдат групирани в една разпределена транзакция.</string>
+  <string name="pref_transaction_time_summary">Позволява да зададете часовото време на транзакцията.</string>
+  <string name="pref_value_date_summary">Позволява да зададете време на вальора освен датата на резервацията. Времето на транзакцията ще бъде скрито. Тази настройка не се прилага за касови сметки.</string>
   <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
+  <string name="booking_date">Дата на резервиране</string>
   <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
+  <string name="value_date">Дата на вальора</string>
+  <string name="licence_expires_n_days">Професионалният Ви ключ ще изтече след %d дни</string>
+  <string name="licence_expires_tomorrow">Професионалният Ви ключ ще изтече утре</string>
+  <string name="licence_expires_today">Професионалният Ви ключ изтича днес</string>
+  <string name="licence_expired_yesterday">Професионалният Ви ключ изтече вчера</string>
+  <string name="licence_has_expired_n_days">Професионалният Ви ключ е изтекъл преди %d дни</string>
 </resources>

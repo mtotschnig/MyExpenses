@@ -667,7 +667,7 @@
   <string name="progress_removing_licence">Quitando licencia</string>
   <string name="licence_removal_success">La llave de licencia se quitó satisfactoriamente de su dispositivo.</string>
   <string name="professional_key">Llave Profesional</string>
-  <string name="n_months">%s meses</string>
+  <string name="n_months">%dmeses</string>
   <string name="professionalPriceShortInfo">Empezar desde %s / mes</string>
   <string name="eu_vat_info">Para residentes de la Unión Europea, los precios pueden aparecer sin IVA.</string>
   <string name="licence_migration_info">{app_name} implementa un nuevo sistema de validación de licencia. Por favor, solicite una llave nueva.</string>

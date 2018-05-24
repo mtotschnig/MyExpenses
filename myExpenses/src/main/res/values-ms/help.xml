@@ -68,7 +68,6 @@
   <string name="help_ExpenseEdit_templateCategory_info">Guna borang ini untuk masukkan transaksi baharu atau sunting sedia ada. Guna menu tarik-turun dalam palang tindakan untuk antara templat untuk transaksi, pemindahan dan pengasingan.</string>
   <string name="help_ExpenseEdit_split_info">Pengasingan transaksi ialah satu transaksi yang diasingkan kepada beberapa bahagian, yang mana setiap bahagian boleh diumpuk ke kategori berbeza, atau dipindah ke akaun berbeza.</string>
   <string name="form_account_help_text">Pilih akaun yang mana milik transaksi tersebut.</string>
-  <string name="form_date.time_help_text">Masukkan waktu bila transaksi berlaku.</string>
   <string name="form_payer_or_payee_help_text">Medan ini mengingati nilai yang anda masukkan dan akan cadangkannya pada masa hadapan.</string>
   <string name="form_amount_switch_help_text">Guna suis untuk togol diantara perbelanjaan dengan pendapatan.</string>
   <string name="form_calculator_help_text"><![CDATA[The <img src=\"?calcIcon\"> butang yang membuka kalculator.]]></string>

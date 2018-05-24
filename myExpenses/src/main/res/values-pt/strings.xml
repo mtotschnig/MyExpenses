@@ -668,7 +668,7 @@ continuar?</string>
   <string name="progress_removing_licence">Removendo a licença</string>
   <string name="licence_removal_success">A chave da licença foi liberada com sucesso deste dispositivo.</string>
   <string name="professional_key">Chave Profissional</string>
-  <string name="n_months">%s meses</string>
+  <string name="n_months">%d meses</string>
   <string name="professionalPriceShortInfo">a partir de %s / mês</string>
   <string name="eu_vat_info">Para os residentes da União Europeia, os preços exibidos não incluem o VAT.</string>
   <string name="licence_migration_info">{app_name} implementa um novo mecanismo de validação de licença. Por favor, solicite uma nova chave.</string>

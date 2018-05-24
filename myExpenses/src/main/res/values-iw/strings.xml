@@ -221,13 +221,13 @@
   <plurals name="not_deletable_mapped_transactions">
     <item quantity="one">האובייקט שנבחר ממופה לעסקה ולא ניתן למחוק אותו.</item>
     <item quantity="two">%1$d אובייקטים  ממופים לעסקאות ולא ניתן למחוק אותם.</item>
-    <item quantity="many"></item>
+    <item quantity="many">%1$d אובייקטים  ממופים לעסקאות ולא ניתן למחוק אותם.</item>
     <item quantity="other">%1$d אובייקטים  ממופים לעסקאות ולא ניתן למחוק אותם.</item>
   </plurals>
   <plurals name="not_deletable_mapped_templates">
     <item quantity="one">האובייקט שנבחר ממופה לתבנית ולא ניתן למחוק אותו.</item>
     <item quantity="two">אובייקטים %1$d ממופים לתבניות ולא ניתן למחוק אותם.</item>
-    <item quantity="many"></item>
+    <item quantity="many">אובייקטים %1$d ממופים לתבניות ולא ניתן למחוק אותם.</item>
     <item quantity="other">אובייקטים %1$d ממופים לתבניות ולא ניתן למחוק אותם.</item>
   </plurals>
   <string name="numbered">ממוספר</string>
@@ -367,7 +367,7 @@
   <plurals name="save_transaction_from_template_success">
     <item quantity="one">עסקה חדשה נשמרה בהצלחה מתבנית.</item>
     <item quantity="two">%1$d עסקאות חדשות נשמרו בהצלחה מתבניות.</item>
-    <item quantity="many"></item>
+    <item quantity="many">%1$d עסקאות חדשות נשמרו בהצלחה מתבניות.</item>
     <item quantity="other">%1$d עסקאות חדשות נשמרו בהצלחה מתבניות.</item>
   </plurals>
   <string name="save_transaction_template_deleted">התבנית נמחקה</string>
@@ -408,31 +408,31 @@
   <plurals name="warning_delete_main_category">
     <item quantity="one">לקטגוריה אחת שנבחרה יש קטגוריות משנה, שיימחקו גם כן.</item>
     <item quantity="two">%1$d קטגוריות נבחרות  יש קטגוריות משנה, שיימחק גם כן.</item>
-    <item quantity="many"></item>
+    <item quantity="many">%1$d קטגוריות נבחרות  יש קטגוריות משנה, שיימחק גם כן.</item>
     <item quantity="other">%1$d קטגוריות נבחרות  יש קטגוריות משנה, שיימחק גם כן.</item>
   </plurals>
   <plurals name="warning_delete_template">
     <item quantity="one">התבנית שנבחרה תימחק.</item>
     <item quantity="two">%1$d תבניות שנבחרו  יימחקו.</item>
-    <item quantity="many"></item>
+    <item quantity="many">%1$d תבניות שנבחרו  יימחקו.</item>
     <item quantity="other">%1$d תבניות שנבחרו  יימחקו.</item>
   </plurals>
   <plurals name="warning_delete_transaction">
     <item quantity="one">העסקה שנבחרה תימחק.</item>
     <item quantity="two">%1$dעיסקאות שנבחרו  יימחקו.</item>
-    <item quantity="many"></item>
+    <item quantity="many">%1$dעיסקאות שנבחרו  יימחקו.</item>
     <item quantity="other">%1$dעיסקאות שנבחרו  יימחקו.</item>
   </plurals>
   <plurals name="move_category_success">
     <item quantity="one">קטגוריה אחת הועברה בהצלחה.</item>
     <item quantity="two">%d קטגוריות הועברו בהצלחה.</item>
-    <item quantity="many"></item>
+    <item quantity="many">%d קטגוריות הועברו בהצלחה.</item>
     <item quantity="other">%d קטגוריות הועברו בהצלחה.</item>
   </plurals>
   <plurals name="move_category_failure">
     <item quantity="one">קטגוריה אחת לא הועברה, כי אותה תווית כבר קיימת ביעד.</item>
     <item quantity="two">%d קטגוריות לא הועברו, מכיוון שתווית זהה כבר קיימת ביעד.</item>
-    <item quantity="many"></item>
+    <item quantity="many">%d קטגוריות לא הועברו, מכיוון שתווית זהה כבר קיימת ביעד.</item>
     <item quantity="other">%d קטגוריות לא הועברו, מכיוון שתווית זהה כבר קיימת ביעד.</item>
   </plurals>
   <string name="warning_delete_reconciled">מחיקת עסקאות שהושלמו תגרום לרשומות שלך להיות שונות מהצהרת הבנק.</string>
@@ -683,7 +683,7 @@
   <string name="progress_removing_licence">הסרת רשיון</string>
   <string name="licence_removal_success">מפתח הרישיון השתחרר בהצלחה ממכשיר זה.</string>
   <string name="professional_key">מפתח מקצועי</string>
-  <string name="n_months">%s חודשים</string>
+  <string name="n_months">%d חודשים</string>
   <string name="professionalPriceShortInfo">החל מ- %s לחודש</string>
   <string name="eu_vat_info">לתושבי האיחוד האירופי המחירים המוצגים אינם כוללים מע\"מ.</string>
   <string name="licence_migration_info">{app_name} מיישם מנגנון אימות רשיון חדש. אנא בקש מפתח חדש.</string>
@@ -711,7 +711,7 @@
   <plurals name="delete_success">
     <item quantity="one">אובייקט אחד נמחק בהצלחה.</item>
     <item quantity="two">%dאובייקטים  נמחקו בהצלחה.</item>
-    <item quantity="many"></item>
+    <item quantity="many">%dאובייקטים  נמחקו בהצלחה.</item>
     <item quantity="other">%dאובייקטים  נמחקו בהצלחה.</item>
   </plurals>
   <string name="feature_deprecated">הוצא משימוש</string>
@@ -740,7 +740,7 @@
   <plurals name="ungroup_split_transaction_success">
     <item quantity="one">עסקת הפיצול בוטלה בהצלחה.</item>
     <item quantity="two">%1$d עסקאות מפוצלות הוצאו מקבוצה בהצלחה.</item>
-    <item quantity="many"></item>
+    <item quantity="many">%1$d עסקאות מפוצלות הוצאו מקבוצה בהצלחה.</item>
     <item quantity="other">%1$d עסקאות מפוצלות הוצאו מקבוצה בהצלחה.</item>
   </plurals>
   <string name="ungroup_split_transaction_failure">במהלך ביטול קיבוץ לקבוצה פיצול עסקאות, %1$d מתוך  %2$d נכשל.</string>

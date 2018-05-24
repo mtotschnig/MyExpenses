@@ -67,7 +67,6 @@
   <string name="help_ExpenseEdit_templateCategory_info">Utilizza questo modulo per inserire un nuovo modello o per modificarne uno esistente. Utilizza il menu a discesa nella barra degli strumenti per passare tra i modelli per transazioni, trasferimenti e operazioni frazionate.</string>
   <string name="help_ExpenseEdit_split_info">Un\'operazione frazionata è una singola operazione divisa in parti, dove ogni parte può essere assegnata a una categoria diversa, o trasferita ad un altro conto.</string>
   <string name="form_account_help_text">Selezionare il conto a cui appartiene l\'operazione.</string>
-  <string name="form_date.time_help_text">Immettere l\'ora in cui è avvenuta l\'operazione.</string>
   <string name="form_payer_or_payee_help_text">Questo campo ricorda i valori che inserisci e te li suggerirà in futuro.</string>
   <string name="form_amount_switch_help_text">Utilizzare l\'interruttore per alternare tra spese e proventi.</string>
   <string name="form_calculator_help_text"><![CDATA[il <img src=\"?calcIcon\"> pulsante apre la calcolatrice.]]></string>

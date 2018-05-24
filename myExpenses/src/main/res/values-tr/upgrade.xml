@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_291">
+    <item>Muamele zamanı artık seçime dayalıdır</item>
+    <item>Seçime dayalı olarak muamele tarihi ve değer tarihi arasında ayrım yapabilirsiniz</item>
+  </string-array>
   <string-array name="whats_new_290">
     <item>Birden fazla muamele bir bölünmüş muamele içinde gruplandırılabilir</item>
     <item>Bölünmüş muameleler gruplanmamış yapılabilir</item>

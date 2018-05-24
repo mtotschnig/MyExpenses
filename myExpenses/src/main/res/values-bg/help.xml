@@ -70,7 +70,8 @@
   <string name="help_ExpenseEdit_templateCategory_info">Използвайте тази бланка за да въведете нов шаблон или да редактирате съществуващ. Използвайте падащото меню в лентата за действие за да превключите към шаблони за тразнзакция, трансфер или разпределена транзакция.</string>
   <string name="help_ExpenseEdit_split_info">Разпределена транзакция е такава, чиято сума се разделя на части, на които могат да се приложат различни категории или частта да се трансферира към друга сметка.</string>
   <string name="form_account_help_text">Изберете сметката, в която да се запише транзакцията.</string>
-  <string name="form_date.time_help_text">Въведете време на възникване на транзакцията.</string>
+  <string name="form_date.time_help_text">Въведете датата и часа на извършване на транзакцията.</string>
+  <string name="form_date.time_help_text_configuration">В Настройки може да изключите въвеждане на времето на транзакцията и да разрешите дата на резервацията и дата на вальора.</string>
   <string name="form_payer_or_payee_help_text">Това поле запомня въвежданите стойности и ще ви ги предлага в последствие.</string>
   <string name="form_amount_switch_help_text">Използвайте плъзгащия ключ за да превключите между разход и приход.</string>
   <string name="form_calculator_help_text"><![CDATA[Бутонът <img src=\"?calcIcon\"> отваря калкулатор.]]></string>

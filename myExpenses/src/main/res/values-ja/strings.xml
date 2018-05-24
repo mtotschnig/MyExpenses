@@ -659,7 +659,7 @@
   <string name="progress_removing_licence">ライセンスの削除中</string>
   <string name="licence_removal_success">このデバイスからライセンスキーを解除しました。</string>
   <string name="professional_key">プロフェッショナルキー</string>
-  <string name="n_months">%s ヶ月</string>
+  <string name="n_months">%d ヶ月</string>
   <string name="professionalPriceShortInfo">%s / 月 ～</string>
   <string name="eu_vat_info">表示されている EU 価格には、付加価値税は含まれていません。</string>
   <string name="licence_migration_info">{app_name}は新しいライセンス検証メカニズムを実装しています。 新しいキーを要求してください。</string>

@@ -682,7 +682,7 @@
     <string name="progress_removing_licence">Removing licence</string>
     <string name="licence_removal_success">Licence key was successfully freed from this device.</string>
     <string name="professional_key">Professional Key</string>
-    <string name="n_months">%s months</string>
+    <string name="n_months">%d months</string>
     <string name="professionalPriceShortInfo">starting from %s / month</string>
     <string name="eu_vat_info">For residents of the European Union prices displayed do not include VAT.</string>
     <string name="licence_migration_info">{app_name} implements a new licence validation mechanism. Please request a new key.</string>

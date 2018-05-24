@@ -70,7 +70,6 @@
   <string name="help_ExpenseEdit_templateCategory_info">Use este formulario para introducir una nueva plantilla o para editar una existente. Use el menú desplegable en la barra de acción para cambiar entre plantillas de transacciones, transferencias y divisiones.</string>
   <string name="help_ExpenseEdit_split_info">Una transacción dividida es una única transacción dividida en partes, donde cada parte puede ser asignada a una categoría diferente o transferida a otra cuenta diferente.</string>
   <string name="form_account_help_text">Seleccione la cuenta a la que pertenece la transacción.</string>
-  <string name="form_date.time_help_text">Ingrese la hora cuando produjo la transacción.</string>
   <string name="form_payer_or_payee_help_text">Este campo recordará los valores que introduzca y los sugerirá en el futuro.</string>
   <string name="form_amount_switch_help_text">Utilice el interruptor para alternar entre ingresos y gastos.</string>
   <string name="form_calculator_help_text"><![CDATA[<img src=\"?calcIcon\"> abre la calculadora.]]></string>

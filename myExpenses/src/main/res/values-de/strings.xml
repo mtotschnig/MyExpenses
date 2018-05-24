@@ -667,7 +667,7 @@
   <string name="progress_removing_licence">Lizenz wird entfernt</string>
   <string name="licence_removal_success">Der Lizenzschlüssel wurde erfolgreich von diesem Gerät freigegeben.</string>
   <string name="professional_key">Professioneller Schlüssel</string>
-  <string name="n_months">%s Monate</string>
+  <string name="n_months">%d Monate</string>
   <string name="professionalPriceShortInfo">ab %s / Monat</string>
   <string name="eu_vat_info">Die Preise für die in der Europäischen Union ansässigen Personen verstehen sich ohne Mehrwertsteuer.</string>
   <string name="licence_migration_info">{app_name} implementiert einen neuen Lizenzvalidierungsmechanismus. Bitte fordern Sie einen neuen Schlüssel an.</string>

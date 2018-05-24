@@ -24,7 +24,6 @@
   <string name="cab_ManageCategories_select_filter_select_category_help_text">所选类别将会被应用与过滤转换列表</string>
   <string name="menu_ManageCategories_search_help_text">只有显示匹配你查询的主和次类别</string>
   <!--ExpenseEdit-->
-  <string name="form_date.time_help_text">输入交易发生时间</string>
   <string name="form_comment_help_text">输入关于对象的标注</string>
   <string name="form_title_help_text">输入代表该模板唯一标识的标题</string>
   <string name="menu_save_help_text">保存数据并且关闭表格</string>

@@ -20,6 +20,7 @@
   <string name="menu_search_help_text">このエントリーは、分類、金額、コメント、ステータス、支払人/受取人および支払方法に基づいて、検索基準を定義できるサブメニューが開きます。検索フィルターが有効な場合、サブメニュー内のエントリーをクリックするだけで、無効にすることができます。</string>
   <string name="cab_create_template_from_transaction_help_text">選択した取引に基づいて新しいテンプレートを定義します。テンプレートのタイトルを入力するように求められます。</string>
   <string name="cab_clone_transaction_help_text">選択された取引は、現在の日付と時刻で複製されます。その複製を保存する前に変更することができます。</string>
+  <string name="cab_split_help_text">後で取引を編集して、必要に応じて追加の部分を作成することができます。</string>
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">この画面では、あらかじめ定義された支払方法 (小切手/手形、クレジットカード、預金、口座振替) を一覧表示し、新しいものを定義することができます。フローティングアクションボタンを使用すると、新しい方法を作成するためのフォームを開きます。</string>
   <!--ManageParties title is in keys-->
@@ -69,7 +70,6 @@
   <string name="help_ExpenseEdit_templateCategory_info">このフォームを使用して、新しい取引を入力するか、既存のものを編集することができます。アクションバーのドロップダウンメニューを使用して、取引、振替、分割のテンプレートを切り替えることができます。</string>
   <string name="help_ExpenseEdit_split_info">分割取引は、一部が分割された一つの取引で、各部分が別の分類に割り当てられ、または別の勘定に振替することができます。</string>
   <string name="form_account_help_text">取引が属する勘定を選択します。</string>
-  <string name="form_date.time_help_text">取引が行われた時間を入力します。</string>
   <string name="form_payer_or_payee_help_text">このフィールドは入力した値を記憶し、将来それらを提案します。</string>
   <string name="form_amount_switch_help_text">支出と収入を切り替えるには、スイッチを使用します。</string>
   <string name="form_calculator_help_text"><![CDATA[<img src=\"?calcIcon\"> ボタンは電卓を開きます。]]></string>
@@ -88,6 +88,8 @@
   <string name="form_plan_help_text_mode">計画は、自動または手動に設定できます。自動の計画のインスタンスが発生すると、取引が作成されて、通知を受け取ります。計画が手動の場合も通知を受け取りますが、キャンセル、変更またはテンプレートを適用する選択があります。</string>
   <string name="menu_save_help_text">データを保存して、フォームを閉じます。</string>
   <string name="menu_save_and_new_help_text">データを保存し、同じデータで新しい取引を作成するためにフォームを開いたままにします。</string>
+  <string name="menu_original_amount_help_text">追加金額を定義できるフィールドを表示します。 たとえば、クレジットカードで外貨を支払う場合、カードから引き落とされた金額に加えて、元の価格を覚えておくことができます。 合計の計算には元の金額は無視されます。</string>
+  <string name="menu_equivalent_amount_help_text">すべての勘定科目の総額を計算するため、外貨勘定の取引に、勘定科目に設定した為替レートを掛けます。 しかし、個々の取引に相当する金額を設定することで、この暗黙的に計算された金額を上書きすることもできます。</string>
   <string name="menu_invert_transfer_help_text">勘定の \'元\' と \'先\' を入れ換えて、振替の向きを反転させます。</string>
   <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">勘定の \'元\' と \'先\' の通貨が異なる場合は、そのうちの一つだけ金額を指定します。テンプレートからインスタンスを作成するときには、他方は計算されます。</string>
   <!--AccountEdit-->

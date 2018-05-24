@@ -65,7 +65,6 @@
   <string name="help_ExpenseEdit_transaction_info">Erabili inprimaki hau transakzio berri bat sartzeko edo existitzen den bat editatzeko. Erabili ekintza-barrako goitibeherako menua transferentzia edo transferentzia banatu berri bat gehitzeko inprimakira aldatzeko.</string>
   <string name="help_ExpenseEdit_split_info">Transferentzia banatu bat zatitan banatutako transferentzia bakarra da, non zati bakoitza kategoria desberdin batera eslei edo kontu desberdin batera transferi daiteke.</string>
   <string name="form_account_help_text">Hautatu transakzioari dagokion kontua.</string>
-  <string name="form_date.time_help_text">Sartu transakzioa gertatu zeneko ordua.</string>
   <string name="form_payer_or_payee_help_text">Eremu honek sartu dituzun balioak gogoratuko ditu eta hauek etorkizunean iradokiko ditu.</string>
   <string name="form_amount_switch_help_text">Erabili etengailua gastu eta irabazi artean txandakatzeko.</string>
   <string name="form_calculator_help_text"><![CDATA[The <img src=\"?calcIcon\"> botoiak kalkulagailua irekitzen du.]]></string>

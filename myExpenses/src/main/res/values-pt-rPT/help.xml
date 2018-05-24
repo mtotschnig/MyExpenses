@@ -65,7 +65,6 @@
   <string name="help_ExpenseEdit_transaction_info">Utilize este formulário para introduzir uma nova transação ou para editar uma já existente. Utilize o menu em cascata na barra de ações para mudar para o formulário de adição de uma nova transferência ou transação dividida.</string>
   <string name="help_ExpenseEdit_split_info">Uma transação dividida é uma transação única dividida em partes, onde cada parte pode ser atribuida a uma categoria diferente, ou transferida para uma conta diferente.</string>
   <string name="form_account_help_text">Selecionar a conta a que pretence a transação.</string>
-  <string name="form_date.time_help_text">Introduzir a data e hora em que a transação foi realizada.</string>
   <string name="form_payer_or_payee_help_text">Este campo relembra os valores que introduz e sugerirá os mesmos no futuro.</string>
   <string name="form_amount_switch_help_text">Utilize o interruptor para alternar entre despesa e receita.</string>
   <string name="form_calculator_help_text"><![CDATA[O botão <img src=\"?calcIcon\"> abre a calculadora.]]></string>

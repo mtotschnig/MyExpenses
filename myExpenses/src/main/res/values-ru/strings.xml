@@ -593,7 +593,7 @@
   <string name="progress_removing_licence">Отключение лицензии</string>
   <string name="licence_removal_success">Лицензионный ключ был успешно отключен от этого устройства.</string>
   <string name="professional_key">Professional-ключ</string>
-  <string name="n_months">%s месяцев</string>
+  <string name="n_months">%d месяцев</string>
   <string name="professionalPriceShortInfo">От %s / месяц</string>
   <string name="eu_vat_info">Для резидентов Европейского союза цены указаны без НДС</string>
   <string name="valid_until">До %s</string>

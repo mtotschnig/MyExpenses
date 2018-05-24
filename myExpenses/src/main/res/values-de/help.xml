@@ -70,7 +70,6 @@
   <string name="help_ExpenseEdit_templateCategory_info">Verwenden Sie dieses Formular, um eine neue Vorlage einzugeben oder eine bestehende zu bearbeiten. Verwenden Sie das Dropdown-Menü in der Aktionsleiste, um zwischen Vorlagen für Buchungen, Umbuchungen und mehrteiligen Buchungen zu wechseln.</string>
   <string name="help_ExpenseEdit_split_info">Eine Splittbuchung ist eine einzelne Buchung, aufgeteilt in Teile, wo jeder Teil einer anderen Kategorie zugewiesen oder auf ein anderes Konto übertragen werden kann.</string>
   <string name="form_account_help_text">Wählen Sie das Konto, zu dem die Buchung gehört.</string>
-  <string name="form_date.time_help_text">Geben Sie die Uhrzeit an, wann die Buchung stattgefunden hat.</string>
   <string name="form_payer_or_payee_help_text">Dieses Feld merkt sich die von Ihnen eingegebenen Werte, und schlägt diese bei weiteren Eingaben in diesem Feld vor.</string>
   <string name="form_amount_switch_help_text">Verwenden Sie den Schalter, um zwischen Ausgabe und Einnahme umzuschalten</string>
   <string name="form_calculator_help_text"><![CDATA[Die <img src=\"?calcIcon\"> Schaltfläche öffnet den Taschenrechner.]]></string>

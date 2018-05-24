@@ -665,7 +665,7 @@
   <string name="progress_removing_licence">Usuwanie licencji</string>
   <string name="licence_removal_success">Klucz licencyjny został pomyślnie uwolniony z tego urządzenia.</string>
   <string name="professional_key">Profesjonalny Klucz</string>
-  <string name="n_months">%s miesięcy</string>
+  <string name="n_months">%d miesięcy</string>
   <string name="professionalPriceShortInfo">począwszy od %s / miesiąc</string>
   <string name="eu_vat_info">Dla mieszkańców Unii Europejskiej wyświetlane ceny nie zawierają podatku VAT.</string>
   <string name="licence_migration_info">{app_name} implementuje nowy mechanizm sprawdzania licencji. Poproś o nowy klucz.</string>
