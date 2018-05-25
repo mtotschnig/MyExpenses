@@ -11,7 +11,7 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.totschnig.myexpenses.provider;
 
@@ -30,7 +30,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
-import android.support.v4.provider.DocumentFile;
 import android.test.ProviderTestCase2;
 import android.text.TextUtils;
 
@@ -797,8 +796,8 @@ public class TransactionProvider extends ContentProvider {
       case ACCOUNT_EXCHANGE_RATE:
         qb.setTables(TABLE_ACCOUNT_EXCHANGE_RATES);
         qb.appendWhere(KEY_ACCOUNTID + "=" + uri.getPathSegments().get(1));
-        qb.appendWhere(" AND " + KEY_CURRENCY_SELF+ "='" + uri.getPathSegments().get(2) + "'");
-        qb.appendWhere(" AND " + KEY_CURRENCY_OTHER+ "='" + uri.getPathSegments().get(3) + "'");
+        qb.appendWhere(" AND " + KEY_CURRENCY_SELF + "='" + uri.getPathSegments().get(2) + "'");
+        qb.appendWhere(" AND " + KEY_CURRENCY_OTHER + "='" + uri.getPathSegments().get(3) + "'");
         projection = new String[]{KEY_EXCHANGE_RATE};
         break;
       default:
@@ -1382,7 +1381,7 @@ public class TransactionProvider extends ContentProvider {
                     + KEY_COMMENT + ", "
                     + KEY_DATE + ", "
                     + KEY_AMOUNT + ", "
-                    + KEY_ORIGINAL_AMOUNT+ ", "
+                    + KEY_ORIGINAL_AMOUNT + ", "
                     + KEY_ORIGINAL_CURRENCY + ", "
                     + KEY_EQUIVALENT_AMOUNT + ", "
                     + KEY_CATID + ", "
@@ -1403,7 +1402,7 @@ public class TransactionProvider extends ContentProvider {
                     + KEY_COMMENT + ", "
                     + KEY_DATE + ", "
                     + KEY_AMOUNT + ", "
-                    + KEY_ORIGINAL_AMOUNT+ ", "
+                    + KEY_ORIGINAL_AMOUNT + ", "
                     + KEY_ORIGINAL_CURRENCY + ", "
                     + KEY_EQUIVALENT_AMOUNT + ", "
                     + KEY_CATID + ", "
@@ -1457,7 +1456,7 @@ public class TransactionProvider extends ContentProvider {
           //parts are promoted to independence
           db.execSQL(String.format(Locale.ROOT, "UPDATE %s SET %s = null, %s = %s, %s = %s WHERE %s = %s ",
               TABLE_TRANSACTIONS, KEY_PARENTID, KEY_CR_STATUS, crStatusSubSelect, KEY_PAYEEID, payeeIdSubSelect, KEY_PARENTID, rowIdSubSelect),
-              new String[]{uuid, uuid, uuid}) ;
+              new String[]{uuid, uuid, uuid});
           //Change is recorded
           if (callerIsNotSyncAdatper(uri)) {
             db.execSQL(String.format(Locale.ROOT, "INSERT INTO %1$s (%2$s, %3$s, %4$s, %5$s) SELECT '%6$s', %7$s, %4$s, ? FROM %8$s WHERE %7$s = %9$s",
@@ -1634,7 +1633,7 @@ public class TransactionProvider extends ContentProvider {
     return mOpenHelper;
   }
 
-  public Result<DocumentFile> backup(File backupDir) {
+  public Result backup(File backupDir) {
     File currentDb = new File(mOpenHelper.getReadableDatabase().getPath());
     mOpenHelper.close();
     try {
@@ -1654,13 +1653,12 @@ public class TransactionProvider extends ContentProvider {
             final String message = "Unable to find shared preference file at " +
                 sharedPrefFile.getPath();
             CrashHandler.report(message);
-            return Result.ofFailure( message);
+            return Result.ofFailure(message);
           }
         }
         if (FileCopyUtils.copy(sharedPrefFile, backupPrefFile)) {
           PrefKey.AUTO_BACKUP_DIRTY.putBoolean(false);
           mDirty = false;
-          return result;
         }
       }
       return result;
