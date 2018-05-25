@@ -834,8 +834,8 @@ public class TransactionProvider extends ContentProvider {
   @Override
   public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
     setDirty();
-    if (values != null) {
-      Timber.d(values.toString());
+    if (values != null && BuildConfig.DEBUG) {
+      Timber.d("INSERT Uri: %s, values: %s", uri, values);
     }
     SQLiteDatabase db = mOpenHelper.getWritableDatabase();
     long id;
@@ -1116,6 +1116,9 @@ public class TransactionProvider extends ContentProvider {
     String whereString;
     int uriMatch = URI_MATCHER.match(uri);
     Cursor c;
+    if (values != null && BuildConfig.DEBUG) {
+      Timber.d("UPDATE Uri: %s, values: %s", uri, values);
+    }
     switch (uriMatch) {
       case TRANSACTIONS:
         count = db.update(TABLE_TRANSACTIONS, values, where, whereArgs);
