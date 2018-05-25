@@ -1202,19 +1202,22 @@ public class Transaction extends Model {
   public static long findByAccountAndUuid(long accountId, String uuid) {
     String selection = KEY_UUID + " = ? AND " + KEY_ACCOUNTID + " = ?";
     String[] selectionArgs = new String[]{uuid, String.valueOf(accountId)};
+    return findBySelection(selection, selectionArgs);
+  }
 
-    Cursor mCursor = cr().query(CONTENT_URI,
+  private static long findBySelection(String selection, String[] selectionArgs) {
+    Cursor cursor = cr().query(CONTENT_URI,
         new String[]{KEY_ROWID}, selection, selectionArgs, null);
-    if (mCursor == null) {
+    if (cursor == null) {
       return -1;
     }
-    if (mCursor.getCount() == 0) {
-      mCursor.close();
+    if (cursor.getCount() == 0) {
+      cursor.close();
       return -1;
     } else {
-      mCursor.moveToFirst();
-      long result = mCursor.getLong(0);
-      mCursor.close();
+      cursor.moveToFirst();
+      long result = cursor.getLong(0);
+      cursor.close();
       return result;
     }
   }

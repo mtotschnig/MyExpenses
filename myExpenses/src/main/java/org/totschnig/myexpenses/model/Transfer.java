@@ -151,32 +151,31 @@ public class Transfer extends Transaction {
       if (parentOffset != -1) {
         builder.withValueBackReference(KEY_PARENTID, parentOffset);
       }
-      ops.add(builder.build());
-      //if the transfer is part of a split, the transfer peer needs to have a null parent
-      ContentValues transferValues = new ContentValues(initialValues);
-      transferValues.remove(KEY_PARENTID);
-      transferValues.put(KEY_AMOUNT, transferAmount);
-      transferValues.put(KEY_TRANSFER_ACCOUNT, getAccountId());
-      transferValues.put(KEY_ACCOUNTID, getTransferAccountId());
       long transferPeer = Transaction.findByAccountAndUuid(getTransferAccountId(), uuid);
+      if (transferPeer > -1) {
+        initialValues.put(KEY_TRANSFER_PEER, transferPeer);
+      }
+      ops.add(builder.build());
       if (transferPeer > -1) {
         //a transaction might have been locally transformed from a transfer to a normal transaction
         //if the transfer account is deleted. If later the transfer account is synced again, this
         //peer would still exist, and prevent recreation of the transfer. What we do here, is relink it
         //the two.
+        //Now if two parts of a transfer are both synced, we create first a transaction, and when we
+        //later sync the second account, we link the two peers
+        ContentValues transferValues = new ContentValues();
+        transferValues.put(KEY_TRANSFER_ACCOUNT, getAccountId());
         ops.add(ContentProviderOperation.newUpdate(uri)
             .withSelection(KEY_ROWID + " = ?", new String[]{String.valueOf(transferPeer)})
             .withValues(transferValues).withValueBackReference(KEY_TRANSFER_PEER, offset)
             .build());
-        //we have to set the transferPeer for the first transaction
-        ContentValues args = new ContentValues();
-        args.put(KEY_TRANSFER_PEER, transferPeer);
-        ops.add(ContentProviderOperation.newUpdate(uri)
-            .withValues(args)
-            .withSelection(KEY_ROWID + " = ?", new String[]{""})//replaced by back reference
-            .withSelectionBackReference(0, offset)
-            .build());
       } else {
+        ContentValues transferValues = new ContentValues(initialValues);
+        //if the transfer is part of a split, the transfer peer needs to have a null parent
+        transferValues.remove(KEY_PARENTID);
+        transferValues.put(KEY_AMOUNT, transferAmount);
+        transferValues.put(KEY_TRANSFER_ACCOUNT, getAccountId());
+        transferValues.put(KEY_ACCOUNTID, getTransferAccountId());
         ops.add(ContentProviderOperation.newInsert(uri)
             .withValues(transferValues).withValueBackReference(KEY_TRANSFER_PEER, offset)
             .build());

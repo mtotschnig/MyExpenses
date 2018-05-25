@@ -37,7 +37,6 @@ import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
 import org.totschnig.myexpenses.export.CategoryInfo;
-import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.PaymentMethod;
@@ -683,16 +682,24 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       amount = 0L;
     }
     Money money = new Money(getAccount().currency, amount);
-    Transaction t;
-    long transferAccount;
+    Transaction t = null;
     if (change.splitParts() != null) {
       t = new SplitTransaction(getAccount().getId(), money);
-    } else if (change.transferAccount() != null &&
-        (transferAccount = extractTransferAccount(change.transferAccount(), change.label())) != -1) {
-      t = new Transfer(getAccount().getId(), money, transferAccount);
     } else {
+      if (change.transferAccount() != null) {
+        //if the account exists locally and the peer has already been synced
+        //we create a Transfer, the Transfer class will take care in buildSaveOperations
+        //of linking them together
+        long transferAccount = findTransferAccount(change.transferAccount());
+        long transferPeer = Transaction.findByAccountAndUuid(transferAccount,change.uuid());
+        if (transferPeer != -1) {
+          t = new Transfer(getAccount().getId(), money, transferAccount);
+        }
+      }
+    }
+    if (t == null) {
       t = new Transaction(getAccount().getId(), money);
-      if (change.label() != null) {
+      if (change.transferAccount() == null && change.label() != null) {
         long catId = extractCatId(change.label());
         if (catId != -1) {
           t.setCatId(catId);
@@ -803,19 +810,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     return values;
   }
 
-  private long extractTransferAccount(String uuid, String label) {
+  private long findTransferAccount(String uuid) {
     Long id = accountUuidToId.get(uuid);
     if (id == null) {
       id = org.totschnig.myexpenses.model.Account.findByUuid(uuid);
-      if (id == -1 && label != null) {
-        org.totschnig.myexpenses.model.Account transferAccount =
-            new org.totschnig.myexpenses.model.Account(label, getAccount().currency, 0L, "",
-                AccountType.CASH, org.totschnig.myexpenses.model.Account.DEFAULT_COLOR);
-        transferAccount.uuid = uuid;
-        transferAccount.save();
-        id = transferAccount.getId();
-      }
-      if (id != -1) { //should always be the case
+      if (id != -1) {
         accountUuidToId.put(uuid, id);
       }
     }
