@@ -145,7 +145,9 @@ List supportCompile = ['com.android.support:appcompat-v7:' + project.androidSupp
                        'com.android.support:cardview-v7:' + project.androidSupportLibraryVersion,
                        'com.android.support:design:' + project.androidSupportLibraryVersion,
                        'com.android.support:gridlayout-v7:' + project.androidSupportLibraryVersion,
-                       'com.android.support:preference-v14:' + project.androidSupportLibraryVersion]
+                       'com.android.support:preference-v14:' + project.androidSupportLibraryVersion,
+                        //make GradleCompatible lint check happy
+                       'com.android.support:exifinterface:' + project.androidSupportLibraryVersion]
 
 dependencies {
     implementation project(':transactionscontract')
