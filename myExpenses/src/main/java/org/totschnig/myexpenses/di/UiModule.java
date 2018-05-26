@@ -35,6 +35,11 @@ public class UiModule {
     } catch (Exception e) {
       return new AdHandlerFactory() {
         @Override
+        public boolean isRequestLocationInEeaOrUnknown() {
+          return true;
+        }
+
+        @Override
         public AdHandler create(ViewGroup adContainer, PrefHandler prefHandler) {
           return (!AdHandler.isAdDisabled(application, prefHandler) &&
               Utils.isComAndroidVendingInstalled(application)) ?
@@ -43,7 +48,7 @@ public class UiModule {
         }
 
         @Override
-        public void gdprConsent(ProtectedFragmentActivity context, boolean forceShow) {
+        public void gdprConsent(ProtectedFragmentActivity context, boolean forceShow, PrefHandler prefHandler) {
 
         }
       };

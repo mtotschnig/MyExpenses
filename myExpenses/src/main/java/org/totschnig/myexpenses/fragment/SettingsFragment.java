@@ -69,6 +69,7 @@ import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.ads.AdHandler;
+import org.totschnig.myexpenses.util.ads.AdHandlerFactory;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.io.FileUtils;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
@@ -162,6 +163,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
   LicenceHandler licenceHandler;
   @Inject
   PrefHandler prefHandler;
+  @Inject
+  AdHandlerFactory adHandlerFactory;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -300,7 +303,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         privacyCategory.removePreference(pref);
       }
       pref = findPreference(PERSONALIZED_AD_CONSENT);
-      if (AdHandler.isAdDisabled(getActivity(), prefHandler)) {
+      if (!adHandlerFactory.isRequestLocationInEeaOrUnknown() || AdHandler.isAdDisabled(getActivity(), prefHandler)) {
         privacyCategory.removePreference(pref);
       } else {
         pref.setOnPreferenceClickListener(this);
@@ -744,7 +747,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       return true;
     }
     if (matches(preference, PERSONALIZED_AD_CONSENT)) {
-      activity().startGdprConsent(true);
+      activity().checkGdprConsent(true);
     }
     return false;
   }

@@ -788,8 +788,8 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
         .show(getSupportFragmentManager(), "MESSAGE");
   }
 
-  public void startGdprConsent(boolean forceShow) {
-    adHandlerFactory.gdprConsent(this, forceShow);
+  public void checkGdprConsent(boolean forceShow) {
+    adHandlerFactory.gdprConsent(this, forceShow, prefHandler);
   }
 
   public void onGdprNoConsent() {
