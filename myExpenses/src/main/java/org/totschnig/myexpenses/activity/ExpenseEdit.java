@@ -1379,7 +1379,7 @@ public class ExpenseEdit extends AmountActivity implements
   protected void setPicture() {
     if (mPictureUri != null) {
       mPictureViewContainer.setVisibility(View.VISIBLE);
-      Picasso.with(this).load(mPictureUri).fit().into((ImageView) mPictureViewContainer.findViewById(R.id.picture));
+      Picasso.get().load(mPictureUri).fit().into((ImageView) mPictureViewContainer.findViewById(R.id.picture));
       mAttachPictureButton.setVisibility(View.GONE);
     }
   }

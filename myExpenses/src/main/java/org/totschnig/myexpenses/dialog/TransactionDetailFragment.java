@@ -450,7 +450,7 @@ public class TransactionDetailFragment extends CommitSafeDialogFragment implemen
       ImageView image = dlg.getWindow().findViewById(android.R.id.icon);
       image.setVisibility(View.VISIBLE);
       image.setScaleType(ImageView.ScaleType.CENTER_CROP);
-      Picasso.with(ctx).load(mTransaction.getPictureUri()).fit().into(image);
+      Picasso.get().load(mTransaction.getPictureUri()).fit().into(image);
     }
   }
 
