@@ -1,5 +1,7 @@
 package org.totschnig.myexpenses.preference;
 
+import android.support.annotation.NonNull;
+
 public interface PrefHandler {
   String getKey(PrefKey key);
 
@@ -22,4 +24,6 @@ public interface PrefHandler {
   void remove(PrefKey key);
 
   boolean isSet(PrefKey key);
+
+  boolean matches(@NonNull String key, PrefKey... prefKeys);
 }

@@ -65,7 +65,7 @@ import org.totschnig.myexpenses.fragment.DbWriteFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.ContextWrapper;
 import org.totschnig.myexpenses.ui.SnackbarAction;
@@ -83,8 +83,15 @@ import java.io.Serializable;
 import javax.inject.Inject;
 
 import static org.totschnig.myexpenses.activity.ContribInfoDialogActivity.KEY_FEATURE;
+import static org.totschnig.myexpenses.preference.PrefKey.GROUP_MONTH_STARTS;
+import static org.totschnig.myexpenses.preference.PrefKey.GROUP_WEEK_STARTS;
+import static org.totschnig.myexpenses.preference.PrefKey.HOME_CURRENCY;
+import static org.totschnig.myexpenses.preference.PrefKey.PERSONALIZED_AD_CONSENT;
 import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_DEVICE_LOCK_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_LEGACY;
+import static org.totschnig.myexpenses.preference.PrefKey.UI_FONTSIZE;
+import static org.totschnig.myexpenses.preference.PrefKey.UI_LANGUAGE;
+import static org.totschnig.myexpenses.preference.PrefKey.UI_THEME_KEY;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_RESTORE;
 
 public abstract class ProtectedFragmentActivity extends AppCompatActivity
@@ -142,6 +149,9 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   @Inject
   protected CrashHandler crashHandler;
+
+  @Inject
+  protected PrefHandler prefHandler;
 
   public int getColorIncome() {
     return colorIncome;
@@ -290,14 +300,8 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
                                         String key) {
-    if (key.equals(PrefKey.UI_THEME_KEY.getKey()) ||
-        key.equals(PrefKey.UI_LANGUAGE.getKey()) ||
-        key.equals(PrefKey.UI_FONTSIZE.getKey()) ||
-        key.equals((PrefKey.PROTECTION_LEGACY.getKey())) ||
-        key.equals((PrefKey.PROTECTION_DEVICE_LOCK_SCREEN.getKey())) ||
-        key.equals(PrefKey.GROUP_MONTH_STARTS.getKey()) ||
-        key.equals(PrefKey.GROUP_WEEK_STARTS.getKey()) ||
-        key.equals(PrefKey.HOME_CURRENCY.getKey())) {
+    if (prefHandler.matches(key, UI_THEME_KEY, UI_LANGUAGE, UI_FONTSIZE, PROTECTION_LEGACY,
+        PROTECTION_DEVICE_LOCK_SCREEN, GROUP_MONTH_STARTS, GROUP_WEEK_STARTS, HOME_CURRENCY)) {
       scheduledRestart = true;
     }
   }
@@ -632,7 +636,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   private boolean isPermissionPermanentlyDeclined(PermissionGroup permissionGroup) {
-    if (permissionGroup.prefKey.getBoolean(false)) {
+    if (prefHandler.getBoolean(permissionGroup.prefKey,false)) {
       if (!permissionGroup.hasPermission(this)) {
         if (!permissionGroup.shouldShowRequestPermissionRationale(this)) {
           return true;

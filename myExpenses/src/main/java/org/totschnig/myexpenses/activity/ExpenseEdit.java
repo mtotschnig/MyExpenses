@@ -332,8 +332,6 @@ public class ExpenseEdit extends AmountActivity implements
   ImageViewIntentProvider imageViewIntentProvider;
   @Inject
   CurrencyFormatter currencyFormatter;
-  @Inject
-  PrefHandler prefHandler;
 
   @Override
   int getDiscardNewMessage() {

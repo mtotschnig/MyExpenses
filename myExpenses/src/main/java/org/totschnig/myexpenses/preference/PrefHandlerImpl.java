@@ -1,5 +1,7 @@
 package org.totschnig.myexpenses.preference;
 
+import android.support.annotation.NonNull;
+
 import org.totschnig.myexpenses.MyApplication;
 
 public class PrefHandlerImpl implements PrefHandler {
@@ -62,5 +64,14 @@ public class PrefHandlerImpl implements PrefHandler {
   @Override
   public boolean isSet(PrefKey key) {
     return context.getSettings().contains(getKey(key));
+  }
+
+  @Override
+  public boolean matches(@NonNull String key, PrefKey... prefKeys) {
+    for (PrefKey prefKey: prefKeys) {
+      if (key.equals(getKey(prefKey)))
+        return true;
+    }
+    return false;
   }
 }
