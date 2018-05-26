@@ -51,6 +51,7 @@ import org.totschnig.myexpenses.preference.FontSizeDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogPreference;
 import org.totschnig.myexpenses.preference.PasswordPreferenceDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.PopupMenuPreference;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.preference.SecurityQuestionDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.TimePreference;
@@ -67,6 +68,7 @@ import org.totschnig.myexpenses.util.ShareUtils;
 import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.ads.AdHandler;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.io.FileUtils;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
@@ -158,6 +160,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
 
   @Inject
   LicenceHandler licenceHandler;
+  @Inject
+  PrefHandler prefHandler;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -296,7 +300,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         privacyCategory.removePreference(pref);
       }
       pref = findPreference(PERSONALIZED_AD_CONSENT);
-      if (licenceHandler.isContribEnabled()) {
+      if (AdHandler.isAdDisabled(getActivity(), prefHandler)) {
         privacyCategory.removePreference(pref);
       } else {
         pref.setOnPreferenceClickListener(this);
