@@ -74,6 +74,7 @@ import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.ads.AdHandlerFactory;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.widget.AbstractWidget;
@@ -149,6 +150,9 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   @Inject
   protected CrashHandler crashHandler;
+
+  @Inject
+  protected AdHandlerFactory adHandlerFactory;
 
   @Inject
   protected PrefHandler prefHandler;
@@ -782,5 +786,18 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
         MessageDialogFragment.Button.okButton(),
         null, null)
         .show(getSupportFragmentManager(), "MESSAGE");
+  }
+
+  public void startGdprConsent(boolean forceShow) {
+    adHandlerFactory.gdprConsent(this, forceShow);
+  }
+
+  public void onGdprNoConsent() {
+    prefHandler.remove(PERSONALIZED_AD_CONSENT);
+    startActivity(ContribInfoDialogActivity.getIntentFor(this, null));
+  }
+
+  public void onGdprConsent(boolean personalized) {
+    prefHandler.putBoolean(PERSONALIZED_AD_CONSENT, personalized);
   }
 }

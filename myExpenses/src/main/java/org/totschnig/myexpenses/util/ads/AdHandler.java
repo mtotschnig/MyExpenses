@@ -8,13 +8,17 @@ import android.view.ViewGroup;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 
 import javax.inject.Inject;
 
 import static android.text.format.DateUtils.DAY_IN_MILLIS;
+import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_ADS;
+import static org.totschnig.myexpenses.preference.PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL;
+import static org.totschnig.myexpenses.preference.PrefKey.INTERSTITIAL_LAST_SHOWN;
+import static org.totschnig.myexpenses.preference.PrefKey.PERSONALIZED_AD_CONSENT;
 
 public abstract class AdHandler {
   private static final int INTERSTITIAL_MIN_INTERVAL = BuildConfig.DEBUG ? 2 : 4;
@@ -25,6 +29,8 @@ public abstract class AdHandler {
   protected Context context;
   @Inject
   protected Tracker tracker;
+  @Inject
+  protected PrefHandler prefHandler;
   private AdHandler parent;
 
   protected AdHandler(ViewGroup adContainer) {
@@ -37,8 +43,8 @@ public abstract class AdHandler {
 
   public void maybeRequestNewInterstitial() {
     long now = System.currentTimeMillis();
-    if (now - PrefKey.INTERSTITIAL_LAST_SHOWN.getLong(0) > DAY_IN_MILLIS &&
-        PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL.getInt(0) > INTERSTITIAL_MIN_INTERVAL) {
+    if (now - prefHandler.getLong(INTERSTITIAL_LAST_SHOWN,0) > DAY_IN_MILLIS &&
+        prefHandler.getInt(ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL, 0) > INTERSTITIAL_MIN_INTERVAL) {
       //last ad shown more than 24h and at least five expense entries ago,
       requestNewInterstitialDo();
     }
@@ -46,12 +52,11 @@ public abstract class AdHandler {
 
   protected void maybeShowInterstitial() {
     if (maybeShowInterstitialDo()) {
-      PrefKey.INTERSTITIAL_LAST_SHOWN.putLong(System.currentTimeMillis());
-      PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL.putInt(0);
+      prefHandler.putLong(INTERSTITIAL_LAST_SHOWN, System.currentTimeMillis());
+      prefHandler.putInt(ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL, 0);
     } else {
-      PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL.putInt(
-          PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL.getInt(0) + 1
-      );
+      prefHandler.putInt(ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL,
+          prefHandler.getInt(ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL, 0) + 1);
       maybeRequestNewInterstitial();
     }
   }
@@ -60,12 +65,12 @@ public abstract class AdHandler {
 
   protected abstract void requestNewInterstitialDo();
 
-  protected boolean isAdDisabled() {
-    return isAdDisabled(context);
+  boolean isAdDisabled() {
+    return isAdDisabled(context, prefHandler) || !prefHandler.isSet(PERSONALIZED_AD_CONSENT);
   }
 
-  public static boolean isAdDisabled(Context context) {
-    return !PrefKey.DEBUG_ADS.getBoolean(false) &&
+  public static boolean isAdDisabled(Context context, PrefHandler prefHandler) {
+    return !prefHandler.getBoolean(DEBUG_ADS, false) &&
         (ContribFeature.AD_FREE.hasAccess() ||
             isInInitialGracePeriod(context) || BuildConfig.DEBUG);
   }

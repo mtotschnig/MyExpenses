@@ -77,6 +77,7 @@
     <string name="pref_sync_notification_key">sync_notification</string>
     <string name="pref_follow_gplus_key">follow_gplus</string>
     <string name="pref_category_advanced_key">category_advanced</string>
+    <string name="pref_category_privacy_key">category_privacy</string>
     <string name="pref_auto_fill_amount_key">auto_fill_amount</string>
     <string name="pref_auto_fill_category_key">auto_fill_category</string>
     <string name="pref_auto_fill_comment_key">auto_fill_comment</string>
@@ -90,6 +91,7 @@
     <string name="pref_transaction_time_key">transaction_time</string>
     <string name="pref_value_date_key">value_date</string>
     <string name="pref_date_screen_key">date_screen</string>
+    <string name="pref_ad_consent_key">ad_consent</string>
 
     <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
     <string-array name="additional_credits">

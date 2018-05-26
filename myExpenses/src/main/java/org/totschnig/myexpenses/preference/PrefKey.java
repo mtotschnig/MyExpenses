@@ -47,7 +47,7 @@ public enum PrefKey {
   APP_DIR(R.string.pref_app_dir_key),
   CATEGORY_CONTRIB(R.string.pref_category_contrib_key),
   CATEGORY_MANAGE(R.string.pref_category_manage_key),
-  CATEGORY_ADVANCED(R.string.pref_category_advanced_key),
+  CATEGORY_PRIVACY(R.string.pref_category_privacy_key),
   ACCOUNT_GROUPING(R.string.pref_account_grouping_key),
   PLANNER_CALENDAR_PATH("planner_calendar_path"),
   CURRENT_VERSION("currentversion"),
@@ -115,7 +115,8 @@ public enum PrefKey {
   TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET("transferLastTransferAccountFromWidget"),
   SPLIT_LAST_ACCOUNT_FROM_WIDGET("splitLastAccountFromWidget"),
   PROFESSIONAL_EXPIRATION_REMINDER_LAST_SHOWN("professionalExpirationReminderLastShown"),
-  PROFESSIONAL_UPSELL_SNACKBAR_SHOWN("professionalUpsellSnackbarShown");
+  PROFESSIONAL_UPSELL_SNACKBAR_SHOWN("professionalUpsellSnackbarShown"),
+  PERSONALIZED_AD_CONSENT(R.string.pref_ad_consent_key);
 
   int resId = 0;
   String key = null;

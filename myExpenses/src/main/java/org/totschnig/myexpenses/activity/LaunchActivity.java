@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.util.ContribUtils;
 import org.totschnig.myexpenses.util.DistribHelper;
 import org.totschnig.myexpenses.util.PermissionHelper;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.ads.AdHandler;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.licence.Package;
@@ -164,6 +165,8 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
           }
         }
       }
+    } else if (!AdHandler.isAdDisabled(this, prefHandler)) {
+      startGdprConsent(false);
     }
   }
 

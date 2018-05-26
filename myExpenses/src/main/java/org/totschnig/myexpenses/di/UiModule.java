@@ -1,8 +1,12 @@
 package org.totschnig.myexpenses.di;
 
+import android.view.ViewGroup;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.ImageViewIntentProvider;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.activity.SystemImageViewIntentProvider;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.ads.AdHandler;
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory;
@@ -29,10 +33,20 @@ public class UiModule {
       return (AdHandlerFactory) Class.forName(
           "org.totschnig.myexpenses.util.ads.PlatformAdHandlerFactory").newInstance();
     } catch (Exception e) {
-      return (!AdHandler.isAdDisabled(application) &&
-          Utils.isComAndroidVendingInstalled(application)) ?
-          PubNativeAdHandler::new :
-          NoOpAdHandler::new;
+      return new AdHandlerFactory() {
+        @Override
+        public AdHandler create(ViewGroup adContainer, PrefHandler prefHandler) {
+          return (!AdHandler.isAdDisabled(application, prefHandler) &&
+              Utils.isComAndroidVendingInstalled(application)) ?
+              new PubNativeAdHandler(adContainer) :
+              new NoOpAdHandler(adContainer);
+        }
+
+        @Override
+        public void gdprConsent(ProtectedFragmentActivity context, boolean forceShow) {
+
+        }
+      };
     }
   }
 

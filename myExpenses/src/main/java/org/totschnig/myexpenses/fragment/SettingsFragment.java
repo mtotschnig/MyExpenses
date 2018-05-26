@@ -93,13 +93,14 @@ import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.RESULT
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER;
+import static org.totschnig.myexpenses.preference.PrefKey.PERSONALIZED_AD_CONSENT;
 import static org.totschnig.myexpenses.preference.PrefKey.APP_DIR;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP_INFO;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP_CLOUD;
-import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_ADVANCED;
 import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_CONTRIB;
 import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_MANAGE;
+import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_PRIVACY;
 import static org.totschnig.myexpenses.preference.PrefKey.CONTRIB_PURCHASE;
 import static org.totschnig.myexpenses.preference.PrefKey.CUSTOM_DECIMAL_FORMAT;
 import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_ADS;
@@ -287,11 +288,18 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         }
       }.execute();
 
+      final PreferenceCategory privacyCategory = (PreferenceCategory) findPreference(CATEGORY_PRIVACY);
       pref = findPreference(TRACKING);
       try {
         Class.forName("org.totschnig.myexpenses.util.tracking.PlatformTracker");
       } catch (ClassNotFoundException e) {
-        ((PreferenceCategory) findPreference(CATEGORY_ADVANCED)).removePreference(pref);
+        privacyCategory.removePreference(pref);
+      }
+      pref = findPreference(PERSONALIZED_AD_CONSENT);
+      if (licenceHandler.isContribEnabled()) {
+        privacyCategory.removePreference(pref);
+      } else {
+        pref.setOnPreferenceClickListener(this);
       }
 
       ListPreference languagePref = ((ListPreference) findPreference(UI_LANGUAGE));
@@ -383,7 +391,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
       startPref.setEntries(daysEntries);
       startPref.setEntryValues(daysValues);
     } else if (rootKey.equals(DEBUG_SCREEN.getKey())) {
-      if (!licenceHandler.isContribEnabled() && !BuildConfig.DEBUG) {
+      if (!BuildConfig.DEBUG) {
         getPreferenceScreen().removePreference(findPreference(DEBUG_ADS));
       }
     }
@@ -730,6 +738,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         }
       }
       return true;
+    }
+    if (matches(preference, PERSONALIZED_AD_CONSENT)) {
+      activity().startGdprConsent(true);
     }
     return false;
   }

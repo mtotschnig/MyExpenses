@@ -36,7 +36,11 @@ public enum Package {
 
   public String getFormattedPrice(Context context, boolean withExtra) {
     String formatted = getFormattedPriceRaw();
-    return isProfessional() ? formatWithDuration(context, formatted, withExtra) : formatted;
+    return getFormattedPrice(context, formatted, withExtra);
+  }
+
+  public String getFormattedPrice(Context context, String formatted, boolean withExta) {
+    return isProfessional() ? formatWithDuration(context, formatted, withExta) : formatted;
   }
 
   public String getFormattedPriceRaw() {

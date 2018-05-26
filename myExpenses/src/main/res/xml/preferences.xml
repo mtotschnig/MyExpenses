@@ -256,7 +256,7 @@
             android:title="@string/pref_perform_protection_title">
             <SwitchPreferenceCompat
                 android:key="@string/pref_protection_device_lock_screen_key"
-                android:title="@string/pref_protection_device_lock_screen_title" />
+                android:title="@string/pref_protection_device_lock_screen_title"/>
             <org.totschnig.myexpenses.preference.PasswordPreference
                 android:key="@string/pref_protection_password_key"
                 android:title="@string/pref_protection_password_title"/>
@@ -339,6 +339,20 @@
         </Preference>
     </PreferenceCategory>
 
+
+    <PreferenceCategory
+        android:key="@string/pref_category_privacy_key"
+        android:title="@string/pref_category_title_privacy">
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="@string/pref_tracking_key"
+            android:summary="@string/pref_tracking_summary"
+            android:title="@string/pref_tracking_title"/>
+        <Preference
+            android:key="@string/pref_ad_consent_key"
+            android:title="@string/pref_ad_consent_title"/>
+    </PreferenceCategory>
+
     <PreferenceCategory
         android:key="@string/pref_category_advanced_key"
         android:title="@string/pref_category_title_advanced">
@@ -354,11 +368,6 @@
         <ListPreference
             android:key="@string/pref_planner_calendar_id_key"
             android:title="@string/pref_planning_calendar_title"/>
-        <SwitchPreferenceCompat
-            android:defaultValue="true"
-            android:key="@string/pref_tracking_key"
-            android:summary="@string/pref_tracking_summary"
-            android:title="@string/pref_tracking_title"/>
         <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat
             android:defaultValue="10"
             android:key="@string/pref_webdav_timeout_key"
@@ -373,10 +382,10 @@
 
             <SwitchPreferenceCompat
                 android:key="@string/pref_debug_logging_key"
-                android:summary="@string/pref_debug_logging_summary" />
+                android:summary="@string/pref_debug_logging_summary"/>
             <SwitchPreferenceCompat
                 android:key="@string/pref_debug_show_ads_key"
-                android:summary="Ads" />
+                android:summary="Ads"/>
         </PreferenceScreen>
     </PreferenceCategory>
 </PreferenceScreen> 

@@ -90,7 +90,6 @@ import org.totschnig.myexpenses.util.ShareUtils;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.ads.AdHandler;
-import org.totschnig.myexpenses.util.ads.AdHandlerFactory;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
 
 import java.io.Serializable;
@@ -152,8 +151,6 @@ public class MyExpenses extends LaunchActivity implements
   private long mAccountId = 0;
   private int mAccountCount = 0;
 
-  @Inject
-  protected AdHandlerFactory adHandlerFactory;
   private AdHandler adHandler;
   private Toolbar mToolbar;
   private String mCurrentBalance;
@@ -201,7 +198,7 @@ public class MyExpenses extends LaunchActivity implements
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    adHandler = adHandlerFactory.create(findViewById(R.id.adContainer));
+    adHandler = adHandlerFactory.create(findViewById(R.id.adContainer), prefHandler);
     adHandler.init();
     adHandler.maybeRequestNewInterstitial();
 
