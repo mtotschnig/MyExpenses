@@ -5,7 +5,7 @@
 * check if version_codes, version_names, upgrade.xml use the correction version code
 * if applicable publish announcement on Google+ and Facebook and add links
 * Test and assemble
-  * ./gradlew testAcraReleaseUnitTest
+  * ./gradlew check
   * ./gradlew clean connectedAcraForTestAndroidTest
   * ./gradlew clean assembleAcraRelease
 * test upgrade mechanism
