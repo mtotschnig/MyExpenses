@@ -729,6 +729,17 @@
   <string name="split_transaction_group_success">%1$d Buchungen wurden erfolgreich in einer mehrteiligen Buchung zusammengefasst.</string>
   <string name="split_transaction_group_error">Buchungen konnten nicht in eine mehrteilige Buchung zusammengefasst werden.</string>
   <string name="split_transaction_not_possible">Nur Buchungen, die dasselbe Konto, denselben Empfänger und denselben Status haben, können in einer mehrteiligen Buchung zusammengefasst werden.</string>
+  <string name="pref_transaction_time_summary">Buchungen können mit genauer Zeitangabe erfasst werden.</string>
+  <string name="pref_value_date_summary">Zusätzlich zum Buchungsdatum kann auch Wertstellung erfasst werden. Die Zeitangabe wird versteckt. Diese Einstellung wird nicht auf Barkonten angewendet.</string>
   <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
+  <string name="booking_date">Buchungsdatum</string>
   <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
+  <string name="value_date">Wertstellung</string>
+  <string name="licence_expires_n_days">Ihr professioneller Schlüssel wird in %d Tagen ablaufen</string>
+  <string name="licence_expires_tomorrow">Ihr professioneller Schlüssel läuft morgen ab</string>
+  <string name="licence_expires_today">Ihr professioneller Schlüssel läuft heute ab</string>
+  <string name="licence_expired_yesterday">Ihr professioneller Schlüssel ist gestern abgelaufen</string>
+  <string name="licence_has_expired_n_days">Ihr professioneller Schlüssel ist vor  %d Tagen abgelaufen</string>
+  <string name="pref_category_title_privacy">Privatsphäre</string>
+  <string name="pref_ad_consent_title">Personalisierte Anzeigen</string>
 </resources>

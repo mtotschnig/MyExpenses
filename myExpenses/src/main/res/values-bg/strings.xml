@@ -740,4 +740,6 @@
   <string name="licence_expires_today">Професионалният Ви ключ изтича днес</string>
   <string name="licence_expired_yesterday">Професионалният Ви ключ изтече вчера</string>
   <string name="licence_has_expired_n_days">Професионалният Ви ключ е изтекъл преди %d дни</string>
+  <string name="pref_category_title_privacy">Поверителност</string>
+  <string name="pref_ad_consent_title">Персонализирани реклами</string>
 </resources>
