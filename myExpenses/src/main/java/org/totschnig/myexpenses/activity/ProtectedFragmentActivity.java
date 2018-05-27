@@ -87,7 +87,6 @@ import static org.totschnig.myexpenses.activity.ContribInfoDialogActivity.KEY_FE
 import static org.totschnig.myexpenses.preference.PrefKey.GROUP_MONTH_STARTS;
 import static org.totschnig.myexpenses.preference.PrefKey.GROUP_WEEK_STARTS;
 import static org.totschnig.myexpenses.preference.PrefKey.HOME_CURRENCY;
-import static org.totschnig.myexpenses.preference.PrefKey.PERSONALIZED_AD_CONSENT;
 import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_DEVICE_LOCK_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_LEGACY;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_FONTSIZE;
@@ -793,11 +792,9 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   public void onGdprNoConsent() {
-    prefHandler.remove(PERSONALIZED_AD_CONSENT);
     startActivity(ContribInfoDialogActivity.getIntentFor(this, null));
   }
 
   public void onGdprConsent(boolean personalized) {
-    prefHandler.putBoolean(PERSONALIZED_AD_CONSENT, personalized);
   }
 }
