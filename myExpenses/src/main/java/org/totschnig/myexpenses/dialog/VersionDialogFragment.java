@@ -156,7 +156,7 @@ public class VersionDialogFragment extends CommitSafeDialogFragment implements O
     String uri = null;
     switch (itemId) {
       case R.id.facebook:
-        uri = "https://www.facebook.com/MyExpenses/" + postIds[0];
+        uri = "https://www.facebook.com/MyExpenses/posts/" + postIds[0];
         break;
       case R.id.google:
         uri = "https://plus.google.com/+MyexpensesMobi/posts/" + postIds[1];
