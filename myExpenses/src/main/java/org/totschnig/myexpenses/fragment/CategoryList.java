@@ -23,6 +23,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri.Builder;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -248,6 +249,7 @@ public class CategoryList extends SortableListFragment implements
           long packedPosition = (lastExpandedPosition == -1) ?
               ExpandableListView.getPackedPositionForGroup(index) :
               ExpandableListView.getPackedPositionForChild(lastExpandedPosition, index);
+          Timber.w("%d-%d-%d, %b", index, lastExpandedPosition, packedPosition, showChart);
           int flatPosition = mListView.getFlatListPosition(packedPosition);
           mListView.setItemChecked(flatPosition, true);
           mListView.smoothScrollToPosition(flatPosition);
@@ -641,10 +643,9 @@ public class CategoryList extends SortableListFragment implements
     }
   }
 
+  @NonNull
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
-    if (getActivity() == null)
-      return null;
     if (id == SUM_CURSOR) {
       Builder builder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon();
       if (!mAccount.isHomeAggregate()) {
