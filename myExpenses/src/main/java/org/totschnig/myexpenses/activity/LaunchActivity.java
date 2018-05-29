@@ -108,10 +108,12 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
     super.onPostCreate(savedInstanceState);
     if (mHelper == null) {
       if (licenceHandler.getLicenceStatus() != null) {
+        final long now = System.currentTimeMillis();
         switch (licenceHandler.getLicenceStatus()) {
           case CONTRIB:
           case EXTENDED: {
-            if (!prefHandler.getBoolean(PROFESSIONAL_UPSELL_SNACKBAR_SHOWN, false)) {
+            if (TimeUnit.MILLISECONDS.toDays(now - licenceHandler.getValidSinceMillis()) > 7 &&
+                !prefHandler.getBoolean(PROFESSIONAL_UPSELL_SNACKBAR_SHOWN, false)) {
               String message = "Professional Licence Spring Sale: " + licenceHandler.getProfessionalPriceShortInfo();
               showUpsellSnackbar(message, R.string.upgrade_now, licenceHandler::getFormattedPriceWithSaving,
                   new Snackbar.Callback() {
@@ -128,7 +130,6 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
           case PROFESSIONAL: {
             long licenceValidity = licenceHandler.getValidUntilMillis();
             if (licenceValidity != 0) {
-              final long now = System.currentTimeMillis();
               final long daysToGo = TimeUnit.MILLISECONDS.toDays(licenceValidity - now);
               if (daysToGo <= 7 && (now -
                   prefHandler.getLong(PROFESSIONAL_EXPIRATION_REMINDER_LAST_SHOWN, 0)
