@@ -1,8 +1,10 @@
 package org.totschnig.myexpenses.util.ads;
 
+import android.view.ViewGroup;
+
 public class NoOpAdHandler extends AdHandler {
-  NoOpAdHandler() {
-    super(null, null);
+  public NoOpAdHandler(AdHandlerFactory defaultAdHandlerFactory, ViewGroup adContainer) {
+    super(defaultAdHandlerFactory, adContainer);
   }
 
   public void init() {

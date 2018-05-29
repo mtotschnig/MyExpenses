@@ -22,7 +22,7 @@ public class DefaultAdHandlerFactory implements AdHandlerFactory {
   protected final Context context;
   protected final PrefHandler prefHandler;
 
-  DefaultAdHandlerFactory(Context context, PrefHandler prefHandler) {
+  public DefaultAdHandlerFactory(Context context, PrefHandler prefHandler) {
     this.context = context;
     this.prefHandler = prefHandler;
   }
@@ -48,12 +48,12 @@ public class DefaultAdHandlerFactory implements AdHandlerFactory {
     return (!isAdDisabled() &&
         Utils.isComAndroidVendingInstalled(context)) ?
         new PubNativeAdHandler(this, adContainer) :
-        new NoOpAdHandler();
+        new NoOpAdHandler(this, adContainer);
   }
 
   @Override
   public void gdprConsent(ProtectedFragmentActivity context, boolean forceShow) {
-    if (forceShow || !prefHandler.isSet(PERSONALIZED_AD_CONSENT)) {
+    if (forceShow || (!isAdDisabled() && !prefHandler.isSet(PERSONALIZED_AD_CONSENT))) {
       MessageDialogFragment.newInstance(
           0,
           Phrase.from(context, R.string.gdpr_consent_message)
