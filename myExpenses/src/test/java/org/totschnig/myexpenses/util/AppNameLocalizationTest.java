@@ -2,6 +2,8 @@ package org.totschnig.myexpenses.util;
 
 import android.app.Application;
 
+import com.squareup.phrase.Phrase;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -10,6 +12,7 @@ import org.robolectric.annotation.Config;
 import org.totschnig.myexpenses.R;
 
 import static junit.framework.Assert.fail;
+import static org.totschnig.myexpenses.util.Utils.PLACEHOLDER_APP_NAME;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(packageName = "org.totschnig.myexpenses")
@@ -80,6 +83,25 @@ public class AppNameLocalizationTest {
       if (!locale.equals("default")) {
         setLocale(locale);
         Utils.getTellAFriendMessage(context);
+      }
+    }
+  }
+
+  @Test
+  public void shouldBuildWithPhrase() {
+    Application context = RuntimeEnvironment.application;
+    String[] locales = context.getResources().getStringArray(R.array.pref_ui_language_values);
+    for (String locale : locales) {
+      if (!locale.equals("default")) {
+        setLocale(locale);
+        try {
+          Phrase.from(context, R.string.gdpr_consent_message)
+              .put(PLACEHOLDER_APP_NAME, context.getString(R.string.app_name))
+              .put("ad_provider", "PubNative")
+              .format();
+        } catch (Exception e) {
+          fail(String.format("Non-compliant resource gdpr_consent_message for locale %s", locale));
+        }
       }
     }
   }
