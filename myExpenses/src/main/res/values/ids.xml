@@ -160,4 +160,6 @@
     <item name="AccountTypeCheckboxCcard" type="id"/>
     <item name="AccountTypeCheckboxAsset" type="id"/>
     <item name="AccountTypeCheckboxLiability" type="id"/>
+    <item name="GDPR_NO_CONSENT_COMMAND" type="id"/>
+    <item name="GDPR_CONSENT_COMMAND" type="id"/>
 </resources>

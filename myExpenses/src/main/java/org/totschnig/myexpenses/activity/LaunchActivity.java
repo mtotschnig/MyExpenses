@@ -164,7 +164,8 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity {
           }
         }
       }
-    } else {
+    }
+    if (licenceHandler.getLicenceStatus() == null) {
       checkGdprConsent(false);
     }
   }

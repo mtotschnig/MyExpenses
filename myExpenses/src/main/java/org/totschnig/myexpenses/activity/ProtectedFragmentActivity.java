@@ -344,6 +344,17 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     if (CommonCommands.dispatchCommand(this, command, tag)) {
       return true;
     }
+    switch(command) {
+      case R.id.GDPR_CONSENT_COMMAND: {
+        adHandlerFactory.setConsent(true);
+        return true;
+      }
+      case R.id.GDPR_NO_CONSENT_COMMAND: {
+        adHandlerFactory.clearConsent();
+        dispatchCommand(R.id.CONTRIB_INFO_COMMAND, null);
+        return true;
+      }
+    }
     return false;
   }
 
@@ -788,7 +799,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   public void checkGdprConsent(boolean forceShow) {
-    adHandlerFactory.gdprConsent(this, forceShow, prefHandler);
+    adHandlerFactory.gdprConsent(this, forceShow);
   }
 
   public void onGdprNoConsent() {

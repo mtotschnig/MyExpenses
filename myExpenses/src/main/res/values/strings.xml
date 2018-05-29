@@ -757,4 +757,6 @@
     <string name="licence_has_expired_n_days">Your professional key has expired %d days ago</string>
     <string name="pref_category_title_privacy">Privacy</string>
     <string name="pref_ad_consent_title">Personalized ads</string>
+    <string name="gdpr_consent_button">Yes, continue to see ads</string>
+
 </resources>

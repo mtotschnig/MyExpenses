@@ -198,7 +198,7 @@ public class MyExpenses extends LaunchActivity implements
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    adHandler = adHandlerFactory.create(findViewById(R.id.adContainer), prefHandler);
+    adHandler = adHandlerFactory.create(findViewById(R.id.adContainer));
     adHandler.init();
     adHandler.maybeRequestNewInterstitial();
 
