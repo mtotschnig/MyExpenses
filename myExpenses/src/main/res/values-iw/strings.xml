@@ -760,4 +760,6 @@
   <string name="licence_expires_today">המפתח המקצועי שלך יפוג היום</string>
   <string name="licence_expired_yesterday">אתמןל פג תוקפו של המפתח המקצועי שלך</string>
   <string name="licence_has_expired_n_days">המפתח המקצועי שלך פג לפני %d ימים</string>
+  <string name="pref_category_title_privacy">פרטיות</string>
+  <string name="pref_ad_consent_title">מודעות מותאמות אישית</string>
 </resources>

@@ -742,4 +742,7 @@
   <string name="licence_has_expired_n_days">Votre clé professionnelle a expiré il y a %d jours</string>
   <string name="pref_category_title_privacy">Données privées</string>
   <string name="pref_ad_consent_title">Annonces personnalisées</string>
+  <string name="gdpr_consent_message">Nous travaillons en partenariat avec {ad_provider} afin de soutenir le support, la maintenance et le développement de {app_name} en vous montrant des publicités. Nous aimerions demander votre consentement. Si vous préférez ne pas voir d\'annonces, s\'il vous plaît payer pour la version sans publicité.</string>
+  <string name="gdpr_consent_button_yes">Oui, continuez à voir les annonces</string>
+  <string name="gdpr_consent_button_no">Payer pour la version sans publicité</string>
 </resources>
