@@ -801,11 +801,4 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   public void checkGdprConsent(boolean forceShow) {
     adHandlerFactory.gdprConsent(this, forceShow);
   }
-
-  public void onGdprNoConsent() {
-    startActivity(ContribInfoDialogActivity.getIntentFor(this, null));
-  }
-
-  public void onGdprConsent(boolean personalized) {
-  }
 }

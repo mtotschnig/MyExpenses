@@ -45,8 +45,8 @@ public class DefaultAdHandlerFactory implements AdHandlerFactory {
               .put(PLACEHOLDER_APP_NAME, context.getString(R.string.app_name))
               .put("ad_provider", "PubNative")
               .format(),
-          new MessageDialogFragment.Button(R.string.gdpr_consent_button, R.id.GDPR_CONSENT_COMMAND, null),
-          null, new MessageDialogFragment.Button(R.string.contrib_feature_ad_free_label, R.id.GDPR_NO_CONSENT_COMMAND, null))
+          new MessageDialogFragment.Button(R.string.gdpr_consent_button_yes, R.id.GDPR_CONSENT_COMMAND, null),
+          null, new MessageDialogFragment.Button(R.string.gdpr_consent_button_no, R.id.GDPR_NO_CONSENT_COMMAND, null))
           .show(context.getSupportFragmentManager(), "MESSAGE");
     }
   }
