@@ -5,26 +5,22 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.PrefHandler;
-import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 
 import javax.inject.Inject;
 
 import static android.text.format.DateUtils.DAY_IN_MILLIS;
-import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_ADS;
 import static org.totschnig.myexpenses.preference.PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL;
 import static org.totschnig.myexpenses.preference.PrefKey.INTERSTITIAL_LAST_SHOWN;
 import static org.totschnig.myexpenses.preference.PrefKey.PERSONALIZED_AD_CONSENT;
 
 public abstract class AdHandler {
-  private static final int INTERSTITIAL_MIN_INTERVAL = BuildConfig.DEBUG ? 2 : 4;
-  private static final int INITIAL_GRACE_DAYS = BuildConfig.DEBUG ? 0 : 5;
+  private static final int INTERSTITIAL_MIN_INTERVAL = 4;
   private static final String AD_TYPE_BANNER = "banner";
   private static final String AD_TYPE_INTERSTITIAL = "interstitial";
+  private final AdHandlerFactory factory;
   protected final ViewGroup adContainer;
   protected Context context;
   @Inject
@@ -33,7 +29,8 @@ public abstract class AdHandler {
   protected PrefHandler prefHandler;
   private AdHandler parent;
 
-  protected AdHandler(ViewGroup adContainer) {
+  protected AdHandler(AdHandlerFactory factory, ViewGroup adContainer) {
+    this.factory = factory;
     this.adContainer = adContainer;
     this.context = adContainer.getContext();
     ((MyApplication) context.getApplicationContext()).getAppComponent().inject(this);
@@ -65,18 +62,8 @@ public abstract class AdHandler {
 
   protected abstract void requestNewInterstitialDo();
 
-  boolean isAdDisabled() {
-    return isAdDisabled(context, prefHandler) || !prefHandler.isSet(PERSONALIZED_AD_CONSENT);
-  }
-
-  public static boolean isAdDisabled(Context context, PrefHandler prefHandler) {
-    return !prefHandler.getBoolean(DEBUG_ADS, false) &&
-        (ContribFeature.AD_FREE.hasAccess() ||
-            isInInitialGracePeriod(context) || BuildConfig.DEBUG);
-  }
-
-  private static boolean isInInitialGracePeriod(Context context) {
-    return Utils.getDaysSinceInstall(context) < INITIAL_GRACE_DAYS;
+  boolean shouldShowAd() {
+    return factory.isAdDisabled() || !prefHandler.isSet(PERSONALIZED_AD_CONSENT);
   }
 
   protected void onInterstitialFailed() {
@@ -86,7 +73,7 @@ public abstract class AdHandler {
   }
 
   public void onEditTransactionResult() {
-    if (!isAdDisabled()) {
+    if (!shouldShowAd()) {
       maybeShowInterstitial();
     }
   }

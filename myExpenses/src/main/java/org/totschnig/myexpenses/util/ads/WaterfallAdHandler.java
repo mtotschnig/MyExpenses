@@ -8,8 +8,8 @@ public class WaterfallAdHandler extends AdHandler {
   private int cascadingIndex;
   private int cascadingIndexInterstitial;
 
-  public WaterfallAdHandler(ViewGroup adContainer, AdHandler... cascade) {
-    super(adContainer);
+  WaterfallAdHandler(AdHandlerFactory factory, ViewGroup adContainer, AdHandler... cascade) {
+    super(factory, adContainer);
     this.cascade = cascade;
     for (AdHandler child : cascade) {
       child.setParent(this);
@@ -18,7 +18,7 @@ public class WaterfallAdHandler extends AdHandler {
 
   @Override
   public void init() {
-    if (isAdDisabled()) {
+    if (shouldShowAd()) {
       super.hide();
     } else {
       cascadingIndex = 0;

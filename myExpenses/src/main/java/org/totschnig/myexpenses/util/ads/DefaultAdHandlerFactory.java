@@ -5,22 +5,37 @@ import android.view.ViewGroup;
 
 import com.squareup.phrase.Phrase;
 
+import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.util.Utils;
 
+import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_ADS;
 import static org.totschnig.myexpenses.preference.PrefKey.PERSONALIZED_AD_CONSENT;
 import static org.totschnig.myexpenses.util.Utils.PLACEHOLDER_APP_NAME;
 
 public class DefaultAdHandlerFactory implements AdHandlerFactory {
+  private static final int INITIAL_GRACE_DAYS = 5;
   protected final Context context;
   protected final PrefHandler prefHandler;
 
-  public DefaultAdHandlerFactory(Context context, PrefHandler prefHandler) {
+  DefaultAdHandlerFactory(Context context, PrefHandler prefHandler) {
     this.context = context;
     this.prefHandler = prefHandler;
+  }
+
+  @Override
+  public boolean isAdDisabled() {
+    return !prefHandler.getBoolean(DEBUG_ADS, false) &&
+        (ContribFeature.AD_FREE.hasAccess() ||
+            isInInitialGracePeriod() || BuildConfig.DEBUG);
+  }
+
+  private boolean isInInitialGracePeriod() {
+    return Utils.getDaysSinceInstall(context) < INITIAL_GRACE_DAYS;
   }
 
   @Override
@@ -30,10 +45,10 @@ public class DefaultAdHandlerFactory implements AdHandlerFactory {
 
   @Override
   public AdHandler create(ViewGroup adContainer) {
-    return (!AdHandler.isAdDisabled(context, prefHandler) &&
+    return (!isAdDisabled() &&
         Utils.isComAndroidVendingInstalled(context)) ?
-        new PubNativeAdHandler(adContainer) :
-        new NoOpAdHandler(adContainer);
+        new PubNativeAdHandler(this, adContainer) :
+        new NoOpAdHandler();
   }
 
   @Override

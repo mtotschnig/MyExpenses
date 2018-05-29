@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.util.ads;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +14,10 @@ import net.pubnative.sdk.core.request.PNRequest;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.R;
 
-import timber.log.Timber;
-
 public class PubNativeAdHandler extends AdHandler {
   private static final String APP_TOKEN = "d7757800d02945a18bbae190a9a7d4d1";
   private static final String PLACEMENT_NAME = BuildConfig.DEBUG ? "Test" : "Banner";
   private static final String PROVIDER = "PubNative";
-  private final Context context;
   private TextView title;
   private TextView description;
   private ImageView icon;
@@ -30,14 +26,13 @@ public class PubNativeAdHandler extends AdHandler {
   private RelativeLayout banner;
   private ViewGroup disclosure;
 
-  public PubNativeAdHandler(ViewGroup adContainer) {
-    super(adContainer);
-    this.context = adContainer.getContext();
+  PubNativeAdHandler(AdHandlerFactory factory, ViewGroup adContainer) {
+    super(factory, adContainer);
   }
 
   @Override
   public void init() {
-    if (isAdDisabled()) {
+    if (shouldShowAd()) {
       hide();
     } else {
       PNRequest request = new PNRequest();

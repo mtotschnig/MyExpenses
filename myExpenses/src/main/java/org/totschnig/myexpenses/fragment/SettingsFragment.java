@@ -303,7 +303,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         privacyCategory.removePreference(pref);
       }
       pref = findPreference(PERSONALIZED_AD_CONSENT);
-      if (!adHandlerFactory.isRequestLocationInEeaOrUnknown() || AdHandler.isAdDisabled(getActivity(), prefHandler)) {
+      if (!adHandlerFactory.isRequestLocationInEeaOrUnknown() || adHandlerFactory.isAdDisabled()) {
         privacyCategory.removePreference(pref);
       } else {
         pref.setOnPreferenceClickListener(this);
