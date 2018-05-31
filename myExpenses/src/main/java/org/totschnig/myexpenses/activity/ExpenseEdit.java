@@ -24,8 +24,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.ContentObserver;
 import android.database.Cursor;
-import android.database.MatrixCursor;
-import android.database.MergeCursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -77,6 +75,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.CrStatusAdapter;
 import org.totschnig.myexpenses.adapter.CurrencyAdapter;
+import org.totschnig.myexpenses.adapter.NothingSelectedSpinnerAdapter;
 import org.totschnig.myexpenses.adapter.OperationTypeAdapter;
 import org.totschnig.myexpenses.adapter.RecurrenceAdapter;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
@@ -97,7 +96,6 @@ import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.model.Transaction.CrStatus;
 import org.totschnig.myexpenses.model.Transfer;
-import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PreferenceUtils;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -261,6 +259,8 @@ public class ExpenseEdit extends AmountActivity implements
   TextView transferAmountLabel;
   @BindView(R.id.EquivalentAmountLabel)
   TextView equivalentAmountLabel;
+  @BindView(R.id.ClearMethod)
+  ImageView clearMethodButton;
 
   private SpinnerHelper mMethodSpinner, mAccountSpinner, mTransferAccountSpinner, mStatusSpinner,
       mOperationTypeSpinner, mRecurrenceSpinner, mCurrencySpinner;
@@ -300,8 +300,6 @@ public class ExpenseEdit extends AmountActivity implements
    * transaction, transfer or split
    */
   private int mOperationType;
-
-  static final int DATE_DIALOG_ID = 0;
 
   public static final int METHODS_CURSOR = 2;
   public static final int ACCOUNTS_CURSOR = 3;
@@ -671,7 +669,11 @@ public class ExpenseEdit extends AmountActivity implements
       mMethodsAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, null,
           new String[]{KEY_LABEL}, new int[]{android.R.id.text1}, 0);
       mMethodsAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-      mMethodSpinner.setAdapter(mMethodsAdapter);
+      mMethodSpinner.setAdapter(new NothingSelectedSpinnerAdapter(
+          mMethodsAdapter,
+          android.R.layout.simple_spinner_item,
+          // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
+          this));
     } else {
       payeeRow.setVisibility(View.GONE);
       methodRow.setVisibility(View.GONE);
@@ -1697,11 +1699,9 @@ public class ExpenseEdit extends AmountActivity implements
         }
         break;
       case R.id.Method:
-        if (position > 0) {
-          mMethodId = parent.getSelectedItemId();
-        } else {
-          mMethodId = null;
-        }
+        final boolean hasSelection = position > 0;
+        mMethodId = hasSelection ? parent.getSelectedItemId() : null;
+        setVisibility(clearMethodButton, hasSelection);
         setReferenceNumberVisibility();
         break;
       case R.id.Account:
@@ -1952,6 +1952,7 @@ public class ExpenseEdit extends AmountActivity implements
     return mTransaction;
   }
 
+  @NonNull
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle args) {
     switch (id) {
@@ -2005,17 +2006,17 @@ public class ExpenseEdit extends AmountActivity implements
             ContentUris.withAppendedId(TransactionProvider.AUTOFILL_URI, args.getLong(KEY_ROWID)),
             dataToLoad.toArray(new String[dataToLoad.size()]), null, null, null);
     }
-    return null;
+    throw new IllegalStateException();
   }
 
   private void setReferenceNumberVisibility() {
     if (mTransaction instanceof Template) {
       return;
     }
-    //ignore first row "no method" merged in
+    //ignore first row "select" merged in
     int position = mMethodSpinner.getSelectedItemPosition();
     if (position > 0) {
-      mMethodsCursor.moveToPosition(position);
+      mMethodsCursor.moveToPosition(position - 1);
       mReferenceNumberText.setVisibility(mMethodsCursor.getInt(mMethodsCursor.getColumnIndexOrThrow(KEY_IS_NUMBERED)) > 0 ?
           View.VISIBLE : View.INVISIBLE);
     } else {
@@ -2024,12 +2025,12 @@ public class ExpenseEdit extends AmountActivity implements
   }
 
   private void setMethodSelection() {
-    mMethodsCursor.moveToFirst();
     if (mMethodId != null) {
       boolean found = false;
+      mMethodsCursor.moveToFirst();
       while (!mMethodsCursor.isAfterLast()) {
         if (mMethodsCursor.getLong(mMethodsCursor.getColumnIndex(KEY_ROWID)) == mMethodId) {
-          mMethodSpinner.setSelection(mMethodsCursor.getPosition());
+          mMethodSpinner.setSelection(mMethodsCursor.getPosition() + 1);
           found = true;
           break;
         }
@@ -2038,15 +2039,15 @@ public class ExpenseEdit extends AmountActivity implements
       if (!found) {
         mMethodId = null;
       }
-    }
-    if (mMethodId == null) {
+    } else {
       mMethodSpinner.setSelection(0);
     }
+    setVisibility(clearMethodButton, mMethodId != null);
     setReferenceNumberVisibility();
   }
 
   @Override
-  public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+  public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
     if (data == null) {
       return;
     }
@@ -2056,10 +2057,8 @@ public class ExpenseEdit extends AmountActivity implements
         if (mMethodsAdapter == null || !data.moveToFirst()) {
           methodRow.setVisibility(View.GONE);
         } else {
+          mMethodsCursor = data;
           methodRow.setVisibility(View.VISIBLE);
-          MatrixCursor extras = new MatrixCursor(new String[]{KEY_ROWID, KEY_LABEL, KEY_IS_NUMBERED});
-          extras.addRow(new String[]{"0", "- - - -", "0"});
-          mMethodsCursor = new MergeCursor(new Cursor[]{extras, data});
           mMethodsAdapter.swapCursor(mMethodsCursor);
           setMethodSelection();
         }
@@ -2515,5 +2514,10 @@ public class ExpenseEdit extends AmountActivity implements
   @IdRes
   protected int getSnackbarContainerId() {
     return R.id.OneExpense;
+  }
+
+  public void clearMethodSelection(View view) {
+    mMethodId = null;
+    setMethodSelection();
   }
 }

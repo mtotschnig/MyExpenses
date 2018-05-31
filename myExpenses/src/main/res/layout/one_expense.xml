@@ -319,6 +319,19 @@
                         android:layout_gravity="center_vertical"
                         android:prompt="@string/method"/>
 
+                    <ImageView
+                        android:id="@+id/ClearMethod"
+                        style="?actionButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/contrib_feature_attach_picture_label"
+                        android:focusable="true"
+                        android:onClick="clearMethodSelection"
+                        app:srcCompat="@drawable/ic_menu_delete"
+                        android:visibility="gone"
+                        tools:ignore="MissingPrefix"/>
+
                     <EditText
                         android:id="@+id/Number"
                         android:layout_width="0dp"
