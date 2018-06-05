@@ -7,22 +7,17 @@ import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
-import android.text.format.DateUtils;
 
-import com.annimon.stream.Collectors;
-import com.annimon.stream.Stream;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.retrofit.Issue;
 import org.totschnig.myexpenses.retrofit.RoadmapService;
 import org.totschnig.myexpenses.retrofit.Vote;
-import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.io.StreamReader;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 
@@ -57,7 +52,6 @@ public class RoadmapViewModel extends AndroidViewModel {
   private final MutableLiveData<List<Issue>> data = new MutableLiveData<>();
   private final MutableLiveData<Vote> lastVote = new MutableLiveData<>();
   private final MutableLiveData<Vote> voteResult = new MutableLiveData<>();
-  private final MutableLiveData<Integer> voteReminder = new MutableLiveData<>();
   private static final String ISSUE_CACHE = "issue_cache.json";
   private static final String ROADMAP_VOTE = "roadmap_vote.json";
   private RoadmapService roadmapService;
@@ -83,10 +77,6 @@ public class RoadmapViewModel extends AndroidViewModel {
 
   public void loadLastVote() {
     new LoadLastVoteTask().execute();
-  }
-
-  public void loadVoteReminder() {
-    new LoadVoteReminderTask().execute();
   }
 
   public LiveData<List<Issue>> getData() {
@@ -120,10 +110,6 @@ public class RoadmapViewModel extends AndroidViewModel {
         new HashMap<>();
   }
 
-  public LiveData<Integer> getVoteReminder() {
-    return voteReminder;
-  }
-
   private class VoteTask extends AsyncTask<Map<Integer, Integer>, Void, Vote> {
 
     @Nullable
@@ -142,8 +128,6 @@ public class RoadmapViewModel extends AndroidViewModel {
         Response<Void> voteResponse = voteCall.execute();
         if (voteResponse.isSuccessful()) {
           writeToFile(ROADMAP_VOTE, gson.toJson(vote));
-          //after a vote has been recorded, we start checking again, if the vote has become outdated
-          PrefKey.VOTE_REMINDER_SHOWN.putBoolean(false);
           return vote;
         }
       } catch (IOException | SecurityException e) {
@@ -204,46 +188,6 @@ public class RoadmapViewModel extends AndroidViewModel {
     @Override
     protected void onPostExecute(Vote result) {
       lastVote.setValue(result);
-    }
-  }
-
-  private class LoadVoteReminderTask extends AsyncTask<Void, Void, Integer> {
-
-    private final int WAIT_AFTER_INSTALL_DAYS = BuildConfig.DEBUG ? 0 : 100;
-    private final long CHECK_INTERVALL_MILLIS = BuildConfig.DEBUG ? DateUtils.MINUTE_IN_MILLIS : DateUtils.WEEK_IN_MILLIS * 4;
-
-    @Override
-    protected Integer doInBackground(Void... voids) {
-      final long voteReminderLastCheck = PrefKey.VOTE_REMINDER_LAST_CHECK.getLong(0);
-      final long now = System.currentTimeMillis();
-      final long sinceLastCheck = now - voteReminderLastCheck;
-      if (PrefKey.VOTE_REMINDER_SHOWN.getBoolean(false) || sinceLastCheck < CHECK_INTERVALL_MILLIS) {
-        return null;
-      }
-      Vote lastVote = readLastVoteFromFile();
-      if (lastVote == null && Utils.getDaysSinceInstall(getApplication()) < WAIT_AFTER_INSTALL_DAYS) {
-        return null;
-      }
-      List<Issue> issueList = readIssuesFromNetwork();
-      PrefKey.VOTE_REMINDER_LAST_CHECK.putLong(now);
-      if (issueList == null) {
-        return null;
-      }
-      if (lastVote == null) {
-        return R.string.roadmap_intro;
-      }
-      List<Integer> issueNumbers = Stream.of(issueList).map(Issue::getNumber).collect(Collectors.toList());
-      for (Integer issueNr: lastVote.getVote().keySet()) {
-        if (!issueNumbers.contains(issueNr)) {
-          return R.string.reminder_vote_update;
-        }
-      }
-      return null;
-    }
-
-    @Override
-    protected void onPostExecute(Integer integer) {
-      voteReminder.setValue(integer);
     }
   }
 
