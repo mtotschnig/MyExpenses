@@ -56,6 +56,7 @@ public class RoadmapViewModel extends AndroidViewModel {
   private static final String ROADMAP_VOTE = "roadmap_vote.json";
   private RoadmapService roadmapService;
   private Gson gson;
+  private Call currentCall;
 
   public RoadmapViewModel(Application application) {
     super(application);
@@ -76,7 +77,7 @@ public class RoadmapViewModel extends AndroidViewModel {
   }
 
   public void loadLastVote() {
-    new LoadLastVoteTask().execute();
+    new LoadLastVoteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
   }
 
   public LiveData<List<Issue>> getData() {
@@ -92,11 +93,17 @@ public class RoadmapViewModel extends AndroidViewModel {
   }
 
   public void loadData(boolean withCache) {
-    new LoadIssuesTask(withCache).execute();
+    new LoadIssuesTask(withCache).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
   }
 
   public void submitVote(String key, Map<Integer, Integer> voteWeights) {
-    new VoteTask(key).execute(voteWeights);
+    new VoteTask(key).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, voteWeights);
+  }
+
+  public void cancel() {
+    if (currentCall != null && !currentCall.isCanceled()) {
+      currentCall.cancel();
+    }
   }
 
   public void cacheWeights(Map<Integer, Integer> voteWeights) {
@@ -125,6 +132,7 @@ public class RoadmapViewModel extends AndroidViewModel {
       Vote vote = new Vote(key != null ? key : licenceHandler.buildRoadmapVoteKey(), votes[0], isPro);
       try {
         Call<Void> voteCall = roadmapService.createVote(vote);
+        currentCall = voteCall;
         Response<Void> voteResponse = voteCall.execute();
         if (voteResponse.isSuccessful()) {
           writeToFile(ROADMAP_VOTE, gson.toJson(vote));
@@ -138,6 +146,7 @@ public class RoadmapViewModel extends AndroidViewModel {
 
     @Override
     protected void onPostExecute(Vote result) {
+      currentCall = null;
       voteResult.setValue(result);
     }
   }
@@ -173,6 +182,7 @@ public class RoadmapViewModel extends AndroidViewModel {
 
     @Override
     protected void onPostExecute(List<Issue> result) {
+      currentCall = null;
       data.setValue(result);
     }
   }
@@ -207,6 +217,7 @@ public class RoadmapViewModel extends AndroidViewModel {
     List<Issue> issueList = null;
     try {
       Call<List<Issue>> issuesCall = roadmapService.getIssues();
+      currentCall = issuesCall;
       Response<List<Issue>> response = issuesCall.execute();
       issueList = response.body();
       if (response.isSuccessful() && issueList != null) {

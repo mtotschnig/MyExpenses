@@ -65,6 +65,7 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
   private RoadmapViewModel roadmapViewModel;
   private boolean isPro;
   private String query;
+  private boolean isLoading;
 
   public void onCreate(Bundle savedInstanceState) {
     setTheme(MyApplication.getThemeId());
@@ -154,10 +155,12 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
   }
 
   private void showIsLoading() {
+    isLoading = true;
     showSnackbar("Loading issues ...", Snackbar.LENGTH_INDEFINITE);
   }
 
   private void publishResult(String message) {
+    isLoading = false;
     dismissSnackbar();
     showSnackbar(message, Snackbar.LENGTH_SHORT);
   }
@@ -232,6 +235,7 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
       }
       case R.id.ROADMAP_SUBMIT_VOTE_DO: {
         showSnackbar("Submitting vote ...", Snackbar.LENGTH_INDEFINITE);
+        isLoading = true;
         roadmapViewModel.submitVote(lastVote != null ? lastVote.getKey() : null, new HashMap<>(voteWeights));
         return true;
       }
@@ -245,6 +249,14 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
       voteMenuItem.setTitle(String.format(Locale.ROOT, "%d/%d", currentTotalWeight, getTotalAvailableWeight()));
       voteMenuItem.setEnabled(currentTotalWeight == getTotalAvailableWeight());
     }
+  }
+
+  @Override
+  public void finish() {
+    if (isLoading) {
+      roadmapViewModel.cancel();
+    }
+    super.finish();
   }
 
   private int getCurrentTotalWeight() {
