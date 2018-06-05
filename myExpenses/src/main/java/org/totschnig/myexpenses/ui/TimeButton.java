@@ -63,7 +63,7 @@ public class TimeButton extends ButtonWithDialog {
 
   private void requireTime() {
     if (time == null) {
-      time = LocalTime.of(12,0);
+      time = LocalTime.now();
     }
   }
 }

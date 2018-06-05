@@ -1305,7 +1305,7 @@ public class ExpenseEdit extends AmountActivity implements
   @NonNull
   private ZonedDateTime readZonedDateTime(DateButton dateEdit) {
     return ZonedDateTime.of(dateEdit.getDate(),
-        timeEdit.getVisibility() == View.VISIBLE ? timeEdit.getTime() : LocalTime.of(12,0),
+        timeEdit.getVisibility() == View.VISIBLE ? timeEdit.getTime() : LocalTime.now(),
         ZoneId.systemDefault());
   }
 
