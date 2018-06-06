@@ -926,7 +926,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     return true;
   }
   
-  private final MyPreferenceActivity activity() {
+  private MyPreferenceActivity activity() {
     return (MyPreferenceActivity) super.getActivity();
   }
 
