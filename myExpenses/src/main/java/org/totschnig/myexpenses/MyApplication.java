@@ -71,6 +71,7 @@ import org.totschnig.myexpenses.widget.TemplateWidget;
 import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
+import java.util.TimeZone;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -155,7 +156,7 @@ public class MyApplication extends MultiDexApplication implements
     }
     super.onCreate();
     checkAppReplacingState();
-    AndroidThreeTen.init(this);
+    initThreeTen();
     AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     mSelf = this;
     setupLogging();
@@ -168,6 +169,13 @@ public class MyApplication extends MultiDexApplication implements
     licenceHandler.init();
     Pubnative.setTestMode(BuildConfig.DEBUG);
     NotificationBuilderWrapper.createChannels(this);
+  }
+
+  private void initThreeTen() {
+    if ("Asia/Hanoi".equals(TimeZone.getDefault().getID())) {
+      TimeZone.setDefault(TimeZone.getTimeZone("Asia/Ho_Chi_Minh"));
+    }
+    AndroidThreeTen.init(this);
   }
 
   private void checkAppReplacingState() {
