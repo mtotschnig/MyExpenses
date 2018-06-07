@@ -18,6 +18,9 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_2911">
+    <item>@string/stability_improvements</item>
+  </string-array>
   <string-array name="whats_new_291">
     <item>Transaction time is now optional</item>
     <item>Optionally distinguish between booking date and value date</item>
