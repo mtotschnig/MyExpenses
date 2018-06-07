@@ -18,6 +18,10 @@
   <!ENTITY app_name "My Expenses">
 ]>
 <resources>
+  <string-array name="whats_new_291">
+    <item>La hora de transacción ahora es opcional</item>
+    <item>Se diferencia entre fecha de reserva y fecha de valor de forma opcional</item>
+  </string-array>
   <string-array name="whats_new_290">
     <item>Múltiple transacciones puedes agruparte en una transacción dividida</item>
     <item>Las transacciones divididas pueden desagruparse</item>

@@ -602,7 +602,7 @@
   <string name="dialog_confirm_sync_remove_backend">Le serveur distant %s sera supprimé. Cela n’affectera pas les données stockées localement ou à distance, mais l’état de synchronisation se perdra. Voulez-vous continuer ?</string>
   <string name="dialog_confirm_sync_link_local">Les données à distance pour ce compte seront supprimées. Assurez-vous qu\'aucun autre appareil n\'y est lié.</string>
   <string name="dialog_confirm_sync_link_remote">Les données locales pour ce compte seront supprimées.</string>
-  <string name="warning_synchronization_limited_trial">La fonction de synchronisation peut être testée jusqu\'à %s.</string>
+  <string name="warning_synchronization_limited_trial">La fonction de synchronisation peut être testée jusqu\'au %s.</string>
   <string name="warning_synchronization_limit_reached">La période d\'essai pour tester la fonctionnalité de synchronisation est terminée.</string>
   <string name="warning_synchronization_folder_usage">Ce dossier est utilisé pour la synchronisation des données entre les installations de {app_name} sur différents appareils. S\'il vous plaît ne pas modifier son contenu manuellement.</string>
   <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Le dossier que vous avez sélectionné correspond à un compte d\'un backend existant. Vous devez sélectionner son dossier parent afin de réutiliser ce backend.</string>
@@ -671,9 +671,9 @@
   <string name="professionalPriceShortInfo">à partir de %s / mois</string>
   <string name="eu_vat_info">Pour les résidents de l\'Union européenne, les prix affichés n\'incluent pas la TVA.</string>
   <string name="licence_migration_info">{app_name} implémente un nouveau mécanisme de validation de licence. Veuillez demander une nouvelle clé.</string>
-  <string name="valid_until">Jusqu\'à %s</string>
+  <string name="valid_until">Jusqu\'au %s</string>
   <!--%1$s date, %2$s price-->
-  <string name="extend_until">Prolongez jusqu\'à %1$s pour %2$s</string>
+  <string name="extend_until">Prolongez jusqu\'au %1$s pour %2$s</string>
   <string name="extended_upgrade_goodie_github">%d mois supplémentaires sont accordés une fois aux utilisateurs qui possèdent déjà la licence étendue</string>
   <string name="extended_upgrade_goodie_subscription">Les utilisateurs qui possèdent déjà la licence étendue paient 50%% du prix régulier (%s) la première année.</string>
   <string name="extended_upgrade_goodie_subscription_amazon">Les utilisateurs qui possèdent déjà la licence étendue ont droit à une réduction de %1$d%% du prix régulier (%2$s) de l\'abonnement annuel.</string>

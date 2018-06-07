@@ -729,6 +729,20 @@
   <string name="split_transaction_group_success">%1$d transacciones fueron agrupadas en una transacción dividida satisfactoriamente.</string>
   <string name="split_transaction_group_error">No se puedo agrupar las transacciones en una transacción dividida.</string>
   <string name="split_transaction_not_possible">Sólo las transacciones que tienen una misma cuenta, acreedor y estado pueden agruparse en una misma transacción dividida.</string>
+  <string name="pref_transaction_time_summary">Permitir establecer la hora exacta de transacción.</string>
+  <string name="pref_value_date_summary">Permitir establecer la fecha de valor, además de la fecha de reserva. Se ocultará la hora de transacción. Esta configuración no se aplica a las cuentas de efectivo.</string>
   <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
+  <string name="booking_date">Fecha de reserva</string>
   <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
+  <string name="value_date">Fecha de valor</string>
+  <string name="licence_expires_n_days">Su licencia profesional expirará en %d días</string>
+  <string name="licence_expires_tomorrow">Su licencia profesional expirará mañana</string>
+  <string name="licence_expires_today">Su licencia profesional expira hoy</string>
+  <string name="licence_expired_yesterday">Su licencia profesional expiró ayer</string>
+  <string name="licence_has_expired_n_days">Su licencia profesional expiró hace %d días</string>
+  <string name="pref_category_title_privacy">Privacidad</string>
+  <string name="pref_ad_consent_title">Publicidad personalizada</string>
+  <string name="gdpr_consent_message">Con la intención de continuar con el soporte, mantenimiento y desarrollo de {app_name}, nos hemos asociado con {ad_provider} para mostrar publicidad. Nos gustaría pedirle su consentimiento. Si prefiere no tener ningún tipo de publicidad, por favor, adquiera la versión de pago.</string>
+  <string name="gdpr_consent_button_yes">Sí, continuar viendo publicidad</string>
+  <string name="gdpr_consent_button_no">Pagar por la versión libre de anuncios</string>
 </resources>
